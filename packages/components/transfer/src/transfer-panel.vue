@@ -22,8 +22,7 @@
         clearable
         @mouseenter="inputHover = true"
         @mouseleave="inputHover = false"
-      >
-      </el-input>
+      />
       <el-checkbox-group
         v-show="!hasNoMatch && data.length > 0"
         v-model="checked"
@@ -47,7 +46,7 @@
       </p>
     </div>
     <p v-if="hasFooter" :class="ns.be('panel', 'footer')">
-      <slot></slot>
+      <slot />
     </p>
   </div>
 </template>

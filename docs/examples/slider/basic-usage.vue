@@ -1,23 +1,23 @@
 <template>
   <div class="slider-demo-block">
     <span class="demonstration">Default value</span>
-    <el-slider v-model="value1"></el-slider>
+    <el-slider v-model="value1" />
   </div>
   <div class="slider-demo-block">
     <span class="demonstration">Customized initial value</span>
-    <el-slider v-model="value2"></el-slider>
+    <el-slider v-model="value2" />
   </div>
   <div class="slider-demo-block">
     <span class="demonstration">Hide Tooltip</span>
-    <el-slider v-model="value3" :show-tooltip="false"></el-slider>
+    <el-slider v-model="value3" :show-tooltip="false" />
   </div>
   <div class="slider-demo-block">
     <span class="demonstration">Format Tooltip</span>
-    <el-slider v-model="value4" :format-tooltip="formatTooltip"></el-slider>
+    <el-slider v-model="value4" :format-tooltip="formatTooltip" />
   </div>
   <div class="slider-demo-block">
     <span class="demonstration">Disabled</span>
-    <el-slider v-model="value5" disabled></el-slider>
+    <el-slider v-model="value5" disabled />
   </div>
 </template>
 

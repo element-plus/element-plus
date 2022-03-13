@@ -6,8 +6,7 @@
         v-model="value1"
         type="datetime"
         placeholder="Select date and time"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">With shortcuts</span>
@@ -16,8 +15,7 @@
         type="datetime"
         placeholder="Select date and time"
         :shortcuts="shortcuts"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">With default time</span>
@@ -26,8 +24,7 @@
         type="datetime"
         placeholder="Select date and time"
         :default-time="defaultTime"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>

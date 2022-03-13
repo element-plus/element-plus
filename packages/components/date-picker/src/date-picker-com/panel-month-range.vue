@@ -8,7 +8,7 @@
     ]"
   >
     <div class="el-picker-panel__body-wrapper">
-      <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
+      <slot name="sidebar" class="el-picker-panel__sidebar" />
       <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
         <button
           v-for="(shortcut, key) in shortcuts"

@@ -30,7 +30,7 @@
       v-show="dragState.showDropIndicator"
       ref="dropIndicator$"
       :class="ns.e('drop-indicator')"
-    ></div>
+    />
   </div>
 </template>
 <script lang="ts">

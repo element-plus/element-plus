@@ -12,12 +12,8 @@
     :style="itemStyle"
     @click="handleItemClick"
   >
-    <div
-      v-if="type === 'card'"
-      v-show="!data.active"
-      :class="ns.e('mask')"
-    ></div>
-    <slot></slot>
+    <div v-if="type === 'card'" v-show="!data.active" :class="ns.e('mask')" />
+    <slot />
   </div>
 </template>
 <script lang="ts">

@@ -1,10 +1,5 @@
 <template>
-  <el-tree-v2
-    :data="data"
-    :props="props"
-    show-checkbox
-    :height="208"
-  ></el-tree-v2>
+  <el-tree-v2 :data="data" :props="props" show-checkbox :height="208" />
 </template>
 <script lang="ts" setup>
 interface Tree {

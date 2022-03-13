@@ -47,7 +47,7 @@
             class="el-input__icon"
             @click="handleFocus"
           >
-            <component :is="triggerIcon"></component>
+            <component :is="triggerIcon" />
           </el-icon>
         </template>
         <template #suffix>
@@ -82,7 +82,7 @@
           class="el-input__icon el-range__icon"
           @click="handleFocus"
         >
-          <component :is="triggerIcon"></component>
+          <component :is="triggerIcon" />
         </el-icon>
         <input
           :id="id && id[0]"
@@ -140,7 +140,7 @@
         @calendar-change="onCalendarChange"
         @panel-change="onPanelChange"
         @mousedown.stop
-      ></slot>
+      />
     </template>
   </el-tooltip>
 </template>

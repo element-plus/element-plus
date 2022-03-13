@@ -8,7 +8,7 @@
         start-placeholder="Start date"
         end-placeholder="End date"
         :default-time="defaultTime"
-      ></el-date-picker>
+      />
     </div>
   </div>
 </template>

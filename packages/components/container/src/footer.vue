@@ -1,6 +1,6 @@
 <template>
   <footer :class="ns.b()" :style="style">
-    <slot></slot>
+    <slot />
   </footer>
 </template>
 <script lang="ts">

@@ -4,8 +4,7 @@
     :icons="icons"
     :void-icon="ChatRound"
     :colors="['#409eff', '#67c23a', '#FF9900']"
-  >
-  </el-rate>
+  />
 </template>
 
 <script lang="ts" setup>

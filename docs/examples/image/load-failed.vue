@@ -2,7 +2,7 @@
   <div class="demo-image__error">
     <div class="block">
       <span class="demonstration">Default</span>
-      <el-image></el-image>
+      <el-image />
     </div>
     <div class="block">
       <span class="demonstration">Custom</span>

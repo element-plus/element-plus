@@ -1,8 +1,8 @@
 <template>
   <el-steps :active="1">
-    <el-step title="Step 1" :icon="Edit"></el-step>
-    <el-step title="Step 2" :icon="Upload"></el-step>
-    <el-step title="Step 3" :icon="Picture"></el-step>
+    <el-step title="Step 1" :icon="Edit" />
+    <el-step title="Step 2" :icon="Upload" />
+    <el-step title="Step 3" :icon="Picture" />
   </el-steps>
 </template>
 

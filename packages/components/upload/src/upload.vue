@@ -9,7 +9,7 @@
       @remove="handleRemove"
     >
       <template v-if="$slots.file" #default="{ file }">
-        <slot name="file" :file="file"></slot>
+        <slot name="file" :file="file" />
       </template>
       <template #append>
         <upload-content

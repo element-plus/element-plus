@@ -8,8 +8,7 @@
         type="date"
         placeholder="Pick a Date"
         format="YYYY/MM/DD"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">Use value-format</span>
@@ -20,8 +19,7 @@
         placeholder="Pick a Date"
         format="YYYY/MM/DD"
         value-format="YYYY-MM-DD"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">Timestamp</span>
@@ -32,8 +30,7 @@
         placeholder="Pick a Date"
         format="YYYY/MM/DD"
         value-format="x"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>

@@ -116,7 +116,7 @@ const copyCode = async () => {
           @click="setSourceVisible(false)"
         >
           <ElIcon :size="16">
-            <CaretTop></CaretTop>
+            <CaretTop />
           </ElIcon>
           <span>{{ locale['hide-source'] }}</span>
         </div>

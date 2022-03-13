@@ -18,7 +18,7 @@
         <component :is="iconComponent" />
       </el-icon>
       <div :class="ns.e('group')">
-        <h2 :class="ns.e('title')" v-text="title"></h2>
+        <h2 :class="ns.e('title')" v-text="title" />
         <div
           v-show="message"
           :class="ns.e('content')"

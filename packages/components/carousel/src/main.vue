@@ -40,7 +40,7 @@
           </el-icon>
         </button>
       </transition>
-      <slot></slot>
+      <slot />
     </div>
     <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
       <li

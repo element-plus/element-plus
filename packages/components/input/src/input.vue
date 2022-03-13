@@ -53,7 +53,7 @@
       <!-- prefix slot -->
       <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
         <span :class="nsInput.e('prefix-inner')">
-          <slot name="prefix"></slot>
+          <slot name="prefix" />
           <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
             <component :is="prefixIcon" />
           </el-icon>
@@ -64,7 +64,7 @@
       <span v-if="suffixVisible" :class="nsInput.e('suffix')">
         <span :class="nsInput.e('suffix-inner')">
           <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
-            <slot name="suffix"></slot>
+            <slot name="suffix" />
             <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
               <component :is="suffixIcon" />
             </el-icon>

@@ -1,6 +1,5 @@
 <template>
-  <el-switch v-model="value1" :active-icon="Check" :inactive-icon="Close">
-  </el-switch>
+  <el-switch v-model="value1" :active-icon="Check" :inactive-icon="Close" />
   <br />
   <el-switch
     v-model="value2"
@@ -9,8 +8,7 @@
     inline-prompt
     :active-icon="Check"
     :inactive-icon="Close"
-  >
-  </el-switch>
+  />
 </template>
 
 <script setup lang="ts">

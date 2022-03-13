@@ -8,12 +8,12 @@
     :size="formSize"
   >
     <el-form-item label="Activity name" prop="name">
-      <el-input v-model="ruleForm.name"></el-input>
+      <el-input v-model="ruleForm.name" />
     </el-form-item>
     <el-form-item label="Activity zone" prop="region">
       <el-select v-model="ruleForm.region" placeholder="Activity zone">
-        <el-option label="Zone one" value="shanghai"></el-option>
-        <el-option label="Zone two" value="beijing"></el-option>
+        <el-option label="Zone one" value="shanghai" />
+        <el-option label="Zone two" value="beijing" />
       </el-select>
     </el-form-item>
     <el-form-item label="Activity time" required>
@@ -24,7 +24,7 @@
             type="date"
             placeholder="Pick a date"
             style="width: 100%"
-          ></el-date-picker>
+          />
         </el-form-item>
       </el-col>
       <el-col class="text-center" :span="2">
@@ -36,29 +36,29 @@
             v-model="ruleForm.date2"
             placeholder="Pick a time"
             style="width: 100%"
-          ></el-time-picker>
+          />
         </el-form-item>
       </el-col>
     </el-form-item>
     <el-form-item label="Instant delivery" prop="delivery">
-      <el-switch v-model="ruleForm.delivery"></el-switch>
+      <el-switch v-model="ruleForm.delivery" />
     </el-form-item>
     <el-form-item label="Activity type" prop="type">
       <el-checkbox-group v-model="ruleForm.type">
-        <el-checkbox label="Online activities" name="type"></el-checkbox>
-        <el-checkbox label="Promotion activities" name="type"></el-checkbox>
-        <el-checkbox label="Offline activities" name="type"></el-checkbox>
-        <el-checkbox label="Simple brand exposure" name="type"></el-checkbox>
+        <el-checkbox label="Online activities" name="type" />
+        <el-checkbox label="Promotion activities" name="type" />
+        <el-checkbox label="Offline activities" name="type" />
+        <el-checkbox label="Simple brand exposure" name="type" />
       </el-checkbox-group>
     </el-form-item>
     <el-form-item label="Resources" prop="resource">
       <el-radio-group v-model="ruleForm.resource">
-        <el-radio label="Sponsorship"></el-radio>
-        <el-radio label="Venue"></el-radio>
+        <el-radio label="Sponsorship" />
+        <el-radio label="Venue" />
       </el-radio-group>
     </el-form-item>
     <el-form-item label="Activity form" prop="desc">
-      <el-input v-model="ruleForm.desc" type="textarea"></el-input>
+      <el-input v-model="ruleForm.desc" type="textarea" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(ruleFormRef)"
