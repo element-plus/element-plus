@@ -86,7 +86,7 @@
   }
 
   ~ .#{bem('upload', 'files')} {
-    border-top: $border-base;
+    border-top: getCssVar('border');
     margin-top: 7px;
     padding-top: 5px;
   }
@@ -177,7 +177,7 @@
     }
 
     &:hover {
-      background-color: var(--el-bg-color);
+      background-color: getCssVar('fill-color', 'light');
 
       .#{bem('icon', '', 'close')} {
         display: inline-flex;

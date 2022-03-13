@@ -55,7 +55,7 @@ const value3 = ref('')
 .demo-datetime-picker .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
+  border-right: solid 1px getCssVar('border-color');
   flex: 1;
 }
 .demo-datetime-picker .block:last-child {
