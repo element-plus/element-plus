@@ -1,12 +1,12 @@
 <template>
   <div :class="[ns.e('item'), ns.e(variant)]">
-    <ImgPlaceholder v-if="variant === 'image'" />
+    <picture-filled v-if="variant === 'image'" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
-import ImgPlaceholder from './image-placeholder.vue'
+import { PictureFilled } from '@element-plus/icons-vue'
 import { skeletonItemProps } from './skeleton-item'
 
 defineOptions({
@@ -14,8 +14,4 @@ defineOptions({
 })
 defineProps(skeletonItemProps)
 const ns = useNamespace('skeleton')
-
-defineExpose({
-  ns,
-})
 </script>
