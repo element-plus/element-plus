@@ -9,6 +9,7 @@
 
 <script lang="ts" setup>
 const hello = () => {
+  // eslint-disable-next-line no-alert
   alert('Hello World!')
 }
 </script>

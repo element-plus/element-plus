@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const {
   default: getWorkspacePackages,
 } = require('@pnpm/find-workspace-packages')

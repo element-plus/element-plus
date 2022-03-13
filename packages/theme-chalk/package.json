@@ -2,6 +2,18 @@
   "name": "@element-plus/theme-chalk",
   "version": "0.1.0",
   "description": "Element component chalk theme.",
+  "keywords": [
+    "vue-components",
+    "element-plus",
+    "theme-chalk",
+    "theme-light"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "author": "yi.shyang@ele.me",
   "main": "index.css",
   "unpkg": "index.css",
   "jsdelivr": "index.css",
@@ -10,18 +22,6 @@
     "clean": "rimraf dist",
     "build": "gulp --require sucrase/register/ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/element-plus/element-plus.git"
-  },
-  "keywords": [
-    "vue-components",
-    "element-plus",
-    "theme-chalk",
-    "theme-light"
-  ],
-  "author": "yi.shyang@ele.me",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/element-plus/element-plus#issues"
   },

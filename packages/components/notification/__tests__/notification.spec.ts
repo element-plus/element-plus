@@ -254,7 +254,6 @@ describe('Notification.vue', () => {
       // Same as above
       const event = new KeyboardEvent('keydown', {
         code: EVENT_CODE.esc,
-        // eslint-disable-next-line
       } as any)
 
       document.dispatchEvent(event)

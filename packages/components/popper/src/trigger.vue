@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, watch } from 'vue'
+import { defineComponent, inject, onMounted, watch } from 'vue'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
 import { isElement } from '@element-plus/utils'
@@ -37,49 +37,51 @@ export default defineComponent({
     const { triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
     useForwardRef(triggerRef)
 
-    watch(
-      () => props.virtualRef,
-      (val) => {
-        if (val) {
-          triggerRef.value = unwrapMeasurableEl(val)
+    onMounted(() => {
+      watch(
+        () => props.virtualRef,
+        (val) => {
+          if (val) {
+            triggerRef.value = unwrapMeasurableEl(val)
+          }
+        },
+        {
+          immediate: true,
         }
-      },
-      {
-        immediate: true,
-      }
-    )
+      )
 
-    watch(
-      () => triggerRef.value,
-      (el, prevEl) => {
-        if (isElement(el)) {
-          ;[
-            'onMouseenter',
-            'onMouseleave',
-            'onClick',
-            'onKeydown',
-            'onFocus',
-            'onBlur',
-            'onContextmenu',
-          ].forEach((eventName) => {
-            const handler = props[eventName]
-            if (handler) {
-              ;(el as HTMLElement).addEventListener(
-                eventName.slice(2).toLowerCase(),
-                handler
-              )
-              ;(prevEl as HTMLElement)?.removeEventListener(
-                eventName.slice(2).toLowerCase(),
-                handler
-              )
-            }
-          })
+      watch(
+        () => triggerRef.value,
+        (el, prevEl) => {
+          if (isElement(el)) {
+            ;[
+              'onMouseenter',
+              'onMouseleave',
+              'onClick',
+              'onKeydown',
+              'onFocus',
+              'onBlur',
+              'onContextmenu',
+            ].forEach((eventName) => {
+              const handler = props[eventName]
+              if (handler) {
+                ;(el as HTMLElement).addEventListener(
+                  eventName.slice(2).toLowerCase(),
+                  handler
+                )
+                ;(prevEl as HTMLElement)?.removeEventListener(
+                  eventName.slice(2).toLowerCase(),
+                  handler
+                )
+              }
+            })
+          }
+        },
+        {
+          immediate: true,
         }
-      },
-      {
-        immediate: true,
-      }
-    )
+      )
+    })
 
     return {
       triggerRef,

@@ -110,7 +110,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         lazyKeys.forEach((key) => {
           const oldValue = oldTreeData[key]
           const lazyNodeChildren = normalizedLazyNode_[key].children
-          if (rootLazyRowKeys.indexOf(key) !== -1) {
+          if (rootLazyRowKeys.includes(key)) {
             // 懒加载的 root 节点，更新一下原有的数据，原来的 children 一定是空数组
             if (newTreeData[key].children.length !== 0) {
               throw new Error('[ElTable]children must be an empty array.')
@@ -194,7 +194,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       treeData.value[key].loading = true
       load(row, treeNode, (data) => {
         if (!Array.isArray(data)) {
-          throw new Error('[ElTable] data must be an array')
+          throw new TypeError('[ElTable] data must be an array')
         }
         treeData.value[key].loading = false
         treeData.value[key].loaded = true

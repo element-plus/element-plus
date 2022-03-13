@@ -10,7 +10,7 @@
   >
     <li
       v-for="file in files"
-      :key="file.uid || file"
+      :key="file.uid || file.name"
       :class="[
         nsUpload.be('list', 'item'),
         nsUpload.is(file.status),
@@ -25,17 +25,36 @@
       <slot :file="file">
         <img
           v-if="
-            file.status !== 'uploading' &&
-            ['picture-card', 'picture'].includes(listType)
+            listType === 'picture' ||
+            (file.status !== 'uploading' && listType === 'picture-card')
           "
           :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
           alt=""
         />
-        <a :class="nsUpload.be('list', 'item-name')" @click="handleClick(file)">
-          <el-icon :class="nsIcon.m('document')"><document /></el-icon>
-          {{ file.name }}
-        </a>
+        <div
+          v-if="
+            listType !== 'picture' &&
+            (file.status === 'uploading' || listType !== 'picture-card')
+          "
+          :class="nsUpload.be('list', 'item-info')"
+        >
+          <a
+            :class="nsUpload.be('list', 'item-name')"
+            @click="handleClick(file)"
+          >
+            <el-icon :class="nsIcon.m('document')"><Document /></el-icon>
+            {{ file.name }}
+          </a>
+          <el-progress
+            v-if="file.status === 'uploading'"
+            :type="listType === 'picture-card' ? 'circle' : 'line'"
+            :stroke-width="listType === 'picture-card' ? 6 : 2"
+            :percentage="Number(file.percentage)"
+            :style="listType === 'picture-card' ? '' : 'margin-top: 0.5rem'"
+          />
+        </div>
+
         <label :class="nsUpload.be('list', 'item-status-label')">
           <el-icon
             v-if="listType === 'text'"
@@ -47,7 +66,7 @@
             v-else-if="['picture-card', 'picture'].includes(listType)"
             :class="[nsIcon.m('upload-success'), nsIcon.m('check')]"
           >
-            <check />
+            <Check />
           </el-icon>
         </label>
         <el-icon
@@ -55,7 +74,7 @@
           :class="nsIcon.m('close')"
           @click="handleRemove(file)"
         >
-          <close />
+          <Close />
         </el-icon>
         <!-- Due to close btn only appears when li gets focused disappears after li gets blurred, thus keyboard navigation can never reach close btn-->
         <!-- This is a bug which needs to be fixed -->
@@ -63,13 +82,6 @@
         <i v-if="!disabled" :class="nsIcon.m('close-tip')">{{
           t('el.upload.deleteTip')
         }}</i>
-        <el-progress
-          v-if="file.status === 'uploading'"
-          :type="listType === 'picture-card' ? 'circle' : 'line'"
-          :stroke-width="listType === 'picture-card' ? 6 : 2"
-          :percentage="+file.percentage"
-          style="margin-top: 0.5rem"
-        />
         <span
           v-if="listType === 'picture-card'"
           :class="nsUpload.be('list', 'item-actions')"
@@ -85,16 +97,16 @@
             :class="nsUpload.be('list', 'item-delete')"
             @click="handleRemove(file)"
           >
-            <el-icon :class="nsIcon.m('delete')"><delete /></el-icon>
+            <el-icon :class="nsIcon.m('delete')"><Delete /></el-icon>
           </span>
         </span>
       </slot>
     </li>
+    <slot name="append"></slot>
   </transition-group>
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { NOOP } from '@vue/shared'
+<script lang="ts" setup>
+import { ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   Document,
@@ -107,67 +119,32 @@ import {
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 
-import type { PropType } from 'vue'
-import type { UploadFile } from './upload.type'
+import { uploadListEmits, uploadListProps } from './upload-list'
+import type { UploadFile } from './upload'
 
-export default defineComponent({
+defineOptions({
   name: 'ElUploadList',
-  components: {
-    ElProgress,
-    ElIcon,
-    Document,
-    Delete,
-    Close,
-    ZoomIn,
-    Check,
-    CircleCheck,
-  },
-  props: {
-    files: {
-      type: Array as PropType<UploadFile[]>,
-      default: () => [] as File[],
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    handlePreview: {
-      type: Function as PropType<(file: UploadFile) => void>,
-      default: () => NOOP,
-    },
-    listType: {
-      type: String as PropType<'picture' | 'picture-card' | 'text'>,
-      default: 'text',
-    },
-  },
-  emits: ['remove'],
-  setup(props, { emit }) {
-    const { t } = useLocale()
-    const nsUpload = useNamespace('upload')
-    const nsIcon = useNamespace('icon')
-    const nsList = useNamespace('list')
-
-    const handleClick = (file: UploadFile) => {
-      props.handlePreview(file)
-    }
-
-    const onFileClicked = (e: Event) => {
-      ;(e.target as HTMLElement).focus()
-    }
-
-    const handleRemove = (file: UploadFile) => {
-      emit('remove', file)
-    }
-    return {
-      focusing: ref(false),
-      handleClick,
-      handleRemove,
-      onFileClicked,
-      t,
-      nsUpload,
-      nsIcon,
-      nsList,
-    }
-  },
 })
+
+const props = defineProps(uploadListProps)
+const emit = defineEmits(uploadListEmits)
+
+const { t } = useLocale()
+const nsUpload = useNamespace('upload')
+const nsIcon = useNamespace('icon')
+const nsList = useNamespace('list')
+
+const focusing = ref(false)
+
+const handleClick = (file: UploadFile) => {
+  props.handlePreview(file)
+}
+
+const onFileClicked = (e: Event) => {
+  ;(e.target as HTMLElement).focus()
+}
+
+const handleRemove = (file: UploadFile) => {
+  emit('remove', file)
+}
 </script>

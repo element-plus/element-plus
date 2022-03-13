@@ -7,6 +7,7 @@ import {
   isString,
   isElement,
   debugWarn,
+  isFunction,
 } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
@@ -70,8 +71,8 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
     const userOnClose = options.onClose
     const props: Partial<MessageProps> = {
       zIndex: nextZIndex(),
-      offset: verticalOffset,
       ...options,
+      offset: verticalOffset,
       id,
       onClose: () => {
         close(id, userOnClose)
@@ -101,7 +102,11 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
     const vm = createVNode(
       MessageConstructor,
       props,
-      isVNode(messageContent) ? { default: () => messageContent } : null
+      isFunction(messageContent)
+        ? { default: messageContent }
+        : isVNode(messageContent)
+        ? { default: () => messageContent }
+        : null
     )
 
     vm.appContext = context || message._context
@@ -162,7 +167,7 @@ export function close(id: string, userOnClose?: (vm: VNode) => void): void {
   if (len < 1) return
   for (let i = idx; i < len; i++) {
     const pos =
-      parseInt(instances[i].vm.el!.style['top'], 10) - removedHeight - 16
+      Number.parseInt(instances[i].vm.el!.style['top'], 10) - removedHeight - 16
 
     instances[i].vm.component!.props.offset = pos
   }

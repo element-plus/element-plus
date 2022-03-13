@@ -72,7 +72,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
       const handleMouseUp = () => {
         if (dragging.value) {
           const { startColumnLeft, startLeft } = dragState.value as any
-          const finalLeft = parseInt(resizeProxy.style.left, 10)
+          const finalLeft = Number.parseInt(resizeProxy.style.left, 10)
           const columnWidth = finalLeft - startColumnLeft
           column.width = column.realWidth = columnWidth
           table?.emit(
@@ -97,7 +97,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
         document.onselectstart = null
         document.ondragstart = null
 
-        setTimeout(function () {
+        setTimeout(() => {
           removeClass(columnEl, 'noclick')
         }, 0)
       }

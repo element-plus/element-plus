@@ -1,13 +1,30 @@
-import { hasOwn } from '@element-plus/utils'
+import { isNil } from 'lodash-unified'
+import { throwError } from '@element-plus/utils'
 import type {
-  ElUploadProgressEvent,
-  ElUploadRequestOptions,
-  ElUploadAjaxError,
-} from './upload.type'
+  UploadRequestHandler,
+  UploadProgressEvent,
+  UploadRequestOptions,
+} from './upload'
+
+const SCOPE = 'ElUpload'
+
+export class UploadAjaxError extends Error {
+  name = 'UploadAjaxError'
+  status: number
+  method: string
+  url: string
+
+  constructor(message: string, status: number, method: string, url: string) {
+    super(message)
+    this.status = status
+    this.method = method
+    this.url = url
+  }
+}
 
 function getError(
   action: string,
-  option: ElUploadRequestOptions,
+  option: UploadRequestOptions,
   xhr: XMLHttpRequest
 ) {
   let msg: string
@@ -19,11 +36,7 @@ function getError(
     msg = `fail to ${option.method} ${action} ${xhr.status}`
   }
 
-  const err = new Error(msg) as ElUploadAjaxError
-  err.status = xhr.status
-  err.method = option.method
-  err.url = action
-  return err
+  return new UploadAjaxError(msg, xhr.status, option.method, action)
 }
 
 function getBody(xhr: XMLHttpRequest): XMLHttpRequestResponseType {
@@ -34,49 +47,45 @@ function getBody(xhr: XMLHttpRequest): XMLHttpRequestResponseType {
 
   try {
     return JSON.parse(text)
-  } catch (e) {
+  } catch {
     return text
   }
 }
 
-export default function upload(option: ElUploadRequestOptions) {
-  if (typeof XMLHttpRequest === 'undefined') {
-    return
-  }
+export const ajaxUpload: UploadRequestHandler = (option) => {
+  if (typeof XMLHttpRequest === 'undefined')
+    throwError(SCOPE, 'XMLHttpRequest is undefined')
 
   const xhr = new XMLHttpRequest()
   const action = option.action
 
   if (xhr.upload) {
-    xhr.upload.onprogress = function progress(e) {
-      if (e.total > 0) {
-        ;(e as ElUploadProgressEvent).percent = (e.loaded / e.total) * 100
-      }
-      option.onProgress(e)
-    }
-  }
-
-  const formData = new FormData()
-
-  if (option.data) {
-    Object.keys(option.data).forEach((key) => {
-      formData.append(key, option.data[key])
+    xhr.upload.addEventListener('progress', (evt) => {
+      const progressEvt = evt as UploadProgressEvent
+      progressEvt.percent = evt.total > 0 ? (evt.loaded / evt.total) * 100 : 0
+      option.onProgress(progressEvt)
     })
   }
 
+  const formData = new FormData()
+  if (option.data) {
+    for (const [key, value] of Object.entries(option.data)) {
+      if (Array.isArray(value)) formData.append(key, ...value)
+      else formData.append(key, value)
+    }
+  }
   formData.append(option.filename, option.file, option.file.name)
 
-  xhr.onerror = function error() {
+  xhr.addEventListener('error', () => {
     option.onError(getError(action, option, xhr))
-  }
+  })
 
-  xhr.onload = function onload() {
+  xhr.addEventListener('load', () => {
     if (xhr.status < 200 || xhr.status >= 300) {
       return option.onError(getError(action, option, xhr))
     }
-
     option.onSuccess(getBody(xhr))
-  }
+  })
 
   xhr.open(option.method, action, true)
 
@@ -85,17 +94,13 @@ export default function upload(option: ElUploadRequestOptions) {
   }
 
   const headers = option.headers || {}
-
-  for (const item in headers) {
-    if (hasOwn(headers, item) && headers[item] !== null) {
-      xhr.setRequestHeader(item, headers[item])
-    }
-  }
-
   if (headers instanceof Headers) {
-    headers.forEach((value, key) => {
-      xhr.setRequestHeader(key, value)
-    })
+    headers.forEach((value, key) => xhr.setRequestHeader(key, value))
+  } else {
+    for (const [key, value] of Object.entries(headers)) {
+      if (isNil(value)) continue
+      xhr.setRequestHeader(key, String(value))
+    }
   }
 
   xhr.send(formData)

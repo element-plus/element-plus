@@ -1,0 +1,9 @@
+{
+  "baseUrl": "http://localhost:4000",
+  "componentFolder": "ssr-testing",
+  "screenshotsFolder": "./ssr-testing/screenshots",
+  "testFiles": "**/*spec.cy.{ts,tsx}",
+  "video": false,
+  "supportFile": "./cypress/support/index.js",
+  "pluginFile": "./cypress/plugins/index.js"
+}

@@ -50,13 +50,12 @@ export const OnlyChild = defineComponent({
 function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
   if (!node) return null
   const children = node as VNode[]
-  for (let i = 0; i < children.length; i++) {
+  for (const child of children) {
     /**
      * when user uses h(Fragment, [text]) to render plain string,
      * this switch case just cannot handle, when the value is primitives
      * we should just return the wrapped string
      */
-    const child = children[i]
     if (isObject(child)) {
       switch (child.type) {
         case Comment:

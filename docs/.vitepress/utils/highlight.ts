@@ -38,7 +38,7 @@ export const highlight = (str: string, lang: string) => {
   if (!prism.languages[lang]) {
     try {
       loadLanguages([lang])
-    } catch (e) {
+    } catch {
       // eslint-disable-next-line no-console
       console.warn(
         chalk.yellow(

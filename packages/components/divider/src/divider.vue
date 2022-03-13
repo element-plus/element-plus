@@ -9,30 +9,20 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-
 import { dividerProps } from './divider'
 import type { CSSProperties } from 'vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ElDivider',
-  props: dividerProps,
-
-  setup(props) {
-    const ns = useNamespace('divider')
-
-    const dividerStyle = computed(() => {
-      return {
-        '--el-border-style': props.borderStyle,
-      } as CSSProperties
-    })
-
-    return {
-      ns,
-      dividerStyle,
-    }
-  },
+})
+const props = defineProps(dividerProps)
+const ns = useNamespace('divider')
+const dividerStyle = computed(() => {
+  return {
+    '--el-border-style': props.borderStyle,
+  } as CSSProperties
 })
 </script>
