@@ -52,7 +52,7 @@ importers:
       chalk: ^4.1.2
       components-helper: ^2.0.0
       csstype: ^2.6.19
-      cypress: 8.5.0
+      cypress: 9.5.1
       cz-conventional-changelog: ^3.3.0
       dayjs: ^1.10.8
       esbuild: ^0.14.25
@@ -120,7 +120,7 @@ importers:
       '@commitlint/cli': 16.2.1
       '@commitlint/config-conventional': 16.2.1
       '@cypress/vite-dev-server': 2.2.2
-      '@cypress/vue': 3.1.0_cypress@8.5.0+vue@3.2.31
+      '@cypress/vue': 3.1.0_cypress@9.5.1+vue@3.2.31
       '@element-plus/eslint-config': link:internal/eslint-config
       '@pnpm/find-workspace-packages': 3.1.42_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
@@ -146,7 +146,7 @@ importers:
       chalk: 4.1.2
       components-helper: 2.0.0
       csstype: 2.6.19
-      cypress: 8.5.0
+      cypress: 9.5.1
       cz-conventional-changelog: 3.3.0
       esbuild: 0.14.25
       eslint: 8.10.0
@@ -1911,7 +1911,7 @@ packages:
       - supports-color
     dev: true
 
-  /@cypress/vue/3.1.0_cypress@8.5.0+vue@3.2.31:
+  /@cypress/vue/3.1.0_cypress@9.5.1+vue@3.2.31:
     resolution: {integrity: sha512-E2aFQtPvLLW9yKZz7t94VN1SuO53Jx9wN12gi7pvpHId5E6p+8Z+v2zlzzREpA8Gbi2QGNMwK8ciSYcwZG2bXg==}
     engines: {node: '>=8'}
     peerDependencies:
@@ -1927,7 +1927,7 @@ packages:
     dependencies:
       '@cypress/mount-utils': 1.0.2
       '@vue/test-utils': 2.0.0-rc.16_vue@3.2.31
-      cypress: 8.5.0
+      cypress: 9.5.1
       vue: 3.2.31
     dev: true
 
@@ -3013,8 +3013,8 @@ packages:
       '@types/node': 17.0.18
     dev: true
 
-  /@types/sinonjs__fake-timers/6.0.4:
-    resolution: {integrity: sha512-IFQTJARgMUBF+xVd2b+hIgXWrZEjND3vJtRCvIelcFB5SIXfjV4bOHbHJ0eXKh+0COrBRc8MqteKAz/j88rE0A==}
+  /@types/sinonjs__fake-timers/8.1.1:
+    resolution: {integrity: sha512-0kSuKjAS0TrGLJ0M/+8MaFkGsQhZpB6pxOmvS3K8FYI72K//YmdfoW9X2qPsAKh1mkwxGD5zib9s1FIFed6E8g==}
     dev: true
 
   /@types/sizzle/2.3.3:
@@ -4172,6 +4172,10 @@ packages:
       pascalcase: 0.1.1
     dev: true
 
+  /base64-js/1.5.1:
+    resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+    dev: true
+
   /bcrypt-pbkdf/1.0.2:
     resolution: {integrity: sha1-pDAdOJtqQ/m2f/PKEaP2Y342Dp4=}
     dependencies:
@@ -4317,6 +4321,13 @@ packages:
 
   /buffer-from/1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
+    dev: true
+
+  /buffer/5.7.1:
+    resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
+    dependencies:
+      base64-js: 1.5.1
+      ieee754: 1.2.1
     dev: true
 
   /builtin-modules/3.2.0:
@@ -5056,8 +5067,8 @@ packages:
     resolution: {integrity: sha512-ZVxXaNy28/k3kJg0Fou5MiYpp88j7H9hLZp8PDC3jV0WFjfH5E9xHb56L0W59cPbKbcHXeP4qyT8PrHp8t6LcQ==}
     dev: true
 
-  /cypress/8.5.0:
-    resolution: {integrity: sha512-MMkXIS+Ro2KETn4gAlG3tIc/7FiljuuCZP0zpd9QsRG6MZSyZW/l1J3D4iQM6WHsVxuX4rFChn5jPFlC2tNSvQ==}
+  /cypress/9.5.1:
+    resolution: {integrity: sha512-H7lUWB3Svr44gz1rNnj941xmdsCljXoJa2cDneAltjI9leKLMQLm30x6jLlpQ730tiVtIbW5HdUmBzPzwzfUQg==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -5065,11 +5076,12 @@ packages:
       '@cypress/request': 2.88.10
       '@cypress/xvfb': 1.2.4
       '@types/node': 14.18.12
-      '@types/sinonjs__fake-timers': 6.0.4
+      '@types/sinonjs__fake-timers': 8.1.1
       '@types/sizzle': 2.3.3
       arch: 2.2.0
       blob-util: 2.0.2
       bluebird: 3.7.2
+      buffer: 5.7.1
       cachedir: 2.3.0
       chalk: 4.1.2
       check-more-types: 2.24.0
@@ -5097,12 +5109,11 @@ packages:
       ospath: 1.2.2
       pretty-bytes: 5.6.0
       proxy-from-env: 1.0.0
-      ramda: 0.27.2
       request-progress: 3.0.0
+      semver: 7.3.5
       supports-color: 8.1.1
       tmp: 0.2.1
       untildify: 4.0.0
-      url: 0.11.0
       yauzl: 2.10.0
     dev: true
 
@@ -7422,6 +7433,10 @@ packages:
       safer-buffer: 2.1.2
     dev: true
     optional: true
+
+  /ieee754/1.2.1:
+    resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
+    dev: true
 
   /ignore-walk/3.0.4:
     resolution: {integrity: sha512-PY6Ii8o1jMRA1z4F2hRkH/xN59ox43DavKvD3oDpfurRlOJyAHpifIwpbdv1n4jt4ov0jSpw3kQ4GhJnpBL6WQ==}
@@ -10000,7 +10015,7 @@ packages:
     dev: true
 
   /path-name/1.0.0:
-    resolution: {integrity: sha512-/dcAb5vMXH0f51yvMuSUqFpxUcA8JelbRmE5mW/p4CUJxrNgK24IkstnV7ENtg2IDGBOu6izKTG6eilbnbNKWQ==}
+    resolution: {integrity: sha1-jKBjpj3nmC36lXYO2v/RAhRJTyQ=}
     dev: true
 
   /path-parse/1.0.7:
@@ -10357,10 +10372,6 @@ packages:
       pump: 2.0.1
     dev: true
 
-  /punycode/1.3.2:
-    resolution: {integrity: sha1-llOgNvt8HuQjQvIyXM7v6jkmxI0=}
-    dev: true
-
   /punycode/2.1.1:
     resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
     engines: {node: '>=6'}
@@ -10374,12 +10385,6 @@ packages:
   /qs/6.5.3:
     resolution: {integrity: sha512-qxXIEh4pCGfHICj1mAJQ2/2XVZkjCDTcEgfoSQxc/fYivUZxTkk7L3bDBJSoNrEzXI17oUO5Dp07ktqE5KzczA==}
     engines: {node: '>=0.6'}
-    dev: true
-
-  /querystring/0.2.0:
-    resolution: {integrity: sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=}
-    engines: {node: '>=0.4.x'}
-    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: true
 
   /queue-microtask/1.2.3:
@@ -12243,13 +12248,6 @@ packages:
   /urix/0.1.0:
     resolution: {integrity: sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=}
     deprecated: Please see https://github.com/lydell/urix#deprecated
-    dev: true
-
-  /url/0.11.0:
-    resolution: {integrity: sha1-ODjpfPxgUh63PFJajlW/3Z4uKPE=}
-    dependencies:
-      punycode: 1.3.2
-      querystring: 0.2.0
     dev: true
 
   /use/3.1.1:
