@@ -147,9 +147,8 @@ $fill-color: map.merge(
 $bg-color: () !default;
 $bg-color: map.merge(
   (
-    '': #f5f7fa,
+    '': #ffffff,
     'page': #ffffff,
-    'container': #ffffff,
     'overlay': #ffffff,
   ),
   $bg-color
