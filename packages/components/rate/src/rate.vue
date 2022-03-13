@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="rateKls"
+    :class="rateClasses"
     role="slider"
     :aria-valuenow="currentValue"
     :aria-valuetext="text"
@@ -46,17 +46,12 @@
 </template>
 <script lang="ts" setup>
 import { inject, computed, ref, watch } from 'vue'
-import { isObject, isArray } from '@vue/shared'
-import { formContextKey } from '@element-plus/tokens'
-import { hasClass } from '@element-plus/utils'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isObject, isArray, hasClass } from '@element-plus/utils'
+import { formContextKey } from '@element-plus/tokens'
 import { ElIcon } from '@element-plus/components/icon'
-// eslint-disable-next-line  @typescript-eslint/no-unused-vars
-import { StarFilled, Star } from '@element-plus/icons-vue'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import { rateProps, rateEmits } from './rate'
-
-import type { FormContext } from '@element-plus/tokens'
 
 function getValueFromMap<T>(
   value: number,
@@ -85,8 +80,7 @@ defineOptions({
 const props = defineProps(rateProps)
 const emit = defineEmits(rateEmits)
 
-const elForm = inject(formContextKey, {} as FormContext)
-
+const formContext = inject(formContextKey, undefined)
 const rateSize = useSize()
 const ns = useNamespace('rate')
 
@@ -94,9 +88,9 @@ const currentValue = ref(props.modelValue)
 const hoverIndex = ref(-1)
 const pointerAtLeftHalf = ref(true)
 
-const rateKls = computed(() => [ns.b(), ns.m(rateSize.value)])
+const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)])
+const rateDisabled = computed(() => props.disabled || formContext?.disabled)
 
-const rateDisabled = computed(() => props.disabled || elForm.disabled)
 const text = computed(() => {
   let result = ''
   if (props.showScore) {
@@ -280,7 +274,9 @@ if (!props.modelValue) {
 }
 
 defineExpose({
+  /** @description set current value */
   setCurrentValue,
+  /** @description reset current value */
   resetCurrentValue,
 })
 </script>
