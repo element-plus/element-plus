@@ -7,6 +7,7 @@
     aria-valuemin="0"
     :aria-valuemax="max"
     tabindex="0"
+    :style="rateStyles"
     @keydown="handleKey"
   >
     <span
@@ -43,7 +44,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { inject, computed, ref, watch } from 'vue'
+import { inject, computed, ref, watch, type CSSProperties } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { isObject, isArray, hasClass } from '@element-plus/utils'
 import { formContextKey } from '@element-plus/tokens'
@@ -88,6 +89,13 @@ const pointerAtLeftHalf = ref(true)
 
 const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)])
 const rateDisabled = computed(() => props.disabled || formContext?.disabled)
+const rateStyles = computed(() => {
+  return {
+    '--el-rate-void-color': props.voidColor,
+    '--el-rate-disabled-void-color': props.disabledVoidColor,
+    '--el-rate-fill-color': activeColor.value,
+  } as CSSProperties
+})
 
 const text = computed(() => {
   let result = ''
@@ -113,9 +121,11 @@ const colorMap = computed(() =>
       }
     : props.colors
 )
-const activeColor = computed(() =>
-  getValueFromMap(currentValue.value, colorMap.value)
-)
+const activeColor = computed(() => {
+  const color = getValueFromMap(currentValue.value, colorMap.value)
+  // {value: '', excluded: true} returned
+  return isObject(color) ? '' : color
+})
 const decimalStyle = computed(() => {
   let width = ''
   if (rateDisabled.value) {
