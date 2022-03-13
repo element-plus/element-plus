@@ -1,7 +1,6 @@
 import {
   computed,
   defineComponent,
-  h,
   inject,
   onMounted,
   onUpdated,
@@ -16,10 +15,10 @@ import {
 } from '@vueuse/core'
 import {
   buildProps,
+  capitalize,
   definePropType,
   mutable,
   throwError,
-  capitalize,
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
