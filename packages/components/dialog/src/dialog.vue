@@ -35,7 +35,7 @@
               <slot name="title" />
             </template>
             <slot />
-            <template #footer>
+            <template v-if="$slots.footer" #footer>
               <slot name="footer" />
             </template>
           </el-dialog-content>
