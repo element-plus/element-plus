@@ -11,7 +11,7 @@
   --bg-color: var(--el-color-white);
   --bg-color-soft: #fafafa;
   --bg-color-mute: #f2f2f2;
-  --border-color: var(--el-border-color-base);
+  --border-color: var(--el-border-color);
   --border-color-light: var(--el-border-color-lighter);
 
   --font-family: Inter, Roboto, Oxygen, Fira Sans, Helvetica Neue, sans-serif;
@@ -42,7 +42,7 @@
   // code block vars
   --code-line-height: 1.4;
   --code-font-size: var(--el-font-size-base);
-  --code-bg-color: var(--el-bg-color);
+  --code-bg-color: var(--el-fill-color-bg);
   --code-text-color: var(--text-color);
   --code-font-family: var(--font-family-mono);
 

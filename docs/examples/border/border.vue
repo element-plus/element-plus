@@ -33,9 +33,9 @@
 .demo-border .line div {
   width: 100%;
   height: 0;
-  border-top: 1px solid var(--el-border-color-base);
+  border-top: 1px solid getCssVar('border-color');
 }
 .demo-border .line .dashed {
-  border-top: 2px dashed var(--el-border-color-base);
+  border-top: 2px dashed getCssVar('border-color');
 }
 </style>
