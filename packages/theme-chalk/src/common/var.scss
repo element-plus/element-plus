@@ -144,7 +144,6 @@ $fill-color: map.merge(
 );
 
 // Background
-/// color|1|Background Color|4
 $bg-color: () !default;
 $bg-color: map.merge(
   (
@@ -243,7 +242,7 @@ $checkbox: map.merge(
     'input-height': 14px,
     'input-width': 14px,
     'border-radius': var(--el-border-radius-small),
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
     'input-border': var(--el-border),
     'disabled-border-color': getCssVar('border-color'),
     'disabled-input-fill': #edf2fc,
@@ -301,7 +300,7 @@ $radio: map.merge(
     'input-height': 14px,
     'input-width': 14px,
     'input-border-radius': var(--el-border-radius-circle),
-    'input-bg-color': var(--el-color-white),
+    'input-bg-color': getCssVar('fill-color', 'blank'),
     'input-border': var(--el-border),
     'input-border-color': getCssVar('border-color'),
     'input-border-color-hover': var(--el-color-primary),
@@ -515,7 +514,7 @@ $input: map.merge(
     'transparent-border': 0 0 0 1px transparent inset,
     'border-color': getCssVar('border-color'),
     'border-radius': var(--el-border-radius-base),
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
     'icon-color': var(--el-text-color-placeholder),
     'placeholder-color': var(--el-text-color-placeholder),
     'hover-border-color': var(--el-border-color-hover),
@@ -599,10 +598,10 @@ $button: map.merge(
   (
     'font-weight': var(--el-font-weight-primary),
     'border-color': getCssVar('border-color'),
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
     'text-color': var(--el-text-color-regular),
     'disabled-text-color': var(--el-disabled-text-color),
-    'disabled-bg-color': var(--el-color-white),
+    'disabled-bg-color': getCssVar('fill-color', 'blank'),
     'disabled-border-color': var(--el-border-color-light),
     'divide-border-color': rgba($color-white, 0.5),
     'hover-text-color': var(--el-color-primary),
@@ -725,11 +724,11 @@ $table: map.merge(
     'header-text-color': var(--el-text-color-secondary),
     'row-hover-bg-color': getCssVar('fill-color', 'light'),
     'current-row-bg-color': var(--el-color-primary-light-9),
-    'header-bg-color': var(--el-color-white),
+    'header-bg-color': getCssVar('fill-color', 'blank'),
     'fixed-box-shadow': 0 0 10px rgba(0, 0, 0, 0.12),
-    'bg-color': var(--el-color-white),
-    'tr-bg-color': var(--el-color-white),
-    'expanded-cell-bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
+    'tr-bg-color': getCssVar('fill-color', 'blank'),
+    'expanded-cell-bg-color': getCssVar('fill-color', 'blank'),
     'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
     'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
   ),
@@ -772,15 +771,15 @@ $pagination: () !default;
 $pagination: map.merge(
   (
     'font-size': 14px,
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
     'text-color': var(--el-text-color-primary),
     'border-radius': 3px,
     'button-color': var(--el-text-color-primary),
     'button-width': 32px,
     'button-height': 32px,
     'button-disabled-color': var(--el-text-color-placeholder),
-    'button-disabled-bg-color': var(--el-color-white),
-    'button-bg-color': map.get($colors, 'info', 'light-9'),
+    'button-disabled-bg-color': getCssVar('fill-color', 'blank'),
+    'button-bg-color': getCssVar('color', 'primary', 'light-9'),
     'hover-color': var(--el-color-primary),
     'height-extra-small': 24px,
     'line-height-extra-small': var(--el-pagination-height-extra-small),
@@ -905,7 +904,7 @@ $dropdown: map.merge(
 $drawer: () !default;
 $drawer: map.merge(
   (
-    'bg-color': var(--el-dialog-bg-color, var(--el-color-white)),
+    'bg-color': var(--el-dialog-bg-color),
     'padding-primary': var(--el-dialog-padding-primary, 20px),
   ),
   $drawer
@@ -933,17 +932,9 @@ $card: map.merge(
       var(--el-border-color-light, map.get($border-color, 'lighter')),
     'border-radius': 4px,
     'padding': 20px,
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
   ),
   $card
-);
-
-$dark-card: () !default;
-$dark-card: map.merge(
-  (
-    'bg-color': var(--el-color-black),
-  ),
-  $dark-card
 );
 
 // Slider
@@ -972,12 +963,12 @@ $menu: map.merge(
     'active-color': var(--el-color-primary),
     'text-color': var(--el-text-color-primary),
     'hover-text-color': var(--el-text-color-primary),
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
     'hover-bg-color': var(--el-color-primary-light-9),
     'item-height': 56px,
     'item-font-size': var(--el-font-size-base),
     'item-hover-fill': var(--el-color-primary-light-9),
-    'border-color': #e6e6e6,
+    'border-color': getCssVar('border-color'),
   ),
   $menu
 );
@@ -1078,10 +1069,10 @@ $collapse: map.merge(
   (
     'border-color': var(--el-border-color-lighter),
     'header-height': 48px,
-    'header-bg-color': var(--el-color-white),
+    'header-bg-color': getCssVar('fill-color', 'blank'),
     'header-text-color': var(--el-text-color-primary),
     'header-font-size': 13px,
-    'content-bg-color': var(--el-color-white),
+    'content-bg-color': getCssVar('fill-color', 'blank'),
     'content-font-size': 13px,
     'content-text-color': var(--el-text-color-primary),
   ),
@@ -1123,7 +1114,7 @@ $timeline: map.merge(
 $backtop: () !default;
 $backtop: map.merge(
   (
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
     'text-color': var(--el-color-primary),
     'hover-bg-color': var(--el-border-color-extra-light),
   ),

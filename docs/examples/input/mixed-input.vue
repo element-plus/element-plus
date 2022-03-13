@@ -58,6 +58,6 @@ const select = ref('')
 
 <style>
 .input-with-select .el-input-group__prepend {
-  background-color: #fff;
+  background-color: var(--el-fill-color-blank);
 }
 </style>
