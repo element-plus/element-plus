@@ -52,6 +52,7 @@ importers:
       eslint: ^8.11.0
       eslint-define-config: ^1.2.5
       expect-type: ^0.13.0
+      fast-glob: ^3.2.11
       husky: ^7.0.4
       jest: ^26.6.3
       lint-staged: ^12.3.5
@@ -130,6 +131,7 @@ importers:
       eslint: 8.11.0
       eslint-define-config: 1.2.5
       expect-type: 0.13.0
+      fast-glob: 3.2.11
       husky: 7.0.4
       jest: 26.6.3
       lint-staged: 12.3.5
@@ -3898,7 +3900,7 @@ packages:
   /axios/0.21.4_debug@4.3.3:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.14.9_debug@4.3.3
+      follow-redirects: 1.14.9
     transitivePeerDependencies:
       - debug
     dev: true
@@ -6425,19 +6427,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
-
-  /follow-redirects/1.14.9_debug@4.3.3:
-    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.3
-    dev: true
 
   /for-in/1.0.2:
     resolution: {integrity: sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=}

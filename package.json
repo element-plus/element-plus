@@ -107,6 +107,7 @@
     "eslint": "^8.11.0",
     "eslint-define-config": "^1.2.5",
     "expect-type": "^0.13.0",
+    "fast-glob": "^3.2.11",
     "husky": "^7.0.4",
     "jest": "^26.6.3",
     "lint-staged": "^12.3.5",
