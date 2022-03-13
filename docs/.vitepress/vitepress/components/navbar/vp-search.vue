@@ -180,6 +180,7 @@ function initialize(userOptions: any) {
 
   .dark & {
     --docsearch-text-color: var(--text-color-light);
+    --docsearch-key-shadow: none;
     --docsearch-modal-shadow: none;
     --docsearch-footer-shadow: none;
     // --docsearch-searchbox-focus-background: var(--bg-color-mute);

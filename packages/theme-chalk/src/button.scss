@@ -31,7 +31,7 @@ $button-icon-span-gap: map.merge(
   white-space: nowrap;
   cursor: pointer;
   background-color: var(--el-button-bg-color, #{map.get($button, 'bg-color')});
-  border: var(--el-border-base);
+  border: var(--el-border);
   border-color: var(
     --el-button-border-color,
     #{map.get($button, 'border-color')}
@@ -113,7 +113,7 @@ $button-icon-span-gap: map.merge(
       )};
 
     --el-button-hover-text-color: var(--el-color-primary);
-    --el-button-hover-bg-color: var(--el-color-white);
+    --el-button-hover-bg-color: getCssVar('fill-color', 'blank');
     --el-button-hover-border-color: var(--el-color-primary);
   }
 
@@ -146,7 +146,7 @@ $button-icon-span-gap: map.merge(
       &,
       &:hover,
       &:focus {
-        background-color: var(--el-color-white);
+        background-color: getCssVar('fill-color', 'blank');
         border-color: var(--el-button-disabled-border-color);
         color: var(--el-button-disabled-text-color);
       }

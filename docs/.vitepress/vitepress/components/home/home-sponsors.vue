@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { isDark } from '../../composables/dark'
 import { useLang } from '../../composables/lang'
 import { sponsors } from '../../../config/sponsors'
 import homeLocale from '../../../i18n/pages/home.json'
@@ -32,7 +33,12 @@ const getSponsorSlogan = (sponsor) => {
         :href="sponsor.url"
         target="_blank"
       >
-        <img width="45" :src="sponsor.img" :alt="sponsor.name" />
+        <img
+          :class="sponsor.isDark && isDark ? 'filter invert' : ''"
+          width="45"
+          :src="sponsor.img"
+          :alt="sponsor.name"
+        />
         <div>
           <p>
             Sponsored by

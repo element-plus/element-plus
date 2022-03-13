@@ -90,7 +90,7 @@
     }
 
     @include when(disabled) {
-      color: var(--el-text-color-disabled-base);
+      color: var(--el-text-color-disabled);
 
       &:hover {
         cursor: not-allowed;

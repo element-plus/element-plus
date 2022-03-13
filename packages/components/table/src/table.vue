@@ -59,7 +59,7 @@
       </div>
       <div ref="bodyWrapper" :style="bodyHeight" :class="ns.e('body-wrapper')">
         <el-scrollbar
-          ref="scrollWrapper"
+          ref="scrollBarRef"
           :height="maxHeight ? undefined : height"
           :max-height="maxHeight ? height : undefined"
           :view-style="scrollbarViewStyle"
@@ -158,6 +158,7 @@ import useStyle from './table/style-helper'
 import defaultProps from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
+import { useScrollbar } from './composables/use-scrollbar'
 
 import type { Table } from './table/defaults'
 
@@ -250,6 +251,9 @@ export default defineComponent({
       scrollbarViewStyle,
     } = useStyle<Row>(props, layout, store, table)
 
+    const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } =
+      useScrollbar()
+
     const debouncedUpdateLayout = debounce(doLayout, 50)
 
     const tableId = `el-table_${tableIdSeed++}`
@@ -308,6 +312,10 @@ export default defineComponent({
       computedEmptyText,
       tableLayout,
       scrollbarViewStyle,
+      scrollBarRef,
+      scrollTo,
+      setScrollLeft,
+      setScrollTop,
     }
   },
 })

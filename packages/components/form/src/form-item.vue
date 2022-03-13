@@ -248,7 +248,9 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
 
   return validator
     .validate(model, { firstFields: true })
-    .then(() => undefined)
+    .then(() => {
+      validateState.value = 'success'
+    })
     .catch((err: ValidateFailure) => {
       const { errors, fields } = err
       if (!errors || !fields) console.error(err)

@@ -20,6 +20,7 @@
   "packages/components/icon/",
   "packages/components/link/",
   "packages/components/page-header/",
+  "packages/components/rate/",
   "packages/components/row/",
   "packages/components/slot/",
   "packages/components/tag/",

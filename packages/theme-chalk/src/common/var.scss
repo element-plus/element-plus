@@ -2,6 +2,8 @@
 @use 'sass:math';
 @use 'sass:map';
 
+@use '../mixins/function.scss' as *;
+
 // Special comment for theme configurator
 // type|skipAutoTranslation|Category|Order
 // skipAutoTranslation 1
@@ -108,7 +110,8 @@ $text-color: map.merge(
     'primary': #303133,
     'regular': #606266,
     'secondary': #909399,
-    'placeholder': #c0c4cc,
+    'placeholder': #a8abb2,
+    'disable': #c0c4cc,
   ),
   $text-color
 );
@@ -116,25 +119,45 @@ $text-color: map.merge(
 $border-color: () !default;
 $border-color: map.merge(
   (
-    'base': #dcdfe6,
+    '': #dcdfe6,
     'light': #e4e7ed,
     'lighter': #ebeef5,
     'extra-light': #f2f6fc,
+    'dark': #d4d7de,
+    'darker': #cdd0d6,
   ),
   $border-color
 );
 
+$fill-color: () !default;
+$fill-color: map.merge(
+  (
+    '': #f0f2f5,
+    'light': #f5f7fa,
+    'lighter': #fafafa,
+    'extra-light': #fafcff,
+    'dark': #ebedf0,
+    'darker': #e6e8eb,
+    'blank': #ffffff,
+  ),
+  $fill-color
+);
+
 // Background
-/// color|1|Background Color|4
-$bg-color: #f5f7fa !default;
+$bg-color: () !default;
+$bg-color: map.merge(
+  (
+    '': #ffffff,
+    'page': #ffffff,
+    'overlay': #ffffff,
+  ),
+  $bg-color
+);
 
 // Border
-$border-width-base: 1px !default;
-$border-style-base: solid !default;
+$border-width: 1px !default;
+$border-style: solid !default;
 $border-color-hover: var(--el-text-color-placeholder) !default;
-$border-base: $border-width-base $border-style-base
-  map.get($border-color, 'base') !default;
-/// borderRadius|1|Radius|0
 
 $border-radius: () !default;
 $border-radius: map.merge(
@@ -174,11 +197,22 @@ $font-size: map.merge(
   $font-size
 );
 
+// zIndex
+$z-index: () !default;
+$z-index: map.merge(
+  (
+    'normal': 1,
+    'top': 1000,
+    'popper': 2000,
+  ),
+  $z-index
+);
+
 // Disable default
 $disabled: () !default;
 $disabled: map.merge(
   (
-    'bg-color': var(--el-bg-color),
+    'bg-color': getCssVar('fill-color', 'light'),
     'text-color': var(--el-text-color-placeholder),
     'border-color': var(--el-border-color-light),
   ),
@@ -195,6 +229,8 @@ $common-component-size: map.merge(
   $common-component-size
 );
 
+// Components
+// ---
 // Checkbox
 // css3 var in packages/theme-chalk/src/checkbox.scss
 $checkbox: () !default;
@@ -206,18 +242,18 @@ $checkbox: map.merge(
     'input-height': 14px,
     'input-width': 14px,
     'border-radius': var(--el-border-radius-small),
-    'bg-color': var(--el-color-white),
-    'input-border': var(--el-border-base),
-    'disabled-border-color': var(--el-border-color-base),
+    'bg-color': getCssVar('fill-color', 'blank'),
+    'input-border': var(--el-border),
+    'disabled-border-color': getCssVar('border-color'),
     'disabled-input-fill': #edf2fc,
     'disabled-icon-color': var(--el-text-color-placeholder),
     'disabled-checked-input-fill': var(--el-border-color-extra-light),
-    'disabled-checked-input-border-color': var(--el-border-color-base),
+    'disabled-checked-input-border-color': getCssVar('border-color'),
     'disabled-checked-icon-color': var(--el-text-color-placeholder),
     'checked-text-color': var(--el-color-primary),
     'checked-input-border-color': var(--el-color-primary),
     'checked-bg-color': var(--el-color-primary),
-    'checked-icon-color': var(--el-fill-base),
+    'checked-icon-color': getCssVar('fill-color'),
     'input-border-color-hover': var(--el-color-primary),
   ),
   $checkbox
@@ -264,9 +300,9 @@ $radio: map.merge(
     'input-height': 14px,
     'input-width': 14px,
     'input-border-radius': var(--el-border-radius-circle),
-    'input-bg-color': var(--el-color-white),
-    'input-border': var(--el-border-base),
-    'input-border-color': var(--el-border-color-base),
+    'input-bg-color': getCssVar('fill-color', 'blank'),
+    'input-border': var(--el-border),
+    'input-border-color': getCssVar('border-color'),
     'input-border-color-hover': var(--el-color-primary),
   ),
   $radio
@@ -351,7 +387,7 @@ $select-option: map.merge(
     'text-color': var(--el-text-color-regular),
     'disabled-color': var(--el-text-color-placeholder),
     'height': 34px,
-    'hover-background': var(--el-bg-color),
+    'hover-background': getCssVar('fill-color', 'light'),
     'selected-text-color': var(--el-color-primary),
   ),
   $select-option
@@ -472,13 +508,13 @@ $input: () !default;
 $input: map.merge(
   (
     'text-color': var(--el-text-color-regular),
-    'border': var(--el-border-base),
+    'border': var(--el-border),
     'hover-border': var(--el-border-color-hover),
     'focus-border': var(--el-color-primary),
     'transparent-border': 0 0 0 1px transparent inset,
-    'border-color': var(--el-border-color-base),
+    'border-color': getCssVar('border-color'),
     'border-radius': var(--el-border-radius-base),
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
     'icon-color': var(--el-text-color-placeholder),
     'placeholder-color': var(--el-text-color-placeholder),
     'hover-border-color': var(--el-border-color-hover),
@@ -542,12 +578,12 @@ $cascader: map.merge(
   (
     'menu-text-color': var(--el-text-color-regular),
     'menu-selected-text-color': var(--el-color-primary),
-    'menu-fill': var(--el-fill-base),
+    'menu-fill': getCssVar('fill-color'),
     'menu-font-size': var(--el-font-size-base),
     'menu-radius': var(--el-border-radius-base),
     'menu-border': solid 1px var(--el-border-color-light),
     'menu-shadow': var(--el-box-shadow-light),
-    'node-background-hover': var(--el-bg-color),
+    'node-background-hover': getCssVar('fill-color', 'light'),
     'node-color-disabled': var(--el-text-color-placeholder),
     'color-empty': var(--el-text-color-placeholder),
     'tag-background': #f0f2f5,
@@ -561,11 +597,11 @@ $button: () !default;
 $button: map.merge(
   (
     'font-weight': var(--el-font-weight-primary),
-    'border-color': var(--el-border-color-base),
-    'bg-color': var(--el-color-white),
+    'border-color': getCssVar('border-color'),
+    'bg-color': getCssVar('fill-color', 'blank'),
     'text-color': var(--el-text-color-regular),
     'disabled-text-color': var(--el-disabled-text-color),
-    'disabled-bg-color': var(--el-color-white),
+    'disabled-bg-color': getCssVar('fill-color', 'blank'),
     'disabled-border-color': var(--el-border-color-light),
     'divide-border-color': rgba($color-white, 0.5),
     'hover-text-color': var(--el-color-primary),
@@ -578,7 +614,7 @@ $button: map.merge(
   $button
 );
 
-$button-border-width: $border-width-base !default;
+$button-border-width: $border-width !default;
 
 // need mix, so do not use css var
 $button-hover-tint-percent: 20%;
@@ -650,7 +686,7 @@ $switch: () !default;
 $switch: map.merge(
   (
     'on-color': var(--el-color-primary),
-    'off-color': var(--el-border-color-base),
+    'off-color': getCssVar('border-color'),
     'core-border-radius': 10px,
     'width': 40px,
     'height': 20px,
@@ -686,13 +722,13 @@ $table: map.merge(
     'border': 1px solid var(--el-table-border-color),
     'text-color': var(--el-text-color-regular),
     'header-text-color': var(--el-text-color-secondary),
-    'row-hover-bg-color': var(--el-bg-color),
+    'row-hover-bg-color': getCssVar('fill-color', 'light'),
     'current-row-bg-color': var(--el-color-primary-light-9),
-    'header-bg-color': var(--el-color-white),
+    'header-bg-color': getCssVar('fill-color', 'blank'),
     'fixed-box-shadow': 0 0 10px rgba(0, 0, 0, 0.12),
-    'bg-color': var(--el-color-white),
-    'tr-bg-color': var(--el-color-white),
-    'expanded-cell-bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
+    'tr-bg-color': getCssVar('fill-color', 'blank'),
+    'expanded-cell-bg-color': getCssVar('fill-color', 'blank'),
     'fixed-left-column': inset 10px 0 10px -10px rgb(0 0 0 / 15%),
     'fixed-right-column': inset -10px 0 10px -10px rgb(0 0 0 / 15%),
   ),
@@ -735,15 +771,15 @@ $pagination: () !default;
 $pagination: map.merge(
   (
     'font-size': 14px,
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
     'text-color': var(--el-text-color-primary),
     'border-radius': 3px,
     'button-color': var(--el-text-color-primary),
     'button-width': 32px,
     'button-height': 32px,
     'button-disabled-color': var(--el-text-color-placeholder),
-    'button-disabled-bg-color': var(--el-color-white),
-    'button-bg-color': map.get($colors, 'info', 'light-9'),
+    'button-disabled-bg-color': getCssVar('fill-color', 'blank'),
+    'button-bg-color': getCssVar('color', 'primary', 'light-9'),
     'hover-color': var(--el-color-primary),
     'height-extra-small': 24px,
     'line-height-extra-small': var(--el-pagination-height-extra-small),
@@ -844,7 +880,7 @@ $tag-icon-size: map.merge(
 $tree: () !default;
 $tree: map.merge(
   (
-    'node-hover-bg-color': var(--el-bg-color),
+    'node-hover-bg-color': getCssVar('fill-color', 'light'),
     'text-color': var(--el-text-color-regular),
     'expand-icon-color': var(--el-text-color-placeholder),
   ),
@@ -868,7 +904,7 @@ $dropdown: map.merge(
 $drawer: () !default;
 $drawer: map.merge(
   (
-    'bg-color': var(--el-dialog-bg-color, var(--el-color-white)),
+    'bg-color': var(--el-dialog-bg-color),
     'padding-primary': var(--el-dialog-padding-primary, 20px),
   ),
   $drawer
@@ -896,17 +932,9 @@ $card: map.merge(
       var(--el-border-color-light, map.get($border-color, 'lighter')),
     'border-radius': 4px,
     'padding': 20px,
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
   ),
   $card
-);
-
-$dark-card: () !default;
-$dark-card: map.merge(
-  (
-    'bg-color': var(--el-color-black),
-  ),
-  $dark-card
 );
 
 // Slider
@@ -935,12 +963,12 @@ $menu: map.merge(
     'active-color': var(--el-color-primary),
     'text-color': var(--el-text-color-primary),
     'hover-text-color': var(--el-text-color-primary),
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
     'hover-bg-color': var(--el-color-primary-light-9),
     'item-height': 56px,
     'item-font-size': var(--el-font-size-base),
     'item-hover-fill': var(--el-color-primary-light-9),
-    'border-color': #e6e6e6,
+    'border-color': getCssVar('border-color'),
   ),
   $menu
 );
@@ -1041,10 +1069,10 @@ $collapse: map.merge(
   (
     'border-color': var(--el-border-color-lighter),
     'header-height': 48px,
-    'header-bg-color': var(--el-color-white),
+    'header-bg-color': getCssVar('fill-color', 'blank'),
     'header-text-color': var(--el-text-color-primary),
     'header-font-size': 13px,
-    'content-bg-color': var(--el-color-white),
+    'content-bg-color': getCssVar('fill-color', 'blank'),
     'content-font-size': 13px,
     'content-text-color': var(--el-text-color-primary),
   ),
@@ -1060,7 +1088,7 @@ $transfer: map.merge(
     'border-radius': var(--el-border-radius-base),
     'panel-width': 200px,
     'panel-header-height': 40px,
-    'panel-header-bg-color': var(--el-bg-color),
+    'panel-header-bg-color': getCssVar('fill-color', 'light'),
     'panel-footer-height': 40px,
     'panel-body-height': 278px,
     'item-height': 30px,
@@ -1086,7 +1114,7 @@ $timeline: map.merge(
 $backtop: () !default;
 $backtop: map.merge(
   (
-    'bg-color': var(--el-color-white),
+    'bg-color': getCssVar('fill-color', 'blank'),
     'text-color': var(--el-color-primary),
     'hover-bg-color': var(--el-border-color-extra-light),
   ),

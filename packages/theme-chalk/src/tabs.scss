@@ -224,14 +224,14 @@
   }
   @include m(border-card) {
     background: $color-white;
-    border: 1px solid var(--el-border-color-base);
+    border: 1px solid getCssVar('border-color');
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 
     > .#{$namespace}-tabs__content {
       padding: 15px;
     }
     > .#{$namespace}-tabs__header {
-      background-color: var(--el-bg-color);
+      background-color: getCssVar('fill-color', 'light');
       border-bottom: 1px solid var(--el-border-color-light);
       margin: 0;
     }
@@ -256,8 +256,8 @@
       &.is-active {
         color: var(--el-color-primary);
         background-color: $color-white;
-        border-right-color: var(--el-border-color-base);
-        border-left-color: var(--el-border-color-base);
+        border-right-color: getCssVar('border-color');
+        border-left-color: getCssVar('border-color');
       }
       &:not(.is-disabled):hover {
         color: var(--el-color-primary);
@@ -305,7 +305,7 @@
     &.#{$namespace}-tabs--border-card {
       .#{$namespace}-tabs__header.is-bottom {
         border-bottom: 0;
-        border-top: 1px solid var(--el-border-color-base);
+        border-top: 1px solid getCssVar('border-color');
       }
       .#{$namespace}-tabs__nav-wrap.is-bottom {
         margin-top: -1px;
