@@ -77,7 +77,7 @@ export default {
 
 ##### Webpack
 
-```ts
+```js
 // webpack.config.js
 const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
@@ -168,7 +168,7 @@ On-demand:
 
 ```vue
 <template>
-  <el-config-provider :size="size" :zIndex="zIndex">
+  <el-config-provider :size="size" :z-index="zIndex">
     <app />
   </el-config-provider>
 </template>

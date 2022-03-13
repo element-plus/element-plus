@@ -10,7 +10,7 @@
     margin-left: 0;
   }
 
-  & + .el-pager {
+  & + .#{$namespace}-pager {
     .number {
       &:first-child {
         margin-left: 0;
@@ -92,7 +92,7 @@
     }
   }
 
-  .#{$namespace}-pager li.disabled {
+  .#{$namespace}-pager li.is-disabled {
     color: var(--el-text-color-placeholder);
     cursor: not-allowed;
   }
@@ -111,7 +111,7 @@
       min-width: 24px;
     }
 
-    .arrow.disabled {
+    .arrow.is-disabled {
       visibility: hidden;
     }
 
@@ -144,7 +144,7 @@
       line-height: var(--el-pagination-line-height-extra-small);
       .#{$namespace}-input__suffix-inner {
         line-height: var(--el-pagination-line-height-extra-small);
-        i.el-select__caret {
+        i.#{$namespace}-select__caret {
           line-height: var(--el-pagination-line-height-extra-small);
         }
       }
@@ -228,7 +228,7 @@
       min-width: 32px;
       border-radius: 2px;
 
-      &.disabled {
+      &.is-disabled {
         color: var(--el-text-color-placeholder);
         background-color: var(--el-disabled-bg-color);
       }
@@ -253,12 +253,12 @@
       }
     }
 
-    .#{$namespace}-pager li:not(.disabled) {
+    .#{$namespace}-pager li:not(.is-disabled) {
       &:hover {
         color: var(--el-pagination-hover-color);
       }
 
-      &.active {
+      &.is-active {
         background-color: var(--el-color-primary);
         color: var(--el-color-white);
         font-weight: bold;
@@ -311,7 +311,7 @@
       line-height: 32px;
       color: var(--el-pagination-button-color);
 
-      &.disabled {
+      &.is-disabled {
         color: var(--el-text-color-placeholder);
         cursor: not-allowed;
       }
@@ -321,7 +321,7 @@
       }
     }
 
-    &.active + li {
+    &.is-active + li {
       border-left: 0;
     }
 
@@ -333,7 +333,7 @@
       color: var(--el-pagination-hover-color);
     }
 
-    &.active {
+    &.is-active {
       color: var(--el-pagination-hover-color);
       cursor: default;
     }

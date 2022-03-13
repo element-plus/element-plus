@@ -28,6 +28,6 @@ import { UserFilled } from '@element-plus/icons-vue'
 }
 
 .demo-type > div:not(:last-child) {
-  border-right: 1px solid var(--el-border-color-base);
+  border-right: 1px solid getCssVar('border-color');
 }
 </style>

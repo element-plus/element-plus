@@ -69,10 +69,9 @@ export default defineComponent({
       (newVal, oldVal) => {
         if (isEqual(newVal, oldVal)) return
         if (Array.isArray(newVal)) {
-          const pageSize =
-            newVal.indexOf(props.pageSize) > -1
-              ? props.pageSize
-              : props.pageSizes[0]
+          const pageSize = newVal.includes(props.pageSize)
+            ? props.pageSize
+            : props.pageSizes[0]
           emit('page-size-change', pageSize)
         }
       }

@@ -33,7 +33,11 @@ export const messageProps = buildProps({
     default: '',
   },
   message: {
-    type: definePropType<string | VNode>([String, Object]),
+    type: definePropType<string | VNode | (() => VNode)>([
+      String,
+      Object,
+      Function,
+    ]),
     default: '',
   },
   onClose: {

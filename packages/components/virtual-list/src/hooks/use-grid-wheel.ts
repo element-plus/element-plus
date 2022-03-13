@@ -1,5 +1,4 @@
-import { rAF, cAF } from '@element-plus/utils'
-import { isFF } from '../utils'
+import { rAF, cAF, isFirefox } from '@element-plus/utils'
 
 import type { ComputedRef } from 'vue'
 
@@ -43,7 +42,7 @@ export const useGridWheel = (
     xOffset += x
     yOffset += y
 
-    if (!isFF) {
+    if (!isFirefox()) {
       e.preventDefault()
     }
 

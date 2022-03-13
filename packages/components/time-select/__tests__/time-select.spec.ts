@@ -106,7 +106,7 @@ describe('TimeSelect', () => {
 
     const option = wrapper
       .findAllComponents(Option)
-      .filter((w) => w.text().trim() === '11:00')[0]
+      .find((w) => w.text().trim() === '11:00')
 
     expect(option.exists()).toBe(true)
     option.trigger('click')

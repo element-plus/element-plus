@@ -87,7 +87,7 @@ describe('Image.vue', () => {
       props: {
         fit: 'cover',
         src: IMAGE_SUCCESS,
-        previewSrcList: new Array(3).fill(IMAGE_SUCCESS),
+        previewSrcList: Array.from({ length: 3 }).fill(IMAGE_SUCCESS),
       },
     })
     await doubleWait()
@@ -98,7 +98,7 @@ describe('Image.vue', () => {
     const wrapper = mount(Image, {
       props: {
         src: IMAGE_SUCCESS,
-        previewSrcList: new Array(3).fill(IMAGE_FAIL),
+        previewSrcList: Array.from({ length: 3 }).fill(IMAGE_FAIL),
         initialIndex: 1,
       },
     })

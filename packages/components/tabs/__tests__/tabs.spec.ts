@@ -555,13 +555,18 @@ describe('Tabs.vue', () => {
         'el-tab-pane': TabPane,
       },
       template: `
-        <el-tabs ref="tabs">
-          <el-tab-pane label="label-1" name="A">A</el-tab-pane>
+        <el-tabs v-model="activeName" ref="tabs">
+          <el-tab-pane label="label-1" lazy name="A">A</el-tab-pane>
           <el-tab-pane label="label-2" name="B">B</el-tab-pane>
           <el-tab-pane label="label-3" name="C">C</el-tab-pane>
           <el-tab-pane label="label-4" lazy name="D">D</el-tab-pane>
         </el-tabs>
       `,
+      data() {
+        return {
+          activeName: 'A',
+        }
+      },
     })
 
     const navWrapper = wrapper.findComponent(TabNav)

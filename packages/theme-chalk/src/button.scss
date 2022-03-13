@@ -31,7 +31,7 @@ $button-icon-span-gap: map.merge(
   white-space: nowrap;
   cursor: pointer;
   background-color: var(--el-button-bg-color, #{map.get($button, 'bg-color')});
-  border: var(--el-border-base);
+  border: var(--el-border);
   border-color: var(
     --el-button-border-color,
     #{map.get($button, 'border-color')}

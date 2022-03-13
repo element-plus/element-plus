@@ -1,7 +1,6 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
-@use 'mixins/function' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
@@ -97,7 +96,7 @@ $tag-icon-span-gap: map.merge(
   align-items: center;
 
   height: map.get($tag-height, 'default');
-  padding: 0 map.get($tag-padding, 'default') - $border-width-base;
+  padding: 0 map.get($tag-padding, 'default') - $border-width;
   font-size: var(--el-tag-font-size);
   line-height: 1;
   border-width: $tag-border-width;
@@ -131,7 +130,7 @@ $tag-icon-span-gap: map.merge(
   }
 
   &.is-closable {
-    padding-right: map.get($tag-icon-span-gap, 'default') - $border-width-base;
+    padding-right: map.get($tag-icon-span-gap, 'default') - $border-width;
   }
 
   @each $size in (large, default, small) {
@@ -146,7 +145,7 @@ $tag-icon-span-gap: map.merge(
       }
 
       &.is-closable {
-        padding-right: map.get($tag-icon-span-gap, $size) - $border-width-base;
+        padding-right: map.get($tag-icon-span-gap, $size) - $border-width;
       }
     }
   }

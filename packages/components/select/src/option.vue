@@ -25,6 +25,7 @@ import {
   getCurrentInstance,
   onBeforeUnmount,
   reactive,
+  nextTick,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
@@ -69,15 +70,16 @@ export default defineComponent({
     onBeforeUnmount(() => {
       const { selected } = select
       const selectedOptions = select.props.multiple ? selected : [selected]
-      const doesExist = select.cachedOptions.has(key)
       const doesSelected = selectedOptions.some((item) => {
         return item.value === (vm as unknown as SelectOptionProxy).value
       })
       // if option is not selected, remove it from cache
-      if (doesExist && !doesSelected) {
-        select.cachedOptions.delete(key)
+      if (select.cachedOptions.get(key) === vm && !doesSelected) {
+        nextTick(() => {
+          select.cachedOptions.delete(key)
+        })
       }
-      select.onOptionDestroy(key)
+      select.onOptionDestroy(key, vm)
     })
 
     function selectOptionClick() {

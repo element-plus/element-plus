@@ -1,18 +1,26 @@
+import process from 'process'
 import path from 'path'
 import fs from 'fs/promises'
 import * as vueCompiler from 'vue/compiler-sfc'
 import { Project } from 'ts-morph'
 import glob from 'fast-glob'
 import { bold } from 'chalk'
-
 import { errorAndExit, green, yellow } from './utils/log'
 import { buildOutput, epRoot, pkgRoot, projRoot } from './utils/paths'
+import typeSafe from './type-safe.json'
 
 import { excludeFiles, pathRewriter } from './utils/pkg'
 import type { SourceFile } from 'ts-morph'
 
 const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
 const outDir = path.resolve(buildOutput, 'types')
+
+// Type safe list. The TS errors are not all fixed yet, so we need a list of which files are fixed with TS errors to prevent accidental TS errors.
+const typeSafePaths = typeSafe.map((_path) => {
+  let safePath = path.resolve(projRoot, _path)
+  if (_path.endsWith('/')) safePath += path.sep
+  return safePath
+})
 
 /**
  * fork = require( https://github.com/egoist/vue-dts-gen/blob/main/src/index.ts
@@ -27,6 +35,10 @@ export const generateTypesDefinitions = async () => {
         '@element-plus/*': ['packages/*'],
       },
       preserveSymlinks: true,
+      types: [
+        path.resolve(projRoot, 'typings/env'),
+        'unplugin-vue-define-options',
+      ],
     },
     tsConfigFilePath: TSCONFIG_PATH,
     skipAddingFilesFromTsConfig: true,
@@ -86,8 +98,17 @@ export const generateTypesDefinitions = async () => {
     }),
   ])
 
-  const diagnostics = project.getPreEmitDiagnostics()
-  console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
+  const diagnostics = project.getPreEmitDiagnostics().filter((diagnostic) => {
+    const filePath = diagnostic.getSourceFile()?.getFilePath()
+    return (
+      filePath &&
+      typeSafePaths.some((safePath) => filePath.startsWith(safePath))
+    )
+  })
+  if (diagnostics.length > 0) {
+    console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
+    process.exit(1)
+  }
 
   await project.emit({
     emitOnlyDtsFiles: true,

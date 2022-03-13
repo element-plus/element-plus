@@ -52,8 +52,8 @@ interface Time {
 const parseTime = (time: string): null | Time => {
   const values = (time || '').split(':')
   if (values.length >= 2) {
-    let hours = parseInt(values[0], 10)
-    const minutes = parseInt(values[1], 10)
+    let hours = Number.parseInt(values[0], 10)
+    const minutes = Number.parseInt(values[1], 10)
     const timeUpper = time.toUpperCase()
     if (timeUpper.includes('AM') && hours === 12) {
       hours = 0
@@ -130,7 +130,7 @@ export default defineComponent({
       type: String as PropType<ComponentSize>,
       default: 'default',
       validator: (value: string) =>
-        !value || ['large', 'default', 'small'].indexOf(value) !== -1,
+        !value || ['large', 'default', 'small'].includes(value),
     },
     placeholder: {
       type: String,

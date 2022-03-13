@@ -358,14 +358,14 @@ export default defineComponent({
       switch (action) {
         case 'zoomOut':
           if (transform.value.scale > 0.2) {
-            transform.value.scale = parseFloat(
+            transform.value.scale = Number.parseFloat(
               (transform.value.scale / zoomRate).toFixed(3)
             )
           }
           break
         case 'zoomIn':
           if (transform.value.scale < 7) {
-            transform.value.scale = parseFloat(
+            transform.value.scale = Number.parseFloat(
               (transform.value.scale * zoomRate).toFixed(3)
             )
           }

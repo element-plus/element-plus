@@ -15,7 +15,9 @@ const assertElementsExistence = (
 }
 
 const assertCurrent = (wrapper, page) => {
-  expect(wrapper.find('.el-pager li.active.number').text()).toBe(String(page))
+  expect(wrapper.find('.el-pager li.is-active.number').text()).toBe(
+    String(page)
+  )
 }
 const assertPages = (wrapper, total) => {
   expect(wrapper.find('.el-pagination .el-pager li:last-child').text()).toBe(
@@ -123,10 +125,8 @@ describe('Pagination', () => {
       test(`layout with only '${layout}'`, async () => {
         layoutRef.value = layout
         await nextTick()
-        for (let i = 0; i < layoutSelectorPairs.length; i++) {
-          expect(wrapper.find(layoutSelectorPairs[i][1]).exists()).toBe(
-            i === idx
-          )
+        for (const [i, layoutSelectorPair] of layoutSelectorPairs.entries()) {
+          expect(wrapper.find(layoutSelectorPair[1]).exists()).toBe(i === idx)
         }
       })
     })

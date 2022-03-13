@@ -10,6 +10,7 @@ import { ElMessage } from 'element-plus'
 const open = () => {
   ElMessage('this is a message.')
 }
+
 const openVn = () => {
   ElMessage({
     message: h('p', null, [

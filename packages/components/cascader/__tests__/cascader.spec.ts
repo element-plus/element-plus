@@ -4,6 +4,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { triggerEvent } from '@element-plus/test-utils'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { hasClass } from '@element-plus/utils'
 import Cascader from '../src/index.vue'
 
 jest.mock('lodash-unified', () => {
@@ -29,6 +30,10 @@ const OPTIONS = [
       {
         value: 'ningbo',
         label: 'Ningbo',
+      },
+      {
+        value: 'wenzhou',
+        label: 'Wenzhou',
       },
     ],
   },
@@ -241,13 +246,40 @@ describe('Cascader.vue', () => {
         modelValue: [
           ['zhejiang', 'hangzhou'],
           ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
         ],
       },
     })
     await nextTick()
-    const [firstTag, secondTag] = wrapper.findAll(TAG)
-    expect(firstTag.text()).toBe('Zhejiang / Hangzhou')
-    expect(secondTag.text()).toBe('+ 1')
+    const tags = wrapper.findAll(TAG).filter((item) => {
+      return !hasClass(item.element, 'in-tooltip')
+    })
+    expect(tags[0].text()).toBe('Zhejiang / Hangzhou')
+    expect(tags.length).toBe(2)
+  })
+
+  test('collapse tags tooltip', async () => {
+    const wrapper = mount(Cascader, {
+      props: {
+        options: OPTIONS,
+        props: { multiple: true },
+        collapseTags: true,
+        collapseTagsTooltip: true,
+        modelValue: [
+          ['zhejiang', 'hangzhou'],
+          ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
+        ],
+      },
+    })
+    await nextTick()
+    expect(wrapper.findAll(TAG).length).toBe(5)
+    const tags = wrapper.findAll(TAG).filter((item) => {
+      return hasClass(item.element, 'in-tooltip')
+    })
+    expect(tags[0].text()).toBe('Zhejiang / Hangzhou')
+    expect(tags[1].text()).toBe('Zhejiang / Ningbo')
+    expect(tags[2].text()).toBe('Zhejiang / Wenzhou')
   })
 
   test('filterable', async () => {

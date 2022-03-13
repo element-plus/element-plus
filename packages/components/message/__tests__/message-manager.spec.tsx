@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick, h, ref } from 'vue'
 import { getStyle } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElMessage } from '..'
@@ -9,17 +9,6 @@ const selector = '.el-message'
 // TODO: testing the original transition with `nextTick`'
 
 describe('Message on command', () => {
-  // const oldTransition = Vue.Transition
-  beforeAll(() => {
-    // eslint-disable-next-line
-    // ;(Vue as any).Transition = Transition
-  })
-
-  afterAll(() => {
-    // eslint-disable-next-line
-    // ;(Vue as any).Transition = oldTransition
-  })
-
   test('it should get component handle', async () => {
     const handle = Message()
     await rAF()
@@ -68,7 +57,7 @@ describe('Message on command', () => {
     expect(elements.length).toBe(3)
 
     const getTopValue = (elm: Element): number =>
-      parseInt(getStyle(elm as HTMLElement, 'top'), 10)
+      Number.parseInt(getStyle(elm as HTMLElement, 'top'), 10)
 
     const topValues = []
     elements.forEach((e) => {
@@ -115,6 +104,26 @@ describe('Message on command', () => {
     await rAF()
     await nextTick()
     expect(htmlElement.querySelector(selector)).toBeFalsy()
+  })
+
+  test('it should render vnode function', async () => {
+    const i = ref(0)
+
+    Message({
+      message: () => h('div', i.value),
+    })
+
+    await rAF()
+    expect(document.querySelector(selector)?.textContent).toMatchInlineSnapshot(
+      `"0"`
+    )
+
+    i.value++
+
+    await rAF()
+    expect(document.querySelector(selector)?.textContent).toMatchInlineSnapshot(
+      `"1"`
+    )
   })
 
   describe('context inheritance', () => {

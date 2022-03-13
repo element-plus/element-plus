@@ -52,6 +52,7 @@ import {
   toRef,
   readonly,
   unref,
+  watch,
 } from 'vue'
 import {
   ElPopper,
@@ -169,6 +170,15 @@ export default defineComponent({
       },
       updatePopper,
     })
+
+    watch(
+      () => props.disabled,
+      (disabled) => {
+        if (disabled && open.value) {
+          open.value = false
+        }
+      }
+    )
 
     return {
       compatShowAfter,

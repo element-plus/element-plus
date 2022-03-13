@@ -87,8 +87,8 @@
     var(--el-transition-duration) padding-bottom ease-in-out;
 }
 
-.el-collapse-transition-leave-active,
-.el-collapse-transition-enter-active {
+.#{$namespace}-collapse-transition-leave-active,
+.#{$namespace}-collapse-transition-enter-active {
   transition: var(--el-transition-duration) max-height ease-in-out,
     var(--el-transition-duration) padding-top ease-in-out,
     var(--el-transition-duration) padding-bottom ease-in-out;
@@ -104,10 +104,15 @@
 .#{$namespace}-list-leave-active {
   transition: all 1s;
 }
+
 .#{$namespace}-list-enter-from,
-.#{$namespace}-list-leave-active {
+.#{$namespace}-list-leave-to {
   opacity: 0;
   transform: translateY(-30px);
+}
+
+.#{$namespace}-list-leave-active {
+  position: absolute !important;
 }
 
 .#{$namespace}-opacity-transition {
