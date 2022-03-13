@@ -4,7 +4,7 @@ import fs from 'fs/promises'
 import * as vueCompiler from 'vue/compiler-sfc'
 import { Project } from 'ts-morph'
 import glob from 'fast-glob'
-import { bold } from 'chalk'
+import chalk from 'chalk'
 import { errorAndExit, green, yellow } from './utils/log'
 import { buildOutput, epRoot, pkgRoot, projRoot } from './utils/paths'
 import typeSafe from './type-safe.json'
@@ -116,12 +116,12 @@ export const generateTypesDefinitions = async () => {
 
   const tasks = sourceFiles.map(async (sourceFile) => {
     const relativePath = path.relative(pkgRoot, sourceFile.getFilePath())
-    yellow(`Generating definition for file: ${bold(relativePath)}`)
+    yellow(`Generating definition for file: ${chalk.bold(relativePath)}`)
 
     const emitOutput = sourceFile.getEmitOutput()
     const emitFiles = emitOutput.getOutputFiles()
     if (emitFiles.length === 0) {
-      errorAndExit(new Error(`Emit no file: ${bold(relativePath)}`))
+      errorAndExit(new Error(`Emit no file: ${chalk.bold(relativePath)}`))
     }
 
     const tasks = emitFiles.map(async (outputFile) => {
@@ -136,7 +136,7 @@ export const generateTypesDefinitions = async () => {
         'utf8'
       )
 
-      green(`Definition for file: ${bold(relativePath)} generated`)
+      green(`Definition for file: ${chalk.bold(relativePath)} generated`)
     })
 
     await Promise.all(tasks)
