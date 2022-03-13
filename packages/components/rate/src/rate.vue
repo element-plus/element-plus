@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="rateClasses"
+    :class="[rateClasses, rateDisabled && ns.is('disabled')]"
     role="slider"
     :aria-valuenow="currentValue"
     :aria-valuetext="text"
@@ -13,13 +13,16 @@
       v-for="(item, key) in max"
       :key="key"
       :class="ns.e('item')"
-      :style="{ cursor: rateDisabled ? 'auto' : 'pointer' }"
       @mousemove="setCurrentValue(item, $event)"
       @mouseleave="resetCurrentValue"
       @click="selectValue(item)"
     >
       <el-icon
-        :class="[ns.e('icon'), { hover: hoverIndex === item }]"
+        :class="[
+          ns.e('icon'),
+          { hover: hoverIndex === item },
+          item <= currentValue && ns.is('active'),
+        ]"
         :style="getIconStyle(item)"
       >
         <component
@@ -35,11 +38,7 @@
         </el-icon>
       </el-icon>
     </span>
-    <span
-      v-if="showText || showScore"
-      :class="ns.e('text')"
-      :style="{ color: textColor }"
-    >
+    <span v-if="showText || showScore" :class="ns.e('text')">
       {{ text }}
     </span>
   </div>
