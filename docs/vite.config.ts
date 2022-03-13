@@ -6,13 +6,11 @@ import WindiCSS from 'vite-plugin-windicss'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
-
-import { getPackageDependencies } from '../build/utils/pkg'
-import { epPackage } from '../build/utils/paths'
+import { epPackage } from '@element-plus/build/utils/paths'
+import { getPackageDependencies } from '@element-plus/build/utils/pkg'
 import { projRoot } from './.vitepress/utils/paths'
 import type { Alias } from 'vite'
 
