@@ -28,7 +28,7 @@ if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')
 const ns = useNamespace('tabs')
 
 const barRef = ref<HTMLDivElement>()
-const barStyle = ref()
+const barStyle = ref<CSSProperties>()
 
 const getBarStyle = (): CSSProperties => {
   let offset = 0
@@ -84,7 +84,7 @@ watch(
 useResizeObserver(barRef, () => update())
 
 defineExpose({
-  /** @description html element */
+  /** @description tab root html element */
   ref: barRef,
   /** @description method to manually update tab bar style */
   update,
