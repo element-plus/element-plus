@@ -86,7 +86,7 @@
           </el-icon>
           <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
             <span :class="nsInput.e('count-inner')">
-              {{ textLength }} / {{ attrs.maxlength }}
+              {{ textLength }} / {{ maxlength }}
             </span>
           </span>
         </span>
@@ -127,7 +127,7 @@
         @keydown="handleKeydown"
       />
       <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
-        {{ textLength }} / {{ attrs.maxlength }}
+        {{ textLength }} / {{ maxlength }}
       </span>
     </template>
   </div>
@@ -147,6 +147,7 @@ import {
   useAttrs as useRawAttrs,
   toRef,
 } from 'vue'
+import runes from 'runes'
 import { isClient } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
@@ -186,7 +187,11 @@ const instance = getCurrentInstance()!
 const rawAttrs = useRawAttrs()
 const slots = useSlots()
 
-const attrs = useAttrs()
+const originAttrs = useAttrs()
+// use custom maxlength instead of native maxlength
+const { maxlength, ...restAttrs } = originAttrs.value
+const attrs = ref(restAttrs)
+
 const { form, formItem } = useFormItem()
 const inputSize = useSize()
 const inputDisabled = useDisabled()
@@ -237,18 +242,17 @@ const showPwdVisible = computed(
 const isWordLimitVisible = computed(
   () =>
     props.showWordLimit &&
-    !!attrs.value.maxlength &&
+    !!maxlength &&
     (props.type === 'text' || props.type === 'textarea') &&
     !inputDisabled.value &&
     !props.readonly &&
     !props.showPassword
 )
-const textLength = computed(() => Array.from(nativeInputValue.value).length)
+const textLength = computed(() => runes(nativeInputValue.value).length)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
-    !!isWordLimitVisible.value &&
-    textLength.value > Number(attrs.value.maxlength)
+    !!isWordLimitVisible.value && textLength.value > Number(maxlength)
 )
 const suffixVisible = computed(
   () =>
@@ -310,7 +314,7 @@ const updateIconOffset = () => {
 }
 
 const handleInput = async (event: Event) => {
-  const { value } = event.target as TargetElement
+  let { value } = event.target as TargetElement
 
   // should not emit input during composition
   // see: https://github.com/ElemeFE/element/issues/10516
@@ -319,6 +323,12 @@ const handleInput = async (event: Event) => {
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
   if (value === nativeInputValue.value) return
+
+  // hack for native maxlength, if the input length greater than maxlength, just cut off the excess
+  if (runes(value).length > Number(maxlength)) {
+    // eslint-disable-next-line unicorn/prefer-string-slice
+    value = runes.substr(value, 0, maxlength)
+  }
 
   emit(UPDATE_MODEL_EVENT, value)
   emit('input', value)

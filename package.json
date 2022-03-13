@@ -75,7 +75,8 @@
     "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.2",
     "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.1.1"
+    "normalize-wheel-es": "^1.1.1",
+    "runes": "^0.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
