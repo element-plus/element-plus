@@ -288,12 +288,11 @@
 
   // upload-list
   @include m(picture-card) {
+    @include set-css-var-value(('upload-list', 'picture-card', 'size'), 148px);
+
     display: inline-flex;
     flex-wrap: wrap;
-
     margin: 0;
-
-    @include set-css-var-value(('upload-list', 'picture-card', 'size'), 148px);
 
     .#{bem('upload-list', 'item')} {
       overflow: hidden;
