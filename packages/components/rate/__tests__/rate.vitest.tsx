@@ -83,10 +83,10 @@ describe('Rate.vue', () => {
       <Rate v-model={value.value} colors={['#99A9BF', '#F7BA2A', '#FF9900']} />
     ))
 
-    const thirdStar = (
-      wrapper.findAll('.el-rate__item')[2].element as HTMLElement
-    ).querySelector<HTMLElement>('.el-rate__icon')!
-    expect(thirdStar.style.color).toMatchInlineSnapshot('"rgb(255, 153, 0)"')
+    const rateEl = wrapper.find('.el-rate').element as HTMLElement
+    expect(rateEl.style.getPropertyValue('--el-rate-fill-color')).toBe(
+      '#FF9900'
+    )
   })
 
   it('change event', () => {

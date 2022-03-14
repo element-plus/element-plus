@@ -111,7 +111,7 @@ $text-color: map.merge(
     'regular': #606266,
     'secondary': #909399,
     'placeholder': #a8abb2,
-    'disable': #c0c4cc,
+    'disabled': #c0c4cc,
   ),
   $text-color
 );
@@ -945,7 +945,7 @@ $slider: map.merge(
     'main-bg-color': var(--el-color-primary),
     'runway-bg-color': var(--el-border-color-light),
     'stop-bg-color': var(--el-color-white),
-    'disable-color': var(--el-text-color-placeholder),
+    'disabled-color': var(--el-text-color-placeholder),
     'border-radius': 3px,
     'height': 6px,
     'button-size': 20px,
@@ -981,11 +981,12 @@ $rate: map.merge(
     'font-size': var(--el-font-size-base),
     'icon-size': 18px,
     'icon-margin': 6px,
-    'icon-color': var(--el-text-color-placeholder),
-    'void-color': #c6d1de,
-    'star-color': #f7ba2a,
-    'disable-void-color': #eff2f7,
-    'text-color': #1f2d3d,
+    // seems not be used, to remove
+    // 'icon-color': var(--el-text-color-placeholder),
+    'void-color': getCssVar('border-color', 'darker'),
+    'fill-color': #f7ba2a,
+    'disabled-void-color': getCssVar('fill-color'),
+    'text-color': getCssVar('text-color', 'primary'),
   ),
   $rate
 );
