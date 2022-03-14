@@ -105,6 +105,11 @@ const handleScroll = useThrottleFn(() => {
 }, 10)
 
 useEventListener(window, 'scroll', handleScroll)
+
+function jumpTo(path: string) {
+  // vitepress has not router
+  location.href = `/${lang.value}/${path}`
+}
 </script>
 
 <template>
@@ -127,6 +132,8 @@ useEventListener(window, 'scroll', handleScroll)
             :style="peopleLayer"
             src="/images/home/people.svg"
             alt="banner"
+            class="cursor-pointer"
+            @click="jumpTo('/guide/quickstart.html')"
           />
           <img
             :style="leftLayer"
