@@ -7,8 +7,8 @@
     trigger="click"
     v-bind="$attrs"
     append-to-body
-    :transition="`${ns.namespace.value}-zoom-in-top`"
-    :popper-class="`${ns.namespace.value}-picker__popper ${popperClass}`"
+    :transition="`${nsDate.namespace.value}-zoom-in-top`"
+    :popper-class="`${nsDate.namespace.value}-picker__popper ${popperClass}`"
     :popper-options="elPopperOptions"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :gpu-acceleration="false"
@@ -29,7 +29,7 @@
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
-        :class="[ns.b('editor'), ns.bm('editor', type), $attrs.class]"
+        :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
         :style="$attrs.style"
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
         @input="onUserInput"
@@ -43,7 +43,7 @@
         <template #prefix>
           <el-icon
             v-if="triggerIcon"
-            :class="`${ns.namespace.value}-input__icon`"
+            :class="nsInput.e('icon')"
             @click="handleFocus"
           >
             <component :is="triggerIcon" />
@@ -52,7 +52,7 @@
         <template #suffix>
           <el-icon
             v-if="showClose && clearIcon"
-            :class="`${ns.namespace.value}-input__icon clear-icon`"
+            :class="`${nsInput.e('icon')} clear-icon`"
             @click="onClearIconClick"
           >
             <component :is="clearIcon" />
@@ -63,16 +63,16 @@
         v-else
         ref="inputRef"
         :class="[
-          ns.b('editor'),
-          ns.bm('editor', type),
-          `${ns.namespace.value}-range-editor`,
-          `${ns.namespace.value}-input__inner`,
-          ns.is('disabled', pickerDisabled),
-          ns.is('active', pickerVisible),
-          pickerSize ? `${ns.namespace.value}-range-editor--${pickerSize}` : '',
-          $attrs.class || undefined,
+          nsDate.b('editor'),
+          nsDate.bm('editor', type),
+          nsInput.e('inner'),
+          nsDate.is('disabled', pickerDisabled),
+          nsDate.is('active', pickerVisible),
+          nsRange.b('editor'),
+          pickerSize ? nsRange.bm('editor', pickerSize) : '',
+          $attrs.class,
         ]"
-        :style="$attrs.style || undefined"
+        :style="$attrs.style"
         @click="handleFocus"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
@@ -80,7 +80,7 @@
       >
         <el-icon
           v-if="triggerIcon"
-          :class="`${ns.namespace.value}-input__icon ${ns.namespace.value}-range__icon`"
+          :class="[nsInput.e('icon'), nsRange.e('icon')]"
           @click="handleFocus"
         >
           <component :is="triggerIcon" />
@@ -93,15 +93,13 @@
           :value="displayValue && displayValue[0]"
           :disabled="pickerDisabled"
           :readonly="!editable || readonly"
-          :class="`${ns.namespace.value}-range-input`"
+          :class="nsRange.b('input')"
           @input="handleStartInput"
           @change="handleStartChange"
           @focus="handleFocus"
         />
         <slot name="range-separator">
-          <span :class="`${ns.namespace.value}-range-separator`">{{
-            rangeSeparator
-          }}</span>
+          <span :class="nsRange.b('separator')">{{ rangeSeparator }}</span>
         </slot>
         <input
           :id="id && id[1]"
@@ -111,7 +109,7 @@
           :value="displayValue && displayValue[1]"
           :disabled="pickerDisabled"
           :readonly="!editable || readonly"
-          :class="`${ns.namespace.value}-range-input`"
+          :class="nsRange.b('input')"
           @focus="handleFocus"
           @input="handleEndInput"
           @change="handleEndChange"
@@ -119,10 +117,10 @@
         <el-icon
           v-if="clearIcon"
           :class="[
-            `${ns.namespace.value}-input__icon`,
-            `${ns.namespace.value}-range__close-icon`,
+            nsInput.e('icon'),
+            nsRange.e('close-icon'),
             {
-              [`${ns.namespace.value}-range__close-icon--hidden`]: !showClose,
+              [nsRange.e('close-icon--hidden')]: !showClose,
             },
           ]"
           @click="onClearIconClick"
@@ -260,7 +258,10 @@ export default defineComponent({
   setup(props, ctx) {
     const { lang } = useLocale()
 
-    const ns = useNamespace('date')
+    const nsDate = useNamespace('date')
+    const nsInput = useNamespace('input')
+    const nsRange = useNamespace('range')
+
     const elForm = inject(formContextKey, {} as FormContext)
     const elFormItem = inject(formItemContextKey, {} as FormItemContext)
     const elPopperOptions = inject('ElPopperOptions', {} as Options)
@@ -664,7 +665,9 @@ export default defineComponent({
     })
 
     return {
-      ns,
+      nsDate,
+      nsInput,
+      nsRange,
       // injected popper options
       elPopperOptions,
 
