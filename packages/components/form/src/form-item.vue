@@ -60,10 +60,10 @@ import FormLabelWrap from './form-label-wrap'
 
 import type { CSSProperties } from 'vue'
 import type { RuleItem } from 'async-validator'
-import type { FormItemContext, ValidateFailure } from '@element-plus/tokens'
+import type { FormItemContext } from '@element-plus/tokens'
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemValidateState } from './form-item'
-import type { FormItemRule } from './types'
+import type { FormItemRule, FormValidateFailure } from './types'
 
 const COMPONENT_NAME = 'ElFormItem'
 defineOptions({
@@ -208,7 +208,7 @@ const setValidationState = (state: FormItemValidateState) => {
   validateState.value = state
 }
 
-const onValidationFailed = (error: ValidateFailure) => {
+const onValidationFailed = (error: FormValidateFailure) => {
   const { errors, fields } = error
   if (!errors || !fields) {
     console.error(error)
@@ -222,45 +222,41 @@ const onValidationFailed = (error: ValidateFailure) => {
   formContext.emit('validate', props.prop!, !errors, validateMessage.value)
 }
 
-const doValidate = async (rules: RuleItem[]) => {
+const doValidate = async (rules: RuleItem[]): Promise<true> => {
   const modelName = propString.value
   const validator = new AsyncValidator({
     [modelName]: rules,
   })
-
-  try {
-    await validator.validate(
-      {
-        [modelName]: fieldValue.value,
-      },
-      { firstFields: true }
-    )
-    setValidationState('success')
-    return true
-  } catch (e) {
-    onValidationFailed(e as ValidateFailure)
-    return Promise.reject(e)
-  }
+  return validator
+    .validate({ [modelName]: fieldValue.value }, { firstFields: true })
+    .then(() => {
+      setValidationState('success')
+      return true as const
+    })
+    .catch((err: FormValidateFailure) => {
+      onValidationFailed(err as FormValidateFailure)
+      return Promise.reject(err)
+    })
 }
 
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
-  if (!validateEnabled.value) return
+  if (!validateEnabled.value) return false
 
   const rules = getFilteredRule(trigger)
-
-  if (!rules.length) return
+  if (rules.length === 0) return true
 
   setValidationState('validating')
 
-  try {
-    await doValidate(rules)
-    callback?.(true)
-  } catch (e) {
-    const { fields } = e as ValidateFailure
-    callback?.(false, fields)
-    return Promise.reject(fields)
-  }
-  return true
+  return doValidate(rules)
+    .then(() => {
+      callback?.(true)
+      return true as const
+    })
+    .catch((err: FormValidateFailure) => {
+      const { fields } = err
+      callback?.(false, fields)
+      return Promise.reject(fields)
+    })
 }
 
 const clearValidate: FormItemContext['clearValidate'] = () => {

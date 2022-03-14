@@ -6,18 +6,14 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs, watch } from 'vue'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, type Arrayable } from '@element-plus/utils'
 import { formContextKey } from '@element-plus/tokens'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import { formProps, formEmits } from './form'
 import { useFormLabelWidth, filterFields } from './utils'
 import type { ValidateFieldsError } from 'async-validator'
-import type {
-  FormItemContext,
-  FormContext,
-  ValidationResult,
-} from '@element-plus/tokens'
-import type { FormValidateCallback } from './types'
+import type { FormItemContext, FormContext } from '@element-plus/tokens'
+import type { FormValidateCallback, FormValidationResult } from './types'
 import type { FormItemProp } from './form-item'
 
 const COMPONENT_NAME = 'ElForm'
@@ -65,32 +61,37 @@ const clearValidate: FormContext['clearValidate'] = (props = []) => {
   filterFields(fields, props).forEach((field) => field.clearValidate())
 }
 
-const isValidatable = () => {
-  const flag = !!props.model
-  if (!flag) {
+const isValidatable = computed(() => {
+  const hasModel = !!props.model
+  if (!hasModel) {
     debugWarn(COMPONENT_NAME, 'model is required for validate to work.')
   }
-  return flag
-}
+  return hasModel
+})
 
-const obtainValidateFields = (props: FormItemProp) => {
-  if (!fields.length) return []
+const obtainValidateFields = (props: Arrayable<FormItemProp>) => {
+  if (fields.length === 0) return []
+
   const filteredFields = filterFields(fields, props)
   if (!filteredFields.length) {
     debugWarn(COMPONENT_NAME, 'please pass correct props!')
     return []
   }
-
   return filteredFields
 }
 
-const doValidate = async (
-  props: FormItemProp = []
-): Promise<Array<ValidateFieldsError> | boolean> => {
-  if (!isValidatable()) return false
+const validate = async (
+  callback?: FormValidateCallback
+): FormValidationResult => validateField(undefined, callback)
+
+const doValidateField = async (
+  props: Arrayable<FormItemProp> = []
+): Promise<boolean> => {
+  if (!isValidatable.value) return false
 
   const fields = obtainValidateFields(props)
-  if (!fields.length) return true
+  if (fields.length === 0) return true
+
   let validationErrors: ValidateFieldsError = {}
   for (const field of fields) {
     try {
@@ -103,24 +104,21 @@ const doValidate = async (
     }
   }
 
-  if (!Object.keys(validationErrors).length) return true
+  if (Object.keys(validationErrors).length === 0) return true
   return Promise.reject(validationErrors)
 }
-
-const validate = async (callback?: FormValidateCallback): ValidationResult =>
-  validateField(undefined, callback)
 
 const validateField: FormContext['validateField'] = async (
   modelProps = [],
   callback
 ) => {
   try {
-    const result = await doValidate(modelProps)
+    const result = await doValidateField(modelProps)
     // When result is false meaning that the fields are not validatable
     if (result === true) {
       callback?.(result)
-      return result
     }
+    return result
   } catch (e) {
     const invalidFields = e as ValidateFieldsError
 
