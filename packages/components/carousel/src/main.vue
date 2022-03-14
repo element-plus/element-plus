@@ -355,19 +355,19 @@ export default defineComponent({
       }
     )
 
-    const stopWatchItems = watch(
-      () => items.value,
-      (val) => {
-        if (val.length) {
-          playSlides()
-          stopWatchItems()
-        }
-      },
-      { immediate: true, deep: true }
-    )
-
     // lifecycle
     onMounted(() => {
+      const stopWatchItems = watch(
+        () => items.value,
+        (val) => {
+          if (val.length) {
+            playSlides()
+            stopWatchItems?.()
+          }
+        },
+        { immediate: true, deep: true }
+      )
+
       nextTick(() => {
         addResizeListener(root.value, resetItemPosition)
         if (
