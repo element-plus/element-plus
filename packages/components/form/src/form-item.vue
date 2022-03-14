@@ -59,12 +59,8 @@ import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
 
 import type { CSSProperties } from 'vue'
-import type {
-  RuleItem,
-  ValidateError,
-  ValidateFieldsError,
-} from 'async-validator'
-import type { FormItemContext } from '@element-plus/tokens'
+import type { RuleItem } from 'async-validator'
+import type { FormItemContext, ValidateFailure } from '@element-plus/tokens'
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemValidateState } from './form-item'
 import type { FormItemRule } from './types'
@@ -208,64 +204,67 @@ const currentLabel = computed(
   () => `${props.label || ''}${formContext.labelSuffix || ''}`
 )
 
+const setValidationState = (state: FormItemValidateState) => {
+  validateState.value = state
+}
+
+const onValidationFailed = (error: ValidateFailure) => {
+  const { errors, fields } = error
+  if (!errors || !fields) {
+    console.error(error)
+  }
+
+  setValidationState('error')
+  validateMessage.value = errors
+    ? errors?.[0]?.message ?? `${props.prop} is required`
+    : ''
+
+  formContext.emit('validate', props.prop!, !errors, validateMessage.value)
+}
+
+const doValidate = async (rules: RuleItem[]) => {
+  const modelName = propString.value
+  const validator = new AsyncValidator({
+    [modelName]: rules,
+  })
+
+  try {
+    await validator.validate(
+      {
+        [modelName]: fieldValue.value,
+      },
+      { firstFields: true }
+    )
+    setValidationState('success')
+    return true
+  } catch (e) {
+    onValidationFailed(e as ValidateFailure)
+    return Promise.reject(e)
+  }
+}
+
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
-  if (callback) {
-    try {
-      validate(trigger)
-      callback(true)
-    } catch (err) {
-      callback(false, err as ValidateFieldsError)
-    }
+  if (!validateEnabled.value) return
 
-    validate(trigger)
-      .then(() => callback(true))
-      .catch((fields: ValidateFieldsError) => callback(false, fields))
-    return
-  }
-
-  if (!validateEnabled.value) {
-    return
-  }
   const rules = getFilteredRule(trigger)
-  if (rules.length === 0) {
-    return
+
+  if (!rules.length) return
+
+  setValidationState('validating')
+
+  try {
+    await doValidate(rules)
+    callback?.(true)
+  } catch (e) {
+    const { fields } = e as ValidateFailure
+    callback?.(false, fields)
+    return Promise.reject(fields)
   }
-
-  validateState.value = 'validating'
-
-  const descriptor = {
-    [propString.value]: rules,
-  }
-  const validator = new AsyncValidator(descriptor)
-  const model = {
-    [propString.value]: fieldValue.value,
-  }
-
-  interface ValidateFailure {
-    errors: ValidateError[] | null
-    fields: ValidateFieldsError
-  }
-
-  return validator
-    .validate(model, { firstFields: true })
-    .then(() => {
-      validateState.value = 'success'
-    })
-    .catch((err: ValidateFailure) => {
-      const { errors, fields } = err
-      if (!errors || !fields) console.error(err)
-
-      validateState.value = 'error'
-      validateMessage.value = errors
-        ? errors[0].message || `${props.prop} is required`
-        : ''
-      formContext.emit('validate', props.prop!, !errors, validateMessage.value)
-      return Promise.reject(fields)
-    })
+  return true
 }
 
 const clearValidate: FormItemContext['clearValidate'] = () => {
-  validateState.value = ''
+  setValidationState('')
   validateMessage.value = ''
 }
 
@@ -281,13 +280,14 @@ watch(
   () => props.error,
   (val) => {
     validateMessage.value = val || ''
-    validateState.value = val ? 'error' : ''
+    setValidationState(val ? 'error' : '')
   },
   { immediate: true }
 )
+
 watch(
   () => props.validateStatus,
-  (val) => (validateState.value = val || '')
+  (val) => setValidationState(val || '')
 )
 
 const context: FormItemContext = reactive({
@@ -299,6 +299,7 @@ const context: FormItemContext = reactive({
   clearValidate,
   validate,
 })
+
 provide(formItemContextKey, context)
 
 onMounted(() => {
@@ -307,6 +308,7 @@ onMounted(() => {
     initialValue = clone(fieldValue.value)
   }
 })
+
 onBeforeUnmount(() => {
   formContext.removeField(context)
 })

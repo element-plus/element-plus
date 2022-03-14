@@ -12,7 +12,11 @@ import { useNamespace, useSize } from '@element-plus/hooks'
 import { formProps, formEmits } from './form'
 import { useFormLabelWidth, filterFields } from './utils'
 import type { ValidateFieldsError } from 'async-validator'
-import type { FormItemContext, FormContext } from '@element-plus/tokens'
+import type {
+  FormItemContext,
+  FormContext,
+  ValidationResult,
+} from '@element-plus/tokens'
 import type { FormValidateCallback } from './types'
 import type { FormItemProp } from './form-item'
 
@@ -61,55 +65,69 @@ const clearValidate: FormContext['clearValidate'] = (props = []) => {
   filterFields(fields, props).forEach((field) => field.clearValidate())
 }
 
-const validate = async (callback?: FormValidateCallback): Promise<void> =>
+const isValidatable = () => {
+  const flag = !!props.model
+  if (!flag) {
+    debugWarn(COMPONENT_NAME, 'model is required for validate to work.')
+  }
+  return flag
+}
+
+const obtainValidateFields = (props: FormItemProp) => {
+  if (!fields.length) return []
+  const filteredFields = filterFields(fields, props)
+  if (!filteredFields.length) {
+    debugWarn(COMPONENT_NAME, 'please pass correct props!')
+    return []
+  }
+
+  return filteredFields
+}
+
+const doValidate = async (
+  props: FormItemProp = []
+): Promise<Array<ValidateFieldsError> | boolean> => {
+  if (!isValidatable()) return false
+
+  const fields = obtainValidateFields(props)
+  if (!fields.length) return true
+  let validationErrors: ValidateFieldsError = {}
+  for (const field of fields) {
+    try {
+      await field.validate('')
+    } catch (fields) {
+      validationErrors = {
+        ...validationErrors,
+        ...(fields as ValidateFieldsError),
+      }
+    }
+  }
+
+  if (!Object.keys(validationErrors).length) return true
+  return Promise.reject(validationErrors)
+}
+
+const validate = async (callback?: FormValidateCallback): ValidationResult =>
   validateField(undefined, callback)
 
 const validateField: FormContext['validateField'] = async (
-  properties = [],
+  modelProps = [],
   callback
 ) => {
-  if (callback) {
-    validate()
-      .then(() => callback(true))
-      .catch((fields: ValidateFieldsError) => callback(false, fields))
-    return
-  }
-
-  const { model, scrollToError } = props
-
-  if (!model) {
-    debugWarn(COMPONENT_NAME, 'model is required for form validation!')
-    return
-  }
-  if (fields.length === 0) {
-    return
-  }
-
-  const filteredFields = filterFields(fields, properties)
-  if (!filteredFields.length) {
-    debugWarn(COMPONENT_NAME, 'please pass correct props!')
-    return
-  }
-
-  let valid = true
-  let invalidFields: ValidateFieldsError = {}
-  let firstInvalidFields: ValidateFieldsError | undefined
-
-  for (const field of filteredFields) {
-    const fieldsError = await field
-      .validate('')
-      .catch((fields: ValidateFieldsError) => fields)
-
-    if (fieldsError) {
-      valid = false
-      if (!firstInvalidFields) firstInvalidFields = fieldsError
+  try {
+    const result = await doValidate(modelProps)
+    // When result is false meaning that the fields are not validatable
+    if (result === true) {
+      callback?.(result)
+      return result
     }
+  } catch (e) {
+    const invalidFields = e as ValidateFieldsError
 
-    invalidFields = { ...invalidFields, ...fieldsError }
-  }
-
-  if (!valid) {
-    if (scrollToError) scrollToField(Object.keys(firstInvalidFields!)[0])
+    if (props.scrollToError) {
+      scrollToField(Object.keys(invalidFields)[0])
+    }
+    callback?.(false, invalidFields)
     return Promise.reject(invalidFields)
   }
 }

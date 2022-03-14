@@ -1,4 +1,5 @@
 import type { InjectionKey, SetupContext, UnwrapRef } from 'vue'
+import type { ValidateFieldsError, ValidateError } from 'async-validator'
 import type { ComponentSize } from '@element-plus/constants'
 import type {
   FormProps,
@@ -8,7 +9,12 @@ import type {
   FormValidateCallback,
   FormLabelWidthContext,
 } from '@element-plus/components/form'
-import type { Arrayable } from '@element-plus/utils'
+
+export type ValidationResult = Promise<true | ValidateFieldsError | undefined>
+export interface ValidateFailure {
+  errors: ValidateError[] | null
+  fields: ValidateFieldsError
+}
 
 export type FormContext = FormProps &
   UnwrapRef<FormLabelWidthContext> & {
@@ -17,19 +23,22 @@ export type FormContext = FormProps &
     // expose
     addField: (field: FormItemContext) => void
     removeField: (field: FormItemContext) => void
-    resetFields: (props?: Arrayable<FormItemProp>) => void
-    clearValidate: (props?: Arrayable<FormItemProp>) => void
+    resetFields: (props?: FormItemProp) => void
+    clearValidate: (props?: FormItemProp) => void
     validateField: (
-      props?: Arrayable<FormItemProp>,
+      props?: FormItemProp,
       callback?: FormValidateCallback
-    ) => Promise<void>
+    ) => ValidationResult
   }
 
 export interface FormItemContext extends FormItemProps {
   $el: HTMLDivElement | undefined
   size: ComponentSize
   validateState: string
-  validate: (trigger: string, callback?: FormValidateCallback) => Promise<void>
+  validate: (
+    trigger: string,
+    callback?: FormValidateCallback
+  ) => ValidationResult
   resetField(): void
   clearValidate(): void
 }
