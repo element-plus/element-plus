@@ -1,15 +1,12 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { isDark } from '../../composables/dark'
 import { useLang } from '../../composables/lang'
 import { sponsors } from '../../../config/sponsors'
-import homeLocale from '../../../i18n/pages/home.json'
 
 import SponsorsButton from '../sponsors/sponsors-button.vue'
 
 const lang = useLang()
 
-const homeLang = computed(() => homeLocale[lang.value])
 const langZhCN = 'zh-CN'
 
 const getSponsorName = (sponsor) => {
