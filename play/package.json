@@ -7,11 +7,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^1.0.1"
+    "@element-plus/icons-vue": "^1.1.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.2.4",
-    "unplugin-vue-components": "^0.17.21",
+    "unplugin-vue-components": "^0.18.0",
     "vite": "^2.8.6",
     "vite-plugin-inspect": "^0.4.3",
     "vite-plugin-mkcert": "^1.6.0"
