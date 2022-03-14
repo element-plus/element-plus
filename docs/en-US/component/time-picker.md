@@ -55,7 +55,8 @@ time-picker/range
 | popper-class          | custom class name for TimePicker's dropdown             | string                                     | —                                                                                   | —           |
 | range-separator       | range separator                                         | string                                     | —                                                                                   | '-'         |
 | format                | format of the displayed value in the input box          | string                                     | see [date formats](/en-US/component/date-picker#date-formats)                       | HH:mm:ss    |
-| align                 | alignment                                               | string                                     | start/middle/end                                                                    | start       |
+| picker-content-align  | alignment of picker content                             | string                                     | start/middle/end                                                                    |
+| start                 |
 | default-value         | optional, default date of the calendar                  | Date for TimePicker, string for TimeSelect | anything accepted by `new Date()` for TimePicker, selectable value for TimeSelect   | —           |
 | id                    | same as `id` in native input                            | string / array(string)                     | String `id="my-time"` or array `:id="['my-range-start', 'my-range-end']"` for range | -           |
 | name                  | same as `name` in native input                          | string                                     | —                                                                                   | —           |
