@@ -44,6 +44,7 @@
 
   @include e(header) {
     padding: var(--el-dialog-padding-primary);
+    padding-right: var(--el-dialog-padding-primary + 16px);
     padding-bottom: 10px;
     word-break: break-all;
   }
