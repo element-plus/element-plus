@@ -127,6 +127,10 @@
       word-break: break-word;
     }
 
+    & [class^='#{$namespace}-icon'] {
+      position: absolute;
+    }
+
     @each $type in (success, info, warning, error) {
       &.#{$namespace}-message-box-icon--#{$type} {
         --el-messagebox-color: var(--el-color-#{$type});
