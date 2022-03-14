@@ -29,7 +29,7 @@ const ScrollBar = defineComponent({
     const GAP = 4 // top 2 + bottom 2 | left 2 + right 2
 
     const nsVirtualScrollbar = useNamespace('virtual-scrollbar')
-    const nsScrollThumb = useNamespace('scrollbar__thumb')
+    const nsScrollbar = useNamespace('scrollbar')
     // DOM refs
     const trackRef = ref<HTMLElement>()
     const thumbRef = ref<HTMLElement>()
@@ -271,7 +271,7 @@ const ScrollBar = defineComponent({
           'div',
           {
             ref: thumbRef,
-            class: nsScrollThumb.b(),
+            class: nsScrollbar.e('thumb'),
             style: thumbStyle.value,
             onMousedown: onThumbMouseDown,
           },
