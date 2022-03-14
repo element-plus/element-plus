@@ -25,7 +25,7 @@ import { Picture as IconPicture } from '@element-plus/icons-vue'
 .demo-image__error .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px getCssVar('border-color');
+  border-right: solid 1px var(--el-border-color);
   display: inline-block;
   width: 49%;
   box-sizing: border-box;

@@ -21,7 +21,7 @@ const url =
 .demo-image .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px getCssVar('border-color');
+  border-right: solid 1px var(--el-border-color);
   display: inline-block;
   width: 20%;
   box-sizing: border-box;

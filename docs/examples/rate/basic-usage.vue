@@ -21,7 +21,7 @@ const colors = ref(['#99A9BF', '#F7BA2A', '#FF9900']) // same as { 2: '#99A9BF',
 .demo-rate-block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px getCssVar('border-color');
+  border-right: solid 1px var(--el-border-color);
   display: inline-block;
   width: 49%;
   box-sizing: border-box;

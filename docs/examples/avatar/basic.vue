@@ -54,12 +54,12 @@ const { circleUrl, squareUrl, sizeList } = toRefs(state)
   align-items: center;
 }
 .demo-basic .block:not(:last-child) {
-  border-right: 1px solid getCssVar('border-color');
+  border-right: 1px solid var(--el-border-color);
 }
 .demo-basic .block {
   flex: 1;
 }
 .demo-basic .el-col:not(:last-child) {
-  border-right: 1px solid getCssVar('border-color');
+  border-right: 1px solid var(--el-border-color);
 }
 </style>

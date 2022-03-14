@@ -58,7 +58,7 @@ const value4 = ref('')
 .demo-date-picker .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px getCssVar('border-color');
+  border-right: solid 1px var(--el-border-color);
   flex: 1;
 }
 .demo-date-picker .block:last-child {
@@ -67,13 +67,13 @@ const value4 = ref('')
 
 .demo-date-picker .container {
   flex: 1;
-  border-right: solid 1px getCssVar('border-color');
+  border-right: solid 1px var(--el-border-color);
 }
 .demo-date-picker .container .block {
   border-right: none;
 }
 .demo-date-picker .container .block:last-child {
-  border-top: solid 1px getCssVar('border-color');
+  border-top: solid 1px var(--el-border-color);
 }
 .demo-date-picker .container:last-child {
   border-right: none;
