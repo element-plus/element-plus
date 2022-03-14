@@ -23,7 +23,7 @@
       :disabled="item.disabled"
     />
     <template #prefix>
-      <el-icon v-if="prefixIcon" :class="ns.e('prefix-icon')">
+      <el-icon v-if="prefixIcon" :class="nsInput.e('prefix-icon')">
         <component :is="prefixIcon" />
       </el-icon>
     </template>
@@ -172,10 +172,8 @@ export default defineComponent({
   },
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
-    const ns = useNamespace('input')
+    const nsInput = useNamespace('input')
     const select = ref(null)
-
-    // computed
 
     const value = computed(() => props.modelValue)
     const start = computed(() => {
@@ -224,7 +222,7 @@ export default defineComponent({
     }
 
     return {
-      ns,
+      nsInput,
       select,
       value,
       items,
