@@ -6,6 +6,7 @@ import dartSass from 'sass'
 import autoprefixer from 'gulp-autoprefixer'
 import cleanCSS from 'gulp-clean-css'
 import rename from 'gulp-rename'
+import consola from 'consola'
 import { epOutput } from '@element-plus/build'
 
 const distFolder = path.resolve(__dirname, 'dist')
@@ -24,7 +25,7 @@ function buildThemeChalk() {
     .pipe(autoprefixer({ cascade: false }))
     .pipe(
       cleanCSS({}, (details) => {
-        console.log(
+        consola.success(
           `${chalk.cyan(details.name)}: ${chalk.yellow(
             details.stats.originalSize / 1000
           )} KB -> ${chalk.green(details.stats.minifiedSize / 1000)} KB`

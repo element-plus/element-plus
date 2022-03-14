@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs/promises'
 import chalk from 'chalk'
+import consola from 'consola'
 import { errorAndExit, docRoot } from '@element-plus/build'
 
 const credentialPlaceholder = 'API_TOKEN_PLACEHOLDER'
@@ -11,7 +12,7 @@ if (!CREDENTIAL) {
 }
 
 ;(async () => {
-  console.info(chalk.cyan('Fetching Crowdin credential'))
+  consola.debug(chalk.cyan('Fetching Crowdin credential'))
   const configPath = path.resolve(docRoot, 'crowdin.yml')
   try {
     const file = await fs.readFile(configPath, {
@@ -21,7 +22,7 @@ if (!CREDENTIAL) {
       configPath,
       file.replace(credentialPlaceholder, CREDENTIAL)
     )
-    console.info(chalk.green('Crowdin credential update successfully'))
+    consola.success(chalk.green('Crowdin credential update successfully'))
   } catch (e: any) {
     errorAndExit(e)
   }

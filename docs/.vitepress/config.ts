@@ -1,3 +1,4 @@
+import consola from 'consola'
 import { languages } from './utils/lang'
 import { head } from './config/head'
 import { sidebars } from './config/sidebars'
@@ -32,8 +33,7 @@ const buildTransformers = () => {
   return transformers
 }
 
-// eslint-disable-next-line no-console
-console.log(`DOC_ENV: ${process.env.DOC_ENV}`)
+consola.debug(`DOC_ENV: ${process.env.DOC_ENV}`)
 
 const locales = {}
 languages.forEach((lang) => {

@@ -46,6 +46,7 @@ importers:
       babel-jest: ^26.6.3
       c8: ^7.11.0
       chalk: ^4.1.2
+      consola: ^2.15.3
       csstype: ^2.6.19
       cz-conventional-changelog: ^3.3.0
       dayjs: ^1.10.8
@@ -128,6 +129,7 @@ importers:
       babel-jest: 26.6.3_@babel+core@7.17.5
       c8: 7.11.0
       chalk: 4.1.2
+      consola: 2.15.3
       csstype: 2.6.19
       cz-conventional-changelog: 3.3.0
       eslint: 8.11.0

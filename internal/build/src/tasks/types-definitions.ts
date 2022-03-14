@@ -5,7 +5,7 @@ import consola from 'consola'
 import * as vueCompiler from 'vue/compiler-sfc'
 import { Project } from 'ts-morph'
 import glob from 'fast-glob'
-import { bold, yellow, green } from 'chalk'
+import chalk from 'chalk'
 import {
   buildOutput,
   epRoot,
@@ -111,7 +111,9 @@ export const generateTypesDefinitions = async () => {
   })
   if (diagnostics.length > 0) {
     consola.error(project.formatDiagnosticsWithColorAndContext(diagnostics))
-    throw new Error('Failed to generate dts.')
+    const err = new Error('Failed to generate dts.')
+    consola.error(err)
+    throw err
   }
 
   await project.emit({
@@ -120,14 +122,16 @@ export const generateTypesDefinitions = async () => {
 
   const tasks = sourceFiles.map(async (sourceFile) => {
     const relativePath = path.relative(pkgRoot, sourceFile.getFilePath())
-    consola.info(
-      yellow(`Generating definition for file: ${bold(relativePath)}`)
+    consola.trace(
+      chalk.yellow(
+        `Generating definition for file: ${chalk.bold(relativePath)}`
+      )
     )
 
     const emitOutput = sourceFile.getEmitOutput()
     const emitFiles = emitOutput.getOutputFiles()
     if (emitFiles.length === 0) {
-      throw new Error(`Emit no file: ${bold(relativePath)}`)
+      throw new Error(`Emit no file: ${chalk.bold(relativePath)}`)
     }
 
     const tasks = emitFiles.map(async (outputFile) => {
@@ -142,8 +146,10 @@ export const generateTypesDefinitions = async () => {
         'utf8'
       )
 
-      consola.info(
-        green(`Definition for file: ${bold(relativePath)} generated`)
+      consola.success(
+        chalk.green(
+          `Definition for file: ${chalk.bold(relativePath)} generated`
+        )
       )
     })
 

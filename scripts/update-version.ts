@@ -1,29 +1,25 @@
-import fs from 'fs'
-import {
-  epPackage,
-  cyan,
-  red,
-  yellow,
-  green,
-  getPackageManifest,
-} from '@element-plus/build'
+import { writeFile } from 'fs/promises'
+import consola from 'consola'
+import chalk from 'chalk'
+import { epPackage, getPackageManifest } from '@element-plus/build'
 
-const tagVersion = process.env.TAG_VERSION
-const gitHead = process.env.GIT_HEAD
-if (!tagVersion || !gitHead) {
-  red(
-    'No tag version or git head were found, make sure that you set the environment variable $TAG_VERSION \n'
-  )
-  process.exit(1)
-}
+async function main() {
+  const tagVersion = process.env.TAG_VERSION
+  const gitHead = process.env.GIT_HEAD
+  if (!tagVersion || !gitHead) {
+    consola.error(
+      new Error(
+        'No tag version or git head were found, make sure that you set the environment variable $TAG_VERSION \n'
+      )
+    )
+    process.exit(1)
+  }
 
-cyan('Start updating version')
+  consola.log(chalk.cyan('Start updating version'))
+  consola.log(chalk.cyan(`$TAG_VERSION: ${tagVersion}`))
+  consola.log(chalk.cyan(`$GIT_HEAD: ${gitHead}`))
 
-cyan(
-  ['NOTICE:', `$TAG_VERSION: ${tagVersion}`, `$GIT_HEAD: ${gitHead}`].join('\n')
-)
-;(async () => {
-  yellow(`Updating package.json for element-plus`)
+  consola.debug(chalk.yellow(`Updating package.json for element-plus`))
 
   const json: Record<string, any> = getPackageManifest(epPackage)
 
@@ -32,17 +28,18 @@ cyan(
 
   if (!(process.argv.includes('-d') || process.argv.includes('--dry-run'))) {
     try {
-      await fs.promises.writeFile(epPackage, JSON.stringify(json, null, 2), {
+      await writeFile(epPackage, JSON.stringify(json, null, 2), {
         encoding: 'utf-8',
       })
     } catch {
       process.exit(1)
     }
   } else {
-    console.log(json)
+    consola.log(json)
   }
 
-  green(`Version updated to ${tagVersion}`)
+  consola.debug(chalk.green(`$GIT_HEAD: ${gitHead}`))
+  consola.success(chalk.green(`Git head updated to ${gitHead}`))
+}
 
-  green(`Git head updated to ${gitHead}`)
-})()
+main()
