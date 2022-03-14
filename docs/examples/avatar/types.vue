@@ -1,12 +1,12 @@
 <template>
   <div class="demo-type">
     <div>
-      <el-avatar :icon="UserFilled"></el-avatar>
+      <el-avatar :icon="UserFilled" />
     </div>
     <div>
       <el-avatar
         src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-      ></el-avatar>
+      />
     </div>
     <div>
       <el-avatar> user </el-avatar>
@@ -28,6 +28,6 @@ import { UserFilled } from '@element-plus/icons-vue'
 }
 
 .demo-type > div:not(:last-child) {
-  border-right: 1px solid getCssVar('border-color');
+  border-right: 1px solid var(--el-border-color);
 }
 </style>

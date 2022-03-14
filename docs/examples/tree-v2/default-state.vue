@@ -6,7 +6,7 @@
     show-checkbox
     :default-checked-keys="defaultCheckedKeys"
     :default-expanded-keys="defaultExpandedKeys"
-  ></el-tree-v2>
+  />
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'

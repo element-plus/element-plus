@@ -10,7 +10,7 @@
     @keydown="handleKeydown"
     @mousedown="onMousedown"
   >
-    <slot></slot>
+    <slot />
   </ul>
 </template>
 <script lang="ts">

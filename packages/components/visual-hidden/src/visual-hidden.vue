@@ -1,5 +1,5 @@
 <template>
-  <span v-bind="$attrs" :style="computedStyle"> </span>
+  <span v-bind="$attrs" :style="computedStyle" />
 </template>
 
 <script lang="ts">

@@ -35,7 +35,7 @@
       :append-to="appendTo"
     >
       <slot name="content">
-        <span v-if="rawContent" v-html="content"></span>
+        <span v-if="rawContent" v-html="content" />
         <span v-else>{{ content }}</span>
       </slot>
       <el-popper-arrow v-if="compatShowArrow" :arrow-offset="arrowOffset" />

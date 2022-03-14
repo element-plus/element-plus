@@ -39,16 +39,16 @@
         @keydown.tab="close"
       >
         <template v-if="$slots.prepend" #prepend>
-          <slot name="prepend"></slot>
+          <slot name="prepend" />
         </template>
         <template v-if="$slots.append" #append>
-          <slot name="append"></slot>
+          <slot name="append" />
         </template>
         <template v-if="$slots.prefix" #prefix>
-          <slot name="prefix"></slot>
+          <slot name="prefix" />
         </template>
         <template v-if="$slots.suffix" #suffix>
-          <slot name="suffix"></slot>
+          <slot name="suffix" />
         </template>
       </el-input>
     </div>

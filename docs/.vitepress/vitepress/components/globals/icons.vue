@@ -45,8 +45,7 @@ const copySvgIcon = async (name, refs) => {
       v-model="copyIcon"
       active-text="Copy icon code"
       inactive-text="Copy SVG content"
-    >
-    </el-switch>
+    />
   </div>
   <ul class="demo-icon-list">
     <li
@@ -71,8 +70,8 @@ const copySvgIcon = async (name, refs) => {
   overflow: hidden;
   list-style: none;
   padding: 0 !important;
-  border-top: 1px solid getCssVar('border-color');
-  border-left: 1px solid getCssVar('border-color');
+  border-top: 1px solid var(--el-border-color);
+  border-left: 1px solid var(--el-border-color);
   border-radius: 4px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -82,8 +81,8 @@ const copySvgIcon = async (name, refs) => {
     color: var(--el-text-color-regular);
     height: 90px;
     font-size: 13px;
-    border-right: 1px solid getCssVar('border-color');
-    border-bottom: 1px solid getCssVar('border-color');
+    border-right: 1px solid var(--el-border-color);
+    border-bottom: 1px solid var(--el-border-color);
     transition: background-color var(--el-transition-duration);
     &:hover {
       background-color: var(--el-border-color-extra-light);

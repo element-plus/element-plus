@@ -5,6 +5,7 @@ import type {
   FormEmits,
   FormItemProp,
   FormItemProps,
+  FormValidationResult,
   FormValidateCallback,
   FormLabelWidthContext,
 } from '@element-plus/components/form'
@@ -22,14 +23,17 @@ export type FormContext = FormProps &
     validateField: (
       props?: Arrayable<FormItemProp>,
       callback?: FormValidateCallback
-    ) => Promise<void>
+    ) => FormValidationResult
   }
 
 export interface FormItemContext extends FormItemProps {
   $el: HTMLDivElement | undefined
   size: ComponentSize
   validateState: string
-  validate: (trigger: string, callback?: FormValidateCallback) => Promise<void>
+  validate: (
+    trigger: string,
+    callback?: FormValidateCallback
+  ) => FormValidationResult
   resetField(): void
   clearValidate(): void
 }

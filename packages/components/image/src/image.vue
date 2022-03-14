@@ -1,7 +1,7 @@
 <template>
   <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
     <slot v-if="loading" name="placeholder">
-      <div :class="ns.e('placeholder')"></div>
+      <div :class="ns.e('placeholder')" />
     </slot>
     <slot v-else-if="hasLoadError" name="error">
       <div :class="ns.e('error')">{{ t('el.image.error') }}</div>

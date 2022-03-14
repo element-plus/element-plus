@@ -10,7 +10,7 @@
     <span
       :class="ns.be('group', 'split-dash')"
       :style="{ top: `${height / 2}px` }"
-    ></span>
+    />
   </div>
 </template>
 

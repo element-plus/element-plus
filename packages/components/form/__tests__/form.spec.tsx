@@ -259,12 +259,16 @@ describe('Form', () => {
       },
     })
     const form = wrapper.findComponent(Form).vm as FormInstance
-    form.validate(async (valid) => {
-      expect(valid).toBe(false)
-      await nextTick()
-      expect(wrapper.find('.el-form-item__error').exists()).toBe(false)
-      done()
-    })
+    form
+      .validate(async (valid) => {
+        expect(valid).toBe(false)
+        await nextTick()
+        expect(wrapper.find('.el-form-item__error').exists()).toBe(false)
+        done()
+      })
+      .catch((e) => {
+        expect(e).toBeDefined()
+      })
   })
 
   test('reset field', async () => {
@@ -504,7 +508,7 @@ describe('Form', () => {
           ],
         })
         return () => (
-          <Form ref="formRef" model={form} rules={rules}>
+          <Form ref="formRef" model={form} rules={rules.value}>
             <FormItem ref="age" prop="age" label="age">
               <Input v-model={form.age} />
             </FormItem>
@@ -517,7 +521,7 @@ describe('Form', () => {
       .validate()
       .catch(() => undefined)
     const ageField = wrapper.findComponent({ ref: 'age' })
-    expect((ageField.vm as FormItemInstance).validateState).toBe('success')
+    expect(ageField.classes('is-success')).toBe(true)
     expect(ageField.classes()).toContain('is-success')
   })
 })

@@ -6,7 +6,7 @@
     @click="handleClick"
   >
     <span :class="ns.e('content')">
-      <slot></slot>
+      <slot />
     </span>
     <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
       <Close />
@@ -19,7 +19,7 @@
       @click="handleClick"
     >
       <span :class="ns.e('content')">
-        <slot></slot>
+        <slot />
       </span>
       <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
         <Close />

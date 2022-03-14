@@ -20,7 +20,7 @@
       </slot>
     </div>
     <div v-if="$slots.extra" :class="ns.e('extra')">
-      <slot name="extra"></slot>
+      <slot name="extra" />
     </div>
   </div>
 </template>

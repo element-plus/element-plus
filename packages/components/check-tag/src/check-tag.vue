@@ -1,6 +1,6 @@
 <template>
   <span :class="[ns.b(), ns.is('checked', checked)]" @click="handleChange">
-    <slot></slot>
+    <slot />
   </span>
 </template>
 

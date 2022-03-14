@@ -1,6 +1,6 @@
 <template>
   <div :class="[ns.b(), ns.m(simple ? 'simple' : direction)]">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

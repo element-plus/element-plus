@@ -10,14 +10,14 @@
         <td class="text">Solid</td>
         <td class="text">1px</td>
         <td class="line">
-          <div></div>
+          <div />
         </td>
       </tr>
       <tr>
         <td class="text">Dashed</td>
         <td class="text">2px</td>
         <td class="line">
-          <div class="dashed"></div>
+          <div class="dashed" />
         </td>
       </tr>
     </tbody>
@@ -33,9 +33,9 @@
 .demo-border .line div {
   width: 100%;
   height: 0;
-  border-top: 1px solid getCssVar('border-color');
+  border-top: 1px solid var(--el-border-color);
 }
 .demo-border .line .dashed {
-  border-top: 2px dashed getCssVar('border-color');
+  border-top: 2px dashed var(--el-border-color);
 }
 </style>

@@ -7,7 +7,7 @@
         background,
       }"
       @click="handleClick"
-    ></div>
+    />
     <div
       ref="thumb"
       class="el-color-alpha-slider__thumb"
@@ -15,7 +15,7 @@
         left: thumbLeft + 'px',
         top: thumbTop + 'px',
       }"
-    ></div>
+    />
   </div>
 </template>
 

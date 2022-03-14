@@ -2,11 +2,7 @@
   <div class="demo-image">
     <div v-for="fit in fits" :key="fit" class="block">
       <span class="demonstration">{{ fit }}</span>
-      <el-image
-        style="width: 100px; height: 100px"
-        :src="url"
-        :fit="fit"
-      ></el-image>
+      <el-image style="width: 100px; height: 100px" :src="url" :fit="fit" />
     </div>
   </div>
 </template>
@@ -21,7 +17,7 @@ const url =
 .demo-image .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px getCssVar('border-color');
+  border-right: solid 1px var(--el-border-color);
   display: inline-block;
   width: 20%;
   box-sizing: border-box;

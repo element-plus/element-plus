@@ -42,7 +42,7 @@
         :aria-labelledby="ns.b(`head-${id}`)"
       >
         <div :class="ns.be('item', 'content')">
-          <slot></slot>
+          <slot />
         </div>
       </div>
     </el-collapse-transition>

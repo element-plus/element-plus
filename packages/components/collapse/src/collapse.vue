@@ -1,6 +1,6 @@
 <template>
   <div :class="ns.b()" role="tablist" aria-multiselectable="true">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

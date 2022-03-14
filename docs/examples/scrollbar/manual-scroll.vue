@@ -12,7 +12,7 @@
     :max="max"
     :format-tooltip="formatTooltip"
     @input="inputSlider"
-  ></el-slider>
+  />
 </template>
 
 <script lang="ts" setup>

@@ -11,7 +11,7 @@
         :class="ns.e('thumb')"
         :style="thumbStyle"
         @mousedown="clickThumbHandler"
-      ></div>
+      />
     </div>
   </transition>
 </template>

@@ -203,7 +203,7 @@
                   align-items: center;
                 "
               >
-                <slot name="prefix"></slot>
+                <slot name="prefix" />
               </div>
             </template>
             <template #suffix>
@@ -241,7 +241,7 @@
             ]"
           >
             <el-option v-if="showNewOption" :value="query" :created="true" />
-            <slot></slot>
+            <slot />
           </el-scrollbar>
           <template
             v-if="
@@ -249,7 +249,7 @@
               (!allowCreate || loading || (allowCreate && options.size === 0))
             "
           >
-            <slot v-if="$slots.empty" name="empty"></slot>
+            <slot v-if="$slots.empty" name="empty" />
             <p v-else :class="nsSelect.be('dropdown', 'empty')">
               {{ emptyText }}
             </p>

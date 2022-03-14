@@ -5,17 +5,9 @@
 
   <el-dialog v-model="dialogTableVisible" title="Shipping address">
     <el-table :data="gridData">
-      <el-table-column
-        property="date"
-        label="Date"
-        width="150"
-      ></el-table-column>
-      <el-table-column
-        property="name"
-        label="Name"
-        width="200"
-      ></el-table-column>
-      <el-table-column property="address" label="Address"></el-table-column>
+      <el-table-column property="date" label="Date" width="150" />
+      <el-table-column property="name" label="Name" width="200" />
+      <el-table-column property="address" label="Address" />
     </el-table>
   </el-dialog>
 
@@ -27,12 +19,12 @@
   <el-dialog v-model="dialogFormVisible" title="Shipping address">
     <el-form :model="form">
       <el-form-item label="Promotion name" :label-width="formLabelWidth">
-        <el-input v-model="form.name" autocomplete="off"></el-input>
+        <el-input v-model="form.name" autocomplete="off" />
       </el-form-item>
       <el-form-item label="Zones" :label-width="formLabelWidth">
         <el-select v-model="form.region" placeholder="Please select a zone">
-          <el-option label="Zone No.1" value="shanghai"></el-option>
-          <el-option label="Zone No.2" value="beijing"></el-option>
+          <el-option label="Zone No.1" value="shanghai" />
+          <el-option label="Zone No.2" value="beijing" />
         </el-select>
       </el-form-item>
     </el-form>

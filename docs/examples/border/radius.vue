@@ -17,7 +17,7 @@
             ? `var(--el-border-radius-${radius.type})`
             : '',
         }"
-      ></div>
+      />
     </el-col>
   </el-row>
 </template>
@@ -66,7 +66,7 @@ const getValue = (type: string) => {
 .demo-radius .radius {
   height: 40px;
   width: 70%;
-  border: 1px solid getCssVar('border-color');
+  border: 1px solid var(--el-border-color);
   border-radius: 0;
   margin-top: 20px;
 }

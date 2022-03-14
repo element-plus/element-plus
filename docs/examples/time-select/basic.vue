@@ -5,8 +5,7 @@
     step="00:15"
     end="18:30"
     placeholder="Select time"
-  >
-  </el-time-select>
+  />
 </template>
 
 <script lang="ts" setup>

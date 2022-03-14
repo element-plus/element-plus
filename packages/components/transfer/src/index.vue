@@ -13,7 +13,7 @@
       :props="props"
       @checked-change="onSourceCheckedChange"
     >
-      <slot name="left-footer"></slot>
+      <slot name="left-footer" />
     </transfer-panel>
     <div :class="ns.e('buttons')">
       <el-button
@@ -48,7 +48,7 @@
       :props="props"
       @checked-change="onTargetCheckedChange"
     >
-      <slot name="right-footer"></slot>
+      <slot name="right-footer" />
     </transfer-panel>
   </div>
 </template>

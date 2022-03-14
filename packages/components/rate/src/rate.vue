@@ -1,26 +1,29 @@
 <template>
   <div
-    :class="rateClasses"
+    :class="[rateClasses, ns.is('disabled', rateDisabled)]"
     role="slider"
     :aria-valuenow="currentValue"
     :aria-valuetext="text"
     aria-valuemin="0"
     :aria-valuemax="max"
     tabindex="0"
+    :style="rateStyles"
     @keydown="handleKey"
   >
     <span
       v-for="(item, key) in max"
       :key="key"
       :class="ns.e('item')"
-      :style="{ cursor: rateDisabled ? 'auto' : 'pointer' }"
       @mousemove="setCurrentValue(item, $event)"
       @mouseleave="resetCurrentValue"
       @click="selectValue(item)"
     >
       <el-icon
-        :class="[ns.e('icon'), { hover: hoverIndex === item }]"
-        :style="getIconStyle(item)"
+        :class="[
+          ns.e('icon'),
+          { hover: hoverIndex === item },
+          ns.is('active', item <= currentValue),
+        ]"
       >
         <component
           :is="iconComponents[item - 1]"
@@ -35,17 +38,13 @@
         </el-icon>
       </el-icon>
     </span>
-    <span
-      v-if="showText || showScore"
-      :class="ns.e('text')"
-      :style="{ color: textColor }"
-    >
+    <span v-if="showText || showScore" :class="ns.e('text')">
       {{ text }}
     </span>
   </div>
 </template>
 <script lang="ts" setup>
-import { inject, computed, ref, watch } from 'vue'
+import { inject, computed, ref, watch, type CSSProperties } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { isObject, isArray, hasClass } from '@element-plus/utils'
 import { formContextKey } from '@element-plus/tokens'
@@ -90,6 +89,13 @@ const pointerAtLeftHalf = ref(true)
 
 const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)])
 const rateDisabled = computed(() => props.disabled || formContext?.disabled)
+const rateStyles = computed(() => {
+  return {
+    '--el-rate-void-color': props.voidColor,
+    '--el-rate-disabled-void-color': props.disabledVoidColor,
+    '--el-rate-fill-color': activeColor.value,
+  } as CSSProperties
+})
 
 const text = computed(() => {
   let result = ''
@@ -115,9 +121,11 @@ const colorMap = computed(() =>
       }
     : props.colors
 )
-const activeColor = computed(() =>
-  getValueFromMap(currentValue.value, colorMap.value)
-)
+const activeColor = computed(() => {
+  const color = getValueFromMap(currentValue.value, colorMap.value)
+  // {value: '', excluded: true} returned
+  return isObject(color) ? '' : color
+})
 const decimalStyle = computed(() => {
   let width = ''
   if (rateDisabled.value) {
@@ -171,15 +179,6 @@ function showDecimalIcon(item: number) {
     item - 0.5 <= currentValue.value &&
     item > currentValue.value
   return showWhenDisabled || showWhenAllowHalf
-}
-
-function getIconStyle(item: number) {
-  const voidColor = rateDisabled.value
-    ? props.disabledVoidColor
-    : props.voidColor
-  return {
-    color: item <= currentValue.value ? activeColor.value : voidColor,
-  }
 }
 
 function selectValue(value: number) {
