@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="[rateClasses, rateDisabled && ns.is('disabled')]"
+    :class="[rateClasses, ns.is('disabled', rateDisabled)]"
     role="slider"
     :aria-valuenow="currentValue"
     :aria-valuetext="text"
@@ -22,7 +22,7 @@
         :class="[
           ns.e('icon'),
           { hover: hoverIndex === item },
-          item <= currentValue && ns.is('active'),
+          ns.is('active', item <= currentValue),
         ]"
       >
         <component
