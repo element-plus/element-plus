@@ -222,10 +222,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const inputWrapperStyle = computed(() => {
     return {
-      width: `${states.calculatedWidth === 0
+      width: `${
+        states.calculatedWidth === 0
           ? MINIMUM_INPUT_WIDTH
           : Math.ceil(states.calculatedWidth) + MINIMUM_INPUT_WIDTH
-        }px`,
+      }px`,
     } as CSSProperties
   })
 
@@ -663,20 +664,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         let initHovering = false
         states.cachedOptions.length = 0
         states.previousValue = props.modelValue.toString()
-          ; (props.modelValue as Array<any>).forEach((selected) => {
-            const itemIndex = filteredOptions.value.findIndex(
-              (option) => getValueKey(option) === selected
+        ;(props.modelValue as Array<any>).forEach((selected) => {
+          const itemIndex = filteredOptions.value.findIndex(
+            (option) => getValueKey(option) === selected
+          )
+          if (~itemIndex) {
+            states.cachedOptions.push(
+              filteredOptions.value[itemIndex] as Option
             )
-            if (~itemIndex) {
-              states.cachedOptions.push(
-                filteredOptions.value[itemIndex] as Option
-              )
-              if (!initHovering) {
-                updateHoveringIndex(itemIndex)
-              }
-              initHovering = true
+            if (!initHovering) {
+              updateHoveringIndex(itemIndex)
             }
-          })
+            initHovering = true
+          }
+        })
       } else {
         states.cachedOptions = []
         states.previousValue = ''
