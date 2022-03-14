@@ -253,7 +253,7 @@ $checkbox: map.merge(
     'checked-text-color': var(--el-color-primary),
     'checked-input-border-color': var(--el-color-primary),
     'checked-bg-color': var(--el-color-primary),
-    'checked-icon-color': getCssVar('fill-color'),
+    'checked-icon-color': getCssVar('fill-color', 'blank'),
     'input-border-color-hover': var(--el-color-primary),
   ),
   $checkbox
@@ -578,7 +578,7 @@ $cascader: map.merge(
   (
     'menu-text-color': var(--el-text-color-regular),
     'menu-selected-text-color': var(--el-color-primary),
-    'menu-fill': getCssVar('fill-color'),
+    'menu-fill': getCssVar('fill-color', 'blank'),
     'menu-font-size': var(--el-font-size-base),
     'menu-radius': var(--el-border-radius-base),
     'menu-border': solid 1px var(--el-border-color-light),
