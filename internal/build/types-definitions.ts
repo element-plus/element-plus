@@ -44,15 +44,16 @@ export const generateTypesDefinitions = async () => {
     skipAddingFilesFromTsConfig: true,
   })
 
+  const globAnyFile = '**/*.{js?(x),ts?(x),vue}'
   const filePaths = excludeFiles(
-    await glob(['**/*.{js,ts,vue}', '!element-plus/**/*'], {
+    await glob([globAnyFile, '!element-plus/**/*'], {
       cwd: pkgRoot,
       absolute: true,
       onlyFiles: true,
     })
   )
   const epPaths = excludeFiles(
-    await glob('**/*.{js,ts,vue}', {
+    await glob(globAnyFile, {
       cwd: epRoot,
       onlyFiles: true,
     })
@@ -66,21 +67,18 @@ export const generateTypesDefinitions = async () => {
         const sfc = vueCompiler.parse(content)
         const { script, scriptSetup } = sfc.descriptor
         if (script || scriptSetup) {
-          let content = ''
-          let isTS = false
-          if (script && script.content) {
-            content += script.content
-            if (script.lang === 'ts') isTS = true
-          }
+          let content = script?.content ?? ''
+
           if (scriptSetup) {
             const compiled = vueCompiler.compileScript(sfc.descriptor, {
               id: 'xxx',
             })
             content += compiled.content
-            if (scriptSetup.lang === 'ts') isTS = true
           }
+
+          const lang = scriptSetup?.lang || script?.lang || 'js'
           const sourceFile = project.createSourceFile(
-            path.relative(process.cwd(), file) + (isTS ? '.ts' : '.js'),
+            `${path.relative(process.cwd(), file)}.${lang}`,
             content
           )
           sourceFiles.push(sourceFile)
