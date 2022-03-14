@@ -1,5 +1,21 @@
 ## Changelog
 
+### 2.1.2
+
+_2022-03-14_
+
+#### Bug fixes
+
+- Deps update all non-major dependencies (#6604 by @renovate[bot])
+- Docs border-color css var (#6620 by @YunYouJun)
+- Components [el-form] Form not emitting validation result (#6610 by @JeremyWuuuuu)
+- Theme-chalk [message-box] el-message-box__status position may o… (#6614 by @yeyuqiudeng)
+- Theme-chalk [cascader/checkbox] fix unexpected fill color (#6619 by @plainheart)
+
+#### Refactors
+
+- Components [rate] use css var & disable to disabled & star-color to fill-color (#6601 by @YunYouJun)
+
 ### 2.1.1
 
 _2022-03-13_
