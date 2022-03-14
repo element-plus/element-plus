@@ -49,8 +49,8 @@
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.0",
-    "@element-plus/icons-vue": "^1.0.1",
-    "@popperjs/core": "^2.11.2",
+    "@element-plus/icons-vue": "^1.1.1",
+    "@popperjs/core": "^2.11.3",
     "@vueuse/core": "^7.7.1",
     "async-validator": "^4.0.7",
     "dayjs": "^1.10.8",
@@ -66,7 +66,7 @@
     "@types/lodash-es": "^4.17.6",
     "@types/node": "*",
     "csstype": "^2.6.19",
-    "vue-router": "^4.0.13"
+    "vue-router": "^4.0.14"
   },
   "vetur": {
     "tags": "tags.json",
