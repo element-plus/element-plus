@@ -1,4 +1,5 @@
-import { EP_PKG, EP_PREFIX } from '../utils/constants'
+import { EP_PKG, EP_PREFIX } from '../constants'
+
 import type { Plugin } from 'rollup'
 
 export function ElementPlusAlias(): Plugin {

@@ -6,14 +6,17 @@ import css from 'rollup-plugin-css-only'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
-import filesize from 'rollup-plugin-filesize'
 import glob from 'fast-glob'
-import { epRoot, pkgRoot } from './utils/paths'
-import { ElementPlusAlias } from './plugins/element-plus-alias'
-import { generateExternal, writeBundles } from './utils/rollup'
-import { excludeFiles } from './utils/pkg'
-import { reporter } from './plugins/size-reporter'
-import { buildConfigEntries, target } from './build-info'
+import {
+  epRoot,
+  pkgRoot,
+  generateExternal,
+  writeBundles,
+  excludeFiles,
+} from '../utils'
+import { ElementPlusAlias } from '../plugins/element-plus-alias'
+import { buildConfigEntries, target } from '../build-info'
+
 import type { OutputOptions } from 'rollup'
 
 export const buildModules = async () => {
@@ -45,7 +48,6 @@ export const buildModules = async () => {
           '.vue': 'ts',
         },
       }),
-      filesize({ reporter }),
     ],
     external: await generateExternal({ full: false }),
     treeshake: false,

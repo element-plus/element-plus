@@ -1,6 +1,6 @@
 import { resolve } from 'path'
 
-export const projRoot = resolve(__dirname, '..', '..', '..')
+export const projRoot = resolve(__dirname, '..', '..', '..', '..')
 export const pkgRoot = resolve(projRoot, 'packages')
 export const compRoot = resolve(pkgRoot, 'components')
 export const themeRoot = resolve(pkgRoot, 'theme-chalk')
@@ -9,12 +9,15 @@ export const localeRoot = resolve(pkgRoot, 'locale')
 export const directiveRoot = resolve(pkgRoot, 'directives')
 export const epRoot = resolve(pkgRoot, 'element-plus')
 export const utilRoot = resolve(pkgRoot, 'utils')
-export const docRoot = resolve(projRoot, 'docs')
 export const buildRoot = resolve(projRoot, 'internal', 'build')
 
-/** dist */
+// Docs
+export const docRoot = resolve(projRoot, 'docs')
+export const vpRoot = resolve(docRoot, '.vitepress')
+
+/** `/dist` */
 export const buildOutput = resolve(projRoot, 'dist')
-/** dist/element-plus */
+/** `/dist/element-plus` */
 export const epOutput = resolve(buildOutput, 'element-plus')
 
 export const projPackage = resolve(projRoot, 'package.json')

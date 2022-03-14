@@ -1,7 +1,12 @@
 import fs from 'fs'
-import { epPackage } from '../build/utils/paths'
-import { cyan, red, yellow, green } from '../build/utils/log'
-import { getPackageManifest } from '../build/utils/pkg'
+import {
+  epPackage,
+  cyan,
+  red,
+  yellow,
+  green,
+  getPackageManifest,
+} from '@element-plus/build'
 
 const tagVersion = process.env.TAG_VERSION
 const gitHead = process.env.GIT_HEAD

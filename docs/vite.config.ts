@@ -9,9 +9,11 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
-import { epPackage } from '../internal/build/utils/paths'
-import { getPackageDependencies } from '../internal/build/utils/pkg'
-import { projRoot } from './.vitepress/utils/paths'
+import {
+  epPackage,
+  getPackageDependencies,
+  projRoot,
+} from '@element-plus/build'
 import type { Alias } from 'vite'
 
 const alias: Alias[] = []

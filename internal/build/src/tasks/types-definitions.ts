@@ -1,15 +1,21 @@
 import process from 'process'
 import path from 'path'
 import fs from 'fs/promises'
+import consola from 'consola'
 import * as vueCompiler from 'vue/compiler-sfc'
 import { Project } from 'ts-morph'
 import glob from 'fast-glob'
-import { bold } from 'chalk'
-import { errorAndExit, green, yellow } from './utils/log'
-import { buildOutput, epRoot, pkgRoot, projRoot } from './utils/paths'
-import typeSafe from './type-safe.json'
+import { bold, yellow, green } from 'chalk'
+import {
+  buildOutput,
+  epRoot,
+  pkgRoot,
+  projRoot,
+  excludeFiles,
+  pathRewriter,
+} from '../utils'
+import typeSafe from '../type-safe.json'
 
-import { excludeFiles, pathRewriter } from './utils/pkg'
 import type { SourceFile } from 'ts-morph'
 
 const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.json')
@@ -104,8 +110,8 @@ export const generateTypesDefinitions = async () => {
     )
   })
   if (diagnostics.length > 0) {
-    console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
-    process.exit(1)
+    consola.error(project.formatDiagnosticsWithColorAndContext(diagnostics))
+    throw new Error('Failed to generate dts.')
   }
 
   await project.emit({
@@ -114,12 +120,14 @@ export const generateTypesDefinitions = async () => {
 
   const tasks = sourceFiles.map(async (sourceFile) => {
     const relativePath = path.relative(pkgRoot, sourceFile.getFilePath())
-    yellow(`Generating definition for file: ${bold(relativePath)}`)
+    consola.info(
+      yellow(`Generating definition for file: ${bold(relativePath)}`)
+    )
 
     const emitOutput = sourceFile.getEmitOutput()
     const emitFiles = emitOutput.getOutputFiles()
     if (emitFiles.length === 0) {
-      errorAndExit(new Error(`Emit no file: ${bold(relativePath)}`))
+      throw new Error(`Emit no file: ${bold(relativePath)}`)
     }
 
     const tasks = emitFiles.map(async (outputFile) => {
@@ -134,7 +142,9 @@ export const generateTypesDefinitions = async () => {
         'utf8'
       )
 
-      green(`Definition for file: ${bold(relativePath)} generated`)
+      consola.info(
+        green(`Definition for file: ${bold(relativePath)} generated`)
+      )
     })
 
     await Promise.all(tasks)

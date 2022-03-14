@@ -1,13 +1,10 @@
 import process from 'process'
 import chalk from 'chalk'
+import consola from 'consola'
 
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-const [command, info, error] = ['command', 'info', 'error'].map(
-  (symbol: string) => {
-    return (msg: string) => `[${symbol}] ${msg}`
-  }
-)
-/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+const [command, info] = ['command', 'info'].map((symbol: string) => {
+  return (msg: string) => `[${symbol}] ${msg}`
+})
 const [group, endGroup] = ['group', 'endgroup'].map((symbol) => {
   return (groupMsg: string) => `##[${symbol}] ${groupMsg}`
 })
@@ -25,12 +22,12 @@ export function green(str: string) {
 }
 
 export function red(str: string) {
-  console.log(error(chalk.red(str)))
+  console.log(chalk.red(str))
 }
 
-export function errorAndExit(e: Error): never {
-  red(e.stack ?? e.message)
+export function errorAndExit(err: Error): never {
+  consola.error(err)
   process.exit(1)
 }
 
-export { command, info, error, group, endGroup }
+export { command, info, group, endGroup }
