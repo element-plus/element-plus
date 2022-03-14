@@ -1,7 +1,9 @@
 @use 'function' as *;
 @use '../common/var' as *;
+// forward mixins
 @forward 'config';
 @forward 'function';
+@forward '_var';
 @use 'config' as *;
 
 // Break-points
