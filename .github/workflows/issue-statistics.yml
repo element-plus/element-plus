@@ -10,7 +10,7 @@ jobs:
     if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: month-statistics
-        uses: actions-cool/issues-helper@v2
+        uses: actions-cool/issues-helper@v3
         with:
           actions: 'month-statistics'
           token: ${{ secrets.GITHUB_TOKEN }}
