@@ -1,6 +1,6 @@
 <template>
   <section :class="[ns.b(), ns.is('vertical', isVertical)]">
-    <slot></slot>
+    <slot />
   </section>
 </template>
 <script lang="ts">

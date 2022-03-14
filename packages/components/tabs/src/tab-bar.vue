@@ -3,7 +3,7 @@
     ref="bar$"
     :class="['el-tabs__active-bar', `is-${rootTabs.props.tabPosition}`]"
     :style="barStyle"
-  ></div>
+  />
 </template>
 <script lang="ts">
 import {

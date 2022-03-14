@@ -15,7 +15,9 @@ const assertElementsExistence = (
 }
 
 const assertCurrent = (wrapper, page) => {
-  expect(wrapper.find('.el-pager li.active.number').text()).toBe(String(page))
+  expect(wrapper.find('.el-pager li.is-active.number').text()).toBe(
+    String(page)
+  )
 }
 const assertPages = (wrapper, total) => {
   expect(wrapper.find('.el-pagination .el-pager li:last-child').text()).toBe(

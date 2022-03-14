@@ -11,7 +11,7 @@
     <el-icon v-else-if="icon">
       <component :is="icon" />
     </el-icon>
-    <slot v-else></slot>
+    <slot v-else />
   </span>
 </template>
 

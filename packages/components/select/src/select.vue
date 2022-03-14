@@ -57,7 +57,50 @@
                 :type="tagType"
                 disable-transitions
               >
-                <span :class="nsSelect.e('tags-text')"
+                <el-tooltip
+                  v-if="collapseTagsTooltip"
+                  :disabled="dropMenuVisible"
+                  :fallback-placements="['bottom', 'top', 'right', 'left']"
+                  :effect="effect"
+                  placement="bottom"
+                  :teleported="false"
+                >
+                  <template #default>
+                    <span :class="nsSelect.e('tags-text')"
+                      >+ {{ selected.length - 1 }}</span
+                    >
+                  </template>
+                  <template #content>
+                    <div :class="nsSelect.e('collapse-tags')">
+                      <div
+                        v-for="(item, idx) in selected"
+                        :key="idx"
+                        :class="nsSelect.e('collapse-tag')"
+                      >
+                        <el-tag
+                          :key="getValueKey(item)"
+                          class="in-tooltip"
+                          :closable="!selectDisabled && !item.isDisabled"
+                          :size="collapseTagSize"
+                          :hit="item.hitState"
+                          :type="tagType"
+                          disable-transitions
+                          :style="{ margin: '2px' }"
+                          @close="deleteTag($event, item)"
+                        >
+                          <span
+                            :class="nsSelect.e('tags-text')"
+                            :style="{
+                              maxWidth: inputWidth - 75 + 'px',
+                            }"
+                            >{{ item.currentLabel }}</span
+                          >
+                        </el-tag>
+                      </div>
+                    </div>
+                  </template>
+                </el-tooltip>
+                <span v-else :class="nsSelect.e('tags-text')"
                   >+ {{ selected.length - 1 }}</span
                 >
               </el-tag>
@@ -160,7 +203,7 @@
                   align-items: center;
                 "
               >
-                <slot name="prefix"></slot>
+                <slot name="prefix" />
               </div>
             </template>
             <template #suffix>
@@ -198,7 +241,7 @@
             ]"
           >
             <el-option v-if="showNewOption" :value="query" :created="true" />
-            <slot></slot>
+            <slot />
           </el-scrollbar>
           <template
             v-if="
@@ -206,7 +249,7 @@
               (!allowCreate || loading || (allowCreate && options.size === 0))
             "
           >
-            <slot v-if="$slots.empty" name="empty"></slot>
+            <slot v-if="$slots.empty" name="empty" />
             <p v-else :class="nsSelect.be('dropdown', 'empty')">
               {{ emptyText }}
             </p>
@@ -322,6 +365,10 @@ export default defineComponent({
       default: 'value',
     },
     collapseTags: Boolean,
+    collapseTagsTooltip: {
+      type: Boolean,
+      default: false,
+    },
     popperAppendToBody: {
       type: Boolean,
       default: undefined,

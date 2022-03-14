@@ -22,7 +22,7 @@
     vertical-align: middle;
     cursor: pointer;
     background: var(--el-button-bg-color, map.get($button, 'bg-color'));
-    border: $border-base;
+    border: getCssVar('border');
     border-left: 0;
     color: var(--el-button-text-color, map.get($button, 'text-color'));
     -webkit-appearance: none;
@@ -102,7 +102,7 @@
 
   &:first-child {
     .#{$namespace}-checkbox-button__inner {
-      border-left: $border-base;
+      border-left: getCssVar('border');
       border-radius: var(--el-border-radius-base) 0 0
         var(--el-border-radius-base);
       box-shadow: none !important;

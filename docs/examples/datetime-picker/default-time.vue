@@ -7,8 +7,7 @@
       start-placeholder="Start Date"
       end-placeholder="End Date"
       :default-time="defaultTime1"
-    >
-    </el-date-picker>
+    />
   </div>
   <div class="block">
     <span class="demonstration"
@@ -20,8 +19,7 @@
       start-placeholder="Start Date"
       end-placeholder="End Date"
       :default-time="defaultTime2"
-    >
-    </el-date-picker>
+    />
   </div>
 </template>
 
@@ -41,7 +39,7 @@ const defaultTime2 = [
 .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
+  border-right: solid 1px getCssVar('border-color');
   flex: 1;
 }
 .block:last-child {

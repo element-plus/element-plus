@@ -44,10 +44,10 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
 <template>
   <div>
     <el-icon :size="size" :color="color">
-      <edit></edit>
+      <edit />
     </el-icon>
     <!-- Or use it independently without derive attributes from parent -->
-    <edit></edit>
+    <edit />
   </div>
 </template>
 ```

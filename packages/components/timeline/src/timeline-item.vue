@@ -1,6 +1,6 @@
 <template>
   <li :class="[ns.b(), { [ns.e('center')]: center }]">
-    <div :class="ns.e('tail')"></div>
+    <div :class="ns.e('tail')" />
     <div
       v-if="!$slots.dot"
       :class="[
@@ -18,7 +18,7 @@
       </el-icon>
     </div>
     <div v-if="$slots.dot" :class="ns.e('dot')">
-      <slot name="dot"></slot>
+      <slot name="dot" />
     </div>
 
     <div :class="ns.e('wrapper')">
@@ -30,7 +30,7 @@
       </div>
 
       <div :class="ns.e('content')">
-        <slot></slot>
+        <slot />
       </div>
 
       <div

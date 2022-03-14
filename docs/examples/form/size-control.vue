@@ -20,15 +20,15 @@
     :size="size"
   >
     <el-form-item label="Activity name">
-      <el-input v-model="sizeForm.name"></el-input>
+      <el-input v-model="sizeForm.name" />
     </el-form-item>
     <el-form-item label="Activity zone">
       <el-select
         v-model="sizeForm.region"
         placeholder="please select your zone"
       >
-        <el-option label="Zone one" value="shanghai"></el-option>
-        <el-option label="Zone two" value="beijing"></el-option>
+        <el-option label="Zone one" value="shanghai" />
+        <el-option label="Zone two" value="beijing" />
       </el-select>
     </el-form-item>
     <el-form-item label="Activity time">
@@ -38,7 +38,7 @@
           type="date"
           placeholder="Pick a date"
           style="width: 100%"
-        ></el-date-picker>
+        />
       </el-col>
       <el-col class="text-center" :span="1" style="margin: 0 0.5rem">-</el-col>
       <el-col :span="11">
@@ -46,25 +46,19 @@
           v-model="sizeForm.date2"
           placeholder="Pick a time"
           style="width: 100%"
-        ></el-time-picker>
+        />
       </el-col>
     </el-form-item>
     <el-form-item label="Activity type">
       <el-checkbox-group v-model="sizeForm.type">
-        <el-checkbox-button
-          label="Online activities"
-          name="type"
-        ></el-checkbox-button>
-        <el-checkbox-button
-          label="Promotion activities"
-          name="type"
-        ></el-checkbox-button>
+        <el-checkbox-button label="Online activities" name="type" />
+        <el-checkbox-button label="Promotion activities" name="type" />
       </el-checkbox-group>
     </el-form-item>
     <el-form-item label="Resources">
       <el-radio-group v-model="sizeForm.resource">
-        <el-radio border label="Sponsor"></el-radio>
-        <el-radio border label="Venue"></el-radio>
+        <el-radio border label="Sponsor" />
+        <el-radio border label="Venue" />
       </el-radio-group>
     </el-form-item>
     <el-form-item>

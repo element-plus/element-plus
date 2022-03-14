@@ -36,8 +36,8 @@
         <td class="available" :class="getCellStyle(startYear + 9)">
           <a class="cell">{{ startYear + 9 }}</a>
         </td>
-        <td></td>
-        <td></td>
+        <td />
+        <td />
       </tr>
     </tbody>
   </table>

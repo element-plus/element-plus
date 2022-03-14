@@ -4,10 +4,10 @@
       <div class="sub-title">circle</div>
       <div class="demo-basic--circle">
         <div class="block">
-          <el-avatar :size="50" :src="circleUrl"></el-avatar>
+          <el-avatar :size="50" :src="circleUrl" />
         </div>
         <div v-for="size in sizeList" :key="size" class="block">
-          <el-avatar :size="size" :src="circleUrl"></el-avatar>
+          <el-avatar :size="size" :src="circleUrl" />
         </div>
       </div>
     </el-col>
@@ -15,10 +15,10 @@
       <div class="sub-title">square</div>
       <div class="demo-basic--circle">
         <div class="block">
-          <el-avatar shape="square" :size="50" :src="squareUrl"></el-avatar>
+          <el-avatar shape="square" :size="50" :src="squareUrl" />
         </div>
         <div v-for="size in sizeList" :key="size" class="block">
-          <el-avatar shape="square" :size="size" :src="squareUrl"></el-avatar>
+          <el-avatar shape="square" :size="size" :src="squareUrl" />
         </div>
       </div>
     </el-col>
@@ -54,12 +54,12 @@ const { circleUrl, squareUrl, sizeList } = toRefs(state)
   align-items: center;
 }
 .demo-basic .block:not(:last-child) {
-  border-right: 1px solid var(--el-border-color-base);
+  border-right: 1px solid getCssVar('border-color');
 }
 .demo-basic .block {
   flex: 1;
 }
 .demo-basic .el-col:not(:last-child) {
-  border-right: 1px solid var(--el-border-color-base);
+  border-right: 1px solid getCssVar('border-color');
 }
 </style>

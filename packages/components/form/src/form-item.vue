@@ -17,7 +17,7 @@
     </form-label-wrap>
 
     <div :class="ns.e('content')" :style="contentStyle">
-      <slot></slot>
+      <slot />
       <transition :name="`${ns.namespace.value}-zoom-in-top`">
         <slot v-if="shouldShowError" name="error" :error="validateMessage">
           <div :class="validateClasses">
@@ -248,7 +248,9 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
 
   return validator
     .validate(model, { firstFields: true })
-    .then(() => undefined)
+    .then(() => {
+      validateState.value = 'success'
+    })
     .catch((err: ValidateFailure) => {
       const { errors, fields } = err
       if (!errors || !fields) console.error(err)

@@ -14,7 +14,7 @@
               background: getColorValue('primary-' + level),
             }"
             @click="copyColor('primary-' + level)"
-          ></div>
+          />
         </div>
       </div>
     </el-col>

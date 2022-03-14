@@ -6,8 +6,7 @@
     end="23:59"
     placeholder="Select time"
     format="hh:mm A"
-  >
-  </el-time-select>
+  />
 </template>
 
 <script lang="ts" setup>

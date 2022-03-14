@@ -44,11 +44,11 @@
           </header>
           <template v-if="rendered">
             <section :class="ns.e('body')">
-              <slot></slot>
+              <slot />
             </section>
           </template>
           <div v-if="$slots.footer" :class="ns.e('footer')">
-            <slot name="footer"></slot>
+            <slot name="footer" />
           </div>
         </div>
       </el-overlay>

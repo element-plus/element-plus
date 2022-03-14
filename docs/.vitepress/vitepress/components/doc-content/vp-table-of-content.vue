@@ -31,7 +31,7 @@ useActiveSidebarLinks(container, marker)
           </ul>
         </li>
       </ul>
-      <div ref="marker" class="toc-marker"></div>
+      <div ref="marker" class="toc-marker" />
     </nav>
   </aside>
 </template>

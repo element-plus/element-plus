@@ -4,7 +4,7 @@
       <div
         class="demo-shadow"
         :style="{ boxShadow: `var(--el-box-shadow-${shadow.type})` }"
-      ></div>
+      />
       <span class="demo-shadow-text"
         >{{ shadow.name }}
         <code>box-shadow: {{ getValue(shadow.type) }}</code></span

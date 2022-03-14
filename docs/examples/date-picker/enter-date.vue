@@ -2,8 +2,7 @@
   <div class="demo-date-picker">
     <div class="block">
       <span class="demonstration">Default</span>
-      <el-date-picker v-model="value1" type="date" placeholder="Pick a day">
-      </el-date-picker>
+      <el-date-picker v-model="value1" type="date" placeholder="Pick a day" />
     </div>
     <div class="block">
       <span class="demonstration">Picker with quick options</span>
@@ -13,8 +12,7 @@
         placeholder="Pick a day"
         :disabled-date="disabledDate"
         :shortcuts="shortcuts"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>
@@ -62,7 +60,7 @@ const disabledDate = (time: Date) => {
 .demo-date-picker .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
+  border-right: solid 1px getCssVar('border-color');
   flex: 1;
 }
 .demo-date-picker .block:last-child {

@@ -7,8 +7,7 @@
         type="date"
         placeholder="Pick a date"
         :default-value="new Date(2010, 9, 1)"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">daterange</span>
@@ -18,8 +17,7 @@
         start-placeholder="Start Date"
         end-placeholder="End Date"
         :default-value="[new Date(2010, 9, 1), new Date(2010, 10, 1)]"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>
@@ -40,7 +38,7 @@ const value2 = ref('')
 .demo-date-picker .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
+  border-right: solid 1px getCssVar('border-color');
   flex: 1;
 }
 .demo-date-picker .block:last-child {

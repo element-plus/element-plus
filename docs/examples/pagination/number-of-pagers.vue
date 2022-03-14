@@ -4,6 +4,5 @@
     :pager-count="11"
     layout="prev, pager, next"
     :total="1000"
-  >
-  </el-pagination>
+  />
 </template>

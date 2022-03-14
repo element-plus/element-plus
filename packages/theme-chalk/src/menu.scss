@@ -129,6 +129,10 @@
         color: var(--el-menu-text-color);
       }
 
+      & .#{$namespace}-sub-menu__title {
+        padding-right: 40px;
+      }
+
       & .#{$namespace}-menu-item.is-active,
       & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title {
         color: var(--el-menu-active-color);

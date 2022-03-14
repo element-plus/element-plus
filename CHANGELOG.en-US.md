@@ -1,5 +1,113 @@
 ## Changelog
 
+### 2.1.1
+
+_2022-03-13_
+
+#### Features
+
+- Ci setup cypress circle ci (#6581 by @JeremyWuuuuu)
+- Ci replace cypress  with puppeteer (#6592 by @JeremyWuuuuu)
+- Components [el-table] exposes scroll methods (#6539 by @msidolphin)
+
+#### Bug fixes
+
+- Component [el-tabs] the initial pane should only render for once (#6563 by @KawaiiZapic)
+- Components [carousel] center arrow (#6573 by @buqiyuan)
+- Ci skip if no changes at all (#6574 by @JeremyWuuuuu)
+- Components [popper-trigger] SSR issue (#6575 by @JeremyWuuuuu)
+- Ci build product check (#6587 by @JeremyWuuuuu)
+- Components [dialog] remove footer when not existed (#6590 by @sxzz)
+- Docsearch dark shadow (#6595 by @YunYouJun)
+- Components [form] set validateState to success after passed (#6596 by @plainheart)
+- Upload component remove status label box shadow (#6586 by @iamkun)
+
+#### Refactors
+
+- Components [divider] switch to script-setup (#6556 by @wzrove)
+- Components [input] refactor (#6545 by @sxzz)
+- Theme-chalk rewrite palette & remove -base suffix (#6593 by @YunYouJun)
+- Components [rate] switch to script-setup syntax (#6565 by @btea)
+- Components [skeleton] switch to script-setup syntax (#6395 by @freedomlang)
+- Theme-chalk dark.scss to css vars & migrate fill-color-blank (#6597 by @YunYouJun)
+
+### 2.1.0
+
+_2022-03-12_
+
+#### Features
+
+- Components [message] support re-render vnode (#6527 by @sxzz)
+
+#### Bug fixes
+
+- Ci remove clean script (#6550 by @JeremyWuuuuu)
+- Ci clean up several warning (#6551 by @HerringtonDarkholme)
+- Ci fix cascader ns querySelector class (#6552 by @HerringtonDarkholme)
+- Build move eslint config to internal (#6553 by @sxzz)
+- Ci suppress warning by mark icon as raw (#6555 by @HerringtonDarkholme)
+- Components [upload] photo-wall wrap (#6546 by @YunYouJun)
+
+#### Refactors
+
+- Components [link] dynamic css vars & fix inner align (#6557 by @YunYouJun)
+- Components [link] refactor (#6543 by @sxzz)
+
+
+### 2.0.6
+
+_2022-03-11_
+
+#### Features
+
+- [el-table] support always show scrollbar & get selection rows (#6469 by @msidolphin)
+- Extract eslint config to separate package (#6495 by @sxzz)
+- Export dayjs instance, closes #6498 (#6517 by @sxzz)
+- Components [select]add collapse-tags-tooltip (#6245 by @Alanscut)
+- Components [select-v2]add collapse-tags-tooltip (#6532 by @Alanscut)
+- Components [cascader]add collapse-tags-tooltip (#6331 by @Alanscut)
+
+#### Bug fixes
+
+- Deps update all non-major dependencies (#6448 by @renovate[bot])
+- Components [el-select] optimize prefix size & selected style (#6267 by @msidolphin)
+- Components [el-table] defaultSort not working (#6322 by @msidolphin)
+- [el-table] fixed columns display when horizontal cannot scroll (#6320 by @msidolphin)
+- Components [el-checkbox] modelValue (#6168 by @gjfei) (#6169)
+- Components[select] (#6446 by @gjfei) (#6474)
+- Components [el-collapse] collapse item key pressing jumping (#6462 by @JeremyWuuuuu)
+- Components [message] offset error (#6497 by @Alanscut)
+- Components[select] namespace (#6486 by @gjfei)
+- Components el-select-allow-dynamically-update-options (#6473 by @gjfei)
+- Components [el-tooltip] close the dropdown after set disabled (#6467 by @Alanscut)
+- Docs improve component typings (#6524 by @sxzz)
+- Workflow coverage (#6518 by @sxzz)
+- Components [upload] fileList prop should sync uploadFiles (#6492 by @exherb)
+- Components [rate] fix disbaledVoidIcon typo (#6456 by @Shana-AE)
+- Components [select] display error when setting persistent to false (#6522 by @Alanscut)
+- Components [el-input] pass input-style props to input-wrapper (#6506 by @zt123123)
+- Components [el-table] escape special html characters (#6520 by @msidolphin)
+- Components [autocomplete] fix shaking at first open (#6342 by @freedomlang)
+- Components [el-upload] jitter when remove file in the list (#6505 by @msidolphin)
+- Components [el-menu] icon is not to the right of the text (#6268 by @Alanscut)
+- Test(components): [select] click icon twice (#6471 by @Alanscut)
+- Chore(project): add escape-html as dependency for main entry (#6534 by @JeremyWuuuuu)
+
+#### Refactors
+
+- Components!: refactor form (#5401 by @sxzz)
+- Components [row] refactor (#6354 by @sxzz)
+- Docs [form] improve docs and typings (#6447 by @sxzz)
+- Improve build dts (#6457 by @sxzz)
+- Components [cascader,cascader-panel] add namespace (#5589 by @gjfei)
+- Components [breadcrumb] switch to script-setup syntax (#6073 by @buqiyuan)
+- Theme-chalk message css var & add getCssVarName (#6488 by @YunYouJun)
+- Utils remove isFF (#6507 by @btea)
+- Theme-chalk [upload] use bem rewrite upload scss & fix bugs (#6508 by @YunYouJun)
+- Perf(components): [el-table] optimize the performance of expand rows (#6480 by @msidolphin)
+- Style(components): rename disabled to is-disabled (#6475 by @freedomlang)
+
+
 ### 2.0.5
 
 _2022-03-06_

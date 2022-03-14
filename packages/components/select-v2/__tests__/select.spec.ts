@@ -52,6 +52,8 @@ interface SelectProps {
   disabled?: boolean
   clearable?: boolean
   multiple?: boolean
+  collapseTags?: boolean
+  collapseTagsTooltip?: boolean
   filterable?: boolean
   remote?: boolean
   multipleLimit?: number
@@ -101,6 +103,8 @@ const createSelect = (
         :disabled="disabled"
         :clearable="clearable"
         :multiple="multiple"
+        :collapseTags="collapseTags"
+        :collapseTagsTooltip="collapseTagsTooltip"
         :filterable="filterable"
         :multiple-limit="multipleLimit"
         :popper-append-to-body="popperAppendToBody"
@@ -141,12 +145,16 @@ const createSelect = (
           disabled: false,
           clearable: false,
           multiple: false,
+          collapseTags: false,
+          collapseTagsTooltip: false,
           remote: false,
           filterable: false,
           reserveKeyword: false,
           multipleLimit: 0,
           placeholder: DEFAULT_PLACEHOLDER,
           scrollbarAlwaysOn: false,
+          popperAppendToBody: undefined,
+          teleported: undefined,
           ...(options.data && options.data()),
         }
       },
@@ -556,6 +564,62 @@ describe('Select', () => {
       await nextTick()
       expect(vm.value.length).toBe(2)
       expect(vm.value[1]).toBe(vm.options[2].value)
+    })
+  })
+
+  describe('collapseTags', () => {
+    it('use collapseTags', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            collapseTags: true,
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const vm = wrapper.vm as any
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      expect(vm.value.length).toBe(1)
+      expect(vm.value[0]).toBe(vm.options[0].value)
+      options[1].click()
+      await nextTick()
+      options[2].click()
+      await nextTick()
+      expect(vm.value.length).toBe(3)
+      const tags = wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      })
+      expect(tags.length).toBe(2)
+    })
+
+    it('use collapseTagsTooltip', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            collapseTags: true,
+            collapseTagsTooltip: true,
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const vm = wrapper.vm as any
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      expect(vm.value.length).toBe(1)
+      expect(vm.value[0]).toBe(vm.options[0].value)
+      options[1].click()
+      await nextTick()
+      options[2].click()
+      await nextTick()
+      expect(vm.value.length).toBe(3)
+      expect(wrapper.findAll('.el-tag')[4].element.textContent).toBe('c2')
     })
   })
 

@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { MoreFilled } from '@element-plus/icons-vue'
 import TimeLine from '../src/timeline'
@@ -12,7 +12,7 @@ const Component = defineComponent({
   props: [],
   data() {
     return {
-      iconMoreFilled: MoreFilled,
+      iconMoreFilled: markRaw(MoreFilled),
       activities: [
         {
           content: 'Step 1: xxxxxx',

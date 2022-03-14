@@ -113,7 +113,7 @@
     }
 
     &.disabled .#{$namespace}-date-table-cell {
-      background-color: var(--el-bg-color);
+      background-color: getCssVar('fill-color', 'light');
       opacity: 1;
       cursor: not-allowed;
       color: var(--el-text-color-placeholder);

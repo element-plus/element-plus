@@ -10,7 +10,7 @@
       <template #default="cell">
         <div class="cell" :class="{ current: cell.isCurrent }">
           <span class="text">{{ cell.text }}</span>
-          <span v-if="isHoliday(cell)" class="holiday"></span>
+          <span v-if="isHoliday(cell)" class="holiday" />
         </div>
       </template>
     </el-date-picker>

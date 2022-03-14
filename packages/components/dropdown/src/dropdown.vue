@@ -40,7 +40,7 @@
               @entry-focus="handleEntryFocus"
             >
               <el-dropdown-collection>
-                <slot name="dropdown"></slot>
+                <slot name="dropdown" />
               </el-dropdown-collection>
             </el-roving-focus-group>
           </el-focus-trap>

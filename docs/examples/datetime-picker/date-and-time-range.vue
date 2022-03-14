@@ -7,8 +7,7 @@
       range-separator="To"
       start-placeholder="Start date"
       end-placeholder="End date"
-    >
-    </el-date-picker>
+    />
   </div>
   <div class="block">
     <span class="demonstration">With shortcuts</span>
@@ -19,8 +18,7 @@
       range-separator="To"
       start-placeholder="Start date"
       end-placeholder="End date"
-    >
-    </el-date-picker>
+    />
   </div>
 </template>
 
@@ -67,7 +65,7 @@ const shortcuts = [
 .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
+  border-right: solid 1px getCssVar('border-color');
   flex: 1;
 }
 .block:last-child {

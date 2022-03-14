@@ -17,8 +17,7 @@
     size="small"
     @keyup.enter="handleInputConfirm"
     @blur="handleInputConfirm"
-  >
-  </el-input>
+  />
   <el-button v-else class="button-new-tag ml-1" size="small" @click="showInput">
     + New Tag
   </el-button>

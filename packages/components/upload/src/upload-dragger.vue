@@ -5,7 +5,7 @@
     @dragover.prevent="onDragover"
     @dragleave.prevent="dragover = false"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script lang="ts" setup>

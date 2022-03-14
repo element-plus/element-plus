@@ -490,4 +490,34 @@ describe('Form', () => {
     expect(res.valid).toBe(true)
     expect(res.fields).toBe(undefined)
   })
+
+  test('validate status', async () => {
+    const form = reactive({
+      age: '20',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = ref({
+          age: [
+            { required: true, message: 'Please input age', trigger: 'change' },
+          ],
+        })
+        return () => (
+          <Form ref="formRef" model={form} rules={rules}>
+            <FormItem ref="age" prop="age" label="age">
+              <Input v-model={form.age} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    await (wrapper.vm.$refs.formRef as FormInstance)
+      .validate()
+      .catch(() => undefined)
+    const ageField = wrapper.findComponent({ ref: 'age' })
+    expect((ageField.vm as FormItemInstance).validateState).toBe('success')
+    expect(ageField.classes()).toContain('is-success')
+  })
 })

@@ -6,7 +6,7 @@
       <el-radio v-model="direction" label="vertical">vertical</el-radio>
     </div>
     <div style="margin-bottom: 15px">
-      fillRatio:<el-slider v-model="fillRatio"></el-slider>
+      fillRatio:<el-slider v-model="fillRatio" />
     </div>
     <el-space
       fill

@@ -3,7 +3,7 @@
     v-if="divided"
     :class="ns.bem('menu', 'item', 'divided')"
     v-bind="$attrs"
-  ></li>
+  />
   <li
     :ref="itemRef"
     v-bind="{ ...dataset, ...$attrs }"

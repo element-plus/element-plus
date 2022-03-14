@@ -12,7 +12,7 @@
       <span>Content</span>
     </el-progress>
     <el-progress type="circle" :percentage="100" status="success">
-      <el-button type="success" :icon="Check" circle></el-button>
+      <el-button type="success" :icon="Check" circle />
     </el-progress>
     <el-progress type="dashboard" :percentage="80">
       <template #default="{ percentage }">

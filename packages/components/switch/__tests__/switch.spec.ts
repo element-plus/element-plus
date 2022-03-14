@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick, markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { Checked, CircleClose } from '@element-plus/icons-vue'
 import Switch from '../src/switch.vue'
@@ -55,8 +55,8 @@ describe('Switch.vue', () => {
   test('switch with icons', () => {
     const wrapper = mount(Switch, {
       props: {
-        activeIcon: Checked,
-        inactiveIcon: CircleClose,
+        activeIcon: markRaw(Checked),
+        inactiveIcon: markRaw(CircleClose),
       },
     })
 

@@ -1,0 +1,21 @@
+@use 'sass:map';
+
+// CSS3 var
+@use './var' as *;
+@use '../mixins/var' as *;
+
+html.dark {
+  color-scheme: dark;
+
+  // todo dark.scss
+
+  // color-scheme
+  // Background --el-bg-color-#{$type}
+  @include set-component-css-var('bg-color', $bg-color);
+  // --el-text-color-#{$type}
+  @include set-component-css-var('text-color', $text-color);
+  // --el-border-color-#{$type}
+  @include set-component-css-var('border-color', $border-color);
+  // Fill --el-fill-color-#{$type}
+  @include set-component-css-var('fill-color', $fill-color);
+}
