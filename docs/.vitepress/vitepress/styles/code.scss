@@ -62,12 +62,17 @@ html.dark {
 
 code {
   margin: 0;
-  border-radius: 3px;
-  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
   font-family: var(--code-font-family);
   font-size: var(--code-font-size);
   color: var(--code-text-color);
   background-color: var(--code-bg-color);
+  line-height: var(--code-line-height);
+}
+
+a > code {
+  color: var(--code-link-color);
 }
 
 code .token.deleted {

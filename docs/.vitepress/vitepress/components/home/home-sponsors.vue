@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
 import { isDark } from '../../composables/dark'
 import { useLang } from '../../composables/lang'
 import { sponsors } from '../../../config/sponsors'
-import homeLocale from '../../../i18n/pages/home.json'
+
+import SponsorsButton from '../sponsors/sponsors-button.vue'
+
 const lang = useLang()
 
-const homeLang = computed(() => homeLocale[lang.value])
 const langZhCN = 'zh-CN'
 
 const getSponsorName = (sponsor) => {
@@ -48,19 +48,7 @@ const getSponsorSlogan = (sponsor) => {
         </div>
       </a>
     </div>
-    <div class="join">
-      <el-tooltip placement="top" :hide-after="1000" :offset="20">
-        <template #content>
-          {{ homeLang['21'] }}
-          <a href="mailto:element-plus@outlook.com" target="_blank">
-            &nbsp;element-plus@outlook.com
-          </a>
-        </template>
-        <a href="mailto:element-plus@outlook.com" target="_blank">
-          <el-button round>{{ homeLang['20'] }}</el-button>
-        </a>
-      </el-tooltip>
-    </div>
+    <sponsors-button round />
   </div>
 </template>
 

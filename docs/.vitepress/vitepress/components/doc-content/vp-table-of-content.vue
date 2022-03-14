@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { useToc } from '../../composables/use-toc'
 import { useActiveSidebarLinks } from '../../composables/active-bar'
 
+import SponsorsButton from '../sponsors/sponsors-button.vue'
+
 const headers = useToc()
 const marker = ref()
 const container = ref()
@@ -32,6 +34,8 @@ useActiveSidebarLinks(container, marker)
         </li>
       </ul>
       <div ref="marker" class="toc-marker" />
+
+      <sponsors-button class="mt-8" />
     </nav>
   </aside>
 </template>

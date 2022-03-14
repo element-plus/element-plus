@@ -14,7 +14,9 @@
   --border-color: var(--el-border-color);
   --border-color-light: var(--el-border-color-lighter);
 
-  --font-family: Inter, Roboto, Oxygen, Fira Sans, Helvetica Neue, sans-serif;
+  --font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
 
   --font-family-mono: 'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas,
     'Courier New', monospace;
@@ -27,7 +29,14 @@
   // header vars
   --header-height: 55px;
   --nav-height: 55px; // alias of --header-height
-  --sidebar-width-md: 18rem;
+
+  /* Screen Size */
+  --vp-screen-max-width: 1376px;
+
+  // sidebar
+  --vp-sidebar-width-mobile: 320px;
+  --vp-sidebar-width-small: 272px;
+
   --sidebar-width-sm: 16rem;
   --sidebar-width-xs: 20rem;
   --content-min-width: 16rem;
@@ -58,8 +67,9 @@
   --link-active-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
 }
 
+// layouts
 :root {
-  --app-max-width: 1376px;
+  --vp-screen-max-width: 1376px;
 }
 
 .dark {
