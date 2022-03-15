@@ -9,7 +9,7 @@ type DeprecationParam = {
   scope: string
   version: string
   ref: string
-  type: 'API' | 'Slot'
+  type?: 'API' | 'Slot'
 }
 
 export const useDeprecated = (
