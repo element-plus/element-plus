@@ -102,7 +102,7 @@ export default defineComponent({
     })
 
     const shouldRender = computed(() => {
-      return unref(persistentRef) ? true : unref(open)
+      return persistentRef
     })
 
     const shouldShow = computed(() => {
