@@ -779,7 +779,7 @@ $pagination: map.merge(
     'button-height': 32px,
     'button-disabled-color': var(--el-text-color-placeholder),
     'button-disabled-bg-color': getCssVar('fill-color', 'blank'),
-    'button-bg-color': getCssVar('color', 'primary', 'light-9'),
+    'button-bg-color': getCssVar('fill-color'),
     'hover-color': var(--el-color-primary),
     'height-extra-small': 24px,
     'line-height-extra-small': var(--el-pagination-height-extra-small),
@@ -904,8 +904,12 @@ $dropdown: map.merge(
 $drawer: () !default;
 $drawer: map.merge(
   (
-    'bg-color': var(--el-dialog-bg-color),
-    'padding-primary': var(--el-dialog-padding-primary, 20px),
+    'bg-color':
+      var(
+        #{getCssVarName('dialog', 'bg-color')},
+        #{getCssVar('color', 'white')}
+      ),
+    'padding-primary': var(#{getCssVarName('dialog', 'padding-primary')}, 20px),
   ),
   $drawer
 );

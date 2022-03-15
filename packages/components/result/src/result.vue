@@ -14,8 +14,8 @@
         <p>{{ title }}</p>
       </slot>
     </div>
-    <div v-if="subTitle || $slots.subTitle" :class="ns.e('subtitle')">
-      <slot name="subTitle">
+    <div v-if="subTitle || $slots['sub-title']" :class="ns.e('subtitle')">
+      <slot name="sub-title">
         <p>{{ subTitle }}</p>
       </slot>
     </div>
@@ -26,14 +26,26 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useNamespace, useDeprecated } from '@element-plus/hooks'
 import { resultProps, IconComponentMap, IconMap } from './result'
-
+const COMPONENT_NAME = 'ElResult'
 export default defineComponent({
-  name: 'ElResult',
+  name: COMPONENT_NAME,
   props: resultProps,
-  setup(props) {
+  setup(props, { slots }) {
     const ns = useNamespace('result')
+
+    useDeprecated(
+      {
+        scope: COMPONENT_NAME,
+        type: 'Slot',
+        from: 'subTitle',
+        replacement: 'sub-title',
+        version: '2.1.3',
+        ref: 'https://github.com/element-plus/element-plus/pull/6636/',
+      },
+      computed(() => !!slots.subTitle)
+    )
 
     const resultIcon = computed(() => {
       const icon = props.icon

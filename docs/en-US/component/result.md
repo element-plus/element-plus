@@ -33,9 +33,9 @@ result/customized-content
 
 ## Result Slots
 
-| Name     | Description       |
-| -------- | ----------------- |
-| icon     | custom icon       |
-| title    | custom title      |
-| subTitle | custom sub title  |
-| extra    | custom extra area |
+| Name      | Description       |
+| --------- | ----------------- |
+| icon      | custom icon       |
+| title     | custom title      |
+| sub-title | custom sub title  |
+| extra     | custom extra area |
