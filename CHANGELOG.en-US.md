@@ -1,5 +1,30 @@
 ## Changelog
 
+### 2.1.3
+
+_2022-03-15_
+
+#### Features
+
+- Components [loading] export directive alias (#6629 by @sxzz)
+- Components [el-result] warn users using subTitle as slots (#6651 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [pagination] button bg color (#6628 by @YunYouJun)
+- Deps update dependency @vueuse/core to v8 (#6605 by @renovate[bot])
+- Theme-chalk [drawer] bg color (#6631 by @YunYouJun)
+- Theme-chalk [mixins] use set-css-var-value to transpile text (#6630 by @YunYouJun)
+- Form item instance was not destroyed (#6641 by @JeremyWuuuuu)
+- Components [result] rename slot's name from 'subTitle' to 'sub-title' (#6636 by @freedomlang)
+- Docs  fix wrong link in README.md (#6649 by @Serendipity96)
+- Selet-v2 value-key mode selected style and onClonse bug (#6602 by @chenxch)
+
+#### Refactors
+
+- Docs adjust style details & fix pages width (#6624 by @YunYouJun)
+- Build move to internal package (#6585 by @sxzz)
+
 ### 2.1.2
 
 _2022-03-14_
