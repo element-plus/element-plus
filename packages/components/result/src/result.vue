@@ -14,8 +14,8 @@
         <p>{{ title }}</p>
       </slot>
     </div>
-    <div v-if="subTitle || $slots.subTitle" :class="ns.e('subtitle')">
-      <slot name="subTitle">
+    <div v-if="subTitle || $slots['sub-title']" :class="ns.e('subtitle')">
+      <slot name="sub-title">
         <p>{{ subTitle }}</p>
       </slot>
     </div>
