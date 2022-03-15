@@ -10,7 +10,7 @@ import type { Browser } from 'puppeteer'
 
 const projectRoot = process.cwd()
 const testRoot = `${projectRoot}/ssr-testing`
-const demoRoot = path.resolve(projectRoot, 'packages/components')
+const demoRoot = path.resolve(projectRoot, 'ssr-testing/cases')
 describe('Cypress Button', () => {
   let browser: Browser
   beforeAll(async () => {
@@ -19,7 +19,7 @@ describe('Cypress Button', () => {
 
   describe('when initialized', () => {
     const demoPaths = glob
-      .sync(`${demoRoot}/**/ssr/*.vue`)
+      .sync(`${demoRoot}/*.vue`)
       .map((demo) => demo.slice(demoRoot.length + 1))
 
     it.each(demoPaths)(`render %s correctly`, async (demoPath) => {
