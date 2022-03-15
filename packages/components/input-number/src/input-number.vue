@@ -255,15 +255,13 @@ export default defineComponent({
           if (props.precision !== undefined) {
             newVal = toPrecision(newVal, props.precision)
           }
-
           if (newVal > props.max) {
             newVal = props.max
-            emit('update:modelValue', newVal)
           }
           if (newVal < props.min) {
             newVal = props.min
-            emit('update:modelValue', newVal)
           }
+          emit('update:modelValue', newVal)
         }
         data.currentValue = newVal
         data.userInput = null
