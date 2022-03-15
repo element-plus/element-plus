@@ -1,5 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.node.json",
+  "include": ["../packages/components/**/ssr/*.vue"],
   "compilerOptions": {
     "isolatedModules": false,
     "module": "esnext",
