@@ -14,6 +14,11 @@ const jumbotronRef = ref<HTMLElement | null>(null)
 const lang = useLang()
 const homeLang = computed(() => homeLocale[lang.value])
 
+function jumpTo(path: string) {
+  // vitepress has not router
+  location.href = `/${lang.value}/${path}`
+}
+
 const containerStyle: CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
@@ -105,11 +110,6 @@ const handleScroll = useThrottleFn(() => {
 }, 10)
 
 useEventListener(window, 'scroll', handleScroll)
-
-function jumpTo(path: string) {
-  // vitepress has not router
-  location.href = `/${lang.value}/${path}`
-}
 </script>
 
 <template>

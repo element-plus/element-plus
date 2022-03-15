@@ -1,4 +1,5 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { isClient } from '@vueuse/core'
 import { throttleAndDebounce } from '../utils'
 
 const threshold = 960
@@ -13,12 +14,14 @@ export const useBackTop = (offset = 200) => {
   const throttleScroll = throttleAndDebounce(onScroll, 160)
 
   onMounted(() => {
+    if (!isClient) return
     onResize()
     onScroll()
     window.addEventListener('resize', throttleResize)
   })
 
   onBeforeUnmount(() => {
+    if (!isClient) return
     window.removeEventListener('resize', throttleResize)
     window.removeEventListener('scroll', throttleScroll)
   })
@@ -41,6 +44,8 @@ export const useBackTop = (offset = 200) => {
   }
 
   function onResize() {
+    if (!isClient) return
+
     const { clientWidth } = document.body
 
     if (clientWidth < threshold) {
@@ -51,6 +56,7 @@ export const useBackTop = (offset = 200) => {
   }
 
   function onScroll() {
+    if (!isClient) return
     shouldShow.value = document.documentElement.scrollTop > offset
   }
 
