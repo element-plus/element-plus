@@ -1,1 +1,0 @@
-import{_ as t,c as o,a as r,r as a,o as n}from"./app.5d2c47fc.js";const f='{"title":"","description":"","frontmatter":{"page":true,"lang":"en-US"},"headers":[],"relativePath":"en-US/resource/index.md"}',s={};function c(p,_,d,i,l,u){const e=a("Resource");return n(),o("div",null,[r(e)])}var x=t(s,[["render",c]]);export{f as __pageData,x as default};
