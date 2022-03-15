@@ -28,7 +28,7 @@
 
   /* Picture Card for Wall */
   @include m(picture-card) {
-    #{getCssVarName('upload', 'picture-card', 'size')}: 148px;
+    @include set-css-var-value(('upload', 'picture-card', 'size'), 148px);
 
     background-color: #fbfdff;
     border: 1px dashed #c0ccda;
@@ -288,11 +288,11 @@
 
   // upload-list
   @include m(picture-card) {
+    @include set-css-var-value(('upload-list', 'picture-card', 'size'), 148px);
+
     display: inline-flex;
     flex-wrap: wrap;
-
     margin: 0;
-    #{getCssVarName('upload-list', 'picture-card', 'size')}: 148px;
 
     .#{bem('upload-list', 'item')} {
       overflow: hidden;
