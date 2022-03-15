@@ -12,8 +12,12 @@ import { useNamespace, useSize } from '@element-plus/hooks'
 import { formProps, formEmits } from './form'
 import { useFormLabelWidth, filterFields } from './utils'
 import type { ValidateFieldsError } from 'async-validator'
-import type { FormItemContext, FormContext } from '@element-plus/tokens'
-import type { FormValidateCallback, FormValidationResult } from './types'
+import type {
+  FormItemContext,
+  FormContext,
+  FormValidateCallback,
+  FormValidationResult,
+} from '@element-plus/tokens'
 import type { FormItemProp } from './form-item'
 
 const COMPONENT_NAME = 'ElForm'
@@ -44,7 +48,7 @@ const addField: FormContext['addField'] = (field) => {
 }
 
 const removeField: FormContext['removeField'] = (field) => {
-  if (!field.prop) {
+  if (field.prop) {
     fields.splice(fields.indexOf(field), 1)
   }
 }

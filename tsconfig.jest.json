@@ -1,6 +1,10 @@
 {
   "extends": "@vue/tsconfig/tsconfig.node.json",
-  "include": ["packages/**/*.test.*", "packages/**/*.spec.*"],
+  "include": [
+    "packages/**/*.test.*",
+    "packages/**/*.spec.*",
+    "packages/**/mocks/*"
+  ],
   "compilerOptions": {
     "isolatedModules": false,
     "composite": true,
