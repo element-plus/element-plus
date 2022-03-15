@@ -1,6 +1,6 @@
 import path from 'path'
-import { epOutput } from './utils/paths'
-import { EP_PKG } from './utils/constants'
+import { epOutput } from './utils'
+import { EP_PKG } from './constants'
 import type { ModuleFormat } from 'rollup'
 
 export const modules = ['esm', 'cjs'] as const

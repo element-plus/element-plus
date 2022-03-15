@@ -6,22 +6,23 @@ import vue from '@vitejs/plugin-vue'
 import DefineOptions from 'unplugin-vue-define-options/rollup'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import esbuild from 'rollup-plugin-esbuild'
-import filesize from 'rollup-plugin-filesize'
 import { parallel } from 'gulp'
 import glob from 'fast-glob'
 import { camelCase, upperFirst } from 'lodash'
-import { version } from '../packages/element-plus/version'
-import { reporter } from './plugins/size-reporter'
-import { ElementPlusAlias } from './plugins/element-plus-alias'
-import { epRoot, epOutput, localeRoot } from './utils/paths'
+import { version } from '../../../../packages/element-plus/version'
+import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import {
+  epRoot,
+  epOutput,
+  localeRoot,
   formatBundleFilename,
   generateExternal,
   writeBundles,
-} from './utils/rollup'
-import { withTaskName } from './utils/gulp'
-import { EP_BRAND_NAME } from './utils/constants'
-import { target } from './build-info'
+  withTaskName,
+} from '../utils'
+import { EP_BRAND_NAME } from '../constants'
+import { target } from '../build-info'
+
 import type { Plugin } from 'rollup'
 
 const banner = `/*! ${EP_BRAND_NAME} v${version} */\n`
@@ -52,7 +53,6 @@ async function buildFullEntry(minify: boolean) {
           'process.env.NODE_ENV': JSON.stringify('production'),
         },
       }),
-      filesize(),
     ],
     external: await generateExternal({ full: true }),
   })
@@ -102,7 +102,6 @@ async function buildFullLocale(minify: boolean) {
             sourceMap: minify,
             target,
           }),
-          filesize({ reporter }),
         ],
       })
       await writeBundles(bundle, [

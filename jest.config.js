@@ -13,7 +13,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   transform: {
     '\\.[jt]sx?$': 'babel-jest',
-    '^.+\\.vue$': '<rootDir>/build/vue-jest-transformer.js',
+    '^.+\\.vue$': '<rootDir>/internal/build/vue-jest-transformer.js',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'json', 'vue'],
   // u can change this option to a more specific folder for test single component or util when dev

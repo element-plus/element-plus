@@ -9,8 +9,13 @@ import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import DefineOptions from 'unplugin-vue-define-options/vite'
 import esbuild from 'rollup-plugin-esbuild'
-import { epRoot, pkgRoot, projRoot, epPackage } from '../build/utils/paths'
-import { getPackageDependencies } from '../build/utils/pkg'
+import {
+  epRoot,
+  pkgRoot,
+  projRoot,
+  epPackage,
+  getPackageDependencies,
+} from '@element-plus/build'
 import './vite.init'
 
 const esbuildPlugin = () => ({

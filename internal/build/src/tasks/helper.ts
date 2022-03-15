@@ -1,9 +1,9 @@
 import path from 'path'
 import helper from 'components-helper'
-import { epPackage, epOutput, projRoot } from './utils/paths'
-import { getPackageManifest } from './utils/pkg'
+import { epPackage, epOutput, projRoot, getPackageManifest } from '../utils'
+
 import type { TaskFunction } from 'gulp'
-import type { InstallOptions } from 'components-helper/lib/type'
+import type { InstallOptions } from 'components-helper'
 
 const reComponentName: InstallOptions['reComponentName'] = (title: string) =>
   `el-${title
