@@ -193,6 +193,13 @@ export default defineComponent({
     }
     const setCurrentValue = (newVal: number | string) => {
       const oldVal = data.currentValue
+      if (props.stepStrictly) {
+        const stepPrecision = getPrecision(props.step)
+        const precisionFactor = 10 ** stepPrecision
+        newVal =
+          (Math.round(newVal / props.step) * precisionFactor * props.step) /
+          precisionFactor
+      }
       if (typeof newVal === 'number' && props.precision !== undefined) {
         newVal = toPrecision(newVal, props.precision)
       }
