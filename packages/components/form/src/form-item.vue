@@ -60,10 +60,13 @@ import FormLabelWrap from './form-label-wrap'
 
 import type { CSSProperties } from 'vue'
 import type { RuleItem } from 'async-validator'
-import type { FormItemContext } from '@element-plus/tokens'
+import type {
+  FormItemContext,
+  FormItemRule,
+  FormValidateFailure,
+} from '@element-plus/tokens'
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemValidateState } from './form-item'
-import type { FormItemRule, FormValidateFailure } from './types'
 
 const COMPONENT_NAME = 'ElFormItem'
 defineOptions({
@@ -238,7 +241,6 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
       return Promise.reject(err)
     })
 }
-
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
   if (!validateEnabled.value) return false
 
