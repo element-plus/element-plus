@@ -6,12 +6,14 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs, watch } from 'vue'
-import { debugWarn, type Arrayable } from '@element-plus/utils'
+import { debugWarn, isFunction } from '@element-plus/utils'
 import { formContextKey } from '@element-plus/tokens'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import { formProps, formEmits } from './form'
 import { useFormLabelWidth, filterFields } from './utils'
+
 import type { ValidateFieldsError } from 'async-validator'
+import type { Arrayable } from '@element-plus/utils'
 import type {
   FormItemContext,
   FormContext,
@@ -116,6 +118,7 @@ const validateField: FormContext['validateField'] = async (
   modelProps = [],
   callback
 ) => {
+  const shouldThrow = !isFunction(callback)
   try {
     const result = await doValidateField(modelProps)
     // When result is false meaning that the fields are not validatable
@@ -130,7 +133,7 @@ const validateField: FormContext['validateField'] = async (
       scrollToField(Object.keys(invalidFields)[0])
     }
     callback?.(false, invalidFields)
-    return Promise.reject(invalidFields)
+    return shouldThrow && Promise.reject(invalidFields)
   }
 }
 

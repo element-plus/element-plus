@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, toRef, getCurrentInstance } from 'vue'
-import { useClipboard, useToggle } from '@vueuse/core'
+import { useClipboard, useToggle, isClient } from '@vueuse/core'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useLang } from '../composables/lang'
 import { useSourceCode } from '../composables/source-code'
@@ -52,6 +52,7 @@ const decodedDescription = computed(() =>
 
 const onPlaygroundClicked = () => {
   const { link } = usePlayGround(props.rawSource)
+  if (!isClient) return
   window.open(link)
 }
 
