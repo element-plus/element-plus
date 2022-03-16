@@ -97,6 +97,20 @@ export default defineComponent({
       }
     }
 
+    const isScrollToOptions = (
+      options: unknown
+    ): options is ScrollToOptions => {
+      return typeof options === 'object'
+    }
+
+    const scrollTo = (options: ScrollToOptions | number, yCoord?: number) => {
+      if (isScrollToOptions(options)) {
+        wrap$.value!.scrollTo(options)
+      } else if (isNumber(options) && isNumber(yCoord)) {
+        wrap$.value!.scrollTo(options, yCoord)
+      }
+    }
+
     const setScrollTop = (value: number) => {
       if (!isNumber(value)) {
         debugWarn(SCOPE, 'value must be a number')
@@ -190,6 +204,7 @@ export default defineComponent({
       style,
       update,
       handleScroll,
+      scrollTo,
       setScrollTop,
       setScrollLeft,
     }
