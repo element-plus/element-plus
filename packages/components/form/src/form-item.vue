@@ -234,6 +234,7 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
     .validate({ [modelName]: fieldValue.value }, { firstFields: true })
     .then(() => {
       setValidationState('success')
+      formContext.emit('validate', props.prop!, true, '')
       return true as const
     })
     .catch((err: FormValidateFailure) => {
