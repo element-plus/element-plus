@@ -10,7 +10,6 @@ import {
 import type { ExtractPropTypes } from 'vue'
 import type { FormItemProp } from './form-item'
 import type { FormRules } from '@element-plus/tokens'
-import type Form from './form.vue'
 
 export const formProps = buildProps({
   model: Object,
