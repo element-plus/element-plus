@@ -1,8 +1,8 @@
 import { nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
-import type { CarouselInstance } from '../src/carousel'
 import Carousel from '../src/carousel.vue'
 import CarouselItem from '../src/carousel-item.vue'
+import type { CarouselInstance } from '../src/carousel'
 
 const wait = (ms = 100) =>
   new Promise((resolve) => setTimeout(() => resolve(0), ms))

@@ -28,9 +28,9 @@ import {
 } from 'vue'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import type { CSSProperties } from 'vue'
-import { carouselItemProps } from './carousel-item'
 import { carouselContextKey } from '@element-plus/tokens'
+import { carouselItemProps } from './carousel-item'
+import type { CSSProperties } from 'vue'
 
 defineOptions({
   name: 'ElCarouselItem',
@@ -111,7 +111,7 @@ const translateItem = (
   oldIndex: number
 ) => {
   const parentType = carouselContext?.type
-  const length = carouselContext?.items.value.length ?? NaN
+  const length = carouselContext?.items.value.length ?? Number.NaN
   if (parentType !== 'card' && oldIndex !== undefined) {
     animating.value = index === activeIndex || index === oldIndex
   }

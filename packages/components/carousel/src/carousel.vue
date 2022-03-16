@@ -72,14 +72,14 @@ import {
   nextTick,
 } from 'vue'
 import { throttle } from 'lodash-unified'
+import { useResizeObserver } from '@vueuse/core'
 import { debugWarn } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-import { carouselProps, carouselEmits } from './carousel'
 import { carouselContextKey } from '@element-plus/tokens'
+import { carouselProps, carouselEmits } from './carousel'
 import type { CarouselItemContext } from '@element-plus/tokens'
-import { useResizeObserver } from '@vueuse/core'
 
 defineOptions({
   name: 'ElCarousel',
@@ -87,8 +87,6 @@ defineOptions({
 const props = defineProps(carouselProps)
 const emit = defineEmits(carouselEmits)
 const ns = useNamespace('carousel')
-
-let resizeObserver: ReturnType<typeof useResizeObserver>
 
 // refs
 const activeIndex = ref(-1)
@@ -290,17 +288,17 @@ watch(
 // lifecycle
 onMounted(() => {
   nextTick(() => {
-    resizeObserver = useResizeObserver(root.value, resetItemPosition)
+    const resizeObserver = useResizeObserver(root.value, resetItemPosition)
     if (props.initialIndex < items.value.length && props.initialIndex >= 0) {
       activeIndex.value = props.initialIndex
     }
     startTimer()
-  })
-})
 
-onBeforeUnmount(() => {
-  if (root.value) resizeObserver.stop()
-  pauseTimer()
+    onBeforeUnmount(() => {
+      if (root.value) resizeObserver.stop()
+      pauseTimer()
+    })
+  })
 })
 
 // provide
