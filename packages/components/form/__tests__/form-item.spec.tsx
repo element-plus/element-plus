@@ -2,6 +2,7 @@ import { ref, reactive, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import Input from '@element-plus/components/input'
+import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
 import DynamicFormItem from '../mocks/mock-data'
 
@@ -26,12 +27,18 @@ describe('ElFormItem', () => {
       slots: {
         default: () => (
           <FormItem prop="email" required ref={formItemRef}>
-            <Input class="input" ref={inputRef} v-model={model.email} />
+            <Input
+              class="input"
+              ref={inputRef}
+              v-model={model.email}
+              validateEvent={false}
+            />
           </FormItem>
         ),
       },
     })
   }
+  const findForm = () => wrapper.findComponent(Form)
 
   beforeAll(() => jest.spyOn(console, 'warn').mockImplementation())
   afterAll(() => (console.warn as any as jest.SpyInstance).mockRestore())
@@ -55,6 +62,7 @@ describe('ElFormItem', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(Error)
       }
+
       expect(warnHandler).toHaveBeenCalled()
     })
   })
@@ -74,6 +82,7 @@ describe('ElFormItem', () => {
         model.email = 'test'
         await nextTick()
         await rAF()
+
         expect(emailInput.validate('')).resolves.toBe(true)
       })
 
@@ -83,9 +92,21 @@ describe('ElFormItem', () => {
         await nextTick()
         await rAF()
         const callback = jest.fn()
+
         expect(emailInput.validate('', callback)).resolves.toBe(true)
         await rAF()
+
         expect(callback).toHaveBeenCalledWith(true)
+      })
+
+      it('should emit validate event', async () => {
+        const emailInput = formItemRef.value!
+        model.email = 'test'
+        await nextTick()
+        await emailInput.validate('')
+        await rAF()
+
+        expect(findForm().emitted('validate')).toEqual([['email', true, '']])
       })
     })
 
@@ -103,6 +124,17 @@ describe('ElFormItem', () => {
         expect(emailInput.validate('', callback)).resolves.toBe(false)
         await rAF()
         expect(callback).toHaveBeenCalled()
+      })
+
+      it('should emit validate event', async () => {
+        const emailInput = formItemRef.value!
+        const callback = jest.fn()
+        expect(console.warn).toHaveBeenCalled()
+        expect(emailInput.validate('', callback)).resolves.toBe(false)
+        await rAF()
+        expect(findForm().emitted('validate')).toEqual([
+          ['email', false, 'email is required'],
+        ])
       })
     })
   })
