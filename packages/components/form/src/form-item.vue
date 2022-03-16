@@ -223,7 +223,12 @@ const onValidationFailed = (error: FormValidateFailure) => {
     ? errors?.[0]?.message ?? `${props.prop} is required`
     : ''
 
-  formContext.emit('validate', props.prop!, !errors, validateMessage.value)
+  formContext.emit('validate', props.prop!, false, validateMessage.value)
+}
+
+const onValidationSucceeded = () => {
+  setValidationState('success')
+  formContext.emit('validate', props.prop!, true, '')
 }
 
 const doValidate = async (rules: RuleItem[]): Promise<true> => {
@@ -234,8 +239,7 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
   return validator
     .validate({ [modelName]: fieldValue.value }, { firstFields: true })
     .then(() => {
-      setValidationState('success')
-      formContext.emit('validate', props.prop!, true, '')
+      onValidationSucceeded()
       return true as const
     })
     .catch((err: FormValidateFailure) => {
