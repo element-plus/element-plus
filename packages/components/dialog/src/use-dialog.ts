@@ -94,7 +94,7 @@ export const useDialog = (
   }
 
   function handleClose() {
-    function hide(shouldCancel: boolean) {
+    function hide(shouldCancel?: boolean) {
       if (shouldCancel) return
       closed.value = true
       visible.value = false
