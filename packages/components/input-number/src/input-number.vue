@@ -110,8 +110,12 @@ export default defineComponent({
     const { formItem } = useFormItem()
     const ns = useNamespace('input-number')
 
-    const minDisabled = computed(() => _decrease(props.modelValue) < props.min)
-    const maxDisabled = computed(() => _increase(props.modelValue) > props.max)
+    const minDisabled = computed(
+      () => handleCompute(props.modelValue) < props.min
+    )
+    const maxDisabled = computed(
+      () => handleCompute(props.modelValue, true) > props.max
+    )
 
     const numPrecision = computed(() => {
       const stepPrecision = getPrecision(props.step)
@@ -161,54 +165,60 @@ export default defineComponent({
       }
       return precision
     }
-    const _increase = (val: number) => {
+    const handleCompute = (val: number, isIncrease?: boolean) => {
       if (!isNumber(val)) return data.currentValue
       const precisionFactor = 10 ** numPrecision.value
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
       val = isNumber(val) ? val : Number.NaN
-      return toPrecision(
-        (precisionFactor * val + precisionFactor * props.step) / precisionFactor
-      )
-    }
-    const _decrease = (val: number) => {
-      if (!isNumber(val)) return data.currentValue
-      const precisionFactor = 10 ** numPrecision.value
-      // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
-      val = isNumber(val) ? val : Number.NaN
-      return toPrecision(
-        (precisionFactor * val - precisionFactor * props.step) / precisionFactor
-      )
+      return toPrecision(val + props.step * (isIncrease ? 1 : -1))
     }
     const increase = () => {
       if (inputNumberDisabled.value || maxDisabled.value) return
       const value = props.modelValue || 0
-      const newVal = _increase(value)
+      const newVal = handleCompute(value, true)
       setCurrentValue(newVal)
     }
     const decrease = () => {
       if (inputNumberDisabled.value || minDisabled.value) return
       const value = props.modelValue || 0
-      const newVal = _decrease(value)
+      const newVal = handleCompute(value)
       setCurrentValue(newVal)
     }
-    const setCurrentValue = (newVal: number | string) => {
+    const verifyValue = (
+      value: number | string | undefined,
+      update?: boolean
+    ) => {
+      let newVal = Number(value)
+      if (value === null) {
+        newVal = Number.NaN
+      }
+      if (!Number.isNaN(newVal)) {
+        if (props.stepStrictly) {
+          const stepPrecision = getPrecision(props.step)
+          const precisionFactor = 10 ** stepPrecision
+          newVal =
+            (Math.round(newVal / props.step) * precisionFactor * props.step) /
+            precisionFactor
+        }
+        if (props.precision !== undefined) {
+          newVal = toPrecision(newVal, props.precision)
+        }
+
+        if (newVal > props.max) {
+          newVal = props.max
+          update && emit('update:modelValue', newVal)
+        }
+        if (newVal < props.min) {
+          newVal = props.min
+          update && emit('update:modelValue', newVal)
+        }
+      }
+      return newVal
+    }
+    const setCurrentValue = (value: number | string | undefined) => {
       const oldVal = data.currentValue
-      if (props.stepStrictly) {
-        const stepPrecision = getPrecision(props.step)
-        const precisionFactor = 10 ** stepPrecision
-        newVal =
-          (Math.round(newVal / props.step) * precisionFactor * props.step) /
-          precisionFactor
-      }
-      if (typeof newVal === 'number' && props.precision !== undefined) {
-        newVal = toPrecision(newVal, props.precision)
-      }
-      if (newVal !== undefined && newVal >= props.max) newVal = props.max
-      if (newVal !== undefined && newVal <= props.min) newVal = props.min
+      const newVal = verifyValue(value)
       if (oldVal === newVal) return
-      if (!isNumber(newVal)) {
-        newVal = undefined
-      }
       data.userInput = null
       emit('update:modelValue', newVal)
       emit('input', newVal)
@@ -235,11 +245,11 @@ export default defineComponent({
       input.value?.blur?.()
     }
 
-    const handleFocus = (event: MouseEvent) => {
+    const handleFocus = (event: MouseEvent | FocusEvent) => {
       emit('focus', event)
     }
 
-    const handleBlur = (event: MouseEvent) => {
+    const handleBlur = (event: MouseEvent | FocusEvent) => {
       emit('blur', event)
       formItem?.validate?.('blur').catch((err) => debugWarn(err))
     }
@@ -247,31 +257,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       (value) => {
-        let newVal = Number(value)
-        if (value === null) {
-          newVal = Number.NaN
-        }
-        if (!Number.isNaN(newVal)) {
-          if (props.stepStrictly) {
-            const stepPrecision = getPrecision(props.step)
-            const precisionFactor = 10 ** stepPrecision
-            newVal =
-              (Math.round(newVal / props.step) * precisionFactor * props.step) /
-              precisionFactor
-          }
-          if (props.precision !== undefined) {
-            newVal = toPrecision(newVal, props.precision)
-          }
-
-          if (newVal > props.max) {
-            newVal = props.max
-            emit('update:modelValue', newVal)
-          }
-          if (newVal < props.min) {
-            newVal = props.min
-            emit('update:modelValue', newVal)
-          }
-        }
+        const newVal = verifyValue(value, true)
         data.currentValue = newVal
         data.userInput = null
       },
@@ -315,7 +301,6 @@ export default defineComponent({
       blur,
       handleFocus,
       handleBlur,
-
       ns,
     }
   },
