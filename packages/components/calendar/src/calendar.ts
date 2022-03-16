@@ -1,6 +1,14 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
+import type Calendar from './calendar.vue'
+
+export type DateType =
+  | 'prev-month'
+  | 'next-month'
+  | 'prev-year'
+  | 'next-year'
+  | 'today'
 
 export const calendarProps = buildProps({
   modelValue: {
@@ -21,3 +29,5 @@ export const calendarEmits = {
   input: (value: Date) => value instanceof Date,
 }
 export type CalendarEmits = typeof calendarEmits
+
+export type CalendarInstance = InstanceType<typeof Calendar>
