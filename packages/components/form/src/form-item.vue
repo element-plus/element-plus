@@ -51,6 +51,7 @@ import {
   getProp,
   isString,
   isBoolean,
+  isFunction,
   throwError,
 } from '@element-plus/utils'
 import { formItemContextKey, formContextKey } from '@element-plus/tokens'
@@ -241,11 +242,19 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
       return Promise.reject(err)
     })
 }
+
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
-  if (!validateEnabled.value) return false
+  const hasCallback = isFunction(callback)
+  if (!validateEnabled.value) {
+    callback?.(false)
+    return false
+  }
 
   const rules = getFilteredRule(trigger)
-  if (rules.length === 0) return true
+  if (rules.length === 0) {
+    callback?.(true)
+    return true
+  }
 
   setValidationState('validating')
 
@@ -257,7 +266,7 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
     .catch((err: FormValidateFailure) => {
       const { fields } = err
       callback?.(false, fields)
-      return Promise.reject(fields)
+      return hasCallback ? false : Promise.reject(fields)
     })
 }
 
