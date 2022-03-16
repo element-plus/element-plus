@@ -38,8 +38,12 @@ export const autocompleteProps = buildProps({
   },
   fetchSuggestions: {
     type: definePropType<
-      (queryString: string, cb: (data: any[]) => void) => void
-    >(Function),
+      | ((
+          queryString: string,
+          cb: (data: { value: string }[]) => void
+        ) => { value: string }[] | Promise<{ value: string }[]> | void)
+      | { value: string }[]
+    >([Function, Array]),
     default: NOOP,
   },
   popperClass: {
