@@ -19,6 +19,7 @@
       :effect="Effect.DARK"
       placement="right"
       persistent
+      :fallback-placements="['right', 'left', 'bottom', 'top']"
     >
       <template #content>
         <slot name="title" />
