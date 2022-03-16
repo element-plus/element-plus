@@ -43,8 +43,8 @@ function useStyle<T>(
   })
   const isGroup = ref(false)
   const scrollbarViewStyle = {
-    display: 'inline-flex',
-    flexDirection: 'column',
+    display: 'inline-block',
+    verticalAlign: 'middle',
   }
 
   watchEffect(() => {
@@ -298,7 +298,7 @@ function useStyle<T>(
       height = `calc(100% - ${layout.appendHeight.value}px)`
     }
     return {
-      width: bodyWidth.value,
+      width: `${resizeState.value.width}px`,
       height,
     }
   })
