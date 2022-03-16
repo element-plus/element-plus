@@ -167,7 +167,6 @@ export default defineComponent({
     }
     const handleCompute = (val: number, isIncrease?: boolean) => {
       if (!isNumber(val)) return data.currentValue
-      const precisionFactor = 10 ** numPrecision.value
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
       val = isNumber(val) ? val : Number.NaN
       return toPrecision(val + props.step * (isIncrease ? 1 : -1))
@@ -194,11 +193,7 @@ export default defineComponent({
       }
       if (!Number.isNaN(newVal)) {
         if (props.stepStrictly) {
-          const stepPrecision = getPrecision(props.step)
-          const precisionFactor = 10 ** stepPrecision
-          newVal =
-            (Math.round(newVal / props.step) * precisionFactor * props.step) /
-            precisionFactor
+          newVal = Math.round(newVal / props.step) * props.step
         }
         if (props.precision !== undefined) {
           newVal = toPrecision(newVal, props.precision)
