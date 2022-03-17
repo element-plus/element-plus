@@ -18,6 +18,7 @@
       "
       :effect="Effect.DARK"
       placement="right"
+      :fallback-placements="['left']"
       persistent
     >
       <template #content>
