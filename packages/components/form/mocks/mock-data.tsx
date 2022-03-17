@@ -1,10 +1,8 @@
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, toRef } from 'vue'
 import Input from '@element-plus/components/input'
 import Button from '@element-plus/components/button'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
-
-import type { FormInstance } from '../src/form'
 
 interface DomainItem {
   key: number
@@ -15,8 +13,11 @@ const DynamicDomainForm = defineComponent({
   props: {
     onSuccess: Function,
     onError: Function,
+    onSubmit: Function,
+    model: Object,
   },
-  setup(props) {
+  setup(props, { slots }) {
+    const propsModel = toRef(props, 'model')
     const model = ref({
       domains: [
         {
@@ -26,7 +27,7 @@ const DynamicDomainForm = defineComponent({
       ],
     })
 
-    const formRef = ref<FormInstance>()
+    const formRef = ref<InstanceType<typeof Form>>()
 
     const removeDomain = (item: DomainItem) => {
       const index = model.value.domains.indexOf(item)
@@ -45,7 +46,11 @@ const DynamicDomainForm = defineComponent({
     const submitForm = async () => {
       if (!formRef.value) return
       try {
-        await formRef.value.validate()
+        const validate = props.onSubmit
+          ? formRef.value.validate(props.onSubmit as any)
+          : formRef.value.validate()
+
+        await validate
         props.onSuccess?.()
       } catch (e) {
         props.onError?.(e)
@@ -53,7 +58,10 @@ const DynamicDomainForm = defineComponent({
     }
 
     return () => (
-      <Form ref={formRef} model={model.value}>
+      <Form
+        ref={formRef}
+        model={{ ...model.value, ...(propsModel.value || {}) }}
+      >
         {model.value.domains.map((domain, index) => {
           return (
             <FormItem
@@ -80,6 +88,7 @@ const DynamicDomainForm = defineComponent({
             </FormItem>
           )
         })}
+        {slots.default?.()}
 
         <FormItem>
           <Button class="submit" type="primary" onClick={submitForm}>

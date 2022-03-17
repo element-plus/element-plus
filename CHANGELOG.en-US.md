@@ -1,5 +1,19 @@
 ## Changelog
 
+### 2.1.4
+
+_2022-03-16_
+
+#### Bug fixes
+
+- Components [menu] do not handle resize of child vnode (#6131 by @nieyuyao)
+- Docs build without window and Element error (#6656 by @YunYouJun)
+- Components [table] not scroll empty block when scrolling table (#6615 by @plainheart)
+- Components [el-form] validation with callbacks throws (#6669 by @JeremyWuuuuu)
+- Components [form-item] emit validate when passed not triggered (#6671 by @LYlanfeng)
+- Components [el-dialog] DoneFn parameter should be optional (#6675 by @yeyuqiudeng)
+- Input-number in step-strictly onChange bug (#6662 by @chenxch)
+
 ### 2.1.3
 
 _2022-03-15_

@@ -11,3 +11,6 @@ export const ElFormItem = withNoopInstall(FormItem)
 export * from './src/form'
 export * from './src/form-item'
 export * from './src/types'
+
+export type FormInstance = InstanceType<typeof Form>
+export type FormItemInstance = InstanceType<typeof FormItem>

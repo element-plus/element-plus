@@ -51,6 +51,7 @@ import {
   getProp,
   isString,
   isBoolean,
+  isFunction,
   throwError,
 } from '@element-plus/utils'
 import { formItemContextKey, formContextKey } from '@element-plus/tokens'
@@ -222,7 +223,12 @@ const onValidationFailed = (error: FormValidateFailure) => {
     ? errors?.[0]?.message ?? `${props.prop} is required`
     : ''
 
-  formContext.emit('validate', props.prop!, !errors, validateMessage.value)
+  formContext.emit('validate', props.prop!, false, validateMessage.value)
+}
+
+const onValidationSucceeded = () => {
+  setValidationState('success')
+  formContext.emit('validate', props.prop!, true, '')
 }
 
 const doValidate = async (rules: RuleItem[]): Promise<true> => {
@@ -233,7 +239,7 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
   return validator
     .validate({ [modelName]: fieldValue.value }, { firstFields: true })
     .then(() => {
-      setValidationState('success')
+      onValidationSucceeded()
       return true as const
     })
     .catch((err: FormValidateFailure) => {
@@ -241,11 +247,19 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
       return Promise.reject(err)
     })
 }
+
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
-  if (!validateEnabled.value) return false
+  const hasCallback = isFunction(callback)
+  if (!validateEnabled.value) {
+    callback?.(false)
+    return false
+  }
 
   const rules = getFilteredRule(trigger)
-  if (rules.length === 0) return true
+  if (rules.length === 0) {
+    callback?.(true)
+    return true
+  }
 
   setValidationState('validating')
 
@@ -257,7 +271,7 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
     .catch((err: FormValidateFailure) => {
       const { fields } = err
       callback?.(false, fields)
-      return Promise.reject(fields)
+      return hasCallback ? false : Promise.reject(fields)
     })
 }
 

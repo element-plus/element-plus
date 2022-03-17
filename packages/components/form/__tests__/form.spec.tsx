@@ -2,17 +2,21 @@ import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import installStyle from '@element-plus/test-utils/style-plugin'
-import Checkbox from '@element-plus/components/checkbox/src/checkbox.vue'
-import CheckboxGroup from '@element-plus/components/checkbox/src/checkbox-group.vue'
+import {
+  ElCheckboxGroup as CheckboxGroup,
+  ElCheckbox as Checkbox,
+} from '@element-plus/components/checkbox'
 import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
 import DynamicDomainForm, { formatDomainError } from '../mocks/mock-data'
 
 import type { VueWrapper } from '@vue/test-utils'
+import type { ValidateFieldsError } from 'async-validator'
 import type { FormRules } from '@element-plus/tokens'
-import type { FormInstance } from '../src/form'
-import type { FormItemInstance } from '../src/form-item'
+
+type FormInstance = InstanceType<typeof Form>
+type FormItemInstance = InstanceType<typeof FormItem>
 
 const findStyle = (wrapper: VueWrapper<any>, selector: string) =>
   wrapper.find<HTMLElement>(selector).element.style
@@ -262,13 +266,13 @@ describe('Form', () => {
     })
     const form = wrapper.findComponent(Form).vm as FormInstance
     form
-      .validate(async (valid) => {
+      .validate(async (valid: boolean) => {
         expect(valid).toBe(false)
         await nextTick()
         expect(wrapper.find('.el-form-item__error').exists()).toBe(false)
         done()
       })
-      .catch((e) => {
+      .catch((e: ValidateFieldsError) => {
         expect(e).toBeDefined()
       })
   })
@@ -531,11 +535,12 @@ describe('Form', () => {
     const onSuccess = jest.fn()
     const onError = jest.fn()
     let wrapper: VueWrapper<InstanceType<typeof DynamicDomainForm>>
-    const createComponent = () => {
+    const createComponent = (onSubmit?: jest.MockedFunction<any>) => {
       wrapper = mount(DynamicDomainForm, {
         props: {
           onSuccess,
           onError,
+          onSubmit,
         },
       })
     }
@@ -579,6 +584,16 @@ describe('Form', () => {
       // wait for AsyncValidator to be resolved
       await rAF()
       expect(onError).toHaveBeenLastCalledWith(formatDomainError(1))
+    })
+
+    it('should not throw error when callback passed in', async () => {
+      const onSubmit = jest.fn()
+      createComponent(onSubmit)
+
+      await findSubmitButton().trigger('click')
+      await rAF()
+      expect(onError).not.toHaveBeenCalled()
+      expect(onSubmit).toHaveBeenCalled()
     })
   })
 })
