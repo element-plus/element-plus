@@ -175,7 +175,7 @@ function setActiveItem(index: number | string) {
   }
   index = Number(index)
   if (Number.isNaN(index) || index !== Math.floor(index)) {
-    debugWarn(COMPONENT_NAME, 'index must be an integer.')
+    debugWarn(COMPONENT_NAME, 'index must be integer.')
     return
   }
   const itemCount = items.value.length
@@ -211,23 +211,21 @@ function removeItem(uid?: number) {
 }
 
 function itemInStage(item: CarouselItemContext, index: number) {
-  const length = items.value.length
+  const _items = unref(items)
+  const itemCount = _items.length
+  const nextItemIndex = index + 1
+  const prevItemIndex = index - 1
+  const lastItemIndex = itemCount - 1
+  if (!item.states.inStage) return false
+
   if (
-    (index === length - 1 &&
-      item.states.inStage &&
-      items.value[0].states.active) ||
-    (item.states.inStage &&
-      items.value[index + 1] &&
-      items.value[index + 1].states.active)
+    (index === lastItemIndex && _items[0]?.states?.active) ||
+    _items[nextItemIndex]?.states?.active
   ) {
     return 'left'
   } else if (
-    (index === 0 &&
-      item.states.inStage &&
-      items.value[length - 1].states.active) ||
-    (item.states.inStage &&
-      items.value[index - 1] &&
-      items.value[index - 1].states.active)
+    (index === 0 && _items[lastItemIndex]?.states?.active) ||
+    _items[prevItemIndex]?.states?.active
   ) {
     return 'right'
   }
@@ -246,7 +244,7 @@ function handleMouseLeave() {
   startTimer()
 }
 
-function handleButtonEnter(arrow: false | 'left' | 'right') {
+function handleButtonEnter(arrow: 'left' | 'right') {
   if (unref(isVertical)) return
   items.value.forEach((item, index) => {
     if (arrow === itemInStage(item, index)) {
