@@ -2,7 +2,7 @@ import type { InjectionKey, Ref } from 'vue'
 
 import type { CarouselItemProps } from '@element-plus/components/carousel'
 
-type CarouselItemStates = {
+export type CarouselItemStates = {
   hover: boolean
   translate: number
   scale: number
