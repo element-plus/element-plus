@@ -74,7 +74,7 @@ If your project also uses SCSS, you can directly change Element Plus style varia
 
 You should use `@use 'xxx.scss' as *;` instead of `@import 'xxx.scss';`.
 
-Because the sass team said they will remove it eventually.
+Because the sass team said they will remove `@import` eventually.
 
 > [Sass: @use](https://sass-lang.com/documentation/at-rules/use) vs [Sass: @import](https://sass-lang.com/documentation/at-rules/import)
 
