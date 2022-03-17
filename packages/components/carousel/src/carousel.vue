@@ -70,6 +70,7 @@ import {
   onBeforeUnmount,
   watch,
   nextTick,
+  shallowRef,
   unref,
 } from 'vue'
 import { throttle } from 'lodash-unified'
@@ -302,12 +303,12 @@ watch(
   }
 )
 
-let resizeObserver: ReturnType<typeof useResizeObserver>
+const resizeObserver = shallowRef<ReturnType<typeof useResizeObserver>>()
 // lifecycle
 onMounted(async () => {
   await nextTick()
 
-  resizeObserver = useResizeObserver(root.value, () => {
+  resizeObserver.value = useResizeObserver(root.value, () => {
     resetItemPosition()
   })
   if (props.initialIndex < items.value.length && props.initialIndex >= 0) {
@@ -318,7 +319,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   pauseTimer()
-  if (root.value && resizeObserver) resizeObserver.stop()
+  if (root.value && resizeObserver.value) resizeObserver.value.stop()
 })
 
 // provide
