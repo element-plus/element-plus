@@ -54,7 +54,7 @@
         @click.stop="handleIndicatorClick(index)"
       >
         <button :class="ns.e('button')">
-          <span v-if="hasLabel">{{ item.label }}</span>
+          <span v-if="hasLabel">{{ item.props.label }}</span>
         </button>
       </li>
     </ul>
@@ -70,10 +70,11 @@ import {
   onBeforeUnmount,
   watch,
   nextTick,
+  unref,
 } from 'vue'
 import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, isString } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
@@ -84,29 +85,32 @@ import type { CarouselItemContext } from '@element-plus/tokens'
 defineOptions({
   name: 'ElCarousel',
 })
+
 const props = defineProps(carouselProps)
 const emit = defineEmits(carouselEmits)
 const ns = useNamespace('carousel')
+const COMPONENT_NAME = 'ElCarousel'
+const THROTTLE_TIME = 300
 
 // refs
 const activeIndex = ref(-1)
 const timer = ref<ReturnType<typeof setInterval> | null>(null)
 const hover = ref(false)
 const root = ref<HTMLDivElement>()
-const items = ref<CarouselItemContext[]>([])
+const items = ref<Array<CarouselItemContext>>([])
 
 // computed
 const arrowDisplay = computed(
-  () => props.arrow !== 'never' && props.direction !== 'vertical'
+  () => props.arrow !== 'never' && !unref(isVertical)
 )
 
 const hasLabel = computed(() => {
-  return items.value.some((item) => item.label.toString().length > 0)
+  return items.value.some((item) => item.props.label.toString().length > 0)
 })
 
 const carouselClasses = computed(() => {
   const classes = [ns.b(), ns.m(props.direction)]
-  if (props.type === 'card') {
+  if (unref(isCardType)) {
     classes.push(ns.m('card'))
   }
   return classes
@@ -117,24 +121,27 @@ const indicatorsClasses = computed(() => {
   if (hasLabel.value) {
     classes.push(ns.em('indicators', 'labels'))
   }
-  if (props.indicatorPosition === 'outside' || props.type === 'card') {
+  if (props.indicatorPosition === 'outside' || unref(isCardType)) {
     classes.push(ns.em('indicators', 'outside'))
   }
   return classes
 })
 
+const isCardType = computed(() => props.type === 'card')
+const isVertical = computed(() => props.direction === 'vertical')
+
 // methods
 const throttledArrowClick = throttle(
-  (index) => {
+  (index: number) => {
     setActiveItem(index)
   },
-  300,
+  THROTTLE_TIME,
   { trailing: true }
 )
 
-const throttledIndicatorHover = throttle((index) => {
+const throttledIndicatorHover = throttle((index: number) => {
   handleIndicatorHover(index)
-}, 300)
+}, THROTTLE_TIME)
 
 function pauseTimer() {
   if (timer.value) {
@@ -156,24 +163,26 @@ const playSlides = () => {
   }
 }
 
-function setActiveItem(index) {
-  if (typeof index === 'string') {
-    const filteredItems = items.value.filter((item) => item.name === index)
+function setActiveItem(index: number | string) {
+  if (isString(index)) {
+    const filteredItems = items.value.filter(
+      (item) => item.props.name === index
+    )
     if (filteredItems.length > 0) {
       index = items.value.indexOf(filteredItems[0])
     }
   }
   index = Number(index)
   if (Number.isNaN(index) || index !== Math.floor(index)) {
-    debugWarn('Carousel', 'index must be an integer.')
+    debugWarn(COMPONENT_NAME, 'index must be an integer.')
     return
   }
-  const length = items.value.length
+  const itemCount = items.value.length
   const oldIndex = activeIndex.value
   if (index < 0) {
-    activeIndex.value = props.loop ? length - 1 : 0
-  } else if (index >= length) {
-    activeIndex.value = props.loop ? 0 : length - 1
+    activeIndex.value = props.loop ? itemCount - 1 : 0
+  } else if (index >= itemCount) {
+    activeIndex.value = props.loop ? 0 : itemCount - 1
   } else {
     activeIndex.value = index
   }
@@ -182,17 +191,17 @@ function setActiveItem(index) {
   }
 }
 
-function resetItemPosition(oldIndex) {
+function resetItemPosition(oldIndex?: number) {
   items.value.forEach((item, index) => {
     item.translateItem(index, activeIndex.value, oldIndex)
   })
 }
 
-function addItem(item) {
+function addItem(item: CarouselItemContext) {
   items.value.push(item)
 }
 
-function removeItem(uid) {
+function removeItem(uid?: number) {
   const index = items.value.findIndex((item) => item.uid === uid)
   if (index !== -1) {
     items.value.splice(index, 1)
@@ -200,16 +209,24 @@ function removeItem(uid) {
   }
 }
 
-function itemInStage(item, index) {
+function itemInStage(item: CarouselItemContext, index: number) {
   const length = items.value.length
   if (
-    (index === length - 1 && item.inStage && items.value[0].active) ||
-    (item.inStage && items.value[index + 1] && items.value[index + 1].active)
+    (index === length - 1 &&
+      item.states.inStage &&
+      items.value[0].states.active) ||
+    (item.states.inStage &&
+      items.value[index + 1] &&
+      items.value[index + 1].states.active)
   ) {
     return 'left'
   } else if (
-    (index === 0 && item.inStage && items.value[length - 1].active) ||
-    (item.inStage && items.value[index - 1] && items.value[index - 1].active)
+    (index === 0 &&
+      item.states.inStage &&
+      items.value[length - 1].states.active) ||
+    (item.states.inStage &&
+      items.value[index - 1] &&
+      items.value[index - 1].states.active)
   ) {
     return 'right'
   }
@@ -228,27 +245,27 @@ function handleMouseLeave() {
   startTimer()
 }
 
-function handleButtonEnter(arrow) {
-  if (props.direction === 'vertical') return
+function handleButtonEnter(arrow: false | 'left' | 'right') {
+  if (unref(isVertical)) return
   items.value.forEach((item, index) => {
     if (arrow === itemInStage(item, index)) {
-      item.hover = true
+      item.states.hover = true
     }
   })
 }
 
 function handleButtonLeave() {
-  if (props.direction === 'vertical') return
+  if (unref(isVertical)) return
   items.value.forEach((item) => {
-    item.hover = false
+    item.states.hover = false
   })
 }
 
-function handleIndicatorClick(index) {
+function handleIndicatorClick(index: number) {
   activeIndex.value = index
 }
 
-function handleIndicatorHover(index) {
+function handleIndicatorHover(index: number) {
   if (props.trigger === 'hover' && index !== activeIndex.value) {
     activeIndex.value = index
   }
@@ -285,27 +302,30 @@ watch(
   }
 )
 
+let resizeObserver: ReturnType<typeof useResizeObserver>
 // lifecycle
-onMounted(() => {
-  nextTick(() => {
-    const resizeObserver = useResizeObserver(root.value, resetItemPosition)
-    if (props.initialIndex < items.value.length && props.initialIndex >= 0) {
-      activeIndex.value = props.initialIndex
-    }
-    startTimer()
+onMounted(async () => {
+  await nextTick()
 
-    onBeforeUnmount(() => {
-      if (root.value) resizeObserver.stop()
-      pauseTimer()
-    })
+  resizeObserver = useResizeObserver(root.value, () => {
+    resetItemPosition()
   })
+  if (props.initialIndex < items.value.length && props.initialIndex >= 0) {
+    activeIndex.value = props.initialIndex
+  }
+  startTimer()
+})
+
+onBeforeUnmount(() => {
+  pauseTimer()
+  if (root.value && resizeObserver) resizeObserver.stop()
 })
 
 // provide
 provide(carouselContextKey, {
   root,
-  direction: props.direction,
-  type: props.type,
+  isCardType,
+  isVertical,
   items,
   loop: props.loop,
   addItem,

@@ -7,12 +7,12 @@
       ns.is('in-stage', inStage),
       ns.is('hover', hover),
       ns.is('animating', animating),
-      { [ns.em('item', 'card')]: type === 'card' },
+      { [ns.em('item', 'card')]: isCardType },
     ]"
     :style="itemStyle"
     @click="handleItemClick"
   >
-    <div v-if="type === 'card'" v-show="!active" :class="ns.e('mask')" />
+    <div v-if="isCardType" v-show="!active" :class="ns.e('mask')" />
     <slot />
   </div>
 </template>
@@ -25,11 +25,14 @@ import {
   getCurrentInstance,
   onUnmounted,
   ref,
+  reactive,
+  unref,
 } from 'vue'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, isUndefined } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { carouselContextKey } from '@element-plus/tokens'
 import { carouselItemProps } from './carousel-item'
+
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -37,16 +40,27 @@ defineOptions({
 })
 
 const props = defineProps(carouselItemProps)
-
-// inject
-const carouselContext = inject(carouselContextKey)
-
 const ns = useNamespace('carousel')
-const CARD_SCALE = 0.83
-const type = carouselContext?.type
-
+const COMPONENT_NAME = 'ElCarouselItem'
+// inject
+const carouselContext = inject(carouselContextKey)!
 // instance
-const instance = getCurrentInstance()
+const instance = getCurrentInstance()!
+if (!carouselContext) {
+  debugWarn(
+    COMPONENT_NAME,
+    'usage: <el-carousel></el-carousel-item></el-carousel>'
+  )
+}
+
+if (!instance) {
+  debugWarn(
+    COMPONENT_NAME,
+    'compositional hook can only be invoked inside setups'
+  )
+}
+
+const CARD_SCALE = 0.83
 
 const hover = ref(false)
 const translate = ref(0)
@@ -57,37 +71,41 @@ const inStage = ref(false)
 const animating = ref(false)
 
 // computed
-const parentDirection = computed(() => {
-  return carouselContext?.direction
-})
+const { isCardType, isVertical } = carouselContext
 
-const itemStyle = computed(() => {
-  const translateType =
-    parentDirection.value === 'vertical' ? 'translateY' : 'translateX'
-  const value = `${translateType}(${translate.value}px) scale(${scale.value})`
-  const style: CSSProperties = {
-    transform: value,
+const itemStyle = computed<CSSProperties>(() => {
+  const translateType = `translate${unref(isVertical) ? 'Y' : 'X'}`
+  const _translate = `${translateType}(${unref(translate)}px)`
+  const _scale = `scale(${unref(scale)})`
+  const transform = [_translate, _scale].join(' ')
+
+  return {
+    transform,
   }
-  return style
 })
 
 // methods
 
-function processIndex(index, activeIndex, length) {
-  if (activeIndex === 0 && index === length - 1) {
+function processIndex(index: number, activeIndex: number, length: number) {
+  const lastItemIndex = length - 1
+  const prevItemIndex = activeIndex - 1
+  const nextItemIndex = activeIndex + 1
+  const halfItemIndex = length / 2
+
+  if (activeIndex === 0 && index === lastItemIndex) {
     return -1
-  } else if (activeIndex === length - 1 && index === 0) {
+  } else if (activeIndex === lastItemIndex && index === 0) {
     return length
-  } else if (index < activeIndex - 1 && activeIndex - index >= length / 2) {
+  } else if (index < prevItemIndex && activeIndex - index >= halfItemIndex) {
     return length + 1
-  } else if (index > activeIndex + 1 && index - activeIndex >= length / 2) {
+  } else if (index > nextItemIndex && index - activeIndex >= halfItemIndex) {
     return -2
   }
   return index
 }
 
-function calcCardTranslate(index, activeIndex) {
-  const parentWidth = carouselContext?.root.value?.offsetWidth || 0
+function calcCardTranslate(index: number, activeIndex: number) {
+  const parentWidth = carouselContext.root.value?.offsetWidth || 0
   if (inStage.value) {
     return (parentWidth * ((2 - CARD_SCALE) * (index - activeIndex) + 1)) / 4
   } else if (index < activeIndex) {
@@ -97,58 +115,66 @@ function calcCardTranslate(index, activeIndex) {
   }
 }
 
-function calcTranslate(index, activeIndex, isVertical) {
+function calcTranslate(
+  index: number,
+  activeIndex: number,
+  isVertical: boolean
+) {
   const distance =
     (isVertical
-      ? carouselContext?.root.value?.offsetHeight
-      : carouselContext?.root.value?.offsetWidth) || 0
+      ? carouselContext.root.value?.offsetHeight
+      : carouselContext.root.value?.offsetWidth) || 0
   return distance * (index - activeIndex)
 }
 
 const translateItem = (
   index: number,
   activeIndex: number,
-  oldIndex: number
+  oldIndex?: number
 ) => {
-  const parentType = carouselContext?.type
-  const length = carouselContext?.items.value.length ?? Number.NaN
-  if (parentType !== 'card' && oldIndex !== undefined) {
-    animating.value = index === activeIndex || index === oldIndex
+  const _isCardType = unref(isCardType)
+  const carouselItemLength = carouselContext.items.value.length ?? Number.NaN
+
+  const isActive = index === activeIndex
+  if (!_isCardType && !isUndefined(oldIndex)) {
+    animating.value = isActive || index === oldIndex
   }
-  if (index !== activeIndex && length > 2 && carouselContext?.loop) {
-    index = processIndex(index, activeIndex, length)
+
+  if (!isActive && carouselItemLength > 2 && carouselContext.loop) {
+    index = processIndex(index, activeIndex, carouselItemLength)
   }
-  if (parentType === 'card') {
-    if (parentDirection.value === 'vertical') {
-      debugWarn('Carousel', 'vertical direction is not supported in card mode')
+
+  const _isVertical = unref(isVertical)
+  active.value = isActive
+
+  if (_isCardType) {
+    if (_isVertical) {
+      debugWarn('Carousel', 'vertical direction is not supported for card mode')
     }
     inStage.value = Math.round(Math.abs(index - activeIndex)) <= 1
-    active.value = index === activeIndex
     translate.value = calcCardTranslate(index, activeIndex)
-    scale.value = active.value ? 1 : CARD_SCALE
+    scale.value = unref(active) ? 1 : CARD_SCALE
   } else {
-    active.value = index === activeIndex
-    const isVertical = parentDirection.value === 'vertical'
-    translate.value = calcTranslate(index, activeIndex, isVertical)
+    translate.value = calcTranslate(index, activeIndex, _isVertical)
   }
+
   ready.value = true
 }
 
 function handleItemClick() {
-  if (carouselContext && carouselContext?.type === 'card') {
-    const index = carouselContext?.items.value
-      .map((d) => d.uid)
-      .indexOf(instance?.uid)
-    carouselContext?.setActiveItem(index)
+  if (carouselContext && unref(isCardType)) {
+    const index = carouselContext.items.value.findIndex(
+      ({ uid }) => uid === instance.uid
+    )
+    carouselContext.setActiveItem(index)
   }
 }
 
 // lifecycle
 onMounted(() => {
-  if (carouselContext?.addItem) {
-    carouselContext?.addItem({
-      uid: instance?.uid,
-      ...props,
+  carouselContext.addItem({
+    props,
+    states: reactive({
       hover,
       translate,
       scale,
@@ -156,14 +182,13 @@ onMounted(() => {
       ready,
       inStage,
       animating,
-      translateItem,
-    })
-  }
+    }),
+    uid: instance.uid,
+    translateItem,
+  })
 })
 
 onUnmounted(() => {
-  if (carouselContext?.removeItem) {
-    carouselContext?.removeItem(instance?.uid)
-  }
+  carouselContext.removeItem(instance.uid)
 })
 </script>
