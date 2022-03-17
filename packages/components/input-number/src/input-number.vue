@@ -111,10 +111,10 @@ export default defineComponent({
     const ns = useNamespace('input-number')
 
     const minDisabled = computed(
-      () => handleCompute(props.modelValue) < props.min
+      () => ensurePrecision(props.modelValue, -1) < props.min
     )
     const maxDisabled = computed(
-      () => handleCompute(props.modelValue, true) > props.max
+      () => ensurePrecision(props.modelValue) > props.max
     )
 
     const numPrecision = computed(() => {
@@ -165,22 +165,22 @@ export default defineComponent({
       }
       return precision
     }
-    const handleCompute = (val: number, isIncrease?: boolean) => {
+    const ensurePrecision = (val: number, coefficient: 0 | 1 | -1 = 1) => {
       if (!isNumber(val)) return data.currentValue
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
       val = isNumber(val) ? val : Number.NaN
-      return toPrecision(val + props.step * (isIncrease ? 1 : -1))
+      return toPrecision(val + props.step * coefficient)
     }
     const increase = () => {
       if (inputNumberDisabled.value || maxDisabled.value) return
       const value = props.modelValue || 0
-      const newVal = handleCompute(value, true)
+      const newVal = ensurePrecision(value)
       setCurrentValue(newVal)
     }
     const decrease = () => {
       if (inputNumberDisabled.value || minDisabled.value) return
       const value = props.modelValue || 0
-      const newVal = handleCompute(value)
+      const newVal = ensurePrecision(value, -1)
       setCurrentValue(newVal)
     }
     const verifyValue = (
@@ -198,13 +198,8 @@ export default defineComponent({
         if (props.precision !== undefined) {
           newVal = toPrecision(newVal, props.precision)
         }
-
-        if (newVal > props.max) {
-          newVal = props.max
-          update && emit('update:modelValue', newVal)
-        }
-        if (newVal < props.min) {
-          newVal = props.min
+        if (newVal > props.max || newVal < props.min) {
+          newVal = newVal > props.max ? props.max : props.min
           update && emit('update:modelValue', newVal)
         }
       }
