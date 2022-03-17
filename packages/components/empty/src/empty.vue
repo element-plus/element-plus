@@ -16,37 +16,26 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ImgEmpty from './img-empty.vue'
 import { emptyProps } from './empty'
 
 import type { CSSProperties } from 'vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ElEmpty',
-  components: {
-    ImgEmpty,
-  },
-
-  props: emptyProps,
-
-  setup(props) {
-    const { t } = useLocale()
-    const ns = useNamespace('empty')
-    const emptyDescription = computed(
-      () => props.description || t('el.table.emptyText')
-    )
-    const imageStyle = computed<CSSProperties>(() => ({
-      width: props.imageSize ? `${props.imageSize}px` : '',
-    }))
-
-    return {
-      ns,
-      emptyDescription,
-      imageStyle,
-    }
-  },
 })
+
+const props = defineProps(emptyProps)
+
+const { t } = useLocale()
+const ns = useNamespace('empty')
+const emptyDescription = computed(
+  () => props.description || t('el.table.emptyText')
+)
+const imageStyle = computed<CSSProperties>(() => ({
+  width: props.imageSize ? `${props.imageSize}px` : '',
+}))
 </script>
