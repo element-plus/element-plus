@@ -18,7 +18,6 @@
       "
       :effect="Effect.DARK"
       placement="right"
-      :fallback-placements="['left']"
       persistent
       :fallback-placements="['right', 'left', 'bottom', 'top']"
     >
