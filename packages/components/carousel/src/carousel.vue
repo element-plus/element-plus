@@ -213,20 +213,18 @@ function removeItem(uid?: number) {
 function itemInStage(item: CarouselItemContext, index: number) {
   const _items = unref(items)
   const itemCount = _items.length
+  if (itemCount === 0 || !item.states.inStage) return false
   const nextItemIndex = index + 1
   const prevItemIndex = index - 1
   const lastItemIndex = itemCount - 1
-  if (!item.states.inStage) return false
+  const isLastItemActive = _items[lastItemIndex].states.active
+  const isFirstItemActive = _items[0].states.active
+  const isNextItemActive = _items[nextItemIndex]?.states?.active
+  const isPrevItemActive = _items[prevItemIndex]?.states?.active
 
-  if (
-    (index === lastItemIndex && _items[0]?.states?.active) ||
-    _items[nextItemIndex]?.states?.active
-  ) {
+  if ((index === lastItemIndex && isFirstItemActive) || isNextItemActive) {
     return 'left'
-  } else if (
-    (index === 0 && _items[lastItemIndex]?.states?.active) ||
-    _items[prevItemIndex]?.states?.active
-  ) {
+  } else if ((index === 0 && isLastItemActive) || isPrevItemActive) {
     return 'right'
   }
   return false
@@ -290,8 +288,8 @@ watch(
 )
 watch(
   () => props.autoplay,
-  (current) => {
-    current ? startTimer() : pauseTimer()
+  (autoplay) => {
+    autoplay ? startTimer() : pauseTimer()
   }
 )
 watch(

@@ -120,10 +120,10 @@ function calcTranslate(
   activeIndex: number,
   isVertical: boolean
 ) {
-  const distance =
-    (isVertical
-      ? carouselContext.root.value?.offsetHeight
-      : carouselContext.root.value?.offsetWidth) || 0
+  const rootEl = carouselContext.root.value
+  if (!rootEl) return 0
+
+  const distance = (isVertical ? rootEl.offsetHeight : rootEl.offsetWidth) || 0
   return distance * (index - activeIndex)
 }
 
