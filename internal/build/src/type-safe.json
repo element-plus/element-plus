@@ -12,6 +12,7 @@
   "packages/components/button/",
   "packages/components/button-group/",
   "packages/components/card/",
+  "packages/components/carousel/",
   "packages/components/check-tag/",
   "packages/components/col/",
   "packages/components/collapse/",
