@@ -46,6 +46,7 @@ languages.forEach((lang) => {
 export const config: UserConfig = {
   title: 'Element Plus',
   description: 'a Vue 3 based component library for designers and developers',
+  lastUpdated: true,
   head,
   themeConfig: {
     repo: 'element-plus/element-plus',
