@@ -13,7 +13,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { TabsPaneContext } from 'element-plus'
+import type { TabsPaneContext } from 'element-plus'
 
 const activeName = ref('first')
 
