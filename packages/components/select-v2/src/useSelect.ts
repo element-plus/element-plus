@@ -451,7 +451,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const deleteTag = (event: MouseEvent, tag: Option) => {
-    const index = (props.modelValue as Array<any>).indexOf(tag.value)
+    const { valueKey } = props
+    const index = (props.modelValue as Array<any>).indexOf(get(tag, valueKey))
 
     if (index > -1 && !selectDisabled.value) {
       const value = [
@@ -460,7 +461,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       ]
       states.cachedOptions.splice(index, 1)
       update(value)
-      emit('remove-tag', tag.value)
+      emit('remove-tag', get(tag, valueKey))
       states.softFocus = true
       removeNewOption(tag)
       return nextTick(focusAndUpdatePopup)

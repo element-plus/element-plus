@@ -39,16 +39,16 @@
         @keydown.tab="close"
       >
         <template v-if="$slots.prepend" #prepend>
-          <slot name="prepend"></slot>
+          <slot name="prepend" />
         </template>
         <template v-if="$slots.append" #append>
-          <slot name="append"></slot>
+          <slot name="append" />
         </template>
         <template v-if="$slots.prefix" #prefix>
-          <slot name="prefix"></slot>
+          <slot name="prefix" />
         </template>
         <template v-if="$slots.suffix" #suffix>
-          <slot name="suffix"></slot>
+          <slot name="suffix" />
         </template>
       </el-input>
     </div>
@@ -108,8 +108,9 @@ import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 import { autocompleteProps, autocompleteEmits } from './autocomplete'
-import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { StyleValue } from 'vue'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { InputInstance } from '@element-plus/components/input'
 
 defineOptions({
   name: 'ElAutocomplete',
@@ -134,11 +135,7 @@ const dropdownWidth = ref('')
 const activated = ref(false)
 const suggestionDisabled = ref(false)
 const loading = ref(false)
-const inputRef = ref<{
-  inputOrTextarea: HTMLInputElement | HTMLTextAreaElement
-  focus: () => void
-  $el: HTMLElement
-}>()
+const inputRef = ref<InputInstance>()
 const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
@@ -271,7 +268,8 @@ const highlight = (index: number) => {
     suggestion.scrollTop -= scrollHeight
   }
   highlightedIndex.value = index
-  inputRef.value!.inputOrTextarea.setAttribute(
+  // TODO: use Volar generate dts to fix it.
+  ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
     `${id.value}-item-${highlightedIndex.value}`
   )
@@ -280,10 +278,11 @@ const highlight = (index: number) => {
 onClickOutside(listboxRef, close)
 
 onMounted(() => {
-  inputRef.value!.inputOrTextarea.setAttribute('role', 'textbox')
-  inputRef.value!.inputOrTextarea.setAttribute('aria-autocomplete', 'list')
-  inputRef.value!.inputOrTextarea.setAttribute('aria-controls', 'id')
-  inputRef.value!.inputOrTextarea.setAttribute(
+  // TODO: use Volar generate dts to fix it.
+  ;(inputRef.value as any).ref!.setAttribute('role', 'textbox')
+  ;(inputRef.value as any).ref!.setAttribute('aria-autocomplete', 'list')
+  ;(inputRef.value as any).ref!.setAttribute('aria-controls', 'id')
+  ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
     `${id.value}-item-${highlightedIndex.value}`
   )

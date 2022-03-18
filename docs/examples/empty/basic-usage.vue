@@ -1,3 +1,3 @@
 <template>
-  <el-empty description="description"></el-empty>
+  <el-empty description="description" />
 </template>

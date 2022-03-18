@@ -3,7 +3,7 @@
 @use 'common/var' as *;
 
 @include b(upload) {
-  @include utils-flex-center;
+  @include utils-inline-flex-center;
 
   cursor: pointer;
   outline: none;
@@ -28,7 +28,7 @@
 
   /* Picture Card for Wall */
   @include m(picture-card) {
-    #{getCssVarName('upload', 'picture-card', 'size')}: 148px;
+    @include set-css-var-value(('upload', 'picture-card', 'size'), 148px);
 
     background-color: #fbfdff;
     border: 1px dashed #c0ccda;
@@ -39,9 +39,7 @@
     cursor: pointer;
     vertical-align: top;
 
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    @include utils-inline-flex-center;
 
     i {
       font-size: 28px;
@@ -88,7 +86,7 @@
   }
 
   ~ .#{bem('upload', 'files')} {
-    border-top: $border-base;
+    border-top: getCssVar('border');
     margin-top: 7px;
     padding-top: 5px;
   }
@@ -179,7 +177,7 @@
     }
 
     &:hover {
-      background-color: var(--el-bg-color);
+      background-color: getCssVar('fill-color', 'light');
 
       .#{bem('icon', '', 'close')} {
         display: inline-flex;
@@ -288,10 +286,13 @@
     }
   }
 
+  // upload-list
   @include m(picture-card) {
+    @include set-css-var-value(('upload-list', 'picture-card', 'size'), 148px);
+
     display: inline-flex;
+    flex-wrap: wrap;
     margin: 0;
-    #{getCssVarName('upload-list', 'picture-card', 'size')}: 148px;
 
     .#{bem('upload-list', 'item')} {
       overflow: hidden;
@@ -348,7 +349,6 @@
       background: var(--el-color-success);
       text-align: center;
       transform: rotate(45deg);
-      box-shadow: 0 0 1pc 1px rgba(0, 0, 0, 0.2);
 
       i {
         font-size: 12px;

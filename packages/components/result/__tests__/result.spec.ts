@@ -85,7 +85,7 @@ describe('Result.vue', () => {
   test('should render sub-title slots', () => {
     const wrapper = mount({
       slots: {
-        subTitle: AXIOM,
+        'sub-title': AXIOM,
       },
     })
     expect(wrapper.find('.el-result__subtitle').exists()).toBe(true)

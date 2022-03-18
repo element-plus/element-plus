@@ -25,6 +25,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import dayjs from 'dayjs'
 
 const now = new Date()
 
@@ -62,7 +63,7 @@ const deleteRow = (index: number) => {
 const onAddItem = () => {
   now.setDate(now.getDate() + 1)
   tableData.value.push({
-    date: now.toLocaleString(),
+    date: dayjs(now).format('YYYY-MM-DD'),
     name: 'Tom',
     state: 'California',
     city: 'Los Angeles',

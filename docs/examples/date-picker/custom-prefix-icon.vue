@@ -7,8 +7,7 @@
         type="date"
         placeholder="Pick a day"
         :prefix-icon="customPrefix"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>
@@ -34,7 +33,7 @@ const customPrefix = shallowRef({
 .demo-date-picker .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
+  border-right: solid 1px var(--el-border-color);
   flex: 1;
 }
 .demo-date-picker .block:last-child {

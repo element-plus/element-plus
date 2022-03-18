@@ -39,7 +39,7 @@ Use `list-type` to change the fileList style.
 
 :::demo
 
-upload/photo-album
+upload/photo-wall
 
 :::
 

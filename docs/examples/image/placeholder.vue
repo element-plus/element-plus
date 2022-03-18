@@ -2,7 +2,7 @@
   <div class="demo-image__placeholder">
     <div class="block">
       <span class="demonstration">Default</span>
-      <el-image :src="src"></el-image>
+      <el-image :src="src" />
     </div>
     <div class="block">
       <span class="demonstration">Custom</span>
@@ -24,7 +24,7 @@ const src =
 .demo-image__placeholder .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
+  border-right: solid 1px var(--el-border-color);
   display: inline-block;
   width: 49%;
   box-sizing: border-box;

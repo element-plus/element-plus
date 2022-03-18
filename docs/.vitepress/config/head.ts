@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
+import { vpRoot } from '@element-plus/build'
 import { languages } from '../utils/lang'
-import { vpRoot } from '../utils/paths'
 import { features } from './features'
 import type { HeadConfig } from 'vitepress'
 

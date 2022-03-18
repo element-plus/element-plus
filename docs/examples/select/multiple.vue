@@ -12,8 +12,7 @@
         :key="item.value"
         :label="item.label"
         :value="item.value"
-      >
-      </el-option>
+      />
     </el-select>
   </div>
   <div style="display: inline-block; margin-left: 20px">
@@ -30,8 +29,7 @@
         :key="item.value"
         :label="item.label"
         :value="item.value"
-      >
-      </el-option>
+      />
     </el-select>
   </div>
   <div style="display: inline-block; margin-left: 20px">
@@ -49,8 +47,7 @@
         :key="item.value"
         :label="item.label"
         :value="item.value"
-      >
-      </el-option>
+      />
     </el-select>
   </div>
 </template>

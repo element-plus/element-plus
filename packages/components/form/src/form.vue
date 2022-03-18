@@ -6,14 +6,20 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs, watch } from 'vue'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, isFunction } from '@element-plus/utils'
 import { formContextKey } from '@element-plus/tokens'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import { formProps, formEmits } from './form'
 import { useFormLabelWidth, filterFields } from './utils'
+
 import type { ValidateFieldsError } from 'async-validator'
-import type { FormItemContext, FormContext } from '@element-plus/tokens'
-import type { FormValidateCallback } from './types'
+import type { Arrayable } from '@element-plus/utils'
+import type {
+  FormItemContext,
+  FormContext,
+  FormValidateCallback,
+  FormValidationResult,
+} from '@element-plus/tokens'
 import type { FormItemProp } from './form-item'
 
 const COMPONENT_NAME = 'ElForm'
@@ -44,7 +50,7 @@ const addField: FormContext['addField'] = (field) => {
 }
 
 const removeField: FormContext['removeField'] = (field) => {
-  if (!field.prop) {
+  if (field.prop) {
     fields.splice(fields.indexOf(field), 1)
   }
 }
@@ -61,56 +67,73 @@ const clearValidate: FormContext['clearValidate'] = (props = []) => {
   filterFields(fields, props).forEach((field) => field.clearValidate())
 }
 
-const validate = async (callback?: FormValidateCallback): Promise<void> =>
-  validateField(undefined, callback)
-
-const validateField: FormContext['validateField'] = async (
-  properties = [],
-  callback
-) => {
-  if (callback) {
-    validate()
-      .then(() => callback(true))
-      .catch((fields: ValidateFieldsError) => callback(false, fields))
-    return
+const isValidatable = computed(() => {
+  const hasModel = !!props.model
+  if (!hasModel) {
+    debugWarn(COMPONENT_NAME, 'model is required for validate to work.')
   }
+  return hasModel
+})
 
-  const { model, scrollToError } = props
+const obtainValidateFields = (props: Arrayable<FormItemProp>) => {
+  if (fields.length === 0) return []
 
-  if (!model) {
-    debugWarn(COMPONENT_NAME, 'model is required for form validation!')
-    return
-  }
-  if (fields.length === 0) {
-    return
-  }
-
-  const filteredFields = filterFields(fields, properties)
+  const filteredFields = filterFields(fields, props)
   if (!filteredFields.length) {
     debugWarn(COMPONENT_NAME, 'please pass correct props!')
-    return
+    return []
   }
+  return filteredFields
+}
 
-  let valid = true
-  let invalidFields: ValidateFieldsError = {}
-  let firstInvalidFields: ValidateFieldsError | undefined
+const validate = async (
+  callback?: FormValidateCallback
+): FormValidationResult => validateField(undefined, callback)
 
-  for (const field of filteredFields) {
-    const fieldsError = await field
-      .validate('')
-      .catch((fields: ValidateFieldsError) => fields)
+const doValidateField = async (
+  props: Arrayable<FormItemProp> = []
+): Promise<boolean> => {
+  if (!isValidatable.value) return false
 
-    if (fieldsError) {
-      valid = false
-      if (!firstInvalidFields) firstInvalidFields = fieldsError
+  const fields = obtainValidateFields(props)
+  if (fields.length === 0) return true
+
+  let validationErrors: ValidateFieldsError = {}
+  for (const field of fields) {
+    try {
+      await field.validate('')
+    } catch (fields) {
+      validationErrors = {
+        ...validationErrors,
+        ...(fields as ValidateFieldsError),
+      }
     }
-
-    invalidFields = { ...invalidFields, ...fieldsError }
   }
 
-  if (!valid) {
-    if (scrollToError) scrollToField(Object.keys(firstInvalidFields!)[0])
-    return Promise.reject(invalidFields)
+  if (Object.keys(validationErrors).length === 0) return true
+  return Promise.reject(validationErrors)
+}
+
+const validateField: FormContext['validateField'] = async (
+  modelProps = [],
+  callback
+) => {
+  const shouldThrow = !isFunction(callback)
+  try {
+    const result = await doValidateField(modelProps)
+    // When result is false meaning that the fields are not validatable
+    if (result === true) {
+      callback?.(result)
+    }
+    return result
+  } catch (e) {
+    const invalidFields = e as ValidateFieldsError
+
+    if (props.scrollToError) {
+      scrollToField(Object.keys(invalidFields)[0])
+    }
+    callback?.(false, invalidFields)
+    return shouldThrow && Promise.reject(invalidFields)
   }
 }
 

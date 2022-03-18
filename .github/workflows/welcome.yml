@@ -1,7 +1,8 @@
 name: PR Open Greeting
-
+# Note that this `pull_request_target` is vulnerable, it grants write access to a fork repo
+# DO NOT ADD ANY CHECKOUT/CACHING in this workflow
 on:
-  pull_request:
+  pull_request_target:
     types: [opened]
 
 jobs:
@@ -12,6 +13,8 @@ jobs:
         id: isTeamMember
         with:
           require: 'write'
+          username: ${{ github.event.pull_request.user.login }}
+
       - uses: actions-awesome/pr-helper@1.0.15
         if: steps.isTeamMember.outputs.require-result == 'false'
         with:

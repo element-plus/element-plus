@@ -70,7 +70,7 @@
               <div v-if="hasMessage" class="el-message-box__message">
                 <slot>
                   <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
-                  <p v-else v-html="message"></p>
+                  <p v-else v-html="message" />
                 </slot>
               </div>
             </div>

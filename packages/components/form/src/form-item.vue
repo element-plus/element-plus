@@ -17,7 +17,7 @@
     </form-label-wrap>
 
     <div :class="ns.e('content')" :style="contentStyle">
-      <slot></slot>
+      <slot />
       <transition :name="`${ns.namespace.value}-zoom-in-top`">
         <slot v-if="shouldShowError" name="error" :error="validateMessage">
           <div :class="validateClasses">
@@ -51,6 +51,7 @@ import {
   getProp,
   isString,
   isBoolean,
+  isFunction,
   throwError,
 } from '@element-plus/utils'
 import { formItemContextKey, formContextKey } from '@element-plus/tokens'
@@ -59,15 +60,14 @@ import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
 
 import type { CSSProperties } from 'vue'
+import type { RuleItem } from 'async-validator'
 import type {
-  RuleItem,
-  ValidateError,
-  ValidateFieldsError,
-} from 'async-validator'
-import type { FormItemContext } from '@element-plus/tokens'
+  FormItemContext,
+  FormItemRule,
+  FormValidateFailure,
+} from '@element-plus/tokens'
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemValidateState } from './form-item'
-import type { FormItemRule } from './types'
 
 const COMPONENT_NAME = 'ElFormItem'
 defineOptions({
@@ -208,62 +208,75 @@ const currentLabel = computed(
   () => `${props.label || ''}${formContext.labelSuffix || ''}`
 )
 
+const setValidationState = (state: FormItemValidateState) => {
+  validateState.value = state
+}
+
+const onValidationFailed = (error: FormValidateFailure) => {
+  const { errors, fields } = error
+  if (!errors || !fields) {
+    console.error(error)
+  }
+
+  setValidationState('error')
+  validateMessage.value = errors
+    ? errors?.[0]?.message ?? `${props.prop} is required`
+    : ''
+
+  formContext.emit('validate', props.prop!, false, validateMessage.value)
+}
+
+const onValidationSucceeded = () => {
+  setValidationState('success')
+  formContext.emit('validate', props.prop!, true, '')
+}
+
+const doValidate = async (rules: RuleItem[]): Promise<true> => {
+  const modelName = propString.value
+  const validator = new AsyncValidator({
+    [modelName]: rules,
+  })
+  return validator
+    .validate({ [modelName]: fieldValue.value }, { firstFields: true })
+    .then(() => {
+      onValidationSucceeded()
+      return true as const
+    })
+    .catch((err: FormValidateFailure) => {
+      onValidationFailed(err as FormValidateFailure)
+      return Promise.reject(err)
+    })
+}
+
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
-  if (callback) {
-    try {
-      validate(trigger)
-      callback(true)
-    } catch (err) {
-      callback(false, err as ValidateFieldsError)
-    }
-
-    validate(trigger)
-      .then(() => callback(true))
-      .catch((fields: ValidateFieldsError) => callback(false, fields))
-    return
-  }
-
+  const hasCallback = isFunction(callback)
   if (!validateEnabled.value) {
-    return
+    callback?.(false)
+    return false
   }
+
   const rules = getFilteredRule(trigger)
   if (rules.length === 0) {
-    return
+    callback?.(true)
+    return true
   }
 
-  validateState.value = 'validating'
+  setValidationState('validating')
 
-  const descriptor = {
-    [propString.value]: rules,
-  }
-  const validator = new AsyncValidator(descriptor)
-  const model = {
-    [propString.value]: fieldValue.value,
-  }
-
-  interface ValidateFailure {
-    errors: ValidateError[] | null
-    fields: ValidateFieldsError
-  }
-
-  return validator
-    .validate(model, { firstFields: true })
-    .then(() => undefined)
-    .catch((err: ValidateFailure) => {
-      const { errors, fields } = err
-      if (!errors || !fields) console.error(err)
-
-      validateState.value = 'error'
-      validateMessage.value = errors
-        ? errors[0].message || `${props.prop} is required`
-        : ''
-      formContext.emit('validate', props.prop!, !errors, validateMessage.value)
-      return Promise.reject(fields)
+  return doValidate(rules)
+    .then(() => {
+      callback?.(true)
+      return true as const
+    })
+    .catch((err: FormValidateFailure) => {
+      const { fields } = err
+      callback?.(false, fields)
+      return hasCallback ? false : Promise.reject(fields)
     })
 }
 
 const clearValidate: FormItemContext['clearValidate'] = () => {
-  validateState.value = ''
+  setValidationState('')
   validateMessage.value = ''
 }
 
@@ -279,13 +292,14 @@ watch(
   () => props.error,
   (val) => {
     validateMessage.value = val || ''
-    validateState.value = val ? 'error' : ''
+    setValidationState(val ? 'error' : '')
   },
   { immediate: true }
 )
+
 watch(
   () => props.validateStatus,
-  (val) => (validateState.value = val || '')
+  (val) => setValidationState(val || '')
 )
 
 const context: FormItemContext = reactive({
@@ -297,6 +311,7 @@ const context: FormItemContext = reactive({
   clearValidate,
   validate,
 })
+
 provide(formItemContextKey, context)
 
 onMounted(() => {
@@ -305,6 +320,7 @@ onMounted(() => {
     initialValue = clone(fieldValue.value)
   }
 })
+
 onBeforeUnmount(() => {
   formContext.removeField(context)
 })

@@ -34,11 +34,10 @@
       </el-result>
     </el-col>
     <el-col :sm="12" :lg="6">
-      <el-result
-        icon="info"
-        title="Info Tip"
-        sub-title="Please follow the instructions"
-      >
+      <el-result icon="info" title="Info Tip">
+        <template #sub-title>
+          <p>Using slot as subtitle</p>
+        </template>
         <template #extra>
           <el-button type="primary">Back</el-button>
         </template>

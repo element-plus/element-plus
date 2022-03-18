@@ -43,8 +43,8 @@ function useStyle<T>(
   })
   const isGroup = ref(false)
   const scrollbarViewStyle = {
-    display: 'inline-flex',
-    flexDirection: 'column',
+    display: 'inline-block',
+    verticalAlign: 'middle',
   }
 
   watchEffect(() => {
@@ -156,7 +156,7 @@ function useStyle<T>(
     return false
   }
   const syncPostion = function () {
-    if (!table.refs.scrollWrapper) return
+    if (!table.refs.scrollBarRef) return
     if (!layout.scrollX.value) {
       const scrollingNoneClass = 'is-scrolling-none'
       if (!hasScrollClass(scrollingNoneClass)) {
@@ -164,7 +164,7 @@ function useStyle<T>(
       }
       return
     }
-    const scrollContainer = table.refs.scrollWrapper.wrap$
+    const scrollContainer = table.refs.scrollBarRef.wrap$
     if (!scrollContainer) return
     const { scrollLeft, offsetWidth, scrollWidth } = scrollContainer
     const { headerWrapper, footerWrapper } = table.refs
@@ -181,8 +181,8 @@ function useStyle<T>(
   }
 
   const bindEvents = () => {
-    if (!table.refs.scrollWrapper) return
-    table.refs.scrollWrapper.wrap$?.addEventListener('scroll', syncPostion, {
+    if (!table.refs.scrollBarRef) return
+    table.refs.scrollBarRef.wrap$?.addEventListener('scroll', syncPostion, {
       passive: true,
     })
     if (props.fit) {
@@ -195,7 +195,7 @@ function useStyle<T>(
     unbindEvents()
   })
   const unbindEvents = () => {
-    table.refs.scrollWrapper.wrap$?.removeEventListener(
+    table.refs.scrollBarRef.wrap$?.removeEventListener(
       'scroll',
       syncPostion,
       true
@@ -298,7 +298,7 @@ function useStyle<T>(
       height = `calc(100% - ${layout.appendHeight.value}px)`
     }
     return {
-      width: bodyWidth.value,
+      width: `${resizeState.value.width}px`,
       height,
     }
   })

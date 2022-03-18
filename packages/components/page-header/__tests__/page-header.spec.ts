@@ -1,3 +1,4 @@
+import { markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { ArrowLeft } from '@element-plus/icons-vue'
 import PageHeader from '../src/page-header.vue'
@@ -13,7 +14,7 @@ describe('PageHeader.vue', () => {
   })
 
   test('should render icon props', () => {
-    const icon = ArrowLeft
+    const icon = markRaw(ArrowLeft)
     const wrapper = mount(PageHeader, {
       props: { icon },
     })

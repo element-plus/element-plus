@@ -14,6 +14,11 @@ const jumbotronRef = ref<HTMLElement | null>(null)
 const lang = useLang()
 const homeLang = computed(() => homeLocale[lang.value])
 
+function jumpTo(path: string) {
+  // vitepress has not router
+  location.href = `/${lang.value}/${path}`
+}
+
 const containerStyle: CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
@@ -127,6 +132,8 @@ useEventListener(window, 'scroll', handleScroll)
             :style="peopleLayer"
             src="/images/home/people.svg"
             alt="banner"
+            class="cursor-pointer"
+            @click="jumpTo('/guide/quickstart.html')"
           />
           <img
             :style="leftLayer"

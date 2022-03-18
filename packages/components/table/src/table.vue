@@ -28,7 +28,7 @@
   >
     <div :class="ns.e('inner-wrapper')">
       <div ref="hiddenColumns" class="hidden-columns">
-        <slot></slot>
+        <slot />
       </div>
       <div
         v-if="showHeader && tableLayout === 'fixed'"
@@ -47,7 +47,7 @@
           <hColgroup
             :columns="store.states.columns.value"
             :table-layout="tableLayout"
-          ></hColgroup>
+          />
           <table-header
             ref="tableHeaderRef"
             :border="border"
@@ -59,7 +59,7 @@
       </div>
       <div ref="bodyWrapper" :style="bodyHeight" :class="ns.e('body-wrapper')">
         <el-scrollbar
-          ref="scrollWrapper"
+          ref="scrollBarRef"
           :height="maxHeight ? undefined : height"
           :max-height="maxHeight ? height : undefined"
           :view-style="scrollbarViewStyle"
@@ -79,7 +79,7 @@
             <hColgroup
               :columns="store.states.columns.value"
               :table-layout="tableLayout"
-            ></hColgroup>
+            />
             <table-header
               v-if="showHeader && tableLayout === 'auto'"
               :border="border"
@@ -112,11 +112,11 @@
             ref="appendWrapper"
             :class="ns.e('append-wrapper')"
           >
-            <slot name="append"></slot>
+            <slot name="append" />
           </div>
         </el-scrollbar>
       </div>
-      <div v-if="border || isGroup" :class="ns.e('border-left-patch')"></div>
+      <div v-if="border || isGroup" :class="ns.e('border-left-patch')" />
     </div>
     <div
       v-if="showSummary"
@@ -138,7 +138,7 @@
       v-show="resizeProxyVisible"
       ref="resizeProxy"
       :class="ns.e('column-resize-proxy')"
-    ></div>
+    />
   </div>
 </template>
 
@@ -158,6 +158,7 @@ import useStyle from './table/style-helper'
 import defaultProps from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
+import { useScrollbar } from './composables/use-scrollbar'
 
 import type { Table } from './table/defaults'
 
@@ -250,6 +251,9 @@ export default defineComponent({
       scrollbarViewStyle,
     } = useStyle<Row>(props, layout, store, table)
 
+    const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } =
+      useScrollbar()
+
     const debouncedUpdateLayout = debounce(doLayout, 50)
 
     const tableId = `el-table_${tableIdSeed++}`
@@ -308,6 +312,10 @@ export default defineComponent({
       computedEmptyText,
       tableLayout,
       scrollbarViewStyle,
+      scrollBarRef,
+      scrollTo,
+      setScrollLeft,
+      setScrollTop,
     }
   },
 })

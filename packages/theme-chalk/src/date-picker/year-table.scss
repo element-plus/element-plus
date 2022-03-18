@@ -23,7 +23,7 @@
     }
 
     &.disabled .cell {
-      background-color: var(--el-bg-color);
+      background-color: getCssVar('fill-color', 'light');
       cursor: not-allowed;
       color: var(--el-text-color-placeholder);
 

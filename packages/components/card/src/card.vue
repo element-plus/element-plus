@@ -4,7 +4,7 @@
       <slot name="header">{{ header }}</slot>
     </div>
     <div :class="ns.e('body')" :style="bodyStyle">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>

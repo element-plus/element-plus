@@ -1,16 +1,22 @@
 import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
+import { rAF } from '@element-plus/test-utils/tick'
 import installStyle from '@element-plus/test-utils/style-plugin'
-import Checkbox from '@element-plus/components/checkbox/src/checkbox.vue'
-import CheckboxGroup from '@element-plus/components/checkbox/src/checkbox-group.vue'
+import {
+  ElCheckboxGroup as CheckboxGroup,
+  ElCheckbox as Checkbox,
+} from '@element-plus/components/checkbox'
 import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
+import DynamicDomainForm, { formatDomainError } from '../mocks/mock-data'
 
 import type { VueWrapper } from '@vue/test-utils'
-import type { FormInstance } from '../src/form'
-import type { FormRules } from '../src/types'
-import type { FormItemInstance } from '../src/form-item'
+import type { ValidateFieldsError } from 'async-validator'
+import type { FormRules } from '@element-plus/tokens'
+
+type FormInstance = InstanceType<typeof Form>
+type FormItemInstance = InstanceType<typeof FormItem>
 
 const findStyle = (wrapper: VueWrapper<any>, selector: string) =>
   wrapper.find<HTMLElement>(selector).element.style
@@ -259,12 +265,16 @@ describe('Form', () => {
       },
     })
     const form = wrapper.findComponent(Form).vm as FormInstance
-    form.validate(async (valid) => {
-      expect(valid).toBe(false)
-      await nextTick()
-      expect(wrapper.find('.el-form-item__error').exists()).toBe(false)
-      done()
-    })
+    form
+      .validate(async (valid: boolean) => {
+        expect(valid).toBe(false)
+        await nextTick()
+        expect(wrapper.find('.el-form-item__error').exists()).toBe(false)
+        done()
+      })
+      .catch((e: ValidateFieldsError) => {
+        expect(e).toBeDefined()
+      })
   })
 
   test('reset field', async () => {
@@ -489,5 +499,101 @@ describe('Form', () => {
     res = await validate()
     expect(res.valid).toBe(true)
     expect(res.fields).toBe(undefined)
+  })
+
+  test('validate status', async () => {
+    const form = reactive({
+      age: '20',
+    })
+
+    const wrapper = mount({
+      setup() {
+        const rules = ref({
+          age: [
+            { required: true, message: 'Please input age', trigger: 'change' },
+          ],
+        })
+        return () => (
+          <Form ref="formRef" model={form} rules={rules.value}>
+            <FormItem ref="age" prop="age" label="age">
+              <Input v-model={form.age} />
+            </FormItem>
+          </Form>
+        )
+      },
+    })
+
+    await (wrapper.vm.$refs.formRef as FormInstance)
+      .validate()
+      .catch(() => undefined)
+    const ageField = wrapper.findComponent({ ref: 'age' })
+    expect(ageField.classes('is-success')).toBe(true)
+    expect(ageField.classes()).toContain('is-success')
+  })
+
+  describe('FormItem', () => {
+    const onSuccess = jest.fn()
+    const onError = jest.fn()
+    let wrapper: VueWrapper<InstanceType<typeof DynamicDomainForm>>
+    const createComponent = (onSubmit?: jest.MockedFunction<any>) => {
+      wrapper = mount(DynamicDomainForm, {
+        props: {
+          onSuccess,
+          onError,
+          onSubmit,
+        },
+      })
+    }
+
+    const findSubmitButton = () => wrapper.find('.submit')
+    const findAddDomainButton = () => wrapper.find('.add-domain')
+    const findDeleteDomainButton = () => wrapper.findAll('.delete-domain')
+    const findDomainItems = () => wrapper.findAll('.domain-item')
+
+    beforeEach(() => {
+      onSuccess.mockClear()
+      onError.mockClear()
+      createComponent()
+    })
+
+    afterEach(() => {
+      wrapper.unmount()
+    })
+
+    it('should register form item', async () => {
+      expect(findDomainItems()).toHaveLength(1)
+      await findSubmitButton().trigger('click')
+      // wait for AsyncValidator to be resolved
+      await rAF()
+      expect(onError).toHaveBeenCalled()
+    })
+
+    it('should dynamically register form with items', async () => {
+      await findAddDomainButton().trigger('click')
+      expect(findDomainItems()).toHaveLength(2)
+
+      await findSubmitButton().trigger('click')
+      // wait for AsyncValidator to be resolved
+      await rAF()
+      expect(onError).toHaveBeenCalledWith(formatDomainError(2))
+      const deleteBtns = findDeleteDomainButton()
+      expect(deleteBtns).toHaveLength(2)
+      await findDeleteDomainButton().at(1)!.trigger('click')
+      expect(findDomainItems()).toHaveLength(1)
+      await findSubmitButton().trigger('click')
+      // wait for AsyncValidator to be resolved
+      await rAF()
+      expect(onError).toHaveBeenLastCalledWith(formatDomainError(1))
+    })
+
+    it('should not throw error when callback passed in', async () => {
+      const onSubmit = jest.fn()
+      createComponent(onSubmit)
+
+      await findSubmitButton().trigger('click')
+      await rAF()
+      expect(onError).not.toHaveBeenCalled()
+      expect(onSubmit).toHaveBeenCalled()
+    })
   })
 })

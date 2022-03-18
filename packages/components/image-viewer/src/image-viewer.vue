@@ -46,11 +46,11 @@
             <el-icon @click="handleActions('zoomIn')">
               <zoom-in />
             </el-icon>
-            <i :class="ns.e('actions__divider')"></i>
+            <i :class="ns.e('actions__divider')" />
             <el-icon @click="toggleMode">
               <component :is="mode.icon" />
             </el-icon>
-            <i :class="ns.e('actions__divider')"></i>
+            <i :class="ns.e('actions__divider')" />
             <el-icon @click="handleActions('anticlockwise')">
               <refresh-left />
             </el-icon>

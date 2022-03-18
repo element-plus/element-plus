@@ -22,10 +22,10 @@
       </slot>
     </div>
     <div :class="ns.e('body')">
-      <slot></slot>
+      <slot />
     </div>
     <div v-if="$slots.footer" :class="ns.e('footer')">
-      <slot name="footer"></slot>
+      <slot name="footer" />
     </div>
     <button
       v-if="showClose"

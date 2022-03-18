@@ -29,7 +29,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     box-sizing: border-box;
     cursor: pointer;
     padding: 1px 30px 1px 0;
-    border: 1px solid var(--el-border-color-base);
+    border: 1px solid getCssVar('border-color');
     border-radius: var(--el-border-radius-base);
     transition: border-color var(--el-transition-duration-fast)
       var(--el-ease-in-out-bezier-function);
@@ -54,7 +54,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     @include when(disabled) {
       cursor: not-allowed;
 
-      background-color: var(--el-bg-color);
+      background-color: getCssVar('fill-color', 'light');
       color: var(--el-text-color-placeholder);
       border-color: var(--el-select-disabled-border);
 

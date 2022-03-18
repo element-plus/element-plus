@@ -6,8 +6,7 @@
       range-separator="To"
       start-placeholder="Start time"
       end-placeholder="End time"
-    >
-    </el-time-picker>
+    />
     <el-time-picker
       v-model="value2"
       is-range
@@ -15,8 +14,7 @@
       range-separator="To"
       start-placeholder="Start time"
       end-placeholder="End time"
-    >
-    </el-time-picker>
+    />
   </div>
 </template>
 

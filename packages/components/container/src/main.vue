@@ -1,6 +1,6 @@
 <template>
   <main :class="ns.b()">
-    <slot></slot>
+    <slot />
   </main>
 </template>
 <script lang="ts">

@@ -26,6 +26,7 @@ const scopes = [
   'color',
   'border',
   'var',
+  'ssr',
 ]
 
 module.exports = {

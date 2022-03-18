@@ -30,7 +30,7 @@ const { copyColor } = useCopyColor()
               background: getColorValue(type + '-' + level),
             }"
             @click="copyColor(type + '-' + level)"
-          ></div>
+          />
         </div>
       </div>
     </el-col>

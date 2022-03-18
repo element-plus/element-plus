@@ -102,6 +102,7 @@
         </span>
       </slot>
     </li>
+    <slot name="append" />
   </transition-group>
 </template>
 <script lang="ts" setup>

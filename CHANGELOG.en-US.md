@@ -1,5 +1,114 @@
 ## Changelog
 
+### 2.1.4
+
+_2022-03-16_
+
+#### Bug fixes
+
+- Components [menu] do not handle resize of child vnode (#6131 by @nieyuyao)
+- Docs build without window and Element error (#6656 by @YunYouJun)
+- Components [table] not scroll empty block when scrolling table (#6615 by @plainheart)
+- Components [el-form] validation with callbacks throws (#6669 by @JeremyWuuuuu)
+- Components [form-item] emit validate when passed not triggered (#6671 by @LYlanfeng)
+- Components [el-dialog] DoneFn parameter should be optional (#6675 by @yeyuqiudeng)
+- Input-number in step-strictly onChange bug (#6662 by @chenxch)
+
+### 2.1.3
+
+_2022-03-15_
+
+#### Features
+
+- Components [loading] export directive alias (#6629 by @sxzz)
+- Components [el-result] warn users using subTitle as slots (#6651 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [pagination] button bg color (#6628 by @YunYouJun)
+- Deps update dependency @vueuse/core to v8 (#6605 by @renovate[bot])
+- Theme-chalk [drawer] bg color (#6631 by @YunYouJun)
+- Theme-chalk [mixins] use set-css-var-value to transpile text (#6630 by @YunYouJun)
+- Form item instance was not destroyed (#6641 by @JeremyWuuuuu)
+- Components [result] rename slot's name from 'subTitle' to 'sub-title' (#6636 by @freedomlang)
+- Docs  fix wrong link in README.md (#6649 by @Serendipity96)
+- Selet-v2 value-key mode selected style and onClonse bug (#6602 by @chenxch)
+
+#### Refactors
+
+- Docs adjust style details & fix pages width (#6624 by @YunYouJun)
+- Build move to internal package (#6585 by @sxzz)
+
+### 2.1.2
+
+_2022-03-14_
+
+#### Bug fixes
+
+- Deps update all non-major dependencies (#6604 by @renovate[bot])
+- Docs border-color css var (#6620 by @YunYouJun)
+- Components [el-form] Form not emitting validation result (#6610 by @JeremyWuuuuu)
+- Theme-chalk [message-box] el-message-box__status position may o… (#6614 by @yeyuqiudeng)
+- Theme-chalk [cascader/checkbox] fix unexpected fill color (#6619 by @plainheart)
+
+#### Refactors
+
+- Components [rate] use css var & disable to disabled & star-color to fill-color (#6601 by @YunYouJun)
+
+### 2.1.1
+
+_2022-03-13_
+
+#### Features
+
+- Ci setup cypress circle ci (#6581 by @JeremyWuuuuu)
+- Ci replace cypress  with puppeteer (#6592 by @JeremyWuuuuu)
+- Components [el-table] exposes scroll methods (#6539 by @msidolphin)
+
+#### Bug fixes
+
+- Component [el-tabs] the initial pane should only render for once (#6563 by @KawaiiZapic)
+- Components [carousel] center arrow (#6573 by @buqiyuan)
+- Ci skip if no changes at all (#6574 by @JeremyWuuuuu)
+- Components [popper-trigger] SSR issue (#6575 by @JeremyWuuuuu)
+- Ci build product check (#6587 by @JeremyWuuuuu)
+- Components [dialog] remove footer when not existed (#6590 by @sxzz)
+- Docsearch dark shadow (#6595 by @YunYouJun)
+- Components [form] set validateState to success after passed (#6596 by @plainheart)
+- Upload component remove status label box shadow (#6586 by @iamkun)
+
+#### Refactors
+
+- Components [divider] switch to script-setup (#6556 by @wzrove)
+- Components [input] refactor (#6545 by @sxzz)
+- Theme-chalk rewrite palette & remove -base suffix (#6593 by @YunYouJun)
+- Components [rate] switch to script-setup syntax (#6565 by @btea)
+- Components [skeleton] switch to script-setup syntax (#6395 by @freedomlang)
+- Theme-chalk dark.scss to css vars & migrate fill-color-blank (#6597 by @YunYouJun)
+
+### 2.1.0
+
+_2022-03-12_
+
+#### Features
+
+- Components [message] support re-render vnode (#6527 by @sxzz)
+
+#### Bug fixes
+
+- Ci remove clean script (#6550 by @JeremyWuuuuu)
+- Ci clean up several warning (#6551 by @HerringtonDarkholme)
+- Ci fix cascader ns querySelector class (#6552 by @HerringtonDarkholme)
+- Build move eslint config to internal (#6553 by @sxzz)
+- Ci suppress warning by mark icon as raw (#6555 by @HerringtonDarkholme)
+- Components [upload] photo-wall wrap (#6546 by @YunYouJun)
+
+#### Refactors
+
+- Components [link] dynamic css vars & fix inner align (#6557 by @YunYouJun)
+- Components [link] refactor (#6543 by @sxzz)
+
+
 ### 2.0.6
 
 _2022-03-11_

@@ -2,6 +2,8 @@ name: 📦 Package Size Report
 
 on:
   pull_request:
+    branches:
+      - 'master'
     types: [opened, synchronize]
 
 jobs:
@@ -10,7 +12,7 @@ jobs:
     env:
       CI_JOB_NUMBER: 1
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -38,4 +40,3 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           pattern: './dist/element-plus/dist/*.{js,mjs,css}'
-          clean-script: 'clean:lockfile'

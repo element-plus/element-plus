@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import nprogress from 'nprogress'
 import dayjs from 'dayjs'
-import { useToggle } from '@vueuse/core'
+import { useStorage, useToggle, isClient } from '@vueuse/core'
 import { useSidebar } from '../composables/sidebar'
 import { useToggleWidgets } from '../composables/toggle-widgets'
 import { useLang } from '../composables/lang'
@@ -22,12 +22,14 @@ const { hasSidebar } = useSidebar()
 const lang = useLang()
 
 useToggleWidgets(isSidebarOpen, () => {
+  if (!isClient) return
   if (window.outerWidth >= breakpoints.lg) {
     toggleSidebar(false)
   }
 })
 
 onMounted(async () => {
+  if (!isClient) return
   window.addEventListener(
     'click',
     (e) => {
@@ -59,12 +61,15 @@ onMounted(async () => {
 
   if (lang.value === 'zh-CN') {
     if (location.host === 'element-plus.gitee.io') return
-    const userPrefer = window.localStorage.getItem(USER_PREFER_GITHUB_PAGE)
-    if (userPrefer) {
+    const userPrefer = useStorage<boolean | string>(
+      USER_PREFER_GITHUB_PAGE,
+      false
+    )
+    if (userPrefer.value) {
       // no alert in the next 90 days
       if (
         dayjs
-          .unix(Number(userPrefer))
+          .unix(Number(userPrefer.value))
           .add(90, 'day')
           .diff(dayjs(), 'day', true) > 0
       )
@@ -84,10 +89,7 @@ onMounted(async () => {
         toLang.length
       )}`
     } catch {
-      window.localStorage.setItem(
-        USER_PREFER_GITHUB_PAGE,
-        String(dayjs().unix())
-      )
+      userPrefer.value = String(dayjs().unix())
     }
   }
 })

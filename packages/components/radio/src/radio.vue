@@ -21,7 +21,7 @@
         ns.is('checked', modelValue === label),
       ]"
     >
-      <span :class="ns.e('inner')"></span>
+      <span :class="ns.e('inner')" />
       <input
         ref="radioRef"
         v-model="modelValue"

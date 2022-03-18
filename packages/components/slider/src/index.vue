@@ -18,7 +18,7 @@
       :style="runwayStyle"
       @click="onSliderClick"
     >
-      <div :class="ns.e('bar')" :style="barStyle"></div>
+      <div :class="ns.e('bar')" :style="barStyle" />
       <slider-button
         ref="firstButton"
         :model-value="firstValue"
@@ -40,7 +40,7 @@
           :key="key"
           :class="ns.e('stop')"
           :style="getStopStyle(item)"
-        ></div>
+        />
       </div>
       <template v-if="markList.length > 0">
         <div>
@@ -49,7 +49,7 @@
             :key="key"
             :style="getStopStyle(item.position)"
             :class="[ns.e('stop'), ns.e('marks-stop')]"
-          ></div>
+          />
         </div>
         <div :class="ns.e('marks')">
           <slider-marker

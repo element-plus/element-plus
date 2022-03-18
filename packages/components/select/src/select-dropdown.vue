@@ -3,7 +3,7 @@
     :class="[ns.b('dropdown'), ns.is('multiple', isMultiple), popperClass]"
     :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

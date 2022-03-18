@@ -121,6 +121,11 @@
       padding-left: 1px;
     }
 
+    &.#{$namespace}-icon {
+      // 防止 el-icon 的position样式覆盖
+      position: absolute;
+    }
+
     + .#{$namespace}-message-box__message {
       padding-left: 36px;
       padding-right: 12px;
