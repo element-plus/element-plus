@@ -9,8 +9,8 @@ import ElementPlus, { ID_INJECTION_KEY } from '../dist/element-plus'
 import type { Browser } from 'puppeteer'
 
 const projectRoot = process.cwd()
-const testRoot = `${projectRoot}/ssr-testing`
-const demoRoot = path.resolve(projectRoot, 'ssr-testing/cases')
+const testRoot = path.resolve(projectRoot, 'ssr-testing')
+const demoRoot = path.resolve(testRoot, 'cases')
 describe('Cypress Button', () => {
   let browser: Browser
   beforeAll(async () => {
