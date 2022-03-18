@@ -12,7 +12,6 @@
     role="dialog"
     :aria-label="title || 'dialog'"
     :style="style"
-    @click.stop
   >
     <div ref="headerRef" :class="ns.e('header')">
       <slot name="title">
