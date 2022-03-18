@@ -13,10 +13,11 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { TabsPaneContext } from 'element-plus'
 
 const activeName = ref('first')
 
-const handleClick = (tab: string, event: Event) => {
+const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
 </script>
