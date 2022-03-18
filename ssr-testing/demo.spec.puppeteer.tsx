@@ -34,6 +34,7 @@ describe('Cypress Button', () => {
           'index.css'
         ),
       })
+
       const { default: Demo } = await import(path.join(demoRoot, demoPath))
       const app = createApp(<Demo />)
         .use(ElementPlus)
@@ -41,20 +42,22 @@ describe('Cypress Button', () => {
           prefix: 100,
           current: 0,
         })
+
       const html = await renderToString(app)
 
       await page.evaluate((innerHTML) => {
         document.querySelector('#root')!.innerHTML = innerHTML
       }, html)
 
-      const screenshotPath = demoPath
-        .split('/')
-        .join('-')
-        .replace(/\.vue$/, '.png')
-      await page.screenshot({
-        path: path.join(testRoot, 'screenshots', screenshotPath),
-        fullPage: true,
-      })
+      // SSR testing don't need screenshots.
+      // const screenshotPath = demoPath
+      //   .split('/')
+      //   .join('-')
+      //   .replace(/\.vue$/, '.png')
+      // await page.screenshot({
+      //   path: path.join(testRoot, 'screenshots', screenshotPath),
+      //   fullPage: true,
+      // })
       await page.close()
       expect(true).toBe(true)
     })
