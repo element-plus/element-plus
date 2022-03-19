@@ -35,6 +35,9 @@ export const useTree = (
           }
         })
       }
+    },
+    {
+      immediate: true,
     }
   )
 
