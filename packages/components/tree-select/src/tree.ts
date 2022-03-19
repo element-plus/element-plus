@@ -1,5 +1,5 @@
 import { computed, nextTick, toRefs, watch } from 'vue'
-import { isEqual, pick, toArray } from 'lodash-unified'
+import { isEqual, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElTree from '../../tree/src/tree.vue'
 import TreeSelectOption from './tree-select-option'
@@ -29,9 +29,12 @@ export const useTree = (
           const treeInstance = tree.value
           if (
             treeInstance &&
-            !isEqual(treeInstance.getCheckedKeys(), toArray(props.modelValue))
+            !isEqual(
+              treeInstance.getCheckedKeys(),
+              toValidArray(props.modelValue)
+            )
           ) {
-            treeInstance.setCheckedKeys(toArray(props.modelValue))
+            treeInstance.setCheckedKeys(toValidArray(props.modelValue))
           }
         })
       }
@@ -68,7 +71,7 @@ export const useTree = (
     defaultExpandedKeys: computed(() =>
       props.defaultExpandedKeys
         ? props.defaultExpandedKeys.concat(props.modelValue)
-        : toArray(props.modelValue)
+        : toValidArray(props.modelValue)
     ),
     renderContent: (h, { node, data, store }) => {
       return h(
@@ -114,4 +117,8 @@ export const useTree = (
       )
     },
   }
+}
+
+function toValidArray(val: any) {
+  return Array.isArray(val) ? val : val || val === 0 ? [val] : []
 }
