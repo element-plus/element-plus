@@ -18,16 +18,12 @@ describe('Calendar.vue', () => {
     ;(rows[5].firstElementChild as HTMLElement).click()
 
     await nextTick()
-    expect(
-      /2019.*May/.test((titleEl.element as HTMLElement).innerHTML)
-    ).toBeTruthy()
-    const vm = wrapper.vm as any
+    expect(/2019.*May/.test(titleEl.element.innerHTML)).toBeTruthy()
+    const vm = wrapper.vm
     const date = vm.value
     expect(date.getFullYear()).toBe(2019)
     expect(date.getMonth()).toBe(4)
-    expect(
-      (wrapper.find('.is-selected span').element as HTMLElement).innerHTML
-    ).toBe('5')
+    expect(wrapper.find('.is-selected span').element.innerHTML).toBe('5')
   })
 
   it('range', () => {
@@ -37,9 +33,7 @@ describe('Calendar.vue', () => {
       ></Calendar>
     ))
     const titleEl = wrapper.find('.el-calendar__title')
-    expect(
-      /2019.*March/.test((titleEl.element as HTMLElement).innerHTML)
-    ).toBeTruthy()
+    expect(/2019.*March/.test(titleEl.element.innerHTML)).toBeTruthy()
     const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
     expect(rows.length).toBe(4)
     expect(
@@ -55,9 +49,7 @@ describe('Calendar.vue', () => {
       ></Calendar>
     ))
     const titleEl = wrapper.find('.el-calendar__title')
-    expect(
-      /2021.*January/.test((titleEl.element as HTMLElement).innerHTML)
-    ).toBeTruthy()
+    expect(/2021.*January/.test(titleEl.element.innerHTML)).toBeTruthy()
     const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
     expect(rows.length).toBe(5)
     expect(
@@ -72,23 +64,19 @@ describe('Calendar.vue', () => {
       ></Calendar>
     ))
     const titleEl = wrapper.find('.el-calendar__title')
-    expect(
-      /2019.*April/.test((titleEl.element as HTMLElement).innerHTML)
-    ).toBeTruthy()
+    expect(/2019.*April/.test(titleEl.element.innerHTML)).toBeTruthy()
     const dateTables = wrapper.element.querySelectorAll(
       '.el-calendar-table.is-range'
     )
     expect(dateTables.length).toBe(2)
     const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
     expect(rows.length).toBe(5)
-    const cell = rows[rows.length - 1].firstElementChild
-    ;(cell as HTMLElement).click()
+    const cell = rows[rows.length - 1].firstElementChild as HTMLElement
+    cell.click()
 
     await nextTick()
 
-    expect(
-      /2019.*May/.test((titleEl.element as HTMLElement).innerHTML)
-    ).toBeTruthy()
+    expect(/2019.*May/.test(titleEl.element.innerHTML)).toBeTruthy()
     expect(cell?.classList.contains('is-selected')).toBeTruthy()
   })
 
@@ -100,23 +88,19 @@ describe('Calendar.vue', () => {
       ></Calendar>
     ))
     const titleEl = wrapper.find('.el-calendar__title')
-    expect(
-      /2021.*January/.test((titleEl.element as HTMLElement).innerHTML)
-    ).toBeTruthy()
+    expect(/2021.*January/.test(titleEl.element.innerHTML)).toBeTruthy()
     const dateTables = wrapper.element.querySelectorAll(
       '.el-calendar-table.is-range'
     )
     expect(dateTables.length).toBe(3)
     const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
     expect(rows.length).toBe(8)
-    const cell = rows[rows.length - 1].firstElementChild
-    ;(cell as HTMLElement).click()
+    const cell = rows[rows.length - 1].firstElementChild as HTMLElement
+    cell.click()
 
     await nextTick()
 
-    expect(
-      /2021.*March/.test((titleEl.element as HTMLElement).innerHTML)
-    ).toBeTruthy()
+    expect(/2021.*March/.test(titleEl.element.innerHTML)).toBeTruthy()
     expect(cell?.classList.contains('is-selected')).toBeTruthy()
   })
 
@@ -128,16 +112,12 @@ describe('Calendar.vue', () => {
         return <Calendar v-model={this.value}></Calendar>
       },
     })
-    const head = wrapper.element.querySelector(
-      '.el-calendar-table thead'
-    ) as HTMLElement
-    expect(head.firstElementChild?.innerHTML).toBe('Sun')
-    expect(head.lastElementChild?.innerHTML).toBe('Sat')
-    const firstRow = wrapper.element.querySelector(
-      '.el-calendar-table__row'
-    ) as HTMLElement
-    expect(firstRow.firstElementChild?.innerHTML).toContain('31')
-    expect((firstRow.lastElementChild as HTMLElement).innerHTML).toContain('6')
+    const head = wrapper.element.querySelector('.el-calendar-table thead')
+    expect(head?.firstElementChild?.innerHTML).toBe('Sun')
+    expect(head?.lastElementChild?.innerHTML).toBe('Sat')
+    const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
+    expect(firstRow?.firstElementChild?.innerHTML).toContain('31')
+    expect(firstRow?.lastElementChild?.innerHTML).toContain('6')
   })
 
   it('firstDayOfWeek in range mode', async () => {
@@ -153,16 +133,12 @@ describe('Calendar.vue', () => {
         )
       },
     })
-    const head = wrapper.element.querySelector(
-      '.el-calendar-table thead'
-    ) as HTMLElement
-    expect(head.firstElementChild?.innerHTML).toBe('Sun')
-    expect(head.lastElementChild?.innerHTML).toBe('Sat')
-    const firstRow = wrapper.element.querySelector(
-      '.el-calendar-table__row'
-    ) as HTMLElement
-    expect(firstRow.firstElementChild?.innerHTML).toContain('3')
-    expect(firstRow.lastElementChild?.innerHTML).toContain('9')
+    const head = wrapper.element.querySelector('.el-calendar-table thead')
+    expect(head?.firstElementChild?.innerHTML).toBe('Sun')
+    expect(head?.lastElementChild?.innerHTML).toBe('Sat')
+    const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
+    expect(firstRow?.firstElementChild?.innerHTML).toContain('3')
+    expect(firstRow?.lastElementChild?.innerHTML).toContain('9')
   })
 
   it('click previous month or next month', async () => {

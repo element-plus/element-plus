@@ -4,21 +4,11 @@ import type { ExtractPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type DateTable from './date-table.vue'
 
-export type CellType = 'next' | 'prev' | 'current'
-export type Cell = {
+export type CalendarDateCellType = 'next' | 'prev' | 'current'
+export type CalendarDateCell = {
   text: number
-  type: CellType
+  type: CalendarDateCellType
 }
-
-export const WEEK_DAYS = [
-  'sun',
-  'mon',
-  'tue',
-  'wed',
-  'thu',
-  'fri',
-  'sat',
-] as const
 
 export const getPrevMonthLastDays = (date: Dayjs, count: number) => {
   const lastDay = date.subtract(1, 'month').endOf('month').date()
@@ -30,7 +20,7 @@ export const getMonthDays = (date: Dayjs) => {
   return rangeArr(days).map((_, index) => index + 1)
 }
 
-export const toNestedArr = (days: Cell[]) =>
+export const toNestedArr = (days: CalendarDateCell[]) =>
   rangeArr(days.length / 7).map((index) => {
     const start = index * 7
     return days.slice(start, start + 7)

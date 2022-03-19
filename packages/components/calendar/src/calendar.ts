@@ -3,7 +3,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
 import type Calendar from './calendar.vue'
 
-export type DateType =
+export type CalendarDateType =
   | 'prev-month'
   | 'next-month'
   | 'prev-year'

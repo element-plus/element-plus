@@ -40,16 +40,17 @@ import dayjs from 'dayjs'
 import localeData from 'dayjs/plugin/localeData.js'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
+import { WEEK_DAYS } from '@element-plus/constants'
 import {
-  WEEK_DAYS,
   dateTableEmits,
   dateTableProps,
   getMonthDays,
   getPrevMonthLastDays,
   toNestedArr,
 } from './date-table'
-import type { Cell, CellType } from './date-table'
+import type { CalendarDateCell, CalendarDateCellType } from './date-table'
 import type { Dayjs } from 'dayjs'
+
 dayjs.extend(localeData)
 
 defineOptions({
@@ -70,10 +71,10 @@ const firstDayOfWeek: number = (now as any).$locale().weekStart || 0
 const isInRange = computed(() => !!props.range && !!props.range.length)
 
 const rows = computed(() => {
-  let days: Cell[] = []
+  let days: CalendarDateCell[] = []
   if (isInRange.value) {
     const [start, end] = props.range!
-    const currentMonthRange: Cell[] = rangeArr(
+    const currentMonthRange: CalendarDateCell[] = rangeArr(
       end.date() - start.date() + 1
     ).map((index) => ({
       text: start.date() + index,
@@ -82,26 +83,30 @@ const rows = computed(() => {
 
     let remaining = currentMonthRange.length % 7
     remaining = remaining === 0 ? 0 : 7 - remaining
-    const nextMonthRange: Cell[] = rangeArr(remaining).map((_, index) => ({
-      text: index + 1,
-      type: 'next',
-    }))
+    const nextMonthRange: CalendarDateCell[] = rangeArr(remaining).map(
+      (_, index) => ({
+        text: index + 1,
+        type: 'next',
+      })
+    )
     days = currentMonthRange.concat(nextMonthRange)
   } else {
     const firstDay = props.date.startOf('month').day() || 7
-    const prevMonthDays: Cell[] = getPrevMonthLastDays(
+    const prevMonthDays: CalendarDateCell[] = getPrevMonthLastDays(
       props.date,
       firstDay - firstDayOfWeek
     ).map((day) => ({
       text: day,
       type: 'prev',
     }))
-    const currentMonthDays: Cell[] = getMonthDays(props.date).map((day) => ({
-      text: day,
-      type: 'current',
-    }))
+    const currentMonthDays: CalendarDateCell[] = getMonthDays(props.date).map(
+      (day) => ({
+        text: day,
+        type: 'current',
+      })
+    )
     days = [...prevMonthDays, ...currentMonthDays]
-    const nextMonthDays: Cell[] = rangeArr(42 - days.length).map(
+    const nextMonthDays: CalendarDateCell[] = rangeArr(42 - days.length).map(
       (_, index) => ({
         text: index + 1,
         type: 'next',
@@ -123,7 +128,7 @@ const weekDays = computed(() => {
   }
 })
 
-const getFormattedDate = (day: number, type: CellType): Dayjs => {
+const getFormattedDate = (day: number, type: CalendarDateCellType): Dayjs => {
   switch (type) {
     case 'prev':
       return props.date.startOf('month').subtract(1, 'month').date(day)
@@ -134,7 +139,7 @@ const getFormattedDate = (day: number, type: CellType): Dayjs => {
   }
 }
 
-const getCellClass = ({ text, type }: Cell) => {
+const getCellClass = ({ text, type }: CalendarDateCell) => {
   const classes: string[] = [type]
   if (type === 'current') {
     const date = getFormattedDate(text, type)
@@ -148,12 +153,12 @@ const getCellClass = ({ text, type }: Cell) => {
   return classes
 }
 
-const handlePickDay = ({ text, type }: Cell) => {
+const handlePickDay = ({ text, type }: CalendarDateCell) => {
   const date = getFormattedDate(text, type)
   emit('pick', date)
 }
 
-const getSlotData = ({ text, type }: Cell) => {
+const getSlotData = ({ text, type }: CalendarDateCell) => {
   const day = getFormattedDate(text, type)
   return {
     isSelected: day.isSame(props.selectedDay),

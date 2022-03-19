@@ -52,9 +52,11 @@ import { debugWarn } from '@element-plus/utils'
 import DateTable from './date-table.vue'
 import { calendarEmits, calendarProps } from './calendar'
 
-import type { DateType } from './calendar'
+import type { CalendarDateType } from './calendar'
 import type { ComputedRef } from 'vue'
 import type { Dayjs } from 'dayjs'
+
+const COMPONENT_NAME = 'ElCalendar'
 
 defineOptions({
   name: 'ElCalendar',
@@ -182,7 +184,7 @@ const calculateValidatedDateRange = (
   // Other cases
   else {
     debugWarn(
-      'ElCalendar',
+      COMPONENT_NAME,
       'start time and end time interval must not exceed two months'
     )
     return []
@@ -195,7 +197,7 @@ const validatedRange = computed(() => {
   const rangeArrDayjs = props.range.map((_) => dayjs(_).locale(lang.value))
   const [startDayjs, endDayjs] = rangeArrDayjs
   if (startDayjs.isAfter(endDayjs)) {
-    debugWarn('ElCalendar', 'end time should be greater than start time')
+    debugWarn(COMPONENT_NAME, 'end time should be greater than start time')
     return []
   }
   if (startDayjs.isSame(endDayjs, 'month')) {
@@ -205,7 +207,7 @@ const validatedRange = computed(() => {
     // two months
     if (startDayjs.add(1, 'month').month() !== endDayjs.month()) {
       debugWarn(
-        'ElCalendar',
+        COMPONENT_NAME,
         'start time and end time interval must not exceed two months'
       )
       return []
@@ -218,7 +220,7 @@ const pickDay = (day: Dayjs) => {
   realSelectedDay.value = day
 }
 
-const selectDate = (type: DateType) => {
+const selectDate = (type: CalendarDateType) => {
   let day: Dayjs
   if (type === 'prev-month') {
     day = prevMonthDayjs.value
