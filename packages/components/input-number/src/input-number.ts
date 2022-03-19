@@ -49,10 +49,10 @@ export const inputNumberProps = buildProps({
 } as const)
 
 export const inputNumberEmits = {
-  change: (prev: number, cur: number) => prev !== cur,
+  change: (prev: number | undefined, cur: number | undefined) => prev !== cur,
   blur: (e: FocusEvent) => e instanceof FocusEvent,
   focus: (e: FocusEvent) => e instanceof FocusEvent,
-  input: (val: number) => isNumber(val),
+  input: (val: number | undefined) => isNumber(val),
   'update:modelValue': (val: number | undefined) =>
     isNumber(val) || val === undefined,
 }

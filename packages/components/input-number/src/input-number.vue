@@ -75,7 +75,7 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { isNumber, debugWarn } from '@element-plus/utils'
+import { isNumber, isUndefined, debugWarn } from '@element-plus/utils'
 import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons-vue'
 import { inputNumberProps, inputNumberEmits } from './input-number'
 
@@ -119,7 +119,7 @@ export default defineComponent({
 
     const numPrecision = computed(() => {
       const stepPrecision = getPrecision(props.step)
-      if (props.precision !== undefined) {
+      if (!isUndefined(props.precision)) {
         if (stepPrecision > props.precision) {
           debugWarn(
             'InputNumber',
@@ -145,18 +145,18 @@ export default defineComponent({
       let currentValue: number | string | undefined = data.currentValue
       if (isNumber(currentValue)) {
         if (Number.isNaN(currentValue)) return ''
-        if (props.precision !== undefined) {
+        if (!isUndefined(props.precision)) {
           currentValue = currentValue.toFixed(props.precision)
         }
       }
       return currentValue
     })
     const toPrecision = (num: number, pre?: number) => {
-      if (pre === undefined) pre = numPrecision.value
+      if (isUndefined(pre)) pre = numPrecision.value
       return Number.parseFloat(`${Math.round(num * 10 ** pre) / 10 ** pre}`)
     }
     const getPrecision = (value: number | undefined) => {
-      if (value === undefined) return 0
+      if (isUndefined(value)) return 0
       const valueString = value.toString()
       const dotPosition = valueString.indexOf('.')
       let precision = 0
@@ -165,7 +165,7 @@ export default defineComponent({
       }
       return precision
     }
-    const ensurePrecision = (val: number, coefficient: 0 | 1 | -1 = 1) => {
+    const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
       if (!isNumber(val)) return data.currentValue
       // Solve the accuracy problem of JS decimal calculation by converting the value to integer.
       val = isNumber(val) ? val : Number.NaN
@@ -186,20 +186,18 @@ export default defineComponent({
     const verifyValue = (
       value: number | string | undefined,
       update?: boolean
-    ) => {
-      let newVal = Number(value)
-      if (value === null) {
-        newVal = Number.NaN
-      }
-      if (!Number.isNaN(newVal)) {
-        if (props.stepStrictly) {
-          newVal = Math.round(newVal / props.step) * props.step
+    ): number | undefined => {
+      let newVal = isUndefined(value) ? value : Number(value)
+      if (!isUndefined(newVal) && !Number.isNaN(newVal)) {
+        const { max, min, step, precision, stepStrictly } = props
+        if (stepStrictly) {
+          newVal = Math.round(newVal / step) * step
         }
-        if (props.precision !== undefined) {
-          newVal = toPrecision(newVal, props.precision)
+        if (!isUndefined(precision)) {
+          newVal = toPrecision(newVal, precision)
         }
-        if (newVal > props.max || newVal < props.min) {
-          newVal = newVal > props.max ? props.max : props.min
+        if (newVal > max || newVal < min) {
+          newVal = newVal > max ? max : min
           update && emit('update:modelValue', newVal)
         }
       }
