@@ -26,7 +26,6 @@
     "gulp": "^4.0.2",
     "lodash": "^4.17.21",
     "rollup": "^2.70.0",
-    "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-esbuild": "^4.8.2",
     "ts-morph": "^14.0.0",
     "unplugin-vue-define-options": "^0.4.0",
@@ -34,7 +33,6 @@
   },
   "devDependencies": {
     "@pnpm/types": "^7.10.0",
-    "@types/rollup-plugin-css-only": "^3.1.0",
     "unbuild": "^0.7.0"
   }
 }
