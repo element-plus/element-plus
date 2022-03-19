@@ -187,17 +187,19 @@ export default defineComponent({
       value: number | string | undefined,
       update?: boolean
     ): number | undefined => {
-      let newVal = isUndefined(value) ? value : Number(value)
-      if (!isUndefined(newVal) && !Number.isNaN(newVal)) {
-        const { max, min, step, precision, stepStrictly } = props
-        if (stepStrictly) {
-          newVal = Math.round(newVal / step) * step
+      let newVal = Number(value)
+      if (value === null) {
+        newVal = Number.NaN
+      }
+      if (!Number.isNaN(newVal)) {
+        if (props.stepStrictly) {
+          newVal = Math.round(newVal / props.step) * props.step
         }
-        if (!isUndefined(precision)) {
-          newVal = toPrecision(newVal, precision)
+        if (props.precision !== undefined) {
+          newVal = toPrecision(newVal, props.precision)
         }
-        if (newVal > max || newVal < min) {
-          newVal = newVal > max ? max : min
+        if (newVal > props.max || newVal < props.min) {
+          newVal = newVal > props.max ? props.max : props.min
           update && emit('update:modelValue', newVal)
         }
       }
@@ -205,8 +207,11 @@ export default defineComponent({
     }
     const setCurrentValue = (value: number | string | undefined) => {
       const oldVal = data.currentValue
-      const newVal = verifyValue(value)
+      let newVal = verifyValue(value)
       if (oldVal === newVal) return
+      if (Number.isNaN(newVal)) {
+        newVal = undefined
+      }
       data.userInput = null
       emit('update:modelValue', newVal)
       emit('input', newVal)
