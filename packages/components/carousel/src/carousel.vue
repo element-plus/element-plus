@@ -304,16 +304,18 @@ const resizeObserver = shallowRef<ReturnType<typeof useResizeObserver>>()
 onMounted(async () => {
   await nextTick()
 
-  const stopWatchItems = watch(
-    () => items.value,
-    (val) => {
-      if (val.length) {
-        playSlides()
-        stopWatchItems?.()
-      }
-    },
-    { immediate: true, deep: true }
-  )
+  if (items.value.length === 0) {
+    const stopWatchItems = watch(
+      () => items.value,
+      (val) => {
+        if (val.length) {
+          playSlides()
+          stopWatchItems?.()
+        }
+      },
+      { immediate: true, deep: true }
+    )
+  }
 
   resizeObserver.value = useResizeObserver(root.value, () => {
     resetItemPosition()

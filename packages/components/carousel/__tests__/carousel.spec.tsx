@@ -1,4 +1,4 @@
-import { nextTick, reactive } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import Carousel from '../src/carousel.vue'
 import CarouselItem from '../src/carousel-item.vue'
@@ -22,14 +22,23 @@ describe('Carousel', () => {
   const createComponent = (
     props: any = {},
     count?: number,
-    hasLabel?: boolean
+    hasLabel?: boolean,
+    delay?: number
   ) => {
     return mount({
       setup() {
+        const refCount = ref(count)
+        if (delay) {
+          refCount.value = 0
+          setTimeout(() => {
+            refCount.value = count || 0
+          }, delay)
+        }
+
         return () => (
           <div>
             <Carousel {...props}>
-              {generateCarouselItems(count, hasLabel)}
+              {generateCarouselItems(refCount.value, hasLabel)}
             </Carousel>
           </div>
         )
@@ -204,23 +213,8 @@ describe('Carousel', () => {
   })
 
   it('async data', async () => {
-    const wrapper = _mount(
-      `
-        <div>
-          <el-carousel>
-            <el-carousel-item v-for="item in carousels" :key="item"></el-carousel-item>
-          </el-carousel>
-        </div>
-      `,
-      () => ({ carousels: [] })
-    )
-
-    await nextTick()
-    await wait(1000)
-    wrapper.setData({
-      carousels: [1, 2, 3],
-    })
-    await nextTick()
+    const wrapper = createComponent({ ref: 'carousel' }, 3, false, 2000)
+    await wait(2010)
     const items = wrapper.findAll('.el-carousel__item')
     expect(items[0].classes('is-active')).toBe(true)
   })
