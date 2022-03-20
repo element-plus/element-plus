@@ -81,7 +81,7 @@
           <el-tag
             v-for="tag in presentTags"
             :key="tag.key"
-            type="info"
+            :type="tagType"
             :size="tagSize"
             :hit="tag.hitState"
             :closable="tag.closable"
@@ -112,7 +112,7 @@
                       <el-tag
                         :key="tag2.key"
                         class="in-tooltip"
-                        type="info"
+                        :type="tagType"
                         :size="tagSize"
                         :hit="tag2.hitState"
                         :closable="tag2.closable"
@@ -214,7 +214,7 @@ import ElTooltip, {
 } from '@element-plus/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import ElTag from '@element-plus/components/tag'
+import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
@@ -344,6 +344,7 @@ export default defineComponent({
       default: undefined,
     },
     teleported: useTooltipContentProps.teleported,
+    tagType: { ...tagProps.type, default: 'info' },
   },
 
   emits: [
