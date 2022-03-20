@@ -1,7 +1,7 @@
 import { nextTick, h, inject } from 'vue'
 import { mount } from '@vue/test-utils'
+import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
 import ElPopper from '../src/popper.vue'
-import { POPPER_INJECTION_KEY } from '../src/tokens'
 
 const AXIOM = 'rem is the best girl'
 
@@ -32,6 +32,6 @@ describe('<ElPopper />', () => {
     await nextTick()
 
     expect(wrapper.vm.contentRef).not.toBe(null)
-    expect(wrapper.vm.contentRef.innerHTML).toBe(AXIOM)
+    expect(wrapper.vm.contentRef!.innerHTML).toBe(AXIOM)
   })
 })
