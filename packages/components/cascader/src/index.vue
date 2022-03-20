@@ -344,6 +344,7 @@ export default defineComponent({
       default: undefined,
     },
     teleported: useTooltipContentProps.teleported,
+    // eslint-disable-next-line vue/require-prop-types
     tagType: { ...tagProps.type, default: 'info' },
   },
 
