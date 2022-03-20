@@ -255,7 +255,7 @@ $checkbox: map.merge(
     'bg-color': getCssVar('fill-color', 'blank'),
     'input-border': var(--el-border),
     'disabled-border-color': getCssVar('border-color'),
-    'disabled-input-fill': #edf2fc,
+    'disabled-input-fill': getCssVar('fill-color', 'light'),
     'disabled-icon-color': var(--el-text-color-placeholder),
     'disabled-checked-input-fill': var(--el-border-color-extra-light),
     'disabled-checked-input-border-color': getCssVar('border-color'),
@@ -477,7 +477,7 @@ $message: () !default;
 $message: map.merge(
   (
     'min-width': 380px,
-    'bg-color': #edf2fc,
+    'bg-color': getCssVar('color', 'info', 'light-9'),
     'border-color': var(--el-border-color-lighter),
     'padding': 15px 15px 15px 20px,
     'close-size': 16px,
@@ -596,7 +596,7 @@ $cascader: map.merge(
     'node-background-hover': getCssVar('fill-color', 'light'),
     'node-color-disabled': var(--el-text-color-placeholder),
     'color-empty': var(--el-text-color-placeholder),
-    'tag-background': #f0f2f5,
+    'tag-background': getCssVar('fill-color'),
   ),
   $cascader
 );
@@ -1168,7 +1168,7 @@ $calendar: map.merge(
   (
     'border': var(--el-table-border, 1px solid var(--el-border-color-lighter)),
     'header-border-bottom': var(--el-calendar-border),
-    'selected-bg-color': #f2f8fe,
+    'selected-bg-color': getCssVar('color', 'primary', 'light-9'),
     'cell-width': 85px,
   ),
   $calendar
@@ -1190,8 +1190,8 @@ $form: map.merge(
 $avatar: () !default;
 $avatar: map.merge(
   (
-    'text-color': #fff,
-    'bg-color': #c0c4cc,
+    'text-color': getCssVar('color-white'),
+    'bg-color': getCssVar('text-color', 'disabled'),
     'text-size': 14px,
     'icon-size': 18px,
     'border-radius': var(--el-border-radius-base),
@@ -1240,7 +1240,7 @@ $descriptions: () !default;
 $descriptions: map.merge(
   (
     'table-border': 1px solid var(--el-border-color-lighter),
-    'item-bordered-label-background': #f5f7fa,
+    'item-bordered-label-background': getCssVar('fill-color', 'light'),
   ),
   $descriptions
 );

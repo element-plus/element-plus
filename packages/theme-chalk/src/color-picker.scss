@@ -282,7 +282,7 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     height: map.get($color-picker-size, 'default');
     width: map.get($color-picker-size, 'default');
     padding: 4px;
-    border: 1px solid #e6e6e6;
+    border: 1px solid getCssVar('border-color');
     border-radius: 4px;
     font-size: 0;
     position: relative;
