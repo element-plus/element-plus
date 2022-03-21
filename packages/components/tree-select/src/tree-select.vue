@@ -23,8 +23,11 @@ export default defineComponent({
     const selectProps = useSelect(props, context, { select, tree, key })
     const treeProps = useTree(props, context, { select, tree, key })
 
+    // expose ElTree/ElSelect methods
+    const methods = reactive({})
+    expose(methods)
     onMounted(() => {
-      expose({
+      Object.assign(methods, {
         ...pick(tree.value, [
           'filter',
           'updateKeyChildren',
