@@ -23,7 +23,15 @@ export function useOption(props, states) {
     if (!select.props.multiple) {
       return isEqual(props.value, select.props.modelValue)
     } else {
-      return contains(select.props.modelValue as unknown[], props.value)
+      /**
+       * <el-select v-model="value" multiple>
+       * const value = ref(1)
+       * add edge case，fix TypeError
+       */
+      return contains(
+        Array.from(select.props.modelValue as unknown[]),
+        props.value
+      )
     }
   })
 
