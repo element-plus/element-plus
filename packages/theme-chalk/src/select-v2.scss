@@ -299,7 +299,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     box-sizing: border-box;
     border-color: transparent;
     margin: 2px 0 2px 6px;
-    background-color: getCssVar('fill-color', 'light');
+    background-color: getCssVar('fill-color');
 
     .#{$namespace}-icon-close {
       background-color: var(--el-text-color-placeholder);

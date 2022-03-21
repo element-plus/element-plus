@@ -30,7 +30,7 @@
   @include m(picture-card) {
     @include set-css-var-value(('upload', 'picture-card', 'size'), 148px);
 
-    background-color: getCssVar('fill-color', 'light');
+    background-color: getCssVar('fill-color', 'lighter');
     border: 1px dashed getCssVar('border-color', 'darker');
     border-radius: 6px;
     box-sizing: border-box;

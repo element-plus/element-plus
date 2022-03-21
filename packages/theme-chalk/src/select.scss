@@ -199,7 +199,7 @@
       }
     }
     .#{$namespace}-tag--info {
-      background-color: getCssVar('fill-color', 'light');
+      background-color: getCssVar('fill-color');
     }
   }
 }

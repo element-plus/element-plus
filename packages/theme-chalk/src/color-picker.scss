@@ -79,7 +79,7 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     height: 100%;
     border-radius: 1px;
     background: #fff;
-    border: 1px solid #f0f0f0;
+    border: 1px solid getCssVar('border-color', 'lighter');
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
     z-index: 1;
   }
@@ -174,7 +174,7 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     height: 100%;
     border-radius: 1px;
     background: #fff;
-    border: 1px solid #f0f0f0;
+    border: 1px solid getCssVar('border-color', 'lighter');
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
     z-index: 1;
   }

@@ -838,8 +838,8 @@ $popper: map.merge(
 $skeleton: () !default;
 $skeleton: map.merge(
   (
-    'color': #f2f2f2,
-    'to-color': #e6e6e6,
+    'color': getCssVar('fill-color'),
+    'to-color': getCssVar('fill-color', 'darker'),
   ),
   $skeleton
 );

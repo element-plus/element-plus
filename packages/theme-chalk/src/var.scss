@@ -11,10 +11,9 @@
 :root {
   color-scheme: light;
 
-  --el-color-white: #{$color-white};
-  --el-color-black: #{$color-black};
-
-  --el-color-primary: #{$color-primary};
+  @include set-css-var-value('color-white', $color-white);
+  @include set-css-var-value('color-black', $color-black);
+  @include set-css-var-value('color-primary', $color-primary);
 
   // get rgb
   @each $type in (primary, success, warning, danger, error, info) {
@@ -24,7 +23,10 @@
   @for $i from 1 through 9 {
     @include set-css-color-type-light('primary', $i);
   }
-  --el-color-primary-dark-2: #{map.get($colors, 'primary', 'dark-2')};
+  @include set-css-var-value(
+    ('color-primary', 'dark-2'),
+    map.get($colors, 'primary', 'dark-2')
+  );
 
   // --el-color-#{$type}
   // --el-color-#{$type}-light-{$i}
@@ -56,17 +58,19 @@
   @include set-component-css-var('index', $z-index);
 
   // Border
-  --el-border-width: #{$border-width};
-  --el-border-style: #{$border-style};
-  --el-border-color-hover: #{$border-color-hover};
-  --el-border: var(--el-border-width) var(--el-border-style)
-    var(--el-border-color);
+  @include set-css-var-value('border-width', $border-width);
+  @include set-css-var-value('border-style', $border-style);
+  @include set-css-var-value('border-color-hover', $border-color-hover);
+  @include set-css-var-value(
+    'border',
+    #{var(--el-border-width) var(--el-border-style) var(--el-border-color)}
+  );
 
   // Svg
-  --el-svg-monochrome-grey: #dcdde0;
+  @include css-var-from-global('svg-monochrome-grey', 'border-color');
 
-  --el-font-weight-primary: 500;
-  --el-font-line-height-primary: 24px;
+  @include set-css-var-value('font-weight-primary', 500);
+  @include set-css-var-value('font-line-height-primary', 24px);
 
   // z-index
 

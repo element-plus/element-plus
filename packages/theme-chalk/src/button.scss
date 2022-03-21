@@ -113,7 +113,10 @@ $button-icon-span-gap: map.merge(
       )};
 
     --el-button-hover-text-color: var(--el-color-primary);
-    --el-button-hover-bg-color: getCssVar('fill-color', 'blank');
+    @include css-var-from-global(
+      ('button', 'hover-bg-color'),
+      ('fill-color', 'blank')
+    );
     --el-button-hover-border-color: var(--el-color-primary);
   }
 
