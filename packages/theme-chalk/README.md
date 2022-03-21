@@ -1,11 +1,11 @@
-# element-theme-chalk
+# @element-plus/theme-chalk
 
-> element component chalk theme.
+Element Plus component chalk theme.
 
 ## Installation
 
-```shell
-npm i element-plus
+```bash
+npm i @element-plus/theme-chalk
 ```
 
 ## Usage
@@ -13,13 +13,13 @@ npm i element-plus
 Use Sass import
 
 ```css
-@use 'element-plus/lib/theme-chalk/index.scss';
+@use '@element-plus/theme-chalk/index.scss';
 ```
 
 Or Use vite/webpack
 
 ```javascript
-import 'element-plus/lib/theme-chalk/index.css'
+import '@element-plus/theme-chalk/dist/index.css'
 ```
 
 Or
@@ -27,15 +27,15 @@ Or
 ```html
 <link
   rel="stylesheet"
-  href="https://unpkg.com/element-plus/lib/theme-chalk/index.css"
+  href="https://unpkg.com/@element-plus/theme-chalk/dist/index.css"
 />
 ```
 
 ## Import on demand
 
 ```javascript
-import 'element-plus/lib/theme-chalk/input.css'
-import 'element-plus/lib/theme-chalk/select.css'
+import '@element-plus/theme-chalk/dist/input.css'
+import '@element-plus/theme-chalk/dist/select.css'
 
 // ...
 ```
