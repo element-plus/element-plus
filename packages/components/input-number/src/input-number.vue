@@ -187,19 +187,20 @@ export default defineComponent({
       value: number | string | undefined,
       update?: boolean
     ): number | undefined => {
+      const { max, min, step, precision, stepStrictly } = props
       let newVal = Number(value)
       if (value === null) {
         newVal = Number.NaN
       }
       if (!Number.isNaN(newVal)) {
-        if (props.stepStrictly) {
-          newVal = Math.round(newVal / props.step) * props.step
+        if (stepStrictly) {
+          newVal = Math.round(newVal / step) * step
         }
-        if (props.precision !== undefined) {
-          newVal = toPrecision(newVal, props.precision)
+        if (!isUndefined(precision)) {
+          newVal = toPrecision(newVal, precision)
         }
-        if (newVal > props.max || newVal < props.min) {
-          newVal = newVal > props.max ? props.max : props.min
+        if (newVal > max || newVal < min) {
+          newVal = newVal > max ? max : min
           update && emit('update:modelValue', newVal)
         }
       }
