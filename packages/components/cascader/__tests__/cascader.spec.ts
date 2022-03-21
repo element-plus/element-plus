@@ -282,6 +282,19 @@ describe('Cascader.vue', () => {
     expect(tags[2].text()).toBe('Zhejiang / Wenzhou')
   })
 
+  test('tag type', async () => {
+    const wrapper = mount(Cascader, {
+      props: {
+        options: OPTIONS,
+        props: { multiple: true },
+        tagType: 'success',
+        modelValue: [['zhejiang', 'hangzhou']],
+      },
+    })
+    await nextTick()
+    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
+  })
+
   test('filterable', async () => {
     const wrapper = _mount({
       template: `

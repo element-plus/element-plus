@@ -2,6 +2,8 @@ import 'normalize.css'
 // import 'element-plus/dist/index.css'
 
 // for dev
+// reset
+import '../../../packages/theme-chalk/src/reset.scss'
 import '../../../packages/theme-chalk/src/index.scss'
 // for dark mode
 import '../../../packages/theme-chalk/src/dark/css-vars.scss'
@@ -18,6 +20,7 @@ import IconList from './components/globals/icons.vue'
 
 import ParallaxHome from './components/globals/parallax-home.vue'
 import Resource from './components/globals/resource.vue'
+import DesignGuide from './components/globals/design-guide.vue'
 
 import type { Component } from 'vue'
 
@@ -33,4 +36,5 @@ export const globals: [string, Component][] = [
   ['Changelog', Changelog],
   ['ParallaxHome', ParallaxHome],
   ['Resource', Resource],
+  ['DesignGuide', DesignGuide],
 ]

@@ -46,6 +46,7 @@
   @include set-component-css-var('border-radius', $border-radius);
   // Typography
   @include set-component-css-var('font-size', $font-size);
+  @include set-component-css-var('font-family', $font-family);
   // Box-shadow
   // --el-box-shadow-#{$type}
   @include set-component-css-var('box-shadow', $box-shadow);

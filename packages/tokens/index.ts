@@ -1,5 +1,6 @@
 export * from './breadcrumb'
 export * from './button'
+export * from './carousel'
 export * from './collapse'
 export * from './config-provider'
 export * from './dialog'
