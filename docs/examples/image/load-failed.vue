@@ -51,7 +51,7 @@ import { Picture as IconPicture } from '@element-plus/icons-vue'
   align-items: center;
   width: 100%;
   height: 100%;
-  background: #f5f7fa;
+  background: var(--el-fill-color-light);
   color: var(--el-text-color-secondary);
   font-size: 30px;
 }

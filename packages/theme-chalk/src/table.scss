@@ -517,7 +517,7 @@
     & .#{$namespace}-table__body {
       & tr.#{$namespace}-table__row--striped {
         td.#{$namespace}-table__cell {
-          background: #fafafa;
+          background: getCssVar('fill-color', 'lighter');
         }
 
         &.current-row td.#{$namespace}-table__cell {
