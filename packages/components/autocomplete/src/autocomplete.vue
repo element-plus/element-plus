@@ -96,6 +96,7 @@ import {
   nextTick,
   useAttrs as useCompAttrs,
 } from 'vue'
+import { isPromise } from '@vue/shared'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useAttrs, useNamespace } from '@element-plus/hooks'
@@ -165,7 +166,7 @@ const getData = (queryString: string) => {
     return
   }
   loading.value = true
-  props.fetchSuggestions(queryString, (suggestionsArg) => {
+  const cb = (suggestionsArg: any[]) => {
     loading.value = false
     if (suggestionDisabled.value) {
       return
@@ -176,7 +177,17 @@ const getData = (queryString: string) => {
     } else {
       throwError(COMPONENT_NAME, 'autocomplete suggestions must be an array')
     }
-  })
+  }
+  if (isArray(props.fetchSuggestions)) {
+    cb(props.fetchSuggestions)
+  } else {
+    const result = props.fetchSuggestions(queryString, cb)
+    if (isArray(result)) {
+      cb(result)
+    } else if (isPromise(result)) {
+      result.then(cb)
+    }
+  }
 }
 const debouncedGetData = debounce(getData, props.debounce)
 const handleInput = (value: string) => {
