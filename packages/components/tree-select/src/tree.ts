@@ -41,6 +41,7 @@ export const useTree = (
     },
     {
       immediate: true,
+      deep: true,
     }
   )
 
