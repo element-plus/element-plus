@@ -1,8 +1,7 @@
 <template>
   <el-upload action="#" list-type="picture-card" :auto-upload="false">
-    <template #default>
-      <el-icon><Plus /></el-icon>
-    </template>
+    <el-icon><Plus /></el-icon>
+
     <template #file="{ file }">
       <div>
         <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
@@ -31,6 +30,7 @@
       </div>
     </template>
   </el-upload>
+
   <el-dialog v-model="dialogVisible">
     <img width="100%" :src="dialogImageUrl" alt="" />
   </el-dialog>
@@ -48,10 +48,12 @@ const disabled = ref(false)
 const handleRemove = (file: UploadFile) => {
   console.log(file)
 }
+
 const handlePictureCardPreview = (file: UploadFile) => {
   dialogImageUrl.value = file.url!
   dialogVisible.value = true
 }
+
 const handleDownload = (file: UploadFile) => {
   console.log(file)
 }

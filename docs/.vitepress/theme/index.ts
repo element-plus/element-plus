@@ -1,9 +1,8 @@
 import ElementPlus from 'element-plus'
 
-import 'uno.css'
-
 import VPApp, { globals, NotFound } from '../vitepress'
 import { define } from '../utils/types'
+import 'uno.css'
 
 import type { Theme } from 'vitepress'
 

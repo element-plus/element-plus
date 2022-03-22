@@ -8,9 +8,11 @@
     <template #trigger>
       <el-button type="primary">select file</el-button>
     </template>
-    <el-button class="ml-3" type="success" @click="submitUpload"
-      >upload to server</el-button
-    >
+
+    <el-button class="ml-3" type="success" @click="submitUpload">
+      upload to server
+    </el-button>
+
     <template #tip>
       <div class="el-upload__tip">
         jpg/png files with a size less than 500kb
@@ -20,9 +22,9 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { ElUpload } from 'element-plus'
+import type { UploadInstance } from 'element-plus'
 
-const uploadRef = ref<InstanceType<typeof ElUpload>>()
+const uploadRef = ref<UploadInstance>()
 
 const submitUpload = () => {
   uploadRef.value!.submit()

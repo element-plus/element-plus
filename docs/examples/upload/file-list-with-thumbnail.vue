@@ -15,10 +15,11 @@
     </template>
   </el-upload>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-import type { UploadFile, UploadUserFile } from 'element-plus'
+import type { UploadUserFile, UploadProps } from 'element-plus'
 
 const fileList = ref<UploadUserFile[]>([
   {
@@ -31,10 +32,11 @@ const fileList = ref<UploadUserFile[]>([
   },
 ])
 
-const handleRemove = (file: UploadFile, fileList: UploadFile[]) => {
-  console.log(file, fileList)
+const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
+  console.log(uploadFile, uploadFiles)
 }
-const handlePreview = (file: UploadFile) => {
+
+const handlePreview: UploadProps['onPreview'] = (file) => {
   console.log(file)
 }
 </script>
