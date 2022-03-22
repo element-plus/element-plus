@@ -422,13 +422,11 @@
       border-bottom-left-radius: 0;
       @include mixed-input-border(var(--el-input-border-color));
       &:hover {
-        z-index: 1;
         @include mixed-input-border(var(--el-input-hover-border-color));
       }
 
       &:focus {
         outline: none;
-        z-index: 2;
         @include mixed-input-border(var(--el-input-focus-border-color));
       }
     }
