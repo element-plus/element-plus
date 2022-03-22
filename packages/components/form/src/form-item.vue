@@ -280,12 +280,14 @@ const clearValidate: FormItemContext['clearValidate'] = () => {
   validateMessage.value = ''
 }
 
-const resetField: FormItemContext['resetField'] = () => {
+const resetField: FormItemContext['resetField'] = async () => {
   const model = formContext.model
   if (!model || !props.prop) return
 
   getProp(model, props.prop).value = initialValue
-  nextTick(() => clearValidate())
+  await nextTick()
+  await nextTick()
+  clearValidate()
 }
 
 watch(
