@@ -128,7 +128,8 @@ export default defineComponent({
         const panesChanged = !(
           paneInstanceList.length === panes.value.length &&
           paneInstanceList.every(
-            (pane, index) => pane.uid === panes.value[index].uid
+            (pane, index) =>
+              pane.uid === panes.value[index].uid && !pane.instance.slots.label // if has label slot, should update every time
           )
         )
 
