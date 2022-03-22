@@ -491,9 +491,13 @@ describe('TimePicker(range)', () => {
     // For skipping Transition animation
     await rAF()
     ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
-    await nextTick()
+    await rAF()
     const vm = wrapper.vm as any
     expect(vm.value).toEqual(cancelDates)
+    expect((wrapper.findComponent(Picker).vm as any).pickerVisible).toEqual(
+      false
+    )
+    expect(document.querySelector('.el-picker-panel')).toBeNull()
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
