@@ -81,7 +81,7 @@
                 :type="inputType"
                 :placeholder="inputPlaceholder"
                 :class="{ invalid: validateError }"
-                @keydown.prevent.enter="handleInputEnter"
+                @keydown.enter="handleInputEnter"
               />
               <div
                 class="el-message-box__errormsg"
@@ -363,8 +363,9 @@ export default defineComponent({
 
     const overlayEvent = useSameTarget(handleWrapperClick)
 
-    const handleInputEnter = () => {
+    const handleInputEnter = (e: KeyboardEvent) => {
       if (state.inputType !== 'textarea') {
+        e.preventDefault()
         return handleAction('confirm')
       }
     }
