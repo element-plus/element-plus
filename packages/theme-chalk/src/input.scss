@@ -52,6 +52,7 @@
     color: var(--el-input-text-color, map.get($input, 'text-color'));
     background-color: var(--el-input-bg-color, map.get($input, 'bg-color'));
     background-image: none;
+    -webkit-appearance: none;
     @include inset-input-border(
       var(--el-input-border-color, map.get($input, 'border-color'))
     );
