@@ -320,7 +320,7 @@ describe('Datetime Picker', () => {
     expect(disabledHours).toStrictEqual(disabledHoursArr)
     const minutesEl = list[1]
     const disabledMinutes = Array.from(
-      minutesEl.querySelectorAll('.disabled')
+      minutesEl.querySelectorAll('.is-disabled')
     ).map((node) => Number(node.textContent))
     expect(disabledMinutes.length).toBe(19)
   })
