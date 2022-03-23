@@ -38,7 +38,7 @@ export const sponsors = [
     name: 'FormMaking',
     name_cn: 'FormMaking',
     img: '/images/formmaking.png',
-    url: 'https://form.making.link/?from=element-ui',
+    url: 'https://form.making.link/?from=element_plus',
     slogan: 'Vue form designer',
     slogan_cn: 'Vue表单设计器，赋能企业快速开发',
   },
