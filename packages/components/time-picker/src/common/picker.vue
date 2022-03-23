@@ -8,7 +8,7 @@
     v-bind="$attrs"
     append-to-body
     :transition="`${nsDate.namespace.value}-zoom-in-top`"
-    :popper-class="`${nsDate.namespace.value}-picker__popper ${popperClass}`"
+    :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
     :popper-options="elPopperOptions"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :gpu-acceleration="false"
