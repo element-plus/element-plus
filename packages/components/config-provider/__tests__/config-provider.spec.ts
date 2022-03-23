@@ -144,14 +144,10 @@ describe('config-provider', () => {
         `,
       })
       await nextTick()
-      expect(wrapper.find('button').classes().join('')).toBe(
-        'el-button' + 'el-button--default'
-      )
+      expect(wrapper.find('button').classes().join('')).toBe('el-button')
       wrapper.vm.namespace = 'ep'
       await nextTick()
-      expect(wrapper.find('button').classes().join('')).toBe(
-        'ep-button' + 'ep-button--default'
-      )
+      expect(wrapper.find('button').classes().join('')).toBe('ep-button')
     })
   })
 

@@ -31,7 +31,7 @@ const mountComponent = (setup = NOOP, options = {}) =>
 describe('use-form-item', () => {
   it('should return local value', () => {
     const wrapper = mountComponent()
-    expect(wrapper.find('.el-button--default').exists()).toBe(true)
+    expect(wrapper.find('.el-button').exists()).toBe(true)
   })
 
   it('should return props.size instead of injected.size', () => {
