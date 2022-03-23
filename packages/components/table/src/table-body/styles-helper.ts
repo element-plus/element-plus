@@ -98,7 +98,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       )
     }
     classes.push(ns.e('cell'))
-    return classes.join(' ')
+    return classes.filter((className) => Boolean(className)).join(' ')
   }
   const getSpan = (
     row: T,

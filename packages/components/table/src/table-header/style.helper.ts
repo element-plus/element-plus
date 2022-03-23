@@ -109,7 +109,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
 
     classes.push(ns.e('cell'))
 
-    return classes.join(' ')
+    return classes.filter((className) => Boolean(className)).join(' ')
   }
 
   return {
