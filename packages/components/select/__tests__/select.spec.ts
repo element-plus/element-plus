@@ -1827,4 +1827,18 @@ describe('Select', () => {
     const select = wrapper.findComponent({ name: 'ElSelect' }).vm
     expect(select.selected[0].currentLabel).toBe(options[0].label)
   })
+
+  test('should reset selectedLabel when toggle multiple', async () => {
+    wrapper = getSelectVm({ multiple: false })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = wrapper.vm as any
+    const selectVm = select.vm as any
+    vm.value = '选项1'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('黄金糕')
+    vm.multiple = true
+    vm.value = []
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('')
+  })
 })

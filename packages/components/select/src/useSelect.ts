@@ -440,6 +440,8 @@ export const useSelect = (props, states: States, ctx) => {
       states.selected = option
       if (props.filterable) states.query = states.selectedLabel
       return
+    } else {
+      states.selectedLabel = ''
     }
     const result: any[] = []
     if (Array.isArray(props.modelValue)) {
