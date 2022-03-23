@@ -97,6 +97,7 @@ $tag-icon-span-gap: map.merge(
 
   height: map.get($tag-height, 'default');
   padding: 0 map.get($tag-padding, 'default') - $border-width;
+
   font-size: var(--el-tag-font-size);
   line-height: 1;
   border-width: $tag-border-width;
@@ -133,7 +134,7 @@ $tag-icon-span-gap: map.merge(
     padding-right: map.get($tag-icon-span-gap, 'default') - $border-width;
   }
 
-  @each $size in (large, default, small) {
+  @each $size in (large, small) {
     @include m($size) {
       padding: 0 map.get($tag-padding, $size) - $tag-border-width;
       height: map.get($tag-height, $size);
