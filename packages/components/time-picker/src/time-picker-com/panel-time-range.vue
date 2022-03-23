@@ -1,13 +1,20 @@
 <template>
-  <div v-if="actualVisible" class="el-time-range-picker el-picker-panel">
-    <div class="el-time-range-picker__content">
-      <div class="el-time-range-picker__cell">
-        <div class="el-time-range-picker__header">
+  <div
+    v-if="actualVisible"
+    :class="[nsTime.b('range-picker'), nsPicker.b('panel')]"
+  >
+    <div :class="nsTime.be('range-picker', 'content')">
+      <div :class="nsTime.be('range-picker', 'cell')">
+        <div :class="nsTime.be('range-picker', 'header')">
           {{ t('el.datepicker.startTime') }}
         </div>
         <div
-          :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
-          class="el-time-range-picker__body el-time-panel__content"
+          :class="[
+            nsTime.be('range-picker', 'body'),
+            nsTime.be('panel', 'content'),
+            nsTime.is('arrow', arrowControl),
+            { 'has-seconds': showSeconds },
+          ]"
         >
           <time-spinner
             ref="minSpinner"
@@ -25,13 +32,17 @@
           />
         </div>
       </div>
-      <div class="el-time-range-picker__cell">
-        <div class="el-time-range-picker__header">
+      <div :class="nsTime.be('range-picker', 'cell')">
+        <div :class="nsTime.be('range-picker', 'header')">
           {{ t('el.datepicker.endTime') }}
         </div>
         <div
-          :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
-          class="el-time-range-picker__body el-time-panel__content"
+          :class="[
+            nsTime.be('range-picker', 'body'),
+            nsTime.be('panel', 'content'),
+            nsTime.is('arrow', arrowControl),
+            { 'has-seconds': showSeconds },
+          ]"
         >
           <time-spinner
             ref="maxSpinner"
@@ -50,17 +61,17 @@
         </div>
       </div>
     </div>
-    <div class="el-time-panel__footer">
+    <div :class="nsTime.be('panel', 'footer')">
       <button
         type="button"
-        class="el-time-panel__btn cancel"
+        :class="[nsTime.be('panel', 'btn'), 'cancel']"
         @click="handleCancel()"
       >
         {{ t('el.datepicker.cancel') }}
       </button>
       <button
         type="button"
-        class="el-time-panel__btn confirm"
+        :class="[nsTime.be('panel', 'btn'), 'confirm']"
         :disabled="btnConfirmDisabled"
         @click="handleConfirm()"
       >
@@ -74,7 +85,7 @@
 import { defineComponent, ref, computed, inject } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
@@ -108,6 +119,8 @@ export default defineComponent({
 
   setup(props, ctx) {
     const { t, lang } = useLocale()
+    const nsTime = useNamespace('time')
+    const nsPicker = useNamespace('picker')
     const minDate = computed(() => props.parsedValue[0])
     const maxDate = computed(() => props.parsedValue[1])
     const oldValue = useOldValue(props)
@@ -343,6 +356,8 @@ export default defineComponent({
     } = pickerBase.props
 
     return {
+      nsTime,
+      nsPicker,
       arrowControl,
       onSetOption,
       setMaxSelectionRange,
