@@ -4,6 +4,7 @@ import { uploadBaseProps } from './upload'
 
 import type { ExtractPropTypes } from 'vue'
 import type {
+  UploadUserFile,
   UploadRawFile,
   UploadFile,
   UploadProgressEvent,
@@ -17,7 +18,7 @@ export const uploadContentProps = buildProps({
 
   // override
   fileList: {
-    type: definePropType<UploadFile[]>(Array),
+    type: definePropType<UploadUserFile[]>(Array),
     default: () => mutable([] as const),
   },
 

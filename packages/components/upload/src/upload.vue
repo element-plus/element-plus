@@ -64,7 +64,7 @@ import { useDisabled } from '@element-plus/hooks'
 import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
 import { useHandlers } from './use-handlers'
-import { uploadProps, type UploadFiles } from './upload'
+import { uploadProps } from './upload'
 import type {
   UploadContentInstance,
   UploadContentProps,
@@ -75,6 +75,8 @@ defineOptions({
 })
 
 const props = defineProps(uploadProps)
+
+const slots = useSlots()
 const disabled = useDisabled()
 
 const uploadRef = shallowRef<UploadContentInstance>()
@@ -91,6 +93,16 @@ const {
 } = useHandlers(props, uploadRef)
 
 const isPictureCard = computed(() => props.listType === 'picture-card')
+
+// did not use `defineComponent` for performance
+const uploadContentProps = computed<UploadContentProps>(() => ({
+  ...props,
+  onStart: handleStart,
+  onProgress: handleProgress,
+  onSuccess: handleSuccess,
+  onError: handleError,
+  onRemove: handleRemove,
+}))
 
 onBeforeUnmount(() => {
   uploadFiles.value.forEach(({ url }) => {
@@ -114,34 +126,4 @@ defineExpose({
   /** @description remove the file manually */
   handleRemove,
 })
-
-const slots = useSlots()
-
-// did not use `defineComponent` for performance
-const uploadContentProps = computed<UploadContentProps>(() => ({
-  type: props.type,
-  drag: props.drag,
-  action: props.action,
-  multiple: props.multiple,
-  withCredentials: props.withCredentials,
-  headers: props.headers,
-  method: props.method,
-  name: props.name,
-  data: props.data,
-  accept: props.accept,
-  autoUpload: props.autoUpload,
-  listType: props.listType,
-  disabled: props.disabled,
-  limit: props.limit,
-  fileList: props.fileList as UploadFiles,
-  showFileList: props.showFileList,
-  httpRequest: props.httpRequest,
-  beforeUpload: props.beforeUpload,
-  onExceed: props.onExceed,
-  onStart: handleStart,
-  onProgress: handleProgress,
-  onSuccess: handleSuccess,
-  onError: handleError,
-  onRemove: handleRemove,
-}))
 </script>
