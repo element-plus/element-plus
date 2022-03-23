@@ -8,7 +8,7 @@ import type { ConfigProviderContext } from '@element-plus/tokens'
 // this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
 // into the component as default injection value.
 // refer to: https://github.com/element-plus/element-plus/issues/2610#issuecomment-887965266
-const globalConfig = ref<ConfigProviderContext>()
+const cacheConfig = ref<ConfigProviderContext>()
 
 export function useGlobalConfig<
   K extends keyof ConfigProviderContext,
@@ -23,8 +23,8 @@ export function useGlobalConfig(
   defaultValue = undefined
 ) {
   const config = getCurrentInstance()
-    ? inject(configProviderContextKey, globalConfig)
-    : globalConfig
+    ? inject(configProviderContextKey, cacheConfig)
+    : cacheConfig
   if (key) {
     return computed(() => config.value?.[key] ?? defaultValue)
   } else {
@@ -34,8 +34,7 @@ export function useGlobalConfig(
 
 export const provideGlobalConfig = (
   config: MaybeRef<ConfigProviderContext>,
-  app?: App,
-  global = false
+  app?: App
 ) => {
   const inSetup = !!getCurrentInstance()
   const oldConfig = inSetup ? useGlobalConfig() : undefined
@@ -55,9 +54,7 @@ export const provideGlobalConfig = (
     return mergeConfig(oldConfig.value, cfg)
   })
   provideFn(configProviderContextKey, context)
-  if (global || !globalConfig.value) {
-    globalConfig.value = context.value
-  }
+  cacheConfig.value = context.value
   return context
 }
 
