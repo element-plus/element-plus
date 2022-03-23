@@ -45,6 +45,7 @@ import {
 } from 'vue'
 import AsyncValidator from 'async-validator'
 import { clone } from 'lodash-unified'
+import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
   ensureArray,
@@ -85,6 +86,7 @@ const _size = useSize(undefined, { formItem: false })
 const ns = useNamespace('form-item')
 
 const validateState = ref<FormItemValidateState>('')
+const validateStateDebounced = refDebounced(validateState, 100)
 const validateMessage = ref('')
 const formItemRef = ref<HTMLDivElement>()
 let initialValue: any = undefined
@@ -199,7 +201,7 @@ const isRequired = computed(() =>
 
 const shouldShowError = computed(
   () =>
-    validateState.value === 'error' &&
+    validateStateDebounced.value === 'error' &&
     props.showMessage &&
     formContext.showMessage
 )
@@ -330,6 +332,8 @@ defineExpose({
   size: _size,
   /** @description validation message */
   validateMessage,
+  /** @description validation state */
+  validateState,
   /** @description validate form item */
   validate,
   /** @description clear validation status */
