@@ -5,9 +5,9 @@ import {
   useTooltipTriggerProps,
   useTooltipContentProps,
 } from '@element-plus/components/tooltip'
-import type { Options } from '@popperjs/core'
 
-import type { ButtonType } from '@element-plus/components/button'
+import type { Options } from '@popperjs/core'
+import type { ButtonType, ButtonProps } from '@element-plus/components/button'
 import type { Placement } from '@element-plus/components/popper'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
 import type { Nullable } from '@element-plus/utils'
@@ -76,6 +76,9 @@ export const dropdownProps = buildProps({
   disabled: {
     type: Boolean,
     default: false,
+  },
+  buttonProps: {
+    type: definePropType<ButtonProps>(Object),
   },
 } as const)
 
