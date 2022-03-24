@@ -27,6 +27,15 @@ time-picker/basic-range
 
 :::
 
+## Fixed time picker
+
+Provide a list of fixed time for users to choose.
+:::demo specifying start time, end time and time step with `start`, `end` and `step`
+
+time-picker/basic-step-range
+
+:::
+
 ## Arbitrary time range
 
 Can pick an arbitrary time range.
@@ -65,6 +74,9 @@ time-picker/range
 | disabled-minutes      | To specify the array of minutes that cannot be selected | function(selectedHour)                     | —                                                                                   | —           |
 | disabled-seconds      | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute)     | —                                                                                   | —           |
 | teleported            | whether time-picker dropdown is teleported to the body  | boolean                                    | true / false                                                                        | true        |
+| start                 | start time                                              | Array                                      | —                                                                                   | [0,0,0]     |
+| end                   | end time                                                | Array                                      | —                                                                                   | [1,1,1]     |
+| step                  | time step                                               | Array                                      | -                                                                                   | [23,59,59]  |
 
 ## Events
 

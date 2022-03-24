@@ -2,9 +2,15 @@
 @use '../common/var' as *;
 
 @include b(time-spinner) {
-  &.has-seconds {
+  &.has-minutes.has-seconds {
     .#{$namespace}-time-spinner__wrapper {
       width: 33.3%;
+    }
+  }
+
+  &.has-minutes {
+    .#{$namespace}-time-spinner__wrapper {
+      width: 50%;
     }
   }
 
@@ -12,7 +18,7 @@
     max-height: 192px;
     overflow: auto;
     display: inline-block;
-    width: 50%;
+    width: 100%;
     vertical-align: top;
     position: relative;
 

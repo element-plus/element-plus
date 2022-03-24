@@ -113,4 +113,16 @@ export const timePickerDefaultProps = {
     default: true,
   },
   unlinkPanels: Boolean,
+  start: {
+    type: Array,
+    default: () => [0, 0, 0],
+  },
+  end: {
+    type: Array,
+    default: () => [23, 59, 59],
+  },
+  step: {
+    type: Array,
+    default: () => [1, 1, 1],
+  },
 }

@@ -26,6 +26,9 @@
             :disabled-hours="disabledHours_"
             :disabled-minutes="disabledMinutes_"
             :disabled-seconds="disabledSeconds_"
+            :start="start"
+            :end="end"
+            :step="step"
             @change="handleMinChange"
             @set-option="onSetOption"
             @select-range="setMinSelectionRange"
@@ -54,6 +57,9 @@
             :disabled-hours="disabledHours_"
             :disabled-minutes="disabledMinutes_"
             :disabled-seconds="disabledSeconds_"
+            :start="start"
+            :end="end"
+            :step="step"
             @change="handleMaxChange"
             @set-option="onSetOption"
             @select-range="setMaxSelectionRange"
@@ -135,6 +141,18 @@ export default defineComponent({
       if (props.format.includes('a')) return 'a'
       return ''
     })
+
+    const pickerBase = inject('EP_PICKER_BASE') as any
+    const {
+      arrowControl,
+      disabledHours,
+      disabledMinutes,
+      disabledSeconds,
+      defaultValue,
+      start,
+      end,
+      step,
+    } = pickerBase.props
 
     const minSelectableRange = ref([])
     const maxSelectableRange = ref([])
@@ -263,7 +281,14 @@ export default defineComponent({
     }
 
     const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
-      getAvailableArrs(disabledHours_, disabledMinutes_, disabledSeconds_)
+      getAvailableArrs(
+        start,
+        end,
+        step,
+        disabledHours_,
+        disabledMinutes_,
+        disabledSeconds_
+      )
 
     const getRangeAvailableTimeEach = (
       startDate: Dayjs,
@@ -346,15 +371,6 @@ export default defineComponent({
       timePickerOptions[e[0]] = e[1]
     }
 
-    const pickerBase = inject('EP_PICKER_BASE') as any
-    const {
-      arrowControl,
-      disabledHours,
-      disabledMinutes,
-      disabledSeconds,
-      defaultValue,
-    } = pickerBase.props
-
     return {
       nsTime,
       nsPicker,
@@ -377,6 +393,9 @@ export default defineComponent({
       disabledHours_,
       disabledMinutes_,
       disabledSeconds_,
+      start,
+      end,
+      step,
     }
   },
 })

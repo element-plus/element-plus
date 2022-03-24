@@ -417,6 +417,31 @@ describe('TimePicker', () => {
     await nextTick()
     expect(vm.value).toEqual('2000-01-01 09:00:00')
   })
+
+  it('start end step', async () => {
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        format="HH:mm"
+        :start="[8,0]"
+        :step="[1,30]"
+        :end="[17,59]"
+      />`,
+      () => ({ value: '' }),
+      {}
+    )
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const minutesEl = list[1]
+    const hours = getSpinnerTextAsArray(hoursEl, 'li')
+    expect(hours.length).toEqual(10)
+    const minutes = getSpinnerTextAsArray(minutesEl, 'li')
+    expect(minutes.length).toEqual(2)
+  })
 })
 
 describe('TimePicker(range)', () => {

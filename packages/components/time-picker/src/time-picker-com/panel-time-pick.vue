@@ -1,17 +1,26 @@
 <template>
   <transition :name="transitionName">
     <div v-if="actualVisible || visible" :class="ns.b('panel')">
-      <div :class="[ns.be('panel', 'content'), { 'has-seconds': showSeconds }]">
+      <div
+        :class="[
+          ns.be('panel', 'content'),
+          { 'has-seconds': showSeconds, 'has-minutes': showMinutes },
+        ]"
+      >
         <time-spinner
           ref="spinner"
           :role="datetimeRole || 'start'"
           :arrow-control="arrowControl"
+          :show-minutes="showMinutes"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
           :spinner-date="parsedValue"
           :disabled-hours="disabledHours"
           :disabled-minutes="disabledMinutes"
           :disabled-seconds="disabledSeconds"
+          :start="start"
+          :end="end"
+          :step="step"
           @change="handleChange"
           @set-option="onSetOption"
           @select-range="setSelectionRange"
@@ -87,7 +96,10 @@ export default defineComponent({
         : ''
     })
     const showSeconds = computed(() => {
-      return props.format.includes('ss')
+      return props.format.includes('mm') && props.format.includes('ss')
+    })
+    const showMinutes = computed(() => {
+      return props.format.includes('mm')
     })
     const amPmMode = computed(() => {
       if (props.format.includes('A')) return 'A'
@@ -217,9 +229,19 @@ export default defineComponent({
       disabledMinutes,
       disabledSeconds,
       defaultValue,
+      start,
+      end,
+      step,
     } = pickerBase.props
     const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
-      getAvailableArrs(disabledHours, disabledMinutes, disabledSeconds)
+      getAvailableArrs(
+        start,
+        end,
+        step,
+        disabledHours,
+        disabledMinutes,
+        disabledSeconds
+      )
 
     return {
       ns,
@@ -233,10 +255,14 @@ export default defineComponent({
       setSelectionRange,
       amPmMode,
       showSeconds,
+      showMinutes,
       handleCancel,
       disabledHours,
       disabledMinutes,
       disabledSeconds,
+      start,
+      end,
+      step,
     }
   },
 })
