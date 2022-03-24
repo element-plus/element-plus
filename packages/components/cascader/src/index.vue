@@ -98,6 +98,8 @@
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 placement="bottom"
                 effect="light"
+                @before-show="defaultTagHover = true"
+                @hide="defaultTagHover = false"
               >
                 <template #default>
                   <span>{{ tag.text }}</span>
@@ -219,7 +221,12 @@ import ElIcon from '@element-plus/components/icon'
 
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
-import { useLocale, useSize, useNamespace } from '@element-plus/hooks'
+import {
+  useLocale,
+  useSize,
+  useNamespace,
+  useZIndex,
+} from '@element-plus/hooks'
 
 import {
   focusNode,
@@ -368,6 +375,7 @@ export default defineComponent({
     )
     const nsCascader = useNamespace('cascader')
     const nsInput = useNamespace('input')
+    const { nextZIndex } = useZIndex()
 
     const { t } = useLocale()
     const elForm = inject(formContextKey, {} as FormContext)
@@ -375,11 +383,12 @@ export default defineComponent({
 
     const tooltipRef: Ref<tooltipType | null> = ref(null)
     const input: Ref<inputType | null> = ref(null)
-    const tagWrapper = ref(null)
+    const tagWrapper = ref<HTMLElement | null>(null)
     const panel: Ref<cascaderPanelType | null> = ref(null)
     const suggestionPanel: Ref<suggestionPanelType | null> = ref(null)
     const popperVisible = ref(false)
     const inputHover = ref(false)
+    const defaultTagHover = ref(false)
     const filtering = ref(false)
     const inputValue = ref('')
     const searchInputValue = ref('')
@@ -716,6 +725,14 @@ export default defineComponent({
 
     watch(filtering, updatePopperPosition)
 
+    watch(defaultTagHover, () => {
+      if (!props.collapseTagsTooltip) return
+      const tagWrapperEl = tagWrapper.value
+      tagWrapperEl!.style.zIndex = defaultTagHover.value
+        ? `${nextZIndex()}`
+        : '0'
+    })
+
     watch([checkedNodes, isDisabled], calculatePresentTags)
 
     watch(presentTags, () => {
@@ -747,6 +764,7 @@ export default defineComponent({
       suggestionPanel,
       popperVisible,
       inputHover,
+      defaultTagHover,
       inputPlaceholder,
       filtering,
       presentText,
