@@ -7,8 +7,10 @@ import { ElButton, ElMessage } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
 import ConfigProvider from '../src/config-provider'
 
+import type { PropType } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { Language } from '@element-plus/locale'
+import type { ConfigProviderProps } from '../src/config-provider'
 
 jest.useFakeTimers()
 
@@ -22,6 +24,10 @@ const TestComp = {
 }
 
 describe('config-provider', () => {
+  afterAll(() => {
+    jest.useRealTimers()
+  })
+
   describe('locale-provider', () => {
     let wrapper: VueWrapper<any>
 
@@ -240,45 +246,50 @@ describe('config-provider', () => {
     })
   })
 
-  describe('experimental features', () => {
-    it('should provide feature flag', () => {
-      const TestComponent = defineComponent({
-        setup() {
-          const features = useGlobalConfig('experimentalFeatures')
-          return {
-            features,
-          }
+  describe('feature checking', () => {
+    const TestComponent = defineComponent({
+      props: {
+        configKey: {
+          type: String as PropType<keyof ConfigProviderProps>,
+          required: true,
         },
-        template: `<div />`,
-      })
-
-      const testFeature = {
-        someFeature: true,
-      }
-
-      const wrapper = mount({
-        components: {
-          [ConfigProvider.name]: ConfigProvider,
-          TestComponent,
-        },
-        template: `
-          <el-config-provider :experimental-features="experimentalFeatures">
-            <test-component />
-          </el-config-provider>
-        `,
-        data() {
-          return {
-            experimentalFeatures: testFeature,
-          }
-        },
-      })
-      expect(
-        (
-          wrapper.findComponent(TestComponent) as VueWrapper<
-            InstanceType<typeof TestComponent>
-          >
-        ).vm.features
-      ).toEqual(testFeature)
+      },
+      setup(props) {
+        const features = useGlobalConfig(props.configKey)
+        return {
+          [props.configKey]: features,
+        }
+      },
+      template: `<div />`,
     })
+
+    it.each`
+      feature                   | config
+      ${'a11y'}                 | ${false}
+      ${'keyboardNavigation'}   | ${false}
+      ${'experimentalFeatures'} | ${{ someFeature: true }}
+    `(
+      'should inject config $feature to $config correctly',
+      ({ feature, config }: { feature: string; config: any }) => {
+        const wrapper = mount({
+          components: {
+            [ConfigProvider.name]: ConfigProvider,
+            TestComponent,
+          },
+          template: `
+            <el-config-provider :${feature}="${feature}">
+              <test-component config-key="${feature}" />
+            </el-config-provider>
+          `,
+          data() {
+            return {
+              [feature]: config,
+            }
+          },
+        })
+
+        expect(wrapper.findComponent(TestComponent).vm[feature]).toEqual(config)
+      }
+    )
   })
 })
