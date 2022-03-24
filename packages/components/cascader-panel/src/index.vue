@@ -8,7 +8,7 @@
       :key="index"
       :ref="(item) => (menuList[index] = item)"
       :index="index"
-      :nodes="menu"
+      :nodes="[...menu]"
     />
   </div>
 </template>
