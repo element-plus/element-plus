@@ -44,7 +44,7 @@ import {
   useSlots,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import { clone } from 'lodash-unified'
+import { clone, isEqual } from 'lodash-unified'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
@@ -89,7 +89,9 @@ const validateState = ref<FormItemValidateState>('')
 const validateStateDebounced = refDebounced(validateState, 100)
 const validateMessage = ref('')
 const formItemRef = ref<HTMLDivElement>()
+// special inline value.
 let initialValue: any = undefined
+let isResettingField = false
 
 const labelStyle = computed<CSSProperties>(() => {
   if (formContext.labelPosition === 'top') {
@@ -251,6 +253,12 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
 }
 
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
+  // skip validation if its resetting
+  if (isResettingField) {
+    isResettingField = false
+    return false
+  }
+
   const hasCallback = isFunction(callback)
   if (!validateEnabled.value) {
     callback?.(false)
@@ -286,8 +294,15 @@ const resetField: FormItemContext['resetField'] = async () => {
   const model = formContext.model
   if (!model || !props.prop) return
 
-  getProp(model, props.prop).value = initialValue
-  await nextTick()
+  const computedValue = getProp(model, props.prop)
+
+  if (!isEqual(computedValue.value, initialValue)) {
+    // prevent validation from being triggered
+    isResettingField = true
+  }
+
+  computedValue.value = initialValue
+
   await nextTick()
   clearValidate()
 }
