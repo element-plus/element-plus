@@ -66,6 +66,7 @@
     "@element-plus/theme-chalk": "workspace:*",
     "@element-plus/tokens": "workspace:*",
     "@element-plus/utils": "workspace:*",
+    "@floating-ui/dom": "^0.4.1",
     "@popperjs/core": "^2.11.4",
     "@vueuse/core": "^8.1.2",
     "async-validator": "^4.0.7",
