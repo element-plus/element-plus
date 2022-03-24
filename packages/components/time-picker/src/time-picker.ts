@@ -1,6 +1,6 @@
 import { defineComponent, h, ref, provide } from 'vue'
 import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import { DEFAULT_FORMATS_TIME } from './common/constant'
 import Picker from './common/picker.vue'
 import TimePickPanel from './time-picker-com/panel-time-pick.vue'
