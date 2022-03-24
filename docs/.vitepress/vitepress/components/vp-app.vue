@@ -63,7 +63,7 @@ onMounted(async () => {
     if (location.host === 'element-plus.gitee.io') return
     const userPrefer = useStorage<boolean | string>(
       USER_PREFER_GITHUB_PAGE,
-      false
+      null
     )
     if (userPrefer.value) {
       // no alert in the next 90 days
