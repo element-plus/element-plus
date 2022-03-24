@@ -24,7 +24,7 @@ describe('Rate.vue', () => {
     })
     expect(wrapper.find('.el-rate--large').exists()).toBe(true)
     await wrapper.setProps({ size: '' })
-    expect(wrapper.find('.el-rate--default').exists()).toBe(true)
+    expect(wrapper.find('.el-rate').exists()).toBe(true)
   })
 
   it('allow half', async () => {

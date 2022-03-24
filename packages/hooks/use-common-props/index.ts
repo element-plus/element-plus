@@ -35,7 +35,7 @@ export const useSize = (
       formItem?.size ||
       form?.size ||
       globalConfig.value ||
-      'default'
+      ''
   )
 }
 
