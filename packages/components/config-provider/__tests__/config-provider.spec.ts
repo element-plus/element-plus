@@ -1,11 +1,13 @@
-import { h, ref, reactive, nextTick } from 'vue'
+import { h, ref, reactive, nextTick, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useGlobalConfig } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import { ElButton, ElMessage } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
 import ConfigProvider from '../src/config-provider'
+
+import type { VueWrapper } from '@vue/test-utils'
 import type { Language } from '@element-plus/locale'
 
 jest.useFakeTimers()
@@ -21,7 +23,7 @@ const TestComp = {
 
 describe('config-provider', () => {
   describe('locale-provider', () => {
-    let wrapper
+    let wrapper: VueWrapper<any>
 
     beforeEach(() => {
       wrapper = mount({
@@ -235,6 +237,48 @@ describe('config-provider', () => {
       wrapper.find('.el-button').trigger('click')
       await nextTick()
       expect(document.querySelectorAll('.el-message').length).toBe(1)
+    })
+  })
+
+  describe('experimental features', () => {
+    it('should provide feature flag', () => {
+      const TestComponent = defineComponent({
+        setup() {
+          const features = useGlobalConfig('experimentalFeatures')
+          return {
+            features,
+          }
+        },
+        template: `<div />`,
+      })
+
+      const testFeature = {
+        someFeature: true,
+      }
+
+      const wrapper = mount({
+        components: {
+          [ConfigProvider.name]: ConfigProvider,
+          TestComponent,
+        },
+        template: `
+          <el-config-provider :experimental-features="experimentalFeatures">
+            <test-component />
+          </el-config-provider>
+        `,
+        data() {
+          return {
+            experimentalFeatures: testFeature,
+          }
+        },
+      })
+      expect(
+        (
+          wrapper.findComponent(TestComponent) as VueWrapper<
+            InstanceType<typeof TestComponent>
+          >
+        ).vm.features
+      ).toEqual(testFeature)
     })
   })
 })

@@ -1,6 +1,7 @@
 import { defineComponent, renderSlot, watch } from 'vue'
 import { buildProps, definePropType } from '@element-plus/utils'
 import { provideGlobalConfig } from '@element-plus/hooks'
+import type { ExperimentalFeatures } from '@element-plus/tokens'
 import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 import type { MessageConfigContext } from '@element-plus/components/message'
@@ -19,6 +20,10 @@ export const configProviderProps = buildProps({
 
   button: {
     type: definePropType<ButtonConfigContext>(Object),
+  },
+
+  experimentalFeatures: {
+    type: definePropType<ExperimentalFeatures>(Object),
   },
 
   message: {
