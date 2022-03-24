@@ -220,7 +220,7 @@ export default defineComponent({
                       ),
                     column.filterable &&
                       h(FilterPanel, {
-                        store: $parent.store,
+                        store,
                         placement: column.filterPlacement || 'bottom-start',
                         column,
                         upDataColumn: (key, value) => {
