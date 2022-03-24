@@ -158,7 +158,7 @@ $tag-icon-span-gap: map.merge(
   }
 
   @each $type in $types {
-    &.#{$namespace}-tag--#{$type} {
+    &.#{bem('tag', '', $type)} {
       @include when(hit) {
         border-color: getCssVar('color', $type);
       }
