@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, inject, provide, unref, onMounted, watch } from 'vue'
-import Popperjs from '@popperjs/core'
+import * as Popperjs from '@popperjs/core'
 import { useZIndex, useNamespace } from '@element-plus/hooks'
 import {
   POPPER_INJECTION_KEY,

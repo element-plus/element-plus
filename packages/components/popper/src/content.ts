@@ -1,4 +1,4 @@
-import Popperjs from '@popperjs/core'
+import * as Popperjs from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
