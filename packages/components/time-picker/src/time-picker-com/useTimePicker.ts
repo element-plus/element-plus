@@ -2,12 +2,6 @@ import { ref, watch } from 'vue'
 
 import type { Dayjs } from 'dayjs'
 
-interface Time {
-  hour: number
-  minute: number
-  second: number
-}
-
 const makeList = (list, method, methodFunc) => {
   const disabledArr = method && methodFunc()
   return list.map((item) => {
