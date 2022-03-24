@@ -28,10 +28,7 @@ useToggleWidgets(isSidebarOpen, () => {
   }
 })
 
-const userPrefer = useStorage<boolean | string>(
-  USER_PREFER_GITHUB_PAGE,
-  null
-)
+const userPrefer = useStorage<boolean | string>(USER_PREFER_GITHUB_PAGE, null)
 
 onMounted(async () => {
   if (!isClient) return
@@ -66,7 +63,7 @@ onMounted(async () => {
 
   if (lang.value === 'zh-CN') {
     if (location.host === 'element-plus.gitee.io') return
-    
+
     if (userPrefer.value) {
       // no alert in the next 90 days
       if (
