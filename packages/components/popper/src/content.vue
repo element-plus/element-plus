@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { computed, ref, inject, provide, unref, onMounted, watch } from 'vue'
-import { createPopper } from '@popperjs/core'
+import Popperjs from '@popperjs/core'
 import { useZIndex, useNamespace } from '@element-plus/hooks'
 import {
   POPPER_INJECTION_KEY,
@@ -32,6 +32,8 @@ defineEmits(['mouseenter', 'mouseleave'])
 
 const props = defineProps(usePopperContentProps)
 
+// Tricky way for SSR, because @popperjs/core does not have default export in ESModule
+const { createPopper } = Popperjs
 const { popperInstanceRef, contentRef, triggerRef } = inject(
   POPPER_INJECTION_KEY,
   undefined

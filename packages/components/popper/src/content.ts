@@ -1,4 +1,4 @@
-import { placements } from '@popperjs/core'
+import Popperjs from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
@@ -7,6 +7,8 @@ import type { Placement, Options } from '@popperjs/core'
 type ClassObjectType = Record<string, boolean>
 type ClassType = string | ClassObjectType | ClassType[]
 
+// Tricky way for SSR, because @popperjs/core does not have default export in ESModule
+const { placements } = Popperjs
 const POSITIONING_STRATEGIES = ['fixed', 'absolute'] as const
 export const usePopperCoreConfigProps = buildProps({
   boundariesPadding: {
