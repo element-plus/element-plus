@@ -28,6 +28,8 @@ useToggleWidgets(isSidebarOpen, () => {
   }
 })
 
+const userPrefer = useStorage<boolean | string>(USER_PREFER_GITHUB_PAGE, null)
+
 onMounted(async () => {
   if (!isClient) return
   window.addEventListener(
@@ -61,10 +63,7 @@ onMounted(async () => {
 
   if (lang.value === 'zh-CN') {
     if (location.host === 'element-plus.gitee.io') return
-    const userPrefer = useStorage<boolean | string>(
-      USER_PREFER_GITHUB_PAGE,
-      false
-    )
+
     if (userPrefer.value) {
       // no alert in the next 90 days
       if (
