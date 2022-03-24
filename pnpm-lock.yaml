@@ -24,6 +24,7 @@ importers:
       '@element-plus/theme-chalk': workspace:*
       '@element-plus/tokens': workspace:*
       '@element-plus/utils': workspace:*
+      '@floating-ui/dom': ^0.4.1
       '@pnpm/find-workspace-packages': ^4.0.0
       '@pnpm/logger': ^4.0.0
       '@pnpm/types': ^7.10.0
@@ -92,6 +93,7 @@ importers:
       '@element-plus/theme-chalk': link:packages/theme-chalk
       '@element-plus/tokens': link:packages/tokens
       '@element-plus/utils': link:packages/utils
+      '@floating-ui/dom': 0.4.1
       '@popperjs/core': 2.11.4
       '@vueuse/core': 8.1.2_vue@3.2.31
       async-validator: 4.0.7
@@ -297,6 +299,7 @@ importers:
     specifiers:
       '@ctrl/tinycolor': ^3.4.0
       '@element-plus/icons-vue': ^1.1.4
+      '@floating-ui/dom': ^0.4.1
       '@popperjs/core': ^2.11.4
       '@types/lodash': ^4.14.180
       '@types/lodash-es': ^4.17.6
@@ -315,6 +318,7 @@ importers:
     dependencies:
       '@ctrl/tinycolor': 3.4.0
       '@element-plus/icons-vue': 1.1.4_vue@3.2.31
+      '@floating-ui/dom': 0.4.1
       '@popperjs/core': 2.11.4
       '@vueuse/core': 8.1.2_vue@3.2.31
       async-validator: 4.0.7
@@ -2083,6 +2087,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@floating-ui/core/0.6.1:
+    resolution: {integrity: sha512-Y30eVMcZva8o84c0HcXAtDO4BEzPJMvF6+B7x7urL2xbAqVsGJhojOyHLaoQHQYjb6OkqRq5kO+zeySycQwKqg==}
+    dev: false
+
+  /@floating-ui/dom/0.4.1:
+    resolution: {integrity: sha512-VAdIkn+zc4VB3pSemBk2JwjXlbVEBUbQft4V5jGpUeA9Vxd1fQD5eL3dMIMLVW003NYCOoW42JjjyBPNTpr8uQ==}
+    dependencies:
+      '@floating-ui/core': 0.6.1
+    dev: false
 
   /@humanwhocodes/config-array/0.9.3:
     resolution: {integrity: sha512-3xSMlXHh03hCcCmFc0rbKp3Ivt2PFEJnQUJDDMTJQ2wkECZWdq4GePs2ctc5H8zV+cHPaq8k2vU8mrQjA6iHdQ==}
