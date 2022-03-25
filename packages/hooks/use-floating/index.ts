@@ -50,8 +50,8 @@ export const useFloating = ({
 }: UseFloatingProps) => {
   const referenceRef = ref<HTMLElement | VirtualElement>()
   const contentRef = ref<HTMLElement>()
-  const x = ref<number>()
-  const y = ref<number>()
+  const x = ref<string>()
+  const y = ref<string>()
   const middlewareData = ref<ComputePositionReturn['middlewareData']>({})
 
   const states = {
