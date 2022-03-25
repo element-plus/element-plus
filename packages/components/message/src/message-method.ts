@@ -43,7 +43,7 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
       )
       if (tempVm) {
         tempVm.vm.component!.props.repeatNum += 1
-        tempVm.vm.component!.props.type = options?.type
+        tempVm.vm.component!.props.type = options?.type || 'info'
         return {
           close: () =>
             ((
