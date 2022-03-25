@@ -3,12 +3,12 @@ import { NOOP } from '@vue/shared'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import Tree from '../src/tree.vue'
 import type {
-  TreeData,
-  TreeNodeData,
-  TreeNode,
-  TreeOptionProps,
-  TreeKey,
   FilterMethod,
+  TreeData,
+  TreeKey,
+  TreeNode,
+  TreeNodeData,
+  TreeOptionProps,
 } from '../src/types'
 
 jest.useFakeTimers()

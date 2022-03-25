@@ -1,12 +1,12 @@
 import { ref } from 'vue'
 import {
-  describe,
-  it,
-  expect,
+  afterAll,
   beforeAll,
   beforeEach,
-  afterAll,
+  describe,
+  expect,
   fn,
+  it,
 } from 'vitest'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { usePreventGlobal } from '../use-prevent-global'

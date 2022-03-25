@@ -2,40 +2,40 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
-  ref,
+  h,
   nextTick,
   onMounted,
   onUpdated,
+  ref,
   resolveDynamicComponent,
-  h,
   unref,
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import {
+  getScrollBarWidth,
   hasOwn,
   isNumber,
   isString,
-  getScrollBarWidth,
 } from '@element-plus/utils'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
 import { useCache } from '../hooks/use-cache'
 import { virtualizedGridProps } from '../props'
-import { getScrollDir, getRTLOffsetType, isRTL } from '../utils'
+import { getRTLOffsetType, getScrollDir, isRTL } from '../utils'
 import {
   AUTO_ALIGNMENT,
   BACKWARD,
   FORWARD,
-  RTL,
   ITEM_RENDER_EVT,
-  SCROLL_EVT,
+  RTL,
   RTL_OFFSET_NAG,
-  RTL_OFFSET_POS_DESC,
   RTL_OFFSET_POS_ASC,
+  RTL_OFFSET_POS_DESC,
+  SCROLL_EVT,
 } from '../defaults'
 
-import type { CSSProperties, VNode, VNodeChild, StyleValue } from 'vue'
-import type { GridConstructorProps, Alignment, ScrollbarExpose } from '../types'
+import type { CSSProperties, StyleValue, VNode, VNodeChild } from 'vue'
+import type { Alignment, GridConstructorProps, ScrollbarExpose } from '../types'
 import type { VirtualizedGridProps } from '../props'
 
 const createGrid = ({

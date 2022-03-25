@@ -59,11 +59,11 @@
 import {
   computed,
   defineComponent,
+  onMounted,
+  onUpdated,
   reactive,
   ref,
   watch,
-  onMounted,
-  onUpdated,
 } from 'vue'
 
 import { ElIcon } from '@element-plus/components/icon'
@@ -71,13 +71,13 @@ import { RepeatClick } from '@element-plus/directives'
 import {
   useDisabled,
   useFormItem,
-  useSize,
   useNamespace,
+  useSize,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { isNumber, isUndefined, debugWarn } from '@element-plus/utils'
-import { ArrowUp, ArrowDown, Plus, Minus } from '@element-plus/icons-vue'
-import { inputNumberProps, inputNumberEmits } from './input-number'
+import { debugWarn, isNumber, isUndefined } from '@element-plus/utils'
+import { ArrowDown, ArrowUp, Minus, Plus } from '@element-plus/icons-vue'
+import { inputNumberEmits, inputNumberProps } from './input-number'
 
 import type { ComponentPublicInstance } from 'vue'
 

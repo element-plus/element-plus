@@ -48,7 +48,7 @@
 <script lang="ts">
 import { defineComponent, nextTick } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { useRadio, radioEmits, radioProps } from './radio'
+import { radioEmits, radioProps, useRadio } from './radio'
 
 export default defineComponent({
   name: 'ElRadio',

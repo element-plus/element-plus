@@ -1,5 +1,5 @@
 import { h, nextTick } from 'vue'
-import { useZIndex, POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { POPPER_CONTAINER_SELECTOR, useZIndex } from '@element-plus/hooks'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElPopperTrigger } from '@element-plus/components/popper'

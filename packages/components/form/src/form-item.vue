@@ -33,15 +33,15 @@
 import {
   computed,
   inject,
+  nextTick,
   onBeforeUnmount,
   onMounted,
   provide,
   reactive,
   ref,
   toRefs,
-  watch,
-  nextTick,
   useSlots,
+  watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
 import { clone, isEqual } from 'lodash-unified'
@@ -50,13 +50,13 @@ import {
   addUnit,
   ensureArray,
   getProp,
-  isString,
   isBoolean,
   isFunction,
+  isString,
   throwError,
 } from '@element-plus/utils'
-import { formItemContextKey, formContextKey } from '@element-plus/tokens'
-import { useSize, useNamespace } from '@element-plus/hooks'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import { useNamespace, useSize } from '@element-plus/hooks'
 import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
 

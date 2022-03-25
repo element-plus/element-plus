@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'
 import SkeletonItem from '../src/skeleton-item.vue'
 

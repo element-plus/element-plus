@@ -6,11 +6,11 @@ import type {
 } from 'async-validator'
 import type { ComponentSize } from '@element-plus/constants'
 import type {
-  FormProps,
   FormEmits,
   FormItemProp,
   FormItemProps,
   FormLabelWidthContext,
+  FormProps,
 } from '@element-plus/components/form'
 import type { Arrayable } from '@element-plus/utils'
 

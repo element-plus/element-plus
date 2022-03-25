@@ -109,12 +109,12 @@
 import { ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
-  Document,
-  Delete,
-  Close,
-  ZoomIn,
   Check,
   CircleCheck,
+  Close,
+  Delete,
+  Document,
+  ZoomIn,
 } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'

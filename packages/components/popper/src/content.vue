@@ -12,12 +12,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, inject, provide, unref, onMounted, watch } from 'vue'
+import { computed, inject, onMounted, provide, ref, unref, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
-import { useZIndex, useNamespace } from '@element-plus/hooks'
+import { useNamespace, useZIndex } from '@element-plus/hooks'
 import {
-  POPPER_INJECTION_KEY,
   POPPER_CONTENT_INJECTION_KEY,
+  POPPER_INJECTION_KEY,
 } from '@element-plus/tokens'
 import { usePopperContentProps } from './content'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'

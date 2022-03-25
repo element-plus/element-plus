@@ -262,14 +262,14 @@
 
 <script lang="ts">
 import {
-  toRefs,
-  defineComponent,
-  onMounted,
-  onBeforeUnmount,
-  nextTick,
-  reactive,
-  provide,
   computed,
+  defineComponent,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  reactive,
+  toRefs,
   unref,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
@@ -282,19 +282,19 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   addResizeListener,
-  removeResizeListener,
   isValidComponentSize,
+  removeResizeListener,
 } from '@element-plus/utils'
-import { CircleClose, ArrowUp } from '@element-plus/icons-vue'
+import { ArrowUp, CircleClose } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
 
-import type { PropType, Component } from 'vue'
+import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { SelectContext } from './token'
 

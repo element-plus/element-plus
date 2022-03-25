@@ -1,11 +1,11 @@
 import {
   defineComponent,
   getCurrentInstance,
-  onMounted,
-  nextTick,
-  ref,
   h,
   inject,
+  nextTick,
+  onMounted,
+  ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
@@ -15,7 +15,7 @@ import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
-import type { ComponentInternalInstance, Ref, PropType } from 'vue'
+import type { ComponentInternalInstance, PropType, Ref } from 'vue'
 import type { DefaultRow, Sort } from '../table/defaults'
 import type { Store } from '../store'
 export interface TableHeader extends ComponentInternalInstance {

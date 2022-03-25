@@ -1,4 +1,4 @@
-import { ref, nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
 import ElContent from '../src/content.vue'

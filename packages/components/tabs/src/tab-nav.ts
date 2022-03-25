@@ -1,17 +1,17 @@
 import {
-  h,
-  defineComponent,
-  ref,
-  inject,
   computed,
-  onUpdated,
+  defineComponent,
+  h,
+  inject,
   onMounted,
+  onUpdated,
+  ref,
   watch,
 } from 'vue'
 import { NOOP, capitalize } from '@vue/shared'
 import {
-  useResizeObserver,
   useDocumentVisibility,
+  useResizeObserver,
   useWindowFocus,
 } from '@vueuse/core'
 import {
@@ -25,7 +25,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-plus/tokens'
 import TabBar from './tab-bar.vue'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { TabsPaneContext } from '@element-plus/tokens'
 export interface Scrollable {
   next?: boolean

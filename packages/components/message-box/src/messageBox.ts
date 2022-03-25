@@ -1,11 +1,11 @@
-import { h, watch, render } from 'vue'
+import { h, render, watch } from 'vue'
 import { isClient } from '@vueuse/core'
 import {
-  isVNode,
-  isString,
   hasOwn,
   isObject,
+  isString,
   isUndefined,
+  isVNode,
 } from '@element-plus/utils'
 import MessageBoxConstructor from './index.vue'
 
@@ -13,10 +13,10 @@ import type { AppContext, ComponentPublicInstance, VNode } from 'vue'
 import type {
   Action,
   Callback,
-  MessageBoxState,
-  IElMessageBox,
   ElMessageBoxOptions,
+  IElMessageBox,
   MessageBoxData,
+  MessageBoxState,
 } from './message-box.type'
 
 // component default merge props & data

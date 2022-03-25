@@ -1,6 +1,6 @@
-import { h, ref, reactive, nextTick, defineComponent } from 'vue'
+import { defineComponent, h, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { useLocale, useGlobalConfig } from '@element-plus/hooks'
+import { useGlobalConfig, useLocale } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import { ElButton, ElMessage } from '@element-plus/components'

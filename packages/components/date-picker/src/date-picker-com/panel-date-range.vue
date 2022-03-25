@@ -233,24 +233,24 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, watch, toRef } from 'vue'
+import { computed, defineComponent, inject, ref, toRef, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
 import { useLocale } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
+  TimePickPanel,
   extractDateFormat,
   extractTimeFormat,
-  TimePickPanel,
 } from '@element-plus/components/time-picker'
 import ElIcon from '@element-plus/components/icon'
 import { isValidDatePickType } from '@element-plus/utils'
 import {
-  DArrowLeft,
   ArrowLeft,
-  DArrowRight,
   ArrowRight,
+  DArrowLeft,
+  DArrowRight,
 } from '@element-plus/icons-vue'
 import DateTable from './basic-date-table.vue'
 

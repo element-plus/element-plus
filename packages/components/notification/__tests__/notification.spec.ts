@@ -6,7 +6,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { useZIndex } from '@element-plus/hooks'
 import Notification from '../src/notification.vue'
 
-import type { ComponentPublicInstance, Component } from 'vue'
+import type { Component, ComponentPublicInstance } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'Rem is the best girl'

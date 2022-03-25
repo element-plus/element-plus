@@ -1,16 +1,16 @@
 import { reactive } from 'vue'
 import { hasOwn } from '@element-plus/utils'
-import { markNodeData, NODE_KEY } from './util'
+import { NODE_KEY, markNodeData } from './util'
 import type TreeStore from './tree-store'
 
 import type { Nullable } from '@element-plus/utils'
 import type {
-  TreeNodeOptions,
-  TreeNodeData,
-  TreeKey,
   FakeNode,
-  TreeNodeLoadedDefaultProps,
+  TreeKey,
   TreeNodeChildState,
+  TreeNodeData,
+  TreeNodeLoadedDefaultProps,
+  TreeNodeOptions,
 } from '../tree.type'
 
 export const getChildState = (node: Node[]): TreeNodeChildState => {

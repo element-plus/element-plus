@@ -4,8 +4,8 @@ import escapeHtml from 'escape-html'
 import { hasOwn, off, on } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
-  PopperInstance,
   IPopperOptions,
+  PopperInstance,
 } from '@element-plus/components/popper'
 import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'

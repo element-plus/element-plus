@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import Link from '../src/link.vue'
 
 const AXIOM = 'Rem is the best girl'

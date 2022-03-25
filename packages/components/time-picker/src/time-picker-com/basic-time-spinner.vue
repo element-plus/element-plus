@@ -78,12 +78,12 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, nextTick, computed, onMounted, watch } from 'vue'
+import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
-import { ArrowUp, ArrowDown } from '@element-plus/icons-vue'
+import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { getTimeLists } from './useTimePicker'
 

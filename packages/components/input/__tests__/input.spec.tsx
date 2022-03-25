@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { defineGetter } from '@element-plus/test-utils'
 import Input from '../src/input.vue'
 import type { CSSProperties } from 'vue'
-import type { InputInstance, InputProps, InputAutoSize } from '../src/input'
+import type { InputAutoSize, InputInstance, InputProps } from '../src/input'
 
 describe('Input.vue', () => {
   beforeEach(() => {

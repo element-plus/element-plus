@@ -9,11 +9,11 @@
 
 <script lang="ts">
 import {
-  defineComponent,
   computed,
-  onMounted,
-  onBeforeUnmount,
+  defineComponent,
   inject,
+  onBeforeUnmount,
+  onMounted,
   ref,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'

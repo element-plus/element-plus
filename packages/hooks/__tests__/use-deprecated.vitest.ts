@@ -1,6 +1,6 @@
 import { computed, defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, it, fn, vi, expect, afterEach } from 'vitest'
+import { afterEach, describe, expect, fn, it, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
 import { useDeprecated } from '../use-deprecated'
 

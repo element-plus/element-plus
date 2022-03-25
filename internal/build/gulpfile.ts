@@ -1,16 +1,16 @@
 import path from 'path'
-import { mkdir, copyFile } from 'fs/promises'
+import { copyFile, mkdir } from 'fs/promises'
 import { copy } from 'fs-extra'
-import { series, parallel } from 'gulp'
+import { parallel, series } from 'gulp'
 import {
-  run,
-  runTask,
-  withTaskName,
+  buildConfig,
   buildOutput,
   epOutput,
   epPackage,
   projRoot,
-  buildConfig,
+  run,
+  runTask,
+  withTaskName,
 } from './src'
 import type { TaskFunction } from 'gulp'
 import type { Module } from './src'

@@ -3,8 +3,8 @@ import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import installStyle from '@element-plus/test-utils/style-plugin'
 import {
-  ElCheckboxGroup as CheckboxGroup,
   ElCheckbox as Checkbox,
+  ElCheckboxGroup as CheckboxGroup,
 } from '@element-plus/components/checkbox'
 import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'

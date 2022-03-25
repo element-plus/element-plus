@@ -4,15 +4,15 @@ import { useDeprecated } from '@element-plus/hooks'
 import { genFileId } from './upload'
 import type { ShallowRef } from 'vue'
 import type {
-  UploadContentProps,
   UploadContentInstance,
+  UploadContentProps,
 } from './upload-content'
 import type {
-  UploadRawFile,
   UploadFile,
-  UploadProps,
-  UploadStatus,
   UploadFiles,
+  UploadProps,
+  UploadRawFile,
+  UploadStatus,
 } from './upload'
 
 const SCOPE = 'ElUpload'

@@ -1,7 +1,7 @@
 import { triggerEvent } from '@element-plus/test-utils'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
-import { mount, getTestData, doubleWait } from './table-test-common'
+import { doubleWait, getTestData, mount } from './table-test-common'
 
 jest.mock('lodash-unified', () => {
   return {

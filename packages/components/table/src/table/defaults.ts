@@ -1,9 +1,9 @@
 import type {
-  ComponentInternalInstance,
   CSSProperties,
+  ComponentInternalInstance,
+  PropType,
   Ref,
   VNode,
-  PropType,
 } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'

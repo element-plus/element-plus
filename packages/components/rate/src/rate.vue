@@ -44,13 +44,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { inject, computed, ref, watch, type CSSProperties } from 'vue'
+import { type CSSProperties, computed, inject, ref, watch } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isObject, isArray, hasClass } from '@element-plus/utils'
+import { hasClass, isArray, isObject } from '@element-plus/utils'
 import { formContextKey } from '@element-plus/tokens'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace, useSize } from '@element-plus/hooks'
-import { rateProps, rateEmits } from './rate'
+import { rateEmits, rateProps } from './rate'
 
 function getValueFromMap<T>(
   value: number,

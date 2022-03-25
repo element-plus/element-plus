@@ -127,37 +127,37 @@
 </template>
 <script lang="ts">
 import {
+  computed,
   defineComponent,
   nextTick,
-  onMounted,
   onBeforeUnmount,
-  computed,
-  watch,
+  onMounted,
   reactive,
   ref,
   toRefs,
+  watch,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
 import { TrapFocus } from '@element-plus/directives'
 import {
-  useModal,
-  useLockscreen,
-  useLocale,
-  useRestoreActive,
-  usePreventGlobal,
-  useSize,
   useDraggable,
+  useLocale,
+  useLockscreen,
+  useModal,
+  usePreventGlobal,
+  useRestoreActive,
   useSameTarget,
+  useSize,
   useZIndex,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { ElOverlay } from '@element-plus/components/overlay'
 import {
-  on,
-  off,
-  isValidComponentSize,
   TypeComponents,
   TypeComponentsMap,
+  isValidComponentSize,
+  off,
+  on,
 } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'

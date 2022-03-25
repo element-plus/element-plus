@@ -3,9 +3,9 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   buildProps,
   definePropType,
-  mutable,
-  isValidComponentSize,
   iconPropType,
+  isValidComponentSize,
+  mutable,
 } from '@element-plus/utils'
 import type { ComponentSize } from '@element-plus/constants'
 import type { Component, ExtractPropTypes, PropType } from 'vue'

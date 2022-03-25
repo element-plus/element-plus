@@ -3,8 +3,8 @@ import {
   buildProps,
   definePropType,
   isArray,
-  isString,
   isBoolean,
+  isString,
 } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'

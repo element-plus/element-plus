@@ -39,11 +39,11 @@
 
 <script lang="ts" setup>
 import {
-  Search,
-  Edit,
   Check,
-  Message,
-  Star,
   Delete,
+  Edit,
+  Message,
+  Search,
+  Star,
 } from '@element-plus/icons-vue'
 </script>

@@ -25,20 +25,20 @@ import {
   ref,
   watch,
 } from 'vue'
-import { isEqual, flattenDeep } from 'lodash-unified'
+import { flattenDeep, isEqual } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
+  castArray,
   focusNode,
   getSibling,
   isEmpty,
-  unique,
-  castArray,
   scrollIntoView,
+  unique,
 } from '@element-plus/utils'
 import {
+  CHANGE_EVENT,
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
-  CHANGE_EVENT,
 } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 
@@ -52,11 +52,11 @@ import { CASCADER_PANEL_INJECTION_KEY } from './types'
 import type { PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type {
-  CascaderValue,
+  default as CascaderNode,
   CascaderNodeValue,
   CascaderOption,
+  CascaderValue,
   RenderLabel,
-  default as CascaderNode,
 } from './node'
 
 import type { ElCascaderPanelContext } from './types'

@@ -9,10 +9,10 @@ import chalk from 'chalk'
 import {
   buildOutput,
   epRoot,
-  pkgRoot,
-  projRoot,
   excludeFiles,
   pathRewriter,
+  pkgRoot,
+  projRoot,
 } from '../utils'
 import typeSafe from '../type-safe.json'
 

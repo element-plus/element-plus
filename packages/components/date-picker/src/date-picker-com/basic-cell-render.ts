@@ -1,4 +1,4 @@
-import { h, defineComponent, inject } from 'vue'
+import { defineComponent, h, inject } from 'vue'
 import { buildProps, definePropType } from '@element-plus/utils'
 import { ROOT_PICKER_INJECTION_KEY } from '../date-picker.type'
 import type { DateCell } from '../date-picker.type'

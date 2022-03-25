@@ -1,11 +1,11 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import {
-  usePopperTriggerProps,
   usePopperContentProps,
+  usePopperTriggerProps,
 } from '@element-plus/components/popper'
 import {
-  useDelayedToggleProps,
   POPPER_CONTAINER_SELECTOR,
+  useDelayedToggleProps,
 } from '@element-plus/hooks'
 import type Tooltip from '../src/tooltip.vue'
 

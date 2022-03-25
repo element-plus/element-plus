@@ -4,7 +4,7 @@ import { triggerEvent } from '@element-plus/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
-import { mount, getTestData, doubleWait } from './table-test-common'
+import { doubleWait, getTestData, mount } from './table-test-common'
 import type { VueWrapper } from '@vue/test-utils'
 import type { ComponentPublicInstance } from 'vue'
 

@@ -1,8 +1,8 @@
 import { computed, inject, nextTick, ref, shallowRef } from 'vue'
 import {
   CHANGE_EVENT,
-  UPDATE_MODEL_EVENT,
   INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import type { CSSProperties } from 'vue'
