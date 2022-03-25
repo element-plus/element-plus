@@ -1,17 +1,17 @@
-import { ref, onMounted, watch, unref } from 'vue'
+import { onMounted, ref, unref, watch } from 'vue'
 import { isClient, unrefElement } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
-import { computePosition, arrow as arrowCore } from '@floating-ui/dom'
+import { arrow as arrowCore, computePosition } from '@floating-ui/dom'
 
 import { buildProps } from '@element-plus/utils'
 
-import type { ToRefs, Ref } from 'vue'
+import type { Ref, ToRefs } from 'vue'
 import type {
   ComputePositionReturn,
-  Placement,
-  Strategy,
   Middleware,
+  Placement,
   SideObject,
+  Strategy,
   VirtualElement,
 } from '@floating-ui/dom'
 

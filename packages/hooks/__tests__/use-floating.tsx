@@ -1,10 +1,10 @@
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
-import { useFloating, arrowMiddleware } from '../use-floating'
+import { arrowMiddleware, useFloating } from '../use-floating'
 
 import type { CSSProperties } from 'vue'
-import type { Placement, Strategy, Middleware } from '@floating-ui/dom'
+import type { Middleware, Placement, Strategy } from '@floating-ui/dom'
 
 describe('useFloating', () => {
   const createComponent = (arrow = false) => {
