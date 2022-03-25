@@ -41,10 +41,10 @@
         <div :class="[ns.e('btn'), ns.e('actions')]">
           <div :class="ns.e('actions__inner')">
             <el-icon @click="handleActions('zoomOut')">
-              <zoom-out />
+              <ZoomOut />
             </el-icon>
             <el-icon @click="handleActions('zoomIn')">
-              <zoom-in />
+              <ZoomIn />
             </el-icon>
             <i :class="ns.e('actions__divider')" />
             <el-icon @click="toggleMode">
@@ -52,10 +52,10 @@
             </el-icon>
             <i :class="ns.e('actions__divider')" />
             <el-icon @click="handleActions('anticlockwise')">
-              <refresh-left />
+              <RefreshLeft />
             </el-icon>
             <el-icon @click="handleActions('clockwise')">
-              <refresh-right />
+              <RefreshRight />
             </el-icon>
           </div>
         </div>
