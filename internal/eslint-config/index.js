@@ -160,6 +160,17 @@ module.exports = defineConfig({
     'no-with': 'error',
     'no-void': 'error',
 
+    'sort-imports': [
+      'warn',
+      {
+        ignoreCase: false,
+        ignoreDeclarationSort: true,
+        ignoreMemberSort: false,
+        memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+        allowSeparatedGroups: false,
+      },
+    ],
+
     // stylistic-issues
     'prefer-exponentiation-operator': 'error',
 
