@@ -15,6 +15,7 @@
   border-width: var(--el-border-width-base);
   border-style: var(--el-border-style-base);
   border-color: getCssVar('message', 'border-color');
+  box-shadow: var(--el-box-shadow-base);
   position: fixed;
   left: 50%;
   top: 20px;
@@ -70,6 +71,11 @@
     position: absolute;
     top: -8px;
     right: -8px;
+
+    & .#{$namespace}-badge__content {
+      box-shadow: var(--el-box-shadow-base);
+      border: 0;
+    }
   }
 
   @include e(content) {
