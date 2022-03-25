@@ -11,7 +11,7 @@
 
         <!-- CLOSE -->
         <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
-          <ElIcon><Close /></ElIcon>
+          <el-icon><Close /></el-icon>
         </span>
 
         <!-- ARROW -->
@@ -24,7 +24,7 @@
             ]"
             @click="prev"
           >
-            <ElIcon><ArrowLeft /></ElIcon>
+            <el-icon><ArrowLeft /></el-icon>
           </span>
           <span
             :class="[
@@ -34,29 +34,29 @@
             ]"
             @click="next"
           >
-            <ElIcon><ArrowRight /></ElIcon>
+            <el-icon><ArrowRight /></el-icon>
           </span>
         </template>
         <!-- ACTIONS -->
         <div :class="[ns.e('btn'), ns.e('actions')]">
           <div :class="ns.e('actions__inner')">
-            <ElIcon @click="handleActions('zoomOut')">
+            <el-icon @click="handleActions('zoomOut')">
               <zoom-out />
-            </ElIcon>
-            <ElIcon @click="handleActions('zoomIn')">
+            </el-icon>
+            <el-icon @click="handleActions('zoomIn')">
               <zoom-in />
-            </ElIcon>
+            </el-icon>
             <i :class="ns.e('actions__divider')" />
-            <ElIcon @click="toggleMode">
+            <el-icon @click="toggleMode">
               <component :is="mode.icon" />
-            </ElIcon>
+            </el-icon>
             <i :class="ns.e('actions__divider')" />
-            <ElIcon @click="handleActions('anticlockwise')">
+            <el-icon @click="handleActions('anticlockwise')">
               <refresh-left />
-            </ElIcon>
-            <ElIcon @click="handleActions('clockwise')">
+            </el-icon>
+            <el-icon @click="handleActions('clockwise')">
               <refresh-right />
-            </ElIcon>
+            </el-icon>
           </div>
         </div>
         <!-- CANVAS -->
@@ -83,7 +83,6 @@
 <script lang="ts" setup>
 import {
   computed,
-  defineComponent,
   effectScope,
   markRaw,
   nextTick,
@@ -93,10 +92,10 @@ import {
 } from 'vue'
 import { isNumber, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
-import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import { isFirefox } from '@element-plus/utils'
+import ElIcon from '@element-plus/components/icon'
 import {
   ArrowLeft,
   ArrowRight,

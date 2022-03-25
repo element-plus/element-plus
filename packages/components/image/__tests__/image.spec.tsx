@@ -6,7 +6,7 @@ import {
   mockImageEvent,
 } from '@element-plus/test-utils/mock'
 import Image from '../src/image.vue'
-import type { ImgHTMLAttributes, AnchorHTMLAttributes } from 'vue'
+import type { AnchorHTMLAttributes, ImgHTMLAttributes } from 'vue'
 import type { ImageProps } from '../src/image'
 
 type ElImageProps = ImgHTMLAttributes &
