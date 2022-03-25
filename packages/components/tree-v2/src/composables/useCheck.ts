@@ -177,6 +177,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
 
   function setCheckedKeys(keys: TreeKey[]) {
     checkedKeys.value.clear()
+    indeterminateKeys.value.clear()
     _setCheckedKeys(keys)
   }
 
