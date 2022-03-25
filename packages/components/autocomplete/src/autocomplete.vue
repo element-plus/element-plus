@@ -194,6 +194,7 @@ const handleInput = (value: string) => {
   emit('input', value)
   emit(UPDATE_MODEL_EVENT, value)
   suggestionDisabled.value = false
+  activated.value = Boolean(value)
   if (!props.triggerOnFocus && !value) {
     suggestionDisabled.value = true
     suggestions.value = []
