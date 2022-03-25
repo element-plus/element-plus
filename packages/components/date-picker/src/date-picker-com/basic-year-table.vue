@@ -44,11 +44,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
-import { hasClass, castArray } from '@element-plus/utils'
+import { castArray, hasClass } from '@element-plus/utils'
 
 import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'

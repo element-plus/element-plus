@@ -1,10 +1,10 @@
-import { ref, getCurrentInstance, unref, watch, toRefs } from 'vue'
+import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
 import { hasOwn } from '@element-plus/utils'
 import {
-  getKeysMap,
-  getRowIdentity,
   getColumnById,
   getColumnByKey,
+  getKeysMap,
+  getRowIdentity,
   orderBy,
   toggleRowStatus,
 } from '../util'

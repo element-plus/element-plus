@@ -82,33 +82,33 @@
 
 <script lang="ts">
 import {
-  defineComponent,
   computed,
-  ref,
-  onMounted,
-  watch,
-  nextTick,
+  defineComponent,
   effectScope,
   markRaw,
+  nextTick,
+  onMounted,
+  ref,
+  watch,
 } from 'vue'
-import { useEventListener, isNumber } from '@vueuse/core'
+import { isNumber, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import { isFirefox } from '@element-plus/utils'
 import {
-  Close,
   ArrowLeft,
   ArrowRight,
-  ZoomOut,
-  ZoomIn,
+  Close,
+  FullScreen,
   RefreshLeft,
   RefreshRight,
-  FullScreen,
   ScaleToOriginal,
+  ZoomIn,
+  ZoomOut,
 } from '@element-plus/icons-vue'
-import { imageViewerProps, imageViewerEmits } from './image-viewer'
+import { imageViewerEmits, imageViewerProps } from './image-viewer'
 
 import type { CSSProperties } from 'vue'
 

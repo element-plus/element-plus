@@ -1,5 +1,5 @@
 import { isFunction } from '@vue/shared'
-import { capitalize, isUndefined, isEmpty } from '@element-plus/utils'
+import { capitalize, isEmpty, isUndefined } from '@element-plus/utils'
 import type { VNode } from 'vue'
 
 export type CascaderNodeValue = string | number

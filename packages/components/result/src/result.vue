@@ -26,8 +26,8 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
-import { useNamespace, useDeprecated } from '@element-plus/hooks'
-import { resultProps, IconComponentMap, IconMap } from './result'
+import { useDeprecated, useNamespace } from '@element-plus/hooks'
+import { IconComponentMap, IconMap, resultProps } from './result'
 const COMPONENT_NAME = 'ElResult'
 export default defineComponent({
   name: COMPONENT_NAME,

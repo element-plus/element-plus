@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useGlobalConfig } from '../use-global-config'
 
 const zIndex = ref(0)

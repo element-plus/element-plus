@@ -37,7 +37,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Plus, ZoomIn, Download, Delete } from '@element-plus/icons-vue'
+import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
 
 import type { UploadFile } from 'element-plus'
 

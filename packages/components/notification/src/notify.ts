@@ -1,17 +1,17 @@
 import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
 import { useZIndex } from '@element-plus/hooks'
-import { isVNode, isElement, isString, debugWarn } from '@element-plus/utils'
+import { debugWarn, isElement, isString, isVNode } from '@element-plus/utils'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
 
 import type { AppContext, ComponentPublicInstance, VNode } from 'vue'
 import type {
   NotificationOptions,
+  NotificationProps,
+  NotificationQueue,
   Notify,
   NotifyFn,
-  NotificationQueue,
-  NotificationProps,
 } from './notification'
 
 // This should be a queue but considering there were `non-autoclosable` notifications.

@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, shallowRef, h } from 'vue'
+import { h, ref, shallowRef } from 'vue'
 
 const value1 = ref('')
 

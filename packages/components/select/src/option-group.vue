@@ -12,15 +12,15 @@
 <script lang="ts">
 import {
   defineComponent,
-  provide,
-  inject,
-  ref,
-  reactive,
-  toRefs,
   getCurrentInstance,
+  inject,
   onMounted,
-  watch,
+  provide,
+  reactive,
+  ref,
   toRaw,
+  toRefs,
+  watch,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey, selectKey } from './token'

@@ -1,4 +1,4 @@
-import { ref, getCurrentInstance } from 'vue'
+import { getCurrentInstance, ref } from 'vue'
 import { useClipboard } from '@vueuse/core'
 
 export const getColorValue = (type: string) => {

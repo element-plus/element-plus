@@ -8,11 +8,11 @@
 <script lang="ts">
 import {
   defineComponent,
-  inject,
   getCurrentInstance,
-  watch,
+  inject,
   nextTick,
   ref,
+  watch,
 } from 'vue'
 import { capitalize } from '@vue/shared'
 import { useResizeObserver } from '@vueuse/core'

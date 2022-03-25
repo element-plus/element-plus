@@ -2,7 +2,7 @@ import { placements } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
-import type { Placement, Options } from '@popperjs/core'
+import type { Options, Placement } from '@popperjs/core'
 
 type ClassObjectType = Record<string, boolean>
 type ClassType = string | ClassObjectType | ClassType[]

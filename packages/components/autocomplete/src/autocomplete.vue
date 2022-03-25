@@ -90,10 +90,10 @@
 
 <script lang="ts" setup>
 import {
-  ref,
   computed,
-  onMounted,
   nextTick,
+  onMounted,
+  ref,
   useAttrs as useCompAttrs,
 } from 'vue'
 import { isPromise } from '@vue/shared'
@@ -108,7 +108,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
-import { autocompleteProps, autocompleteEmits } from './autocomplete'
+import { autocompleteEmits, autocompleteProps } from './autocomplete'
 import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'

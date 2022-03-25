@@ -1,4 +1,4 @@
-import { nextTick, h, inject } from 'vue'
+import { h, inject, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
 import ElPopper from '../src/popper.vue'

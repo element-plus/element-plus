@@ -14,12 +14,12 @@
 
 <script lang="ts">
 import {
-  ref,
   computed,
-  watch,
-  onMounted,
-  getCurrentInstance,
   defineComponent,
+  getCurrentInstance,
+  onMounted,
+  ref,
+  watch,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
 import draggable from '../draggable'

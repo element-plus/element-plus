@@ -1,5 +1,5 @@
-import { describe, it, expect, spyOn } from 'vitest'
-import { triggerEvent, isFocusable } from '../..'
+import { describe, expect, it, spyOn } from 'vitest'
+import { isFocusable, triggerEvent } from '../..'
 
 const CE = (tag: string) => document.createElement(tag)
 

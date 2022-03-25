@@ -1,12 +1,12 @@
-import { nextTick, computed, defineComponent } from 'vue'
+import { computed, defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
-import { useLocale, buildTranslator } from '../use-locale'
+import { buildTranslator, useLocale } from '../use-locale'
 import { provideGlobalConfig } from '..'
 import type { Language } from '@element-plus/locale'
-import type { PropType, ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 
 const TestComp = defineComponent({

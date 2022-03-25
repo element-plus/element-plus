@@ -45,12 +45,12 @@
 
 <script lang="ts">
 import {
-  defineComponent,
   computed,
-  ref,
+  defineComponent,
   provide,
-  toRef,
   readonly,
+  ref,
+  toRef,
   unref,
   watch,
 } from 'vue'
@@ -62,17 +62,17 @@ import {
 
 import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils'
 import {
-  usePopperContainer,
-  useId,
   createModelToggleComposable,
   useDelayedToggle,
+  useId,
+  usePopperContainer,
 } from '@element-plus/hooks'
 import ElTooltipContent from './content.vue'
 import ElTooltipTrigger from './trigger.vue'
 import {
   useTooltipContentProps,
-  useTooltipTriggerProps,
   useTooltipProps,
+  useTooltipTriggerProps,
 } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 

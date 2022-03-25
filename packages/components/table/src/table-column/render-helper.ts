@@ -1,16 +1,16 @@
-import { getCurrentInstance, h, ref, computed, watchEffect, unref } from 'vue'
+import { computed, getCurrentInstance, h, ref, unref, watchEffect } from 'vue'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,
   defaultRenderCell,
-  treeCellPrefix,
   getDefaultClassName,
+  treeCellPrefix,
 } from '../config'
-import { parseWidth, parseMinWidth } from '../util'
+import { parseMinWidth, parseWidth } from '../util'
 
 import type { ComputedRef } from 'vue'
-import type { TableColumnCtx, TableColumn } from './defaults'
+import type { TableColumn, TableColumnCtx } from './defaults'
 
 function useRender<T>(
   props: TableColumnCtx<T>,

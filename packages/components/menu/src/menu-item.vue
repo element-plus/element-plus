@@ -37,14 +37,14 @@
 
 <script lang="ts">
 import {
-  defineComponent,
   computed,
-  onMounted,
-  onBeforeUnmount,
-  inject,
+  defineComponent,
   getCurrentInstance,
-  toRef,
+  inject,
+  onBeforeUnmount,
+  onMounted,
   reactive,
+  toRef,
 } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { Effect } from '@element-plus/components/popper'

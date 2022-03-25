@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
-import { checkTagProps, checkTagEmits } from './check-tag'
+import { checkTagEmits, checkTagProps } from './check-tag'
 
 defineOptions({
   name: 'ElCheckTag',

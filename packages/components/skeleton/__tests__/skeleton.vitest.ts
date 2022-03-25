@@ -1,5 +1,5 @@
 import { nextTick } from 'vue'
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'
 import Skeleton from '../src/skeleton.vue'
 import type { SkeletonInstance } from '../src/skeleton'

@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, ref, getCurrentInstance } from 'vue'
+import { getCurrentInstance, inject, ref } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { breadcrumbKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'

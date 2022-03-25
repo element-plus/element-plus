@@ -1,9 +1,9 @@
-import { nextTick, markRaw } from 'vue'
+import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { User } from '@element-plus/icons-vue'
 import {
-  IMAGE_SUCCESS,
   IMAGE_FAIL,
+  IMAGE_SUCCESS,
   mockImageEvent,
 } from '@element-plus/test-utils'
 

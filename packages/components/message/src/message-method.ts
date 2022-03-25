@@ -1,13 +1,13 @@
 import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
 import {
-  isVNode,
+  debugWarn,
+  isElement,
+  isFunction,
   isNumber,
   isObject,
   isString,
-  isElement,
-  debugWarn,
-  isFunction,
+  isVNode,
 } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
@@ -15,7 +15,7 @@ import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
 import type { AppContext, ComponentPublicInstance, VNode } from 'vue'
-import type { Message, MessageFn, MessageQueue, MessageProps } from './message'
+import type { Message, MessageFn, MessageProps, MessageQueue } from './message'
 
 const instances: MessageQueue = []
 let seed = 1

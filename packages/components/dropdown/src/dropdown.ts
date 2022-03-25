@@ -2,12 +2,12 @@ import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { createCollectionWithScope } from '@element-plus/components/collection'
 import {
-  useTooltipTriggerProps,
   useTooltipContentProps,
+  useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 
 import type { Options } from '@popperjs/core'
-import type { ButtonType, ButtonProps } from '@element-plus/components/button'
+import type { ButtonProps, ButtonType } from '@element-plus/components/button'
 import type { Placement } from '@element-plus/components/popper'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
 import type { Nullable } from '@element-plus/utils'

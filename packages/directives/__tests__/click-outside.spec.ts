@@ -1,4 +1,4 @@
-import { withDirectives, h } from 'vue'
+import { h, withDirectives } from 'vue'
 import { mount } from '@vue/test-utils'
 import ClickOutside from '../click-outside'
 

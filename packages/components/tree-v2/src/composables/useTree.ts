@@ -1,20 +1,20 @@
 import { computed, nextTick, ref, shallowRef, watch } from 'vue'
 import {
+  CURRENT_CHANGE,
   NODE_CLICK,
   NODE_COLLAPSE,
   NODE_EXPAND,
-  CURRENT_CHANGE,
   TreeOptionsEnum,
 } from '../virtual-tree'
 import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
 import type {
-  TreeProps,
-  TreeNodeData,
+  Tree,
+  TreeData,
   TreeKey,
   TreeNode,
-  TreeData,
-  Tree,
+  TreeNodeData,
+  TreeProps,
 } from '../types'
 
 export function useTree(props: TreeProps, emit) {

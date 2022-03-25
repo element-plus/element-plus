@@ -1,8 +1,8 @@
 import { isNil } from 'lodash-unified'
 import { throwError } from '@element-plus/utils'
 import type {
-  UploadRequestHandler,
   UploadProgressEvent,
+  UploadRequestHandler,
   UploadRequestOptions,
 } from './upload'
 

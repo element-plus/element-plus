@@ -1,8 +1,8 @@
-import { defineComponent, computed, provide } from 'vue'
+import { computed, defineComponent, provide } from 'vue'
 import { buildProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { rowContextKey } from '@element-plus/tokens'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 
 export const rowProps = buildProps({
   tag: {

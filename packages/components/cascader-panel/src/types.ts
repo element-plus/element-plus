@@ -1,4 +1,4 @@
-import type { VNode, InjectionKey } from 'vue'
+import type { InjectionKey, VNode } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type { default as CascaderNode } from './node'
 

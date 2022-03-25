@@ -1,11 +1,11 @@
 import {
-  cloneVNode,
   Comment,
-  defineComponent,
   Fragment,
   Text,
-  withDirectives,
+  cloneVNode,
+  defineComponent,
   inject,
+  withDirectives,
 } from 'vue'
 import { NOOP, isObject } from '@vue/shared'
 import {
@@ -14,7 +14,7 @@ import {
 } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 
-import type { VNode, Ref } from 'vue'
+import type { Ref, VNode } from 'vue'
 
 const NAME = 'ElOnlyChild'
 

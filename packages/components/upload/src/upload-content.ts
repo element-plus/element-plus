@@ -4,11 +4,11 @@ import { uploadBaseProps } from './upload'
 
 import type { ExtractPropTypes } from 'vue'
 import type {
-  UploadUserFile,
-  UploadRawFile,
   UploadFile,
-  UploadProgressEvent,
   UploadHooks,
+  UploadProgressEvent,
+  UploadRawFile,
+  UploadUserFile,
 } from './upload'
 import type UploadContent from './upload-content.vue'
 import type { UploadAjaxError } from './ajax'

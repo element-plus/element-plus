@@ -1,9 +1,9 @@
 import { NOOP } from '@vue/shared'
 import {
-  isString,
-  isObject,
   buildProps,
   definePropType,
+  isObject,
+  isString,
 } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'

@@ -1,9 +1,9 @@
-import { watch, getCurrentInstance } from 'vue'
+import { getCurrentInstance, watch } from 'vue'
 import { hasOwn } from '@element-plus/utils'
 import { parseMinWidth, parseWidth } from '../util'
 
 import type { ComputedRef } from 'vue'
-import type { TableColumnCtx, TableColumn, ValueOf } from './defaults'
+import type { TableColumn, TableColumnCtx, ValueOf } from './defaults'
 
 function useWatcher<T>(
   owner: ComputedRef<any>,
