@@ -1,9 +1,20 @@
 <template>
-  <button />
+  <only-child v-if="asChild" :set-ref="setTriggerRef">
+    <slot />
+  </only-child>
+  <button v-else ref="triggerRef">
+    <slot />
+  </button>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
+import OnlyChild from './only-child'
+import { tooltipTriggerV2Props } from './trigger'
 
-import { useFloating } from '@element-plus/hooks'
+defineProps(tooltipTriggerV2Props)
+const triggerRef = ref<HTMLElement | null>(null)
+const setTriggerRef = (el: HTMLElement | null) => {
+  triggerRef.value = el
+}
 </script>
