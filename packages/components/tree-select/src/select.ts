@@ -30,7 +30,7 @@ export const useSelect = (
     },
     // clear filter text when visible change
     onVisibleChange: (visible: boolean) => {
-      ;(attrs.onVisibleChange as (visible: boolean) => void)?.(visible)
+      attrs.onVisibleChange?.(visible)
 
       if (props.filterable && visible) {
         result.filterMethod()

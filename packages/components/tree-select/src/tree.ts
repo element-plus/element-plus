@@ -95,6 +95,8 @@ export const useTree = (
       return getNodeValByProp('label', data)?.includes(value)
     },
     onNodeClick: (data, node, e) => {
+      attrs.onNodeClick?.(data, node, e)
+
       if (props.checkStrictly || node.isLeaf) {
         if (!getNodeValByProp('disabled', data)) {
           const option = select.value?.options.get(
@@ -107,7 +109,7 @@ export const useTree = (
       }
     },
     onCheck: (data, params) => {
-      ;(attrs['onCheck'] as (...args: any[]) => any)?.(data, params)
+      attrs.onCheck?.(data, params)
 
       const value = getNodeValByProp('value', data)
       emit(
