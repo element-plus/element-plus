@@ -1,6 +1,7 @@
 import { nextTick, ref, h } from 'vue'
-import { mount, VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import TreeSelect from '../src/tree-select.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import type ElTree from '@element-plus/components/tree'
 import type ElSelect from '@element-plus/components/select'
 
@@ -234,10 +235,11 @@ describe('TreeSelect.vue', () => {
     await nextTick()
     expect(select.vm.selectedLabel).toBe('2')
   })
+
   test('slots', async () => {
     const { wrapper, select, tree } = createComponent({
       slots: {
-        default: ({ data }) => '123' + data.label,
+        default: ({ data }) => `123${data.label}`,
         prefix: () => 'prefix',
       },
     })
@@ -246,11 +248,12 @@ describe('TreeSelect.vue', () => {
     expect(tree.find('.el-select-dropdown__item').text()).toBe('123一级 1')
     expect(select.find('.el-input__prefix-inner').text()).toBe('prefix')
   })
+
   test('renderContent', async () => {
     const { wrapper, tree } = createComponent({
       props: {
         renderContent: (h, { data }) => {
-          return '123' + data.label
+          return `123${data.label}`
         },
       },
     })
@@ -258,6 +261,7 @@ describe('TreeSelect.vue', () => {
     await nextTick()
     expect(tree.find('.el-select-dropdown__item').text()).toBe('123一级 1')
   })
+
   test('lazy', async () => {
     const { wrapper, select, tree } = createComponent({
       props: {
@@ -279,6 +283,7 @@ describe('TreeSelect.vue', () => {
     await nextTick()
     expect(tree.find('.el-tree-node .el-tree-node').text()).toBe('2')
   })
+
   test('events', async () => {
     const onNodeClick = jest.fn()
     const { wrapper, tree } = createComponent({
