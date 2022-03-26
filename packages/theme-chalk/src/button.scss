@@ -134,7 +134,7 @@ $button-icon-span-gap: map.merge(
       right: -1px;
       bottom: -1px;
       border-radius: inherit;
-      background-color: rgba(255, 255, 255, 0.35);
+      background-color: getCssVar('mask-color', 'extra-light');
     }
   }
   @include when(round) {
