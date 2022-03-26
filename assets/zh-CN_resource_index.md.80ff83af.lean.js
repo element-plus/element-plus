@@ -1,1 +1,0 @@
-import{_ as t,c as a,a as o,r,o as n}from"./app.c8b56773.js";const f='{"title":"","description":"","frontmatter":{"page":true,"lang":"zh-CN"},"headers":[],"relativePath":"zh-CN/resource/index.md","lastUpdated":null}',s={};function c(p,d,l,_,i,u){const e=r("Resource");return n(),a("div",null,[o(e)])}var h=t(s,[["render",c]]);export{f as __pageData,h as default};
