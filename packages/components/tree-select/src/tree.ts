@@ -111,12 +111,17 @@ export const useTree = (
     onCheck: (data, params) => {
       attrs.onCheck?.(data, params)
 
+      // remove folder node when `checkStrictly` is false
+      const checkedKeys = !props.checkStrictly
+        ? tree.value?.getCheckedKeys(true)
+        : params.checkedKeys
+
       const value = getNodeValByProp('value', data)
       emit(
         UPDATE_MODEL_EVENT,
         props.multiple
-          ? params.checkedKeys
-          : params.checkedKeys.includes(value)
+          ? checkedKeys
+          : checkedKeys.includes(value)
           ? value
           : undefined
       )
