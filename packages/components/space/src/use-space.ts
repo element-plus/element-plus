@@ -1,4 +1,4 @@
-import { ref, computed, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { isNumber } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import type { SpaceProps } from './space'

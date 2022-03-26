@@ -1,5 +1,5 @@
-import { ref, unref, inject, computed } from 'vue'
-import { formItemContextKey, formContextKey } from '@element-plus/tokens'
+import { computed, inject, ref, unref } from 'vue'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { buildProp } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 import { useProp } from '../use-prop'
@@ -35,7 +35,7 @@ export const useSize = (
       formItem?.size ||
       form?.size ||
       globalConfig.value ||
-      'default'
+      ''
   )
 }
 

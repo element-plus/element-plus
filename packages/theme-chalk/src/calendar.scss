@@ -15,7 +15,7 @@
   }
 
   @include e(title) {
-    color: #000000;
+    color: getCssVar('color-black');
     align-self: center;
   }
 

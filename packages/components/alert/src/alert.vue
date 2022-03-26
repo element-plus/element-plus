@@ -44,7 +44,7 @@ import { computed, ref, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { alertProps, alertEmits } from './alert'
+import { alertEmits, alertProps } from './alert'
 
 const { Close } = TypeComponents
 

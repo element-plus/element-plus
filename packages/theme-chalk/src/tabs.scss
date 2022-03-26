@@ -25,7 +25,7 @@
     align-items: center;
     justify-content: center;
     float: right;
-    border: 1px solid #d3dce6;
+    border: 1px solid getCssVar('border-color');
     height: 20px;
     width: 20px;
     line-height: 20px;
@@ -447,7 +447,7 @@
 
     &.#{$namespace}-tabs--border-card {
       .#{$namespace}-tabs__header.is-left {
-        border-right: 1px solid #dfe4ed;
+        border-right: 1px solid getCssVar('border-color');
       }
       .#{$namespace}-tabs__item.is-left {
         border: 1px solid transparent;
@@ -514,7 +514,7 @@
     }
     &.#{$namespace}-tabs--border-card {
       .#{$namespace}-tabs__header.is-right {
-        border-left: 1px solid #dfe4ed;
+        border-left: 1px solid getCssVar('border-color');
       }
       .#{$namespace}-tabs__item.is-right {
         border: 1px solid transparent;

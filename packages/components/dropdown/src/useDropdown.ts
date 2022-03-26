@@ -1,5 +1,5 @@
-import { inject, computed, ref } from 'vue'
-import { generateId, on, addClass } from '@element-plus/utils'
+import { computed, inject, ref } from 'vue'
+import { addClass, generateId, on } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import type { Nullable } from '@element-plus/utils'

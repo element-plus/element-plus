@@ -1,6 +1,6 @@
-import { nextTick, ref, reactive, defineComponent } from 'vue'
+import { defineComponent, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, it, expect, fn, beforeEach, afterEach } from 'vitest'
+import { afterEach, beforeEach, describe, expect, fn, it } from 'vitest'
 
 import { useModelToggle, useModelToggleProps } from '../use-model-toggle'
 import type { VueWrapper } from '@vue/test-utils'

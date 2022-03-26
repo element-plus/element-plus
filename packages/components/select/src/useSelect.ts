@@ -1,20 +1,20 @@
 import {
+  computed,
   inject,
   nextTick,
-  computed,
-  watch,
-  ref,
   reactive,
+  ref,
   shallowRef,
   triggerRef,
+  watch,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
-import { debounce as lodashDebounce, isEqual, get } from 'lodash-unified'
+import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
-  UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   EVENT_CODE,
+  UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { debugWarn, isKorean, scrollIntoView } from '@element-plus/utils'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
@@ -440,6 +440,8 @@ export const useSelect = (props, states: States, ctx) => {
       states.selected = option
       if (props.filterable) states.query = states.selectedLabel
       return
+    } else {
+      states.selectedLabel = ''
     }
     const result: any[] = []
     if (Array.isArray(props.modelValue)) {

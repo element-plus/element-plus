@@ -1,4 +1,4 @@
-import { isString, isNumber } from '../types'
+import { isNumber, isString } from '../types'
 import { debugWarn } from '../error'
 
 const SCOPE = 'utils/vue/style'

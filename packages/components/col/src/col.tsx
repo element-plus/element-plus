@@ -1,8 +1,8 @@
-import { defineComponent, computed, inject } from 'vue'
+import { computed, defineComponent, inject } from 'vue'
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { rowContextKey } from '@element-plus/tokens'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 
 export type ColSizeObject = {
   span?: number

@@ -53,15 +53,15 @@ import {
   inject,
   onBeforeUnmount,
   onMounted,
-  ref,
   reactive,
+  ref,
   watch,
 } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { Close, Check } from '@element-plus/icons-vue'
+import { Check, Close } from '@element-plus/icons-vue'
 
 import { useNamespace } from '@element-plus/hooks'
-import type { Ref, PropType, Component } from 'vue'
+import type { Component, PropType, Ref } from 'vue'
 
 export interface IStepsProps {
   space: number | string

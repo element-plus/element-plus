@@ -13,14 +13,14 @@
 </template>
 <script lang="ts">
 import {
-  defineComponent,
-  ref,
   computed,
-  inject,
+  defineComponent,
   getCurrentInstance,
-  watch,
+  inject,
   markRaw,
   reactive,
+  ref,
+  watch,
 } from 'vue'
 import { eagerComputed } from '@vueuse/core'
 import { tabsRootContextKey } from '@element-plus/tokens'

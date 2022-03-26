@@ -14,9 +14,7 @@
   --border-color: var(--el-border-color);
   --border-color-light: var(--el-border-color-lighter);
 
-  --font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  --font-family: var(--el-font-family);
 
   --font-family-mono: 'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas,
     'Courier New', monospace;

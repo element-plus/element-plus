@@ -1,4 +1,4 @@
-import type { InjectionKey, ComputedRef, WritableComputedRef } from 'vue'
+import type { ComputedRef, InjectionKey, WritableComputedRef } from 'vue'
 
 export interface ElPaginationContext {
   currentPage?: WritableComputedRef<number>

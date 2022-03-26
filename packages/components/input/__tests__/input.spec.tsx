@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { defineGetter } from '@element-plus/test-utils'
 import Input from '../src/input.vue'
 import type { CSSProperties } from 'vue'
-import type { InputInstance, InputProps, InputAutoSize } from '../src/input'
+import type { InputAutoSize, InputInstance, InputProps } from '../src/input'
 
 describe('Input.vue', () => {
   beforeEach(() => {
@@ -89,7 +89,6 @@ describe('Input.vue', () => {
       expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
         Array [
           "el-input",
-          "el-input--default",
           "is-exceed",
           "test-exceed",
         ]
@@ -123,7 +122,6 @@ describe('Input.vue', () => {
       expect(Array.from(vm.$el.classList)).toMatchInlineSnapshot(`
         Array [
           "el-textarea",
-          "el-input--default",
           "is-exceed",
         ]
       `)
@@ -252,7 +250,6 @@ describe('Input.vue', () => {
     expect(Array.from(inputElm4.classList)).toMatchInlineSnapshot(`
       Array [
         "el-input",
-        "el-input--default",
         "is-exceed",
         "test-initial-exceed",
       ]
@@ -267,7 +264,6 @@ describe('Input.vue', () => {
     expect(Array.from(inputElm4.classList)).toMatchInlineSnapshot(`
       Array [
         "el-input",
-        "el-input--default",
         "test-initial-exceed",
       ]
     `)

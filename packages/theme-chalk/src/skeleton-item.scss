@@ -74,7 +74,8 @@
     border-radius: 0;
 
     svg {
-      fill: var(--el-svg-monochrome-grey);
+      color: getCssVar('svg-monochrome-grey');
+      fill: currentColor;
       width: 22%;
       height: 22%;
     }

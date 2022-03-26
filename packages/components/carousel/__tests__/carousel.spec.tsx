@@ -1,46 +1,61 @@
-import { nextTick } from 'vue'
+import { nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
-import Carousel from '../src/main.vue'
-import CarouselItem from '../src/item.vue'
+import Carousel from '../src/carousel.vue'
+import CarouselItem from '../src/carousel-item.vue'
+
+import type { VueWrapper } from '@vue/test-utils'
+import type { CarouselInstance } from '../src/carousel'
 
 const wait = (ms = 100) =>
   new Promise((resolve) => setTimeout(() => resolve(0), ms))
 
-const _mount = (template: string, data?: () => void, methods?: any) =>
-  mount({
-    components: {
-      'el-carousel': Carousel,
-      'el-carousel-item': CarouselItem,
-    },
-    template,
-    data,
-    methods,
-  })
+const generateCarouselItems = (count = 3, hasLabel = false) => {
+  const list = Array.from({ length: count }, (_, index) => index + 1)
+  return list.map((i) =>
+    hasLabel ? <CarouselItem key={i} label={i} /> : <CarouselItem key={i} />
+  )
+}
 
 describe('Carousel', () => {
-  it('create', () => {
-    const wrapper = _mount(
-      `
-        <div>
-          <el-carousel ref="carousel">
-            <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
-          </el-carousel>
-        </div>
-      `
-    )
+  let wrapper: VueWrapper<any>
 
-    expect(wrapper.vm.$refs.carousel.direction).toBe('horizontal')
+  const createComponent = (
+    props: any = {},
+    count?: number,
+    hasLabel?: boolean
+  ) => {
+    return mount({
+      setup() {
+        return () => (
+          <div>
+            <Carousel {...props}>
+              {generateCarouselItems(count, hasLabel)}
+            </Carousel>
+          </div>
+        )
+      },
+    })
+  }
+
+  afterEach(() => {
+    wrapper.unmount()
+  })
+
+  it('create', () => {
+    wrapper = createComponent({
+      ref: 'carousel',
+    })
+
+    const carousel = wrapper.findComponent({ ref: 'carousel' })
+      .vm as CarouselInstance
+    expect(carousel.direction).toBe('horizontal')
     expect(wrapper.findAll('.el-carousel__item').length).toEqual(3)
   })
 
   it('auto play', async (done) => {
-    const wrapper = _mount(`
-        <div>
-          <el-carousel :interval="50">
-            <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
-          </el-carousel>
-        </div>
-      `)
+    wrapper = createComponent({
+      interval: 50,
+    })
 
     await nextTick()
     await wait(10)
@@ -52,13 +67,10 @@ describe('Carousel', () => {
   })
 
   it('initial index', async (done) => {
-    const wrapper = _mount(`
-        <div>
-          <el-carousel :autoplay="false" :initial-index="1">
-            <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
-          </el-carousel>
-        </div>
-      `)
+    wrapper = createComponent({
+      autoplay: false,
+      'initial-index': 1,
+    })
 
     await nextTick()
     await wait(10)
@@ -72,13 +84,9 @@ describe('Carousel', () => {
   })
 
   it('reset timer', async (done) => {
-    const wrapper = _mount(`
-        <div>
-          <el-carousel :interval="500">
-            <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
-          </el-carousel>
-        </div>
-      `)
+    wrapper = createComponent({
+      interval: 500,
+    })
     await nextTick()
     const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
     await wrapper.trigger('mouseenter')
@@ -92,43 +100,28 @@ describe('Carousel', () => {
   })
 
   it('change', async (done) => {
-    const wrapper = _mount(
-      `
-        <div>
-          <el-carousel :interval="50" @change="handleChange">
-            <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
-          </el-carousel>
-        </div>
-      `,
-      () => {
-        return {
-          val: -1,
-          oldVal: -1,
-        }
+    const state = reactive({
+      val: -1,
+      oldVal: -1,
+    })
+
+    wrapper = createComponent({
+      onChange(val: number, prevVal: number) {
+        state.val = val
+        state.oldVal = prevVal
       },
-      {
-        handleChange(val, oldVal) {
-          this.val = val
-          this.oldVal = oldVal
-        },
-      }
-    )
+      interval: 50,
+    })
 
     await nextTick()
     await wait(50)
-    expect(wrapper.vm.val).toBe(1)
-    expect(wrapper.vm.oldVal).toBe(0)
+    expect(state.val).toBe(1)
+    expect(state.oldVal).toBe(0)
     done()
   })
 
   it('label', async (done) => {
-    const wrapper = _mount(`
-        <div>
-          <el-carousel>
-            <el-carousel-item v-for="item in 3" :key="item" :label="item"></el-carousel-item>
-          </el-carousel>
-        </div>
-      `)
+    wrapper = createComponent(undefined, 3, true)
     await nextTick()
     expect(wrapper.find('.el-carousel__button span').text()).toBe('1')
     done()
@@ -136,13 +129,9 @@ describe('Carousel', () => {
 
   describe('manual control', () => {
     it('hover', async (done) => {
-      const wrapper = _mount(`
-        <div>
-          <el-carousel :autoplay="false">
-            <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
-          </el-carousel>
-        </div>
-      `)
+      wrapper = createComponent({
+        autoplay: false,
+      })
 
       await nextTick()
       await wait()
@@ -159,13 +148,14 @@ describe('Carousel', () => {
   })
 
   it('card', async (done) => {
-    const wrapper = _mount(`
-        <div>
-          <el-carousel :autoplay="false" type="card">
-            <el-carousel-item v-for="item in 7" :key="item"></el-carousel-item>
-          </el-carousel>
-        </div>
-      `)
+    wrapper = createComponent(
+      {
+        autoplay: false,
+        type: 'card',
+      },
+      7
+    )
+
     await nextTick()
     await wait()
     const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
@@ -185,27 +175,24 @@ describe('Carousel', () => {
   })
 
   it('vertical direction', () => {
-    const wrapper = _mount(`
-        <div>
-          <el-carousel ref="carousel" :autoplay="false" direction="vertical" height="100px">
-            <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
-          </el-carousel>
-        </div>
-      `)
+    wrapper = createComponent({
+      ref: 'carousel',
+      autoplay: false,
+      direction: 'vertical',
+      height: '100px',
+    })
     const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
-
-    expect(wrapper.vm.$refs.carousel.direction).toBe('vertical')
+    const carousel = wrapper.findComponent({ ref: 'carousel' })
+      .vm as CarouselInstance
+    expect(carousel.direction).toBe('vertical')
     expect(items[0].style.transform.includes('translateY')).toBeTruthy()
   })
 
   it('pause auto play on hover', async (done) => {
-    const wrapper = _mount(`
-        <div>
-          <el-carousel :interval="50" :pause-on-hover="false">
-            <el-carousel-item v-for="item in 3" :key="item"></el-carousel-item>
-          </el-carousel>
-        </div>
-      `)
+    wrapper = createComponent({
+      interval: 50,
+      'pause-on-hover': false,
+    })
 
     await nextTick()
     await wrapper.find('.el-carousel').trigger('mouseenter')

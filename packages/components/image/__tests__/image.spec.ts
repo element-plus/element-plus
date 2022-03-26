@@ -1,8 +1,8 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import {
-  IMAGE_SUCCESS,
   IMAGE_FAIL,
+  IMAGE_SUCCESS,
   mockImageEvent,
 } from '@element-plus/test-utils/mock'
 import Image from '../src/image.vue'

@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import * as vueuse from '@vueuse/core'
-import { usePopperContainer, POPPER_CONTAINER_SELECTOR } from '../src/container'
+import { POPPER_CONTAINER_SELECTOR, usePopperContainer } from '../src/container'
 
 const AXIOM = 'rem is the best girl'
 

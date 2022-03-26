@@ -4,7 +4,7 @@ import { rAF } from '@element-plus/test-utils/tick'
 import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import Message from '../src/message.vue'
-import type { ComponentPublicInstance, CSSProperties, Component } from 'vue'
+import type { CSSProperties, Component, ComponentPublicInstance } from 'vue'
 
 const AXIOM = 'Rem is the best girl'
 

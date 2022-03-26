@@ -1,5 +1,5 @@
 import { isRef, ref } from 'vue'
-import { isObject, isString, hyphenate } from '@vue/shared'
+import { hyphenate, isObject, isString } from '@vue/shared'
 import { Loading } from './service'
 import type { Directive, DirectiveBinding, UnwrapRef } from 'vue'
 import type { LoadingOptions } from './types'

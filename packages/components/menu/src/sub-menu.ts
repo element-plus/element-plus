@@ -1,18 +1,18 @@
 import {
-  defineComponent,
-  computed,
-  ref,
-  provide,
-  inject,
-  getCurrentInstance,
-  watch,
-  onMounted,
-  onBeforeUnmount,
-  withDirectives,
   Fragment,
-  vShow,
+  computed,
+  defineComponent,
+  getCurrentInstance,
   h,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  provide,
   reactive,
+  ref,
+  vShow,
+  watch,
+  withDirectives,
 } from 'vue'
 import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
@@ -24,7 +24,7 @@ import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 
 import type { Placement } from '@element-plus/components/popper'
-import type { ExtractPropTypes, VNodeArrayChildren, CSSProperties } from 'vue'
+import type { CSSProperties, ExtractPropTypes, VNodeArrayChildren } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
 
 export const subMenuProps = buildProps({

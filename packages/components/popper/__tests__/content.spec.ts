@@ -1,13 +1,13 @@
-import { ref, nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { shallowMount } from '@vue/test-utils'
+import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
 import ElContent from '../src/content.vue'
-import { POPPER_INJECTION_KEY } from '../src/tokens'
 
 const AXIOM = 'rem is the best girl'
 const popperInjection = {
-  triggerRef: ref(null),
-  popperInstanceRef: ref(null),
-  contentRef: ref(null),
+  triggerRef: ref(),
+  popperInstanceRef: ref(),
+  contentRef: ref(),
 }
 
 const mountContent = (props = {}) =>
@@ -124,11 +124,11 @@ describe('<ElPopperContent />', () => {
 
         expect(wrapper.vm.popperInstanceRef).not.toStrictEqual(oldInstance)
 
-        popperInjection.triggerRef.value = null
+        popperInjection.triggerRef.value = undefined
 
         await nextTick()
 
-        expect(wrapper.vm.popperInstanceRef).toBe(null)
+        expect(wrapper.vm.popperInstanceRef).toBeUndefined()
       })
     })
   })

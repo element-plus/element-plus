@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { ref, watch, watchEffect, defineComponent } from 'vue'
+import { defineComponent, ref, watch, watchEffect } from 'vue'
 import { useOptions } from '../useOption'
 import Color from '../color'
 

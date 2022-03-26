@@ -20,12 +20,12 @@
 
 <script lang="ts">
 import {
-  toRefs,
   defineComponent,
   getCurrentInstance,
+  nextTick,
   onBeforeUnmount,
   reactive,
-  nextTick,
+  toRefs,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'

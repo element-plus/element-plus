@@ -1,13 +1,13 @@
-import { watch, isRef, onScopeDispose } from 'vue'
+import { isRef, onScopeDispose, watch } from 'vue'
 
 import { isClient } from '@vueuse/core'
 import {
-  throwError,
   addClass,
-  removeClass,
-  hasClass,
-  getStyle,
   getScrollBarWidth,
+  getStyle,
+  hasClass,
+  removeClass,
+  throwError,
 } from '@element-plus/utils'
 
 import type { Ref } from 'vue'

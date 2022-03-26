@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { buildProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 

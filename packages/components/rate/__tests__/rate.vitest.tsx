@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import Rate from '../src/rate.vue'
 
 import type { RateInstance } from '../src/rate'
@@ -24,7 +24,7 @@ describe('Rate.vue', () => {
     })
     expect(wrapper.find('.el-rate--large').exists()).toBe(true)
     await wrapper.setProps({ size: '' })
-    expect(wrapper.find('.el-rate--default').exists()).toBe(true)
+    expect(wrapper.find('.el-rate').exists()).toBe(true)
   })
 
   it('allow half', async () => {

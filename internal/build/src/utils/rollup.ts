@@ -4,14 +4,12 @@ import { getPackageDependencies } from './pkg'
 import type { OutputOptions, RollupBuild } from 'rollup'
 
 export const generateExternal = async (options: { full: boolean }) => {
-  const { dependencies, peerDependencies } = await getPackageDependencies(
-    epPackage
-  )
+  const { dependencies, peerDependencies } = getPackageDependencies(epPackage)
 
   return (id: string) => {
     const packages: string[] = peerDependencies
     if (!options.full) {
-      packages.push('element-plus/theme-chalk', '@vue', ...dependencies)
+      packages.push('@vue', ...dependencies)
     }
 
     return [...new Set(packages)].some(

@@ -68,8 +68,8 @@
   </ul>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed, watchEffect } from 'vue'
-import { MoreFilled, DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
+import { computed, defineComponent, ref, watchEffect } from 'vue'
+import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 
 const paginationPagerProps = {

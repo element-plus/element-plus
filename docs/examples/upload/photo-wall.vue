@@ -8,8 +8,9 @@
   >
     <el-icon><Plus /></el-icon>
   </el-upload>
+
   <el-dialog v-model="dialogVisible">
-    <img style="width: 100%" :src="dialogImageUrl" alt="" />
+    <img w-full :src="dialogImageUrl" alt="Preview Image" />
   </el-dialog>
 </template>
 
@@ -17,7 +18,7 @@
 import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 
-import type { UploadFile, UploadUserFile } from 'element-plus'
+import type { UploadProps, UploadUserFile } from 'element-plus'
 
 const fileList = ref<UploadUserFile[]>([
   {
@@ -57,11 +58,12 @@ const fileList = ref<UploadUserFile[]>([
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
 
-const handleRemove = (file: UploadFile, fileList: UploadFile[]) => {
-  console.log(file, fileList)
+const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
+  console.log(uploadFile, uploadFiles)
 }
-const handlePictureCardPreview = (file: UploadFile) => {
-  dialogImageUrl.value = file.url!
+
+const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
+  dialogImageUrl.value = uploadFile.url!
   dialogVisible.value = true
 }
 </script>

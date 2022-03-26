@@ -2,50 +2,39 @@
   <span ref="arrowRef" :class="ns.e('arrow')" data-popper-arrow="" />
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  inject,
-  ref,
-  onMounted,
-  onBeforeUnmount,
-  watch,
-  unref,
-} from 'vue'
+<script lang="ts" setup>
+import { inject, onBeforeUnmount, watch } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { usePopperArrowProps } from './popper'
-import { POPPER_CONTENT_INJECTION_KEY } from './tokens'
+import { POPPER_CONTENT_INJECTION_KEY } from '@element-plus/tokens'
+import { usePopperArrowProps } from './arrow'
 
-export default defineComponent({
+defineOptions({
   name: 'ElPopperArrow',
-  props: usePopperArrowProps,
-  setup(props) {
-    const ns = useNamespace('popper')
-    const arrowRef = ref<HTMLSpanElement | null>(null)
-    const popperContentInjection = inject(
-      POPPER_CONTENT_INJECTION_KEY,
-      undefined
-    )!
+  inheritAttrs: false,
+})
 
-    watch(
-      () => props.arrowOffset,
-      (val) => {
-        popperContentInjection.arrowOffset.value = val
-      }
-    )
+const props = defineProps(usePopperArrowProps)
 
-    onMounted(() => {
-      popperContentInjection.arrowRef.value = unref(arrowRef)
-    })
+const ns = useNamespace('popper')
+const { arrowOffset, arrowRef } = inject(
+  POPPER_CONTENT_INJECTION_KEY,
+  undefined
+)!
 
-    onBeforeUnmount(() => {
-      popperContentInjection.arrowRef.value = null
-    })
+watch(
+  () => props.arrowOffset,
+  (val) => {
+    arrowOffset.value = val
+  }
+)
+onBeforeUnmount(() => {
+  arrowRef.value = undefined
+})
 
-    return {
-      ns,
-      arrowRef,
-    }
-  },
+defineExpose({
+  /**
+   * @description Arrow element
+   */
+  arrowRef,
 })
 </script>

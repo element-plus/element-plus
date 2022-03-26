@@ -1,8 +1,8 @@
 import {
   buildProps,
   definePropType,
-  mutable,
   isNumber,
+  mutable,
 } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'

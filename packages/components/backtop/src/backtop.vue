@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, shallowRef } from 'vue'
+import { computed, onMounted, ref, shallowRef } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
 import { ElIcon } from '@element-plus/components/icon'
 import { easeInOutCubic, throwError } from '@element-plus/utils'
@@ -36,8 +36,8 @@ const props = defineProps(backtopProps)
 const emit = defineEmits(backtopEmits)
 
 const ns = useNamespace('backtop')
-const el = shallowRef<HTMLElement | undefined>(document.documentElement)
-const container = shallowRef<Document | HTMLElement>(document)
+const el = shallowRef<HTMLElement>()
+const container = shallowRef<Document | HTMLElement>()
 const visible = ref(false)
 const styleBottom = computed(() => `${props.bottom}px`)
 const styleRight = computed(() => `${props.right}px`)

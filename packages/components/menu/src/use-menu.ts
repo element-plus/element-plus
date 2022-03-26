@@ -1,7 +1,7 @@
 import { computed, inject } from 'vue'
 import { throwError } from '@element-plus/utils'
 
-import type { ComponentInternalInstance, Ref, CSSProperties } from 'vue'
+import type { CSSProperties, ComponentInternalInstance, Ref } from 'vue'
 import type { MenuProvider } from './types'
 
 export default function useMenu(

@@ -8,7 +8,10 @@ jest.unmock('lodash')
 
 jest.useFakeTimers()
 
-const _mount = (payload = {}) =>
+const _mount = (
+  payload = {},
+  type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'arr' = 'fn-cb'
+) =>
   mount({
     setup() {
       const state = reactive({
@@ -22,18 +25,32 @@ const _mount = (payload = {}) =>
         payload,
       })
 
-      const querySearch = (
-        queryString: string,
-        cb: (arg: typeof state.list) => void
-      ) => {
-        cb(
-          queryString
-            ? state.list.filter(
-                (i) => i.value.indexOf(queryString.toLowerCase()) === 0
-              )
-            : state.list
-        )
+      function filterList(queryString: string) {
+        return queryString
+          ? state.list.filter(
+              (i) => i.value.indexOf(queryString.toLowerCase()) === 0
+            )
+          : state.list
       }
+
+      const querySearch = (() => {
+        switch (type) {
+          case 'fn-cb':
+            return (
+              queryString: string,
+              cb: (arg: typeof state.list) => void
+            ) => {
+              cb(filterList(queryString))
+            }
+          case 'fn-promise':
+            return (queryString: string) =>
+              Promise.resolve(filterList(queryString))
+          case 'fn-arr':
+            return (queryString: string) => filterList(queryString)
+          case 'arr':
+            return state.list
+        }
+      })()
 
       return () => (
         <Autocomplete
@@ -132,6 +149,48 @@ describe('Autocomplete.vue', () => {
     await nextTick()
 
     expect(fetchSuggestions).toHaveBeenCalledTimes(2)
+  })
+
+  test('fetchSuggestions with fn-promise', async () => {
+    const wrapper = _mount({ debounce: 10 }, 'fn-promise')
+    await nextTick()
+    await wrapper.find('input').trigger('focus')
+    jest.runAllTimers()
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+
+    expect(target.suggestions.length).toBe(4)
+  })
+
+  test('fetchSuggestions with fn-arr', async () => {
+    const wrapper = _mount({ debounce: 10 }, 'fn-arr')
+    await nextTick()
+    await wrapper.find('input').trigger('focus')
+    jest.runAllTimers()
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+
+    expect(target.suggestions.length).toBe(4)
+  })
+
+  test('fetchSuggestions with arr', async () => {
+    const wrapper = _mount({ debounce: 10 }, 'arr')
+    await nextTick()
+    await wrapper.find('input').trigger('focus')
+    jest.runAllTimers()
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+
+    expect(target.suggestions.length).toBe(4)
   })
 
   test('valueKey / modelValue', async () => {

@@ -140,16 +140,16 @@
 <script lang="ts" setup>
 import {
   computed,
-  watch,
-  nextTick,
   getCurrentInstance,
-  ref,
-  shallowRef,
+  nextTick,
   onMounted,
   onUpdated,
-  useSlots,
-  useAttrs as useRawAttrs,
+  ref,
+  shallowRef,
   toRef,
+  useAttrs as useRawAttrs,
+  useSlots,
+  watch,
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
@@ -157,20 +157,20 @@ import { ElIcon } from '@element-plus/components/icon'
 import { CircleClose, View as IconView } from '@element-plus/icons-vue'
 import {
   ValidateComponentsMap,
-  isObject,
-  isKorean,
   debugWarn,
+  isKorean,
+  isObject,
 } from '@element-plus/utils'
 import {
   useAttrs,
   useDisabled,
   useFormItem,
-  useSize,
   useNamespace,
+  useSize,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { calcTextareaHeight } from './utils'
-import { inputProps, inputEmits } from './input'
+import { inputEmits, inputProps } from './input'
 import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement

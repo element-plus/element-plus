@@ -10,5 +10,5 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Edit, Share, Delete, Search, Upload } from '@element-plus/icons-vue'
+import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
 </script>

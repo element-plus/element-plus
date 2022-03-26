@@ -22,11 +22,11 @@
 <script lang="ts">
 import {
   defineComponent,
-  watch,
-  ref,
-  onMounted,
   getCurrentInstance,
+  onMounted,
+  ref,
   shallowRef,
+  watch,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
 import draggable from '../draggable'

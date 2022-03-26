@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import { useRouter, useRoute } from 'vitepress'
+import { useRoute, useRouter } from 'vitepress'
 import { useStorage } from '@vueuse/core'
 import { PREFERRED_LANG_KEY } from '../constant'
 

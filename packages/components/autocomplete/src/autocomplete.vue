@@ -90,12 +90,13 @@
 
 <script lang="ts" setup>
 import {
-  ref,
   computed,
-  onMounted,
   nextTick,
+  onMounted,
+  ref,
   useAttrs as useCompAttrs,
 } from 'vue'
+import { isPromise } from '@vue/shared'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useAttrs, useNamespace } from '@element-plus/hooks'
@@ -107,7 +108,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
-import { autocompleteProps, autocompleteEmits } from './autocomplete'
+import { autocompleteEmits, autocompleteProps } from './autocomplete'
 import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
@@ -165,7 +166,7 @@ const getData = (queryString: string) => {
     return
   }
   loading.value = true
-  props.fetchSuggestions(queryString, (suggestionsArg) => {
+  const cb = (suggestionsArg: any[]) => {
     loading.value = false
     if (suggestionDisabled.value) {
       return
@@ -176,13 +177,24 @@ const getData = (queryString: string) => {
     } else {
       throwError(COMPONENT_NAME, 'autocomplete suggestions must be an array')
     }
-  })
+  }
+  if (isArray(props.fetchSuggestions)) {
+    cb(props.fetchSuggestions)
+  } else {
+    const result = props.fetchSuggestions(queryString, cb)
+    if (isArray(result)) {
+      cb(result)
+    } else if (isPromise(result)) {
+      result.then(cb)
+    }
+  }
 }
 const debouncedGetData = debounce(getData, props.debounce)
 const handleInput = (value: string) => {
   emit('input', value)
   emit(UPDATE_MODEL_EVENT, value)
   suggestionDisabled.value = false
+  activated.value = Boolean(value)
   if (!props.triggerOnFocus && !value) {
     suggestionDisabled.value = true
     suggestions.value = []

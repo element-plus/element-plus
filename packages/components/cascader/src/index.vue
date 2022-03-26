@@ -81,7 +81,7 @@
           <el-tag
             v-for="tag in presentTags"
             :key="tag.key"
-            type="info"
+            :type="tagType"
             :size="tagSize"
             :hit="tag.hitState"
             :closable="tag.closable"
@@ -112,7 +112,7 @@
                       <el-tag
                         :key="tag2.key"
                         class="in-tooltip"
-                        type="info"
+                        :type="tagType"
                         :size="tagSize"
                         :hit="tag2.hitState"
                         :closable="tag2.closable"
@@ -196,8 +196,8 @@ import {
   defineComponent,
   inject,
   nextTick,
-  onMounted,
   onBeforeUnmount,
+  onMounted,
   ref,
   watch,
 } from 'vue'
@@ -214,35 +214,35 @@ import ElTooltip, {
 } from '@element-plus/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import ElTag from '@element-plus/components/tag'
+import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
-import { useLocale, useSize, useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 
 import {
+  addResizeListener,
+  debugWarn,
   focusNode,
   getSibling,
-  addResizeListener,
-  removeResizeListener,
-  isValidComponentSize,
   isKorean,
-  debugWarn,
+  isValidComponentSize,
+  removeResizeListener,
 } from '@element-plus/utils'
 import {
+  CHANGE_EVENT,
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
-  CHANGE_EVENT,
 } from '@element-plus/constants'
-import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
+import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 
 import type { Options } from '@element-plus/components/popper'
 import type { ComputedRef, PropType, Ref } from 'vue'
 import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type {
-  CascaderValue,
   CascaderNode,
+  CascaderValue,
   Tag,
 } from '@element-plus/components/cascader-panel'
 import type { ComponentSize } from '@element-plus/constants'
@@ -344,6 +344,8 @@ export default defineComponent({
       default: undefined,
     },
     teleported: useTooltipContentProps.teleported,
+    // eslint-disable-next-line vue/require-prop-types
+    tagType: { ...tagProps.type, default: 'info' },
   },
 
   emits: [

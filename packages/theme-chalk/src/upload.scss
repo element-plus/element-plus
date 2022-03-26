@@ -30,8 +30,8 @@
   @include m(picture-card) {
     @include set-css-var-value(('upload', 'picture-card', 'size'), 148px);
 
-    background-color: #fbfdff;
-    border: 1px dashed #c0ccda;
+    background-color: getCssVar('fill-color', 'lighter');
+    border: 1px dashed getCssVar('border-color', 'darker');
     border-radius: 6px;
     box-sizing: border-box;
     width: getCssVar('upload', 'picture-card', 'size');
@@ -43,7 +43,7 @@
 
     i {
       font-size: 28px;
-      color: #8c939d;
+      color: getCssVar('text-color', 'secondary');
     }
 
     &:hover {
@@ -63,8 +63,8 @@
 }
 
 @include b(upload-dragger) {
-  background-color: #fff;
-  border: 1px dashed #d9d9d9;
+  background-color: getCssVar('fill-color', 'blank');
+  border: 1px dashed getCssVar('border-color');
   border-radius: 6px;
   box-sizing: border-box;
   width: 360px;
@@ -107,7 +107,7 @@
   }
 
   @include when(dragover) {
-    background-color: rgba(32, 159, 255, 0.06);
+    background-color: getCssVar('color', 'primary', 'light-9');
     border: 2px dashed var(--el-color-primary);
   }
 }
@@ -296,7 +296,7 @@
 
     .#{bem('upload-list', 'item')} {
       overflow: hidden;
-      background-color: #fff;
+      background-color: getCssVar('fill-color', 'blank');
       border: 1px solid #c0ccda;
       border-radius: 6px;
       box-sizing: border-box;
@@ -415,7 +415,7 @@
     .#{bem('upload-list', 'item')} {
       overflow: hidden;
       z-index: 0;
-      background-color: #fff;
+      background-color: getCssVar('fill-color', 'blank');
       border: 1px solid #c0ccda;
       border-radius: 6px;
       box-sizing: border-box;

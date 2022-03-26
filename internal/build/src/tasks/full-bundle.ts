@@ -12,18 +12,16 @@ import { camelCase, upperFirst } from 'lodash'
 import { version } from '../../../../packages/element-plus/version'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import {
-  epRoot,
   epOutput,
-  localeRoot,
+  epRoot,
   formatBundleFilename,
   generateExternal,
-  writeBundles,
+  localeRoot,
   withTaskName,
+  writeBundles,
 } from '../utils'
 import { EP_BRAND_NAME } from '../constants'
 import { target } from '../build-info'
-
-import type { Plugin } from 'rollup'
 
 const banner = `/*! ${EP_BRAND_NAME} v${version} */\n`
 
@@ -35,7 +33,7 @@ async function buildFullEntry(minify: boolean) {
       DefineOptions(),
       vue({
         isProduction: true,
-      }) as Plugin,
+      }),
       vueJsx(),
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.ts'],

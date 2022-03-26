@@ -20,8 +20,8 @@
 
 // Scrollbar
 @mixin scroll-bar {
-  $scrollbar-thumb-background: #b4bccc;
-  $scrollbar-track-background: #fff;
+  $scrollbar-thumb-background: getCssVar('text-color', 'disabled');
+  $scrollbar-track-background: getCssVar('fill-color', 'blank');
 
   &::-webkit-scrollbar {
     z-index: 11;

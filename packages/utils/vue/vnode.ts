@@ -1,12 +1,12 @@
 import {
+  Comment,
   Fragment,
   Text,
-  Comment,
+  camelize,
   createBlock,
-  openBlock,
   createCommentVNode,
   isVNode,
-  camelize,
+  openBlock,
 } from 'vue'
 import { hasOwn } from '../objects'
 import { debugWarn } from '../error'

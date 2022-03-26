@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useData } from 'vitepress'
 import { useLang } from '../../composables/lang'
 import localeData from '../../../i18n/component/last-update-at.json'

@@ -1,5 +1,5 @@
-import { ref, getCurrentInstance } from 'vue'
-import { toggleRowStatus, getKeysMap, getRowIdentity } from '../util'
+import { getCurrentInstance, ref } from 'vue'
+import { getKeysMap, getRowIdentity, toggleRowStatus } from '../util'
 
 import type { Ref } from 'vue'
 import type { WatcherPropsData } from '.'

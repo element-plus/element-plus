@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, Text, ref, useSlots } from 'vue'
+import { Text, computed, inject, ref, useSlots } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 import { ElIcon } from '@element-plus/components/icon'
 import {

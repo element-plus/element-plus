@@ -1,6 +1,6 @@
 import {
-  defineComponent,
   Fragment,
+  defineComponent,
   getCurrentInstance,
   h,
   nextTick,
@@ -11,7 +11,7 @@ import {
   renderSlot,
   watch,
 } from 'vue'
-import { isPromise, NOOP } from '@vue/shared'
+import { NOOP, isPromise } from '@vue/shared'
 import { buildProps, definePropType } from '@element-plus/utils'
 import {
   EVENT_CODE,
@@ -27,9 +27,9 @@ import type { TabsPaneContext } from '@element-plus/tokens'
 import type {
   Component,
   ComponentInternalInstance,
-  VNode,
   ExtractPropTypes,
   Ref,
+  VNode,
 } from 'vue'
 
 export const tabsProps = buildProps({
@@ -128,7 +128,8 @@ export default defineComponent({
         const panesChanged = !(
           paneInstanceList.length === panes.value.length &&
           paneInstanceList.every(
-            (pane, index) => pane.uid === panes.value[index].uid
+            (pane, index) =>
+              pane.uid === panes.value[index].uid && !pane.instance.slots.label // if has label slot, should update every time
           )
         )
 
