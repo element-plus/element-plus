@@ -83,8 +83,10 @@ export const useTree = (
           disabled: getNodeValByProp('disabled', data),
         },
         props.renderContent
-          ? [props.renderContent(h, { node, data, store })]
-          : slots.default?.({ node, data, store })
+          ? () => props.renderContent(h, { node, data, store })
+          : slots.default
+          ? () => slots.default({ node, data, store })
+          : undefined
       )
     },
     filterNodeMethod: (value, data, node) => {
