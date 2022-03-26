@@ -25,7 +25,13 @@ export default defineComponent({
       // vue fragments is represented as a text element.
       // The first element sibling should be the first element children of fragment.
       // This is how we get the element.
-      props.setRef((el as HTMLElement).nextElementSibling as HTMLElement | null)
+      if (el) {
+        props.setRef(
+          (el as HTMLElement).nextElementSibling as HTMLElement | null
+        )
+      } else {
+        props.setRef(null)
+      }
     })
     return () => {
       const [firstChild] = slots.default?.() || []
