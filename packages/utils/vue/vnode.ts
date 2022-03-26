@@ -11,7 +11,12 @@ import {
 import { isArray } from '@vue/shared'
 import { hasOwn } from '../objects'
 import { debugWarn } from '../error'
-import type { VNode, VNodeArrayChildren, VNodeChild } from 'vue'
+import type {
+  VNode,
+  VNodeArrayChildren,
+  VNodeChild,
+  VNodeNormalizedChildren,
+} from 'vue'
 
 const SCOPE = 'utils/vue/vnode'
 
