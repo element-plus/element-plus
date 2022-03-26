@@ -90,7 +90,8 @@ export const useTree = (
       )
     },
     filterNodeMethod: (value, data, node) => {
-      if (props.filterMethod) return props.filterMethod(value, data, node)
+      if (props.filterNodeMethod)
+        return props.filterNodeMethod(value, data, node)
       if (!value) return true
       return getNodeValByProp('label', data)?.includes(value)
     },

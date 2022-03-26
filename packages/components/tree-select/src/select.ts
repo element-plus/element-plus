@@ -1,4 +1,4 @@
-import { computed, toRefs } from 'vue'
+import { computed, nextTick, toRefs } from 'vue'
 import { pick } from 'lodash-unified'
 import ElSelect from '../../select/src/select.vue'
 import type ElTree from '../../tree/src/tree.vue'
@@ -26,7 +26,12 @@ export const useSelect = (
       return classes.join(' ')
     }),
     filterMethod: (keyword = '') => {
-      tree.value?.filter(keyword)
+      if (props.filterMethod) props.filterMethod(keyword)
+
+      nextTick(() => {
+        // let tree node expand only, same with tree filter
+        tree.value?.filter(keyword)
+      })
     },
     // clear filter text when visible change
     onVisibleChange: (visible: boolean) => {
