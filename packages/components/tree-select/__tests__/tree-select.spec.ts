@@ -38,7 +38,7 @@ const createComponent = ({ slots = {}, props = {} } = {}) => {
       return h(
         TreeSelect,
         { ...this.$data, ref: (val) => (wrapperRef.value = val) },
-        this.$slots
+        slots
       )
     },
   })
@@ -120,6 +120,38 @@ describe('TreeSelect.vue', () => {
     expect(wrapperRef.getCheckedKeys()).toEqual([11])
   })
 
+  test('disabled', async () => {
+    const { wrapper, select, tree } = createComponent({
+      props: {
+        data: [
+          {
+            value: '1',
+            label: '1',
+            children: [
+              {
+                value: '2',
+                label: '2',
+                disabled: true,
+              },
+            ],
+          },
+        ],
+        showCheckbox: true,
+        checkStrictly: true,
+        defaultExpandAll: true,
+      },
+    })
+
+    await nextTick()
+    await tree.find('.el-tree-node').trigger('click')
+    await tree.find('.el-tree-node .el-checkbox.is-disabled').trigger('click')
+    await tree
+      .find('.el-tree-node .el-select-dropdown__item.is-disabled')
+      .trigger('click')
+    await nextTick()
+    expect(wrapper.vm.modelValue).toBe('1')
+  })
+
   test('multiple', async () => {
     const value = ref([1])
     const { wrapper, getWrapperRef, select, tree } = createComponent({
@@ -171,5 +203,92 @@ describe('TreeSelect.vue', () => {
     select.vm.query = '一级 1'
     await nextTick()
     expect(tree.findAll('.el-tree-node').length).toBe(1)
+  })
+
+  test('props', async () => {
+    const { wrapper, select, tree } = createComponent({
+      props: {
+        data: [
+          {
+            id: '1',
+            name: '1',
+            childrens: [
+              {
+                id: '2',
+                name: '2',
+              },
+            ],
+          },
+        ],
+        props: {
+          label: 'name',
+          children: 'childrens',
+        },
+        valueKey: 'id',
+      },
+    })
+
+    await nextTick()
+    expect(tree.find('.el-tree-node').text()).toBe('1')
+    wrapper.vm.modelValue = '2'
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('2')
+  })
+  test('slots', async () => {
+    const { wrapper, select, tree } = createComponent({
+      slots: {
+        default: ({ data }) => '123' + data.label,
+        prefix: () => 'prefix',
+      },
+    })
+
+    await nextTick()
+    expect(tree.find('.el-select-dropdown__item').text()).toBe('123一级 1')
+    expect(select.find('.el-input__prefix-inner').text()).toBe('prefix')
+  })
+  test('renderContent', async () => {
+    const { wrapper, tree } = createComponent({
+      props: {
+        renderContent: (h, { data }) => {
+          return '123' + data.label
+        },
+      },
+    })
+
+    await nextTick()
+    expect(tree.find('.el-select-dropdown__item').text()).toBe('123一级 1')
+  })
+  test('lazy', async () => {
+    const { wrapper, select, tree } = createComponent({
+      props: {
+        data: [
+          {
+            value: 1,
+            label: 1,
+          },
+        ],
+        lazy: true,
+        load: (node, resolve) => {
+          resolve([{ value: 2, label: 2, isLeaf: true }])
+        },
+      },
+    })
+
+    await nextTick()
+    await tree.find('.el-tree-node').trigger('click')
+    await nextTick()
+    expect(tree.find('.el-tree-node .el-tree-node').text()).toBe('2')
+  })
+  test('events', async () => {
+    const onNodeClick = jest.fn()
+    const { wrapper, tree } = createComponent({
+      props: {
+        onNodeClick,
+      },
+    })
+    await nextTick()
+    await tree.find('.el-tree-node').trigger('click')
+    await nextTick()
+    expect(onNodeClick).toBeCalled()
   })
 })
