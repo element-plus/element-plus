@@ -207,6 +207,10 @@
         "text": "Tree"
       },
       {
+        "link": "/tree-select",
+        "text": "TreeSelect"
+      },
+      {
         "link": "/tree-v2",
         "text": "Virtualized Tree"
       }
