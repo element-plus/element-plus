@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as a}from"./app.7650a0c4.js";const l='{"title":"A Vue 3 UI Framework","description":"","frontmatter":{"title":"A Vue 3 UI Framework","lang":"en-US","page":true},"headers":[],"relativePath":"index.md","lastUpdated":1648292036000}',r={};function o(n,s,c,d,i,p){return a(),t("div")}var m=e(r,[["render",o]]);export{l as __pageData,m as default};
