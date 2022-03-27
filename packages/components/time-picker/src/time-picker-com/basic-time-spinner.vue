@@ -37,7 +37,7 @@
       <div
         v-for="item in spinnerItems"
         :key="item"
-        :class="[ns.be('wrapper', 'item'), ns.is('arrow')]"
+        :class="[ns.be('spinner', 'wrapper'), ns.is('arrow')]"
         @mouseenter="emitSelectRange(item)"
       >
         <el-icon
