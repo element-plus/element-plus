@@ -75,6 +75,9 @@ onMounted(() => {
       throwError(COMPONENT_NAME, `target is not existed: ${props.target}`)
     }
     container.value = el.value
+  } else {
+    el.value = document.documentElement
+    container.value = document
   }
 
   useEventListener(container, 'scroll', handleScrollThrottled)
