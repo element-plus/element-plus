@@ -166,7 +166,7 @@ div[class*='language-'].line-numbers-mode {
   bottom: 0;
   left: 0;
   z-index: 3;
-  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  border-right: 1px solid var(--el-overlay-color-lighter);
   padding: 1.25rem 0;
   width: 3.5rem;
   text-align: center;
