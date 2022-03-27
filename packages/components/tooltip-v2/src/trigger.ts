@@ -6,8 +6,7 @@ const EventHandler = {
   type: definePropType<(e: Event) => boolean | void>(Function),
 } as const
 
-export const tooltipTriggerV2Props = buildProps({
-  asChild: Boolean,
+export const tooltipV2TriggerProps = buildProps({
   onBlur: EventHandler,
   onClick: EventHandler,
   onFocus: EventHandler,
@@ -16,6 +15,6 @@ export const tooltipTriggerV2Props = buildProps({
   onMouseLeave: EventHandler,
 } as const)
 
-export type TooltipTriggerV2Props = ExtractPropTypes<
-  typeof tooltipTriggerV2Props
+export type TooltipV2TriggerProps = ExtractPropTypes<
+  typeof tooltipV2TriggerProps
 >

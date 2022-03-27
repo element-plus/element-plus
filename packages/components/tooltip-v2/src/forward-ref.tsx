@@ -12,6 +12,7 @@ export type RefSetter = (el: HTMLElement | null) => void
 
 export const forwardRefProps = buildProps({
   setRef: { type: definePropType<RefSetter>(Function), required: true },
+  onlyChild: Boolean,
 } as const)
 
 export type ForwardRefProps = ExtractPropTypes<typeof forwardRefProps>
@@ -35,7 +36,9 @@ export default defineComponent({
     })
     return () => {
       const [firstChild] = slots.default?.() || []
-      const child = ensureOnlyChild(firstChild.children as VNodeArrayChildren)
+      const child = props.onlyChild
+        ? ensureOnlyChild(firstChild.children as VNodeArrayChildren)
+        : firstChild.children
       // Dunno why the ref for jsx complains about the typing issue which was not
       // in template
       return <Fragment ref={setRef as any}>{child}</Fragment>
