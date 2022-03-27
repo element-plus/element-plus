@@ -6,11 +6,11 @@
   @include set-component-css-var('backtop', $backtop);
 
   position: fixed;
-  background-color: var(--el-backtop-bg-color);
+  background-color: getCssVar('backtop', 'bg-color');
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  color: var(--el-backtop-text-color);
+  color: getCssVar('backtop', 'text-color');
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +20,7 @@
   z-index: 5;
 
   &:hover {
-    background-color: var(--el-backtop-hover-bg-color);
+    background-color: getCssVar('backtop', 'hover-bg-color');
   }
 
   @include e(icon) {
