@@ -1,31 +1,38 @@
 <template>
-  <only-child v-if="asChild" :set-ref="setTriggerRef">
+  <forward-ref v-if="nowrap" :set-ref="setTriggerRef" only-child>
     <slot />
-  </only-child>
+  </forward-ref>
   <button v-else ref="triggerRef">
     <slot />
   </button>
 </template>
 
 <script setup lang="ts">
-import { inject, onBeforeUnmount, ref, watch } from 'vue'
+import { inject, onBeforeUnmount, watch } from 'vue'
 import { composeEventHandlers } from '@element-plus/utils'
 import { tooltipV2RootKey } from '@element-plus/tokens'
-import OnlyChild from './only-child'
-import { tooltipTriggerV2Props } from './trigger'
+import ForwardRef from './forward-ref'
+import { tooltipV2TriggerProps } from './trigger'
+import { tooltipV2CommonProps } from './common'
 
-const props = defineProps(tooltipTriggerV2Props)
+defineOptions({
+  name: 'ElTooltipV2Trigger',
+})
+
+const props = defineProps({
+  ...tooltipV2CommonProps,
+  ...tooltipV2TriggerProps,
+})
 
 /**
  * onOpen opens the tooltip instantly, onTrigger acts a lil bit differently,
  * it will check if delayDuration is set to greater than 0 and based on that result,
  * if true, it opens the tooltip after delayDuration, otherwise it opens it instantly.
  */
-const { onClose, onOpen, onDelayOpen } = inject(tooltipV2RootKey)!
+const { onClose, onOpen, onDelayOpen, triggerRef } = inject(tooltipV2RootKey)!
 
 let isMousedown = false
 
-const triggerRef = ref<HTMLElement | null>(null)
 const setTriggerRef = (el: HTMLElement | null) => {
   triggerRef.value = el
 }

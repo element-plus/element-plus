@@ -5,6 +5,7 @@ export type TooltipV2Context = {
   onDelayOpen: () => void
   onOpen: () => void
   contentId: Ref<string>
+  triggerRef: Ref<HTMLElement | null>
 }
 
 export const tooltipV2RootKey: InjectionKey<TooltipV2Context> =

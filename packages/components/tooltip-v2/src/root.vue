@@ -18,9 +18,17 @@ import { isNumber, isPropAbsent } from '@element-plus/utils'
 import { TOOLTIP_V2_OPEN, tooltipV2RootKey } from '@element-plus/tokens'
 import { tooltipV2RootProps } from './root'
 
+defineOptions({
+  name: 'ElTooltipV2Root',
+})
+
 const props = defineProps(tooltipV2RootProps)
 
+/**
+ * internal open state, when no model value was provided, use this as indicator instead
+ */
 const _open = ref(props.defaultOpen)
+const triggerRef = ref<HTMLElement | null>(null)
 
 const open = computed<boolean>({
   get: () => (isPropAbsent(props.open) ? _open.value : props.open),
@@ -84,6 +92,7 @@ onBeforeUnmount(() => {
 
 provide(tooltipV2RootKey, {
   contentId,
+  triggerRef,
 
   onClose,
   onDelayOpen,
