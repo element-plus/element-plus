@@ -1,5 +1,13 @@
 ## Changelog
 
+### 2.1.6
+
+_2022-03-27_
+
+#### Bug fixes
+
+- Time-picker spinner error style (#6850 by @iamkun)
+
 ### 2.1.5
 
 _2022-03-25_
