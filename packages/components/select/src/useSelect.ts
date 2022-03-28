@@ -1,28 +1,28 @@
 import {
+  computed,
   inject,
   nextTick,
-  computed,
-  watch,
-  ref,
   reactive,
+  ref,
   shallowRef,
   triggerRef,
+  watch,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
-import { debounce as lodashDebounce, isEqual, get } from 'lodash-unified'
+import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
-  UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   EVENT_CODE,
+  UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { isKorean, scrollIntoView } from '@element-plus/utils'
+import { debugWarn, isKorean, scrollIntoView } from '@element-plus/utils'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 
 import type { ComponentPublicInstance } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
+import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
 
 export function useSelectStates(props) {
@@ -79,8 +79,8 @@ export const useSelect = (props, states: States, ctx) => {
   const groupQueryChange = shallowRef('')
 
   // inject
-  const elForm = inject(elFormKey, {} as ElFormContext)
-  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+  const elForm = inject(formContextKey, {} as FormContext)
+  const elFormItem = inject(formItemContextKey, {} as FormItemContext)
 
   const readonly = computed(
     () => !props.filterable || props.multiple || !states.visible
@@ -157,7 +157,7 @@ export const useSelect = (props, states: States, ctx) => {
   const selectSize = useSize()
 
   const collapseTagSize = computed(() =>
-    ['small'].indexOf(selectSize.value) > -1 ? 'small' : 'default'
+    ['small'].includes(selectSize.value) ? 'small' : 'default'
   )
 
   const dropMenuVisible = computed({
@@ -206,7 +206,7 @@ export const useSelect = (props, states: States, ctx) => {
         states.inputLength = 20
       }
       if (!isEqual(val, oldVal)) {
-        elFormItem.validate?.('change')
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     },
     {
@@ -265,7 +265,7 @@ export const useSelect = (props, states: States, ctx) => {
             input.value?.focus()
           } else {
             if (states.selectedLabel) {
-              states.currentPlaceholder = states.selectedLabel
+              states.currentPlaceholder = `${states.selectedLabel}`
               states.selectedLabel = ''
             }
           }
@@ -294,9 +294,7 @@ export const useSelect = (props, states: States, ctx) => {
       }
       const inputs = selectWrapper.value?.querySelectorAll('input') || []
       if (
-        Array.from(inputs).indexOf(
-          document.activeElement as HTMLInputElement
-        ) === -1
+        !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
       ) {
         setSelected()
       }
@@ -331,9 +329,9 @@ export const useSelect = (props, states: States, ctx) => {
     nextTick(() => {
       if (!reference.value) return
       const inputChildNodes = reference.value.$el.childNodes
-      const input = Array.from(inputChildNodes).filter(
+      const input = Array.from(inputChildNodes).find(
         (item) => (item as HTMLElement).tagName === 'INPUT'
-      )[0] as HTMLInputElement
+      ) as HTMLInputElement
       const _tags = tags.value
       const sizeInMap = states.initialInputHeight || 40
       input.style.height =
@@ -346,7 +344,7 @@ export const useSelect = (props, states: States, ctx) => {
               sizeInMap
             )}px`
 
-      states.tagInMultiLine = parseFloat(input.style.height) >= sizeInMap
+      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
 
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
@@ -421,7 +419,7 @@ export const useSelect = (props, states: States, ctx) => {
     const optionsInDropdown = optionsArray.value.filter(
       (n) => n.visible && !n.disabled && !n.states.groupDisabled
     )
-    const userCreatedOption = optionsInDropdown.filter((n) => n.created)[0]
+    const userCreatedOption = optionsInDropdown.find((n) => n.created)
     const firstOriginOption = optionsInDropdown[0]
     states.hoverIndex = getValueIndex(
       optionsArray.value,
@@ -442,6 +440,8 @@ export const useSelect = (props, states: States, ctx) => {
       states.selected = option
       if (props.filterable) states.query = states.selectedLabel
       return
+    } else {
+      states.selectedLabel = ''
     }
     const result: any[] = []
     if (Array.isArray(props.modelValue)) {
@@ -656,7 +656,7 @@ export const useSelect = (props, states: States, ctx) => {
 
     if (tooltipRef.value && target) {
       const menu = tooltipRef.value?.popperRef?.contentRef?.querySelector?.(
-        '.el-select-dropdown__wrap'
+        `.${ns.be('dropdown', 'wrap')}`
       )
       if (menu) {
         scrollIntoView(menu as HTMLElement, target)
@@ -672,10 +672,12 @@ export const useSelect = (props, states: States, ctx) => {
     states.cachedOptions.set(vm.value, vm)
   }
 
-  const onOptionDestroy = (key) => {
-    states.optionsCount--
-    states.filteredOptionsCount--
-    states.options.delete(key)
+  const onOptionDestroy = (key, vm: SelectOptionProxy) => {
+    if (states.options.get(key) === vm) {
+      states.optionsCount--
+      states.filteredOptionsCount--
+      states.options.delete(key)
+    }
   }
 
   const resetInputState = (e: KeyboardEvent) => {
@@ -716,10 +718,10 @@ export const useSelect = (props, states: States, ctx) => {
   const handleFocus = (event) => {
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
-        states.visible = true
-        if (props.filterable) {
+        if (props.filterable && !states.visible) {
           states.menuVisibleOnFocus = true
         }
+        states.visible = true
       }
       ctx.emit('focus', event)
     } else {

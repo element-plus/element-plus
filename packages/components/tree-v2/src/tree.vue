@@ -27,7 +27,7 @@
           @click="handleNodeClick"
           @toggle="toggleExpand"
           @check="handleNodeCheck"
-        ></el-tree-node>
+        />
       </template>
     </fixed-size-list>
     <div v-else :class="ns.e('empty-block')">

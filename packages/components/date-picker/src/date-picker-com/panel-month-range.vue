@@ -8,7 +8,7 @@
     ]"
   >
     <div class="el-picker-panel__body-wrapper">
-      <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
+      <slot name="sidebar" class="el-picker-panel__sidebar" />
       <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
         <button
           v-for="(shortcut, key) in shortcuts"
@@ -97,7 +97,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, watch, inject, toRef } from 'vue'
+import { computed, defineComponent, inject, ref, toRef, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'

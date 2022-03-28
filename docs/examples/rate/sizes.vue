@@ -1,9 +1,9 @@
 <template>
-  <el-rate v-model="value" size="large"></el-rate>
+  <el-rate v-model="value" size="large" />
   <br />
-  <el-rate v-model="value"></el-rate>
+  <el-rate v-model="value" />
   <br />
-  <el-rate v-model="value" size="small"></el-rate>
+  <el-rate v-model="value" size="small" />
 </template>
 
 <script lang="ts" setup>

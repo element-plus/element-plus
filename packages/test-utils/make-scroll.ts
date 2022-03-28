@@ -1,6 +1,6 @@
 import sleep from './sleep'
 
-const makeScroll = async (
+const makeScroll = (
   dom: Element,
   name: 'scrollTop' | 'scrollLeft',
   offset: number
@@ -16,7 +16,7 @@ const makeScroll = async (
   })
   eventTarget.dispatchEvent(evt)
   // must use setTimeout instead of nextTick to wait dom change
-  return await sleep()
+  return sleep()
 }
 
 export default makeScroll

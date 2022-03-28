@@ -14,13 +14,12 @@
       :key="item.value"
       :label="item.label"
       :value="item.value"
-    >
-    </el-option>
+    />
   </el-select>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 interface ListItem {
   value: string
@@ -44,7 +43,7 @@ const remoteMethod = (query: string) => {
     setTimeout(() => {
       loading.value = false
       options.value = list.value.filter((item) => {
-        return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
+        return item.label.toLowerCase().includes(query.toLowerCase())
       })
     }, 200)
   } else {

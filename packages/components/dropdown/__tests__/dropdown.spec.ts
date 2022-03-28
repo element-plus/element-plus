@@ -507,8 +507,111 @@ describe('Dropdown', () => {
         .findComponent({
           name: 'DropdownItemImpl',
         })
-        .find('.el-dropdown-menu__item')
-        .element.getAttribute('data-custom-attribute')
+        .find('.el-dropdown-menu__item').element.dataset.customAttribute
     ).toBe('hello')
+  })
+
+  test('disable normal dropdown', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown disabled>
+        <span class="el-dropdown-link">
+          Dropdown List
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    await nextTick()
+    expect(
+      wrapper
+        .findComponent({
+          name: 'ElDropdown',
+        })
+        .classes()
+    ).toContain('is-disabled')
+  })
+  test('disable dropdown with split button', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown disabled split-button>
+        <span class="el-dropdown-link">
+          Dropdown List
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    await nextTick()
+    expect(
+      wrapper
+        .findAllComponents({
+          name: 'ElButton',
+        })[0]
+        .classes()
+    ).toContain('is-disabled')
+    expect(
+      wrapper
+        .findAllComponents({
+          name: 'ElButton',
+        })[1]
+        .classes()
+    ).toContain('is-disabled')
+  })
+
+  test('set show-timeout/hide-timeout when trigger is hover', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown trigger="hover" :show-timeout="200" :hide-timeout="300">
+        <span class="el-dropdown-link">
+          Dropdown List
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    const tooltipElement = wrapper.getComponent({
+      name: 'ElTooltip',
+    })
+    expect(tooltipElement.vm.showAfter).toBe(200)
+    expect(tooltipElement.vm.hideAfter).toBe(300)
+  })
+
+  test('ignore show-timeout/hide-timeout when trigger is not hover', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown trigger="click" :show-timeout="200" :hide-timeout="300">
+        <span class="el-dropdown-link">
+          Dropdown List
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    const tooltipElement = wrapper.getComponent({
+      name: 'ElTooltip',
+    })
+    expect(tooltipElement.vm.showAfter).toBe(0)
+    expect(tooltipElement.vm.hideAfter).toBe(0)
   })
 })

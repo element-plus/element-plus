@@ -9,8 +9,8 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref, shallowRef, watch, watchEffect } from 'vue'
 import {
-  useEventListener,
   useElementBounding,
+  useEventListener,
   useWindowSize,
 } from '@vueuse/core'
 import { getScrollContainer, throwError } from '@element-plus/utils'

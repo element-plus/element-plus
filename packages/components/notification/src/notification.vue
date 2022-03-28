@@ -18,7 +18,7 @@
         <component :is="iconComponent" />
       </el-icon>
       <div :class="ns.e('group')">
-        <h2 :class="ns.e('title')" v-text="title"></h2>
+        <h2 :class="ns.e('title')" v-text="title" />
         <div
           v-show="message"
           :class="ns.e('content')"
@@ -39,13 +39,13 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
-import { notificationProps, notificationEmits } from './notification'
+import { notificationEmits, notificationProps } from './notification'
 
 import type { CSSProperties } from 'vue'
 

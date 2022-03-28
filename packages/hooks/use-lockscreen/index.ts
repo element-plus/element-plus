@@ -1,13 +1,13 @@
-import { watch, isRef, onScopeDispose } from 'vue'
+import { isRef, onScopeDispose, watch } from 'vue'
 
 import { isClient } from '@vueuse/core'
 import {
-  throwError,
   addClass,
-  removeClass,
-  hasClass,
-  getStyle,
   getScrollBarWidth,
+  getStyle,
+  hasClass,
+  removeClass,
+  throwError,
 } from '@element-plus/utils'
 
 import type { Ref } from 'vue'
@@ -48,7 +48,7 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
     withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
     if (withoutHiddenClass) {
       bodyPaddingRight = document.body.style.paddingRight
-      computedBodyPaddingRight = parseInt(
+      computedBodyPaddingRight = Number.parseInt(
         getStyle(document.body, 'paddingRight'),
         10
       )

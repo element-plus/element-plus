@@ -12,6 +12,10 @@
     "vue"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
   "exports": {
     ".": {
       "require": "./lib/index.js",
@@ -37,10 +41,6 @@
     "es/components/*/style/*",
     "lib/components/*/style/*"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/element-plus/element-plus.git"
-  },
   "bugs": {
     "url": "https://github.com/element-plus/element-plus/issues"
   },
@@ -49,11 +49,13 @@
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.0",
-    "@element-plus/icons-vue": "^1.0.0",
-    "@popperjs/core": "^2.11.2",
-    "@vueuse/core": "^7.7.0",
+    "@element-plus/icons-vue": "^1.1.4",
+    "@floating-ui/dom": "^0.4.1",
+    "@popperjs/core": "^2.11.4",
+    "@vueuse/core": "^8.1.2",
     "async-validator": "^4.0.7",
-    "dayjs": "^1.10.7",
+    "dayjs": "^1.11.0",
+    "escape-html": "^1.0.3",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.2",
@@ -61,11 +63,11 @@
     "normalize-wheel-es": "^1.1.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.179",
+    "@types/lodash": "^4.14.180",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "*",
     "csstype": "^2.6.19",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.14"
   },
   "vetur": {
     "tags": "tags.json",

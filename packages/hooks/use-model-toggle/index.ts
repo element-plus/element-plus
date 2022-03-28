@@ -1,10 +1,10 @@
-import { computed, getCurrentInstance, watch, onMounted } from 'vue'
+import { computed, getCurrentInstance, onMounted, watch } from 'vue'
 import { isFunction } from '@vue/shared'
 import { isClient } from '@vueuse/core'
-import { isBoolean, definePropType, buildProp } from '@element-plus/utils'
+import { buildProp, definePropType, isBoolean } from '@element-plus/utils'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
-import type { Ref, ComponentPublicInstance, ExtractPropTypes } from 'vue'
+import type { ComponentPublicInstance, ExtractPropTypes, Ref } from 'vue'
 
 const _prop = buildProp({
   type: definePropType<boolean | null>(Boolean),

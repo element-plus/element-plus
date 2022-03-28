@@ -1,9 +1,9 @@
 import { NOOP } from '@vue/shared'
 import {
-  isString,
-  isObject,
   buildProps,
   definePropType,
+  isObject,
+  isString,
 } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -38,8 +38,12 @@ export const autocompleteProps = buildProps({
   },
   fetchSuggestions: {
     type: definePropType<
-      (queryString: string, cb: (data: any[]) => void) => void
-    >(Function),
+      | ((
+          queryString: string,
+          cb: (data: { value: string }[]) => void
+        ) => { value: string }[] | Promise<{ value: string }[]> | void)
+      | { value: string }[]
+    >([Function, Array]),
     default: NOOP,
   },
   popperClass: {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, toRef, getCurrentInstance } from 'vue'
-import { useClipboard, useToggle } from '@vueuse/core'
+import { computed, getCurrentInstance, toRef } from 'vue'
+import { isClient, useClipboard, useToggle } from '@vueuse/core'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useLang } from '../composables/lang'
 import { useSourceCode } from '../composables/source-code'
@@ -52,6 +52,7 @@ const decodedDescription = computed(() =>
 
 const onPlaygroundClicked = () => {
   const { link } = usePlayGround(props.rawSource)
+  if (!isClient) return
   window.open(link)
 }
 
@@ -116,7 +117,7 @@ const copyCode = async () => {
           @click="setSourceVisible(false)"
         >
           <ElIcon :size="16">
-            <CaretTop></CaretTop>
+            <CaretTop />
           </ElIcon>
           <span>{{ locale['hide-source'] }}</span>
         </div>

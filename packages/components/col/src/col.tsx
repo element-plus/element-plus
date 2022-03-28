@@ -1,7 +1,8 @@
-import { defineComponent, computed, inject } from 'vue'
+import { computed, defineComponent, inject } from 'vue'
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
+import { rowContextKey } from '@element-plus/tokens'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 
 export type ColSizeObject = {
   span?: number
@@ -58,7 +59,7 @@ export default defineComponent({
   props: colProps,
 
   setup(props, { slots }) {
-    const { gutter } = inject('ElRow', { gutter: { value: 0 } })
+    const { gutter } = inject(rowContextKey, { gutter: computed(() => 0) })
     const ns = useNamespace('col')
 
     const style = computed<CSSProperties>(() => {

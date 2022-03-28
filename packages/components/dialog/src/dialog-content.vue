@@ -22,10 +22,10 @@
       </slot>
     </div>
     <div :class="ns.e('body')">
-      <slot></slot>
+      <slot />
     </div>
     <div v-if="$slots.footer" :class="ns.e('footer')">
-      <slot name="footer"></slot>
+      <slot name="footer" />
     </div>
     <button
       v-if="showClose"
@@ -46,7 +46,7 @@ import { inject } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { CloseComponents } from '@element-plus/utils'
 import { dialogInjectionKey } from '@element-plus/tokens'
-import { dialogContentProps, dialogContentEmits } from './dialog-content'
+import { dialogContentEmits, dialogContentProps } from './dialog-content'
 
 const { Close } = CloseComponents
 

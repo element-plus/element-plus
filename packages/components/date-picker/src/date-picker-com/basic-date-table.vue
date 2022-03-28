@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
 import { castArray } from '@element-plus/utils'
@@ -407,7 +407,7 @@ export default defineComponent({
         newDate = newDate.add(1, 'month')
       }
 
-      newDate = newDate.date(parseInt(cell.text, 10))
+      newDate = newDate.date(Number.parseInt(cell.text, 10))
 
       if (props.parsedValue && !Array.isArray(props.parsedValue)) {
         const dayOffset =

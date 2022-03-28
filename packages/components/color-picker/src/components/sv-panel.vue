@@ -5,8 +5,8 @@
       backgroundColor: background,
     }"
   >
-    <div class="el-color-svpanel__white"></div>
-    <div class="el-color-svpanel__black"></div>
+    <div class="el-color-svpanel__white" />
+    <div class="el-color-svpanel__black" />
     <div
       class="el-color-svpanel__cursor"
       :style="{
@@ -14,19 +14,19 @@
         left: cursorLeft + 'px',
       }"
     >
-      <div></div>
+      <div />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import {
-  defineComponent,
-  ref,
   computed,
-  watch,
+  defineComponent,
   getCurrentInstance,
   onMounted,
+  ref,
+  watch,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
 import draggable from '../draggable'

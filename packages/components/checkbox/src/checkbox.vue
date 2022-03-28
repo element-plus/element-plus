@@ -22,7 +22,7 @@
       :role="indeterminate ? 'checkbox' : undefined"
       :aria-checked="indeterminate ? 'mixed' : false"
     >
-      <span :class="ns.e('inner')"></span>
+      <span :class="ns.e('inner')" />
       <input
         v-if="trueLabel || falseLabel"
         v-model="model"
@@ -54,7 +54,7 @@
       />
     </span>
     <span v-if="$slots.default || label" :class="ns.e('label')">
-      <slot></slot>
+      <slot />
       <template v-if="!$slots.default">{{ label }}</template>
     </span>
   </label>
@@ -73,7 +73,7 @@ export default defineComponent({
   name: 'ElCheckbox',
   props: {
     modelValue: {
-      type: [Boolean, Number, String],
+      type: [Number, String, Boolean],
       default: () => undefined,
     },
     label: {

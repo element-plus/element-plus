@@ -22,7 +22,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
   line-height: 1.4;
-  font-family: var(--font-family-base);
   font-size: 16px;
   font-weight: 400;
   color: var(--text-color);
@@ -76,6 +75,7 @@ h6:focus .header-anchor {
 
 h1 {
   margin-top: 1.5rem;
+  margin-bottom: 2rem;
   font-size: 1.9rem;
 }
 
@@ -127,6 +127,7 @@ textarea {
 }
 
 a {
+  font-weight: 500;
   text-decoration: inherit;
   color: var(--brand-color);
 
@@ -204,7 +205,7 @@ li > ol {
 
 blockquote {
   margin: 1rem 0;
-  border-left: 0.2rem solid var(--border-color-light);
+  border-left: 0.2rem solid var(--el-border-color);
   padding: 0.25rem 0 0.25rem 1rem;
   font-size: 1rem;
   color: var(--text-color-lighter);

@@ -15,11 +15,6 @@ function getNav() {
         link: `${ensureLang(lang)}${item.link}`,
       }))
 
-      item.push({
-        text: lang === 'zh-CN' ? '旧版文档' : 'Old Doc',
-        link: 'https://doc-archive.element-plus.org/',
-      })
-
       return [lang, item]
     })
   )

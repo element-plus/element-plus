@@ -27,7 +27,7 @@
         :always="always"
         :ratio-x="ratioX"
         :ratio-y="ratioY"
-      ></bar>
+      />
     </template>
   </div>
 </template>
@@ -38,18 +38,18 @@ import {
   nextTick,
   onMounted,
   provide,
+  reactive,
   ref,
   watch,
-  reactive,
 } from 'vue'
-import { useResizeObserver, useEventListener } from '@vueuse/core'
-import { isNumber, debugWarn, addUnit } from '@element-plus/utils'
+import { useEventListener, useResizeObserver } from '@vueuse/core'
+import { addUnit, debugWarn, isNumber } from '@element-plus/utils'
 import { scrollbarContextKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
 
-import { scrollbarProps, scrollbarEmits } from './scrollbar'
-import type { StyleValue, CSSProperties } from 'vue'
+import { scrollbarEmits, scrollbarProps } from './scrollbar'
+import type { CSSProperties, StyleValue } from 'vue'
 
 export default defineComponent({
   name: 'ElScrollbar',

@@ -1,7 +1,7 @@
 <template>
   <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
     <slot v-if="loading" name="placeholder">
-      <div :class="ns.e('placeholder')"></div>
+      <div :class="ns.e('placeholder')" />
     </slot>
     <slot v-else-if="hasLoadError" name="error">
       <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
@@ -34,25 +34,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted, watch, nextTick } from 'vue'
+import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
 import { isString } from '@vue/shared'
 import {
+  isBoolean,
+  isClient,
   useEventListener,
   useThrottleFn,
-  isClient,
-  isBoolean,
 } from '@vueuse/core'
 import {
   useAttrs,
+  useDeprecated,
   useLocale,
   useNamespace,
-  useDeprecated,
 } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
-  isInContainer,
   isElement,
+  isInContainer,
 } from '@element-plus/utils'
 import { imageEmits, imageProps } from './image'
 

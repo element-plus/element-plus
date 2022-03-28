@@ -6,10 +6,10 @@
     </el-radio-group>
     <div>
       background:
-      <el-switch v-model="background" class="ml-2"></el-switch>
+      <el-switch v-model="background" class="ml-2" />
     </div>
     <div class="ml-4">
-      disabled: <el-switch v-model="disabled" class="ml-2"></el-switch>
+      disabled: <el-switch v-model="disabled" class="ml-2" />
     </div>
   </div>
 
@@ -27,8 +27,7 @@
       :total="1000"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    />
   </div>
   <div class="demo-pagination-block">
     <div class="demonstration">Change page size</div>
@@ -43,8 +42,7 @@
       :total="1000"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    />
   </div>
   <div class="demo-pagination-block">
     <div class="demonstration">Jump to</div>
@@ -58,8 +56,7 @@
       :total="1000"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    />
   </div>
   <div class="demo-pagination-block">
     <div class="demonstration">All combined</div>
@@ -74,8 +71,7 @@
       :total="400"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    />
   </div>
 </template>
 <script lang="ts" setup>

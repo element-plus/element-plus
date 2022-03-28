@@ -2,18 +2,18 @@ import path from 'path'
 import Inspect from 'vite-plugin-inspect'
 import { defineConfig, loadEnv } from 'vite'
 import DefineOptions from 'unplugin-vue-define-options/vite'
-import WindiCSS from 'vite-plugin-windicss'
+import UnoCSS from 'unocss/vite'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
-
-import { getPackageDependencies } from '../build/utils/pkg'
-import { epPackage } from '../build/utils/paths'
-import { projRoot } from './.vitepress/utils/paths'
+import {
+  epPackage,
+  getPackageDependencies,
+  projRoot,
+} from '@element-plus/build'
 import type { Alias } from 'vite'
 
 const alias: Alias[] = []
@@ -62,15 +62,6 @@ export default defineConfig(async ({ mode }) => {
     resolve: {
       alias,
     },
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            windicss: ['windicss'],
-          },
-        },
-      },
-    },
     plugins: [
       vueJsx(),
       DefineOptions(),
@@ -89,7 +80,7 @@ export default defineConfig(async ({ mode }) => {
       Icons({
         autoInstall: true,
       }),
-      WindiCSS(),
+      UnoCSS(),
       Inspect(),
       mkcert(),
     ],

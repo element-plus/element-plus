@@ -19,7 +19,7 @@
       right: -20px;
       top: 50%;
       transform: translateY(-50%);
-      background-color: var(--el-border-color-base);
+      background-color: getCssVar('border-color');
     }
 
     @include e(icon) {
@@ -28,7 +28,7 @@
       display: flex;
       align-items: center;
 
-      .el-icon {
+      .#{$namespace}-icon {
         font-size: inherit;
       }
     }

@@ -5,7 +5,7 @@
     role="radiogroup"
     @keydown="handleKeydown"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
@@ -13,16 +13,17 @@
 import {
   defineComponent,
   nextTick,
-  provide,
   onMounted,
-  ref,
+  provide,
   reactive,
+  ref,
   toRefs,
   watch,
 } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { radioGroupKey } from '@element-plus/tokens'
 import { useFormItem, useNamespace } from '@element-plus/hooks'
+import { debugWarn } from '@element-plus/utils'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
 import type { RadioGroupProps } from '..'
 
@@ -96,7 +97,7 @@ export default defineComponent({
 
     watch(
       () => props.modelValue,
-      () => formItem?.validate('change')
+      () => formItem?.validate('change').catch((err) => debugWarn(err))
     )
 
     return {

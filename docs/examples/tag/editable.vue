@@ -17,15 +17,14 @@
     size="small"
     @keyup.enter="handleInputConfirm"
     @blur="handleInputConfirm"
-  >
-  </el-input>
+  />
   <el-button v-else class="button-new-tag ml-1" size="small" @click="showInput">
     + New Tag
   </el-button>
 </template>
 
 <script lang="ts" setup>
-import { ref, nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import type { ElInput } from 'element-plus'
 
 const inputValue = ref('')

@@ -12,11 +12,11 @@ export const inputNumberProps = buildProps({
   },
   max: {
     type: Number,
-    default: Infinity,
+    default: Number.POSITIVE_INFINITY,
   },
   min: {
     type: Number,
-    default: -Infinity,
+    default: Number.NEGATIVE_INFINITY,
   },
   modelValue: {
     type: Number,
@@ -43,15 +43,16 @@ export const inputNumberProps = buildProps({
   placeholder: String,
   precision: {
     type: Number,
-    validator: (val: number) => val >= 0 && val === parseInt(`${val}`, 10),
+    validator: (val: number) =>
+      val >= 0 && val === Number.parseInt(`${val}`, 10),
   },
 } as const)
 
 export const inputNumberEmits = {
-  change: (prev: number, cur: number) => prev !== cur,
+  change: (prev: number | undefined, cur: number | undefined) => prev !== cur,
   blur: (e: FocusEvent) => e instanceof FocusEvent,
   focus: (e: FocusEvent) => e instanceof FocusEvent,
-  input: (val: number) => isNumber(val),
+  input: (val: number | undefined) => isNumber(val),
   'update:modelValue': (val: number | undefined) =>
     isNumber(val) || val === undefined,
 }

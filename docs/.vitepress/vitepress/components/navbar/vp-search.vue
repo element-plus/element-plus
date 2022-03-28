@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import '@docsearch/css'
-import { watch, onMounted, getCurrentInstance } from 'vue'
-import { useRouter, useRoute } from 'vitepress'
+import { getCurrentInstance, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vitepress'
 import docsearch from '@docsearch/js'
+import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 // import type { DefaultTheme } from '../config'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
@@ -72,6 +73,8 @@ function initialize(userOptions: any) {
 
       navigator: {
         navigate: ({ suggestionUrl }: { suggestionUrl: string }) => {
+          if (!isClient) return
+
           const { pathname: hitPathname } = new URL(
             window.location.origin + suggestionUrl
           )
@@ -180,6 +183,7 @@ function initialize(userOptions: any) {
 
   .dark & {
     --docsearch-text-color: var(--text-color-light);
+    --docsearch-key-shadow: none;
     --docsearch-modal-shadow: none;
     --docsearch-footer-shadow: none;
     // --docsearch-searchbox-focus-background: var(--bg-color-mute);

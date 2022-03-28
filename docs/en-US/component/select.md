@@ -47,7 +47,7 @@ select/clearable
 
 Multiple select uses tags to display selected options.
 
-:::demo Set `multiple` attribute for `el-select` to enable multiple mode. In this case, the value of `v-model` will be an array of selected options. By default the selected options will be displayed as Tags. You can collapse them to a text by using `collapse-tags` attribute.
+:::demo Set `multiple` attribute for `el-select` to enable multiple mode. In this case, the value of `v-model` will be an array of selected options. By default the selected options will be displayed as Tags. You can collapse them to a text by using `collapse-tags` attribute. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
 
 select/multiple
 
@@ -120,6 +120,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | size                              | size of Input                                                                                                               | string                             | large/default/small         | default          |
 | clearable                         | whether select can be cleared                                                                                               | boolean                            | —                           | false            |
 | collapse-tags                     | whether to collapse tags to a text when multiple selecting                                                                  | boolean                            | —                           | false            |
+| collapse-tags-tooltip             | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true            | boolean                            | true / false                | false            |
 | multiple-limit                    | maximum number of options user can select when `multiple` is `true`. No limit when set to 0                                 | number                             | —                           | 0                |
 | name                              | the name attribute of select input                                                                                          | string                             | —                           | —                |
 | effect                            | Tooltip theme, built-in theme: `dark` / `light`                                                                             | string                             | string                      | light            |
@@ -139,6 +140,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | default-first-option              | select first matching option on enter key. Use with `filterable` or `remote`                                                | boolean                            | -                           | false            |
 | popper-append-to-body(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean                            | -                           | true             |
 | teleported                        | whether select dropdown is teleported to the body                                                                           | boolean                            | true / false                | true             |
+| persistent                        | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                             | boolean                            | true / false                | true             |
 | automatic-dropdown                | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                           | boolean                            | -                           | false            |
 | clear-icon                        | Custom clear icon component                                                                                                 | string / Component                 | —                           | CircleClose      |
 | fit-input-width                   | whether the width of the dropdown is the same as the input                                                                  | boolean                            | —                           | false            |

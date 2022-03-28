@@ -13,7 +13,7 @@
     trigger="click"
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
-    @show="onSuggestionShow"
+    @before-show="onSuggestionShow"
   >
     <div
       ref="listboxRef"
@@ -39,16 +39,16 @@
         @keydown.tab="close"
       >
         <template v-if="$slots.prepend" #prepend>
-          <slot name="prepend"></slot>
+          <slot name="prepend" />
         </template>
         <template v-if="$slots.append" #append>
-          <slot name="append"></slot>
+          <slot name="append" />
         </template>
         <template v-if="$slots.prefix" #prefix>
-          <slot name="prefix"></slot>
+          <slot name="prefix" />
         </template>
         <template v-if="$slots.suffix" #suffix>
-          <slot name="suffix"></slot>
+          <slot name="suffix" />
         </template>
       </el-input>
     </div>
@@ -90,12 +90,13 @@
 
 <script lang="ts" setup>
 import {
-  ref,
   computed,
-  onMounted,
   nextTick,
+  onMounted,
+  ref,
   useAttrs as useCompAttrs,
 } from 'vue'
+import { isPromise } from '@vue/shared'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useAttrs, useNamespace } from '@element-plus/hooks'
@@ -107,9 +108,10 @@ import ElTooltip from '@element-plus/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
-import { autocompleteProps, autocompleteEmits } from './autocomplete'
-import type { TooltipInstance } from '@element-plus/components/tooltip'
+import { autocompleteEmits, autocompleteProps } from './autocomplete'
 import type { StyleValue } from 'vue'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { InputInstance } from '@element-plus/components/input'
 
 defineOptions({
   name: 'ElAutocomplete',
@@ -134,11 +136,7 @@ const dropdownWidth = ref('')
 const activated = ref(false)
 const suggestionDisabled = ref(false)
 const loading = ref(false)
-const inputRef = ref<{
-  inputOrTextarea: HTMLInputElement | HTMLTextAreaElement
-  focus: () => void
-  $el: HTMLElement
-}>()
+const inputRef = ref<InputInstance>()
 const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
@@ -168,7 +166,7 @@ const getData = (queryString: string) => {
     return
   }
   loading.value = true
-  props.fetchSuggestions(queryString, (suggestionsArg) => {
+  const cb = (suggestionsArg: any[]) => {
     loading.value = false
     if (suggestionDisabled.value) {
       return
@@ -179,13 +177,24 @@ const getData = (queryString: string) => {
     } else {
       throwError(COMPONENT_NAME, 'autocomplete suggestions must be an array')
     }
-  })
+  }
+  if (isArray(props.fetchSuggestions)) {
+    cb(props.fetchSuggestions)
+  } else {
+    const result = props.fetchSuggestions(queryString, cb)
+    if (isArray(result)) {
+      cb(result)
+    } else if (isPromise(result)) {
+      result.then(cb)
+    }
+  }
 }
 const debouncedGetData = debounce(getData, props.debounce)
 const handleInput = (value: string) => {
   emit('input', value)
   emit(UPDATE_MODEL_EVENT, value)
   suggestionDisabled.value = false
+  activated.value = Boolean(value)
   if (!props.triggerOnFocus && !value) {
     suggestionDisabled.value = true
     suggestions.value = []
@@ -271,7 +280,8 @@ const highlight = (index: number) => {
     suggestion.scrollTop -= scrollHeight
   }
   highlightedIndex.value = index
-  inputRef.value!.inputOrTextarea.setAttribute(
+  // TODO: use Volar generate dts to fix it.
+  ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
     `${id.value}-item-${highlightedIndex.value}`
   )
@@ -280,10 +290,11 @@ const highlight = (index: number) => {
 onClickOutside(listboxRef, close)
 
 onMounted(() => {
-  inputRef.value!.inputOrTextarea.setAttribute('role', 'textbox')
-  inputRef.value!.inputOrTextarea.setAttribute('aria-autocomplete', 'list')
-  inputRef.value!.inputOrTextarea.setAttribute('aria-controls', 'id')
-  inputRef.value!.inputOrTextarea.setAttribute(
+  // TODO: use Volar generate dts to fix it.
+  ;(inputRef.value as any).ref!.setAttribute('role', 'textbox')
+  ;(inputRef.value as any).ref!.setAttribute('aria-autocomplete', 'list')
+  ;(inputRef.value as any).ref!.setAttribute('aria-controls', 'id')
+  ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
     `${id.value}-item-${highlightedIndex.value}`
   )

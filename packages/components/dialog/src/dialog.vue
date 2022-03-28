@@ -35,7 +35,7 @@
               <slot name="title" />
             </template>
             <slot />
-            <template #footer>
+            <template v-if="$slots.footer" #footer>
               <slot name="footer" />
             </template>
           </el-dialog-content>
@@ -46,12 +46,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, provide } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
-import { useNamespace, useDraggable, useSameTarget } from '@element-plus/hooks'
+import { useDraggable, useNamespace, useSameTarget } from '@element-plus/hooks'
 import { dialogInjectionKey } from '@element-plus/tokens'
 import ElDialogContent from './dialog-content.vue'
-import { dialogProps, dialogEmits } from './dialog'
+import { dialogEmits, dialogProps } from './dialog'
 import { useDialog } from './use-dialog'
 
 defineOptions({

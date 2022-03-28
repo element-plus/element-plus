@@ -1,8 +1,8 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import {
-  IMAGE_SUCCESS,
   IMAGE_FAIL,
+  IMAGE_SUCCESS,
   mockImageEvent,
 } from '@element-plus/test-utils/mock'
 import Image from '../src/image.vue'
@@ -87,7 +87,7 @@ describe('Image.vue', () => {
       props: {
         fit: 'cover',
         src: IMAGE_SUCCESS,
-        previewSrcList: new Array(3).fill(IMAGE_SUCCESS),
+        previewSrcList: Array.from({ length: 3 }).fill(IMAGE_SUCCESS),
       },
     })
     await doubleWait()
@@ -98,7 +98,7 @@ describe('Image.vue', () => {
     const wrapper = mount(Image, {
       props: {
         src: IMAGE_SUCCESS,
-        previewSrcList: new Array(3).fill(IMAGE_FAIL),
+        previewSrcList: Array.from({ length: 3 }).fill(IMAGE_FAIL),
         initialIndex: 1,
       },
     })

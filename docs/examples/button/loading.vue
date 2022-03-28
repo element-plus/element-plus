@@ -16,7 +16,7 @@
             L 15 15
           "
             style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"
-          ></path>
+          />
         </svg>
       </div>
     </template>

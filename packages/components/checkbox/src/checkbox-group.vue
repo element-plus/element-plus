@@ -1,17 +1,17 @@
 <script lang="ts">
 import {
-  defineComponent,
   computed,
-  watch,
-  provide,
-  nextTick,
-  toRefs,
+  defineComponent,
   h,
+  nextTick,
+  provide,
   renderSlot,
+  toRefs,
+  watch,
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isValidComponentSize } from '@element-plus/utils'
-import { useSize, useNamespace } from '@element-plus/hooks'
+import { debugWarn, isValidComponentSize } from '@element-plus/utils'
+import { useNamespace, useSize } from '@element-plus/hooks'
 import { useCheckboxGroup } from './useCheckbox'
 
 import type { PropType } from 'vue'
@@ -86,7 +86,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       () => {
-        elFormItem.validate?.('change')
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     )
     return () => {

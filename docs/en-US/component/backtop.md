@@ -5,9 +5,9 @@ lang: en-US
 
 # Backtop
 
-A button to back to top
+A button to back to top.
 
-## Basic usage
+## Basic Usage
 
 Scroll down to see the bottom-right button.
 
@@ -27,23 +27,25 @@ backtop/custom
 
 :::
 
-## Attributes
+## Backtop API
 
-| Attribute         | Description                                                         | Type   | Accepted Values | Default |
-| ----------------- | ------------------------------------------------------------------- | ------ | --------------- | ------- |
-| target            | the target to trigger scroll                                        | string |                 |         |
-| visibility-height | the button will not show until the scroll height reaches this value | number |                 | 200     |
-| right             | right distance                                                      | number |                 | 40      |
-| bottom            | bottom distance                                                     | number |                 | 40      |
+### Backtop Attributes
 
-## Events
+| Name                | Description                                                          | Type     | Default |
+| ------------------- | -------------------------------------------------------------------- | -------- | ------- |
+| `target`            | the target to trigger scroll.                                        | `string` | —       |
+| `visibility-height` | the button will not show until the scroll height reaches this value. | `number` | `200`   |
+| `right`             | right distance.                                                      | `number` | `40`    |
+| `bottom`            | bottom distance.                                                     | `number` | `40`    |
 
-| Event Name | Description         | Parameters  |
-| ---------- | ------------------- | ----------- |
-| click      | triggers when click | click event |
+## Backtop Events
 
-## Slots
+| Name    | Description          | Parameters                  |
+| ------- | -------------------- | --------------------------- |
+| `click` | triggers when click. | `(evt: MouseEvent) => void` |
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+## Backtop Slots
+
+| Name      | Description                |
+| --------- | -------------------------- |
+| `default` | customize default content. |

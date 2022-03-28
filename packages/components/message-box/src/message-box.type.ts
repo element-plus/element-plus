@@ -1,4 +1,4 @@
-import type { CSSProperties, VNode, Component } from 'vue'
+import type { AppContext, CSSProperties, Component, VNode } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 
 type MessageType = '' | 'success' | 'warning' | 'info' | 'error'
@@ -169,19 +169,26 @@ export interface ElMessageBoxOptions {
 export type ElMessageBoxShortcutMethod = ((
   message: ElMessageBoxOptions['message'],
   title: ElMessageBoxOptions['title'],
-  options?: ElMessageBoxOptions
+  options?: ElMessageBoxOptions,
+  appContext?: AppContext | null
 ) => Promise<MessageBoxData>) &
   ((
     message: ElMessageBoxOptions['message'],
-    options?: ElMessageBoxOptions
+    options?: ElMessageBoxOptions,
+    appContext?: AppContext | null
   ) => Promise<MessageBoxData>)
 
 export interface IElMessageBox {
+  _context: AppContext | null
+
   /** Show a message box */
   // (message: string, title?: string, type?: string): Promise<MessageBoxData>
 
   /** Show a message box */
-  (options: ElMessageBoxOptions): Promise<MessageBoxData>
+  (
+    options: ElMessageBoxOptions,
+    appContext?: AppContext | null
+  ): Promise<MessageBoxData>
 
   /** Show an alert message box */
   alert: ElMessageBoxShortcutMethod

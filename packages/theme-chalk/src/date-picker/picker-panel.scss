@@ -3,14 +3,14 @@
 
 @include b(picker-panel) {
   color: var(--el-text-color-regular);
-  background: $color-white;
+  background: getCssVar('color-white');
   border-radius: var(--el-border-radius-base);
   line-height: 30px;
 
   .#{$namespace}-time-panel {
     margin: 5px 0;
     border: solid 1px var(--el-datepicker-border-color);
-    background-color: $color-white;
+    background-color: getCssVar('color-white');
     box-shadow: var(--el-box-shadow-light);
   }
 
@@ -31,7 +31,7 @@
     border-top: 1px solid var(--el-datepicker-inner-border-color);
     padding: 4px 12px;
     text-align: right;
-    background-color: $color-white;
+    background-color: getCssVar('color-white');
     position: relative;
     font-size: 0;
   }
@@ -60,7 +60,7 @@
   }
 
   @include e(btn) {
-    border: 1px solid #dcdcdc;
+    border: 1px solid getCssVar('fill-color', 'darker');
     color: var(--el-text-color-primary);
     line-height: 24px;
     border-radius: 2px;
@@ -71,7 +71,7 @@
     font-size: 12px;
 
     &[disabled] {
-      color: #cccccc;
+      color: getCssVar('text-color', 'disabled');
       cursor: not-allowed;
     }
   }
@@ -90,7 +90,7 @@
     }
 
     @include when(disabled) {
-      color: var(--el-text-color-disabled-base);
+      color: var(--el-text-color-disabled);
 
       &:hover {
         cursor: not-allowed;
@@ -116,7 +116,7 @@
   border-right: 1px solid var(--el-datepicker-inner-border-color);
   box-sizing: border-box;
   padding-top: 6px;
-  background-color: $color-white;
+  background-color: getCssVar('color-white');
   overflow: auto;
 }
 

@@ -1,15 +1,15 @@
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
-  watch,
-  computed,
-  ref,
-  provide,
-  onMounted,
   h,
-  withDirectives,
-  reactive,
   nextTick,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  watch,
+  withDirectives,
 } from 'vue'
 import { Resize } from '@element-plus/directives'
 import ElIcon from '@element-plus/components/icon'
@@ -17,9 +17,9 @@ import { More } from '@element-plus/icons-vue'
 import {
   buildProps,
   definePropType,
-  mutable,
-  isString,
   isObject,
+  isString,
+  mutable,
 } from '@element-plus/utils'
 import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
@@ -28,7 +28,7 @@ import { useMenuCssVar } from './use-menu-css-var'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
-import type { VNode, ExtractPropTypes, VNodeNormalizedChildren } from 'vue'
+import type { ExtractPropTypes, VNode, VNodeNormalizedChildren } from 'vue'
 
 export const menuProps = buildProps({
   mode: {
@@ -324,11 +324,11 @@ export default defineComponent({
         ) as HTMLElement[]
         const originalSlot = flattedChildren(slot)
         const moreItemWidth = 64
-        const paddingLeft = parseInt(
+        const paddingLeft = Number.parseInt(
           getComputedStyle(menu.value).paddingLeft,
           10
         )
-        const paddingRight = parseInt(
+        const paddingRight = Number.parseInt(
           getComputedStyle(menu.value).paddingRight,
           10
         )
@@ -387,7 +387,7 @@ export default defineComponent({
               'el-menu--collapse': props.collapse,
             },
           },
-          [...slot.map((vnode) => resizeMenu(vnode)), ...vShowMore]
+          [...slot, ...vShowMore]
         )
       )
 

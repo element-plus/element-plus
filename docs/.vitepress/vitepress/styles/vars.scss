@@ -8,13 +8,13 @@
   --brand-color-light: var(--el-color-primary-light-1);
   --bg-brand-color: var(--el-color-primary-light-9);
 
-  --bg-color: var(--el-color-white);
+  --bg-color: var(--el-bg-color);
   --bg-color-soft: #fafafa;
   --bg-color-mute: #f2f2f2;
-  --border-color: var(--el-border-color-base);
+  --border-color: var(--el-border-color);
   --border-color-light: var(--el-border-color-lighter);
 
-  --font-family: Inter, Roboto, Oxygen, Fira Sans, Helvetica Neue, sans-serif;
+  --font-family: var(--el-font-family);
 
   --font-family-mono: 'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas,
     'Courier New', monospace;
@@ -27,7 +27,14 @@
   // header vars
   --header-height: 55px;
   --nav-height: 55px; // alias of --header-height
-  --sidebar-width-md: 18rem;
+
+  /* Screen Size */
+  --vp-screen-max-width: 1376px;
+
+  // sidebar
+  --vp-sidebar-width-mobile: 320px;
+  --vp-sidebar-width-small: 272px;
+
   --sidebar-width-sm: 16rem;
   --sidebar-width-xs: 20rem;
   --content-min-width: 16rem;
@@ -42,7 +49,7 @@
   // code block vars
   --code-line-height: 1.4;
   --code-font-size: var(--el-font-size-base);
-  --code-bg-color: var(--el-bg-color);
+  --code-bg-color: var(--el-fill-color-light);
   --code-text-color: var(--text-color);
   --code-font-family: var(--font-family-mono);
 
@@ -58,19 +65,12 @@
   --link-active-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
 }
 
+// layouts
 :root {
-  --app-max-width: 1376px;
+  --vp-screen-max-width: 1376px;
 }
 
 .dark {
-  --text-color: #e0e0e0;
-  --text-color-light: #a0a0a0;
-  --text-color-lighter: #6c6c6c;
-
-  --border-color: #434343;
-  --border-color-light: #979797;
-
-  --bg-color: var(--el-bg-color);
   --bg-color-soft: #242424;
   --bg-color-mute: #2c2c2c;
 }

@@ -4,10 +4,10 @@ import { ExpandTrigger } from './node'
 
 import type { PropType } from 'vue'
 import type {
-  CascaderValue,
-  CascaderOption,
   CascaderConfig,
+  CascaderOption,
   CascaderProps,
+  CascaderValue,
 } from './node'
 
 export const CommonProps = {

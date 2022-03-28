@@ -3,12 +3,12 @@ import makeMount from '@element-plus/test-utils/make-mount'
 import makeScroll from '@element-plus/test-utils/make-scroll'
 import setupMock from '../setup-mock'
 import {
-  RTL,
-  HORIZONTAL,
   CENTERED_ALIGNMENT,
-  START_ALIGNMENT,
   END_ALIGNMENT,
+  HORIZONTAL,
+  RTL,
   SMART_ALIGNMENT,
+  START_ALIGNMENT,
 } from '../src/defaults'
 import { FixedSizeList } from '..'
 

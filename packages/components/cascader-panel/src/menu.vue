@@ -3,9 +3,9 @@
     :key="menuId"
     tag="ul"
     role="menu"
-    class="el-cascader-menu"
-    wrap-class="el-cascader-menu__wrap"
-    :view-class="['el-cascader-menu__list', isEmpty && 'is-empty']"
+    :class="ns.b()"
+    :wrap-class="ns.e('wrap')"
+    :view-class="[ns.e('list'), ns.is('empty', isEmpty)]"
     @mousemove="handleMouseMove"
     @mouseleave="clearHoverZone"
   >
@@ -16,27 +16,27 @@
       :menu-id="menuId"
       @expand="handleExpand"
     />
-    <div v-if="isLoading" class="el-cascader-menu__empty-text">
-      <el-icon size="14" class="is-loading">
+    <div v-if="isLoading" :class="ns.e('empty-text')">
+      <el-icon size="14" :class="ns.is('loading')">
         <loading />
       </el-icon>
       {{ t('el.cascader.loading') }}
     </div>
-    <div v-else-if="isEmpty" class="el-cascader-menu__empty-text">
+    <div v-else-if="isEmpty" :class="ns.e('empty-text')">
       {{ t('el.cascader.noData') }}
     </div>
     <svg
       v-else-if="panel?.isHoverMenu"
       ref="hoverZone"
-      class="el-cascader-menu__hover-zone"
-    ></svg>
+      :class="ns.e('hover-zone')"
+    />
   </el-scrollbar>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, getCurrentInstance, inject, ref } from 'vue'
 import ElScrollbar from '@element-plus/components/scrollbar'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils'
 import { Loading } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
@@ -70,6 +70,8 @@ export default defineComponent({
 
   setup(props) {
     const instance = getCurrentInstance()!
+    const ns = useNamespace('cascader-menu')
+
     const { t } = useLocale()
     const id = generateId()
     let activeNode: Nullable<HTMLElement> = null
@@ -124,6 +126,7 @@ export default defineComponent({
       clearHoverTimer()
     }
     return {
+      ns,
       panel,
       hoverZone,
       isEmpty,

@@ -1,8 +1,8 @@
 import {
-  isActive,
-  normalize,
   endingSlashRE,
+  isActive,
   isExternal,
+  normalize,
 } from 'vitepress/dist/client/theme-default/utils'
 import { inBrowser } from 'vitepress'
 

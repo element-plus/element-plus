@@ -37,10 +37,10 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
-import localeData from 'dayjs/plugin/localeData'
+import localeData from 'dayjs/plugin/localeData.js'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
-import { dateTableProps, dateTableEmits } from './date-table'
+import { dateTableEmits, dateTableProps } from './date-table'
 import type { Dayjs } from 'dayjs'
 dayjs.extend(localeData)
 
@@ -155,10 +155,10 @@ export default defineComponent({
       if (type === 'current') {
         const date = getFormattedDate(text, type)
         if (date.isSame(props.selectedDay, 'day')) {
-          classes.push('is-selected')
+          classes.push(nsDay.is('selected'))
         }
         if (date.isSame(now, 'day')) {
-          classes.push('is-today')
+          classes.push(nsDay.is('today'))
         }
       }
       return classes

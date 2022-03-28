@@ -1,6 +1,6 @@
-import { getCurrentInstance, ref, inject } from 'vue'
+import { getCurrentInstance, inject, ref } from 'vue'
 import { isClient } from '@vueuse/core'
-import { hasClass, addClass, removeClass } from '@element-plus/utils'
+import { addClass, hasClass, removeClass } from '@element-plus/utils'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableHeaderProps } from '.'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -72,7 +72,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
       const handleMouseUp = () => {
         if (dragging.value) {
           const { startColumnLeft, startLeft } = dragState.value as any
-          const finalLeft = parseInt(resizeProxy.style.left, 10)
+          const finalLeft = Number.parseInt(resizeProxy.style.left, 10)
           const columnWidth = finalLeft - startColumnLeft
           column.width = column.realWidth = columnWidth
           table?.emit(
@@ -97,7 +97,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
         document.onselectstart = null
         document.ondragstart = null
 
-        setTimeout(function () {
+        setTimeout(() => {
           removeClass(columnEl, 'noclick')
         }, 0)
       }

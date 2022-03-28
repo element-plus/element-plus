@@ -33,7 +33,7 @@
 
   @include e(wrap) {
     // Raise the priority
-    &.el-scrollbar__wrap {
+    &.#{$namespace}-scrollbar__wrap {
       height: 204px;
     }
   }
@@ -61,8 +61,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center;
+    display: flex;
+    align-items: center;
     color: var(--el-cascader-color-empty);
+
+    .is-loading {
+      margin-right: 2px;
+    }
   }
 }
 

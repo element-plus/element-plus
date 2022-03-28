@@ -23,6 +23,7 @@
     :popper-style="style"
     :teleported="compatTeleported"
     :persistent="persistent"
+    :gpu-acceleration="gpuAcceleration"
     @before-show="beforeEnter"
     @before-hide="beforeLeave"
     @show="afterEnter"
@@ -43,7 +44,7 @@
   </el-tooltip>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, unref } from 'vue'
+import { computed, defineComponent, ref, unref } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { isString } from '@element-plus/utils'
@@ -95,6 +96,10 @@ export default defineComponent({
       return [ns.b(), props.popperClass, { [ns.m('plain')]: !!props.content }]
     })
 
+    const gpuAcceleration = computed(() => {
+      return props.transition === 'el-fade-in-linear'
+    })
+
     const { compatTeleported } = useDeprecateAppendToBody(
       COMPONENT_NAME,
       'appendToBody'
@@ -123,6 +128,7 @@ export default defineComponent({
       compatTeleported,
       ns,
       kls,
+      gpuAcceleration,
       style,
       tooltipRef,
       popperRef,

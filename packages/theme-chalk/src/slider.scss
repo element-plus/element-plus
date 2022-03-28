@@ -38,15 +38,15 @@ $slider-height: map.merge(
       width: auto;
     }
 
-    &.disabled {
+    &.is-disabled {
       cursor: default;
 
       .#{$namespace}-slider__bar {
-        background-color: var(--el-slider-disable-color);
+        background-color: var(--el-slider-disabled-color);
       }
 
       .#{$namespace}-slider__button {
-        border-color: var(--el-slider-disable-color);
+        border-color: var(--el-slider-disabled-color);
       }
 
       .#{$namespace}-slider__button-wrapper {

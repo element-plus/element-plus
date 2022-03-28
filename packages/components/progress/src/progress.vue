@@ -79,11 +79,11 @@
 import { computed, defineComponent } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
-  WarningFilled,
+  Check,
   CircleCheck,
   CircleClose,
-  Check,
   Close,
+  WarningFilled,
 } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { progressProps } from './progress'
@@ -118,7 +118,10 @@ export default defineComponent({
 
     const radius = computed(() => {
       if (props.type === 'circle' || props.type === 'dashboard') {
-        return parseInt(`${50 - parseFloat(relativeStrokeWidth.value) / 2}`, 10)
+        return Number.parseInt(
+          `${50 - Number.parseFloat(relativeStrokeWidth.value) / 2}`,
+          10
+        )
       } else {
         return 0
       }

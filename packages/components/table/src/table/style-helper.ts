@@ -1,20 +1,20 @@
 import {
-  onMounted,
-  onBeforeUnmount,
   computed,
-  ref,
-  watchEffect,
-  watch,
-  unref,
   nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  unref,
+  watch,
+  watchEffect,
 } from 'vue'
 import {
   addResizeListener,
-  removeResizeListener,
-  on,
-  off,
   isNumber,
   isString,
+  off,
+  on,
+  removeResizeListener,
 } from '@element-plus/utils'
 import { useSize } from '@element-plus/hooks'
 import { parseHeight } from '../util'
@@ -42,6 +42,10 @@ function useStyle<T>(
     height: null,
   })
   const isGroup = ref(false)
+  const scrollbarViewStyle = {
+    display: 'inline-block',
+    verticalAlign: 'middle',
+  }
 
   watchEffect(() => {
     layout.setHeight(props.height)
@@ -110,7 +114,6 @@ function useStyle<T>(
     requestAnimationFrame(syncPostion)
   }
   onMounted(async () => {
-    setScrollClass('is-scrolling-left')
     await nextTick()
     store.updateColumns()
     bindEvents()
@@ -145,9 +148,23 @@ function useStyle<T>(
     const { tableWrapper } = table.refs
     setScrollClassByEl(tableWrapper, className)
   }
+  const hasScrollClass = (className: string) => {
+    const { tableWrapper } = table.refs
+    if (tableWrapper && tableWrapper.classList.contains(className)) {
+      return true
+    }
+    return false
+  }
   const syncPostion = function () {
-    if (!layout.scrollX.value || !table.refs.scrollWrapper) return
-    const scrollContainer = table.refs.scrollWrapper.wrap$
+    if (!table.refs.scrollBarRef) return
+    if (!layout.scrollX.value) {
+      const scrollingNoneClass = 'is-scrolling-none'
+      if (!hasScrollClass(scrollingNoneClass)) {
+        setScrollClass(scrollingNoneClass)
+      }
+      return
+    }
+    const scrollContainer = table.refs.scrollBarRef.wrap$
     if (!scrollContainer) return
     const { scrollLeft, offsetWidth, scrollWidth } = scrollContainer
     const { headerWrapper, footerWrapper } = table.refs
@@ -164,8 +181,8 @@ function useStyle<T>(
   }
 
   const bindEvents = () => {
-    if (!table.refs.scrollWrapper) return
-    table.refs.scrollWrapper.wrap$?.addEventListener('scroll', syncPostion, {
+    if (!table.refs.scrollBarRef) return
+    table.refs.scrollBarRef.wrap$?.addEventListener('scroll', syncPostion, {
       passive: true,
     })
     if (props.fit) {
@@ -178,7 +195,7 @@ function useStyle<T>(
     unbindEvents()
   })
   const unbindEvents = () => {
-    table.refs.scrollWrapper.wrap$?.removeEventListener(
+    table.refs.scrollBarRef.wrap$?.removeEventListener(
       'scroll',
       syncPostion,
       true
@@ -281,7 +298,7 @@ function useStyle<T>(
       height = `calc(100% - ${layout.appendHeight.value}px)`
     }
     return {
-      width: bodyWidth.value,
+      width: `${resizeState.value.width}px`,
       height,
     }
   })
@@ -379,6 +396,7 @@ function useStyle<T>(
     doLayout,
     tableBodyStyles,
     tableLayout,
+    scrollbarViewStyle,
   }
 }
 

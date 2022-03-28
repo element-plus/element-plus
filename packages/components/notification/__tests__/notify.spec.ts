@@ -1,4 +1,4 @@
-import { nextTick, h } from 'vue'
+import { h, nextTick } from 'vue'
 import { rAF } from '@element-plus/test-utils/tick'
 import Notification, { closeAll } from '../src/notify'
 import { ElNotification } from '..'

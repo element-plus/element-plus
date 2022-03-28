@@ -8,14 +8,14 @@
         :class="{ selected: item.selected, 'is-alpha': item._alpha < 100 }"
         @click="handleSelect(index)"
       >
-        <div :style="{ backgroundColor: item.value }"></div>
+        <div :style="{ backgroundColor: item.value }" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, watch, watchEffect, defineComponent } from 'vue'
+import { defineComponent, ref, watch, watchEffect } from 'vue'
 import { useOptions } from '../useOption'
 import Color from '../color'
 

@@ -39,6 +39,8 @@ select-v2/multiple
 
 ## Hide extra tags when the selected items are too many.
 
+You can collapse tags to a text by using `collapse-tags` attribute. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
+
 :::demo
 
 select-v2/hide-extra-tags
@@ -135,6 +137,7 @@ select-v2/remote-search
 | clearable                         | whether select can be cleared                                                                                                            | boolean                            | —                   | false         |
 | clear-icon                        | custom clear icon                                                                                                                        | string / component                 | —                   | CircleClose   |
 | collapse-tags                     | whether to collapse tags to a text when multiple selecting                                                                               | boolean                            | —                   | false         |
+| collapse-tags-tooltip             | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | boolean                            | true / false        | false         |
 | multiple-limit                    | maximum number of options user can select when multiple is true. No limit when set to 0                                                  | number                             | —                   | 0             |
 | name                              | the name attribute of select input                                                                                                       | string                             | —                   | —             |
 | effect                            | Tooltip theme, built-in theme: `dark` / `light`                                                                                          | string                             | string              | light         |
@@ -147,6 +150,7 @@ select-v2/remote-search
 | popper-class                      | custom class name for Select's dropdown                                                                                                  | string                             | —                   | —             |
 | popper-append-to-body(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false              | boolean                            | -                   | false         |
 | teleported                        | whether select dropdown is teleported to the body                                                                                        | boolean                            | true / false        | true          |
+| persistent                        | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | boolean                            | true / false        | true          |
 | popper-options                    | Customized popper option see more at [popper.js](https://popper.js.org/documentation.html)                                               | object                             | -                   | -             |
 | automatic-dropdown                | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | boolean                            | -                   | false         |
 | clear-icon                        | Customized clear icon component                                                                                                          | string / Component                 | —                   | CircleClose   |

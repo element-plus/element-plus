@@ -1,4 +1,4 @@
-import { h, nextTick, inject } from 'vue'
+import { h, inject, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElFocusTrap from '../src/focus-trap.vue'

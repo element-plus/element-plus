@@ -8,19 +8,19 @@
     :aria-hidden="!active"
     :aria-labelledby="`tab-${paneName}`"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script lang="ts">
 import {
-  defineComponent,
-  ref,
   computed,
-  inject,
+  defineComponent,
   getCurrentInstance,
-  watch,
+  inject,
   markRaw,
   reactive,
+  ref,
+  watch,
 } from 'vue'
 import { eagerComputed } from '@vueuse/core'
 import { tabsRootContextKey } from '@element-plus/tokens'
@@ -38,11 +38,11 @@ export default defineComponent({
     if (!tabsRoot) throwError(COMPONENT_NAME, `must use with ElTabs`)
 
     const index = ref<string>()
-    const loaded = ref(false)
     const isClosable = computed(() => props.closable || tabsRoot.props.closable)
     const active = eagerComputed(
       () => tabsRoot.currentName.value === (props.name || index.value)
     )
+    const loaded = ref(active.value)
     const paneName = computed(() => props.name || index.value)
     const shouldBeRender = eagerComputed(
       () => !props.lazy || loaded.value || active.value

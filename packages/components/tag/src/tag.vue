@@ -6,7 +6,7 @@
     @click="handleClick"
   >
     <span :class="ns.e('content')">
-      <slot></slot>
+      <slot />
     </span>
     <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
       <Close />
@@ -19,7 +19,7 @@
       @click="handleClick"
     >
       <span :class="ns.e('content')">
-        <slot></slot>
+        <slot />
       </span>
       <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
         <Close />
@@ -33,8 +33,8 @@ import { computed } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { Close } from '@element-plus/icons-vue'
 
-import { useSize, useNamespace } from '@element-plus/hooks'
-import { tagProps, tagEmits } from './tag'
+import { useNamespace, useSize } from '@element-plus/hooks'
+import { tagEmits, tagProps } from './tag'
 
 defineOptions({
   name: 'ElTag',

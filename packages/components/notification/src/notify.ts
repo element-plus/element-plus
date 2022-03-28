@@ -1,17 +1,17 @@
 import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
 import { useZIndex } from '@element-plus/hooks'
-import { isVNode, isElement, isString, debugWarn } from '@element-plus/utils'
+import { debugWarn, isElement, isString, isVNode } from '@element-plus/utils'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
 
 import type { AppContext, ComponentPublicInstance, VNode } from 'vue'
 import type {
   NotificationOptions,
+  NotificationProps,
+  NotificationQueue,
   Notify,
   NotifyFn,
-  NotificationQueue,
-  NotificationProps,
 } from './notification'
 
 // This should be a queue but considering there were `non-autoclosable` notifications.
@@ -157,7 +157,8 @@ export function close(
   for (let i = idx; i < len; i++) {
     // new position equals the current offsetTop minus removed height plus 16px(the gap size between each item)
     const { el, component } = orientedNotifications[i].vm
-    const pos = parseInt(el!.style[verticalPos], 10) - removedHeight - GAP_SIZE
+    const pos =
+      Number.parseInt(el!.style[verticalPos], 10) - removedHeight - GAP_SIZE
     component!.props.offset = pos
   }
 }

@@ -1,18 +1,18 @@
 import { defineComponent, provide } from 'vue'
 import { NOOP } from '@vue/shared'
 import { mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { ElButton } from '@element-plus/components'
 import {
-  elFormKey,
-  elFormItemKey,
   buttonGroupContextKey,
+  formContextKey,
+  formItemContextKey,
 } from '@element-plus/tokens'
 
 import type {
-  ElFormContext,
-  ElFormItemContext,
   ButtonGroupContext,
+  FormContext,
+  FormItemContext,
 } from '@element-plus/tokens'
 
 const AXIOM = 'Rem is the best girl'
@@ -31,14 +31,14 @@ const mountComponent = (setup = NOOP, options = {}) =>
 describe('use-form-item', () => {
   it('should return local value', () => {
     const wrapper = mountComponent()
-    expect(wrapper.find('.el-button--default').exists()).toBe(true)
+    expect(wrapper.find('.el-button').exists()).toBe(true)
   })
 
   it('should return props.size instead of injected.size', () => {
     const propSize = 'small'
     const wrapper = mountComponent(
       () => {
-        provide(elFormItemKey, { size: 'large' } as ElFormItemContext)
+        provide(formItemContextKey, { size: 'large' })
       },
       {
         props: { size: propSize },
@@ -55,9 +55,9 @@ describe('use-form-item', () => {
         size: fallbackSize,
       } as ButtonGroupContext)
 
-      provide(elFormItemKey, {
+      provide(formItemContextKey, {
         size: 'large',
-      } as ElFormItemContext)
+      } as FormItemContext)
     })
 
     expect(wrapper.find(`.el-button--${fallbackSize}`).exists()).toBe(true)
@@ -66,13 +66,13 @@ describe('use-form-item', () => {
   it('should return formItem.size instead form.size', () => {
     const itemSize = 'small'
     const wrapper = mountComponent(() => {
-      provide(elFormItemKey, {
+      provide(formItemContextKey, {
         size: itemSize,
-      } as ElFormItemContext)
+      } as FormItemContext)
 
-      provide(elFormKey, {
+      provide(formContextKey, {
         size: 'large',
-      } as ElFormContext)
+      } as FormContext)
     })
 
     expect(wrapper.find(`.el-button--${itemSize}`).exists()).toBe(true)

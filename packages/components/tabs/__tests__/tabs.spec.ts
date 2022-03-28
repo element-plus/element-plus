@@ -555,13 +555,18 @@ describe('Tabs.vue', () => {
         'el-tab-pane': TabPane,
       },
       template: `
-        <el-tabs ref="tabs">
-          <el-tab-pane label="label-1" name="A">A</el-tab-pane>
+        <el-tabs v-model="activeName" ref="tabs">
+          <el-tab-pane label="label-1" lazy name="A">A</el-tab-pane>
           <el-tab-pane label="label-2" name="B">B</el-tab-pane>
           <el-tab-pane label="label-3" name="C">C</el-tab-pane>
           <el-tab-pane label="label-4" lazy name="D">D</el-tab-pane>
         </el-tabs>
       `,
+      data() {
+        return {
+          activeName: 'A',
+        }
+      },
     })
 
     const navWrapper = wrapper.findComponent(TabNav)
@@ -669,5 +674,56 @@ describe('Tabs.vue', () => {
 
   test('resize', async () => {
     // TODO: jsdom not support `clientWidth`.
+  })
+
+  test('label slot update', async () => {
+    const wrapper = mount({
+      components: {
+        'el-tabs': Tabs,
+        'el-tab-pane': TabPane,
+      },
+      template: `
+        <el-tabs v-model="activeName">
+          <el-tab-pane v-for="item in panes" :key="item.name" :name="item.name">
+            <template #label>
+              <span class="label-content">{{ item.label }}</span>
+            </template>
+            {{ item.content }}
+          </el-tab-pane>
+        </el-tabs>
+      `,
+      data() {
+        return {
+          panes: [
+            {
+              label: 'label-1',
+              name: 'first',
+              content: 'A',
+            },
+            {
+              label: 'label-2',
+              name: 'second',
+              content: 'B',
+            },
+          ],
+        }
+      },
+      methods: {
+        updatePanes() {
+          this.panes[0].label = 'label-1-new'
+          this.panes[1].label = 'label-2-new'
+        },
+      },
+    })
+
+    await nextTick()
+    const labelContentWrapper = wrapper.findAll('.label-content')
+    expect(labelContentWrapper[0].text()).toEqual('label-1')
+    expect(labelContentWrapper[1].text()).toEqual('label-2')
+
+    wrapper.vm.updatePanes()
+    await nextTick()
+    expect(labelContentWrapper[0].text()).toEqual('label-1-new')
+    expect(labelContentWrapper[1].text()).toEqual('label-2-new')
   })
 })

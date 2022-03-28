@@ -13,7 +13,7 @@
     <el-button type="primary">Click to upload</el-button>
     <template #tip>
       <div class="el-upload__tip">
-        jpg/png files with a size less than 500kb
+        jpg/png files with a size less than 500KB.
       </div>
     </template>
   </el-upload>
@@ -21,14 +21,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type'
 
-interface RawFile {
-  name: string
-  url: string
-}
+import type { UploadProps, UploadUserFile } from 'element-plus'
 
-const fileList = ref<RawFile[]>([
+const fileList = ref<UploadUserFile[]>([
   {
     name: 'food.jpeg',
     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
@@ -39,20 +35,28 @@ const fileList = ref<RawFile[]>([
   },
 ])
 
-const handleRemove = (file: UploadFile, fileList: UploadFile[]) => {
-  console.log(file, fileList)
+const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
+  console.log(file, uploadFiles)
 }
-const handlePreview = (file: UploadFile) => {
-  console.log(file)
+
+const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
+  console.log(uploadFile)
 }
-const handleExceed = (files: FileList, fileList: UploadFile[]) => {
+
+const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
   ElMessage.warning(
     `The limit is 3, you selected ${files.length} files this time, add up to ${
-      files.length + fileList.length
+      files.length + uploadFiles.length
     } totally`
   )
 }
-const beforeRemove = (file: UploadFile, fileList: UploadFile[]) => {
-  return ElMessageBox.confirm(`Cancel the transfert of ${file.name} ?`)
+
+const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
+  return ElMessageBox.confirm(
+    `Cancel the transfert of ${uploadFile.name} ?`
+  ).then(
+    () => true,
+    () => false
+  )
 }
 </script>

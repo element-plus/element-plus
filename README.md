@@ -39,7 +39,7 @@ We have made a migration tool for you to migrate your project from [Element UI](
 
 You can find the [gogo code migration tool](https://github.com/thx/gogocode/tree/main/packages/gogocode-plugin-element) here.
 
-We have tested this on [Vue Element Admin](https://github.com/PanJiaChen/vue-element-admin（Vue2+Element). You can find the transpiled code [here](https://github.com/gogocodeio/vue-element-admin)
+We have tested this on [Vue Element Admin](https://github.com/PanJiaChen/vue-element-admin). You can find the transpiled code [here](https://github.com/gogocodeio/vue-element-admin)
 
 ### Playground
 
@@ -68,7 +68,7 @@ You can also try Element Plus out with the components built-in playground
       </td>
       <td align="center" valign="middle">
         <a href="https://vform666.com/vform3.html?from=element_plus" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/156188909-f6780e1a-3b8c-4cab-a637-9a16f04110be.png">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/156870588-b25a42d5-888b-4943-8b1b-5239dfd8f4d2.png">
         </a>
       </td>
       <td align="center" valign="middle">
@@ -79,6 +79,11 @@ You can also try Element Plus out with the components built-in playground
       <td align="center" valign="middle">
         <a href="https://www.renren.io/?from=element-ui" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/82012629/126620778-0d8ab509-018a-45d7-b8de-a5bac2ad519a.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://form.making.link/?from=element_plus" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/159736613-13c7c2dc-744e-4eec-b801-f4ca57871787.png">
         </a>
       </td>
     </tr>

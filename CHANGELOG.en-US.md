@@ -1,5 +1,283 @@
 ## Changelog
 
+### 2.1.6
+
+_2022-03-27_
+
+#### Bug fixes
+
+- Time-picker spinner error style (#6850 by @iamkun)
+
+### 2.1.5
+
+_2022-03-25_
+
+#### Features
+
+- Ci enable ssr testing in CI (#6710 by @JeremyWuuuuu)
+- Components [cascader] add tag-type attribute (#6726 by @btea)
+- Components [autocomplete] fetchSuggestions supports Promise (#6695 by @CarterLi)
+- Export constants (#6763 by @sxzz)
+- Components [dropdown] add buttonProps (#6183 by @gjfei) (#6185)
+- Components [el-config-provider] experimental feature toggle (#6794 by @JeremyWuuuuu)
+- Components [el-config-provider] add config items (#6797 by @JeremyWuuuuu)
+- Project adapt floating ui (#6812 by @JeremyWuuuuu)
+- Hooks [floating] add use-floating (#6822 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [menu-item] add fallback-placement (#6684 by @freedomlang)
+- Docs update tabs click prop type (#6709 by @MrpandaLiu)
+- Fix "Invalid date" display error in docs site (#6714 by @jasonren0403)
+- Components [el-input] keydown event validator warming (#6691 by @HeftyKoo)
+- Style [el-checkbox-group] vertical align in form-item (#6688 by @HeftyKoo)
+- Components [dropdown] ignore show/hide timeouts for click trigger (#6720 by @purepear)
+- Components [el-tabs] label slot not update (#6738 by @HeftyKoo)
+- Components [time-picker] cancel button not work correctly (#6735 by @HeftyKoo)
+- Components [input] textarea border does not display on ios (#6768 by @HeftyKoo)
+- Components [message-box] textarea can not use multiline text (#6774 by @HeftyKoo)
+- Global config when undefined (#6777 by @sxzz)
+- Components [form] add debounce for validate state (#6779 by @sxzz)
+- Doc domain check (#6793 by @0song)
+- Components [el-select] reset selectedLabel when toggle multiple (#6769 by @muuyao)
+- Components [el-table] cannot scroll when tableLayout is auto (#6790 by @msidolphin)
+- Components [el-table] filter failed when tableLayout is auto (#6798 by @msidolphin)
+- Components [form] clear validate after resetFields (#6758 by @sxzz)
+- Components [cascader] loading icon position (#6802 by @btea)
+- Components [el-form] clear validate after reset fields
+- Import dayjs
+- Components [autocomplete] fix can not fetch suggestions when after clear (#6820 by @buqiyuan)
+- Cascader Unexpected display 'No Data' (#6815 by @chenxch)
+- Components [tree-v2] fix setCheckedKeys([]) can't clear halfCheckedKeys (#6819 by @buqiyuan)
+- Components [table-column] does not render defualt slot when children are comment nodes (#6745 by @buqiyuan)
+
+#### Refactors
+
+- Components [carousel] refactor (#6681 by @buqiyuan)
+- Css vars for reset.scss & reset for docs & fix cards (#6698 by @YunYouJun)
+- Build improve build plugin (#6721 by @sxzz)
+- Theme-chalk use css var instead of component hex colors (#6727 by @YunYouJun)
+- Docs switch to unocss (#6728 by @sxzz)
+- Components [empty] refactor (#6703 by @buqiyuan)
+- Theme-chalk use getCssVar instead of var(--el) & fix details
+- Components [upload] improve code and typings (#6762 by @sxzz)
+- Components [time-picker] use useNamespace (#6523 by @gjfei)
+- Theme-chalk remove default size class & simplify button css (#6782 by @YunYouJun)
+- Components [el-popper] refactor popper to script setups (#6725 by @JeremyWuuuuu)
+
+### 2.1.4
+
+_2022-03-16_
+
+#### Bug fixes
+
+- Components [menu] do not handle resize of child vnode (#6131 by @nieyuyao)
+- Docs build without window and Element error (#6656 by @YunYouJun)
+- Components [table] not scroll empty block when scrolling table (#6615 by @plainheart)
+- Components [el-form] validation with callbacks throws (#6669 by @JeremyWuuuuu)
+- Components [form-item] emit validate when passed not triggered (#6671 by @LYlanfeng)
+- Components [el-dialog] DoneFn parameter should be optional (#6675 by @yeyuqiudeng)
+- Input-number in step-strictly onChange bug (#6662 by @chenxch)
+
+### 2.1.3
+
+_2022-03-15_
+
+#### Features
+
+- Components [loading] export directive alias (#6629 by @sxzz)
+- Components [el-result] warn users using subTitle as slots (#6651 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [pagination] button bg color (#6628 by @YunYouJun)
+- Deps update dependency @vueuse/core to v8 (#6605 by @renovate[bot])
+- Theme-chalk [drawer] bg color (#6631 by @YunYouJun)
+- Theme-chalk [mixins] use set-css-var-value to transpile text (#6630 by @YunYouJun)
+- Form item instance was not destroyed (#6641 by @JeremyWuuuuu)
+- Components [result] rename slot's name from 'subTitle' to 'sub-title' (#6636 by @freedomlang)
+- Docs  fix wrong link in README.md (#6649 by @Serendipity96)
+- Selet-v2 value-key mode selected style and onClonse bug (#6602 by @chenxch)
+
+#### Refactors
+
+- Docs adjust style details & fix pages width (#6624 by @YunYouJun)
+- Build move to internal package (#6585 by @sxzz)
+
+### 2.1.2
+
+_2022-03-14_
+
+#### Bug fixes
+
+- Deps update all non-major dependencies (#6604 by @renovate[bot])
+- Docs border-color css var (#6620 by @YunYouJun)
+- Components [el-form] Form not emitting validation result (#6610 by @JeremyWuuuuu)
+- Theme-chalk [message-box] el-message-box__status position may o… (#6614 by @yeyuqiudeng)
+- Theme-chalk [cascader/checkbox] fix unexpected fill color (#6619 by @plainheart)
+
+#### Refactors
+
+- Components [rate] use css var & disable to disabled & star-color to fill-color (#6601 by @YunYouJun)
+
+### 2.1.1
+
+_2022-03-13_
+
+#### Features
+
+- Ci setup cypress circle ci (#6581 by @JeremyWuuuuu)
+- Ci replace cypress  with puppeteer (#6592 by @JeremyWuuuuu)
+- Components [el-table] exposes scroll methods (#6539 by @msidolphin)
+
+#### Bug fixes
+
+- Component [el-tabs] the initial pane should only render for once (#6563 by @KawaiiZapic)
+- Components [carousel] center arrow (#6573 by @buqiyuan)
+- Ci skip if no changes at all (#6574 by @JeremyWuuuuu)
+- Components [popper-trigger] SSR issue (#6575 by @JeremyWuuuuu)
+- Ci build product check (#6587 by @JeremyWuuuuu)
+- Components [dialog] remove footer when not existed (#6590 by @sxzz)
+- Docsearch dark shadow (#6595 by @YunYouJun)
+- Components [form] set validateState to success after passed (#6596 by @plainheart)
+- Upload component remove status label box shadow (#6586 by @iamkun)
+
+#### Refactors
+
+- Components [divider] switch to script-setup (#6556 by @wzrove)
+- Components [input] refactor (#6545 by @sxzz)
+- Theme-chalk rewrite palette & remove -base suffix (#6593 by @YunYouJun)
+- Components [rate] switch to script-setup syntax (#6565 by @btea)
+- Components [skeleton] switch to script-setup syntax (#6395 by @freedomlang)
+- Theme-chalk dark.scss to css vars & migrate fill-color-blank (#6597 by @YunYouJun)
+
+### 2.1.0
+
+_2022-03-12_
+
+#### Features
+
+- Components [message] support re-render vnode (#6527 by @sxzz)
+
+#### Bug fixes
+
+- Ci remove clean script (#6550 by @JeremyWuuuuu)
+- Ci clean up several warning (#6551 by @HerringtonDarkholme)
+- Ci fix cascader ns querySelector class (#6552 by @HerringtonDarkholme)
+- Build move eslint config to internal (#6553 by @sxzz)
+- Ci suppress warning by mark icon as raw (#6555 by @HerringtonDarkholme)
+- Components [upload] photo-wall wrap (#6546 by @YunYouJun)
+
+#### Refactors
+
+- Components [link] dynamic css vars & fix inner align (#6557 by @YunYouJun)
+- Components [link] refactor (#6543 by @sxzz)
+
+
+### 2.0.6
+
+_2022-03-11_
+
+#### Features
+
+- [el-table] support always show scrollbar & get selection rows (#6469 by @msidolphin)
+- Extract eslint config to separate package (#6495 by @sxzz)
+- Export dayjs instance, closes #6498 (#6517 by @sxzz)
+- Components [select]add collapse-tags-tooltip (#6245 by @Alanscut)
+- Components [select-v2]add collapse-tags-tooltip (#6532 by @Alanscut)
+- Components [cascader]add collapse-tags-tooltip (#6331 by @Alanscut)
+
+#### Bug fixes
+
+- Deps update all non-major dependencies (#6448 by @renovate[bot])
+- Components [el-select] optimize prefix size & selected style (#6267 by @msidolphin)
+- Components [el-table] defaultSort not working (#6322 by @msidolphin)
+- [el-table] fixed columns display when horizontal cannot scroll (#6320 by @msidolphin)
+- Components [el-checkbox] modelValue (#6168 by @gjfei) (#6169)
+- Components[select] (#6446 by @gjfei) (#6474)
+- Components [el-collapse] collapse item key pressing jumping (#6462 by @JeremyWuuuuu)
+- Components [message] offset error (#6497 by @Alanscut)
+- Components[select] namespace (#6486 by @gjfei)
+- Components el-select-allow-dynamically-update-options (#6473 by @gjfei)
+- Components [el-tooltip] close the dropdown after set disabled (#6467 by @Alanscut)
+- Docs improve component typings (#6524 by @sxzz)
+- Workflow coverage (#6518 by @sxzz)
+- Components [upload] fileList prop should sync uploadFiles (#6492 by @exherb)
+- Components [rate] fix disbaledVoidIcon typo (#6456 by @Shana-AE)
+- Components [select] display error when setting persistent to false (#6522 by @Alanscut)
+- Components [el-input] pass input-style props to input-wrapper (#6506 by @zt123123)
+- Components [el-table] escape special html characters (#6520 by @msidolphin)
+- Components [autocomplete] fix shaking at first open (#6342 by @freedomlang)
+- Components [el-upload] jitter when remove file in the list (#6505 by @msidolphin)
+- Components [el-menu] icon is not to the right of the text (#6268 by @Alanscut)
+- Test(components): [select] click icon twice (#6471 by @Alanscut)
+- Chore(project): add escape-html as dependency for main entry (#6534 by @JeremyWuuuuu)
+
+#### Refactors
+
+- Components!: refactor form (#5401 by @sxzz)
+- Components [row] refactor (#6354 by @sxzz)
+- Docs [form] improve docs and typings (#6447 by @sxzz)
+- Improve build dts (#6457 by @sxzz)
+- Components [cascader,cascader-panel] add namespace (#5589 by @gjfei)
+- Components [breadcrumb] switch to script-setup syntax (#6073 by @buqiyuan)
+- Theme-chalk message css var & add getCssVarName (#6488 by @YunYouJun)
+- Utils remove isFF (#6507 by @btea)
+- Theme-chalk [upload] use bem rewrite upload scss & fix bugs (#6508 by @YunYouJun)
+- Perf(components): [el-table] optimize the performance of expand rows (#6480 by @msidolphin)
+- Style(components): rename disabled to is-disabled (#6475 by @freedomlang)
+
+
+### 2.0.5
+
+_2022-03-06_
+
+#### Features
+
+- Components [el-notification] add context for notification (#6367 by @JeremyWuuuuu)
+- Components [el-notification] add context for notification (#6368 by @JeremyWuuuuu)
+- Components export prop `persistent` in `el-select` (#6428 by @CarterLi)
+- Components [el-messagebox] add context for message box (#6379 by @JeremyWuuuuu)
+- Components [el-dialog] add border-radius css variable (#6412 by @msidolphin)
+
+#### Bug fixes
+
+- Components set flex-shrink for first child of submenu title (#6315 by @nieyuyao)
+- Components [message-box]add type declaration of button-size (#6344 by @Wiensss)
+- Components [message-box] fix center style (#6356 by @llllllllllx)
+- Components [el-dropdown-menu] override default style (#6328 by @msidolphin)
+- Components [button] space is not added (#6361 by @Alanscut)
+- Components [tabs] optimize new icon style (#6327 by @msidolphin)
+- Components work around #6378 (#6380 by @CarterLi)
+- Components make margin of search equal to padding of el-input (#6409 by @nieyuyao)
+- Components [select] fix align issue for remove button (#6397 by @freedomlang)
+- Components [select-v2] style error when form is set to disabled (#6391 by @Alanscut)
+- Components [el-input] override edge browser default password style (#6423 by @msidolphin)
+- Theme-chalk [input] custom theme error (#6430 by @Alanscut)
+- Theme-chalk namespace (#6416 by @gjfei)
+- Components[el-collapse-transition] styles (#6414 by @gjfei)
+- Build output task name repeat (#6363 by @HitStarrySky)
+- [el-table] selection cell when double clicking expand icon (#6400 by @msidolphin)
+- Components [form] trigger can be a string list (#5975 by @ntnyq)
+- Components [el-popover] transition error (#6329 by @Alanscut)
+- Components [select] click icon not respond (#6441 by @Alanscut)
+- Components [el-table] render failed when custom table column (#6398 by @msidolphin)
+- Components [el-table] scrollbar cannot display when resize table (#6369 by @msidolphin)
+- Components [dropdown] add disabled support (#6375 by @freedomlang)
+
+#### Refactors
+
+- Components [autocomplete] refactor autocomplete (#6067 by @buqiyuan)
+- Components [collapse] refactor (#6307 by @buqiyuan)
+- Components [slot] refactor (#6302 by @sxzz)
+- Components [check-tag] switch to script-setup syntax (#6296 by @sxzz)
+- Components [page-header] switch to script-setup syntax (#6321 by @freedomlang)
+- Components [col] refactor (#6303 by @sxzz)
+- Components [teleport] refactor (#6301 by @sxzz)
+- Components [affix] use vueuse utils (#6295 by @sxzz)
+- Components [dialog] refactor (#6300 by @sxzz)
+- Components refactor upload (#6014 by @emojiiii)
+
 ### 2.0.4
 
 _2022-02-28_

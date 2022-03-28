@@ -18,7 +18,7 @@
       :transition="`${nsSelect.namespace.value}-zoom-in-top`"
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
-      persistent
+      :persistent="persistent"
       @show="handleMenuEnter"
     >
       <template #default>
@@ -31,10 +31,10 @@
           >
             <span
               v-if="collapseTags && selected.length"
-              :style="{
-                marginLeft:
-                  prefixWidth && selected.length ? `${prefixWidth}px` : '',
-              }"
+              :class="[
+                nsSelect.b('tags-wrapper'),
+                { 'has-prefix': prefixWidth && selected.length },
+              ]"
             >
               <el-tag
                 :closable="!selectDisabled && !selected[0].isDisabled"
@@ -57,7 +57,50 @@
                 :type="tagType"
                 disable-transitions
               >
-                <span :class="nsSelect.e('tags-text')"
+                <el-tooltip
+                  v-if="collapseTagsTooltip"
+                  :disabled="dropMenuVisible"
+                  :fallback-placements="['bottom', 'top', 'right', 'left']"
+                  :effect="effect"
+                  placement="bottom"
+                  :teleported="false"
+                >
+                  <template #default>
+                    <span :class="nsSelect.e('tags-text')"
+                      >+ {{ selected.length - 1 }}</span
+                    >
+                  </template>
+                  <template #content>
+                    <div :class="nsSelect.e('collapse-tags')">
+                      <div
+                        v-for="(item, idx) in selected"
+                        :key="idx"
+                        :class="nsSelect.e('collapse-tag')"
+                      >
+                        <el-tag
+                          :key="getValueKey(item)"
+                          class="in-tooltip"
+                          :closable="!selectDisabled && !item.isDisabled"
+                          :size="collapseTagSize"
+                          :hit="item.hitState"
+                          :type="tagType"
+                          disable-transitions
+                          :style="{ margin: '2px' }"
+                          @close="deleteTag($event, item)"
+                        >
+                          <span
+                            :class="nsSelect.e('tags-text')"
+                            :style="{
+                              maxWidth: inputWidth - 75 + 'px',
+                            }"
+                            >{{ item.currentLabel }}</span
+                          >
+                        </el-tag>
+                      </div>
+                    </div>
+                  </template>
+                </el-tooltip>
+                <span v-else :class="nsSelect.e('tags-text')"
                   >+ {{ selected.length - 1 }}</span
                 >
               </el-tag>
@@ -65,10 +108,10 @@
             <!-- <div> -->
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span
-                :style="{
-                  marginLeft:
-                    prefixWidth && selected.length ? `${prefixWidth}px` : '',
-                }"
+                :class="[
+                  nsSelect.b('tags-wrapper'),
+                  { 'has-prefix': prefixWidth && selected.length },
+                ]"
               >
                 <el-tag
                   v-for="item in selected"
@@ -160,7 +203,7 @@
                   align-items: center;
                 "
               >
-                <slot name="prefix"></slot>
+                <slot name="prefix" />
               </div>
             </template>
             <template #suffix>
@@ -198,7 +241,7 @@
             ]"
           >
             <el-option v-if="showNewOption" :value="query" :created="true" />
-            <slot></slot>
+            <slot />
           </el-scrollbar>
           <template
             v-if="
@@ -206,7 +249,7 @@
               (!allowCreate || loading || (allowCreate && options.size === 0))
             "
           >
-            <slot v-if="$slots.empty" name="empty"></slot>
+            <slot v-if="$slots.empty" name="empty" />
             <p v-else :class="nsSelect.be('dropdown', 'empty')">
               {{ emptyText }}
             </p>
@@ -219,14 +262,14 @@
 
 <script lang="ts">
 import {
-  toRefs,
-  defineComponent,
-  onMounted,
-  onBeforeUnmount,
-  nextTick,
-  reactive,
-  provide,
   computed,
+  defineComponent,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  reactive,
+  toRefs,
   unref,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
@@ -239,19 +282,19 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   addResizeListener,
-  removeResizeListener,
   isValidComponentSize,
+  removeResizeListener,
 } from '@element-plus/utils'
-import { CircleClose, ArrowUp } from '@element-plus/icons-vue'
+import { ArrowUp, CircleClose } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
 
-import type { PropType, Component } from 'vue'
+import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { SelectContext } from './token'
 
@@ -322,11 +365,19 @@ export default defineComponent({
       default: 'value',
     },
     collapseTags: Boolean,
+    collapseTagsTooltip: {
+      type: Boolean,
+      default: false,
+    },
     popperAppendToBody: {
       type: Boolean,
       default: undefined,
     },
     teleported: useTooltipContentProps.teleported,
+    persistent: {
+      type: Boolean,
+      default: true,
+    },
     clearIcon: {
       type: [String, Object] as PropType<string | Component>,
       default: CircleClose,
@@ -499,9 +550,9 @@ export default defineComponent({
         }
         if (ctx.slots.prefix) {
           const inputChildNodes = reference.value.$el.childNodes
-          const input = (Array.from(inputChildNodes) as HTMLElement[]).filter(
+          const input = (Array.from(inputChildNodes) as HTMLElement[]).find(
             (item) => item.tagName === 'INPUT'
-          )[0]
+          )
           const prefix = reference.value.$el.querySelector(
             `.${nsInput.e('prefix')}`
           )

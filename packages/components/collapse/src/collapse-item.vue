@@ -22,7 +22,7 @@
         role="button"
         :tabindex="disabled ? -1 : 0"
         @click="handleHeaderClick"
-        @keyup.space.enter.stop="handleEnterClick"
+        @keypress.space.enter.stop.prevent="handleEnterClick"
         @focus="handleFocus"
         @blur="focusing = false"
       >
@@ -42,7 +42,7 @@
         :aria-labelledby="ns.b(`head-${id}`)"
       >
         <div :class="ns.be('item', 'content')">
-          <slot></slot>
+          <slot />
         </div>
       </div>
     </el-collapse-transition>
@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, computed, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { generateId } from '@element-plus/utils'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElIcon from '@element-plus/components/icon'

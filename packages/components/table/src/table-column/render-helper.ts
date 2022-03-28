@@ -1,16 +1,24 @@
-import { getCurrentInstance, h, ref, computed, watchEffect, unref } from 'vue'
+import {
+  Comment,
+  computed,
+  getCurrentInstance,
+  h,
+  ref,
+  unref,
+  watchEffect,
+} from 'vue'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,
   defaultRenderCell,
-  treeCellPrefix,
   getDefaultClassName,
+  treeCellPrefix,
 } from '../config'
-import { parseWidth, parseMinWidth } from '../util'
+import { parseMinWidth, parseWidth } from '../util'
 
 import type { ComputedRef } from 'vue'
-import type { TableColumnCtx, TableColumn } from './defaults'
+import type { TableColumn, TableColumnCtx } from './defaults'
 
 function useRender<T>(
   props: TableColumnCtx<T>,
@@ -79,7 +87,7 @@ function useRender<T>(
   }
 
   const checkSubColumn = (children: TableColumn<T> | TableColumn<T>[]) => {
-    if (children instanceof Array) {
+    if (Array.isArray(children)) {
       children.forEach((child) => check(child))
     } else {
       check(children)
@@ -127,7 +135,10 @@ function useRender<T>(
       column.renderCell = (data) => {
         let children = null
         if (slots.default) {
-          children = slots.default(data)
+          const vnodes = slots.default(data)
+          children = vnodes.some((v) => v.type !== Comment)
+            ? vnodes
+            : originRenderCell(data)
         } else {
           children = originRenderCell(data)
         }
@@ -161,7 +172,7 @@ function useRender<T>(
     }, {})
   }
   const getColumnElIndex = (children, child) => {
-    return [].indexOf.call(children, child)
+    return Array.prototype.indexOf.call(children, child)
   }
 
   return {

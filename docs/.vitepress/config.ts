@@ -1,3 +1,4 @@
+import consola from 'consola'
 import { languages } from './utils/lang'
 import { head } from './config/head'
 import { sidebars } from './config/sidebars'
@@ -32,8 +33,7 @@ const buildTransformers = () => {
   return transformers
 }
 
-// eslint-disable-next-line no-console
-console.log(`DOC_ENV: ${process.env.DOC_ENV}`)
+consola.debug(`DOC_ENV: ${process.env.DOC_ENV}`)
 
 const locales = {}
 languages.forEach((lang) => {
@@ -46,6 +46,7 @@ languages.forEach((lang) => {
 export const config: UserConfig = {
   title: 'Element Plus',
   description: 'a Vue 3 based component library for designers and developers',
+  lastUpdated: true,
   head,
   themeConfig: {
     repo: 'element-plus/element-plus',

@@ -18,7 +18,7 @@
     @click="handleClick"
   >
     <template v-if="loading">
-      <slot v-if="$slots.loading" name="loading"></slot>
+      <slot v-if="$slots.loading" name="loading" />
       <el-icon v-else :class="ns.is('loading')">
         <component :is="loadingIcon" />
       </el-icon>
@@ -31,13 +31,13 @@
       v-if="$slots.default"
       :class="{ [ns.em('text', 'expand')]: shouldAddSpace }"
     >
-      <slot></slot>
+      <slot />
     </span>
   </button>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, Text, ref, useSlots } from 'vue'
+import { Text, computed, inject, ref, useSlots } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 import { ElIcon } from '@element-plus/components/icon'
 import {

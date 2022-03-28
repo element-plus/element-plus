@@ -11,7 +11,7 @@
         :class="ns.e('thumb')"
         :style="thumbStyle"
         @mousedown="clickThumbHandler"
-      ></div>
+      />
     </div>
   </transition>
 </template>
@@ -25,7 +25,7 @@ import {
   ref,
   toRef,
 } from 'vue'
-import { useEventListener, isClient } from '@vueuse/core'
+import { isClient, useEventListener } from '@vueuse/core'
 import { scrollbarContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'

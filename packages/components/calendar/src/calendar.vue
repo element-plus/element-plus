@@ -21,7 +21,7 @@
     <div v-if="validatedRange.length === 0" :class="ns.e('body')">
       <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
         <template v-if="$slots.dateCell" #dateCell="data">
-          <slot name="dateCell" v-bind="data"></slot>
+          <slot name="dateCell" v-bind="data" />
         </template>
       </date-table>
     </div>
@@ -36,7 +36,7 @@
         @pick="pickDay"
       >
         <template v-if="$slots.dateCell" #dateCell="data">
-          <slot name="dateCell" v-bind="data"></slot>
+          <slot name="dateCell" v-bind="data" />
         </template>
       </date-table>
     </div>
@@ -44,13 +44,13 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import dayjs from 'dayjs'
 import { ElButton, ElButtonGroup } from '@element-plus/components/button'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 import DateTable from './date-table.vue'
-import { calendarProps, calendarEmits } from './calendar'
+import { calendarEmits, calendarProps } from './calendar'
 
 import type { ComputedRef } from 'vue'
 import type { Dayjs } from 'dayjs'

@@ -2,10 +2,10 @@ import { onUnmounted } from 'vue'
 import { isClient } from '@vueuse/core'
 import {
   addClass,
-  hasClass,
-  getStyle,
-  removeClass,
   getScrollBarWidth,
+  getStyle,
+  hasClass,
+  removeClass,
 } from '@element-plus/utils'
 
 export const useLockScreen = () => {
@@ -31,7 +31,7 @@ export const useLockScreen = () => {
     withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
     if (withoutHiddenClass) {
       bodyPaddingRight = document.body.style.paddingRight
-      computedBodyPaddingRight = parseInt(
+      computedBodyPaddingRight = Number.parseInt(
         getStyle(document.body, 'paddingRight'),
         10
       )

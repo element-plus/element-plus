@@ -4,32 +4,53 @@
 @use 'function' as *;
 @use '../common/var' as *;
 
+// set css var value, because we need translate value to string
+// for example:
+// @include set-css-var-value(('color', 'primary'), red);
+// --el-color-primary: red;
+@mixin set-css-var-value($name, $value) {
+  #{joinVarName($name)}: #{$value};
+}
+
 @mixin set-css-color-type-light($type, $i) {
-  --el-color-#{$type}-light-#{$i}: #{map.get($colors, $type, 'light-#{$i}')};
+  #{getCssVarName('color', $type, 'light', $i)}: #{map.get(
+      $colors,
+      $type,
+      'light-#{$i}'
+    )};
 }
 
 @mixin set-css-color-type($type) {
-  --el-color-#{$type}: #{map.get($colors, $type, 'base')};
+  #{getCssVarName('color', $type)}: #{map.get($colors, $type, 'base')};
   @each $i in (3, 5, 7, 8, 9) {
     @include set-css-color-type-light($type, $i);
   }
-  --el-color-#{$type}-dark-2: #{map.get($colors, $type, 'dark-2')};
+  #{getCssVarName('color', $type, 'dark-2')}: #{map.get(
+      $colors,
+      $type,
+      'dark-2'
+    )};
 }
 
 @mixin set-css-var-type($name, $type, $variables) {
-  --el-#{$name}-#{$type}: #{map.get($variables, $type)};
+  #{getCssVarName($name, $type)}: #{map.get($variables, $type)};
 }
 
 // set all css var for component by map
 @mixin set-component-css-var($name, $variables) {
   @each $attribute, $value in $variables {
-    --el-#{$name}-#{$attribute}: #{$value};
+    #{getCssVarName($name, $attribute)}: #{$value};
   }
 }
 
 @mixin set-css-color-rgb($type) {
   $color: map.get($colors, $type, 'base');
-  --el-color-#{$type}-rgb: #{red($color)}, #{green($color)}, #{blue($color)};
+  @include set-css-var-value(
+    ('color', $type, 'rgb'),
+    #{red($color),
+    green($color),
+    blue($color)}
+  );
 }
 
 // generate css var from existing css var

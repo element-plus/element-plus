@@ -1,10 +1,10 @@
 import type {
-  h,
+  Component,
   ComponentInternalInstance,
   Ref,
   SetupContext,
   VNode,
-  Component,
+  h,
 } from 'vue'
 import type Node from './model/node'
 import type TreeStore from './model/tree-store'

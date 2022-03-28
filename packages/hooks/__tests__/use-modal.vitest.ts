@@ -1,5 +1,5 @@
-import { ref, nextTick } from 'vue'
-import { describe, it, expect, fn } from 'vitest'
+import { nextTick, ref } from 'vue'
+import { describe, expect, fn, it } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useModal } from '../use-modal'
 

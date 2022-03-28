@@ -1,16 +1,8 @@
 import ElementPlus from 'element-plus'
 
-// windicss layers
-import 'virtual:windi-base.css'
-import 'virtual:windi-components.css'
-
-import VPApp, { globals, NotFound } from '../vitepress'
+import VPApp, { NotFound, globals } from '../vitepress'
 import { define } from '../utils/types'
-
-// windicss utilities should be the last style import
-import 'virtual:windi-utilities.css'
-// windicss devtools support (dev only)
-import 'virtual:windi-devtools'
+import 'uno.css'
 
 import type { Theme } from 'vitepress'
 
