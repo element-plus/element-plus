@@ -1,4 +1,4 @@
-import { onMounted, ref, unref, watch } from 'vue'
+import { isRef, onMounted, ref, unref, watchEffect } from 'vue'
 import { isClient, unrefElement } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { arrow as arrowCore, computePosition } from '@floating-ui/dom'
@@ -32,7 +32,7 @@ const unrefReference = (
   if (!elRef) return elRef
   const unrefEl = unrefElement(elRef as ElementRef)
   if (unrefEl) return unrefEl
-  return elRef as VirtualElement
+  return isRef(elRef) ? unrefEl : (elRef as VirtualElement)
 }
 
 export const getPositionDataWithUnit = <T extends Record<string, number>>(
@@ -50,8 +50,8 @@ export const useFloating = ({
 }: UseFloatingProps) => {
   const referenceRef = ref<HTMLElement | VirtualElement>()
   const contentRef = ref<HTMLElement>()
-  const x = ref<string>()
-  const y = ref<string>()
+  const x = ref<number>()
+  const y = ref<number>()
   const middlewareData = ref<ComputePositionReturn['middlewareData']>({})
 
   const states = {
@@ -67,7 +67,6 @@ export const useFloating = ({
 
     const referenceEl = unrefReference(referenceRef)
     const contentEl = unrefElement(contentRef)
-
     if (!referenceEl || !contentEl) return
 
     const data = await computePosition(referenceEl, contentEl, {
@@ -76,20 +75,16 @@ export const useFloating = ({
       middleware: unref(middleware),
     })
 
-    ;['x', 'y'].forEach(
-      (key) => (data[key] = getPositionDataWithUnit(data as any, key))
-    )
-
     Object.keys(states).forEach((key) => {
       states[key].value = data[key]
     })
   }
 
-  watch(referenceRef, () => update())
-
-  watch(contentRef, () => update())
-
-  onMounted(() => update())
+  onMounted(() => {
+    watchEffect(() => {
+      update()
+    })
+  })
 
   return {
     ...states,
@@ -100,7 +95,7 @@ export const useFloating = ({
 }
 
 export type ArrowMiddlewareProps = {
-  arrowRef: Ref<HTMLElement | undefined>
+  arrowRef: Ref<HTMLElement | null>
   padding?: number | SideObject
 }
 
