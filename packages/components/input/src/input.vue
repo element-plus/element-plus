@@ -36,6 +36,7 @@
         :disabled="inputDisabled"
         :readonly="readonly"
         :autocomplete="autocomplete"
+        :formatter="formatter"
         :tabindex="tabindex"
         :aria-label="label"
         :placeholder="placeholder"
@@ -163,6 +164,7 @@ import {
 } from '@element-plus/utils'
 import {
   useAttrs,
+  useCursor,
   useDisabled,
   useFormItem,
   useNamespace,
@@ -220,9 +222,11 @@ const textareaStyle = computed<StyleValue>(() => [
   textareaCalcStyle.value,
   { resize: props.resize },
 ])
-const nativeInputValue = computed(() =>
-  isNil(props.modelValue) ? '' : String(props.modelValue)
-)
+// const nativeInputValue = computed(() =>
+//   isNil(props.modelValue) ? '' : String(props.modelValue)
+// )
+const nativeInputValue = ref<string>('')
+
 const showClear = computed(
   () =>
     props.clearable &&
@@ -264,6 +268,8 @@ const suffixVisible = computed(
     (!!validateState.value && needStatusIcon.value)
 )
 
+const [setCursor] = useCursor(input)
+
 const resizeTextarea = () => {
   const { type, autosize } = props
 
@@ -285,7 +291,15 @@ const resizeTextarea = () => {
 const setNativeInputValue = () => {
   const input = _ref.value
   if (!input || input.value === nativeInputValue.value) return
+  nativeInputValue.value = formatter()
   input.value = nativeInputValue.value
+}
+
+const formatter = () => {
+  const tmpValue = props.formatter
+    ? props.formatter(props.modelValue)
+    : props.modelValue
+  return isNil(tmpValue) ? '' : String(tmpValue)
 }
 
 const calcIconOffset = (place: 'prefix' | 'suffix') => {
@@ -314,6 +328,7 @@ const updateIconOffset = () => {
 }
 
 const handleInput = async (event: Event) => {
+  setCursor()
   const { value } = event.target as TargetElement
 
   // should not emit input during composition
@@ -414,6 +429,9 @@ watch(
     nextTick(() => resizeTextarea())
     if (props.validateEvent) {
       formItem?.validate?.('change').catch((err) => debugWarn(err))
+    }
+    if (props.formatter) {
+      setNativeInputValue()
     }
   }
 )

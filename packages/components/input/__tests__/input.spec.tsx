@@ -269,6 +269,23 @@ describe('Input.vue', () => {
     `)
   })
 
+  test('use formatter and parser', () => {
+    const val = ref('1000')
+    const formatter = (val: string) => {
+      return val.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
+    const parser = (val: string) => {
+      return val.replace(/\$\s?|(,*)/g, '')
+    }
+
+    const wrapper = mount(() => (
+      <Input v-model={val.value} formatter={formatter} parser={parser} />
+    ))
+
+    const vm = wrapper.vm
+    expect(vm.$el.querySelector('input').value).toEqual('1000')
+  })
+
   describe('Input Methods', () => {
     test('method:select', async () => {
       const testContent = ref('test')
