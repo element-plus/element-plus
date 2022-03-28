@@ -225,7 +225,6 @@
   @include m(border-card) {
     background: $color-white;
     border: 1px solid getCssVar('border-color');
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 
     > .#{$namespace}-tabs__content {
       padding: 15px;

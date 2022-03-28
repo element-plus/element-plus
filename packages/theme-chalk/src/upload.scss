@@ -372,7 +372,7 @@
       color: #fff;
       opacity: 0;
       font-size: 20px;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: getCssVar('overlay-color', 'lighter');
       transition: opacity var(--el-transition-duration);
 
       span {
@@ -518,7 +518,6 @@
     background: var(--el-color-success);
     text-align: center;
     transform: rotate(45deg);
-    box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.2);
 
     i {
       font-size: 12px;
@@ -553,7 +552,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(#000, 0.72);
+    background-color: getCssVar('overlay-color', 'light');
     text-align: center;
 
     .btn {
