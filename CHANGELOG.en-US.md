@@ -1,5 +1,15 @@
 ## Changelog
 
+### 2.1.7
+
+_2022-03-28_
+
+Revert "fix(components): [el-tabs] label slot not update (#6738 by @btea)" (#6871)
+
+#### Refactors
+
+- Theme-chalk overlay/mask/box-shadow css vars (#6848 by @YunYouJun)
+
 ### 2.1.6
 
 _2022-03-27_
