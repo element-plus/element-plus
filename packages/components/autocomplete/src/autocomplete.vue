@@ -192,17 +192,19 @@ const getData = (queryString: string) => {
 }
 const debouncedGetData = debounce(getData, props.debounce)
 const handleInput = (value: string) => {
+  const valuePresented = Boolean(value)
+
   emit('input', value)
   emit(UPDATE_MODEL_EVENT, value)
   suggestionDisabled.value = false
-  activated.value ||= isClear && Boolean(value)
+  activated.value ||= isClear && valuePresented
 
   if (!props.triggerOnFocus && !value) {
     suggestionDisabled.value = true
     suggestions.value = []
     return
   }
-  if (isClear && Boolean(value)) {
+  if (isClear && valuePresented) {
     isClear = false
   }
   debouncedGetData(value)
