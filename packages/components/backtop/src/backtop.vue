@@ -2,10 +2,7 @@
   <transition :name="`${ns.namespace.value}-fade-in`">
     <div
       v-if="visible"
-      :style="{
-        right: styleRight,
-        bottom: styleBottom,
-      }"
+      :style="backTopStyle"
       :class="ns.b()"
       @click.stop="handleClick"
     >
@@ -39,8 +36,11 @@ const ns = useNamespace('backtop')
 const el = shallowRef<HTMLElement>()
 const container = shallowRef<Document | HTMLElement>()
 const visible = ref(false)
-const styleBottom = computed(() => `${props.bottom}px`)
-const styleRight = computed(() => `${props.right}px`)
+
+const backTopStyle = computed(() => ({
+  right: `${props.right}px`,
+  bottom: `${props.bottom}px`,
+}))
 
 const scrollToTop = () => {
   if (!el.value) return
@@ -69,6 +69,9 @@ const handleClick = (event: MouseEvent) => {
 const handleScrollThrottled = useThrottleFn(handleScroll, 300)
 
 onMounted(() => {
+  container.value = document
+  el.value = document.documentElement
+
   if (props.target) {
     el.value = document.querySelector<HTMLElement>(props.target) ?? undefined
     if (!el.value) {

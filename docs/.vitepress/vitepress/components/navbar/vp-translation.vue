@@ -48,7 +48,7 @@ const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
   }
 
   @at-root .translation-popup.el-popper {
-    box-shadow: var(--el-box-shadow-base);
+    box-shadow: var(--el-box-shadow);
 
     .language {
       cursor: pointer;

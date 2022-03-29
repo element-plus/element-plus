@@ -128,6 +128,7 @@ const { compatTeleported } = useDeprecateAppendToBody(
   COMPONENT_NAME,
   'popperAppendToBody'
 )
+let isClear = false
 const attrs = useAttrs()
 const compAttrs = useCompAttrs()
 const suggestions = ref<any[]>([])
@@ -191,14 +192,20 @@ const getData = (queryString: string) => {
 }
 const debouncedGetData = debounce(getData, props.debounce)
 const handleInput = (value: string) => {
+  const valuePresented = Boolean(value)
+
   emit('input', value)
   emit(UPDATE_MODEL_EVENT, value)
   suggestionDisabled.value = false
-  activated.value = Boolean(value)
+  activated.value ||= isClear && valuePresented
+
   if (!props.triggerOnFocus && !value) {
     suggestionDisabled.value = true
     suggestions.value = []
     return
+  }
+  if (isClear && valuePresented) {
+    isClear = false
   }
   debouncedGetData(value)
 }
@@ -217,6 +224,7 @@ const handleBlur = (evt: FocusEvent) => {
 }
 const handleClear = () => {
   activated.value = false
+  isClear = true
   emit(UPDATE_MODEL_EVENT, '')
   emit('clear')
 }
