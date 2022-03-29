@@ -1,13 +1,20 @@
 import { nextTick, ref, h } from 'vue'
 import { mount } from '@vue/test-utils'
 import TreeSelect from '../src/tree-select.vue'
+import type { RenderFunction } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type ElTree from '@element-plus/components/tree'
 import type ElSelect from '@element-plus/components/select'
 
-const createComponent = ({ slots = {}, props = {} } = {}) => {
+const createComponent = ({
+  slots = {},
+  props = {},
+}: {
+  slots?: Record<string, any>
+  props?: typeof TreeSelect['props']
+} = {}) => {
   // vm can not get component expose, use ref
-  const wrapperRef = ref(null)
+  const wrapperRef = ref()
   const value = props.modelValue || ref('')
   const wrapper = mount({
     data() {
@@ -38,7 +45,10 @@ const createComponent = ({ slots = {}, props = {} } = {}) => {
     render() {
       return h(
         TreeSelect,
-        { ...this.$data, ref: (val) => (wrapperRef.value = val) },
+        {
+          ...this.$data,
+          ref: (val: object) => (wrapperRef.value = val),
+        },
         slots
       )
     },
@@ -83,7 +93,7 @@ describe('TreeSelect.vue', () => {
 
   test('modelValue', async () => {
     const value = ref(1)
-    const { wrapper, getWrapperRef, select, tree } = createComponent({
+    const { getWrapperRef, select, tree } = createComponent({
       props: {
         modelValue: value,
         checkStrictly: true,
@@ -122,7 +132,7 @@ describe('TreeSelect.vue', () => {
   })
 
   test('disabled', async () => {
-    const { wrapper, select, tree } = createComponent({
+    const { wrapper, tree } = createComponent({
       props: {
         data: [
           {
@@ -155,7 +165,7 @@ describe('TreeSelect.vue', () => {
 
   test('multiple', async () => {
     const value = ref([1])
-    const { wrapper, getWrapperRef, select, tree } = createComponent({
+    const { getWrapperRef, select, tree } = createComponent({
       props: {
         modelValue: value,
         checkStrictly: true,
@@ -195,7 +205,7 @@ describe('TreeSelect.vue', () => {
   })
 
   test('filter', async () => {
-    const { wrapper, select, tree } = createComponent({
+    const { select, tree } = createComponent({
       props: {
         filterable: true,
       },
@@ -237,9 +247,9 @@ describe('TreeSelect.vue', () => {
   })
 
   test('slots', async () => {
-    const { wrapper, select, tree } = createComponent({
+    const { select, tree } = createComponent({
       slots: {
-        default: ({ data }) => `123${data.label}`,
+        default: ({ data }: { data: { label: string } }) => `123${data.label}`,
         prefix: () => 'prefix',
       },
     })
@@ -250,9 +260,12 @@ describe('TreeSelect.vue', () => {
   })
 
   test('renderContent', async () => {
-    const { wrapper, tree } = createComponent({
+    const { tree } = createComponent({
       props: {
-        renderContent: (h, { data }) => {
+        renderContent: (
+          h: RenderFunction,
+          { data }: { data: { label: string } }
+        ) => {
           return `123${data.label}`
         },
       },
@@ -263,7 +276,7 @@ describe('TreeSelect.vue', () => {
   })
 
   test('lazy', async () => {
-    const { wrapper, select, tree } = createComponent({
+    const { tree } = createComponent({
       props: {
         data: [
           {
@@ -272,7 +285,7 @@ describe('TreeSelect.vue', () => {
           },
         ],
         lazy: true,
-        load: (node, resolve) => {
+        load: (node: object, resolve: (p: any) => any[]) => {
           resolve([{ value: 2, label: 2, isLeaf: true }])
         },
       },
@@ -286,7 +299,7 @@ describe('TreeSelect.vue', () => {
 
   test('events', async () => {
     const onNodeClick = jest.fn()
-    const { wrapper, tree } = createComponent({
+    const { tree } = createComponent({
       props: {
         onNodeClick,
       },

@@ -1,7 +1,7 @@
 <template>
   <el-tree-select v-model="value" :data="data">
-    <template #default="{ data }">
-      {{ data.label }}<span style="color: gray">（描述）</span></template
+    <template #default="{ data: { label } }">
+      {{ label }}<span style="color: gray">（描述）</span></template
     >
   </el-tree-select>
   <el-divider></el-divider>
