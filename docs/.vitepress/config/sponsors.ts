@@ -19,6 +19,16 @@ export const sponsors = [
     type: 'banner',
   },
   {
+    name: 'JSDesign',
+    name_cn: '即时设计',
+    img: '/images/js-design.png',
+    url: 'https://js.design?source=element-plus',
+    slogan: 'Professional online UI design tool',
+    slogan_cn: '专业在线UI设计工具',
+    banner_img: '/images/js-design-banner.jpg',
+    type: 'banner',
+  },
+  {
     name: 'bit',
     img: '/images/bit.svg',
     url: 'https://bit.dev/?from=element-ui',

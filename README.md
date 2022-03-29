@@ -72,6 +72,11 @@ You can also try Element Plus out with the components built-in playground
         </a>
       </td>
       <td align="center" valign="middle">
+        <a href="https://js.design?source=element-plus" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/160634485-df0d00af-8633-4ab8-9a72-aac2b65d1d36.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
         <a href="https://bit.dev/?from=element-ui" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
         </a>
