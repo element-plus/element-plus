@@ -11,7 +11,7 @@ export default {
       cancel: 'İmtina',
       clear: 'Təmizlə',
       confirm: 'Təsdiqlə',
-      selectDate: 'Taxir seç',
+      selectDate: 'Tarix seç',
       selectTime: 'Saat seç',
       startDate: 'Başlanğıc Tarixi',
       startTime: 'Başlanğıc Saatı',
@@ -34,7 +34,7 @@ export default {
       month10: 'Oktyabr',
       month11: 'Noyabr',
       month12: 'Dekabr',
-      // week: 'week',
+      week: 'həftə',
       weeks: {
         sun: 'Baz',
         mon: 'B.e',
@@ -102,7 +102,7 @@ export default {
     transfer: {
       noMatch: 'Nəticə tapılmadı',
       noData: 'Məlumat yoxdur',
-      titles: ['List 1', 'List 2'],
+      titles: ['Siyahı 1', 'Siyahı 2'],
       filterPlaceholder: 'Kəlimələri daxil et',
       noCheckedFormat: '{total} ədəd',
       hasCheckedFormat: '{checked}/{total} seçildi',
