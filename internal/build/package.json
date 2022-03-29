@@ -32,7 +32,7 @@
     "vue": "^3.2.31"
   },
   "devDependencies": {
-    "@pnpm/types": "^7.10.0",
+    "@pnpm/types": "^8.0.0",
     "unbuild": "^0.7.0"
   }
 }

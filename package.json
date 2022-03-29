@@ -88,7 +88,7 @@
     "@element-plus/eslint-config": "workspace:*",
     "@pnpm/find-workspace-packages": "^4.0.0",
     "@pnpm/logger": "^4.0.0",
-    "@pnpm/types": "^7.10.0",
+    "@pnpm/types": "^8.0.0",
     "@types/fs-extra": "^9.0.13",
     "@types/gulp": "^4.0.9",
     "@types/jest": "^26.0.24",
