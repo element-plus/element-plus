@@ -27,7 +27,7 @@ importers:
       '@floating-ui/dom': ^0.4.1
       '@pnpm/find-workspace-packages': ^4.0.0
       '@pnpm/logger': ^4.0.0
-      '@pnpm/types': ^7.10.0
+      '@pnpm/types': ^8.0.0
       '@popperjs/core': ^2.11.4
       '@types/fs-extra': ^9.0.13
       '@types/gulp': ^4.0.9
@@ -114,7 +114,7 @@ importers:
       '@element-plus/eslint-config': link:internal/eslint-config
       '@pnpm/find-workspace-packages': 4.0.0_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
-      '@pnpm/types': 7.10.0
+      '@pnpm/types': 8.0.0
       '@types/fs-extra': 9.0.13
       '@types/gulp': 4.0.9
       '@types/jest': 26.0.24
@@ -191,7 +191,7 @@ importers:
       '@vueuse/core': 8.1.2_vue@3.2.31
       axios: 0.26.1
       clipboard-copy: 4.0.1
-      element-plus: 2.1.4_1a412d14def5ff5ca1122000e4bee666
+      element-plus: 2.1.7_1a412d14def5ff5ca1122000e4bee666
       normalize.css: 8.0.1
       nprogress: 0.2.0
       prism-theme-vars: 0.2.2
@@ -214,7 +214,7 @@ importers:
   internal/build:
     specifiers:
       '@pnpm/find-workspace-packages': ^4.0.0
-      '@pnpm/types': ^7.10.0
+      '@pnpm/types': ^8.0.0
       '@rollup/plugin-commonjs': ^21.0.2
       '@rollup/plugin-node-resolve': ^13.1.3
       '@vitejs/plugin-vue': ^2.2.4
@@ -253,7 +253,7 @@ importers:
       unplugin-vue-define-options: 0.5.0_2da2046810cdba3e31b4fbd142c166fb
       vue: 3.2.31
     devDependencies:
-      '@pnpm/types': 7.10.0
+      '@pnpm/types': 8.0.0
       unbuild: 0.7.0
 
   internal/eslint-config:
@@ -2667,11 +2667,6 @@ packages:
       archy: 1.0.0
       chalk: 4.1.2
       cli-columns: 4.0.0
-
-  /@pnpm/types/7.10.0:
-    resolution: {integrity: sha512-7NKyfwepNccR6f9htiXAw0tt6rCajvtiX5HsTOi3odSFJ04iri43yjh70Ekw25hAynQwRR0rkJ7l6BBNFrJ/2g==}
-    engines: {node: '>=12.17'}
-    dev: true
 
   /@pnpm/types/8.0.0:
     resolution: {integrity: sha512-Ahxjk7CtuPt+0mnqpKFksru3bnZdAZtmv6Lz+OFqOSSiEC1XLxVmkkuyhcAV58r6fa9PiOSBFXHtYnnJLo25/g==}
@@ -5309,13 +5304,14 @@ packages:
   /electron-to-chromium/1.4.71:
     resolution: {integrity: sha512-Hk61vXXKRb2cd3znPE9F+2pLWdIOmP7GjiTj45y6L3W/lO+hSnUSUhq+6lEaERWBdZOHbk2s3YV5c9xVl3boVw==}
 
-  /element-plus/2.1.4_1a412d14def5ff5ca1122000e4bee666:
-    resolution: {integrity: sha512-pcwgDbKUrzyWbixYB/zIbLPLBQ/NPGPJnGXJ+jYozUSthPW4SuriaUGJKgbAE6PDBAtw3IodiT2E2GbiaZLxww==}
+  /element-plus/2.1.7_1a412d14def5ff5ca1122000e4bee666:
+    resolution: {integrity: sha512-jamE9F/a2rfAQJwf3kLaDfWXxhjXuAJAvrto76SLJsJfr3iIUAzC849RHdn6h7tNJy9Yanq8GlQAsdBe5lJmrA==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
       '@ctrl/tinycolor': 3.4.0
       '@element-plus/icons-vue': 1.1.4_vue@3.2.31
+      '@floating-ui/dom': 0.4.1
       '@popperjs/core': 2.11.4
       '@vueuse/core': 8.1.2_vue@3.2.31
       async-validator: 4.0.7
