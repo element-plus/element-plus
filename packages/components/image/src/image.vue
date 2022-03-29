@@ -58,14 +58,14 @@ import { imageEmits, imageProps } from './image'
 
 import type { CSSProperties, StyleValue } from 'vue'
 
-let prevOverflow = ''
-
 defineOptions({
   name: 'ElImage',
 })
 
 const props = defineProps(imageProps)
 const emit = defineEmits(imageEmits)
+
+let prevOverflow = ''
 
 useDeprecated(
   {
