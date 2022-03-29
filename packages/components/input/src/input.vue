@@ -82,7 +82,7 @@
             :class="[nsInput.e('icon'), nsInput.e('clear')]"
             @click="handlePasswordVisible"
           >
-            <icon-view />
+            <component :is="passwordIcon" />
           </el-icon>
           <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
             <span :class="nsInput.e('count-inner')">
@@ -154,7 +154,11 @@ import {
 import { isClient } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
-import { CircleClose, View as IconView } from '@element-plus/icons-vue'
+import {
+  CircleClose,
+  Hide as IconHide,
+  View as IconView,
+} from '@element-plus/icons-vue'
 import {
   ValidateComponentsMap,
   debugWarn,
@@ -211,6 +215,9 @@ const _ref = computed(() => input.value || textarea.value)
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
 const validateState = computed(() => formItem?.validateState || '')
 const validateIcon = computed(() => ValidateComponentsMap[validateState.value])
+const passwordIcon = computed(() =>
+  passwordVisible.value ? IconView : IconHide
+)
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
   props.inputStyle,
