@@ -80,7 +80,7 @@
   /* Transition
 -------------------------- */
   // refer to this website to get the bezier motion function detail
-  //  https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
+  // https://cubic-bezier.com/#p1,p2,p3,p4 (change px as your function parameter)
   @include set-component-css-var('transition-duration', $transition-duration);
 
   @include set-component-css-var('transition-function', $transition-function);
