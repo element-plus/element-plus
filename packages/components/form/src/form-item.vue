@@ -33,30 +33,30 @@
 import {
   computed,
   inject,
+  nextTick,
   onBeforeUnmount,
   onMounted,
   provide,
   reactive,
   ref,
   toRefs,
-  watch,
-  nextTick,
   useSlots,
+  watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import { clone } from 'lodash-unified'
+import { clone, isEqual } from 'lodash-unified'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
   ensureArray,
   getProp,
-  isString,
   isBoolean,
   isFunction,
+  isString,
   throwError,
 } from '@element-plus/utils'
-import { formItemContextKey, formContextKey } from '@element-plus/tokens'
-import { useSize, useNamespace } from '@element-plus/hooks'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import { useNamespace, useSize } from '@element-plus/hooks'
 import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
 
@@ -89,7 +89,9 @@ const validateState = ref<FormItemValidateState>('')
 const validateStateDebounced = refDebounced(validateState, 100)
 const validateMessage = ref('')
 const formItemRef = ref<HTMLDivElement>()
+// special inline value.
 let initialValue: any = undefined
+let isResettingField = false
 
 const labelStyle = computed<CSSProperties>(() => {
   if (formContext.labelPosition === 'top') {
@@ -251,6 +253,12 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
 }
 
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
+  // skip validation if its resetting
+  if (isResettingField) {
+    isResettingField = false
+    return false
+  }
+
   const hasCallback = isFunction(callback)
   if (!validateEnabled.value) {
     callback?.(false)
@@ -282,12 +290,21 @@ const clearValidate: FormItemContext['clearValidate'] = () => {
   validateMessage.value = ''
 }
 
-const resetField: FormItemContext['resetField'] = () => {
+const resetField: FormItemContext['resetField'] = async () => {
   const model = formContext.model
   if (!model || !props.prop) return
 
-  getProp(model, props.prop).value = initialValue
-  nextTick(() => clearValidate())
+  const computedValue = getProp(model, props.prop)
+
+  if (!isEqual(computedValue.value, initialValue)) {
+    // prevent validation from being triggered
+    isResettingField = true
+  }
+
+  computedValue.value = initialValue
+
+  await nextTick()
+  clearValidate()
 }
 
 watch(

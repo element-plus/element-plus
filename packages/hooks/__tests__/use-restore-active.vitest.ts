@@ -1,5 +1,5 @@
-import { ref, nextTick } from 'vue'
-import { describe, it, expect } from 'vitest'
+import { nextTick, ref } from 'vue'
+import { describe, expect, it } from 'vitest'
 import { useRestoreActive } from '../use-restore-active'
 
 describe('useRestoreActive', () => {

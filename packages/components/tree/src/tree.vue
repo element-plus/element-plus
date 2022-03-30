@@ -35,12 +35,12 @@
 </template>
 <script lang="ts">
 import {
-  defineComponent,
-  ref,
-  provide,
   computed,
-  watch,
+  defineComponent,
   getCurrentInstance,
+  provide,
+  ref,
+  watch,
 } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import TreeStore from './model/tree-store'
@@ -51,13 +51,13 @@ import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
 import type Node from './model/node'
 
-import type { ComponentInternalInstance, PropType, Component } from 'vue'
+import type { Component, ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type {
   TreeComponentProps,
-  TreeNodeData,
-  TreeKey,
   TreeData,
+  TreeKey,
+  TreeNodeData,
 } from './tree.type'
 
 export default defineComponent({

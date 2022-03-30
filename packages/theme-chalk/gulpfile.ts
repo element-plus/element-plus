@@ -1,6 +1,6 @@
 import path from 'path'
 import chalk from 'chalk'
-import { src, dest, series, parallel } from 'gulp'
+import { dest, parallel, series, src } from 'gulp'
 import gulpSass from 'gulp-sass'
 import dartSass from 'sass'
 import autoprefixer from 'gulp-autoprefixer'

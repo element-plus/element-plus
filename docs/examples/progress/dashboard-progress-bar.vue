@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Minus, Plus } from '@element-plus/icons-vue'
 
 const percentage = ref(10)

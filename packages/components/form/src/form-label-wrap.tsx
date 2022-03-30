@@ -1,7 +1,7 @@
 import {
+  Fragment,
   computed,
   defineComponent,
-  Fragment,
   inject,
   nextTick,
   onBeforeUnmount,
@@ -12,7 +12,7 @@ import {
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { throwError } from '@element-plus/utils'
-import { formItemContextKey, formContextKey } from '@element-plus/tokens'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'

@@ -3,8 +3,8 @@ import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import installStyle from '@element-plus/test-utils/style-plugin'
 import {
-  ElCheckboxGroup as CheckboxGroup,
   ElCheckbox as Checkbox,
+  ElCheckboxGroup as CheckboxGroup,
 } from '@element-plus/components/checkbox'
 import Input from '@element-plus/components/input'
 import Form from '../src/form.vue'
@@ -28,7 +28,7 @@ describe('Form', () => {
     installStyle()
   })
 
-  test('label width', async () => {
+  it('label width', async () => {
     const wrapper = mount({
       setup() {
         const form = reactive({
@@ -46,7 +46,7 @@ describe('Form', () => {
     expect(findStyle(wrapper, '.el-form-item__label').width).toBe('80px')
   })
 
-  test('auto label width', async () => {
+  it('auto label width', async () => {
     const labelPosition = ref('right')
     const wrapper = mount({
       setup() {
@@ -100,7 +100,7 @@ describe('Form', () => {
     expect(marginRight).toEqual(marginRight1)
   })
 
-  test('form-item auto label width', async () => {
+  it('form-item auto label width', async () => {
     const wrapper = mount({
       setup() {
         const form = reactive({
@@ -155,7 +155,7 @@ describe('Form', () => {
     expect(labelWidth2).toEqual('auto')
   })
 
-  test('inline form', () => {
+  it('inline form', () => {
     const wrapper = mount({
       setup() {
         const form = reactive({
@@ -177,7 +177,7 @@ describe('Form', () => {
     expect(wrapper.classes()).toContain('el-form--inline')
   })
 
-  test('label position', () => {
+  it('label position', () => {
     const wrapper = mount({
       setup() {
         const form = reactive({
@@ -214,7 +214,7 @@ describe('Form', () => {
     )
   })
 
-  test('label size', () => {
+  it('label size', () => {
     const wrapper = mount({
       setup() {
         const form = reactive({
@@ -238,7 +238,7 @@ describe('Form', () => {
     )
   })
 
-  test('show message', (done) => {
+  it('show message', (done) => {
     const wrapper = mount({
       setup() {
         const form = reactive({
@@ -277,7 +277,8 @@ describe('Form', () => {
       })
   })
 
-  test('reset field', async () => {
+  it('reset field', async () => {
+    jest.useFakeTimers()
     const form = reactive({
       name: '',
       address: '',
@@ -333,13 +334,23 @@ describe('Form', () => {
 
     const formRef = wrapper.findComponent({ ref: 'form' }).vm as FormInstance
     formRef.resetFields()
+    // first await waits for the validation to be dispatched.
+    await rAF()
+    await nextTick()
+    // after validation dispatched, it will update `validateStateDebounced` with a 100ms delay.
+    // That's why we put this `jest.runAllTimers` here.
+    jest.runAllTimers()
+    // after timer fired, we should wait for the UI to be updated.
+    await rAF()
     await nextTick()
     expect(form.name).toBe('')
     expect(form.address).toBe('')
     expect(form.type.length).toBe(0)
+    expect(wrapper.findAll('.el-form-item__error')).toHaveLength(0)
+    jest.useRealTimers()
   })
 
-  test('clear validate', async () => {
+  it('clear validate', async () => {
     const wrapper = mount({
       setup() {
         const form = reactive({
@@ -408,7 +419,7 @@ describe('Form', () => {
     expect(addressField.validateMessage).toBe('')
   })
 
-  test('scroll to field', () => {
+  it('scroll to field', () => {
     const wrapper = mount({
       setup() {
         return () => (
@@ -439,7 +450,7 @@ describe('Form', () => {
     window.HTMLElement.prototype.scrollIntoView = oldScrollIntoView
   })
 
-  test('validate return parameters', async () => {
+  it('validate return parameters', async () => {
     const form = reactive({
       name: 'test',
       age: '',
@@ -501,7 +512,7 @@ describe('Form', () => {
     expect(res.fields).toBe(undefined)
   })
 
-  test('validate status', async () => {
+  it('validate status', async () => {
     const form = reactive({
       age: '20',
     })

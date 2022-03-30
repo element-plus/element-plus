@@ -56,8 +56,8 @@ import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
 import ElNodeContent from './tree-node-content'
 import {
-  ROOT_TREE_INJECTION_KEY,
   NODE_CONTEXTMENU,
+  ROOT_TREE_INJECTION_KEY,
   treeNodeEmits,
   treeNodeProps,
 } from './virtual-tree'

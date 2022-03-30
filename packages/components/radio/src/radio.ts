@@ -1,5 +1,5 @@
-import { ref, computed, inject } from 'vue'
-import { buildProps, isBoolean, isString, isNumber } from '@element-plus/utils'
+import { computed, inject, ref } from 'vue'
+import { buildProps, isBoolean, isNumber, isString } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { radioGroupKey } from '@element-plus/tokens'
 import { useDisabled, useSize, useSizeProp } from '@element-plus/hooks'

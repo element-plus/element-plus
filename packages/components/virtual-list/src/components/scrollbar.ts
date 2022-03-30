@@ -1,20 +1,20 @@
 import {
   computed,
   defineComponent,
-  ref,
-  reactive,
-  onMounted,
-  onBeforeUnmount,
-  watch,
   h,
-  withModifiers,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
   unref,
+  watch,
+  withModifiers,
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import { BAR_MAP } from '@element-plus/components/scrollbar'
-import { on, off, rAF, cAF } from '@element-plus/utils'
+import { cAF, off, on, rAF } from '@element-plus/utils'
 
-import { SCROLLBAR_MIN_SIZE, HORIZONTAL, ScrollbarDirKey } from '../defaults'
+import { HORIZONTAL, SCROLLBAR_MIN_SIZE, ScrollbarDirKey } from '../defaults'
 import { virtualizedScrollbarProps } from '../props'
 import { renderThumbStyle } from '../utils'
 

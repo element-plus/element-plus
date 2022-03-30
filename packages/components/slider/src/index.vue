@@ -94,16 +94,16 @@ import {
 } from 'vue'
 import ElInputNumber from '@element-plus/components/input-number'
 import {
-  UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
+  debugWarn,
+  isValidComponentSize,
   off,
   on,
   throwError,
-  isValidComponentSize,
-  debugWarn,
 } from '@element-plus/utils'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import SliderButton from './button.vue'

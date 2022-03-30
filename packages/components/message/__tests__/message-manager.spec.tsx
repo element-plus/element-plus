@@ -1,4 +1,4 @@
-import { nextTick, h, ref } from 'vue'
+import { h, nextTick, ref } from 'vue'
 import { getStyle } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElMessage } from '..'

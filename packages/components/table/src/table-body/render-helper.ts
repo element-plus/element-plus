@@ -1,10 +1,10 @@
-import { h, computed, inject } from 'vue'
+import { computed, h, inject } from 'vue'
 import { getRowIdentity } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvents from './events-helper'
 import useStyles from './styles-helper'
 import type { TableBodyProps } from './defaults'
-import type { RenderRowData, TreeNode, TableProps } from '../table/defaults'
+import type { RenderRowData, TableProps, TreeNode } from '../table/defaults'
 
 function useRender<T>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY)

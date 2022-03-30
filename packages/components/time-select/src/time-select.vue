@@ -31,14 +31,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 
-import type { PropType, Component } from 'vue'
+import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 dayjs.extend(customParseFormat)
 

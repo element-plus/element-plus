@@ -4,7 +4,7 @@
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { Component, VNode } from 'vue'

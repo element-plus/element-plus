@@ -1,7 +1,7 @@
-import { nextTick, markRaw } from 'vue'
+import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons-vue'
+import { ArrowUp, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import Select from '../src/select.vue'
@@ -1826,5 +1826,19 @@ describe('Select', () => {
     )
     const select = wrapper.findComponent({ name: 'ElSelect' }).vm
     expect(select.selected[0].currentLabel).toBe(options[0].label)
+  })
+
+  test('should reset selectedLabel when toggle multiple', async () => {
+    wrapper = getSelectVm({ multiple: false })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = wrapper.vm as any
+    const selectVm = select.vm as any
+    vm.value = '选项1'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('黄金糕')
+    vm.multiple = true
+    vm.value = []
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('')
   })
 })

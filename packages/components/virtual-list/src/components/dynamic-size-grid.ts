@@ -12,7 +12,7 @@ import {
 } from '../defaults'
 import type { VirtualizedGridProps } from '../props'
 
-import type { Alignment, GridCache, ListItem, ItemSize } from '../types'
+import type { Alignment, GridCache, ItemSize, ListItem } from '../types'
 
 const { max, min, floor } = Math
 const SCOPE = 'ElDynamicSizeGrid'

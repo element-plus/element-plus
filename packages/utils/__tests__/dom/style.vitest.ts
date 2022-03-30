@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { hasClass, addClass, removeClass } from '../..'
+import { describe, expect, it } from 'vitest'
+import { addClass, hasClass, removeClass } from '../..'
 
 const getClass = (el: Element) => {
   if (!el) return ''

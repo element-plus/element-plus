@@ -108,7 +108,7 @@ $dropdown-divider-width: 1px !default;
       top: $gap;
       bottom: $gap;
       left: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: getCssVar('overlay-color', 'lighter');
     }
 
     &.#{$namespace}-button::before {

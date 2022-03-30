@@ -1,5 +1,80 @@
 ## Changelog
 
+### 2.1.7
+
+_2022-03-28_
+
+Revert "fix(components): [el-tabs] label slot not update (#6738 by @btea)" (#6871)
+
+#### Refactors
+
+- Theme-chalk overlay/mask/box-shadow css vars (#6848 by @YunYouJun)
+
+### 2.1.6
+
+_2022-03-27_
+
+#### Bug fixes
+
+- Time-picker spinner error style (#6850 by @iamkun)
+
+### 2.1.5
+
+_2022-03-25_
+
+#### Features
+
+- Ci enable ssr testing in CI (#6710 by @JeremyWuuuuu)
+- Components [cascader] add tag-type attribute (#6726 by @btea)
+- Components [autocomplete] fetchSuggestions supports Promise (#6695 by @CarterLi)
+- Export constants (#6763 by @sxzz)
+- Components [dropdown] add buttonProps (#6183 by @gjfei) (#6185)
+- Components [el-config-provider] experimental feature toggle (#6794 by @JeremyWuuuuu)
+- Components [el-config-provider] add config items (#6797 by @JeremyWuuuuu)
+- Project adapt floating ui (#6812 by @JeremyWuuuuu)
+- Hooks [floating] add use-floating (#6822 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [menu-item] add fallback-placement (#6684 by @freedomlang)
+- Docs update tabs click prop type (#6709 by @MrpandaLiu)
+- Fix "Invalid date" display error in docs site (#6714 by @jasonren0403)
+- Components [el-input] keydown event validator warming (#6691 by @HeftyKoo)
+- Style [el-checkbox-group] vertical align in form-item (#6688 by @HeftyKoo)
+- Components [dropdown] ignore show/hide timeouts for click trigger (#6720 by @purepear)
+- Components [el-tabs] label slot not update (#6738 by @HeftyKoo)
+- Components [time-picker] cancel button not work correctly (#6735 by @HeftyKoo)
+- Components [input] textarea border does not display on ios (#6768 by @HeftyKoo)
+- Components [message-box] textarea can not use multiline text (#6774 by @HeftyKoo)
+- Global config when undefined (#6777 by @sxzz)
+- Components [form] add debounce for validate state (#6779 by @sxzz)
+- Doc domain check (#6793 by @0song)
+- Components [el-select] reset selectedLabel when toggle multiple (#6769 by @muuyao)
+- Components [el-table] cannot scroll when tableLayout is auto (#6790 by @msidolphin)
+- Components [el-table] filter failed when tableLayout is auto (#6798 by @msidolphin)
+- Components [form] clear validate after resetFields (#6758 by @sxzz)
+- Components [cascader] loading icon position (#6802 by @btea)
+- Components [el-form] clear validate after reset fields
+- Import dayjs
+- Components [autocomplete] fix can not fetch suggestions when after clear (#6820 by @buqiyuan)
+- Cascader Unexpected display 'No Data' (#6815 by @chenxch)
+- Components [tree-v2] fix setCheckedKeys([]) can't clear halfCheckedKeys (#6819 by @buqiyuan)
+- Components [table-column] does not render defualt slot when children are comment nodes (#6745 by @buqiyuan)
+
+#### Refactors
+
+- Components [carousel] refactor (#6681 by @buqiyuan)
+- Css vars for reset.scss & reset for docs & fix cards (#6698 by @YunYouJun)
+- Build improve build plugin (#6721 by @sxzz)
+- Theme-chalk use css var instead of component hex colors (#6727 by @YunYouJun)
+- Docs switch to unocss (#6728 by @sxzz)
+- Components [empty] refactor (#6703 by @buqiyuan)
+- Theme-chalk use getCssVar instead of var(--el) & fix details
+- Components [upload] improve code and typings (#6762 by @sxzz)
+- Components [time-picker] use useNamespace (#6523 by @gjfei)
+- Theme-chalk remove default size class & simplify button css (#6782 by @YunYouJun)
+- Components [el-popper] refactor popper to script setups (#6725 by @JeremyWuuuuu)
+
 ### 2.1.4
 
 _2022-03-16_

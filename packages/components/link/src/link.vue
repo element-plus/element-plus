@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
-import { linkProps, linkEmits } from './link'
+import { linkEmits, linkProps } from './link'
 
 defineOptions({
   name: 'ElLink',

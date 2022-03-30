@@ -34,10 +34,10 @@ import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
 
 import type {
-  UploadRequestOptions,
-  UploadRawFile,
   UploadFile,
   UploadHooks,
+  UploadRawFile,
+  UploadRequestOptions,
 } from './upload'
 
 defineOptions({

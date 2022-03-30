@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useData, inBrowser } from 'vitepress'
+import { inBrowser, useData } from 'vitepress'
 
 import { useFeatureFlag } from '../composables/feature-flag'
 import VPNavbarSearch from './navbar/vp-search.vue'

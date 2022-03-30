@@ -16,9 +16,9 @@
 <script setup lang="ts">
 import {
   ArrowLeft,
+  ArrowRight,
+  Delete,
   Edit,
   Share,
-  Delete,
-  ArrowRight,
 } from '@element-plus/icons-vue'
 </script>

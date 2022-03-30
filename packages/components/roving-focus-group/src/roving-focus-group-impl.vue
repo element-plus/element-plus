@@ -6,20 +6,20 @@
 import {
   computed,
   defineComponent,
-  provide,
+  inject,
   onBeforeUnmount,
   onMounted,
-  ref,
-  unref,
-  inject,
-  watch,
+  provide,
   readonly,
+  ref,
   toRef,
+  unref,
+  watch,
 } from 'vue'
-import { composeEventHandlers, on, off } from '@element-plus/utils'
+import { composeEventHandlers, off, on } from '@element-plus/utils'
 import {
-  rovingFocusGroupProps,
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,
+  rovingFocusGroupProps,
 } from './roving-focus-group'
 import { ROVING_FOCUS_GROUP_INJECTION_KEY } from './tokens'
 import { focusFirst } from './utils'

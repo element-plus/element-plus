@@ -9,14 +9,14 @@ import { computed, provide, reactive, toRefs, watch } from 'vue'
 import { debugWarn, isFunction } from '@element-plus/utils'
 import { formContextKey } from '@element-plus/tokens'
 import { useNamespace, useSize } from '@element-plus/hooks'
-import { formProps, formEmits } from './form'
-import { useFormLabelWidth, filterFields } from './utils'
+import { formEmits, formProps } from './form'
+import { filterFields, useFormLabelWidth } from './utils'
 
 import type { ValidateFieldsError } from 'async-validator'
 import type { Arrayable } from '@element-plus/utils'
 import type {
-  FormItemContext,
   FormContext,
+  FormItemContext,
   FormValidateCallback,
   FormValidationResult,
 } from '@element-plus/tokens'
@@ -37,7 +37,9 @@ const formClasses = computed(() => {
   const { labelPosition, inline } = props
   return [
     ns.b(),
-    ns.m(formSize.value),
+    // todo: in v2.2.0, we can remove default
+    // in fact, remove it doesn't affect the final style
+    ns.m(formSize.value || 'default'),
     {
       [ns.m(`label-${labelPosition}`)]: labelPosition,
       [ns.m('inline')]: inline,

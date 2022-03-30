@@ -1,18 +1,18 @@
 import { defineComponent, provide } from 'vue'
 import { NOOP } from '@vue/shared'
 import { mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { ElButton } from '@element-plus/components'
 import {
+  buttonGroupContextKey,
   formContextKey,
   formItemContextKey,
-  buttonGroupContextKey,
 } from '@element-plus/tokens'
 
 import type {
+  ButtonGroupContext,
   FormContext,
   FormItemContext,
-  ButtonGroupContext,
 } from '@element-plus/tokens'
 
 const AXIOM = 'Rem is the best girl'
@@ -31,7 +31,7 @@ const mountComponent = (setup = NOOP, options = {}) =>
 describe('use-form-item', () => {
   it('should return local value', () => {
     const wrapper = mountComponent()
-    expect(wrapper.find('.el-button--default').exists()).toBe(true)
+    expect(wrapper.find('.el-button').exists()).toBe(true)
   })
 
   it('should return props.size instead of injected.size', () => {

@@ -1,26 +1,26 @@
 import {
   computed,
-  watch,
-  ref,
-  reactive,
   nextTick,
-  onMounted,
   onBeforeMount,
+  onMounted,
+  reactive,
+  ref,
+  watch,
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import { isEqual, debounce as lodashDebounce, get } from 'lodash-unified'
+import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import {
   useFormItem,
   useLocale,
-  useSize,
   useNamespace,
+  useSize,
 } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   ValidateComponentsMap,
   addResizeListener,
-  removeResizeListener,
   debugWarn,
+  removeResizeListener,
 } from '@element-plus/utils'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 
@@ -32,8 +32,8 @@ import { flattenOptions } from './util'
 import { useInput } from './useInput'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { SelectProps } from './defaults'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { OptionType, Option } from './select.types'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
+import type { Option, OptionType } from './select.types'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11

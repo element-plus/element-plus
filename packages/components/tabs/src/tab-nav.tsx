@@ -1,21 +1,21 @@
 import {
-  h,
-  defineComponent,
-  ref,
-  inject,
   computed,
-  onUpdated,
+  defineComponent,
+  inject,
   onMounted,
+  onUpdated,
+  ref,
   watch,
 } from 'vue'
-import { NOOP, capitalize } from '@vue/shared'
+import { NOOP } from '@vue/shared'
 import {
-  useResizeObserver,
   useDocumentVisibility,
+  useResizeObserver,
   useWindowFocus,
 } from '@vueuse/core'
 import {
   buildProps,
+  capitalize,
   definePropType,
   mutable,
   throwError,
@@ -24,10 +24,13 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-plus/tokens'
+import { useNamespace } from '@element-plus/hooks'
 import TabBar from './tab-bar.vue'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { TabsPaneContext } from '@element-plus/tokens'
-export interface Scrollable {
+import type { TabPanelName } from './tabs'
+
+interface Scrollable {
   next?: boolean
   prev?: number
 }
@@ -44,7 +47,7 @@ export const tabNavProps = buildProps({
   editable: Boolean,
   onTabClick: {
     type: definePropType<
-      (tab: TabsPaneContext, tabName: string | number, ev: Event) => void
+      (tab: TabsPaneContext, tabName: TabPanelName, ev: Event) => void
     >(Function),
     default: NOOP,
   },
@@ -63,26 +66,26 @@ export const tabNavProps = buildProps({
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
 
 const COMPONENT_NAME = 'ElTabNav'
-export default defineComponent({
+const TabNav = defineComponent({
   name: COMPONENT_NAME,
   props: tabNavProps,
 
   setup(props, { expose }) {
+    const rootTabs = inject(tabsRootContextKey)
+    if (!rootTabs) throwError(COMPONENT_NAME, `<el-tabs><tab-nav /></el-tabs>`)
+
+    const ns = useNamespace('tabs')
     const visibility = useDocumentVisibility()
     const focused = useWindowFocus()
 
-    const rootTabs = inject(tabsRootContextKey)
-    if (!rootTabs)
-      throwError(COMPONENT_NAME, `ElTabNav must be nested inside ElTabs`)
+    const navScroll$ = ref<HTMLDivElement>()
+    const nav$ = ref<HTMLDivElement>()
+    const el$ = ref<HTMLDivElement>()
 
     const scrollable = ref<false | Scrollable>(false)
     const navOffset = ref(0)
     const isFocus = ref(false)
     const focusable = ref(true)
-
-    const navScroll$ = ref<HTMLDivElement>()
-    const nav$ = ref<HTMLDivElement>()
-    const el$ = ref<HTMLDivElement>()
 
     const sizeName = computed(() =>
       ['top', 'bottom'].includes(rootTabs.props.tabPosition)
@@ -266,76 +269,74 @@ export default defineComponent({
     return () => {
       const scrollBtn = scrollable.value
         ? [
-            h(
-              'span',
-              {
-                class: [
-                  'el-tabs__nav-prev',
-                  scrollable.value.prev ? '' : 'is-disabled',
-                ],
-                onClick: scrollPrev,
-              },
-              [h(ElIcon, {}, { default: () => h(ArrowLeft) })]
-            ),
-            h(
-              'span',
-              {
-                class: [
-                  'el-tabs__nav-next',
-                  scrollable.value.next ? '' : 'is-disabled',
-                ],
-                onClick: scrollNext,
-              },
-              [h(ElIcon, {}, { default: () => h(ArrowRight) })]
-            ),
+            <span
+              class={[
+                ns.e('nav-prev'),
+                ns.is('disabled', !scrollable.value.prev),
+              ]}
+              onClick={scrollPrev}
+            >
+              <ElIcon>
+                <ArrowLeft />
+              </ElIcon>
+            </span>,
+            <span
+              class={[
+                ns.e('nav-next'),
+                ns.is('disabled', !scrollable.value.next),
+              ]}
+              onClick={scrollNext}
+            >
+              <ElIcon>
+                <ArrowRight />
+              </ElIcon>
+            </span>,
           ]
         : null
 
       const tabs = props.panes.map((pane, index) => {
         const tabName = pane.props.name || pane.index || `${index}`
-        const closable = pane.isClosable || props.editable
+        const closable: boolean = pane.isClosable || props.editable
         pane.index = `${index}`
 
-        const btnClose = closable
-          ? h(
-              ElIcon,
-              {
-                class: 'is-icon-close',
-                onClick: (ev: MouseEvent) => props.onTabRemove(pane, ev),
-              },
-              { default: () => h(Close) }
-            )
-          : null
+        const btnClose = closable ? (
+          <ElIcon
+            class="is-icon-close"
+            // @ts-expect-error native event
+            onClick={(ev: MouseEvent) => props.onTabRemove(pane, ev)}
+          >
+            <Close />
+          </ElIcon>
+        ) : null
 
         const tabLabelContent =
           pane.instance.slots.label?.() || pane.props.label
         const tabindex = pane.active ? 0 : -1
 
-        return h(
-          'div',
-          {
-            class: {
-              'el-tabs__item': true,
-              [`is-${rootTabs.props.tabPosition}`]: true,
-              'is-active': pane.active,
-              'is-disabled': pane.props.disabled,
-              'is-closable': closable,
-              'is-focus': isFocus,
-            },
-            id: `tab-${tabName}`,
-            key: `tab-${tabName}`,
-            'aria-controls': `pane-${tabName}`,
-            role: 'tab',
-            'aria-selected': pane.active,
-            ref: `tab-${tabName}`,
-            tabindex,
-            onFocus: () => setFocus(),
-            onBlur: () => removeFocus(),
-            onClick: (ev: MouseEvent) => {
+        return (
+          <div
+            ref={`tab-${tabName}`}
+            class={[
+              ns.e('item'),
+              ns.is(rootTabs.props.tabPosition),
+              ns.is('active', pane.active),
+              ns.is('disabled', pane.props.disabled),
+              ns.is('closable', closable),
+              ns.is('focus', isFocus.value),
+            ]}
+            id={`tab-${tabName}`}
+            key={`tab-${tabName}`}
+            aria-controls={`pane-${tabName}`}
+            role="tab"
+            aria-selected={pane.active}
+            tabindex={tabindex}
+            onFocus={() => setFocus()}
+            onBlur={() => removeFocus()}
+            onClick={(ev: MouseEvent) => {
               removeFocus()
               props.onTabClick(pane, tabName, ev)
-            },
-            onKeydown: (ev: KeyboardEvent) => {
+            }}
+            onKeydown={(ev: KeyboardEvent) => {
               if (
                 closable &&
                 (ev.code === EVENT_CODE.delete ||
@@ -343,60 +344,50 @@ export default defineComponent({
               ) {
                 props.onTabRemove(pane, ev)
               }
-            },
-          },
-          [tabLabelContent, btnClose]
+            }}
+          >
+            {...[tabLabelContent, btnClose]}
+          </div>
         )
       })
 
-      return h(
-        'div',
-        {
-          ref: el$,
-          class: [
-            'el-tabs__nav-wrap',
-            scrollable.value ? 'is-scrollable' : '',
-            `is-${rootTabs.props.tabPosition}`,
-          ],
-        },
-        [
-          scrollBtn,
-          h(
-            'div',
-            {
-              class: 'el-tabs__nav-scroll',
-              ref: navScroll$,
-            },
-            [
-              h(
-                'div',
-                {
-                  class: [
-                    'el-tabs__nav',
-                    `is-${rootTabs.props.tabPosition}`,
-                    props.stretch &&
+      return (
+        <div
+          ref={el$}
+          class={[
+            ns.e('nav-wrap'),
+            ns.is('scrollable', !!scrollable.value),
+            ns.is(rootTabs.props.tabPosition),
+          ]}
+        >
+          {scrollBtn}
+          <div class={ns.e('nav-scroll')} ref={navScroll$}>
+            <div
+              class={[
+                ns.e('nav'),
+                ns.is(rootTabs.props.tabPosition),
+                ns.is(
+                  'stretch',
+                  props.stretch &&
                     ['top', 'bottom'].includes(rootTabs.props.tabPosition)
-                      ? 'is-stretch'
-                      : '',
-                  ],
-                  ref: nav$,
-                  style: navStyle.value,
-                  role: 'tablist',
-                  onKeydown: changeTab,
-                },
-                [
-                  !props.type
-                    ? h(TabBar, {
-                        tabs: [...props.panes],
-                      })
-                    : null,
-                  tabs,
-                ]
-              ),
-            ]
-          ),
-        ]
+                ),
+              ]}
+              ref={nav$}
+              style={navStyle.value}
+              role="tablist"
+              onKeydown={changeTab}
+            >
+              {...[
+                !props.type ? <TabBar tabs={[...props.panes]} /> : null,
+                tabs,
+              ]}
+            </div>
+          </div>
+        </div>
       )
     }
   },
 })
+
+export type TabNavInstance = InstanceType<typeof TabNav>
+export default TabNav

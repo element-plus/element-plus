@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, it, expect, fn, afterEach, vi } from 'vitest'
+import { afterEach, describe, expect, fn, it, vi } from 'vitest'
 import { useAttrs } from '../use-attrs'
 
 const CLASS = 'a'

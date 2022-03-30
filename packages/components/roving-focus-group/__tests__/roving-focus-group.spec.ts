@@ -1,4 +1,4 @@
-import { h, inject, nextTick, defineComponent } from 'vue'
+import { defineComponent, h, inject, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { COLLECTION_ITEM_SIGN } from '@element-plus/components/collection'
 import { composeRefs } from '@element-plus/utils'

@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import nprogress from 'nprogress'
 import dayjs from 'dayjs'
-import { useStorage, useToggle, isClient } from '@vueuse/core'
+import { isClient, useStorage, useToggle } from '@vueuse/core'
 import { useSidebar } from '../composables/sidebar'
 import { useToggleWidgets } from '../composables/toggle-widgets'
 import { useLang } from '../composables/lang'
@@ -27,6 +27,8 @@ useToggleWidgets(isSidebarOpen, () => {
     toggleSidebar(false)
   }
 })
+
+const userPrefer = useStorage<boolean | string>(USER_PREFER_GITHUB_PAGE, null)
 
 onMounted(async () => {
   if (!isClient) return
@@ -61,10 +63,7 @@ onMounted(async () => {
 
   if (lang.value === 'zh-CN') {
     if (location.host === 'element-plus.gitee.io') return
-    const userPrefer = useStorage<boolean | string>(
-      USER_PREFER_GITHUB_PAGE,
-      false
-    )
+
     if (userPrefer.value) {
       // no alert in the next 90 days
       if (

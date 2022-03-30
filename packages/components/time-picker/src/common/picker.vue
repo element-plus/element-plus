@@ -150,14 +150,14 @@
 </template>
 <script lang="ts">
 import {
-  defineComponent,
-  ref,
   computed,
-  nextTick,
+  defineComponent,
   inject,
-  watch,
+  nextTick,
   provide,
+  ref,
   unref,
+  watch,
 } from 'vue'
 import dayjs from 'dayjs'
 import { isEqual } from 'lodash-unified'
@@ -169,7 +169,7 @@ import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { debugWarn, isEmpty } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import { Clock, Calendar } from '@element-plus/icons-vue'
+import { Calendar, Clock } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'

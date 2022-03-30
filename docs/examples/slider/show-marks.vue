@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import type { CSSProperties } from 'vue'
 
 interface Mark {

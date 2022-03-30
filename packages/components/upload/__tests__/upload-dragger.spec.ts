@@ -1,4 +1,4 @@
-import { provide, h, defineComponent, computed } from 'vue'
+import { computed, defineComponent, h, provide } from 'vue'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { uploadContextKey } from '@element-plus/tokens'
 import UploadDragger from '../src/upload-dragger.vue'

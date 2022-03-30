@@ -8,10 +8,10 @@ import esbuild from 'rollup-plugin-esbuild'
 import glob from 'fast-glob'
 import {
   epRoot,
-  pkgRoot,
-  generateExternal,
-  writeBundles,
   excludeFiles,
+  generateExternal,
+  pkgRoot,
+  writeBundles,
 } from '../utils'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { buildConfigEntries, target } from '../build-info'

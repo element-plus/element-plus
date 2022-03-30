@@ -1,17 +1,17 @@
 import {
   computed,
-  ref,
-  watch,
+  getCurrentInstance,
   nextTick,
   onMounted,
-  getCurrentInstance,
+  ref,
+  watch,
 } from 'vue'
-import { useTimeoutFn, isClient } from '@vueuse/core'
+import { isClient, useTimeoutFn } from '@vueuse/core'
 
 import {
   useLockscreen,
-  useRestoreActive,
   useModal,
+  useRestoreActive,
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'

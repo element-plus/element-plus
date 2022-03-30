@@ -79,11 +79,11 @@
 import { computed, defineComponent } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
-  WarningFilled,
+  Check,
   CircleCheck,
   CircleClose,
-  Check,
   Close,
+  WarningFilled,
 } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { progressProps } from './progress'

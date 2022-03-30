@@ -56,6 +56,9 @@
   @include set-component-css-var('disabled', $disabled);
   // z-index --el-index-#{$type}
   @include set-component-css-var('index', $z-index);
+  // overlay & mask
+  @include set-component-css-var('overlay-color', $overlay-color);
+  @include set-component-css-var('mask-color', $mask-color);
 
   // Border
   @include set-css-var-value('border-width', $border-width);

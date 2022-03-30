@@ -1,8 +1,8 @@
-import { createVNode, defineComponent, renderSlot, h } from 'vue'
+import { createVNode, defineComponent, h, renderSlot } from 'vue'
 import { PatchFlags, buildProps, definePropType } from '@element-plus/utils'
 import { useNamespace, useSameTarget } from '@element-plus/hooks'
 
-import type { ExtractPropTypes, CSSProperties } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { ZIndexProperty } from 'csstype'
 
 export const overlayProps = buildProps({

@@ -1,4 +1,4 @@
-import { ref, reactive, nextTick } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import Input from '@element-plus/components/input'

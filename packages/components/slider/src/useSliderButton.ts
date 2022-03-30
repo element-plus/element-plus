@@ -3,7 +3,7 @@ import { debounce } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { off, on } from '@element-plus/utils'
 
-import type { ComputedRef, CSSProperties } from 'vue'
+import type { CSSProperties, ComputedRef } from 'vue'
 import type {
   ISliderButtonInitData,
   ISliderButtonProps,

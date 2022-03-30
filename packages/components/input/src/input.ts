@@ -8,7 +8,7 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useSizeProp } from '@element-plus/hooks'
 import type Input from './input.vue'
-import type { StyleValue, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, StyleValue } from 'vue'
 
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 

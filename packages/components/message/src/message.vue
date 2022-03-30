@@ -42,7 +42,7 @@
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted, watch } from 'vue'
+import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'

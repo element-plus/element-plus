@@ -82,7 +82,7 @@
             :class="[nsInput.e('icon'), nsInput.e('clear')]"
             @click="handlePasswordVisible"
           >
-            <icon-view />
+            <component :is="passwordIcon" />
           </el-icon>
           <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
             <span :class="nsInput.e('count-inner')">
@@ -140,37 +140,41 @@
 <script lang="ts" setup>
 import {
   computed,
-  watch,
-  nextTick,
   getCurrentInstance,
-  ref,
-  shallowRef,
+  nextTick,
   onMounted,
   onUpdated,
-  useSlots,
-  useAttrs as useRawAttrs,
+  ref,
+  shallowRef,
   toRef,
+  useAttrs as useRawAttrs,
+  useSlots,
+  watch,
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
-import { CircleClose, View as IconView } from '@element-plus/icons-vue'
+import {
+  CircleClose,
+  Hide as IconHide,
+  View as IconView,
+} from '@element-plus/icons-vue'
 import {
   ValidateComponentsMap,
-  isObject,
-  isKorean,
   debugWarn,
+  isKorean,
+  isObject,
 } from '@element-plus/utils'
 import {
   useAttrs,
   useDisabled,
   useFormItem,
-  useSize,
   useNamespace,
+  useSize,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { calcTextareaHeight } from './utils'
-import { inputProps, inputEmits } from './input'
+import { inputEmits, inputProps } from './input'
 import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
@@ -211,6 +215,9 @@ const _ref = computed(() => input.value || textarea.value)
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
 const validateState = computed(() => formItem?.validateState || '')
 const validateIcon = computed(() => ValidateComponentsMap[validateState.value])
+const passwordIcon = computed(() =>
+  passwordVisible.value ? IconView : IconHide
+)
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
   props.inputStyle,

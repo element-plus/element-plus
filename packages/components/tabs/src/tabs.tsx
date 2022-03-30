@@ -1,8 +1,7 @@
 import {
-  defineComponent,
   Fragment,
+  defineComponent,
   getCurrentInstance,
-  h,
   nextTick,
   onMounted,
   onUpdated,
@@ -11,8 +10,14 @@ import {
   renderSlot,
   watch,
 } from 'vue'
-import { isPromise, NOOP } from '@vue/shared'
-import { buildProps, definePropType } from '@element-plus/utils'
+import { NOOP } from '@vue/shared'
+import {
+  buildProps,
+  definePropType,
+  isNumber,
+  isPromise,
+  isString,
+} from '@element-plus/utils'
 import {
   EVENT_CODE,
   INPUT_EVENT,
@@ -21,16 +26,21 @@ import {
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-plus/tokens'
+import { useNamespace } from '@element-plus/hooks'
 import TabNav from './tab-nav'
+import type { TabNavInstance } from './tab-nav'
 import type { TabsPaneContext } from '@element-plus/tokens'
 
 import type {
   Component,
   ComponentInternalInstance,
-  VNode,
   ExtractPropTypes,
   Ref,
+  VNode,
 } from 'vue'
+import type { Awaitable } from '@element-plus/utils'
+
+export type TabPanelName = string | number
 
 export const tabsProps = buildProps({
   type: {
@@ -39,7 +49,7 @@ export const tabsProps = buildProps({
     default: '',
   },
   activeName: {
-    type: String,
+    type: [String, Number],
     default: '',
   },
   closable: Boolean,
@@ -57,9 +67,9 @@ export const tabsProps = buildProps({
   beforeLeave: {
     type: definePropType<
       (
-        newTabName: string | number,
-        oldTabName: string | number
-      ) => void | boolean | Promise<void | boolean>
+        newName: TabPanelName,
+        oldName: TabPanelName
+      ) => Awaitable<void | boolean>
     >(Function),
     default: () => true,
   },
@@ -67,16 +77,16 @@ export const tabsProps = buildProps({
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
 
+const isPanelName = (value: unknown): value is string | number =>
+  isString(value) || isNumber(value)
+
 export const tabsEmits = {
-  [UPDATE_MODEL_EVENT]: (tabName: string | number) =>
-    typeof tabName === 'string' || typeof tabName === 'number',
-  [INPUT_EVENT]: (tabName: string | number) =>
-    typeof tabName === 'string' || typeof tabName === 'number',
+  [UPDATE_MODEL_EVENT]: (name: TabPanelName) => isPanelName(name),
+  [INPUT_EVENT]: (name: TabPanelName) => isPanelName(name),
   'tab-click': (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
-  edit: (paneName: string | number | null, action: 'remove' | 'add') =>
-    action === 'remove' || action === 'add',
-  'tab-remove': (paneName: string | number) =>
-    typeof paneName === 'string' || typeof paneName === 'number',
+  edit: (paneName: TabPanelName | undefined, action: 'remove' | 'add') =>
+    ['remove', 'add'].includes(action),
+  'tab-remove': (name: TabPanelName) => isPanelName(name),
   'tab-add': () => true,
 }
 export type TabsEmits = typeof tabsEmits
@@ -106,8 +116,9 @@ export default defineComponent({
 
   setup(props, { emit, slots, expose }) {
     const instance = getCurrentInstance()!
-    const nav$ = ref<InstanceType<typeof TabNav>>()
+    const ns = useNamespace('tabs')
 
+    const nav$ = ref<TabNavInstance>()
     const panes: Ref<TabsPaneContext[]> = ref([])
     const currentName = ref(props.modelValue || props.activeName || '0')
 
@@ -117,7 +128,7 @@ export default defineComponent({
       if (slots.default) {
         const children = instance.subTree.children as ArrayLike<VNode>
         const content = Array.from(children).find(
-          ({ props }) => props?.class === 'el-tabs__content'
+          ({ props }) => props?.class === ns.e('content')
         )
         if (!content) return
 
@@ -128,8 +139,7 @@ export default defineComponent({
         const panesChanged = !(
           paneInstanceList.length === panes.value.length &&
           paneInstanceList.every(
-            (pane, index) =>
-              pane.uid === panes.value[index].uid && !pane.instance.slots.label // if has label slot, should update every time
+            (pane, index) => pane.uid === panes.value[index].uid
           )
         )
 
@@ -141,13 +151,13 @@ export default defineComponent({
       }
     }
 
-    const changeCurrentName = (value: string | number) => {
+    const changeCurrentName = (value: TabPanelName) => {
       currentName.value = value
       emit(INPUT_EVENT, value)
       emit(UPDATE_MODEL_EVENT, value)
     }
 
-    const setCurrentName = (value: string | number) => {
+    const setCurrentName = (value: TabPanelName) => {
       // should do nothing.
       if (currentName.value === value) return
 
@@ -172,7 +182,7 @@ export default defineComponent({
 
     const handleTabClick = (
       tab: TabsPaneContext,
-      tabName: string | number,
+      tabName: TabPanelName,
       event: Event
     ) => {
       if (tab.props.disabled) return
@@ -188,7 +198,7 @@ export default defineComponent({
     }
 
     const handleTabAdd = () => {
-      emit('edit', null, 'add')
+      emit('edit', undefined, 'add')
       emit('tab-add')
     }
 
@@ -228,54 +238,56 @@ export default defineComponent({
 
     return () => {
       const newButton =
-        props.editable || props.addable
-          ? h(
-              'span',
-              {
-                class: 'el-tabs__new-tab',
-                tabindex: '0',
-                onClick: handleTabAdd,
-                onKeydown: (ev: KeyboardEvent) => {
-                  if (ev.code === EVENT_CODE.enter) handleTabAdd()
-                },
-              },
-              [h(ElIcon, { class: 'is-icon-plus' }, { default: () => h(Plus) })]
-            )
-          : null
+        props.editable || props.addable ? (
+          <span
+            class={ns.e('new-tab')}
+            tabindex="0"
+            onClick={handleTabAdd}
+            onKeydown={(ev: KeyboardEvent) => {
+              if (ev.code === EVENT_CODE.enter) handleTabAdd()
+            }}
+          >
+            <ElIcon class={ns.is('icon-plus')}>
+              <Plus />
+            </ElIcon>
+          </span>
+        ) : null
 
-      const header = h(
-        'div',
-        { class: ['el-tabs__header', `is-${props.tabPosition}`] },
-        [
-          newButton,
-          h(TabNav, {
-            currentName: currentName.value,
-            editable: props.editable,
-            type: props.type,
-            panes: panes.value,
-            stretch: props.stretch,
-            ref: nav$,
-            onTabClick: handleTabClick,
-            onTabRemove: handleTabRemove,
-          }),
-        ]
+      const header = (
+        <div class={[ns.e('header'), ns.is(props.tabPosition)]}>
+          {newButton}
+          <TabNav
+            ref={nav$}
+            currentName={currentName.value}
+            editable={props.editable}
+            type={props.type}
+            panes={panes.value}
+            stretch={props.stretch}
+            onTabClick={handleTabClick}
+            onTabRemove={handleTabRemove}
+          />
+        </div>
       )
 
-      const panels = h('div', { class: 'el-tabs__content' }, [
-        renderSlot(slots, 'default'),
-      ])
+      const panels = (
+        <div class={ns.e('content')}>{renderSlot(slots, 'default')}</div>
+      )
 
-      return h(
-        'div',
-        {
-          class: {
-            'el-tabs': true,
-            'el-tabs--card': props.type === 'card',
-            [`el-tabs--${props.tabPosition}`]: true,
-            'el-tabs--border-card': props.type === 'border-card',
-          },
-        },
-        props.tabPosition !== 'bottom' ? [header, panels] : [panels, header]
+      return (
+        <div
+          class={[
+            ns.b(),
+            ns.m(props.tabPosition),
+            {
+              [ns.m('card')]: props.type === 'card',
+              [ns.m('border-card')]: props.type === 'border-card',
+            },
+          ]}
+        >
+          {...props.tabPosition !== 'bottom'
+            ? [header, panels]
+            : [panels, header]}
+        </div>
       )
     }
   },

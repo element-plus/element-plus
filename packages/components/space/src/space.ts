@@ -1,25 +1,25 @@
 import {
-  defineComponent,
-  renderSlot,
-  createVNode,
   createTextVNode,
+  createVNode,
+  defineComponent,
   isVNode,
+  renderSlot,
 } from 'vue'
 import { isString } from '@vue/shared'
 import {
   PatchFlags,
-  isFragment,
-  isValidElementNode,
   buildProps,
   definePropType,
   isArray,
+  isFragment,
   isNumber,
+  isValidElementNode,
 } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 import Item from './item.vue'
 import { useSpace } from './use-space'
 
-import type { VNode, StyleValue, ExtractPropTypes, VNodeChild } from 'vue'
+import type { ExtractPropTypes, StyleValue, VNode, VNodeChild } from 'vue'
 import type { AlignItemsProperty } from 'csstype'
 
 export const spaceProps = buildProps({

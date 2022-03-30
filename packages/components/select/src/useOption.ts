@@ -1,7 +1,7 @@
-import { inject, computed, getCurrentInstance, watch, toRaw, unref } from 'vue'
+import { computed, getCurrentInstance, inject, toRaw, unref, watch } from 'vue'
 import { get } from 'lodash-unified'
 import { escapeStringRegexp } from '@element-plus/utils'
-import { selectKey, selectGroupKey } from './token'
+import { selectGroupKey, selectKey } from './token'
 
 import type { Ref } from 'vue'
 import type { QueryChangeCtx } from './token'

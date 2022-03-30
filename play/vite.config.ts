@@ -10,11 +10,11 @@ import glob from 'fast-glob'
 import DefineOptions from 'unplugin-vue-define-options/vite'
 import esbuild from 'rollup-plugin-esbuild'
 import {
+  epPackage,
   epRoot,
+  getPackageDependencies,
   pkgRoot,
   projRoot,
-  epPackage,
-  getPackageDependencies,
 } from '@element-plus/build'
 import './vite.init'
 

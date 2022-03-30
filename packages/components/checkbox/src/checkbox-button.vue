@@ -49,7 +49,7 @@
   </label>
 </template>
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import { useCheckbox, useCheckboxGroup, useCheckboxProps } from './useCheckbox'

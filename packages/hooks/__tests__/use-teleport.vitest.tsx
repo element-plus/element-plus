@@ -1,6 +1,6 @@
-import { ref, nextTick, h, defineComponent } from 'vue'
+import { defineComponent, h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { useTeleport } from '../use-teleport'
 import type { VueWrapper } from '@vue/test-utils'
 

@@ -1,4 +1,4 @@
-import { nextTick, ref, isRef } from 'vue'
+import { isRef, nextTick, ref } from 'vue'
 import { isClient } from '@vueuse/core'
 import { hasOwn } from '@element-plus/utils'
 import { parseHeight } from './util'
@@ -148,18 +148,21 @@ class TableLayout<T> {
       // avoid v-show
       return
     }
+    const { tableLayout } = this.table.props
     this.appendHeight.value = appendWrapper ? appendWrapper.offsetHeight : 0
-    if (this.showHeader && !headerWrapper) return
+    if (this.showHeader && !headerWrapper && tableLayout === 'fixed') {
+      return
+    }
     const headerTrElm: HTMLElement = tableHeader ? tableHeader : null
     const noneHeader = this.headerDisplayNone(headerTrElm)
-
+    const headerWrapperOffsetHeight = headerWrapper?.offsetHeight || 0
     const headerHeight = (this.headerHeight.value = !this.showHeader
       ? 0
-      : headerWrapper.offsetHeight)
+      : headerWrapperOffsetHeight)
     if (
       this.showHeader &&
       !noneHeader &&
-      headerWrapper.offsetWidth > 0 &&
+      headerWrapperOffsetHeight > 0 &&
       (this.table.store.states.columns.value || []).length > 0 &&
       headerHeight < 2
     ) {
