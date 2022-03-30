@@ -87,6 +87,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           column: columnData,
           row,
           $index,
+          cellIndex,
           expanded,
         }
         if (cellIndex === firstDefaultColumnIndex.value && treeRowData) {
