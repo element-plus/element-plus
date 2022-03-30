@@ -20,6 +20,7 @@ const NAME = 'ElOnlyChild'
 
 export const OnlyChild = defineComponent({
   name: NAME,
+  inheritAttrs: false,
   setup(_, { slots, attrs }) {
     const forwardRefInjection = inject(FORWARD_REF_INJECTION_KEY)
     const forwardRefDirective = useForwardRefDirective(
