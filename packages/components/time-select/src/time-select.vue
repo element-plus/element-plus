@@ -38,8 +38,8 @@ import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
 
+import { componentSizes } from '@element-plus/constants'
 import type { Component, PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/constants'
 dayjs.extend(customParseFormat)
 
 const { Option: ElOption } = ElSelect
@@ -128,9 +128,8 @@ export default defineComponent({
     },
     size: {
       type: String as PropType<ComponentSize>,
-      default: 'default',
-      validator: (value: string) =>
-        !value || ['large', 'default', 'small'].includes(value),
+      values: componentSizes,
+      default: '',
     },
     placeholder: {
       type: String,
