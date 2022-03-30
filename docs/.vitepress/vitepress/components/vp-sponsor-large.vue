@@ -6,7 +6,13 @@ const sponsorList = sponsors.filter((_) => _.type === 'banner')
 <template>
   <div class="container">
     <div v-for="item in sponsorList" :key="item.name" class="sponsor-item">
-      <a :href="item.url" :title="item.name" target="_blank">
+      <a
+        :href="item.url"
+        :title="`${item.name_cn || item.name} - ${
+          item.slogan_cn || item.slogan
+        }`"
+        target="_blank"
+      >
         <img :src="item.banner_img" :alt="item.name" />
       </a>
     </div>
