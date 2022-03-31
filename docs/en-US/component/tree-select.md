@@ -5,7 +5,7 @@ lang: en-US
 
 # TreeSelect
 
-The tree selector of the drop-down menu,
+The tree selector of the dropdown menu,
 it combines the functions of components `el-tree` and `el-select`.
 
 ## Basic usage
