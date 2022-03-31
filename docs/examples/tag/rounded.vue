@@ -1,44 +1,36 @@
 <template>
-  <div class="tag-group my-2 flex flex-wrap gap-1 items-center">
-    <span class="tag-group__title m-1 line-height-2">Dark</span>
+  <div class="flex flex-wrap gap-2 my-2">
     <el-tag
       v-for="item in items"
       :key="item.label"
       :type="item.type"
       class="mx-1"
       effect="dark"
-    >
-      {{ item.label }}
-    </el-tag>
-    <el-tag
-      v-for="item in items"
-      :key="item.label"
-      :type="item.type"
-      class="mx-1"
-      effect="dark"
-      closable
+      round
     >
       {{ item.label }}
     </el-tag>
   </div>
-  <div class="tag-group my-2 flex flex-wrap gap-1 items-center">
-    <span class="tag-group__title m-1">Plain</span>
+  <div class="flex flex-wrap gap-2">
     <el-tag
       v-for="item in items"
       :key="item.label"
-      class="mx-1"
       :type="item.type"
-      effect="plain"
+      class="mx-1"
+      effect="light"
+      round
     >
       {{ item.label }}
     </el-tag>
+  </div>
+  <div class="flex flex-wrap gap-2 my-2">
     <el-tag
       v-for="item in items"
       :key="item.label"
-      class="mx-1"
       :type="item.type"
+      class="mx-1"
       effect="plain"
-      closable
+      round
     >
       {{ item.label }}
     </el-tag>
