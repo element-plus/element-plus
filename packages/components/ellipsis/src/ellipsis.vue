@@ -30,7 +30,7 @@ const state = reactive({
 })
 const handleText = () => {
   if (props.ellipsis === 0) return
-  if (props.placement === 'left') {
+  if (props.placement === 'right') {
     state.textInner = `${props.text.slice(
       0,
       props.text.length - props.ellipsis
@@ -49,7 +49,7 @@ const handleText = () => {
     )
     state.textInner = `${subStrHead}...${subStrFoot}`
   }
-  if (props.placement === 'right') {
+  if (props.placement === 'left') {
     state.textInner = `...${props.text.slice(
       props.ellipsis,
       props.text.length
@@ -88,6 +88,5 @@ const expandTriggerFunc = (): void => {
   styleEllipsis.value = setStyleEllipsis(state.isExpand)
   classEllipsis.value = setClassEllipsis(state.isExpand)
   state.isExpand && (state.textInner = state.textCache)
-  !state.isExpand && handleText()
 }
 </script>

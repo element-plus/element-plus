@@ -9,7 +9,7 @@ export const ellipsisProps = buildProps({
   placement: {
     type: String,
     values: ['left', 'center', 'right'],
-    default: 'left',
+    default: 'right',
   },
   /**
    * 缩略字符数
