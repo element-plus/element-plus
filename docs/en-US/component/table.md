@@ -356,7 +356,7 @@ table/table-layout
 
 PS: since the fixed column is implement by sticky, when you have fixed columns in table, please add the `preview-teleported` attribute in image
 
-#### Why column is not rendered in DOM templates?
+#### Why column is not rendered when use DOM templates?
 
 Typical issue: [#5046](https://github.com/element-plus/element-plus/issues/5046) [#5862](https://github.com/element-plus/element-plus/issues/5862) [#6919](https://github.com/element-plus/element-plus/issues/6919)
 
