@@ -4,7 +4,6 @@
 declare module 'vue' {
   export interface GlobalComponents {
     ElAffix: typeof import('../packages/element-plus')['ElAffix']
-    ElEllipsis: typeof import('../packages/element-plus')['ElEllipsis']
     ElAlert: typeof import('../packages/element-plus')['ElAlert']
     ElAside: typeof import('../packages/element-plus')['ElAside']
     ElAutocomplete: typeof import('../packages/element-plus')['ElAutocomplete']
@@ -39,6 +38,7 @@ declare module 'vue' {
     ElDropdownItem: typeof import('../packages/element-plus')['ElDropdownItem']
     ElDropdownMenu: typeof import('../packages/element-plus')['ElDropdownMenu']
     ElEmpty: typeof import('../packages/element-plus')['ElEmpty']
+    ElEllipsis: typeof import('../packages/element-plus')['ElEllipsis']
     ElFooter: typeof import('../packages/element-plus')['ElFooter']
     ElForm: typeof import('../packages/element-plus')['ElForm']
     ElFormItem: typeof import('../packages/element-plus')['ElFormItem']

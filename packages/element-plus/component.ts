@@ -46,6 +46,7 @@ import {
   ElDropdownMenu,
 } from '@element-plus/components/dropdown'
 import { ElEmpty } from '@element-plus/components/empty'
+import { ElEllipsis } from '@element-plus/components/ellipsis'
 import { ElForm, ElFormItem } from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
 import { ElImage } from '@element-plus/components/image'
@@ -96,11 +97,10 @@ import { ElTransfer } from '@element-plus/components/transfer'
 import { ElTree } from '@element-plus/components/tree'
 import { ElTreeV2 } from '@element-plus/components/tree-v2'
 import { ElUpload } from '@element-plus/components/upload'
-import { ElEllipsis } from '@element-plus/components/ellipsis'
+
 import type { Plugin } from 'vue'
 
 export default [
-  ElEllipsis,
   ElAffix,
   ElAlert,
   ElAutocomplete,
@@ -142,6 +142,7 @@ export default [
   ElDropdownItem,
   ElDropdownMenu,
   ElEmpty,
+  ElEllipsis,
   ElForm,
   ElFormItem,
   ElIcon,

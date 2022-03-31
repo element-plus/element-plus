@@ -50,16 +50,6 @@ export const ellipsisProps = buildProps({
     default: () => {
       return {
         placement: 'top',
-        disabled: false,
-        transition: 'el-fade-in-linear',
-        showAfter: 0,
-        showArrow: true,
-        hideAfter: 0,
-        popperClass: '',
-        enterable: true,
-        trigger: 'hover',
-        effect: 'dark',
-        offset: 0,
       }
     },
   },

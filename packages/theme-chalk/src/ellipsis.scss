@@ -7,6 +7,7 @@
   @include set-component-css-var('ellipsis', $ellipsis);
 }
 @include b(ellipsis) {
+  width: fit-content;
   @include e(inner) {
     display: inline-flex;
     flex-direction: row;

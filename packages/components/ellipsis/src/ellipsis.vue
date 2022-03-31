@@ -58,7 +58,7 @@ const handleText = () => {
 }
 const initText = (val: string) => {
   state.textCache = val
-  handleText()
+  !props.lineClamp && handleText()
 }
 watch(
   () => props.text,
