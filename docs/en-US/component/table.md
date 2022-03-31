@@ -354,4 +354,4 @@ How to use image preview in the table?
 </el-table-column>
 ```
 
-ps: Since the fixed column is implement by sticky, when you have fixed columns in table, please add the `preview-teleported` attribute in image
+PS: since the fixed column is implement by sticky, when you have fixed columns in table, please add the `preview-teleported` attribute in image
