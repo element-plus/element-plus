@@ -43,7 +43,7 @@ import {
   watch,
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
-import { addUnit, debugWarn, isNumber } from '@element-plus/utils'
+import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
 import { scrollbarContextKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
 import Bar from './bar.vue'
@@ -94,6 +94,16 @@ export default defineComponent({
           scrollTop: wrap$.value.scrollTop,
           scrollLeft: wrap$.value.scrollLeft,
         })
+      }
+    }
+
+    function scrollTo(xCord: number, yCord?: number): void
+    function scrollTo(options: ScrollToOptions): void
+    function scrollTo(arg1: unknown, arg2?: number) {
+      if (isObject(arg1)) {
+        wrap$.value!.scrollTo(arg1)
+      } else if (isNumber(arg1) && isNumber(arg2)) {
+        wrap$.value!.scrollTo(arg1, arg2)
       }
     }
 
@@ -190,6 +200,7 @@ export default defineComponent({
       style,
       update,
       handleScroll,
+      scrollTo,
       setScrollTop,
       setScrollLeft,
     }

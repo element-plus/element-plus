@@ -4,9 +4,11 @@ import { isNumber } from '@element-plus/utils'
 export const useScrollbar = () => {
   const scrollBarRef = ref()
 
-  const scrollTo = ({ top, left }: { top?: number; left?: number }) => {
-    setScrollTop(top)
-    setScrollLeft(left)
+  const scrollTo = (options: ScrollToOptions | number, yCoord?: number) => {
+    const scrollbar = scrollBarRef.value
+    if (scrollbar) {
+      scrollbar.scrollTo(options, yCoord)
+    }
   }
 
   const setScrollPosition = (position: 'Top' | 'Left', offset?: number) => {
