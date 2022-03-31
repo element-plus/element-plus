@@ -44,10 +44,10 @@ const targetRect = useElementBounding(target)
 const fixed = ref(false)
 const scrollTop = ref(0)
 const transform = ref(0)
-
+const contentHeight = ref(0)
 const rootStyle = computed<CSSProperties>(() => {
   return {
-    height: fixed.value ? `${rootHeight.value}px` : '',
+    height: fixed.value ? `${contentHeight.value}px` : '',
   }
 })
 
@@ -56,7 +56,7 @@ const affixStyle = computed<CSSProperties>(() => {
 
   const offset = props.offset ? `${props.offset}px` : 0
   return {
-    height: `${rootHeight.value}px`,
+    height: `${contentHeight.value}px`,
     width: `${rootWidth.value}px`,
     top: props.position === 'top' ? offset : '',
     bottom: props.position === 'bottom' ? offset : '',
@@ -104,6 +104,11 @@ const handleScroll = () => {
   })
 }
 
+const handleReize = () => {
+  contentHeight.value = root.value?.children[0].children[0]
+    .clientHeight as number
+}
+
 watch(fixed, (val) => emit('change', val))
 
 onMounted(() => {
@@ -117,9 +122,13 @@ onMounted(() => {
   }
   scrollContainer.value = getScrollContainer(root.value!, true)
   updateRoot()
+
+  contentHeight.value = root.value?.children[0].children[0]
+    .clientHeight as number
 })
 
 useEventListener(scrollContainer, 'scroll', handleScroll)
+useEventListener('resize', handleReize)
 watchEffect(update)
 
 defineExpose({
