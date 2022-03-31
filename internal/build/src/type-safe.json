@@ -1,5 +1,6 @@
 [
   "packages/components/affix/",
+  "packages/components/ellipsis/",
   "packages/components/alert/",
   "packages/components/aside/",
   "packages/components/autocomplete/",

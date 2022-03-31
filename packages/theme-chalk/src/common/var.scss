@@ -1396,3 +1396,14 @@ $breakpoints-spec: (
   'lg-and-down': '(max-width: #{$xl - 1})',
   'xl-only': '(min-width: #{$xl})',
 ) !default;
+// Ellipsis
+// css3 var in packages/theme-chalk/src/ellipsis.scss
+$ellipsis: () !default;
+$ellipsis: map.merge(
+  (
+    'font-size': getCssVar('font-size-base'),
+    'font-weight': getCssVar('font-weight-primary'),
+    'text-color': getCssVar('text-color-regular'),
+  ),
+  $ellipsis
+);

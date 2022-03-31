@@ -4,6 +4,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     ElAffix: typeof import('../packages/element-plus')['ElAffix']
+    ElEllipsis: typeof import('../packages/element-plus')['ElEllipsis']
     ElAlert: typeof import('../packages/element-plus')['ElAlert']
     ElAside: typeof import('../packages/element-plus')['ElAside']
     ElAutocomplete: typeof import('../packages/element-plus')['ElAutocomplete']
