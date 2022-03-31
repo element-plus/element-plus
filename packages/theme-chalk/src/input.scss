@@ -412,6 +412,10 @@
   }
 
   @include m(prepend) {
+    .#{$namespace}-input__suffix {
+      z-index: 2;
+    }
+
     .#{$namespace}-input__inner {
       box-shadow: 1px 0 0 0px var(--el-input-border-color) inset,
         0px 1px 0 0px var(--el-input-border-color) inset,
