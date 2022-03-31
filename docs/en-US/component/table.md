@@ -342,7 +342,7 @@ table/table-layout
 
 ## FAQ
 
-How to use image preview in the table?
+#### How to use image preview in the table?
 
 ```vue
 <el-table-column label="Thumbnail" width="180">
@@ -355,3 +355,11 @@ How to use image preview in the table?
 ```
 
 PS: since the fixed column is implement by sticky, when you have fixed columns in table, please add the `preview-teleported` attribute in image
+
+#### Why content is not rendered in DOM templates?
+
+Typical issue: [#5046](https://github.com/element-plus/element-plus/issues/5046) [#5862](https://github.com/element-plus/element-plus/issues/5862) [#6919](https://github.com/element-plus/element-plus/issues/6919)
+
+This is because the HTML spec only allows a few specific elements to omit closing tags, the most common being `<input>` and `<img>`. For all other elements, if you omit the closing tag, the native HTML parser will think you never terminated the opening tag
+
+For more details please refer to [vue docs](https://vuejs.org/guide/essentials/component-basics.html#self-closing-tags)
