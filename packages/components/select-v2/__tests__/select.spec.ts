@@ -1332,7 +1332,7 @@ describe('Select', () => {
     selectVm.onKeyboardNavigate('forward')
     await nextTick()
     expect(selectVm.states.hoveringIndex).toBe(3)
-    //  should skip the group option
+    // should skip the group option
     selectVm.onKeyboardNavigate('backward')
     selectVm.onKeyboardNavigate('backward')
     selectVm.onKeyboardNavigate('backward')
