@@ -20,7 +20,7 @@
       :multiple="multiple"
       :accept="accept"
       type="file"
-      @change="handleChange"
+      @change.stop="handleChange"
     />
   </div>
 </template>
