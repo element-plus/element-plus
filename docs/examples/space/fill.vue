@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div style="margin-bottom: 15px">
-      fill: <el-switch v-model="fill"></el-switch>
-    </div>
+    <div style="margin-bottom: 15px">fill: <el-switch v-model="fill" /></div>
     <el-space :fill="fill" wrap>
       <el-card v-for="i in 3" :key="i" class="box-card">
         <template #header>
@@ -19,10 +17,8 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return { fill: true }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const fill = ref(true)
 </script>

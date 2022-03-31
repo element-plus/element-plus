@@ -1,4 +1,5 @@
 import { onMounted, onUnmounted, onUpdated } from 'vue'
+import { isClient } from '@vueuse/core'
 import { throttleAndDebounce } from '../utils'
 
 import type { Ref } from 'vue'
@@ -7,6 +8,8 @@ export function useActiveSidebarLinks(
   container: Ref<HTMLElement>,
   marker: Ref<HTMLElement>
 ) {
+  if (!isClient) return
+
   const onScroll = throttleAndDebounce(setActiveLink, 150)
   function setActiveLink() {
     const sidebarLinks = getSidebarLinks()
@@ -56,7 +59,7 @@ export function useActiveSidebarLinks(
     }
   }
 
-  function deactiveLink(link: HTMLElement) {
+  function deactiveLink(link: HTMLElement | null) {
     link && link.classList.remove('active')
   }
 
@@ -93,8 +96,8 @@ function getPageOffset() {
 function getAnchorTop(anchor: HTMLAnchorElement) {
   const pageOffset = getPageOffset()
   try {
-    return anchor.parentElement.offsetTop - pageOffset - 15
-  } catch (e) {
+    return anchor.parentElement!.offsetTop - pageOffset - 15
+  } catch {
     return 0
   }
 }

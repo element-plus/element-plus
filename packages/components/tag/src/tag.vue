@@ -5,71 +5,64 @@
     :style="{ backgroundColor: color }"
     @click="handleClick"
   >
-    <slot></slot>
-    <el-icon v-if="closable" class="el-tag__close" @click="handleClose">
-      <close />
+    <span :class="ns.e('content')">
+      <slot />
+    </span>
+    <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
+      <Close />
     </el-icon>
   </span>
-  <transition v-else name="el-zoom-in-center">
+  <transition v-else :name="`${ns.namespace.value}-zoom-in-center`">
     <span
       :class="classes"
       :style="{ backgroundColor: color }"
       @click="handleClick"
     >
-      <slot></slot>
-      <el-icon v-if="closable" class="el-tag__close" @click="handleClose">
-        <close />
+      <span :class="ns.e('content')">
+        <slot />
+      </span>
+      <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
+        <Close />
       </el-icon>
     </span>
   </transition>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 import ElIcon from '@element-plus/components/icon'
-import { useGlobalConfig } from '@element-plus/utils/util'
-import { Close } from '@element-plus/icons'
+import { Close } from '@element-plus/icons-vue'
 
-import { tagProps, tagEmits } from './tag'
+import { useNamespace, useSize } from '@element-plus/hooks'
+import { tagEmits, tagProps } from './tag'
 
-export default defineComponent({
+defineOptions({
   name: 'ElTag',
-
-  components: { ElIcon, Close },
-
-  props: tagProps,
-  emits: tagEmits,
-
-  setup(props, { emit }) {
-    const ELEMENT = useGlobalConfig()
-
-    const tagSize = computed(() => props.size || ELEMENT.size)
-    const classes = computed(() => {
-      const { type, hit, effect } = props
-      return [
-        'el-tag',
-        type ? `el-tag--${type}` : '',
-        tagSize.value ? `el-tag--${tagSize.value}` : '',
-        effect ? `el-tag--${effect}` : '',
-        hit && 'is-hit',
-      ]
-    })
-
-    // methods
-    const handleClose = (event: MouseEvent) => {
-      event.stopPropagation()
-      emit('close', event)
-    }
-
-    const handleClick = (event: MouseEvent) => {
-      emit('click', event)
-    }
-
-    return {
-      classes,
-      handleClose,
-      handleClick,
-    }
-  },
 })
+const props = defineProps(tagProps)
+const emit = defineEmits(tagEmits)
+
+const tagSize = useSize()
+const ns = useNamespace('tag')
+const classes = computed(() => {
+  const { type, hit, effect, closable } = props
+  return [
+    ns.b(),
+    ns.is('closable', closable),
+    ns.m(type),
+    ns.m(tagSize.value),
+    ns.m(effect),
+    ns.is('hit', hit),
+  ]
+})
+
+// methods
+const handleClose = (event: MouseEvent) => {
+  event.stopPropagation()
+  emit('close', event)
+}
+
+const handleClick = (event: MouseEvent) => {
+  emit('click', event)
+}
 </script>

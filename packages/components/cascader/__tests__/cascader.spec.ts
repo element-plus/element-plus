@@ -1,7 +1,22 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { ArrowDown, Check, CircleClose } from '@element-plus/icons'
+import { EVENT_CODE } from '@element-plus/constants'
+import { triggerEvent } from '@element-plus/test-utils'
+import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
+import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { hasClass } from '@element-plus/utils'
 import Cascader from '../src/index.vue'
+
+jest.mock('lodash-unified', () => {
+  return {
+    ...(jest.requireActual('lodash-unified') as Record<string, any>),
+    debounce: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
 
 const OPTIONS = [
   {
@@ -16,6 +31,10 @@ const OPTIONS = [
         value: 'ningbo',
         label: 'Ningbo',
       },
+      {
+        value: 'wenzhou',
+        label: 'Wenzhou',
+      },
     ],
   },
 ]
@@ -26,6 +45,8 @@ const TRIGGER = '.el-cascader'
 const NODE = '.el-cascader-node'
 const TAG = '.el-tag'
 const SUGGESTION_ITEM = '.el-cascader__suggestion-item'
+const SUGGESTION_PANEL = '.el-cascader__suggestion-panel'
+const DROPDOWN = '.el-cascader__dropdown'
 
 const _mount: typeof mount = (options) =>
   mount(
@@ -225,13 +246,53 @@ describe('Cascader.vue', () => {
         modelValue: [
           ['zhejiang', 'hangzhou'],
           ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
         ],
       },
     })
     await nextTick()
-    const [firstTag, secondTag] = wrapper.findAll(TAG)
-    expect(firstTag.text()).toBe('Zhejiang / Hangzhou')
-    expect(secondTag.text()).toBe('+ 1')
+    const tags = wrapper.findAll(TAG).filter((item) => {
+      return !hasClass(item.element, 'in-tooltip')
+    })
+    expect(tags[0].text()).toBe('Zhejiang / Hangzhou')
+    expect(tags.length).toBe(2)
+  })
+
+  test('collapse tags tooltip', async () => {
+    const wrapper = mount(Cascader, {
+      props: {
+        options: OPTIONS,
+        props: { multiple: true },
+        collapseTags: true,
+        collapseTagsTooltip: true,
+        modelValue: [
+          ['zhejiang', 'hangzhou'],
+          ['zhejiang', 'ningbo'],
+          ['zhejiang', 'wenzhou'],
+        ],
+      },
+    })
+    await nextTick()
+    expect(wrapper.findAll(TAG).length).toBe(5)
+    const tags = wrapper.findAll(TAG).filter((item) => {
+      return hasClass(item.element, 'in-tooltip')
+    })
+    expect(tags[0].text()).toBe('Zhejiang / Hangzhou')
+    expect(tags[1].text()).toBe('Zhejiang / Ningbo')
+    expect(tags[2].text()).toBe('Zhejiang / Wenzhou')
+  })
+
+  test('tag type', async () => {
+    const wrapper = mount(Cascader, {
+      props: {
+        options: OPTIONS,
+        props: { multiple: true },
+        tagType: 'success',
+        modelValue: [['zhejiang', 'hangzhou']],
+      },
+    })
+    await nextTick()
+    expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
   })
 
   test('filterable', async () => {
@@ -325,5 +386,93 @@ describe('Cascader.vue', () => {
     const hzSuggestion = document.querySelector(SUGGESTION_ITEM) as HTMLElement
     expect(filterMethod).toBeCalled()
     expect(hzSuggestion.textContent).toBe('Zhejiang / Hangzhou')
+  })
+
+  test('filterable keyboard selection', async () => {
+    const wrapper = _mount({
+      template: `
+        <cascader
+          v-model="value"
+          :options="options"
+          filterable
+        />
+      `,
+      data() {
+        return {
+          options: OPTIONS,
+          value: [],
+        }
+      },
+    })
+
+    const input = wrapper.find('input')
+    const dropdown = document.querySelector(DROPDOWN)
+    input.element.value = 'h'
+    await input.trigger('input')
+    const suggestionsPanel = document.querySelector(
+      SUGGESTION_PANEL
+    ) as HTMLDivElement
+    const suggestions = dropdown.querySelectorAll(
+      SUGGESTION_ITEM
+    ) as NodeListOf<HTMLElement>
+    const hzSuggestion = suggestions[0]
+    triggerEvent(suggestionsPanel, 'keydown', EVENT_CODE.down)
+    expect(document.activeElement.textContent).toBe('Zhejiang / Hangzhou')
+    triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.down)
+    expect(document.activeElement.textContent).toBe('Zhejiang / Ningbo')
+    triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.enter)
+    await nextTick()
+    expect(wrapper.vm.value).toEqual(['zhejiang', 'hangzhou'])
+  })
+
+  describe('teleported API', () => {
+    it('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      _mount({
+        template: `
+          <cascader
+            v-model="value"
+            :options="options"
+            filterable
+          />
+        `,
+        data() {
+          return {
+            options: OPTIONS,
+            value: [],
+          }
+        },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    it('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      _mount({
+        template: `
+          <cascader
+            v-model="value"
+            :options="options"
+            :teleported="false"
+            filterable
+          />
+        `,
+        data() {
+          return {
+            options: OPTIONS,
+            value: [],
+          }
+        },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
+    })
   })
 })

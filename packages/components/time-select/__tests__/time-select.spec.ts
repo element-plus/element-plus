@@ -1,8 +1,12 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import Select from '@element-plus/components/select'
-import { sleep } from '@element-plus/test-utils'
 import TimeSelect from '../src/time-select.vue'
+dayjs.extend(customParseFormat)
+
+jest.useFakeTimers()
 
 const { Option } = Select
 
@@ -102,7 +106,7 @@ describe('TimeSelect', () => {
 
     const option = wrapper
       .findAllComponents(Option)
-      .filter((w) => w.text().trim() === '11:00')[0]
+      .find((w) => w.text().trim() === '11:00')
 
     expect(option.exists()).toBe(true)
     option.trigger('click')
@@ -151,7 +155,10 @@ describe('TimeSelect', () => {
         this.$refs.input.focus()
       },
     })
-    await sleep(50)
+    await nextTick()
+    jest.runAllTimers()
+    await nextTick()
+
     const popperEl = document.querySelector('.el-select__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
@@ -165,9 +172,31 @@ describe('TimeSelect', () => {
         this.$refs.input.blur()
       },
     })
-    await sleep(50)
+    await nextTick()
+
+    jest.runAllTimers()
+    await nextTick()
     const popperEl = document.querySelector('.el-select__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
+  })
+
+  it('set format', async () => {
+    const wrapper = _mount(
+      `<el-time-select
+    v-model="value"
+    start="13:00"
+    step="00:30"
+    end="13:30"
+    format="hh:mm A"
+  >
+  </el-time-select>`,
+      () => ({ value: '' })
+    )
+    const input = wrapper.find('.el-input__inner')
+    await input.trigger('click')
+    await nextTick()
+    const option = document.querySelector('.el-select-dropdown__item')
+    expect(option.textContent).toBe('01:00 PM')
   })
 })

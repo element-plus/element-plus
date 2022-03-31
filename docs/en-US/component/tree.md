@@ -15,6 +15,8 @@ Basic tree structure.
 
 tree/basic
 
+:::
+
 ## Selectable
 
 Used for node selection.
@@ -71,6 +73,16 @@ tree/customized-node
 
 :::
 
+## Custom node class
+
+The class of tree nodes can be customized
+
+:::demo. Use `props.class` to build class name of nodes.
+
+tree/custom-node-class
+
+:::
+
 ## Tree node filtering
 
 Tree nodes can be filtered
@@ -111,7 +123,7 @@ tree/draggable
 | props                 | configuration options, see the following table                                                                                                                                                                                                                                                                                                                              | object                                 | —               | —       |
 | render-after-expand   | whether to render child nodes only after a parent node is expanded for the first time                                                                                                                                                                                                                                                                                       | boolean                                | —               | true    |
 | load                  | method for loading subtree data, only works when `lazy` is true                                                                                                                                                                                                                                                                                                             | function(node, resolve)                | —               | —       |
-| render-content        | render function for tree node                                                                                                                                                                                                                                                                                                                                               | Function(h, { node, data, store })     | —               | —       |
+| render-content        | render function for tree node                                                                                                                                                                                                                                                                                                                                               | Function(h, `{ node, data, store }`)   | —               | —       |
 | highlight-current     | whether current node is highlighted                                                                                                                                                                                                                                                                                                                                         | boolean                                | —               | false   |
 | default-expand-all    | whether to expand all nodes by default                                                                                                                                                                                                                                                                                                                                      | boolean                                | —               | false   |
 | expand-on-click-node  | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon.                                                                                                                                                                                                                                  | boolean                                | —               | true    |
@@ -133,12 +145,13 @@ tree/draggable
 
 ## props
 
-| Attribute | Description                                                                   | Type                          | Accepted Values | Default |
-| --------- | ----------------------------------------------------------------------------- | ----------------------------- | --------------- | ------- |
-| label     | specify which key of node object is used as the node's label                  | string, function(data, node)  | —               | —       |
-| children  | specify which node object is used as the node's subtree                       | string                        | —               | —       |
-| disabled  | specify which key of node object represents if node's checkbox is disabled    | boolean, function(data, node) | —               | —       |
-| isLeaf    | specify whether the node is a leaf node, only works when lazy load is enabled | boolean, function(data, node) | —               | —       |
+| Attribute | Description                                                                   | Type                         | Accepted Values | Default |
+| --------- | ----------------------------------------------------------------------------- | ---------------------------- | --------------- | ------- |
+| label     | specify which key of node object is used as the node's label                  | string, function(data, node) | —               | —       |
+| children  | specify which node object is used as the node's subtree                       | string                       | —               | —       |
+| disabled  | specify which key of node object represents if node's checkbox is disabled    | string, function(data, node) | —               | —       |
+| isLeaf    | specify whether the node is a leaf node, only works when lazy load is enabled | string, function(data, node) | —               | —       |
+| class     | custom node class name                                                        | string, function(data, node) | —               | —       |
 
 ## Method
 
@@ -168,7 +181,7 @@ tree/draggable
 
 | Event Name       | Description                                               | Parameters                                                                                                                                                                                       |
 | ---------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| node-click       | triggers when a node is clicked                           | three parameters: node object corresponding to the node clicked, `node` property of TreeNode, TreeNode itself                                                                                    |
+| node-click       | triggers when a node is clicked                           | three parameters: node object corresponding to the node clicked, `node` property of TreeNode, TreeNode itself, event object                                                                      |
 | node-contextmenu | triggers when a node is clicked by right button           | four parameters: event, node object corresponding to the node clicked, `node` property of TreeNode, TreeNode itself                                                                              |
 | check-change     | triggers when the selected state of the node changes      | three parameters: node object corresponding to the node whose selected state is changed, whether the node is selected, whether node's subtree has selected nodes                                 |
 | check            | triggers after clicking the checkbox of a node            | two parameters: node object corresponding to the node that is checked / unchecked, tree checked status object which has four props: checkedNodes, checkedKeys, halfCheckedNodes, halfCheckedKeys |
@@ -184,6 +197,6 @@ tree/draggable
 
 ## Slots
 
-| Name | Description                                                          |
-| ---- | -------------------------------------------------------------------- |
-| —    | Custom content for tree nodes. The scope parameter is { node, data } |
+| Name | Description                                                            |
+| ---- | ---------------------------------------------------------------------- |
+| —    | Custom content for tree nodes. The scope parameter is `{ node, data }` |

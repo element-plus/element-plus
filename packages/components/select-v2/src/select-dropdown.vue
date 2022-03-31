@@ -1,30 +1,29 @@
 <script lang="ts">
 import {
-  defineComponent,
   computed,
+  defineComponent,
+  h,
   inject,
   ref,
   renderSlot,
-  h,
   withCtx,
   withKeys,
   withModifiers,
 } from 'vue'
-import { getValueByPath, isUndefined, isObject } from '@element-plus/utils/util'
-// import { addResizeListener, removeResizeListener, ResizableElement } from '@element-plus/utils/resize-event'
-import { ElIcon } from '@element-plus/components/icon'
-import { Select } from '@element-plus/icons'
+import { get } from 'lodash-unified'
+import { isObject, isUndefined } from '@element-plus/utils'
 import {
-  FixedSizeList,
   DynamicSizeList,
+  FixedSizeList,
 } from '@element-plus/components/virtual-list'
+import { useNamespace } from '@element-plus/hooks'
 import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
 
 import { selectV2InjectionKey } from './token'
 
 import type { ItemProps } from '@element-plus/components/virtual-list'
-import type { OptionItemProps, Option } from './select.types'
+import type { Option, OptionItemProps } from './select.types'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -36,6 +35,7 @@ export default defineComponent({
   },
   setup(props) {
     const select = inject(selectV2InjectionKey) as any
+    const ns = useNamespace('select')
     const cachedHeights = ref<Array<number>>([])
 
     const listRef = ref(null)
@@ -68,9 +68,7 @@ export default defineComponent({
       return (
         arr &&
         arr.some((item) => {
-          return (
-            getValueByPath(item, valueKey) === getValueByPath(target, valueKey)
-          )
+          return get(item, valueKey) === get(target, valueKey)
         })
       )
     }
@@ -79,18 +77,16 @@ export default defineComponent({
         return selected === target
       } else {
         const { valueKey } = select.props
-        return (
-          getValueByPath(selected, valueKey) ===
-          getValueByPath(target, valueKey)
-        )
+        return get(selected, valueKey) === get(target, valueKey)
       }
     }
 
     const isItemSelected = (modelValue: any[] | any, target: Option) => {
+      const { valueKey } = select.props
       if (select.props.multiple) {
-        return contains(modelValue, target.value)
+        return contains(modelValue, get(target, valueKey))
       }
-      return isEqual(modelValue, target.value)
+      return isEqual(modelValue, get(target, valueKey))
     }
 
     const isItemDisabled = (modelValue: any[] | any, selected: boolean) => {
@@ -122,6 +118,7 @@ export default defineComponent({
 
     // computed
     return {
+      ns,
       select,
       listProps,
       listRef,
@@ -145,6 +142,7 @@ export default defineComponent({
       select,
       isSized,
       width,
+      ns,
       // methods
       isItemDisabled,
       isItemHovering,
@@ -166,7 +164,7 @@ export default defineComponent({
       return h(
         'div',
         {
-          class: 'el-select-dropdown',
+          class: ns.b('dropdown'),
           style: {
             width: `${width}px`,
           },
@@ -206,7 +204,6 @@ export default defineComponent({
           default: withCtx((props: OptionItemProps) => {
             return renderSlot($slots, 'default', props, () => [
               h('span', item.label),
-              selected && h(ElIcon, {}, () => [h(Select)]),
             ])
           }),
         }
@@ -217,11 +214,12 @@ export default defineComponent({
       Comp,
       {
         ref: 'listRef', // forwarded ref so that select can access the list directly
-        className: 'el-select-dropdown__list',
+        className: ns.be('dropdown', 'list'),
         data,
         height,
         width,
         total: data.length,
+        scrollbarAlwaysOn: selectProps.scrollbarAlwaysOn,
         onKeydown: [
           _cache[1] ||
             (_cache[1] = withKeys(
@@ -268,10 +266,7 @@ export default defineComponent({
     return h(
       'div',
       {
-        class: {
-          'is-multiple': multiple,
-          'el-select-dropdown': true,
-        },
+        class: [ns.b('dropdown'), ns.is('multiple', multiple)],
       },
       [List]
     )

@@ -1,10 +1,11 @@
 <template>
-  <section class="el-container" :class="{ 'is-vertical': isVertical }">
-    <slot></slot>
+  <section :class="[ns.b(), ns.is('vertical', isVertical)]">
+    <slot />
   </section>
 </template>
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 
 import type { Component, VNode } from 'vue'
 
@@ -17,6 +18,8 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
+    const ns = useNamespace('container')
+
     const isVertical = computed(() => {
       if (props.direction === 'vertical') {
         return true
@@ -35,6 +38,7 @@ export default defineComponent({
     })
     return {
       isVertical,
+      ns,
     }
   },
 })

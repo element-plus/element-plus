@@ -1,15 +1,22 @@
-import { h, ref, inject } from 'vue'
+import { defineComponent, h, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { LocaleInjectionKey } from '@element-plus/hooks'
+import { useGlobalConfig, useLocale } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
-import { ConfigProvider } from '../config-provider'
+import { ElButton, ElMessage } from '@element-plus/components'
+import { rAF } from '@element-plus/test-utils/tick'
+import ConfigProvider from '../src/config-provider'
 
+import type { PropType } from 'vue'
+import type { VueWrapper } from '@vue/test-utils'
 import type { Language } from '@element-plus/locale'
+import type { ConfigProviderProps } from '../src/config-provider'
+
+jest.useFakeTimers()
 
 const TestComp = {
   setup() {
-    const { t } = inject(LocaleInjectionKey)
+    const { t } = useLocale()
     return () => {
       return h('div', t('el.popconfirm.confirmButtonText'))
     }
@@ -17,8 +24,12 @@ const TestComp = {
 }
 
 describe('config-provider', () => {
+  afterAll(() => {
+    jest.useRealTimers()
+  })
+
   describe('locale-provider', () => {
-    let wrapper
+    let wrapper: VueWrapper<any>
 
     beforeEach(() => {
       wrapper = mount({
@@ -86,5 +97,195 @@ describe('config-provider', () => {
         English.el.popconfirm.confirmButtonText
       )
     })
+  })
+
+  describe('button-config', () => {
+    it('autoInsertSpace', async () => {
+      const wrapper = mount({
+        components: {
+          [ConfigProvider.name]: ConfigProvider,
+          ElButton,
+        },
+        setup() {
+          const config = reactive({
+            autoInsertSpace: true,
+          })
+          return {
+            config,
+          }
+        },
+        template: `
+          <el-config-provider :button="config">
+            <el-button>中文</el-button>
+          </el-config-provider>
+          <button class="toggle" @click="config.autoInsertSpace = !config.autoInsertSpace">toggle</button>
+        `,
+      })
+      await nextTick()
+      expect(
+        wrapper.find('.el-button .el-button__text--expand').exists()
+      ).toBeTruthy()
+      await wrapper.find('.toggle').trigger('click')
+      expect(
+        wrapper.find('.el-button .el-button__text--expand').exists()
+      ).toBeFalsy()
+    })
+  })
+
+  describe('namespace-config', () => {
+    it('reactive namespace', async () => {
+      const wrapper = mount({
+        components: {
+          [ConfigProvider.name]: ConfigProvider,
+          ElButton,
+        },
+        setup() {
+          const namespace = ref()
+          return {
+            namespace,
+          }
+        },
+        template: `
+          <el-config-provider :namespace="namespace">
+            <el-button>test str</el-button>
+          </el-config-provider>
+        `,
+      })
+      await nextTick()
+      expect(wrapper.find('button').classes().join('')).toBe('el-button')
+      wrapper.vm.namespace = 'ep'
+      await nextTick()
+      expect(wrapper.find('button').classes().join('')).toBe('ep-button')
+    })
+  })
+
+  describe('message-config', () => {
+    it('limit the number of messages displayed at the same time', async () => {
+      const wrapper = mount({
+        components: {
+          [ConfigProvider.name]: ConfigProvider,
+          ElButton,
+        },
+        setup() {
+          const config = reactive({
+            max: 3,
+          })
+          const open = () => {
+            ElMessage('this is a message.')
+          }
+          return {
+            config,
+            open,
+          }
+        },
+        template: `
+          <el-config-provider :message="config">
+            <el-button @click="open">open</el-button>
+          </el-config-provider>
+        `,
+      })
+      await nextTick()
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      expect(document.querySelectorAll('.el-message').length).toBe(3)
+
+      wrapper.vm.config.max = 10
+      await nextTick()
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      expect(document.querySelectorAll('.el-message').length).toBe(7)
+    })
+
+    it('multiple config-provider config override', async () => {
+      const wrapper = mount({
+        components: {
+          [ConfigProvider.name]: ConfigProvider,
+          ElButton,
+        },
+        setup() {
+          const config = reactive({
+            max: 3,
+          })
+          const overrideConfig = reactive({
+            max: 1,
+          })
+          const open = () => {
+            ElMessage('this is a message.')
+          }
+          return {
+            config,
+            overrideConfig,
+            open,
+          }
+        },
+        template: `
+          <el-config-provider :message="config">
+            <el-config-provider :message="overrideConfig">
+              <el-button @click="open">open</el-button>
+            </el-config-provider>
+          </el-config-provider>
+        `,
+      })
+      jest.runAllTimers()
+      await rAF()
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      wrapper.find('.el-button').trigger('click')
+      await nextTick()
+      expect(document.querySelectorAll('.el-message').length).toBe(1)
+    })
+  })
+
+  describe('feature checking', () => {
+    const TestComponent = defineComponent({
+      props: {
+        configKey: {
+          type: String as PropType<keyof ConfigProviderProps>,
+          required: true,
+        },
+      },
+      setup(props) {
+        const features = useGlobalConfig(props.configKey)
+        return {
+          [props.configKey]: features,
+        }
+      },
+      template: `<div />`,
+    })
+
+    it.each`
+      feature                   | config
+      ${'a11y'}                 | ${false}
+      ${'keyboardNavigation'}   | ${false}
+      ${'experimentalFeatures'} | ${{ someFeature: true }}
+    `(
+      'should inject config $feature to $config correctly',
+      ({ feature, config }: { feature: string; config: any }) => {
+        const wrapper = mount({
+          components: {
+            [ConfigProvider.name]: ConfigProvider,
+            TestComponent,
+          },
+          template: `
+            <el-config-provider :${feature}="${feature}">
+              <test-component config-key="${feature}" />
+            </el-config-provider>
+          `,
+          data() {
+            return {
+              [feature]: config,
+            }
+          },
+        })
+
+        expect(wrapper.findComponent(TestComponent).vm[feature]).toEqual(config)
+      }
+    )
   })
 })

@@ -1,13 +1,13 @@
 import { nextTick } from 'vue'
 import { isFunction } from '@vue/shared'
-import throttle from 'lodash/throttle'
+import { throttle } from 'lodash-unified'
 import {
-  getScrollContainer,
   getOffsetTopDistance,
-} from '@element-plus/utils/dom'
-import { throwError } from '@element-plus/utils/error'
+  getScrollContainer,
+  throwError,
+} from '@element-plus/utils'
 
-import type { ObjectDirective, ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, ObjectDirective } from 'vue'
 
 export const SCOPE = 'ElInfiniteScroll'
 export const CHECK_INTERVAL = 50
@@ -106,7 +106,7 @@ function checkFull(el: InfiniteScrollEl, cb: InfiniteScrollCallback) {
   const { containerEl, instance } = el[SCOPE]
   const { disabled } = getScrollOptions(el, instance)
 
-  if (disabled) return
+  if (disabled || containerEl.clientHeight === 0) return
 
   if (containerEl.scrollHeight <= containerEl.clientHeight) {
     cb.call(instance)
@@ -165,6 +165,15 @@ const InfiniteScroll: ObjectDirective<
 
     container?.removeEventListener('scroll', onScroll)
     destroyObserver(el)
+  },
+  async updated(el) {
+    if (!el[SCOPE]) {
+      await nextTick()
+    }
+    const { containerEl, cb, observer } = el[SCOPE]
+    if (containerEl.clientHeight && observer) {
+      checkFull(el, cb)
+    }
   },
 }
 

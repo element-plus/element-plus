@@ -5,15 +5,22 @@ on: pull_request
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+      fail-fast: false
+
     env:
       PULL_REQUEST_NUMBER: ${{ github.event.number }}
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           registry-url: https://registry.npmjs.com/
@@ -23,6 +30,18 @@ jobs:
         with:
           version: latest
 
+      - name: Cache ~/.pnpm-store
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-pnpm-store
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-preview-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-preview-${{ env.cache-name }}-
+            ${{ runner.os }}-preview-
+            ${{ runner.os }}-
+
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
@@ -31,6 +50,8 @@ jobs:
 
       - name: Build Element Plus
         run: pnpm build
+        env:
+          FORCE_COLOR: 2
 
       - name: Build website
         run: pnpm docs:build
@@ -39,7 +60,8 @@ jobs:
 
       # share website dist
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v3
         with:
           name: docs
           path: docs/.vitepress/dist/
@@ -47,13 +69,13 @@ jobs:
 
       # write pr.txt for share
       - name: Save pr number
-        if: ${{ always() }}
+        if: matrix.os == 'ubuntu-latest'
         run: echo ${PULL_REQUEST_NUMBER} > ./pr.txt
 
       # share pr number
       - name: Upload pr number
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v3
         with:
           name: pr
           path: ./pr.txt

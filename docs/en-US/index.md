@@ -1,5 +1,5 @@
 ---
-title: A Desktop UI Toolkit for Web
+title: A Vue 3 UI Framework
 page: true
 lang: en-US
 ---

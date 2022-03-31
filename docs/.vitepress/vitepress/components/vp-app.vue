@@ -2,7 +2,8 @@
 import { onMounted } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import nprogress from 'nprogress'
-import { useToggle } from '../composables/toggle'
+import dayjs from 'dayjs'
+import { isClient, useStorage, useToggle } from '@vueuse/core'
 import { useSidebar } from '../composables/sidebar'
 import { useToggleWidgets } from '../composables/toggle-widgets'
 import { useLang } from '../composables/lang'
@@ -14,21 +15,27 @@ import VPSidebar from './vp-sidebar.vue'
 import VPContent from './vp-content.vue'
 import VPSponsors from './vp-sponsors.vue'
 
+const USER_PREFER_GITHUB_PAGE = 'USER_PREFER_GITHUB_PAGE'
+
 const [isSidebarOpen, toggleSidebar] = useToggle(false)
 const { hasSidebar } = useSidebar()
 const lang = useLang()
 
 useToggleWidgets(isSidebarOpen, () => {
+  if (!isClient) return
   if (window.outerWidth >= breakpoints.lg) {
     toggleSidebar(false)
   }
 })
 
+const userPrefer = useStorage<boolean | string>(USER_PREFER_GITHUB_PAGE, null)
+
 onMounted(async () => {
+  if (!isClient) return
   window.addEventListener(
     'click',
     (e) => {
-      const link = e.target.closest('a')
+      const link = (e.target as HTMLElement).closest('a')
       if (!link) return
 
       const { protocol, hostname, pathname, target } = link
@@ -56,6 +63,17 @@ onMounted(async () => {
 
   if (lang.value === 'zh-CN') {
     if (location.host === 'element-plus.gitee.io') return
+
+    if (userPrefer.value) {
+      // no alert in the next 90 days
+      if (
+        dayjs
+          .unix(Number(userPrefer.value))
+          .add(90, 'day')
+          .diff(dayjs(), 'day', true) > 0
+      )
+        return
+    }
     try {
       await ElMessageBox.confirm(
         '建议大陆用户访问部署在国内的站点，是否跳转？',
@@ -69,8 +87,8 @@ onMounted(async () => {
       location.href = `https://element-plus.gitee.io${toLang}${location.pathname.slice(
         toLang.length
       )}`
-    } catch (e) {
-      // do nothing
+    } catch {
+      userPrefer.value = String(dayjs().unix())
     }
   }
 })

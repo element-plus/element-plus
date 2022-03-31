@@ -1,50 +1,59 @@
 import {
   computed,
-  watch,
-  ref,
-  reactive,
   nextTick,
-  inject,
-  onMounted,
   onBeforeMount,
+  onMounted,
+  reactive,
+  ref,
+  watch,
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import isEqual from 'lodash/isEqual'
-import lodashDebounce from 'lodash/debounce'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import { useLocaleInject } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
+import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import {
+  useFormItem,
+  useLocale,
+  useNamespace,
+  useSize,
+} from '@element-plus/hooks'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  ValidateComponentsMap,
   addResizeListener,
+  debugWarn,
   removeResizeListener,
-} from '@element-plus/utils/resize-event'
-import { getValueByPath, useGlobalConfig } from '@element-plus/utils/util'
-import { Effect } from '@element-plus/components/popper'
+} from '@element-plus/utils'
+import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 
-import { ArrowUp } from '@element-plus/icons'
+import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
 
 import { flattenOptions } from './util'
 
 import { useInput } from './useInput'
+import type ElTooltip from '@element-plus/components/tooltip'
 import type { SelectProps } from './defaults'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
-import type { OptionType, Option } from './select.types'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
+import type { Option, OptionType } from './select.types'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
 const TAG_BASE_WIDTH = {
-  small: 42,
-  mini: 33,
+  larget: 51,
+  default: 42,
+  small: 33,
 }
+const COMPONENT_NAME = 'ElSelectV2'
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
-  const { t } = useLocaleInject()
-  const elForm = inject(elFormKey, {} as ElFormContext)
-  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
-  const $ELEMENT = useGlobalConfig()
+  const { t } = useLocale()
+  const nsSelectV2 = useNamespace('select-v2')
+  const nsInput = useNamespace('input')
+  const { form: elForm, formItem: elFormItem } = useFormItem()
+  const { compatTeleported } = useDeprecateAppendToBody(
+    COMPONENT_NAME,
+    'popperAppendToBody'
+  )
 
   const states = reactive({
     inputValue: DEFAULT_INPUT_PLACEHOLDER,
@@ -80,7 +89,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const controlRef = ref(null)
   const inputRef = ref(null) // el-input ref
   const menuRef = ref(null)
-  const popper = ref(null)
+  const popper = ref<InstanceType<typeof ElTooltip> | null>(null)
   const selectRef = ref(null)
   const selectionRef = ref(null) // tags ref
   const calculatorRef = ref<HTMLElement>(null)
@@ -88,19 +97,25 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // the controller of the expanded popup
   const expanded = ref(false)
 
-  const selectDisabled = computed(() => props.disabled || elForm.disabled)
+  const selectDisabled = computed(() => props.disabled || elForm?.disabled)
 
   const popupHeight = computed(() => {
     const totalHeight = filteredOptions.value.length * 34
     return totalHeight > props.height ? props.height : totalHeight
   })
 
+  const hasModelValue = computed(() => {
+    return (
+      props.modelValue !== undefined &&
+      props.modelValue !== null &&
+      props.modelValue !== ''
+    )
+  })
+
   const showClearBtn = computed(() => {
     const hasValue = props.multiple
       ? Array.isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-        props.modelValue !== null &&
-        props.modelValue !== ''
+      : hasModelValue.value
 
     const criteria =
       props.clearable &&
@@ -114,8 +129,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     props.remote && props.filterable ? '' : ArrowUp
   )
 
-  const iconReverse = computed(() =>
-    iconComponent.value && expanded.value ? 'is-reverse' : ''
+  const iconReverse = computed(
+    () => iconComponent.value && nsSelectV2.is('reverse', expanded.value)
+  )
+
+  const validateState = computed(() => elFormItem?.validateState || '')
+  const validateIcon = computed(
+    () => ValidateComponentsMap[validateState.value]
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
@@ -176,22 +196,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     filteredOptions.value.every((option) => option.disabled)
   )
 
-  const selectSize = computed(
-    () => props.size || elFormItem.size || $ELEMENT.size
-  )
+  const selectSize = useSize()
 
   const collapseTagSize = computed(() =>
-    ['small', 'mini'].indexOf(selectSize.value) > -1 ? 'mini' : 'small'
+    'small' === selectSize.value ? 'small' : 'default'
   )
 
   const tagMaxWidth = computed(() => {
     const select = selectionRef.value
-    const size = collapseTagSize.value
+    const size = collapseTagSize.value || 'default'
     const paddingLeft = select
-      ? parseInt(getComputedStyle(select).paddingLeft)
+      ? Number.parseInt(getComputedStyle(select).paddingLeft)
       : 0
     const paddingRight = select
-      ? parseInt(getComputedStyle(select).paddingRight)
+      ? Number.parseInt(getComputedStyle(select).paddingRight)
       : 0
     return (
       states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]
@@ -228,7 +246,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   // this obtains the actual popper DOM element.
-  const popperRef = computed(() => popper.value?.popperRef)
+  const popperRef = computed(() => popper.value?.popperRef?.contentRef)
 
   // the index with current value in options
   const indexRef = computed<number>(() => {
@@ -269,7 +287,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // methods
   const focusAndUpdatePopup = () => {
     inputRef.value.focus?.()
-    popper.value.update?.()
+    popper.value?.updatePopper()
   }
 
   const toggleMenu = () => {
@@ -330,7 +348,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (getValueByPath(item, valueKey) === getValueByPath(value, valueKey)) {
+      if (get(item, valueKey) === get(value, valueKey)) {
         index = i
         return true
       }
@@ -340,7 +358,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const getValueKey = (item: unknown) => {
-    return isObject(item) ? getValueByPath(item, props.valueKey) : item
+    return isObject(item) ? get(item, props.valueKey) : item
   }
 
   // if the selected item is item then we get label via indexing
@@ -359,7 +377,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
       selectRef.value.height = selection.offsetHeight
       if (expanded.value && emptyText.value !== false) {
-        popper.value?.update?.()
+        popper.value?.updatePopper?.()
       }
     })
   }
@@ -367,7 +385,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const handleResize = () => {
     resetInputWidth()
     calculatePopperSize()
-    popper.value?.update?.()
+    popper.value?.updatePopper?.()
     if (props.multiple) {
       return resetInputHeight()
     }
@@ -407,7 +425,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         handleQueryChange('')
         states.inputLength = 20
       }
-      if (props.filterable) {
+      if (props.filterable && !props.reserveKeyword) {
         inputRef.value.focus?.()
         onUpdateInputValue('')
       }
@@ -433,7 +451,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const deleteTag = (event: MouseEvent, tag: Option) => {
-    const index = (props.modelValue as Array<any>).indexOf(tag.value)
+    const { valueKey } = props
+    const index = (props.modelValue as Array<any>).indexOf(get(tag, valueKey))
 
     if (index > -1 && !selectDisabled.value) {
       const value = [
@@ -442,7 +461,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       ]
       states.cachedOptions.splice(index, 1)
       update(value)
-      emit('remove-tag', tag.value)
+      emit('remove-tag', get(tag, valueKey))
       states.softFocus = true
       removeNewOption(tag)
       return nextTick(focusAndUpdatePopup)
@@ -574,7 +593,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const onKeyboardSelect = () => {
     if (!expanded.value) {
       return toggleMenu()
-    } else if (~states.hoveringIndex) {
+    } else if (
+      ~states.hoveringIndex &&
+      filteredOptions.value[states.hoveringIndex]
+    ) {
       onSelect(
         filteredOptions.value[states.hoveringIndex],
         states.hoveringIndex,
@@ -641,7 +663,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if ((props.modelValue as Array<any>).length > 0) {
         let initHovering = false
         states.cachedOptions.length = 0
-        ;(props.modelValue as Array<any>).map((selected) => {
+        states.previousValue = props.modelValue.toString()
+        ;(props.modelValue as Array<any>).forEach((selected) => {
           const itemIndex = filteredOptions.value.findIndex(
             (option) => getValueKey(option) === selected
           )
@@ -657,9 +680,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         })
       } else {
         states.cachedOptions = []
+        states.previousValue = ''
       }
     } else {
-      if (props.modelValue) {
+      if (hasModelValue.value) {
+        states.previousValue = props.modelValue
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
           (option) => getValueKey(option) === props.modelValue
@@ -672,6 +697,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         }
       } else {
         states.selectedLabel = ''
+        states.previousValue = ''
       }
     }
     calculatePopperSize()
@@ -694,9 +720,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   watch(
     () => props.modelValue,
-    (val) => {
+    (val, oldVal) => {
       if (!val || val.toString() !== states.previousValue) {
         initStates()
+      }
+      if (!isEqual(val, oldVal)) {
+        elFormItem?.validate?.('change').catch((err) => debugWarn(err))
       }
     },
     {
@@ -746,6 +775,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     inputWrapperStyle,
     popperSize,
     dropdownMenuVisible,
+    hasModelValue,
     // readonly,
     shouldShowPlaceholder,
     selectDisabled,
@@ -753,6 +783,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     showClearBtn,
     states,
     tagMaxWidth,
+    nsSelectV2,
+    nsInput,
 
     // refs items exports
     calculatorRef,
@@ -765,7 +797,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     popperRef,
 
-    Effect,
+    validateState,
+    validateIcon,
+    // deprecations
+    compatTeleported,
 
     // methods exports
     debouncedOnInputChange,

@@ -5,17 +5,12 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      checked: false,
-    }
-  },
-  methods: {
-    onChange(checked) {
-      this.checked = checked
-    },
-  },
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const checked = ref(false)
+
+const onChange = (status: boolean) => {
+  checked.value = status
 }
 </script>

@@ -19,12 +19,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import dayjs from 'dayjs'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
-import { hasClass } from '@element-plus/utils/dom'
-import { coerceTruthyValueToArray } from '@element-plus/utils/util'
+import { castArray, hasClass } from '@element-plus/utils'
 
 import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
@@ -68,7 +67,7 @@ export default defineComponent({
   emits: ['changerange', 'pick', 'select'],
 
   setup(props, ctx) {
-    const { t, lang } = useLocaleInject()
+    const { t, lang } = useLocale()
     const months = ref(
       props.date
         .locale('en')
@@ -150,7 +149,7 @@ export default defineComponent({
         ? datesInMonth(year, month, lang.value).every(props.disabledDate)
         : false
       style.current =
-        coerceTruthyValueToArray(props.parsedValue).findIndex(
+        castArray(props.parsedValue).findIndex(
           (date) => date.year() === year && date.month() === month
         ) >= 0
       style.today = today.getFullYear() === year && today.getMonth() === month

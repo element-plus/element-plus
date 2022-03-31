@@ -1,43 +1,30 @@
 <template>
   <div
     ref="sliderWrapper"
-    class="el-slider"
-    :class="{ 'is-vertical': vertical, 'el-slider--with-input': showInput }"
+    :class="sliderKls"
     role="slider"
     :aria-valuemin="min"
     :aria-valuemax="max"
     :aria-orientation="vertical ? 'vertical' : 'horizontal'"
     :aria-disabled="sliderDisabled"
   >
-    <el-input-number
-      v-if="showInput && !range"
-      ref="input"
-      :model-value="firstValue"
-      class="el-slider__input"
-      :step="step"
-      :disabled="sliderDisabled"
-      :controls="showInputControls"
-      :min="min"
-      :max="max"
-      :debounce="debounce"
-      :size="inputSize"
-      @update:modelValue="setFirstValue"
-      @change="emitChange"
-    />
     <div
       ref="slider"
-      class="el-slider__runway"
-      :class="{ 'show-input': showInput && !range, disabled: sliderDisabled }"
+      :class="[
+        ns.e('runway'),
+        { 'show-input': showInput && !range },
+        ns.is('disabled', sliderDisabled),
+      ]"
       :style="runwayStyle"
       @click="onSliderClick"
     >
-      <div class="el-slider__bar" :style="barStyle"></div>
+      <div :class="ns.e('bar')" :style="barStyle" />
       <slider-button
         ref="firstButton"
         :model-value="firstValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
-        @update:modelValue="setFirstValue"
+        @update:model-value="setFirstValue"
       />
       <slider-button
         v-if="range"
@@ -45,15 +32,15 @@
         :model-value="secondValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
-        @update:modelValue="setSecondValue"
+        @update:model-value="setSecondValue"
       />
       <div v-if="showStops">
         <div
           v-for="(item, key) in stops"
           :key="key"
-          class="el-slider__stop"
+          :class="ns.e('stop')"
           :style="getStopStyle(item)"
-        ></div>
+        />
       </div>
       <template v-if="markList.length > 0">
         <div>
@@ -61,10 +48,10 @@
             v-for="(item, key) in markList"
             :key="key"
             :style="getStopStyle(item.position)"
-            class="el-slider__stop el-slider__marks-stop"
-          ></div>
+            :class="[ns.e('stop'), ns.e('marks-stop')]"
+          />
         </div>
-        <div class="el-slider__marks">
+        <div :class="ns.e('marks')">
           <slider-marker
             v-for="(item, key) in markList"
             :key="key"
@@ -74,6 +61,21 @@
         </div>
       </template>
     </div>
+    <el-input-number
+      v-if="showInput && !range"
+      ref="input"
+      :model-value="firstValue"
+      :class="ns.e('input')"
+      :step="step"
+      :disabled="sliderDisabled"
+      :controls="showInputControls"
+      :min="min"
+      :max="max"
+      :debounce="debounce"
+      :size="sliderInputSize"
+      @update:model-value="setFirstValue"
+      @change="emitChange"
+    />
   </div>
 </template>
 
@@ -92,12 +94,18 @@ import {
 } from 'vue'
 import ElInputNumber from '@element-plus/components/input-number'
 import {
-  UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
-} from '@element-plus/utils/constants'
-import { off, on } from '@element-plus/utils/dom'
-import { throwError } from '@element-plus/utils/error'
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
+import {
+  debugWarn,
+  isValidComponentSize,
+  off,
+  on,
+  throwError,
+} from '@element-plus/utils'
+import { useNamespace, useSize } from '@element-plus/hooks'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
@@ -105,7 +113,8 @@ import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
 import type { PropType, Ref } from 'vue'
-import type { ComponentSize, Nullable } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
+import type { Nullable } from '@element-plus/utils'
 
 export default defineComponent({
   name: 'ElSlider',
@@ -141,9 +150,13 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    size: {
+      type: String as PropType<ComponentSize>,
+      validator: isValidComponentSize,
+    },
     inputSize: {
       type: String as PropType<ComponentSize>,
-      default: 'small',
+      validator: isValidComponentSize,
     },
     showStops: {
       type: Boolean,
@@ -191,6 +204,7 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT, CHANGE_EVENT, INPUT_EVENT],
 
   setup(props, { emit }) {
+    const ns = useNamespace('slider')
     const initData = reactive({
       firstValue: 0,
       secondValue: 0,
@@ -222,6 +236,18 @@ export default defineComponent({
       minValue,
       maxValue
     )
+
+    const sliderWrapperSize = useSize()
+    const sliderInputSize = computed(
+      () => props.inputSize || sliderWrapperSize.value
+    )
+
+    const sliderKls = computed(() => [
+      ns.b(),
+      ns.m(sliderWrapperSize.value),
+      ns.is('vertical', props.vertical),
+      { [ns.m('with-input')]: props.showInput },
+    ])
 
     const markList = useMarks(props)
 
@@ -255,6 +281,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       firstValue,
       secondValue,
       oldValue,
@@ -277,6 +304,9 @@ export default defineComponent({
       markList,
 
       sliderWrapper,
+      sliderWrapperSize,
+      sliderInputSize,
+      sliderKls,
     }
   },
 })
@@ -316,11 +346,11 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          elFormItem.validate?.('change')
+          elFormItem.validate?.('change').catch((err) => debugWarn(err))
           initData.oldValue = val.slice()
         }
       }
-    } else if (!props.range && typeof val === 'number' && !isNaN(val)) {
+    } else if (!props.range && typeof val === 'number' && !Number.isNaN(val)) {
       if (val < props.min) {
         _emit(props.min)
       } else if (val > props.max) {
@@ -328,7 +358,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          elFormItem.validate?.('change')
+          elFormItem.validate?.('change').catch((err) => debugWarn(err))
           initData.oldValue = val
         }
       }
@@ -353,11 +383,16 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
         initData.dragging ||
         (Array.isArray(val) &&
           Array.isArray(oldVal) &&
-          val.every((item, index) => item === oldVal[index]))
+          val.every((item, index) => item === oldVal[index]) &&
+          initData.firstValue === val[0] &&
+          initData.secondValue === val[1])
       ) {
         return
       }
       setValues()
+    },
+    {
+      deep: true,
     }
   )
 
@@ -385,7 +420,10 @@ const useLifecycle = (props, initData, resetSize) => {
       initData.oldValue = [initData.firstValue, initData.secondValue]
       valuetext = `${initData.firstValue}-${initData.secondValue}`
     } else {
-      if (typeof props.modelValue !== 'number' || isNaN(props.modelValue)) {
+      if (
+        typeof props.modelValue !== 'number' ||
+        Number.isNaN(props.modelValue)
+      ) {
         initData.firstValue = props.min
       } else {
         initData.firstValue = Math.min(

@@ -27,7 +27,7 @@
     }
 
     &.disabled .cell {
-      background-color: $background-color-base;
+      background-color: getCssVar('fill-color', 'light');
       cursor: not-allowed;
       color: var(--el-text-color-placeholder);
 
@@ -41,18 +41,18 @@
       height: 36px;
       display: block;
       line-height: 36px;
-      color: var(--el-datepicker-font-color);
+      color: var(--el-datepicker-text-color);
       margin: 0 auto;
       border-radius: 18px;
       &:hover {
-        color: var(--el-datepicker-hover-font-color);
+        color: var(--el-datepicker-hover-text-color);
       }
     }
 
     &.in-range div {
-      background-color: var(--el-datepicker-inrange-background-color);
+      background-color: var(--el-datepicker-inrange-bg-color);
       &:hover {
-        background-color: var(--el-datepicker-inrange-hover-background-color);
+        background-color: var(--el-datepicker-inrange-hover-bg-color);
       }
     }
     &.start-date div,

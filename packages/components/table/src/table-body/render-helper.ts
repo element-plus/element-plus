@@ -1,19 +1,13 @@
-import { h, getCurrentInstance, computed } from 'vue'
+import { computed, h, inject } from 'vue'
 import { getRowIdentity } from '../util'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvents from './events-helper'
 import useStyles from './styles-helper'
-
 import type { TableBodyProps } from './defaults'
-import type {
-  RenderRowData,
-  Table,
-  TreeNode,
-  TableProps,
-} from '../table/defaults'
+import type { RenderRowData, TableProps, TreeNode } from '../table/defaults'
 
 function useRender<T>(props: Partial<TableBodyProps<T>>) {
-  const instance = getCurrentInstance()
-  const parent = instance.parent as Table<T>
+  const parent = inject(TABLE_INJECTION_KEY)
   const {
     handleDoubleClick,
     handleClick,
@@ -32,7 +26,6 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     getCellClass,
     getSpan,
     getColspanRealWidth,
-    isColumnHidden,
   } = useStyles(props)
   const firstDefaultColumnIndex = computed(() => {
     return props.store.states.columns.value.findIndex(
@@ -46,7 +39,12 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     }
     return index
   }
-  const rowRender = (row: T, $index: number, treeRowData?: TreeNode) => {
+  const rowRender = (
+    row: T,
+    $index: number,
+    treeRowData?: TreeNode,
+    expanded = false
+  ) => {
     const { tooltipEffect, store } = props
     const { indent, columns } = store.states
     const rowClasses = getRowClass(row, $index)
@@ -89,6 +87,8 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           column: columnData,
           row,
           $index,
+          cellIndex,
+          expanded,
         }
         if (cellIndex === firstDefaultColumnIndex.value && treeRowData) {
           data.treeNode = {
@@ -127,46 +127,53 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     )
   }
   const cellChildren = (cellIndex, column, data) => {
-    return isColumnHidden(cellIndex) ? null : column.renderCell(data)
+    return column.renderCell(data)
   }
+
   const wrappedRowRender = (row: T, $index: number) => {
     const store = props.store
     const { isRowExpanded, assertRowKey } = store
     const { treeData, lazyTreeNodeMap, childrenColumnName, rowKey } =
       store.states
-    const hasExpandColumn = store.states.columns.value.some(
-      ({ type }) => type === 'expand'
-    )
-    if (hasExpandColumn && isRowExpanded(row)) {
+    const columns = store.states.columns.value
+    const hasExpandColumn = columns.some(({ type }) => type === 'expand')
+    if (hasExpandColumn) {
+      const expanded = isRowExpanded(row)
+      const tr = rowRender(row, $index, undefined, expanded)
       const renderExpanded = parent.renderExpanded
-      const tr = rowRender(row, $index, undefined)
-      if (!renderExpanded) {
-        console.error('[Element Error]renderExpanded is required.')
-        return tr
+      if (expanded) {
+        if (!renderExpanded) {
+          console.error('[Element Error]renderExpanded is required.')
+          return tr
+        }
+        // 使用二维数组，避免修改 $index
+        // Use a matrix to avoid modifying $index
+        return [
+          [
+            tr,
+            h(
+              'tr',
+              {
+                key: `expanded-row__${tr.key as string}`,
+              },
+              [
+                h(
+                  'td',
+                  {
+                    colspan: columns.length,
+                    class: 'el-table__cell el-table__expanded-cell',
+                  },
+                  [renderExpanded({ row, $index, store, expanded })]
+                ),
+              ]
+            ),
+          ],
+        ]
+      } else {
+        // 使用二维数组，避免修改 $index
+        // Use a two dimensional array avoid modifying $index
+        return [[tr]]
       }
-      // 使用二维数组，避免修改 $index
-      // Use a two dimensional array avoid modifying $index
-      return [
-        [
-          tr,
-          h(
-            'tr',
-            {
-              key: `expanded-row__${tr.key as string}`,
-            },
-            [
-              h(
-                'td',
-                {
-                  colspan: store.states.columns.value.length,
-                  class: 'el-table__cell el-table__expanded-cell',
-                },
-                [renderExpanded({ row, $index, store })]
-              ),
-            ]
-          ),
-        ],
-      ]
     } else if (Object.keys(treeData.value).length) {
       assertRowKey()
       // TreeTable 时，rowKey 必须由用户设定，不使用 getKeyOfRow 计算

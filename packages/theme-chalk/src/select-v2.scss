@@ -7,8 +7,9 @@
 @use './select-dropdown-v2.scss';
 @use './option-item.scss';
 @use './option-group.scss';
+@use './select/common.scss' as *;
 
-$input-inline-start: 15px !default;
+$input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
 @include b(select-v2) {
   @include set-component-css-var('select', $select);
@@ -17,13 +18,18 @@ $input-inline-start: 15px !default;
 @include b(select-v2) {
   display: inline-block;
   position: relative;
+  vertical-align: middle;
   font-size: map.get($input-font-size, 'default');
   $selector: &;
   @include e(wrapper) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
     box-sizing: border-box;
     cursor: pointer;
-    padding: 5px 30px 5px 0px;
-    border: 1px solid var(--el-border-color-base);
+    padding: 1px 30px 1px 0;
+    border: 1px solid getCssVar('border-color');
     border-radius: var(--el-border-radius-base);
     transition: border-color var(--el-transition-duration-fast)
       var(--el-ease-in-out-bezier-function);
@@ -48,7 +54,7 @@ $input-inline-start: 15px !default;
     @include when(disabled) {
       cursor: not-allowed;
 
-      background-color: var(--el-background-color-base);
+      background-color: getCssVar('fill-color', 'light');
       color: var(--el-text-color-placeholder);
       border-color: var(--el-select-disabled-border);
 
@@ -63,6 +69,14 @@ $input-inline-start: 15px !default;
       .is-transparent {
         opacity: 1;
         user-select: none;
+      }
+
+      #{$selector}__caret {
+        cursor: not-allowed;
+      }
+
+      #{$selector}__combobox-input {
+        cursor: not-allowed;
       }
     }
 
@@ -80,9 +94,8 @@ $input-inline-start: 15px !default;
     }
 
     #{$selector}__input-wrapper input {
-      line-height: map.get($input-height, 'medium') - 8px;
-      height: map.get($input-height, 'medium') - 8px;
-
+      line-height: map.get($input-height, 'default') - 8px;
+      height: map.get($input-height, 'default') - 8px;
       min-width: 4px;
       width: 100%;
 
@@ -93,18 +106,13 @@ $input-inline-start: 15px !default;
       background: 0 0;
       border: none;
 
-      margin: 0;
+      margin: 2px 0;
       outline: none;
       padding: 0;
     }
   }
 
-  .#{$namespace}-select-v2__tags-text {
-    text-overflow: ellipsis;
-    display: inline-block;
-    overflow-x: hidden;
-    vertical-align: bottom;
-  }
+  @include select-common(select-v2);
 
   @include e(empty) {
     padding: 10px 0;
@@ -116,65 +124,29 @@ $input-inline-start: 15px !default;
 
   @include e(popper) {
     @include picker-popper(
-      map.get($select-dropdown, 'background'),
+      map.get($select-dropdown, 'bg-color'),
       map.get($select-dropdown, 'border'),
       map.get($select-dropdown, 'shadow')
     );
   }
 
-  @include m(medium) {
-    @include e(wrapper) {
-      padding: 3px 30px 3px 0px;
-      &,
-      #{$selector}__input-wrapper {
-        line-height: map.get($input-height, 'medium');
-      }
-    }
-    @include e(caret) {
-      line-height: map.get($input-height, 'medium');
-    }
-    @include e(suffix) {
-      height: map.get($input-height, 'medium');
-    }
-  }
-
-  @include m(small) {
-    @include e(wrapper) {
-      padding: 3px 30px 3px 0px;
-      line-height: map.get($input-height, 'small');
-      #{$selector}__input-wrapper {
-        line-height: map.get($input-height, 'small') - 8px;
-        input {
-          line-height: map.get($input-height, 'small') - 8px;
-          height: map.get($input-height, 'small') - 8px;
+  @each $size in (large, small) {
+    @include m($size) {
+      @include e(wrapper) {
+        #{$selector}__combobox-input {
+          height: map.get($input-height, $size) - 8px;
         }
       }
-    }
-    @include e(caret) {
-      line-height: map.get($input-height, 'small');
-    }
-    @include e(suffix) {
-      height: map.get($input-height, 'small');
-    }
-  }
-
-  @include m(mini) {
-    @include e(wrapper) {
-      padding: 1px 30px 1px 0px;
-      line-height: map.get($input-height, 'mini');
-      #{$selector}__input-wrapper {
-        line-height: map.get($input-height, 'mini') - 4px;
-        input {
-          line-height: map.get($input-height, 'mini') - 4px;
-          height: map.get($input-height, 'mini') - 4px;
-        }
+      @include e(caret) {
+        height: map.get($input-height, $size);
       }
-    }
-    @include e(caret) {
-      line-height: map.get($input-height, 'mini');
-    }
-    @include e(suffix) {
-      height: map.get($input-height, 'mini');
+      @include e(suffix) {
+        height: map.get($input-height, $size);
+      }
+      @include e(placeholder) {
+        font-size: map.get($input-font-size, $size);
+        line-height: map.get($input-line-height, $size);
+      }
     }
   }
 
@@ -214,7 +186,7 @@ $input-inline-start: 15px !default;
     appearance: none;
     height: 28px;
 
-    @include when(mini) {
+    @include when(small) {
       height: 14px;
     }
   }
@@ -235,11 +207,13 @@ $input-inline-start: 15px !default;
   }
 
   @include e(suffix) {
+    display: inline-flex;
     position: absolute;
-    right: 5px;
-    height: 40px;
+    right: 12px;
+    height: 32px;
     top: 50%;
     transform: translateY(-50%);
+    color: var(--el-input-icon-color, map.get($input, 'icon-color'));
   }
 
   @include e(caret) {
@@ -284,7 +258,7 @@ $input-inline-start: 15px !default;
 
   @include e(wrapper) {
     background-color: #fff;
-    border: 1px solid #d9d9d9;
+    border: 1px solid getCssVar('border-color');
     border-radius: var(--el-border-radius-base);
     position: relative;
     transition: all var(--el-transition-duration)
@@ -315,8 +289,7 @@ $input-inline-start: 15px !default;
     margin-inline-start: $input-inline-start;
     width: calc(100% - 52px);
     @include utils-ellipsis;
-    color: var(--el-input-font-color, map.get($input, 'font-color'));
-    font-size: inherit;
+    color: var(--el-input-text-color, map.get($input, 'text-color'));
     @include when(transparent) {
       color: var(--el-text-color-placeholder);
     }
@@ -326,7 +299,7 @@ $input-inline-start: 15px !default;
     box-sizing: border-box;
     border-color: transparent;
     margin: 2px 0 2px 6px;
-    background-color: #f0f2f5;
+    background-color: getCssVar('fill-color');
 
     .#{$namespace}-icon-close {
       background-color: var(--el-text-color-placeholder);
@@ -341,6 +314,13 @@ $input-inline-start: 15px !default;
         display: block;
         transform: translate(0, 0.5px);
       }
+    }
+  }
+
+  &.#{$namespace}-select-v2--small {
+    .#{$namespace}-select-v2__selection .#{$namespace}-tag {
+      margin: 1px 0 1px 6px;
+      height: 18px;
     }
   }
 }

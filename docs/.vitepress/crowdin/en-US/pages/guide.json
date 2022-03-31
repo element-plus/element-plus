@@ -18,7 +18,10 @@
     "text": "Advanced",
     "children": [
       { "text": "i18n", "link": "/guide/i18n" },
-      { "text": "Migration", "link": "/guide/migration" },
+      {
+        "text": "Migration from ElementUI",
+        "link": "/guide/migration"
+      },
       { "text": "Theming", "link": "/guide/theming" },
       { "text": "Built-in Transitions", "link": "/guide/transitions" },
       {

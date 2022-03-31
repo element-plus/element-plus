@@ -23,11 +23,11 @@ describe('Tag.vue', () => {
   test('type', () => {
     const wrapper = mount(Tag, {
       props: {
-        type: 'primary',
+        type: 'success',
       },
     })
     const vm = wrapper.vm
-    expect(vm.$el.classList.contains('el-tag--primary')).toEqual(true)
+    expect(vm.$el.classList.contains('el-tag--success')).toEqual(true)
   })
 
   test('hit', () => {
@@ -96,8 +96,7 @@ describe('Tag.vue', () => {
     const vm = wrapper.vm
     const el = vm.$el
     expect(el.className.includes('el-tag--large')).toEqual(true)
+    expect(el.className.includes('el-tag--default')).toEqual(false)
     expect(el.className.includes('el-tag--small')).toEqual(false)
-    expect(el.className.includes('el-tag--mini')).toEqual(false)
-    expect(el.className.includes('el-tag--medium')).toEqual(false)
   })
 })

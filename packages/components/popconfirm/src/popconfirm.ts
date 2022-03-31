@@ -1,7 +1,7 @@
-import { buttonType } from '@element-plus/components/button'
-import { QuestionFilled } from '@element-plus/icons'
-import { buildProps, definePropType } from '@element-plus/utils/props'
-
+import { buttonTypes } from '@element-plus/components/button'
+import { QuestionFilled } from '@element-plus/icons-vue'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import type { Component, ExtractPropTypes } from 'vue'
 
 export const popconfirmProps = buildProps({
@@ -16,17 +16,17 @@ export const popconfirmProps = buildProps({
   },
   confirmButtonType: {
     type: String,
-    values: buttonType,
+    values: buttonTypes,
     default: 'primary',
   },
   cancelButtonType: {
     type: String,
-    values: buttonType,
+    values: buttonTypes,
     default: 'text',
   },
   icon: {
-    type: definePropType<string | Component>([String, Object]),
-    default: QuestionFilled as any,
+    type: iconPropType,
+    default: QuestionFilled as Component,
   },
   iconColor: {
     type: String,
@@ -36,11 +36,17 @@ export const popconfirmProps = buildProps({
     type: Boolean,
     default: false,
   },
+  hideAfter: {
+    type: Number,
+    default: 200,
+  },
+  onConfirm: {
+    type: definePropType<(e: Event) => Promise<void> | void>(Function),
+  },
+  onCancel: {
+    type: definePropType<(e: Event) => Promise<void> | void>(Function),
+  },
+  teleported: useTooltipContentProps.teleported,
+  persistent: useTooltipContentProps.persistent,
 } as const)
 export type PopconfirmProps = ExtractPropTypes<typeof popconfirmProps>
-
-export const popconfirmEmits = {
-  confirm: () => true,
-  cancel: () => true,
-}
-export type PopconfirmEmits = typeof popconfirmEmits

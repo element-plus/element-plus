@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'vue'
+
 export const BAR_MAP = {
   vertical: {
     offset: 'offsetHeight',
@@ -21,14 +23,7 @@ export const BAR_MAP = {
   },
 }
 
-export function renderThumbStyle({ move, size, bar }) {
-  const style = {} as any
-  const translate = `translate${bar.axis}(${move}%)`
-
-  style[bar.size] = size
-  style.transform = translate
-  style.msTransform = translate
-  style.webkitTransform = translate
-
-  return style
-}
+export const renderThumbStyle = ({ move, size, bar }): CSSProperties => ({
+  [bar.size]: size,
+  transform: `translate${bar.axis}(${move}%)`,
+})

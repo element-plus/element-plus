@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { Check, Loading } from '@element-plus/icons'
+import { Check, Loading } from '@element-plus/icons-vue'
 import CascaderPanel from '../src/index.vue'
 
 const NORMAL_OPTIONS = [
@@ -34,6 +34,11 @@ const NORMAL_OPTIONS = [
         label: 'Shanghai',
       },
     ],
+  },
+  {
+    value: 'guangdong',
+    label: 'Guangdong',
+    children: [],
   },
 ]
 
@@ -154,12 +159,14 @@ describe('CascaderPanel.vue', () => {
     })
 
     const options = wrapper.findAll(NODE)
-    const [bjNode, zjNode] = options
+    const [bjNode, zjNode, , gdNode] = options
 
     expect(wrapper.findAll(MENU).length).toBe(1)
-    expect(options.length).toBe(3)
+    expect(options.length).toBe(4)
     expect(bjNode.text()).toBe('Beijing')
     expect(bjNode.find(EXPAND_ARROW).exists()).toBe(false)
+    expect(zjNode.find(EXPAND_ARROW).exists()).toBe(true)
+    expect(gdNode.find(EXPAND_ARROW).exists()).toBe(false)
 
     await zjNode.trigger('click')
     const menus = wrapper.findAll(MENU)
@@ -178,6 +185,12 @@ describe('CascaderPanel.vue', () => {
     expect(handleExpandChange).toBeCalledTimes(2)
     expect(handleChange).toBeCalledTimes(2)
     expect(wrapper.vm.value).toEqual(['beijing'])
+
+    await gdNode.trigger('click')
+    expect(wrapper.findAll(MENU).length).toBe(1)
+    expect(handleExpandChange).toBeCalledTimes(3)
+    expect(handleChange).toBeCalledTimes(3)
+    expect(wrapper.vm.value).toEqual(['guangdong'])
   })
 
   test('with default value', async () => {
@@ -666,6 +679,54 @@ describe('CascaderPanel.vue', () => {
     expect(secondMenu.findAll(CHECKBOX)[1].classes('is-indeterminate')).toBe(
       false
     )
+  })
+
+  test('no loaded nodes with checkStrictly should be selectable', async () => {
+    const wrapper = _mount({
+      template: `
+        <cascader-panel
+          :props="props"
+        />
+      `,
+      data() {
+        return {
+          props: {
+            checkStrictly: true,
+            lazy: true,
+            lazyLoad(node, resolve) {
+              const { level } = node
+              setTimeout(() => {
+                const nodes = Array.from({ length: level + 1 }).map(() => ({
+                  value: ++id,
+                  label: `Option - ${id}`,
+                  leaf: level >= 2,
+                }))
+                resolve(nodes)
+              }, 1000)
+            },
+          },
+        }
+      },
+    })
+    jest.runAllTimers()
+    await nextTick()
+    const firstMenu = wrapper.findAll(MENU)[0]
+    await firstMenu.find(RADIO).trigger('click')
+    expect(firstMenu.find(RADIO).classes('is-checked')).toBe(true)
+    expect(firstMenu.find(RADIO).classes('is-indeterminate')).toBe(false)
+
+    jest.runAllTimers()
+    await nextTick()
+    let secondMenu = wrapper.findAll(MENU)[1]
+    expect(secondMenu).toBeUndefined()
+    await firstMenu.find(NODE).trigger('click')
+
+    jest.runAllTimers()
+    await nextTick()
+    secondMenu = wrapper.findAll(MENU)[1]
+    await secondMenu.find(NODE).trigger('click')
+    expect(secondMenu.find(RADIO).classes('is-checked')).toBe(false)
+    expect(secondMenu.find(RADIO).classes('is-indeterminate')).toBe(false)
   })
 
   test('getCheckedNodes and clearCheckedNodes', () => {

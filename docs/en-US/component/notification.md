@@ -83,22 +83,44 @@ import { ElNotification } from 'element-plus'
 
 In this case you should call `ElNotification(options)`. We have also registered methods for different types, e.g. `ElNotification.success(options)`. You can call `ElNotification.closeAll()` to manually close all the instances.
 
+## App context inheritance <el-tag>> 2.0.4</el-tag>
+
+Now notification accepts a `context` as second parameter of the message constructor which allows you to inject current app's context to notification which allows you to inherit all the properties of the app.
+
+You can use it like this:
+
+:::tip
+
+If you globally registered ElNotification component, it will automatically inherit your app context.
+
+:::
+
+```ts
+import { getCurrentInstance } from 'vue'
+import { ElNotification } from 'element-plus'
+
+// in your setup method
+const { appContext } = getCurrentInstance()!
+ElNotification({}, appContext)
+```
+
 ## Options
 
-| Attribute                | Description                                                                                                        | Type               | Accepted Values                             | Default   |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------ | ------------------------------------------- | --------- |
-| title                    | title                                                                                                              | string             | —                                           | —         |
-| message                  | description text                                                                                                   | string/Vue.VNode   | —                                           | —         |
-| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                                        | boolean            | —                                           | false     |
-| type                     | notification type                                                                                                  | string             | success/warning/info/error                  | —         |
-| icon                     | custom icon component. It will be overridden by `type`                                                             | string / Component | —                                           | —         |
-| customClass              | custom class name for Notification                                                                                 | string             | —                                           | —         |
-| duration                 | duration before close. It will not automatically close if set 0                                                    | number             | —                                           | 4500      |
-| position                 | custom position                                                                                                    | string             | top-right/top-left/bottom-right/bottom-left | top-right |
-| showClose                | whether to show a close button                                                                                     | boolean            | —                                           | true      |
-| onClose                  | callback function when closed                                                                                      | function           | —                                           | —         |
-| onClick                  | callback function when notification clicked                                                                        | function           | —                                           | —         |
-| offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | number             | —                                           | 0         |
+| Attribute                | Description                                                                                                        | Type                 | Accepted Values                             | Default       |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------ | -------------------- | ------------------------------------------- | ------------- |
+| title                    | title                                                                                                              | string               | —                                           | —             |
+| message                  | description text                                                                                                   | string/Vue.VNode     | —                                           | —             |
+| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                                        | boolean              | —                                           | false         |
+| type                     | notification type                                                                                                  | string               | success/warning/info/error                  | —             |
+| icon                     | custom icon component. It will be overridden by `type`                                                             | string / Component   | —                                           | —             |
+| customClass              | custom class name for Notification                                                                                 | string               | —                                           | —             |
+| duration                 | duration before close. It will not automatically close if set 0                                                    | number               | —                                           | 4500          |
+| position                 | custom position                                                                                                    | string               | top-right/top-left/bottom-right/bottom-left | top-right     |
+| showClose                | whether to show a close button                                                                                     | boolean              | —                                           | true          |
+| onClose                  | callback function when closed                                                                                      | function             | —                                           | —             |
+| onClick                  | callback function when notification clicked                                                                        | function             | —                                           | —             |
+| offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | number               | —                                           | 0             |
+| appendTo                 | set the root element for the notification                                                                          | string / HTMLElement | -                                           | document.body |
 
 ## Methods
 

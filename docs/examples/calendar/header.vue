@@ -4,17 +4,17 @@
       <span>Custom header content</span>
       <span>{{ date }}</span>
       <el-button-group>
-        <el-button size="mini" @click="selectDate('prev-year')"
+        <el-button size="small" @click="selectDate('prev-year')"
           >Previous Year</el-button
         >
-        <el-button size="mini" @click="selectDate('prev-month')"
+        <el-button size="small" @click="selectDate('prev-month')"
           >Previous Month</el-button
         >
-        <el-button size="mini" @click="selectDate('today')">Today</el-button>
-        <el-button size="mini" @click="selectDate('next-month')"
+        <el-button size="small" @click="selectDate('today')">Today</el-button>
+        <el-button size="small" @click="selectDate('next-month')"
           >Next Month</el-button
         >
-        <el-button size="mini" @click="selectDate('next-year')"
+        <el-button size="small" @click="selectDate('next-year')"
           >Next Year</el-button
         >
       </el-button-group>
@@ -22,20 +22,11 @@
   </el-calendar>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const calendar = ref()
-    const selectDate = (val: string) => {
-      calendar.value.selectDate(val)
-    }
-
-    return {
-      calendar,
-      selectDate,
-    }
-  },
-})
+const calendar = ref()
+const selectDate = (val: string) => {
+  calendar.value.selectDate(val)
+}
 </script>

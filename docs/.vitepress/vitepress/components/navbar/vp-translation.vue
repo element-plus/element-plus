@@ -2,8 +2,6 @@
 import VPLink from '../common/vp-link.vue'
 import { useTranslation } from '../../composables/translation'
 
-import TranslationIcon from '../icons/translation-icon.vue'
-
 const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
 </script>
 
@@ -17,7 +15,7 @@ const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
       >
         <template #reference>
           <ElIcon :size="20">
-            <TranslationIcon />
+            <i-ri-translate-2 />
           </ElIcon>
         </template>
         <div
@@ -50,7 +48,7 @@ const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
   }
 
   @at-root .translation-popup.el-popper {
-    box-shadow: var(--el-box-shadow-base);
+    box-shadow: var(--el-box-shadow);
 
     .language {
       cursor: pointer;

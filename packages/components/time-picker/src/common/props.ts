@@ -1,11 +1,14 @@
-import { isValidComponentSize } from '@element-plus/utils/validators'
-import { CircleClose } from '@element-plus/icons'
+import { isValidComponentSize } from '@element-plus/utils'
+import { CircleClose } from '@element-plus/icons-vue'
 
-import type { PropType, Component } from 'vue'
+import type { Component, PropType } from 'vue'
 import type { Options } from '@popperjs/core'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 
 export const timePickerDefaultProps = {
+  id: {
+    type: [Array, String],
+  },
   name: {
     type: [Array, String],
     default: '',
@@ -61,7 +64,9 @@ export const timePickerDefaultProps = {
     default: () => ({}),
   },
   modelValue: {
-    type: [Date, Array, String] as PropType<string | Date | Date[]>,
+    type: [Date, Array, String, Number] as PropType<
+      number | string | Date | (number | string | Date)[]
+    >,
     default: '',
   },
   rangeSeparator: {

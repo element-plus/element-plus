@@ -1,10 +1,10 @@
 import {
-  onBeforeMount,
-  onUnmounted,
-  onMounted,
-  onUpdated,
   computed,
   getCurrentInstance,
+  onBeforeMount,
+  onMounted,
+  onUnmounted,
+  onUpdated,
 } from 'vue'
 
 import type { TableHeader } from './table-header'
@@ -53,12 +53,13 @@ function useLayoutObserver<T>(root: Table<T>) {
   }
 
   const onScrollableChange = (layout: TableLayout<T>) => {
-    const cols = root.vnode.el.querySelectorAll('colgroup > col[name=gutter]')
+    const cols =
+      root.vnode.el?.querySelectorAll('colgroup > col[name=gutter]') || []
     for (let i = 0, j = cols.length; i < j; i++) {
       const col = cols[i]
       col.setAttribute('width', layout.scrollY.value ? layout.gutterWidth : '0')
     }
-    const ths = root.vnode.el.querySelectorAll('th.gutter')
+    const ths = root.vnode.el?.querySelectorAll('th.gutter') || []
     for (let i = 0, j = ths.length; i < j; i++) {
       const th = ths[i]
       th.style.width = layout.scrollY.value ? `${layout.gutterWidth}px` : '0'

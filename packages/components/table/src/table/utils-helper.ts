@@ -4,6 +4,9 @@ function useUtils<T>(store: Store<T>) {
   const setCurrentRow = (row: T) => {
     store.commit('setCurrentRow', row)
   }
+  const getSelectionRows = () => {
+    return store.getSelectionRows()
+  }
   const toggleRowSelection = (row: T, selected: boolean) => {
     store.toggleRowSelection(row, selected, false)
     store.updateAllSelected()
@@ -29,6 +32,7 @@ function useUtils<T>(store: Store<T>) {
 
   return {
     setCurrentRow,
+    getSelectionRows,
     toggleRowSelection,
     clearSelection,
     clearFilter,

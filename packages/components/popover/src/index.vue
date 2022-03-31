@@ -1,164 +1,143 @@
-<script lang="ts">
-import {
-  defineComponent,
-  Fragment,
-  createTextVNode,
-  renderSlot,
-  toDisplayString,
-  createCommentVNode,
-  withDirectives,
-  Teleport,
-  h,
-} from 'vue'
-import { ClickOutside } from '@element-plus/directives'
-import ElPopper, {
-  popperDefaultProps,
-  Effect,
-  renderArrow,
-  renderPopper,
-  renderTrigger,
-} from '@element-plus/components/popper'
-import { debugWarn } from '@element-plus/utils/error'
-import { renderIf, PatchFlags } from '@element-plus/utils/vnode'
-import usePopover, { SHOW_EVENT, HIDE_EVENT } from './usePopover'
+<template>
+  <el-tooltip
+    ref="tooltipRef"
+    v-bind="$attrs"
+    :trigger="trigger"
+    :placement="placement"
+    :disabled="disabled"
+    :visible="visible"
+    :transition="transition"
+    :popper-options="popperOptions"
+    :tabindex="tabindex"
+    :append-to-body="appendToBody"
+    :content="content"
+    :offset="offset"
+    :show-after="showAfter"
+    :hide-after="hideAfter"
+    :auto-close="autoClose"
+    :show-arrow="showArrow"
+    :aria-label="title"
+    :effect="effect"
+    :enterable="enterable"
+    :popper-class="kls"
+    :popper-style="style"
+    :teleported="compatTeleported"
+    :persistent="persistent"
+    :gpu-acceleration="gpuAcceleration"
+    @before-show="beforeEnter"
+    @before-hide="beforeLeave"
+    @show="afterEnter"
+    @hide="afterLeave"
+  >
+    <template v-if="$slots.reference">
+      <slot name="reference" />
+    </template>
 
-import type { PropType } from 'vue'
-import type { TriggerType } from '@element-plus/components/popper'
+    <template #content>
+      <div v-if="title" :class="ns.e('title')" role="title">
+        {{ title }}
+      </div>
+      <slot>
+        {{ content }}
+      </slot>
+    </template>
+  </el-tooltip>
+</template>
+<script lang="ts">
+import { computed, defineComponent, ref, unref } from 'vue'
+import ElTooltip from '@element-plus/components/tooltip'
+import { useDeprecateAppendToBody } from '@element-plus/components/popper'
+import { isString } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
+import { usePopoverProps } from './popover'
+
+import type { StyleValue } from 'vue'
 
 const emits = [
   'update:visible',
+  'before-enter',
+  'before-leave',
   'after-enter',
   'after-leave',
-  SHOW_EVENT,
-  HIDE_EVENT,
 ]
-const NAME = 'ElPopover'
 
-const _hoist = { key: 0, class: 'el-popover__title', role: 'title' }
+const COMPONENT_NAME = 'ElPopover'
 
 export default defineComponent({
-  name: NAME,
+  name: COMPONENT_NAME,
   components: {
-    ElPopper,
+    ElTooltip,
   },
-  props: {
-    ...popperDefaultProps,
-    content: {
-      type: String,
-    },
-    trigger: {
-      type: String as PropType<TriggerType>,
-      default: 'click',
-    },
-    title: {
-      type: String,
-    },
-    transition: {
-      type: String,
-      default: 'fade-in-linear',
-    },
-    width: {
-      type: [String, Number],
-      default: 150,
-    },
-    appendToBody: {
-      type: Boolean,
-      default: true,
-    },
-    tabindex: [String, Number],
-  },
+  props: usePopoverProps,
   emits,
-  setup(props, ctx) {
-    if (props.visible && !ctx.slots.reference) {
-      debugWarn(
-        NAME,
-        `
-        You cannot init popover without given reference
-      `
-      )
-    }
-    const states = usePopover(props, ctx)
+  setup(props, { emit }) {
+    const ns = useNamespace('popover')
+    const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
+    const popperRef = computed(() => {
+      return unref(tooltipRef)?.popperRef
+    })
+    const width = computed(() => {
+      if (isString(props.width)) {
+        return props.width as string
+      }
+      return `${props.width}px`
+    })
 
-    return states
-  },
-  render() {
-    const { $slots } = this
-    const trigger = $slots.reference ? $slots.reference() : null
-
-    const title = renderIf(
-      !!this.title,
-      'div',
-      _hoist,
-      toDisplayString(this.title),
-      PatchFlags.TEXT
-    )
-
-    const content = renderSlot($slots, 'default', {}, () => [
-      createTextVNode(toDisplayString(this.content), PatchFlags.TEXT),
-    ])
-
-    const {
-      events,
-      onAfterEnter,
-      onAfterLeave,
-      onPopperMouseEnter,
-      onPopperMouseLeave,
-      popperStyle,
-      popperId,
-      popperClass,
-      showArrow,
-      transition,
-      visibility,
-      tabindex,
-    } = this
-
-    const kls = [
-      this.content ? 'el-popover--plain' : '',
-      'el-popover',
-      popperClass,
-    ].join(' ')
-
-    const popover = renderPopper(
-      {
-        effect: Effect.LIGHT,
-        name: transition,
-        popperClass: kls,
-        popperStyle,
-        popperId,
-        visibility,
-        onMouseenter: onPopperMouseEnter,
-        onMouseleave: onPopperMouseLeave,
-        onAfterEnter,
-        onAfterLeave,
-        stopPopperMouseEvent: false,
-      },
-      [title, content, renderArrow(showArrow)]
-    )
-
-    // when user uses popover directively, trigger will be null so that we only
-    // render a popper window for displaying contents
-    const _trigger = trigger
-      ? renderTrigger(trigger, {
-          ariaDescribedby: popperId,
-          ref: 'triggerRef',
-          tabindex,
-          ...events,
-        })
-      : createCommentVNode('v-if', true)
-
-    return h(Fragment, null, [
-      this.trigger === 'click'
-        ? withDirectives(_trigger, [[ClickOutside, this.hide]])
-        : _trigger,
-      h(
-        Teleport as any,
+    const style = computed(() => {
+      return [
         {
-          disabled: !this.appendToBody,
-          to: 'body',
+          width: width.value,
         },
-        [popover]
-      ),
-    ])
+        props.popperStyle,
+      ] as StyleValue
+    })
+
+    const kls = computed(() => {
+      return [ns.b(), props.popperClass, { [ns.m('plain')]: !!props.content }]
+    })
+
+    const gpuAcceleration = computed(() => {
+      return props.transition === 'el-fade-in-linear'
+    })
+
+    const { compatTeleported } = useDeprecateAppendToBody(
+      COMPONENT_NAME,
+      'appendToBody'
+    )
+
+    const hide = () => {
+      tooltipRef.value?.hide()
+    }
+
+    const beforeEnter = () => {
+      emit('before-enter')
+    }
+    const beforeLeave = () => {
+      emit('before-leave')
+    }
+
+    const afterEnter = () => {
+      emit('after-enter')
+    }
+
+    const afterLeave = () => {
+      emit('after-leave')
+    }
+
+    return {
+      compatTeleported,
+      ns,
+      kls,
+      gpuAcceleration,
+      style,
+      tooltipRef,
+      popperRef,
+      hide,
+      beforeEnter,
+      beforeLeave,
+      afterEnter,
+      afterLeave,
+    }
   },
 })
 </script>

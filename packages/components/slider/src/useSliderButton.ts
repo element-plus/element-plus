@@ -1,9 +1,9 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
-import debounce from 'lodash/debounce'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { off, on } from '@element-plus/utils/dom'
+import { debounce } from 'lodash-unified'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { off, on } from '@element-plus/utils'
 
-import type { ComputedRef, CSSProperties } from 'vue'
+import type { CSSProperties, ComputedRef } from 'vue'
 import type {
   ISliderButtonInitData,
   ISliderButtonProps,
@@ -109,7 +109,7 @@ export const useSliderButton = (
   const onLeftKeyDown = () => {
     if (disabled.value) return
     initData.newPosition =
-      parseFloat(currentPosition.value) -
+      Number.parseFloat(currentPosition.value) -
       (step.value / (max.value - min.value)) * 100
     setPosition(initData.newPosition)
     emitChange()
@@ -118,7 +118,7 @@ export const useSliderButton = (
   const onRightKeyDown = () => {
     if (disabled.value) return
     initData.newPosition =
-      parseFloat(currentPosition.value) +
+      Number.parseFloat(currentPosition.value) +
       (step.value / (max.value - min.value)) * 100
     setPosition(initData.newPosition)
     emitChange()
@@ -149,7 +149,7 @@ export const useSliderButton = (
     } else {
       initData.startX = clientX
     }
-    initData.startPosition = parseFloat(currentPosition.value)
+    initData.startPosition = Number.parseFloat(currentPosition.value)
     initData.newPosition = initData.startPosition
   }
 
@@ -197,7 +197,7 @@ export const useSliderButton = (
   }
 
   const setPosition = async (newPosition: number) => {
-    if (newPosition === null || isNaN(newPosition)) return
+    if (newPosition === null || Number.isNaN(+newPosition)) return
     if (newPosition < 0) {
       newPosition = 0
     } else if (newPosition > 100) {
@@ -207,7 +207,7 @@ export const useSliderButton = (
     const steps = Math.round(newPosition / lengthPerStep)
     let value =
       steps * lengthPerStep * (max.value - min.value) * 0.01 + min.value
-    value = parseFloat(value.toFixed(precision.value))
+    value = Number.parseFloat(value.toFixed(precision.value))
     emit(UPDATE_MODEL_EVENT, value)
 
     if (!initData.dragging && props.modelValue !== initData.oldValue) {

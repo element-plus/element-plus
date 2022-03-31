@@ -1,8 +1,7 @@
 <template>
   <div
     ref="button"
-    class="el-slider__button-wrapper"
-    :class="{ hover: hovering, dragging: dragging }"
+    :class="[ns.e('button-wrapper'), { hover: hovering, dragging }]"
     :style="wrapperStyle"
     tabindex="0"
     @mouseenter="handleMouseEnter"
@@ -18,20 +17,17 @@
   >
     <el-tooltip
       ref="tooltip"
-      v-model="tooltipVisible"
+      v-model:visible="tooltipVisible"
       placement="top"
       :stop-popper-mouse-event="false"
       :popper-class="tooltipClass"
       :disabled="!showTooltip"
-      manual
+      persistent
     >
       <template #content>
         <span>{{ formatValue }}</span>
       </template>
-      <div
-        class="el-slider__button"
-        :class="{ hover: hovering, dragging: dragging }"
-      ></div>
+      <div :class="[ns.e('button'), { hover: hovering, dragging }]" />
     </el-tooltip>
   </div>
 </template>
@@ -39,7 +35,8 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useNamespace } from '@element-plus/hooks'
 import { useSliderButton } from './useSliderButton'
 
 export default defineComponent({
@@ -67,6 +64,7 @@ export default defineComponent({
   emits: [UPDATE_MODEL_EVENT],
 
   setup(props, { emit }) {
+    const ns = useNamespace('slider')
     const initData = reactive({
       hovering: false,
       dragging: false,
@@ -97,6 +95,7 @@ export default defineComponent({
     const { hovering, dragging } = toRefs(initData)
 
     return {
+      ns,
       tooltip,
       tooltipVisible,
       showTooltip,

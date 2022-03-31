@@ -3,11 +3,10 @@ import {
   buildProps,
   definePropType,
   mutable,
-} from '@element-plus/utils/props'
+} from '@element-plus/utils'
 import { VERTICAL } from './defaults'
 
-import type { ExtractPropTypes } from 'vue'
-import type { StyleValue } from '@element-plus/utils/types'
+import type { ExtractPropTypes, StyleValue } from 'vue'
 import type { ItemSize } from './types'
 
 const itemSize = buildProp({
@@ -88,12 +87,16 @@ export const virtualizedProps = buildProps({
 
   width: {
     type: [Number, String],
-    required: true,
+    required: false,
   },
 
   perfMode: {
     type: Boolean,
     default: true,
+  },
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
   },
 } as const)
 

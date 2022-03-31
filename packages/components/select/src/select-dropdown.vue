@@ -1,28 +1,25 @@
 <template>
   <div
-    class="el-select-dropdown"
-    :class="[{ 'is-multiple': isMultiple }, popperClass]"
-    :style="{ minWidth: minWidth }"
+    :class="[ns.b('dropdown'), ns.is('multiple', isMultiple), popperClass]"
+    :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
 <script lang="ts">
 import {
-  defineComponent,
   computed,
-  onMounted,
-  onBeforeUnmount,
+  defineComponent,
   inject,
+  onBeforeUnmount,
+  onMounted,
   ref,
 } from 'vue'
-import {
-  addResizeListener,
-  removeResizeListener,
-} from '@element-plus/utils/resize-event'
+import { useNamespace } from '@element-plus/hooks'
+import { addResizeListener, removeResizeListener } from '@element-plus/utils'
 import { selectKey } from './token'
-import type { ResizableElement } from '@element-plus/utils/resize-event'
+import type { ResizableElement } from '@element-plus/utils'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -30,11 +27,13 @@ export default defineComponent({
   componentName: 'ElSelectDropdown',
 
   setup() {
-    const select = inject(selectKey)
+    const select = inject(selectKey)!
+    const ns = useNamespace('select')
 
     // computed
     const popperClass = computed(() => select.props.popperClass)
     const isMultiple = computed(() => select.props.multiple)
+    const isFitInputWidth = computed(() => select.props.fitInputWidth)
     const minWidth = ref('')
 
     function updateMinWidth() {
@@ -46,7 +45,7 @@ export default defineComponent({
     onMounted(() => {
       // TODO: updatePopper
       // popper.value.update()
-
+      updateMinWidth()
       addResizeListener(
         select.selectWrapper as ResizableElement,
         updateMinWidth
@@ -61,9 +60,11 @@ export default defineComponent({
     })
 
     return {
+      ns,
       minWidth,
       popperClass,
       isMultiple,
+      isFitInputWidth,
     }
   },
 })

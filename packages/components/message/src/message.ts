@@ -1,8 +1,11 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-
-import type { VNode, ExtractPropTypes, Component } from 'vue'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import type { AppContext, ExtractPropTypes, VNode } from 'vue'
 
 export const messageTypes = ['success', 'info', 'warning', 'error'] as const
+
+export interface MessageConfigContext {
+  max?: number
+}
 
 export const messageProps = buildProps({
   customClass: {
@@ -22,7 +25,7 @@ export const messageProps = buildProps({
     default: 3000,
   },
   icon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: '',
   },
   id: {
@@ -30,7 +33,11 @@ export const messageProps = buildProps({
     default: '',
   },
   message: {
-    type: definePropType<string | VNode>([String, Object]),
+    type: definePropType<string | VNode | (() => VNode)>([
+      String,
+      Object,
+      Function,
+    ]),
     default: '',
   },
   onClose: {
@@ -54,6 +61,14 @@ export const messageProps = buildProps({
     type: Number,
     default: 0,
   },
+  grouping: {
+    type: Boolean,
+    default: false,
+  },
+  repeatNum: {
+    type: Number,
+    default: 1,
+  },
 } as const)
 export type MessageProps = ExtractPropTypes<typeof messageProps>
 
@@ -62,7 +77,9 @@ export const messageEmits = {
 }
 export type MessageEmits = typeof messageEmits
 
-export type MessageOptions = Omit<MessageProps, 'id'>
+export type MessageOptions = Omit<MessageProps, 'id'> & {
+  appendTo?: HTMLElement | string
+}
 export type MessageOptionsTyped = Omit<MessageOptions, 'type'>
 
 export interface MessageHandle {
@@ -72,10 +89,16 @@ export interface MessageHandle {
 export type MessageParams = Partial<MessageOptions> | string | VNode
 export type MessageParamsTyped = Partial<MessageOptionsTyped> | string | VNode
 
-export type MessageFn = ((options?: MessageParams) => MessageHandle) & {
+export type MessageFn = ((
+  options?: MessageParams,
+  appContext?: null | AppContext
+) => MessageHandle) & {
   closeAll(): void
 }
-export type MessageTypedFn = (options?: MessageParamsTyped) => MessageHandle
+export type MessageTypedFn = (
+  options?: MessageParamsTyped,
+  appContext?: null | AppContext
+) => MessageHandle
 
 export interface Message extends MessageFn {
   success: MessageTypedFn

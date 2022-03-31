@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
-import { CircleClose } from '@element-plus/icons'
-import Progress from '../src/index.vue'
+import { CircleClose } from '@element-plus/icons-vue'
+import Progress from '../src/progress.vue'
 describe('Progress.vue', () => {
   test('percent', () => {
     const wrapper = mount(Progress, {

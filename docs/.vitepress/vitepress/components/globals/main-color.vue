@@ -3,51 +3,33 @@
     <el-col :span="10" :xs="{ span: 12 }">
       <div class="demo-color-box" :style="{ background: primary }">
         Brand Color
-        <div class="value">#409EFF</div>
-        <div
-          class="bg-color-sub"
-          :style="{ background: tintColor(primary, 0.9) }"
-        >
+        <div class="value">{{ primary.toUpperCase() }}</div>
+        <div class="bg-color-sub" :style="{ background: primary }">
           <div
-            v-for="item in 9"
-            :key="item"
-            class="bg-blue-sub-item"
-            :style="{ background: tintColor(primary, (item + 1) / 10) }"
-          ></div>
+            v-for="level in colorLevel"
+            :key="level"
+            class="bg-blue-sub-item hover:(cursor-pointer shadow)"
+            :style="{
+              width: `${100 / 10}%`,
+              background: getColorValue('primary-' + level),
+            }"
+            @click="copyColor('primary-' + level)"
+          />
         </div>
       </div>
     </el-col>
   </el-row>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { useCssVar } from '@vueuse/core'
+import { getColorValue, useCopyColor } from '../../utils'
 
-export default defineComponent({
-  setup() {
-    const primary = ref('#409EFF')
-    const tintColor = (c: string, tint: number) => {
-      const color = c.replace('#', '')
-      let red = parseInt(color.slice(0, 2), 16)
-      let green = parseInt(color.slice(2, 4), 16)
-      let blue = parseInt(color.slice(4, 6), 16)
+const primary = useCssVar('--el-color-primary')
+const colorLevel = [...Array.from({ length: 10 }).keys()].map(
+  (i) => `light-${i + 1}`
+)
+colorLevel.unshift('dark-2')
 
-      if (tint === 0) {
-        // when primary color is in its rgb space
-        return [red, green, blue].join(',')
-      } else {
-        red += Math.round(tint * (255 - red))
-        green += Math.round(tint * (255 - green))
-        blue += Math.round(tint * (255 - blue))
-
-        return `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`
-      }
-    }
-
-    return {
-      tintColor,
-      primary,
-    }
-  },
-})
+const { copyColor } = useCopyColor()
 </script>

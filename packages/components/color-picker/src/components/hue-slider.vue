@@ -1,6 +1,6 @@
 <template>
   <div class="el-color-hue-slider" :class="{ 'is-vertical': vertical }">
-    <div ref="bar" class="el-color-hue-slider__bar" @click="handleClick"></div>
+    <div ref="bar" class="el-color-hue-slider__bar" @click="handleClick" />
     <div
       ref="thumb"
       class="el-color-hue-slider__thumb"
@@ -8,19 +8,20 @@
         left: thumbLeft + 'px',
         top: thumbTop + 'px',
       }"
-    ></div>
+    />
   </div>
 </template>
 
 <script lang="ts">
 import {
-  ref,
   computed,
-  watch,
-  onMounted,
-  getCurrentInstance,
   defineComponent,
+  getCurrentInstance,
+  onMounted,
+  ref,
+  watch,
 } from 'vue'
+import { getClientXY } from '@element-plus/utils'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -56,6 +57,7 @@ export default defineComponent({
         update()
       }
     )
+
     // methods
     function handleClick(event: Event) {
       const target = event.target
@@ -64,13 +66,15 @@ export default defineComponent({
         handleDrag(event)
       }
     }
+
     function handleDrag(event) {
       const el = instance.vnode.el as HTMLElement
       const rect = el.getBoundingClientRect()
+      const { clientX, clientY } = getClientXY(event)
       let hue
 
       if (!props.vertical) {
-        let left = event.clientX - rect.left
+        let left = clientX - rect.left
         left = Math.min(left, rect.width - thumb.value.offsetWidth / 2)
         left = Math.max(thumb.value.offsetWidth / 2, left)
 
@@ -80,7 +84,7 @@ export default defineComponent({
             360
         )
       } else {
-        let top = event.clientY - rect.top
+        let top = clientY - rect.top
 
         top = Math.min(top, rect.height - thumb.value.offsetHeight / 2)
         top = Math.max(thumb.value.offsetHeight / 2, top)
@@ -92,6 +96,7 @@ export default defineComponent({
       }
       props.color.set('hue', hue)
     }
+
     function getThumbLeft() {
       const el = instance.vnode.el
 
@@ -114,10 +119,12 @@ export default defineComponent({
         (hue * (el.offsetHeight - thumb.value.offsetHeight / 2)) / 360
       )
     }
+
     function update() {
       thumbLeft.value = getThumbLeft()
       thumbTop.value = getThumbTop()
     }
+
     // mounded
     onMounted(() => {
       const dragConfig = {

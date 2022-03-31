@@ -1,10 +1,11 @@
 <template>
-  <aside class="el-aside" :style="style">
-    <slot></slot>
+  <aside :class="ns.b()" :style="style">
+    <slot />
   </aside>
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
@@ -17,12 +18,15 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const ns = useNamespace('aside')
+
     return {
       style: computed(() => {
         return props.width
           ? ({ '--el-aside-width': props.width } as CSSProperties)
           : {}
       }),
+      ns,
     }
   },
 })

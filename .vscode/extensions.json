@@ -1,8 +1,9 @@
 {
   "recommendations": [
     "johnsoncodehk.volar",
-    "johnsoncodehk.vscode-typescript-vue-plugin",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "antfu.vite",
+    "lokalise.i18n-ally"
   ]
 }

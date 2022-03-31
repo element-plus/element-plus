@@ -1,6 +1,6 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { VNode, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, VNode } from 'vue'
 
 export const notificationTypes = [
   'success',
@@ -76,7 +76,9 @@ export const notificationEmits = {
 }
 export type NotificationEmits = typeof notificationEmits
 
-export type NotificationOptions = Omit<NotificationProps, 'id'>
+export type NotificationOptions = Omit<NotificationProps, 'id'> & {
+  appendTo?: HTMLElement | string
+}
 export type NotificationOptionsTyped = Omit<NotificationOptions, 'type'>
 
 export interface NotificationHandle {

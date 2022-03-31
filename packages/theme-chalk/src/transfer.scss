@@ -20,9 +20,7 @@
   }
 
   @include e(button) {
-    &:first-child {
-      margin-bottom: 10px;
-    }
+    vertical-align: top;
 
     &:nth-child(2) {
       margin: 0 0 0 10px;
@@ -40,8 +38,6 @@
 }
 
 @include b(transfer-panel) {
-  border: 1px solid var(--el-transfer-border-color);
-  border-radius: var(--el-transfer-border-radius);
   overflow: hidden;
   background: var(--el-color-white);
   display: inline-block;
@@ -54,9 +50,16 @@
 
   @include e(body) {
     height: var(--el-transfer-panel-body-height);
-
-    @include when(with-footer) {
-      padding-bottom: var(--el-transfer-panel-footer-height);
+    border-left: 1px solid var(--el-transfer-border-color);
+    border-right: 1px solid var(--el-transfer-border-color);
+    border-bottom: 1px solid var(--el-transfer-border-color);
+    border-bottom-left-radius: var(--el-transfer-border-radius);
+    border-bottom-right-radius: var(--el-transfer-border-radius);
+    overflow: hidden;
+    @include when('with-footer') {
+      border-bottom: none;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
   }
 
@@ -67,12 +70,8 @@
     height: var(--el-transfer-panel-body-height);
     overflow: auto;
     box-sizing: border-box;
-
     @include when(filterable) {
-      height: calc(
-        var(--el-transfer-panel-body-height) - var(--el-transfer-filter-height) -
-          20px
-      );
+      height: calc(100% - var(--el-transfer-filter-height) - 30px);
       padding-top: 0;
     }
   }
@@ -100,7 +99,7 @@
       @include utils-ellipsis;
       display: block;
       box-sizing: border-box;
-      padding-left: 24px;
+      padding-left: 22px;
       line-height: var(--el-transfer-item-height);
     }
 
@@ -114,7 +113,6 @@
     text-align: center;
     margin: 15px;
     box-sizing: border-box;
-    display: block;
     width: auto;
 
     .#{$namespace}-input__inner {
@@ -124,12 +122,6 @@
       display: inline-block;
       box-sizing: border-box;
       border-radius: calc(var(--el-transfer-filter-height) / 2);
-      padding-right: 10px;
-      padding-left: 30px;
-    }
-
-    .#{$namespace}-input__icon {
-      margin-left: 5px;
     }
 
     .#{$namespace}-icon-circle-close {
@@ -138,18 +130,23 @@
   }
 
   .#{$namespace}-transfer-panel__header {
+    display: flex;
+    align-items: center;
     height: var(--el-transfer-panel-header-height);
-    line-height: var(--el-transfer-panel-header-height);
-    background: var(--el-transfer-panel-header-background-color);
+    background: var(--el-transfer-panel-header-bg-color);
     margin: 0;
     padding-left: 15px;
-    border-bottom: 1px solid var(--el-transfer-border-color);
+    border: 1px solid var(--el-transfer-border-color);
+    border-top-left-radius: var(--el-transfer-border-radius);
+    border-top-right-radius: var(--el-transfer-border-radius);
     box-sizing: border-box;
     color: var(--el-color-black);
 
     .#{$namespace}-checkbox {
-      display: block;
-      line-height: 40px;
+      position: relative;
+      display: flex;
+      width: 100%;
+      align-items: center;
 
       .#{$namespace}-checkbox__label {
         font-size: 16px;
@@ -159,6 +156,8 @@
         span {
           position: absolute;
           right: 15px;
+          top: 50%;
+          transform: translate3d(0, -50%, 0);
           color: var(--el-text-color-secondary);
           font-size: 12px;
           font-weight: normal;
@@ -172,12 +171,9 @@
     background: var(--el-color-white);
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--el-transfer-border-color);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: var(--el-index-normal);
+    border: 1px solid var(--el-transfer-border-color);
+    border-bottom-left-radius: var(--el-transfer-border-radius);
+    border-bottom-right-radius: var(--el-transfer-border-radius);
     @include utils-vertical-center;
 
     .#{$namespace}-checkbox {

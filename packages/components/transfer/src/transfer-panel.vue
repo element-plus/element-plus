@@ -1,6 +1,6 @@
 <template>
-  <div class="el-transfer-panel">
-    <p class="el-transfer-panel__header">
+  <div :class="ns.b('panel')">
+    <p :class="ns.be('panel', 'header')">
       <el-checkbox
         v-model="allChecked"
         :indeterminate="isIndeterminate"
@@ -11,34 +11,27 @@
       </el-checkbox>
     </p>
 
-    <div
-      :class="['el-transfer-panel__body', hasFooter ? 'is-with-footer' : '']"
-    >
+    <div :class="[ns.be('panel', 'body'), ns.is('with-footer', hasFooter)]">
       <el-input
         v-if="filterable"
         v-model="query"
-        class="el-transfer-panel__filter"
-        size="small"
+        :class="ns.be('panel', 'filter')"
+        size="default"
         :placeholder="placeholder"
+        :prefix-icon="SearchIcon"
+        clearable
         @mouseenter="inputHover = true"
         @mouseleave="inputHover = false"
-      >
-        <template #prefix>
-          <el-icon class="el-input__icon" @click="clearQuery">
-            <component :is="inputIcon" />
-          </el-icon>
-        </template>
-      </el-input>
+      />
       <el-checkbox-group
         v-show="!hasNoMatch && data.length > 0"
         v-model="checked"
-        :class="{ 'is-filterable': filterable }"
-        class="el-transfer-panel__list"
+        :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >
         <el-checkbox
           v-for="item in filteredData"
           :key="item[keyProp]"
-          class="el-transfer-panel__item"
+          :class="ns.be('panel', 'item')"
           :label="item[keyProp]"
           :disabled="item[disabledProp]"
         >
@@ -47,24 +40,24 @@
       </el-checkbox-group>
       <p
         v-show="hasNoMatch || data.length === 0"
-        class="el-transfer-panel__empty"
+        :class="ns.be('panel', 'empty')"
       >
         {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
       </p>
     </div>
-    <p v-if="hasFooter" class="el-transfer-panel__footer">
-      <slot></slot>
+    <p v-if="hasFooter" :class="ns.be('panel', 'footer')">
+      <slot />
     </p>
   </div>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import ElInput from '@element-plus/components/input'
-import { CircleClose, Search } from '@element-plus/icons'
-import { useCheck, useCheckProps, CHECKED_CHANGE_EVENT } from './useCheck'
+import { Search } from '@element-plus/icons-vue'
+import { CHECKED_CHANGE_EVENT, useCheck, useCheckProps } from './useCheck'
 
 export default defineComponent({
   name: 'ElTransferPanel',
@@ -81,7 +74,8 @@ export default defineComponent({
   emits: [CHECKED_CHANGE_EVENT],
 
   setup(props, { slots }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
+    const ns = useNamespace('transfer')
 
     const panelState = reactive({
       checked: [],
@@ -105,24 +99,13 @@ export default defineComponent({
       return panelState.query.length > 0 && filteredData.value.length === 0
     })
 
-    const inputIcon = computed(() => {
-      return panelState.query.length > 0 && panelState.inputHover
-        ? CircleClose
-        : Search
-    })
-
     const hasFooter = computed(() => !!slots.default()[0].children.length)
-
-    const clearQuery = () => {
-      if (inputIcon.value === CircleClose) {
-        panelState.query = ''
-      }
-    }
 
     const { checked, allChecked, query, inputHover, checkChangeByUser } =
       toRefs(panelState)
 
     return {
+      ns,
       labelProp,
       keyProp,
       disabledProp,
@@ -138,9 +121,8 @@ export default defineComponent({
       checkChangeByUser,
 
       hasNoMatch,
-      inputIcon,
+      SearchIcon: Search,
       hasFooter,
-      clearQuery,
 
       t,
     }

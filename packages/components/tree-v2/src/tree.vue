@@ -1,14 +1,11 @@
 <template>
   <div
-    class="el-tree"
-    :class="{
-      'el-tree--highlight-current': highlightCurrent,
-    }"
+    :class="[ns.b(), { [ns.m('highlight-current')]: highlightCurrent }]"
     role="tree"
   >
     <fixed-size-list
       v-if="isNotEmpty"
-      class-name="el-tree-virtual-list"
+      :class-name="ns.b('virtual-list')"
       :data="flattenTree"
       :total="flattenTree.length"
       :height="height"
@@ -30,12 +27,12 @@
           @click="handleNodeClick"
           @toggle="toggleExpand"
           @check="handleNodeCheck"
-        ></el-tree-node>
+        />
       </template>
     </fixed-size-list>
-    <div v-else class="el-tree__empty-block">
-      <span class="el-tree__empty-text">{{
-        emptyText || t('el.tree.emptyText')
+    <div v-else :class="ns.e('empty-block')">
+      <span :class="ns.e('empty-text')">{{
+        emptyText ?? t('el.tree.emptyText')
       }}</span>
     </div>
   </div>
@@ -43,7 +40,7 @@
 
 <script lang="ts">
 import { defineComponent, getCurrentInstance, provide } from 'vue'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
 import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'
@@ -64,7 +61,8 @@ export default defineComponent({
       props,
       instance: getCurrentInstance(),
     })
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
+    const ns = useNamespace('tree')
     const {
       flattenTree,
       isNotEmpty,
@@ -108,6 +106,7 @@ export default defineComponent({
 
     return {
       t,
+      ns,
       flattenTree,
       itemSize: 26,
       isNotEmpty,

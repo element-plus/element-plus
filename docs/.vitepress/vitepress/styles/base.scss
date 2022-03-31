@@ -9,7 +9,7 @@
 html {
   line-height: 1.4;
   font-size: 16px;
-  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   font-family: var(--font-family);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
@@ -22,7 +22,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
   line-height: 1.4;
-  font-family: var(--font-family-base);
   font-size: 16px;
   font-weight: 400;
   color: var(--text-color);
@@ -76,6 +75,7 @@ h6:focus .header-anchor {
 
 h1 {
   margin-top: 1.5rem;
+  margin-bottom: 2rem;
   font-size: 1.9rem;
 }
 
@@ -127,6 +127,7 @@ textarea {
 }
 
 a {
+  font-weight: 500;
   text-decoration: inherit;
   color: var(--brand-color);
 
@@ -167,13 +168,16 @@ li > ol {
   margin: 0;
 }
 
-.doc-content > div {
-  > table {
+.doc-content > div .vp-table {
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
+  margin-bottom: 45px;
+  & > table {
     border-collapse: collapse;
     width: 100%;
     background-color: var(--bg-color);
     font-size: 14px;
-    margin-bottom: 45px;
     line-height: 1.5em;
 
     tr {
@@ -201,7 +205,7 @@ li > ol {
 
 blockquote {
   margin: 1rem 0;
-  border-left: 0.2rem solid var(--border-color-light);
+  border-left: 0.2rem solid var(--el-border-color);
   padding: 0.25rem 0 0.25rem 1rem;
   font-size: 1rem;
   color: var(--text-color-lighter);
@@ -239,7 +243,7 @@ form {
   }
   &.tip {
     padding: 8px 16px;
-    background-color: var(--el-color-primary-light-9);
+    background-color: var(--block-tip-bg-color);
     border-radius: 4px;
     border-left: 5px solid var(--el-color-primary);
     margin: 20px 0;
@@ -247,15 +251,9 @@ form {
 
   &.warning {
     padding: 8px 16px;
-    background-color: var(--el-color-danger-lighter);
+    background-color: var(--block-warning-bg-color);
     border-radius: 4px;
     border-left: 5px solid var(--el-color-danger);
     margin: 20px 0;
-  }
-}
-
-.dark {
-  .example .el-divider {
-    background-color: var(--border-color-light);
   }
 }

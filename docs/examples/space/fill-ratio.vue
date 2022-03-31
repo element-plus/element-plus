@@ -6,7 +6,7 @@
       <el-radio v-model="direction" label="vertical">vertical</el-radio>
     </div>
     <div style="margin-bottom: 15px">
-      fillRatio:<el-slider v-model="fillRatio"></el-slider>
+      fillRatio:<el-slider v-model="fillRatio" />
     </div>
     <el-space
       fill
@@ -30,10 +30,9 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return { direction: 'horizontal', fillRatio: 30 }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const direction = ref('horizontal')
+const fillRatio = ref(30)
 </script>

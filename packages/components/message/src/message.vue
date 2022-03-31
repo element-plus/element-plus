@@ -1,6 +1,6 @@
 <template>
   <transition
-    name="el-message-fade"
+    :name="ns.b('fade')"
     @before-leave="onClose"
     @after-leave="$emit('destroy')"
   >
@@ -8,10 +8,10 @@
       v-show="visible"
       :id="id"
       :class="[
-        'el-message',
-        type && !icon ? `el-message--${type}` : '',
-        center ? 'is-center' : '',
-        showClose ? 'is-closable' : '',
+        ns.b(),
+        { [ns.m(type)]: type && !icon },
+        ns.is('center', center),
+        ns.is('closable', showClose),
         customClass,
       ]"
       :style="customStyle"
@@ -19,34 +19,39 @@
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
     >
-      <el-icon v-if="iconComponent" class="el-message__icon" :class="typeClass">
+      <el-badge
+        v-if="repeatNum > 1"
+        :value="repeatNum"
+        :type="badgeType"
+        :class="ns.e('badge')"
+      />
+      <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
         <component :is="iconComponent" />
       </el-icon>
       <slot>
-        <p v-if="!dangerouslyUseHTMLString" class="el-message__content">
+        <p v-if="!dangerouslyUseHTMLString" :class="ns.e('content')">
           {{ message }}
         </p>
         <!-- Caution here, message could've been compromised, never use user's input as message -->
-        <p v-else class="el-message__content" v-html="message"></p>
+        <p v-else :class="ns.e('content')" v-html="message" />
       </slot>
-      <el-icon
-        v-if="showClose"
-        class="el-message__closeBtn"
-        @click.stop="close"
-      >
+      <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
         <close />
       </el-icon>
     </div>
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted } from 'vue'
+import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
+import ElBadge from '@element-plus/components/badge'
 import { ElIcon } from '@element-plus/components/icon'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils/icon'
 
+import { useNamespace } from '@element-plus/hooks'
 import { messageEmits, messageProps } from './message'
+import type { BadgeProps } from '@element-plus/components/badge'
 
 import type { CSSProperties } from 'vue'
 
@@ -54,6 +59,7 @@ export default defineComponent({
   name: 'ElMessage',
 
   components: {
+    ElBadge,
     ElIcon,
     ...TypeComponents,
   },
@@ -62,12 +68,16 @@ export default defineComponent({
   emits: messageEmits,
 
   setup(props) {
+    const ns = useNamespace('message')
     const visible = ref(false)
+    const badgeType = ref<BadgeProps['type']>(
+      props.type ? (props.type === 'error' ? 'danger' : props.type) : 'info'
+    )
     let stopTimer: (() => void) | undefined = undefined
 
     const typeClass = computed(() => {
       const type = props.type
-      return type && TypeComponentsMap[type] ? `el-message-icon--${type}` : ''
+      return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
     })
 
     const iconComponent = computed(() => {
@@ -111,13 +121,23 @@ export default defineComponent({
       visible.value = true
     })
 
+    watch(
+      () => props.repeatNum,
+      () => {
+        clearTimer()
+        startTimer()
+      }
+    )
+
     useEventListener(document, 'keydown', keydown)
 
     return {
+      ns,
       typeClass,
       iconComponent,
       customStyle,
       visible,
+      badgeType,
 
       close,
       clearTimer,

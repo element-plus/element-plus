@@ -1,13 +1,8 @@
-import Result from './src/index.vue'
+import { withInstall } from '@element-plus/utils'
+import Result from './src/result.vue'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+export const ElResult = withInstall(Result)
 
-Result.install = (app: App): void => {
-  app.component(Result.name, Result)
-}
+export default ElResult
 
-const _Result = Result as SFCWithInstall<typeof Result>
-
-export default _Result
-export const ElResult = _Result
+export * from './src/result'

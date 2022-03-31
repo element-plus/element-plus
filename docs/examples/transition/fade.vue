@@ -13,12 +13,10 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data: () => ({
-    show: true,
-  }),
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const show = ref(true)
 </script>
 
 <style>

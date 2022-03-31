@@ -1,3 +1,3 @@
 export const features = {
-  theme: false,
+  theme: !process.env.DOC_ENV,
 }

@@ -1,9 +1,10 @@
-import { useFormItemProps } from '@element-plus/hooks'
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { useSizeProp } from '@element-plus/hooks'
+import { buildProps, iconPropType } from '@element-plus/utils'
+import { Loading } from '@element-plus/icons-vue'
+import type { ExtractPropTypes } from 'vue'
+import type button from './button.vue'
 
-import type { ExtractPropTypes, Component } from 'vue'
-
-export const buttonType = [
+export const buttonTypes = [
   'default',
   'primary',
   'success',
@@ -13,32 +14,40 @@ export const buttonType = [
   'text',
   '',
 ] as const
-export const buttonSize = ['', 'large', 'medium', 'small', 'mini'] as const
-export const buttonNativeType = ['button', 'submit', 'reset'] as const
+export const buttonNativeTypes = ['button', 'submit', 'reset'] as const
 
 export const buttonProps = buildProps({
-  ...useFormItemProps,
+  size: useSizeProp,
+  disabled: Boolean,
   type: {
     type: String,
-    values: buttonType,
+    values: buttonTypes,
     default: '',
   },
   icon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: '',
   },
   nativeType: {
     type: String,
-    values: buttonNativeType,
+    values: buttonNativeTypes,
     default: 'button',
   },
   loading: Boolean,
+  loadingIcon: {
+    type: iconPropType,
+    default: () => Loading,
+  },
   plain: Boolean,
   autofocus: Boolean,
   round: Boolean,
   circle: Boolean,
+  color: String,
+  autoInsertSpace: {
+    type: Boolean,
+    default: undefined,
+  },
 } as const)
-
 export const buttonEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
 }
@@ -48,3 +57,9 @@ export type ButtonEmits = typeof buttonEmits
 
 export type ButtonType = ButtonProps['type']
 export type ButtonNativeType = ButtonProps['nativeType']
+
+export type ButtonInstance = InstanceType<typeof button>
+
+export interface ButtonConfigContext {
+  autoInsertSpace?: boolean
+}

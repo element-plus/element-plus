@@ -15,7 +15,7 @@
   }
 
   @include e(title) {
-    color: #000000;
+    color: getCssVar('color-black');
     align-self: center;
   }
 
@@ -48,7 +48,7 @@
     transition: background-color var(--el-transition-duration-fast) ease;
 
     @include when(selected) {
-      background-color: var(--el-calendar-selected-background-color);
+      background-color: var(--el-calendar-selected-bg-color);
     }
 
     @include when(today) {
@@ -74,7 +74,7 @@
     height: var(--el-calendar-cell-width);
     &:hover {
       cursor: pointer;
-      background-color: var(--el-calendar-selected-background-color);
+      background-color: var(--el-calendar-selected-bg-color);
     }
   }
 }

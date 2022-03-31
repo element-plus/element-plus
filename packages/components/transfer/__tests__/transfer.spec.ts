@@ -273,4 +273,43 @@ describe('Transfer', () => {
       ])
     })
   })
+
+  describe('validate clearQuery', () => {
+    it('set query and clear query', async () => {
+      const wrapper = mount({
+        template: `
+          <transfer
+            :data="testData"
+            v-model="value"
+            :filterable="true"
+          />
+        `,
+        components: { Transfer },
+        created() {
+          this.testData = getTestData()
+        },
+        data() {
+          return {
+            value: [],
+          }
+        },
+      })
+
+      const ElTransfer: any = wrapper.findComponent({ name: 'ElTransfer' })
+      const app = ElTransfer.vm
+      app.leftPanel.query = '11'
+      app.rightPanel.query = '22'
+      await nextTick()
+      expect(app.leftPanel.query).toBe('11')
+      expect(app.rightPanel.query).toBe('22')
+
+      app.clearQuery('left')
+      await nextTick()
+      expect(app.leftPanel.query).toBeFalsy()
+
+      app.clearQuery('right')
+      await nextTick()
+      expect(app.rightPanel.query).toBeFalsy()
+    })
+  })
 })

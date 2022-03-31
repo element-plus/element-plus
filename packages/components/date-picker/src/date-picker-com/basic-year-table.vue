@@ -36,20 +36,19 @@
         <td class="available" :class="getCellStyle(startYear + 9)">
           <a class="cell">{{ startYear + 9 }}</a>
         </td>
-        <td></td>
-        <td></td>
+        <td />
+        <td />
       </tr>
     </tbody>
   </table>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 import dayjs from 'dayjs'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
-import { hasClass } from '@element-plus/utils/dom'
-import { coerceTruthyValueToArray } from '@element-plus/utils/util'
+import { castArray, hasClass } from '@element-plus/utils'
 
 import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
@@ -77,7 +76,7 @@ export default defineComponent({
   emits: ['pick'],
 
   setup(props, ctx) {
-    const { lang } = useLocaleInject()
+    const { lang } = useLocale()
     const startYear = computed(() => {
       return Math.floor(props.date.year() / 10) * 10
     })
@@ -90,9 +89,7 @@ export default defineComponent({
         : false
 
       style.current =
-        coerceTruthyValueToArray(props.parsedValue).findIndex(
-          (_) => _.year() === year
-        ) >= 0
+        castArray(props.parsedValue).findIndex((_) => _.year() === year) >= 0
 
       style.today = today.year() === year
 

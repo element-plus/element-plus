@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import Calendar from '../src/index.vue'
+import Calendar from '../src/calendar.vue'
 
 const _mount = (template: string, data?, otherObj?) =>
   mount({
@@ -155,5 +155,22 @@ describe('Calendar.vue', () => {
     const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
     expect((firstRow.firstElementChild as HTMLElement).innerHTML).toContain('3')
     expect((firstRow.lastElementChild as HTMLElement).innerHTML).toContain('9')
+  })
+
+  it('click previous month or next month', async () => {
+    const wrapper = _mount(
+      `
+    <el-calendar v-model="value"></el-calendar>
+    `,
+      () => ({ value: new Date('2019-04-01') })
+    )
+    await nextTick()
+    const btns = wrapper.findAll('.el-button')
+    const prevBtn = btns.at(0)
+    const nextBtn = btns.at(2)
+    await prevBtn.trigger('click')
+    expect(wrapper.find('.is-selected').text()).toBe('1')
+    await nextBtn.trigger('click')
+    expect(wrapper.find('.is-selected').text()).toBe('1')
   })
 })

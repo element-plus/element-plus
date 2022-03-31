@@ -1,22 +1,21 @@
 {
+  "extends": "@vue/tsconfig/tsconfig.web.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
+    "allowJs": true,
+    "module": "ES6",
+    "target": "ES2018",
     "noImplicitAny": false,
-    "removeComments": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "jsx": "preserve",
-    "noLib": false,
-    "target": "es6",
+    "declaration": true,
     "sourceMap": true,
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ES2018", "DOM", "DOM.Iterable"],
     "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "skipLibCheck": true
+    "types": ["unplugin-vue-define-options"]
   },
-  "exclude": ["node_modules", "**/__tests__", "dist/**"]
+  "references": [
+    { "path": "./tsconfig.vite-config.json" },
+    { "path": "./tsconfig.jest.json" },
+    { "path": "./tsconfig.vitest.json" }
+  ],
+  "include": ["packages", "typings"],
+  "exclude": ["node_modules", "**/dist", "**/__tests__/**/*"]
 }

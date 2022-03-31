@@ -27,7 +27,7 @@ border/radius
 
 :::
 
-### Shadow
+## Shadow
 
 There are few shadow styles to choose.
 

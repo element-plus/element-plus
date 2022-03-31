@@ -2,6 +2,17 @@ import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import Slider from '../src/index.vue'
 
+jest.mock('lodash-unified', () => {
+  return {
+    ...(jest.requireActual('lodash-unified') as Record<string, any>),
+    debounce: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
+
 describe('Slider', () => {
   it('create', () => {
     const wrapper = mount(Slider)
@@ -31,6 +42,24 @@ describe('Slider', () => {
         })
       })
     }, 10)
+  })
+
+  it('sizes', () => {
+    const wrapper = mount({
+      template: `
+        <div>
+        <slider v-model="value" size="small">
+        </slider>
+        </div>
+      `,
+      components: { Slider },
+      data() {
+        return {
+          value: 0,
+        }
+      },
+    })
+    expect(wrapper.find('.el-slider--small').exists()).toBe(true)
   })
 
   it('show tooltip', () => {

@@ -14,8 +14,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, getCurrentInstance, inject } from 'vue'
-import { throwError } from '@element-plus/utils/error'
+import { computed, defineComponent, getCurrentInstance, inject } from 'vue'
+import { throwError } from '@element-plus/utils'
 import { menuItemGroupProps } from './menu-item-group'
 
 import type { MenuProvider } from './types'

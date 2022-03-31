@@ -5,13 +5,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { buildProps } from '@element-plus/utils/props'
+import { computed, defineComponent } from 'vue'
+import { buildProps } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 
 const spaceItem = buildProps({
   prefixCls: {
     type: String,
-    default: 'el-space',
+    default: '',
   },
 } as const)
 
@@ -19,7 +20,9 @@ export default defineComponent({
   props: spaceItem,
 
   setup(props) {
-    const classes = computed(() => [`${props.prefixCls}__item`])
+    const ns = useNamespace('space')
+
+    const classes = computed(() => `${props.prefixCls || ns.b()}__item`)
 
     return {
       classes,

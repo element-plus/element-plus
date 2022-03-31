@@ -1,10 +1,10 @@
 import type {
-  h,
+  Component,
   ComponentInternalInstance,
   Ref,
   SetupContext,
   VNode,
-  Component,
+  h,
 } from 'vue'
 import type Node from './model/node'
 import type TreeStore from './model/tree-store'
@@ -60,10 +60,14 @@ export declare interface TreeStoreOptions {
   filterNodeMethod: FilterNodeMethodFunction
 }
 export declare interface TreeOptionProps {
-  children: string
-  label: string
-  disabled: string
-  isLeaf?: boolean
+  children?: string
+  label?: string | ((data: TreeNodeData, node: Node) => string)
+  disabled?: string | ((data: TreeNodeData, node: Node) => string)
+  isLeaf?: string | ((data: TreeNodeData, node: Node) => boolean)
+  class?: (
+    data: TreeNodeData,
+    node: Node
+  ) => string | { [key: string]: boolean } | string
 }
 export declare type RenderContentFunction = (
   h: hType,

@@ -5,14 +5,14 @@
     :aria-haspopup="!isLeaf"
     :aria-owns="isLeaf ? null : menuId"
     :aria-expanded="inExpandingPath"
-    :tabindex="expandable ? -1 : null"
+    :tabindex="expandable ? -1 : undefined"
     :class="[
-      'el-cascader-node',
-      checkStrictly && 'is-selectable',
+      ns.b(),
+      ns.is('selectable', checkStrictly),
+      ns.is('active', node.checked),
+      ns.is('disabled', !expandable),
       inExpandingPath && 'in-active-path',
       inCheckedPath && 'in-checked-path',
-      node.checked && 'is-active',
-      !expandable && 'is-disabled',
     ]"
     @mouseenter="handleHoverExpand"
     @focus="handleHoverExpand"
@@ -25,26 +25,23 @@
       :indeterminate="node.indeterminate"
       :disabled="isDisabled"
       @click.stop
-      @update:model-value="handleCheck"
+      @update:model-value="handleSelectCheck"
     />
     <el-radio
       v-else-if="checkStrictly"
       :model-value="checkedNodeId"
       :label="node.uid"
       :disabled="isDisabled"
-      @update:model-value="handleCheck"
+      @update:model-value="handleSelectCheck"
       @click.stop
     >
       <!--
         Add an empty element to avoid render label,
         do not use empty fragment here for https://github.com/vuejs/vue-next/pull/2485
       -->
-      <span></span>
+      <span />
     </el-radio>
-    <el-icon
-      v-else-if="isLeaf && node.checked"
-      class="el-cascader-node__prefix"
-    >
+    <el-icon v-else-if="isLeaf && node.checked" :class="ns.e('prefix')">
       <check />
     </el-icon>
 
@@ -53,10 +50,10 @@
 
     <!-- postfix -->
     <template v-if="!isLeaf">
-      <el-icon v-if="node.loading" class="is-loading el-cascader-node__postfix">
+      <el-icon v-if="node.loading" :class="[ns.is('loading'), ns.e('postfix')]">
         <loading />
       </el-icon>
-      <el-icon v-else class="arrow-right el-cascader-node__postfix">
+      <el-icon v-else :class="['arrow-right', ns.e('postfix')]">
         <arrow-right />
       </el-icon>
     </template>
@@ -68,7 +65,8 @@ import { computed, defineComponent, inject } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import ElRadio from '@element-plus/components/radio'
 import ElIcon from '@element-plus/components/icon'
-import { Check, Loading, ArrowRight } from '@element-plus/icons'
+import { useNamespace } from '@element-plus/hooks'
+import { ArrowRight, Check, Loading } from '@element-plus/icons-vue'
 import NodeContent from './node-content'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 import type { default as CascaderNode } from './node'
@@ -99,8 +97,9 @@ export default defineComponent({
   emits: ['expand'],
 
   setup(props, { emit }) {
-    const panel = inject(CASCADER_PANEL_INJECTION_KEY)
+    const panel = inject(CASCADER_PANEL_INJECTION_KEY)!
 
+    const ns = useNamespace('cascader-node')
     const isHoverMenu = computed(() => panel.isHoverMenu)
     const multiple = computed(() => panel.config.multiple)
     const checkStrictly = computed(() => panel.config.checkStrictly)
@@ -110,7 +109,7 @@ export default defineComponent({
     const expandable = computed(
       () => (checkStrictly.value && !isLeaf.value) || !isDisabled.value
     )
-    const inExpandingPath = computed(() => isInPath(panel.expandingNode))
+    const inExpandingPath = computed(() => isInPath(panel.expandingNode!))
     // only useful in check-strictly mode
     const inCheckedPath = computed(
       () => checkStrictly.value && panel.checkedNodes.some(isInPath)
@@ -166,6 +165,17 @@ export default defineComponent({
       }
     }
 
+    const handleSelectCheck = (checked: boolean) => {
+      if (checkStrictly.value) {
+        doCheck(checked)
+        if (props.node.loaded) {
+          doExpand()
+        }
+      } else {
+        handleCheck(checked)
+      }
+    }
+
     const handleCheck = (checked: boolean) => {
       if (!props.node.loaded) {
         doLoad()
@@ -186,10 +196,12 @@ export default defineComponent({
       expandable,
       inExpandingPath,
       inCheckedPath,
+      ns,
       handleHoverExpand,
       handleExpand,
       handleClick,
       handleCheck,
+      handleSelectCheck,
     }
   },
 })

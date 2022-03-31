@@ -20,7 +20,7 @@
 @include b(cascader-menu) {
   min-width: 180px;
   box-sizing: border-box;
-  color: var(--el-cascader-menu-font-color);
+  color: var(--el-cascader-menu-text-color);
   border-right: var(--el-cascader-menu-border);
 
   &:last-child {
@@ -33,7 +33,7 @@
 
   @include e(wrap) {
     // Raise the priority
-    &.el-scrollbar__wrap {
+    &.#{$namespace}-scrollbar__wrap {
       height: 204px;
     }
   }
@@ -61,8 +61,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center;
+    display: flex;
+    align-items: center;
     color: var(--el-cascader-color-empty);
+
+    .is-loading {
+      margin-right: 2px;
+    }
   }
 }
 
@@ -76,13 +81,13 @@
   outline: none;
 
   &.is-selectable.in-active-path {
-    color: var(--el-cascader-menu-font-color);
+    color: var(--el-cascader-menu-text-color);
   }
 
   &.in-active-path,
   &.is-selectable.in-checked-path,
   &.is-active {
-    color: var(--el-cascader-menu-selected-font-color);
+    color: var(--el-cascader-menu-selected-text-color);
     font-weight: bold;
   }
 
@@ -113,7 +118,7 @@
   @include e(label) {
     flex: 1;
     text-align: left;
-    padding: 0 10px;
+    padding: 0 8px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

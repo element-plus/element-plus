@@ -73,7 +73,7 @@ export default {
     },
     pagination: {
       goto: 'Anar a',
-      pagesize: '/pagina',
+      pagesize: '/pàgina',
       total: 'Total {total}',
       pageClassifier: '',
     },
@@ -113,7 +113,7 @@ export default {
       title: 'Tornar',
     },
     popconfirm: {
-      confirmButtonText: 'Si',
+      confirmButtonText: 'Sí',
       cancelButtonText: 'No',
     },
   },

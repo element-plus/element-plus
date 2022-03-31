@@ -6,6 +6,7 @@
     :clearable="clearable"
     :clear-icon="clearIcon"
     :size="size"
+    :effect="effect"
     :placeholder="placeholder"
     default-first-option
     :filterable="editable"
@@ -22,7 +23,7 @@
       :disabled="item.disabled"
     />
     <template #prefix>
-      <el-icon class="el-input__prefix-icon">
+      <el-icon v-if="prefixIcon" class="el-input__prefix-icon">
         <component :is="prefixIcon" />
       </el-icon>
     </template>
@@ -30,13 +31,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
-import { CircleClose, Clock } from '@element-plus/icons'
+import { CircleClose, Clock } from '@element-plus/icons-vue'
 
-import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import { componentSizes } from '@element-plus/constants'
+import type { Component, PropType } from 'vue'
+dayjs.extend(customParseFormat)
 
 const { Option: ElOption } = ElSelect
 
@@ -48,8 +52,14 @@ interface Time {
 const parseTime = (time: string): null | Time => {
   const values = (time || '').split(':')
   if (values.length >= 2) {
-    const hours = parseInt(values[0], 10)
-    const minutes = parseInt(values[1], 10)
+    let hours = Number.parseInt(values[0], 10)
+    const minutes = Number.parseInt(values[1], 10)
+    const timeUpper = time.toUpperCase()
+    if (timeUpper.includes('AM') && hours === 12) {
+      hours = 0
+    } else if (timeUpper.includes('PM') && hours !== 12) {
+      hours += 12
+    }
     return {
       hours,
       minutes,
@@ -67,10 +77,11 @@ const compareTime = (time1: string, time2: string): number => {
   }
   return minutes1 > minutes2 ? 1 : -1
 }
+const padTime = (time: number | string) => {
+  return `${time}`.padStart(2, '0')
+}
 const formatTime = (time: Time): string => {
-  return `${time.hours < 10 ? `0${time.hours}` : time.hours}:${
-    time.minutes < 10 ? `0${time.minutes}` : time.minutes
-  }`
+  return `${padTime(time.hours)}:${padTime(time.minutes)}`
 }
 const nextTime = (time: string, step: string): string => {
   const timeValue = parseTime(time)
@@ -94,6 +105,10 @@ export default defineComponent({
     event: 'change',
   },
   props: {
+    format: {
+      type: String,
+      default: 'HH:mm',
+    },
     modelValue: String,
     disabled: {
       type: Boolean,
@@ -103,15 +118,18 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    effect: {
+      type: String as PropType<'light' | 'dark' | string>,
+      default: 'light',
+    },
     clearable: {
       type: Boolean,
       default: true,
     },
     size: {
       type: String as PropType<ComponentSize>,
+      values: componentSizes,
       default: '',
-      validator: (value: string) =>
-        !value || ['medium', 'small', 'mini'].indexOf(value) !== -1,
     },
     placeholder: {
       type: String,
@@ -155,18 +173,40 @@ export default defineComponent({
     // computed
     const select = ref(null)
     const value = computed(() => props.modelValue)
+    const start = computed(() => {
+      const time = parseTime(props.start)
+      return formatTime(time)
+    })
+    const end = computed(() => {
+      const time = parseTime(props.end)
+      return formatTime(time)
+    })
+    const step = computed(() => {
+      const time = parseTime(props.step)
+      return formatTime(time)
+    })
+    const minTime = computed(() => {
+      const time = parseTime(props.minTime)
+      return time ? formatTime(time) : null
+    })
+    const maxTime = computed(() => {
+      const time = parseTime(props.maxTime)
+      return time ? formatTime(time) : null
+    })
     const items = computed(() => {
       const result = []
       if (props.start && props.end && props.step) {
-        let current = props.start
-        while (compareTime(current, props.end) <= 0) {
+        let current = start.value
+        let currentTime
+        while (compareTime(current, end.value) <= 0) {
+          currentTime = dayjs(current, 'HH:mm').format(props.format)
           result.push({
-            value: current,
+            value: currentTime,
             disabled:
-              compareTime(current, props.minTime || '-1:-1') <= 0 ||
-              compareTime(current, props.maxTime || '100:100') >= 0,
+              compareTime(current, minTime.value || '-1:-1') <= 0 ||
+              compareTime(current, maxTime.value || '100:100') >= 0,
           })
-          current = nextTime(current, props.step)
+          current = nextTime(current, step.value)
         }
       }
       return result

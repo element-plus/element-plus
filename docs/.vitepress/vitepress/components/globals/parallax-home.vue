@@ -1,28 +1,23 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
-import { withBase } from 'vitepress'
-
-import { useParallax } from '@vueuse/core'
+import { computed, reactive, ref } from 'vue'
+import { useEventListener, useParallax, useThrottleFn } from '@vueuse/core'
+import { useLang } from '../../composables/lang'
+import homeLocale from '../../../i18n/pages/home.json'
+import HomeSponsors from '../home/home-sponsors.vue'
+import HomeCards from '../home/home-cards.vue'
+import HomeFooter from './home-footer.vue'
 import type { CSSProperties } from 'vue'
-
 const target = ref<HTMLElement | null>(null)
 const parallax = reactive(useParallax(target))
+const jumbotronRedOffset = ref(0)
+const jumbotronRef = ref<HTMLElement | null>(null)
+const lang = useLang()
+const homeLang = computed(() => homeLocale[lang.value])
 
-const sponsors = [
-  {
-    name: 'bit',
-    img: withBase('/images/bit.svg'),
-    url: 'https://bit.dev/?from=element-ui',
-    slogan: 'Share Code',
-  },
-  {
-    name: 'renren.io',
-    img: withBase('/images/renren.png'),
-    url: 'https://www.renren.io/?from=element-ui',
-    slogan: 'Rapid development platform',
-    className: 'renren',
-  },
-]
+function jumpTo(path: string) {
+  // vitepress has not router
+  location.href = `/${lang.value}/${path}`
+}
 
 const containerStyle: CSSProperties = {
   display: 'flex',
@@ -37,12 +32,9 @@ const containerStyle: CSSProperties = {
 }
 
 const cardStyle = computed(() => ({
-  background: '#fff',
-  minHeight: '30rem',
-  width: '50rem',
-  borderRadius: '5px',
+  height: '30rem',
+  width: '100%',
   transition: '.3s ease-out all',
-  boxShadow: '0 0 20px 0 rgba(255, 255, 255, 0.25)',
   transform: `rotateX(${parallax.roll}deg) rotateY(${parallax.tilt}deg)`,
 }))
 
@@ -53,164 +45,137 @@ const layerBase: CSSProperties = {
   transition: '.3s ease-out all',
 }
 
-const layer0 = computed(() => ({
+const screenLayer = computed(() => ({
   ...layerBase,
-  transform: `translateX(${parallax.tilt * 10}px) translateY(${
-    parallax.roll * 10
+  width: '80%',
+  height: '80%',
+  transform: `translateX(${parallax.tilt * 10 + 80}px) translateY(${
+    parallax.roll * 10 + 50
+  }px)`,
+}))
+
+const peopleLayer = computed(() => ({
+  ...layerBase,
+  width: '30%',
+  height: '30%',
+  right: 0,
+  bottom: 0,
+  transform: `translateX(${parallax.tilt * 25 + 25}px) translateY(${
+    parallax.roll * 25
   }px) scale(1)`,
 }))
+
+// center layer
+const leftLayer = computed(() => ({
+  ...layerBase,
+  width: '20%',
+  height: '20%',
+  transform: `translateX(${parallax.tilt * 12 + 205}px) translateY(${
+    parallax.roll * 12 + 210
+  }px)`,
+}))
+
+const leftBottomLayer = computed(() => ({
+  ...layerBase,
+  width: '30%',
+  height: '30%',
+  left: 0,
+  bottom: 0,
+  transform: `translateX(${parallax.tilt * 30 - 10}px) translateY(${
+    parallax.roll * 30
+  }px)`,
+}))
+
+const rightLayer = computed(() => ({
+  ...layerBase,
+  width: '33%',
+  height: '33%',
+  top: 0,
+  right: 0,
+  transform: `translateX(${parallax.tilt * 25 + 5}px) translateY(${
+    parallax.roll * 25
+  }px)`,
+}))
+
+const handleScroll = useThrottleFn(() => {
+  const ele = jumbotronRef.value
+  if (ele) {
+    const rect = ele.getBoundingClientRect()
+    const eleHeight = ele.clientHeight
+    let calHeight = (180 - rect.top) * 2
+    if (calHeight < 0) calHeight = 0
+    if (calHeight > eleHeight) calHeight = eleHeight
+    jumbotronRedOffset.value = calHeight
+  }
+}, 10)
+
+useEventListener(window, 'scroll', handleScroll)
 </script>
 
 <template>
   <div ref="target" class="home-page">
-    <div class="banner">
-      <div class="banner-desc">
-        <h1>A Desktop UI Library</h1>
-        <p>
-          Element Plus, a Vue 3 based component library for developers,
-          designers and product managers
-        </p>
+    <div class="banner" text="center">
+      <div class="banner-desc" m="t-4">
+        <h1>{{ homeLang['title'] }}</h1>
+        <p m="t-2">{{ homeLang['title_sub'] }}</p>
       </div>
     </div>
-    <div class="jumbotron">
-      <div :style="containerStyle">
+    <div ref="jumbotronRef" class="jumbotron">
+      <div class="parallax-container" :style="containerStyle">
         <div :style="cardStyle">
-          <div class="banner" :style="layer0">
-            <img src="/images/theme-index-blue.png" alt="banner" />
-          </div>
+          <img
+            :style="screenLayer"
+            src="/images/home/screen.svg"
+            alt="banner"
+          />
+          <img
+            :style="peopleLayer"
+            src="/images/home/people.svg"
+            alt="banner"
+            class="cursor-pointer"
+            @click="jumpTo('/guide/quickstart.html')"
+          />
+          <img
+            :style="leftLayer"
+            src="/images/home/left-layer.svg"
+            alt="banner"
+          />
+          <img
+            :style="leftBottomLayer"
+            src="/images/home/left-bottom-layer.svg"
+            alt="banner"
+          />
+          <img
+            :style="rightLayer"
+            src="/images/home/right-layer.svg"
+            alt="banner"
+          />
         </div>
       </div>
-    </div>
-    <div class="sponsors">
-      <a
-        v-for="(sponsor, i) in sponsors"
-        :key="i"
-        :class="['sponsor', sponsor.className]"
-        :href="sponsor.url"
-        target="_blank"
-      >
-        <img width="45" :src="sponsor.img" :alt="sponsor.name" />
-        <div>
-          <p>
-            Sponsored by
-            <span class="name">{{ sponsor.name }}</span>
-          </p>
-          <p>{{ sponsor.slogan }}</p>
-        </div>
-      </a>
-    </div>
-    <div class="cards">
-      <ul class="container">
-        <li>
-          <div class="card">
-            <img src="/images/guide.png" alt="" />
-            <h3>Guide</h3>
-            <p>
-              Understand the design guidelines, helping designers build product
-              that's logically sound, reasonably structured and easy to use.
-            </p>
-            <a href="/en-US/guide/design.html"> View Detail </a>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <img src="/images/component.png" alt="" />
-            <h3>Component</h3>
-            <p>
-              Experience interaction details by strolling through component
-              demos. Use encapsulated code to improve developing efficiency.
-            </p>
-            <a href="/en-US/component/layout.html"> View Detail </a>
-          </div>
-        </li>
-        <li>
-          <div class="card">
-            <img src="/images/resource.png" alt="" />
-            <h3>Resource</h3>
-            <p>
-              Download relevant design resources for shaping page prototype or
-              visual draft, increasing design efficiency.
-            </p>
-            <a href="/en-US/resource/index.html"> View Detail </a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <footer class="footer">
-    <div class="footer-main">
-      <h4>Links</h4>
-      <a
-        href="https://github.com/element-plus/element-plus"
-        class="footer-main-link"
-        target="_blank"
-      >
-        GitHub
-      </a>
-      <a
-        href="https://github.com/element-plus/element-plus/releases"
-        class="footer-main-link"
-        target="_blank"
-      >
-        Changelog
-      </a>
-      <a
-        href="https://github.com/element-plus/element-plus-starter"
-        class="footer-main-link"
-        target="_blank"
-      >
-        Starter kit
-      </a>
-      <a
-        href="/en-US/component/custom-theme"
-        class="footer-main-link"
-        target="_blank"
-      >
-        Online Theme Roller
-      </a>
     </div>
 
-    <div class="footer-main">
-      <h4>Community</h4>
-      <a
-        href="https://gitter.im/element-en/Lobby"
-        class="footer-main-link"
-        target="_blank"
-        >Gitter</a
-      >
-      <a
-        href="https://github.com/element-plus/element-plus/issues"
-        class="footer-main-link"
-        target="_blank"
-      >
-        Feedback
-      </a>
-      <a
-        href="https://github.com/element-plus/element-plus/blob/dev/.github/CONTRIBUTING.en-US.md"
-        class="footer-main-link"
-        target="_blank"
-      >
-        Contribution
-      </a>
-      <a
-        href="https://segmentfault.com/t/element-plus"
-        class="footer-main-link"
-        target="_blank"
-      >
-        SegmentFault
-      </a>
-    </div>
-  </footer>
+    <HomeSponsors />
+    <HomeCards />
+  </div>
+  <HomeFooter />
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .home-page {
-  .banner {
-    text-align: center;
+  .banner-dot h1 span {
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      right: -12px;
+      bottom: 8px;
+      background: var(--el-color-primary);
+      height: 8px;
+      width: 8px;
+      border-radius: 100%;
+    }
   }
   .banner-desc {
-    padding-top: 30px;
-
     h1 {
       font-size: 34px;
       margin: 0;
@@ -220,181 +185,78 @@ const layer0 = computed(() => ({
 
     p {
       font-size: 18px;
-      line-height: 28px;
       color: var(--text-color-light);
-      margin: 20px 0 5px;
     }
   }
 
-  .sponsors {
-    display: flex;
-    justify-content: center;
-  }
-
-  .sponsor {
-    margin: 0 20px 50px;
-    display: inline-flex;
-    width: 300px;
-    height: 100px;
-    justify-content: center;
-    align-items: center;
-
-    .name {
-      font-weight: bold;
-      color: var(--text-color);
-    }
-
-    img {
-      margin-right: 20px;
-    }
-
-    div {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    p {
-      margin: 0;
-      line-height: 1.8;
-      color: var(--text-color-light);
-      font-size: 14px;
-    }
-  }
-  .jumbotron {
-    width: 890px;
-    margin: 30px auto;
-    position: relative;
-    img {
-      width: 100%;
-    }
-    .jumbotron-red {
-      transition: height 0.1s;
-      background: #fff;
-      position: absolute;
-      left: 0;
-      top: 0;
-      overflow: hidden;
-    }
-  }
-  .cards {
-    margin: 0 auto 110px;
-    width: 1140px;
-
-    .container {
-      padding: 0;
-      margin: 0 -11px;
-      width: auto;
-      &::before,
-      &::after {
-        display: table;
-        content: '';
-      }
-      &::after {
-        clear: both;
-      }
-    }
-
-    li {
-      width: 33.3%;
-      padding: 0 19px;
-      box-sizing: border-box;
-      float: left;
-      list-style: none;
-    }
-
-    img {
-      width: 160px;
-      height: 120px;
-    }
-  }
-  .card {
-    height: 430px;
-    width: 100%;
-    background: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    box-sizing: border-box;
-    text-align: center;
-    position: relative;
-    transition: all 0.3s ease-in-out;
-    bottom: 0;
-
-    img {
-      margin: 66px auto 60px;
-    }
-    h3 {
-      margin: 0;
-      font-size: 18px;
-      color: #1f2f3d;
-      font-weight: normal;
-    }
-    p {
-      font-size: 14px;
-      color: #99a9bf;
-      padding: 0 25px;
-      line-height: 20px;
-    }
-    a {
-      height: 53px;
-      line-height: 52px;
-      font-size: 14px;
-      color: var(--brand-color);
+  .count-down {
+    .cd-main {
+      background: #f1f6fe;
+      border-radius: 10px;
+      width: 50%;
+      margin: 60px auto 120px;
+      padding: 30px 0;
+      font-size: 24px;
+      color: #666;
       text-align: center;
-      border: 0;
-      border-top: 1px solid var(--border-color);
-      padding: 0;
-      cursor: pointer;
-      width: 100%;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      background-color: var(--bg-color);
-      border-radius: 0 0 5px 5px;
-      transition: all 0.3s;
-      text-decoration: none;
-      display: block;
-
-      &:hover {
-        color: #fff;
-        background: var(--brand-color);
-      }
+      font-weight: 600;
     }
-    &:hover {
-      bottom: 6px;
-      box-shadow: 0 6px 18px 0 rgba(232, 237, 250, 0.5);
+    .cd-date {
+      font-size: 28px;
     }
-  }
-  @media (max-width: 1140px) {
-    .cards {
-      width: 100%;
-      .container {
-        width: 100%;
-        margin: 0;
-      }
+    .cd-time {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin: 10px auto 0;
     }
-    .banner .container {
-      width: 100%;
-      box-sizing: border-box;
+    .cd-num {
+      color: var(--el-color-primary);
+      font-size: 78px;
+      font-weight: bold;
     }
-    .banner img {
-      right: 0;
+    .cd-num span {
+      width: 50%;
+      display: inline-block;
+    }
+    .cd-str {
+      font-size: 22px;
+      margin-top: -5px;
     }
   }
 
-  @media (max-width: 1000px) {
-    .banner .container {
-      img {
-        display: none;
-      }
+  .jumbotron {
+    width: 800px;
+    margin: 20px auto;
+    position: relative;
+
+    img {
+      width: 100%;
     }
-    .jumbotron,
-    .banner {
-      display: none;
+
+    .parallax-container {
+      width: 800px;
     }
   }
 
   @media (max-width: 768px) {
+    .jumbotron {
+      width: 50%;
+      display: flex;
+      margin: auto;
+      justify-content: center;
+      align-items: center;
+
+      .parallax-container {
+        width: 100%;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .banner-desc {
+      padding-top: 0px;
+    }
     .cards {
       li {
         width: 80%;
@@ -410,6 +272,9 @@ const layer0 = computed(() => ({
       display: none;
     }
     .banner-desc {
+      h1 {
+        font-size: 22px;
+      }
       #line2 {
         display: none;
       }
@@ -418,6 +283,39 @@ const layer0 = computed(() => ({
       }
       p {
         width: auto;
+      }
+    }
+    .banner-dot h1 span {
+      &::after {
+        right: -8px;
+        bottom: 2px;
+        height: 6px;
+        width: 6px;
+      }
+    }
+    .count-down {
+      .cd-main {
+        width: 90%;
+        margin: 40px auto 40px;
+        padding: 20px 0;
+      }
+      .cd-date {
+        font-size: 22px;
+      }
+      .cd-num {
+        font-size: 38px;
+      }
+      .cd-str {
+        font-size: 12px;
+        margin-top: 0px;
+      }
+    }
+    .sponsors-list {
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      .sponsor {
+        justify-content: left;
       }
     }
   }
@@ -473,7 +371,6 @@ const layer0 = computed(() => ({
       top: 50%;
       left: 50%;
       position: fixed;
-      -webkit-transform: translate(-50%, -50%);
       transform: translate(-50%, -50%);
       box-sizing: border-box;
       text-align: center;
@@ -494,97 +391,6 @@ const layer0 = computed(() => ({
           color: #fff;
         }
       }
-    }
-  }
-}
-.footer {
-  background-color: var(--bg-color);
-  width: 100%;
-  padding: 40px 150px;
-  box-sizing: border-box;
-  height: 340px;
-
-  .container {
-    box-sizing: border-box;
-    width: auto;
-  }
-
-  .footer-main {
-    font-size: 0;
-    display: inline-block;
-    vertical-align: top;
-    margin-right: 110px;
-
-    h4 {
-      font-size: 18px;
-      line-height: 1;
-      margin: 0 0 15px 0;
-    }
-
-    .footer-main-link {
-      display: block;
-      margin: 0;
-      line-height: 2;
-      font-size: 14px;
-      color: var(--text-color-light);
-
-      &:hover {
-        color: var(--text-color);
-      }
-    }
-  }
-
-  .footer-social {
-    float: right;
-    text-align: right;
-
-    .footer-social-title {
-      color: var(--text-color-light);
-      font-size: 18px;
-      line-height: 1;
-      margin: 0 0 20px 0;
-      padding: 0;
-      font-weight: bold;
-    }
-
-    .ep-icon-github {
-      transition: 0.3s;
-      display: inline-block;
-      line-height: 32px;
-      text-align: center;
-      color: #c8d6e8;
-      background-color: transparent;
-      font-size: 32px;
-      vertical-align: middle;
-      margin-right: 20px;
-      &:hover {
-        transform: scale(1.2);
-        color: #8d99ab;
-      }
-    }
-
-    .doc-icon-gitter {
-      margin-right: 0;
-    }
-  }
-}
-
-@media (max-width: 1140px) {
-  .footer {
-    height: auto;
-  }
-}
-
-@media (max-width: 1000px) {
-  .footer-social {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .footer {
-    .footer-main {
-      margin-bottom: 30px;
     }
   }
 }

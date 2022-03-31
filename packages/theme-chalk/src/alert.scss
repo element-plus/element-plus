@@ -21,13 +21,13 @@
   transition: opacity var(--el-transition-duration-fast);
 
   @include when(light) {
-    .#{$namespace}-alert__closebtn {
+    .#{$namespace}-alert__close-btn {
       color: var(--el-text-color-placeholder);
     }
   }
 
   @include when(dark) {
-    .#{$namespace}-alert__closebtn {
+    .#{$namespace}-alert__close-btn {
       color: var(--el-color-white);
     }
     .#{$namespace}-alert__description {
@@ -41,10 +41,10 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      --el-alert-background-color: #{map.get($colors, $type, 'light-9')};
+      --el-alert-bg-color: #{map.get($colors, $type, 'light-9')};
 
       &.is-light {
-        background-color: var(--el-alert-background-color);
+        background-color: var(--el-alert-bg-color);
         color: var(--el-color-#{$type});
 
         .#{$namespace}-alert__description {
@@ -64,7 +64,7 @@
     padding: 0 8px;
   }
 
-  @include e(icon) {
+  & .#{$namespace}-alert__icon {
     font-size: var(--el-alert-icon-size);
     width: var(--el-alert-icon-size);
     @include when(big) {
@@ -76,6 +76,7 @@
   @include e(title) {
     font-size: var(--el-alert-title-font-size);
     line-height: 18px;
+    vertical-align: text-top;
     @include when(bold) {
       font-weight: bold;
     }
@@ -86,7 +87,7 @@
     margin: 5px 0 0 0;
   }
 
-  @include e(closebtn) {
+  & .#{$namespace}-alert__close-btn {
     font-size: var(--el-alert-close-font-size);
     opacity: 1;
     position: absolute;

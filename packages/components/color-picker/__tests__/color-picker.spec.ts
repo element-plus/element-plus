@@ -3,7 +3,18 @@ import { mount } from '@vue/test-utils'
 import ColorPicker from '../src/index.vue'
 import type { ComponentPublicInstance } from 'vue'
 
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
+
+jest.mock('lodash-unified', () => {
+  return {
+    ...(jest.requireActual('lodash-unified') as Record<string, any>),
+    debounce: jest.fn((fn) => {
+      fn.cancel = jest.fn()
+      fn.flush = jest.fn()
+      return fn
+    }),
+  }
+})
 
 const _mount = (template: string, data: () => { [key: string]: any }) => {
   const Component = defineComponent({
@@ -21,11 +32,12 @@ const _mount = (template: string, data: () => { [key: string]: any }) => {
 type ColorPickerVM = ComponentPublicInstance<{
   handleClick: (opt: {
     target: Nullable<HTMLElement>
+    type: string
     clientX: number
     clientY: number
   }) => void
   thumbTop: number
-  handleDrag: (opt: { clientX: number; clientY: number }) => void
+  handleDrag: (opt: { type: string; clientX: number; clientY: number }) => void
 }>
 
 describe('Color-picker', () => {
@@ -61,6 +73,21 @@ describe('Color-picker', () => {
     expect(input.value.trim().toUpperCase()).toEqual('#20A0FF')
     wrapper.unmount()
   })
+  it('should show correct hex value contains alpha', async () => {
+    const wrapper = _mount(
+      `<el-color-picker v-model="color" color-format="hex" show-alpha></el-color-picker>`,
+      () => ({
+        color: '#20A0FFEE',
+      })
+    )
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
+    await nextTick()
+    const input = document.querySelector<HTMLInputElement>(
+      '.el-color-dropdown__value input'
+    )
+    expect(input.value.trim().toUpperCase()).toEqual('#20A0FFEE')
+    wrapper.unmount()
+  })
   it('should pick a color when confirm button click', async () => {
     const wrapper = _mount(
       `<el-color-picker v-model="color"></el-color-picker>`,
@@ -75,7 +102,20 @@ describe('Color-picker', () => {
     expect(wrapper.vm.color).toEqual('#FF0000')
     wrapper.unmount()
   })
+  it('should pick a color contains alpha when confirm button click', async () => {
+    const wrapper = _mount(
+      `<el-color-picker v-model="color" color-format="hex" show-alpha></el-color-picker>`,
+      () => ({
+        color: null,
+      })
+    )
 
+    await wrapper.find('.el-color-picker__trigger').trigger('click')
+    document.querySelector<HTMLElement>('.el-color-dropdown__btn').click()
+    await nextTick()
+    expect(wrapper.vm.color).toEqual('#FF0000FF')
+    wrapper.unmount()
+  })
   it('should init the right color when open', async () => {
     const wrapper = _mount(
       `<el-color-picker v-model="color"></el-color-picker>`,
@@ -160,6 +200,7 @@ describe('Color-picker', () => {
       .mockReturnValue(4)
     ;(hueSlideWrapper.vm as ColorPickerVM).handleClick({
       target: null,
+      type: 'mouseup',
       clientX: 0,
       clientY: 100,
     })
@@ -201,6 +242,7 @@ describe('Color-picker', () => {
       .mockReturnValue(4)
     ;(hueSlideWrapper.vm as ColorPickerVM).handleClick({
       target: null,
+      type: 'mouseup',
       clientX: 0,
       clientY: 100,
     })
@@ -240,6 +282,7 @@ describe('Color-picker', () => {
       .mockReturnValue(4)
     ;(alphaWrapper.vm as ColorPickerVM).handleClick({
       target: null,
+      type: 'mouseup',
       clientX: 50,
       clientY: 0,
     })
@@ -261,7 +304,11 @@ describe('Color-picker', () => {
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
     const svPanelWrapper = colorPickerWrapper.findComponent({ ref: 'svPanel' })
-    ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({ clientX: 0, clientY: 0 })
+    ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
+      type: 'mousemove',
+      clientX: 0,
+      clientY: 0,
+    })
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.color._saturation !== 50).toBeTruthy()
       expect(wrapper.vm.color._value !== 50).toBeTruthy()
@@ -376,6 +423,7 @@ describe('Color-picker', () => {
       .mockReturnValue(4)
     ;(hueSlideWrapper.vm as ColorPickerVM).handleClick({
       target: null,
+      type: 'mouseup',
       clientX: 0,
       clientY: 1000,
     })
@@ -388,5 +436,18 @@ describe('Color-picker', () => {
     mockHueSlideRect.mockRestore()
     mockThumbDom.mockRestore()
     mockHueSlideOffsetHeight.mockRestore()
+  })
+  it('should not execute active-change event', async () => {
+    const onActiveChange = jest.fn()
+    const wrapper = _mount(
+      `<el-color-picker :model-value='color' @active-change='onActiveChange'/>`,
+      () => ({
+        color: '#20A0FF',
+        onActiveChange,
+      })
+    )
+    await nextTick()
+    expect(onActiveChange).not.toHaveBeenCalled()
+    wrapper.unmount()
   })
 })

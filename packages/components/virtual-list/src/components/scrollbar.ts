@@ -1,21 +1,20 @@
 import {
   computed,
   defineComponent,
-  ref,
-  reactive,
-  onMounted,
-  onBeforeUnmount,
-  watch,
   h,
-  withModifiers,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
   unref,
+  watch,
+  withModifiers,
 } from 'vue'
+import { isClient } from '@vueuse/core'
 import { BAR_MAP } from '@element-plus/components/scrollbar'
-import { on, off } from '@element-plus/utils/dom'
-import { rAF, cAF } from '@element-plus/utils/raf'
-import isServer from '@element-plus/utils/isServer'
+import { cAF, off, on, rAF } from '@element-plus/utils'
 
-import { SCROLLBAR_MIN_SIZE, HORIZONTAL, ScrollbarDirKey } from '../defaults'
+import { HORIZONTAL, SCROLLBAR_MIN_SIZE, ScrollbarDirKey } from '../defaults'
 import { virtualizedScrollbarProps } from '../props'
 import { renderThumbStyle } from '../utils'
 
@@ -54,7 +53,6 @@ const ScrollBar = defineComponent({
       right: '2px',
       bottom: '2px',
       borderRadius: '4px',
-      ...(props.visible ? {} : { display: 'none' }),
     }))
 
     const thumbSize = computed(() => {
@@ -245,7 +243,7 @@ const ScrollBar = defineComponent({
     )
 
     onMounted(() => {
-      if (isServer) return
+      if (!isClient) return
 
       on(trackRef.value!, 'touchstart', onScrollbarTouchStart)
       on(thumbRef.value!, 'touchstart', onThumbMouseDown)

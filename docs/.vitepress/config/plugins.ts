@@ -1,10 +1,9 @@
 import path from 'path'
 import fs from 'fs'
-import { parse } from '@vue/compiler-sfc'
 import MarkdownIt from 'markdown-it'
 import mdContainer from 'markdown-it-container'
-import { highlight } from 'vitepress/dist/node/markdown/plugins/highlight'
-import { docRoot } from '../utils/paths'
+import { docRoot } from '@element-plus/build'
+import { highlight } from '../utils/highlight'
 import type Token from 'markdown-it/lib/token'
 import type Renderer from 'markdown-it/lib/renderer'
 
@@ -45,9 +44,9 @@ export const mdPlugin = (md: MarkdownIt) => {
             path.resolve(docRoot, 'examples', `${sourceFile}.vue`),
             'utf-8'
           )
-          const existingScriptIndex = hoistedTags.findIndex((tag) => {
-            return scriptSetupRE.test(tag)
-          })
+          const existingScriptIndex = hoistedTags.findIndex((tag) =>
+            scriptSetupRE.test(tag)
+          )
           if (existingScriptIndex === -1) {
             hoistedTags.push(`
     <script setup>
@@ -59,11 +58,9 @@ export const mdPlugin = (md: MarkdownIt) => {
         }
         if (!source) throw new Error(`Incorrect source file: ${sourceFile}`)
 
-        const { html, js, css, cssPreProcessor, jsPreProcessor } =
-          generateCodePenSnippet(source)
         return `<Demo :demos="demos" source="${encodeURIComponent(
           highlight(source, 'vue')
-        )}" path="${sourceFile}" html="${html}" js="${js}" css="${css}" css-pre-processor="${cssPreProcessor}" js-pre-processor="${jsPreProcessor}" raw-source="${encodeURIComponent(
+        )}" path="${sourceFile}" raw-source="${encodeURIComponent(
           source
         )}" description="${encodeURIComponent(localMd.render(description))}">`
       } else {
@@ -71,16 +68,4 @@ export const mdPlugin = (md: MarkdownIt) => {
       }
     },
   } as ContainerOpts)
-}
-
-function generateCodePenSnippet(source: string) {
-  const { template, script, styles } = parse(source).descriptor
-  const css = styles.pop()
-  return {
-    html: encodeURIComponent(template?.content ?? ''),
-    js: encodeURIComponent((script || { content: '' }).content),
-    css: encodeURIComponent(css?.content || ''),
-    cssPreProcessor: css?.lang || 'none',
-    jsPreProcessor: script?.lang || 'none',
-  }
 }

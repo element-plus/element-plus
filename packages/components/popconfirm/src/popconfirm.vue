@@ -1,69 +1,90 @@
 <template>
-  <el-popper
-    v-model:visible="visible"
+  <el-tooltip
+    ref="tooltipRef"
+    v-bind="$attrs"
     trigger="click"
-    :effect="Effect.LIGHT"
-    popper-class="el-popover"
-    append-to-body
+    effect="light"
+    :popper-class="`${ns.namespace.value}-popover`"
+    :teleported="compatTeleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
+    :hide-after="hideAfter"
+    :persistent="persistent"
   >
-    <div class="el-popconfirm">
-      <div class="el-popconfirm__main">
-        <el-icon
-          v-if="!hideIcon"
-          class="el-popconfirm__icon"
-          :style="{ color: iconColor }"
-        >
-          <component :is="icon" />
-        </el-icon>
-        {{ title }}
+    <template #content>
+      <div :class="ns.b()">
+        <div :class="ns.e('main')">
+          <el-icon
+            v-if="!hideIcon && icon"
+            :class="ns.e('icon')"
+            :style="{ color: iconColor }"
+          >
+            <component :is="icon" />
+          </el-icon>
+          {{ title }}
+        </div>
+        <div :class="ns.e('action')">
+          <el-button size="small" :type="cancelButtonType" @click="cancel">
+            {{ finalCancelButtonText }}
+          </el-button>
+          <el-button size="small" :type="confirmButtonType" @click="confirm">
+            {{ finalConfirmButtonText }}
+          </el-button>
+        </div>
       </div>
-      <div class="el-popconfirm__action">
-        <el-button size="mini" :type="cancelButtonType" @click="cancel">
-          {{ finalCancelButtonText }}
-        </el-button>
-        <el-button size="mini" :type="confirmButtonType" @click="confirm">
-          {{ finalConfirmButtonText }}
-        </el-button>
-      </div>
-    </div>
-    <template #trigger>
-      <slot name="reference"></slot>
     </template>
-  </el-popper>
+    <template v-if="$slots.reference">
+      <slot name="reference" />
+    </template>
+  </el-tooltip>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+import { computed, defineComponent, ref, unref } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
-import ElPopper, { Effect } from '@element-plus/components/popper'
-import { useLocaleInject } from '@element-plus/hooks'
-import { popconfirmProps, popconfirmEmits } from './popconfirm'
+import ElTooltip from '@element-plus/components/tooltip'
+import { useDeprecateAppendToBody } from '@element-plus/components/popper'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import { popconfirmProps } from './popconfirm'
 
+const COMPONENT_NAME = 'ElPopconfirm'
 export default defineComponent({
-  name: 'ElPopconfirm',
+  name: COMPONENT_NAME,
 
   components: {
     ElButton,
-    ElPopper,
+    ElTooltip,
     ElIcon,
   },
 
   props: popconfirmProps,
-  emits: popconfirmEmits,
 
-  setup(props, { emit }) {
-    const { t } = useLocaleInject()
-    const visible = ref(false)
-    const confirm = () => {
-      visible.value = false
-      emit('confirm')
+  setup(props) {
+    const { compatTeleported } = useDeprecateAppendToBody(
+      COMPONENT_NAME,
+      'appendToBody'
+    )
+    const { t } = useLocale()
+    const ns = useNamespace('popconfirm')
+    const tooltipRef = ref<{ onClose: () => void }>()
+
+    const hidePopper = () => {
+      unref(tooltipRef)?.onClose?.()
     }
-    const cancel = () => {
-      visible.value = false
-      emit('cancel')
+
+    const handleCallback = () => {
+      hidePopper()
     }
+
+    const confirm = (e: Event) => {
+      props.onConfirm?.(e)
+      handleCallback()
+    }
+    const cancel = (e: Event) => {
+      props.onCancel?.(e)
+      handleCallback()
+    }
+
     const finalConfirmButtonText = computed(
       () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
     )
@@ -72,11 +93,13 @@ export default defineComponent({
     )
 
     return {
-      Effect,
-      visible,
-
       finalConfirmButtonText,
       finalCancelButtonText,
+      tooltipRef,
+      ns,
+
+      // Deprecation in 2.1.0
+      compatTeleported,
 
       confirm,
       cancel,

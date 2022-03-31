@@ -1,11 +1,11 @@
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { ComputedRef } from 'vue'
 import type {
-  TransferProps,
-  TransferCheckedState,
   DataItem,
   Key,
+  TransferCheckedState,
+  TransferProps,
 } from './transfer'
 
 export const useMove = (
@@ -48,6 +48,12 @@ export const useMove = (
       props.targetOrder === 'unshift'
         ? itemsToBeMoved.concat(currentValue)
         : currentValue.concat(itemsToBeMoved)
+
+    if (props.targetOrder === 'original') {
+      currentValue = props.data
+        .filter((item) => currentValue.includes(item[propsKey.value]))
+        .map((item) => item[propsKey.value])
+    }
 
     _emit(currentValue, 'right', checkedState.leftChecked)
   }

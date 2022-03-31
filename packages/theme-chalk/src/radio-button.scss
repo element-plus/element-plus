@@ -20,14 +20,11 @@
     line-height: 1;
     white-space: nowrap;
     vertical-align: middle;
-    background: var(
-      --el-button-background-color,
-      map.get($button, 'background-color')
-    );
-    border: $border-base;
+    background: var(--el-button-bg-color, map.get($button, 'bg-color'));
+    border: getCssVar('border');
     font-weight: var(--el-button-font-weight, map.get($button, 'font-weight'));
     border-left: 0;
-    color: var(--el-button-font-color, map.get($button, 'font-color'));
+    color: var(--el-button-text-color, map.get($button, 'text-color'));
     -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;
@@ -36,11 +33,11 @@
     position: relative;
     cursor: pointer;
     transition: var(--el-transition-all);
-    @include utils-user-select(none);
+    user-select: none;
 
     @include button-size(
-      map.get($button-padding-vertical, 'default'),
-      map.get($button-padding-horizontal, 'default'),
+      map.get($button-padding-vertical, 'default') - $button-border-width,
+      map.get($button-padding-horizontal, 'default') - $button-border-width,
       map.get($button-font-size, 'default'),
       0
     );
@@ -60,7 +57,7 @@
 
   &:first-child {
     .#{$namespace}-radio-button__inner {
-      border-left: $border-base;
+      border-left: getCssVar('border');
       border-radius: var(--el-border-radius-base) 0 0
         var(--el-border-radius-base);
       box-shadow: none !important;
@@ -76,12 +73,12 @@
     &:checked {
       & + .#{$namespace}-radio-button__inner {
         color: var(
-          --el-radio-button-checked-font-color,
-          map.get($radio-button, 'checked-font-color')
+          --el-radio-button-checked-text-color,
+          map.get($radio-button, 'checked-text-color')
         );
         background-color: var(
-          --el-radio-button-checked-background-color,
-          map.get($radio-button, 'checked-background-color')
+          --el-radio-button-checked-bg-color,
+          map.get($radio-button, 'checked-bg-color')
         );
         border-color: var(
           --el-radio-button-checked-border-color,
@@ -98,14 +95,14 @@
     &:disabled {
       & + .#{$namespace}-radio-button__inner {
         color: var(
-          --el-button-disabled-font-color,
-          map.get($button, 'disabled-font-color')
+          --el-button-disabled-text-color,
+          map.get($button, 'disabled-text-color')
         );
         cursor: not-allowed;
         background-image: none;
         background-color: var(
-          --el-button-disabled-background-color,
-          map.get($button, 'disabled-background-color')
+          --el-button-disabled-bg-color,
+          map.get($button, 'disabled-bg-color')
         );
         border-color: var(
           --el-button-disabled-border-color,
@@ -132,12 +129,12 @@
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       & .#{$namespace}-radio-button__inner {
         @include button-size(
-          map.get($button-padding-vertical, $size),
-          map.get($button-padding-horizontal, $size),
+          map.get($button-padding-vertical, $size) - $button-border-width,
+          map.get($button-padding-horizontal, $size) - $button-border-width,
           map.get($button-font-size, $size),
           0
         );

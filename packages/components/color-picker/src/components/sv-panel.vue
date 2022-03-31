@@ -5,8 +5,8 @@
       backgroundColor: background,
     }"
   >
-    <div class="el-color-svpanel__white"></div>
-    <div class="el-color-svpanel__black"></div>
+    <div class="el-color-svpanel__white" />
+    <div class="el-color-svpanel__black" />
     <div
       class="el-color-svpanel__cursor"
       :style="{
@@ -14,20 +14,21 @@
         left: cursorLeft + 'px',
       }"
     >
-      <div></div>
+      <div />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import {
-  defineComponent,
-  ref,
   computed,
-  watch,
+  defineComponent,
   getCurrentInstance,
   onMounted,
+  ref,
+  watch,
 } from 'vue'
+import { getClientXY } from '@element-plus/utils'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -54,6 +55,7 @@ export default defineComponent({
       const value = props.color.get('value')
       return { hue, value }
     })
+
     // methods
     function update() {
       const saturation = props.color.get('saturation')
@@ -71,9 +73,10 @@ export default defineComponent({
     function handleDrag(event) {
       const el = instance.vnode.el
       const rect = el.getBoundingClientRect()
+      const { clientX, clientY } = getClientXY(event)
 
-      let left = event.clientX - rect.left
-      let top = event.clientY - rect.top
+      let left = clientX - rect.left
+      let top = clientY - rect.top
       left = Math.max(0, left)
       left = Math.min(left, rect.width)
 
@@ -87,6 +90,7 @@ export default defineComponent({
         value: 100 - (top / rect.height) * 100,
       })
     }
+
     // watch
     watch(
       () => colorValue.value,

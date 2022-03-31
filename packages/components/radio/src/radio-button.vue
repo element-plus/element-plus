@@ -1,35 +1,33 @@
 <template>
   <label
-    class="el-radio-button"
     :class="[
-      size ? 'el-radio-button--' + size : '',
-      {
-        'is-active': value === label,
-        'is-disabled': isDisabled,
-        'is-focus': focus,
-      },
+      ns.b('button'),
+      ns.is('active', modelValue === label),
+      ns.is('disabled', disabled),
+      ns.is('focus', focus),
+      ns.bm('button', size),
     ]"
     role="radio"
-    :aria-checked="value === label"
-    :aria-disabled="isDisabled"
+    :aria-checked="modelValue === label"
+    :aria-disabled="disabled"
     :tabindex="tabIndex"
-    @keydown.space.stop.prevent="value = isDisabled ? value : label"
+    @keydown.space.stop.prevent="modelValue = disabled ? modelValue : label"
   >
     <input
       ref="radioRef"
-      v-model="value"
-      class="el-radio-button__original-radio"
+      v-model="modelValue"
+      :class="ns.be('button', 'original-radio')"
       :value="label"
       type="radio"
       :name="name"
-      :disabled="isDisabled"
+      :disabled="disabled"
       tabindex="-1"
       @focus="focus = true"
       @blur="focus = false"
     />
     <span
-      class="el-radio-button__inner"
-      :style="value === label ? activeStyle : null"
+      :class="ns.be('button', 'inner')"
+      :style="modelValue === label ? activeStyle : {}"
       @keydown.stop
     >
       <slot>
@@ -39,66 +37,45 @@
   </label>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import { useRadio, useRadioAttrs } from './useRadio'
+import { computed, defineComponent } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
+import { useRadio } from './radio'
+import { radioButtonProps } from './radio-button'
+import type { CSSProperties } from 'vue'
 
 export default defineComponent({
   name: 'ElRadioButton',
+  props: radioButtonProps,
 
-  props: {
-    label: {
-      type: [String, Number, Boolean],
-      default: '',
-    },
-    disabled: Boolean,
-    name: {
-      type: String,
-      default: '',
-    },
-  },
-  setup(props) {
-    const { isGroup, radioGroup, elFormItemSize, ELEMENT, focus, elForm } =
-      useRadio()
-
-    const size = computed(() => {
-      return radioGroup.radioGroupSize || elFormItemSize.value || ELEMENT.size
-    })
-
-    const radioRef = ref<HTMLInputElement>()
-
-    const value = computed<boolean | string | number>({
-      get() {
-        return radioGroup.modelValue
-      },
-      set(value) {
-        radioGroup.changeEvent(value)
-
-        radioRef.value.checked = radioGroup.modelValue === props.label
-      },
-    })
-
-    const { isDisabled, tabIndex } = useRadioAttrs(props, {
-      model: value,
-      elForm,
-      radioGroup,
+  setup(props, { emit }) {
+    const ns = useNamespace('radio')
+    const {
+      radioRef,
       isGroup,
-    })
+      focus,
+      size,
+      disabled,
+      tabIndex,
+      modelValue,
+      radioGroup,
+    } = useRadio(props, emit)
 
-    const activeStyle = computed(() => {
+    const activeStyle = computed<CSSProperties>(() => {
       return {
-        backgroundColor: radioGroup.fill || '',
-        borderColor: radioGroup.fill || '',
-        boxShadow: radioGroup.fill ? `-1px 0 0 0 ${radioGroup.fill}` : '',
-        color: radioGroup.textColor || '',
+        backgroundColor: radioGroup?.fill || '',
+        borderColor: radioGroup?.fill || '',
+        boxShadow: radioGroup?.fill ? `-1px 0 0 0 ${radioGroup.fill}` : '',
+        color: radioGroup?.textColor || '',
       }
     })
 
     return {
+      ns,
       isGroup,
       size,
-      isDisabled,
+      disabled,
       tabIndex,
-      value,
+      modelValue,
       focus,
       activeStyle,
       radioRef,

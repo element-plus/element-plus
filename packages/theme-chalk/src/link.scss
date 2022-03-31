@@ -2,6 +2,7 @@
 
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
+@use 'mixins/utils' as *;
 @use 'common/var' as *;
 
 @include b(link) {
@@ -19,8 +20,14 @@
   outline: none;
   cursor: pointer;
   padding: 0;
-  font-size: var(--el-link-font-size);
-  font-weight: var(--el-link-font-weight);
+  font-size: getCssVar('link', 'font-size');
+  font-weight: getCssVar('link', 'font-weight');
+
+  color: getCssVar('link', 'text-color');
+
+  &:hover {
+    color: getCssVar('link', 'hover-text-color');
+  }
 
   @include when(underline) {
     &:hover:after {
@@ -30,11 +37,12 @@
       right: 0;
       height: 0;
       bottom: 0;
-      border-bottom: 1px solid var(--el-link-default-active-color);
+      border-bottom: 1px solid getCssVar('link', 'hover-text-color');
     }
   }
 
   @include when(disabled) {
+    color: getCssVar('link', 'disabled-text-color');
     cursor: not-allowed;
   }
 
@@ -45,40 +53,36 @@
   }
 
   &.#{$namespace}-link--default {
-    color: var(--el-link-default-font-color);
-
-    &:hover {
-      color: var(--el-link-default-active-color);
-    }
-
     &:after {
-      border-color: var(--el-link-default-active-color);
+      border-color: getCssVar('link', 'hover-text-color');
     }
+  }
 
-    @include when(disabled) {
-      color: var(--el-link-disabled-font-color);
-    }
+  @include e(inner) {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
 
   @each $type in $types {
     &.#{$namespace}-link--#{$type} {
-      --el-link-font-color: var(--el-color-#{$type});
-      color: var(--el-link-font-color);
-
-      &:hover {
-        color: mix(map.get($link-font-color, $type), $color-white, 80%);
-      }
+      @include css-var-from-global(('link', 'text-color'), ('color', $type));
+      @include css-var-from-global(
+        ('link', 'hover-text-color'),
+        ('color', $type, 'light-3')
+      );
+      @include css-var-from-global(
+        ('link', 'disabled-text-color'),
+        ('color', $type, 'light-5')
+      );
 
       &:after {
-        border-color: var(--el-link-font-color);
+        border-color: getCssVar('link', 'text-color');
       }
 
-      @include when(disabled) {
-        color: mix(map.get($link-font-color, $type), $color-white, 50%);
-      }
       @include when(underline) {
         &:hover:after {
-          border-color: var(--el-link-font-color);
+          border-color: getCssVar('link', 'text-color');
         }
       }
     }

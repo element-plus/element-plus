@@ -1,12 +1,13 @@
-import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
+import { withInstall, withNoopInstall } from '@element-plus/utils'
 
-import Skeleton from './src/index.vue'
-import SkeletonItem from './src/item.vue'
+import Skeleton from './src/skeleton.vue'
+import SkeletonItem from './src/skeleton-item.vue'
 
 export const ElSkeleton = withInstall(Skeleton, {
   SkeletonItem,
 })
-export default ElSkeleton
 export const ElSkeletonItem = withNoopInstall(SkeletonItem)
+export default ElSkeleton
 
-export * from './src/types'
+export * from './src/skeleton'
+export * from './src/skeleton-item'

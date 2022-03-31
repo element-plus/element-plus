@@ -15,102 +15,113 @@
   />
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      data: [
-        {
-          label: 'Level one 1',
-          children: [
-            {
-              label: 'Level two 1-1',
-              children: [
-                {
-                  label: 'Level three 1-1-1',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          label: 'Level one 2',
-          children: [
-            {
-              label: 'Level two 2-1',
-              children: [
-                {
-                  label: 'Level three 2-1-1',
-                },
-              ],
-            },
-            {
-              label: 'Level two 2-2',
-              children: [
-                {
-                  label: 'Level three 2-2-1',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          label: 'Level one 3',
-          children: [
-            {
-              label: 'Level two 3-1',
-              children: [
-                {
-                  label: 'Level three 3-1-1',
-                },
-              ],
-            },
-            {
-              label: 'Level two 3-2',
-              children: [
-                {
-                  label: 'Level three 3-2-1',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-      defaultProps: {
-        children: 'children',
-        label: 'label',
-      },
-    }
-  },
-  methods: {
-    handleDragStart(node, ev) {
-      console.log('drag start', node)
-    },
-    handleDragEnter(draggingNode, dropNode, ev) {
-      console.log('tree drag enter: ', dropNode.label)
-    },
-    handleDragLeave(draggingNode, dropNode, ev) {
-      console.log('tree drag leave: ', dropNode.label)
-    },
-    handleDragOver(draggingNode, dropNode, ev) {
-      console.log('tree drag over: ', dropNode.label)
-    },
-    handleDragEnd(draggingNode, dropNode, dropType, ev) {
-      console.log('tree drag end: ', dropNode && dropNode.label, dropType)
-    },
-    handleDrop(draggingNode, dropNode, dropType, ev) {
-      console.log('tree drop: ', dropNode.label, dropType)
-    },
-    allowDrop(draggingNode, dropNode, type) {
-      if (dropNode.data.label === 'Level two 3-1') {
-        return type !== 'inner'
-      } else {
-        return true
-      }
-    },
-    allowDrag(draggingNode) {
-      return draggingNode.data.label.indexOf('Level three 3-1-1') === -1
-    },
-  },
+<script lang="ts" setup>
+import type Node from 'element-plus/es/components/tree/src/model/node'
+import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
+import type { DropType } from 'element-plus/es/components/tree/src/tree.type'
+
+const handleDragStart = (node: Node, ev: DragEvents) => {
+  console.log('drag start', node)
 }
+const handleDragEnter = (
+  draggingNode: Node,
+  dropNode: Node,
+  ev: DragEvents
+) => {
+  console.log('tree drag enter:', dropNode.label)
+}
+const handleDragLeave = (
+  draggingNode: Node,
+  dropNode: Node,
+  ev: DragEvents
+) => {
+  console.log('tree drag leave:', dropNode.label)
+}
+const handleDragOver = (draggingNode: Node, dropNode: Node, ev: DragEvents) => {
+  console.log('tree drag over:', dropNode.label)
+}
+const handleDragEnd = (
+  draggingNode: Node,
+  dropNode: Node,
+  dropType: DropType,
+  ev: DragEvents
+) => {
+  console.log('tree drag end:', dropNode && dropNode.label, dropType)
+}
+const handleDrop = (
+  draggingNode: Node,
+  dropNode: Node,
+  dropType: DropType,
+  ev: DragEvents
+) => {
+  console.log('tree drop:', dropNode.label, dropType)
+}
+const allowDrop = (draggingNode: Node, dropNode: Node, type: DropType) => {
+  if (dropNode.data.label === 'Level two 3-1') {
+    return type !== 'inner'
+  } else {
+    return true
+  }
+}
+const allowDrag = (draggingNode: Node) => {
+  return !draggingNode.data.label.includes('Level three 3-1-1')
+}
+
+const data = [
+  {
+    label: 'Level one 1',
+    children: [
+      {
+        label: 'Level two 1-1',
+        children: [
+          {
+            label: 'Level three 1-1-1',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    label: 'Level one 2',
+    children: [
+      {
+        label: 'Level two 2-1',
+        children: [
+          {
+            label: 'Level three 2-1-1',
+          },
+        ],
+      },
+      {
+        label: 'Level two 2-2',
+        children: [
+          {
+            label: 'Level three 2-2-1',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    label: 'Level one 3',
+    children: [
+      {
+        label: 'Level two 3-1',
+        children: [
+          {
+            label: 'Level three 3-1-1',
+          },
+        ],
+      },
+      {
+        label: 'Level two 3-2',
+        children: [
+          {
+            label: 'Level three 3-2-1',
+          },
+        ],
+      },
+    ],
+  },
+]
 </script>

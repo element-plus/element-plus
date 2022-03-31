@@ -31,7 +31,7 @@ space/vertical-layout
 
 Control the space size via `size` API.
 
-You can set the size with built-in sizes `mini`, `small`, `medium`, `large`, these size coresponds to `4px`, `8px`, `12px`, `16px`. The default size is `small`, A.K.A. `8px`
+You can set the size with built-in sizes `small`, `default`, `large`, these size coresponds to `4px`, `8px`, `12px`, `16px`. The default size is `small`, A.K.A. `8px`
 
 You can also using customized size to override it. Refer to the next part.
 
@@ -71,7 +71,7 @@ space/auto-wrapping
 
 Sometimes we want something more than blank space, so we have (spacer) to help us.
 
-### Literal type spacer
+## Literal type spacer
 
 :::demo
 
@@ -79,7 +79,7 @@ space/literal-type-spacer
 
 :::
 
-### Spacer can also be VNode
+## Spacer can also be VNode
 
 :::demo
 

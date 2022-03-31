@@ -6,15 +6,10 @@
   </el-space>
 </template>
 
-<script lang="ts">
-import { h, resolveComponent } from 'vue'
+<script lang="ts" setup>
+import { h, ref } from 'vue'
 import { ElDivider } from 'element-plus'
-export default {
-  data() {
-    return {
-      size: 10,
-      spacer: h(ElDivider, { direction: 'vertical' }),
-    }
-  },
-}
+
+const size = ref(10)
+const spacer = h(ElDivider, { direction: 'vertical' })
 </script>

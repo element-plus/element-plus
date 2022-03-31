@@ -1,15 +1,34 @@
 <template>
-  <el-form ref="form" :model="sizeForm" label-width="120px" size="mini">
+  <div>
+    <el-radio-group v-model="size">
+      <el-radio-button label="large">large</el-radio-button>
+      <el-radio-button label="default">default</el-radio-button>
+      <el-radio-button label="small">small</el-radio-button>
+    </el-radio-group>
+    <el-radio-group v-model="labelPosition">
+      <el-radio-button label="left">Left</el-radio-button>
+      <el-radio-button label="right">Right</el-radio-button>
+      <el-radio-button label="top">Top</el-radio-button>
+    </el-radio-group>
+  </div>
+  <br />
+  <el-form
+    ref="form"
+    :model="sizeForm"
+    label-width="auto"
+    :label-position="labelPosition"
+    :size="size"
+  >
     <el-form-item label="Activity name">
-      <el-input v-model="sizeForm.name"></el-input>
+      <el-input v-model="sizeForm.name" />
     </el-form-item>
     <el-form-item label="Activity zone">
       <el-select
         v-model="sizeForm.region"
         placeholder="please select your zone"
       >
-        <el-option label="Zone one" value="shanghai"></el-option>
-        <el-option label="Zone two" value="beijing"></el-option>
+        <el-option label="Zone one" value="shanghai" />
+        <el-option label="Zone two" value="beijing" />
       </el-select>
     </el-form-item>
     <el-form-item label="Activity time">
@@ -19,62 +38,60 @@
           type="date"
           placeholder="Pick a date"
           style="width: 100%"
-        ></el-date-picker>
+        />
       </el-col>
-      <el-col class="line" :span="2">-</el-col>
+      <el-col class="text-center" :span="1" style="margin: 0 0.5rem">-</el-col>
       <el-col :span="11">
         <el-time-picker
           v-model="sizeForm.date2"
           placeholder="Pick a time"
           style="width: 100%"
-        ></el-time-picker>
+        />
       </el-col>
     </el-form-item>
     <el-form-item label="Activity type">
       <el-checkbox-group v-model="sizeForm.type">
-        <el-checkbox-button
-          label="Online activities"
-          name="type"
-        ></el-checkbox-button>
-        <el-checkbox-button
-          label="Promotion activities"
-          name="type"
-        ></el-checkbox-button>
+        <el-checkbox-button label="Online activities" name="type" />
+        <el-checkbox-button label="Promotion activities" name="type" />
       </el-checkbox-group>
     </el-form-item>
     <el-form-item label="Resources">
-      <el-radio-group v-model="sizeForm.resource" size="medium">
-        <el-radio border label="Sponsor"></el-radio>
-        <el-radio border label="Venue"></el-radio>
+      <el-radio-group v-model="sizeForm.resource">
+        <el-radio border label="Sponsor" />
+        <el-radio border label="Venue" />
       </el-radio-group>
     </el-form-item>
-    <el-form-item size="large">
+    <el-form-item>
       <el-button type="primary" @click="onSubmit">Create</el-button>
       <el-button>Cancel</el-button>
     </el-form-item>
   </el-form>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      sizeForm: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: '',
-      },
-    }
-  },
-  methods: {
-    onSubmit() {
-      console.log('submit!')
-    },
-  },
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+
+const size = ref('default')
+const labelPosition = ref('right')
+
+const sizeForm = reactive({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
+})
+
+function onSubmit() {
+  console.log('submit!')
 }
 </script>
+
+<style>
+.el-radio-group {
+  margin-right: 12px;
+}
+</style>

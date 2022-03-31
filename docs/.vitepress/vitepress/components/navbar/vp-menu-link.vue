@@ -1,15 +1,27 @@
 <script lang="ts" setup>
 import { useRoute } from 'vitepress'
+import { useStorage } from '@vueuse/core'
 import VPLink from '../common/vp-link.vue'
 import { isActiveLink } from '../../utils'
 
 import type { Link } from '../../types'
-
+const USER_VISITED_NEW_RESOURCE_PAGE = 'USER_VISITED_NEW_RESOURCE_PAGE'
 defineProps<{
   item: Link
 }>()
 
 const route = useRoute()
+const isVisited = useStorage<boolean | string>(
+  USER_VISITED_NEW_RESOURCE_PAGE,
+  false
+)
+const isNewPage = (item: Link) => item.activeMatch === '/some_fake_path/'
+
+const onNavClick = (item: Link) => {
+  if (isNewPage(item) && !isVisited.value) {
+    isVisited.value = Date.now().toString()
+  }
+}
 </script>
 
 <template>
@@ -24,8 +36,12 @@ const route = useRoute()
     }"
     :href="item.link"
     :no-icon="true"
+    @click="onNavClick(item)"
   >
-    {{ item.text }}
+    <el-badge v-if="isNewPage(item) && !isVisited" is-dot class="badge">
+      {{ item.text }}</el-badge
+    >
+    <template v-else> {{ item.text }}</template>
   </VPLink>
 </template>
 
@@ -46,6 +62,15 @@ const route = useRoute()
 
   &:hover {
     color: var(--brand-color);
+  }
+
+  .badge {
+    display: inline;
+    vertical-align: unset;
+  }
+
+  .badge:deep(.is-dot) {
+    right: 0;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="el-transfer">
+  <div :class="ns.b()">
     <transfer-panel
       ref="leftPanel"
       :data="sourceData"
@@ -13,12 +13,12 @@
       :props="props"
       @checked-change="onSourceCheckedChange"
     >
-      <slot name="left-footer"></slot>
+      <slot name="left-footer" />
     </transfer-panel>
-    <div class="el-transfer__buttons">
+    <div :class="ns.e('buttons')">
       <el-button
         type="primary"
-        :class="['el-transfer__button', hasButtonTexts ? 'is-with-texts' : '']"
+        :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
         :disabled="rightChecked.length === 0"
         @click="addToLeft"
       >
@@ -27,7 +27,7 @@
       </el-button>
       <el-button
         type="primary"
-        :class="['el-transfer__button', hasButtonTexts ? 'is-with-texts' : '']"
+        :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
         :disabled="leftChecked.length === 0"
         @click="addToRight"
       >
@@ -48,7 +48,7 @@
       :props="props"
       @checked-change="onTargetCheckedChange"
     >
-      <slot name="right-footer"></slot>
+      <slot name="right-footer" />
     </transfer-panel>
   </div>
 </template>
@@ -57,8 +57,8 @@
 import {
   computed,
   defineComponent,
-  inject,
   h,
+  inject,
   reactive,
   ref,
   toRefs,
@@ -66,23 +66,26 @@ import {
 } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
-import { elFormItemKey } from '@element-plus/tokens'
-import { useLocaleInject } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { ArrowLeft, ArrowRight } from '@element-plus/icons'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import { formItemContextKey } from '@element-plus/tokens'
+import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
+import { debugWarn } from '@element-plus/utils'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
 import {
-  useCheckedChange,
   LEFT_CHECK_CHANGE_EVENT,
   RIGHT_CHECK_CHANGE_EVENT,
+  useCheckedChange,
 } from './useCheckedChange'
 import { useMove } from './useMove'
 import { CHANGE_EVENT } from './transfer'
 
 import type { PropType, VNode } from 'vue'
-import type { ElFormItemContext } from '@element-plus/tokens'
+import type { FormItemContext } from '@element-plus/tokens'
 import type { DataItem, Format, Key, Props, TargetOrder } from './transfer'
+
+type TransferType = InstanceType<typeof TransferPanel>
 
 export default defineComponent({
   name: 'ElTransfer',
@@ -161,8 +164,9 @@ export default defineComponent({
   ],
 
   setup(props, { emit, slots }) {
-    const { t } = useLocaleInject()
-    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const { t } = useLocale()
+    const ns = useNamespace('transfer')
+    const elFormItem = inject(formItemContextKey, {} as FormItemContext)
 
     const checkedState = reactive({
       leftChecked: [],
@@ -183,14 +187,17 @@ export default defineComponent({
       emit
     )
 
-    const leftPanel = ref(null)
-    const rightPanel = ref(null)
+    const leftPanel = ref<TransferType>()
+    const rightPanel = ref<TransferType>()
 
     const clearQuery = (which: 'left' | 'right') => {
-      if (which === 'left') {
-        leftPanel.value.query = ''
-      } else if (which === 'right') {
-        rightPanel.value.query = ''
+      switch (which) {
+        case 'left':
+          leftPanel.value!.query = ''
+          break
+        case 'right':
+          rightPanel.value!.query = ''
+          break
       }
     }
 
@@ -211,7 +218,7 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       () => {
-        elFormItem.validate?.('change')
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     )
 
@@ -224,6 +231,7 @@ export default defineComponent({
     })
 
     return {
+      ns,
       sourceData,
       targetData,
       onSourceCheckedChange,
@@ -238,6 +246,8 @@ export default defineComponent({
       rightPanelTitle,
       panelFilterPlaceholder,
       clearQuery,
+      leftPanel,
+      rightPanel,
 
       optionRender,
     }

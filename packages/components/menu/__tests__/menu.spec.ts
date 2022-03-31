@@ -1,12 +1,13 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { sleep } from '@element-plus/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 
 import Menu from '../src/menu'
 import MenuGroup from '../src/menu-item-group.vue'
 import MenuItem from '../src/menu-item.vue'
 import SubMenu from '../src/sub-menu'
+
+jest.useFakeTimers()
 
 const _mount = (template: string, options = {}) =>
   mount({
@@ -21,6 +22,10 @@ const _mount = (template: string, options = {}) =>
   })
 
 describe('menu', () => {
+  afterEach(() => {
+    document.body.innerHTML = ''
+  })
+
   test('create', async () => {
     const wrapper = _mount(
       `<el-menu>
@@ -57,7 +62,7 @@ describe('menu', () => {
     // const item2 = await wrapper.findComponent({ ref: 'item2' })
 
     expect(
-      window.getComputedStyle(instance)._values['--el-menu-background-color']
+      window.getComputedStyle(instance)._values['--el-menu-bg-color']
     ).toEqual(backgroundColor)
 
     // We can not test final style, so comment it out for now.
@@ -161,7 +166,7 @@ describe('menu', () => {
     expect(elSubMenu.vm.$.exposed.opened).toBeTruthy()
   })
 
-  test('hover-background-color', async () => {
+  test('hover-bg-color', async () => {
     const wrapper = _mount(
       `<el-menu ref="menu" default-active="2"
         :background-color="background"
@@ -388,8 +393,9 @@ describe('other', () => {
     expect(submenu1.classes().includes('is-opened')).toBeFalsy()
   })
   test('horizontal mode', async () => {
+    const onOpen = jest.fn()
     const wrapper = _mount(
-      `<el-menu mode="horizontal">
+      `<el-menu mode="horizontal" @open="onOpen">
         <el-menu-item index="1">处理中心</el-menu-item>
         <el-sub-menu index="2" ref="submenu">
           <template slot="title">我的工作台</template>
@@ -398,16 +404,25 @@ describe('other', () => {
           <el-menu-item index="2-3">选项3</el-menu-item>
         </el-sub-menu>
         <el-menu-item index="3">订单管理</el-menu-item>
-      </el-menu>`
+      </el-menu>`,
+      {
+        methods: {
+          onOpen,
+        },
+      }
     )
-    expect(wrapper.classes()).toContain('el-menu--horizontal')
-    const submenu = await wrapper.findComponent({ ref: 'submenu' })
+    await nextTick()
 
-    submenu.trigger('mouseenter')
-    await sleep(500)
-    expect(
-      document.body.querySelector('body [role="tooltip"]').getAttribute('style')
-    ).not.toContain('display: none')
+    expect(wrapper.classes()).toContain('el-menu--horizontal')
+    const submenu = wrapper.findComponent({ ref: 'submenu' })
+
+    await submenu.trigger('mouseenter')
+
+    jest.runAllTimers()
+    await nextTick()
+    await rAF()
+
+    expect(onOpen).toHaveBeenCalled()
   })
   test('menu group', async () => {
     const wrapper = _mount(

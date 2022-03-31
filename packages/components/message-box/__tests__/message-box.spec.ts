@@ -1,10 +1,13 @@
+import { markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { triggerNativeCompositeClick } from '@element-plus/test-utils/composite-click'
-import { QuestionFilled } from '@element-plus/icons'
+import { QuestionFilled as QuestionFilledIcon } from '@element-plus/icons-vue'
 import MessageBox from '../src/messageBox'
+import { ElMessageBox } from '..'
 
 const selector = '.el-overlay'
+const QuestionFilled = markRaw(QuestionFilledIcon)
 
 const _mount = (invoker: () => void) => {
   return mount(
@@ -238,6 +241,22 @@ describe('MessageBox', () => {
       ;(btn as HTMLButtonElement).click()
       await rAF()
       expect(msgAction).toEqual('cancel')
+    })
+  })
+  describe('context inheritance', () => {
+    it('should globally inherit context correctly', () => {
+      expect(ElMessageBox._context).toBe(null)
+      const testContext = {
+        config: {
+          globalProperties: {},
+        },
+        _context: {},
+      }
+      ElMessageBox.install?.(testContext as any)
+      expect(ElMessageBox._context).not.toBe(null)
+      expect(ElMessageBox._context).toBe(testContext._context)
+      // clean up
+      ElMessageBox._context = null
     })
   })
 })

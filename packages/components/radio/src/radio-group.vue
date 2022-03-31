@@ -1,11 +1,11 @@
 <template>
   <div
-    ref="radioGroup"
-    class="el-radio-group"
+    ref="radioGroupRef"
+    :class="ns.b('group')"
     role="radiogroup"
     @keydown="handleKeydown"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
@@ -13,96 +13,50 @@
 import {
   defineComponent,
   nextTick,
-  computed,
-  provide,
   onMounted,
-  inject,
-  ref,
+  provide,
   reactive,
+  ref,
   toRefs,
   watch,
 } from 'vue'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isValidComponentSize } from '@element-plus/utils/validators'
-import { elFormItemKey } from '@element-plus/tokens'
-import radioGroupKey from './token'
-
-import type { PropType } from 'vue'
-import type { ElFormItemContext } from '@element-plus/tokens'
-import type { ComponentSize } from '@element-plus/utils/types'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { radioGroupKey } from '@element-plus/tokens'
+import { useFormItem, useNamespace } from '@element-plus/hooks'
+import { debugWarn } from '@element-plus/utils'
+import { radioGroupEmits, radioGroupProps } from './radio-group'
+import type { RadioGroupProps } from '..'
 
 export default defineComponent({
   name: 'ElRadioGroup',
-
-  componentName: 'ElRadioGroup',
-
-  props: {
-    modelValue: {
-      type: [String, Number, Boolean],
-      default: '',
-    },
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    fill: {
-      type: String,
-      default: '',
-    },
-    textColor: {
-      type: String,
-      default: '',
-    },
-    disabled: Boolean,
-  },
-
-  emits: [UPDATE_MODEL_EVENT, 'change'],
+  props: radioGroupProps,
+  emits: radioGroupEmits,
 
   setup(props, ctx) {
-    const radioGroup = ref(null)
+    const ns = useNamespace('radio')
+    const radioGroupRef = ref<HTMLDivElement>()
+    const { formItem } = useFormItem()
 
-    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
-
-    const radioGroupSize = computed<ComponentSize>(() => {
-      return props.size || elFormItem.size
-    })
-
-    // methods
-    const changeEvent = (value) => {
+    const changeEvent = (value: RadioGroupProps['modelValue']) => {
       ctx.emit(UPDATE_MODEL_EVENT, value)
-      nextTick(() => {
-        ctx.emit('change', value)
-      })
+      nextTick(() => ctx.emit('change', value))
     }
 
-    provide(
-      radioGroupKey,
-      reactive({
-        name: 'ElRadioGroup',
-        ...toRefs(props),
-        radioGroupSize,
-        changeEvent,
-      } as any)
-    )
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (!radioGroupRef.value) return
 
-    watch(
-      () => props.modelValue,
-      () => {
-        elFormItem.validate?.('change')
-      }
-    )
-
-    const handleKeydown = (e) => {
-      // 左右上下按键 可以在radio组内切换不同选项
-      const target = e.target
+      // 左右上下按键 可以在 radio 组内切换不同选项
+      const target = e.target as HTMLInputElement
       const className =
         target.nodeName === 'INPUT' ? '[type=radio]' : '[role=radio]'
-      const radios = radioGroup.value.querySelectorAll(className)
+      const radios =
+        radioGroupRef.value.querySelectorAll<HTMLInputElement>(className)
       const length = radios.length
       const index = Array.from(radios).indexOf(target)
-      const roleRadios = radioGroup.value.querySelectorAll('[role=radio]')
-      let nextIndex = null
+      const roleRadios =
+        radioGroupRef.value.querySelectorAll<HTMLInputElement>('[role=radio]')
+
+      let nextIndex: number | null = null
       switch (e.code) {
         case EVENT_CODE.left:
         case EVENT_CODE.up:
@@ -125,19 +79,31 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      const radios = radioGroup.value.querySelectorAll('[type=radio]')
+      const radios =
+        radioGroupRef.value!.querySelectorAll<HTMLInputElement>('[type=radio]')
       const firstLabel = radios[0]
-      if (
-        !Array.from(radios).some((radio: HTMLInputElement) => radio.checked) &&
-        firstLabel
-      ) {
+      if (!Array.from(radios).some((radio) => radio.checked) && firstLabel) {
         firstLabel.tabIndex = 0
       }
     })
+
+    provide(
+      radioGroupKey,
+      reactive({
+        ...toRefs(props),
+        changeEvent,
+      })
+    )
+
+    watch(
+      () => props.modelValue,
+      () => formItem?.validate('change').catch((err) => debugWarn(err))
+    )
+
     return {
+      ns,
+      radioGroupRef,
       handleKeydown,
-      radioGroupSize,
-      radioGroup,
     }
   },
 })

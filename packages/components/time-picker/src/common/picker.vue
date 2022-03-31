@@ -1,33 +1,36 @@
 <template>
-  <el-popper
+  <el-tooltip
     ref="refPopper"
     v-model:visible="pickerVisible"
-    manual-mode
-    :effect="Effect.LIGHT"
+    effect="light"
     pure
     trigger="click"
     v-bind="$attrs"
-    :popper-class="`el-picker__popper ${popperClass}`"
+    append-to-body
+    :transition="`${nsDate.namespace.value}-zoom-in-top`"
+    :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
     :popper-options="elPopperOptions"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
-    transition="el-zoom-in-top"
     :gpu-acceleration="false"
     :stop-popper-mouse-event="false"
-    append-to-body
-    @before-enter="pickerActualVisible = true"
-    @after-leave="pickerActualVisible = false"
+    :hide-after="0"
+    persistent
+    @before-show="onBeforeShow"
+    @show="onShow"
+    @hide="onHide"
   >
-    <template #trigger>
+    <template #default>
       <el-input
         v-if="!isRangeInput"
-        v-clickoutside:[popperPaneRef]="onClickOutside"
+        :id="id"
+        ref="inputRef"
         :model-value="displayValue"
         :name="name"
         :size="pickerSize"
         :disabled="pickerDisabled"
         :placeholder="placeholder"
-        class="el-date-editor"
-        :class="'el-date-editor--' + type"
+        :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
+        :style="$attrs.style"
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
         @input="onUserInput"
         @focus="handleFocus"
@@ -35,16 +38,21 @@
         @change="handleChange"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
+        @click.stop
       >
         <template #prefix>
-          <el-icon class="el-input__icon" @click="handleFocus">
-            <component :is="triggerIcon"></component>
+          <el-icon
+            v-if="triggerIcon"
+            :class="nsInput.e('icon')"
+            @click="handleFocus"
+          >
+            <component :is="triggerIcon" />
           </el-icon>
         </template>
         <template #suffix>
           <el-icon
-            v-if="showClose"
-            class="el-input__icon clear-icon"
+            v-if="showClose && clearIcon"
+            :class="`${nsInput.e('icon')} clear-icon`"
             @click="onClearIconClick"
           >
             <component :is="clearIcon" />
@@ -53,59 +61,75 @@
       </el-input>
       <div
         v-else
-        v-clickoutside:[popperPaneRef]="onClickOutside"
-        class="el-date-editor el-range-editor el-input__inner"
+        ref="inputRef"
         :class="[
-          'el-date-editor--' + type,
-          pickerSize ? `el-range-editor--${pickerSize}` : '',
-          pickerDisabled ? 'is-disabled' : '',
-          pickerVisible ? 'is-active' : '',
+          nsDate.b('editor'),
+          nsDate.bm('editor', type),
+          nsInput.e('inner'),
+          nsDate.is('disabled', pickerDisabled),
+          nsDate.is('active', pickerVisible),
+          nsRange.b('editor'),
+          pickerSize ? nsRange.bm('editor', pickerSize) : '',
+          $attrs.class,
         ]"
+        :style="$attrs.style"
         @click="handleFocus"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
         @keydown="handleKeydown"
       >
-        <el-icon class="el-input__icon el-range__icon" @click="handleFocus">
-          <component :is="triggerIcon"></component>
+        <el-icon
+          v-if="triggerIcon"
+          :class="[nsInput.e('icon'), nsRange.e('icon')]"
+          @click="handleFocus"
+        >
+          <component :is="triggerIcon" />
         </el-icon>
         <input
+          :id="id && id[0]"
           autocomplete="off"
           :name="name && name[0]"
           :placeholder="startPlaceholder"
           :value="displayValue && displayValue[0]"
           :disabled="pickerDisabled"
           :readonly="!editable || readonly"
-          class="el-range-input"
+          :class="nsRange.b('input')"
           @input="handleStartInput"
           @change="handleStartChange"
           @focus="handleFocus"
         />
         <slot name="range-separator">
-          <span class="el-range-separator">{{ rangeSeparator }}</span>
+          <span :class="nsRange.b('separator')">{{ rangeSeparator }}</span>
         </slot>
         <input
+          :id="id && id[1]"
           autocomplete="off"
           :name="name && name[1]"
           :placeholder="endPlaceholder"
           :value="displayValue && displayValue[1]"
           :disabled="pickerDisabled"
           :readonly="!editable || readonly"
-          class="el-range-input"
+          :class="nsRange.b('input')"
           @focus="handleFocus"
           @input="handleEndInput"
           @change="handleEndChange"
         />
         <el-icon
-          v-if="showClose"
-          class="el-input__icon el-range__close-icon"
+          v-if="clearIcon"
+          :class="[
+            nsInput.e('icon'),
+            nsRange.e('close-icon'),
+            {
+              [nsRange.e('close-icon--hidden')]: !showClose,
+            },
+          ]"
           @click="onClearIconClick"
         >
           <component :is="clearIcon" />
         </el-icon>
       </div>
     </template>
-    <template #default>
+    <template #content>
       <slot
         :visible="pickerVisible"
         :actual-visible="pickerActualVisible"
@@ -118,36 +142,39 @@
         @select-range="setSelectionRange"
         @set-picker-option="onSetPickerOption"
         @calendar-change="onCalendarChange"
+        @panel-change="onPanelChange"
         @mousedown.stop
-      ></slot>
+      />
     </template>
-  </el-popper>
+  </el-tooltip>
 </template>
 <script lang="ts">
 import {
-  defineComponent,
-  ref,
   computed,
-  nextTick,
+  defineComponent,
   inject,
-  watch,
+  nextTick,
   provide,
+  ref,
+  unref,
+  watch,
 } from 'vue'
 import dayjs from 'dayjs'
-import isEqual from 'lodash/isEqual'
-import { useLocaleInject } from '@element-plus/hooks'
-import { ClickOutside } from '@element-plus/directives'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
+import { isEqual } from 'lodash-unified'
+import { onClickOutside } from '@vueuse/core'
+import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
-import ElPopper, { Effect } from '@element-plus/components/popper'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useGlobalConfig, isEmpty } from '@element-plus/utils/util'
-import { Clock, Calendar } from '@element-plus/icons'
+import ElTooltip from '@element-plus/components/tooltip'
+import { debugWarn, isEmpty } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
+import { Calendar, Clock } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
+import type { ComponentPublicInstance } from 'vue'
+import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { Options } from '@popperjs/core'
 
 interface PickerOptions {
@@ -175,8 +202,8 @@ const dateEquals = function (a: Date | any, b: Date | any) {
 }
 
 const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
-  const aIsArray = a instanceof Array
-  const bIsArray = b instanceof Array
+  const aIsArray = Array.isArray(a)
+  const bIsArray = Array.isArray(b)
   if (aIsArray && bIsArray) {
     if (a.length !== b.length) {
       return false
@@ -190,39 +217,57 @@ const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
 }
 
 const parser = function (
-  date: Date | string,
+  date: string | number | Date,
   format: string,
   lang: string
 ): Dayjs {
-  const day = isEmpty(format)
-    ? dayjs(date).locale(lang)
-    : dayjs(date, format).locale(lang)
+  const day =
+    isEmpty(format) || format === 'x'
+      ? dayjs(date).locale(lang)
+      : dayjs(date, format).locale(lang)
   return day.isValid() ? day : undefined
 }
 
-const formatter = function (date: Date, format: string, lang: string) {
-  return isEmpty(format) ? date : dayjs(date).locale(lang).format(format)
+const formatter = function (
+  date: string | number | Date,
+  format: string,
+  lang: string
+) {
+  if (isEmpty(format)) return date
+  if (format === 'x') return +date
+  return dayjs(date).locale(lang).format(format)
 }
 
 export default defineComponent({
   name: 'Picker',
   components: {
     ElInput,
-    ElPopper,
+    ElTooltip,
     ElIcon,
   },
-  directives: { clickoutside: ClickOutside },
   props: timePickerDefaultProps,
-  emits: ['update:modelValue', 'change', 'focus', 'blur', 'calendar-change'],
+  emits: [
+    'update:modelValue',
+    'change',
+    'focus',
+    'blur',
+    'calendar-change',
+    'panel-change',
+    'visible-change',
+  ],
   setup(props, ctx) {
-    const ELEMENT = useGlobalConfig()
-    const { lang } = useLocaleInject()
+    const { lang } = useLocale()
 
-    const elForm = inject(elFormKey, {} as ElFormContext)
-    const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+    const nsDate = useNamespace('date')
+    const nsInput = useNamespace('input')
+    const nsRange = useNamespace('range')
+
+    const elForm = inject(formContextKey, {} as FormContext)
+    const elFormItem = inject(formItemContextKey, {} as FormItemContext)
     const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
-    const refPopper = ref(null)
+    const refPopper = ref<InstanceType<typeof ElTooltip>>()
+    const inputRef = ref<HTMLElement | ComponentPublicInstance>()
     const pickerVisible = ref(false)
     const pickerActualVisible = ref(false)
     const valueOnOpen = ref(null)
@@ -235,7 +280,8 @@ export default defineComponent({
         })
         ctx.emit('blur')
         blurInput()
-        props.validateEvent && elFormItem.validate?.('blur')
+        props.validateEvent &&
+          elFormItem.validate?.('blur').catch((err) => debugWarn(err))
       } else {
         valueOnOpen.value = props.modelValue
       }
@@ -244,7 +290,8 @@ export default defineComponent({
       // determine user real change only
       if (isClear || !valueEquals(val, valueOnOpen.value)) {
         ctx.emit('change', val)
-        props.validateEvent && elFormItem.validate?.('change')
+        props.validateEvent &&
+          elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     }
     const emitInput = (val) => {
@@ -260,14 +307,20 @@ export default defineComponent({
         ctx.emit('update:modelValue', val ? formatValue : val, lang.value)
       }
     }
-    const refInput = computed(() => {
-      if (refPopper.value.triggerRef) {
+    const refInput = computed<HTMLInputElement[]>(() => {
+      if (inputRef.value) {
         const _r = isRangeInput.value
-          ? refPopper.value.triggerRef
-          : refPopper.value.triggerRef.$el
-        return [].slice.call(_r.querySelectorAll('input'))
+          ? inputRef.value
+          : (inputRef.value as any as ComponentPublicInstance).$el
+        return Array.from<HTMLInputElement>(_r.querySelectorAll('input'))
       }
       return []
+    })
+    const refStartInput = computed(() => {
+      return refInput?.value[0]
+    })
+    const refEndInput = computed(() => {
+      return refInput?.value[1]
     })
     const setSelectionRange = (start, end, pos) => {
       const _inputs = refInput.value
@@ -292,6 +345,30 @@ export default defineComponent({
       userInput.value = null
       emitInput(result)
     }
+
+    const onBeforeShow = () => {
+      pickerActualVisible.value = true
+    }
+
+    const onShow = () => {
+      ctx.emit('visible-change', true)
+    }
+
+    const onHide = () => {
+      pickerActualVisible.value = false
+      ctx.emit('visible-change', false)
+    }
+
+    const focus = (focusStartInput = true) => {
+      let input = refStartInput.value
+      if (!focusStartInput && isRangeInput.value) {
+        input = refEndInput.value
+      }
+      if (input) {
+        input.focus()
+      }
+    }
+
     const handleFocus = (e) => {
       if (props.readonly || pickerDisabled.value || pickerVisible.value) return
       pickerVisible.value = true
@@ -299,7 +376,7 @@ export default defineComponent({
     }
 
     const handleBlur = () => {
-      pickerVisible.value = false
+      refPopper.value?.onClose()
       blurInput()
     }
 
@@ -401,21 +478,37 @@ export default defineComponent({
       showClose.value = false
     }
     const isRangeInput = computed(() => {
-      return props.type.indexOf('range') > -1
+      return props.type.includes('range')
     })
 
-    const pickerSize = computed(() => {
-      return props.size || elFormItem.size || ELEMENT.size
-    })
+    const pickerSize = useSize()
 
     const popperPaneRef = computed(() => {
-      return refPopper.value?.popperRef
+      return refPopper.value?.popperRef?.contentRef
     })
 
-    const onClickOutside = () => {
-      if (!pickerVisible.value) return
+    const popperEl = computed(() => unref(refPopper)?.popperRef?.contentRef)
+    const actualInputRef = computed(() => {
+      if (unref(isRangeInput)) {
+        return unref(inputRef)
+      }
+
+      return (unref(inputRef) as ComponentPublicInstance)?.$el
+    })
+
+    onClickOutside(actualInputRef, (e: PointerEvent) => {
+      const unrefedPopperEl = unref(popperEl)
+      const inputEl = unref(actualInputRef)
+      if (
+        (unrefedPopperEl &&
+          (e.target === unrefedPopperEl ||
+            e.composedPath().includes(unrefedPopperEl))) ||
+        e.target === inputEl ||
+        e.composedPath().includes(inputEl)
+      )
+        return
       pickerVisible.value = false
-    }
+    })
 
     const userInput = ref(null)
 
@@ -475,7 +568,7 @@ export default defineComponent({
         } else {
           // user may change focus between two input
           setTimeout(() => {
-            if (refInput.value.indexOf(document.activeElement) === -1) {
+            if (!refInput.value.includes(document.activeElement)) {
               pickerVisible.value = false
               blurInput()
             }
@@ -484,8 +577,9 @@ export default defineComponent({
         return
       }
 
-      if (code === EVENT_CODE.enter) {
+      if (code === EVENT_CODE.enter || code === EVENT_CODE.numpadEnter) {
         if (
+          userInput.value === null ||
           userInput.value === '' ||
           isValidValue(parseUserInputToDayjs(displayValue.value))
         ) {
@@ -562,13 +656,18 @@ export default defineComponent({
       ctx.emit('calendar-change', e)
     }
 
+    const onPanelChange = (value, mode, view) => {
+      ctx.emit('panel-change', value, mode, view)
+    }
+
     provide('EP_PICKER_BASE', {
       props,
     })
 
     return {
-      Effect,
-
+      nsDate,
+      nsInput,
+      nsRange,
       // injected popper options
       elPopperOptions,
 
@@ -598,9 +697,15 @@ export default defineComponent({
       parsedValue,
       setSelectionRange,
       refPopper,
+      inputRef,
       pickerDisabled,
       onSetPickerOption,
       onCalendarChange,
+      onPanelChange,
+      focus,
+      onShow,
+      onBeforeShow,
+      onHide,
     }
   },
 })

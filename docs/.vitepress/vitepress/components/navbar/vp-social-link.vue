@@ -16,7 +16,7 @@ defineProps<{
     rel="noreferrer noopener"
     class="social-link"
   >
-    <ElIcon :size="20">
+    <ElIcon v-if="icon" :size="20">
       <component :is="icon" />
     </ElIcon>
   </a>

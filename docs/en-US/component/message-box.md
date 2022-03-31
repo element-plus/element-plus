@@ -89,9 +89,19 @@ message-box/distinguishable-close-cancel
 
 Content of MessageBox can be centered.
 
-:::demo Setting `center` to `true` will center the content
+:::demo Setting `center` to `true` will center the content.
 
 message-box/centered-content
+
+:::
+
+## Draggable
+
+MessageBox can be draggable.
+
+:::demo Setting `draggable` to `true` allows user to drag MessageBox.
+
+message-box/draggable
 
 :::
 
@@ -103,6 +113,22 @@ If Element Plus is fully imported, it will add the following global methods for 
 - `$alert(message, title, options)` or `$alert(message, options)`
 - `$confirm(message, title, options)` or `$confirm(message, options)`
 - `$prompt(message, title, options)` or `$prompt(message, options)`
+
+## App context inheritance <el-tag>> 2.0.4</el-tag>
+
+Now message box accepts a `context` as second (forth if you are using message box variants) parameter of the message constructor which allows you to inject current app's context to message which allows you to inherit all the properties of the app.
+
+```ts
+import { getCurrentInstance } from 'vue'
+import { ElMessageBox } from 'element-plus'
+
+// in your setup method
+const { appContext } = getCurrentInstance()!
+// You can pass it like:
+ElMessageBox({}, appContext)
+// or if you are using variants
+ElMessageBox.alert('Hello world!', 'Title', {}, appContext)
+```
 
 ## Local import
 
@@ -147,5 +173,6 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 | input-validator              | validation function for the input. Should returns a boolean or string. If a string is returned, it will be assigned to inputErrorMessage | function                                                                                                                                                                                                                        | —                                | —                                                |
 | input-error-message          | error message when validation fails                                                                                                      | string                                                                                                                                                                                                                          | —                                | Illegal input                                    |
 | center                       | whether to align the content in center                                                                                                   | boolean                                                                                                                                                                                                                         | —                                | false                                            |
+| draggable                    | whether MessageBox is draggable                                                                                                          | boolean                                                                                                                                                                                                                         | —                                | false                                            |
 | round-button                 | whether to use round button                                                                                                              | boolean                                                                                                                                                                                                                         | —                                | false                                            |
-| button-size                  | custom size of confirm and cancel buttons                                                                                                | string                                                                                                                                                                                                                          | mini / small / medium / large    | small                                            |
+| button-size                  | custom size of confirm and cancel buttons                                                                                                | string                                                                                                                                                                                                                          | small / default / large          | default                                          |

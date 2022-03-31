@@ -1,18 +1,14 @@
 <template>
-  <div
-    :class="[
-      'el-steps',
-      simple ? 'el-steps--simple' : `el-steps--${direction}`,
-    ]"
-  >
-    <slot></slot>
+  <div :class="[ns.b(), ns.m(simple ? 'simple' : direction)]">
+    <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref, provide } from 'vue'
+import { defineComponent, provide, ref, watch } from 'vue'
 
-import { CHANGE_EVENT } from '@element-plus/utils/constants'
+import { CHANGE_EVENT } from '@element-plus/constants'
+import { useNamespace } from '@element-plus/hooks'
 
 export default defineComponent({
   name: 'ElSteps',
@@ -54,6 +50,7 @@ export default defineComponent({
   },
   emits: [CHANGE_EVENT],
   setup(props, { emit }) {
+    const ns = useNamespace('steps')
     const steps = ref([])
 
     watch(steps, () => {
@@ -73,6 +70,7 @@ export default defineComponent({
 
     return {
       steps,
+      ns,
     }
   },
 })

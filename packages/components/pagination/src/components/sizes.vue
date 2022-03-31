@@ -1,10 +1,10 @@
 <template>
-  <span class="el-pagination__sizes">
+  <span :class="ns.e('sizes')">
     <el-select
       :model-value="innerPageSize"
       :disabled="disabled"
       :popper-class="popperClass"
-      size="mini"
+      :size="size"
       @change="handleChange"
     >
       <el-option
@@ -18,14 +18,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, computed, ref } from 'vue'
-import isEqual from 'lodash/isEqual'
-import { ElSelect, ElOption } from '@element-plus/components/select'
-import { useLocaleInject } from '@element-plus/hooks'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import { computed, defineComponent, ref, watch } from 'vue'
+import { isEqual } from 'lodash-unified'
+import { ElOption, ElSelect } from '@element-plus/components/select'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import { usePagination } from '../usePagination'
 
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 
 const paginationSizesProps = buildProps({
   pageSize: {
@@ -41,6 +41,10 @@ const paginationSizesProps = buildProps({
     default: '',
   },
   disabled: Boolean,
+  size: {
+    type: String,
+    default: 'default',
+  },
 } as const)
 
 export default defineComponent({
@@ -55,7 +59,8 @@ export default defineComponent({
   emits: ['page-size-change'],
 
   setup(props, { emit }) {
-    const { t } = useLocaleInject()
+    const { t } = useLocale()
+    const ns = useNamespace('pagination')
     const pagination = usePagination()
     const innerPageSize = ref<Nullable<number>>(props.pageSize)
 
@@ -64,10 +69,9 @@ export default defineComponent({
       (newVal, oldVal) => {
         if (isEqual(newVal, oldVal)) return
         if (Array.isArray(newVal)) {
-          const pageSize =
-            newVal.indexOf(props.pageSize) > -1
-              ? props.pageSize
-              : props.pageSizes[0]
+          const pageSize = newVal.includes(props.pageSize)
+            ? props.pageSize
+            : props.pageSizes[0]
           emit('page-size-change', pageSize)
         }
       }
@@ -90,6 +94,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       innerPagesizes,
       innerPageSize,
 

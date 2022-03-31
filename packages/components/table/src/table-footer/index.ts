@@ -1,5 +1,6 @@
 import { defineComponent, h } from 'vue'
-import { hGutter, hColgroup } from '../h-helper'
+import { useNamespace } from '@element-plus/hooks'
+import { hColgroup } from '../h-helper'
 import useStyle from './style-helper'
 import type { Store } from '../store'
 
@@ -42,35 +43,44 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { hasGutter, getRowClasses, columns } = useStyle(
+    const { getCellClasses, getCellStyles, columns } = useStyle(
       props as TableFooter<DefaultRow>
     )
+    const ns = useNamespace('table')
     return {
-      getRowClasses,
-      hasGutter,
+      ns,
+      getCellClasses,
+      getCellStyles,
       columns,
     }
   },
   render() {
+    const {
+      columns,
+      getCellStyles,
+      getCellClasses,
+      summaryMethod,
+      sumText,
+      ns,
+    } = this
+    const data = this.store.states.data.value
     let sums = []
-    if (this.summaryMethod) {
-      sums = this.summaryMethod({
-        columns: this.columns,
-        data: this.store.states.data.value,
+    if (summaryMethod) {
+      sums = summaryMethod({
+        columns,
+        data,
       })
     } else {
-      this.columns.forEach((column, index) => {
+      columns.forEach((column, index) => {
         if (index === 0) {
-          sums[index] = this.sumText
+          sums[index] = sumText
           return
         }
-        const values = this.store.states.data.value.map((item) =>
-          Number(item[column.property])
-        )
+        const values = data.map((item) => Number(item[column.property]))
         const precisions = []
         let notNumber = true
         values.forEach((value) => {
-          if (!isNaN(value)) {
+          if (!Number.isNaN(+value)) {
             notNumber = false
             const decimal = `${value}`.split('.')[1]
             precisions.push(decimal ? decimal.length : 0)
@@ -80,8 +90,10 @@ export default defineComponent({
         if (!notNumber) {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
-            if (!isNaN(value)) {
-              return parseFloat((prev + curr).toFixed(Math.min(precision, 20)))
+            if (!Number.isNaN(+value)) {
+              return Number.parseFloat(
+                (prev + curr).toFixed(Math.min(precision, 20))
+              )
             } else {
               return prev
             }
@@ -94,47 +106,40 @@ export default defineComponent({
     return h(
       'table',
       {
-        class: 'el-table__footer',
+        class: ns.e('footer'),
         cellspacing: '0',
         cellpadding: '0',
         border: '0',
       },
       [
-        hColgroup(this.columns, this.hasGutter),
-        h(
-          'tbody',
-          {
-            class: [{ 'has-gutter': this.hasGutter }],
-          },
-          [
-            h('tr', {}, [
-              ...this.columns.map((column, cellIndex) =>
-                h(
-                  'td',
-                  {
-                    key: cellIndex,
-                    colspan: column.colSpan,
-                    rowspan: column.rowSpan,
-                    class: [
-                      ...this.getRowClasses(column, cellIndex),
-                      'el-table__cell',
-                    ],
-                  },
-                  [
-                    h(
-                      'div',
-                      {
-                        class: ['cell', column.labelClassName],
-                      },
-                      [sums[cellIndex]]
-                    ),
-                  ]
-                )
-              ),
-              this.hasGutter && hGutter(),
-            ]),
-          ]
-        ),
+        hColgroup({
+          columns,
+        }),
+        h('tbody', [
+          h('tr', {}, [
+            ...columns.map((column, cellIndex) =>
+              h(
+                'td',
+                {
+                  key: cellIndex,
+                  colspan: column.colSpan,
+                  rowspan: column.rowSpan,
+                  class: getCellClasses(columns, cellIndex),
+                  style: getCellStyles(column, cellIndex),
+                },
+                [
+                  h(
+                    'div',
+                    {
+                      class: ['cell', column.labelClassName],
+                    },
+                    [sums[cellIndex]]
+                  ),
+                ]
+              )
+            ),
+          ]),
+        ]),
       ]
     )
   },
