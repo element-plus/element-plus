@@ -8,6 +8,11 @@
   @include set-component-css-var('avatar', $avatar);
   @include set-component-css-var('avatar-size', $avatar-size);
 
+  @include set-css-var-value(
+    ('avatar', 'size'),
+    map.get($avatar-size, 'default')
+  );
+
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -37,9 +42,12 @@
     font-size: var(--el-avatar-icon-size);
   }
 
-  @each $size in (small, default, large) {
+  @each $size in (small, large) {
     @include m($size) {
-      --el-avatar-size: #{map.get($avatar-size, $size)};
+      @include set-css-var-value(
+        ('avatar', 'size'),
+        map.get($avatar-size, $size)
+      );
     }
   }
 }
