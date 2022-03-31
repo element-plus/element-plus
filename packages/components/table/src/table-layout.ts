@@ -261,6 +261,7 @@ class TableLayout<T> {
       }
 
       this.bodyWidth.value = Math.max(bodyMinWidth, bodyWidth)
+      this.table.state.resizeState.value.width = this.bodyWidth.value
     } else {
       flattenColumns.forEach((column) => {
         if (!column.width && !column.minWidth) {
