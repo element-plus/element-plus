@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import ElSelectOption from '../../select/src/option.vue'
+import ElSelectOption from '@element-plus/components/select/src/option.vue'
 
 const component = defineComponent({
   extends: ElSelectOption,

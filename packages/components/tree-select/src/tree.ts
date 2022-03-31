@@ -1,12 +1,12 @@
 import { computed, nextTick, toRefs, watch } from 'vue'
 import { isEqual, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import ElTree from '../../tree/src/tree.vue'
+import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
-import type ElSelect from '../../select/src/select.vue'
-import type Node from '../../tree/src/model/node'
-import type { TreeNodeData } from '../../tree/src/tree.type'
 import type { Ref } from 'vue'
+import type ElSelect from '@element-plus/components/select'
+import type Node from '@element-plus/components/tree/src/model/node'
+import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
 
 export const useTree = (
   props,

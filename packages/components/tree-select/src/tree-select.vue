@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent, ref, h, reactive, computed, onMounted } from 'vue'
 import { pick } from 'lodash-unified'
-import ElSelect from '@element-plus/components/select/src/select.vue'
-import ElTree from '@element-plus/components/tree/src/tree.vue'
+import ElSelect from '@element-plus/components/select'
+import ElTree from '@element-plus/components/tree'
 import { useSelect } from './select'
 import { useTree } from './tree'
 

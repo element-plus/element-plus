@@ -1,8 +1,8 @@
 import { computed, nextTick, toRefs } from 'vue'
 import { pick } from 'lodash-unified'
-import ElSelect from '../../select/src/select.vue'
-import type ElTree from '../../tree/src/tree.vue'
+import ElSelect from '@element-plus/components/select'
 import type { Ref } from 'vue'
+import type ElTree from '@element-plus/components/tree'
 
 export const useSelect = (
   props,
