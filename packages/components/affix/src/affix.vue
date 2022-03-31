@@ -48,7 +48,6 @@ const transform = ref(0)
 const rootStyle = computed<CSSProperties>(() => {
   return {
     height: fixed.value ? `${rootHeight.value}px` : '',
-    width: fixed.value ? `${rootWidth.value}px` : '',
   }
 })
 
