@@ -1,6 +1,7 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
@@ -151,6 +152,7 @@
   }
 
   @include e(inner) {
+    @include utils-ellipsis;
     position: relative;
     -webkit-appearance: none;
     background-color: var(--el-input-bg-color, map.get($input, 'bg-color'));
@@ -169,6 +171,8 @@
     padding: 0 map.get($input-padding-horizontal, 'default')-$border-width;
     transition: var(--el-transition-box-shadow);
     width: 100%;
+    padding-right: 6.2em;
+
     @include inset-input-border(
       var(--el-input-border-color, map.get($input, 'border-color'))
     );
