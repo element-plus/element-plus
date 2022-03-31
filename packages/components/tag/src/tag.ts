@@ -27,6 +27,7 @@ export const tagProps = buildProps({
     values: ['dark', 'light', 'plain'],
     default: 'light',
   },
+  round: Boolean,
 } as const)
 export type TagProps = ExtractPropTypes<typeof tagProps>
 
