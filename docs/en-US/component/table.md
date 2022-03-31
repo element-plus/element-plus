@@ -339,3 +339,19 @@ table/table-layout
 | ------ | ---------------------------------------------------------------------------------- |
 | —      | Custom content for table columns. The scope parameter is `{ row, column, $index }` |
 | header | Custom content for table header. The scope parameter is `{ column, $index }`       |
+
+## FAQ
+
+How to use image preview in the table?
+
+```vue
+<el-table-column label="Thumbnail" width="180">
+    <template #default="scope">
+        <div style="display: flex; align-items: center">
+            <el-image :preview-src-list="srcList"/>
+        </div>
+    </template>
+</el-table-column>
+```
+
+PS: since the fixed column is implement by sticky, when you have fixed columns in table, please add the `preview-teleported` attribute in image
