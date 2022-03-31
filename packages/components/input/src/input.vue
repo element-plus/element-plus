@@ -30,7 +30,10 @@
 
       <input
         ref="input"
-        :class="nsInput.e('inner')"
+        :class="[
+          nsInput.e('inner'),
+          nsInput.is('limitVisible', isWordLimitVisible),
+        ]"
         v-bind="attrs"
         :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
         :disabled="inputDisabled"
