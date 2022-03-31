@@ -87,7 +87,7 @@ Since this component combines the functions of components `el-tree` and `el-sele
 the original properties have not been changed, so no repetition here,
 and please go to the original component to view the documentation.
 
-| Attributes                                    | Methods                          | Events                                | Slots                               |
-| --------------------------------------------- | -------------------------------- | ------------------------------------- | ----------------------------------- |
-| [tree](tree#attributes)                       | [tree](tree#method)              | [tree](tree#events)                   | [tree](tree#slots)                  |
-| [select](select-attributes#select-attributes) | [select](select-methods#methods) | [select](select-events#select-events) | [select](select-slots#select-slots) |
+| Attributes                              | Methods                       | Events                              | Slots                              |
+| --------------------------------------- | ----------------------------- | ----------------------------------- | ---------------------------------- |
+| [tree](./tree.md#attributes)            | [tree](./tree.md#method)      | [tree](./tree.md#events)            | [tree](./tree.md#slots)            |
+| [select](./select.md#select-attributes) | [select](./select.md#methods) | [select](./select.md#select-events) | [select](./select.md#select-slots) |
