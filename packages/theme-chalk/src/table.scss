@@ -420,6 +420,9 @@
         }
       }
     }
+    .#{$namespace}-table-fixed-column--left {
+      background-color: var(--el-table-header-bg-color);
+    }
   }
 
   @include when(scrolling-right) {
@@ -430,6 +433,9 @@
     }
     .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
       border-right: none;
+    }
+    .#{$namespace}-table-fixed-column--right {
+      background-color: var(--el-table-header-bg-color);
     }
   }
 
@@ -452,6 +458,7 @@
   @include when(scrolling-none) {
     .#{$namespace}-table-fixed-column--left,
     .#{$namespace}-table-fixed-column--right {
+      background-color: var(--el-table-header-bg-color);
       &.is-first-column,
       &.is-last-column {
         &::before {
