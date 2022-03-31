@@ -13,16 +13,20 @@ const props = {
   isLeaf: 'isLeaf',
 }
 
+let id = 0
+
 const load = (node, resolve) => {
+  if (node.isLeaf) return resolve([])
+
   setTimeout(() => {
     resolve([
       {
-        value: Date.now(),
-        label: 'lazy load node',
+        value: ++id,
+        label: `lazy load node${id}`,
       },
       {
-        value: Date.now() + 1,
-        label: 'lazy load node',
+        value: ++id,
+        label: `lazy load node${id}`,
         isLeaf: true,
       },
     ])
