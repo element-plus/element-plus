@@ -1,6 +1,7 @@
 import { computed, nextTick, toRefs } from 'vue'
 import { pick } from 'lodash-unified'
 import ElSelect from '@element-plus/components/select'
+import { useNamespace } from '@element-plus/hooks'
 import type { Ref } from 'vue'
 import type ElTree from '@element-plus/components/tree'
 
@@ -16,12 +17,14 @@ export const useSelect = (
     key: Ref<string>
   }
 ) => {
+  const ns = useNamespace('tree-select')
+
   const result = {
     ...pick(toRefs(props), Object.keys(ElSelect.props)),
     ...attrs,
     valueKey: key,
     popperClass: computed(() => {
-      const classes = ['el-tree-select__popper']
+      const classes = [ns.e('popper')]
       if (props.popperClass) classes.push(props.popperClass)
       return classes.join(' ')
     }),
