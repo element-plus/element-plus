@@ -303,6 +303,21 @@ const calcIconOffset = (place: 'prefix' | 'suffix') => {
   )
   const target = elList.find((item) => item.parentNode === el)
   if (!target) return
+  const inputEl = input.value
+  if (place === 'suffix' && isWordLimitVisible.value && inputEl) {
+    const [countEl] = Array.from(
+      (el as Element).querySelectorAll<HTMLSpanElement>(
+        `.${nsInput.e('count')}`
+      )
+    )
+    if (countEl) {
+      // recalc padding right of input
+      const oldPaddingRight =
+        Number.parseInt(getComputedStyle(inputEl).paddingRight, 10) ?? 0
+      const newPaddingRight = countEl.offsetWidth + oldPaddingRight
+      inputEl.style.paddingRight = `${newPaddingRight}px`
+    }
+  }
 
   const pendant = PENDANT_MAP[place]
 
