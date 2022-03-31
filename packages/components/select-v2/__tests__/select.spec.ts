@@ -265,6 +265,40 @@ describe('Select', () => {
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
   })
 
+  it('default value is Object', async () => {
+    const wrapper = createSelect({
+      data: () => ({
+        valueKey: 'value',
+        value: {
+          value: '1',
+          label: 'option_a',
+        },
+        options: [
+          {
+            value: '1',
+            label: 'option_a',
+          },
+          {
+            value: '2',
+            label: 'option_b',
+          },
+          {
+            value: '3',
+            label: 'option_c',
+          },
+        ],
+      }),
+    })
+    const vm = wrapper.vm as any
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+      vm.options[0].label
+    )
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+      vm.value.label
+    )
+  })
+
   it('sync set value and options', async () => {
     const wrapper = createSelect()
     await nextTick()
