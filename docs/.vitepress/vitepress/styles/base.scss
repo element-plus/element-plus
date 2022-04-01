@@ -45,6 +45,14 @@ h5,
 h6 {
   margin: 0;
   line-height: 1.25;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  // Special case for handling tagged header.
+  .el-tag {
+    margin-left: 8px;
+  }
 }
 
 h1,
@@ -137,7 +145,7 @@ a {
 }
 
 a.header-anchor {
-  float: left;
+  position: absolute;
   margin-top: 0.125em;
   margin-left: -0.87em;
   padding-right: 0.23em;

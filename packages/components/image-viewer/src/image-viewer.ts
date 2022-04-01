@@ -1,6 +1,12 @@
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 
+export type ImageViewerAction =
+  | 'zoomIn'
+  | 'zoomOut'
+  | 'clockwise'
+  | 'anticlockwise'
+
 export const imageViewerProps = buildProps({
   urlList: {
     type: definePropType<string[]>(Array),
