@@ -1,7 +1,7 @@
 <template>
   <div ref="root" :class="ns.b()" :style="rootStyle">
     <div :class="{ [ns.m('fixed')]: fixed }" :style="affixStyle">
-      <slot />
+      <div ref="content"><slot /></div>
     </div>
   </div>
 </template>
@@ -30,6 +30,7 @@ const ns = useNamespace('affix')
 
 const target = shallowRef<HTMLElement>()
 const root = shallowRef<HTMLDivElement>()
+const content = shallowRef<HTMLDivElement>()
 const scrollContainer = shallowRef<HTMLElement | Window>()
 const { height: windowHeight } = useWindowSize()
 const {
@@ -39,12 +40,12 @@ const {
   bottom: rootBottom,
   update: updateRoot,
 } = useElementBounding(root)
+const { height: contentHeight } = useElementBounding(content)
 const targetRect = useElementBounding(target)
 
 const fixed = ref(false)
 const scrollTop = ref(0)
 const transform = ref(0)
-const contentHeight = ref(0)
 const rootStyle = computed<CSSProperties>(() => {
   return {
     height: fixed.value ? `${contentHeight.value}px` : '',
@@ -104,10 +105,6 @@ const handleScroll = () => {
   })
 }
 watch(fixed, (val) => emit('change', val))
-watch(rootWidth, () => {
-  contentHeight.value = root.value?.children[0].children[0]
-    .clientHeight as number
-})
 
 onMounted(() => {
   if (props.target) {
@@ -120,9 +117,6 @@ onMounted(() => {
   }
   scrollContainer.value = getScrollContainer(root.value!, true)
   updateRoot()
-
-  contentHeight.value = root.value?.children[0].children[0]
-    .clientHeight as number
 })
 
 useEventListener(scrollContainer, 'scroll', handleScroll)
