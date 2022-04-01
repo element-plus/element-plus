@@ -1,17 +1,16 @@
 ---
-title: Ellipsis
-lang: en-US
+title: Ellipsis lang: en-US
 ---
 
 # Ellipsis
 
-Text ellipsis component.
+A component that handles Text ellipsis scenes.
 
 ## Basic Usage
 
-你可以定义你的缩略位置与文本。
+You can define your ellipsis position and the text to be displayed.
 
-:::demo 通过传入 `ellipsis` 来确定你要省略的字符数，`text` 是你要显示的原始文本，`content` 则会传递给 `el-tooltip` 组件。
+:::demo Determine the number of characters you want to omit by passing in the `ellipsis` attribute. The `text` attribute is the original text you want to display, while the `content` attribute will be passed to the `el-tooltip` component.
 
 ellipsis/basic
 
@@ -19,9 +18,9 @@ ellipsis/basic
 
 ## placement
 
-`ellipsis` 提供了三个缩略位置给你选择。
+The `ellipsis` component provides three omitted positions for you to choose from.
 
-:::demo 通过传入`placement`来选择你的缩略。
+:::demo Select your omitted position by passing in the `placement` attribute.
 
 ellipsis/placement
 
@@ -29,29 +28,30 @@ ellipsis/placement
 
 ## lineClamp and expandTrigger
 
-`ellipsis` 组件提供了基于 `-webkit-line-clamp`的多行省略功能，兼容性参考 [caniuse](https://caniuse.com/?search=line-clamp)。
+The `ellipsis` component provides multi line ellipsis based on `-webkit-line-clamp`.
+Compatibility reference [caniuse](https://caniuse.com/?search=line-clamp)。
 
 :::warning
 
-使用 `lineClamp`，会使得属性 `placement` 与属性 `ellipsis`失效。
+Using the `lineClamp` attribute invalidates the `placement` and `ellipsis` attributes.
 
 :::
-:::demo 你可以通过传入 `lineClamp` 来指定显示行数，同时指定 `expandTrigger` 来允许文本点击展开。
+:::demo You can specify the number of lines to display by passing in the `lineClamp` attribute, and specify the `expandTrigger` attribute to allow the text to click and expand.
 
 ellipsis/lineClamp
 
 :::
-:::demo `expandTrigger` 设置为 `false` 你将无法展开文本。
+:::demo If the `expandTrigger` attributeis is set to `false`, you will not be able to expand the text.
 
 ellipsis/expandTrigger
 
 :::
 
-## 使用 Tooltip 内容
+## Configure Tooltip components
 
-`ellipsis` 内部基于 `el-tooltip`,并开放了部分 `el-tooltip` 的属性使用。
+`ellipsis`component uses component `el-tooltip` internally, and provides some properties of component `el-tooltip` for developers to use.
 
-:::demo 你可以通过传入 `toolTipOption` 来配置 `el-tooltip`。
+:::demo You can configure the component `el-tooltip` by passing in the `tooltipoption` attribute.
 
 ellipsis/tooltip
 
@@ -61,15 +61,15 @@ ellipsis/tooltip
 
 ### Ellipsis Attributes
 
-| Name             | Description                   | Type                            | Default                | Required |
-| ---------------- | ----------------------------- | ------------------------------- | ---------------------- | -------- |
-| `ellipsis`       | 文本缩略字符数                | number                          | 5                      | Yes      |
-| `placement`      | 文本缩略位置                  | `'left' \| 'center'\| 'right' ` | `'right'`              | No       |
-| `lineClamp`      | 多行显示行数                  | string / number                 | —                      | No       |
-| `expandTrigger`  | 是否允许展开多行文本          | boolean                         | false                  | No       |
-| `content`        | 传递给组件 `tooltip` 的内容   | boolean                         | —                      | Yes      |
-| `text`           | 你需要显示的原始文本          | string                          | —                      | Yes      |
-| `toolTip-option` | 传递给组件 `tooltip` 的配置项 | object                          | `{ placement: 'top' }` | No       |
+| Name             | Description                                          | Type                         | Default                | Required |
+| ---------------- | ---------------------------------------------------- | ---------------------------- | ---------------------- | -------- |
+| `ellipsis`       | Number of text omitted characters                    | number                       | 5                      | Yes      |
+| `placement`      | Text omitted position                                | `'left' \|'center'\|'right'` | `'right'`              | No       |
+| `lineClamp`      | Number of lines of text displayed in multiple lines  | string / number              | —                      | No       |
+| `expandTrigger`  | Allow multiline text expansion                       | boolean                      | false                  | No       |
+| `content`        | Text content passed to component `el-tooltip`        | boolean                      | —                      | Yes      |
+| `text`           | The original text you need to display                | string                       | —                      | Yes      |
+| `toolTip-option` | Configuration items passed to component `el-tooltip` | object                       | `{ placement: 'top' }` | No       |
 
 ### toolTip-option
 
