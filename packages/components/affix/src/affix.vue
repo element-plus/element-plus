@@ -103,13 +103,11 @@ const handleScroll = () => {
     fixed: fixed.value,
   })
 }
-
-const handleReize = () => {
+watch(fixed, (val) => emit('change', val))
+watch(rootWidth, () => {
   contentHeight.value = root.value?.children[0].children[0]
     .clientHeight as number
-}
-
-watch(fixed, (val) => emit('change', val))
+})
 
 onMounted(() => {
   if (props.target) {
@@ -128,7 +126,6 @@ onMounted(() => {
 })
 
 useEventListener(scrollContainer, 'scroll', handleScroll)
-useEventListener('resize', handleReize)
 watchEffect(update)
 
 defineExpose({
