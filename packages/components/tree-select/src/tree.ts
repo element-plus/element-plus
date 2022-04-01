@@ -1,6 +1,7 @@
 import { computed, nextTick, toRefs, watch } from 'vue'
 import { isEqual, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
 import type { Ref } from 'vue'
@@ -55,7 +56,7 @@ export const useTree = (
     data: TreeNodeData
   ) => {
     const propVal = propsMap.value[prop]
-    if (propVal instanceof Function) {
+    if (isFunction(propVal)) {
       return propVal(
         data,
         tree.value?.getNode(getNodeValByProp('value', data)) as Node
