@@ -383,6 +383,17 @@
     }
   }
 
+  @include e(header-wrapper) {
+    tr {
+      th {
+        &.#{$namespace}-table-fixed-column--left,
+        &.#{$namespace}-table-fixed-column--right {
+          background-color: var(--el-table-header-bg-color);
+        }
+      }
+    }
+  }
+
   @include e((header, body, footer)) {
     table-layout: fixed;
     border-collapse: separate;
@@ -420,7 +431,7 @@
         }
       }
     }
-    .#{$namespace}-table-fixed-column--left {
+    th.#{$namespace}-table-fixed-column--left {
       background-color: var(--el-table-header-bg-color);
     }
   }
@@ -434,7 +445,7 @@
     .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
       border-right: none;
     }
-    .#{$namespace}-table-fixed-column--right {
+    th.#{$namespace}-table-fixed-column--right {
       background-color: var(--el-table-header-bg-color);
     }
   }
