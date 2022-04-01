@@ -8,24 +8,29 @@
 
 @include b(tree-select) {
   @include e(popper) {
-    // fix: checkbox 在展示下拉框时跳动问题
-    //.el-checkbox__input {
-    //  display: flex;
-    //}
+    // padding-left same with select option
+    .#{$namespace}-tree-node__expand-icon {
+      margin-left: 8px;
+    }
 
-    .el-select-dropdown__item {
+    // remove icon when show checkbox
+    .#{$namespace}-tree-node.is-checked
+      > .#{$namespace}-tree-node__content
+      .#{$namespace}-select-dropdown__item.selected::after {
+      content: none;
+    }
+
+    .#{$namespace}-select-dropdown__item {
       flex: 1;
-      padding: 0 30px 0 0;
       background: transparent !important;
 
-      // fix: 节点展开时 popper 底部抖动问题
+      // padding-left move to `el-tree-node__expand-icon`
+      padding-left: 0;
+
+      // fix: select height > tree node height
       // https://github.com/yujinpan/el-select-tree/pull/33
       height: 20px;
       line-height: 20px;
-
-      &.selected:after {
-        right: 10px;
-      }
     }
   }
 }
