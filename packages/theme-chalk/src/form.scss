@@ -199,9 +199,9 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   @include when(error) {
-    .#{$namespace}-select-v2__wrapper,
-    .#{$namespace}-input__inner,
-    .#{$namespace}-textarea__inner {
+    & .#{$namespace}-form-item__content .#{$namespace}-input__inner,
+    & .#{$namespace}-select-v2__wrapper,
+    & .#{$namespace}-textarea__inner {
       &,
       &:focus {
         box-shadow: 0 0 0 1px var(--el-color-danger) inset;

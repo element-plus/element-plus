@@ -92,10 +92,13 @@ function useStore<T>() {
         states.selectable.value = column.selectable
         states.reserveSelection.value = column.reserveSelection
       }
-      if (instance.$ready) {
-        instance.store.updateColumns() // hack for dynamics insert column
-        instance.store.scheduleLayout()
-      }
+      // 等待 style-helper 的onMounted 执行完成
+      nextTick(() => {
+        if (instance.$ready) {
+          instance.store.updateColumns() // hack for dynamics insert column
+          instance.store.scheduleLayout()
+        }
+      })
     },
 
     removeColumn(

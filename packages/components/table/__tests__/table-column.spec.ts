@@ -568,7 +568,6 @@ describe('table column', () => {
           return { cols: ['a', 'v', 'b'], data: [{ a: 1, v: 2, b: 3 }] }
         },
       })
-
       await doubleWait()
       expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(3)
       const addBut = wrapper.find('#addBut')

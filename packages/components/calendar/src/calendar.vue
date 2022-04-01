@@ -143,26 +143,9 @@ export default defineComponent({
       const lastDay = endDayjs.endOf('week')
       const firstMonth = firstDay.get('month')
       const lastMonth = lastDay.get('month')
-
       // Current mouth
       if (firstMonth === lastMonth) {
         return [[firstDay, lastDay]]
-      }
-      // Two adjacent months
-      else if (firstMonth + 1 === lastMonth) {
-        const firstMonthLastDay = firstDay.endOf('month')
-        const lastMonthFirstDay = lastDay.startOf('month')
-
-        // Whether the last day of the first month and the first day of the last month is in the same week
-        const isSameWeek = firstMonthLastDay.isSame(lastMonthFirstDay, 'week')
-        const lastMonthStartDay = isSameWeek
-          ? lastMonthFirstDay.add(1, 'week')
-          : lastMonthFirstDay
-
-        return [
-          [firstDay, firstMonthLastDay],
-          [lastMonthStartDay.startOf('week'), lastDay],
-        ]
       }
       // Three consecutive months (compatible: 2021-01-30 to 2021-02-28)
       else if (firstMonth + 2 === lastMonth) {
@@ -191,6 +174,25 @@ export default defineComponent({
         return [
           [firstDay, firstMonthLastDay],
           [secondMonthStartDay.startOf('week'), secondMonthLastDay],
+          [lastMonthStartDay.startOf('week'), lastDay],
+        ]
+      }
+      // Two adjacent months
+      else if (
+        firstMonth + 1 === lastMonth ||
+        startDayjs.add(1, 'month').month() === endDayjs.month()
+      ) {
+        const firstMonthLastDay = firstDay.endOf('month')
+        const lastMonthFirstDay = lastDay.startOf('month')
+
+        // Whether the last day of the first month and the first day of the last month is in the same week
+        const isSameWeek = firstMonthLastDay.isSame(lastMonthFirstDay, 'week')
+        const lastMonthStartDay = isSameWeek
+          ? lastMonthFirstDay.add(1, 'week')
+          : lastMonthFirstDay
+
+        return [
+          [firstDay, firstMonthLastDay],
           [lastMonthStartDay.startOf('week'), lastDay],
         ]
       }
