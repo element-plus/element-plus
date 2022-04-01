@@ -469,13 +469,17 @@
   @include when(scrolling-none) {
     .#{$namespace}-table-fixed-column--left,
     .#{$namespace}-table-fixed-column--right {
-      background-color: var(--el-table-header-bg-color);
       &.is-first-column,
       &.is-last-column {
         &::before {
           box-shadow: none;
         }
       }
+    }
+
+    th.#{$namespace}-table-fixed-column--left,
+    th.#{$namespace}-table-fixed-column--right {
+      background-color: var(--el-table-header-bg-color);
     }
   }
 
