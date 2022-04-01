@@ -45,13 +45,23 @@ h5,
 h6 {
   margin: 0;
   line-height: 1.25;
-  display: flex;
-  align-items: center;
-  position: relative;
+}
 
-  // Special case for handling tagged header.
-  .el-tag {
-    margin-left: 8px;
+.doc-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    // Special case for handling tagged header.
+    .el-tag {
+      margin-left: 8px;
+    }
   }
 }
 
