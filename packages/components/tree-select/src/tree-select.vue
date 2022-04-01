@@ -55,6 +55,13 @@ export default defineComponent({
     return () =>
       h(
         ElSelect,
+        /**
+         * 1. The `props` is processed into `Refs`, but `v-bind` and
+         * render function props cannot read `Refs`, so use `reactive`
+         * unwrap the `Refs` and keep reactive.
+         * 2. The keyword `ref` requires `Ref`, but `reactive` broke it,
+         * so use function.
+         */
         reactive({
           ...selectProps,
           ref: (ref) => (select.value = ref),
