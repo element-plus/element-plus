@@ -37,6 +37,7 @@
         :readonly="readonly"
         :autocomplete="autocomplete"
         :formatter="formatter"
+        :parser="parser"
         :tabindex="tabindex"
         :aria-label="label"
         :placeholder="placeholder"
@@ -222,11 +223,9 @@ const textareaStyle = computed<StyleValue>(() => [
   textareaCalcStyle.value,
   { resize: props.resize },
 ])
-// const nativeInputValue = computed(() =>
-//   isNil(props.modelValue) ? '' : String(props.modelValue)
-// )
-const nativeInputValue = ref<string>('')
-
+const nativeInputValue = computed(() =>
+  isNil(props.modelValue) ? '' : String(props.modelValue)
+)
 const showClear = computed(
   () =>
     props.clearable &&
@@ -268,7 +267,7 @@ const suffixVisible = computed(
     (!!validateState.value && needStatusIcon.value)
 )
 
-const [setCursor] = useCursor(input)
+const [recordCursor, setCursor] = useCursor(input)
 
 const resizeTextarea = () => {
   const { type, autosize } = props
@@ -291,15 +290,7 @@ const resizeTextarea = () => {
 const setNativeInputValue = () => {
   const input = _ref.value
   if (!input || input.value === nativeInputValue.value) return
-  nativeInputValue.value = formatter()
   input.value = nativeInputValue.value
-}
-
-const formatter = () => {
-  const tmpValue = props.formatter
-    ? props.formatter(props.modelValue)
-    : props.modelValue
-  return isNil(tmpValue) ? '' : String(tmpValue)
 }
 
 const calcIconOffset = (place: 'prefix' | 'suffix') => {
@@ -328,8 +319,16 @@ const updateIconOffset = () => {
 }
 
 const handleInput = async (event: Event) => {
-  setCursor()
-  const { value } = event.target as TargetElement
+  recordCursor()
+
+  let { value } = event.target as TargetElement
+
+  if (props.parser) {
+    value = props.parser(value)
+  }
+  if (props.formatter) {
+    value = props.formatter(value)
+  }
 
   // should not emit input during composition
   // see: https://github.com/ElemeFE/element/issues/10516
@@ -346,6 +345,7 @@ const handleInput = async (event: Event) => {
   // see: https://github.com/ElemeFE/element/issues/12850
   await nextTick()
   setNativeInputValue()
+  setCursor()
 }
 
 const handleChange = (event: Event) => {
@@ -429,9 +429,6 @@ watch(
     nextTick(() => resizeTextarea())
     if (props.validateEvent) {
       formItem?.validate?.('change').catch((err) => debugWarn(err))
-    }
-    if (props.formatter) {
-      setNativeInputValue()
     }
   }
 )
