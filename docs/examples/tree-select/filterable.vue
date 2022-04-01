@@ -1,6 +1,6 @@
 <template>
   <el-tree-select v-model="value" :data="data" filterable />
-  <el-divider></el-divider>
+  <el-divider />
   filter method:
   <el-tree-select
     v-model="value"
@@ -8,7 +8,7 @@
     :filter-method="filterMethod"
     filterable
   />
-  <el-divider></el-divider>
+  <el-divider />
   filter node method:
   <el-tree-select
     v-model="value"

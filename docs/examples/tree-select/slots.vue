@@ -4,7 +4,7 @@
       {{ label }}<span style="color: gray">(suffix)</span></template
     >
   </el-tree-select>
-  <el-divider></el-divider>
+  <el-divider />
   use render content:
   <el-tree-select
     v-model="value"

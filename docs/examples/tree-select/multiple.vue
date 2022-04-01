@@ -1,6 +1,6 @@
 <template>
   <el-tree-select v-model="value" :data="data" multiple />
-  <el-divider></el-divider>
+  <el-divider />
   show checkbox:
   <el-tree-select v-model="value" :data="data" multiple show-checkbox />
 </template>
