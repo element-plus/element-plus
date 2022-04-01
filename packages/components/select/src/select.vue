@@ -372,6 +372,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    noPersistentLabel: {
+      type: String,
+      default: '',
+    },
     clearIcon: {
       type: [String, Object] as PropType<string | Component>,
       default: CircleClose,
