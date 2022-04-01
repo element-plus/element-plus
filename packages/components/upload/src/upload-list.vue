@@ -44,7 +44,9 @@
             @click="handleClick(file)"
           >
             <el-icon :class="nsIcon.m('document')"><Document /></el-icon>
-            {{ file.name }}
+            <span :class="nsUpload.be('list', 'item-file-name')">
+              {{ file.name }}
+            </span>
           </a>
           <el-progress
             v-if="file.status === 'uploading'"
@@ -107,17 +109,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
-import {
-  Check,
-  CircleCheck,
-  Close,
-  Delete,
-  Document,
-  ZoomIn,
-} from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import ElProgress from '@element-plus/components/progress'
 
 import { uploadListEmits, uploadListProps } from './upload-list'
 import type { UploadFile } from './upload'

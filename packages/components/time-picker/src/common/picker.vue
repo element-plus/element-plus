@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="refPopper"
-    v-model:visible="pickerVisible"
+    :visible="pickerVisible && !readonly && !pickerDisabled"
     effect="light"
     pure
     trigger="click"
@@ -370,7 +370,7 @@ export default defineComponent({
     }
 
     const handleFocus = (e) => {
-      if (props.readonly || pickerDisabled.value || pickerVisible.value) return
+      if (pickerVisible.value) return
       pickerVisible.value = true
       ctx.emit('focus', e)
     }
