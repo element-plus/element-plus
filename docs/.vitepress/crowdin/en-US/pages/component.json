@@ -208,7 +208,8 @@
       },
       {
         "link": "/tree-select",
-        "text": "TreeSelect"
+        "text": "TreeSelect",
+        "promotion": "2.1.8"
       },
       {
         "link": "/tree-v2",
