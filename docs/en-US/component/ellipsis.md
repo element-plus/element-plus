@@ -1,5 +1,6 @@
 ---
-title: Ellipsis lang: en-US
+title: Ellipsis
+lang: en-US
 ---
 
 # Ellipsis
