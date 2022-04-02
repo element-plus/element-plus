@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { isDark } from '../composables/dark'
-import { sponsors } from '../../config/sponsors'
-const sponsorList = sponsors.filter((_) => !_.type)
+import { goldSponsors } from '../../config/sponsors'
 </script>
 
 <template>
   <div class="container">
     <div
-      v-for="item in sponsorList"
+      v-for="item in goldSponsors"
       :key="item.name"
       :class="['sponsor-item', item.isDark && isDark ? 'filter invert' : '']"
     >
