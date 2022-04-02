@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { isDark } from '../../composables/dark'
 import { useLang } from '../../composables/lang'
+import SponsorList from './sponsor-list.vue'
 import { goldSponsors, platinumSponsors } from '../../../config/sponsors'
 import sponsorLocale from '../../../i18n/component/sponsor.json'
 
@@ -28,52 +29,9 @@ const getSponsorSlogan = (sponsor) => {
 
 <template>
   <div class="sponsors-container" m="t-9 auto">
-    <h2 class="text-center mb-4 text-xl">{{ sponsorLang.platinumSponsor }}</h2>
-    <div class="grid gap-1 sponsor-list platinum">
-      <a
-        v-for="(sponsor, i) in platinumSponsors"
-        :key="i"
-        :class="['sponsor flex px-4 rounded-md', sponsor.className]"
-        :href="sponsor.url"
-        target="_blank"
-      >
-        <img
-          :class="sponsor.isDark && isDark ? 'filter invert' : ''"
-          width="45"
-          :src="sponsor.img"
-          :alt="sponsor.name"
-        />
-        <div>
-          <p>
-            <span class="name">{{ getSponsorName(sponsor) }}</span>
-          </p>
-          <p>{{ getSponsorSlogan(sponsor) }}</p>
-        </div>
-      </a>
-    </div>
-    <h2 class="text-center mb-4 text-xl">{{ sponsorLang.goldSponsor }}</h2>
-    <div class="grid gap-1 sponsor-list gold mb-4">
-      <a
-        v-for="(sponsor, i) in goldSponsors"
-        :key="i"
-        :class="['sponsor flex px-4 rounded-md', sponsor.className]"
-        :href="sponsor.url"
-        target="_blank"
-      >
-        <img
-          :class="sponsor.isDark && isDark ? 'filter invert' : ''"
-          width="45"
-          :src="sponsor.img"
-          :alt="sponsor.name"
-        />
-        <div>
-          <p>
-            <span class="name">{{ getSponsorName(sponsor) }}</span>
-          </p>
-          <p>{{ getSponsorSlogan(sponsor) }}</p>
-        </div>
-      </a>
-    </div>
+    <SponsorList :sponsors="platinumSponsors" sponsor-type="platinumSponsor" />
+    <SponsorList :sponsors="goldSponsors" sponsor-type="goldSponsor" />
+
     <sponsors-button round />
   </div>
 </template>
