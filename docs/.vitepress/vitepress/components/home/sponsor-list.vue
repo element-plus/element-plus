@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import { isDark } from '../../composables/dark'
 import { useLang } from '../../composables/lang'
-import { goldSponsors, platinumSponsors } from '../../../config/sponsors'
 import sponsorLocale from '../../../i18n/component/sponsor.json'
 
 defineProps({
