@@ -28,7 +28,7 @@ const getSponsorSlogan = (sponsor) => {
 </script>
 
 <template>
-  <div class="sponsors-container" m="t-9 auto">
+  <div class="sponsors-container" m="auto">
     <SponsorList :sponsors="platinumSponsors" sponsor-type="platinumSponsor" />
     <SponsorList :sponsors="goldSponsors" sponsor-type="goldSponsor" />
 
@@ -40,9 +40,10 @@ const getSponsorSlogan = (sponsor) => {
 .home-page {
   .sponsors-container {
     max-width: 900px;
+    margin-top: 52px;
     .join {
       text-align: center;
-      margin: 0 0 50px 0;
+      margin: 0 0 52px 0;
     }
   }
 
