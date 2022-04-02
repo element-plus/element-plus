@@ -3,6 +3,7 @@
 // CSS3 var
 @use './var' as *;
 @use '../mixins/_var.scss' as *;
+@use '../mixins/mixins.scss' as *;
 
 html.dark {
   color-scheme: dark;
@@ -18,4 +19,8 @@ html.dark {
   @include set-component-css-var('border-color', $border-color);
   // Fill --el-fill-color-#{$type}
   @include set-component-css-var('fill-color', $fill-color);
+}
+
+@include dark(card) {
+  @include set-component-css-var('card', $card);
 }
