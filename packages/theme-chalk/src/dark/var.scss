@@ -1,4 +1,5 @@
 @use 'sass:map';
+@use '../mixins/mixins.scss' as *;
 
 // dark-mode
 
@@ -56,4 +57,13 @@ $text-color: map.merge(
     'disabled': rgba($text-color-base, 0.4),
   ),
   $text-color
+);
+
+// card
+$card: () !default;
+$card: map.merge(
+  (
+    'bg-color': getCssVar('bg-color', 'overlay'),
+  ),
+  $card
 );
