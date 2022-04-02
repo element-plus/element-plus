@@ -207,6 +207,11 @@
         "text": "Tree"
       },
       {
+        "link": "/tree-select",
+        "text": "TreeSelect",
+        "promotion": "2.1.8"
+      },
+      {
         "link": "/tree-v2",
         "text": "Virtualized Tree"
       }

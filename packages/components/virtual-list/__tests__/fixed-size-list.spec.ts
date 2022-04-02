@@ -330,10 +330,10 @@ describe('<fixed-size-list />', () => {
       // also we have 3 cache items.
       // so that we get the first item: 10 - 2 - 3 = 5th item
       expect(wrapper.find(ITEM_SELECTOR).text()).toContain(5)
-      //  centered alignment nearing the left boundary
+      // centered alignment nearing the left boundary
       listRef.scrollToItem(1, CENTERED_ALIGNMENT)
       await nextTick()
-      //   centered alignment nearing the right boundary
+      // centered alignment nearing the right boundary
       listRef.scrollToItem(101, CENTERED_ALIGNMENT)
       await nextTick()
       expect(wrapper.find(ITEM_SELECTOR).text()).toContain(93)
