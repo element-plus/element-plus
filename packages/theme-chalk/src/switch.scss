@@ -128,7 +128,7 @@ $switch-font-size: map.merge(
       top: 1px;
       left: 1px;
       border-radius: var(--el-border-radius-circle);
-      transition: all var(--el-transition-duration);
+      transition: all ease-in-out var(--el-transition-duration);
       width: var(--el-switch-button-size);
       height: var(--el-switch-button-size);
       background-color: var(--el-color-white);
