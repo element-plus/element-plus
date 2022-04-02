@@ -4,6 +4,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav'
+import type { TabsPaneContext } from '@element-plus/tokens'
 
 describe('Tabs.vue', () => {
   test('create', async () => {
@@ -33,14 +34,14 @@ describe('Tabs.vue', () => {
     expect(panesWrapper[0].classes('el-tab-pane')).toBe(true)
     expect(panesWrapper[0].attributes('id')).toBe('pane-0')
     expect(panesWrapper[0].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('0')
+    expect(tabsWrapper.vm.$.exposed?.currentName.value).toEqual('0')
 
     await navItemsWrapper[2].trigger('click')
     expect(navItemsWrapper[0].classes('is-active')).toBe(false)
     expect(panesWrapper[0].attributes('aria-hidden')).toEqual('true')
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
     expect(panesWrapper[2].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('2')
+    expect(tabsWrapper.vm.$.exposed?.currentName.value).toEqual('2')
   })
 
   test('active-name', async () => {
@@ -55,8 +56,8 @@ describe('Tabs.vue', () => {
         }
       },
       methods: {
-        handleClick(tab) {
-          this.activeName = tab.paneName
+        handleClick(tab: TabsPaneContext) {
+          this.activeName = tab.paneName as string
         },
       },
       template: `
@@ -79,14 +80,14 @@ describe('Tabs.vue', () => {
     expect(panesWrapper[1].classes('el-tab-pane')).toBe(true)
     expect(panesWrapper[1].attributes('id')).toBe('pane-b')
     expect(panesWrapper[1].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('b')
+    expect(tabsWrapper.vm.$.exposed?.currentName.value).toEqual('b')
 
     await navItemsWrapper[2].trigger('click')
     expect(navItemsWrapper[1].classes('is-active')).toBe(false)
     expect(panesWrapper[1].attributes('aria-hidden')).toEqual('true')
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
     expect(panesWrapper[2].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('c')
+    expect(tabsWrapper.vm.$.exposed?.currentName.value).toEqual('c')
   })
 
   test('card', async () => {
@@ -226,7 +227,7 @@ describe('Tabs.vue', () => {
         }
       },
       methods: {
-        handleTabsEdit(targetName, action) {
+        handleTabsEdit(targetName: string, action: string) {
           if (action === 'add') {
             const newTabName = `${++this.tabIndex}`
             this.editableTabs.push({
@@ -340,7 +341,7 @@ describe('Tabs.vue', () => {
           })
           this.editableTabsValue = newTabName
         },
-        removeTab(targetName) {
+        removeTab(targetName: string) {
           const tabs = this.editableTabs
           let activeName = this.editableTabsValue
           if (activeName === targetName) {
@@ -674,5 +675,71 @@ describe('Tabs.vue', () => {
 
   test('resize', async () => {
     // TODO: jsdom not support `clientWidth`.
+  })
+
+  test('label slot update', async () => {
+    const wrapper = mount({
+      components: {
+        'el-tabs': Tabs,
+        'el-tab-pane': TabPane,
+      },
+      template: `
+        <el-tabs v-model="activeName" type="card" class="demo-tabs">
+          <template v-for="(item, i) in panes" :key="i">
+            <el-tab-pane :name="item.name">
+              <template #label>
+                {{ item.label }}
+                <span>({{ item.num }})</span>
+              </template>
+              {{ item.label }}
+            </el-tab-pane>
+          </template>
+        </el-tabs>
+      `,
+      data() {
+        return {
+          activeName: 'second',
+          panes: [
+            {
+              name: 'height',
+              label: 'Route',
+              num: 10,
+            },
+            {
+              name: 'low',
+              label: 'Config',
+              num: 5,
+            },
+          ],
+        }
+      },
+      methods: {
+        updatePanes() {
+          this.panes = [
+            {
+              name: 'height',
+              label: 'NewRoute',
+              num: 6,
+            },
+            {
+              name: 'low',
+              label: 'Config',
+              num: 4,
+            },
+          ]
+        },
+      },
+    })
+
+    await nextTick()
+    const content = wrapper.find('.el-tab-pane')
+    const nav = wrapper.find('.el-tabs__item')
+    expect(content.text()).toEqual('Route')
+    expect(nav.text()).toEqual('Route (10)')
+
+    wrapper.vm.updatePanes()
+    await nextTick()
+    expect(content.text()).toEqual('NewRoute')
+    expect(nav.text()).toEqual('NewRoute (6)')
   })
 })

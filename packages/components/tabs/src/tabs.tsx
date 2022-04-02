@@ -145,6 +145,14 @@ export default defineComponent({
 
         if (isForceUpdate || panesChanged) {
           panes.value = paneInstanceList
+        } else {
+          if (!shouldUpdate) {
+            shouldUpdate = true
+            panes.value = paneInstanceList
+            nextTick(() => {
+              shouldUpdate = false
+            })
+          }
         }
       } else if (panes.value.length !== 0) {
         panes.value = []
@@ -202,6 +210,7 @@ export default defineComponent({
       emit('tab-add')
     }
 
+    let shouldUpdate = false
     onUpdated(() => updatePaneInstances())
     onMounted(() => updatePaneInstances())
 
