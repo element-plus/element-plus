@@ -1,30 +1,8 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-import { isDark } from '../../composables/dark'
-import { useLang } from '../../composables/lang'
-import SponsorList from './sponsor-list.vue'
 import { goldSponsors, platinumSponsors } from '../../../config/sponsors'
-import sponsorLocale from '../../../i18n/component/sponsor.json'
 
+import SponsorList from './sponsor-list.vue'
 import SponsorsButton from '../sponsors/sponsors-button.vue'
-
-const lang = useLang()
-const sponsorLang = computed(() => sponsorLocale[lang.value])
-
-const langZhCN = 'zh-CN'
-
-const getSponsorName = (sponsor) => {
-  if (lang.value === langZhCN) {
-    return sponsor.name_cn || sponsor.name
-  }
-  return sponsor.name
-}
-const getSponsorSlogan = (sponsor) => {
-  if (lang.value === langZhCN) {
-    return sponsor.slogan_cn || sponsor.slogan
-  }
-  return sponsor.slogan
-}
 </script>
 
 <template>
