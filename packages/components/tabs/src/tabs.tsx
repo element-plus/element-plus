@@ -84,6 +84,7 @@ export const tabsEmits = {
   [UPDATE_MODEL_EVENT]: (name: TabPanelName) => isPanelName(name),
   [INPUT_EVENT]: (name: TabPanelName) => isPanelName(name),
   'tab-click': (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
+  'tab-change': (name: TabPanelName) => isPanelName(name),
   edit: (paneName: TabPanelName | undefined, action: 'remove' | 'add') =>
     ['remove', 'add'].includes(action),
   'tab-remove': (name: TabPanelName) => isPanelName(name),
@@ -155,6 +156,7 @@ export default defineComponent({
       currentName.value = value
       emit(INPUT_EVENT, value)
       emit(UPDATE_MODEL_EVENT, value)
+      emit('tab-change', value)
     }
 
     const setCurrentName = (value: TabPanelName) => {

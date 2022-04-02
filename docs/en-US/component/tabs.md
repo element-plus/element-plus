@@ -93,6 +93,7 @@ tabs/customized-trigger
 | Event Name | Description                                           | Parameters              |
 | ---------- | ----------------------------------------------------- | ----------------------- |
 | tab-click  | triggers when a tab is clicked                        | clicked tab             |
+| tab-change  | triggers when `activeName` is changed                | (name: string \| number)|
 | tab-remove | triggers when tab-remove button is clicked            | name of the removed tab |
 | tab-add    | triggers when tab-add button is clicked               | —                       |
 | edit       | triggers when tab-add button or tab-remove is clicked | (targetName, action)    |
