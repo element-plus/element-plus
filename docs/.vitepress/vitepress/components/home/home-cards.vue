@@ -44,7 +44,7 @@ const homeLang = computed(() => homeLocale[lang.value])
 .home-page {
   .cards {
     margin: 0 auto 110px;
-    width: 1140px;
+    max-width: 900px;
 
     .container {
       padding: 0;
