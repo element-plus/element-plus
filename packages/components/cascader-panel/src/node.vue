@@ -153,13 +153,12 @@ export default defineComponent({
     const handleClick = () => {
       if (isHoverMenu.value && !isLeaf.value) return
 
-      if (
-        isLeaf.value &&
-        !isDisabled.value &&
-        !checkStrictly.value &&
-        !multiple.value
-      ) {
-        handleCheck(true)
+      if (isLeaf.value && !isDisabled.value) {
+        if (multiple.value) {
+          handleSelectCheck(!props.node.checked)
+        } else {
+          handleCheck(true)
+        }
       } else {
         handleExpand()
       }
