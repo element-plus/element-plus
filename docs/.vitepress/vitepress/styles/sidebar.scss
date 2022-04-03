@@ -20,13 +20,13 @@
   }
 
   .sidebar-groups {
-    padding: 0.75rem 0 5rem;
+    padding: 0 0 5rem;
 
     .sidebar-group__title {
-      padding: 0.35rem 0;
       font-size: 1rem;
       font-weight: 700;
-      margin: 0;
+      margin-bottom: 8px;
+      line-height: 24px;
     }
 
     .sidebar-group + .sidebar-group {
