@@ -388,15 +388,19 @@ describe('CascaderPanel.vue', () => {
     expect(zjCheckbox.exists()).toBe(true)
 
     await zjNode.trigger('click')
+    // click on non-leaf node should only expand child nodes
+    expect(zjCheckbox.classes('is-checked')).toBe(false)
     const secondMenu = wrapper.findAll(MENU)[1]
     const [hzCheckbox, nbCheckbox] = secondMenu.findAll(CHECKBOX)
+    const [, nbNode] = secondMenu.findAll(NODE)
 
     await hzCheckbox.find('input').trigger('click')
     expect(hzCheckbox.classes('is-checked')).toBe(true)
     expect(zjCheckbox.classes('is-indeterminate')).toBe(true)
     expect(wrapper.vm.value).toEqual([['zhejiang', 'hangzhou']])
 
-    await nbCheckbox.find('input').trigger('click')
+    // click on leaf node should check the node
+    await nbNode.trigger('click')
     expect(zjCheckbox.classes('is-checked')).toBe(true)
     expect(wrapper.vm.value).toEqual([
       ['zhejiang', 'hangzhou'],
@@ -406,7 +410,7 @@ describe('CascaderPanel.vue', () => {
     await zjCheckbox.find('input').trigger('click')
     expect(zjCheckbox.classes('is-checked')).toBe(false)
     expect(nbCheckbox.classes('is-checked')).toBe(false)
-    expect(nbCheckbox.classes('is-checked')).toBe(false)
+    expect(hzCheckbox.classes('is-checked')).toBe(false)
     expect(wrapper.vm.value).toEqual([])
   })
 
