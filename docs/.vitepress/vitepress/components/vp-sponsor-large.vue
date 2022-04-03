@@ -40,7 +40,6 @@ import { platinumSponsors } from '../../config/sponsors'
 
 @media (max-width: 768px) {
   .sponsor-item {
-    max-width: 160px;
     img {
       border-radius: 4px;
       min-height: 45px;

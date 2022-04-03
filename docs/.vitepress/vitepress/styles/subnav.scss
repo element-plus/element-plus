@@ -12,11 +12,6 @@
   z-index: var(--sub-nav-z-index);
   overflow: hidden;
 
-  .sidebar-button,
-  .go-back-top {
-    padding: 0 16px;
-  }
-
   .go-back-top {
     transform: translateY(100%);
     opacity: 0;

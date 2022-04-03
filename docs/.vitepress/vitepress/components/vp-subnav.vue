@@ -9,11 +9,13 @@ const { shouldShow, scrollToTop } = useBackTop()
 </script>
 
 <template>
-  <div class="sub-nav">
+  <div class="sub-nav py-3 px-6 flex items-center">
     <ToggleSidebarBtn v-if="hasSidebar" @click="$emit('open-menu')" />
     <Transition name="shifting">
       <ElButton
         type="text"
+        class="height-5"
+        size="small"
         :class="{ 'go-back-top': true, show: shouldShow }"
         @click.prevent.stop="scrollToTop"
         >{{ 'Back to top' }}</ElButton
