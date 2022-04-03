@@ -22,6 +22,7 @@ import { goldSponsors } from '../../config/sponsors'
 </template>
 
 <style scoped lang="scss">
+@use '../styles/mixins' as *;
 .sponsor-container {
   display: flex;
   align-items: center;
@@ -29,6 +30,11 @@ import { goldSponsors } from '../../config/sponsors'
     margin-right: 4px;
     height: 36px;
     width: 36px;
+
+    @include respond-to('xxl') {
+      height: 44px;
+      width: 44px;
+    }
 
     img {
       height: 100%;
