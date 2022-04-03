@@ -3,18 +3,17 @@ import { platinumSponsors } from '../../config/sponsors'
 </script>
 
 <template>
-  <div class="container">
-    <div v-for="item in platinumSponsors" :key="item.name" class="sponsor-item">
-      <a
-        :href="item.url"
-        :title="`${item.name_cn || item.name} - ${
-          item.slogan_cn || item.slogan
-        }`"
-        target="_blank"
-      >
-        <img :src="item.banner_img" :alt="item.name" />
-      </a>
-    </div>
+  <div class="sponsor-container">
+    <a
+      v-for="item in platinumSponsors"
+      :key="item.name"
+      :href="item.url"
+      :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
+      class="sponsor-item inline-flex"
+      target="_blank"
+    >
+      <img :src="item.banner_img" :alt="item.name" />
+    </a>
   </div>
 </template>
 
