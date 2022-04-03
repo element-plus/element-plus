@@ -49,7 +49,7 @@
   }
 
   @include respond-to('xxl') {
-    padding: 47px 32px 96px calc((100% - var(--vp-screen-max-width)) / 2);
+    padding: 47px 48px 96px calc((100% - var(--vp-screen-max-width)) / 2 - 18px);
     width: calc(
       (100% - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small)
     );

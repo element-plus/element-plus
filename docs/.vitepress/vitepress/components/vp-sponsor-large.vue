@@ -27,7 +27,7 @@ import { platinumSponsors } from '../../config/sponsors'
 
   @include respond-to('xxl') {
     width: 236px;
-    height: 70px;
+    height: 72px;
   }
 
   img {
