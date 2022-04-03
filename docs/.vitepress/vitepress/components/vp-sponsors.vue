@@ -19,9 +19,9 @@ const sponsor = computed(() => sponsorLocale[lang.value])
 
 <style lang="scss" scoped>
 .sponsors {
-  padding-bottom: 0.35rem;
+  padding-bottom: 44px;
   .sponsors-title {
-    color: var(--text-color-lighter);
+    color: var(--text-color-secondary);
     font-weight: 300;
     font-size: 14px;
   }

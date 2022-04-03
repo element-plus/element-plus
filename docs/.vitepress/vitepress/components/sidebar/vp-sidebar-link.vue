@@ -42,7 +42,7 @@ const route = useRoute()
 }
 
 .link {
-  padding: 9px 16px;
+  padding: 10px 16px;
   line-height: 1.5;
   font-size: 0.9rem;
   border-radius: 8px;

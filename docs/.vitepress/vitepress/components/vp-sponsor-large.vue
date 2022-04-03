@@ -21,6 +21,7 @@ import { platinumSponsors } from '../../config/sponsors'
 <style scoped lang="scss">
 .sponsor-item {
   margin-bottom: 8px;
+  height: 60px;
   img {
     border-radius: 8px;
     overflow: hidden;

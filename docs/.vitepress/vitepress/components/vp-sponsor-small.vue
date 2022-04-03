@@ -29,15 +29,18 @@ import { goldSponsors } from '../../config/sponsors'
   align-items: center;
   .sponsor-item {
     margin-right: 4px;
+    height: 36px;
+    width: 36px;
 
     a {
       display: inline-flex;
       align-items: center;
-
-      img {
-        width: 36px;
-        height: 36px;
-      }
+      height: inherit;
+      width: inherit;
+    }
+    img {
+      height: 100%;
+      width: 100%;
     }
   }
 }
