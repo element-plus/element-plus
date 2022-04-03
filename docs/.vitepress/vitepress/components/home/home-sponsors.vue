@@ -18,7 +18,7 @@ import SponsorList from './sponsor-list.vue'
 .home-page {
   .sponsors-container {
     max-width: 900px;
-    margin-top: 52px;
+    margin-top: 72px;
     .join {
       text-align: center;
       margin: 0 0 52px 0;
