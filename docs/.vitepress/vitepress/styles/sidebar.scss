@@ -45,7 +45,6 @@
   @include respond-to('lg') {
     top: var(--header-height);
     transform: translate(0);
-    border-right: 1px solid var(--border-color);
     width: var(--vp-sidebar-width-small);
   }
 

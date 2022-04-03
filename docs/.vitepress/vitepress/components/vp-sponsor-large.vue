@@ -18,15 +18,26 @@ import { platinumSponsors } from '../../config/sponsors'
 </template>
 
 <style scoped lang="scss">
+@use '../styles/mixins.scss' as *;
+
 .sponsor-item {
   margin-bottom: 8px;
   height: 60px;
+  width: 196px;
+
+  @include respond-to('xxl') {
+    width: 236px;
+    height: 70px;
+  }
+
   img {
     border-radius: 8px;
     overflow: hidden;
-    min-height: 60px;
+    height: 100%;
+    width: 100%;
   }
 }
+
 @media (max-width: 768px) {
   .sponsor-item {
     max-width: 160px;
