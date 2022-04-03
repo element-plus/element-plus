@@ -1,5 +1,43 @@
 ## Changelog
 
+### 2.1.8
+
+_2022-04-03_
+
+#### Features
+
+- Components [tooltip-v2] documentation (#6870 by @JeremyWuuuuu)
+- Components [el-table] add placeholder for tree table (#6905 by @msidolphin)
+- Components [el-scrollbar] expose scrollTo method (#6663 by @msidolphin)
+- Components [tag] add new API for rounded
+- Components [el-virtual-list] support native behaviours (#6945 by @msidolphin)
+- Components add tree select component (#6843 by @yujinpan)
+- Components [tabs] add tab-change event (#6978 by @buqiyuan)
+- Locale: Added Azerbaijani language (#6878 by @chz)
+
+#### Bug fixes
+
+- Components [el-input] change icon when showing password (#6846 by @plainheart)
+- Components [autocomplete] can not fetch suggestions after clear (#6847 by @buqiyuan)
+- Deps update all non-major dependencies (#6893 by @renovate[bot])
+- Remove default size warn by set componetSizes (#6908 by @YunYouJun)
+- [ElMessage] grouping mode default type (#6836 by @chenxch)
+- Components [update] fix onChange hook called twice (#6885 by @LYlanfeng)
+- Components [el-table] use table width as empty block width (#6694 by @plainheart)
+- [el-select-v2] 修復select-v2 v-model 不能正常的支持 Object (#6888 by @czh740132583)
+- Components [input] 添加prepend或append插槽后, clearable无法显示 (#6756 by @cn-troy)
+- Docs [el-divider] Document case error, String to string (#6934 by @zcj996)
+- Components [select] value support object (#6933 by @btea)
+- Docs documentation style (#6952 by @JeremyWuuuuu)
+- Theme-chalk [el-table] fix custom header background of fixed column (#6931 by @plainheart)
+
+#### Refactors
+
+- Components [tabs] switch to script-setup syntax (#6468 by @freedomlang)
+- Components [image, image-viewer] refactor (#6704 by @buqiyuan)
+- Components [calendar] refactor (#6682 by @buqiyuan)
+- Chore(components): [calender] remove import defineExpose (#6974 by @btea)
+
 ### 2.1.7
 
 _2022-03-28_

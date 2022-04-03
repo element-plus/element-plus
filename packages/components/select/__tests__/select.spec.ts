@@ -361,6 +361,39 @@ describe('Select', () => {
     expect(findInnerInput().value).toBe('双皮奶')
   })
 
+  test('set default value to object', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: {
+          value: '选项2',
+        },
+      })
+    )
+    await nextTick()
+
+    expect(findInnerInput().value).toBe('双皮奶')
+  })
+
   test('sync set value and options', async () => {
     wrapper = _mount(
       `
@@ -1144,7 +1177,9 @@ describe('Select', () => {
       })
     )
     await wrapper.find('.select-trigger').trigger('click')
-    expect(document.querySelector('.empty-slot').textContent).toBe('EmptySlot')
+    expect(
+      document.querySelector<HTMLElement>('.empty-slot')?.textContent
+    ).toBe('EmptySlot')
   })
 
   test('should set placeholder to label of selected option when filterable is true and multiple is false', async () => {

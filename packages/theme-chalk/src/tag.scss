@@ -78,6 +78,9 @@ $tag-icon-span-gap: map.merge(
   @include when(hit) {
     border-color: getCssVar('color', 'primary');
   }
+  @include when(round) {
+    border-radius: getCssVar('tag', 'border-radius-rounded');
+  }
 
   .#{$namespace}-tag__close {
     color: var(--el-tag-text-color);

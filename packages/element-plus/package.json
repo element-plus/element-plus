@@ -50,9 +50,9 @@
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.0",
     "@element-plus/icons-vue": "^1.1.4",
-    "@floating-ui/dom": "^0.4.1",
+    "@floating-ui/dom": "^0.4.2",
     "@popperjs/core": "^2.11.4",
-    "@vueuse/core": "^8.1.2",
+    "@vueuse/core": "^8.2.3",
     "async-validator": "^4.0.7",
     "dayjs": "^1.11.0",
     "escape-html": "^1.0.3",
@@ -60,13 +60,13 @@
     "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.2",
     "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.1.1"
+    "normalize-wheel-es": "^1.1.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.180",
+    "@types/lodash": "^4.14.181",
     "@types/lodash-es": "^4.17.6",
     "@types/node": "*",
-    "csstype": "^2.6.19",
+    "csstype": "^2.6.20",
     "vue-router": "^4.0.14"
   },
   "vetur": {

@@ -42,6 +42,7 @@ import type {
 
 defineOptions({
   name: 'ElUploadContent',
+  inheritAttrs: false,
 })
 
 const props = defineProps(uploadContentProps)

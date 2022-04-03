@@ -6,6 +6,12 @@ import {
   mockImageEvent,
 } from '@element-plus/test-utils/mock'
 import Image from '../src/image.vue'
+import type { AnchorHTMLAttributes, ImgHTMLAttributes } from 'vue'
+import type { ImageProps } from '../src/image'
+
+type ElImageProps = ImgHTMLAttributes &
+  AnchorHTMLAttributes &
+  Partial<ImageProps>
 
 // firstly wait for image event
 // secondly wait for vue render
@@ -24,10 +30,13 @@ describe('Image.vue', () => {
 
   test('image load success test', async () => {
     const alt = 'this ia alt'
-    const wrapper = mount(Image, {
-      props: {
-        src: IMAGE_SUCCESS,
-        alt,
+    const wrapper = mount({
+      setup() {
+        const props: ElImageProps = {
+          alt,
+          src: IMAGE_SUCCESS,
+        }
+        return () => <Image {...props} />
       },
     })
     expect(wrapper.find('.el-image__placeholder').exists()).toBe(true)
@@ -70,11 +79,9 @@ describe('Image.vue', () => {
   })
 
   test('imageStyle fit test', async () => {
-    const fits = ['fill', 'contain', 'cover', 'none', 'scale-down']
+    const fits = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const
     for (const fit of fits) {
-      const wrapper = mount(Image, {
-        props: { fit, src: IMAGE_SUCCESS },
-      })
+      const wrapper = mount(() => <Image src={IMAGE_SUCCESS} fit={fit} />)
       await doubleWait()
       expect(wrapper.find('img').attributes('style')).toContain(
         `object-fit: ${fit};`
@@ -83,25 +90,23 @@ describe('Image.vue', () => {
   })
 
   test('preview classname test', async () => {
-    const wrapper = mount(Image, {
-      props: {
-        fit: 'cover',
-        src: IMAGE_SUCCESS,
-        previewSrcList: Array.from({ length: 3 }).fill(IMAGE_SUCCESS),
-      },
-    })
+    const props: ElImageProps = {
+      fit: 'cover',
+      src: IMAGE_SUCCESS,
+      previewSrcList: Array.from<string>({ length: 3 }).fill(IMAGE_SUCCESS),
+    }
+    const wrapper = mount(() => <Image {...props} />)
     await doubleWait()
     expect(wrapper.find('img').classes()).toContain('el-image__preview')
   })
 
   test('preview initial index test', async () => {
-    const wrapper = mount(Image, {
-      props: {
-        src: IMAGE_SUCCESS,
-        previewSrcList: Array.from({ length: 3 }).fill(IMAGE_FAIL),
-        initialIndex: 1,
-      },
-    })
+    const props: ElImageProps = {
+      src: IMAGE_SUCCESS,
+      previewSrcList: Array.from<string>({ length: 3 }).fill(IMAGE_FAIL),
+      initialIndex: 1,
+    }
+    const wrapper = mount(() => <Image {...props} />)
     await doubleWait()
     await wrapper.find('.el-image__inner').trigger('click')
     expect(
@@ -111,13 +116,12 @@ describe('Image.vue', () => {
 
   test('$attrs', async () => {
     const alt = 'this ia alt'
-    const wrapper = mount(Image, {
-      props: {
-        src: IMAGE_SUCCESS,
-        alt,
-        referrerpolicy: 'origin',
-      },
-    })
+    const props: ElImageProps = {
+      alt,
+      src: IMAGE_SUCCESS,
+      referrerpolicy: 'origin',
+    }
+    const wrapper = mount(() => <Image {...props} />)
     await doubleWait()
     expect(wrapper.find('img').attributes('alt')).toBe(alt)
     expect(wrapper.find('img').attributes('referrerpolicy')).toBe('origin')
@@ -125,12 +129,11 @@ describe('Image.vue', () => {
 
   test('pass event listeners', async () => {
     let result = false
-    const wrapper = mount(Image, {
-      props: {
-        src: IMAGE_SUCCESS,
-        onClick: () => (result = true),
-      },
-    })
+    const props: ElImageProps = {
+      src: IMAGE_SUCCESS,
+      onClick: () => (result = true),
+    }
+    const wrapper = mount(() => <Image {...props} />)
     await doubleWait()
     await wrapper.find('.el-image__inner').trigger('click')
     expect(result).toBeTruthy()
@@ -138,12 +141,11 @@ describe('Image.vue', () => {
 
   test('emit load event', async () => {
     const handleLoad = jest.fn()
-    const wrapper = mount(Image, {
-      props: {
-        src: IMAGE_SUCCESS,
-        onLoad: handleLoad,
-      },
-    })
+    const props: ElImageProps = {
+      src: IMAGE_SUCCESS,
+      onLoad: handleLoad,
+    }
+    const wrapper = mount(() => <Image {...props} />)
     await doubleWait()
     expect(wrapper.find('.el-image__inner').exists()).toBe(true)
     expect(handleLoad).toBeCalled()

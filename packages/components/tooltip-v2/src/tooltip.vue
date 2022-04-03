@@ -1,14 +1,40 @@
 <template>
   <tooltip-v2-root v-bind="rootProps">
-    <tooltip-v2-trigger v-bind="triggerProps">
-      <slot name="trigger" />
-    </tooltip-v2-trigger>
-    <tooltip-v2-content v-bind="contentProps">
-      <template #arrow="{ style }">
-        <tooltip-v2-arrow v-if="showArrow" v-bind="arrowProps" :style="style" />
-      </template>
-      <slot />
-    </tooltip-v2-content>
+    <template #default="{ open }">
+      <tooltip-v2-trigger v-bind="triggerProps" nowrap>
+        <slot name="trigger" />
+      </tooltip-v2-trigger>
+      <teleport :to="to" :disabled="!teleported">
+        <template v-if="fullTransition">
+          <transition v-bind="transitionProps">
+            <tooltip-v2-content v-if="alwaysOn || open" v-bind="contentProps">
+              <slot />
+              <template #arrow="{ style, side }">
+                <tooltip-v2-arrow
+                  v-if="showArrow"
+                  v-bind="arrowProps"
+                  :style="style"
+                  :side="side"
+                />
+              </template>
+            </tooltip-v2-content>
+          </transition>
+        </template>
+        <template v-else>
+          <tooltip-v2-content v-if="alwaysOn || open" v-bind="contentProps">
+            <slot />
+            <template #arrow="{ style, side }">
+              <tooltip-v2-arrow
+                v-if="showArrow"
+                v-bind="arrowProps"
+                :style="style"
+                :side="side"
+              />
+            </template>
+          </tooltip-v2-content>
+        </template>
+      </teleport>
+    </template>
   </tooltip-v2-root>
 </template>
 
