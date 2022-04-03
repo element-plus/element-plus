@@ -1,5 +1,6 @@
 import {
   Fragment,
+  computed,
   defineComponent,
   getCurrentInstance,
   nextTick,
@@ -14,6 +15,7 @@ import { NOOP } from '@vue/shared'
 import {
   buildProps,
   definePropType,
+  isFunction,
   isNumber,
   isPromise,
   isString,
@@ -26,7 +28,7 @@ import {
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-plus/tokens'
-import { useNamespace } from '@element-plus/hooks'
+import { useDeprecated, useNamespace } from '@element-plus/hooks'
 import TabNav from './tab-nav'
 import type { TabNavInstance } from './tab-nav'
 import type { TabsPaneContext } from '@element-plus/tokens'
@@ -82,6 +84,7 @@ const isPanelName = (value: unknown): value is string | number =>
 
 export const tabsEmits = {
   [UPDATE_MODEL_EVENT]: (name: TabPanelName) => isPanelName(name),
+  /** @deprecated use `tab-change` instead */
   [INPUT_EVENT]: (name: TabPanelName) => isPanelName(name),
   'tab-click': (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
   'tab-change': (name: TabPanelName) => isPanelName(name),
@@ -117,6 +120,19 @@ export default defineComponent({
 
   setup(props, { emit, slots, expose }) {
     const instance = getCurrentInstance()!
+
+    useDeprecated(
+      {
+        scope: 'el-tabs',
+        type: 'Event',
+        from: 'input',
+        replacement: 'tab-change',
+        version: '2.5.0',
+        ref: 'https://element-plus.org/en-US/component/tabs.html#tabs-events',
+      },
+      computed(() => isFunction(instance.vnode.props?.onInput))
+    )
+
     const ns = useNamespace('tabs')
 
     const nav$ = ref<TabNavInstance>()
@@ -154,6 +170,7 @@ export default defineComponent({
 
     const changeCurrentName = (value: TabPanelName) => {
       currentName.value = value
+      /** @deprecated use `tab-change` instead */
       emit(INPUT_EVENT, value)
       emit(UPDATE_MODEL_EVENT, value)
       emit('tab-change', value)
