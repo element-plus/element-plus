@@ -2,7 +2,7 @@
 @use 'mixins/utils' as *;
 @use 'common/var' as *;
 
-@mixin upload-success($color) {
+@mixin upload-success($color: null) {
   right: -15px;
   top: -6px;
   width: 40px;
