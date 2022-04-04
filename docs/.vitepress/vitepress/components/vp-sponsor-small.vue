@@ -31,7 +31,7 @@ import { goldSponsors } from '../../config/sponsors'
     height: 36px;
     width: 36px;
 
-    @include respond-to('xxl') {
+    @include respond-to('max') {
       height: 44px;
       width: 44px;
     }

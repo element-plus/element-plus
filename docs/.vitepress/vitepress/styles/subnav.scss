@@ -23,6 +23,6 @@
   }
 
   @include respond-to('lg') {
-    display: none;
+    display: none !important;
   }
 }

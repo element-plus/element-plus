@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { platinumSponsors } from '../../config/sponsors'
+
+defineProps({
+  itemClass: String,
+  itemStyle: [String, Object, Array],
+})
 </script>
 
 <template>
@@ -9,7 +14,8 @@ import { platinumSponsors } from '../../config/sponsors'
       :key="item.name"
       :href="item.url"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
-      class="sponsor-item inline-flex"
+      :class="['sponsor-item inline-flex', itemClass]"
+      :style="itemStyle"
       target="_blank"
     >
       <img :src="item.banner_img" :alt="item.name" />
@@ -25,7 +31,7 @@ import { platinumSponsors } from '../../config/sponsors'
   height: 60px;
   width: 196px;
 
-  @include respond-to('xxl') {
+  @include respond-to('max') {
     width: 236px;
     height: 72px;
   }

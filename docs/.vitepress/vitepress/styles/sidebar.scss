@@ -9,7 +9,7 @@
   z-index: var(--sidebar-z-index);
   width: var(--sidebar-width-xs);
   background-color: var(--bg-color);
-  padding: 47px 32px 0;
+  padding: 48px 32px 0;
   overflow-y: auto;
   transform: translate(-100%);
   transition: background-color 0.5s, opacity 0.25s,
@@ -49,9 +49,13 @@
   }
 
   @include respond-to('xxl') {
-    padding: 47px 48px 96px calc((100% - var(--vp-screen-max-width)) / 2 - 18px);
+    padding: 48px 48px 96px calc((100% - var(--vp-screen-max-width)) / 2);
     width: calc(
       (100% - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small)
     );
+  }
+
+  @include respond-to('max') {
+    padding: 48px 48px 96px calc((100% - var(--vp-screen-max-width)) / 2 - 18px);
   }
 }
