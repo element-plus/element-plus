@@ -65,7 +65,7 @@
     }
   }
 
-  @media screen and (min-width: 1440px) {
+  @include respond-to('xlg') {
     display: block;
   }
 }
