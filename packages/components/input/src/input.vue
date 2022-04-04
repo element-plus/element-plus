@@ -39,7 +39,7 @@
         :tabindex="tabindex"
         :aria-label="label"
         :placeholder="placeholder"
-        :style="inputStyle"
+        :style="inputStyleInner"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -52,7 +52,7 @@
 
       <!-- prefix slot -->
       <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
-        <span :class="nsInput.e('prefix-inner')">
+        <span ref="ElInnerPrefix" :class="nsInput.e('prefix-inner')">
           <slot name="prefix" />
           <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
             <component :is="prefixIcon" />
@@ -62,7 +62,7 @@
 
       <!-- suffix slot -->
       <span v-if="suffixVisible" :class="nsInput.e('suffix')">
-        <span :class="nsInput.e('suffix-inner')">
+        <span ref="ElInnerSuffix" :class="nsInput.e('suffix-inner')">
           <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
             <slot name="suffix" />
             <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
@@ -443,7 +443,35 @@ watch(
   }
 )
 
+// Get the widths of x and y to set the padding property of the input
+// https://github.com/element-plus/element-plus/issues/6464
+const ElInnerSuffix = ref(null)
+const ElInnerPrefix = ref(null)
+const inputStyleInner = ref({})
+const getSuffixOrPrefixWidth = (slotElm): number => {
+  if (slotElm.value) {
+    const slotElmWidth = (slotElm.value as HTMLElement).offsetWidth
+    return slotElmWidth > 0 ? slotElmWidth + 16 : 0
+  }
+  return 0
+}
+const setInputPadding = (): void => {
+  nextTick(() => {
+    inputStyleInner.value = Object.assign(
+      {
+        paddingRight: `${getSuffixOrPrefixWidth(ElInnerSuffix)}px`,
+        paddingLeft: `${getSuffixOrPrefixWidth(ElInnerPrefix)}px`,
+      },
+      props.inputStyle
+    )
+  })
+}
+watch(showClear, () => {
+  setInputPadding()
+})
+
 onMounted(async () => {
+  setInputPadding()
   setNativeInputValue()
   updateIconOffset()
   await nextTick()
