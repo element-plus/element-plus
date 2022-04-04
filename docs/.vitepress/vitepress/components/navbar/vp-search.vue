@@ -182,6 +182,10 @@ function initialize(userOptions: any) {
   --docsearch-text-color: var(--text-color-light);
   --docsearch-modal-background: var(--bg-color-soft);
 
+  &.DocSearch-Button {
+    margin-right: 8px;
+  }
+
   .dark & {
     --docsearch-text-color: var(--text-color-light);
     --docsearch-key-shadow: none;
