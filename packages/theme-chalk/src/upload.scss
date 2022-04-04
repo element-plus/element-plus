@@ -2,6 +2,23 @@
 @use 'mixins/utils' as *;
 @use 'common/var' as *;
 
+@mixin upload-success($color) {
+  right: -15px;
+  top: -6px;
+  width: 40px;
+  height: 24px;
+  background: var(--el-color-success);
+  text-align: center;
+  transform: rotate(45deg);
+
+  i {
+    font-size: 12px;
+    margin-top: 11px;
+    transform: rotate(-45deg);
+    color: $color;
+  }
+}
+
 @include b(upload) {
   @include utils-inline-flex-center;
 
@@ -341,20 +358,7 @@
     }
 
     .#{bem('upload-list', 'item-status-label')} {
-      position: absolute;
-      right: -15px;
-      top: -6px;
-      width: 40px;
-      height: 24px;
-      background: var(--el-color-success);
-      text-align: center;
-      transform: rotate(45deg);
-
-      i {
-        font-size: 12px;
-        margin-top: 11px;
-        transform: rotate(-45deg);
-      }
+      @include upload-success();
     }
 
     .#{bem('upload-list', 'item-actions')} {
@@ -510,21 +514,7 @@
   }
 
   @include e(label) {
-    position: absolute;
-    right: -15px;
-    top: -6px;
-    width: 40px;
-    height: 24px;
-    background: var(--el-color-success);
-    text-align: center;
-    transform: rotate(45deg);
-
-    i {
-      font-size: 12px;
-      margin-top: 11px;
-      transform: rotate(-45deg);
-      color: #fff;
-    }
+    @include upload-success(#fff);
   }
 
   @include e(progress) {

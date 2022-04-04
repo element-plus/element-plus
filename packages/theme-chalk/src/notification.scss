@@ -48,7 +48,7 @@
   @include e(content) {
     font-size: var(--el-notification-content-font-size);
     line-height: 24px;
-    margin: 6px 0 0 0;
+    margin: 6px 0 0;
     color: var(--el-notification-content-color);
     text-align: justify;
 

@@ -22,6 +22,17 @@
   }
 }
 
+@mixin pagination-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--el-pagination-font-size);
+  min-width: var(--el-pagination-button-width);
+  height: var(--el-pagination-button-height);
+  line-height: var(--el-pagination-button-height);
+  box-sizing: border-box;
+}
+
 @include b(pagination) {
   @include set-component-css-var('pagination', $pagination);
 
@@ -35,14 +46,7 @@
 
   span:not([class*='suffix']),
   button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: var(--el-pagination-font-size);
-    min-width: var(--el-pagination-button-width);
-    height: var(--el-pagination-button-height);
-    line-height: var(--el-pagination-button-height);
-    box-sizing: border-box;
+    @include pagination-button;
   }
 
   .#{$namespace}-input__inner {
@@ -287,15 +291,8 @@
   li {
     padding: 0 4px;
     background: var(--el-pagination-bg-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: var(--el-pagination-font-size);
-    min-width: var(--el-pagination-button-width);
-    height: var(--el-pagination-button-height);
-    line-height: var(--el-pagination-button-height);
+    @include pagination-button;
     cursor: pointer;
-    box-sizing: border-box;
     text-align: center;
 
     &.btn-quickprev:hover {

@@ -7,6 +7,14 @@
 @use './select-dropdown.scss';
 @use './select/common.scss' as *;
 
+@mixin select-tag-normal {
+  white-space: normal;
+  z-index: var(--el-index-normal);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 @include b(select) {
   @include set-component-css-var('select', $select);
 }
@@ -150,21 +158,13 @@
   @include e(tags) {
     position: absolute;
     line-height: normal;
-    white-space: normal;
-    z-index: var(--el-index-normal);
     top: 50%;
     transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    @include select-tag-normal;
   }
 
   @include e(collapse-tags) {
-    white-space: normal;
-    z-index: var(--el-index-normal);
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    @include select-tag-normal;
   }
 
   @include e(collapse-tag) {
