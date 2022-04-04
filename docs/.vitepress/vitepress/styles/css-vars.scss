@@ -1,5 +1,9 @@
 // css variables
 :root {
+  // layouts
+  --vp-screen-max-width: 1376px;
+
+  // colors
   --text-color: var(--el-text-color-primary);
   --text-color-light: var(--el-text-color-regular);
   --text-color-lighter: var(--el-text-color-secondary);
@@ -15,7 +19,6 @@
   --border-color-light: var(--el-border-color-lighter);
 
   --font-family: var(--el-font-family);
-
   --font-family-mono: 'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas,
     'Courier New', monospace;
 
@@ -59,11 +62,6 @@
 
   // link
   --link-active-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
-}
-
-// layouts
-:root {
-  --vp-screen-max-width: 1376px;
 }
 
 .dark {
