@@ -22,7 +22,7 @@
     "eslint-plugin-jsonc": "^2.2.1",
     "eslint-plugin-markdown": "^2.2.1",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-unicorn": "^41.0.1",
+    "eslint-plugin-unicorn": "^42.0.0",
     "eslint-plugin-vue": "^8.5.0",
     "jsonc-eslint-parser": "^2.1.0",
     "yaml-eslint-parser": "^0.5.0"
