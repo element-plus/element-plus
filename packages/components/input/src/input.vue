@@ -443,7 +443,7 @@ watch(
   }
 )
 
-// Get the widths of x and y to set the padding property of the input
+// Get the widths of 'suffix' and 'prefix' to set the padding property of the input
 // https://github.com/element-plus/element-plus/issues/6464
 const ElInnerSuffix = ref(null)
 const ElInnerPrefix = ref(null)
