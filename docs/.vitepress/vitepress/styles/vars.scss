@@ -49,7 +49,7 @@
   // code block vars
   --code-line-height: 1.4;
   --code-font-size: var(--el-font-size-base);
-  --code-bg-color: var(--el-fill-color-light);
+  --code-bg-color: var(--el-fill-color-lighter);
   --code-text-color: var(--text-color);
   --code-font-family: var(--font-family-mono);
 
@@ -71,7 +71,7 @@
 }
 
 .dark {
-  --bg-color-soft: #242424;
+  --bg-color-soft: var(--el-bg-color);
   --bg-color-mute: #2c2c2c;
 }
 

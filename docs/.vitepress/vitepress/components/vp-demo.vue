@@ -166,14 +166,14 @@ const copyCode = async () => {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-top: 1px solid #eaeefb;
+    border-top: 1px solid var(--border-color);
     height: 44px;
     box-sizing: border-box;
     background-color: var(--bg-color, #fff);
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
     margin-top: -1px;
-    color: #d3dce6;
+    color: var(--el-text-color-secondary);
     cursor: pointer;
     position: sticky;
     left: 0;
@@ -184,9 +184,9 @@ const copyCode = async () => {
       font-size: 14px;
       margin-left: 10px;
     }
+
     &:hover {
       color: var(--el-color-primary);
-      background-color: #f9fafc;
     }
   }
 }
