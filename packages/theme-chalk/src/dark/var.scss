@@ -4,29 +4,16 @@
 @use '../common/var.scss' as common;
 
 $colors: () !default;
-$colors: map.deep-merge(
-  (
-    'primary': (
-      'base': #409eff,
+@each $type in common.$types {
+  $colors: map.deep-merge(
+    (
+      $type: (
+        'base': map.get(common.$colors, $type, 'base'),
+      ),
     ),
-    'success': (
-      'base': #67c23a,
-    ),
-    'warning': (
-      'base': #e6a23c,
-    ),
-    'danger': (
-      'base': #f56c6c,
-    ),
-    'error': (
-      'base': #f56c6c,
-    ),
-    'info': (
-      'base': #909399,
-    ),
-  ),
-  $colors
-);
+    $colors
+  ) !global;
+}
 
 // https://sass-lang.com/documentation/values/maps#immutability
 // mix colors with white/black to generate light/dark level
@@ -115,4 +102,13 @@ $text-color: map.merge(
     'disabled': rgba($text-color-base, 0.4),
   ),
   $text-color
+);
+
+// card
+$card: () !default;
+$card: map.merge(
+  (
+    'bg-color': getCssVar('bg-color', 'overlay'),
+  ),
+  $card
 );

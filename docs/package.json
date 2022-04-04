@@ -11,7 +11,7 @@
   "dependencies": {
     "@docsearch/js": "^3.0.0",
     "@docsearch/react": "^3.0.0",
-    "@vueuse/core": "^8.2.3",
+    "@vueuse/core": "^8.2.4",
     "axios": "^0.26.1",
     "clipboard-copy": "^4.0.1",
     "element-plus": "npm:element-plus@latest",
@@ -28,7 +28,7 @@
     "escape-html": "^1.0.3",
     "markdown-it": "^12.3.2",
     "markdown-it-container": "^3.0.0",
-    "unocss": "^0.30.8",
+    "unocss": "^0.30.11",
     "unplugin-icons": "^0.14.1",
     "unplugin-vue-components": "^0.18.5",
     "vite": "^2.9.1",
