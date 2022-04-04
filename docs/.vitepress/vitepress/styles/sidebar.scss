@@ -1,4 +1,5 @@
 @use './mixins' as *;
+@use './vars' as *;
 // @use './sidebar-link.scss';
 
 .sidebar {
@@ -49,13 +50,18 @@
   }
 
   @include respond-to('xxl') {
-    padding: 48px 48px 96px calc((100% - var(--vp-screen-max-width)) / 2);
+    // 6px stands for 3px sidebar scrollbar width + 3 content scrollbar width
+    padding: 48px 48px 96px
+      calc((100% - var(--vp-screen-max-width) - $scrollbar-size) / 2);
+
     width: calc(
-      (100% - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small)
+      (100% - var(--vp-screen-max-width) - $scrollbar-size) / 2 +
+        var(--vp-sidebar-width-small)
     );
   }
 
   @include respond-to('max') {
-    padding: 48px 48px 96px calc((100% - var(--vp-screen-max-width)) / 2 - 18px);
+    padding: 48px 48px 96px
+      calc((100% - var(--vp-screen-max-width) - $scrollbar-size) / 2 - 18px);
   }
 }
