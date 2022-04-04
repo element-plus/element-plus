@@ -283,7 +283,7 @@ $checkbox: map.merge(
     'checked-text-color': getCssVar('color-primary'),
     'checked-input-border-color': getCssVar('color-primary'),
     'checked-bg-color': getCssVar('color-primary'),
-    'checked-icon-color': getCssVar('fill-color', 'blank'),
+    'checked-icon-color': getCssVar('color', 'white'),
     'input-border-color-hover': getCssVar('color-primary'),
   ),
   $checkbox
@@ -436,7 +436,7 @@ $select-group: map.merge(
 $select-dropdown: () !default;
 $select-dropdown: map.merge(
   (
-    'bg-color': getCssVar('color-white'),
+    'bg-color': getCssVar('bg-color', 'overlay'),
     'shadow': getCssVar('box-shadow-light'),
     'empty-color': getCssVar('text-color-secondary'),
     'max-height': 274px,
@@ -611,7 +611,7 @@ $cascader: map.merge(
   (
     'menu-text-color': getCssVar('text-color-regular'),
     'menu-selected-text-color': getCssVar('color-primary'),
-    'menu-fill': getCssVar('fill-color', 'blank'),
+    'menu-fill': getCssVar('bg-color', 'overlay'),
     'menu-font-size': getCssVar('font-size-base'),
     'menu-radius': getCssVar('border-radius-base'),
     'menu-border': solid 1px getCssVar('border-color-light'),
@@ -735,7 +735,7 @@ $dialog: map.merge(
   (
     'width': 50%,
     'margin-top': 15vh,
-    'bg-color': getCssVar('color-white'),
+    'bg-color': getCssVar('bg-color'),
     'box-shadow': getCssVar('box-shadow'),
     'title-font-size': getCssVar('font-size-large'),
     'content-font-size': 14px,
@@ -940,10 +940,7 @@ $drawer: () !default;
 $drawer: map.merge(
   (
     'bg-color':
-      var(
-        #{getCssVarName('dialog', 'bg-color')},
-        #{getCssVar('color', 'white')}
-      ),
+      var(#{getCssVarName('dialog', 'bg-color')}, #{getCssVar('bg-color')}),
     'padding-primary': var(#{getCssVarName('dialog', 'padding-primary')}, 20px),
   ),
   $drawer
