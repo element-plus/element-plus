@@ -8,6 +8,9 @@ html.dark {
   color-scheme: dark;
 
   // todo dark.scss
+  @each $type in (primary, success, warning, danger, error, info) {
+    @include set-css-color-type($colors, $type);
+  }
 
   // color-scheme
   // Background --el-bg-color-#{$type}

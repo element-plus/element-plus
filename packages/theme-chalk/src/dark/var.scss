@@ -1,6 +1,65 @@
 @use 'sass:map';
+@use 'sass:math';
+
+@use '../common/var.scss' as common;
+
+$colors: () !default;
+$colors: map.deep-merge(
+  (
+    'primary': (
+      'base': #409eff,
+    ),
+    'success': (
+      'base': #67c23a,
+    ),
+    'warning': (
+      'base': #e6a23c,
+    ),
+    'danger': (
+      'base': #f56c6c,
+    ),
+    'error': (
+      'base': #f56c6c,
+    ),
+    'info': (
+      'base': #909399,
+    ),
+  ),
+  $colors
+);
+
+// https://sass-lang.com/documentation/values/maps#immutability
+// mix colors with white/black to generate light/dark level
+@mixin set-color-mix-level(
+  $type,
+  $number,
+  $mode: 'light',
+  $mix-color: $color-white
+) {
+  $colors: map.deep-merge(
+    (
+      $type: (
+        '#{$mode}-#{$number}':
+          mix(
+            $mix-color,
+            map.get($colors, $type, 'base'),
+            math.percentage(math.div($number, 10))
+          ),
+      ),
+    ),
+    $colors
+  ) !global;
+}
 
 // dark-mode
+@each $type in common.$types {
+  @for $i from 1 through 9 {
+    @include set-color-mix-level($type, $i, 'light', common.$color-black);
+  }
+}
+@each $type in common.$types {
+  @include set-color-mix-level($type, 2, 'dark', common.$color-white);
+}
 
 // Background
 $bg-color: () !default;
