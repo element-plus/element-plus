@@ -1,8 +1,4 @@
-import { App } from "vue"
-import fold from "./index.vue"
+import foldVue from "./fold.vue";
 
-export default {
-  install: (app: App<Element>) => {
-    app.component("fold", fold)
-  }
-}
+export const foldVue = withInstall(foldVue)
+export default foldVue
