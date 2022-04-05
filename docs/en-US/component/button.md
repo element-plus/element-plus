@@ -1,3 +1,8 @@
+---
+title: Button
+lang: en-US
+---
+
 # Button
 
 Commonly used button.
@@ -54,7 +59,17 @@ button/group
 
 Click the button to load data, then the button displays a loading state.
 
-:::demo Set `loading` attribute to `true` to display loading state.
+Set `loading` attribute to `true` to display loading state.
+
+:::tip
+
+You can use the `loading` slot or `loadingIcon` to customize your loading component
+
+ps: `loading` slot has higher priority than loadingIcon
+
+:::
+
+:::demo
 
 button/loading
 
@@ -64,67 +79,58 @@ button/loading
 
 Besides default size, Button component provides three additional sizes for you to choose among different scenarios.
 
-:::demo Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
+:::demo Use attribute `size` to set additional sizes with `large`, `small`.
 
 button/size
 
 :::
 
+## Custom Color <el-tag>beta</el-tag>
+
+You can custom button color.
+
+We will calculate hover color & active color automatically.
+
+:::demo
+
+button/custom
+
+:::
+
 ## Button Attributes
 
-| Attribute   | Description                            | Type    | Accepted Values                                    | Default |
-| ----------- | -------------------------------------- | ------- | -------------------------------------------------- | ------- |
-| size        | button size                            | string  | medium / small / mini                              | —       |
-| type        | button type                            | string  | primary / success / warning / danger / info / text | —       |
-| plain       | determine whether it's a plain button  | boolean | —                                                  | false   |
-| round       | determine whether it's a round button  | boolean | —                                                  | false   |
-| circle      | determine whether it's a circle button | boolean | —                                                  | false   |
-| loading     | determine whether it's loading         | boolean | —                                                  | false   |
-| disabled    | disable the button                     | boolean | —                                                  | false   |
-| icon        | icon class name                        | string  | —                                                  | —       |
-| autofocus   | same as native button's `autofocus`    | boolean | —                                                  | false   |
-| native-type | same as native button's `type`         | string  | button / submit / reset                            | button  |
+| Attribute         | Description                                                 | Type               | Accepted Values                                    | Default |
+| ----------------- | ----------------------------------------------------------- | ------------------ | -------------------------------------------------- | ------- |
+| size              | button size                                                 | string             | large / default /small                             | —       |
+| type              | button type                                                 | string             | primary / success / warning / danger / info / text | —       |
+| plain             | determine whether it's a plain button                       | boolean            | —                                                  | false   |
+| round             | determine whether it's a round button                       | boolean            | —                                                  | false   |
+| circle            | determine whether it's a circle button                      | boolean            | —                                                  | false   |
+| loading           | determine whether it's loading                              | boolean            | —                                                  | false   |
+| loading-icon      | customize loading icon component                            | string / Component | —                                                  | Loading |
+| disabled          | disable the button                                          | boolean            | —                                                  | false   |
+| icon              | icon component                                              | string / Component | —                                                  | —       |
+| autofocus         | same as native button's `autofocus`                         | boolean            | —                                                  | false   |
+| native-type       | same as native button's `type`                              | string             | button / submit / reset                            | button  |
+| auto-insert-space | automatically insert a space between two chinese characters | boolean            |                                                    | —       |
 
 ## Button Slots
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name    | Description                 |
+| ------- | --------------------------- |
+| —       | customize default content   |
+| loading | customize loading component |
+| icon    | customize icon component    |
 
 ## Button-Group Attributes
 
 | Attribute | Description                                      | Type   | Accepted Values       | Default |
 | --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
-| size      | control the size of buttons in this button-group | string | medium / small / mini | —       |
+| size      | control the size of buttons in this button-group | string | same as button's size | —       |
+| type      | control the type of buttons in this button-group | string | same as button's type | —       |
 
 ## Button-Group Slots
 
 | Name | Description                    | Subtags |
 | ---- | ------------------------------ | ------- |
 | -    | customize button group content | Button  |
-
-<style lang="scss">
-.example-showcase {
-  .el-row {
-    margin-bottom: 20px;
-    align-items: baseline;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  .el-button + .el-button {
-    margin-left: 10px;
-  }
-  .el-button-group {
-    .el-button + .el-button {
-      margin-left: 0;
-    }
-
-    & + .el-button-group {
-      margin-left: 10px;
-    }
-  }
-}
-
-</style>

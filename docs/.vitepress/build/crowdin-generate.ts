@@ -1,9 +1,8 @@
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
-
-import { docRoot } from '../utils/paths'
-import { errorAndExit } from '../../../build/utils/log'
+import consola from 'consola'
+import { docRoot, errorAndExit } from '@element-plus/build'
 
 // NB: this file is only for generating files that enables developers to develop the website.
 const componentLocaleRoot = path.resolve(docRoot, '.vitepress/crowdin')
@@ -15,7 +14,8 @@ async function main() {
   if (fs.existsSync(localeOutput)) {
     throw new Error(exists)
   }
-  console.log(chalk.cyan('Starting for build doc for developing'))
+
+  consola.trace(chalk.cyan('Starting for build doc for developing'))
   // all language should be identical since it is mirrored from crowdin.
   const dirs = await fs.promises.readdir(componentLocaleRoot, {
     withFileTypes: true,
@@ -29,9 +29,7 @@ async function main() {
   await fs.promises.writeFile(
     path.resolve(localeOutput, 'lang.json'),
     JSON.stringify(languages),
-    {
-      encoding: 'utf-8',
-    }
+    'utf-8'
   )
 
   // loop through en-US
@@ -45,11 +43,15 @@ async function main() {
     }
   })
 
-  console.log(languagePaths)
+  consola.debug(languagePaths)
   await traverseDir(enUS, languagePaths, localeOutput)
 }
 
-async function traverseDir(dir, paths, targetPath) {
+async function traverseDir(
+  dir: string,
+  paths: { name: string; pathname: string }[],
+  targetPath: string
+) {
   const contents = await fs.promises.readdir(dir, { withFileTypes: true })
 
   await Promise.all(
@@ -100,7 +102,7 @@ async function traverseDir(dir, paths, targetPath) {
 
 main()
   .then(() => {
-    console.log(chalk.green('Locale for website development generated'))
+    consola.success(chalk.green('Locale for website development generated'))
   })
   .catch((err) => {
     if (err.message === exists) {

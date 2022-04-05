@@ -1,6 +1,6 @@
 <template>
   <el-form
-    ref="numberValidateForm"
+    ref="formRef"
     :model="numberValidateForm"
     label-width="100px"
     class="demo-ruleForm"
@@ -15,42 +15,41 @@
     >
       <el-input
         v-model.number="numberValidateForm.age"
-        type="age"
+        type="text"
         autocomplete="off"
-      ></el-input>
+      />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm('numberValidateForm')"
-        >Submit</el-button
-      >
-      <el-button @click="resetForm('numberValidateForm')">Reset</el-button>
+      <el-button type="primary" @click="submitForm(formRef)">Submit</el-button>
+      <el-button @click="resetForm(formRef)">Reset</el-button>
     </el-form-item>
   </el-form>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      numberValidateForm: {
-        age: '',
-      },
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+import type { FormInstance } from 'element-plus'
+
+const formRef = ref<FormInstance>()
+
+const numberValidateForm = reactive({
+  age: '',
+})
+
+const submitForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      console.log('submit!')
+    } else {
+      console.log('error submit!')
+      return false
     }
-  },
-  methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    resetForm(formName) {
-      this.$refs[formName].resetFields()
-    },
-  },
+  })
+}
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.resetFields()
 }
 </script>

@@ -1,5 +1,6 @@
-import { provide, h, defineComponent } from 'vue'
+import { computed, defineComponent, h, provide } from 'vue'
 import makeMount from '@element-plus/test-utils/make-mount'
+import { uploadContextKey } from '@element-plus/tokens'
 import UploadDragger from '../src/upload-dragger.vue'
 
 const AXIOM = 'Rem is the best girl'
@@ -9,7 +10,7 @@ const Wrapper = defineComponent({
     onDrop: Function,
   },
   setup(props, { slots }) {
-    provide('uploader', { accept: 'video/*' })
+    provide(uploadContextKey, { accept: computed(() => 'video/*') })
     return () => h(UploadDragger, props, slots)
   },
 })

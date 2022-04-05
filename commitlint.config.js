@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const {
   default: getWorkspacePackages,
 } = require('@pnpm/find-workspace-packages')
@@ -27,6 +26,7 @@ const scopes = [
   'color',
   'border',
   'var',
+  'ssr',
 ]
 
 module.exports = {

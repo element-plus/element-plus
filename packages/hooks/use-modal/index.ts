@@ -1,9 +1,8 @@
 import { watch } from 'vue'
-import { on } from '@element-plus/utils/dom'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import isServer from '@element-plus/utils/isServer'
+import { isClient, useEventListener } from '@vueuse/core'
+import { EVENT_CODE } from '@element-plus/constants'
 
-import type { Ref, ComputedRef } from 'vue'
+import type { Ref } from 'vue'
 
 type ModalInstance = {
   handleClose: () => void
@@ -20,25 +19,14 @@ const closeModal = (e: KeyboardEvent) => {
   }
 }
 
-export default (
-  instance: ModalInstance,
-  visibleRef: Ref<boolean> | ComputedRef
-) => {
-  watch(
-    () => visibleRef.value,
-    (val) => {
-      if (val) {
-        modalStack.push(instance)
-      } else {
-        modalStack.splice(
-          modalStack.findIndex((modal) => modal === instance),
-          1
-        )
-      }
+export const useModal = (instance: ModalInstance, visibleRef: Ref<boolean>) => {
+  watch(visibleRef, (val) => {
+    if (val) {
+      modalStack.push(instance)
+    } else {
+      modalStack.splice(modalStack.indexOf(instance), 1)
     }
-  )
+  })
 }
 
-if (!isServer) {
-  on(document, 'keydown', closeModal)
-}
+if (isClient) useEventListener(document, 'keydown', closeModal)

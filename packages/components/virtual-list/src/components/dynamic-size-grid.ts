@@ -1,5 +1,5 @@
 import { isFunction } from '@vue/shared'
-import { throwError } from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils'
 import createGrid from '../builders/build-grid'
 
 import {
@@ -12,7 +12,7 @@ import {
 } from '../defaults'
 import type { VirtualizedGridProps } from '../props'
 
-import type { Alignment, GridCache, ListItem, ItemSize } from '../types'
+import type { Alignment, GridCache, ItemSize, ListItem } from '../types'
 
 const { max, min, floor } = Math
 const SCOPE = 'ElDynamicSizeGrid'

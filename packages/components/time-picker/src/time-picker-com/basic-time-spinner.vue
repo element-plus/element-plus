@@ -1,13 +1,13 @@
 <template>
-  <div class="el-time-spinner" :class="{ 'has-seconds': showSeconds }">
+  <div :class="[ns.b('spinner'), { 'has-seconds': showSeconds }]">
     <template v-if="!arrowControl">
       <el-scrollbar
         v-for="item in spinnerItems"
         :key="item"
-        :ref="getRefId(item)"
-        class="el-time-spinner__wrapper"
+        :ref="(scollbar) => setRef(scollbar, item)"
+        :class="ns.be('spinner', 'wrapper')"
         wrap-style="max-height: inherit;"
-        view-class="el-time-spinner__list"
+        :view-class="ns.be('spinner', 'list')"
         noresize
         tag="ul"
         @mouseenter="emitSelectRange(item)"
@@ -16,8 +16,11 @@
         <li
           v-for="(disabled, key) in listMap[item].value"
           :key="key"
-          class="el-time-spinner__item"
-          :class="{ active: key === timePartsMap[item].value, disabled }"
+          :class="[
+            ns.be('spinner', 'item'),
+            ns.is('active', key === timePartsMap[item].value),
+            ns.is('disabled', disabled),
+          ]"
           @click="handleClick(item, { value: key, disabled })"
         >
           <template v-if="item === 'hours'">
@@ -34,33 +37,40 @@
       <div
         v-for="item in spinnerItems"
         :key="item"
-        class="el-time-spinner__wrapper is-arrow"
+        :class="[ns.be('spinner', 'wrapper'), ns.is('arrow')]"
         @mouseenter="emitSelectRange(item)"
       >
-        <i
+        <el-icon
           v-repeat-click="onDecreaseClick"
-          class="el-time-spinner__arrow el-icon-arrow-up"
-        ></i>
-        <i
+          :class="['arrow-up', ns.be('spinner', 'arrow')]"
+        >
+          <arrow-up />
+        </el-icon>
+        <el-icon
           v-repeat-click="onIncreaseClick"
-          class="el-time-spinner__arrow el-icon-arrow-down"
-        ></i>
-        <ul class="el-time-spinner__list">
+          :class="['arrow-down', ns.be('spinner', 'arrow')]"
+        >
+          <arrow-down />
+        </el-icon>
+        <ul :class="ns.be('spinner', 'list')">
           <li
             v-for="(time, key) in arrowListMap[item].value"
             :key="key"
-            class="el-time-spinner__item"
-            :class="{
-              active: time === timePartsMap[item].value,
-              disabled: listMap[item].value[time],
-            }"
+            :class="[
+              ns.be('spinner', 'item'),
+              ns.is('active', time === timePartsMap[item].value),
+              ns.is('disabled', listMap[item].value[time]),
+            ]"
           >
-            {{
-              time === undefined
-                ? ''
-                : ('0' + (amPmMode ? time % 12 || 12 : time)).slice(-2) +
-                  getAmPmFlag(time)
-            }}
+            <template v-if="typeof time === 'number'">
+              <template v-if="item === 'hours'">
+                {{ ('0' + (amPmMode ? time % 12 || 12 : time)).slice(-2)
+                }}{{ getAmPmFlag(time) }}
+              </template>
+              <template v-else>
+                {{ ('0' + time).slice(-2) }}
+              </template>
+            </template>
           </li>
         </ul>
       </div>
@@ -68,15 +78,18 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref, nextTick, computed, onMounted, watch } from 'vue'
-import debounce from 'lodash/debounce'
+import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
+import { debounce } from 'lodash-unified'
 import { RepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
+import ElIcon from '@element-plus/components/icon'
+import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
 import { getTimeLists } from './useTimePicker'
 
 import type { PropType, Ref } from 'vue'
 import type { Dayjs } from 'dayjs'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 
 export default defineComponent({
   directives: {
@@ -85,6 +98,9 @@ export default defineComponent({
 
   components: {
     ElScrollbar,
+    ElIcon,
+    ArrowUp,
+    ArrowDown,
   },
 
   props: {
@@ -119,6 +135,7 @@ export default defineComponent({
   emits: ['change', 'select-range', 'set-option'],
 
   setup(props, ctx) {
+    const ns = useNamespace('time')
     // data
     let isScrolling = false
     const debouncedResetScroll = debounce((type) => {
@@ -231,11 +248,14 @@ export default defineComponent({
       adjustCurrentSpinner('seconds')
     }
 
+    const getScrollbarElement = (el: HTMLElement) =>
+      el.querySelector(`.${ns.namespace.value}-scrollbar__wrap`) as HTMLElement
+
     const adjustSpinner = (type, value) => {
       if (props.arrowControl) return
       const el = listRefsMap[type]
-      if (el.value) {
-        el.value.$el.querySelector('.el-scrollbar__wrap').scrollTop = Math.max(
+      if (el && el.$el) {
+        getScrollbarElement(el.$el).scrollTop = Math.max(
           0,
           value * typeItemHeight(type)
         )
@@ -244,7 +264,7 @@ export default defineComponent({
 
     const typeItemHeight = (type) => {
       const el = listRefsMap[type]
-      return el.value.$el.querySelector('li').offsetHeight
+      return el.$el.querySelector('li').offsetHeight
     }
 
     const onIncreaseClick = () => {
@@ -318,8 +338,7 @@ export default defineComponent({
       debouncedResetScroll(type)
       const value = Math.min(
         Math.round(
-          (listRefsMap[type].value.$el.querySelector('.el-scrollbar__wrap')
-            .scrollTop -
+          (getScrollbarElement(listRefsMap[type].$el).scrollTop -
             (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) +
             3) /
             typeItemHeight(type)
@@ -330,24 +349,22 @@ export default defineComponent({
     }
 
     const scrollBarHeight = (type) => {
-      return listRefsMap[type].value.$el.offsetHeight
+      return listRefsMap[type].$el.offsetHeight
     }
 
     const bindScrollEvent = () => {
-      const bindFuntion = (type) => {
-        if (listRefsMap[type].value) {
-          listRefsMap[type].value.$el.querySelector(
-            '.el-scrollbar__wrap'
-          ).onscroll = () => {
+      const bindFunction = (type) => {
+        if (listRefsMap[type] && listRefsMap[type].$el) {
+          getScrollbarElement(listRefsMap[type].$el).onscroll = () => {
             // TODO: scroll is emitted when set scrollTop programatically
             // should find better solutions in the future!
             handleScroll(type)
           }
         }
       }
-      bindFuntion('hours')
-      bindFuntion('minutes')
-      bindFuntion('seconds')
+      bindFunction('hours')
+      bindFunction('minutes')
+      bindFunction('seconds')
     }
 
     onMounted(() => {
@@ -359,8 +376,8 @@ export default defineComponent({
       })
     })
 
-    const getRefId = (item) => {
-      return `list${item.charAt(0).toUpperCase() + item.slice(1)}Ref`
+    const setRef = (scrollbar, type) => {
+      listRefsMap[type] = scrollbar
     }
 
     ctx.emit('set-option', [`${props.role}_scrollDown`, scrollDown])
@@ -381,7 +398,9 @@ export default defineComponent({
     )
 
     return {
-      getRefId,
+      ns,
+
+      setRef,
       spinnerItems,
       currentScrollbar,
       hours,

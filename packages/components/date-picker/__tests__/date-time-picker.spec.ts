@@ -95,7 +95,7 @@ describe('Datetime Picker', () => {
     expect((timeInput as HTMLInputElement).value).toBe('10:00:01')
     // time spinner highlight is correct
     let spinners = document.querySelectorAll(
-      '.el-time-spinner ul li.active'
+      '.el-time-spinner ul li.is-active'
     ) as any
     expect(spinners[0].textContent).toBe('10')
     expect(spinners[1].textContent).toBe('00')
@@ -104,7 +104,9 @@ describe('Datetime Picker', () => {
       modelValue: new Date(2001, 10, 2, 11, 1, 2),
     })
     await nextTick()
-    spinners = document.querySelectorAll('.el-time-spinner ul li.active') as any
+    spinners = document.querySelectorAll(
+      '.el-time-spinner ul li.is-active'
+    ) as any
     expect((dateInput as HTMLInputElement).value).toBe('2001-11-02')
     expect((timeInput as HTMLInputElement).value).toBe('11:01:02')
     expect(spinners[0].textContent).toBe('11')
@@ -237,20 +239,16 @@ describe('Datetime Picker', () => {
     // changed month / year should not effect picked time
     ;(
       document.querySelector(
-        '.el-date-picker__header .el-icon-arrow-right'
+        '.el-date-picker__header .arrow-right'
       ) as HTMLElement
     ).click()
     ;(
       document.querySelector(
-        '.el-date-picker__header .el-icon-d-arrow-right'
+        '.el-date-picker__header .d-arrow-right'
       ) as HTMLElement
     ).click()
     // click confirm button
-    ;(
-      document.querySelector(
-        '.el-picker-panel__footer .el-button--default'
-      ) as HTMLElement
-    ).click()
+    document.querySelectorAll('.el-picker-panel__footer .el-button')[1].click()
     const vm = wrapper.vm as any
     expect(dayjs(vm.value).format(formatStr)).toBe('2000-10-01 12:00:00')
   })
@@ -316,14 +314,14 @@ describe('Datetime Picker', () => {
     await nextTick()
     const list = document.querySelectorAll('.el-time-spinner__list')
     const hoursEl = list[0]
-    const disabledHours = [].slice
-      .call(hoursEl.querySelectorAll('.disabled'))
-      .map((node) => Number(node.textContent))
+    const disabledHours = Array.from(
+      hoursEl.querySelectorAll('.is-disabled')
+    ).map((node) => Number(node.textContent))
     expect(disabledHours).toStrictEqual(disabledHoursArr)
     const minutesEl = list[1]
-    const disabledMinutes = [].slice
-      .call(minutesEl.querySelectorAll('.disabled'))
-      .map((node) => Number(node.textContent))
+    const disabledMinutes = Array.from(
+      minutesEl.querySelectorAll('.is-disabled')
+    ).map((node) => Number(node.textContent))
     expect(disabledMinutes.length).toBe(19)
   })
 
@@ -356,11 +354,44 @@ describe('Datetime Picker', () => {
     expect((timeInput as HTMLInputElement).value).toBe('12:24:48')
     // time spinner highlight is correct
     const spinners = document.querySelectorAll(
-      '.el-time-spinner ul li.active'
+      '.el-time-spinner ul li.is-active'
     ) as any
     expect(spinners[0].textContent).toBe('12')
     expect(spinners[1].textContent).toBe('24')
     expect(spinners[2].textContent).toBe('48')
+  })
+
+  it('defaultTime only takes effect when time is not selected', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        type="datetime"
+        :default-time="defaultTime"
+    />`,
+      () => ({
+        value: '',
+        defaultTime: new Date(2000, 1, 1, 12, 0, 0),
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const cells = document.querySelectorAll('.available .el-date-table-cell')
+    ;(cells[0] as HTMLElement).click()
+    await nextTick()
+    const timeInput = document.querySelector(
+      '.el-date-picker__time-header > span:nth-child(2) input'
+    ) as HTMLInputElement
+    expect(timeInput.value).toBe('12:00:00')
+    ;(timeInput as HTMLElement).focus()
+    await nextTick()
+    const spinner = document.querySelector(
+      '.el-time-spinner ul li.is-active'
+    ) as HTMLElement
+    ;(spinner.nextSibling as HTMLElement).click()
+    await nextTick()
+    expect(timeInput.value).toBe('13:00:00')
   })
 })
 
@@ -391,9 +422,9 @@ describe('Datetimerange', () => {
     triggerEvent(rightCell, 'click', true)
     await nextTick()
     ;(
-      document.querySelector(
-        '.el-picker-panel__footer .el-button--default'
-      ) as HTMLElement
+      document.querySelectorAll(
+        '.el-picker-panel__footer .el-button'
+      )[1] as HTMLElement
     ).click()
     await nextTick()
     const vm = wrapper.vm as any
@@ -464,9 +495,9 @@ describe('Datetimerange', () => {
     triggerEvent(rightCell, 'mousemove', true)
     triggerEvent(rightCell, 'click', true)
     await nextTick()
-    const btn = document.querySelector(
-      '.el-picker-panel__footer .el-button--default'
-    ) as HTMLElement
+    const btn = document.querySelectorAll(
+      '.el-picker-panel__footer .el-button'
+    )[1] as HTMLElement
     btn.click()
     await nextTick()
     const vm = wrapper.vm as any
@@ -512,9 +543,9 @@ describe('Datetimerange', () => {
     ) as HTMLElement
     button.click()
     await nextTick()
-    const btn = document.querySelector(
-      '.el-picker-panel__footer .el-button--default'
-    ) as HTMLElement
+    const btn = document.querySelectorAll(
+      '.el-picker-panel__footer .el-button'
+    )[1] as HTMLElement
     btn.click()
     await nextTick()
     expect(vm.value).not.toBe('')
@@ -550,9 +581,9 @@ describe('Datetimerange', () => {
     triggerEvent(leftDateInput, 'input', true)
     triggerEvent(leftDateInput, 'change', true)
     await nextTick()
-    const btn = document.querySelector(
-      '.el-picker-panel__footer .el-button--default'
-    ) as HTMLElement
+    const btn = document.querySelectorAll(
+      '.el-picker-panel__footer .el-button'
+    )[1] as HTMLElement
     expect(btn.getAttribute('disabled')).not.toBeUndefined() // invalid input disables button
     btn.click()
     await nextTick()
@@ -615,9 +646,9 @@ describe('Datetimerange', () => {
       '.el-date-range-picker__editors-wrap .el-time-spinner__list'
     )
     const hoursEl = listleft[0]
-    const disabledHours = [].slice
-      .call(hoursEl.querySelectorAll('.disabled'))
-      .map((node) => Number(node.textContent))
+    const disabledHours = Array.from(
+      hoursEl.querySelectorAll('.is-disabled')
+    ).map((node) => Number(node.textContent))
     expect(disabledHours).toStrictEqual(disabledHoursArr)
     const button = document.querySelector(
       '.el-date-range-picker__time-picker-wrap .el-time-panel .confirm'
@@ -631,9 +662,9 @@ describe('Datetimerange', () => {
       '.el-date-range-picker__editors-wrap.is-right .el-time-spinner__list'
     )
     const hoursEl2 = listright[0]
-    const disabledHours2 = [].slice
-      .call(hoursEl2.querySelectorAll('.disabled'))
-      .map((node) => Number(node.textContent))
+    const disabledHours2 = Array.from(
+      hoursEl2.querySelectorAll('.is-disabled')
+    ).map((node) => Number(node.textContent))
     expect(disabledHours2).toStrictEqual(disabledHoursRightArr)
   })
 
@@ -688,13 +719,13 @@ describe('Datetimerange', () => {
     )
     // auto set left time to right time
     expect(
-      rightList[0].querySelector('.el-time-spinner__item.active').innerHTML
+      rightList[0].querySelector('.el-time-spinner__item.is-active').innerHTML
     ).toBe(leftSelect[0])
     expect(
-      rightList[1].querySelector('.el-time-spinner__item.active').innerHTML
+      rightList[1].querySelector('.el-time-spinner__item.is-active').innerHTML
     ).toBe(leftSelect[1])
     expect(
-      rightList[2].querySelector('.el-time-spinner__item.active').innerHTML
+      rightList[2].querySelector('.el-time-spinner__item.is-active').innerHTML
     ).toBe(leftSelect[2])
     triggerEvent(rightList[0].children[12], 'click', true)
     await nextTick()
@@ -709,9 +740,9 @@ describe('Datetimerange', () => {
     ).click()
     await nextTick()
     ;(
-      document.querySelector(
-        '.el-picker-panel__footer .el-button--default'
-      ) as HTMLElement
+      document.querySelectorAll(
+        '.el-picker-panel__footer .el-button'
+      )[1] as HTMLElement
     ).click()
     await nextTick()
     const vm = wrapper.vm as any

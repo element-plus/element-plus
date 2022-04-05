@@ -1,5 +1,6 @@
-import { nextTick } from 'vue'
+import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { Edit } from '@element-plus/icons-vue'
 import Steps from '../src/index.vue'
 import Step from '../src/item.vue'
 
@@ -9,6 +10,11 @@ const _mount = (template: string) =>
       components: {
         'el-steps': Steps,
         'el-step': Step,
+      },
+      data() {
+        return {
+          iconEdit: markRaw(Edit),
+        }
       },
       template,
     },
@@ -160,13 +166,13 @@ describe('Steps.vue', () => {
   test('step attribute', () => {
     const wrapper = _mount(`
       <el-steps :active="0">
-        <el-step icon="el-icon-edit" title="title" description="description" status="wait" />
+        <el-step :icon="iconEdit" title="title" description="description" status="wait" />
       </el-steps>
     `)
     expect(wrapper.find('.el-step__head').classes()).toContain('is-wait')
-    expect(wrapper.find('.el-icon-edit').exists()).toBe(true)
     expect(wrapper.find('.el-step__title').text()).toBe('title')
     expect(wrapper.find('.el-step__description').text()).toBe('description')
+    expect(wrapper.findComponent(Edit).exists()).toBe(true)
   })
 
   test('step slot', () => {

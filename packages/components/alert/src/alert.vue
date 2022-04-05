@@ -1,84 +1,80 @@
 <template>
-  <transition name="el-alert-fade">
+  <transition :name="ns.b('fade')">
     <div
       v-show="visible"
-      class="el-alert"
-      :class="[typeClass, center ? 'is-center' : '', 'is-' + effect]"
+      :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"
       role="alert"
     >
-      <i
-        v-if="showIcon"
-        class="el-alert__icon"
-        :class="[iconClass, isBigIcon]"
-      ></i>
-      <div class="el-alert__content">
+      <el-icon
+        v-if="showIcon && iconComponent"
+        :class="[ns.e('icon'), isBigIcon]"
+      >
+        <component :is="iconComponent" />
+      </el-icon>
+      <div :class="ns.e('content')">
         <span
           v-if="title || $slots.title"
-          class="el-alert__title"
-          :class="[isBoldTitle]"
+          :class="[ns.e('title'), isBoldTitle]"
         >
           <slot name="title">{{ title }}</slot>
         </span>
-        <p v-if="$slots.default || description" class="el-alert__description">
+        <p v-if="$slots.default || description" :class="ns.e('description')">
           <slot>
             {{ description }}
           </slot>
         </p>
-        <i
-          v-if="closable"
-          class="el-alert__closebtn"
-          :class="{
-            'is-customed': closeText !== '',
-            'el-icon-close': closeText === '',
-          }"
-          @click="close"
-        >
-          {{ closeText }}
-        </i>
+        <template v-if="closable">
+          <div
+            v-if="closeText"
+            :class="[ns.e('close-btn'), ns.is('customed')]"
+            @click="close"
+          >
+            {{ closeText }}
+          </div>
+          <el-icon v-else :class="ns.e('close-btn')" @click="close">
+            <Close />
+          </el-icon>
+        </template>
       </div>
     </div>
   </transition>
 </template>
-<script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
-import { alertProps, alertEmits, ALERT_TYPE_CLASSES_MAP } from './alert'
+<script lang="ts" setup>
+import { computed, ref, useSlots } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
+import { alertEmits, alertProps } from './alert'
 
-export default defineComponent({
+const { Close } = TypeComponents
+
+defineOptions({
   name: 'ElAlert',
-
-  props: alertProps,
-  emits: alertEmits,
-
-  setup(props, { emit, slots }) {
-    // state
-    const visible = ref(true)
-
-    // computed
-    const typeClass = computed(() => `el-alert--${props.type}`)
-    const iconClass = computed(
-      () => ALERT_TYPE_CLASSES_MAP[props.type] || ALERT_TYPE_CLASSES_MAP['info']
-    )
-    const isBigIcon = computed(() =>
-      props.description || slots.default ? 'is-big' : ''
-    )
-    const isBoldTitle = computed(() =>
-      props.description || slots.default ? 'is-bold' : ''
-    )
-
-    // methods
-    const close = (evt: MouseEvent) => {
-      visible.value = false
-      emit('close', evt)
-    }
-
-    return {
-      visible,
-      typeClass,
-      iconClass,
-      isBigIcon,
-      isBoldTitle,
-      close,
-    }
-  },
 })
+
+const props = defineProps(alertProps)
+const emit = defineEmits(alertEmits)
+const slots = useSlots()
+
+const ns = useNamespace('alert')
+
+// state
+const visible = ref(true)
+
+// computed
+const iconComponent = computed(
+  () => TypeComponentsMap[props.type] || TypeComponentsMap['info']
+)
+const isBigIcon = computed(
+  () => props.description || { [ns.is('big')]: slots.default }
+)
+const isBoldTitle = computed(
+  () => props.description || { [ns.is('bold')]: slots.default }
+)
+
+// methods
+const close = (evt: MouseEvent) => {
+  visible.value = false
+  emit('close', evt)
+}
 </script>

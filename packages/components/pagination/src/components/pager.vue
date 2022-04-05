@@ -1,8 +1,11 @@
 <template>
-  <ul class="el-pager" @click="onPagerClick" @keyup.enter="onEnter">
+  <ul :class="nsPager.b()" @click="onPagerClick" @keyup.enter="onEnter">
     <li
       v-if="pageCount > 0"
-      :class="{ active: currentPage === 1, disabled }"
+      :class="[
+        nsPager.is('active', currentPage === 1),
+        nsPager.is('disabled', disabled),
+      ]"
       class="number"
       :aria-current="currentPage === 1"
       tabindex="0"
@@ -11,15 +14,25 @@
     </li>
     <li
       v-if="showPrevMore"
-      class="el-icon more btn-quickprev"
-      :class="[quickprevIconClass, { disabled }]"
+      :class="[
+        'more',
+        'btn-quickprev',
+        nsIcon.b(),
+        nsPager.is('disabled', disabled),
+      ]"
       @mouseenter="onMouseenter('left')"
-      @mouseleave="quickprevIconClass = 'el-icon-more'"
-    ></li>
+      @mouseleave="quickPrevHover = false"
+    >
+      <d-arrow-left v-if="quickPrevHover" />
+      <more-filled v-else />
+    </li>
     <li
       v-for="pager in pagers"
       :key="pager"
-      :class="{ active: currentPage === pager, disabled }"
+      :class="[
+        nsPager.is('active', currentPage === pager),
+        nsPager.is('disabled', disabled),
+      ]"
       class="number"
       :aria-current="currentPage === pager"
       tabindex="0"
@@ -28,14 +41,24 @@
     </li>
     <li
       v-if="showNextMore"
-      class="el-icon more btn-quicknext"
-      :class="[quicknextIconClass, { disabled }]"
+      :class="[
+        'more',
+        'btn-quicknext',
+        nsIcon.b(),
+        nsPager.is('disabled', disabled),
+      ]"
       @mouseenter="onMouseenter('right')"
-      @mouseleave="quicknextIconClass = 'el-icon-more'"
-    ></li>
+      @mouseleave="quickNextHover = false"
+    >
+      <d-arrow-right v-if="quickNextHover" />
+      <more-filled v-else />
+    </li>
     <li
       v-if="pageCount > 1"
-      :class="{ active: currentPage === pageCount, disabled }"
+      :class="[
+        nsPager.is('active', currentPage === pageCount),
+        nsPager.is('disabled', disabled),
+      ]"
       class="number"
       :aria-current="currentPage === pageCount"
       tabindex="0"
@@ -45,7 +68,9 @@
   </ul>
 </template>
 <script lang="ts">
-import { defineComponent, ref, computed, watchEffect } from 'vue'
+import { computed, defineComponent, ref, watchEffect } from 'vue'
+import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
 
 const paginationPagerProps = {
   currentPage: {
@@ -66,14 +91,22 @@ const paginationPagerProps = {
 export default defineComponent({
   name: 'ElPaginationPager',
 
+  components: {
+    DArrowLeft,
+    DArrowRight,
+    MoreFilled,
+  },
   props: paginationPagerProps,
   emits: ['change'],
 
   setup(props, { emit }) {
+    const nsPager = useNamespace('pager')
+    const nsIcon = useNamespace('icon')
+
     const showPrevMore = ref(false)
     const showNextMore = ref(false)
-    const quicknextIconClass = ref('el-icon-more')
-    const quickprevIconClass = ref('el-icon-more')
+    const quickPrevHover = ref(false)
+    const quickNextHover = ref(false)
 
     const pagers = computed(() => {
       const pagerCount = props.pagerCount
@@ -131,19 +164,12 @@ export default defineComponent({
       }
     })
 
-    watchEffect(() => {
-      if (!showPrevMore.value) quickprevIconClass.value = 'el-icon-more'
-    })
-    watchEffect(() => {
-      if (!showNextMore.value) quicknextIconClass.value = 'el-icon-more'
-    })
-
     function onMouseenter(direction: 'left' | 'right') {
       if (props.disabled) return
       if (direction === 'left') {
-        quickprevIconClass.value = 'el-icon-d-arrow-left'
+        quickPrevHover.value = true
       } else {
-        quicknextIconClass.value = 'el-icon-d-arrow-right'
+        quickNextHover.value = true
       }
     }
 
@@ -177,7 +203,7 @@ export default defineComponent({
           newPage = currentPage + pagerCountOffset
         }
       }
-      if (!isNaN(newPage)) {
+      if (!Number.isNaN(+newPage)) {
         if (newPage < 1) {
           newPage = 1
         }
@@ -193,9 +219,11 @@ export default defineComponent({
     return {
       showPrevMore,
       showNextMore,
-      quicknextIconClass,
-      quickprevIconClass,
+      quickPrevHover,
+      quickNextHover,
       pagers,
+      nsPager,
+      nsIcon,
 
       onMouseenter,
       onPagerClick,

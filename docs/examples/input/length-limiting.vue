@@ -5,9 +5,8 @@
     placeholder="Please input"
     show-word-limit
     type="text"
-  >
-  </el-input>
-  <div style="margin: 20px 0"></div>
+  />
+  <div style="margin: 20px 0" />
   <el-input
     v-model="textarea"
     maxlength="30"
@@ -17,14 +16,8 @@
   />
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-export default defineComponent({
-  setup() {
-    return {
-      text: ref(''),
-      textarea: ref(''),
-    }
-  },
-})
+<script lang="ts" setup>
+import { ref } from 'vue'
+const text = ref('')
+const textarea = ref('')
 </script>

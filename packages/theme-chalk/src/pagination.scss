@@ -5,23 +5,43 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+@mixin remove-margin {
+  & + button.btn-prev[type='button'] {
+    margin-left: 0;
+  }
+
+  & + .#{$namespace}-pager {
+    .number {
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
 @include b(pagination) {
   @include set-component-css-var('pagination', $pagination);
 
   white-space: nowrap;
   padding: 2px 5px;
-  color: var(--el-pagination-font-color);
-  font-weight: bold;
+  color: var(--el-pagination-text-color);
+  font-weight: normal;
+  display: flex;
+  align-items: center;
   @include utils-clearfix;
 
   span:not([class*='suffix']),
   button {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: var(--el-pagination-font-size);
     min-width: var(--el-pagination-button-width);
     height: var(--el-pagination-button-height);
     line-height: var(--el-pagination-button-height);
-    vertical-align: top;
     box-sizing: border-box;
   }
 
@@ -31,20 +51,8 @@
     line-height: normal;
   }
 
-  // pagesize 的下拉 icon
-  .#{$namespace}-input__suffix {
-    right: 0;
-    transform: scale(0.8);
-  }
-
   .#{$namespace}-select .#{$namespace}-input {
-    width: 100px;
-    margin: 0 5px;
-
-    .#{$namespace}-input__inner {
-      padding-right: 25px;
-      border-radius: var(--el-pagination-border-radius);
-    }
+    width: 128px;
   }
 
   button {
@@ -62,7 +70,7 @@
 
     &:disabled {
       color: var(--el-pagination-button-disabled-color);
-      background-color: var(--el-pagination-button-disabled-background-color);
+      background-color: var(--el-pagination-button-disabled-bg-color);
       cursor: not-allowed;
     }
   }
@@ -71,7 +79,7 @@
   .btn-next {
     background: center center no-repeat;
     background-size: 16px;
-    background-color: var(--el-pagination-background-color);
+    background-color: var(--el-pagination-bg-color);
     cursor: pointer;
     margin: 0;
     color: var(--el-pagination-button-color);
@@ -84,15 +92,7 @@
     }
   }
 
-  .btn-prev {
-    padding-right: 12px;
-  }
-
-  .btn-next {
-    padding-left: 12px;
-  }
-
-  .#{$namespace}-pager li.disabled {
+  .#{$namespace}-pager li.is-disabled {
     color: var(--el-text-color-placeholder);
     cursor: not-allowed;
   }
@@ -108,10 +108,10 @@
       font-size: var(--el-font-size-extra-small);
       line-height: var(--el-pagination-line-height-extra-small);
       height: var(--el-pagination-height-extra-small);
-      min-width: 22px;
+      min-width: 24px;
     }
 
-    .arrow.disabled {
+    .arrow.is-disabled {
       visibility: hidden;
     }
 
@@ -124,6 +124,7 @@
     button {
       height: var(--el-pagination-height-extra-small);
       line-height: var(--el-pagination-line-height-extra-small);
+      font-size: var(--el-font-size-extra-small);
     }
 
     @include e(editor) {
@@ -134,7 +135,7 @@
     }
 
     .#{$namespace}-input__inner,
-    .#{$namespace}-input--mini {
+    .#{$namespace}-input--small {
       height: var(--el-pagination-height-extra-small) !important;
       line-height: var(--el-pagination-line-height-extra-small);
     }
@@ -143,55 +144,62 @@
       line-height: var(--el-pagination-line-height-extra-small);
       .#{$namespace}-input__suffix-inner {
         line-height: var(--el-pagination-line-height-extra-small);
-        i.el-select__caret {
+        i.#{$namespace}-select__caret {
           line-height: var(--el-pagination-line-height-extra-small);
         }
       }
     }
-  }
 
-  @include e(sizes) {
-    margin: 0 10px 0 0;
-    font-weight: normal;
-    color: var(--el-text-color-regular);
-
-    .#{$namespace}-input .#{$namespace}-input__inner {
-      font-size: var(--el-pagination-font-size);
-      padding-left: 8px;
-
-      &:hover {
-        border-color: var(--el-pagination-hover-color);
-      }
+    .#{$namespace}-select .#{$namespace}-input {
+      width: 100px;
     }
   }
 
-  @include e(total) {
-    margin-right: 10px;
+  @include e(sizes) {
+    margin: 0 16px 0 0;
     font-weight: normal;
     color: var(--el-text-color-regular);
+    @include remove-margin();
+  }
+
+  @include e(total) {
+    margin-right: 16px;
+    font-weight: normal;
+    color: var(--el-text-color-regular);
+    @include remove-margin();
+    &[disabled='true'] {
+      color: var(--el-text-color-placeholder);
+    }
   }
 
   @include e(jump) {
-    margin-left: 24px;
+    margin-left: 16px;
     font-weight: normal;
     color: var(--el-text-color-regular);
 
     .#{$namespace}-input__inner {
       padding: 0 3px;
     }
+
+    &[disabled='true'] {
+      color: var(--el-text-color-placeholder);
+    }
   }
 
   @include e(rightwrapper) {
-    float: right;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 
   @include e(editor) {
     line-height: 18px;
-    padding: 0 2px;
+    margin: 0 8px;
     height: var(--el-pagination-button-height);
+    min-width: 56px;
 
     text-align: center;
-    margin: 0 2px;
     box-sizing: border-box;
     border-radius: var(--el-pagination-border-radius);
 
@@ -214,14 +222,21 @@
     .btn-prev,
     .btn-next,
     .#{$namespace}-pager li {
-      margin: 0 5px;
-      background-color: map.get($colors, 'info', 'light-9');
+      margin: 0 4px;
+      background-color: var(--el-pagination-button-bg-color);
       color: var(--el-text-color-regular);
-      min-width: 30px;
+      min-width: 32px;
       border-radius: 2px;
 
-      &.disabled {
+      &.is-disabled {
         color: var(--el-text-color-placeholder);
+        background-color: var(--el-disabled-bg-color);
+      }
+      @include when(first) {
+        margin-left: 0;
+      }
+      @include when(last) {
+        margin-right: 0;
       }
     }
 
@@ -231,17 +246,22 @@
 
       &:disabled {
         color: var(--el-text-color-placeholder);
+        background-color: var(--el-disabled-bg-color);
+      }
+      &:hover:not([disabled]) {
+        color: var(--el-pagination-hover-color);
       }
     }
 
-    .#{$namespace}-pager li:not(.disabled) {
+    .#{$namespace}-pager li:not(.is-disabled) {
       &:hover {
         color: var(--el-pagination-hover-color);
       }
 
-      &.active {
+      &.is-active {
         background-color: var(--el-color-primary);
         color: var(--el-color-white);
+        font-weight: bold;
       }
     }
 
@@ -249,8 +269,7 @@
       .btn-prev,
       .btn-next,
       .#{$namespace}-pager li {
-        margin: 0 3px;
-        min-width: 22px;
+        min-width: 24px;
       }
     }
   }
@@ -259,21 +278,18 @@
 @include b(pager) {
   user-select: none;
   list-style: none;
-  display: inline-block;
-  vertical-align: top;
   font-size: 0;
   padding: 0;
   margin: 0;
-
-  .more::before {
-    line-height: 30px;
-  }
+  display: flex;
+  align-items: center;
 
   li {
     padding: 0 4px;
-    background: var(--el-pagination-background-color);
-    vertical-align: top;
-    display: inline-block;
+    background: var(--el-pagination-bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: var(--el-pagination-font-size);
     min-width: var(--el-pagination-button-width);
     height: var(--el-pagination-button-height);
@@ -281,17 +297,6 @@
     cursor: pointer;
     box-sizing: border-box;
     text-align: center;
-    margin: 1px;
-
-    &.btn-quicknext,
-    &.btn-quickprev {
-      line-height: 28px;
-      color: var(--el-pagination-button-color);
-
-      &.disabled {
-        color: var(--el-text-color-placeholder);
-      }
-    }
 
     &.btn-quickprev:hover {
       cursor: pointer;
@@ -301,7 +306,22 @@
       cursor: pointer;
     }
 
-    &.active + li {
+    &.btn-quicknext,
+    &.btn-quickprev {
+      line-height: 32px;
+      color: var(--el-pagination-button-color);
+
+      &.is-disabled {
+        color: var(--el-text-color-placeholder);
+        cursor: not-allowed;
+      }
+
+      svg {
+        pointer-events: none;
+      }
+    }
+
+    &.is-active + li {
       border-left: 0;
     }
 
@@ -313,9 +333,13 @@
       color: var(--el-pagination-hover-color);
     }
 
-    &.active {
+    &.is-active {
       color: var(--el-pagination-hover-color);
       cursor: default;
     }
+  }
+
+  & + button.btn-next[type='button'] {
+    margin-right: 0;
   }
 }

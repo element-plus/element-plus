@@ -1,15 +1,11 @@
+---
+title: Collapse
+lang: en-US
+---
+
 # Collapse
 
 Use Collapse to store contents.
-
-<style lang="scss">
-.demo-collapse {
-  .el-collapse {
-    padding: 8px;
-    background: white;
-  }
-}
-</style>
 
 ## Basic usage
 

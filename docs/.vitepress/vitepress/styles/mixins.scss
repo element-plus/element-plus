@@ -4,7 +4,7 @@
 
 @mixin with-bg {
   background-color: var(--bg-color);
-  color: var(--text-color-light);
+  color: var(--text-color);
   transition: border-color var(--el-transition-duration),
     background-color var(--el-transition-duration);
 }
@@ -19,6 +19,7 @@ $breakpoints: (
   'lg': #{$breakpoint-lg},
   'xlg': #{$breakpoint-xlg},
   'xxl': #{$breakpoint-xxl},
+  'max': #{$breakpoint-max},
 ) !default;
 
 @mixin respond-to($breakpoint) {

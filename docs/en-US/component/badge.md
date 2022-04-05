@@ -1,8 +1,13 @@
+---
+title: Badge
+lang: en-US
+---
+
 # Badge
 
 A number or status mark on buttons and icons.
 
-## Basic usage
+## Basic Usage
 
 Displays the amount of new messages.
 
@@ -12,7 +17,7 @@ badge/basic
 
 :::
 
-## Max value
+## Max Value
 
 You can customize the max value.
 
@@ -32,7 +37,7 @@ badge/customize
 
 :::
 
-## Little red dot
+## Red Dot
 
 Use a red dot to mark content that needs to be noticed.
 
@@ -42,18 +47,20 @@ badge/dot
 
 :::
 
-## Attributes
+## Badge API
 
-| Attribute | Description                                                                      | Type            | Accepted Values                             | Default |
-| --------- | -------------------------------------------------------------------------------- | --------------- | ------------------------------------------- | ------- |
-| value     | display value                                                                    | string / number | —                                           | —       |
-| max       | maximum value, shows '{max}+' when exceeded. Only works if `value` is a `Number` | number          | —                                           | —       |
-| is-dot    | if a little dot is displayed                                                     | boolean         | —                                           | false   |
-| hidden    | hidden badge                                                                     | boolean         | —                                           | false   |
-| type      | button type                                                                      | string          | primary / success / warning / danger / info | —       |
+### Badge Attributes
 
-## Slots
+| Attribute | Description                                                                     | Type                                                        | Default    |
+| --------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------- | ---------- |
+| `value`   | display value.                                                                  | `string \| number`                                          | `''`       |
+| `max`     | maximum value, shows `{max}+` when exceeded. Only works if `value` is a number. | `number`                                                    | `99`       |
+| `is-dot`  | if a little dot is displayed.                                                   | `boolean`                                                   | `false`    |
+| `hidden`  | hidden badge.                                                                   | `boolean`                                                   | `false`    |
+| `type`    | button type.                                                                    | `'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'danger'` |
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+### Badge Slots
+
+| Name      | Description               |
+| --------- | ------------------------- |
+| `default` | customize default content |

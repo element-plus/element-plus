@@ -1,4 +1,4 @@
-import { nextTick, h } from 'vue'
+import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import Space from '../src/space'
 

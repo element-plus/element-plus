@@ -1,14 +1,14 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import type { InjectionKey } from 'vue'
 import type { TreeNodeData } from '../../tree/src/tree.type'
 import type {
-  TreeNode,
-  TreeKey,
-  TreeData,
-  TreeOptionProps,
-  FilterMethod,
   CheckedInfo,
+  FilterMethod,
   TreeContext,
+  TreeData,
+  TreeKey,
+  TreeNode,
+  TreeOptionProps,
 } from './types'
 
 // constants
@@ -162,7 +162,8 @@ export const NODE_CHECK_CHANGE = 'check-change'
 export const NODE_CONTEXTMENU = 'node-contextmenu'
 
 export const treeEmits = {
-  [NODE_CLICK]: (data: TreeNodeData, node: TreeNode) => data && node,
+  [NODE_CLICK]: (data: TreeNodeData, node: TreeNode, e: MouseEvent) =>
+    data && node && e,
   [NODE_EXPAND]: (data: TreeNodeData, node: TreeNode) => data && node,
   [NODE_COLLAPSE]: (data: TreeNodeData, node: TreeNode) => data && node,
   [CURRENT_CHANGE]: (data: TreeNodeData, node: TreeNode) => data && node,
@@ -175,7 +176,7 @@ export const treeEmits = {
 }
 
 export const treeNodeEmits = {
-  click: (node: TreeNode) => !!node,
+  click: (node: TreeNode, e: MouseEvent) => !!(node && e),
   toggle: (node: TreeNode) => !!node,
   check: (node: TreeNode, checked: boolean) =>
     node && typeof checked === 'boolean',

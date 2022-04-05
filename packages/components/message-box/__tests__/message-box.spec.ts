@@ -1,9 +1,13 @@
+import { markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { triggerNativeCompositeClick } from '@element-plus/test-utils/composite-click'
+import { QuestionFilled as QuestionFilledIcon } from '@element-plus/icons-vue'
 import MessageBox from '../src/messageBox'
+import { ElMessageBox } from '..'
 
 const selector = '.el-overlay'
+const QuestionFilled = markRaw(QuestionFilledIcon)
 
 const _mount = (invoker: () => void) => {
   return mount(
@@ -63,12 +67,16 @@ describe('MessageBox', () => {
   test('custom icon', async () => {
     MessageBox({
       type: 'warning',
-      iconClass: 'el-icon-question',
+      icon: QuestionFilled,
       message: '这是一段内容',
     })
     await rAF()
     const icon = document.querySelector('.el-message-box__status')
-    expect(icon.classList.contains('el-icon-question')).toBe(true)
+
+    expect(icon.classList.contains('el-icon')).toBe(true)
+
+    const svg = mount(QuestionFilled).find('svg').element
+    expect(icon.querySelector('svg').innerHTML).toBe(svg.innerHTML)
   })
 
   test('html string', async () => {
@@ -233,6 +241,22 @@ describe('MessageBox', () => {
       ;(btn as HTMLButtonElement).click()
       await rAF()
       expect(msgAction).toEqual('cancel')
+    })
+  })
+  describe('context inheritance', () => {
+    it('should globally inherit context correctly', () => {
+      expect(ElMessageBox._context).toBe(null)
+      const testContext = {
+        config: {
+          globalProperties: {},
+        },
+        _context: {},
+      }
+      ElMessageBox.install?.(testContext as any)
+      expect(ElMessageBox._context).not.toBe(null)
+      expect(ElMessageBox._context).toBe(testContext._context)
+      // clean up
+      ElMessageBox._context = null
     })
   })
 })

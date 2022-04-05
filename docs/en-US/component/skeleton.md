@@ -1,3 +1,8 @@
+---
+title: Skeleton
+lang: en-US
+---
+
 # Skeleton
 
 When loading data, and you need a rich experience for visual and interactions for your end users, you can choose `skeleton`.
@@ -80,25 +85,29 @@ skeleton/avoiding-rendering-bouncing
 
 :::
 
-## Skeleton Attributes
+## Skeleton API
 
-| Attribute | Description                                                      | Type    | Acceptable Value | Default |
-| --------- | ---------------------------------------------------------------- | ------- | ---------------- | ------- |
-| animated  | whether showing the animation                                    | boolean | true / false     | false   |
-| count     | how many fake items to render to the DOM                         | number  | integer          | 1       |
-| loading   | whether showing the real DOM                                     | boolean | true / false     | false   |
-| rows      | numbers of the row, only useful when no template slot were given | number  | integer          | 3       |
-| throttle  | Rendering delay in millseconds                                   | number  | integer          | 0       |
+### Skeleton Attributes
 
-## Skeleton Item Attributes
+| Attribute  | Description                                                      | Type      | Default |
+| ---------- | ---------------------------------------------------------------- | --------- | ------- |
+| `animated` | whether showing the animation                                    | `boolean` | `false` |
+| `count`    | how many fake items to render to the DOM                         | `number`  | `1`     |
+| `loading`  | whether showing the real DOM                                     | `boolean` | `false` |
+| `rows`     | numbers of the row, only useful when no template slot were given | `number`  | `3`     |
+| `throttle` | Rendering delay in millseconds                                   | `number`  | `0`     |
 
-| Attribute | Description                         | Type         | Acceptable Value                                                     | Default |
-| --------- | ----------------------------------- | ------------ | -------------------------------------------------------------------- | ------- |
-| variant   | The current rendering skeleton type | Enum(string) | p / text / h1 / h3 / text / caption / button / image / circle / rect | text    |
+### Skeleton Slots
 
-## Skeleton Slots
+| Name       | Description                        | Scope             |
+| ---------- | ---------------------------------- | ----------------- |
+| `default`  | Real rendering DOM                 | `$attrs`          |
+| `template` | Custom rendering skeleton template | `{ key: number }` |
 
-| Name     | Description                        |
-| -------- | ---------------------------------- |
-| default  | Real rendering DOM                 |
-| template | Custom rendering skeleton template |
+## Skeleton Item API
+
+### Skeleton Item Attributes
+
+| Attribute | Description                         | Type                                                                                                | Default  |
+| --------- | ----------------------------------- | --------------------------------------------------------------------------------------------------- | -------- |
+| `variant` | The current rendering skeleton type | `'p' \| 'text' \| 'h1' \| 'h3' \| 'text' \| 'caption' \| 'button' \| 'image' \| 'circle' \| 'rect'` | `'text'` |

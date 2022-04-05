@@ -1,0 +1,42 @@
+name: Issue Labeled
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  reply-labeled:
+    runs-on: ubuntu-latest
+    steps:
+      - name: contribution welcome
+        if: github.event.label.name == 'contribution welcome' || github.event.label.name == 'help wanted'
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment'
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}. We totally like your proposal/feedback, welcome to [send us a Pull Request](https://help.github.com/en/articles/creating-a-pull-request) for it. Please send your Pull Request to `dev` branch, fill the [Pull Request Template](https://github.com/element-plus/element-plus/blob/dev/.github/pull_request_template.md) here, provide changelog/TypeScript/documentation/test cases if needed and make sure CI passed, we will review it soon. We appreciate your effort in advance and looking forward to your contribution!
+
+            你好 @${{ github.event.issue.user.login }}，我们完全同意你的提议/反馈，欢迎直接在此仓库 [创建一个 Pull Request](https://help.github.com/en/articles/creating-a-pull-request) 来解决这个问题。请将 Pull Request 发到 `dev` 分支，务必填写 Pull Request 内的[预设模板](https://github.com/element-plus/element-plus/blob/dev/.github/pull_request_template.md)，提供改动所需相应的 changelog、TypeScript 定义、测试用例、文档等，并确保 CI 通过，我们会尽快进行 Review，提前感谢和期待您的贡献。
+
+      - name: need reproduction
+        if: github.event.label.name == 'need reproduction'
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment'
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}. Please provide an online reproduction demo by clicking this [link](https://codepen.io/iamkun/pen/YzWMaVr) or a minimal GitHub repository. Issues marked with `need reproduction` will be closed if they have no activity within 3 days.
+
+            你好 @${{ github.event.issue.user.login }}, 我们需要你提供一个在线的重现实例以便于我们帮你排查问题。可以通过点击 [此处](https://codepen.io/iamkun/pen/YzWMaVr) 创建或者提供一个最小化的 GitHub 仓库。3 天内未跟进此 issue 将会被自动关闭。
+
+      - name: invalid
+        if: github.event.label.name == 'invalid'
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'create-comment, close-issue'
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            Hello @${{ github.event.issue.user.login }}, your issue has been closed because it does not conform to our issue requirements. Please use the [Issue Helper](https://elementui.github.io/issue-generator/#/en-US?repo=element-plus) to create an issue, thank you!
+
+            你好 @${{ github.event.issue.user.login }}，为了能够进行高效沟通，我们对 issue 有一定的格式要求，你的 issue 因为不符合要求而被自动关闭。你可以通过 [issue 助手](https://elementui.github.io/issue-generator/#/en-US?repo=element-plus) 来创建 issue 以方便我们定位错误。谢谢配合！

@@ -30,7 +30,7 @@
           <div style="padding: 14px">
             <span>{{ item.name }}</span>
             <div class="bottom card-header">
-              <span class="time">{{ currentDate }}</span>
+              <div class="time">{{ currentDate }}</div>
               <el-button type="text" class="button">Operation button</el-button>
             </div>
           </div>
@@ -40,43 +40,43 @@
   </el-space>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import dayjs from 'dayjs'
+<script lang="ts" setup>
+import { onMounted, ref } from 'vue'
 
-export default defineComponent({
-  data() {
-    return {
-      loading: true,
-      currentDate: dayjs().format('YYYY-MM-DD'),
-      lists: [],
-    }
-  },
-  mounted() {
-    this.loading = false
-    this.lists = [
-      {
-        imgUrl:
-          'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
-        name: 'Deer',
-      },
-      {
-        imgUrl:
-          'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
-        name: 'Horse',
-      },
-      {
-        imgUrl:
-          'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
-        name: 'Mountain Lion',
-      },
-    ]
-  },
-  methods: {
-    setLoading() {
-      this.loading = true
-      setTimeout(() => (this.loading = false), 2000)
+interface ListItem {
+  imgUrl: string
+  name: string
+}
+
+const loading = ref(true)
+const lists = ref<ListItem[]>([])
+const currentDate = new Date().toDateString()
+
+const setLoading = () => {
+  loading.value = true
+  setTimeout(() => {
+    loading.value = false
+  }, 2000)
+}
+
+onMounted(() => {
+  loading.value = false
+  lists.value = [
+    {
+      imgUrl:
+        'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg',
+      name: 'Deer',
     },
-  },
+    {
+      imgUrl:
+        'https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg',
+      name: 'Horse',
+    },
+    {
+      imgUrl:
+        'https://fuss10.elemecdn.com/0/6f/e35ff375812e6b0020b6b4e8f9583jpeg.jpeg',
+      name: 'Mountain Lion',
+    },
+  ]
 })
 </script>

@@ -13,7 +13,7 @@
 @include b(collapse-item) {
   @include when(disabled) {
     .#{$namespace}-collapse-item__header {
-      color: var(--el-font-color-disabled-base);
+      color: var(--el-text-color-disabled);
       cursor: not-allowed;
     }
   }
@@ -22,8 +22,8 @@
     align-items: center;
     height: var(--el-collapse-header-height);
     line-height: var(--el-collapse-header-height);
-    background-color: var(--el-collapse-header-background-color);
-    color: var(--el-collapse-header-font-color);
+    background-color: var(--el-collapse-header-bg-color);
+    color: var(--el-collapse-header-text-color);
     cursor: pointer;
     border-bottom: 1px solid var(--el-collapse-border-color);
     font-size: var(--el-collapse-header-font-size);
@@ -48,7 +48,7 @@
 
   @include e(wrap) {
     will-change: height;
-    background-color: var(--el-collapse-content-background-color);
+    background-color: var(--el-collapse-content-bg-color);
     overflow: hidden;
     box-sizing: border-box;
     border-bottom: 1px solid var(--el-collapse-border-color);
@@ -57,7 +57,7 @@
   @include e(content) {
     padding-bottom: 25px;
     font-size: var(--el-collapse-content-font-size);
-    color: var(--el-collapse-content-font-color);
+    color: var(--el-collapse-content-text-color);
     line-height: 1.769230769230769;
   }
 

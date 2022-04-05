@@ -1,5 +1,11 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
+import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
+
+export type ImageViewerAction =
+  | 'zoomIn'
+  | 'zoomOut'
+  | 'clockwise'
+  | 'anticlockwise'
 
 export const imageViewerProps = buildProps({
   urlList: {
@@ -8,7 +14,6 @@ export const imageViewerProps = buildProps({
   },
   zIndex: {
     type: Number,
-    default: 2000,
   },
   initialIndex: {
     type: Number,
@@ -19,6 +24,10 @@ export const imageViewerProps = buildProps({
     default: true,
   },
   hideOnClickModal: {
+    type: Boolean,
+    default: false,
+  },
+  teleported: {
     type: Boolean,
     default: false,
   },

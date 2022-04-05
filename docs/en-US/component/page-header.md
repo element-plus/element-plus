@@ -1,3 +1,8 @@
+---
+title: Page
+lang: en-US
+---
+
 # Page Header
 
 If path of the page is simple, it is recommended to use PageHeader instead of the Breadcrumb.
@@ -20,11 +25,11 @@ page-header/custom-icon
 
 ## Attributes
 
-| Attribute | Description | Type   | Accepted Values | Default      |
-| --------- | ----------- | ------ | --------------- | ------------ |
-| icon      | icon        | string | —               | el-icon-back |
-| title     | main title  | string | —               | Back         |
-| content   | content     | string | —               | —            |
+| Attribute | Description    | Type               | Accepted Values | Default |
+| --------- | -------------- | ------------------ | --------------- | ------- |
+| icon      | icon component | string / Component | —               | Back    |
+| title     | main title     | string             | —               | Back    |
+| content   | content        | string             | —               | —       |
 
 ## Events
 

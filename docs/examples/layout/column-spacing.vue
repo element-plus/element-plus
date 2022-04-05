@@ -1,18 +1,18 @@
 <template>
   <el-row :gutter="20">
-    <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-    <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-    <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-    <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple" /></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple" /></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple" /></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple" /></el-col>
   </el-row>
 </template>
 
-<style lang="scss">
+<style>
 .el-row {
   margin-bottom: 20px;
-  &:last-child {
-    margin-bottom: 0;
-  }
+}
+.el-row:last-child {
+  margin-bottom: 0;
 }
 .el-col {
   border-radius: 4px;

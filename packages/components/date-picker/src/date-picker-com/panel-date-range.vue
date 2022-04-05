@@ -9,7 +9,7 @@
     ]"
   >
     <div class="el-picker-panel__body-wrapper">
-      <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
+      <slot name="sidebar" class="el-picker-panel__sidebar" />
       <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
         <button
           v-for="(shortcut, key) in shortcuts"
@@ -59,7 +59,9 @@
               />
             </span>
           </span>
-          <span class="el-icon-arrow-right"></span>
+          <span>
+            <el-icon><arrow-right /></el-icon>
+          </span>
           <span class="el-date-range-picker__editors-wrap is-right">
             <span class="el-date-range-picker__time-picker-wrap">
               <el-input
@@ -105,30 +107,38 @@
           <div class="el-date-range-picker__header">
             <button
               type="button"
-              class="el-picker-panel__icon-btn el-icon-d-arrow-left"
+              class="el-picker-panel__icon-btn d-arrow-left"
               @click="leftPrevYear"
-            ></button>
+            >
+              <el-icon><d-arrow-left /></el-icon>
+            </button>
             <button
               type="button"
-              class="el-picker-panel__icon-btn el-icon-arrow-left"
+              class="el-picker-panel__icon-btn arrow-left"
               @click="leftPrevMonth"
-            ></button>
+            >
+              <el-icon><arrow-left /></el-icon>
+            </button>
             <button
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
               :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn el-icon-d-arrow-right"
+              class="el-picker-panel__icon-btn d-arrow-right"
               @click="leftNextYear"
-            ></button>
+            >
+              <el-icon><d-arrow-right /></el-icon>
+            </button>
             <button
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableMonthArrow"
               :class="{ 'is-disabled': !enableMonthArrow }"
-              class="el-picker-panel__icon-btn el-icon-arrow-right"
+              class="el-picker-panel__icon-btn arrow-right"
               @click="leftNextMonth"
-            ></button>
+            >
+              <el-icon><arrow-right /></el-icon>
+            </button>
             <div>{{ leftLabel }}</div>
           </div>
           <date-table
@@ -145,11 +155,7 @@
           />
         </div>
         <div
-          class="
-            el-picker-panel__content
-            el-date-range-picker__content
-            is-right
-          "
+          class="el-picker-panel__content el-date-range-picker__content is-right"
         >
           <div class="el-date-range-picker__header">
             <button
@@ -157,27 +163,35 @@
               type="button"
               :disabled="!enableYearArrow"
               :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn el-icon-d-arrow-left"
+              class="el-picker-panel__icon-btn d-arrow-left"
               @click="rightPrevYear"
-            ></button>
+            >
+              <el-icon><d-arrow-left /></el-icon>
+            </button>
             <button
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableMonthArrow"
               :class="{ 'is-disabled': !enableMonthArrow }"
-              class="el-picker-panel__icon-btn el-icon-arrow-left"
+              class="el-picker-panel__icon-btn arrow-left"
               @click="rightPrevMonth"
-            ></button>
+            >
+              <el-icon><arrow-left /></el-icon>
+            </button>
             <button
               type="button"
-              class="el-picker-panel__icon-btn el-icon-d-arrow-right"
+              class="el-picker-panel__icon-btn d-arrow-right"
               @click="rightNextYear"
-            ></button>
+            >
+              <el-icon><d-arrow-right /></el-icon>
+            </button>
             <button
               type="button"
-              class="el-picker-panel__icon-btn el-icon-arrow-right"
+              class="el-picker-panel__icon-btn arrow-right"
               @click="rightNextMonth"
-            ></button>
+            >
+              <el-icon><arrow-right /></el-icon>
+            </button>
             <div>{{ rightLabel }}</div>
           </div>
           <date-table
@@ -198,7 +212,7 @@
     <div v-if="showTime" class="el-picker-panel__footer">
       <el-button
         v-if="clearable"
-        size="mini"
+        size="small"
         type="text"
         class="el-picker-panel__link-btn"
         @click="handleClear"
@@ -207,7 +221,7 @@
       </el-button>
       <el-button
         plain
-        size="mini"
+        size="small"
         class="el-picker-panel__link-btn"
         :disabled="btnDisabled"
         @click="handleConfirm(false)"
@@ -219,18 +233,25 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, watch } from 'vue'
+import { computed, defineComponent, inject, ref, toRef, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
+  TimePickPanel,
   extractDateFormat,
   extractTimeFormat,
-  TimePickPanel,
 } from '@element-plus/components/time-picker'
-import { isValidDatePickType } from '@element-plus/utils/validators'
+import ElIcon from '@element-plus/components/icon'
+import { isValidDatePickType } from '@element-plus/utils'
+import {
+  ArrowLeft,
+  ArrowRight,
+  DArrowLeft,
+  DArrowRight,
+} from '@element-plus/icons-vue'
 import DateTable from './basic-date-table.vue'
 
 import type { PropType } from 'vue'
@@ -240,7 +261,17 @@ import type { IDatePickerType } from '../date-picker.type'
 export default defineComponent({
   directives: { clickoutside: ClickOutside },
 
-  components: { TimePickPanel, DateTable, ElInput, ElButton },
+  components: {
+    TimePickPanel,
+    DateTable,
+    ElInput,
+    ElButton,
+    ElIcon,
+    DArrowLeft,
+    ArrowLeft,
+    DArrowRight,
+    ArrowRight,
+  },
 
   props: {
     unlinkPanels: Boolean,
@@ -254,10 +285,10 @@ export default defineComponent({
     },
   },
 
-  emits: ['pick', 'set-picker-option', 'calendar-change'],
+  emits: ['pick', 'set-picker-option', 'calendar-change', 'panel-change'],
 
   setup(props, ctx) {
-    const { t, lang } = useLocaleInject()
+    const { t, lang } = useLocale()
     const leftDate = ref(dayjs().locale(lang.value))
     const rightDate = ref(dayjs().locale(lang.value).add(1, 'month'))
     const minDate = ref(null)
@@ -341,6 +372,7 @@ export default defineComponent({
       if (!props.unlinkPanels) {
         rightDate.value = leftDate.value.add(1, 'month')
       }
+      handlePanelChange('year')
     }
 
     const leftPrevMonth = () => {
@@ -348,6 +380,7 @@ export default defineComponent({
       if (!props.unlinkPanels) {
         rightDate.value = leftDate.value.add(1, 'month')
       }
+      handlePanelChange('month')
     }
 
     const rightNextYear = () => {
@@ -357,6 +390,7 @@ export default defineComponent({
       } else {
         rightDate.value = rightDate.value.add(1, 'year')
       }
+      handlePanelChange('year')
     }
 
     const rightNextMonth = () => {
@@ -366,22 +400,35 @@ export default defineComponent({
       } else {
         rightDate.value = rightDate.value.add(1, 'month')
       }
+      handlePanelChange('month')
     }
 
     const leftNextYear = () => {
       leftDate.value = leftDate.value.add(1, 'year')
+      handlePanelChange('year')
     }
 
     const leftNextMonth = () => {
       leftDate.value = leftDate.value.add(1, 'month')
+      handlePanelChange('month')
     }
 
     const rightPrevYear = () => {
       rightDate.value = rightDate.value.subtract(1, 'year')
+      handlePanelChange('year')
     }
 
     const rightPrevMonth = () => {
       rightDate.value = rightDate.value.subtract(1, 'month')
+      handlePanelChange('month')
+    }
+
+    const handlePanelChange = (mode: 'month' | 'year') => {
+      ctx.emit(
+        'panel-change',
+        [leftDate.value.toDate(), rightDate.value.toDate()],
+        mode
+      )
     }
 
     const enableMonthArrow = computed(() => {
@@ -639,15 +686,15 @@ export default defineComponent({
 
     const getDefaultValue = () => {
       let start: Dayjs
-      if (Array.isArray(defaultValue)) {
-        const left = dayjs(defaultValue[0])
-        let right = dayjs(defaultValue[1])
+      if (Array.isArray(defaultValue.value)) {
+        const left = dayjs(defaultValue.value[0])
+        let right = dayjs(defaultValue.value[1])
         if (!props.unlinkPanels) {
           right = left.add(1, 'month')
         }
         return [left, right]
-      } else if (defaultValue) {
-        start = dayjs(defaultValue)
+      } else if (defaultValue.value) {
+        start = dayjs(defaultValue.value)
       } else {
         start = dayjs()
       }
@@ -668,10 +715,24 @@ export default defineComponent({
       cellClassName,
       format,
       defaultTime,
-      defaultValue,
       arrowControl,
       clearable,
     } = pickerBase.props
+    const defaultValue = toRef(pickerBase.props, 'defaultValue')
+
+    watch(
+      () => defaultValue.value,
+      (val) => {
+        if (val) {
+          const defaultArr = getDefaultValue()
+          minDate.value = null
+          maxDate.value = null
+          leftDate.value = defaultArr[0]
+          rightDate.value = defaultArr[1]
+        }
+      },
+      { immediate: true }
+    )
 
     watch(
       () => props.parsedValue,

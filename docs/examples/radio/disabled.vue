@@ -5,14 +5,8 @@
   >
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      radio: ref('selected and disabled'),
-    }
-  },
-})
+const radio = ref('selected and disabled')
 </script>

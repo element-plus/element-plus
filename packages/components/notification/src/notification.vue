@@ -1,32 +1,27 @@
 <template>
   <transition
-    name="el-notification-fade"
+    :name="ns.b('fade')"
     @before-leave="onClose"
     @after-leave="$emit('destroy')"
   >
     <div
       v-show="visible"
       :id="id"
-      :class="['el-notification', customClass, horizontalClass]"
+      :class="[ns.b(), customClass, horizontalClass]"
       :style="positionStyle"
       role="alert"
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
       @click="onClick"
     >
-      <i
-        v-if="type || iconClass"
-        class="el-notification__icon"
-        :class="[typeClass, iconClass]"
-      ></i>
-      <div
-        class="el-notification__group"
-        :class="{ 'is-with-icon': typeClass || iconClass }"
-      >
-        <h2 class="el-notification__title" v-text="title"></h2>
+      <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
+        <component :is="iconComponent" />
+      </el-icon>
+      <div :class="ns.e('group')">
+        <h2 :class="ns.e('title')" v-text="title" />
         <div
           v-show="message"
-          class="el-notification__content"
+          :class="ns.e('content')"
           :style="!!title ? undefined : { margin: 0 }"
         >
           <slot>
@@ -36,43 +31,48 @@
             <p v-else v-html="message"></p>
           </slot>
         </div>
-        <div
-          v-if="showClose"
-          class="el-notification__closeBtn el-icon-close"
-          @click.stop="close"
-        ></div>
+        <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
+          <close />
+        </el-icon>
       </div>
     </div>
   </transition>
 </template>
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted } from 'vue'
+import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { notificationProps, notificationEmits } from './notification'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
+import { ElIcon } from '@element-plus/components/icon'
+import { useNamespace } from '@element-plus/hooks'
+import { notificationEmits, notificationProps } from './notification'
 
 import type { CSSProperties } from 'vue'
-import type { NotificationProps } from './notification'
-
-export const typeMap: Record<NotificationProps['type'], string> = {
-  '': '',
-  success: 'el-icon-success',
-  info: 'el-icon-info',
-  warning: 'el-icon-warning',
-  error: 'el-icon-error',
-} as const
 
 export default defineComponent({
   name: 'ElNotification',
+
+  components: {
+    ElIcon,
+    ...TypeComponents,
+  },
 
   props: notificationProps,
   emits: notificationEmits,
 
   setup(props) {
+    const ns = useNamespace('notification')
     const visible = ref(false)
     let timer: (() => void) | undefined = undefined
 
-    const typeClass = computed(() => typeMap[props.type])
+    const typeClass = computed(() => {
+      const type = props.type
+      return type && TypeComponentsMap[props.type] ? ns.m(type) : ''
+    })
+
+    const iconComponent = computed(() => {
+      return TypeComponentsMap[props.type] || props.icon || ''
+    })
 
     const horizontalClass = computed(() =>
       props.position.endsWith('right') ? 'right' : 'left'
@@ -127,8 +127,10 @@ export default defineComponent({
     useEventListener(document, 'keydown', onKeydown)
 
     return {
+      ns,
       horizontalClass,
       typeClass,
+      iconComponent,
       positionStyle,
       visible,
 

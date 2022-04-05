@@ -1,12 +1,12 @@
-import { on } from '@element-plus/utils/dom'
-import isServer from '@element-plus/utils/isServer'
+import { isClient } from '@vueuse/core'
+import { isElement } from '@element-plus/utils'
 
 import type {
   ComponentPublicInstance,
   DirectiveBinding,
   ObjectDirective,
 } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 
 type DocumentHandler = <T extends MouseEvent>(mouseup: T, mousedown: T) => void
 type FlushList = Map<
@@ -21,12 +21,12 @@ const nodeList: FlushList = new Map()
 
 let startClick: MouseEvent
 
-if (!isServer) {
-  on(document, 'mousedown', (e: MouseEvent) => (startClick = e))
-  on(document, 'mouseup', (e: MouseEvent) => {
+if (isClient) {
+  document.addEventListener('mousedown', (e: MouseEvent) => (startClick = e))
+  document.addEventListener('mouseup', (e: MouseEvent) => {
     for (const handlers of nodeList.values()) {
       for (const { documentHandler } of handlers) {
-        documentHandler(e, startClick)
+        documentHandler(e as MouseEvent, startClick)
       }
     }
   })
@@ -39,7 +39,7 @@ function createDocumentHandler(
   let excludes: HTMLElement[] = []
   if (Array.isArray(binding.arg)) {
     excludes = binding.arg
-  } else if ((binding.arg as unknown) instanceof HTMLElement) {
+  } else if (isElement(binding.arg)) {
     // due to current implementation on binding type is wrong the type casting is necessary here
     excludes.push(binding.arg as unknown as HTMLElement)
   }

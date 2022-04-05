@@ -1,3 +1,8 @@
+---
+title: Pagination
+lang: en-US
+---
+
 # Pagination
 
 If you have too much data to display in one page, use pagination.
@@ -98,7 +103,7 @@ We'll detect some deprecated usages, if your pagination don't appeared or worked
 
 :::warning
 
-Events above are not recommended(but are still supported for compatible reason), better chioce is to use the two-way data binding by `v-model`.
+Events above are not recommended(but are still supported for compatible reason), better choice is to use the two-way data binding by `v-model`.
 
 :::
 

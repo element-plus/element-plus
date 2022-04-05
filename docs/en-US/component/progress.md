@@ -1,32 +1,11 @@
+---
+title: Progress
+lang: en-US
+---
+
 # Progress
 
 Progress is used to show the progress of current operation, and inform the user the current status.
-
-<style lang="scss">
-$namespace: el;
-.example-showcase .demo-progress {
-  .#{$namespace}-progress--line {
-    margin-bottom: 15px;
-    width: 350px;
-  }
-
-  .#{$namespace}-progress--circle {
-    margin-right: 15px;
-  }
-
-  .percentage-value {
-    display: block;
-    margin-top: 10px;
-    font-size: 28px;
-  }
-
-  .percentage-label {
-    display: block;
-    margin-top: 10px;
-    font-size: 12px;
-  }
-}
-</style>
 
 ## Linear progress bar
 
@@ -109,6 +88,6 @@ progress/indeterminate-progress
 
 ## Slots
 
-| Name    | Description                                     |
-| ------- | ----------------------------------------------- |
-| default | Customized content, parameter is { percentage } |
+| Name    | Description                                       |
+| ------- | ------------------------------------------------- |
+| default | Customized content, parameter is `{ percentage }` |

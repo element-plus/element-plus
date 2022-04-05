@@ -25,86 +25,92 @@
     </el-table>
   </div>
 </template>
-<script lang="ts">
-export default {
-  data() {
-    return {
-      tableData: [
-        {
-          id: 1,
-          date: '2016-05-02',
-          name: 'wangxiaohu',
-        },
-        {
-          id: 2,
-          date: '2016-05-04',
-          name: 'wangxiaohu',
-        },
-        {
-          id: 3,
-          date: '2016-05-01',
-          name: 'wangxiaohu',
-          children: [
-            {
-              id: 31,
-              date: '2016-05-01',
-              name: 'wangxiaohu',
-            },
-            {
-              id: 32,
-              date: '2016-05-01',
-              name: 'wangxiaohu',
-            },
-          ],
-        },
-        {
-          id: 4,
-          date: '2016-05-03',
-          name: 'wangxiaohu',
-        },
-      ],
-      tableData1: [
-        {
-          id: 1,
-          date: '2016-05-02',
-          name: 'wangxiaohu',
-        },
-        {
-          id: 2,
-          date: '2016-05-04',
-          name: 'wangxiaohu',
-        },
-        {
-          id: 3,
-          date: '2016-05-01',
-          name: 'wangxiaohu',
-          hasChildren: true,
-        },
-        {
-          id: 4,
-          date: '2016-05-03',
-          name: 'wangxiaohu',
-        },
-      ],
-    }
-  },
-  methods: {
-    load(tree, treeNode, resolve) {
-      setTimeout(() => {
-        resolve([
-          {
-            id: 31,
-            date: '2016-05-01',
-            name: 'wangxiaohu',
-          },
-          {
-            id: 32,
-            date: '2016-05-01',
-            name: 'wangxiaohu',
-          },
-        ])
-      }, 1000)
-    },
-  },
+<script lang="ts" setup>
+interface User {
+  id: number
+  date: string
+  name: string
+  hasChildren?: boolean
+  children?: User[]
 }
+
+const load = (
+  row: User,
+  treeNode: unknown,
+  resolve: (date: User[]) => void
+) => {
+  setTimeout(() => {
+    resolve([
+      {
+        id: 31,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+      },
+      {
+        id: 32,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+      },
+    ])
+  }, 1000)
+}
+
+const tableData: User[] = [
+  {
+    id: 1,
+    date: '2016-05-02',
+    name: 'wangxiaohu',
+  },
+  {
+    id: 2,
+    date: '2016-05-04',
+    name: 'wangxiaohu',
+  },
+  {
+    id: 3,
+    date: '2016-05-01',
+    name: 'wangxiaohu',
+    children: [
+      {
+        id: 31,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+      },
+      {
+        id: 32,
+        date: '2016-05-01',
+        name: 'wangxiaohu',
+      },
+    ],
+  },
+  {
+    id: 4,
+    date: '2016-05-03',
+    name: 'wangxiaohu',
+  },
+]
+
+const tableData1: User[] = [
+  {
+    id: 1,
+    date: '2016-05-02',
+    name: 'wangxiaohu',
+  },
+  {
+    id: 2,
+    date: '2016-05-04',
+    name: 'wangxiaohu',
+  },
+  {
+    id: 3,
+    date: '2016-05-01',
+    name: 'wangxiaohu',
+    hasChildren: true,
+  },
+  {
+    id: 4,
+    date: '2016-05-03',
+    name: 'wangxiaohu',
+  },
+]
 </script>

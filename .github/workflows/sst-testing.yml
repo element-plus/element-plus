@@ -1,0 +1,46 @@
+# This workflow runs on target, so there is no need to worry about secrets
+name: 🧪 SSR Testing
+
+on: pull_request
+
+jobs:
+  # Build successfully, start deployment
+  test:
+    name: SSR rendering test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Cache ~/.pnpm-store
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-pnpm-store
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-test-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Local build
+        run: pnpm build
+
+      - name: Do test
+        run: pnpm test:ssr

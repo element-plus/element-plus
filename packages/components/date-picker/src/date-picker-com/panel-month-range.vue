@@ -8,7 +8,7 @@
     ]"
   >
     <div class="el-picker-panel__body-wrapper">
-      <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
+      <slot name="sidebar" class="el-picker-panel__sidebar" />
       <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
         <button
           v-for="(shortcut, key) in shortcuts"
@@ -27,17 +27,21 @@
           <div class="el-date-range-picker__header">
             <button
               type="button"
-              class="el-picker-panel__icon-btn el-icon-d-arrow-left"
+              class="el-picker-panel__icon-btn d-arrow-left"
               @click="leftPrevYear"
-            ></button>
+            >
+              <el-icon><d-arrow-left /></el-icon>
+            </button>
             <button
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
               :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn el-icon-d-arrow-right"
+              class="el-picker-panel__icon-btn d-arrow-right"
               @click="leftNextYear"
-            ></button>
+            >
+              <el-icon><d-arrow-right /></el-icon>
+            </button>
             <div>{{ leftLabel }}</div>
           </div>
           <month-table
@@ -53,11 +57,7 @@
           />
         </div>
         <div
-          class="
-            el-picker-panel__content
-            el-date-range-picker__content
-            is-right
-          "
+          class="el-picker-panel__content el-date-range-picker__content is-right"
         >
           <div class="el-date-range-picker__header">
             <button
@@ -65,14 +65,18 @@
               type="button"
               :disabled="!enableYearArrow"
               :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn el-icon-d-arrow-left"
+              class="el-picker-panel__icon-btn d-arrow-left"
               @click="rightPrevYear"
-            ></button>
+            >
+              <el-icon><d-arrow-left /></el-icon>
+            </button>
             <button
               type="button"
-              class="el-picker-panel__icon-btn el-icon-d-arrow-right"
+              class="el-picker-panel__icon-btn d-arrow-right"
               @click="rightNextYear"
-            ></button>
+            >
+              <el-icon><d-arrow-right /></el-icon>
+            </button>
             <div>{{ rightLabel }}</div>
           </div>
           <month-table
@@ -93,16 +97,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, watch, inject } from 'vue'
+import { computed, defineComponent, inject, ref, toRef, watch } from 'vue'
 import dayjs from 'dayjs'
-import { useLocaleInject } from '@element-plus/hooks'
+import ElIcon from '@element-plus/components/icon'
+import { useLocale } from '@element-plus/hooks'
+import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import MonthTable from './basic-month-table.vue'
 
 import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export default defineComponent({
-  components: { MonthTable },
+  components: { MonthTable, ElIcon, DArrowLeft, DArrowRight },
 
   props: {
     unlinkPanels: Boolean,
@@ -114,7 +120,7 @@ export default defineComponent({
   emits: ['pick', 'set-picker-option'],
 
   setup(props, ctx) {
-    const { t, lang } = useLocaleInject()
+    const { t, lang } = useLocale()
     const leftDate = ref(dayjs().locale(lang.value))
     const rightDate = ref(dayjs().locale(lang.value).add(1, 'year'))
 
@@ -236,15 +242,15 @@ export default defineComponent({
 
     const getDefaultValue = () => {
       let start: Dayjs
-      if (Array.isArray(defaultValue)) {
-        const left = dayjs(defaultValue[0])
-        let right = dayjs(defaultValue[1])
+      if (Array.isArray(defaultValue.value)) {
+        const left = dayjs(defaultValue.value[0])
+        let right = dayjs(defaultValue.value[1])
         if (!props.unlinkPanels) {
           right = left.add(1, 'year')
         }
         return [left, right]
-      } else if (defaultValue) {
-        start = dayjs(defaultValue)
+      } else if (defaultValue.value) {
+        start = dayjs(defaultValue.value)
       } else {
         start = dayjs()
       }
@@ -255,7 +261,20 @@ export default defineComponent({
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     const pickerBase = inject('EP_PICKER_BASE') as any
-    const { shortcuts, disabledDate, format, defaultValue } = pickerBase.props
+    const { shortcuts, disabledDate, format } = pickerBase.props
+    const defaultValue = toRef(pickerBase.props, 'defaultValue')
+
+    watch(
+      () => defaultValue.value,
+      (val) => {
+        if (val) {
+          const defaultArr = getDefaultValue()
+          leftDate.value = defaultArr[0]
+          rightDate.value = defaultArr[1]
+        }
+      },
+      { immediate: true }
+    )
 
     watch(
       () => props.parsedValue,
@@ -276,6 +295,8 @@ export default defineComponent({
           }
         } else {
           const defaultArr = getDefaultValue()
+          minDate.value = null
+          maxDate.value = null
           leftDate.value = defaultArr[0]
           rightDate.value = defaultArr[1]
         }

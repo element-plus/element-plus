@@ -1,62 +1,47 @@
 <template>
   <div class="demo-input-suffix">
-    <span class="demo-input-label">Using attributes</span>
     <el-row :gutter="20">
+      <span class="ml-3 w-35 text-gray-600 inline-flex items-center"
+        >Using attributes</span
+      >
       <el-input
         v-model="input1"
+        class="w-50 m-2"
         placeholder="Pick a date"
-        suffix-icon="el-icon-date"
+        :suffix-icon="Calendar"
       />
-    </el-row>
-    <el-row :gutter="20">
       <el-input
         v-model="input2"
+        class="w-50 m-2"
         placeholder="Type something"
-        prefix-icon="el-icon-search"
+        :prefix-icon="Search"
       />
     </el-row>
   </div>
   <div class="demo-input-suffix">
-    <span class="demo-input-label">Using slots</span>
     <el-row :gutter="20">
-      <el-input v-model="input3" placeholder="Pick a date">
+      <span class="ml-3 w-35 text-gray-600 inline-flex items-center"
+        >Using slots</span
+      >
+      <el-input v-model="input3" class="w-50 m-2" placeholder="Pick a date">
         <template #suffix>
-          <i class="el-input__icon el-icon-date"></i>
+          <el-icon class="el-input__icon"><calendar /></el-icon>
         </template>
       </el-input>
-    </el-row>
-
-    <el-row :gutter="20">
-      <el-input v-model="input4" placeholder="Type something">
+      <el-input v-model="input4" class="w-50 m-2" placeholder="Type something">
         <template #prefix>
-          <i class="el-input__icon el-icon-search"></i>
+          <el-icon class="el-input__icon"><search /></el-icon>
         </template>
       </el-input>
     </el-row>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-export default defineComponent({
-  setup() {
-    return {
-      input1: ref(''),
-      input2: ref(''),
-      input3: ref(''),
-      input4: ref(''),
-    }
-  },
-})
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Calendar, Search } from '@element-plus/icons-vue'
+const input1 = ref('')
+const input2 = ref('')
+const input3 = ref('')
+const input4 = ref('')
 </script>
-
-<style>
-.demo-input-label {
-  display: inline-block;
-  width: 130px;
-}
-
-.demo-input-suffix {
-  margin-bottom: 16px;
-}
-</style>

@@ -1,3 +1,8 @@
+---
+title: Color
+lang: en-US
+---
+
 # Color
 
 Element Plus uses a specific set of palettes to specify colors to provide a consistent look and feel for the products you build.
@@ -21,7 +26,6 @@ Element Plus uses a specific set of palettes to specify colors to provide a cons
     position: absolute;
 
     .bg-blue-sub-item {
-      width: 11.1111111%;
       height: 100%;
       display: inline-block;
 
@@ -31,7 +35,6 @@ Element Plus uses a specific set of palettes to specify colors to provide a cons
     }
 
     .bg-secondary-sub-item {
-      width: 50%;
       height: 100%;
       display: inline-block;
       &:first-child {

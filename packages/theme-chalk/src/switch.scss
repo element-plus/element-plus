@@ -4,6 +4,26 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+$switch-height: () !default;
+$switch-height: map.merge(
+  (
+    'large': 40px,
+    'default': 32px,
+    'small': 24px,
+  ),
+  $switch-height
+);
+
+$switch-font-size: () !default;
+$switch-font-size: map.merge(
+  (
+    'large': 14px,
+    'default': 14px,
+    'small': 12px,
+  ),
+  $switch-font-size
+);
+
 @include b(switch) {
   @include set-component-css-var('switch', $switch);
 }
@@ -12,9 +32,9 @@
   display: inline-flex;
   align-items: center;
   position: relative;
-  font-size: var(--el-switch-font-size);
+  font-size: map.get($switch-font-size, 'default');
   line-height: var(--el-switch-height);
-  height: var(--el-switch-height);
+  height: map.get($switch-height, 'default');
   vertical-align: middle;
   @include when(disabled) {
     & .#{$namespace}-switch__core,
@@ -27,7 +47,7 @@
     transition: var(--el-transition-duration-fast);
     height: var(--el-switch-height);
     display: inline-block;
-    font-size: var(--el-switch-font-size);
+    font-size: map.get($switch-font-size, 'default');
     font-weight: 500;
     cursor: pointer;
     vertical-align: middle;
@@ -45,8 +65,15 @@
     }
     & * {
       line-height: 1;
-      font-size: var(--el-switch-font-size);
+      font-size: map.get($switch-font-size, 'default');
       display: inline-block;
+    }
+    .#{$namespace}-icon {
+      height: inherit;
+
+      svg {
+        vertical-align: middle;
+      }
     }
   }
 
@@ -74,6 +101,28 @@
       background-color var(--el-transition-duration);
     vertical-align: middle;
 
+    .#{$namespace}-switch__inner {
+      position: absolute;
+      top: 1px;
+      left: 1px;
+      transition: all var(--el-transition-duration);
+      width: var(--el-switch-button-size);
+      height: var(--el-switch-button-size);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      left: 50%;
+      white-space: nowrap;
+
+      .is-icon,
+      .is-text {
+        color: var(--el-color-white);
+        transition: opacity var(--el-transition-duration);
+        position: absolute;
+        user-select: none;
+      }
+    }
+
     .#{$namespace}-switch__action {
       position: absolute;
       top: 1px;
@@ -87,6 +136,25 @@
       justify-content: center;
       align-items: center;
       color: var(--el-switch-off-color);
+
+      .is-icon,
+      .is-text {
+        transition: opacity var(--el-transition-duration);
+        position: absolute;
+        user-select: none;
+      }
+    }
+
+    .is-text {
+      font-size: 12px;
+    }
+
+    .is-show {
+      opacity: 1;
+    }
+
+    .is-hide {
+      opacity: 0;
     }
   }
 
@@ -94,10 +162,17 @@
     .#{$namespace}-switch__core {
       border-color: var(--el-switch-on-color);
       background-color: var(--el-switch-on-color);
+
       .#{$namespace}-switch__action {
         left: 100%;
         margin-left: calc(-1px - var(--el-switch-button-size));
         color: var(--el-switch-on-color);
+      }
+
+      .#{$namespace}-switch__inner {
+        left: 50%;
+        white-space: nowrap;
+        margin-left: calc(-1px - var(--el-switch-button-size));
       }
     }
   }
@@ -113,6 +188,7 @@
           left: 10px;
         }
       }
+
       &.#{$namespace}-switch__label--right {
         span {
           right: 10px;
@@ -124,5 +200,20 @@
   & .label-fade-enter-from,
   & .label-fade-leave-active {
     opacity: 0;
+  }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      font-size: map.get($switch-font-size, $size);
+      height: map.get($switch-height, $size);
+
+      @include e(label) {
+        font-size: map.get($switch-font-size, $size);
+
+        & * {
+          font-size: map.get($switch-font-size, $size);
+        }
+      }
+    }
   }
 }

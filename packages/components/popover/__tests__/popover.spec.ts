@@ -1,117 +1,149 @@
-import { ref, nextTick, h, createSlots } from 'vue'
-import PopupManager from '@element-plus/utils/popup-manager'
+import { h, nextTick } from 'vue'
+import { POPPER_CONTAINER_SELECTOR, useZIndex } from '@element-plus/hooks'
 import makeMount from '@element-plus/test-utils/make-mount'
+import { rAF } from '@element-plus/test-utils/tick'
+import { ElPopperTrigger } from '@element-plus/components/popper'
 import Popover from '../src/index.vue'
 
 const AXIOM = 'Rem is the best girl'
-
+jest.useFakeTimers()
 const mount = makeMount(Popover, {
   slots: {
-    default: AXIOM,
+    default: () => AXIOM,
+    reference: () => h('button', 'click me'),
   },
-  props: {
-    appendToBody: false,
+  props: {},
+  global: {
+    attachTo: document.body,
   },
 })
 describe('Popover.vue', () => {
+  let wrapper: ReturnType<typeof mount>
+  const findContentComp = () =>
+    wrapper.findComponent({
+      name: 'ElPopperContent',
+    })
+
+  afterEach(() => {
+    wrapper?.unmount()
+    document.body.innerHTML = ''
+  })
+
   test('render test', () => {
-    const wrapper = mount()
-    expect(wrapper.text()).toEqual(AXIOM)
+    wrapper = mount()
+
+    expect(findContentComp().text()).toEqual(AXIOM)
   })
 
   test('should render with title', () => {
     const title = 'test title'
-    const wrapper = mount({
+    wrapper = mount({
       props: {
         title,
       },
     })
 
-    expect(wrapper.text()).toContain(title)
+    expect(findContentComp().text()).toContain(title)
   })
 
   test("should modify popover's style with width", async () => {
-    const wrapper = mount({
+    wrapper = mount({
       props: {
         width: 200,
       },
     })
 
-    expect(wrapper.find('.el-popover').attributes('style')).toContain(
-      'width: 200px'
-    )
+    const popperContent = findContentComp()
+    expect(getComputedStyle(popperContent.element).width).toBe('200px')
 
     await wrapper.setProps({
       width: '100vw',
     })
 
-    expect(wrapper.find('.el-popover').attributes('style')).toContain(
-      'width: 100vw'
-    )
+    expect(getComputedStyle(popperContent.element).width).toBe('100vw')
   })
 
   test('the content should be overrode by slots', () => {
     const content = 'test content'
-    const wrapper = mount({
+    wrapper = mount({
       props: {
         content,
       },
     })
-    expect(wrapper.text()).toContain(AXIOM)
+    expect(findContentComp().text()).toContain(AXIOM)
   })
 
   test('should render content when no slots were passed', () => {
     const content = 'test content'
-    const wrapper = makeMount(Popover, {
+    const virtualRef = document.createElement('button')
+    wrapper = makeMount(Popover, {
       props: {
         content,
-        appendToBody: false,
+        teleported: false,
+        virtualRef,
+        virtualTriggering: true,
       },
     })()
 
-    expect(wrapper.text()).toBe(content)
-    wrapper.unmount()
+    expect(findContentComp().text()).toBe(content)
   })
 
   test('popper z-index should be dynamical', () => {
-    const wrapper = mount()
+    wrapper = mount()
 
+    const { currentZIndex } = useZIndex()
     expect(
-      Number.parseInt(
-        window.getComputedStyle(wrapper.find('.el-popper').element).zIndex
-      )
-    ).toBeLessThanOrEqual(PopupManager.zIndex)
+      Number.parseInt(window.getComputedStyle(findContentComp().element).zIndex)
+    ).toBeLessThanOrEqual(currentZIndex.value)
   })
 
-  test('should render correctly with tabindex', async () => {
-    const tabindex = ref(1)
+  test('defind hide method', async () => {
+    wrapper = mount()
+    const vm = wrapper.vm as any
+    expect(vm.hide).toBeDefined()
+  })
 
-    const Comp = {
-      render() {
-        const slot = () => [h('button', { ref: 'btn' }, 'click 激活')]
-
-        return h(
-          Popover,
-          {
-            placement: 'bottom',
-            title: '标题',
-            width: 200,
-            trigger: 'click',
-            tabindex: tabindex.value,
-            content: '这是一段内容,这是一段内容,这是一段内容,这是一段内容。',
-          },
-          createSlots({}, [{ name: 'reference', fn: slot }])
-        )
+  test('should be able to emit after-enter and after-leave', async () => {
+    const wrapper = mount({
+      attrs: {
+        trigger: 'click',
       },
-    }
-
-    const wrapper = makeMount(Comp, {})()
-    const ele = wrapper.vm.$refs.btn
-    expect((ele as HTMLElement).getAttribute('tabindex')).toEqual('1')
-
-    tabindex.value = 2
-
+    })
     await nextTick()
-    expect((ele as HTMLElement).getAttribute('tabindex')).toEqual('2')
+    const trigger$ = wrapper.findComponent(ElPopperTrigger)
+    const triggerEl = trigger$.find('.el-tooltip__trigger')
+    await triggerEl.trigger('click')
+    jest.runAllTimers()
+    await rAF()
+    expect(wrapper.emitted()).toHaveProperty('after-enter')
+
+    await triggerEl.trigger('click')
+    jest.runAllTimers()
+    await rAF()
+    expect(wrapper.emitted()).toHaveProperty('after-leave')
+  })
+
+  describe('teleported API', () => {
+    it('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      mount()
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    it('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      mount({
+        props: { teleported: false },
+      })
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
+    })
   })
 })

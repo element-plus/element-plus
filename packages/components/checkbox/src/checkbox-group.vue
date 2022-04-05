@@ -1,32 +1,29 @@
-<template>
-  <div class="el-checkbox-group" role="group" aria-label="checkbox-group">
-    <slot></slot>
-  </div>
-</template>
-
 <script lang="ts">
 import {
-  defineComponent,
   computed,
-  watch,
-  provide,
+  defineComponent,
+  h,
   nextTick,
+  provide,
+  renderSlot,
   toRefs,
+  watch,
 } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { debugWarn, isValidComponentSize } from '@element-plus/utils'
+import { useNamespace, useSize } from '@element-plus/hooks'
 import { useCheckboxGroup } from './useCheckbox'
 
 import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { ComponentSize } from '@element-plus/constants'
 
 export default defineComponent({
   name: 'ElCheckboxGroup',
 
   props: {
     modelValue: {
-      type: [Object, Boolean, Array],
-      default: () => undefined,
+      type: Array,
+      default: () => [],
     },
     disabled: Boolean,
     min: {
@@ -49,20 +46,23 @@ export default defineComponent({
       type: String,
       default: undefined,
     },
+    tag: {
+      type: String,
+      default: 'div',
+    },
   },
 
   emits: [UPDATE_MODEL_EVENT, 'change'],
 
-  setup(props, ctx) {
-    const { elFormItem, elFormItemSize, ELEMENT } = useCheckboxGroup()
-    const checkboxGroupSize = computed(
-      () => props.size || elFormItemSize.value || ELEMENT.size
-    )
+  setup(props, { emit, slots }) {
+    const { elFormItem } = useCheckboxGroup()
+    const checkboxGroupSize = useSize()
+    const ns = useNamespace('checkbox')
 
     const changeEvent = (value) => {
-      ctx.emit(UPDATE_MODEL_EVENT, value)
+      emit(UPDATE_MODEL_EVENT, value)
       nextTick(() => {
-        ctx.emit('change', value)
+        emit('change', value)
       })
     }
 
@@ -86,9 +86,20 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       () => {
-        elFormItem.validate?.('change')
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     )
+    return () => {
+      return h(
+        props.tag,
+        {
+          class: ns.b('group'),
+          role: 'group',
+          'aria-label': 'checkbox-group',
+        },
+        [renderSlot(slots, 'default')]
+      )
+    }
   },
 })
 </script>

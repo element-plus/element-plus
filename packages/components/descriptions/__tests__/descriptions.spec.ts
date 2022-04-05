@@ -1,5 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import ElTag from '@element-plus/components/tag'
 import Descriptions from '../src/index.vue'
 import DescriptionsItem from '../src/description-item'
 
@@ -8,6 +9,7 @@ const _mount = (template: string, data?: () => void, methods?: any) =>
     components: {
       'el-descriptions': Descriptions,
       'el-descriptions-item': DescriptionsItem,
+      'el-tag': ElTag,
     },
     template,
     data,
@@ -196,6 +198,6 @@ describe('Descriptions.vue', () => {
     )
     wrapper.find('button').trigger('click')
     await nextTick()
-    expect(wrapper.find('el-tag').text()).toBe(CHANGE_VALUE)
+    expect(wrapper.findComponent(ElTag).text()).toBe(CHANGE_VALUE)
   })
 })

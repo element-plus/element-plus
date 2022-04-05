@@ -18,7 +18,6 @@
   background-color: $color-white;
   box-shadow: map.get($dropdown, 'menu-box-shadow');
   box-sizing: border-box;
-  margin: 2px 0;
 
   /** used for dropdown mode */
   @include e(list) {
@@ -70,7 +69,7 @@
       }
 
       &.is-disabled {
-        color: $disabled-color-base;
+        color: var(--el-disabled-text-color);
         cursor: not-allowed;
       }
     }
@@ -84,10 +83,12 @@
     padding: 10px;
 
     label.#{$namespace}-checkbox {
-      display: block;
+      display: flex;
+      align-items: center;
       margin-right: 5px;
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       margin-left: 5px;
+      height: unset;
     }
 
     .#{$namespace}-checkbox:last-child {

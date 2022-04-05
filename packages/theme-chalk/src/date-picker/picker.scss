@@ -7,6 +7,7 @@
 
 @include b(picker) {
   @include e(popper) {
+    @include set-css-var-type('datepicker', 'border-color', $datepicker);
     @include picker-popper(
       var(--el-color-white),
       1px solid var(--el-datepicker-border-color),
@@ -17,7 +18,7 @@
 
 @include b(date-editor) {
   @include set-component-css-var('date-editor', $date-editor);
-
+  @include set-component-css-var('input', $input);
   position: relative;
   display: inline-block;
   text-align: left;
@@ -55,16 +56,27 @@
     }
   }
 
-  .#{$namespace}-icon-circle-close {
+  .close-icon {
     cursor: pointer;
   }
 
+  .clear-icon {
+    cursor: pointer;
+
+    &:hover {
+      color: var(--el-text-color-secondary);
+    }
+  }
+
   .#{$namespace}-range__icon {
+    height: inherit;
     font-size: 14px;
-    margin-left: -5px;
     color: var(--el-text-color-placeholder);
     float: left;
-    line-height: 32px;
+
+    svg {
+      vertical-align: middle;
+    }
   }
 
   .#{$namespace}-range-input {
@@ -86,24 +98,37 @@
   }
 
   .#{$namespace}-range-separator {
-    display: inline-block;
+    flex: 1;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
     height: 100%;
     padding: 0 5px;
     margin: 0;
-    text-align: center;
-    line-height: 32px;
     font-size: 14px;
-    width: 5%;
+    word-break: keep-all;
     color: var(--el-text-color-primary);
   }
 
   .#{$namespace}-range__close-icon {
     font-size: 14px;
     color: var(--el-text-color-placeholder);
-    width: 25px;
-    display: inline-block;
-    float: right;
-    line-height: 32px;
+    height: inherit;
+    width: unset;
+    cursor: pointer;
+
+    &:hover {
+      color: var(--el-text-color-secondary);
+    }
+
+    svg {
+      vertical-align: middle;
+    }
+
+    &--hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
   }
 }
 
@@ -119,14 +144,13 @@
   }
 
   @include when(active) {
-    border-color: var(--el-color-primary);
-
+    @include inset-input-border(var(--el-input-focus-border-color));
     &:hover {
-      border-color: var(--el-color-primary);
+      @include inset-input-border(var(--el-input-focus-border-color));
     }
   }
 
-  @each $size in (medium, small, mini) {
+  @each $size in (large, small) {
     @include m($size) {
       line-height: map.get($input-height, $size);
 
@@ -142,18 +166,13 @@
       .#{$namespace}-range-input {
         font-size: map.get($input-font-size, $size);
       }
-
-      .#{$namespace}-range__icon,
-      .#{$namespace}-range__close-icon {
-        line-height: map.get($input-line-height, $size);
-      }
     }
   }
 
   @include when(disabled) {
     background-color: map.get($input-disabled, 'fill');
     border-color: map.get($input-disabled, 'border');
-    color: map.get($input-disabled, 'color');
+    color: map.get($input-disabled, 'text-color');
     cursor: not-allowed;
 
     &:hover,
@@ -163,7 +182,7 @@
 
     input {
       background-color: map.get($input-disabled, 'fill');
-      color: map.get($input-disabled, 'color');
+      color: map.get($input-disabled, 'text-color');
       cursor: not-allowed;
       &::placeholder {
         color: map.get($input-disabled, 'placeholder-color');
@@ -171,7 +190,7 @@
     }
 
     .#{$namespace}-range-separator {
-      color: map.get($input-disabled, 'color');
+      color: map.get($input-disabled, 'text-color');
     }
   }
 }

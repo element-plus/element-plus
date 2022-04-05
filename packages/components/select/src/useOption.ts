@@ -1,6 +1,7 @@
-import { inject, computed, getCurrentInstance, watch, toRaw, unref } from 'vue'
-import { getValueByPath, escapeRegexpString } from '@element-plus/utils/util'
-import { selectKey, selectGroupKey } from './token'
+import { computed, getCurrentInstance, inject, toRaw, unref, watch } from 'vue'
+import { get } from 'lodash-unified'
+import { escapeStringRegexp } from '@element-plus/utils'
+import { selectGroupKey, selectKey } from './token'
 
 import type { Ref } from 'vue'
 import type { QueryChangeCtx } from './token'
@@ -55,15 +56,13 @@ export function useOption(props, states) {
 
   const contains = (arr = [], target) => {
     if (!isObject.value) {
-      return arr && arr.indexOf(target) > -1
+      return arr && arr.includes(target)
     } else {
       const valueKey = select.props.valueKey
       return (
         arr &&
         arr.some((item) => {
-          return (
-            getValueByPath(item, valueKey) === getValueByPath(target, valueKey)
-          )
+          return get(item, valueKey) === get(target, valueKey)
         })
       )
     }
@@ -74,13 +73,13 @@ export function useOption(props, states) {
       return a === b
     } else {
       const { valueKey } = select.props
-      return getValueByPath(a, valueKey) === getValueByPath(b, valueKey)
+      return get(a, valueKey) === get(b, valueKey)
     }
   }
 
   const hoverItem = () => {
     if (!props.disabled && !selectGroup.disabled) {
-      select.hoverIndex = select.optionsArray.indexOf(instance)
+      select.hoverIndex = select.optionsArray.indexOf(instance.proxy)
     }
   }
 
@@ -121,7 +120,7 @@ export function useOption(props, states) {
   watch(queryChange, (changes: Ref<QueryChangeCtx>) => {
     const { query } = unref(changes)
 
-    const regexp = new RegExp(escapeRegexpString(query), 'i')
+    const regexp = new RegExp(escapeStringRegexp(query), 'i')
     states.visible = regexp.test(currentLabel.value) || props.created
     if (!states.visible) {
       select.filteredOptionsCount--

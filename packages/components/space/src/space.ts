@@ -1,26 +1,25 @@
 import {
-  defineComponent,
-  renderSlot,
-  createVNode,
   createTextVNode,
+  createVNode,
+  defineComponent,
   isVNode,
+  renderSlot,
 } from 'vue'
 import { isString } from '@vue/shared'
 import {
   PatchFlags,
-  isFragment,
-  isValidElementNode,
-} from '@element-plus/utils/vnode'
-import { isArray, isNumber } from '@element-plus/utils/util'
-import {
   buildProps,
-  componentSize,
   definePropType,
-} from '@element-plus/utils/props'
+  isArray,
+  isFragment,
+  isNumber,
+  isValidElementNode,
+} from '@element-plus/utils'
+import { componentSizes } from '@element-plus/constants'
 import Item from './item.vue'
 import { useSpace } from './use-space'
 
-import type { VNode, StyleValue, ExtractPropTypes, VNodeChild } from 'vue'
+import type { ExtractPropTypes, StyleValue, VNode, VNodeChild } from 'vue'
 import type { AlignItemsProperty } from 'csstype'
 
 export const spaceProps = buildProps({
@@ -76,7 +75,7 @@ export const spaceProps = buildProps({
 
   size: {
     type: [String, Array, Number],
-    values: componentSize,
+    values: componentSizes,
     validator: (val: unknown): val is [number, number] | number => {
       return (
         isNumber(val) ||

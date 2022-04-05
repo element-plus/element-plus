@@ -1,29 +1,11 @@
+---
+title: Slider
+lang: en-US
+---
+
 # Slider
 
 Drag the slider within a fixed range.
-
-<style lang="scss">
-.slider-demo-block {
-  display: flex;
-  align-items: center;
-  .el-slider {
-    flex: 1;
-    margin-left: 12px;
-  }
-  .demonstration {
-    font-size: 14px;
-    color: var(--el-text-color-secondary);
-    line-height: 44px;
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-     & + .el-slider {
-        flex: 0 0 70%;
-    }
-  }
-}
-</style>
 
 ## Basic usage
 
@@ -55,6 +37,14 @@ slider/slider-with-input-box
 
 :::
 
+## Sizes
+
+:::demo
+
+slider/sizes
+
+:::
+
 ## Range selection
 
 Selecting a range of values is supported.
@@ -83,26 +73,27 @@ slider/show-marks
 
 ## Attributes
 
-| Attribute             | Description                                                                                               | Type            | Accepted Values               | Default |
-| --------------------- | --------------------------------------------------------------------------------------------------------- | --------------- | ----------------------------- | ------- |
-| model-value / v-model | binding value                                                                                             | number          | —                             | 0       |
-| min                   | minimum value                                                                                             | number          | —                             | 0       |
-| max                   | maximum value                                                                                             | number          | —                             | 100     |
-| disabled              | whether Slider is disabled                                                                                | boolean         | —                             | false   |
-| step                  | step size                                                                                                 | number          | —                             | 1       |
-| show-input            | whether to display an input box, works when `range` is false                                              | boolean         | —                             | false   |
-| show-input-controls   | whether to display control buttons when `show-input` is true                                              | boolean         | —                             | true    |
-| input-size            | size of the input box                                                                                     | string          | large / medium / small / mini | small   |
-| show-stops            | whether to display breakpoints                                                                            | boolean         | —                             | false   |
-| show-tooltip          | whether to display tooltip value                                                                          | boolean         | —                             | true    |
-| format-tooltip        | format to display tooltip value                                                                           | function(value) | —                             | —       |
-| range                 | whether to select a range                                                                                 | boolean         | —                             | false   |
-| vertical              | vertical mode                                                                                             | boolean         | —                             | false   |
-| height                | Slider height, required in vertical mode                                                                  | string          | —                             | —       |
-| label                 | label for screen reader                                                                                   | string          | —                             | —       |
-| debounce              | debounce delay when typing, in milliseconds, works when `show-input` is true                              | number          | —                             | 300     |
-| tooltip-class         | custom class name for the tooltip                                                                         | string          | —                             | —       |
-| marks                 | marks， type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style | object          | —                             | —       |
+| Attribute             | Description                                                                                               | Type            | Accepted Values         | Default |
+| --------------------- | --------------------------------------------------------------------------------------------------------- | --------------- | ----------------------- | ------- |
+| model-value / v-model | binding value                                                                                             | number          | —                       | 0       |
+| min                   | minimum value                                                                                             | number          | —                       | 0       |
+| max                   | maximum value                                                                                             | number          | —                       | 100     |
+| disabled              | whether Slider is disabled                                                                                | boolean         | —                       | false   |
+| step                  | step size                                                                                                 | number          | —                       | 1       |
+| show-input            | whether to display an input box, works when `range` is false                                              | boolean         | —                       | false   |
+| show-input-controls   | whether to display control buttons when `show-input` is true                                              | boolean         | —                       | true    |
+| size                  | size of the slider                                                                                        | string          | large / default / small | default |
+| input-size            | size of the input box, when set `size`, the default is the value of `size`                                | string          | large / default / small | default |
+| show-stops            | whether to display breakpoints                                                                            | boolean         | —                       | false   |
+| show-tooltip          | whether to display tooltip value                                                                          | boolean         | —                       | true    |
+| format-tooltip        | format to display tooltip value                                                                           | function(value) | —                       | —       |
+| range                 | whether to select a range                                                                                 | boolean         | —                       | false   |
+| vertical              | vertical mode                                                                                             | boolean         | —                       | false   |
+| height                | Slider height, required in vertical mode                                                                  | string          | —                       | —       |
+| label                 | label for screen reader                                                                                   | string          | —                       | —       |
+| debounce              | debounce delay when typing, in milliseconds, works when `show-input` is true                              | number          | —                       | 300     |
+| tooltip-class         | custom class name for the tooltip                                                                         | string          | —                       | —       |
+| marks                 | marks， type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style | object          | —                       | —       |
 
 ## Events
 

@@ -1,27 +1,34 @@
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
-  watch,
-  computed,
-  ref,
-  provide,
-  onMounted,
   h,
-  withDirectives,
-  reactive,
   nextTick,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  watch,
+  withDirectives,
 } from 'vue'
 import { Resize } from '@element-plus/directives'
-import Menubar from '@element-plus/utils/menu/menu-bar'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
-import { isString, isObject } from '@element-plus/utils/util'
+import ElIcon from '@element-plus/components/icon'
+import { More } from '@element-plus/icons-vue'
+import {
+  buildProps,
+  definePropType,
+  isObject,
+  isString,
+  mutable,
+} from '@element-plus/utils'
+import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
-import type { VNode, ExtractPropTypes, VNodeNormalizedChildren } from 'vue'
+import type { ExtractPropTypes, VNode, VNodeNormalizedChildren } from 'vue'
 
 export const menuProps = buildProps({
   mode: {
@@ -103,8 +110,6 @@ export default defineComponent({
     const items = ref<MenuProvider['items']>({})
     const subMenus = ref<MenuProvider['subMenus']>({})
 
-    const alteredCollapse = ref(false)
-
     // computed
     const isMenuPopup = computed<MenuProvider['isMenuPopup']>(() => {
       return (
@@ -138,13 +143,15 @@ export default defineComponent({
         )
       }
       openedMenus.value.push(index)
+      emit('open', index, indexPath)
     }
 
-    const closeMenu: MenuProvider['closeMenu'] = (index) => {
+    const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
         openedMenus.value.splice(i, 1)
       }
+      emit('close', index, indexPath)
     }
 
     const handleSubMenuClick: MenuProvider['handleSubMenuClick'] = ({
@@ -154,11 +161,9 @@ export default defineComponent({
       const isOpened = openedMenus.value.includes(index)
 
       if (isOpened) {
-        closeMenu(index)
-        emit('close', index, indexPath)
+        closeMenu(index, indexPath)
       } else {
         openMenu(index, indexPath)
-        emit('open', index, indexPath)
       }
     }
 
@@ -202,20 +207,12 @@ export default defineComponent({
         activeIndex.value = item.index
         initMenu()
       } else {
-        // Can't find item when collapsing
-        // and activeIndex shouldn't be changed when 'collapse' was changed.
-        // Then reset 'alteredCollapse' immediately.
-        if (!alteredCollapse.value) {
-          activeIndex.value = undefined
-        } else {
-          alteredCollapse.value = false
-        }
+        activeIndex.value = val
       }
     }
-    const handleResize = () =>
-      nextTick(() => {
-        instance.proxy!.$forceUpdate()
-      })
+    const handleResize = () => {
+      nextTick(() => instance.proxy!.$forceUpdate())
+    }
 
     watch(
       () => props.defaultActive,
@@ -231,10 +228,7 @@ export default defineComponent({
 
     watch(
       () => props.collapse,
-      (value, prev) => {
-        if (value !== prev) {
-          alteredCollapse.value = true
-        }
+      (value) => {
         if (value) openedMenus.value = []
       }
     )
@@ -279,6 +273,7 @@ export default defineComponent({
       provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
+        mouseInChild: ref(false),
       })
     }
 
@@ -329,11 +324,11 @@ export default defineComponent({
         ) as HTMLElement[]
         const originalSlot = flattedChildren(slot)
         const moreItemWidth = 64
-        const paddingLeft = parseInt(
+        const paddingLeft = Number.parseInt(
           getComputedStyle(menu.value).paddingLeft,
           10
         )
-        const paddingRight = parseInt(
+        const paddingRight = Number.parseInt(
           getComputedStyle(menu.value).paddingRight,
           10
         )
@@ -359,9 +354,13 @@ export default defineComponent({
               },
               {
                 title: () =>
-                  h('i', {
-                    class: ['el-icon-more', 'el-sub-menu__icon-more'],
-                  }),
+                  h(
+                    ElIcon,
+                    {
+                      class: ['el-sub-menu__icon-more'],
+                    },
+                    { default: () => h(More) }
+                  ),
                 default: () => slotMore,
               }
             )
@@ -388,7 +387,7 @@ export default defineComponent({
               'el-menu--collapse': props.collapse,
             },
           },
-          [...slot.map((vnode) => resizeMenu(vnode)), ...vShowMore]
+          [...slot, ...vShowMore]
         )
       )
 

@@ -53,7 +53,7 @@ $types: success, warning, danger, info, error;
   @each $type in $types {
     .icon-#{$type} {
       --el-result-color: var(--el-color-#{$type});
-      fill: var(--el-result-color);
+      color: var(--el-result-color);
     }
   }
 }

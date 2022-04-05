@@ -9,7 +9,7 @@
     ]"
   >
     <div class="el-picker-panel__body-wrapper">
-      <slot name="sidebar" class="el-picker-panel__sidebar"></slot>
+      <slot name="sidebar" class="el-picker-panel__sidebar" />
       <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
         <button
           v-for="(shortcut, key) in shortcuts"
@@ -64,24 +64,20 @@
           <button
             type="button"
             :aria-label="t(`el.datepicker.prevYear`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__prev-btn
-              el-icon-d-arrow-left
-            "
+            class="el-picker-panel__icon-btn el-date-picker__prev-btn d-arrow-left"
             @click="prevYear_"
-          ></button>
+          >
+            <el-icon><d-arrow-left /></el-icon>
+          </button>
           <button
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.prevMonth`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__prev-btn
-              el-icon-arrow-left
-            "
+            class="el-picker-panel__icon-btn el-date-picker__prev-btn arrow-left"
             @click="prevMonth_"
-          ></button>
+          >
+            <el-icon><arrow-left /></el-icon>
+          </button>
           <span
             role="button"
             class="el-date-picker__header-label"
@@ -99,24 +95,20 @@
           <button
             type="button"
             :aria-label="t(`el.datepicker.nextYear`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__next-btn
-              el-icon-d-arrow-right
-            "
+            class="el-picker-panel__icon-btn el-date-picker__next-btn d-arrow-right"
             @click="nextYear_"
-          ></button>
+          >
+            <el-icon><d-arrow-right /></el-icon>
+          </button>
           <button
             v-show="currentView === 'date'"
             type="button"
             :aria-label="t(`el.datepicker.nextMonth`)"
-            class="
-              el-picker-panel__icon-btn
-              el-date-picker__next-btn
-              el-icon-arrow-right
-            "
+            class="el-picker-panel__icon-btn el-date-picker__next-btn arrow-right"
             @click="nextMonth_"
-          ></button>
+          >
+            <el-icon><arrow-right /></el-icon>
+          </button>
         </div>
         <div class="el-picker-panel__content">
           <date-table
@@ -150,7 +142,7 @@
     >
       <el-button
         v-show="selectionMode !== 'dates'"
-        size="mini"
+        size="small"
         type="text"
         class="el-picker-panel__link-btn"
         @click="changeToNow"
@@ -159,7 +151,7 @@
       </el-button>
       <el-button
         plain
-        size="mini"
+        size="small"
         class="el-picker-panel__link-btn"
         @click="onConfirm"
       >
@@ -170,19 +162,27 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, watch } from 'vue'
+import { computed, defineComponent, inject, ref, toRef, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
-import { useLocaleInject } from '@element-plus/hooks'
+import { useLocale } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
+  TimePickPanel,
   extractDateFormat,
   extractTimeFormat,
-  TimePickPanel,
 } from '@element-plus/components/time-picker'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { isValidDatePickType } from '@element-plus/utils/validators'
+import { ElIcon } from '@element-plus/components/icon'
+import { isValidDatePickType } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
+import {
+  ArrowLeft,
+  ArrowRight,
+  DArrowLeft,
+  DArrowRight,
+} from '@element-plus/icons-vue'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
@@ -192,7 +192,7 @@ import type { ConfigType, Dayjs } from 'dayjs'
 import type { IDatePickerType } from '../date-picker.type'
 
 // todo
-/* eslint-disable-next-line */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const timeWithinRange = (_: ConfigType, __: any, ___: string) => true
 
 export default defineComponent({
@@ -200,9 +200,14 @@ export default defineComponent({
     DateTable,
     ElInput,
     ElButton,
+    ElIcon,
     TimePickPanel,
     MonthTable,
     YearTable,
+    DArrowLeft,
+    ArrowLeft,
+    DArrowRight,
+    ArrowRight,
   },
 
   directives: { clickoutside: ClickOutside },
@@ -224,11 +229,25 @@ export default defineComponent({
       validator: isValidDatePickType,
     },
   },
-  emits: ['pick', 'set-picker-option'],
+  emits: ['pick', 'set-picker-option', 'panel-change'],
   setup(props, ctx) {
-    const { t, lang } = useLocaleInject()
+    const { t, lang } = useLocale()
+    const pickerBase = inject('EP_PICKER_BASE') as any
+    const popper = inject(TOOLTIP_INJECTION_KEY)
+    const {
+      shortcuts,
+      disabledDate,
+      cellClassName,
+      defaultTime,
+      arrowControl,
+    } = pickerBase.props
+    const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
     const innerDate = ref(dayjs().locale(lang.value))
+
+    const defaultTimeD = computed(() => {
+      return dayjs(defaultTime).locale(lang.value)
+    })
 
     const month = computed(() => {
       return innerDate.value.month()
@@ -252,9 +271,8 @@ export default defineComponent({
         : true
     }
     const formatEmit = (emitDayjs: Dayjs) => {
-      if (defaultTime) {
-        const defaultTimeD = dayjs(defaultTime).locale(lang.value)
-        return defaultTimeD
+      if (defaultTime && !visibleTime.value) {
+        return defaultTimeD.value
           .year(emitDayjs.year())
           .month(emitDayjs.month())
           .date(emitDayjs.date())
@@ -299,10 +317,12 @@ export default defineComponent({
     }
     const prevMonth_ = () => {
       innerDate.value = innerDate.value.subtract(1, 'month')
+      handlePanelChange('month')
     }
 
     const nextMonth_ = () => {
       innerDate.value = innerDate.value.add(1, 'month')
+      handlePanelChange('month')
     }
 
     const prevYear_ = () => {
@@ -311,6 +331,7 @@ export default defineComponent({
       } else {
         innerDate.value = innerDate.value.subtract(1, 'year')
       }
+      handlePanelChange('year')
     }
 
     const nextYear_ = () => {
@@ -319,6 +340,7 @@ export default defineComponent({
       } else {
         innerDate.value = innerDate.value.add(1, 'year')
       }
+      handlePanelChange('year')
     }
 
     const currentView = ref('date')
@@ -368,6 +390,13 @@ export default defineComponent({
       { immediate: true }
     )
 
+    watch(
+      () => currentView.value,
+      () => {
+        popper?.updatePopper()
+      }
+    )
+
     const hasShortcuts = computed(() => !!shortcuts.length)
 
     const handleMonthPick = (month) => {
@@ -377,6 +406,7 @@ export default defineComponent({
       } else {
         currentView.value = 'date'
       }
+      handlePanelChange('month')
     }
 
     const handleYearPick = (year) => {
@@ -387,6 +417,7 @@ export default defineComponent({
         innerDate.value = innerDate.value.year(year)
         currentView.value = 'month'
       }
+      handlePanelChange('year')
     }
 
     const showMonthPicker = () => {
@@ -448,7 +479,7 @@ export default defineComponent({
 
     const visibleTime = computed(() => {
       if (userInputTime.value) return userInputTime.value
-      if (!props.parsedValue && !defaultValue) return
+      if (!props.parsedValue && !defaultValue.value) return
       return ((props.parsedValue || innerDate.value) as Dayjs).format(
         timeFormat.value
       )
@@ -456,7 +487,7 @@ export default defineComponent({
 
     const visibleDate = computed(() => {
       if (userInputDate.value) return userInputDate.value
-      if (!props.parsedValue && !defaultValue) return
+      if (!props.parsedValue && !defaultValue.value) return
       return ((props.parsedValue || innerDate.value) as Dayjs).format(
         dateFormat.value
       )
@@ -532,7 +563,16 @@ export default defineComponent({
     }
 
     const getDefaultValue = () => {
-      return dayjs(defaultValue).locale(lang.value)
+      const parseDate = dayjs(defaultValue.value).locale(lang.value)
+      if (!defaultValue.value) {
+        const defaultTimeDValue = defaultTimeD.value
+        return dayjs()
+          .hour(defaultTimeDValue.hour())
+          .minute(defaultTimeDValue.minute())
+          .second(defaultTimeDValue.second())
+          .locale(lang.value)
+      }
+      return parseDate
     }
 
     const handleKeydown = (event) => {
@@ -606,20 +646,29 @@ export default defineComponent({
       }
     }
 
+    const handlePanelChange = (mode: 'month' | 'year') => {
+      ctx.emit(
+        'panel-change',
+        innerDate.value.toDate(),
+        mode,
+        currentView.value
+      )
+    }
+
     ctx.emit('set-picker-option', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
     ctx.emit('set-picker-option', ['handleKeydown', handleKeydown])
 
-    const pickerBase = inject('EP_PICKER_BASE') as any
-    const {
-      shortcuts,
-      disabledDate,
-      cellClassName,
-      defaultTime,
-      defaultValue,
-      arrowControl,
-    } = pickerBase.props
+    watch(
+      () => defaultValue.value,
+      (val) => {
+        if (val) {
+          innerDate.value = getDefaultValue()
+        }
+      },
+      { immediate: true }
+    )
 
     watch(
       () => props.parsedValue,

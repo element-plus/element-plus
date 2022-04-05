@@ -1,15 +1,17 @@
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { sleep } from '@element-plus/test-utils'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { rAF } from '@element-plus/test-utils/tick'
+import { EVENT_CODE } from '@element-plus/constants'
+import { ElTooltip } from '@element-plus/components/tooltip'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
 
-const TIMEOUT = 250
 const MOUSE_ENTER_EVENT = 'mouseenter'
 const MOUSE_LEAVE_EVENT = 'mouseleave'
-const CLICK = 'click'
 const CONTEXTMENU = 'contextmenu'
+
+jest.useFakeTimers()
 
 const _mount = (template: string, data, otherObj?) =>
   mount({
@@ -44,20 +46,24 @@ describe('Dropdown', () => {
       `,
       () => ({})
     )
-    const content = wrapper.findComponent({ ref: 'b' }).vm as any
-    const triggerElm = wrapper.find('.el-dropdown-link')
-    expect(content.visible).toBe(false)
-    await triggerElm.trigger('keydown')
-    await triggerElm.trigger('focus')
+    await nextTick()
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
+    const triggerElm = wrapper.find('.el-tooltip__trigger')
+    expect(content.open).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await sleep(TIMEOUT)
-    expect(content.visible).toBe(true)
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(true)
     await triggerElm.trigger(MOUSE_LEAVE_EVENT)
-    await sleep(TIMEOUT)
-    expect(content.visible).toBe(false)
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(false)
   })
 
   test('menu click', async () => {
+    const commandHandler = jest.fn()
     const wrapper = _mount(
       `
       <el-dropdown ref="b" @command="commandHandler" placement="right">
@@ -81,19 +87,28 @@ describe('Dropdown', () => {
       }),
       {
         methods: {
-          commandHandler(command) {
-            this.name = command.name
-          },
+          commandHandler,
         },
       }
     )
+    await nextTick()
     // const content = wrapper.findComponent({ ref: 'b' }).vm as any
-    const triggerElm = wrapper.find('.el-dropdown-link')
+    const triggerElm = wrapper.find('.el-tooltip__trigger')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await sleep(TIMEOUT)
-    await wrapper.findComponent({ ref: 'c' }).trigger('click')
-    await sleep(TIMEOUT)
-    expect((wrapper.vm as any).name).toBe('CommandC')
+    await nextTick()
+    jest.runAllTimers()
+    await rAF()
+    await wrapper
+      .findComponent({ ref: 'c' })
+      .findComponent({
+        name: 'DropdownItemImpl',
+      })
+      .find('.el-dropdown-menu__item')
+      .trigger('click')
+    await nextTick()
+    jest.runAllTimers()
+    await rAF()
+    expect(commandHandler).toHaveBeenCalled()
   })
 
   test('trigger', async () => {
@@ -119,15 +134,22 @@ describe('Dropdown', () => {
         name: '',
       })
     )
-    const content = wrapper.findComponent({ ref: 'b' }).vm as any
+    await nextTick()
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
     const triggerElm = wrapper.find('.el-dropdown-link')
-    expect(content.visible).toBe(false)
+    expect(content.open).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await sleep(TIMEOUT)
-    expect(content.visible).toBe(false)
-    await triggerElm.trigger(CLICK)
-    await sleep(TIMEOUT)
-    expect(content.visible).toBe(true)
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(false)
+    await triggerElm.trigger('click', {
+      button: 0,
+    })
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(true)
   })
 
   test('trigger contextmenu', async () => {
@@ -153,15 +175,58 @@ describe('Dropdown', () => {
         name: '',
       })
     )
-    const content = wrapper.findComponent({ ref: 'b' }).vm as any
+    await nextTick()
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
     const triggerElm = wrapper.find('.el-dropdown-link')
-    expect(content.visible).toBe(false)
+    expect(content.open).toBe(false)
     await triggerElm.trigger(CONTEXTMENU)
-    await sleep(TIMEOUT)
-    expect(content.visible).toBe(true)
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(true)
+  })
+
+  test('handleOpen and handleClose', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown trigger="click" ref="refDropdown" placement="right">
+        <span class="el-dropdown-link" ref="a">
+          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="a">Apple</el-dropdown-item>
+            <el-dropdown-item command="b">Orange</el-dropdown-item>
+            <el-dropdown-item command="c">Cherry</el-dropdown-item>
+            <el-dropdown-item command="d">Peach</el-dropdown-item>
+            <el-dropdown-item command="e">Pear</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({
+        name: '',
+      })
+    )
+    await nextTick()
+    const dropdown = wrapper.vm
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
+    expect(content.open).toBe(false)
+    await dropdown.$refs.refDropdown.handleOpen()
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(true)
+    await dropdown.$refs.refDropdown.handleClose()
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(false)
   })
 
   test('split button', async () => {
+    const handleClick = jest.fn()
     const wrapper = _mount(
       `
       <el-dropdown  @click="handleClick" split-button type="primary" ref="b" placement="right">
@@ -183,23 +248,23 @@ describe('Dropdown', () => {
       }),
       {
         methods: {
-          handleClick() {
-            this.name = 'click'
-          },
+          handleClick,
         },
       }
     )
-    const content = wrapper.findComponent({ ref: 'b' }).vm as any
+    await nextTick()
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
     const triggerElm = wrapper.find('.el-dropdown__caret-button')
     const button = wrapper.find('.el-button')
-    expect(content.visible).toBe(false)
+    expect(content.open).toBe(false)
     await button.trigger('click')
-    expect((wrapper.vm as any).name).toBe('click')
-    await triggerElm.trigger('keydown')
-    await triggerElm.trigger('focus')
+    expect(handleClick).toHaveBeenCalled()
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await sleep(TIMEOUT)
-    expect(content.visible).toBe(true)
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(true)
   })
 
   test('hide on click', async () => {
@@ -222,16 +287,25 @@ describe('Dropdown', () => {
       `,
       () => ({})
     )
-
-    const content = wrapper.findComponent({ ref: 'b' }).vm as any
-    const triggerElm = wrapper.find('.el-dropdown-link')
-    await triggerElm.trigger('keydown')
-    await triggerElm.trigger('focus')
+    await nextTick()
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
+    expect(content.open).toBe(false)
+    const triggerElm = wrapper.find('.el-tooltip__trigger')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await sleep(TIMEOUT)
-    await wrapper.findComponent({ ref: 'c' }).trigger('click')
-    await sleep(TIMEOUT)
-    expect(content.visible).toBe(true)
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(true)
+    await wrapper
+      .findComponent({ ref: 'c' })
+      .findComponent({
+        name: 'DropdownItemImpl',
+      })
+      .trigger('click')
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(true)
   })
 
   test('triggerElm keydown', async () => {
@@ -254,26 +328,30 @@ describe('Dropdown', () => {
       `,
       () => ({})
     )
-
-    const content = wrapper.findComponent({ ref: 'b' }).vm as any
-    const triggerElm = wrapper.find('.el-dropdown-link')
-    await triggerElm.trigger('keydown')
-    await triggerElm.trigger('focus')
+    await nextTick()
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
+    const triggerElm = wrapper.find('.el-tooltip__trigger')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await sleep(TIMEOUT)
+    jest.runAllTimers()
+    await rAF()
     await triggerElm.trigger('keydown', {
       code: EVENT_CODE.enter,
     })
-    await sleep(TIMEOUT)
-    expect(content.visible).toBe(false)
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(false)
 
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await sleep(TIMEOUT)
+    jest.runAllTimers()
+    await rAF()
     await triggerElm.trigger('keydown', {
       code: EVENT_CODE.tab,
     })
-    await sleep(TIMEOUT)
-    expect(content.visible).toBe(false)
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(true)
   })
 
   test('dropdown menu keydown', async () => {
@@ -296,16 +374,26 @@ describe('Dropdown', () => {
       `,
       () => ({})
     )
-
+    await nextTick()
     const content = wrapper.findComponent({ ref: 'a' })
-    const triggerElm = wrapper.find('.el-dropdown-link')
+    const triggerElm = wrapper.find('.el-tooltip__trigger')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await sleep(TIMEOUT)
+    jest.runAllTimers()
+    await rAF()
     await content.trigger('keydown', {
       code: EVENT_CODE.down,
     })
-    await sleep(TIMEOUT)
-    expect(wrapper.findComponent({ ref: 'd' }).attributes('tabindex')).toBe('0')
+    jest.runAllTimers()
+    await rAF()
+    expect(
+      wrapper
+        .findComponent({ ref: 'd' })
+        .findComponent({
+          name: 'DropdownItemImpl',
+        })
+        .find('.el-dropdown-menu__item')
+        .element.getAttribute('tabindex')
+    ).toBe('0')
   })
 
   test('max height', async () => {
@@ -328,8 +416,12 @@ describe('Dropdown', () => {
       `,
       () => ({})
     )
-    const content = wrapper.findComponent({ ref: 'b' })
-    const scrollbar = content.findComponent({ ref: 'scrollbar' })
+    await nextTick()
+    const scrollbar = wrapper
+      .findComponent({
+        ref: 'b',
+      })
+      .findComponent({ ref: 'scrollbar' })
     expect(scrollbar.find('.el-scrollbar__wrap').attributes('style')).toContain(
       'max-height: 60px;'
     )
@@ -355,13 +447,171 @@ describe('Dropdown', () => {
       `,
       () => ({})
     )
-    const content = wrapper.findComponent({ ref: 'b' }).vm as any
-    const triggerElm = wrapper.find('.el-dropdown-link')
-    expect(content.visible).toBe(false)
+    const content = wrapper.findComponent(ElTooltip).vm as InstanceType<
+      typeof ElTooltip
+    >
+    const triggerElm = wrapper.find('.el-tooltip__trigger')
+    expect(content.open).toBe(false)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await triggerElm.trigger(MOUSE_LEAVE_EVENT)
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
-    await sleep(TIMEOUT)
-    expect(content.visible).toBe(true)
+    jest.runAllTimers()
+    await rAF()
+    expect(content.open).toBe(true)
+  })
+
+  test('popperClass', async () => {
+    const wrapper = await _mount(
+      `
+      <el-dropdown ref="b" max-height="60px" popper-class="custom-popper-class">
+        <span class="el-dropdown-link" ref="a">
+          dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Apple</el-dropdown-item>
+            <el-dropdown-item>Orange</el-dropdown-item>
+            <el-dropdown-item>Cherry</el-dropdown-item>
+            <el-dropdown-item disabled>Peach</el-dropdown-item>
+            <el-dropdown-item divided>Pear</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+
+    const popperElement = wrapper.findComponent({
+      name: 'ElPopperContent',
+    }).element
+
+    expect(popperElement.classList.contains('custom-popper-class')).toBe(true)
+  })
+
+  test('custom attributes for dropdown items', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    await nextTick()
+    expect(
+      wrapper
+        .findComponent({
+          name: 'DropdownItemImpl',
+        })
+        .find('.el-dropdown-menu__item').element.dataset.customAttribute
+    ).toBe('hello')
+  })
+
+  test('disable normal dropdown', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown disabled>
+        <span class="el-dropdown-link">
+          Dropdown List
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    await nextTick()
+    expect(
+      wrapper
+        .findComponent({
+          name: 'ElDropdown',
+        })
+        .classes()
+    ).toContain('is-disabled')
+  })
+  test('disable dropdown with split button', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown disabled split-button>
+        <span class="el-dropdown-link">
+          Dropdown List
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    await nextTick()
+    expect(
+      wrapper
+        .findAllComponents({
+          name: 'ElButton',
+        })[0]
+        .classes()
+    ).toContain('is-disabled')
+    expect(
+      wrapper
+        .findAllComponents({
+          name: 'ElButton',
+        })[1]
+        .classes()
+    ).toContain('is-disabled')
+  })
+
+  test('set show-timeout/hide-timeout when trigger is hover', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown trigger="hover" :show-timeout="200" :hide-timeout="300">
+        <span class="el-dropdown-link">
+          Dropdown List
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    const tooltipElement = wrapper.getComponent({
+      name: 'ElTooltip',
+    })
+    expect(tooltipElement.vm.showAfter).toBe(200)
+    expect(tooltipElement.vm.hideAfter).toBe(300)
+  })
+
+  test('ignore show-timeout/hide-timeout when trigger is not hover', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown trigger="click" :show-timeout="200" :hide-timeout="300">
+        <span class="el-dropdown-link">
+          Dropdown List
+        </span>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Item</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({})
+    )
+    const tooltipElement = wrapper.getComponent({
+      name: 'ElTooltip',
+    })
+    expect(tooltipElement.vm.showAfter).toBe(0)
+    expect(tooltipElement.vm.hideAfter).toBe(0)
   })
 })

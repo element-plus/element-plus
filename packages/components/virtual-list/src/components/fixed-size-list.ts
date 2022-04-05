@@ -1,13 +1,12 @@
-import { isString } from '@element-plus/utils/util'
-import { throwError } from '@element-plus/utils/error'
+import { isString, throwError } from '@element-plus/utils'
 import buildList from '../builders/build-list'
 import { isHorizontal } from '../utils'
 import {
-  SMART_ALIGNMENT,
   AUTO_ALIGNMENT,
-  START_ALIGNMENT,
-  END_ALIGNMENT,
   CENTERED_ALIGNMENT,
+  END_ALIGNMENT,
+  SMART_ALIGNMENT,
+  START_ALIGNMENT,
 } from '../defaults'
 
 import type { VirtualizedListProps } from '../props'

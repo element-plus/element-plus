@@ -1,6 +1,7 @@
-import { ref, nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import InputNumber from '../src/index.vue'
+import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
+import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
 const _mount = (options) =>
@@ -39,6 +40,39 @@ describe('InputNumber.vue', () => {
       },
     })
     expect(wrapper.find('input').element.value).toEqual('1')
+  })
+  test('set modelValue undefined to form validate', async () => {
+    const wrapper = _mount({
+      template:
+        '<el-input-number :model-value="num" placeholder="input number"/><p>{{num}}</p>',
+      setup() {
+        const num = ref(undefined)
+        return {
+          num,
+        }
+      },
+    })
+    await nextTick()
+    expect(wrapper.find('p').element.innerText).toBeUndefined()
+  })
+  test('set modelValue undefined to display placeholder', async () => {
+    const wrapper = _mount({
+      template:
+        '<el-input-number :model-value="inputText" placeholder="input number"/>',
+      setup() {
+        const inputText = ref(1)
+        return {
+          inputText,
+        }
+      },
+    })
+    expect(wrapper.find('input').element.value).toEqual('1')
+    wrapper.vm.inputText = undefined
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('')
+    expect(wrapper.find('input').element.getAttribute('aria-valuenow')).toEqual(
+      'NaN'
+    )
   })
   test('min', async () => {
     const wrapper = _mount({
@@ -165,8 +199,8 @@ describe('InputNumber.vue', () => {
         }
       },
     })
-    expect(wrapper.find('.el-icon-arrow-down').exists()).toBe(true)
-    expect(wrapper.find('.el-icon-arrow-up').exists()).toBe(true)
+    expect(wrapper.findComponent(ArrowDown).exists()).toBe(true)
+    expect(wrapper.findComponent(ArrowUp).exists()).toBe(true)
   })
   test('change-event', async () => {
     const wrapper = _mount({
@@ -241,13 +275,13 @@ describe('InputNumber.vue', () => {
     const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
     elInput.handleInputChange('')
     await nextTick()
-    expect(wrapper.vm.num).toBe(undefined)
+    expect(wrapper.vm.num).toBe(1)
     elInput.increase()
     await nextTick()
-    expect(wrapper.vm.num).toBe(1)
+    expect(wrapper.vm.num).toBe(2)
     elInput.handleInputChange('')
     await nextTick()
-    expect(wrapper.vm.num).toBe(undefined)
+    expect(wrapper.vm.num).toBe(1)
     elInput.decrease()
     await nextTick()
     expect(wrapper.vm.num).toBe(1)

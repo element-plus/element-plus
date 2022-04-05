@@ -7,7 +7,9 @@
     @select="handleSelect"
   >
     <template #suffix>
-      <i class="el-icon-edit el-input__icon" @click="handleIconClick"></i>
+      <el-icon class="el-input__icon" @click="handleIconClick">
+        <edit />
+      </el-icon>
     </template>
     <template #default="{ item }">
       <div class="value">{{ item.value }}</div>
@@ -16,60 +18,53 @@
   </el-autocomplete>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
-export default defineComponent({
-  setup() {
-    const links = ref([])
+<script lang="ts" setup>
+import { onMounted, ref } from 'vue'
+import { Edit } from '@element-plus/icons-vue'
 
-    const querySearch = (queryString: string, cb) => {
-      const results = queryString
-        ? links.value.filter(createFilter(queryString))
-        : links.value
-      // call callback function to return suggestion objects
-      cb(results)
-    }
-    const createFilter = (queryString) => {
-      return (restaurant) => {
-        return (
-          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
-          0
-        )
-      }
-    }
-    const loadAll = () => {
-      return [
-        { value: 'vue', link: 'https://github.com/vuejs/vue' },
-        { value: 'element', link: 'https://github.com/ElemeFE/element' },
-        { value: 'cooking', link: 'https://github.com/ElemeFE/cooking' },
-        { value: 'mint-ui', link: 'https://github.com/ElemeFE/mint-ui' },
-        { value: 'vuex', link: 'https://github.com/vuejs/vuex' },
-        { value: 'vue-router', link: 'https://github.com/vuejs/vue-router' },
-        { value: 'babel', link: 'https://github.com/babel/babel' },
-      ]
-    }
-    const handleSelect = (item) => {
-      console.log(item)
-    }
+interface LinkItem {
+  value: string
+  link: string
+}
 
-    const handleIconClick = (ev) => {
-      console.log(ev)
-    }
+const state = ref('')
+const links = ref<LinkItem[]>([])
 
-    onMounted(() => {
-      links.value = loadAll()
-    })
+const querySearch = (queryString: string, cb) => {
+  const results = queryString
+    ? links.value.filter(createFilter(queryString))
+    : links.value
+  // call callback function to return suggestion objects
+  cb(results)
+}
+const createFilter = (queryString) => {
+  return (restaurant) => {
+    return (
+      restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+    )
+  }
+}
+const loadAll = () => {
+  return [
+    { value: 'vue', link: 'https://github.com/vuejs/vue' },
+    { value: 'element', link: 'https://github.com/ElemeFE/element' },
+    { value: 'cooking', link: 'https://github.com/ElemeFE/cooking' },
+    { value: 'mint-ui', link: 'https://github.com/ElemeFE/mint-ui' },
+    { value: 'vuex', link: 'https://github.com/vuejs/vuex' },
+    { value: 'vue-router', link: 'https://github.com/vuejs/vue-router' },
+    { value: 'babel', link: 'https://github.com/babel/babel' },
+  ]
+}
+const handleSelect = (item: LinkItem) => {
+  console.log(item)
+}
 
-    return {
-      links,
-      state: ref(''),
-      querySearch,
-      createFilter,
-      loadAll,
-      handleSelect,
-      handleIconClick,
-    }
-  },
+const handleIconClick = (ev: Event) => {
+  console.log(ev)
+}
+
+onMounted(() => {
+  links.value = loadAll()
 })
 </script>
 

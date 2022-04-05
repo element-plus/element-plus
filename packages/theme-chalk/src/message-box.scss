@@ -24,13 +24,29 @@
   backface-visibility: hidden;
 
   @at-root .#{$namespace}-overlay.is-message-box {
-    text-align: center;
-    &::after {
-      content: '';
-      display: inline-block;
-      height: 100%;
-      width: 0;
-      vertical-align: middle;
+    .#{$namespace}-overlay-message-box {
+      text-align: center;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: auto;
+
+      &::after {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        width: 0;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  @include when(draggable) {
+    @include e(header) {
+      cursor: move;
+      user-select: none;
     }
   }
 
@@ -61,6 +77,7 @@
 
     .#{$namespace}-message-box__close {
       color: var(--el-color-info);
+      font-size: inherit;
     }
 
     &:focus,
@@ -86,6 +103,7 @@
 
     & div.invalid > input {
       border-color: var(--el-color-error);
+
       &:focus {
         border-color: var(--el-color-error);
       }
@@ -103,6 +121,11 @@
       padding-left: 1px;
     }
 
+    &.#{$namespace}-icon {
+      // 防止 el-icon 的position样式覆盖
+      position: absolute;
+    }
+
     + .#{$namespace}-message-box__message {
       padding-left: 36px;
       padding-right: 12px;
@@ -110,7 +133,7 @@
     }
 
     @each $type in (success, info, warning, error) {
-      &.#{$namespace}-icon-#{$type} {
+      &.#{$namespace}-message-box-icon--#{$type} {
         --el-messagebox-color: var(--el-color-#{$type});
         color: var(--el-messagebox-color);
       }
@@ -135,7 +158,10 @@
 
   @include e(btns) {
     padding: 5px 15px 0;
-    text-align: right;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
 
     & button:nth-child(2) {
       margin-left: 10px;
@@ -148,12 +174,6 @@
 
   // centerAlign 布局
   @include m(center) {
-    padding-bottom: 30px;
-
-    @include e(header) {
-      padding-top: 30px;
-    }
-
     @include e(title) {
       position: relative;
       display: flex;
@@ -173,8 +193,8 @@
       margin-left: 0;
     }
 
-    @include e((btns, content)) {
-      text-align: center;
+    @include e(btns) {
+      justify-content: center;
     }
 
     @include e(content) {
@@ -182,18 +202,20 @@
 
       padding-left: $padding-horizontal;
       padding-right: $padding-horizontal;
+
+      text-align: center;
     }
   }
 }
 
 .fade-in-linear-enter-active {
-  .#{$namespace}-message-box {
+  .#{$namespace}-overlay-message-box {
     animation: msgbox-fade-in var(--el-transition-duration);
   }
 }
 
 .fade-in-linear-leave-active {
-  .#{$namespace}-message-box {
+  .#{$namespace}-overlay-message-box {
     animation: msgbox-fade-in var(--el-transition-duration) reverse;
   }
 }

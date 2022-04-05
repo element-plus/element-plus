@@ -1,5 +1,6 @@
 ---
 title: 'Changelog'
+lang: en-US
 ---
 
 <style scoped lang="scss">

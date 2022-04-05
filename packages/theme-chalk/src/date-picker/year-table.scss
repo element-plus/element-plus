@@ -23,7 +23,7 @@
     }
 
     &.disabled .cell {
-      background-color: var(--el-background-color-base);
+      background-color: getCssVar('fill-color', 'light');
       cursor: not-allowed;
       color: var(--el-text-color-placeholder);
 
@@ -37,11 +37,11 @@
       height: 32px;
       display: block;
       line-height: 32px;
-      color: var(--el-datepicker-font-color);
+      color: var(--el-datepicker-text-color);
       margin: 0 auto;
 
       &:hover {
-        color: var(--el-datepicker-hover-font-color);
+        color: var(--el-datepicker-hover-text-color);
       }
     }
 

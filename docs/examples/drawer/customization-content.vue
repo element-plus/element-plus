@@ -12,22 +12,14 @@
     size="50%"
   >
     <el-table :data="gridData">
-      <el-table-column
-        property="date"
-        label="Date"
-        width="150"
-      ></el-table-column>
-      <el-table-column
-        property="name"
-        label="Name"
-        width="200"
-      ></el-table-column>
-      <el-table-column property="address" label="Address"></el-table-column>
+      <el-table-column property="date" label="Date" width="150" />
+      <el-table-column property="name" label="Name" width="200" />
+      <el-table-column property="address" label="Address" />
     </el-table>
   </el-drawer>
 
   <el-drawer
-    ref="drawer"
+    ref="drawerRef"
     v-model="dialog"
     title="I have a nested form inside!"
     :before-close="handleClose"
@@ -37,108 +29,102 @@
     <div class="demo-drawer__content">
       <el-form :model="form">
         <el-form-item label="Name" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
         <el-form-item label="Area" :label-width="formLabelWidth">
           <el-select
             v-model="form.region"
             placeholder="Please select activity area"
           >
-            <el-option label="Area1" value="shanghai"></el-option>
-            <el-option label="Area2" value="beijing"></el-option>
+            <el-option label="Area1" value="shanghai" />
+            <el-option label="Area2" value="beijing" />
           </el-select>
         </el-form-item>
       </el-form>
       <div class="demo-drawer__footer">
         <el-button @click="cancelForm">Cancel</el-button>
-        <el-button
-          type="primary"
-          :loading="loading"
-          @click="$refs.drawer.closeDrawer()"
-          >{{ loading ? 'Submitting ...' : 'Submit' }}</el-button
-        >
+        <el-button type="primary" :loading="loading" @click="onClick">{{
+          loading ? 'Submitting ...' : 'Submit'
+        }}</el-button>
       </div>
     </div>
   </el-drawer>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
+import type { ElDrawer } from 'element-plus'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      table: false,
-      dialog: false,
-      loading: false,
-      gridData: [
-        {
-          date: '2016-05-02',
-          name: 'Peter Parker',
-          address: 'Queens, New York City',
-        },
-        {
-          date: '2016-05-04',
-          name: 'Peter Parker',
-          address: 'Queens, New York City',
-        },
-        {
-          date: '2016-05-01',
-          name: 'Peter Parker',
-          address: 'Queens, New York City',
-        },
-        {
-          date: '2016-05-03',
-          name: 'Peter Parker',
-          address: 'Queens, New York City',
-        },
-      ],
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: '',
-      },
-      formLabelWidth: '80px',
-      timer: null,
-    })
+const formLabelWidth = '80px'
+let timer
 
-    const handleClose = (done) => {
-      if (state.loading) {
-        return
-      }
-      ElMessageBox.confirm('Do you want to submit?')
-        .then(() => {
-          state.loading = true
-          state.timer = setTimeout(() => {
-            done()
-            // 动画关闭需要一定的时间
-            setTimeout(() => {
-              state.loading = false
-            }, 400)
-          }, 2000)
-        })
-        .catch(() => {
-          // catch error
-        })
-    }
+const table = ref(false)
+const dialog = ref(false)
+const loading = ref(false)
 
-    const cancelForm = () => {
-      state.loading = false
-      state.dialog = false
-      clearTimeout(state.timer)
-    }
-
-    return {
-      ...toRefs(state),
-      handleClose,
-      cancelForm,
-    }
-  },
+const form = reactive({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
 })
+
+const gridData = [
+  {
+    date: '2016-05-02',
+    name: 'Peter Parker',
+    address: 'Queens, New York City',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Peter Parker',
+    address: 'Queens, New York City',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Peter Parker',
+    address: 'Queens, New York City',
+  },
+  {
+    date: '2016-05-03',
+    name: 'Peter Parker',
+    address: 'Queens, New York City',
+  },
+]
+
+const drawerRef = ref<InstanceType<typeof ElDrawer>>()
+const onClick = () => {
+  drawerRef.value!.close()
+}
+
+const handleClose = (done) => {
+  if (loading.value) {
+    return
+  }
+  ElMessageBox.confirm('Do you want to submit?')
+    .then(() => {
+      loading.value = true
+      timer = setTimeout(() => {
+        done()
+        // 动画关闭需要一定的时间
+        setTimeout(() => {
+          loading.value = false
+        }, 400)
+      }, 2000)
+    })
+    .catch(() => {
+      // catch error
+    })
+}
+
+const cancelForm = () => {
+  loading.value = false
+  dialog.value = false
+  clearTimeout(timer)
+}
 </script>

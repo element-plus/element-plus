@@ -5,8 +5,10 @@
 @use 'common/transition';
 
 @mixin menu-item {
-  height: 56px;
-  line-height: 56px;
+  display: flex;
+  align-items: center;
+  height: var(--el-menu-item-height);
+  line-height: var(--el-menu-item-height);
   font-size: var(--el-menu-item-font-size);
   color: var(--el-menu-text-color);
   padding: 0 20px;
@@ -20,7 +22,7 @@
   white-space: nowrap;
 
   * {
-    vertical-align: middle;
+    vertical-align: bottom;
   }
 
   i {
@@ -33,7 +35,7 @@
   }
 
   &:hover {
-    background-color: var(--el-menu-hover-background-color);
+    background-color: var(--el-menu-hover-bg-color);
   }
 
   @include when(disabled) {
@@ -51,7 +53,7 @@
   position: relative;
   margin: 0;
   padding-left: 0;
-  background-color: var(--el-menu-background-color);
+  background-color: var(--el-menu-bg-color);
   box-sizing: border-box;
 
   @include m(horizontal) {
@@ -65,7 +67,7 @@
       justify-content: center;
       align-items: center;
 
-      height: 60px;
+      height: 100%;
       margin: 0;
       border-bottom: 2px solid transparent;
       color: var(--el-menu-text-color);
@@ -100,8 +102,7 @@
       }
 
       & .#{$namespace}-sub-menu__title {
-        height: 60px;
-        line-height: 60px;
+        height: 100%;
         border-bottom: 2px solid transparent;
         color: var(--el-menu-text-color);
 
@@ -120,12 +121,16 @@
     & .#{$namespace}-menu {
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title {
-        background-color: var(--el-menu-background-color);
+        background-color: var(--el-menu-bg-color);
         display: flex;
         align-items: center;
         height: 36px;
         padding: 0 10px;
         color: var(--el-menu-text-color);
+      }
+
+      & .#{$namespace}-sub-menu__title {
+        padding-right: 40px;
       }
 
       & .#{$namespace}-menu-item.is-active,
@@ -137,7 +142,7 @@
     & .#{$namespace}-menu-item:not(.is-disabled):focus {
       outline: none;
       color: var(--el-menu-hover-text-color);
-      background-color: var(--el-menu-hover-background-color);
+      background-color: var(--el-menu-hover-bg-color);
     }
     & > .#{$namespace}-menu-item.is-active {
       border-bottom: 2px solid var(--el-menu-active-color);
@@ -149,7 +154,7 @@
 
     > .#{$namespace}-menu-item,
     > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title {
-      [class^='#{$namespace}-icon-'] {
+      [class^='#{$namespace}-icon'] {
         margin: 0;
         vertical-align: middle;
         width: 24px;
@@ -160,7 +165,7 @@
         display: none;
       }
 
-      span {
+      > span {
         height: 0;
         width: 0;
         overflow: hidden;
@@ -190,15 +195,14 @@
         border-radius: var(--el-border-radius-small);
         box-shadow: var(--el-box-shadow-light);
       }
-
       &.is-opened {
         > .#{$namespace}-sub-menu__title .#{$namespace}-sub-menu__icon-arrow {
           transform: none;
         }
       }
 
-      &.is-active i {
-        color: inherit;
+      &.is-active .#{$namespace}-sub-menu__title {
+        color: var(--el-menu-active-color);
       }
     }
   }
@@ -210,12 +214,16 @@
     border-radius: var(--el-border-radius-small);
     box-shadow: var(--el-box-shadow-light);
   }
+
+  .#{$namespace}-icon {
+    flex-shrink: 0;
+  }
 }
 
 @include b(menu-item) {
   @include menu-item;
 
-  & [class^='#{$namespace}-icon-'] {
+  & [class^='#{$namespace}-icon'] {
     margin-right: 5px;
     width: 24px;
     text-align: center;
@@ -228,6 +236,17 @@
       color: inherit;
     }
   }
+  .#{$namespace}-menu-tooltip__trigger {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 20px;
+  }
 }
 
 @include b(sub-menu) {
@@ -239,7 +258,7 @@
     @include menu-item;
 
     &:hover {
-      background-color: var(--el-menu-hover-background-color);
+      background-color: var(--el-menu-hover-bg-color);
     }
   }
   & .#{$namespace}-menu {
@@ -255,17 +274,6 @@
     .#{$namespace}-sub-menu__icon-arrow {
       display: none !important;
     }
-  }
-  @include e(icon-more) {
-    margin-right: 0 !important;
-  }
-  @include e(icon-arrow) {
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    margin-top: -7px;
-    transition: transform var(--el-transition-duration);
-    font-size: 12px;
   }
   @include when(active) {
     .#{$namespace}-sub-menu__title {
@@ -285,12 +293,26 @@
       background: none !important;
     }
   }
-  [class^='#{$namespace}-icon-'] {
+  .#{$namespace}-icon {
     vertical-align: middle;
     margin-right: 5px;
     width: 24px;
     text-align: center;
     font-size: 18px;
+
+    &.#{$namespace}-sub-menu__icon-more {
+      margin-right: 0 !important;
+    }
+  }
+  .#{$namespace}-sub-menu__icon-arrow {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    margin-top: -7px;
+    transition: transform var(--el-transition-duration);
+    font-size: 12px;
+    margin-right: 0;
+    width: inherit;
   }
 }
 

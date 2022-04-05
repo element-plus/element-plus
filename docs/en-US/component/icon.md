@@ -1,33 +1,33 @@
+---
+title: Icon
+lang: en-US
+---
+
 # Icon
 
 Element Plus provides a set of common icons.
 
-:::warning
-
-Element Plus team is replacing all **Font Icon** in the previously built components to **SVG Icon**, please keep you eyes on [ChangeLog](/#/en-US/component/changelog), for getting latest updates, **Font Icon** will be deprecated after the first stable release.
-
-:::
-
-<script setup>
-import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons'
-</script>
-
-## SvgIcon Usage
+## Icon Usage
 
 - If you want to **use directly** like the example, you need to [globally register](https://v3.vuejs.org/guide/component-registration.html#global-registration) the components before using it.
 
-- If you want to see all available SVG icons please check [@element-plus/icons](https://unpkg.com/browse/@element-plus/icons@latest/lib/) and the source [Github/ElementPlus/icons](https://github.com/element-plus/element-plus-icons) out or [SVG icons](/#/en-US/component/icon#svg-tu-biao-ji-he)
+- If you want to see all available SVG icons please check [@element-plus/icons-vue](https://unpkg.com/browse/@element-plus/icons-vue@latest/dist/es/) and the source [element-plus-icons](https://github.com/element-plus/element-plus-icons) out or [Icon Collection](#icons-collection)
+
+- CDN importing and [auto importing](https://github.com/antfu/unplugin-icons) is under developing.
 
 ## Installation
 
-The current icon is only targeted to [Vue3](https://v3.vuejs.org).
-
-## Using packaging manager
+### Using packaging manager
 
 ```shell
-$ yarn add @element-plus/icons
-# or
-$ npm install @element-plus/icons
+# Choose a package manager you like.
+
+# NPM
+$ npm install @element-plus/icons-vue
+# Yarn
+$ yarn add @element-plus/icons-vue
+# pnpm
+$ pnpm install @element-plus/icons-vue
 ```
 
 ## Simple usage
@@ -44,13 +44,17 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
 <template>
   <div>
     <el-icon :size="size" :color="color">
-      <edit></edit>
+      <edit />
     </el-icon>
     <!-- Or use it independently without derive attributes from parent -->
-    <edit></edit>
+    <edit />
   </div>
 </template>
 ```
+
+<script setup>
+import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
+</script>
 
 <ElRow>
   <div>
@@ -84,10 +88,10 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
     <loading />
   </el-icon>
   <el-button type="primary">
-    <el-icon style="vertical-align: middle;">
+    <el-icon style="vertical-align: middle">
       <search />
     </el-icon>
-    <span style="vertical-align: middle;"> Search </span>
+    <span style="vertical-align: middle"> Search </span>
   </el-button>
 </template>
 ```
@@ -123,13 +127,13 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
 
 ```vue
 <template>
-  <div style="font-size: 20px;">
+  <div style="font-size: 20px">
     <!-- Since svg icons do not carry any attributes by default -->
     <!-- You need to provide attributes directly -->
-    <edit style="width: 1em; height: 1em; margin-right: 8px;" />
-    <share style="width: 1em; height: 1em; margin-right: 8px;" />
-    <delete style="width: 1em; height: 1em; margin-right: 8px;" />
-    <search style="width: 1em; height: 1em; margin-right: 8px;" />
+    <edit style="width: 1em; height: 1em; margin-right: 8px" />
+    <share style="width: 1em; height: 1em; margin-right: 8px" />
+    <delete style="width: 1em; height: 1em; margin-right: 8px" />
+    <search style="width: 1em; height: 1em; margin-right: 8px" />
   </div>
 </template>
 ```
@@ -145,7 +149,7 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
   </div>
 </ElRow>
 
-### SVG Icons collection <ElTag>Available >= 1.0.2-beta.66</ElTag>
+## Icon Collection
 
 :::tip
 
@@ -157,26 +161,12 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
 
 <IconList />
 
-<!-- <ul class="icon-list">
-  <li
-    v-for="component in $svgIcons"
-    :key="component"
-    @click="$copySvgIcon(component)">
-    <span class="demo-svg-icon">
-      <el-icon color="#000">
-        <component :is="component" />
-      </el-icon>
-      <span class="icon-name">{{component}}</span>
-    </span>
-  </li>
-</ul> -->
-
-### Icon Attributes
+## Icon Attributes
 
 | Attribute | Description                | Type                           | Acceptable Value | Default                |
 | --------- | -------------------------- | ------------------------------ | ---------------- | ---------------------- |
 | color     | SVG tag's fill attribute   | Pick\<CSSProperties, 'color'\> | -                | inherit from color     |
-| size      | SVG icon size, size x size | number                         | -                | inherit from font size |
+| size      | SVG icon size, size x size | number \| string               | -                | inherit from font size |
 
 ## Icon Slots
 

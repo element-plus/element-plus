@@ -1,12 +1,13 @@
 import path from 'path'
 import chalk from 'chalk'
-import { src, dest, series, parallel } from 'gulp'
+import { dest, parallel, series, src } from 'gulp'
 import gulpSass from 'gulp-sass'
 import dartSass from 'sass'
 import autoprefixer from 'gulp-autoprefixer'
 import cleanCSS from 'gulp-clean-css'
 import rename from 'gulp-rename'
-import { epOutput } from '../../build/utils/paths'
+import consola from 'consola'
+import { epOutput } from '@element-plus/build'
 
 const distFolder = path.resolve(__dirname, 'dist')
 const distBundle = path.resolve(epOutput, 'theme-chalk')
@@ -24,7 +25,7 @@ function buildThemeChalk() {
     .pipe(autoprefixer({ cascade: false }))
     .pipe(
       cleanCSS({}, (details) => {
-        console.log(
+        consola.success(
           `${chalk.cyan(details.name)}: ${chalk.yellow(
             details.stats.originalSize / 1000
           )} KB -> ${chalk.green(details.stats.minifiedSize / 1000)} KB`
@@ -42,17 +43,7 @@ function buildThemeChalk() {
 }
 
 /**
- * copy font to lib/fonts
- * @returns
- */
-export function copyFont() {
-  return src(path.resolve(__dirname, 'src/fonts/**')).pipe(
-    dest(path.resolve(distFolder, 'fonts'))
-  )
-}
-
-/**
- * copy from packages/theme-chalk/lib to dist/theme-chalk
+ * copy from packages/theme-chalk/dist to dist/element-plus/theme-chalk
  */
 export function copyThemeChalkBundle() {
   return src(`${distFolder}/**`).pipe(dest(distBundle))
@@ -69,7 +60,6 @@ export function copyThemeChalkSource() {
 }
 
 export const build = parallel(
-  copyFont,
   copyThemeChalkSource,
   series(buildThemeChalk, copyThemeChalkBundle)
 )

@@ -1,5 +1,6 @@
 ---
 title: Navigation
+lang: en-US
 ---
 
 <style scoped lang="scss">
@@ -24,7 +25,7 @@ top navigation
 
 ## Side Navigation
 
-Fix the navigation at the left edge, thus improves its visibility, making it
+Affix the navigation at the left edge, thus improves its visibility, making it
 easier to switch between pages. In this case, the top area of the page holds
 commonly used tools, e.g. search bar, help button, notice button, etc. Suitable
 for background management or utility websites.

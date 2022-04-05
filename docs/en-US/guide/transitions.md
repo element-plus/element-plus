@@ -1,11 +1,12 @@
 ---
 title: Built-in Transitions
+lang: en-US
 ---
 
 # Built-in Transition
 
 You can use Element's built-in transitions directly.
-Before that, please read the [transition docs](https://vuejs.org/v2/api/#transition).
+Before that, please read the [transition docs](https://vuejs.org/guide/built-ins/transition.html).
 
 ## Fade
 

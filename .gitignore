@@ -15,3 +15,6 @@ packages/element-plus/version.ts
 
 # local env files
 *.local
+cypress/screenshots/*
+cypress/videos/*
+tmp

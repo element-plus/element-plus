@@ -4,7 +4,7 @@
 @use 'common/var' as *;
 
 @include b(check-tag) {
-  background-color: $background-color-base;
+  background-color: getCssVar('color', 'info', 'light-9');
   border-radius: var(--el-border-radius-base);
   color: var(--el-color-info);
   cursor: pointer;
@@ -14,15 +14,16 @@
   padding: 7px 15px;
   transition: var(--el-transition-all);
   font-weight: bold;
+
   &:hover {
-    background-color: rgb(220, 223, 230);
+    background-color: getCssVar('color', 'info', 'light-7');
   }
 
   @include when(checked) {
-    background-color: #deedfc;
-    color: map.get($colors, 'primary', 'light-1');
+    background-color: getCssVar('color', 'primary', 'light-8');
+    color: getCssVar('color', 'primary', 'light-1');
     &:hover {
-      background-color: map.get($colors, 'primary', 'light-7');
+      background-color: getCssVar('color', 'primary', 'light-7');
     }
   }
 }

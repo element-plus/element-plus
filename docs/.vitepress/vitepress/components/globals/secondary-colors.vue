@@ -1,57 +1,38 @@
+<script lang="ts" setup>
+import { getColorValue, useCopyColor } from '../../utils'
+
+const colorsType = ['success', 'warning', 'danger', 'info']
+
+const colorLevel = [3, 5, 7, 8, 9].map((item) => `light-${item}`)
+colorLevel.unshift('dark-2')
+
+const { copyColor } = useCopyColor()
+</script>
+
 <template>
   <el-row :gutter="12">
-    <el-col v-for="type in colorsType" :key="type" :span="6" :xs="{ span: 12 }">
+    <el-col
+      v-for="(type, i) in colorsType"
+      :key="i"
+      :span="6"
+      :xs="{ span: 12 }"
+    >
       <div class="demo-color-box" :style="{ background: getColorValue(type) }">
         {{ type.charAt(0).toUpperCase() + type.slice(1) }}
         <div class="value">{{ getColorValue(type).toUpperCase() }}</div>
         <div class="bg-color-sub">
           <div
-            v-for="(_, key) in Array(2)"
+            v-for="(level, key) in colorLevel"
             :key="key"
-            class="bg-secondary-sub-item"
+            class="bg-secondary-sub-item transition hover:(cursor-pointer shadow)"
             :style="{
-              background: tintColor(getColorValue(type), (key + 8) / 10),
+              width: `${100 / 6}%`,
+              background: getColorValue(type + '-' + level),
             }"
-          ></div>
+            @click="copyColor(type + '-' + level)"
+          />
         </div>
       </div>
     </el-col>
   </el-row>
 </template>
-
-<script lang="ts">
-import { defineComponent, markRaw } from 'vue'
-
-export default defineComponent({
-  setup() {
-    const tintColor = (c: string, tint: number) => {
-      const color = c.trim().slice(1)
-      let red = parseInt(color.slice(0, 2), 16)
-      let green = parseInt(color.slice(2, 4), 16)
-      let blue = parseInt(color.slice(4, 6), 16)
-
-      if (tint === 0) {
-        // when primary color is in its rgb space
-        return [red, green, blue].join(',')
-      } else {
-        red += Math.round(tint * (255 - red))
-        green += Math.round(tint * (255 - green))
-        blue += Math.round(tint * (255 - blue))
-        return `#${red.toString(16)}${green.toString(16)}${blue.toString(16)}`
-      }
-    }
-
-    const getColorValue = (type: string) => {
-      return getComputedStyle(document.documentElement).getPropertyValue(
-        `--el-color-${type}`
-      )
-    }
-
-    return {
-      colorsType: markRaw(['success', 'warning', 'danger', 'info']),
-      getColorValue,
-      tintColor,
-    }
-  },
-})
-</script>

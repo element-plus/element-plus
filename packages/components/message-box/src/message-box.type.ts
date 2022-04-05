@@ -1,4 +1,5 @@
-import type { CSSProperties, VNode } from 'vue'
+import type { AppContext, CSSProperties, Component, VNode } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 
 type MessageType = '' | 'success' | 'warning' | 'info' | 'error'
 
@@ -18,7 +19,7 @@ export declare interface MessageBoxState {
   title: string
   message: string
   type: MessageType
-  iconClass: string
+  icon: string | Component
   customClass: string
   customStyle: CSSProperties
   showInput: boolean
@@ -92,6 +93,9 @@ export interface ElMessageBoxOptions {
   /** Whether to align the content in center */
   center?: boolean
 
+  /** Whether MessageBox can be drag */
+  draggable?: boolean
+
   /** Content of the MessageBox */
   message?: string | VNode
 
@@ -104,8 +108,8 @@ export interface ElMessageBoxOptions {
   /** Message box type */
   boxType?: MessageBoxType
 
-  /** Custom icon's class */
-  iconClass?: string
+  /** Custom icon component */
+  icon?: string | Component
 
   /** Whether message is treated as HTML string */
   dangerouslyUseHTMLString?: boolean
@@ -157,24 +161,34 @@ export interface ElMessageBoxOptions {
 
   /** Error message when validation fails */
   inputErrorMessage?: string
+
+  /** Custom size of confirm and cancel buttons */
+  buttonSize?: ComponentSize
 }
 
 export type ElMessageBoxShortcutMethod = ((
   message: ElMessageBoxOptions['message'],
   title: ElMessageBoxOptions['title'],
-  options?: ElMessageBoxOptions
+  options?: ElMessageBoxOptions,
+  appContext?: AppContext | null
 ) => Promise<MessageBoxData>) &
   ((
     message: ElMessageBoxOptions['message'],
-    options?: ElMessageBoxOptions
+    options?: ElMessageBoxOptions,
+    appContext?: AppContext | null
   ) => Promise<MessageBoxData>)
 
 export interface IElMessageBox {
+  _context: AppContext | null
+
   /** Show a message box */
   // (message: string, title?: string, type?: string): Promise<MessageBoxData>
 
   /** Show a message box */
-  (options: ElMessageBoxOptions): Promise<MessageBoxData>
+  (
+    options: ElMessageBoxOptions,
+    appContext?: AppContext | null
+  ): Promise<MessageBoxData>
 
   /** Show an alert message box */
   alert: ElMessageBoxShortcutMethod

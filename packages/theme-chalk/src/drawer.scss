@@ -11,11 +11,10 @@ $directions: rtl, ltr, ttb, btt;
 @include b(drawer) {
   position: absolute;
   box-sizing: border-box;
-  background-color: var(--el-drawer-background-color);
+  background-color: var(--el-drawer-bg-color);
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2),
-    0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12);
+  box-shadow: getCssVar('box-shadow', 'dark');
   overflow: hidden;
 
   transition: all var(--el-transition-duration);
@@ -45,6 +44,12 @@ $directions: rtl, ltr, ttb, btt;
     font-size: 1rem;
   }
 
+  @include e(footer) {
+    padding: var(--el-drawer-padding-primary);
+    padding-top: 10px;
+    text-align: right;
+  }
+
   &__close-btn {
     border: none;
     cursor: pointer;
@@ -57,11 +62,16 @@ $directions: rtl, ltr, ttb, btt;
         color: var(--el-color-primary);
       }
     }
+    .#{$namespace}-icon {
+      font-size: inherit;
+      vertical-align: text-bottom;
+    }
   }
 
   &__body {
     flex: 1;
     padding: var(--el-drawer-padding-primary);
+    overflow: auto;
     & > * {
       box-sizing: border-box;
     }

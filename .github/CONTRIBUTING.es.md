@@ -2,7 +2,7 @@
 
 ¡Hola! Gracias por elegir [Element Plus](http://element.eleme.io/#/en-US).
 
-`Element Plus` es un archivo de componentes para desarrolladores y para gerentes de productos ‘web’ basado en [Vue 3.0](https://vuejs.org/)
+`Element Plus` es un archivo de componentes para desarrolladores y para gerentes de productos ‘web’ basado en [Vue 3](https://vuejs.org/)
 
 Estamos orgullosos de que usted esta interesado en contribuir al proyecto `Element Plus`. Antes de someter sus contribuciones, por favor tome un momentito para leer estas simples guías para contribuidores.
 

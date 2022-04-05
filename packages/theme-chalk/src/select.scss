@@ -5,6 +5,7 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 @use './select-dropdown.scss';
+@use './select/common.scss' as *;
 
 @include b(select) {
   @include set-component-css-var('select', $select);
@@ -17,15 +18,26 @@
 
   @include e(popper) {
     @include picker-popper(
-      map.get($select-dropdown, 'background'),
+      map.get($select-dropdown, 'bg-color'),
       map.get($select-dropdown, 'border'),
       map.get($select-dropdown, 'shadow')
     );
   }
 
-  @each $size in (medium, small, mini) {
+  .#{$namespace}-select-tags-wrapper {
+    &.has-prefix {
+      margin-left: map.get($select-tags-prefix-padding, 'default');
+    }
+  }
+
+  @each $size in (large, small) {
     @include m($size) {
       line-height: map.get($input-height, $size);
+      .#{$namespace}-select-tags-wrapper {
+        &.has-prefix {
+          margin-left: map.get($select-tags-prefix-padding, $size);
+        }
+      }
     }
   }
 
@@ -33,31 +45,28 @@
     display: inline-block;
   }
 
-  &:hover {
+  &:hover:not(.#{$namespace}-select--disabled) {
     .#{$namespace}-input__inner {
-      border-color: var(--el-select-border-color-hover);
+      box-shadow: 0 0 0 1px var(--el-select-border-color-hover) inset;
     }
   }
 
-  .#{$namespace}-select__tags-text {
-    text-overflow: ellipsis;
-    display: inline-block;
-    overflow-x: hidden;
-    vertical-align: bottom;
-  }
+  @include select-common(select);
 
   .#{$namespace}-input__inner {
     cursor: pointer;
-    padding-right: 35px;
-    display: block;
+    display: inline-flex;
 
     &:focus {
-      border-color: var(--el-select-input-focus-border-color);
+      @include inset-input-border(
+        var(--el-select-input-focus-border-color),
+        true
+      );
     }
   }
 
   .#{$namespace}-input {
-    display: block;
+    display: flex;
 
     & .#{$namespace}-select__caret {
       color: var(--el-select-input-color);
@@ -82,6 +91,12 @@
           color: var(--el-select-close-hover-color);
         }
       }
+
+      &.#{$namespace}-icon {
+        position: relative;
+        height: inherit;
+        z-index: 2;
+      }
     }
 
     &.is-disabled {
@@ -89,13 +104,19 @@
         cursor: not-allowed;
 
         &:hover {
-          border-color: var(--el-select-disabled-border);
+          @include inset-input-border(var(--el-select-disabled-border));
         }
+      }
+      & .#{$namespace}-select__caret {
+        cursor: not-allowed;
       }
     }
 
     &.is-focus .#{$namespace}-input__inner {
-      border-color: var(--el-select-input-focus-border-color);
+      @include inset-input-border(
+        var(--el-select-input-focus-border-color),
+        true
+      );
     }
   }
 
@@ -109,9 +130,6 @@
     appearance: none;
     height: 28px;
     background-color: transparent;
-    @include when(mini) {
-      height: 14px;
-    }
   }
 
   @include e(close) {
@@ -141,30 +159,47 @@
     flex-wrap: wrap;
   }
 
-  .#{$namespace}-tag__close {
-    margin-top: -2px;
+  @include e(collapse-tags) {
+    white-space: normal;
+    z-index: var(--el-index-normal);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
-  .#{$namespace}-select__tags .#{$namespace}-tag {
-    box-sizing: border-box;
-    border-color: transparent;
-    margin: 2px 0 2px 6px;
-    background-color: #f0f2f5;
+  @include e(collapse-tag) {
+    line-height: inherit;
+    height: inherit;
+    display: flex;
+  }
 
-    .#{$namespace}-icon-close {
-      background-color: var(--el-text-color-placeholder);
-      right: -7px;
-      top: 0;
-      color: $color-white;
-
-      &:hover {
-        background-color: var(--el-text-color-secondary);
+  .#{$namespace}-select__tags {
+    .#{$namespace}-tag {
+      box-sizing: border-box;
+      border-color: transparent;
+      margin: 2px 6px 2px 0;
+      &:last-child {
+        margin-right: 0;
       }
 
-      &::before {
-        display: block;
-        transform: translate(0, 0.5px);
+      .#{$namespace}-icon-close {
+        background-color: var(--el-text-color-placeholder);
+        right: -7px;
+        top: 0;
+        color: $color-white;
+
+        &:hover {
+          background-color: var(--el-text-color-secondary);
+        }
+
+        &::before {
+          display: block;
+          transform: translate(0, 0.5px);
+        }
       }
+    }
+    .#{$namespace}-tag--info {
+      background-color: getCssVar('fill-color');
     }
   }
 }

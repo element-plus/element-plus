@@ -5,7 +5,10 @@ import type { Ref } from 'vue'
  * This method provides dialogable components the ability to restore previously activated element before
  * the dialog gets opened
  */
-export default (toggle: Ref<boolean>, initialFocus?: Ref<HTMLElement>) => {
+export const useRestoreActive = (
+  toggle: Ref<boolean>,
+  initialFocus?: Ref<HTMLElement>
+) => {
   let previousActive: HTMLElement
   watch(
     () => toggle.value,
@@ -16,7 +19,7 @@ export default (toggle: Ref<boolean>, initialFocus?: Ref<HTMLElement>) => {
           initialFocus.value.focus?.()
         }
       } else {
-        if (process.env.NODE_ENV === 'testing') {
+        if (process.env.NODE_ENV === 'test') {
           previousActive.focus.call(previousActive)
         } else {
           previousActive.focus()

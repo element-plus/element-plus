@@ -1,9 +1,3 @@
-@mixin utils-user-select($value) {
-  -moz-user-select: $value;
-  -webkit-user-select: $value;
-  -ms-user-select: $value;
-}
-
 @mixin utils-clearfix {
   $selector: &;
 
@@ -36,4 +30,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+@mixin utils-inline-flex-center {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }

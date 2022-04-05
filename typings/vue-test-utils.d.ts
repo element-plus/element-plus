@@ -1,4 +1,4 @@
-import type { ComponentPublicInstance, CSSProperties } from 'vue'
+import type { CSSProperties, ComponentPublicInstance } from 'vue'
 
 declare module '@vue/test-utils' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,13 +1,7 @@
-import InputNumber from './src/index.vue'
+import { withInstall } from '@element-plus/utils'
+import InputNumber from './src/input-number.vue'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+export const ElInputNumber = withInstall(InputNumber)
 
-InputNumber.install = (app: App): void => {
-  app.component(InputNumber.name, InputNumber)
-}
-
-const _InputNumber = InputNumber as SFCWithInstall<typeof InputNumber>
-
-export default _InputNumber
-export const ElInputNumber = _InputNumber
+export default ElInputNumber
+export * from './src/input-number'

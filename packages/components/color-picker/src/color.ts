@@ -1,4 +1,4 @@
-import { hasOwn } from '@vue/shared'
+import { hasOwn } from '@element-plus/utils'
 
 const hsv2hsl = function (hue: number, sat: number, val: number) {
   return [
@@ -11,11 +11,11 @@ const hsv2hsl = function (hue: number, sat: number, val: number) {
 // Need to handle 1.0 as 100%, since once it is a number, there is no difference between it and 1
 // <http://stackoverflow.com/questions/7422072/javascript-how-to-detect-number-as-a-decimal-including-1-0>
 const isOnePointZero = function (n: unknown) {
-  return typeof n === 'string' && n.indexOf('.') !== -1 && parseFloat(n) === 1
+  return typeof n === 'string' && n.includes('.') && Number.parseFloat(n) === 1
 }
 
 const isPercentage = function (n: unknown) {
-  return typeof n === 'string' && n.indexOf('%') !== -1
+  return typeof n === 'string' && n.includes('%')
 }
 
 // Take input from [0, n] and return it as [0, 1]
@@ -23,11 +23,11 @@ const bound01 = function (value: number | string, max: number | string) {
   if (isOnePointZero(value)) value = '100%'
 
   const processPercent = isPercentage(value)
-  value = Math.min(max as number, Math.max(0, parseFloat(`${value}`)))
+  value = Math.min(max as number, Math.max(0, Number.parseFloat(`${value}`)))
 
   // Automatically convert percentage into number
   if (processPercent) {
-    value = parseInt(`${value * (max as number)}`, 10) / 100
+    value = Number.parseInt(`${value * (max as number)}`, 10) / 100
   }
 
   // Handle floating point rounding errors
@@ -36,20 +36,20 @@ const bound01 = function (value: number | string, max: number | string) {
   }
 
   // Convert into [0, 1] range if it isn't already
-  return (value % (max as number)) / parseFloat(max as string)
+  return (value % (max as number)) / Number.parseFloat(max as string)
 }
 
 const INT_HEX_MAP = { 10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F' }
 
-const toHex = function ({ r, g, b }) {
-  const hexOne = function (value: number) {
-    value = Math.min(Math.round(value), 255)
-    const high = Math.floor(value / 16)
-    const low = value % 16
-    return `${INT_HEX_MAP[high] || high}${INT_HEX_MAP[low] || low}`
-  }
+const hexOne = function (value: number) {
+  value = Math.min(Math.round(value), 255)
+  const high = Math.floor(value / 16)
+  const low = value % 16
+  return `${INT_HEX_MAP[high] || high}${INT_HEX_MAP[low] || low}`
+}
 
-  if (isNaN(r) || isNaN(g) || isNaN(b)) return ''
+const toHex = function ({ r, g, b }) {
+  if (Number.isNaN(+r) || Number.isNaN(+g) || Number.isNaN(+b)) return ''
 
   return `#${hexOne(r)}${hexOne(g)}${hexOne(b)}`
 }
@@ -178,8 +178,11 @@ export default class Color {
         this[option] = options[option]
       }
     }
-
-    this.doOnChange()
+    if (options.value) {
+      this.fromString(options.value)
+    } else {
+      this.doOnChange()
+    }
   }
 
   set(prop: { [key: string]: any } | any, value?: number) {
@@ -198,6 +201,9 @@ export default class Color {
   }
 
   get(prop: string) {
+    if (prop === 'alpha') {
+      return Math.floor(this[`_${prop}`])
+    }
     return this[`_${prop}`]
   }
 
@@ -223,15 +229,17 @@ export default class Color {
       this.doOnChange()
     }
 
-    if (value.indexOf('hsl') !== -1) {
+    if (value.includes('hsl')) {
       const parts = value
         .replace(/hsla|hsl|\(|\)/gm, '')
         .split(/\s|,/g)
         .filter((val) => val !== '')
-        .map((val, index) => (index > 2 ? parseFloat(val) : parseInt(val, 10)))
+        .map((val, index) =>
+          index > 2 ? Number.parseFloat(val) : Number.parseInt(val, 10)
+        )
 
       if (parts.length === 4) {
-        this._alpha = Math.floor(parseFloat(parts[3]) * 100)
+        this._alpha = Number.parseFloat(parts[3]) * 100
       } else if (parts.length === 3) {
         this._alpha = 100
       }
@@ -239,30 +247,34 @@ export default class Color {
         const { h, s, v } = hsl2hsv(parts[0], parts[1], parts[2])
         fromHSV(h, s, v)
       }
-    } else if (value.indexOf('hsv') !== -1) {
+    } else if (value.includes('hsv')) {
       const parts = value
         .replace(/hsva|hsv|\(|\)/gm, '')
         .split(/\s|,/g)
         .filter((val) => val !== '')
-        .map((val, index) => (index > 2 ? parseFloat(val) : parseInt(val, 10)))
+        .map((val, index) =>
+          index > 2 ? Number.parseFloat(val) : Number.parseInt(val, 10)
+        )
 
       if (parts.length === 4) {
-        this._alpha = Math.floor(parseFloat(parts[3]) * 100)
+        this._alpha = Number.parseFloat(parts[3]) * 100
       } else if (parts.length === 3) {
         this._alpha = 100
       }
       if (parts.length >= 3) {
         fromHSV(parts[0], parts[1], parts[2])
       }
-    } else if (value.indexOf('rgb') !== -1) {
+    } else if (value.includes('rgb')) {
       const parts = value
         .replace(/rgba|rgb|\(|\)/gm, '')
         .split(/\s|,/g)
         .filter((val) => val !== '')
-        .map((val, index) => (index > 2 ? parseFloat(val) : parseInt(val, 10)))
+        .map((val, index) =>
+          index > 2 ? Number.parseFloat(val) : Number.parseInt(val, 10)
+        )
 
       if (parts.length === 4) {
-        this._alpha = Math.floor(parseFloat(parts[3]) * 100)
+        this._alpha = Number.parseFloat(parts[3]) * 100
       } else if (parts.length === 3) {
         this._alpha = 100
       }
@@ -270,7 +282,7 @@ export default class Color {
         const { h, s, v } = rgb2hsv(parts[0], parts[1], parts[2])
         fromHSV(h, s, v)
       }
-    } else if (value.indexOf('#') !== -1) {
+    } else if (value.includes('#')) {
       const hex = value.replace('#', '').trim()
       if (!/^[0-9a-fA-F]{3}$|^[0-9a-fA-F]{6}$|^[0-9a-fA-F]{8}$/.test(hex))
         return
@@ -281,15 +293,13 @@ export default class Color {
         g = parseHexChannel(hex[1] + hex[1])
         b = parseHexChannel(hex[2] + hex[2])
       } else if (hex.length === 6 || hex.length === 8) {
-        r = parseHexChannel(hex.substring(0, 2))
-        g = parseHexChannel(hex.substring(2, 4))
-        b = parseHexChannel(hex.substring(4, 6))
+        r = parseHexChannel(hex.slice(0, 2))
+        g = parseHexChannel(hex.slice(2, 4))
+        b = parseHexChannel(hex.slice(4, 6))
       }
 
       if (hex.length === 8) {
-        this._alpha = Math.floor(
-          (parseHexChannel(hex.substring(6)) / 255) * 100
-        )
+        this._alpha = (parseHexChannel(hex.slice(6)) / 255) * 100
       } else if (hex.length === 3 || hex.length === 6) {
         this._alpha = 100
       }
@@ -317,18 +327,24 @@ export default class Color {
           const hsl = hsv2hsl(_hue, _saturation / 100, _value / 100)
           this.value = `hsla(${_hue}, ${Math.round(
             hsl[1] * 100
-          )}%, ${Math.round(hsl[2] * 100)}%, ${_alpha / 100})`
+          )}%, ${Math.round(hsl[2] * 100)}%, ${this.get('alpha') / 100})`
           break
         }
         case 'hsv': {
           this.value = `hsva(${_hue}, ${Math.round(_saturation)}%, ${Math.round(
             _value
-          )}%, ${_alpha / 100})`
+          )}%, ${this.get('alpha') / 100})`
+          break
+        }
+        case 'hex': {
+          this.value = `${toHex(hsv2rgb(_hue, _saturation, _value))}${hexOne(
+            (_alpha * 255) / 100
+          )}`
           break
         }
         default: {
           const { r, g, b } = hsv2rgb(_hue, _saturation, _value)
-          this.value = `rgba(${r}, ${g}, ${b}, ${_alpha / 100})`
+          this.value = `rgba(${r}, ${g}, ${b}, ${this.get('alpha') / 100})`
         }
       }
     } else {

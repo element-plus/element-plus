@@ -1,3 +1,8 @@
+---
+title: Card
+lang: en-US
+---
+
 # Card
 
 Integrate information in a card container.
@@ -44,11 +49,11 @@ card/shadow
 
 ## Attributes
 
-| Attribute  | Description                                                   | Type   | Accepted Values        | Default             |
-| ---------- | ------------------------------------------------------------- | ------ | ---------------------- | ------------------- |
-| header     | title of the card. Also accepts a DOM passed by `slot#header` | string | —                      | —                   |
-| body-style | CSS style of body                                             | object | —                      | { padding: '20px' } |
-| shadow     | when to show card shadows                                     | string | always / hover / never | always              |
+| Attribute  | Description                                                   | Type   | Accepted Values        | Default               |
+| ---------- | ------------------------------------------------------------- | ------ | ---------------------- | --------------------- |
+| header     | title of the card. Also accepts a DOM passed by `slot#header` | string | —                      | —                     |
+| body-style | CSS style of body                                             | object | —                      | `{ padding: '20px' }` |
+| shadow     | when to show card shadows                                     | string | always / hover / never | always                |
 
 ## Slots
 

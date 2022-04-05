@@ -1,5 +1,5 @@
 import makeMount from '@element-plus/test-utils/make-mount'
-import Result from '../src/index.vue'
+import Result from '../src/result.vue'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -85,7 +85,7 @@ describe('Result.vue', () => {
   test('should render sub-title slots', () => {
     const wrapper = mount({
       slots: {
-        subTitle: AXIOM,
+        'sub-title': AXIOM,
       },
     })
     expect(wrapper.find('.el-result__subtitle').exists()).toBe(true)

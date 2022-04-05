@@ -3,7 +3,7 @@ import CommonPicker from './src/common/picker.vue'
 import TimePickPanel from './src/time-picker-com/panel-time-pick.vue'
 
 import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import type { SFCWithInstall } from '@element-plus/utils'
 
 export * from './src/common/date-utils'
 export * from './src/common/constant'

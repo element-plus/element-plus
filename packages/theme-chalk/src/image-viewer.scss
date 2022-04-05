@@ -30,6 +30,11 @@
     cursor: pointer;
     box-sizing: border-box;
     user-select: none;
+
+    .#{$namespace}-icon {
+      font-size: inherit;
+      cursor: pointer;
+    }
   }
 
   @include e(close) {
@@ -46,6 +51,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    user-select: none;
   }
 
   @include e(actions) {

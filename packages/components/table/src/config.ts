@@ -1,10 +1,18 @@
 import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
-import { getPropByPath } from '@element-plus/utils/util'
+import { ElIcon } from '@element-plus/components/icon'
+import { ArrowRight, Loading } from '@element-plus/icons-vue'
+import { getProp } from '@element-plus/utils'
 
+import type { VNode } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { Store } from './store'
 import type { TreeNode } from './table/defaults'
+
+const defaultClassNames = {
+  selection: 'table-column--selection',
+  expand: 'table__expand-column',
+}
 
 export const cellStarts = {
   default: {
@@ -15,7 +23,6 @@ export const cellStarts = {
     minWidth: 48,
     realWidth: 48,
     order: '',
-    className: 'el-table-column--selection',
   },
   expand: {
     width: 48,
@@ -31,6 +38,10 @@ export const cellStarts = {
   },
 }
 
+export const getDefaultClassName = (type) => {
+  return defaultClassNames[type] || ''
+}
+
 // 这些选项不应该被覆盖
 export const cellForced = {
   selection: {
@@ -40,6 +51,7 @@ export const cellForced = {
       }
       return h(ElCheckbox, {
         disabled: isDisabled(),
+        size: store.states.tableSize.value,
         indeterminate:
           store.states.selection.value.length > 0 &&
           !store.states.isAllSelected.value,
@@ -62,6 +74,7 @@ export const cellForced = {
         disabled: column.selectable
           ? !column.selectable.call(null, row, $index)
           : false,
+        size: store.states.tableSize.value,
         onChange: () => {
           store.commit('rowSelectedChanged', row)
         },
@@ -99,10 +112,19 @@ export const cellForced = {
     renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
       return column.label || ''
     },
-    renderCell<T>({ row, store }: { row: T; store: Store<T> }) {
-      const classes = ['el-table__expand-icon']
-      if (store.states.expandRows.value.indexOf(row) > -1) {
-        classes.push('el-table__expand-icon--expanded')
+    renderCell<T>({
+      row,
+      store,
+      expanded,
+    }: {
+      row: T
+      store: Store<T>
+      expanded: boolean
+    }) {
+      const { ns } = store
+      const classes = [ns.e('expand-icon')]
+      if (expanded) {
+        classes.push(ns.em('expand-icon', 'expanded'))
       }
       const callback = function (e: Event) {
         e.stopPropagation()
@@ -114,16 +136,21 @@ export const cellForced = {
           class: classes,
           onClick: callback,
         },
-        [
-          h('i', {
-            class: 'el-icon el-icon-arrow-right',
-          }),
-        ]
+        {
+          default: () => {
+            return [
+              h(ElIcon, null, {
+                default: () => {
+                  return [h(ArrowRight)]
+                },
+              }),
+            ]
+          },
+        }
       )
     },
     sortable: false,
     resizable: false,
-    className: 'el-table__expand-column',
   },
 }
 
@@ -137,24 +164,37 @@ export function defaultRenderCell<T>({
   $index: number
 }) {
   const property = column.property
-  const value = property && getPropByPath(row, property, false).v
+  const value = property && getProp(row, property).value
   if (column && column.formatter) {
     return column.formatter(row, column, value, $index)
   }
   return value?.toString?.() || ''
 }
 
-export function treeCellPrefix<T>({
-  row,
-  treeNode,
-  store,
-}: {
-  row: T
-  treeNode: TreeNode
-  store: Store<T>
-}) {
-  if (!treeNode) return null
-  const ele = []
+export function treeCellPrefix<T>(
+  {
+    row,
+    treeNode,
+    store,
+  }: {
+    row: T
+    treeNode: TreeNode
+    store: Store<T>
+  },
+  createPlacehoder = false
+) {
+  const { ns } = store
+  if (!treeNode) {
+    if (createPlacehoder) {
+      return [
+        h('span', {
+          class: ns.e('placeholder'),
+        }),
+      ]
+    }
+    return null
+  }
+  const ele: VNode[] = []
   const callback = function (e) {
     e.stopPropagation()
     store.loadOrToggle(row)
@@ -162,19 +202,19 @@ export function treeCellPrefix<T>({
   if (treeNode.indent) {
     ele.push(
       h('span', {
-        class: 'el-table__indent',
+        class: ns.e('indent'),
         style: { 'padding-left': `${treeNode.indent}px` },
       })
     )
   }
   if (typeof treeNode.expanded === 'boolean' && !treeNode.noLazyChildren) {
     const expandClasses = [
-      'el-table__expand-icon',
-      treeNode.expanded ? 'el-table__expand-icon--expanded' : '',
+      ns.e('expand-icon'),
+      treeNode.expanded ? ns.em('expand-icon', 'expanded') : '',
     ]
-    let iconClasses = ['el-icon-arrow-right']
+    let icon = ArrowRight
     if (treeNode.loading) {
-      iconClasses = ['el-icon-loading']
+      icon = Loading
     }
 
     ele.push(
@@ -184,17 +224,25 @@ export function treeCellPrefix<T>({
           class: expandClasses,
           onClick: callback,
         },
-        [
-          h('i', {
-            class: iconClasses,
-          }),
-        ]
+        {
+          default: () => {
+            return [
+              h(
+                ElIcon,
+                { class: { [ns.is('loading')]: treeNode.loading } },
+                {
+                  default: () => [h(icon)],
+                }
+              ),
+            ]
+          },
+        }
       )
     )
   } else {
     ele.push(
       h('span', {
-        class: 'el-table__placeholder',
+        class: ns.e('placeholder'),
       })
     )
   }
