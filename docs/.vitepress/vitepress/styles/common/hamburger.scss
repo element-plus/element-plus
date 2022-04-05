@@ -1,13 +1,13 @@
 @use '../mixins' as *;
 
 .menu-hamburger {
-  width: 20px;
+  width: 22px;
   display: flex;
   flex-direction: column;
   cursor: pointer;
   justify-content: center;
   height: var(--nav-height);
-  margin: 0 8px;
+  margin: 0 12px;
   > span {
     background-color: var(--text-color);
     border-radius: 10px;
