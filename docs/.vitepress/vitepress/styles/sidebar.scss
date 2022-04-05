@@ -35,33 +35,33 @@
     }
   }
 
-  @include respond-to('md') {
-    width: var(--sidebar-width-sm);
+  @media (max-width: 767px) {
+    width: calc(var(--vp-sidebar-width-mobile) - 14px);
   }
 
   @include respond-to('md') {
-    width: var(--vp-sidebar-width-small);
+    width: calc(var(--vp-sidebar-width-small) - $scrollbar-size);
   }
 
   @include respond-to('lg') {
     top: var(--header-height);
     transform: translate(0);
-    width: var(--vp-sidebar-width-small);
   }
 
   @include respond-to('xxl') {
     // 6px stands for 3px sidebar scrollbar width + 3 content scrollbar width
-    padding: 48px 48px 96px
-      calc((100% - var(--vp-screen-max-width) - $scrollbar-size) / 2);
+    padding: 48px 48px 96px calc((100% - var(--vp-screen-max-width)) / 2);
 
     width: calc(
-      (100% - var(--vp-screen-max-width) - $scrollbar-size) / 2 +
-        var(--vp-sidebar-width-small)
+      (100% - var(--vp-screen-max-width) - 32px) / 2 +
+        var(--vp-sidebar-width-small) - $scrollbar-size
     );
   }
 
   @include respond-to('max') {
-    padding: 48px 48px 96px
-      calc((100% - var(--vp-screen-max-width) - $scrollbar-size) / 2 - 18px);
+    width: calc(
+      (100% - var(--vp-screen-max-width) + 48px) / 2 +
+        var(--vp-sidebar-width-small) - $scrollbar-size
+    );
   }
 }

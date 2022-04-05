@@ -36,6 +36,11 @@ import { goldSponsors } from '../../config/sponsors'
       width: 44px;
     }
 
+    @media (max-width: 767px) {
+      width: 44px;
+      height: 44px;
+    }
+
     img {
       height: 100%;
       width: 100%;
