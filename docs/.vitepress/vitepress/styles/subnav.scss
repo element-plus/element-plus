@@ -8,9 +8,14 @@
   left: 0;
   width: 100%;
   display: flex;
+  padding: 0 32px;
   justify-content: space-between;
   z-index: var(--sub-nav-z-index);
   overflow: hidden;
+
+  @media (max-width: 767px) {
+    padding: 0 24px;
+  }
 
   .go-back-top {
     transform: translateY(100%);

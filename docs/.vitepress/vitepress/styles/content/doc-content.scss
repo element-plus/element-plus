@@ -11,10 +11,6 @@
       width: 100%;
     }
 
-    @include respond-to('xlg') {
-      width: var(--vp-content-width);
-    }
-
     @include respond-to('xxl') {
       width: var(--vp-content-width);
     }

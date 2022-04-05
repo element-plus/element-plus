@@ -9,7 +9,7 @@ const { shouldShow, scrollToTop } = useBackTop()
 </script>
 
 <template>
-  <div class="sub-nav py-3 px-6 flex items-center">
+  <div class="sub-nav py-3 flex items-center">
     <ToggleSidebarBtn v-if="hasSidebar" @click="$emit('open-menu')" />
     <Transition name="shifting">
       <ElButton
