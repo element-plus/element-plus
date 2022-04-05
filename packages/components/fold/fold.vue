@@ -1,5 +1,5 @@
 <template>
-  <div class="u-fold">
+  <div class="el-fold">
     <div class="txt-box" :class="{ 'over-hidden': fold }">
       <div ref="divBox">
         <slot></slot>
@@ -60,7 +60,7 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.u-fold {
+.el-fold {
   font-size: 14px;
   line-height: 2rem;
   color: #515767;
