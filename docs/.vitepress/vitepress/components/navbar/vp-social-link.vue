@@ -24,7 +24,6 @@ defineProps<{
 
 <style scoped lang="scss">
 .social-link {
-  padding: 0 4px;
   color: var(--text-color);
 }
 </style>
