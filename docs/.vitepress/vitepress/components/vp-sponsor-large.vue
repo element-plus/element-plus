@@ -36,6 +36,11 @@ defineProps({
     height: 72px;
   }
 
+  @media (max-width: 767px) {
+    width: 236px;
+    height: 72px;
+  }
+
   img {
     border-radius: 8px;
     overflow: hidden;
