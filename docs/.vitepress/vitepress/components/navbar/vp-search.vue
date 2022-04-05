@@ -186,6 +186,13 @@ function initialize(userOptions: any) {
     margin-right: 8px;
   }
 
+  @media (max-width: 749px) {
+    &.DocSearch-Button {
+      margin: 0 12px;
+      padding: 0;
+    }
+  }
+
   .dark & {
     --docsearch-text-color: var(--text-color-light);
     --docsearch-key-shadow: none;
