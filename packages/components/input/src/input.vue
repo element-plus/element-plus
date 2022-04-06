@@ -448,10 +448,10 @@ watch(
 const ElInnerSuffix = ref(null)
 const ElInnerPrefix = ref(null)
 const inputStyleInner = ref({})
-const getSuffixOrPrefixWidth = (slotElm): number => {
+const getSuffixOrPrefixWidth = (slotElm, defaultVal: number): number => {
   if (slotElm.value) {
     const slotElmWidth = (slotElm.value as HTMLElement).offsetWidth
-    return slotElmWidth > 0 ? slotElmWidth + 16 : 0
+    return slotElmWidth > 0 ? slotElmWidth + 16 : defaultVal
   }
   return 0
 }
@@ -459,8 +459,8 @@ const setInputPadding = (): void => {
   nextTick(() => {
     inputStyleInner.value = Object.assign(
       {
-        paddingRight: `${getSuffixOrPrefixWidth(ElInnerSuffix)}px`,
-        paddingLeft: `${getSuffixOrPrefixWidth(ElInnerPrefix)}px`,
+        paddingRight: `${getSuffixOrPrefixWidth(ElInnerSuffix, 0)}px`,
+        paddingLeft: `${getSuffixOrPrefixWidth(ElInnerPrefix, 11)}px`,
       },
       props.inputStyle
     )
