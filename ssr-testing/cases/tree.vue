@@ -33,4 +33,3 @@ const defaultProps = {
   label: 'label',
 }
 </script>
-```

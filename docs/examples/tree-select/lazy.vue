@@ -33,4 +33,3 @@ const load = (node, resolve) => {
   }, 400)
 }
 </script>
-```
