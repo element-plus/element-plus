@@ -219,7 +219,7 @@
 
 // dark
 @mixin dark($block) {
-  .dark {
+  html.dark {
     @include b($block) {
       @content;
     }

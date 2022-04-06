@@ -47,6 +47,10 @@ export const imageProps = buildProps({
     type: Number,
     default: 0,
   },
+  infinite: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type ImageProps = ExtractPropTypes<typeof imageProps>
 

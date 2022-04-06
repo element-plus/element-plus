@@ -33,7 +33,7 @@ const currentLink = computed(() => {
 
 <template>
   <div class="navbar-wrapper">
-    <div class="container">
+    <div class="header-container">
       <div class="logo-container">
         <a :href="currentLink">
           <img
@@ -70,7 +70,6 @@ const currentLink = computed(() => {
   }
   .logo {
     position: relative;
-    width: 100%;
     height: 100%;
   }
 }

@@ -8,6 +8,7 @@ import '../../../packages/theme-chalk/src/index.scss'
 // for dark mode
 import '../../../packages/theme-chalk/src/dark/css-vars.scss'
 
+import './styles/css-vars.scss'
 import './styles/app.scss'
 
 import 'uno.css'
