@@ -1,48 +1,21 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, StyleValue, VNode } from 'vue'
-
-const sortOrders = ['asc', 'desc'] as const
-
-export type Alignment = 'left' | 'center' | 'right'
-export type FixedDirection = 'left' | 'right'
-export type KeyType = string | number | symbol
-export type SortOrder = typeof sortOrders
+import type { ExtractPropTypes, StyleValue } from 'vue'
+import type {
+  Column,
+  ColumnCommonParams,
+  RowCommonParams,
+  SortOrder,
+} from './types'
 
 /**
  * Param types
  */
-export type ColumnCommonParams<T> = {
-  columns: Column<T>[]
-  column: Column<T>
-  columnIndex: number
-}
-
-export type RowCommonParams<T> = {
-  rowData: T[]
-  rowIndex: number
-}
-
-export type CellRendererParams<T> = {
-  cellData: T
-} & RowCommonParams<T> &
-  ColumnCommonParams<T>
-
-export type HeaderRendererParams<T> = {
-  headerIndex: number
-} & ColumnCommonParams<T>
-
 export type ColumnSortParams<T> = {
   column: Column<T>
   key: KeyType
   order: SortOrder
 }
-
-export type DataGetterParams<T> = {
-  columns: Column<T>[]
-  column: Column<T>
-  columnIndex: number
-} & RowCommonParams<T>
 
 export type RowExpandParams<T> = {
   expanded: boolean
@@ -54,16 +27,9 @@ export type RowEventHandlerParams<T> = {
   event: Event
 } & RowCommonParams<T>
 
-export type ClassNameGetterParams<T> = CellRendererParams<T>
-
 /**
  * Renderer/Getter types
  */
-export type CellRenderer<T> = (params: CellRendererParams<T>) => VNode
-
-export type HeaderRenderer<T> = (params: HeaderRendererParams<T>) => VNode
-
-export type ClassNameGetter<T> = (params: ClassNameGetterParams<T>) => string
 
 export type ExtraCellPropGetter<T> = (
   params: ColumnCommonParams<T> & RowCommonParams<T>
@@ -95,7 +61,6 @@ export type RowClassNameGetter<T> = (
  * Handler types
  */
 export type ColumnSortHandler<T> = (params: ColumnSortParams<T>) => void
-export type DataGetter<T> = (params: DataGetterParams<T>) => T
 export type RowExpandHandler<T> = (params: RowExpandParams<T>) => void
 export type RowEventHandler<T> = (params: RowEventHandlerParams<T>) => void
 
@@ -105,38 +70,6 @@ export type RowEventHandlers<T> = {
   dblclick?: RowEventHandler<T>
   mouseenter?: RowEventHandler<T>
   mouseleave?: RowEventHandler<T>
-}
-
-export type Column<T = any> = {
-  key: KeyType
-  /**
-   * Data part
-   */
-  dataKey?: string
-  dataGetter?: DataGetter<T>
-  /**
-   * Attributes
-   */
-  align?: Alignment
-  className?: any | ClassNameGetter<T>
-  fixed?: true | FixedDirection
-  title?: string
-  hidden?: boolean
-  maxWidth?: number
-  minWidth?: number
-  resizable?: boolean
-  style?: StyleValue
-  sortable?: boolean
-  width: number
-  /**
-   * Renderers
-   */
-  cellRenderer?: CellRenderer<T>
-  headerRenderer?: HeaderRenderer<T>
-  /**
-   * Extendable sections
-   */
-  [key: string]: any
 }
 
 export const tableV2Props = buildProps({
