@@ -31,7 +31,7 @@ const currentDate = ref(new Date())
 
 <style>
 .time {
-  font-size: 13px;
+  font-size: 12px;
   color: #999;
 }
 

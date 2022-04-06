@@ -12,28 +12,26 @@
   #{joinVarName($name)}: #{$value};
 }
 
-@mixin set-css-color-type-light($type, $i) {
-  #{getCssVarName('color', $type, 'light', $i)}: #{map.get(
-      $colors,
-      $type,
-      'light-#{$i}'
-    )};
-}
-
-@mixin set-css-color-type($type) {
-  #{getCssVarName('color', $type)}: #{map.get($colors, $type, 'base')};
-  @each $i in (3, 5, 7, 8, 9) {
-    @include set-css-color-type-light($type, $i);
-  }
-  #{getCssVarName('color', $type, 'dark-2')}: #{map.get(
-      $colors,
-      $type,
-      'dark-2'
-    )};
-}
-
+// @include set-css-var-type('color', 'primary', $map);
+// --el-color-primary: #{map.get($map, 'primary')};
 @mixin set-css-var-type($name, $type, $variables) {
   #{getCssVarName($name, $type)}: #{map.get($variables, $type)};
+}
+
+@mixin set-css-color-type($colors, $type) {
+  @include set-css-var-value(('color', $type), map.get($colors, $type, 'base'));
+
+  @each $i in (3, 5, 7, 8, 9) {
+    @include set-css-var-value(
+      ('color', $type, 'light', $i),
+      map.get($colors, $type, 'light-#{$i}')
+    );
+  }
+
+  @include set-css-var-value(
+    ('color', $type, 'dark-2'),
+    map.get($colors, $type, 'dark-2')
+  );
 }
 
 // set all css var for component by map

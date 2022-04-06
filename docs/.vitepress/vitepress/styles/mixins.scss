@@ -19,6 +19,7 @@ $breakpoints: (
   'lg': #{$breakpoint-lg},
   'xlg': #{$breakpoint-xlg},
   'xxl': #{$breakpoint-xxl},
+  'max': #{$breakpoint-max},
 ) !default;
 
 @mixin respond-to($breakpoint) {
