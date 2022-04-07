@@ -10,22 +10,22 @@ interface FetchOption {
   after?: string
 }
 
-interface AuthorInfo {
-  avatarUrl: string
-  date: string
-  email: string
-  name: string
-  user?: {
-    login: string
-  }
-}
-
 interface ApiResult {
   pageInfo: {
     hasNextPage: boolean
     endCursor: string
   }
-  nodes: Array<{ author: AuthorInfo }>
+  nodes: Array<{
+    author: {
+      avatarUrl: string
+      date: string
+      email: string
+      name: string
+      user?: {
+        login: string
+      }
+    }
+  }>
 }
 
 interface ApiResponse {
@@ -122,10 +122,9 @@ const getContributorsAt = async (componentName: string) => {
     const results = await fetchContributors(options)
     options = options
       .map((option, index) => {
-        if (!results[index].pageInfo.hasNextPage) return option
-
-        const after = results[index].pageInfo.endCursor
-        return { after, ...option }
+        const pageInfo = results[index].pageInfo
+        const after = pageInfo.hasNextPage ? pageInfo.endCursor : undefined
+        return { ...option, after }
       })
       .filter((option) => !!option.after)
     commits.push(...Object.values(results).flatMap((result) => result.nodes))
