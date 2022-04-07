@@ -57,7 +57,6 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: preview
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # share website dist
       - name: Upload artifact
