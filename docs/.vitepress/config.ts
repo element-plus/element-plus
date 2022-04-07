@@ -5,7 +5,7 @@ import { sidebars } from './config/sidebars'
 import { nav } from './config/nav'
 import { mdPlugin } from './config/plugins'
 import { features } from './config/features'
-import { repo, branch, docsDir } from './vitepress/constant'
+import { branch, docsDir, repo } from './vitepress/constant'
 import type { UserConfig } from 'vitepress'
 
 const buildTransformers = () => {
