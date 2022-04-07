@@ -47,6 +47,7 @@
 import {
   computed,
   defineComponent,
+  onDeactivated,
   provide,
   readonly,
   ref,
@@ -179,7 +180,10 @@ export default defineComponent({
         }
       }
     )
-
+    //  do hide on keep-alive deactivated
+    onDeactivated(() => {
+      hide()
+    })
     return {
       compatShowAfter,
       compatShowArrow,
