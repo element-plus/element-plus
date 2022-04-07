@@ -101,4 +101,3 @@ const data = [
   },
 ]
 </script>
-```
