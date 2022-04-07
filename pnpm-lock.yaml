@@ -95,6 +95,8 @@ importers:
       '@element-plus/utils': link:packages/utils
       '@floating-ui/dom': 0.4.2
       '@popperjs/core': 2.11.4
+      '@types/lodash': 4.14.181
+      '@types/lodash-es': 4.17.6
       '@vueuse/core': 8.2.4_vue@3.2.31
       async-validator: 4.0.7
       dayjs: 1.11.0
@@ -118,8 +120,6 @@ importers:
       '@types/fs-extra': 9.0.13
       '@types/gulp': 4.0.9
       '@types/jest': 26.0.24
-      '@types/lodash': 4.14.181
-      '@types/lodash-es': 4.17.6
       '@types/node': 17.0.23
       '@types/sass': 1.43.1
       '@vitejs/plugin-vue': 2.3.1_vue@3.2.31
@@ -320,6 +320,8 @@ importers:
       '@element-plus/icons-vue': 1.1.4_vue@3.2.31
       '@floating-ui/dom': 0.4.2
       '@popperjs/core': 2.11.4
+      '@types/lodash': 4.14.181
+      '@types/lodash-es': 4.17.6
       '@vueuse/core': 8.2.4_vue@3.2.31
       async-validator: 4.0.7
       dayjs: 1.11.0
@@ -330,8 +332,6 @@ importers:
       memoize-one: 6.0.0
       normalize-wheel-es: 1.1.2
     devDependencies:
-      '@types/lodash': 4.14.181
-      '@types/lodash-es': 4.17.6
       '@types/node': 17.0.23
       csstype: 2.6.20
       vue-router: 4.0.14_vue@3.2.31
@@ -2784,11 +2784,11 @@ packages:
     resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
     dependencies:
       '@types/lodash': 4.14.181
-    dev: true
+    dev: false
 
   /@types/lodash/4.14.181:
     resolution: {integrity: sha512-n3tyKthHJbkiWhDZs3DkhkCzt2MexYHXlX0td5iMplyfwketaOeKboEVBqzceH7juqvEg3q5oUoBFxSLu7zFag==}
-    dev: true
+    dev: false
 
   /@types/markdown-it/12.2.3:
     resolution: {integrity: sha512-GKMHFfv3458yYy+v/N8gjufHO6MSZKCOXpZc5GXIWWy8uldwfmPn98vp81gZ5f9SVw8YYBctgfJ22a2d7AOMeQ==}
