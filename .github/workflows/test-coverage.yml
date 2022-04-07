@@ -1,33 +1,36 @@
-name: Build Product 👮‍♂️
+# Unit Test Coverage Report
+
+name: 🧪 Test
 
 on:
   pull_request:
     branches:
-      - 'master'
+      - master
 
 jobs:
-  check:
-    name: Build Product Check
+  build:
+    name: Coverage (${{ matrix.node-name }})
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        node-version: ['16']
+        include:
+          - node-version: '16'
+            node-name: 'Latest'
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          persist-credentials: false
-
       - name: Add dev branch
         run: git branch dev origin/dev
-
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: latest
-
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: ${{ matrix.node-version }}
 
       - name: Cache ~/.pnpm-store
         uses: actions/cache@v3
@@ -43,27 +46,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
-
-      - name: Local build
-        run: pnpm build
-
-      - name: Check build product
-        run: sh -c ./scripts/file-check.sh
-
-      - name: Diff gen
-        run: pnpm diff:table
-        env:
-          THRESHOLD: 50
-
-      - name: Read diff file
-        id: diff
-        uses: juliangruber/read-file-action@v1
+      - uses: ArtiomTr/jest-coverage-report-action@v2.0-rc.6
         with:
-          path: ./tmp/diff.md
-
-      - name: Set comment
-        uses: actions-cool/maintain-one-comment@v2.0.2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          body: ${{ steps.diff.outputs.content }}
-          body-include: '<sub>Generated with'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          skip-step: install
+          test-script: pnpm run test:jest
