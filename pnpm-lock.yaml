@@ -267,7 +267,7 @@ importers:
       eslint-plugin-jsonc: ^2.2.1
       eslint-plugin-markdown: ^2.2.1
       eslint-plugin-prettier: ^4.0.0
-      eslint-plugin-unicorn: ^41.0.1
+      eslint-plugin-unicorn: ^42.0.0
       eslint-plugin-vue: ^8.5.0
       jsonc-eslint-parser: ^2.1.0
       yaml-eslint-parser: ^0.5.0
@@ -281,7 +281,7 @@ importers:
       eslint-plugin-jsonc: 2.2.1_eslint@8.12.0
       eslint-plugin-markdown: 2.2.1_eslint@8.12.0
       eslint-plugin-prettier: 4.0.0_f2c91d0f54113167d2bd9214a5ab5a36
-      eslint-plugin-unicorn: 41.0.1_eslint@8.12.0
+      eslint-plugin-unicorn: 42.0.0_eslint@8.12.0
       eslint-plugin-vue: 8.5.0_eslint@8.12.0
       jsonc-eslint-parser: 2.1.0
       yaml-eslint-parser: 0.5.0
@@ -5897,8 +5897,8 @@ packages:
       prettier-linter-helpers: 1.0.0
     dev: false
 
-  /eslint-plugin-unicorn/41.0.1_eslint@8.12.0:
-    resolution: {integrity: sha512-gF5vo2dIj0YdNMQ/IMegiBkQdQ22GBFFVpdkJP+0og3w7XD4ypea0xQVRv6iofkLVR2w0phAdikcnU01ybd4Ow==}
+  /eslint-plugin-unicorn/42.0.0_eslint@8.12.0:
+    resolution: {integrity: sha512-ixBsbhgWuxVaNlPTT8AyfJMlhyC5flCJFjyK3oKE8TRrwBnaHvUbuIkCM1lqg8ryYrFStL/T557zfKzX4GKSlg==}
     engines: {node: '>=12'}
     peerDependencies:
       eslint: '>=8.8.0'
