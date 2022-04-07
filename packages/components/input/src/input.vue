@@ -120,6 +120,8 @@
         :disabled="inputDisabled"
         :readonly="readonly"
         :autocomplete="autocomplete"
+        :formatter="formatter"
+        :parser="parser"
         :style="textareaStyle"
         :aria-label="label"
         :placeholder="placeholder"
@@ -323,10 +325,8 @@ const handleInput = async (event: Event) => {
 
   let { value } = event.target as TargetElement
 
-  if (props.parser) {
-    value = props.parser(value)
-  }
   if (props.formatter) {
+    value = props.parser ? props.parser(value) : value
     value = props.formatter(value)
   }
 
@@ -452,6 +452,9 @@ watch(
 )
 
 onMounted(async () => {
+  if (!props.formatter && props.parser) {
+    debugWarn('ElInput', 'xxx')
+  }
   setNativeInputValue()
   updateIconOffset()
   await nextTick()

@@ -270,7 +270,7 @@ describe('Input.vue', () => {
   })
 
   test('use formatter and parser', () => {
-    const val = ref('1000')
+    const val = ref('10000')
     const formatter = (val: string) => {
       return val.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
@@ -283,7 +283,8 @@ describe('Input.vue', () => {
     ))
 
     const vm = wrapper.vm
-    expect(vm.$el.querySelector('input').value).toEqual('1000')
+    expect(vm.$el.querySelector('input').value).toEqual('10000')
+    expect(vm.$el.querySelector('input').value).not.toEqual('1000')
   })
 
   describe('Input Methods', () => {
