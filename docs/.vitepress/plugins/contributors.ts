@@ -135,6 +135,7 @@ const getContributorsAt = async (componentName: string) => {
 }
 
 export async function getContributors() {
+  if (!process.env.GITHUB_TOKEN) return {}
   const components = await glob('*', {
     cwd: path.resolve(projRoot, 'packages/components'),
     onlyDirectories: true,
