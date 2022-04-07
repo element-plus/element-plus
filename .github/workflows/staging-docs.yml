@@ -56,12 +56,16 @@ jobs:
       - name: Generate common locale
         run: pnpm docs:gen-locale
 
+      - name: Build Metadata
+        run: cd internal/metadata && pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build website
         run: pnpm docs:build
         env:
           DOC_ENV: staging
           NODE_OPTIONS: --max-old-space-size=4096
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy staging website
         uses: JamesIves/github-pages-deploy-action@v4.2.5

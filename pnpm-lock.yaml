@@ -47,6 +47,7 @@ importers:
       babel-jest: ^26.6.3
       c8: ^7.11.0
       chalk: ^4.1.2
+      concurrently: ^7.1.0
       consola: ^2.15.3
       csstype: ^2.6.20
       cz-conventional-changelog: ^3.3.0
@@ -131,6 +132,7 @@ importers:
       babel-jest: 26.6.3_@babel+core@7.17.8
       c8: 7.11.0
       chalk: 4.1.2
+      concurrently: 7.1.0
       consola: 2.15.3
       csstype: 2.6.20
       cz-conventional-changelog: 3.3.0
@@ -166,6 +168,7 @@ importers:
       '@docsearch/js': ^3.0.0
       '@docsearch/react': ^3.0.0
       '@element-plus/build': workspace:*
+      '@element-plus/metadata': latest
       '@iconify-json/ri': ^1.1.1
       '@types/markdown-it': ^12.2.3
       '@vueuse/core': ^8.2.4
@@ -189,6 +192,7 @@ importers:
     dependencies:
       '@docsearch/js': 3.0.0
       '@docsearch/react': 3.0.0
+      '@element-plus/metadata': link:../internal/metadata
       '@vueuse/core': 8.2.4_vue@3.2.31
       axios: 0.26.1
       clipboard-copy: 4.0.1
@@ -258,6 +262,18 @@ importers:
       '@pnpm/types': 8.0.0
       unbuild: 0.7.2
 
+  internal/build-constants:
+    specifiers:
+      unbuild: ^0.7.2
+    devDependencies:
+      unbuild: 0.7.2
+
+  internal/build-utils:
+    specifiers:
+      unbuild: ^0.7.2
+    devDependencies:
+      unbuild: 0.7.2
+
   internal/eslint-config:
     specifiers:
       '@typescript-eslint/eslint-plugin': ^5.17.0
@@ -287,6 +303,26 @@ importers:
       eslint-plugin-vue: 8.5.0_eslint@8.12.0
       jsonc-eslint-parser: 2.1.0
       yaml-eslint-parser: 0.5.0
+
+  internal/metadata:
+    specifiers:
+      '@element-plus/build': ^0.0.1
+      '@element-plus/build-constants': ^0.0.1
+      '@element-plus/build-utils': ^0.0.1
+      '@types/lodash-es': ^4.17.6
+      concurrently: ^7.1.0
+      esno: ^0.14.1
+      fast-glob: ^3.2.11
+      lodash-es: ^4.17.21
+    devDependencies:
+      '@element-plus/build': link:../build
+      '@element-plus/build-constants': link:../build-constants
+      '@element-plus/build-utils': link:../build-utils
+      '@types/lodash-es': 4.17.6
+      concurrently: 7.1.0
+      esno: 0.14.1
+      fast-glob: 3.2.11
+      lodash-es: 4.17.21
 
   packages/components:
     specifiers: {}
@@ -2975,11 +3011,9 @@ packages:
     resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
     dependencies:
       '@types/lodash': 4.14.181
-    dev: false
 
   /@types/lodash/4.14.181:
     resolution: {integrity: sha512-n3tyKthHJbkiWhDZs3DkhkCzt2MexYHXlX0td5iMplyfwketaOeKboEVBqzceH7juqvEg3q5oUoBFxSLu7zFag==}
-    dev: false
 
   /@types/lru-cache/5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
@@ -4336,6 +4370,12 @@ packages:
     resolution: {integrity: sha512-lGzLKcioL90C7wMczpkY0n/oART3MbBa8R9OFGE1rJxoVI86u4WAGfEk8Wjv10eKSyTHVGkSo3bvBylCEtk7LA==}
     engines: {node: '>=6'}
 
+  /builtins/4.1.0:
+    resolution: {integrity: sha512-1bPRZQtmKaO6h7qV1YHXNtr6nCK28k0Zo95KM4dXfILcZZwoHJBN1m3lfLv9LPkcOZlrSr+J1bzMaZFO98Yq0w==}
+    dependencies:
+      semver: 7.3.5
+    dev: true
+
   /c8/7.11.0:
     resolution: {integrity: sha512-XqPyj1uvlHMr+Y1IeRndC2X5P7iJzJlEJwBpCdBbq2JocXOgJfr+JVfJkyNMGROke5LfKrhSFXGFXnwnRJAUJw==}
     engines: {node: '>=10.12.0'}
@@ -4815,6 +4855,21 @@ packages:
       typedarray: 0.0.6
     dev: false
 
+  /concurrently/7.1.0:
+    resolution: {integrity: sha512-Bz0tMlYKZRUDqJlNiF/OImojMB9ruKUz6GCfmhFnSapXgPe+3xzY4byqoKG9tUZ7L2PGEUjfLPOLfIX3labnmw==}
+    engines: {node: ^12.20.0 || ^14.13.0 || >=16.0.0}
+    hasBin: true
+    dependencies:
+      chalk: 4.1.2
+      date-fns: 2.28.0
+      lodash: 4.17.21
+      rxjs: 6.6.7
+      spawn-command: 0.0.2-1
+      supports-color: 8.1.1
+      tree-kill: 1.2.2
+      yargs: 16.2.0
+    dev: true
+
   /config-chain/1.1.13:
     resolution: {integrity: sha512-qj+f8APARXHrM0hraqXYb2/bOVSV4PvJQlNZ/DVj0QrmNM2q2euizkeuVckQ57J+W0mRH6Hvi+k50M4Jul2VRQ==}
     dependencies:
@@ -5057,6 +5112,11 @@ packages:
       abab: 2.0.5
       whatwg-mimetype: 2.3.0
       whatwg-url: 8.7.0
+    dev: true
+
+  /date-fns/2.28.0:
+    resolution: {integrity: sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==}
+    engines: {node: '>=0.11'}
     dev: true
 
   /dayjs/1.11.0:
@@ -5770,6 +5830,12 @@ packages:
     requiresBuild: true
     optional: true
 
+  /esbuild-node-loader/0.6.5:
+    resolution: {integrity: sha512-uPP+dllWm38cFvDysdocutN3lfe5pTIbddAHp1ENyLzpHYqE2r+3Wo+pfg9X3p8DFWwzIisft5YkeBIthIcixw==}
+    dependencies:
+      esbuild: 0.14.31
+    dev: true
+
   /esbuild-openbsd-64/0.13.15:
     resolution: {integrity: sha512-wTfvtwYJYAFL1fSs8yHIdf5GEE4NkbtbXtjLWjM3Cw8mmQKqsg8kTiqJ9NJQe5NX/5Qlo7Xd9r1yKMMkHllp5g==}
     cpu: [x64]
@@ -5794,6 +5860,14 @@ packages:
     os: [openbsd]
     requiresBuild: true
     optional: true
+
+  /esbuild-register/3.3.2_esbuild@0.14.31:
+    resolution: {integrity: sha512-jceAtTO6zxPmCfSD5cBb3rgIK1vmuqCKYwgylHiS1BF4pq0jJiJb4K2QMuqF4BEw7XDBRatYzip0upyTzfkgsQ==}
+    peerDependencies:
+      esbuild: '>=0.12 <1'
+    dependencies:
+      esbuild: 0.14.31
+    dev: true
 
   /esbuild-sunos-64/0.13.15:
     resolution: {integrity: sha512-lbivT9Bx3t1iWWrSnGyBP9ODriEvWDRiweAs69vI+miJoeKwHWOComSRukttbuzjZ8r1q0mQJ8Z7yUsDJ3hKdw==}
@@ -6222,6 +6296,17 @@ packages:
       v8-compile-cache: 2.3.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /esno/0.14.1:
+    resolution: {integrity: sha512-yDFYw6dGUjCT1qKsdG7WOc/RzIh/qwxUEVZ+ohCltaxBxEFMNqeqbQL9xjRl6Yvdwrfc5OCjUA9JbFmuu/8BKg==}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+      esbuild: 0.14.31
+      esbuild-node-loader: 0.6.5
+      esbuild-register: 3.3.2_esbuild@0.14.31
+      import-meta-resolve: 1.1.1
     dev: true
 
   /espree/9.3.1:
@@ -7261,6 +7346,12 @@ packages:
     dependencies:
       pkg-dir: 4.2.0
       resolve-cwd: 3.0.0
+    dev: true
+
+  /import-meta-resolve/1.1.1:
+    resolution: {integrity: sha512-JiTuIvVyPaUg11eTrNDx5bgQ/yMKMZffc7YSjvQeSMXy58DO2SQ8BtAf3xteZvmzvjYh14wnqNjL8XVeDy2o9A==}
+    dependencies:
+      builtins: 4.1.0
     dev: true
 
   /imurmurhash/0.1.4:
@@ -8573,7 +8664,6 @@ packages:
 
   /lodash-es/4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
-    dev: false
 
   /lodash-unified/1.0.2_da03a4540fbd16bbaafbb96724306afd:
     resolution: {integrity: sha512-OGbEy+1P+UT26CYi4opY4gebD8cWRDxAT6MAObIVQMiqYdxZr1g3QHWCToVsm31x2NkLS4K3+MC2qInaRMa39g==}
@@ -10563,6 +10653,10 @@ packages:
     engines: {node: '>= 0.10'}
     dev: false
 
+  /spawn-command/0.0.2-1:
+    resolution: {integrity: sha1-YvXpRmmBwbeW3Fkpk34RycaSG9A=}
+    dev: true
+
   /spdx-correct/3.1.1:
     resolution: {integrity: sha512-cOYcUWwhCuHCXi49RhFRCyJEK3iPj1Ziz9DpViV3tbZOwXD49QzIN3MpOLJNxh2qwq2lJJZaKMVw9qNi4jTC0w==}
     dependencies:
@@ -10825,6 +10919,13 @@ packages:
     dependencies:
       has-flag: 4.0.0
 
+  /supports-color/8.1.1:
+    resolution: {integrity: sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==}
+    engines: {node: '>=10'}
+    dependencies:
+      has-flag: 4.0.0
+    dev: true
+
   /supports-color/9.2.2:
     resolution: {integrity: sha512-XC6g/Kgux+rJXmwokjm9ECpD6k/smUoS5LKlUCcsYr4IY3rW0XyAympon2RmxGrlnZURMpg5T18gWDP9CsHXFA==}
     engines: {node: '>=12'}
@@ -11069,6 +11170,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       punycode: 2.1.1
+    dev: true
+
+  /tree-kill/1.2.2:
+    resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
+    hasBin: true
     dev: true
 
   /trim-newlines/3.0.1:

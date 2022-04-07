@@ -11,6 +11,7 @@
   "dependencies": {
     "@docsearch/js": "^3.0.0",
     "@docsearch/react": "^3.0.0",
+    "@element-plus/metadata": "latest",
     "@vueuse/core": "^8.2.4",
     "axios": "^0.26.1",
     "clipboard-copy": "^4.0.1",

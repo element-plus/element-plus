@@ -7,8 +7,6 @@
     "index.js"
   ],
   "main": "index.js",
-  "scripts": {},
-  "private": true,
   "peerDependencies": {
     "eslint": "^8.0.0"
   },
