@@ -1,34 +1,29 @@
-name: Coverage
+# This workflow runs on target, so there is no need to worry about secrets
 
-on:
-  pull_request:
-    branches:
-      - master
+name: 🧪 Test
+
+on: pull_request
 
 jobs:
-  build:
-    name: Coverage (${{ matrix.node-name }})
+  # Build successfully, start deployment
+  test:
+    name: SSR rendering test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: ['16']
-        include:
-          - node-version: '16'
-            node-name: 'Latest'
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Add dev branch
-        run: git branch dev origin/dev
+          persist-credentials: false
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
           version: latest
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '16'
 
       - name: Cache ~/.pnpm-store
         uses: actions/cache@v3
@@ -44,8 +39,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
-      - uses: ArtiomTr/jest-coverage-report-action@v2.0-rc.6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          skip-step: install
-          test-script: pnpm run test:jest
+
+      - name: Local build
+        run: pnpm build
+
+      - name: Do test
+        run: pnpm test:ssr
