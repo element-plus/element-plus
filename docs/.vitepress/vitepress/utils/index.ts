@@ -6,6 +6,7 @@ import {
 } from 'vitepress/dist/client/theme-default/utils'
 import { inBrowser } from 'vitepress'
 
+import type { Ref } from 'vue'
 import type { Route } from 'vitepress'
 
 export * from './colors'
@@ -85,13 +86,17 @@ export function createCrowdinUrl(targetLang: string) {
   return `https://crowdin.com/translate/element-plus/all/en-${translateLang}`
 }
 
-export function insertLinkIcon(contentRef: any) {
+export function insertLinkIcon(
+  contentRef: Ref<{ $el: HTMLElement } | undefined>
+) {
   if (!inBrowser) return
   const links = Array.from(
-    contentRef.value?.$el.querySelectorAll('a:not(.header-anchor)') ?? []
+    contentRef.value?.$el?.querySelectorAll<HTMLLinkElement>(
+      'a:not(.header-anchor)'
+    ) ?? []
   )
 
-  links.forEach((link: any) => {
+  links.forEach((link) => {
     link.classList.add('vp-link')
     if (
       !link.href.startsWith(window.origin) &&

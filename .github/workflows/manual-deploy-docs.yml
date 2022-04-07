@@ -52,6 +52,7 @@ jobs:
         run: pnpm docs:build
         env:
           DOC_ENV: production
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.2.5

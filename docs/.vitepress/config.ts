@@ -5,6 +5,7 @@ import { sidebars } from './config/sidebars'
 import { nav } from './config/nav'
 import { mdPlugin } from './config/plugins'
 import { features } from './config/features'
+import { branch, docsDir, repo } from './vitepress/constant'
 import type { UserConfig } from 'vitepress'
 
 const buildTransformers = () => {
@@ -49,8 +50,9 @@ export const config: UserConfig = {
   lastUpdated: true,
   head,
   themeConfig: {
-    repo: 'element-plus/element-plus',
-    docsDir: 'docs',
+    repo,
+    branch,
+    docsDir,
 
     editLinks: true,
     editLinkText: 'Edit this page on GitHub',

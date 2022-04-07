@@ -14,6 +14,8 @@ import {
   getPackageDependencies,
   projRoot,
 } from '@element-plus/build'
+import { Contributors } from './.vitepress/plugins/contributors'
+import { MarkdownTransform } from './.vitepress/plugins/markdown-transform'
 import type { Alias } from 'vite'
 
 const alias: Alias[] = []
@@ -82,6 +84,8 @@ export default defineConfig(async ({ mode }) => {
         autoInstall: true,
       }),
       UnoCSS(),
+      MarkdownTransform(),
+      await Contributors(),
       Inspect(),
       mkcert(),
     ],
