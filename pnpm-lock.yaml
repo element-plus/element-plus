@@ -219,6 +219,7 @@ importers:
 
   internal/build:
     specifiers:
+      '@element-plus/build-constants': workspace:^0.0.1
       '@pnpm/find-workspace-packages': ^4.0.0
       '@pnpm/types': ^8.0.0
       '@rollup/plugin-commonjs': ^21.0.3
@@ -259,6 +260,7 @@ importers:
       unplugin-vue-define-options: 0.6.0_305047b62981197738f838f8f5e77a3a
       vue: 3.2.31
     devDependencies:
+      '@element-plus/build-constants': link:../build-constants
       '@pnpm/types': 8.0.0
       unbuild: 0.7.2
 

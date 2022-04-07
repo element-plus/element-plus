@@ -53,11 +53,6 @@ jobs:
         env:
           FORCE_COLOR: 2
 
-      - name: Build Metadata
-        run: cd internal/metadata && pnpm build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build website
         run: pnpm docs:build
         env:
