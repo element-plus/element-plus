@@ -61,6 +61,7 @@ jobs:
         env:
           DOC_ENV: staging
           NODE_OPTIONS: --max-old-space-size=4096
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy staging website
         uses: JamesIves/github-pages-deploy-action@v4.2.5
