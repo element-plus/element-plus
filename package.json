@@ -36,7 +36,7 @@
     "docs:crowdin-credentials": "pnpm run -C docs crowdin-credentials",
     "stub": "pnpm run -r --parallel stub",
     "prepare": "husky install",
-    "postinstall": "concurrently \"pnpm gen:version\" \"pnpm stub\"",
+    "postinstall": "concurrently \"pnpm gen:version\" \"pnpm stub\" && pnpm run -C internal/metadata dev",
     "preinstall": "npx only-allow pnpm -y"
   },
   "config": {

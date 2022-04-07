@@ -311,6 +311,7 @@ importers:
       '@element-plus/build-utils': ^0.0.1
       '@types/lodash-es': ^4.17.6
       concurrently: ^7.1.0
+      cross-env: ^7.0.3
       esno: ^0.14.1
       fast-glob: ^3.2.11
       lodash-es: ^4.17.21
@@ -320,6 +321,7 @@ importers:
       '@element-plus/build-utils': link:../build-utils
       '@types/lodash-es': 4.17.6
       concurrently: 7.1.0
+      cross-env: 7.0.3
       esno: 0.14.1
       fast-glob: 3.2.11
       lodash-es: 4.17.21
