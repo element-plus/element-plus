@@ -1,6 +1,7 @@
 import path from 'path'
 import glob from 'fast-glob'
 import { Octokit } from 'octokit'
+import consola from 'consola'
 import { projRoot } from '@element-plus/build'
 import { branch, owner, repoName } from '../vitepress/constant'
 import type { Plugin } from 'vite'
@@ -46,7 +47,7 @@ const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
 })
 
-const fetchContributors = async (
+const fetchCommits = async (
   options: FetchOption[]
 ): Promise<Record<string, ApiResult>> => {
   const query = `{
@@ -119,7 +120,7 @@ const getContributorsAt = async (componentName: string) => {
   ]
   const commits: ApiResult['nodes'] = []
   do {
-    const results = await fetchContributors(options)
+    const results = await fetchCommits(options)
     options = options
       .map((option, index) => {
         const pageInfo = results[index].pageInfo
@@ -139,16 +140,14 @@ export async function getContributors() {
     cwd: path.resolve(projRoot, 'packages/components'),
     onlyDirectories: true,
   })
-  const contributors = Object.fromEntries(
-    await Promise.all(
-      components.map((component) =>
-        getContributorsAt(component).then((contributors) => [
-          component,
-          contributors,
-        ])
-      )
-    )
-  )
+  const contributors: Record<string, ContributorInfo[]> = {}
+
+  consola.info('Fetching contributors...')
+  for (const component of components) {
+    contributors[component] = await getContributorsAt(component)
+    consola.success(`Fetched ${component} contributors`)
+  }
+
   return contributors
 }
 
