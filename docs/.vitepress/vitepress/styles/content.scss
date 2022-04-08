@@ -14,14 +14,8 @@
       }
       @include respond-to('xxl') {
         padding-left: calc(
-          (100vw - var(--vp-screen-max-width)) / 2 +
-            var(--vp-sidebar-width-small) - 42px
-        );
-      }
-      @include respond-to('max') {
-        padding-left: calc(
-          (100vw - var(--vp-screen-max-width)) / 2 +
-            var(--vp-sidebar-width-small) - 4px
+          (100% - var(--vp-screen-max-width)) / 2 +
+            var(--vp-sidebar-width-small)
         );
       }
     }
