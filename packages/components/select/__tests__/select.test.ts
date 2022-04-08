@@ -367,7 +367,7 @@ describe('Select', () => {
         <el-option
           v-for="item in options"
           :label="item.label"
-          :key="item.value"
+          :key="item.value.value"
           :value="item.value">
         </el-option>
       </el-select>
@@ -375,16 +375,84 @@ describe('Select', () => {
       () => ({
         options: [
           {
-            value: '选项1',
+            value: {
+              value: '选项1',
+            },
             label: '黄金糕',
           },
           {
-            value: '选项2',
+            value: {
+              value: '选项2',
+            },
             label: '双皮奶',
           },
         ],
         value: {
           value: '选项2',
+        },
+      })
+    )
+    await nextTick()
+
+    expect(findInnerInput().value).toBe('双皮奶')
+  })
+
+  test('custom label', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value">
+        <el-option
+          v-for="item in options"
+          :label="item.name"
+          :key="item.id"
+          :value="item.id">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            id: 1,
+            name: '黄金糕',
+          },
+          {
+            id: 2,
+            name: '双皮奶',
+          },
+        ],
+        value: 2,
+      })
+    )
+    await nextTick()
+
+    expect(findInnerInput().value).toBe('双皮奶')
+  })
+
+  test('custom label with object', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" value-key="id">
+        <el-option
+          v-for="item in options"
+          :label="item.name"
+          :key="item.id"
+          :value="item">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            id: 1,
+            name: '黄金糕',
+          },
+          {
+            id: 2,
+            name: '双皮奶',
+          },
+        ],
+        value: {
+          id: 2,
         },
       })
     )
