@@ -40,7 +40,7 @@
   }
 
   @include respond-to('md') {
-    width: calc(var(--vp-sidebar-width-small) - $scrollbar-size);
+    width: calc(var(--vp-sidebar-width-small));
   }
 
   @include respond-to('lg') {
@@ -53,13 +53,12 @@
     padding: 48px 32px 96px calc((100% - var(--vp-screen-max-width)) / 2);
 
     width: calc(
-      (100% - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small) -
-        $scrollbar-size - 32px
+      (100% - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small)
     );
   }
 
   @include respond-to('max') {
-    padding: 48px 48px 96px calc((100% - var(--vp-screen-max-width)) / 2 - 18px);
+    padding: 48px 48px 96px calc((100% - var(--vp-screen-max-width)) / 2);
 
     width: calc(
       (100% - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small)

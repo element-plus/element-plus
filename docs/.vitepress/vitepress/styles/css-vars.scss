@@ -1,3 +1,4 @@
+@use './mixins' as *;
 // css variables
 :root {
   // layouts
@@ -32,11 +33,20 @@
   --nav-height: 55px; // alias of --header-height
 
   /* Screen Size */
-  --vp-screen-max-width: 1376px;
+  --vp-screen-max-width: 1362px;
+
+  @include respond-to('xxl') {
+    --vp-sidebar-width-small: 234px;
+  }
+
+  @include respond-to('max') {
+    --vp-screen-max-width: 1482px;
+    --vp-sidebar-width-small: 290px;
+  }
 
   // sidebar
   --vp-sidebar-width-mobile: 320px;
-  --vp-sidebar-width-small: 272px;
+  --vp-sidebar-width-small: 266px;
 
   --sidebar-width-sm: 16rem;
   --sidebar-width-xs: 20rem;

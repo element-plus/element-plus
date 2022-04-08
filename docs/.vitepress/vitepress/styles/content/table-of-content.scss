@@ -7,7 +7,7 @@
   .toc-content {
     position: sticky;
     top: calc(var(--header-height) + 32px);
-    margin-top: 32px;
+    margin-top: 0px;
     padding: 4px 8px 4px 12px;
     margin-bottom: 32px;
     width: 200px;
@@ -66,6 +66,11 @@
   }
 
   @include respond-to('xxl') {
+    display: block;
+  }
+
+  @include respond-to('max') {
+    padding-left: 96px;
     display: block;
   }
 }
