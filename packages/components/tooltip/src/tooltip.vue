@@ -131,6 +131,9 @@ export default defineComponent({
 
     const { show, hide } = useModelToggle({
       indicator: open,
+      onHide: () => {
+        emit('hide')
+      },
     })
 
     const { onOpen, onClose } = useDelayedToggle({
