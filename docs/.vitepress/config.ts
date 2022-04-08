@@ -1,11 +1,12 @@
 import consola from 'consola'
+import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
+import { docsDirName } from '@element-plus/build'
 import { languages } from './utils/lang'
 import { head } from './config/head'
 import { sidebars } from './config/sidebars'
 import { nav } from './config/nav'
 import { mdPlugin } from './config/plugins'
 import { features } from './config/features'
-import { branch, docsDir, repo } from './vitepress/constant'
 import type { UserConfig } from 'vitepress'
 
 const buildTransformers = () => {
@@ -50,9 +51,9 @@ export const config: UserConfig = {
   lastUpdated: true,
   head,
   themeConfig: {
-    repo,
-    branch,
-    docsDir,
+    repo: REPO_PATH,
+    docsBranch: REPO_BRANCH,
+    docsDir: docsDirName,
 
     editLinks: true,
     editLinkText: 'Edit this page on GitHub',

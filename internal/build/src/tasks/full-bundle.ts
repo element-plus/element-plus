@@ -9,6 +9,7 @@ import esbuild from 'rollup-plugin-esbuild'
 import { parallel } from 'gulp'
 import glob from 'fast-glob'
 import { camelCase, upperFirst } from 'lodash'
+import { PKG_BRAND_NAME } from '@element-plus/build-constants'
 import { version } from '../../../../packages/element-plus/version'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import {
@@ -20,10 +21,9 @@ import {
   withTaskName,
   writeBundles,
 } from '../utils'
-import { EP_BRAND_NAME } from '../constants'
 import { target } from '../build-info'
 
-const banner = `/*! ${EP_BRAND_NAME} v${version} */\n`
+const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
 
 async function buildFullEntry(minify: boolean) {
   const bundle = await rollup({

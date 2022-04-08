@@ -1,11 +1,20 @@
 import path from 'path'
+import { existsSync } from 'fs'
 import glob from 'fast-glob'
 import { Octokit } from 'octokit'
-import { projRoot } from '@element-plus/build'
-import { branch, owner, repoName } from '../vitepress/constant'
-import type { Plugin } from 'vite'
+import consola from 'consola'
+import chalk from 'chalk'
+import { chunk, mapValues } from 'lodash-es'
+import { errorAndExit, projRoot } from '@element-plus/build'
+import {
+  REPO_BRANCH,
+  REPO_NAME,
+  REPO_OWNER,
+} from '@element-plus/build-constants'
+import { ensureDir, writeJson } from '@element-plus/build-utils'
 
 interface FetchOption {
+  key: string
   path: string
   after?: string
 }
@@ -42,16 +51,12 @@ interface ContributorInfo {
   count: number
 }
 
-const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN,
-})
-
-const fetchContributors = async (
+const fetchCommits = async (
   options: FetchOption[]
 ): Promise<Record<string, ApiResult>> => {
   const query = `{
-    repository(owner: "${owner}", name: "${repoName}") {
-      object(expression: "${branch}") {
+    repository(owner: "${REPO_OWNER}", name: "${REPO_NAME}") {
+      object(expression: "${REPO_BRANCH}") {
         ... on Commit {
           ${options
             .map(({ path, after }, index) => {
@@ -110,16 +115,23 @@ const calcContributors = (commits: ApiResult['nodes']) => {
   return Object.values(contributors).sort((a, b) => b.count - a.count)
 }
 
-const getContributorsAt = async (componentName: string) => {
-  let options: FetchOption[] = [
-    { path: `packages/components/${componentName}` },
-    { path: `packages/theme-chalk/src/${componentName}.scss` },
-    { path: `docs/examples/${componentName}` },
-    { path: `docs/en-US/component/${componentName}.md` },
-  ]
-  const commits: ApiResult['nodes'] = []
+const getContributorsByComponents = async (components: string[]) => {
+  let options: FetchOption[] = components.flatMap((component) => [
+    { key: component, path: `packages/components/${component}` },
+    { key: component, path: `packages/theme-chalk/src/${component}.scss` },
+    { key: component, path: `docs/examples/${component}` },
+    { key: component, path: `docs/en-US/component/${component}.md` },
+  ])
+  const commits: Record<string /* component name */, ApiResult['nodes']> = {}
   do {
-    const results = await fetchContributors(options)
+    const results = await fetchCommits(options)
+
+    for (const [i, result] of Object.values(results).entries()) {
+      const component = options[i].key
+      if (!commits[component]) commits[component] = []
+      commits[component].push(...result.nodes)
+    }
+
     options = options
       .map((option, index) => {
         const pageInfo = results[index].pageInfo
@@ -127,43 +139,55 @@ const getContributorsAt = async (componentName: string) => {
         return { ...option, after }
       })
       .filter((option) => !!option.after)
-    commits.push(...Object.values(results).flatMap((result) => result.nodes))
   } while (options.length > 0)
 
-  return calcContributors(commits)
+  return mapValues(commits, (commits) => calcContributors(commits))
 }
 
-export async function getContributors() {
-  if (!process.env.GITHUB_TOKEN) return {}
+async function getContributors() {
+  if (!process.env.GITHUB_TOKEN) throw new Error('GITHUB_TOKEN is empty')
+
   const components = await glob('*', {
     cwd: path.resolve(projRoot, 'packages/components'),
     onlyDirectories: true,
   })
-  const contributors = Object.fromEntries(
-    await Promise.all(
-      components.map((component) =>
-        getContributorsAt(component).then((contributors) => [
-          component,
-          contributors,
-        ])
-      )
+  let contributors: Record<string, ContributorInfo[]> = {}
+
+  consola.info('Fetching contributors...')
+  for (const chunkComponents of chunk(components, 10)) {
+    contributors = {
+      ...contributors,
+      ...(await getContributorsByComponents(chunkComponents)),
+    }
+    consola.success(
+      chalk.green(`Fetched contributors: ${chunkComponents.join(', ')}`)
     )
-  )
+  }
   return contributors
 }
 
-const ID = '/virtual-contributors'
+const pathOutput = path.resolve(__dirname, '..', 'dist')
+const pathDest = path.resolve(pathOutput, 'contributors.json')
 
-export async function Contributors(): Promise<Plugin> {
-  const data = await getContributors()
-  return {
-    name: 'element-plus-contributors',
-    resolveId(id) {
-      return id === ID ? ID : null
-    },
-    load(id) {
-      if (id !== ID) return null
-      return `export default ${JSON.stringify(data)}`
-    },
+const octokit = new Octokit({
+  auth: process.env.GITHUB_TOKEN,
+})
+
+async function main() {
+  await ensureDir(pathOutput)
+
+  let contributors: Record<string, ContributorInfo[]>
+  if (process.env.DEV) {
+    if (existsSync(pathDest)) return
+    contributors = {}
+  } else {
+    contributors = await getContributors().catch((err) => {
+      errorAndExit(err)
+    })
   }
+
+  await writeJson(pathDest, contributors)
+  consola.success(chalk.green('Contributors generated'))
 }
+
+main()

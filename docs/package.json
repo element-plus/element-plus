@@ -11,6 +11,7 @@
   "dependencies": {
     "@docsearch/js": "^3.0.0",
     "@docsearch/react": "^3.0.0",
+    "@element-plus/metadata": "latest",
     "@vueuse/core": "^8.2.4",
     "axios": "^0.26.1",
     "clipboard-copy": "^4.0.1",
@@ -22,6 +23,7 @@
   "devDependencies": {
     "@crowdin/cli": "^3.7.8",
     "@element-plus/build": "workspace:*",
+    "@element-plus/build-constants": "workspace:*",
     "@iconify-json/ri": "^1.1.1",
     "@types/markdown-it": "^12.2.3",
     "cross-env": "^7.0.3",

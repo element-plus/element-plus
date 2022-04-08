@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
-import { docRoot, projRoot } from '@element-plus/build'
-import { branch, docsDir, repo } from '../vitepress/constant'
+import { docRoot, docsDirName, projRoot } from '@element-plus/build'
+import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
 import { getLang } from '../utils/lang'
 import footerLocale from '../i18n/component/footer.json'
 import type { Plugin } from 'vite'
@@ -73,8 +73,8 @@ const transformVpScriptSetup = (code: string, append: Append) => {
   return code
 }
 
-const GITHUB_BLOB_URL = `https://github.com/${repo}/blob/${branch}`
-const GITHUB_TREE_URL = `https://github.com/${repo}/tree/${branch}`
+const GITHUB_BLOB_URL = `https://github.com/${REPO_PATH}/blob/${REPO_BRANCH}`
+const GITHUB_TREE_URL = `https://github.com/${REPO_PATH}/tree/${REPO_BRANCH}`
 const transformComponentMarkdown = (
   id: string,
   componentId: string,
@@ -82,7 +82,7 @@ const transformComponentMarkdown = (
   append: Append
 ) => {
   const lang = getLang(id)
-  const docUrl = `${GITHUB_BLOB_URL}/${docsDir}/en-US/component/${componentId}.md`
+  const docUrl = `${GITHUB_BLOB_URL}/${docsDirName}/en-US/component/${componentId}.md`
   const componentUrl = `${GITHUB_TREE_URL}/packages/components/${componentId}`
   const componentPath = path.resolve(
     projRoot,

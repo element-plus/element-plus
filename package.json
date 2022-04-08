@@ -34,9 +34,9 @@
     "docs:serve": "pnpm run -C docs serve",
     "docs:gen-locale": "pnpm run -C docs gen-locale",
     "docs:crowdin-credentials": "pnpm run -C docs crowdin-credentials",
-    "stub": "pnpm run -C internal/build stub",
+    "stub": "pnpm run -r --parallel stub",
     "prepare": "husky install",
-    "postinstall": "pnpm gen:version && pnpm stub",
+    "postinstall": "concurrently \"pnpm gen:version\" \"pnpm stub\" && pnpm run -C internal/metadata dev",
     "preinstall": "npx only-allow pnpm -y"
   },
   "config": {
@@ -105,6 +105,7 @@
     "babel-jest": "^26.6.3",
     "c8": "^7.11.0",
     "chalk": "^4.1.2",
+    "concurrently": "^7.1.0",
     "consola": "^2.15.3",
     "csstype": "^2.6.20",
     "cz-conventional-changelog": "^3.3.0",

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-// @ts-expect-error missing types
-import _contributors from '/virtual-contributors'
+import _contributors from '@element-plus/metadata/dist/contributors.json'
 import VpLink from '../common/vp-link.vue'
 
 const props = defineProps<{ id: string }>()

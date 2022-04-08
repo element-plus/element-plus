@@ -48,11 +48,15 @@ jobs:
       - name: Install latest Element Plus
         run: cd docs && pnpm i element-plus@latest
 
+      - name: Build Metadata
+        run: cd internal/metadata && pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build website
         run: pnpm docs:build
         env:
           DOC_ENV: production
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.2.5

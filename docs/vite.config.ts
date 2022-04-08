@@ -14,7 +14,6 @@ import {
   getPackageDependencies,
   projRoot,
 } from '@element-plus/build'
-import { Contributors } from './.vitepress/plugins/contributors'
 import { MarkdownTransform } from './.vitepress/plugins/markdown-transform'
 import type { Alias } from 'vite'
 
@@ -46,12 +45,10 @@ export default defineConfig(async ({ mode }) => {
     ...dependencies,
   ]
   optimizeDeps.push(
-    ...(
-      await glob(['dayjs/plugin/*.js'], {
-        cwd: path.resolve(projRoot, 'node_modules'),
-        onlyFiles: true,
-      })
-    ).map((file) => file.replace(/\.js$/, ''))
+    ...(await glob(['dayjs/plugin/*.js'], {
+      cwd: path.resolve(projRoot, 'node_modules'),
+      onlyFiles: true,
+    }))
   )
 
   return {
@@ -85,7 +82,6 @@ export default defineConfig(async ({ mode }) => {
       }),
       UnoCSS(),
       MarkdownTransform(),
-      await Contributors(),
       Inspect(),
       mkcert(),
     ],

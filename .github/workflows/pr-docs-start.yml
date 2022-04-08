@@ -1,4 +1,4 @@
-name: Preview Start
+name: PR Docs Start
 
 on:
   pull_request_target:
