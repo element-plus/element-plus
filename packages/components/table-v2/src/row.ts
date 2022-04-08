@@ -1,6 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
+import { virtualizedGridProps } from '@element-plus/components/virtual-list'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { Column, FixedDirection, KeyType, RowCommonParams } from './types'
 
 export type RowExpandParams<T> = {
@@ -10,6 +11,8 @@ export type RowExpandParams<T> = {
 
 export type RowHoverParams<T> = {
   event: MouseEvent
+  hovered: boolean
+  rowKey: KeyType
 } & RowCommonParams<T>
 
 export type RowEventHandlerParams<T> = {
@@ -28,11 +31,11 @@ export type RowHeightChangeHandler = (
 ) => void
 
 export type RowEventHandlers<T> = {
-  click?: RowEventHandler<T>
-  contextmenu?: RowEventHandler<T>
-  dblclick?: RowEventHandler<T>
-  mouseenter?: RowEventHandler<T>
-  mouseleave?: RowEventHandler<T>
+  onClick?: RowEventHandler<T>
+  onContextmenu?: RowEventHandler<T>
+  onDblclick?: RowEventHandler<T>
+  onMouseenter?: RowEventHandler<T>
+  onMouseleave?: RowEventHandler<T>
 }
 
 export const tableV2RowProps = buildProps({
@@ -43,6 +46,7 @@ export const tableV2RowProps = buildProps({
   },
   depth: Number,
   expandColumnKey: String,
+  estimatedRowHeight: virtualizedGridProps.estimatedRowHeight,
   isScrolling: Boolean,
   onRowExpand: {
     type: definePropType<RowExpandHandler<any>>(Function),
@@ -69,9 +73,10 @@ export const tableV2RowProps = buildProps({
    */
   rowKey: {
     type: definePropType<KeyType>([String, Number, Symbol]),
+    required: true,
   },
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<CSSProperties>(Object),
   },
 } as const)
 
