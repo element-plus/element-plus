@@ -219,7 +219,7 @@ importers:
 
   internal/build:
     specifiers:
-      '@element-plus/build-constants': workspace:^0.0.1
+      '@element-plus/build-constants': ^0.0.1
       '@pnpm/find-workspace-packages': ^4.0.0
       '@pnpm/types': ^8.0.0
       '@rollup/plugin-commonjs': ^21.0.3
@@ -241,6 +241,7 @@ importers:
       unplugin-vue-define-options: ^0.6.0
       vue: ^3.2.31
     dependencies:
+      '@element-plus/build-constants': link:../build-constants
       '@pnpm/find-workspace-packages': 4.0.0_@pnpm+logger@4.0.0
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.1
@@ -260,7 +261,6 @@ importers:
       unplugin-vue-define-options: 0.6.0_305047b62981197738f838f8f5e77a3a
       vue: 3.2.31
     devDependencies:
-      '@element-plus/build-constants': link:../build-constants
       '@pnpm/types': 8.0.0
       unbuild: 0.7.2
 
