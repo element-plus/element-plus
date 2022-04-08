@@ -1,4 +1,4 @@
-export const repoOwner = 'element-plus'
-export const repoName = 'element-plus'
-export const repoPath = `${repoOwner}/${repoName}`
-export const repoBranch = 'dev'
+export const REPO_OWNER = 'element-plus'
+export const REPO_NAME = 'element-plus'
+export const REPO_PATH = `${REPO_OWNER}/${REPO_NAME}`
+export const REPO_BRANCH = 'dev'

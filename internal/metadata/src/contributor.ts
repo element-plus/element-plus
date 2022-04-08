@@ -1,11 +1,16 @@
 import path from 'path'
+import { existsSync } from 'fs'
 import glob from 'fast-glob'
 import { Octokit } from 'octokit'
 import consola from 'consola'
 import chalk from 'chalk'
 import { chunk, mapValues } from 'lodash-es'
 import { errorAndExit, projRoot } from '@element-plus/build'
-import { repoBranch, repoName, repoOwner } from '@element-plus/build-constants'
+import {
+  REPO_BRANCH,
+  REPO_NAME,
+  REPO_OWNER,
+} from '@element-plus/build-constants'
 import { ensureDir, writeJson } from '@element-plus/build-utils'
 
 interface FetchOption {
@@ -50,8 +55,8 @@ const fetchCommits = async (
   options: FetchOption[]
 ): Promise<Record<string, ApiResult>> => {
   const query = `{
-    repository(owner: "${repoOwner}", name: "${repoName}") {
-      object(expression: "${repoBranch}") {
+    repository(owner: "${REPO_OWNER}", name: "${REPO_NAME}") {
+      object(expression: "${REPO_BRANCH}") {
         ... on Commit {
           ${options
             .map(({ path, after }, index) => {
@@ -162,6 +167,8 @@ async function getContributors() {
 }
 
 const pathOutput = path.resolve(__dirname, '..', 'dist')
+const pathDest = path.resolve(pathOutput, 'contributors.json')
+
 const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
 })
@@ -171,6 +178,7 @@ async function main() {
 
   let contributors: Record<string, ContributorInfo[]>
   if (process.env.DEV) {
+    if (existsSync(pathDest)) return
     contributors = {}
   } else {
     contributors = await getContributors().catch((err) => {
@@ -178,7 +186,7 @@ async function main() {
     })
   }
 
-  await writeJson(path.resolve(pathOutput, 'contributors.json'), contributors)
+  await writeJson(pathDest, contributors)
   consola.success(chalk.green('Contributors generated'))
 }
 

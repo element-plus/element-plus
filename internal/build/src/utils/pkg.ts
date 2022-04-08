@@ -1,5 +1,5 @@
 import findWorkspacePackages from '@pnpm/find-workspace-packages'
-import { pkgPrefix } from '@element-plus/build-constants'
+import { PKG_PREFIX } from '@element-plus/build-constants'
 import { buildConfig } from '../build-info'
 import { projRoot } from './paths'
 
@@ -37,8 +37,8 @@ export const pathRewriter = (module: Module) => {
   const config = buildConfig[module]
 
   return (id: string) => {
-    id = id.replaceAll(`${pkgPrefix}/theme-chalk`, 'element-plus/theme-chalk')
-    id = id.replaceAll(`${pkgPrefix}/`, `${config.bundle.path}/`)
+    id = id.replaceAll(`${PKG_PREFIX}/theme-chalk`, 'element-plus/theme-chalk')
+    id = id.replaceAll(`${PKG_PREFIX}/`, `${config.bundle.path}/`)
     return id
   }
 }

@@ -1,5 +1,5 @@
 import path from 'path'
-import { pkgName } from '@element-plus/build-constants'
+import { PKG_NAME } from '@element-plus/build-constants'
 import { epOutput } from './utils'
 import type { ModuleFormat } from 'rollup'
 
@@ -32,7 +32,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
       path: path.resolve(epOutput, 'es'),
     },
     bundle: {
-      path: `${pkgName}/es`,
+      path: `${PKG_NAME}/es`,
     },
   },
   cjs: {
@@ -44,7 +44,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
       path: path.resolve(epOutput, 'lib'),
     },
     bundle: {
-      path: `${pkgName}/lib`,
+      path: `${PKG_NAME}/lib`,
     },
   },
 }
