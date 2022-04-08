@@ -1,7 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
-import type { Column, FixedDirection, RowCommonParams } from './types'
+import type { Column, FixedDirection, KeyType, RowCommonParams } from './types'
 
 export type RowExpandParams<T> = {
   expanded: boolean
@@ -73,6 +73,6 @@ export const tableV2RowProps = buildProps({
   style: {
     type: definePropType<StyleValue>([String, Array, Object]),
   },
-})
+} as const)
 
 export type TableV2RowProps = ExtractPropTypes<typeof tableV2RowProps>
