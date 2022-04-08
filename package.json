@@ -6,9 +6,6 @@
     "play",
     "docs"
   ],
-  "engines": {
-    "node": ">= 16"
-  },
   "scripts": {
     "cz": "git-cz",
     "test": "pnpm test:jest && pnpm test:vitest",
@@ -39,19 +36,6 @@
     "postinstall": "concurrently \"pnpm gen:version\" \"pnpm stub\" && pnpm run -C internal/metadata dev",
     "preinstall": "npx only-allow pnpm -y"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
-  },
-  "browserslist": [
-    "> 1%",
-    "not ie 11",
-    "not op_mini all"
-  ],
   "peerDependencies": {
     "vue": "^3.2.0"
   },
@@ -135,9 +119,25 @@
     "vue-router": "^4.0.14",
     "vue-tsc": "^0.33.9"
   },
+  "engines": {
+    "node": ">= 16"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "pnpm": {
     "overrides": {
       "jsdom": "16.4.0"
     }
-  }
+  },
+  "lint-staged": {
+    "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
+  },
+  "browserslist": [
+    "> 1%",
+    "not ie 11",
+    "not op_mini all"
+  ]
 }

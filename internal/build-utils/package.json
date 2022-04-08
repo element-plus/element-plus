@@ -1,8 +1,8 @@
 {
   "name": "@element-plus/build-utils",
   "version": "0.0.1",
-  "description": "Build utils for Element Plus",
   "private": true,
+  "description": "Build utils for Element Plus",
   "keywords": [
     "element-plus"
   ],

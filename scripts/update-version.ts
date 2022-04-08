@@ -1,18 +1,17 @@
-import { writeFile } from 'fs/promises'
 import consola from 'consola'
 import chalk from 'chalk'
-import { epPackage, getPackageManifest } from '@element-plus/build'
+import { errorAndExit, getWorkspacePackages } from '@element-plus/build'
+import type { Project } from '@pnpm/find-workspace-packages'
 
 async function main() {
   const tagVersion = process.env.TAG_VERSION
   const gitHead = process.env.GIT_HEAD
   if (!tagVersion || !gitHead) {
-    consola.error(
+    errorAndExit(
       new Error(
         'No tag version or git head were found, make sure that you set the environment variable $TAG_VERSION \n'
       )
     )
-    process.exit(1)
   }
 
   consola.log(chalk.cyan('Start updating version'))
@@ -21,21 +20,27 @@ async function main() {
 
   consola.debug(chalk.yellow(`Updating package.json for element-plus`))
 
-  const json: Record<string, any> = getPackageManifest(epPackage)
+  const pkgs = Object.fromEntries(
+    (await getWorkspacePackages()).map((pkg) => [pkg.manifest.name!, pkg])
+  )
+  const elementPlus = pkgs['element-plus']
+  const eslintConfig = pkgs['@element-plus/eslint-config']
+  const metadata = pkgs['@element-plus/metadata']
 
-  json.version = tagVersion
-  json.gitHead = gitHead
+  const writeVersion = async (project: Project) => {
+    await project.writeProjectManifest({
+      ...project.manifest,
+      version: tagVersion,
+      gitHead,
+    } as any)
+  }
 
-  if (!(process.argv.includes('-d') || process.argv.includes('--dry-run'))) {
-    try {
-      await writeFile(epPackage, JSON.stringify(json, null, 2), {
-        encoding: 'utf-8',
-      })
-    } catch {
-      process.exit(1)
-    }
-  } else {
-    consola.log(json)
+  try {
+    writeVersion(elementPlus)
+    writeVersion(eslintConfig)
+    writeVersion(metadata)
+  } catch (err) {
+    errorAndExit(err)
   }
 
   consola.debug(chalk.green(`$GIT_HEAD: ${gitHead}`))
