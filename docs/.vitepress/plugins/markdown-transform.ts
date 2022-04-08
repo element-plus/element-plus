@@ -1,9 +1,10 @@
 import fs from 'fs'
 import path from 'path'
-import { docRoot, docsDirName, projRoot } from '@element-plus/build'
+import { docRoot, docsDirName, projRoot } from '@element-plus/build-utils'
 import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
 import { getLang } from '../utils/lang'
 import footerLocale from '../i18n/component/footer.json'
+
 import type { Plugin } from 'vite'
 
 type Append = Record<'headers' | 'footers' | 'scriptSetups', string[]>

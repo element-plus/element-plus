@@ -2,8 +2,7 @@ import path from 'path'
 import glob from 'fast-glob'
 import chalk from 'chalk'
 import consola from 'consola'
-import { projRoot } from '@element-plus/build'
-import { ensureDir, writeJson } from '@element-plus/build-utils'
+import { ensureDir, projRoot, writeJson } from '@element-plus/build-utils'
 
 const pathOutput = path.resolve(__dirname, '..', 'dist')
 

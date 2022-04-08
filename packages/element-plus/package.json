@@ -2,7 +2,6 @@
   "name": "element-plus",
   "version": "0.0.0-dev.1",
   "description": "A Component Library for Vue 3",
-  "homepage": "https://element-plus.org/",
   "keywords": [
     "element-plus",
     "element",
@@ -11,11 +10,13 @@
     "ui",
     "vue"
   ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/element-plus/element-plus.git"
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
   },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "module": "es/index.mjs",
   "exports": {
     ".": {
       "require": "./lib/index.js",
@@ -29,11 +30,16 @@
     "./lib/*": "./lib/*.js",
     "./*": "./*"
   },
-  "main": "lib/index.js",
-  "module": "es/index.mjs",
-  "style": "dist/index.css",
   "unpkg": "dist/index.full.js",
   "jsdelivr": "dist/index.full.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "style": "dist/index.css",
   "sideEffects": [
     "dist/*",
     "theme-chalk/*.css",
@@ -41,9 +47,6 @@
     "es/components/*/style/*",
     "lib/components/*/style/*"
   ],
-  "bugs": {
-    "url": "https://github.com/element-plus/element-plus/issues"
-  },
   "peerDependencies": {
     "vue": "^3.2.0"
   },

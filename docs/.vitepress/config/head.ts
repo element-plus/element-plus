@@ -1,8 +1,9 @@
 import fs from 'fs'
 import path from 'path'
-import { vpRoot } from '@element-plus/build'
+import { vpRoot } from '@element-plus/build-utils'
 import { languages } from '../utils/lang'
 import { features } from './features'
+
 import type { HeadConfig } from 'vitepress'
 
 export const head: HeadConfig[] = [

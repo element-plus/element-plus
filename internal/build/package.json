@@ -1,7 +1,7 @@
 {
   "name": "@element-plus/build",
-  "private": true,
   "version": "0.0.1",
+  "private": true,
   "description": "Build Toolchain for Element Plus",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

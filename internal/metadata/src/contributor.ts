@@ -5,13 +5,17 @@ import { Octokit } from 'octokit'
 import consola from 'consola'
 import chalk from 'chalk'
 import { chunk, mapValues } from 'lodash-es'
-import { errorAndExit, projRoot } from '@element-plus/build'
+import {
+  ensureDir,
+  errorAndExit,
+  projRoot,
+  writeJson,
+} from '@element-plus/build-utils'
 import {
   REPO_BRANCH,
   REPO_NAME,
   REPO_OWNER,
 } from '@element-plus/build-constants'
-import { ensureDir, writeJson } from '@element-plus/build-utils'
 
 interface FetchOption {
   key: string

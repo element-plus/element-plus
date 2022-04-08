@@ -13,8 +13,9 @@ import {
   epPackage,
   getPackageDependencies,
   projRoot,
-} from '@element-plus/build'
+} from '@element-plus/build-utils'
 import { MarkdownTransform } from './.vitepress/plugins/markdown-transform'
+
 import type { Alias } from 'vite'
 
 const alias: Alias[] = []
