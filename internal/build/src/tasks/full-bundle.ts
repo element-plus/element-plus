@@ -10,14 +10,12 @@ import { parallel } from 'gulp'
 import glob from 'fast-glob'
 import { camelCase, upperFirst } from 'lodash'
 import { PKG_BRAND_NAME } from '@element-plus/build-constants'
+import { epOutput, epRoot, localeRoot } from '@element-plus/build-utils'
 import { version } from '../../../../packages/element-plus/version'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import {
-  epOutput,
-  epRoot,
   formatBundleFilename,
   generateExternal,
-  localeRoot,
   withTaskName,
   writeBundles,
 } from '../utils'

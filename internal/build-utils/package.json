@@ -15,6 +15,10 @@
     "dev": "pnpm run stub",
     "stub": "unbuild --stub"
   },
+  "dependencies": {
+    "@pnpm/find-workspace-packages": "^4.0.0",
+    "consola": "^2.15.3"
+  },
   "devDependencies": {
     "unbuild": "^0.7.2"
   }

@@ -1,6 +1,7 @@
 import path from 'path'
 import { PKG_NAME } from '@element-plus/build-constants'
-import { epOutput } from './utils'
+import { epOutput } from '@element-plus/build-utils'
+
 import type { ModuleFormat } from 'rollup'
 
 export const modules = ['esm', 'cjs'] as const
