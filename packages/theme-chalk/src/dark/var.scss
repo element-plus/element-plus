@@ -86,6 +86,29 @@ $border-color: map.merge(
   $border-color
 );
 
+// Box-shadow
+$box-shadow: () !default;
+$box-shadow: map.merge(
+  (
+    '': (
+      0px 12px 32px 4px rgba(0, 0, 0, 0.36),
+      0px 8px 20px rgba(0, 0, 0, 0.72),
+    ),
+    'light': (
+      0px 0px 12px rgba(0, 0, 0, 0.72),
+    ),
+    'lighter': (
+      0px 0px 6px rgba(0, 0, 0, 0.72),
+    ),
+    'dark': (
+      0px 16px 48px 16px rgba(0, 0, 0, 0.72),
+      0px 12px 32px #000000,
+      0px 8px 16px -8px #000000,
+    ),
+  ),
+  $box-shadow
+);
+
 // fill
 $fill-color-base: #fafcff;
 $fill-color: () !default;

@@ -13,6 +13,9 @@ html.dark {
     @include set-css-color-type($colors, $type);
   }
 
+  // --el-box-shadow-#{$type}
+  @include set-component-css-var('box-shadow', $box-shadow);
+
   // color-scheme
   // Background --el-bg-color-#{$type}
   @include set-component-css-var('bg-color', $bg-color);
