@@ -13,7 +13,9 @@ import {
   epPackage,
   getPackageDependencies,
   projRoot,
-} from '@element-plus/build'
+} from '@element-plus/build-utils'
+import { MarkdownTransform } from './.vitepress/plugins/markdown-transform'
+
 import type { Alias } from 'vite'
 
 const alias: Alias[] = []
@@ -32,7 +34,8 @@ if (process.env.DOC_ENV !== 'production') {
 
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const { dependencies } = getPackageDependencies(epPackage)
+  let { dependencies } = getPackageDependencies(epPackage)
+  dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
   const optimizeDeps = [
     'vue',
     '@vue/shared',
@@ -43,12 +46,10 @@ export default defineConfig(async ({ mode }) => {
     ...dependencies,
   ]
   optimizeDeps.push(
-    ...(
-      await glob(['dayjs/plugin/*.js'], {
-        cwd: path.resolve(projRoot, 'node_modules'),
-        onlyFiles: true,
-      })
-    ).map((file) => file.replace(/\.js$/, ''))
+    ...(await glob(['dayjs/plugin/*.js'], {
+      cwd: path.resolve(projRoot, 'node_modules'),
+      onlyFiles: true,
+    }))
   )
 
   return {
@@ -81,6 +82,7 @@ export default defineConfig(async ({ mode }) => {
         autoInstall: true,
       }),
       UnoCSS(),
+      MarkdownTransform(),
       Inspect(),
       mkcert(),
     ],

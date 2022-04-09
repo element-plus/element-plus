@@ -1,0 +1,53 @@
+# Unit Test
+
+name: 🧪 Unit Test
+
+on: pull_request
+
+jobs:
+  build:
+    name: Unit Test (${{ matrix.node-name }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['16']
+        include:
+          - node-version: '16'
+            node-name: 'Latest'
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Add dev branch
+        run: git branch dev origin/dev
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache ~/.pnpm-store
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-pnpm-store
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-test-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Test
+        run: pnpm test:jest && pnpm test:coverage
+      - name: Upload to codecov.io
+        uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true

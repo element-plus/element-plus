@@ -51,4 +51,4 @@ divider/vertical-divider
 | ---------------- | ----------------------------------------- | ------ | --------------------------------------------------------------------------------- | ---------- |
 | direction        | Set divider's direction                   | string | horizontal / vertical                                                             | horizontal |
 | border-style     | Set the style of divider                  | string | [CSS/border-style](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style) | solid      |
-| content-position | customize the content on the divider line | String | left / right / center                                                             | center     |
+| content-position | customize the content on the divider line | string | left / right / center                                                             | center     |

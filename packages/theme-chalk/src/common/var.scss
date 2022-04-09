@@ -49,31 +49,19 @@ $color-error: map.get($colors, 'error', 'base') !default;
 $color-info: map.get($colors, 'info', 'base') !default;
 
 // https://sass-lang.com/documentation/values/maps#immutability
-// mix color with white
-@mixin set-color-type-light($type, $number) {
+// mix colors with white/black to generate light/dark level
+@mixin set-color-mix-level(
+  $type,
+  $number,
+  $mode: 'light',
+  $mix-color: $color-white
+) {
   $colors: map.deep-merge(
     (
       $type: (
-        'light-#{$number}':
+        '#{$mode}-#{$number}':
           mix(
-            $color-white,
-            map.get($colors, $type, 'base'),
-            math.percentage(math.div($number, 10))
-          ),
-      ),
-    ),
-    $colors
-  ) !global;
-}
-
-// mix color with black
-@mixin set-color-type-dark($type, $number) {
-  $colors: map.deep-merge(
-    (
-      $type: (
-        'dark-#{$number}':
-          mix(
-            $color-black,
+            $mix-color,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))
           ),
@@ -94,14 +82,15 @@ $color-info: map.get($colors, 'info', 'base') !default;
 // 70% c6e2ff
 // 80% d9ecff
 // 90% ecf5ff
-@for $i from 1 through 9 {
-  @each $type in $types {
-    @include set-color-type-light($type, $i);
+@each $type in $types {
+  @for $i from 1 through 9 {
+    @include set-color-mix-level($type, $i, 'light', $color-white);
   }
 }
+
 // --el-color-primary-dark-2
 @each $type in $types {
-  @include set-color-type-dark($type, 2);
+  @include set-color-mix-level($type, 2, 'dark', $color-black);
 }
 
 $text-color: () !default;

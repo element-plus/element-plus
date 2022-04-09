@@ -1,4 +1,5 @@
 @use './mixins' as *;
+@use './vars' as *;
 @use './content/doc-content';
 @use './content/hero-content';
 
@@ -7,13 +8,13 @@
     padding-top: var(--nav-height);
 
     &.has-sidebar {
-      padding-left: var(--sidebar-width-sm);
+      padding-left: calc(var(--sidebar-width-sm) + 10px);
       @include respond-to('xlg') {
-        padding-left: var(--vp-sidebar-width-small);
+        padding-left: calc(var(--vp-sidebar-width-small) - $scrollbar-size);
       }
       @include respond-to('xxl') {
         padding-left: calc(
-          (100vw - var(--vp-screen-max-width)) / 2 +
+          (100% - var(--vp-screen-max-width)) / 2 +
             var(--vp-sidebar-width-small)
         );
       }
