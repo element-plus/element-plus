@@ -22,6 +22,7 @@ html.dark {
   @include set-component-css-var('border-color', $border-color);
   // Fill --el-fill-color-#{$type}
   @include set-component-css-var('fill-color', $fill-color);
+  @include set-component-css-var('mask-color', $mask-color);
 }
 
 @include dark(card) {

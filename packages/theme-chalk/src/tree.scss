@@ -10,7 +10,7 @@
 @include b(tree) {
   position: relative;
   cursor: default;
-  background: getCssVar('bg-color', 'overlay');
+  background: getCssVar('fill-color', 'blank');
   color: var(--el-tree-text-color);
 
   @include e(empty-block) {

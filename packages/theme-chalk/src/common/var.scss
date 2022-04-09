@@ -1150,7 +1150,7 @@ $timeline: map.merge(
 $backtop: () !default;
 $backtop: map.merge(
   (
-    'bg-color': getCssVar('fill-color', 'blank'),
+    'bg-color': getCssVar('bg-color', 'overlay'),
     'text-color': getCssVar('color-primary'),
     'hover-bg-color': getCssVar('border-color-extra-light'),
   ),

@@ -41,7 +41,10 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      --el-alert-bg-color: #{map.get($colors, $type, 'light-9')};
+      @include css-var-from-global(
+        ('alert', 'bg-color'),
+        ('color', $type, 'light-9')
+      );
 
       &.is-light {
         background-color: var(--el-alert-bg-color);
