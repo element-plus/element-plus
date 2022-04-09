@@ -5,7 +5,7 @@ import { tableV2HeaderProps } from './header'
 
 import type { CSSProperties } from 'vue'
 
-const COMPONENT_NAME = 'TableV2Header'
+const COMPONENT_NAME = 'ElTableV2Header'
 const TableV2Header = defineComponent({
   name: COMPONENT_NAME,
   props: tableV2HeaderProps,

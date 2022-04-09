@@ -12,6 +12,6 @@ const TableV2Cell = defineComponent((props: TableV2CellProps, { slots }) => {
   )
 })
 
-TableV2Cell.name = 'TableV2Cell'
+TableV2Cell.name = 'ElTableV2Cell'
 
 export default TableV2Cell
