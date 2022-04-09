@@ -1,8 +1,9 @@
 import fs from 'fs'
 import path from 'path'
+import glob from 'fast-glob'
 import { docRoot, docsDirName, projRoot } from '@element-plus/build-utils'
 import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
-import { getLang } from '../utils/lang'
+import { getLang, languages } from '../utils/lang'
 import footerLocale from '../i18n/component/footer.json'
 
 import type { Plugin } from 'vite'
@@ -27,8 +28,12 @@ export function MarkdownTransform(): Plugin {
 
       code = transformVpScriptSetup(code, append)
 
-      const compPath = path.resolve(docRoot, 'en-US/component')
-      if (id.startsWith(compPath)) {
+      const compPaths = await glob(`{${languages.join(',')}}/component`, {
+        cwd: docRoot,
+        absolute: true,
+        onlyDirectories: true,
+      })
+      if (compPaths.some((compPath) => id.startsWith(compPath))) {
         code = transformComponentMarkdown(id, componentId, code, append)
       }
 
