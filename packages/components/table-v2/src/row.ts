@@ -1,8 +1,9 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { virtualizedGridProps } from '@element-plus/components/virtual-list'
+import { columns, expandColumnKey } from './common'
 
 import type { CSSProperties, ExtractPropTypes } from 'vue'
-import type { Column, FixedDirection, KeyType, RowCommonParams } from './types'
+import type { FixedDirection, KeyType, RowCommonParams } from './types'
 
 export type RowExpandParams<T> = {
   expanded: boolean
@@ -40,12 +41,9 @@ export type RowEventHandlers<T> = {
 
 export const tableV2RowProps = buildProps({
   class: String,
-  columns: {
-    type: definePropType<Column<any>[]>(Array),
-    required: true,
-  },
+  columns,
   depth: Number,
-  expandColumnKey: String,
+  expandColumnKey,
   estimatedRowHeight: virtualizedGridProps.estimatedRowHeight,
   isScrolling: Boolean,
   onRowExpand: {
