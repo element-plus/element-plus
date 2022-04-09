@@ -1,5 +1,6 @@
 # This workflow runs on target, so there is no need to worry about secrets
-name: 🧪 SSR Testing
+
+name: 🧪 Test SSR
 
 on: pull_request
 

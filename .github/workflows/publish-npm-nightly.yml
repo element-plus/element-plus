@@ -1,4 +1,4 @@
-name: Publish to NPM registry Nightly
+name: Publish to NPM registry (nightly)
 
 on:
   schedule:
