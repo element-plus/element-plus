@@ -459,17 +459,17 @@ const getSuffixOrPrefixWidth = (
   return defaultVal
 }
 const setInputPadding = (): void => {
-  nextTick(() => {
-    // 如果用户传入了 padding 就用用户的覆盖
-    inputStyleInner.value = {
-      paddingRight: `${getSuffixOrPrefixWidth(innerSuffixRef, 0)}px`,
-      paddingLeft: `${getSuffixOrPrefixWidth(innerPrefixRef, 11)}px`,
-      ...props.inputStyle,
-    }
-  })
+  // If the user sets 'padding', use the 'padding' set by the user
+  inputStyleInner.value = {
+    paddingRight: `${getSuffixOrPrefixWidth(innerSuffixRef, 0)}px`,
+    paddingLeft: `${getSuffixOrPrefixWidth(innerPrefixRef, 11)}px`,
+    ...props.inputStyle,
+  }
 }
 watch(showClear, () => {
-  setInputPadding()
+  nextTick(() => {
+    setInputPadding()
+  })
 })
 
 onMounted(async () => {
