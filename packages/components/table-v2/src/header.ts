@@ -1,7 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
+import { columns } from './common'
 
 import type { ExtractPropTypes } from 'vue'
-import type { Column } from './types'
 
 const requiredNumberType = {
   type: Number,
@@ -10,10 +10,7 @@ const requiredNumberType = {
 
 export const tableV2HeaderProps = buildProps({
   class: String,
-  columns: {
-    type: definePropType<Column<any>[]>(Array),
-    required: true,
-  },
+  columns,
   fixedHeaderData: {
     type: definePropType<any[]>(Array),
   },

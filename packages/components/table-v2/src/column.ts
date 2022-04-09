@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type {
   Alignment,
   CellRenderer,
@@ -32,7 +32,7 @@ export const tableV2ColumnProps = buildProps({
   hidden: Boolean,
   resizable: Boolean,
   style: {
-    type: definePropType<StyleValue>(Object),
+    type: definePropType<CSSProperties>(Object),
   },
   sortable: Boolean,
   title: String,
