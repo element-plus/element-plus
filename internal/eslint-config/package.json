@@ -7,8 +7,9 @@
     "index.js"
   ],
   "main": "index.js",
-  "scripts": {},
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "eslint": "^8.0.0"
   },

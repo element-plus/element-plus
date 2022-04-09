@@ -12,13 +12,9 @@ import Example from './demo/vp-example.vue'
 import SourceCode from './demo/vp-source-code.vue'
 
 const props = defineProps<{
+  demos: object
   source: string
   path: string
-  css?: string
-  cssPreProcessor?: string
-  js?: string
-  html?: string
-  demos: object
   rawSource: string
   description?: string
 }>()

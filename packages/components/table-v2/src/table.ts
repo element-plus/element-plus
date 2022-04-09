@@ -17,16 +17,6 @@ export type ColumnSortParams<T> = {
   order: SortOrder
 }
 
-export type RowExpandParams<T> = {
-  expanded: boolean
-  rowKey: KeyType
-} & RowCommonParams<T>
-
-export type RowEventHandlerParams<T> = {
-  rowKey: KeyType
-  event: Event
-} & RowCommonParams<T>
-
 /**
  * Renderer/Getter types
  */
@@ -61,25 +51,8 @@ export type RowClassNameGetter<T> = (
  * Handler types
  */
 export type ColumnSortHandler<T> = (params: ColumnSortParams<T>) => void
-export type RowExpandHandler<T> = (params: RowExpandParams<T>) => void
-export type RowEventHandler<T> = (params: RowEventHandlerParams<T>) => void
-
-export type RowEventHandlers<T> = {
-  click?: RowEventHandler<T>
-  contextmenu?: RowEventHandler<T>
-  dblclick?: RowEventHandler<T>
-  mouseenter?: RowEventHandler<T>
-  mouseleave?: RowEventHandler<T>
-}
 
 export const tableV2Props = buildProps({
-  /**
-   * Unique items
-   */
-  rowKey: {
-    type: definePropType<KeyType>([String, Number, Symbol]),
-  },
-
   /**
    * extra props deriver
    */
@@ -128,7 +101,6 @@ export const tableV2Props = buildProps({
   /**
    * Expanded keys
    */
-  expandColumnKey: String,
   expandedRowKeys: {
     type: definePropType<KeyType[]>(Array),
   },
@@ -161,12 +133,6 @@ export const tableV2Props = buildProps({
    */
   onColumnSort: {
     type: definePropType<ColumnSortParams<any>>(Function),
-  },
-  onRowExpanded: {
-    type: definePropType<RowExpandHandler<any>>(Function),
-  },
-  rowEventHandlers: {
-    type: definePropType<RowEventHandlers<any>>(Object),
   },
 } as const)
 
