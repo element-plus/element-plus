@@ -1,4 +1,5 @@
-import type { StyleValue, VNode } from 'vue'
+import type { RendererElement, RendererNode, StyleValue, VNode } from 'vue'
+
 import type { sortOrders } from './constants'
 
 export type Alignment = 'left' | 'center' | 'right'
@@ -81,3 +82,21 @@ export type Column<T = any> = {
    */
   [key: string]: any
 }
+
+export type CustomizedCellsType = VNode<
+  RendererNode,
+  RendererElement,
+  {
+    [key: string]: any
+  }
+>[]
+
+export type DefaultCellsType = VNode<
+  RendererNode,
+  RendererElement,
+  {
+    [key: string]: any
+  }
+>[][]
+
+export type ColumnCellsType = DefaultCellsType | CustomizedCellsType
