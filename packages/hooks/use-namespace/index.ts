@@ -68,3 +68,5 @@ export const useNamespace = (block: string) => {
     is,
   }
 }
+
+export type UseNamespaceReturn = ReturnType<typeof useNamespace>

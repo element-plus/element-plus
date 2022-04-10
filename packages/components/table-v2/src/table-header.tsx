@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref, unref } from 'vue'
+import { computed, defineComponent, nextTick, ref, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { ensureArray } from '@element-plus/utils'
 import { tableV2HeaderProps } from './header'
@@ -9,7 +9,7 @@ const COMPONENT_NAME = 'ElTableV2Header'
 const TableV2Header = defineComponent({
   name: COMPONENT_NAME,
   props: tableV2HeaderProps,
-  setup(props, { slots }) {
+  setup(props, { slots, expose }) {
     const ns = useNamespace('table-v2')
 
     const headerRef = ref<HTMLElement>()
@@ -25,6 +25,15 @@ const TableV2Header = defineComponent({
     }))
 
     const headerHeights = computed(() => ensureArray(unref(props.headerHeight)))
+
+    const scrollTo = (left?: number) => {
+      const headerEl = unref(headerRef)
+      nextTick(() => {
+        headerEl?.scroll({
+          left,
+        })
+      })
+    }
 
     const renderFixedRows = () => {
       const fixedRowClassName = ns.e('fixed-header-row')
@@ -66,6 +75,13 @@ const TableV2Header = defineComponent({
       })
     }
 
+    expose({
+      /**
+       * @description scroll to position based on the provided value
+       */
+      scrollTo,
+    })
+
     return () => {
       if (props.height <= 0) return
 
@@ -86,3 +102,10 @@ const TableV2Header = defineComponent({
 })
 
 export default TableV2Header
+
+export type TableV2HeaderInstance = InstanceType<typeof TableV2Header> & {
+  /**
+   * @description scroll to position based on the provided value
+   */
+  scrollTo: (left?: number) => void
+}
