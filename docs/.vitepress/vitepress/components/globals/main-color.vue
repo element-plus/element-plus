@@ -10,7 +10,7 @@
             :key="level"
             class="bg-blue-sub-item hover:(cursor-pointer shadow)"
             :style="{
-              width: `${100 / 10}%`,
+              width: `${100 / 5}%`,
               background: getColorValue('primary-' + level),
             }"
             @click="copyColor('primary-' + level)"
@@ -26,9 +26,7 @@ import { useCssVar } from '@vueuse/core'
 import { getColorValue, useCopyColor } from '../../utils'
 
 const primary = useCssVar('--el-color-primary')
-const colorLevel = [...Array.from({ length: 10 }).keys()].map(
-  (i) => `light-${i + 1}`
-)
+const colorLevel = [3, 5, 7, 8, 9].map((i) => `light-${i}`)
 colorLevel.unshift('dark-2')
 
 const { copyColor } = useCopyColor()

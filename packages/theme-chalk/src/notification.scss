@@ -14,7 +14,7 @@
   box-sizing: border-box;
   border: 1px solid var(--el-notification-border-color);
   position: fixed;
-  background-color: var(--el-color-white);
+  background-color: getCssVar('bg-color', 'overlay');
   box-shadow: var(--el-notification-shadow);
   transition: opacity var(--el-transition-duration),
     transform var(--el-transition-duration), left var(--el-transition-duration),

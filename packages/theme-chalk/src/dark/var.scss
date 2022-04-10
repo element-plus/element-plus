@@ -50,16 +50,6 @@ $colors: () !default;
   // ) !global;
 }
 
-// dark-mode
-@each $type in common.$types {
-  @for $i from 1 through 9 {
-    @include set-color-mix-level($type, $i, 'light', common.$color-black);
-  }
-}
-@each $type in common.$types {
-  @include set-color-mix-level($type, 2, 'dark', common.$color-white);
-}
-
 // Background
 $bg-color: () !default;
 $bg-color: map.merge(
@@ -70,6 +60,16 @@ $bg-color: map.merge(
   ),
   $bg-color
 );
+
+// dark-mode
+@each $type in common.$types {
+  @for $i from 1 through 9 {
+    @include set-color-mix-level($type, $i, 'light', map.get($bg-color, ''));
+  }
+}
+@each $type in common.$types {
+  @include set-color-mix-level($type, 2, 'dark', common.$color-white);
+}
 
 // border
 $border-color-base: #f5f8ff;
@@ -84,6 +84,29 @@ $border-color: map.merge(
     'extra-light': rgba($border-color-base, 0.1),
   ),
   $border-color
+);
+
+// Box-shadow
+$box-shadow: () !default;
+$box-shadow: map.merge(
+  (
+    '': (
+      0px 12px 32px 4px rgba(0, 0, 0, 0.36),
+      0px 8px 20px rgba(0, 0, 0, 0.72),
+    ),
+    'light': (
+      0px 0px 12px rgba(0, 0, 0, 0.72),
+    ),
+    'lighter': (
+      0px 0px 6px rgba(0, 0, 0, 0.72),
+    ),
+    'dark': (
+      0px 16px 48px 16px rgba(0, 0, 0, 0.72),
+      0px 12px 32px #000000,
+      0px 8px 16px -8px #000000,
+    ),
+  ),
+  $box-shadow
 );
 
 // fill
@@ -114,6 +137,16 @@ $text-color: map.merge(
     'disabled': rgba($text-color-base, 0.4),
   ),
   $text-color
+);
+
+// mask
+$mask-color: () !default;
+$mask-color: map.merge(
+  (
+    '': rgba(0, 0, 0, 0.8),
+    'extra-light': rgba(0, 0, 0, 0.3),
+  ),
+  $mask-color
 );
 
 // card

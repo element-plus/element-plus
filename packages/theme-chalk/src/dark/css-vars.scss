@@ -13,6 +13,9 @@ html.dark {
     @include set-css-color-type($colors, $type);
   }
 
+  // --el-box-shadow-#{$type}
+  @include set-component-css-var('box-shadow', $box-shadow);
+
   // color-scheme
   // Background --el-bg-color-#{$type}
   @include set-component-css-var('bg-color', $bg-color);
@@ -22,6 +25,7 @@ html.dark {
   @include set-component-css-var('border-color', $border-color);
   // Fill --el-fill-color-#{$type}
   @include set-component-css-var('fill-color', $fill-color);
+  @include set-component-css-var('mask-color', $mask-color);
 }
 
 @include dark(card) {
