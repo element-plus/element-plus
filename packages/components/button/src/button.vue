@@ -38,7 +38,6 @@
 
 <script lang="ts" setup>
 import { Text, computed, inject, ref, useSlots } from 'vue'
-import { TinyColor } from '@ctrl/tinycolor'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   useDisabled,
@@ -49,6 +48,7 @@ import {
 } from '@element-plus/hooks'
 import { buttonGroupContextKey } from '@element-plus/tokens'
 import { buttonEmits, buttonProps } from './button'
+import { useButtonCustomStyle } from './button-custom'
 
 defineOptions({
   name: 'ElButton',
@@ -84,61 +84,7 @@ const shouldAddSpace = computed(() => {
   return false
 })
 
-// calculate hover & active color by custom color
-// only work when custom color
-const buttonStyle = computed(() => {
-  let styles: Record<string, string> = {}
-
-  const buttonColor = props.color
-
-  if (buttonColor) {
-    const color = new TinyColor(buttonColor)
-    const activeBgColor = props.dark
-      ? color.tint(20).toString()
-      : color.shade(20).toString()
-    if (props.plain) {
-      styles = {
-        '--el-button-bg-color': props.dark
-          ? color.shade(80).toString()
-          : color.tint(90).toString(),
-        '--el-button-text-color': buttonColor,
-        '--el-button-hover-text-color': 'var(--el-color-white)',
-        '--el-button-hover-bg-color': buttonColor,
-        '--el-button-hover-border-color': buttonColor,
-        '--el-button-active-bg-color': activeBgColor,
-        '--el-button-active-text-color': 'var(--el-color-white)',
-        '--el-button-active-border-color': activeBgColor,
-      }
-    } else {
-      const hoverBgColor = props.dark
-        ? color.shade(30).toString()
-        : color.tint(30).toString()
-      const textColor = color.isDark()
-        ? 'var(--el-color-white)'
-        : 'var(--el-color-black)'
-      styles = {
-        '--el-button-bg-color': buttonColor,
-        '--el-button-text-color': textColor,
-        '--el-button-border-color': buttonColor,
-        '--el-button-hover-bg-color': hoverBgColor,
-        '--el-button-hover-text-color': textColor,
-        '--el-button-hover-border-color': hoverBgColor,
-        '--el-button-active-bg-color': activeBgColor,
-        '--el-button-active-border-color': activeBgColor,
-      }
-    }
-
-    if (_disabled.value) {
-      const disabledButtonColor = props.dark
-        ? color.shade(50).toString()
-        : color.tint(50).toString()
-      styles['--el-button-disabled-bg-color'] = disabledButtonColor
-      styles['--el-button-disabled-border-color'] = disabledButtonColor
-    }
-  }
-
-  return styles
-})
+const buttonStyle = useButtonCustomStyle(props)
 
 const handleClick = (evt: MouseEvent) => {
   if (props.nativeType === 'reset') {

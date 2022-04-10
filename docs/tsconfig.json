@@ -11,7 +11,8 @@
     "noImplicitAny": false,
     "skipLibCheck": true,
     "paths": {
-      "element-plus": ["../packages/element-plus"]
+      "element-plus": ["../packages/element-plus"],
+      "~/*": ["./.vitepress/vitepress/*"]
     },
     "types": ["../typings/components"],
     "jsx": "preserve"

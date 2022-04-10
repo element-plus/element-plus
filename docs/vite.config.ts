@@ -19,7 +19,12 @@ import { MarkdownTransform } from './.vitepress/plugins/markdown-transform'
 
 import type { Alias } from 'vite'
 
-const alias: Alias[] = []
+const alias: Alias[] = [
+  {
+    find: '~/',
+    replacement: `${path.resolve(__dirname, './.vitepress/vitepress')}/`,
+  },
+]
 if (process.env.DOC_ENV !== 'production') {
   alias.push(
     {
