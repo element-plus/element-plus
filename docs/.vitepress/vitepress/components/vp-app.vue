@@ -14,6 +14,7 @@ import VPSubNav from './vp-subnav.vue'
 import VPSidebar from './vp-sidebar.vue'
 import VPContent from './vp-content.vue'
 import VPSponsors from './vp-sponsors.vue'
+import VPReloadPrompt from './vp-reload-prompt.vue'
 
 const USER_PREFER_GITHUB_PAGE = 'USER_PREFER_GITHUB_PAGE'
 
@@ -128,6 +129,9 @@ onMounted(async () => {
         <slot name="aside-bottom" />
       </template>
     </VPContent>
+    <ClientOnly>
+      <VPReloadPrompt />
+    </ClientOnly>
     <Debug />
   </div>
 </template>

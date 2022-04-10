@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm gen-locale && vitepress dev .",
-    "build": "cross-env NODE_ENV=production && vitepress build .",
+    "build": "cross-env NODE_ENV=production && vitepress build . && sucrase-node .vitepress/build/rebuild-pwa.ts",
     "serve": "cross-env NODE_ENV=production vitepress serve . --port 5001",
     "gen-locale": "rimraf .vitepress/i18n && sucrase-node .vitepress/build/crowdin-generate.ts",
     "crowdin-credentials": "sucrase-node .vitepress/build/crowdin-credentials.ts"
@@ -36,6 +36,7 @@
     "unplugin-vue-components": "^0.18.5",
     "vite": "^2.9.1",
     "vite-plugin-inspect": "^0.4.3",
+    "vite-plugin-pwa": "^0.11.13",
     "vitepress": "^0.22.3"
   }
 }
