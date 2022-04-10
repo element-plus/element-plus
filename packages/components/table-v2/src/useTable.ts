@@ -1,4 +1,4 @@
-import { computed, ref, unref, watch } from 'vue'
+import { computed, unref } from 'vue'
 
 import type { CSSProperties, Ref } from 'vue'
 import type { Column, Columns } from './types'

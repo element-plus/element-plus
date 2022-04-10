@@ -1,4 +1,4 @@
-import { definePropType } from '@element-plus/utils'
+import { definePropType, mutable } from '@element-plus/utils'
 
 import type { CSSProperties } from 'vue'
 import type { Column, KeyType } from './types'
@@ -31,6 +31,11 @@ export const dataType = {
 
 export const expandColumnKey = String
 
+export const expandKeys = {
+  type: definePropType<KeyType[]>(Array),
+  default: () => mutable([]),
+} as const
+
 export const requiredNumber = {
   type: Number,
   required: true,
@@ -38,7 +43,7 @@ export const requiredNumber = {
 
 export const rowKey = {
   type: definePropType<KeyType>([String, Number, Symbol]),
-  required: true,
+  default: 'id',
 } as const
 
 /**
