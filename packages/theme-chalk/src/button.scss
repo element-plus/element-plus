@@ -126,6 +126,8 @@ $button-icon-span-gap: map.merge(
     pointer-events: none;
 
     &:before {
+      // mask the button
+      z-index: 1;
       pointer-events: none;
       content: '';
       position: absolute;
