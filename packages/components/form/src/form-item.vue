@@ -53,7 +53,6 @@ import {
   isBoolean,
   isFunction,
   isString,
-  throwError,
 } from '@element-plus/utils'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { useNamespace, useSize } from '@element-plus/hooks'
