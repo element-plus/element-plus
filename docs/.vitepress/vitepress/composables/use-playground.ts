@@ -2,7 +2,7 @@ import { utoa } from '../utils'
 
 const MAIN_FILE_NAME = 'App.vue'
 
-export const usePlayGround = (source: string) => {
+export const usePlayground = (source: string) => {
   const code = decodeURIComponent(source)
   const originCode = {
     [MAIN_FILE_NAME]: code,

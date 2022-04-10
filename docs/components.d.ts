@@ -6,9 +6,9 @@ declare module 'vue' {
   export interface GlobalComponents {
     IRiCodeLine: typeof import('~icons/ri/code-line')['default']
     IRiExternalLinkLine: typeof import('~icons/ri/external-link-line')['default']
-    IRiFileCopy2Line: typeof import('~icons/ri/file-copy2-line')['default']
+    IRiFileCopyLine: typeof import('~icons/ri/file-copy-line')['default']
+    IRiFlaskLine: typeof import('~icons/ri/flask-line')['default']
     IRiGithubLine: typeof import('~icons/ri/github-line')['default']
-    IRiPlayCircleLine: typeof import('~icons/ri/play-circle-line')['default']
     IRiTranslate2: typeof import('~icons/ri/translate2')['default']
   }
 }
