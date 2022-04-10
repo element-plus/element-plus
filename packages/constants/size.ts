@@ -8,6 +8,6 @@ export const componentSizeMap = {
   small: 24,
 } as const
 
-export const getComponentSize = (size?: ComponentSize) => {
+export const getComponentSize = (size: ComponentSize = 'default') => {
   return componentSizeMap[size || 'default']
 }
