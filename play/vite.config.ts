@@ -31,8 +31,8 @@ const esbuildPlugin = () => ({
 
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const { dependencies } = getPackageDependencies(epPackage)
-
+  let { dependencies } = getPackageDependencies(epPackage)
+  dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
   const optimizeDeps = (
     await glob(['dayjs/(locale|plugin)/*.js'], {
       cwd: path.resolve(projRoot, 'node_modules'),
