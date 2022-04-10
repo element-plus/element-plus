@@ -94,10 +94,7 @@
 
     &:disabled {
       & + .#{$namespace}-radio-button__inner {
-        color: var(
-          --el-button-disabled-text-color,
-          map.get($button, 'disabled-text-color')
-        );
+        color: getCssVar('disabled-text-color');
         cursor: not-allowed;
         background-image: none;
         background-color: var(

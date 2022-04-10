@@ -152,7 +152,7 @@
     }
 
     @include when(disabled) {
-      color: var(--el-disabled-text-color);
+      color: getCssVar('disabled-text-color');
       cursor: default;
     }
   }
@@ -262,7 +262,7 @@
         color: var(--el-color-primary);
       }
       &.is-disabled {
-        color: var(--el-disabled-text-color);
+        color: getCssVar('disabled-text-color');
       }
     }
 
