@@ -28,6 +28,10 @@ html.dark {
   @include set-component-css-var('mask-color', $mask-color);
 }
 
+@include dark(button) {
+  @include set-component-css-var('button', $button);
+}
+
 @include dark(card) {
   @include set-component-css-var('card', $card);
 }

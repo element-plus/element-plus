@@ -149,6 +149,16 @@ $mask-color: map.merge(
   $mask-color
 );
 
+// Button
+// css3 var in packages/theme-chalk/src/button.scss
+$button: () !default;
+$button: map.merge(
+  (
+    'disabled-text-color': rgba(255, 255, 255, 0.5),
+  ),
+  $button
+);
+
 // card
 $card: () !default;
 $card: map.merge(

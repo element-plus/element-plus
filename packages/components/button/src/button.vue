@@ -93,32 +93,45 @@ const buttonStyle = computed(() => {
 
   if (buttonColor) {
     const color = new TinyColor(buttonColor)
-    const shadeBgColor = color.shade(20).toString()
+    const activeBgColor = props.dark
+      ? color.tint(20).toString()
+      : color.shade(20).toString()
     if (props.plain) {
       styles = {
-        '--el-button-bg-color': color.tint(90).toString(),
+        '--el-button-bg-color': props.dark
+          ? color.shade(80).toString()
+          : color.tint(90).toString(),
         '--el-button-text-color': buttonColor,
         '--el-button-hover-text-color': 'var(--el-color-white)',
         '--el-button-hover-bg-color': buttonColor,
         '--el-button-hover-border-color': buttonColor,
-        '--el-button-active-bg-color': shadeBgColor,
+        '--el-button-active-bg-color': activeBgColor,
         '--el-button-active-text-color': 'var(--el-color-white)',
-        '--el-button-active-border-color': shadeBgColor,
+        '--el-button-active-border-color': activeBgColor,
       }
     } else {
-      const tintBgColor = color.tint(30).toString()
+      const hoverBgColor = props.dark
+        ? color.shade(30).toString()
+        : color.tint(30).toString()
+      const textColor = color.isDark()
+        ? 'var(--el-color-white)'
+        : 'var(--el-color-black)'
       styles = {
         '--el-button-bg-color': buttonColor,
+        '--el-button-text-color': textColor,
         '--el-button-border-color': buttonColor,
-        '--el-button-hover-bg-color': tintBgColor,
-        '--el-button-hover-border-color': tintBgColor,
-        '--el-button-active-bg-color': shadeBgColor,
-        '--el-button-active-border-color': shadeBgColor,
+        '--el-button-hover-bg-color': hoverBgColor,
+        '--el-button-hover-text-color': textColor,
+        '--el-button-hover-border-color': hoverBgColor,
+        '--el-button-active-bg-color': activeBgColor,
+        '--el-button-active-border-color': activeBgColor,
       }
     }
 
     if (_disabled.value) {
-      const disabledButtonColor = color.tint(50).toString()
+      const disabledButtonColor = props.dark
+        ? color.shade(50).toString()
+        : color.tint(50).toString()
       styles['--el-button-disabled-bg-color'] = disabledButtonColor
       styles['--el-button-disabled-border-color'] = disabledButtonColor
     }

@@ -13,7 +13,8 @@
     "paths": {
       "element-plus": ["../packages/element-plus"]
     },
-    "types": ["../typings/components"]
+    "types": ["../typings/components"],
+    "jsx": "preserve"
   },
   "include": ["**/*", ".vitepress/**/*"],
   "exclude": ["node_modules"]
