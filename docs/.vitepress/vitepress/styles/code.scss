@@ -68,6 +68,13 @@ code {
   font-size: var(--code-font-size);
   color: var(--code-text-color);
   line-height: var(--code-line-height);
+  background-color: var(--code-bg-color);
+}
+
+pre {
+  code {
+    background-color: transparent;
+  }
 }
 
 a > code {
