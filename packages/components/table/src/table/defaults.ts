@@ -47,7 +47,7 @@ type RenderExpanded<T> = ({
 }: RIS<T>) => VNode
 
 type SummaryMethod<T> = (data: {
-  columns: TableColumnCtx<T>
+  columns: TableColumnCtx<T>[]
   data: T[]
 }) => string[]
 
@@ -69,19 +69,19 @@ type ColumnStyle<T> =
 type CellCls<T> =
   | string
   | ((data: {
-      row: T
-      rowIndex: number
-      column: TableColumnCtx<T>
-      columnIndex: number
-    }) => string)
+    row: T
+    rowIndex: number
+    column: TableColumnCtx<T>
+    columnIndex: number
+  }) => string)
 type CellStyle<T> =
   | CSSProperties
   | ((data: {
-      row: T
-      rowIndex: number
-      column: TableColumnCtx<T>
-      columnIndex: number
-    }) => CSSProperties)
+    row: T
+    rowIndex: number
+    column: TableColumnCtx<T>
+    columnIndex: number
+  }) => CSSProperties)
 type Layout = 'fixed' | 'auto'
 interface TableProps<T> {
   data: T[]
@@ -121,9 +121,9 @@ interface TableProps<T> {
   }) =>
     | number[]
     | {
-        rowspan: number
-        colspan: number
-      }
+      rowspan: number
+      colspan: number
+    }
   selectOnIndeterminate?: boolean
   indent?: number
   treeProps?: {
