@@ -1,4 +1,4 @@
-import type { RendererElement, RendererNode, StyleValue, VNode } from 'vue'
+import type { CSSProperties, RendererElement, RendererNode, VNode } from 'vue'
 
 import type { sortOrders } from './constants'
 
@@ -69,7 +69,7 @@ export type Column<T = any> = {
   maxWidth?: number
   minWidth?: number
   resizable?: boolean
-  style?: StyleValue
+  style?: CSSProperties
   sortable?: boolean
   width: number
   /**
@@ -82,6 +82,8 @@ export type Column<T = any> = {
    */
   [key: string]: any
 }
+
+export type Columns<T> = Column<T>[]
 
 export type CustomizedCellsType = VNode<
   RendererNode,
