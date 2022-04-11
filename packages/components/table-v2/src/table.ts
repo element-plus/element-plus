@@ -1,4 +1,16 @@
 import { buildProps, definePropType } from '@element-plus/utils'
+import {
+  classType,
+  columns,
+  dataType,
+  expandKeys,
+  fixedDataType,
+  requiredNumber,
+  rowKey,
+} from './common'
+import { tableV2RowProps } from './row'
+import { tableV2HeaderProps } from './header'
+import { tableV2GridProps } from './grid'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
 import type {
@@ -53,13 +65,17 @@ export type RowClassNameGetter<T> = (
 export type ColumnSortHandler<T> = (params: ColumnSortParams<T>) => void
 
 export const tableV2Props = buildProps({
+  cache: tableV2GridProps.cache,
+  estimatedRowHeight: tableV2RowProps.estimatedRowHeight,
+  rowKey,
   /**
    * extra props deriver
    */
   cellProps: {
     type: definePropType<any | ExtraCellPropGetter<any>>([Object, Function]),
   },
-  headerClassName: {
+  // Header attributes
+  headerClass: {
     type: definePropType<string | HeaderClassNameGetter<any>>([
       String,
       Function,
@@ -77,55 +93,54 @@ export const tableV2Props = buildProps({
       Function,
     ]),
   },
-  rowClassName: {
+  headerHeight: tableV2HeaderProps.headerHeight,
+  /**
+   * Footer attributes
+   */
+  footerHeight: {
+    type: Number,
+    default: 0,
+  },
+  /**
+   * Row attributes
+   */
+  rowClass: {
     type: definePropType<string | RowClassNameGetter<any>>([String, Function]),
   },
   rowProps: {
     type: definePropType<any | ExtractRowPropGetter<any>>([Object, Function]),
   },
-
+  rowHeight: Number,
   /**
    * Data models
    */
-  columns: {
-    type: definePropType<Column<any>[]>(Array),
-    required: true,
-  },
-  fixedData: {
-    type: definePropType<any[]>(Array),
-  },
-  data: {
-    type: definePropType<any[]>(Array),
-  },
+  columns,
+  data: dataType,
+  fixedData: fixedDataType,
 
   /**
    * Expanded keys
    */
-  expandedRowKeys: {
-    type: definePropType<KeyType[]>(Array),
-  },
-  defaultExpandedRowKeys: {
-    type: definePropType<KeyType[]>(Array),
-  },
+  expandColumnKey: tableV2RowProps.expandColumnKey,
+  expandedRowKeys: expandKeys,
+  defaultExpandedRowKeys: expandKeys,
 
   /**
    * Attributes
    */
-  classNames: {
-    type: definePropType<string | string[]>([String, Array]),
-  },
+  class: classType,
   disabled: Boolean,
-  footerHeight: {
-    type: definePropType<number | number[]>([Number, Array]),
-  },
-  headerHeight: {
-    type: definePropType<number | number[]>([Number, Array]),
-  },
+  fixed: Boolean,
   style: {
     type: definePropType<StyleValue>([String, Array, Object]),
   },
+  width: requiredNumber,
+  height: Number,
+  maxHeight: Number,
+
   sortBy: {
     type: definePropType<{ key: KeyType; order: SortOrder }>(Object),
+    default: () => ({} as { key: KeyType; order: SortOrder }),
   },
 
   /**
@@ -134,6 +149,10 @@ export const tableV2Props = buildProps({
   onColumnSort: {
     type: definePropType<ColumnSortParams<any>>(Function),
   },
+  onExpandedRowsChange: Function,
+  onRowExpand: Function,
+  onScroll: tableV2GridProps.onScroll,
+  rowEventHandlers: tableV2RowProps.rowEventHandlers,
 } as const)
 
 export type TableV2Props = ExtractPropTypes<typeof tableV2Props>

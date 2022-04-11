@@ -177,3 +177,26 @@ export type GridConstructorProps<
   clearCache: boolean
   validateProps: PropValidator<T>
 }
+
+/**
+ * Instance methods and emits
+ */
+export type GridDefaultSlotParams = {
+  columnIndex: number
+  rowIndex: number
+  data: any
+  key: number | string
+  isScrolling?: boolean
+  style: CSSProperties
+}
+
+export type GridItemRenderedEvtParams = {
+  columnCacheStart: number
+  columnCacheEnd: number
+  rowCacheStart: number
+  rowCacheEnd: number
+  columnVisibleStart: number
+  columnVisibleEnd: number
+  rowVisibleStart: number
+  rowVisibleEnd: number
+}

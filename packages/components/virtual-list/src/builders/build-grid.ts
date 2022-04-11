@@ -34,7 +34,14 @@ import {
   SCROLL_EVT,
 } from '../defaults'
 
-import type { CSSProperties, StyleValue, VNode, VNodeChild } from 'vue'
+import type {
+  CSSProperties,
+  Ref,
+  StyleValue,
+  UnwrapRef,
+  VNode,
+  VNodeChild,
+} from 'vue'
 import type { Alignment, GridConstructorProps, ScrollbarExpose } from '../types'
 import type { VirtualizedGridProps } from '../props'
 
@@ -209,8 +216,7 @@ const createGrid = ({
           // emit the render item event with
           // [xAxisInvisibleStart, xAxisInvisibleEnd, xAxisVisibleStart, xAxisVisibleEnd]
           // [yAxisInvisibleStart, yAxisInvisibleEnd, yAxisVisibleStart, yAxisVisibleEnd]
-          emit(
-            ITEM_RENDER_EVT,
+          emit(ITEM_RENDER_EVT, {
             columnCacheStart,
             columnCacheEnd,
             rowCacheStart,
@@ -218,8 +224,8 @@ const createGrid = ({
             columnVisibleStart,
             columnVisibleEnd,
             rowVisibleStart,
-            rowVisibleEnd
-          )
+            rowVisibleEnd,
+          })
         }
 
         const {
@@ -621,3 +627,26 @@ const createGrid = ({
   })
 }
 export default createGrid
+
+type Dir = typeof FORWARD | typeof BACKWARD
+
+export type GridInstance = InstanceType<ReturnType<typeof createGrid>> &
+  UnwrapRef<{
+    windowRef: Ref<HTMLElement>
+    innerRef: Ref<HTMLElement>
+    getItemStyleCache: ReturnType<typeof useCache>
+    scrollTo: (scrollOptions: { scrollLeft: number; scrollTop: number }) => void
+    scrollToItem: (
+      rowIndex: number,
+      columnIndex: number,
+      alignment: Alignment
+    ) => void
+    states: Ref<{
+      isScrolling: boolean
+      scrollLeft: number
+      scrollTop: number
+      updateRequested: boolean
+      xAxisScrollDir: Dir
+      yAxisScrollDir: Dir
+    }>
+  }>

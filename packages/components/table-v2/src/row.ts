@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { virtualizedGridProps } from '@element-plus/components/virtual-list'
-import { columns, expandColumnKey } from './common'
+import { columns, expandColumnKey, rowKey } from './common'
 
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { FixedDirection, KeyType, RowCommonParams } from './types'
@@ -69,10 +69,7 @@ export const tableV2RowProps = buildProps({
   /**
    * Unique item key
    */
-  rowKey: {
-    type: definePropType<KeyType>([String, Number, Symbol]),
-    required: true,
-  },
+  rowKey,
   style: {
     type: definePropType<CSSProperties>(Object),
   },

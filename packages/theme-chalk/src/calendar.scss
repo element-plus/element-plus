@@ -5,7 +5,7 @@
 @include b(calendar) {
   @include set-component-css-var('calendar', $calendar);
 
-  background-color: #fff;
+  background-color: getCssVar('fill-color', 'blank');
 
   @include e(header) {
     display: flex;
@@ -15,7 +15,7 @@
   }
 
   @include e(title) {
-    color: getCssVar('color-black');
+    color: getCssVar('text-color');
     align-self: center;
   }
 

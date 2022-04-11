@@ -73,7 +73,7 @@ const createPopperInstance = ({ referenceEl, popperContentEl, arrowEl }) => {
 
 const updatePopper = () => {
   unref(popperInstanceRef)?.update()
-  contentZIndex.value = props.zIndex || nextZIndex()
+  contentZIndex.value = props.zIndex || contentZIndex.value || nextZIndex()
 }
 
 const togglePopperAlive = () => {
