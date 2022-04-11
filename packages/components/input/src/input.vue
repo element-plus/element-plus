@@ -459,10 +459,30 @@ const getSuffixOrPrefixWidth = (
   return defaultVal
 }
 const setInputPadding = (): void => {
+  if (innerSuffixRef.value && !innerPrefixRef.value) {
+    inputStyleInner.value = {
+      paddingRight: `${getSuffixOrPrefixWidth(innerSuffixRef, 0)}px`,
+      ...props.inputStyle,
+    }
+    return
+  }
+  if (!innerSuffixRef.value && innerPrefixRef.value) {
+    inputStyleInner.value = {
+      paddingLeft: `${getSuffixOrPrefixWidth(innerPrefixRef, 0)}px`,
+      ...props.inputStyle,
+    }
+    return
+  }
+  if (innerSuffixRef.value && innerPrefixRef.value) {
+    inputStyleInner.value = {
+      paddingRight: `${getSuffixOrPrefixWidth(innerSuffixRef, 0)}px`,
+      paddingLeft: `${getSuffixOrPrefixWidth(innerPrefixRef, 0)}px`,
+      ...props.inputStyle,
+    }
+    return
+  }
   // If the user sets 'padding', use the 'padding' set by the user
   inputStyleInner.value = {
-    paddingRight: `${getSuffixOrPrefixWidth(innerSuffixRef, 0)}px`,
-    paddingLeft: `${getSuffixOrPrefixWidth(innerPrefixRef, 11)}px`,
     ...props.inputStyle,
   }
 }
