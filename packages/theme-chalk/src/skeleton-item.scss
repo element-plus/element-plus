@@ -14,7 +14,7 @@
 @include b(skeleton) {
   @include e(item) {
     background: var(--el-skeleton-color);
-    display: inline-block;
+    display: block;
     height: 16px;
     border-radius: var(--el-border-radius-base);
     width: 100%;
@@ -42,6 +42,10 @@
 
     @include when(first) {
       width: 33%;
+      margin-top: 16px;
+      &:first-of-type {
+        margin-top: 0;
+      }
     }
   }
 
