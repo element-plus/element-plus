@@ -11,7 +11,7 @@ $directions: rtl, ltr, ttb, btt;
 @include b(drawer) {
   position: absolute;
   box-sizing: border-box;
-  background-color: var(--el-drawer-bg-color);
+  background-color: getCssVar('drawer', 'bg-color');
   display: flex;
   flex-direction: column;
   box-shadow: getCssVar('box-shadow', 'dark');

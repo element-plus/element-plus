@@ -1,5 +1,53 @@
 ## Changelog
 
+### 2.1.9
+
+_2022-04-11_
+
+#### Features
+
+- Theme-chalk card support dark (#6975 by @YunYouJun)
+- Theme-chalk dark palette & common color mixins (#6999 by @YunYouJun)
+- Components [virtual-table] (#7014 by @JeremyWuuuuu)
+- Components [virtual-table] (#7024 by @JeremyWuuuuu)
+- Components [virtual-table] columns (#7027 by @JeremyWuuuuu)
+- Docs add source and contributors (#6044 by @sxzz)
+- Components [virtual-table] row (#7047 by @JeremyWuuuuu)
+- Components [virtual-table] row (#7060 by @JeremyWuuuuu)
+-  Release Publish eslint config and metadata (#7063 by @sxzz)
+- Components [virtual-table] cell (#7068 by @JeremyWuuuuu)
+- Components [virtual-table] header (#7070 by @JeremyWuuuuu)
+- Components [virtual-table] table header row (#7072 by @JeremyWuuuuu)
+- Components [virtual-table] TableHeaderCell (#7075 by @JeremyWuuuuu)
+- ThemeChalk dark bg color overlay for components (#7005 by @YunYouJun)
+- Docs add PWA support for docs (#7074 by @tolking)
+- Components [virtual-table] grid table (#7081 by @JeremyWuuuuu)
+- Components [virtual-table] Table (#7083 by @JeremyWuuuuu)
+- ThemeChalk Add dark for custom button & adjust details (#7086 by @YunYouJun)
+
+#### Bug fixes
+
+- Docs documentation layout issue
+- Docs small screen docs sidebar layout
+- Docs small screen docs style
+- Components [image] add infinite prop (#7021 by @btea)
+- Deps update dependency eslint-plugin-unicorn to v42 (#6996 by @renovate[bot])
+- Move @types/lodash to dep (#7046 by @sxzz)
+- Utils circular reference (#7057 by @JeremyWuuuuu)
+- Docs contributors when other language (#7066 by @sxzz)
+- Components [popper-container] recreate container when unmounted (#7076 by @nieyuyao)
+- Popover esc after visible invalid (#7064 by @chenxch)
+- Components [scrollbar] dynamic update scrollbar (#7050 by @btea)
+- Components [input] improved when both `suffix` and `prefix` are displayed (#7001 by @baiwusanyu-c)
+- Components [select] inner input height is inconsistent with select (#6979 by @buqiyuan)
+- Components [dropdown] with dialog use zIndex loop (#7012 by @chenxch)
+- Dev Play vite exclude dts deps (#7089 by @weidehai)
+- Components [table]emit "current-change" when currentRowKey changed (#6992 by @kakigakki)
+
+#### Refactors
+
+- Build improve building (#7048 by @sxzz)
+
 ### 2.1.8
 
 _2022-04-03_

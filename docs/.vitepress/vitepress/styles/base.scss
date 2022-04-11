@@ -161,11 +161,10 @@ a.header-anchor {
   padding-right: 0.23em;
   font-size: 0.85em;
   opacity: 0;
-}
-
-a.header-anchor:hover,
-a.header-anchor:focus {
-  text-decoration: none;
+  &:hover,
+  :focus {
+    text-decoration: none;
+  }
 }
 
 figure {

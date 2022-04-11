@@ -9,8 +9,13 @@ import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import DefineOptions from 'unplugin-vue-define-options/vite'
 import esbuild from 'rollup-plugin-esbuild'
-import { getPackageDependencies } from '@element-plus/build'
-import { epPackage, epRoot, pkgRoot, projRoot } from '@element-plus/build-utils'
+import {
+  epPackage,
+  epRoot,
+  getPackageDependencies,
+  pkgRoot,
+  projRoot,
+} from '@element-plus/build-utils'
 import './vite.init'
 
 const esbuildPlugin = () => ({
@@ -26,8 +31,8 @@ const esbuildPlugin = () => ({
 
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const { dependencies } = getPackageDependencies(epPackage)
-
+  let { dependencies } = getPackageDependencies(epPackage)
+  dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
   const optimizeDeps = (
     await glob(['dayjs/(locale|plugin)/*.js'], {
       cwd: path.resolve(projRoot, 'node_modules'),

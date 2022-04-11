@@ -107,7 +107,7 @@
         color: var(--el-menu-text-color);
 
         &:hover {
-          background-color: #fff;
+          background-color: getCssVar('bg-color', 'overlay');
         }
       }
 

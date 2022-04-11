@@ -20,11 +20,13 @@ export const tableV2HeaderProps = buildProps({
   },
   headerHeight: {
     type: definePropType<number | number[]>([Number, Array]),
-    required: true,
+    default: 50,
   },
   rowWidth: requiredNumberType,
-  rowHeight: requiredNumberType,
-
+  rowHeight: {
+    type: Number,
+    default: 50,
+  },
   height: requiredNumberType,
   width: requiredNumberType,
 } as const)

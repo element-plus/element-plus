@@ -62,7 +62,7 @@
     height: 24px;
     font-size: 14px;
     box-sizing: border-box;
-    background: $color-white;
+    background: getCssVar('bg-color', 'overlay');
     transition: 0.15s ease-out;
 
     @include when(text) {
