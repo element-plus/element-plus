@@ -1,4 +1,4 @@
-name: PR Open Greeting
+name: PR Welcome
 # Note that this `pull_request_target` is vulnerable, it grants write access to a fork repo
 # DO NOT ADD ANY CHECKOUT/CACHING in this workflow
 on:

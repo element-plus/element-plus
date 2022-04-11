@@ -101,4 +101,3 @@ const filterMethod = (value) => {
 
 const filterNodeMethod = (value, data) => data.label.includes(value)
 </script>
-```

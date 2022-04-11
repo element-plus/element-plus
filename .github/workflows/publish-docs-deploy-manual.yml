@@ -1,15 +1,10 @@
-name: Staging Preview
+name: Publish Docs Deploy (Manual)
 
-on:
-  push:
-    branches:
-      - 'dev'
+on: workflow_dispatch
 
 jobs:
-  build:
-    name: Build
+  deploy-docs:
     runs-on: ubuntu-latest
-    if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -30,25 +25,19 @@ jobs:
           cache-name: cache-pnpm-store
         with:
           path: ~/.pnpm-store
-          key: ${{ runner.os }}-preview-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-publish-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-preview-${{ env.cache-name }}-
-            ${{ runner.os }}-preview-
+            ${{ runner.os }}-publish-${{ env.cache-name }}-
+            ${{ runner.os }}-publish-
             ${{ runner.os }}-
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
-      - name: Compile Element Plus
-        run: pnpm build
-
       - name: Init Crowdin token
         run: pnpm run docs:crowdin-credentials
         env:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
-
-      - name: Upload source files
-        run: cd docs && pnpm exec crowdin upload sources
 
       - name: Pull Crowdin translations
         run: cd docs && pnpm exec crowdin download -l zh-CN
@@ -56,18 +45,30 @@ jobs:
       - name: Generate common locale
         run: pnpm docs:gen-locale
 
+      - name: Install latest Element Plus
+        run: cd docs && pnpm i element-plus@latest
+
+      - name: Build Metadata
+        run: cd internal/metadata && pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build website
         run: pnpm docs:build
         env:
-          DOC_ENV: staging
-          NODE_OPTIONS: --max-old-space-size=4096
+          DOC_ENV: production
 
-      - name: Deploy staging website
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
-          token: ${{ secrets.EP_BOT_TOKEN }}
-          branch: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
           folder: docs/.vitepress/dist
-          repository-name: element-plus/staging
           git-config-name: ElementPlusBot
           git-config-email: hello@element-plus.org
+          commit-message: website deploy
+
+      - name: Sync
+        env:
+          TRIGGERSYNCURL: ${{ secrets.TRIGGERSYNCURL }}
+        run: curl -k "$TRIGGERSYNCURL"

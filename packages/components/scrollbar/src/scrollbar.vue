@@ -37,6 +37,7 @@ import {
   defineComponent,
   nextTick,
   onMounted,
+  onUpdated,
   provide,
   reactive,
   ref,
@@ -184,6 +185,7 @@ export default defineComponent({
     onMounted(() => {
       if (!props.native) nextTick(() => update())
     })
+    onUpdated(() => update())
 
     return {
       ns,

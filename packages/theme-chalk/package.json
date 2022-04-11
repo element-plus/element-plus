@@ -8,24 +8,24 @@
     "theme-chalk",
     "theme-light"
   ],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/element-plus/element-plus.git"
+  "homepage": "https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/README.md",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus#issues"
   },
+  "license": "MIT",
   "author": "yi.shyang@ele.me",
   "main": "index.css",
   "unpkg": "index.css",
   "jsdelivr": "index.css",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
   "style": "index.css",
   "scripts": {
     "clean": "rimraf dist",
     "build": "gulp --require sucrase/register/ts"
   },
-  "bugs": {
-    "url": "https://github.com/element-plus/element-plus#issues"
-  },
-  "homepage": "https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/README.md",
   "devDependencies": {
     "@element-plus/build": "workspace:*",
     "@types/gulp-autoprefixer": "^0.0.33",

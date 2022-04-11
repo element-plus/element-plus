@@ -10,10 +10,10 @@ import {
   buildOutput,
   epRoot,
   excludeFiles,
-  pathRewriter,
   pkgRoot,
   projRoot,
-} from '../utils'
+} from '@element-plus/build-utils'
+import { pathRewriter } from '../utils'
 import typeSafe from '../type-safe.json'
 
 import type { SourceFile } from 'ts-morph'
