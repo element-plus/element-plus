@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@6.32.4",
+  "packageManager": "pnpm@6.32.6",
   "workspaces": [
     "packages/*",
     "play",
@@ -50,11 +50,11 @@
     "@element-plus/theme-chalk": "workspace:*",
     "@element-plus/tokens": "workspace:*",
     "@element-plus/utils": "workspace:*",
-    "@floating-ui/dom": "^0.4.2",
-    "@popperjs/core": "^2.11.4",
+    "@floating-ui/dom": "^0.4.4",
+    "@popperjs/core": "^2.11.5",
     "@types/lodash": "^4.14.181",
     "@types/lodash-es": "^4.17.6",
-    "@vueuse/core": "^8.2.4",
+    "@vueuse/core": "^8.2.5",
     "async-validator": "^4.0.7",
     "dayjs": "^1.11.0",
     "escape-html": "^1.0.3",
@@ -65,7 +65,7 @@
     "normalize-wheel-es": "^1.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.8",
+    "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.16.7",
     "@commitlint/cli": "^16.2.3",
@@ -83,7 +83,7 @@
     "@types/sass": "^1.43.1",
     "@vitejs/plugin-vue": "^2.3.1",
     "@vitejs/plugin-vue-jsx": "^1.3.9",
-    "@vitest/ui": "^0.8.4",
+    "@vitest/ui": "^0.9.3",
     "@vue/babel-plugin-jsx": "^1.1.1",
     "@vue/test-utils": "2.0.0-rc.16",
     "@vue/tsconfig": "^0.1.3",
@@ -94,7 +94,7 @@
     "consola": "^2.15.3",
     "csstype": "^2.6.20",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.12.0",
+    "eslint": "^8.13.0",
     "eslint-define-config": "^1.3.0",
     "expect-type": "^0.13.0",
     "fast-glob": "^3.2.11",
@@ -106,19 +106,19 @@
     "puppeteer": "^13.5.2",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^3.0.2",
-    "sass": "^1.49.11",
-    "sucrase": "^3.20.3",
+    "sass": "^1.50.0",
+    "sucrase": "^3.21.0",
     "ts-jest": "^26.5.6",
     "ts-morph": "^14.0.0",
     "type-fest": "^2.12.2",
     "typescript": "^4.6.3",
     "unplugin-element-plus": "^0.3.4",
     "unplugin-vue-define-options": "^0.6.0",
-    "vitest": "^0.8.4",
+    "vitest": "^0.9.3",
     "vue": "^3.2.31",
     "vue-jest": "^5.0.0-alpha.10",
     "vue-router": "^4.0.14",
-    "vue-tsc": "^0.33.9"
+    "vue-tsc": "^0.34.5"
   },
   "engines": {
     "node": ">= 16"
