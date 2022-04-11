@@ -14,7 +14,7 @@ const { needRefresh, updateServiceWorker } = useRegisterSW()
     <el-card v-if="needRefresh" class="pwa-card" role="alert">
       <p class="pwa-card-text">{{ locale.message }}</p>
       <el-button type="primary" plain @click="updateServiceWorker()">
-        {{ locale.reload }}
+        {{ locale.refresh }}
       </el-button>
       <el-button plain @click="needRefresh = false">
         {{ locale.close }}
