@@ -1,1 +1,0 @@
-import{_ as t,c as a,a as o,r,o as n}from"./app.886702bd.js";const f='{"title":"","description":"","frontmatter":{"page":true,"lang":"en-US"},"headers":[],"relativePath":"en-US/resource/index.md","lastUpdated":1648991942000}',s={};function c(p,d,_,i,l,u){const e=r("Resource");return n(),a("div",null,[o(e)])}var x=t(s,[["render",c]]);export{f as __pageData,x as default};
