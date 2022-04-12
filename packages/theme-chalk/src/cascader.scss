@@ -212,13 +212,16 @@
     min-width: 60px;
     margin: 2px 0 2px map.get($input-padding-horizontal, 'default')-$border-width;
     padding: 0;
-    color: var(--el-cascader-menu-text-color);
+    color: getCssVar('cascader', 'menu-text-color');
     border: none;
     outline: none;
     box-sizing: border-box;
 
+    background: transparent;
+
     &::placeholder {
-      color: var(--el-text-color-placeholder);
+      // two input overlap
+      color: transparent;
     }
   }
 }

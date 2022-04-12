@@ -167,3 +167,22 @@ $card: map.merge(
   ),
   $card
 );
+
+// Empty
+// css3 var in packages/theme-chalk/src/empty.scss
+$empty: () !default;
+$empty: map.merge(
+  (
+    'fill-color-0': getCssVar('color-black'),
+    'fill-color-1': #262629,
+    'fill-color-2': #34363b,
+    'fill-color-3': #1e1e20,
+    'fill-color-4': #171719,
+    'fill-color-5': #3b3c42,
+    'fill-color-6': #373a3e,
+    'fill-color-7': #191c1f,
+    'fill-color-8': #202225,
+    'fill-color-9': #171719,
+  ),
+  $empty
+);
