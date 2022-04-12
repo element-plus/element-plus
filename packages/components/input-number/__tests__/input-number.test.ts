@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-import InputNumber from '../src/input-number.vue'
+import InputNumber from '../src/input-number'
 
 const mouseup = new Event('mouseup')
 const _mount = (options) =>
@@ -265,15 +265,17 @@ describe('InputNumber.vue', () => {
 
   test('clear', async () => {
     const wrapper = _mount({
-      template: '<el-input-number v-model="num" :min="1"/>',
+      template: '<el-input-number v-model="num" :min="1" ref="inputNumber"/>',
       setup() {
         const num = ref(2)
+        const inputNumber = ref(null)
         return {
           num,
+          inputNumber,
         }
       },
     })
-    const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
+    const elInput = wrapper.vm.inputNumber
     elInput.handleInputChange('')
     await nextTick()
     expect(wrapper.vm.num).toBe(1)

@@ -89,7 +89,7 @@ input-number/with-icon
 
 :::
 
-## Mixed input number
+## Mixed Input Number
 
 Prepend or append an element, generally a label or a button.
 

@@ -1,5 +1,4 @@
 import {
-  type StyleValue,
   computed,
   defineComponent,
   onMounted,
@@ -258,8 +257,8 @@ export default defineComponent({
       formItem?.validate?.('blur').catch((err) => debugWarn(err))
     }
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const code = event.code
+    const handleKeyDown = (event: Event | KeyboardEvent) => {
+      const code = (event as KeyboardEvent).code
       if (code === EVENT_CODE.up) {
         event.preventDefault()
         increase()
@@ -304,6 +303,9 @@ export default defineComponent({
     expose({
       focus,
       blur,
+      increase,
+      decrease,
+      handleInputChange,
     })
 
     return () => {
