@@ -31,13 +31,16 @@ const { needRefresh, updateServiceWorker } = useRegisterSW()
   z-index: 3000;
   text-align: center;
 }
+
 .pwa-card .pwa-card-text {
   margin: 0 0 1em;
 }
+
 .pwa-popup-enter-active,
 .pwa-popup-leave-active {
   transition: var(--el-transition-md-fade);
 }
+
 .pwa-popup-enter,
 .pwa-popup-leave-to {
   opacity: 0;
