@@ -18,20 +18,18 @@
     "build:components": "esno src/components.ts",
     "dev": "cross-env DEV=1 pnpm run build"
   },
-  "dependencies": {
-    "chalk": "^4.1.2",
-    "consola": "^2.15.3",
-    "fast-glob": "^3.2.11",
-    "lodash-es": "^4.17.21",
-    "octokit": "^1.7.1"
-  },
   "devDependencies": {
     "@element-plus/build": "^0.0.1",
     "@element-plus/build-constants": "^0.0.1",
     "@element-plus/build-utils": "^0.0.1",
     "@types/lodash-es": "^4.17.6",
+    "chalk": "^4.1.2",
     "concurrently": "^7.1.0",
+    "consola": "^2.15.3",
     "cross-env": "^7.0.3",
-    "esno": "^0.14.1"
+    "esno": "^0.14.1",
+    "fast-glob": "^3.2.11",
+    "lodash-es": "^4.17.21",
+    "octokit": "^1.7.1"
   }
 }

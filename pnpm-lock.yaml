@@ -331,20 +331,19 @@ importers:
       fast-glob: ^3.2.11
       lodash-es: ^4.17.21
       octokit: ^1.7.1
-    dependencies:
-      chalk: 4.1.2
-      consola: 2.15.3
-      fast-glob: 3.2.11
-      lodash-es: 4.17.21
-      octokit: 1.7.1
     devDependencies:
       '@element-plus/build': link:../build
       '@element-plus/build-constants': link:../build-constants
       '@element-plus/build-utils': link:../build-utils
       '@types/lodash-es': 4.17.6
+      chalk: 4.1.2
       concurrently: 7.1.0
+      consola: 2.15.3
       cross-env: 7.0.3
       esno: 0.14.1
+      fast-glob: 3.2.11
+      lodash-es: 4.17.21
+      octokit: 1.7.1
 
   packages/components:
     specifiers: {}
@@ -9980,7 +9979,6 @@ packages:
 
   /lodash-es/4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
-    dev: false
 
   /lodash-unified/1.0.2_da03a4540fbd16bbaafbb96724306afd:
     resolution: {integrity: sha512-OGbEy+1P+UT26CYi4opY4gebD8cWRDxAT6MAObIVQMiqYdxZr1g3QHWCToVsm31x2NkLS4K3+MC2qInaRMa39g==}
