@@ -1,10 +1,16 @@
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cAF, rAF } from '..'
 
 describe('raf', () => {
-  it('CSR should work', () => {
+  beforeEach(() => {
     vi.useFakeTimers()
+  })
+  afterEach(() => {
+    vi.useRealTimers()
+    vi.restoreAllMocks()
+  })
 
+  it('CSR should work', () => {
     const fn = vi.fn()
     rAF(() => fn('first'))
     vi.runAllTimers()
@@ -46,7 +52,6 @@ describe('raf', () => {
 
   it('SSR should work', () => {
     vi.mock('@vueuse/core', () => ({ isClient: false }))
-    vi.useFakeTimers()
 
     const fn = vi.fn()
     rAF(() => fn('first'))
