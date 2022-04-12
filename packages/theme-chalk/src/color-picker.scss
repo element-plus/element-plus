@@ -168,7 +168,7 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
       getCssVar('color-picker', 'alpha-bg-a') 75%
     );
   background-size: 12px 12px;
-  background-position: 0px 0px, 6px 0px, 6px -6px, 0px 6px;
+  background-position: 0 0, 6px 0, 6px -6px, 0 6px;
 }
 
 @include b(color-alpha-slider) {
