@@ -14,7 +14,7 @@
   width: var(--el-messagebox-width);
   padding-bottom: 10px;
   vertical-align: middle;
-  background-color: var(--el-color-white);
+  background-color: getCssVar('bg-color');
   border-radius: var(--el-messagebox-border-radius);
   border: 1px solid var(--el-border-color-lighter);
   font-size: var(--el-messagebox-font-size);

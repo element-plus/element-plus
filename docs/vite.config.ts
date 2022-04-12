@@ -9,6 +9,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+import { VitePWA } from 'vite-plugin-pwa'
 import {
   epPackage,
   getPackageDependencies,
@@ -18,7 +19,12 @@ import { MarkdownTransform } from './.vitepress/plugins/markdown-transform'
 
 import type { Alias } from 'vite'
 
-const alias: Alias[] = []
+const alias: Alias[] = [
+  {
+    find: '~/',
+    replacement: `${path.resolve(__dirname, './.vitepress/vitepress')}/`,
+  },
+]
 if (process.env.DOC_ENV !== 'production') {
   alias.push(
     {
@@ -85,6 +91,32 @@ export default defineConfig(async ({ mode }) => {
       MarkdownTransform(),
       Inspect(),
       mkcert(),
+      VitePWA({
+        outDir: '.vitepress/dist',
+        includeAssets: ['images/**'],
+        manifest: {
+          id: '/',
+          name: 'Element Plus',
+          short_name: 'Element Plus',
+          description:
+            'a Vue 3 based component library for designers and developers',
+          icons: [
+            {
+              src: 'android-chrome-192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: 'android-chrome-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+          ],
+          theme_color: '#ffffff',
+          background_color: '#ffffff',
+          display: 'standalone',
+        },
+      }),
     ],
     optimizeDeps: {
       include: optimizeDeps,
