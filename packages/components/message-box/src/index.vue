@@ -3,11 +3,11 @@
     <el-overlay
       v-show="visible"
       :z-index="zIndex"
-      :overlay-class="['is-message-box', modalClass]"
+      :overlay-class="[ns.is('message-box'), modalClass]"
       :mask="modal"
     >
       <div
-        class="el-overlay-message-box"
+        :class="`${ns.namespace.value}-overlay-message-box`"
         @click="overlayEvent.onClick"
         @mousedown="overlayEvent.onMousedown"
         @mouseup="overlayEvent.onMouseup"
@@ -19,9 +19,10 @@
           :aria-label="title || 'dialog'"
           aria-modal="true"
           :class="[
-            'el-message-box',
+            ns.b(),
             customClass,
-            { 'el-message-box--center': center, 'is-draggable': draggable },
+            ns.is('draggable', draggable),
+            { [ns.m('center')]: center },
           ]"
           :style="customStyle"
           @click.stop=""
@@ -29,13 +30,12 @@
           <div
             v-if="title !== null && title !== undefined"
             ref="headerRef"
-            class="el-message-box__header"
+            :class="ns.e('header')"
           >
-            <div class="el-message-box__title">
+            <div :class="ns.e('title')">
               <el-icon
                 v-if="iconComponent && center"
-                class="el-message-box__status"
-                :class="typeClass"
+                :class="[ns.e('status'), typeClass]"
               >
                 <component :is="iconComponent" />
               </el-icon>
@@ -44,7 +44,7 @@
             <button
               v-if="showClose"
               type="button"
-              class="el-message-box__headerbtn"
+              :class="ns.e('headerbtn')"
               aria-label="Close"
               @click="
                 handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
@@ -53,28 +53,27 @@
                 handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
               "
             >
-              <el-icon class="el-message-box__close">
+              <el-icon :class="ns.e('close')">
                 <close />
               </el-icon>
             </button>
           </div>
-          <div class="el-message-box__content">
-            <div class="el-message-box__container">
+          <div :class="ns.e('content')">
+            <div :class="ns.e('container')">
               <el-icon
                 v-if="iconComponent && !center && hasMessage"
-                class="el-message-box__status"
-                :class="typeClass"
+                :class="[ns.e('status'), typeClass]"
               >
                 <component :is="iconComponent" />
               </el-icon>
-              <div v-if="hasMessage" class="el-message-box__message">
+              <div v-if="hasMessage" :class="ns.e('message')">
                 <slot>
                   <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
                   <p v-else v-html="message" />
                 </slot>
               </div>
             </div>
-            <div v-show="showInput" class="el-message-box__input">
+            <div v-show="showInput" :class="ns.e('input')">
               <el-input
                 ref="inputRef"
                 v-model="inputValue"
@@ -84,7 +83,7 @@
                 @keydown.enter="handleInputEnter"
               />
               <div
-                class="el-message-box__errormsg"
+                :class="ns.e('errormsg')"
                 :style="{
                   visibility: !!editorErrorMessage ? 'visible' : 'hidden',
                 }"
@@ -93,7 +92,7 @@
               </div>
             </div>
           </div>
-          <div class="el-message-box__btns">
+          <div :class="ns.e('btns')">
             <el-button
               v-if="showCancelButton"
               :loading="cancelButtonLoading"
@@ -149,6 +148,7 @@ import {
   useSameTarget,
   useSize,
   useZIndex,
+  useNamespace,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { ElOverlay } from '@element-plus/components/overlay'
@@ -231,6 +231,7 @@ export default defineComponent({
   setup(props, { emit }) {
     // const popup = usePopup(props, doClose)
     const { t } = useLocale()
+    const ns = useNamespace('message-box')
     const visible = ref(false)
     const { nextZIndex } = useZIndex()
     // s represents state
@@ -274,9 +275,7 @@ export default defineComponent({
 
     const typeClass = computed(() => {
       const type = state.type
-      return type && TypeComponentsMap[type]
-        ? `el-message-box-icon--${type}`
-        : ''
+      return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
     })
 
     const btnSize = useSize(
@@ -454,6 +453,7 @@ export default defineComponent({
 
     return {
       ...toRefs(state),
+      ns,
       overlayEvent,
       visible,
       hasMessage,
