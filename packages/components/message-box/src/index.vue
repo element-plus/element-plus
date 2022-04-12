@@ -143,12 +143,12 @@ import {
   useLocale,
   useLockscreen,
   useModal,
+  useNamespace,
   usePreventGlobal,
   useRestoreActive,
   useSameTarget,
   useSize,
   useZIndex,
-  useNamespace,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { ElOverlay } from '@element-plus/components/overlay'
