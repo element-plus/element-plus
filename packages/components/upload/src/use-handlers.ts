@@ -4,15 +4,15 @@ import { useDeprecated } from '@element-plus/hooks'
 import { genFileId } from './upload'
 import type { ShallowRef } from 'vue'
 import type {
-  UploadContentProps,
   UploadContentInstance,
+  UploadContentProps,
 } from './upload-content'
 import type {
-  UploadRawFile,
   UploadFile,
-  UploadProps,
-  UploadStatus,
   UploadFiles,
+  UploadProps,
+  UploadRawFile,
+  UploadStatus,
 } from './upload'
 
 const SCOPE = 'ElUpload'
@@ -61,7 +61,7 @@ export const useHandlers = (
 
     props.onProgress(evt, file, uploadFiles.value)
     file.status = 'uploading'
-    file.percentage = evt.percent
+    file.percentage = Math.round(evt.percent)
   }
 
   const handleSuccess: UploadContentProps['onSuccess'] = (
@@ -138,7 +138,7 @@ export const useHandlers = (
   function submit() {
     uploadFiles.value
       .filter(({ status }) => status === 'ready')
-      .forEach(({ raw }) => uploadRef.value?.upload(raw))
+      .forEach(({ raw }) => raw && uploadRef.value?.upload(raw))
   }
 
   watch(
@@ -166,11 +166,12 @@ export const useHandlers = (
     () => props.fileList,
     (fileList) => {
       for (const file of fileList) {
-        file.uid = genFileId()
+        file.uid ||= genFileId()
         file.status ||= 'success'
       }
+      uploadFiles.value = fileList as UploadFiles
     },
-    { immediate: true }
+    { immediate: true, deep: true }
   )
 
   return {

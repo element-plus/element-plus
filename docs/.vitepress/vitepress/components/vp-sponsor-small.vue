@@ -1,39 +1,54 @@
 <script setup lang="ts">
 import { isDark } from '../composables/dark'
-import { sponsors } from '../../config/sponsors'
-const sponsorList = sponsors.filter((_) => !_.type)
+import { goldSponsors } from '../../config/sponsors'
 </script>
 
 <template>
-  <div class="container">
-    <div
-      v-for="item in sponsorList"
+  <div class="sponsor-container">
+    <a
+      v-for="item in goldSponsors"
       :key="item.name"
-      :class="['sponsor-item', item.isDark && isDark ? 'filter invert' : '']"
+      :class="[
+        'sponsor-item inline-flex items-center',
+        item.isDark && isDark ? 'filter invert' : '',
+      ]"
+      :href="item.url"
+      :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
+      target="_blank"
     >
-      <a :href="item.url" :title="item.name" target="_blank">
-        <img :src="item.img" :alt="item.name" />
-      </a>
-    </div>
+      <img :src="item.img" :alt="item.name" />
+    </a>
   </div>
 </template>
 
 <style scoped lang="scss">
-.container {
+@use '../styles/mixins' as *;
+.sponsor-container {
   display: flex;
   align-items: center;
   .sponsor-item {
     margin-right: 4px;
+    height: 36px;
+    width: 36px;
 
-    a {
-      display: inline-flex;
-      align-items: center;
-
-      img {
-        width: 36px;
-        height: 36px;
-      }
+    @include respond-to('max') {
+      height: 44px;
+      width: 44px;
     }
+
+    @media (max-width: 767px) {
+      width: 44px;
+      height: 44px;
+    }
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  @include respond-to('xs') {
+    width: 196px;
   }
 }
 </style>

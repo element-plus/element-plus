@@ -1,0 +1,11 @@
+{
+  "title": "Resources",
+  "lineOne": "More resources are still in development...",
+  "download": "Download",
+  "axure": "Axure Components",
+  "axureIntro": "By importing Element Plus in Axure, you can easily apply all the components we provide during interaction design.",
+  "sketch": "Sketch Template",
+  "sketchIntro": "Apply components from Element Plus template, so you can improve design efficiency while keeping a unified visual style.",
+  "figma": "Figma Template",
+  "figmaIntro": "Newly designed Figma component library for 2022 with new features such as Auto-layout and Variants."
+}

@@ -8,7 +8,7 @@
 
   td {
     text-align: center;
-    padding: 8px 0px;
+    padding: 8px 0;
     cursor: pointer;
     & div {
       height: 48px;
@@ -27,7 +27,7 @@
     }
 
     &.disabled .cell {
-      background-color: var(--el-bg-color);
+      background-color: getCssVar('fill-color', 'light');
       cursor: not-allowed;
       color: var(--el-text-color-placeholder);
 

@@ -25,7 +25,7 @@
     align-items: center;
     justify-content: center;
     float: right;
-    border: 1px solid #d3dce6;
+    border: 1px solid getCssVar('border-color');
     height: 20px;
     width: 20px;
     line-height: 20px;
@@ -152,7 +152,7 @@
     }
 
     @include when(disabled) {
-      color: var(--el-disabled-text-color);
+      color: getCssVar('disabled-text-color');
       cursor: default;
     }
   }
@@ -223,15 +223,14 @@
     }
   }
   @include m(border-card) {
-    background: $color-white;
-    border: 1px solid var(--el-border-color-base);
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
+    background: getCssVar('bg-color', 'overlay');
+    border: 1px solid getCssVar('border-color');
 
     > .#{$namespace}-tabs__content {
       padding: 15px;
     }
     > .#{$namespace}-tabs__header {
-      background-color: var(--el-bg-color);
+      background-color: getCssVar('fill-color', 'light');
       border-bottom: 1px solid var(--el-border-color-light);
       margin: 0;
     }
@@ -255,15 +254,15 @@
 
       &.is-active {
         color: var(--el-color-primary);
-        background-color: $color-white;
-        border-right-color: var(--el-border-color-base);
-        border-left-color: var(--el-border-color-base);
+        background-color: getCssVar('bg-color', 'overlay');
+        border-right-color: getCssVar('border-color');
+        border-left-color: getCssVar('border-color');
       }
       &:not(.is-disabled):hover {
         color: var(--el-color-primary);
       }
       &.is-disabled {
-        color: var(--el-disabled-text-color);
+        color: getCssVar('disabled-text-color');
       }
     }
 
@@ -305,7 +304,7 @@
     &.#{$namespace}-tabs--border-card {
       .#{$namespace}-tabs__header.is-bottom {
         border-bottom: 0;
-        border-top: 1px solid var(--el-border-color-base);
+        border-top: 1px solid getCssVar('border-color');
       }
       .#{$namespace}-tabs__nav-wrap.is-bottom {
         margin-top: -1px;
@@ -315,7 +314,7 @@
         border: 1px solid transparent;
       }
       .#{$namespace}-tabs__item.is-bottom {
-        margin: 0 -1px -1px -1px;
+        margin: 0 -1px -1px;
       }
     }
   }
@@ -447,7 +446,7 @@
 
     &.#{$namespace}-tabs--border-card {
       .#{$namespace}-tabs__header.is-left {
-        border-right: 1px solid #dfe4ed;
+        border-right: 1px solid getCssVar('border-color');
       }
       .#{$namespace}-tabs__item.is-left {
         border: 1px solid transparent;
@@ -514,7 +513,7 @@
     }
     &.#{$namespace}-tabs--border-card {
       .#{$namespace}-tabs__header.is-right {
-        border-left: 1px solid #dfe4ed;
+        border-left: 1px solid getCssVar('border-color');
       }
       .#{$namespace}-tabs__item.is-right {
         border: 1px solid transparent;

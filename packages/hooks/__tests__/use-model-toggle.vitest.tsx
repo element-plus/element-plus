@@ -1,14 +1,14 @@
-import { nextTick, ref, reactive, defineComponent } from 'vue'
+import { defineComponent, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, it, expect, fn, beforeEach, afterEach } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { useModelToggle, useModelToggleProps } from '../use-model-toggle'
 import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'Rem is the best girl'
 
-const onShow = fn()
-const onHide = fn()
+const onShow = vi.fn()
+const onHide = vi.fn()
 let flag = true
 const shouldProceed = () => flag
 

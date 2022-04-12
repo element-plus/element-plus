@@ -19,8 +19,7 @@ export const Loading = function (
   const resolved = resolveOptions(options)
 
   if (resolved.fullscreen && fullscreenInstance) {
-    fullscreenInstance.remvoeElLoadingChild()
-    fullscreenInstance.close()
+    return fullscreenInstance
   }
 
   const instance = createLoadingComponent({
@@ -114,7 +113,7 @@ const addStyle = async (
         (options.target as HTMLElement).getBoundingClientRect()[property] +
         document.body[scroll] +
         document.documentElement[scroll] -
-        parseInt(getStyle(document.body, `margin-${property}`), 10)
+        Number.parseInt(getStyle(document.body, `margin-${property}`), 10)
       }px`
     }
     for (const property of ['height', 'width']) {

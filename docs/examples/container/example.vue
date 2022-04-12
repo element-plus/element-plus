@@ -1,9 +1,6 @@
 <template>
-  <el-container
-    class="layout-container-demo"
-    style="height: 500px; border: 1px solid #eee"
-  >
-    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+  <el-container class="layout-container-demo" style="height: 500px">
+    <el-aside width="200px">
       <el-scrollbar>
         <el-menu :default-openeds="['1', '3']">
           <el-sub-menu index="1">
@@ -83,11 +80,9 @@
       <el-main>
         <el-scrollbar>
           <el-table :data="tableData">
-            <el-table-column prop="date" label="Date" width="140">
-            </el-table-column>
-            <el-table-column prop="name" label="Name" width="120">
-            </el-table-column>
-            <el-table-column prop="address" label="Address"> </el-table-column>
+            <el-table-column prop="date" label="Date" width="140" />
+            <el-table-column prop="name" label="Name" width="120" />
+            <el-table-column prop="address" label="Address" />
           </el-table>
         </el-scrollbar>
       </el-main>
@@ -97,28 +92,25 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Message, Menu as IconMenu, Setting } from '@element-plus/icons-vue'
+import { Menu as IconMenu, Message, Setting } from '@element-plus/icons-vue'
 
 const item = {
   date: '2016-05-02',
   name: 'Tom',
   address: 'No. 189, Grove St, Los Angeles',
 }
-const tableData = ref(Array(20).fill(item))
+const tableData = ref(Array.from({ length: 20 }).fill(item))
 </script>
 
 <style scoped>
 .layout-container-demo .el-header {
   position: relative;
-  background-color: #b3c0d1;
+  background-color: var(--el-color-primary-light-7);
   color: var(--el-text-color-primary);
 }
 .layout-container-demo .el-aside {
-  width: 240px;
   color: var(--el-text-color-primary);
-  background: #fff !important;
-  border-right: solid 1px #e6e6e6;
-  box-sizing: border-box;
+  background: var(--el-color-primary-light-8);
 }
 .layout-container-demo .el-menu {
   border-right: none;
@@ -127,11 +119,10 @@ const tableData = ref(Array(20).fill(item))
   padding: 0;
 }
 .layout-container-demo .toolbar {
-  position: absolute;
   display: inline-flex;
   align-items: center;
-  top: 50%;
+  justify-content: center;
+  height: 100%;
   right: 20px;
-  transform: translateY(-50%);
 }
 </style>

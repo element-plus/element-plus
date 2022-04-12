@@ -12,12 +12,13 @@
       ref="slider"
       :class="[
         ns.e('runway'),
-        { 'show-input': showInput && !range, disabled: sliderDisabled },
+        { 'show-input': showInput && !range },
+        ns.is('disabled', sliderDisabled),
       ]"
       :style="runwayStyle"
       @click="onSliderClick"
     >
-      <div :class="ns.e('bar')" :style="barStyle"></div>
+      <div :class="ns.e('bar')" :style="barStyle" />
       <slider-button
         ref="firstButton"
         :model-value="firstValue"
@@ -39,7 +40,7 @@
           :key="key"
           :class="ns.e('stop')"
           :style="getStopStyle(item)"
-        ></div>
+        />
       </div>
       <template v-if="markList.length > 0">
         <div>
@@ -48,7 +49,7 @@
             :key="key"
             :style="getStopStyle(item.position)"
             :class="[ns.e('stop'), ns.e('marks-stop')]"
-          ></div>
+          />
         </div>
         <div :class="ns.e('marks')">
           <slider-marker
@@ -93,16 +94,16 @@ import {
 } from 'vue'
 import ElInputNumber from '@element-plus/components/input-number'
 import {
-  UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
+  debugWarn,
+  isValidComponentSize,
   off,
   on,
   throwError,
-  isValidComponentSize,
-  debugWarn,
 } from '@element-plus/utils'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import SliderButton from './button.vue'
@@ -349,7 +350,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
           initData.oldValue = val.slice()
         }
       }
-    } else if (!props.range && typeof val === 'number' && !isNaN(val)) {
+    } else if (!props.range && typeof val === 'number' && !Number.isNaN(val)) {
       if (val < props.min) {
         _emit(props.min)
       } else if (val > props.max) {
@@ -419,7 +420,10 @@ const useLifecycle = (props, initData, resetSize) => {
       initData.oldValue = [initData.firstValue, initData.secondValue]
       valuetext = `${initData.firstValue}-${initData.secondValue}`
     } else {
-      if (typeof props.modelValue !== 'number' || isNaN(props.modelValue)) {
+      if (
+        typeof props.modelValue !== 'number' ||
+        Number.isNaN(props.modelValue)
+      ) {
         initData.firstValue = props.min
       } else {
         initData.firstValue = Math.min(

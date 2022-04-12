@@ -112,10 +112,18 @@ export const cellForced = {
     renderHeader<T>({ column }: { column: TableColumnCtx<T> }) {
       return column.label || ''
     },
-    renderCell<T>({ row, store }: { row: T; store: Store<T> }) {
+    renderCell<T>({
+      row,
+      store,
+      expanded,
+    }: {
+      row: T
+      store: Store<T>
+      expanded: boolean
+    }) {
       const { ns } = store
       const classes = [ns.e('expand-icon')]
-      if (store.states.expandRows.value.indexOf(row) > -1) {
+      if (expanded) {
         classes.push(ns.em('expand-icon', 'expanded'))
       }
       const callback = function (e: Event) {
@@ -163,22 +171,34 @@ export function defaultRenderCell<T>({
   return value?.toString?.() || ''
 }
 
-export function treeCellPrefix<T>({
-  row,
-  treeNode,
-  store,
-}: {
-  row: T
-  treeNode: TreeNode
-  store: Store<T>
-}) {
-  if (!treeNode) return null
+export function treeCellPrefix<T>(
+  {
+    row,
+    treeNode,
+    store,
+  }: {
+    row: T
+    treeNode: TreeNode
+    store: Store<T>
+  },
+  createPlacehoder = false
+) {
+  const { ns } = store
+  if (!treeNode) {
+    if (createPlacehoder) {
+      return [
+        h('span', {
+          class: ns.e('placeholder'),
+        }),
+      ]
+    }
+    return null
+  }
   const ele: VNode[] = []
   const callback = function (e) {
     e.stopPropagation()
     store.loadOrToggle(row)
   }
-  const { ns } = store
   if (treeNode.indent) {
     ele.push(
       h('span', {

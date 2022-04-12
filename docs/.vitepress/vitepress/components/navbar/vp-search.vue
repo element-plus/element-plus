@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import '@docsearch/css'
-import { watch, onMounted, getCurrentInstance } from 'vue'
-import { useRouter, useRoute } from 'vitepress'
+import { getCurrentInstance, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vitepress'
 import docsearch from '@docsearch/js'
+import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 // import type { DefaultTheme } from '../config'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
@@ -72,6 +73,8 @@ function initialize(userOptions: any) {
 
       navigator: {
         navigate: ({ suggestionUrl }: { suggestionUrl: string }) => {
+          if (!isClient) return
+
           const { pathname: hitPathname } = new URL(
             window.location.origin + suggestionUrl
           )
@@ -173,13 +176,26 @@ function initialize(userOptions: any) {
   --docsearch-footer-background: var(--bg-color);
   --docsearch-footer-shadow: 0 -1px 0 0 #e0e3e8,
     0 -3px 6px 0 rgba(69, 98, 155, 0.12);
+  --docsearch-searchbox-background: var(--bg-color);
   --docsearch-searchbox-focus-background: var(--bg-color-mute);
   --docsearch-muted-color: var(--text-color-lighter);
   --docsearch-text-color: var(--text-color-light);
   --docsearch-modal-background: var(--bg-color-soft);
 
+  &.DocSearch-Button {
+    margin-right: 8px;
+  }
+
+  @media (max-width: 749px) {
+    &.DocSearch-Button {
+      margin: 0 12px;
+      padding: 0;
+    }
+  }
+
   .dark & {
     --docsearch-text-color: var(--text-color-light);
+    --docsearch-key-shadow: none;
     --docsearch-modal-shadow: none;
     --docsearch-footer-shadow: none;
     // --docsearch-searchbox-focus-background: var(--bg-color-mute);

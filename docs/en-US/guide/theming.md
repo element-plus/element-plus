@@ -7,8 +7,9 @@ lang: en-US
 
 Element Plus uses BEM-styled CSS so that you can override styles easily. But if
 you need to replace styles at a large scale, e.g. change the theme color from
-blue to orange or green, maybe overriding them one by one is not a good idea. We
-provide four ways to change the style variables.
+blue to orange or green, maybe overriding them one by one is not a good idea.
+
+We provide four ways to change the style variables.
 
 ## Change theme color
 
@@ -24,7 +25,7 @@ You can find SCSS variables in [`packages/theme-chalk/src/common/var.scss`](http
 
 ::: warning
 
-We use sass modules ([sass:map](https://sass-lang.com/documentation/values/maps)...) to refactor all SCSS variables.
+We use sass modules ([sass:map](https://sass-lang.com/documentation/values/maps)...) and `@use` to refactor all SCSS variables.
 
 > [Introducing Sass Modules | CSS-TRICKS](https://css-tricks.com/introducing-sass-modules/)
 
@@ -69,6 +70,16 @@ $colors: map.deep-merge(
 
 If your project also uses SCSS, you can directly change Element Plus style variables. Create a new style file, e.g. `styles/element/index.scss`:
 
+::: warning
+
+You should use `@use 'xxx.scss' as *;` instead of `@import 'xxx.scss';`.
+
+Because the sass team said they will remove `@import` eventually.
+
+> [Sass: @use](https://sass-lang.com/documentation/at-rules/use) vs [Sass: @import](https://sass-lang.com/documentation/at-rules/import)
+
+:::
+
 ```scss
 // styles/element/index.scss
 /* just override what you need */
@@ -103,8 +114,7 @@ If they are mixed together, each hot update of `element-plus` needs to compile a
 :::
 
 ```ts
-import Vue from 'vue'
-
+import { createApp } from 'vue'
 import './styles/element/index.scss'
 import ElementPlus from 'element-plus'
 import App from './App.vue'
@@ -150,11 +160,35 @@ export default defineConfig({
     //     ElementPlusResolver({
     //       importStyle: "sass",
     //       // directives: true,
-    //       // version: "1.2.0-beta.1",
+    //       // version: "2.1.5",
     //     }),
     //   ],
     // }),
     // or use unplugin-element-plus
+    ElementPlus({
+      useSource: true,
+    }),
+  ],
+})
+```
+
+If you are using webpack, and you want to custom theme when importing on demand.
+
+```ts
+// webpack.config.ts
+// use unplugin-element-plus
+
+import ElementPlus from 'unplugin-element-plus/webpack'
+
+export default defineConfig({
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@use "~/styles/element/index.scss" as *;`,
+      },
+    },
+  },
+  plugins: [
     ElementPlus({
       useSource: true,
     }),
@@ -168,7 +202,7 @@ CSS Variables is a very useful feature, already supported by almost all browsers
 
 > Learn more from [Using CSS custom properties (variables) | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
 
-We have used css variables to reconstruct the style system of almost all components. (Since `1.0.2-beta-70` [#2242](https://github.com/element-plus/element-plus/issues/2242))
+We have used css variables to reconstruct the style system of almost all components.
 
 ::: tip
 

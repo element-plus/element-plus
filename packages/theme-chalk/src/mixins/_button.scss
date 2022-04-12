@@ -4,7 +4,7 @@
 @use '../mixins/function' as *;
 @use '../common/var' as *;
 
-@mixin button-plain($color, $type) {
+@mixin button-plain($type) {
   $button-color-types: (
     '': (
       'text-color': (
@@ -40,10 +40,6 @@
       'text-color': (
         'color',
         'white',
-      ),
-      'border-color': (
-        'color',
-        $type,
       ),
     ),
   );
@@ -135,7 +131,7 @@
   }
 
   &.is-plain {
-    @include button-plain(var(--el-button-bg-color), $type);
+    @include button-plain($type);
   }
 }
 

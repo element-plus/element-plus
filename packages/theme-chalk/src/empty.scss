@@ -25,7 +25,8 @@
     }
 
     svg {
-      fill: var(--el-svg-monochrome-grey);
+      color: getCssVar('svg-monochrome-grey');
+      fill: currentColor;
       width: 100%;
       height: 100%;
       vertical-align: top;

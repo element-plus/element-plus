@@ -1,4 +1,4 @@
-import type { VNode, InjectionKey } from 'vue'
+import type { InjectionKey, VNode } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type { default as CascaderNode } from './node'
 
@@ -54,6 +54,7 @@ export interface Tag {
   text: string
   hitState?: boolean
   closable: boolean
+  isCollapseTag: boolean
 }
 
 export interface ElCascaderPanelContext {

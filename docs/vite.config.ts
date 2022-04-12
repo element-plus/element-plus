@@ -2,21 +2,29 @@ import path from 'path'
 import Inspect from 'vite-plugin-inspect'
 import { defineConfig, loadEnv } from 'vite'
 import DefineOptions from 'unplugin-vue-define-options/vite'
-import WindiCSS from 'vite-plugin-windicss'
+import UnoCSS from 'unocss/vite'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
+import { VitePWA } from 'vite-plugin-pwa'
+import {
+  epPackage,
+  getPackageDependencies,
+  projRoot,
+} from '@element-plus/build-utils'
+import { MarkdownTransform } from './.vitepress/plugins/markdown-transform'
 
-import { getPackageDependencies } from '../build/utils/pkg'
-import { epPackage } from '../build/utils/paths'
-import { projRoot } from './.vitepress/utils/paths'
 import type { Alias } from 'vite'
 
-const alias: Alias[] = []
+const alias: Alias[] = [
+  {
+    find: '~/',
+    replacement: `${path.resolve(__dirname, './.vitepress/vitepress')}/`,
+  },
+]
 if (process.env.DOC_ENV !== 'production') {
   alias.push(
     {
@@ -32,7 +40,8 @@ if (process.env.DOC_ENV !== 'production') {
 
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const { dependencies } = getPackageDependencies(epPackage)
+  let { dependencies } = getPackageDependencies(epPackage)
+  dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
   const optimizeDeps = [
     'vue',
     '@vue/shared',
@@ -43,12 +52,10 @@ export default defineConfig(async ({ mode }) => {
     ...dependencies,
   ]
   optimizeDeps.push(
-    ...(
-      await glob(['dayjs/plugin/*.js'], {
-        cwd: path.resolve(projRoot, 'node_modules'),
-        onlyFiles: true,
-      })
-    ).map((file) => file.replace(/\.js$/, ''))
+    ...(await glob(['dayjs/plugin/*.js'], {
+      cwd: path.resolve(projRoot, 'node_modules'),
+      onlyFiles: true,
+    }))
   )
 
   return {
@@ -61,15 +68,6 @@ export default defineConfig(async ({ mode }) => {
     },
     resolve: {
       alias,
-    },
-    build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            windicss: ['windicss'],
-          },
-        },
-      },
     },
     plugins: [
       vueJsx(),
@@ -89,9 +87,36 @@ export default defineConfig(async ({ mode }) => {
       Icons({
         autoInstall: true,
       }),
-      WindiCSS(),
+      UnoCSS(),
+      MarkdownTransform(),
       Inspect(),
       mkcert(),
+      VitePWA({
+        outDir: '.vitepress/dist',
+        includeAssets: ['images/**'],
+        manifest: {
+          id: '/',
+          name: 'Element Plus',
+          short_name: 'Element Plus',
+          description:
+            'a Vue 3 based component library for designers and developers',
+          icons: [
+            {
+              src: 'android-chrome-192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: 'android-chrome-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+          ],
+          theme_color: '#ffffff',
+          background_color: '#ffffff',
+          display: 'standalone',
+        },
+      }),
     ],
     optimizeDeps: {
       include: optimizeDeps,

@@ -1,12 +1,12 @@
 <template>
   <span :class="[ns.b(), ns.is('checked', checked)]" @click="handleChange">
-    <slot></slot>
+    <slot />
   </span>
 </template>
 
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
-import { checkTagProps, checkTagEmits } from './check-tag'
+import { checkTagEmits, checkTagProps } from './check-tag'
 
 defineOptions({
   name: 'ElCheckTag',

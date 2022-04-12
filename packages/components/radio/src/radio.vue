@@ -21,7 +21,7 @@
         ns.is('checked', modelValue === label),
       ]"
     >
-      <span :class="ns.e('inner')"></span>
+      <span :class="ns.e('inner')" />
       <input
         ref="radioRef"
         v-model="modelValue"
@@ -48,7 +48,7 @@
 <script lang="ts">
 import { defineComponent, nextTick } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { useRadio, radioEmits, radioProps } from './radio'
+import { radioEmits, radioProps, useRadio } from './radio'
 
 export default defineComponent({
   name: 'ElRadio',

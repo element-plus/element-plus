@@ -52,6 +52,8 @@ interface SelectProps {
   disabled?: boolean
   clearable?: boolean
   multiple?: boolean
+  collapseTags?: boolean
+  collapseTagsTooltip?: boolean
   filterable?: boolean
   remote?: boolean
   multipleLimit?: number
@@ -101,6 +103,8 @@ const createSelect = (
         :disabled="disabled"
         :clearable="clearable"
         :multiple="multiple"
+        :collapseTags="collapseTags"
+        :collapseTagsTooltip="collapseTagsTooltip"
         :filterable="filterable"
         :multiple-limit="multipleLimit"
         :popper-append-to-body="popperAppendToBody"
@@ -141,12 +145,16 @@ const createSelect = (
           disabled: false,
           clearable: false,
           multiple: false,
+          collapseTags: false,
+          collapseTagsTooltip: false,
           remote: false,
           filterable: false,
           reserveKeyword: false,
           multipleLimit: 0,
           placeholder: DEFAULT_PLACEHOLDER,
           scrollbarAlwaysOn: false,
+          popperAppendToBody: undefined,
+          teleported: undefined,
           ...(options.data && options.data()),
         }
       },
@@ -195,8 +203,10 @@ describe('Select', () => {
     const wrapper = createSelect()
     await nextTick()
     const vm = wrapper.vm as any
-    const options = document.getElementsByClassName(OPTION_ITEM_CLASS_NAME)
-    const result = [].every.call(options, (option, index) => {
+    const options = Array.from(
+      document.querySelectorAll(`.${OPTION_ITEM_CLASS_NAME}`)
+    )
+    const result = options.every((option, index) => {
       const text = option.textContent
       return text === vm.options[index].label
     })
@@ -253,6 +263,40 @@ describe('Select', () => {
     vm.value = null
     await nextTick()
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+  })
+
+  it('default value is Object', async () => {
+    const wrapper = createSelect({
+      data: () => ({
+        valueKey: 'value',
+        value: {
+          value: '1',
+          label: 'option_a',
+        },
+        options: [
+          {
+            value: '1',
+            label: 'option_a',
+          },
+          {
+            value: '2',
+            label: 'option_b',
+          },
+          {
+            value: '3',
+            label: 'option_c',
+          },
+        ],
+      }),
+    })
+    const vm = wrapper.vm as any
+    await nextTick()
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+      vm.options[0].label
+    )
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+      vm.value.label
+    )
   })
 
   it('sync set value and options', async () => {
@@ -554,6 +598,62 @@ describe('Select', () => {
       await nextTick()
       expect(vm.value.length).toBe(2)
       expect(vm.value[1]).toBe(vm.options[2].value)
+    })
+  })
+
+  describe('collapseTags', () => {
+    it('use collapseTags', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            collapseTags: true,
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const vm = wrapper.vm as any
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      expect(vm.value.length).toBe(1)
+      expect(vm.value[0]).toBe(vm.options[0].value)
+      options[1].click()
+      await nextTick()
+      options[2].click()
+      await nextTick()
+      expect(vm.value.length).toBe(3)
+      const tags = wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      })
+      expect(tags.length).toBe(2)
+    })
+
+    it('use collapseTagsTooltip', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            collapseTags: true,
+            collapseTagsTooltip: true,
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const vm = wrapper.vm as any
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      expect(vm.value.length).toBe(1)
+      expect(vm.value[0]).toBe(vm.options[0].value)
+      options[1].click()
+      await nextTick()
+      options[2].click()
+      await nextTick()
+      expect(vm.value.length).toBe(3)
+      expect(wrapper.findAll('.el-tag')[4].element.textContent).toBe('c2')
     })
   })
 
@@ -1266,7 +1366,7 @@ describe('Select', () => {
     selectVm.onKeyboardNavigate('forward')
     await nextTick()
     expect(selectVm.states.hoveringIndex).toBe(3)
-    //  should skip the group option
+    // should skip the group option
     selectVm.onKeyboardNavigate('backward')
     selectVm.onKeyboardNavigate('backward')
     selectVm.onKeyboardNavigate('backward')
@@ -1337,10 +1437,10 @@ describe('Select', () => {
     options[2].click()
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-select-v2__tags-text')
-    for (let i = 0; i < tagWrappers.length; i++) {
-      const tagWrapperDom = tagWrappers[i].element
+    for (const tagWrapper of tagWrappers) {
+      const tagWrapperDom = tagWrapper.element
       expect(
-        parseInt(tagWrapperDom.style.maxWidth) === selectRect.width - 42
+        Number.parseInt(tagWrapperDom.style.maxWidth) === selectRect.width - 42
       ).toBe(true)
     }
     mockSelectWidth.mockRestore()

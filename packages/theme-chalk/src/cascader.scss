@@ -84,7 +84,7 @@
   @include when(disabled) {
     .#{$namespace}-cascader__label {
       z-index: calc(var(--el-index-normal) + 1);
-      color: var(--el-disabled-text-color);
+      color: getCssVar('disabled-text-color');
     }
   }
 
@@ -149,6 +149,20 @@
     }
   }
 
+  @include e(collapse-tags) {
+    white-space: normal;
+    z-index: var(--el-index-normal);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  @include e(collapse-tag) {
+    line-height: inherit;
+    height: inherit;
+    display: flex;
+  }
+
   @include e(suggestion-panel) {
     border-radius: var(--el-cascader-menu-radius);
   }
@@ -196,7 +210,7 @@
     flex: 1;
     height: 24px;
     min-width: 60px;
-    margin: 2px 0 2px map.get($input-padding-horizontal, 'default')-$border-width-base;
+    margin: 2px 0 2px map.get($input-padding-horizontal, 'default')-$border-width;
     padding: 0;
     color: var(--el-cascader-menu-text-color);
     border: none;

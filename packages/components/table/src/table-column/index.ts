@@ -1,18 +1,18 @@
 import {
-  defineComponent,
-  ref,
-  onBeforeMount,
-  onMounted,
+  Fragment,
   computed,
+  defineComponent,
   getCurrentInstance,
   h,
+  onBeforeMount,
   onBeforeUnmount,
-  Fragment,
+  onMounted,
+  ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { isString } from '@element-plus/utils'
 import { cellStarts } from '../config'
-import { mergeOptions, compose } from '../util'
+import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
@@ -152,7 +152,6 @@ export default defineComponent({
     })
     instance.columnId = columnId.value
 
-    // eslint-disable-next-line
     instance.columnConfig = columnConfig
     return
   },
@@ -164,7 +163,7 @@ export default defineComponent({
         $index: -1,
       })
       const children = []
-      if (renderDefault instanceof Array) {
+      if (Array.isArray(renderDefault)) {
         for (const childNode of renderDefault) {
           if (
             childNode.type?.name === 'ElTableColumn' ||
@@ -173,7 +172,7 @@ export default defineComponent({
             children.push(childNode)
           } else if (
             childNode.type === Fragment &&
-            childNode.children instanceof Array
+            Array.isArray(childNode.children)
           ) {
             childNode.children.forEach((vnode) => {
               // No rendering when vnode is dynamic slot or text

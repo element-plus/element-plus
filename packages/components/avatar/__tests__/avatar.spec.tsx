@@ -1,9 +1,9 @@
-import { nextTick } from 'vue'
+import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { User } from '@element-plus/icons-vue'
 import {
-  IMAGE_SUCCESS,
   IMAGE_FAIL,
+  IMAGE_SUCCESS,
   mockImageEvent,
 } from '@element-plus/test-utils'
 
@@ -39,7 +39,7 @@ describe('Avatar.vue', () => {
   })
 
   test('icon avatar', () => {
-    const wrapper = _mount(() => <Avatar icon={User} />)
+    const wrapper = _mount(() => <Avatar icon={markRaw(User)} />)
     expect(wrapper.classes()).toContain('el-avatar--icon')
     expect(wrapper.findComponent(User).exists()).toBe(true)
   })

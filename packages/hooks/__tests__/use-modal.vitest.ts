@@ -1,12 +1,12 @@
-import { ref, nextTick } from 'vue'
-import { describe, it, expect, fn } from 'vitest'
+import { nextTick, ref } from 'vue'
+import { describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useModal } from '../use-modal'
 
 describe('useModal', () => {
   it('should work when ref value changed', async () => {
     const visible = ref(false)
-    const handleClose = fn()
+    const handleClose = vi.fn()
 
     useModal(
       {

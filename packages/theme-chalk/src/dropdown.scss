@@ -60,7 +60,7 @@ $dropdown-divider-width: 1px !default;
     // using attributes selector to override
 
     @include picker-popper(
-      $color-white,
+      getCssVar('bg-color', 'overlay'),
       1px solid var(--el-border-color-light),
       var(--el-dropdown-menu-box-shadow)
     );
@@ -108,11 +108,11 @@ $dropdown-divider-width: 1px !default;
       top: $gap;
       bottom: $gap;
       left: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: getCssVar('overlay-color', 'lighter');
     }
 
     &.#{$namespace}-button::before {
-      background: var(--el-border-color-base);
+      background: getCssVar('border-color');
       opacity: 0.5;
     }
 
@@ -158,10 +158,9 @@ $dropdown-menu-padding-vertical: map.merge(
   top: 0;
   left: 0;
   z-index: var(--el-dropdown-menu-index);
-  padding: map.get($dropdown-menu-padding-vertical, 'default')-$border-width-base
-    0;
+  padding: map.get($dropdown-menu-padding-vertical, 'default')-$border-width 0;
   margin: 0;
-  background-color: $color-white;
+  background-color: getCssVar('bg-color', 'overlay');
   border: none;
   border-radius: var(--el-border-radius-base);
   box-shadow: none;
@@ -195,14 +194,13 @@ $dropdown-menu-padding-vertical: map.merge(
 
     @include when(disabled) {
       cursor: not-allowed;
-      color: var(--el-text-color-disabled-base);
+      color: var(--el-text-color-disabled);
     }
   }
 
   @each $size in (large, small) {
     @include m($size) {
-      padding: map.get($dropdown-menu-padding-vertical, $size)-$border-width-base
-        0;
+      padding: map.get($dropdown-menu-padding-vertical, $size)-$border-width 0;
 
       @include e(item) {
         padding: map.get($dropdown-item-padding, $size);

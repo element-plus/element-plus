@@ -261,6 +261,7 @@ describe('Loading', () => {
     await nextTick()
 
     let masks = document.querySelectorAll('.el-loading-mask')
+    expect(loadingInstance).toEqual(loadingInstance2)
     expect(masks.length).toEqual(1)
     loadingInstance2.close()
     jest.runAllTimers()

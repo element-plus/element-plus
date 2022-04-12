@@ -3,8 +3,7 @@ import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
-import type FormItem from './form-item.vue'
-import type { FormItemRule } from './types'
+import type { FormItemRule } from '@element-plus/tokens'
 
 export const formItemValidateStates = [
   '',
@@ -52,5 +51,3 @@ export const formItemProps = buildProps({
   },
 } as const)
 export type FormItemProps = ExtractPropTypes<typeof formItemProps>
-
-export type FormItemInstance = InstanceType<typeof FormItem>

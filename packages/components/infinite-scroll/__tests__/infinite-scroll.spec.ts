@@ -1,7 +1,7 @@
-import { ref, nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { tick, defineGetter, makeScroll } from '@element-plus/test-utils'
-import InfiniteScroll, { SCOPE, DEFAULT_DELAY } from '../src/index'
+import { defineGetter, makeScroll, tick } from '@element-plus/test-utils'
+import InfiniteScroll, { DEFAULT_DELAY, SCOPE } from '../src'
 
 jest.mock('lodash-unified', () => {
   return {
@@ -72,6 +72,7 @@ beforeAll(() => {
     'scrollHeight',
     function () {
       return (
+        // eslint-disable-next-line unicorn/prefer-query-selector
         Array.from(this.getElementsByClassName(LIST_ITEM_CLASS)).length *
         ITEM_HEIGHT
       )
@@ -224,6 +225,7 @@ describe('InfiniteScroll', () => {
       0,
       function () {
         return (
+          // eslint-disable-next-line unicorn/prefer-query-selector
           Array.from(this.getElementsByClassName(LIST_ITEM_CLASS)).length *
           ITEM_HEIGHT
         )

@@ -35,7 +35,7 @@
       :append-to="appendTo"
     >
       <slot name="content">
-        <span v-if="rawContent" v-html="content"></span>
+        <span v-if="rawContent" v-html="content" />
         <span v-else>{{ content }}</span>
       </slot>
       <el-popper-arrow v-if="compatShowArrow" :arrow-offset="arrowOffset" />
@@ -45,13 +45,14 @@
 
 <script lang="ts">
 import {
-  defineComponent,
   computed,
-  ref,
+  defineComponent,
   provide,
-  toRef,
   readonly,
+  ref,
+  toRef,
   unref,
+  watch,
 } from 'vue'
 import {
   ElPopper,
@@ -61,17 +62,17 @@ import {
 
 import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils'
 import {
-  usePopperContainer,
-  useId,
   createModelToggleComposable,
   useDelayedToggle,
+  useId,
+  usePopperContainer,
 } from '@element-plus/hooks'
 import ElTooltipContent from './content.vue'
 import ElTooltipTrigger from './trigger.vue'
 import {
   useTooltipContentProps,
-  useTooltipTriggerProps,
   useTooltipProps,
+  useTooltipTriggerProps,
 } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 
@@ -169,6 +170,15 @@ export default defineComponent({
       },
       updatePopper,
     })
+
+    watch(
+      () => props.disabled,
+      (disabled) => {
+        if (disabled && open.value) {
+          open.value = false
+        }
+      }
+    )
 
     return {
       compatShowAfter,

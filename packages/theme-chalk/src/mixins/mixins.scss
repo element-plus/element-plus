@@ -1,6 +1,9 @@
 @use 'function' as *;
 @use '../common/var' as *;
+// forward mixins
 @forward 'config';
+@forward 'function';
+@forward '_var';
 @use 'config' as *;
 
 // Break-points
@@ -17,8 +20,8 @@
 
 // Scrollbar
 @mixin scroll-bar {
-  $scrollbar-thumb-background: #b4bccc;
-  $scrollbar-track-background: #fff;
+  $scrollbar-thumb-background: getCssVar('text-color', 'disabled');
+  $scrollbar-track-background: getCssVar('fill-color', 'blank');
 
   &::-webkit-scrollbar {
     z-index: 11;
@@ -216,7 +219,7 @@
 
 // dark
 @mixin dark($block) {
-  .dark {
+  html.dark {
     @include b($block) {
       @content;
     }

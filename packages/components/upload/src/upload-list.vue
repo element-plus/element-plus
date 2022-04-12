@@ -25,17 +25,36 @@
       <slot :file="file">
         <img
           v-if="
-            file.status !== 'uploading' &&
-            ['picture-card', 'picture'].includes(listType)
+            listType === 'picture' ||
+            (file.status !== 'uploading' && listType === 'picture-card')
           "
           :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
           alt=""
         />
-        <a :class="nsUpload.be('list', 'item-name')" @click="handleClick(file)">
-          <el-icon :class="nsIcon.m('document')"><Document /></el-icon>
-          {{ file.name }}
-        </a>
+        <div
+          v-if="
+            listType !== 'picture' &&
+            (file.status === 'uploading' || listType !== 'picture-card')
+          "
+          :class="nsUpload.be('list', 'item-info')"
+        >
+          <a
+            :class="nsUpload.be('list', 'item-name')"
+            @click="handleClick(file)"
+          >
+            <el-icon :class="nsIcon.m('document')"><Document /></el-icon>
+            {{ file.name }}
+          </a>
+          <el-progress
+            v-if="file.status === 'uploading'"
+            :type="listType === 'picture-card' ? 'circle' : 'line'"
+            :stroke-width="listType === 'picture-card' ? 6 : 2"
+            :percentage="Number(file.percentage)"
+            :style="listType === 'picture-card' ? '' : 'margin-top: 0.5rem'"
+          />
+        </div>
+
         <label :class="nsUpload.be('list', 'item-status-label')">
           <el-icon
             v-if="listType === 'text'"
@@ -63,13 +82,6 @@
         <i v-if="!disabled" :class="nsIcon.m('close-tip')">{{
           t('el.upload.deleteTip')
         }}</i>
-        <el-progress
-          v-if="file.status === 'uploading'"
-          :type="listType === 'picture-card' ? 'circle' : 'line'"
-          :stroke-width="listType === 'picture-card' ? 6 : 2"
-          :percentage="Number(file.percentage)"
-          style="margin-top: 0.5rem"
-        />
         <span
           v-if="listType === 'picture-card'"
           :class="nsUpload.be('list', 'item-actions')"
@@ -90,18 +102,19 @@
         </span>
       </slot>
     </li>
+    <slot name="append" />
   </transition-group>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
-  Document,
-  Delete,
-  Close,
-  ZoomIn,
   Check,
   CircleCheck,
+  Close,
+  Delete,
+  Document,
+  ZoomIn,
 } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'

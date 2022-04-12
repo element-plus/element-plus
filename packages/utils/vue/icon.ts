@@ -1,12 +1,12 @@
 import {
-  SuccessFilled,
-  InfoFilled,
-  WarningFilled,
-  CircleCloseFilled,
-  Close,
-  Loading,
   CircleCheck,
   CircleClose,
+  CircleCloseFilled,
+  Close,
+  InfoFilled,
+  Loading,
+  SuccessFilled,
+  WarningFilled,
 } from '@element-plus/icons-vue'
 import { definePropType } from './props'
 import type { Component } from 'vue'

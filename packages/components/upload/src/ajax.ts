@@ -1,14 +1,15 @@
 import { isNil } from 'lodash-unified'
 import { throwError } from '@element-plus/utils'
 import type {
-  UploadRequestHandler,
   UploadProgressEvent,
+  UploadRequestHandler,
   UploadRequestOptions,
 } from './upload'
 
 const SCOPE = 'ElUpload'
 
 export class UploadAjaxError extends Error {
+  name = 'UploadAjaxError'
   status: number
   method: string
   url: string
@@ -46,7 +47,7 @@ function getBody(xhr: XMLHttpRequest): XMLHttpRequestResponseType {
 
   try {
     return JSON.parse(text)
-  } catch (e) {
+  } catch {
     return text
   }
 }

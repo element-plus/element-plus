@@ -9,40 +9,29 @@
       @remove="handleRemove"
     >
       <template v-if="$slots.file" #default="{ file }">
-        <slot name="file" :file="file"></slot>
+        <slot name="file" :file="file" />
+      </template>
+      <template #append>
+        <upload-content
+          v-if="listType === 'picture-card'"
+          ref="uploadRef"
+          v-bind="uploadContentProps"
+        >
+          <slot v-if="slots.trigger" name="trigger" />
+          <slot v-if="!slots.trigger && slots.default" />
+        </upload-content>
       </template>
     </upload-list>
+
     <upload-content
+      v-if="listType !== 'picture-card'"
       ref="uploadRef"
-      :type="type"
-      :drag="drag"
-      :action="action"
-      :multiple="multiple"
-      :with-credentials="withCredentials"
-      :headers="headers"
-      :method="method"
-      :name="name"
-      :data="data"
-      :accept="accept"
-      :file-list="uploadFiles"
-      :auto-upload="autoUpload"
-      :list-type="listType"
-      :disabled="disabled"
-      :limit="limit"
-      :http-request="httpRequest"
-      :before-upload="beforeUpload"
-      :on-exceed="onExceed"
-      :on-start="handleStart"
-      :on-progress="handleProgress"
-      :on-success="handleSuccess"
-      :on-error="handleError"
-      :on-remove="handleRemove"
+      v-bind="uploadContentProps"
     >
-      <template #default>
-        <slot v-if="$slots.trigger" name="trigger" />
-        <slot v-if="!$slots.trigger && $slots.default" />
-      </template>
+      <slot v-if="slots.trigger" name="trigger" />
+      <slot v-if="!slots.trigger && slots.default" />
     </upload-content>
+
     <slot v-if="$slots.trigger" />
     <slot name="tip" />
     <upload-list
@@ -59,8 +48,16 @@
     </upload-list>
   </div>
 </template>
+
 <script lang="ts" setup>
-import { computed, provide, onBeforeUnmount, toRef, shallowRef } from 'vue'
+import {
+  computed,
+  onBeforeUnmount,
+  provide,
+  shallowRef,
+  toRef,
+  useSlots,
+} from 'vue'
 import { uploadContextKey } from '@element-plus/tokens'
 import { useDisabled } from '@element-plus/hooks'
 
@@ -68,13 +65,18 @@ import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
 import { useHandlers } from './use-handlers'
 import { uploadProps } from './upload'
-import type { UploadContentInstance } from './upload-content'
+import type {
+  UploadContentInstance,
+  UploadContentProps,
+} from './upload-content'
 
 defineOptions({
   name: 'ElUpload',
 })
 
 const props = defineProps(uploadProps)
+
+const slots = useSlots()
 const disabled = useDisabled()
 
 const uploadRef = shallowRef<UploadContentInstance>()
@@ -91,6 +93,16 @@ const {
 } = useHandlers(props, uploadRef)
 
 const isPictureCard = computed(() => props.listType === 'picture-card')
+
+// did not use `defineComponent` for performance
+const uploadContentProps = computed<UploadContentProps>(() => ({
+  ...props,
+  onStart: handleStart,
+  onProgress: handleProgress,
+  onSuccess: handleSuccess,
+  onError: handleError,
+  onRemove: handleRemove,
+}))
 
 onBeforeUnmount(() => {
   uploadFiles.value.forEach(({ url }) => {

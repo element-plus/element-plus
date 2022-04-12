@@ -314,7 +314,7 @@ describe('Tree.vue', () => {
         methods: {
           filterNode(value, data) {
             if (!value) return true
-            return data.label.indexOf(value) !== -1
+            return data.label.includes(value)
           },
         },
       }

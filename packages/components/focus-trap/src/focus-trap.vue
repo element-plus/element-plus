@@ -4,29 +4,29 @@
 <script lang="ts">
 import {
   defineComponent,
-  ref,
-  onMounted,
+  nextTick,
   onBeforeUnmount,
+  onMounted,
   provide,
+  ref,
   unref,
   watch,
-  nextTick,
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
-  focusableStack,
   focusFirstDescendant,
+  focusableStack,
   getEdges,
-  tryFocus,
   obtainAllFocusableElements,
+  tryFocus,
 } from './utils'
 import {
-  FOCUS_TRAP_INJECTION_KEY,
   FOCUS_ON_MOUNT,
   FOCUS_ON_MOUNT_OPTS,
+  FOCUS_ON_UNMOUNT,
+  FOCUS_TRAP_INJECTION_KEY,
   ON_MOUNT_FOCUS_EVT,
   ON_UNMOUNT_FOCUS_EVT,
-  FOCUS_ON_UNMOUNT,
 } from './tokens'
 
 import type { FocusLayer } from './utils'

@@ -13,7 +13,7 @@
       :props="props"
       @checked-change="onSourceCheckedChange"
     >
-      <slot name="left-footer"></slot>
+      <slot name="left-footer" />
     </transfer-panel>
     <div :class="ns.e('buttons')">
       <el-button
@@ -48,7 +48,7 @@
       :props="props"
       @checked-change="onTargetCheckedChange"
     >
-      <slot name="right-footer"></slot>
+      <slot name="right-footer" />
     </transfer-panel>
   </div>
 </template>
@@ -57,8 +57,8 @@
 import {
   computed,
   defineComponent,
-  inject,
   h,
+  inject,
   reactive,
   ref,
   toRefs,
@@ -74,9 +74,9 @@ import { debugWarn } from '@element-plus/utils'
 import TransferPanel from './transfer-panel.vue'
 import { useComputedData } from './useComputedData'
 import {
-  useCheckedChange,
   LEFT_CHECK_CHANGE_EVENT,
   RIGHT_CHECK_CHANGE_EVENT,
+  useCheckedChange,
 } from './useCheckedChange'
 import { useMove } from './useMove'
 import { CHANGE_EVENT } from './transfer'

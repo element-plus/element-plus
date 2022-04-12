@@ -4,9 +4,9 @@ import makeScroll from '@element-plus/test-utils/make-scroll'
 import setupMock from '../setup-mock'
 import {
   CENTERED_ALIGNMENT,
-  START_ALIGNMENT,
   END_ALIGNMENT,
   SMART_ALIGNMENT,
+  START_ALIGNMENT,
 } from '../src/defaults'
 import { FixedSizeGrid } from '..'
 

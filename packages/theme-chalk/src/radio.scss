@@ -32,7 +32,6 @@ $radio-font-size: map.merge(
   user-select: none;
   margin-right: 32px;
   height: map.get($radio-height, 'default');
-  user-select: none;
 
   @each $size in (large, small) {
     &.#{$namespace}-radio--#{$size} {
@@ -41,11 +40,11 @@ $radio-font-size: map.merge(
   }
 
   @include when(bordered) {
-    padding: 0 map.get($checkbox-bordered-padding-right, 'default')-$border-width-base
-      0 map.get($checkbox-bordered-padding-left, 'default')-$border-width-base;
+    padding: 0 map.get($checkbox-bordered-padding-right, 'default')-$border-width
+      0 map.get($checkbox-bordered-padding-left, 'default')-$border-width;
 
     border-radius: var(--el-border-radius-base);
-    border: var(--el-border-base);
+    border: var(--el-border);
     box-sizing: border-box;
 
     &.is-checked {
@@ -60,9 +59,9 @@ $radio-font-size: map.merge(
     @each $size in (large, small) {
       &.#{$namespace}-radio--#{$size} {
         padding: 0
-          map.get($checkbox-bordered-padding-right, $size)-$border-width-base
+          map.get($checkbox-bordered-padding-right, $size)-$border-width
           0
-          map.get($checkbox-bordered-padding-left, $size)-$border-width-base;
+          map.get($checkbox-bordered-padding-left, $size)-$border-width;
         border-radius: var(--el-border-radius-base);
 
         .#{$namespace}-radio__label {

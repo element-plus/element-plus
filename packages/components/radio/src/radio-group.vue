@@ -5,7 +5,7 @@
     role="radiogroup"
     @keydown="handleKeydown"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
@@ -13,10 +13,10 @@
 import {
   defineComponent,
   nextTick,
-  provide,
   onMounted,
-  ref,
+  provide,
   reactive,
+  ref,
   toRefs,
   watch,
 } from 'vue'

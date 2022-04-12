@@ -11,7 +11,7 @@
     <!-- icon & line -->
     <div :class="[ns.e('head'), ns.is(currentStatus)]">
       <div v-if="!isSimple" :class="ns.e('line')">
-        <i :class="ns.e('line-inner')" :style="lineStyle"></i>
+        <i :class="ns.e('line-inner')" :style="lineStyle" />
       </div>
 
       <div :class="[ns.e('icon'), ns.is(icon ? 'icon' : 'text')]">
@@ -37,7 +37,7 @@
       <div :class="[ns.e('title'), ns.is(currentStatus)]">
         <slot name="title">{{ title }}</slot>
       </div>
-      <div v-if="isSimple" :class="ns.e('arrow')"></div>
+      <div v-if="isSimple" :class="ns.e('arrow')" />
       <div v-else :class="[ns.e('description'), ns.is(currentStatus)]">
         <slot name="description">{{ description }}</slot>
       </div>
@@ -53,15 +53,15 @@ import {
   inject,
   onBeforeUnmount,
   onMounted,
-  ref,
   reactive,
+  ref,
   watch,
 } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { Close, Check } from '@element-plus/icons-vue'
+import { Check, Close } from '@element-plus/icons-vue'
 
 import { useNamespace } from '@element-plus/hooks'
-import type { Ref, PropType, Component } from 'vue'
+import type { Component, PropType, Ref } from 'vue'
 
 export interface IStepsProps {
   space: number | string

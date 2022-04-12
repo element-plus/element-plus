@@ -1,26 +1,26 @@
 import {
   computed,
-  watch,
-  ref,
-  reactive,
   nextTick,
-  onMounted,
   onBeforeMount,
+  onMounted,
+  reactive,
+  ref,
+  watch,
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import { isEqual, debounce as lodashDebounce, get } from 'lodash-unified'
+import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import {
   useFormItem,
   useLocale,
-  useSize,
   useNamespace,
+  useSize,
 } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   ValidateComponentsMap,
   addResizeListener,
-  removeResizeListener,
   debugWarn,
+  removeResizeListener,
 } from '@element-plus/utils'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 
@@ -32,8 +32,8 @@ import { flattenOptions } from './util'
 import { useInput } from './useInput'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { SelectProps } from './defaults'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { OptionType, Option } from './select.types'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
+import type { Option, OptionType } from './select.types'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
@@ -206,10 +206,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const select = selectionRef.value
     const size = collapseTagSize.value || 'default'
     const paddingLeft = select
-      ? parseInt(getComputedStyle(select).paddingLeft)
+      ? Number.parseInt(getComputedStyle(select).paddingLeft)
       : 0
     const paddingRight = select
-      ? parseInt(getComputedStyle(select).paddingRight)
+      ? Number.parseInt(getComputedStyle(select).paddingRight)
       : 0
     return (
       states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]
@@ -451,7 +451,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const deleteTag = (event: MouseEvent, tag: Option) => {
-    const index = (props.modelValue as Array<any>).indexOf(tag.value)
+    const { valueKey } = props
+    const index = (props.modelValue as Array<any>).indexOf(get(tag, valueKey))
 
     if (index > -1 && !selectDisabled.value) {
       const value = [
@@ -460,7 +461,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       ]
       states.cachedOptions.splice(index, 1)
       update(value)
-      emit('remove-tag', tag.value)
+      emit('remove-tag', get(tag, valueKey))
       states.softFocus = true
       removeNewOption(tag)
       return nextTick(focusAndUpdatePopup)
@@ -663,7 +664,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         let initHovering = false
         states.cachedOptions.length = 0
         states.previousValue = props.modelValue.toString()
-        ;(props.modelValue as Array<any>).map((selected) => {
+        ;(props.modelValue as Array<any>).forEach((selected) => {
           const itemIndex = filteredOptions.value.findIndex(
             (option) => getValueKey(option) === selected
           )
@@ -686,7 +687,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = props.modelValue
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
-          (option) => getValueKey(option) === props.modelValue
+          (option) => getValueKey(option) === getValueKey(props.modelValue)
         )
         if (~selectedItemIndex) {
           states.selectedLabel = options[selectedItemIndex].label

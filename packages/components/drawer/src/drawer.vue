@@ -44,11 +44,11 @@
           </header>
           <template v-if="rendered">
             <section :class="ns.e('body')">
-              <slot></slot>
+              <slot />
             </section>
           </template>
           <div v-if="$slots.footer" :class="ns.e('footer')">
-            <slot name="footer"></slot>
+            <slot name="footer" />
           </div>
         </div>
       </el-overlay>
@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 
 import { ElOverlay } from '@element-plus/components/overlay'
@@ -65,7 +65,7 @@ import { useDialog } from '@element-plus/components/dialog'
 import ElIcon from '@element-plus/components/icon'
 import { TrapFocus } from '@element-plus/directives'
 import { useNamespace } from '@element-plus/hooks'
-import { drawerProps, drawerEmits } from './drawer'
+import { drawerEmits, drawerProps } from './drawer'
 
 export default defineComponent({
   name: 'ElDrawer',

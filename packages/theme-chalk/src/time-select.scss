@@ -1,4 +1,5 @@
 @use 'mixins/config' as *;
+@use 'mixins/mixins' as *;
 @use 'common/var' as *;
 @use './date-picker/picker.scss';
 @use './date-picker/date-picker.scss';
@@ -23,7 +24,7 @@
     }
 
     &:hover {
-      background-color: var(--el-bg-color);
+      background-color: getCssVar('fill-color', 'light');
       font-weight: bold;
       cursor: pointer;
     }

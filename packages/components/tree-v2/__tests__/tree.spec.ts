@@ -3,12 +3,12 @@ import { NOOP } from '@vue/shared'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import Tree from '../src/tree.vue'
 import type {
-  TreeData,
-  TreeNodeData,
-  TreeNode,
-  TreeOptionProps,
-  TreeKey,
   FilterMethod,
+  TreeData,
+  TreeKey,
+  TreeNode,
+  TreeNodeData,
+  TreeOptionProps,
 } from '../src/types'
 
 jest.useFakeTimers()
@@ -31,19 +31,21 @@ const createData = (
   deep = 1,
   disabled = false
 ) => {
-  return new Array(minNodesNumber).fill(deep).map(() => {
-    const id = getUniqueId()
-    const childrenNumber =
-      deep === maxDeep ? 0 : Math.round(Math.random() * maxChildren)
-    return {
-      id,
-      disabled: disabled ? Math.random() > 0.7 : false,
-      label: `node-${id}`,
-      children: childrenNumber
-        ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, disabled)
-        : [],
-    }
-  })
+  return Array.from({ length: minNodesNumber })
+    .fill(deep)
+    .map(() => {
+      const id = getUniqueId()
+      const childrenNumber =
+        deep === maxDeep ? 0 : Math.round(Math.random() * maxChildren)
+      return {
+        id,
+        disabled: disabled ? Math.random() > 0.7 : false,
+        label: `node-${id}`,
+        children: childrenNumber
+          ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, disabled)
+          : [],
+      }
+    })
 }
 
 const data = createData(4, 30, NODE_NUMBER)
@@ -775,7 +777,7 @@ describe('Virtual Tree', () => {
             },
           ],
           filterMethod(query: string, node: TreeNodeData) {
-            return node.label.indexOf(query) !== -1
+            return node.label.includes(query)
           },
         }
       },

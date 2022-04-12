@@ -5,11 +5,11 @@
     @dragover.prevent="onDragover"
     @dragleave.prevent="dragover = false"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, inject } from 'vue'
+import { inject, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
 import { uploadContextKey } from '@element-plus/tokens'

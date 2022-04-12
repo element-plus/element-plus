@@ -7,15 +7,20 @@ import {
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useSizeProp } from '@element-plus/hooks'
-import type { StyleValue, ExtractPropTypes } from 'vue'
+import type Input from './input.vue'
+import type { ExtractPropTypes, StyleValue } from 'vue'
 
-type AutoSize = { minRows?: number; maxRows?: number } | boolean
+export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 
 export const inputProps = buildProps({
   size: useSizeProp,
   disabled: Boolean,
   modelValue: {
-    type: definePropType<string | number | null | undefined>(undefined),
+    type: definePropType<string | number | null | undefined>([
+      String,
+      Number,
+      Object,
+    ]),
     default: '',
   },
   type: {
@@ -27,7 +32,7 @@ export const inputProps = buildProps({
     values: ['none', 'both', 'horizontal', 'vertical'],
   },
   autosize: {
-    type: definePropType<AutoSize>([Boolean, Object]),
+    type: definePropType<InputAutoSize>([Boolean, Object]),
     default: false,
   },
   autocomplete: {
@@ -91,9 +96,13 @@ export const inputEmits = {
   clear: () => true,
   mouseleave: (evt: MouseEvent) => evt instanceof MouseEvent,
   mouseenter: (evt: MouseEvent) => evt instanceof MouseEvent,
-  keydown: (evt: KeyboardEvent) => evt instanceof KeyboardEvent,
+  // NOTE: when autofill by browser, the keydown event is instanceof Event, not KeyboardEvent
+  // relative bug report https://github.com/element-plus/element-plus/issues/6665
+  keydown: (evt: KeyboardEvent | Event) => evt instanceof Event,
   compositionstart: (evt: CompositionEvent) => evt instanceof CompositionEvent,
   compositionupdate: (evt: CompositionEvent) => evt instanceof CompositionEvent,
   compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent,
 }
 export type InputEmits = typeof inputEmits
+
+export type InputInstance = InstanceType<typeof Input>

@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowRight } from '@element-plus/icons-vue'
 

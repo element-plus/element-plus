@@ -1,4 +1,4 @@
-import { ref, nextTick, inject, defineComponent } from 'vue'
+import { defineComponent, inject, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { composeRefs } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'

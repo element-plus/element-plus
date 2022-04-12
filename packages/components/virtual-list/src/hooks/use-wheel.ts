@@ -1,5 +1,4 @@
-import { rAF, cAF } from '@element-plus/utils'
-import { isFF } from '../utils'
+import { cAF, isFirefox, rAF } from '@element-plus/utils'
 import { HORIZONTAL, VERTICAL } from '../defaults'
 
 import type { ComputedRef } from 'vue'
@@ -50,7 +49,7 @@ const useWheel = (
 
     offset += newOffset
 
-    if (!isFF) {
+    if (!isFirefox()) {
       e.preventDefault()
     }
 

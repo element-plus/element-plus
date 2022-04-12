@@ -7,7 +7,7 @@
     <img src="https://img.shields.io/npm/v/element-plus.svg">
   </a>
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
-    <img src="http://img.shields.io/npm/dm/element-plus.svg">
+    <img src="https://img.shields.io/npm/dm/element-plus.svg">
   </a>
   <a href="https://codecov.io/gh/element-plus/element-plus">
     <img src="https://codecov.io/gh/element-plus/element-plus/branch/dev/graph/badge.svg?token=BKSBO2GLZI"/>
@@ -23,13 +23,13 @@
 ## Getting Started
 
 Alright, for you to get started if you are looking for making Element Plus better you should keep reading.
-For developers that uses Element Plus to develop your website you should go ahead visit [Getting Started](https://element-plus.org/)
+For developers that uses Element Plus to develop your website you should go ahead visit [Getting Started](https://element-plus.org/).
 
 - 中国大陆[加速镜像站点](https://element-plus.gitee.io/)
 
 ## Breaking change list
 
-The first stable release of Element Plus suitable for use in production was released on Febuary 07, 2022. The APIs is stable right now, and here's also a full list about how to get upgraded from [Element UI](https://element.eleme.io) to Element Plus.
+The first stable release of Element Plus suitable for use in production was released on February 07, 2022. The APIs is stable right now, and here's also a full list about how to get upgraded from [Element UI](https://element.eleme.io) to Element Plus.
 
 You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/discussions/5658).
 
@@ -39,20 +39,19 @@ We have made a migration tool for you to migrate your project from [Element UI](
 
 You can find the [gogo code migration tool](https://github.com/thx/gogocode/tree/main/packages/gogocode-plugin-element) here.
 
-We have tested this on [Vue Element Admin](https://github.com/PanJiaChen/vue-element-admin（Vue2+Element). You can find the transpiled code [here](https://github.com/gogocodeio/vue-element-admin)
+We have tested this on [Vue Element Admin](https://github.com/PanJiaChen/vue-element-admin). You can find the transpiled code [here](https://github.com/gogocodeio/vue-element-admin).
 
 ### Playground
 
-You can also try Element Plus out with the components built-in playground
-(This thing is still under development, most of the functions are ready)
-
-#### Try it with code sandbox
-
-[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-demo-dxtcr)
+You can also try Element Plus out with the components built-in playground.
 
 #### Try it with our built-in playground
 
 [Playground](https://element-plus.run/)
+
+#### Try it with code sandbox
+
+[![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-demo-dxtcr)
 
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>
@@ -72,6 +71,11 @@ You can also try Element Plus out with the components built-in playground
         </a>
       </td>
       <td align="center" valign="middle">
+        <a href="https://js.design?source=element-plus" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/160634485-df0d00af-8633-4ab8-9a72-aac2b65d1d36.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
         <a href="https://bit.dev/?from=element-ui" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
         </a>
@@ -79,6 +83,11 @@ You can also try Element Plus out with the components built-in playground
       <td align="center" valign="middle">
         <a href="https://www.renren.io/?from=element-ui" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/82012629/126620778-0d8ab509-018a-45d7-b8de-a5bac2ad519a.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://form.making.link/?from=element_plus" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/159736613-13c7c2dc-744e-4eec-b801-f4ca57871787.png">
         </a>
       </td>
     </tr>
@@ -94,6 +103,10 @@ a proofreader [![Crowdin](https://badges.crowdin.net/element-plus/localized.svg)
 
 For now we are only showing English and Chinese for resource reasons, but we are looking forward to translate it into more languages, please go to the link
 above and leave a message if you want to help translating Element Plus into your desired language.
+
+### How to help translating
+
+See how to help translating in [Translating Element Plus](./HELP_TRANSLATING.md).
 
 ## Stay tuned :eyes:
 

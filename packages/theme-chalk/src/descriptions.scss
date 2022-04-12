@@ -75,7 +75,7 @@ $descriptions-cell-font-size: map.merge(
   }
 
   @include e(body) {
-    background-color: $color-white;
+    background-color: getCssVar('fill-color', 'blank');
 
     .#{$namespace}-descriptions__table {
       border-collapse: collapse;

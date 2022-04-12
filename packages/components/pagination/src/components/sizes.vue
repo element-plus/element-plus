@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, computed, ref } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
-import { ElSelect, ElOption } from '@element-plus/components/select'
+import { ElOption, ElSelect } from '@element-plus/components/select'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import { usePagination } from '../usePagination'
@@ -69,10 +69,9 @@ export default defineComponent({
       (newVal, oldVal) => {
         if (isEqual(newVal, oldVal)) return
         if (Array.isArray(newVal)) {
-          const pageSize =
-            newVal.indexOf(props.pageSize) > -1
-              ? props.pageSize
-              : props.pageSizes[0]
+          const pageSize = newVal.includes(props.pageSize)
+            ? props.pageSize
+            : props.pageSizes[0]
           emit('page-size-change', pageSize)
         }
       }

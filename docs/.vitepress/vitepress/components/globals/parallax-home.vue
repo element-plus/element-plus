@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue'
-import { useParallax, useThrottleFn, useEventListener } from '@vueuse/core'
+import { computed, reactive, ref } from 'vue'
+import { useEventListener, useParallax, useThrottleFn } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import HomeSponsors from '../home/home-sponsors.vue'
@@ -13,6 +13,11 @@ const jumbotronRedOffset = ref(0)
 const jumbotronRef = ref<HTMLElement | null>(null)
 const lang = useLang()
 const homeLang = computed(() => homeLocale[lang.value])
+
+function jumpTo(path: string) {
+  // vitepress has not router
+  location.href = `/${lang.value}/${path}`
+}
 
 const containerStyle: CSSProperties = {
   display: 'flex',
@@ -127,6 +132,8 @@ useEventListener(window, 'scroll', handleScroll)
             :style="peopleLayer"
             src="/images/home/people.svg"
             alt="banner"
+            class="cursor-pointer"
+            @click="jumpTo('/guide/quickstart.html')"
           />
           <img
             :style="leftLayer"
@@ -146,7 +153,11 @@ useEventListener(window, 'scroll', handleScroll)
         </div>
       </div>
     </div>
-
+    <img
+      src="/images/theme-index-blue.png"
+      alt="banner"
+      class="mobile-banner"
+    />
     <HomeSponsors />
     <HomeCards />
   </div>
@@ -154,7 +165,13 @@ useEventListener(window, 'scroll', handleScroll)
 </template>
 
 <style lang="scss">
+@use '../../styles/mixins' as *;
+
 .home-page {
+  .mobile-banner {
+    display: none;
+  }
+
   .banner-dot h1 span {
     position: relative;
     &::after {
@@ -229,6 +246,16 @@ useEventListener(window, 'scroll', handleScroll)
 
     .parallax-container {
       width: 800px;
+    }
+  }
+
+  @media screen and (max-width: 959px) {
+    .jumbotron {
+      display: none !important;
+    }
+
+    .mobile-banner {
+      display: inline-block;
     }
   }
 

@@ -1,6 +1,6 @@
 <template>
   <div :class="`${ns.b('group')}`">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 <script lang="ts" setup>

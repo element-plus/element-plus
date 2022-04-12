@@ -22,7 +22,7 @@
     vertical-align: middle;
     cursor: pointer;
     background: var(--el-button-bg-color, map.get($button, 'bg-color'));
-    border: $border-base;
+    border: getCssVar('border');
     border-left: 0;
     color: var(--el-button-text-color, map.get($button, 'text-color'));
     -webkit-appearance: none;
@@ -76,10 +76,7 @@
 
   &.is-disabled {
     & .#{$namespace}-checkbox-button__inner {
-      color: var(
-        --el-button-disabled-text-color,
-        map.get($button, 'disabled-text-color')
-      );
+      color: getCssVar('disabled-text-color');
       cursor: not-allowed;
       background-image: none;
       background-color: var(
@@ -102,7 +99,7 @@
 
   &:first-child {
     .#{$namespace}-checkbox-button__inner {
-      border-left: $border-base;
+      border-left: getCssVar('border');
       border-radius: var(--el-border-radius-base) 0 0
         var(--el-border-radius-base);
       box-shadow: none !important;

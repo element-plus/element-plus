@@ -2,13 +2,13 @@ import { buildProps, definePropType, mutable } from '@element-plus/utils'
 import type { InjectionKey } from 'vue'
 import type { TreeNodeData } from '../../tree/src/tree.type'
 import type {
-  TreeNode,
-  TreeKey,
-  TreeData,
-  TreeOptionProps,
-  FilterMethod,
   CheckedInfo,
+  FilterMethod,
   TreeContext,
+  TreeData,
+  TreeKey,
+  TreeNode,
+  TreeOptionProps,
 } from './types'
 
 // constants

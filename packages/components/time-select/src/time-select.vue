@@ -23,7 +23,7 @@
       :disabled="item.disabled"
     />
     <template #prefix>
-      <el-icon v-if="prefixIcon" class="el-input__prefix-icon">
+      <el-icon v-if="prefixIcon" :class="nsInput.e('prefix-icon')">
         <component :is="prefixIcon" />
       </el-icon>
     </template>
@@ -31,15 +31,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
 
-import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-plus/constants'
+import { componentSizes } from '@element-plus/constants'
+import type { Component, PropType } from 'vue'
 dayjs.extend(customParseFormat)
 
 const { Option: ElOption } = ElSelect
@@ -52,8 +53,8 @@ interface Time {
 const parseTime = (time: string): null | Time => {
   const values = (time || '').split(':')
   if (values.length >= 2) {
-    let hours = parseInt(values[0], 10)
-    const minutes = parseInt(values[1], 10)
+    let hours = Number.parseInt(values[0], 10)
+    const minutes = Number.parseInt(values[1], 10)
     const timeUpper = time.toUpperCase()
     if (timeUpper.includes('AM') && hours === 12) {
       hours = 0
@@ -128,9 +129,8 @@ export default defineComponent({
     },
     size: {
       type: String as PropType<ComponentSize>,
-      default: 'default',
-      validator: (value: string) =>
-        !value || ['large', 'default', 'small'].indexOf(value) !== -1,
+      values: componentSizes,
+      default: '',
     },
     placeholder: {
       type: String,
@@ -171,8 +171,9 @@ export default defineComponent({
   },
   emits: ['change', 'blur', 'focus', 'update:modelValue'],
   setup(props) {
-    // computed
+    const nsInput = useNamespace('input')
     const select = ref(null)
+
     const value = computed(() => props.modelValue)
     const start = computed(() => {
       const time = parseTime(props.start)
@@ -220,6 +221,7 @@ export default defineComponent({
     }
 
     return {
+      nsInput,
       select,
       value,
       items,

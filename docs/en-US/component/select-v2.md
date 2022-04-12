@@ -7,7 +7,7 @@ lang: en-US
 
 :::tip
 
-This component is still under testing, if you found any bug or issue please report it at [Github](https://github.com/element-plus/element-plus/issues) for us to fix.
+This component is still under testing, if you found any bug or issue please report it at [GitHub](https://github.com/element-plus/element-plus/issues) for us to fix.
 
 :::
 
@@ -38,6 +38,8 @@ select-v2/multiple
 :::
 
 ## Hide extra tags when the selected items are too many.
+
+You can collapse tags to a text by using `collapse-tags` attribute. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
 
 :::demo
 
@@ -135,6 +137,7 @@ select-v2/remote-search
 | clearable                         | whether select can be cleared                                                                                                            | boolean                            | —                   | false         |
 | clear-icon                        | custom clear icon                                                                                                                        | string / component                 | —                   | CircleClose   |
 | collapse-tags                     | whether to collapse tags to a text when multiple selecting                                                                               | boolean                            | —                   | false         |
+| collapse-tags-tooltip             | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | boolean                            | true / false        | false         |
 | multiple-limit                    | maximum number of options user can select when multiple is true. No limit when set to 0                                                  | number                             | —                   | 0             |
 | name                              | the name attribute of select input                                                                                                       | string                             | —                   | —             |
 | effect                            | Tooltip theme, built-in theme: `dark` / `light`                                                                                          | string                             | string              | light         |

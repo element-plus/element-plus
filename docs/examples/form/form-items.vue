@@ -21,7 +21,7 @@
         },
       ]"
     >
-      <el-input v-model="dynamicValidateForm.email"></el-input>
+      <el-input v-model="dynamicValidateForm.email" />
     </el-form-item>
     <el-form-item
       v-for="(domain, index) in dynamicValidateForm.domains"
@@ -34,7 +34,7 @@
         trigger: 'blur',
       }"
     >
-      <el-input v-model="domain.value"></el-input>
+      <el-input v-model="domain.value" />
       <el-button class="mt-2" @click.prevent="removeDomain(domain)"
         >Delete</el-button
       >

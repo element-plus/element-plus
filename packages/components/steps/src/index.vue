@@ -1,11 +1,11 @@
 <template>
   <div :class="[ns.b(), ns.m(simple ? 'simple' : direction)]">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, ref, provide } from 'vue'
+import { defineComponent, provide, ref, watch } from 'vue'
 
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'

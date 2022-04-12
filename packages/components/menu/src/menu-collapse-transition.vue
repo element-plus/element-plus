@@ -5,9 +5,9 @@
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { addClass, removeClass, hasClass } from '@element-plus/utils'
+import { addClass, hasClass, removeClass } from '@element-plus/utils'
 
-import type { TransitionProps, BaseTransitionProps } from 'vue'
+import type { BaseTransitionProps, TransitionProps } from 'vue'
 
 export default defineComponent({
   name: 'ElMenuCollapseTransition',

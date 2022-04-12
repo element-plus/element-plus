@@ -1,43 +1,50 @@
-import fs from 'fs'
-import { epPackage } from '../build/utils/paths'
-import { cyan, red, yellow, green } from '../build/utils/log'
-import { getPackageManifest } from '../build/utils/pkg'
+import consola from 'consola'
+import chalk from 'chalk'
+import { errorAndExit, getWorkspacePackages } from '@element-plus/build-utils'
+import type { Project } from '@pnpm/find-workspace-packages'
 
-const tagVersion = process.env.TAG_VERSION
-const gitHead = process.env.GIT_HEAD
-if (!tagVersion || !gitHead) {
-  red(
-    'No tag version or git head were found, make sure that you set the environment variable $TAG_VERSION \n'
-  )
-  process.exit(1)
-}
-
-cyan('Start updating version')
-
-cyan(
-  ['NOTICE:', `$TAG_VERSION: ${tagVersion}`, `$GIT_HEAD: ${gitHead}`].join('\n')
-)
-;(async () => {
-  yellow(`Updating package.json for element-plus`)
-
-  const json: Record<string, any> = getPackageManifest(epPackage)
-
-  json.version = tagVersion
-  json.gitHead = gitHead
-
-  if (!(process.argv.includes('-d') || process.argv.includes('--dry-run'))) {
-    try {
-      await fs.promises.writeFile(epPackage, JSON.stringify(json, null, 2), {
-        encoding: 'utf-8',
-      })
-    } catch (e) {
-      process.exit(1)
-    }
-  } else {
-    console.log(json)
+async function main() {
+  const tagVersion = process.env.TAG_VERSION
+  const gitHead = process.env.GIT_HEAD
+  if (!tagVersion || !gitHead) {
+    errorAndExit(
+      new Error(
+        'No tag version or git head were found, make sure that you set the environment variable $TAG_VERSION \n'
+      )
+    )
   }
 
-  green(`Version updated to ${tagVersion}`)
+  consola.log(chalk.cyan('Start updating version'))
+  consola.log(chalk.cyan(`$TAG_VERSION: ${tagVersion}`))
+  consola.log(chalk.cyan(`$GIT_HEAD: ${gitHead}`))
 
-  green(`Git head updated to ${gitHead}`)
-})()
+  consola.debug(chalk.yellow(`Updating package.json for element-plus`))
+
+  const pkgs = Object.fromEntries(
+    (await getWorkspacePackages()).map((pkg) => [pkg.manifest.name!, pkg])
+  )
+  const elementPlus = pkgs['element-plus']
+  const eslintConfig = pkgs['@element-plus/eslint-config']
+  const metadata = pkgs['@element-plus/metadata']
+
+  const writeVersion = async (project: Project) => {
+    await project.writeProjectManifest({
+      ...project.manifest,
+      version: tagVersion,
+      gitHead,
+    } as any)
+  }
+
+  try {
+    writeVersion(elementPlus)
+    writeVersion(eslintConfig)
+    writeVersion(metadata)
+  } catch (err) {
+    errorAndExit(err)
+  }
+
+  consola.debug(chalk.green(`$GIT_HEAD: ${gitHead}`))
+  consola.success(chalk.green(`Git head updated to ${gitHead}`))
+}
+
+main()

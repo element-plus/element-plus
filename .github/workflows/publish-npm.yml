@@ -23,7 +23,7 @@ jobs:
           version: latest
 
       - name: Cache ~/.pnpm-store
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         env:
           cache-name: cache-pnpm-store
         with:
@@ -68,3 +68,4 @@ jobs:
           GIT_HEAD: ${{env.GIT_HEAD}}
           REGISTRY: https://registry.npmjs.com/
           FORCE_COLOR: 2
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

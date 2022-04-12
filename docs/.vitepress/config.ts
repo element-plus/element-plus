@@ -1,3 +1,6 @@
+import consola from 'consola'
+import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
+import { docsDirName } from '@element-plus/build-utils'
 import { languages } from './utils/lang'
 import { head } from './config/head'
 import { sidebars } from './config/sidebars'
@@ -32,8 +35,7 @@ const buildTransformers = () => {
   return transformers
 }
 
-// eslint-disable-next-line no-console
-console.log(`DOC_ENV: ${process.env.DOC_ENV}`)
+consola.debug(`DOC_ENV: ${process.env.DOC_ENV}`)
 
 const locales = {}
 languages.forEach((lang) => {
@@ -46,10 +48,12 @@ languages.forEach((lang) => {
 export const config: UserConfig = {
   title: 'Element Plus',
   description: 'a Vue 3 based component library for designers and developers',
+  lastUpdated: true,
   head,
   themeConfig: {
-    repo: 'element-plus/element-plus',
-    docsDir: 'docs',
+    repo: REPO_PATH,
+    docsBranch: REPO_BRANCH,
+    docsDir: docsDirName,
 
     editLinks: true,
     editLinkText: 'Edit this page on GitHub',

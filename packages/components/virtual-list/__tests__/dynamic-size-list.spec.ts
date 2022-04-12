@@ -2,10 +2,10 @@ import { nextTick } from 'vue'
 import makeMount from '@element-plus/test-utils/make-mount'
 import setupMock from '../setup-mock'
 import {
-  HORIZONTAL,
-  START_ALIGNMENT,
   END_ALIGNMENT,
+  HORIZONTAL,
   SMART_ALIGNMENT,
+  START_ALIGNMENT,
 } from '../src/defaults'
 import { DynamicSizeList } from '..'
 

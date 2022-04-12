@@ -15,21 +15,36 @@ const route = useRoute()
 
 <template>
   <a
-    :class="{ link: true, active: isActive(route, item.link) }"
+    :class="{
+      link: true,
+      active: isActive(route, item.link),
+      'flex items-center': item.promotion,
+    }"
     :href="item.link"
     @click="$emit('close')"
   >
     <p class="link-text">{{ item.text }}</p>
+    <ElTag
+      v-if="item.promotion"
+      class="ml-2"
+      size="small"
+      effect="plain"
+      hit
+      style="border-radius: 9999px"
+      >{{ item.promotion }}</ElTag
+    >
   </a>
 </template>
 
 <style scoped lang="scss">
-.link {
+.link:not(.flex) {
   display: block;
-  padding: 0.625rem 2rem 0.625rem 1.5rem;
+}
+
+.link {
+  padding: 10px 16px;
   line-height: 1.5;
   font-size: 0.9rem;
-  margin: 0 8px;
   border-radius: 8px;
 
   .link-text {

@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { Edit } from '@element-plus/icons-vue'
 import Steps from '../src/index.vue'
@@ -13,7 +13,7 @@ const _mount = (template: string) =>
       },
       data() {
         return {
-          iconEdit: Edit,
+          iconEdit: markRaw(Edit),
         }
       },
       template,

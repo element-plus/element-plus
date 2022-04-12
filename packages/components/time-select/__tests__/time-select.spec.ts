@@ -1,7 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import Select from '@element-plus/components/select'
 import TimeSelect from '../src/time-select.vue'
 dayjs.extend(customParseFormat)
@@ -106,7 +106,7 @@ describe('TimeSelect', () => {
 
     const option = wrapper
       .findAllComponents(Option)
-      .filter((w) => w.text().trim() === '11:00')[0]
+      .find((w) => w.text().trim() === '11:00')
 
     expect(option.exists()).toBe(true)
     option.trigger('click')

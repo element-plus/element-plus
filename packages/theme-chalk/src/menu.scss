@@ -107,7 +107,7 @@
         color: var(--el-menu-text-color);
 
         &:hover {
-          background-color: #fff;
+          background-color: getCssVar('bg-color', 'overlay');
         }
       }
 
@@ -127,6 +127,10 @@
         height: 36px;
         padding: 0 10px;
         color: var(--el-menu-text-color);
+      }
+
+      & .#{$namespace}-sub-menu__title {
+        padding-right: 40px;
       }
 
       & .#{$namespace}-menu-item.is-active,

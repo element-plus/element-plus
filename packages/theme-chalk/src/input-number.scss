@@ -39,7 +39,7 @@
     bottom: 1px;
 
     width: map.get($input-height, 'default');
-    background: var(--el-bg-color);
+    background: getCssVar('fill-color', 'light');
     color: var(--el-text-color-regular);
     cursor: pointer;
     font-size: 13px;
@@ -59,7 +59,7 @@
     }
 
     &.is-disabled {
-      color: var(--el-disabled-text-color);
+      color: getCssVar('disabled-text-color');
       cursor: not-allowed;
     }
   }
@@ -67,13 +67,13 @@
   @include e(increase) {
     right: 1px;
     border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base) 0;
-    border-left: var(--el-border-base);
+    border-left: var(--el-border);
   }
 
   @include e(decrease) {
     left: 1px;
     border-radius: var(--el-border-radius-base) 0 0 var(--el-border-radius-base);
-    border-right: var(--el-border-base);
+    border-right: var(--el-border);
   }
 
   @include when(disabled) {
@@ -144,7 +144,7 @@
       bottom: auto;
       left: auto;
       border-radius: 0 var(--el-border-radius-base) 0 0;
-      border-bottom: var(--el-border-base);
+      border-bottom: var(--el-border);
     }
 
     @include e(decrease) {
@@ -152,7 +152,7 @@
       top: auto;
       left: auto;
       border-right: none;
-      border-left: var(--el-border-base);
+      border-left: var(--el-border);
       border-radius: 0 0 var(--el-border-radius-base) 0;
     }
 

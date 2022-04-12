@@ -1,7 +1,6 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
-@use 'mixins/function' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
@@ -79,6 +78,9 @@ $tag-icon-span-gap: map.merge(
   @include when(hit) {
     border-color: getCssVar('color', 'primary');
   }
+  @include when(round) {
+    border-radius: getCssVar('tag', 'border-radius-rounded');
+  }
 
   .#{$namespace}-tag__close {
     color: var(--el-tag-text-color);
@@ -97,7 +99,8 @@ $tag-icon-span-gap: map.merge(
   align-items: center;
 
   height: map.get($tag-height, 'default');
-  padding: 0 map.get($tag-padding, 'default') - $border-width-base;
+  padding: 0 map.get($tag-padding, 'default') - $border-width;
+
   font-size: var(--el-tag-font-size);
   line-height: 1;
   border-width: $tag-border-width;
@@ -131,10 +134,10 @@ $tag-icon-span-gap: map.merge(
   }
 
   &.is-closable {
-    padding-right: map.get($tag-icon-span-gap, 'default') - $border-width-base;
+    padding-right: map.get($tag-icon-span-gap, 'default') - $border-width;
   }
 
-  @each $size in (large, default, small) {
+  @each $size in (large, small) {
     @include m($size) {
       padding: 0 map.get($tag-padding, $size) - $tag-border-width;
       height: map.get($tag-height, $size);
@@ -146,7 +149,7 @@ $tag-icon-span-gap: map.merge(
       }
 
       &.is-closable {
-        padding-right: map.get($tag-icon-span-gap, $size) - $border-width-base;
+        padding-right: map.get($tag-icon-span-gap, $size) - $border-width;
       }
     }
   }
@@ -158,7 +161,7 @@ $tag-icon-span-gap: map.merge(
   }
 
   @each $type in $types {
-    &.#{$namespace}-tag--#{$type} {
+    &.#{bem('tag', '', $type)} {
       @include when(hit) {
         border-color: getCssVar('color', $type);
       }

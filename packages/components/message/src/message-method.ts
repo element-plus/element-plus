@@ -1,12 +1,13 @@
 import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
 import {
-  isVNode,
+  debugWarn,
+  isElement,
+  isFunction,
   isNumber,
   isObject,
   isString,
-  isElement,
-  debugWarn,
+  isVNode,
 } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
@@ -14,7 +15,7 @@ import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
 import type { AppContext, ComponentPublicInstance, VNode } from 'vue'
-import type { Message, MessageFn, MessageQueue, MessageProps } from './message'
+import type { Message, MessageFn, MessageProps, MessageQueue } from './message'
 
 const instances: MessageQueue = []
 let seed = 1
@@ -42,7 +43,7 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
       )
       if (tempVm) {
         tempVm.vm.component!.props.repeatNum += 1
-        tempVm.vm.component!.props.type = options?.type
+        tempVm.vm.component!.props.type = options?.type || 'info'
         return {
           close: () =>
             ((
@@ -70,8 +71,8 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
     const userOnClose = options.onClose
     const props: Partial<MessageProps> = {
       zIndex: nextZIndex(),
-      offset: verticalOffset,
       ...options,
+      offset: verticalOffset,
       id,
       onClose: () => {
         close(id, userOnClose)
@@ -101,7 +102,11 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
     const vm = createVNode(
       MessageConstructor,
       props,
-      isVNode(messageContent) ? { default: () => messageContent } : null
+      isFunction(messageContent)
+        ? { default: messageContent }
+        : isVNode(messageContent)
+        ? { default: () => messageContent }
+        : null
     )
 
     vm.appContext = context || message._context
@@ -162,7 +167,7 @@ export function close(id: string, userOnClose?: (vm: VNode) => void): void {
   if (len < 1) return
   for (let i = idx; i < len; i++) {
     const pos =
-      parseInt(instances[i].vm.el!.style['top'], 10) - removedHeight - 16
+      Number.parseInt(instances[i].vm.el!.style['top'], 10) - removedHeight - 16
 
     instances[i].vm.component!.props.offset = pos
   }

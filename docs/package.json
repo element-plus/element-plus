@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm gen-locale && vitepress dev .",
-    "build": "cross-env NODE_ENV=production && vitepress build .",
+    "build": "cross-env NODE_ENV=production && vitepress build . && sucrase-node .vitepress/build/rebuild-pwa.ts",
     "serve": "cross-env NODE_ENV=production vitepress serve . --port 5001",
     "gen-locale": "rimraf .vitepress/i18n && sucrase-node .vitepress/build/crowdin-generate.ts",
     "crowdin-credentials": "sucrase-node .vitepress/build/crowdin-credentials.ts"
@@ -11,8 +11,9 @@
   "dependencies": {
     "@docsearch/js": "^3.0.0",
     "@docsearch/react": "^3.0.0",
-    "@vueuse/core": "^7.7.1",
-    "axios": "^0.26.0",
+    "@element-plus/metadata": "latest",
+    "@vueuse/core": "^8.2.5",
+    "axios": "^0.26.1",
     "clipboard-copy": "^4.0.1",
     "element-plus": "npm:element-plus@latest",
     "normalize.css": "^8.0.1",
@@ -21,17 +22,21 @@
   },
   "devDependencies": {
     "@crowdin/cli": "^3.7.8",
+    "@element-plus/build": "workspace:*",
+    "@element-plus/build-constants": "workspace:*",
     "@iconify-json/ri": "^1.1.1",
     "@types/markdown-it": "^12.2.3",
     "cross-env": "^7.0.3",
     "escape-html": "^1.0.3",
     "markdown-it": "^12.3.2",
     "markdown-it-container": "^3.0.0",
-    "unplugin-icons": "^0.13.2",
-    "unplugin-vue-components": "^0.17.21",
-    "vite": "^2.8.6",
+    "octokit": "^1.7.1",
+    "unocss": "^0.31.0",
+    "unplugin-icons": "^0.14.1",
+    "unplugin-vue-components": "^0.19.2",
+    "vite": "^2.9.1",
     "vite-plugin-inspect": "^0.4.3",
-    "vite-plugin-windicss": "^1.8.3",
+    "vite-plugin-pwa": "^0.11.13",
     "vitepress": "^0.22.3"
   }
 }

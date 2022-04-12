@@ -1,7 +1,7 @@
 import {
   focusFirstDescendant,
-  obtainAllFocusableElements,
   getEdges,
+  obtainAllFocusableElements,
 } from '../src/utils'
 
 describe('focus-trap utils', () => {

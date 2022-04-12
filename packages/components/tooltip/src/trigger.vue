@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, unref, toRef } from 'vue'
+import { defineComponent, inject, ref, toRef, unref } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import { composeEventHandlers } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'

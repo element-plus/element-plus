@@ -6,13 +6,13 @@
       :fallback-placements="['bottom', 'top']"
       :popper-options="popperOptions"
       :gpu-acceleration="false"
-      :hide-after="hideTimeout"
+      :hide-after="trigger === 'hover' ? hideTimeout : 0"
       :manual-mode="true"
       :placement="placement"
       :popper-class="[ns.e('popper'), popperClass]"
       :reference-element="referenceElementRef?.$el"
       :trigger="trigger"
-      :show-after="showTimeout"
+      :show-after="trigger === 'hover' ? showTimeout : 0"
       :stop-popper-mouse-event="false"
       :virtual-ref="triggeringElementRef"
       :virtual-triggering="splitButton"
@@ -40,7 +40,7 @@
               @entry-focus="handleEntryFocus"
             >
               <el-dropdown-collection>
-                <slot name="dropdown"></slot>
+                <slot name="dropdown" />
               </el-dropdown-collection>
             </el-roving-focus-group>
           </el-focus-trap>
@@ -56,6 +56,7 @@
       <el-button-group>
         <el-button
           ref="referenceElementRef"
+          v-bind="buttonProps"
           :size="dropdownSize"
           :type="type"
           :disabled="disabled"
@@ -65,6 +66,7 @@
         </el-button>
         <el-button
           ref="triggeringElementRef"
+          v-bind="buttonProps"
           :size="dropdownSize"
           :type="type"
           :class="ns.e('caret-button')"

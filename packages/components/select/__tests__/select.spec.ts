@@ -1,8 +1,9 @@
-import { nextTick, markRaw } from 'vue'
+import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import { CircleClose, ArrowUp, CaretTop } from '@element-plus/icons-vue'
+import { ArrowUp, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { hasClass } from '@element-plus/utils'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -315,7 +316,7 @@ describe('Select', () => {
     const options = wrapper.element.querySelectorAll(
       '.el-select-dropdown__item'
     )
-    const result = [].every.call(options, (option, index) => {
+    const result = Array.prototype.every.call(options, (option, index) => {
       const text = option.querySelector('span').textContent
       const vm = wrapper.vm as any
       return text === vm.options[index].label
@@ -353,6 +354,39 @@ describe('Select', () => {
           },
         ],
         value: '选项2',
+      })
+    )
+    await nextTick()
+
+    expect(findInnerInput().value).toBe('双皮奶')
+  })
+
+  test('set default value to object', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+        ],
+        value: {
+          value: '选项2',
+        },
       })
     )
     await nextTick()
@@ -724,9 +758,49 @@ describe('Select', () => {
     selectVm.debouncedOnInputChange()
     await nextTick()
     const options = [...getOptions()]
-    const target = options.filter((option) => option.textContent === 'new')
-    target[0].click()
+    const target = options.find((option) => option.textContent === 'new')
+    target.click()
     expect((wrapper.vm as any).value).toBe('new')
+  })
+
+  test('allow create async option', async () => {
+    const options = [
+      {
+        value: '选项1',
+        label: '黄金糕',
+      },
+      {
+        value: '选项2',
+        label: '双皮奶',
+      },
+    ]
+    wrapper = _mount(
+      `
+      <el-select
+        v-model="value"
+        filterable
+        allowCreate
+      >
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [],
+        value: '选项2',
+      })
+    )
+
+    await nextTick()
+    expect(getOptions()).toHaveLength(1)
+    await wrapper.setData({
+      options,
+    })
+    expect(getOptions()).toHaveLength(options.length)
   })
 
   test('multiple select', async () => {
@@ -740,9 +814,7 @@ describe('Select', () => {
     await nextTick()
     options[3].click()
     await nextTick()
-    expect(
-      vm.value.indexOf('选项2') > -1 && vm.value.indexOf('选项4') > -1
-    ).toBe(true)
+    expect(vm.value.includes('选项2') && vm.value.includes('选项4')).toBe(true)
     const tagCloseIcons = wrapper.findAll('.el-tag__close')
     await tagCloseIcons[0].trigger('click')
     expect(vm.value.indexOf('选项1')).toBe(-1)
@@ -807,10 +879,10 @@ describe('Select', () => {
     options[2].click()
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
-    for (let i = 0; i < tagWrappers.length; i++) {
-      const tagWrapperDom = tagWrappers[i].element
+    for (const tagWrapper of tagWrappers) {
+      const tagWrapperDom = tagWrapper.element
       expect(
-        parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 75
+        Number.parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 75
       ).toBe(true)
     }
     mockInputWidth.mockRestore()
@@ -877,9 +949,59 @@ describe('Select', () => {
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
     const tagWrapperDom = tagWrappers[0].element
     expect(
-      parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 123
+      Number.parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 123
     ).toBe(true)
     mockInputWidth.mockRestore()
+  })
+
+  test('multiple select with collapseTagsTooltip', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="selectedList" multiple collapseTags collapse-tags-tooltip placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        selectedList: [],
+      })
+    )
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = getOptions()
+
+    options[0].click()
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    options[2].click()
+    await nextTick()
+    const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
+    expect(triggerWrappers[0]).toBeDefined()
+    const tags = wrapper.findAll('.el-select__tags-text')
+    expect(tags.length).toBe(5)
+    expect(tags[4].element.textContent).toBe('蚵仔煎')
   })
 
   test('multiple remove-tag', async () => {
@@ -946,7 +1068,7 @@ describe('Select', () => {
     const options = getOptions()
     options[1].click()
     await nextTick()
-    expect(vm.value.indexOf('选项2') > -1).toBe(true)
+    expect(vm.value.includes('选项2')).toBe(true)
     options[3].click()
     await nextTick()
     expect(vm.value.indexOf('选项4')).toBe(-1)
@@ -1055,7 +1177,9 @@ describe('Select', () => {
       })
     )
     await wrapper.find('.select-trigger').trigger('click')
-    expect(document.querySelector('.empty-slot').textContent).toBe('EmptySlot')
+    expect(
+      document.querySelector<HTMLElement>('.empty-slot')?.textContent
+    ).toBe('EmptySlot')
   })
 
   test('should set placeholder to label of selected option when filterable is true and multiple is false', async () => {
@@ -1248,9 +1372,7 @@ describe('Select', () => {
             setTimeout(() => {
               this.loading = false
               this.options = this.list.filter((item) => {
-                return (
-                  item.label.toLowerCase().indexOf(query.toLowerCase()) > -1
-                )
+                return item.label.toLowerCase().includes(query.toLowerCase())
               })
             }, 200)
           } else {
@@ -1399,9 +1521,17 @@ describe('Select', () => {
     vm.isCollapsed = true
     vm.isClearable = false
     await nextTick()
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(
+      wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      }).length
+    ).toBe(2)
     await wrapper.find('.el-tag__close').trigger('click')
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(
+      wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      }).length
+    ).toBe(2)
     expect(wrapper.findAll('.el-tag__close').length).toBe(0)
 
     // test for collapse select if is clearable
@@ -1409,9 +1539,17 @@ describe('Select', () => {
     vm.isCollapsed = true
     vm.isClearable = true
     await nextTick()
-    expect(wrapper.findAll('.el-tag__close').length).toBe(1)
+    expect(
+      wrapper.findAll('.el-tag__close').filter((item) => {
+        return !hasClass(item.element.parentElement, 'in-tooltip')
+      }).length
+    ).toBe(1)
     await wrapper.find('.el-tag__close').trigger('click')
-    expect(wrapper.findAll('.el-tag').length).toBe(2)
+    expect(
+      wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      }).length
+    ).toBe(2)
     expect(wrapper.findAll('.el-tag__close').length).toBe(0)
   })
 
@@ -1519,6 +1657,19 @@ describe('Select', () => {
     })
     await nextTick()
     expect(innerInputEl.placeholder).toBe(placeholder)
+  })
+
+  test('should close popper when click icon twice', async () => {
+    wrapper = getSelectVm({
+      filterable: true,
+      clearable: true,
+    })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const suffixIcon = select.find('.el-input__suffix')
+    await suffixIcon.trigger('click')
+    expect((select.vm as any).visible).toBe(true)
+    await suffixIcon.trigger('click')
+    expect((select.vm as any).visible).toBe(false)
   })
 
   describe('should show all options when open select dropdown', () => {
@@ -1710,5 +1861,19 @@ describe('Select', () => {
     )
     const select = wrapper.findComponent({ name: 'ElSelect' }).vm
     expect(select.selected[0].currentLabel).toBe(options[0].label)
+  })
+
+  test('should reset selectedLabel when toggle multiple', async () => {
+    wrapper = getSelectVm({ multiple: false })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+    const vm = wrapper.vm as any
+    const selectVm = select.vm as any
+    vm.value = '选项1'
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('黄金糕')
+    vm.multiple = true
+    vm.value = []
+    await nextTick()
+    expect(selectVm.selectedLabel).toBe('')
   })
 })

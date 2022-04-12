@@ -1,11 +1,11 @@
 import {
+  Transition,
   createApp,
+  createVNode,
   h,
   reactive,
   ref,
-  createVNode,
   toRefs,
-  Transition,
   vShow,
   withCtx,
   withDirectives,
@@ -44,6 +44,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
       removeClass(target, 'el-loading-parent--hidden')
     }
     remvoeElLoadingChild()
+    loadingInstance.unmount()
   }
   function remvoeElLoadingChild(): void {
     vm.$el?.parentNode?.removeChild(vm.$el)
@@ -140,7 +141,8 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     },
   }
 
-  const vm = createApp(elLoadingComponent).mount(document.createElement('div'))
+  const loadingInstance = createApp(elLoadingComponent)
+  const vm = loadingInstance.mount(document.createElement('div'))
 
   return {
     ...toRefs(data),

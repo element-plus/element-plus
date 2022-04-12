@@ -63,7 +63,7 @@
           ns.bm('picker', colorSize),
         ]"
       >
-        <div v-if="colorDisabled" :class="ns.be('picker', 'mask')"></div>
+        <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
           <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
             <span
@@ -108,13 +108,13 @@ import { debounce } from 'lodash-unified'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import { ClickOutside } from '@element-plus/directives'
-import { formItemContextKey, formContextKey } from '@element-plus/tokens'
-import { useLocale, useSize, useNamespace } from '@element-plus/hooks'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElInput from '@element-plus/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn, isValidComponentSize } from '@element-plus/utils'
-import { Close, ArrowDown } from '@element-plus/icons-vue'
+import { ArrowDown, Close } from '@element-plus/icons-vue'
 import AlphaSlider from './components/alpha-slider.vue'
 import HueSlider from './components/hue-slider.vue'
 import Predefine from './components/predefine.vue'
@@ -223,7 +223,7 @@ export default defineComponent({
     // methods
     function displayedRgb(color, showAlpha) {
       if (!(color instanceof Color)) {
-        throw Error('color should be instance of _color Class')
+        throw new TypeError('color should be instance of _color Class')
       }
 
       const { r, g, b } = color.toRgb()

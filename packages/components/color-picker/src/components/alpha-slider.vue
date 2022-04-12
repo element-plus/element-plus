@@ -7,7 +7,7 @@
         background,
       }"
       @click="handleClick"
-    ></div>
+    />
     <div
       ref="thumb"
       class="el-color-alpha-slider__thumb"
@@ -15,18 +15,18 @@
         left: thumbLeft + 'px',
         top: thumbTop + 'px',
       }"
-    ></div>
+    />
   </div>
 </template>
 
 <script lang="ts">
 import {
   defineComponent,
-  watch,
-  ref,
-  onMounted,
   getCurrentInstance,
+  onMounted,
+  ref,
   shallowRef,
+  watch,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
 import draggable from '../draggable'

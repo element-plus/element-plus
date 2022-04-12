@@ -10,12 +10,12 @@
     @keydown="handleKeydown"
     @mousedown="onMousedown"
   >
-    <slot></slot>
+    <slot />
   </ul>
 </template>
 <script lang="ts">
 import { computed, defineComponent, inject, unref } from 'vue'
-import { composeRefs, composeEventHandlers } from '@element-plus/utils'
+import { composeEventHandlers, composeRefs } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import {
@@ -27,9 +27,9 @@ import { useNamespace } from '@element-plus/hooks'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 import {
   DROPDOWN_COLLECTION_INJECTION_KEY,
-  dropdownMenuProps,
   FIRST_LAST_KEYS,
   LAST_KEYS,
+  dropdownMenuProps,
 } from './dropdown'
 import { useDropdown } from './useDropdown'
 

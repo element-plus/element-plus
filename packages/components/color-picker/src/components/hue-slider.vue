@@ -1,6 +1,6 @@
 <template>
   <div class="el-color-hue-slider" :class="{ 'is-vertical': vertical }">
-    <div ref="bar" class="el-color-hue-slider__bar" @click="handleClick"></div>
+    <div ref="bar" class="el-color-hue-slider__bar" @click="handleClick" />
     <div
       ref="thumb"
       class="el-color-hue-slider__thumb"
@@ -8,18 +8,18 @@
         left: thumbLeft + 'px',
         top: thumbTop + 'px',
       }"
-    ></div>
+    />
   </div>
 </template>
 
 <script lang="ts">
 import {
-  ref,
   computed,
-  watch,
-  onMounted,
-  getCurrentInstance,
   defineComponent,
+  getCurrentInstance,
+  onMounted,
+  ref,
+  watch,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
 import draggable from '../draggable'
