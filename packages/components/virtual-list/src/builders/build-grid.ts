@@ -17,6 +17,7 @@ import {
   isNumber,
   isString,
 } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
 import { useCache } from '../hooks/use-cache'
@@ -33,7 +34,6 @@ import {
   RTL_OFFSET_POS_DESC,
   SCROLL_EVT,
 } from '../defaults'
-
 import type {
   CSSProperties,
   Ref,
@@ -67,6 +67,8 @@ const createGrid = ({
     props: virtualizedGridProps,
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
     setup(props, { emit, expose, slots }) {
+      const ns = useNamespace('vl')
+
       validateProps(props)
       const instance = getCurrentInstance()!
       const cache = ref(initCache(props, instance))
@@ -602,7 +604,7 @@ const createGrid = ({
           'div',
           {
             key: 0,
-            class: 'el-vg__wrapper',
+            class: ns.e('wrapper'),
           },
           [
             h(
