@@ -59,7 +59,7 @@ jobs:
           DOC_ENV: production
 
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        uses: JamesIves/github-pages-deploy-action@v4.3.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages

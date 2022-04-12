@@ -21,9 +21,9 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   z-index: 1;
 }
 
-@mixin bar-background {
+@mixin bar-background($side: right) {
   background: linear-gradient(
-    to right,
+    to $side,
     #f00 0%,
     #ff0 17%,
     #0f0 33%,
@@ -98,7 +98,7 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     padding: 2px 0;
 
     .#{$namespace}-color-hue-slider__bar {
-      @include bar-background;
+      @include bar-background(bottom);
     }
 
     .#{$namespace}-color-hue-slider__thumb {
