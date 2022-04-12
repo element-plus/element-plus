@@ -1,5 +1,5 @@
 ---
-title: Input
+title: Input Number
 lang: en-US
 ---
 
@@ -79,10 +79,31 @@ input-number/controlled
 
 :::
 
+## Input Number with prefix
+
+Add an prefix to indicate input type.
+
+:::demo To add icons in Input Number, use `prefix` named slots .
+
+input-number/with-icon
+
+:::
+
+## Mixed input number
+
+Prepend or append an element, generally a label or a button.
+
+:::demo Use `slot` to distribute elements that prepend or append to Input.
+
+input-number/mixed-input
+
+:::
+
 ## Attributes
 
 | Attribute             | Description                                      | Type               | Accepted Values | Default     |
 | --------------------- | ------------------------------------------------ | ------------------ | --------------- | ----------- |
+| type                  | type of input                                    | string             | text,number     | text        |
 | model-value / v-model | binding value                                    | number / undefined | —               | —           |
 | min                   | the minimum allowed value                        | number             | —               | `-Infinity` |
 | max                   | the maximum allowed value                        | number             | —               | `Infinity`  |
@@ -96,6 +117,15 @@ input-number/controlled
 | name                  | same as `name` in native input                   | string             | —               | —           |
 | label                 | label text                                       | string             | —               | —           |
 | placeholder           | placeholder in input                             | string             | -               | -           |
+
+## slots
+
+| Name    | Description                                                                                      |
+| ------- | ------------------------------------------------------------------------------------------------ |
+| prefix  | content as Input prefix, only works when `controls-position` is `right` or `controls` is `false` |
+| suffix  | content as Input prefix, only works when `controls` is `false`                                   |
+| prepend | content to prepend before Input, only works when `type` is 'text'                                |
+| append  | content to append after Input, only works when `type` is 'text'                                  |
 
 ## Events
 

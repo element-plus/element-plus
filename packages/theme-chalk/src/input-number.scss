@@ -16,9 +16,21 @@
       padding-right: #{map.get($input-height, 'default') + 10};
     }
 
+  &:not(.is-without-controls):not(.is-controls-right) {
+    > .#{$namespace}-input {
+      > .#{$namespace}-input__prefix {
+        left: 0px;
+        padding: 1px;
+        box-sizing: border-box;
+      }
+    }
+  }
+
+  .#{$namespace}-input {
     &__inner {
       -webkit-appearance: none;
       -moz-appearance: textfield;
+
       &::-webkit-inner-spin-button,
       &::-webkit-outer-spin-button {
         margin: 0;
@@ -33,11 +45,6 @@
     justify-content: center;
     align-items: center;
     height: auto;
-
-    position: absolute;
-    z-index: 1;
-    top: 1px;
-    bottom: 1px;
 
     width: map.get($input-height, 'default');
     background: getCssVar('fill-color', 'light');
@@ -77,7 +84,7 @@
     border-radius: getCssVar('border-radius-base') 0 0
       getCssVar('border-radius-base');
     border-right: getCssVar('border');
-  }
+   }
 
   @include when(disabled) {
     @include e((increase, decrease)) {
@@ -129,6 +136,12 @@
       padding-right: #{map.get($input-height, 'default') + 10};
     }
 
+    > .#{$namespace}-input > .#{$namespace}-input__suffix {
+      > .#{$namespace}-input__suffix-inner {
+        flex-direction: column;
+      }
+    }
+
     @include e((increase, decrease)) {
       @include set-css-var-value(
         ('input', 'number-controls-height'),
@@ -151,9 +164,6 @@
     }
 
     @include e(decrease) {
-      right: 1px;
-      top: auto;
-      left: auto;
       border-right: none;
       border-left: getCssVar('border');
       border-radius: 0 0 getCssVar('border-radius-base') 0;

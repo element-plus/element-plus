@@ -1,62 +1,5 @@
-<template>
-  <div
-    :class="[
-      ns.b(),
-      ns.m(inputNumberSize),
-      ns.is('disabled', inputNumberDisabled),
-      ns.is('without-controls', !controls),
-      ns.is('controls-right', controlsAtRight),
-    ]"
-    @dragstart.prevent
-  >
-    <span
-      v-if="controls"
-      v-repeat-click="decrease"
-      role="button"
-      :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
-      @keydown.enter="decrease"
-    >
-      <el-icon>
-        <arrow-down v-if="controlsAtRight" />
-        <minus v-else />
-      </el-icon>
-    </span>
-    <span
-      v-if="controls"
-      v-repeat-click="increase"
-      role="button"
-      :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
-      @keydown.enter="increase"
-    >
-      <el-icon>
-        <arrow-up v-if="controlsAtRight" />
-        <plus v-else />
-      </el-icon>
-    </span>
-    <el-input
-      ref="input"
-      type="number"
-      :step="step"
-      :model-value="displayValue"
-      :placeholder="placeholder"
-      :disabled="inputNumberDisabled"
-      :size="inputNumberSize"
-      :max="max"
-      :min="min"
-      :name="name"
-      :label="label"
-      :validate-event="false"
-      @keydown.up.prevent="increase"
-      @keydown.down.prevent="decrease"
-      @blur="handleBlur"
-      @focus="handleFocus"
-      @input="handleInput"
-      @change="handleInputChange"
-    />
-  </div>
-</template>
-<script lang="ts">
 import {
+  type StyleValue,
   computed,
   defineComponent,
   onMounted,
@@ -64,7 +7,15 @@ import {
   reactive,
   ref,
   watch,
+  withModifiers,
 } from 'vue'
+import {
+  buildProps,
+  debugWarn,
+  isNumber,
+  isUndefined,
+} from '@element-plus/utils'
+import { EVENT_CODE, componentSizes } from '@element-plus/constants'
 
 import { ElIcon } from '@element-plus/components/icon'
 import { RepeatClick } from '@element-plus/directives'
@@ -75,11 +26,69 @@ import {
   useSize,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { debugWarn, isNumber, isUndefined } from '@element-plus/utils'
 import { ArrowDown, ArrowUp, Minus, Plus } from '@element-plus/icons-vue'
-import { inputNumberEmits, inputNumberProps } from './input-number'
 
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, Slot } from 'vue'
+
+export const inputNumberProps = buildProps({
+  type: {
+    type: String,
+    default: 'text',
+  },
+  step: {
+    type: Number,
+    default: 1,
+  },
+  stepStrictly: {
+    type: Boolean,
+    default: false,
+  },
+  max: {
+    type: Number,
+    default: Number.POSITIVE_INFINITY,
+  },
+  min: {
+    type: Number,
+    default: Number.NEGATIVE_INFINITY,
+  },
+  modelValue: {
+    type: Number,
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  size: {
+    type: String,
+    values: componentSizes,
+  },
+  controls: {
+    type: Boolean,
+    default: true,
+  },
+  controlsPosition: {
+    type: String,
+    default: '',
+    values: ['', 'right'],
+  },
+  name: String,
+  label: String,
+  placeholder: String,
+  precision: {
+    type: Number,
+    validator: (val: number) =>
+      val >= 0 && val === Number.parseInt(`${val}`, 10),
+  },
+} as const)
+
+export const inputNumberEmits = {
+  change: (prev: number | undefined, cur: number | undefined) => prev !== cur,
+  blur: (e: FocusEvent) => e instanceof FocusEvent,
+  focus: (e: FocusEvent) => e instanceof FocusEvent,
+  input: (val: number | undefined) => isNumber(val),
+  'update:modelValue': (val: number | undefined) =>
+    isNumber(val) || val === undefined,
+}
 
 interface IData {
   currentValue: number | undefined
@@ -101,7 +110,7 @@ export default defineComponent({
   },
   props: inputNumberProps,
   emits: inputNumberEmits,
-  setup(props, { emit }) {
+  setup(props, { emit, expose, slots }) {
     const input = ref<ComponentPublicInstance<typeof ElInput>>()
     const data = reactive<IData>({
       currentValue: props.modelValue,
@@ -183,6 +192,7 @@ export default defineComponent({
       const newVal = ensurePrecision(value, -1)
       setCurrentValue(newVal)
     }
+
     const verifyValue = (
       value: number | string | undefined,
       update?: boolean
@@ -248,6 +258,17 @@ export default defineComponent({
       formItem?.validate?.('blur').catch((err) => debugWarn(err))
     }
 
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const code = event.code
+      if (code === EVENT_CODE.up) {
+        event.preventDefault()
+        increase()
+      } else if (code === EVENT_CODE.down) {
+        event.preventDefault()
+        decrease()
+      }
+    }
+
     watch(
       () => props.modelValue,
       (value) => {
@@ -279,24 +300,84 @@ export default defineComponent({
       const innerInput = input.value?.input
       innerInput?.setAttribute('aria-valuenow', data.currentValue)
     })
-    return {
-      input,
-      displayValue,
-      handleInput,
-      handleInputChange,
-      controlsAtRight,
-      decrease,
-      increase,
-      inputNumberSize,
-      inputNumberDisabled,
-      maxDisabled,
-      minDisabled,
+
+    expose({
       focus,
       blur,
-      handleFocus,
-      handleBlur,
-      ns,
+    })
+
+    return () => {
+      const decreaseButton = (
+        <span
+          v-repeat-click={decrease}
+          role="button"
+          class={[ns.e('decrease'), ns.is('disabled', minDisabled.value)]}
+          onKeydown={withModifiers(decrease, ['enter'])}
+        >
+          <el-icon>
+            {controlsAtRight.value ? <arrow-down /> : <minus />}
+          </el-icon>
+        </span>
+      )
+
+      const increaseButton = (
+        <span
+          v-repeat-click={increase}
+          role="button"
+          class={[ns.e('increase'), ns.is('disabled', maxDisabled.value)]}
+          onKeydown={withModifiers(increase, ['enter'])}
+        >
+          <el-icon>{controlsAtRight.value ? <arrow-up /> : <plus />}</el-icon>
+        </span>
+      )
+
+      const inputSlots: Record<string, Slot | undefined> = {
+        ...slots,
+      }
+
+      if (props.controls) {
+        if (controlsAtRight.value) {
+          inputSlots.suffix = () => [increaseButton, decreaseButton]
+        } else {
+          inputSlots.prefix = () => [decreaseButton]
+          inputSlots.suffix = () => [increaseButton]
+        }
+      }
+
+      return (
+        <div
+          class={[
+            ns.b(),
+            ns.m(inputNumberSize.value),
+            ns.is('disabled', inputNumberDisabled.value),
+            ns.is('without-controls', !props.controls),
+            ns.is('controls-right', controlsAtRight.value),
+          ]}
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          onDragstart={withModifiers(() => {}, ['prevent'])}
+        >
+          <ElInput
+            ref={input}
+            type={props.type}
+            step={props.step}
+            modelValue={displayValue.value}
+            placeholder={props.placeholder}
+            disabled={inputNumberDisabled.value}
+            size={inputNumberSize.value}
+            max={props.max}
+            min={props.min}
+            name={props.name}
+            label={props.label}
+            validateEvent={false}
+            onKeydown={handleKeyDown}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
+            onInput={handleInput}
+            onChange={handleInputChange}
+            v-slots={inputSlots}
+          />
+        </div>
+      )
     }
   },
 })
-</script>
