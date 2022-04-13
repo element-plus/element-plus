@@ -21,7 +21,7 @@ const { theme, page } = useData()
 
 const currentLink = computed(() => {
   if (!inBrowser) {
-    return `/${page.value?.frontmatter?.lang || ''}`
+    return `/${page.value?.frontmatter?.lang || ''}/`
   }
   const existLangIndex = theme.value.langs.findIndex((lang) =>
     window?.location?.pathname.startsWith(`/${lang}`)
