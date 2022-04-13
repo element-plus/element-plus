@@ -448,6 +448,7 @@ onMounted(async () => {
   updateIconOffset()
   await nextTick()
   resizeTextarea()
+  setInputPadding()
 })
 
 onUpdated(async () => {
