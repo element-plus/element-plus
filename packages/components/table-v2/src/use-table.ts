@@ -30,8 +30,12 @@ function useTable(props: TableV2Props) {
   const {
     columns,
     columnsStyles,
-    getColumn,
+    columnsTotalWidth,
+    fixedColumnsOnLeft,
+    fixedColumnOnRight,
     hasFixedColumns,
+    mainColumns,
+    getColumn,
     updateColumnWidth,
   } = useColumns(toRef(props, 'columns'), toRef(props, 'fixed'))
   // state
@@ -58,9 +62,9 @@ function useTable(props: TableV2Props) {
   const mainTableHeights = shallowRef<Heights>({})
   const rightTableHeights = shallowRef<Heights>({})
   const hScrollbarSize = shallowRef(0)
-  // const vScrollbarSize = shallowRef(0)
+  const vScrollbarSize = shallowRef(0)
 
-  const tableHeight = computed(() => {
+  const mainTableHeight = computed(() => {
     const { height = 0, maxHeight = 0, footerHeight } = props
 
     if (maxHeight > 0) {
@@ -83,7 +87,7 @@ function useTable(props: TableV2Props) {
   })
 
   const windowHeight = computed(() => {
-    return unref(tableHeight) - unref(headerHeight) - unref(fixedRowsHeight)
+    return unref(mainTableHeight) - unref(headerHeight) - unref(fixedRowsHeight)
   })
 
   function doScroll(params: ScrollPos) {
@@ -319,10 +323,18 @@ function useTable(props: TableV2Props) {
     isScrolling,
     hoveringRowKey,
     hasFixedColumns,
+    hScrollbarSize,
+    vScrollbarSize,
     // records
     columnsStyles,
+    columnsTotalWidth,
     expandedRowKeys,
     depthMap,
+    fixedColumnsOnLeft,
+    fixedColumnOnRight,
+    mainColumns,
+    // metadata
+    mainTableHeight,
 
     // methods
     scrollTo,

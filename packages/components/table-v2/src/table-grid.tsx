@@ -59,7 +59,7 @@ const useTableGrid = (props: TableV2GridProps) => {
     rowVisibleStart,
     rowVisibleEnd,
   }: GridItemRenderedEvtParams) {
-    props.onRowRendered?.({
+    props.onRowsRendered?.({
       rowCacheStart,
       rowCacheEnd,
       rowVisibleStart,
