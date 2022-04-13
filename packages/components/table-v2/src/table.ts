@@ -13,11 +13,12 @@ import { tableV2HeaderProps } from './header'
 import { tableV2GridProps } from './grid'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { SortOrder } from './constants'
 import type {
   Column,
   ColumnCommonParams,
+  KeyType,
   RowCommonParams,
-  SortOrder,
 } from './types'
 
 /**
@@ -63,6 +64,7 @@ export type RowClassNameGetter<T> = (
  * Handler types
  */
 export type ColumnSortHandler<T> = (params: ColumnSortParams<T>) => void
+export type ColumnResizeHandler<T> = (column: Column<T>, width: number) => void
 
 export const tableV2Props = buildProps({
   cache: tableV2GridProps.cache,
@@ -110,7 +112,10 @@ export const tableV2Props = buildProps({
   rowProps: {
     type: definePropType<any | ExtractRowPropGetter<any>>([Object, Function]),
   },
-  rowHeight: Number,
+  rowHeight: {
+    type: Number,
+    default: 50,
+  },
   /**
    * Data models
    */
@@ -138,20 +143,38 @@ export const tableV2Props = buildProps({
   height: Number,
   maxHeight: Number,
 
+  /**
+   * Sorting
+   */
   sortBy: {
     type: definePropType<{ key: KeyType; order: SortOrder }>(Object),
     default: () => ({} as { key: KeyType; order: SortOrder }),
+  },
+
+  sortState: {
+    type: definePropType<Record<KeyType, SortOrder>>(Object),
+    default: undefined,
   },
 
   /**
    * Handlers
    */
   onColumnSort: {
-    type: definePropType<ColumnSortParams<any>>(Function),
+    type: definePropType<ColumnSortHandler<any>>(Function),
+  },
+  onColumnResize: {
+    type: definePropType<ColumnResizeHandler<any>>(Function),
+  },
+  onColumnResizeEnded: {
+    type: definePropType<ColumnResizeHandler<any>>(Function),
   },
   onExpandedRowsChange: Function,
-  onRowExpand: Function,
+  onEndReached: {
+    type: definePropType<(distance: number) => void>(Function),
+  },
+  onRowExpand: tableV2RowProps.onRowExpand,
   onScroll: tableV2GridProps.onScroll,
+  onRowRendered: tableV2GridProps.onRowRendered,
   rowEventHandlers: tableV2RowProps.rowEventHandlers,
 } as const)
 

@@ -13,6 +13,13 @@ import { tableV2RowProps } from './row'
 
 import type { ExtractPropTypes } from 'vue'
 
+export type onRowRenderedParams = {
+  rowCacheStart: number
+  rowCacheEnd: number
+  rowVisibleStart: number
+  rowVisibleEnd: number
+}
+
 export const tableV2GridProps = buildProps({
   columns,
   data: dataType,
@@ -49,7 +56,7 @@ export const tableV2GridProps = buildProps({
    * Event handlers
    */
   onRowRendered: {
-    type: Function,
+    type: definePropType<(params: onRowRenderedParams) => void>(Function),
   },
   onScroll: {
     type: definePropType<(...args: any[]) => void>(Function),

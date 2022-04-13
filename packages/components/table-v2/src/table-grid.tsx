@@ -3,16 +3,19 @@ import {
   DynamicSizeGrid,
   FixedSizeGrid,
 } from '@element-plus/components/virtual-list'
-import { isArray, isObject } from '@element-plus/utils'
+import { isObject } from '@element-plus/utils'
 import Header from './table-header'
 import { TableV2InjectionKey } from './tokens'
 import { tableV2GridProps } from './grid'
+import { sumHeights } from './utils'
 
 import type { UnwrapRef } from 'vue'
 import type {
+  DynamicSizeGridInstance,
   GridDefaultSlotParams,
-  GridInstance,
   GridItemRenderedEvtParams,
+  GridScrollOptions,
+  ResetAfterIndex,
 } from '@element-plus/components/virtual-list'
 import type { TableV2HeaderInstance } from './table-header'
 import type { TableV2GridProps } from './grid'
@@ -21,7 +24,7 @@ const COMPONENT_NAME = 'ElTableV2Grid'
 
 const useTableGrid = (props: TableV2GridProps) => {
   const headerRef = ref<TableV2HeaderInstance>()
-  const bodyRef = ref<GridInstance>()
+  const bodyRef = ref<DynamicSizeGridInstance>()
 
   const totalHeight = computed(() => {
     const { data, rowHeight, estimatedRowHeight } = props
@@ -39,14 +42,7 @@ const useTableGrid = (props: TableV2GridProps) => {
     return (fixedData?.length || 0) * rowHeight
   })
 
-  const headerHeight = computed(() => {
-    const { headerHeight } = props
-    if (!isArray(headerHeight)) return headerHeight
-
-    return headerHeight.reduce((height, current) => {
-      return (height += current)
-    }, 0)
-  })
+  const headerHeight = computed(() => sumHeights(props.headerHeight))
 
   const gridHeight = computed(() => {
     const { height } = props
@@ -71,27 +67,34 @@ const useTableGrid = (props: TableV2GridProps) => {
     })
   }
 
+  function resetAfterRowIndex(index: number, forceUpdate: boolean) {
+    bodyRef.value?.resetAfterRowIndex?.(index, forceUpdate)
+  }
+
   function scrollTo(x: number, y: number): void
-  function scrollTo(options: ScrollToOptions): void
-  function scrollTo(arg1: number | ScrollToOptions, arg2?: number) {
+  function scrollTo(options: GridScrollOptions): void
+  function scrollTo(leftOrOptions: number | GridScrollOptions, top?: number) {
     const header$ = unref(headerRef)
     const body$ = unref(bodyRef)
 
     if (!header$ || !body$) return
 
-    if (isObject(arg1)) {
-      header$.scrollTo(arg1.left)
-      body$.scrollTo({
-        scrollLeft: arg1.left!,
-        scrollTop: arg1.top!,
-      })
+    if (isObject(leftOrOptions)) {
+      header$.scrollToLeft(leftOrOptions.scrollLeft)
+      body$.scrollTo(leftOrOptions)
     } else {
-      header$.scrollTo(arg1)
+      header$.scrollToLeft(leftOrOptions)
       body$.scrollTo({
-        scrollLeft: arg1,
-        scrollTop: arg2!,
+        scrollLeft: leftOrOptions,
+        scrollTop: top,
       })
     }
+  }
+
+  function scrollToTop(scrollTop: number) {
+    unref(bodyRef)?.scrollTo({
+      scrollTop,
+    })
   }
 
   return {
@@ -104,7 +107,9 @@ const useTableGrid = (props: TableV2GridProps) => {
     totalHeight,
 
     onItemRendered,
+    resetAfterRowIndex,
     scrollTo,
+    scrollToTop,
   }
 }
 
@@ -124,7 +129,9 @@ const TableGrid = defineComponent({
       totalHeight,
 
       onItemRendered,
+      resetAfterRowIndex,
       scrollTo,
+      scrollToTop,
     } = useTableGrid(props)
 
     expose({
@@ -133,9 +140,17 @@ const TableGrid = defineComponent({
        */
       totalHeight,
       /**
-       * @description scrollTo a position
+       * @description scroll to a position
        */
       scrollTo,
+      /**
+       * @description scroll vertically to position y
+       */
+      scrollToTop,
+      /**
+       * @description reset rendered state after row index
+       */
+      resetAfterRowIndex,
     })
 
     return () => {
@@ -227,5 +242,16 @@ export type TableGridInstance = InstanceType<typeof TableGrid> &
      * @param { number | ScrollToOptions } arg1
      * @param { number } arg2
      */
-    scrollTo(arg1: number | ScrollToOptions, arg2?: number): void
+    scrollTo(leftOrOptions: number | GridScrollOptions, top?: number): void
+
+    /**
+     * @description scroll vertically to position y
+     */
+    scrollToTop(scrollTop: number): void
+    /**
+     * @description reset rendered state after row index
+     * @param { number } rowIndex
+     * @param { boolean } forceUpdate
+     */
+    resetAfterRowIndex: ResetAfterIndex
   }>

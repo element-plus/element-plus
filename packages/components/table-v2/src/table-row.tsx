@@ -10,6 +10,7 @@ import {
 import { isFunction } from '@element-plus/utils'
 import { tableV2RowProps } from './row'
 import { TableV2InjectionKey } from './tokens'
+import { placeholderSign } from './private'
 
 import type { CSSProperties, RendererElement, RendererNode, VNode } from 'vue'
 import type { RowEventHandlers, TableV2RowProps } from './row'
@@ -53,11 +54,12 @@ const useTableRow = (props: TableV2RowProps) => {
     nextTick(() => {
       if (isInit || height !== (style as CSSProperties)?.height) {
         const firstColumn = columns[0]
+        const isPlaceholder = firstColumn.isPlaceholder === placeholderSign
         onRowHeightChange?.(
           rowKey,
           height,
           rowIndex,
-          firstColumn && firstColumn.isPlaceholder && firstColumn.fixed
+          firstColumn && isPlaceholder && Boolean(firstColumn.fixed)
         )
       }
     })

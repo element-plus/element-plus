@@ -1,11 +1,8 @@
 import type { CSSProperties, RendererElement, RendererNode, VNode } from 'vue'
 
-import type { sortOrders } from './constants'
-
 export type Alignment = 'left' | 'center' | 'right'
 export type FixedDirection = 'left' | 'right'
 export type KeyType = string | number | symbol
-export type SortOrder = typeof sortOrders
 
 /**
  * Param types
