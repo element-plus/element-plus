@@ -144,7 +144,7 @@ export const tableV2Props = buildProps({
     type: definePropType<StyleValue>([String, Array, Object]),
   },
   width: requiredNumber,
-  height: Number,
+  height: requiredNumber,
   maxHeight: Number,
 
   /**

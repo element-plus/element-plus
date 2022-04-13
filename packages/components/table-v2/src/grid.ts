@@ -55,7 +55,7 @@ export const tableV2GridProps = buildProps({
   /**
    * Event handlers
    */
-  onRowRendered: {
+  onRowsRendered: {
     type: definePropType<(params: onRowRenderedParams) => void>(Function),
   },
   onScroll: {

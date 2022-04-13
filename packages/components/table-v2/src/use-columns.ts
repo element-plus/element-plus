@@ -106,6 +106,13 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
     )
   })
 
+  const columnsTotalWidth = computed(() => {
+    return unref(visibleColumns).reduce(
+      (width, column) => width + column.width,
+      0
+    )
+  })
+
   watch(
     columns,
     (val) => {
@@ -132,6 +139,7 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
   return {
     columns: _columns,
     columnsStyles,
+    columnsTotalWidth,
     fixedColumnsOnLeft,
     fixedColumnOnRight,
     hasFixedColumns,

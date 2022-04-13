@@ -1,7 +1,7 @@
-import { defineComponent, provide, unref } from 'vue'
+import { computed, defineComponent, provide, unref } from 'vue'
 import { get } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
-import { isFunction } from '@element-plus/utils'
+import { isFunction, isObject } from '@element-plus/utils'
 import { useTable } from './use-table'
 import { tryCall } from './utils'
 import { TableV2InjectionKey } from './tokens'
@@ -12,7 +12,9 @@ import { tableV2Props } from './table'
 import Table from './table-grid'
 import TableRow from './table-row'
 import TableCell from './table-cell'
+import ExpandIcon from './expand-icon'
 
+import type { VNode } from 'vue'
 import type { TableGridRowSlotParams } from './table-grid'
 import type { TableV2RowCellRenderParam } from './table-row'
 
@@ -24,8 +26,12 @@ const TableV2 = defineComponent({
     const ns = useNamespace('table-v2')
 
     const {
-      columns,
       columnsStyles,
+      columnsTotalWidth,
+      // fixedColumnsOnLeft,
+      // fixedColumnOnRight,
+      mainColumns,
+      mainTableHeight,
       depthMap,
       expandedRowKeys,
       hasFixedColumns,
@@ -33,14 +39,51 @@ const TableV2 = defineComponent({
       mainTableRef,
       isResetting,
       isScrolling,
+      vScrollbarSize,
 
+      onScroll,
       onRowHovered,
       onRowExpanded,
+      onRowsRendered,
     } = useTable(props)
 
+    const bodyWidth = computed(() => {
+      const { fixed, width } = props
+      const ret = width - unref(vScrollbarSize)
+      return fixed ? Math.max(Math.round(unref(columnsTotalWidth)), ret) : ret
+    })
+
+    const headerWidth = computed(
+      () => unref(bodyWidth) + (props.fixed ? unref(vScrollbarSize) : 0)
+    )
+
     function renderMainTable() {
+      const {
+        cache,
+        data,
+        estimatedRowHeight,
+        headerHeight,
+        rowHeight,
+        width,
+      } = props
+
       return (
-        <Table ref={mainTableRef} class={ns.e('main')} columns={unref(columns)}>
+        <Table
+          ref={mainTableRef}
+          cache={cache}
+          class={ns.e('main')}
+          columns={unref(mainColumns)}
+          data={data}
+          estimatedRowHeight={estimatedRowHeight}
+          bodyWidth={unref(bodyWidth)}
+          headerHeight={headerHeight}
+          headerWidth={unref(headerWidth)}
+          rowHeight={rowHeight}
+          height={unref(mainTableHeight)}
+          width={width}
+          onRowsRendered={onRowsRendered}
+          onScroll={onScroll}
+        >
           {renderTableRow}
         </Table>
       )
@@ -130,6 +173,7 @@ const TableV2 = defineComponent({
       columns,
       column,
       columnIndex,
+      expandIconProps,
       isScrolling,
       rowData,
       rowIndex,
@@ -141,7 +185,7 @@ const TableV2 = defineComponent({
           <div class={ns.em('row-cell', 'placeholder')} style={cellStyle} />
         )
       }
-      const { dataKey, dataGetter } = props
+      const { dataKey, dataGetter, rowKey } = props
 
       const CellComponent = slots.cell || ((props) => <TableCell {...props} />)
       const cellData = isFunction(dataGetter)
@@ -167,13 +211,22 @@ const TableV2 = defineComponent({
         column.align === Alignment.RIGHT && ns.em(scope, 'align-right'),
       ]
 
-      // TODO: Add expand icon
-      // expandIconProps,
-      // let ExpandIcon
-      // if (isObject(expandIconProps)) {
-      //   ExpandIcon = <div></div>
-      // }
-      // {ExpandIcon}
+      const expanded =
+        rowIndex >= 0 && unref(expandedRowKeys).includes(rowData[rowKey])
+
+      const expandable = (rowData.children?.length ?? 0) > 0
+
+      let Icon: VNode | undefined
+
+      if (isObject(expandIconProps)) {
+        Icon = (
+          <ExpandIcon
+            {...expandIconProps}
+            expanded={expanded}
+            expandable={expandable}
+          />
+        )
+      }
 
       return (
         <div
@@ -188,6 +241,7 @@ const TableV2 = defineComponent({
           style={cellStyle}
         >
           {Cell}
+          {Icon}
         </div>
       )
     }
