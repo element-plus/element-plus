@@ -16,7 +16,7 @@ import type { CSSProperties } from 'vue'
 import type { FixedDirection, KeyType } from './types'
 import type { TableV2Props } from './table'
 import type { onRowRenderedParams } from './grid'
-import type { RowExpandParams } from './row'
+import type { RowExpandParams, RowHoverParams } from './row'
 // component
 import type { TableGridInstance } from './table-grid'
 
@@ -27,17 +27,22 @@ type Heights = Record<KeyType, CSSProperties['height']>
 function useTable(props: TableV2Props) {
   const emit = getCurrentInstance()!.emit
 
-  const { columns, getColumn, updateColumnWidth } = useColumns(
-    toRef(props, 'columns'),
-    toRef(props, 'fixed')
-  )
+  const {
+    columns,
+    columnsStyles,
+    getColumn,
+    hasFixedColumns,
+    updateColumnWidth,
+  } = useColumns(toRef(props, 'columns'), toRef(props, 'fixed'))
   // state
   const expandedRowKeys = ref<KeyType[]>(props.defaultExpandedRowKeys || [])
-  const hoveringRowKey = ref<Nullable<KeyType>>(null)
+  const depthMap = ref<Record<KeyType, number>>({})
+  const hoveringRowKey = shallowRef<Nullable<KeyType>>(null)
   const resizingKey = shallowRef<Nullable<KeyType>>(null)
   const resizingWidth = shallowRef(0)
   const resetIndex = shallowRef<Nullable<number>>(null)
   const isResetting = shallowRef(false)
+  const isScrolling = shallowRef(false)
 
   // DOM/Component refs
   const containerRef = ref()
@@ -165,7 +170,7 @@ function useTable(props: TableV2Props) {
     }
   }
 
-  function onRowHovered(hovered: boolean, rowKey: KeyType) {
+  function onRowHovered({ hovered, rowKey }: RowHoverParams<any>) {
     if (hovered) hoveringRowKey.value = rowKey
   }
 
@@ -303,11 +308,21 @@ function useTable(props: TableV2Props) {
   })
 
   return {
+    // models
     columns,
     containerRef,
     mainTableRef,
     leftTableRef,
     rightTableRef,
+    // states
+    isResetting,
+    isScrolling,
+    hoveringRowKey,
+    hasFixedColumns,
+    // records
+    columnsStyles,
+    expandedRowKeys,
+    depthMap,
 
     // methods
     scrollTo,

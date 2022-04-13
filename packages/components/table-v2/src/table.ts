@@ -17,6 +17,7 @@ import type { SortOrder } from './constants'
 import type {
   Column,
   ColumnCommonParams,
+  DataGetter,
   KeyType,
   RowCommonParams,
 } from './types'
@@ -110,7 +111,7 @@ export const tableV2Props = buildProps({
     type: definePropType<string | RowClassNameGetter<any>>([String, Function]),
   },
   rowProps: {
-    type: definePropType<any | ExtractRowPropGetter<any>>([Object, Function]),
+    type: definePropType<ExtractRowPropGetter<any> | any>([Object, Function]),
   },
   rowHeight: {
     type: Number,
@@ -121,8 +122,11 @@ export const tableV2Props = buildProps({
    */
   columns,
   data: dataType,
+  dataGetter: {
+    type: definePropType<DataGetter<any>>(Function),
+  },
+  dataKey: String,
   fixedData: fixedDataType,
-
   /**
    * Expanded keys
    */
