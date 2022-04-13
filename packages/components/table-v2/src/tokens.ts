@@ -5,6 +5,7 @@ import type { KeyType } from './types'
 export type TableV2Context = {
   isScrolling: Ref<boolean>
   hoveringRowKey: Ref<KeyType>
+  isResetting: Ref<boolean>
   ns: UseNamespaceReturn
 }
 

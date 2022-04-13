@@ -26,7 +26,7 @@ const TableV2Header = defineComponent({
 
     const headerHeights = computed(() => ensureArray(unref(props.headerHeight)))
 
-    const scrollTo = (left?: number) => {
+    const scrollToLeft = (left?: number) => {
       const headerEl = unref(headerRef)
       nextTick(() => {
         headerEl?.scroll({
@@ -79,7 +79,7 @@ const TableV2Header = defineComponent({
       /**
        * @description scroll to position based on the provided value
        */
-      scrollTo,
+      scrollToLeft,
     })
 
     return () => {
@@ -107,5 +107,5 @@ export type TableV2HeaderInstance = InstanceType<typeof TableV2Header> & {
   /**
    * @description scroll to position based on the provided value
    */
-  scrollTo: (left?: number) => void
+  scrollToLeft: (left?: number) => void
 }
