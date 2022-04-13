@@ -104,7 +104,8 @@ const transformComponentMarkdown = (
     .map(([text, link]) => `[${text}](${link})`)
     .join(' • ')
 
-  const sourceSection = `## ${footerLocale[lang].source}
+  const sourceSection = `
+## ${footerLocale[lang].source}
 
 ${linksText}
 `
