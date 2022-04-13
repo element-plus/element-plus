@@ -257,7 +257,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
   }
 
   @include e(wrapper) {
-    background-color: #fff;
+    background-color: getCssVar('fill-color', 'blank');
     border: 1px solid getCssVar('border-color');
     border-radius: var(--el-border-radius-base);
     position: relative;

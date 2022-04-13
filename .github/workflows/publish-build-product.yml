@@ -1,18 +1,23 @@
-# This workflow runs on target, so there is no need to worry about secrets
-name: 🧪 SSR Testing
+name: 👮‍♂️ Build Product
 
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - 'master'
 
 jobs:
-  # Build successfully, start deployment
-  test:
-    name: SSR rendering test
+  check:
+    name: Build Product Check
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           persist-credentials: false
+
+      - name: Add dev branch
+        run: git branch dev origin/dev
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
@@ -42,5 +47,23 @@ jobs:
       - name: Local build
         run: pnpm build
 
-      - name: Do test
-        run: pnpm test:ssr
+      - name: Check build product
+        run: sh -c ./scripts/file-check.sh
+
+      - name: Diff gen
+        run: pnpm diff:table
+        env:
+          THRESHOLD: 50
+
+      - name: Read diff file
+        id: diff
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./tmp/diff.md
+
+      - name: Set comment
+        uses: actions-cool/maintain-one-comment@v2.0.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: ${{ steps.diff.outputs.content }}
+          body-include: '<sub>Generated with'

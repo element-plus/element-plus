@@ -69,7 +69,7 @@
       }
 
       &.is-disabled {
-        color: var(--el-disabled-text-color);
+        color: getCssVar('disabled-text-color');
         cursor: not-allowed;
       }
     }

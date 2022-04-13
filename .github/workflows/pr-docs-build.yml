@@ -1,4 +1,4 @@
-name: Website Preview
+name: PR Docs Build
 
 on: pull_request
 

@@ -67,8 +67,14 @@ code {
   font-family: var(--code-font-family);
   font-size: var(--code-font-size);
   color: var(--code-text-color);
-  background-color: var(--code-bg-color);
   line-height: var(--code-line-height);
+  background-color: var(--code-bg-color);
+}
+
+pre {
+  code {
+    background-color: transparent;
+  }
 }
 
 a > code {
@@ -102,7 +108,7 @@ li > div[class*='language-'] {
   }
 
   li > div[class*='language-'] {
-    margin: 1rem 0 1rem 0rem;
+    margin: 1rem 0 1rem 0;
     border-radius: 6px;
   }
 }

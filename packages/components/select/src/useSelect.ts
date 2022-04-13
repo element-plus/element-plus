@@ -15,6 +15,7 @@ import {
   CHANGE_EVENT,
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
+  getComponentSize,
 } from '@element-plus/constants'
 import { debugWarn, isKorean, scrollIntoView } from '@element-plus/utils'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
@@ -333,7 +334,10 @@ export const useSelect = (props, states: States, ctx) => {
         (item) => (item as HTMLElement).tagName === 'INPUT'
       ) as HTMLInputElement
       const _tags = tags.value
-      const sizeInMap = states.initialInputHeight || 40
+
+      const sizeInMap =
+        states.initialInputHeight ||
+        getComponentSize(selectSize.value || elForm.size)
       input.style.height =
         states.selected.length === 0
           ? `${sizeInMap}px`

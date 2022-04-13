@@ -39,7 +39,7 @@
         :tabindex="tabindex"
         :aria-label="label"
         :placeholder="placeholder"
-        :style="inputStyle"
+        :style="inputStyleInner"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -52,7 +52,7 @@
 
       <!-- prefix slot -->
       <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
-        <span :class="nsInput.e('prefix-inner')">
+        <span ref="innerPrefixRef" :class="nsInput.e('prefix-inner')">
           <slot name="prefix" />
           <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
             <component :is="prefixIcon" />
@@ -62,7 +62,7 @@
 
       <!-- suffix slot -->
       <span v-if="suffixVisible" :class="nsInput.e('suffix')">
-        <span :class="nsInput.e('suffix-inner')">
+        <span ref="innerSuffixRef" :class="nsInput.e('suffix-inner')">
           <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
             <slot name="suffix" />
             <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
@@ -175,7 +175,7 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { calcTextareaHeight } from './utils'
 import { inputEmits, inputProps } from './input'
-import type { StyleValue } from 'vue'
+import type { CSSProperties, Ref, StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 const PENDANT_MAP = {
@@ -443,7 +443,57 @@ watch(
   }
 )
 
+// Get the widths of 'suffix' and 'prefix' to set the padding property of the input
+// https://github.com/element-plus/element-plus/issues/6464
+const innerSuffixRef = ref<HTMLElement>()
+const innerPrefixRef = ref<HTMLElement>()
+const inputStyleInner = ref<CSSProperties>({})
+const getSuffixOrPrefixWidth = (
+  slotElm: Ref<HTMLElement>,
+  defaultVal: number
+): number => {
+  if (slotElm.value) {
+    const slotElmWidth = (slotElm.value as HTMLElement).offsetWidth
+    return slotElmWidth > 0 ? slotElmWidth + 16 : defaultVal
+  }
+  return defaultVal
+}
+const setInputPadding = (): void => {
+  if (innerSuffixRef.value && !innerPrefixRef.value) {
+    inputStyleInner.value = {
+      paddingRight: `${getSuffixOrPrefixWidth(innerSuffixRef, 0)}px`,
+      ...props.inputStyle,
+    }
+    return
+  }
+  if (!innerSuffixRef.value && innerPrefixRef.value) {
+    inputStyleInner.value = {
+      paddingLeft: `${getSuffixOrPrefixWidth(innerPrefixRef, 11)}px`,
+      ...props.inputStyle,
+    }
+    return
+  }
+  if (innerSuffixRef.value && innerPrefixRef.value) {
+    inputStyleInner.value = {
+      paddingRight: `${getSuffixOrPrefixWidth(innerSuffixRef, 0)}px`,
+      paddingLeft: `${getSuffixOrPrefixWidth(innerPrefixRef, 11)}px`,
+      ...props.inputStyle,
+    }
+    return
+  }
+  // If the user sets 'padding', use the 'padding' set by the user
+  inputStyleInner.value = {
+    ...props.inputStyle,
+  }
+}
+watch(showClear, () => {
+  nextTick(() => {
+    setInputPadding()
+  })
+})
+
 onMounted(async () => {
+  setInputPadding()
   setNativeInputValue()
   updateIconOffset()
   await nextTick()

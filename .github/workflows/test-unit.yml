@@ -1,4 +1,6 @@
-name: Unit Test
+# Unit Test
+
+name: 🧪 Unit Test
 
 on: pull_request
 
@@ -46,6 +48,6 @@ jobs:
       - name: Test
         run: pnpm test:jest && pnpm test:coverage
       - name: Upload to codecov.io
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           fail_ci_if_error: true

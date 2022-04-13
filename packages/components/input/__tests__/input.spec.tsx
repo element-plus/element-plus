@@ -461,6 +461,27 @@ describe('Input.vue', () => {
     expect(input.element.style.color === 'red').toBeTruthy()
     expect(textarea.element.style.color === 'red').toBeTruthy()
   })
+  test('input-padding', async () => {
+    const wrapper = mount(() => (
+      <>
+        <Input
+          placeholder="请输入内容"
+          v-slots={{
+            suffix: () => <div>suffix</div>,
+            prefix: () => <div>prefix</div>,
+          }}
+          input-style={{ color: 'red', paddingRight: '30px' }}
+        />
+      </>
+    ))
+
+    const input = wrapper.find('input')
+    await nextTick()
+    expect(input.element.style.color === 'red').toBeTruthy()
+    expect(input.element.style.paddingLeft).toBeTruthy()
+    expect(input.element.style.paddingRight).toBeTruthy()
+    expect(input.element.style.paddingRight).toBe('30px')
+  })
 
   describe('Textarea Events', () => {
     test('event:keydown', async () => {

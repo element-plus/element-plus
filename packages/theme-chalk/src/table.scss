@@ -345,7 +345,7 @@
         &.#{$namespace}-table-fixed-column--right {
           position: sticky !important;
           z-index: 2;
-          background: #fff;
+          background: getCssVar('bg-color');
           &.is-last-column,
           &.is-first-column {
             &::before {

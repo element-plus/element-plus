@@ -1,9 +1,9 @@
 # This workflow runs on target, so there is no need to worry about secrets
-name: Website Preview Deploy
+name: PR Docs Deploy
 
 on:
   workflow_run:
-    workflows: ['Website Preview']
+    workflows: ['PR Docs Build']
     types: [completed]
 
 jobs:
