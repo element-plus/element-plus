@@ -71,9 +71,11 @@ export const useTree = (
     ...attrs,
     nodeKey: key,
     defaultExpandedKeys: computed(() =>
-      props.defaultExpandedKeys
-        ? props.defaultExpandedKeys.concat(props.modelValue)
-        : toValidArray(props.modelValue)
+      props.modelValue !== undefined
+        ? props.defaultExpandedKeys
+          ? props.defaultExpandedKeys.concat(props.modelValue)
+          : toValidArray(props.modelValue)
+        : props.defaultExpandedKeys
     ),
     renderContent: (h, { node, data, store }) => {
       return h(
