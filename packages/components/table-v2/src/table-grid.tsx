@@ -230,6 +230,11 @@ const TableGrid = defineComponent({
 
 export default TableGrid
 
+export type TableGridRowSlotParams = {
+  columns: TableV2GridProps['columns']
+  rowData: any
+} & GridDefaultSlotParams
+
 export type TableGridInstance = InstanceType<typeof TableGrid> &
   UnwrapRef<{
     /**

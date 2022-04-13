@@ -131,7 +131,7 @@ const COMPONENT_NAME = 'ElTableV2TableRow'
 const TableV2Row = defineComponent({
   name: COMPONENT_NAME,
   props: tableV2RowProps,
-  setup(props, { expose, slots }) {
+  setup(props, { expose, slots, attrs }) {
     const {
       eventHandlers,
       isScrolling,
@@ -193,6 +193,7 @@ const TableV2Row = defineComponent({
             ref={rowRef}
             class={props.class}
             style={_measured ? style : expectHeight}
+            {...attrs}
             {...unref(eventHandlers)}
           >
             {ColumnCells}
@@ -206,3 +207,18 @@ const TableV2Row = defineComponent({
 })
 
 export default TableV2Row
+
+export type TableV2RowCellRenderParam = {
+  column: TableV2RowProps['columns'][number]
+  columns: TableV2RowProps['columns']
+  columnIndex: number
+  rowData: any
+  rowIndex: number
+  isScrolling: boolean
+  expandIconProps?: {
+    depth: number
+    rowData: any
+    rowIndex: number
+    onExpand: (expand: boolean) => void
+  }
+}

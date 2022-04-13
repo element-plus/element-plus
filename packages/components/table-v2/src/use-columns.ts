@@ -72,7 +72,7 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
     unref(fixedColumnsOnLeft).forEach((column) => {
       ret.push({
         ...column,
-        isPlaceholder: placeholderSign,
+        placeholderSign,
       })
     })
 
@@ -83,14 +83,18 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
     unref(fixedColumnOnRight).forEach((column) => {
       ret.push({
         ...column,
-        isPlaceholder: placeholderSign,
+        placeholderSign,
       })
     })
 
     return ret
   })
 
-  const columnsStyle = computed(() => {
+  const hasFixedColumns = computed(() => {
+    return unref(fixedColumnsOnLeft).length || unref(fixedColumnOnRight).length
+  })
+
+  const columnsStyles = computed(() => {
     const columns = unref(_columns)
 
     return columns.reduce<Record<Column<any>['key'], CSSProperties>>(
@@ -118,7 +122,7 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
   }
 
   const getColumnStyle = (key: KeyType) => {
-    return unref(columnsStyle)[key]
+    return unref(columnsStyles)[key]
   }
 
   const updateColumnWidth = (column: Column<any>, width: number) => {
@@ -127,9 +131,10 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
 
   return {
     columns: _columns,
-    columnsStyle,
+    columnsStyles,
     fixedColumnsOnLeft,
     fixedColumnOnRight,
+    hasFixedColumns,
     mainColumns,
     normalColumns,
     visibleColumns,

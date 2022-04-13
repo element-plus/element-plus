@@ -51,11 +51,6 @@ export type HeaderRenderer<T> = (params: HeaderRendererParams<T>) => VNode
 export type Column<T = any> = {
   key: KeyType
   /**
-   * Data part
-   */
-  dataKey?: string
-  dataGetter?: DataGetter<T>
-  /**
    * Attributes
    */
   align?: Alignment

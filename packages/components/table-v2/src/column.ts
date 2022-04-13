@@ -4,7 +4,6 @@ import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type {
   Alignment,
   CellRenderer,
-  DataGetter,
   FixedDirection,
   HeaderRenderer,
 } from './types'
@@ -23,7 +22,6 @@ export const tableV2ColumnProps = buildProps({
     default: 'left',
   },
   class: String,
-  dataKey: String,
   fixed: {
     type: definePropType<boolean | FixedDirection>([String, Boolean]),
     default: false,
@@ -48,9 +46,7 @@ export const tableV2ColumnProps = buildProps({
   cellRenderer: {
     type: definePropType<CellRenderer<any>>(Function),
   },
-  dataGetter: {
-    type: definePropType<DataGetter<any>>(Function),
-  },
+
   headerRenderer: {
     type: definePropType<HeaderRenderer<any>>(Function),
   },
