@@ -314,7 +314,7 @@
     .#{bem('upload-list', 'item')} {
       overflow: hidden;
       background-color: getCssVar('fill-color', 'blank');
-      border: 1px solid #c0ccda;
+      border: 1px solid getCssVar('border-color');
       border-radius: 6px;
       box-sizing: border-box;
       width: getCssVar('upload-list', 'picture-card', 'size');
@@ -420,7 +420,7 @@
       overflow: hidden;
       z-index: 0;
       background-color: getCssVar('fill-color', 'blank');
-      border: 1px solid #c0ccda;
+      border: 1px solid getCssVar('border-color');
       border-radius: 6px;
       box-sizing: border-box;
       margin-top: 10px;
