@@ -458,6 +458,7 @@ describe('Input.vue', () => {
     const input = wrapper.find('input')
     const textarea = wrapper.find('textarea')
     await nextTick()
+    await nextTick()
     expect(input.element.style.color === 'red').toBeTruthy()
     expect(textarea.element.style.color === 'red').toBeTruthy()
   })
@@ -476,6 +477,7 @@ describe('Input.vue', () => {
     ))
 
     const input = wrapper.find('input')
+    await nextTick()
     await nextTick()
     expect(input.element.style.color === 'red').toBeTruthy()
     expect(input.element.style.paddingLeft).toBeTruthy()
