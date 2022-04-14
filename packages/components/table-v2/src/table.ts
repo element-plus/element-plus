@@ -178,7 +178,7 @@ export const tableV2Props = buildProps({
   },
   onRowExpand: tableV2RowProps.onRowExpand,
   onScroll: tableV2GridProps.onScroll,
-  onRowRendered: tableV2GridProps.onRowRendered,
+  onRowRendered: tableV2GridProps.onRowsRendered,
   rowEventHandlers: tableV2RowProps.rowEventHandlers,
 } as const)
 

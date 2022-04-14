@@ -5,7 +5,7 @@ import { isFunction, isObject } from '@element-plus/utils'
 import { useTable } from './use-table'
 import { tryCall } from './utils'
 import { TableV2InjectionKey } from './tokens'
-import { Alignment } from './constants'
+import { Alignment, SortOrder, oppositeOrderMap } from './constants'
 import { placeholderSign } from './private'
 import { tableV2Props } from './table'
 // components
@@ -14,7 +14,9 @@ import TableRow from './table-row'
 import TableHeaderRow from './table-header-row'
 import TableCell from './table-cell'
 import TableHeaderCell from './table-header-cell'
+import ColumnResizer from './table-column-resizer'
 import ExpandIcon from './expand-icon'
+import SortIcon from './sort-icon'
 
 import type { VNode } from 'vue'
 import type { TableGridRowSlotParams } from './table-grid'
@@ -49,6 +51,9 @@ const TableV2 = defineComponent({
       vScrollbarSize,
 
       onColumnSorted,
+      onColumnResized,
+      onColumnResizeStart,
+      onColumnResizeEnd,
       onRowHovered,
       onRowExpanded,
       onRowsRendered,
@@ -302,7 +307,7 @@ const TableV2 = defineComponent({
         return
       }
 
-      const { headerCellRenderer, headerClass } = column
+      const { headerCellRenderer, headerClass, sortable, resizable } = column
 
       /**
        * render Cell children
@@ -319,7 +324,7 @@ const TableV2 = defineComponent({
       /**
        * Render cell container and sort indicator
        */
-      // const { sortBy, sortState, headerCellProps } = props
+      const { sortBy, sortState, headerCellProps } = props
 
       const element = 'header-cell'
       const cellKls = [
@@ -327,29 +332,43 @@ const TableV2 = defineComponent({
         ...tryCall(headerClass, renderHeaderCellProps, ''),
         column.align === Alignment.CENTER && ns.em(element, 'align-center'),
         column.align === Alignment.RIGHT && ns.em(element, 'align-right'),
-        column.sortable && ns.is('sortable'),
+        sortable && ns.is('sortable'),
         column.key === unref(resizingKey) && ns.is('resizing'),
       ]
 
-      // let sorting: boolean, sortOrder: SortOrder
-      // if (sortState) {
-      //   const order = sortState[column.key]
-      //   sorting = Boolean(oppositeOrderMap[order])
-      //   sortOrder = sorting ? order : SortOrder.ASC
-      // } else {
-      //   sorting = column.key === sortBy.key
-      //   sortOrder = sorting ? sortBy.order : SortOrder.ASC
-      // }
+      let sorting: boolean, sortOrder: SortOrder
+      if (sortState) {
+        const order = sortState[column.key]
+        sorting = Boolean(oppositeOrderMap[order])
+        sortOrder = sorting ? order : SortOrder.ASC
+      } else {
+        sorting = column.key === sortBy.key
+        sortOrder = sorting ? sortBy.order : SortOrder.ASC
+      }
 
       const cellProps = {
-        ...tryCall(props.headerCellProps, renderHeaderCellProps),
+        ...tryCall(headerCellProps, renderHeaderCellProps),
         onClick: column.sortable ? onColumnSorted : undefined,
         class: cellKls,
         style: unref(columnsStyles)[column.key],
         dataKey: column.key,
       }
 
-      return <div {...cellProps}>{Cell}</div>
+      return (
+        <div {...cellProps}>
+          {Cell}
+          {sortable && <SortIcon sortOrder={sortOrder} />}
+          {resizable && (
+            <ColumnResizer
+              class={ns.e('column-resizer')}
+              column={column}
+              onResize={onColumnResized}
+              onResizeStart={onColumnResizeStart}
+              onResizeStop={onColumnResizeEnd}
+            />
+          )}
+        </div>
+      )
     }
 
     provide(TableV2InjectionKey, {
