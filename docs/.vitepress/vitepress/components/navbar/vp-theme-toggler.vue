@@ -5,7 +5,7 @@ import CommonThemeToggler from '../common/vp-theme-toggler.vue'
 
 <template>
   <div class="theme-toggler-content">
-    <CommonThemeToggler @click="toggleDark()" />
+    <CommonThemeToggler @click="() => toggleDark()" />
   </div>
 </template>
 
@@ -15,11 +15,12 @@ import CommonThemeToggler from '../common/vp-theme-toggler.vue'
   @include with-bg;
   display: none;
   border-radius: 50%;
-  height: 20px;
-  padding: 0 8px;
+  height: 24px;
+  padding: 0 12px;
 
   @include respond-to('md') {
-    display: block;
+    display: flex;
+    align-items: center;
   }
 }
 </style>

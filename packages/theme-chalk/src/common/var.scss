@@ -49,31 +49,19 @@ $color-error: map.get($colors, 'error', 'base') !default;
 $color-info: map.get($colors, 'info', 'base') !default;
 
 // https://sass-lang.com/documentation/values/maps#immutability
-// mix color with white
-@mixin set-color-type-light($type, $number) {
+// mix colors with white/black to generate light/dark level
+@mixin set-color-mix-level(
+  $type,
+  $number,
+  $mode: 'light',
+  $mix-color: $color-white
+) {
   $colors: map.deep-merge(
     (
       $type: (
-        'light-#{$number}':
+        '#{$mode}-#{$number}':
           mix(
-            $color-white,
-            map.get($colors, $type, 'base'),
-            math.percentage(math.div($number, 10))
-          ),
-      ),
-    ),
-    $colors
-  ) !global;
-}
-
-// mix color with black
-@mixin set-color-type-dark($type, $number) {
-  $colors: map.deep-merge(
-    (
-      $type: (
-        'dark-#{$number}':
-          mix(
-            $color-black,
+            $mix-color,
             map.get($colors, $type, 'base'),
             math.percentage(math.div($number, 10))
           ),
@@ -94,14 +82,15 @@ $color-info: map.get($colors, 'info', 'base') !default;
 // 70% c6e2ff
 // 80% d9ecff
 // 90% ecf5ff
-@for $i from 1 through 9 {
-  @each $type in $types {
-    @include set-color-type-light($type, $i);
+@each $type in $types {
+  @for $i from 1 through 9 {
+    @include set-color-mix-level($type, $i, 'light', $color-white);
   }
 }
+
 // --el-color-primary-dark-2
 @each $type in $types {
-  @include set-color-type-dark($type, 2);
+  @include set-color-mix-level($type, 2, 'dark', $color-black);
 }
 
 $text-color: () !default;
@@ -233,7 +222,7 @@ $disabled: () !default;
 $disabled: map.merge(
   (
     'bg-color': getCssVar('fill-color', 'light'),
-    'text-color': getCssVar('text-color-placeholder'),
+    'text-color': getCssVar('text-color', 'placeholder'),
     'border-color': getCssVar('border-color', 'light'),
   ),
   $disabled
@@ -294,7 +283,7 @@ $checkbox: map.merge(
     'checked-text-color': getCssVar('color-primary'),
     'checked-input-border-color': getCssVar('color-primary'),
     'checked-bg-color': getCssVar('color-primary'),
-    'checked-icon-color': getCssVar('fill-color', 'blank'),
+    'checked-icon-color': getCssVar('color', 'white'),
     'input-border-color-hover': getCssVar('color-primary'),
   ),
   $checkbox
@@ -447,7 +436,7 @@ $select-group: map.merge(
 $select-dropdown: () !default;
 $select-dropdown: map.merge(
   (
-    'bg-color': getCssVar('color-white'),
+    'bg-color': getCssVar('bg-color', 'overlay'),
     'shadow': getCssVar('box-shadow-light'),
     'empty-color': getCssVar('text-color-secondary'),
     'max-height': 274px,
@@ -622,7 +611,7 @@ $cascader: map.merge(
   (
     'menu-text-color': getCssVar('text-color-regular'),
     'menu-selected-text-color': getCssVar('color-primary'),
-    'menu-fill': getCssVar('fill-color', 'blank'),
+    'menu-fill': getCssVar('bg-color', 'overlay'),
     'menu-font-size': getCssVar('font-size-base'),
     'menu-radius': getCssVar('border-radius-base'),
     'menu-border': solid 1px getCssVar('border-color-light'),
@@ -746,7 +735,7 @@ $dialog: map.merge(
   (
     'width': 50%,
     'margin-top': 15vh,
-    'bg-color': getCssVar('color-white'),
+    'bg-color': getCssVar('bg-color'),
     'box-shadow': getCssVar('box-shadow'),
     'title-font-size': getCssVar('font-size-large'),
     'content-font-size': 14px,
@@ -886,6 +875,7 @@ $tag: map.merge(
   (
     'font-size': 12px,
     'border-radius': 4px,
+    'border-radius-rounded': 9999px,
   ),
   $tag
 );
@@ -950,10 +940,7 @@ $drawer: () !default;
 $drawer: map.merge(
   (
     'bg-color':
-      var(
-        #{getCssVarName('dialog', 'bg-color')},
-        #{getCssVar('color', 'white')}
-      ),
+      var(#{getCssVarName('dialog', 'bg-color')}, #{getCssVar('bg-color')}),
     'padding-primary': var(#{getCssVarName('dialog', 'padding-primary')}, 20px),
   ),
   $drawer
@@ -1163,7 +1150,7 @@ $timeline: map.merge(
 $backtop: () !default;
 $backtop: map.merge(
   (
-    'bg-color': getCssVar('fill-color', 'blank'),
+    'bg-color': getCssVar('bg-color', 'overlay'),
     'text-color': getCssVar('color-primary'),
     'hover-bg-color': getCssVar('border-color-extra-light'),
   ),
@@ -1248,7 +1235,6 @@ $avatar-size: map.merge(
 );
 
 // Empty
-
 // css3 var in packages/theme-chalk/src/empty.scss
 $empty: () !default;
 $empty: map.merge(
@@ -1272,7 +1258,6 @@ $empty: map.merge(
 );
 
 // Descriptions
-
 // css3 var in packages/theme-chalk/src/descriptions.scss
 $descriptions: () !default;
 $descriptions: map.merge(

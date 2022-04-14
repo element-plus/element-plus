@@ -1,4 +1,4 @@
-import { describe, expect, it, spyOn } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { isFocusable, triggerEvent } from '../..'
 
 const CE = (tag: string) => document.createElement(tag)
@@ -7,7 +7,7 @@ describe('Aria Utils', () => {
   describe('Trigger Event', () => {
     it('Util trigger event to trigger event correctly', () => {
       const div = document.createElement('div')
-      spyOn(div, 'dispatchEvent')
+      vi.spyOn(div, 'dispatchEvent')
       const eventName = 'click'
       triggerEvent(div, eventName)
       expect(div.dispatchEvent).toHaveBeenCalled()

@@ -121,6 +121,7 @@ export default defineComponent({
     }
 
     const afterLeave = () => {
+      emit('update:visible', false)
       emit('after-leave')
     }
 

@@ -14,6 +14,7 @@ import { isClient } from '@vueuse/core'
 import { BAR_MAP } from '@element-plus/components/scrollbar'
 import { cAF, off, on, rAF } from '@element-plus/utils'
 
+import { useNamespace } from '@element-plus/hooks'
 import { HORIZONTAL, SCROLLBAR_MIN_SIZE, ScrollbarDirKey } from '../defaults'
 import { virtualizedScrollbarProps } from '../props'
 import { renderThumbStyle } from '../utils'
@@ -27,6 +28,8 @@ const ScrollBar = defineComponent({
   setup(props, { emit }) {
     const GAP = 4 // top 2 + bottom 2 | left 2 + right 2
 
+    const nsVirtualScrollbar = useNamespace('virtual-scrollbar')
+    const nsScrollbar = useNamespace('scrollbar')
     // DOM refs
     const trackRef = ref<HTMLElement>()
     const thumbRef = ref<HTMLElement>()
@@ -260,7 +263,7 @@ const ScrollBar = defineComponent({
         {
           role: 'presentation',
           ref: trackRef,
-          class: 'el-virtual-scrollbar',
+          class: nsVirtualScrollbar.b(),
           style: trackStyle.value,
           onMousedown: withModifiers(clickTrackHandler, ['stop', 'prevent']),
         },
@@ -268,7 +271,7 @@ const ScrollBar = defineComponent({
           'div',
           {
             ref: thumbRef,
-            class: 'el-scrollbar__thumb',
+            class: nsScrollbar.e('thumb'),
             style: thumbStyle.value,
             onMousedown: onThumbMouseDown,
           },

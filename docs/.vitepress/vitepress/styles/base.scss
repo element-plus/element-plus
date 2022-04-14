@@ -47,6 +47,24 @@ h6 {
   line-height: 1.25;
 }
 
+.doc-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    // Special case for handling tagged header.
+    .el-tag {
+      margin-left: 8px;
+    }
+  }
+}
+
 h1,
 h2,
 h3,
@@ -137,17 +155,16 @@ a {
 }
 
 a.header-anchor {
-  float: left;
+  position: absolute;
   margin-top: 0.125em;
   margin-left: -0.87em;
   padding-right: 0.23em;
   font-size: 0.85em;
   opacity: 0;
-}
-
-a.header-anchor:hover,
-a.header-anchor:focus {
-  text-decoration: none;
+  &:hover,
+  :focus {
+    text-decoration: none;
+  }
 }
 
 figure {

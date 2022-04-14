@@ -88,7 +88,7 @@
             height="36"
           />
           <g id="Rectangle-Copy-17" transform="translate(53.000000, 45.000000)">
-            <mask :id="`mask-4-${id}`" fill="var(--el-empty-fill-color-0)">
+            <mask :id="`mask-4-${id}`" fill="white">
               <use :xlink:href="`#path-3-${id}`" />
             </mask>
             <use

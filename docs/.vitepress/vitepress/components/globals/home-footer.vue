@@ -77,10 +77,11 @@ const homeLang = computed(() => homeLocale[lang.value])
 <style lang="scss">
 .footer {
   background-color: var(--bg-color);
-  width: 100%;
-  padding: 40px 80px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 19px;
   box-sizing: border-box;
-  height: 340px;
+  // height: 340px;
 
   .container {
     box-sizing: border-box;

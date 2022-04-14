@@ -48,25 +48,6 @@ describe('ElFormItem', () => {
     model.email = ''
   })
 
-  describe('When initialized', () => {
-    it('should throw when no form on top', () => {
-      const warnHandler = jest.fn()
-      try {
-        mount(FormItem, {
-          global: {
-            config: {
-              warnHandler,
-            },
-          },
-        })
-      } catch (e) {
-        expect(e).toBeInstanceOf(Error)
-      }
-
-      expect(warnHandler).toHaveBeenCalled()
-    })
-  })
-
   describe('when validation dispatches', () => {
     beforeEach(() => {
       createComponent()

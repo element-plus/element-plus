@@ -46,7 +46,7 @@
         <path
           :class="ns.be('circle', 'track')"
           :d="trackPath"
-          stroke="#e5e9f2"
+          stroke="var(--el-fill-color-light, #e5e9f2)"
           :stroke-width="relativeStrokeWidth"
           fill="none"
           :style="trailPathStyle"

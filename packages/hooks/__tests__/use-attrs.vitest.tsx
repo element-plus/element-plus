@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, fn, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { useAttrs } from '../use-attrs'
 
 const CLASS = 'a'
@@ -9,7 +9,7 @@ const TEST_KEY = 'test'
 const TEST_VALUE = 'fake'
 const ANOTHER_TEST_VALUE = 'fake1'
 
-const handleClick = fn()
+const handleClick = vi.fn()
 
 const genComp = (
   inheritAttrs = true,
