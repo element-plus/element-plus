@@ -11,12 +11,18 @@ import { tableV2Props } from './table'
 // components
 import Table from './table-grid'
 import TableRow from './table-row'
+import TableHeaderRow from './table-header-row'
 import TableCell from './table-cell'
+import TableHeaderCell from './table-header-cell'
 import ExpandIcon from './expand-icon'
 
 import type { VNode } from 'vue'
 import type { TableGridRowSlotParams } from './table-grid'
 import type { TableV2RowCellRenderParam } from './table-row'
+import type { TableV2HeaderRendererParams } from './table-header'
+import type { TableV2HeaderCell } from './header-cell'
+
+import type { TableV2HeaderRowCellRendererParams } from './table-header-row'
 
 const COMPONENT_NAME = 'ElTableV2'
 const TableV2 = defineComponent({
@@ -39,12 +45,14 @@ const TableV2 = defineComponent({
       mainTableRef,
       isResetting,
       isScrolling,
+      resizingKey,
       vScrollbarSize,
 
-      onScroll,
+      onColumnSorted,
       onRowHovered,
       onRowExpanded,
       onRowsRendered,
+      onScroll,
     } = useTable(props)
 
     const bodyWidth = computed(() => {
@@ -84,16 +92,55 @@ const TableV2 = defineComponent({
           onRowsRendered={onRowsRendered}
           onScroll={onScroll}
         >
-          {renderTableRow}
+          {{ row: renderTableRow, header: renderHeader }}
         </Table>
       )
     }
 
-    // function renderLeftTable() {}
+    // function renderLeftTable() {
+    //   const columns = unref(fixedColumnsOnLeft)
+    //   if (columns.length === 0) return
+
+    //   const { estimatedRowHeight, headerHeight, rowHeight, width } = props
+
+    //   return <Table>{}</Table>
+    // }
 
     // function renderRightTable() {}
 
-    // function renderHeader() {}
+    function renderHeader({
+      columns,
+      headerIndex,
+      style,
+    }: TableV2HeaderRendererParams) {
+      const param = { columns, headerIndex }
+
+      const headerClass = [
+        ns.e('header-row'),
+        tryCall(props.headerClass, param, ''),
+        {
+          [ns.is('resizing')]: unref(resizingKey),
+          [ns.is('customized')]: Boolean(slots.header),
+        },
+      ]
+
+      const headerProps = {
+        ...tryCall(props.headerProps, param),
+        class: headerClass,
+        columns,
+        headerIndex,
+        style,
+      }
+
+      return (
+        <TableHeaderRow {...headerProps}>
+          {{
+            default: slots.header,
+            cell: renderHeaderCell,
+          }}
+        </TableHeaderRow>
+      )
+    }
 
     // function renderFooter() {}
 
@@ -244,6 +291,65 @@ const TableV2 = defineComponent({
           {Icon}
         </div>
       )
+    }
+
+    function renderHeaderCell(
+      renderHeaderCellProps: TableV2HeaderRowCellRendererParams
+    ) {
+      const { column } = renderHeaderCellProps
+
+      if (column.placeholderSign === placeholderSign) {
+        return
+      }
+
+      const { headerCellRenderer, headerClass } = column
+
+      /**
+       * render Cell children
+       */
+      const cellRenderer =
+        headerCellRenderer ||
+        ((props: TableV2HeaderCell) => <TableHeaderCell {...props} />)
+
+      const Cell = cellRenderer({
+        ...renderHeaderCellProps,
+        class: ns.e('header-cell-text'),
+      })
+
+      /**
+       * Render cell container and sort indicator
+       */
+      // const { sortBy, sortState, headerCellProps } = props
+
+      const element = 'header-cell'
+      const cellKls = [
+        ns.e(element),
+        ...tryCall(headerClass, renderHeaderCellProps, ''),
+        column.align === Alignment.CENTER && ns.em(element, 'align-center'),
+        column.align === Alignment.RIGHT && ns.em(element, 'align-right'),
+        column.sortable && ns.is('sortable'),
+        column.key === unref(resizingKey) && ns.is('resizing'),
+      ]
+
+      // let sorting: boolean, sortOrder: SortOrder
+      // if (sortState) {
+      //   const order = sortState[column.key]
+      //   sorting = Boolean(oppositeOrderMap[order])
+      //   sortOrder = sorting ? order : SortOrder.ASC
+      // } else {
+      //   sorting = column.key === sortBy.key
+      //   sortOrder = sorting ? sortBy.order : SortOrder.ASC
+      // }
+
+      const cellProps = {
+        ...tryCall(props.headerCellProps, renderHeaderCellProps),
+        onClick: column.sortable ? onColumnSorted : undefined,
+        class: cellKls,
+        style: unref(columnsStyles)[column.key],
+        dataKey: column.key,
+      }
+
+      return <div {...cellProps}>{Cell}</div>
     }
 
     provide(TableV2InjectionKey, {

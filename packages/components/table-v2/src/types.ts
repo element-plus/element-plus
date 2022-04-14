@@ -40,13 +40,16 @@ export type DataGetterParams<T> = {
 
 export type DataGetter<T> = (params: DataGetterParams<T>) => T
 export type ClassNameGetter<T> = (params: ClassNameGetterParams<T>) => string
+export type HeaderClassGetter<T> = (
+  params: ColumnCommonParams<T> & { headerIndex: number }
+) => string
 
 /**
  * Renderer/Getter types
  */
 export type CellRenderer<T> = (params: CellRendererParams<T>) => VNode
 
-export type HeaderRenderer<T> = (params: HeaderRendererParams<T>) => VNode
+export type HeaderCellRenderer<T> = (params: HeaderRendererParams<T>) => VNode
 
 export type Column<T = any> = {
   key: KeyType
@@ -54,10 +57,11 @@ export type Column<T = any> = {
    * Attributes
    */
   align?: Alignment
-  className?: any | ClassNameGetter<T>
+  class?: string | ClassNameGetter<T>
   fixed?: true | FixedDirection
   title?: string
   hidden?: boolean
+  headerClass: HeaderClassGetter<T> | string
   maxWidth?: number
   minWidth?: number
   resizable?: boolean
@@ -68,7 +72,7 @@ export type Column<T = any> = {
    * Renderers
    */
   cellRenderer?: CellRenderer<T>
-  headerRenderer?: HeaderRenderer<T>
+  headerCellRenderer?: HeaderCellRenderer<T>
   /**
    * Extendable sections
    */
