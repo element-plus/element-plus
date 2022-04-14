@@ -284,6 +284,7 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
 const clearValidate: FormItemContext['clearValidate'] = () => {
   setValidationState('')
   validateMessage.value = ''
+  isResettingField = false
 }
 
 const resetField: FormItemContext['resetField'] = async () => {
