@@ -121,7 +121,7 @@ export const useTree = (
           select.value?.handleOptionSelect(option, true)
         }
       } else {
-        e.ctx.handleExpandIconClick()
+        e.proxy.handleExpandIconClick()
       }
     },
     onCheck: (data, params) => {
