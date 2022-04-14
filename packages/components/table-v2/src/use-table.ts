@@ -204,7 +204,10 @@ function useTable(props: TableV2Props) {
     props.onExpandedRowsChange?.(_expandedRowKeys)
   }
 
-  function onColumnResized(key: KeyType, width: number) {
+  function onColumnResized(
+    { key }: TableV2Props['columns'][number],
+    width: number
+  ) {
     resizingWidth.value = width
     const column = getColumn(key)!
 
@@ -212,7 +215,7 @@ function useTable(props: TableV2Props) {
     props.onColumnResize?.(column, width)
   }
 
-  function onColumnResizeStart(key: KeyType) {
+  function onColumnResizeStart({ key }: TableV2Props['columns'][number]) {
     resizingKey.value = key
   }
 
