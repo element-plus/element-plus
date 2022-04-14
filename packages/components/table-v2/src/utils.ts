@@ -8,7 +8,8 @@ export const sumHeights = (heights: number | number[]) => {
 
 export const tryCall = <T>(
   fLike: T,
-  params: T extends (...args: infer K) => unknown ? K : any
+  params: T extends (...args: infer K) => unknown ? K : any,
+  defaultRet = {}
 ) => {
-  return isFunction(fLike) ? fLike(params) : fLike ?? {}
+  return isFunction(fLike) ? fLike(params) : fLike ?? defaultRet
 }

@@ -220,7 +220,12 @@ const TableGrid = defineComponent({
               rowHeight={rowHeight}
               width={width}
               height={Math.min(_headerHeight + unref(fixedRowHeight), height)}
-            ></Header>
+            >
+              {{
+                dynamic: slots.header,
+                fixed: slots.row,
+              }}
+            </Header>
           )}
         </div>
       )

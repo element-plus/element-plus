@@ -4,6 +4,7 @@ import { ensureArray } from '@element-plus/utils'
 import { tableV2HeaderProps } from './header'
 
 import type { CSSProperties } from 'vue'
+import type { TableV2HeaderProps } from './header'
 
 const COMPONENT_NAME = 'ElTableV2Header'
 const TableV2Header = defineComponent({
@@ -109,3 +110,15 @@ export type TableV2HeaderInstance = InstanceType<typeof TableV2Header> & {
    */
   scrollToLeft: (left?: number) => void
 }
+
+export type TableV2HeaderRendererParams = {
+  class: string
+  columns: TableV2HeaderProps['columns']
+  headerIndex: number
+  style: CSSProperties
+}
+
+export type TableV2HeaderRowRendererParams = {
+  rowData: any
+  rowIndex: number
+} & Omit<TableV2HeaderRendererParams, 'headerIndex'>

@@ -10,7 +10,7 @@ import {
 import { isObject, isUndefined } from '@element-plus/utils'
 import { sumHeights } from './utils'
 import { useColumns } from './use-columns'
-import { SortOrder } from './constants'
+import { SortOrder, oppositeOrderMap } from './constants'
 
 import type { CSSProperties } from 'vue'
 import type { FixedDirection, KeyType } from './types'
@@ -233,11 +233,6 @@ function useTable(props: TableV2Props) {
 
     let order = SortOrder.ASC
 
-    const oppositeOrderMap = {
-      [SortOrder.ASC]: SortOrder.DESC,
-      [SortOrder.DESC]: SortOrder.ASC,
-    }
-
     if (isObject(sortState)) {
       order = oppositeOrderMap[sortState[key]]
     } else {
@@ -324,6 +319,7 @@ function useTable(props: TableV2Props) {
     hoveringRowKey,
     hasFixedColumns,
     hScrollbarSize,
+    resizingKey,
     vScrollbarSize,
     // records
     columnsStyles,
