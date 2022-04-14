@@ -70,11 +70,25 @@ export const useTree = (
     ...pick(toRefs(props), Object.keys(ElTree.props)),
     ...attrs,
     nodeKey: key,
-    defaultExpandedKeys: computed(() =>
-      props.defaultExpandedKeys
-        ? props.defaultExpandedKeys.concat(props.modelValue)
-        : toValidArray(props.modelValue)
-    ),
+
+    // only expand on click node when the `check-strictly` is false
+    expandOnClickNode: computed(() => {
+      return !props.checkStrictly
+    }),
+
+    // auto expand selected parent node
+    defaultExpandedKeys: computed(() => {
+      const values = toValidArray(props.modelValue)
+      const parentKeys = tree.value
+        ? values
+            .map((item) => tree.value?.getNode(item)?.parent?.key)
+            .filter((item) => isValidValue(item))
+        : values
+      return props.defaultExpandedKeys
+        ? props.defaultExpandedKeys.concat(parentKeys)
+        : parentKeys
+    }),
+
     renderContent: (h, { node, data, store }) => {
       return h(
         TreeSelectOption,
@@ -131,6 +145,10 @@ export const useTree = (
   }
 }
 
+function isValidValue(val: any) {
+  return val || val === 0
+}
+
 function toValidArray(val: any) {
-  return Array.isArray(val) ? val : val || val === 0 ? [val] : []
+  return Array.isArray(val) ? val : isValidValue(val) ? [val] : []
 }

@@ -39,6 +39,7 @@ const createComponent = ({
           },
         ],
         'onUpdate:modelValue': (val: string) => (value.value = val),
+        renderAfterExpand: false,
         ...props,
       }
     },
@@ -205,15 +206,15 @@ describe('TreeSelect.vue', () => {
   })
 
   test('filter', async () => {
-    const { select, tree } = createComponent({
+    const { tree } = createComponent({
       props: {
         filterable: true,
       },
     })
 
-    select.vm.query = '一级 1'
+    tree.vm.filter('一级 1')
     await nextTick()
-    expect(tree.findAll('.el-tree-node').length).toBe(1)
+    expect(tree.findAll('.el-tree-node:not(.is-hidden)').length).toBe(1)
   })
 
   test('props', async () => {
@@ -240,7 +241,7 @@ describe('TreeSelect.vue', () => {
     })
 
     await nextTick()
-    expect(tree.find('.el-tree-node').text()).toBe('1')
+    expect(tree.find('.el-select-dropdown__item').text()).toBe('1')
     wrapper.vm.modelValue = '2'
     await nextTick()
     expect(select.vm.selectedLabel).toBe('2')
