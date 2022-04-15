@@ -129,7 +129,9 @@ export const useDialog = (
   if (props.closeOnPressEscape) {
     useModal(
       {
-        handleClose,
+        handleClose: () => {
+          props.closeOnPressEscape && handleClose()
+        },
       },
       visible
     )
