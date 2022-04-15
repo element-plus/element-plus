@@ -11,7 +11,11 @@
   line-height: #{map.get($input-height, 'default') - 2};
 
   .#{$namespace}-input {
-    display: block;
+    &__wrapper {
+      display: block;
+      padding-left: #{map.get($input-height, 'default') + 10};
+      padding-right: #{map.get($input-height, 'default') + 10};
+    }
 
     &__inner {
       -webkit-appearance: none;
@@ -21,8 +25,6 @@
         margin: 0;
         -webkit-appearance: none;
       }
-      padding-left: #{map.get($input-height, 'default') + 10};
-      padding-right: #{map.get($input-height, 'default') + 10};
       text-align: center;
     }
   }
@@ -48,7 +50,7 @@
     &:hover {
       color: var(--el-color-primary);
 
-      & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input__inner {
+      & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input_wrapper {
         box-shadow: 0 0 0 1px
           var(
             --el-input-focus-border-color,
@@ -98,7 +100,7 @@
         font-size: map.get($input-font-size, $size);
       }
 
-      .#{$namespace}-input__inner {
+      .#{$namespace}-input__wrapper {
         padding-left: #{map.get($input-height, $size) + 7};
         padding-right: #{map.get($input-height, $size) + 7};
       }
@@ -114,14 +116,14 @@
   }
 
   @include when(without-controls) {
-    .#{$namespace}-input__inner {
+    .#{$namespace}-input__wrapper {
       padding-left: 15px;
       padding-right: 15px;
     }
   }
 
   @include when(controls-right) {
-    .#{$namespace}-input__inner {
+    .#{$namespace}-input__wrapper {
       padding-left: 15px;
       padding-right: #{map.get($input-height, 'default') + 10};
     }

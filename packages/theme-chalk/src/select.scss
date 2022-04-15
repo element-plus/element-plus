@@ -54,23 +54,26 @@
   }
 
   &:hover:not(.#{$namespace}-select--disabled) {
-    .#{$namespace}-input__inner {
+    .#{$namespace}-input__wrapper {
       box-shadow: 0 0 0 1px var(--el-select-border-color-hover) inset;
     }
   }
 
   @include select-common(select);
 
-  .#{$namespace}-input__inner {
+  .#{$namespace}-input__wrapper {
     cursor: pointer;
-    display: inline-flex;
 
-    &:focus {
+    @include when(focus) {
       @include inset-input-border(
         var(--el-select-input-focus-border-color),
         true
       );
     }
+  }
+
+  .#{$namespace}-input__inner {
+    cursor: pointer;
   }
 
   .#{$namespace}-input {
@@ -108,19 +111,22 @@
     }
 
     &.is-disabled {
-      & .#{$namespace}-input__inner {
+      & .#{$namespace}-input__wrapper {
         cursor: not-allowed;
 
         &:hover {
           @include inset-input-border(var(--el-select-disabled-border));
         }
       }
+      & .#{$namespace}-input__inner {
+        cursor: not-allowed;
+      }
       & .#{$namespace}-select__caret {
         cursor: not-allowed;
       }
     }
 
-    &.is-focus .#{$namespace}-input__inner {
+    &.is-focus .#{$namespace}-input__wrapper {
       @include inset-input-border(
         var(--el-select-input-focus-border-color),
         true

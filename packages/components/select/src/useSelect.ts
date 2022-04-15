@@ -329,9 +329,8 @@ export const useSelect = (props, states: States, ctx) => {
     if (props.collapseTags && !props.filterable) return
     nextTick(() => {
       if (!reference.value) return
-      const inputChildNodes = reference.value.$el.childNodes
-      const input = Array.from(inputChildNodes).find(
-        (item) => (item as HTMLElement).tagName === 'INPUT'
+      const input = reference.value.$el.querySelector(
+        'input'
       ) as HTMLInputElement
       const _tags = tags.value
 
