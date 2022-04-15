@@ -126,16 +126,14 @@ export const useDialog = (
     useLockscreen(visible)
   }
 
-  if (props.closeOnPressEscape) {
-    useModal(
-      {
-        handleClose: () => {
-          props.closeOnPressEscape && handleClose()
-        },
+  useModal(
+    {
+      handleClose: () => {
+        props.closeOnPressEscape && handleClose()
       },
-      visible
-    )
-  }
+    },
+    visible
+  )
 
   useRestoreActive(visible)
 
