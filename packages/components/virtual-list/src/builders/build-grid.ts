@@ -5,7 +5,6 @@ import {
   h,
   nextTick,
   onMounted,
-  onUpdated,
   ref,
   resolveDynamicComponent,
   unref,
@@ -244,14 +243,13 @@ const createGrid = ({
           xAxisScrollDir,
           yAxisScrollDir,
         } = unref(states)
-        emit(
-          SCROLL_EVT,
+        emit(SCROLL_EVT, {
           xAxisScrollDir,
           scrollLeft,
           yAxisScrollDir,
           scrollTop,
-          updateRequested
-        )
+          updateRequested,
+        })
       }
 
       const onScroll = (e: Event) => {
@@ -265,6 +263,7 @@ const createGrid = ({
         } = e.currentTarget as HTMLElement
 
         const _states = unref(states)
+
         if (
           _states.scrollTop === scrollTop &&
           _states.scrollLeft === scrollLeft
@@ -293,13 +292,14 @@ const createGrid = ({
             0,
             Math.min(scrollTop, scrollHeight - clientHeight)
           ),
-          updateRequested: false,
+          updateRequested: true,
           xAxisScrollDir: getScrollDir(_states.scrollLeft, _scrollLeft),
           yAxisScrollDir: getScrollDir(_states.scrollTop, scrollTop),
         }
 
-        nextTick(resetIsScrolling)
+        nextTick(() => resetIsScrolling())
 
+        onUpdated()
         emitEvents()
       }
 
@@ -373,7 +373,10 @@ const createGrid = ({
           updateRequested: true,
         }
 
-        nextTick(resetIsScrolling)
+        nextTick(() => resetIsScrolling())
+
+        onUpdated()
+        emitEvents()
       }
 
       const scrollToItem = (
@@ -476,12 +479,11 @@ const createGrid = ({
         emitEvents()
       })
 
-      onUpdated(() => {
+      const onUpdated = () => {
         const { direction } = props
         const { scrollLeft, scrollTop, updateRequested } = unref(states)
 
         const windowElement = unref(windowRef)
-
         if (updateRequested && windowElement) {
           if (direction === RTL) {
             switch (getRTLOffsetType()) {
@@ -506,7 +508,7 @@ const createGrid = ({
 
           windowElement.scrollTop = Math.max(0, scrollTop)
         }
-      })
+      }
 
       expose({
         windowRef,

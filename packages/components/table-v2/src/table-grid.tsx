@@ -211,7 +211,7 @@ const TableGrid = defineComponent({
           {unref(hasHeader) && (
             <Header
               ref={headerRef}
-              class={ns.e('header')}
+              class={ns.e('header-wrapper')}
               columns={columns}
               headerData={data}
               headerHeight={_headerHeight}

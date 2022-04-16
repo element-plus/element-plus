@@ -12,7 +12,7 @@ import { tableV2RowProps } from './row'
 import { tableV2HeaderProps } from './header'
 import { tableV2GridProps } from './grid'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { SortOrder } from './constants'
 import type {
   Column,
@@ -125,7 +125,10 @@ export const tableV2Props = buildProps({
   dataGetter: {
     type: definePropType<DataGetter<any>>(Function),
   },
-  dataKey: String,
+  dataKey: {
+    type: String,
+    default: 'id',
+  },
   fixedData: fixedDataType,
   /**
    * Expanded keys
@@ -141,11 +144,19 @@ export const tableV2Props = buildProps({
   disabled: Boolean,
   fixed: Boolean,
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<CSSProperties>(Object),
   },
   width: requiredNumber,
   height: requiredNumber,
   maxHeight: Number,
+  indentSize: {
+    type: Number,
+    default: 12,
+  },
+  iconSize: {
+    type: Number,
+    default: 12,
+  },
 
   /**
    * Sorting

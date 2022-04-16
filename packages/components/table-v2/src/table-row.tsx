@@ -7,7 +7,7 @@ import {
   ref,
   unref,
 } from 'vue'
-import { isFunction } from '@element-plus/utils'
+import { isArray, isFunction } from '@element-plus/utils'
 import { tableV2RowProps } from './row'
 import { TableV2InjectionKey } from './tokens'
 import { placeholderSign } from './private'
@@ -154,28 +154,37 @@ const TableV2Row = defineComponent({
         props
 
       let ColumnCells: ColumnCellsType = columns.map((column, columnIndex) => {
+        const expandable =
+          isArray(rowData.children) &&
+          rowData.children.length > 0 &&
+          column.key === expandColumnKey
+
         return slots.cell!({
           column,
           columns,
           columnIndex,
+          depth,
           rowData,
           rowIndex,
           isScrolling: unref(isScrolling),
-          expandIconProps:
-            column.key === expandColumnKey
-              ? {
-                  depth,
-                  rowData,
-                  rowIndex,
-                  onExpand,
-                }
-              : undefined,
+          expandIconProps: expandable
+            ? {
+                rowData,
+                rowIndex,
+                onExpand,
+              }
+            : undefined,
         })
       })
 
       if (slots.default) {
         ColumnCells = slots.default({
-          cells: ColumnCells,
+          cells: ColumnCells.map((node) => {
+            if (isArray(node) && node.length === 1) {
+              return node[0]
+            }
+            return node
+          }),
           columns,
           depth,
           rowData,
@@ -186,13 +195,13 @@ const TableV2Row = defineComponent({
 
       if (unref(measurable)) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { height, ...expectHeight } = style || {}
+        const { height, ...exceptHeightStyle } = style || {}
         const _measured = unref(measured)
         return (
           <div
             ref={rowRef}
             class={props.class}
-            style={_measured ? style : expectHeight}
+            style={_measured ? style : exceptHeightStyle}
             {...attrs}
             {...unref(eventHandlers)}
           >
@@ -201,7 +210,17 @@ const TableV2Row = defineComponent({
         )
       }
 
-      return <div ref={rowRef}>{ColumnCells}</div>
+      return (
+        <div
+          {...attrs}
+          ref={rowRef}
+          class={props.class}
+          style={style}
+          {...unref(eventHandlers)}
+        >
+          {ColumnCells}
+        </div>
+      )
     }
   },
 })
@@ -212,11 +231,11 @@ export type TableV2RowCellRenderParam = {
   column: TableV2RowProps['columns'][number]
   columns: TableV2RowProps['columns']
   columnIndex: number
+  depth: number
   rowData: any
   rowIndex: number
   isScrolling: boolean
   expandIconProps?: {
-    depth: number
     rowData: any
     rowIndex: number
     onExpand: (expand: boolean) => void

@@ -64,6 +64,45 @@ function useTable(props: TableV2Props) {
   const hScrollbarSize = shallowRef(0)
   const vScrollbarSize = shallowRef(0)
 
+  const flattenedData = computed(() => {
+    const depths = {}
+    const { data, rowKey } = props
+
+    const _expandedRowKeys = unref(expandedRowKeys)
+
+    if (!_expandedRowKeys || !_expandedRowKeys.length) return data
+
+    const array: any[] = []
+    const keysSet = new Set()
+    _expandedRowKeys.forEach((x) => keysSet.add(x))
+
+    let copy: any[] = data.slice()
+    copy.forEach((x) => (depths[x[rowKey]] = 0))
+    while (copy.length > 0) {
+      const item = copy.shift()!
+
+      array.push(item)
+      if (
+        keysSet.has(item[rowKey]) &&
+        Array.isArray(item.children) &&
+        item.children.length > 0
+      ) {
+        copy = [...item.children, ...copy]
+        item.children.forEach(
+          (child: any) => (depths[child[rowKey]] = depths[item[rowKey]] + 1)
+        )
+      }
+    }
+
+    depthMap.value = depths
+    return array
+  })
+
+  const data = computed(() => {
+    const { data, expandColumnKey } = props
+    return expandColumnKey ? unref(flattenedData) : data
+  })
+
   const mainTableHeight = computed(() => {
     const { height = 0, maxHeight = 0, footerHeight } = props
 
@@ -327,6 +366,7 @@ function useTable(props: TableV2Props) {
     // records
     columnsStyles,
     columnsTotalWidth,
+    data,
     expandedRowKeys,
     depthMap,
     fixedColumnsOnLeft,

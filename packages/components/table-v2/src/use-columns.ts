@@ -1,4 +1,4 @@
-import { computed, ref, unref, watch } from 'vue'
+import { computed, ref, unref, watchEffect } from 'vue'
 import { placeholderSign } from './private'
 
 import type { CSSProperties, Ref } from 'vue'
@@ -10,8 +10,19 @@ const calcColumnStyle = (
   column: Column<any>,
   fixedColumn: boolean
 ): CSSProperties => {
+  const flex = {
+    flexGrow: 0,
+    flexShrink: 0,
+  }
+
+  if (column.fixed) {
+    flex.flexShrink = 1
+  }
+
   const style = {
     ...(column.style ?? {}),
+    ...flex,
+    flexBasis: 'auto',
     width: column.width,
   }
 
@@ -113,16 +124,11 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
     )
   })
 
-  watch(
-    columns,
-    (val) => {
-      _columns.value = mapColumns(val, __columns)
-      __columns = unref(_columns)
-    },
-    {
-      deep: true,
-    }
-  )
+  watchEffect(() => {
+    const mappedColumns = mapColumns(unref(columns), __columns)
+    _columns.value = mappedColumns
+    __columns = mappedColumns
+  })
 
   const getColumn = (key: KeyType) => {
     return unref(_columns).find((column) => column.key === key)
