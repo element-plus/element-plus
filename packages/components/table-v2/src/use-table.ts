@@ -7,8 +7,8 @@ import {
   unref,
   watch,
 } from 'vue'
-import { isObject, isUndefined } from '@element-plus/utils'
-import { sumHeights } from './utils'
+import { isNumber, isObject, isUndefined } from '@element-plus/utils'
+import { sum } from './utils'
 import { useColumns } from './use-columns'
 import { SortOrder, oppositeOrderMap } from './constants'
 
@@ -56,13 +56,22 @@ function useTable(props: TableV2Props) {
 
   const scrollPos = ref<ScrollPos>({ scrollLeft: 0, scrollTop: 0 })
   const lastRenderedRowIndex = ref(-1)
-  const rowsHeight = shallowRef(0)
   const rowHeights = shallowRef<Heights>({})
   const leftTableHeights = shallowRef<Heights>({})
   const mainTableHeights = shallowRef<Heights>({})
   const rightTableHeights = shallowRef<Heights>({})
   const hScrollbarSize = shallowRef(0)
   const vScrollbarSize = shallowRef(0)
+
+  const rowsHeight = computed(() => {
+    const { rowHeight, estimatedRowHeight } = props
+    const _data = unref(data)
+    if (isNumber(estimatedRowHeight)) {
+      return _data.length * estimatedRowHeight
+    }
+
+    return _data.length * rowHeight
+  })
 
   const flattenedData = computed(() => {
     const depths = {}
@@ -119,7 +128,23 @@ function useTable(props: TableV2Props) {
     return height - footerHeight
   })
 
-  const headerHeight = computed(() => sumHeights(props.headerHeight))
+  const fixedTableHeight = computed(() => {
+    const tableHeight =
+      unref(mainTableHeight) -
+      (unref(data).length > 0 ? unref(hScrollbarSize) : 0)
+    if (isNumber(props.maxHeight) && props.maxHeight > 0) return tableHeight
+
+    const totalHeight =
+      unref(rowsHeight) + unref(headerHeight) + unref(fixedRowsHeight)
+
+    return Math.min(tableHeight, totalHeight)
+  })
+
+  const leftTableWidth = computed(() =>
+    sum(unref(fixedColumnsOnLeft).map((column) => column.width))
+  )
+
+  const headerHeight = computed(() => sum(props.headerHeight))
 
   const fixedRowsHeight = computed(() => {
     return (props.fixedData?.length || 0) * props.rowHeight
@@ -172,8 +197,6 @@ function useTable(props: TableV2Props) {
       unref(lastRenderedRowIndex) >= 0 &&
       _totalHeight !== unref(rowsHeight)
     ) {
-      rowsHeight.value = _totalHeight
-
       onEndReached(heightUntilEnd)
     }
   }
@@ -200,7 +223,7 @@ function useTable(props: TableV2Props) {
     props.onScroll?.(params)
   }
 
-  function onVerticalScroll(scrollTop: number) {
+  function onVerticalScroll({ scrollTop }: ScrollPos) {
     const { scrollTop: currentScrollTop } = unref(scrollPos)
     if (scrollTop !== currentScrollTop) scrollToTop(scrollTop)
   }
@@ -374,6 +397,8 @@ function useTable(props: TableV2Props) {
     mainColumns,
     // metadata
     mainTableHeight,
+    fixedTableHeight,
+    leftTableWidth,
 
     // methods
     scrollTo,

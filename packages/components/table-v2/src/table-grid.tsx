@@ -7,7 +7,7 @@ import { isObject } from '@element-plus/utils'
 import Header from './table-header'
 import { TableV2InjectionKey } from './tokens'
 import { tableV2GridProps } from './grid'
-import { sumHeights } from './utils'
+import { sum } from './utils'
 
 import type { UnwrapRef } from 'vue'
 import type {
@@ -42,7 +42,7 @@ const useTableGrid = (props: TableV2GridProps) => {
     return (fixedData?.length || 0) * rowHeight
   })
 
-  const headerHeight = computed(() => sumHeights(props.headerHeight))
+  const headerHeight = computed(() => sum(props.headerHeight))
 
   const gridHeight = computed(() => {
     const { height } = props

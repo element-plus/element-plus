@@ -90,6 +90,7 @@ const useTableRow = (props: TableV2RowProps) => {
           { name: 'onMouseenter', hovered: true },
         ] as const
       ).forEach(({ name, hovered }) => {
+        const existedHandler = eventHandlers[name]
         eventHandlers[name] = (event: MouseEvent) => {
           onRowHover({
             event,
@@ -99,7 +100,7 @@ const useTableRow = (props: TableV2RowProps) => {
             rowKey,
           })
 
-          eventHandlers[name]?.(event)
+          existedHandler?.(event)
         }
       })
     }

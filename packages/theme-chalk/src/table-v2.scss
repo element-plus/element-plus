@@ -24,6 +24,16 @@
   }
 }
 
+@mixin table-root() {
+  display: flex;
+  flex-direction: column-reverse;
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+  background-color: getCssVar('bg', 'color');
+}
+
 @include b('table-v2') {
   @include set-component-css-var('table', $table);
 }
@@ -38,8 +48,12 @@
   }
 
   @include e('main') {
-    display: flex;
-    flex-direction: column-reverse;
+    @include table-root;
+  }
+
+  @include e('left') {
+    @include table-root;
+    box-shadow: 2px 0 4px 0 rgb(0 0 0 / 6%);
   }
 
   @include e('header-wrapper') {
