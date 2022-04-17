@@ -6,13 +6,13 @@ import { TableV2InjectionKey } from './tokens'
 import { tableV2Props } from './table'
 // renderers
 import MainTable from './renderers/main-table'
+import LeftTable from './renderers/left-table'
 import Row from './renderers/row'
 import Cell from './renderers/cell'
 import Header from './renderers/header'
 import HeaderCell from './renderers/header-cell'
 
 import type { CSSProperties } from 'vue'
-import type { TableV2GridProps } from './grid'
 import type { TableGridRowSlotParams } from './table-grid'
 import type { TableV2RowCellRenderParam } from './table-row'
 import type { TableV2HeaderRendererParams } from './table-header'
@@ -29,16 +29,19 @@ const TableV2 = defineComponent({
     const {
       columnsStyles,
       columnsTotalWidth,
-      // fixedColumnsOnLeft,
+      fixedColumnsOnLeft,
       // fixedColumnOnRight,
       mainColumns,
       mainTableHeight,
+      fixedTableHeight,
+      leftTableWidth,
       data,
       depthMap,
       expandedRowKeys,
       hasFixedColumns,
       hoveringRowKey,
       mainTableRef,
+      leftTableRef,
       isResetting,
       isScrolling,
       resizingKey,
@@ -52,6 +55,7 @@ const TableV2 = defineComponent({
       onRowExpanded,
       onRowsRendered,
       onScroll,
+      onVerticalScroll,
     } = useTable(props)
 
     const bodyWidth = computed(() => {
@@ -116,27 +120,53 @@ const TableV2 = defineComponent({
         width,
       } = props
 
-      const mainTableProps: TableV2GridProps = {
+      const _data = unref(data)
+
+      const mainTableProps = {
         cache,
         class: ns.e('main'),
         columns: unref(mainColumns),
-        data: unref(data),
+        data: _data,
         fixedData,
         estimatedRowHeight,
         bodyWidth: unref(bodyWidth),
         headerHeight,
         headerWidth: unref(headerWidth),
-        rowHeight,
         height: unref(mainTableHeight),
+        mainTableRef,
+        rowHeight,
         useIsScrolling,
         width,
         onRowsRendered,
         onScroll,
       }
 
+      const leftColumnsWidth = unref(leftTableWidth)
+      const leftColumnsWidthWithScrollbar =
+        leftColumnsWidth + unref(vScrollbarSize)
+      const _fixedTableHeight = unref(fixedTableHeight)
+
+      const leftTableProps = {
+        cache,
+        class: ns.e('left'),
+        columns: unref(fixedColumnsOnLeft),
+        data: _data,
+        estimatedRowHeight,
+        leftTableRef,
+        rowHeight,
+        bodyWidth: leftColumnsWidthWithScrollbar,
+        headerWidth: leftColumnsWidthWithScrollbar,
+        headerHeight,
+        height: _fixedTableHeight,
+        useIsScrolling,
+        width: leftColumnsWidthWithScrollbar,
+        onScroll: onVerticalScroll,
+      }
+
       const tableRowProps = {
         ns,
         depthMap: unref(depthMap),
+        expandColumnKey,
         expandedRowKeys: unref(expandedRowKeys),
         estimatedRowHeight,
         hasFixedColumns: unref(hasFixedColumns),
@@ -180,32 +210,33 @@ const TableV2 = defineComponent({
         onColumnSorted,
       }
 
-      return (
-        <div class={[ns.b(), ns.e('root')]} style={unref(rootStyle)}>
-          <MainTable mainTableRef={mainTableRef} {...mainTableProps}>
+      const tableSlots = {
+        row: (props: TableGridRowSlotParams) => (
+          <Row {...props} {...tableRowProps}>
             {{
-              row: (props: TableGridRowSlotParams) => (
-                <Row {...props} {...tableRowProps}>
-                  {{
-                    row: slots.row,
-                    cell: (props: TableV2RowCellRenderParam) => (
-                      <Cell {...props} {...tableCellProps} />
-                    ),
-                  }}
-                </Row>
-              ),
-              header: (props: TableV2HeaderRendererParams) => (
-                <Header {...props} {...tableHeaderProps}>
-                  {{
-                    header: slots.header,
-                    cell: (props: TableV2HeaderRowCellRendererParams) => (
-                      <HeaderCell {...props} {...tableHeaderCellProps} />
-                    ),
-                  }}
-                </Header>
+              row: slots.row,
+              cell: (props: TableV2RowCellRenderParam) => (
+                <Cell {...props} {...tableCellProps} />
               ),
             }}
-          </MainTable>
+          </Row>
+        ),
+        header: (props: TableV2HeaderRendererParams) => (
+          <Header {...props} {...tableHeaderProps}>
+            {{
+              header: slots.header,
+              cell: (props: TableV2HeaderRowCellRendererParams) => (
+                <HeaderCell {...props} {...tableHeaderCellProps} />
+              ),
+            }}
+          </Header>
+        ),
+      }
+
+      return (
+        <div class={[ns.b(), ns.e('root')]} style={unref(rootStyle)}>
+          <MainTable {...mainTableProps}>{tableSlots}</MainTable>
+          <LeftTable {...leftTableProps}>{tableSlots}</LeftTable>
         </div>
       )
     }

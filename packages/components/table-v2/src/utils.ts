@@ -2,10 +2,10 @@ import { addUnit, isArray, isFunction } from '@element-plus/utils'
 
 import type { CSSProperties } from 'vue'
 
-export const sumHeights = (heights: number | number[]) => {
-  return isArray(heights)
-    ? heights.reduce((sum, height) => sum + height, 0)
-    : heights
+const sumReducer = (sum: number, num: number) => sum + num
+
+export const sum = (listLike: number | number[]) => {
+  return isArray(listLike) ? listLike.reduce(sumReducer, 0) : listLike
 }
 
 export const tryCall = <T>(

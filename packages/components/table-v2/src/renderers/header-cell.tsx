@@ -42,8 +42,10 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     onColumnSorted,
   } = props
 
+  const style = columnsStyles[column.key]
+
   if (column.placeholderSign === placeholderSign) {
-    return
+    return <div class={ns.em('header-row-cell', 'placeholder')} style={style} />
   }
 
   const { headerCellRenderer, headerClass, sortable, resizable } = column
@@ -88,7 +90,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     ...tryCall(headerCellProps, props),
     onClick: column.sortable ? onColumnSorted : undefined,
     class: cellKls,
-    style: columnsStyles[column.key],
+    style,
     ['data-key']: column.key,
   }
 
