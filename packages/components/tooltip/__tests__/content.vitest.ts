@@ -1,5 +1,14 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest'
 import { usePopperContainer } from '@element-plus/hooks'
 import { genTooltipProvides } from '../test-helper/provides'
 import ElTooltipContent from '../src/content.vue'

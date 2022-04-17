@@ -1,16 +1,16 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import Tooltip from '../src/tooltip.vue'
 
 import type { VNode } from 'vue'
+import type { SpyInstanceFn } from 'vitest'
 
-jest.useFakeTimers()
-
-jest.mock('@element-plus/utils/error', () => ({
-  debugWarn: jest.fn(),
+vi.mock('@element-plus/utils/error', () => ({
+  debugWarn: vi.fn(),
 }))
 
 const AXIOM = 'Rem is the best girl'
@@ -32,7 +32,7 @@ describe('<ElTooltip />', () => {
   afterEach(() => {
     wrapper?.unmount()
     document.body.innerHTML = ''
-    ;(debugWarn as jest.Mock).mockClear()
+    ;(debugWarn as SpyInstanceFn).mockClear()
   })
 
   describe('rendering', () => {
@@ -84,18 +84,22 @@ describe('<ElTooltip />', () => {
 
     it('should be able to open & close tooltip content', async () => {
       wrapper = createComponent({}, content)
-      await nextTick()
 
       const trigger$ = findTrigger()
       const triggerEl = trigger$.find('.el-tooltip__trigger')
+
+      vi.useFakeTimers()
       await triggerEl.trigger('mouseenter')
-      jest.runAllTimers()
+      vi.runAllTimers()
+      vi.useRealTimers()
       await rAF()
 
       expect(wrapper.emitted()).toHaveProperty('show')
 
+      vi.useFakeTimers()
       await triggerEl.trigger('mouseleave') // dispatches a timer with 200ms timeout.
-      jest.runAllTimers()
+      vi.runAllTimers()
+      vi.useRealTimers()
       await rAF()
 
       expect(wrapper.emitted()).toHaveProperty('hide')
@@ -112,13 +116,18 @@ describe('<ElTooltip />', () => {
 
       const trigger$ = findTrigger()
       const triggerEl = trigger$.find('.el-tooltip__trigger')
+
+      vi.useFakeTimers()
       await triggerEl.trigger('click')
-      jest.runAllTimers()
+      vi.runAllTimers()
+      vi.useRealTimers()
       await rAF()
       expect(wrapper.emitted()).toHaveProperty('show')
 
+      vi.useFakeTimers()
       await triggerEl.trigger('click')
-      jest.runAllTimers()
+      vi.runAllTimers()
+      vi.useRealTimers()
       await rAF()
       expect(wrapper.emitted()).toHaveProperty('hide')
     })
