@@ -1,17 +1,15 @@
-import { defineComponent } from 'vue'
-
 import type { TableV2CellProps } from './cell'
 
-const TableV2Cell = defineComponent((props: TableV2CellProps, { slots }) => {
+const TableV2Cell = (props: TableV2CellProps, { slots }) => {
+  const { cellData, style } = props
+  const displayText = cellData?.toString?.() || ''
   return (
-    <div class={props.class}>
-      {slots.default
-        ? slots.default(props)
-        : String.prototype.toString.call(props.cellData)}
+    <div class={props.class} title={displayText} style={style}>
+      {slots.default ? slots.default(props) : displayText}
     </div>
   )
-})
+}
 
-TableV2Cell.name = 'ElTableV2Cell'
+TableV2Cell.componentName = 'ElTableV2Cell'
 
 export default TableV2Cell

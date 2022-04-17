@@ -2,6 +2,7 @@ import { computed, defineComponent, nextTick, ref, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { ensureArray } from '@element-plus/utils'
 import { tableV2HeaderProps } from './header'
+import { enforceUnit } from './utils'
 
 import type { CSSProperties } from 'vue'
 import type { TableV2HeaderProps } from './header'
@@ -15,15 +16,19 @@ const TableV2Header = defineComponent({
 
     const headerRef = ref<HTMLElement>()
 
-    const headerStyle = computed(() => ({
-      width: props.width,
-      height: props.height,
-    }))
+    const headerStyle = computed(() =>
+      enforceUnit({
+        width: props.width,
+        height: props.height,
+      })
+    )
 
-    const rowStyle = computed(() => ({
-      width: props.rowWidth,
-      height: props.height,
-    }))
+    const rowStyle = computed(() =>
+      enforceUnit({
+        width: props.rowWidth,
+        height: props.height,
+      })
+    )
 
     const headerHeights = computed(() => ensureArray(unref(props.headerHeight)))
 
@@ -42,10 +47,10 @@ const TableV2Header = defineComponent({
       const { columns, fixedHeaderData, rowHeight } = props
 
       return fixedHeaderData?.map((fixedRowData, fixedRowIndex) => {
-        const style: CSSProperties = {
+        const style: CSSProperties = enforceUnit({
           height: rowHeight,
           width: '100%',
-        }
+        })
 
         return slots.fixed?.({
           class: fixedRowClassName,
@@ -62,10 +67,10 @@ const TableV2Header = defineComponent({
       const { columns } = props
 
       return unref(headerHeights).map((rowHeight, rowIndex) => {
-        const style: CSSProperties = {
+        const style: CSSProperties = enforceUnit({
           width: '100%',
           height: rowHeight,
-        }
+        })
 
         return slots.dynamic?.({
           class: dynamicRowClassName,
@@ -87,11 +92,7 @@ const TableV2Header = defineComponent({
       if (props.height <= 0) return
 
       return (
-        <div
-          ref={headerRef}
-          class={[props.class, ns.e('header-wrapper')]}
-          style={unref(headerStyle)}
-        >
+        <div ref={headerRef} class={props.class} style={unref(headerStyle)}>
           <div style={unref(rowStyle)} class={ns.e('header')}>
             {renderDynamicRows()}
             {renderFixedRows()}

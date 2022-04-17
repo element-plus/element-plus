@@ -3,7 +3,7 @@ import { get } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import { isFunction, isObject } from '@element-plus/utils'
 import { useTable } from './use-table'
-import { tryCall } from './utils'
+import { enforceUnit, tryCall } from './utils'
 import { TableV2InjectionKey } from './tokens'
 import { Alignment, SortOrder, oppositeOrderMap } from './constants'
 import { placeholderSign } from './private'
@@ -18,7 +18,7 @@ import ColumnResizer from './table-column-resizer'
 import ExpandIcon from './expand-icon'
 import SortIcon from './sort-icon'
 
-import type { VNode } from 'vue'
+import type { CSSProperties, VNode } from 'vue'
 import type { TableGridRowSlotParams } from './table-grid'
 import type { TableV2RowCellRenderParam } from './table-row'
 import type { TableV2HeaderRendererParams } from './table-header'
@@ -40,6 +40,7 @@ const TableV2 = defineComponent({
       // fixedColumnOnRight,
       mainColumns,
       mainTableHeight,
+      data,
       depthMap,
       expandedRowKeys,
       hasFixedColumns,
@@ -66,6 +67,15 @@ const TableV2 = defineComponent({
       return fixed ? Math.max(Math.round(unref(columnsTotalWidth)), ret) : ret
     })
 
+    const rootStyle = computed<CSSProperties>(() => {
+      const { style = {}, height, width } = props
+      return enforceUnit({
+        ...style,
+        height,
+        width,
+      })
+    })
+
     const headerWidth = computed(
       () => unref(bodyWidth) + (props.fixed ? unref(vScrollbarSize) : 0)
     )
@@ -73,7 +83,7 @@ const TableV2 = defineComponent({
     function renderMainTable() {
       const {
         cache,
-        data,
+        fixedData,
         estimatedRowHeight,
         headerHeight,
         rowHeight,
@@ -86,7 +96,8 @@ const TableV2 = defineComponent({
           cache={cache}
           class={ns.e('main')}
           columns={unref(mainColumns)}
-          data={data}
+          data={unref(data)}
+          fixedData={fixedData}
           estimatedRowHeight={estimatedRowHeight}
           bodyWidth={unref(bodyWidth)}
           headerHeight={headerHeight}
@@ -165,14 +176,14 @@ const TableV2 = defineComponent({
         rowEventHandlers,
       } = props
 
-      const rowKls = tryCall(rowClass, { columns, rowData, rowIndex })
+      const rowKls = tryCall(rowClass, { columns, rowData, rowIndex }, '')
       const additionalProps = tryCall(rowProps, {
         columns,
         rowData,
         rowIndex,
       })
       const _rowKey = rowData[rowKey]
-      const depth = depthMap[_rowKey] || 0
+      const depth = unref(depthMap)[_rowKey] || 0
       const canExpand = Boolean(expandColumnKey)
       const isFixedRow = rowIndex < 0
       const kls = [
@@ -225,19 +236,20 @@ const TableV2 = defineComponent({
       columns,
       column,
       columnIndex,
+      depth,
       expandIconProps,
       isScrolling,
       rowData,
       rowIndex,
     }: TableV2RowCellRenderParam) {
-      const cellStyle = unref(columnsStyles)[column.key]
+      const cellStyle = enforceUnit(unref(columnsStyles)[column.key])
 
       if (column.placeholderSign === placeholderSign) {
         return (
           <div class={ns.em('row-cell', 'placeholder')} style={cellStyle} />
         )
       }
-      const { dataKey, dataGetter, rowKey } = props
+      const { dataKey, dataGetter } = column
 
       const CellComponent = slots.cell || ((props) => <TableCell {...props} />)
       const cellData = isFunction(dataGetter)
@@ -245,6 +257,7 @@ const TableV2 = defineComponent({
         : get(rowData, dataKey ?? '')
 
       const cellProps = {
+        class: ns.e('cell-text'),
         columns,
         column,
         columnIndex,
@@ -256,28 +269,42 @@ const TableV2 = defineComponent({
 
       const Cell = CellComponent(cellProps)
 
-      const scope = 'row-cell'
       const kls = [
-        ns.e(scope),
-        column.align === Alignment.CENTER && ns.em(scope, 'align-center'),
-        column.align === Alignment.RIGHT && ns.em(scope, 'align-right'),
+        ns.e('row-cell'),
+        column.align === Alignment.CENTER && ns.is('align-center'),
+        column.align === Alignment.RIGHT && ns.is('align-right'),
       ]
 
+      const { expandColumnKey, indentSize, iconSize, rowKey } = props
+
+      const expandable = rowIndex >= 0 && column.key === expandColumnKey
       const expanded =
         rowIndex >= 0 && unref(expandedRowKeys).includes(rowData[rowKey])
 
-      const expandable = (rowData.children?.length ?? 0) > 0
-
-      let Icon: VNode | undefined
-
-      if (isObject(expandIconProps)) {
-        Icon = (
-          <ExpandIcon
-            {...expandIconProps}
-            expanded={expanded}
-            expandable={expandable}
-          />
-        )
+      let IconOrPlaceholder: VNode | undefined
+      const iconStyle = `margin-inline-start: ${depth * indentSize}px;`
+      if (expandable) {
+        if (isObject(expandIconProps)) {
+          IconOrPlaceholder = (
+            <ExpandIcon
+              {...expandIconProps}
+              class={[ns.e('expand-icon'), ns.is('expanded', expanded)]}
+              size={iconSize}
+              expanded={expanded}
+              style={iconStyle}
+              expandable
+            />
+          )
+        } else {
+          IconOrPlaceholder = (
+            <div
+              style={[
+                iconStyle,
+                `width: ${iconSize}px; height: ${iconSize}px;`,
+              ].join(' ')}
+            />
+          )
+        }
       }
 
       return (
@@ -292,8 +319,8 @@ const TableV2 = defineComponent({
           class={kls}
           style={cellStyle}
         >
+          {IconOrPlaceholder}
           {Cell}
-          {Icon}
         </div>
       )
     }
@@ -326,12 +353,11 @@ const TableV2 = defineComponent({
        */
       const { sortBy, sortState, headerCellProps } = props
 
-      const element = 'header-cell'
       const cellKls = [
-        ns.e(element),
+        ns.e('header-cell'),
         ...tryCall(headerClass, renderHeaderCellProps, ''),
-        column.align === Alignment.CENTER && ns.em(element, 'align-center'),
-        column.align === Alignment.RIGHT && ns.em(element, 'align-right'),
+        column.align === Alignment.CENTER && ns.is('align-center'),
+        column.align === Alignment.RIGHT && ns.is('align-right'),
         sortable && ns.is('sortable'),
         column.key === unref(resizingKey) && ns.is('resizing'),
       ]
@@ -351,7 +377,7 @@ const TableV2 = defineComponent({
         onClick: column.sortable ? onColumnSorted : undefined,
         class: cellKls,
         style: unref(columnsStyles)[column.key],
-        dataKey: column.key,
+        ['data-key']: column.key,
       }
 
       return (
@@ -379,7 +405,11 @@ const TableV2 = defineComponent({
     })
 
     return () => {
-      return <div class="table">{renderMainTable()}</div>
+      return (
+        <div class={[ns.b(), ns.e('root')]} style={unref(rootStyle)}>
+          {renderMainTable()}
+        </div>
+      )
     }
   },
 })

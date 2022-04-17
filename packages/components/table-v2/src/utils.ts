@@ -1,4 +1,6 @@
-import { isArray, isFunction } from '@element-plus/utils'
+import { addUnit, isArray, isFunction } from '@element-plus/utils'
+
+import type { CSSProperties } from 'vue'
 
 export const sumHeights = (heights: number | number[]) => {
   return isArray(heights)
@@ -12,4 +14,12 @@ export const tryCall = <T>(
   defaultRet = {}
 ) => {
   return isFunction(fLike) ? fLike(params) : fLike ?? defaultRet
+}
+
+export const enforceUnit = (style: CSSProperties) => {
+  ;['width', 'maxWidth', 'minWidth', 'height'].forEach((key) => {
+    style[key] = addUnit(style[key])
+  })
+
+  return style
 }

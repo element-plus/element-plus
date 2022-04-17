@@ -1,36 +1,32 @@
-import { defineComponent } from 'vue'
 import ElIcon from '@element-plus/components/icon'
-import { CaretRight } from '@element-plus/icons-vue'
+import { ArrowRight } from '@element-plus/icons-vue'
 
+import type { StyleValue } from 'vue'
 import type { TableV2RowCellRenderParam } from './table-row'
 
-const ExpandIcon = defineComponent(
-  (
-    props: TableV2RowCellRenderParam['expandIconProps'] & {
-      expanded: boolean
-      expandable: boolean
-    }
-  ) => {
-    const { expanded, expandable, onExpand } = props
-
-    const expandIconProps = {
-      onClick: expandable ? () => onExpand(!expanded) : undefined,
-    } as any
-
-    const style = expanded
-      ? {
-          transform: 'rotate(90deg)',
-        }
-      : undefined
-
-    return (
-      <ElIcon {...expandIconProps}>
-        <CaretRight style={style} />
-      </ElIcon>
-    )
+const ExpandIcon = (
+  props: TableV2RowCellRenderParam['expandIconProps'] & {
+    class?: string | string[]
+    style: StyleValue
+    size: number
+    expanded: boolean
+    expandable: boolean
   }
-)
+) => {
+  const { expanded, expandable, onExpand, style, size } = props
+
+  const expandIconProps = {
+    onClick: expandable ? () => onExpand(!expanded) : undefined,
+    class: props.class,
+  } as any
+
+  return (
+    <ElIcon {...expandIconProps} size={size} style={style}>
+      <ArrowRight />
+    </ElIcon>
+  )
+}
 
 export default ExpandIcon
 
-export type ExpandIconInstance = InstanceType<typeof ExpandIcon>
+export type ExpandIconInstance = ReturnType<typeof ExpandIcon>
