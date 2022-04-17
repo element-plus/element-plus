@@ -12,5 +12,8 @@ export default defineConfig({
     include: ['**/*.vitest.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     exclude: ['**/*.test.*', '**/*.spec.*', '**/node_modules'],
     environment: 'jsdom',
+    transformMode: {
+      web: [/\.[jt]sx$/],
+    },
   },
 })
