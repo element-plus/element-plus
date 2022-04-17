@@ -149,6 +149,7 @@ export const tableV2Props = buildProps({
   width: requiredNumber,
   height: requiredNumber,
   maxHeight: Number,
+  useIsScrolling: Boolean,
   indentSize: {
     type: Number,
     default: 12,

@@ -186,7 +186,6 @@ export type GridDefaultSlotParams = {
   columnIndex: number
   rowIndex: number
   data: any
-  depth
   key: number | string
   isScrolling?: boolean
   style: CSSProperties
