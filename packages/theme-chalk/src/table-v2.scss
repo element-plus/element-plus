@@ -79,12 +79,32 @@
     @include e('header-cell') {
       @include center-flex;
       @include cell-padding;
+      @include cell-alignment;
       height: 100%;
       user-select: none;
       background-color: getCssVar('table-header', 'bg-color');
       color: getCssVar('table-header', 'text-color');
 
-      @include cell-alignment;
+      @include when(sortable) {
+        cursor: pointer;
+      }
+
+      &:hover {
+        #{$namespace}-icon {
+          display: block;
+        }
+      }
+    }
+
+    @include e('sort-icon') {
+      transition: opacity, display getCssVar('transition-duration', '');
+      opacity: 0.6;
+      display: none;
+
+      @include when(sorting) {
+        display: block;
+        opacity: 1;
+      }
     }
   }
 

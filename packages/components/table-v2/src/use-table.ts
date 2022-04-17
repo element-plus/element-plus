@@ -299,7 +299,9 @@ function useTable(props: TableV2Props) {
     props.onColumnResizeEnded?.(getColumn(_resizingKey)!, _resizingWidth)
   }
 
-  function onColumnSorted(key: KeyType) {
+  function onColumnSorted(e: MouseEvent) {
+    const { key } = (e.currentTarget as HTMLElement).dataset
+    if (!key) return
     const { sortState, sortBy } = props
 
     let order = SortOrder.ASC
