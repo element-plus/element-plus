@@ -1,21 +1,22 @@
-import { defineComponent } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { SortDown, SortUp } from '@element-plus/icons-vue'
 import { SortOrder } from './constants'
 
+import type { FunctionalComponent } from 'vue'
+
 export type SortIconProps = {
   sortOrder: SortOrder
-  class?: string
+  class?: string | string[]
 }
 
-const SortIcon = defineComponent((props: SortIconProps) => {
+const SortIcon: FunctionalComponent<SortIconProps> = (props) => {
   const { sortOrder } = props
 
   return (
     <ElIcon size={14} class={props.class}>
-      {sortOrder === SortOrder.ASC ? SortUp : SortDown}
+      {sortOrder === SortOrder.ASC ? <SortUp /> : <SortDown />}
     </ElIcon>
   )
-})
+}
 
 export default SortIcon

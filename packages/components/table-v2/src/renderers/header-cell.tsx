@@ -67,15 +67,6 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
    */
   const { sortBy, sortState, headerCellProps } = props
 
-  const cellKls = [
-    ns.e('header-cell'),
-    ...tryCall(headerClass, props, ''),
-    column.align === Alignment.CENTER && ns.is('align-center'),
-    column.align === Alignment.RIGHT && ns.is('align-right'),
-    sortable && ns.is('sortable'),
-    column.key === resizingKey && ns.is('resizing'),
-  ]
-
   let sorting: boolean, sortOrder: SortOrder
   if (sortState) {
     const order = sortState[column.key]
@@ -85,6 +76,15 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     sorting = column.key === sortBy.key
     sortOrder = sorting ? sortBy.order : SortOrder.ASC
   }
+
+  const cellKls = [
+    ns.e('header-cell'),
+    ...tryCall(headerClass, props, ''),
+    column.align === Alignment.CENTER && ns.is('align-center'),
+    column.align === Alignment.RIGHT && ns.is('align-right'),
+    sortable && ns.is('sortable'),
+    column.key === resizingKey && ns.is('resizing'),
+  ]
 
   const cellProps = {
     ...tryCall(headerCellProps, props),
@@ -97,7 +97,13 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
   return (
     <div {...cellProps}>
       {Cell}
-      {sortable && <SortIcon sortOrder={sortOrder} />}
+
+      {sortable && (
+        <SortIcon
+          class={[ns.e('sort-icon'), sorting && ns.is('sorting')]}
+          sortOrder={sortOrder}
+        />
+      )}
       {resizable && (
         <ColumnResizer
           class={ns.e('column-resizer')}
