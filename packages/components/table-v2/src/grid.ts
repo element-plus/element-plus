@@ -42,7 +42,6 @@ export const tableV2GridProps = buildProps({
    * Special attributes
    */
   cache: virtualizedListProps.cache,
-  rowKey: tableV2RowProps.rowKey,
   useIsScrolling: Boolean,
 
   /**

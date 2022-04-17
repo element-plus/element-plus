@@ -396,3 +396,5 @@ function useTable(props: TableV2Props) {
 }
 
 export { useTable }
+
+export type UseTableReturn = ReturnType<typeof useTable>

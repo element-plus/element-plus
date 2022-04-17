@@ -19,8 +19,8 @@ const TableV2HeaderRow = defineComponent({
         })
       })
 
-      if (slots.default) {
-        Cells = slots.default({
+      if (slots.header) {
+        Cells = slots.header({
           cells: Cells,
           columns,
           headerIndex,

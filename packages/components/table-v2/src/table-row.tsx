@@ -177,8 +177,8 @@ const TableV2Row = defineComponent({
         })
       })
 
-      if (slots.default) {
-        ColumnCells = slots.default({
+      if (slots.row) {
+        ColumnCells = slots.row({
           cells: ColumnCells.map((node) => {
             if (isArray(node) && node.length === 1) {
               return node[0]
