@@ -140,8 +140,14 @@ function useTable(props: TableV2Props) {
     return Math.min(tableHeight, totalHeight)
   })
 
+  const mapColumn = (column: TableV2Props['columns'][number]) => column.width
+
   const leftTableWidth = computed(() =>
-    sum(unref(fixedColumnsOnLeft).map((column) => column.width))
+    sum(unref(fixedColumnsOnLeft).map(mapColumn))
+  )
+
+  const rightTableWidth = computed(() =>
+    sum(unref(fixedColumnOnRight).map(mapColumn))
   )
 
   const headerHeight = computed(() => sum(props.headerHeight))
@@ -399,6 +405,7 @@ function useTable(props: TableV2Props) {
     mainTableHeight,
     fixedTableHeight,
     leftTableWidth,
+    rightTableWidth,
 
     // methods
     scrollTo,

@@ -29,7 +29,6 @@
   flex-direction: column-reverse;
   position: absolute;
   overflow: hidden;
-  left: 0;
   top: 0;
   background-color: getCssVar('bg', 'color');
 }
@@ -49,11 +48,19 @@
 
   @include e('main') {
     @include table-root;
+    left: 0;
   }
 
   @include e('left') {
     @include table-root;
+    left: 0;
     box-shadow: 2px 0 4px 0 rgb(0 0 0 / 6%);
+  }
+
+  @include e('right') {
+    @include table-root;
+    right: 0;
+    box-shadow: -2px 0 4px 0 rgb(0 0 0 / 6%);
   }
 
   @include e('header-wrapper') {

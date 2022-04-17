@@ -7,6 +7,7 @@ import { tableV2Props } from './table'
 // renderers
 import MainTable from './renderers/main-table'
 import LeftTable from './renderers/left-table'
+import RightTable from './renderers/right-table'
 import Row from './renderers/row'
 import Cell from './renderers/cell'
 import Header from './renderers/header'
@@ -30,11 +31,12 @@ const TableV2 = defineComponent({
       columnsStyles,
       columnsTotalWidth,
       fixedColumnsOnLeft,
-      // fixedColumnOnRight,
+      fixedColumnOnRight,
       mainColumns,
       mainTableHeight,
       fixedTableHeight,
       leftTableWidth,
+      rightTableWidth,
       data,
       depthMap,
       expandedRowKeys,
@@ -42,6 +44,7 @@ const TableV2 = defineComponent({
       hoveringRowKey,
       mainTableRef,
       leftTableRef,
+      rightTableRef,
       isResetting,
       isScrolling,
       resizingKey,
@@ -76,17 +79,6 @@ const TableV2 = defineComponent({
     const headerWidth = computed(
       () => unref(bodyWidth) + (props.fixed ? unref(vScrollbarSize) : 0)
     )
-
-    // function renderLeftTable() {
-    //   const columns = unref(fixedColumnsOnLeft)
-    //   if (columns.length === 0) return
-
-    //   const { estimatedRowHeight, headerHeight, rowHeight, width } = props
-
-    //   return <Table>{}</Table>
-    // }
-
-    // function renderRightTable() {}
 
     // function renderFooter() {}
 
@@ -160,6 +152,27 @@ const TableV2 = defineComponent({
         height: _fixedTableHeight,
         useIsScrolling,
         width: leftColumnsWidthWithScrollbar,
+        onScroll: onVerticalScroll,
+      }
+
+      const rightColumnsWidth = unref(rightTableWidth)
+      const rightColumnsWidthWithScrollbar =
+        rightColumnsWidth + unref(vScrollbarSize)
+
+      const rightTableProps = {
+        cache,
+        class: ns.e('right'),
+        columns: unref(fixedColumnOnRight),
+        data: _data,
+        estimatedRowHeight,
+        rightTableRef,
+        rowHeight,
+        bodyWidth: rightColumnsWidthWithScrollbar,
+        headerWidth: rightColumnsWidthWithScrollbar,
+        headerHeight,
+        height: _fixedTableHeight,
+        useIsScrolling,
+        width: rightColumnsWidthWithScrollbar,
         onScroll: onVerticalScroll,
       }
 
@@ -237,6 +250,7 @@ const TableV2 = defineComponent({
         <div class={[ns.b(), ns.e('root')]} style={unref(rootStyle)}>
           <MainTable {...mainTableProps}>{tableSlots}</MainTable>
           <LeftTable {...leftTableProps}>{tableSlots}</LeftTable>
+          <RightTable {...rightTableProps}>{tableSlots}</RightTable>
         </div>
       )
     }

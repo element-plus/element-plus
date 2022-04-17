@@ -5,16 +5,16 @@ import type { TableV2GridProps } from '../grid'
 import type { TableGridInstance } from '../table-grid'
 
 type LeftTableProps = TableV2GridProps & {
-  leftTableRef: Ref<TableGridInstance | undefined>
+  rightTableRef: Ref<TableGridInstance | undefined>
 }
 
 const LeftTable: FunctionalComponent<LeftTableProps> = (props, { slots }) => {
   if (!props.columns.length) return
 
-  const { leftTableRef, ...rest } = props
+  const { rightTableRef, ...rest } = props
 
   return (
-    <Table ref={leftTableRef} {...rest}>
+    <Table ref={rightTableRef} {...rest}>
       {slots}
     </Table>
   )
