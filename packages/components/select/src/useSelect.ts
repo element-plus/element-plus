@@ -481,6 +481,8 @@ export const useSelect = (props, states: States, ctx) => {
     if (option) return option
     const label = isObjectValue
       ? value.label
+      : props.noPersistentLabel
+      ? props.noPersistentLabel
       : !isNull && !isUndefined
       ? value
       : ''

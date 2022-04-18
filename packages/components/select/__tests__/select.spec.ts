@@ -1863,6 +1863,34 @@ describe('Select', () => {
     expect(select.selected[0].currentLabel).toBe(options[0].label)
   })
 
+  it('display default label when no persistent', async () => {
+    const noPersistentLabel = 'label:NoPersistentLabel'
+    const options = [{ value: `value:Alaska`, label: `label:Alaska` }]
+    const modelValue = [{ value: `value:Alaska`, label: `label:Alaska` }]
+    const wrapper = _mount(
+      `
+    <el-select v-model="modelValue"
+      :persistent='false'
+      :no-persistent-label='noPersistentLabel'
+    >
+      <el-option
+        v-for="option in options"
+        :key="option.value"
+        :value="option.value"
+        :label="option.label"
+      >
+      </el-option>
+    </el-select>`,
+      () => ({
+        modelValue,
+        options,
+        noPersistentLabel,
+      })
+    )
+    const select = wrapper.findComponent({ name: 'ElSelect' }).vm
+    expect(select.selected.currentLabel).toBe(noPersistentLabel)
+  })
+
   test('should reset selectedLabel when toggle multiple', async () => {
     wrapper = getSelectVm({ multiple: false })
     const select = wrapper.findComponent({ name: 'ElSelect' })
