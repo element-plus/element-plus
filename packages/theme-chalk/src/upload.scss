@@ -209,7 +209,7 @@
       display: inline-flex;
       justify-content: center;
       flex-direction: column;
-      width: 100%;
+      width: calc(100% - 30px);
       margin-left: 4px;
     }
 
@@ -264,16 +264,19 @@
 
     padding: 0 4px;
 
-    overflow: hidden;
-    text-overflow: ellipsis;
     transition: color var(--el-transition-duration);
-    white-space: nowrap;
     font-size: var(--el-font-size-base);
 
     .#{$namespace}-icon {
       margin-right: 6px;
       color: var(--el-text-color-secondary);
     }
+  }
+
+  @include e(item-file-name) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   @include e(item-status-label) {
