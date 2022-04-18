@@ -1,6 +1,7 @@
+import { h, isVNode } from 'vue'
 import { addUnit, isArray, isFunction } from '@element-plus/utils'
 
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, Component, Slot } from 'vue'
 
 const sumReducer = (sum: number, num: number) => sum + num
 
@@ -23,3 +24,10 @@ export const enforceUnit = (style: CSSProperties) => {
 
   return style
 }
+
+export const componentToSlot = <T>(
+  ComponentLike: JSX.Element | ((props: T) => Component<T>) | undefined
+) =>
+  isVNode(ComponentLike)
+    ? (props: T) => h(ComponentLike, props)
+    : (ComponentLike as Slot)

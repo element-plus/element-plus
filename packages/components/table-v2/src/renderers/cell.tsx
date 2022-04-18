@@ -4,9 +4,10 @@ import TableCell from '../table-cell'
 import ExpandIcon from '../expand-icon'
 import { Alignment } from '../constants'
 import { placeholderSign } from '../private'
-import { enforceUnit } from '../utils'
+import { componentToSlot, enforceUnit } from '../utils'
 
 import type { FunctionalComponent, UnwrapNestedRefs, VNode } from 'vue'
+import type { CellRendererParams } from '../types'
 import type { TableV2RowCellRenderParam } from '../table-row'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { UseTableReturn } from '../use-table'
@@ -51,9 +52,15 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
   if (column.placeholderSign === placeholderSign) {
     return <div class={ns.em('row-cell', 'placeholder')} style={cellStyle} />
   }
-  const { dataKey, dataGetter } = column
+  const { cellRenderer, dataKey, dataGetter } = column
 
-  const CellComponent = slots.cell || ((props) => <TableCell {...props} />)
+  const columnCellRenderer = componentToSlot(cellRenderer)
+
+  const CellComponent =
+    columnCellRenderer ||
+    slots.default ||
+    ((props: CellRendererParams<any>) => <TableCell {...props} />)
+
   const cellData = isFunction(dataGetter)
     ? dataGetter({ columns, column, columnIndex, rowData, rowIndex })
     : get(rowData, dataKey ?? '')
