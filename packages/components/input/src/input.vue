@@ -453,7 +453,7 @@ watch(
 
 onMounted(async () => {
   if (!props.formatter && props.parser) {
-    debugWarn('ElInput', 'xxx')
+    debugWarn('ElInput', 'If you set the parser, you also need to set the formatter.')
   }
   setNativeInputValue()
   updateIconOffset()
