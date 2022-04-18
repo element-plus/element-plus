@@ -1,11 +1,13 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { CSSProperties, ExtractPropTypes } from 'vue'
+import type { CSSProperties, Component, ExtractPropTypes } from 'vue'
 import type {
   Alignment,
   CellRenderer,
+  CellRendererParams,
   FixedDirection,
-  HeaderRenderer,
+  HeaderCellRenderer,
+  HeaderCellRendererParams,
 } from './types'
 
 const widthType = {
@@ -44,11 +46,15 @@ export const tableV2ColumnProps = buildProps({
 
   // getters & renderers
   cellRenderer: {
-    type: definePropType<CellRenderer<any>>(Function),
+    type: definePropType<
+      CellRenderer<any> | Component<CellRendererParams<any>>
+    >([Function, Object]),
   },
 
   headerRenderer: {
-    type: definePropType<HeaderRenderer<any>>(Function),
+    type: definePropType<
+      HeaderCellRenderer<any> | Component<HeaderCellRendererParams<any>>
+    >([Function, Object]),
   },
 } as const)
 

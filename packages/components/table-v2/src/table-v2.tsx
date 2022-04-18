@@ -19,6 +19,7 @@ import type { TableV2HeaderRendererParams } from './table-header'
 import type { TableV2HeaderRowCellRendererParams } from './table-header-row'
 
 const COMPONENT_NAME = 'ElTableV2'
+
 const TableV2 = defineComponent({
   name: COMPONENT_NAME,
   props: tableV2Props,
@@ -221,9 +222,14 @@ const TableV2 = defineComponent({
           <Row {...props} {...tableRowProps}>
             {{
               row: slots.row,
-              cell: (props: TableV2RowCellRenderParam) => (
-                <Cell {...props} {...tableCellProps} />
-              ),
+              cell: (props: TableV2RowCellRenderParam) =>
+                slots.cell ? (
+                  <Cell {...props} {...tableCellProps}>
+                    {slots.cell}
+                  </Cell>
+                ) : (
+                  <Cell {...props} {...tableCellProps} />
+                ),
             }}
           </Row>
         ),
@@ -231,9 +237,14 @@ const TableV2 = defineComponent({
           <Header {...props} {...tableHeaderProps}>
             {{
               header: slots.header,
-              cell: (props: TableV2HeaderRowCellRendererParams) => (
-                <HeaderCell {...props} {...tableHeaderCellProps} />
-              ),
+              cell: (props: TableV2HeaderRowCellRendererParams) =>
+                slots['header-cell'] ? (
+                  <HeaderCell {...props} {...tableHeaderCellProps}>
+                    {slots['header-cell']}
+                  </HeaderCell>
+                ) : (
+                  <HeaderCell {...props} {...tableHeaderCellProps} />
+                ),
             }}
           </Header>
         ),

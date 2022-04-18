@@ -3,7 +3,7 @@ import HeaderCell from '../table-header-cell'
 import SortIcon from '../sort-icon'
 import { Alignment, SortOrder, oppositeOrderMap } from '../constants'
 import { placeholderSign } from '../private'
-import { tryCall } from '../utils'
+import { componentToSlot, tryCall } from '../utils'
 
 import type { FunctionalComponent, UnwrapNestedRefs } from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
@@ -28,7 +28,8 @@ type HeaderCellRendererProps = TableV2HeaderRowCellRendererParams &
   }
 
 const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
-  props
+  props,
+  { slots }
 ) => {
   const {
     column,
@@ -52,14 +53,18 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
   /**
    * render Cell children
    */
-  const cellRenderer =
-    headerCellRenderer ||
-    ((props: TableV2HeaderCell) => <HeaderCell {...props} />)
 
-  const Cell = cellRenderer({
+  const cellProps = {
     ...props,
     class: ns.e('header-cell-text'),
-  })
+  }
+
+  const cellRenderer =
+    componentToSlot<typeof cellProps>(headerCellRenderer) ||
+    slots.default ||
+    ((props: TableV2HeaderCell) => <HeaderCell {...props} />)
+
+  const Cell = cellRenderer(cellProps)
 
   /**
    * Render cell container and sort indicator
@@ -85,7 +90,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     // column.key === resizingKey && ns.is('resizing'),
   ]
 
-  const cellProps = {
+  const cellWrapperProps = {
     ...tryCall(headerCellProps, props),
     onClick: column.sortable ? onColumnSorted : undefined,
     class: cellKls,
@@ -95,7 +100,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
 
   // For now we don't deliver resizable column feature since it has some UX issue.
   return (
-    <div {...cellProps}>
+    <div {...cellWrapperProps}>
       {Cell}
 
       {sortable && (
