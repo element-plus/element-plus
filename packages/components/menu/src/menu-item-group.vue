@@ -1,9 +1,6 @@
 <template>
-  <li class="el-menu-item-group">
-    <div
-      class="el-menu-item-group__title"
-      :style="{ paddingLeft: `${levelPadding}px` }"
-    >
+  <li :class="ns.b()">
+    <div :class="ns.e('title')" :style="{ paddingLeft: `${levelPadding}px` }">
       <template v-if="!$slots.title">{{ title }}</template>
       <slot v-else name="title" />
     </div>
@@ -16,6 +13,7 @@
 <script lang="ts">
 import { computed, defineComponent, getCurrentInstance, inject } from 'vue'
 import { throwError } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import { menuItemGroupProps } from './menu-item-group'
 
 import type { MenuProvider } from './types'
@@ -31,6 +29,7 @@ export default defineComponent({
     const instance = getCurrentInstance()!
     const menu = inject<MenuProvider>('rootMenu')
     if (!menu) throwError(COMPONENT_NAME, 'can not inject root menu')
+    const ns = useNamespace('menu-item-group')
 
     const levelPadding = computed(() => {
       if (menu.props.collapse) return 20
@@ -47,6 +46,7 @@ export default defineComponent({
 
     return {
       levelPadding,
+      ns,
     }
   },
 })

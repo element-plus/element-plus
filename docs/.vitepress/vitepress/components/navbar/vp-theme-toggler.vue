@@ -5,7 +5,7 @@ import CommonThemeToggler from '../common/vp-theme-toggler.vue'
 
 <template>
   <div class="theme-toggler-content">
-    <CommonThemeToggler @click="toggleDark()" />
+    <CommonThemeToggler @click="() => toggleDark()" />
   </div>
 </template>
 

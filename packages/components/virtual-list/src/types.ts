@@ -174,6 +174,7 @@ export type GridConstructorProps<
 
   // configs
   initCache: P
+  injectToInstance?: (instance: Instance, cache: Ref<ReturnType<P>>) => void
   clearCache: boolean
   validateProps: PropValidator<T>
 }
@@ -200,3 +201,5 @@ export type GridItemRenderedEvtParams = {
   rowVisibleStart: number
   rowVisibleEnd: number
 }
+
+export type GridScrollOptions = { scrollLeft?: number; scrollTop?: number }

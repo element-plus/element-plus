@@ -2,8 +2,10 @@ import { computed, defineComponent, nextTick, ref, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { ensureArray } from '@element-plus/utils'
 import { tableV2HeaderProps } from './header'
+import { enforceUnit } from './utils'
 
 import type { CSSProperties } from 'vue'
+import type { TableV2HeaderProps } from './header'
 
 const COMPONENT_NAME = 'ElTableV2Header'
 const TableV2Header = defineComponent({
@@ -14,19 +16,23 @@ const TableV2Header = defineComponent({
 
     const headerRef = ref<HTMLElement>()
 
-    const headerStyle = computed(() => ({
-      width: props.width,
-      height: props.height,
-    }))
+    const headerStyle = computed(() =>
+      enforceUnit({
+        width: props.width,
+        height: props.height,
+      })
+    )
 
-    const rowStyle = computed(() => ({
-      width: props.rowWidth,
-      height: props.height,
-    }))
+    const rowStyle = computed(() =>
+      enforceUnit({
+        width: props.rowWidth,
+        height: props.height,
+      })
+    )
 
     const headerHeights = computed(() => ensureArray(unref(props.headerHeight)))
 
-    const scrollTo = (left?: number) => {
+    const scrollToLeft = (left?: number) => {
       const headerEl = unref(headerRef)
       nextTick(() => {
         headerEl?.scroll({
@@ -41,10 +47,10 @@ const TableV2Header = defineComponent({
       const { columns, fixedHeaderData, rowHeight } = props
 
       return fixedHeaderData?.map((fixedRowData, fixedRowIndex) => {
-        const style: CSSProperties = {
+        const style: CSSProperties = enforceUnit({
           height: rowHeight,
           width: '100%',
-        }
+        })
 
         return slots.fixed?.({
           class: fixedRowClassName,
@@ -61,10 +67,10 @@ const TableV2Header = defineComponent({
       const { columns } = props
 
       return unref(headerHeights).map((rowHeight, rowIndex) => {
-        const style: CSSProperties = {
+        const style: CSSProperties = enforceUnit({
           width: '100%',
           height: rowHeight,
-        }
+        })
 
         return slots.dynamic?.({
           class: dynamicRowClassName,
@@ -79,18 +85,14 @@ const TableV2Header = defineComponent({
       /**
        * @description scroll to position based on the provided value
        */
-      scrollTo,
+      scrollToLeft,
     })
 
     return () => {
       if (props.height <= 0) return
 
       return (
-        <div
-          ref={headerRef}
-          class={[props.class, ns.e('header-wrapper')]}
-          style={unref(headerStyle)}
-        >
+        <div ref={headerRef} class={props.class} style={unref(headerStyle)}>
           <div style={unref(rowStyle)} class={ns.e('header')}>
             {renderDynamicRows()}
             {renderFixedRows()}
@@ -107,5 +109,17 @@ export type TableV2HeaderInstance = InstanceType<typeof TableV2Header> & {
   /**
    * @description scroll to position based on the provided value
    */
-  scrollTo: (left?: number) => void
+  scrollToLeft: (left?: number) => void
 }
+
+export type TableV2HeaderRendererParams = {
+  class: string
+  columns: TableV2HeaderProps['columns']
+  headerIndex: number
+  style: CSSProperties
+}
+
+export type TableV2HeaderRowRendererParams = {
+  rowData: any
+  rowIndex: number
+} & Omit<TableV2HeaderRendererParams, 'headerIndex'>

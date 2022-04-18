@@ -7,9 +7,10 @@ import {
   ref,
   unref,
 } from 'vue'
-import { isFunction } from '@element-plus/utils'
+import { isArray, isFunction } from '@element-plus/utils'
 import { tableV2RowProps } from './row'
 import { TableV2InjectionKey } from './tokens'
+import { placeholderSign } from './private'
 
 import type { CSSProperties, RendererElement, RendererNode, VNode } from 'vue'
 import type { RowEventHandlers, TableV2RowProps } from './row'
@@ -53,11 +54,12 @@ const useTableRow = (props: TableV2RowProps) => {
     nextTick(() => {
       if (isInit || height !== (style as CSSProperties)?.height) {
         const firstColumn = columns[0]
+        const isPlaceholder = firstColumn.isPlaceholder === placeholderSign
         onRowHeightChange?.(
           rowKey,
           height,
           rowIndex,
-          firstColumn && firstColumn.isPlaceholder && firstColumn.fixed
+          firstColumn && isPlaceholder && Boolean(firstColumn.fixed)
         )
       }
     })
@@ -88,6 +90,7 @@ const useTableRow = (props: TableV2RowProps) => {
           { name: 'onMouseenter', hovered: true },
         ] as const
       ).forEach(({ name, hovered }) => {
+        const existedHandler = eventHandlers[name]
         eventHandlers[name] = (event: MouseEvent) => {
           onRowHover({
             event,
@@ -97,7 +100,7 @@ const useTableRow = (props: TableV2RowProps) => {
             rowKey,
           })
 
-          eventHandlers[name]?.(event)
+          existedHandler?.(event)
         }
       })
     }
@@ -129,7 +132,7 @@ const COMPONENT_NAME = 'ElTableV2TableRow'
 const TableV2Row = defineComponent({
   name: COMPONENT_NAME,
   props: tableV2RowProps,
-  setup(props, { expose, slots }) {
+  setup(props, { expose, slots, attrs }) {
     const {
       eventHandlers,
       isScrolling,
@@ -152,28 +155,37 @@ const TableV2Row = defineComponent({
         props
 
       let ColumnCells: ColumnCellsType = columns.map((column, columnIndex) => {
+        const expandable =
+          isArray(rowData.children) &&
+          rowData.children.length > 0 &&
+          column.key === expandColumnKey
+
         return slots.cell!({
           column,
           columns,
           columnIndex,
+          depth,
           rowData,
           rowIndex,
           isScrolling: unref(isScrolling),
-          expandIconProps:
-            column.key === expandColumnKey
-              ? {
-                  depth,
-                  rowData,
-                  rowIndex,
-                  onExpand,
-                }
-              : undefined,
+          expandIconProps: expandable
+            ? {
+                rowData,
+                rowIndex,
+                onExpand,
+              }
+            : undefined,
         })
       })
 
-      if (slots.default) {
-        ColumnCells = slots.default({
-          cells: ColumnCells,
+      if (slots.row) {
+        ColumnCells = slots.row({
+          cells: ColumnCells.map((node) => {
+            if (isArray(node) && node.length === 1) {
+              return node[0]
+            }
+            return node
+          }),
           columns,
           depth,
           rowData,
@@ -184,13 +196,14 @@ const TableV2Row = defineComponent({
 
       if (unref(measurable)) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { height, ...expectHeight } = style || {}
+        const { height, ...exceptHeightStyle } = style || {}
         const _measured = unref(measured)
         return (
           <div
             ref={rowRef}
             class={props.class}
-            style={_measured ? style : expectHeight}
+            style={_measured ? style : exceptHeightStyle}
+            {...attrs}
             {...unref(eventHandlers)}
           >
             {ColumnCells}
@@ -198,9 +211,34 @@ const TableV2Row = defineComponent({
         )
       }
 
-      return <div ref={rowRef}>{ColumnCells}</div>
+      return (
+        <div
+          {...attrs}
+          ref={rowRef}
+          class={props.class}
+          style={style}
+          {...unref(eventHandlers)}
+        >
+          {ColumnCells}
+        </div>
+      )
     }
   },
 })
 
 export default TableV2Row
+
+export type TableV2RowCellRenderParam = {
+  column: TableV2RowProps['columns'][number]
+  columns: TableV2RowProps['columns']
+  columnIndex: number
+  depth: number
+  rowData: any
+  rowIndex: number
+  isScrolling: boolean
+  expandIconProps?: {
+    rowData: any
+    rowIndex: number
+    onExpand: (expand: boolean) => void
+  }
+}

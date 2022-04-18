@@ -44,7 +44,10 @@ export const tableV2RowProps = buildProps({
   columns,
   depth: Number,
   expandColumnKey,
-  estimatedRowHeight: virtualizedGridProps.estimatedRowHeight,
+  estimatedRowHeight: {
+    ...virtualizedGridProps.estimatedRowHeight,
+    default: undefined,
+  },
   isScrolling: Boolean,
   onRowExpand: {
     type: definePropType<RowExpandHandler<any>>(Function),

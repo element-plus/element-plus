@@ -6,7 +6,6 @@ import type { CSSProperties, ExtractPropTypes } from 'vue'
 export const tableV2HeaderRowProps = buildProps({
   class: String,
   columns,
-  expandColumnKey: String,
   headerIndex: Number,
   style: { type: definePropType<CSSProperties>(Object) },
 } as const)

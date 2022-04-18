@@ -3,7 +3,7 @@ import { definePropType, mutable } from '@element-plus/utils'
 import type { CSSProperties } from 'vue'
 import type { Column, KeyType } from './types'
 
-type AnyColumn = Column<any>
+export type AnyColumn = Column<any>
 
 /**
  * @Note even though we can use `string[] | string` as the type but for

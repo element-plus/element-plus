@@ -5,7 +5,6 @@ import {
   h,
   nextTick,
   onMounted,
-  onUpdated,
   ref,
   resolveDynamicComponent,
   unref,
@@ -17,6 +16,7 @@ import {
   isNumber,
   isString,
 } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import Scrollbar from '../components/scrollbar'
 import { useGridWheel } from '../hooks/use-grid-wheel'
 import { useCache } from '../hooks/use-cache'
@@ -33,7 +33,6 @@ import {
   RTL_OFFSET_POS_DESC,
   SCROLL_EVT,
 } from '../defaults'
-
 import type {
   CSSProperties,
   Ref,
@@ -42,7 +41,12 @@ import type {
   VNode,
   VNodeChild,
 } from 'vue'
-import type { Alignment, GridConstructorProps, ScrollbarExpose } from '../types'
+import type {
+  Alignment,
+  GridConstructorProps,
+  GridScrollOptions,
+  ScrollbarExpose,
+} from '../types'
 import type { VirtualizedGridProps } from '../props'
 
 const createGrid = ({
@@ -60,6 +64,7 @@ const createGrid = ({
   getRowStopIndexForStartIndex,
 
   initCache,
+  injectToInstance,
   validateProps,
 }: GridConstructorProps<VirtualizedGridProps>) => {
   return defineComponent({
@@ -67,9 +72,12 @@ const createGrid = ({
     props: virtualizedGridProps,
     emits: [ITEM_RENDER_EVT, SCROLL_EVT],
     setup(props, { emit, expose, slots }) {
+      const ns = useNamespace('vl')
+
       validateProps(props)
       const instance = getCurrentInstance()!
       const cache = ref(initCache(props, instance))
+      injectToInstance?.(instance, cache)
       // refs
       // here windowRef and innerRef can be type of HTMLElement
       // or user defined component type, depends on the type passed
@@ -235,14 +243,13 @@ const createGrid = ({
           xAxisScrollDir,
           yAxisScrollDir,
         } = unref(states)
-        emit(
-          SCROLL_EVT,
+        emit(SCROLL_EVT, {
           xAxisScrollDir,
           scrollLeft,
           yAxisScrollDir,
           scrollTop,
-          updateRequested
-        )
+          updateRequested,
+        })
       }
 
       const onScroll = (e: Event) => {
@@ -256,6 +263,7 @@ const createGrid = ({
         } = e.currentTarget as HTMLElement
 
         const _states = unref(states)
+
         if (
           _states.scrollTop === scrollTop &&
           _states.scrollLeft === scrollLeft
@@ -284,13 +292,14 @@ const createGrid = ({
             0,
             Math.min(scrollTop, scrollHeight - clientHeight)
           ),
-          updateRequested: false,
+          updateRequested: true,
           xAxisScrollDir: getScrollDir(_states.scrollLeft, _scrollLeft),
           yAxisScrollDir: getScrollDir(_states.scrollTop, scrollTop),
         }
 
-        nextTick(resetIsScrolling)
+        nextTick(() => resetIsScrolling())
 
+        onUpdated()
         emitEvents()
       }
 
@@ -344,7 +353,7 @@ const createGrid = ({
       const scrollTo = ({
         scrollLeft = states.value.scrollLeft,
         scrollTop = states.value.scrollTop,
-      }) => {
+      }: GridScrollOptions) => {
         scrollLeft = Math.max(scrollLeft, 0)
         scrollTop = Math.max(scrollTop, 0)
         const _states = unref(states)
@@ -364,7 +373,10 @@ const createGrid = ({
           updateRequested: true,
         }
 
-        nextTick(resetIsScrolling)
+        nextTick(() => resetIsScrolling())
+
+        onUpdated()
+        emitEvents()
       }
 
       const scrollToItem = (
@@ -467,12 +479,11 @@ const createGrid = ({
         emitEvents()
       })
 
-      onUpdated(() => {
+      const onUpdated = () => {
         const { direction } = props
         const { scrollLeft, scrollTop, updateRequested } = unref(states)
 
         const windowElement = unref(windowRef)
-
         if (updateRequested && windowElement) {
           if (direction === RTL) {
             switch (getRTLOffsetType()) {
@@ -497,7 +508,7 @@ const createGrid = ({
 
           windowElement.scrollTop = Math.max(0, scrollTop)
         }
-      })
+      }
 
       expose({
         windowRef,
@@ -511,7 +522,13 @@ const createGrid = ({
       // rendering part
 
       const renderScrollbars = () => {
-        const { totalColumn, totalRow } = props
+        const {
+          scrollbarAlwaysOn,
+          scrollbarStartGap,
+          scrollbarEndGap,
+          totalColumn,
+          totalRow,
+        } = props
 
         const width = unref(parsedWidth)
         const height = unref(parsedHeight)
@@ -520,6 +537,10 @@ const createGrid = ({
         const { scrollLeft, scrollTop } = unref(states)
         const horizontalScrollbar = h(Scrollbar, {
           ref: hScrollbar,
+          alwaysOn: scrollbarAlwaysOn,
+          startGap: scrollbarStartGap,
+          endGap: scrollbarEndGap,
+          class: ns.e('horizontal'),
           clientSize: width,
           layout: 'horizontal',
           onScroll: onHorizontalScroll,
@@ -531,11 +552,16 @@ const createGrid = ({
 
         const verticalScrollbar = h(Scrollbar, {
           ref: vScrollbar,
+          alwaysOn: scrollbarAlwaysOn,
+          startGap: scrollbarStartGap,
+          endGap: scrollbarEndGap,
+          class: ns.e('vertical'),
           clientSize: height,
           layout: 'vertical',
           onScroll: onVerticalScroll,
           ratio: (height * 100) / estimatedHeight,
           scrollFrom: scrollTop / (estimatedHeight - height),
+
           total: totalColumn,
           visible: true,
         })
@@ -602,7 +628,7 @@ const createGrid = ({
           'div',
           {
             key: 0,
-            class: 'el-vg__wrapper',
+            class: ns.e('wrapper'),
           },
           [
             h(
@@ -626,6 +652,7 @@ const createGrid = ({
     },
   })
 }
+
 export default createGrid
 
 type Dir = typeof FORWARD | typeof BACKWARD
@@ -635,7 +662,7 @@ export type GridInstance = InstanceType<ReturnType<typeof createGrid>> &
     windowRef: Ref<HTMLElement>
     innerRef: Ref<HTMLElement>
     getItemStyleCache: ReturnType<typeof useCache>
-    scrollTo: (scrollOptions: { scrollLeft: number; scrollTop: number }) => void
+    scrollTo: (scrollOptions: GridScrollOptions) => void
     scrollToItem: (
       rowIndex: number,
       columnIndex: number,

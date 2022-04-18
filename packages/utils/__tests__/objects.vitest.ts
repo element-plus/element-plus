@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getProp } from '..'
+import { entriesOf, getProp } from '..'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -30,5 +30,10 @@ describe('objects', () => {
 
     getProp(obj, 'a.b.c').value = AXIOM
     expect(obj.a.b.c).toBe(AXIOM)
+  })
+
+  it('entriesOf should work', () => {
+    const obj = { key: 'value', foo: 'bar' }
+    expect(entriesOf(obj)).toEqual(Object.entries(obj))
   })
 })

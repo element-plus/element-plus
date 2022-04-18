@@ -92,8 +92,12 @@ export default defineConfig(async ({ mode }) => {
       Inspect(),
       mkcert(),
       VitePWA({
+        outDir: '.vitepress/dist',
+        includeAssets: ['images/**'],
         manifest: {
+          id: '/',
           name: 'Element Plus',
+          short_name: 'Element Plus',
           description:
             'a Vue 3 based component library for designers and developers',
           icons: [

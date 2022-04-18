@@ -8,6 +8,8 @@ import { useTree } from './tree'
 
 export default defineComponent({
   name: 'ElTreeSelect',
+  // disable `ElSelect` inherit current attrs
+  inheritAttrs: false,
   props: {
     ...ElSelect.props,
     ...ElTree.props,

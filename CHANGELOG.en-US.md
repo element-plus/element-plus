@@ -1,5 +1,40 @@
 ## Changelog
 
+### 2.1.10
+
+_2022-04-18_
+
+#### Features
+
+- Components [form-item] support use form-item only (#7095 by @sxzz)
+
+#### Bug fixes
+
+- Vitest
+- Components [color-picker] vertical bar bg (#7113 by @YunYouJun)
+- Docs outDir error of VitePWA (#7100 by @tolking)
+- Docs contributors when only one language (#7093 by @sxzz)
+- Vitest ui (#7116 by @sxzz)
+- Tag bg color & other dark details (#7138 by @YunYouJun)
+- Docs logo link (#7133 by @sxzz)
+- Docs fix markdown transformer (#7150 by @plainheart)
+- Components [date-picker] fix `cell-class-name` not work (#7149 by @plainheart)
+- Components [TreeSelect] incorrect props interaction and css paths (#7156 by @yujinpan)
+- Components [tree-select] use `proxy` instead of `ctx` (#7160 by @plainheart)
+- Components [popper] zIndex bug (#7115 by @chenxch)
+- Empty svg when dark (#7203 by @YunYouJun)
+- Components [table] fix `SummaryMethod` type (#7206 by @hminghe)
+
+#### Refactors
+
+- Docs improve style and fix typo (#7094 by @sxzz)
+- Metadata move to dev deps (#7126 by @sxzz)
+- Components [message-box] use useNamespace (#5721 by @buqiyuan)
+- Components [time-select] use useNamespace (#6459 by @gjfei)
+- Components [virtual-list, visual-hidden] use useNamespace (#6461 by @gjfei)
+- Refactor menu to support namespace (#7131 by @iamkun)
+- Components [input] change to flex layout (#7179 by @plainheart)
+
 ### 2.1.9
 
 _2022-04-11_

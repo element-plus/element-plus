@@ -208,8 +208,7 @@
             </template>
             <template #suffix>
               <el-icon
-                v-if="iconComponent"
-                v-show="!showClose"
+                v-if="iconComponent && !showClose"
                 :class="[nsSelect.e('caret'), nsSelect.e('icon'), iconReverse]"
               >
                 <component :is="iconComponent" />

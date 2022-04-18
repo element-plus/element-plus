@@ -1,5 +1,9 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import {
+  virtualizedGridProps,
+  virtualizedScrollbarProps,
+} from '@element-plus/components/virtual-list'
+import {
   classType,
   columns,
   dataType,
@@ -12,12 +16,14 @@ import { tableV2RowProps } from './row'
 import { tableV2HeaderProps } from './header'
 import { tableV2GridProps } from './grid'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
+import type { SortOrder } from './constants'
 import type {
   Column,
   ColumnCommonParams,
+  DataGetter,
+  KeyType,
   RowCommonParams,
-  SortOrder,
 } from './types'
 
 /**
@@ -63,6 +69,7 @@ export type RowClassNameGetter<T> = (
  * Handler types
  */
 export type ColumnSortHandler<T> = (params: ColumnSortParams<T>) => void
+export type ColumnResizeHandler<T> = (column: Column<T>, width: number) => void
 
 export const tableV2Props = buildProps({
   cache: tableV2GridProps.cache,
@@ -108,16 +115,25 @@ export const tableV2Props = buildProps({
     type: definePropType<string | RowClassNameGetter<any>>([String, Function]),
   },
   rowProps: {
-    type: definePropType<any | ExtractRowPropGetter<any>>([Object, Function]),
+    type: definePropType<ExtractRowPropGetter<any> | any>([Object, Function]),
   },
-  rowHeight: Number,
+  rowHeight: {
+    type: Number,
+    default: 50,
+  },
   /**
    * Data models
    */
   columns,
   data: dataType,
+  dataGetter: {
+    type: definePropType<DataGetter<any>>(Function),
+  },
+  dataKey: {
+    type: String,
+    default: 'id',
+  },
   fixedData: fixedDataType,
-
   /**
    * Expanded keys
    */
@@ -132,26 +148,56 @@ export const tableV2Props = buildProps({
   disabled: Boolean,
   fixed: Boolean,
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<CSSProperties>(Object),
   },
   width: requiredNumber,
-  height: Number,
+  height: requiredNumber,
   maxHeight: Number,
+  useIsScrolling: Boolean,
+  indentSize: {
+    type: Number,
+    default: 12,
+  },
+  iconSize: {
+    type: Number,
+    default: 12,
+  },
+  hScrollbarSize: virtualizedGridProps.hScrollbarSize,
+  vScrollbarSize: virtualizedGridProps.vScrollbarSize,
+  scrollbarAlwaysOn: virtualizedScrollbarProps.alwaysOn,
 
+  /**
+   * Sorting
+   */
   sortBy: {
     type: definePropType<{ key: KeyType; order: SortOrder }>(Object),
     default: () => ({} as { key: KeyType; order: SortOrder }),
+  },
+
+  sortState: {
+    type: definePropType<Record<KeyType, SortOrder>>(Object),
+    default: undefined,
   },
 
   /**
    * Handlers
    */
   onColumnSort: {
-    type: definePropType<ColumnSortParams<any>>(Function),
+    type: definePropType<ColumnSortHandler<any>>(Function),
   },
+  // onColumnResize: {
+  //   type: definePropType<ColumnResizeHandler<any>>(Function),
+  // },
+  // onColumnResizeEnded: {
+  //   type: definePropType<ColumnResizeHandler<any>>(Function),
+  // },
   onExpandedRowsChange: Function,
-  onRowExpand: Function,
+  onEndReached: {
+    type: definePropType<(distance: number) => void>(Function),
+  },
+  onRowExpand: tableV2RowProps.onRowExpand,
   onScroll: tableV2GridProps.onScroll,
+  onRowRendered: tableV2GridProps.onRowsRendered,
   rowEventHandlers: tableV2RowProps.rowEventHandlers,
 } as const)
 
