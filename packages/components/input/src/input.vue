@@ -120,8 +120,6 @@
         :disabled="inputDisabled"
         :readonly="readonly"
         :autocomplete="autocomplete"
-        :formatter="formatter"
-        :parser="parser"
         :style="textareaStyle"
         :aria-label="label"
         :placeholder="placeholder"
