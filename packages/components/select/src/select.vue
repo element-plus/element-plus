@@ -46,7 +46,10 @@
               >
                 <span
                   :class="nsSelect.e('tags-text')"
-                  :style="{ maxWidth: inputWidth - 123 + 'px' }"
+                  :style="{
+                    maxWidth:
+                      inputWidth - (selected.length > 1 ? 123 : 80) + 'px',
+                  }"
                   >{{ selected[0].currentLabel }}</span
                 >
               </el-tag>
