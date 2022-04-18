@@ -8,7 +8,7 @@ import {
   watch,
 } from 'vue'
 import { isNumber, isObject, isUndefined } from '@element-plus/utils'
-import { sum } from './utils'
+import { enforceUnit, sum } from './utils'
 import { useColumns } from './use-columns'
 import { SortOrder, oppositeOrderMap } from './constants'
 
@@ -36,14 +36,13 @@ function useTable(props: TableV2Props) {
     hasFixedColumns,
     mainColumns,
     getColumn,
-    updateColumnWidth,
   } = useColumns(toRef(props, 'columns'), toRef(props, 'fixed'))
   // state
   const expandedRowKeys = ref<KeyType[]>(props.defaultExpandedRowKeys || [])
   const depthMap = ref<Record<KeyType, number>>({})
   const hoveringRowKey = shallowRef<Nullable<KeyType>>(null)
-  const resizingKey = shallowRef<Nullable<KeyType>>(null)
-  const resizingWidth = shallowRef(0)
+  // const resizingKey = shallowRef<Nullable<KeyType>>(null)
+  // const resizingWidth = shallowRef(0)
   const resetIndex = shallowRef<Nullable<number>>(null)
   const isResetting = shallowRef(false)
   const isScrolling = shallowRef(false)
@@ -60,8 +59,6 @@ function useTable(props: TableV2Props) {
   const leftTableHeights = shallowRef<Heights>({})
   const mainTableHeights = shallowRef<Heights>({})
   const rightTableHeights = shallowRef<Heights>({})
-  const hScrollbarSize = shallowRef(0)
-  const vScrollbarSize = shallowRef(0)
 
   const rowsHeight = computed(() => {
     const { rowHeight, estimatedRowHeight } = props
@@ -112,15 +109,34 @@ function useTable(props: TableV2Props) {
     return expandColumnKey ? unref(flattenedData) : data
   })
 
+  const bodyWidth = computed(() => {
+    const { fixed, width, vScrollbarSize } = props
+    const ret = width - vScrollbarSize
+    return fixed ? Math.max(Math.round(unref(columnsTotalWidth)), ret) : ret
+  })
+
+  const rootStyle = computed<CSSProperties>(() => {
+    const { style = {}, height, width } = props
+    return enforceUnit({
+      ...style,
+      height,
+      width,
+    })
+  })
+
+  const headerWidth = computed(
+    () => unref(bodyWidth) + (props.fixed ? props.vScrollbarSize : 0)
+  )
+
   const mainTableHeight = computed(() => {
-    const { height = 0, maxHeight = 0, footerHeight } = props
+    const { height = 0, maxHeight = 0, footerHeight, hScrollbarSize } = props
 
     if (maxHeight > 0) {
       const _fixedRowsHeight = unref(fixedRowsHeight)
       const _rowsHeight = unref(rowsHeight)
       const _headerHeight = unref(headerHeight)
       const total =
-        _headerHeight + _fixedRowsHeight + _rowsHeight + unref(hScrollbarSize)
+        _headerHeight + _fixedRowsHeight + _rowsHeight + hScrollbarSize
 
       return Math.min(total, maxHeight - footerHeight)
     }
@@ -129,10 +145,9 @@ function useTable(props: TableV2Props) {
   })
 
   const fixedTableHeight = computed(() => {
-    const tableHeight =
-      unref(mainTableHeight) -
-      (unref(data).length > 0 ? unref(hScrollbarSize) : 0)
-    if (isNumber(props.maxHeight) && props.maxHeight > 0) return tableHeight
+    const { maxHeight } = props
+    const tableHeight = unref(mainTableHeight)
+    if (isNumber(maxHeight) && maxHeight > 0) return tableHeight
 
     const totalHeight =
       unref(rowsHeight) + unref(headerHeight) + unref(fixedRowsHeight)
@@ -197,7 +212,7 @@ function useTable(props: TableV2Props) {
     const clientHeight = unref(windowHeight)
 
     const heightUntilEnd =
-      _totalHeight - (scrollTop + clientHeight) + unref(hScrollbarSize)
+      _totalHeight - (scrollTop + clientHeight) + props.hScrollbarSize
 
     if (
       unref(lastRenderedRowIndex) >= 0 &&
@@ -243,7 +258,7 @@ function useTable(props: TableV2Props) {
   }
 
   function onRowHovered({ hovered, rowKey }: RowHoverParams<any>) {
-    if (hovered) hoveringRowKey.value = rowKey
+    hoveringRowKey.value = hovered ? rowKey : null
   }
 
   function onRowExpanded({
@@ -272,32 +287,32 @@ function useTable(props: TableV2Props) {
     props.onExpandedRowsChange?.(_expandedRowKeys)
   }
 
-  function onColumnResized(
-    { key }: TableV2Props['columns'][number],
-    width: number
-  ) {
-    resizingWidth.value = width
-    const column = getColumn(key)!
+  // function onColumnResized(
+  //   { key }: TableV2Props['columns'][number],
+  //   width: number
+  // ) {
+  //   resizingWidth.value = width
+  //   const column = getColumn(key)!
 
-    updateColumnWidth(column, width)
-    props.onColumnResize?.(column, width)
-  }
+  //   updateColumnWidth(column, width)
+  //   props.onColumnResize?.(column, width)
+  // }
 
-  function onColumnResizeStart({ key }: TableV2Props['columns'][number]) {
-    resizingKey.value = key
-  }
+  // function onColumnResizeStart({ key }: TableV2Props['columns'][number]) {
+  //   resizingKey.value = key
+  // }
 
-  function onColumnResizeEnd() {
-    const _resizingKey = unref(resizingKey)
-    const _resizingWidth = unref(resizingWidth)
+  // function onColumnResizeEnd() {
+  //   const _resizingKey = unref(resizingKey)
+  //   const _resizingWidth = unref(resizingWidth)
 
-    resizingKey.value = null
-    resizingWidth.value = 0
+  //   resizingKey.value = null
+  //   resizingWidth.value = 0
 
-    if (!_resizingKey || !_resizingWidth) return
+  //   if (!_resizingKey || !_resizingWidth) return
 
-    props.onColumnResizeEnded?.(getColumn(_resizingKey)!, _resizingWidth)
-  }
+  //   props.onColumnResizeEnded?.(getColumn(_resizingKey)!, _resizingWidth)
+  // }
 
   function onColumnSorted(e: MouseEvent) {
     const { key } = (e.currentTarget as HTMLElement).dataset
@@ -391,9 +406,7 @@ function useTable(props: TableV2Props) {
     isScrolling,
     hoveringRowKey,
     hasFixedColumns,
-    hScrollbarSize,
-    resizingKey,
-    vScrollbarSize,
+    // resizingKey,
     // records
     columnsStyles,
     columnsTotalWidth,
@@ -404,6 +417,9 @@ function useTable(props: TableV2Props) {
     fixedColumnOnRight,
     mainColumns,
     // metadata
+    bodyWidth,
+    rootStyle,
+    headerWidth,
     mainTableHeight,
     fixedTableHeight,
     leftTableWidth,
@@ -416,9 +432,9 @@ function useTable(props: TableV2Props) {
 
     // event handlers
     onColumnSorted,
-    onColumnResized,
-    onColumnResizeStart,
-    onColumnResizeEnd,
+    // onColumnResized,
+    // onColumnResizeStart,
+    // onColumnResizeEnd,
     onRowHovered,
     onRowExpanded,
     onRowsRendered,

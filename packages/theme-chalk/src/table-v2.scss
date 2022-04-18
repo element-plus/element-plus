@@ -13,6 +13,10 @@
   padding: 0 8px;
 }
 
+@mixin safe-padding() {
+  padding-inline-end: var(--#{$namespace}-table-scrollbar-size);
+}
+
 @mixin cell-alignment() {
   @include when('align-center') {
     justify-content: center;
@@ -33,6 +37,16 @@
   background-color: getCssVar('bg', 'color');
 }
 
+@mixin hidden-scrollbar {
+  .#{$namespace}-virtual-scrollbar {
+    opacity: 0;
+  }
+  .#{$namespace}-vl__vertical,
+  .#{$namespace}-vl__horizontal {
+    z-index: -1;
+  }
+}
+
 @include b('table-v2') {
   @include set-component-css-var('table', $table);
 }
@@ -44,23 +58,47 @@
 
   @include e('root') {
     position: relative;
+
+    // for showing the scrollbar when mouse is on the root table
+    &:hover {
+      @include e('main') {
+        .#{$namespace}-virtual-scrollbar {
+          opacity: 1;
+        }
+      }
+    }
   }
 
   @include e('main') {
     @include table-root;
     left: 0;
+
+    .#{$namespace}-vl__horizontal,
+    .#{$namespace}-vl__vertical {
+      z-index: 2;
+    }
   }
 
   @include e('left') {
     @include table-root;
     left: 0;
     box-shadow: 2px 0 4px 0 rgb(0 0 0 / 6%);
+    @include hidden-scrollbar;
   }
 
   @include e('right') {
     @include table-root;
     right: 0;
     box-shadow: -2px 0 4px 0 rgb(0 0 0 / 6%);
+    @include hidden-scrollbar;
+
+    @include e('header-row') {
+      @include safe-padding;
+    }
+
+    @include e('row') {
+      @include safe-padding;
+    }
   }
 
   @include e('header-wrapper') {
@@ -84,13 +122,14 @@
       user-select: none;
       background-color: getCssVar('table-header', 'bg-color');
       color: getCssVar('table-header', 'text-color');
+      font-weight: bold;
 
       @include when(sortable) {
         cursor: pointer;
       }
 
       &:hover {
-        #{$namespace}-icon {
+        .#{$namespace}-icon {
           display: block;
         }
       }
@@ -113,7 +152,7 @@
     border-bottom: getCssVar('table', 'border');
     transition: background-color getCssVar('transition-duration', '');
 
-    &:hover {
+    @include when('hovered') {
       background-color: getCssVar('table-row', 'hover-bg-color');
     }
 

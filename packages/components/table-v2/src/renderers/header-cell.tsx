@@ -1,5 +1,5 @@
 import HeaderCell from '../table-header-cell'
-import ColumnResizer from '../table-column-resizer'
+// import ColumnResizer from '../table-column-resizer'
 import SortIcon from '../sort-icon'
 import { Alignment, SortOrder, oppositeOrderMap } from '../constants'
 import { placeholderSign } from '../private'
@@ -16,12 +16,11 @@ type HeaderCellRendererProps = TableV2HeaderRowCellRendererParams &
   UnwrapNestedRefs<
     Pick<
       UseTableReturn,
-      | 'columnsStyles'
-      | 'resizingKey'
-      | 'onColumnSorted'
-      | 'onColumnResized'
-      | 'onColumnResizeEnd'
-      | 'onColumnResizeStart'
+      'columnsStyles' | 'onColumnSorted'
+      // | 'resizingKey'
+      // | 'onColumnResized'
+      // | 'onColumnResizeEnd'
+      // | 'onColumnResizeStart'
     >
   > &
   Pick<TableV2Props, 'sortBy' | 'sortState' | 'headerCellProps'> & {
@@ -34,11 +33,11 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
   const {
     column,
     ns,
-    resizingKey,
     columnsStyles,
-    onColumnResizeEnd,
-    onColumnResizeStart,
-    onColumnResized,
+    // resizingKey,
+    // onColumnResizeEnd,
+    // onColumnResizeStart,
+    // onColumnResized,
     onColumnSorted,
   } = props
 
@@ -48,7 +47,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     return <div class={ns.em('header-row-cell', 'placeholder')} style={style} />
   }
 
-  const { headerCellRenderer, headerClass, sortable, resizable } = column
+  const { headerCellRenderer, headerClass, sortable } = column
 
   /**
    * render Cell children
@@ -83,7 +82,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     column.align === Alignment.CENTER && ns.is('align-center'),
     column.align === Alignment.RIGHT && ns.is('align-right'),
     sortable && ns.is('sortable'),
-    column.key === resizingKey && ns.is('resizing'),
+    // column.key === resizingKey && ns.is('resizing'),
   ]
 
   const cellProps = {
@@ -94,6 +93,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     ['data-key']: column.key,
   }
 
+  // For now we don't deliver resizable column feature since it has some UX issue.
   return (
     <div {...cellProps}>
       {Cell}
@@ -104,7 +104,8 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
           sortOrder={sortOrder}
         />
       )}
-      {resizable && (
+
+      {/* {resizable && (
         <ColumnResizer
           class={ns.e('column-resizer')}
           column={column}
@@ -112,7 +113,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
           onResizeStart={onColumnResizeStart}
           onResizeStop={onColumnResizeEnd}
         />
-      )}
+      )} */}
     </div>
   )
 }

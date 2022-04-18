@@ -11,5 +11,6 @@ const TableV2Cell = (props: TableV2CellProps, { slots }) => {
 }
 
 TableV2Cell.componentName = 'ElTableV2Cell'
+TableV2Cell.inheritAttrs = false
 
 export default TableV2Cell

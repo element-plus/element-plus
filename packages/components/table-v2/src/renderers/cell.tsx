@@ -4,7 +4,7 @@ import TableCell from '../table-cell'
 import ExpandIcon from '../expand-icon'
 import { Alignment } from '../constants'
 import { placeholderSign } from '../private'
-import { enforceUnit, tryCall } from '../utils'
+import { enforceUnit } from '../utils'
 
 import type { FunctionalComponent, UnwrapNestedRefs, VNode } from 'vue'
 import type { TableV2RowCellRenderParam } from '../table-row'
@@ -108,13 +108,13 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
 
   return (
     <div
-      {...tryCall(cellProps, {
-        columns,
-        column,
-        columnIndex,
-        rowData,
-        rowIndex,
-      })}
+      // {...tryCall(cellProps, {
+      //   columns,
+      //   column,
+      //   columnIndex,
+      //   rowData,
+      //   rowIndex,
+      // })}
       class={kls}
       style={cellStyle}
     >
@@ -123,5 +123,7 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
     </div>
   )
 }
+
+CellRenderer.inheritAttrs = false
 
 export default CellRenderer

@@ -12,7 +12,6 @@ export const tableV2ColumnResizerProps = buildProps({
   onResize: {
     type: definePropType<ResizeHandler>(Function),
   },
-
   onResizeStart: {
     type: definePropType<ResizeTimingFn>(Function),
   },
