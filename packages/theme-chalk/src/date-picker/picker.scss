@@ -23,6 +23,18 @@
   display: inline-block;
   text-align: left;
 
+  &.#{$namespace}-input__inner {
+    border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+
+    @include inset-input-border(
+      var(--el-input-border-color, map.get($input, 'border-color'))
+    );
+
+    &:hover {
+      @include inset-input-border(var(--el-input-hover-border-color));
+    }
+  }
+
   &.#{$namespace}-input,
   &.#{$namespace}-input__inner {
     width: var(--el-date-editor-width);

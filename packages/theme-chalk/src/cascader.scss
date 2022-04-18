@@ -14,7 +14,7 @@
   outline: none;
 
   &:not(.is-disabled):hover {
-    .#{$namespace}-input__inner {
+    .#{$namespace}-input__wrapper {
       cursor: pointer;
       box-shadow: 0 0 0 1px var(--el-input-hover-border-color) inset;
     }
@@ -25,15 +25,7 @@
 
     .#{$namespace}-input__inner {
       text-overflow: ellipsis;
-
-      &:focus {
-        box-shadow: 0 0 0 1px
-          var(
-            --el-input-focus-border-color,
-            map.get($input, 'focus-border-color')
-          )
-          inset;
-      }
+      cursor: pointer;
     }
 
     .#{$namespace}-input__suffix-inner {
@@ -63,7 +55,7 @@
     }
 
     @include when(focus) {
-      .#{$namespace}-input__inner {
+      .#{$namespace}-input__wrapper {
         box-shadow: 0 0 0 1px
           var(
             --el-input-focus-border-color,
