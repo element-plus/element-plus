@@ -1,5 +1,8 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { virtualizedListProps } from '@element-plus/components/virtual-list'
+import {
+  virtualizedGridProps,
+  virtualizedListProps,
+} from '@element-plus/components/virtual-list'
 import {
   classType,
   columns,
@@ -43,6 +46,9 @@ export const tableV2GridProps = buildProps({
    */
   cache: virtualizedListProps.cache,
   useIsScrolling: Boolean,
+  scrollbarAlwaysOn: virtualizedGridProps.scrollbarAlwaysOn,
+  scrollbarStartGap: virtualizedGridProps.scrollbarStartGap,
+  scrollbarEndGap: virtualizedGridProps.scrollbarEndGap,
 
   /**
    * CSS attributes

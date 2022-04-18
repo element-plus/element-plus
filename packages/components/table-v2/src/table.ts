@@ -1,5 +1,9 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import {
+  virtualizedGridProps,
+  virtualizedScrollbarProps,
+} from '@element-plus/components/virtual-list'
+import {
   classType,
   columns,
   dataType,
@@ -158,6 +162,9 @@ export const tableV2Props = buildProps({
     type: Number,
     default: 12,
   },
+  hScrollbarSize: virtualizedGridProps.hScrollbarSize,
+  vScrollbarSize: virtualizedGridProps.vScrollbarSize,
+  scrollbarAlwaysOn: virtualizedScrollbarProps.alwaysOn,
 
   /**
    * Sorting
@@ -178,12 +185,12 @@ export const tableV2Props = buildProps({
   onColumnSort: {
     type: definePropType<ColumnSortHandler<any>>(Function),
   },
-  onColumnResize: {
-    type: definePropType<ColumnResizeHandler<any>>(Function),
-  },
-  onColumnResizeEnded: {
-    type: definePropType<ColumnResizeHandler<any>>(Function),
-  },
+  // onColumnResize: {
+  //   type: definePropType<ColumnResizeHandler<any>>(Function),
+  // },
+  // onColumnResizeEnded: {
+  //   type: definePropType<ColumnResizeHandler<any>>(Function),
+  // },
   onExpandedRowsChange: Function,
   onEndReached: {
     type: definePropType<(distance: number) => void>(Function),

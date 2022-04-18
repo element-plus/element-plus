@@ -6,7 +6,7 @@ import type { FunctionalComponent } from 'vue'
 
 export type SortIconProps = {
   sortOrder: SortOrder
-  class?: string | string[]
+  class?: JSX.IntrinsicAttributes['class']
 }
 
 const SortIcon: FunctionalComponent<SortIconProps> = (props) => {

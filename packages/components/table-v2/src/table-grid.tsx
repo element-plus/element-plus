@@ -160,9 +160,12 @@ const TableGrid = defineComponent({
         data,
         fixedData,
         useIsScrolling,
+        scrollbarAlwaysOn,
+        scrollbarEndGap,
+        scrollbarStartGap,
 
         onScroll,
-
+        style,
         rowHeight,
         bodyWidth,
         estimatedRowHeight,
@@ -175,7 +178,7 @@ const TableGrid = defineComponent({
       const _headerHeight = unref(headerHeight)
 
       return (
-        <div role="table" class={[ns.e('table'), props.class]}>
+        <div role="table" class={[ns.e('table'), props.class]} style={style}>
           <Grid
             ref={bodyRef}
             // special attrs
@@ -193,6 +196,9 @@ const TableGrid = defineComponent({
             width={width}
             height={unref(gridHeight)}
             class={ns.e('body')}
+            scrollbarStartGap={scrollbarStartGap}
+            scrollbarEndGap={scrollbarEndGap}
+            scrollbarAlwaysOn={scrollbarAlwaysOn}
             // handlers
             onScroll={onScroll}
             onItemRendered={onItemRendered}

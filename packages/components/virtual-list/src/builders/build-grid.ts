@@ -522,7 +522,13 @@ const createGrid = ({
       // rendering part
 
       const renderScrollbars = () => {
-        const { totalColumn, totalRow } = props
+        const {
+          scrollbarAlwaysOn,
+          scrollbarStartGap,
+          scrollbarEndGap,
+          totalColumn,
+          totalRow,
+        } = props
 
         const width = unref(parsedWidth)
         const height = unref(parsedHeight)
@@ -531,6 +537,10 @@ const createGrid = ({
         const { scrollLeft, scrollTop } = unref(states)
         const horizontalScrollbar = h(Scrollbar, {
           ref: hScrollbar,
+          alwaysOn: scrollbarAlwaysOn,
+          startGap: scrollbarStartGap,
+          endGap: scrollbarEndGap,
+          class: ns.e('horizontal'),
           clientSize: width,
           layout: 'horizontal',
           onScroll: onHorizontalScroll,
@@ -542,11 +552,16 @@ const createGrid = ({
 
         const verticalScrollbar = h(Scrollbar, {
           ref: vScrollbar,
+          alwaysOn: scrollbarAlwaysOn,
+          startGap: scrollbarStartGap,
+          endGap: scrollbarEndGap,
+          class: ns.e('vertical'),
           clientSize: height,
           layout: 'vertical',
           onScroll: onVerticalScroll,
           ratio: (height * 100) / estimatedHeight,
           scrollFrom: scrollTop / (estimatedHeight - height),
+
           total: totalColumn,
           visible: true,
         })
