@@ -8,7 +8,7 @@ describe('useCursor', () => {
     const [recordCursor, setCursor] = useCursor(inputRef)
     if (inputRef.value == undefined) return
     inputRef.value.value = 'abc'
-    // 手动指定一个光标位置
+    //set a cursor position
     inputRef.value.setSelectionRange(1, 1)
     recordCursor()
     inputRef.value.value = 'a-bc'
