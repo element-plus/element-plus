@@ -1,6 +1,7 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
@@ -192,6 +193,10 @@
     // override edge default style
     &[type='password']::-ms-reveal {
       display: none;
+    }
+    @include when(limitVisible) {
+      @include utils-ellipsis;
+      padding-right: 6.2em;
     }
   }
 
