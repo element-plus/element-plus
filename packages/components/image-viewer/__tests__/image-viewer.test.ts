@@ -7,7 +7,6 @@ import ImageViewer from '../src/image-viewer.vue'
 
 const mount = makeMount(ImageViewer, {
   props: {
-    src: IMAGE_SUCCESS,
     urlList: [IMAGE_SUCCESS],
   },
 })
@@ -25,6 +24,7 @@ describe('<image-viewer />', () => {
     expect(viewer.exists()).toBe(true)
     await wrapper.find('.el-image-viewer__close').trigger('click')
     expect(wrapper.emitted('close')).toEqual([[]])
+    wrapper.unmount()
   })
 
   test('image preview hide-click-on-modal', async () => {
@@ -42,5 +42,6 @@ describe('<image-viewer />', () => {
 
     await wrapper.find('.el-image-viewer__mask').trigger('click')
     expect(wrapper.emitted('close')).toBeDefined()
+    wrapper.unmount()
   })
 })

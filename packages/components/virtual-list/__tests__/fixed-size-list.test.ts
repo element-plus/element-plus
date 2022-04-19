@@ -21,6 +21,7 @@ import {
 } from '../src/defaults'
 import { FixedSizeList } from '..'
 
+import type { SpyInstance } from 'vitest'
 import type { ListExposes } from '../src/types'
 type ListRef = ListExposes
 
@@ -369,6 +370,8 @@ describe('<fixed-size-list />', () => {
 
   describe('to throw', () => {
     it('should throw when layout is invalid', () => {
+      vi.spyOn(console, 'warn').mockImplementation(() => vi.fn)
+
       try {
         const wrapper = mount({
           props: {
@@ -380,6 +383,9 @@ describe('<fixed-size-list />', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(Error)
       }
+
+      expect(console.warn).toHaveBeenCalled()
+      ;(console.warn as any as SpyInstance).mockRestore()
     })
   })
 })

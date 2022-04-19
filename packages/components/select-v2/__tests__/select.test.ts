@@ -807,7 +807,6 @@ describe('Select', () => {
       const wrapper = createSelect({
         data: () => {
           return {
-            popperAppendToBody: false,
             allowCreate: true,
             filterable: true,
             clearable: true,
@@ -982,7 +981,6 @@ describe('Select', () => {
       data() {
         return {
           options: [],
-          popperAppendToBody: false,
         }
       },
       slots: {
@@ -1094,11 +1092,6 @@ describe('Select', () => {
 
   it('customized option renderer', async () => {
     const wrapper = createSelect({
-      data() {
-        return {
-          popperAppendToBody: false,
-        }
-      },
       slots: {
         default: `
           <div class="custom-renderer">

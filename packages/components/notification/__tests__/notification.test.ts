@@ -8,6 +8,7 @@ import Notification from '../src/notification.vue'
 
 import type { Component, ComponentPublicInstance } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
+import type { SpyInstance } from 'vitest'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -122,6 +123,8 @@ describe('Notification.vue', () => {
     })
 
     test('should not be able to render invalid type icon', () => {
+      vi.spyOn(console, 'warn').mockImplementation(() => vi.fn)
+
       const type = 'some-type'
       const wrapper = _mount({
         props: {
@@ -130,6 +133,8 @@ describe('Notification.vue', () => {
       })
 
       expect(wrapper.find('.el-notification__icon').exists()).toBe(false)
+      expect(console.warn).toHaveBeenCalled()
+      ;(console.warn as any as SpyInstance).mockRestore()
     })
   })
 
