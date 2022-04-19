@@ -2,7 +2,7 @@
   "extends": "@vue/tsconfig/tsconfig.web.json",
   "compilerOptions": {
     "allowJs": true,
-    "module": "ES6",
+    "module": "ESNext",
     "target": "ES2018",
     "noImplicitAny": false,
     "declaration": true,
