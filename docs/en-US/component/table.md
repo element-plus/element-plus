@@ -278,21 +278,21 @@ table/table-layout
 
 ## Table Methods
 
-| Method             | Description                                                                                                                                                       | Parameters                        |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
-| clearSelection     | used in multiple selection Table, clear user selection                                                                                                            | —                                 |
-| getSelectionRows   | returns the currently selected rows                                                                                                                               |                                   |
-| toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected                    | row, selected                     |
-| toggleAllSelection | used in multiple selection Table, toggle select all and deselect all                                                                                              | —                                 |
-| toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | row, expanded                     |
-| setCurrentRow      | used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection.                                             | row                               |
-| clearSort          | clear sorting, restore data to the original order                                                                                                                 | —                                 |
-| clearFilter        | clear filters of the columns whose `columnKey` are passed in. If no params, clear all filters                                                                     | columnKeys                        |
-| doLayout           | refresh the layout of Table. When the visibility of Table changes, you may need to call this method to get a correct layout                                       | —                                 |
-| sort               | sort Table manually. Property `prop` is used to set sort column, property `order` is used to set sort order                                                       | prop: string, order: string       |
-| scrollTo           | scrolls to a particular set of coordinates                                                                                                                        | `{ top?: number, left?: number }` |
-| setScrollTop       | set vertical scroll position                                                                                                                                      | top                               |
-| setScrollLeft      | set horizontal scroll position                                                                                                                                    | left                              |
+| Method             | Description                                                                                                                                                       | Parameters                                            |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| clearSelection     | used in multiple selection Table, clear user selection                                                                                                            | —                                                     |
+| getSelectionRows   | returns the currently selected rows                                                                                                                               |                                                       |
+| toggleRowSelection | used in multiple selection Table, toggle if a certain row is selected. With the second parameter, you can directly set if this row is selected                    | row, selected                                         |
+| toggleAllSelection | used in multiple selection Table, toggle select all and deselect all                                                                                              | —                                                     |
+| toggleRowExpansion | used in expandable Table or tree Table, toggle if a certain row is expanded. With the second parameter, you can directly set if this row is expanded or collapsed | row, expanded                                         |
+| setCurrentRow      | used in single selection Table, set a certain row selected. If called without any parameter, it will clear selection.                                             | row                                                   |
+| clearSort          | clear sorting, restore data to the original order                                                                                                                 | —                                                     |
+| clearFilter        | clear filters of the columns whose `columnKey` are passed in. If no params, clear all filters                                                                     | columnKeys                                            |
+| doLayout           | refresh the layout of Table. When the visibility of Table changes, you may need to call this method to get a correct layout                                       | —                                                     |
+| sort               | sort Table manually. Property `prop` is used to set sort column, property `order` is used to set sort order                                                       | prop: string, order: string                           |
+| scrollTo           | scrolls to a particular set of coordinates                                                                                                                        | (options: ScrollToOptions \| number, yCoord?: number) |
+| setScrollTop       | set vertical scroll position                                                                                                                                      | top                                                   |
+| setScrollLeft      | set horizontal scroll position                                                                                                                                    | left                                                  |
 
 ## Table Slots
 
@@ -300,6 +300,7 @@ table/table-layout
 | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | -      | customize default content                                                                                                                                                                     | Table-column |
 | append | Contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. | —            |
+| empty  | you can customize content when data is empty.                                                                                                                                                 | —            |
 
 ## Table-column Attributes
 
@@ -339,3 +340,27 @@ table/table-layout
 | ------ | ---------------------------------------------------------------------------------- |
 | —      | Custom content for table columns. The scope parameter is `{ row, column, $index }` |
 | header | Custom content for table header. The scope parameter is `{ column, $index }`       |
+
+## FAQ
+
+#### How to use image preview in the table?
+
+```vue
+<el-table-column label="Thumbnail" width="180">
+    <template #default="scope">
+        <div style="display: flex; align-items: center">
+            <el-image :preview-src-list="srcList"/>
+        </div>
+    </template>
+</el-table-column>
+```
+
+PS: since the fixed column is implement by sticky, when you have fixed columns in table, please add the `preview-teleported` attribute in image
+
+#### Why column is not rendered when use DOM templates?
+
+Typical issue: [#5046](https://github.com/element-plus/element-plus/issues/5046) [#5862](https://github.com/element-plus/element-plus/issues/5862) [#6919](https://github.com/element-plus/element-plus/issues/6919)
+
+This is because the HTML spec only allows a few specific elements to omit closing tags, the most common being `<input>` and `<img>`. For all other elements, if you omit the closing tag, the native HTML parser will think you never terminated the opening tag
+
+For more details please refer to [vue docs](https://vuejs.org/guide/essentials/component-basics.html#self-closing-tags)

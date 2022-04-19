@@ -17,10 +17,12 @@ defineProps<{
 defineEmits(['toggle'])
 const themeEnabled = useFeatureFlag('theme')
 
-const { theme } = useData()
+const { theme, page } = useData()
 
 const currentLink = computed(() => {
-  if (!inBrowser) return '/'
+  if (!inBrowser) {
+    return `/${page.value?.frontmatter?.lang || ''}/`
+  }
   const existLangIndex = theme.value.langs.findIndex((lang) =>
     window?.location?.pathname.startsWith(`/${lang}`)
   )
@@ -31,7 +33,7 @@ const currentLink = computed(() => {
 
 <template>
   <div class="navbar-wrapper">
-    <div class="container">
+    <div class="header-container">
       <div class="logo-container">
         <a :href="currentLink">
           <img
@@ -68,7 +70,6 @@ const currentLink = computed(() => {
   }
   .logo {
     position: relative;
-    width: 100%;
     height: 100%;
   }
 }

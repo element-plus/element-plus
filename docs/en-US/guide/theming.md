@@ -160,7 +160,7 @@ export default defineConfig({
     //     ElementPlusResolver({
     //       importStyle: "sass",
     //       // directives: true,
-    //       // version: "1.2.0-beta.1",
+    //       // version: "2.1.5",
     //     }),
     //   ],
     // }),
@@ -202,7 +202,7 @@ CSS Variables is a very useful feature, already supported by almost all browsers
 
 > Learn more from [Using CSS custom properties (variables) | MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
 
-We have used css variables to reconstruct the style system of almost all components. (Since `1.0.2-beta-70` [#2242](https://github.com/element-plus/element-plus/issues/2242))
+We have used css variables to reconstruct the style system of almost all components.
 
 ::: tip
 

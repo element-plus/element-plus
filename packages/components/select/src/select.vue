@@ -208,8 +208,7 @@
             </template>
             <template #suffix>
               <el-icon
-                v-if="iconComponent"
-                v-show="!showClose"
+                v-if="iconComponent && !showClose"
                 :class="[nsSelect.e('caret'), nsSelect.e('icon'), iconReverse]"
               >
                 <component :is="iconComponent" />
@@ -236,7 +235,7 @@
             :class="[
               nsSelect.is(
                 'empty',
-                !allowCreate && query && filteredOptionsCount === 0
+                !allowCreate && Boolean(query) && filteredOptionsCount === 0
               ),
             ]"
           >
@@ -282,7 +281,11 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  UPDATE_MODEL_EVENT,
+  getComponentSize,
+} from '@element-plus/constants'
 import {
   addResizeListener,
   isValidComponentSize,
@@ -531,14 +534,10 @@ export default defineComponent({
       }
       addResizeListener(selectWrapper.value as any, handleResize)
       if (reference.value && reference.value.$el) {
-        const sizeMap = {
-          large: 36,
-          default: 32,
-          small: 28,
-        }
         const input = reference.value.input as HTMLInputElement
         states.initialInputHeight =
-          input.getBoundingClientRect().height || sizeMap[selectSize.value]
+          input.getBoundingClientRect().height ||
+          getComponentSize(selectSize.value)
       }
       if (props.remote && props.multiple) {
         resetInputHeight()

@@ -152,7 +152,7 @@
     }
 
     @include when(disabled) {
-      color: var(--el-disabled-text-color);
+      color: getCssVar('disabled-text-color');
       cursor: default;
     }
   }
@@ -223,9 +223,8 @@
     }
   }
   @include m(border-card) {
-    background: $color-white;
+    background: getCssVar('bg-color', 'overlay');
     border: 1px solid getCssVar('border-color');
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 0 6px 0 rgba(0, 0, 0, 0.04);
 
     > .#{$namespace}-tabs__content {
       padding: 15px;
@@ -255,7 +254,7 @@
 
       &.is-active {
         color: var(--el-color-primary);
-        background-color: $color-white;
+        background-color: getCssVar('bg-color', 'overlay');
         border-right-color: getCssVar('border-color');
         border-left-color: getCssVar('border-color');
       }
@@ -263,7 +262,7 @@
         color: var(--el-color-primary);
       }
       &.is-disabled {
-        color: var(--el-disabled-text-color);
+        color: getCssVar('disabled-text-color');
       }
     }
 
@@ -315,7 +314,7 @@
         border: 1px solid transparent;
       }
       .#{$namespace}-tabs__item.is-bottom {
-        margin: 0 -1px -1px -1px;
+        margin: 0 -1px -1px;
       }
     }
   }

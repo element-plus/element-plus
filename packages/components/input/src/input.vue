@@ -13,7 +13,7 @@
         [nsInput.m('prefix')]: $slots.prefix || prefixIcon,
         [nsInput.m('suffix')]:
           $slots.suffix || suffixIcon || clearable || showPassword,
-        [nsInput.m('suffix--password-clear')]: showClear && showPwdVisible,
+        [nsInput.bm('suffix', 'password-clear')]: showClear && showPwdVisible,
       },
       $attrs.class,
     ]"
@@ -28,81 +28,85 @@
         <slot name="prepend" />
       </div>
 
-      <input
-        ref="input"
-        :class="nsInput.e('inner')"
-        v-bind="attrs"
-        :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
-        :disabled="inputDisabled"
-        :readonly="readonly"
-        :autocomplete="autocomplete"
-        :formatter="formatter"
-        :parser="parser"
-        :tabindex="tabindex"
-        :aria-label="label"
-        :placeholder="placeholder"
-        :style="inputStyle"
-        @compositionstart="handleCompositionStart"
-        @compositionupdate="handleCompositionUpdate"
-        @compositionend="handleCompositionEnd"
-        @input="handleInput"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @change="handleChange"
-        @keydown="handleKeydown"
-      />
-
-      <!-- prefix slot -->
-      <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
-        <span :class="nsInput.e('prefix-inner')">
-          <slot name="prefix" />
-          <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
-            <component :is="prefixIcon" />
-          </el-icon>
-        </span>
-      </span>
-
-      <!-- suffix slot -->
-      <span v-if="suffixVisible" :class="nsInput.e('suffix')">
-        <span :class="nsInput.e('suffix-inner')">
-          <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
-            <slot name="suffix" />
-            <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
-              <component :is="suffixIcon" />
+      <div :class="[nsInput.e('wrapper'), nsInput.is('focus', focused)]">
+        <!-- prefix slot -->
+        <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
+          <span :class="nsInput.e('prefix-inner')">
+            <slot name="prefix" />
+            <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
+              <component :is="prefixIcon" />
             </el-icon>
-          </template>
-          <el-icon
-            v-if="showClear"
-            :class="[nsInput.e('icon'), nsInput.e('clear')]"
-            @mousedown.prevent
-            @click="clear"
-          >
-            <circle-close />
-          </el-icon>
-          <el-icon
-            v-if="showPwdVisible"
-            :class="[nsInput.e('icon'), nsInput.e('clear')]"
-            @click="handlePasswordVisible"
-          >
-            <icon-view />
-          </el-icon>
-          <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
-            <span :class="nsInput.e('count-inner')">
-              {{ textLength }} / {{ attrs.maxlength }}
-            </span>
           </span>
         </span>
-        <el-icon
-          v-if="validateState && validateIcon && needStatusIcon"
-          :class="[
-            nsInput.e('icon'),
-            nsInput.e('validateIcon'),
-            nsInput.is('loading', validateState === 'validating'),
-          ]"
-        >
-          <component :is="validateIcon" />
-        </el-icon>
-      </span>
+
+        <input
+          ref="input"
+          :class="nsInput.e('inner')"
+          v-bind="attrs"
+          :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
+          :disabled="inputDisabled"
+          :formatter="formatter"
+          :parser="parser"
+          :readonly="readonly"
+          :autocomplete="autocomplete"
+          :tabindex="tabindex"
+          :aria-label="label"
+          :placeholder="placeholder"
+          :style="inputStyle"
+          @compositionstart="handleCompositionStart"
+          @compositionupdate="handleCompositionUpdate"
+          @compositionend="handleCompositionEnd"
+          @input="handleInput"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @change="handleChange"
+          @keydown="handleKeydown"
+        />
+
+        <!-- suffix slot -->
+        <span v-if="suffixVisible" :class="nsInput.e('suffix')">
+          <span :class="nsInput.e('suffix-inner')">
+            <template
+              v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
+            >
+              <slot name="suffix" />
+              <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
+                <component :is="suffixIcon" />
+              </el-icon>
+            </template>
+            <el-icon
+              v-if="showClear"
+              :class="[nsInput.e('icon'), nsInput.e('clear')]"
+              @mousedown.prevent
+              @click="clear"
+            >
+              <circle-close />
+            </el-icon>
+            <el-icon
+              v-if="showPwdVisible"
+              :class="[nsInput.e('icon'), nsInput.e('password')]"
+              @click="handlePasswordVisible"
+            >
+              <component :is="passwordIcon" />
+            </el-icon>
+            <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
+              <span :class="nsInput.e('count-inner')">
+                {{ textLength }} / {{ attrs.maxlength }}
+              </span>
+            </span>
+          </span>
+          <el-icon
+            v-if="validateState && validateIcon && needStatusIcon"
+            :class="[
+              nsInput.e('icon'),
+              nsInput.e('validateIcon'),
+              nsInput.is('loading', validateState === 'validating'),
+            ]"
+          >
+            <component :is="validateIcon" />
+          </el-icon>
+        </span>
+      </div>
 
       <!-- append slot -->
       <div v-if="$slots.append" :class="nsInput.be('group', 'append')">
@@ -156,7 +160,11 @@ import {
 import { isClient } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
-import { CircleClose, View as IconView } from '@element-plus/icons-vue'
+import {
+  CircleClose,
+  Hide as IconHide,
+  View as IconView,
+} from '@element-plus/icons-vue'
 import {
   ValidateComponentsMap,
   debugWarn,
@@ -214,6 +222,9 @@ const _ref = computed(() => input.value || textarea.value)
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
 const validateState = computed(() => formItem?.validateState || '')
 const validateIcon = computed(() => ValidateComponentsMap[validateState.value])
+const passwordIcon = computed(() =>
+  passwordVisible.value ? IconView : IconHide
+)
 const containerStyle = computed<StyleValue>(() => [
   rawAttrs.style as StyleValue,
   props.inputStyle,
@@ -451,7 +462,10 @@ watch(
 
 onMounted(async () => {
   if (!props.formatter && props.parser) {
-    debugWarn('ElInput', 'If you set the parser, you also need to set the formatter.')
+    debugWarn(
+      'ElInput',
+      'If you set the parser, you also need to set the formatter.'
+    )
   }
   setNativeInputValue()
   updateIconOffset()

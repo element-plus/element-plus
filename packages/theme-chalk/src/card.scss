@@ -7,31 +7,32 @@
 }
 
 @include b(card) {
-  border-radius: var(--el-card-border-radius);
-  border: 1px solid var(--el-card-border-color);
-  background-color: var(--el-card-bg-color);
+  border-radius: getCssVar('card', 'border-radius');
+  border: 1px solid getCssVar('card', 'border-color');
+  background-color: getCssVar('card', 'bg-color');
   overflow: hidden;
-  color: var(--el-text-color-primary);
-  transition: var(--el-transition-duration);
+  color: getCssVar('text-color', 'primary');
+  transition: getCssVar('transition-duration');
 
   @include when(always-shadow) {
-    box-shadow: var(--el-box-shadow-light);
+    box-shadow: getCssVar('box-shadow', 'light');
   }
 
   @include when(hover-shadow) {
     &:hover,
     &:focus {
-      box-shadow: var(--el-box-shadow-light);
+      box-shadow: getCssVar('box-shadow', 'light');
     }
   }
 
   @include e(header) {
-    padding: calc(var(--el-card-padding) - 2px) var(--el-card-padding);
-    border-bottom: 1px solid var(--el-card-border-color);
+    padding: calc(#{getCssVar('card', 'padding')} - 2px)
+      getCssVar('card', 'padding');
+    border-bottom: 1px solid getCssVar('card', 'border-color');
     box-sizing: border-box;
   }
 
   @include e(body) {
-    padding: var(--el-card-padding);
+    padding: getCssVar('card', 'padding');
   }
 }

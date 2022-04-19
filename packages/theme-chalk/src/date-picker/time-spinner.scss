@@ -30,7 +30,7 @@
       }
 
       .#{$namespace}-time-spinner__item:hover:not(.is-disabled):not(.is-active) {
-        background: $color-white;
+        background: getCssVar('fill-color', 'light');
         cursor: default;
       }
     }

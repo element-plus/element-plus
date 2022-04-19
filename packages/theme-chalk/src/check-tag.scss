@@ -21,7 +21,7 @@
 
   @include when(checked) {
     background-color: getCssVar('color', 'primary', 'light-8');
-    color: getCssVar('color', 'primary', 'light-1');
+    color: getCssVar('color', 'primary');
     &:hover {
       background-color: getCssVar('color', 'primary', 'light-7');
     }

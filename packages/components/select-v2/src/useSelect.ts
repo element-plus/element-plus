@@ -687,7 +687,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = props.modelValue
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
-          (option) => getValueKey(option) === props.modelValue
+          (option) => getValueKey(option) === getValueKey(props.modelValue)
         )
         if (~selectedItemIndex) {
           states.selectedLabel = options[selectedItemIndex].label

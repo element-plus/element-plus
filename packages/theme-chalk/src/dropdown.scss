@@ -60,7 +60,7 @@ $dropdown-divider-width: 1px !default;
     // using attributes selector to override
 
     @include picker-popper(
-      $color-white,
+      getCssVar('bg-color', 'overlay'),
       1px solid var(--el-border-color-light),
       var(--el-dropdown-menu-box-shadow)
     );
@@ -108,7 +108,7 @@ $dropdown-divider-width: 1px !default;
       top: $gap;
       bottom: $gap;
       left: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: getCssVar('overlay-color', 'lighter');
     }
 
     &.#{$namespace}-button::before {
@@ -160,7 +160,7 @@ $dropdown-menu-padding-vertical: map.merge(
   z-index: var(--el-dropdown-menu-index);
   padding: map.get($dropdown-menu-padding-vertical, 'default')-$border-width 0;
   margin: 0;
-  background-color: $color-white;
+  background-color: getCssVar('bg-color', 'overlay');
   border: none;
   border-radius: var(--el-border-radius-base);
   box-shadow: none;

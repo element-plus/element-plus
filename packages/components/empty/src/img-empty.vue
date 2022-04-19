@@ -88,9 +88,6 @@
             height="36"
           />
           <g id="Rectangle-Copy-17" transform="translate(53.000000, 45.000000)">
-            <mask :id="`mask-4-${id}`" fill="var(--el-empty-fill-color-0)">
-              <use :xlink:href="`#path-3-${id}`" />
-            </mask>
             <use
               id="Mask"
               fill="var(--el-empty-fill-color-8)"
@@ -102,7 +99,7 @@
               fill="var(--el-empty-fill-color-9)"
               :mask="`url(#mask-4-${id})`"
               transform="translate(12.000000, 9.000000) scale(-1, 1) translate(-12.000000, -9.000000) "
-              points="7 0 24 0 20 18 -1.70530257e-13 16"
+              points="7 0 24 0 20 18 7 16.5"
             />
           </g>
           <polygon

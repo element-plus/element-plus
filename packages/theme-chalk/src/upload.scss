@@ -2,6 +2,23 @@
 @use 'mixins/utils' as *;
 @use 'common/var' as *;
 
+@mixin upload-success($color: null) {
+  right: -15px;
+  top: -6px;
+  width: 40px;
+  height: 24px;
+  background: var(--el-color-success);
+  text-align: center;
+  transform: rotate(45deg);
+
+  i {
+    font-size: 12px;
+    margin-top: 11px;
+    transform: rotate(-45deg);
+    color: $color;
+  }
+}
+
 @include b(upload) {
   @include utils-inline-flex-center;
 
@@ -192,7 +209,7 @@
       display: inline-flex;
       justify-content: center;
       flex-direction: column;
-      width: 100%;
+      width: calc(100% - 30px);
       margin-left: 4px;
     }
 
@@ -247,16 +264,19 @@
 
     padding: 0 4px;
 
-    overflow: hidden;
-    text-overflow: ellipsis;
     transition: color var(--el-transition-duration);
-    white-space: nowrap;
     font-size: var(--el-font-size-base);
 
     .#{$namespace}-icon {
       margin-right: 6px;
       color: var(--el-text-color-secondary);
     }
+  }
+
+  @include e(item-file-name) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   @include e(item-status-label) {
@@ -297,7 +317,7 @@
     .#{bem('upload-list', 'item')} {
       overflow: hidden;
       background-color: getCssVar('fill-color', 'blank');
-      border: 1px solid #c0ccda;
+      border: 1px solid getCssVar('border-color');
       border-radius: 6px;
       box-sizing: border-box;
       width: getCssVar('upload-list', 'picture-card', 'size');
@@ -341,20 +361,7 @@
     }
 
     .#{bem('upload-list', 'item-status-label')} {
-      position: absolute;
-      right: -15px;
-      top: -6px;
-      width: 40px;
-      height: 24px;
-      background: var(--el-color-success);
-      text-align: center;
-      transform: rotate(45deg);
-
-      i {
-        font-size: 12px;
-        margin-top: 11px;
-        transform: rotate(-45deg);
-      }
+      @include upload-success();
     }
 
     .#{bem('upload-list', 'item-actions')} {
@@ -372,7 +379,7 @@
       color: #fff;
       opacity: 0;
       font-size: 20px;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: getCssVar('overlay-color', 'lighter');
       transition: opacity var(--el-transition-duration);
 
       span {
@@ -416,7 +423,7 @@
       overflow: hidden;
       z-index: 0;
       background-color: getCssVar('fill-color', 'blank');
-      border: 1px solid #c0ccda;
+      border: 1px solid getCssVar('border-color');
       border-radius: 6px;
       box-sizing: border-box;
       margin-top: 10px;
@@ -510,22 +517,7 @@
   }
 
   @include e(label) {
-    position: absolute;
-    right: -15px;
-    top: -6px;
-    width: 40px;
-    height: 24px;
-    background: var(--el-color-success);
-    text-align: center;
-    transform: rotate(45deg);
-    box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.2);
-
-    i {
-      font-size: 12px;
-      margin-top: 11px;
-      transform: rotate(-45deg);
-      color: #fff;
-    }
+    @include upload-success(#fff);
   }
 
   @include e(progress) {
@@ -553,7 +545,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(#000, 0.72);
+    background-color: getCssVar('overlay-color', 'light');
     text-align: center;
 
     .btn {

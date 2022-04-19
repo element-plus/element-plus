@@ -1163,6 +1163,8 @@ describe('Table.vue', () => {
       await doubleWait()
       const rows = wrapper.findAll('.el-table__row')
       expect(rows.length).toEqual(7)
+      // validate placeholder
+      expect(wrapper.findAll('.el-table__placeholder').length).toBe(6)
       const childRows = wrapper.findAll('.el-table__row--level-1')
       expect(childRows.length).toEqual(2)
       childRows.forEach((item) => {

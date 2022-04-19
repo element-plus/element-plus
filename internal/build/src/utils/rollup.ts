@@ -1,5 +1,4 @@
-import { epPackage } from './paths'
-import { getPackageDependencies } from './pkg'
+import { epPackage, getPackageDependencies } from '@element-plus/build-utils'
 
 import type { OutputOptions, RollupBuild } from 'rollup'
 

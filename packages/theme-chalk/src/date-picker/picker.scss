@@ -9,9 +9,9 @@
   @include e(popper) {
     @include set-css-var-type('datepicker', 'border-color', $datepicker);
     @include picker-popper(
-      var(--el-color-white),
-      1px solid var(--el-datepicker-border-color),
-      var(--el-box-shadow-light)
+      getCssVar('bg-color', 'overlay'),
+      1px solid getCssVar('datepicker', 'border-color'),
+      getCssVar('box-shadow', 'light')
     );
   }
 }
@@ -22,6 +22,18 @@
   position: relative;
   display: inline-block;
   text-align: left;
+
+  &.#{$namespace}-input__inner {
+    border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+
+    @include inset-input-border(
+      var(--el-input-border-color, map.get($input, 'border-color'))
+    );
+
+    &:hover {
+      @include inset-input-border(var(--el-input-hover-border-color));
+    }
+  }
 
   &.#{$namespace}-input,
   &.#{$namespace}-input__inner {
@@ -91,6 +103,7 @@
     text-align: center;
     font-size: var(--el-font-size-base);
     color: var(--el-text-color-regular);
+    background-color: transparent;
 
     &::placeholder {
       color: var(--el-text-color-placeholder);

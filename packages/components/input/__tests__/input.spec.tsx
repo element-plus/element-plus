@@ -497,6 +497,19 @@ describe('Input.vue', () => {
     })
   })
 
+  test('show-password icon', async () => {
+    const password = ref('123456')
+    const wrapper = mount(() => (
+      <Input type="password" modelValue={password.value} show-password />
+    ))
+
+    const icon = wrapper.find('.el-input__icon.el-input__password')
+    const d = icon.find('path').element.getAttribute('d')
+    await icon.trigger('click')
+    const d0 = icon.find('path').element.getAttribute('d')
+    expect(d !== d0).toBeTruthy()
+  })
+
   // TODO: validateEvent & input containes select cases should be added after the rest components finished
   // ...
 })

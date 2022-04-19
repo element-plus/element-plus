@@ -11,9 +11,9 @@
 
   position: relative;
   margin: var(--el-dialog-margin-top, 15vh) auto 50px;
-  background: var(--el-dialog-bg-color);
-  border-radius: var(--el-dialog-border-radius);
-  box-shadow: var(--el-dialog-box-shadow);
+  background: getCssVar('dialog', 'bg-color');
+  border-radius: getCssVar('dialog', 'border-radius');
+  box-shadow: getCssVar('dialog', 'box-shadow');
   box-sizing: border-box;
   width: var(--el-dialog-width, 50%);
 
@@ -43,7 +43,7 @@
   }
 
   @include e(header) {
-    padding: var(--el-dialog-padding-primary);
+    padding: getCssVar('dialog', 'padding-primary');
     padding-bottom: 10px;
     margin-right: 16px;
     word-break: break-all;
@@ -63,14 +63,14 @@
     font-size: var(--el-message-close-size, map.get($message, 'close-size'));
 
     .#{$namespace}-dialog__close {
-      color: var(--el-color-info);
+      color: getCssVar('color', 'info');
       font-size: inherit;
     }
 
     &:focus,
     &:hover {
       .#{$namespace}-dialog__close {
-        color: var(--el-color-primary);
+        color: getCssVar('color', 'primary');
       }
     }
   }
