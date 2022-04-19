@@ -7,6 +7,7 @@ module.exports = {
     '**/__tests__/**/*.[jt]s?(x)',
     '**/?(*.)+(spec|test).[jt]s?(x)',
     '!**/**vitest**',
+    '!**/table-test-common.ts',
   ],
   testPathIgnorePatterns: ['/node_modules/', 'dist'],
   modulePathIgnorePatterns: ['/node_modules/', 'dist', 'cypress'],

@@ -1,5 +1,14 @@
+/* eslint-disable import/first */
+let isClientMocked = false
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { cAF, rAF } from '..'
+
+vi.mock('@vueuse/core', () => ({
+  get isClient() {
+    return isClientMocked
+  },
+}))
 
 describe('raf', () => {
   beforeEach(() => {
@@ -11,6 +20,8 @@ describe('raf', () => {
   })
 
   it('CSR should work', () => {
+    isClientMocked = true
+
     const fn = vi.fn()
     rAF(() => fn('first'))
     vi.runAllTimers()
@@ -51,7 +62,7 @@ describe('raf', () => {
   })
 
   it('SSR should work', () => {
-    vi.mock('@vueuse/core', () => ({ isClient: false }))
+    isClientMocked = false
 
     const fn = vi.fn()
     rAF(() => fn('first'))
