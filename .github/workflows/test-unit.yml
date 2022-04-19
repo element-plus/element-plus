@@ -46,4 +46,4 @@ jobs:
       - name: Lint
         run: pnpm lint
       - name: Test
-        run: pnpm test:jest && pnpm test:vitest
+        run: pnpm test
