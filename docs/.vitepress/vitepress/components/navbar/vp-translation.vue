@@ -14,7 +14,7 @@ const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
         popper-class="translation-popup"
       >
         <template #reference>
-          <ElIcon :size="20">
+          <ElIcon :size="24">
             <i-ri-translate-2 />
           </ElIcon>
         </template>
@@ -40,8 +40,8 @@ const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
 @use '../../styles/mixins' as *;
 .translation-container {
   display: none;
-  height: 20px;
-  padding: 0 8px;
+  height: 24px;
+  padding: 0 12px;
 
   @include respond-to('md') {
     display: block;

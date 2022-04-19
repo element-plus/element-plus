@@ -21,6 +21,7 @@ import {
   isString,
   mutable,
 } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
@@ -99,6 +100,8 @@ export default defineComponent({
     const instance = getCurrentInstance()!
     const router = instance.appContext.config.globalProperties.$router as Router
     const menu = ref<HTMLUListElement>()
+    const nsMenu = useNamespace('menu')
+    const nsSubMenu = useNamespace('sub-menu')
 
     // data
     const openedMenus = ref<MenuProvider['openedMenus']>(
@@ -281,7 +284,7 @@ export default defineComponent({
     onMounted(() => {
       initMenu()
       if (props.mode === 'horizontal') {
-        new Menubar(instance.vnode.el!)
+        new Menubar(instance.vnode.el!, nsMenu.namespace.value)
       }
     })
 
@@ -350,14 +353,14 @@ export default defineComponent({
               ElSubMenu,
               {
                 index: 'sub-menu-more',
-                class: 'el-sub-menu__hide-arrow',
+                class: nsSubMenu.e('hide-arrow'),
               },
               {
                 title: () =>
                   h(
                     ElIcon,
                     {
-                      class: ['el-sub-menu__icon-more'],
+                      class: nsSubMenu.e('icon-more'),
                     },
                     { default: () => h(More) }
                   ),
@@ -382,9 +385,9 @@ export default defineComponent({
             ref: menu,
             style: ulStyle.value,
             class: {
-              'el-menu': true,
-              'el-menu--horizontal': props.mode === 'horizontal',
-              'el-menu--collapse': props.collapse,
+              [nsMenu.b()]: true,
+              [nsMenu.m('horizontal')]: props.mode === 'horizontal',
+              [nsMenu.m('collapse')]: props.collapse,
             },
           },
           [...slot, ...vShowMore]

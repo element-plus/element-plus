@@ -1,8 +1,9 @@
 import fs from 'fs'
 import path from 'path'
-import { vpRoot } from '@element-plus/build'
+import { vpRoot } from '@element-plus/build-utils'
 import { languages } from '../utils/lang'
 import { features } from './features'
+
 import type { HeadConfig } from 'vitepress'
 
 export const head: HeadConfig[] = [
@@ -11,6 +12,51 @@ export const head: HeadConfig[] = [
     {
       rel: 'icon',
       href: '/images/element-plus-logo-small.svg',
+      type: 'image/svg+xm',
+    },
+  ],
+  [
+    'link',
+    {
+      rel: 'apple-touch-icon',
+      href: '/apple-touch-icon.png',
+      sizes: '180x180',
+    },
+  ],
+  [
+    'link',
+    {
+      rel: 'mask-icon',
+      href: '/safari-pinned-tab.svg',
+      color: '#5bbad5',
+    },
+  ],
+  [
+    'link',
+    {
+      rel: 'manifest',
+      href: '/manifest.webmanifest',
+    },
+  ],
+  [
+    'meta',
+    {
+      name: 'theme-color',
+      content: '#ffffff',
+    },
+  ],
+  [
+    'meta',
+    {
+      name: 'msapplication-TileColor',
+      content: '#409eff',
+    },
+  ],
+  [
+    'meta',
+    {
+      name: 'msapplication-config',
+      content: '/browserconfig.xml',
     },
   ],
   [

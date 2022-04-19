@@ -47,7 +47,7 @@ type RenderExpanded<T> = ({
 }: RIS<T>) => VNode
 
 type SummaryMethod<T> = (data: {
-  columns: TableColumnCtx<T>
+  columns: TableColumnCtx<T>[]
   data: T[]
 }) => string[]
 

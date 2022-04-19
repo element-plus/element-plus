@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineExpose, ref } from 'vue'
+import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import { ElButton, ElButtonGroup } from '@element-plus/components/button'
 import { useLocale, useNamespace } from '@element-plus/hooks'
