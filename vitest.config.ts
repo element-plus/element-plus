@@ -12,7 +12,7 @@ export default defineConfig({
     include: ['**/*.vitest.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     exclude: ['**/*.test.*', '**/*.spec.*', '**/node_modules'],
     environment: 'jsdom',
-    setupFiles: ['./vitest.setup.js'],
+    setupFiles: ['./vitest.setup.ts'],
     transformMode: {
       web: [/\.[jt]sx$/],
     },
