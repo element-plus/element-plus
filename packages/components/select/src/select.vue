@@ -552,15 +552,17 @@ export default defineComponent({
           const input = (Array.from(inputChildNodes) as HTMLElement[]).find(
             (item) => item.tagName === 'INPUT'
           )
-          const prefix = reference.value.$el.querySelector(
-            `.${nsInput.e('prefix')}`
-          )
-          prefixWidth.value = Math.max(
-            prefix.getBoundingClientRect().width + 5,
-            30
-          )
-          if (states.prefixWidth) {
-            input.style.paddingLeft = `${Math.max(states.prefixWidth, 30)}px`
+          if (input) {
+            const prefix = reference.value.$el.querySelector(
+              `.${nsInput.e('prefix')}`
+            )
+            prefixWidth.value = Math.max(
+              prefix.getBoundingClientRect().width + 5,
+              30
+            )
+            if (states.prefixWidth) {
+              input.style.paddingLeft = `${Math.max(states.prefixWidth, 30)}px`
+            }
           }
         }
       })
