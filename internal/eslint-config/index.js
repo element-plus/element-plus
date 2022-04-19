@@ -6,9 +6,6 @@ module.exports = defineConfig({
     browser: true,
     node: true,
   },
-  globals: {
-    jest: 'readonly',
-  },
   plugins: ['@typescript-eslint', 'prettier', 'unicorn'],
   extends: [
     'eslint:recommended',

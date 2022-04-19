@@ -13,7 +13,6 @@
   },
   "references": [
     { "path": "./tsconfig.vite-config.json" },
-    { "path": "./tsconfig.jest.json" },
     { "path": "./tsconfig.vitest.json" }
   ],
   "include": ["packages", "typings"],
