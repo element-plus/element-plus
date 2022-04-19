@@ -1,13 +1,5 @@
 import { ref } from 'vue'
-import {
-  afterAll,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { usePreventGlobal } from '../use-prevent-global'
 
@@ -16,10 +8,6 @@ describe('usePreventGlobal', () => {
   const evtHandler = vi.fn()
   beforeAll(() => {
     document.body.addEventListener(evtName, evtHandler)
-  })
-
-  beforeEach(() => {
-    evtHandler.mockClear()
   })
 
   afterAll(() => {

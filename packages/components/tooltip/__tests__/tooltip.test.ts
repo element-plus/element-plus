@@ -7,7 +7,6 @@ import { ElPopperTrigger } from '@element-plus/components/popper'
 import Tooltip from '../src/tooltip.vue'
 
 import type { VNode } from 'vue'
-import type { SpyInstanceFn } from 'vitest'
 
 vi.mock('@element-plus/utils/error', () => ({
   debugWarn: vi.fn(),
@@ -32,7 +31,6 @@ describe('<ElTooltip />', () => {
   afterEach(() => {
     wrapper?.unmount()
     document.body.innerHTML = ''
-    ;(debugWarn as SpyInstanceFn).mockClear()
   })
 
   describe('rendering', () => {

@@ -52,8 +52,6 @@ describe('use-model-toggle', () => {
   beforeEach(() => {
     flag = true
     wrapper = mount(Comp)
-    onShow.mockClear()
-    onHide.mockClear()
   })
 
   afterEach(() => {

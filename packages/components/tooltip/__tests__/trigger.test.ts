@@ -52,7 +52,6 @@ describe('<ElTooltipTrigger />', () => {
   let wrapper: ReturnType<typeof createComponent>
 
   afterEach(() => {
-    ;[onOpen, onClose, onToggle, onShow, onHide].forEach((fn) => fn.mockClear())
     open.value = false
     controlled.value = false
     wrapper?.unmount()
