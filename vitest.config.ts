@@ -9,8 +9,6 @@ export default defineConfig({
     disabled: true,
   },
   test: {
-    include: ['**/*.vitest.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    exclude: ['**/*.test.*', '**/*.spec.*', '**/node_modules'],
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     transformMode: {
