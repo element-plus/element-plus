@@ -1,4 +1,4 @@
-import { computed, ref, unref, watchEffect } from 'vue'
+import { computed, unref } from 'vue'
 import { placeholderSign } from './private'
 
 import type { CSSProperties, Ref } from 'vue'
@@ -34,33 +34,9 @@ const calcColumnStyle = (
   return style
 }
 
-const mapColumns = (columns: AnyColumn, currentColumns: AnyColumn) => {
-  return columns.map((column) => {
-    if (!column.resizable) return column
-
-    let { width } = column
-    if (column.resizable) {
-      const idx = columns.findIndex(
-        (predicated) => column.key === predicated.key
-      )
-      if (idx >= 0 && columns[idx].width === column.width) {
-        width = currentColumns[idx].width
-      }
-    }
-    return {
-      ...column,
-      width,
-    }
-  })
-}
-
 function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
-  let __columns: AnyColumn = []
-
-  const _columns = ref<AnyColumn>([])
-
   const visibleColumns = computed(() => {
-    return unref(_columns).filter((column) => !column.hidden)
+    return unref(columns).filter((column) => !column.hidden)
   })
 
   const fixedColumnsOnLeft = computed(() =>
@@ -106,9 +82,9 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
   })
 
   const columnsStyles = computed(() => {
-    const columns = unref(_columns)
+    const _columns = unref(columns)
 
-    return columns.reduce<Record<Column<any>['key'], CSSProperties>>(
+    return _columns.reduce<Record<Column<any>['key'], CSSProperties>>(
       (style, column) => {
         style[column.key] = calcColumnStyle(column, unref(fixed))
         return style
@@ -124,14 +100,8 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
     )
   })
 
-  watchEffect(() => {
-    const mappedColumns = mapColumns(unref(columns), __columns)
-    _columns.value = mappedColumns
-    __columns = mappedColumns
-  })
-
   const getColumn = (key: KeyType) => {
-    return unref(_columns).find((column) => column.key === key)
+    return unref(columns).find((column) => column.key === key)
   }
 
   const getColumnStyle = (key: KeyType) => {
@@ -143,7 +113,7 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
   }
 
   return {
-    columns: _columns,
+    columns,
     columnsStyles,
     columnsTotalWidth,
     fixedColumnsOnLeft,

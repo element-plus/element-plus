@@ -461,26 +461,6 @@ describe('Input.vue', () => {
     expect(input.element.style.color === 'red').toBeTruthy()
     expect(textarea.element.style.color === 'red').toBeTruthy()
   })
-  test('input-padding', async () => {
-    const wrapper = mount(() => (
-      <>
-        <Input
-          placeholder="请输入内容"
-          v-slots={{
-            suffix: () => <div>suffix</div>,
-            prefix: () => <div>prefix</div>,
-          }}
-          input-style={{ color: 'red' }}
-        />
-      </>
-    ))
-
-    const input = wrapper.find('input')
-    await nextTick()
-    expect(input.element.style.color === 'red').toBeTruthy()
-    expect(input.element.style.paddingLeft).toBeTruthy()
-    expect(input.element.style.paddingRight).toBeTruthy()
-  })
 
   describe('Textarea Events', () => {
     test('event:keydown', async () => {
@@ -505,7 +485,7 @@ describe('Input.vue', () => {
       <Input type="password" modelValue={password.value} show-password />
     ))
 
-    const icon = wrapper.find('.el-input__icon.el-input__clear')
+    const icon = wrapper.find('.el-input__icon.el-input__password')
     const d = icon.find('path').element.getAttribute('d')
     await icon.trigger('click')
     const d0 = icon.find('path').element.getAttribute('d')

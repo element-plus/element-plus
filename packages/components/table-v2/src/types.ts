@@ -18,7 +18,7 @@ export type ColumnCommonParams<T> = {
   columnIndex: number
 }
 
-export type HeaderRendererParams<T> = {
+export type HeaderCellRendererParams<T> = {
   headerIndex: number
 } & ColumnCommonParams<T>
 
@@ -49,7 +49,9 @@ export type HeaderClassGetter<T> = (
  */
 export type CellRenderer<T> = (params: CellRendererParams<T>) => VNode
 
-export type HeaderCellRenderer<T> = (params: HeaderRendererParams<T>) => VNode
+export type HeaderCellRenderer<T> = (
+  params: HeaderCellRendererParams<T>
+) => VNode
 
 export type Column<T = any> = {
   key: KeyType
@@ -61,7 +63,7 @@ export type Column<T = any> = {
   fixed?: true | FixedDirection
   title?: string
   hidden?: boolean
-  headerClass: HeaderClassGetter<T> | string
+  headerClass?: HeaderClassGetter<T> | string
   maxWidth?: number
   minWidth?: number
   resizable?: boolean
