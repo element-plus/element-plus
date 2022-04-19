@@ -15,7 +15,7 @@ export const usePopperCoreConfigProps = buildProps({
   },
   fallbackPlacements: {
     type: definePropType<Placement[]>(Array),
-    default: () => [],
+    default: undefined,
   },
   gpuAcceleration: {
     type: Boolean,
