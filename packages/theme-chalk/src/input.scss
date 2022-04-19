@@ -130,8 +130,6 @@
     color: var(--el-input-icon-color);
     font-size: map.get($input-font-size, 'default');
     cursor: pointer;
-    transition: var(--el-transition-color) !important;
-    margin-left: 8px;
 
     &:hover {
       color: var(--el-input-clear-hover-color);
@@ -149,7 +147,7 @@
       background: getCssVar('fill-color', 'blank');
       line-height: initial;
       display: inline-block;
-      padding: 0 5px;
+      padding-left: 8px;
     }
   }
 
@@ -232,6 +230,13 @@
         > :last-child {
           margin-right: 8px;
         }
+
+        > :first-child {
+          &,
+          &.#{$namespace}-input__icon {
+            margin-left: 0;
+          }
+        }
       } @else {
         > :first-child {
           margin-left: 8px;
@@ -246,6 +251,7 @@
     justify-content: center;
     align-items: center;
     transition: all var(--el-transition-duration);
+    margin-left: 8px;
   }
 
   @include e(validateIcon) {

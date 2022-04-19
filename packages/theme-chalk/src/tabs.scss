@@ -209,7 +209,7 @@
         }
       }
       &.is-active {
-        border-bottom-color: $color-white;
+        border-bottom-color: getCssVar('bg-color');
 
         &.is-closable {
           padding-left: 20px;

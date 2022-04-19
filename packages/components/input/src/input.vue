@@ -92,17 +92,17 @@
                 {{ textLength }} / {{ attrs.maxlength }}
               </span>
             </span>
+            <el-icon
+              v-if="validateState && validateIcon && needStatusIcon"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
+            >
+              <component :is="validateIcon" />
+            </el-icon>
           </span>
-          <el-icon
-            v-if="validateState && validateIcon && needStatusIcon"
-            :class="[
-              nsInput.e('icon'),
-              nsInput.e('validateIcon'),
-              nsInput.is('loading', validateState === 'validating'),
-            ]"
-          >
-            <component :is="validateIcon" />
-          </el-icon>
         </span>
       </div>
 
