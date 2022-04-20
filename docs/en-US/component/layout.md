@@ -136,3 +136,7 @@ The classes are:
 | Name | Description               |
 | ---- | ------------------------- |
 | —    | customize default content |
+
+<style lang="scss">
+@use '../../examples/layout/index.scss';
+</style>

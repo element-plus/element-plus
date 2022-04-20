@@ -28,8 +28,6 @@
       box-sizing: border-box;
       padding-top: 6px;
       text-align: left;
-      border-top: 1px solid var(--el-border-color-light);
-      border-bottom: 1px solid var(--el-border-color-light);
     }
 
     &::after {
@@ -42,6 +40,8 @@
       padding-left: 50%;
       margin-right: 12%;
       margin-left: 12%;
+      border-top: 1px solid var(--el-border-color-light);
+      border-bottom: 1px solid var(--el-border-color-light);
     }
 
     &.has-seconds {

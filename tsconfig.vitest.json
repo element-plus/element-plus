@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.node.json",
-  "include": ["packages/**/*.vitest.*"],
+  "include": ["packages/**/*", "vitest.setup.ts"],
   "compilerOptions": {
     "composite": true,
     "lib": ["DOM"],
