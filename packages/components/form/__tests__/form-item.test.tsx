@@ -114,8 +114,8 @@ describe('ElFormItem', () => {
       it('should be able to validate with callback without throwing rejection', async () => {
         const emailInput = formItemRef.value!
         const callback = vi.fn()
-        expect(console.warn).toHaveBeenCalled()
         expect(emailInput.validate('', callback)).resolves.toBe(false)
+        expect(console.warn).toHaveBeenCalled()
         await rAF()
         expect(callback).toHaveBeenCalled()
       })
@@ -123,8 +123,8 @@ describe('ElFormItem', () => {
       it('should emit validate event', async () => {
         const emailInput = formItemRef.value!
         const callback = vi.fn()
-        expect(console.warn).toHaveBeenCalled()
         expect(emailInput.validate('', callback)).resolves.toBe(false)
+        expect(console.warn).toHaveBeenCalled()
         await rAF()
         expect(findForm().emitted('validate')).toEqual([
           ['email', false, 'email is required'],

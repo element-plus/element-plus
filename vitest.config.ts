@@ -9,6 +9,7 @@ export default defineConfig({
     disabled: true,
   },
   test: {
+    clearMocks: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     transformMode: {

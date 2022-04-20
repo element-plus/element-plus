@@ -85,8 +85,6 @@ describe('Directives.vue', () => {
     // clear the previously assigned event object
     mousedownObject = null
     mouseupObject = null
-
-    handler.mockClear()
   })
   test('render test', () => {
     const wrapper = _mount()
