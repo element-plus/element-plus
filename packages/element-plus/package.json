@@ -34,7 +34,7 @@
   "jsdelivr": "dist/index.full.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/element-plus/element-plus.git"
+    "url": "git+https://github.com/scantist/element-plus.git"
   },
   "publishConfig": {
     "access": "public"

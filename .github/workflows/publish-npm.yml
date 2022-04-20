@@ -49,7 +49,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-          registry-url: https://registry.npmjs.com/
+          registry-url: 'https://npm.pkg.github.com'
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
