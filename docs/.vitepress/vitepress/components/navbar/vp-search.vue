@@ -4,7 +4,7 @@ import { getCurrentInstance, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vitepress'
 import docsearch from '@docsearch/js'
 import { isClient } from '@vueuse/core'
-import { useLang } from '../../composables/lang'
+// import { useLang } from '../../composables/lang'
 // import type { DefaultTheme } from '../config'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
@@ -52,24 +52,24 @@ function update(options: any) {
   }
 }
 
-const lang = useLang()
+// const lang = useLang()
 
 function initialize(userOptions: any) {
   // if the user has multiple locales, the search results should be filtered
   // based on the language
-  const facetFilters = props.multilang ? [`language:${lang.value}`] : []
+  // const facetFilters = props.multilang ? [`language:${lang.value}`] : []
 
   docsearch(
     Object.assign({}, userOptions, {
       container: '#docsearch',
       indexName: 'element-plus',
-      searchParameters: Object.assign({}, userOptions.searchParameters, {
-        // pass a custom lang facetFilter to allow multiple language search
-        // https://github.com/algolia/docsearch-configs/pull/3942
-        facetFilters: facetFilters.concat(
-          userOptions.searchParameters?.facetFilters || []
-        ),
-      }),
+      // searchParameters: Object.assign({}, userOptions.searchParameters, {
+      //   // pass a custom lang facetFilter to allow multiple language search
+      //   // https://github.com/algolia/docsearch-configs/pull/3942
+      //   facetFilters: facetFilters.concat(
+      //     userOptions.searchParameters?.facetFilters || []
+      //   ),
+      // }),
 
       navigator: {
         navigate: ({ suggestionUrl }: { suggestionUrl: string }) => {
