@@ -57,6 +57,7 @@ const getItemFromCache = (
     }
 
     for (let i = lastVisited + 1; i <= index; i++) {
+      // console.log(i, sizer(i))
       const size = sizer(i)
 
       cachedItems[i] = {
@@ -339,12 +340,16 @@ const DynamicSizeGrid = createGrid({
       }
 
       if (isNumber(rowIndex)) {
+        // console.log(rowIndex)
         cache.value.lastVisitedRowIndex = Math.min(
           cache.value.lastVisitedRowIndex,
           rowIndex - 1
         )
       }
-      if (forceUpdate) instance.update()
+
+      instance.exposed?.getItemStyleCache.value(-1, null, null)
+
+      if (forceUpdate) instance.proxy?.$forceUpdate()
     }
 
     const resetAfterColumnIndex = (
@@ -391,7 +396,7 @@ const DynamicSizeGrid = createGrid({
     return cache
   },
 
-  clearCache: true,
+  clearCache: false,
 
   validateProps: ({ columnWidth, rowHeight }) => {
     if (process.env.NODE_ENV !== 'production') {

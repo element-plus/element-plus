@@ -43,6 +43,7 @@ const TableV2 = defineComponent({
       mainTableRef,
       leftTableRef,
       rightTableRef,
+      isDynamic,
       isResetting,
       isScrolling,
 
@@ -50,11 +51,9 @@ const TableV2 = defineComponent({
       rootStyle,
       headerWidth,
 
+      getRowHeight,
       onColumnSorted,
-      // resizingKey,
-      // onColumnResized,
-      // onColumnResizeStart,
-      // onColumnResizeEnd,
+      onRowHeightChange,
       onRowHovered,
       onRowExpanded,
       onRowsRendered,
@@ -92,7 +91,6 @@ const TableV2 = defineComponent({
         indentSize,
         iconSize,
         useIsScrolling,
-        hScrollbarSize,
         vScrollbarSize,
         width,
       } = props
@@ -111,12 +109,14 @@ const TableV2 = defineComponent({
         headerWidth: unref(headerWidth),
         height: unref(mainTableHeight),
         mainTableRef,
+        rowKey,
         rowHeight,
         scrollbarAlwaysOn,
-        scrollbarStartGap: hScrollbarSize,
+        scrollbarStartGap: 0,
         scrollbarEndGap: vScrollbarSize,
         useIsScrolling,
         width,
+        getRowHeight,
         onRowsRendered,
         onScroll,
       }
@@ -136,11 +136,13 @@ const TableV2 = defineComponent({
         headerWidth: leftColumnsWidth,
         headerHeight,
         height: _fixedTableHeight,
+        rowKey,
         scrollbarAlwaysOn,
-        scrollbarStartGap: hScrollbarSize,
+        scrollbarStartGap: 0,
         scrollbarEndGap: vScrollbarSize,
         useIsScrolling,
         width: leftColumnsWidth,
+        getRowHeight,
         onScroll: onVerticalScroll,
       }
 
@@ -159,14 +161,16 @@ const TableV2 = defineComponent({
         headerWidth: rightColumnsWidthWithScrollbar,
         headerHeight,
         height: _fixedTableHeight,
-        useIsScrolling,
+        rowKey,
         scrollbarAlwaysOn,
-        scrollbarStartGap: hScrollbarSize,
+        scrollbarStartGap: 0,
         scrollbarEndGap: vScrollbarSize,
         width: rightColumnsWidthWithScrollbar,
         style: `--${unref(
           ns.namespace
         )}-table-scrollbar-size: ${vScrollbarSize}px`,
+        useIsScrolling,
+        getRowHeight,
         onScroll: onVerticalScroll,
       }
 
@@ -184,6 +188,7 @@ const TableV2 = defineComponent({
         rowEventHandlers,
         onRowHovered,
         onRowExpanded,
+        onRowHeightChange,
       }
 
       const tableCellProps = {
@@ -200,7 +205,6 @@ const TableV2 = defineComponent({
         ns,
         headerClass,
         headerProps,
-        // resizingKey: unref(resizingKey),
       }
 
       const tableHeaderCellProps = {
@@ -209,11 +213,7 @@ const TableV2 = defineComponent({
         sortBy,
         sortState,
         headerCellProps,
-        // resizingKey: unref(resizingKey),
         columnsStyles: unref(columnsStyles),
-        // onColumnResizeEnd,
-        // onColumnResizeStart,
-        // onColumnResized,
         onColumnSorted,
       }
 
@@ -250,8 +250,16 @@ const TableV2 = defineComponent({
         ),
       }
 
+      const rootKls = [
+        ns.b(),
+        ns.e('root'),
+        {
+          [ns.is('dynamic')]: unref(isDynamic),
+        },
+      ]
+
       return (
-        <div class={[ns.b(), ns.e('root')]} style={unref(rootStyle)}>
+        <div class={rootKls} style={unref(rootStyle)}>
           <MainTable {...mainTableProps}>{tableSlots}</MainTable>
           <LeftTable {...leftTableProps}>{tableSlots}</LeftTable>
           <RightTable {...rightTableProps}>{tableSlots}</RightTable>

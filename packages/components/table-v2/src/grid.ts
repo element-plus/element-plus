@@ -15,6 +15,7 @@ import { tableV2HeaderProps } from './header'
 import { tableV2RowProps } from './row'
 
 import type { ExtractPropTypes } from 'vue'
+import type { ItemSize } from '@element-plus/components/virtual-list'
 
 export type onRowRenderedParams = {
   rowCacheStart: number
@@ -56,6 +57,12 @@ export const tableV2GridProps = buildProps({
   class: classType,
   style: styleType,
   containerStyle: styleType,
+
+  getRowHeight: {
+    type: definePropType<ItemSize>(Function),
+    required: true,
+  },
+  rowKey: tableV2RowProps.rowKey,
 
   /**
    * Event handlers

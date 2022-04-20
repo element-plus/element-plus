@@ -24,6 +24,7 @@ import type {
   DataGetter,
   KeyType,
   RowCommonParams,
+  SortBy,
 } from './types'
 
 /**
@@ -170,7 +171,7 @@ export const tableV2Props = buildProps({
    * Sorting
    */
   sortBy: {
-    type: definePropType<{ key: KeyType; order: SortOrder }>(Object),
+    type: definePropType<SortBy>(Object),
     default: () => ({} as { key: KeyType; order: SortOrder }),
   },
 
