@@ -700,6 +700,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = ''
       }
     }
+    clearAllNewOption()
     calculatePopperSize()
   }
 
