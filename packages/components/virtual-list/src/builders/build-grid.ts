@@ -418,7 +418,6 @@ const createGrid = ({
         columnIndex: number
       ): CSSProperties => {
         const { columnWidth, direction, rowHeight } = props
-
         const itemStyleCache = getItemStyleCache.value(
           clearCache && columnWidth,
           clearCache && rowHeight,
@@ -510,6 +509,9 @@ const createGrid = ({
         }
       }
 
+      const { resetAfterColumnIndex, resetAfterRowIndex, resetAfter } =
+        instance.proxy as any
+
       expose({
         windowRef,
         innerRef,
@@ -517,6 +519,9 @@ const createGrid = ({
         scrollTo,
         scrollToItem,
         states,
+        resetAfterColumnIndex,
+        resetAfterRowIndex,
+        resetAfter,
       })
 
       // rendering part
@@ -575,7 +580,7 @@ const createGrid = ({
       const renderItems = () => {
         const [columnStart, columnEnd] = unref(columnsToRender)
         const [rowStart, rowEnd] = unref(rowsToRender)
-        const { data, totalColumn, totalRow, useIsScrolling } = props
+        const { data, totalColumn, totalRow, useIsScrolling, itemKey } = props
         const children: VNodeChild[] = []
         if (totalRow > 0 && totalColumn > 0) {
           for (let row = rowStart; row <= rowEnd; row++) {
@@ -584,7 +589,7 @@ const createGrid = ({
                 slots.default?.({
                   columnIndex: column,
                   data,
-                  key: column,
+                  key: itemKey({ columnIndex: column, data, rowIndex: row }),
                   isScrolling: useIsScrolling
                     ? unref(states).isScrolling
                     : undefined,

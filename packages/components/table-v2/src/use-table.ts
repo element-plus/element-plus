@@ -7,25 +7,31 @@ import {
   unref,
   watch,
 } from 'vue'
-import { isNumber, isObject, isUndefined } from '@element-plus/utils'
+import { debounce } from 'lodash-unified'
+import { isNumber, isObject } from '@element-plus/utils'
 import { enforceUnit, sum } from './utils'
 import { useColumns } from './use-columns'
-import { SortOrder, oppositeOrderMap } from './constants'
+import { FixedDir, SortOrder, oppositeOrderMap } from './constants'
 
 import type { CSSProperties } from 'vue'
 import type { FixedDirection, KeyType } from './types'
 import type { TableV2Props } from './table'
 import type { onRowRenderedParams } from './grid'
-import type { RowExpandParams, RowHoverParams } from './row'
+import type {
+  RowExpandParams,
+  RowHeightChangedParams,
+  RowHoverParams,
+} from './row'
 // component
 import type { TableGridInstance } from './table-grid'
 
 type Nullable<T> = T | null
 type ScrollPos = { scrollLeft: number; scrollTop: number }
-type Heights = Record<KeyType, CSSProperties['height']>
+type Heights = Record<KeyType, number>
 
 function useTable(props: TableV2Props) {
-  const emit = getCurrentInstance()!.emit
+  const vm = getCurrentInstance()!
+  const { emit } = vm
 
   const {
     columns,
@@ -55,7 +61,8 @@ function useTable(props: TableV2Props) {
 
   const scrollPos = ref<ScrollPos>({ scrollLeft: 0, scrollTop: 0 })
   const lastRenderedRowIndex = ref(-1)
-  const rowHeights = shallowRef<Heights>({})
+  const rowHeights = ref<Heights>({})
+  const pendingRowHeights = ref<Heights>({})
   const leftTableHeights = shallowRef<Heights>({})
   const mainTableHeights = shallowRef<Heights>({})
   const rightTableHeights = shallowRef<Heights>({})
@@ -108,6 +115,8 @@ function useTable(props: TableV2Props) {
     const { data, expandColumnKey } = props
     return expandColumnKey ? unref(flattenedData) : data
   })
+
+  const isDynamic = computed(() => isNumber(props.estimatedRowHeight))
 
   const bodyWidth = computed(() => {
     const { fixed, width, vScrollbarSize } = props
@@ -222,16 +231,34 @@ function useTable(props: TableV2Props) {
     }
   }
 
-  function updateRows() {
-    isResetting.value = true
-    resetAfterIndex(unref(resetIndex)!, false)
-    // force update
-    resetIndex.value = null
-    isResetting.value = false
+  function getRowHeight(rowIndex: number) {
+    const { estimatedRowHeight, rowHeight, rowKey } = props
+
+    if (!estimatedRowHeight) return rowHeight
+
+    return (
+      unref(rowHeights)[unref(data)[rowIndex][rowKey]] || estimatedRowHeight
+    )
   }
 
+  const flushingRowHeights = debounce(() => {
+    // console.log('update')
+    isResetting.value = true
+    // console.log(JSON.stringify(unref(pendingRowHeights)))
+    rowHeights.value = { ...unref(rowHeights), ...unref(pendingRowHeights) }
+    resetAfterIndex(unref(resetIndex)!, false)
+    pendingRowHeights.value = {}
+    // force update
+    resetIndex.value = null
+    mainTableRef.value?.forceUpdate()
+    leftTableRef.value?.forceUpdate()
+    rightTableRef.value?.forceUpdate()
+    vm.proxy?.$forceUpdate()
+    isResetting.value = false
+  }, 0)
+
   function resetAfterIndex(index: number, forceUpdate = false) {
-    if (isUndefined(props.estimatedRowHeight)) return
+    if (!unref(isDynamic)) return
     ;[mainTableRef, leftTableRef, rightTableRef].forEach((tableRef) => {
       const table = unref(tableRef)
       if (table) table.resetAfterRowIndex(index, forceUpdate)
@@ -287,33 +314,6 @@ function useTable(props: TableV2Props) {
     props.onExpandedRowsChange?.(_expandedRowKeys)
   }
 
-  // function onColumnResized(
-  //   { key }: TableV2Props['columns'][number],
-  //   width: number
-  // ) {
-  //   resizingWidth.value = width
-  //   const column = getColumn(key)!
-
-  //   updateColumnWidth(column, width)
-  //   props.onColumnResize?.(column, width)
-  // }
-
-  // function onColumnResizeStart({ key }: TableV2Props['columns'][number]) {
-  //   resizingKey.value = key
-  // }
-
-  // function onColumnResizeEnd() {
-  //   const _resizingKey = unref(resizingKey)
-  //   const _resizingWidth = unref(resizingWidth)
-
-  //   resizingKey.value = null
-  //   resizingWidth.value = 0
-
-  //   if (!_resizingKey || !_resizingWidth) return
-
-  //   props.onColumnResizeEnded?.(getColumn(_resizingKey)!, _resizingWidth)
-  // }
-
   function onColumnSorted(e: MouseEvent) {
     const { key } = (e.currentTarget as HTMLElement).dataset
     if (!key) return
@@ -330,7 +330,7 @@ function useTable(props: TableV2Props) {
     props.onColumnSort?.({ column: getColumn(key)!, key, order })
   }
 
-  function onRowHeightChanged(rowKey: KeyType, height: number, rowIdx: number) {
+  function resetHeights(rowKey: KeyType, height: number, rowIdx: number) {
     const resetIdx = unref(resetIndex)
     if (resetIdx === null) {
       resetIndex.value = rowIdx
@@ -340,34 +340,32 @@ function useTable(props: TableV2Props) {
       }
     }
 
-    rowHeights.value[rowKey] = height
+    pendingRowHeights.value[rowKey] = height
   }
 
-  function onFixedRowHeightChanged(
-    {
-      rowKey,
-      height,
-      rowIndex,
-    }: {
-      rowKey: KeyType
-      height: number
-      rowIndex: number
-    },
+  function onRowHeightChange(
+    { rowKey, height, rowIndex }: RowHeightChangedParams,
     fixedDir: FixedDirection
   ) {
     if (!fixedDir) {
       mainTableHeights.value[rowKey] = height
     } else {
-      if (fixedDir === 'right') {
+      if (fixedDir === FixedDir.RIGHT) {
         rightTableHeights.value[rowKey] = height
       } else {
         leftTableHeights.value[rowKey] = height
       }
     }
 
-    const _rowHeights = unref(rowHeights)
-    if (_rowHeights[rowKey] !== height) {
-      onRowHeightChanged(rowKey, height, rowIndex)
+    const maximumHeight = Math.max(
+      ...[leftTableHeights, rightTableHeights, mainTableHeights].map(
+        (records) => records.value[rowKey] || 0
+      )
+    )
+
+    if (unref(rowHeights)[rowKey] !== maximumHeight) {
+      resetHeights(rowKey, maximumHeight, rowIndex)
+      flushingRowHeights()
     }
   }
 
@@ -378,6 +376,13 @@ function useTable(props: TableV2Props) {
       if (cur > prev) onMaybeEndReached()
     }
   )
+
+  watch(data, (val, prev) => {
+    if (val !== prev) {
+      lastRenderedRowIndex.value = -1
+      resetAfterIndex(0, true)
+    }
+  })
 
   // when rendered row changes, maybe reaching the bottom
   watch(lastRenderedRowIndex, () => onMaybeEndReached())
@@ -390,10 +395,6 @@ function useTable(props: TableV2Props) {
     }
   )
 
-  watch(rowHeights, () => {
-    updateRows()
-  })
-
   return {
     // models
     columns,
@@ -402,11 +403,11 @@ function useTable(props: TableV2Props) {
     leftTableRef,
     rightTableRef,
     // states
+    isDynamic,
     isResetting,
     isScrolling,
     hoveringRowKey,
     hasFixedColumns,
-    // resizingKey,
     // records
     columnsStyles,
     columnsTotalWidth,
@@ -426,20 +427,17 @@ function useTable(props: TableV2Props) {
     rightTableWidth,
 
     // methods
+    getRowHeight,
     scrollTo,
     scrollToLeft,
     scrollToTop,
 
     // event handlers
     onColumnSorted,
-    // onColumnResized,
-    // onColumnResizeStart,
-    // onColumnResizeEnd,
     onRowHovered,
     onRowExpanded,
     onRowsRendered,
-    onRowHeightChanged,
-    onFixedRowHeightChanged,
+    onRowHeightChange,
     onScroll,
     onVerticalScroll,
   }

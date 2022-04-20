@@ -8,6 +8,11 @@ export enum Alignment {
   RIGHT = 'right',
 }
 
+export enum FixedDir {
+  LEFT = 'left',
+  RIGHT = 'right',
+}
+
 export const oppositeOrderMap = {
   [SortOrder.ASC]: SortOrder.DESC,
   [SortOrder.DESC]: SortOrder.ASC,

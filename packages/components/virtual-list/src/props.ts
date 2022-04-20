@@ -7,7 +7,7 @@ import {
 import { VERTICAL } from './defaults'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
-import type { ItemSize } from './types'
+import type { GridItemKeyGetter, ItemSize } from './types'
 
 const itemSize = buildProp({
   type: definePropType<number | ItemSize>([Number, Function]),
@@ -130,7 +130,7 @@ const scrollbarSize = {
   default: 6,
 } as const
 
-const startGap = { type: Number, default: 2 } as const
+const startGap = { type: Number, default: 0 } as const
 const endGap = { type: Number, default: 2 } as const
 
 export const virtualizedGridProps = buildProps({
@@ -140,6 +140,10 @@ export const virtualizedGridProps = buildProps({
   estimatedRowHeight: estimatedItemSize,
   initScrollLeft: initScrollOffset,
   initScrollTop: initScrollOffset,
+  itemKey: {
+    type: definePropType<GridItemKeyGetter>(Function),
+    default: ({ columnIndex, rowIndex }) => `${rowIndex}:${columnIndex}`,
+  },
   rowCache: cache,
   rowHeight: itemSize,
   totalColumn: total,
