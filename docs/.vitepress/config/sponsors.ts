@@ -1,4 +1,4 @@
-export const sponsors = [
+export const platinumSponsors = [
   {
     name: 'JNPF',
     img: '/images/jnpf_index.png',
@@ -7,7 +7,6 @@ export const sponsors = [
     slogan_cn: 'JNPF 低代码开发平台，让开发变得简单！',
     className: 'jnpf',
     banner_img: '/images/jnpfsoft.jpg',
-    type: 'banner',
   },
   {
     name: 'VForm',
@@ -16,7 +15,6 @@ export const sponsors = [
     slogan: 'Vue 3 Visual/Low-Code Forms',
     slogan_cn: 'Vue 3 可视化/低代码表单',
     banner_img: '/images/vform-banner.jpg',
-    type: 'banner',
   },
   {
     name: 'JSDesign',
@@ -26,8 +24,10 @@ export const sponsors = [
     slogan: 'Professional online UI design tool',
     slogan_cn: '专业在线UI设计工具',
     banner_img: '/images/js-design-banner.jpg',
-    type: 'banner',
   },
+]
+
+export const goldSponsors = [
   {
     name: 'bit',
     img: '/images/bit.svg',

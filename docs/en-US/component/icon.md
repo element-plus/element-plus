@@ -52,9 +52,9 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
 </template>
 ```
 
-<script setup>
+<vp-script setup>
 import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
-</script>
+</vp-script>
 
 <ElRow>
   <div>

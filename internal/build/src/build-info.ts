@@ -1,6 +1,7 @@
 import path from 'path'
-import { epOutput } from './utils'
-import { EP_PKG } from './constants'
+import { PKG_NAME } from '@element-plus/build-constants'
+import { epOutput } from '@element-plus/build-utils'
+
 import type { ModuleFormat } from 'rollup'
 
 export const modules = ['esm', 'cjs'] as const
@@ -32,7 +33,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
       path: path.resolve(epOutput, 'es'),
     },
     bundle: {
-      path: `${EP_PKG}/es`,
+      path: `${PKG_NAME}/es`,
     },
   },
   cjs: {
@@ -44,7 +45,7 @@ export const buildConfig: Record<Module, BuildInfo> = {
       path: path.resolve(epOutput, 'lib'),
     },
     bundle: {
-      path: `${EP_PKG}/lib`,
+      path: `${PKG_NAME}/lib`,
     },
   },
 }

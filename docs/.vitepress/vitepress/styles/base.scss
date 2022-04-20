@@ -45,13 +45,23 @@ h5,
 h6 {
   margin: 0;
   line-height: 1.25;
-  display: flex;
-  align-items: center;
-  position: relative;
+}
 
-  // Special case for handling tagged header.
-  .el-tag {
-    margin-left: 8px;
+.doc-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    // Special case for handling tagged header.
+    .el-tag {
+      margin-left: 8px;
+    }
   }
 }
 
@@ -151,11 +161,10 @@ a.header-anchor {
   padding-right: 0.23em;
   font-size: 0.85em;
   opacity: 0;
-}
-
-a.header-anchor:hover,
-a.header-anchor:focus {
-  text-decoration: none;
+  &:hover,
+  :focus {
+    text-decoration: none;
+  }
 }
 
 figure {

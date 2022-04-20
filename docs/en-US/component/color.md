@@ -53,20 +53,6 @@ Element Plus uses a specific set of palettes to specify colors to provide a cons
     line-height: 24px;
   }
 }
-
-.bg-transparent {
-  color: var(--el-text-color-primary);
-  background-image: linear-gradient(
-      45deg,
-      rgb(249, 249, 250) 25%,
-      transparent 25%
-    ),
-  linear-gradient(135deg, rgb(249, 249, 250) 25%, transparent 25%),
-  linear-gradient(45deg, transparent 75%, rgb(249, 249, 250) 75%),
-  linear-gradient(135deg, transparent 75%, rgb(249, 249, 250) 75%);
-  background-size: 20px 20px;
-  background-position: 0px 0px, 10px 0px, 10px -10px, 0px 10px;
-}
 </style>
 
 ## Main Color

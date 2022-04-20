@@ -300,6 +300,7 @@ table/table-layout
 | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | -      | customize default content                                                                                                                                                                     | Table-column |
 | append | Contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. | —            |
+| empty  | you can customize content when data is empty.                                                                                                                                                 | —            |
 
 ## Table-column Attributes
 

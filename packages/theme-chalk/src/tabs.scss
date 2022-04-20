@@ -152,7 +152,7 @@
     }
 
     @include when(disabled) {
-      color: var(--el-disabled-text-color);
+      color: getCssVar('disabled-text-color');
       cursor: default;
     }
   }
@@ -209,7 +209,7 @@
         }
       }
       &.is-active {
-        border-bottom-color: $color-white;
+        border-bottom-color: getCssVar('bg-color');
 
         &.is-closable {
           padding-left: 20px;
@@ -223,7 +223,7 @@
     }
   }
   @include m(border-card) {
-    background: $color-white;
+    background: getCssVar('bg-color', 'overlay');
     border: 1px solid getCssVar('border-color');
 
     > .#{$namespace}-tabs__content {
@@ -254,7 +254,7 @@
 
       &.is-active {
         color: var(--el-color-primary);
-        background-color: $color-white;
+        background-color: getCssVar('bg-color', 'overlay');
         border-right-color: getCssVar('border-color');
         border-left-color: getCssVar('border-color');
       }
@@ -262,7 +262,7 @@
         color: var(--el-color-primary);
       }
       &.is-disabled {
-        color: var(--el-disabled-text-color);
+        color: getCssVar('disabled-text-color');
       }
     }
 
@@ -314,7 +314,7 @@
         border: 1px solid transparent;
       }
       .#{$namespace}-tabs__item.is-bottom {
-        margin: 0 -1px -1px -1px;
+        margin: 0 -1px -1px;
       }
     }
   }

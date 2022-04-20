@@ -7,6 +7,14 @@
 @use './select-dropdown.scss';
 @use './select/common.scss' as *;
 
+@mixin select-tag-normal {
+  white-space: normal;
+  z-index: var(--el-index-normal);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 @include b(select) {
   @include set-component-css-var('select', $select);
 }
@@ -46,23 +54,26 @@
   }
 
   &:hover:not(.#{$namespace}-select--disabled) {
-    .#{$namespace}-input__inner {
+    .#{$namespace}-input__wrapper {
       box-shadow: 0 0 0 1px var(--el-select-border-color-hover) inset;
     }
   }
 
   @include select-common(select);
 
-  .#{$namespace}-input__inner {
+  .#{$namespace}-input__wrapper {
     cursor: pointer;
-    display: inline-flex;
 
-    &:focus {
+    @include when(focus) {
       @include inset-input-border(
         var(--el-select-input-focus-border-color),
         true
       );
     }
+  }
+
+  .#{$namespace}-input__inner {
+    cursor: pointer;
   }
 
   .#{$namespace}-input {
@@ -100,19 +111,22 @@
     }
 
     &.is-disabled {
-      & .#{$namespace}-input__inner {
+      & .#{$namespace}-input__wrapper {
         cursor: not-allowed;
 
         &:hover {
           @include inset-input-border(var(--el-select-disabled-border));
         }
       }
+      & .#{$namespace}-input__inner {
+        cursor: not-allowed;
+      }
       & .#{$namespace}-select__caret {
         cursor: not-allowed;
       }
     }
 
-    &.is-focus .#{$namespace}-input__inner {
+    &.is-focus .#{$namespace}-input__wrapper {
       @include inset-input-border(
         var(--el-select-input-focus-border-color),
         true
@@ -150,21 +164,13 @@
   @include e(tags) {
     position: absolute;
     line-height: normal;
-    white-space: normal;
-    z-index: var(--el-index-normal);
     top: 50%;
     transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    @include select-tag-normal;
   }
 
   @include e(collapse-tags) {
-    white-space: normal;
-    z-index: var(--el-index-normal);
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    @include select-tag-normal;
   }
 
   @include e(collapse-tag) {

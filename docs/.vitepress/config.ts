@@ -1,4 +1,6 @@
 import consola from 'consola'
+import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
+import { docsDirName } from '@element-plus/build-utils'
 import { languages } from './utils/lang'
 import { head } from './config/head'
 import { sidebars } from './config/sidebars'
@@ -49,8 +51,9 @@ export const config: UserConfig = {
   lastUpdated: true,
   head,
   themeConfig: {
-    repo: 'element-plus/element-plus',
-    docsDir: 'docs',
+    repo: REPO_PATH,
+    docsBranch: REPO_BRANCH,
+    docsDir: docsDirName,
 
     editLinks: true,
     editLinkText: 'Edit this page on GitHub',

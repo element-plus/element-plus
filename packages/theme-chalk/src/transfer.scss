@@ -39,7 +39,7 @@
 
 @include b(transfer-panel) {
   overflow: hidden;
-  background: var(--el-color-white);
+  background: getCssVar('bg-color', 'overlay');
   display: inline-block;
   text-align: left;
   vertical-align: middle;
@@ -168,7 +168,7 @@
 
   .#{$namespace}-transfer-panel__footer {
     height: var(--el-transfer-panel-footer-height);
-    background: var(--el-color-white);
+    background: getCssVar('bg-color', 'overlay');
     margin: 0;
     padding: 0;
     border: 1px solid var(--el-transfer-border-color);

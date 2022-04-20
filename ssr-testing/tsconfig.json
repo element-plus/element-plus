@@ -3,9 +3,9 @@
   "include": ["../packages/components/**/ssr/*.vue"],
   "compilerOptions": {
     "isolatedModules": false,
-    "module": "esnext",
-    "target": "es5",
-    "lib": ["es5", "dom"],
+    "module": "ESNext",
+    "target": "ES5",
+    "lib": ["ES5", "DOM"],
     "jsx": "preserve"
   }
 }

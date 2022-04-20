@@ -1,5 +1,126 @@
 ## Changelog
 
+### 2.1.10
+
+_2022-04-18_
+
+#### Features
+
+- Components [form-item] support use form-item only (#7095 by @sxzz)
+
+#### Bug fixes
+
+- Vitest
+- Components [color-picker] vertical bar bg (#7113 by @YunYouJun)
+- Docs outDir error of VitePWA (#7100 by @tolking)
+- Docs contributors when only one language (#7093 by @sxzz)
+- Vitest ui (#7116 by @sxzz)
+- Tag bg color & other dark details (#7138 by @YunYouJun)
+- Docs logo link (#7133 by @sxzz)
+- Docs fix markdown transformer (#7150 by @plainheart)
+- Components [date-picker] fix `cell-class-name` not work (#7149 by @plainheart)
+- Components [TreeSelect] incorrect props interaction and css paths (#7156 by @yujinpan)
+- Components [tree-select] use `proxy` instead of `ctx` (#7160 by @plainheart)
+- Components [popper] zIndex bug (#7115 by @chenxch)
+- Empty svg when dark (#7203 by @YunYouJun)
+- Components [table] fix `SummaryMethod` type (#7206 by @hminghe)
+
+#### Refactors
+
+- Docs improve style and fix typo (#7094 by @sxzz)
+- Metadata move to dev deps (#7126 by @sxzz)
+- Components [message-box] use useNamespace (#5721 by @buqiyuan)
+- Components [time-select] use useNamespace (#6459 by @gjfei)
+- Components [virtual-list, visual-hidden] use useNamespace (#6461 by @gjfei)
+- Refactor menu to support namespace (#7131 by @iamkun)
+- Components [input] change to flex layout (#7179 by @plainheart)
+
+### 2.1.9
+
+_2022-04-11_
+
+#### Features
+
+- Theme-chalk card support dark (#6975 by @YunYouJun)
+- Theme-chalk dark palette & common color mixins (#6999 by @YunYouJun)
+- Components [virtual-table] (#7014 by @JeremyWuuuuu)
+- Components [virtual-table] (#7024 by @JeremyWuuuuu)
+- Components [virtual-table] columns (#7027 by @JeremyWuuuuu)
+- Docs add source and contributors (#6044 by @sxzz)
+- Components [virtual-table] row (#7047 by @JeremyWuuuuu)
+- Components [virtual-table] row (#7060 by @JeremyWuuuuu)
+-  Release Publish eslint config and metadata (#7063 by @sxzz)
+- Components [virtual-table] cell (#7068 by @JeremyWuuuuu)
+- Components [virtual-table] header (#7070 by @JeremyWuuuuu)
+- Components [virtual-table] table header row (#7072 by @JeremyWuuuuu)
+- Components [virtual-table] TableHeaderCell (#7075 by @JeremyWuuuuu)
+- ThemeChalk dark bg color overlay for components (#7005 by @YunYouJun)
+- Docs add PWA support for docs (#7074 by @tolking)
+- Components [virtual-table] grid table (#7081 by @JeremyWuuuuu)
+- Components [virtual-table] Table (#7083 by @JeremyWuuuuu)
+- ThemeChalk Add dark for custom button & adjust details (#7086 by @YunYouJun)
+
+#### Bug fixes
+
+- Docs documentation layout issue
+- Docs small screen docs sidebar layout
+- Docs small screen docs style
+- Components [image] add infinite prop (#7021 by @btea)
+- Deps update dependency eslint-plugin-unicorn to v42 (#6996 by @renovate[bot])
+- Move @types/lodash to dep (#7046 by @sxzz)
+- Utils circular reference (#7057 by @JeremyWuuuuu)
+- Docs contributors when other language (#7066 by @sxzz)
+- Components [popper-container] recreate container when unmounted (#7076 by @nieyuyao)
+- Popover esc after visible invalid (#7064 by @chenxch)
+- Components [scrollbar] dynamic update scrollbar (#7050 by @btea)
+- Components [input] improved when both `suffix` and `prefix` are displayed (#7001 by @baiwusanyu-c)
+- Components [select] inner input height is inconsistent with select (#6979 by @buqiyuan)
+- Components [dropdown] with dialog use zIndex loop (#7012 by @chenxch)
+- Dev Play vite exclude dts deps (#7089 by @weidehai)
+- Components [table]emit "current-change" when currentRowKey changed (#6992 by @kakigakki)
+
+#### Refactors
+
+- Build improve building (#7048 by @sxzz)
+
+### 2.1.8
+
+_2022-04-03_
+
+#### Features
+
+- Components [tooltip-v2] documentation (#6870 by @JeremyWuuuuu)
+- Components [el-table] add placeholder for tree table (#6905 by @msidolphin)
+- Components [el-scrollbar] expose scrollTo method (#6663 by @msidolphin)
+- Components [tag] add new API for rounded
+- Components [el-virtual-list] support native behaviours (#6945 by @msidolphin)
+- Components add tree select component (#6843 by @yujinpan)
+- Components [tabs] add tab-change event (#6978 by @buqiyuan)
+- Locale: Added Azerbaijani language (#6878 by @chz)
+
+#### Bug fixes
+
+- Components [el-input] change icon when showing password (#6846 by @plainheart)
+- Components [autocomplete] can not fetch suggestions after clear (#6847 by @buqiyuan)
+- Deps update all non-major dependencies (#6893 by @renovate[bot])
+- Remove default size warn by set componetSizes (#6908 by @YunYouJun)
+- [ElMessage] grouping mode default type (#6836 by @chenxch)
+- Components [update] fix onChange hook called twice (#6885 by @LYlanfeng)
+- Components [el-table] use table width as empty block width (#6694 by @plainheart)
+- [el-select-v2] 修復select-v2 v-model 不能正常的支持 Object (#6888 by @czh740132583)
+- Components [input] 添加prepend或append插槽后, clearable无法显示 (#6756 by @cn-troy)
+- Docs [el-divider] Document case error, String to string (#6934 by @zcj996)
+- Components [select] value support object (#6933 by @btea)
+- Docs documentation style (#6952 by @JeremyWuuuuu)
+- Theme-chalk [el-table] fix custom header background of fixed column (#6931 by @plainheart)
+
+#### Refactors
+
+- Components [tabs] switch to script-setup syntax (#6468 by @freedomlang)
+- Components [image, image-viewer] refactor (#6704 by @buqiyuan)
+- Components [calendar] refactor (#6682 by @buqiyuan)
+- Chore(components): [calender] remove import defineExpose (#6974 by @btea)
+
 ### 2.1.7
 
 _2022-03-28_

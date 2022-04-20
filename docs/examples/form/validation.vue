@@ -71,7 +71,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { FormInstance } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 
 const formSize = ref('default')
 const ruleFormRef = ref<FormInstance>()
@@ -86,7 +86,7 @@ const ruleForm = reactive({
   desc: '',
 })
 
-const rules = reactive({
+const rules = reactive<FormRules>({
   name: [
     { required: true, message: 'Please input Activity name', trigger: 'blur' },
     { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },

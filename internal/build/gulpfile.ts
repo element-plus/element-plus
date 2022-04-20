@@ -3,15 +3,12 @@ import { copyFile, mkdir } from 'fs/promises'
 import { copy } from 'fs-extra'
 import { parallel, series } from 'gulp'
 import {
-  buildConfig,
   buildOutput,
   epOutput,
   epPackage,
   projRoot,
-  run,
-  runTask,
-  withTaskName,
-} from './src'
+} from '@element-plus/build-utils'
+import { buildConfig, run, runTask, withTaskName } from './src'
 import type { TaskFunction } from 'gulp'
 import type { Module } from './src'
 

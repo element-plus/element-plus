@@ -14,7 +14,7 @@
   outline: none;
 
   &:not(.is-disabled):hover {
-    .#{$namespace}-input__inner {
+    .#{$namespace}-input__wrapper {
       cursor: pointer;
       box-shadow: 0 0 0 1px var(--el-input-hover-border-color) inset;
     }
@@ -25,15 +25,7 @@
 
     .#{$namespace}-input__inner {
       text-overflow: ellipsis;
-
-      &:focus {
-        box-shadow: 0 0 0 1px
-          var(
-            --el-input-focus-border-color,
-            map.get($input, 'focus-border-color')
-          )
-          inset;
-      }
+      cursor: pointer;
     }
 
     .#{$namespace}-input__suffix-inner {
@@ -63,7 +55,7 @@
     }
 
     @include when(focus) {
-      .#{$namespace}-input__inner {
+      .#{$namespace}-input__wrapper {
         box-shadow: 0 0 0 1px
           var(
             --el-input-focus-border-color,
@@ -84,7 +76,7 @@
   @include when(disabled) {
     .#{$namespace}-cascader__label {
       z-index: calc(var(--el-index-normal) + 1);
-      color: var(--el-disabled-text-color);
+      color: getCssVar('disabled-text-color');
     }
   }
 
@@ -212,13 +204,16 @@
     min-width: 60px;
     margin: 2px 0 2px map.get($input-padding-horizontal, 'default')-$border-width;
     padding: 0;
-    color: var(--el-cascader-menu-text-color);
+    color: getCssVar('cascader', 'menu-text-color');
     border: none;
     outline: none;
     box-sizing: border-box;
 
+    background: transparent;
+
     &::placeholder {
-      color: var(--el-text-color-placeholder);
+      // two input overlap
+      color: transparent;
     }
   }
 }

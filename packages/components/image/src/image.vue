@@ -19,6 +19,7 @@
         v-if="showViewer"
         :z-index="zIndex"
         :initial-index="imageIndex"
+        :infinite="infinite"
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="teleported"
