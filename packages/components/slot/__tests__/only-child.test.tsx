@@ -5,7 +5,6 @@ import { debugWarn } from '@element-plus/utils'
 import { FORWARD_REF_INJECTION_KEY } from '@element-plus/hooks'
 import { OnlyChild } from '../src/only-child'
 import type { MountingOptions } from '@vue/test-utils'
-import type { SpyInstanceFn } from 'vitest'
 
 type Slot = NonNullable<NonNullable<MountingOptions<any>['slots']>['default']>
 
@@ -34,7 +33,6 @@ describe('ElOnlyChild', () => {
   let wrapper: ReturnType<typeof createComponent>
 
   afterEach(() => {
-    ;(debugWarn as SpyInstanceFn).mockClear()
     wrapper?.unmount()
   })
 

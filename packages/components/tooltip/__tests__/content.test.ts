@@ -91,15 +91,6 @@ describe('<ElTooltipContent />', () => {
   })
 
   afterEach(() => {
-    ;[
-      onOpen,
-      onClose,
-      onToggle,
-      onShow,
-      onHide,
-      onBeforeShow,
-      onBeforeHide,
-    ].forEach((fn) => fn.mockClear())
     open.value = false
     controlled.value = false
     trigger.value = 'hover'

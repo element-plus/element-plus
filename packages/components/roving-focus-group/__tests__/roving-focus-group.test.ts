@@ -83,7 +83,6 @@ describe('<ElRovingFocusGroup />', () => {
     await nextTick()
   })
   afterEach(() => {
-    ;[onFocus, onBlur, onMousedown].forEach((f) => f.mockClear())
     wrapper.unmount()
   })
 

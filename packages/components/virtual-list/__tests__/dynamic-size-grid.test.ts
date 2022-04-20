@@ -1,13 +1,5 @@
 import { nextTick, unref } from 'vue'
-import {
-  afterAll,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'
 import makeScroll from '@element-plus/test-utils/make-scroll'
 import setupMock from '../setup-mock'
@@ -64,10 +56,6 @@ describe('<fixed-size-grid />', () => {
 
   afterAll(() => {
     cleanup()
-  })
-
-  beforeEach(() => {
-    onItemRendered.mockClear()
   })
 
   describe('render testing', () => {
