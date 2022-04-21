@@ -25,6 +25,7 @@
 
   &.#{$namespace}-input__inner {
     border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+    background-color: var(--el-input-bg-color, map.get($input, 'bg-color'));
 
     @include inset-input-border(
       var(--el-input-border-color, map.get($input, 'border-color'))
