@@ -383,9 +383,7 @@ describe('Select', () => {
             label: '双皮奶',
           },
         ],
-        value: {
-          value: '选项2',
-        },
+        value: '选项2',
       })
     )
     await nextTick()
