@@ -8,7 +8,7 @@ import {
   watch,
 } from 'vue'
 import { debounce } from 'lodash-unified'
-import { isNumber, isObject } from '@element-plus/utils'
+import { addUnit, isArray, isNumber, isObject } from '@element-plus/utils'
 import { enforceUnit, sum } from './utils'
 import { useColumns } from './use-columns'
 import { FixedDir, SortOrder, oppositeOrderMap } from './constants'
@@ -116,6 +116,14 @@ function useTable(props: TableV2Props) {
     return expandColumnKey ? unref(flattenedData) : data
   })
 
+  const showEmpty = computed(() => {
+    const noData = unref(data).length === 0
+
+    return isArray(props.fixedData)
+      ? props.fixedData.length === 0 && noData
+      : noData
+  })
+
   const isDynamic = computed(() => isNumber(props.estimatedRowHeight))
 
   const bodyWidth = computed(() => {
@@ -156,6 +164,12 @@ function useTable(props: TableV2Props) {
   const footerHeight = computed(() =>
     enforceUnit({ height: props.footerHeight })
   )
+
+  const emptyStyle = computed<CSSProperties>(() => ({
+    top: addUnit(unref(headerHeight)),
+    bottom: addUnit(props.footerHeight),
+    width: addUnit(props.width),
+  }))
 
   const fixedTableHeight = computed(() => {
     const { maxHeight } = props
@@ -423,6 +437,7 @@ function useTable(props: TableV2Props) {
     mainColumns,
     // metadata
     bodyWidth,
+    emptyStyle,
     rootStyle,
     headerWidth,
     footerHeight,
@@ -430,6 +445,8 @@ function useTable(props: TableV2Props) {
     fixedTableHeight,
     leftTableWidth,
     rightTableWidth,
+    // flags
+    showEmpty,
 
     // methods
     getRowHeight,

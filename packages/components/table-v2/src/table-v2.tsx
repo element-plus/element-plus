@@ -12,6 +12,7 @@ import Cell from './renderers/cell'
 import Header from './renderers/header'
 import HeaderCell from './renderers/header-cell'
 import Footer from './renderers/footer'
+import Empty from './renderers/empty'
 
 import type { TableGridRowSlotParams } from './table-grid'
 import type { TableV2RowCellRenderParam } from './table-row'
@@ -49,9 +50,12 @@ const TableV2 = defineComponent({
       isScrolling,
 
       bodyWidth,
+      emptyStyle,
       rootStyle,
       headerWidth,
       footerHeight,
+
+      showEmpty,
 
       getRowHeight,
       onColumnSorted,
@@ -271,6 +275,11 @@ const TableV2 = defineComponent({
           <LeftTable {...leftTableProps}>{tableSlots}</LeftTable>
           <RightTable {...rightTableProps}>{tableSlots}</RightTable>
           <Footer {...footerProps}>{{ default: slots.footer }}</Footer>
+          {unref(showEmpty) && (
+            <Empty class={ns.e('empty')} style={unref(emptyStyle)}>
+              {{ default: slots.empty }}
+            </Empty>
+          )}
         </div>
       )
     }
