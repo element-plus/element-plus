@@ -1,6 +1,7 @@
+import type { FunctionalComponent } from 'vue'
 import type { TableV2HeaderCell } from './header-cell'
 
-const HeaderCell = (props: TableV2HeaderCell, { slots }) =>
+const HeaderCell: FunctionalComponent<TableV2HeaderCell> = (props, { slots }) =>
   slots.default ? (
     slots.default(props)
   ) : (
@@ -9,6 +10,6 @@ const HeaderCell = (props: TableV2HeaderCell, { slots }) =>
     </div>
   )
 
-HeaderCell.componentName = 'ElTableV2HeaderCell'
+HeaderCell.displayName = 'ElTableV2HeaderCell'
 
 export default HeaderCell

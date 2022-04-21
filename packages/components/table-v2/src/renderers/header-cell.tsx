@@ -3,7 +3,7 @@ import HeaderCell from '../table-header-cell'
 import SortIcon from '../sort-icon'
 import { Alignment, SortOrder, oppositeOrderMap } from '../constants'
 import { placeholderSign } from '../private'
-import { componentToSlot, tryCall } from '../utils'
+import { componentToSlot, enforceUnit, tryCall } from '../utils'
 
 import type { FunctionalComponent, UnwrapNestedRefs } from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
@@ -42,7 +42,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     onColumnSorted,
   } = props
 
-  const style = columnsStyles[column.key]
+  const style = enforceUnit(columnsStyles[column.key])
 
   if (column.placeholderSign === placeholderSign) {
     return <div class={ns.em('header-row-cell', 'placeholder')} style={style} />
