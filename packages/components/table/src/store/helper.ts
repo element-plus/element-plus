@@ -67,7 +67,6 @@ function getArrKeysValue<T>(props: TableProps<T>, keys: string) {
       value = value[key]
     })
     return value
-  } else {
-    return props[keys]
   }
+  return props[keys]
 }

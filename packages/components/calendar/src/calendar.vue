@@ -115,9 +115,8 @@ const date: ComputedRef<Dayjs> = computed(() => {
       return validatedRange.value[0][0]
     }
     return now
-  } else {
-    return dayjs(props.modelValue).locale(lang.value)
   }
+  return dayjs(props.modelValue).locale(lang.value)
 })
 
 // https://github.com/element-plus/element-plus/issues/3155

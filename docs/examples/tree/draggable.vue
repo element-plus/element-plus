@@ -59,9 +59,8 @@ const handleDrop = (
 const allowDrop = (draggingNode: Node, dropNode: Node, type: DropType) => {
   if (dropNode.data.label === 'Level two 3-1') {
     return type !== 'inner'
-  } else {
-    return true
   }
+  return true
 }
 const allowDrag = (draggingNode: Node) => {
   return !draggingNode.data.label.includes('Level three 3-1-1')

@@ -66,9 +66,8 @@ const reAttribute: InstallOptions['reAttribute'] = (value, key) => {
           .replaceAll(/\s+/g, '-')
           .toLowerCase()}`
       : undefined
-  } else {
-    return str
   }
+  return str
 }
 
 export const buildHelper: TaskFunction = (done) => {

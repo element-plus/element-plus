@@ -93,9 +93,8 @@ export const getFirstValidNode = (
 ) => {
   if (Array.isArray(nodes)) {
     return getChildren(nodes[0], maxDepth)
-  } else {
-    return getChildren(nodes, maxDepth)
   }
+  return getChildren(nodes, maxDepth)
 }
 
 export function renderIf(

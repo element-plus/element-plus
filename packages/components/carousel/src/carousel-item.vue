@@ -110,9 +110,8 @@ function calcCardTranslate(index: number, activeIndex: number) {
     return (parentWidth * ((2 - CARD_SCALE) * (index - activeIndex) + 1)) / 4
   } else if (index < activeIndex) {
     return (-(1 + CARD_SCALE) * parentWidth) / 4
-  } else {
-    return ((3 + CARD_SCALE) * parentWidth) / 4
   }
+  return ((3 + CARD_SCALE) * parentWidth) / 4
 }
 
 function calcTranslate(

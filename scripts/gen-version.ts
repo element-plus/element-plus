@@ -8,9 +8,8 @@ function getVersion() {
   const tagVer = process.env.TAG_VERSION
   if (tagVer) {
     return tagVer.startsWith('v') ? tagVer.slice(1) : tagVer
-  } else {
-    return pkg.version
   }
+  return pkg.version
 }
 
 const version = getVersion()

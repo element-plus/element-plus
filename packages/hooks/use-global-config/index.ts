@@ -27,9 +27,8 @@ export function useGlobalConfig(
     : globalConfig
   if (key) {
     return computed(() => config.value?.[key] ?? defaultValue)
-  } else {
-    return config
   }
+  return config
 }
 
 export const provideGlobalConfig = (
