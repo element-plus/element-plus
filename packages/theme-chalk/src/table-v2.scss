@@ -110,6 +110,14 @@
     overflow: hidden;
   }
 
+  @include e('footer') {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+
   @include e('header-row') {
     display: flex;
     border-bottom: getCssVar('table', 'border');

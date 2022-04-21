@@ -78,7 +78,7 @@ function useTable(props: TableV2Props) {
   })
 
   const flattenedData = computed(() => {
-    const depths = {}
+    const depths: Record<KeyType, number> = {}
     const { data, rowKey } = props
 
     const _expandedRowKeys = unref(expandedRowKeys)
@@ -152,6 +152,10 @@ function useTable(props: TableV2Props) {
 
     return height - footerHeight
   })
+
+  const footerHeight = computed(() =>
+    enforceUnit({ height: props.footerHeight })
+  )
 
   const fixedTableHeight = computed(() => {
     const { maxHeight } = props
@@ -421,6 +425,7 @@ function useTable(props: TableV2Props) {
     bodyWidth,
     rootStyle,
     headerWidth,
+    footerHeight,
     mainTableHeight,
     fixedTableHeight,
     leftTableWidth,
