@@ -22,7 +22,7 @@ const { copyColor } = useCopyColor()
             class="bg-blue-sub-item hover:(cursor-pointer shadow)"
             :style="{
               width: `${100 / 6}%`,
-              background: getColorValue('primary-' + level),
+              background: 'var(--el-color-primary-' + level + ')',
             }"
             @click="copyColor('primary-' + level)"
           />

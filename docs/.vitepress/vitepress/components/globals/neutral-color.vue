@@ -5,12 +5,30 @@
         <div
           v-for="(text, i) in textColors"
           :key="i"
-          class="demo-color-box demo-color-box-other"
-          :style="{ background: getCssVarName('text-color', text.type) }"
+          class="demo-color-box demo-color-box-other shadow"
+          :style="{
+            color: 'var(--el-bg-color)',
+            background: text.var.value,
+          }"
         >
-          {{ text.name || formatType(text.type) + ' Text' }}
-          <div class="value">
-            {{ getCssVarValue('text-color', text.type).toUpperCase() }}
+          {{ text.name }}
+          <div class="value" text="xs">
+            {{ text.var.value.toUpperCase() }}
+          </div>
+        </div>
+      </div>
+    </el-col>
+    <el-col :span="6" :xs="{ span: 12 }">
+      <div class="demo-color-box-group">
+        <div
+          v-for="(fill, i) in fillColors"
+          :key="i"
+          class="demo-color-box demo-color-box-other demo-color-box-lite shadow"
+          :style="{ background: fill.var.value }"
+        >
+          {{ fill.name }}
+          <div class="value" text="xs">
+            {{ fill.var.value.toUpperCase() }}
           </div>
         </div>
       </div>
@@ -20,12 +38,12 @@
         <div
           v-for="(border, i) in borderColors"
           :key="i"
-          class="demo-color-box demo-color-box-other demo-color-box-lite"
-          :style="{ background: `var(--el-border-color-${border.type})` }"
+          class="demo-color-box demo-color-box-other demo-color-box-lite shadow"
+          :style="{ background: border.var.value }"
         >
-          {{ formatType(border.type) + ' Border' }}
-          <div class="value">
-            {{ getColorValue(border.type).toUpperCase() }}
+          {{ border.name }}
+          <div class="value" text="xs">
+            {{ border.var.value.toUpperCase() }}
           </div>
         </div>
       </div>
@@ -37,7 +55,7 @@
           :style="{ background: black }"
         >
           Basic Black
-          <div class="value">{{ black }}</div>
+          <div class="value" text="xs">{{ black }}</div>
         </div>
         <div
           class="demo-color-box demo-color-box-other"
@@ -48,90 +66,78 @@
           }"
         >
           Basic White
-          <div class="value">{{ white }}</div>
+          <div class="value" text="xs">{{ white }}</div>
         </div>
-        <div class="demo-color-box demo-color-box-other bg-transparent">
+        <div
+          class="demo-color-box demo-color-box-other demo-color-box-lite bg-transparent shadow"
+        >
           Transparent
-          <div class="value">Transparent</div>
+          <div class="value" text="xs">Transparent</div>
+        </div>
+
+        <div
+          v-for="(bg, i) in backgroundColors"
+          :key="i"
+          class="demo-color-box demo-color-box-other demo-color-box-lite shadow"
+          :style="{ background: bg.var.value }"
+        >
+          {{ bg.name }}
+          <div class="value" text="xs">
+            {{ bg.var.value.toUpperCase() }}
+          </div>
         </div>
       </div>
     </el-col>
   </el-row>
 </template>
 
-<script lang="ts">
-import { defineComponent, markRaw } from 'vue'
+<script lang="ts" setup>
+import { getCssVarName, getCssVarValue } from '~/utils/colors'
 
-export default defineComponent({
-  setup() {
-    const getColorValue = (type: string) => {
-      return getComputedStyle(document.documentElement).getPropertyValue(
-        `--el-border-color-${type}`
-      )
-    }
-
-    const formatType = (type: string) => {
-      return type
-        .split('-')
-        .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
-        .join(' ')
-    }
-
-    const getCssVarName = (namespace: string, type: string) => {
-      return `var(--el-${namespace}-${type})`
-    }
-
-    const getCssVarValue = (namespace, type) => {
-      return getComputedStyle(document.documentElement).getPropertyValue(
-        `--el-${namespace}-${type}`
-      )
-    }
-
-    return {
-      borderColors: markRaw([
-        {
-          type: 'base',
-          color: '#DCDFE6',
-        },
-        {
-          type: 'light',
-          color: '#E4E7ED',
-        },
-        {
-          type: 'lighter',
-          color: '#EBEEF5',
-        },
-        {
-          type: 'extra-light',
-          color: '#F2F6FC',
-        },
-      ]),
-      textColors: markRaw([
-        {
-          name: 'Primary Text',
-          type: 'primary',
-        },
-        {
-          name: 'Regular Text',
-          type: 'regular',
-        },
-        {
-          name: 'Secondary Text',
-          type: 'secondary',
-        },
-        {
-          name: 'Placeholder Text',
-          type: 'placeholder',
-        },
-      ]),
-      black: '#000000',
-      white: '#FFFFFF',
-
-      formatType,
-      getColorValue,
-      getCssVarName,
-      getCssVarValue,
-    }
-  },
+const backgroundTypes = ['page', '', 'overlay']
+const backgroundColors = backgroundTypes.map((type) => {
+  return {
+    name: type
+      ? `${type[0].toUpperCase() + type.slice(1)} Background`
+      : 'Base Background',
+    var: getCssVarValue(getCssVarName('bg-color', type)),
+  }
 })
+
+const borderTypes = ['darker', 'dark', '', 'light', 'lighter', 'extra-light']
+const borderColors = borderTypes.map((type) => {
+  return {
+    name: type
+      ? `${type[0].toUpperCase() + type.slice(1)} Border`
+      : 'Base Border',
+    var: getCssVarValue(getCssVarName('border-color', type)),
+  }
+})
+
+const fillTypes = [
+  'darker',
+  'dark',
+  '',
+  'light',
+  'lighter',
+  'extra-light',
+  'blank',
+]
+const fillColors = fillTypes.map((type) => {
+  return {
+    name: type ? `${type[0].toUpperCase() + type.slice(1)} Fill` : 'Base Fill',
+    var: getCssVarValue(getCssVarName('fill-color', type)),
+  }
+})
+
+const textTypes = ['primary', 'regular', 'secondary', 'placeholder', 'disabled']
+const textColors = textTypes.map((type) => {
+  return {
+    name: `${type[0].toUpperCase() + type.slice(1)} Text`,
+    var: getCssVarValue(getCssVarName('text-color', type)),
+  }
+})
+
+const black = '#000000'
+const white = '#FFFFFF'
 </script>
