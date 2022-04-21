@@ -159,7 +159,7 @@ describe('Calendar.vue', () => {
     expect(wrapper.find('.is-selected').text()).toBe('1')
   })
 
-  it('range tow year', async () => {
+  it('range two years', async () => {
     const wrapper = mount(() => (
       <Calendar
         range={[new Date(2022, 0, 1), new Date(2022, 0, 31)]}
