@@ -118,6 +118,11 @@
     overflow: hidden;
   }
 
+  @include e('empty') {
+    position: absolute;
+    left: 0;
+  }
+
   @include e('header-row') {
     display: flex;
     border-bottom: getCssVar('table', 'border');
