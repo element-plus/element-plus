@@ -38,6 +38,7 @@ import {
   onMounted,
   provide,
   reactive,
+  isReactive,
   ref,
   toRefs,
   useSlots,
@@ -297,7 +298,9 @@ const resetField: FormItemContext['resetField'] = async () => {
     isResettingField = true
   }
 
-  computedValue.value = initialValue
+  computedValue.value = isReactive(computedValue.value)
+    ? reactive(initialValue)
+    : initialValue
 
   await nextTick()
   clearValidate()
