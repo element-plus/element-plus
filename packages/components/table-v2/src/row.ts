@@ -21,14 +21,18 @@ export type RowEventHandlerParams<T> = {
   event: Event
 } & RowCommonParams<T>
 
+export type RowHeightChangedParams = {
+  rowKey: KeyType
+  height: number
+  rowIndex: number
+}
+
 export type RowExpandHandler<T> = (params: RowExpandParams<T>) => void
 export type RowHoverHandler<T> = (params: RowHoverParams<T>) => void
 export type RowEventHandler<T> = (params: RowEventHandlerParams<T>) => void
 export type RowHeightChangeHandler = (
-  rowKey: KeyType,
-  height: number,
-  rowIndex: number,
-  fixedDirection: boolean | FixedDirection
+  row: RowHeightChangedParams,
+  fixedDirection: boolean | FixedDirection | undefined
 ) => void
 
 export type RowEventHandlers<T> = {

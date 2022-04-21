@@ -1,10 +1,19 @@
 import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
+import { debugWarn } from '@element-plus/utils'
 import { Checked, CircleClose } from '@element-plus/icons-vue'
 import Switch from '../src/switch.vue'
 
+vi.mock('@element-plus/utils/error', () => ({
+  debugWarn: vi.fn(),
+}))
+
 describe('Switch.vue', () => {
+  afterEach(() => {
+    vi.clearAllMocks()
+  })
+
   test('create', () => {
     const wrapper = mount(Switch, {
       props: {
@@ -303,6 +312,7 @@ describe('Switch.vue', () => {
     vi.runAllTimers()
     await nextTick()
     expect(vm.value).toEqual(true)
+    expect(debugWarn).toHaveBeenCalledTimes(0)
 
     vm.asyncResult = 'success'
 
@@ -310,11 +320,13 @@ describe('Switch.vue', () => {
     vi.runAllTimers()
     await nextTick()
     expect(vm.value).toEqual(false)
+    expect(debugWarn).toHaveBeenCalledTimes(1)
 
     await coreWrapper.trigger('click')
     vi.runAllTimers()
     await nextTick()
     expect(vm.value).toEqual(true)
+    expect(debugWarn).toHaveBeenCalledTimes(1)
   })
 
   test('beforeChange function return boolean', async () => {

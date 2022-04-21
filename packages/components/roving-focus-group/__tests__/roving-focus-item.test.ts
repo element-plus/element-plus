@@ -102,7 +102,6 @@ describe('<ElRovingFocusItem />', () => {
     await nextTick()
   })
   afterEach(() => {
-    ;[onItemFocus, onItemShiftTab].forEach((f) => f.mockClear())
     wrapper.unmount()
   })
 

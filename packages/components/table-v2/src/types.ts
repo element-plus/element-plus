@@ -1,7 +1,8 @@
 import type { CSSProperties, RendererElement, RendererNode, VNode } from 'vue'
+import type { FixedDir, SortOrder } from './constants'
 
 export type Alignment = 'left' | 'center' | 'right'
-export type FixedDirection = 'left' | 'right'
+export type FixedDirection = FixedDir
 export type KeyType = string | number | symbol
 
 /**
@@ -82,6 +83,11 @@ export type Column<T = any> = {
 }
 
 export type Columns<T> = Column<T>[]
+
+export type SortBy = {
+  key: KeyType
+  order: SortOrder
+}
 
 export type CustomizedCellsType = VNode<
   RendererNode,

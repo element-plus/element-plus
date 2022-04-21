@@ -543,27 +543,16 @@ export default defineComponent({
         resetInputHeight()
       }
       nextTick(() => {
-        if (!reference.value) return
-        if (reference.value.$el) {
-          inputWidth.value = reference.value.$el.getBoundingClientRect().width
-        }
+        const refEl = reference.value && reference.value.$el
+        if (!refEl) return
+        inputWidth.value = refEl.getBoundingClientRect().width
+
         if (ctx.slots.prefix) {
-          const inputChildNodes = reference.value.$el.childNodes
-          const input = (Array.from(inputChildNodes) as HTMLElement[]).find(
-            (item) => item.tagName === 'INPUT'
+          const prefix = refEl.querySelector(`.${nsInput.e('prefix')}`)
+          prefixWidth.value = Math.max(
+            prefix.getBoundingClientRect().width + 5,
+            30
           )
-          if (input) {
-            const prefix = reference.value.$el.querySelector(
-              `.${nsInput.e('prefix')}`
-            )
-            prefixWidth.value = Math.max(
-              prefix.getBoundingClientRect().width + 5,
-              30
-            )
-            if (states.prefixWidth) {
-              input.style.paddingLeft = `${Math.max(states.prefixWidth, 30)}px`
-            }
-          }
         }
       })
       setSelected()

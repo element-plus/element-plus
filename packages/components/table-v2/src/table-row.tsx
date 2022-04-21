@@ -7,12 +7,12 @@ import {
   ref,
   unref,
 } from 'vue'
-import { isArray, isFunction } from '@element-plus/utils'
+import { isArray, isFunction, isNumber } from '@element-plus/utils'
 import { tableV2RowProps } from './row'
 import { TableV2InjectionKey } from './tokens'
 import { placeholderSign } from './private'
 
-import type { CSSProperties, RendererElement, RendererNode, VNode } from 'vue'
+import type { RendererElement, RendererNode, VNode } from 'vue'
 import type { RowEventHandlers, TableV2RowProps } from './row'
 
 type CustomizedCellsType = VNode<
@@ -39,27 +39,23 @@ const useTableRow = (props: TableV2RowProps) => {
   const measured = ref(false)
   const rowRef = ref<HTMLElement>()
   const measurable = computed(() => {
-    return props.estimatedRowHeight && props.rowIndex >= 0
+    return isNumber(props.estimatedRowHeight) && props.rowIndex >= 0
   })
 
   const doMeasure = (isInit = false) => {
     const $rowRef = unref(rowRef)
-
     if (!$rowRef) return
     const { columns, onRowHeightChange, rowKey, rowIndex, style } = props
     const { height } = $rowRef.getBoundingClientRect()
-
     measured.value = true
 
     nextTick(() => {
-      if (isInit || height !== (style as CSSProperties)?.height) {
+      if (isInit || height !== Number.parseInt(style!.height as string)) {
         const firstColumn = columns[0]
-        const isPlaceholder = firstColumn.isPlaceholder === placeholderSign
+        const isPlaceholder = firstColumn?.placeholderSign === placeholderSign
         onRowHeightChange?.(
-          rowKey,
-          height,
-          rowIndex,
-          firstColumn && isPlaceholder && Boolean(firstColumn.fixed)
+          { rowKey, height, rowIndex },
+          firstColumn && !isPlaceholder && firstColumn.fixed
         )
       }
     })
@@ -120,7 +116,7 @@ const useTableRow = (props: TableV2RowProps) => {
 
   onMounted(() => {
     if (unref(measurable)) {
-      doMeasure()
+      doMeasure(true)
     }
   })
 

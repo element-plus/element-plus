@@ -124,7 +124,7 @@ describe('Button.vue', () => {
       setup: () => () =>
         (
           <Button
-            v-slots={{ loading: <span class="custom-loading">111</span> }}
+            v-slots={{ loading: () => <span class="custom-loading">111</span> }}
             loading={true}
           >
             Loading

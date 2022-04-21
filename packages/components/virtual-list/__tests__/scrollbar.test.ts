@@ -5,7 +5,9 @@ import Scrollbar from '../src/components/scrollbar'
 import { ScrollbarDirKey } from '../src/defaults'
 
 describe('virtual scrollbar', () => {
-  async function testInlineStyle(layout = 'vertical') {
+  async function testInlineStyle(
+    layout: 'vertical' | 'horizontal' = 'vertical'
+  ) {
     const wrapper = mount({
       template: `<scrollbar visible layout="${layout}" :total="100" :ratio="25" :client-size="100" :scroll-from="20"></scrollbar>`,
       components: {
@@ -140,7 +142,7 @@ describe('virtual scrollbar', () => {
 
     expect(
       (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style.width
-    ).toContain('196px') // clientSize - 4 = 200 - 4 = 196
+    ).toContain('198px') // clientSize - props.endGap = 200 - 2 = 198
 
     expect(
       (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style
@@ -171,10 +173,37 @@ describe('virtual scrollbar', () => {
     expect(
       (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style
         .height
-    ).toContain('96px') // clientSize - 4 = 100 - 4 = 96
+    ).toContain('98px') // clientSize - props.endGap = 100 - 2 = 98
 
     expect(
       (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style.width
     ).toContain('6px') // fixed 6
+  })
+
+  it('should locate correctly when endGap is set', async () => {
+    const wrapper = mount({
+      template: `
+      <div style="height: 100px; position: relative; border: 1px solid red">
+        <scrollbar
+          :total="100"
+          :ratio="25"
+          :client-size="100"
+          :scroll-from="0 / 300"
+          :end-gap="8"
+          :visible="true"
+        />
+      </div>
+    `,
+      components: {
+        Scrollbar,
+      },
+    })
+
+    await nextTick()
+
+    expect(
+      (wrapper.find('.el-virtual-scrollbar').element as HTMLElement).style
+        .height
+    ).toContain('92px') // clientSize - props.endGap = 100 - 8 = 92
   })
 })

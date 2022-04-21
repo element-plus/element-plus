@@ -1,13 +1,5 @@
 import { nextTick } from 'vue'
-import {
-  afterAll,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'
 import makeScroll from '@element-plus/test-utils/make-scroll'
 import setupMock from '../setup-mock'
@@ -21,6 +13,7 @@ import {
 } from '../src/defaults'
 import { FixedSizeList } from '..'
 
+import type { SpyInstance } from 'vitest'
 import type { ListExposes } from '../src/types'
 type ListRef = ListExposes
 
@@ -62,10 +55,6 @@ describe('<fixed-size-list />', () => {
 
   afterAll(() => {
     cleanup()
-  })
-
-  beforeEach(() => {
-    onItemRendered.mockClear()
   })
 
   it('should render correctly', async () => {
@@ -369,6 +358,8 @@ describe('<fixed-size-list />', () => {
 
   describe('to throw', () => {
     it('should throw when layout is invalid', () => {
+      vi.spyOn(console, 'warn').mockImplementation(() => vi.fn)
+
       try {
         const wrapper = mount({
           props: {
@@ -380,6 +371,9 @@ describe('<fixed-size-list />', () => {
       } catch (e) {
         expect(e).toBeInstanceOf(Error)
       }
+
+      expect(console.warn).toHaveBeenCalled()
+      ;(console.warn as any as SpyInstance).mockRestore()
     })
   })
 })

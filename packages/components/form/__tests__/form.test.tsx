@@ -569,8 +569,6 @@ describe('Form', () => {
     const findDomainItems = () => wrapper.findAll('.domain-item')
 
     beforeEach(() => {
-      onSuccess.mockClear()
-      onError.mockClear()
       createComponent()
     })
 

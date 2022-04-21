@@ -18,7 +18,7 @@ export const tryCall = <T>(
 }
 
 export const enforceUnit = (style: CSSProperties) => {
-  ;['width', 'maxWidth', 'minWidth', 'height'].forEach((key) => {
+  ;(['width', 'maxWidth', 'minWidth', 'height'] as const).forEach((key) => {
     style[key] = addUnit(style[key])
   })
 
