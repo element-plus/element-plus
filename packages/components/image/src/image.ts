@@ -58,5 +58,6 @@ export const imageEmits = {
   error: (evt: Event) => evt instanceof Event,
   switch: (val: number) => isNumber(val),
   close: () => true,
+  click: (evt: MouseEvent) => evt instanceof MouseEvent,
 }
 export type ImageEmits = typeof imageEmits

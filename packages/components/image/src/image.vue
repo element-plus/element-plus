@@ -222,7 +222,9 @@ function wheelHandler(e: WheelEvent) {
   }
 }
 
-function clickHandler() {
+function clickHandler(event: MouseEvent) {
+  emit('click', event)
+
   // don't show viewer when preview is false
   if (!preview.value) return
 
