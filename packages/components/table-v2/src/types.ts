@@ -1,4 +1,10 @@
-import type { CSSProperties, RendererElement, RendererNode, VNode } from 'vue'
+import type {
+  CSSProperties,
+  FunctionalComponent,
+  RendererElement,
+  RendererNode,
+  VNode,
+} from 'vue'
 import type { FixedDir, SortOrder } from './constants'
 
 export type Alignment = 'left' | 'center' | 'right'
@@ -106,3 +112,12 @@ export type DefaultCellsType = VNode<
 >[][]
 
 export type ColumnCellsType = DefaultCellsType | CustomizedCellsType
+
+export type SimpleFunctionalComponentProps<T extends object> = {
+  class?: JSX.IntrinsicAttributes['class']
+  style?: CSSProperties
+} & T
+
+export type SimpleFunctionalComponent<
+  E extends object = { [key: string]: any }
+> = FunctionalComponent<SimpleFunctionalComponentProps<E>>
