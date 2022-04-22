@@ -58,6 +58,10 @@ jobs:
         env:
           DOC_ENV: preview
 
+      - name: Move bundle to docs dist
+        if: matrix.os == 'ubuntu-latest'
+        run: mkdir docs/.vitepress/dist/bundle && mv dist/element-plus/dist/*.* docs/.vitepress/dist/bundle
+
       # share website dist
       - name: Upload artifact
         if: matrix.os == 'ubuntu-latest'
