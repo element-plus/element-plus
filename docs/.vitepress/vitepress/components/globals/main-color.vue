@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useCssVar } from '@vueuse/core'
-import { getColorValue, useCopyColor } from '../../utils'
+import { useCopyColor } from '../../utils'
 
 const primary = useCssVar('--el-color-primary')
 const colorLevel = [3, 5, 7, 8, 9].map((i) => `light-${i}`)

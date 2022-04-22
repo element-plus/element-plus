@@ -18,21 +18,7 @@
         </div>
       </div>
     </el-col>
-    <el-col :span="6" :xs="{ span: 12 }">
-      <div class="demo-color-box-group">
-        <div
-          v-for="(fill, i) in fillColors"
-          :key="i"
-          class="demo-color-box demo-color-box-other demo-color-box-lite shadow"
-          :style="{ background: fill.var.value }"
-        >
-          {{ fill.name }}
-          <div class="value" text="xs">
-            {{ fill.var.value.toUpperCase() }}
-          </div>
-        </div>
-      </div>
-    </el-col>
+
     <el-col :span="6" :xs="{ span: 12 }">
       <div class="demo-color-box-group">
         <div
@@ -48,6 +34,30 @@
         </div>
       </div>
     </el-col>
+
+    <el-col :span="6" :xs="{ span: 12 }">
+      <div class="demo-color-box-group">
+        <div
+          v-for="(fill, i) in fillColors"
+          :key="i"
+          class="demo-color-box demo-color-box-other demo-color-box-lite shadow"
+          :style="{
+            background: fill.var.value,
+            border: `1px solid ${
+              fill.name === 'Blank Fill'
+                ? 'var(--el-border-color-light)'
+                : 'transparent'
+            }`,
+          }"
+        >
+          {{ fill.name }}
+          <div class="value" text="xs">
+            {{ fill.var.value.toUpperCase() }}
+          </div>
+        </div>
+      </div>
+    </el-col>
+
     <el-col :span="6" :xs="{ span: 12 }">
       <div class="demo-color-box-group">
         <div
@@ -79,7 +89,14 @@
           v-for="(bg, i) in backgroundColors"
           :key="i"
           class="demo-color-box demo-color-box-other demo-color-box-lite shadow"
-          :style="{ background: bg.var.value }"
+          :style="{
+            background: bg.var.value,
+            border: `1px solid ${
+              bg.name === 'Base Background'
+                ? 'var(--el-border-color-light)'
+                : 'transparent'
+            }`,
+          }"
         >
           {{ bg.name }}
           <div class="value" text="xs">
