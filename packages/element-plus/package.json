@@ -54,7 +54,7 @@
     "@ctrl/tinycolor": "^3.4.1",
     "@element-plus/icons-vue": "^1.1.4",
     "@floating-ui/dom": "^0.4.5",
-    "@popperjs/core": "^2.11.5",
+    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.6",
     "@types/lodash": "^4.14.182",
     "@types/lodash-es": "^4.17.6",
     "@vueuse/core": "^8.2.6",

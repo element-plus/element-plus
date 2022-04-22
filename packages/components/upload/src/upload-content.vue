@@ -21,6 +21,7 @@
       :accept="accept"
       type="file"
       @change="handleChange"
+      @click.stop
     />
   </div>
 </template>

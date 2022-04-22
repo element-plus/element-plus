@@ -29,7 +29,7 @@ importers:
       '@pnpm/find-workspace-packages': ^4.0.0
       '@pnpm/logger': ^4.0.0
       '@pnpm/types': ^8.0.0
-      '@popperjs/core': ^2.11.5
+      '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.6
       '@types/fs-extra': ^9.0.13
       '@types/gulp': ^4.0.9
       '@types/lodash': ^4.14.182
@@ -92,7 +92,7 @@ importers:
       '@element-plus/tokens': link:packages/tokens
       '@element-plus/utils': link:packages/utils
       '@floating-ui/dom': 0.4.5
-      '@popperjs/core': 2.11.5
+      '@popperjs/core': /@sxzz/popperjs-es/2.11.6
       '@types/lodash': 4.14.182
       '@types/lodash-es': 4.17.6
       '@vueuse/core': 8.2.6_vue@3.2.31
@@ -351,7 +351,7 @@ importers:
       '@ctrl/tinycolor': ^3.4.1
       '@element-plus/icons-vue': ^1.1.4
       '@floating-ui/dom': ^0.4.5
-      '@popperjs/core': ^2.11.5
+      '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.6
       '@types/lodash': ^4.14.182
       '@types/lodash-es': ^4.17.6
       '@types/node': '*'
@@ -370,7 +370,7 @@ importers:
       '@ctrl/tinycolor': 3.4.1
       '@element-plus/icons-vue': 1.1.4_vue@3.2.31
       '@floating-ui/dom': 0.4.5
-      '@popperjs/core': 2.11.5
+      '@popperjs/core': /@sxzz/popperjs-es/2.11.6
       '@types/lodash': 4.14.182
       '@types/lodash-es': 4.17.6
       '@vueuse/core': 8.2.6_vue@3.2.31
@@ -2628,6 +2628,10 @@ packages:
       magic-string: 0.25.9
       string.prototype.matchall: 4.0.7
     dev: true
+
+  /@sxzz/popperjs-es/2.11.6:
+    resolution: {integrity: sha512-V8W+eJiInGq8roHR8xYR+lxojL022LyUI9E4FRav4+1Ih+875ONcLNK3XIs809fyxk1lNzrZO5OAy6xpvEafNw==}
+    dev: false
 
   /@ts-morph/common/0.13.0:
     resolution: {integrity: sha512-fEJ6j7Cu8yiWjA4UmybOBH9Efgb/64ZTWuvCF4KysGu4xz8ettfyaqFt8WZ1btCxXsGZJjZ2/3svOF6rL+UFdQ==}
