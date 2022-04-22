@@ -73,7 +73,7 @@
       @include utils-vertical-center;
 
       &:hover {
-        background-color: getCssVar('color', 'white');
+        background-color: getCssVar('bg-color', 'overlay');
       }
     }
 

@@ -5,7 +5,7 @@
         <div
           v-for="(text, i) in textColors"
           :key="i"
-          class="demo-color-box demo-color-box-other shadow"
+          class="demo-color-box demo-color-box-other"
           :style="{
             color: 'var(--el-bg-color)',
             background: text.var.value,
@@ -24,7 +24,7 @@
         <div
           v-for="(border, i) in borderColors"
           :key="i"
-          class="demo-color-box demo-color-box-other demo-color-box-lite shadow"
+          class="demo-color-box demo-color-box-other demo-color-box-lite"
           :style="{ background: border.var.value }"
         >
           {{ border.name }}
@@ -40,7 +40,7 @@
         <div
           v-for="(fill, i) in fillColors"
           :key="i"
-          class="demo-color-box demo-color-box-other demo-color-box-lite shadow"
+          class="demo-color-box demo-color-box-other demo-color-box-lite"
           :style="{
             background: fill.var.value,
             border: `1px solid ${
@@ -79,7 +79,7 @@
           <div class="value" text="xs">{{ white }}</div>
         </div>
         <div
-          class="demo-color-box demo-color-box-other demo-color-box-lite bg-transparent shadow"
+          class="demo-color-box demo-color-box-other demo-color-box-lite bg-transparent"
         >
           Transparent
           <div class="value" text="xs">Transparent</div>
@@ -88,14 +88,10 @@
         <div
           v-for="(bg, i) in backgroundColors"
           :key="i"
-          class="demo-color-box demo-color-box-other demo-color-box-lite shadow"
+          class="demo-color-box demo-color-box-other demo-color-box-lite"
           :style="{
             background: bg.var.value,
-            border: `1px solid ${
-              bg.name === 'Base Background'
-                ? 'var(--el-border-color-light)'
-                : 'transparent'
-            }`,
+            border: '1px solid var(--el-border-color-light)',
           }"
         >
           {{ bg.name }}
