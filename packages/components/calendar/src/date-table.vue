@@ -10,7 +10,7 @@
 
     <tbody>
       <tr
-        v-for="(row, index) in rows"
+        v-for="(row, index) in monthRow"
         :key="index"
         :class="{
           [nsTable.e('row')]: true,
@@ -106,7 +106,7 @@ const rows = computed(() => {
       })
     )
     days = [...prevMonthDays, ...currentMonthDays]
-    const nextMonthDays: CalendarDateCell[] = rangeArr(42 - days.length).map(
+    const nextMonthDays: CalendarDateCell[] = rangeArr(35 - days.length).map(
       (_, index) => ({
         text: index + 1,
         type: 'next',
@@ -115,6 +115,18 @@ const rows = computed(() => {
     days = days.concat(nextMonthDays)
   }
   return toNestedArr(days)
+})
+
+const getMonthRow = (row: CalendarDateCell[][]) => {
+  const visibleRow: CalendarDateCell[][] = []
+  row.forEach((elem) => {
+    elem.some((cell) => cell.type === 'current') && visibleRow.push(elem)
+  })
+  return visibleRow
+}
+
+const monthRow = computed(() => {
+  return getMonthRow(rows.value)
 })
 
 const weekDays = computed(() => {
