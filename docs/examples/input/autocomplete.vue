@@ -8,7 +8,7 @@
         v-model="state1"
         :fetch-suggestions="querySearch"
         clearable
-        class="inline-input"
+        class="inline-input w-50"
         placeholder="Please Input"
         @select="handleSelect"
       />
@@ -22,13 +22,14 @@
         :fetch-suggestions="querySearch"
         :trigger-on-focus="false"
         clearable
-        class="inline-input"
+        class="inline-input w-50"
         placeholder="Please Input"
         @select="handleSelect"
       />
     </el-col>
   </el-row>
 </template>
+
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 
