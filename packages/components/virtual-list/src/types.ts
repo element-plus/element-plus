@@ -204,7 +204,9 @@ export type GridItemRenderedEvtParams = {
 
 export type GridScrollOptions = { scrollLeft?: number; scrollTop?: number }
 
-export type GridItemKeyGetter = <T>(args: {
+export type GridItemKeyGetter = <
+  T extends { [key: string | number]: any }
+>(args: {
   columnIndex: number
   data: T
   rowIndex: number
