@@ -46,12 +46,6 @@ Element Plus uses a specific set of palettes to specify colors to provide a cons
 
 .demo-color-box-lite {
   color: var(--el-text-color-primary);
-
-  .value {
-    font-size: 12px;
-    opacity: .69;
-    line-height: 24px;
-  }
 }
 </style>
 

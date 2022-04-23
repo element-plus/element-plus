@@ -174,15 +174,15 @@ $empty: () !default;
 $empty: map.merge(
   (
     'fill-color-0': getCssVar('color-black'),
-    'fill-color-1': #262629,
-    'fill-color-2': #34363b,
+    'fill-color-1': #4b4b52,
+    'fill-color-2': #36383d,
     'fill-color-3': #1e1e20,
-    'fill-color-4': #171719,
+    'fill-color-4': #262629,
     'fill-color-5': #202124,
-    'fill-color-6': #373a3e,
-    'fill-color-7': #191c1f,
-    'fill-color-8': #202225,
-    'fill-color-9': #202225,
+    'fill-color-6': #212224,
+    'fill-color-7': #1b1c1f,
+    'fill-color-8': #1c1d1f,
+    'fill-color-9': #18181a,
   ),
   $empty
 );
