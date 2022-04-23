@@ -32,7 +32,7 @@ const TableV2 = defineComponent({
     const {
       columnsStyles,
       fixedColumnsOnLeft,
-      fixedColumnOnRight,
+      fixedColumnsOnRight,
       mainColumns,
       mainTableHeight,
       fixedTableHeight,
@@ -159,7 +159,7 @@ const TableV2 = defineComponent({
       const rightTableProps = {
         cache,
         class: ns.e('right'),
-        columns: unref(fixedColumnOnRight),
+        columns: unref(fixedColumnsOnRight),
         data: _data,
         estimatedRowHeight,
         rightTableRef,
