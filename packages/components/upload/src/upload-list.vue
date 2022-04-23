@@ -41,7 +41,7 @@
         >
           <a
             :class="nsUpload.be('list', 'item-name')"
-            @click="handleClick(file)"
+            @click.prevent="handleClick(file)"
           >
             <el-icon :class="nsIcon.m('document')"><Document /></el-icon>
             <span :class="nsUpload.be('list', 'item-file-name')">

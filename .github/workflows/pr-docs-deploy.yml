@@ -40,7 +40,7 @@ jobs:
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
           PULL_REQUEST_NUMBER: ${{ steps.pr.outputs.id }}
 
-      - name: Deploy has succeeded
+      - name: Comment preview link
         if: ${{ success() }}
         uses: actions-cool/maintain-one-comment@v2.0.2
         with:
@@ -49,6 +49,18 @@ jobs:
             [<img width="400" src="https://user-images.githubusercontent.com/10731096/103995277-368b9a00-51d3-11eb-9f8f-67542f560613.png">](https://preview-${{ steps.pr.outputs.id }}-element-plus.surge.sh)
             <!-- ELEMENT_PLUS_PREVIEW -->
           body-include: '<!-- ELEMENT_PLUS_PREVIEW -->'
+          number: ${{ steps.pr.outputs.id }}
+
+      - name: Comment playground link
+        if: ${{ success() }}
+        uses: actions-cool/maintain-one-comment@v2.0.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            🧪 Playground Preview: https://element-plus.run/?pr=${{ steps.pr.outputs.id }}
+            Please comment the example via this playground if needed.
+            <!-- ELEMENT_PLUS_PREVIEW -->
+          body-include: '<!-- ELEMENT_PLUS_PLAYGROUND -->'
           number: ${{ steps.pr.outputs.id }}
 
       - name: Deploy has failed
