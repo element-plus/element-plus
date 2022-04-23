@@ -276,6 +276,12 @@
         min-width: 24px;
       }
     }
+
+    @include e(sizes) {
+      @include when(last) {
+        margin-left: 16px;
+      }
+    }
   }
 }
 
