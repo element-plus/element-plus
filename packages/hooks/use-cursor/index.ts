@@ -1,4 +1,6 @@
-import { type ShallowRef, ref } from 'vue'
+import { ref } from 'vue'
+
+import type { ShallowRef } from 'vue'
 
 // Keep input cursor in the correct position when we use formatter.
 export function useCursor(
