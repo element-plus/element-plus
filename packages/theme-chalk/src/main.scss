@@ -11,5 +11,5 @@
   flex-basis: auto;
   overflow: auto;
   box-sizing: border-box;
-  padding: var(--el-main-padding);
+  padding: getCssVar('main-padding');
 }

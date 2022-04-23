@@ -11,7 +11,7 @@
   position: relative;
   cursor: default;
   background: getCssVar('fill-color', 'blank');
-  color: var(--el-tree-text-color);
+  color: getCssVar('tree-text-color');
 
   @include e(empty-block) {
     position: relative;
@@ -26,8 +26,8 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    color: var(--el-text-color-secondary);
-    font-size: var(--el-font-size-base);
+    color: getCssVar('text-color', 'secondary');
+    font-size: getCssVar('font-size', 'base');
   }
 
   @include e(drop-indicator) {
@@ -35,7 +35,7 @@
     left: 0;
     right: 0;
     height: 1px;
-    background-color: var(--el-color-primary);
+    background-color: getCssVar('color-primary');
   }
 }
 
@@ -45,13 +45,13 @@
   &:focus {
     /* focus */
     > .#{$namespace}-tree-node__content {
-      background-color: var(--el-tree-node-hover-bg-color);
+      background-color: getCssVar('tree-node-hover-bg-color');
     }
   }
 
   @include when(drop-inner) {
     > .#{$namespace}-tree-node__content .#{$namespace}-tree-node__label {
-      background-color: var(--el-color-primary);
+      background-color: getCssVar('color-primary');
       color: #fff;
     }
   }
@@ -70,7 +70,7 @@
       margin-right: 8px;
     }
     &:hover {
-      background-color: var(--el-tree-node-hover-bg-color);
+      background-color: getCssVar('tree-node-hover-bg-color');
     }
 
     .#{$namespace}-tree.is-dragging & {
@@ -88,11 +88,11 @@
 
   @include e(expand-icon) {
     cursor: pointer;
-    color: var(--el-tree-expand-icon-color);
+    color: getCssVar('tree-expand-icon-color');
     font-size: 12px;
 
     transform: rotate(0deg);
-    transition: transform var(--el-transition-duration) ease-in-out;
+    transition: transform getCssVar('transition-duration') ease-in-out;
 
     &.expanded {
       transform: rotate(90deg);
@@ -108,13 +108,13 @@
   }
 
   @include e(label) {
-    font-size: var(--el-font-size-base);
+    font-size: getCssVar('font-size', 'base');
   }
 
   @include e(loading-icon) {
     margin-right: 8px;
-    font-size: var(--el-font-size-base);
-    color: var(--el-tree-expand-icon-color);
+    font-size: getCssVar('font-size', 'base');
+    color: getCssVar('tree-expand-icon-color');
   }
 
   & > .#{$namespace}-tree-node__children {
@@ -130,5 +130,5 @@
 .#{$namespace}-tree--highlight-current
   .#{$namespace}-tree-node.is-current
   > .#{$namespace}-tree-node__content {
-  background-color: var(--el-color-primary-light-9);
+  background-color: getCssVar('color-primary-light-9');
 }

@@ -79,7 +79,8 @@
   @include set-css-var-value('border-color-hover', $border-color-hover);
   @include set-css-var-value(
     'border',
-    #{var(--el-border-width) var(--el-border-style) var(--el-border-color)}
+    #{getCssVar('border-width') getCssVar('border-style')
+      getCssVar('border-color')}
   );
 
   // Svg

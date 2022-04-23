@@ -28,7 +28,7 @@
     align-items: center;
     font-size: 14px;
     background: getCssVar('fill-color', 'light');
-    color: var(--el-text-color-placeholder);
+    color: getCssVar('text-color', 'placeholder');
     vertical-align: middle;
   }
 

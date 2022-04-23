@@ -14,7 +14,7 @@
 }
 
 @mixin safe-padding() {
-  padding-inline-end: var(--#{$namespace}-table-scrollbar-size);
+  padding-inline-end: getCssVar('table-scrollbar-size');
 }
 
 @mixin cell-alignment() {

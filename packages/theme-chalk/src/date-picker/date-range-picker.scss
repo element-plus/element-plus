@@ -54,7 +54,7 @@
     padding: 16px;
 
     @include when(left) {
-      border-right: 1px solid var(--el-datepicker-inner-border-color);
+      border-right: 1px solid getCssVar('datepicker-inner-border-color');
     }
     .#{$namespace}-date-range-picker__header {
       div {
@@ -75,7 +75,7 @@
 
   @include e(time-header) {
     position: relative;
-    border-bottom: 1px solid var(--el-datepicker-inner-border-color);
+    border-bottom: 1px solid getCssVar('datepicker-inner-border-color');
     font-size: 12px;
     padding: 8px 5px 5px 5px;
     display: table;
@@ -86,7 +86,7 @@
       font-size: 20px;
       vertical-align: middle;
       display: table-cell;
-      color: var(--el-datepicker-icon-color);
+      color: getCssVar('datepicker-icon-color');
     }
   }
 

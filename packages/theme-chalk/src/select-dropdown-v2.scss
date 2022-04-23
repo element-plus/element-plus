@@ -6,7 +6,7 @@
 
 @include b(select-dropdown) {
   z-index: calc(var(--el-index-top) + 1);
-  border-radius: var(--el-border-radius-base);
+  border-radius: getCssVar('border-radius-base');
   box-sizing: border-box;
 
   .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list {
@@ -27,7 +27,7 @@
   margin: 0;
   text-align: center;
   color: map.get($select-dropdown, 'empty-color');
-  font-size: var(--el-select-font-size);
+  font-size: getCssVar('select-font-size');
 }
 
 @include b(select-dropdown__wrap) {

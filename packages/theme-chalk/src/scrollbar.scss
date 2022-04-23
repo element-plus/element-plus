@@ -36,8 +36,11 @@
       --el-scrollbar-bg-color,
       map.get($scrollbar, 'bg-color')
     );
-    transition: var(--el-transition-duration) background-color;
-    opacity: var(--el-scrollbar-opacity, map.get($scrollbar, 'opacity'));
+    transition: getCssVar('transition-duration') background-color;
+    opacity: var(
+      getCssVar('scrollbar-opacity'),
+      map.get($scrollbar, 'opacity')
+    );
 
     &:hover {
       background-color: var(

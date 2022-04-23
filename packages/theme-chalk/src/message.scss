@@ -11,9 +11,9 @@
 @include b(message) {
   min-width: getCssVar('message', 'min-width');
   box-sizing: border-box;
-  border-radius: var(--el-border-radius-base);
-  border-width: var(--el-border-width-base);
-  border-style: var(--el-border-style-base);
+  border-radius: getCssVar('border-radius-base');
+  border-width: getCssVar('border-width-base');
+  border-style: getCssVar('border-style-base');
   border-color: getCssVar('message', 'border-color');
   position: fixed;
   left: 50%;
@@ -21,7 +21,7 @@
   transform: translateX(-50%);
   transition: opacity 0.3s, transform 0.4s, top 0.4s;
   background-color: getCssVar('message', 'bg-color');
-  transition: opacity var(--el-transition-duration), transform 0.4s, top 0.4s;
+  transition: opacity getCssVar('transition-duration'), transform 0.4s, top 0.4s;
   padding: getCssVar('message', 'padding');
   display: flex;
   align-items: center;
