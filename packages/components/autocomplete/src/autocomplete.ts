@@ -10,6 +10,15 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
 import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
+import type { Awaitable } from '@element-plus/utils'
+
+export type AutoCompleteData = { value: string }[]
+export type AutoCompleteFetchSuggestions =
+  | ((
+      queryString: string,
+      cb: (data: AutoCompleteData) => void
+    ) => Awaitable<AutoCompleteData> | void)
+  | AutoCompleteData
 
 export const autocompleteProps = buildProps({
   valueKey: {
@@ -37,13 +46,7 @@ export const autocompleteProps = buildProps({
     default: 'bottom-start',
   },
   fetchSuggestions: {
-    type: definePropType<
-      | ((
-          queryString: string,
-          cb: (data: { value: string }[]) => void
-        ) => { value: string }[] | Promise<{ value: string }[]> | void)
-      | { value: string }[]
-    >([Function, Array]),
+    type: definePropType<AutoCompleteFetchSuggestions>([Function, Array]),
     default: NOOP,
   },
   popperClass: {
