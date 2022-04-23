@@ -1,3 +1,5 @@
+import chalk from 'chalk'
+import consola from 'consola'
 import { isString } from './types'
 
 class ElementPlusError extends Error {
@@ -18,7 +20,8 @@ export function debugWarn(scope: string | Error, message?: string): void {
     const error: Error = isString(scope)
       ? new ElementPlusError(`[${scope}] ${message}`)
       : scope
-    // eslint-disable-next-line no-console
-    console.warn(error)
+    consola.warn(
+      chalk.yellow(error)
+    )
   }
 }
