@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import consola from 'consola'
+import { isClient } from '@vueuse/core';
 import { isString } from './types'
 
 class ElementPlusError extends Error {
@@ -20,8 +21,15 @@ export function debugWarn(scope: string | Error, message?: string): void {
     const error: Error = isString(scope)
       ? new ElementPlusError(`[${scope}] ${message}`)
       : scope
-    consola.warn(
-      chalk.yellow(error)
-    )
+    
+    if (isClient) {
+      // eslint-disable-next-line no-console
+      console.warn(error)
+    } else {
+      // eslint-disable-next-line no-console
+      consola.warn(
+        chalk.yellow(error)
+      )
+    }
   }
 }
