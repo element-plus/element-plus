@@ -186,7 +186,9 @@ const getData = (queryString: string) => {
     if (isArray(result)) {
       cb(result)
     } else if (isPromise(result)) {
-      result.then()
+      result.then((suggestionsData) => {
+        suggestionsData && cb(suggestionsData)
+      })
     }
   }
 }
