@@ -91,7 +91,11 @@
           class="demo-color-box demo-color-box-other demo-color-box-lite"
           :style="{
             background: bg.var.value,
-            border: '1px solid var(--el-border-color-light)',
+            border:
+              '1px solid ' +
+              (!isDark || bg.name === 'Base Background'
+                ? 'var(--el-border-color-light)'
+                : 'transparent'),
           }"
         >
           {{ bg.name }}
@@ -105,6 +109,7 @@
 </template>
 
 <script lang="ts" setup>
+import { isDark } from '~/composables/dark'
 import { getCssVarName, getCssVarValue } from '~/utils/colors'
 
 const backgroundTypes = ['page', '', 'overlay']
