@@ -281,13 +281,10 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
-import {
-  CHANGE_EVENT,
-  UPDATE_MODEL_EVENT,
-  getComponentSize,
-} from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   addResizeListener,
+  getComponentSize,
   isValidComponentSize,
   removeResizeListener,
 } from '@element-plus/utils'

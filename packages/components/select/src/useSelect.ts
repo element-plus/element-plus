@@ -15,9 +15,13 @@ import {
   CHANGE_EVENT,
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
-  getComponentSize,
 } from '@element-plus/constants'
-import { debugWarn, isKorean, scrollIntoView } from '@element-plus/utils'
+import {
+  debugWarn,
+  getComponentSize,
+  isKorean,
+  scrollIntoView,
+} from '@element-plus/utils'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 
