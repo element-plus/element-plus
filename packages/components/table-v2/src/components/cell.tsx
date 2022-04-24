@@ -1,6 +1,10 @@
-import type { TableV2CellProps } from './cell'
+import type { FunctionalComponent } from 'vue'
+import type { TableV2CellProps } from '../cell'
 
-const TableV2Cell = (props: TableV2CellProps, { slots }) => {
+const TableV2Cell: FunctionalComponent<TableV2CellProps> = (
+  props: TableV2CellProps,
+  { slots }
+) => {
   const { cellData, style } = props
   const displayText = cellData?.toString?.() || ''
   return (
@@ -10,7 +14,7 @@ const TableV2Cell = (props: TableV2CellProps, { slots }) => {
   )
 }
 
-TableV2Cell.componentName = 'ElTableV2Cell'
+TableV2Cell.displayName = 'ElTableV2Cell'
 TableV2Cell.inheritAttrs = false
 
 export default TableV2Cell

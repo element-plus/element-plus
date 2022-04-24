@@ -16,10 +16,12 @@ import Empty from './renderers/empty'
 import Overlay from './renderers/overlay'
 
 import type { TableGridRowSlotParams } from './table-grid'
-import type { TableV2RowCellRenderParam } from './table-row'
-import type { TableV2HeaderRendererParams } from './table-header'
 
-import type { TableV2HeaderRowCellRendererParams } from './table-header-row'
+import type {
+  TableV2HeaderRendererParams,
+  TableV2HeaderRowCellRendererParams,
+  TableV2RowCellRenderParam,
+} from './components'
 
 const COMPONENT_NAME = 'ElTableV2'
 

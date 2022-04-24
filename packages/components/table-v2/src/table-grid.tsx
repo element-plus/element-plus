@@ -4,7 +4,7 @@ import {
   FixedSizeGrid,
 } from '@element-plus/components/virtual-list'
 import { isNumber, isObject } from '@element-plus/utils'
-import Header from './table-header'
+import { Header } from './components'
 import { TableV2InjectionKey } from './tokens'
 import { tableV2GridProps } from './grid'
 import { sum } from './utils'
@@ -18,7 +18,7 @@ import type {
   GridScrollOptions,
   ResetAfterIndex,
 } from '@element-plus/components/virtual-list'
-import type { TableV2HeaderInstance } from './table-header'
+import type { TableV2HeaderInstance } from './components'
 import type { TableV2GridProps } from './grid'
 
 const COMPONENT_NAME = 'ElTableV2Grid'
