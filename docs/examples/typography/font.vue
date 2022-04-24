@@ -21,7 +21,11 @@ import { isDark } from '~/composables/dark'
 
 <style scoped>
 img {
-  width: 24%;
-  margin: 0 4% 20px 0;
+  width: 220px;
+  height: 174px;
+  margin: 0 40px 24px 0;
+}
+img:nth-of-type(3) {
+  margin-right: 0;
 }
 </style>
