@@ -21,7 +21,7 @@ export const BAR_MAP = {
     client: 'clientX',
     direction: 'left',
   },
-}
+} as const
 
 export const renderThumbStyle = ({ move, size, bar }): CSSProperties => ({
   [bar.size]: size,
