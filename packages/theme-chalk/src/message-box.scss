@@ -137,7 +137,7 @@
 
     @each $type in (success, info, warning, error) {
       &.#{$namespace}-message-box-icon--#{$type} {
-        --el-messagebox-color: getCssVar('color', $type);
+        @include css-var-from-global(('messagebox', 'color'), ('color', $type));
         color: getCssVar('messagebox-color');
       }
     }
