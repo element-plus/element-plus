@@ -34,11 +34,11 @@ export function useButtonCustomStyle(props: ButtonProps) {
           'border-color': props.dark
             ? darken(color, 50)
             : color.tint(50).toString(),
-          'hover-text-color': `var(--${namespace}-color-white)`,
+          'hover-text-color': `var(${ns.cssVarName('color-white')})`,
           'hover-bg-color': buttonColor,
           'hover-border-color': buttonColor,
           'active-bg-color': activeBgColor,
-          'active-text-color': `var(--${namespace}-color-white)`,
+          'active-text-color': `var(${ns.cssVarName('color-white')})`,
           'active-border-color': activeBgColor,
         })
 
@@ -58,8 +58,8 @@ export function useButtonCustomStyle(props: ButtonProps) {
           ? darken(color, 30)
           : color.tint(30).toString()
         const textColor = color.isDark()
-          ? `var(--${namespace}-color-white)`
-          : `var(--${namespace}-color-black)`
+          ? `var(${ns.cssVarName('color-white')})`
+          : `var(${ns.cssVarName('color-black')})`
         styles = ns.cssVarBlock({
           'bg-color': buttonColor,
           'text-color': textColor,
