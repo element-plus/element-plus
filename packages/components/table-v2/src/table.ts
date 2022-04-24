@@ -186,12 +186,6 @@ export const tableV2Props = buildProps({
   onColumnSort: {
     type: definePropType<ColumnSortHandler<any>>(Function),
   },
-  // onColumnResize: {
-  //   type: definePropType<ColumnResizeHandler<any>>(Function),
-  // },
-  // onColumnResizeEnded: {
-  //   type: definePropType<ColumnResizeHandler<any>>(Function),
-  // },
   onExpandedRowsChange: Function,
   onEndReached: {
     type: definePropType<(distance: number) => void>(Function),

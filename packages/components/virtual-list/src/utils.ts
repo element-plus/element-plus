@@ -67,7 +67,19 @@ export const getRelativePos = (
   return 'touches' in e ? e.touches[0][PageKey[layout]] : e[PageKey[layout]]
 }
 
-export function renderThumbStyle({ move, size, bar }, layout: string) {
+type RenderThumbStyleParams = {
+  bar: {
+    size: 'height' | 'width'
+    axis: 'X' | 'Y'
+  }
+  size: string
+  move: number
+}
+
+export function renderThumbStyle(
+  { move, size, bar }: RenderThumbStyleParams,
+  layout: string
+) {
   const style: CSSProperties = {}
   const translate = `translate${bar.axis}(${move}px)`
 
