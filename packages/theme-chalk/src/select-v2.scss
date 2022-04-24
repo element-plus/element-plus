@@ -213,7 +213,10 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     height: 32px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(getCssVar('input-icon-color'), map.get($input, 'icon-color'));
+    color: var(
+      #{getCssVarName('input-icon-color')},
+      map.get($input, 'icon-color')
+    );
   }
 
   @include e(caret) {
@@ -236,7 +239,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
       transition: getCssVar('transition', 'color');
 
       &:hover {
-        color: (--el-select-close-hover-color);
+        color: getCssVar('select', 'close-hover-color');
       }
     }
 
@@ -289,7 +292,10 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     margin-inline-start: $input-inline-start;
     width: calc(100% - 52px);
     @include utils-ellipsis;
-    color: var(getCssVar('input-text-color'), map.get($input, 'text-color'));
+    color: var(
+      #{getCssVarName('input-text-color')},
+      map.get($input, 'text-color')
+    );
     @include when(transparent) {
       color: getCssVar('text-color', 'placeholder');
     }

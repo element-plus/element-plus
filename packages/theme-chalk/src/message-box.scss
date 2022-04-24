@@ -201,7 +201,9 @@
     }
 
     @include e(content) {
-      $padding-horizontal: calc(var(--el-messagebox-padding-primary) + 12px);
+      $padding-horizontal: calc(
+        #{getCssVar('messagebox', 'padding-primary')} + 12px
+      );
 
       padding-left: $padding-horizontal;
       padding-right: $padding-horizontal;

@@ -18,8 +18,9 @@
   width: var(#{getCssVarName('dialog-width')}, 50%);
 
   @include when(fullscreen) {
-    --el-dialog-width: 100%;
-    --el-dialog-margin-top: 0;
+    @include set-css-var-value('dialog-width', 100%);
+    @include set-css-var-value('dialog-margin-top', 0);
+
     margin-bottom: 0;
     height: 100%;
     overflow: auto;
@@ -85,7 +86,7 @@
   }
 
   @include e(body) {
-    padding: calc(var(--el-dialog-padding-primary) + 10px)
+    padding: calc(#{getCssVar('dialog-padding-primary')} + 10px)
       getCssVar('dialog-padding-primary');
     color: getCssVar('text-color', 'regular');
     font-size: getCssVar('dialog-content-font-size');
@@ -105,7 +106,7 @@
 
     @include e(body) {
       text-align: initial;
-      padding: 25px calc(var(--el-dialog-padding-primary) + 5px) 30px;
+      padding: 25px calc(#{getCssVar('dialog-padding-primary')} + 5px) 30px;
     }
 
     @include e(footer) {

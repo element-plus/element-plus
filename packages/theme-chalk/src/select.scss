@@ -115,7 +115,7 @@
         cursor: not-allowed;
 
         &:hover {
-          @include inset-input-border(var(--el-select-disabled-border));
+          @include inset-input-border(#{getCssVar('select-disabled-border')});
         }
       }
       & .#{$namespace}-input__inner {

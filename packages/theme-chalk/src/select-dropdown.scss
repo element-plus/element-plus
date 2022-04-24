@@ -25,7 +25,7 @@ $checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='
 }
 
 @include b(select-dropdown) {
-  z-index: calc(var(--el-index-top) + 1);
+  z-index: calc(#{getCssVar('index-top')} + 1);
   border-radius: getCssVar('border-radius-base');
   box-sizing: border-box;
 

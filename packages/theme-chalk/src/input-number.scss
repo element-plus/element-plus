@@ -53,7 +53,7 @@
       & ~ .#{$namespace}-input:not(.is-disabled) .#{$namespace}-input_wrapper {
         box-shadow: 0 0 0 1px
           var(
-            --el-input-focus-border-color,
+            #{getCssVarName('input', 'focus-border-color')},
             map.get($input, 'focus-border-color')
           )
           inset;
@@ -131,10 +131,10 @@
     }
 
     @include e((increase, decrease)) {
-      --el-input-number-controls-height: #{math.div(
-          map.get($input-height, 'default') - 2,
-          2
-        )};
+      @include set-css-var-value(
+        ('input', 'number-controls-height'),
+        math.div(map.get($input-height, 'default') - 2, 2)
+      );
 
       height: getCssVar('input-number-controls-height');
       line-height: getCssVar('input-number-controls-height');
@@ -164,10 +164,10 @@
       &[class*='#{$size}'] {
         [class*='increase'],
         [class*='decrease'] {
-          --el-input-number-controls-height: #{math.div(
-              map.get($input-height, $size) - 2,
-              2
-            )};
+          @include set-css-var-value(
+            ('input', 'number-controls-height'),
+            math.div(map.get($input-height, $size) - 2, 2)
+          );
         }
       }
     }

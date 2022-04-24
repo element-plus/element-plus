@@ -25,16 +25,19 @@
 
   &.#{$namespace}-input__inner {
     border-radius: var(
-      getCssVarName('input-border-radius'),
-      var(--el-border-radius-base)
+      #{getCssVarName('input-border-radius')},
+      #{getCssVar('border-radius-base')}
     );
 
     @include inset-input-border(
-      var(getCssVarName('input-border-color'), map.get($input, 'border-color'))
+      var(
+        #{getCssVarName('input-border-color')},
+        map.get($input, 'border-color')
+      )
     );
 
     &:hover {
-      @include inset-input-border(var(--el-input-hover-border-color));
+      @include inset-input-border(#{getCssVar('input', 'hover-border-color')});
     }
   }
 
@@ -160,9 +163,9 @@
   }
 
   @include when(active) {
-    @include inset-input-border(var(--el-input-focus-border-color));
+    @include inset-input-border(#{getCssVar('input', 'focus-border-color')});
     &:hover {
-      @include inset-input-border(var(--el-input-focus-border-color));
+      @include inset-input-border(#{getCssVar('input', 'focus-border-color')});
     }
   }
 

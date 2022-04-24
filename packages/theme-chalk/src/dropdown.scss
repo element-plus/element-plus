@@ -74,7 +74,7 @@ $dropdown-divider-width: 1px !default;
     }
 
     @include b(scrollbar__bar) {
-      z-index: calc(var(--el-dropdown-menu-index) + 1);
+      z-index: calc(#{getCssVar('dropdown', 'menu-index')} + 1);
     }
 
     @include b(dropdown__list) {

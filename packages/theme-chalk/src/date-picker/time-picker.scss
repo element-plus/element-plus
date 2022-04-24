@@ -58,8 +58,8 @@
   @include e(footer) {
     border-top: 1px solid
       var(
-        getCssVarName('timepicker-inner-border-color'),
-        var(--el-border-color-light)
+        #{getCssVarName('timepicker-inner-border-color')},
+        #{getCssVar('border-color-light')}
       );
     padding: 4px;
     height: 36px;
@@ -81,7 +81,10 @@
 
     &.confirm {
       font-weight: 800;
-      color: var(getCssVar('timepicker-active-color'), var(--el-color-primary));
+      color: var(
+        #{getCssVarName('timepicker-active-color')},
+        #{getCssVar('color-primary')}
+      );
     }
   }
 }

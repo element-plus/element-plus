@@ -122,7 +122,8 @@ $form-item-label-top-margin-bottom: map.merge(
   @each $size in (large, default, small) {
     @include m($size) {
       --font-size: #{map.get($input-font-size, $size)};
-      --el-form-label-font-size: var(--font-size);
+      @include set-css-var-value(('form', 'label-font-size'), var(--font-size));
+
       margin-bottom: #{map.get($form-item-margin-bottom, $size)};
 
       @include e(label) {

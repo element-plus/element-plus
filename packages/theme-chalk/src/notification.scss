@@ -79,7 +79,10 @@
 
   @each $type in (success, info, warning, error) {
     & .#{$namespace}-notification--#{$type} {
-      --el-notification-icon-color: #{getCssVar('color', $type)};
+      @include css-var-from-global(
+        ('notification', 'icon-color'),
+        ('color', $type)
+      );
       color: getCssVar('notification-icon-color');
     }
   }
