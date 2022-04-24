@@ -152,7 +152,10 @@ const calculateValidatedDateRange = (
     ]
   }
   // Three consecutive months (compatible: 2021-01-30 to 2021-02-28)
-  else if (firstMonth + 2 === lastMonth) {
+  else if (
+    firstMonth + 2 === lastMonth ||
+    (firstMonth + 1) % 11 === lastMonth
+  ) {
     const firstMonthLastDay = firstDay.endOf('month')
     const secondMonthFirstDay = firstDay.add(1, 'month').startOf('month')
 

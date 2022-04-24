@@ -158,4 +158,27 @@ describe('Calendar.vue', () => {
     await nextBtn?.trigger('click')
     expect(wrapper.find('.is-selected').text()).toBe('1')
   })
+
+  it('range two years', async () => {
+    const wrapper = mount(() => (
+      <Calendar
+        range={[new Date(2022, 0, 1), new Date(2022, 0, 31)]}
+      ></Calendar>
+    ))
+    const titleEl = wrapper.find('.el-calendar__title')
+    expect(/2021.*December/.test(titleEl.element.innerHTML)).toBeTruthy()
+    const dateTables = wrapper.element.querySelectorAll(
+      '.el-calendar-table.is-range'
+    )
+    expect(dateTables.length).toBe(3)
+    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    expect(rows.length).toBe(6)
+    const cell = rows[rows.length - 1].firstElementChild as HTMLElement
+    cell.click()
+
+    await nextTick()
+
+    expect(/2022.*January/.test(titleEl.element.innerHTML)).toBeTruthy()
+    expect(cell?.classList.contains('is-selected')).toBeTruthy()
+  })
 })

@@ -45,6 +45,8 @@
           v-bind="attrs"
           :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
           :disabled="inputDisabled"
+          :formatter="formatter"
+          :parser="parser"
           :readonly="readonly"
           :autocomplete="autocomplete"
           :tabindex="tabindex"
@@ -171,6 +173,7 @@ import {
 } from '@element-plus/utils'
 import {
   useAttrs,
+  useCursor,
   useDisabled,
   useFormItem,
   useNamespace,
@@ -275,6 +278,8 @@ const suffixVisible = computed(
     (!!validateState.value && needStatusIcon.value)
 )
 
+const [recordCursor, setCursor] = useCursor(input)
+
 const resizeTextarea = () => {
   const { type, autosize } = props
 
@@ -325,7 +330,14 @@ const updateIconOffset = () => {
 }
 
 const handleInput = async (event: Event) => {
-  const { value } = event.target as TargetElement
+  recordCursor()
+
+  let { value } = event.target as TargetElement
+
+  if (props.formatter) {
+    value = props.parser ? props.parser(value) : value
+    value = props.formatter(value)
+  }
 
   // should not emit input during composition
   // see: https://github.com/ElemeFE/element/issues/10516
@@ -342,6 +354,7 @@ const handleInput = async (event: Event) => {
   // see: https://github.com/ElemeFE/element/issues/12850
   await nextTick()
   setNativeInputValue()
+  setCursor()
 }
 
 const handleChange = (event: Event) => {
@@ -448,6 +461,12 @@ watch(
 )
 
 onMounted(async () => {
+  if (!props.formatter && props.parser) {
+    debugWarn(
+      'ElInput',
+      'If you set the parser, you also need to set the formatter.'
+    )
+  }
   setNativeInputValue()
   updateIconOffset()
   await nextTick()

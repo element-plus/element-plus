@@ -89,6 +89,7 @@ export type Column<T = any> = {
 }
 
 export type Columns<T> = Column<T>[]
+export type AnyColumns = Columns<any>
 
 export type SortBy = {
   key: KeyType
