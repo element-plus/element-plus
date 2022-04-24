@@ -24,9 +24,7 @@ export default defineComponent({
       style: computed(
         () =>
           (props.height
-            ? {
-                '--el-footer-height': props.height,
-              }
+            ? ns.cssVarBlock({ height: props.height })
             : {}) as CSSProperties
       ),
       ns,

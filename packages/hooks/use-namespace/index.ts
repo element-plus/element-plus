@@ -75,6 +75,7 @@ export const useNamespace = (block: string) => {
     return styles
   }
 
+  const cssVarName = (name: string) => `--${namespace.value}-${name}`
   const cssVarBlockName = (name: string) =>
     `--${namespace.value}-${block}-${name}`
 
@@ -90,6 +91,7 @@ export const useNamespace = (block: string) => {
     is,
     // css
     cssVar,
+    cssVarName,
     cssVarBlock,
     cssVarBlockName,
   }

@@ -90,11 +90,11 @@ const pointerAtLeftHalf = ref(true)
 const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)])
 const rateDisabled = computed(() => props.disabled || formContext?.disabled)
 const rateStyles = computed(() => {
-  return {
-    '--el-rate-void-color': props.voidColor,
-    '--el-rate-disabled-void-color': props.disabledVoidColor,
-    '--el-rate-fill-color': activeColor.value,
-  } as CSSProperties
+  return ns.cssVarBlock({
+    'void-color': props.voidColor,
+    'disabled-void-color': props.disabledVoidColor,
+    'fill-color': activeColor.value,
+  }) as CSSProperties
 })
 
 const text = computed(() => {

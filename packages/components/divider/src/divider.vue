@@ -21,8 +21,8 @@ defineOptions({
 const props = defineProps(dividerProps)
 const ns = useNamespace('divider')
 const dividerStyle = computed(() => {
-  return {
-    '--el-border-style': props.borderStyle,
-  } as CSSProperties
+  return ns.cssVar({
+    'border-style': props.borderStyle,
+  }) as CSSProperties
 })
 </script>
