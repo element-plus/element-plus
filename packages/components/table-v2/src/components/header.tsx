@@ -1,11 +1,11 @@
 import { computed, defineComponent, nextTick, ref, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { ensureArray } from '@element-plus/utils'
-import { tableV2HeaderProps } from './header'
-import { enforceUnit } from './utils'
+import { tableV2HeaderProps } from '../header'
+import { enforceUnit } from '../utils'
 
 import type { CSSProperties } from 'vue'
-import type { TableV2HeaderProps } from './header'
+import type { TableV2HeaderProps } from '../header'
 
 const COMPONENT_NAME = 'ElTableV2Header'
 const TableV2Header = defineComponent({

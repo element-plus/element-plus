@@ -2,7 +2,7 @@ import ElIcon from '@element-plus/components/icon'
 import { ArrowRight } from '@element-plus/icons-vue'
 
 import type { StyleValue } from 'vue'
-import type { TableV2RowCellRenderParam } from './table-row'
+import type { TableV2RowCellRenderParam } from './row'
 
 const ExpandIcon = (
   props: TableV2RowCellRenderParam['expandIconProps'] & {

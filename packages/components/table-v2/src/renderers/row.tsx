@@ -1,4 +1,4 @@
-import Row from '../table-row'
+import { Row } from '../components'
 import { tryCall } from '../utils'
 
 import type { FunctionalComponent, UnwrapNestedRefs } from 'vue'
