@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
-import { useDisabled } from '@element-plus/hooks'
+import { useDisabled, useNamespace } from '@element-plus/hooks'
 import type { ButtonProps } from './button'
 
 export function darken(color: TinyColor, amount = 20) {
@@ -9,6 +9,8 @@ export function darken(color: TinyColor, amount = 20) {
 
 export function useButtonCustomStyle(props: ButtonProps) {
   const _disabled = useDisabled()
+  const ns = useNamespace('button')
+  const namespace = ns.namespace.value
 
   // calculate hover & active color by custom color
   // only work when custom color
@@ -24,30 +26,30 @@ export function useButtonCustomStyle(props: ButtonProps) {
         : darken(color, 20)
 
       if (props.plain) {
-        styles = {
-          '--el-button-bg-color': props.dark
+        styles = ns.cssVarBlock({
+          'bg-color': props.dark
             ? darken(color, 90)
             : color.tint(90).toString(),
-          '--el-button-text-color': buttonColor,
-          '--el-button-border-color': props.dark
+          'text-color': buttonColor,
+          'border-color': props.dark
             ? darken(color, 50)
             : color.tint(50).toString(),
-          '--el-button-hover-text-color': 'var(--el-color-white)',
-          '--el-button-hover-bg-color': buttonColor,
-          '--el-button-hover-border-color': buttonColor,
-          '--el-button-active-bg-color': activeBgColor,
-          '--el-button-active-text-color': 'var(--el-color-white)',
-          '--el-button-active-border-color': activeBgColor,
-        }
+          'hover-text-color': `var(--${namespace}-color-white)`,
+          'hover-bg-color': buttonColor,
+          'hover-border-color': buttonColor,
+          'active-bg-color': activeBgColor,
+          'active-text-color': `var(--${namespace}-color-white)`,
+          'active-border-color': activeBgColor,
+        })
 
         if (_disabled.value) {
-          styles['--el-button-disabled-bg-color'] = props.dark
+          styles[ns.cssVarBlockName('disabled-bg-color')] = props.dark
             ? darken(color, 90)
             : color.tint(90).toString()
-          styles['--el-button-disabled-text-color'] = props.dark
+          styles[ns.cssVarBlockName('disabled-text-color')] = props.dark
             ? darken(color, 50)
             : color.tint(50).toString()
-          styles['--el-button-disabled-border-color'] = props.dark
+          styles[ns.cssVarBlockName('disabled-border-color')] = props.dark
             ? darken(color, 80)
             : color.tint(80).toString()
         }
@@ -56,28 +58,29 @@ export function useButtonCustomStyle(props: ButtonProps) {
           ? darken(color, 30)
           : color.tint(30).toString()
         const textColor = color.isDark()
-          ? 'var(--el-color-white)'
-          : 'var(--el-color-black)'
-        styles = {
-          '--el-button-bg-color': buttonColor,
-          '--el-button-text-color': textColor,
-          '--el-button-border-color': buttonColor,
-          '--el-button-hover-bg-color': hoverBgColor,
-          '--el-button-hover-text-color': textColor,
-          '--el-button-hover-border-color': hoverBgColor,
-          '--el-button-active-bg-color': activeBgColor,
-          '--el-button-active-border-color': activeBgColor,
-        }
+          ? `var(--${namespace}-color-white)`
+          : `var(--${namespace}-color-black)`
+        styles = ns.cssVarBlock({
+          'bg-color': buttonColor,
+          'text-color': textColor,
+          'border-color': buttonColor,
+          'hover-bg-color': hoverBgColor,
+          'hover-text-color': textColor,
+          'hover-border-color': hoverBgColor,
+          'active-bg-color': activeBgColor,
+          'active-border-color': activeBgColor,
+        })
 
         if (_disabled.value) {
           const disabledButtonColor = props.dark
             ? darken(color, 50)
             : color.tint(50).toString()
-          styles['--el-button-disabled-bg-color'] = disabledButtonColor
-          styles['--el-button-disabled-text-color'] = props.dark
+          styles[ns.cssVarBlockName('disabled-bg-color')] = disabledButtonColor
+          styles[ns.cssVarBlockName('disabled-text-color')] = props.dark
             ? 'rgba(255, 255, 255, 0.5)'
-            : 'var(--el-color-white)'
-          styles['--el-button-disabled-border-color'] = disabledButtonColor
+            : `var(--${namespace}-color-white)`
+          styles[ns.cssVarBlockName('disabled-border-color')] =
+            disabledButtonColor
         }
       }
     }

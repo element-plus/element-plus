@@ -56,6 +56,28 @@ export const useNamespace = (block: string) => {
     const state = args.length >= 1 ? args[0]! : true
     return name && state ? `${statePrefix}${name}` : ''
   }
+
+  // for css var
+  // --el-xxx: value;
+  const cssVar = (object: Record<string, string>) => {
+    const styles: Record<string, string> = {}
+    for (const key in object) {
+      styles[`--${namespace.value}-${key}`] = object[key]
+    }
+    return styles
+  }
+  // with block
+  const cssVarBlock = (object: Record<string, string>) => {
+    const styles: Record<string, string> = {}
+    for (const key in object) {
+      styles[`--${namespace.value}-${block}-${key}`] = object[key]
+    }
+    return styles
+  }
+
+  const cssVarBlockName = (name: string) =>
+    `--${namespace.value}-${block}-${name}`
+
   return {
     namespace,
     b,
@@ -66,6 +88,10 @@ export const useNamespace = (block: string) => {
     bm,
     bem,
     is,
+    // css
+    cssVar,
+    cssVarBlock,
+    cssVarBlockName,
   }
 }
 
