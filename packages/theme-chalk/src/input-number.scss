@@ -12,7 +12,6 @@
 
   .#{$namespace}-input {
     &__wrapper {
-      display: block;
       padding-left: #{map.get($input-height, 'default') + 10};
       padding-right: #{map.get($input-height, 'default') + 10};
     }
@@ -26,16 +25,6 @@
         -webkit-appearance: none;
       }
       text-align: center;
-    }
-
-    &__prefix {
-      position: absolute;
-      left: #{map.get($input-height, 'default') + 10};
-    }
-
-    &__suffix {
-      position: absolute;
-      right: #{map.get($input-height, 'default') + 10};
     }
   }
 
