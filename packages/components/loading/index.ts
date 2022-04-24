@@ -1,3 +1,4 @@
+import { loadingKey } from '@element-plus/tokens'
 import { Loading } from './src/service'
 import { vLoading } from './src/directive'
 
@@ -8,6 +9,7 @@ export const ElLoading = {
   install(app: App) {
     app.directive('loading', vLoading)
     app.config.globalProperties.$loading = Loading
+    app.provide(loadingKey, ElLoading.service)
   },
   directive: vLoading,
   service: Loading,

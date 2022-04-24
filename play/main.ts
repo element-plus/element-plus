@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import '@element-plus/theme-chalk/src/index.scss'
+import { ElLoading } from '@element-plus/components/loading'
 ;(async () => {
   const apps = import.meta.glob('./src/*.vue')
   const name = location.pathname.replace(/^\//, '') || 'App'
@@ -11,5 +12,5 @@ import '@element-plus/theme-chalk/src/index.scss'
   const App = (await file()).default
   const app = createApp(App)
 
-  app.mount('#play')
+  app.use(ElLoading).mount('#play')
 })()
