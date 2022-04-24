@@ -27,6 +27,16 @@
       }
       text-align: center;
     }
+
+    &__prefix {
+      position: absolute;
+      left: #{map.get($input-height, 'default') + 10};
+    }
+
+    &__suffix {
+      position: absolute;
+      right: #{map.get($input-height, 'default') + 10};
+    }
   }
 
   @include e((increase, decrease)) {
