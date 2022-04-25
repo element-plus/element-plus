@@ -12,13 +12,16 @@ import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Awaitable } from '@element-plus/utils'
 
-export type AutoCompleteData = { value: string }[]
-export type AutoCompleteFetchSuggestions =
+export type AutocompleteData = { value: string }[]
+export type AutocompleteFetchSuggestionsCallback = (
+  data: AutocompleteData
+) => void
+export type AutocompleteFetchSuggestions =
   | ((
       queryString: string,
-      cb: (data: AutoCompleteData) => void
-    ) => Awaitable<AutoCompleteData> | void)
-  | AutoCompleteData
+      cb: AutocompleteFetchSuggestionsCallback
+    ) => Awaitable<AutocompleteData> | void)
+  | AutocompleteData
 
 export const autocompleteProps = buildProps({
   valueKey: {
@@ -46,7 +49,7 @@ export const autocompleteProps = buildProps({
     default: 'bottom-start',
   },
   fetchSuggestions: {
-    type: definePropType<AutoCompleteFetchSuggestions>([Function, Array]),
+    type: definePropType<AutocompleteFetchSuggestions>([Function, Array]),
     default: NOOP,
   },
   popperClass: {
