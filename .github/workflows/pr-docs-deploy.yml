@@ -59,7 +59,7 @@ jobs:
           body: |
             🧪 Playground Preview: https://element-plus.run/?pr=${{ steps.pr.outputs.id }}
             Please comment the example via this playground if needed.
-            <!-- ELEMENT_PLUS_PREVIEW -->
+            <!-- ELEMENT_PLUS_PLAYGROUND -->
           body-include: '<!-- ELEMENT_PLUS_PLAYGROUND -->'
           number: ${{ steps.pr.outputs.id }}
 
