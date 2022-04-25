@@ -189,6 +189,7 @@
     outline: none;
     border: none;
     background: none;
+    box-sizing: border-box;
 
     &:focus {
       outline: none;
