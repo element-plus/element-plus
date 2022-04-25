@@ -24,3 +24,25 @@ Let's render a basic case of Virtualized Table with 10 columns by 1000 rows, to 
 table-v2/basic
 
 :::
+
+## Customize Cell Renderer
+
+Of course, you can render the table cell per your needs, here is a simple example of how to customize your cell.
+
+:::demo
+
+table-v2/cell-templating
+
+:::
+
+## Table with status
+
+You can highlight your table content to distinguish between "success, information, warning, danger" and other states.
+
+Use `row-class-name` to customize how the row looks. In this case, every 10th row will be highlighted with `bg-blue-200` class, every 5th row will be highlighted with `bg-red-100` class.
+
+:::demo
+
+table-v2/row-class
+
+:::

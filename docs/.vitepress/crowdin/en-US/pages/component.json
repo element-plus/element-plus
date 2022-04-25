@@ -195,11 +195,6 @@
         "text": "Table"
       },
       {
-        "link": "/table-v2",
-        "text": "Virtualized Table",
-        "promotion": "2.2.0"
-      },
-      {
         "link": "/tag",
         "text": "Tag"
       },
