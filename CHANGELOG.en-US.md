@@ -1,5 +1,48 @@
 ## Changelog
 
+### 2.1.11
+
+_2022-04-25_
+
+#### Features
+
+- Drop jest (#7248 by @sxzz)
+- Components [virtual-table] renderers (#7273 by @JeremyWuuuuu)
+- Components [virtual-list] renderers
+- Components [virtual-table] empty renderer (#7308 by @JeremyWuuuuu)
+- Components [virtual-table] overlay renderer (#7314 by @JeremyWuuuuu)
+- Components [virtual-table] compsables (#7341 by @JeremyWuuuuu)
+- Components [input] add input formatter (#6876 by @Serendipity96)
+- Components[image] imageviewer add close-on-press-escape(#7154 by @chenxch) (#7182)
+
+#### Bug fixes
+
+- Components [el-upload] icon is covered (#6951 by @josonho)
+- Deps update all non-major dependencies (#7209 by @renovate[bot])
+- Theme-chalk components details when dark (#7229 by @YunYouJun)
+- Components [input] fix status icon gap (#7228 by @plainheart)
+- Components [select] not set input padding anymore (#7269 by @plainheart)
+- Docs radio-group (#7257 by @OneDayOneStep)
+- Tsconfig (#7319 by @sxzz)
+- Build dts generate (#7322 by @sxzz)
+- Popperjs esm version (#7321 by @sxzz)
+- Components [upload] stop bubble (#7304 by @josonho)
+- [upload] prevent preview link (#7326 by @sxzz)
+- Components [upload] make action optional (#7325 by @sxzz)
+- Theme-chalk [pagination] fix spacing when sizes is at the end (#7339 by @plainheart)
+- Components [calendar] fix range year bug (#7227 by @Dreamcreative)
+- Components [input-number] suffix icon position (#7358 by @josonho)
+- Components [date-picker] fix input inner box sizing (#7373 by @plainheart)
+- Reasonable remaining (#7353 by @chenxch) (#7364)
+- Components [input] fix prepend/append not fill height (#7274 by @plainheart)
+- Color-picker v-model trigger active-change (#7260 by @chenxch)
+- Directives use standard wheel event with passive option (#7256 by @TANGENNT)
+- Components [col] component typing issue (#7376 by @JeremyWuuuuu)
+
+#### Refactors
+
+- Utils move function (#7336 by @sxzz)
+
 ### 2.1.10
 
 _2022-04-18_

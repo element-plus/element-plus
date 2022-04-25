@@ -151,10 +151,7 @@ function useStyle<T>(
   }
   const hasScrollClass = (className: string) => {
     const { tableWrapper } = table.refs
-    if (tableWrapper && tableWrapper.classList.contains(className)) {
-      return true
-    }
-    return false
+    return !!(tableWrapper && tableWrapper.classList.contains(className))
   }
   const syncPostion = function () {
     if (!table.refs.scrollBarRef) return

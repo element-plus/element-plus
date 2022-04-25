@@ -91,7 +91,7 @@ const rows = computed(() => {
     )
     days = currentMonthRange.concat(nextMonthRange)
   } else {
-    const firstDay = props.date.startOf('month').day() || 7
+    const firstDay = props.date.startOf('month').day()
     const prevMonthDays: CalendarDateCell[] = getPrevMonthLastDays(
       props.date,
       firstDay - firstDayOfWeek
@@ -106,7 +106,8 @@ const rows = computed(() => {
       })
     )
     days = [...prevMonthDays, ...currentMonthDays]
-    const nextMonthDays: CalendarDateCell[] = rangeArr(42 - days.length).map(
+    const remaining = 7 - (days.length % 7 || 7)
+    const nextMonthDays: CalendarDateCell[] = rangeArr(remaining).map(
       (_, index) => ({
         text: index + 1,
         type: 'next',

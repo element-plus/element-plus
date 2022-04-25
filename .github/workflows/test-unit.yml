@@ -46,8 +46,4 @@ jobs:
       - name: Lint
         run: pnpm lint
       - name: Test
-        run: pnpm test:jest && pnpm test:coverage
-      - name: Upload to codecov.io
-        uses: codecov/codecov-action@v3
-        with:
-          fail_ci_if_error: true
+        run: pnpm test

@@ -23,6 +23,7 @@
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="teleported"
+        :close-on-press-escape="closeOnPressEscape"
         @close="closeViewer"
         @switch="switchViewer"
       >

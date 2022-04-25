@@ -41,10 +41,12 @@
         >
           <a
             :class="nsUpload.be('list', 'item-name')"
-            @click="handleClick(file)"
+            @click.prevent="handleClick(file)"
           >
             <el-icon :class="nsIcon.m('document')"><Document /></el-icon>
-            {{ file.name }}
+            <span :class="nsUpload.be('list', 'item-file-name')">
+              {{ file.name }}
+            </span>
           </a>
           <el-progress
             v-if="file.status === 'uploading'"

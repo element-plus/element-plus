@@ -24,6 +24,7 @@ import type {
   DataGetter,
   KeyType,
   RowCommonParams,
+  SortBy,
 } from './types'
 
 /**
@@ -170,7 +171,7 @@ export const tableV2Props = buildProps({
    * Sorting
    */
   sortBy: {
-    type: definePropType<{ key: KeyType; order: SortOrder }>(Object),
+    type: definePropType<SortBy>(Object),
     default: () => ({} as { key: KeyType; order: SortOrder }),
   },
 
@@ -185,12 +186,6 @@ export const tableV2Props = buildProps({
   onColumnSort: {
     type: definePropType<ColumnSortHandler<any>>(Function),
   },
-  // onColumnResize: {
-  //   type: definePropType<ColumnResizeHandler<any>>(Function),
-  // },
-  // onColumnResizeEnded: {
-  //   type: definePropType<ColumnResizeHandler<any>>(Function),
-  // },
   onExpandedRowsChange: Function,
   onEndReached: {
     type: definePropType<(distance: number) => void>(Function),

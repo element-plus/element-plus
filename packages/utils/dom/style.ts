@@ -1,8 +1,11 @@
 import { isClient } from '@vueuse/core'
-import { isObject } from '../types'
+import { isNumber, isObject, isString } from '../types'
 import { camelize } from '../strings'
 import { entriesOf, keysOf } from '../objects'
+import { debugWarn } from '../error'
 import type { CSSProperties } from 'vue'
+
+const SCOPE = 'utils/dom/style'
 
 export const classNameToArray = (cls = '') =>
   cls.split(' ').filter((item) => !!item.trim())
@@ -69,4 +72,14 @@ export const removeStyle = (
   } else {
     setStyle(element, style, '')
   }
+}
+
+export function addUnit(value?: string | number, defaultUnit = 'px') {
+  if (!value) return ''
+  if (isString(value)) {
+    return value
+  } else if (isNumber(value)) {
+    return `${value}${defaultUnit}`
+  }
+  debugWarn(SCOPE, 'binding value must be a string or number')
 }

@@ -110,6 +110,28 @@
     overflow: hidden;
   }
 
+  @include e('footer') {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+
+  @include e('empty') {
+    position: absolute;
+    left: 0;
+  }
+
+  @include e('overlay') {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+  }
+
   @include e('header-row') {
     display: flex;
     border-bottom: getCssVar('table', 'border');
@@ -161,12 +183,6 @@
       overflow: hidden;
       @include center-flex;
       @include cell-padding;
-
-      @include e('cell-text') {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
       @include cell-alignment;
     }
 
@@ -184,6 +200,14 @@
           transform: rotate(90deg);
         }
       }
+    }
+  }
+
+  &:not(.is-dynamic) {
+    @include e('cell-text') {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }

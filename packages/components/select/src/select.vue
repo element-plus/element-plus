@@ -281,13 +281,10 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecateAppendToBody } from '@element-plus/components/popper'
-import {
-  CHANGE_EVENT,
-  UPDATE_MODEL_EVENT,
-  getComponentSize,
-} from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   addResizeListener,
+  getComponentSize,
   isValidComponentSize,
   removeResizeListener,
 } from '@element-plus/utils'
@@ -543,25 +540,16 @@ export default defineComponent({
         resetInputHeight()
       }
       nextTick(() => {
-        if (!reference.value) return
-        if (reference.value.$el) {
-          inputWidth.value = reference.value.$el.getBoundingClientRect().width
-        }
+        const refEl = reference.value && reference.value.$el
+        if (!refEl) return
+        inputWidth.value = refEl.getBoundingClientRect().width
+
         if (ctx.slots.prefix) {
-          const inputChildNodes = reference.value.$el.childNodes
-          const input = (Array.from(inputChildNodes) as HTMLElement[]).find(
-            (item) => item.tagName === 'INPUT'
-          )
-          const prefix = reference.value.$el.querySelector(
-            `.${nsInput.e('prefix')}`
-          )
+          const prefix = refEl.querySelector(`.${nsInput.e('prefix')}`)
           prefixWidth.value = Math.max(
             prefix.getBoundingClientRect().width + 5,
             30
           )
-          if (states.prefixWidth) {
-            input.style.paddingLeft = `${Math.max(states.prefixWidth, 30)}px`
-          }
         }
       })
       setSelected()

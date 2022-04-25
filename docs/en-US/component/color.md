@@ -12,8 +12,8 @@ Element Plus uses a specific set of palettes to specify colors to provide a cons
   position: relative;
   border-radius: 4px;
   padding: 20px;
-  margin: 5px 0;
-  height: 114px;
+  margin: 8px 0;
+  height: 100px;
   box-sizing: border-box;
   color: var(--el-color-white);
   font-size: 14px;
@@ -42,16 +42,14 @@ Element Plus uses a specific set of palettes to specify colors to provide a cons
       }
     }
   }
+
+  .value {
+    margin-top: 2px;
+  }
 }
 
 .demo-color-box-lite {
   color: var(--el-text-color-primary);
-
-  .value {
-    font-size: 12px;
-    opacity: .69;
-    line-height: 24px;
-  }
 }
 </style>
 
