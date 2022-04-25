@@ -212,7 +212,7 @@ function registerEventListener() {
     switch (e.code) {
       // ESC
       case EVENT_CODE.esc:
-        hide()
+        props.closeOnPressEscape && hide()
         break
       // SPACE
       case EVENT_CODE.space:
