@@ -10,7 +10,6 @@ export function darken(color: TinyColor, amount = 20) {
 export function useButtonCustomStyle(props: ButtonProps) {
   const _disabled = useDisabled()
   const ns = useNamespace('button')
-  const namespace = ns.namespace.value
 
   // calculate hover & active color by custom color
   // only work when custom color
@@ -78,7 +77,7 @@ export function useButtonCustomStyle(props: ButtonProps) {
           styles[ns.cssVarBlockName('disabled-bg-color')] = disabledButtonColor
           styles[ns.cssVarBlockName('disabled-text-color')] = props.dark
             ? 'rgba(255, 255, 255, 0.5)'
-            : `var(--${namespace}-color-white)`
+            : `var(${ns.cssVarName('color-white')})`
           styles[ns.cssVarBlockName('disabled-border-color')] =
             disabledButtonColor
         }
