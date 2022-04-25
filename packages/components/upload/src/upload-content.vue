@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="[ns.b(), ns.m(listType), ns.m('drag', drag)]"
+    :class="[ns.b(), ns.m(listType), ns.is('drag', drag)]"
     tabindex="0"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
