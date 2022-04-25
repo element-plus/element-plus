@@ -30,8 +30,8 @@ export const switchProps = buildProps({
     default: false,
   },
   width: {
-    type: Number,
-    default: 40,
+    type: [String, Number],
+    default: '',
   },
   inlinePrompt: {
     type: Boolean,
