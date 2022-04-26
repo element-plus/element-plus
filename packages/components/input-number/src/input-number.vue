@@ -153,6 +153,12 @@ export default defineComponent({
     })
     const toPrecision = (num: number, pre?: number) => {
       if (isUndefined(pre)) pre = numPrecision.value
+      const digits = num.toString().split('.')
+      if (digits.length > 1) {
+        const integer = digits[0]
+        const decimal = Math.round(+digits[1] / 10 ** (digits[1].length - pre))
+        return Number.parseFloat(`${integer}.${decimal}`)
+      }
       return Number.parseFloat(`${Math.round(num * 10 ** pre) / 10 ** pre}`)
     }
     const getPrecision = (value: number | undefined) => {
