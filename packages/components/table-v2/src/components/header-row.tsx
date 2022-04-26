@@ -1,8 +1,8 @@
 import { defineComponent } from 'vue'
-import { tableV2HeaderRowProps } from './header-row'
+import { tableV2HeaderRowProps } from '../header-row'
 
-import type { ColumnCellsType } from './types'
-import type { TableV2HeaderRowProps } from './header-row'
+import type { ColumnCellsType } from '../types'
+import type { TableV2HeaderRowProps } from '../header-row'
 
 const TableV2HeaderRow = defineComponent({
   name: 'ElTableV2HeaderRow',

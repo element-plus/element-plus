@@ -15,8 +15,8 @@ describe('Calendar.vue', () => {
     expect(/2019.*April/.test(titleEl.element?.innerHTML)).toBeTruthy()
     expect(wrapper.element.querySelectorAll('thead th').length).toBe(7)
     const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
-    expect(rows.length).toBe(6)
-    ;(rows[5].firstElementChild as HTMLElement).click()
+    expect(rows.length).toBe(5)
+    ;(rows[4].lastElementChild as HTMLElement).click()
 
     await nextTick()
     expect(/2019.*May/.test(titleEl.element.innerHTML)).toBeTruthy()
@@ -24,7 +24,7 @@ describe('Calendar.vue', () => {
     const date = vm.value
     expect(date.getFullYear()).toBe(2019)
     expect(date.getMonth()).toBe(4)
-    expect(wrapper.find('.is-selected span').element.innerHTML).toBe('5')
+    expect(wrapper.find('.is-selected span').element.innerHTML).toBe('4')
   })
 
   it('range', () => {

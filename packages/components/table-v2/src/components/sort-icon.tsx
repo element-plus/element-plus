@@ -1,6 +1,6 @@
 import ElIcon from '@element-plus/components/icon'
 import { SortDown, SortUp } from '@element-plus/icons-vue'
-import { SortOrder } from './constants'
+import { SortOrder } from '../constants'
 
 import type { FunctionalComponent } from 'vue'
 

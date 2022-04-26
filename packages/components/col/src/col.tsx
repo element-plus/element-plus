@@ -7,6 +7,8 @@ import type { CSSProperties, ExtractPropTypes } from 'vue'
 export type ColSizeObject = {
   span?: number
   offset?: number
+  pull?: number
+  push?: number
 }
 export type ColSize = number | ColSizeObject
 

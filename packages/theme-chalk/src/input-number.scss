@@ -12,7 +12,6 @@
 
   .#{$namespace}-input {
     &__wrapper {
-      display: block;
       padding-left: #{map.get($input-height, 'default') + 10};
       padding-right: #{map.get($input-height, 'default') + 10};
     }

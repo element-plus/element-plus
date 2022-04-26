@@ -1,5 +1,5 @@
 import type { FunctionalComponent } from 'vue'
-import type { TableV2HeaderCell } from './header-cell'
+import type { TableV2HeaderCell } from '../header-cell'
 
 const HeaderCell: FunctionalComponent<TableV2HeaderCell> = (props, { slots }) =>
   slots.default ? (

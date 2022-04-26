@@ -8,12 +8,12 @@ import {
   unref,
 } from 'vue'
 import { isArray, isFunction, isNumber } from '@element-plus/utils'
-import { tableV2RowProps } from './row'
-import { TableV2InjectionKey } from './tokens'
-import { placeholderSign } from './private'
+import { tableV2RowProps } from '../row'
+import { TableV2InjectionKey } from '../tokens'
+import { placeholderSign } from '../private'
 
 import type { RendererElement, RendererNode, VNode } from 'vue'
-import type { RowEventHandlers, TableV2RowProps } from './row'
+import type { RowEventHandlers, TableV2RowProps } from '../row'
 
 type CustomizedCellsType = VNode<
   RendererNode,
@@ -64,11 +64,15 @@ const useTableRow = (props: TableV2RowProps) => {
   const eventHandlers = computed(() => {
     const { rowData, rowIndex, rowKey, onRowHover } = props
     const handlers = props.rowEventHandlers || ({} as RowEventHandlers<any>)
-    const eventHandlers = {}
+    const eventHandlers = {} as {
+      [key in keyof RowEventHandlers<any>]: (e: Event) => void
+    }
 
     Object.entries(handlers).forEach(([eventName, handler]) => {
       if (isFunction(handler)) {
-        eventHandlers[eventName] = (event: Event) => {
+        eventHandlers[eventName as keyof RowEventHandlers<any>] = (
+          event: Event
+        ) => {
           handler({
             event,
             rowData,
@@ -87,7 +91,7 @@ const useTableRow = (props: TableV2RowProps) => {
         ] as const
       ).forEach(({ name, hovered }) => {
         const existedHandler = eventHandlers[name]
-        eventHandlers[name] = (event: MouseEvent) => {
+        eventHandlers[name] = ((event: MouseEvent) => {
           onRowHover({
             event,
             hovered,
@@ -97,7 +101,7 @@ const useTableRow = (props: TableV2RowProps) => {
           })
 
           existedHandler?.(event)
-        }
+        }) as any
       })
     }
     return eventHandlers
