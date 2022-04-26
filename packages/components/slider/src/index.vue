@@ -4,6 +4,8 @@
     :class="sliderKls"
     :role="range ? 'group' : undefined"
     :aria-label="range ? groupLabel : undefined"
+    @touchstart="onSliderWrapperPrevent"
+    @touchmove="onSliderWrapperPrevent"
   >
     <div
       ref="slider"
@@ -249,6 +251,7 @@ export default defineComponent({
       barStyle,
       resetSize,
       emitChange,
+      onSliderWrapperPrevent,
       onSliderClick,
       onSliderDown,
       setFirstValue,
@@ -361,6 +364,7 @@ export default defineComponent({
       barStyle,
       emitChange,
       onSliderClick,
+      onSliderWrapperPrevent,
       onSliderDown,
       getStopStyle,
       setFirstValue,

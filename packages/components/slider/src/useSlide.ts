@@ -160,7 +160,17 @@ export const useSlide = (
       const sliderOffsetLeft = slider.value!.getBoundingClientRect().left
       newPercent = ((clientX - sliderOffsetLeft) / initData.sliderSize) * 100
     }
+    if (newPercent < 0 || newPercent > 100) return
     return setPosition(newPercent)
+  }
+
+  const onSliderWrapperPrevent = async (event: TouchEvent) => {
+    if (
+      buttonRefs['firstButton'].value?.dragging ||
+      buttonRefs['secondButton'].value?.dragging
+    ) {
+      event.preventDefault()
+    }
   }
 
   const onSliderDown = async (event: MouseEvent | TouchEvent) => {
@@ -191,6 +201,7 @@ export const useSlide = (
     resetSize,
     setPosition,
     emitChange,
+    onSliderWrapperPrevent,
     onSliderClick,
     onSliderDown,
     setFirstValue,

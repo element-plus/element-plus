@@ -462,12 +462,16 @@ describe('Slider', () => {
         }
       },
     })
+    const mockClientWidth = vi
+      .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth', 'get')
+      .mockImplementation(() => 200)
     const slider: any = wrapper.findComponent({ name: 'ElSlider' })
     setTimeout(() => {
       slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
       setTimeout(() => {
         expect(wrapper.vm.value > 0).toBeTruthy()
         done()
+        mockClientWidth.mockRestore()
       }, 10)
     }, 10)
   })

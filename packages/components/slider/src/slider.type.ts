@@ -107,10 +107,10 @@ export interface ISliderButton extends ComponentPublicInstance {
   showTooltip: Ref<boolean>
   wrapperStyle: ComputedRef<CSSProperties>
   formatValue: ComputedRef<number | string>
+  dragging: boolean
   handleMouseEnter: () => void
   handleMouseLeave: () => void
   onButtonDown: (event: MouseEvent | TouchEvent) => void
-  onLeftKeyDown: () => void
-  onRightKeyDown: () => void
+  onKeyDown: (event: KeyboardEvent) => void
   setPosition: (newPosition: number) => void
 }
