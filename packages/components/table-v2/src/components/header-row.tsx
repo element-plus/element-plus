@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue'
+import { isArray } from '@element-plus/utils'
 import { tableV2HeaderRowProps } from '../header-row'
 
 import type { ColumnCellsType } from '../types'
@@ -21,7 +22,12 @@ const TableV2HeaderRow = defineComponent({
 
       if (slots.header) {
         Cells = slots.header({
-          cells: Cells,
+          cells: Cells.map((node) => {
+            if (isArray(node) && node.length === 1) {
+              return node[0]
+            }
+            return node
+          }),
           columns,
           headerIndex,
         })

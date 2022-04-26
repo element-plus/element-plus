@@ -114,6 +114,12 @@ export type DefaultCellsType = VNode<
 
 export type ColumnCellsType = DefaultCellsType | CustomizedCellsType
 
+export type TableV2CustomizedHeaderSlotParam<T = any> = {
+  cells: VNode[]
+  columns: Columns<T>
+  headerIndex: number
+}
+
 export type SimpleFunctionalComponentProps<T extends object> = {
   class?: JSX.IntrinsicAttributes['class']
   style?: CSSProperties
