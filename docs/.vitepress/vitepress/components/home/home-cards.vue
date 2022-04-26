@@ -86,12 +86,12 @@ const homeLang = computed(() => homeLocale[lang.value])
     bottom: 0;
 
     img {
-      margin: 66px auto 60px;
+      margin: 48px auto;
     }
     h3 {
       margin: 0;
       font-size: 18px;
-      color: #1f2f3d;
+      color: var(--el-text-color-primary);
       font-weight: normal;
     }
     p {
@@ -127,7 +127,7 @@ const homeLang = computed(() => homeLocale[lang.value])
     }
     &:hover {
       bottom: 6px;
-      box-shadow: 0 6px 18px 0 rgba(232, 237, 250, 0.5);
+      // box-shadow: 0 6px 18px 0 rgba(232, 237, 250, 0.5);
     }
   }
   @media (max-width: 1140px) {
