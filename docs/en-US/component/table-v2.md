@@ -46,3 +46,27 @@ Use `row-class-name` to customize how the row looks. In this case, every 10th ro
 table-v2/row-class
 
 :::
+
+## Table with sticky rows
+
+You can make some rows stick to the top of the table, and that can be very easily achieved by using `fixed-data` attribute.
+
+You can add dynamically set the sticky row with scroll events like this example did.
+
+:::demo
+
+table-v2/sticky-rows
+
+:::
+
+## Table with fixed columns
+
+For some reason, you want to make the columns stick on the left and right, you can do that by adding special attributes for table.
+
+You can set the column's attribute `fixed` to `true` (representing `FixedDir.LEFT`) or `FixedDir.LEFT` or `FixedDir.RIGHT`
+
+:::demo
+
+table-v2/fixed-columns
+
+:::
