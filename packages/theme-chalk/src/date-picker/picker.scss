@@ -28,6 +28,10 @@
       #{getCssVarName('input-border-radius')},
       #{getCssVar('border-radius-base')}
     );
+    background-color: var(
+      #{getCssVarName('input-bg-color')},
+      map.get($input, 'bg-color')
+    );
 
     @include inset-input-border(
       var(
