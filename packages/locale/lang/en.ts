@@ -94,7 +94,7 @@ export default {
     slider: {
       defaultLabel: 'slider between {min} and {max}',
       defaultRangeStartLabel: 'pick start value',
-      defaulRangeEndLabel: 'pick end value',
+      defaultRangeEndLabel: 'pick end value',
     },
     table: {
       emptyText: 'No Data',
