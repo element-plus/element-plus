@@ -1,7 +1,7 @@
 import { computed, unref } from 'vue'
 import { useGlobalConfig } from '../use-global-config'
 
-const defaultNamespace = 'el'
+export const defaultNamespace = 'el'
 const statePrefix = 'is-'
 
 const _bem = (

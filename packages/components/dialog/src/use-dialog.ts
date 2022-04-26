@@ -9,6 +9,7 @@ import {
 import { isClient, useTimeoutFn } from '@vueuse/core'
 
 import {
+  defaultNamespace,
   useGlobalConfig,
   useLockscreen,
   useModal,
@@ -42,8 +43,7 @@ export const useDialog = (
     isNumber(props.width) ? `${props.width}px` : props.width
   )
 
-  const globalConfig = useGlobalConfig('namespace')
-  const namespace = computed(() => globalConfig.value || 'el')
+  const namespace = useGlobalConfig('namespace', defaultNamespace)
 
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
