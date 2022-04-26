@@ -51,6 +51,10 @@ export const imageProps = buildProps({
     type: Boolean,
     default: true,
   },
+  closeOnPressEscape: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type ImageProps = ExtractPropTypes<typeof imageProps>
 

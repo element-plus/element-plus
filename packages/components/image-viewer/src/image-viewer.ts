@@ -31,6 +31,10 @@ export const imageViewerProps = buildProps({
     type: Boolean,
     default: false,
   },
+  closeOnPressEscape: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 

@@ -15,8 +15,8 @@ describe('Calendar.vue', () => {
     expect(/2019.*April/.test(titleEl.element?.innerHTML)).toBeTruthy()
     expect(wrapper.element.querySelectorAll('thead th').length).toBe(7)
     const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
-    expect(rows.length).toBe(6)
-    ;(rows[5].firstElementChild as HTMLElement).click()
+    expect(rows.length).toBe(5)
+    ;(rows[4].lastElementChild as HTMLElement).click()
 
     await nextTick()
     expect(/2019.*May/.test(titleEl.element.innerHTML)).toBeTruthy()
@@ -24,7 +24,7 @@ describe('Calendar.vue', () => {
     const date = vm.value
     expect(date.getFullYear()).toBe(2019)
     expect(date.getMonth()).toBe(4)
-    expect(wrapper.find('.is-selected span').element.innerHTML).toBe('5')
+    expect(wrapper.find('.is-selected span').element.innerHTML).toBe('4')
   })
 
   it('range', () => {
@@ -157,5 +157,28 @@ describe('Calendar.vue', () => {
     expect(wrapper.find('.is-selected').text()).toBe('1')
     await nextBtn?.trigger('click')
     expect(wrapper.find('.is-selected').text()).toBe('1')
+  })
+
+  it('range two years', async () => {
+    const wrapper = mount(() => (
+      <Calendar
+        range={[new Date(2022, 0, 1), new Date(2022, 0, 31)]}
+      ></Calendar>
+    ))
+    const titleEl = wrapper.find('.el-calendar__title')
+    expect(/2021.*December/.test(titleEl.element.innerHTML)).toBeTruthy()
+    const dateTables = wrapper.element.querySelectorAll(
+      '.el-calendar-table.is-range'
+    )
+    expect(dateTables.length).toBe(3)
+    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    expect(rows.length).toBe(6)
+    const cell = rows[rows.length - 1].firstElementChild as HTMLElement
+    cell.click()
+
+    await nextTick()
+
+    expect(/2022.*January/.test(titleEl.element.innerHTML)).toBeTruthy()
+    expect(cell?.classList.contains('is-selected')).toBeTruthy()
   })
 })

@@ -189,6 +189,7 @@
     outline: none;
     border: none;
     background: none;
+    box-sizing: border-box;
 
     &:focus {
       outline: none;
@@ -323,7 +324,7 @@
 @include b(input-group) {
   display: inline-flex;
   width: 100%;
-  align-items: center;
+  align-items: stretch;
 
   @include e((append, prepend)) {
     background-color: getCssVar('fill-color', 'light');
@@ -332,7 +333,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    min-height: 100%;
     border-radius: var(--el-input-border-radius);
     padding: 0 20px;
     white-space: nowrap;

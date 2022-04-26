@@ -166,6 +166,8 @@ export default defineComponent({
     const svPanel = ref(null)
     const alpha = ref(null)
     const popper = ref(null)
+    // active-change is used to prevent modelValue changes from triggering.
+    let shouldActiveChange = true
     // data
     const color = reactive(
       new Color({
@@ -199,6 +201,7 @@ export default defineComponent({
         if (!newVal) {
           showPanelColor.value = false
         } else if (newVal && newVal !== color.value) {
+          shouldActiveChange = false
           color.fromString(newVal)
         }
       }
@@ -207,7 +210,8 @@ export default defineComponent({
       () => currentColor.value,
       (val) => {
         customInput.value = val
-        emit('active-change', val)
+        shouldActiveChange && emit('active-change', val)
+        shouldActiveChange = true
       }
     )
 

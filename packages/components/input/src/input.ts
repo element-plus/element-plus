@@ -39,6 +39,12 @@ export const inputProps = buildProps({
     type: String,
     default: 'off',
   },
+  formatter: {
+    type: Function,
+  },
+  parser: {
+    type: Function,
+  },
   placeholder: {
     type: String,
   },

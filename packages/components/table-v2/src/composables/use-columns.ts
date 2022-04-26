@@ -1,40 +1,18 @@
 import { computed, unref } from 'vue'
-import { placeholderSign } from './private'
+import { isObject } from '@element-plus/utils'
+import { SortOrder, oppositeOrderMap } from '../constants'
+import { placeholderSign } from '../private'
+import { calcColumnStyle } from './utils'
 
 import type { CSSProperties, Ref } from 'vue'
-import type { Column, Columns, KeyType } from './types'
+import type { TableV2Props } from '../table'
+import type { AnyColumns, Column, KeyType } from '../types'
 
-type AnyColumn = Columns<any>
-
-const calcColumnStyle = (
-  column: Column<any>,
-  fixedColumn: boolean
-): CSSProperties => {
-  const flex = {
-    flexGrow: 0,
-    flexShrink: 0,
-  }
-
-  if (column.fixed) {
-    flex.flexShrink = 1
-  }
-
-  const style = {
-    ...(column.style ?? {}),
-    ...flex,
-    flexBasis: 'auto',
-    width: column.width,
-  }
-
-  if (!fixedColumn) {
-    if (column.maxWidth) style.maxWidth = column.maxWidth
-    if (column.minWidth) style.maxWidth = column.minWidth
-  }
-
-  return style
-}
-
-function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
+function useColumns(
+  props: TableV2Props,
+  columns: Ref<AnyColumns>,
+  fixed: Ref<boolean>
+) {
   const visibleColumns = computed(() => {
     return unref(columns).filter((column) => !column.hidden)
   })
@@ -45,7 +23,7 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
     )
   )
 
-  const fixedColumnOnRight = computed(() =>
+  const fixedColumnsOnRight = computed(() =>
     unref(visibleColumns).filter((column) => column.fixed === 'right')
   )
 
@@ -54,7 +32,7 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
   )
 
   const mainColumns = computed(() => {
-    const ret: AnyColumn = []
+    const ret: AnyColumns = []
 
     unref(fixedColumnsOnLeft).forEach((column) => {
       ret.push({
@@ -67,7 +45,7 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
       ret.push(column)
     })
 
-    unref(fixedColumnOnRight).forEach((column) => {
+    unref(fixedColumnsOnRight).forEach((column) => {
       ret.push({
         ...column,
         placeholderSign,
@@ -78,7 +56,7 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
   })
 
   const hasFixedColumns = computed(() => {
-    return unref(fixedColumnsOnLeft).length || unref(fixedColumnOnRight).length
+    return unref(fixedColumnsOnLeft).length || unref(fixedColumnsOnRight).length
   })
 
   const columnsStyles = computed(() => {
@@ -112,12 +90,28 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
     column.width = width
   }
 
+  function onColumnSorted(e: MouseEvent) {
+    const { key } = (e.currentTarget as HTMLElement).dataset
+    if (!key) return
+    const { sortState, sortBy } = props
+
+    let order = SortOrder.ASC
+
+    if (isObject(sortState)) {
+      order = oppositeOrderMap[sortState[key]]
+    } else {
+      order = oppositeOrderMap[sortBy.order]
+    }
+
+    props.onColumnSort?.({ column: getColumn(key)!, key, order })
+  }
+
   return {
     columns,
     columnsStyles,
     columnsTotalWidth,
     fixedColumnsOnLeft,
-    fixedColumnOnRight,
+    fixedColumnsOnRight,
     hasFixedColumns,
     mainColumns,
     normalColumns,
@@ -126,7 +120,9 @@ function useColumns(columns: Ref<AnyColumn>, fixed: Ref<boolean>) {
     getColumn,
     getColumnStyle,
     updateColumnWidth,
+    onColumnSorted,
   }
 }
 
 export { useColumns }
+export type UseColumnsReturn = ReturnType<typeof useColumns>

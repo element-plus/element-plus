@@ -13,12 +13,15 @@ import Header from './renderers/header'
 import HeaderCell from './renderers/header-cell'
 import Footer from './renderers/footer'
 import Empty from './renderers/empty'
+import Overlay from './renderers/overlay'
 
 import type { TableGridRowSlotParams } from './table-grid'
-import type { TableV2RowCellRenderParam } from './table-row'
-import type { TableV2HeaderRendererParams } from './table-header'
 
-import type { TableV2HeaderRowCellRendererParams } from './table-header-row'
+import type {
+  TableV2HeaderRendererParams,
+  TableV2HeaderRowCellRendererParams,
+  TableV2RowCellRenderParam,
+} from './components'
 
 const COMPONENT_NAME = 'ElTableV2'
 
@@ -31,7 +34,7 @@ const TableV2 = defineComponent({
     const {
       columnsStyles,
       fixedColumnsOnLeft,
-      fixedColumnOnRight,
+      fixedColumnsOnRight,
       mainColumns,
       mainTableHeight,
       fixedTableHeight,
@@ -118,7 +121,7 @@ const TableV2 = defineComponent({
         rowKey,
         rowHeight,
         scrollbarAlwaysOn,
-        scrollbarStartGap: 0,
+        scrollbarStartGap: 2,
         scrollbarEndGap: vScrollbarSize,
         useIsScrolling,
         width,
@@ -144,7 +147,7 @@ const TableV2 = defineComponent({
         height: _fixedTableHeight,
         rowKey,
         scrollbarAlwaysOn,
-        scrollbarStartGap: 0,
+        scrollbarStartGap: 2,
         scrollbarEndGap: vScrollbarSize,
         useIsScrolling,
         width: leftColumnsWidth,
@@ -158,7 +161,7 @@ const TableV2 = defineComponent({
       const rightTableProps = {
         cache,
         class: ns.e('right'),
-        columns: unref(fixedColumnOnRight),
+        columns: unref(fixedColumnsOnRight),
         data: _data,
         estimatedRowHeight,
         rightTableRef,
@@ -169,7 +172,7 @@ const TableV2 = defineComponent({
         height: _fixedTableHeight,
         rowKey,
         scrollbarAlwaysOn,
-        scrollbarStartGap: 0,
+        scrollbarStartGap: 2,
         scrollbarEndGap: vScrollbarSize,
         width: rightColumnsWidthWithScrollbar,
         style: `--${unref(
@@ -274,11 +277,18 @@ const TableV2 = defineComponent({
           <MainTable {...mainTableProps}>{tableSlots}</MainTable>
           <LeftTable {...leftTableProps}>{tableSlots}</LeftTable>
           <RightTable {...rightTableProps}>{tableSlots}</RightTable>
-          <Footer {...footerProps}>{{ default: slots.footer }}</Footer>
+          {slots.footer && (
+            <Footer {...footerProps}>{{ default: slots.footer }}</Footer>
+          )}
           {unref(showEmpty) && (
             <Empty class={ns.e('empty')} style={unref(emptyStyle)}>
               {{ default: slots.empty }}
             </Empty>
+          )}
+          {slots.overlay && (
+            <Overlay class={ns.e('overlay')}>
+              {{ default: slots.overlay }}
+            </Overlay>
           )}
         </div>
       )
