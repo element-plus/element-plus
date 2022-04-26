@@ -17,7 +17,7 @@
     }
     &.today {
       .cell {
-        color: var(--el-color-primary);
+        color: getCssVar('color-primary');
         font-weight: bold;
       }
       &.start-date .cell,
@@ -29,10 +29,10 @@
     &.disabled .cell {
       background-color: getCssVar('fill-color', 'light');
       cursor: not-allowed;
-      color: var(--el-text-color-placeholder);
+      color: getCssVar('text-color', 'placeholder');
 
       &:hover {
-        color: var(--el-text-color-placeholder);
+        color: getCssVar('text-color', 'placeholder');
       }
     }
 
@@ -41,18 +41,18 @@
       height: 36px;
       display: block;
       line-height: 36px;
-      color: var(--el-datepicker-text-color);
+      color: getCssVar('datepicker-text-color');
       margin: 0 auto;
       border-radius: 18px;
       &:hover {
-        color: var(--el-datepicker-hover-text-color);
+        color: getCssVar('datepicker-hover-text-color');
       }
     }
 
     &.in-range div {
-      background-color: var(--el-datepicker-inrange-bg-color);
+      background-color: getCssVar('datepicker-inrange-bg-color');
       &:hover {
-        background-color: var(--el-datepicker-inrange-hover-bg-color);
+        background-color: getCssVar('datepicker-inrange-hover-bg-color');
       }
     }
     &.start-date div,
@@ -63,7 +63,7 @@
     &.start-date .cell,
     &.end-date .cell {
       color: $color-white;
-      background-color: var(--el-datepicker-active-color);
+      background-color: getCssVar('datepicker-active-color');
     }
 
     &.start-date div {
@@ -77,7 +77,7 @@
     }
 
     &.current:not(.disabled) .cell {
-      color: var(--el-datepicker-active-color);
+      color: getCssVar('datepicker-active-color');
     }
   }
 }

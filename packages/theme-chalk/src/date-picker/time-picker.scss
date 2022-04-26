@@ -6,7 +6,7 @@
   position: relative;
   width: 180px;
   left: 0;
-  z-index: var(--el-index-top);
+  z-index: getCssVar('index-top');
   user-select: none;
   box-sizing: content-box;
 
@@ -40,8 +40,8 @@
       padding-left: 50%;
       margin-right: 12%;
       margin-left: 12%;
-      border-top: 1px solid var(--el-border-color-light);
-      border-bottom: 1px solid var(--el-border-color-light);
+      border-top: 1px solid getCssVar('border-color-light');
+      border-bottom: 1px solid getCssVar('border-color-light');
     }
 
     &.has-seconds {
@@ -57,7 +57,10 @@
 
   @include e(footer) {
     border-top: 1px solid
-      var(--el-timepicker-inner-border-color, var(--el-border-color-light));
+      var(
+        #{getCssVarName('timepicker-inner-border-color')},
+        #{getCssVar('border-color-light')}
+      );
     padding: 4px;
     height: 36px;
     line-height: 25px;
@@ -74,11 +77,14 @@
     background-color: transparent;
     outline: none;
     font-size: 12px;
-    color: var(--el-text-color-primary);
+    color: getCssVar('text-color', 'primary');
 
     &.confirm {
       font-weight: 800;
-      color: var(--el-timepicker-active-color, var(--el-color-primary));
+      color: var(
+        #{getCssVarName('timepicker-active-color')},
+        #{getCssVar('color-primary')}
+      );
     }
   }
 }

@@ -8,18 +8,19 @@
 
 @include b(notification) {
   display: flex;
-  width: var(--el-notification-width);
-  padding: var(--el-notification-padding);
-  border-radius: var(--el-notification-radius);
+  width: getCssVar('notification-width');
+  padding: getCssVar('notification-padding');
+  border-radius: getCssVar('notification-radius');
   box-sizing: border-box;
-  border: 1px solid var(--el-notification-border-color);
+  border: 1px solid getCssVar('notification-border-color');
   position: fixed;
   background-color: getCssVar('bg-color', 'overlay');
-  box-shadow: var(--el-notification-shadow);
-  transition: opacity var(--el-transition-duration),
-    transform var(--el-transition-duration), left var(--el-transition-duration),
-    right var(--el-transition-duration), top 0.4s,
-    bottom var(--el-transition-duration);
+  box-shadow: getCssVar('notification-shadow');
+  transition: opacity getCssVar('transition-duration'),
+    transform getCssVar('transition-duration'),
+    left getCssVar('transition-duration'),
+    right getCssVar('transition-duration'), top 0.4s,
+    bottom getCssVar('transition-duration');
   overflow-wrap: anywhere;
   overflow: hidden;
   z-index: 9999;
@@ -33,23 +34,23 @@
   }
 
   @include e(group) {
-    margin-left: var(--el-notification-group-margin-left);
-    margin-right: var(--el-notification-group-margin-right);
+    margin-left: getCssVar('notification-group-margin-left');
+    margin-right: getCssVar('notification-group-margin-right');
   }
 
   @include e(title) {
     font-weight: bold;
-    font-size: var(--el-notification-title-font-size);
-    line-height: var(--el-notification-icon-size);
-    color: var(--el-notification-title-color);
+    font-size: getCssVar('notification-title-font-size');
+    line-height: getCssVar('notification-icon-size');
+    color: getCssVar('notification-title-color');
     margin: 0;
   }
 
   @include e(content) {
-    font-size: var(--el-notification-content-font-size);
+    font-size: getCssVar('notification-content-font-size');
     line-height: 24px;
     margin: 6px 0 0;
-    color: var(--el-notification-content-color);
+    color: getCssVar('notification-content-color');
     text-align: justify;
 
     p {
@@ -58,9 +59,9 @@
   }
 
   & .#{$namespace}-notification__icon {
-    height: var(--el-notification-icon-size);
-    width: var(--el-notification-icon-size);
-    font-size: var(--el-notification-icon-size);
+    height: getCssVar('notification-icon-size');
+    width: getCssVar('notification-icon-size');
+    font-size: getCssVar('notification-icon-size');
   }
 
   & .#{$namespace}-notification__closeBtn {
@@ -68,18 +69,21 @@
     top: 18px;
     right: 15px;
     cursor: pointer;
-    color: var(--el-notification-close-color);
-    font-size: var(--el-notification-close-font-size);
+    color: getCssVar('notification-close-color');
+    font-size: getCssVar('notification-close-font-size');
 
     &:hover {
-      color: var(--el-notification-close-hover-color);
+      color: getCssVar('notification-close-hover-color');
     }
   }
 
   @each $type in (success, info, warning, error) {
     & .#{$namespace}-notification--#{$type} {
-      --el-notification-icon-color: var(--el-color-#{$type});
-      color: var(--el-notification-icon-color);
+      @include css-var-from-global(
+        ('notification', 'icon-color'),
+        ('color', $type)
+      );
+      color: getCssVar('notification-icon-color');
     }
   }
 }

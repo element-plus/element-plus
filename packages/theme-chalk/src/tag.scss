@@ -80,14 +80,14 @@ $tag-icon-span-gap: map.merge(
   .#{$namespace}-tag__close {
     color: getCssVar('tag', 'text-color');
     &:hover {
-      color: var(--el-color-white);
-      background-color: var(--el-tag-hover-color);
+      color: getCssVar('color-white');
+      background-color: getCssVar('tag-hover-color');
     }
   }
 
-  background-color: var(--el-tag-bg-color);
-  border-color: var(--el-tag-border-color);
-  color: var(--el-tag-text-color);
+  background-color: getCssVar('tag-bg-color');
+  border-color: getCssVar('tag-border-color');
+  color: getCssVar('tag-text-color');
 
   display: inline-flex;
   justify-content: center;
@@ -96,24 +96,24 @@ $tag-icon-span-gap: map.merge(
   height: map.get($tag-height, 'default');
   padding: 0 map.get($tag-padding, 'default') - $border-width;
 
-  font-size: var(--el-tag-font-size);
+  font-size: getCssVar('tag-font-size');
   line-height: 1;
   border-width: $tag-border-width;
   border-style: solid;
-  border-radius: var(--el-tag-border-radius);
+  border-radius: getCssVar('tag-border-radius');
   box-sizing: border-box;
   white-space: nowrap;
 
-  --el-icon-size: 14px;
+  @include set-css-var-value('icon-size', 14px);
 
   $svg-margin-size: 1px;
   .#{$namespace}-icon {
     border-radius: 50%;
     cursor: pointer;
 
-    font-size: calc(var(--el-icon-size) - #{$svg-margin-size * 2});
-    height: var(--el-icon-size);
-    width: var(--el-icon-size);
+    font-size: calc(#{getCssVar('icon-size')} - #{$svg-margin-size * 2});
+    height: getCssVar('icon-size');
+    width: getCssVar('icon-size');
   }
 
   .#{$namespace}-tag__close {
@@ -146,7 +146,10 @@ $tag-icon-span-gap: map.merge(
       padding: 0 map.get($tag-padding, $size) - $tag-border-width;
       height: map.get($tag-height, $size);
 
-      --el-icon-size: #{map.get($tag-icon-size, $size)};
+      @include set-css-var-value(
+        'icon-size',
+        #{map.get($tag-icon-size, $size)}
+      );
 
       .#{$namespace}-tag__close {
         margin-left: map.get($tag-icon-span-gap, $size);

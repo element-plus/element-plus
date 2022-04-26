@@ -20,11 +20,20 @@
     line-height: 1;
     white-space: nowrap;
     vertical-align: middle;
-    background: var(--el-button-bg-color, map.get($button, 'bg-color'));
+    background: var(
+      #{getCssVarName('button-bg-color')},
+      map.get($button, 'bg-color')
+    );
     border: getCssVar('border');
-    font-weight: var(--el-button-font-weight, map.get($button, 'font-weight'));
+    font-weight: var(
+      #{getCssVarName('button-font-weight')},
+      map.get($button, 'font-weight')
+    );
     border-left: 0;
-    color: var(--el-button-text-color, map.get($button, 'text-color'));
+    color: var(
+      #{getCssVarName('button-text-color')},
+      map.get($button, 'text-color')
+    );
     -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;
@@ -32,7 +41,7 @@
     margin: 0;
     position: relative;
     cursor: pointer;
-    transition: var(--el-transition-all);
+    transition: getCssVar('transition-all');
     user-select: none;
 
     @include button-size(
@@ -43,7 +52,7 @@
     );
 
     &:hover {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
     }
 
     & [class*='#{$namespace}-icon-'] {
@@ -58,8 +67,8 @@
   &:first-child {
     .#{$namespace}-radio-button__inner {
       border-left: getCssVar('border');
-      border-radius: var(--el-border-radius-base) 0 0
-        var(--el-border-radius-base);
+      border-radius: getCssVar('border-radius-base') 0 0
+        getCssVar('border-radius-base');
       box-shadow: none !important;
     }
   }
@@ -72,21 +81,21 @@
 
     &:checked {
       & + .#{$namespace}-radio-button__inner {
-        color: var(
-          --el-radio-button-checked-text-color,
+        color: getCssVarWithDefault(
+          ('radio-button', 'checked-text-color'),
           map.get($radio-button, 'checked-text-color')
         );
-        background-color: var(
-          --el-radio-button-checked-bg-color,
+        background-color: getCssVarWithDefault(
+          'radio-button-checked-bg-color',
           map.get($radio-button, 'checked-bg-color')
         );
-        border-color: var(
-          --el-radio-button-checked-border-color,
+        border-color: getCssVarWithDefault(
+          'radio-button-checked-border-color',
           map.get($radio-button, 'checked-border-color')
         );
         box-shadow: -1px 0 0 0
-          var(
-            --el-radio-button-checked-border-color,
+          getCssVarWithDefault(
+            'radio-button-checked-border-color',
             map.get($radio-button, 'checked-border-color')
           );
       }
@@ -97,32 +106,32 @@
         color: getCssVar('disabled-text-color');
         cursor: not-allowed;
         background-image: none;
-        background-color: var(
-          --el-button-disabled-bg-color,
+        background-color: getCssVarWithDefault(
+          'button-disabled-bg-color',
           map.get($button, 'disabled-bg-color')
         );
-        border-color: var(
-          --el-button-disabled-border-color,
+        border-color: getCssVarWithDefault(
+          'button-disabled-border-color',
           map.get($button, 'disabled-border-color')
         );
         box-shadow: none;
       }
       &:checked + .#{$namespace}-radio-button__inner {
-        background-color: var(--el-radio-button-disabled-checked-fill);
+        background-color: getCssVar('radio-button-disabled-checked-fill');
       }
     }
   }
 
   &:last-child {
     .#{$namespace}-radio-button__inner {
-      border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base)
-        0;
+      border-radius: 0 getCssVar('border-radius-base')
+        getCssVar('border-radius-base') 0;
     }
   }
 
   &:first-child:last-child {
     .#{$namespace}-radio-button__inner {
-      border-radius: var(--el-border-radius-base);
+      border-radius: getCssVar('border-radius-base');
     }
   }
 
@@ -141,6 +150,6 @@
 
   &:focus:not(.is-focus):not(:active):not(.is-disabled) {
     /*获得焦点时 样式提醒*/
-    box-shadow: 0 0 2px 2px var(--el-radio-button-checked-border-color);
+    box-shadow: 0 0 2px 2px getCssVar('radio-button-checked-border-color');
   }
 }

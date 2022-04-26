@@ -25,8 +25,8 @@ $checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='
 }
 
 @include b(select-dropdown) {
-  z-index: calc(var(--el-index-top) + 1);
-  border-radius: var(--el-border-radius-base);
+  z-index: calc(#{getCssVar('index-top')} + 1);
+  border-radius: getCssVar('border-radius-base');
   box-sizing: border-box;
 
   @include when(multiple) {
@@ -60,7 +60,7 @@ $checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='
   margin: 0;
   text-align: center;
   color: map.get($select-dropdown, 'empty-color');
-  font-size: var(--el-select-font-size);
+  font-size: getCssVar('select-font-size');
 }
 
 @include b(select-dropdown__wrap) {

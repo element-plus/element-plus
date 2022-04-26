@@ -122,7 +122,8 @@ $form-item-label-top-margin-bottom: map.merge(
   @each $size in (large, default, small) {
     @include m($size) {
       --font-size: #{map.get($input-font-size, $size)};
-      --el-form-label-font-size: var(--font-size);
+      @include set-css-var-value(('form', 'label-font-size'), var(--font-size));
+
       margin-bottom: #{map.get($form-item-margin-bottom, $size)};
 
       @include e(label) {
@@ -148,8 +149,8 @@ $form-item-label-top-margin-bottom: map.merge(
   @include e(label) {
     flex: 0 0 auto;
     text-align: right;
-    font-size: var(--el-form-label-font-size);
-    color: var(--el-text-color-regular);
+    font-size: getCssVar('form-label-font-size');
+    color: getCssVar('text-color', 'regular');
     line-height: #{map.get($form-item-line-height, 'default')};
     padding: 0 12px 0 0;
     box-sizing: border-box;
@@ -169,7 +170,7 @@ $form-item-label-top-margin-bottom: map.merge(
     }
   }
   @include e(error) {
-    color: var(--el-color-danger);
+    color: getCssVar('color-danger');
     font-size: 12px;
     line-height: 1;
     padding-top: #{map.get($form-item-error-padding-top, 'default')};
@@ -192,7 +193,7 @@ $form-item-label-top-margin-bottom: map.merge(
       > .#{$namespace}-form-item__label-wrap
         > .#{$namespace}-form-item__label:before {
         content: '*';
-        color: var(--el-color-danger);
+        color: getCssVar('color-danger');
         margin-right: 4px;
       }
     }
@@ -203,11 +204,11 @@ $form-item-label-top-margin-bottom: map.merge(
     .#{$namespace}-textarea__inner {
       &,
       &:focus {
-        box-shadow: 0 0 0 1px var(--el-color-danger) inset;
+        box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
       }
     }
     .#{$namespace}-input__wrapper {
-      box-shadow: 0 0 0 1px var(--el-color-danger) inset;
+      box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
     }
     .#{$namespace}-input-group__append,
     .#{$namespace}-input-group__prepend {
@@ -216,7 +217,7 @@ $form-item-label-top-margin-bottom: map.merge(
       }
     }
     .#{$namespace}-input__validateIcon {
-      color: var(--el-color-danger);
+      color: getCssVar('color-danger');
     }
   }
 

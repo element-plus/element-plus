@@ -9,14 +9,14 @@
 
   display: inline-block;
   position: relative;
-  font-size: var(--el-font-size-base);
+  font-size: getCssVar('font-size', 'base');
   line-height: map.get($input-height, 'default');
   outline: none;
 
   &:not(.is-disabled):hover {
     .#{$namespace}-input__wrapper {
       cursor: pointer;
-      box-shadow: 0 0 0 1px var(--el-input-hover-border-color) inset;
+      box-shadow: 0 0 0 1px getCssVar('input', 'hover-border-color') inset;
     }
   }
 
@@ -39,7 +39,7 @@
     }
 
     .icon-arrow-down {
-      transition: transform var(--el-transition-duration);
+      transition: transform getCssVar('transition-duration');
       font-size: 14px;
 
       @include when(reverse) {
@@ -49,7 +49,7 @@
 
     .icon-circle-close:hover {
       color: var(
-        --el-input-clear-hover-color,
+        #{getCssVarName('input', 'clear-hover-color')},
         map.get($input, 'clear-hover-color')
       );
     }
@@ -58,7 +58,7 @@
       .#{$namespace}-input__wrapper {
         box-shadow: 0 0 0 1px
           var(
-            --el-input-focus-border-color,
+            #{getCssVarName('input', 'focus-border-color')},
             map.get($input, 'focus-border-color')
           )
           inset;
@@ -75,7 +75,7 @@
 
   @include when(disabled) {
     .#{$namespace}-cascader__label {
-      z-index: calc(var(--el-index-normal) + 1);
+      z-index: calc(getCssVar('index', 'normal') + 1);
       color: getCssVar('disabled-text-color');
     }
   }
@@ -85,17 +85,17 @@
   }
 
   @include e(dropdown) {
-    font-size: var(--el-cascader-menu-font-size);
-    border-radius: var(--el-cascader-menu-radius);
+    font-size: getCssVar('cascader-menu-font-size');
+    border-radius: getCssVar('cascader-menu-radius');
 
     @include picker-popper(
-      var(--el-cascader-menu-fill),
-      var(--el-cascader-menu-border),
-      var(--el-cascader-menu-shadow)
+      getCssVar('cascader-menu-fill'),
+      getCssVar('cascader-menu-border'),
+      getCssVar('cascader-menu-shadow')
     );
 
     &.#{$namespace}-popper {
-      box-shadow: var(--el-cascader-menu-shadow);
+      box-shadow: getCssVar('cascader-menu-shadow');
     }
   }
 
@@ -117,7 +117,7 @@
       max-width: 100%;
       margin: 2px 0 2px 6px;
       text-overflow: ellipsis;
-      background: var(--el-cascader-tag-background);
+      background: getCssVar('cascader-tag-background');
 
       &:not(.is-hit) {
         border-color: transparent;
@@ -131,11 +131,11 @@
 
       .#{$namespace}-icon-close {
         flex: none;
-        background-color: var(--el-text-color-placeholder);
-        color: var(--el-color-white);
+        background-color: getCssVar('text-color', 'placeholder');
+        color: getCssVar('color-white');
 
         &:hover {
-          background-color: var(--el-text-color-secondary);
+          background-color: getCssVar('text-color', 'secondary');
         }
       }
     }
@@ -143,7 +143,7 @@
 
   @include e(collapse-tags) {
     white-space: normal;
-    z-index: var(--el-index-normal);
+    z-index: getCssVar('index-normal');
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -156,15 +156,15 @@
   }
 
   @include e(suggestion-panel) {
-    border-radius: var(--el-cascader-menu-radius);
+    border-radius: getCssVar('cascader-menu', 'radius');
   }
 
   @include e(suggestion-list) {
     max-height: 204px;
     margin: 0;
     padding: 6px 0;
-    font-size: var(--el-font-size-base);
-    color: var(--el-cascader-menu-text-color);
+    font-size: getCssVar('font-size', 'base');
+    color: getCssVar('cascader-menu', 'text-color');
     text-align: center;
   }
 
@@ -180,11 +180,11 @@
 
     &:hover,
     &:focus {
-      background: var(--el-cascader-node-background-hover);
+      background: getCssVar('cascader-node', 'background-hover');
     }
 
     &.is-checked {
-      color: var(--el-cascader-menu-selected-text-color);
+      color: getCssVar('cascader', 'menu-selected-text-color');
       font-weight: bold;
     }
 
@@ -195,7 +195,7 @@
 
   @include e(empty-text) {
     margin: 10px 0;
-    color: var(--el-cascader-color-empty);
+    color: getCssVar('cascader', 'color-empty');
   }
 
   @include e(search-input) {
