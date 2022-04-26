@@ -70,3 +70,21 @@ You can set the column's attribute `fixed` to `true` (representing `FixedDir.LEF
 table-v2/fixed-columns
 
 :::
+
+## Grouping header
+
+By customizing your header renderer you can group your header like this example did.
+
+:::tip
+
+In this case we used `JSX` feature which is not supported in the playground, you may try them out in your local environment or online IDEs such as `codesandbox`.
+
+It is recommended that you write your table component in JSX, since it contains VNode manipulations.
+
+:::
+
+:::demo
+
+table-v2/grouping-header
+
+:::
