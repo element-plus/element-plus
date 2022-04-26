@@ -38,7 +38,7 @@ const onScroll = ({ scrollTop }) => {
 }
 </script>
 
-<style lang="scss">
+<style>
 .el-table-v2__fixed-header-row {
   background-color: var(--el-color-primary-light-5);
   font-weight: bold;
