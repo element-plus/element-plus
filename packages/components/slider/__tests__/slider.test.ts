@@ -118,7 +118,7 @@ describe('Slider', () => {
         }
       },
       methods: {
-        formatTooltip(val) {
+        formatTooltip(val: number) {
           return `$${val}`
         },
       },
@@ -151,9 +151,11 @@ describe('Slider', () => {
       )
       const slider = wrapper.findComponent({ name: 'ElSliderButton' })
 
-      const mockClientWidth = vi
-        .spyOn(wrapper.find('.el-slider__runway').element, 'clientWidth', 'get')
-        .mockImplementation(() => 200)
+      vi.spyOn(
+        wrapper.find('.el-slider__runway').element,
+        'clientWidth',
+        'get'
+      ).mockImplementation(() => 200)
       slider.trigger('mousedown', { clientX: 0 })
 
       const mousemove = document.createEvent('MouseEvent')
@@ -198,7 +200,6 @@ describe('Slider', () => {
 
       await nextTick()
       expect(wrapper.vm.value === 50).toBeTruthy()
-      mockClientWidth.mockRestore()
     })
 
     it('vertical', async () => {
@@ -221,14 +222,11 @@ describe('Slider', () => {
         }
       )
       const slider = wrapper.findComponent({ name: 'ElSliderButton' })
-
-      const mockClientHeight = vi
-        .spyOn(
-          wrapper.find('.el-slider__runway').element,
-          'clientHeight',
-          'get'
-        )
-        .mockImplementation(() => 200)
+      vi.spyOn(
+        wrapper.find('.el-slider__runway').element,
+        'clientHeight',
+        'get'
+      ).mockImplementation(() => 200)
       slider.trigger('mousedown', { clientY: 0 })
       const mousemove = document.createEvent('MouseEvent')
       mousemove.initMouseEvent(
@@ -270,34 +268,113 @@ describe('Slider', () => {
       window.dispatchEvent(mouseup)
       await nextTick()
       expect(wrapper.vm.value).toBe(50)
-      mockClientHeight.mockRestore()
     })
   })
 
-  it('accessibility', (done) => {
-    const wrapper = mount({
-      template: `
-        <div>
-          <slider v-model="value"></slider>
-        </div>
-      `,
-      components: { Slider },
-      data() {
-        return {
-          value: 0.1,
-        }
-      },
-    })
-    const slider: any = wrapper.findComponent({ name: 'ElSliderButton' })
-    slider.vm.onRightKeyDown()
-    setTimeout(() => {
-      expect(wrapper.vm.value).toBe(1)
-      slider.vm.onLeftKeyDown()
+  describe('accessibility', () => {
+    it('left/right arrows', (done) => {
+      const wrapper = mount({
+        template: `
+          <div>
+            <slider v-model="value"></slider>
+          </div>
+        `,
+        components: { Slider },
+        data() {
+          return {
+            value: 0.1,
+          }
+        },
+      })
+      const slider: any = wrapper.findComponent({ name: 'ElSliderButton' })
+      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
       setTimeout(() => {
-        expect(wrapper.vm.value).toBe(0)
-        done()
+        expect(wrapper.vm.value).toBe(1)
+        slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'ArrowLeft' }))
+        setTimeout(() => {
+          expect(wrapper.vm.value).toBe(0)
+          done()
+        }, 10)
       }, 10)
-    }, 10)
+    })
+
+    it('up/down arrows', (done) => {
+      const wrapper = mount({
+        template: `
+          <div>
+            <slider v-model="value"></slider>
+          </div>
+        `,
+        components: { Slider },
+        data() {
+          return {
+            value: 0.1,
+          }
+        },
+      })
+      const slider: any = wrapper.findComponent({ name: 'ElSliderButton' })
+      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'ArrowUp' }))
+      setTimeout(() => {
+        expect(wrapper.vm.value).toBe(1)
+        slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'ArrowDown' }))
+        setTimeout(() => {
+          expect(wrapper.vm.value).toBe(0)
+          done()
+        }, 10)
+      }, 10)
+    })
+
+    it('page up/down keys', (done) => {
+      const wrapper = mount({
+        template: `
+          <div>
+            <slider v-model="value" :min="-5" :max="10"></slider>
+          </div>
+        `,
+        components: { Slider },
+        data() {
+          return {
+            value: -1,
+          }
+        },
+      })
+      const slider: any = wrapper.findComponent({ name: 'ElSliderButton' })
+      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'PageUp' }))
+      setTimeout(() => {
+        expect(wrapper.vm.value).toBe(3)
+        slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'PageDown' }))
+        setTimeout(() => {
+          expect(wrapper.vm.value).toBe(-1)
+          done()
+        }, 10)
+      }, 10)
+    })
+
+    it('home/end keys', (done) => {
+      const wrapper = mount({
+        template: `
+          <div>
+            <slider v-model="value" :min="-5" :max="10"></slider>
+          </div>
+        `,
+        components: { Slider },
+        data() {
+          return {
+            value: -5,
+          }
+        },
+      })
+      const slider: any = wrapper.findComponent({ name: 'ElSliderButton' })
+      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'Home' }))
+      setTimeout(() => {
+        expect(wrapper.vm.value).toBe(-5)
+        slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'End' }))
+        setTimeout(() => {
+          expect(wrapper.vm.value).toBe(10)
+          done()
+        }, 10)
+      }, 10)
+    })
   })
 
   it('step', (done) => {
@@ -387,7 +464,7 @@ describe('Slider', () => {
     })
     const slider: any = wrapper.findComponent({ name: 'ElSlider' })
     setTimeout(() => {
-      slider.vm.onSliderClick({ clientX: 100 })
+      slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
       setTimeout(() => {
         expect(wrapper.vm.value > 0).toBeTruthy()
         done()
@@ -411,7 +488,7 @@ describe('Slider', () => {
         }
       },
       methods: {
-        onChange(val) {
+        onChange(val: number) {
           this.data = val
         },
       },
@@ -432,7 +509,7 @@ describe('Slider', () => {
       .mockImplementation(() => 200)
     setTimeout(() => {
       expect(wrapper.vm.data).toBe(0)
-      slider.vm.onSliderClick({ clientX: 100 })
+      slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
       setTimeout(() => {
         expect(wrapper.vm.data === 50).toBeTruthy()
         mockRectLeft.mockRestore()
@@ -458,7 +535,7 @@ describe('Slider', () => {
         }
       },
       methods: {
-        onInput(val) {
+        onInput(val: number) {
           this.data = val
         },
       },
@@ -479,7 +556,7 @@ describe('Slider', () => {
       .mockImplementation(() => 200)
     await nextTick()
     expect(wrapper.vm.data).toBe(0)
-    slider.vm.onSliderClick({ clientX: 100 })
+    slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
     await nextTick()
     expect(wrapper.vm.data === 50).toBeTruthy()
     mockRectLeft.mockRestore()
@@ -618,7 +695,7 @@ describe('Slider', () => {
       .mockImplementation(() => 200)
     const slider: any = wrapper.getComponent({ name: 'ElSlider' })
     setTimeout(() => {
-      slider.vm.onSliderClick({ clientY: 100 })
+      slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
       setTimeout(() => {
         expect(wrapper.vm.value > 0).toBeTruthy()
         mockRectBottom.mockRestore()
@@ -727,7 +804,7 @@ describe('Slider', () => {
         .mockImplementation(() => 200)
       const slider: any = wrapper.getComponent({ name: 'ElSlider' })
       setTimeout(() => {
-        slider.vm.onSliderClick({ clientX: 100 })
+        slider.vm.onSliderClick(new MouseEvent('mousedown', { clientX: 100 }))
         setTimeout(() => {
           // Because mock the clientWidth, so the targetValue is 50.
           // The behavior of the setPosition method in the useSlider.ts file should be that the value of the second button is 50

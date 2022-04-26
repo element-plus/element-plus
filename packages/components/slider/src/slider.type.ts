@@ -1,4 +1,9 @@
-import type { CSSProperties, ComputedRef, Ref } from 'vue'
+import type {
+  CSSProperties,
+  ComponentPublicInstance,
+  ComputedRef,
+  Ref,
+} from 'vue'
 import type { Nullable } from '@element-plus/utils'
 
 export interface ISliderProps {
@@ -18,14 +23,17 @@ export interface ISliderProps {
   height: string
   debounce: number
   label: string
+  rangeStartLabel: string
+  rangeEndLabel: string
+  formatValueText: (val: number) => string
   tooltipClass: string
   marks?: Record<number, any>
 }
 
 export interface ISliderInitData {
-  firstValue: Nullable<number>
-  secondValue: Nullable<number>
-  oldValue: Nullable<number>
+  firstValue: number
+  secondValue: number
+  oldValue?: number
   dragging: boolean
   sliderSize: number
 }
@@ -73,7 +81,7 @@ export type Slide = {
 }
 
 export type ButtonRefs = {
-  [s in 'firstButton' | 'secondButton']: Ref<Nullable<ISliderButton>>
+  [s in 'firstButton' | 'secondButton']: Ref<ISliderButton | undefined>
 }
 
 export interface ISliderButtonProps {
@@ -95,8 +103,8 @@ export interface ISliderButtonInitData {
   oldValue: number
 }
 
-export interface ISliderButton {
-  tooltip: Ref<Nullable<HTMLElement>>
+export interface ISliderButton extends ComponentPublicInstance {
+  tooltip: Ref<HTMLElement | undefined>
   showTooltip: Ref<boolean>
   wrapperStyle: ComputedRef<CSSProperties>
   formatValue: ComputedRef<number | string>
