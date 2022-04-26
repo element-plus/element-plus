@@ -162,7 +162,7 @@ const onSuggestionShow = () => {
   })
 }
 
-const getData = (queryString: string) => {
+const getData = async (queryString: string) => {
   if (suggestionDisabled.value) {
     return
   }
@@ -182,13 +182,9 @@ const getData = (queryString: string) => {
   if (isArray(props.fetchSuggestions)) {
     cb(props.fetchSuggestions)
   } else {
-    const result = props.fetchSuggestions(queryString, cb)
+    const result = await props.fetchSuggestions(queryString, cb)
     if (isArray(result)) {
       cb(result)
-    } else if (isPromise(result)) {
-      result.then((suggestionsData) => {
-        suggestionsData && cb(suggestionsData)
-      })
     }
   }
 }
