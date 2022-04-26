@@ -360,7 +360,7 @@ describe('Slider', () => {
         components: { Slider },
         data() {
           return {
-            value: -5,
+            value: 0,
           }
         },
       })
