@@ -96,7 +96,6 @@ import {
   ref,
   useAttrs as useCompAttrs,
 } from 'vue'
-import { isPromise } from '@vue/shared'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useAttrs, useNamespace } from '@element-plus/hooks'
