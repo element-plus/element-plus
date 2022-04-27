@@ -164,7 +164,7 @@ export const useSlide = (
     return setPosition(newPercent)
   }
 
-  const onSliderWrapperPrevent = async (event: TouchEvent) => {
+  const onSliderWrapperPrevent = (event: TouchEvent) => {
     if (
       buttonRefs['firstButton'].value?.dragging ||
       buttonRefs['secondButton'].value?.dragging

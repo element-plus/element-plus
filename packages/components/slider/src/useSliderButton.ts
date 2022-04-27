@@ -1,6 +1,6 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { CSSProperties, ComponentInternalInstance, ComputedRef } from 'vue'
 import type {
@@ -8,6 +8,8 @@ import type {
   ISliderButtonProps,
   ISliderProvider,
 } from './slider.type'
+
+const { left, down, right, up, home, end, pageUp, pageDown } = EVENT_CODE
 
 const useTooltip = (
   props: ISliderButtonProps,
@@ -147,17 +149,17 @@ export const useSliderButton = (
 
   const onKeyDown = (event: KeyboardEvent) => {
     let isPreventDefault = true
-    if (['ArrowLeft', 'ArrowDown'].includes(event.key)) {
+    if ([left, down].includes(event.key)) {
       onLeftKeyDown()
-    } else if (['ArrowRight', 'ArrowUp'].includes(event.key)) {
+    } else if ([right, up].includes(event.key)) {
       onRightKeyDown()
-    } else if (event.key === 'Home') {
+    } else if (event.key === home) {
       onHomeKeyDown()
-    } else if (event.key === 'End') {
+    } else if (event.key === end) {
       onEndKeyDown()
-    } else if (event.key === 'PageDown') {
+    } else if (event.key === pageDown) {
       onPageDownKeyDown()
-    } else if (event.key === 'PageUp') {
+    } else if (event.key === pageUp) {
       onPageUpKeyDown()
     } else {
       isPreventDefault = false

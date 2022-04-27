@@ -1,6 +1,7 @@
 import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { EVENT_CODE } from '@element-plus/constants'
 import sleep from '@element-plus/test-utils/sleep'
 import Slider from '../src/index.vue'
 
@@ -16,6 +17,14 @@ vi.mock('lodash-unified', async () => {
 })
 
 describe('Slider', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
   it('create', () => {
     const wrapper = mount(Slider)
     expect(wrapper.props().modelValue).toBe(0)
@@ -34,7 +43,7 @@ describe('Slider', () => {
       },
     })
 
-    await sleep(10)
+    await nextTick()
     wrapper.vm.value = 40
     await nextTick()
     expect(wrapper.vm.value).toBe(50)
@@ -131,6 +140,7 @@ describe('Slider', () => {
 
   describe('drag', () => {
     it('horizontal', async () => {
+      vi.useRealTimers()
       const wrapper = mount(
         {
           template: `
@@ -203,6 +213,7 @@ describe('Slider', () => {
     })
 
     it('vertical', async () => {
+      vi.useRealTimers()
       const wrapper = mount(
         {
           template: `
@@ -272,7 +283,7 @@ describe('Slider', () => {
   })
 
   describe('accessibility', () => {
-    it('left/right arrows', (done) => {
+    it('left/right arrows', async () => {
       const wrapper = mount({
         template: `
           <div>
@@ -287,18 +298,21 @@ describe('Slider', () => {
         },
       })
       const slider: any = wrapper.findComponent({ name: 'ElSliderButton' })
-      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'ArrowRight' }))
-      setTimeout(() => {
-        expect(wrapper.vm.value).toBe(1)
-        slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'ArrowLeft' }))
-        setTimeout(() => {
-          expect(wrapper.vm.value).toBe(0)
-          done()
-        }, 10)
-      }, 10)
+
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.right })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toBe(1)
+
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.left })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toBe(0)
     })
 
-    it('up/down arrows', (done) => {
+    it('up/down arrows', async () => {
       const wrapper = mount({
         template: `
           <div>
@@ -313,18 +327,19 @@ describe('Slider', () => {
         },
       })
       const slider: any = wrapper.findComponent({ name: 'ElSliderButton' })
-      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'ArrowUp' }))
-      setTimeout(() => {
-        expect(wrapper.vm.value).toBe(1)
-        slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'ArrowDown' }))
-        setTimeout(() => {
-          expect(wrapper.vm.value).toBe(0)
-          done()
-        }, 10)
-      }, 10)
+
+      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: EVENT_CODE.up }))
+      await nextTick()
+      expect(wrapper.vm.value).toBe(1)
+
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.down })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toBe(0)
     })
 
-    it('page up/down keys', (done) => {
+    it('page up/down keys', async () => {
       const wrapper = mount({
         template: `
           <div>
@@ -339,18 +354,20 @@ describe('Slider', () => {
         },
       })
       const slider: any = wrapper.findComponent({ name: 'ElSliderButton' })
-      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'PageUp' }))
-      setTimeout(() => {
-        expect(wrapper.vm.value).toBe(3)
-        slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'PageDown' }))
-        setTimeout(() => {
-          expect(wrapper.vm.value).toBe(-1)
-          done()
-        }, 10)
-      }, 10)
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.pageUp })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toBe(3)
+
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.pageDown })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toBe(-1)
     })
 
-    it('home/end keys', (done) => {
+    it('home/end keys', async () => {
       const wrapper = mount({
         template: `
           <div>
@@ -365,19 +382,20 @@ describe('Slider', () => {
         },
       })
       const slider: any = wrapper.findComponent({ name: 'ElSliderButton' })
-      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'Home' }))
-      setTimeout(() => {
-        expect(wrapper.vm.value).toBe(-5)
-        slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: 'End' }))
-        setTimeout(() => {
-          expect(wrapper.vm.value).toBe(10)
-          done()
-        }, 10)
-      }, 10)
+      slider.vm.onKeyDown(
+        new KeyboardEvent('keydown', { key: EVENT_CODE.home })
+      )
+      await nextTick()
+      expect(wrapper.vm.value).toBe(-5)
+
+      slider.vm.onKeyDown(new KeyboardEvent('keydown', { key: EVENT_CODE.end }))
+      await nextTick()
+      expect(wrapper.vm.value).toBe(10)
     })
   })
 
   it('step', (done) => {
+    vi.useRealTimers()
     const wrapper = mount(
       {
         template: `
@@ -449,6 +467,7 @@ describe('Slider', () => {
   })
 
   it('click', (done) => {
+    vi.useRealTimers()
     const wrapper = mount({
       template: `
         <div>
@@ -477,6 +496,7 @@ describe('Slider', () => {
   })
 
   it('change event', (done) => {
+    vi.useRealTimers()
     const wrapper = mount({
       template: `
         <div style="width: 200px">
@@ -524,6 +544,7 @@ describe('Slider', () => {
   })
 
   it('input event', async (done) => {
+    vi.useRealTimers()
     const wrapper = mount({
       template: `
         <div style="width: 200px">
@@ -569,6 +590,7 @@ describe('Slider', () => {
   })
 
   it('disabled', (done) => {
+    vi.useRealTimers()
     const wrapper = mount({
       template: `
         <div>
@@ -633,6 +655,7 @@ describe('Slider', () => {
   })
 
   it('show input', (done) => {
+    vi.useRealTimers()
     const wrapper = mount({
       template: `
         <div>
@@ -666,6 +689,7 @@ describe('Slider', () => {
   })
 
   it('vertical mode', (done) => {
+    vi.useRealTimers()
     const wrapper = mount(
       {
         template: `
@@ -746,7 +770,7 @@ describe('Slider', () => {
       expect(sliders.length).toBe(2)
     })
 
-    it('should not exceed min and max', (done) => {
+    it('should not exceed min and max', async () => {
       const wrapper = mount({
         template: `
           <div>
@@ -761,20 +785,19 @@ describe('Slider', () => {
           }
         },
       })
-      setTimeout(() => {
-        wrapper.vm.value = [40, 60]
-        setTimeout(() => {
-          expect(wrapper.vm.value).toStrictEqual([50, 60])
-          wrapper.vm.value = [50, 120]
-          setTimeout(() => {
-            expect(wrapper.vm.value).toStrictEqual([50, 100])
-            done()
-          }, 10)
-        }, 10)
-      }, 10)
+      await nextTick()
+
+      wrapper.vm.value = [40, 60]
+      await nextTick()
+      expect(wrapper.vm.value).toStrictEqual([50, 60])
+
+      wrapper.vm.value = [50, 120]
+      await nextTick()
+      expect(wrapper.vm.value).toStrictEqual([50, 100])
     })
 
     it('click', (done) => {
+      vi.useRealTimers()
       const wrapper = mount(
         {
           template: `
@@ -821,7 +844,7 @@ describe('Slider', () => {
       }, 10)
     })
 
-    it('responsive to dynamic min and max', (done) => {
+    it('responsive to dynamic min and max', async () => {
       const wrapper = mount({
         template: `
           <div>
@@ -838,21 +861,19 @@ describe('Slider', () => {
           }
         },
       })
-      setTimeout(() => {
-        wrapper.vm.min = 60
-        setTimeout(() => {
-          expect(wrapper.vm.value).toStrictEqual([60, 80])
-          wrapper.vm.min = 30
-          wrapper.vm.max = 40
-          setTimeout(() => {
-            expect(wrapper.vm.value).toStrictEqual([40, 40])
-            done()
-          }, 10)
-        }, 10)
-      }, 10)
+      await nextTick()
+
+      wrapper.vm.min = 60
+      await nextTick()
+      expect(wrapper.vm.value).toStrictEqual([60, 80])
+
+      wrapper.vm.min = 30
+      wrapper.vm.max = 40
+      await nextTick()
+      expect(wrapper.vm.value).toStrictEqual([40, 40])
     })
 
-    it('show stops', (done) => {
+    it('show stops', async () => {
       const wrapper = mount({
         template: `
           <div>
@@ -871,11 +892,9 @@ describe('Slider', () => {
           }
         },
       })
-      setTimeout(() => {
-        const stops = wrapper.findAll('.el-slider__stop')
-        expect(stops.length).toBe(5)
-        done()
-      }, 10)
+      await nextTick()
+      const stops = wrapper.findAll('.el-slider__stop')
+      expect(stops.length).toBe(5)
     })
 
     it('marks', async () => {
@@ -911,14 +930,11 @@ describe('Slider', () => {
         },
       })
 
-      nextTick().then(() => {
-        const stops = wrapper.findAll('.el-slider__marks-stop.el-slider__stop')
-        const marks = wrapper.findAll(
-          '.el-slider__marks .el-slider__marks-text'
-        )
-        expect(marks.length).toBe(2)
-        expect(stops.length).toBe(2)
-      })
+      await nextTick()
+      const stops = wrapper.findAll('.el-slider__marks-stop.el-slider__stop')
+      const marks = wrapper.findAll('.el-slider__marks .el-slider__marks-text')
+      expect(marks.length).toBe(2)
+      expect(stops.length).toBe(2)
     })
   })
 })

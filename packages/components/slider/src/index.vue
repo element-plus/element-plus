@@ -344,7 +344,6 @@ export default defineComponent({
 
     return {
       ns,
-      t,
       firstValue,
       secondValue,
       oldValue,
@@ -475,7 +474,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
 }
 
 const useLifecycle = (props, initData, resetSize) => {
-  const sliderWrapper: Ref<HTMLElement> = ref()
+  const sliderWrapper = ref<HTMLElement>()
 
   onMounted(async () => {
     if (props.range) {
