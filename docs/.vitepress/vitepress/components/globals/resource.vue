@@ -10,45 +10,51 @@ const resourceLang = computed(() => resourceLocale[lang.value])
   <div class="page-resource">
     <h1>{{ resourceLang.title }}</h1>
     <p>{{ resourceLang.lineOne }}</p>
-    <el-space :size="20" alignment="start">
-      <el-card class="card" shadow="hover">
-        <img src="/images/Axure-Components.svg" alt="axure" />
-        <h3>{{ resourceLang.axure }}</h3>
-        <p>
-          {{ resourceLang.axureIntro }}
-        </p>
-        <a
-          href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib"
-        >
-          <el-button type="primary">{{ resourceLang.download }}</el-button>
-        </a>
-      </el-card>
-      <el-card class="card" shadow="hover">
-        <img src="/images/Sketch-Template.svg" alt="Sketch" />
-        <h3>{{ resourceLang.sketch }}</h3>
-        <p>
-          {{ resourceLang.sketchIntro }}
-        </p>
-        <a
-          href="https://github.com/ElementUI/Resources/raw/master/Element%20UI%20Kit_v2.0.sketch"
-        >
-          <el-button type="primary">{{ resourceLang.download }}</el-button>
-        </a>
-      </el-card>
-      <el-card class="card" shadow="hover">
-        <img src="/images/figma.png" alt="Figma" />
-        <h3>{{ resourceLang.figma }}</h3>
-        <p>
-          {{ resourceLang.figmaIntro }}
-        </p>
-        <a
-          href="https://www.figma.com/community/file/1021254029764378306"
-          target="_blank"
-        >
-          <el-button type="primary">{{ resourceLang.download }}</el-button>
-        </a>
-      </el-card>
-    </el-space>
+    <div class="flex flex-wrap justify-center">
+      <div class="inline-flex w-full md:w-1/3" p="2">
+        <el-card class="card" shadow="hover">
+          <axure-components-svg w="30" alt="axure" />
+          <h3>{{ resourceLang.axure }}</h3>
+          <p>
+            {{ resourceLang.axureIntro }}
+          </p>
+          <a
+            href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+      <div class="inline-flex w-full md:w-1/3" p="2">
+        <el-card class="card" shadow="hover">
+          <sketch-template-svg w="30" alt="Sketch" />
+          <h3>{{ resourceLang.sketch }}</h3>
+          <p>
+            {{ resourceLang.sketchIntro }}
+          </p>
+          <a
+            href="https://github.com/ElementUI/Resources/raw/master/Element%20UI%20Kit_v2.0.sketch"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+      <div class="inline-flex w-full md:w-1/3" p="2">
+        <el-card class="card" shadow="hover">
+          <figma-template-svg w="30" alt="Figma" />
+          <h3>{{ resourceLang.figma }}</h3>
+          <p>
+            {{ resourceLang.figmaIntro }}
+          </p>
+          <a
+            href="https://www.figma.com/community/file/1021254029764378306"
+            target="_blank"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+    </div>
   </div>
 </template>
 
