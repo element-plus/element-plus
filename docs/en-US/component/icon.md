@@ -13,8 +13,6 @@ Element Plus provides a set of common icons.
 
 - If you want to see all available SVG icons please check [@element-plus/icons-vue](https://unpkg.com/browse/@element-plus/icons-vue@latest/dist/es/) and the source [element-plus-icons](https://github.com/element-plus/element-plus-icons) out or [Icon Collection](#icons-collection)
 
-- CDN importing and [auto importing](https://github.com/antfu/unplugin-icons) is under developing.
-
 ## Installation
 
 ### Using packaging manager
@@ -30,7 +28,60 @@ $ yarn add @element-plus/icons-vue
 $ pnpm install @element-plus/icons-vue
 ```
 
-## Simple usage
+### Register All Icons
+
+You need import all icons from `@element-plus/icons-vue` and register them globally.
+
+```ts
+// main.ts
+
+// if you're using CDN, please remove this line.
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+
+const app = createApp(App)
+for ([key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+```
+
+You can also refer to [this template](https://codepen.io/sxzz/pen/xxpvdrg).
+
+### Import in Browser
+
+Import Element Plus Icons through browser HTML tags directly, and use global variable `ElementPlusIconsVue`.
+
+According to different CDN providers, there are different introduction methods.
+Here we use [unpkg](https://unpkg.com) and [jsDelivr](https://jsdelivr.com) as example.
+You can also use other CDN providers.
+
+#### unpkg
+
+```html
+<script src="//unpkg.com/@element-plus/icons-vue"></script>
+```
+
+#### jsDelivr
+
+```html
+<script src="//cdn.jsdelivr.net/npm/@element-plus/icons-vue"></script>
+```
+
+:::tip
+
+We recommend using CDN to import Element Plus users to lock the version
+on the link address, so as not to be affected by incompatible updates when Element Plus
+is upgraded in the future. Please check [unpkg.com](https://unpkg.com) for
+the method to lock the version.
+
+:::
+
+### Auto Import
+
+Use [unplugin-icons](https://github.com/antfu/unplugin-icons) and [unplugin-auto-import](https://github.com/antfu/unplugin-auto-import)
+to automatically import any icon collections from iconify.
+You can refer to [this template](https://github.com/sxzz/element-plus-best-practices/blob/db2dfc983ccda5570033a0ac608a1bd9d9a7f658/vite.config.ts#L21-L58).
+
+## Simple Usage
 
 :::warning
 
