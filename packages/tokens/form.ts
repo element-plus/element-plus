@@ -48,6 +48,8 @@ export interface FormItemContext extends FormItemProps {
   $el: HTMLDivElement | undefined
   size: ComponentSize
   validateState: string
+  addInputId: (id: string) => void
+  removeInputId: (id: string) => void
   validate: (
     trigger: string,
     callback?: FormValidateCallback

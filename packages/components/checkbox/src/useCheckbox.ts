@@ -1,10 +1,10 @@
-import { computed, getCurrentInstance, inject, ref, watch } from 'vue'
+import { computed, getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { useSize } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { ComponentInternalInstance, ExtractPropTypes } from 'vue'
 import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 
@@ -57,8 +57,8 @@ export const useCheckboxGroup = () => {
 }
 
 const useModel = (props: IUseCheckboxProps) => {
-  const selfModel = ref(false)
-  const { emit } = getCurrentInstance()
+  const selfModel = ref<any>(false)
+  const { emit } = getCurrentInstance()!
   const { isGroup, checkboxGroup } = useCheckboxGroup()
   const isLimitExceeded = ref(false)
   const model = computed({
@@ -76,26 +76,28 @@ const useModel = (props: IUseCheckboxProps) => {
         isLimitExceeded.value === false && checkboxGroup?.changeEvent?.(val)
       } else {
         emit(UPDATE_MODEL_EVENT, val)
-        selfModel.value = val as boolean
+        selfModel.value = val
       }
     },
   })
 
   return {
     model,
+    isGroup,
     isLimitExceeded,
   }
 }
 
 const useCheckboxStatus = (
   props: IUseCheckboxProps,
+  slots: ComponentInternalInstance['slots'],
   { model }: Partial<ReturnType<typeof useModel>>
 ) => {
   const { isGroup, checkboxGroup } = useCheckboxGroup()
   const focus = ref(false)
   const size = useSize(checkboxGroup?.checkboxGroupSize, { prop: true })
   const isChecked = computed<boolean>(() => {
-    const value = model.value
+    const value = model!.value
     if (toTypeString(value) === '[object Boolean]') {
       return value
     } else if (Array.isArray(value)) {
@@ -113,11 +115,16 @@ const useCheckboxStatus = (
     )
   )
 
+  const hasOwnLabel = computed<boolean>(() => {
+    return !!(slots.default || props.label)
+  })
+
   return {
     isChecked,
     focus,
     size,
     checkboxSize,
+    hasOwnLabel,
   }
 }
 
@@ -131,11 +138,11 @@ const useDisabled = (
 ) => {
   const { elForm, isGroup, checkboxGroup } = useCheckboxGroup()
   const isLimitDisabled = computed(() => {
-    const max = checkboxGroup.max?.value
-    const min = checkboxGroup.min?.value
+    const max = checkboxGroup.max?.value!
+    const min = checkboxGroup.min?.value!
     return (
-      (!!(max || min) && model.value.length >= max && !isChecked.value) ||
-      (model.value.length <= min && isChecked.value)
+      (!!(max || min) && model!.value.length >= max && !isChecked!.value) ||
+      (model!.value.length <= min && isChecked!.value)
     )
   })
   const isDisabled = computed(() => {
@@ -158,10 +165,10 @@ const setStoreValue = (
   { model }: Partial<ReturnType<typeof useModel>>
 ) => {
   function addToStore() {
-    if (Array.isArray(model.value) && !model.value.includes(props.label)) {
-      model.value.push(props.label)
+    if (Array.isArray(model!.value) && !model!.value.includes(props.label)) {
+      model!.value.push(props.label)
     } else {
-      model.value = props.trueLabel || true
+      model!.value = props.trueLabel || true
     }
   }
   props.checked && addToStore()
@@ -169,18 +176,40 @@ const setStoreValue = (
 
 const useEvent = (
   props: IUseCheckboxProps,
-  { isLimitExceeded }: Partial<ReturnType<typeof useModel>>
+  {
+    model,
+    isLimitExceeded,
+    hasOwnLabel,
+    isDisabled,
+  }: Partial<
+    ReturnType<typeof useModel> &
+      ReturnType<typeof useCheckboxStatus> &
+      ReturnType<typeof useDisabled>
+  >
 ) => {
   const { elFormItem } = useCheckboxGroup()
-  const { emit } = getCurrentInstance()
-  function handleChange(e: InputEvent) {
-    if (isLimitExceeded.value) return
-    const target = e.target as HTMLInputElement
-    const value = target.checked
-      ? props.trueLabel ?? true
-      : props.falseLabel ?? false
+  const { emit } = getCurrentInstance()!
 
+  function emitChangeEvent(checked: boolean, e: InputEvent | MouseEvent) {
+    const value = checked ? props.trueLabel ?? true : props.falseLabel ?? false
     emit('change', value, e)
+  }
+
+  function handleChange(e: InputEvent) {
+    if (isLimitExceeded!.value) return
+    const target = e.target as HTMLInputElement
+    emitChangeEvent(target.checked, e)
+  }
+
+  async function onClickRoot(e: MouseEvent) {
+    if (!hasOwnLabel!.value && !isDisabled!.value) {
+      const oldModelValue = model!.value
+      model!.value = !oldModelValue
+      await nextTick()
+      if (model!.value !== oldModelValue) {
+        emitChangeEvent(model!.value, e)
+      }
+    }
   }
 
   watch(
@@ -192,25 +221,40 @@ const useEvent = (
 
   return {
     handleChange,
+    onClickRoot,
   }
 }
 
-export const useCheckbox = (props: IUseCheckboxProps) => {
-  const { model, isLimitExceeded } = useModel(props)
-  const { focus, size, isChecked, checkboxSize } = useCheckboxStatus(props, {
-    model,
-  })
+export const useCheckbox = (
+  props: IUseCheckboxProps,
+  slots: ComponentInternalInstance['slots']
+) => {
+  const elFormItem = inject(formItemContextKey, {} as FormItemContext)
+  const { model, isGroup, isLimitExceeded } = useModel(props)
+  const { focus, size, isChecked, checkboxSize, hasOwnLabel } =
+    useCheckboxStatus(props, slots, {
+      model,
+    })
   const { isDisabled } = useDisabled(props, { model, isChecked })
-  const { handleChange } = useEvent(props, { isLimitExceeded })
+  const { handleChange, onClickRoot } = useEvent(props, {
+    model,
+    isLimitExceeded,
+    hasOwnLabel,
+    isDisabled,
+  })
 
   setStoreValue(props, { model })
 
   return {
+    elFormItem,
     isChecked,
     isDisabled,
+    isGroup,
     checkboxSize,
+    hasOwnLabel,
     model,
     handleChange,
+    onClickRoot,
     focus,
     size,
   }

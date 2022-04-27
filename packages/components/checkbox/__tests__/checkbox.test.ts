@@ -52,25 +52,66 @@ describe('Checkbox', () => {
     expect(wrapper.classes()).toContain('is-disabled')
   })
 
-  test('change event', async () => {
-    const wrapper = _mount(
-      `<el-checkbox v-model="checked" @change="onChange" />`,
-      () => ({
-        data: null,
-        checked: false,
-      }),
-      {
-        methods: {
-          onChange(val: boolean) {
-            this.data = val
+  describe('change event', () => {
+    test('checkbox without label', async () => {
+      const wrapper = _mount(
+        `<el-checkbox v-model="checked" @change="onChange" />`,
+        () => ({
+          data: null,
+          checked: false,
+        }),
+        {
+          methods: {
+            onChange(val: boolean) {
+              wrapper.setData({ data: val })
+            },
           },
-        },
-      }
-    )
+        }
+      )
+      const vm = wrapper.vm
+      await wrapper.trigger('click')
+      expect(vm.data).toBe(true)
+    })
 
-    const vm = wrapper.vm
-    await wrapper.trigger('click')
-    expect(vm.data).toBe(true)
+    test('checkbox with label attribute', async () => {
+      const wrapper = _mount(
+        `<el-checkbox v-model="checked" label="Foobar" @change="onChange" />`,
+        () => ({
+          data: null,
+          checked: false,
+        }),
+        {
+          methods: {
+            onChange(val: boolean) {
+              wrapper.setData({ data: val })
+            },
+          },
+        }
+      )
+      const vm = wrapper.vm
+      await wrapper.trigger('click')
+      expect(vm.data).toBe(true)
+    })
+
+    test('checkbox with label as slot content', async () => {
+      const wrapper = _mount(
+        `<el-checkbox v-model="checked" @change="onChange">Foobar</el-checkbox>`,
+        () => ({
+          data: null,
+          checked: false,
+        }),
+        {
+          methods: {
+            onChange(val: boolean) {
+              wrapper.setData({ data: val })
+            },
+          },
+        }
+      )
+      const vm = wrapper.vm
+      await wrapper.trigger('click')
+      expect(vm.data).toBe(true)
+    })
   })
 
   test('checkbox group', async () => {
@@ -159,16 +200,30 @@ describe('Checkbox', () => {
     expect(vm.checkList).toEqual(['a'])
   })
 
-  test('true false label', async () => {
-    const wrapper = _mount(
-      `<el-checkbox true-label="a" :false-label="3" v-model="checked"></el-checkbox>`,
-      () => ({
-        checked: 'a',
-      })
-    )
-    const vm = wrapper.vm
-    await wrapper.trigger('click')
-    expect(vm.checked).toBe(3)
+  describe('true false label', () => {
+    test('without label', async () => {
+      const wrapper = _mount(
+        `<el-checkbox true-label="a" :false-label="3" v-model="checked"></el-checkbox>`,
+        () => ({
+          checked: 'a',
+        })
+      )
+      const vm = wrapper.vm
+      await wrapper.trigger('click')
+      expect(vm.checked).toBe(3)
+    })
+
+    test('with label', async () => {
+      const wrapper = _mount(
+        `<el-checkbox true-label="a" :false-label="3" v-model="checked">Foobar</el-checkbox>`,
+        () => ({
+          checked: 'a',
+        })
+      )
+      const vm = wrapper.vm
+      await wrapper.trigger('click')
+      expect(vm.checked).toBe(3)
+    })
   })
 
   test('check', () => {
@@ -237,8 +292,7 @@ describe('check-button', () => {
 
   test('change event', async () => {
     const wrapper = _mount(
-      `
-      <el-checkbox-button v-model="checked" @change="onChange" />
+      `<el-checkbox-button v-model="checked" @change="onChange" />
       `,
       () => ({
         data: '',
@@ -247,7 +301,7 @@ describe('check-button', () => {
       {
         methods: {
           onChange(val: boolean) {
-            this.data = val
+            wrapper.setData({ data: val })
           },
         },
       }
@@ -275,7 +329,9 @@ describe('check-button', () => {
       {
         methods: {
           onChange(val: string[]) {
-            this.data = val
+            wrapper.setData({
+              data: val,
+            })
           },
         },
       }
