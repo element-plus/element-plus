@@ -20,6 +20,10 @@
 }
 
 @include b(upload) {
+  @include set-component-css-var('upload', $upload);
+}
+
+@include b(upload) {
   @include utils-inline-flex-center;
 
   cursor: pointer;
@@ -69,6 +73,10 @@
     }
   }
 
+  @include when(drag) {
+    display: block;
+  }
+
   &:focus {
     border-color: getCssVar('color-primary');
     color: getCssVar('color-primary');
@@ -80,12 +88,12 @@
 }
 
 @include b(upload-dragger) {
+  padding: getCssVar('upload-dragger-padding-horizontal')
+    getCssVar('upload-dragger-padding-vertical');
   background-color: getCssVar('fill-color', 'blank');
   border: 1px dashed getCssVar('border-color');
   border-radius: 6px;
   box-sizing: border-box;
-  width: 360px;
-  height: 180px;
   text-align: center;
   cursor: pointer;
   position: relative;
@@ -94,7 +102,7 @@
   .#{bem('icon', '', 'upload')} {
     font-size: 67px;
     color: getCssVar('text-color', 'placeholder');
-    margin: 40px 0 16px;
+    margin-bottom: 16px;
     line-height: 50px;
   }
 
@@ -124,6 +132,8 @@
   }
 
   @include when(dragover) {
+    padding: calc(#{getCssVar('upload-dragger-padding-horizontal')} - 1px)
+      calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px);
     background-color: getCssVar('color', 'primary', 'light-9');
     border: 2px dashed getCssVar('color-primary');
   }
