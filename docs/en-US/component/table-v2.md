@@ -88,3 +88,13 @@ It is recommended that you write your table component in JSX, since it contains 
 table-v2/grouping-header
 
 :::
+
+## Filter
+
+Virtualized Table providers customizing header renderers for rendering customized header, then we can use that to render filters
+
+:::demo
+
+table-v2/filter
+
+:::

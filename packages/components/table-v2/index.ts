@@ -9,3 +9,5 @@ export type {
   TableV2CustomizedHeaderSlotParam,
 } from './src/types'
 export * from './src/table'
+
+export type { HeaderCellSlotProps } from './src/renderers/header-cell'
