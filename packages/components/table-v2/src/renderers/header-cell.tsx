@@ -11,7 +11,7 @@ import type { UseTableReturn } from '../use-table'
 import type { TableV2Props } from '../table'
 import type { TableV2HeaderCell } from '../header-cell'
 
-type HeaderCellRendererProps = TableV2HeaderRowCellRendererParams &
+export type HeaderCellRendererProps = TableV2HeaderRowCellRendererParams &
   UnwrapNestedRefs<Pick<UseTableReturn, 'columnsStyles' | 'onColumnSorted'>> &
   Pick<TableV2Props, 'sortBy' | 'sortState' | 'headerCellProps'> & {
     ns: UseNamespaceReturn
@@ -94,3 +94,4 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
 }
 
 export default HeaderCellRenderer
+export type HeaderCellSlotProps = HeaderCellRendererProps & { class: string }
