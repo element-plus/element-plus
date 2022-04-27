@@ -2,7 +2,6 @@ import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
-import sleep from '@element-plus/test-utils/sleep'
 import Slider from '../src/index.vue'
 
 vi.mock('lodash-unified', async () => {

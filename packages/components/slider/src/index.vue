@@ -126,7 +126,7 @@ import { useMarks } from './useMarks'
 import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
-import type { PropType, Ref } from 'vue'
+import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 
 export default defineComponent({
