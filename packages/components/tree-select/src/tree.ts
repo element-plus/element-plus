@@ -113,7 +113,14 @@ export const useTree = (
     onNodeClick: (data, node, e) => {
       attrs.onNodeClick?.(data, node, e)
 
-      if (props.checkStrictly || node.isLeaf) {
+      if (
+        (props.checkStrictly
+          ? props.showCheckbox
+            ? props.checkOnClickNode
+            : props.checkStrictly
+          : props.checkStrictly) ||
+        node.isLeaf
+      ) {
         if (!getNodeValByProp('disabled', data)) {
           const option = select.value?.options.get(
             getNodeValByProp('value', data)

@@ -100,6 +100,7 @@ describe('TreeSelect.vue', () => {
         modelValue: value,
         checkStrictly: true,
         showCheckbox: true,
+        checkOnClickNode: true,
       },
     })
 
@@ -152,6 +153,7 @@ describe('TreeSelect.vue', () => {
         showCheckbox: true,
         checkStrictly: true,
         defaultExpandAll: true,
+        checkOnClickNode: true,
       },
     })
 
@@ -173,6 +175,7 @@ describe('TreeSelect.vue', () => {
         checkStrictly: true,
         showCheckbox: true,
         multiple: true,
+        checkOnClickNode: true,
       },
     })
 
@@ -197,7 +200,7 @@ describe('TreeSelect.vue', () => {
 
     await tree.find('.el-tree-node__content').trigger('click')
     await nextTick()
-    expect(select.vm.modelValue).toEqual([11, 111, 1])
+    expect(select.vm.modelValue).toEqual([1, 11, 111])
     expect(wrapperRef.getCheckedKeys()).toEqual([1, 11, 111])
 
     await tree.findAll('.el-checkbox')[1].trigger('click')
@@ -310,5 +313,52 @@ describe('TreeSelect.vue', () => {
     await tree.find('.el-tree-node').trigger('click')
     await nextTick()
     expect(onNodeClick).toBeCalled()
+  })
+
+  test('check-strictly showCheckbox clik node', async () => {
+    const { getWrapperRef, select, tree } = createComponent({
+      props: {
+        checkStrictly: true,
+        showCheckbox: true,
+        multiple: true,
+      },
+    })
+
+    const wrapperRef = await getWrapperRef()
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toEqual([])
+    expect(wrapperRef.getCheckedKeys()).toEqual([])
+
+    await tree
+      .findAll('.el-tree-node__content .el-checkbox')[0]
+      .trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toEqual([1])
+    expect(wrapperRef.getCheckedKeys()).toEqual([1])
+  })
+
+  test('check-strictly showCheckbox checkOnClickNode clik node', async () => {
+    const { getWrapperRef, select, tree } = createComponent({
+      props: {
+        checkStrictly: true,
+        showCheckbox: true,
+        multiple: true,
+        checkOnClickNode: true,
+      },
+    })
+
+    const wrapperRef = await getWrapperRef()
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toEqual([1])
+    expect(wrapperRef.getCheckedKeys()).toEqual([1])
+
+    await tree
+      .findAll('.el-tree-node__content .el-checkbox')[0]
+      .trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toEqual([])
+    expect(wrapperRef.getCheckedKeys()).toEqual([])
   })
 })
