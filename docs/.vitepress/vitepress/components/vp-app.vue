@@ -97,6 +97,14 @@ onMounted(async () => {
       userPrefer.value = String(dayjs().unix())
     }
   }
+  if (isMirrorUrl()) {
+    // unregister sw on mirror site
+    navigator?.serviceWorker?.getRegistrations().then((registrations) => {
+      for (const registration of registrations) {
+        registration.unregister()
+      }
+    })
+  }
 })
 </script>
 
