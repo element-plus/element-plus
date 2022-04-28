@@ -15,14 +15,6 @@ select/basic-usage
 
 :::
 
-## use value-key
-
-:::demo when `options.value` is an object, you should set a unique identity key name for value
-
-select/use-valueKey
-
-:::
-
 ## Disabled option
 
 :::demo Set the value of `disabled` in `el-option` to `true` to disable this option.
