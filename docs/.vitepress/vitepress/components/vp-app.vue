@@ -22,7 +22,10 @@ const { hasSidebar } = useSidebar()
 const lang = useLang()
 
 const mirrorUrl = 'element-plus.gitee.io'
-const isMirrorUrl = () => window.location.hostname === mirrorUrl
+const isMirrorUrl = () => {
+  if (!isClient) return
+  return window.location.hostname === mirrorUrl
+}
 
 useToggleWidgets(isSidebarOpen, () => {
   if (!isClient) return
