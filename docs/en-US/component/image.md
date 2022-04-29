@@ -77,11 +77,11 @@ image/image-preview
 
 ### Image Slots
 
-| Name          | Description                      |
-| ------------- | -------------------------------- |
-| `placeholder` | triggers when image load.        |
-| `error`       | triggers when image load failed. |
-| `viewer`      | description of the image.        |
+| Name          | Description                                              |
+| ------------- | -------------------------------------------------------- |
+| `placeholder` | custom placeholder content when image hasn't loaded yet. |
+| `error`       | custom image load failed content.                        |
+| `viewer`      | description of the image.                                |
 
 ## Image Viewer API
 
