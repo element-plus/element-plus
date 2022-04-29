@@ -88,7 +88,7 @@ const CustomizedHeader: FunctionalComponent<
           <div
             class="flex items-center justify-center custom-header-cell"
             style={{
-              ...cells[columnIndex].props!.columnsStyles[columnIndex],
+              ...cells[columnIndex].props!.style,
               width: `${width}px`,
             }}
           >

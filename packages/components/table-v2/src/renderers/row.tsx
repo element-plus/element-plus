@@ -26,6 +26,7 @@ type RowRendererProps = TableGridRowSlotParams &
       | 'hoveringRowKey'
       | 'onRowHovered'
       | 'onRowExpanded'
+      | 'columnsStyles'
     >
   > & {
     ns: UseNamespaceReturn
@@ -37,6 +38,7 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
 ) => {
   const {
     columns,
+    columnsStyles,
     depthMap,
     expandColumnKey,
     expandedRowKeys,
@@ -83,6 +85,7 @@ const RowRenderer: FunctionalComponent<RowRendererProps> = (
   const _rowProps = {
     ...additionalProps,
     columns,
+    columnsStyles,
     class: kls,
     depth,
     expandColumnKey,
