@@ -101,7 +101,7 @@ input/mixed-input
 
 ## Sizes
 
-:::demo Add `size` attribute to change the size of Input. In addition to the default size, there are three other options: `large`, `small`.
+:::demo Add `size` attribute to change the size of Input. In addition to the default size, there are two other options: `large`, `small`.
 
 input/various-size
 
@@ -156,8 +156,8 @@ input/length-limiting
 | show-word-limit      | whether show word count，only works when `type` is 'text' or 'textarea'                                                                | boolean                                  | —                                                                                                                                     | false   |
 | placeholder          | placeholder of Input                                                                                                                   | string                                   | —                                                                                                                                     | —       |
 | clearable            | whether to show clear button                                                                                                           | boolean                                  | —                                                                                                                                     | false   |
-| formatter            | specifies the format of the value presented input.(only works when `type` is 'input')                                                  | function(value: string / number): string | —                                                                                                                                     | —       |
-| parser               | specifies the value extracted from formatter input.(only works when `type` is 'input')                                                 | function(string): string                 | —                                                                                                                                     | —       |
+| formatter            | specifies the format of the value presented input.(only works when `type` is 'text')                                                   | function(value: string / number): string | —                                                                                                                                     | —       |
+| parser               | specifies the value extracted from formatter input.(only works when `type` is 'text')                                                  | function(string): string                 | —                                                                                                                                     | —       |
 | show-password        | whether to show toggleable password input                                                                                              | boolean                                  | —                                                                                                                                     | false   |
 | disabled             | whether Input is disabled                                                                                                              | boolean                                  | —                                                                                                                                     | false   |
 | size                 | size of Input, works when `type` is not 'textarea'                                                                                     | string                                   | large / default / small                                                                                                               | —       |
