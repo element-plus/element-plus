@@ -171,7 +171,6 @@
 
   @include e('row') {
     @include center-flex;
-    border-bottom: getCssVar('table', 'border');
     transition: background-color getCssVar('transition-duration', '');
 
     @include when('hovered') {
@@ -181,6 +180,7 @@
     @include e('row-cell') {
       height: 100%;
       overflow: hidden;
+      border-bottom: getCssVar('table', 'border');
       @include center-flex;
       @include cell-padding;
       @include cell-alignment;

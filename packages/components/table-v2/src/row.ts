@@ -46,6 +46,10 @@ export type RowEventHandlers<T> = {
 export const tableV2RowProps = buildProps({
   class: String,
   columns,
+  columnsStyles: {
+    type: definePropType<Record<KeyType, CSSProperties>>(Object),
+    required: true,
+  },
   depth: Number,
   expandColumnKey,
   estimatedRowHeight: {
