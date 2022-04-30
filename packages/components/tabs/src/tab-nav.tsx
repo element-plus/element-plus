@@ -311,6 +311,9 @@ const TabNav = defineComponent({
         const btnClose = closable ? (
           <ElIcon
             class="is-icon-close"
+            // `onClick` not exist when generate dts
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             onClick={(ev: MouseEvent) => props.onTabRemove(pane, ev)}
           >
             <Close />
