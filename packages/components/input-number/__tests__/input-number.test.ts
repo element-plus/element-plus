@@ -2,6 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
+import { ElFormItem } from '@element-plus/components/form'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -9,6 +10,7 @@ const _mount = (options) =>
   mount({
     components: {
       'el-input-number': InputNumber,
+      'el-form-item': ElFormItem,
     },
     ...options,
   })
@@ -340,5 +342,51 @@ describe('InputNumber.vue', () => {
     elInputNumber2.decrease()
     await nextTick()
     expect(wrapper.vm.num2).toBe(8)
+  })
+
+  describe('form item accessibility integration', () => {
+    test('automatic id attachment', async () => {
+      const wrapper = _mount({
+        template: `<el-form-item label="Foobar" data-test-ref="item">
+          <el-input-number />
+        </el-form-item>`,
+      })
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const innerInput = wrapper.find('.el-input__inner')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItemLabel.attributes().for).toBe(innerInput.attributes().id)
+    })
+
+    test('specified id attachment', async () => {
+      const wrapper = _mount({
+        template: `<el-form-item label="Foobar" data-test-ref="item">
+          <el-input-number id="foobar" />
+        </el-form-item>`,
+      })
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const innerInput = wrapper.find('.el-input__inner')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(innerInput.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(innerInput.attributes().id)
+    })
+
+    test('form item role is group when multiple inputs', async () => {
+      const wrapper = _mount({
+        template: `<el-form-item label="Foobar" data-test-ref="item">
+          <el-input-number />
+          <el-input-number />
+        </el-form-item>`,
+      })
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      expect(formItem.attributes().role).toBe('group')
+    })
   })
 })

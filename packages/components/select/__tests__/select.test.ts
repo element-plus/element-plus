@@ -5,6 +5,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ArrowUp, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
+import { ElFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -43,6 +44,7 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
         'el-select': Select,
         'el-option': Option,
         'el-group-option': Group,
+        'el-form-item': ElFormItem,
       },
       template,
       data,
@@ -1879,5 +1881,68 @@ describe('Select', () => {
     vm.value = []
     await nextTick()
     expect(selectVm.selectedLabel).toBe('')
+  })
+
+  describe('form item accessibility integration', () => {
+    it('automatic id attachment', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-select v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+        </el-form-item>`,
+        () => ({
+          modelValue: 1,
+        })
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const innerInput = wrapper.find('.el-input__inner')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItemLabel.attributes().for).toBe(innerInput.attributes().id)
+    })
+
+    it('specified id attachment', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-select id="foobar" v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+        </el-form-item>`,
+        () => ({
+          modelValue: 1,
+        })
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const innerInput = wrapper.find('.el-input__inner')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(innerInput.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(innerInput.attributes().id)
+    })
+
+    it('form item role is group when multiple inputs', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-select v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+          <el-select v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+        </el-form-item>`,
+        () => ({
+          modelValue: 1,
+        })
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      expect(formItem.attributes().role).toBe('group')
+    })
   })
 })

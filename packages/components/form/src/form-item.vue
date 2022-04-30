@@ -2,8 +2,8 @@
   <div
     ref="formItemRef"
     :class="formItemClasses"
-    :role="!labelFor ? 'group' : undefined"
-    :aria-labelledby="!labelFor ? labelId : undefined"
+    :role="isGroup ? 'group' : undefined"
+    :aria-labelledby="isGroup ? labelId : undefined"
   >
     <form-label-wrap
       :is-auto-width="labelStyle.width === 'auto'"
@@ -11,8 +11,8 @@
     >
       <component
         :is="labelFor ? 'label' : 'div'"
-        v-if="label || $slots.label"
-        :id="!labelFor ? labelId : undefined"
+        v-if="hasLabel"
+        :id="labelId"
         :for="labelFor"
         :class="ns.e('label')"
         :style="labelStyle"
@@ -150,10 +150,18 @@ const propString = computed(() => {
   return isString(props.prop) ? props.prop : props.prop.join('.')
 })
 
+const hasLabel = computed<boolean>(() => {
+  return !!(props.label || slots.label)
+})
+
 const labelFor = computed<string | undefined>(() => {
   return props.for || inputIds.value.length === 1
     ? inputIds.value[0]
     : undefined
+})
+
+const isGroup = computed<boolean>(() => {
+  return !labelFor.value && hasLabel.value
 })
 
 const isNested = !!parentFormItemContext
@@ -346,6 +354,9 @@ const context: FormItemContext = reactive({
   $el: formItemRef,
   size: _size,
   validateState,
+  labelId,
+  inputIds,
+  isGroup,
   addInputId,
   removeInputId,
   resetField,

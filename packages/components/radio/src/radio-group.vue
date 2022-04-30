@@ -1,8 +1,11 @@
 <template>
   <div
+    :id="groupId"
     ref="radioGroupRef"
     :class="ns.b('group')"
     role="radiogroup"
+    :aria-label="!isLabeledByFormItem ? label || 'radio-group' : undefined"
+    :aria-labelledby="isLabeledByFormItem ? formItem.labelId : undefined"
     @keydown="handleKeydown"
   >
     <slot />
@@ -22,7 +25,11 @@ import {
 } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { radioGroupKey } from '@element-plus/tokens'
-import { useFormItem, useNamespace } from '@element-plus/hooks'
+import {
+  useFormItem,
+  useFormItemInputId,
+  useNamespace,
+} from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
 import type { RadioGroupProps } from '..'
@@ -36,6 +43,12 @@ export default defineComponent({
     const ns = useNamespace('radio')
     const radioGroupRef = ref<HTMLDivElement>()
     const { formItem } = useFormItem()
+    const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(
+      props,
+      {
+        formItemContext: formItem,
+      }
+    )
 
     const changeEvent = (value: RadioGroupProps['modelValue']) => {
       ctx.emit(UPDATE_MODEL_EVENT, value)
@@ -103,6 +116,9 @@ export default defineComponent({
     return {
       ns,
       radioGroupRef,
+      formItem,
+      groupId,
+      isLabeledByFormItem,
       handleKeydown,
     }
   },

@@ -2,15 +2,60 @@ import { computed, getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
-import { useSize } from '@element-plus/hooks'
-import { debugWarn } from '@element-plus/utils'
-import type { ComponentInternalInstance, ExtractPropTypes } from 'vue'
+import { useFormItemInputId, useSize } from '@element-plus/hooks'
+import { debugWarn, isValidComponentSize } from '@element-plus/utils'
+import type { ComponentInternalInstance, ExtractPropTypes, PropType } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 
+export const useCheckboxGroupProps = {
+  modelValue: {
+    type: Array as PropType<Array<string | number>>,
+    default: () => [],
+  },
+  disabled: Boolean,
+  min: {
+    type: Number,
+    default: undefined,
+  },
+  max: {
+    type: Number,
+    default: undefined,
+  },
+  size: {
+    type: String as PropType<ComponentSize>,
+    validator: isValidComponentSize,
+  },
+  id: {
+    type: String,
+    default: undefined,
+  },
+  label: {
+    type: String,
+    default: undefined,
+  },
+  fill: {
+    type: String,
+    default: undefined,
+  },
+  textColor: {
+    type: String,
+    default: undefined,
+  },
+  tag: {
+    type: String,
+    default: 'div',
+  },
+}
+
+export type IUseCheckboxGroupProps = ExtractPropTypes<
+  typeof useCheckboxGroupProps
+>
+
 export const useCheckboxProps = {
   modelValue: {
-    type: [Boolean, Number, String],
+    type: [Number, String, Boolean],
     default: () => undefined,
   },
   label: {
@@ -31,8 +76,20 @@ export const useCheckboxProps = {
     type: [String, Number],
     default: undefined,
   },
+  id: {
+    type: String,
+    default: undefined,
+  },
+  controls: {
+    type: String,
+    default: undefined,
+  },
+  border: Boolean,
+  size: {
+    type: String as PropType<ComponentSize>,
+    validator: isValidComponentSize,
+  },
   tabindex: [String, Number],
-  size: String,
 }
 
 export type IUseCheckboxProps = ExtractPropTypes<typeof useCheckboxProps>
@@ -56,10 +113,24 @@ export const useCheckboxGroup = () => {
   }
 }
 
+export const useCheckboxGroupId = (
+  props: IUseCheckboxGroupProps,
+  { elFormItem }: Partial<ReturnType<typeof useCheckboxGroup>>
+) => {
+  const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
+    formItemContext: elFormItem,
+  })
+
+  return {
+    isLabeledByFormItem,
+    groupId,
+  }
+}
+
 const useModel = (props: IUseCheckboxProps) => {
   const selfModel = ref<any>(false)
   const { emit } = getCurrentInstance()!
-  const { isGroup, checkboxGroup } = useCheckboxGroup()
+  const { isGroup, checkboxGroup, elFormItem } = useCheckboxGroup()
   const isLimitExceeded = ref(false)
   const model = computed({
     get() {
@@ -85,6 +156,7 @@ const useModel = (props: IUseCheckboxProps) => {
     model,
     isGroup,
     isLimitExceeded,
+    elFormItem,
   }
 }
 
@@ -146,11 +218,11 @@ const useDisabled = (
     )
   })
   const isDisabled = computed(() => {
-    const disabled = props.disabled || elForm.disabled
+    const disabled = props.disabled || elForm?.disabled
     return (
       (isGroup.value
         ? checkboxGroup.disabled?.value || disabled || isLimitDisabled.value
-        : props.disabled || elForm.disabled) ?? false
+        : props.disabled || elForm?.disabled) ?? false
     )
   })
 
@@ -190,32 +262,40 @@ const useEvent = (
   const { elFormItem } = useCheckboxGroup()
   const { emit } = getCurrentInstance()!
 
-  function emitChangeEvent(checked: boolean, e: InputEvent | MouseEvent) {
-    const value = checked ? props.trueLabel ?? true : props.falseLabel ?? false
-    emit('change', value, e)
+  function getLabeledValue(value: string | number | boolean) {
+    return value === props.trueLabel || value === true
+      ? props.trueLabel ?? true
+      : props.falseLabel ?? false
+  }
+
+  function emitChangeEvent(
+    checked: string | number | boolean,
+    e: InputEvent | MouseEvent
+  ) {
+    emit('change', getLabeledValue(checked), e)
   }
 
   function handleChange(e: InputEvent) {
     if (isLimitExceeded!.value) return
     const target = e.target as HTMLInputElement
-    emitChangeEvent(target.checked, e)
+    emit('change', getLabeledValue(target.checked), e)
   }
 
   async function onClickRoot(e: MouseEvent) {
+    if (isLimitExceeded!.value) return
     if (!hasOwnLabel!.value && !isDisabled!.value) {
-      const oldModelValue = model!.value
-      model!.value = !oldModelValue
+      model!.value = getLabeledValue(
+        [false, props.falseLabel].includes(model!.value)
+      )
       await nextTick()
-      if (model!.value !== oldModelValue) {
-        emitChangeEvent(model!.value, e)
-      }
+      emitChangeEvent(model!.value, e)
     }
   }
 
   watch(
     () => props.modelValue,
     () => {
-      elFormItem.validate?.('change').catch((err) => debugWarn(err))
+      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
     }
   )
 
@@ -229,8 +309,7 @@ export const useCheckbox = (
   props: IUseCheckboxProps,
   slots: ComponentInternalInstance['slots']
 ) => {
-  const elFormItem = inject(formItemContextKey, {} as FormItemContext)
-  const { model, isGroup, isLimitExceeded } = useModel(props)
+  const { model, isGroup, isLimitExceeded, elFormItem } = useModel(props)
   const { focus, size, isChecked, checkboxSize, hasOwnLabel } =
     useCheckboxStatus(props, slots, {
       model,
@@ -242,11 +321,17 @@ export const useCheckbox = (
     hasOwnLabel,
     isDisabled,
   })
+  const { inputId } = useFormItemInputId(props, {
+    formItemContext: elFormItem,
+    disableIdGeneration: hasOwnLabel,
+    disableIdManagement: isGroup,
+  })
 
   setStoreValue(props, { model })
 
   return {
     elFormItem,
+    inputId,
     isChecked,
     isDisabled,
     isGroup,

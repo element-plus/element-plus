@@ -7,9 +7,6 @@
       ns.is('checked', isChecked),
       ns.is('focus', focus),
     ]"
-    role="checkbox"
-    :aria-checked="isChecked"
-    :aria-disabled="isDisabled"
   >
     <input
       v-if="trueLabel || falseLabel"
@@ -58,9 +55,9 @@ export default defineComponent({
   name: 'ElCheckboxButton',
   props: useCheckboxProps,
   emits: [UPDATE_MODEL_EVENT, 'change'],
-  setup(props) {
+  setup(props, { slots }) {
     const { focus, isChecked, isDisabled, size, model, handleChange } =
-      useCheckbox(props)
+      useCheckbox(props, slots)
     const { checkboxGroup } = useCheckboxGroup()
     const ns = useNamespace('checkbox')
 

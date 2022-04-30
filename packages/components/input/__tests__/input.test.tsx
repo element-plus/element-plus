@@ -2,6 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
+import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Input from '../src/input.vue'
 import type { CSSProperties } from 'vue'
 import type { InputAutoSize, InputInstance, InputProps } from '../src/input'
@@ -503,6 +504,52 @@ describe('Input.vue', () => {
     await icon.trigger('click')
     const d0 = icon.find('path').element.getAttribute('d')
     expect(d !== d0).toBeTruthy()
+  })
+
+  describe('form item accessibility integration', () => {
+    test('automatic id attachment', async () => {
+      const wrapper = mount(() => (
+        <FormItem label="Foobar" data-test-ref="item">
+          <Input data-test-ref="input" />
+        </FormItem>
+      ))
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const input = wrapper.find('[data-test-ref="input"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItemLabel.attributes().for).toBe(input.attributes().id)
+    })
+
+    test('specified id attachment', async () => {
+      const wrapper = mount(() => (
+        <FormItem label="Foobar" data-test-ref="item">
+          <Input id="foobar" data-test-ref="input" />
+        </FormItem>
+      ))
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const input = wrapper.find('[data-test-ref="input"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(input.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(input.attributes().id)
+    })
+
+    test('form item role is group when multiple inputs', async () => {
+      const wrapper = mount(() => (
+        <FormItem label="Foobar" data-test-ref="item">
+          <Input data-test-ref="input1" />
+          <Input data-test-ref="input2" />
+        </FormItem>
+      ))
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      expect(formItem.attributes().role).toBe('group')
+    })
   })
 
   // TODO: validateEvent & input containes select cases should be added after the rest components finished
