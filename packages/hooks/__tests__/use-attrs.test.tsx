@@ -14,13 +14,14 @@ const handleClick = vi.fn()
 const genComp = (
   inheritAttrs = true,
   excludeListeners = false,
-  excludeKeys: string[] = []
+  excludeKeys: string[] = [],
+  includeKeys: string[] = []
 ) => {
   return defineComponent({
     inheritAttrs,
     props: {},
     setup() {
-      const attrs = useAttrs({ excludeListeners, excludeKeys })
+      const attrs = useAttrs({ excludeListeners, excludeKeys, includeKeys })
       return () => (
         <div>
           <span {...attrs.value} />

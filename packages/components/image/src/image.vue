@@ -83,7 +83,7 @@ useDeprecated(
 const { t } = useLocale()
 const ns = useNamespace('image')
 
-const attrs = useAttrs()
+const attrs = useAttrs({ excludeListeners: true, includeKeys: ['onLoad'] })
 const hasLoadError = ref(false)
 const loading = ref(true)
 const imgWidth = ref(0)
