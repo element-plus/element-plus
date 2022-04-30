@@ -12,7 +12,7 @@ vi.useFakeTimers()
 
 const _mount = (
   payload = {},
-  type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'arr' = 'fn-cb'
+  type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'fn-async' | 'arr' = 'fn-cb'
 ) =>
   mount({
     setup() {
@@ -47,6 +47,11 @@ const _mount = (
           case 'fn-promise':
             return (queryString: string) =>
               Promise.resolve(filterList(queryString))
+          case 'fn-async':
+            return async (queryString: string) => {
+              await Promise.resolve()
+              return filterList(queryString)
+            }
           case 'fn-arr':
             return (queryString: string) => filterList(queryString)
           case 'arr':
@@ -158,6 +163,21 @@ describe('Autocomplete.vue', () => {
     await nextTick()
     await wrapper.find('input').trigger('focus')
     vi.runAllTimers()
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+
+    expect(target.suggestions.length).toBe(4)
+  })
+
+  test('fetchSuggestions with fn-async', async () => {
+    const wrapper = _mount({ debounce: 10 }, 'fn-async')
+    await nextTick()
+    await wrapper.find('input').trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
     await nextTick()
 
     const target = wrapper.getComponent(Autocomplete).vm as InstanceType<

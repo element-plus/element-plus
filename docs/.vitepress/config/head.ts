@@ -67,13 +67,6 @@ export const head: HeadConfig[] = [
     },
   ],
   [
-    'link',
-    {
-      rel: 'stylesheet',
-      href: '//unpkg.com/nprogress@0.2.0/nprogress.css',
-    },
-  ],
-  [
     'script',
     {},
     `;(() => {

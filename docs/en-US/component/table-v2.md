@@ -88,3 +88,44 @@ It is recommended that you write your table component in JSX, since it contains 
 table-v2/grouping-header
 
 :::
+
+## Filter
+
+Virtualized Table providers customizing header renderers for rendering customized header, then we can use that to render filters
+
+:::demo
+
+table-v2/filter
+
+:::
+
+## Colspan
+
+Virtualized table did not use built-in `table` element, so that `colspan` and `rowspan` is a little bit different than [TableV1](./table.md). With customized row renderer, we can still do that. In this case, you'll learn how to do that.
+
+:::demo
+
+table-v2/colspan
+
+:::
+
+## Rowspan
+
+Since we have [Colspan](#colspan) of course we have row span as well, it is a little bit different than colspan but the idea
+is basically the same.
+
+:::demo
+
+table-v2/rowspan
+
+:::
+
+## Rowspan and Colspan together
+
+We can combine rowspan and colspan together to meet your business goal!
+
+:::demo
+
+table-v2/spans
+
+:::

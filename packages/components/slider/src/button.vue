@@ -10,10 +10,7 @@
     @touchstart="onButtonDown"
     @focus="handleMouseEnter"
     @blur="handleMouseLeave"
-    @keydown.left="onLeftKeyDown"
-    @keydown.right="onRightKeyDown"
-    @keydown.down.prevent="onLeftKeyDown"
-    @keydown.up.prevent="onRightKeyDown"
+    @keydown="onKeyDown"
   >
     <el-tooltip
       ref="tooltip"
@@ -79,6 +76,7 @@ export default defineComponent({
     })
 
     const {
+      button,
       tooltip,
       showTooltip,
       tooltipVisible,
@@ -87,8 +85,7 @@ export default defineComponent({
       handleMouseEnter,
       handleMouseLeave,
       onButtonDown,
-      onLeftKeyDown,
-      onRightKeyDown,
+      onKeyDown,
       setPosition,
     } = useSliderButton(props, initData, emit)
 
@@ -96,6 +93,7 @@ export default defineComponent({
 
     return {
       ns,
+      button,
       tooltip,
       tooltipVisible,
       showTooltip,
@@ -104,8 +102,7 @@ export default defineComponent({
       handleMouseEnter,
       handleMouseLeave,
       onButtonDown,
-      onLeftKeyDown,
-      onRightKeyDown,
+      onKeyDown,
       setPosition,
 
       hovering,

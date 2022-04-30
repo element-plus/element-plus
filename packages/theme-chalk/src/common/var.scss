@@ -923,7 +923,6 @@ $tree: map.merge(
 );
 
 // Dropdown
-
 $dropdown: () !default;
 $dropdown: map.merge(
   (
@@ -1200,7 +1199,6 @@ $calendar: map.merge(
 );
 
 // Form
-
 // css3 var in packages/theme-chalk/src/form.scss
 $form: () !default;
 $form: map.merge(
@@ -1269,7 +1267,6 @@ $descriptions: map.merge(
 );
 
 // Result
-
 // css3 var in packages/theme-chalk/src/result.scss
 $result: () !default;
 $result: map.merge(
@@ -1282,6 +1279,17 @@ $result: map.merge(
     'extra-margin-top': 30px,
   ),
   $result
+);
+
+// Upload
+// css3 var in packages/theme-chalk/src/upload.scss
+$upload: () !default;
+$upload: map.merge(
+  (
+    'dragger-padding-horizontal': 40px,
+    'dragger-padding-vertical': 10px,
+  ),
+  $upload
 );
 
 // transition

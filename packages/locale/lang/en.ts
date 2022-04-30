@@ -98,6 +98,11 @@ export default {
       preview: 'Preview',
       continue: 'Continue',
     },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}',
+      defaultRangeStartLabel: 'pick start value',
+      defaultRangeEndLabel: 'pick end value',
+    },
     table: {
       emptyText: 'No Data',
       confirmFilter: 'Confirm',

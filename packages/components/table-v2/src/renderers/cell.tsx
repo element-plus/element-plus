@@ -17,9 +17,7 @@ type CellRendererProps = TableV2RowCellRenderParam &
     TableV2Props,
     'cellProps' | 'expandColumnKey' | 'indentSize' | 'iconSize' | 'rowKey'
   > &
-  UnwrapNestedRefs<
-    Pick<UseTableReturn, 'columnsStyles' | 'expandedRowKeys'>
-  > & {
+  UnwrapNestedRefs<Pick<UseTableReturn, 'expandedRowKeys'>> & {
     ns: UseNamespaceReturn
   }
 
@@ -35,7 +33,7 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
     rowData,
     rowIndex,
     // from use-table
-    columnsStyles,
+    style,
     expandedRowKeys,
     ns,
     // derived props
@@ -46,7 +44,7 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
   },
   { slots }
 ) => {
-  const cellStyle = enforceUnit(columnsStyles[column.key])
+  const cellStyle = enforceUnit(style)
 
   if (column.placeholderSign === placeholderSign) {
     return <div class={ns.em('row-cell', 'placeholder')} style={cellStyle} />
@@ -113,17 +111,7 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
   }
 
   return (
-    <div
-      // {...tryCall(cellProps, {
-      //   columns,
-      //   column,
-      //   columnIndex,
-      //   rowData,
-      //   rowIndex,
-      // })}
-      class={kls}
-      style={cellStyle}
-    >
+    <div class={kls} style={cellStyle}>
       {IconOrPlaceholder}
       {Cell}
     </div>

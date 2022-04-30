@@ -75,6 +75,10 @@ export default defineConfig(async ({ mode }) => {
 
       // https://github.com/antfu/unplugin-vue-components
       Components({
+        dirs: ['.vitepress/vitepress/components'],
+
+        allowOverrides: true,
+
         // custom resolvers
         resolvers: [
           // auto import icons
