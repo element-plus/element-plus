@@ -1,9 +1,13 @@
 <template>
   <div
+    :id="range ? inputId : undefined"
     ref="sliderWrapper"
     :class="sliderKls"
     :role="range ? 'group' : undefined"
-    :aria-label="range ? groupLabel : undefined"
+    :aria-label="range && !isLabeledByFormItem ? groupLabel : undefined"
+    :aria-labelledby="
+      range && isLabeledByFormItem ? elFormItem.labelId : undefined
+    "
     @touchstart="onSliderWrapperPrevent"
     @touchmove="onSliderWrapperPrevent"
   >
@@ -20,12 +24,18 @@
     >
       <div :class="ns.e('bar')" :style="barStyle" />
       <slider-button
+        :id="!range ? inputId : undefined"
         ref="firstButton"
         :model-value="firstValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
         role="slider"
-        :aria-label="firstButtonLabel"
+        :aria-label="
+          range || !isLabeledByFormItem ? firstButtonLabel : undefined
+        "
+        :aria-labelledby="
+          !range && isLabeledByFormItem ? elFormItem.labelId : undefined
+        "
         :aria-valuemin="min"
         :aria-valuemax="range ? secondValue : max"
         :aria-valuenow="firstValue"
@@ -119,7 +129,12 @@ import {
   isValidComponentSize,
   throwError,
 } from '@element-plus/utils'
-import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
+import {
+  useFormItemInputId,
+  useLocale,
+  useNamespace,
+  useSize,
+} from '@element-plus/hooks'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
@@ -142,6 +157,10 @@ export default defineComponent({
     modelValue: {
       type: [Number, Array] as PropType<number | number[]>,
       default: 0,
+    },
+    id: {
+      type: String,
+      default: undefined,
     },
     min: {
       type: Number,
@@ -265,6 +284,10 @@ export default defineComponent({
       maxValue
     )
 
+    const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
+      formItemContext: elFormItem,
+    })
+
     const sliderWrapperSize = useSize()
     const sliderInputSize = computed(
       () => props.inputSize || sliderWrapperSize.value
@@ -349,6 +372,10 @@ export default defineComponent({
       oldValue,
       dragging,
       sliderSize,
+
+      inputId,
+      isLabeledByFormItem,
+      elFormItem,
 
       slider,
       groupLabel,

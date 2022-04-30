@@ -52,6 +52,7 @@ export const useFormItemInputId = (
     return !!(
       !props.label &&
       formItemContext &&
+      formItemContext.inputIds &&
       formItemContext.inputIds?.length <= 1
     )
   })

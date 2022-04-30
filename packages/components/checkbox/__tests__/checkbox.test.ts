@@ -56,14 +56,17 @@ describe('Checkbox', () => {
   describe('disabled', () => {
     test('checkbox without label', async () => {
       const wrapper = _mount(
-        '<el-checkbox v-model="checkbox" disabled/>',
+        `<el-form-item label="test">
+          <el-checkbox ref="check" v-model="checkbox" disabled/>
+        </el-form-item>`,
         () => ({ checkbox: false })
       )
-      expect(wrapper.classes()).toContain('is-disabled')
+      const checkbox = wrapper.findComponent({ ref: 'check' })
+      expect(checkbox.classes()).toContain('is-disabled')
       expect(wrapper.vm.checkbox).toBe(false)
-      await wrapper.trigger('click')
+      await checkbox.trigger('click')
       await nextTick()
-      expect(wrapper.classes()).toContain('is-disabled')
+      expect(checkbox.classes()).toContain('is-disabled')
       expect(wrapper.vm.checkbox).toBe(false)
     })
 
@@ -84,7 +87,9 @@ describe('Checkbox', () => {
   describe('change event', () => {
     test('checkbox without label', async () => {
       const wrapper = _mount(
-        `<el-checkbox v-model="checked" @change="onChange" />`,
+        `<el-form-item label="test">
+          <el-checkbox ref="check" v-model="checked" @change="onChange" />
+        </el-form-item>`,
         () => ({
           data: null,
           checked: false,
@@ -98,7 +103,7 @@ describe('Checkbox', () => {
         }
       )
       const vm = wrapper.vm
-      await wrapper.trigger('click')
+      await wrapper.findComponent({ ref: 'check' }).trigger('click')
       expect(vm.data).toBe(true)
     })
 
@@ -232,16 +237,19 @@ describe('Checkbox', () => {
   describe('true false label', () => {
     test('without label', async () => {
       const wrapper = _mount(
-        `<el-checkbox true-label="a" :false-label="3" v-model="checked"></el-checkbox>`,
+        `<el-form-item label="test">
+          <el-checkbox ref="check" true-label="a" :false-label="3" v-model="checked" />
+        </el-form-item>`,
         () => ({
           checked: 'a',
         })
       )
       const vm = wrapper.vm
-      await wrapper.trigger('click')
+      const checkbox = wrapper.findComponent({ ref: 'check' })
+      await checkbox.trigger('click')
       await nextTick()
       expect(vm.checked).toBe(3)
-      await wrapper.trigger('click')
+      await checkbox.trigger('click')
       await nextTick()
       expect(vm.checked).toBe('a')
     })

@@ -253,10 +253,12 @@ const useEvent = (
     isLimitExceeded,
     hasOwnLabel,
     isDisabled,
+    isLabeledByFormItem,
   }: Partial<
     ReturnType<typeof useModel> &
       ReturnType<typeof useCheckboxStatus> &
-      ReturnType<typeof useDisabled>
+      ReturnType<typeof useDisabled> &
+      ReturnType<typeof useFormItemInputId>
   >
 ) => {
   const { elFormItem } = useCheckboxGroup()
@@ -283,7 +285,11 @@ const useEvent = (
 
   async function onClickRoot(e: MouseEvent) {
     if (isLimitExceeded!.value) return
-    if (!hasOwnLabel!.value && !isDisabled!.value) {
+    if (
+      !hasOwnLabel!.value &&
+      !isDisabled!.value &&
+      isLabeledByFormItem!.value
+    ) {
       model!.value = getLabeledValue(
         [false, props.falseLabel].includes(model!.value)
       )
@@ -315,16 +321,17 @@ export const useCheckbox = (
       model,
     })
   const { isDisabled } = useDisabled(props, { model, isChecked })
+  const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
+    formItemContext: elFormItem,
+    disableIdGeneration: hasOwnLabel,
+    disableIdManagement: isGroup,
+  })
   const { handleChange, onClickRoot } = useEvent(props, {
     model,
     isLimitExceeded,
     hasOwnLabel,
     isDisabled,
-  })
-  const { inputId } = useFormItemInputId(props, {
-    formItemContext: elFormItem,
-    disableIdGeneration: hasOwnLabel,
-    disableIdManagement: isGroup,
+    isLabeledByFormItem,
   })
 
   setStoreValue(props, { model })
@@ -332,6 +339,7 @@ export const useCheckbox = (
   return {
     elFormItem,
     inputId,
+    isLabeledByFormItem,
     isChecked,
     isDisabled,
     isGroup,

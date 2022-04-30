@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="hasOwnLabel ? 'label' : 'span'"
+    :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
     :class="[
       ns.b(),
       ns.m(checkboxSize),
