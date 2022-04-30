@@ -22,7 +22,6 @@ import {
 } from '@element-plus/tokens'
 import { usePopperContentProps } from './content'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
-import type { FormItemContext } from '@element-plus/tokens'
 
 import type { WatchStopHandle } from 'vue'
 
