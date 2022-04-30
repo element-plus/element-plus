@@ -1,23 +1,18 @@
 import {
-  Fragment,
   computed,
   defineComponent,
   getCurrentInstance,
-  nextTick,
-  onMounted,
-  onUpdated,
   provide,
+  reactive,
   ref,
   renderSlot,
   watch,
 } from 'vue'
-import { NOOP } from '@vue/shared'
 import {
   buildProps,
   definePropType,
   isFunction,
   isNumber,
-  isPromise,
   isString,
 } from '@element-plus/utils'
 import {
@@ -33,13 +28,7 @@ import TabNav from './tab-nav'
 import type { TabNavInstance } from './tab-nav'
 import type { TabsPaneContext } from '@element-plus/tokens'
 
-import type {
-  Component,
-  ComponentInternalInstance,
-  ExtractPropTypes,
-  Ref,
-  VNode,
-} from 'vue'
+import type { ExtractPropTypes } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 
 export type TabPanelName = string | number
@@ -95,23 +84,6 @@ export const tabsEmits = {
 }
 export type TabsEmits = typeof tabsEmits
 
-const getPaneInstanceFromSlot = (
-  vnode: VNode,
-  paneInstanceList: ComponentInternalInstance[] = []
-) => {
-  const children = (vnode.children || []) as ArrayLike<VNode>
-  Array.from(children).forEach((node) => {
-    let type = node.type
-    type = (type as Component).name || type
-    if (type === 'ElTabPane' && node.component) {
-      paneInstanceList.push(node.component)
-    } else if (type === Fragment || type === 'template') {
-      getPaneInstanceFromSlot(node, paneInstanceList)
-    }
-  })
-  return paneInstanceList
-}
-
 export default defineComponent({
   name: 'ElTabs',
 
@@ -120,6 +92,11 @@ export default defineComponent({
 
   setup(props, { emit, slots, expose }) {
     const instance = getCurrentInstance()!
+    const ns = useNamespace('tabs')
+
+    const nav$ = ref<TabNavInstance>()
+    const panes: Record<number, TabsPaneContext> = reactive({})
+    const currentName = ref(props.modelValue || props.activeName || '0')
 
     useDeprecated(
       {
@@ -133,41 +110,6 @@ export default defineComponent({
       computed(() => isFunction(instance.vnode.props?.onInput))
     )
 
-    const ns = useNamespace('tabs')
-
-    const nav$ = ref<TabNavInstance>()
-    const panes: Ref<TabsPaneContext[]> = ref([])
-    const currentName = ref(props.modelValue || props.activeName || '0')
-
-    const paneStatesMap: Record<number, TabsPaneContext> = {}
-
-    const updatePaneInstances = (isForceUpdate = false) => {
-      if (slots.default) {
-        const children = instance.subTree.children as ArrayLike<VNode>
-        const content = Array.from(children).find(
-          ({ props }) => props?.class === ns.e('content')
-        )
-        if (!content) return
-
-        const paneInstanceList: TabsPaneContext[] = getPaneInstanceFromSlot(
-          content
-        ).map((paneComponent) => paneStatesMap[paneComponent.uid])
-
-        const panesChanged = !(
-          paneInstanceList.length === panes.value.length &&
-          paneInstanceList.every(
-            (pane, index) => pane.uid === panes.value[index].uid
-          )
-        )
-
-        if (isForceUpdate || panesChanged) {
-          panes.value = paneInstanceList
-        }
-      } else if (panes.value.length !== 0) {
-        panes.value = []
-      }
-    }
-
     const changeCurrentName = (value: TabPanelName) => {
       currentName.value = value
       /** @deprecated use `tab-change` instead */
@@ -176,27 +118,21 @@ export default defineComponent({
       emit('tab-change', value)
     }
 
-    const setCurrentName = (value: TabPanelName) => {
+    const setCurrentName = async (value: TabPanelName) => {
       // should do nothing.
       if (currentName.value === value) return
 
-      const canLeave = props.beforeLeave?.(value, currentName.value)
-      if (isPromise(canLeave)) {
-        canLeave.then(
-          () => {
-            changeCurrentName(value)
+      try {
+        const canLeave = await props.beforeLeave?.(value, currentName.value)
+        if (canLeave !== false) {
+          changeCurrentName(value)
 
-            // call exposed function, Vue doesn't support expose in typescript yet.
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            nav$.value?.removeFocus?.()
-          },
-          // ignore promise rejection in `before-leave` hook
-          NOOP
-        )
-      } else if (canLeave !== false) {
-        changeCurrentName(value)
-      }
+          // call exposed function, Vue doesn't support expose in typescript yet.
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          nav$.value?.removeFocus?.()
+        }
+      } catch {}
     }
 
     const handleTabClick = (
@@ -221,9 +157,6 @@ export default defineComponent({
       emit('tab-add')
     }
 
-    onUpdated(() => updatePaneInstances())
-    onMounted(() => updatePaneInstances())
-
     watch(
       () => props.activeName,
       (modelValue) => setCurrentName(modelValue)
@@ -235,21 +168,23 @@ export default defineComponent({
     )
 
     watch(currentName, async () => {
-      updatePaneInstances(true)
-      await nextTick()
-      await nav$.value?.$nextTick()
-
       // call exposed function, Vue doesn't support expose in typescript yet.
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       nav$.value?.scrollToActiveTab()
     })
 
-    provide(tabsRootContextKey, {
-      props,
-      currentName,
-      updatePaneState: (pane) => (paneStatesMap[pane.uid] = pane),
-    })
+    {
+      const registerPane = (pane: TabsPaneContext) => (panes[pane.uid] = pane)
+      const unregisterPane = (uid: number) => delete panes[uid]
+
+      provide(tabsRootContextKey, {
+        props,
+        currentName,
+        registerPane,
+        unregisterPane,
+      })
+    }
 
     expose({
       currentName,
@@ -280,7 +215,7 @@ export default defineComponent({
             currentName={currentName.value}
             editable={props.editable}
             type={props.type}
-            panes={panes.value}
+            panes={Object.values(panes)}
             stretch={props.stretch}
             onTabClick={handleTabClick}
             onTabRemove={handleTabRemove}
