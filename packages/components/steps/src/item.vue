@@ -183,9 +183,8 @@ export default defineComponent({
       return style
     })
 
-    const setIndex = (val) => {
+    const setIndex = (val: number) => {
       index.value = val
-      parent.steps.value[val] = stepItemState
       currentInstance?.vnode?.key && updateStatus(parent.props.active)
     }
     const calcProgress = (status) => {
@@ -225,6 +224,13 @@ export default defineComponent({
       key: currentInstance?.vnode?.key,
     })
     parent.steps.value = [...parent.steps.value, stepItemState]
+
+    watch(index, (index) => {
+      const steps = parent.steps.value
+      if (steps[index]?.uid !== stepItemState.uid) {
+        steps.splice(index, 0, stepItemState)
+      }
+    })
 
     return {
       ns,

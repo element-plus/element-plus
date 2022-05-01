@@ -65,19 +65,28 @@ export default defineComponent({
       }, keys)
     }
 
-    watch(steps, () => {
-      const childrenKeys = getChildrenKeys(slots?.default?.())
-      if (childrenKeys?.length && !childrenKeys?.some((key) => key === null)) {
-        childrenKeys.forEach((key, index) => {
-          const stepInstance = steps.value.find((n) => n.key === key)
-          stepInstance && stepInstance.setIndex(index)
-        })
-      } else {
-        steps.value.forEach((instance, index) => {
-          instance.setIndex(index)
-        })
+    watch(
+      steps,
+      () => {
+        const childrenKeys = getChildrenKeys(slots?.default?.())
+        if (
+          childrenKeys?.length &&
+          !childrenKeys?.some((key) => key === null)
+        ) {
+          childrenKeys.forEach((key, index) => {
+            const stepInstance = steps.value.find((n) => n.key === key)
+            stepInstance && stepInstance.setIndex(index)
+          })
+        } else {
+          steps.value.forEach((instance, index) => {
+            instance.setIndex(index)
+          })
+        }
+      },
+      {
+        flush: 'post',
       }
-    })
+    )
 
     provide('ElSteps', { props, steps })
 
