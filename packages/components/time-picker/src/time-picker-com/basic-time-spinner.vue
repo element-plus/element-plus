@@ -391,8 +391,14 @@ export default defineComponent({
 
     watch(
       () => props.spinnerDate,
-      () => {
+      (val) => {
         if (isScrolling) return
+        if (
+          hours.value == val.hour() &&
+          minutes.value === val.minute() &&
+          seconds.value === val.second()
+        )
+          return
         adjustSpinners()
       }
     )
