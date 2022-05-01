@@ -28,7 +28,7 @@
     "@types/markdown-it": "^12.2.3",
     "cross-env": "^7.0.3",
     "escape-html": "^1.0.3",
-    "markdown-it": "^12.3.2",
+    "markdown-it": "^13.0.0",
     "markdown-it-container": "^3.0.0",
     "octokit": "^1.7.1",
     "unocss": "^0.31.5",
