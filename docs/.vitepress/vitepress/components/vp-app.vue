@@ -17,10 +17,15 @@ import VPSponsors from './vp-sponsors.vue'
 import VPReloadPrompt from './vp-reload-prompt.vue'
 
 const USER_PREFER_GITHUB_PAGE = 'USER_PREFER_GITHUB_PAGE'
-
 const [isSidebarOpen, toggleSidebar] = useToggle(false)
 const { hasSidebar } = useSidebar()
 const lang = useLang()
+
+const mirrorUrl = 'element-plus.gitee.io'
+const isMirrorUrl = () => {
+  if (!isClient) return
+  return window.location.hostname === mirrorUrl
+}
 
 useToggleWidgets(isSidebarOpen, () => {
   if (!isClient) return
@@ -63,7 +68,7 @@ onMounted(async () => {
   )
 
   if (lang.value === 'zh-CN') {
-    if (location.host === 'element-plus.gitee.io') return
+    if (isMirrorUrl()) return
 
     if (userPrefer.value) {
       // no alert in the next 90 days
@@ -91,6 +96,14 @@ onMounted(async () => {
     } catch {
       userPrefer.value = String(dayjs().unix())
     }
+  }
+  if (isMirrorUrl()) {
+    // unregister sw on mirror site
+    navigator?.serviceWorker?.getRegistrations().then((registrations) => {
+      for (const registration of registrations) {
+        registration.unregister()
+      }
+    })
   }
 })
 </script>
@@ -130,7 +143,7 @@ onMounted(async () => {
       </template>
     </VPContent>
     <ClientOnly>
-      <VPReloadPrompt />
+      <VPReloadPrompt v-if="!isMirrorUrl()" />
     </ClientOnly>
     <Debug />
   </div>

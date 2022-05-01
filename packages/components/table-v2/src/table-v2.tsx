@@ -182,10 +182,12 @@ const TableV2 = defineComponent({
         getRowHeight,
         onScroll: onVerticalScroll,
       }
+      const _columnsStyles = unref(columnsStyles)
 
       const tableRowProps = {
         ns,
         depthMap: unref(depthMap),
+        columnsStyles: _columnsStyles,
         expandColumnKey,
         expandedRowKeys: unref(expandedRowKeys),
         estimatedRowHeight,
@@ -205,7 +207,6 @@ const TableV2 = defineComponent({
         indentSize,
         iconSize,
         rowKey,
-        columnsStyles: unref(columnsStyles),
         expandedRowKeys: unref(expandedRowKeys),
         ns,
       }
@@ -214,6 +215,7 @@ const TableV2 = defineComponent({
         ns,
         headerClass,
         headerProps,
+        columnsStyles: _columnsStyles,
       }
 
       const tableHeaderCellProps = {
@@ -222,7 +224,6 @@ const TableV2 = defineComponent({
         sortBy,
         sortState,
         headerCellProps,
-        columnsStyles: unref(columnsStyles),
         onColumnSorted,
       }
 
@@ -233,11 +234,19 @@ const TableV2 = defineComponent({
               row: slots.row,
               cell: (props: TableV2RowCellRenderParam) =>
                 slots.cell ? (
-                  <Cell {...props} {...tableCellProps}>
+                  <Cell
+                    {...props}
+                    {...tableCellProps}
+                    style={_columnsStyles[props.column.key]}
+                  >
                     {slots.cell}
                   </Cell>
                 ) : (
-                  <Cell {...props} {...tableCellProps} />
+                  <Cell
+                    {...props}
+                    {...tableCellProps}
+                    style={_columnsStyles[props.column.key]}
+                  />
                 ),
             }}
           </Row>
@@ -248,11 +257,19 @@ const TableV2 = defineComponent({
               header: slots.header,
               cell: (props: TableV2HeaderRowCellRendererParams) =>
                 slots['header-cell'] ? (
-                  <HeaderCell {...props} {...tableHeaderCellProps}>
+                  <HeaderCell
+                    {...props}
+                    {...tableHeaderCellProps}
+                    style={_columnsStyles[props.column.key]}
+                  >
                     {slots['header-cell']}
                   </HeaderCell>
                 ) : (
-                  <HeaderCell {...props} {...tableHeaderCellProps} />
+                  <HeaderCell
+                    {...props}
+                    {...tableHeaderCellProps}
+                    style={_columnsStyles[props.column.key]}
+                  />
                 ),
             }}
           </Header>
