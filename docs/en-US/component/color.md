@@ -13,7 +13,7 @@ Element Plus uses a specific set of palettes to specify colors to provide a cons
   border-radius: 4px;
   padding: 20px;
   margin: 8px 0;
-  height: 100px;
+  height: 112px;
   box-sizing: border-box;
   color: var(--el-color-white);
   font-size: 14px;
