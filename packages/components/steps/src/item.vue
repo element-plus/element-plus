@@ -52,7 +52,6 @@ import {
   getCurrentInstance,
   inject,
   onBeforeUnmount,
-  onMounted,
   reactive,
   ref,
   watch,
@@ -120,20 +119,6 @@ export default defineComponent({
     const parent: IStepsInject = inject('ElSteps')
     const currentInstance = getCurrentInstance()
 
-    onMounted(() => {
-      watch(
-        [
-          () => parent.props.active,
-          () => parent.props.processStatus,
-          () => parent.props.finishStatus,
-        ],
-        ([active]) => {
-          updateStatus(active)
-        },
-        { immediate: true }
-      )
-    })
-
     onBeforeUnmount(() => {
       parent.steps.value = parent.steps.value.filter(
         (instance) => instance.uid !== currentInstance.uid
@@ -185,7 +170,7 @@ export default defineComponent({
 
     const setIndex = (val: number) => {
       index.value = val
-      currentInstance?.vnode?.key && updateStatus(parent.props.active)
+      updateStatus(parent.props.active)
     }
     const calcProgress = (status) => {
       let step = 100
@@ -231,6 +216,18 @@ export default defineComponent({
         steps.splice(index, 0, stepItemState)
       }
     })
+
+    watch(
+      [
+        () => parent.props.active,
+        () => parent.props.processStatus,
+        () => parent.props.finishStatus,
+      ],
+      ([active]) => {
+        updateStatus(active)
+      },
+      { immediate: true, flush: 'post' }
+    )
 
     return {
       ns,
