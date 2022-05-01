@@ -19,12 +19,14 @@ const { copyColor } = useCopyColor()
     >
       <div class="demo-color-box" :style="{ background: getColorValue(type) }">
         {{ type.charAt(0).toUpperCase() + type.slice(1) }}
-        <div class="value">{{ getColorValue(type).toUpperCase() }}</div>
+        <div class="value" text="xs">
+          {{ getColorValue(type).toUpperCase() }}
+        </div>
         <div class="bg-color-sub">
           <div
             v-for="(level, key) in colorLevel"
             :key="key"
-            class="bg-secondary-sub-item transition hover:(cursor-pointer shadow)"
+            class="bg-secondary-sub-item transition cursor-pointer hover:shadow"
             :style="{
               width: `${100 / 6}%`,
               background: `var(--el-color-${type}-` + level + ')',
