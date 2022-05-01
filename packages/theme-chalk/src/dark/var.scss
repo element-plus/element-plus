@@ -139,12 +139,14 @@ $fill-color: map.merge(
 
 // mix to hex to avoid overlay issues
 @each $key, $val in $fill-color {
-  $fill-color: map.merge(
-    $fill-color,
-    (
-      $key: mix-overlay-color($val, map.get($bg-color, '')),
-    )
-  ) !global;
+  @if ($key != 'blank') {
+    $fill-color: map.merge(
+      $fill-color,
+      (
+        $key: mix-overlay-color($val, map.get($bg-color, '')),
+      )
+    ) !global;
+  }
 }
 
 // text
