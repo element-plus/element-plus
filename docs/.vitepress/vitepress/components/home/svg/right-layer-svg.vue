@@ -40,10 +40,16 @@
 .right-layer {
   --rl-c-0: white;
   --rl-c-1: #e4efff;
+
+  filter: drop-shadow(0px 0px 6px rgba(10, 34, 59, 0.04))
+    drop-shadow(0px 6px 20px rgba(10, 34, 59, 0.08));
 }
 
 .dark .right-layer {
   --rl-c-0: #1e2835;
   --rl-c-1: #444f5d;
+
+  filter: drop-shadow(0px 0px 6px rgba(6, 15, 26, 0.24))
+    drop-shadow(0px 6px 20px rgba(6, 15, 26, 0.48));
 }
 </style>
