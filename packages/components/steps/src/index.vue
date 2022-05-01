@@ -49,14 +49,34 @@ export default defineComponent({
     },
   },
   emits: [CHANGE_EVENT],
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
     const ns = useNamespace('steps')
     const steps = ref([])
 
+    const getChildrenKeys = (children, keys = []) => {
+      return children?.reduce((prev, curr) => {
+        if (Array.isArray(curr.children)) {
+          getChildrenKeys(curr.children, prev)
+        }
+        if (curr.type.name === 'ElStep') {
+          prev.push(curr.key)
+        }
+        return prev
+      }, keys)
+    }
+
     watch(steps, () => {
-      steps.value.forEach((instance, index) => {
-        instance.setIndex(index)
-      })
+      const childrenKeys = getChildrenKeys(slots?.default?.())
+      if (childrenKeys?.length && !childrenKeys?.some((key) => key === null)) {
+        childrenKeys.forEach((key, index) => {
+          const stepInstance = steps.value.find((n) => n.key === key)
+          stepInstance && stepInstance.setIndex(index)
+        })
+      } else {
+        steps.value.forEach((instance, index) => {
+          instance.setIndex(index)
+        })
+      }
     })
 
     provide('ElSteps', { props, steps })

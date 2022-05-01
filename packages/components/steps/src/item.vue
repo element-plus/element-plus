@@ -185,6 +185,8 @@ export default defineComponent({
 
     const setIndex = (val) => {
       index.value = val
+      parent.steps.value[val] = stepItemState
+      currentInstance?.vnode?.key && updateStatus(parent.props.active)
     }
     const calcProgress = (status) => {
       let step = 100
@@ -220,6 +222,7 @@ export default defineComponent({
       currentStatus,
       setIndex,
       calcProgress,
+      key: currentInstance?.vnode?.key,
     })
     parent.steps.value = [...parent.steps.value, stepItemState]
 
