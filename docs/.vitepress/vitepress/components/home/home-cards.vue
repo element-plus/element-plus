@@ -85,6 +85,11 @@ const homeLang = computed(() => homeLocale[lang.value])
     transition: all 0.3s ease-in-out;
     bottom: 0;
 
+    &:hover {
+      box-shadow: 0px 12px 32px 4px rgba(237, 239, 245, 0.24),
+        0px 8px 20px rgba(237, 239, 245, 0.48);
+    }
+
     img {
       margin: 48px auto;
     }
@@ -144,6 +149,17 @@ const homeLang = computed(() => homeLocale[lang.value])
     }
     .banner img {
       right: 0;
+    }
+  }
+}
+
+.dark {
+  .home-page {
+    .card {
+      &:hover {
+        box-shadow: 0px 12px 32px 4px rgba(9, 11, 16, 0.24),
+          0px 8px 20px rgba(9, 11, 16, 0.48);
+      }
     }
   }
 }
