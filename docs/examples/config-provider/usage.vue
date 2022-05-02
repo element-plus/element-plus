@@ -1,11 +1,10 @@
 <template>
   <div>
+    <el-button m="b-2" @click="toggle"> Switch Lang </el-button>
+    <br />
     <el-config-provider :locale="locale2">
       <el-color-picker :model-value="''" style="vertical-align: middle" />
     </el-config-provider>
-    <el-button style="margin-left: 8px; vertical-align: middle" @click="toggle">
-      Switch Lang
-    </el-button>
   </div>
 </template>
 
