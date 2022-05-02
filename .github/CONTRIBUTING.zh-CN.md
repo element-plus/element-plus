@@ -18,7 +18,7 @@ Element Plus 的成长离不开大家的支持，如果你愿意为 Element Plus
 
 - 请先 fork 一份到自己的项目下，不要直接在仓库下建分支。
 
-- commit 信息要以 `type(scope): 描述信息` 的形式填写，例如 `fix(components): [el-scrollbar] fix xxx bug`。
+- commit 信息要以 `type(scope): 描述信息` 的形式填写，例如 `fix(components): [scrollbar] fix xxx bug`。
 
   1. type: 必须是 build, chore, ci, docs, feat, fix, perf, refactor, revert, release, style, test, improvement 其中的一个。
 
