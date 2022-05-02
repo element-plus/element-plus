@@ -11,7 +11,7 @@ export const useMenuCssVar = (props: MenuProps) => {
       'text-color': props.textColor || '',
       'hover-text-color': props.textColor || '',
       'bg-color': props.backgroundColor || '',
-      'hover-bg-color': useMenuColor(props).value || '',
+      'hover-bg-color': props.hoverBackgroundColor || useMenuColor(props).value || '',
       'active-color': props.activeTextColor || '',
     })
   })
