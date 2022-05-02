@@ -10,7 +10,7 @@
     "cz": "git-cz",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
-    "test:ssr": "rimraf ./ssr-testing/screenshots/* && vitest --config ./ssr-testing/vitest.config.ts",
+    "test:ssr": "vitest --config ./ssr-testing/vitest.config.ts",
     "prepare:e2e": "if [ ! -d \"docs/.vitepress/dist\" ]; then pnpm run docs:build; fi;",
     "dev": "pnpm -C play dev",
     "gen": "bash ./scripts/gc.sh",
