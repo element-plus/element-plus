@@ -34,6 +34,7 @@ interface SelectProps {
   popperClass?: string
   defaultFirstOption?: boolean
   fitInputWidth?: boolean
+  size?: 'small' | 'default' | 'large'
 }
 
 const _mount = (template: string, data: any = () => ({}), otherObj?) =>
@@ -124,6 +125,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :loading="loading"
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
+      :size="size"
       :fit-input-width="fitInputWidth">
       <el-option
         v-for="item in options"
@@ -151,6 +153,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       remote: configs.remote,
       remoteMethod: configs.remoteMethod,
       value: configs.multiple ? [] : '',
+      size: configs.size || 'default',
     })
   )
 }
@@ -1879,5 +1882,31 @@ describe('Select', () => {
     vm.value = []
     await nextTick()
     expect(selectVm.selectedLabel).toBe('')
+  })
+
+  test('should modify size height change', async () => {
+    wrapper = getSelectVm()
+
+    // large size
+    await wrapper.setProps({
+      size: 'large',
+    })
+    await nextTick(nextTick)
+    const wrapperEl = wrapper.find('input').element as HTMLDivElement
+    expect(wrapperEl.style.height).toEqual('40px')
+
+    // default size
+    await wrapper.setProps({
+      size: 'default',
+    })
+    await nextTick(nextTick)
+    expect(wrapperEl.style.height).toEqual('32px')
+
+    // small size
+    await wrapper.setProps({
+      size: 'small',
+    })
+    await nextTick(nextTick)
+    expect(wrapperEl.style.height).toEqual('24px')
   })
 })
