@@ -16,9 +16,11 @@ import {
   computed,
   getCurrentInstance,
   inject,
-  markRaw,
+  onMounted,
+  onUnmounted,
   reactive,
   ref,
+  useSlots,
   watch,
 } from 'vue'
 import { eagerComputed } from '@vueuse/core'
@@ -34,6 +36,8 @@ defineOptions({
 const props = defineProps(tabPaneProps)
 
 const instance = getCurrentInstance()!
+const slots = useSlots()
+
 const tabsRoot = inject(tabsRootContextKey)
 if (!tabsRoot)
   throwError(COMPONENT_NAME, 'usage: <el-tabs><el-tab-pane /></el-tabs/>')
@@ -55,15 +59,21 @@ watch(active, (val) => {
   if (val) loaded.value = true
 })
 
-tabsRoot.updatePaneState(
-  reactive({
-    uid: instance.uid,
-    instance: markRaw(instance),
-    props,
-    paneName,
-    active,
-    index,
-    isClosable,
-  })
-)
+const pane = reactive({
+  uid: instance.uid,
+  slots,
+  props,
+  paneName,
+  active,
+  index,
+  isClosable,
+})
+
+onMounted(() => {
+  tabsRoot.registerPane(pane)
+})
+
+onUnmounted(() => {
+  tabsRoot.unregisterPane(pane.uid)
+})
 </script>
