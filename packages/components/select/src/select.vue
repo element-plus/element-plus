@@ -284,7 +284,6 @@ import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   addResizeListener,
-  getComponentSize,
   isValidComponentSize,
   removeResizeListener,
 } from '@element-plus/utils'
