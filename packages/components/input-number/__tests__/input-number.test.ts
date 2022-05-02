@@ -158,6 +158,19 @@ describe('InputNumber.vue', () => {
     await wrapper.find('input').setValue(1.1111111111)
     expect(wrapper.find('input').element.value).toEqual('1.11')
   })
+  test('precision accuracy', async () => {
+    const wrapper = _mount({
+      template: '<el-input-number :precision="2" v-model="num" />',
+      setup() {
+        const num = ref(0)
+        return {
+          num,
+        }
+      },
+    })
+    await wrapper.find('input').setValue(17.275)
+    expect(wrapper.find('input').element.value).toEqual('17.28')
+  })
   test('disabled', async () => {
     const wrapper = _mount({
       template: '<el-input-number :disabled="true" v-model="num" />',
