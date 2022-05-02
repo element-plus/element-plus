@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@6.32.8",
+  "packageManager": "pnpm@7.0.0",
   "workspaces": [
     "packages/*",
     "play",
@@ -17,10 +17,10 @@
     "gen:version": "sucrase-node scripts/gen-version.ts",
     "diff:table": "sucrase-node scripts/build-table.ts",
     "update:version": "sucrase-node scripts/update-version.ts",
-    "clean": "pnpm run clean:dist && pnpm run clean --filter ./packages/ --stream",
+    "clean": "pnpm run clean:dist && pnpm run -r --parallel clean",
     "clean:dist": "rimraf dist",
-    "build": "pnpm run start -C internal/build",
-    "build:theme": "pnpm run build -C packages/theme-chalk",
+    "build": "pnpm run -C internal/build start",
+    "build:theme": "pnpm run -C packages/theme-chalk build",
     "format": "prettier --write .",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 && pretty-quick --check --branch dev",
     "lint:fix": "eslint --fix . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json && pretty-quick --branch dev",
