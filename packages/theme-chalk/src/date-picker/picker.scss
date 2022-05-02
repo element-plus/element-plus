@@ -156,6 +156,10 @@
     display: inline-flex;
     align-items: center;
     padding: 3px 10px;
+    background-color: var(
+      #{getCssVarName('input-bg-color')},
+      map.get($input, 'bg-color')
+    );
   }
 
   .#{$namespace}-range-input {
