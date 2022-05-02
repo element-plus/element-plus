@@ -95,7 +95,7 @@ export default defineComponent({
     const ns = useNamespace('tabs')
 
     const nav$ = ref<TabNavInstance>()
-    const panes: Record<number, TabsPaneContext> = reactive({})
+    const panes = reactive<Record<number, TabsPaneContext>>({})
     const currentName = ref(props.modelValue || props.activeName || '0')
 
     useDeprecated(
