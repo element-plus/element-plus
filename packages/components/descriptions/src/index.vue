@@ -73,7 +73,7 @@ export default defineComponent({
 
     const descriptionKls = computed(() => [
       ns.b(),
-      ns.is(ns.m(descriptionsSize.value), !!descriptionsSize.value),
+      ns.m(descriptionsSize.value),
     ])
 
     const flattedChildren = (children) => {
