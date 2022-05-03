@@ -51,6 +51,7 @@
     "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.6",
     "@types/lodash": "^4.14.182",
     "@types/lodash-es": "^4.17.6",
+    "@vue/shared": "^3.2.33",
     "@vueuse/core": "^8.2.6",
     "async-validator": "^4.0.7",
     "dayjs": "^1.11.1",
