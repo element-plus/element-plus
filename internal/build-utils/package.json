@@ -20,6 +20,7 @@
     "consola": "^2.15.3"
   },
   "devDependencies": {
+    "@pnpm/types": "^8.0.0",
     "unbuild": "^0.7.4"
   }
 }

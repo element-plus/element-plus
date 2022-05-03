@@ -12,7 +12,8 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@element-plus/build-constants": "^0.0.1",
+    "@element-plus/build-constants": "workspace:*",
+    "@element-plus/build-utils": "workspace:*",
     "@pnpm/find-workspace-packages": "^4.0.0",
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-node-resolve": "^13.2.1",
