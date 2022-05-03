@@ -1,3 +1,1 @@
-export const features = {
-  theme: true,
-}
+export const features = {}
