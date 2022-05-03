@@ -22,7 +22,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 6
+          version: 7
 
       - name: Cache ~/.pnpm-store
         uses: actions/cache@v3
@@ -51,7 +51,7 @@ jobs:
         run: cd docs && pnpm exec crowdin upload sources
 
       - name: Pull Crowdin translations
-        run: cd docs && pnpm exec crowdin download -l zh-CN
+        run: cd docs && pnpm exec crowdin download -l zh-CN && pnpm exec crowdin download -l es-ES
 
       - name: Generate common locale
         run: pnpm docs:gen-locale

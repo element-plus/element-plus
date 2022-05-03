@@ -11,6 +11,7 @@ import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import { VitePWA } from 'vite-plugin-pwa'
 import {
+  docPackage,
   epPackage,
   getPackageDependencies,
   projRoot,
@@ -40,17 +41,16 @@ if (process.env.DOC_ENV !== 'production') {
 
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  let { dependencies } = getPackageDependencies(epPackage)
-  dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
-  const optimizeDeps = [
-    'vue',
-    '@vue/shared',
-    'markdown-it',
-    'clipboard-copy',
-    'axios',
-    'nprogress',
-    ...dependencies,
-  ]
+
+  const { dependencies: epDeps } = getPackageDependencies(epPackage)
+  const { dependencies: docsDeps } = getPackageDependencies(docPackage)
+
+  const optimizeDeps = [...new Set([...epDeps, ...docsDeps])].filter(
+    (dep) =>
+      !dep.startsWith('@types/') &&
+      !['@element-plus/metadata', 'element-plus'].includes(dep)
+  )
+
   optimizeDeps.push(
     ...(await glob(['dayjs/plugin/*.js'], {
       cwd: path.resolve(projRoot, 'node_modules'),

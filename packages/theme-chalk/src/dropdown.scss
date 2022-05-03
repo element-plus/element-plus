@@ -99,14 +99,12 @@ $dropdown-divider-width: 1px !default;
     }
 
     &::before {
-      $gap: 5px;
-
       content: '';
       position: absolute;
       display: block;
       width: 1px;
-      top: $gap;
-      bottom: $gap;
+      top: -1px;
+      bottom: -1px;
       left: 0;
       background: getCssVar('overlay-color', 'lighter');
     }
@@ -114,13 +112,6 @@ $dropdown-divider-width: 1px !default;
     &.#{$namespace}-button::before {
       background: getCssVar('border-color');
       opacity: 0.5;
-    }
-
-    &:hover {
-      &::before {
-        top: 0;
-        bottom: 0;
-      }
     }
 
     & .#{$namespace}-dropdown__icon {
