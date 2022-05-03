@@ -17,6 +17,6 @@ export const useFeatureFlag = (flag: MaybeRef<string>) => {
       }
     }
 
-    return (theme.value.features || {})[_flag]
+    return theme.value.features[_flag]
   })
 }
