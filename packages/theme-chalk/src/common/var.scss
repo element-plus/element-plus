@@ -924,7 +924,7 @@ $dropdown: map.merge(
   (
     'menu-box-shadow': getCssVar('box-shadow-light'),
     'menuItem-hover-fill': getCssVar('color-primary-light-9'),
-    'menuItem-hover-color': getCssVar('color-primary-light-3'),
+    'menuItem-hover-color': getCssVar('color-primary'),
     'menu-index': 10,
   ),
   $dropdown
@@ -992,7 +992,7 @@ $menu: map.merge(
   (
     'active-color': getCssVar('color-primary'),
     'text-color': getCssVar('text-color-primary'),
-    'hover-text-color': getCssVar('text-color-primary'),
+    'hover-text-color': getCssVar('color-primary'),
     'bg-color': getCssVar('fill-color', 'blank'),
     'hover-bg-color': getCssVar('color-primary-light-9'),
     'item-height': 56px,
