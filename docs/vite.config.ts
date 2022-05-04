@@ -85,6 +85,9 @@ export default defineConfig(async ({ mode }) => {
           // https://github.com/antfu/unplugin-icons
           IconsResolver(),
         ],
+
+        // allow auto import and register components used in markdown
+        include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       }),
 
       // https://github.com/antfu/unplugin-icons

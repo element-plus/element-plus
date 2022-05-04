@@ -3,15 +3,6 @@ title: Navigation
 lang: en-US
 ---
 
-<style scoped lang="scss">
-  .image-wrapper {
-    padding: 15px;
-    background-color: rgb(249, 250, 252);
-    width: 100%;
-    margin-bottom: 15px;
-  }
-</style>
-
 # Navigation
 
 Navigation focuses on solving the users' problems of where to go and how to get
@@ -34,9 +25,7 @@ for background management or utility websites.
 
 Suitable for simply structured sites with only one level of pages. No breadcrumb is needed.
 
-<div class="image-wrapper">
-<img src="/images/navbar_1.png" alt="level 1">
-</div>
+<L1Categories />
 
 ### Level 2 categories
 

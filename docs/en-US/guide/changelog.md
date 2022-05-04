@@ -6,7 +6,6 @@ lang: en-US
 <style scoped lang="scss">
 @at-root .hero-content {
   padding: 32px;
-
 }
 </style>
 
