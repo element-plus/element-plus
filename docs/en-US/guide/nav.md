@@ -3,6 +3,26 @@ title: Navigation
 lang: en-US
 ---
 
+<style>
+:root {
+  --categories-c-bg: #F9FAFC;
+  --categories-c-page: #E5E9F2;
+  --categories-c-overlay: white;
+  --categories-c-text: #99A9BF;
+  --categories-c-icon: #E5E9F2;
+  --categories-c-line: #E5E9F2;
+}
+
+.dark {
+  --categories-c-bg: #1D1E1F;
+  --categories-c-page: #0A0A0A;
+  --categories-c-overlay: #141414;
+  --categories-c-text: #53637A;
+  --categories-c-icon: #2F333D;
+  --categories-c-line: #242529;
+}
+</style>
+
 # Navigation
 
 Navigation focuses on solving the users' problems of where to go and how to get
@@ -33,9 +53,7 @@ Sidebar displays up to two levels of navigation. Breadcrumbs are recommended in
 combination of second level navigation, making it easier for the users to locate
 and navigate.
 
-<div class="image-wrapper">
-<img src="/images/navbar_2.png" alt="level 2">
-</div>
+<L2Categories />
 
 ### Level 3 categories
 
@@ -43,9 +61,7 @@ Suitable for complicated utility websites. The left sidebar holds first level
 navigation, and the middle column displays second level navigation or other utility
 options.
 
-<div class="image-wrapper">
-<img src="/images/navbar_3.png" alt="level 3">
-</div>
+<L3Categories />
 
 ## Top Navigation
 
@@ -54,6 +70,4 @@ natural. The navigation amount and text length are limited to the width of the t
 
 Suitable for sites with few navigation and large chunks.
 
-<div class="image-wrapper">
-<img src="/images/navbar_0.png" alt="Top Navigation">
-</div>
+<TopNavigationExample />
