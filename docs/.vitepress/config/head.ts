@@ -92,6 +92,24 @@ gtag('config', 'UA-175337989-1');`,
   ],
   [
     'script',
+    {
+      async: 'true',
+      src: 'https://www.googletagmanager.com/gtag/js?id=G-M74ZHEQ1M1',
+    },
+  ],
+  [
+    'script',
+    {},
+    `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-M74ZHEQ1M1');
+    `,
+  ],
+  [
+    'script',
     {},
     `(function(h,o,t,j,a,r){
       h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
