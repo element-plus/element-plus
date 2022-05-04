@@ -11,6 +11,7 @@ const _mount = (template: string) =>
       components: {
         'el-steps': Steps,
         'el-step': Step,
+        'icon-edit': Edit,
       },
       data() {
         return {
@@ -182,10 +183,13 @@ describe('Steps.vue', () => {
         <el-step>
           <template #title>A</template>
           <template #description>B</template>
+          <template #icon><icon-edit /></template>
         </el-step>
       </el-steps>
     `)
     expect(wrapper.find('.el-step__title').text()).toBe('A')
     expect(wrapper.find('.el-step__description').text()).toBe('B')
+    expect(wrapper.find('.el-step__icon').classes()).toContain('is-icon')
+    expect(wrapper.findComponent(Edit).exists()).toBe(true)
   })
 })
