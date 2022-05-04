@@ -182,6 +182,8 @@ function initialize(userOptions: any) {
   --docsearch-text-color: var(--text-color-light);
   --docsearch-modal-background: var(--bg-color-soft);
 
+  transition: background-color var(--el-transition-duration-fast);
+
   &.DocSearch-Button {
     margin-right: 8px;
   }
