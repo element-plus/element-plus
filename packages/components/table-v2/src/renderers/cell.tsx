@@ -13,10 +13,7 @@ import type { UseTableReturn } from '../use-table'
 import type { TableV2Props } from '../table'
 
 type CellRendererProps = TableV2RowCellRenderParam &
-  Pick<
-    TableV2Props,
-    'cellProps' | 'expandColumnKey' | 'indentSize' | 'iconSize' | 'rowKey'
-  > &
+  Pick<TableV2Props, 'expandColumnKey' | 'indentSize' | 'iconSize' | 'rowKey'> &
   UnwrapNestedRefs<Pick<UseTableReturn, 'expandedRowKeys'>> & {
     ns: UseNamespaceReturn
   }

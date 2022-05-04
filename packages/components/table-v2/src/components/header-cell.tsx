@@ -11,5 +11,6 @@ const HeaderCell: FunctionalComponent<TableV2HeaderCell> = (props, { slots }) =>
   )
 
 HeaderCell.displayName = 'ElTableV2HeaderCell'
+HeaderCell.inheritAttrs = false
 
 export default HeaderCell

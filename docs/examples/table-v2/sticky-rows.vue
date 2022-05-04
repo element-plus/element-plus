@@ -1,5 +1,5 @@
 <template>
-  <table-v2
+  <el-table-v2
     :columns="columns"
     :data="tableData"
     :fixed-data="fixedData"
@@ -13,8 +13,33 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { TableV2 } from '@element-plus/components/table-v2'
-import { generateColumns, generateData } from './utils'
+
+const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
+  Array.from({ length }).map((_, columnIndex) => ({
+    ...props,
+    key: `${prefix}${columnIndex}`,
+    dataKey: `${prefix}${columnIndex}`,
+    title: `Column ${columnIndex}`,
+    width: 150,
+  }))
+
+const generateData = (
+  columns: ReturnType<typeof generateColumns>,
+  length = 200,
+  prefix = 'row-'
+) =>
+  Array.from({ length }).map((_, rowIndex) => {
+    return columns.reduce(
+      (rowData, column, columnIndex) => {
+        rowData[column.dataKey] = `Row ${rowIndex} - Col ${columnIndex}`
+        return rowData
+      },
+      {
+        id: `${prefix}${rowIndex}`,
+        parentId: null,
+      }
+    )
+  })
 
 const columns = generateColumns(10)
 const data = generateData(columns, 200)
@@ -39,7 +64,7 @@ const onScroll = ({ scrollTop }) => {
 </script>
 
 <style>
-.el-table-v2__fixed-header-row {
+.el-el-table-v2__fixed-header-row {
   background-color: var(--el-color-primary-light-5);
   font-weight: bold;
 }

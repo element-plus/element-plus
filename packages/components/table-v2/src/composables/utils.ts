@@ -3,14 +3,21 @@ import type { AnyColumns } from '../types'
 
 export const calcColumnStyle = (
   column: AnyColumns[number],
-  fixedColumn: boolean
+  fixedColumn: boolean,
+  fixed: boolean
 ): CSSProperties => {
   const flex = {
     flexGrow: 0,
     flexShrink: 0,
+    ...(fixed
+      ? {}
+      : {
+          flexGrow: column.flexGrow || 0,
+          flexShrink: column.flexShrink || 1,
+        }),
   }
 
-  if (column.fixed) {
+  if (!fixed) {
     flex.flexShrink = 1
   }
 
