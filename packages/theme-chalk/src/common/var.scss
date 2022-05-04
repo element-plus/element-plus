@@ -137,7 +137,7 @@ $bg-color: () !default;
 $bg-color: map.merge(
   (
     '': #ffffff,
-    'page': #ffffff,
+    'page': #f2f3f5,
     'overlay': #ffffff,
   ),
   $bg-color
@@ -753,7 +753,7 @@ $table: map.merge(
     'header-text-color': getCssVar('text-color-secondary'),
     'row-hover-bg-color': getCssVar('fill-color', 'light'),
     'current-row-bg-color': getCssVar('color-primary-light-9'),
-    'header-bg-color': getCssVar('fill-color', 'blank'),
+    'header-bg-color': getCssVar('bg-color'),
     'fixed-box-shadow': getCssVar('box-shadow', 'light'),
     'bg-color': getCssVar('fill-color', 'blank'),
     'tr-bg-color': getCssVar('fill-color', 'blank'),
