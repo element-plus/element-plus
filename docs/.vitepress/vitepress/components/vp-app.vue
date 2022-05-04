@@ -68,34 +68,36 @@ onMounted(async () => {
   )
 
   if (lang.value === 'zh-CN') {
-    if (isMirrorUrl()) return
+    // disable cn redirect temporarily
+    return
+    // if (isMirrorUrl()) return
 
-    if (userPrefer.value) {
-      // no alert in the next 90 days
-      if (
-        dayjs
-          .unix(Number(userPrefer.value))
-          .add(90, 'day')
-          .diff(dayjs(), 'day', true) > 0
-      )
-        return
-    }
-    try {
-      await ElMessageBox.confirm(
-        '建议大陆用户访问部署在国内的站点，是否跳转？',
-        '提示',
-        {
-          confirmButtonText: '跳转',
-          cancelButtonText: '取消',
-        }
-      )
-      const toLang = '/zh-CN/'
-      location.href = `https://element-plus.gitee.io${toLang}${location.pathname.slice(
-        toLang.length
-      )}`
-    } catch {
-      userPrefer.value = String(dayjs().unix())
-    }
+    // if (userPrefer.value) {
+    //   // no alert in the next 90 days
+    //   if (
+    //     dayjs
+    //       .unix(Number(userPrefer.value))
+    //       .add(90, 'day')
+    //       .diff(dayjs(), 'day', true) > 0
+    //   )
+    //     return
+    // }
+    // try {
+    //   await ElMessageBox.confirm(
+    //     '建议大陆用户访问部署在国内的站点，是否跳转？',
+    //     '提示',
+    //     {
+    //       confirmButtonText: '跳转',
+    //       cancelButtonText: '取消',
+    //     }
+    //   )
+    //   const toLang = '/zh-CN/'
+    //   location.href = `https://element-plus.gitee.io${toLang}${location.pathname.slice(
+    //     toLang.length
+    //   )}`
+    // } catch {
+    //   userPrefer.value = String(dayjs().unix())
+    // }
   }
   if (isMirrorUrl()) {
     // unregister sw on mirror site
