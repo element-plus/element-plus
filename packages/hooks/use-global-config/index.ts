@@ -55,7 +55,7 @@ export const provideGlobalConfig = (
     return mergeConfig(oldConfig.value, cfg)
   })
   provideFn(configProviderContextKey, context)
-  if (global || !globalConfig.value) {
+  if (global) {
     globalConfig.value = context.value
   }
   return context
