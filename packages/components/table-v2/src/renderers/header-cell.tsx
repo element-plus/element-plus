@@ -76,7 +76,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
     ...tryCall(headerCellProps, props),
     onClick: column.sortable ? onColumnSorted : undefined,
     class: cellKls,
-    cellStyle,
+    style: cellStyle,
     ['data-key']: column.key,
   }
 

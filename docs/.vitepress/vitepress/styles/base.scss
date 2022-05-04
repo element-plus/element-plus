@@ -237,6 +237,14 @@ form {
   margin: 0;
 }
 
+details {
+  summary {
+    margin: 16px 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
 .el-popover.is-light.translation-popup {
   background-color: var(--bg-color) !important;
   border-color: var(--border-color);

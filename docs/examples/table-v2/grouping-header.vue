@@ -1,5 +1,5 @@
 <template>
-  <table-v2
+  <el-table-v2
     fixed
     :columns="fixedColumns"
     :data="data"
@@ -11,20 +11,16 @@
     <template #header="props">
       <customized-header v-bind="props" />
     </template>
-  </table-v2>
+  </el-table-v2>
 </template>
 <script lang="tsx" setup>
-import {
-  FixedDir,
-  TableV2,
-  TableV2Placeholder,
-} from '@element-plus/components/table-v2'
+import { TableV2FixedDir, TableV2Placeholder } from 'element-plus'
 
 import type { FunctionalComponent } from 'vue'
 import type {
   HeaderClassNameGetter,
   TableV2CustomizedHeaderSlotParam,
-} from '@element-plus/components/table-v2'
+} from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({
@@ -56,9 +52,9 @@ const columns = generateColumns(15)
 const data = generateData(columns, 200)
 
 const fixedColumns = columns.map((column, columnIndex) => {
-  let fixed: FixedDir | undefined = undefined
-  if (columnIndex < 3) fixed = FixedDir.LEFT
-  if (columnIndex > 12) fixed = FixedDir.RIGHT
+  let fixed: TableV2FixedDir | undefined = undefined
+  if (columnIndex < 3) fixed = TableV2FixedDir.LEFT
+  if (columnIndex > 12) fixed = TableV2FixedDir.RIGHT
   return { ...column, fixed, width: 100 }
 })
 
@@ -112,11 +108,11 @@ const headerClass = ({
 </script>
 
 <style>
-.el-table-v2__header-row .custom-header-cell {
+.el-el-table-v2__header-row .custom-header-cell {
   border-right: 1px solid var(--el-border-color);
 }
 
-.el-table-v2__header-row .custom-header-cell:last-child {
+.el-el-table-v2__header-row .custom-header-cell:last-child {
   border-right: none;
 }
 

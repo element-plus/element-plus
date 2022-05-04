@@ -1,5 +1,5 @@
 <template>
-  <table-v2
+  <el-table-v2
     fixed
     :columns="fixedColumns"
     :data="data"
@@ -9,11 +9,16 @@
 </template>
 <script lang="tsx" setup>
 import { ref } from 'vue'
-import { ElButton, ElCheckbox, ElIcon, ElPopover } from 'element-plus'
-import { FixedDir, TableV2 } from '@element-plus/components/table-v2'
+import {
+  ElButton,
+  ElCheckbox,
+  ElIcon,
+  ElPopover,
+  TableV2FixedDir,
+} from 'element-plus'
 import { Filter } from '@element-plus/icons-vue'
 
-import type { HeaderCellSlotProps } from '@element-plus/components/table-v2'
+import type { HeaderCellSlotProps } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({
@@ -58,7 +63,7 @@ const onFilter = () => {
 
 const onReset = () => {
   shouldFilter.value = false
-  popoverRef.value.hide()
+  onFilter()
 }
 
 columns[0].headerCellRenderer = (props: HeaderCellSlotProps) => {
@@ -74,7 +79,7 @@ columns[0].headerCellRenderer = (props: HeaderCellSlotProps) => {
                   Filter Text
                 </ElCheckbox>
               </div>
-              <div class="table-v2__demo-filter">
+              <div class="el-table-v2__demo-filter">
                 <ElButton type="text" onClick={onFilter}>
                   Confirm
                 </ElButton>
@@ -96,15 +101,15 @@ columns[0].headerCellRenderer = (props: HeaderCellSlotProps) => {
 }
 
 const fixedColumns = columns.map((column, columnIndex) => {
-  let fixed: FixedDir | undefined = undefined
-  if (columnIndex < 2) fixed = FixedDir.LEFT
-  if (columnIndex > 9) fixed = FixedDir.RIGHT
+  let fixed: TableV2FixedDir | undefined = undefined
+  if (columnIndex < 2) fixed = TableV2FixedDir.LEFT
+  if (columnIndex > 9) fixed = TableV2FixedDir.RIGHT
   return { ...column, fixed, width: 100 }
 })
 </script>
 
 <style>
-.table-v2__demo-filter {
+.el-table-v2__demo-filter {
   border-top: var(--el-border);
   margin: 12px -12px -12px;
   padding: 0 12px;

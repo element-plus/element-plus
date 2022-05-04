@@ -1,5 +1,5 @@
 <template>
-  <table-v2
+  <el-table-v2
     :columns="columns"
     :data="data"
     :row-class="rowClass"
@@ -12,14 +12,16 @@
 <script lang="tsx" setup>
 import { ref } from 'vue'
 import dayjs from 'dayjs'
+import {
+  ElButton,
+  ElIcon,
+  ElTag,
+  ElTooltip,
+  TableV2FixedDir,
+} from 'element-plus'
 import { Timer } from '@element-plus/icons-vue'
-import { ElButton, ElIcon, ElTag, ElTooltip } from '@element-plus/components'
-import { FixedDir, TableV2 } from '@element-plus/components/table-v2'
 
-import type {
-  Column,
-  RowClassNameGetter,
-} from '@element-plus/components/table-v2'
+import type { Column, RowClassNameGetter } from 'element-plus'
 
 let id = 0
 
@@ -35,7 +37,7 @@ const columns: Column<any>[] = [
     title: 'Date',
     dataKey: 'date',
     width: 150,
-    fixed: FixedDir.LEFT,
+    fixed: TableV2FixedDir.LEFT,
     cellRenderer: ({ cellData: date }) => (
       <ElTooltip content={dayjs(date).format('YYYY/MM/DD')}>
         {
@@ -73,7 +75,7 @@ const columns: Column<any>[] = [
   },
 ]
 
-const data = ref(Array.from({ length: 5000 }).map(dataGenerator))
+const data = ref(Array.from({ length: 200 }).map(dataGenerator))
 
 const rowClass = ({ rowIndex }: Parameters<RowClassNameGetter<any>>[0]) => {
   if (rowIndex % 10 === 5) {

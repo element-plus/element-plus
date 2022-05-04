@@ -1,14 +1,13 @@
 <template>
-  <table-v2 fixed :columns="columns" :data="data" :width="700" :height="400">
+  <el-table-v2 fixed :columns="columns" :data="data" :width="700" :height="400">
     <template #row="props">
       <Row v-bind="props" />
     </template>
-  </table-v2>
+  </el-table-v2>
 </template>
 
 <script lang="tsx" setup>
 import { cloneVNode } from 'vue'
-import { TableV2 } from '@element-plus/components/table-v2'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({

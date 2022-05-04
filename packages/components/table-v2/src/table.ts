@@ -25,6 +25,7 @@ import type {
   KeyType,
   RowCommonParams,
   SortBy,
+  SortState,
 } from './types'
 
 /**
@@ -71,17 +72,12 @@ export type RowClassNameGetter<T> = (
  */
 export type ColumnSortHandler<T> = (params: ColumnSortParams<T>) => void
 export type ColumnResizeHandler<T> = (column: Column<T>, width: number) => void
+export type ExpandedRowsChangeHandler = (expandedRowKeys: KeyType[]) => void
 
 export const tableV2Props = buildProps({
   cache: tableV2GridProps.cache,
   estimatedRowHeight: tableV2RowProps.estimatedRowHeight,
   rowKey,
-  /**
-   * extra props deriver
-   */
-  cellProps: {
-    type: definePropType<any | ExtraCellPropGetter<any>>([Object, Function]),
-  },
   // Header attributes
   headerClass: {
     type: definePropType<string | HeaderClassNameGetter<any>>([
@@ -130,10 +126,6 @@ export const tableV2Props = buildProps({
   dataGetter: {
     type: definePropType<DataGetter<any>>(Function),
   },
-  dataKey: {
-    type: String,
-    default: 'id',
-  },
   fixedData: fixedDataType,
   /**
    * Expanded keys
@@ -146,7 +138,7 @@ export const tableV2Props = buildProps({
    * Attributes
    */
   class: classType,
-  disabled: Boolean,
+  // disabled: Boolean,
   fixed: Boolean,
   style: {
     type: definePropType<CSSProperties>(Object),
@@ -176,7 +168,7 @@ export const tableV2Props = buildProps({
   },
 
   sortState: {
-    type: definePropType<Record<KeyType, SortOrder>>(Object),
+    type: definePropType<SortState>(Object),
     default: undefined,
   },
 
@@ -186,13 +178,15 @@ export const tableV2Props = buildProps({
   onColumnSort: {
     type: definePropType<ColumnSortHandler<any>>(Function),
   },
-  onExpandedRowsChange: Function,
+  onExpandedRowsChange: {
+    type: definePropType<ExpandedRowsChangeHandler>(Function),
+  },
   onEndReached: {
     type: definePropType<(distance: number) => void>(Function),
   },
   onRowExpand: tableV2RowProps.onRowExpand,
   onScroll: tableV2GridProps.onScroll,
-  onRowRendered: tableV2GridProps.onRowsRendered,
+  onRowsRendered: tableV2GridProps.onRowsRendered,
   rowEventHandlers: tableV2RowProps.rowEventHandlers,
 } as const)
 
