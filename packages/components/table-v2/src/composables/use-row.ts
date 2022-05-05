@@ -51,7 +51,7 @@ export const useRow = (
   const isDynamic = computed(() => isNumber(props.estimatedRowHeight))
 
   function onRowsRendered(params: onRowRenderedParams) {
-    props.onRowRendered?.(params)
+    props.onRowsRendered?.(params)
 
     if (params.rowCacheEnd > unref(lastRenderedRowIndex)) {
       lastRenderedRowIndex.value = params.rowCacheEnd

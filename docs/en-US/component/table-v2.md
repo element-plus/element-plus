@@ -3,13 +3,16 @@ title: Virtualized Table
 lang: en-US
 ---
 
-# Virtualized Table
+# Virtualized Table <el-tag round effect="plain">Beta</el-tag>
 
 Along with the evolutionary web development, table component has always been the most popular component in our web apps especially for dashboards, data analysis. For [Table V1](./table.md), with even just 1000 records of data, it can be very annoying when using it, because the poor performance.
 
 With Virtualized Table, you can render massive chunks of data in a blink of an eye.
 
 :::tip
+
+This component is **still under testing**, use at your own risk. if you found any bug or issue please report it at [GitHub](https://github.com/element-plus/element-plus/issues) for us to fix. Also there were some APIs which was not mentioned in this documentation, some of them were not
+fully developed yet, so that we are not mentioning them here.
 
 **Even though** Virtualized Table is efficient, but when the data load is too big, your **network**, **memory size** can be the bottle neck of your app. So keep in mind that Virtualized Table is never the ultimate solution for everything, consider paginate your data, add filters etc.
 
@@ -99,6 +102,27 @@ table-v2/filter
 
 :::
 
+## Sortable
+
+You can sort the table with sort state.
+
+:::demo
+
+table-v2/sort
+
+:::
+
+## Controlled Sort
+
+You can define multiple sortable column when you need it. Keep in mind that if you define multiple sortable columns, the UI
+might seem strange to your users since the it is unclear which column is being sorted.
+
+:::demo
+
+table-v2/controlled-sort
+
+:::
+
 ## Colspan
 
 Virtualized table did not use built-in `table` element, so that `colspan` and `rowspan` is a little bit different than [TableV1](./table.md). With customized row renderer, we can still do that. In this case, you'll learn how to do that.
@@ -129,3 +153,281 @@ We can combine rowspan and colspan together to meet your business goal!
 table-v2/spans
 
 :::
+
+## Tree data
+
+Virtual Table can also render data like tree, you can expand/collapse the tree node by clicking the arrow icon.
+
+:::demo
+
+table-v2/tree-data
+
+:::
+
+## Dynamic height rows
+
+Virtual Table can also render rows with dynamic height, when you have data without knowing how big the content it would be, you
+might want to use this feature for rendering a dynamic height row. You must pass down `estimated-row-height` to enable this
+feature, and the closer the estimated height is, the smoother the rendering will be.
+
+:::tip
+
+The height of each row is dynamically measured while rendering the rows, so that the UI **might be** bouncing if you are trying
+to render a large amount of data.
+
+:::
+
+:::demo
+
+table-v2/dynamic-height
+
+:::
+
+## Detail view
+
+With dynamic height rendering, we can use that to render detail view in the table.
+
+:::demo
+
+table-v2/detailed-view
+
+:::
+
+## Customized Footer
+
+Rendering a customized footer when you want to show a concluding message or information.
+
+:::demo
+
+table-v2/footer
+
+:::
+
+## Customized Empty Renderer
+
+Render customized empty element
+
+:::demo
+
+table-v2/empty
+
+:::
+
+## Overlay
+
+Render an overlay above the table when you want to show a loading indicator or something else.
+
+:::demo
+
+table-v2/overlay
+
+:::
+
+## TableV2 Attributes
+
+| Attribute                 | Description                                                                                                                | Type                                                 | Default   |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | --------- |
+| cache                     | Number of rows rendered in advance for boosting the performance                                                            | Number                                               | 2         |
+| estimated-row-height      | The estimated row height for rendering dynamic height rows                                                                 | Number                                               | -         |
+| header-class              | Customized class name passed to header wrapper                                                                             | String/Function\<[HeaderClassGetter](#typings)\>     | -         |
+| header-props              | Customized props name passed to header component                                                                           | Object/Function\<[HeaderPropsGetter](#typings)\>     | -         |
+| header-cell-props         | Customized props name passed to header cell component                                                                      | Object/Function\<[HeaderCellPropsGetter](#typings)\> | -         |
+| header-height             | The height of entire header, when it's array, it will render as many header rows as the given array's length               | Number/Array\<Number\>                               | 50        |
+| footer-height             | The height of the footer element, when presented, it will be part of the calculation of the table's height.                | Number                                               | 0         |
+| row-class                 | Customized class name passed to row wrapper                                                                                | String/Function\<[RowClassGetter](#typings)\>        | -         |
+| row-key                   | The key of each row, if not provided, it will be the index of the row                                                      | String/Symbol/Number                                 | id        |
+| row-props                 | Customized props name passed to row component                                                                              | Object/Function\<[RowPropsGetter](#typings)\>        | -         |
+| row-height                | The height of each row, used for calculating the total height of the table                                                 | Number                                               | 50        |
+| columns                   | An array of column definitions.                                                                                            | Array\<[Column](#column-attribute)\>                 | -         |
+| data                      | An array of data to be rendered in the table.                                                                              | Array\<[Data](#typings)\>                            | []        |
+| data-getter               | An method which helps customizing the how to fetch the data from the data source.                                          | Function                                             | -         |
+| fixed-data                | Data for rendering rows above the main content and below the header                                                        | Array\<[Data](#typings)\>                            | -         |
+| expand-column-key         | The column key indicates which row is expandable                                                                           | String                                               | -         |
+| expanded-row-keys         | An array of keys for expanded rows, can be used with `v-model`                                                             | Array\<[KeyType](#typings)\>                         | -         |
+| default-expanded-row-keys | An array of keys for default expanded rows, **NON REACTIVE**                                                               | Array\<[KeyType](#typings)\>                         | -         |
+| class                     | Class name for the the virtual table, will be applied to all three tables (left, right, main)                              | String/Array/Object                                  | -         |
+| fixed                     | Flag indicates the table column's width is a fixed or flexible.                                                            | Boolean                                              | false     |
+| width \*                  | Width for the table, required                                                                                              | Number                                               | -         |
+| height \*                 | Height for the table, required                                                                                             | Number                                               | -         |
+| max-height                | Maximum height for the table                                                                                               | Number                                               | -         |
+| h-scrollbar-size          | Indicates the horizontal scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse | Number                                               | 6         |
+| v-scrollbar-size          | Indicates the horizontal scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse | Number                                               | 6         |
+| scrollbar-always-on       | If true, the scrollbar will always be shown instead of when mouse is placed above the table                                | Boolean                                              | false     |
+| sort-by                   | Sort indicator                                                                                                             | Object\<[SortBy](#typings)\>                         | {}        |
+| sort-state                | Multiple sort indicator                                                                                                    | Object\<[SortState](#typings)\>                      | undefined |
+
+## TableV2 Slots
+
+| Name        | Params                          |
+| ----------- | ------------------------------- |
+| cell        | [CellSlotProps](#typings)       |
+| header      | [HeaderSlotProps](#typings)     |
+| header-cell | [HeaderCellSlotProps](#typings) |
+| row         | [RowSlotProps](#typings)        |
+| footer      | -                               |
+| empty       | -                               |
+| overlay     | -                               |
+
+## Table Methods
+
+| Event Name           | Description                                   | Parameters                               |
+| -------------------- | --------------------------------------------- | ---------------------------------------- |
+| column-sort          | Invoked when column sorted                    | Object\<ColumnSortParam\>                |
+| expanded-rows-change | Invoked when expanded rows changed            | `Array<KeyType>`                         |
+| end-reached          | Invoked when the end of the table is reached  | -                                        |
+| scroll               | Invoked after scrolled                        | Object\<[ScrollParams](#typings)\>       |
+| rows-rendered        | Invoked when rows are rendered                | Object\<[RowsRenderedParams](#typings)\> |
+| row-event-handlers   | A collection of handlers attached to each row | Object\<[RowEventHandlers](#typings)\>   |
+
+:::tip
+
+Note that these are `JavaScript` Objects, so that you **CANNOT USE** kebab-case for these attributes
+
+:::
+
+## Column Attribute
+
+| Attribute      | Description                                                               | Type                                                                                                                                                             | Default |
+| -------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| align          | Alignment of the table cell content                                       | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L6)         | left    |
+| class          | Class name for the column                                                 | String                                                                                                                                                           | -       |
+| fixed          | Fixed direction of the column                                             | Boolean/[FixedDir](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L11) | false   |
+| flexGrow       | CSSProperties flex grow, Only useful when not this is not a fixed table   | Number                                                                                                                                                           | 0       |
+| flexShrink     | CSSProperties flex shrink, Only useful when not this is not a fixed table | Number                                                                                                                                                           | 1       |
+| headerClass    | Used for customizing header column class                                  | String                                                                                                                                                           | -       |
+| hidden         | Whether the column is invisible                                           | Boolean                                                                                                                                                          | -       |
+| style          | Customized style for column cell, will be merged with grid cell           | CSSProperties                                                                                                                                                    | -       |
+| sortable       | Indicates whether the column is sortable                                  | Boolean                                                                                                                                                          | -       |
+| title          | The default text rendered in header cell                                  | String                                                                                                                                                           | -       |
+| maxWidth       | Maximum width for the column                                              | String                                                                                                                                                           | -       |
+| minWidth       | Minimum width for the column                                              | String                                                                                                                                                           | -       |
+| width \*       | Width for the column **Required**                                         | Number                                                                                                                                                           | -       |
+| cellRenderer   | Customized Cell renderer                                                  | VueComponent/(props: [CellRenderProps](#renderer-typings)) => VNode                                                                                              | -       |
+| headerRenderer | Customized Header renderer                                                | VueComponent/(props: [HeaderRenderProps](#renderer-typings)) => VNode                                                                                            | -       |
+
+## Typings
+
+<details>
+<summary>Show Type Declarations</summary>
+
+```ts
+type HeaderClassGetter = (param: {
+  columns: Column<any>[]
+  headerIndex: number
+}) => string
+
+type HeaderPropsGetter = (param: {
+  columns: Column<any>[]
+  headerIndex: number
+}) => Record<string, any>
+
+type HeaderCellPropsGetter = (param: {
+  columns: Column<any>[]
+  column: Column<any>
+  columnIndex: number
+  headerIndex: number
+  style: CSSProperties
+}) => Record<string, any>
+
+type RowClassGetter = (param: {
+  columns: Column<any>[]
+  rowData: any
+  rowIndex: number
+}) => string
+
+type RowPropsGetter = (param: {
+  columns: Column<any>[]
+  rowData: any
+  rowIndex: number
+}) => Record<string, any>
+
+type CellRenderProps<T> = {
+  cellData: T
+  column: Column<T>
+  columns: Column<T>[]
+  columnIndex: number
+  rowData: any
+  rowIndex: number
+}
+
+type HeaderRenderProps<T> = {
+  column: Column<T>
+  columns: Column<T>[]
+  columnIndex: number
+  headerIndex: number
+}
+
+type ScrollParams = {
+  xAxisScrollDir: 'forward' | 'backward'
+  scrollLeft: number
+  yAxisScrollDir: 'forward' | 'backward'
+  scrollTop: number
+}
+
+type CellSlotProps<T> = {
+  column: Column<T>
+  columns: Column<T>[]
+  columnIndex: number
+  depth: number
+  style: CSSProperties
+  rowData: any
+  rowIndex: number
+  isScrolling: boolean
+  expandIconProps?:
+    | {
+        rowData: any
+        rowIndex: number
+        onExpand: (expand: boolean) => void
+      }
+    | undefined
+}
+
+type HeaderSlotProps = {
+  cells: VNode[]
+  columns: Column<any>[]
+  headerIndex: number
+}
+
+type HeaderCellSlotProps = {
+  class: string
+  columns: Column<any>[]
+  column: Column<any>
+  columnIndex: number
+  headerIndex: number
+  style: CSSProperties
+  headerCellProps?: any
+  sortBy: SortBy
+  sortState?: SortState | undefined
+  onColumnSorted: (e: MouseEvent) => void
+}
+
+type RowSlotProps = {
+  columnIndex: number
+  rowIndex: number
+  data: any
+  key: number | string
+  isScrolling?: boolean | undefined
+  style: CSSProperties
+}
+
+type Data = {
+  [key: KeyType]: any
+  children?: Array<any>
+}
+
+type FixedData = Data
+
+type KeyType = string | number | symbol
+
+type ColumnSortParam<T> = { column: Column<T>; key: KeyType; order: SortOrder }
+
+enum SortOrder {
+  ASC = 'asc',
+  DESC = 'desc',
+}
+
+type SortBy = { key: KeyType; Order: SortOrder }
+type SortState = Record<KeyType, SortOrder>
+```
+
+</details>

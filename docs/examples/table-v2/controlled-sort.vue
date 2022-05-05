@@ -1,8 +1,8 @@
 <template>
   <el-table-v2
+    v-model:sort-state="sortState"
     :columns="columns"
     :data="data"
-    :sort-by="sortBy"
     :width="700"
     :height="400"
     fixed
@@ -12,9 +12,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { TableV2FixedDir, TableV2SortOrder } from 'element-plus'
-
-import type { SortBy } from 'element-plus'
+import { TableV2SortOrder } from 'element-plus'
+import type { SortBy, SortState } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({
@@ -44,21 +43,18 @@ const generateData = (
   })
 
 const columns = generateColumns(10)
-let data = generateData(columns, 200)
+const data = ref(generateData(columns, 200))
 
-columns[0].fixed = true
-columns[1].fixed = TableV2FixedDir.LEFT
-columns[9].fixed = TableV2FixedDir.RIGHT
+columns[0].sortable = true
+columns[1].sortable = true
 
-for (let i = 0; i < 3; i++) columns[i].sortable = true
-
-const sortBy = ref<SortBy>({
-  key: 'column-0',
-  order: TableV2SortOrder.ASC,
+const sortState = ref<SortState>({
+  'column-0': TableV2SortOrder.DESC,
+  'column-1': TableV2SortOrder.ASC,
 })
 
-const onSort = (_sortBy: SortBy) => {
-  data = data.reverse()
-  sortBy.value = _sortBy
+const onSort = ({ key, order }: SortBy) => {
+  sortState.value[key] = order
+  data.value = data.value.reverse()
 }
 </script>
