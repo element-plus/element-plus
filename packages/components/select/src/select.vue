@@ -284,7 +284,6 @@ import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   addResizeListener,
-  getComponentSize,
   isValidComponentSize,
   removeResizeListener,
 } from '@element-plus/utils'
@@ -532,9 +531,7 @@ export default defineComponent({
       addResizeListener(selectWrapper.value as any, handleResize)
       if (reference.value && reference.value.$el) {
         const input = reference.value.input as HTMLInputElement
-        states.initialInputHeight =
-          input.getBoundingClientRect().height ||
-          getComponentSize(selectSize.value)
+        states.initialInputHeight = input.getBoundingClientRect().height
       }
       if (props.remote && props.multiple) {
         resetInputHeight()

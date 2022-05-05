@@ -176,7 +176,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   // watch
   watch(
-    () => selectDisabled.value,
+    [() => selectDisabled.value, () => selectSize.value, () => elForm.size],
     () => {
       nextTick(() => {
         resetInputHeight()
