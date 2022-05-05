@@ -45,7 +45,7 @@ export type FormContext = FormProps &
   }
 
 export interface FormItemContext extends FormItemProps {
-  $el: HTMLDivElement
+  $el: HTMLDivElement | undefined
   size: ComponentSize
   validateState: string
   isGroup: boolean

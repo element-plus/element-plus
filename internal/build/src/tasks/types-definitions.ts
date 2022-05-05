@@ -14,7 +14,7 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import { pathRewriter } from '../utils'
-import typeSafe from '../type-safe.json'
+import typeUnsafe from '../type-unsafe.json'
 
 import type { SourceFile } from 'ts-morph'
 
@@ -22,10 +22,10 @@ const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.web.json')
 const outDir = path.resolve(buildOutput, 'types')
 
 // Type safe list. The TS errors are not all fixed yet, so we need a list of which files are fixed with TS errors to prevent accidental TS errors.
-const typeSafePaths = typeSafe.map((_path) => {
-  let safePath = path.resolve(projRoot, _path)
-  if (_path.endsWith('/')) safePath += path.sep
-  return safePath
+const typeUnsafePaths = typeUnsafe.map((_path) => {
+  let paths = path.resolve(projRoot, _path)
+  if (_path.endsWith('/')) paths += path.sep
+  return paths
 })
 
 /**
@@ -106,7 +106,7 @@ export const generateTypesDefinitions = async () => {
     const filePath = diagnostic.getSourceFile()?.getFilePath()
     return (
       filePath &&
-      typeSafePaths.some((safePath) => filePath.startsWith(safePath))
+      !typeUnsafePaths.some((safePath) => filePath.startsWith(safePath))
     )
   })
   if (diagnostics.length > 0) {
