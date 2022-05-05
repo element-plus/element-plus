@@ -106,6 +106,7 @@
     top: 50%;
     transform: translateY(-50%);
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
     line-height: normal;
     text-align: left;
@@ -202,7 +203,7 @@
     flex: 1;
     height: 24px;
     min-width: 60px;
-    margin: 2px 0 2px map.get($input-padding-horizontal, 'default')-$border-width;
+    margin: 0px 0 0px map.get($input-padding-horizontal, 'default')-$border-width;
     padding: 0;
     color: getCssVar('cascader', 'menu-text-color');
     border: none;

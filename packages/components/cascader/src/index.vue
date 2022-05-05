@@ -31,7 +31,7 @@
           nsCascader.is('disabled', isDisabled),
           $attrs.class,
         ]"
-        :style="$attrs.style"
+        :style="$attrs.style as any"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
         @keydown="handleKeyDown"
         @mouseenter="inputHover = true"
@@ -133,7 +133,7 @@
             type="text"
             :class="nsCascader.e('search-input')"
             :placeholder="presentText ? '' : inputPlaceholder"
-            @input="(e) => handleInput(searchInputValue, e)"
+            @input="(e) => handleInput(searchInputValue, e as KeyboardEvent)"
             @click.stop="togglePopperVisible(true)"
             @keydown.delete="handleDelete"
             @compositionstart="handleComposition"
@@ -177,7 +177,9 @@
             @click="handleSuggestionClick(item)"
           >
             <span>{{ item.text }}</span>
-            <el-icon v-if="item.checked"><check /></el-icon>
+            <el-icon v-if="item.checked">
+              <check />
+            </el-icon>
           </li>
         </template>
         <slot v-else name="empty">
@@ -234,6 +236,7 @@ import {
   CHANGE_EVENT,
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
+  componentSizeMap,
 } from '@element-plus/constants'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 
@@ -253,12 +256,6 @@ type inputType = InstanceType<typeof ElInput>
 type suggestionPanelType = InstanceType<typeof ElScrollbar>
 
 const DEFAULT_INPUT_HEIGHT = 40
-
-const INPUT_HEIGHT_MAP = {
-  large: 36,
-  default: 32,
-  small: 28,
-}
 
 const popperOptions: Partial<Options> = {
   modifiers: [
@@ -425,7 +422,7 @@ export default defineComponent({
         : ''
     })
 
-    const checkedValue = computed<CascaderValue>({
+    const checkedValue = computed<CascaderValue | undefined>({
       get() {
         return props.modelValue
       },
@@ -585,7 +582,7 @@ export default defineComponent({
         const { offsetHeight } = tagWrapperEl
         const height =
           presentTags.value.length > 0
-            ? `${Math.max(offsetHeight + 6, inputInitialHeight)}px`
+            ? `${Math.max(offsetHeight, inputInitialHeight)}px`
             : `${inputInitialHeight}px`
         inputInner.style.height = height
         updatePopperPosition()
@@ -714,6 +711,14 @@ export default defineComponent({
       val ? handleFilter() : hideSuggestionPanel()
     }
 
+    const getInputHeight = () => {
+      return (
+        componentSizeMap[realSize.value] ||
+        input.value?.$el?.offsetHeight ||
+        DEFAULT_INPUT_HEIGHT
+      )
+    }
+
     watch(filtering, updatePopperPosition)
 
     watch([checkedNodes, isDisabled], calculatePresentTags)
@@ -724,12 +729,14 @@ export default defineComponent({
 
     watch(presentText, (val) => (inputValue.value = val), { immediate: true })
 
+    watch(realSize, () => {
+      inputInitialHeight = getInputHeight()
+      updateStyle()
+    })
+
     onMounted(() => {
       const inputEl = input.value?.$el
-      inputInitialHeight =
-        inputEl?.offsetHeight ||
-        INPUT_HEIGHT_MAP[realSize.value] ||
-        DEFAULT_INPUT_HEIGHT
+      inputInitialHeight = getInputHeight()
       addResizeListener(inputEl, updateStyle)
     })
 
