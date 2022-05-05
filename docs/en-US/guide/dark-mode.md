@@ -32,6 +32,8 @@ Then, you can quickly enable it with just one line of code to import CSS in your
 import 'element-plus/theme-chalk/dark/css-vars.css'
 ```
 
+> If you want an example, you can refer to [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter).
+
 ## Custom variables
 
 ### By CSS
