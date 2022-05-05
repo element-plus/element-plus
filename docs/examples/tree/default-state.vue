@@ -4,16 +4,24 @@
     show-checkbox
     node-key="id"
     :default-expanded-keys="[2, 3]"
-    :default-checked-keys="[5]"
+    :default-checked-keys="defaultCheckedKeys"
     :props="defaultProps"
   />
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+
 const defaultProps = {
   children: 'children',
   label: 'label',
 }
+
+const defaultCheckedKeys = ref([5])
+setTimeout(() => {
+  defaultCheckedKeys.value = [10]
+}, 2000)
+
 const data = [
   {
     id: 1,

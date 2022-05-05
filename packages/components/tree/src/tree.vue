@@ -202,6 +202,7 @@ export default defineComponent({
       () => props.defaultCheckedKeys,
       (newVal) => {
         store.value.setDefaultCheckedKey(newVal)
+        setCheckedKeys(newVal, true)
       }
     )
 
