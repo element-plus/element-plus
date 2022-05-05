@@ -27,7 +27,7 @@ const fileList = ref<UploadUserFile[]>([
   },
   {
     name: 'food2.jpeg',
-    url: '/images/guide.png',
+    url: '/images/hamburger.png',
   },
   {
     name: 'food.jpeg',
@@ -35,7 +35,7 @@ const fileList = ref<UploadUserFile[]>([
   },
   {
     name: 'food2.jpeg',
-    url: '/images/guide.png',
+    url: '/images/hamburger.png',
   },
   {
     name: 'food.jpeg',
@@ -43,7 +43,7 @@ const fileList = ref<UploadUserFile[]>([
   },
   {
     name: 'food2.jpeg',
-    url: '/images/guide.png',
+    url: '/images/hamburger.png',
   },
   {
     name: 'food.jpeg',
@@ -51,7 +51,7 @@ const fileList = ref<UploadUserFile[]>([
   },
   {
     name: 'food2.jpeg',
-    url: '/images/guide.png',
+    url: '/images/hamburger.png',
   },
 ])
 
