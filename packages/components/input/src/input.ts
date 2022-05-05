@@ -13,6 +13,10 @@ import type { ExtractPropTypes, StyleValue } from 'vue'
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 
 export const inputProps = buildProps({
+  id: {
+    type: String,
+    default: undefined,
+  },
   size: useSizeProp,
   disabled: Boolean,
   modelValue: {
@@ -78,9 +82,11 @@ export const inputProps = buildProps({
   },
   label: {
     type: String,
+    default: undefined,
   },
   tabindex: {
-    type: [Number, String],
+    type: [String, Number],
+    default: 0,
   },
   validateEvent: {
     type: Boolean,

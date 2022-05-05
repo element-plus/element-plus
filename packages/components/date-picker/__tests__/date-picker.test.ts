@@ -10,6 +10,7 @@ import zhCn from '@element-plus/locale/lang/zh-cn'
 import enUs from '@element-plus/locale/lang/en'
 import 'dayjs/locale/zh-cn'
 import { EVENT_CODE } from '@element-plus/constants'
+import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
 
 const _mount = (template: string, data = () => ({}), otherObj?) =>
@@ -17,6 +18,7 @@ const _mount = (template: string, data = () => ({}), otherObj?) =>
     {
       components: {
         'el-date-picker': DatePicker,
+        'el-form-item': ElFormItem,
       },
       template,
       data,
@@ -1352,5 +1354,58 @@ describe('MonthRange', () => {
     expect(
       (wrapper.findComponent(CommonPicker).vm as any).elPopperOptions
     ).toEqual(ElPopperOptions)
+  })
+
+  describe('form item accessibility integration', () => {
+    it('automatic id attachment', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-date-picker />
+        </el-form-item>`,
+        () => ({})
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const datePickerInput = wrapper.find('.el-input__inner')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItemLabel.attributes().for).toBe(
+        datePickerInput.attributes().id
+      )
+    })
+
+    it('specified id attachment', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-date-picker id="foobar" />
+        </el-form-item>`,
+        () => ({})
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const datePickerInput = wrapper.find('.el-input__inner')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(datePickerInput.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(
+        datePickerInput.attributes().id
+      )
+    })
+
+    it('form item role is group when multiple inputs', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-date-picker />
+          <el-date-picker />
+        </el-form-item>`,
+        () => ({})
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      expect(formItem.attributes().role).toBe('group')
+    })
   })
 })

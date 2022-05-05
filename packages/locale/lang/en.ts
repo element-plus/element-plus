@@ -4,6 +4,9 @@ export default {
     colorpicker: {
       confirm: 'OK',
       clear: 'Clear',
+      defaultLabel: 'color picker',
+      description:
+        'current color is {color}. press enter to select a new color.',
     },
     datepicker: {
       now: 'Now',
@@ -58,6 +61,10 @@ export default {
         nov: 'Nov',
         dec: 'Dec',
       },
+    },
+    inputNumber: {
+      decrease: 'decrease number',
+      increase: 'increase number',
     },
     select: {
       loading: 'Loading',

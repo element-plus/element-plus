@@ -1,11 +1,18 @@
 <template>
-  <div ref="formItemRef" :class="formItemClasses">
+  <div
+    ref="formItemRef"
+    :class="formItemClasses"
+    :role="isGroup ? 'group' : undefined"
+    :aria-labelledby="isGroup ? labelId : undefined"
+  >
     <form-label-wrap
       :is-auto-width="labelStyle.width === 'auto'"
       :update-all="formContext?.labelWidth === 'auto'"
     >
-      <label
-        v-if="label || $slots.label"
+      <component
+        :is="labelFor ? 'label' : 'div'"
+        v-if="hasLabel"
+        :id="labelId"
         :for="labelFor"
         :class="ns.e('label')"
         :style="labelStyle"
@@ -13,7 +20,7 @@
         <slot name="label" :label="currentLabel">
           {{ currentLabel }}
         </slot>
-      </label>
+      </component>
     </form-label-wrap>
 
     <div :class="ns.e('content')" :style="contentStyle">
@@ -55,7 +62,7 @@ import {
   isString,
 } from '@element-plus/utils'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
-import { useNamespace, useSize } from '@element-plus/hooks'
+import { useId, useNamespace, useSize } from '@element-plus/hooks'
 import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
 
@@ -80,6 +87,9 @@ const parentFormItemContext = inject(formItemContextKey, undefined)
 
 const _size = useSize(undefined, { formItem: false })
 const ns = useNamespace('form-item')
+
+const labelId = useId().value
+const inputIds = ref<string[]>([])
 
 const validateState = ref<FormItemValidateState>('')
 const validateStateDebounced = refDebounced(validateState, 100)
@@ -140,7 +150,19 @@ const propString = computed(() => {
   return isString(props.prop) ? props.prop : props.prop.join('.')
 })
 
-const labelFor = computed(() => props.for || propString.value)
+const hasLabel = computed<boolean>(() => {
+  return !!(props.label || slots.label)
+})
+
+const labelFor = computed<string | undefined>(() => {
+  return props.for || inputIds.value.length === 1
+    ? inputIds.value[0]
+    : undefined
+})
+
+const isGroup = computed<boolean>(() => {
+  return !labelFor.value && hasLabel.value
+})
 
 const isNested = !!parentFormItemContext
 
@@ -303,6 +325,16 @@ const resetField: FormItemContext['resetField'] = async () => {
   clearValidate()
 }
 
+const addInputId: FormItemContext['addInputId'] = (id: string) => {
+  if (!inputIds.value.includes(id)) {
+    inputIds.value.push(id)
+  }
+}
+
+const removeInputId: FormItemContext['removeInputId'] = (id: string) => {
+  inputIds.value = inputIds.value.filter((listId) => listId !== id)
+}
+
 watch(
   () => props.error,
   (val) => {
@@ -322,6 +354,11 @@ const context: FormItemContext = reactive({
   $el: formItemRef,
   size: _size,
   validateState,
+  labelId,
+  inputIds,
+  isGroup,
+  addInputId,
+  removeInputId,
   resetField,
   clearValidate,
   validate,

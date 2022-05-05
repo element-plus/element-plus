@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
+import { ElFormItem } from '@element-plus/components/form'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 
@@ -12,6 +13,7 @@ const _mount = (template: string, data, otherObj?) =>
     {
       components: {
         'el-time-picker': TimePicker,
+        'el-form-item': ElFormItem,
       },
       template,
       data,
@@ -661,5 +663,58 @@ describe('TimePicker(range)', () => {
         .querySelector('.el-time-spinner__item.is-active')
         .innerHTML.split(' ').length
     ).toBe(1)
+  })
+
+  describe('form item accessibility integration', () => {
+    it('automatic id attachment', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-time-picker />
+        </el-form-item>`,
+        () => ({})
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const timePickerInput = wrapper.find('.el-input__inner')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItemLabel.attributes().for).toBe(
+        timePickerInput.attributes().id
+      )
+    })
+
+    it('specified id attachment', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-time-picker id="foobar" />
+        </el-form-item>`,
+        () => ({})
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const timePickerInput = wrapper.find('.el-input__inner')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(timePickerInput.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(
+        timePickerInput.attributes().id
+      )
+    })
+
+    it('form item role is group when multiple inputs', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-time-picker />
+          <el-time-picker />
+        </el-form-item>`,
+        () => ({})
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      expect(formItem.attributes().role).toBe('group')
+    })
   })
 })

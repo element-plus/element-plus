@@ -22,7 +22,7 @@
       role="combobox"
       aria-haspopup="listbox"
       :aria-expanded="suggestionVisible"
-      :aria-owns="id"
+      :aria-owns="listboxId"
     >
       <el-input
         ref="inputRef"
@@ -60,7 +60,7 @@
         role="region"
       >
         <el-scrollbar
-          :id="id"
+          :id="listboxId"
           tag="ul"
           :wrap-class="ns.be('suggestion', 'wrap')"
           :view-class="ns.be('suggestion', 'list')"
@@ -72,7 +72,7 @@
           <template v-else>
             <li
               v-for="(item, index) in suggestions"
-              :id="`${id}-item-${index}`"
+              :id="`${listboxId}-item-${index}`"
               :key="index"
               :class="{ highlighted: highlightedIndex === index }"
               role="option"
@@ -141,7 +141,7 @@ const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
 
-const id = computed(() => {
+const listboxId = computed(() => {
   return ns.b(String(generateId()))
 })
 const styles = computed(() => compAttrs.style as StyleValue)
@@ -288,7 +288,7 @@ const highlight = (index: number) => {
   // TODO: use Volar generate dts to fix it.
   ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
-    `${id.value}-item-${highlightedIndex.value}`
+    `${listboxId.value}-item-${highlightedIndex.value}`
   )
 }
 
@@ -301,7 +301,7 @@ onMounted(() => {
   ;(inputRef.value as any).ref!.setAttribute('aria-controls', 'id')
   ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
-    `${id.value}-item-${highlightedIndex.value}`
+    `${listboxId.value}-item-${highlightedIndex.value}`
   )
 })
 

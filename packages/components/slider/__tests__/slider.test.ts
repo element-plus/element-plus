@@ -2,6 +2,7 @@ import { h, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
+import { ElFormItem } from '@element-plus/components/form'
 import Slider from '../src/index.vue'
 
 vi.mock('lodash-unified', async () => {
@@ -934,6 +935,103 @@ describe('Slider', () => {
       const marks = wrapper.findAll('.el-slider__marks .el-slider__marks-text')
       expect(marks.length).toBe(2)
       expect(stops.length).toBe(2)
+    })
+  })
+
+  describe('form item accessibility integration', () => {
+    it('automatic id attachment', async () => {
+      const wrapper = mount({
+        template: `<el-form-item label="Foobar" data-test-ref="item">
+            <el-slider />
+          </el-form-item>`,
+        components: {
+          'el-slider': Slider,
+          'el-form-item': ElFormItem,
+        },
+      })
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const sliderButton = wrapper.find('.el-slider__button-wrapper')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItemLabel.attributes().for).toBe(sliderButton.attributes().id)
+    })
+
+    it('range with automatic id attachment', async () => {
+      const wrapper = mount({
+        template: `<el-form-item label="Foobar" data-test-ref="item">
+            <el-slider :range="true" />
+          </el-form-item>`,
+        components: {
+          'el-slider': Slider,
+          'el-form-item': ElFormItem,
+        },
+      })
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const sliderWrapper = wrapper.find('.el-slider')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItemLabel.attributes().for).toBe(sliderWrapper.attributes().id)
+    })
+
+    it('specified id attachment', async () => {
+      const wrapper = mount({
+        template: `<el-form-item label="Foobar" data-test-ref="item">
+            <el-slider id="foobar" />
+          </el-form-item>`,
+        components: {
+          'el-slider': Slider,
+          'el-form-item': ElFormItem,
+        },
+      })
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const sliderButton = wrapper.find('.el-slider__button-wrapper')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(sliderButton.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(sliderButton.attributes().id)
+    })
+
+    it('range with specified id attachment', async () => {
+      const wrapper = mount({
+        template: `<el-form-item label="Foobar" data-test-ref="item">
+            <el-slider id="foobar" :range="true" />
+          </el-form-item>`,
+        components: {
+          'el-slider': Slider,
+          'el-form-item': ElFormItem,
+        },
+      })
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const sliderWrapper = wrapper.find('.el-slider')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(sliderWrapper.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(sliderWrapper.attributes().id)
+    })
+
+    it('form item role is group when multiple inputs', async () => {
+      const wrapper = mount({
+        template: `<el-form-item label="Foobar" data-test-ref="item">
+            <el-slider />
+            <el-slider />
+          </el-form-item>`,
+        components: {
+          'el-slider': Slider,
+          'el-form-item': ElFormItem,
+        },
+      })
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      expect(formItem.attributes().role).toBe('group')
     })
   })
 })

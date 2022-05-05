@@ -4,6 +4,10 @@ import { radioEmits } from './radio'
 import type { ExtractPropTypes } from '@vue/runtime-core'
 
 export const radioGroupProps = buildProps({
+  id: {
+    type: String,
+    default: undefined,
+  },
   size: useSizeProp,
   disabled: Boolean,
   modelValue: {
@@ -13,6 +17,10 @@ export const radioGroupProps = buildProps({
   fill: {
     type: String,
     default: '',
+  },
+  label: {
+    type: String,
+    default: undefined,
   },
   textColor: {
     type: String,

@@ -32,6 +32,8 @@
         :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
         :style="$attrs.style"
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
+        :label="label"
+        :tabindex="tabindex"
         @input="onUserInput"
         @focus="handleFocus"
         @keydown="handleKeydown"

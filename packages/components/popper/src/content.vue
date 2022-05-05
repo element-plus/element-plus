@@ -18,6 +18,7 @@ import { useNamespace, useZIndex } from '@element-plus/hooks'
 import {
   POPPER_CONTENT_INJECTION_KEY,
   POPPER_INJECTION_KEY,
+  formItemContextKey,
 } from '@element-plus/tokens'
 import { usePopperContentProps } from './content'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
@@ -36,6 +37,7 @@ const { popperInstanceRef, contentRef, triggerRef } = inject(
   POPPER_INJECTION_KEY,
   undefined
 )!
+const formItemContext = inject(formItemContextKey, undefined)
 const { nextZIndex } = useZIndex()
 const ns = useNamespace('popper')
 const popperContentRef = ref<HTMLElement>()
@@ -45,6 +47,13 @@ provide(POPPER_CONTENT_INJECTION_KEY, {
   arrowRef,
   arrowOffset,
 })
+// disallow auto-id from inside popper content
+provide(formItemContextKey, {
+  ...formItemContext,
+  addInputId: () => undefined,
+  removeInputId: () => undefined,
+})
+
 const contentZIndex = ref(props.zIndex || nextZIndex())
 
 const computedReference = computed(
