@@ -60,6 +60,18 @@ describe('Button.vue', () => {
     expect(wrapper.classes()).toContain('is-circle')
   })
 
+  it('text', async () => {
+    const wrapper = mount(Button, {
+      props: { text: true },
+    })
+
+    expect(wrapper.classes()).toContain('is-text')
+    await wrapper.setProps({
+      bg: true,
+    })
+    expect(wrapper.classes()).toContain('is-has-bg')
+  })
+
   test('render text', () => {
     const wrapper = mount(Button, {
       slots: {
