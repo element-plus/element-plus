@@ -138,7 +138,11 @@
         @change="handleChange"
         @keydown="handleKeydown"
       />
-      <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
+      <span
+        v-if="isWordLimitVisible"
+        :style="countStyle"
+        :class="nsInput.e('count')"
+      >
         {{ textLength }} / {{ attrs.maxlength }}
       </span>
     </template>
@@ -159,7 +163,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { isClient } from '@vueuse/core'
+import { isClient, useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import {
@@ -221,6 +225,7 @@ const focused = ref(false)
 const hovering = ref(false)
 const isComposing = ref(false)
 const passwordVisible = ref(false)
+const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 
 const _ref = computed(() => input.value || textarea.value)
@@ -285,6 +290,16 @@ const suffixVisible = computed(
 )
 
 const [recordCursor, setCursor] = useCursor(input)
+
+useResizeObserver(textarea, (entries) => {
+  if (!isWordLimitVisible.value || props.resize !== 'both') return
+  const entry = entries[0]
+  const { width } = entry.contentRect
+  countStyle.value = {
+    /** right: 100% - width + padding(15) + right(6) */
+    right: `calc(100% - ${width + 15 + 6}px)`,
+  }
+})
 
 const resizeTextarea = () => {
   const { type, autosize } = props

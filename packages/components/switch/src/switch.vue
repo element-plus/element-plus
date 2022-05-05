@@ -28,11 +28,7 @@
         inactiveText
       }}</span>
     </span>
-    <span
-      ref="core"
-      :class="ns.e('core')"
-      :style="{ width: (width || 40) + 'px' }"
-    >
+    <span ref="core" :class="ns.e('core')" :style="coreStyle">
       <div v-if="inlinePrompt" :class="ns.e('inner')">
         <template v-if="activeIcon || inactiveIcon">
           <el-icon
@@ -88,7 +84,7 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
 import { isPromise } from '@vue/shared'
-import { debugWarn, isBoolean, throwError } from '@element-plus/utils'
+import { addUnit, debugWarn, isBoolean, throwError } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 import {
@@ -104,6 +100,8 @@ import {
   useSize,
 } from '@element-plus/hooks'
 import { switchEmits, switchProps } from './switch'
+
+import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElSwitch'
 
@@ -134,6 +132,10 @@ export default defineComponent({
       ns.is('disabled', switchDisabled.value),
       ns.is('checked', checked.value),
     ])
+
+    const coreStyle = computed<CSSProperties>(() => ({
+      width: addUnit(props.width),
+    }))
 
     watch(
       () => props.modelValue,
@@ -249,6 +251,7 @@ export default defineComponent({
       switchDisabled,
       checked,
       switchKls,
+      coreStyle,
       handleChange,
       switchValue,
       focus,

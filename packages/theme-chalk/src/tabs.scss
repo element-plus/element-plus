@@ -111,7 +111,7 @@
     line-height: 40px;
     display: inline-block;
     list-style: none;
-    font-size: 14px;
+    font-size: getCssVar('font-size-base');
     font-weight: 500;
     color: getCssVar('text-color', 'primary');
     position: relative;

@@ -12,7 +12,7 @@ const homeLang = computed(() => homeLocale[lang.value])
     <ul class="container">
       <li>
         <div class="card">
-          <img src="/images/guide.png" alt="" />
+          <guide-svg w="40" m="y-12" />
           <h3>{{ homeLang['3'] }}</h3>
           <p>{{ homeLang['4'] }}</p>
           <a :href="`/${lang}/guide/design.html`">{{ homeLang['5'] }}</a>
@@ -20,7 +20,7 @@ const homeLang = computed(() => homeLocale[lang.value])
       </li>
       <li>
         <div class="card">
-          <img src="/images/component.png" alt="" />
+          <component-svg w="40" m="y-12" />
           <h3>{{ homeLang['6'] }}</h3>
           <p>{{ homeLang['7'] }}</p>
           <a :href="`/${lang}/component/layout.html`">
@@ -30,7 +30,7 @@ const homeLang = computed(() => homeLocale[lang.value])
       </li>
       <li>
         <div class="card">
-          <img src="/images/resource.png" alt="" />
+          <resource-svg w="40" m="y-12" />
           <h3>{{ homeLang['8'] }}</h3>
           <p>{{ homeLang['9'] }}</p>
           <a :href="`/${lang}/resource/index.html`"> {{ homeLang['5'] }} </a>
@@ -84,6 +84,11 @@ const homeLang = computed(() => homeLocale[lang.value])
     position: relative;
     transition: all 0.3s ease-in-out;
     bottom: 0;
+
+    &:hover {
+      box-shadow: 0px 12px 32px 4px rgba(237, 239, 245, 0.24),
+        0px 8px 20px rgba(237, 239, 245, 0.48);
+    }
 
     img {
       margin: 48px auto;
@@ -144,6 +149,17 @@ const homeLang = computed(() => homeLocale[lang.value])
     }
     .banner img {
       right: 0;
+    }
+  }
+}
+
+.dark {
+  .home-page {
+    .card {
+      &:hover {
+        box-shadow: 0px 12px 32px 4px rgba(9, 11, 16, 0.24),
+          0px 8px 20px rgba(9, 11, 16, 0.48);
+      }
     }
   }
 }

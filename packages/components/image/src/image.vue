@@ -36,7 +36,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  ref,
+  useAttrs as useRawAttrs,
+  watch,
+} from 'vue'
 import {
   isBoolean,
   isClient,
@@ -62,6 +69,7 @@ import type { CSSProperties, StyleValue } from 'vue'
 
 defineOptions({
   name: 'ElImage',
+  inheritAttrs: false,
 })
 
 const props = defineProps(imageProps)
@@ -82,8 +90,9 @@ useDeprecated(
 
 const { t } = useLocale()
 const ns = useNamespace('image')
-
+const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
+
 const hasLoadError = ref(false)
 const loading = ref(true)
 const imgWidth = ref(0)
@@ -95,7 +104,7 @@ const _scrollContainer = ref<HTMLElement | Window>()
 let stopScrollListener: () => void
 let stopWheelListener: () => void
 
-const containerStyle = computed(() => attrs.value.style as StyleValue)
+const containerStyle = computed(() => rawAttrs.style as StyleValue)
 
 const imageStyle = computed<CSSProperties>(() => {
   const { fit } = props
@@ -149,7 +158,7 @@ const loadImage = () => {
 
   // bind html attrs
   // so it can behave consistently
-  Object.entries(attrs.value).forEach(([key, value]) => {
+  Object.entries(rawAttrs).forEach(([key, value]) => {
     // avoid onload to be overwritten
     if (key.toLowerCase() === 'onload') return
     img.setAttribute(key, value as string)

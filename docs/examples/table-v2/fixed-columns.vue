@@ -1,5 +1,5 @@
 <template>
-  <table-v2
+  <el-table-v2
     :columns="columns"
     :data="data"
     :sort-by="sortBy"
@@ -12,9 +12,9 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { FixedDir, SortOrder, TableV2 } from '@element-plus/components/table-v2'
+import { TableV2FixedDir, TableV2SortOrder } from 'element-plus'
 
-import type { SortBy } from '@element-plus/components/table-v2'
+import type { SortBy } from 'element-plus'
 
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({
@@ -47,14 +47,14 @@ const columns = generateColumns(10)
 let data = generateData(columns, 200)
 
 columns[0].fixed = true
-columns[1].fixed = FixedDir.LEFT
-columns[9].fixed = FixedDir.RIGHT
+columns[1].fixed = TableV2FixedDir.LEFT
+columns[9].fixed = TableV2FixedDir.RIGHT
 
 for (let i = 0; i < 3; i++) columns[i].sortable = true
 
 const sortBy = ref<SortBy>({
   key: 'column-0',
-  order: SortOrder.ASC,
+  order: TableV2SortOrder.ASC,
 })
 
 const onSort = (_sortBy: SortBy) => {

@@ -2,6 +2,8 @@
 @use 'sass:math';
 
 @use '../common/var.scss' as common;
+@use '../mixins/mixins.scss' as *;
+@use '../color/index.scss' as *;
 
 $colors: () !default;
 @each $type in common.$types {
@@ -86,6 +88,16 @@ $border-color: map.merge(
   $border-color
 );
 
+// mix to hex to avoid overlay issues
+@each $key, $val in $border-color {
+  $border-color: map.merge(
+    $border-color,
+    (
+      $key: mix-overlay-color($val, map.get($bg-color, '')),
+    )
+  ) !global;
+}
+
 // Box-shadow
 $box-shadow: () !default;
 $box-shadow: map.merge(
@@ -125,6 +137,18 @@ $fill-color: map.merge(
   $fill-color
 );
 
+// mix to hex to avoid overlay issues
+@each $key, $val in $fill-color {
+  @if ($key != 'blank') {
+    $fill-color: map.merge(
+      $fill-color,
+      (
+        $key: mix-overlay-color($val, map.get($bg-color, '')),
+      )
+    ) !global;
+  }
+}
+
 // text
 $text-color-base: #f0f5ff;
 $text-color: () !default;
@@ -138,6 +162,15 @@ $text-color: map.merge(
   ),
   $text-color
 );
+// mix to hex to avoid overlay issues
+@each $key, $val in $text-color {
+  $text-color: map.merge(
+    $text-color,
+    (
+      $key: mix-overlay-color($val, map.get($bg-color, '')),
+    )
+  ) !global;
+}
 
 // mask
 $mask-color: () !default;

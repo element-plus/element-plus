@@ -23,8 +23,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-        with:
-          version: latest
 
       - name: Cache ~/.pnpm-store
         uses: actions/cache@v3
@@ -47,7 +45,7 @@ jobs:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
       - name: Pull Crowdin translations
-        run: cd docs && pnpm exec crowdin download -l zh-CN
+        run: cd docs && pnpm exec crowdin download -l zh-CN && pnpm exec crowdin download -l es-ES
 
       - name: Generate common locale
         run: pnpm docs:gen-locale

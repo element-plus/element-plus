@@ -18,7 +18,7 @@ We are excited that you are interested in contributing to Element Plus. Before s
 
 - Fork this repository to your own account. Do not create branches here.
 
-- Commit info should be formatted as `type(scope): info about commit`. (e.g. `fix(components): [el-scrollbar] fix xxx bug`)
+- Commit info should be formatted as `type(scope): info about commit`. (e.g. `fix(components): [scrollbar] fix xxx bug`)
 
   1. type: type must be one of [build, chore, ci, docs, feat, fix, perf, refactor, revert, release, style, test, improvement].
 

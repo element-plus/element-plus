@@ -519,6 +519,7 @@ describe('Tabs.vue', () => {
       .mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
     await wrapper.find('#tab-C').trigger('click')
 
+    await nextTick()
     expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch(
       'translateX(300px)'
     )
@@ -531,6 +532,7 @@ describe('Tabs.vue', () => {
     await wrapper.find('#tab-A').trigger('click')
     await wrapper.find('#tab-C').trigger('click')
 
+    await nextTick()
     expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch(
       'translateY(200px)'
     )

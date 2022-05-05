@@ -68,6 +68,8 @@ onMounted(async () => {
   )
 
   if (lang.value === 'zh-CN') {
+    // disable cn redirect temporarily
+    if (Math.random() < 1000) return
     if (isMirrorUrl()) return
 
     if (userPrefer.value) {

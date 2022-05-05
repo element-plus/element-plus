@@ -8,7 +8,7 @@
       @change="handleChange"
     >
       <el-option
-        v-for="item in innerPagesizes"
+        v-for="item in innerPageSizes"
         :key="item"
         :value="item"
         :label="item + t('el.pagination.pagesize')"
@@ -84,7 +84,7 @@ export default defineComponent({
       }
     )
 
-    const innerPagesizes = computed(() => props.pageSizes)
+    const innerPageSizes = computed(() => props.pageSizes)
 
     function handleChange(val: number) {
       if (val !== innerPageSize.value) {
@@ -95,7 +95,7 @@ export default defineComponent({
 
     return {
       ns,
-      innerPagesizes,
+      innerPageSizes,
       innerPageSize,
 
       t,

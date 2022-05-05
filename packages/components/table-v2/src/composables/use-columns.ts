@@ -64,7 +64,7 @@ function useColumns(
 
     return _columns.reduce<Record<Column<any>['key'], CSSProperties>>(
       (style, column) => {
-        style[column.key] = calcColumnStyle(column, unref(fixed))
+        style[column.key] = calcColumnStyle(column, unref(fixed), props.fixed)
         return style
       },
       {}

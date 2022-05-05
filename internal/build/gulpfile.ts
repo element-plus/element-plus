@@ -54,7 +54,7 @@ export default series(
     runTask('buildHelper'),
     series(
       withTaskName('buildThemeChalk', () =>
-        run('pnpm run --filter ./packages/ build --parallel')
+        run('pnpm run -C packages/theme-chalk build')
       ),
       copyFullStyle
     )
