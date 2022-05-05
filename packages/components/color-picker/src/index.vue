@@ -224,12 +224,12 @@ export default defineComponent({
     const currentColor = computed(() => {
       return !props.modelValue && !showPanelColor.value ? '' : color.value
     })
-    const buttonAriaLabel = computed<string>(() => {
+    const buttonAriaLabel = computed<string | undefined>(() => {
       return !isLabeledByFormItem.value
         ? props.label || t('el.colorpicker.defaultLabel')
         : undefined
     })
-    const buttonAriaLabelledby = computed<string>(() => {
+    const buttonAriaLabelledby = computed<string | undefined>(() => {
       return isLabeledByFormItem.value ? elFormItem.labelId : undefined
     })
     // watch

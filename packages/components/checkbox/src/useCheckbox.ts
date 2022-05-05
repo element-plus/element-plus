@@ -222,7 +222,7 @@ const useDisabled = (
     return (
       (isGroup.value
         ? checkboxGroup.disabled?.value || disabled || isLimitDisabled.value
-        : props.disabled || elForm?.disabled) ?? false
+        : disabled) ?? false
     )
   })
 

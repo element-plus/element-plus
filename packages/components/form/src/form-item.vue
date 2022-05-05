@@ -331,7 +331,7 @@ const addInputId: FormItemContext['addInputId'] = (id: string) => {
   }
 }
 
-const removeInputId: FormItemContext['addInputId'] = (id: string) => {
+const removeInputId: FormItemContext['removeInputId'] = (id: string) => {
   inputIds.value = inputIds.value.filter((listId) => listId !== id)
 }
 

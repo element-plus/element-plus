@@ -75,9 +75,6 @@ export const autocompleteProps = buildProps({
   label: {
     type: String,
   },
-  tabindex: {
-    type: [Number, String],
-  },
   teleported: useTooltipContentProps.teleported,
   highlightFirstItem: {
     type: Boolean,
