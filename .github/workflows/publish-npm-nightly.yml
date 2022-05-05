@@ -20,8 +20,6 @@ jobs:
           node-version: '16'
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-        with:
-          version: 7
 
       - name: Cache ~/.pnpm-store
         uses: actions/cache@v3
@@ -54,8 +52,6 @@ jobs:
           registry-url: https://registry.npmjs.com/
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-        with:
-          version: 7
 
       - name: Get current date
         id: date
