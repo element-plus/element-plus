@@ -386,9 +386,16 @@ export default defineComponent({
     const isOnComposition = ref(false)
 
     const isDisabled = computed(() => props.disabled || elForm.disabled)
-    const inputPlaceholder = computed(
-      () => props.placeholder || t('el.cascader.placeholder')
-    )
+    const inputPlaceholder = computed(() => {
+      if (
+        isOnComposition.value ||
+        (props.props.multiple && searchInputValue.value.length > 0) ||
+        presentTags.value.length > 0
+      ) {
+        return ''
+      }
+      return props.placeholder || t('el.cascader.placeholder')
+    })
     const realSize = useSize()
     const tagSize = computed(() =>
       ['small'].includes(realSize.value) ? 'small' : 'default'
