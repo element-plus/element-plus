@@ -24,15 +24,7 @@ const route = useRoute()
     @click="$emit('close')"
   >
     <p class="link-text">{{ item.text }}</p>
-    <ElTag
-      v-if="item.promotion"
-      class="ml-2"
-      size="small"
-      effect="plain"
-      hit
-      style="border-radius: 9999px"
-      >{{ item.promotion }}</ElTag
-    >
+    <VersionTag v-if="item.promotion" class="ml-2" :version="item.promotion" />
   </a>
 </template>
 
