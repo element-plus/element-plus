@@ -130,7 +130,8 @@
     }
   }
 
-  &.is-plain {
+  &.is-plain,
+  &.is-text {
     @include button-plain($type);
   }
 }
