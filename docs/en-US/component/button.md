@@ -85,7 +85,7 @@ button/size
 
 :::
 
-## Custom Color <el-tag>beta</el-tag>
+## Custom Color <VersionTag version="beta" />
 
 You can custom button color.
 
