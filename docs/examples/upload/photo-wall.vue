@@ -26,32 +26,32 @@ const fileList = ref<UploadUserFile[]>([
     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
   },
   {
-    name: 'food2.jpeg',
-    url: '/images/guide.png',
+    name: 'plant-1.png',
+    url: '/images/plant-1.png',
   },
   {
     name: 'food.jpeg',
     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
   },
   {
-    name: 'food2.jpeg',
-    url: '/images/guide.png',
+    name: 'plant-2.png',
+    url: '/images/plant-2.png',
   },
   {
     name: 'food.jpeg',
     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
   },
   {
-    name: 'food2.jpeg',
-    url: '/images/guide.png',
+    name: 'figure-1.png',
+    url: '/images/figure-1.png',
   },
   {
     name: 'food.jpeg',
     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
   },
   {
-    name: 'food2.jpeg',
-    url: '/images/guide.png',
+    name: 'figure-2.png',
+    url: '/images/figure-2.png',
   },
 ])
 
