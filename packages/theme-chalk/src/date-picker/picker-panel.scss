@@ -10,7 +10,7 @@
   .#{$namespace}-time-panel {
     margin: 5px 0;
     border: solid 1px getCssVar('datepicker-border-color');
-    background-color: getCssVar('color-white');
+    background-color: getCssVar('bg-color', 'overlay');
     box-shadow: getCssVar('box-shadow-light');
   }
 
