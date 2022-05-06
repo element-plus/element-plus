@@ -68,10 +68,6 @@ export const autocompleteProps = buildProps({
     type: Boolean,
     default: false,
   },
-  popperAppendToBody: {
-    type: Boolean,
-    default: undefined,
-  },
   label: {
     type: String,
   },

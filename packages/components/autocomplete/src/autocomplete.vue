@@ -5,7 +5,7 @@
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
-    :teleported="compatTeleported"
+    :teleported="teleported"
     :gpu-acceleration="false"
     pure
     manual-mode
@@ -104,7 +104,6 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
@@ -123,10 +122,6 @@ const props = defineProps(autocompleteProps)
 const emit = defineEmits(autocompleteEmits)
 
 const ns = useNamespace('autocomplete')
-const { compatTeleported } = useDeprecateAppendToBody(
-  COMPONENT_NAME,
-  'popperAppendToBody'
-)
 let isClear = false
 const attrs = useAttrs()
 const compAttrs = useCompAttrs()

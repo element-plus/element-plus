@@ -8,10 +8,6 @@ import {
 import type { ExtractPropTypes } from 'vue'
 
 export const imageProps = buildProps({
-  appendToBody: {
-    type: Boolean,
-    default: undefined,
-  },
   hideOnClickModal: {
     type: Boolean,
     default: false,
