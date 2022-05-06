@@ -2,9 +2,7 @@
   <el-popover v-model:visible="visible" placement="top" :width="160">
     <p>Are you sure to delete this?</p>
     <div style="text-align: right; margin: 0">
-      <el-button size="small" type="text" @click="visible = false"
-        >cancel</el-button
-      >
+      <el-button size="small" text @click="visible = false">cancel</el-button>
       <el-button size="small" type="primary" @click="visible = false"
         >confirm</el-button
       >

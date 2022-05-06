@@ -1,7 +1,7 @@
 <template>
   <div class="demo-progress">
     <el-progress :percentage="50">
-      <el-button type="text">Content</el-button>
+      <el-button text>Content</el-button>
     </el-progress>
     <el-progress
       :text-inside="true"
