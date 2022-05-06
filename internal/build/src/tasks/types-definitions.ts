@@ -21,7 +21,7 @@ import type { SourceFile } from 'ts-morph'
 const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.web.json')
 const outDir = path.resolve(buildOutput, 'types')
 
-// Type safe list. The TS errors are not all fixed yet, so we need a list of which files are fixed with TS errors to prevent accidental TS errors.
+// Type unsafe list. The TS errors are not all fixed yet, so we need a list of which files are not fixed with TS errors to prevent accidental TS errors.
 const typeUnsafePaths = typeUnsafe.map((_path) => {
   let paths = path.resolve(projRoot, _path)
   if (_path.endsWith('/')) paths += path.sep
@@ -103,11 +103,10 @@ export const generateTypesDefinitions = async () => {
   ])
 
   const diagnostics = project.getPreEmitDiagnostics().filter((diagnostic) => {
-    const filePath = diagnostic.getSourceFile()?.getFilePath()
-    return (
-      filePath &&
-      !typeUnsafePaths.some((safePath) => filePath.startsWith(safePath))
-    )
+    const filePath = diagnostic.getSourceFile()?.getFilePath()!
+    if (!filePath) return false
+    const file = path.normalize(filePath)
+    return !typeUnsafePaths.some((safePath) => file.startsWith(safePath))
   })
   if (diagnostics.length > 0) {
     consola.error(project.formatDiagnosticsWithColorAndContext(diagnostics))
