@@ -256,6 +256,7 @@ export default defineComponent({
     'calendar-change',
     'panel-change',
     'visible-change',
+    'keyup',
   ],
   setup(props, ctx) {
     const { lang } = useLocale()
@@ -309,6 +310,9 @@ export default defineComponent({
         ctx.emit('update:modelValue', val ? formatValue : val, lang.value)
       }
     }
+    const emitKeyup = (e) => {
+      ctx.emit('keyup', e)
+    }
     const refInput = computed<HTMLInputElement[]>(() => {
       if (inputRef.value) {
         const _r = isRangeInput.value
@@ -335,6 +339,11 @@ export default defineComponent({
         _inputs[1].focus()
       }
     }
+
+    const onKeyup = (e) => {
+      ctx.emit('keyup', e)
+    }
+
     const onPick = (date: any = '', visible = false) => {
       pickerVisible.value = visible
       let result
@@ -555,7 +564,7 @@ export default defineComponent({
 
     const handleKeydown = (event) => {
       const code = event.code
-
+      emitKeyup(event)
       if (code === EVENT_CODE.esc) {
         pickerVisible.value = false
         event.stopPropagation()
@@ -597,7 +606,6 @@ export default defineComponent({
         event.stopPropagation()
         return
       }
-
       if (pickerOptions.value.handleKeydown) {
         pickerOptions.value.handleKeydown(event)
       }
@@ -687,6 +695,7 @@ export default defineComponent({
       isRangeInput,
       onMouseLeave,
       onMouseEnter,
+      onKeyup,
       onClearIconClick,
       showClose,
       triggerIcon,
