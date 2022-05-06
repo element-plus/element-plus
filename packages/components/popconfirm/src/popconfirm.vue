@@ -1,7 +1,6 @@
 <template>
   <el-tooltip
     ref="tooltipRef"
-    v-bind="$attrs"
     trigger="click"
     effect="light"
     :popper-class="`${ns.namespace.value}-popover`"
@@ -49,12 +48,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, unref } from 'vue'
+import { computed, ref } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { popconfirmProps } from './popconfirm'
+
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 defineOptions({
   name: 'ElPopconfirm',
@@ -64,10 +65,10 @@ const props = defineProps(popconfirmProps)
 
 const { t } = useLocale()
 const ns = useNamespace('popconfirm')
-const tooltipRef = ref<{ onClose: () => void }>()
+const tooltipRef = ref<TooltipInstance>()
 
 const hidePopper = () => {
-  unref(tooltipRef)?.onClose?.()
+  tooltipRef.value?.onClose?.()
 }
 
 const handleCallback = () => {
