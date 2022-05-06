@@ -37,6 +37,12 @@
     & .#{$namespace}-anchor__link {
       margin-left: 10px;
     }
+
+    @include when(active) {
+      & > .#{$namespace}-anchor__link-title {
+        color: getCssVar('color-primary');
+      }
+    }
   }
 
   @include e(link-title) {
@@ -50,10 +56,6 @@
     &:hover,
     &:focus {
       color: getCssVar('text-color-regular');
-    }
-
-    @include when(active) {
-      color: getCssVar('color-primary');
     }
   }
 }
