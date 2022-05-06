@@ -212,7 +212,7 @@ describe('Datetime Picker', () => {
     await nextTick()
     // click now button
     const btn = document.querySelector(
-      '.el-picker-panel__footer .el-button--text'
+      '.el-picker-panel__footer .is-text'
     ) as HTMLElement
     btn.click()
     await nextTick()
