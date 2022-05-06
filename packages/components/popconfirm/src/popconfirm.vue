@@ -48,64 +48,45 @@
   </el-tooltip>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref, unref } from 'vue'
+<script lang="ts" setup>
+import { computed, ref, unref } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { popconfirmProps } from './popconfirm'
 
-const COMPONENT_NAME = 'ElPopconfirm'
-export default defineComponent({
-  name: COMPONENT_NAME,
-
-  components: {
-    ElButton,
-    ElTooltip,
-    ElIcon,
-  },
-
-  props: popconfirmProps,
-
-  setup(props) {
-    const { t } = useLocale()
-    const ns = useNamespace('popconfirm')
-    const tooltipRef = ref<{ onClose: () => void }>()
-
-    const hidePopper = () => {
-      unref(tooltipRef)?.onClose?.()
-    }
-
-    const handleCallback = () => {
-      hidePopper()
-    }
-
-    const confirm = (e: Event) => {
-      props.onConfirm?.(e)
-      handleCallback()
-    }
-    const cancel = (e: Event) => {
-      props.onCancel?.(e)
-      handleCallback()
-    }
-
-    const finalConfirmButtonText = computed(
-      () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
-    )
-    const finalCancelButtonText = computed(
-      () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
-    )
-
-    return {
-      finalConfirmButtonText,
-      finalCancelButtonText,
-      tooltipRef,
-      ns,
-
-      confirm,
-      cancel,
-    }
-  },
+defineOptions({
+  name: 'ElPopconfirm',
 })
+
+const props = defineProps(popconfirmProps)
+
+const { t } = useLocale()
+const ns = useNamespace('popconfirm')
+const tooltipRef = ref<{ onClose: () => void }>()
+
+const hidePopper = () => {
+  unref(tooltipRef)?.onClose?.()
+}
+
+const handleCallback = () => {
+  hidePopper()
+}
+
+const confirm = (e: Event) => {
+  props.onConfirm?.(e)
+  handleCallback()
+}
+const cancel = (e: Event) => {
+  props.onCancel?.(e)
+  handleCallback()
+}
+
+const finalConfirmButtonText = computed(
+  () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
+)
+const finalCancelButtonText = computed(
+  () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
+)
 </script>
