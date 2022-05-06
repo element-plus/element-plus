@@ -37,9 +37,9 @@
             />
           </span>
           <el-button
-            size="small"
-            type="text"
             :class="ns.be('dropdown', 'link-btn')"
+            text
+            size="small"
             @click="clear"
           >
             {{ t('el.colorpicker.clear') }}
