@@ -5,7 +5,7 @@
     trigger="click"
     effect="light"
     :popper-class="`${ns.namespace.value}-popover`"
-    :teleported="compatTeleported"
+    :teleported="teleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
     :persistent="persistent"
@@ -43,7 +43,6 @@ import { computed, defineComponent, ref, unref } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { popconfirmProps } from './popconfirm'
 
@@ -60,10 +59,6 @@ export default defineComponent({
   props: popconfirmProps,
 
   setup(props) {
-    const { compatTeleported } = useDeprecateAppendToBody(
-      COMPONENT_NAME,
-      'appendToBody'
-    )
     const { t } = useLocale()
     const ns = useNamespace('popconfirm')
     const tooltipRef = ref<{ onClose: () => void }>()
@@ -97,9 +92,6 @@ export default defineComponent({
       finalCancelButtonText,
       tooltipRef,
       ns,
-
-      // Deprecation in 2.1.0
-      compatTeleported,
 
       confirm,
       cancel,

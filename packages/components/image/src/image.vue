@@ -22,7 +22,7 @@
         :infinite="infinite"
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
-        :teleported="teleported"
+        :teleported="previewTeleported"
         :close-on-press-escape="closeOnPressEscape"
         @close="closeViewer"
         @switch="switchViewer"
@@ -50,12 +50,7 @@ import {
   useEventListener,
   useThrottleFn,
 } from '@vueuse/core'
-import {
-  useAttrs,
-  useDeprecated,
-  useLocale,
-  useNamespace,
-} from '@element-plus/hooks'
+import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
@@ -76,17 +71,6 @@ const props = defineProps(imageProps)
 const emit = defineEmits(imageEmits)
 
 let prevOverflow = ''
-
-useDeprecated(
-  {
-    scope: 'el-image',
-    from: 'append-to-body',
-    replacement: 'preview-teleported',
-    version: '2.2.0',
-    ref: 'https://element-plus.org/en-US/component/image.html#image-attributess',
-  },
-  computed(() => isBoolean(props.appendToBody))
-)
 
 const { t } = useLocale()
 const ns = useNamespace('image')
@@ -117,10 +101,6 @@ const imageStyle = computed<CSSProperties>(() => {
 const preview = computed(() => {
   const { previewSrcList } = props
   return Array.isArray(previewSrcList) && previewSrcList.length > 0
-})
-
-const teleported = computed(() => {
-  return props.appendToBody || props.previewTeleported
 })
 
 const imageIndex = computed(() => {
