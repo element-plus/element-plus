@@ -17,9 +17,9 @@
       :virtual-ref="triggeringElementRef"
       :virtual-triggering="splitButton"
       :disabled="disabled"
-      append-to-body
-      pure
       :transition="`${ns.namespace.value}-zoom-in-top`"
+      teleported
+      pure
       persistent
       @show="$emit('visible-change', true)"
       @hide="$emit('visible-change', false)"
