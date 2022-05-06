@@ -44,12 +44,7 @@ import {
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
-import {
-  isBoolean,
-  isClient,
-  useEventListener,
-  useThrottleFn,
-} from '@vueuse/core'
+import { isClient, useEventListener, useThrottleFn } from '@vueuse/core'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {

@@ -41,7 +41,6 @@ const TAG_BASE_WIDTH = {
   default: 42,
   small: 33,
 }
-const COMPONENT_NAME = 'ElSelectV2'
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
