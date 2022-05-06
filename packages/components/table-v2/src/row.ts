@@ -8,18 +8,18 @@ import type { FixedDirection, KeyType, RowCommonParams } from './types'
 export type RowExpandParams<T> = {
   expanded: boolean
   rowKey: KeyType
-} & RowCommonParams<T>
+} & RowCommonParams
 
 export type RowHoverParams<T> = {
   event: MouseEvent
   hovered: boolean
   rowKey: KeyType
-} & RowCommonParams<T>
+} & RowCommonParams
 
 export type RowEventHandlerParams<T> = {
   rowKey: KeyType
   event: Event
-} & RowCommonParams<T>
+} & RowCommonParams
 
 export type RowHeightChangedParams = {
   rowKey: KeyType

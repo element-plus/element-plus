@@ -42,7 +42,7 @@ export type ColumnSortParams<T> = {
  */
 
 export type ExtraCellPropGetter<T> = (
-  params: ColumnCommonParams<T> & RowCommonParams<T>
+  params: ColumnCommonParams<T> & RowCommonParams
 ) => any
 
 export type ExtractHeaderPropGetter<T> = (params: {
@@ -55,7 +55,7 @@ export type ExtractHeaderCellPropGetter<T> = (
 ) => any
 
 export type ExtractRowPropGetter<T> = (
-  params: { columns: Column<T>[] } & RowCommonParams<T>
+  params: { columns: Column<T>[] } & RowCommonParams
 ) => any
 
 export type HeaderClassNameGetter<T> = (params: {
@@ -64,7 +64,7 @@ export type HeaderClassNameGetter<T> = (params: {
 }) => string
 
 export type RowClassNameGetter<T> = (
-  params: { columns: Column<T>[] } & RowCommonParams<T>
+  params: { columns: Column<T>[] } & RowCommonParams
 ) => string
 
 /**

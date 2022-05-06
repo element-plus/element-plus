@@ -28,6 +28,26 @@ table-v2/basic
 
 :::
 
+## Auto resizer
+
+When you do not feel like you want to pass the `width` and `height` property to the table, you can use the `AutoResizer`
+component to wrap the table component and it will update the width and height for you automatically.
+
+Resize your browser to see how it works.
+
+:::tip
+
+Make sure the parent node of `AutoResizer` **HAS A FIXED HEIGHT**, because the height value was set to `100%` by default.
+You may also set it via passing through `style` attribute to `AutoResizer`.
+
+:::
+
+:::demo
+
+table-v2/auto-resizer
+
+:::
+
 ## Customize Cell Renderer
 
 Of course, you can render the table cell per your needs, here is a simple example of how to customize your cell.
@@ -431,3 +451,17 @@ type SortState = Record<KeyType, SortOrder>
 ```
 
 </details>
+
+## FAQs
+
+#### How do I render a list with checkbox in the first column?
+
+Since you are allowed to define your own cell renderer, you can do what the example
+[Customize Cell Renderer](#customize-cell-renderer) did to render `checkbox` yourselves, and maintaining the
+state by yourselves.
+
+#### Why virtualized table provides less features than [TableV1](./table.md)
+
+For virtualized table, we intend to provide less feature and let our users to implement their own features per demand.
+Integrating too many features makes the code hard to maintain and for most users the basic features are enough. Some key
+features were not developed yet. We would love to hear from you. Join [Discord](https://discord.link/ElementPlus) to stay tuned.
