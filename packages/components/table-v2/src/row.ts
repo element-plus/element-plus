@@ -5,18 +5,18 @@ import { columns, expandColumnKey, rowKey } from './common'
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { FixedDirection, KeyType, RowCommonParams } from './types'
 
-export type RowExpandParams<T> = {
+export type RowExpandParams = {
   expanded: boolean
   rowKey: KeyType
 } & RowCommonParams
 
-export type RowHoverParams<T> = {
+export type RowHoverParams = {
   event: MouseEvent
   hovered: boolean
   rowKey: KeyType
 } & RowCommonParams
 
-export type RowEventHandlerParams<T> = {
+export type RowEventHandlerParams = {
   rowKey: KeyType
   event: Event
 } & RowCommonParams
@@ -27,9 +27,9 @@ export type RowHeightChangedParams = {
   rowIndex: number
 }
 
-export type RowExpandHandler<T> = (params: RowExpandParams<T>) => void
-export type RowHoverHandler<T> = (params: RowHoverParams<T>) => void
-export type RowEventHandler<T> = (params: RowEventHandlerParams<T>) => void
+export type RowExpandHandler<T> = (params: RowExpandParams) => void
+export type RowHoverHandler<T> = (params: RowHoverParams) => void
+export type RowEventHandler<T> = (params: RowEventHandlerParams) => void
 export type RowHeightChangeHandler = (
   row: RowHeightChangedParams,
   fixedDirection: boolean | FixedDirection | undefined

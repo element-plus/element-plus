@@ -1,4 +1,4 @@
-import { onBeforeUnmount, onMounted, ref, unref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 
 import type { AutoResizerProps } from '../auto-resizer'
