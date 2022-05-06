@@ -6,7 +6,7 @@
     pure
     trigger="click"
     v-bind="$attrs"
-    append-to-body
+    teleported
     :transition="`${nsDate.namespace.value}-zoom-in-top`"
     :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
     :popper-options="elPopperOptions"
