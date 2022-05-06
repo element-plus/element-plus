@@ -40,7 +40,7 @@
         <el-input
           ref="input"
           v-model="inputValue"
-          :placeholder="inputPlaceholder"
+          :placeholder="searchInputValue ? '' : inputPlaceholder"
           :readonly="readonly"
           :disabled="isDisabled"
           :validate-event="false"
