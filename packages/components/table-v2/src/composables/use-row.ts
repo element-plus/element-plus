@@ -58,7 +58,7 @@ export const useRow = (
     }
   }
 
-  function onRowHovered({ hovered, rowKey }: RowHoverParams<any>) {
+  function onRowHovered({ hovered, rowKey }: RowHoverParams) {
     hoveringRowKey.value = hovered ? rowKey : null
   }
 
@@ -67,7 +67,7 @@ export const useRow = (
     rowData,
     rowIndex,
     rowKey,
-  }: RowExpandParams<any>) {
+  }: RowExpandParams) {
     const _expandedRowKeys = [...unref(expandedRowKeys)]
     const currentKeyIndex = _expandedRowKeys.indexOf(rowKey)
     if (expanded) {
