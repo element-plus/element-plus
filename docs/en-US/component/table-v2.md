@@ -163,6 +163,17 @@ table-v2/controlled-sort
 
 :::
 
+## Cross hovering
+
+When the list is big, and sometimes you get lost which row and column you are currently visiting, using this is extremely
+helpful.
+
+:::demo
+
+table-v2/cross-hovering
+
+:::
+
 ## Colspan
 
 Virtualized table did not use built-in `table` element, so that `colspan` and `rowspan` is a little bit different than [TableV1](./table.md). With customized row renderer, we can still do that. In this case, you'll learn how to do that.
@@ -263,6 +274,26 @@ table-v2/overlay
 
 :::
 
+## Manual scrolling
+
+Use the methods exposed by Table V2 to scroll manually/programmatically with desired offset/rows.
+
+:::tip
+
+The second parameter for `scrollToRow` is the scrolling strategy which by default is `auto`, it calculates the position
+to scroll by itself. You can pass the strategy yourselves if you want to scroll to a specific position.
+The available options are `"auto" | "center" | "end" | "start" | "smart"`
+
+The difference between `smart` and `auto` is that `auto` is a subset of `smart` scroll strategy.
+
+:::
+
+:::demo
+
+table-v2/manual-scroll
+
+:::
+
 ## TableV2 Attributes
 
 | Attribute                 | Description                                                                                                                | Type                                                 | Default   |
@@ -278,6 +309,7 @@ table-v2/overlay
 | row-key                   | The key of each row, if not provided, it will be the index of the row                                                      | String/Symbol/Number                                 | id        |
 | row-props                 | Customized props name passed to row component                                                                              | Object/Function\<[RowPropsGetter](#typings)\>        | -         |
 | row-height                | The height of each row, used for calculating the total height of the table                                                 | Number                                               | 50        |
+| cell-props                | extra props passed to each cell (except header cells)                                                                      | Object/Function\<[CellPropsGetter](#typings)\>       | -         |
 | columns                   | An array of column definitions.                                                                                            | Array\<[Column](#column-attribute)\>                 | -         |
 | data                      | An array of data to be rendered in the table.                                                                              | Array\<[Data](#typings)\>                            | []        |
 | data-getter               | An method which helps customizing the how to fetch the data from the data source.                                          | Function                                             | -         |
@@ -308,7 +340,7 @@ table-v2/overlay
 | empty       | -                               |
 | overlay     | -                               |
 
-## Table Methods
+## Table Events
 
 | Event Name           | Description                                   | Parameters                               |
 | -------------------- | --------------------------------------------- | ---------------------------------------- |
@@ -318,6 +350,15 @@ table-v2/overlay
 | scroll               | Invoked after scrolled                        | Object\<[ScrollParams](#typings)\>       |
 | rows-rendered        | Invoked when rows are rendered                | Object\<[RowsRenderedParams](#typings)\> |
 | row-event-handlers   | A collection of handlers attached to each row | Object\<[RowEventHandlers](#typings)\>   |
+
+## Table Methods
+
+| Event Name   | Description                                          | Parameters                                                                 |
+| ------------ | ---------------------------------------------------- | -------------------------------------------------------------------------- |
+| scrollTo     | Scroll to a given position                           | `{ scrollLeft?: number, scrollTop?: number}`                               |
+| scrollToLeft | Scroll to a given horizontal position                | `scrollLeft: number`                                                       |
+| scrollToTop  | Scroll to a given vertical position                  | `scrollTop: number`                                                        |
+| scrollToRow  | scroll to a given row with specified scroll strategy | `row: number, strategy?: "auto" \|"center" \| "end" \| "start" \| "smart"` |
 
 :::tip
 
@@ -380,6 +421,15 @@ type RowPropsGetter = (param: {
   rowData: any
   rowIndex: number
 }) => Record<string, any>
+
+type CellPropsGetter = (param: {
+  column: Column<any>
+  columns: Column<any>[]
+  columnIndex: number
+  cellData: any
+  rowData: any
+  rowIndex: number
+}) => void
 
 type CellRenderProps<T> = {
   cellData: T

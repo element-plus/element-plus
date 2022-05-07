@@ -16,7 +16,7 @@ import Empty from './renderers/empty'
 import Overlay from './renderers/overlay'
 
 import type { TableGridRowSlotParams } from './table-grid'
-
+import type { ScrollStrategy } from './composables/use-scrollbar'
 import type {
   TableV2HeaderRendererParams,
   TableV2HeaderRowCellRendererParams,
@@ -28,7 +28,7 @@ const COMPONENT_NAME = 'ElTableV2'
 const TableV2 = defineComponent({
   name: COMPONENT_NAME,
   props: tableV2Props,
-  setup(props, { slots }) {
+  setup(props, { slots, expose }) {
     const ns = useNamespace('table-v2')
 
     const {
@@ -60,6 +60,12 @@ const TableV2 = defineComponent({
 
       showEmpty,
 
+      // exposes
+      scrollTo,
+      scrollToLeft,
+      scrollToTop,
+      scrollToRow,
+
       getRowHeight,
       onColumnSorted,
       onRowHeightChange,
@@ -70,7 +76,29 @@ const TableV2 = defineComponent({
       onVerticalScroll,
     } = useTable(props)
 
-    // function renderFooter() {}
+    expose({
+      /**
+       * @description scroll to a given position
+       * @params params {{ scrollLeft?: number, scrollTop?: number }} where to scroll to.
+       */
+      scrollTo,
+      /**
+       * @description scroll to a given position horizontally
+       * @params scrollLeft {Number} where to scroll to.
+       */
+      scrollToLeft,
+      /**
+       * @description scroll to a given position vertically
+       * @params scrollTop { Number } where to scroll to.
+       */
+      scrollToTop,
+      /**
+       * @description scroll to a given row
+       * @params row {Number} which row to scroll to
+       * @params @optional strategy {ScrollStrategy} use what strategy to scroll to
+       */
+      scrollToRow,
+    })
 
     provide(TableV2InjectionKey, {
       ns,
@@ -82,6 +110,7 @@ const TableV2 = defineComponent({
     return () => {
       const {
         cache,
+        cellProps,
         estimatedRowHeight,
         expandColumnKey,
         fixedData,
@@ -203,6 +232,7 @@ const TableV2 = defineComponent({
       }
 
       const tableCellProps = {
+        cellProps,
         expandColumnKey,
         indentSize,
         iconSize,
@@ -277,6 +307,7 @@ const TableV2 = defineComponent({
       }
 
       const rootKls = [
+        props.class,
         ns.b(),
         ns.e('root'),
         {
@@ -315,4 +346,26 @@ const TableV2 = defineComponent({
 
 export default TableV2
 
-export type TableV2Instance = InstanceType<typeof TableV2>
+export type TableV2Instance = InstanceType<typeof TableV2> & {
+  /**
+   * @description scroll to a given position
+   * @params params {{ scrollLeft?: number, scrollTop?: number }} where to scroll to.
+   */
+  scrollTo: (param: { scrollLeft?: number; scrollTop?: number }) => void
+  /**
+   * @description scroll to a given position horizontally
+   * @params scrollLeft {Number} where to scroll to.
+   */
+  scrollToLeft: (scrollLeft: number) => void
+  /**
+   * @description scroll to a given position vertically
+   * @params scrollTop { Number } where to scroll to.
+   */
+  scrollToTop: (scrollTop: number) => void
+  /**
+   * @description scroll to a given row
+   * @params row {Number} which row to scroll to
+   * @params strategy {ScrollStrategy} use what strategy to scroll to
+   */
+  scrollToRow(row: number, strategy?: ScrollStrategy): void
+}
