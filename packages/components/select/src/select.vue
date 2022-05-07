@@ -270,6 +270,7 @@ import {
   reactive,
   toRefs,
   unref,
+  watch,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
@@ -400,7 +401,7 @@ export default defineComponent({
   setup(props, ctx) {
     const nsSelect = useNamespace('select')
     const nsInput = useNamespace('input')
-    const { t } = useLocale()
+    const { t, lang } = useLocale()
     const states = useSelectStates(props)
     const {
       optionsArray,
@@ -513,16 +514,25 @@ export default defineComponent({
       }) as unknown as SelectContext
     )
 
-    onMounted(() => {
-      states.cachedPlaceHolder = currentPlaceholder.value =
-        props.placeholder || t('el.select.placeholder')
-      if (
-        props.multiple &&
-        Array.isArray(props.modelValue) &&
-        props.modelValue.length > 0
-      ) {
-        currentPlaceholder.value = ''
+    watch(
+      lang,
+      () => {
+        states.cachedPlaceHolder = currentPlaceholder.value =
+          props.placeholder || t('el.select.placeholder')
+        if (
+          props.multiple &&
+          Array.isArray(props.modelValue) &&
+          props.modelValue.length > 0
+        ) {
+          currentPlaceholder.value = ''
+        }
+      },
+      {
+        immediate: true,
       }
+    )
+
+    onMounted(() => {
       addResizeListener(selectWrapper.value as any, handleResize)
       if (reference.value && reference.value.$el) {
         const input = reference.value.input as HTMLInputElement
