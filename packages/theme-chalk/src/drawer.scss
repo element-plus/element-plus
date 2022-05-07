@@ -57,6 +57,7 @@ $directions: rtl, ltr, ttb, btt;
     color: inherit;
     background-color: transparent;
     outline: none;
+    &:focus,
     &:hover {
       i {
         color: getCssVar('color-primary');

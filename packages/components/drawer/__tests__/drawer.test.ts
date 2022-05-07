@@ -85,7 +85,7 @@ describe('Drawer', () => {
     await nextTick()
     await rAF()
     await nextTick()
-    expect(document.querySelector('.el-overlay').parentNode).toEqual(
+    expect(document.querySelector('.el-overlay')?.parentNode).toEqual(
       document.body
     )
   })
@@ -245,6 +245,32 @@ describe('Drawer', () => {
     expect(wrapper.find(`.${classes}`).exists()).toBe(true)
   })
 
+  test('drawer header should have slot props', async () => {
+    const wrapper = _mount(
+      `
+      <el-drawer v-model='visible' ref='drawer'>
+        <template #header="{ titleId, titleClass, close }">
+          <button :data-title-id="titleId" :data-title-class="titleClass" @click="close" />
+        </template>
+      </el-drawer>
+      `,
+      () => ({
+        visible: true,
+      })
+    )
+    await nextTick()
+    const drawer = wrapper.findComponent({ ref: 'drawer' })
+    const headerButton = wrapper.find('button')
+    expect(headerButton.attributes()['data-title-id']).toBeTruthy()
+    expect(headerButton.attributes()['data-title-class']).toBe(
+      'el-drawer__title'
+    )
+    expect(drawer.emitted().close).toBeFalsy()
+    headerButton.trigger('click')
+    await nextTick()
+    expect(drawer.emitted()).toHaveProperty('close')
+  })
+
   test('should not render header when withHeader attribute is false', async () => {
     const wrapper = _mount(
       `
@@ -262,7 +288,7 @@ describe('Drawer', () => {
   })
 
   describe('directions', () => {
-    const renderer = (direction) => {
+    const renderer = (direction: string) => {
       return _mount(
         `
         <el-drawer :title='title' v-model='visible' direction='${direction}'>
@@ -342,7 +368,7 @@ describe('Drawer', () => {
   })
 
   describe('size', () => {
-    const renderer = (size, isVertical) =>
+    const renderer = (size: string, isVertical: boolean) =>
       _mount(
         `
         <el-drawer :title='title' v-model='visible' direction='${
@@ -367,6 +393,73 @@ describe('Drawer', () => {
       const drawerEl = renderer('50%', false).find('.el-drawer')
         .element as HTMLDivElement
       expect(drawerEl.style.height).toEqual('50%')
+    })
+  })
+
+  describe('accessibility', () => {
+    test('title attribute should set aria-label', async () => {
+      const wrapper = _mount(
+        `
+        <el-drawer
+          :title='title'
+          v-model='visible'
+          ref="drawer">
+        </el-drawer>
+        `,
+        () => ({
+          title,
+          visible: true,
+        })
+      )
+      await nextTick()
+      const drawerDialog = wrapper.find('[role="dialog"]')
+      expect(drawerDialog.attributes()['aria-label']).toBe(title)
+      expect(drawerDialog.attributes()['aria-labelledby']).toBeFalsy()
+    })
+
+    test('missing title attribute should point to header slot content', async () => {
+      const wrapper = _mount(
+        `
+        <el-drawer
+          v-model='visible'
+          ref="drawer">
+          <template #header="{ titleId, titleClass }">
+            <h5 :id="titleId" :class="titleClass" />
+          </template>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+      await nextTick()
+      const drawerDialog = wrapper.find('[role="dialog"]')
+      const drawerTitle = wrapper.find('.el-drawer__title')
+      expect(drawerDialog.attributes()['aria-label']).toBeFalsy()
+      expect(drawerDialog.attributes()['aria-labelledby']).toBe(
+        drawerTitle.attributes().id
+      )
+    })
+
+    test('aria-describedby should point to modal body', async () => {
+      const wrapper = _mount(
+        `
+        <el-drawer
+          v-model='visible'
+          ref="drawer">
+          <span>${content}</span>
+        </el-drawer>
+        `,
+        () => ({
+          visible: true,
+        })
+      )
+      await nextTick()
+      const drawerDialog = wrapper.find('[role="dialog"]')
+      const drawerBody = wrapper.find('.el-drawer__body')
+      expect(drawerDialog.attributes()['aria-describedby']).toBe(
+        drawerBody.attributes().id
+      )
     })
   })
 })

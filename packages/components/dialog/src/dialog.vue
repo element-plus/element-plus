@@ -14,31 +14,50 @@
         :z-index="zIndex"
       >
         <div
+          role="dialog"
+          aria-modal="true"
+          :aria-label="title || undefined"
+          :aria-labelledby="!title ? titleId : undefined"
+          :aria-describedby="bodyId"
           :class="`${ns.namespace.value}-overlay-dialog`"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
           @mouseup="overlayEvent.onMouseup"
         >
-          <el-dialog-content
-            v-if="rendered"
-            :custom-class="customClass"
-            :center="center"
-            :close-icon="closeIcon"
-            :draggable="draggable"
-            :fullscreen="fullscreen"
-            :show-close="showClose"
-            :style="style"
-            :title="title"
-            @close="handleClose"
+          <el-focus-trap
+            loop
+            :trapped="visible"
+            focus-start-el="container"
+            @focus-after-trapped="onOpenAutoFocus"
+            @focus-after-released="onCloseAutoFocus"
           >
-            <template #title>
-              <slot name="title" />
-            </template>
-            <slot />
-            <template v-if="$slots.footer" #footer>
-              <slot name="footer" />
-            </template>
-          </el-dialog-content>
+            <el-dialog-content
+              v-if="rendered"
+              :custom-class="customClass"
+              :center="center"
+              :close-icon="closeIcon"
+              :draggable="draggable"
+              :fullscreen="fullscreen"
+              :show-close="showClose"
+              :style="style"
+              :title="title"
+              @close="handleClose"
+            >
+              <template #header>
+                <slot
+                  name="header"
+                  :close="handleClose"
+                  :title-id="titleId"
+                  :title-class="ns.e('title')"
+                />
+                <slot name="title" />
+              </template>
+              <slot />
+              <template v-if="$slots.footer" #footer>
+                <slot name="footer" />
+              </template>
+            </el-dialog-content>
+          </el-focus-trap>
         </div>
       </el-overlay>
     </transition>
@@ -46,10 +65,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, ref } from 'vue'
+import { computed, provide, ref, useSlots } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
-import { useDraggable, useNamespace, useSameTarget } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useDraggable,
+  useNamespace,
+  useSameTarget,
+} from '@element-plus/hooks'
 import { dialogInjectionKey } from '@element-plus/tokens'
+import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElDialogContent from './dialog-content.vue'
 import { dialogEmits, dialogProps } from './dialog'
 import { useDialog } from './use-dialog'
@@ -60,6 +85,18 @@ defineOptions({
 
 const props = defineProps(dialogProps)
 defineEmits(dialogEmits)
+const slots = useSlots()
+
+useDeprecated(
+  {
+    scope: 'el-dialog',
+    from: 'the title slot',
+    replacement: 'the header slot',
+    version: '2.3.0',
+    ref: 'https://element-plus.org/en-US/component/dialog.html#slots',
+  },
+  computed(() => !!slots.title)
+)
 
 const ns = useNamespace('dialog')
 const dialogRef = ref<HTMLElement>()
@@ -67,6 +104,8 @@ const headerRef = ref<HTMLElement>()
 
 const {
   visible,
+  titleId,
+  bodyId,
   style,
   rendered,
   zIndex,
@@ -75,11 +114,14 @@ const {
   beforeLeave,
   handleClose,
   onModalClick,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
 } = useDialog(props, dialogRef)
 
 provide(dialogInjectionKey, {
   dialogRef,
   headerRef,
+  bodyId,
   ns,
   rendered,
   style,
