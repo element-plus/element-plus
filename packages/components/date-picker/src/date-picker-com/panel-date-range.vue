@@ -212,8 +212,8 @@
     <div v-if="showTime" class="el-picker-panel__footer">
       <el-button
         v-if="clearable"
+        text
         size="small"
-        type="text"
         class="el-picker-panel__link-btn"
         @click="handleClear"
       >

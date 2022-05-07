@@ -5,7 +5,6 @@
     :row-class="rowClass"
     :width="700"
     :height="400"
-    fixed
   />
 </template>
 
@@ -72,6 +71,7 @@ const columns: Column<any>[] = [
     ),
     width: 150,
     align: 'center',
+    flexGrow: 1,
   },
 ]
 

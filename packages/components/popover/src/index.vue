@@ -9,7 +9,6 @@
     :transition="transition"
     :popper-options="popperOptions"
     :tabindex="tabindex"
-    :append-to-body="appendToBody"
     :content="content"
     :offset="offset"
     :show-after="showAfter"
@@ -21,7 +20,7 @@
     :enterable="enterable"
     :popper-class="kls"
     :popper-style="style"
-    :teleported="compatTeleported"
+    :teleported="teleported"
     :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
     @before-show="beforeEnter"
@@ -46,7 +45,6 @@
 <script lang="ts">
 import { computed, defineComponent, ref, unref } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { isString } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { usePopoverProps } from './popover'
@@ -100,11 +98,6 @@ export default defineComponent({
       return props.transition === 'el-fade-in-linear'
     })
 
-    const { compatTeleported } = useDeprecateAppendToBody(
-      COMPONENT_NAME,
-      'appendToBody'
-    )
-
     const hide = () => {
       tooltipRef.value?.hide()
     }
@@ -126,7 +119,6 @@ export default defineComponent({
     }
 
     return {
-      compatTeleported,
       ns,
       kls,
       gpuAcceleration,

@@ -182,7 +182,9 @@ $button-icon-span-gap: map.merge(
         }
       }
     }
+  }
 
+  @include e(text) {
     @include m(expand) {
       letter-spacing: 0.3em;
       margin-right: -0.3em;

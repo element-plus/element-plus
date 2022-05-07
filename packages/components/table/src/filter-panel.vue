@@ -6,7 +6,7 @@
     :placement="placement"
     :show-arrow="false"
     :stop-popper-mouse-event="false"
-    append-to-body
+    teleported
     effect="light"
     pure
     :popper-class="ns.b()"
