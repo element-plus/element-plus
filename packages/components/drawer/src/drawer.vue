@@ -34,7 +34,11 @@
               @click.stop
               @keydown="handleKeydown"
             >
-              <span ref="focusStartRef" tabindex="-1" />
+              <span
+                ref="focusStartRef"
+                :class="ns.e('sr-focus')"
+                tabindex="-1"
+              />
               <header v-if="withHeader" :class="ns.e('header')">
                 <slot
                   name="header"

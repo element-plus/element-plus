@@ -25,6 +25,10 @@ $directions: rtl, ltr, ttb, btt;
     }
   }
 
+  &__sr-focus:focus {
+    outline: none !important;
+  }
+
   &__header {
     align-items: center;
     color: rgb(114, 118, 123);
