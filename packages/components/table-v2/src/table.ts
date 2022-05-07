@@ -42,7 +42,8 @@ export type ColumnSortParams<T> = {
  */
 
 export type ExtraCellPropGetter<T> = (
-  params: ColumnCommonParams<T> & RowCommonParams
+  params: ColumnCommonParams<T> &
+    RowCommonParams & { cellData: T; rowData: any }
 ) => any
 
 export type ExtractHeaderPropGetter<T> = (params: {
@@ -118,6 +119,16 @@ export const tableV2Props = buildProps({
     type: Number,
     default: 50,
   },
+
+  /**
+   * Cell attributes
+   */
+  cellProps: {
+    type: definePropType<Record<string, any> | ExtraCellPropGetter<any>>([
+      Object,
+      Function,
+    ]),
+  },
   /**
    * Data models
    */
@@ -166,7 +177,6 @@ export const tableV2Props = buildProps({
     type: definePropType<SortBy>(Object),
     default: () => ({} as { key: KeyType; order: SortOrder }),
   },
-
   sortState: {
     type: definePropType<SortState>(Object),
     default: undefined,

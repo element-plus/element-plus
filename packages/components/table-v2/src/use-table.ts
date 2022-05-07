@@ -31,6 +31,7 @@ function useTable(props: TableV2Props) {
     scrollTo,
     scrollToLeft,
     scrollToTop,
+    scrollToRow,
     onScroll,
     onVerticalScroll,
     scrollPos,
@@ -189,6 +190,7 @@ function useTable(props: TableV2Props) {
     scrollTo,
     scrollToLeft,
     scrollToTop,
+    scrollToRow,
     onScroll,
     onVerticalScroll,
   }
