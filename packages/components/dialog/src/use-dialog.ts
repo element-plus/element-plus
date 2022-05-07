@@ -119,12 +119,12 @@ export const useDialog = (
     }
   }
 
-  async function doOpen() {
+  function doOpen() {
     if (!isClient) return
     visible.value = true
   }
 
-  async function doClose() {
+  function doClose() {
     visible.value = false
   }
 
@@ -148,8 +148,6 @@ export const useDialog = (
       visible
     )
   }
-
-  // useRestoreActive(visible)
 
   watch(
     () => props.modelValue,
