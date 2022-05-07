@@ -60,15 +60,15 @@ const cellProps = ({ columnIndex }) => {
   return {
     ['data-key']: key,
     onMouseenter: () => {
-      kls.value.push(key)
+      kls.value = key
     },
     onMouseleave: () => {
-      kls.value = kls.value.filter((c) => c !== key)
+      kls.value = ''
     },
   }
 }
 
-const kls = ref<string[]>([])
+const kls = ref<string>('')
 </script>
 
 <style>
