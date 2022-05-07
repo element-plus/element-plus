@@ -236,8 +236,22 @@ export default defineComponent({
       }
     }
 
-    const formatToString = (value) => {
-      return value.map((_) => _.format(format))
+    const formatToString = (value: Dayjs | Dayjs[]) => {
+      return Array.isArray(value)
+        ? value.map((_) => _.format(format))
+        : value.format(format)
+    }
+
+    const parseUserInput = (value: Dayjs | Dayjs[]) => {
+      return Array.isArray(value)
+        ? value.map((_) => dayjs(_, format).locale(lang.value))
+        : dayjs(value, format).locale(lang.value)
+    }
+
+    const handleClear = () => {
+      leftDate.value = getDefaultValue()[0]
+      rightDate.value = leftDate.value.add(1, 'year')
+      ctx.emit('pick', null)
     }
 
     const getDefaultValue = () => {
@@ -260,6 +274,10 @@ export default defineComponent({
 
     // pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
+    ctx.emit('set-picker-option', ['isValidValue', isValidValue])
+    ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
+    ctx.emit('set-picker-option', ['handleClear', handleClear])
+
     const pickerBase = inject('EP_PICKER_BASE') as any
     const { shortcuts, disabledDate, format } = pickerBase.props
     const defaultValue = toRef(pickerBase.props, 'defaultValue')
