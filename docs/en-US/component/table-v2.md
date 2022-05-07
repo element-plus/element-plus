@@ -58,6 +58,26 @@ table-v2/cell-templating
 
 :::
 
+## Table with selections
+
+Using customized cell renderer to allow selection for your table.
+
+:::demo
+
+table-v2/selection
+
+:::
+
+## Inline editing
+
+Just like selections we demonstrated above, you can use the same method to enable inline editing.
+
+:::demo
+
+table-v2/inline-editing
+
+:::
+
 ## Table with status
 
 You can highlight your table content to distinguish between "success, information, warning, danger" and other states.
