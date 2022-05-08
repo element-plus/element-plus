@@ -140,21 +140,19 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include e(label-wrap) {
     display: flex;
-
-    .#{$namespace}-form-item__label {
-      display: inline-block;
-    }
   }
 
   @include e(label) {
     display: inline-flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: flex-start;
 
     flex: 0 0 auto;
     font-size: getCssVar('form-label-font-size');
     color: getCssVar('text-color', 'regular');
-    line-height: #{map.get($form-item-label-top-line-height, 'default')};
+
+    height: #{map.get($form-item-line-height, 'default')};
+    line-height: #{map.get($form-item-line-height, 'default')};
 
     padding: 0 12px 0 0;
     box-sizing: border-box;
