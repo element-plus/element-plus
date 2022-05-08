@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { leftCustomImgSponsors } from '../../config/sponsors'
+import { sendEvent } from '../../config/analytics'
 
 defineProps({
   itemClass: String,
   itemStyle: [String, Object, Array],
 })
+
+const onItemClick = (item: any) => {
+  sendEvent('sp_click', item.name, 'left_custom_img')
+}
 </script>
 
 <template>
@@ -17,6 +22,7 @@ defineProps({
       :class="['sponsor-item inline-flex', itemClass]"
       :style="itemStyle"
       target="_blank"
+      @click="onItemClick(item)"
     >
       <img :src="item.banner_img" :alt="item.name" />
     </a>
