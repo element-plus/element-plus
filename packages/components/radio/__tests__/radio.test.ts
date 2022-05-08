@@ -1,8 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import userEvent from '@testing-library/user-event'
 import { describe, expect, it, test } from 'vitest'
-import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import Radio from '../src/radio.vue'
 import RadioGroup from '../src/radio-group.vue'

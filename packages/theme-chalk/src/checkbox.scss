@@ -177,8 +177,10 @@ $checkbox-bordered-input-width: map.merge(
     }
     @include when(focus) {
       // Visually distinguish when focus
-      .#{$namespace}-checkbox__inner {
-        border-color: getCssVar('checkbox-input-border-color-hover');
+      &:not(.is-checked) {
+        .#{$namespace}-checkbox__original:not(:focus-visible) {
+          border-color: getCssVar('checkbox-input-border-color-hover');
+        }
       }
     }
     @include when(indeterminate) {
