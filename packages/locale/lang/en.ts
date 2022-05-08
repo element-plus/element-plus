@@ -14,6 +14,7 @@ export default {
       cancel: 'Cancel',
       clear: 'Clear',
       confirm: 'OK',
+      selectedDate: 'Selected date',
       selectDate: 'Select date',
       selectTime: 'Select time',
       startDate: 'Start Date',
@@ -46,6 +47,15 @@ export default {
         thu: 'Thu',
         fri: 'Fri',
         sat: 'Sat',
+      },
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
       },
       months: {
         jan: 'Jan',

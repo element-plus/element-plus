@@ -10,8 +10,10 @@
       <el-popper-content
         v-if="shouldRender"
         v-show="shouldShow"
+        :id="id"
         ref="contentRef"
         v-bind="$attrs"
+        :aria-label="ariaLabel"
         :aria-hidden="ariaHidden"
         :boundaries-padding="boundariesPadding"
         :fallback-placements="fallbackPlacements"
@@ -34,9 +36,6 @@
         <!-- Workaround bug #6378 -->
         <template v-if="!destroyed">
           <slot />
-          <el-visually-hidden :id="id" role="tooltip">
-            {{ ariaLabel }}
-          </el-visually-hidden>
         </template>
       </el-popper-content>
     </transition>
@@ -55,7 +54,6 @@ import {
 } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { ElPopperContent } from '@element-plus/components/popper'
-import { ElVisuallyHidden } from '@element-plus/components/visual-hidden'
 import { composeEventHandlers } from '@element-plus/utils'
 import { useEscapeKeydown } from '@element-plus/hooks'
 
@@ -66,7 +64,6 @@ export default defineComponent({
   name: 'ElTooltipContent',
   components: {
     ElPopperContent,
-    ElVisuallyHidden,
   },
   inheritAttrs: false,
   props: useTooltipContentProps,
@@ -158,11 +155,11 @@ export default defineComponent({
             computed(() => {
               return contentRef.value?.popperContentRef
             }),
-            () => {
+            (event) => {
               if (unref(controlled)) return
               const $trigger = unref(trigger)
               if ($trigger !== 'hover') {
-                onClose()
+                onClose(event)
               }
             }
           )

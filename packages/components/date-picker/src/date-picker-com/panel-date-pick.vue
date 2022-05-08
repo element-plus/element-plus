@@ -81,6 +81,7 @@
           <span
             role="button"
             class="el-date-picker__header-label"
+            aria-live="polite"
             @click="showYearPicker"
             >{{ yearLabel }}</span
           >
@@ -88,6 +89,7 @@
             v-show="currentView === 'date'"
             role="button"
             class="el-date-picker__header-label"
+            aria-live="polite"
             :class="{ active: currentView === 'month' }"
             @click="showMonthPicker"
             >{{ t(`el.datepicker.month${month + 1}`) }}</span
@@ -110,9 +112,10 @@
             <el-icon><arrow-right /></el-icon>
           </button>
         </div>
-        <div class="el-picker-panel__content">
+        <div class="el-picker-panel__content" @keydown="handleKeydownTable">
           <date-table
             v-if="currentView === 'date'"
+            ref="currentViewRef"
             :selection-mode="selectionMode"
             :date="innerDate"
             :parsed-value="parsedValue"
@@ -122,6 +125,7 @@
           />
           <year-table
             v-if="currentView === 'year'"
+            ref="currentViewRef"
             :date="innerDate"
             :disabled-date="disabledDate"
             :parsed-value="parsedValue"
@@ -129,6 +133,7 @@
           />
           <month-table
             v-if="currentView === 'month'"
+            ref="currentViewRef"
             :date="innerDate"
             :parsed-value="parsedValue"
             :disabled-date="disabledDate"
@@ -163,7 +168,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, toRef, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  nextTick,
+  ref,
+  toRef,
+  watch,
+} from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
@@ -188,7 +201,7 @@ import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
 
-import type { PropType } from 'vue'
+import type { ComponentPublicInstance, PropType, Ref } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
 import type { IDatePickerType } from '../date-picker.type'
 
@@ -244,6 +257,8 @@ export default defineComponent({
     } = pickerBase.props
     const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
+    const currentViewRef = ref<ComponentPublicInstance>()
+
     const innerDate = ref(dayjs().locale(lang.value))
 
     const defaultTimeD = computed(() => {
@@ -293,7 +308,7 @@ export default defineComponent({
       userInputDate.value = null
       userInputTime.value = null
     }
-    const handleDatePick = (value: Dayjs) => {
+    const handleDatePick = (value: Dayjs, keepOpen: boolean = undefined) => {
       if (selectionMode.value === 'day') {
         let newDate = props.parsedValue
           ? (props.parsedValue as Dayjs)
@@ -309,11 +324,11 @@ export default defineComponent({
             .date(value.date())
         }
         innerDate.value = newDate
-        emit(newDate, showTime.value)
+        emit(newDate, keepOpen != null ? keepOpen : showTime.value)
       } else if (selectionMode.value === 'week') {
         emit(value.date)
       } else if (selectionMode.value === 'dates') {
-        emit(value, true) // set false to keep panel open
+        emit(value, true) // set true to keep panel open
       }
     }
     const prevMonth_ = () => {
@@ -576,7 +591,15 @@ export default defineComponent({
       return parseDate
     }
 
-    const handleKeydown = (event) => {
+    const handleFocusPicker = async () => {
+      if (currentView.value !== 'date') {
+        currentView.value = 'date'
+        await nextTick()
+      }
+      ;(currentViewRef as Ref<any>).value?.focus()
+    }
+
+    const handleKeydownTable = (event) => {
       const { code, keyCode } = event
       const list = [
         EVENT_CODE.up,
@@ -584,20 +607,18 @@ export default defineComponent({
         EVENT_CODE.left,
         EVENT_CODE.right,
       ]
-      if (props.visible && !timePickerVisible.value) {
-        if (list.includes(code)) {
-          handleKeyControl(keyCode)
-          event.stopPropagation()
-          event.preventDefault()
-        }
-        if (
-          code === EVENT_CODE.enter &&
-          userInputDate.value === null &&
-          userInputTime.value === null
-        ) {
-          // Enter
-          emit(innerDate, false)
-        }
+      if (list.includes(code)) {
+        handleKeyControl(keyCode)
+        event.stopPropagation()
+        event.preventDefault()
+      }
+      if (
+        code === EVENT_CODE.enter &&
+        userInputDate.value === null &&
+        userInputTime.value === null
+      ) {
+        // Enter
+        emit(innerDate.value, false)
       }
     }
 
@@ -659,7 +680,7 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
-    ctx.emit('set-picker-option', ['handleKeydown', handleKeydown])
+    ctx.emit('set-picker-option', ['handleFocusPicker', handleFocusPicker])
 
     watch(
       () => defaultValue.value,
@@ -686,6 +707,7 @@ export default defineComponent({
     )
 
     return {
+      currentViewRef,
       handleTimePick,
       handleTimePickClose,
       onTimePickerInputFocus,
@@ -717,6 +739,7 @@ export default defineComponent({
       currentView,
       month,
       handleDatePick,
+      handleKeydownTable,
       handleVisibleTimeChange,
       handleVisibleDateChange,
       timeFormat,

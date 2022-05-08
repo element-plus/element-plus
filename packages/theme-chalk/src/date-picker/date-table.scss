@@ -86,9 +86,17 @@
       }
     }
 
-    &.current:not(.disabled) .#{$namespace}-date-table-cell__text {
-      color: $color-white;
-      background-color: getCssVar('datepicker-active-color');
+    &.current:not(.disabled) {
+      .#{$namespace}-date-table-cell__text {
+        color: $color-white;
+        background-color: getCssVar('datepicker-active-color');
+      }
+      &:focus-visible {
+        outline: none;
+        .#{$namespace}-date-table-cell__text {
+          box-shadow: 0 0 0 3px getCssVar('datepicker-focus-ring-color');
+        }
+      }
     }
     &.start-date .#{$namespace}-date-table-cell,
     &.end-date .#{$namespace}-date-table-cell {

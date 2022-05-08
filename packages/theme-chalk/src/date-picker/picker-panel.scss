@@ -85,6 +85,7 @@
     outline: none;
     margin-top: 8px;
 
+    &:focus,
     &:hover {
       color: getCssVar('datepicker-hover-text-color');
     }

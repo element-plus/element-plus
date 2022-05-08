@@ -3,7 +3,10 @@
     ref="popperContentRef"
     :style="contentStyle"
     :class="contentClass"
-    role="tooltip"
+    :role="role"
+    :aria-label="ariaLabel"
+    :aria-modal="ariaModal"
+    tabindex="-1"
     @mouseenter="(e) => $emit('mouseenter', e)"
     @mouseleave="(e) => $emit('mouseleave', e)"
   >
@@ -33,7 +36,7 @@ defineEmits(['mouseenter', 'mouseleave'])
 
 const props = defineProps(usePopperContentProps)
 
-const { popperInstanceRef, contentRef, triggerRef } = inject(
+const { popperInstanceRef, contentRef, triggerRef, role } = inject(
   POPPER_INJECTION_KEY,
   undefined
 )!
@@ -70,6 +73,10 @@ const contentClass = computed(() => [
   ns.is(props.effect),
   props.popperClass,
 ])
+
+const ariaModal = computed<string | undefined>(() => {
+  return role.value === 'dialog' ? 'false' : undefined
+})
 
 const createPopperInstance = ({ referenceEl, popperContentEl, arrowEl }) => {
   const options = buildPopperOptions(props, {

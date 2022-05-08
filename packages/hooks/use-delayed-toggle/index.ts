@@ -16,8 +16,8 @@ export const useDelayedToggleProps = buildProps({
 } as const)
 
 export type UseDelayedToggleProps = {
-  open: () => void
-  close: () => void
+  open: (event?: Event) => void
+  close: (event?: Event) => void
 } & ToRefs<ExtractPropTypes<typeof useDelayedToggleProps>>
 
 export const useDelayedToggle = ({
@@ -28,15 +28,15 @@ export const useDelayedToggle = ({
 }: UseDelayedToggleProps) => {
   const { registerTimeout } = useTimeout()
 
-  const onOpen = () => {
+  const onOpen = (event?: Event) => {
     registerTimeout(() => {
-      open()
+      open(event)
     }, unref(showAfter))
   }
 
-  const onClose = () => {
+  const onClose = (event?: Event) => {
     registerTimeout(() => {
-      close()
+      close(event)
     }, unref(hideAfter))
   }
 
