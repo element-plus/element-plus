@@ -99,6 +99,9 @@ export default defineConfig(async ({ mode }) => {
       Inspect(),
       mkcert(),
       VitePWA({
+        strategies: 'injectManifest',
+        srcDir: '.vitepress',
+        filename: 'sw.ts',
         outDir: '.vitepress/dist',
         includeAssets: ['images/**'],
         manifest: {
