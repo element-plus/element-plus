@@ -147,11 +147,15 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   @include e(label) {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: center;
+
     flex: 0 0 auto;
-    text-align: right;
     font-size: getCssVar('form-label-font-size');
     color: getCssVar('text-color', 'regular');
-    line-height: #{map.get($form-item-line-height, 'default')};
+    line-height: #{map.get($form-item-label-top-line-height, 'default')};
+
     padding: 0 12px 0 0;
     box-sizing: border-box;
   }
