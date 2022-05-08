@@ -125,12 +125,16 @@
 
 @include b(input) {
   @include set-component-css-var('input', $input);
+}
+
+@include b(input) {
+  @include css-var-from-global('input-height', 'component-size');
 
   position: relative;
   font-size: getCssVar('font-size', 'base');
   display: inline-flex;
   width: 100%;
-  line-height: map.get($input-height, 'default');
+  line-height: getCssVar('input-height');
   box-sizing: border-box;
   @include scroll-bar;
 
@@ -161,11 +165,16 @@
   }
 
   @include e(wrapper) {
+    @include set-css-var-value(
+      'input-inner-height',
+      calc(getCssVar('input-height') - $border-width * 2)
+    );
+
     display: inline-flex;
     flex-grow: 1;
     align-items: center;
     justify-content: center;
-    padding: 0 map.get($input-padding-horizontal, 'default')-$border-width;
+    padding: $border-width map.get($input-padding-horizontal, 'default')-$border-width;
     background-color: var(
       #{getCssVarName('input-bg-color')},
       map.get($input, 'bg-color')
@@ -201,8 +210,8 @@
       map.get($input, 'text-color')
     );
     font-size: inherit;
-    height: map.get($input-height, 'default');
-    line-height: map.get($input-height, 'default');
+    height: getCssVar('input-inner-height');
+    line-height: getCssVar('input-inner-height');
     padding: 0;
     outline: none;
     border: none;
@@ -269,6 +278,7 @@
 
   & .#{$namespace}-input__icon {
     height: inherit;
+    line-height: inherit;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -326,20 +336,17 @@
 
   @each $size in (large, small) {
     @include m($size) {
+      @include css-var-from-global('input-height', ('component-size', $size));
+
       font-size: map.get($input-font-size, $size);
-      line-height: map.get($input-height, $size) - 2;
 
       @include e(wrapper) {
-        padding: 0 map.get($input-padding-horizontal, $size)-$border-width;
-      }
+        @include set-css-var-value(
+          'input-inner-height',
+          calc(getCssVar('input-height', $size) - $border-width * 2)
+        );
 
-      @include e(inner) {
-        height: map.get($input-height, $size);
-        line-height: map.get($input-height, $size);
-      }
-
-      .#{$namespace}-input__icon {
-        line-height: map.get($input-height, $size);
+        padding: $border-width map.get($input-padding-horizontal, $size)-$border-width;
       }
     }
   }
