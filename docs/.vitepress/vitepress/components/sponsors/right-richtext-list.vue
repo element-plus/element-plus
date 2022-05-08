@@ -17,14 +17,23 @@ const isZhCn = computed(() => lang.value === langZhCN)
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
       target="_blank"
     >
-      <div :class="[isDark && '!bg-#262729', 'flex bg-#F9F9F9 pa-12px rd-4px']">
-        <div class="w-32px m-r-8px">
-          <img class="rd-4px w-32px h-32px" :src="item.img" :alt="item.name" />
+      <div
+        :class="[
+          isDark && '!bg-#262729',
+          'flex bg-#F9F9F9 pl-12px pr-12px pt-16px pb-16px rd-4px',
+        ]"
+      >
+        <div class="w-32px m-r-8px h-56px">
+          <img
+            class="mt-4px rd-4px w-32px h-32px"
+            :src="item.img"
+            :alt="item.name"
+          />
         </div>
-        <div class="flex-1">
+        <div class="flex-1 h-56px">
           <div
             :class="[
-              'color-#303133 font-400 text-12px',
+              'color-#303133 font-400 text-13px',
               isDark && '!color-#E5E9F3',
             ]"
           >
