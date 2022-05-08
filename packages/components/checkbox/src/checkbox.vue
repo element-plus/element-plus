@@ -23,7 +23,6 @@
       :role="indeterminate ? 'checkbox' : undefined"
       :aria-checked="indeterminate ? 'mixed' : undefined"
     >
-      <span :class="ns.e('inner')" />
       <input
         v-if="trueLabel || falseLabel"
         :id="inputId"
@@ -55,6 +54,7 @@
         @focus="focus = true"
         @blur="focus = false"
       />
+      <span :class="ns.e('inner')" />
     </span>
     <span v-if="hasOwnLabel" :class="ns.e('label')">
       <slot />

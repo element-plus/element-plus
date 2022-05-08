@@ -59,6 +59,12 @@ $button-icon-span-gap: map.merge(
       background-color: getCssVar('button', 'active', 'bg-color');
       outline: none;
     }
+
+    &:focus-visible {
+      border-color: transparent;
+      outline: 2px solid getCssVar('button', 'border-color');
+      outline-offset: 1px;
+    }
   }
 
   > span {
@@ -164,6 +170,12 @@ $button-icon-span-gap: map.merge(
       &:hover,
       &:focus {
         background-color: getCssVar('fill-color', 'light');
+      }
+
+      &:focus-visible {
+        border-color: transparent;
+        outline: 2px solid getCssVar('button', 'border-color');
+        outline-offset: 1px;
       }
 
       &:active {

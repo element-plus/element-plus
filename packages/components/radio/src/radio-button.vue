@@ -7,11 +7,6 @@
       ns.is('focus', focus),
       ns.bm('button', size),
     ]"
-    role="radio"
-    :aria-checked="modelValue === label"
-    :aria-disabled="disabled"
-    :tabindex="tabIndex"
-    @keydown.space.stop.prevent="modelValue = disabled ? modelValue : label"
   >
     <input
       ref="radioRef"
@@ -19,9 +14,8 @@
       :class="ns.be('button', 'original-radio')"
       :value="label"
       type="radio"
-      :name="name"
+      :name="name || radioGroup?.name"
       :disabled="disabled"
-      tabindex="-1"
       @focus="focus = true"
       @blur="focus = false"
     />
@@ -79,6 +73,7 @@ export default defineComponent({
       focus,
       activeStyle,
       radioRef,
+      radioGroup,
     }
   },
 })

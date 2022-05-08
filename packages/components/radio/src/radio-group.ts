@@ -26,6 +26,10 @@ export const radioGroupProps = buildProps({
     type: String,
     default: '',
   },
+  name: {
+    type: String,
+    default: undefined,
+  },
 } as const)
 export type RadioGroupProps = ExtractPropTypes<typeof radioGroupProps>
 
