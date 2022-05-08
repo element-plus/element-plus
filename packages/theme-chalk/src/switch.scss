@@ -126,7 +126,7 @@ $switch-button-size: map.merge(
     margin: 0;
 
     &:focus-visible {
-      & + .#{$namespace}-switch__core {
+      & ~ .#{$namespace}-switch__core {
         outline: 2px solid getCssVar('switch-on-color');
         outline-offset: 1px;
       }
