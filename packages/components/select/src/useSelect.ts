@@ -8,7 +8,7 @@ import {
   triggerRef,
   watch,
 } from 'vue'
-import { isObject, toRawType } from '@vue/shared'
+import { isFunction, isObject, toRawType } from '@vue/shared'
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
@@ -57,6 +57,9 @@ export function useSelectStates(props) {
     isSilentBlur: false,
     prefixWidth: 11,
     tagInMultiLine: false,
+    // tree-select value-display
+    data: null as any,
+    node: null as any,
   })
 }
 
@@ -443,7 +446,9 @@ export const useSelect = (props, states: States, ctx) => {
       } else {
         states.createdSelected = false
       }
-      states.selectedLabel = option.currentLabel
+      states.selectedLabel = isFunction(props.valueDisplay)
+        ? props.valueDisplay(option)
+        : option.currentLabel
       states.selected = option
       if (props.filterable) states.query = states.selectedLabel
       return
@@ -453,7 +458,11 @@ export const useSelect = (props, states: States, ctx) => {
     const result: any[] = []
     if (Array.isArray(props.modelValue)) {
       props.modelValue.forEach((value) => {
-        result.push(getOption(value))
+        const option = getOption(value)
+        if (isFunction(props.valueDisplay)) {
+          option.currentLabel = props.valueDisplay(option)
+        }
+        result.push(option)
       })
     }
     states.selected = result
@@ -463,7 +472,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const getOption = (value) => {
-    let option
+    let option: any
     const isObjectValue = toRawType(value).toLowerCase() === 'object'
     const isNull = toRawType(value).toLowerCase() === 'null'
     const isUndefined = toRawType(value).toLowerCase() === 'undefined'
@@ -479,6 +488,10 @@ export const useSelect = (props, states: States, ctx) => {
           currentLabel: cachedOption.currentLabel,
           isDisabled: cachedOption.isDisabled,
         }
+        if (cachedOption.node) {
+          option.data = cachedOption.data
+          option.node = cachedOption.node
+        }
         break
       }
     }
@@ -488,9 +501,13 @@ export const useSelect = (props, states: States, ctx) => {
       : !isNull && !isUndefined
       ? value
       : ''
-    const newOption = {
+    const newOption: any = {
       value,
       currentLabel: label,
+    }
+    if (newOption.node) {
+      newOption.data = states.data
+      newOption.node = states.node
     }
     if (props.multiple) {
       ;(newOption as any).hitState = false

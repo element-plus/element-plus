@@ -2042,4 +2042,73 @@ describe('Select', () => {
       expect(formItem.attributes().role).toBe('group')
     })
   })
+  test('value-display format diaplay label', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" :value-display="labelFormat">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        labelFormat(option: any) {
+          return `${option.currentLabel}123`
+        },
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕'
+          },
+          {
+            value: '选项2',
+            label: '双皮奶'
+          }
+        ],
+        value: '选项2'
+      })
+    )
+    await nextTick()
+
+    expect(findInnerInput().value).toEqual('双皮奶123')
+  })
+
+  test('value-display multiple format diaplay label', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" multiple :value-display="labelFormat">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value"
+        >
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        labelFormat(option: any) {
+          return `${option.currentLabel}123`
+        },
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕'
+          },
+          {
+            value: '选项2',
+            label: '双皮奶'
+          }
+        ],
+        value: ['选项2']
+      })
+    )
+    await nextTick()
+    const tags = wrapper.findAll('.el-select__tags-text')
+    expect(tags[0].element.textContent).toEqual('双皮奶123')
+  })
 })

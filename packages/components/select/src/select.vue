@@ -345,6 +345,7 @@ export default defineComponent({
     noDataText: String,
     remoteMethod: Function,
     filterMethod: Function,
+    valueDisplay: Function,
     multiple: Boolean,
     multipleLimit: {
       type: Number,
