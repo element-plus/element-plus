@@ -25,7 +25,7 @@ const isZhCn = computed(() => lang.value === langZhCN)
       >
         <div class="w-32px m-r-8px h-56px">
           <img
-            class="mt-4px rd-4px w-32px h-32px"
+            class="mt-2px rd-4px w-32px h-32px"
             :src="item.img"
             :alt="item.name"
           />
