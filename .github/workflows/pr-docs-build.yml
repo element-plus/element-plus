@@ -9,7 +9,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [16.x]
+        os: [ubuntu-latest, windows-latest]
       fail-fast: false
 
     env:
@@ -19,26 +20,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 7
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: ${{ matrix.node-version }}
           registry-url: https://registry.npmjs.com/
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-
-      - name: Cache ~/.pnpm-store
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-pnpm-store
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-preview-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-preview-${{ env.cache-name }}-
-            ${{ runner.os }}-preview-
-            ${{ runner.os }}-
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
