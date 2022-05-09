@@ -89,14 +89,13 @@ function matchManifest(item: ManifestEntry, lang: string) {
   const cacheList = [
     lang,
     `assets/(${lang}|app|index|style|chunks)`,
-    'index',
     'images',
     'android-chrome',
     'apple-touch-icon',
     'manifest.webmanifest',
   ]
   const regExp = new RegExp(`^(${cacheList.join('|')})`)
-  return regExp.test(item.url)
+  return regExp.test(item.url) || /^\/$/.test(item.url)
 }
 
 function getManifest(lang: string) {
