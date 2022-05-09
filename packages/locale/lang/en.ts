@@ -14,6 +14,10 @@ export default {
       cancel: 'Cancel',
       clear: 'Clear',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month',
+      monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      yearTablePrompt: 'Use the arrow keys and enter to select the year',
       selectedDate: 'Selected date',
       selectDate: 'Select date',
       selectTime: 'Select time',

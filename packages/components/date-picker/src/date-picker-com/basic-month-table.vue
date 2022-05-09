@@ -1,16 +1,27 @@
 <template>
   <table
+    role="grid"
+    :aria-label="t('el.datepicker.monthTablePrompt')"
     class="el-month-table"
     @click="handleMonthTableClick"
     @mousemove="handleMouseMove"
   >
-    <tbody>
+    <tbody ref="tbodyRef">
       <tr v-for="(row, key) in rows" :key="key">
-        <td v-for="(cell, key_) in row" :key="key_" :class="getCellStyle(cell)">
+        <td
+          v-for="(cell, key_) in row"
+          :key="key_"
+          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el)"
+          :class="getCellStyle(cell)"
+          :aria-selected="`${isSelectedCell(cell)}`"
+          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          @keydown.space.prevent.stop="handleMonthTableClick"
+          @keydown.enter.prevent.stop="handleMonthTableClick"
+        >
           <div>
-            <a class="cell">{{
+            <span class="cell">{{
               t('el.datepicker.months.' + months[cell.text])
-            }}</a>
+            }}</span>
           </div>
         </td>
       </tr>
@@ -19,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
@@ -65,9 +76,12 @@ export default defineComponent({
   },
 
   emits: ['changerange', 'pick', 'select'],
+  expose: ['focus'],
 
   setup(props, ctx) {
     const { t, lang } = useLocale()
+    const tbodyRef = ref<HTMLElement>()
+    const currentCellRef = ref<HTMLElement>()
     const months = ref(
       props.date
         .locale('en')
@@ -127,10 +141,10 @@ export default defineComponent({
           }
 
           const isToday = now.isSame(calTime)
-
           if (isToday) {
             cell.type = 'today'
           }
+
           cell.text = index
           const cellDate = calTime.toDate()
           cell.disabled = props.disabledDate && props.disabledDate(cellDate)
@@ -139,6 +153,21 @@ export default defineComponent({
       }
       return rows
     })
+
+    watch(
+      () => props.date,
+      async () => {
+        if (tbodyRef.value?.contains(document.activeElement)) {
+          await nextTick()
+          currentCellRef.value?.focus()
+        }
+      }
+    )
+
+    const focus = () => {
+      currentCellRef.value?.focus()
+    }
+
     const getCellStyle = (cell) => {
       const style = {} as any
       const year = props.date.year()
@@ -166,6 +195,16 @@ export default defineComponent({
         }
       }
       return style
+    }
+
+    const isSelectedCell = (cell) => {
+      const year = props.date.year()
+      const month = cell.text
+      return (
+        castArray(props.date).findIndex(
+          (date) => date.year() === year && date.month() === month
+        ) >= 0
+      )
     }
 
     const handleMouseMove = (event) => {
@@ -198,13 +237,8 @@ export default defineComponent({
     }
     const handleMonthTableClick = (event) => {
       let target = event.target
-      if (target.tagName === 'A') {
-        target = target.parentNode.parentNode
-      }
-      if (target.tagName === 'DIV') {
-        target = target.parentNode
-      }
-      if (target.tagName !== 'TD') return
+      target = target.closest('td')
+      if (target?.tagName !== 'TD') return
       if (hasClass(target, 'disabled')) return
       const column = target.cellIndex
       const row = target.parentNode.rowIndex
@@ -228,8 +262,12 @@ export default defineComponent({
     }
 
     return {
+      tbodyRef,
+      currentCellRef,
       handleMouseMove,
       handleMonthTableClick,
+      focus,
+      isSelectedCell,
       rows,
       getCellStyle,
       t,

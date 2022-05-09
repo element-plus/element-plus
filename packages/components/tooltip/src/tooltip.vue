@@ -106,6 +106,18 @@ export default defineComponent({
     'open',
     'close',
   ],
+  expose: [
+    'compatShowAfter',
+    'compatShowArrow',
+    'popperRef',
+    'contentRef',
+    'open',
+    'hide',
+    'isFocusInsideContent',
+    'updatePopper',
+    'onOpen',
+    'onClose',
+  ],
   setup(props, { emit }) {
     usePopperContainer()
     const compatShowAfter = computed(() => {
@@ -159,26 +171,24 @@ export default defineComponent({
       id,
       open: readonly(open),
       trigger: toRef(props, 'trigger'),
-      onOpen: (event?: Event) => {
-        onOpen(event)
-        emit('open', event)
+      onOpen: () => {
+        onOpen()
       },
-      onClose: (event?: Event) => {
-        onClose(event)
-        emit('close', event)
+      onClose: () => {
+        onClose()
       },
-      onToggle: (event?: Event) => {
+      onToggle: () => {
         if (unref(open)) {
-          onClose(event)
+          onClose()
         } else {
-          onOpen(event)
+          onOpen()
         }
       },
-      onShow: (event?: Event) => {
-        emit('show', event)
+      onShow: () => {
+        emit('show')
       },
-      onHide: (event?: Event) => {
-        emit('hide', event)
+      onHide: () => {
+        emit('hide')
       },
       onBeforeShow: () => {
         emit('before-show')
@@ -211,7 +221,7 @@ export default defineComponent({
       contentRef,
       open,
       hide,
-      isFocusInsideContent, // Expose
+      isFocusInsideContent,
       updatePopper,
       onOpen,
       onClose,

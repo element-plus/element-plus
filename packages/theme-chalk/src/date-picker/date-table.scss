@@ -94,7 +94,8 @@
       &:focus-visible {
         outline: none;
         .#{$namespace}-date-table-cell__text {
-          box-shadow: 0 0 0 3px getCssVar('datepicker-focus-ring-color');
+          outline: 2px solid getCssVar('datepicker-active-color');
+          outline-offset: 1px;
         }
       }
     }

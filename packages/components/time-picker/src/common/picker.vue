@@ -19,7 +19,6 @@
     @before-show="onBeforeShow"
     @show="onShow"
     @hide="onHide"
-    @close="onClose"
   >
     <template #default>
       <el-input
@@ -157,6 +156,7 @@
         @set-picker-option="onSetPickerOption"
         @calendar-change="onCalendarChange"
         @panel-change="onPanelChange"
+        @keydown="onKeydownPopperContent"
         @mousedown.stop
       />
     </template>
@@ -200,7 +200,7 @@ interface PickerOptions {
   getDefaultValue: () => Dayjs
   panelReady: boolean
   handleClear: () => void
-  handleFocusPicker: () => void
+  handleFocusPicker?: () => void
 }
 
 // Date object and string
@@ -288,6 +288,7 @@ export default defineComponent({
     const valueOnOpen = ref(null)
 
     let hasJustTabExitedInput = false
+    let ignoreFocusEvent = false
 
     watch(pickerVisible, (val) => {
       if (!val) {
@@ -337,6 +338,7 @@ export default defineComponent({
     const refEndInput = computed(() => {
       return refInput?.value[1]
     })
+
     const setSelectionRange = (start, end, pos) => {
       const _inputs = refInput.value
       if (!_inputs.length) return
@@ -372,18 +374,19 @@ export default defineComponent({
       ctx.emit('visible-change', true)
     }
 
-    const onHide = () => {
-      pickerActualVisible.value = false
-      ctx.emit('visible-change', false)
-    }
-
-    const onClose = (event?: Event) => {
+    const onKeydownPopperContent = (event: KeyboardEvent) => {
       if ((event as KeyboardEvent)?.key === EVENT_CODE.esc) {
         focus()
       }
     }
 
-    const focus = (focusStartInput = true) => {
+    const onHide = () => {
+      pickerActualVisible.value = false
+      ctx.emit('visible-change', false)
+    }
+
+    const focus = async (focusStartInput = true) => {
+      ignoreFocusEvent = true
       let input = refStartInput.value
       if (!focusStartInput && isRangeInput.value) {
         input = refEndInput.value
@@ -391,10 +394,19 @@ export default defineComponent({
       if (input) {
         input.focus()
       }
+      await nextTick()
+      ignoreFocusEvent = false
     }
 
     const handleFocusInput = (e) => {
-      if (props.readonly || pickerDisabled.value || pickerVisible.value) return
+      if (
+        props.readonly ||
+        pickerDisabled.value ||
+        pickerVisible.value ||
+        ignoreFocusEvent
+      ) {
+        return
+      }
       pickerVisible.value = true
       ctx.emit('focus', e)
     }
@@ -613,14 +625,18 @@ export default defineComponent({
       }
 
       if (code === EVENT_CODE.down) {
-        event.preventDefault()
-        event.stopPropagation()
+        if (pickerOptions.value.handleFocusPicker) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
         if (pickerVisible.value === false) {
           pickerVisible.value = true
           await nextTick()
         }
-        pickerOptions.value.handleFocusPicker()
-        return
+        if (pickerOptions.value.handleFocusPicker) {
+          pickerOptions.value.handleFocusPicker()
+          return
+        }
       }
 
       if (code === EVENT_CODE.tab) {
@@ -759,7 +775,7 @@ export default defineComponent({
       onShow,
       onBeforeShow,
       onHide,
-      onClose,
+      onKeydownPopperContent,
     }
   },
 })

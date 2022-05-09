@@ -155,11 +155,11 @@ export default defineComponent({
             computed(() => {
               return contentRef.value?.popperContentRef
             }),
-            (event) => {
+            () => {
               if (unref(controlled)) return
               const $trigger = unref(trigger)
               if ($trigger !== 'hover') {
-                onClose(event)
+                onClose()
               }
             }
           )

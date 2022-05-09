@@ -1,6 +1,7 @@
 <template>
   <table
     role="grid"
+    :aria-label="t('el.datepicker.dateTablePrompt')"
     cellspacing="0"
     cellpadding="0"
     class="el-date-table"
@@ -31,7 +32,6 @@
           :key="key_"
           :ref="(el) => isSelectedCell(cell) && (currentCellRef = el)"
           :class="getCellClasses(cell)"
-          :aria-label="getScreenReaderDate(cell)"
           :aria-current="cell.isCurrent ? 'date' : undefined"
           :aria-selected="`${cell.isCurrent}`"
           :tabindex="isSelectedCell(cell) ? 0 : -1"
@@ -74,7 +74,7 @@ export default defineComponent({
     },
     selectionMode: {
       type: String,
-      default: 'day',
+      default: 'date',
     },
     showWeekNumber: {
       type: Boolean,
@@ -95,9 +95,10 @@ export default defineComponent({
     },
   },
   emits: ['changerange', 'pick', 'select'],
-
+  expose: ['focus'],
   setup(props, ctx) {
     const { t, lang } = useLocale()
+
     const tbodyRef = ref<HTMLElement>()
     const currentCellRef = ref<HTMLElement>()
     // data
@@ -271,16 +272,17 @@ export default defineComponent({
           await nextTick()
           currentCellRef.value?.focus()
         }
-      }
+      },
+      { immediate: true }
     )
 
-    const focus = () => {
+    const focus = async () => {
       currentCellRef.value?.focus()
     }
 
     const isCurrent = (cell): boolean => {
       return (
-        props.selectionMode === 'day' &&
+        props.selectionMode === 'date' &&
         (cell.type === 'normal' || cell.type === 'today') &&
         cellMatchesDate(cell, props.parsedValue)
       )
@@ -376,15 +378,6 @@ export default defineComponent({
       }
     }
 
-    const getScreenReaderDate = (cell: DateCell) => {
-      return `${new Date(cell.timestamp)?.toLocaleDateString(undefined, {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })} ${cell.type === 'today' ? t('el.datepicker.today') : ''}`
-    }
-
     const isSelectedCell = (cell: DateCell) => {
       return (
         (!hasCurrent.value && cell?.text === 1 && cell.type === 'normal') ||
@@ -398,7 +391,7 @@ export default defineComponent({
       }
     }
 
-    const handleClick = (event: Event, keepOpen = true) => {
+    const handleClick = (event: Event, keepOpen = false) => {
       let target = event.target as HTMLElement
 
       while (target) {
@@ -438,7 +431,7 @@ export default defineComponent({
           }
           ctx.emit('select', false)
         }
-      } else if (props.selectionMode === 'day') {
+      } else if (props.selectionMode === 'date') {
         ctx.emit('pick', newDate, keepOpen)
       } else if (props.selectionMode === 'week') {
         const weekNumber = newDate.week()
@@ -486,10 +479,6 @@ export default defineComponent({
       return false
     }
 
-    ctx.expose({
-      focus,
-    })
-
     return {
       tbodyRef,
       currentCellRef,
@@ -500,10 +489,10 @@ export default defineComponent({
       isSelectedCell,
       isWeekActive,
       getCellClasses,
-      getScreenReaderDate,
       WEEKS,
       handleFocus,
       handleClick,
+      focus,
     }
   },
 })
