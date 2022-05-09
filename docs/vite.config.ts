@@ -104,6 +104,20 @@ export default defineConfig(async ({ mode }) => {
         filename: 'sw.ts',
         outDir: '.vitepress/dist',
         includeAssets: ['images/**'],
+        injectManifest: {
+          manifestTransforms: [
+            (manifest) => {
+              for (const item of manifest) {
+                if (item.url.endsWith('index.html')) {
+                  const url = item.url.replace('index.html', '')
+                  item.url = url ? url : '/'
+                }
+              }
+
+              return { manifest }
+            },
+          ],
+        },
         manifest: {
           id: '/',
           name: 'Element Plus',
