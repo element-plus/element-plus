@@ -1,4 +1,14 @@
-export const platinumSponsors = [
+export const rightRichTextSponsors = [
+  {
+    name: 'Fantastic-admin',
+    img: '/images/sponsors/fantasticadmin.png',
+    url: 'https://fantastic-admin.netlify.app/?from=element-plus',
+    slogan: 'An out-of-the-box backend framework',
+    slogan_cn: '开箱即用的 Vue 后台管理框架',
+  },
+]
+
+export const leftCustomImgSponsors = [
   {
     name: 'JNPF',
     img: '/images/jnpf_index.png',
@@ -25,6 +35,11 @@ export const platinumSponsors = [
     slogan_cn: '专业在线UI设计工具',
     banner_img: '/images/js-design-banner.jpg',
   },
+]
+
+export const platinumSponsors = [
+  ...leftCustomImgSponsors,
+  ...rightRichTextSponsors,
 ]
 
 export const goldSponsors = [
