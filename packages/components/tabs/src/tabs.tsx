@@ -110,6 +110,7 @@ export default defineComponent({
       event: Event
     ) => {
       if (tab.props.disabled) return
+      if (currentName.value === tabName) return
       setCurrentName(tabName)
       emit('tab-click', tab, event)
     }
