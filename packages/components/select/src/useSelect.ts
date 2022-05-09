@@ -351,7 +351,9 @@ export const useSelect = (props, states: States, ctx) => {
               sizeInMap
             )}px`
 
-      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
+      // +2 for border
+      states.tagInMultiLine =
+        Number.parseFloat(input.style.height) + 2 >= sizeInMap
 
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()

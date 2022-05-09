@@ -263,6 +263,7 @@
 import {
   computed,
   defineComponent,
+  inject,
   nextTick,
   onBeforeUnmount,
   onMounted,
@@ -283,10 +284,12 @@ import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   addResizeListener,
+  getComponentSize,
   isValidComponentSize,
   removeResizeListener,
 } from '@element-plus/utils'
 import { ArrowUp, CircleClose } from '@element-plus/icons-vue'
+import { formContextKey } from '@element-plus/tokens'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
@@ -295,6 +298,7 @@ import { selectKey } from './token'
 import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { SelectContext } from './token'
+import type { FormContext } from '@element-plus/tokens'
 
 const COMPONENT_NAME = 'ElSelect'
 export default defineComponent({
@@ -513,6 +517,8 @@ export default defineComponent({
       }) as unknown as SelectContext
     )
 
+    const elForm = inject(formContextKey, {} as FormContext)
+
     onMounted(() => {
       states.cachedPlaceHolder = currentPlaceholder.value =
         props.placeholder || t('el.select.placeholder')
@@ -526,7 +532,13 @@ export default defineComponent({
       addResizeListener(selectWrapper.value as any, handleResize)
       if (reference.value && reference.value.$el) {
         const input = reference.value.input as HTMLInputElement
-        states.initialInputHeight = input.getBoundingClientRect().height
+        // +2 for border
+        if (
+          input.getBoundingClientRect().height + 2 !==
+          getComponentSize(selectSize.value || elForm.size)
+        ) {
+          states.initialInputHeight = input.getBoundingClientRect().height
+        }
       }
       if (props.remote && props.multiple) {
         resetInputHeight()
