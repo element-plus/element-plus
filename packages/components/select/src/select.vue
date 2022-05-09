@@ -9,7 +9,7 @@
       ref="tooltipRef"
       v-model:visible="dropMenuVisible"
       placement="bottom-start"
-      :teleported="compatTeleported"
+      :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       :effect="effect"
@@ -280,11 +280,9 @@ import ElTooltip, {
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   addResizeListener,
-  getComponentSize,
   isValidComponentSize,
   removeResizeListener,
 } from '@element-plus/utils'
@@ -368,10 +366,6 @@ export default defineComponent({
     collapseTagsTooltip: {
       type: Boolean,
       default: false,
-    },
-    popperAppendToBody: {
-      type: Boolean,
-      default: undefined,
     },
     teleported: useTooltipContentProps.teleported,
     persistent: {
@@ -532,9 +526,7 @@ export default defineComponent({
       addResizeListener(selectWrapper.value as any, handleResize)
       if (reference.value && reference.value.$el) {
         const input = reference.value.input as HTMLInputElement
-        states.initialInputHeight =
-          input.getBoundingClientRect().height ||
-          getComponentSize(selectSize.value)
+        states.initialInputHeight = input.getBoundingClientRect().height
       }
       if (props.remote && props.multiple) {
         resetInputHeight()
@@ -569,11 +561,6 @@ export default defineComponent({
     const popperPaneRef = computed(() => {
       return tooltipRef.value?.popperRef?.contentRef
     })
-
-    const { compatTeleported } = useDeprecateAppendToBody(
-      COMPONENT_NAME,
-      'popperAppendToBody'
-    )
 
     return {
       tagInMultiLine,
@@ -638,7 +625,6 @@ export default defineComponent({
 
       wrapperKls,
       selectTagsStyle,
-      compatTeleported,
       nsSelect,
     }
   },

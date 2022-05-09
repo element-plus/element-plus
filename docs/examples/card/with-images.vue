@@ -15,7 +15,7 @@
           <span>Yummy hamburger</span>
           <div class="bottom">
             <time class="time">{{ currentDate }}</time>
-            <el-button type="text" class="button">Operating</el-button>
+            <el-button text class="button">Operating</el-button>
           </div>
         </div>
       </el-card>

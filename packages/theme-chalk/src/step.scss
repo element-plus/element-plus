@@ -27,28 +27,28 @@
     width: 100%;
 
     @include when(process) {
-      color: var(--el-text-color-primary);
-      border-color: var(--el-text-color-primary);
+      color: getCssVar('text-color', 'primary');
+      border-color: getCssVar('text-color', 'primary');
     }
 
     @include when(wait) {
-      color: var(--el-text-color-placeholder);
-      border-color: var(--el-text-color-placeholder);
+      color: getCssVar('text-color', 'placeholder');
+      border-color: getCssVar('text-color', 'placeholder');
     }
 
     @include when(success) {
-      color: var(--el-color-success);
-      border-color: var(--el-color-success);
+      color: getCssVar('color-success');
+      border-color: getCssVar('color-success');
     }
 
     @include when(error) {
-      color: var(--el-color-danger);
-      border-color: var(--el-color-danger);
+      color: getCssVar('color-danger');
+      border-color: getCssVar('color-danger');
     }
 
     @include when(finish) {
-      color: var(--el-color-primary);
-      border-color: var(--el-color-primary);
+      color: getCssVar('color-primary');
+      border-color: getCssVar('color-primary');
     }
   }
 
@@ -62,7 +62,7 @@
     height: 24px;
     font-size: 14px;
     box-sizing: border-box;
-    background: getCssVar('fill-color', 'blank');
+    background: getCssVar('bg-color');
     transition: 0.15s ease-out;
 
     @include when(text) {
@@ -98,7 +98,7 @@
   @include e(line) {
     position: absolute;
     border-color: inherit;
-    background-color: var(--el-text-color-placeholder);
+    background-color: getCssVar('text-color', 'placeholder');
   }
 
   @include e(line-inner) {
@@ -123,23 +123,23 @@
 
     @include when(process) {
       font-weight: bold;
-      color: var(--el-text-color-primary);
+      color: getCssVar('text-color', 'primary');
     }
 
     @include when(wait) {
-      color: var(--el-text-color-placeholder);
+      color: getCssVar('text-color', 'placeholder');
     }
 
     @include when(success) {
-      color: var(--el-color-success);
+      color: getCssVar('color-success');
     }
 
     @include when(error) {
-      color: var(--el-color-danger);
+      color: getCssVar('color-danger');
     }
 
     @include when(finish) {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
     }
   }
 
@@ -151,23 +151,23 @@
     font-weight: normal;
 
     @include when(process) {
-      color: var(--el-text-color-primary);
+      color: getCssVar('text-color', 'primary');
     }
 
     @include when(wait) {
-      color: var(--el-text-color-placeholder);
+      color: getCssVar('text-color', 'placeholder');
     }
 
     @include when(success) {
-      color: var(--el-color-success);
+      color: getCssVar('color-success');
     }
 
     @include when(error) {
-      color: var(--el-color-danger);
+      color: getCssVar('color-danger');
     }
 
     @include when(finish) {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
     }
   }
 
@@ -293,7 +293,7 @@
         position: absolute;
         height: 15px;
         width: 1px;
-        background: var(--el-text-color-placeholder);
+        background: getCssVar('text-color', 'placeholder');
       }
 
       &::before {

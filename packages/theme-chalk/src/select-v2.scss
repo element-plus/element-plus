@@ -30,11 +30,11 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     cursor: pointer;
     padding: 1px 30px 1px 0;
     border: 1px solid getCssVar('border-color');
-    border-radius: var(--el-border-radius-base);
-    transition: border-color var(--el-transition-duration-fast)
-      var(--el-ease-in-out-bezier-function);
+    border-radius: getCssVar('border-radius-base');
+    transition: border-color getCssVar('transition-duration-fast')
+      getCssVar('ease-in-out-bezier-function');
     &:hover {
-      border-color: var(--el-text-color-placeholder);
+      border-color: getCssVar('text-color', 'placeholder');
     }
 
     @include when(filterable) {
@@ -42,12 +42,12 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     }
 
     @include when(focused) {
-      border-color: var(--el-color-primary);
+      border-color: getCssVar('color-primary');
     }
 
     @include when(hovering) {
       &:not(.is-focused) {
-        border-color: var(--el-text-color-placeholder);
+        border-color: getCssVar('text-color', 'placeholder');
       }
     }
 
@@ -55,15 +55,15 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
       cursor: not-allowed;
 
       background-color: getCssVar('fill-color', 'light');
-      color: var(--el-text-color-placeholder);
-      border-color: var(--el-select-disabled-border);
+      color: getCssVar('text-color', 'placeholder');
+      border-color: getCssVar('select-disabled-border');
 
       &:hover {
-        border-color: var(--el-select-disabled-border);
+        border-color: getCssVar('select-disabled-border');
       }
 
       &.is-focus {
-        border-color: var(--el-input-focus-border-color);
+        border-color: getCssVar('input-focus-border-color');
       }
 
       .is-transparent {
@@ -118,7 +118,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     padding: 10px 0;
     margin: 0;
     text-align: center;
-    color: var(--el-text-color-secondary);
+    color: getCssVar('text-color', 'secondary');
     font-size: 14px;
   }
 
@@ -156,7 +156,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
   &:hover {
     #{$selector}__combobox-input {
-      border-color: var(--el-select-border-color-hover);
+      border-color: getCssVar('select-border-color-hover');
     }
   }
 
@@ -172,7 +172,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     display: block;
 
     &:focus {
-      border-color: var(--el-select-input-focus-border-color);
+      border-color: getCssVar('select-input-focus-border-color');
     }
   }
 
@@ -181,8 +181,8 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     outline: none;
     padding: 0;
     margin-left: 15px;
-    color: var(--el-select-multiple-input-color);
-    font-size: var(--el-select-font-size);
+    color: getCssVar('select-multiple-input-color');
+    font-size: getCssVar('select-font-size');
     appearance: none;
     height: 28px;
 
@@ -195,14 +195,14 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     cursor: pointer;
     position: absolute;
     top: 8px;
-    z-index: var(--el-index-top);
+    z-index: getCssVar('index-top');
     right: 25px;
-    color: var(--el-select-input-color);
+    color: getCssVar('select-input-color');
     line-height: 18px;
-    font-size: var(--el-select-input-font-size);
+    font-size: getCssVar('select-input-font-size');
 
     &:hover {
-      color: var(--el-select-close-hover-color);
+      color: getCssVar('select-close-hover-color');
     }
   }
 
@@ -213,13 +213,16 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     height: 32px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--el-input-icon-color, map.get($input, 'icon-color'));
+    color: var(
+      #{getCssVarName('input-icon-color')},
+      map.get($input, 'icon-color')
+    );
   }
 
   @include e(caret) {
-    color: var(--el-select-input-color);
-    font-size: var(--el-select-input-font-size);
-    transition: transform var(--el-transition-duration);
+    color: getCssVar('select-input-color');
+    font-size: getCssVar('select-input-font-size');
+    transition: transform getCssVar('transition-duration');
     transform: rotateZ(180deg);
     cursor: pointer;
 
@@ -228,15 +231,15 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     }
 
     @include when(show-close) {
-      font-size: var(--el-select-font-size);
+      font-size: getCssVar('select-font-size');
       text-align: center;
       transform: rotateZ(180deg);
-      border-radius: var(--el-border-radius-circle);
-      color: var(--el-select-input-color);
-      transition: var(--el-transition-color);
+      border-radius: getCssVar('border-radius-circle');
+      color: getCssVar('select-input-color');
+      transition: getCssVar('transition', 'color');
 
       &:hover {
-        color: (--el-select-close-hover-color);
+        color: getCssVar('select', 'close-hover-color');
       }
     }
 
@@ -250,7 +253,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
   @include e(selection) {
     white-space: normal;
-    z-index: var(--el-index-normal);
+    z-index: getCssVar('index-normal');
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -259,10 +262,10 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
   @include e(wrapper) {
     background-color: getCssVar('fill-color', 'blank');
     border: 1px solid getCssVar('border-color');
-    border-radius: var(--el-border-radius-base);
+    border-radius: getCssVar('border-radius-base');
     position: relative;
-    transition: all var(--el-transition-duration)
-      var(--el-ease-in-out-bezier-function);
+    transition: all getCssVar('transition-duration')
+      getCssVar('ease-in-out-bezier-function');
   }
 
   @include e(input-calculator) {
@@ -289,9 +292,12 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     margin-inline-start: $input-inline-start;
     width: calc(100% - 52px);
     @include utils-ellipsis;
-    color: var(--el-input-text-color, map.get($input, 'text-color'));
+    color: var(
+      #{getCssVarName('input-text-color')},
+      map.get($input, 'text-color')
+    );
     @include when(transparent) {
-      color: var(--el-text-color-placeholder);
+      color: getCssVar('text-color', 'placeholder');
     }
   }
 
@@ -302,12 +308,12 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     background-color: getCssVar('fill-color');
 
     .#{$namespace}-icon-close {
-      background-color: var(--el-text-color-placeholder);
+      background-color: getCssVar('text-color', 'placeholder');
       right: -7px;
-      color: var(--el-color-white);
+      color: getCssVar('color-white');
 
       &:hover {
-        background-color: var(--el-text-color-secondary);
+        background-color: getCssVar('text-color', 'secondary');
       }
 
       &::before {

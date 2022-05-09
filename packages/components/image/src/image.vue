@@ -22,7 +22,7 @@
         :infinite="infinite"
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
-        :teleported="teleported"
+        :teleported="previewTeleported"
         :close-on-press-escape="closeOnPressEscape"
         @close="closeViewer"
         @switch="switchViewer"
@@ -36,19 +36,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import {
-  isBoolean,
-  isClient,
-  useEventListener,
-  useThrottleFn,
-} from '@vueuse/core'
-import {
-  useAttrs,
-  useDeprecated,
-  useLocale,
-  useNamespace,
-} from '@element-plus/hooks'
+  computed,
+  nextTick,
+  onMounted,
+  ref,
+  useAttrs as useRawAttrs,
+  watch,
+} from 'vue'
+import { isClient, useEventListener, useThrottleFn } from '@vueuse/core'
+import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
@@ -62,6 +59,7 @@ import type { CSSProperties, StyleValue } from 'vue'
 
 defineOptions({
   name: 'ElImage',
+  inheritAttrs: false,
 })
 
 const props = defineProps(imageProps)
@@ -69,21 +67,11 @@ const emit = defineEmits(imageEmits)
 
 let prevOverflow = ''
 
-useDeprecated(
-  {
-    scope: 'el-image',
-    from: 'append-to-body',
-    replacement: 'preview-teleported',
-    version: '2.2.0',
-    ref: 'https://element-plus.org/en-US/component/image.html#image-attributess',
-  },
-  computed(() => isBoolean(props.appendToBody))
-)
-
 const { t } = useLocale()
 const ns = useNamespace('image')
-
+const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
+
 const hasLoadError = ref(false)
 const loading = ref(true)
 const imgWidth = ref(0)
@@ -95,7 +83,7 @@ const _scrollContainer = ref<HTMLElement | Window>()
 let stopScrollListener: () => void
 let stopWheelListener: () => void
 
-const containerStyle = computed(() => attrs.value.style as StyleValue)
+const containerStyle = computed(() => rawAttrs.style as StyleValue)
 
 const imageStyle = computed<CSSProperties>(() => {
   const { fit } = props
@@ -108,10 +96,6 @@ const imageStyle = computed<CSSProperties>(() => {
 const preview = computed(() => {
   const { previewSrcList } = props
   return Array.isArray(previewSrcList) && previewSrcList.length > 0
-})
-
-const teleported = computed(() => {
-  return props.appendToBody || props.previewTeleported
 })
 
 const imageIndex = computed(() => {
@@ -149,7 +133,7 @@ const loadImage = () => {
 
   // bind html attrs
   // so it can behave consistently
-  Object.entries(attrs.value).forEach(([key, value]) => {
+  Object.entries(rawAttrs).forEach(([key, value]) => {
     // avoid onload to be overwritten
     if (key.toLowerCase() === 'onload') return
     img.setAttribute(key, value as string)

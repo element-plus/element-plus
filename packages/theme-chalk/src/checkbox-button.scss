@@ -17,21 +17,27 @@
   @include e(inner) {
     display: inline-block;
     line-height: 1;
-    font-weight: var(--el-checkbox-font-weight);
+    font-weight: getCssVar('checkbox-font-weight');
     white-space: nowrap;
     vertical-align: middle;
     cursor: pointer;
-    background: var(--el-button-bg-color, map.get($button, 'bg-color'));
+    background: var(
+      #{getCssVarName('button-bg-color')},
+      map.get($button, 'bg-color')
+    );
     border: getCssVar('border');
     border-left: 0;
-    color: var(--el-button-text-color, map.get($button, 'text-color'));
+    color: var(
+      #{getCssVarName('button-text-color')},
+      map.get($button, 'text-color')
+    );
     -webkit-appearance: none;
     text-align: center;
     box-sizing: border-box;
     outline: none;
     margin: 0;
     position: relative;
-    transition: var(--el-transition-all);
+    transition: getCssVar('transition-all');
     user-select: none;
 
     @include button-size(
@@ -42,7 +48,7 @@
     );
 
     &:hover {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
     }
 
     & [class*='#{$namespace}-icon-'] {
@@ -64,13 +70,13 @@
 
   &.is-checked {
     & .#{$namespace}-checkbox-button__inner {
-      color: var(--el-checkbox-button-checked-text-color);
-      background-color: var(--el-checkbox-button-checked-bg-color);
-      border-color: var(--el-checkbox-button-checked-border-color);
-      box-shadow: -1px 0 0 0 var(--el-color-primary-light-7);
+      color: getCssVar('checkbox-button-checked-text-color');
+      background-color: getCssVar('checkbox-button-checked-bg-color');
+      border-color: getCssVar('checkbox-button-checked-border-color');
+      box-shadow: -1px 0 0 0 getCssVar('color-primary-light-7');
     }
     &:first-child .#{$namespace}-checkbox-button__inner {
-      border-left-color: var(--el-checkbox-button-checked-border-color);
+      border-left-color: getCssVar('checkbox-button-checked-border-color');
     }
   }
 
@@ -80,18 +86,18 @@
       cursor: not-allowed;
       background-image: none;
       background-color: var(
-        --el-button-disabled-bg-color,
+        #{getCssVarName('button-disabled-bg-color')},
         map.get($button, 'disabled-bg-color')
       );
       border-color: var(
-        --el-button-disabled-border-color,
+        #{getCssVarName('button-disabled-border-color')},
         map.get($button, 'disabled-border-color')
       );
       box-shadow: none;
     }
     &:first-child .#{$namespace}-checkbox-button__inner {
       border-left-color: var(
-        --el-button-disabled-border-color,
+        #{getCssVarName('button-disabled-border-color')},
         map.get($button, 'disabled-border-color')
       );
     }
@@ -100,22 +106,22 @@
   &:first-child {
     .#{$namespace}-checkbox-button__inner {
       border-left: getCssVar('border');
-      border-radius: var(--el-border-radius-base) 0 0
-        var(--el-border-radius-base);
+      border-radius: getCssVar('border-radius-base') 0 0
+        getCssVar('border-radius-base');
       box-shadow: none !important;
     }
   }
 
   &.is-focus {
     & .#{$namespace}-checkbox-button__inner {
-      border-color: var(--el-checkbox-button-checked-border-color);
+      border-color: getCssVar('checkbox-button-checked-border-color');
     }
   }
 
   &:last-child {
     .#{$namespace}-checkbox-button__inner {
-      border-radius: 0 var(--el-border-radius-base) var(--el-border-radius-base)
-        0;
+      border-radius: 0 getCssVar('border-radius-base')
+        getCssVar('border-radius-base') 0;
     }
   }
 

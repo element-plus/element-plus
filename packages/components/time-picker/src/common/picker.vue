@@ -6,7 +6,7 @@
     pure
     trigger="click"
     v-bind="$attrs"
-    append-to-body
+    teleported
     :transition="`${nsDate.namespace.value}-zoom-in-top`"
     :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
     :popper-options="elPopperOptions"
@@ -32,6 +32,8 @@
         :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
         :style="$attrs.style"
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
+        :label="label"
+        :tabindex="tabindex"
         @input="onUserInput"
         @focus="handleFocus"
         @keydown="handleKeydown"

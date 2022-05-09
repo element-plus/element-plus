@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
 import { Checked, CircleClose } from '@element-plus/icons-vue'
+import { ElFormItem } from '@element-plus/components/form'
 import Switch from '../src/switch.vue'
 
 vi.mock('@element-plus/utils/error', () => ({
@@ -369,5 +370,63 @@ describe('Switch.vue', () => {
 
     await coreWrapper.trigger('click')
     expect(vm.value).toEqual(true)
+  })
+
+  describe('form item accessibility integration', () => {
+    test('automatic id attachment', async () => {
+      const wrapper = mount({
+        template: `<el-form-item label="Foobar" data-test-ref="item">
+            <el-switch />
+          </el-form-item>`,
+        components: {
+          'el-switch': Switch,
+          'el-form-item': ElFormItem,
+        },
+      })
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const switchInput = wrapper.find('.el-switch__input')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItemLabel.attributes().for).toBe(switchInput.attributes().id)
+    })
+
+    test('specified id attachment', async () => {
+      const wrapper = mount({
+        template: `<el-form-item label="Foobar" data-test-ref="item">
+            <el-switch id="foobar" />
+          </el-form-item>`,
+        components: {
+          'el-switch': Switch,
+          'el-form-item': ElFormItem,
+        },
+      })
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const switchInput = wrapper.find('.el-switch__input')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(switchInput.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(switchInput.attributes().id)
+    })
+
+    test('form item role is group when multiple inputs', async () => {
+      const wrapper = mount({
+        template: `<el-form-item label="Foobar" data-test-ref="item">
+            <el-switch />
+            <el-switch />
+          </el-form-item>`,
+        components: {
+          'el-switch': Switch,
+          'el-form-item': ElFormItem,
+        },
+      })
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      expect(formItem.attributes().role).toBe('group')
+    })
   })
 })

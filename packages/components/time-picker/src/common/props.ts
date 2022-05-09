@@ -108,6 +108,14 @@ export const timePickerDefaultProps = {
     type: Boolean,
     default: false,
   },
+  label: {
+    type: String,
+    default: undefined,
+  },
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
   validateEvent: {
     type: Boolean,
     default: true,

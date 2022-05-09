@@ -13,7 +13,6 @@ export const usePopoverProps = buildProps({
   transition: useTooltipContentProps.transition,
   popperOptions: dropdownProps.popperOptions,
   tabindex: dropdownProps.tabindex,
-  appendToBody: { type: Boolean, default: undefined },
   content: useTooltipContentProps.content,
   popperStyle: useTooltipContentProps.popperStyle,
   popperClass: useTooltipContentProps.popperClass,

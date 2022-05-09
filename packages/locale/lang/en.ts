@@ -4,6 +4,9 @@ export default {
     colorpicker: {
       confirm: 'OK',
       clear: 'Clear',
+      defaultLabel: 'color picker',
+      description:
+        'current color is {color}. press enter to select a new color.',
     },
     datepicker: {
       now: 'Now',
@@ -59,6 +62,10 @@ export default {
         dec: 'Dec',
       },
     },
+    inputNumber: {
+      decrease: 'decrease number',
+      increase: 'increase number',
+    },
     select: {
       loading: 'Loading',
       noMatch: 'No matching data',
@@ -90,6 +97,11 @@ export default {
       delete: 'Delete',
       preview: 'Preview',
       continue: 'Continue',
+    },
+    slider: {
+      defaultLabel: 'slider between {min} and {max}',
+      defaultRangeStartLabel: 'pick start value',
+      defaultRangeEndLabel: 'pick end value',
     },
     table: {
       emptyText: 'No Data',

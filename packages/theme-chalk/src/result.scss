@@ -13,45 +13,45 @@
   flex-direction: column;
   text-align: center;
   box-sizing: border-box;
-  padding: var(--el-result-padding);
+  padding: getCssVar('result-padding');
 
   @include e(icon) {
     svg {
-      width: var(--el-result-icon-font-size);
-      height: var(--el-result-icon-font-size);
+      width: getCssVar('result-icon-font-size');
+      height: getCssVar('result-icon-font-size');
     }
   }
 
   @include e(title) {
-    margin-top: var(--el-result-title-margin-top);
+    margin-top: getCssVar('result-title-margin-top');
 
     p {
       margin: 0;
-      font-size: var(--el-result-title-font-size);
-      color: var(--el-text-color-primary);
+      font-size: getCssVar('result-title-font-size');
+      color: getCssVar('text-color', 'primary');
       line-height: 1.3;
     }
   }
 
   @include e(subtitle) {
-    margin-top: var(--el-result-subtitle-margin-top);
+    margin-top: getCssVar('result-subtitle-margin-top');
 
     p {
       margin: 0;
-      font-size: var(--el-font-size-base);
-      color: var(--el-text-color-regular);
+      font-size: getCssVar('font-size', 'base');
+      color: getCssVar('text-color', 'regular');
       line-height: 1.3;
     }
   }
 
   @include e(extra) {
-    margin-top: var(--el-result-extra-margin-top);
+    margin-top: getCssVar('result-extra-margin-top');
   }
 
   @each $type in $types {
     .icon-#{$type} {
-      --el-result-color: var(--el-color-#{$type});
-      color: var(--el-result-color);
+      @include css-var-from-global(('result', 'color'), ('color', $type));
+      color: getCssVar('result-color');
     }
   }
 }

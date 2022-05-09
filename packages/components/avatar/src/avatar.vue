@@ -47,9 +47,9 @@ const avatarClass = computed(() => {
 const sizeStyle = computed(() => {
   const { size } = props
   return isNumber(size)
-    ? ({
-        '--el-avatar-size': addUnit(size),
-      } as CSSProperties)
+    ? (ns.cssVarBlock({
+        size: addUnit(size) || '',
+      }) as CSSProperties)
     : undefined
 })
 

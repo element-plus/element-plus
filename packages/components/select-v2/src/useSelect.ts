@@ -22,7 +22,6 @@ import {
   debugWarn,
   removeResizeListener,
 } from '@element-plus/utils'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 
 import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
@@ -42,7 +41,6 @@ const TAG_BASE_WIDTH = {
   default: 42,
   small: 33,
 }
-const COMPONENT_NAME = 'ElSelectV2'
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
@@ -50,10 +48,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const nsSelectV2 = useNamespace('select-v2')
   const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
-  const { compatTeleported } = useDeprecateAppendToBody(
-    COMPONENT_NAME,
-    'popperAppendToBody'
-  )
 
   const states = reactive({
     inputValue: DEFAULT_INPUT_PLACEHOLDER,
@@ -700,6 +694,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = ''
       }
     }
+    clearAllNewOption()
     calculatePopperSize()
   }
 
@@ -714,6 +709,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
       states.displayInputValue = ''
+      states.previousQuery = null
       createNewOption('')
     }
   })
@@ -799,8 +795,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     validateState,
     validateIcon,
-    // deprecations
-    compatTeleported,
 
     // methods exports
     debouncedOnInputChange,

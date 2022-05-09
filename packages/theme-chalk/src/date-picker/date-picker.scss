@@ -39,7 +39,7 @@
 
   @include e(time-header) {
     position: relative;
-    border-bottom: 1px solid var(--el-datepicker-inner-border-color);
+    border-bottom: 1px solid getCssVar('datepicker-inner-border-color');
     font-size: 12px;
     padding: 8px 5px 5px;
     display: table;
@@ -54,7 +54,7 @@
     @include m(bordered) {
       margin-bottom: 0;
       padding-bottom: 12px;
-      border-bottom: solid 1px var(--el-border-color-lighter);
+      border-bottom: solid 1px getCssVar('border-color-lighter');
 
       & + .#{$namespace}-picker-panel__content {
         margin-top: 0;
@@ -69,14 +69,14 @@
     line-height: 22px;
     text-align: center;
     cursor: pointer;
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
 
     &:hover {
-      color: var(--el-datepicker-hover-text-color);
+      color: getCssVar('datepicker-hover-text-color');
     }
 
     &.active {
-      color: var(--el-datepicker-active-color);
+      color: getCssVar('datepicker-active-color');
     }
   }
 

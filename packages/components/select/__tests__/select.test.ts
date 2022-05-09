@@ -5,6 +5,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { ArrowUp, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
+import { ElFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -34,6 +35,7 @@ interface SelectProps {
   popperClass?: string
   defaultFirstOption?: boolean
   fitInputWidth?: boolean
+  size?: 'small' | 'default' | 'large'
 }
 
 const _mount = (template: string, data: any = () => ({}), otherObj?) =>
@@ -43,6 +45,7 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
         'el-select': Select,
         'el-option': Option,
         'el-group-option': Group,
+        'el-form-item': ElFormItem,
       },
       template,
       data,
@@ -124,6 +127,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       :loading="loading"
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
+      :size="size"
       :fit-input-width="fitInputWidth">
       <el-option
         v-for="item in options"
@@ -151,6 +155,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
       remote: configs.remote,
       remoteMethod: configs.remoteMethod,
       value: configs.multiple ? [] : '',
+      size: configs.size || 'default',
     })
   )
 }
@@ -367,7 +372,7 @@ describe('Select', () => {
         <el-option
           v-for="item in options"
           :label="item.label"
-          :key="item.value"
+          :key="item.value.value"
           :value="item.value">
         </el-option>
       </el-select>
@@ -375,16 +380,84 @@ describe('Select', () => {
       () => ({
         options: [
           {
-            value: '选项1',
+            value: {
+              value: '选项1',
+            },
             label: '黄金糕',
           },
           {
-            value: '选项2',
+            value: {
+              value: '选项2',
+            },
             label: '双皮奶',
           },
         ],
         value: {
           value: '选项2',
+        },
+      })
+    )
+    await nextTick()
+
+    expect(findInnerInput().value).toBe('双皮奶')
+  })
+
+  test('custom label', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value">
+        <el-option
+          v-for="item in options"
+          :label="item.name"
+          :key="item.id"
+          :value="item.id">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            id: 1,
+            name: '黄金糕',
+          },
+          {
+            id: 2,
+            name: '双皮奶',
+          },
+        ],
+        value: 2,
+      })
+    )
+    await nextTick()
+
+    expect(findInnerInput().value).toBe('双皮奶')
+  })
+
+  test('custom label with object', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" value-key="id">
+        <el-option
+          v-for="item in options"
+          :label="item.name"
+          :key="item.id"
+          :value="item">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            id: 1,
+            name: '黄金糕',
+          },
+          {
+            id: 2,
+            name: '双皮奶',
+          },
+        ],
+        value: {
+          id: 2,
         },
       })
     )
@@ -1879,5 +1952,94 @@ describe('Select', () => {
     vm.value = []
     await nextTick()
     expect(selectVm.selectedLabel).toBe('')
+  })
+
+  test('should modify size height change', async () => {
+    wrapper = getSelectVm()
+
+    // large size
+    await wrapper.setProps({
+      size: 'large',
+    })
+    await nextTick(nextTick)
+    const wrapperEl = wrapper.find('input').element as HTMLDivElement
+    expect(wrapperEl.style.height).toEqual('40px')
+
+    // default size
+    await wrapper.setProps({
+      size: 'default',
+    })
+    await nextTick(nextTick)
+    expect(wrapperEl.style.height).toEqual('32px')
+
+    // small size
+    await wrapper.setProps({
+      size: 'small',
+    })
+    await nextTick(nextTick)
+    expect(wrapperEl.style.height).toEqual('24px')
+  })
+
+  describe('form item accessibility integration', () => {
+    it('automatic id attachment', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-select v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+        </el-form-item>`,
+        () => ({
+          modelValue: 1,
+        })
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const innerInput = wrapper.find('.el-input__inner')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItemLabel.attributes().for).toBe(innerInput.attributes().id)
+    })
+
+    it('specified id attachment', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-select id="foobar" v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+        </el-form-item>`,
+        () => ({
+          modelValue: 1,
+        })
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const innerInput = wrapper.find('.el-input__inner')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(innerInput.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(innerInput.attributes().id)
+    })
+
+    it('form item role is group when multiple inputs', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-select v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+          <el-select v-model="modelValue">
+            <el-option label="1" value="1" />
+          </el-select>
+        </el-form-item>`,
+        () => ({
+          modelValue: 1,
+        })
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      expect(formItem.attributes().role).toBe('group')
+    })
   })
 })

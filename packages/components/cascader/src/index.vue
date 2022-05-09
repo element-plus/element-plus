@@ -2,7 +2,7 @@
   <el-tooltip
     ref="tooltipRef"
     v-model:visible="popperVisible"
-    :teleported="compatTeleported"
+    :teleported="teleported"
     :popper-class="[nsCascader.e('dropdown'), popperClass]"
     :popper-options="popperOptions"
     :fallback-placements="[
@@ -40,7 +40,7 @@
         <el-input
           ref="input"
           v-model="inputValue"
-          :placeholder="inputPlaceholder"
+          :placeholder="searchInputValue ? '' : inputPlaceholder"
           :readonly="readonly"
           :disabled="isDisabled"
           :validate-event="false"
@@ -212,7 +212,6 @@ import ElInput from '@element-plus/components/input'
 import ElTooltip, {
   useTooltipContentProps,
 } from '@element-plus/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
@@ -339,10 +338,6 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    popperAppendToBody: {
-      type: Boolean,
-      default: undefined,
-    },
     teleported: useTooltipContentProps.teleported,
     // eslint-disable-next-line vue/require-prop-types
     tagType: { ...tagProps.type, default: 'info' },
@@ -362,10 +357,6 @@ export default defineComponent({
     let inputInitialHeight = 0
     let pressDeleteCount = 0
 
-    const { compatTeleported } = useDeprecateAppendToBody(
-      COMPONENT_NAME,
-      'popperAppendToBody'
-    )
     const nsCascader = useNamespace('cascader')
     const nsInput = useNamespace('input')
 
@@ -427,7 +418,7 @@ export default defineComponent({
 
     const checkedValue = computed<CascaderValue>({
       get() {
-        return props.modelValue
+        return props.modelValue as CascaderValue
       },
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)
@@ -763,8 +754,6 @@ export default defineComponent({
       multiple,
       readonly,
       clearBtnVisible,
-      // deprecation in ver 2.1.0
-      compatTeleported,
 
       nsCascader,
       nsInput,

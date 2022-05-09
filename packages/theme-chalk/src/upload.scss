@@ -7,7 +7,7 @@
   top: -6px;
   width: 40px;
   height: 24px;
-  background: var(--el-color-success);
+  background: getCssVar('color-success');
   text-align: center;
   transform: rotate(45deg);
 
@@ -17,6 +17,10 @@
     transform: rotate(-45deg);
     color: $color;
   }
+}
+
+@include b(upload) {
+  @include set-component-css-var('upload', $upload);
 }
 
 @include b(upload) {
@@ -30,7 +34,7 @@
 
   @include e(tip) {
     font-size: 12px;
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
     margin-top: 7px;
   }
 
@@ -64,28 +68,32 @@
     }
 
     &:hover {
-      border-color: var(--el-color-primary);
-      color: var(--el-color-primary);
+      border-color: getCssVar('color-primary');
+      color: getCssVar('color-primary');
     }
   }
 
+  @include when(drag) {
+    display: block;
+  }
+
   &:focus {
-    border-color: var(--el-color-primary);
-    color: var(--el-color-primary);
+    border-color: getCssVar('color-primary');
+    color: getCssVar('color-primary');
 
     .#{$namespace}-upload-dragger {
-      border-color: var(--el-color-primary);
+      border-color: getCssVar('color-primary');
     }
   }
 }
 
 @include b(upload-dragger) {
+  padding: getCssVar('upload-dragger-padding-horizontal')
+    getCssVar('upload-dragger-padding-vertical');
   background-color: getCssVar('fill-color', 'blank');
   border: 1px dashed getCssVar('border-color');
   border-radius: 6px;
   box-sizing: border-box;
-  width: 360px;
-  height: 180px;
   text-align: center;
   cursor: pointer;
   position: relative;
@@ -93,8 +101,8 @@
 
   .#{bem('icon', '', 'upload')} {
     font-size: 67px;
-    color: var(--el-text-color-placeholder);
-    margin: 40px 0 16px;
+    color: getCssVar('text-color', 'placeholder');
+    margin-bottom: 16px;
     line-height: 50px;
   }
 
@@ -109,23 +117,25 @@
   }
 
   .#{bem('upload', 'text')} {
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
     font-size: 14px;
     text-align: center;
 
     em {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
       font-style: normal;
     }
   }
 
   &:hover {
-    border-color: var(--el-color-primary);
+    border-color: getCssVar('color-primary');
   }
 
   @include when(dragover) {
+    padding: calc(#{getCssVar('upload-dragger-padding-horizontal')} - 1px)
+      calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px);
     background-color: getCssVar('color', 'primary', 'light-9');
-    border: 2px dashed var(--el-color-primary);
+    border: 2px dashed getCssVar('color-primary');
   }
 }
 
@@ -137,7 +147,7 @@
   @include e(item) {
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
     margin-bottom: 5px;
     position: relative;
     box-sizing: border-box;
@@ -162,7 +172,7 @@
     }
 
     & .#{bem('icon', '', 'upload-success')} {
-      color: var(--el-color-success);
+      color: getCssVar('color-success');
     }
 
     .#{bem('icon', '', 'close')} {
@@ -172,13 +182,13 @@
       top: 50%;
       cursor: pointer;
       opacity: 0.75;
-      color: var(--el-text-color-regular);
-      transition: opacity var(--el-transition-duration);
+      color: getCssVar('text-color', 'regular');
+      transition: opacity getCssVar('transition-duration');
       transform: translateY(-50%);
 
       &:hover {
         opacity: 1;
-        color: var(--el-color-primary);
+        color: getCssVar('color-primary');
       }
     }
 
@@ -189,7 +199,7 @@
       font-size: 12px;
       cursor: pointer;
       opacity: 1;
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
       transform: translateY(-50%);
     }
 
@@ -220,7 +230,7 @@
 
       .#{bem('upload-list', 'item-name')}:hover,
       .#{bem('upload-list', 'item-name')}:focus {
-        color: var(--el-color-primary);
+        color: getCssVar('color-primary');
         cursor: pointer;
       }
 
@@ -257,19 +267,19 @@
   }
 
   @include e(item-name) {
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
     display: inline-flex;
     text-align: center;
     align-items: center;
 
     padding: 0 4px;
 
-    transition: color var(--el-transition-duration);
-    font-size: var(--el-font-size-base);
+    transition: color getCssVar('transition-duration');
+    font-size: getCssVar('font-size', 'base');
 
     .#{$namespace}-icon {
       margin-right: 6px;
-      color: var(--el-text-color-secondary);
+      color: getCssVar('text-color', 'secondary');
     }
   }
 
@@ -290,7 +300,7 @@
     justify-content: center;
     align-items: center;
 
-    transition: opacity var(--el-transition-duration);
+    transition: opacity getCssVar('transition-duration');
   }
 
   @include e(item-delete) {
@@ -298,11 +308,11 @@
     right: 10px;
     top: 0;
     font-size: 12px;
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
     display: none;
 
     &:hover {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
     }
   }
 
@@ -380,7 +390,7 @@
       opacity: 0;
       font-size: 20px;
       background-color: getCssVar('overlay-color', 'lighter');
-      transition: opacity var(--el-transition-duration);
+      transition: opacity getCssVar('transition-duration');
 
       span {
         display: none;
@@ -472,7 +482,7 @@
 
       position: relative;
       z-index: 1;
-      background-color: var(--el-color-white);
+      background-color: getCssVar('color-white');
     }
 
     .#{bem('upload-list', 'item-status-label')} {
@@ -481,7 +491,7 @@
       top: -7px;
       width: 46px;
       height: 26px;
-      background: var(--el-color-success);
+      background: getCssVar('color-success');
       text-align: center;
       transform: rotate(45deg);
 
@@ -554,7 +564,7 @@
       font-size: 14px;
       cursor: pointer;
       vertical-align: middle;
-      transition: var(--el-transition-md-fade);
+      transition: getCssVar('transition-md-fade');
       margin-top: 60px;
 
       i {
@@ -604,7 +614,7 @@
     margin: 0;
     line-height: 36px;
     font-size: 14px;
-    color: var(--el-text-color-primary);
+    color: getCssVar('text-color', 'primary');
   }
 
   + .#{bem('upload', 'inner')} {

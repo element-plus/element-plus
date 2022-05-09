@@ -30,11 +30,7 @@ $button-icon-span-gap: map.merge(
   height: map.get($input-height, 'default');
   white-space: nowrap;
   cursor: pointer;
-  background-color: getCssVar('button', 'bg-color');
-  border: getCssVar('border');
-  border-color: getCssVar('button', 'border-color');
   color: getCssVar('button', 'text-color');
-  -webkit-appearance: none;
   text-align: center;
   box-sizing: border-box;
   outline: none;
@@ -42,6 +38,28 @@ $button-icon-span-gap: map.merge(
   font-weight: getCssVar('button', 'font-weight');
   user-select: none;
   vertical-align: middle;
+  -webkit-appearance: none;
+
+  &:not(.is-text) {
+    background-color: getCssVar('button', 'bg-color');
+    border: getCssVar('border');
+    border-color: getCssVar('button', 'border-color');
+
+    &:hover,
+    &:focus {
+      color: getCssVar('button', 'hover', 'text-color');
+      border-color: getCssVar('button', 'hover', 'border-color');
+      background-color: getCssVar('button', 'hover', 'bg-color');
+      outline: none;
+    }
+
+    &:active {
+      color: getCssVar('button', 'active', 'text-color');
+      border-color: getCssVar('button', 'active', 'border-color');
+      background-color: getCssVar('button', 'active', 'bg-color');
+      outline: none;
+    }
+  }
 
   > span {
     display: inline-flex;
@@ -58,21 +76,6 @@ $button-icon-span-gap: map.merge(
     map.get($button-font-size, 'default'),
     map.get($button-border-radius, 'default')
   );
-
-  &:hover,
-  &:focus {
-    color: getCssVar('button', 'hover', 'text-color');
-    border-color: getCssVar('button', 'hover', 'border-color');
-    background-color: getCssVar('button', 'hover', 'bg-color');
-    outline: none;
-  }
-
-  &:active {
-    color: getCssVar('button', 'active', 'text-color');
-    border-color: getCssVar('button', 'active', 'border-color');
-    background-color: getCssVar('button', 'active', 'bg-color');
-    outline: none;
-  }
 
   &::-moz-focus-inner {
     border: 0;
@@ -93,11 +96,11 @@ $button-icon-span-gap: map.merge(
       ('color', 'primary')
     );
     @include css-var-from-global(
-      ('button', 'hover-bg-color'),
+      ('button', 'hover', 'bg-color'),
       ('fill-color', 'blank')
     );
     @include css-var-from-global(
-      ('button', 'hover-border-color'),
+      ('button', 'hover', 'border-color'),
       ('color', 'primary')
     );
   }
@@ -147,6 +150,40 @@ $button-icon-span-gap: map.merge(
     padding: map.get($button-padding-vertical, 'default') - $button-border-width;
   }
 
+  @include when(text) {
+    color: getCssVar('button', 'text-color');
+    border: 0 solid transparent;
+    background-color: transparent;
+
+    @include when(disabled) {
+      color: getCssVar('button', 'disabled', 'text-color');
+      background-color: transparent !important;
+    }
+
+    &:not(.is-disabled) {
+      &:hover,
+      &:focus {
+        background-color: getCssVar('fill-color', 'light');
+      }
+
+      &:active {
+        background-color: getCssVar('fill-color');
+      }
+
+      @include when(has-bg) {
+        background-color: getCssVar('fill-color', 'light');
+
+        &:hover {
+          background-color: getCssVar('fill-color');
+        }
+
+        &:active {
+          background-color: getCssVar('fill-color', 'dark');
+        }
+      }
+    }
+  }
+
   @include e(text) {
     @include m(expand) {
       letter-spacing: 0.3em;
@@ -186,32 +223,6 @@ $button-icon-span-gap: map.merge(
         width: getCssVar('button', 'size');
         padding: map.get($button-padding-vertical, $size) - $button-border-width;
       }
-    }
-  }
-
-  @include m(text) {
-    border-color: transparent;
-    color: getCssVar('color', 'primary');
-    background: transparent;
-    padding-left: 0;
-    padding-right: 0;
-
-    &:hover,
-    &:focus {
-      color: getCssVar('color', 'primary', 'light-3');
-      border-color: transparent;
-      background-color: transparent;
-    }
-    &:active {
-      color: getCssVar('color', 'primary', 'dark-2');
-      border-color: transparent;
-      background-color: transparent;
-    }
-
-    &.is-disabled,
-    &.is-disabled:hover,
-    &.is-disabled:focus {
-      border-color: transparent;
     }
   }
 }

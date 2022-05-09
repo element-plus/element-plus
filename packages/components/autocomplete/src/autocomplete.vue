@@ -5,7 +5,7 @@
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
-    :teleported="compatTeleported"
+    :teleported="teleported"
     :gpu-acceleration="false"
     pure
     manual-mode
@@ -22,7 +22,7 @@
       role="combobox"
       aria-haspopup="listbox"
       :aria-expanded="suggestionVisible"
-      :aria-owns="id"
+      :aria-owns="listboxId"
     >
       <el-input
         ref="inputRef"
@@ -60,7 +60,7 @@
         role="region"
       >
         <el-scrollbar
-          :id="id"
+          :id="listboxId"
           tag="ul"
           :wrap-class="ns.be('suggestion', 'wrap')"
           :view-class="ns.be('suggestion', 'list')"
@@ -72,7 +72,7 @@
           <template v-else>
             <li
               v-for="(item, index) in suggestions"
-              :id="`${id}-item-${index}`"
+              :id="`${listboxId}-item-${index}`"
               :key="index"
               :class="{ highlighted: highlightedIndex === index }"
               role="option"
@@ -96,7 +96,6 @@ import {
   ref,
   useAttrs as useCompAttrs,
 } from 'vue'
-import { isPromise } from '@vue/shared'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useAttrs, useNamespace } from '@element-plus/hooks'
@@ -105,7 +104,6 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
 import { Loading } from '@element-plus/icons-vue'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
@@ -124,10 +122,6 @@ const props = defineProps(autocompleteProps)
 const emit = defineEmits(autocompleteEmits)
 
 const ns = useNamespace('autocomplete')
-const { compatTeleported } = useDeprecateAppendToBody(
-  COMPONENT_NAME,
-  'popperAppendToBody'
-)
 let isClear = false
 const attrs = useAttrs()
 const compAttrs = useCompAttrs()
@@ -142,7 +136,7 @@ const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
 
-const id = computed(() => {
+const listboxId = computed(() => {
   return ns.b(String(generateId()))
 })
 const styles = computed(() => compAttrs.style as StyleValue)
@@ -162,7 +156,7 @@ const onSuggestionShow = () => {
   })
 }
 
-const getData = (queryString: string) => {
+const getData = async (queryString: string) => {
   if (suggestionDisabled.value) {
     return
   }
@@ -182,11 +176,9 @@ const getData = (queryString: string) => {
   if (isArray(props.fetchSuggestions)) {
     cb(props.fetchSuggestions)
   } else {
-    const result = props.fetchSuggestions(queryString, cb)
+    const result = await props.fetchSuggestions(queryString, cb)
     if (isArray(result)) {
       cb(result)
-    } else if (isPromise(result)) {
-      result.then(cb)
     }
   }
 }
@@ -291,7 +283,7 @@ const highlight = (index: number) => {
   // TODO: use Volar generate dts to fix it.
   ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
-    `${id.value}-item-${highlightedIndex.value}`
+    `${listboxId.value}-item-${highlightedIndex.value}`
   )
 }
 
@@ -304,7 +296,7 @@ onMounted(() => {
   ;(inputRef.value as any).ref!.setAttribute('aria-controls', 'id')
   ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
-    `${id.value}-item-${highlightedIndex.value}`
+    `${listboxId.value}-item-${highlightedIndex.value}`
   )
 })
 

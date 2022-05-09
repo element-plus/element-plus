@@ -17,7 +17,6 @@ import SponsorList from './sponsor-list.vue'
 <style lang="scss">
 .home-page {
   .sponsors-container {
-    max-width: 900px;
     margin-top: 72px;
     .join {
       text-align: center;
@@ -27,7 +26,8 @@ import SponsorList from './sponsor-list.vue'
 
   .sponsor-list {
     --min-width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(var(--min-width), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(var(--min-width), 320px));
+    justify-content: center;
 
     &.platinum {
       --min-width: 220px;

@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { NOOP } from '@vue/shared'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Autocomplete from '../src/autocomplete.vue'
 
 vi.unmock('lodash')
@@ -11,7 +12,7 @@ vi.useFakeTimers()
 
 const _mount = (
   payload = {},
-  type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'arr' = 'fn-cb'
+  type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'fn-async' | 'arr' = 'fn-cb'
 ) =>
   mount({
     setup() {
@@ -46,6 +47,11 @@ const _mount = (
           case 'fn-promise':
             return (queryString: string) =>
               Promise.resolve(filterList(queryString))
+          case 'fn-async':
+            return async (queryString: string) => {
+              await Promise.resolve()
+              return filterList(queryString)
+            }
           case 'fn-arr':
             return (queryString: string) => filterList(queryString)
           case 'arr':
@@ -157,6 +163,21 @@ describe('Autocomplete.vue', () => {
     await nextTick()
     await wrapper.find('input').trigger('focus')
     vi.runAllTimers()
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+
+    expect(target.suggestions.length).toBe(4)
+  })
+
+  test('fetchSuggestions with fn-async', async () => {
+    const wrapper = _mount({ debounce: 10 }, 'fn-async')
+    await nextTick()
+    await wrapper.find('input').trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
     await nextTick()
 
     const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
@@ -289,6 +310,52 @@ describe('Autocomplete.vue', () => {
       expect(
         document.body.querySelector(POPPER_CONTAINER_SELECTOR)?.innerHTML
       ).toBe('')
+    })
+  })
+
+  describe('form item accessibility integration', () => {
+    test('automatic id attachment', async () => {
+      const wrapper = mount(() => (
+        <FormItem label="Foobar" data-test-ref="item">
+          <Autocomplete data-test-ref="input" />
+        </FormItem>
+      ))
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const input = await wrapper.find('[data-test-ref="input"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItemLabel.attributes().for).toBe(input.attributes().id)
+    })
+
+    test('specified id attachment', async () => {
+      const wrapper = mount(() => (
+        <FormItem label="Foobar" data-test-ref="item">
+          <Autocomplete id="foobar" data-test-ref="input" />
+        </FormItem>
+      ))
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const input = await wrapper.find('[data-test-ref="input"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(input.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(input.attributes().id)
+    })
+
+    test('form item role is group when multiple autocompletes', async () => {
+      const wrapper = mount(() => (
+        <FormItem label="Foobar" data-test-ref="item">
+          <Autocomplete data-test-ref="input1" />
+          <Autocomplete data-test-ref="input2" />
+        </FormItem>
+      ))
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      expect(formItem.attributes().role).toBe('group')
     })
   })
 })

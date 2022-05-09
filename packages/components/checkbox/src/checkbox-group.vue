@@ -10,52 +10,26 @@ import {
   watch,
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { debugWarn, isValidComponentSize } from '@element-plus/utils'
+import { debugWarn } from '@element-plus/utils'
 import { useNamespace, useSize } from '@element-plus/hooks'
-import { useCheckboxGroup } from './useCheckbox'
-
-import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/constants'
+import {
+  useCheckboxGroup,
+  useCheckboxGroupId,
+  useCheckboxGroupProps,
+} from './useCheckbox'
 
 export default defineComponent({
   name: 'ElCheckboxGroup',
 
-  props: {
-    modelValue: {
-      type: Array,
-      default: () => [],
-    },
-    disabled: Boolean,
-    min: {
-      type: Number,
-      default: undefined,
-    },
-    max: {
-      type: Number,
-      default: undefined,
-    },
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    fill: {
-      type: String,
-      default: undefined,
-    },
-    textColor: {
-      type: String,
-      default: undefined,
-    },
-    tag: {
-      type: String,
-      default: 'div',
-    },
-  },
+  props: useCheckboxGroupProps,
 
   emits: [UPDATE_MODEL_EVENT, 'change'],
 
   setup(props, { emit, slots }) {
     const { elFormItem } = useCheckboxGroup()
+    const { groupId, isLabeledByFormItem } = useCheckboxGroupId(props, {
+      elFormItem,
+    })
     const checkboxGroupSize = useSize()
     const ns = useNamespace('checkbox')
 
@@ -93,9 +67,15 @@ export default defineComponent({
       return h(
         props.tag,
         {
+          id: groupId.value,
           class: ns.b('group'),
           role: 'group',
-          'aria-label': 'checkbox-group',
+          'aria-label': !isLabeledByFormItem.value
+            ? props.label || 'checkbox-group'
+            : undefined,
+          'aria-labelledby': isLabeledByFormItem.value
+            ? elFormItem.labelId
+            : undefined,
         },
         [renderSlot(slots, 'default')]
       )

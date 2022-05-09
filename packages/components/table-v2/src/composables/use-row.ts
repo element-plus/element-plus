@@ -51,14 +51,14 @@ export const useRow = (
   const isDynamic = computed(() => isNumber(props.estimatedRowHeight))
 
   function onRowsRendered(params: onRowRenderedParams) {
-    props.onRowRendered?.(params)
+    props.onRowsRendered?.(params)
 
     if (params.rowCacheEnd > unref(lastRenderedRowIndex)) {
       lastRenderedRowIndex.value = params.rowCacheEnd
     }
   }
 
-  function onRowHovered({ hovered, rowKey }: RowHoverParams<any>) {
+  function onRowHovered({ hovered, rowKey }: RowHoverParams) {
     hoveringRowKey.value = hovered ? rowKey : null
   }
 
@@ -67,7 +67,7 @@ export const useRow = (
     rowData,
     rowIndex,
     rowKey,
-  }: RowExpandParams<any>) {
+  }: RowExpandParams) {
     const _expandedRowKeys = [...unref(expandedRowKeys)]
     const currentKeyIndex = _expandedRowKeys.indexOf(rowKey)
     if (expanded) {

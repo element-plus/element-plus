@@ -24,40 +24,46 @@
   text-align: left;
 
   &.#{$namespace}-input__inner {
-    border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+    border-radius: var(
+      #{getCssVarName('input-border-radius')},
+      #{getCssVar('border-radius-base')}
+    );
 
     @include inset-input-border(
-      var(--el-input-border-color, map.get($input, 'border-color'))
+      var(
+        #{getCssVarName('input-border-color')},
+        map.get($input, 'border-color')
+      )
     );
 
     &:hover {
-      @include inset-input-border(var(--el-input-hover-border-color));
+      @include inset-input-border(#{getCssVar('input', 'hover-border-color')});
     }
   }
 
   &.#{$namespace}-input,
   &.#{$namespace}-input__inner {
-    width: var(--el-date-editor-width);
+    width: getCssVar('date-editor-width');
   }
 
   @include m((monthrange)) {
     &.#{$namespace}-input,
     &.#{$namespace}-input__inner {
-      width: var(--el-date-editor-monthrange-width);
+      width: getCssVar('date-editor-monthrange-width');
     }
   }
 
   @include m((daterange, timerange)) {
     &.#{$namespace}-input,
     &.#{$namespace}-input__inner {
-      width: var(--el-date-editor-daterange-width);
+      width: getCssVar('date-editor-daterange-width');
     }
   }
 
   @include m(datetimerange) {
     &.#{$namespace}-input,
     &.#{$namespace}-input__inner {
-      width: var(--el-date-editor-datetimerange-width);
+      width: getCssVar('date-editor-datetimerange-width');
     }
   }
 
@@ -76,14 +82,14 @@
     cursor: pointer;
 
     &:hover {
-      color: var(--el-text-color-secondary);
+      color: getCssVar('text-color', 'secondary');
     }
   }
 
   .#{$namespace}-range__icon {
     height: inherit;
     font-size: 14px;
-    color: var(--el-text-color-placeholder);
+    color: getCssVar('text-color', 'placeholder');
     float: left;
 
     svg {
@@ -101,12 +107,12 @@
     padding: 0;
     width: 39%;
     text-align: center;
-    font-size: var(--el-font-size-base);
-    color: var(--el-text-color-regular);
+    font-size: getCssVar('font-size', 'base');
+    color: getCssVar('text-color', 'regular');
     background-color: transparent;
 
     &::placeholder {
-      color: var(--el-text-color-placeholder);
+      color: getCssVar('text-color', 'placeholder');
     }
   }
 
@@ -120,18 +126,18 @@
     margin: 0;
     font-size: 14px;
     word-break: keep-all;
-    color: var(--el-text-color-primary);
+    color: getCssVar('text-color', 'primary');
   }
 
   .#{$namespace}-range__close-icon {
     font-size: 14px;
-    color: var(--el-text-color-placeholder);
+    color: getCssVar('text-color', 'placeholder');
     height: inherit;
     width: unset;
     cursor: pointer;
 
     &:hover {
-      color: var(--el-text-color-secondary);
+      color: getCssVar('text-color', 'secondary');
     }
 
     svg {
@@ -157,9 +163,9 @@
   }
 
   @include when(active) {
-    @include inset-input-border(var(--el-input-focus-border-color));
+    @include inset-input-border(#{getCssVar('input', 'focus-border-color')});
     &:hover {
-      @include inset-input-border(var(--el-input-focus-border-color));
+      @include inset-input-border(#{getCssVar('input', 'focus-border-color')});
     }
   }
 

@@ -14,6 +14,7 @@ type HeaderRendererProps = TableV2HeaderRendererParams &
 const HeaderRenderer: FunctionalComponent<HeaderRendererProps> = (
   {
     columns,
+    columnsStyles,
     headerIndex,
     style,
     // derived from root
@@ -37,6 +38,7 @@ const HeaderRenderer: FunctionalComponent<HeaderRendererProps> = (
 
   const extraProps = {
     ...tryCall(headerProps, param),
+    columnsStyles,
     class: kls,
     columns,
     headerIndex,

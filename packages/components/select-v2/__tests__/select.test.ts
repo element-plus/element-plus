@@ -106,7 +106,6 @@ const createSelect = (
         :collapseTagsTooltip="collapseTagsTooltip"
         :filterable="filterable"
         :multiple-limit="multipleLimit"
-        :popper-append-to-body="popperAppendToBody"
         :placeholder="placeholder"
         :allow-create="allowCreate"
         :remote="remote"
@@ -1503,7 +1502,7 @@ describe('Select', () => {
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
       ).not.toBe('')
     })
 

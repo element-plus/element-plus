@@ -17,7 +17,7 @@ $directions: rtl, ltr, ttb, btt;
   box-shadow: getCssVar('box-shadow', 'dark');
   overflow: hidden;
 
-  transition: all var(--el-transition-duration);
+  transition: all getCssVar('transition-duration');
 
   @each $direction in $directions {
     .#{$direction} {
@@ -30,7 +30,7 @@ $directions: rtl, ltr, ttb, btt;
     color: rgb(114, 118, 123);
     display: flex;
     margin-bottom: 32px;
-    padding: var(--el-drawer-padding-primary);
+    padding: getCssVar('drawer-padding-primary');
     padding-bottom: 0;
     & > :first-child {
       flex: 1;
@@ -45,7 +45,7 @@ $directions: rtl, ltr, ttb, btt;
   }
 
   @include e(footer) {
-    padding: var(--el-drawer-padding-primary);
+    padding: getCssVar('drawer-padding-primary');
     padding-top: 10px;
     text-align: right;
   }
@@ -53,13 +53,13 @@ $directions: rtl, ltr, ttb, btt;
   &__close-btn {
     border: none;
     cursor: pointer;
-    font-size: var(--el-font-size-extra-large);
+    font-size: getCssVar('font-size-extra-large');
     color: inherit;
     background-color: transparent;
     outline: none;
     &:hover {
       i {
-        color: var(--el-color-primary);
+        color: getCssVar('color-primary');
       }
     }
     .#{$namespace}-icon {
@@ -70,7 +70,7 @@ $directions: rtl, ltr, ttb, btt;
 
   &__body {
     flex: 1;
-    padding: var(--el-drawer-padding-primary);
+    padding: getCssVar('drawer-padding-primary');
     overflow: auto;
     & > * {
       box-sizing: border-box;
@@ -111,7 +111,7 @@ $directions: rtl, ltr, ttb, btt;
 .#{$namespace}-drawer-fade {
   &-enter-active,
   &-leave-active {
-    transition: all var(--el-transition-duration);
+    transition: all getCssVar('transition-duration');
   }
 
   &-enter-from,

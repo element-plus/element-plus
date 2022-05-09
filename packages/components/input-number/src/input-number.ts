@@ -2,6 +2,10 @@ import { buildProps, isNumber } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
 export const inputNumberProps = buildProps({
+  id: {
+    type: String,
+    default: undefined,
+  },
   step: {
     type: Number,
     default: 1,

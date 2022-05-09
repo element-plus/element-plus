@@ -9,6 +9,8 @@ import {
 import { isClient, useTimeoutFn } from '@vueuse/core'
 
 import {
+  defaultNamespace,
+  useGlobalConfig,
   useLockscreen,
   useModal,
   useRestoreActive,
@@ -41,9 +43,11 @@ export const useDialog = (
     isNumber(props.width) ? `${props.width}px` : props.width
   )
 
+  const namespace = useGlobalConfig('namespace', defaultNamespace)
+
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
-    const varPrefix = `--el-dialog`
+    const varPrefix = `--${namespace.value}-dialog`
     if (!props.fullscreen) {
       if (props.top) {
         style[`${varPrefix}-margin-top`] = props.top

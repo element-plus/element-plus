@@ -8,11 +8,15 @@ const location = useBrowserLocation()
 export const useFeatureFlag = (flag: MaybeRef<string>) => {
   const { theme } = useData()
   return computed(() => {
-    // On server rendering there will was no `location`
-    if (!isClient) return false
-
     const _flag = unref(flag)
-    const params = new URLSearchParams(location.value.search)
-    return params.get(`feature:${_flag}`) || (theme.value.features || {})[_flag]
+
+    if (isClient) {
+      const params = new URLSearchParams(location.value.search)
+      if (params.get(`feature:${_flag}`)) {
+        return true
+      }
+    }
+
+    return theme.value.features[_flag]
   })
 }

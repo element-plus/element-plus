@@ -12,12 +12,12 @@
     bottom: 0;
     left: 0;
     height: 2px;
-    background-color: var(--el-color-primary);
+    background-color: getCssVar('color-primary');
     z-index: 1;
-    transition: width var(--el-transition-duration)
-        var(--el-transition-function-ease-in-out-bezier),
-      transform var(--el-transition-duration)
-        var(--el-transition-function-ease-in-out-bezier);
+    transition: width getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier'),
+      transform getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier');
     list-style: none;
   }
   @include e(new-tab) {
@@ -33,7 +33,7 @@
     border-radius: 3px;
     text-align: center;
     font-size: 12px;
-    color: var(--el-text-color-primary);
+    color: getCssVar('text-color', 'primary');
     cursor: pointer;
     transition: all 0.15s;
 
@@ -48,7 +48,7 @@
     }
 
     &:hover {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
     }
   }
   @include e(nav-wrap) {
@@ -63,8 +63,8 @@
       bottom: 0;
       width: 100%;
       height: 2px;
-      background-color: var(--el-border-color-light);
-      z-index: var(--el-index-normal);
+      background-color: getCssVar('border-color-light');
+      z-index: getCssVar('index-normal');
     }
 
     @include when(scrollable) {
@@ -80,7 +80,7 @@
     cursor: pointer;
     line-height: 44px;
     font-size: 12px;
-    color: var(--el-text-color-secondary);
+    color: getCssVar('text-color', 'secondary');
   }
   @include e(nav-next) {
     right: 0;
@@ -91,9 +91,9 @@
   @include e(nav) {
     white-space: nowrap;
     position: relative;
-    transition: transform var(--el-transition-duration);
+    transition: transform getCssVar('transition-duration');
     float: left;
-    z-index: calc(var(--el-index-normal) + 1);
+    z-index: calc(#{getCssVar('index-normal')} + 1);
 
     @include when(stretch) {
       min-width: 100%;
@@ -111,9 +111,9 @@
     line-height: 40px;
     display: inline-block;
     list-style: none;
-    font-size: 14px;
+    font-size: getCssVar('font-size-base');
     font-weight: 500;
-    color: var(--el-text-color-primary);
+    color: getCssVar('text-color', 'primary');
     position: relative;
 
     &:focus,
@@ -124,8 +124,8 @@
     & .is-icon-close {
       border-radius: 50%;
       text-align: center;
-      transition: all var(--el-transition-duration)
-        var(--el-transition-function-ease-in-out-bezier);
+      transition: all getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier');
       margin-left: 5px;
       &:before {
         transform: scale(0.9);
@@ -133,7 +133,7 @@
       }
 
       &:hover {
-        background-color: var(--el-text-color-placeholder);
+        background-color: getCssVar('text-color', 'placeholder');
         color: $color-white;
       }
 
@@ -143,11 +143,11 @@
     }
 
     @include when(active) {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
     }
 
     &:hover {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
       cursor: pointer;
     }
 
@@ -162,13 +162,13 @@
   }
   @include m(card) {
     > .#{$namespace}-tabs__header {
-      border-bottom: 1px solid var(--el-border-color-light);
+      border-bottom: 1px solid getCssVar('border-color-light');
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav {
-      border: 1px solid var(--el-border-color-light);
+      border: 1px solid getCssVar('border-color-light');
       border-bottom: none;
       border-radius: 4px 4px 0 0;
       box-sizing: border-box;
@@ -190,11 +190,11 @@
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
       border-bottom: 1px solid transparent;
-      border-left: 1px solid var(--el-border-color-light);
-      transition: color var(--el-transition-duration)
-          var(--el-transition-function-ease-in-out-bezier),
-        padding var(--el-transition-duration)
-          var(--el-transition-function-ease-in-out-bezier);
+      border-left: 1px solid getCssVar('border-color-light');
+      transition: color getCssVar('transition-duration')
+          getCssVar('transition-function-ease-in-out-bezier'),
+        padding getCssVar('transition-duration')
+          getCssVar('transition-function-ease-in-out-bezier');
       &:first-child {
         border-left: none;
       }
@@ -231,18 +231,18 @@
     }
     > .#{$namespace}-tabs__header {
       background-color: getCssVar('fill-color', 'light');
-      border-bottom: 1px solid var(--el-border-color-light);
+      border-bottom: 1px solid getCssVar('border-color-light');
       margin: 0;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__item {
-      transition: all var(--el-transition-duration)
-        var(--el-transition-function-ease-in-out-bezier);
+      transition: all getCssVar('transition-duration')
+        getCssVar('transition-function-ease-in-out-bezier');
       border: 1px solid transparent;
       margin-top: -1px;
-      color: var(--el-text-color-secondary);
+      color: getCssVar('text-color', 'secondary');
 
       &:first-child {
         margin-left: -1px;
@@ -253,13 +253,13 @@
       }
 
       &.is-active {
-        color: var(--el-color-primary);
+        color: getCssVar('color-primary');
         background-color: getCssVar('bg-color', 'overlay');
         border-right-color: getCssVar('border-color');
         border-left-color: getCssVar('border-color');
       }
       &:not(.is-disabled):hover {
-        color: var(--el-color-primary);
+        color: getCssVar('color-primary');
       }
       &.is-disabled {
         color: getCssVar('disabled-text-color');
@@ -410,17 +410,17 @@
       }
       .#{$namespace}-tabs__item.is-left {
         border-left: none;
-        border-right: 1px solid var(--el-border-color-light);
+        border-right: 1px solid getCssVar('border-color-light');
         border-bottom: none;
-        border-top: 1px solid var(--el-border-color-light);
+        border-top: 1px solid getCssVar('border-color-light');
         text-align: left;
       }
       .#{$namespace}-tabs__item.is-left:first-child {
-        border-right: 1px solid var(--el-border-color-light);
+        border-right: 1px solid getCssVar('border-color-light');
         border-top: none;
       }
       .#{$namespace}-tabs__item.is-left.is-active {
-        border: 1px solid var(--el-border-color-light);
+        border: 1px solid getCssVar('border-color-light');
         border-right-color: #fff;
         border-left: none;
         border-bottom: none;
@@ -435,7 +435,7 @@
 
       .#{$namespace}-tabs__nav {
         border-radius: 4px 0 0 4px;
-        border-bottom: 1px solid var(--el-border-color-light);
+        border-bottom: 1px solid getCssVar('border-color-light');
         border-right: none;
       }
 
@@ -485,14 +485,14 @@
       }
       .#{$namespace}-tabs__item.is-right {
         border-bottom: none;
-        border-top: 1px solid var(--el-border-color-light);
+        border-top: 1px solid getCssVar('border-color-light');
       }
       .#{$namespace}-tabs__item.is-right:first-child {
-        border-left: 1px solid var(--el-border-color-light);
+        border-left: 1px solid getCssVar('border-color-light');
         border-top: none;
       }
       .#{$namespace}-tabs__item.is-right.is-active {
-        border: 1px solid var(--el-border-color-light);
+        border: 1px solid getCssVar('border-color-light');
         border-left-color: #fff;
         border-right: none;
         border-bottom: none;
@@ -507,7 +507,7 @@
 
       .#{$namespace}-tabs__nav {
         border-radius: 0 4px 4px 0;
-        border-bottom: 1px solid var(--el-border-color-light);
+        border-bottom: 1px solid getCssVar('border-color-light');
         border-left: none;
       }
     }
@@ -534,22 +534,22 @@
   display: inline-block;
 }
 .slideInRight-enter {
-  animation: slideInRight-enter var(--el-transition-duration);
+  animation: slideInRight-enter getCssVar('transition-duration');
 }
 .slideInRight-leave {
   position: absolute;
   left: 0;
   right: 0;
-  animation: slideInRight-leave var(--el-transition-duration);
+  animation: slideInRight-leave getCssVar('transition-duration');
 }
 .slideInLeft-enter {
-  animation: slideInLeft-enter var(--el-transition-duration);
+  animation: slideInLeft-enter getCssVar('transition-duration');
 }
 .slideInLeft-leave {
   position: absolute;
   left: 0;
   right: 0;
-  animation: slideInLeft-leave var(--el-transition-duration);
+  animation: slideInLeft-leave getCssVar('transition-duration');
 }
 
 @keyframes slideInRight-enter {

@@ -13,6 +13,7 @@
       v-if="controls"
       v-repeat-click="decrease"
       role="button"
+      :aria-label="t('el.inputNumber.decrease')"
       :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
       @keydown.enter="decrease"
     >
@@ -25,6 +26,7 @@
       v-if="controls"
       v-repeat-click="increase"
       role="button"
+      :aria-label="t('el.inputNumber.increase')"
       :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
       @keydown.enter="increase"
     >
@@ -34,6 +36,7 @@
       </el-icon>
     </span>
     <el-input
+      :id="id"
       ref="input"
       type="number"
       :step="step"
@@ -71,6 +74,7 @@ import { RepeatClick } from '@element-plus/directives'
 import {
   useDisabled,
   useFormItem,
+  useLocale,
   useNamespace,
   useSize,
 } from '@element-plus/hooks'
@@ -107,6 +111,7 @@ export default defineComponent({
       currentValue: props.modelValue,
       userInput: null,
     })
+    const { t } = useLocale()
     const { formItem } = useFormItem()
     const ns = useNamespace('input-number')
 
@@ -153,6 +158,12 @@ export default defineComponent({
     })
     const toPrecision = (num: number, pre?: number) => {
       if (isUndefined(pre)) pre = numPrecision.value
+      const digits = num.toString().split('.')
+      if (digits.length > 1) {
+        const integer = digits[0]
+        const decimal = Math.round(+digits[1] / 10 ** (digits[1].length - pre))
+        return Number.parseFloat(`${integer}.${decimal}`)
+      }
       return Number.parseFloat(`${Math.round(num * 10 ** pre) / 10 ** pre}`)
     }
     const getPrecision = (value: number | undefined) => {
@@ -260,8 +271,16 @@ export default defineComponent({
     onMounted(() => {
       const innerInput = input.value?.input as HTMLInputElement
       innerInput.setAttribute('role', 'spinbutton')
-      innerInput.setAttribute('aria-valuemax', String(props.max))
-      innerInput.setAttribute('aria-valuemin', String(props.min))
+      if (Number.isFinite(props.max)) {
+        innerInput.setAttribute('aria-valuemax', String(props.max))
+      } else {
+        innerInput.removeAttribute('aria-valuemax')
+      }
+      if (Number.isFinite(props.min)) {
+        innerInput.setAttribute('aria-valuemin', String(props.min))
+      } else {
+        innerInput.removeAttribute('aria-valuemin')
+      }
       innerInput.setAttribute('aria-valuenow', String(data.currentValue))
       innerInput.setAttribute(
         'aria-disabled',
@@ -280,6 +299,7 @@ export default defineComponent({
       innerInput?.setAttribute('aria-valuenow', data.currentValue)
     })
     return {
+      t,
       input,
       displayValue,
       handleInput,

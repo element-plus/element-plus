@@ -12,7 +12,7 @@ import { tableV2RowProps } from '../row'
 import { TableV2InjectionKey } from '../tokens'
 import { placeholderSign } from '../private'
 
-import type { RendererElement, RendererNode, VNode } from 'vue'
+import type { CSSProperties, RendererElement, RendererNode, VNode } from 'vue'
 import type { RowEventHandlers, TableV2RowProps } from '../row'
 
 type CustomizedCellsType = VNode<
@@ -63,16 +63,14 @@ const useTableRow = (props: TableV2RowProps) => {
 
   const eventHandlers = computed(() => {
     const { rowData, rowIndex, rowKey, onRowHover } = props
-    const handlers = props.rowEventHandlers || ({} as RowEventHandlers<any>)
+    const handlers = props.rowEventHandlers || ({} as RowEventHandlers)
     const eventHandlers = {} as {
-      [key in keyof RowEventHandlers<any>]: (e: Event) => void
+      [key in keyof RowEventHandlers]: (e: Event) => void
     }
 
     Object.entries(handlers).forEach(([eventName, handler]) => {
       if (isFunction(handler)) {
-        eventHandlers[eventName as keyof RowEventHandlers<any>] = (
-          event: Event
-        ) => {
+        eventHandlers[eventName as keyof RowEventHandlers] = (event: Event) => {
           handler({
             event,
             rowData,
@@ -151,8 +149,15 @@ const TableV2Row = defineComponent({
     })
 
     return () => {
-      const { columns, expandColumnKey, depth, rowData, rowIndex, style } =
-        props
+      const {
+        columns,
+        columnsStyles,
+        expandColumnKey,
+        depth,
+        rowData,
+        rowIndex,
+        style,
+      } = props
 
       let ColumnCells: ColumnCellsType = columns.map((column, columnIndex) => {
         const expandable =
@@ -165,6 +170,7 @@ const TableV2Row = defineComponent({
           columns,
           columnIndex,
           depth,
+          style: columnsStyles[column.key],
           rowData,
           rowIndex,
           isScrolling: unref(isScrolling),
@@ -186,6 +192,7 @@ const TableV2Row = defineComponent({
             }
             return node
           }),
+          style,
           columns,
           depth,
           rowData,
@@ -233,6 +240,7 @@ export type TableV2RowCellRenderParam = {
   columns: TableV2RowProps['columns']
   columnIndex: number
   depth: number
+  style: CSSProperties
   rowData: any
   rowIndex: number
   isScrolling: boolean

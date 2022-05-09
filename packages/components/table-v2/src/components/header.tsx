@@ -4,8 +4,9 @@ import { ensureArray } from '@element-plus/utils'
 import { tableV2HeaderProps } from '../header'
 import { enforceUnit } from '../utils'
 
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, UnwrapRef } from 'vue'
 import type { TableV2HeaderProps } from '../header'
+import type { UseColumnsReturn } from '../composables/use-columns'
 
 const COMPONENT_NAME = 'ElTableV2Header'
 const TableV2Header = defineComponent({
@@ -115,6 +116,7 @@ export type TableV2HeaderInstance = InstanceType<typeof TableV2Header> & {
 export type TableV2HeaderRendererParams = {
   class: string
   columns: TableV2HeaderProps['columns']
+  columnsStyles: UnwrapRef<UseColumnsReturn['columnsStyles']>
   headerIndex: number
   style: CSSProperties
 }

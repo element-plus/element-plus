@@ -137,7 +137,7 @@ $bg-color: () !default;
 $bg-color: map.merge(
   (
     '': #ffffff,
-    'page': #ffffff,
+    'page': #f2f3f5,
     'overlay': #ffffff,
   ),
   $bg-color
@@ -720,10 +720,6 @@ $switch: map.merge(
   (
     'on-color': getCssVar('color-primary'),
     'off-color': getCssVar('border-color'),
-    'core-border-radius': 10px,
-    'width': 40px,
-    'height': 20px,
-    'button-size': 16px,
   ),
   $switch
 );
@@ -757,7 +753,7 @@ $table: map.merge(
     'header-text-color': getCssVar('text-color-secondary'),
     'row-hover-bg-color': getCssVar('fill-color', 'light'),
     'current-row-bg-color': getCssVar('color-primary-light-9'),
-    'header-bg-color': getCssVar('fill-color', 'blank'),
+    'header-bg-color': getCssVar('bg-color'),
     'fixed-box-shadow': getCssVar('box-shadow', 'light'),
     'bg-color': getCssVar('fill-color', 'blank'),
     'tr-bg-color': getCssVar('fill-color', 'blank'),
@@ -923,13 +919,12 @@ $tree: map.merge(
 );
 
 // Dropdown
-
 $dropdown: () !default;
 $dropdown: map.merge(
   (
     'menu-box-shadow': getCssVar('box-shadow-light'),
     'menuItem-hover-fill': getCssVar('color-primary-light-9'),
-    'menuItem-hover-color': getCssVar('color-primary-light-3'),
+    'menuItem-hover-color': getCssVar('color-primary'),
     'menu-index': 10,
   ),
   $dropdown
@@ -997,7 +992,7 @@ $menu: map.merge(
   (
     'active-color': getCssVar('color-primary'),
     'text-color': getCssVar('text-color-primary'),
-    'hover-text-color': getCssVar('text-color-primary'),
+    'hover-text-color': getCssVar('color-primary'),
     'bg-color': getCssVar('fill-color', 'blank'),
     'hover-bg-color': getCssVar('color-primary-light-9'),
     'item-height': 56px,
@@ -1200,7 +1195,6 @@ $calendar: map.merge(
 );
 
 // Form
-
 // css3 var in packages/theme-chalk/src/form.scss
 $form: () !default;
 $form: map.merge(
@@ -1269,7 +1263,6 @@ $descriptions: map.merge(
 );
 
 // Result
-
 // css3 var in packages/theme-chalk/src/result.scss
 $result: () !default;
 $result: map.merge(
@@ -1282,6 +1275,17 @@ $result: map.merge(
     'extra-margin-top': 30px,
   ),
   $result
+);
+
+// Upload
+// css3 var in packages/theme-chalk/src/upload.scss
+$upload: () !default;
+$upload: map.merge(
+  (
+    'dragger-padding-horizontal': 40px,
+    'dragger-padding-vertical': 10px,
+  ),
+  $upload
 );
 
 // transition

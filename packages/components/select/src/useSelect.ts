@@ -176,7 +176,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   // watch
   watch(
-    () => selectDisabled.value,
+    [() => selectDisabled.value, () => selectSize.value, () => elForm.size],
     () => {
       nextTick(() => {
         resetInputHeight()
@@ -471,7 +471,7 @@ export const useSelect = (props, states: States, ctx) => {
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
       const isEqualValue = isObjectValue
-        ? get(cachedOption, props.valueKey) === get(value, props.valueKey)
+        ? get(cachedOption.value, props.valueKey) === get(value, props.valueKey)
         : cachedOption.value === value
       if (isEqualValue) {
         option = {

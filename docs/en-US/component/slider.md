@@ -91,6 +91,9 @@ slider/show-marks
 | vertical              | vertical mode                                                                                             | boolean         | —                       | false   |
 | height                | Slider height, required in vertical mode                                                                  | string          | —                       | —       |
 | label                 | label for screen reader                                                                                   | string          | —                       | —       |
+| range-start-label     | when `range` is true, screen reader label for the start of the range                                      | string          | —                       | —       |
+| range-end-label       | when `range` is true, screen reader label for the end of the range                                        | string          | —                       | —       |
+| format-value-text     | format to display the `aria-valuenow` attribute for screen readers                                        | function(value) | —                       | —       |
 | debounce              | debounce delay when typing, in milliseconds, works when `show-input` is true                              | number          | —                       | 300     |
 | tooltip-class         | custom class name for the tooltip                                                                         | string          | —                       | —       |
 | marks                 | marks， type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style | object          | —                       | —       |

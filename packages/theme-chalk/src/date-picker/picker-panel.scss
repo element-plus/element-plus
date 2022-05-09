@@ -2,16 +2,16 @@
 @use '../common/var' as *;
 
 @include b(picker-panel) {
-  color: var(--el-text-color-regular);
+  color: getCssVar('text-color', 'regular');
   background: getCssVar('bg-color', 'overlay');
-  border-radius: var(--el-border-radius-base);
+  border-radius: getCssVar('border-radius-base');
   line-height: 30px;
 
   .#{$namespace}-time-panel {
     margin: 5px 0;
-    border: solid 1px var(--el-datepicker-border-color);
-    background-color: getCssVar('color-white');
-    box-shadow: var(--el-box-shadow-light);
+    border: solid 1px getCssVar('datepicker-border-color');
+    background-color: getCssVar('bg-color', 'overlay');
+    box-shadow: getCssVar('box-shadow-light');
   }
 
   @include e((body, body-wrapper)) {
@@ -28,7 +28,7 @@
   }
 
   @include e(footer) {
-    border-top: 1px solid var(--el-datepicker-inner-border-color);
+    border-top: 1px solid getCssVar('datepicker-inner-border-color');
     padding: 4px 12px;
     text-align: right;
     background-color: getCssVar('bg-color', 'overlay');
@@ -43,25 +43,25 @@
     background-color: transparent;
     line-height: 28px;
     font-size: 14px;
-    color: var(--el-datepicker-text-color);
+    color: getCssVar('datepicker-text-color');
     padding-left: 12px;
     text-align: left;
     outline: none;
     cursor: pointer;
 
     &:hover {
-      color: var(--el-datepicker-hover-text-color);
+      color: getCssVar('datepicker-hover-text-color');
     }
 
     &.active {
       background-color: #e6f1fe;
-      color: var(--el-datepicker-active-color);
+      color: getCssVar('datepicker-active-color');
     }
   }
 
   @include e(btn) {
     border: 1px solid getCssVar('fill-color', 'darker');
-    color: var(--el-text-color-primary);
+    color: getCssVar('text-color', 'primary');
     line-height: 24px;
     border-radius: 2px;
     padding: 0 20px;
@@ -78,7 +78,7 @@
 
   @include e(icon-btn) {
     font-size: 12px;
-    color: var(--el-datepicker-icon-color);
+    color: getCssVar('datepicker-icon-color');
     border: 0;
     background: transparent;
     cursor: pointer;
@@ -86,11 +86,11 @@
     margin-top: 8px;
 
     &:hover {
-      color: var(--el-datepicker-hover-text-color);
+      color: getCssVar('datepicker-hover-text-color');
     }
 
     @include when(disabled) {
-      color: var(--el-text-color-disabled);
+      color: getCssVar('text-color-disabled');
 
       &:hover {
         cursor: not-allowed;
@@ -113,7 +113,7 @@
   top: 0;
   bottom: 0;
   width: 110px;
-  border-right: 1px solid var(--el-datepicker-inner-border-color);
+  border-right: 1px solid getCssVar('datepicker-inner-border-color');
   box-sizing: border-box;
   padding-top: 6px;
   background-color: getCssVar('bg-color', 'overlay');

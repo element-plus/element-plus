@@ -111,6 +111,16 @@ form/size-control
 
 :::
 
+## Accessibility
+
+When only a single input (or related control such as select or checkbox) is inside of a `el-form-item`, the form item's label will automatically be attached to that input. However, if multiple inputs are inside of the `el-form-item`, the form item will be assigned the [WAI-ARIA](https://www.w3.org/WAI/standards-guidelines/aria/) role of [group](https://www.w3.org/TR/wai-aria/#group) instead. In this case, it is your responsibility to assign assistive labels to the individual inputs.
+
+:::demo
+
+form/accessibility
+
+:::
+
 ## Form API
 
 ### Form Attributes

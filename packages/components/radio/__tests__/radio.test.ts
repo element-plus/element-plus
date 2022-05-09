@@ -2,6 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
+import { ElFormItem } from '@element-plus/components/form'
 import Radio from '../src/radio.vue'
 import RadioGroup from '../src/radio-group.vue'
 import RadioButton from '../src/radio-button.vue'
@@ -12,6 +13,7 @@ const _mount = (template: string, data, otherObj?) =>
       'el-radio': Radio,
       'el-radio-group': RadioGroup,
       'el-radio-button': RadioButton,
+      'el-form-item': ElFormItem,
     },
     template,
     data,
@@ -364,5 +366,94 @@ describe('Radio Button', () => {
       code: EVENT_CODE.enter,
     })
     expect(vm.radio).toEqual(6)
+  })
+
+  describe('form item accessibility integration', () => {
+    test('single radio group in form item', async () => {
+      const wrapper = _mount(
+        `
+        <el-form-item ref="item" label="Test">
+          <el-radio-group ref="radioGroup">
+            <el-radio label="Foo" />
+            <el-radio label="Bar" />
+          </el-radio-group>
+        </el-form-item>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const formItem = await wrapper.findComponent({ ref: 'item' })
+      const radioGroup = await wrapper.findComponent({
+        ref: 'radioGroup',
+      })
+      const formItemLabel = formItem.find('.el-form-item__label')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(radioGroup.attributes().role).toBe('radiogroup')
+      expect(formItemLabel.attributes().for).toBe(radioGroup.attributes().id)
+      expect(formItemLabel.attributes().id).toBe(
+        radioGroup.attributes()['aria-labelledby']
+      )
+    })
+
+    test('single radio group in form item, override label', async () => {
+      const wrapper = _mount(
+        `
+        <el-form-item ref="item" label="Test">
+          <el-radio-group label="Foo" ref="radioGroup">
+            <el-radio label="Foo" />
+            <el-radio label="Bar" />
+          </el-radio-group>
+        </el-form-item>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const formItem = await wrapper.findComponent({ ref: 'item' })
+      const radioGroup = await wrapper.findComponent({
+        ref: 'radioGroup',
+      })
+      const formItemLabel = formItem.find('.el-form-item__label')
+      expect(formItemLabel.attributes().for).toBe(radioGroup.attributes().id)
+      expect(radioGroup.attributes().role).toBe('radiogroup')
+      expect(radioGroup.attributes()['aria-label']).toBe('Foo')
+      expect(radioGroup.attributes()['aria-labelledby']).toBeFalsy()
+    })
+
+    test('multiple radio groups in form item', async () => {
+      const wrapper = _mount(
+        `
+        <el-form-item ref="item" label="Test">
+          <el-radio-group label="Foo" ref="radioGroup1">
+            <el-radio label="Foo" />
+            <el-radio label="Bar" />
+          </el-radio-group>
+          <el-radio-group label="Bar" ref="radioGroup2">
+            <el-radio label="Foo" />
+            <el-radio label="Bar" />
+          </el-radio-group>
+        </el-form-item>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const formItem = await wrapper.findComponent({ ref: 'item' })
+      const radioGroup1 = await wrapper.findComponent({
+        ref: 'radioGroup1',
+      })
+      const radioGroup2 = await wrapper.findComponent({
+        ref: 'radioGroup2',
+      })
+      const formItemLabel = formItem.find('.el-form-item__label')
+      expect(formItem.attributes().role).toBe('group')
+      expect(formItem.attributes()['aria-labelledby']).toBe(
+        formItemLabel.attributes().id
+      )
+      expect(radioGroup1.attributes().role).toBe('radiogroup')
+      expect(radioGroup1.attributes()['aria-label']).toBe('Foo')
+      expect(radioGroup1.attributes()['aria-labelledby']).toBeFalsy()
+      expect(radioGroup2.attributes().role).toBe('radiogroup')
+      expect(radioGroup2.attributes()['aria-label']).toBe('Bar')
+      expect(radioGroup2.attributes()['aria-labelledby']).toBeFalsy()
+    })
   })
 })
