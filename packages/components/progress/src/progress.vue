@@ -56,8 +56,9 @@
           :d="trackPath"
           :stroke="stroke"
           fill="none"
+          :opacity="percentage ? 1 : 0"
           :stroke-linecap="strokeLinecap"
-          :stroke-width="percentage ? relativeStrokeWidth : 0"
+          :stroke-width="relativeStrokeWidth"
           :style="circlePathStyle"
         />
       </svg>
@@ -162,7 +163,8 @@ export default defineComponent({
           perimeter.value * rate.value * (props.percentage / 100)
         }px, ${perimeter.value}px`,
         strokeDashoffset: strokeDashoffset.value,
-        transition: 'stroke-dasharray 0.6s ease 0s, stroke 0.6s ease',
+        transition:
+          'stroke-dasharray 0.6s ease 0s, stroke 0.6s ease, opacity ease 0.6s',
       })
     )
 
