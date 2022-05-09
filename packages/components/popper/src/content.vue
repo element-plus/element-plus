@@ -75,7 +75,7 @@ const contentClass = computed(() => [
 ])
 
 const ariaModal = computed<string | undefined>(() => {
-  return role.value === 'dialog' ? 'false' : undefined
+  return role && role.value === 'dialog' ? 'false' : undefined
 })
 
 const createPopperInstance = ({ referenceEl, popperContentEl, arrowEl }) => {

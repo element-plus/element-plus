@@ -332,7 +332,7 @@ export default defineComponent({
             .date(value.date())
         }
         innerDate.value = newDate
-        emit(newDate, keepOpen != null ? keepOpen : showTime.value)
+        emit(newDate, showTime.value || keepOpen)
       } else if (selectionMode.value === 'week') {
         emit(value.date)
       } else if (selectionMode.value === 'dates') {
@@ -622,6 +622,9 @@ export default defineComponent({
     const handleFocusPicker = async () => {
       if (['week', 'month', 'year', 'date'].includes(selectionMode.value)) {
         ;(currentViewRef as Ref<any>).value?.focus()
+        if (selectionMode.value === 'week') {
+          handleKeyControl(EVENT_CODE.down)
+        }
       }
     }
 

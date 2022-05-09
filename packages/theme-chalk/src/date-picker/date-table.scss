@@ -92,7 +92,6 @@
         background-color: getCssVar('datepicker-active-color');
       }
       &:focus-visible {
-        outline: none;
         .#{$namespace}-date-table-cell__text {
           outline: 2px solid getCssVar('datepicker-active-color');
           outline-offset: 1px;
@@ -147,6 +146,10 @@
     &.week {
       font-size: 80%;
       color: getCssVar('datepicker-header-text-color');
+    }
+
+    &:focus {
+      outline: none;
     }
   }
 

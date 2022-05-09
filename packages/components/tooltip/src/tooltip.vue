@@ -106,18 +106,6 @@ export default defineComponent({
     'open',
     'close',
   ],
-  expose: [
-    'compatShowAfter',
-    'compatShowArrow',
-    'popperRef',
-    'contentRef',
-    'open',
-    'hide',
-    'isFocusInsideContent',
-    'updatePopper',
-    'onOpen',
-    'onClose',
-  ],
   setup(props, { emit }) {
     usePopperContainer()
     const compatShowAfter = computed(() => {

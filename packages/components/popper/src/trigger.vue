@@ -37,14 +37,14 @@ const ariaControls = computed<string | undefined>(() => {
 })
 
 const ariaDescribedby = computed<string | undefined>(() => {
-  if (role.value === 'tooltip') {
+  if (role && role.value === 'tooltip') {
     return props.open && props.id ? props.id : undefined
   }
   return undefined
 })
 
 const ariaHaspopup = computed<string | undefined>(() => {
-  if (role.value !== 'tooltip') {
+  if (role && role.value !== 'tooltip') {
     return role.value
   }
   return undefined

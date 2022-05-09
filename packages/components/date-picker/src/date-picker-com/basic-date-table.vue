@@ -6,7 +6,7 @@
     cellpadding="0"
     class="el-date-table"
     :class="{ 'is-week-mode': selectionMode === 'week' }"
-    @click="handleClick"
+    @click="handlePickDate"
     @mousemove="handleMouseMove"
   >
     <tbody ref="tbodyRef">
@@ -386,20 +386,15 @@ export default defineComponent({
     }
 
     const handleFocus = (event: Event) => {
-      if (!hasCurrent.value) {
-        handleClick(event, true)
+      if (!hasCurrent.value && props.selectionMode === 'date') {
+        handlePickDate(event, true)
       }
     }
 
-    const handleClick = (event: Event, keepOpen = false) => {
+    const handlePickDate = (event: Event, isKeyboardMovement = false) => {
       let target = event.target as HTMLElement
 
-      while (target) {
-        if (target.tagName === 'TD') {
-          break
-        }
-        target = target.parentNode as HTMLElement
-      }
+      target = target?.closest('td')
 
       if (!target || target.tagName !== 'TD') return
 
@@ -413,46 +408,34 @@ export default defineComponent({
 
       if (props.selectionMode === 'range') {
         if (!props.rangeState.selecting) {
-          ctx.emit('pick', { minDate: newDate, maxDate: null }, keepOpen)
+          ctx.emit('pick', { minDate: newDate, maxDate: null })
           ctx.emit('select', true)
         } else {
           if (newDate >= props.minDate) {
-            ctx.emit(
-              'pick',
-              { minDate: props.minDate, maxDate: newDate },
-              keepOpen
-            )
+            ctx.emit('pick', { minDate: props.minDate, maxDate: newDate })
           } else {
-            ctx.emit(
-              'pick',
-              { minDate: newDate, maxDate: props.minDate },
-              keepOpen
-            )
+            ctx.emit('pick', { minDate: newDate, maxDate: props.minDate })
           }
           ctx.emit('select', false)
         }
       } else if (props.selectionMode === 'date') {
-        ctx.emit('pick', newDate, keepOpen)
+        ctx.emit('pick', newDate, isKeyboardMovement)
       } else if (props.selectionMode === 'week') {
         const weekNumber = newDate.week()
         const value = `${newDate.year()}w${weekNumber}`
-        ctx.emit(
-          'pick',
-          {
-            year: newDate.year(),
-            week: weekNumber,
-            value,
-            date: newDate.startOf('week'),
-          },
-          keepOpen
-        )
+        ctx.emit('pick', {
+          year: newDate.year(),
+          week: weekNumber,
+          value,
+          date: newDate.startOf('week'),
+        })
       } else if (props.selectionMode === 'dates') {
         const newValue = cell.selected
           ? castArray(props.parsedValue).filter(
               (_) => _.valueOf() !== newDate.valueOf()
             )
           : castArray(props.parsedValue).concat([newDate])
-        ctx.emit('pick', newValue, keepOpen)
+        ctx.emit('pick', newValue)
       }
     }
 
@@ -491,7 +474,7 @@ export default defineComponent({
       getCellClasses,
       WEEKS,
       handleFocus,
-      handleClick,
+      handlePickDate,
       focus,
     }
   },

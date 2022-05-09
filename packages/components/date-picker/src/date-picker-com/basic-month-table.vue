@@ -14,14 +14,15 @@
           :ref="(el) => isSelectedCell(cell) && (currentCellRef = el)"
           :class="getCellStyle(cell)"
           :aria-selected="`${isSelectedCell(cell)}`"
+          :aria-label="t(`el.datepicker.month${+cell.text + 1}`)"
           :tabindex="isSelectedCell(cell) ? 0 : -1"
           @keydown.space.prevent.stop="handleMonthTableClick"
           @keydown.enter.prevent.stop="handleMonthTableClick"
         >
           <div>
-            <span class="cell">{{
-              t('el.datepicker.months.' + months[cell.text])
-            }}</span>
+            <span class="cell">
+              {{ t('el.datepicker.months.' + months[cell.text]) }}
+            </span>
           </div>
         </td>
       </tr>
@@ -237,7 +238,7 @@ export default defineComponent({
     }
     const handleMonthTableClick = (event) => {
       let target = event.target
-      target = target.closest('td')
+      target = target?.closest('td')
       if (target?.tagName !== 'TD') return
       if (hasClass(target, 'disabled')) return
       const column = target.cellIndex

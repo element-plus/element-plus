@@ -296,8 +296,6 @@ export default defineComponent({
         nextTick(() => {
           emitChange(props.modelValue)
         })
-        props.validateEvent &&
-          elFormItem.validate?.('blur').catch((err) => debugWarn(err))
       } else {
         valueOnOpen.value = props.modelValue
       }
@@ -352,7 +350,7 @@ export default defineComponent({
     }
     const onPick = (date: any = '', visible = false) => {
       if (!visible) {
-        focus()
+        focus(true, true)
       }
       pickerVisible.value = visible
       let result
@@ -376,7 +374,7 @@ export default defineComponent({
 
     const onKeydownPopperContent = (event: KeyboardEvent) => {
       if ((event as KeyboardEvent)?.key === EVENT_CODE.esc) {
-        focus()
+        focus(true, true)
       }
     }
 
@@ -385,8 +383,11 @@ export default defineComponent({
       ctx.emit('visible-change', false)
     }
 
-    const focus = async (focusStartInput = true) => {
-      ignoreFocusEvent = true
+    const focus = async (
+      focusStartInput = true,
+      isIgnoreFocusEvent = false
+    ) => {
+      ignoreFocusEvent = isIgnoreFocusEvent
       let input = refStartInput.value
       if (!focusStartInput && isRangeInput.value) {
         input = refEndInput.value
@@ -414,7 +415,7 @@ export default defineComponent({
     let currentHandleBlurDeferCallback: () => void | undefined
 
     // Check if document.activeElement is inside popper or any input before popper close
-    const handleBlurInput = () => {
+    const handleBlurInput = (e) => {
       const handleBlurDefer = async () => {
         setTimeout(() => {
           if (currentHandleBlurDeferCallback === handleBlurDefer) {
@@ -429,6 +430,9 @@ export default defineComponent({
             ) {
               handleChange()
               pickerVisible.value = false
+              ctx.emit('blur', e)
+              props.validateEvent &&
+                elFormItem.validate?.('blur').catch((err) => debugWarn(err))
             }
             hasJustTabExitedInput = false
           }
@@ -513,7 +517,7 @@ export default defineComponent({
       if (props.readonly || pickerDisabled.value) return
       if (showClose.value) {
         event.stopPropagation()
-        focus()
+        focus(true, true)
         emitInput(null)
         emitChange(null, true)
         showClose.value = false
