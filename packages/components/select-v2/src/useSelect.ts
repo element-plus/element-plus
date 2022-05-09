@@ -709,6 +709,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
       states.displayInputValue = ''
+      states.previousQuery = null
       createNewOption('')
     }
   })
