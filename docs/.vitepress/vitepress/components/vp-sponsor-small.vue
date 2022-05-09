@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { isDark } from '../composables/dark'
 import { goldSponsors } from '../../config/sponsors'
+import { sendEvent } from '../../config/analytics'
+const onItemClick = (item: any) => {
+  sendEvent('sp_click', item.name, 'left_small_img')
+}
 </script>
 
 <template>
@@ -15,6 +19,7 @@ import { goldSponsors } from '../../config/sponsors'
       :href="item.url"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
       target="_blank"
+      @click="onItemClick(item)"
     >
       <img :src="item.img" :alt="item.name" />
     </a>
