@@ -11,7 +11,11 @@ const defaultLang = manifest.some((item) => {
 })
   ? navigator.language
   : 'en-US'
+
 let userPreferredLang = ''
+let cacheEntries: RequestInfo[] = []
+let cacheManifestURLs: string[] = []
+let manifestURLs: string[] = []
 
 class LangDB {
   private db: IDBDatabase | undefined
@@ -74,6 +78,10 @@ class LangDB {
   async setLang(lang: string) {
     if (userPreferredLang !== lang) {
       userPreferredLang = lang
+      cacheEntries = []
+      cacheManifestURLs = []
+      manifestURLs = []
+
       if (!this.db) await this.initDB()
 
       this.db!.transaction(this.storeNames, 'readwrite')
@@ -83,38 +91,30 @@ class LangDB {
   }
 }
 
-function matchManifest(item: ManifestEntry, lang: string) {
+async function initManifest() {
+  userPreferredLang = userPreferredLang || (await langDB.getLang())
   // match the data that needs to be cached
   // NOTE: When the structure of the document dist files changes, it needs to be changed here
   const cacheList = [
-    lang,
-    `assets/(${lang}|app|index|style|chunks)`,
+    userPreferredLang,
+    `assets/(${userPreferredLang}|app|index|style|chunks)`,
     'images',
     'android-chrome',
     'apple-touch-icon',
     'manifest.webmanifest',
   ]
   const regExp = new RegExp(`^(${cacheList.join('|')})`)
-  return regExp.test(item.url) || /^\/$/.test(item.url)
-}
-
-function getManifest(lang: string) {
-  const cacheEntries: RequestInfo[] = []
-  const cacheManifestURLs: string[] = []
-  const manifestURLs: string[] = []
 
   for (const item of manifest) {
     const url = new URL(item.url, self.location.origin)
     manifestURLs.push(url.href)
 
-    if (matchManifest(item, lang)) {
+    if (regExp.test(item.url) || /^\/$/.test(item.url)) {
       const request = new Request(url.href, { credentials: 'same-origin' })
       cacheEntries.push(request)
       cacheManifestURLs.push(url.href)
     }
   }
-
-  return { manifestURLs, cacheEntries, cacheManifestURLs }
 }
 
 const langDB = new LangDB()
@@ -122,8 +122,7 @@ const langDB = new LangDB()
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(cacheName).then(async (cache) => {
-      userPreferredLang = userPreferredLang || (await langDB.getLang())
-      const { cacheEntries } = getManifest(userPreferredLang)
+      if (!cacheEntries.length) await initManifest()
 
       return cache.addAll(cacheEntries)
     })
@@ -134,8 +133,7 @@ self.addEventListener('activate', (event: ExtendableEvent) => {
   // clean up outdated runtime cache
   event.waitUntil(
     caches.open(cacheName).then(async (cache) => {
-      userPreferredLang = userPreferredLang || (await langDB.getLang())
-      const { cacheManifestURLs } = getManifest(userPreferredLang)
+      if (!cacheManifestURLs.length) await initManifest()
 
       cache.keys().then((keys) => {
         keys.forEach((request) => {
@@ -152,9 +150,8 @@ self.addEventListener('fetch', (event) => {
     caches.match(event.request).then(async (response) => {
       // when the cache is hit, it returns directly to the cache
       if (response) return response
-      userPreferredLang = userPreferredLang || (await langDB.getLang())
+      if (!manifestURLs.length) await initManifest()
       const requestClone = event.request.clone()
-      const { manifestURLs } = getManifest(userPreferredLang)
 
       // otherwise create a new fetch request
       return fetch(requestClone)
