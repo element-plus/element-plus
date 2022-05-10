@@ -95,10 +95,10 @@ so you need to use an alias in order to render the icon, if you register `Menu` 
 <template>
   <div>
     <el-icon :size="size" :color="color">
-      <edit />
+      <Edit />
     </el-icon>
     <!-- Or use it independently without derive attributes from parent -->
-    <edit />
+    <Edit />
   </div>
 </template>
 ```
@@ -127,20 +127,20 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
     seconds, you can also override this
   </p>
   <el-icon :size="20">
-    <edit />
+    <Edit />
   </el-icon>
   <el-icon color="#409EFC" class="no-inherit">
-    <share />
+    <Share />
   </el-icon>
   <el-icon>
-    <delete />
+    <Delete />
   </el-icon>
   <el-icon class="is-loading">
-    <loading />
+    <Loading />
   </el-icon>
   <el-button type="primary">
     <el-icon style="vertical-align: middle">
-      <search />
+      <Search />
     </el-icon>
     <span style="vertical-align: middle"> Search </span>
   </el-button>
@@ -181,10 +181,10 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
   <div style="font-size: 20px">
     <!-- Since svg icons do not carry any attributes by default -->
     <!-- You need to provide attributes directly -->
-    <edit style="width: 1em; height: 1em; margin-right: 8px" />
-    <share style="width: 1em; height: 1em; margin-right: 8px" />
-    <delete style="width: 1em; height: 1em; margin-right: 8px" />
-    <search style="width: 1em; height: 1em; margin-right: 8px" />
+    <Edit style="width: 1em; height: 1em; margin-right: 8px" />
+    <Share style="width: 1em; height: 1em; margin-right: 8px" />
+    <Delete style="width: 1em; height: 1em; margin-right: 8px" />
+    <Search style="width: 1em; height: 1em; margin-right: 8px" />
   </div>
 </template>
 ```
