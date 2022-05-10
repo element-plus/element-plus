@@ -1,0 +1,6 @@
+tasks:
+  - init: pnpm i
+    command: pnpm dev
+ports:
+  - port: 3080
+    onOpen: open-preview
