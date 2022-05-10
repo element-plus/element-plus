@@ -13,44 +13,72 @@
         :z-index="zIndex"
         @click="onModalClick"
       >
-        <div
-          ref="drawerRef"
-          v-trap-focus
-          aria-modal="true"
-          :aria-labelledby="ns.e('title')"
-          :aria-label="title"
-          :class="[ns.b(), direction, visible && 'open', customClass]"
-          :style="
-            isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
-          "
-          role="dialog"
-          @click.stop
+        <el-focus-trap
+          loop
+          :trapped="visible"
+          :focus-trap-el="drawerRef"
+          :focus-start-el="focusStartRef"
         >
-          <header v-if="withHeader" :id="ns.e('title')" :class="ns.e('header')">
-            <slot name="title">
-              <span role="heading" :title="title">
-                {{ title }}
-              </span>
-            </slot>
-            <button
-              v-if="showClose"
-              :aria-label="'close ' + (title || 'drawer')"
-              :class="ns.e('close-btn')"
-              type="button"
-              @click="handleClose"
+          <template #default="{ handleKeydown }">
+            <div
+              ref="drawerRef"
+              aria-modal="true"
+              :aria-label="title || undefined"
+              :aria-labelledby="!title ? titleId : undefined"
+              :aria-describedby="bodyId"
+              :class="[ns.b(), direction, visible && 'open', customClass]"
+              :style="
+                isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
+              "
+              role="dialog"
+              @click.stop
+              @keydown="handleKeydown"
             >
-              <el-icon :class="ns.e('close')"><close /></el-icon>
-            </button>
-          </header>
-          <template v-if="rendered">
-            <section :class="ns.e('body')">
-              <slot />
-            </section>
+              <span
+                ref="focusStartRef"
+                :class="ns.e('sr-focus')"
+                tabindex="-1"
+              />
+              <header v-if="withHeader" :class="ns.e('header')">
+                <slot
+                  name="header"
+                  :close="handleClose"
+                  :title-id="titleId"
+                  :title-class="ns.e('title')"
+                >
+                  <span
+                    v-if="!$slots.title"
+                    :id="titleId"
+                    role="heading"
+                    :class="ns.e('title')"
+                  >
+                    {{ title }}
+                  </span>
+                </slot>
+                <slot name="title">
+                  <!-- DEPRECATED SLOT -->
+                </slot>
+                <button
+                  v-if="showClose"
+                  :aria-label="t('el.drawer.close')"
+                  :class="ns.e('close-btn')"
+                  type="button"
+                  @click="handleClose"
+                >
+                  <el-icon :class="ns.e('close')"><close /></el-icon>
+                </button>
+              </header>
+              <template v-if="rendered">
+                <div :id="bodyId" :class="ns.e('body')">
+                  <slot />
+                </div>
+              </template>
+              <div v-if="$slots.footer" :class="ns.e('footer')">
+                <slot name="footer" />
+              </div>
+            </div>
           </template>
-          <div v-if="$slots.footer" :class="ns.e('footer')">
-            <slot name="footer" />
-          </div>
-        </div>
+        </el-focus-trap>
       </el-overlay>
     </transition>
   </teleport>
@@ -61,28 +89,39 @@ import { computed, defineComponent, ref } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 
 import { ElOverlay } from '@element-plus/components/overlay'
+import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useDialog } from '@element-plus/components/dialog'
 import ElIcon from '@element-plus/components/icon'
-import { TrapFocus } from '@element-plus/directives'
-import { useNamespace } from '@element-plus/hooks'
+import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
 
 export default defineComponent({
   name: 'ElDrawer',
   components: {
     ElOverlay,
+    ElFocusTrap,
     ElIcon,
     Close,
-  },
-  directives: {
-    TrapFocus,
   },
   props: drawerProps,
   emits: drawerEmits,
 
-  setup(props, ctx) {
+  setup(props, { slots }) {
+    useDeprecated(
+      {
+        scope: 'el-drawer',
+        from: 'the title slot',
+        replacement: 'the header slot',
+        version: '2.3.0',
+        ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
+      },
+      computed(() => !!slots.title)
+    )
+
     const drawerRef = ref<HTMLElement>()
+    const focusStartRef = ref<HTMLElement>()
     const ns = useNamespace('drawer')
+    const { t } = useLocale()
 
     const isHorizontal = computed(
       () => props.direction === 'rtl' || props.direction === 'ltr'
@@ -92,11 +131,13 @@ export default defineComponent({
     )
 
     return {
-      ...useDialog(props, ctx, drawerRef),
+      ...useDialog(props, drawerRef),
       drawerRef,
+      focusStartRef,
       isHorizontal,
       drawerSize,
       ns,
+      t,
     }
   },
 })

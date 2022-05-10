@@ -17,6 +17,10 @@
   box-sizing: border-box;
   width: var(#{getCssVarName('dialog-width')}, 50%);
 
+  &:focus {
+    outline: none !important;
+  }
+
   @include when(fullscreen) {
     @include set-css-var-value('dialog-width', 100%);
     @include set-css-var-value('dialog-margin-top', 0);
