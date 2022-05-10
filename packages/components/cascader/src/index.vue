@@ -411,7 +411,7 @@ export default defineComponent({
       const nodes = checkedNodes.value
       return nodes.length
         ? multiple.value
-          ? ' '
+          ? ''
           : nodes[0].calcText(showAllLevels, separator)
         : ''
     })
