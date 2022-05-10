@@ -2,14 +2,18 @@
   <el-only-child
     v-if="!virtualTriggering"
     v-bind="$attrs"
-    :aria-describedby="open ? id : undefined"
+    :aria-controls="ariaControls"
+    :aria-describedby="ariaDescribedby"
+    :aria-expanded="ariaExpanded"
+    :aria-haspopup="ariaHaspopup"
+    :aria-owns="ariaOwns"
   >
     <slot />
   </el-only-child>
 </template>
 
 <script lang="ts" setup>
-import { inject, onMounted, watch } from 'vue'
+import { computed, inject, onMounted, watch } from 'vue'
 import { unrefElement } from '@vueuse/core'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
@@ -24,9 +28,35 @@ defineOptions({
 
 const props = defineProps(usePopperTriggerProps)
 
-const { triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
+const { role, triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
 
 useForwardRef(triggerRef)
+
+const ariaControls = computed<string | undefined>(() => {
+  return ariaHaspopup.value ? props.id : undefined
+})
+
+const ariaDescribedby = computed<string | undefined>(() => {
+  if (role && role.value === 'tooltip') {
+    return props.open && props.id ? props.id : undefined
+  }
+  return undefined
+})
+
+const ariaHaspopup = computed<string | undefined>(() => {
+  if (role && role.value !== 'tooltip') {
+    return role.value
+  }
+  return undefined
+})
+
+const ariaExpanded = computed<string | undefined>(() => {
+  return ariaHaspopup.value ? `${props.open}` : undefined
+})
+
+const ariaOwns = computed<string | undefined>(() => {
+  return ariaHaspopup.value ? props.id : undefined
+})
 
 onMounted(() => {
   watch(

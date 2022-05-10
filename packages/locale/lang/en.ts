@@ -14,6 +14,11 @@ export default {
       cancel: 'Cancel',
       clear: 'Clear',
       confirm: 'OK',
+      dateTablePrompt:
+        'Use the arrow keys and enter to select the day of the month',
+      monthTablePrompt: 'Use the arrow keys and enter to select the month',
+      yearTablePrompt: 'Use the arrow keys and enter to select the year',
+      selectedDate: 'Selected date',
       selectDate: 'Select date',
       selectTime: 'Select time',
       startDate: 'Start Date',
@@ -46,6 +51,15 @@ export default {
         thu: 'Thu',
         fri: 'Fri',
         sat: 'Sat',
+      },
+      weeksFull: {
+        sun: 'Sunday',
+        mon: 'Monday',
+        tue: 'Tuesday',
+        wed: 'Wednesday',
+        thu: 'Thursday',
+        fri: 'Friday',
+        sat: 'Saturday',
       },
       months: {
         jan: 'Jan',

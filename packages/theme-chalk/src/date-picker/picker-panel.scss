@@ -88,6 +88,9 @@
     &:hover {
       color: getCssVar('datepicker-hover-text-color');
     }
+    &:focus-visible {
+      color: getCssVar('datepicker-hover-text-color');
+    }
 
     @include when(disabled) {
       color: getCssVar('text-color-disabled');
