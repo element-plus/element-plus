@@ -115,6 +115,10 @@ provide(uploadContextKey, {
 })
 
 defineExpose({
+  /** @description expose headers field */
+  headers: props.headers,
+  /** @description expose data field */
+  data: props.data,
   /** @description cancel upload request */
   abort,
   /** @description upload the file list manually */
