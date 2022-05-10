@@ -1,5 +1,5 @@
 <template>
-  <slot />
+  <slot :handle-keydown="onKeydown" />
 </template>
 <script lang="ts">
 import {
@@ -13,6 +13,7 @@ import {
   watch,
 } from 'vue'
 import { EVENT_CODE } from '@element-plus/constants'
+import { isString } from '@element-plus/utils'
 import {
   focusFirstDescendant,
   focusableStack,
@@ -21,14 +22,15 @@ import {
   tryFocus,
 } from './utils'
 import {
-  FOCUS_ON_MOUNT,
-  FOCUS_ON_MOUNT_OPTS,
-  FOCUS_ON_UNMOUNT,
+  FOCUS_AFTER_RELEASED,
+  FOCUS_AFTER_TRAPPED,
+  FOCUS_AFTER_TRAPPED_OPTS,
   FOCUS_TRAP_INJECTION_KEY,
-  ON_MOUNT_FOCUS_EVT,
-  ON_UNMOUNT_FOCUS_EVT,
+  ON_RELEASE_FOCUS_EVT,
+  ON_TRAP_FOCUS_EVT,
 } from './tokens'
 
+import type { PropType } from 'vue'
 import type { FocusLayer } from './utils'
 
 export default defineComponent({
@@ -37,11 +39,15 @@ export default defineComponent({
   props: {
     loop: Boolean,
     trapped: Boolean,
+    focusTrapEl: Object as PropType<HTMLElement>,
+    focusStartEl: {
+      type: [Object, String] as PropType<'container' | 'first' | HTMLElement>,
+      default: 'first',
+    },
   },
-  emits: [ON_MOUNT_FOCUS_EVT, ON_UNMOUNT_FOCUS_EVT],
+  emits: [ON_TRAP_FOCUS_EVT, ON_RELEASE_FOCUS_EVT],
   setup(props, { emit }) {
-    const focusTrapRef = ref<HTMLElement | null>()
-    const forwardRef = ref<HTMLElement | null>(null)
+    const forwardRef = ref<HTMLElement | undefined>()
     let lastFocusBeforeMounted: HTMLElement | null
     let lastFocusAfterMounted: HTMLElement | null
 
@@ -76,7 +82,10 @@ export default defineComponent({
           if (!shiftKey && currentFocusingEl === last) {
             e.preventDefault()
             if (loop) tryFocus(first, true)
-          } else if (shiftKey && currentFocusingEl === first) {
+          } else if (
+            shiftKey &&
+            [first, container].includes(currentFocusingEl as HTMLElement)
+          ) {
             e.preventDefault()
             if (loop) tryFocus(last, true)
           }
@@ -89,10 +98,20 @@ export default defineComponent({
       onKeydown,
     })
 
-    const focusOnMount = (e: Event) => {
-      emit(ON_MOUNT_FOCUS_EVT, e)
+    watch(
+      () => props.focusTrapEl,
+      (focusTrapEl) => {
+        if (focusTrapEl) {
+          forwardRef.value = focusTrapEl
+        }
+      },
+      { immediate: true }
+    )
+
+    const trapOnFocus = (e: Event) => {
+      emit(ON_TRAP_FOCUS_EVT, e)
     }
-    const focusOnUnmount = (e: Event) => emit(ON_UNMOUNT_FOCUS_EVT, e)
+    const releaseOnFocus = (e: Event) => emit(ON_RELEASE_FOCUS_EVT, e)
     const onFocusIn = (e: Event) => {
       const trapContainer = unref(forwardRef)
       if (focusLayer.paused || !trapContainer) return
@@ -117,12 +136,9 @@ export default defineComponent({
       }
     }
 
-    const cleanupDocumentListeners = () => {
-      document.removeEventListener('focusin', onFocusIn)
-      document.removeEventListener('focusout', onFocusOut)
-    }
-
-    onMounted(() => {
+    async function startTrap() {
+      // Wait for forwardRef to resolve
+      await nextTick()
       const trapContainer = unref(forwardRef)
       if (trapContainer) {
         focusableStack.push(focusLayer)
@@ -130,60 +146,84 @@ export default defineComponent({
         lastFocusBeforeMounted = prevFocusedElement as HTMLElement | null
         const isPrevFocusContained = trapContainer.contains(prevFocusedElement)
         if (!isPrevFocusContained) {
-          const mountEvent = new Event(FOCUS_ON_MOUNT, FOCUS_ON_MOUNT_OPTS)
-          trapContainer.addEventListener(FOCUS_ON_MOUNT, focusOnMount)
-          trapContainer.dispatchEvent(mountEvent)
-          if (!mountEvent.defaultPrevented) {
+          const focusEvent = new Event(
+            FOCUS_AFTER_TRAPPED,
+            FOCUS_AFTER_TRAPPED_OPTS
+          )
+          trapContainer.addEventListener(FOCUS_AFTER_TRAPPED, trapOnFocus)
+          trapContainer.dispatchEvent(focusEvent)
+          if (!focusEvent.defaultPrevented) {
             nextTick(() => {
-              focusFirstDescendant(
-                obtainAllFocusableElements(trapContainer),
-                true
-              )
-              if (document.activeElement === prevFocusedElement) {
+              if (!isString(props.focusStartEl)) {
+                tryFocus(props.focusStartEl)
+              } else if (props.focusStartEl === 'first') {
+                focusFirstDescendant(
+                  obtainAllFocusableElements(trapContainer),
+                  true
+                )
+              }
+              if (
+                document.activeElement === prevFocusedElement ||
+                props.focusStartEl === 'container'
+              ) {
                 tryFocus(trapContainer)
               }
             })
           }
         }
       }
+      document.addEventListener('focusin', onFocusIn)
+      document.addEventListener('focusout', onFocusOut)
+    }
+
+    function stopTrap() {
+      document.removeEventListener('focusin', onFocusIn)
+      document.removeEventListener('focusout', onFocusOut)
+      const trapContainer = unref(forwardRef)
+
+      if (trapContainer) {
+        trapContainer.removeEventListener(FOCUS_AFTER_TRAPPED, trapOnFocus)
+
+        const releasedEvent = new Event(
+          FOCUS_AFTER_RELEASED,
+          FOCUS_AFTER_TRAPPED_OPTS
+        )
+        trapContainer.addEventListener(FOCUS_AFTER_RELEASED, releaseOnFocus)
+        trapContainer.dispatchEvent(releasedEvent)
+
+        if (!releasedEvent.defaultPrevented) {
+          tryFocus(lastFocusBeforeMounted ?? document.body, true)
+        }
+
+        trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, trapOnFocus)
+        focusableStack.remove(focusLayer)
+      }
+    }
+
+    onMounted(() => {
+      if (props.trapped) {
+        startTrap()
+      }
 
       watch(
         () => props.trapped,
         (trapped) => {
           if (trapped) {
-            document.addEventListener('focusin', onFocusIn)
-            document.addEventListener('focusout', onFocusOut)
+            startTrap()
           } else {
-            cleanupDocumentListeners()
+            stopTrap()
           }
-        },
-        { immediate: true }
+        }
       )
     })
 
     onBeforeUnmount(() => {
-      cleanupDocumentListeners()
-      const trapContainer = unref(forwardRef)
-
-      if (trapContainer) {
-        trapContainer.removeEventListener(FOCUS_ON_MOUNT, focusOnMount)
-        const unmountEvent = new Event(FOCUS_ON_UNMOUNT, FOCUS_ON_MOUNT_OPTS)
-
-        trapContainer.addEventListener(FOCUS_ON_UNMOUNT, focusOnUnmount)
-        trapContainer.dispatchEvent(unmountEvent)
-
-        if (!unmountEvent.defaultPrevented) {
-          tryFocus(lastFocusBeforeMounted ?? document.body, true)
-        }
-
-        trapContainer.removeEventListener(FOCUS_ON_UNMOUNT, focusOnMount)
-        focusableStack.remove(focusLayer)
+      if (props.trapped) {
+        stopTrap()
       }
     })
 
     return {
-      focusTrapRef,
-      forwardRef,
       onKeydown,
     }
   },

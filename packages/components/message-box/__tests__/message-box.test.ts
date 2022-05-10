@@ -260,4 +260,52 @@ describe('MessageBox', () => {
       ElMessageBox._context = null
     })
   })
+
+  describe('accessibility', () => {
+    test('title attribute should set aria-label', async () => {
+      const title = 'Hello World'
+      MessageBox({
+        type: 'success',
+        title,
+        message: '这是一段内容',
+      })
+      await rAF()
+      const msgbox: HTMLElement = document.querySelector(selector)!
+      const msgboxDialog = msgbox?.querySelector('[role="dialog"]')!
+      expect(msgboxDialog.getAttribute('aria-label')).toBe(title)
+      expect(msgboxDialog.getAttribute('aria-labelledby')).toBeFalsy()
+    })
+
+    test('aria-describedby should point to modal body when not prompt', async () => {
+      MessageBox({
+        type: 'success',
+        message: '这是一段内容',
+      })
+      await rAF()
+      const msgbox: HTMLElement = document.querySelector(selector)!
+      const msgboxDialog = msgbox.querySelector('[role="dialog"]')!
+      const msgboxContent = msgboxDialog.querySelector(
+        '.el-message-box__content'
+      )!
+      expect(msgboxDialog.getAttribute('aria-describedby')).toBe(
+        msgboxContent.getAttribute('id')
+      )
+    })
+
+    test('aria-describedby should not be used when prompt; label attached to input', async () => {
+      const message = '这是一段内容'
+      MessageBox.prompt(message, {
+        type: 'success',
+      })
+      await rAF()
+      const msgbox: HTMLElement = document.querySelector(selector)!
+      const msgboxDialog = msgbox.querySelector('[role="dialog"]')!
+      const label = msgboxDialog.querySelector('label')!
+      const input = msgboxDialog.querySelector('input')!
+
+      expect(msgboxDialog.getAttribute('aria-describedby')).toBeFalsy()
+      expect(label.getAttribute('for')).toBe(input.getAttribute('id'))
+      expect(label.textContent).toBe(message)
+    })
+  })
 })

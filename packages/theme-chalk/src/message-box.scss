@@ -23,6 +23,10 @@
   overflow: hidden;
   backface-visibility: hidden;
 
+  &:focus {
+    outline: none !important;
+  }
+
   @at-root .#{$namespace}-overlay.is-message-box {
     .#{$namespace}-overlay-message-box {
       text-align: center;
