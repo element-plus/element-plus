@@ -56,9 +56,9 @@ class LangDB {
     if (!this.db) await this.initDB()
 
     return new Promise<string>((resolve) => {
-      const transaction = this.db!.transaction(this.storeNames)
-      const objectStore = transaction.objectStore(this.storeNames)
-      const request = objectStore.get(1)
+      const request = this.db!.transaction(this.storeNames)
+        .objectStore(this.storeNames)
+        .get(1)
 
       request.onsuccess = () => {
         if (request.result) {
