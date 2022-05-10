@@ -118,7 +118,7 @@ export const useTree = (
           const option = select.value?.options.get(
             getNodeValByProp('value', data)
           )
-          if (isFunction(select.value?.valueDisplay)) {
+          if (isFunction(select.value?.formatSelectionLabel)) {
             option.data = toRaw(data)
             option.node = toRaw(node)
           }

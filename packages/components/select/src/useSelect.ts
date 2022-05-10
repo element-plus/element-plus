@@ -57,7 +57,7 @@ export function useSelectStates(props) {
     isSilentBlur: false,
     prefixWidth: 11,
     tagInMultiLine: false,
-    // tree-select value-display
+    // tree-select format-selection-label
     data: null as any,
     node: null as any,
   })
@@ -446,8 +446,8 @@ export const useSelect = (props, states: States, ctx) => {
       } else {
         states.createdSelected = false
       }
-      states.selectedLabel = isFunction(props.valueDisplay)
-        ? props.valueDisplay(option)
+      states.selectedLabel = isFunction(props.formatSelectionLabel)
+        ? props.formatSelectionLabel(option)
         : option.currentLabel
       states.selected = option
       if (props.filterable) states.query = states.selectedLabel
@@ -459,8 +459,8 @@ export const useSelect = (props, states: States, ctx) => {
     if (Array.isArray(props.modelValue)) {
       props.modelValue.forEach((value) => {
         const option = getOption(value)
-        if (isFunction(props.valueDisplay)) {
-          option.currentLabel = props.valueDisplay(option)
+        if (isFunction(props.formatSelectionLabel)) {
+          option.currentLabel = props.formatSelectionLabel(option)
         }
         result.push(option)
       })

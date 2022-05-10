@@ -345,7 +345,7 @@ export default defineComponent({
     noDataText: String,
     remoteMethod: Function,
     filterMethod: Function,
-    valueDisplay: Function,
+    formatSelectionLabel: Function,
     multiple: Boolean,
     multipleLimit: {
       type: Number,

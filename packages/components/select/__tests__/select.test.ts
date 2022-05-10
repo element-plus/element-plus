@@ -2042,10 +2042,10 @@ describe('Select', () => {
       expect(formItem.attributes().role).toBe('group')
     })
   })
-  test('value-display format diaplay label', async () => {
+  test('format-selection-label format diaplay label', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" :value-display="labelFormat">
+      <el-select v-model="value" :format-selection-label="formatLabel">
         <el-option
           v-for="item in options"
           :label="item.label"
@@ -2056,7 +2056,7 @@ describe('Select', () => {
       </el-select>
     `,
       () => ({
-        labelFormat(option: any) {
+        formatLabel(option: any) {
           return `${option.currentLabel}123`
         },
         options: [
@@ -2077,10 +2077,10 @@ describe('Select', () => {
     expect(findInnerInput().value).toEqual('双皮奶123')
   })
 
-  test('value-display multiple format diaplay label', async () => {
+  test('format-selection-label multiple format diaplay label', async () => {
     wrapper = _mount(
       `
-      <el-select v-model="value" multiple :value-display="labelFormat">
+      <el-select v-model="value" multiple :format-selection-label="formatLabel">
         <el-option
           v-for="item in options"
           :label="item.label"
@@ -2091,7 +2091,7 @@ describe('Select', () => {
       </el-select>
     `,
       () => ({
-        labelFormat(option: any) {
+        formatLabel(option: any) {
           return `${option.currentLabel}123`
         },
         options: [
