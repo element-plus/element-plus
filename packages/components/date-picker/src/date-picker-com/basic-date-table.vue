@@ -272,8 +272,7 @@ export default defineComponent({
           await nextTick()
           currentCellRef.value?.focus()
         }
-      },
-      { immediate: true }
+      }
     )
 
     const focus = async () => {
