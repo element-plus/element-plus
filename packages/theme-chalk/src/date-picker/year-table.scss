@@ -34,10 +34,11 @@
 
     .cell {
       width: 48px;
-      height: 32px;
+      height: 36px;
       display: block;
-      line-height: 32px;
+      line-height: 36px;
       color: getCssVar('datepicker-text-color');
+      border-radius: 18px;
       margin: 0 auto;
 
       &:hover {
@@ -47,6 +48,13 @@
 
     &.current:not(.disabled) .cell {
       color: getCssVar('datepicker-active-color');
+    }
+
+    &:focus-visible {
+      outline: none;
+      .cell {
+        outline: 2px solid getCssVar('datepicker-active-color');
+      }
     }
   }
 }

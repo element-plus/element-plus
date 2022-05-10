@@ -1,7 +1,9 @@
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { useAttrs } from '../use-attrs'
+
+import type { ComputedRef } from 'vue'
 
 const CLASS = 'a'
 const WIDTH = '50px'
@@ -14,7 +16,7 @@ const handleClick = vi.fn()
 const genComp = (
   inheritAttrs = true,
   excludeListeners = false,
-  excludeKeys: string[] = []
+  excludeKeys?: ComputedRef<string[]>
 ) => {
   return defineComponent({
     inheritAttrs,
@@ -86,7 +88,13 @@ describe('useAttrs', () => {
   })
 
   it('excluded attributes should not bind to child node', async () => {
-    const wrapper = _mount(genComp(true, false, [TEST_KEY]))
+    const wrapper = _mount(
+      genComp(
+        true,
+        false,
+        computed(() => [TEST_KEY])
+      )
+    )
     const span = wrapper.find('span')
 
     expect(span.attributes(TEST_KEY)).toBeUndefined()

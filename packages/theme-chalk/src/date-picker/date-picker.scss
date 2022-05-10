@@ -74,6 +74,10 @@
     &:hover {
       color: getCssVar('datepicker-hover-text-color');
     }
+    &:focus-visible {
+      outline: none;
+      color: getCssVar('datepicker-hover-text-color');
+    }
 
     &.active {
       color: getCssVar('datepicker-active-color');
