@@ -1,6 +1,7 @@
 import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
+import { ElFormItem } from '@element-plus/components/form'
 import ColorPicker from '../src/index.vue'
 import type { ComponentPublicInstance } from 'vue'
 
@@ -21,6 +22,7 @@ const _mount = (template: string, data: () => { [key: string]: any }) => {
   const Component = defineComponent({
     components: {
       ElColorPicker: ColorPicker,
+      ElFormItem,
     },
     data,
     template,
@@ -98,7 +100,7 @@ describe('Color-picker', () => {
     )
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
-    document.querySelector<HTMLElement>('.el-color-dropdown__btn').click()
+    document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
     expect(wrapper.vm.color).toEqual('#FF0000')
     wrapper.unmount()
@@ -112,7 +114,7 @@ describe('Color-picker', () => {
     )
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
-    document.querySelector<HTMLElement>('.el-color-dropdown__btn').click()
+    document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
     expect(wrapper.vm.color).toEqual('#FF0000FF')
     wrapper.unmount()
@@ -348,7 +350,7 @@ describe('Color-picker', () => {
       .querySelector<HTMLElement>(
         '.el-color-predefine__color-selector:nth-child(4)'
       )
-      .click()
+      ?.click()
     await nextTick()
     expect(colorPickerWrapper.vm.color.get('hue')).toEqual(180)
     expect(colorPickerWrapper.vm.color.get('saturation')).toEqual(65)
@@ -359,7 +361,7 @@ describe('Color-picker', () => {
       .querySelector<HTMLElement>(
         '.el-color-predefine__color-selector:nth-child(3)'
       )
-      .click()
+      ?.click()
     await nextTick()
     expect(colorPickerWrapper.vm.color.get('hue')).toEqual(250)
     expect(colorPickerWrapper.vm.color.get('saturation')).toEqual(54)
@@ -395,7 +397,7 @@ describe('Color-picker', () => {
       .querySelector<HTMLElement>(
         '.el-color-predefine__color-selector:nth-child(4)'
       )
-      .click()
+      ?.click()
     await nextTick()
     expect(
       predefineWrapper
@@ -450,5 +452,58 @@ describe('Color-picker', () => {
     await nextTick()
     expect(onActiveChange).not.toHaveBeenCalled()
     wrapper.unmount()
+  })
+
+  describe('form item accessibility integration', () => {
+    it('automatic id attachment', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-color-picker />
+        </el-form-item>`,
+        () => ({})
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const colorPickerButton = wrapper.find('.el-color-picker')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItemLabel.attributes().for).toBe(
+        colorPickerButton.attributes().id
+      )
+    })
+
+    it('specified id attachment', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-color-picker id="foobar" />
+        </el-form-item>`,
+        () => ({})
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const colorPickerButton = wrapper.find('.el-color-picker')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(colorPickerButton.attributes().id).toBe('foobar')
+      expect(formItemLabel.attributes().for).toBe(
+        colorPickerButton.attributes().id
+      )
+    })
+
+    it('form item role is group when multiple inputs', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="Foobar" data-test-ref="item">
+          <el-color-picker />
+          <el-color-picker />
+        </el-form-item>`,
+        () => ({})
+      )
+
+      await nextTick()
+      const formItem = wrapper.find('[data-test-ref="item"]')
+      expect(formItem.attributes().role).toBe('group')
+    })
   })
 })

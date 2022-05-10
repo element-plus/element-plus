@@ -127,7 +127,7 @@ describe('TreeSelect.vue', () => {
     expect(select.vm.modelValue).toBe(1)
     expect(wrapperRef.getCheckedKeys()).toEqual([1])
 
-    await tree.findAll('.el-checkbox')[1].trigger('click')
+    await tree.findAll('.el-checkbox__original')[1].trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toBe(11)
     expect(wrapperRef.getCheckedKeys()).toEqual([11])

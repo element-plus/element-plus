@@ -80,10 +80,10 @@ columns[0].headerCellRenderer = (props: HeaderCellSlotProps) => {
                 </ElCheckbox>
               </div>
               <div class="el-table-v2__demo-filter">
-                <ElButton type="text" onClick={onFilter}>
+                <ElButton text onClick={onFilter}>
                   Confirm
                 </ElButton>
-                <ElButton type="text" onClick={onReset}>
+                <ElButton text onClick={onReset}>
                   Reset
                 </ElButton>
               </div>

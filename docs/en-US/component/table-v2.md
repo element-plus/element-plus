@@ -3,7 +3,7 @@ title: Virtualized Table
 lang: en-US
 ---
 
-# Virtualized Table <el-tag round effect="plain">Beta</el-tag>
+# Virtualized Table <VersionTag version="beta" />
 
 Along with the evolutionary web development, table component has always been the most popular component in our web apps especially for dashboards, data analysis. For [Table V1](./table.md), with even just 1000 records of data, it can be very annoying when using it, because the poor performance.
 
@@ -28,6 +28,26 @@ table-v2/basic
 
 :::
 
+## Auto resizer
+
+When you do not feel like you want to pass the `width` and `height` property to the table, you can use the `AutoResizer`
+component to wrap the table component and it will update the width and height for you automatically.
+
+Resize your browser to see how it works.
+
+:::tip
+
+Make sure the parent node of `AutoResizer` **HAS A FIXED HEIGHT**, because the height value was set to `100%` by default.
+You may also set it via passing through `style` attribute to `AutoResizer`.
+
+:::
+
+:::demo
+
+table-v2/auto-resizer
+
+:::
+
 ## Customize Cell Renderer
 
 Of course, you can render the table cell per your needs, here is a simple example of how to customize your cell.
@@ -35,6 +55,26 @@ Of course, you can render the table cell per your needs, here is a simple exampl
 :::demo
 
 table-v2/cell-templating
+
+:::
+
+## Table with selections
+
+Using customized cell renderer to allow selection for your table.
+
+:::demo
+
+table-v2/selection
+
+:::
+
+## Inline editing
+
+Just like selections we demonstrated above, you can use the same method to enable inline editing.
+
+:::demo
+
+table-v2/inline-editing
 
 :::
 
@@ -120,6 +160,17 @@ might seem strange to your users since the it is unclear which column is being s
 :::demo
 
 table-v2/controlled-sort
+
+:::
+
+## Cross hovering
+
+When the list is big, and sometimes you get lost which row and column you are currently visiting, using this is extremely
+helpful.
+
+:::demo
+
+table-v2/cross-hovering
 
 :::
 
@@ -223,6 +274,26 @@ table-v2/overlay
 
 :::
 
+## Manual scrolling
+
+Use the methods exposed by Table V2 to scroll manually/programmatically with desired offset/rows.
+
+:::tip
+
+The second parameter for `scrollToRow` is the scrolling strategy which by default is `auto`, it calculates the position
+to scroll by itself. You can pass the strategy yourselves if you want to scroll to a specific position.
+The available options are `"auto" | "center" | "end" | "start" | "smart"`
+
+The difference between `smart` and `auto` is that `auto` is a subset of `smart` scroll strategy.
+
+:::
+
+:::demo
+
+table-v2/manual-scroll
+
+:::
+
 ## TableV2 Attributes
 
 | Attribute                 | Description                                                                                                                | Type                                                 | Default   |
@@ -238,6 +309,7 @@ table-v2/overlay
 | row-key                   | The key of each row, if not provided, it will be the index of the row                                                      | String/Symbol/Number                                 | id        |
 | row-props                 | Customized props name passed to row component                                                                              | Object/Function\<[RowPropsGetter](#typings)\>        | -         |
 | row-height                | The height of each row, used for calculating the total height of the table                                                 | Number                                               | 50        |
+| cell-props                | extra props passed to each cell (except header cells)                                                                      | Object/Function\<[CellPropsGetter](#typings)\>       | -         |
 | columns                   | An array of column definitions.                                                                                            | Array\<[Column](#column-attribute)\>                 | -         |
 | data                      | An array of data to be rendered in the table.                                                                              | Array\<[Data](#typings)\>                            | []        |
 | data-getter               | An method which helps customizing the how to fetch the data from the data source.                                          | Function                                             | -         |
@@ -268,7 +340,7 @@ table-v2/overlay
 | empty       | -                               |
 | overlay     | -                               |
 
-## Table Methods
+## Table Events
 
 | Event Name           | Description                                   | Parameters                               |
 | -------------------- | --------------------------------------------- | ---------------------------------------- |
@@ -278,6 +350,15 @@ table-v2/overlay
 | scroll               | Invoked after scrolled                        | Object\<[ScrollParams](#typings)\>       |
 | rows-rendered        | Invoked when rows are rendered                | Object\<[RowsRenderedParams](#typings)\> |
 | row-event-handlers   | A collection of handlers attached to each row | Object\<[RowEventHandlers](#typings)\>   |
+
+## Table Methods
+
+| Event Name   | Description                                          | Parameters                                                                 |
+| ------------ | ---------------------------------------------------- | -------------------------------------------------------------------------- |
+| scrollTo     | Scroll to a given position                           | `{ scrollLeft?: number, scrollTop?: number}`                               |
+| scrollToLeft | Scroll to a given horizontal position                | `scrollLeft: number`                                                       |
+| scrollToTop  | Scroll to a given vertical position                  | `scrollTop: number`                                                        |
+| scrollToRow  | scroll to a given row with specified scroll strategy | `row: number, strategy?: "auto" \|"center" \| "end" \| "start" \| "smart"` |
 
 :::tip
 
@@ -340,6 +421,15 @@ type RowPropsGetter = (param: {
   rowData: any
   rowIndex: number
 }) => Record<string, any>
+
+type CellPropsGetter = (param: {
+  column: Column<any>
+  columns: Column<any>[]
+  columnIndex: number
+  cellData: any
+  rowData: any
+  rowIndex: number
+}) => void
 
 type CellRenderProps<T> = {
   cellData: T
@@ -431,3 +521,17 @@ type SortState = Record<KeyType, SortOrder>
 ```
 
 </details>
+
+## FAQs
+
+#### How do I render a list with checkbox in the first column?
+
+Since you are allowed to define your own cell renderer, you can do what the example
+[Customize Cell Renderer](#customize-cell-renderer) did to render `checkbox` yourselves, and maintaining the
+state by yourselves.
+
+#### Why virtualized table provides less features than [TableV1](./table.md)
+
+For virtualized table, we intend to provide less feature and let our users to implement their own features per demand.
+Integrating too many features makes the code hard to maintain and for most users the basic features are enough. Some key
+features were not developed yet. We would love to hear from you. Join [Discord](https://discord.link/ElementPlus) to stay tuned.

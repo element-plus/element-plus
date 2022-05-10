@@ -71,8 +71,6 @@ const Row = ({ cells, rowData }) => {
 }
 
 Row.inheritAttrs = false
-
-console.log(data)
 </script>
 
 <style>

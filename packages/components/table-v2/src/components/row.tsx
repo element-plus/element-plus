@@ -63,16 +63,14 @@ const useTableRow = (props: TableV2RowProps) => {
 
   const eventHandlers = computed(() => {
     const { rowData, rowIndex, rowKey, onRowHover } = props
-    const handlers = props.rowEventHandlers || ({} as RowEventHandlers<any>)
+    const handlers = props.rowEventHandlers || ({} as RowEventHandlers)
     const eventHandlers = {} as {
-      [key in keyof RowEventHandlers<any>]: (e: Event) => void
+      [key in keyof RowEventHandlers]: (e: Event) => void
     }
 
     Object.entries(handlers).forEach(([eventName, handler]) => {
       if (isFunction(handler)) {
-        eventHandlers[eventName as keyof RowEventHandlers<any>] = (
-          event: Event
-        ) => {
+        eventHandlers[eventName as keyof RowEventHandlers] = (event: Event) => {
           handler({
             event,
             rowData,

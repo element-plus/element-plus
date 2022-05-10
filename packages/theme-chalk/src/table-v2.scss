@@ -52,6 +52,7 @@
 }
 
 @include b('table-v2') {
+  font-size: 14px;
   * {
     box-sizing: border-box;
   }
@@ -177,6 +178,10 @@
     transition: background-color getCssVar('transition-duration', '');
 
     @include when('hovered') {
+      background-color: getCssVar('table-row', 'hover-bg-color');
+    }
+
+    &:hover {
       background-color: getCssVar('table-row', 'hover-bg-color');
     }
 

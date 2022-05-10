@@ -1,6 +1,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
+import { ElFormItem } from '@element-plus/components/form'
 import Checkbox from '../src/checkbox.vue'
 import CheckboxButton from '../src/checkbox-button.vue'
 import CheckboxGroup from '../src/checkbox-group.vue'
@@ -15,6 +16,7 @@ const _mount = <D>(
       'el-checkbox': Checkbox,
       'el-checkbox-group': CheckboxGroup,
       'el-checkbox-button': CheckboxButton,
+      'el-form-item': ElFormItem,
     },
     template,
     data,
@@ -35,42 +37,115 @@ describe('Checkbox', () => {
     expect(wrapper.classes('is-checked')).toBe(false)
   })
 
-  test('no v-model', async () => {
-    const wrapper = _mount('<el-checkbox label="a"/>', () => ({
-      checkbox: false,
-    }))
-    expect(wrapper.classes('is-checked')).toBe(false)
+  describe('no v-model', () => {
+    test('checkbox without label', async () => {
+      const wrapper = _mount('<el-checkbox />', () => ({
+        checkbox: false,
+      }))
+      expect(wrapper.classes('is-checked')).toBe(false)
+    })
+
+    test('checkbox with label attribute', async () => {
+      const wrapper = _mount('<el-checkbox label="a"/>', () => ({
+        checkbox: false,
+      }))
+      expect(wrapper.classes('is-checked')).toBe(false)
+    })
   })
 
-  test('disabled', async () => {
-    const wrapper = _mount(
-      '<el-checkbox v-model="checkbox" disabled label="a"/>',
-      () => ({ checkbox: false })
-    )
-    expect(wrapper.classes()).toContain('is-disabled')
-    await wrapper.trigger('click')
-    expect(wrapper.classes()).toContain('is-disabled')
+  describe('disabled', () => {
+    test('checkbox without label', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="test">
+          <el-checkbox ref="check" v-model="checkbox" disabled/>
+        </el-form-item>`,
+        () => ({ checkbox: false })
+      )
+      const checkbox = wrapper.findComponent({ ref: 'check' })
+      expect(checkbox.classes()).toContain('is-disabled')
+      expect(wrapper.vm.checkbox).toBe(false)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(checkbox.classes()).toContain('is-disabled')
+      expect(wrapper.vm.checkbox).toBe(false)
+    })
+
+    test('checkbox with label attribute', async () => {
+      const wrapper = _mount(
+        '<el-checkbox v-model="checkbox" disabled label="a"/>',
+        () => ({ checkbox: false })
+      )
+      expect(wrapper.classes()).toContain('is-disabled')
+      expect(wrapper.vm.checkbox).toBe(false)
+      await wrapper.trigger('click')
+      await nextTick()
+      expect(wrapper.classes()).toContain('is-disabled')
+      expect(wrapper.vm.checkbox).toBe(false)
+    })
   })
 
-  test('change event', async () => {
-    const wrapper = _mount(
-      `<el-checkbox v-model="checked" @change="onChange" />`,
-      () => ({
-        data: null,
-        checked: false,
-      }),
-      {
-        methods: {
-          onChange(val: boolean) {
-            this.data = val
+  describe('change event', () => {
+    test('checkbox without label', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="test">
+          <el-checkbox ref="check" v-model="checked" @change="onChange" />
+        </el-form-item>`,
+        () => ({
+          data: null,
+          checked: false,
+        }),
+        {
+          methods: {
+            onChange(val: boolean) {
+              wrapper.setData({ data: val })
+            },
           },
-        },
-      }
-    )
+        }
+      )
+      const vm = wrapper.vm
+      await wrapper.findComponent({ ref: 'check' }).trigger('click')
+      expect(vm.data).toBe(true)
+    })
 
-    const vm = wrapper.vm
-    await wrapper.trigger('click')
-    expect(vm.data).toBe(true)
+    test('checkbox with label attribute', async () => {
+      const wrapper = _mount(
+        `<el-checkbox v-model="checked" label="Foobar" @change="onChange" />`,
+        () => ({
+          data: null,
+          checked: false,
+        }),
+        {
+          methods: {
+            onChange(val: boolean) {
+              wrapper.setData({ data: val })
+            },
+          },
+        }
+      )
+      const vm = wrapper.vm
+      await wrapper.trigger('click')
+      expect(vm.data).toBe(true)
+    })
+
+    test('checkbox with label as slot content', async () => {
+      const wrapper = _mount(
+        `<el-checkbox v-model="checked" @change="onChange">Foobar</el-checkbox>`,
+        () => ({
+          data: null,
+          checked: false,
+        }),
+        {
+          methods: {
+            onChange(val: boolean) {
+              wrapper.setData({ data: val })
+            },
+          },
+        }
+      )
+      const vm = wrapper.vm
+      await wrapper.trigger('click')
+      expect(vm.data).toBe(true)
+    })
   })
 
   test('checkbox group', async () => {
@@ -107,7 +182,7 @@ describe('Checkbox', () => {
         <el-checkbox label="d" ref="d"></el-checkbox>
       </el-checkbox-group>
       `,
-      () => ({ checkList: undefined })
+      () => ({ checkList: undefined } as any)
     )
     const vm = wrapper.vm
     await wrapper.findComponent({ ref: 'a' }).trigger('click')
@@ -123,11 +198,11 @@ describe('Checkbox', () => {
         <el-checkbox label="b" ref="b"></el-checkbox>
       </el-checkbox-group>
       `,
-      () => ({ checkList: [], data: null }),
+      () => ({ checkList: [], data: null } as any),
       {
         methods: {
           onChange(val: string[]) {
-            this.data = val
+            ;(this as any).data = val
           },
         },
       }
@@ -159,16 +234,57 @@ describe('Checkbox', () => {
     expect(vm.checkList).toEqual(['a'])
   })
 
-  test('true false label', async () => {
-    const wrapper = _mount(
-      `<el-checkbox true-label="a" :false-label="3" v-model="checked"></el-checkbox>`,
-      () => ({
-        checked: 'a',
-      })
-    )
-    const vm = wrapper.vm
-    await wrapper.trigger('click')
-    expect(vm.checked).toBe(3)
+  describe('true false label', () => {
+    test('without label', async () => {
+      const wrapper = _mount(
+        `<el-form-item label="test">
+          <el-checkbox ref="check" true-label="a" :false-label="3" v-model="checked" />
+        </el-form-item>`,
+        () => ({
+          checked: 'a',
+        })
+      )
+      const vm = wrapper.vm
+      const checkbox = wrapper.findComponent({ ref: 'check' })
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(vm.checked).toBe(3)
+      await checkbox.trigger('click')
+      await nextTick()
+      expect(vm.checked).toBe('a')
+    })
+
+    test('with label attribute', async () => {
+      const wrapper = _mount(
+        `<el-checkbox label="Foobar" true-label="a" :false-label="3" v-model="checked" />`,
+        () => ({
+          checked: 'a',
+        })
+      )
+      const vm = wrapper.vm
+      await wrapper.trigger('click')
+      await nextTick()
+      expect(vm.checked).toBe(3)
+      await wrapper.trigger('click')
+      await nextTick()
+      expect(vm.checked).toBe('a')
+    })
+
+    test('with label as slot content', async () => {
+      const wrapper = _mount(
+        `<el-checkbox true-label="a" :false-label="3" v-model="checked">Foobar</el-checkbox>`,
+        () => ({
+          checked: 'a',
+        })
+      )
+      const vm = wrapper.vm
+      await wrapper.trigger('click')
+      await nextTick()
+      expect(vm.checked).toBe(3)
+      await wrapper.trigger('click')
+      await nextTick()
+      expect(vm.checked).toBe('a')
+    })
   })
 
   test('check', () => {
@@ -237,8 +353,7 @@ describe('check-button', () => {
 
   test('change event', async () => {
     const wrapper = _mount(
-      `
-      <el-checkbox-button v-model="checked" @change="onChange" />
+      `<el-checkbox-button v-model="checked" @change="onChange" />
       `,
       () => ({
         data: '',
@@ -247,7 +362,7 @@ describe('check-button', () => {
       {
         methods: {
           onChange(val: boolean) {
-            this.data = val
+            wrapper.setData({ data: val })
           },
         },
       }
@@ -275,7 +390,9 @@ describe('check-button', () => {
       {
         methods: {
           onChange(val: string[]) {
-            this.data = val
+            wrapper.setData({
+              data: val,
+            })
           },
         },
       }
@@ -392,41 +509,156 @@ describe('check-button', () => {
     expect(vm.checkList).toEqual(['a'])
   })
 
-  test('true false lable', async () => {
-    const wrapper = _mount(
-      `<el-checkbox-button true-label="a" :false-label="3" v-model="checked" />`,
-      () => ({
-        checked: 'a',
-      })
-    )
-    const vm = wrapper.vm
-    await wrapper.trigger('click')
-    expect(vm.checked).toBe(3)
+  describe('checked prop', () => {
+    test('check', () => {
+      const wrapper = _mount(
+        `
+        <div>
+          <el-checkbox-button v-model="checked" checked />
+          <el-checkbox-group v-model="checklist">
+            <el-checkbox-button checked label="a" />
+          </el-checkbox-group>
+        </div>
+        `,
+        () => ({
+          checked: false,
+          checklist: [],
+        })
+      )
+      expect(wrapper.vm.checked).toBe(true)
+      expect(wrapper.vm.checklist).toEqual(['a'])
+    })
+
+    test('checked', () => {
+      const wrapper = _mount(`<el-checkbox checked />`, () => ({}))
+      expect(wrapper.find('.el-checkbox').classes().toString()).toMatch(
+        'is-checked'
+      )
+    })
   })
 
-  test('check', () => {
-    const wrapper = _mount(
-      `
-      <div>
-        <el-checkbox-button v-model="checked" checked />
-        <el-checkbox-group v-model="checklist">
-          <el-checkbox-button checked label="a" />
-        </el-checkbox-group>
-      </div>
-      `,
-      () => ({
-        checked: false,
-        checklist: [],
-      })
-    )
-    expect(wrapper.vm.checked).toBe(true)
-    expect(wrapper.vm.checklist).toEqual(['a'])
-  })
+  describe('form item accessibility integration', () => {
+    test('checkbox, no label, automatic label attachment', async () => {
+      const wrapper = _mount(
+        `
+        <el-form-item ref="item" label="Test">
+          <el-checkbox ref="checkbox" />
+        </el-form-item>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const formItem = await wrapper.findComponent({ ref: 'item' })
+      const checkbox = await wrapper.findComponent({ ref: 'checkbox' })
+      const formItemLabel = formItem.find('.el-form-item__label')
+      const checkboxInput = checkbox.find('.el-checkbox__original')
+      expect(checkboxInput.attributes().id).toBe(formItemLabel.attributes().for)
+    })
 
-  test('checked', () => {
-    const wrapper = _mount(`<el-checkbox checked />`, () => ({}))
-    expect(wrapper.find('.el-checkbox').classes().toString()).toMatch(
-      'is-checked'
-    )
+    test('checkbox with label, form item is group', async () => {
+      const wrapper = _mount(
+        `
+        <el-form-item ref="item" label="Test">
+          <el-checkbox label="Foo" ref="checkbox" />
+        </el-form-item>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const formItem = await wrapper.findComponent({ ref: 'item' })
+      const checkbox = await wrapper.findComponent({ ref: 'checkbox' })
+      const checkboxLabel = checkbox.find('.el-checkbox__label')
+      const checkboxInput = checkbox.find('.el-checkbox__original')
+      expect(checkboxLabel.element.textContent).toBe('Foo')
+      expect(checkboxInput.attributes().id).toBeFalsy()
+      expect(formItem.attributes().role).toBe('group')
+    })
+
+    test('single checkbox group in form item', async () => {
+      const wrapper = _mount(
+        `
+        <el-form-item ref="item" label="Test">
+          <el-checkbox-group ref="checkboxGroup">
+            <el-checkbox label="Foo" />
+            <el-checkbox label="Bar" />
+          </el-checkbox-group>
+        </el-form-item>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const formItem = await wrapper.findComponent({ ref: 'item' })
+      const checkboxGroup = await wrapper.findComponent({
+        ref: 'checkboxGroup',
+      })
+      const formItemLabel = formItem.find('.el-form-item__label')
+      expect(formItem.attributes().role).toBeFalsy()
+      expect(checkboxGroup.attributes().role).toBe('group')
+      expect(formItemLabel.attributes().for).toBe(checkboxGroup.attributes().id)
+      expect(formItemLabel.attributes().id).toBe(
+        checkboxGroup.attributes()['aria-labelledby']
+      )
+    })
+
+    test('single checkbox group in form item, override label', async () => {
+      const wrapper = _mount(
+        `
+        <el-form-item ref="item" label="Test">
+          <el-checkbox-group label="Foo" ref="checkboxGroup">
+            <el-checkbox label="Foo" />
+            <el-checkbox label="Bar" />
+          </el-checkbox-group>
+        </el-form-item>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const formItem = await wrapper.findComponent({ ref: 'item' })
+      const checkboxGroup = await wrapper.findComponent({
+        ref: 'checkboxGroup',
+      })
+      const formItemLabel = formItem.find('.el-form-item__label')
+      expect(formItemLabel.attributes().for).toBe(checkboxGroup.attributes().id)
+      expect(checkboxGroup.attributes().role).toBe('group')
+      expect(checkboxGroup.attributes()['aria-label']).toBe('Foo')
+      expect(checkboxGroup.attributes()['aria-labelledby']).toBeFalsy()
+    })
+
+    test('multiple checkbox groups in form item', async () => {
+      const wrapper = _mount(
+        `
+        <el-form-item ref="item" label="Test">
+          <el-checkbox-group label="Foo" ref="checkboxGroup1">
+            <el-checkbox label="Foo" />
+            <el-checkbox label="Bar" />
+          </el-checkbox-group>
+          <el-checkbox-group label="Bar" ref="checkboxGroup2">
+            <el-checkbox label="Foo" />
+            <el-checkbox label="Bar" />
+          </el-checkbox-group>
+        </el-form-item>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const formItem = await wrapper.findComponent({ ref: 'item' })
+      const checkboxGroup1 = await wrapper.findComponent({
+        ref: 'checkboxGroup1',
+      })
+      const checkboxGroup2 = await wrapper.findComponent({
+        ref: 'checkboxGroup2',
+      })
+      const formItemLabel = formItem.find('.el-form-item__label')
+      expect(formItem.attributes().role).toBe('group')
+      expect(formItem.attributes()['aria-labelledby']).toBe(
+        formItemLabel.attributes().id
+      )
+      expect(checkboxGroup1.attributes().role).toBe('group')
+      expect(checkboxGroup1.attributes()['aria-label']).toBe('Foo')
+      expect(checkboxGroup1.attributes()['aria-labelledby']).toBeFalsy()
+      expect(checkboxGroup2.attributes().role).toBe('group')
+      expect(checkboxGroup2.attributes()['aria-label']).toBe('Bar')
+      expect(checkboxGroup2.attributes()['aria-labelledby']).toBeFalsy()
+    })
   })
 })

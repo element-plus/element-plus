@@ -16,6 +16,10 @@ export const rateProps = buildProps({
     type: Number,
     default: 0,
   },
+  id: {
+    type: String,
+    default: undefined,
+  },
   lowThreshold: {
     type: Number,
     default: 2,
@@ -92,6 +96,10 @@ export const rateProps = buildProps({
   size: {
     type: String as PropType<ComponentSize>,
     validator: isValidComponentSize,
+  },
+  label: {
+    type: String,
+    default: undefined,
   },
 } as const)
 

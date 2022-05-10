@@ -143,8 +143,8 @@
     >
       <el-button
         v-show="selectionMode !== 'dates'"
+        text
         size="small"
-        type="text"
         class="el-picker-panel__link-btn"
         @click="changeToNow"
       >

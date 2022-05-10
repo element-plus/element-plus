@@ -40,6 +40,7 @@
         </span>
 
         <input
+          :id="inputId"
           ref="input"
           :class="nsInput.e('inner')"
           v-bind="attrs"
@@ -117,6 +118,7 @@
     <!-- textarea -->
     <template v-else>
       <textarea
+        :id="inputId"
         ref="textarea"
         :class="nsTextarea.e('inner')"
         v-bind="attrs"
@@ -180,6 +182,7 @@ import {
   useCursor,
   useDisabled,
   useFormItem,
+  useFormItemInputId,
   useNamespace,
   useSize,
 } from '@element-plus/hooks'
@@ -207,6 +210,9 @@ const slots = useSlots()
 
 const attrs = useAttrs()
 const { form, formItem } = useFormItem()
+const { inputId } = useFormItemInputId(props, {
+  formItemContext: formItem,
+})
 const inputSize = useSize()
 const inputDisabled = useDisabled()
 const nsInput = useNamespace('input')

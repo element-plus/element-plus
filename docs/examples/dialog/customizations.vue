@@ -1,5 +1,5 @@
 <template>
-  <el-button type="text" @click="dialogTableVisible = true"
+  <el-button text @click="dialogTableVisible = true"
     >open a Table nested Dialog</el-button
   >
 
@@ -12,7 +12,7 @@
   </el-dialog>
 
   <!-- Form -->
-  <el-button type="text" @click="dialogFormVisible = true"
+  <el-button text @click="dialogFormVisible = true"
     >open a Form nested Dialog</el-button
   >
 

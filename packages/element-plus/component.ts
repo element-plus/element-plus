@@ -85,7 +85,7 @@ import { ElSpace } from '@element-plus/components/space'
 import { ElStep, ElSteps } from '@element-plus/components/steps'
 import { ElSwitch } from '@element-plus/components/switch'
 import { ElTable, ElTableColumn } from '@element-plus/components/table'
-import { ElTableV2 } from '@element-plus/components/table-v2'
+import { ElAutoResizer, ElTableV2 } from '@element-plus/components/table-v2'
 import { ElTabPane, ElTabs } from '@element-plus/components/tabs'
 import { ElTag } from '@element-plus/components/tag'
 import { ElTimePicker } from '@element-plus/components/time-picker'
@@ -104,6 +104,7 @@ export default [
   ElAffix,
   ElAlert,
   ElAutocomplete,
+  ElAutoResizer,
   ElAvatar,
   ElBacktop,
   ElBadge,

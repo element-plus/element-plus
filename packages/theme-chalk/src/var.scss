@@ -39,6 +39,9 @@
 
   @include set-component-css-var('transition-function', $transition-function);
   @include set-component-css-var('transition', $transition);
+
+  // common component size
+  @include set-component-css-var('component-size', $common-component-size);
 }
 
 // for light

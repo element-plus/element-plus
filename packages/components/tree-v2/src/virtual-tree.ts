@@ -1,4 +1,9 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+  mutable,
+} from '@element-plus/utils'
 import type { InjectionKey } from 'vue'
 import type { TreeNodeData } from '../../tree/src/tree.type'
 import type {
@@ -82,7 +87,7 @@ export const treeProps = buildProps({
     default: 16,
   },
   icon: {
-    type: String,
+    type: iconPropType,
   },
   expandOnClickNode: {
     type: Boolean,

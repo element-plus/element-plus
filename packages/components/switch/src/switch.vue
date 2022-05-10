@@ -1,16 +1,13 @@
 <template>
-  <div
-    :class="switchKls"
-    role="switch"
-    :aria-checked="checked"
-    :aria-disabled="switchDisabled"
-    @click.prevent="switchValue"
-  >
+  <div :class="switchKls" @click.prevent="switchValue">
     <input
-      :id="id"
+      :id="inputId"
       ref="input"
       :class="ns.e('input')"
       type="checkbox"
+      role="switch"
+      :aria-checked="checked"
+      :aria-disabled="switchDisabled"
       :name="name"
       :true-value="activeValue"
       :false-value="inactiveValue"
@@ -98,6 +95,7 @@ import {
 import {
   useDisabled,
   useFormItem,
+  useFormItemInputId,
   useNamespace,
   useSize,
 } from '@element-plus/hooks'
@@ -118,6 +116,10 @@ export default defineComponent({
     const { formItem } = useFormItem()
     const switchDisabled = useDisabled(computed(() => props.loading))
     const ns = useNamespace('switch')
+
+    const { inputId } = useFormItemInputId(props, {
+      formItemContext: formItem,
+    })
 
     const switchSize = useSize()
     const isModelValue = ref(props.modelValue !== false)
@@ -244,6 +246,7 @@ export default defineComponent({
     return {
       ns,
       input,
+      inputId,
       core,
       switchDisabled,
       checked,

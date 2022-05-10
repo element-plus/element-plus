@@ -8,10 +8,6 @@
       ns.is('checked', modelValue === label),
       ns.m(size),
     ]"
-    role="radio"
-    :aria-checked="modelValue === label"
-    :aria-disabled="disabled"
-    :tabindex="tabIndex"
     @keydown.space.stop.prevent="modelValue = disabled ? modelValue : label"
   >
     <span
@@ -28,10 +24,9 @@
         :class="ns.e('original')"
         :value="label"
         type="radio"
-        aria-hidden="true"
         :name="name"
         :disabled="disabled"
-        tabindex="-1"
+        tabindex="tabIndex"
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"

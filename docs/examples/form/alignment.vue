@@ -1,5 +1,5 @@
 <template>
-  <el-radio-group v-model="labelPosition">
+  <el-radio-group v-model="labelPosition" label="label position">
     <el-radio-button label="left">Left</el-radio-button>
     <el-radio-button label="right">Right</el-radio-button>
     <el-radio-button label="top">Top</el-radio-button>

@@ -1,6 +1,7 @@
 import { ref, unref, watch } from 'vue'
 
 import type { Ref } from 'vue'
+import type { Alignment as ScrollStrategy } from '@element-plus/components/virtual-list'
 import type { TableV2Props } from '../table'
 import type { TableGridInstance } from '../table-grid'
 
@@ -14,6 +15,8 @@ type UseScrollBarProps = {
 
   onMaybeEndReached: () => void
 }
+
+export type { ScrollStrategy }
 
 export const useScrollbar = (
   props: TableV2Props,
@@ -63,6 +66,10 @@ export const useScrollbar = (
     if (scrollTop !== currentScrollTop) scrollToTop(scrollTop)
   }
 
+  function scrollToRow(row: number, strategy: ScrollStrategy = 'auto') {
+    mainTableRef.value?.scrollToRow(row, strategy)
+  }
+
   // When scrollTop changes, maybe reaching the bottom
   watch(
     () => unref(scrollPos).scrollTop,
@@ -77,6 +84,7 @@ export const useScrollbar = (
     scrollTo,
     scrollToLeft,
     scrollToTop,
+    scrollToRow,
     onScroll,
     onVerticalScroll,
   }
