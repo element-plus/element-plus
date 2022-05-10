@@ -317,6 +317,7 @@
 
     .#{$namespace}-input__inner {
       color: map.get($input-disabled, 'text-color');
+      cursor: not-allowed;
 
       &::placeholder {
         color: map.get($input-disabled, 'placeholder-color');
