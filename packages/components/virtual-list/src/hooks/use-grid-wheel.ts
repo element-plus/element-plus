@@ -39,6 +39,12 @@ export const useGridWheel = (
       x = 0
     }
 
+    // Special case for windows machine with shift key + wheel scrolling
+    if (e.shiftKey && y !== 0) {
+      x = y
+      y = 0
+    }
+
     if (
       hasReachedEdge(xOffset, yOffset) &&
       hasReachedEdge(xOffset + x, yOffset + y)

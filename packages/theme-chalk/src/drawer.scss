@@ -25,6 +25,10 @@ $directions: rtl, ltr, ttb, btt;
     }
   }
 
+  &__sr-focus:focus {
+    outline: none !important;
+  }
+
   &__header {
     align-items: center;
     color: rgb(114, 118, 123);
@@ -57,6 +61,7 @@ $directions: rtl, ltr, ttb, btt;
     color: inherit;
     background-color: transparent;
     outline: none;
+    &:focus,
     &:hover {
       i {
         color: getCssVar('color-primary');

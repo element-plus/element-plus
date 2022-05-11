@@ -68,6 +68,10 @@ export const usePopperContentProps = buildProps({
     type: Boolean,
     default: true,
   },
+  ariaLabel: {
+    type: String,
+    default: undefined,
+  },
   zIndex: Number,
 } as const)
 

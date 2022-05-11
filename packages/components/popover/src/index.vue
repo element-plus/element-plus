@@ -9,7 +9,6 @@
     :transition="transition"
     :popper-options="popperOptions"
     :tabindex="tabindex"
-    :append-to-body="appendToBody"
     :content="content"
     :offset="offset"
     :show-after="showAfter"
