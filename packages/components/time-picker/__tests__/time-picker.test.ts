@@ -1,12 +1,13 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, assert, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
+import { extractDateFormat, extractTimeFormat } from '../src/common/date-utils'
 
 const _mount = (template: string, data, otherObj?) =>
   mount(
@@ -23,6 +24,50 @@ const _mount = (template: string, data, otherObj?) =>
       attachTo: 'body',
     }
   )
+
+const formatList = [
+  'YYYYMMDDHHmmss',
+  'YYYYMMddhhmmss',
+  'YYYY-MM-DD HH:mm',
+  'YYYY-MM-DD-HH:mm',
+  'YYYY-MM-dd HH:mm:ss',
+  'YYYY-MM-dd HH:mm:ss Z',
+  'YYYY-MM-dd HH:mm:ss A',
+  'YYYY-MM-dd HH:mm:ss a',
+  'YYYY-MM-dd~~ HH:mm\'ss" a',
+  'YYYY年MM月DD日 hh时',
+  'YYYY年MM月DD日hh时',
+  '今年是YYYY年MM月DD日第hh时mm分钟ss秒新年快乐',
+]
+const dateArr = [
+  'YYYYMMDD',
+  'YYYYMMdd',
+  'YYYY-MM-DD',
+  'YYYY-MM-DD',
+  'YYYY-MM-dd',
+  'YYYY-MM-dd',
+  'YYYY-MM-dd',
+  'YYYY-MM-dd',
+  'YYYY-MM-dd~~',
+  'YYYY年MM月DD日',
+  'YYYY年MM月DD日',
+  '今年是YYYY年MM月DD',
+]
+
+const timeArr = [
+  'HHmmss',
+  'hhmmss',
+  'HH:mm',
+  '-HH:mm',
+  'HH:mm:ss',
+  'HH:mm:ss Z',
+  'HH:mm:ss A',
+  'HH:mm:ss a',
+  'HH:mm\'ss" a',
+  'hh时',
+  '日hh时',
+  '第hh时mm分钟ss秒新年快乐',
+]
 
 const makeRange = (start, end) => {
   const result = []
@@ -724,6 +769,19 @@ describe('TimePicker(range)', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+  })
+})
+
+describe('test Format fun', () => {
+  it('extractDateFormat', () => {
+    formatList.forEach((format, i) => {
+      expect(extractDateFormat(format)).toBe(dateArr[i])
+    })
+  })
+  it('extractTimeFormat', () => {
+    formatList.forEach((format, i) => {
+      assert.equal(extractTimeFormat(format), timeArr[i])
     })
   })
 })

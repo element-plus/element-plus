@@ -9,12 +9,8 @@ export const extractDateFormat = (format: string) => {
 }
 
 export const extractTimeFormat = (format: string) => {
-  let result = format
+  return format
+    .replace(extractDateFormat(format), '')
     .replace(/\W?D{1,2}|\W?Do|\W?d{1,4}|\W?M{1,4}|\W?Y{2,4}/g, '')
     .trim()
-  const timeChart = ['H', 'h', 'm', 's', 'Z', 'A', 'a']
-  while (result && !timeChart.includes(result[0])) {
-    result = result.slice(1)
-  }
-  return result
 }
