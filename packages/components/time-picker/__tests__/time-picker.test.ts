@@ -50,8 +50,8 @@ const dateArr = [
   'YYYY-MM-dd',
   'YYYY-MM-dd~~',
   'YYYY年MM月DD日',
-  'YYYY年MM月DD日',
-  '今年是YYYY年MM月DD',
+  'YYYY年MM月DD',
+  '今年是YYYY年MM月DD日',
 ]
 
 const timeArr = [
