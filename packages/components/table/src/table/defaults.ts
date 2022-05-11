@@ -135,6 +135,7 @@ interface TableProps<T> {
   className?: string
   style?: CSSProperties
   tableLayout: Layout
+  flexible: boolean
 }
 
 interface Sort {
@@ -256,6 +257,10 @@ export default {
     default: 'fixed',
   },
   scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
+  },
+  flexible: {
     type: Boolean,
     default: false,
   },
