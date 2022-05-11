@@ -46,8 +46,8 @@
 
 <script setup lang="ts">
 const buttons = [
-  { type: '', text: 'plain' },
   { type: 'link', text: 'link' },
+  { type: '', text: 'plain' },
   { type: 'primary', text: 'primary' },
   { type: 'success', text: 'success' },
   { type: 'info', text: 'info' },
