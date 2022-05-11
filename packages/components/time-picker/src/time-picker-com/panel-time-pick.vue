@@ -200,7 +200,7 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['isValidValue', isValidValue])
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
-    ctx.emit('set-picker-option', ['handleKeydown', handleKeydown])
+    ctx.emit('set-picker-option', ['handleKeydownInput', handleKeydown])
     ctx.emit('set-picker-option', [
       'getRangeAvailableTime',
       getRangeAvailableTime,

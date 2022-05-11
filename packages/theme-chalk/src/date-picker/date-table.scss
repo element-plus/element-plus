@@ -86,9 +86,17 @@
       }
     }
 
-    &.current:not(.disabled) .#{$namespace}-date-table-cell__text {
-      color: $color-white;
-      background-color: getCssVar('datepicker-active-color');
+    &.current:not(.disabled) {
+      .#{$namespace}-date-table-cell__text {
+        color: $color-white;
+        background-color: getCssVar('datepicker-active-color');
+      }
+      &:focus-visible {
+        .#{$namespace}-date-table-cell__text {
+          outline: 2px solid getCssVar('datepicker-active-color');
+          outline-offset: 1px;
+        }
+      }
     }
     &.start-date .#{$namespace}-date-table-cell,
     &.end-date .#{$namespace}-date-table-cell {
@@ -138,6 +146,10 @@
     &.week {
       font-size: 80%;
       color: getCssVar('datepicker-header-text-color');
+    }
+
+    &:focus {
+      outline: none;
     }
   }
 

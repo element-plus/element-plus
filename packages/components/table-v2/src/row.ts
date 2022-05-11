@@ -5,21 +5,21 @@ import { columns, expandColumnKey, rowKey } from './common'
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { FixedDirection, KeyType, RowCommonParams } from './types'
 
-export type RowExpandParams<T> = {
+export type RowExpandParams = {
   expanded: boolean
   rowKey: KeyType
-} & RowCommonParams<T>
+} & RowCommonParams
 
-export type RowHoverParams<T> = {
+export type RowHoverParams = {
   event: MouseEvent
   hovered: boolean
   rowKey: KeyType
-} & RowCommonParams<T>
+} & RowCommonParams
 
-export type RowEventHandlerParams<T> = {
+export type RowEventHandlerParams = {
   rowKey: KeyType
   event: Event
-} & RowCommonParams<T>
+} & RowCommonParams
 
 export type RowHeightChangedParams = {
   rowKey: KeyType
@@ -27,20 +27,20 @@ export type RowHeightChangedParams = {
   rowIndex: number
 }
 
-export type RowExpandHandler<T> = (params: RowExpandParams<T>) => void
-export type RowHoverHandler<T> = (params: RowHoverParams<T>) => void
-export type RowEventHandler<T> = (params: RowEventHandlerParams<T>) => void
+export type RowExpandHandler = (params: RowExpandParams) => void
+export type RowHoverHandler = (params: RowHoverParams) => void
+export type RowEventHandler = (params: RowEventHandlerParams) => void
 export type RowHeightChangeHandler = (
   row: RowHeightChangedParams,
   fixedDirection: boolean | FixedDirection | undefined
 ) => void
 
-export type RowEventHandlers<T> = {
-  onClick?: RowEventHandler<T>
-  onContextmenu?: RowEventHandler<T>
-  onDblclick?: RowEventHandler<T>
-  onMouseenter?: RowEventHandler<T>
-  onMouseleave?: RowEventHandler<T>
+export type RowEventHandlers = {
+  onClick?: RowEventHandler
+  onContextmenu?: RowEventHandler
+  onDblclick?: RowEventHandler
+  onMouseenter?: RowEventHandler
+  onMouseleave?: RowEventHandler
 }
 
 export const tableV2RowProps = buildProps({
@@ -58,10 +58,10 @@ export const tableV2RowProps = buildProps({
   },
   isScrolling: Boolean,
   onRowExpand: {
-    type: definePropType<RowExpandHandler<any>>(Function),
+    type: definePropType<RowExpandHandler>(Function),
   },
   onRowHover: {
-    type: definePropType<RowHoverHandler<any>>(Function),
+    type: definePropType<RowHoverHandler>(Function),
   },
   onRowHeightChange: {
     type: definePropType<RowHeightChangeHandler>(Function),
@@ -71,7 +71,7 @@ export const tableV2RowProps = buildProps({
     required: true,
   },
   rowEventHandlers: {
-    type: definePropType<RowEventHandlers<any>>(Object),
+    type: definePropType<RowEventHandlers>(Object),
   },
   rowIndex: {
     type: Number,

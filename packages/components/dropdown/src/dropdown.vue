@@ -17,9 +17,9 @@
       :virtual-ref="triggeringElementRef"
       :virtual-triggering="splitButton"
       :disabled="disabled"
-      append-to-body
-      pure
       :transition="`${ns.namespace.value}-zoom-in-top`"
+      teleported
+      pure
       persistent
       @show="$emit('visible-change', true)"
       @hide="$emit('visible-change', false)"
@@ -31,7 +31,7 @@
           tag="div"
           :view-class="ns.e('list')"
         >
-          <el-focus-trap trapped @mount-on-focus="onMountOnFocus">
+          <el-focus-trap trapped @focus-after-trapped="onFocusAfterTrapped">
             <el-roving-focus-group
               :loop="loop"
               :current-tab-id="currentTabId"
@@ -192,7 +192,7 @@ export default defineComponent({
       hideOnClick: toRef(props, 'hideOnClick'),
     })
 
-    const onMountOnFocus = (e: Event) => {
+    const onFocusAfterTrapped = (e: Event) => {
       e.preventDefault()
       contentRef.value?.focus?.({
         preventScroll: true,
@@ -215,7 +215,7 @@ export default defineComponent({
       handleEntryFocus,
       handleClose,
       handleOpen,
-      onMountOnFocus,
+      onFocusAfterTrapped,
       popperRef,
       triggeringElementRef,
       referenceElementRef,

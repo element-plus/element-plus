@@ -1,6 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 
 const effects = ['light', 'dark'] as const
 const triggers = ['click', 'contextmenu', 'hover', 'focus'] as const
@@ -14,17 +14,11 @@ export type PopperEffect = typeof effects[number]
 export type PopperTrigger = typeof triggers[number]
 
 export const usePopperProps = buildProps({
-  autoClose: {
-    type: Number,
-    default: 0,
-  },
-  cutoff: {
-    type: Boolean,
-    default: false,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
+  role: {
+    type: String as PropType<
+      'dialog' | 'grid' | 'listbox' | 'menu' | 'tooltip' | 'tree'
+    >,
+    default: 'tooltip',
   },
 } as const)
 

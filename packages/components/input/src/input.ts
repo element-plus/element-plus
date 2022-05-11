@@ -80,6 +80,10 @@ export const inputProps = buildProps({
     type: iconPropType,
     default: '',
   },
+  containerRole: {
+    type: String,
+    default: undefined,
+  },
   label: {
     type: String,
     default: undefined,
