@@ -53,6 +53,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
       rowClasses.push(`el-table__row--level-${treeRowData.level}`)
       display = treeRowData.display
     }
+    const rowKey = getKeyOfRow(row, $index)
     const displayStyle = display
       ? null
       : {
@@ -106,7 +107,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             }
           }
         }
-        const baseKey = `${$index},${cellIndex}`
+        const baseKey = `${rowKey},${cellIndex}`
         const patchKey = columnData.columnKey || columnData.rawColumnKey || ''
         const tdChildren = cellChildren(cellIndex, column, data)
         return h(
