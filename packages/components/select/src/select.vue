@@ -524,10 +524,10 @@ export default defineComponent({
         currentPlaceholder.value = ''
       }
       addResizeListener(selectWrapper.value as any, handleResize)
-      if (reference.value && reference.value.$el) {
-        const input = reference.value.input as HTMLInputElement
-        states.initialInputHeight = input.getBoundingClientRect().height
-      }
+      // if (reference.value && reference.value.$el) {
+      // const input = reference.value.input as HTMLInputElement
+      // states.initialInputHeight = input.getBoundingClientRect().height
+      // }
       if (props.remote && props.multiple) {
         resetInputHeight()
       }
