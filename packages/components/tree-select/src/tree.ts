@@ -115,12 +115,10 @@ export const useTree = (
 
       if (props.checkStrictly || node.isLeaf) {
         if (!getNodeValByProp('disabled', data)) {
-          const option = select.value?.options.get(
-            getNodeValByProp('value', data)
-          )
+          const value = getNodeValByProp('value', data)
+          const option = select.value?.options.get(value)
           if (isFunction(select.value?.formatSelectionLabel)) {
-            option.data = toRaw(data)
-            option.node = toRaw(node)
+            selectNode(select, value, node)
           }
           select.value?.handleOptionSelect(option, true)
         }
@@ -130,13 +128,17 @@ export const useTree = (
     },
     onCheck: (data, params) => {
       attrs.onCheck?.(data, params)
-
       // remove folder node when `checkStrictly` is false
       const checkedKeys = !props.checkStrictly
         ? tree.value?.getCheckedKeys(true)
         : params.checkedKeys
 
       const value = getNodeValByProp('value', data)
+
+      if (isFunction(select.value?.formatSelectionLabel)) {
+        selectNode(select, value, tree.value?.getNode(value))
+      }
+
       emit(
         UPDATE_MODEL_EVENT,
         props.multiple
@@ -147,6 +149,14 @@ export const useTree = (
       )
     },
   }
+}
+
+function selectNode(
+  select: Ref<InstanceType<typeof ElSelect> | undefined>,
+  value: any,
+  node: any
+) {
+  select.value?.treeSelection.set(value, node ? toRaw(node) : undefined)
 }
 
 function isValidValue(val: any) {

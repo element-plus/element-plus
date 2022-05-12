@@ -474,8 +474,8 @@ export default defineComponent({
       optionsCount,
       prefixWidth,
       tagInMultiLine,
+      treeSelection,
     } = toRefs(states)
-
     const wrapperKls = computed(() => {
       const classList = [nsSelect.b()]
       const _selectSize = unref(selectSize)
@@ -592,6 +592,7 @@ export default defineComponent({
       isOnComposition,
       isSilentBlur,
       options,
+      treeSelection,
       resetInputHeight,
       managePlaceholder,
       showClose,

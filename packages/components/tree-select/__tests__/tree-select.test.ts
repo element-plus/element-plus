@@ -311,4 +311,69 @@ describe('TreeSelect.vue', () => {
     await nextTick()
     expect(onNodeClick).toBeCalled()
   })
+
+  test('format selection label', async () => {
+    const { select, tree } = createComponent({
+      props: {
+        defaultExpandAll: true,
+        formatSelectionLabel: (option: any) => {
+          return `${option.currentLabel}123`
+        },
+      },
+    })
+    await nextTick()
+    await tree
+      .findAll('.el-select-dropdown__item')
+      .slice(-1)[0]
+      .trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toEqual(111)
+    expect(select.find('input').element.value).toEqual(`三级 1-1123`)
+  })
+
+  test('format selection label show-checkbox', async () => {
+    const value = ref([])
+    const { select, tree } = createComponent({
+      props: {
+        modelValue: value,
+        checkStrictly: true,
+        showCheckbox: true,
+        multiple: true,
+        formatSelectionLabel: (option: any) => {
+          return `${option.currentLabel}123`
+        },
+      },
+    })
+    await nextTick()
+    await tree.findAll('.el-checkbox')[1].trigger('click')
+    await nextTick()
+    console.log(select.vm.modelValue)
+    expect(select.vm.modelValue).toEqual([11])
+    expect(select.findAll('.el-select__tags-text')[0].text()).toEqual(
+      `二级 1-1123`
+    )
+  })
+
+  test('format selection label multiple', async () => {
+    const { select, tree } = createComponent({
+      props: {
+        defaultExpandAll: true,
+        multiple: true,
+        formatSelectionLabel: (option: any) => {
+          return `${option.currentLabel}123`
+        },
+      },
+    })
+    await nextTick()
+    await tree
+      .findAll('.el-select-dropdown__item')
+      .slice(-1)[0]
+      .trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toEqual([111])
+    expect(select.findAll('.el-select__tags-text')[0].text()).toEqual(
+      `三级 1-1123`
+    )
+  })
+
 })

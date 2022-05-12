@@ -58,8 +58,9 @@ export function useSelectStates(props) {
     prefixWidth: 11,
     tagInMultiLine: false,
     // tree-select format-selection-label
-    data: null as any,
     node: null as any,
+    // tree-select
+    treeSelection: new Map(),
   })
 }
 
@@ -476,6 +477,7 @@ export const useSelect = (props, states: States, ctx) => {
     const isObjectValue = toRawType(value).toLowerCase() === 'object'
     const isNull = toRawType(value).toLowerCase() === 'null'
     const isUndefined = toRawType(value).toLowerCase() === 'undefined'
+    const isFormatLabel = isFunction(props.formatSelectionLabel)
 
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
@@ -488,9 +490,8 @@ export const useSelect = (props, states: States, ctx) => {
           currentLabel: cachedOption.currentLabel,
           isDisabled: cachedOption.isDisabled,
         }
-        if (cachedOption.node) {
-          option.data = cachedOption.data
-          option.node = cachedOption.node
+        if (isFormatLabel) {
+          option.node = states.treeSelection.get(value)
         }
         break
       }
@@ -505,9 +506,8 @@ export const useSelect = (props, states: States, ctx) => {
       value,
       currentLabel: label,
     }
-    if (newOption.node) {
-      newOption.data = states.data
-      newOption.node = states.node
+    if (isFormatLabel) {
+      newOption.node = states.treeSelection.get(value)
     }
     if (props.multiple) {
       ;(newOption as any).hitState = false
