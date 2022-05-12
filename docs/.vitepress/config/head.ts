@@ -31,13 +31,6 @@ export const head: HeadConfig[] = [
     },
   ],
   [
-    'link',
-    {
-      rel: 'manifest',
-      href: '/manifest.webmanifest',
-    },
-  ],
-  [
     'meta',
     {
       name: 'theme-color',
