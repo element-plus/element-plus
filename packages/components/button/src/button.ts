@@ -11,7 +11,6 @@ export const buttonTypes = [
   'warning',
   'info',
   'danger',
-  'link',
   '',
 ] as const
 export const buttonNativeTypes = ['button', 'submit', 'reset'] as const
@@ -40,6 +39,7 @@ export const buttonProps = buildProps({
   },
   plain: Boolean,
   text: Boolean,
+  link: Boolean,
   bg: Boolean,
   autofocus: Boolean,
   round: Boolean,

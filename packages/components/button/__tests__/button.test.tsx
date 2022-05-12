@@ -72,6 +72,14 @@ describe('Button.vue', () => {
     expect(wrapper.classes()).toContain('is-has-bg')
   })
 
+  it('link', async () => {
+    const wrapper = mount(Button, {
+      props: { link: true },
+    })
+
+    expect(wrapper.classes()).toContain('is-link')
+  })
+
   test('render text', () => {
     const wrapper = mount(Button, {
       slots: {

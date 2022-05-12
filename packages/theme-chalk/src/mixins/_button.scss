@@ -131,7 +131,8 @@
   }
 
   &.is-plain,
-  &.is-text {
+  &.is-text,
+  &.is-link {
     @include button-plain($type);
   }
 }
