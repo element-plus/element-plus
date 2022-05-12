@@ -110,7 +110,11 @@ export default defineComponent({
 
     watch(
       () => props.modelValue,
-      () => formItem?.validate('change').catch((err) => debugWarn(err))
+      () => {
+        if (typeof formItem?.validate === 'function') {
+          formItem?.validate('change').catch((err) => debugWarn(err))
+        }
+      }
     )
 
     return {
