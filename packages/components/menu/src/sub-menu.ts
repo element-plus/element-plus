@@ -61,7 +61,7 @@ export default defineComponent({
 
   setup(props, { slots, expose }) {
     const instance = getCurrentInstance()!
-    const { paddingStyle, indexPath, parentMenu } = useMenu(
+    const { indexPath, parentMenu } = useMenu(
       instance,
       computed(() => props.index)
     )
@@ -96,17 +96,7 @@ export default defineComponent({
         : ArrowRight
     })
     const isFirstLevel = computed(() => {
-      let isFirstLevel = true
-      let parent = instance.parent
-      while (parent && parent.type.name !== 'ElMenu') {
-        if (['ElSubMenu', 'ElMenuItemGroup'].includes(parent.type.name!)) {
-          isFirstLevel = false
-          break
-        } else {
-          parent = parent.parent
-        }
-      }
-      return isFirstLevel
+      return subMenu.level === 0
     })
     const appendToBody = computed(() => {
       return props.popperAppendToBody === undefined
@@ -277,6 +267,7 @@ export default defineComponent({
         removeSubMenu,
         handleMouseleave,
         mouseInChild,
+        level: subMenu.level + 1,
       })
     }
 
@@ -308,7 +299,7 @@ export default defineComponent({
         ),
       ]
 
-      const ulStyle = useMenuCssVar(rootMenu.props)
+      const ulStyle = useMenuCssVar(rootMenu.props, subMenu.level + 1)
 
       // this render function is only used for bypass `Vue`'s compiler caused patching issue.
       // temporarily mark ElPopper as any due to type inconsistency.
@@ -336,7 +327,11 @@ export default defineComponent({
                 h(
                   'div',
                   {
-                    class: [nsMenu.m(mode.value), props.popperClass],
+                    class: [
+                      nsMenu.m(mode.value),
+                      nsMenu.m('popup-container'),
+                      props.popperClass,
+                    ],
                     onMouseenter: (evt: MouseEvent) =>
                       handleMouseenter(evt, 100),
                     onMouseleave: () => handleMouseleave(true),
@@ -363,7 +358,6 @@ export default defineComponent({
                   {
                     class: nsSubMenu.e('title'),
                     style: [
-                      paddingStyle.value,
                       titleStyle.value,
                       { backgroundColor: backgroundColor.value },
                     ],
@@ -379,7 +373,6 @@ export default defineComponent({
               {
                 class: nsSubMenu.e('title'),
                 style: [
-                  paddingStyle.value,
                   titleStyle.value,
                   { backgroundColor: backgroundColor.value },
                 ],
