@@ -10,15 +10,6 @@ export const rightRichTextSponsors = [
 
 export const leftCustomImgSponsors = [
   {
-    name: 'JNPF',
-    img: '/images/jnpf_index.png',
-    url: 'https://www.jnpfsoft.com/index.html?from=elementUI',
-    slogan: 'JNPF low code development platform to develop simple!',
-    slogan_cn: 'JNPF 低代码开发平台，让开发变得简单！',
-    className: 'jnpf',
-    banner_img: '/images/jnpfsoft.jpg',
-  },
-  {
     name: 'VForm',
     img: '/images/vform.png',
     url: 'https://vform666.com/vform3.html?from=element_plus',
