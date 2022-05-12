@@ -277,6 +277,7 @@ export default defineComponent({
         addSubMenu,
         removeSubMenu,
         mouseInChild: ref(false),
+        level: 0,
       })
     }
 
@@ -371,7 +372,7 @@ export default defineComponent({
         }
       }
 
-      const ulStyle = useMenuCssVar(props)
+      const ulStyle = useMenuCssVar(props, 0)
 
       const resizeMenu = (vNode: VNode) =>
         props.ellipsis ? useVNodeResize(vNode) : vNode
@@ -386,7 +387,7 @@ export default defineComponent({
             style: ulStyle.value,
             class: {
               [nsMenu.b()]: true,
-              [nsMenu.m('horizontal')]: props.mode === 'horizontal',
+              [nsMenu.m(props.mode)]: true,
               [nsMenu.m('collapse')]: props.collapse,
             },
           },
