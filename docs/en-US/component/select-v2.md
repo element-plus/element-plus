@@ -127,7 +127,7 @@ select-v2/remote-search
 
 ## SelectV2 Attributes
 
-| Param                             | Description                                                                                                                              | Type                               | Accepted Values     | Default       |
+| Attribute                         | Description                                                                                                                              | Type                               | Accepted Values     | Default       |
 | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------------------- | ------------- |
 | model-value / v-model             | biding value                                                                                                                             | string / number / boolean / object | —                   | —             |
 | multiple                          | is multiple                                                                                                                              | boolean                            | —                   | false         |
@@ -178,7 +178,7 @@ select-v2/remote-search
 
 ## SelectV2 Slots
 
-| name    | Description                   |
+| Name    | Description                   |
 | ------- | ----------------------------- |
 | default | Option renderer               |
 | empty   | content when options is empty |
