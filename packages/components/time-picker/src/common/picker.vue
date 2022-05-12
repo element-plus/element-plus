@@ -269,7 +269,6 @@ export default defineComponent({
     'calendar-change',
     'panel-change',
     'visible-change',
-    'keydown',
   ],
   setup(props, ctx) {
     const { lang } = useLocale()
@@ -351,10 +350,6 @@ export default defineComponent({
         _inputs[1].setSelectionRange(start, end)
         _inputs[1].focus()
       }
-    }
-
-    const onKeydown = (e) => {
-      ctx.emit('keydown', e)
     }
 
     const onPick = (date: any = '', visible = false) => {
@@ -765,7 +760,6 @@ export default defineComponent({
       onMouseDownInput,
       onMouseLeave,
       onMouseEnter,
-      onKeydown,
       onTouchStartInput,
       onClearIconClick,
       showClose,
