@@ -10,7 +10,5 @@
 </template>
 
 <script setup lang="ts">
-const buttons = [
-  { type: 'link', text: 'link' }
-] as const
+const buttons = [{ type: 'link', text: 'link' }] as const
 </script>
