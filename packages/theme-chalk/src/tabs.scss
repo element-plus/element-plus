@@ -121,7 +121,7 @@
       outline: none;
     }
 
-    &:focus.is-active.is-focus:not(:active) {
+    &:focus-visible {
       box-shadow: 0 0 2px 2px getCssVar('color-primary') inset;
       border-radius: 3px;
     }
