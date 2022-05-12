@@ -11,6 +11,7 @@ export const buttonTypes = [
   'warning',
   'info',
   'danger',
+  'link',
   '',
 ] as const
 export const buttonNativeTypes = ['button', 'submit', 'reset'] as const

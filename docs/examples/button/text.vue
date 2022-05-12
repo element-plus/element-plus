@@ -37,6 +37,7 @@
 
 <script setup lang="ts">
 const buttons = [
+  { type: 'link', text: 'link' },
   { type: '', text: 'plain' },
   { type: 'primary', text: 'primary' },
   { type: 'success', text: 'success' },
