@@ -13,7 +13,6 @@ import {
   useGlobalConfig,
   useId,
   useLockscreen,
-  useModal,
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -140,13 +139,10 @@ export const useDialog = (
     useLockscreen(visible)
   }
 
-  if (props.closeOnPressEscape) {
-    useModal(
-      {
-        handleClose,
-      },
-      visible
-    )
+  function onCloseRequested() {
+    if (props.closeOnPressEscape) {
+      handleClose()
+    }
   }
 
   watch(
@@ -204,6 +200,7 @@ export const useDialog = (
     doClose,
     onOpenAutoFocus,
     onCloseAutoFocus,
+    onCloseRequested,
     titleId,
     bodyId,
     closed,

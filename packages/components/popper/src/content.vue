@@ -10,20 +10,33 @@
     @mouseenter="(e) => $emit('mouseenter', e)"
     @mouseleave="(e) => $emit('mouseleave', e)"
   >
-    <slot />
+    <el-focus-trap
+      :trapped="trapped"
+      :trap-on-focus-in="true"
+      :focus-trap-el="popperContentRef"
+      :focus-start-el="focusStartRef"
+      @focus-after-trapped="onFocusAfterTrapped"
+      @focus-after-released="onFocusAfterReleased"
+      @focusin="onFocusInTrap"
+      @focusout-prevented="onFocusoutPrevented"
+      @release-requested="onReleaseRequested"
+    >
+      <slot />
+    </el-focus-trap>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, inject, onMounted, provide, ref, unref, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
+import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useNamespace, useZIndex } from '@element-plus/hooks'
 import {
   POPPER_CONTENT_INJECTION_KEY,
   POPPER_INJECTION_KEY,
   formItemContextKey,
 } from '@element-plus/tokens'
-import { usePopperContentProps } from './content'
+import { usePopperContentEmits, usePopperContentProps } from './content'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
 
 import type { WatchStopHandle } from 'vue'
@@ -32,7 +45,7 @@ defineOptions({
   name: 'ElPopperContent',
 })
 
-defineEmits(['mouseenter', 'mouseleave'])
+const emit = defineEmits(usePopperContentEmits)
 
 const props = defineProps(usePopperContentProps)
 
@@ -44,6 +57,7 @@ const formItemContext = inject(formItemContextKey, undefined)
 const { nextZIndex } = useZIndex()
 const ns = useNamespace('popper')
 const popperContentRef = ref<HTMLElement>()
+const focusStartRef = ref<string | HTMLElement>('first')
 const arrowRef = ref<HTMLElement>()
 const arrowOffset = ref<number>()
 provide(POPPER_CONTENT_INJECTION_KEY, {
@@ -57,7 +71,8 @@ provide(formItemContextKey, {
   removeInputId: () => undefined,
 })
 
-const contentZIndex = ref(props.zIndex || nextZIndex())
+const contentZIndex = ref<number>(props.zIndex || nextZIndex())
+const trapped = ref<boolean>(false)
 
 const computedReference = computed(
   () => unwrapMeasurableEl(props.referenceEl) || unref(triggerRef)
@@ -99,6 +114,43 @@ const togglePopperAlive = () => {
     modifiers: [...(options.modifiers || []), monitorable],
   }))
   updatePopper(false)
+  if (props.visible && props.focusOnShow) {
+    trapped.value = true
+  } else if (props.visible === false) {
+    trapped.value = false
+  }
+}
+
+const onFocusAfterTrapped = () => {
+  emit('focus')
+}
+
+const onFocusAfterReleased = () => {
+  focusStartRef.value = 'first'
+  emit('blur')
+}
+
+const onFocusInTrap = (event: FocusEvent) => {
+  if (props.visible && !trapped.value) {
+    if (event.relatedTarget) {
+      ;(event.relatedTarget as HTMLElement)?.focus()
+    }
+    if (event.target) {
+      focusStartRef.value = event.target as typeof focusStartRef.value
+    }
+    trapped.value = true
+  }
+}
+
+const onFocusoutPrevented = () => {
+  if (!props.trapping) {
+    trapped.value = false
+  }
+}
+
+const onReleaseRequested = () => {
+  trapped.value = false
+  emit('close')
 }
 
 onMounted(() => {
