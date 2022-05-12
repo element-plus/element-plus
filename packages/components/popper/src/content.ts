@@ -1,4 +1,4 @@
-import { placements } from '@popperjs/core'
+import { placements, right, top } from '@popperjs/core'
 import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
@@ -15,7 +15,7 @@ export const usePopperCoreConfigProps = buildProps({
   },
   fallbackPlacements: {
     type: definePropType<Placement[]>(Array),
-    default: () => [],
+    default: () => [right, top],
   },
   gpuAcceleration: {
     type: Boolean,
