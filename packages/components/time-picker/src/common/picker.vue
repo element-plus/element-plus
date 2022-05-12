@@ -269,6 +269,7 @@ export default defineComponent({
     'calendar-change',
     'panel-change',
     'visible-change',
+    'keydown',
   ],
   setup(props, ctx) {
     const { lang } = useLocale()
