@@ -112,7 +112,7 @@ button/custom
 | Attribute                           | Description                                                     | Type               | Accepted Values                                                      | Default |
 | ----------------------------------- | --------------------------------------------------------------- | ------------------ | -------------------------------------------------------------------- | ------- |
 | size                                | button size                                                     | string             | large / default /small                                               | —       |
-| type                                | button type                                                     | string             | primary / success / warning / danger / info / link / <del>text</del> | —       |
+| type                                | button type                                                     | string             | primary / success / warning / danger / info / link <VersionTag version="2.2.1" /> / <del>text</del> | —       |
 | plain                               | determine whether it's a plain button                           | boolean            | —                                                                    | false   |
 | text <VersionTag version="2.2.0" /> | determine whether it's a text button                            | boolean            | —                                                                    | false   |
 | bg <VersionTag version="2.2.0" />   | determine whether the text button background color is always on | boolean            | —                                                                    | false   |
