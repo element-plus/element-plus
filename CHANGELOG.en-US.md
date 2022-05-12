@@ -4,6 +4,19 @@
 
 _2022-05-09_
 
+[v2.2.0 release note](https://github.com/element-plus/element-plus/discussions/7578)
+
+#### Breaking changes
+
+##### Button
+
+- `type="text"` has been removed from `button`, now you can do this, for more detail see [Documentation](https://element-plus.org/en-US/component/button.html#text-button)
+
+```diff
+--- <el-button type="text"/>
++++ <el-button text />
+```
+
 #### Features
 
 - Components [slider] aria keyboard controls and attrs (#7389 by @opengraphica)
