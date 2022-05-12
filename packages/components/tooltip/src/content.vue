@@ -30,7 +30,7 @@
         :reference-el="referenceEl"
         :visible="shouldShow"
         :z-index="zIndex"
-        @mouseenter="onContentEnter"
+        @mouseenter.once="onContentEnter"
         @mouseleave="onContentLeave"
       >
         <!-- Workaround bug #6378 -->
@@ -54,7 +54,7 @@ import {
 } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { ElPopperContent } from '@element-plus/components/popper'
-import { composeEventHandlers } from '@element-plus/utils'
+import { composeEventHandlers, once } from '@element-plus/utils'
 import { useEscapeKeydown } from '@element-plus/hooks'
 
 import { useTooltipContentProps } from './tooltip'
@@ -126,9 +126,10 @@ export default defineComponent({
       }
     })
 
-    const onContentLeave = composeEventHandlers(stopWhenControlled, () => {
+    const onContentLeave = composeEventHandlers(stopWhenControlled, (e) => {
       if (unref(trigger) === 'hover') {
         onClose()
+        once(e.target, 'mouseenter', onContentEnter)
       }
     })
 
