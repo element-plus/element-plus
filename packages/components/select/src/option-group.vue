@@ -9,9 +9,8 @@
   </ul>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {
-  defineComponent,
   getCurrentInstance,
   inject,
   onMounted,
@@ -25,65 +24,58 @@ import {
 import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey, selectKey } from './token'
 
-export default defineComponent({
+defineOptions({
   name: 'ElOptionGroup',
-  componentName: 'ElOptionGroup',
+})
 
-  props: {
-    label: String,
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  label: String,
+  disabled: {
+    type: Boolean,
+    default: false,
   },
-  setup(props) {
-    const ns = useNamespace('select')
-    const visible = ref(true)
-    const instance = getCurrentInstance()
-    const children = ref([])
+})
 
-    provide(
-      selectGroupKey,
-      reactive({
-        ...toRefs(props),
-      })
-    )
+const ns = useNamespace('select')
+const visible = ref(true)
+const instance = getCurrentInstance()!
+const children = ref<any[]>([])
 
-    const select = inject(selectKey)
+provide(
+  selectGroupKey,
+  reactive({
+    ...toRefs(props),
+  })
+)
 
-    onMounted(() => {
-      children.value = flattedChildren(instance.subTree)
-    })
+const select = inject(selectKey)
 
-    // get all instances of options
-    const flattedChildren = (node) => {
-      const children = []
-      if (Array.isArray(node.children)) {
-        node.children.forEach((child) => {
-          if (
-            child.type &&
-            child.type.name === 'ElOption' &&
-            child.component &&
-            child.component.proxy
-          ) {
-            children.push(child.component.proxy)
-          } else if (child.children?.length) {
-            children.push(...flattedChildren(child))
-          }
-        })
+onMounted(() => {
+  children.value = flattedChildren(instance.subTree)
+})
+
+// get all instances of options
+const flattedChildren = (node) => {
+  const children = [] as any[]
+  if (Array.isArray(node.children)) {
+    node.children.forEach((child) => {
+      if (
+        child.type &&
+        child.type.name === 'ElOption' &&
+        child.component &&
+        child.component.proxy
+      ) {
+        children.push(child.component.proxy)
+      } else if (child.children?.length) {
+        children.push(...flattedChildren(child))
       }
-      return children
-    }
-
-    const { groupQueryChange } = toRaw(select)
-    watch(groupQueryChange, () => {
-      visible.value = children.value.some((option) => option.visible === true)
     })
+  }
+  return children
+}
 
-    return {
-      visible,
-      ns,
-    }
-  },
+const { groupQueryChange } = toRaw(select)!
+watch(groupQueryChange, () => {
+  visible.value = children.value.some((option) => option.visible === true)
 })
 </script>
