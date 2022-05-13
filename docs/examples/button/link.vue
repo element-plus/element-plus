@@ -10,7 +10,7 @@
     >
   </div>
 
-  <p>Disabled text button</p>
+  <p>Disabled link button</p>
   <div class="flex justify-space-between">
     <el-button
       v-for="button in buttons"
