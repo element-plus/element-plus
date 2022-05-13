@@ -169,6 +169,8 @@
     flex-grow: 1;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    width: 100%;
     padding: $border-width map.get($input-padding-horizontal, 'default')-$border-width;
     background-color: var(
       #{getCssVarName('input-bg-color')},
