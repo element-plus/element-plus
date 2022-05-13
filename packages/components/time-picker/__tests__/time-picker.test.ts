@@ -260,8 +260,12 @@ describe('TimePicker', () => {
     input.trigger('blur')
     await nextTick()
     await rAF() // Blur is delayed to ensure focus was not moved to popper
+    input.trigger('keydown')
+    await nextTick()
+    await rAF()
     expect(focusHandler).toHaveBeenCalledTimes(1)
     expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(keydownHandler).toHaveBeenCalledTimes(1)
 
     input.trigger('focus')
     await nextTick()
