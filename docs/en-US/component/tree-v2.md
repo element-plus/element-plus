@@ -67,7 +67,7 @@ tree-v2/filter
 
 :::
 
-## Attributes
+## TreeV2 Attributes
 
 | Attribute             | Description                                                                                                                                  | Type                  | Default |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
@@ -95,7 +95,7 @@ tree-v2/filter
 | children  | specify which node object is used as the node's subtree                              | string         | children |
 | disabled  | specify which key of node object represents if node's checkbox is disabled           | string         | disabled |
 
-## Method
+## TreeV2 Method
 
 `Tree` has the following method, which returns the currently selected array of nodes.
 | Method | Description | Parameters |
@@ -112,7 +112,7 @@ tree-v2/filter
 | setCurrentKey | set highlighted node by key | `(key: TreeKey)` |
 | setData | When the data is very large, using reactive data will cause the poor performance, so we provide a way to avoid this situation | `(data: TreeData)` |
 
-## Events
+## TreeV2 Events
 
 | Event Name       | Description                                          | Parameters                                                                                                                              |
 | ---------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
@@ -124,7 +124,7 @@ tree-v2/filter
 | node-expand      | triggers when current node open                      | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 | node-collapse    | triggers when current node close                     | `(data: TreeNodeData, node: TreeNode)`                                                                                                  |
 
-## Slots
+## TreeV2 Slots
 
 | Name | Description                                                                                    |
 | ---- | ---------------------------------------------------------------------------------------------- |
