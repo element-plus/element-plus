@@ -1,5 +1,4 @@
 import { isClient } from '@vueuse/core'
-import { useNamespace } from '@element-plus/hooks'
 import { getStyle } from './style'
 
 export const isScroll = (el: HTMLElement, isVertical?: boolean): boolean => {
@@ -40,9 +39,10 @@ export const getScrollBarWidth = (): number => {
   if (!isClient) return 0
   if (scrollBarWidth !== undefined) return scrollBarWidth
 
-  const ns = useNamespace('scrollbar')
   const outer = document.createElement('div')
-  outer.className = ns.e('wrap')
+  // Cannot access 'propKey' before initialization
+  // need to be dynamic namespace
+  outer.className = 'el-scrollbar__wrap'
   outer.style.visibility = 'hidden'
   outer.style.width = '100px'
   outer.style.position = 'absolute'
