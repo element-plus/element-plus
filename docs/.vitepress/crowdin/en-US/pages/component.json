@@ -310,6 +310,10 @@
       {
         "link": "/divider",
         "text": "Divider"
+      },
+      {
+        "link": "/ellipsis",
+        "text": "Ellipsis"
       }
     ]
   }

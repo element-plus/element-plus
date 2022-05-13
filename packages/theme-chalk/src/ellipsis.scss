@@ -1,0 +1,29 @@
+@use 'sass:map';
+
+@use 'mixins/mixins' as *;
+@use 'mixins/var' as *;
+@use 'common/var' as *;
+@include b(ellipsis) {
+  @include set-component-css-var('ellipsis', $ellipsis);
+}
+@include b(ellipsis) {
+  width: fit-content;
+  @include e(inner) {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    position: relative;
+    text-decoration: none;
+    outline: none;
+    padding: 0;
+    font-size: getCssVar('ellipsis', 'font-size');
+    font-weight: getCssVar('ellipsis', 'font-weight');
+    color: getCssVar('ellipsis', 'text-color');
+  }
+  .#{$namespace}-ellipsis--clamp {
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
