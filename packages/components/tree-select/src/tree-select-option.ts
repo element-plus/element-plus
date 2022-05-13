@@ -1,21 +1,18 @@
-import { defineComponent } from 'vue'
+import { defineComponent, getCurrentInstance } from 'vue'
 import { ElOption } from '@element-plus/components/select'
 
 const component = defineComponent({
   extends: ElOption,
   setup(props, ctx) {
     const result = (ElOption.setup as NonNullable<any>)(props, ctx)
+    const instance = getCurrentInstance()!
 
-    // use methods.selectOptionClick
-    delete result.selectOptionClick
+    result.selectOptionClick = () => {
+      // optionRef.value.parentElement => el-tree-node__content
+      instance.vnode.el!.parentElement.click()
+    }
 
     return result
-  },
-  methods: {
-    selectOptionClick() {
-      // $el.parentElement => el-tree-node__content
-      this.$el.parentElement.click()
-    },
   },
 })
 
