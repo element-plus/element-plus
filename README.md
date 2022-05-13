@@ -61,11 +61,6 @@ You can also try Element Plus out with the components built-in playground.
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/145664631-bbe85550-4406-4f20-a19f-7e6e844a9b85.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://vform666.com/vform3.html?from=element_plus" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/17680888/156870588-b25a42d5-888b-4943-8b1b-5239dfd8f4d2.png">
         </a>
