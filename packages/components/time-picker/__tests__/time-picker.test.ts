@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -220,16 +220,18 @@ describe('TimePicker', () => {
     expect(secondsDom).toBeUndefined()
   })
 
-  it('event change, focus, blur', async () => {
+  it('event change, focus, blur, keydown', async () => {
     const changeHandler = vi.fn()
     const focusHandler = vi.fn()
     const blurHandler = vi.fn()
+    const keydownHandler = vi.fn()
     const wrapper = _mount(
       `<el-time-picker
         v-model="value"
         @change="onChange"
         @focus="onFocus"
         @blur="onBlur"
+        @keydown="onKeydown"
       />`,
       () => ({ value: new Date(2016, 9, 10, 18, 40) }),
       {
@@ -242,6 +244,9 @@ describe('TimePicker', () => {
           },
           onBlur(e) {
             return blurHandler(e)
+          },
+          onKeydown(e) {
+            return keydownHandler(e)
           },
         },
       }
