@@ -73,7 +73,7 @@
         :class="[
           nsDate.b('editor'),
           nsDate.bm('editor', type),
-          nsInput.e('inner'),
+          nsInput.e('wrapper'),
           nsDate.is('disabled', pickerDisabled),
           nsDate.is('active', pickerVisible),
           nsRange.b('editor'),
