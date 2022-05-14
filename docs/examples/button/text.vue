@@ -1,6 +1,6 @@
 <template>
   <p>Basic text button</p>
-  <div class="flex justify-space-between mb-4">
+  <div class="flex justify-space-between mb-4 flex-wrap gap-4">
     <el-button
       v-for="button in buttons"
       :key="button.text"
@@ -11,7 +11,7 @@
   </div>
 
   <p>Background color always on</p>
-  <div class="flex justify-space-between mb-4">
+  <div class="flex justify-space-between mb-4 flex-wrap gap-4">
     <el-button
       v-for="button in buttons"
       :key="button.text"
@@ -23,7 +23,7 @@
   </div>
 
   <p>Disabled text button</p>
-  <div class="flex justify-space-between">
+  <div class="flex justify-space-between flex-wrap gap-4">
     <el-button
       v-for="button in buttons"
       :key="button.text"
@@ -37,7 +37,6 @@
 
 <script setup lang="ts">
 const buttons = [
-  { type: 'link', text: 'link' },
   { type: '', text: 'plain' },
   { type: 'primary', text: 'primary' },
   { type: 'success', text: 'success' },
