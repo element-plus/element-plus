@@ -14,6 +14,8 @@ jobs:
       - name: Download result
         uses: actions/download-artifact@v2
         with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
           name: commit-lint-result
       - name: Assert result
         id: assert
@@ -41,6 +43,8 @@ jobs:
     steps:
       - uses: actions/download-artifact@v2
         with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
           name: commit-lint-report
 
       - name: Read lint result
