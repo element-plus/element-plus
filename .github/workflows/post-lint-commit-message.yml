@@ -12,7 +12,7 @@ jobs:
       succeeded: ${{ steps.assert.outputs.succeeded }}
     steps:
       - name: Download result
-        uses: actions/download-artifact@v2
+        uses: dawidd6/action-download-artifact@v2
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
@@ -41,7 +41,7 @@ jobs:
     name: Lint failed
     if: ${{ needs.result.outputs.succeeded != 'true' }}
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: dawidd6/action-download-artifact@v2
         with:
           workflow: ${{ github.event.workflow.id }}
           run_id: ${{ github.event.workflow_run.id }}
