@@ -198,6 +198,10 @@ $button-icon-span-gap: map.merge(
     padding-left: 0;
     padding-right: 0;
 
+    &:hover {
+      color: getCssVar('button', 'hover', 'link-text-color');
+    }
+
     @include when(disabled) {
       color: getCssVar('button', 'disabled', 'text-color');
       background-color: transparent !important;
