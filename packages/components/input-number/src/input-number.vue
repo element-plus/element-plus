@@ -108,6 +108,7 @@ export default defineComponent({
   emits: inputNumberEmits,
   setup(props, { emit }) {
     const input = ref<ComponentPublicInstance<typeof ElInput>>()
+    const displayValue = ref<number | string | undefined | null>('')
     const data = reactive<IData>({
       currentValue: props.modelValue,
       userInput: null,
@@ -148,20 +149,6 @@ export default defineComponent({
     const inputNumberSize = useSize()
     const inputNumberDisabled = useDisabled()
 
-    const displayValue = computed(() => {
-      if (data.userInput !== null) {
-        return data.userInput
-      }
-      let currentValue: number | string | undefined | null = data.currentValue
-      if (isNil(currentValue)) return ''
-      if (isNumber(currentValue)) {
-        if (Number.isNaN(currentValue)) return ''
-        if (!isUndefined(props.precision)) {
-          currentValue = currentValue.toFixed(props.precision)
-        }
-      }
-      return currentValue
-    })
     const toPrecision = (num: number, pre?: number) => {
       if (isUndefined(pre)) pre = numPrecision.value
       const digits = num.toString().split('.')
@@ -267,14 +254,39 @@ export default defineComponent({
       formItem?.validate?.('blur').catch((err) => debugWarn(err))
     }
 
+    const updateDisplayValue = (value: number | string | undefined | null) => {
+      if (data.userInput !== null) {
+        return data.userInput
+      }
+      if (isNil(value)) return ''
+      if (isNumber(value)) {
+        if (Number.isNaN(value)) return ''
+        if (!isUndefined(props.precision)) {
+          value = value.toFixed(props.precision)
+        }
+      }
+      displayValue.value = value
+    }
+
     watch(
       () => props.modelValue,
       (value) => {
         data.currentValue = verifyValue(value, true)
         data.userInput = null
+        updateDisplayValue(data.currentValue)
       },
       { immediate: true }
     )
+
+    watch(
+      () => data.currentValue,
+      (value) => {
+        if (!value) {
+          displayValue.value = value
+        }
+      }
+    )
+
     onMounted(() => {
       const { min, max, modelValue } = props
       const innerInput = input.value?.input as HTMLInputElement

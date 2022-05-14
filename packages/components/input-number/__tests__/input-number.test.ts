@@ -5,6 +5,8 @@ import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import InputNumber from '../src/input-number.vue'
 
+type InputNumberInstance = InstanceType<typeof InputNumber>
+
 const mouseup = new Event('mouseup')
 const _mount = (options) =>
   mount({
@@ -76,6 +78,27 @@ describe('InputNumber.vue', () => {
     expect(wrapper.find('input').element.getAttribute('aria-valuenow')).toEqual(
       'null'
     )
+  })
+  test('check increase and decrease when use modelValue', async () => {
+    const wrapper = _mount({
+      template:
+        '<el-input-number :model-value="inputText" placeholder="input number"/>',
+      setup() {
+        const inputText = ref(1)
+        return {
+          inputText,
+        }
+      },
+    })
+    const elInputNumber = wrapper.findComponent({ name: 'ElInputNumber' })
+      .vm as InputNumberInstance
+
+    elInputNumber.decrease()
+    await nextTick()
+    expect(wrapper.vm.inputText).toBe(1)
+    elInputNumber.increase()
+    await nextTick()
+    expect(wrapper.vm.inputText).toBe(1)
   })
   test('min', async () => {
     const wrapper = _mount({
