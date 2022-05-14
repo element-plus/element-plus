@@ -51,16 +51,8 @@ defineOptions({
 const props = defineProps(radioButtonProps)
 
 const ns = useNamespace('radio')
-const {
-  radioRef,
-  isGroup,
-  focus,
-  size,
-  disabled,
-  tabIndex,
-  modelValue,
-  radioGroup,
-} = useRadio(props)
+const { radioRef, focus, size, disabled, tabIndex, modelValue, radioGroup } =
+  useRadio(props)
 
 const activeStyle = computed<CSSProperties>(() => {
   return {

@@ -26,7 +26,7 @@
         type="radio"
         :name="name"
         :disabled="disabled"
-        tabindex="tabIndex"
+        :tabindex="tabIndex"
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
@@ -53,8 +53,10 @@ const props = defineProps(radioProps)
 const emit = defineEmits(radioEmits)
 
 const ns = useNamespace('radio')
-const { radioRef, isGroup, focus, size, disabled, tabIndex, modelValue } =
-  useRadio(props, emit)
+const { radioRef, focus, size, disabled, tabIndex, modelValue } = useRadio(
+  props,
+  emit
+)
 
 function handleChange() {
   nextTick(() => emit('change', modelValue.value))
