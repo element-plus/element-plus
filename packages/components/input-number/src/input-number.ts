@@ -56,6 +56,7 @@ export const inputNumberEmits = {
   change: (prev: number | undefined, cur: number | undefined) => prev !== cur,
   blur: (e: FocusEvent) => e instanceof FocusEvent,
   focus: (e: FocusEvent) => e instanceof FocusEvent,
+  blank: () => undefined,
   input: (val: number | undefined) => isNumber(val),
   'update:modelValue': (val: number | undefined) =>
     isNumber(val) || val === undefined,

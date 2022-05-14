@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import InputNumber from '../src/input-number.vue'
@@ -250,6 +250,28 @@ describe('InputNumber.vue', () => {
     expect(
       wrapper.getComponent(InputNumber).emitted('update:modelValue')
     ).toHaveLength(2)
+  })
+  test('blank-event', async () => {
+    const handleBlank = vi.fn()
+    const wrapper = _mount({
+      template: '<el-input-number v-model="num" @blank = "handleBlank" />',
+      setup() {
+        const num = ref(0)
+        return {
+          handleBlank,
+          num,
+        }
+      },
+    })
+    const el = wrapper.find('input').element
+    wrapper.vm
+    const simulateEvent = (text: string, event: string) => {
+      el.value = text
+      el.dispatchEvent(new Event(event))
+    }
+    simulateEvent('', 'change')
+    await nextTick()
+    expect(handleBlank).toBeCalled()
   })
   test('blur-event', async () => {
     const wrapper = _mount({
