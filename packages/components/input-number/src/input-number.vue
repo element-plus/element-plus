@@ -235,6 +235,7 @@ export default defineComponent({
       return (data.userInput = value)
     }
     const handleInputChange = (value: string) => {
+      value === '' && emit('blank')
       const newVal = value !== '' ? Number(value) : ''
       if ((isNumber(newVal) && !Number.isNaN(newVal)) || value === '') {
         setCurrentValue(newVal)
