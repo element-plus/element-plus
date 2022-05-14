@@ -39,6 +39,7 @@ export const buttonProps = buildProps({
   },
   plain: Boolean,
   text: Boolean,
+  link: Boolean,
   bg: Boolean,
   autofocus: Boolean,
   round: Boolean,
