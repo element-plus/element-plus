@@ -11,6 +11,7 @@
       ns.is('round', round),
       ns.is('circle', circle),
       ns.is('text', text),
+      ns.is('link', link),
       ns.is('has-bg', bg),
     ]"
     :aria-disabled="_disabled || loading"
