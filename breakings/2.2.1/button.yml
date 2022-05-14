@@ -2,7 +2,7 @@
   name: 'el-button'
   type: 'props'
   version: '2.2.1'
-  commit_hash: '4a364f9'
+  commit_hash: 'ad3d998'
   description: |
     Per [Link Button Request](https://github.com/element-plus/element-plus/issues/7610), we need to
     add a `link` like button back for those uses link button.

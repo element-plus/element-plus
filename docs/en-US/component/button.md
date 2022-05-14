@@ -25,6 +25,17 @@ button/disabled
 
 :::
 
+## Link Button <VersionTag version="2.2.1" />
+
+Since the last version, we deleted `type="link"` which was not really a smooth transition, so we added back `Link Button`,
+for some users `Link Button` is the suitable choice. Notably we would suggest using `Link` component to be more accessible.
+
+:::demo
+
+button/link
+
+:::
+
 ## Text Button
 
 :::tip
