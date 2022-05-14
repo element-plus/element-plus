@@ -18,6 +18,7 @@ import {
   buildProps,
   capitalize,
   definePropType,
+  isUndefined,
   mutable,
   throwError,
 } from '@element-plus/utils'
@@ -305,7 +306,9 @@ const TabNav = defineComponent({
 
       const tabs = props.panes.map((pane, index) => {
         const tabName = pane.props.name || pane.index || `${index}`
-        const closable: boolean = pane.isClosable || props.editable
+        const closable: boolean = !isUndefined(pane.isClosable)
+          ? pane.isClosable
+          : props.editable
         pane.index = `${index}`
 
         const btnClose = closable ? (
