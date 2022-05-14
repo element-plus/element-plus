@@ -25,50 +25,6 @@ const _mount = (template: string, data, otherObj?) =>
     }
   )
 
-const formatList = [
-  'YYYYMMDDHHmmss',
-  'YYYYMMddhhmmss',
-  'YYYY-MM-DD HH:mm',
-  'YYYY-MM-DD-HH:mm',
-  'YYYY-MM-dd HH:mm:ss',
-  'YYYY-MM-dd HH:mm:ss Z',
-  'YYYY-MM-dd HH:mm:ss A',
-  'YYYY-MM-dd HH:mm:ss a',
-  'YYYY-MM-dd~~ HH:mm\'ss" a',
-  'YYYY年MM月DD日 hh时',
-  'YYYY年MM月DD日hh时',
-  '今年是YYYY年MM月DD日第hh时mm分钟ss秒新年快乐',
-]
-const dateArr = [
-  'YYYYMMDD',
-  'YYYYMMdd',
-  'YYYY-MM-DD',
-  'YYYY-MM-DD',
-  'YYYY-MM-dd',
-  'YYYY-MM-dd',
-  'YYYY-MM-dd',
-  'YYYY-MM-dd',
-  'YYYY-MM-dd~~',
-  'YYYY年MM月DD日',
-  'YYYY年MM月DD',
-  '今年是YYYY年MM月DD日',
-]
-
-const timeArr = [
-  'HHmmss',
-  'hhmmss',
-  'HH:mm',
-  '-HH:mm',
-  'HH:mm:ss',
-  'HH:mm:ss Z',
-  'HH:mm:ss A',
-  'HH:mm:ss a',
-  'HH:mm\'ss" a',
-  'hh时',
-  '日hh时',
-  '第hh时mm分钟ss秒新年快乐',
-]
-
 const makeRange = (start, end) => {
   const result = []
   for (let i = start; i <= end; i++) {
@@ -774,14 +730,35 @@ describe('TimePicker(range)', () => {
 })
 
 describe('test Format fun', () => {
-  it('extractDateFormat', () => {
-    formatList.forEach((format, i) => {
-      expect(extractDateFormat(format)).toBe(dateArr[i])
-    })
-  })
-  it('extractTimeFormat', () => {
-    formatList.forEach((format, i) => {
-      assert.equal(extractTimeFormat(format), timeArr[i])
-    })
-  })
+  const formatList = [
+    ['YYYYMMDDHHmmss', 'YYYYMMDD', 'HHmmss'],
+    ['YYYYMMddhhmmss', 'YYYYMMdd', 'hhmmss'],
+    ['YYYY-MM-DD HH:mm', 'YYYY-MM-DD', 'HH:mm'],
+    ['YYYY-MM-DD-HH:mm', 'YYYY-MM-DD', '-HH:mm'],
+    ['YYYY-MM-dd HH:mm:ss', 'YYYY-MM-dd', 'HH:mm:ss'],
+    ['YYYY-MM-dd HH:mm:ss Z', 'YYYY-MM-dd', 'HH:mm:ss Z'],
+    ['YYYY-MM-dd HH:mm:ss A', 'YYYY-MM-dd', 'HH:mm:ss A'],
+    ['YYYY-MM-dd HH:mm:ss a', 'YYYY-MM-dd', 'HH:mm:ss a'],
+    ['YYYY-MM-dd~~ HH:mm\'ss" a', 'YYYY-MM-dd~~', 'HH:mm\'ss" a'],
+    ['YYYY年MM月DD日 hh时', 'YYYY年MM月DD日', 'hh时'],
+    ['YYYY年MM月DD日hh时', 'YYYY年MM月DD', '日hh时'],
+    [
+      '今年是YYYY年MM月DD日第hh时mm分钟ss秒新年快乐',
+      '今年是YYYY年MM月DD日',
+      '第hh时mm分钟ss秒新年快乐',
+    ],
+  ]
+  it.each(formatList)(
+    'expect extractDateFormat input $str output $date',
+    (str, date) => {
+      expect(extractDateFormat(str)).toBe(date)
+    }
+  )
+
+  it.each(formatList)(
+    'expect extractTimeFormat input $str output $time',
+    (str, date, time) => {
+      expect(extractTimeFormat(str)).toBe(time)
+    }
+  )
 })
