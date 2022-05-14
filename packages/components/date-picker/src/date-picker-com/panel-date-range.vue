@@ -335,7 +335,7 @@ const rightMonth = computed(() => {
   return rightDate.value.month()
 })
 
-const hasShortcuts = computed(() => !!shortcuts.length)
+const hasShortcuts = computed(() => !!shortcuts.value.length)
 
 const minVisibleDate = computed(() => {
   if (dateUserInput.value.min !== null) return dateUserInput.value.min
@@ -679,7 +679,6 @@ emit('set-picker-option', ['handleClear', handleClear])
 // FIXME: fix the type for ep picker
 const pickerBase = inject('EP_PICKER_BASE') as any
 const {
-  shortcuts,
   disabledDate,
   cellClassName,
   format,
@@ -687,6 +686,7 @@ const {
   arrowControl,
   clearable,
 } = pickerBase.props
+const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
 watch(
