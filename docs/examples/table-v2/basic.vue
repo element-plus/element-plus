@@ -37,5 +37,5 @@ const generateData = (
   })
 
 const columns = generateColumns(10)
-const data = generateData(columns, 200)
+const data = generateData(columns, 1000)
 </script>
