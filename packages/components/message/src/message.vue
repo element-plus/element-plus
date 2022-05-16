@@ -42,7 +42,7 @@
   </transition>
 </template>
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -55,7 +55,8 @@ import type { BadgeProps } from '@element-plus/components/badge'
 
 import type { CSSProperties } from 'vue'
 
-export default defineComponent({
+// export default defineComponent({
+defineOptions({
   name: 'ElMessage',
 
   components: {
@@ -63,86 +64,69 @@ export default defineComponent({
     ElIcon,
     ...TypeComponents,
   },
-
-  props: messageProps,
-  emits: messageEmits,
-
-  setup(props) {
-    const ns = useNamespace('message')
-    const visible = ref(false)
-    const badgeType = ref<BadgeProps['type']>(
-      props.type ? (props.type === 'error' ? 'danger' : props.type) : 'info'
-    )
-    let stopTimer: (() => void) | undefined = undefined
-
-    const typeClass = computed(() => {
-      const type = props.type
-      return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
-    })
-
-    const iconComponent = computed(() => {
-      return props.icon || TypeComponentsMap[props.type] || ''
-    })
-
-    const customStyle = computed<CSSProperties>(() => ({
-      top: `${props.offset}px`,
-      zIndex: props.zIndex,
-    }))
-
-    function startTimer() {
-      if (props.duration > 0) {
-        ;({ stop: stopTimer } = useTimeoutFn(() => {
-          if (visible.value) close()
-        }, props.duration))
-      }
-    }
-
-    function clearTimer() {
-      stopTimer?.()
-    }
-
-    function close() {
-      visible.value = false
-    }
-
-    function keydown({ code }: KeyboardEvent) {
-      if (code === EVENT_CODE.esc) {
-        // press esc to close the message
-        if (visible.value) {
-          close()
-        }
-      } else {
-        startTimer() // resume timer
-      }
-    }
-
-    onMounted(() => {
-      startTimer()
-      visible.value = true
-    })
-
-    watch(
-      () => props.repeatNum,
-      () => {
-        clearTimer()
-        startTimer()
-      }
-    )
-
-    useEventListener(document, 'keydown', keydown)
-
-    return {
-      ns,
-      typeClass,
-      iconComponent,
-      customStyle,
-      visible,
-      badgeType,
-
-      close,
-      clearTimer,
-      startTimer,
-    }
-  },
 })
+const props = defineProps(messageProps)
+const emits = defineEmits(messageEmits)
+const ns = useNamespace('message')
+const visible = ref(false)
+const badgeType = ref<BadgeProps['type']>(
+  props.type ? (props.type === 'error' ? 'danger' : props.type) : 'info'
+)
+let stopTimer: (() => void) | undefined = undefined
+
+const typeClass = computed(() => {
+  const type = props.type
+  return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
+})
+
+const iconComponent = computed(() => {
+  return props.icon || TypeComponentsMap[props.type] || ''
+})
+
+const customStyle = computed<CSSProperties>(() => ({
+  top: `${props.offset}px`,
+  zIndex: props.zIndex,
+}))
+
+function startTimer() {
+  if (props.duration > 0) {
+    ;({ stop: stopTimer } = useTimeoutFn(() => {
+      if (visible.value) close()
+    }, props.duration))
+  }
+}
+
+function clearTimer() {
+  stopTimer?.()
+}
+
+function close() {
+  visible.value = false
+}
+
+function keydown({ code }: KeyboardEvent) {
+  if (code === EVENT_CODE.esc) {
+    // press esc to close the message
+    if (visible.value) {
+      close()
+    }
+  } else {
+    startTimer() // resume timer
+  }
+}
+
+onMounted(() => {
+  startTimer()
+  visible.value = true
+})
+
+watch(
+  () => props.repeatNum,
+  () => {
+    clearTimer()
+    startTimer()
+  }
+)
+
+useEventListener(document, 'keydown', keydown)
 </script>
