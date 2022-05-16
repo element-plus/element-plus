@@ -20,7 +20,7 @@
       @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
       @blur="focusing = false"
-      @click="onFileClicked"
+      @click="focusing = false"
     >
       <slot :file="file">
         <img
@@ -140,10 +140,6 @@ const focusing = ref(false)
 
 const handleClick = (file: UploadFile) => {
   props.handlePreview(file)
-}
-
-const onFileClicked = (e: Event) => {
-  ;(e.target as HTMLElement).focus()
 }
 
 const handleRemove = (file: UploadFile) => {
