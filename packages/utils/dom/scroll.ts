@@ -40,6 +40,8 @@ export const getScrollBarWidth = (): number => {
   if (scrollBarWidth !== undefined) return scrollBarWidth
 
   const outer = document.createElement('div')
+  // Cannot access 'propKey' before initialization
+  // need to be dynamic namespace
   outer.className = 'el-scrollbar__wrap'
   outer.style.visibility = 'hidden'
   outer.style.width = '100px'

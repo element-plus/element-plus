@@ -1,7 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
-import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import Radio from '../src/radio.vue'
 import RadioGroup from '../src/radio-group.vue'
@@ -327,45 +326,6 @@ describe('Radio Button', () => {
       })
     )
     expect(wrapper.findAll('.el-radio-button--large').length).toBe(3)
-  })
-  it('keyboard event', async () => {
-    const wrapper = _mount(
-      ` <el-radio-group v-model="radio">
-    <el-radio-button ref="radio1" :label="3">3</el-radio-button>
-    <el-radio-button ref="radio2" :label="6">6</el-radio-button>
-    <el-radio-button ref="radio3" :label="9">9</el-radio-button>
-  </el-radio-group>`,
-      () => ({
-        radio: 6,
-      })
-    )
-    const radio1 = wrapper.findComponent({ ref: 'radio1' })
-    const radio2 = wrapper.findComponent({ ref: 'radio2' })
-    const radio3 = wrapper.findComponent({ ref: 'radio3' })
-    const vm = wrapper.vm as any
-    expect(vm.radio).toEqual(6)
-    radio2.trigger('keydown', {
-      code: EVENT_CODE.left,
-    })
-    expect(vm.radio).toEqual(3)
-    radio1.trigger('keydown', {
-      code: EVENT_CODE.left,
-    })
-    expect(vm.radio).toEqual(9)
-    await nextTick()
-    radio3.trigger('keydown', {
-      code: EVENT_CODE.right,
-    })
-    expect(vm.radio).toEqual(3)
-    radio1.trigger('keydown', {
-      code: EVENT_CODE.right,
-    })
-    expect(vm.radio).toEqual(6)
-    await nextTick()
-    radio1.trigger('keydown', {
-      code: EVENT_CODE.enter,
-    })
-    expect(vm.radio).toEqual(6)
   })
 
   describe('form item accessibility integration', () => {

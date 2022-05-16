@@ -97,6 +97,14 @@ $checkbox-bordered-input-width: map.merge(
     }
   }
 
+  input:focus-visible {
+    & + .#{$namespace}-checkbox__inner {
+      outline: 2px solid getCssVar('checkbox-input-border-color-hover');
+      outline-offset: 1px;
+      border-radius: getCssVar('checkbox-border-radius');
+    }
+  }
+
   @include e(input) {
     white-space: nowrap;
     cursor: pointer;
@@ -169,8 +177,10 @@ $checkbox-bordered-input-width: map.merge(
     }
     @include when(focus) {
       // Visually distinguish when focus
-      .#{$namespace}-checkbox__inner {
-        border-color: getCssVar('checkbox-input-border-color-hover');
+      &:not(.is-checked) {
+        .#{$namespace}-checkbox__original:not(:focus-visible) {
+          border-color: getCssVar('checkbox-input-border-color-hover');
+        }
       }
     }
     @include when(indeterminate) {
@@ -207,7 +217,8 @@ $checkbox-bordered-input-width: map.merge(
     background-color: getCssVar('checkbox-bg-color');
     z-index: getCssVar('index-normal');
     transition: border-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46),
-      background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);
+      background-color 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46),
+      outline 0.25s cubic-bezier(0.71, -0.46, 0.29, 1.46);
 
     &:hover {
       border-color: getCssVar('checkbox-input-border-color-hover');

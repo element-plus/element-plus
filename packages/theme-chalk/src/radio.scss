@@ -179,9 +179,17 @@ $radio-font-size: map.merge(
     right: 0;
     bottom: 0;
     margin: 0;
+
+    &:focus-visible {
+      & + .#{$namespace}-radio__inner {
+        outline: 2px solid getCssVar('radio-input-border-color-hover');
+        outline-offset: 1px;
+        border-radius: getCssVar('radio-input-border-radius');
+      }
+    }
   }
 
-  &:focus:not(.is-focus):not(:active):not(.is-disabled) {
+  &:focus:not(:focus-visible):not(.is-focus):not(:active):not(.is-disabled) {
     /*获得焦点时 样式提醒*/
     .#{$namespace}-radio__inner {
       box-shadow: 0 0 2px 2px getCssVar('radio-input-border-color-hover');

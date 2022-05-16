@@ -220,10 +220,11 @@ describe('DatePicker', () => {
     expect(vm.value.getDate()).toBe(1)
   })
 
-  it('event change, focus, blur', async () => {
+  it('event change, focus, blur, keydown', async () => {
     const changeHandler = vi.fn()
     const focusHandler = vi.fn()
     const blurHandler = vi.fn()
+    const keydownHandler = vi.fn()
     let onChangeValue: Date | undefined
     const wrapper = _mount(
       `<el-date-picker
@@ -231,6 +232,7 @@ describe('DatePicker', () => {
         @change="onChange"
         @focus="onFocus"
         @blur="onBlur"
+        @keydown="onKeydown"
       />`,
       () => ({ value: new Date(2016, 9, 10, 18, 40) }),
       {
@@ -245,6 +247,9 @@ describe('DatePicker', () => {
           onBlur(e) {
             return blurHandler(e)
           },
+          onKeydown(e) {
+            return keydownHandler(e)
+          },
         },
       }
     )
@@ -252,10 +257,12 @@ describe('DatePicker', () => {
     const input = wrapper.find('input')
     input.trigger('focus')
     input.trigger('blur')
+    input.trigger('keydown')
     await nextTick()
     await rAF()
     expect(focusHandler).toHaveBeenCalledTimes(1)
     expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(keydownHandler).toHaveBeenCalledTimes(1)
     input.trigger('focus')
     await nextTick()
     ;(document.querySelector('td.available') as HTMLElement).click()

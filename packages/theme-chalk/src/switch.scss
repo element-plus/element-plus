@@ -76,6 +76,7 @@ $switch-button-size: map.merge(
   line-height: map.get($switch-core-height, 'default');
   height: map.get($switch-height, 'default');
   vertical-align: middle;
+
   @include when(disabled) {
     & .#{$namespace}-switch__core,
     & .#{$namespace}-switch__label {
@@ -123,6 +124,13 @@ $switch-button-size: map.merge(
     height: 0;
     opacity: 0;
     margin: 0;
+
+    &:focus-visible {
+      & ~ .#{$namespace}-switch__core {
+        outline: 2px solid getCssVar('switch-on-color');
+        outline-offset: 1px;
+      }
+    }
   }
 
   @include e(core) {
