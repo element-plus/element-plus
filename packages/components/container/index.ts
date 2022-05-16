@@ -19,4 +19,4 @@ export const ElFooter = withNoopInstall(Footer)
 export const ElHeader = withNoopInstall(Header)
 export const ElMain = withNoopInstall(Main)
 
-export * from './src/main'
+export type MainInstance = InstanceType<typeof Main>
