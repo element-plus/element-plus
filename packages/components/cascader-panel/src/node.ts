@@ -194,7 +194,9 @@ class Node {
 
     this.checked =
       this.loaded &&
-      this.children.every((child) => child.loaded && child.checked) &&
+      this.children
+        .filter((child) => !child.isDisabled)
+        .every((child) => child.loaded && child.checked) &&
       checked
     this.indeterminate =
       this.loaded && checkedNum !== totalNum && checkedNum > 0
