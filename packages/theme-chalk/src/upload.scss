@@ -195,12 +195,13 @@
     & .#{bem('icon', '', 'close-tip')} {
       display: none;
       position: absolute;
+      top: 1px;
       right: 5px;
       font-size: 12px;
       cursor: pointer;
       opacity: 1;
       color: getCssVar('color-primary');
-      transform: translateY(-50%);
+      font-style: normal;
     }
 
     &:hover {
@@ -236,7 +237,7 @@
 
       &:focus:not(:hover) {
         /* 键盘focus */
-        .#{$namespace}-icon-close-tip {
+        .#{bem('icon', '', 'close-tip')} {
           display: inline-block;
         }
       }
@@ -245,12 +246,13 @@
       &:active {
         /* click时 */
         outline-width: 0;
-        .#{$namespace}-icon--close-tip {
+        .#{bem('icon', '', 'close-tip')} {
           display: none;
         }
       }
 
-      &:hover {
+      &:hover,
+      &:focus {
         .#{bem('upload-list', 'item-status-label')} {
           display: none;
           opacity: 0;
