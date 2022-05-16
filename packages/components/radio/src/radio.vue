@@ -8,7 +8,6 @@
       ns.is('checked', modelValue === label),
       ns.m(size),
     ]"
-    @keydown.space.stop.prevent="modelValue = disabled ? modelValue : label"
   >
     <span
       :class="[
@@ -17,20 +16,19 @@
         ns.is('checked', modelValue === label),
       ]"
     >
-      <span :class="ns.e('inner')" />
       <input
         ref="radioRef"
         v-model="modelValue"
         :class="ns.e('original')"
         :value="label"
-        type="radio"
-        :name="name"
+        :name="name || radioGroup?.name"
         :disabled="disabled"
-        tabindex="tabIndex"
+        type="radio"
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
       />
+      <span :class="ns.e('inner')" />
     </span>
     <span :class="ns.e('label')" @keydown.stop>
       <slot>
@@ -52,8 +50,16 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const ns = useNamespace('radio')
-    const { radioRef, isGroup, focus, size, disabled, tabIndex, modelValue } =
-      useRadio(props, emit)
+    const {
+      radioRef,
+      isGroup,
+      radioGroup,
+      focus,
+      size,
+      disabled,
+      tabIndex,
+      modelValue,
+    } = useRadio(props, emit)
 
     function handleChange() {
       nextTick(() => emit('change', modelValue.value))
@@ -63,6 +69,7 @@ export default defineComponent({
       ns,
       focus,
       isGroup,
+      radioGroup,
       modelValue,
       tabIndex,
       size,
