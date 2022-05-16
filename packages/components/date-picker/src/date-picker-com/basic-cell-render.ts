@@ -1,5 +1,6 @@
 import { defineComponent, h, inject } from 'vue'
 import { buildProps, definePropType } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import { ROOT_PICKER_INJECTION_KEY } from '../date-picker.type'
 import type { DateCell } from '../date-picker.type'
 
@@ -11,6 +12,7 @@ export default defineComponent({
     },
   }),
   setup(props) {
+    const ns = useNamespace('date-table-cell')
     const picker = inject(ROOT_PICKER_INJECTION_KEY)
     return () => {
       const cell = props.cell
@@ -27,13 +29,13 @@ export default defineComponent({
       return h(
         'div',
         {
-          class: 'el-date-table-cell',
+          class: ns.b(),
         },
         [
           h(
             'span',
             {
-              class: 'el-date-table-cell__text',
+              class: ns.e('text'),
             },
             [cell?.text]
           ),
