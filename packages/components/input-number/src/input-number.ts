@@ -1,3 +1,4 @@
+import { isNil } from 'lodash-unified'
 import { buildProps, isNumber } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 
@@ -42,6 +43,12 @@ export const inputNumberProps = buildProps({
     default: '',
     values: ['', 'right'],
   },
+  valueOnClear: {
+    type: [String, Number, null],
+    validator: (val: 'min' | 'max' | number | null) =>
+      val === null || isNumber(val) || ['min', 'max'].includes(val),
+    default: null,
+  },
   name: String,
   label: String,
   placeholder: String,
@@ -56,7 +63,6 @@ export const inputNumberEmits = {
   change: (prev: number | undefined, cur: number | undefined) => prev !== cur,
   blur: (e: FocusEvent) => e instanceof FocusEvent,
   focus: (e: FocusEvent) => e instanceof FocusEvent,
-  input: (val: number | undefined) => isNumber(val),
-  'update:modelValue': (val: number | undefined) =>
-    isNumber(val) || val === undefined,
+  input: (val: number | null | undefined) => isNumber(val) || isNil(val),
+  'update:modelValue': (val: number | undefined) => isNumber(val) || isNil(val),
 }
