@@ -3,6 +3,7 @@ import Collection from './collection.vue'
 import CollectionItem from './collection-item.vue'
 
 import type { InjectionKey } from 'vue'
+import type { SetupContext } from '@vue/runtime-core'
 import type {
   ElCollectionInjectionContext,
   ElCollectionItemInjectionContext,
@@ -35,10 +36,9 @@ export const createCollectionWithScope = (name: string) => {
 
         const items = [...itemMap.values()]
 
-        const orderedItems = items.sort(
+        return items.sort(
           (a, b) => orderedNodes.indexOf(a.ref!) - orderedNodes.indexOf(b.ref!)
         )
-        return orderedItems
       }
 
       provide(COLLECTION_INJECTION_KEY, {
@@ -52,7 +52,7 @@ export const createCollectionWithScope = (name: string) => {
   const ElCollectionItem = {
     ...CollectionItem,
     name: COLLECTION_ITEM_NAME,
-    setup(_, { attrs }) {
+    setup(_, { attrs }: SetupContext) {
       const collectionItemRef = ref<HTMLElement | null>(null)
       const collectionInjection = inject(COLLECTION_INJECTION_KEY, undefined)!
 
