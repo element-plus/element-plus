@@ -41,10 +41,10 @@
     </div>
   </transition>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
-import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
 import { ElIcon } from '@element-plus/components/icon'
@@ -55,24 +55,17 @@ import type { BadgeProps } from '@element-plus/components/badge'
 
 import type { CSSProperties } from 'vue'
 
-// export default defineComponent({
 defineOptions({
   name: 'ElMessage',
-
-  components: {
-    ElBadge,
-    ElIcon,
-    ...TypeComponents,
-  },
 })
 const props = defineProps(messageProps)
-const emits = defineEmits(messageEmits)
+defineEmits(messageEmits)
 const ns = useNamespace('message')
 const visible = ref(false)
 const badgeType = ref<BadgeProps['type']>(
   props.type ? (props.type === 'error' ? 'danger' : props.type) : 'info'
 )
-let stopTimer: (() => void) | undefined = undefined
+let stopTimer: (() => void) | undefined
 
 const typeClass = computed(() => {
   const type = props.type
@@ -116,6 +109,7 @@ function keydown({ code }: KeyboardEvent) {
 }
 
 onMounted(() => {
+  useEventListener(document, 'keydown', keydown)
   startTimer()
   visible.value = true
 })
@@ -127,6 +121,4 @@ watch(
     startTimer()
   }
 )
-
-useEventListener(document, 'keydown', keydown)
 </script>
