@@ -74,6 +74,7 @@ describe('TimeLine.vue', () => {
       `,
       data() {
         return {
+          iconMoreFilled: markRaw(MoreFilled),
           activities: [
             {
               content: 'Step 1: xxxxxx',
@@ -112,6 +113,7 @@ describe('TimeLine.vue', () => {
       `,
       data() {
         return {
+          iconMoreFilled: markRaw(MoreFilled),
           activities: [
             {
               content: 'Step 1: xxxxxx',
@@ -257,6 +259,7 @@ describe('TimeLine.vue', () => {
       `,
       data() {
         return {
+          iconMoreFilled: markRaw(MoreFilled),
           activities: [
             {
               content: 'Step 1: xxxxxx',
