@@ -10,6 +10,7 @@
     "strict": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
+    "lib": ["WebWorker"],
     "paths": {
       "element-plus": ["../packages/element-plus"],
       "~/*": ["./.vitepress/vitepress/*"]

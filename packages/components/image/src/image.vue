@@ -80,8 +80,8 @@ const showViewer = ref(false)
 const container = ref<HTMLElement>()
 
 const _scrollContainer = ref<HTMLElement | Window>()
-let stopScrollListener: () => void
-let stopWheelListener: () => void
+let stopScrollListener: (() => void) | undefined
+let stopWheelListener: (() => void) | undefined
 
 const containerStyle = computed(() => rawAttrs.style as StyleValue)
 
@@ -191,7 +191,7 @@ async function addLazyLoadListener() {
 function removeLazyLoadListener() {
   if (!isClient || !_scrollContainer.value || !lazyLoadHandler) return
 
-  stopScrollListener()
+  stopScrollListener?.()
   _scrollContainer.value = undefined
 }
 

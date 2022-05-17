@@ -74,7 +74,7 @@ describe('InputNumber.vue', () => {
     await nextTick()
     expect(wrapper.find('input').element.value).toEqual('')
     expect(wrapper.find('input').element.getAttribute('aria-valuenow')).toEqual(
-      'NaN'
+      'null'
     )
   })
   test('min', async () => {
@@ -278,9 +278,41 @@ describe('InputNumber.vue', () => {
     expect(wrapper.getComponent(InputNumber).emitted('focus')).toHaveLength(1)
   })
 
-  test('clear', async () => {
+  test('clear with :value-on-clear="null"', async () => {
     const wrapper = _mount({
-      template: '<el-input-number v-model="num" :min="1"/>',
+      template: '<el-input-number v-model="num" :min="1" :max="10"/>',
+      setup() {
+        const num = ref(2)
+        return {
+          num,
+        }
+      },
+    })
+    const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
+    elInput.handleInputChange('')
+    await nextTick()
+    expect(wrapper.vm.num).toBe(null)
+    elInput.increase()
+    await nextTick()
+    expect(wrapper.vm.num).toBe(1)
+    elInput.increase()
+    await nextTick()
+    expect(wrapper.vm.num).toBe(2)
+    elInput.handleInputChange('')
+    await nextTick()
+    expect(wrapper.vm.num).toBe(null)
+    elInput.decrease()
+    await nextTick()
+    expect(wrapper.vm.num).toBe(1)
+    elInput.decrease()
+    await nextTick()
+    expect(wrapper.vm.num).toBe(1)
+  })
+
+  test('clear with value-on-clear="min"', async () => {
+    const wrapper = _mount({
+      template:
+        '<el-input-number v-model="num" value-on-clear="min" :min="1" :max="10"/>',
       setup() {
         const num = ref(2)
         return {
@@ -301,6 +333,58 @@ describe('InputNumber.vue', () => {
     elInput.decrease()
     await nextTick()
     expect(wrapper.vm.num).toBe(1)
+  })
+
+  test('clear with value-on-clear="max"', async () => {
+    const wrapper = _mount({
+      template:
+        '<el-input-number v-model="num" value-on-clear="max" :min="1" :max="10"/>',
+      setup() {
+        const num = ref(2)
+        return {
+          num,
+        }
+      },
+    })
+    const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
+    elInput.handleInputChange('')
+    await nextTick()
+    expect(wrapper.vm.num).toBe(10)
+    elInput.increase()
+    await nextTick()
+    expect(wrapper.vm.num).toBe(10)
+    elInput.handleInputChange('')
+    await nextTick()
+    expect(wrapper.vm.num).toBe(10)
+    elInput.decrease()
+    await nextTick()
+    expect(wrapper.vm.num).toBe(9)
+  })
+
+  test('clear with :value-on-clear="5"', async () => {
+    const wrapper = _mount({
+      template:
+        '<el-input-number v-model="num" :value-on-clear="5" :min="1" :max="10"/>',
+      setup() {
+        const num = ref(2)
+        return {
+          num,
+        }
+      },
+    })
+    const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
+    elInput.handleInputChange('')
+    await nextTick()
+    expect(wrapper.vm.num).toBe(5)
+    elInput.increase()
+    await nextTick()
+    expect(wrapper.vm.num).toBe(6)
+    elInput.handleInputChange('')
+    await nextTick()
+    expect(wrapper.vm.num).toBe(5)
+    elInput.decrease()
+    await nextTick()
+    expect(wrapper.vm.num).toBe(4)
   })
 
   test('check increase and decrease button when modelValue not in [min, max]', async () => {

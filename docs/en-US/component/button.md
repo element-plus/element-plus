@@ -25,6 +25,17 @@ button/disabled
 
 :::
 
+## Link Button <VersionTag version="2.2.1" />
+
+Since the last version, we deleted `type="link"` which was not really a smooth transition, so we added back `Link Button`,
+for some users `Link Button` is the suitable choice. Notably we would suggest using `Link` component to be more accessible.
+
+:::demo
+
+button/link
+
+:::
+
 ## Text Button
 
 :::tip
@@ -116,6 +127,7 @@ button/custom
 | plain                               | determine whether it's a plain button                           | boolean            | —                                                             | false   |
 | text <VersionTag version="2.2.0" /> | determine whether it's a text button                            | boolean            | —                                                             | false   |
 | bg <VersionTag version="2.2.0" />   | determine whether the text button background color is always on | boolean            | —                                                             | false   |
+| link <VersionTag version="2.2.1" /> | determine whether it's a link button                            | boolean            | —                                                             | false   |
 | round                               | determine whether it's a round button                           | boolean            | —                                                             | false   |
 | circle                              | determine whether it's a circle button                          | boolean            | —                                                             | false   |
 | loading                             | determine whether it's loading                                  | boolean            | —                                                             | false   |

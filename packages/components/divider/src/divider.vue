@@ -1,5 +1,9 @@
 <template>
-  <div :class="[ns.b(), ns.m(direction)]" :style="dividerStyle">
+  <div
+    :class="[ns.b(), ns.m(direction)]"
+    :style="dividerStyle"
+    role="separator"
+  >
     <div
       v-if="$slots.default && direction !== 'vertical'"
       :class="[ns.e('text'), ns.is(contentPosition)]"

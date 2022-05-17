@@ -16,6 +16,9 @@ jobs:
             node-name: 'Latest'
     outputs:
       failed: ${{ steps.lint_commit.outputs.failed == 'true' }}
+    env:
+      PULL_REQUEST_NUMBER: ${{ github.event.number }}
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -47,79 +50,23 @@ jobs:
       - name: Lint commit
         id: lint_commit
         run: pnpm lint:commit || echo "::set-output name=failed::true"
+      - name: Set success result
+        if: ${{ steps.lint_commit.outputs.failed != 'true' }}
+        run: echo 'true' > ./lint-result.txt
+      - name: Set failed result
+        if: ${{ steps.lint_commit.outputs.failed == 'true' }}
+        run: echo 'false' > ./lint-result.txt
+      - name: Set PR number
+        run: echo $PULL_REQUEST_NUMBER > pr.txt
       - uses: actions/upload-artifact@v2
         with:
           name: commit-lint-report
           path: ./commit-lint.txt
-
-  on-success:
-    runs-on: ubuntu-latest
-    needs: lint
-    if: ${{ needs.lint.outputs.failed != 'true' }}
-    name: Lint successfully
-    steps:
-      - uses: actions-awesome/pr-helper@1.1.0
+      - uses: actions/upload-artifact@v2
         with:
-          actions: 'maintain-comment, add-labels, remove-labels'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          labels-to-add: 'CommitMessage::Qualified'
-          labels-to-remove: 'CommitMessage::Unqualified'
-          body-filter: '<!-- ELEMENT_PLUS_COMMIT_LINT -->'
-
-  on-failed:
-    runs-on: ubuntu-latest
-    needs: lint
-    name: Lint failed
-    if: ${{ needs.lint.outputs.failed == 'true' }}
-    steps:
-      - uses: actions/download-artifact@v2
+          name: commit-lint-result
+          path: ./lint-result.txt
+      - uses: actions/upload-artifact@v2
         with:
-          name: commit-lint-report
-
-      - name: Read lint result
-        id: read
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ./commit-lint.txt
-
-      - uses: actions-awesome/pr-helper@1.1.0
-        with:
-          actions: 'remove-labels, add-labels, maintain-comment'
-          labels-to-remove: 'CommitMessage::Qualified'
-          labels-to-add: 'CommitMessage::Unqualified'
-          token: ${{ secrets.GITHUB_TOKEN }}
-          comment-body: |
-            Hello, @${{ github.event.pull_request.user.login }}, seems like your commit message contains some issues.
-
-            你好，@${{ github.event.pull_request.user.login }}，你的提交消息不符合 Element Plus 的提交消息规范。
-
-            ```
-            ${{ steps.read.outputs.content }}
-            ```
-
-            Please refer to [Commit Example](https://github.com/element-plus/element-plus/blob/dev/commit-example.md) for fixing it.
-
-            请参考 [提交示例](https://github.com/element-plus/element-plus/blob/dev/commit-example.md) 来修改你的提交消息。
-
-            Note that all your commits will be squashed into one for being linted, so you might need to revision your commits.
-            If you do not know how to do so, please refer to [Keeping git commit history clean](https://about.gitlab.com/blog/2018/06/07/keeping-git-commit-history-clean/) to update your commit message.
-
-            你的所有 commit(s) 会被合并为一个 commit 来被验证，所以你可能需要修改你之前的 commit(s) 消息。
-            如果你不知道如何来修改之前已经提交的记录，请参考[让你的 Git 提交历史保持干净](https://about.gitlab.com/blog/2018/06/07/keeping-git-commit-history-clean/)来修改。
-
-            If you find it hard to do it by yourself, run command below to use an intuitive tool for that.
-
-            如果你觉得自己写这个提交消息很难，请使用下面的命令来启动一个交互式工具来帮助你生成消息。
-
-            ```shell
-            pnpm cz
-            ```
-
-            Note that if you do not fix the commit message issue, your PR will be automatically closed within **3 days**.
-
-            请注意，如果你没有按照规范修改你的提交消息，你的 PR 将会在**三天**内被自动关闭。
-
-            <sub>Generated with :heart: by ElementPlusBot</sub>
-            <!-- ELEMENT_PLUS_COMMIT_LINT -->
-          body-filter: '<!-- ELEMENT_PLUS_COMMIT_LINT -->'
-      - run: exit 1
+          name: pr-number
+          path: ./pr.txt

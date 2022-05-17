@@ -75,6 +75,6 @@ describe('<ElCollectionItem />', () => {
     expect(childVm.itemMap.size).toBe(3)
     const items = childVm.getItems()
     expect(childVm.getItems()).toHaveLength(3)
-    expect(items[0].ref).toBe(collectionItems.at(0).element)
+    expect(items[0].ref).toBe(collectionItems.at(0)?.element)
   })
 })

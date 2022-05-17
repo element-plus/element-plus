@@ -40,7 +40,7 @@ $button-icon-span-gap: map.merge(
   vertical-align: middle;
   -webkit-appearance: none;
 
-  &:not(.is-text) {
+  &:not(.is-text, .is-link) {
     background-color: getCssVar('button', 'bg-color');
     border: getCssVar('border');
     border-color: getCssVar('button', 'border-color');
@@ -58,6 +58,12 @@ $button-icon-span-gap: map.merge(
       border-color: getCssVar('button', 'active', 'border-color');
       background-color: getCssVar('button', 'active', 'bg-color');
       outline: none;
+    }
+
+    &:focus-visible {
+      border-color: transparent;
+      outline: 2px solid getCssVar('button', 'border-color');
+      outline-offset: 1px;
     }
   }
 
@@ -166,6 +172,12 @@ $button-icon-span-gap: map.merge(
         background-color: getCssVar('fill-color', 'light');
       }
 
+      &:focus-visible {
+        border-color: transparent;
+        outline: 2px solid getCssVar('button', 'border-color');
+        outline-offset: 1px;
+      }
+
       &:active {
         background-color: getCssVar('fill-color');
       }
@@ -185,6 +197,46 @@ $button-icon-span-gap: map.merge(
   }
 
   @include e(text) {
+    @include m(expand) {
+      letter-spacing: 0.3em;
+      margin-right: -0.3em;
+    }
+  }
+
+  @include when(link) {
+    border-color: transparent;
+    // color: getCssVar('color', 'primary');
+    background: transparent;
+    padding-left: 0;
+    padding-right: 0;
+
+    &:hover {
+      color: getCssVar('button', 'hover', 'link-text-color');
+    }
+
+    @include when(disabled) {
+      color: getCssVar('button', 'disabled', 'text-color');
+      background-color: transparent !important;
+      border-color: transparent !important;
+    }
+
+    &:not(.is-disabled) {
+      &:hover,
+      &:focus {
+        // color: getCssVar('color', 'primary', 'light-3');
+        border-color: transparent;
+        background-color: transparent;
+      }
+
+      &:active {
+        // color: getCssVar('color', 'primary', 'dark-2');
+        border-color: transparent;
+        background-color: transparent;
+      }
+    }
+  }
+
+  @include e(link) {
     @include m(expand) {
       letter-spacing: 0.3em;
       margin-right: -0.3em;
