@@ -8,6 +8,11 @@
       ns.is('checked', modelValue === label),
       ns.m(size),
     ]"
+    role="radio"
+    :aria-checked="modelValue === label"
+    :aria-disabled="disabled"
+    :tabIndex="tabIndex"
+    @keydown.space.stop.prevent="modelValue = disabled ? modelValue : label"
   >
     <span
       :class="[
@@ -24,6 +29,7 @@
         :name="name || radioGroup?.name"
         :disabled="disabled"
         type="radio"
+        tabIndex="-1"
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
@@ -51,10 +57,8 @@ const props = defineProps(radioProps)
 const emit = defineEmits(radioEmits)
 
 const ns = useNamespace('radio')
-const { radioRef, radioGroup, focus, size, disabled, modelValue } = useRadio(
-  props,
-  emit
-)
+const { radioRef, radioGroup, focus, size, disabled, modelValue, tabIndex } =
+  useRadio(props, emit)
 
 function handleChange() {
   nextTick(() => emit('change', modelValue.value))
