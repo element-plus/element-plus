@@ -51,7 +51,7 @@ import {
   watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import { clone, isEqual } from 'lodash-unified'
+import { clone } from 'lodash-unified'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
@@ -273,7 +273,6 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
   // skip validation if its resetting
   if (isResettingField) {
-    isResettingField = false
     return false
   }
 
@@ -314,15 +313,15 @@ const resetField: FormItemContext['resetField'] = async () => {
 
   const computedValue = getProp(model, props.prop)
 
-  if (!isEqual(computedValue.value, initialValue)) {
-    // prevent validation from being triggered
-    isResettingField = true
-  }
+  // prevent validation from being triggered
+  isResettingField = true
 
   computedValue.value = initialValue
 
   await nextTick()
   clearValidate()
+
+  isResettingField = false
 }
 
 const addInputId: FormItemContext['addInputId'] = (id: string) => {
