@@ -16,6 +16,9 @@ jobs:
             node-name: 'Latest'
     outputs:
       failed: ${{ steps.lint_commit.outputs.failed == 'true' }}
+    env:
+      PULL_REQUEST_NUMBER: ${{ github.event.number }}
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -53,6 +56,8 @@ jobs:
       - name: Set failed result
         if: ${{ steps.lint_commit.outputs.failed == 'true' }}
         run: echo 'false' > ./lint-result.txt
+      - name: Set PR number
+        run: echo $PULL_REQUEST_NUMBER > pr.txt
       - uses: actions/upload-artifact@v2
         with:
           name: commit-lint-report
@@ -61,3 +66,7 @@ jobs:
         with:
           name: commit-lint-result
           path: ./lint-result.txt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: pr-number
+          path: ./pr.txt
