@@ -38,7 +38,7 @@ jobs:
     if: ${{ needs.result.outputs.succeeded == 'true' }}
     name: Lint successfully
     steps:
-      - uses: actions-awesome/pr-helper@1.1.0
+      - uses: actions-awesome/pr-helper@1.1.1
         with:
           actions: 'maintain-comment, add-labels, remove-labels'
           token: ${{ github.token }}
@@ -65,7 +65,7 @@ jobs:
         with:
           path: ./commit-lint.txt
 
-      - uses: actions-awesome/pr-helper@1.1.0
+      - uses: actions-awesome/pr-helper@1.1.1
         with:
           actions: 'remove-labels, add-labels, maintain-comment'
           labels-to-remove: 'CommitMessage::Qualified'
