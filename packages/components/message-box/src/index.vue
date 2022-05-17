@@ -165,9 +165,7 @@ import {
   useId,
   useLocale,
   useLockscreen,
-  useModal,
   useNamespace,
-  usePreventGlobal,
   useRestoreActive,
   useSameTarget,
   useSize,
@@ -182,7 +180,6 @@ import {
   off,
   on,
 } from '@element-plus/utils'
-import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 

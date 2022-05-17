@@ -56,8 +56,8 @@ export default defineComponent({
   ],
   setup(props, { emit }) {
     const forwardRef = ref<HTMLElement | undefined>()
-    let lastFocusBeforeMounted: HTMLElement | null
-    let lastFocusAfterMounted: HTMLElement | null
+    let lastFocusBeforeTrapped: HTMLElement | null
+    let lastFocusAfterTrapped: HTMLElement | null
 
     useEscapeKeydown((event) => {
       if (props.trapped && !focusLayer.paused) {
@@ -89,7 +89,6 @@ export default defineComponent({
         const container = currentTarget as HTMLElement
         const [first, last] = getEdges(container)
         const isTabbable = first && last
-
         if (!isTabbable) {
           if (currentFocusingEl === container) {
             e.preventDefault()
@@ -127,15 +126,16 @@ export default defineComponent({
       { immediate: true }
     )
 
-    watch([forwardRef], ([forwardRef]) => {
+    watch([forwardRef], ([forwardRef], [oldForwardRef]) => {
       if (forwardRef) {
         forwardRef.addEventListener('keydown', onKeydown)
         forwardRef.addEventListener('focusin', onFocusIn)
         forwardRef.addEventListener('focusout', onFocusOut)
-      } else {
-        forwardRef.removeEventListener('keydown', onKeydown)
-        forwardRef.removeEventListener('focusin', onFocusIn)
-        forwardRef.removeEventListener('focusout', onFocusOut)
+      }
+      if (oldForwardRef) {
+        oldForwardRef.removeEventListener('keydown', onKeydown)
+        oldForwardRef.removeEventListener('focusin', onFocusIn)
+        oldForwardRef.removeEventListener('focusout', onFocusOut)
       }
     })
 
@@ -156,9 +156,9 @@ export default defineComponent({
 
       if (props.trapped) {
         if (isFocusedInTrap) {
-          lastFocusAfterMounted = target
+          lastFocusAfterTrapped = target
         } else {
-          tryFocus(lastFocusAfterMounted, true)
+          tryFocus(lastFocusAfterTrapped, true)
         }
       }
     }
@@ -173,7 +173,7 @@ export default defineComponent({
             (e as FocusEvent).relatedTarget as HTMLElement | null
           )
         ) {
-          tryFocus(lastFocusAfterMounted, true)
+          tryFocus(lastFocusAfterTrapped, true)
         }
       } else {
         const target = e.target as HTMLElement | null
@@ -189,7 +189,7 @@ export default defineComponent({
       if (trapContainer) {
         focusableStack.push(focusLayer)
         const prevFocusedElement = document.activeElement
-        lastFocusBeforeMounted = prevFocusedElement as HTMLElement | null
+        lastFocusBeforeTrapped = prevFocusedElement as HTMLElement | null
         const isPrevFocusContained = trapContainer.contains(prevFocusedElement)
         if (!isPrevFocusContained) {
           const focusEvent = new Event(
@@ -239,7 +239,7 @@ export default defineComponent({
         trapContainer.dispatchEvent(releasedEvent)
 
         if (!releasedEvent.defaultPrevented) {
-          tryFocus(lastFocusBeforeMounted ?? document.body, true)
+          tryFocus(lastFocusBeforeTrapped ?? document.body, true)
         }
 
         trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, trapOnFocus)
