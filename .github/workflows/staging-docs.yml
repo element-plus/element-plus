@@ -60,7 +60,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy staging website
-        uses: JamesIves/github-pages-deploy-action@v4.3.0
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main
