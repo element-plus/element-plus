@@ -12,7 +12,7 @@ export const paginationPrevProps = buildProps({
     type: String,
     default: '',
   },
-})
+} as const)
 
 export type PaginationPrevProps = ExtractPropTypes<typeof paginationPrevProps>
 
