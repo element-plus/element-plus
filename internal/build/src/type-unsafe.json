@@ -1,7 +1,6 @@
 [
   "packages/components/cascader/",
   "packages/components/cascader-panel/",
-  "packages/components/checkbox/",
   "packages/components/color-picker/",
   "packages/components/date-picker/",
   "packages/components/descriptions/",
