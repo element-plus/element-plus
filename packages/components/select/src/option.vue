@@ -66,28 +66,28 @@ const { currentLabel, itemSelected, isDisabled, select, hoverItem } = useOption(
 
 const { visible, hover } = toRefs(states)
 
-const vm = getCurrentInstance().proxy
+const vm = getCurrentInstance()!.proxy
 const key = (vm as unknown as SelectOptionProxy).value
-select.onOptionCreate(vm as unknown as SelectOptionProxy)
+select!.onOptionCreate(vm as unknown as SelectOptionProxy)
 
 onBeforeUnmount(() => {
-  const { selected } = select
-  const selectedOptions = select.props.multiple ? selected : [selected]
+  const { selected } = select!
+  const selectedOptions = select!.props.multiple ? selected : [selected]
   const doesSelected = selectedOptions.some((item) => {
     return item.value === (vm as unknown as SelectOptionProxy).value
   })
   // if option is not selected, remove it from cache
-  if (select.cachedOptions.get(key) === vm && !doesSelected) {
+  if (select!.cachedOptions.get(key) === vm && !doesSelected) {
     nextTick(() => {
-      select.cachedOptions.delete(key)
+      select!.cachedOptions.delete(key)
     })
   }
-  select.onOptionDestroy(key, vm)
+  select!.onOptionDestroy(key, vm as unknown as SelectOptionProxy)
 })
 
 function selectOptionClick() {
   if (props.disabled !== true && states.groupDisabled !== true) {
-    select.handleOptionSelect(vm, true)
+    select!.handleOptionSelect(vm, true)
   }
 }
 </script>
