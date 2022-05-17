@@ -16,7 +16,7 @@ export const paginationPagerProps = buildProps({
     default: 7,
   },
   disabled: Boolean,
-})
+} as const)
 
 export type PaginationPagerProps = ExtractPropTypes<typeof paginationPagerProps>
 
