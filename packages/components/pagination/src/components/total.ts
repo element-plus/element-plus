@@ -7,7 +7,7 @@ export const paginationTotalProps = buildProps({
     type: Number,
     default: 1000,
   },
-})
+} as const)
 
 export type PaginationTotalProps = ExtractPropTypes<typeof paginationTotalProps>
 
