@@ -25,10 +25,16 @@ button/disabled
 
 :::
 
-## Link Button <VersionTag version="2.2.1" />
+## Link Button
 
-Since the last version, we deleted `type="link"` which was not really a smooth transition, so we added back `Link Button`,
-for some users `Link Button` is the suitable choice. Notably we would suggest using `Link` component to be more accessible.
+:::warning
+
+`type="text"` has been **deprecated**, and **will be** removed in <VersionTag version="3.0.0" />, consider switching to new API.
+
+New API `type="link"` has been added in <VersionTag version="2.2.1" />, you can use `type` API to set the
+theme of your link button
+
+:::
 
 :::demo
 
