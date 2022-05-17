@@ -27,7 +27,7 @@
     "concurrently": "^7.2.0",
     "consola": "^2.15.3",
     "cross-env": "^7.0.3",
-    "esno": "^0.15.0",
+    "esno": "^0.14.1",
     "fast-glob": "^3.2.11",
     "lodash-es": "^4.17.21",
     "octokit": "^1.7.1"
