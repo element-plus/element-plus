@@ -60,7 +60,7 @@ describe('Radio', () => {
     expect(wrapper.classes()).toContain('is-bordered')
   })
 
-  test('disabled', async () => {
+  test('change event', async () => {
     const wrapper = _mount(
       `<el-radio
     v-model="radio"
