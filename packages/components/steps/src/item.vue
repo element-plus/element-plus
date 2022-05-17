@@ -52,7 +52,6 @@ import {
   getCurrentInstance,
   inject,
   onBeforeUnmount,
-  onMounted,
   reactive,
   ref,
   watch,
@@ -120,20 +119,6 @@ export default defineComponent({
     const parent: IStepsInject = inject('ElSteps')
     const currentInstance = getCurrentInstance()
 
-    onMounted(() => {
-      watch(
-        [
-          () => parent.props.active,
-          () => parent.props.processStatus,
-          () => parent.props.finishStatus,
-        ],
-        ([active]) => {
-          updateStatus(active)
-        },
-        { immediate: true }
-      )
-    })
-
     onBeforeUnmount(() => {
       parent.steps.value = parent.steps.value.filter(
         (instance) => instance.uid !== currentInstance.uid
@@ -183,19 +168,19 @@ export default defineComponent({
       return style
     })
 
-    const setIndex = (val) => {
+    const setIndex = (val: number) => {
       index.value = val
+      updateStatus(parent.props.active)
     }
     const calcProgress = (status) => {
       let step = 100
       const style: Record<string, unknown> = {}
 
-      style.transitionDelay = `${150 * index.value}ms`
+      style.transitionDelay = `${Math.abs(150 * index.value)}ms`
       if (status === parent.props.processStatus) {
         step = 0
       } else if (status === 'wait') {
         step = 0
-        style.transitionDelay = `${-150 * index.value}ms`
       }
       style.borderWidth = step && !isSimple.value ? '1px' : 0
       style[
@@ -220,8 +205,28 @@ export default defineComponent({
       currentStatus,
       setIndex,
       calcProgress,
+      key: currentInstance?.vnode?.key,
     })
     parent.steps.value = [...parent.steps.value, stepItemState]
+
+    watch(index, (index) => {
+      const steps = parent.steps.value
+      if (steps[index]?.uid !== stepItemState.uid) {
+        steps.splice(index, 0, stepItemState)
+      }
+    })
+
+    watch(
+      [
+        () => parent.props.active,
+        () => parent.props.processStatus,
+        () => parent.props.finishStatus,
+      ],
+      ([active]) => {
+        updateStatus(active)
+      },
+      { immediate: true, flush: 'post' }
+    )
 
     return {
       ns,
