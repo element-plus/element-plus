@@ -23,7 +23,7 @@ import { isEqual } from 'lodash-unified'
 import { ElOption, ElSelect } from '@element-plus/components/select'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { usePagination } from '../usePagination'
-import { paginationSizesProps } from './size'
+import { paginationSizesProps } from './sizes'
 
 defineOptions({
   name: 'ElPaginationSizes',
