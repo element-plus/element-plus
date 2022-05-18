@@ -167,8 +167,11 @@ export default defineComponent({
       const digits = num.toString().split('.')
       if (digits.length > 1) {
         const integer = digits[0]
-        const decimal = Math.round(+digits[1] / 10 ** (digits[1].length - pre))
-        return Number.parseFloat(`${integer}.${decimal}`)
+        const decimal = `${Math.round(
+          +`10${digits[1]}` / 10 ** (digits[1].length - pre)
+        )}`
+        const carry = +decimal.slice(0, 2) - 10
+        return Number.parseFloat(`${+integer + carry}.${decimal.slice(2)}`)
       }
       return Number.parseFloat(`${Math.round(num * 10 ** pre) / 10 ** pre}`)
     }

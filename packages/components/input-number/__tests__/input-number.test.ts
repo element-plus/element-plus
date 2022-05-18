@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it, test } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import InputNumber from '../src/input-number.vue'
@@ -160,7 +160,7 @@ describe('InputNumber.vue', () => {
     await wrapper.find('input').setValue(1.1111111111)
     expect(wrapper.find('input').element.value).toEqual('1.11')
   })
-  test('precision accuracy', async () => {
+  describe('precision accuracy', () => {
     const wrapper = _mount({
       template: '<el-input-number :precision="2" v-model="num" />',
       setup() {
@@ -170,8 +170,19 @@ describe('InputNumber.vue', () => {
         }
       },
     })
-    await wrapper.find('input').setValue(17.275)
-    expect(wrapper.find('input').element.value).toEqual('17.28')
+    it.each([
+      [17.275, '17.28'],
+      [17.2745, '17.27'],
+      [1.09, '1.09'],
+      [1.009, '1.01'],
+      [10.999, '11.00'],
+    ])(
+      'each precision accuracy test: $input $output',
+      async (input, output) => {
+        await wrapper.find('input').setValue(input)
+        expect(wrapper.find('input').element.value).toEqual(`${output}`)
+      }
+    )
   })
   test('disabled', async () => {
     const wrapper = _mount({
