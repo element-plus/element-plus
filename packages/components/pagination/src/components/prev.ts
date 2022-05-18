@@ -14,6 +14,10 @@ export const paginationPrevProps = buildProps({
   },
 } as const)
 
+export const paginationPrevEmits = {
+  click: (evt: MouseEvent) => evt instanceof MouseEvent,
+}
+
 export type PaginationPrevProps = ExtractPropTypes<typeof paginationPrevProps>
 
 export type PrevInstance = InstanceType<typeof Prev>

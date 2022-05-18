@@ -15,17 +15,16 @@
 import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft } from '@element-plus/icons-vue'
-import { paginationPrevProps } from './prev'
+import { paginationPrevEmits, paginationPrevProps } from './prev'
 
 defineOptions({
   name: 'ElPaginationPrev',
 })
 
 const props = defineProps(paginationPrevProps)
+defineEmits(paginationPrevEmits)
 
 const internalDisabled = computed(
   () => props.disabled || props.currentPage <= 1
 )
-
-defineEmits(['click'])
 </script>
