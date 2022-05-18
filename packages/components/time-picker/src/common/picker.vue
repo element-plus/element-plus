@@ -385,13 +385,11 @@ export default defineComponent({
 
     const onHide = () => {
       pickerActualVisible.value = false
+      ignoreFocusEvent = false
       ctx.emit('visible-change', false)
     }
 
-    const focus = async (
-      focusStartInput = true,
-      isIgnoreFocusEvent = false
-    ) => {
+    const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
       ignoreFocusEvent = isIgnoreFocusEvent
       let input = refStartInput.value
       if (!focusStartInput && isRangeInput.value) {
@@ -400,8 +398,6 @@ export default defineComponent({
       if (input) {
         input.focus()
       }
-      await nextTick()
-      ignoreFocusEvent = false
     }
 
     const handleFocusInput = (e) => {
