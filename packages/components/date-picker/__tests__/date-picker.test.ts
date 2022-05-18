@@ -968,7 +968,7 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('focus')
     await nextTick()
 
-    const outterInput = wrapper.find('.el-range-editor.el-input__inner')
+    const outterInput = wrapper.find('.el-range-editor.el-input__wrapper')
     expect(outterInput.classes()).toContain(customClassName)
     expect(outterInput.attributes().style).toBeDefined()
     const panels = document.querySelectorAll('.el-date-range-picker__content')
