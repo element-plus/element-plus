@@ -27,8 +27,8 @@
           </div>
         </slot>
         <el-icon v-else :class="[ns.e('icon-inner'), ns.is('status')]">
-          <check v-if="currentStatus === 'success'" />
-          <close v-else />
+          <Check v-if="currentStatus === 'success'" />
+          <Close v-else />
         </el-icon>
       </div>
     </div>
