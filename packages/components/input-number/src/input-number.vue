@@ -171,7 +171,7 @@ export default defineComponent({
           Number(`10${digits[1]}`) / 10 ** (digits[1].length - pre)
         )}`
         const carry = +decimal.slice(0, 2) - 10
-        return Number.parseFloat(`${+integer + carry}.${decimal.slice(2)}`)
+        return Number.parseFloat(`${Number(integer) + carry}.${decimal.slice(2)}`)
       }
       return Number.parseFloat(`${Math.round(num * 10 ** pre) / 10 ** pre}`)
     }
