@@ -13,7 +13,6 @@ export const paginationSizesProps = buildProps({
   },
   popperClass: {
     type: String,
-    default: '',
   },
   disabled: Boolean,
   size: {
