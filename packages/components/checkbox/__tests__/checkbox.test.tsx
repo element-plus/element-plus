@@ -6,12 +6,8 @@ import Checkbox from '../src/checkbox.vue'
 import CheckboxButton from '../src/checkbox-button.vue'
 import CheckboxGroup from '../src/checkbox-group.vue'
 
-const _mount = <D>(
-  template: string,
-  data: () => D,
-  otherObj?: Record<string, unknown>
-) =>
-  mount<D>({
+const _mount = (template: string, data, otherObj?: Record<string, unknown>) =>
+  mount({
     components: {
       'el-checkbox': Checkbox,
       'el-checkbox-group': CheckboxGroup,

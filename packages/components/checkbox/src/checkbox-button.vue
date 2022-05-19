@@ -49,11 +49,11 @@
 import { computed, defineComponent } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
-import { useCheckbox, useCheckboxGroup, useCheckboxProps } from './useCheckbox'
+import { checkboxProps, useCheckbox, useCheckboxGroup } from './checkbox'
 
 export default defineComponent({
   name: 'ElCheckboxButton',
-  props: useCheckboxProps,
+  props: checkboxProps,
   emits: [UPDATE_MODEL_EVENT, 'change'],
   setup(props, { slots }) {
     const { focus, isChecked, isDisabled, size, model, handleChange } =
