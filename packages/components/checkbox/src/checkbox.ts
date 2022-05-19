@@ -2,16 +2,9 @@ import { computed, getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
-import { useFormItemInputId, useSize } from '@element-plus/hooks'
-import {
-  debugWarn,
-  isBoolean,
-  isNumber,
-  isString,
-  isValidComponentSize,
-} from '@element-plus/utils'
+import { useFormItemInputId, useSize, useSizeProp } from '@element-plus/hooks'
+import { debugWarn, isBoolean, isNumber, isString } from '@element-plus/utils'
 import type { ComponentInternalInstance, ExtractPropTypes, PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/constants'
 import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 import type Checkbox from './checkbox.vue'
@@ -30,10 +23,7 @@ export const useCheckboxGroupProps = {
     type: Number,
     default: undefined,
   },
-  size: {
-    type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
-  },
+  size: useSizeProp,
   id: {
     type: String,
     default: undefined,
@@ -92,10 +82,7 @@ export const checkboxProps = {
     default: undefined,
   },
   border: Boolean,
-  size: {
-    type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
-  },
+  size: useSizeProp,
   tabindex: [String, Number],
 }
 
