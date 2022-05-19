@@ -23,12 +23,12 @@ defineOptions({
 
 const props = defineProps(paginationNextProps)
 
+defineEmits(['click'])
+
 const internalDisabled = computed(
   () =>
     props.disabled ||
     props.currentPage === props.pageCount ||
     props.pageCount === 0
 )
-
-defineEmits(['click'])
 </script>

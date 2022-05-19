@@ -14,7 +14,6 @@ export const paginationNextProps = buildProps({
   },
   nextText: {
     type: String,
-    default: '',
   },
 } as const)
 
