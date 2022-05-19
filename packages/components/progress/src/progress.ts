@@ -1,8 +1,9 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import type { ExtractPropTypes, SVGAttributes } from 'vue'
+import type Progress from './progress.vue'
 
-type Color = { color: string; percentage: number }
-type ProgressFn = (percentage: number) => string
+export type ProgressColor = { color: string; percentage: number }
+export type ProgressFn = (percentage: number) => string
 
 export const progressProps = buildProps({
   type: {
@@ -49,7 +50,7 @@ export const progressProps = buildProps({
     default: true,
   },
   color: {
-    type: definePropType<string | Color[] | ProgressFn>([
+    type: definePropType<string | ProgressColor[] | ProgressFn>([
       String,
       Array,
       Function,
@@ -63,3 +64,4 @@ export const progressProps = buildProps({
 } as const)
 
 export type ProgressProps = ExtractPropTypes<typeof progressProps>
+export type ProgressInstance = InstanceType<typeof Progress>
