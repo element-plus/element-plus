@@ -10,7 +10,6 @@ export const paginationPrevProps = buildProps({
   },
   prevText: {
     type: String,
-    default: '',
   },
 } as const)
 
