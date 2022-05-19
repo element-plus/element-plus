@@ -11,48 +11,24 @@
   </button>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowRight } from '@element-plus/icons-vue'
+import { paginationNextProps } from './next'
 
-const paginationNextProps = {
-  disabled: Boolean,
-  currentPage: {
-    type: Number,
-    default: 1,
-  },
-  pageCount: {
-    type: Number,
-    default: 50,
-  },
-  nextText: {
-    type: String,
-    default: '',
-  },
-} as const
-
-export default defineComponent({
+defineOptions({
   name: 'ElPaginationNext',
-
-  components: {
-    ElIcon,
-    ArrowRight,
-  },
-  props: paginationNextProps,
-  emits: ['click'],
-
-  setup(props) {
-    const internalDisabled = computed(
-      () =>
-        props.disabled ||
-        props.currentPage === props.pageCount ||
-        props.pageCount === 0
-    )
-
-    return {
-      internalDisabled,
-    }
-  },
 })
+
+const props = defineProps(paginationNextProps)
+
+defineEmits(['click'])
+
+const internalDisabled = computed(
+  () =>
+    props.disabled ||
+    props.currentPage === props.pageCount ||
+    props.pageCount === 0
+)
 </script>
