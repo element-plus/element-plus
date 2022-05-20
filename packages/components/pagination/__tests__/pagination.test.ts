@@ -15,12 +15,12 @@ const assertElementsExistence = (
   })
 }
 
-const assertCurrent = (wrapper, page) => {
+const assertCurrent = (wrapper: VueWrapper<any>, page: number) => {
   expect(wrapper.find('.el-pager li.is-active.number').text()).toBe(
     String(page)
   )
 }
-const assertPages = (wrapper, total) => {
+const assertPages = (wrapper: VueWrapper<any>, total: number) => {
   expect(wrapper.find('.el-pagination .el-pager li:last-child').text()).toBe(
     String(total)
   )
@@ -37,7 +37,7 @@ describe('Pagination', () => {
     })
     test('both absence of total & pageCount is invalid', async () => {
       expect(console.warn).not.toHaveBeenCalled()
-      const total = ref(undefined)
+      const total = ref<number | undefined>(undefined)
       const wrapper = mount({
         setup() {
           return () => {
