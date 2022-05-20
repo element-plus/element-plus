@@ -1,0 +1,49 @@
+name: 🤖️ Post PR Automerge
+
+on:
+  workflow_run:
+    workflows: ['PR Automerge']
+    types: [completed]
+
+jobs:
+  result:
+    runs-on: ubuntu-latest
+    outputs:
+      succeeded: ${{ steps.assert.outputs.succeeded }}
+      pr: ${{ steps.pr.outputs.pr }}
+    steps:
+      - name: Download CI Result
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          name: ci-result
+
+      - name: Derive PR number
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          name: pr-number
+
+      - name: Assert result
+        id: assert
+        run: echo "::set-output name=succeeded::$(<ci-result.txt)"
+      - name: Get PR number
+        id: pr
+        run: echo "::set-output name=pr::$(<pr.txt)"
+
+  on-success:
+    runs-on: ubuntu-latest
+    needs: result
+    steps:
+      - id: automerge
+        name: automerge
+        uses: 'pascalgn/automerge-action@v0.15.3'
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          MERGE_LABELS: '🤖️ automerge'
+          MERGE_REMOVE_LABELS: '🤖️ automerge'
+          MERGE_METHOD: 'squash'
+          MERGE_REQUIRED_APPROVALS: 1
+          PULL_REQUEST: ${{ needs.result.outputs.pr }}

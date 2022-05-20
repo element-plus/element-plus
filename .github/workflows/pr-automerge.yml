@@ -23,14 +23,20 @@ on:
 jobs:
   automerge:
     runs-on: ubuntu-latest
+    env:
+      PULL_REQUEST_NUMBER: ${{ github.event.number }}
+      WORKFLOW_CONCLUSION: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - id: automerge
-        name: automerge
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
-        uses: 'pascalgn/automerge-action@v0.15.3'
-        env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-          MERGE_LABELS: '🤖️ automerge'
-          MERGE_REMOVE_LABELS: '🤖️ automerge'
-          MERGE_METHOD: 'squash'
-          MERGE_REQUIRED_APPROVALS: 1
+      - name: ci result
+        run: echo $WORKFLOW_CONCLUSION > ./ci-result.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ci-result
+          path: ./ci-result.txt
+
+      - name: Set PR number
+        run: echo $PULL_REQUEST_NUMBER > pr.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: pr-number
+          path: ./pr.txt
