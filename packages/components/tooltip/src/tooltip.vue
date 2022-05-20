@@ -32,6 +32,7 @@
       :strategy="strategy"
       :teleported="teleported"
       :transition="transition"
+      :virtual-triggering="virtualTriggering"
       :z-index="zIndex"
       :append-to="appendTo"
     >

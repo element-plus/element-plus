@@ -22,7 +22,7 @@ export const obtainAllFocusableElements = (
       const isHiddenInput = node.tagName === 'INPUT' && node.type === 'hidden'
       if (node.disabled || node.hidden || isHiddenInput)
         return NodeFilter.FILTER_SKIP
-      return node.tabIndex >= 0
+      return node.tabIndex >= 0 || node === document.activeElement
         ? NodeFilter.FILTER_ACCEPT
         : NodeFilter.FILTER_SKIP
     },

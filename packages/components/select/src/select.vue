@@ -155,7 +155,7 @@
               @keydown="resetInputState"
               @keydown.down.prevent="navigateOptions('next')"
               @keydown.up.prevent="navigateOptions('prev')"
-              @keydown.esc.stop.prevent="visible = false"
+              @keydown.esc="handleKeydownEscape"
               @keydown.enter.stop.prevent="selectOption"
               @keydown.delete="deletePrevTag"
               @keydown.tab="visible = false"
@@ -189,7 +189,7 @@
             @keydown.down.stop.prevent="navigateOptions('next')"
             @keydown.up.stop.prevent="navigateOptions('prev')"
             @keydown.enter.stop.prevent="selectOption"
-            @keydown.esc.stop.prevent="visible = false"
+            @keydown.esc="handleKeydownEscape"
             @keydown.tab="visible = false"
             @mouseenter="inputHovering = true"
             @mouseleave="inputHovering = false"
@@ -436,6 +436,7 @@ export default defineComponent({
       handleBlur,
       handleClearClick,
       handleClose,
+      handleKeydownEscape,
       toggleMenu,
       selectOption,
       getValueKey,
@@ -618,6 +619,7 @@ export default defineComponent({
       handleBlur,
       handleClearClick,
       handleClose,
+      handleKeydownEscape,
       toggleMenu,
       selectOption,
       getValueKey,
