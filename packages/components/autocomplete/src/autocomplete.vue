@@ -37,6 +37,7 @@
         @keydown.down.prevent="highlight(highlightedIndex + 1)"
         @keydown.enter="handleKeyEnter"
         @keydown.tab="close"
+        @keydown.esc="handleKeyEscape"
       >
         <template v-if="$slots.prepend" #prepend>
           <slot name="prepend" />
@@ -233,6 +234,13 @@ const handleKeyEnter = () => {
       suggestions.value = []
       highlightedIndex.value = -1
     })
+  }
+}
+const handleKeyEscape = (e) => {
+  if (suggestionVisible.value) {
+    e.preventDefault()
+    e.stopPropagation()
+    close()
   }
 }
 const close = () => {

@@ -2,12 +2,12 @@ import { computed, getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
-import { useFormItemInputId, useSize } from '@element-plus/hooks'
-import { debugWarn, isValidComponentSize } from '@element-plus/utils'
+import { useFormItemInputId, useSize, useSizeProp } from '@element-plus/hooks'
+import { debugWarn, isBoolean, isNumber, isString } from '@element-plus/utils'
 import type { ComponentInternalInstance, ExtractPropTypes, PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/constants'
 import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
+import type Checkbox from './checkbox.vue'
 
 export const useCheckboxGroupProps = {
   modelValue: {
@@ -23,10 +23,7 @@ export const useCheckboxGroupProps = {
     type: Number,
     default: undefined,
   },
-  size: {
-    type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
-  },
+  size: useSizeProp,
   id: {
     type: String,
     default: undefined,
@@ -53,7 +50,7 @@ export type IUseCheckboxGroupProps = ExtractPropTypes<
   typeof useCheckboxGroupProps
 >
 
-export const useCheckboxProps = {
+export const checkboxProps = {
   modelValue: {
     type: [Number, String, Boolean],
     default: () => undefined,
@@ -85,14 +82,9 @@ export const useCheckboxProps = {
     default: undefined,
   },
   border: Boolean,
-  size: {
-    type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
-  },
+  size: useSizeProp,
   tabindex: [String, Number],
 }
-
-export type IUseCheckboxProps = ExtractPropTypes<typeof useCheckboxProps>
 
 export const useCheckboxGroup = () => {
   const elForm = inject(formContextKey, {} as FormContext)
@@ -127,7 +119,7 @@ export const useCheckboxGroupId = (
   }
 }
 
-const useModel = (props: IUseCheckboxProps) => {
+const useModel = (props: CheckboxProps) => {
   const selfModel = ref<any>(false)
   const { emit } = getCurrentInstance()!
   const { isGroup, checkboxGroup, elFormItem } = useCheckboxGroup()
@@ -161,7 +153,7 @@ const useModel = (props: IUseCheckboxProps) => {
 }
 
 const useCheckboxStatus = (
-  props: IUseCheckboxProps,
+  props: CheckboxProps,
   slots: ComponentInternalInstance['slots'],
   { model }: Partial<ReturnType<typeof useModel>>
 ) => {
@@ -201,7 +193,7 @@ const useCheckboxStatus = (
 }
 
 const useDisabled = (
-  props: IUseCheckboxProps,
+  props: CheckboxProps,
   {
     model,
     isChecked,
@@ -233,7 +225,7 @@ const useDisabled = (
 }
 
 const setStoreValue = (
-  props: IUseCheckboxProps,
+  props: CheckboxProps,
   { model }: Partial<ReturnType<typeof useModel>>
 ) => {
   function addToStore() {
@@ -247,7 +239,7 @@ const setStoreValue = (
 }
 
 const useEvent = (
-  props: IUseCheckboxProps,
+  props: CheckboxProps,
   {
     model,
     isLimitExceeded,
@@ -277,7 +269,7 @@ const useEvent = (
     emit('change', getLabeledValue(checked), e)
   }
 
-  function handleChange(e: InputEvent) {
+  function handleChange(e: Event) {
     if (isLimitExceeded!.value) return
     const target = e.target as HTMLInputElement
     emit('change', getLabeledValue(target.checked), e)
@@ -311,8 +303,15 @@ const useEvent = (
   }
 }
 
+export const checkboxEmits = {
+  [UPDATE_MODEL_EVENT]: (val: string | number | boolean) =>
+    isString(val) || isNumber(val) || isBoolean(val),
+  change: (val: string | number | boolean) =>
+    isString(val) || isNumber(val) || isBoolean(val),
+}
+
 export const useCheckbox = (
-  props: IUseCheckboxProps,
+  props: CheckboxProps,
   slots: ComponentInternalInstance['slots']
 ) => {
   const { model, isGroup, isLimitExceeded, elFormItem } = useModel(props)
@@ -352,3 +351,7 @@ export const useCheckbox = (
     size,
   }
 }
+
+export type CheckboxProps = ExtractPropTypes<typeof checkboxProps>
+export type CheckboxEmits = typeof checkboxEmits
+export type CheckboxInstance = InstanceType<typeof Checkbox>

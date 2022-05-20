@@ -11,7 +11,6 @@
     :style="style"
     tabindex="-1"
     @click.stop
-    @keydown="onKeydown"
   >
     <header ref="headerRef" :class="ns.e('header')">
       <slot name="header">
@@ -57,7 +56,7 @@ defineProps(dialogContentProps)
 defineEmits(dialogContentEmits)
 
 const { dialogRef, headerRef, bodyId, ns, style } = inject(dialogInjectionKey)!
-const { focusTrapRef, onKeydown } = inject(FOCUS_TRAP_INJECTION_KEY)!
+const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 </script>

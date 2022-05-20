@@ -616,6 +616,12 @@ export default defineComponent({
           e.preventDefault()
           break
         case EVENT_CODE.esc:
+          if (popperVisible.value === true) {
+            e.preventDefault()
+            e.stopPropagation()
+            togglePopperVisible(false)
+          }
+          break
         case EVENT_CODE.tab:
           togglePopperVisible(false)
           break
@@ -657,10 +663,6 @@ export default defineComponent({
         }
         case EVENT_CODE.enter:
           target.click()
-          break
-        case EVENT_CODE.esc:
-        case EVENT_CODE.tab:
-          togglePopperVisible(false)
           break
       }
     }

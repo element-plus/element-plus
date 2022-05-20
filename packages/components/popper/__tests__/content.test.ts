@@ -1,5 +1,5 @@
 import { nextTick, ref } from 'vue'
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
 import ElContent from '../src/content.vue'
@@ -12,7 +12,7 @@ const popperInjection = {
 }
 
 const mountContent = (props = {}) =>
-  shallowMount(ElContent, {
+  mount(ElContent, {
     props,
     slots: {
       default: () => AXIOM,

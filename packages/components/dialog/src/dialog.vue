@@ -30,6 +30,7 @@
             focus-start-el="container"
             @focus-after-trapped="onOpenAutoFocus"
             @focus-after-released="onCloseAutoFocus"
+            @release-requested="onCloseRequested"
           >
             <el-dialog-content
               v-if="rendered"
@@ -45,12 +46,13 @@
             >
               <template #header>
                 <slot
+                  v-if="!$slots.title"
                   name="header"
                   :close="handleClose"
                   :title-id="titleId"
                   :title-class="ns.e('title')"
                 />
-                <slot name="title" />
+                <slot v-else name="title" />
               </template>
               <slot />
               <template v-if="$slots.footer" #footer>
@@ -92,7 +94,7 @@ useDeprecated(
     scope: 'el-dialog',
     from: 'the title slot',
     replacement: 'the header slot',
-    version: '2.3.0',
+    version: '3.0.0',
     ref: 'https://element-plus.org/en-US/component/dialog.html#slots',
   },
   computed(() => !!slots.title)
@@ -116,6 +118,7 @@ const {
   onModalClick,
   onOpenAutoFocus,
   onCloseAutoFocus,
+  onCloseRequested,
 } = useDialog(props, dialogRef)
 
 provide(dialogInjectionKey, {
