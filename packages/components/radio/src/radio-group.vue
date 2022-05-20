@@ -12,7 +12,16 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  toRefs,
+  watch,
+} from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { radioGroupKey } from '@element-plus/tokens'
 import {
@@ -28,6 +37,7 @@ defineOptions({
   name: 'ElRadioGroup',
 })
 
+let id = 1
 const props = defineProps(radioGroupProps)
 const emit = defineEmits(radioGroupEmits)
 
@@ -50,6 +60,16 @@ onMounted(() => {
   if (!Array.from(radios).some((radio) => radio.checked) && firstLabel) {
     firstLabel.tabIndex = 0
   }
+})
+
+const randomName = `el-radio-group-${id++}`
+
+/**
+ *  @description reserved auto-generated name
+ **/
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const name = computed(() => {
+  return props.name || randomName
 })
 
 provide(
