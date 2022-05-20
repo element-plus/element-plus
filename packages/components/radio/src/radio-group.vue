@@ -64,10 +64,6 @@ onMounted(() => {
 
 const randomName = `el-radio-group-${id++}`
 
-/**
- *  @description reserved auto-generated name
- **/
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const name = computed(() => {
   return props.name || randomName
 })
@@ -77,6 +73,7 @@ provide(
   reactive({
     ...toRefs(props),
     changeEvent,
+    name,
   })
 )
 
