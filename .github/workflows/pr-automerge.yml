@@ -1,0 +1,41 @@
+# https://github.com/pascalgn/automerge-action
+name: PR Automerge
+
+on:
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - synchronize
+      - opened
+      - edited
+      - ready_for_review
+      - reopened
+      - unlocked
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  status: {}
+
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - id: automerge
+        name: automerge
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        uses: 'pascalgn/automerge-action@v0.15'
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          MERGE_LABELS: '🤖️ automerge'
+          MERGE_REMOVE_LABELS: '🤖️ automerge'
+          MERGE_METHOD: 'squash'
+          MERGE_REQUIRED_APPROVALS: 1
+
+      - name: feedback
+        if: steps.automerge.outputs.mergeResult == "merged"
+        run: |
+          echo "Pull request ${{ steps.automerge.outputs.pullRequestNumber }} merged!"
