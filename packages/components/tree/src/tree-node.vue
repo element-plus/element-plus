@@ -18,7 +18,6 @@
     :aria-checked="node.checked"
     :draggable="tree.props.draggable"
     :data-key="getNodeKey(node)"
-    @click.stop="handleClick"
     @contextmenu="handleContextMenu"
     @dragstart.stop="handleDragStart"
     @dragover.stop="handleDragOver"
@@ -28,6 +27,7 @@
     <div
       :class="ns.be('node', 'content')"
       :style="{ paddingLeft: (node.level - 1) * tree.props.indent + 'px' }"
+      @click.stop="handleClick"
     >
       <el-icon
         v-if="tree.props.icon || CaretRight"
