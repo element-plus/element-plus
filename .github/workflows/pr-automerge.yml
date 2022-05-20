@@ -25,9 +25,11 @@ jobs:
     steps:
       # https://docs.github.com/en/graphql/reference/enums#checkconclusionstate
       - name: ci result
-        run: echo $CHECK_SUITE_CONCLUSION > ./ci-result.txt
-        env:
-          CHECK_SUITE_CONCLUSION: ${{ github.event.check_suite.conclusion == 'success' }}
+        if: github.event.check_suite.conclusion == 'success'
+        run: echo 'true' > ./ci-result.txt
+      - name: ci result
+        if: github.event.check_suite.conclusion != 'success'
+        run: echo 'false' > ./ci-result.txt
       - uses: actions/upload-artifact@v3
         with:
           name: ci-result
