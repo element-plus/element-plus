@@ -52,7 +52,7 @@ time-picker/range
 | end-placeholder       | placeholder for the end time in range mode              | string                                     | —                                                                                   | —           |
 | is-range              | whether to pick a time range                            | boolean                                    | —                                                                                   | false       |
 | arrow-control         | whether to pick time using arrow buttons                | boolean                                    | —                                                                                   | false       |
-| align                 | alignment                                               | left / center / right                      | left                                                                                |
+| align                 | alignment                                               | string                      | left / center / right                                                           |left|
 | popper-class          | custom class name for TimePicker's dropdown             | string                                     | —                                                                                   | —           |
 | range-separator       | range separator                                         | string                                     | —                                                                                   | '-'         |
 | format                | format of the displayed value in the input box          | string                                     | see [date formats](/en-US/component/date-picker#date-formats)                       | HH:mm:ss    |
@@ -65,7 +65,6 @@ time-picker/range
 | disabled-minutes      | To specify the array of minutes that cannot be selected | function(selectedHour)                     | —                                                                                   | —           |
 | disabled-seconds      | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute)     | —                                                                                   | —           |
 | teleported            | whether time-picker dropdown is teleported to the body  | boolean                                    | true / false                                                                        | true        |
-
 ## Events
 
 | Event Name     | Description                                                | Parameters                                |
