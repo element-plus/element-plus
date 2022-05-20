@@ -27,7 +27,7 @@ jobs:
       - id: automerge
         name: automerge
         if: ${{ github.event.workflow_run.conclusion == 'success' }}
-        uses: 'pascalgn/automerge-action@v0.15'
+        uses: 'pascalgn/automerge-action@v0.15.3'
         env:
           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
           MERGE_LABELS: '🤖️ automerge'
