@@ -10,8 +10,10 @@
       <el-popper-content
         v-if="shouldRender"
         v-show="shouldShow"
+        :id="id"
         ref="contentRef"
         v-bind="$attrs"
+        :aria-label="ariaLabel"
         :aria-hidden="ariaHidden"
         :boundaries-padding="boundariesPadding"
         :fallback-placements="fallbackPlacements"
@@ -30,13 +32,12 @@
         :z-index="zIndex"
         @mouseenter="onContentEnter"
         @mouseleave="onContentLeave"
+        @blur="onBlur"
+        @close="onClose"
       >
         <!-- Workaround bug #6378 -->
         <template v-if="!destroyed">
           <slot />
-          <el-visually-hidden :id="id" role="tooltip">
-            {{ ariaLabel }}
-          </el-visually-hidden>
         </template>
       </el-popper-content>
     </transition>
@@ -55,9 +56,7 @@ import {
 } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { ElPopperContent } from '@element-plus/components/popper'
-import { ElVisuallyHidden } from '@element-plus/components/visual-hidden'
 import { composeEventHandlers } from '@element-plus/utils'
-import { useEscapeKeydown } from '@element-plus/hooks'
 
 import { useTooltipContentProps } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
@@ -66,7 +65,6 @@ export default defineComponent({
   name: 'ElTooltipContent',
   components: {
     ElPopperContent,
-    ElVisuallyHidden,
   },
   inheritAttrs: false,
   props: useTooltipContentProps,
@@ -113,8 +111,6 @@ export default defineComponent({
 
     const ariaHidden = computed(() => !unref(open))
 
-    useEscapeKeydown(onClose)
-
     const onTransitionLeave = () => {
       onHide()
     }
@@ -146,6 +142,12 @@ export default defineComponent({
 
     const onAfterShow = () => {
       onShow()
+    }
+
+    const onBlur = () => {
+      if (!props.virtualTriggering) {
+        onClose()
+      }
     }
 
     let stopHandle: ReturnType<typeof onClickOutside>
@@ -186,6 +188,7 @@ export default defineComponent({
       destroyed,
       shouldRender,
       shouldShow,
+      onClose,
       open,
       onAfterShow,
       onBeforeEnter,
@@ -193,6 +196,7 @@ export default defineComponent({
       onContentEnter,
       onContentLeave,
       onTransitionLeave,
+      onBlur,
     }
   },
 })

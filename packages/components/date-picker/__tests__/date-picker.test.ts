@@ -126,15 +126,15 @@ describe('DatePicker', () => {
     await nextTick()
     const spans = document.querySelectorAll('.el-date-picker__header-label')
     const arrowLeftElm = document.querySelector(
-      '.el-date-picker__prev-btn.arrow-left'
+      '.el-date-picker__prev-btn .arrow-left'
     ) as HTMLElement
     const arrowRightElm = document.querySelector(
-      '.el-date-picker__next-btn.arrow-right'
+      '.el-date-picker__next-btn .arrow-right'
     ) as HTMLElement
     expect(spans[0].textContent).toContain(date.year())
     expect(spans[1].textContent).toContain(date.format('MMMM'))
     const arrowLeftYeayElm = document.querySelector(
-      '.el-date-picker__prev-btn.d-arrow-left'
+      '.el-date-picker__prev-btn .d-arrow-left'
     ) as HTMLElement
     arrowLeftYeayElm.click()
     let count = 20
@@ -220,17 +220,19 @@ describe('DatePicker', () => {
     expect(vm.value.getDate()).toBe(1)
   })
 
-  it('event change, focus, blur', async () => {
+  it('event change, focus, blur, keydown', async () => {
     const changeHandler = vi.fn()
     const focusHandler = vi.fn()
     const blurHandler = vi.fn()
-    let onChangeValue
+    const keydownHandler = vi.fn()
+    let onChangeValue: Date | undefined
     const wrapper = _mount(
       `<el-date-picker
         v-model="value"
         @change="onChange"
         @focus="onFocus"
         @blur="onBlur"
+        @keydown="onKeydown"
       />`,
       () => ({ value: new Date(2016, 9, 10, 18, 40) }),
       {
@@ -245,21 +247,29 @@ describe('DatePicker', () => {
           onBlur(e) {
             return blurHandler(e)
           },
+          onKeydown(e) {
+            return keydownHandler(e)
+          },
         },
       }
     )
 
     const input = wrapper.find('input')
+    input.trigger('focus')
     input.trigger('blur')
+    input.trigger('keydown')
+    await nextTick()
+    await rAF()
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(keydownHandler).toHaveBeenCalledTimes(1)
     input.trigger('focus')
     await nextTick()
-    expect(focusHandler).toHaveBeenCalledTimes(1)
     ;(document.querySelector('td.available') as HTMLElement).click()
     await nextTick()
-    await nextTick() // onchange is triggered by props.modelValue update
+    await rAF()
     expect(changeHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(1)
-    expect(onChangeValue.getTime()).toBe(new Date(2016, 9, 1).getTime())
+    expect(onChangeValue?.getTime()).toBe(new Date(2016, 9, 1).getTime())
   })
 
   it('shortcuts', async () => {
@@ -603,10 +613,10 @@ describe('DatePicker Navigation', () => {
     )[0]
     ;(yearLabel as HTMLElement).click()
     await nextTick()
-    const year1999Label = document.querySelectorAll('.el-year-table td a')[1]
+    const year1999Label = document.querySelectorAll('.el-year-table td')[1]
     ;(year1999Label as HTMLElement).click()
     await nextTick()
-    const juneLabel = document.querySelectorAll('.el-month-table td a')[5]
+    const juneLabel = document.querySelectorAll('.el-month-table td')[5]
     ;(juneLabel as HTMLElement).click()
     await nextTick()
     expect(getYearLabel()).toContain('2001')
@@ -616,7 +626,7 @@ describe('DatePicker Navigation', () => {
     )[1]
     ;(monthLabel as HTMLElement).click()
     await nextTick()
-    const janLabel = document.querySelectorAll('.el-month-table td a')[0]
+    const janLabel = document.querySelectorAll('.el-month-table td')[0]
     ;(janLabel as HTMLElement).click()
     await nextTick()
     expect(getYearLabel()).toContain('2001')
@@ -645,7 +655,7 @@ describe('MonthPicker', () => {
       (document.querySelector('.el-month-table') as HTMLElement).style.display
     ).toBe('')
     expect(document.querySelector('.el-year-table')).toBeNull()
-    ;(document.querySelector('.el-month-table a.cell') as HTMLElement).click()
+    ;(document.querySelector('.el-month-table .cell') as HTMLElement).click()
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value.getMonth()).toBe(0)
@@ -670,7 +680,7 @@ describe('MonthPicker', () => {
     input.trigger('focus')
     await nextTick()
     {
-      ;(document.querySelector('.el-month-table a.cell') as HTMLElement).click()
+      ;(document.querySelector('.el-month-table .cell') as HTMLElement).click()
     }
     await nextTick()
     expect(wrapper.findComponent(Input).vm.modelValue).toBe('2020-01')
@@ -711,7 +721,7 @@ describe('YearPicker', () => {
     }
 
     await nextTick()
-    ;(document.querySelector('.el-year-table a.cell') as HTMLElement).click()
+    ;(document.querySelector('.el-year-table .cell') as HTMLElement).click()
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value.getFullYear()).toBe(2030)
@@ -735,7 +745,7 @@ describe('YearPicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const cell = document.querySelector('.el-year-table a.cell') as HTMLElement
+    const cell = document.querySelector('.el-year-table .cell') as HTMLElement
     cell.click()
     await nextTick()
     expect((wrapper.vm as any).value).toBe(
@@ -965,7 +975,7 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('focus')
     await nextTick()
 
-    const outterInput = wrapper.find('.el-range-editor.el-input__inner')
+    const outterInput = wrapper.find('.el-range-editor.el-input__wrapper')
     expect(outterInput.classes()).toContain(customClassName)
     expect(outterInput.attributes().style).toBeDefined()
     const panels = document.querySelectorAll('.el-date-range-picker__content')

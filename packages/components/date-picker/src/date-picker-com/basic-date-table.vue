@@ -1,16 +1,23 @@
 <template>
   <table
+    role="grid"
+    :aria-label="t('el.datepicker.dateTablePrompt')"
     cellspacing="0"
     cellpadding="0"
     class="el-date-table"
     :class="{ 'is-week-mode': selectionMode === 'week' }"
-    @click="handleClick"
+    @click="handlePickDate"
     @mousemove="handleMouseMove"
   >
-    <tbody>
+    <tbody ref="tbodyRef">
       <tr>
-        <th v-if="showWeekNumber">{{ t('el.datepicker.week') }}</th>
-        <th v-for="(week, key) in WEEKS" :key="key">
+        <th v-if="showWeekNumber" scope="col">{{ t('el.datepicker.week') }}</th>
+        <th
+          v-for="(week, key) in WEEKS"
+          :key="key"
+          scope="col"
+          :aria-label="t('el.datepicker.weeksFull.' + week)"
+        >
           {{ t('el.datepicker.weeks.' + week) }}
         </th>
       </tr>
@@ -23,7 +30,12 @@
         <td
           v-for="(cell, key_) in row"
           :key="key_"
+          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el)"
           :class="getCellClasses(cell)"
+          :aria-current="cell.isCurrent ? 'date' : undefined"
+          :aria-selected="`${cell.isCurrent}`"
+          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          @focus="handleFocus"
         >
           <el-date-picker-cell :cell="cell" />
         </td>
@@ -33,7 +45,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
 import { castArray } from '@element-plus/utils'
@@ -62,7 +74,7 @@ export default defineComponent({
     },
     selectionMode: {
       type: String,
-      default: 'day',
+      default: 'date',
     },
     showWeekNumber: {
       type: Boolean,
@@ -83,9 +95,12 @@ export default defineComponent({
     },
   },
   emits: ['changerange', 'pick', 'select'],
-
+  expose: ['focus'],
   setup(props, ctx) {
     const { t, lang } = useLocale()
+
+    const tbodyRef = ref<HTMLElement>()
+    const currentCellRef = ref<HTMLElement>()
     // data
     const lastRow = ref(null)
     const lastColumn = ref(null)
@@ -114,6 +129,12 @@ export default defineComponent({
         firstDayOfWeek,
         firstDayOfWeek + 7
       )
+    })
+
+    const hasCurrent = computed<boolean>(() => {
+      return rows.value.flat().some((row) => {
+        return row.isCurrent
+      })
     })
 
     const rows = computed(() => {
@@ -244,9 +265,23 @@ export default defineComponent({
       return rows_
     })
 
+    watch(
+      () => props.date,
+      async () => {
+        if (tbodyRef.value?.contains(document.activeElement)) {
+          await nextTick()
+          currentCellRef.value?.focus()
+        }
+      }
+    )
+
+    const focus = async () => {
+      currentCellRef.value?.focus()
+    }
+
     const isCurrent = (cell): boolean => {
       return (
-        props.selectionMode === 'day' &&
+        props.selectionMode === 'date' &&
         (cell.type === 'normal' || cell.type === 'today') &&
         cellMatchesDate(cell, props.parsedValue)
       )
@@ -342,20 +377,28 @@ export default defineComponent({
       }
     }
 
-    const handleClick = (event) => {
-      let target = event.target
+    const isSelectedCell = (cell: DateCell) => {
+      return (
+        (!hasCurrent.value && cell?.text === 1 && cell.type === 'normal') ||
+        cell.isCurrent
+      )
+    }
 
-      while (target) {
-        if (target.tagName === 'TD') {
-          break
-        }
-        target = target.parentNode
+    const handleFocus = (event: Event) => {
+      if (!hasCurrent.value && props.selectionMode === 'date') {
+        handlePickDate(event, true)
       }
+    }
+
+    const handlePickDate = (event: Event, isKeyboardMovement = false) => {
+      let target = event.target as HTMLElement
+
+      target = target?.closest('td')
 
       if (!target || target.tagName !== 'TD') return
 
-      const row = target.parentNode.rowIndex - 1
-      const column = target.cellIndex
+      const row = (target.parentNode as HTMLTableRowElement).rowIndex - 1
+      const column = (target as HTMLTableCellElement).cellIndex
       const cell = rows.value[row][column]
 
       if (cell.disabled || cell.type === 'week') return
@@ -374,8 +417,8 @@ export default defineComponent({
           }
           ctx.emit('select', false)
         }
-      } else if (props.selectionMode === 'day') {
-        ctx.emit('pick', newDate)
+      } else if (props.selectionMode === 'date') {
+        ctx.emit('pick', newDate, isKeyboardMovement)
       } else if (props.selectionMode === 'week') {
         const weekNumber = newDate.week()
         const value = `${newDate.year()}w${weekNumber}`
@@ -419,13 +462,19 @@ export default defineComponent({
     }
 
     return {
+      tbodyRef,
+      currentCellRef,
       handleMouseMove,
       t,
+      hasCurrent,
       rows,
+      isSelectedCell,
       isWeekActive,
       getCellClasses,
       WEEKS,
-      handleClick,
+      handleFocus,
+      handlePickDate,
+      focus,
     }
   },
 })

@@ -1,8 +1,89 @@
 ## Changelog
 
+### 2.2.1
+
+_2022-05-20_
+
+#### Features
+
+- Components [dialog] a11y and focus trap on dialog components (#7550 by @opengraphica)
+- Components [date-picker] work with modal focus trap; a11y controls and attributes (#7598 by @opengraphica)
+- Ci enforce commit message linter (#7609 by @JeremyWuuuuu)
+- Components menu add more controllable styles (#7549 by @CarterLi)
+- Components [button] add link api (#7652 by @chenxch)
+- Components [input-number] add :value-on-clear and make it nullable (#7724 by @CarterLi)
+- Project introducing triage bot (#7732 by @JeremyWuuuuu)
+- Components [button] restore type="text" (#7761 by @JeremyWuuuuu)
+- Components [table] ensure minimum-size doesn't follow the content (#7627 by @msidolphin)
+- Components [popper] focus trap and a11y (#7736 by @opengraphica)
+
+#### Bug fixes
+
+- Components circle progress 0 percent transition effect (#7562 by @ryuhangyeong)
+- Components date picker range input__inner inherit height (#7586 by @YunYouJun)
+- Components input textarea padding & label line-height (#7570 by @YunYouJun)
+- Docs copy icon (#7587 by @btea)
+- Theme-chalk [input] fix unexpected var name of input-inner-height (#7600 by @plainheart)
+- Datepicker range default height by map.get (#7608 by @YunYouJun)
+- Theme-chalk [input] add not-allowed when disabled (#7612 by @satrong)
+- Components [select] in form change size (#7599 by @chenxch)
+- Ci replace token for lint notification (#7625 by @JeremyWuuuuu)
+- Check-strictly bug (#7422 by @chenxch)
+- Ci token limitation for commit lint (#7647 by @JeremyWuuuuu)
+- Components tabs focus visible (#7665 by @ryuhangyeong)
+- Ci token limitation for commit lint (#7675 by @JeremyWuuuuu)
+- Ci post lint message (#7692 by @JeremyWuuuuu)
+- Ci post lint message (#7695 by @JeremyWuuuuu)
+- Components [upload] show close tip text (#7696 by @ryuhangyeong)
+- Components [date-picker] date-table-cell namespace (#7684 by @YunYouJun)
+- Components date-picker add keydown events(#7506 by @lily-elephant) (#7536)
+- Components [cascader] disabled option can't trigger cancel checked (#7604 by @btea)
+- Components [table-v2] don't spread headerClass (#7729 by @btea)
+- Ci lint commit message error (#7731 by @JeremyWuuuuu)
+- Components [form-item] label is not vertically centered (#7780 by @buqiyuan)
+- Theme-chalk [DatetimePicker] change inner to wrapper & use css var (#7703 by @YunYouJun)
+- Components [time-picker] can not hide panel when click frequently (#7779 by @buqiyuan)
+- Components [popper] provide formItemContext conditionally (#7790 by @CarterLi)
+- Hooks use-form-item circular reference (#7793 by @btea)
+- Components [dialog/drawer] header slot
+- Improve deps (#7763 by @sxzz)
+- Radio-group restore name (#7810 by @chenxch)
+
+#### Refactors
+
+- Build use type unsafe (#7523 by @sxzz)
+- Components [main] switch to script-setup syntax (#7707 by @ryuhangyeong)
+- Components [timeline] switch to script-setup syntax (#7705 by @metanas)
+- Components [collection] switch to script-setup syntax (#7710 by @metanas)
+- Components [radio] switch to script-setup synatx (#7701 by @chenxch)
+- Components [container] switch to script-setup syntax (#7725 by @btea)
+- Components [pagination/pager] switch to script-setup syntax (#7746 by @metanas)
+- Components [pagination/jumper] switch to script-setup syntax (#7747 by @metanas)
+- Components [pagination/total] switch to script-setup syntax (#7750 by @metanas)
+- Components [pagination/prev] switch to script-setup syntax (#7745 by @metanas)
+- Components [pagination/next] switch to script-setup syntax (#7748 by @metanas)
+- Components [checkbox] switch to script-setup syntax (#7794 by @chenxch)
+- Components [pagination/sizes] switch to script-setup syntax (#7749 by @metanas)
+- Theme-chalk [table] remove useless style (#7807 by @YunYouJun)
+- Components [step] switch to script-setup syntax (#7782 by @ryuhangyeong)
+- Components [steps] switch to script-setup syntax (#7783 by @ryuhangyeong)
+
 ### 2.2.0
 
 _2022-05-09_
+
+[v2.2.0 release note](https://github.com/element-plus/element-plus/discussions/7578)
+
+#### Breaking changes
+
+##### Button
+
+- `type="text"` has been removed from `button`, now you can do this, for more detail see [Documentation](https://element-plus.org/en-US/component/button.html#text-button)
+
+```diff
+--- <el-button type="text"/>
++++ <el-button text />
+```
 
 #### Features
 

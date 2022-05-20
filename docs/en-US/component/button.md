@@ -25,6 +25,23 @@ button/disabled
 
 :::
 
+## Link Button
+
+:::warning
+
+`type="text"` has been **deprecated**, and **will be** removed in <VersionTag version="3.0.0" />, consider switching to new API.
+
+New API `type="link"` has been added in <VersionTag version="2.2.1" />, you can use `type` API to set the
+theme of your link button
+
+:::
+
+:::demo
+
+button/link
+
+:::
+
 ## Text Button
 
 :::tip
@@ -116,6 +133,7 @@ button/custom
 | plain                               | determine whether it's a plain button                           | boolean            | —                                                             | false   |
 | text <VersionTag version="2.2.0" /> | determine whether it's a text button                            | boolean            | —                                                             | false   |
 | bg <VersionTag version="2.2.0" />   | determine whether the text button background color is always on | boolean            | —                                                             | false   |
+| link <VersionTag version="2.2.1" /> | determine whether it's a link button                            | boolean            | —                                                             | false   |
 | round                               | determine whether it's a round button                           | boolean            | —                                                             | false   |
 | circle                              | determine whether it's a circle button                          | boolean            | —                                                             | false   |
 | loading                             | determine whether it's loading                                  | boolean            | —                                                             | false   |

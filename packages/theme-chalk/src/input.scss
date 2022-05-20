@@ -43,7 +43,7 @@
     position: relative;
     display: block;
     resize: vertical;
-    padding: 5px 15px;
+    padding: 5px map.get($input-padding-horizontal, 'default')-$border-width;
     line-height: 1.5;
     box-sizing: border-box;
     width: 100%;
@@ -165,11 +165,6 @@
   }
 
   @include e(wrapper) {
-    @include set-css-var-value(
-      'input-inner-height',
-      calc(getCssVar('input-height') - $border-width * 2)
-    );
-
     display: inline-flex;
     flex-grow: 1;
     align-items: center;
@@ -202,6 +197,17 @@
   }
 
   @include e(inner) {
+    // use map.get as default value for date picker range
+    @include set-css-var-value(
+      'input-inner-height',
+      calc(
+        var(
+            #{getCssVarName('input-height')},
+            #{map.get($input-height, 'default')}
+          ) - $border-width * 2
+      )
+    );
+
     width: 100%;
     flex-grow: 1;
     -webkit-appearance: none;
@@ -311,6 +317,7 @@
 
     .#{$namespace}-input__inner {
       color: map.get($input-disabled, 'text-color');
+      cursor: not-allowed;
 
       &::placeholder {
         color: map.get($input-disabled, 'placeholder-color');
@@ -341,12 +348,19 @@
       font-size: map.get($input-font-size, $size);
 
       @include e(wrapper) {
+        padding: $border-width map.get($input-padding-horizontal, $size)-$border-width;
+      }
+
+      @include e(inner) {
         @include set-css-var-value(
           'input-inner-height',
-          calc(getCssVar('input-height', $size) - $border-width * 2)
+          calc(
+            var(
+                #{getCssVarName('input-height')},
+                #{map.get($input-height, $size)}
+              ) - $border-width * 2
+          )
         );
-
-        padding: $border-width map.get($input-padding-horizontal, $size)-$border-width;
       }
     }
   }

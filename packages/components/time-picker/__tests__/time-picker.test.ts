@@ -220,16 +220,18 @@ describe('TimePicker', () => {
     expect(secondsDom).toBeUndefined()
   })
 
-  it('event change, focus, blur', async () => {
+  it('event change, focus, blur, keydown', async () => {
     const changeHandler = vi.fn()
     const focusHandler = vi.fn()
     const blurHandler = vi.fn()
+    const keydownHandler = vi.fn()
     const wrapper = _mount(
       `<el-time-picker
         v-model="value"
         @change="onChange"
         @focus="onFocus"
         @blur="onBlur"
+        @keydown="onKeydown"
       />`,
       () => ({ value: new Date(2016, 9, 10, 18, 40) }),
       {
@@ -243,6 +245,9 @@ describe('TimePicker', () => {
           onBlur(e) {
             return blurHandler(e)
           },
+          onKeydown(e) {
+            return keydownHandler(e)
+          },
         },
       }
     )
@@ -250,7 +255,21 @@ describe('TimePicker', () => {
     const input = wrapper.find('input')
     input.trigger('focus')
     await nextTick()
+    await rAF() // Set selection range causes focus to be retained
+    input.element.blur()
+    input.trigger('blur')
+    await nextTick()
+    await rAF() // Blur is delayed to ensure focus was not moved to popper
+    input.trigger('keydown')
+    await nextTick()
+    await rAF()
     expect(focusHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(keydownHandler).toHaveBeenCalledTimes(1)
+
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
     const list = document.querySelectorAll('.el-time-spinner__list')
     const hoursEl = list[0]
     const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
@@ -261,7 +280,6 @@ describe('TimePicker', () => {
     await nextTick()
     await nextTick() // onchange is triggered by props.modelValue update
     expect(changeHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(1)
   })
 
   it('selectableRange ', async () => {

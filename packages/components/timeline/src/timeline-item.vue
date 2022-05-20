@@ -43,23 +43,16 @@
   </li>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { timelineItemProps } from './timeline-item'
 
-export default defineComponent({
+defineOptions({
   name: 'ElTimelineItem',
-  components: {
-    ElIcon,
-  },
-  props: timelineItemProps,
-  setup() {
-    const ns = useNamespace('timeline-item')
-    return {
-      ns,
-    }
-  },
 })
+
+defineProps(timelineItemProps)
+
+const ns = useNamespace('timeline-item')
 </script>

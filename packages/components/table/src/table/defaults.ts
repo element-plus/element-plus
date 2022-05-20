@@ -135,6 +135,7 @@ interface TableProps<T> {
   className?: string
   style?: CSSProperties
   tableLayout: Layout
+  flexible: boolean
 }
 
 interface Sort {
@@ -259,6 +260,7 @@ export default {
     type: Boolean,
     default: false,
   },
+  flexible: Boolean,
 }
 export type {
   SummaryMethod,

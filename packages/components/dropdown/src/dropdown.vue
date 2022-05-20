@@ -31,19 +31,17 @@
           tag="div"
           :view-class="ns.e('list')"
         >
-          <el-focus-trap trapped @mount-on-focus="onMountOnFocus">
-            <el-roving-focus-group
-              :loop="loop"
-              :current-tab-id="currentTabId"
-              orientation="horizontal"
-              @current-tab-id-change="handleCurrentTabIdChange"
-              @entry-focus="handleEntryFocus"
-            >
-              <el-dropdown-collection>
-                <slot name="dropdown" />
-              </el-dropdown-collection>
-            </el-roving-focus-group>
-          </el-focus-trap>
+          <el-roving-focus-group
+            :loop="loop"
+            :current-tab-id="currentTabId"
+            orientation="horizontal"
+            @current-tab-id-change="handleCurrentTabIdChange"
+            @entry-focus="handleEntryFocus"
+          >
+            <el-dropdown-collection>
+              <slot name="dropdown" />
+            </el-dropdown-collection>
+          </el-roving-focus-group>
         </el-scrollbar>
       </template>
       <template v-if="!splitButton" #default>
@@ -92,7 +90,6 @@ import ElButton from '@element-plus/components/button'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
-import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
 import { addUnit } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
@@ -108,7 +105,6 @@ export default defineComponent({
   name: 'ElDropdown',
   components: {
     ElButton,
-    ElFocusTrap,
     ElButtonGroup,
     ElScrollbar,
     ElDropdownCollection,
@@ -192,7 +188,7 @@ export default defineComponent({
       hideOnClick: toRef(props, 'hideOnClick'),
     })
 
-    const onMountOnFocus = (e: Event) => {
+    const onFocusAfterTrapped = (e: Event) => {
       e.preventDefault()
       contentRef.value?.focus?.({
         preventScroll: true,
@@ -215,7 +211,7 @@ export default defineComponent({
       handleEntryFocus,
       handleClose,
       handleOpen,
-      onMountOnFocus,
+      onFocusAfterTrapped,
       popperRef,
       triggeringElementRef,
       referenceElementRef,

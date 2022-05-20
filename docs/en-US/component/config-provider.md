@@ -51,13 +51,13 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | message               | message related configuration, [see the following table](#message-attributes)                                                                                          | MessageGlobalConfig                                                                                                                | -                                                                                       | see the following table                                                                     |
 | experimental-features | features at experimental stage to be added, all features are default to be set to false                                                                                | Object                                                                                                                             | -                                                                                       | -                                                                                           |
 
-## Button Attributes
+## Button Attribute
 
 | Attribute       | Description                                                 | Type    | Accepted Values | Default |
 | --------------- | ----------------------------------------------------------- | ------- | --------------- | ------- |
 | autoInsertSpace | automatically insert a space between two chinese characters | boolean | -               | false   |
 
-## Message Attributes
+## Message Attribute
 
 | Attribute | Description                                                           | Type   | Accepted Values | Default |
 | --------- | --------------------------------------------------------------------- | ------ | --------------- | ------- |

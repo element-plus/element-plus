@@ -2,7 +2,7 @@ import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { Edit } from '@element-plus/icons-vue'
-import Steps from '../src/index.vue'
+import Steps from '../src/steps.vue'
 import Step from '../src/item.vue'
 
 const _mount = (template: string) =>

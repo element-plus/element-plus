@@ -26,10 +26,10 @@ export default defineComponent({
     const refProps = {
       ...props,
       focus: () => {
-        commonPicker.value?.handleFocus()
+        commonPicker.value?.handleFocusInput()
       },
       blur: () => {
-        commonPicker.value?.handleBlur()
+        commonPicker.value?.handleBlurInput()
       },
     }
     provide('ElPopperOptions', props.popperOptions)

@@ -13,6 +13,7 @@
   ignoreDeps: [
     'node',
     'csstype',
+    'esno',
 
     // pure esm
     'chalk',

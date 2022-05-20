@@ -7,7 +7,6 @@
     ]"
     role="menuitem"
     tabindex="-1"
-    :style="paddingStyle"
     @click="handleClick"
   >
     <el-tooltip
@@ -72,10 +71,7 @@ export default defineComponent({
     const nsMenuItem = useNamespace('menu-item')
     if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')
 
-    const { parentMenu, paddingStyle, indexPath } = useMenu(
-      instance,
-      toRef(props, 'index')
-    )
+    const { parentMenu, indexPath } = useMenu(instance, toRef(props, 'index'))
 
     const subMenu = inject<SubMenuProvider>(`subMenu:${parentMenu.value.uid}`)
     if (!subMenu) throwError(COMPONENT_NAME, 'can not inject sub menu')
@@ -112,7 +108,6 @@ export default defineComponent({
       Effect,
       parentMenu,
       rootMenu,
-      paddingStyle,
       active,
       nsMenu,
       nsMenuItem,

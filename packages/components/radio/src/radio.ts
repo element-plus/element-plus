@@ -4,6 +4,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { radioGroupKey } from '@element-plus/tokens'
 import { useDisabled, useSize, useSizeProp } from '@element-plus/hooks'
 import type { ExtractPropTypes, SetupContext } from 'vue'
+import type Radio from './radio.vue'
 
 export const radioPropsBase = buildProps({
   size: useSizeProp,
@@ -13,6 +14,7 @@ export const radioPropsBase = buildProps({
     default: '',
   },
 })
+
 export const radioProps = buildProps({
   ...radioPropsBase,
   modelValue: {
@@ -25,7 +27,6 @@ export const radioProps = buildProps({
   },
   border: Boolean,
 } as const)
-export type RadioProps = ExtractPropTypes<typeof radioProps>
 
 export const radioEmits = {
   [UPDATE_MODEL_EVENT]: (val: string | number | boolean) =>
@@ -33,11 +34,10 @@ export const radioEmits = {
   change: (val: string | number | boolean) =>
     isString(val) || isNumber(val) || isBoolean(val),
 }
-export type RadioEmits = typeof radioEmits
 
 export const useRadio = (
   props: { label: RadioProps['label']; modelValue?: RadioProps['modelValue'] },
-  emit: SetupContext<RadioEmits>['emit']
+  emit?: SetupContext<RadioEmits>['emit']
 ) => {
   const radioRef = ref<HTMLInputElement>()
   const radioGroup = inject(radioGroupKey, undefined)
@@ -50,7 +50,7 @@ export const useRadio = (
       if (isGroup.value) {
         radioGroup!.changeEvent(val)
       } else {
-        emit(UPDATE_MODEL_EVENT, val)
+        emit && emit(UPDATE_MODEL_EVENT, val)
       }
       radioRef.value!.checked = props.modelValue === props.label
     },
@@ -76,3 +76,7 @@ export const useRadio = (
     modelValue,
   }
 }
+
+export type RadioProps = ExtractPropTypes<typeof radioProps>
+export type RadioEmits = typeof radioEmits
+export type RadioInstance = InstanceType<typeof Radio>

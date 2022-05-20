@@ -79,5 +79,12 @@
     &.current:not(.disabled) .cell {
       color: getCssVar('datepicker-active-color');
     }
+
+    &:focus-visible {
+      outline: none;
+      .cell {
+        outline: 2px solid getCssVar('datepicker-active-color');
+      }
+    }
   }
 }
