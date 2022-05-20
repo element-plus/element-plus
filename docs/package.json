@@ -21,7 +21,7 @@
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
     "prism-theme-vars": "^0.2.2",
-    "vue": "3.2.33"
+    "vue": "^3.2.33"
   },
   "devDependencies": {
     "@crowdin/cli": "^3.7.8",

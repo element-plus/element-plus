@@ -26,6 +26,11 @@
     "eslint-plugin-unicorn": "^42.0.0",
     "eslint-plugin-vue": "^8.7.1",
     "jsonc-eslint-parser": "^2.1.0",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.4",
     "yaml-eslint-parser": "^0.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.15.0"
   }
 }
