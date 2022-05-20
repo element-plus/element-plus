@@ -16,6 +16,7 @@
 
 <script lang="ts" setup>
 import { computed, inject, onMounted, provide, ref, unref, watch } from 'vue'
+import { NOOP } from '@vue/shared'
 import { createPopper } from '@popperjs/core'
 import { useNamespace, useZIndex } from '@element-plus/hooks'
 import {
@@ -50,12 +51,18 @@ provide(POPPER_CONTENT_INJECTION_KEY, {
   arrowRef,
   arrowOffset,
 })
-// disallow auto-id from inside popper content
-provide(formItemContextKey, {
-  ...formItemContext,
-  addInputId: () => undefined,
-  removeInputId: () => undefined,
-})
+
+if (
+  formItemContext &&
+  (formItemContext.addInputId || formItemContext.removeInputId)
+) {
+  // disallow auto-id from inside popper content
+  provide(formItemContextKey, {
+    ...formItemContext,
+    addInputId: NOOP,
+    removeInputId: NOOP,
+  })
+}
 
 const contentZIndex = ref(props.zIndex || nextZIndex())
 
