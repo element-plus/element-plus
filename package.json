@@ -1,6 +1,6 @@
 {
   "private": true,
-  "packageManager": "pnpm@7.0.0",
+  "packageManager": "pnpm@7.1.0",
   "workspaces": [
     "packages/*",
     "play",
@@ -48,13 +48,13 @@
     "@element-plus/theme-chalk": "workspace:*",
     "@element-plus/tokens": "workspace:*",
     "@element-plus/utils": "workspace:*",
-    "@floating-ui/dom": "^0.4.5",
-    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.6",
+    "@floating-ui/dom": "^0.5.0",
+    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
     "@types/lodash": "^4.14.182",
     "@types/lodash-es": "^4.17.6",
-    "@vueuse/core": "^8.2.6",
-    "async-validator": "^4.0.7",
-    "dayjs": "^1.11.1",
+    "@vueuse/core": "^8.5.0",
+    "async-validator": "^4.1.1",
+    "dayjs": "^1.11.2",
     "escape-html": "^1.0.3",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
@@ -63,52 +63,52 @@
     "normalize-wheel-es": "^1.1.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.2.3",
-    "@commitlint/config-conventional": "^16.2.1",
+    "@commitlint/cli": "^16.3.0",
+    "@commitlint/config-conventional": "^16.2.4",
     "@element-plus/build": "workspace:^0.0.1",
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
-    "@pnpm/find-workspace-packages": "^4.0.0",
+    "@pnpm/find-workspace-packages": "^4.0.5",
     "@pnpm/logger": "^4.0.0",
-    "@pnpm/types": "^8.0.0",
+    "@pnpm/types": "^8.0.1",
     "@types/fs-extra": "^9.0.13",
     "@types/gulp": "^4.0.9",
     "@types/node": "*",
     "@types/sass": "^1.43.1",
-    "@vitejs/plugin-vue": "^2.3.1",
+    "@vitejs/plugin-vue": "^2.3.3",
     "@vitejs/plugin-vue-jsx": "^1.3.10",
-    "@vitest/ui": "^0.9.3",
-    "@vue/test-utils": "2.0.0-rc.16",
+    "@vitest/ui": "^0.12.6",
+    "@vue/test-utils": "^2.0.0-rc.21",
     "@vue/tsconfig": "^0.1.3",
-    "c8": "^7.11.0",
+    "c8": "^7.11.3",
     "chalk": "^4.1.2",
-    "concurrently": "^7.1.0",
+    "concurrently": "^7.2.0",
     "consola": "^2.15.3",
     "csstype": "^2.6.20",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.13.0",
-    "eslint-define-config": "^1.3.0",
+    "eslint": "^8.15.0",
+    "eslint-define-config": "^1.4.1",
     "expect-type": "^0.13.0",
     "fast-glob": "^3.2.11",
     "husky": "^7.0.4",
     "jsdom": "16.4.0",
-    "lint-staged": "^12.3.8",
+    "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",
     "pretty-quick": "^3.1.3",
-    "puppeteer": "^13.5.2",
+    "puppeteer": "^13.7.0",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^3.0.2",
-    "sass": "^1.50.0",
+    "sass": "^1.51.0",
     "sucrase": "^3.21.0",
     "ts-morph": "^14.0.0",
     "type-fest": "^2.12.2",
-    "typescript": "^4.6.3",
+    "typescript": "^4.6.4",
     "unplugin-element-plus": "^0.4.0",
-    "unplugin-vue-define-options": "^0.6.0",
-    "vitest": "^0.9.3",
-    "vue": "3.2.31",
-    "vue-router": "^4.0.14",
-    "vue-tsc": "^0.34.7"
+    "unplugin-vue-define-options": "^0.6.1",
+    "vitest": "^0.12.6",
+    "vue": "^3.2.33",
+    "vue-router": "^4.0.15",
+    "vue-tsc": "^0.34.15"
   },
   "engines": {
     "node": ">= 16"
@@ -119,16 +119,15 @@
     }
   },
   "pnpm": {
-    "overrides": {
-      "jsdom": "16.4.0"
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "vite",
+        "react",
+        "react-dom"
+      ]
     }
   },
   "lint-staged": {
     "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
-  },
-  "browserslist": [
-    "> 1%",
-    "not ie 11",
-    "not op_mini all"
-  ]
+  }
 }

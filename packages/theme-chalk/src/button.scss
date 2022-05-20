@@ -40,7 +40,7 @@ $button-icon-span-gap: map.merge(
   vertical-align: middle;
   -webkit-appearance: none;
 
-  &:not(.is-text, .is-link) {
+  &:not(.is-text, .is-link, .#{$namespace}-button--text) {
     background-color: getCssVar('button', 'bg-color');
     border: getCssVar('border');
     border-color: getCssVar('button', 'border-color');
@@ -230,6 +230,34 @@ $button-icon-span-gap: map.merge(
 
       &:active {
         // color: getCssVar('color', 'primary', 'dark-2');
+        border-color: transparent;
+        background-color: transparent;
+      }
+    }
+  }
+
+  @include m(text) {
+    border-color: transparent;
+    background: transparent;
+    color: getCssVar('color', 'primary');
+    padding-left: 0;
+    padding-right: 0;
+    @include when(disabled) {
+      color: getCssVar('button', 'disabled', 'text-color');
+      background-color: transparent !important;
+      border-color: transparent !important;
+    }
+
+    &:not(.is-disabled) {
+      &:hover,
+      &:focus {
+        color: getCssVar('color', 'primary', 'light-3');
+        border-color: transparent;
+        background-color: transparent;
+      }
+
+      &:active {
+        color: getCssVar('color', 'primary', 'dark-2');
         border-color: transparent;
         background-color: transparent;
       }

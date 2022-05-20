@@ -127,6 +127,7 @@ $form-item-label-top-margin-bottom: map.merge(
       margin-bottom: #{map.get($form-item-margin-bottom, $size)};
 
       @include e(label) {
+        height: #{map.get($form-item-line-height, $size)};
         line-height: #{map.get($form-item-line-height, $size)};
       }
       @include e(content) {

@@ -21,7 +21,6 @@ import FormItem from '../src/form-item.vue'
 import DynamicDomainForm, { formatDomainError } from '../mocks/mock-data'
 
 import type { VueWrapper } from '@vue/test-utils'
-import type { ValidateFieldsError } from 'async-validator'
 import type { FormRules } from '@element-plus/tokens'
 
 type FormInstance = InstanceType<typeof Form>
@@ -247,7 +246,7 @@ describe('Form', () => {
     )
   })
 
-  it('show message', (done) => {
+  it('show message', async () => {
     const wrapper = mount({
       setup() {
         const form = reactive({
@@ -274,16 +273,18 @@ describe('Form', () => {
       },
     })
     const form = wrapper.findComponent(Form).vm as FormInstance
-    form
-      .validate(async (valid: boolean) => {
-        expect(valid).toBe(false)
-        await nextTick()
-        expect(wrapper.find('.el-form-item__error').exists()).toBe(false)
-        done()
-      })
-      .catch((e: ValidateFieldsError) => {
-        expect(e).toBeDefined()
-      })
+
+    vi.useFakeTimers()
+    const valid = await form
+      .validate()
+      .then(() => true)
+      .catch(() => false)
+    vi.runAllTimers()
+    vi.useRealTimers()
+
+    await nextTick()
+    expect(valid).toBe(false)
+    expect(wrapper.find('.el-form-item__error').exists()).toBe(false)
   })
 
   it('reset field', async () => {

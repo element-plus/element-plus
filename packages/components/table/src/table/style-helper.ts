@@ -37,7 +37,10 @@ function useStyle<T>(
   const setDragVisible = (visible: boolean) => {
     resizeProxyVisible.value = visible
   }
-  const resizeState = ref({
+  const resizeState = ref<{
+    width: null | number
+    height: null | number
+  }>({
     width: null,
     height: null,
   })
@@ -120,9 +123,16 @@ function useStyle<T>(
     bindEvents()
     requestAnimationFrame(doLayout)
 
+    const el: HTMLElement = table.vnode.el as HTMLElement
+    if (props.flexible && el && el.parentElement) {
+      // Automatic minimum size of flex-items
+      // Ensure that the main axis does not follow the width of the items
+      el.parentElement.style.minWidth = '0'
+    }
+
     resizeState.value = {
-      width: (tableWidth.value = table.vnode.el.offsetWidth),
-      height: table.vnode.el.offsetHeight,
+      width: (tableWidth.value = el.offsetWidth),
+      height: el.offsetHeight,
     }
 
     // init filters

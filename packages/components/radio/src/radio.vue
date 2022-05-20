@@ -38,46 +38,25 @@
   </label>
 </template>
 
-<script lang="ts">
-import { defineComponent, nextTick } from 'vue'
+<script lang="ts" setup>
+import { nextTick } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { radioEmits, radioProps, useRadio } from './radio'
 
-export default defineComponent({
+defineOptions({
   name: 'ElRadio',
-  props: radioProps,
-  emits: radioEmits,
-
-  setup(props, { emit }) {
-    const ns = useNamespace('radio')
-    const {
-      radioRef,
-      isGroup,
-      radioGroup,
-      focus,
-      size,
-      disabled,
-      tabIndex,
-      modelValue,
-    } = useRadio(props, emit)
-
-    function handleChange() {
-      nextTick(() => emit('change', modelValue.value))
-    }
-
-    return {
-      ns,
-      focus,
-      isGroup,
-      radioGroup,
-      modelValue,
-      tabIndex,
-      size,
-      disabled,
-      radioRef,
-
-      handleChange,
-    }
-  },
 })
+
+const props = defineProps(radioProps)
+const emit = defineEmits(radioEmits)
+
+const ns = useNamespace('radio')
+const { radioRef, radioGroup, focus, size, disabled, modelValue } = useRadio(
+  props,
+  emit
+)
+
+function handleChange() {
+  nextTick(() => emit('change', modelValue.value))
+}
 </script>

@@ -36,6 +36,7 @@
             <span ref="focusStartRef" :class="ns.e('sr-focus')" tabindex="-1" />
             <header v-if="withHeader" :class="ns.e('header')">
               <slot
+                v-if="!$slots.title"
                 name="header"
                 :close="handleClose"
                 :title-id="titleId"
@@ -50,7 +51,7 @@
                   {{ title }}
                 </span>
               </slot>
-              <slot name="title">
+              <slot v-else name="title">
                 <!-- DEPRECATED SLOT -->
               </slot>
               <button
@@ -106,7 +107,7 @@ export default defineComponent({
         scope: 'el-drawer',
         from: 'the title slot',
         replacement: 'the header slot',
-        version: '2.3.0',
+        version: '3.0.0',
         ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
       },
       computed(() => !!slots.title)

@@ -5,13 +5,12 @@ import { ElFormItem } from '@element-plus/components/form'
 import Checkbox from '../src/checkbox.vue'
 import CheckboxButton from '../src/checkbox-button.vue'
 import CheckboxGroup from '../src/checkbox-group.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { FormItemInstance } from '@element-plus/components/form'
+import type { CheckboxInstance } from '@element-plus/components/checkbox'
 
-const _mount = <D>(
-  template: string,
-  data: () => D,
-  otherObj?: Record<string, unknown>
-) =>
-  mount<D>({
+const _mount = (template: string, data, otherObj?: Record<string, unknown>) =>
+  mount({
     components: {
       'el-checkbox': Checkbox,
       'el-checkbox-group': CheckboxGroup,
@@ -55,7 +54,7 @@ describe('Checkbox', () => {
 
   describe('disabled', () => {
     test('checkbox without label', async () => {
-      const wrapper = _mount(
+      const wrapper: VueWrapper<FormItemInstance> = _mount(
         `<el-form-item label="test">
           <el-checkbox ref="check" v-model="checkbox" disabled/>
         </el-form-item>`,
@@ -71,7 +70,7 @@ describe('Checkbox', () => {
     })
 
     test('checkbox with label attribute', async () => {
-      const wrapper = _mount(
+      const wrapper: VueWrapper<CheckboxInstance> = _mount(
         '<el-checkbox v-model="checkbox" disabled label="a"/>',
         () => ({ checkbox: false })
       )
@@ -86,7 +85,7 @@ describe('Checkbox', () => {
 
   describe('change event', () => {
     test('checkbox without label', async () => {
-      const wrapper = _mount(
+      const wrapper: VueWrapper<FormItemInstance> = _mount(
         `<el-form-item label="test">
           <el-checkbox ref="check" v-model="checked" @change="onChange" />
         </el-form-item>`,
@@ -108,7 +107,7 @@ describe('Checkbox', () => {
     })
 
     test('checkbox with label attribute', async () => {
-      const wrapper = _mount(
+      const wrapper: VueWrapper<CheckboxInstance> = _mount(
         `<el-checkbox v-model="checked" label="Foobar" @change="onChange" />`,
         () => ({
           data: null,
@@ -128,7 +127,7 @@ describe('Checkbox', () => {
     })
 
     test('checkbox with label as slot content', async () => {
-      const wrapper = _mount(
+      const wrapper: VueWrapper<CheckboxInstance> = _mount(
         `<el-checkbox v-model="checked" @change="onChange">Foobar</el-checkbox>`,
         () => ({
           data: null,

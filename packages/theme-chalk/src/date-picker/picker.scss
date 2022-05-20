@@ -23,12 +23,7 @@
   display: inline-block;
   text-align: left;
 
-  &.#{$namespace}-input__inner {
-    border-radius: var(
-      #{getCssVarName('input-border-radius')},
-      #{getCssVar('border-radius-base')}
-    );
-
+  &.#{$namespace}-input__wrapper {
     @include inset-input-border(
       var(
         #{getCssVarName('input-border-color')},
@@ -42,33 +37,34 @@
   }
 
   &.#{$namespace}-input,
-  &.#{$namespace}-input__inner {
+  &.#{$namespace}-input__wrapper {
     width: getCssVar('date-editor-width');
+    height: getCssVar('component-size', '');
   }
 
   @include m((monthrange)) {
-    &.#{$namespace}-input,
-    &.#{$namespace}-input__inner {
-      width: getCssVar('date-editor-monthrange-width');
-    }
+    @include css-var-from-global(
+      'date-editor-width',
+      'date-editor-monthrange-width'
+    );
   }
 
   @include m((daterange, timerange)) {
-    &.#{$namespace}-input,
-    &.#{$namespace}-input__inner {
-      width: getCssVar('date-editor-daterange-width');
-    }
+    @include css-var-from-global(
+      'date-editor-width',
+      'date-editor-daterange-width'
+    );
   }
 
   @include m(datetimerange) {
-    &.#{$namespace}-input,
-    &.#{$namespace}-input__inner {
-      width: getCssVar('date-editor-datetimerange-width');
-    }
+    @include css-var-from-global(
+      'date-editor-width',
+      'date-editor-datetimerange-width'
+    );
   }
 
   @include m(dates) {
-    .#{$namespace}-input__inner {
+    .#{$namespace}-input__wrapper {
       text-overflow: ellipsis;
       white-space: nowrap;
     }
@@ -152,7 +148,7 @@
 }
 
 @include b(range-editor) {
-  &.#{$namespace}-input__inner {
+  &.#{$namespace}-input__wrapper {
     display: inline-flex;
     align-items: center;
     padding: 3px 10px;
@@ -171,10 +167,10 @@
 
   @each $size in (large, small) {
     @include m($size) {
-      line-height: map.get($input-height, $size);
+      line-height: getCssVar('component-size', $size);
 
-      &.#{$namespace}-input__inner {
-        height: map.get($input-height, $size);
+      &.#{$namespace}-input__wrapper {
+        height: getCssVar('component-size', $size);
       }
 
       .#{$namespace}-range-separator {

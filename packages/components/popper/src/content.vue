@@ -28,6 +28,7 @@
 
 <script lang="ts" setup>
 import { computed, inject, onMounted, provide, ref, unref, watch } from 'vue'
+import { NOOP } from '@vue/shared'
 import { createPopper } from '@popperjs/core'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useNamespace, useZIndex } from '@element-plus/hooks'
@@ -64,12 +65,18 @@ provide(POPPER_CONTENT_INJECTION_KEY, {
   arrowRef,
   arrowOffset,
 })
-// disallow auto-id from inside popper content
-provide(formItemContextKey, {
-  ...formItemContext,
-  addInputId: () => undefined,
-  removeInputId: () => undefined,
-})
+
+if (
+  formItemContext &&
+  (formItemContext.addInputId || formItemContext.removeInputId)
+) {
+  // disallow auto-id from inside popper content
+  provide(formItemContextKey, {
+    ...formItemContext,
+    addInputId: NOOP,
+    removeInputId: NOOP,
+  })
+}
 
 const contentZIndex = ref<number>(props.zIndex || nextZIndex())
 const trapped = ref<boolean>(false)
