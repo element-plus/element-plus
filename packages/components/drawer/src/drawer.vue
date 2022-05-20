@@ -41,21 +41,17 @@
               />
               <header v-if="withHeader" :class="ns.e('header')">
                 <slot
+                  v-if="!$slots.title"
                   name="header"
                   :close="handleClose"
                   :title-id="titleId"
                   :title-class="ns.e('title')"
                 >
-                  <span
-                    v-if="!$slots.title"
-                    :id="titleId"
-                    role="heading"
-                    :class="ns.e('title')"
-                  >
+                  <span :id="titleId" role="heading" :class="ns.e('title')">
                     {{ title }}
                   </span>
                 </slot>
-                <slot name="title">
+                <slot v-else name="title">
                   <!-- DEPRECATED SLOT -->
                 </slot>
                 <button
@@ -112,7 +108,7 @@ export default defineComponent({
         scope: 'el-drawer',
         from: 'the title slot',
         replacement: 'the header slot',
-        version: '2.3.0',
+        version: '3.0.0',
         ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
       },
       computed(() => !!slots.title)
