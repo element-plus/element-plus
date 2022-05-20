@@ -8,10 +8,10 @@
 import { provide, ref, watch } from 'vue'
 import { CHANGE_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
-import { stepsEmits, stepsProps } from './index.ts'
+import { stepsEmits, stepsProps } from './steps'
 
 import type { Ref } from 'vue'
-import type { StepItemState } from './step.vue'
+import type { StepItemState } from './item.vue'
 
 defineOptions({
   name: 'ElSteps',
