@@ -16,7 +16,7 @@ import {
   useCheckboxGroup,
   useCheckboxGroupId,
   useCheckboxGroupProps,
-} from './useCheckbox'
+} from './checkbox'
 
 export default defineComponent({
   name: 'ElCheckboxGroup',
