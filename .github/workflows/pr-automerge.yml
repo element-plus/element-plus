@@ -18,12 +18,16 @@ on:
 jobs:
   automerge:
     runs-on: ubuntu-latest
+
     env:
       PULL_REQUEST_NUMBER: ${{ github.event.number }}
-      WORKFLOW_CONCLUSION: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     steps:
+      # https://docs.github.com/en/graphql/reference/enums#checkconclusionstate
       - name: ci result
-        run: echo $WORKFLOW_CONCLUSION > ./ci-result.txt
+        run: echo $CHECK_SUITE_CONCLUSION > ./ci-result.txt
+        env:
+          CHECK_SUITE_CONCLUSION: ${{ github.event.check_suite.conclusion == 'success' }}
       - uses: actions/upload-artifact@v3
         with:
           name: ci-result
