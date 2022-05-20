@@ -12,7 +12,16 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  toRefs,
+  watch,
+} from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { radioGroupKey } from '@element-plus/tokens'
 import {
@@ -28,6 +37,7 @@ defineOptions({
   name: 'ElRadioGroup',
 })
 
+let id = 1
 const props = defineProps(radioGroupProps)
 const emit = defineEmits(radioGroupEmits)
 
@@ -52,11 +62,18 @@ onMounted(() => {
   }
 })
 
+const randomName = `el-radio-group-${id++}`
+
+const name = computed(() => {
+  return props.name || randomName
+})
+
 provide(
   radioGroupKey,
   reactive({
     ...toRefs(props),
     changeEvent,
+    name,
   })
 )
 
