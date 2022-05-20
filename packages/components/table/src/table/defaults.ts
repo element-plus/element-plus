@@ -260,10 +260,7 @@ export default {
     type: Boolean,
     default: false,
   },
-  flexible: {
-    type: Boolean,
-    default: false,
-  },
+  flexible: Boolean,
 }
 export type {
   SummaryMethod,
