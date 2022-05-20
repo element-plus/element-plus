@@ -30,6 +30,7 @@
             focus-start-el="container"
             @focus-after-trapped="onOpenAutoFocus"
             @focus-after-released="onCloseAutoFocus"
+            @release-requested="onCloseRequested"
           >
             <el-dialog-content
               v-if="rendered"
@@ -117,6 +118,7 @@ const {
   onModalClick,
   onOpenAutoFocus,
   onCloseAutoFocus,
+  onCloseRequested,
 } = useDialog(props, dialogRef)
 
 provide(dialogInjectionKey, {

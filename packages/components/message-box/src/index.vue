@@ -21,128 +21,126 @@
           :trapped="visible"
           :focus-trap-el="rootRef"
           :focus-start-el="focusStartRef"
+          @release-requested="onCloseRequested"
         >
-          <template #default="{ handleKeydown }">
+          <div
+            ref="rootRef"
+            :class="[
+              ns.b(),
+              customClass,
+              ns.is('draggable', draggable),
+              { [ns.m('center')]: center },
+            ]"
+            :style="customStyle"
+            tabindex="-1"
+            @click.stop=""
+          >
             <div
-              ref="rootRef"
-              :class="[
-                ns.b(),
-                customClass,
-                ns.is('draggable', draggable),
-                { [ns.m('center')]: center },
-              ]"
-              :style="customStyle"
-              tabindex="-1"
-              @click.stop=""
-              @keydown="handleKeydown"
+              v-if="title !== null && title !== undefined"
+              ref="headerRef"
+              :class="ns.e('header')"
             >
-              <div
-                v-if="title !== null && title !== undefined"
-                ref="headerRef"
-                :class="ns.e('header')"
+              <div :class="ns.e('title')">
+                <el-icon
+                  v-if="iconComponent && center"
+                  :class="[ns.e('status'), typeClass]"
+                >
+                  <component :is="iconComponent" />
+                </el-icon>
+                <span>{{ title }}</span>
+              </div>
+              <button
+                v-if="showClose"
+                type="button"
+                :class="ns.e('headerbtn')"
+                :aria-label="t('el.messagebox.close')"
+                @click="
+                  handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
+                "
+                @keydown.prevent.enter="
+                  handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
+                "
               >
-                <div :class="ns.e('title')">
-                  <el-icon
-                    v-if="iconComponent && center"
-                    :class="[ns.e('status'), typeClass]"
-                  >
-                    <component :is="iconComponent" />
-                  </el-icon>
-                  <span>{{ title }}</span>
-                </div>
-                <button
-                  v-if="showClose"
-                  type="button"
-                  :class="ns.e('headerbtn')"
-                  :aria-label="t('el.messagebox.close')"
-                  @click="
-                    handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
-                  "
-                  @keydown.prevent.enter="
-                    handleAction(distinguishCancelAndClose ? 'close' : 'cancel')
-                  "
+                <el-icon :class="ns.e('close')">
+                  <close />
+                </el-icon>
+              </button>
+            </div>
+            <div :id="contentId" :class="ns.e('content')">
+              <div :class="ns.e('container')">
+                <el-icon
+                  v-if="iconComponent && !center && hasMessage"
+                  :class="[ns.e('status'), typeClass]"
                 >
-                  <el-icon :class="ns.e('close')">
-                    <close />
-                  </el-icon>
-                </button>
-              </div>
-              <div :id="contentId" :class="ns.e('content')">
-                <div :class="ns.e('container')">
-                  <el-icon
-                    v-if="iconComponent && !center && hasMessage"
-                    :class="[ns.e('status'), typeClass]"
-                  >
-                    <component :is="iconComponent" />
-                  </el-icon>
-                  <div v-if="hasMessage" :class="ns.e('message')">
-                    <slot>
-                      <component
-                        :is="showInput ? 'label' : 'p'"
-                        v-if="!dangerouslyUseHTMLString"
-                        :for="showInput ? inputId : undefined"
-                      >
-                        {{ !dangerouslyUseHTMLString ? message : '' }}
-                      </component>
-                      <component
-                        :is="showInput ? 'label' : 'p'"
-                        v-else
-                        :for="showInput ? inputId : undefined"
-                        v-html="message"
-                      />
-                    </slot>
-                  </div>
-                </div>
-                <div v-show="showInput" :class="ns.e('input')">
-                  <el-input
-                    :id="inputId"
-                    ref="inputRef"
-                    v-model="inputValue"
-                    :type="inputType"
-                    :placeholder="inputPlaceholder"
-                    :aria-invalid="validateError"
-                    :class="{ invalid: validateError }"
-                    @keydown.enter="handleInputEnter"
-                  />
-                  <div
-                    :class="ns.e('errormsg')"
-                    :style="{
-                      visibility: !!editorErrorMessage ? 'visible' : 'hidden',
-                    }"
-                  >
-                    {{ editorErrorMessage }}
-                  </div>
+                  <component :is="iconComponent" />
+                </el-icon>
+                <div v-if="hasMessage" :class="ns.e('message')">
+                  <slot>
+                    <component
+                      :is="showInput ? 'label' : 'p'"
+                      v-if="!dangerouslyUseHTMLString"
+                      :for="showInput ? inputId : undefined"
+                    >
+                      {{ !dangerouslyUseHTMLString ? message : '' }}
+                    </component>
+                    <component
+                      :is="showInput ? 'label' : 'p'"
+                      v-else
+                      :for="showInput ? inputId : undefined"
+                      v-html="message"
+                    />
+                  </slot>
                 </div>
               </div>
-              <div :class="ns.e('btns')">
-                <el-button
-                  v-if="showCancelButton"
-                  :loading="cancelButtonLoading"
-                  :class="[cancelButtonClass]"
-                  :round="roundButton"
-                  :size="btnSize"
-                  @click="handleAction('cancel')"
-                  @keydown.prevent.enter="handleAction('cancel')"
+              <div v-show="showInput" :class="ns.e('input')">
+                <el-input
+                  :id="inputId"
+                  ref="inputRef"
+                  v-model="inputValue"
+                  :type="inputType"
+                  :placeholder="inputPlaceholder"
+                  :aria-invalid="validateError"
+                  :class="{ invalid: validateError }"
+                  @keydown.enter="handleInputEnter"
+                />
+                <div
+                  :class="ns.e('errormsg')"
+                  :style="{
+                    visibility: !!editorErrorMessage ? 'visible' : 'hidden',
+                  }"
                 >
-                  {{ cancelButtonText || t('el.messagebox.cancel') }}
-                </el-button>
-                <el-button
-                  v-show="showConfirmButton"
-                  ref="confirmRef"
-                  type="primary"
-                  :loading="confirmButtonLoading"
-                  :class="[confirmButtonClasses]"
-                  :round="roundButton"
-                  :disabled="confirmButtonDisabled"
-                  :size="btnSize"
-                  @click="handleAction('confirm')"
-                  @keydown.prevent.enter="handleAction('confirm')"
-                >
-                  {{ confirmButtonText || t('el.messagebox.confirm') }}
-                </el-button>
+                  {{ editorErrorMessage }}
+                </div>
               </div>
             </div>
-          </template>
+            <div :class="ns.e('btns')">
+              <el-button
+                v-if="showCancelButton"
+                :loading="cancelButtonLoading"
+                :class="[cancelButtonClass]"
+                :round="roundButton"
+                :size="btnSize"
+                @click="handleAction('cancel')"
+                @keydown.prevent.enter="handleAction('cancel')"
+              >
+                {{ cancelButtonText || t('el.messagebox.cancel') }}
+              </el-button>
+              <el-button
+                v-show="showConfirmButton"
+                ref="confirmRef"
+                type="primary"
+                :loading="confirmButtonLoading"
+                :class="[confirmButtonClasses]"
+                :round="roundButton"
+                :disabled="confirmButtonDisabled"
+                :size="btnSize"
+                @click="handleAction('confirm')"
+                @keydown.prevent.enter="handleAction('confirm')"
+              >
+                {{ confirmButtonText || t('el.messagebox.confirm') }}
+              </el-button>
+            </div>
+          </div>
         </el-focus-trap>
       </div>
     </el-overlay>
@@ -167,9 +165,7 @@ import {
   useId,
   useLocale,
   useLockscreen,
-  useModal,
   useNamespace,
-  usePreventGlobal,
   useRestoreActive,
   useSameTarget,
   useSize,
@@ -184,7 +180,6 @@ import {
   off,
   on,
 } from '@element-plus/utils'
-import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 
@@ -457,19 +452,10 @@ export default defineComponent({
     // props.beforeClose method to make a intermediate state by callout a message box
     // for some verification or alerting. then if we allow global event liek this
     // to dispatch, it could callout another message box.
-    if (props.closeOnPressEscape) {
-      useModal(
-        {
-          handleClose,
-        },
-        visible
-      )
-    } else {
-      usePreventGlobal(
-        visible,
-        'keydown',
-        (e: KeyboardEvent) => e.code === EVENT_CODE.esc
-      )
+    const onCloseRequested = () => {
+      if (props.closeOnPressEscape) {
+        handleClose()
+      }
     }
 
     // locks the screen to prevent scroll
@@ -499,6 +485,7 @@ export default defineComponent({
       confirmRef,
       doClose, // for outside usage
       handleClose, // for out side usage
+      onCloseRequested,
       handleWrapperClick,
       handleInputEnter,
       handleAction,
