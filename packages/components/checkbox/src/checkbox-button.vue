@@ -48,9 +48,13 @@
 
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
-import { checkboxProps, useCheckbox, useCheckboxGroup } from './checkbox'
+import {
+  checkboxEmits,
+  checkboxProps,
+  useCheckbox,
+  useCheckboxGroup,
+} from './checkbox'
 import type { StyleValue } from 'vue'
 
 defineOptions({
@@ -58,7 +62,7 @@ defineOptions({
 })
 
 const props = defineProps(checkboxProps)
-defineEmits([UPDATE_MODEL_EVENT, 'change'])
+defineEmits(checkboxEmits)
 const slots = useSlots()
 
 const { focus, isChecked, isDisabled, size, model, handleChange } = useCheckbox(
