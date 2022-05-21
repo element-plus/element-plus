@@ -20,7 +20,6 @@
   @include set-component-css-var('date-editor', $date-editor);
   @include set-component-css-var('input', $input);
   position: relative;
-  display: inline-block;
   text-align: left;
 
   &.#{$namespace}-input__wrapper {
@@ -39,6 +38,9 @@
   &.#{$namespace}-input,
   &.#{$namespace}-input__wrapper {
     width: getCssVar('date-editor-width');
+  }
+
+  &.#{$namespace}-input__wrapper {
     height: getCssVar('component-size', '');
   }
 
