@@ -149,13 +149,11 @@ describe('InputNumber.vue', () => {
   })
   describe('precision accuracy 2', () => {
     const wrapper = _mount({
-      template: '<el-input-number :precision="precision" v-model="num" />',
+      template: '<el-input-number :precision="2" v-model="num" />',
       setup() {
         const num = ref(0)
-        const precision = ref(2)
         return {
           num,
-          precision,
         }
       },
     })
@@ -166,8 +164,8 @@ describe('InputNumber.vue', () => {
       [1.09, '1.09'],
       [1.009, '1.01'],
       [10.999, '11.00'],
-      [15, '15'],
-      [15.5, '15.5'],
+      [15, '15.00'],
+      [15.5, '15.50'],
       [15.555, '15.56'],
     ])(
       'each precision accuracy test: $input $output',
@@ -179,13 +177,11 @@ describe('InputNumber.vue', () => {
   })
   describe('precision accuracy 3', () => {
     const wrapper = _mount({
-      template: '<el-input-number :precision="precision" v-model="num" />',
+      template: '<el-input-number :precision="3" v-model="num" />',
       setup() {
         const num = ref(0)
-        const precision = ref(3)
         return {
           num,
-          precision,
         }
       },
     })
@@ -193,9 +189,9 @@ describe('InputNumber.vue', () => {
       [1.1111111111, '1.111'],
       [17.275, '17.275'],
       [17.2745, '17.275'],
-      [1.09, '1.09'],
+      [1.09, '1.090'],
       [10.999, '10.999'],
-      [10.999, '11'],
+      [10.9999, '11.000'],
       [15.555, '15.555'],
       [1.3335, '1.334'],
     ])(
