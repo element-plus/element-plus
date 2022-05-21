@@ -40,7 +40,7 @@ time-picker/range
 ## Attributes
 
 | Attribute             | Description                                             | Type                                       | Accepted Values                                                                     | Default     |
-| --------------------- | ------------------------------------------------------- | ------------------------------------------ | ----------------------------------------------------------------------------------- | ----------- |
+| --------------------- | ------------------------------------------------------- | ------------------------------------------ | ----------------------------------------------------------------------------------- | ----------- | --- |
 | model-value / v-model | binding value                                           | Date                                       | —                                                                                   | —           |
 | readonly              | whether TimePicker is read only                         | boolean                                    | —                                                                                   | false       |
 | disabled              | whether TimePicker is disabled                          | boolean                                    | —                                                                                   | false       |
@@ -51,8 +51,7 @@ time-picker/range
 | start-placeholder     | placeholder for the start time in range mode            | string                                     | —                                                                                   | —           |
 | end-placeholder       | placeholder for the end time in range mode              | string                                     | —                                                                                   | —           |
 | is-range              | whether to pick a time range                            | boolean                                    | —                                                                                   | false       |
-| arrow-control         | whether to pick time using arrow buttons                | boolean                                    | —                                                                                   | false       |
-| align                 | alignment                                               | string                      | left / center / right                                                           |left|
+| arrow-control         | whether to pick time using arrow buttons                | boolean                                    | —                                                                                   | false       |     |
 | popper-class          | custom class name for TimePicker's dropdown             | string                                     | —                                                                                   | —           |
 | range-separator       | range separator                                         | string                                     | —                                                                                   | '-'         |
 | format                | format of the displayed value in the input box          | string                                     | see [date formats](/en-US/component/date-picker#date-formats)                       | HH:mm:ss    |
@@ -65,6 +64,7 @@ time-picker/range
 | disabled-minutes      | To specify the array of minutes that cannot be selected | function(selectedHour)                     | —                                                                                   | —           |
 | disabled-seconds      | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute)     | —                                                                                   | —           |
 | teleported            | whether time-picker dropdown is teleported to the body  | boolean                                    | true / false                                                                        | true        |
+
 ## Events
 
 | Event Name     | Description                                                | Parameters                                |
