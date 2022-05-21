@@ -147,35 +147,57 @@ describe('InputNumber.vue', () => {
     await wrapper.find('input').setValue(3)
     expect(wrapper.find('input').element.value).toEqual('4')
   })
-  test('precision', async () => {
+  describe('precision accuracy 2', () => {
     const wrapper = _mount({
-      template: '<el-input-number :precision="2" v-model="num" />',
+      template: '<el-input-number :precision="precision" v-model="num" />',
       setup() {
         const num = ref(0)
+        const precision = ref(2)
         return {
           num,
-        }
-      },
-    })
-    await wrapper.find('input').setValue(1.1111111111)
-    expect(wrapper.find('input').element.value).toEqual('1.11')
-  })
-  describe('precision accuracy', () => {
-    const wrapper = _mount({
-      template: '<el-input-number :precision="2" v-model="num" />',
-      setup() {
-        const num = ref(0)
-        return {
-          num,
+          precision,
         }
       },
     })
     it.each([
+      [1.1111111111, '1.11'],
       [17.275, '17.28'],
       [17.2745, '17.27'],
       [1.09, '1.09'],
       [1.009, '1.01'],
       [10.999, '11.00'],
+      [15, '15'],
+      [15.5, '15.5'],
+      [15.555, '15.56'],
+    ])(
+      'each precision accuracy test: $input $output',
+      async (input, output) => {
+        await wrapper.find('input').setValue(input)
+        expect(wrapper.find('input').element.value).toEqual(`${output}`)
+      }
+    )
+  })
+  describe('precision accuracy 3', () => {
+    const wrapper = _mount({
+      template: '<el-input-number :precision="precision" v-model="num" />',
+      setup() {
+        const num = ref(0)
+        const precision = ref(3)
+        return {
+          num,
+          precision,
+        }
+      },
+    })
+    it.each([
+      [1.1111111111, '1.111'],
+      [17.275, '17.275'],
+      [17.2745, '17.275'],
+      [1.09, '1.09'],
+      [10.999, '10.999'],
+      [10.999, '11'],
+      [15.555, '15.555'],
+      [1.3335, '1.334'],
     ])(
       'each precision accuracy test: $input $output',
       async (input, output) => {
