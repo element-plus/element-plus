@@ -39,48 +39,42 @@
     <span
       v-if="$slots.default || label"
       :class="ns.be('button', 'inner')"
-      :style="isChecked ? activeStyle : null"
+      :style="isChecked ? activeStyle : undefined"
     >
       <slot>{{ label }}</slot>
     </span>
   </label>
 </template>
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+
+<script lang="ts" setup>
+import { computed, useSlots } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import { checkboxProps, useCheckbox, useCheckboxGroup } from './checkbox'
+import type { StyleValue } from 'vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ElCheckboxButton',
-  props: checkboxProps,
-  emits: [UPDATE_MODEL_EVENT, 'change'],
-  setup(props, { slots }) {
-    const { focus, isChecked, isDisabled, size, model, handleChange } =
-      useCheckbox(props, slots)
-    const { checkboxGroup } = useCheckboxGroup()
-    const ns = useNamespace('checkbox')
+})
 
-    const activeStyle = computed(() => {
-      const fillValue = checkboxGroup?.fill?.value ?? ''
-      return {
-        backgroundColor: fillValue,
-        borderColor: fillValue,
-        color: checkboxGroup?.textColor?.value ?? '',
-        boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : null,
-      }
-    })
+const props = defineProps(checkboxProps)
+defineEmits([UPDATE_MODEL_EVENT, 'change'])
+const slots = useSlots()
 
-    return {
-      focus,
-      isChecked,
-      isDisabled,
-      model,
-      handleChange,
-      activeStyle,
-      size,
-      ns,
-    }
-  },
+const { focus, isChecked, isDisabled, size, model, handleChange } = useCheckbox(
+  props,
+  slots
+)
+const { checkboxGroup } = useCheckboxGroup()
+const ns = useNamespace('checkbox')
+
+const activeStyle = computed(() => {
+  const fillValue = checkboxGroup?.fill?.value ?? ''
+  return {
+    backgroundColor: fillValue,
+    borderColor: fillValue,
+    color: checkboxGroup?.textColor?.value ?? '',
+    boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : null,
+  } as StyleValue
 })
 </script>
