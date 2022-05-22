@@ -55,7 +55,7 @@ import {
   useCheckbox,
   useCheckboxGroup,
 } from './checkbox'
-import type { StyleValue } from 'vue'
+import type { CSSProperties } from 'vue'
 
 defineOptions({
   name: 'ElCheckboxButton',
@@ -72,13 +72,13 @@ const { focus, isChecked, isDisabled, size, model, handleChange } = useCheckbox(
 const { checkboxGroup } = useCheckboxGroup()
 const ns = useNamespace('checkbox')
 
-const activeStyle = computed(() => {
+const activeStyle = computed<CSSProperties>(() => {
   const fillValue = checkboxGroup?.fill?.value ?? ''
   return {
     backgroundColor: fillValue,
     borderColor: fillValue,
     color: checkboxGroup?.textColor?.value ?? '',
-    boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : null,
-  } as StyleValue
+    boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : undefined,
+  }
 })
 </script>
