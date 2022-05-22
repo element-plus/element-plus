@@ -44,7 +44,6 @@ const changeEvent = (value) => {
   })
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const modelValue = computed({
   get() {
     return props.modelValue
@@ -56,6 +55,7 @@ const modelValue = computed({
 
 provide('CheckboxGroup', {
   name: 'ElCheckboxGroup',
+  modelValue,
   ...toRefs(props),
   checkboxGroupSize,
   changeEvent,
