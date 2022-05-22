@@ -11,7 +11,7 @@ export default {
       if (Date.now() - startTime < 100) {
         handler()
       }
-      clearInterval(interval)
+      clearTimeout(interval)
       interval = null
     }
 
@@ -19,8 +19,9 @@ export default {
       if ((e as any).button !== 0) return
       startTime = Date.now()
       once(document as any, 'mouseup', clear)
-      clearInterval(interval)
-      interval = setInterval(handler, 100)
+      clearTimeout(interval)
+      // 使用setInterver可能会导致多次重复执行
+      interval = setTimeout(handler, 100)
     })
   },
 } as ObjectDirective

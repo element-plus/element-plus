@@ -24,10 +24,11 @@ describe('Directives.vue', () => {
     const wrapper = _mount()
     const block = wrapper.find('#block')
     block.trigger('mousedown')
+    await sleep(50)
+    block.trigger('mousedown')
     const testTime = 330
     await sleep(testTime)
     block.trigger('mouseup')
-    const expectResult = Math.floor(testTime / 100)
-    expect(handler).toHaveBeenCalledTimes(expectResult)
+    expect(handler).toHaveBeenCalledTimes(1)
   })
 })
