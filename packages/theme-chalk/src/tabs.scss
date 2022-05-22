@@ -2,6 +2,8 @@
 @use 'common/var' as *;
 
 @include b(tabs) {
+  @include set-component-css-var('tabs', $tabs);
+
   @include e(header) {
     padding: 0;
     position: relative;
@@ -106,9 +108,9 @@
   }
   @include e(item) {
     padding: 0 20px;
-    height: 40px;
+    height: getCssVar('tabs', 'header-height');
     box-sizing: border-box;
-    line-height: 40px;
+    line-height: getCssVar('tabs', 'header-height');
     display: inline-block;
     list-style: none;
     font-size: getCssVar('font-size-base');
@@ -168,6 +170,7 @@
   @include m(card) {
     > .#{$namespace}-tabs__header {
       border-bottom: 1px solid getCssVar('border-color-light');
+      height: getCssVar('tabs', 'header-height');
     }
     > .#{$namespace}-tabs__header .#{$namespace}-tabs__nav-wrap::after {
       content: none;
