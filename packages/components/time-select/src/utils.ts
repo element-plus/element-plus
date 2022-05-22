@@ -25,7 +25,9 @@ export const parseTime = (time: string): null | Time => {
 
 export const compareTime = (time1: string, time2: string): number => {
   const value1 = parseTime(time1)
+  if (!value1) return -1
   const value2 = parseTime(time2)
+  if (!value2) return -1
   const minutes1 = value1.minutes + value1.hours * 60
   const minutes2 = value2.minutes + value2.hours * 60
   if (minutes1 === minutes2) {
@@ -43,7 +45,10 @@ export const formatTime = (time: Time): string => {
 
 export const nextTime = (time: string, step: string): string => {
   const timeValue = parseTime(time)
+  if (!timeValue) return ''
+
   const stepValue = parseTime(step)
+  if (!stepValue) return ''
 
   const next = {
     hours: timeValue.hours,

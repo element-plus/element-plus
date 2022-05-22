@@ -86,10 +86,10 @@ const maxTime = computed(() => {
 })
 
 const items = computed(() => {
-  const result = []
+  const result: { value: string; disabled: boolean }[] = []
   if (props.start && props.end && props.step) {
     let current = start.value
-    let currentTime
+    let currentTime: string
     while (current && end.value && compareTime(current, end.value) <= 0) {
       currentTime = dayjs(current, 'HH:mm').format(props.format)
       result.push({
