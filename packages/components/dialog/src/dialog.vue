@@ -34,6 +34,7 @@
           >
             <el-dialog-content
               v-if="rendered"
+              ref="dialogContentRef"
               :custom-class="customClass"
               :center="center"
               :close-icon="closeIcon"
@@ -103,6 +104,7 @@ useDeprecated(
 const ns = useNamespace('dialog')
 const dialogRef = ref<HTMLElement>()
 const headerRef = ref<HTMLElement>()
+const dialogContentRef = ref()
 
 const {
   visible,
@@ -139,5 +141,6 @@ useDraggable(dialogRef, headerRef, draggable)
 defineExpose({
   /** @description whether the dialog is visible */
   visible,
+  dialogContentRef,
 })
 </script>
