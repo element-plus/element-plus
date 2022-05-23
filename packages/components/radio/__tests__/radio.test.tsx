@@ -135,6 +135,42 @@ describe('Radio group', () => {
     expect(vm.radio).toEqual(6)
   })
 
+  it('id auto derive', async () => {
+    const wrapper1 = _mount(
+      `<el-radio-group v-model="radio">
+        <el-radio :label="3" ref="radio1">3</el-radio>
+        <el-radio :label="6" ref="radio2">6</el-radio>
+        <el-radio :label="9">9</el-radio>
+      </el-radio-group>`,
+      () => ({
+        radio: 3,
+      })
+    )
+
+    const wrapper2 = _mount(
+      `<el-radio-group v-model="radio">
+        <el-radio :label="3" ref="radio1">3</el-radio>
+        <el-radio :label="6" ref="radio2">6</el-radio>
+        <el-radio :label="9">9</el-radio>
+      </el-radio-group>`,
+      () => ({
+        radio: 3,
+      })
+    )
+
+    const id1 = wrapper1
+      .findComponent({ name: 'ElRadio' })
+      .find('input')
+      .attributes('name')
+
+    const id2 = wrapper2
+      .findComponent({ name: 'ElRadio' })
+      .find('input')
+      .attributes('name')
+
+    expect(id1).not.toEqual(id2)
+  })
+
   it('disabled', async () => {
     const wrapper = _mount(
       `<el-radio-group v-model="radio" disabled>

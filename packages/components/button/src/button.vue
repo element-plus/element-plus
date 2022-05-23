@@ -65,8 +65,8 @@ const slots = useSlots()
 
 useDeprecated(
   {
-    from: 'type.link',
-    replacement: 'text',
+    from: 'type.text',
+    replacement: 'type.link',
     version: '3.0.0',
     scope: 'props',
     ref: 'https://element-plus.org/en-US/component/button.html#button-attributes',

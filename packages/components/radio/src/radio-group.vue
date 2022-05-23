@@ -27,6 +27,7 @@ import { radioGroupKey } from '@element-plus/tokens'
 import {
   useFormItem,
   useFormItemInputId,
+  useId,
   useNamespace,
 } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
@@ -37,11 +38,11 @@ defineOptions({
   name: 'ElRadioGroup',
 })
 
-let id = 1
 const props = defineProps(radioGroupProps)
 const emit = defineEmits(radioGroupEmits)
 
 const ns = useNamespace('radio')
+const radioId = useId()
 const radioGroupRef = ref<HTMLDivElement>()
 const { formItem } = useFormItem()
 const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
@@ -62,10 +63,8 @@ onMounted(() => {
   }
 })
 
-const randomName = `el-radio-group-${id++}`
-
 const name = computed(() => {
-  return props.name || randomName
+  return props.name || radioId.value
 })
 
 provide(

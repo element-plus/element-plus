@@ -1,5 +1,20 @@
 ## Changelog
 
+### 2.2.2
+
+_2022-05-23_
+
+#### Features
+
+- Dialog expose dialogContentRef (#7633 by @zhoucan38)
+
+#### Bug fixes
+
+- Components [menu] the styles link error (#7820 by @tolking)
+- Components [form] align label width if it exists (#7826 by @ryuhangyeong)
+- Correct the deprecated note for el-button (#7854 by @0song)
+- Components [radio-group] unique id (#7859 by @JeremyWuuuuu)
+
 ### 2.2.1
 
 _2022-05-20_

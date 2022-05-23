@@ -60,7 +60,7 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include m(label-left) {
     .#{$namespace}-form-item__label {
-      text-align: left;
+      justify-content: flex-start;
     }
   }
   @include m(label-top) {
