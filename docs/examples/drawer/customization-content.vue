@@ -53,8 +53,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { ElMessageBox } from 'element-plus'
-import type { ElDrawer } from 'element-plus'
+import { ElDrawer, ElMessageBox } from 'element-plus'
 
 const formLabelWidth = '80px'
 let timer
