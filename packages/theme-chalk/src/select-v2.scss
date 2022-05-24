@@ -218,7 +218,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
       map.get($input, 'icon-color')
     );
 
-    & .#{$namespace}-input__icon {
+    .#{$namespace}-input__icon {
       height: inherit;
     }
   }
