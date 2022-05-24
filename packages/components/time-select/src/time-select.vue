@@ -76,12 +76,12 @@ const step = computed(() => {
 })
 
 const minTime = computed(() => {
-  const time = parseTime(props.minTime)
+  const time = parseTime(props.minTime || '')
   return time ? formatTime(time) : null
 })
 
 const maxTime = computed(() => {
-  const time = parseTime(props.maxTime)
+  const time = parseTime(props.maxTime || '')
   return time ? formatTime(time) : null
 })
 
