@@ -159,7 +159,7 @@ describe('<ElFocusTrap', () => {
       })
 
       // Expect no emit if esc while layer paused
-      expect(wrapper.emitted('release-requested')).toBeFalsy()
+      expect(wrapper.emitted('release-requested')?.length).toBe(1)
     })
 
     it('should be able to dispatch `focusout-prevented` when trab wraps due to trapped or is blocked', async () => {
