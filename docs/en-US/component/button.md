@@ -31,8 +31,7 @@ button/disabled
 
 `type="text"` has been **deprecated**, and **will be** removed in <VersionTag version="3.0.0" />, consider switching to new API.
 
-New API `type="link"` has been added in <VersionTag version="2.2.1" />, you can use `type` API to set the
-theme of your link button
+New API `link` has been added in <VersionTag version="2.2.1" />, you can use `type` API to set the theme of your link button
 
 :::
 
