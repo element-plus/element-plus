@@ -13,14 +13,12 @@
   ignoreDeps: [
     'node',
     'csstype',
-    'esno',
 
     // pure esm
     'chalk',
 
     // test
     '@vue/test-utils',
-
     'cypress',
   ],
 }

@@ -3,10 +3,10 @@
   "private": true,
   "scripts": {
     "dev": "pnpm gen-locale && vitepress dev .",
-    "build": "cross-env NODE_ENV=production && vitepress build . && sucrase-node .vitepress/build/rebuild-pwa.ts",
+    "build": "cross-env NODE_ENV=production && vitepress build . && tsx .vitepress/build/rebuild-pwa.ts",
     "serve": "cross-env NODE_ENV=production vitepress serve . --port 5001",
-    "gen-locale": "rimraf .vitepress/i18n && sucrase-node .vitepress/build/crowdin-generate.ts",
-    "crowdin-credentials": "sucrase-node .vitepress/build/crowdin-credentials.ts"
+    "gen-locale": "rimraf .vitepress/i18n && tsx .vitepress/build/crowdin-generate.ts",
+    "crowdin-credentials": "tsx .vitepress/build/crowdin-credentials.ts"
   },
   "dependencies": {
     "@docsearch/js": "^3.0.0",
