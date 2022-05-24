@@ -40,7 +40,7 @@ $button-icon-span-gap: map.merge(
   vertical-align: middle;
   -webkit-appearance: none;
 
-  &:not(.is-text, .is-link, .#{$namespace}-button--text) {
+  &:not(.is-text):not(.is-link):not(.#{$namespace}-button--text) {
     background-color: getCssVar('button', 'bg-color');
     border: getCssVar('border');
     border-color: getCssVar('button', 'border-color');
