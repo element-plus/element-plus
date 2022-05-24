@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it, test } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import InputNumber from '../src/input-number.vue'
@@ -147,7 +147,7 @@ describe('InputNumber.vue', () => {
     await wrapper.find('input').setValue(3)
     expect(wrapper.find('input').element.value).toEqual('4')
   })
-  test('precision', async () => {
+  describe('precision accuracy 2', () => {
     const wrapper = _mount({
       template: '<el-input-number :precision="2" v-model="num" />',
       setup() {
@@ -157,12 +157,27 @@ describe('InputNumber.vue', () => {
         }
       },
     })
-    await wrapper.find('input').setValue(1.1111111111)
-    expect(wrapper.find('input').element.value).toEqual('1.11')
+    it.each([
+      [1.1111111111, '1.11'],
+      [17.275, '17.28'],
+      [17.2745, '17.27'],
+      [1.09, '1.09'],
+      [1.009, '1.01'],
+      [10.999, '11.00'],
+      [15, '15.00'],
+      [15.5, '15.50'],
+      [15.555, '15.56'],
+    ])(
+      'each precision accuracy test: $input $output',
+      async (input, output) => {
+        await wrapper.find('input').setValue(input)
+        expect(wrapper.find('input').element.value).toEqual(`${output}`)
+      }
+    )
   })
-  test('precision accuracy', async () => {
+  describe('precision accuracy 3', () => {
     const wrapper = _mount({
-      template: '<el-input-number :precision="2" v-model="num" />',
+      template: '<el-input-number :precision="3" v-model="num" />',
       setup() {
         const num = ref(0)
         return {
@@ -170,8 +185,22 @@ describe('InputNumber.vue', () => {
         }
       },
     })
-    await wrapper.find('input').setValue(17.275)
-    expect(wrapper.find('input').element.value).toEqual('17.28')
+    it.each([
+      [1.1111111111, '1.111'],
+      [17.275, '17.275'],
+      [17.2745, '17.275'],
+      [1.09, '1.090'],
+      [10.999, '10.999'],
+      [10.9999, '11.000'],
+      [15.555, '15.555'],
+      [1.3335, '1.334'],
+    ])(
+      'each precision accuracy test: $input $output',
+      async (input, output) => {
+        await wrapper.find('input').setValue(input)
+        expect(wrapper.find('input').element.value).toEqual(`${output}`)
+      }
+    )
   })
   test('disabled', async () => {
     const wrapper = _mount({

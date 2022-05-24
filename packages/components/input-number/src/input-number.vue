@@ -164,13 +164,18 @@ export default defineComponent({
     })
     const toPrecision = (num: number, pre?: number) => {
       if (isUndefined(pre)) pre = numPrecision.value
-      const digits = num.toString().split('.')
-      if (digits.length > 1) {
-        const integer = digits[0]
-        const decimal = Math.round(+digits[1] / 10 ** (digits[1].length - pre))
-        return Number.parseFloat(`${integer}.${decimal}`)
+      if (pre === 0) return Math.round(num)
+      let snum = String(num)
+      const pointPos = snum.indexOf('.')
+      if (pointPos === -1) return num
+      const nums = snum.replace('.', '').split('')
+      const datum = nums[pointPos + pre]
+      if (!datum) return num
+      const length = snum.length
+      if (snum.charAt(length - 1) === '5') {
+        snum = `${snum.slice(0, Math.max(0, length - 1))}6`
       }
-      return Number.parseFloat(`${Math.round(num * 10 ** pre) / 10 ** pre}`)
+      return Number.parseFloat(Number(snum).toFixed(pre))
     }
     const getPrecision = (value: number | null | undefined) => {
       if (isNil(value)) return 0
