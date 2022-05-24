@@ -1,6 +1,7 @@
-import { buildProps } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
+import { useSizeProp } from '@element-plus/hooks'
 import type TimeSelect from './time-select.vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
@@ -11,10 +12,7 @@ export const timeSelectProps = buildProps({
     default: 'HH:mm',
   },
   modelValue: String,
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  disabled: Boolean,
   editable: {
     type: Boolean,
     default: true,
@@ -27,13 +25,8 @@ export const timeSelectProps = buildProps({
     type: Boolean,
     default: true,
   },
-  size: {
-    type: String as PropType<ComponentSize>,
-    values: componentSizes,
-  },
-  placeholder: {
-    type: String,
-  },
+  size: useSizeProp,
+  placeholder: String,
   start: {
     type: String,
     default: '09:00',
@@ -46,24 +39,18 @@ export const timeSelectProps = buildProps({
     type: String,
     default: '00:30',
   },
-  minTime: {
-    type: String,
-  },
-  maxTime: {
-    type: String,
-  },
-  name: {
-    type: String,
-  },
+  minTime: String,
+  maxTime: String,
+  name: String,
   prefixIcon: {
-    type: [String, Object] as PropType<string | Component>,
+    type: definePropType<string | Component>([String, Object]),
     default: () => Clock,
   },
   clearIcon: {
-    type: [String, Object] as PropType<string | Component>,
+    type: definePropType<string | Component>([String, Object]),
     default: () => CircleClose,
   },
-})
+} as const)
 
 export type TimeSelectProps = ExtractPropTypes<typeof timeSelectProps>
 
