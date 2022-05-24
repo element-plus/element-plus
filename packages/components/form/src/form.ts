@@ -16,7 +16,11 @@ export const formProps = buildProps({
   rules: {
     type: definePropType<FormRules>(Object),
   },
-  labelPosition: String,
+  labelPosition: {
+    type: String,
+    values: ['left', 'right', 'top'] as const,
+    default: 'right',
+  },
   labelWidth: {
     type: [String, Number],
     default: '',
