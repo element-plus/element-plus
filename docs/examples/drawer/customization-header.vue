@@ -16,8 +16,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { ElButton, ElDrawer } from 'element-plus'
 import { CircleCloseFilled } from '@element-plus/icons-vue'
-import type { ElButton, ElDrawer } from 'element-plus'
 
 const visible = ref(false)
 </script>
