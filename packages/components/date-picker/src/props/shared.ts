@@ -25,6 +25,7 @@ export const datePickerSharedProps = buildProps({
   },
   parsedValue: {
     type: definePropType<Dayjs | Dayjs[]>([Object, Array]),
+    required: true,
   },
   rangeState: {
     type: definePropType<RangeState>(Object),
