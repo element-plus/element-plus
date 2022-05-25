@@ -49,8 +49,8 @@ import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
 import { castArray } from '@element-plus/utils'
+import { basicDateTableProps } from '../props/basic-date-table'
 import ElDatePickerCell from './basic-cell-render'
-import type { PropType } from 'vue'
 
 import type { Dayjs } from 'dayjs'
 import type { DateCell } from '../date-picker.type'
@@ -59,41 +59,7 @@ export default defineComponent({
   components: {
     ElDatePickerCell,
   },
-  props: {
-    date: {
-      type: Object as PropType<Dayjs>,
-    },
-    minDate: {
-      type: Object as PropType<Dayjs>,
-    },
-    maxDate: {
-      type: Object as PropType<Dayjs>,
-    },
-    parsedValue: {
-      type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
-    },
-    selectionMode: {
-      type: String,
-      default: 'date',
-    },
-    showWeekNumber: {
-      type: Boolean,
-      default: false,
-    },
-    disabledDate: {
-      type: Function,
-    },
-    cellClassName: {
-      type: Function,
-    },
-    rangeState: {
-      type: Object,
-      default: () => ({
-        endDate: null,
-        selecting: false,
-      }),
-    },
-  },
+  props: basicDateTableProps,
   emits: ['changerange', 'pick', 'select'],
   expose: ['focus'],
   setup(props, ctx) {
