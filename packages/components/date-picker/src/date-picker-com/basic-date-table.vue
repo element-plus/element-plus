@@ -406,7 +406,7 @@ export default defineComponent({
       const newDate = getDateOfCell(row, column)
 
       if (props.selectionMode === 'range') {
-        if (!props.rangeState.selecting) {
+        if (!props.rangeState.selecting || !props.minDate) {
           ctx.emit('pick', { minDate: newDate, maxDate: null })
           ctx.emit('select', true)
         } else {
