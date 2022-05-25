@@ -36,9 +36,7 @@ import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
-
-import type { PropType } from 'vue'
-import type { Dayjs } from 'dayjs'
+import { basicMonthTableProps } from '../props/basic-month-table'
 
 const datesInMonth = (year: number, month: number, lang: string) => {
   const firstDay = dayjs().locale(lang).startOf('month').month(month).year(year)
@@ -47,34 +45,7 @@ const datesInMonth = (year: number, month: number, lang: string) => {
 }
 
 export default defineComponent({
-  props: {
-    disabledDate: {
-      type: Function as PropType<(_: Date) => void>,
-    },
-    selectionMode: {
-      type: String,
-      default: 'month',
-    },
-    minDate: {
-      type: Object as PropType<Dayjs>,
-    },
-    maxDate: {
-      type: Object as PropType<Dayjs>,
-    },
-    date: {
-      type: Object as PropType<Dayjs>,
-    },
-    parsedValue: {
-      type: Object as PropType<Dayjs>,
-    },
-    rangeState: {
-      type: Object,
-      default: () => ({
-        endDate: null,
-        selecting: false,
-      }),
-    },
-  },
+  props: basicMonthTableProps,
 
   emits: ['changerange', 'pick', 'select'],
   expose: ['focus'],
