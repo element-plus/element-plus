@@ -1,20 +1,16 @@
 import { isNil } from 'lodash-unified'
+import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, isNumber } from '@element-plus/utils'
-import { componentSizes } from '@element-plus/constants'
+import type { ExtractPropTypes } from 'vue'
+import type InputNumber from './input-number.vue'
 
 export const inputNumberProps = buildProps({
-  id: {
-    type: String,
-    default: undefined,
-  },
+  id: String,
   step: {
     type: Number,
     default: 1,
   },
-  stepStrictly: {
-    type: Boolean,
-    default: false,
-  },
+  stepStrictly: Boolean,
   max: {
     type: Number,
     default: Number.POSITIVE_INFINITY,
@@ -23,17 +19,9 @@ export const inputNumberProps = buildProps({
     type: Number,
     default: Number.NEGATIVE_INFINITY,
   },
-  modelValue: {
-    type: Number,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  size: {
-    type: String,
-    values: componentSizes,
-  },
+  modelValue: Number,
+  disabled: Boolean,
+  size: useSizeProp,
   controls: {
     type: Boolean,
     default: true,
@@ -58,6 +46,7 @@ export const inputNumberProps = buildProps({
       val >= 0 && val === Number.parseInt(`${val}`, 10),
   },
 } as const)
+export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
 
 export const inputNumberEmits = {
   change: (prev: number | undefined, cur: number | undefined) => prev !== cur,
@@ -66,3 +55,6 @@ export const inputNumberEmits = {
   input: (val: number | null | undefined) => isNumber(val) || isNil(val),
   'update:modelValue': (val: number | undefined) => isNumber(val) || isNil(val),
 }
+export type InputNumberEmits = typeof inputNumberEmits
+
+export type InputNumberInstance = InstanceType<typeof InputNumber>
