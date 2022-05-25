@@ -245,18 +245,16 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import ElIcon from '@element-plus/components/icon'
-import { isValidDatePickType } from '@element-plus/utils'
 import {
   ArrowLeft,
   ArrowRight,
   DArrowLeft,
   DArrowRight,
 } from '@element-plus/icons-vue'
+import { panelDateRangeProps } from '../props/panel-date-range'
 import DateTable from './basic-date-table.vue'
 
-import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
-import type { IDatePickerType } from '../date-picker.type'
 
 export default defineComponent({
   directives: { clickoutside: ClickOutside },
@@ -273,17 +271,7 @@ export default defineComponent({
     ArrowRight,
   },
 
-  props: {
-    unlinkPanels: Boolean,
-    parsedValue: {
-      type: Array as PropType<Dayjs[]>,
-    },
-    type: {
-      type: String as PropType<IDatePickerType>,
-      required: true,
-      validator: isValidDatePickType,
-    },
-  },
+  props: panelDateRangeProps,
 
   emits: ['pick', 'set-picker-option', 'calendar-change', 'panel-change'],
 

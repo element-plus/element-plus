@@ -196,7 +196,7 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { isFunction, isValidDatePickType } from '@element-plus/utils'
+import { isFunction } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   ArrowLeft,
@@ -205,13 +205,13 @@ import {
   DArrowRight,
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
+import { panelDatePickProps } from '../props/panel-date-pick'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
 
-import type { ComponentPublicInstance, PropType, Ref } from 'vue'
+import type { ComponentPublicInstance, Ref } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
-import type { IDatePickerType } from '../date-picker.type'
 
 // todo
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -233,24 +233,7 @@ export default defineComponent({
   },
 
   directives: { clickoutside: ClickOutside },
-  props: {
-    visible: {
-      type: Boolean,
-      default: false,
-    },
-    parsedValue: {
-      type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
-    },
-    format: {
-      type: String,
-      default: '',
-    },
-    type: {
-      type: String as PropType<IDatePickerType>,
-      required: true,
-      validator: isValidDatePickType,
-    },
-  },
+  props: panelDatePickProps,
   emits: ['pick', 'set-picker-option', 'panel-change'],
   setup(props, ctx) {
     const { t, lang } = useLocale()
