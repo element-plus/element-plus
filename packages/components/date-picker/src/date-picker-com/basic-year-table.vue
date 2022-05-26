@@ -6,13 +6,13 @@
     @click="handleYearTableClick"
   >
     <tbody ref="tbodyRef">
-      <tr v-for="(n, i) in 3" :key="i">
-        <template v-for="(nn, j) in 4" :key="i + '_' + j">
+      <tr v-for="(_, i) in 3" :key="i">
+        <template v-for="(__, j) in 4" :key="i + '_' + j">
           <td
             v-if="i * 4 + j < 10"
             :ref="
               (el) =>
-                isSelectedCell(startYear + i * 4 + j) && (currentCellRef = el)
+                isSelectedCell(startYear + i * 4 + j) && (currentCellRef = el as HTMLElement)
             "
             class="available"
             :class="getCellStyle(startYear + i * 4 + j)"
@@ -36,11 +36,9 @@ import dayjs from 'dayjs'
 import { useLocale } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
+import { basicYearTableProps } from '../props/basic-year-table'
 
-import type { PropType } from 'vue'
-import type { Dayjs } from 'dayjs'
-
-const datesInYear = (year: Dayjs, lang: string) => {
+const datesInYear = (year: number, lang: string) => {
   const firstDay = dayjs(String(year)).locale(lang).startOf('year')
   const lastDay = firstDay.endOf('year')
   const numOfDays = lastDay.dayOfYear()
@@ -48,17 +46,7 @@ const datesInYear = (year: Dayjs, lang: string) => {
 }
 
 export default defineComponent({
-  props: {
-    disabledDate: {
-      type: Function as PropType<(_: Date) => void>,
-    },
-    parsedValue: {
-      type: Object as PropType<Dayjs>,
-    },
-    date: {
-      type: Object as PropType<Dayjs>,
-    },
-  },
+  props: basicYearTableProps,
 
   emits: ['pick'],
   expose: ['focus'],
@@ -85,8 +73,8 @@ export default defineComponent({
       currentCellRef.value?.focus()
     }
 
-    const getCellStyle = (year) => {
-      const style = {} as any
+    const getCellStyle = (year: number) => {
+      const style: Record<string, boolean> = {}
       const today = dayjs().locale(lang.value)
 
       style.disabled = props.disabledDate
@@ -101,16 +89,16 @@ export default defineComponent({
       return style
     }
 
-    const isSelectedCell = (year) => {
+    const isSelectedCell = (year: number) => {
       return (
         (year === startYear.value &&
           props.date.year() < startYear.value &&
           props.date.year() > startYear.value + 9) ||
-        castArray(props.date).findIndex((_) => _.year() === year) >= 0
+        castArray(props.date).findIndex((date) => date.year() === year) >= 0
       )
     }
 
-    const handleYearTableClick = (event: MouseEvent) => {
+    const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
       const clickTarget = event.target as HTMLDivElement
       const target = clickTarget.closest('td')
       if (target) {

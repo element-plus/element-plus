@@ -35,7 +35,6 @@
   "packages/components/table-column/",
   "packages/components/table-v2/",
   "packages/components/time-picker/",
-  "packages/components/time-select/",
   "packages/components/timeline/",
   "packages/components/timeline-item/",
   "packages/components/tooltip/",

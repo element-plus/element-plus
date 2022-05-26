@@ -52,7 +52,7 @@ describe('TimeSelect', () => {
     input.trigger('focus')
     await nextTick()
     expect(document.querySelector('.selected')).toBeDefined()
-    expect(document.querySelector('.selected').textContent).toBe('14:30')
+    expect(document.querySelector('.selected')?.textContent).toBe('14:30')
   })
 
   it('set minTime', async () => {
@@ -73,7 +73,7 @@ describe('TimeSelect', () => {
     input.trigger('focus')
     await nextTick()
     const elm = document.querySelector('.is-disabled')
-    expect(elm.textContent).toBe('14:30')
+    expect(elm?.textContent).toBe('14:30')
   })
 
   it('set value update', async () => {
@@ -86,12 +86,10 @@ describe('TimeSelect', () => {
 
     expect(input.exists()).toBe(true)
     expect(input.element.value).toBe('10:00')
-    // wrapper.setData is not supported until version 2.0.0-beta.8
-    // change value directly on `wrapper.vm`
-    const vm = wrapper.vm as any
-    vm.value = '10:30'
+
+    wrapper.setData({ value: '10:30' })
     await nextTick()
-    expect(vm.value).toBe('10:30')
+    expect(wrapper.vm.value).toBe('10:30')
     expect(input.element.value).toBe('10:30')
   })
 
@@ -109,8 +107,8 @@ describe('TimeSelect', () => {
       .findAllComponents(Option)
       .find((w) => w.text().trim() === '11:00')
 
-    expect(option.exists()).toBe(true)
-    option.trigger('click')
+    expect(option?.exists()).toBe(true)
+    option?.trigger('click')
     await nextTick()
     expect(vm.value).toBe('11:00')
     expect(input.element.value).toBe('11:00')
@@ -160,7 +158,7 @@ describe('TimeSelect', () => {
     await nextTick()
 
     const popperEl = document.querySelector('.el-select__popper')
-    const attr = popperEl.getAttribute('aria-hidden')
+    const attr = popperEl?.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
   })
 
@@ -176,7 +174,7 @@ describe('TimeSelect', () => {
     await nextTick()
 
     const popperEl = document.querySelector('.el-select__popper')
-    const attr = popperEl.getAttribute('aria-hidden')
+    const attr = popperEl?.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
   })
 
@@ -196,7 +194,7 @@ describe('TimeSelect', () => {
     await input.trigger('click')
     await nextTick()
     const option = document.querySelector('.el-select-dropdown__item')
-    expect(option.textContent).toBe('01:00 PM')
+    expect(option?.textContent).toBe('01:00 PM')
   })
 
   describe('form item accessibility integration', () => {
