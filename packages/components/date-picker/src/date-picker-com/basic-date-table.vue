@@ -4,8 +4,7 @@
     :aria-label="t('el.datepicker.dateTablePrompt')"
     cellspacing="0"
     cellpadding="0"
-    class="el-date-table"
-    :class="{ 'is-week-mode': selectionMode === 'week' }"
+    :class="[{ 'is-week-mode': selectionMode === 'week' }, ns.b()]"
     @click="handlePickDate"
     @mousemove="handleMouseMove"
   >
@@ -24,8 +23,7 @@
       <tr
         v-for="(row, key) in rows"
         :key="key"
-        class="el-date-table__row"
-        :class="{ current: isWeekActive(row[1]) }"
+        :class="[{ current: isWeekActive(row[1]) }, ns.b('row')]"
       >
         <td
           v-for="(cell, key_) in row"
@@ -47,7 +45,7 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray } from '@element-plus/utils'
 import { basicDateTableProps } from '../props/basic-date-table'
 import ElDatePickerCell from './basic-cell-render'
@@ -64,6 +62,7 @@ export default defineComponent({
   expose: ['focus'],
   setup(props, ctx) {
     const { t, lang } = useLocale()
+    const ns = useNamespace('date-table')
 
     const tbodyRef = ref<HTMLElement>()
     const currentCellRef = ref<HTMLElement>()
@@ -441,6 +440,7 @@ export default defineComponent({
       handleFocus,
       handlePickDate,
       focus,
+      ns,
     }
   },
 })
