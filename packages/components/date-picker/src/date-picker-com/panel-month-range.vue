@@ -1,33 +1,33 @@
 <template>
   <div
-    class="el-picker-panel el-date-range-picker"
     :class="[
+      ppNs.b(),
+      drpNs.b(),
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
       },
     ]"
   >
-    <div class="el-picker-panel__body-wrapper">
-      <slot name="sidebar" class="el-picker-panel__sidebar" />
-      <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
+    <div :class="ppNs.e('body-wrapper')">
+      <slot name="sidebar" :class="ppNs.e('sidebar')" />
+      <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
         <button
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          class="el-picker-panel__shortcut"
+          :class="ppNs.e('shortcut')"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
         </button>
       </div>
-      <div class="el-picker-panel__body">
-        <div
-          class="el-picker-panel__content el-date-range-picker__content is-left"
-        >
-          <div class="el-date-range-picker__header">
+      <div :class="ppNs.e('body')">
+        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
+          <div :class="drpNs.e('header')">
             <button
               type="button"
-              class="el-picker-panel__icon-btn d-arrow-left"
+              :class="ppNs.e('icon-btn')"
+              class="d-arrow-left"
               @click="leftPrevYear"
             >
               <el-icon><d-arrow-left /></el-icon>
@@ -36,8 +36,8 @@
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
-              :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn d-arrow-right"
+              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              class="d-arrow-right"
               @click="leftNextYear"
             >
               <el-icon><d-arrow-right /></el-icon>
@@ -56,23 +56,22 @@
             @select="onSelect"
           />
         </div>
-        <div
-          class="el-picker-panel__content el-date-range-picker__content is-right"
-        >
-          <div class="el-date-range-picker__header">
+        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
+          <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
-              :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn d-arrow-left"
+              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              class="d-arrow-left"
               @click="rightPrevYear"
             >
               <el-icon><d-arrow-left /></el-icon>
             </button>
             <button
               type="button"
-              class="el-picker-panel__icon-btn d-arrow-right"
+              :class="ppNs.e('icon-btn')"
+              class="d-arrow-right"
               @click="rightNextYear"
             >
               <el-icon><d-arrow-right /></el-icon>
@@ -100,7 +99,7 @@
 import { computed, defineComponent, inject, ref, toRef, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { panelMonthRangeProps } from '../props/panel-month-range'
 import MonthTable from './basic-month-table.vue'
@@ -115,6 +114,9 @@ export default defineComponent({
   emits: ['pick', 'set-picker-option'],
 
   setup(props, ctx) {
+    const ppNs = useNamespace('picker-panel')
+    const drpNs = useNamespace('date-range-picker')
+
     const { t, lang } = useLocale()
     const leftDate = ref(dayjs().locale(lang.value))
     const rightDate = ref(dayjs().locale(lang.value).add(1, 'year'))
@@ -300,6 +302,8 @@ export default defineComponent({
     )
 
     return {
+      ppNs,
+      drpNs,
       shortcuts,
       disabledDate,
       onSelect,
