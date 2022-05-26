@@ -105,7 +105,6 @@ import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import { panelMonthRangeProps } from '../props/panel-month-range'
 import MonthTable from './basic-month-table.vue'
 
-import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export default defineComponent({
