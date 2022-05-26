@@ -23,7 +23,7 @@
       <tr
         v-for="(row, key) in rows"
         :key="key"
-        :class="[{ current: isWeekActive(row[1]) }, ns.b('row')]"
+        :class="[{ current: isWeekActive(row[1]) }, ns.e('row')]"
       >
         <td
           v-for="(cell, key_) in row"
