@@ -42,8 +42,7 @@
   "style": "dist/index.css",
   "sideEffects": [
     "dist/*",
-    "theme-chalk/*.css",
-    "theme-chalk/dark/*.css",
+    "theme-chalk/**/*.css",
     "theme-chalk/src/*.scss",
     "es/components/*/style/*",
     "lib/components/*/style/*"
