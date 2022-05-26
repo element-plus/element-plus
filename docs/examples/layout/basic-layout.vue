@@ -1,33 +1,33 @@
 <template>
   <el-row>
-    <el-col :span="24"><div class="grid-content bg-purple-dark" /></el-col>
+    <el-col :span="24"><div class="grid-content bg-purple-dark"></div></el-col>
   </el-row>
   <el-row>
-    <el-col :span="12"><div class="grid-content bg-purple" /></el-col>
-    <el-col :span="12"><div class="grid-content bg-purple-light" /></el-col>
+    <el-col :span="12"><div class="grid-content bg-purple"></div></el-col>
+    <el-col :span="12"><div class="grid-content bg-purple-light"></div></el-col>
   </el-row>
   <el-row>
-    <el-col :span="8"><div class="grid-content bg-purple" /></el-col>
-    <el-col :span="8"><div class="grid-content bg-purple-light" /></el-col>
-    <el-col :span="8"><div class="grid-content bg-purple" /></el-col>
+    <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
+    <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
+    <el-col :span="8"><div class="grid-content bg-purple"></div></el-col>
   </el-row>
   <el-row>
-    <el-col :span="6"><div class="grid-content bg-purple" /></el-col>
-    <el-col :span="6"><div class="grid-content bg-purple-light" /></el-col>
-    <el-col :span="6"><div class="grid-content bg-purple" /></el-col>
-    <el-col :span="6"><div class="grid-content bg-purple-light" /></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
+    <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
   </el-row>
   <el-row>
-    <el-col :span="4"><div class="grid-content bg-purple" /></el-col>
-    <el-col :span="4"><div class="grid-content bg-purple-light" /></el-col>
-    <el-col :span="4"><div class="grid-content bg-purple" /></el-col>
-    <el-col :span="4"><div class="grid-content bg-purple-light" /></el-col>
-    <el-col :span="4"><div class="grid-content bg-purple" /></el-col>
-    <el-col :span="4"><div class="grid-content bg-purple-light" /></el-col>
+    <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+    <el-col :span="4"><div class="grid-content bg-purple-light"></div></el-col>
+    <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+    <el-col :span="4"><div class="grid-content bg-purple-light"></div></el-col>
+    <el-col :span="4"><div class="grid-content bg-purple"></div></el-col>
+    <el-col :span="4"><div class="grid-content bg-purple-light"></div></el-col>
   </el-row>
 </template>
 
-<style lang="scss">
+<style>
 .el-row {
   margin-bottom: 20px;
 }
@@ -37,7 +37,15 @@
 .el-col {
   border-radius: 4px;
 }
-
+.bg-purple-dark {
+  background: #98a8be;
+}
+.bg-purple {
+  background: #bf83fb;
+}
+.bg-purple-light {
+  background: #e4e8f1;
+}
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
