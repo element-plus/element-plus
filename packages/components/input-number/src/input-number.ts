@@ -5,7 +5,10 @@ import type { ExtractPropTypes } from 'vue'
 import type InputNumber from './input-number.vue'
 
 export const inputNumberProps = buildProps({
-  id: String,
+  id: {
+    type: String,
+    default: undefined,
+  },
   step: {
     type: Number,
     default: 1,
