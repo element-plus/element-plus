@@ -1,4 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
+import { datePickTypes } from '@element-plus/constants'
 
 import type { Dayjs } from 'dayjs'
 
@@ -35,6 +36,14 @@ export const datePickerSharedProps = buildProps({
     }),
   },
 } as const)
+
+export const panelSharedProps = buildProps({
+  type: {
+    type: definePropType<typeof datePickTypes>(String),
+    required: true,
+    values: datePickTypes,
+  },
+})
 
 export const selectionModeWithDefault = (
   mode: typeof selectionModes[number]
