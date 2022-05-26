@@ -5,7 +5,7 @@ import type { Dayjs } from 'dayjs'
 
 const selectionModes = ['date', 'dates', 'year', 'month', 'week']
 
-type RangeState = {
+export type RangeState = {
   endDate: null | Dayjs
   selecting: boolean
 }
