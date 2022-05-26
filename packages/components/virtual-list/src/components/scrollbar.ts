@@ -15,7 +15,7 @@ import { cAF, rAF } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { HORIZONTAL, SCROLLBAR_MIN_SIZE, ScrollbarDirKey } from '../defaults'
 import { virtualizedScrollbarProps } from '../props'
-import { renderThumbStyle } from '../utils'
+import { renderThumbStyle, getClientEvent } from '../utils'
 
 import type { CSSProperties } from 'vue'
 
@@ -148,7 +148,7 @@ const ScrollBar = defineComponent({
       state.isDragging = true
       state[bar.value.axis] =
         e.currentTarget![bar.value.offset] -
-        (e[bar.value.client] -
+        (getClientEvent(e)[bar.value.client] -
           (e.currentTarget as HTMLElement).getBoundingClientRect()[
             bar.value.direction
           ])
@@ -177,7 +177,7 @@ const ScrollBar = defineComponent({
       // to get the relative position of the pointer to the track.
       const offset =
         (trackRef.value.getBoundingClientRect()[bar.value.direction] -
-          e[bar.value.client]) *
+          getClientEvent(e)[bar.value.client]) *
         -1
 
       // find where the thumb was clicked on.
