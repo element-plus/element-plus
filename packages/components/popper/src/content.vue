@@ -139,7 +139,10 @@ const onFocusAfterReleased = () => {
 
 const onFocusInTrap = (event: FocusEvent) => {
   if (props.visible && !trapped.value) {
-    if (event.relatedTarget) {
+    if (
+      event.relatedTarget &&
+      (event.relatedTarget as HTMLElement).tagName !== 'INPUT'
+    ) {
       ;(event.relatedTarget as HTMLElement)?.focus()
     }
     if (event.target) {
