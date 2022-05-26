@@ -77,7 +77,7 @@
               v-show="currentView === 'date'"
               type="button"
               :aria-label="t(`el.datepicker.prevMonth`)"
-              :class="['d-arrow-left', nsPickerPanel.e('icon-btn')]"
+              :class="['arrow-left', nsPickerPanel.e('icon-btn')]"
               @click="prevMonth_"
             >
               <el-icon><arrow-left /></el-icon>
