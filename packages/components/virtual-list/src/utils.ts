@@ -97,3 +97,5 @@ export function renderThumbStyle(
 
   return style
 }
+
+export const getClientEvent = (e: MouseEvent | TouchEvent) => e.type.startsWidth('touch')?e.touches[0]: e
