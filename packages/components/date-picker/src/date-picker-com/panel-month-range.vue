@@ -102,6 +102,7 @@ import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
+import { panelMonthRangeProps } from '../props/panel-month-range'
 import MonthTable from './basic-month-table.vue'
 
 import type { PropType } from 'vue'
@@ -110,12 +111,7 @@ import type { Dayjs } from 'dayjs'
 export default defineComponent({
   components: { MonthTable, ElIcon, DArrowLeft, DArrowRight },
 
-  props: {
-    unlinkPanels: Boolean,
-    parsedValue: {
-      type: Array as PropType<Dayjs[]>,
-    },
-  },
+  props: panelMonthRangeProps,
 
   emits: ['pick', 'set-picker-option'],
 
