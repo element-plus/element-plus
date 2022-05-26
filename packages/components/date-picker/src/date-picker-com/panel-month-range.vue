@@ -326,27 +326,4 @@ watch(
   },
   { immediate: true }
 )
-
-return {
-  shortcuts,
-  disabledDate,
-  onSelect,
-  handleRangePick,
-  rangeState,
-  handleChangeRange,
-  minDate,
-  maxDate,
-  enableYearArrow,
-  leftLabel,
-  rightLabel,
-  leftNextYear,
-  leftPrevYear,
-  rightNextYear,
-  rightPrevYear,
-  t,
-  leftDate,
-  rightDate,
-  hasShortcuts,
-  handleShortcutClick,
-}
 </script>
