@@ -110,7 +110,7 @@ import {
   panelMonthRangeEmits,
   panelMonthRangeProps,
 } from '../props/panel-month-range'
-import { useRangePicker } from '../composables/use-month-range-header'
+import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import MonthTable from './basic-month-table.vue'
 
 import type { SetupContext } from 'vue'
@@ -173,7 +173,7 @@ const {
   rightLabel,
   leftYear,
   rightYear,
-} = useRangePicker({
+} = useMonthRangeHeader({
   unlinkPanels: toRef(props, 'unlinkPanels'),
   leftDate,
   rightDate,

@@ -3,7 +3,7 @@ import { useLocale } from '@element-plus/hooks'
 import type { Ref, ToRef } from 'vue'
 import type { Dayjs } from 'dayjs'
 
-export const useRangePicker = ({
+export const useMonthRangeHeader = ({
   unlinkPanels,
   leftDate,
   rightDate,
