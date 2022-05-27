@@ -10,6 +10,7 @@ const resourceLang = computed(() => resourceLocale[lang.value])
   <div class="page-resource">
     <h1>{{ resourceLang.title }}</h1>
     <p>{{ resourceLang.lineOne }}</p>
+    <p v-html="resourceLang.lineTwo" />
     <div class="flex flex-wrap justify-center">
       <div class="inline-flex w-full md:w-1/3" p="2">
         <el-card class="card" shadow="hover">
@@ -65,10 +66,12 @@ const resourceLang = computed(() => resourceLocale[lang.value])
 
   h1 {
     color: var(--text-color);
-
-    + p {
-      color: var(--text-color-light);
-    }
+  }
+  p {
+    color: var(--text-color-light);
+  }
+  p::v-deep span {
+    color: var(--brand-color);
   }
 }
 
