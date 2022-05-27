@@ -35,12 +35,12 @@ export const getStyle = (
   let key = camelize(styleName)
   if (key === 'float') key = 'cssFloat'
   try {
-    const style = element.style[styleName]
+    const style = (element.style as any)[key]
     if (style) return style
-    const computed = document.defaultView?.getComputedStyle(element, '')
-    return computed ? computed[styleName] : ''
+    const computed: any = document.defaultView?.getComputedStyle(element, '')
+    return computed ? computed[key] : ''
   } catch {
-    return element.style[styleName]
+    return (element.style as any)[key]
   }
 }
 
@@ -56,8 +56,8 @@ export const setStyle = (
       setStyle(element, prop, value)
     )
   } else {
-    const key = camelize(styleName)
-    element.style[key] = value
+    const key: any = camelize(styleName)
+    element.style[key] = value as any
   }
 }
 
