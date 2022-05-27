@@ -1,35 +1,36 @@
 <template>
   <div
-    class="el-picker-panel el-date-range-picker"
     :class="[
+      ppNs.b(),
+      drpNs.b(),
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime,
       },
     ]"
   >
-    <div class="el-picker-panel__body-wrapper">
-      <slot name="sidebar" class="el-picker-panel__sidebar" />
-      <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
+    <div :class="ppNs.e('body-wrapper')">
+      <slot name="sidebar" :class="ppNs.e('sidebar')" />
+      <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
         <button
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          class="el-picker-panel__shortcut"
+          :class="ppNs.e('shortcut')"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
         </button>
       </div>
-      <div class="el-picker-panel__body">
-        <div v-if="showTime" class="el-date-range-picker__time-header">
-          <span class="el-date-range-picker__editors-wrap">
-            <span class="el-date-range-picker__time-picker-wrap">
+      <div :class="ppNs.e('body')">
+        <div v-if="showTime" :class="drpNs.e('time-header')">
+          <span :class="drpNs.e('editors-wrap')">
+            <span :class="drpNs.e('time-picker-wrap')">
               <el-input
                 size="small"
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.startDate')"
-                class="el-date-range-picker__editor"
+                :class="drpNs.e('editor')"
                 :model-value="minVisibleDate"
                 @input="(val) => handleDateInput(val, 'min')"
                 @change="(val) => handleDateChange(val, 'min')"
@@ -37,11 +38,11 @@
             </span>
             <span
               v-clickoutside="handleMinTimeClose"
-              class="el-date-range-picker__time-picker-wrap"
+              :class="drpNs.e('time-picker-wrap')"
             >
               <el-input
                 size="small"
-                class="el-date-range-picker__editor"
+                :class="drpNs.e('editor')"
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.startTime')"
                 :model-value="minVisibleTime"
@@ -62,11 +63,11 @@
           <span>
             <el-icon><arrow-right /></el-icon>
           </span>
-          <span class="el-date-range-picker__editors-wrap is-right">
-            <span class="el-date-range-picker__time-picker-wrap">
+          <span :class="drpNs.e('editors-wrap')" class="is-right">
+            <span :class="drpNs.e('time-picker-wrap')">
               <el-input
                 size="small"
-                class="el-date-range-picker__editor"
+                :class="drpNs.e('editor')"
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.endDate')"
                 :model-value="maxVisibleDate"
@@ -77,11 +78,11 @@
             </span>
             <span
               v-clickoutside="handleMaxTimeClose"
-              class="el-date-range-picker__time-picker-wrap"
+              :class="drpNs.e('time-picker-wrap')"
             >
               <el-input
                 size="small"
-                class="el-date-range-picker__editor"
+                :class="drpNs.e('editor')"
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.endTime')"
                 :model-value="maxVisibleTime"
@@ -101,20 +102,20 @@
             </span>
           </span>
         </div>
-        <div
-          class="el-picker-panel__content el-date-range-picker__content is-left"
-        >
-          <div class="el-date-range-picker__header">
+        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
+          <div :class="drpNs.e('header')">
             <button
               type="button"
-              class="el-picker-panel__icon-btn d-arrow-left"
+              :class="ppNs.e('icon-btn')"
+              class="d-arrow-left"
               @click="leftPrevYear"
             >
               <el-icon><d-arrow-left /></el-icon>
             </button>
             <button
               type="button"
-              class="el-picker-panel__icon-btn arrow-left"
+              :class="ppNs.e('icon-btn')"
+              class="arrow-left"
               @click="leftPrevMonth"
             >
               <el-icon><arrow-left /></el-icon>
@@ -123,8 +124,8 @@
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
-              :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn d-arrow-right"
+              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              class="d-arrow-right"
               @click="leftNextYear"
             >
               <el-icon><d-arrow-right /></el-icon>
@@ -133,8 +134,11 @@
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableMonthArrow"
-              :class="{ 'is-disabled': !enableMonthArrow }"
-              class="el-picker-panel__icon-btn arrow-right"
+              :class="[
+                ppNs.e('icon-btn'),
+                { 'is-disabled': !enableMonthArrow },
+              ]"
+              class="arrow-right"
               @click="leftNextMonth"
             >
               <el-icon><arrow-right /></el-icon>
@@ -154,16 +158,14 @@
             @select="onSelect"
           />
         </div>
-        <div
-          class="el-picker-panel__content el-date-range-picker__content is-right"
-        >
-          <div class="el-date-range-picker__header">
+        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
+          <div :class="drpNs.e('header')">
             <button
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
-              :class="{ 'is-disabled': !enableYearArrow }"
-              class="el-picker-panel__icon-btn d-arrow-left"
+              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              class="d-arrow-left"
               @click="rightPrevYear"
             >
               <el-icon><d-arrow-left /></el-icon>
@@ -172,22 +174,27 @@
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableMonthArrow"
-              :class="{ 'is-disabled': !enableMonthArrow }"
-              class="el-picker-panel__icon-btn arrow-left"
+              :class="[
+                ppNs.e('icon-btn'),
+                { 'is-disabled': !enableMonthArrow },
+              ]"
+              class="arrow-left"
               @click="rightPrevMonth"
             >
               <el-icon><arrow-left /></el-icon>
             </button>
             <button
               type="button"
-              class="el-picker-panel__icon-btn d-arrow-right"
+              :class="ppNs.e('icon-btn')"
+              class="d-arrow-right"
               @click="rightNextYear"
             >
               <el-icon><d-arrow-right /></el-icon>
             </button>
             <button
               type="button"
-              class="el-picker-panel__icon-btn arrow-right"
+              :class="ppNs.e('icon-btn')"
+              class="arrow-right"
               @click="rightNextMonth"
             >
               <el-icon><arrow-right /></el-icon>
@@ -209,12 +216,12 @@
         </div>
       </div>
     </div>
-    <div v-if="showTime" class="el-picker-panel__footer">
+    <div v-if="showTime" :class="ppNs.e('footer')">
       <el-button
         v-if="clearable"
         text
         size="small"
-        class="el-picker-panel__link-btn"
+        :class="ppNs.e('link-btn')"
         @click="handleClear"
       >
         {{ t('el.datepicker.clear') }}
@@ -222,7 +229,7 @@
       <el-button
         plain
         size="small"
-        class="el-picker-panel__link-btn"
+        :class="ppNs.e('link-btn')"
         :disabled="btnDisabled"
         @click="handleConfirm(false)"
       >
@@ -237,7 +244,7 @@ import { computed, defineComponent, inject, ref, toRef, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
   TimePickPanel,
@@ -276,6 +283,9 @@ export default defineComponent({
   emits: ['pick', 'set-picker-option', 'calendar-change', 'panel-change'],
 
   setup(props, ctx) {
+    const ppNs = useNamespace('picker-panel')
+    const drpNs = useNamespace('date-range-picker')
+
     const { t, lang } = useLocale()
     const leftDate = ref(dayjs().locale(lang.value))
     const rightDate = ref(dayjs().locale(lang.value).add(1, 'month'))
@@ -759,6 +769,8 @@ export default defineComponent({
     )
 
     return {
+      ppNs,
+      drpNs,
       shortcuts,
       disabledDate,
       cellClassName,

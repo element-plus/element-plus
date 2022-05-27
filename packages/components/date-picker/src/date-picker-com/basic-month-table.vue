@@ -2,7 +2,7 @@
   <table
     role="grid"
     :aria-label="t('el.datepicker.monthTablePrompt')"
-    class="el-month-table"
+    :class="ns.b()"
     @click="handleMonthTableClick"
     @mousemove="handleMouseMove"
   >
@@ -33,7 +33,7 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
@@ -51,6 +51,8 @@ export default defineComponent({
   expose: ['focus'],
 
   setup(props, ctx) {
+    const ns = useNamespace('month-table')
+
     const { t, lang } = useLocale()
     const tbodyRef = ref<HTMLElement>()
     const currentCellRef = ref<HTMLElement>()
@@ -234,6 +236,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       tbodyRef,
       currentCellRef,
       handleMouseMove,
