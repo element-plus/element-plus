@@ -56,11 +56,6 @@
   "packages/components/virtual-list/",
   "packages/components/visual-hidden/",
   "packages/directives/",
-  "packages/hooks/use-floating/",
-  "packages/hooks/use-forward-ref/",
-  "packages/hooks/use-global-config/",
-  "packages/hooks/use-prop/",
-  "packages/make-installer.ts",
   "packages/utils/dom/",
   "packages/utils/vue/"
 ]

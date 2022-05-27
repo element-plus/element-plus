@@ -5,6 +5,12 @@ import type { ConfigProviderContext } from '@element-plus/tokens'
 
 const INSTALLED_KEY = Symbol('INSTALLED_KEY')
 
+declare module 'vue' {
+  interface App {
+    [INSTALLED_KEY]?: boolean
+  }
+}
+
 export const makeInstaller = (components: Plugin[] = []) => {
   const install = (app: App, options?: ConfigProviderContext) => {
     if (app[INSTALLED_KEY]) return
