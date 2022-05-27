@@ -16,8 +16,10 @@ export default {
       confirm: 'OK',
       dateTablePrompt:
         'Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner le jour du mois',
-      monthTablePrompt: 'Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner le mois',
-      yearTablePrompt: 'Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner l\'année',
+      monthTablePrompt:
+        'Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner le mois',
+      yearTablePrompt:
+        "Utiliser les touches fléchées et appuyer sur Entrée pour sélectionner l'année",
       selectedDate: 'Date sélectionnée',
       selectDate: 'Choisir date',
       selectTime: 'Choisir horaire',
