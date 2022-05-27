@@ -70,9 +70,6 @@ const resourceLang = computed(() => resourceLocale[lang.value])
   p {
     color: var(--text-color-light);
   }
-  p::v-deep span {
-    color: var(--brand-color);
-  }
 }
 
 .card {
