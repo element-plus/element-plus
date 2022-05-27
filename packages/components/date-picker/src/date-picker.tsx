@@ -8,6 +8,7 @@ import weekYear from 'dayjs/plugin/weekYear.js'
 import dayOfYear from 'dayjs/plugin/dayOfYear.js'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
+import { useNamespace } from '@element-plus/hooks'
 import { ROOT_PICKER_INJECTION_KEY } from '@element-plus/tokens'
 import {
   CommonPicker,
@@ -38,9 +39,12 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { expose, emit, slots }) {
+    const ns = useNamespace('picker-panel')
+
     provide('ElPopperOptions', reactive(toRef(props, 'popperOptions')))
     provide(ROOT_PICKER_INJECTION_KEY, {
       slots,
+      pickerNs: ns,
     })
 
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()

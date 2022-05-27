@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType, isArray } from '@element-plus/utils'
 import { datePickTypes } from '@element-plus/constants'
 
 import type { Dayjs } from 'dayjs'
@@ -60,3 +60,9 @@ export const selectionModeWithDefault = (
     default: mode,
   }
 }
+
+export const rangePickerSharedEmits = {
+  pick: (range: [Dayjs, Dayjs]) => isArray(range),
+}
+
+export type RangePickerSharedEmits = typeof rangePickerSharedEmits
