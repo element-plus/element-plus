@@ -3,9 +3,9 @@ import { datePickTypes } from '@element-plus/constants'
 
 import type { Dayjs } from 'dayjs'
 
-const selectionModes = ['date', 'dates', 'year', 'month', 'week']
+const selectionModes = ['date', 'dates', 'year', 'month', 'week', 'range']
 
-type RangeState = {
+export type RangeState = {
   endDate: null | Dayjs
   selecting: boolean
 }
@@ -26,7 +26,6 @@ export const datePickerSharedProps = buildProps({
   },
   parsedValue: {
     type: definePropType<Dayjs | Dayjs[]>([Object, Array]),
-    required: true,
   },
   rangeState: {
     type: definePropType<RangeState>(Object),
