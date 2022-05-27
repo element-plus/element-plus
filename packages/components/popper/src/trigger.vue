@@ -13,13 +13,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onMounted, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { unrefElement } from '@vueuse/core'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
 import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
 import { isElement } from '@element-plus/utils'
 import { usePopperTriggerProps } from './trigger'
+
+import type { WatchStopHandle } from 'vue'
 
 defineOptions({
   name: 'ElPopperTrigger',
@@ -58,6 +60,8 @@ const ariaOwns = computed<string | undefined>(() => {
   return ariaHaspopup.value ? props.id : undefined
 })
 
+let virtualTriggerAriaStopWatch: WatchStopHandle | undefined = undefined
+
 onMounted(() => {
   watch(
     () => props.virtualRef,
@@ -74,6 +78,10 @@ onMounted(() => {
   watch(
     () => triggerRef.value,
     (el, prevEl) => {
+      if (virtualTriggerAriaStopWatch) {
+        virtualTriggerAriaStopWatch()
+        virtualTriggerAriaStopWatch = undefined
+      }
       if (isElement(el)) {
         ;[
           'onMouseenter',
@@ -96,12 +104,53 @@ onMounted(() => {
             )
           }
         })
+        virtualTriggerAriaStopWatch = watch(
+          [ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded, ariaOwns],
+          ([
+            ariaControls,
+            ariaDescribedby,
+            ariaHaspopup,
+            ariaExpanded,
+            ariaOwns,
+          ]) => {
+            ariaControls != null
+              ? el.setAttribute('aria-controls', ariaControls)
+              : el.removeAttribute('aria-controls')
+            ariaDescribedby != null
+              ? el.setAttribute('aria-describedby', ariaDescribedby)
+              : el.removeAttribute('aria-describedby')
+            ariaHaspopup != null
+              ? el.setAttribute('aria-haspopup', ariaHaspopup)
+              : el.removeAttribute('aria-haspopup')
+            ariaExpanded != null
+              ? el.setAttribute('aria-expanded', ariaExpanded)
+              : el.removeAttribute('aria-expanded')
+            ariaOwns != null
+              ? el.setAttribute('aria-owns', ariaOwns)
+              : el.removeAttribute('aria-owns')
+          },
+          { immediate: true }
+        )
+      }
+      if (isElement(prevEl)) {
+        prevEl.removeAttribute('aria-controls')
+        prevEl.removeAttribute('aria-describedby')
+        prevEl.removeAttribute('aria-haspopup')
+        prevEl.removeAttribute('aria-expanded')
+        prevEl.removeAttribute('aria-owns')
       }
     },
     {
       immediate: true,
     }
   )
+})
+
+onBeforeUnmount(() => {
+  if (virtualTriggerAriaStopWatch) {
+    virtualTriggerAriaStopWatch()
+    virtualTriggerAriaStopWatch = undefined
+  }
 })
 
 defineExpose({

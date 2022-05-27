@@ -49,6 +49,7 @@
 import {
   computed,
   defineComponent,
+  nextTick,
   provide,
   readonly,
   ref,
@@ -166,11 +167,15 @@ export default defineComponent({
       onClose: () => {
         onClose()
       },
-      onToggle: () => {
+      onToggle: (event: Event) => {
         if (unref(open)) {
           onClose()
         } else {
           onOpen()
+          if (event.type === 'keydown') {
+            console.log(contentRef.value)
+            nextTick(() => contentRef.value.contentRef.popperContentRef.focus())
+          }
         }
       },
       onShow: () => {

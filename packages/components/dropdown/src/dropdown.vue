@@ -2,6 +2,7 @@
   <div :class="[ns.b(), ns.is('disabled', disabled)]">
     <el-tooltip
       ref="popperRef"
+      :role="role"
       :effect="effect"
       :fallback-placements="['bottom', 'top']"
       :popper-options="popperOptions"
@@ -45,9 +46,9 @@
         </el-scrollbar>
       </template>
       <template v-if="!splitButton" #default>
-        <div :class="dropdownTriggerKls">
+        <el-only-child role="button" :tabindex="tabindex">
           <slot name="default" />
-        </div>
+        </el-only-child>
       </template>
     </el-tooltip>
     <template v-if="splitButton">
@@ -69,6 +70,7 @@
           :type="type"
           :class="ns.e('caret-button')"
           :disabled="disabled"
+          :aria-label="t('el.dropdown.toggleDropdown')"
         >
           <el-icon :class="ns.e('icon')"><arrow-down /></el-icon>
         </el-button>
@@ -91,9 +93,10 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
+import { ElOnlyChild } from '@element-plus/components/slot'
 import { addUnit } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { useNamespace, useSize } from '@element-plus/hooks'
+import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 
@@ -110,6 +113,7 @@ export default defineComponent({
     ElDropdownCollection,
     ElTooltip,
     ElRovingFocusGroup,
+    ElOnlyChild,
     ElIcon,
     ArrowDown,
   },
@@ -118,6 +122,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const _instance = getCurrentInstance()
     const ns = useNamespace('dropdown')
+    const { t } = useLocale()
 
     const triggeringElementRef = ref()
     const referenceElementRef = ref()
@@ -174,6 +179,7 @@ export default defineComponent({
 
     provide(DROPDOWN_INJECTION_KEY, {
       contentRef,
+      role: computed(() => props.role),
       isUsingKeyboard,
       onItemEnter,
       onItemLeave,
@@ -200,6 +206,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       ns,
       scrollbar,
       wrapStyle,

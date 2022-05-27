@@ -77,6 +77,10 @@ export const dropdownProps = buildProps({
     type: Boolean,
     default: false,
   },
+  role: {
+    type: String,
+    default: 'menu',
+  },
   buttonProps: {
     type: definePropType<ButtonProps>(Object),
   },
