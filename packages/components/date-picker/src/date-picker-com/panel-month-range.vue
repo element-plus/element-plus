@@ -100,7 +100,7 @@ import { computed, inject, ref, toRef, useAttrs, useSlots, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { isFunction } from '@element-plus/utils'
+import { isArray, isFunction } from '@element-plus/utils'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import {
   panelMonthRangeEmits,
@@ -238,7 +238,7 @@ const handleRangePick = (val: RangePickValue, close = true) => {
 
 const isValidValue = (value: [Dayjs | undefined, Dayjs | undefined]) => {
   return (
-    Array.isArray(value) &&
+    isArray(value) &&
     value &&
     value[0] &&
     value[1] &&
@@ -265,7 +265,7 @@ const formatToString = (days: Dayjs[]) => {
 
 const getDefaultValue = () => {
   let start: Dayjs
-  if (Array.isArray(defaultValue.value)) {
+  if (isArray(defaultValue.value)) {
     const left = dayjs(defaultValue.value[0])
     let right = dayjs(defaultValue.value[1])
     if (!props.unlinkPanels) {
