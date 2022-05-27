@@ -9,7 +9,11 @@ import esbuild from 'rollup-plugin-esbuild'
 import { parallel } from 'gulp'
 import glob from 'fast-glob'
 import { camelCase, upperFirst } from 'lodash'
-import { PKG_BRAND_NAME } from '@element-plus/build-constants'
+import {
+  PKG_BRAND_NAME,
+  PKG_CAMELCASE_LOCAL_NAME,
+  PKG_CAMELCASE_NAME,
+} from '@element-plus/build-constants'
 import { epOutput, epRoot, localeRoot } from '@element-plus/build-utils'
 import { version } from '../../../../packages/element-plus/version'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
@@ -61,7 +65,7 @@ async function buildFullEntry(minify: boolean) {
         formatBundleFilename('index.full', minify, 'js')
       ),
       exports: 'named',
-      name: 'ElementPlus',
+      name: PKG_CAMELCASE_NAME,
       globals: {
         vue: 'Vue',
       },
@@ -109,7 +113,7 @@ async function buildFullLocale(minify: boolean) {
             formatBundleFilename(filename, minify, 'js')
           ),
           exports: 'default',
-          name: `ElementPlusLocale${name}`,
+          name: `${PKG_CAMELCASE_LOCAL_NAME}${name}`,
           sourcemap: minify,
           banner,
         },
