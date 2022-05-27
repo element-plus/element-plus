@@ -168,11 +168,9 @@ export default defineComponent({
       if (focusLayer.paused || !trapContainer) return
 
       if (props.trapped) {
-        if (
-          !trapContainer.contains(
-            (e as FocusEvent).relatedTarget as HTMLElement | null
-          )
-        ) {
+        const relatedTarget = (e as FocusEvent)
+          .relatedTarget as HTMLElement | null
+        if (trapContainer != null && !trapContainer.contains(relatedTarget)) {
           tryFocus(lastFocusAfterTrapped, true)
         }
       } else {
