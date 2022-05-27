@@ -404,7 +404,7 @@ describe('Datetimerange', () => {
       `<el-date-picker
         v-model="value"
         type="datetimerange"
-        :defaultTime="new Date(2020, 1, 1, 1, 1, 1)"
+        :default-time="new Date(2020, 1, 1, 1, 1, 1)"
         format="YYYY/MM/DD HH:mm A"
     />`,
       () => ({

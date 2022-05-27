@@ -4,7 +4,7 @@
       ppNs.b(),
       drpNs.b(),
       {
-        'has-sidebar': $slots.sidebar || hasShortcuts,
+        'has-sidebar': Boolean($slots.sidebar) || hasShortcuts,
       },
     ]"
   >
@@ -36,7 +36,10 @@
               v-if="unlinkPanels"
               type="button"
               :disabled="!enableYearArrow"
-              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              :class="[
+                ppNs.e('icon-btn'),
+                { [ppNs.is('disabled')]: !enableYearArrow },
+              ]"
               class="d-arrow-right"
               @click="leftNextYear"
             >
@@ -102,6 +105,7 @@ import ElIcon from '@element-plus/components/icon'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { isArray, isFunction } from '@element-plus/utils'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
+import { ROOT_PICKER_INJECTION_KEY } from '@element-plus/tokens'
 import {
   panelMonthRangeEmits,
   panelMonthRangeProps,
@@ -121,7 +125,7 @@ const emit = defineEmits(panelMonthRangeEmits)
 const attrs = useAttrs()
 const slots = useSlots()
 
-const ppNs = useNamespace('picker-panel')
+const { pickerNs: ppNs } = inject(ROOT_PICKER_INJECTION_KEY)!
 const drpNs = useNamespace('date-range-picker')
 const { t, lang } = useLocale()
 const leftDate = ref(dayjs().locale(lang.value))
