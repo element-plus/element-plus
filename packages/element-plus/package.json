@@ -43,7 +43,7 @@
   "sideEffects": [
     "dist/*",
     "theme-chalk/**/*.css",
-    "theme-chalk/src/*.scss",
+    "theme-chalk/src/**/*.scss",
     "es/components/*/style/*",
     "lib/components/*/style/*"
   ],
