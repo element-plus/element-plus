@@ -4,7 +4,6 @@ import { describe, expect, it, test } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import InputNumber from '../src/input-number.vue'
-import type { InputNumberInstance } from '../src/input-number'
 
 const mouseup = new Event('mouseup')
 
