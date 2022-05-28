@@ -230,7 +230,7 @@ const handleClear = () => {
   emit('clear')
 }
 
-const handleKeyEnter = () => {
+const handleKeyEnter = async () => {
   if (
     suggestionVisible.value &&
     highlightedIndex.value >= 0 &&
@@ -239,10 +239,9 @@ const handleKeyEnter = () => {
     handleSelect(suggestions.value[highlightedIndex.value])
   } else if (props.selectWhenUnmatched) {
     emit('select', { value: props.modelValue })
-    nextTick(() => {
-      suggestions.value = []
-      highlightedIndex.value = -1
-    })
+    await nextTick()
+    suggestions.value = []
+    highlightedIndex.value = -1
   }
 }
 
