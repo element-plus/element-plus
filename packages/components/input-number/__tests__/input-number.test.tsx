@@ -2,7 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
-import { ElFormItem as FormItem } from '@element-plus/components/form'
+import { ElFormItem } from '@element-plus/components/form'
 import InputNumber from '../src/input-number.vue'
 import type { InputNumberInstance } from '../src/input-number'
 
@@ -342,9 +342,9 @@ describe('InputNumber.vue', () => {
   describe('form item accessibility integration', () => {
     test('automatic id attachment', async () => {
       const wrapper = mount(() => (
-        <FormItem label="Foobar" data-test-ref="item">
+        <ElFormItem label="Foobar" data-test-ref="item">
           <InputNumber />
-        </FormItem>
+        </ElFormItem>
       ))
 
       await nextTick()
@@ -357,9 +357,9 @@ describe('InputNumber.vue', () => {
 
     test('specified id attachment', async () => {
       const wrapper = mount(() => (
-        <FormItem label="Foobar" data-test-ref="item">
+        <ElFormItem label="Foobar" data-test-ref="item">
           <InputNumber id="foobar" />
-        </FormItem>
+        </ElFormItem>
       ))
 
       await nextTick()
@@ -373,10 +373,10 @@ describe('InputNumber.vue', () => {
 
     test('form item role is group when multiple inputs', async () => {
       const wrapper = mount(() => (
-        <FormItem label="Foobar" data-test-ref="item">
+        <ElFormItem label="Foobar" data-test-ref="item">
           <InputNumber />
           <InputNumber />
-        </FormItem>
+        </ElFormItem>
       ))
 
       await nextTick()
