@@ -1,29 +1,30 @@
 <template>
   <div
-    class="el-picker-panel el-date-picker"
     :class="[
+      ppNs.b(),
+      dpNs.b(),
       {
         'has-sidebar': $slots.sidebar || hasShortcuts,
         'has-time': showTime,
       },
     ]"
   >
-    <div class="el-picker-panel__body-wrapper">
-      <slot name="sidebar" class="el-picker-panel__sidebar" />
-      <div v-if="hasShortcuts" class="el-picker-panel__sidebar">
+    <div :class="ppNs.e('body-wrapper')">
+      <slot name="sidebar" :class="ppNs.e('sidebar')" />
+      <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
         <button
           v-for="(shortcut, key) in shortcuts"
           :key="key"
           type="button"
-          class="el-picker-panel__shortcut"
+          :class="ppNs.e('shortcut')"
           @click="handleShortcutClick(shortcut)"
         >
           {{ shortcut.text }}
         </button>
       </div>
-      <div class="el-picker-panel__body">
-        <div v-if="showTime" class="el-date-picker__time-header">
-          <span class="el-date-picker__editor-wrap">
+      <div :class="ppNs.e('body')">
+        <div v-if="showTime" :class="dpNs.e('time-header')">
+          <span :class="dpNs.e('editor-wrap')">
             <el-input
               :placeholder="t('el.datepicker.selectDate')"
               :model-value="visibleDate"
@@ -34,7 +35,7 @@
           </span>
           <span
             v-clickoutside="handleTimePickClose"
-            class="el-date-picker__editor-wrap"
+            :class="dpNs.e('editor-wrap')"
           >
             <el-input
               :placeholder="t('el.datepicker.selectTime')"
@@ -55,17 +56,18 @@
         </div>
         <div
           v-show="currentView !== 'time'"
-          class="el-date-picker__header"
-          :class="{
-            'el-date-picker__header--bordered':
-              currentView === 'year' || currentView === 'month',
-          }"
+          :class="[
+            dpNs.e('header'),
+            (currentView === 'year' || currentView === 'month') &&
+              dpNs.e('header--bordered'),
+          ]"
         >
-          <span class="el-date-picker__prev-btn">
+          <span :class="dpNs.e('prev-btn')">
             <button
               type="button"
               :aria-label="t(`el.datepicker.prevYear`)"
-              class="el-picker-panel__icon-btn d-arrow-left"
+              class="d-arrow-left"
+              :class="ppNs.e('icon-btn')"
               @click="prevYear_"
             >
               <el-icon><d-arrow-left /></el-icon>
@@ -74,7 +76,8 @@
               v-show="currentView === 'date'"
               type="button"
               :aria-label="t(`el.datepicker.prevMonth`)"
-              class="el-picker-panel__icon-btn arrow-left"
+              :class="ppNs.e('icon-btn')"
+              class="arrow-left"
               @click="prevMonth_"
             >
               <el-icon><arrow-left /></el-icon>
@@ -82,7 +85,7 @@
           </span>
           <span
             role="button"
-            class="el-date-picker__header-label"
+            :class="dpNs.e('header-label')"
             aria-live="polite"
             tabindex="0"
             @keydown.enter="showYearPicker"
@@ -92,20 +95,23 @@
           <span
             v-show="currentView === 'date'"
             role="button"
-            class="el-date-picker__header-label"
             aria-live="polite"
             tabindex="0"
-            :class="{ active: currentView === 'month' }"
+            :class="[
+              dpNs.e('header-label'),
+              { active: currentView === 'month' },
+            ]"
             @keydown.enter="showMonthPicker"
             @click="showMonthPicker"
             >{{ t(`el.datepicker.month${month + 1}`) }}</span
           >
-          <span class="el-date-picker__next-btn">
+          <span :class="dpNs.e('next-btn')">
             <button
               v-show="currentView === 'date'"
               type="button"
               :aria-label="t(`el.datepicker.nextMonth`)"
-              class="el-picker-panel__icon-btn arrow-right"
+              :class="ppNs.e('icon-btn')"
+              class="arrow-right"
               @click="nextMonth_"
             >
               <el-icon><arrow-right /></el-icon>
@@ -113,14 +119,15 @@
             <button
               type="button"
               :aria-label="t(`el.datepicker.nextYear`)"
-              class="el-picker-panel__icon-btn d-arrow-right"
+              :class="ppNs.e('icon-btn')"
+              class="d-arrow-right"
               @click="nextYear_"
             >
               <el-icon><d-arrow-right /></el-icon>
             </button>
           </span>
         </div>
-        <div class="el-picker-panel__content" @keydown="handleKeydownTable">
+        <div :class="ppNs.e('content')" @keydown="handleKeydownTable">
           <date-table
             v-if="currentView === 'date'"
             ref="currentViewRef"
@@ -152,13 +159,13 @@
     </div>
     <div
       v-show="footerVisible && currentView === 'date'"
-      class="el-picker-panel__footer"
+      :class="ppNs.e('footer')"
     >
       <el-button
         v-show="selectionMode !== 'dates'"
         text
         size="small"
-        class="el-picker-panel__link-btn"
+        :class="ppNs.e('link-btn')"
         @click="changeToNow"
       >
         {{ t('el.datepicker.now') }}
@@ -166,7 +173,7 @@
       <el-button
         plain
         size="small"
-        class="el-picker-panel__link-btn"
+        :class="ppNs.e('link-btn')"
         @click="onConfirm"
       >
         {{ t('el.datepicker.confirm') }}
@@ -188,7 +195,7 @@ import {
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside } from '@element-plus/directives'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {
   TimePickPanel,
@@ -196,7 +203,7 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { isFunction, isValidDatePickType } from '@element-plus/utils'
+import { isFunction } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   ArrowLeft,
@@ -205,13 +212,13 @@ import {
   DArrowRight,
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
+import { panelDatePickProps } from '../props/panel-date-pick'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
 
-import type { ComponentPublicInstance, PropType, Ref } from 'vue'
+import type { ComponentPublicInstance, Ref } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
-import type { IDatePickerType } from '../date-picker.type'
 
 // todo
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -233,26 +240,12 @@ export default defineComponent({
   },
 
   directives: { clickoutside: ClickOutside },
-  props: {
-    visible: {
-      type: Boolean,
-      default: false,
-    },
-    parsedValue: {
-      type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
-    },
-    format: {
-      type: String,
-      default: '',
-    },
-    type: {
-      type: String as PropType<IDatePickerType>,
-      required: true,
-      validator: isValidDatePickType,
-    },
-  },
+  props: panelDatePickProps,
   emits: ['pick', 'set-picker-option', 'panel-change'],
   setup(props, ctx) {
+    const ppNs = useNamespace('picker-panel')
+    const dpNs = useNamespace('date-picker')
+
     const { t, lang } = useLocale()
     const pickerBase = inject('EP_PICKER_BASE') as any
     const popper = inject(TOOLTIP_INJECTION_KEY)
@@ -762,6 +755,8 @@ export default defineComponent({
     )
 
     return {
+      ppNs,
+      dpNs,
       currentViewRef,
       handleTimePick,
       handleTimePickClose,

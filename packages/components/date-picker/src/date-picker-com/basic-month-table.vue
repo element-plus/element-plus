@@ -2,7 +2,7 @@
   <table
     role="grid"
     :aria-label="t('el.datepicker.monthTablePrompt')"
-    class="el-month-table"
+    :class="ns.b()"
     @click="handleMonthTableClick"
     @mousemove="handleMouseMove"
   >
@@ -33,12 +33,10 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
-
-import type { PropType } from 'vue'
-import type { Dayjs } from 'dayjs'
+import { basicMonthTableProps } from '../props/basic-month-table'
 
 const datesInMonth = (year: number, month: number, lang: string) => {
   const firstDay = dayjs().locale(lang).startOf('month').month(month).year(year)
@@ -47,39 +45,14 @@ const datesInMonth = (year: number, month: number, lang: string) => {
 }
 
 export default defineComponent({
-  props: {
-    disabledDate: {
-      type: Function as PropType<(_: Date) => void>,
-    },
-    selectionMode: {
-      type: String,
-      default: 'month',
-    },
-    minDate: {
-      type: Object as PropType<Dayjs>,
-    },
-    maxDate: {
-      type: Object as PropType<Dayjs>,
-    },
-    date: {
-      type: Object as PropType<Dayjs>,
-    },
-    parsedValue: {
-      type: Object as PropType<Dayjs>,
-    },
-    rangeState: {
-      type: Object,
-      default: () => ({
-        endDate: null,
-        selecting: false,
-      }),
-    },
-  },
+  props: basicMonthTableProps,
 
   emits: ['changerange', 'pick', 'select'],
   expose: ['focus'],
 
   setup(props, ctx) {
+    const ns = useNamespace('month-table')
+
     const { t, lang } = useLocale()
     const tbodyRef = ref<HTMLElement>()
     const currentCellRef = ref<HTMLElement>()
@@ -263,6 +236,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       tbodyRef,
       currentCellRef,
       handleMouseMove,

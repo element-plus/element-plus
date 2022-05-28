@@ -1147,6 +1147,16 @@ $timeline: map.merge(
   $timeline
 );
 
+// Tabs
+// css3 var in packages/theme-chalk/src/tabs.scss
+$tabs: () !default;
+$tabs: map.merge(
+  (
+    'header-height': 40px,
+  ),
+  $tabs
+);
+
 // Backtop
 // css3 var in packages/theme-chalk/src/backtop.scss
 $backtop: () !default;
