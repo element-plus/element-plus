@@ -24,7 +24,7 @@ export const affixProps = buildProps({
   },
   position: {
     type: String,
-    values: ['top', 'bottom'] as const,
+    values: ['top', 'bottom'],
     default: 'top',
   },
 } as const)
