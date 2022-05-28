@@ -41,6 +41,7 @@ export const dropdownProps = buildProps({
     type: definePropType<Partial<Options>>(Object),
     default: () => ({}),
   },
+  id: String,
   size: {
     type: String,
     default: '',
@@ -52,6 +53,7 @@ export const dropdownProps = buildProps({
   },
   loop: {
     type: Boolean,
+    default: true,
   },
   showTimeout: {
     type: Number,

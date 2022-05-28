@@ -7,6 +7,7 @@ import {
   POPPER_CONTAINER_SELECTOR,
   useDelayedToggleProps,
 } from '@element-plus/hooks'
+import { EVENT_CODE } from '@element-plus/constants'
 import type Tooltip from '../src/tooltip.vue'
 
 import type { ExtractPropTypes } from 'vue'
@@ -59,6 +60,10 @@ export const useTooltipTriggerProps = buildProps({
   trigger: {
     type: definePropType<Trigger | Trigger[]>([String, Array]),
     default: 'hover',
+  },
+  triggerKeys: {
+    type: definePropType<string[]>(Array),
+    default: () => [EVENT_CODE.enter, EVENT_CODE.space],
   },
 } as const)
 

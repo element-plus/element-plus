@@ -43,6 +43,7 @@ export const usePopperCoreConfigProps = buildProps({
 
 export const usePopperContentProps = buildProps({
   ...usePopperCoreConfigProps,
+  id: String,
   style: { type: definePropType<StyleValue>([String, Array, Object]) },
   className: { type: definePropType<ClassType>([String, Array, Object]) },
   effect: {
@@ -70,6 +71,9 @@ export const usePopperContentProps = buildProps({
     type: definePropType<StyleValue>([String, Array, Object]),
   },
   referenceEl: {
+    type: definePropType<HTMLElement>(Object),
+  },
+  triggerTargetEl: {
     type: definePropType<HTMLElement>(Object),
   },
   stopPopperMouseEvent: {

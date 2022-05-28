@@ -3,6 +3,7 @@
     <el-tooltip-trigger
       :disabled="disabled"
       :trigger="trigger"
+      :trigger-keys="triggerKeys"
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
     >
@@ -28,6 +29,7 @@
       :pure="pure"
       :raw-content="rawContent"
       :reference-el="referenceEl"
+      :trigger-target-el="triggerTargetEl"
       :show-after="compatShowAfter"
       :strategy="strategy"
       :teleported="teleported"
@@ -49,7 +51,6 @@
 import {
   computed,
   defineComponent,
-  nextTick,
   provide,
   readonly,
   ref,
@@ -142,9 +143,11 @@ export default defineComponent({
       }
     }
     const open = ref(false)
+    const toggleReason = ref<Event | undefined>(undefined)
 
     const { show, hide } = useModelToggle({
       indicator: open,
+      toggleReason,
     })
 
     const { onOpen, onClose } = useDelayedToggle({
@@ -161,34 +164,30 @@ export default defineComponent({
       id,
       open: readonly(open),
       trigger: toRef(props, 'trigger'),
-      onOpen: () => {
-        onOpen()
+      onOpen: (event?: Event) => {
+        onOpen(event)
       },
-      onClose: () => {
-        onClose()
+      onClose: (event?: Event) => {
+        onClose(event)
       },
-      onToggle: (event: Event) => {
+      onToggle: (event?: Event) => {
         if (unref(open)) {
-          onClose()
+          onClose(event)
         } else {
-          onOpen()
-          if (event.type === 'keydown') {
-            console.log(contentRef.value)
-            nextTick(() => contentRef.value.contentRef.popperContentRef.focus())
-          }
+          onOpen(event)
         }
       },
       onShow: () => {
-        emit('show')
+        emit('show', toggleReason.value)
       },
       onHide: () => {
-        emit('hide')
+        emit('hide', toggleReason.value)
       },
       onBeforeShow: () => {
-        emit('before-show')
+        emit('before-show', toggleReason.value)
       },
       onBeforeHide: () => {
-        emit('before-hide')
+        emit('before-hide', toggleReason.value)
       },
       updatePopper,
     })
