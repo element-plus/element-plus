@@ -69,8 +69,8 @@
     "normalize-wheel-es": "^1.1.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^16.3.0",
-    "@commitlint/config-conventional": "^16.2.4",
+    "@commitlint/cli": "^17.0.1",
+    "@commitlint/config-conventional": "^17.0.0",
     "@element-plus/build": "workspace:^0.0.1",
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",

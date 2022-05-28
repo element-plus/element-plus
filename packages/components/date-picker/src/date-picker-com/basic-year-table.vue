@@ -2,7 +2,7 @@
   <table
     role="grid"
     :aria-label="t('el.datepicker.yearTablePrompt')"
-    class="el-year-table"
+    :class="ns.b()"
     @click="handleYearTableClick"
   >
     <tbody ref="tbodyRef">
@@ -33,7 +33,7 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicYearTableProps } from '../props/basic-year-table'
@@ -52,6 +52,8 @@ export default defineComponent({
   expose: ['focus'],
 
   setup(props, ctx) {
+    const ns = useNamespace('year-table')
+
     const { t, lang } = useLocale()
     const tbodyRef = ref<HTMLElement>()
     const currentCellRef = ref<HTMLElement>()
@@ -108,6 +110,7 @@ export default defineComponent({
       }
     }
     return {
+      ns,
       t,
       tbodyRef,
       currentCellRef,

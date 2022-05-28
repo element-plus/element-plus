@@ -1,11 +1,11 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType, isArray } from '@element-plus/utils'
 import { datePickTypes } from '@element-plus/constants'
 
 import type { Dayjs } from 'dayjs'
 
-const selectionModes = ['date', 'dates', 'year', 'month', 'week']
+const selectionModes = ['date', 'dates', 'year', 'month', 'week', 'range']
 
-type RangeState = {
+export type RangeState = {
   endDate: null | Dayjs
   selecting: boolean
 }
@@ -26,7 +26,6 @@ export const datePickerSharedProps = buildProps({
   },
   parsedValue: {
     type: definePropType<Dayjs | Dayjs[]>([Object, Array]),
-    required: true,
   },
   rangeState: {
     type: definePropType<RangeState>(Object),
@@ -61,3 +60,9 @@ export const selectionModeWithDefault = (
     default: mode,
   }
 }
+
+export const rangePickerSharedEmits = {
+  pick: (range: [Dayjs, Dayjs]) => isArray(range),
+}
+
+export type RangePickerSharedEmits = typeof rangePickerSharedEmits
