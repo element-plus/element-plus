@@ -110,6 +110,7 @@ import {
   panelMonthRangeEmits,
   panelMonthRangeProps,
 } from '../props/panel-month-range'
+import { useMonthRangeHeader } from '../composables/use-month-range-header'
 import MonthTable from './basic-month-table.vue'
 
 import type { SetupContext } from 'vue'
@@ -127,7 +128,7 @@ const slots = useSlots()
 
 const { pickerNs: ppNs } = inject(ROOT_PICKER_INJECTION_KEY)!
 const drpNs = useNamespace('date-range-picker')
-const { t, lang } = useLocale()
+const { lang } = useLocale()
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(1, 'year'))
 
@@ -163,43 +164,19 @@ const handleShortcutClick = (shortcut: Shortcut) => {
   }
 }
 
-const leftPrevYear = () => {
-  leftDate.value = leftDate.value.subtract(1, 'year')
-  if (!props.unlinkPanels) {
-    rightDate.value = rightDate.value.subtract(1, 'year')
-  }
-}
-
-const rightNextYear = () => {
-  if (!props.unlinkPanels) {
-    leftDate.value = leftDate.value.add(1, 'year')
-  }
-  rightDate.value = rightDate.value.add(1, 'year')
-}
-
-const leftNextYear = () => {
-  leftDate.value = leftDate.value.add(1, 'year')
-}
-
-const rightPrevYear = () => {
-  rightDate.value = rightDate.value.subtract(1, 'year')
-}
-const leftLabel = computed(() => {
-  return `${leftDate.value.year()} ${t('el.datepicker.year')}`
-})
-
-const rightLabel = computed(() => {
-  return `${rightDate.value.year()} ${t('el.datepicker.year')}`
-})
-
-const leftYear = computed(() => {
-  return leftDate.value.year()
-})
-
-const rightYear = computed(() => {
-  return rightDate.value.year() === leftDate.value.year()
-    ? leftDate.value.year() + 1
-    : rightDate.value.year()
+const {
+  leftPrevYear,
+  rightNextYear,
+  leftNextYear,
+  rightPrevYear,
+  leftLabel,
+  rightLabel,
+  leftYear,
+  rightYear,
+} = useMonthRangeHeader({
+  unlinkPanels: toRef(props, 'unlinkPanels'),
+  leftDate,
+  rightDate,
 })
 
 const enableYearArrow = computed(() => {
