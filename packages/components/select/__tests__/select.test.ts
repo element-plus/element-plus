@@ -1963,21 +1963,21 @@ describe('Select', () => {
     })
     await nextTick(nextTick)
     const wrapperEl = wrapper.find('input').element as HTMLDivElement
-    expect(wrapperEl.style.height).toEqual('40px')
+    expect(wrapperEl.style.height).toEqual('38px')
 
     // default size
     await wrapper.setProps({
       size: 'default',
     })
     await nextTick(nextTick)
-    expect(wrapperEl.style.height).toEqual('32px')
+    expect(wrapperEl.style.height).toEqual('30px')
 
     // small size
     await wrapper.setProps({
       size: 'small',
     })
     await nextTick(nextTick)
-    expect(wrapperEl.style.height).toEqual('24px')
+    expect(wrapperEl.style.height).toEqual('22px')
   })
 
   describe('form item accessibility integration', () => {

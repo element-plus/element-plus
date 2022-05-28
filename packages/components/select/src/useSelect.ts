@@ -40,7 +40,6 @@ export function useSelectStates(props) {
     selected: props.multiple ? [] : ({} as any),
     inputLength: 20,
     inputWidth: 0,
-    initialInputHeight: 0,
     optionsCount: 0,
     filteredOptionsCount: 0,
     visible: false,
@@ -338,9 +337,7 @@ export const useSelect = (props, states: States, ctx) => {
       ) as HTMLInputElement
       const _tags = tags.value
 
-      const sizeInMap =
-        states.initialInputHeight ||
-        getComponentSize(selectSize.value || elForm.size)
+      const sizeInMap = getComponentSize(selectSize.value || elForm.size) - 2
       input.style.height =
         states.selected.length === 0
           ? `${sizeInMap}px`
