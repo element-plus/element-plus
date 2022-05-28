@@ -99,7 +99,7 @@ describe('Progress.vue', () => {
     const wrapper = mount(Progress, {
       props: {
         percentage: 0,
-        color: (percentage) => {
+        color: (percentage: number) => {
           if (percentage > 50) {
             return 'rgb(4, 5, 6)'
           } else {
@@ -141,7 +141,7 @@ describe('Progress.vue', () => {
     const wrapper = mount(Progress, {
       props: {
         percentage: 100,
-        format: (percent) => `占比${percent}%`,
+        format: (percent: number) => `占比${percent}%`,
       },
     })
     expect(wrapper.find('.el-progress__text').text()).toBe('占比100%')
