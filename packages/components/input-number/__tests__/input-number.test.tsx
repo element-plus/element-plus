@@ -305,36 +305,50 @@ describe('InputNumber.vue', () => {
   test('check increase and decrease button when modelValue not in [min, max]', async () => {
     const num1 = ref(-5)
     const num2 = ref(15)
-    const inputNumber1 = ref<InputNumberInstance>()
-    const inputNumber2 = ref<InputNumberInstance>()
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <>
+            <InputNumber
+              ref="inputNumber1"
+              v-model={num1.value}
+              min={1}
+              max={10}
+            />
+            <InputNumber
+              ref="inputNumber2"
+              v-model={num2.value}
+              min={1}
+              max={10}
+            />
+          </>
+        )
+      },
+    })
 
-    mount(() => (
-      <>
-        <InputNumber ref={inputNumber1} v-model={num1.value} min={1} max={10} />
-        <InputNumber ref={inputNumber2} v-model={num2.value} min={1} max={10} />
-      </>
-    ))
+    const inputNumber1 = wrapper.findComponent({ ref: 'inputNumber1' }).vm
+    const inputNumber2 = wrapper.findComponent({ ref: 'inputNumber2' }).vm
 
     expect(num1.value).toBe(1)
     expect(num2.value).toBe(10)
 
-    inputNumber1.value!.decrease()
+    inputNumber1.decrease()
     await nextTick()
     expect(num1.value).toBe(1)
-    inputNumber1.value!.increase()
+    inputNumber1.increase()
     await nextTick()
     expect(num1.value).toBe(2)
-    inputNumber1.value!.increase()
+    inputNumber1.increase()
     await nextTick()
     expect(num1.value).toBe(3)
 
-    inputNumber2.value!.increase()
+    inputNumber2.increase()
     await nextTick()
     expect(num2.value).toBe(10)
-    inputNumber2.value!.decrease()
+    inputNumber2.decrease()
     await nextTick()
     expect(num2.value).toBe(9)
-    inputNumber2.value!.decrease()
+    inputNumber2.decrease()
     await nextTick()
     expect(num2.value).toBe(8)
   })
