@@ -215,6 +215,14 @@ module.exports = defineConfig({
         math: 'always',
       },
     ],
+    'vue/define-macros-order': 'error',
+    'vue/component-tags-order': [
+      'error',
+      {
+        order: ['script:not([setup])', 'script[setup]', 'template', 'style'],
+      },
+    ],
+    'vue/v-for-delimiter-style': ['warn', 'of'],
 
     // prettier
     'prettier/prettier': 'error',
