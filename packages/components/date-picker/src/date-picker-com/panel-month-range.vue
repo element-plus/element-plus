@@ -99,23 +99,21 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, useAttrs, useSlots, watch } from 'vue'
+import { computed, inject, ref, toRef, watch } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
-import { useLocale, useNamespace } from '@element-plus/hooks'
-import { isArray, isFunction } from '@element-plus/utils'
+import { useLocale } from '@element-plus/hooks'
+import { isArray } from '@element-plus/utils'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
-import { ROOT_PICKER_INJECTION_KEY } from '@element-plus/tokens'
 import {
   panelMonthRangeEmits,
   panelMonthRangeProps,
 } from '../props/panel-month-range'
 import { useMonthRangeHeader } from '../composables/use-month-range-header'
+import { useRangePicker } from '../composables/use-range-picker'
 import MonthTable from './basic-month-table.vue'
 
-import type { SetupContext } from 'vue'
 import type { Dayjs } from 'dayjs'
-import type { RangeState } from '../props/shared'
 
 defineOptions({
   name: 'DatePickerMonthRange',
@@ -123,46 +121,24 @@ defineOptions({
 
 const props = defineProps(panelMonthRangeProps)
 const emit = defineEmits(panelMonthRangeEmits)
-const attrs = useAttrs()
-const slots = useSlots()
 
-const { pickerNs: ppNs } = inject(ROOT_PICKER_INJECTION_KEY)!
-const drpNs = useNamespace('date-range-picker')
 const { lang } = useLocale()
+const {
+  minDate,
+  maxDate,
+  rangeState,
+  ppNs,
+  drpNs,
+
+  handleChangeRange,
+  handleRangeConfirm,
+  handleShortcutClick,
+  onSelect,
+} = useRangePicker()
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(1, 'year'))
 
 const hasShortcuts = computed(() => !!shortcuts.length)
-
-// FIXME: extract this to `date-picker.ts`
-type Shortcut = {
-  text: string
-  value: [Date, Date] | (() => [Date, Date])
-  onClick?: (
-    ctx: Omit<SetupContext<typeof panelMonthRangeEmits>, 'expose'>
-  ) => void
-}
-
-const handleShortcutClick = (shortcut: Shortcut) => {
-  const shortcutValues = isFunction(shortcut.value)
-    ? shortcut.value()
-    : shortcut.value
-
-  if (shortcutValues) {
-    emit('pick', [
-      dayjs(shortcutValues[0]).locale(lang.value),
-      dayjs(shortcutValues[1]).locale(lang.value),
-    ])
-    return
-  }
-  if (shortcut.onClick) {
-    shortcut.onClick({
-      attrs,
-      slots,
-      emit,
-    })
-  }
-}
 
 const {
   leftPrevYear,
@@ -183,18 +159,6 @@ const enableYearArrow = computed(() => {
   return props.unlinkPanels && rightYear.value > leftYear.value + 1
 })
 
-const minDate = ref<Dayjs>()
-const maxDate = ref<Dayjs>()
-
-const rangeState = ref<RangeState>({
-  endDate: null,
-  selecting: false,
-})
-
-const handleChangeRange = (val: RangeState) => {
-  rangeState.value = val
-}
-
 type RangePickValue = {
   minDate: Dayjs
   maxDate: Dayjs
@@ -214,30 +178,7 @@ const handleRangePick = (val: RangePickValue, close = true) => {
   minDate.value = minDate_
 
   if (!close) return
-  handleConfirm()
-}
-
-const isValidValue = (value: [Dayjs | undefined, Dayjs | undefined]) => {
-  return (
-    isArray(value) &&
-    value &&
-    value[0] &&
-    value[1] &&
-    value[0].valueOf() <= value[1].valueOf()
-  )
-}
-
-const handleConfirm = (visible = false) => {
-  if (isValidValue([minDate.value, maxDate.value])) {
-    emit('pick', [minDate.value, maxDate.value], visible)
-  }
-}
-
-const onSelect = (selecting: boolean) => {
-  rangeState.value.selecting = selecting
-  if (!selecting) {
-    rangeState.value.endDate = null
-  }
+  handleRangeConfirm()
 }
 
 const formatToString = (days: Dayjs[]) => {
