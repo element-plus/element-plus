@@ -39,9 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-
-const labelPosition = ref('right')
+import { reactive } from 'vue'
 
 const formAccessibility = reactive({
   fullName: '',
