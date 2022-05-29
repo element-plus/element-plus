@@ -160,10 +160,8 @@ $form-item-label-top-margin-bottom: map.merge(
     box-sizing: border-box;
   }
   @include e(content) {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    flex: 1;
+    display: block;
+    width: 100%;
     line-height: #{map.get($form-item-line-height, 'default')};
     position: relative;
     font-size: var(--font-size);
