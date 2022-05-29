@@ -21,6 +21,10 @@ export const imageProps = buildProps({
     values: ['', 'contain', 'cover', 'fill', 'none', 'scale-down'],
     default: '',
   },
+  loading: {
+    type: String,
+    values: ['eager', 'lazy'],
+  },
   lazy: {
     type: Boolean,
     default: false,

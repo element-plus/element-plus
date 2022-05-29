@@ -4,20 +4,19 @@
       v-if="imageSrc"
       v-bind="attrs"
       :src="imageSrc"
+      :loading="loading"
       :style="imageStyle"
       :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
       @click="clickHandler"
       @load="handleLoad"
       @error="handleError"
     />
-    <div v-if="loading || hasLoadError" :class="ns.e('overlay')">
-      <slot v-if="loading" name="placeholder">
-        <div :class="ns.e('placeholder')" />
-      </slot>
-      <slot v-else-if="hasLoadError" name="error">
-        <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
-      </slot>
-    </div>
+    <slot v-if="isLoading" name="placeholder">
+      <div :class="ns.e('placeholder')" />
+    </slot>
+    <slot v-else-if="hasLoadError" name="error">
+      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+    </slot>
     <template v-if="preview">
       <image-viewer
         v-if="showViewer"
@@ -45,6 +44,7 @@ import {
   nextTick,
   onMounted,
   ref,
+  toRefs,
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
@@ -71,6 +71,7 @@ const emit = defineEmits(imageEmits)
 
 let prevOverflow = ''
 
+const { loading } = toRefs(props)
 const { t } = useLocale()
 const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
@@ -78,9 +79,10 @@ const attrs = useAttrs()
 
 const imageSrc = ref('')
 const hasLoadError = ref(false)
-const loading = ref(true)
+const isLoading = ref(true)
 const showViewer = ref(false)
 const container = ref<HTMLElement>()
+const supportLoading = ref(true)
 
 const _scrollContainer = ref<HTMLElement | Window>()
 let stopScrollListener: (() => void) | undefined
@@ -110,22 +112,27 @@ const imageIndex = computed(() => {
   return previewIndex
 })
 
+const isManual = computed(() => {
+  if (loading?.value === 'eager') return false
+  return (!supportLoading.value && loading?.value === 'lazy') || props.lazy
+})
+
 const loadImage = () => {
   if (!isClient) return
 
   // reset status
-  loading.value = true
+  isLoading.value = true
   hasLoadError.value = false
   imageSrc.value = props.src
 }
 
 function handleLoad() {
-  loading.value = false
+  isLoading.value = false
   hasLoadError.value = false
 }
 
 function handleError(event: Event) {
-  loading.value = false
+  isLoading.value = false
   hasLoadError.value = true
   emit('error', event)
 }
@@ -211,9 +218,9 @@ function switchViewer(val: number) {
 watch(
   () => props.src,
   () => {
-    if (props.lazy) {
+    if (isManual.value) {
       // reset status
-      loading.value = true
+      isLoading.value = true
       hasLoadError.value = false
       removeLazyLoadListener()
       addLazyLoadListener()
@@ -224,7 +231,9 @@ watch(
 )
 
 onMounted(() => {
-  if (props.lazy) {
+  supportLoading.value = 'loading' in HTMLImageElement.prototype
+
+  if (isManual.value) {
     addLazyLoadListener()
   } else {
     loadImage()
