@@ -2,6 +2,17 @@ import { buildProps } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type Row from './row.vue'
 
+export const RowJustify = [
+  'start',
+  'center',
+  'end',
+  'space-around',
+  'space-between',
+  'space-evenly',
+] as const
+
+export const RowAlign = ['top', 'middle', 'bottom'] as const
+
 export const rowProps = buildProps({
   tag: {
     type: String,
@@ -13,19 +24,12 @@ export const rowProps = buildProps({
   },
   justify: {
     type: String,
-    values: [
-      'start',
-      'center',
-      'end',
-      'space-around',
-      'space-between',
-      'space-evenly',
-    ],
+    values: RowJustify,
     default: 'start',
   },
   align: {
     type: String,
-    values: ['top', 'middle', 'bottom'],
+    values: RowAlign,
     default: 'top',
   },
 } as const)
