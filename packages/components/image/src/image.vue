@@ -1,19 +1,23 @@
 <template>
   <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
-    <slot v-if="loading" name="placeholder">
-      <div :class="ns.e('placeholder')" />
-    </slot>
-    <slot v-else-if="hasLoadError" name="error">
-      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
-    </slot>
     <img
-      v-else
+      v-if="imageSrc"
       v-bind="attrs"
-      :src="src"
+      :src="imageSrc"
       :style="imageStyle"
       :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
       @click="clickHandler"
+      @load="handleLoad"
+      @error="handleError"
     />
+    <div v-if="loading || hasLoadError" :class="ns.e('overlay')">
+      <slot v-if="loading" name="placeholder">
+        <div :class="ns.e('placeholder')" />
+      </slot>
+      <slot v-else-if="hasLoadError" name="error">
+        <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+      </slot>
+    </div>
     <template v-if="preview">
       <image-viewer
         v-if="showViewer"
@@ -72,10 +76,9 @@ const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
 
+const imageSrc = ref('')
 const hasLoadError = ref(false)
 const loading = ref(true)
-const imgWidth = ref(0)
-const imgHeight = ref(0)
 const showViewer = ref(false)
 const container = ref<HTMLElement>()
 
@@ -113,37 +116,10 @@ const loadImage = () => {
   // reset status
   loading.value = true
   hasLoadError.value = false
-
-  const img = new Image()
-  const currentImageSrc = props.src
-
-  // load & error callbacks are only responsible for currentImageSrc
-  img.addEventListener('load', (e) => {
-    if (currentImageSrc !== props.src) {
-      return
-    }
-    handleLoad(e, img)
-  })
-  img.addEventListener('error', (e) => {
-    if (currentImageSrc !== props.src) {
-      return
-    }
-    handleError(e)
-  })
-
-  // bind html attrs
-  // so it can behave consistently
-  Object.entries(rawAttrs).forEach(([key, value]) => {
-    // avoid onload to be overwritten
-    if (key.toLowerCase() === 'onload') return
-    img.setAttribute(key, value as string)
-  })
-  img.src = currentImageSrc
+  imageSrc.value = props.src
 }
 
-function handleLoad(e: Event, img: HTMLImageElement) {
-  imgWidth.value = img.width
-  imgHeight.value = img.height
+function handleLoad() {
   loading.value = false
   hasLoadError.value = false
 }
