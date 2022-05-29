@@ -2,7 +2,7 @@ import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import Row from '@element-plus/components/row'
-import Col from '../src/col'
+import Col from '../src/col.vue'
 
 describe('Col', () => {
   it('create', () => {
