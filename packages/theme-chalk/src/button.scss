@@ -40,9 +40,7 @@ $button-icon-span-gap: map.merge(
   vertical-align: middle;
   -webkit-appearance: none;
 
-  &:not(.is-text),
-  &:not(.is-link),
-  &:not(.#{$namespace}-button--text) {
+  &:not(.is-text):not(.is-link):not(.#{$namespace}-button--text):not(.is-disabled) {
     background-color: getCssVar('button', 'bg-color');
     border: getCssVar('border');
     border-color: getCssVar('button', 'border-color');
@@ -129,6 +127,9 @@ $button-icon-span-gap: map.merge(
       background-image: none;
       background-color: getCssVar('button', 'disabled', 'bg-color');
       border-color: getCssVar('button', 'disabled', 'border-color');
+      &:not(.is-text) {
+        border: getCssVar('border');
+      }
     }
   }
 
