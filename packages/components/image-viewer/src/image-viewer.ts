@@ -1,5 +1,5 @@
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes } from 'vue'
 
 export type ImageViewerAction =
   | 'zoomIn'
@@ -43,3 +43,8 @@ export const imageViewerEmits = {
   switch: (index: number) => typeof index === 'number',
 }
 export type ImageViewerEmits = typeof imageViewerEmits
+
+export interface ImageViewerMode {
+  name: string
+  icon: Component
+}
