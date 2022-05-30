@@ -1,14 +1,27 @@
-import { getCurrentInstance, inject, ref, unref, useAttrs, useSlots } from 'vue'
+import {
+  getCurrentInstance,
+  inject,
+  ref,
+  unref,
+  useAttrs,
+  useSlots,
+  watch,
+} from 'vue'
 import dayjs from 'dayjs'
-import { isFunction } from '@element-plus/utils'
+import { isArray, isFunction } from '@element-plus/utils'
 import { ROOT_PICKER_INJECTION_KEY } from '@element-plus/tokens'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 
-import { isValidRange } from '../utils'
+import { getDefaultValue, isValidRange } from '../utils'
 
-import type { SetupContext } from 'vue'
+import type { Ref, SetupContext } from 'vue'
 import type { Dayjs } from 'dayjs'
-import type { RangePickerSharedEmits, RangeState } from '../props/shared'
+import type {
+  PanelRangeSharedProps,
+  RangePickerSharedEmits,
+  RangeState,
+} from '../props/shared'
+import type { DefaultValue } from '../utils'
 
 // FIXME: extract this to `date-picker.ts`
 type Shortcut = {
@@ -17,7 +30,28 @@ type Shortcut = {
   onClick?: (ctx: Omit<SetupContext<RangePickerSharedEmits>, 'expose'>) => void
 }
 
-export const useRangePicker = () => {
+type UseRangePickerProps = {
+  onParsedValueChanged: (
+    minDate: Dayjs | undefined,
+    maxDate: Dayjs | undefined
+  ) => void
+  defaultValue: Ref<DefaultValue>
+  leftDate: Ref<Dayjs>
+  rightDate: Ref<Dayjs>
+  unit: 'month' | 'year'
+}
+
+export const useRangePicker = (
+  props: PanelRangeSharedProps,
+  {
+    defaultValue,
+    leftDate,
+    rightDate,
+    unit,
+
+    onParsedValueChanged,
+  }: UseRangePickerProps
+) => {
   const { emit } = getCurrentInstance()!
   const attrs = useAttrs()
   const slots = useSlots()
@@ -72,6 +106,44 @@ export const useRangePicker = () => {
       })
     }
   }
+
+  const restoreDefault = () => {
+    const [start, end] = getDefaultValue(unref(defaultValue), {
+      lang: unref(lang),
+      unit,
+      unlinkPanels: props.unlinkPanels,
+    })
+    minDate.value = undefined
+    maxDate.value = undefined
+    leftDate.value = start
+    rightDate.value = end
+  }
+
+  watch(
+    defaultValue,
+    (val) => {
+      if (val) {
+        restoreDefault()
+      }
+    },
+    { immediate: true }
+  )
+
+  watch(
+    () => props.parsedValue,
+    (parsedValue) => {
+      if (isArray(parsedValue) && parsedValue.length === 2) {
+        const [start, end] = parsedValue
+        minDate.value = start
+        leftDate.value = start
+        maxDate.value = end
+        onParsedValueChanged(unref(minDate), unref(maxDate))
+      } else {
+        restoreDefault()
+      }
+    },
+    { immediate: true }
+  )
 
   return {
     minDate,
