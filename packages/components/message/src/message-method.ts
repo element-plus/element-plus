@@ -9,8 +9,7 @@ import {
   isString,
   isVNode,
 } from '@element-plus/utils'
-import { useZIndex } from '@element-plus/hooks'
-import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
+import { useGlobalConfig, useZIndex } from '@element-plus/hooks'
 import MessageConstructor from './message.vue'
 import { messageTypes } from './message'
 
@@ -25,7 +24,12 @@ let seed = 1
 const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
   function (options = {}, context?: AppContext | null) {
     if (!isClient) return { close: () => undefined }
-    if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
+
+    const messageConfig = useGlobalConfig('message')
+    if (
+      isNumber(messageConfig.value?.max) &&
+      instances.length >= messageConfig.value!.max
+    ) {
       return { close: () => undefined }
     }
 
