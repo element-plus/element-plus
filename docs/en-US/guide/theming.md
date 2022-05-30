@@ -25,7 +25,7 @@ You can find SCSS variables in [`packages/theme-chalk/src/common/var.scss`](http
 
 :::warning
 
-We use sass modules ([sass:map](https://sass-lang.com/documentation/values/maps)...) and `@use` to refactor all SCSS variables.
+We use sass modules ([sass:map](https://sass-lang.com/documentation/values/maps)...) and `@use` to refactor all SCSS variables. And by using `@use` to all SCSS variables, it solves the duplicate output problem caused by `@import`.
 
 > [Introducing Sass Modules | CSS-TRICKS](https://css-tricks.com/introducing-sass-modules/)
 
