@@ -202,7 +202,6 @@ $button-icon-span-gap: map.merge(
 
   @include when(link) {
     border-color: transparent;
-    // color: getCssVar('color', 'primary');
     color: getCssVar('button', 'text-color');
     background: transparent;
     padding-left: 0;
@@ -223,13 +222,11 @@ $button-icon-span-gap: map.merge(
     &:not(.is-disabled) {
       &:hover,
       &:focus {
-        // color: getCssVar('color', 'primary', 'light-3');
         border-color: transparent;
         background-color: transparent;
       }
 
       &:active {
-        // color: getCssVar('color', 'primary', 'dark-2');
         border-color: transparent;
         background-color: transparent;
       }
