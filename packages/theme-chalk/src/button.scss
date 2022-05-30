@@ -203,9 +203,12 @@ $button-icon-span-gap: map.merge(
   @include when(link) {
     border-color: transparent;
     // color: getCssVar('color', 'primary');
+    color: getCssVar('button', 'text-color');
     background: transparent;
     padding-left: 0;
     padding-right: 0;
+    outline: 0;
+    outline-offset: 0;
 
     &:hover {
       color: getCssVar('button', 'hover', 'link-text-color');
