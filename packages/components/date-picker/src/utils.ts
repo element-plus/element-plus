@@ -32,7 +32,7 @@ export const isValidRange = (range: DayRange): boolean => {
   return isDayjs(left) && isDayjs(right) && left.isSameOrBefore(right)
 }
 
-type getDefaultValueParams = {
+type GetDefaultValueParams = {
   lang: string
   unit: 'month' | 'year'
   unlinkPanels: boolean
@@ -42,7 +42,7 @@ export type DefaultValue = [Date, Date] | Date | undefined
 
 export const getDefaultValue = (
   defaultValue: DefaultValue,
-  { lang, unit, unlinkPanels }: getDefaultValueParams
+  { lang, unit, unlinkPanels }: GetDefaultValueParams
 ) => {
   let start: Dayjs
 
