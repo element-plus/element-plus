@@ -13,7 +13,7 @@ importers:
       '@element-plus/directives': workspace:*
       '@element-plus/eslint-config': workspace:*
       '@element-plus/hooks': workspace:*
-      '@element-plus/icons-vue': ^1.1.4
+      '@element-plus/icons-vue': ^2.0.1
       '@element-plus/locale': workspace:*
       '@element-plus/test-utils': workspace:*
       '@element-plus/theme-chalk': workspace:*
@@ -80,7 +80,7 @@ importers:
       '@element-plus/constants': link:packages/constants
       '@element-plus/directives': link:packages/directives
       '@element-plus/hooks': link:packages/hooks
-      '@element-plus/icons-vue': 1.1.4_vue@3.2.33
+      '@element-plus/icons-vue': 2.0.1_vue@3.2.33
       '@element-plus/locale': link:packages/locale
       '@element-plus/test-utils': link:packages/test-utils
       '@element-plus/theme-chalk': link:packages/theme-chalk
@@ -157,7 +157,7 @@ importers:
       '@element-plus/build': workspace:*
       '@element-plus/build-constants': workspace:*
       '@element-plus/build-utils': workspace:*
-      '@element-plus/icons-vue': ^1.1.4
+      '@element-plus/icons-vue': ^2.0.1
       '@element-plus/metadata': workspace:*
       '@iconify-json/ri': ^1.1.1
       '@types/markdown-it': ^12.2.3
@@ -191,7 +191,7 @@ importers:
       vue: ^3.2.33
     dependencies:
       '@docsearch/js': 3.0.0
-      '@element-plus/icons-vue': 1.1.4_vue@3.2.33
+      '@element-plus/icons-vue': 2.0.1_vue@3.2.33
       '@element-plus/metadata': link:../internal/metadata
       '@vue/shared': 3.2.33
       '@vueuse/core': 8.5.0_vue@3.2.33
@@ -377,7 +377,7 @@ importers:
   packages/element-plus:
     specifiers:
       '@ctrl/tinycolor': ^3.4.1
-      '@element-plus/icons-vue': ^1.1.4
+      '@element-plus/icons-vue': ^2.0.1
       '@floating-ui/dom': ^0.5.0
       '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
       '@types/lodash': ^4.14.182
@@ -397,7 +397,7 @@ importers:
       vue-router: ^4.0.15
     dependencies:
       '@ctrl/tinycolor': 3.4.1
-      '@element-plus/icons-vue': 1.1.4_vue@3.2.33
+      '@element-plus/icons-vue': 2.0.1_vue@3.2.33
       '@floating-ui/dom': 0.5.0
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
       '@types/lodash': 4.14.182
@@ -458,7 +458,7 @@ importers:
 
   play:
     specifiers:
-      '@element-plus/icons-vue': ^1.1.4
+      '@element-plus/icons-vue': ^2.0.1
       '@vitejs/plugin-vue': ^2.3.3
       unplugin-vue-components: ^0.19.5
       vite: ^2.9.9
@@ -466,7 +466,7 @@ importers:
       vite-plugin-mkcert: ^1.6.0
       vue: ^3.2.33
     dependencies:
-      '@element-plus/icons-vue': 1.1.4_vue@3.2.33
+      '@element-plus/icons-vue': 2.0.1_vue@3.2.33
       vue: 3.2.33
     devDependencies:
       '@vitejs/plugin-vue': 2.3.3_vite@2.9.9+vue@3.2.33
@@ -1965,6 +1965,14 @@ packages:
 
   /@element-plus/icons-vue/1.1.4_vue@3.2.33:
     resolution: {integrity: sha512-Iz/nHqdp1sFPmdzRwHkEQQA3lKvoObk8azgABZ81QUOpW9s/lUyQVUSh0tNtEPZXQlKwlSh7SPgoVxzrE0uuVQ==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      vue: 3.2.33
+    dev: false
+
+  /@element-plus/icons-vue/2.0.1_vue@3.2.33:
+    resolution: {integrity: sha512-a1N6IXw5AZx6JZQDoMBG9E1Pes1BogGTpL192SeI/piMdpEEcm4cn+MkDxhAvA9SuF1dFbdAU54EoS0xKQhjwg==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -7546,7 +7554,7 @@ packages:
     resolution: {integrity: sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=}
 
   /isexe/2.0.0:
-    resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
+    resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
   /isobject/2.1.0:
     resolution: {integrity: sha1-8GVWEJaj8dou9GJy+BXIQNh+DIk=}

@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@docsearch/js": "^3.0.0",
-    "@element-plus/icons-vue": "^1.1.4",
+    "@element-plus/icons-vue": "^2.0.1",
     "@element-plus/metadata": "workspace:*",
     "@vue/shared": "^3.2.33",
     "@vueuse/core": "^8.5.0",
