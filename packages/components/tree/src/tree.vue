@@ -43,6 +43,7 @@ import {
   watch,
 } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { formItemContextKey } from '@element-plus/tokens'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
 import ElTreeNode from './tree-node.vue'
@@ -366,6 +367,8 @@ export default defineComponent({
       currentNode,
       instance: getCurrentInstance(),
     } as any)
+
+    provide(formItemContextKey, undefined)
 
     return {
       ns,
