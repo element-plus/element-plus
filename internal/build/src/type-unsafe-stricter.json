@@ -1,5 +1,4 @@
 [
-  "packages/components/autocomplete/",
   "packages/components/cascader-panel/",
   "packages/components/cascader/",
   "packages/components/checkbox/",
@@ -52,7 +51,6 @@
   "packages/components/tree-select/",
   "packages/components/tree-v2/",
   "packages/components/tree/",
-  "packages/components/upload/",
   "packages/components/virtual-list/",
   "packages/components/visual-hidden/",
   "packages/directives/",

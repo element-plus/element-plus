@@ -46,7 +46,7 @@ function useStyle<T>(
   })
   const isGroup = ref(false)
   const scrollbarViewStyle = {
-    display: 'inline-block',
+    display: 'block',
     verticalAlign: 'middle',
   }
   const tableWidth = ref()
