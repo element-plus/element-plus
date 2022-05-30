@@ -144,8 +144,10 @@ export default defineComponent({
       maxHeight: addUnit(props.maxHeight),
     }))
     const dropdownTriggerKls = computed(() => [ns.m(dropdownSize.value)])
+
+    const defaultTriggerId = useId().value
     const triggerId = computed<string>(() => {
-      return props.id || useId().value
+      return props.id || defaultTriggerId
     })
 
     function handleClick() {

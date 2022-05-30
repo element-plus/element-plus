@@ -218,26 +218,20 @@ onMounted(() => {
         const { ariaLabel, id } = toRefs(props)
         triggerTargetAriaStopWatch = watch(
           [role, ariaLabel, ariaModal, id],
-          ([role, ariaLabel, ariaModal, id]) => {
-            !isNil(role)
-              ? el.setAttribute('role', role)
-              : el.removeAttribute('role')
-            !isNil(ariaLabel)
-              ? el.setAttribute('aria-label', ariaLabel)
-              : el.removeAttribute('aria-label')
-            !isNil(ariaModal)
-              ? el.setAttribute('aria-modal', ariaModal)
-              : el.removeAttribute('aria-modal')
-            !isNil(id) ? el.setAttribute('id', id) : el.removeAttribute('id')
+          (watches) => {
+            ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key, idx) => {
+              isNil(watches[idx])
+                ? el.removeAttribute(key)
+                : el.setAttribute(key, watches[idx])
+            })
           },
           { immediate: true }
         )
       }
       if (isElement(prevEl)) {
-        prevEl.removeAttribute('role')
-        prevEl.removeAttribute('aria-label')
-        prevEl.removeAttribute('aria-modal')
-        prevEl.removeAttribute('id')
+        ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key) => {
+          prevEl.removeAttribute(key)
+        })
       }
     },
     { immediate: true }

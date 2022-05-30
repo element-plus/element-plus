@@ -100,28 +100,28 @@ onMounted(() => {
         })
         virtualTriggerAriaStopWatch = watch(
           [ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded],
-          ([ariaControls, ariaDescribedby, ariaHaspopup, ariaExpanded]) => {
-            !isNil(ariaControls)
-              ? el.setAttribute('aria-controls', ariaControls)
-              : el.removeAttribute('aria-controls')
-            !isNil(ariaDescribedby)
-              ? el.setAttribute('aria-describedby', ariaDescribedby)
-              : el.removeAttribute('aria-describedby')
-            !isNil(ariaHaspopup)
-              ? el.setAttribute('aria-haspopup', ariaHaspopup)
-              : el.removeAttribute('aria-haspopup')
-            !isNil(ariaExpanded)
-              ? el.setAttribute('aria-expanded', ariaExpanded)
-              : el.removeAttribute('aria-expanded')
+          (watches) => {
+            ;[
+              'aria-controls',
+              'aria-describedby',
+              'aria-haspopup',
+              'aria-expanded',
+            ].forEach((key, idx) => {
+              isNil(watches[idx])
+                ? el.removeAttribute(key)
+                : el.setAttribute(key, watches[idx])
+            })
           },
           { immediate: true }
         )
       }
       if (isElement(prevEl)) {
-        prevEl.removeAttribute('aria-controls')
-        prevEl.removeAttribute('aria-describedby')
-        prevEl.removeAttribute('aria-haspopup')
-        prevEl.removeAttribute('aria-expanded')
+        ;[
+          'aria-controls',
+          'aria-describedby',
+          'aria-haspopup',
+          'aria-expanded',
+        ].forEach((key) => prevEl.removeAttribute(key))
       }
     },
     {
