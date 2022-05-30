@@ -337,16 +337,18 @@ export const useSelect = (props, states: States, ctx) => {
       ) as HTMLInputElement
       const _tags = tags.value
 
-      const sizeInMap = getComponentSize(selectSize.value || elForm.size) - 2
-      input.style.height =
+      const sizeInMap = getComponentSize(selectSize.value || elForm.size)
+      // it's an inner input so reduce it by 2px.
+      input.style.height = `${
         states.selected.length === 0
-          ? `${sizeInMap}px`
-          : `${Math.max(
+          ? sizeInMap
+          : Math.max(
               _tags
                 ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
                 : 0,
               sizeInMap
-            )}px`
+            ) - 2
+      }px`
 
       states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
 
