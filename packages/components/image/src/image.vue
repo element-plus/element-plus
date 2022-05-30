@@ -82,9 +82,9 @@ const hasLoadError = ref(false)
 const isLoading = ref(true)
 const showViewer = ref(false)
 const container = ref<HTMLElement>()
-const supportLoading = ref(true)
-
 const _scrollContainer = ref<HTMLElement | Window>()
+
+const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
 let stopScrollListener: (() => void) | undefined
 let stopWheelListener: (() => void) | undefined
 
@@ -114,7 +114,7 @@ const imageIndex = computed(() => {
 
 const isManual = computed(() => {
   if (loading?.value === 'eager') return false
-  return (!supportLoading.value && loading?.value === 'lazy') || props.lazy
+  return (!supportLoading && loading?.value === 'lazy') || props.lazy
 })
 
 const loadImage = () => {
@@ -231,8 +231,6 @@ watch(
 )
 
 onMounted(() => {
-  supportLoading.value = 'loading' in HTMLImageElement.prototype
-
   if (isManual.value) {
     addLazyLoadListener()
   } else {
