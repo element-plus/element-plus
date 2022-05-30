@@ -99,11 +99,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, watch } from 'vue'
+import { computed, inject, ref, toRef } from 'vue'
 import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
-import { isArray } from '@element-plus/utils'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
 import {
   panelMonthRangeEmits,
@@ -121,8 +120,15 @@ defineOptions({
 
 const props = defineProps(panelMonthRangeProps)
 const emit = defineEmits(panelMonthRangeEmits)
+const unit = 'year'
 
 const { lang } = useLocale()
+const pickerBase = inject('EP_PICKER_BASE') as any
+const { shortcuts, disabledDate, format } = pickerBase.props
+const defaultValue = toRef(pickerBase.props, 'defaultValue')
+const leftDate = ref(dayjs().locale(lang.value))
+const rightDate = ref(dayjs().locale(lang.value).add(1, unit))
+
 const {
   minDate,
   maxDate,
@@ -134,9 +140,13 @@ const {
   handleRangeConfirm,
   handleShortcutClick,
   onSelect,
-} = useRangePicker()
-const leftDate = ref(dayjs().locale(lang.value))
-const rightDate = ref(dayjs().locale(lang.value).add(1, 'year'))
+} = useRangePicker(props, {
+  defaultValue,
+  leftDate,
+  rightDate,
+  unit,
+  onParsedValueChanged,
+})
 
 const hasShortcuts = computed(() => !!shortcuts.length)
 
@@ -185,67 +195,19 @@ const formatToString = (days: Dayjs[]) => {
   return days.map((day) => day.format(format))
 }
 
-const getDefaultValue = () => {
-  let start: Dayjs
-  if (isArray(defaultValue.value)) {
-    const left = dayjs(defaultValue.value[0])
-    let right = dayjs(defaultValue.value[1])
-    if (!props.unlinkPanels) {
-      right = left.add(1, 'year')
-    }
-    return [left, right]
-  } else if (defaultValue.value) {
-    start = dayjs(defaultValue.value)
+function onParsedValueChanged(
+  minDate: Dayjs | undefined,
+  maxDate: Dayjs | undefined
+) {
+  if (props.unlinkPanels && maxDate) {
+    const minDateYear = minDate?.year() || 0
+    const maxDateYear = maxDate.year()
+    rightDate.value =
+      minDateYear === maxDateYear ? maxDate.add(1, unit) : maxDate
   } else {
-    start = dayjs()
+    rightDate.value = leftDate.value.add(1, unit)
   }
-  start = start.locale(lang.value)
-  return [start, start.add(1, 'year')]
 }
 
-// pickerBase.hub.emit('SetPickerOption', ['isValidValue', isValidValue])
 emit('set-picker-option', ['formatToString', formatToString])
-const pickerBase = inject('EP_PICKER_BASE') as any
-const { shortcuts, disabledDate, format } = pickerBase.props
-const defaultValue = toRef(pickerBase.props, 'defaultValue')
-
-watch(
-  () => defaultValue.value,
-  (val) => {
-    if (val) {
-      const defaultArr = getDefaultValue()
-      leftDate.value = defaultArr[0]
-      rightDate.value = defaultArr[1]
-    }
-  },
-  { immediate: true }
-)
-
-watch(
-  () => props.parsedValue,
-  (newVal) => {
-    if (newVal && newVal.length === 2) {
-      minDate.value = newVal[0]
-      maxDate.value = newVal[1]
-      leftDate.value = minDate.value
-      if (props.unlinkPanels && maxDate.value) {
-        const minDateYear = minDate.value.year()
-        const maxDateYear = maxDate.value.year()
-        rightDate.value =
-          minDateYear === maxDateYear
-            ? maxDate.value.add(1, 'year')
-            : maxDate.value
-      } else {
-        rightDate.value = leftDate.value.add(1, 'year')
-      }
-    } else {
-      const defaultArr = getDefaultValue()
-      minDate.value = undefined
-      maxDate.value = undefined
-      leftDate.value = defaultArr[0]
-      rightDate.value = defaultArr[1]
-    }
-  },
-  { immediate: true }
-)
 </script>
