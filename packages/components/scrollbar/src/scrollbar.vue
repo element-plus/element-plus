@@ -191,5 +191,7 @@ defineExpose({
   setScrollTop,
   /** @description set distance to scroll left */
   setScrollLeft,
+  /** @description handle scroll event */
+  handleScroll,
 })
 </script>
