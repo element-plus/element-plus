@@ -30,6 +30,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
 
   const useModelToggle = ({
     indicator,
+    toggleReason,
     shouldHideWhenRouteChanges,
     shouldProceed,
     onShow,
@@ -51,30 +52,35 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
     // condition
     const isModelBindingAbsent = computed(() => props[name] === null)
 
-    const doShow = () => {
+    const doShow = (event?: Event) => {
       if (indicator.value === true) {
         return
       }
 
       indicator.value = true
+      if (toggleReason) {
+        toggleReason.value = event
+      }
       if (isFunction(onShow)) {
-        onShow()
+        onShow(event)
       }
     }
 
-    const doHide = () => {
+    const doHide = (event?: Event) => {
       if (indicator.value === false) {
         return
       }
 
       indicator.value = false
-
+      if (toggleReason) {
+        toggleReason.value = event
+      }
       if (isFunction(onHide)) {
-        onHide()
+        onHide(event)
       }
     }
 
-    const show = () => {
+    const show = (event?: Event) => {
       if (
         props.disabled === true ||
         (isFunction(shouldProceed) && !shouldProceed())
@@ -88,11 +94,11 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
       }
 
       if (isModelBindingAbsent.value || !shouldEmit) {
-        doShow()
+        doShow(event)
       }
     }
 
-    const hide = () => {
+    const hide = (event?: Event) => {
       if (props.disabled === true || !isClient) return
 
       const shouldEmit = hasUpdateHandler.value && isClient
@@ -102,7 +108,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
       }
 
       if (isModelBindingAbsent.value || !shouldEmit) {
-        doHide()
+        doHide(event)
       }
     }
 
@@ -178,8 +184,9 @@ export type UseModelToggleProps = ExtractPropTypes<typeof useModelToggleProps>
 
 export type ModelToggleParams = {
   indicator: Ref<boolean>
+  toggleReason?: Ref<Event | undefined>
   shouldHideWhenRouteChanges?: Ref<boolean>
   shouldProceed?: () => boolean
-  onShow?: () => void
-  onHide?: () => void
+  onShow?: (event?: Event) => void
+  onHide?: (event?: Event) => void
 }

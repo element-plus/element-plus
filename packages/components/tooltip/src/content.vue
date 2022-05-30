@@ -28,6 +28,7 @@
         :popper-class="popperClass"
         :popper-style="[popperStyle, contentStyle]"
         :reference-el="referenceEl"
+        :trigger-target-el="triggerTargetEl"
         :visible="shouldShow"
         :z-index="zIndex"
         @mouseenter="onContentEnter"
