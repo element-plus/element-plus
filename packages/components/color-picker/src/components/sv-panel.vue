@@ -1,24 +1,3 @@
-<template>
-  <div
-    class="el-color-svpanel"
-    :style="{
-      backgroundColor: background,
-    }"
-  >
-    <div class="el-color-svpanel__white" />
-    <div class="el-color-svpanel__black" />
-    <div
-      class="el-color-svpanel__cursor"
-      :style="{
-        top: cursorTop + 'px',
-        left: cursorLeft + 'px',
-      }"
-    >
-      <div />
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import {
   computed,
@@ -122,3 +101,24 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div
+    class="el-color-svpanel"
+    :style="{
+      backgroundColor: background,
+    }"
+  >
+    <div class="el-color-svpanel__white" />
+    <div class="el-color-svpanel__black" />
+    <div
+      class="el-color-svpanel__cursor"
+      :style="{
+        top: cursorTop + 'px',
+        left: cursorLeft + 'px',
+      }"
+    >
+      <div />
+    </div>
+  </div>
+</template>

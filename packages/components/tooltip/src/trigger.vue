@@ -1,22 +1,3 @@
-<template>
-  <el-popper-trigger
-    :id="id"
-    :virtual-ref="virtualRef"
-    :open="open"
-    :virtual-triggering="virtualTriggering"
-    :class="ns.e('trigger')"
-    @blur="onBlur"
-    @click="onClick"
-    @contextmenu="onContextMenu"
-    @focus="onFocus"
-    @mouseenter="onMouseenter"
-    @mouseleave="onMouseleave"
-    @keydown="onKeydown"
-  >
-    <slot />
-  </el-popper-trigger>
-</template>
-
 <script lang="ts">
 import { defineComponent, inject, ref, toRef, unref } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
@@ -111,3 +92,22 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <el-popper-trigger
+    :id="id"
+    :virtual-ref="virtualRef"
+    :open="open"
+    :virtual-triggering="virtualTriggering"
+    :class="ns.e('trigger')"
+    @blur="onBlur"
+    @click="onClick"
+    @contextmenu="onContextMenu"
+    @focus="onFocus"
+    @mouseenter="onMouseenter"
+    @mouseleave="onMouseleave"
+    @keydown="onKeydown"
+  >
+    <slot />
+  </el-popper-trigger>
+</template>

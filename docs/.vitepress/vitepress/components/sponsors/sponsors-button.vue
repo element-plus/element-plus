@@ -1,3 +1,12 @@
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useLang } from '../../composables/lang'
+import homeLocale from '../../../i18n/pages/home.json'
+defineProps<{ round?: boolean }>()
+const lang = useLang()
+const homeLang = computed(() => homeLocale[lang.value])
+</script>
+
 <template>
   <div class="join">
     <el-tooltip placement="top" :hide-after="1000" :offset="20">
@@ -15,13 +24,3 @@
     </el-tooltip>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { computed } from 'vue'
-import { useLang } from '../../composables/lang'
-import homeLocale from '../../../i18n/pages/home.json'
-const lang = useLang()
-const homeLang = computed(() => homeLocale[lang.value])
-
-defineProps<{ round?: boolean }>()
-</script>

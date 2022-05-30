@@ -1,29 +1,3 @@
-<template>
-  <div :class="descriptionKls">
-    <div
-      v-if="title || extra || $slots.title || $slots.extra"
-      :class="ns.e('header')"
-    >
-      <div :class="ns.e('title')">
-        <slot name="title">{{ title }}</slot>
-      </div>
-      <div :class="ns.e('extra')">
-        <slot name="extra">{{ extra }}</slot>
-      </div>
-    </div>
-
-    <div :class="ns.e('body')">
-      <table :class="[ns.e('table'), ns.is('bordered', border)]">
-        <tbody>
-          <template v-for="(row, index) in getRows()" :key="index">
-            <el-descriptions-row :row="row" />
-          </template>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent, provide } from 'vue'
 import { isValidComponentSize } from '@element-plus/utils'
@@ -149,3 +123,29 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div :class="descriptionKls">
+    <div
+      v-if="title || extra || $slots.title || $slots.extra"
+      :class="ns.e('header')"
+    >
+      <div :class="ns.e('title')">
+        <slot name="title">{{ title }}</slot>
+      </div>
+      <div :class="ns.e('extra')">
+        <slot name="extra">{{ extra }}</slot>
+      </div>
+    </div>
+
+    <div :class="ns.e('body')">
+      <table :class="[ns.e('table'), ns.is('bordered', border)]">
+        <tbody>
+          <template v-for="(row, index) of getRows()" :key="index">
+            <el-descriptions-row :row="row" />
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>

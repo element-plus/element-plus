@@ -2,14 +2,14 @@
 import { useNav } from '../../composables/nav'
 import VPMenuLink from './vp-menu-link.vue'
 
-const navs = useNav()
-
 defineEmits(['close'])
+
+const navs = useNav()
 </script>
 
 <template>
   <nav v-if="navs" class="full-screen-menu">
-    <div v-for="(item, key) in navs" :key="key" class="full-screen-menu__item">
+    <div v-for="(item, key) of navs" :key="key" class="full-screen-menu__item">
       <VPMenuLink :item="item" @click="$emit('close')" />
     </div>
   </nav>

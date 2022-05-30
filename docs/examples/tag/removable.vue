@@ -1,15 +1,3 @@
-<template>
-  <el-tag
-    v-for="tag in tags"
-    :key="tag.name"
-    class="mx-1"
-    closable
-    :type="tag.type"
-  >
-    {{ tag.name }}
-  </el-tag>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -21,3 +9,15 @@ const tags = ref([
   { name: 'Tag 5', type: 'danger' },
 ])
 </script>
+
+<template>
+  <el-tag
+    v-for="tag of tags"
+    :key="tag.name"
+    class="mx-1"
+    closable
+    :type="tag.type"
+  >
+    {{ tag.name }}
+  </el-tag>
+</template>

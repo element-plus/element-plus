@@ -7,7 +7,7 @@ const links = useSocialLinks()
 
 <template>
   <div class="social-links">
-    <VPSocialLink v-for="link in links" :key="link.text" v-bind="link" />
+    <VPSocialLink v-for="link of links" :key="link.text" v-bind="link" />
   </div>
 </template>
 

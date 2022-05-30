@@ -1,18 +1,3 @@
-<template>
-  <el-select-v2
-    v-model="value"
-    style="width: 240px"
-    multiple
-    filterable
-    remote
-    :remote-method="remoteMethod"
-    clearable
-    :options="options"
-    :loading="loading"
-    placeholder="Please enter a keyword"
-  />
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -95,3 +80,18 @@ const remoteMethod = (query: string) => {
   }
 }
 </script>
+
+<template>
+  <el-select-v2
+    v-model="value"
+    style="width: 240px"
+    multiple
+    filterable
+    remote
+    :remote-method="remoteMethod"
+    clearable
+    :options="options"
+    :loading="loading"
+    placeholder="Please enter a keyword"
+  />
+</template>

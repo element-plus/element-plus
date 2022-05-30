@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value = ref(true)
+</script>
+
 <template>
   <el-switch
     v-model="value"
@@ -15,9 +21,3 @@
     inactive-text="Close"
   />
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const value = ref(true)
-</script>

@@ -1,21 +1,16 @@
-<template>
-  <section :class="[ns.b(), ns.is('vertical', isVertical)]">
-    <slot />
-  </section>
-</template>
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { Component, VNode } from 'vue'
 
-defineOptions({
-  name: 'ElContainer',
-})
 const props = defineProps({
   direction: {
     type: String,
   },
+})
+defineOptions({
+  name: 'ElContainer',
 })
 const slots = useSlots()
 
@@ -38,3 +33,8 @@ const isVertical = computed(() => {
   }
 })
 </script>
+<template>
+  <section :class="[ns.b(), ns.is('vertical', isVertical)]">
+    <slot />
+  </section>
+</template>

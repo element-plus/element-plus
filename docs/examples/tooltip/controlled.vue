@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const visible = ref(false)
+</script>
+
 <template>
   <el-tooltip v-model:visible="visible">
     <template #content>
@@ -8,9 +14,3 @@
     </el-button>
   </el-tooltip>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const visible = ref(false)
-</script>

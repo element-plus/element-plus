@@ -1,3 +1,43 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { ElIcon } from '@element-plus/components/icon'
+import {
+  Check,
+  CircleCheck,
+  Close,
+  Delete,
+  Document,
+  ZoomIn,
+} from '@element-plus/icons-vue'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import ElProgress from '@element-plus/components/progress'
+
+import { uploadListEmits, uploadListProps } from './upload-list'
+import type { UploadFile } from './upload'
+
+const props = defineProps(uploadListProps)
+
+const emit = defineEmits(uploadListEmits)
+
+defineOptions({
+  name: 'ElUploadList',
+})
+
+const { t } = useLocale()
+const nsUpload = useNamespace('upload')
+const nsIcon = useNamespace('icon')
+const nsList = useNamespace('list')
+
+const focusing = ref(false)
+
+const handleClick = (file: UploadFile) => {
+  props.handlePreview(file)
+}
+
+const handleRemove = (file: UploadFile) => {
+  emit('remove', file)
+}
+</script>
 <template>
   <transition-group
     tag="ul"
@@ -9,7 +49,7 @@
     :name="nsList.b()"
   >
     <li
-      v-for="file in files"
+      v-for="file of files"
       :key="file.uid || file.name"
       :class="[
         nsUpload.be('list', 'item'),
@@ -107,42 +147,3 @@
     <slot name="append" />
   </transition-group>
 </template>
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { ElIcon } from '@element-plus/components/icon'
-import {
-  Check,
-  CircleCheck,
-  Close,
-  Delete,
-  Document,
-  ZoomIn,
-} from '@element-plus/icons-vue'
-import { useLocale, useNamespace } from '@element-plus/hooks'
-import ElProgress from '@element-plus/components/progress'
-
-import { uploadListEmits, uploadListProps } from './upload-list'
-import type { UploadFile } from './upload'
-
-defineOptions({
-  name: 'ElUploadList',
-})
-
-const props = defineProps(uploadListProps)
-const emit = defineEmits(uploadListEmits)
-
-const { t } = useLocale()
-const nsUpload = useNamespace('upload')
-const nsIcon = useNamespace('icon')
-const nsList = useNamespace('list')
-
-const focusing = ref(false)
-
-const handleClick = (file: UploadFile) => {
-  props.handlePreview(file)
-}
-
-const handleRemove = (file: UploadFile) => {
-  emit('remove', file)
-}
-</script>

@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import { InfoFilled } from '@element-plus/icons-vue'
+
+const confirmEvent = () => {
+  console.log('confirm!')
+}
+const cancelEvent = () => {
+  console.log('cancel!')
+}
+</script>
+
 <template>
   <el-popconfirm
     confirm-button-text="Yes"
@@ -13,14 +24,3 @@
     </template>
   </el-popconfirm>
 </template>
-
-<script setup lang="ts">
-import { InfoFilled } from '@element-plus/icons-vue'
-
-const confirmEvent = () => {
-  console.log('confirm!')
-}
-const cancelEvent = () => {
-  console.log('cancel!')
-}
-</script>

@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { UserFilled } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <div class="demo-type">
     <div>
@@ -13,10 +17,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { UserFilled } from '@element-plus/icons-vue'
-</script>
 
 <style scoped>
 .demo-type {

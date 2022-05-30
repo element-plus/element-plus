@@ -1,3 +1,8 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const tabPosition = ref('left')
+</script>
 <template>
   <el-radio-group v-model="tabPosition" style="margin-bottom: 30px">
     <el-radio-button label="top">top</el-radio-button>
@@ -13,11 +18,6 @@
     <el-tab-pane label="Task">Task</el-tab-pane>
   </el-tabs>
 </template>
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const tabPosition = ref('left')
-</script>
 <style>
 .demo-tabs > .el-tabs__content {
   padding: 32px;

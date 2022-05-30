@@ -1,24 +1,3 @@
-<template>
-  <div class="el-color-alpha-slider" :class="{ 'is-vertical': vertical }">
-    <div
-      ref="bar"
-      class="el-color-alpha-slider__bar"
-      :style="{
-        background,
-      }"
-      @click="handleClick"
-    />
-    <div
-      ref="thumb"
-      class="el-color-alpha-slider__thumb"
-      :style="{
-        left: thumbLeft + 'px',
-        top: thumbTop + 'px',
-      }"
-    />
-  </div>
-</template>
-
 <script lang="ts">
 import {
   defineComponent,
@@ -178,3 +157,24 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="el-color-alpha-slider" :class="{ 'is-vertical': vertical }">
+    <div
+      ref="bar"
+      class="el-color-alpha-slider__bar"
+      :style="{
+        background,
+      }"
+      @click="handleClick"
+    />
+    <div
+      ref="thumb"
+      class="el-color-alpha-slider__thumb"
+      :style="{
+        left: thumbLeft + 'px',
+        top: thumbTop + 'px',
+      }"
+    />
+  </div>
+</template>

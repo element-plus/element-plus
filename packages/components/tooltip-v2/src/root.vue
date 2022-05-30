@@ -1,7 +1,3 @@
-<template>
-  <slot :open="open" />
-</template>
-
 <script setup lang="ts">
 import {
   computed,
@@ -18,11 +14,11 @@ import { isNumber, isPropAbsent } from '@element-plus/utils'
 import { TOOLTIP_V2_OPEN, tooltipV2RootKey } from '@element-plus/tokens'
 import { tooltipV2RootProps } from './root'
 
+const props = defineProps(tooltipV2RootProps)
+
 defineOptions({
   name: 'ElTooltipV2Root',
 })
-
-const props = defineProps(tooltipV2RootProps)
 
 /**
  * internal open state, when no model value was provided, use this as indicator instead
@@ -115,3 +111,7 @@ defineExpose({
   onClose,
 })
 </script>
+
+<template>
+  <slot :open="open" />
+</template>

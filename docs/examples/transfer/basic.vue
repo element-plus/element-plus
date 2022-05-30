@@ -1,3 +1,44 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import type { VNode, VNodeProps } from 'vue'
+
+interface Option {
+  key: number
+  label: string
+  disabled: boolean
+}
+
+const generateData = (): Option[] => {
+  const data: Option[] = []
+  for (let i = 1; i <= 15; i++) {
+    data.push({
+      key: i,
+      label: `Option ${i}`,
+      disabled: i % 4 === 0,
+    })
+  }
+  return data
+}
+
+const data = ref(generateData())
+const rightValue = ref([1])
+const leftValue = ref([1])
+
+const renderFunc = (
+  h: (type: string, props: VNodeProps | null, children?: string) => VNode,
+  option: Option
+) => {
+  return h('span', null, option.label)
+}
+const handleChange = (
+  value: number | string,
+  direction: 'left' | 'right',
+  movedKeys: string[] | number[]
+) => {
+  console.log(value, direction, movedKeys)
+}
+</script>
+
 <template>
   <p style="text-align: center; margin: 0 0 20px">
     Customize data items using render-content
@@ -58,47 +99,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-import type { VNode, VNodeProps } from 'vue'
-
-interface Option {
-  key: number
-  label: string
-  disabled: boolean
-}
-
-const generateData = (): Option[] => {
-  const data: Option[] = []
-  for (let i = 1; i <= 15; i++) {
-    data.push({
-      key: i,
-      label: `Option ${i}`,
-      disabled: i % 4 === 0,
-    })
-  }
-  return data
-}
-
-const data = ref(generateData())
-const rightValue = ref([1])
-const leftValue = ref([1])
-
-const renderFunc = (
-  h: (type: string, props: VNodeProps | null, children?: string) => VNode,
-  option: Option
-) => {
-  return h('span', null, option.label)
-}
-const handleChange = (
-  value: number | string,
-  direction: 'left' | 'right',
-  movedKeys: string[] | number[]
-) => {
-  console.log(value, direction, movedKeys)
-}
-</script>
 
 <style>
 .transfer-footer {

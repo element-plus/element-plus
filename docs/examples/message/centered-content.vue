@@ -1,7 +1,3 @@
-<template>
-  <el-button plain @click="openCenter">Centered text</el-button>
-</template>
-
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 
@@ -13,3 +9,7 @@ const openCenter = () => {
   })
 }
 </script>
+
+<template>
+  <el-button plain @click="openCenter">Centered text</el-button>
+</template>

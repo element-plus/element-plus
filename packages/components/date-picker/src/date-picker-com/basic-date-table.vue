@@ -1,47 +1,3 @@
-<template>
-  <table
-    role="grid"
-    :aria-label="t('el.datepicker.dateTablePrompt')"
-    cellspacing="0"
-    cellpadding="0"
-    :class="[ns.b(), { 'is-week-mode': selectionMode === 'week' }]"
-    @click="handlePickDate"
-    @mousemove="handleMouseMove"
-  >
-    <tbody ref="tbodyRef">
-      <tr>
-        <th v-if="showWeekNumber" scope="col">{{ t('el.datepicker.week') }}</th>
-        <th
-          v-for="(week, key) in WEEKS"
-          :key="key"
-          scope="col"
-          :aria-label="t('el.datepicker.weeksFull.' + week)"
-        >
-          {{ t('el.datepicker.weeks.' + week) }}
-        </th>
-      </tr>
-      <tr
-        v-for="(row, key) in rows"
-        :key="key"
-        :class="[ns.e('row'), { current: isWeekActive(row[1]) }]"
-      >
-        <td
-          v-for="(cell, key_) in row"
-          :key="key_"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el)"
-          :class="getCellClasses(cell)"
-          :aria-current="cell.isCurrent ? 'date' : undefined"
-          :aria-selected="`${cell.isCurrent}`"
-          :tabindex="isSelectedCell(cell) ? 0 : -1"
-          @focus="handleFocus"
-        >
-          <el-date-picker-cell :cell="cell" />
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
@@ -446,3 +402,47 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <table
+    role="grid"
+    :aria-label="t('el.datepicker.dateTablePrompt')"
+    cellspacing="0"
+    cellpadding="0"
+    :class="[ns.b(), { 'is-week-mode': selectionMode === 'week' }]"
+    @click="handlePickDate"
+    @mousemove="handleMouseMove"
+  >
+    <tbody ref="tbodyRef">
+      <tr>
+        <th v-if="showWeekNumber" scope="col">{{ t('el.datepicker.week') }}</th>
+        <th
+          v-for="(week, key) of WEEKS"
+          :key="key"
+          scope="col"
+          :aria-label="t('el.datepicker.weeksFull.' + week)"
+        >
+          {{ t('el.datepicker.weeks.' + week) }}
+        </th>
+      </tr>
+      <tr
+        v-for="(row, key) of rows"
+        :key="key"
+        :class="[ns.e('row'), { current: isWeekActive(row[1]) }]"
+      >
+        <td
+          v-for="(cell, key_) of row"
+          :key="key_"
+          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el)"
+          :class="getCellClasses(cell)"
+          :aria-current="cell.isCurrent ? 'date' : undefined"
+          :aria-selected="`${cell.isCurrent}`"
+          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          @focus="handleFocus"
+        >
+          <el-date-picker-cell :cell="cell" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</template>

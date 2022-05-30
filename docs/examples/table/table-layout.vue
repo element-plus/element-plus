@@ -1,15 +1,3 @@
-<template>
-  <el-radio-group v-model="tableLayout">
-    <el-radio-button label="fixed" />
-    <el-radio-button label="auto" />
-  </el-radio-group>
-  <el-table :data="tableData" :table-layout="tableLayout">
-    <el-table-column prop="date" label="Date" />
-    <el-table-column prop="name" label="Name" />
-    <el-table-column prop="address" label="Address" />
-  </el-table>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -38,3 +26,15 @@ const tableData = [
   },
 ]
 </script>
+
+<template>
+  <el-radio-group v-model="tableLayout">
+    <el-radio-button label="fixed" />
+    <el-radio-button label="auto" />
+  </el-radio-group>
+  <el-table :data="tableData" :table-layout="tableLayout">
+    <el-table-column prop="date" label="Date" />
+    <el-table-column prop="name" label="Name" />
+    <el-table-column prop="address" label="Address" />
+  </el-table>
+</template>

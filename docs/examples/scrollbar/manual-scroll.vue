@@ -1,20 +1,3 @@
-<template>
-  <el-scrollbar ref="scrollbarRef" height="400px" always @scroll="scroll">
-    <div ref="innerRef">
-      <p v-for="item in 20" :key="item" class="scrollbar-demo-item">
-        {{ item }}
-      </p>
-    </div>
-  </el-scrollbar>
-
-  <el-slider
-    v-model="value"
-    :max="max"
-    :format-tooltip="formatTooltip"
-    @input="inputSlider"
-  />
-</template>
-
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { ElScrollbar } from 'element-plus'
@@ -38,6 +21,23 @@ const formatTooltip = (value: number) => {
   return `${value} px`
 }
 </script>
+
+<template>
+  <el-scrollbar ref="scrollbarRef" height="400px" always @scroll="scroll">
+    <div ref="innerRef">
+      <p v-for="item of 20" :key="item" class="scrollbar-demo-item">
+        {{ item }}
+      </p>
+    </div>
+  </el-scrollbar>
+
+  <el-slider
+    v-model="value"
+    :max="max"
+    :format-tooltip="formatTooltip"
+    @input="inputSlider"
+  />
+</template>
 
 <style scoped>
 .scrollbar-demo-item {

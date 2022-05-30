@@ -1,3 +1,13 @@
+<script setup lang="ts">
+import {
+  ArrowLeft,
+  ArrowRight,
+  Delete,
+  Edit,
+  Share,
+} from '@element-plus/icons-vue'
+</script>
+
 <template>
   <el-button-group>
     <el-button type="primary" :icon="ArrowLeft">Previous Page</el-button>
@@ -12,13 +22,3 @@
     <el-button type="primary" :icon="Delete" />
   </el-button-group>
 </template>
-
-<script setup lang="ts">
-import {
-  ArrowLeft,
-  ArrowRight,
-  Delete,
-  Edit,
-  Share,
-} from '@element-plus/icons-vue'
-</script>

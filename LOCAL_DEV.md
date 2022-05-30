@@ -50,14 +50,14 @@ will start the local development environment
 > App.vue
 
 ```vue
-<template>
-  <ComponentYouAreDeveloping />
-</template>
-
 <script setup lang="ts">
 // make sure this component is registered in @element-plus/components
 import { ComponentYouAreDeveloping } from '@element-plus/components'
 </script>
+
+<template>
+  <ComponentYouAreDeveloping />
+</template>
 ```
 
 Modify `App.vue` file per your needs to get things work.

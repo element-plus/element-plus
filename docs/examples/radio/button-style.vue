@@ -1,3 +1,11 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const radio1 = ref('New York')
+const radio2 = ref('New York')
+const radio3 = ref('New York')
+</script>
+
 <template>
   <div>
     <el-radio-group v-model="radio1" size="large">
@@ -24,11 +32,3 @@
     </el-radio-group>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const radio1 = ref('New York')
-const radio2 = ref('New York')
-const radio3 = ref('New York')
-</script>

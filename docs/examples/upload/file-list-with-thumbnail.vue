@@ -1,21 +1,3 @@
-<template>
-  <el-upload
-    class="upload-demo"
-    action="https://jsonplaceholder.typicode.com/posts/"
-    :on-preview="handlePreview"
-    :on-remove="handleRemove"
-    :file-list="fileList"
-    list-type="picture"
-  >
-    <el-button type="primary">Click to upload</el-button>
-    <template #tip>
-      <div class="el-upload__tip">
-        jpg/png files with a size less than 500kb
-      </div>
-    </template>
-  </el-upload>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -40,3 +22,21 @@ const handlePreview: UploadProps['onPreview'] = (file) => {
   console.log(file)
 }
 </script>
+
+<template>
+  <el-upload
+    class="upload-demo"
+    action="https://jsonplaceholder.typicode.com/posts/"
+    :on-preview="handlePreview"
+    :on-remove="handleRemove"
+    :file-list="fileList"
+    list-type="picture"
+  >
+    <el-button type="primary">Click to upload</el-button>
+    <template #tip>
+      <div class="el-upload__tip">
+        jpg/png files with a size less than 500kb
+      </div>
+    </template>
+  </el-upload>
+</template>

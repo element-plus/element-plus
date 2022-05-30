@@ -1,3 +1,11 @@
+<script lang="ts" setup>
+import { reactive } from 'vue'
+
+const config = reactive({
+  autoInsertSpace: true,
+})
+</script>
+
 <template>
   <div>
     <div m="b-2">
@@ -11,11 +19,3 @@
     </el-config-provider>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { reactive } from 'vue'
-
-const config = reactive({
-  autoInsertSpace: true,
-})
-</script>

@@ -1,14 +1,14 @@
-<template>
-  <el-slider v-model="value" show-input size="large" />
-  <el-slider v-model="value" show-input />
-  <el-slider v-model="value" show-input size="small" />
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
 const value = ref(0)
 </script>
+
+<template>
+  <el-slider v-model="value" show-input size="large" />
+  <el-slider v-model="value" show-input />
+  <el-slider v-model="value" show-input size="small" />
+</template>
 
 <style scoped>
 .el-slider {

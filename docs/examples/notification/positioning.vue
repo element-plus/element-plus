@@ -1,10 +1,3 @@
-<template>
-  <el-button plain @click="open1"> Top Right </el-button>
-  <el-button plain @click="open2"> Bottom Right </el-button>
-  <el-button plain @click="open3"> Bottom Left </el-button>
-  <el-button plain @click="open4"> Top Left </el-button>
-</template>
-
 <script lang="ts" setup>
 import { ElNotification } from 'element-plus'
 
@@ -39,3 +32,10 @@ const open4 = () => {
   })
 }
 </script>
+
+<template>
+  <el-button plain @click="open1"> Top Right </el-button>
+  <el-button plain @click="open2"> Bottom Right </el-button>
+  <el-button plain @click="open3"> Bottom Left </el-button>
+  <el-button plain @click="open4"> Top Left </el-button>
+</template>

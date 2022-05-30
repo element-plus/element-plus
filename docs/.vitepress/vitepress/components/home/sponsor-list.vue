@@ -4,14 +4,13 @@ import { isDark } from '../../composables/dark'
 import { useLang } from '../../composables/lang'
 import sponsorLocale from '../../../i18n/component/sponsor.json'
 import { sendEvent } from '../../../config/analytics'
-const onItemClick = (item: any) => {
-  sendEvent('sp_click', item.name, 'index')
-}
 defineProps({
   sponsors: Array,
   sponsorType: String,
 })
-
+const onItemClick = (item: any) => {
+  sendEvent('sp_click', item.name, 'index')
+}
 const lang = useLang()
 const sponsorLang = computed(() => sponsorLocale[lang.value])
 
@@ -35,7 +34,7 @@ const getSponsorSlogan = (sponsor) => {
   <h2 class="text-center mb-4 text-xl">{{ sponsorLang[sponsorType] }}</h2>
   <div class="grid gap-1 sponsor-list platinum">
     <a
-      v-for="(sponsor, i) in sponsors"
+      v-for="(sponsor, i) of sponsors"
       :key="i"
       :class="['sponsor flex px-4 rounded-md', sponsor.className]"
       :href="sponsor.url"

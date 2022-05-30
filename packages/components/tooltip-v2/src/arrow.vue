@@ -1,7 +1,3 @@
-<template>
-  <span ref="arrowRef" :style="arrowStyle" :class="ns.e('arrow')" />
-</template>
-
 <script setup lang="ts">
 import { computed, inject } from 'vue'
 import { tooltipV2ContentKey, tooltipV2RootKey } from '@element-plus/tokens'
@@ -9,13 +5,13 @@ import { tooltipV2ArrowProps, tooltipV2ArrowSpecialProps } from './arrow'
 
 import type { CSSProperties } from 'vue'
 
-defineOptions({
-  name: 'ElTooltipV2Arrow',
-})
-
 const props = defineProps({
   ...tooltipV2ArrowProps,
   ...tooltipV2ArrowSpecialProps,
+})
+
+defineOptions({
+  name: 'ElTooltipV2Arrow',
 })
 
 const { ns } = inject(tooltipV2RootKey)!
@@ -34,3 +30,7 @@ const arrowStyle = computed<CSSProperties>(() => {
   }
 })
 </script>
+
+<template>
+  <span ref="arrowRef" :style="arrowStyle" :class="ns.e('arrow')" />
+</template>

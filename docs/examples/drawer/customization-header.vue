@@ -1,3 +1,11 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { ElButton, ElDrawer } from 'element-plus'
+import { CircleCloseFilled } from '@element-plus/icons-vue'
+
+const visible = ref(false)
+</script>
+
 <template>
   <el-button @click="visible = true">
     Open Drawer with customized header
@@ -13,11 +21,3 @@
     This is drawer content.
   </el-drawer>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { ElButton, ElDrawer } from 'element-plus'
-import { CircleCloseFilled } from '@element-plus/icons-vue'
-
-const visible = ref(false)
-</script>

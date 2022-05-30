@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { StarFilled } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <div>
     <span>What you are you do not see, what you see is your shadow. </span>
@@ -13,7 +17,3 @@
     <el-divider content-position="right">Rabindranath Tagore</el-divider>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { StarFilled } from '@element-plus/icons-vue'
-</script>

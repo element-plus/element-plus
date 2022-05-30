@@ -1,3 +1,16 @@
+<script lang="tsx" setup>
+const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
+  Array.from({ length }).map((_, columnIndex) => ({
+    ...props,
+    key: `${prefix}${columnIndex}`,
+    dataKey: `${prefix}${columnIndex}`,
+    title: `Column ${columnIndex}`,
+    width: 150,
+  }))
+
+const columns = generateColumns(10)
+</script>
+
 <template>
   <el-table-v2
     :columns="columns"
@@ -14,16 +27,3 @@
     </template>
   </el-table-v2>
 </template>
-
-<script lang="tsx" setup>
-const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
-  Array.from({ length }).map((_, columnIndex) => ({
-    ...props,
-    key: `${prefix}${columnIndex}`,
-    dataKey: `${prefix}${columnIndex}`,
-    title: `Column ${columnIndex}`,
-    width: 150,
-  }))
-
-const columns = generateColumns(10)
-</script>

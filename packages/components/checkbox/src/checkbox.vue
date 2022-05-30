@@ -1,3 +1,34 @@
+<script lang="ts" setup>
+import { useSlots } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
+import { checkboxEmits, checkboxProps, useCheckbox } from './checkbox'
+
+const props = defineProps(checkboxProps)
+
+defineEmits(checkboxEmits)
+
+defineOptions({
+  name: 'ElCheckbox',
+})
+
+const slots = useSlots()
+
+const {
+  inputId,
+  isLabeledByFormItem,
+  isChecked,
+  isDisabled,
+  checkboxSize,
+  hasOwnLabel,
+  model,
+  handleChange,
+  onClickRoot,
+  focus,
+} = useCheckbox(props, slots)
+
+const ns = useNamespace('checkbox')
+</script>
+
 <template>
   <component
     :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
@@ -62,32 +93,3 @@
     </span>
   </component>
 </template>
-
-<script lang="ts" setup>
-import { useSlots } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
-import { checkboxEmits, checkboxProps, useCheckbox } from './checkbox'
-
-defineOptions({
-  name: 'ElCheckbox',
-})
-
-const props = defineProps(checkboxProps)
-defineEmits(checkboxEmits)
-const slots = useSlots()
-
-const {
-  inputId,
-  isLabeledByFormItem,
-  isChecked,
-  isDisabled,
-  checkboxSize,
-  hasOwnLabel,
-  model,
-  handleChange,
-  onClickRoot,
-  focus,
-} = useCheckbox(props, slots)
-
-const ns = useNamespace('checkbox')
-</script>

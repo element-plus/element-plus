@@ -1,24 +1,18 @@
-<template>
-  <footer :class="ns.b()" :style="style">
-    <slot />
-  </footer>
-</template>
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
-defineOptions({
-  name: 'ElFooter',
-})
 const props = defineProps({
   height: {
     type: String,
     default: null,
   },
 })
-
+defineOptions({
+  name: 'ElFooter',
+})
 const ns = useNamespace('footer')
 
 const style = computed(
@@ -28,3 +22,8 @@ const style = computed(
       : {}) as CSSProperties
 )
 </script>
+<template>
+  <footer :class="ns.b()" :style="style">
+    <slot />
+  </footer>
+</template>

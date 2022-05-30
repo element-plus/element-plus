@@ -1,3 +1,57 @@
+<script lang="ts" setup>
+import { computed, inject, ref } from 'vue'
+import { generateId } from '@element-plus/utils'
+import ElCollapseTransition from '@element-plus/components/collapse-transition'
+import ElIcon from '@element-plus/components/icon'
+import { ArrowRight } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
+import { collapseContextKey } from '@element-plus/tokens'
+import { collapseItemProps } from './collapse-item'
+
+const props = defineProps(collapseItemProps)
+
+defineOptions({
+  name: 'ElCollapseItem',
+})
+
+const collapse = inject(collapseContextKey)
+const ns = useNamespace('collapse')
+
+const focusing = ref(false)
+const isClick = ref(false)
+const id = ref(generateId())
+
+const isActive = computed(() =>
+  collapse?.activeNames.value.includes(props.name)
+)
+
+const handleFocus = () => {
+  setTimeout(() => {
+    if (!isClick.value) {
+      focusing.value = true
+    } else {
+      isClick.value = false
+    }
+  }, 50)
+}
+
+const handleHeaderClick = () => {
+  if (props.disabled) return
+  collapse?.handleItemClick(props.name)
+  focusing.value = false
+  isClick.value = true
+}
+
+const handleEnterClick = () => {
+  collapse?.handleItemClick(props.name)
+}
+
+defineExpose({
+  /** @description current collapse-item whether active */
+  isActive,
+})
+</script>
+
 <template>
   <div
     :class="[
@@ -48,57 +102,3 @@
     </el-collapse-transition>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
-import { generateId } from '@element-plus/utils'
-import ElCollapseTransition from '@element-plus/components/collapse-transition'
-import ElIcon from '@element-plus/components/icon'
-import { ArrowRight } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-plus/hooks'
-import { collapseContextKey } from '@element-plus/tokens'
-import { collapseItemProps } from './collapse-item'
-
-defineOptions({
-  name: 'ElCollapseItem',
-})
-
-const props = defineProps(collapseItemProps)
-
-const collapse = inject(collapseContextKey)
-const ns = useNamespace('collapse')
-
-const focusing = ref(false)
-const isClick = ref(false)
-const id = ref(generateId())
-
-const isActive = computed(() =>
-  collapse?.activeNames.value.includes(props.name)
-)
-
-const handleFocus = () => {
-  setTimeout(() => {
-    if (!isClick.value) {
-      focusing.value = true
-    } else {
-      isClick.value = false
-    }
-  }, 50)
-}
-
-const handleHeaderClick = () => {
-  if (props.disabled) return
-  collapse?.handleItemClick(props.name)
-  focusing.value = false
-  isClick.value = true
-}
-
-const handleEnterClick = () => {
-  collapse?.handleItemClick(props.name)
-}
-
-defineExpose({
-  /** @description current collapse-item whether active */
-  isActive,
-})
-</script>

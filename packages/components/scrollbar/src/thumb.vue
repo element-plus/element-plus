@@ -1,21 +1,3 @@
-<template>
-  <transition :name="ns.b('fade')">
-    <div
-      v-show="always || visible"
-      ref="instance"
-      :class="[ns.e('bar'), ns.is(bar.key)]"
-      @mousedown="clickTrackHandler"
-    >
-      <div
-        ref="thumb"
-        :class="ns.e('thumb')"
-        :style="thumbStyle"
-        @mousedown="clickThumbHandler"
-      />
-    </div>
-  </transition>
-</template>
-
 <script lang="ts">
 import {
   computed,
@@ -196,3 +178,21 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <transition :name="ns.b('fade')">
+    <div
+      v-show="always || visible"
+      ref="instance"
+      :class="[ns.e('bar'), ns.is(bar.key)]"
+      @mousedown="clickTrackHandler"
+    >
+      <div
+        ref="thumb"
+        :class="ns.e('thumb')"
+        :style="thumbStyle"
+        @mousedown="clickThumbHandler"
+      />
+    </div>
+  </transition>
+</template>

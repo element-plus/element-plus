@@ -1,20 +1,3 @@
-<template>
-  <el-checkbox
-    v-model="checkAll"
-    :indeterminate="isIndeterminate"
-    @change="handleCheckAllChange"
-    >Check all</el-checkbox
-  >
-  <el-checkbox-group
-    v-model="checkedCities"
-    @change="handleCheckedCitiesChange"
-  >
-    <el-checkbox v-for="city in cities" :key="city" :label="city">{{
-      city
-    }}</el-checkbox>
-  </el-checkbox-group>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -33,3 +16,20 @@ const handleCheckedCitiesChange = (value: string[]) => {
   isIndeterminate.value = checkedCount > 0 && checkedCount < cities.length
 }
 </script>
+
+<template>
+  <el-checkbox
+    v-model="checkAll"
+    :indeterminate="isIndeterminate"
+    @change="handleCheckAllChange"
+    >Check all</el-checkbox
+  >
+  <el-checkbox-group
+    v-model="checkedCities"
+    @change="handleCheckedCitiesChange"
+  >
+    <el-checkbox v-for="city of cities" :key="city" :label="city">{{
+      city
+    }}</el-checkbox>
+  </el-checkbox-group>
+</template>

@@ -1,16 +1,3 @@
-<template>
-  <div
-    :id="groupId"
-    ref="radioGroupRef"
-    :class="ns.b('group')"
-    role="radiogroup"
-    :aria-label="!isLabeledByFormItem ? label || 'radio-group' : undefined"
-    :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
-  >
-    <slot />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import {
   computed,
@@ -34,12 +21,13 @@ import { debugWarn } from '@element-plus/utils'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
 import type { RadioGroupProps } from '..'
 
+const props = defineProps(radioGroupProps)
+
+const emit = defineEmits(radioGroupEmits)
+
 defineOptions({
   name: 'ElRadioGroup',
 })
-
-const props = defineProps(radioGroupProps)
-const emit = defineEmits(radioGroupEmits)
 
 const ns = useNamespace('radio')
 const radioId = useId()
@@ -81,3 +69,16 @@ watch(
   () => formItem?.validate('change').catch((err) => debugWarn(err))
 )
 </script>
+
+<template>
+  <div
+    :id="groupId"
+    ref="radioGroupRef"
+    :class="ns.b('group')"
+    role="radiogroup"
+    :aria-label="!isLabeledByFormItem ? label || 'radio-group' : undefined"
+    :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
+  >
+    <slot />
+  </div>
+</template>

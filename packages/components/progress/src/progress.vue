@@ -1,81 +1,3 @@
-<template>
-  <div
-    :class="[
-      ns.b(),
-      ns.m(type),
-      ns.is(status),
-      {
-        [ns.m('without-text')]: !showText,
-        [ns.m('text-inside')]: textInside,
-      },
-    ]"
-    role="progressbar"
-    :aria-valuenow="percentage"
-    aria-valuemin="0"
-    aria-valuemax="100"
-  >
-    <div v-if="type === 'line'" :class="ns.b('bar')">
-      <div
-        :class="ns.be('bar', 'outer')"
-        :style="{ height: `${strokeWidth}px` }"
-      >
-        <div
-          :class="[
-            ns.be('bar', 'inner'),
-            { [ns.bem('bar', 'inner', 'indeterminate')]: indeterminate },
-          ]"
-          :style="barStyle"
-        >
-          <div
-            v-if="(showText || $slots.default) && textInside"
-            :class="ns.be('bar', 'innerText')"
-          >
-            <slot :percentage="percentage">
-              <span>{{ content }}</span>
-            </slot>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      v-else
-      :class="ns.b('circle')"
-      :style="{ height: `${width}px`, width: `${width}px` }"
-    >
-      <svg viewBox="0 0 100 100">
-        <path
-          :class="ns.be('circle', 'track')"
-          :d="trackPath"
-          :stroke="`var(${ns.cssVarName('fill-color-light')}, #e5e9f2)`"
-          :stroke-width="relativeStrokeWidth"
-          fill="none"
-          :style="trailPathStyle"
-        />
-        <path
-          :class="ns.be('circle', 'path')"
-          :d="trackPath"
-          :stroke="stroke"
-          fill="none"
-          :opacity="percentage ? 1 : 0"
-          :stroke-linecap="strokeLinecap"
-          :stroke-width="relativeStrokeWidth"
-          :style="circlePathStyle"
-        />
-      </svg>
-    </div>
-    <div
-      v-if="(showText || $slots.default) && !textInside"
-      :class="ns.e('text')"
-      :style="{ fontSize: `${progressTextSize}px` }"
-    >
-      <slot :percentage="percentage">
-        <span v-if="!status">{{ content }}</span>
-        <el-icon v-else><component :is="statusIcon" /></el-icon>
-      </slot>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
@@ -92,6 +14,8 @@ import { progressProps } from './progress'
 import type { CSSProperties } from 'vue'
 import type { ProgressColor } from './progress'
 
+const props = defineProps(progressProps)
+
 defineOptions({
   name: 'ElProgress',
 })
@@ -102,8 +26,6 @@ const STATUS_COLOR_MAP = {
   warning: '#e6a23c',
   default: '#20a0ff',
 }
-
-const props = defineProps(progressProps)
 
 const ns = useNamespace('progress')
 
@@ -219,3 +141,81 @@ const getCurrentColor = (percentage: number) => {
   }
 }
 </script>
+
+<template>
+  <div
+    :class="[
+      ns.b(),
+      ns.m(type),
+      ns.is(status),
+      {
+        [ns.m('without-text')]: !showText,
+        [ns.m('text-inside')]: textInside,
+      },
+    ]"
+    role="progressbar"
+    :aria-valuenow="percentage"
+    aria-valuemin="0"
+    aria-valuemax="100"
+  >
+    <div v-if="type === 'line'" :class="ns.b('bar')">
+      <div
+        :class="ns.be('bar', 'outer')"
+        :style="{ height: `${strokeWidth}px` }"
+      >
+        <div
+          :class="[
+            ns.be('bar', 'inner'),
+            { [ns.bem('bar', 'inner', 'indeterminate')]: indeterminate },
+          ]"
+          :style="barStyle"
+        >
+          <div
+            v-if="(showText || $slots.default) && textInside"
+            :class="ns.be('bar', 'innerText')"
+          >
+            <slot :percentage="percentage">
+              <span>{{ content }}</span>
+            </slot>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      v-else
+      :class="ns.b('circle')"
+      :style="{ height: `${width}px`, width: `${width}px` }"
+    >
+      <svg viewBox="0 0 100 100">
+        <path
+          :class="ns.be('circle', 'track')"
+          :d="trackPath"
+          :stroke="`var(${ns.cssVarName('fill-color-light')}, #e5e9f2)`"
+          :stroke-width="relativeStrokeWidth"
+          fill="none"
+          :style="trailPathStyle"
+        />
+        <path
+          :class="ns.be('circle', 'path')"
+          :d="trackPath"
+          :stroke="stroke"
+          fill="none"
+          :opacity="percentage ? 1 : 0"
+          :stroke-linecap="strokeLinecap"
+          :stroke-width="relativeStrokeWidth"
+          :style="circlePathStyle"
+        />
+      </svg>
+    </div>
+    <div
+      v-if="(showText || $slots.default) && !textInside"
+      :class="ns.e('text')"
+      :style="{ fontSize: `${progressTextSize}px` }"
+    >
+      <slot :percentage="percentage">
+        <span v-if="!status">{{ content }}</span>
+        <el-icon v-else><component :is="statusIcon" /></el-icon>
+      </slot>
+    </div>
+  </div>
+</template>

@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { InfoFilled } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <div class="demo-collapse">
     <el-collapse accordion>
@@ -53,7 +57,3 @@
     </el-collapse>
   </div>
 </template>
-
-<script setup lang="ts">
-import { InfoFilled } from '@element-plus/icons-vue'
-</script>

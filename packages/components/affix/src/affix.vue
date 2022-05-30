@@ -1,11 +1,3 @@
-<template>
-  <div ref="root" :class="ns.b()" :style="rootStyle">
-    <div :class="{ [ns.m('fixed')]: fixed }" :style="affixStyle">
-      <slot />
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, onMounted, ref, shallowRef, watch, watchEffect } from 'vue'
 import {
@@ -18,13 +10,12 @@ import { useNamespace } from '@element-plus/hooks'
 import { affixEmits, affixProps } from './affix'
 import type { CSSProperties } from 'vue'
 
+const props = defineProps(affixProps)
+const emit = defineEmits(affixEmits)
 const COMPONENT_NAME = 'ElAffix'
 defineOptions({
   name: 'ElAffix',
 })
-
-const props = defineProps(affixProps)
-const emit = defineEmits(affixEmits)
 
 const ns = useNamespace('affix')
 
@@ -128,3 +119,11 @@ defineExpose({
   update,
 })
 </script>
+
+<template>
+  <div ref="root" :class="ns.b()" :style="rootStyle">
+    <div :class="{ [ns.m('fixed')]: fixed }" :style="affixStyle">
+      <slot />
+    </div>
+  </div>
+</template>

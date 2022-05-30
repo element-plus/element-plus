@@ -1,3 +1,11 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { ElButton, ElDialog } from 'element-plus'
+import { CircleCloseFilled } from '@element-plus/icons-vue'
+
+const visible = ref(false)
+</script>
+
 <template>
   <el-button @click="visible = true">
     Open Dialog with customized header
@@ -15,14 +23,6 @@
     This is dialog content.
   </el-dialog>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { ElButton, ElDialog } from 'element-plus'
-import { CircleCloseFilled } from '@element-plus/icons-vue'
-
-const visible = ref(false)
-</script>
 
 <style scoped>
 .my-header {

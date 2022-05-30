@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const visible = ref(false)
+</script>
+
 <template>
   <el-popover
     placement="top-start"
@@ -60,9 +66,3 @@
     </template>
   </el-popover>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const visible = ref(false)
-</script>

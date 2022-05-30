@@ -1,7 +1,3 @@
-<template>
-  <el-tree :props="props" :load="loadNode" lazy show-checkbox />
-</template>
-
 <script lang="ts" setup>
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
@@ -37,3 +33,7 @@ const loadNode = (node: Node, resolve: (data: Tree[]) => void) => {
   }, 500)
 }
 </script>
+
+<template>
+  <el-tree :props="props" :load="loadNode" lazy show-checkbox />
+</template>

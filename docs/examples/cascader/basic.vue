@@ -1,21 +1,3 @@
-<template>
-  <div class="example-block">
-    <span class="example-demonstration"
-      >Child options expand when clicked (default)</span
-    >
-    <el-cascader v-model="value" :options="options" @change="handleChange" />
-  </div>
-  <div class="example-block">
-    <span class="example-demonstration">Child options expand when hovered</span>
-    <el-cascader
-      v-model="value"
-      :options="options"
-      :props="props"
-      @change="handleChange"
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -298,6 +280,24 @@ const options = [
   },
 ]
 </script>
+
+<template>
+  <div class="example-block">
+    <span class="example-demonstration"
+      >Child options expand when clicked (default)</span
+    >
+    <el-cascader v-model="value" :options="options" @change="handleChange" />
+  </div>
+  <div class="example-block">
+    <span class="example-demonstration">Child options expand when hovered</span>
+    <el-cascader
+      v-model="value"
+      :options="options"
+      :props="props"
+      @change="handleChange"
+    />
+  </div>
+</template>
 
 <style scoped>
 .example-block {

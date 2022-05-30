@@ -1,11 +1,3 @@
-<template>
-  <el-table-v2 fixed :columns="columns" :data="data" :width="700" :height="400">
-    <template #row="props">
-      <Row v-bind="props" />
-    </template>
-  </el-table-v2>
-</template>
-
 <script lang="ts" setup>
 import { cloneVNode } from 'vue'
 
@@ -62,3 +54,11 @@ const Row = ({ rowData, rowIndex, cells, columns }) => {
   return cells
 }
 </script>
+
+<template>
+  <el-table-v2 fixed :columns="columns" :data="data" :width="700" :height="400">
+    <template #row="props">
+      <Row v-bind="props" />
+    </template>
+  </el-table-v2>
+</template>

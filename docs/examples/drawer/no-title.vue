@@ -1,3 +1,8 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+const drawer = ref(false)
+</script>
+
 <template>
   <el-button type="primary" style="margin-left: 16px" @click="drawer = true">
     open
@@ -7,8 +12,3 @@
     <span>Hi there!</span>
   </el-drawer>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-const drawer = ref(false)
-</script>

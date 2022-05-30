@@ -1,7 +1,3 @@
-<template>
-  <el-tree-select v-model="value" :data="data" />
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -81,3 +77,7 @@ const data = [
   },
 ]
 </script>
+
+<template>
+  <el-tree-select v-model="value" :data="data" />
+</template>

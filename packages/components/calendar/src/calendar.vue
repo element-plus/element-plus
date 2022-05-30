@@ -1,48 +1,3 @@
-<template>
-  <div :class="ns.b()">
-    <div :class="ns.e('header')">
-      <slot name="header" :date="i18nDate">
-        <div :class="ns.e('title')">{{ i18nDate }}</div>
-        <div v-if="validatedRange.length === 0" :class="ns.e('button-group')">
-          <el-button-group>
-            <el-button size="small" @click="selectDate('prev-month')">
-              {{ t('el.datepicker.prevMonth') }}
-            </el-button>
-            <el-button size="small" @click="selectDate('today')">
-              {{ t('el.datepicker.today') }}
-            </el-button>
-            <el-button size="small" @click="selectDate('next-month')">
-              {{ t('el.datepicker.nextMonth') }}
-            </el-button>
-          </el-button-group>
-        </div>
-      </slot>
-    </div>
-    <div v-if="validatedRange.length === 0" :class="ns.e('body')">
-      <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
-        <template v-if="$slots.dateCell" #dateCell="data">
-          <slot name="dateCell" v-bind="data" />
-        </template>
-      </date-table>
-    </div>
-    <div v-else :class="ns.e('body')">
-      <date-table
-        v-for="(range_, index) in validatedRange"
-        :key="index"
-        :date="range_[0]"
-        :selected-day="realSelectedDay"
-        :range="range_"
-        :hide-header="index !== 0"
-        @pick="pickDay"
-      >
-        <template v-if="$slots.dateCell" #dateCell="data">
-          <slot name="dateCell" v-bind="data" />
-        </template>
-      </date-table>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
@@ -57,14 +12,15 @@ import type { CalendarDateType } from './calendar'
 import type { ComputedRef } from 'vue'
 import type { Dayjs } from 'dayjs'
 
+const props = defineProps(calendarProps)
+
+const emit = defineEmits(calendarEmits)
+
 const COMPONENT_NAME = 'ElCalendar'
 
 defineOptions({
   name: 'ElCalendar',
 })
-
-const props = defineProps(calendarProps)
-const emit = defineEmits(calendarEmits)
 
 const ns = useNamespace('calendar')
 const { t, lang } = useLocale()
@@ -241,3 +197,48 @@ defineExpose({
   calculateValidatedDateRange,
 })
 </script>
+
+<template>
+  <div :class="ns.b()">
+    <div :class="ns.e('header')">
+      <slot name="header" :date="i18nDate">
+        <div :class="ns.e('title')">{{ i18nDate }}</div>
+        <div v-if="validatedRange.length === 0" :class="ns.e('button-group')">
+          <el-button-group>
+            <el-button size="small" @click="selectDate('prev-month')">
+              {{ t('el.datepicker.prevMonth') }}
+            </el-button>
+            <el-button size="small" @click="selectDate('today')">
+              {{ t('el.datepicker.today') }}
+            </el-button>
+            <el-button size="small" @click="selectDate('next-month')">
+              {{ t('el.datepicker.nextMonth') }}
+            </el-button>
+          </el-button-group>
+        </div>
+      </slot>
+    </div>
+    <div v-if="validatedRange.length === 0" :class="ns.e('body')">
+      <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
+        <template v-if="$slots.dateCell" #dateCell="data">
+          <slot name="dateCell" v-bind="data" />
+        </template>
+      </date-table>
+    </div>
+    <div v-else :class="ns.e('body')">
+      <date-table
+        v-for="(range_, index) of validatedRange"
+        :key="index"
+        :date="range_[0]"
+        :selected-day="realSelectedDay"
+        :range="range_"
+        :hide-header="index !== 0"
+        @pick="pickDay"
+      >
+        <template v-if="$slots.dateCell" #dateCell="data">
+          <slot name="dateCell" v-bind="data" />
+        </template>
+      </date-table>
+    </div>
+  </div>
+</template>

@@ -1,13 +1,3 @@
-<template>
-  <el-tree-v2
-    :data="data"
-    :height="208"
-    :props="props"
-    show-checkbox
-    :default-checked-keys="defaultCheckedKeys"
-    :default-expanded-keys="defaultExpandedKeys"
-  />
-</template>
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -65,3 +55,13 @@ for (const datum of data) {
 const defaultCheckedKeys = ref(checkedKeys)
 const defaultExpandedKeys = ref(expanedKeys)
 </script>
+<template>
+  <el-tree-v2
+    :data="data"
+    :height="208"
+    :props="props"
+    show-checkbox
+    :default-checked-keys="defaultCheckedKeys"
+    :default-expanded-keys="defaultExpandedKeys"
+  />
+</template>

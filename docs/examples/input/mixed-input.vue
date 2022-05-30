@@ -1,3 +1,12 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Search } from '@element-plus/icons-vue'
+const input1 = ref('')
+const input2 = ref('')
+const input3 = ref('')
+const select = ref('')
+</script>
+
 <template>
   <div>
     <el-input v-model="input1" placeholder="Please input">
@@ -46,15 +55,6 @@
     </el-input>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { Search } from '@element-plus/icons-vue'
-const input1 = ref('')
-const input2 = ref('')
-const input3 = ref('')
-const select = ref('')
-</script>
 
 <style>
 .input-with-select .el-input-group__prepend {

@@ -1,16 +1,3 @@
-<template>
-  <div class="demo-progress">
-    <el-progress type="dashboard" :percentage="percentage" :color="colors" />
-    <el-progress type="dashboard" :percentage="percentage2" :color="colors" />
-    <div>
-      <el-button-group>
-        <el-button :icon="Minus" @click="decrease" />
-        <el-button :icon="Plus" @click="increase" />
-      </el-button-group>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { Minus, Plus } from '@element-plus/icons-vue'
@@ -44,6 +31,19 @@ onMounted(() => {
   }, 500)
 })
 </script>
+
+<template>
+  <div class="demo-progress">
+    <el-progress type="dashboard" :percentage="percentage" :color="colors" />
+    <el-progress type="dashboard" :percentage="percentage2" :color="colors" />
+    <div>
+      <el-button-group>
+        <el-button :icon="Minus" @click="decrease" />
+        <el-button :icon="Plus" @click="increase" />
+      </el-button-group>
+    </div>
+  </div>
+</template>
 <style scoped>
 .demo-progress .el-progress--line {
   margin-bottom: 15px;

@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value = ref('')
+const defaultTime = ref([
+  new Date(2000, 1, 1, 0, 0, 0),
+  new Date(2000, 2, 1, 23, 59, 59),
+])
+</script>
+
 <template>
   <div class="demo-date-picker">
     <div class="block">
@@ -12,16 +22,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const value = ref('')
-const defaultTime = ref([
-  new Date(2000, 1, 1, 0, 0, 0),
-  new Date(2000, 2, 1, 23, 59, 59),
-])
-</script>
 <style scoped>
 .demo-date-picker {
   display: flex;

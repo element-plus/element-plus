@@ -1,3 +1,18 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+const dropdown1 = ref()
+function handleVisible2(visible: any) {
+  if (visible) {
+    dropdown1.value.handleClose()
+  } else {
+    dropdown1.value.handleOpen()
+  }
+}
+function showClick() {
+  dropdown1.value.handleOpen()
+}
+</script>
+
 <template>
   <div style="font-size: 14px">
     <p>open(close) the Dropdown list2 will close(open) the Dropdown List1.</p>
@@ -31,21 +46,6 @@
     </template>
   </el-dropdown>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-const dropdown1 = ref()
-function handleVisible2(visible: any) {
-  if (visible) {
-    dropdown1.value.handleClose()
-  } else {
-    dropdown1.value.handleOpen()
-  }
-}
-function showClick() {
-  dropdown1.value.handleOpen()
-}
-</script>
 <style scoped>
 .example-showcase .el-dropdown-link {
   cursor: pointer;

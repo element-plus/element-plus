@@ -1,41 +1,3 @@
-<template>
-  <div
-    ref="formItemRef"
-    :class="formItemClasses"
-    :role="isGroup ? 'group' : undefined"
-    :aria-labelledby="isGroup ? labelId : undefined"
-  >
-    <form-label-wrap
-      :is-auto-width="labelStyle.width === 'auto'"
-      :update-all="formContext?.labelWidth === 'auto'"
-    >
-      <component
-        :is="labelFor ? 'label' : 'div'"
-        v-if="hasLabel"
-        :id="labelId"
-        :for="labelFor"
-        :class="ns.e('label')"
-        :style="labelStyle"
-      >
-        <slot name="label" :label="currentLabel">
-          {{ currentLabel }}
-        </slot>
-      </component>
-    </form-label-wrap>
-
-    <div :class="ns.e('content')" :style="contentStyle">
-      <slot />
-      <transition :name="`${ns.namespace.value}-zoom-in-top`">
-        <slot v-if="shouldShowError" name="error" :error="validateMessage">
-          <div :class="validateClasses">
-            {{ validateMessage }}
-          </div>
-        </slot>
-      </transition>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import {
   computed,
@@ -76,10 +38,10 @@ import type {
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemValidateState } from './form-item'
 
+const props = defineProps(formItemProps)
 defineOptions({
   name: 'ElFormItem',
 })
-const props = defineProps(formItemProps)
 const slots = useSlots()
 
 const formContext = inject(formContextKey, undefined)
@@ -392,3 +354,41 @@ defineExpose({
   resetField,
 })
 </script>
+
+<template>
+  <div
+    ref="formItemRef"
+    :class="formItemClasses"
+    :role="isGroup ? 'group' : undefined"
+    :aria-labelledby="isGroup ? labelId : undefined"
+  >
+    <form-label-wrap
+      :is-auto-width="labelStyle.width === 'auto'"
+      :update-all="formContext?.labelWidth === 'auto'"
+    >
+      <component
+        :is="labelFor ? 'label' : 'div'"
+        v-if="hasLabel"
+        :id="labelId"
+        :for="labelFor"
+        :class="ns.e('label')"
+        :style="labelStyle"
+      >
+        <slot name="label" :label="currentLabel">
+          {{ currentLabel }}
+        </slot>
+      </component>
+    </form-label-wrap>
+
+    <div :class="ns.e('content')" :style="contentStyle">
+      <slot />
+      <transition :name="`${ns.namespace.value}-zoom-in-top`">
+        <slot v-if="shouldShowError" name="error" :error="validateMessage">
+          <div :class="validateClasses">
+            {{ validateMessage }}
+          </div>
+        </slot>
+      </transition>
+    </div>
+  </div>
+</template>

@@ -1,34 +1,3 @@
-<template>
-  <div class="demo-datetime-picker">
-    <div class="block">
-      <span class="demonstration">Default</span>
-      <el-date-picker
-        v-model="value1"
-        type="datetime"
-        placeholder="Select date and time"
-      />
-    </div>
-    <div class="block">
-      <span class="demonstration">With shortcuts</span>
-      <el-date-picker
-        v-model="value2"
-        type="datetime"
-        placeholder="Select date and time"
-        :shortcuts="shortcuts"
-      />
-    </div>
-    <div class="block">
-      <span class="demonstration">With default time</span>
-      <el-date-picker
-        v-model="value3"
-        type="datetime"
-        placeholder="Select date and time"
-        :default-time="defaultTime"
-      />
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -60,6 +29,37 @@ const shortcuts = [
   },
 ]
 </script>
+
+<template>
+  <div class="demo-datetime-picker">
+    <div class="block">
+      <span class="demonstration">Default</span>
+      <el-date-picker
+        v-model="value1"
+        type="datetime"
+        placeholder="Select date and time"
+      />
+    </div>
+    <div class="block">
+      <span class="demonstration">With shortcuts</span>
+      <el-date-picker
+        v-model="value2"
+        type="datetime"
+        placeholder="Select date and time"
+        :shortcuts="shortcuts"
+      />
+    </div>
+    <div class="block">
+      <span class="demonstration">With default time</span>
+      <el-date-picker
+        v-model="value3"
+        type="datetime"
+        placeholder="Select date and time"
+        :default-time="defaultTime"
+      />
+    </div>
+  </div>
+</template>
 <style scoped>
 .demo-datetime-picker {
   display: flex;

@@ -1,3 +1,6 @@
+<script setup lang="ts">
+import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
+</script>
 <template>
   <div class="flex">
     <el-button type="primary" :icon="Edit" />
@@ -9,6 +12,3 @@
     </el-button>
   </div>
 </template>
-<script setup lang="ts">
-import { Delete, Edit, Search, Share, Upload } from '@element-plus/icons-vue'
-</script>

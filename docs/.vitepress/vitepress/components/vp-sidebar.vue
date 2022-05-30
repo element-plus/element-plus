@@ -19,7 +19,7 @@ const { sidebars, hasSidebar } = useSidebar()
           {{ item.text }}
         </p>
         <VPSidebarLink
-          v-for="(child, childKey) in item.children"
+          v-for="(child, childKey) of item.children"
           :key="childKey"
           :item="child"
           @close="$emit('close')"

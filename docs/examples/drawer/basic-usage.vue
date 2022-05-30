@@ -1,3 +1,34 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { ElMessageBox } from 'element-plus'
+
+const drawer = ref(false)
+const drawer2 = ref(false)
+const direction = ref('rtl')
+const radio1 = ref('Option 1')
+const handleClose = (done: () => void) => {
+  ElMessageBox.confirm('Are you sure you want to close this?')
+    .then(() => {
+      done()
+    })
+    .catch(() => {
+      // catch error
+    })
+}
+function cancelClick() {
+  drawer2.value = false
+}
+function confirmClick() {
+  ElMessageBox.confirm(`Are you confirm to chose ${radio1.value} ?`)
+    .then(() => {
+      drawer2.value = false
+    })
+    .catch(() => {
+      // catch error
+    })
+}
+</script>
+
 <template>
   <el-radio-group v-model="direction">
     <el-radio label="ltr">left to right</el-radio>
@@ -43,34 +74,3 @@
     </template>
   </el-drawer>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { ElMessageBox } from 'element-plus'
-
-const drawer = ref(false)
-const drawer2 = ref(false)
-const direction = ref('rtl')
-const radio1 = ref('Option 1')
-const handleClose = (done: () => void) => {
-  ElMessageBox.confirm('Are you sure you want to close this?')
-    .then(() => {
-      done()
-    })
-    .catch(() => {
-      // catch error
-    })
-}
-function cancelClick() {
-  drawer2.value = false
-}
-function confirmClick() {
-  ElMessageBox.confirm(`Are you confirm to chose ${radio1.value} ?`)
-    .then(() => {
-      drawer2.value = false
-    })
-    .catch(() => {
-      // catch error
-    })
-}
-</script>

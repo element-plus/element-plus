@@ -1,6 +1,3 @@
-<template>
-  <el-tree-v2 :data="data" :props="props" show-checkbox :height="208" />
-</template>
 <script lang="ts" setup>
 interface Tree {
   id: string
@@ -44,3 +41,6 @@ const props = {
 }
 const data = createData(4, 30, 40)
 </script>
+<template>
+  <el-tree-v2 :data="data" :props="props" show-checkbox :height="208" />
+</template>

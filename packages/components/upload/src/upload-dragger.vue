@@ -1,13 +1,3 @@
-<template>
-  <div
-    :class="[ns.b('dragger'), ns.is('dragover', dragover)]"
-    @drop.prevent="onDrop"
-    @dragover.prevent="onDragover"
-    @dragleave.prevent="dragover = false"
-  >
-    <slot />
-  </div>
-</template>
 <script lang="ts" setup>
 import { inject, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
@@ -16,14 +6,15 @@ import { uploadContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils/error'
 import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
 
+const props = defineProps(uploadDraggerProps)
+
+const emit = defineEmits(uploadDraggerEmits)
+
 const COMPONENT_NAME = 'ElUploadDrag'
 
 defineOptions({
   name: 'ElUploadDrag',
 })
-
-const props = defineProps(uploadDraggerProps)
-const emit = defineEmits(uploadDraggerEmits)
 
 const uploaderContext = inject(uploadContextKey)
 if (!uploaderContext) {
@@ -76,3 +67,13 @@ const onDragover = () => {
   if (!props.disabled) dragover.value = true
 }
 </script>
+<template>
+  <div
+    :class="[ns.b('dragger'), ns.is('dragover', dragover)]"
+    @drop.prevent="onDrop"
+    @dragover.prevent="onDragover"
+    @dragleave.prevent="dragover = false"
+  >
+    <slot />
+  </div>
+</template>

@@ -1,113 +1,3 @@
-<template>
-  <el-row :gutter="12">
-    <el-col :span="6" :xs="{ span: 12 }">
-      <div class="demo-color-box-group">
-        <div
-          v-for="(text, i) in textColors"
-          :key="i"
-          class="demo-color-box demo-color-box-other"
-          :style="{
-            color: 'var(--el-bg-color)',
-            background: text.var.value,
-          }"
-        >
-          {{ text.name }}
-          <div class="value" text="xs">
-            {{ text.var.value.toUpperCase() }}
-          </div>
-        </div>
-      </div>
-    </el-col>
-
-    <el-col :span="6" :xs="{ span: 12 }">
-      <div class="demo-color-box-group">
-        <div
-          v-for="(border, i) in borderColors"
-          :key="i"
-          class="demo-color-box demo-color-box-other demo-color-box-lite"
-          :style="{ background: border.var.value }"
-        >
-          {{ border.name }}
-          <div class="value" text="xs">
-            {{ border.var.value.toUpperCase() }}
-          </div>
-        </div>
-      </div>
-    </el-col>
-
-    <el-col :span="6" :xs="{ span: 12 }">
-      <div class="demo-color-box-group">
-        <div
-          v-for="(fill, i) in fillColors"
-          :key="i"
-          class="demo-color-box demo-color-box-other demo-color-box-lite"
-          :style="{
-            background: fill.var.value,
-            border: `1px solid ${
-              fill.name === 'Blank Fill'
-                ? 'var(--el-border-color-light)'
-                : 'transparent'
-            }`,
-          }"
-        >
-          {{ fill.name }}
-          <div class="value" text="xs">
-            {{ fill.var.value.toUpperCase() }}
-          </div>
-        </div>
-      </div>
-    </el-col>
-
-    <el-col :span="6" :xs="{ span: 12 }">
-      <div class="demo-color-box-group">
-        <div
-          class="demo-color-box demo-color-box-other"
-          :style="{ background: black }"
-        >
-          Basic Black
-          <div class="value" text="xs">{{ black }}</div>
-        </div>
-        <div
-          class="demo-color-box demo-color-box-other"
-          :style="{
-            background: white,
-            color: '#303133',
-            border: '1px solid #eee',
-          }"
-        >
-          Basic White
-          <div class="value" text="xs">{{ white }}</div>
-        </div>
-        <div
-          class="demo-color-box demo-color-box-other demo-color-box-lite bg-transparent"
-        >
-          Transparent
-          <div class="value" text="xs">Transparent</div>
-        </div>
-
-        <div
-          v-for="(bg, i) in backgroundColors"
-          :key="i"
-          class="demo-color-box demo-color-box-other demo-color-box-lite"
-          :style="{
-            background: bg.var.value,
-            border:
-              '1px solid ' +
-              (!isDark || bg.name === 'Base Background'
-                ? 'var(--el-border-color-light)'
-                : 'transparent'),
-          }"
-        >
-          {{ bg.name }}
-          <div class="value" text="xs">
-            {{ bg.var.value.toUpperCase() }}
-          </div>
-        </div>
-      </div>
-    </el-col>
-  </el-row>
-</template>
-
 <script lang="ts" setup>
 import { isDark } from '~/composables/dark'
 import { getCssVarName, getCssVarValue } from '~/utils/colors'
@@ -159,3 +49,113 @@ const textColors = textTypes.map((type) => {
 const black = '#000000'
 const white = '#FFFFFF'
 </script>
+
+<template>
+  <el-row :gutter="12">
+    <el-col :span="6" :xs="{ span: 12 }">
+      <div class="demo-color-box-group">
+        <div
+          v-for="(text, i) of textColors"
+          :key="i"
+          class="demo-color-box demo-color-box-other"
+          :style="{
+            color: 'var(--el-bg-color)',
+            background: text.var.value,
+          }"
+        >
+          {{ text.name }}
+          <div class="value" text="xs">
+            {{ text.var.value.toUpperCase() }}
+          </div>
+        </div>
+      </div>
+    </el-col>
+
+    <el-col :span="6" :xs="{ span: 12 }">
+      <div class="demo-color-box-group">
+        <div
+          v-for="(border, i) of borderColors"
+          :key="i"
+          class="demo-color-box demo-color-box-other demo-color-box-lite"
+          :style="{ background: border.var.value }"
+        >
+          {{ border.name }}
+          <div class="value" text="xs">
+            {{ border.var.value.toUpperCase() }}
+          </div>
+        </div>
+      </div>
+    </el-col>
+
+    <el-col :span="6" :xs="{ span: 12 }">
+      <div class="demo-color-box-group">
+        <div
+          v-for="(fill, i) of fillColors"
+          :key="i"
+          class="demo-color-box demo-color-box-other demo-color-box-lite"
+          :style="{
+            background: fill.var.value,
+            border: `1px solid ${
+              fill.name === 'Blank Fill'
+                ? 'var(--el-border-color-light)'
+                : 'transparent'
+            }`,
+          }"
+        >
+          {{ fill.name }}
+          <div class="value" text="xs">
+            {{ fill.var.value.toUpperCase() }}
+          </div>
+        </div>
+      </div>
+    </el-col>
+
+    <el-col :span="6" :xs="{ span: 12 }">
+      <div class="demo-color-box-group">
+        <div
+          class="demo-color-box demo-color-box-other"
+          :style="{ background: black }"
+        >
+          Basic Black
+          <div class="value" text="xs">{{ black }}</div>
+        </div>
+        <div
+          class="demo-color-box demo-color-box-other"
+          :style="{
+            background: white,
+            color: '#303133',
+            border: '1px solid #eee',
+          }"
+        >
+          Basic White
+          <div class="value" text="xs">{{ white }}</div>
+        </div>
+        <div
+          class="demo-color-box demo-color-box-other demo-color-box-lite bg-transparent"
+        >
+          Transparent
+          <div class="value" text="xs">Transparent</div>
+        </div>
+
+        <div
+          v-for="(bg, i) of backgroundColors"
+          :key="i"
+          class="demo-color-box demo-color-box-other demo-color-box-lite"
+          :style="{
+            background: bg.var.value,
+            border:
+              '1px solid ' +
+              (!isDark || bg.name === 'Base Background'
+                ? 'var(--el-border-color-light)'
+                : 'transparent'),
+          }"
+        >
+          {{ bg.name }}
+          <div class="value" text="xs">
+            {{ bg.var.value.toUpperCase() }}
+          </div>
+        </div>
+      </div>
+    </el-col>
+  </el-row>
+</template>

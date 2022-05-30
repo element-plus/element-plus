@@ -1,3 +1,62 @@
+<script lang="ts">
+import { computed, defineComponent, ref } from 'vue'
+import { Close } from '@element-plus/icons-vue'
+
+import { ElOverlay } from '@element-plus/components/overlay'
+import ElFocusTrap from '@element-plus/components/focus-trap'
+import { useDialog } from '@element-plus/components/dialog'
+import ElIcon from '@element-plus/components/icon'
+import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import { drawerEmits, drawerProps } from './drawer'
+
+export default defineComponent({
+  name: 'ElDrawer',
+  components: {
+    ElOverlay,
+    ElFocusTrap,
+    ElIcon,
+    Close,
+  },
+  props: drawerProps,
+  emits: drawerEmits,
+
+  setup(props, { slots }) {
+    useDeprecated(
+      {
+        scope: 'el-drawer',
+        from: 'the title slot',
+        replacement: 'the header slot',
+        version: '3.0.0',
+        ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
+      },
+      computed(() => !!slots.title)
+    )
+
+    const drawerRef = ref<HTMLElement>()
+    const focusStartRef = ref<HTMLElement>()
+    const ns = useNamespace('drawer')
+    const { t } = useLocale()
+
+    const isHorizontal = computed(
+      () => props.direction === 'rtl' || props.direction === 'ltr'
+    )
+    const drawerSize = computed(() =>
+      typeof props.size === 'number' ? `${props.size}px` : props.size
+    )
+
+    return {
+      ...useDialog(props, drawerRef),
+      drawerRef,
+      focusStartRef,
+      isHorizontal,
+      drawerSize,
+      ns,
+      t,
+    }
+  },
+})
+</script>
+
 <template>
   <teleport to="body" :disabled="!appendToBody">
     <transition
@@ -78,62 +137,3 @@
     </transition>
   </teleport>
 </template>
-
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import { Close } from '@element-plus/icons-vue'
-
-import { ElOverlay } from '@element-plus/components/overlay'
-import ElFocusTrap from '@element-plus/components/focus-trap'
-import { useDialog } from '@element-plus/components/dialog'
-import ElIcon from '@element-plus/components/icon'
-import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
-import { drawerEmits, drawerProps } from './drawer'
-
-export default defineComponent({
-  name: 'ElDrawer',
-  components: {
-    ElOverlay,
-    ElFocusTrap,
-    ElIcon,
-    Close,
-  },
-  props: drawerProps,
-  emits: drawerEmits,
-
-  setup(props, { slots }) {
-    useDeprecated(
-      {
-        scope: 'el-drawer',
-        from: 'the title slot',
-        replacement: 'the header slot',
-        version: '3.0.0',
-        ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
-      },
-      computed(() => !!slots.title)
-    )
-
-    const drawerRef = ref<HTMLElement>()
-    const focusStartRef = ref<HTMLElement>()
-    const ns = useNamespace('drawer')
-    const { t } = useLocale()
-
-    const isHorizontal = computed(
-      () => props.direction === 'rtl' || props.direction === 'ltr'
-    )
-    const drawerSize = computed(() =>
-      typeof props.size === 'number' ? `${props.size}px` : props.size
-    )
-
-    return {
-      ...useDialog(props, drawerRef),
-      drawerRef,
-      focusStartRef,
-      isHorizontal,
-      drawerSize,
-      ns,
-      t,
-    }
-  },
-})
-</script>

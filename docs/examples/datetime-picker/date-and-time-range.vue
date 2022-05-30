@@ -1,27 +1,3 @@
-<template>
-  <div class="block">
-    <span class="demonstration">Default</span>
-    <el-date-picker
-      v-model="value1"
-      type="datetimerange"
-      range-separator="To"
-      start-placeholder="Start date"
-      end-placeholder="End date"
-    />
-  </div>
-  <div class="block">
-    <span class="demonstration">With shortcuts</span>
-    <el-date-picker
-      v-model="value2"
-      type="datetimerange"
-      :shortcuts="shortcuts"
-      range-separator="To"
-      start-placeholder="Start date"
-      end-placeholder="End date"
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -61,6 +37,30 @@ const shortcuts = [
   },
 ]
 </script>
+
+<template>
+  <div class="block">
+    <span class="demonstration">Default</span>
+    <el-date-picker
+      v-model="value1"
+      type="datetimerange"
+      range-separator="To"
+      start-placeholder="Start date"
+      end-placeholder="End date"
+    />
+  </div>
+  <div class="block">
+    <span class="demonstration">With shortcuts</span>
+    <el-date-picker
+      v-model="value2"
+      type="datetimerange"
+      :shortcuts="shortcuts"
+      range-separator="To"
+      start-placeholder="Start date"
+      end-placeholder="End date"
+    />
+  </div>
+</template>
 <style scoped>
 .block {
   padding: 30px 0;

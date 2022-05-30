@@ -1,7 +1,15 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+const buttonRef = ref()
+const tooltipRef = ref()
+
+const visible = ref(false)
+</script>
+
 <template>
   <div>
     <el-button
-      v-for="i in 3"
+      v-for="i of 3"
       :key="i"
       @mouseover="(e) => (buttonRef = e.currentTarget)"
       @click="visible = !visible"
@@ -33,14 +41,6 @@
     </template>
   </el-tooltip>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-const buttonRef = ref()
-const tooltipRef = ref()
-
-const visible = ref(false)
-</script>
 
 <style>
 .singleton-tooltip {

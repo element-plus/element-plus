@@ -1,3 +1,25 @@
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+
+const size = ref('default')
+const labelPosition = ref('right')
+
+const sizeForm = reactive({
+  name: '',
+  region: '',
+  date1: '',
+  date2: '',
+  delivery: false,
+  type: [],
+  resource: '',
+  desc: '',
+})
+
+function onSubmit() {
+  console.log('submit!')
+}
+</script>
+
 <template>
   <div>
     <el-radio-group v-model="size" label="size control">
@@ -69,28 +91,6 @@
     </el-form-item>
   </el-form>
 </template>
-
-<script lang="ts" setup>
-import { reactive, ref } from 'vue'
-
-const size = ref('default')
-const labelPosition = ref('right')
-
-const sizeForm = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
-})
-
-function onSubmit() {
-  console.log('submit!')
-}
-</script>
 
 <style>
 .el-radio-group {

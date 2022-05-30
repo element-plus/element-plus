@@ -1,66 +1,3 @@
-<template>
-  <div
-    ref="root"
-    :class="carouselClasses"
-    @mouseenter.stop="handleMouseEnter"
-    @mouseleave.stop="handleMouseLeave"
-  >
-    <div :class="ns.e('container')" :style="{ height: height }">
-      <transition v-if="arrowDisplay" name="carousel-arrow-left">
-        <button
-          v-show="
-            (arrow === 'always' || hover) && (props.loop || activeIndex > 0)
-          "
-          type="button"
-          :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
-          @mouseenter="handleButtonEnter('left')"
-          @mouseleave="handleButtonLeave"
-          @click.stop="throttledArrowClick(activeIndex - 1)"
-        >
-          <ElIcon>
-            <ArrowLeft />
-          </ElIcon>
-        </button>
-      </transition>
-      <transition v-if="arrowDisplay" name="carousel-arrow-right">
-        <button
-          v-show="
-            (arrow === 'always' || hover) &&
-            (props.loop || activeIndex < items.length - 1)
-          "
-          type="button"
-          :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
-          @mouseenter="handleButtonEnter('right')"
-          @mouseleave="handleButtonLeave"
-          @click.stop="throttledArrowClick(activeIndex + 1)"
-        >
-          <ElIcon>
-            <ArrowRight />
-          </ElIcon>
-        </button>
-      </transition>
-      <slot />
-    </div>
-    <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
-      <li
-        v-for="(item, index) in items"
-        :key="index"
-        :class="[
-          ns.e('indicator'),
-          ns.em('indicator', direction),
-          ns.is('active', index === activeIndex),
-        ]"
-        @mouseenter="throttledIndicatorHover(index)"
-        @click.stop="handleIndicatorClick(index)"
-      >
-        <button :class="ns.e('button')">
-          <span v-if="hasLabel">{{ item.props.label }}</span>
-        </button>
-      </li>
-    </ul>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import {
   computed,
@@ -83,12 +20,14 @@ import { carouselContextKey } from '@element-plus/tokens'
 import { carouselEmits, carouselProps } from './carousel'
 import type { CarouselItemContext } from '@element-plus/tokens'
 
+const props = defineProps(carouselProps)
+
+const emit = defineEmits(carouselEmits)
+
 defineOptions({
   name: 'ElCarousel',
 })
 
-const props = defineProps(carouselProps)
-const emit = defineEmits(carouselEmits)
 const ns = useNamespace('carousel')
 const COMPONENT_NAME = 'ElCarousel'
 const THROTTLE_TIME = 300
@@ -339,3 +278,66 @@ defineExpose({
   next,
 })
 </script>
+
+<template>
+  <div
+    ref="root"
+    :class="carouselClasses"
+    @mouseenter.stop="handleMouseEnter"
+    @mouseleave.stop="handleMouseLeave"
+  >
+    <div :class="ns.e('container')" :style="{ height: height }">
+      <transition v-if="arrowDisplay" name="carousel-arrow-left">
+        <button
+          v-show="
+            (arrow === 'always' || hover) && (props.loop || activeIndex > 0)
+          "
+          type="button"
+          :class="[ns.e('arrow'), ns.em('arrow', 'left')]"
+          @mouseenter="handleButtonEnter('left')"
+          @mouseleave="handleButtonLeave"
+          @click.stop="throttledArrowClick(activeIndex - 1)"
+        >
+          <ElIcon>
+            <ArrowLeft />
+          </ElIcon>
+        </button>
+      </transition>
+      <transition v-if="arrowDisplay" name="carousel-arrow-right">
+        <button
+          v-show="
+            (arrow === 'always' || hover) &&
+            (props.loop || activeIndex < items.length - 1)
+          "
+          type="button"
+          :class="[ns.e('arrow'), ns.em('arrow', 'right')]"
+          @mouseenter="handleButtonEnter('right')"
+          @mouseleave="handleButtonLeave"
+          @click.stop="throttledArrowClick(activeIndex + 1)"
+        >
+          <ElIcon>
+            <ArrowRight />
+          </ElIcon>
+        </button>
+      </transition>
+      <slot />
+    </div>
+    <ul v-if="indicatorPosition !== 'none'" :class="indicatorsClasses">
+      <li
+        v-for="(item, index) of items"
+        :key="index"
+        :class="[
+          ns.e('indicator'),
+          ns.em('indicator', direction),
+          ns.is('active', index === activeIndex),
+        ]"
+        @mouseenter="throttledIndicatorHover(index)"
+        @click.stop="handleIndicatorClick(index)"
+      >
+        <button :class="ns.e('button')">
+          <span v-if="hasLabel">{{ item.props.label }}</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</template>

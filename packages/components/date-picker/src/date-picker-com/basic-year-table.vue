@@ -1,35 +1,3 @@
-<template>
-  <table
-    role="grid"
-    :aria-label="t('el.datepicker.yearTablePrompt')"
-    :class="ns.b()"
-    @click="handleYearTableClick"
-  >
-    <tbody ref="tbodyRef">
-      <tr v-for="(_, i) in 3" :key="i">
-        <template v-for="(__, j) in 4" :key="i + '_' + j">
-          <td
-            v-if="i * 4 + j < 10"
-            :ref="
-              (el) =>
-                isSelectedCell(startYear + i * 4 + j) && (currentCellRef = el as HTMLElement)
-            "
-            class="available"
-            :class="getCellStyle(startYear + i * 4 + j)"
-            :aria-selected="`${isSelectedCell(startYear + i * 4 + j)}`"
-            :tabindex="isSelectedCell(startYear + i * 4 + j) ? 0 : -1"
-            @keydown.space.prevent.stop="handleYearTableClick"
-            @keydown.enter.prevent.stop="handleYearTableClick"
-          >
-            <span class="cell">{{ startYear + i * 4 + j }}</span>
-          </td>
-          <td v-else />
-        </template>
-      </tr>
-    </tbody>
-  </table>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
@@ -123,3 +91,35 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <table
+    role="grid"
+    :aria-label="t('el.datepicker.yearTablePrompt')"
+    :class="ns.b()"
+    @click="handleYearTableClick"
+  >
+    <tbody ref="tbodyRef">
+      <tr v-for="(_, i) of 3" :key="i">
+        <template v-for="(__, j) of 4" :key="i + '_' + j">
+          <td
+            v-if="i * 4 + j < 10"
+            :ref="
+              (el) =>
+                isSelectedCell(startYear + i * 4 + j) && (currentCellRef = el as HTMLElement)
+            "
+            class="available"
+            :class="getCellStyle(startYear + i * 4 + j)"
+            :aria-selected="`${isSelectedCell(startYear + i * 4 + j)}`"
+            :tabindex="isSelectedCell(startYear + i * 4 + j) ? 0 : -1"
+            @keydown.space.prevent.stop="handleYearTableClick"
+            @keydown.enter.prevent.stop="handleYearTableClick"
+          >
+            <span class="cell">{{ startYear + i * 4 + j }}</span>
+          </td>
+          <td v-else />
+        </template>
+      </tr>
+    </tbody>
+  </table>
+</template>

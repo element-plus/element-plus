@@ -1,3 +1,10 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const color1 = ref('#409EFF')
+const color2 = ref()
+</script>
+
 <template>
   <div class="demo-color-block">
     <span class="demonstration">With default value</span>
@@ -8,13 +15,6 @@
     <el-color-picker v-model="color2" />
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const color1 = ref('#409EFF')
-const color2 = ref()
-</script>
 
 <style>
 .demo-color-block {

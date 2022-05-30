@@ -1,9 +1,3 @@
-<template>
-  <component :is="tag" :class="[ns.b(), classes]" :style="style">
-    <slot />
-  </component>
-</template>
-
 <script setup lang="ts">
 import { computed, inject } from 'vue'
 import { isNumber, isObject } from '@element-plus/utils'
@@ -12,11 +6,11 @@ import { rowContextKey } from '@element-plus/tokens'
 import { colProps } from './col'
 import type { CSSProperties } from 'vue'
 
+const props = defineProps(colProps)
+
 defineOptions({
   name: 'ElCol',
 })
-
-const props = defineProps(colProps)
 
 const { gutter } = inject(rowContextKey, { gutter: computed(() => 0) })
 const ns = useNamespace('col')
@@ -63,3 +57,9 @@ const classes = computed(() => {
   return classes
 })
 </script>
+
+<template>
+  <component :is="tag" :class="[ns.b(), classes]" :style="style">
+    <slot />
+  </component>
+</template>

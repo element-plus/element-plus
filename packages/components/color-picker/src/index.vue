@@ -1,106 +1,3 @@
-<template>
-  <el-tooltip
-    ref="popper"
-    v-model:visible="showPicker"
-    :show-arrow="false"
-    :fallback-placements="['bottom', 'top', 'right', 'left']"
-    :offset="0"
-    :gpu-acceleration="false"
-    :popper-class="[ns.be('picker', 'panel'), ns.b('dropdown'), popperClass]"
-    :stop-popper-mouse-event="false"
-    effect="light"
-    trigger="click"
-    transition="el-zoom-in-top"
-    persistent
-  >
-    <template #content>
-      <div v-click-outside="hide">
-        <div :class="ns.be('dropdown', 'main-wrapper')">
-          <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
-          <sv-panel ref="svPanel" :color="color" />
-        </div>
-        <alpha-slider v-if="showAlpha" ref="alpha" :color="color" />
-        <predefine
-          v-if="predefine"
-          ref="predefine"
-          :color="color"
-          :colors="predefine"
-        />
-        <div :class="ns.be('dropdown', 'btns')">
-          <span :class="ns.be('dropdown', 'value')">
-            <el-input
-              v-model="customInput"
-              :validate-event="false"
-              size="small"
-              @keyup.enter="handleConfirm"
-              @blur="handleConfirm"
-            />
-          </span>
-          <el-button
-            :class="ns.be('dropdown', 'link-btn')"
-            text
-            size="small"
-            @click="clear"
-          >
-            {{ t('el.colorpicker.clear') }}
-          </el-button>
-          <el-button
-            plain
-            size="small"
-            :class="ns.be('dropdown', 'btn')"
-            @click="confirmValue"
-          >
-            {{ t('el.colorpicker.confirm') }}
-          </el-button>
-        </div>
-      </div>
-    </template>
-    <template #default>
-      <div
-        :id="buttonId"
-        :class="[
-          ns.b('picker'),
-          ns.is('disabled', colorDisabled),
-          ns.bm('picker', colorSize),
-        ]"
-        role="button"
-        :aria-label="buttonAriaLabel"
-        :aria-labelledby="buttonAriaLabelledby"
-        :aria-description="
-          t('el.colorpicker.description', { color: modelValue })
-        "
-        :tabindex="tabindex"
-        @keydown.enter="handleTrigger"
-      >
-        <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
-        <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
-          <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
-            <span
-              :class="ns.be('picker', 'color-inner')"
-              :style="{
-                backgroundColor: displayedColor,
-              }"
-            >
-              <el-icon
-                v-show="modelValue || showPanelColor"
-                :class="[ns.be('picker', 'icon'), ns.is('icon-arrow-down')]"
-              >
-                <arrow-down />
-              </el-icon>
-              <el-icon
-                v-if="!modelValue && !showPanelColor"
-                :class="[ns.be('picker', 'empty'), ns.is('icon-close')]"
-              >
-                <close />
-              </el-icon>
-            </span>
-          </span>
-        </div>
-      </div>
-    </template>
-  </el-tooltip>
-</template>
-
 <script lang="ts">
 import {
   computed,
@@ -379,3 +276,106 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <el-tooltip
+    ref="popper"
+    v-model:visible="showPicker"
+    :show-arrow="false"
+    :fallback-placements="['bottom', 'top', 'right', 'left']"
+    :offset="0"
+    :gpu-acceleration="false"
+    :popper-class="[ns.be('picker', 'panel'), ns.b('dropdown'), popperClass]"
+    :stop-popper-mouse-event="false"
+    effect="light"
+    trigger="click"
+    transition="el-zoom-in-top"
+    persistent
+  >
+    <template #content>
+      <div v-click-outside="hide">
+        <div :class="ns.be('dropdown', 'main-wrapper')">
+          <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
+          <sv-panel ref="svPanel" :color="color" />
+        </div>
+        <alpha-slider v-if="showAlpha" ref="alpha" :color="color" />
+        <predefine
+          v-if="predefine"
+          ref="predefine"
+          :color="color"
+          :colors="predefine"
+        />
+        <div :class="ns.be('dropdown', 'btns')">
+          <span :class="ns.be('dropdown', 'value')">
+            <el-input
+              v-model="customInput"
+              :validate-event="false"
+              size="small"
+              @keyup.enter="handleConfirm"
+              @blur="handleConfirm"
+            />
+          </span>
+          <el-button
+            :class="ns.be('dropdown', 'link-btn')"
+            text
+            size="small"
+            @click="clear"
+          >
+            {{ t('el.colorpicker.clear') }}
+          </el-button>
+          <el-button
+            plain
+            size="small"
+            :class="ns.be('dropdown', 'btn')"
+            @click="confirmValue"
+          >
+            {{ t('el.colorpicker.confirm') }}
+          </el-button>
+        </div>
+      </div>
+    </template>
+    <template #default>
+      <div
+        :id="buttonId"
+        :class="[
+          ns.b('picker'),
+          ns.is('disabled', colorDisabled),
+          ns.bm('picker', colorSize),
+        ]"
+        role="button"
+        :aria-label="buttonAriaLabel"
+        :aria-labelledby="buttonAriaLabelledby"
+        :aria-description="
+          t('el.colorpicker.description', { color: modelValue })
+        "
+        :tabindex="tabindex"
+        @keydown.enter="handleTrigger"
+      >
+        <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
+        <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
+          <span :class="[ns.be('picker', 'color'), ns.is('alpha', showAlpha)]">
+            <span
+              :class="ns.be('picker', 'color-inner')"
+              :style="{
+                backgroundColor: displayedColor,
+              }"
+            >
+              <el-icon
+                v-show="modelValue || showPanelColor"
+                :class="[ns.be('picker', 'icon'), ns.is('icon-arrow-down')]"
+              >
+                <arrow-down />
+              </el-icon>
+              <el-icon
+                v-if="!modelValue && !showPanelColor"
+                :class="[ns.be('picker', 'empty'), ns.is('icon-close')]"
+              >
+                <close />
+              </el-icon>
+            </span>
+          </span>
+        </div>
+      </div>
+    </template>
+  </el-tooltip>
+</template>

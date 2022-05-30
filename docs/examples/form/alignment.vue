@@ -1,3 +1,15 @@
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+
+const labelPosition = ref('right')
+
+const formLabelAlign = reactive({
+  name: '',
+  region: '',
+  type: '',
+})
+</script>
+
 <template>
   <el-radio-group v-model="labelPosition" label="label position">
     <el-radio-button label="left">Left</el-radio-button>
@@ -22,15 +34,3 @@
     </el-form-item>
   </el-form>
 </template>
-
-<script lang="ts" setup>
-import { reactive, ref } from 'vue'
-
-const labelPosition = ref('right')
-
-const formLabelAlign = reactive({
-  name: '',
-  region: '',
-  type: '',
-})
-</script>

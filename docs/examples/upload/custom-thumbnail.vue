@@ -1,3 +1,26 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
+
+import type { UploadFile } from 'element-plus'
+
+const dialogImageUrl = ref('')
+const dialogVisible = ref(false)
+const disabled = ref(false)
+
+const handleRemove = (file: UploadFile) => {
+  console.log(file)
+}
+
+const handlePictureCardPreview = (file: UploadFile) => {
+  dialogImageUrl.value = file.url!
+  dialogVisible.value = true
+}
+
+const handleDownload = (file: UploadFile) => {
+  console.log(file)
+}
+</script>
 <template>
   <el-upload action="#" list-type="picture-card" :auto-upload="false">
     <el-icon><Plus /></el-icon>
@@ -35,26 +58,3 @@
     <img w-full :src="dialogImageUrl" alt="Preview Image" />
   </el-dialog>
 </template>
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { Delete, Download, Plus, ZoomIn } from '@element-plus/icons-vue'
-
-import type { UploadFile } from 'element-plus'
-
-const dialogImageUrl = ref('')
-const dialogVisible = ref(false)
-const disabled = ref(false)
-
-const handleRemove = (file: UploadFile) => {
-  console.log(file)
-}
-
-const handlePictureCardPreview = (file: UploadFile) => {
-  dialogImageUrl.value = file.url!
-  dialogVisible.value = true
-}
-
-const handleDownload = (file: UploadFile) => {
-  console.log(file)
-}
-</script>

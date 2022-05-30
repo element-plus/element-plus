@@ -1,14 +1,3 @@
-<template>
-  <ul v-show="visible" :class="ns.be('group', 'wrap')">
-    <li :class="ns.be('group', 'title')">{{ label }}</li>
-    <li>
-      <ul :class="ns.b('group')">
-        <slot />
-      </ul>
-    </li>
-  </ul>
-</template>
-
 <script lang="ts">
 import {
   defineComponent,
@@ -87,3 +76,14 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <ul v-show="visible" :class="ns.be('group', 'wrap')">
+    <li :class="ns.be('group', 'title')">{{ label }}</li>
+    <li>
+      <ul :class="ns.b('group')">
+        <slot />
+      </ul>
+    </li>
+  </ul>
+</template>

@@ -1,56 +1,3 @@
-<template>
-  <div :class="ns.b('panel')">
-    <p :class="ns.be('panel', 'header')">
-      <el-checkbox
-        v-model="allChecked"
-        :indeterminate="isIndeterminate"
-        @change="handleAllCheckedChange"
-      >
-        {{ title }}
-        <span>{{ checkedSummary }}</span>
-      </el-checkbox>
-    </p>
-
-    <div :class="[ns.be('panel', 'body'), ns.is('with-footer', hasFooter)]">
-      <el-input
-        v-if="filterable"
-        v-model="query"
-        :class="ns.be('panel', 'filter')"
-        size="default"
-        :placeholder="placeholder"
-        :prefix-icon="SearchIcon"
-        clearable
-        @mouseenter="inputHover = true"
-        @mouseleave="inputHover = false"
-      />
-      <el-checkbox-group
-        v-show="!hasNoMatch && data.length > 0"
-        v-model="checked"
-        :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
-      >
-        <el-checkbox
-          v-for="item in filteredData"
-          :key="item[keyProp]"
-          :class="ns.be('panel', 'item')"
-          :label="item[keyProp]"
-          :disabled="item[disabledProp]"
-        >
-          <option-content :option="optionRender(item)" />
-        </el-checkbox>
-      </el-checkbox-group>
-      <p
-        v-show="hasNoMatch || data.length === 0"
-        :class="ns.be('panel', 'empty')"
-      >
-        {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
-      </p>
-    </div>
-    <p v-if="hasFooter" :class="ns.be('panel', 'footer')">
-      <slot />
-    </p>
-  </div>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent, reactive, toRefs } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -129,3 +76,56 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div :class="ns.b('panel')">
+    <p :class="ns.be('panel', 'header')">
+      <el-checkbox
+        v-model="allChecked"
+        :indeterminate="isIndeterminate"
+        @change="handleAllCheckedChange"
+      >
+        {{ title }}
+        <span>{{ checkedSummary }}</span>
+      </el-checkbox>
+    </p>
+
+    <div :class="[ns.be('panel', 'body'), ns.is('with-footer', hasFooter)]">
+      <el-input
+        v-if="filterable"
+        v-model="query"
+        :class="ns.be('panel', 'filter')"
+        size="default"
+        :placeholder="placeholder"
+        :prefix-icon="SearchIcon"
+        clearable
+        @mouseenter="inputHover = true"
+        @mouseleave="inputHover = false"
+      />
+      <el-checkbox-group
+        v-show="!hasNoMatch && data.length > 0"
+        v-model="checked"
+        :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
+      >
+        <el-checkbox
+          v-for="item of filteredData"
+          :key="item[keyProp]"
+          :class="ns.be('panel', 'item')"
+          :label="item[keyProp]"
+          :disabled="item[disabledProp]"
+        >
+          <option-content :option="optionRender(item)" />
+        </el-checkbox>
+      </el-checkbox-group>
+      <p
+        v-show="hasNoMatch || data.length === 0"
+        :class="ns.be('panel', 'empty')"
+      >
+        {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
+      </p>
+    </div>
+    <p v-if="hasFooter" :class="ns.be('panel', 'footer')">
+      <slot />
+    </p>
+  </div>
+</template>

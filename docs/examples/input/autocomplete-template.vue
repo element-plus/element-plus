@@ -1,23 +1,3 @@
-<template>
-  <el-autocomplete
-    v-model="state"
-    :fetch-suggestions="querySearch"
-    popper-class="my-autocomplete"
-    placeholder="Please input"
-    @select="handleSelect"
-  >
-    <template #suffix>
-      <el-icon class="el-input__icon" @click="handleIconClick">
-        <edit />
-      </el-icon>
-    </template>
-    <template #default="{ item }">
-      <div class="value">{{ item.value }}</div>
-      <span class="link">{{ item.link }}</span>
-    </template>
-  </el-autocomplete>
-</template>
-
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { Edit } from '@element-plus/icons-vue'
@@ -67,6 +47,26 @@ onMounted(() => {
   links.value = loadAll()
 })
 </script>
+
+<template>
+  <el-autocomplete
+    v-model="state"
+    :fetch-suggestions="querySearch"
+    popper-class="my-autocomplete"
+    placeholder="Please input"
+    @select="handleSelect"
+  >
+    <template #suffix>
+      <el-icon class="el-input__icon" @click="handleIconClick">
+        <edit />
+      </el-icon>
+    </template>
+    <template #default="{ item }">
+      <div class="value">{{ item.value }}</div>
+      <span class="link">{{ item.link }}</span>
+    </template>
+  </el-autocomplete>
+</template>
 
 <style>
 .my-autocomplete li {

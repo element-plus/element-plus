@@ -5,11 +5,10 @@ import VPLink from '../common/vp-link.vue'
 import { isActiveLink } from '../../utils'
 
 import type { Link } from '../../types'
-const USER_VISITED_NEW_RESOURCE_PAGE = 'USER_VISITED_NEW_RESOURCE_PAGE'
 defineProps<{
   item: Link
 }>()
-
+const USER_VISITED_NEW_RESOURCE_PAGE = 'USER_VISITED_NEW_RESOURCE_PAGE'
 const route = useRoute()
 const isVisited = useStorage<boolean | string>(
   USER_VISITED_NEW_RESOURCE_PAGE,

@@ -1,3 +1,10 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value1 = ref('')
+const value2 = ref('')
+</script>
+
 <template>
   <div class="demo-date-picker">
     <div class="block">
@@ -21,13 +28,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const value1 = ref('')
-const value2 = ref('')
-</script>
 <style scoped>
 .demo-date-picker {
   display: flex;

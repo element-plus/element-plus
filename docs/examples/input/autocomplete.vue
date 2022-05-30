@@ -1,35 +1,3 @@
-<template>
-  <el-row class="demo-autocomplete text-center">
-    <el-col :span="12">
-      <div class="sub-title my-2 text-sm text-gray-600">
-        list suggestions when activated
-      </div>
-      <el-autocomplete
-        v-model="state1"
-        :fetch-suggestions="querySearch"
-        clearable
-        class="inline-input w-50"
-        placeholder="Please Input"
-        @select="handleSelect"
-      />
-    </el-col>
-    <el-col :span="12">
-      <div class="sub-title my-2 text-sm text-gray-600">
-        list suggestions on input
-      </div>
-      <el-autocomplete
-        v-model="state2"
-        :fetch-suggestions="querySearch"
-        :trigger-on-focus="false"
-        clearable
-        class="inline-input w-50"
-        placeholder="Please Input"
-        @select="handleSelect"
-      />
-    </el-col>
-  </el-row>
-</template>
-
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 
@@ -76,3 +44,35 @@ onMounted(() => {
   restaurants.value = loadAll()
 })
 </script>
+
+<template>
+  <el-row class="demo-autocomplete text-center">
+    <el-col :span="12">
+      <div class="sub-title my-2 text-sm text-gray-600">
+        list suggestions when activated
+      </div>
+      <el-autocomplete
+        v-model="state1"
+        :fetch-suggestions="querySearch"
+        clearable
+        class="inline-input w-50"
+        placeholder="Please Input"
+        @select="handleSelect"
+      />
+    </el-col>
+    <el-col :span="12">
+      <div class="sub-title my-2 text-sm text-gray-600">
+        list suggestions on input
+      </div>
+      <el-autocomplete
+        v-model="state2"
+        :fetch-suggestions="querySearch"
+        :trigger-on-focus="false"
+        clearable
+        class="inline-input w-50"
+        placeholder="Please Input"
+        @select="handleSelect"
+      />
+    </el-col>
+  </el-row>
+</template>

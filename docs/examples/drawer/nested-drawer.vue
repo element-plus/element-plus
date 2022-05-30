@@ -1,3 +1,21 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { ElMessageBox } from 'element-plus'
+
+const drawer = ref(false)
+const innerDrawer = ref(false)
+
+const handleClose = (done: () => void) => {
+  ElMessageBox.confirm('You still have unsaved data, proceed?')
+    .then(() => {
+      done()
+    })
+    .catch(() => {
+      // catch error
+    })
+}
+</script>
+
 <template>
   <el-button type="primary" style="margin-left: 16px" @click="drawer = true">
     open
@@ -17,21 +35,3 @@
     </div>
   </el-drawer>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { ElMessageBox } from 'element-plus'
-
-const drawer = ref(false)
-const innerDrawer = ref(false)
-
-const handleClose = (done: () => void) => {
-  ElMessageBox.confirm('You still have unsaved data, proceed?')
-    .then(() => {
-      done()
-    })
-    .catch(() => {
-      // catch error
-    })
-}
-</script>

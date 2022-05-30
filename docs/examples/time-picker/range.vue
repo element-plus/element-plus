@@ -1,3 +1,10 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value1 = ref([new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)])
+const value2 = ref([new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)])
+</script>
+
 <template>
   <div class="demo-range">
     <el-time-picker
@@ -17,13 +24,6 @@
     />
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const value1 = ref([new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)])
-const value2 = ref([new Date(2016, 9, 10, 8, 40), new Date(2016, 9, 10, 9, 40)])
-</script>
 
 <style>
 .demo-range .el-date-editor {

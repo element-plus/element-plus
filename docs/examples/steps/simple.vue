@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <el-steps :space="200" :active="1" simple>
     <el-step title="Step 1" :icon="Edit" />
@@ -11,7 +15,3 @@
     <el-step title="Step 3" />
   </el-steps>
 </template>
-
-<script lang="ts" setup>
-import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
-</script>

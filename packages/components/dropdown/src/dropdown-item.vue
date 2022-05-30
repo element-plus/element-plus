@@ -1,20 +1,3 @@
-<template>
-  <el-dropdown-collection-item
-    :disabled="disabled"
-    :text-value="textValue ?? textContent"
-  >
-    <el-roving-focus-item :focusable="!disabled">
-      <el-dropdown-item-impl
-        v-bind="propsAndAttrs"
-        @pointerleave="handlePointerLeave"
-        @pointermove="handlePointerMove"
-        @clickimpl="handleClick"
-      >
-        <slot />
-      </el-dropdown-item-impl>
-    </el-roving-focus-item>
-  </el-dropdown-collection-item>
-</template>
 <script lang="ts">
 import {
   computed,
@@ -113,3 +96,20 @@ export default defineComponent({
   },
 })
 </script>
+<template>
+  <el-dropdown-collection-item
+    :disabled="disabled"
+    :text-value="textValue ?? textContent"
+  >
+    <el-roving-focus-item :focusable="!disabled">
+      <el-dropdown-item-impl
+        v-bind="propsAndAttrs"
+        @pointerleave="handlePointerLeave"
+        @pointermove="handlePointerMove"
+        @clickimpl="handleClick"
+      >
+        <slot />
+      </el-dropdown-item-impl>
+    </el-roving-focus-item>
+  </el-dropdown-collection-item>
+</template>

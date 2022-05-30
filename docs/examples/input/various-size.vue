@@ -1,3 +1,11 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { Search } from '@element-plus/icons-vue'
+const input1 = ref('')
+const input2 = ref('')
+const input3 = ref('')
+</script>
+
 <template>
   <div class="demo-input-size">
     <el-input
@@ -59,11 +67,3 @@
     />
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { Search } from '@element-plus/icons-vue'
-const input1 = ref('')
-const input2 = ref('')
-const input3 = ref('')
-</script>

@@ -1,3 +1,17 @@
+<script lang="ts" setup>
+import { ElIcon } from '@element-plus/components/icon'
+import { useNamespace } from '@element-plus/hooks'
+import { timelineItemProps } from './timeline-item'
+
+defineProps(timelineItemProps)
+
+defineOptions({
+  name: 'ElTimelineItem',
+})
+
+const ns = useNamespace('timeline-item')
+</script>
+
 <template>
   <li :class="[ns.b(), { [ns.e('center')]: center }]">
     <div :class="ns.e('tail')" />
@@ -42,17 +56,3 @@
     </div>
   </li>
 </template>
-
-<script lang="ts" setup>
-import { ElIcon } from '@element-plus/components/icon'
-import { useNamespace } from '@element-plus/hooks'
-import { timelineItemProps } from './timeline-item'
-
-defineOptions({
-  name: 'ElTimelineItem',
-})
-
-defineProps(timelineItemProps)
-
-const ns = useNamespace('timeline-item')
-</script>

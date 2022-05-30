@@ -1,94 +1,3 @@
-<template>
-  <el-tooltip
-    ref="popperRef"
-    v-model:visible="suggestionVisible"
-    :placement="placement"
-    :fallback-placements="['bottom-start', 'top-start']"
-    :popper-class="[ns.e('popper'), popperClass]"
-    :teleported="teleported"
-    :gpu-acceleration="false"
-    pure
-    manual-mode
-    effect="light"
-    trigger="click"
-    :transition="`${ns.namespace.value}-zoom-in-top`"
-    persistent
-    @before-show="onSuggestionShow"
-  >
-    <div
-      ref="listboxRef"
-      :class="[ns.b(), $attrs.class]"
-      :style="styles"
-      role="combobox"
-      aria-haspopup="listbox"
-      :aria-expanded="suggestionVisible"
-      :aria-owns="listboxId"
-    >
-      <el-input
-        ref="inputRef"
-        v-bind="attrs"
-        :model-value="modelValue"
-        @input="handleInput"
-        @change="handleChange"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @clear="handleClear"
-        @keydown.up.prevent="highlight(highlightedIndex - 1)"
-        @keydown.down.prevent="highlight(highlightedIndex + 1)"
-        @keydown.enter="handleKeyEnter"
-        @keydown.tab="close"
-        @keydown.esc="handleKeyEscape"
-      >
-        <template v-if="$slots.prepend" #prepend>
-          <slot name="prepend" />
-        </template>
-        <template v-if="$slots.append" #append>
-          <slot name="append" />
-        </template>
-        <template v-if="$slots.prefix" #prefix>
-          <slot name="prefix" />
-        </template>
-        <template v-if="$slots.suffix" #suffix>
-          <slot name="suffix" />
-        </template>
-      </el-input>
-    </div>
-    <template #content>
-      <div
-        ref="regionRef"
-        :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
-        :style="{ minWidth: dropdownWidth, outline: 'none' }"
-        role="region"
-      >
-        <el-scrollbar
-          :id="listboxId"
-          tag="ul"
-          :wrap-class="ns.be('suggestion', 'wrap')"
-          :view-class="ns.be('suggestion', 'list')"
-          role="listbox"
-        >
-          <li v-if="suggestionLoading">
-            <el-icon :class="ns.is('loading')"><Loading /></el-icon>
-          </li>
-          <template v-else>
-            <li
-              v-for="(item, index) in suggestions"
-              :id="`${listboxId}-item-${index}`"
-              :key="index"
-              :class="{ highlighted: highlightedIndex === index }"
-              role="option"
-              :aria-selected="highlightedIndex === index"
-              @click="handleSelect(item)"
-            >
-              <slot :item="item">{{ item[valueKey] }}</slot>
-            </li>
-          </template>
-        </el-scrollbar>
-      </div>
-    </template>
-  </el-tooltip>
-</template>
-
 <script lang="ts" setup>
 import {
   computed,
@@ -118,15 +27,16 @@ import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 
+const props = defineProps(autocompleteProps)
+
+const emit = defineEmits(autocompleteEmits)
+
 defineOptions({
   name: 'ElAutocomplete',
   inheritAttrs: false,
 })
 
 const COMPONENT_NAME = 'ElAutocomplete'
-
-const props = defineProps(autocompleteProps)
-const emit = defineEmits(autocompleteEmits)
 
 const attrs = useAttrs()
 const rawAttrs = useRawAttrs()
@@ -343,3 +253,94 @@ defineExpose({
   highlight,
 })
 </script>
+
+<template>
+  <el-tooltip
+    ref="popperRef"
+    v-model:visible="suggestionVisible"
+    :placement="placement"
+    :fallback-placements="['bottom-start', 'top-start']"
+    :popper-class="[ns.e('popper'), popperClass]"
+    :teleported="teleported"
+    :gpu-acceleration="false"
+    pure
+    manual-mode
+    effect="light"
+    trigger="click"
+    :transition="`${ns.namespace.value}-zoom-in-top`"
+    persistent
+    @before-show="onSuggestionShow"
+  >
+    <div
+      ref="listboxRef"
+      :class="[ns.b(), $attrs.class]"
+      :style="styles"
+      role="combobox"
+      aria-haspopup="listbox"
+      :aria-expanded="suggestionVisible"
+      :aria-owns="listboxId"
+    >
+      <el-input
+        ref="inputRef"
+        v-bind="attrs"
+        :model-value="modelValue"
+        @input="handleInput"
+        @change="handleChange"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @clear="handleClear"
+        @keydown.up.prevent="highlight(highlightedIndex - 1)"
+        @keydown.down.prevent="highlight(highlightedIndex + 1)"
+        @keydown.enter="handleKeyEnter"
+        @keydown.tab="close"
+        @keydown.esc="handleKeyEscape"
+      >
+        <template v-if="$slots.prepend" #prepend>
+          <slot name="prepend" />
+        </template>
+        <template v-if="$slots.append" #append>
+          <slot name="append" />
+        </template>
+        <template v-if="$slots.prefix" #prefix>
+          <slot name="prefix" />
+        </template>
+        <template v-if="$slots.suffix" #suffix>
+          <slot name="suffix" />
+        </template>
+      </el-input>
+    </div>
+    <template #content>
+      <div
+        ref="regionRef"
+        :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
+        :style="{ minWidth: dropdownWidth, outline: 'none' }"
+        role="region"
+      >
+        <el-scrollbar
+          :id="listboxId"
+          tag="ul"
+          :wrap-class="ns.be('suggestion', 'wrap')"
+          :view-class="ns.be('suggestion', 'list')"
+          role="listbox"
+        >
+          <li v-if="suggestionLoading">
+            <el-icon :class="ns.is('loading')"><Loading /></el-icon>
+          </li>
+          <template v-else>
+            <li
+              v-for="(item, index) of suggestions"
+              :id="`${listboxId}-item-${index}`"
+              :key="index"
+              :class="{ highlighted: highlightedIndex === index }"
+              role="option"
+              :aria-selected="highlightedIndex === index"
+              @click="handleSelect(item)"
+            >
+              <slot :item="item">{{ item[valueKey] }}</slot>
+            </li>
+          </template>
+        </el-scrollbar>
+      </div>
+    </template>
+  </el-tooltip>
+</template>

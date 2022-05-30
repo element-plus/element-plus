@@ -1,20 +1,3 @@
-<template>
-  <div class="demo-progress">
-    <el-progress :percentage="percentage" :color="customColor" />
-
-    <el-progress :percentage="percentage" :color="customColorMethod" />
-
-    <el-progress :percentage="percentage" :color="customColors" />
-    <el-progress :percentage="percentage" :color="customColors" />
-    <div>
-      <el-button-group>
-        <el-button :icon="Minus" @click="decrease" />
-        <el-button :icon="Plus" @click="increase" />
-      </el-button-group>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Minus, Plus } from '@element-plus/icons-vue'
@@ -52,6 +35,23 @@ const decrease = () => {
   }
 }
 </script>
+
+<template>
+  <div class="demo-progress">
+    <el-progress :percentage="percentage" :color="customColor" />
+
+    <el-progress :percentage="percentage" :color="customColorMethod" />
+
+    <el-progress :percentage="percentage" :color="customColors" />
+    <el-progress :percentage="percentage" :color="customColors" />
+    <div>
+      <el-button-group>
+        <el-button :icon="Minus" @click="decrease" />
+        <el-button :icon="Plus" @click="increase" />
+      </el-button-group>
+    </div>
+  </div>
+</template>
 <style scoped>
 .demo-progress .el-progress--line {
   margin-bottom: 15px;

@@ -1,3 +1,20 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
+
+let id = 0
+export default defineComponent({
+  name: 'ImgEmpty',
+  setup() {
+    const ns = useNamespace('empty')
+    return {
+      ns,
+      id: ++id,
+    }
+  },
+})
+</script>
+
 <template>
   <svg
     viewBox="0 0 79 86"
@@ -125,20 +142,3 @@
     </g>
   </svg>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
-
-let id = 0
-export default defineComponent({
-  name: 'ImgEmpty',
-  setup() {
-    const ns = useNamespace('empty')
-    return {
-      ns,
-      id: ++id,
-    }
-  },
-})
-</script>

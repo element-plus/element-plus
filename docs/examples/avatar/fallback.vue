@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+const errorHandler = () => true
+</script>
+
 <template>
   <div class="demo-type">
     <el-avatar :size="60" src="https://empty" @error="errorHandler">
@@ -7,7 +11,3 @@
     </el-avatar>
   </div>
 </template>
-
-<script lang="ts" setup>
-const errorHandler = () => true
-</script>

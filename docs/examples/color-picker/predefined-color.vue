@@ -1,7 +1,3 @@
-<template>
-  <el-color-picker v-model="color" show-alpha :predefine="predefineColors" />
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -23,3 +19,7 @@ const predefineColors = ref([
   '#c7158577',
 ])
 </script>
+
+<template>
+  <el-color-picker v-model="color" show-alpha :predefine="predefineColors" />
+</template>

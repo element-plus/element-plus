@@ -1,18 +1,3 @@
-<template>
-  <div
-    :class="[ns.b('panel'), ns.is('bordered', border)]"
-    @keydown="handleKeyDown"
-  >
-    <el-cascader-menu
-      v-for="(menu, index) in menus"
-      :key="index"
-      :ref="(item) => (menuList[index] = item)"
-      :index="index"
-      :nodes="[...menu]"
-    />
-  </div>
-</template>
-
 <script lang="ts">
 import {
   computed,
@@ -379,3 +364,18 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div
+    :class="[ns.b('panel'), ns.is('bordered', border)]"
+    @keydown="handleKeyDown"
+  >
+    <el-cascader-menu
+      v-for="(menu, index) of menus"
+      :key="index"
+      :ref="(item) => (menuList[index] = item)"
+      :index="index"
+      :nodes="[...menu]"
+    />
+  </div>
+</template>

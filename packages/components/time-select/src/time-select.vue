@@ -1,35 +1,3 @@
-<template>
-  <el-select
-    ref="select"
-    :model-value="value"
-    :disabled="disabled"
-    :clearable="clearable"
-    :clear-icon="clearIcon"
-    :size="size"
-    :effect="effect"
-    :placeholder="placeholder"
-    default-first-option
-    :filterable="editable"
-    @update:model-value="(event) => $emit('update:modelValue', event)"
-    @change="(event) => $emit('change', event)"
-    @blur="(event) => $emit('blur', event)"
-    @focus="(event) => $emit('focus', event)"
-  >
-    <el-option
-      v-for="item in items"
-      :key="item.value"
-      :label="item.value"
-      :value="item.value"
-      :disabled="item.disabled"
-    />
-    <template #prefix>
-      <el-icon v-if="prefixIcon" :class="nsInput.e('prefix-icon')">
-        <component :is="prefixIcon" />
-      </el-icon>
-    </template>
-  </el-select>
-</template>
-
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
@@ -39,6 +7,10 @@ import ElIcon from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { timeSelectProps } from './time-select'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
+
+const props = defineProps(timeSelectProps)
+
+defineEmits(['change', 'blur', 'focus', 'update:modelValue'])
 
 dayjs.extend(customParseFormat)
 
@@ -51,10 +23,6 @@ defineOptions({
     event: 'change',
   },
 })
-
-defineEmits(['change', 'blur', 'focus', 'update:modelValue'])
-
-const props = defineProps(timeSelectProps)
 
 const nsInput = useNamespace('input')
 const select = ref<typeof ElSelect>()
@@ -117,3 +85,35 @@ defineExpose({
   focus,
 })
 </script>
+
+<template>
+  <el-select
+    ref="select"
+    :model-value="value"
+    :disabled="disabled"
+    :clearable="clearable"
+    :clear-icon="clearIcon"
+    :size="size"
+    :effect="effect"
+    :placeholder="placeholder"
+    default-first-option
+    :filterable="editable"
+    @update:model-value="(event) => $emit('update:modelValue', event)"
+    @change="(event) => $emit('change', event)"
+    @blur="(event) => $emit('blur', event)"
+    @focus="(event) => $emit('focus', event)"
+  >
+    <el-option
+      v-for="item of items"
+      :key="item.value"
+      :label="item.value"
+      :value="item.value"
+      :disabled="item.disabled"
+    />
+    <template #prefix>
+      <el-icon v-if="prefixIcon" :class="nsInput.e('prefix-icon')">
+        <component :is="prefixIcon" />
+      </el-icon>
+    </template>
+  </el-select>
+</template>

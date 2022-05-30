@@ -1,8 +1,3 @@
-<template>
-  <transition mode="out-in" v-bind="listeners">
-    <slot />
-  </transition>
-</template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
@@ -60,3 +55,8 @@ export default defineComponent({
   },
 })
 </script>
+<template>
+  <transition mode="out-in" v-bind="listeners">
+    <slot />
+  </transition>
+</template>

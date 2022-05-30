@@ -1,24 +1,3 @@
-<template>
-  <div class="example-block">
-    <span class="example-demonstration">Display all tags (default)</span>
-    <el-cascader :options="options" :props="props" clearable />
-  </div>
-  <div class="example-block">
-    <span class="example-demonstration">Collapse tags</span>
-    <el-cascader :options="options" :props="props" collapse-tags clearable />
-  </div>
-  <div class="example-block">
-    <span class="example-demonstration">Collapse tags tooltip</span>
-    <el-cascader
-      :options="options"
-      :props="props"
-      collapse-tags
-      collapse-tags-tooltip
-      clearable
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
 const props = { multiple: true }
 
@@ -106,6 +85,27 @@ const options = [
   },
 ]
 </script>
+
+<template>
+  <div class="example-block">
+    <span class="example-demonstration">Display all tags (default)</span>
+    <el-cascader :options="options" :props="props" clearable />
+  </div>
+  <div class="example-block">
+    <span class="example-demonstration">Collapse tags</span>
+    <el-cascader :options="options" :props="props" collapse-tags clearable />
+  </div>
+  <div class="example-block">
+    <span class="example-demonstration">Collapse tags tooltip</span>
+    <el-cascader
+      :options="options"
+      :props="props"
+      collapse-tags
+      collapse-tags-tooltip
+      clearable
+    />
+  </div>
+</template>
 
 <style scoped>
 .example-block {

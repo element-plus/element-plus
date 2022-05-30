@@ -1,21 +1,3 @@
-<template>
-  <el-tabs
-    v-model="editableTabsValue"
-    type="card"
-    editable
-    class="demo-tabs"
-    @edit="handleTabsEdit"
-  >
-    <el-tab-pane
-      v-for="item in editableTabs"
-      :key="item.name"
-      :label="item.title"
-      :name="item.name"
-    >
-      {{ item.content }}
-    </el-tab-pane>
-  </el-tabs>
-</template>
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -62,6 +44,24 @@ const handleTabsEdit = (targetName: string, action: 'remove' | 'add') => {
   }
 }
 </script>
+<template>
+  <el-tabs
+    v-model="editableTabsValue"
+    type="card"
+    editable
+    class="demo-tabs"
+    @edit="handleTabsEdit"
+  >
+    <el-tab-pane
+      v-for="item of editableTabs"
+      :key="item.name"
+      :label="item.title"
+      :name="item.name"
+    >
+      {{ item.content }}
+    </el-tab-pane>
+  </el-tabs>
+</template>
 <style>
 .demo-tabs > .el-tabs__content {
   padding: 32px;

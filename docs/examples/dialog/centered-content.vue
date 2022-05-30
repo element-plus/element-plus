@@ -1,3 +1,8 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const centerDialogVisible = ref(false)
+</script>
 <template>
   <el-button text @click="centerDialogVisible = true"
     >Click to open the Dialog</el-button
@@ -18,11 +23,6 @@
     </template>
   </el-dialog>
 </template>
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const centerDialogVisible = ref(false)
-</script>
 <style scoped>
 .dialog-footer button:first-child {
   margin-right: 10px;

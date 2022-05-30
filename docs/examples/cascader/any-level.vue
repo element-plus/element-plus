@@ -1,18 +1,3 @@
-<template>
-  <div class="example-block">
-    <span class="example-demonstration"
-      >Select any level of options (Single selection)</span
-    >
-    <el-cascader :options="options" :props="props1" clearable />
-  </div>
-  <div class="example-block">
-    <span class="example-demonstration"
-      >Select any level of options (Multiple selection)</span
-    >
-    <el-cascader :options="options" :props="props2" clearable />
-  </div>
-</template>
-
 <script lang="ts" setup>
 const props1 = {
   checkStrictly: true,
@@ -292,6 +277,21 @@ const options = [
   },
 ]
 </script>
+
+<template>
+  <div class="example-block">
+    <span class="example-demonstration"
+      >Select any level of options (Single selection)</span
+    >
+    <el-cascader :options="options" :props="props1" clearable />
+  </div>
+  <div class="example-block">
+    <span class="example-demonstration"
+      >Select any level of options (Multiple selection)</span
+    >
+    <el-cascader :options="options" :props="props2" clearable />
+  </div>
+</template>
 
 <style scoped>
 .example-block {

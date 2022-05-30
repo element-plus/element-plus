@@ -1,8 +1,3 @@
-<template>
-  <el-button :plain="true" @click="open">Show message</el-button>
-  <el-button :plain="true" @click="openVn">VNode</el-button>
-</template>
-
 <script lang="ts" setup>
 import { h } from 'vue'
 import { ElMessage } from 'element-plus'
@@ -20,3 +15,8 @@ const openVn = () => {
   })
 }
 </script>
+
+<template>
+  <el-button :plain="true" @click="open">Show message</el-button>
+  <el-button :plain="true" @click="openVn">VNode</el-button>
+</template>

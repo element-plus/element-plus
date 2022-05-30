@@ -1,43 +1,3 @@
-<template>
-  <div
-    :class="[ns.b(), { [ns.m('highlight-current')]: highlightCurrent }]"
-    role="tree"
-  >
-    <fixed-size-list
-      v-if="isNotEmpty"
-      :class-name="ns.b('virtual-list')"
-      :data="flattenTree"
-      :total="flattenTree.length"
-      :height="height"
-      :item-size="itemSize"
-      :perf-mode="perfMode"
-    >
-      <template #default="{ data, index, style }">
-        <el-tree-node
-          :key="data[index].key"
-          :style="style"
-          :node="data[index]"
-          :expanded="isExpanded(data[index])"
-          :show-checkbox="showCheckbox"
-          :checked="isChecked(data[index])"
-          :indeterminate="isIndeterminate(data[index])"
-          :disabled="isDisabled(data[index])"
-          :current="isCurrent(data[index])"
-          :hidden-expand-icon="isForceHiddenExpandIcon(data[index])"
-          @click="handleNodeClick"
-          @toggle="toggleExpand"
-          @check="handleNodeCheck"
-        />
-      </template>
-    </fixed-size-list>
-    <div v-else :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{
-        emptyText ?? t('el.tree.emptyText')
-      }}</span>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, getCurrentInstance, provide } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -126,3 +86,43 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div
+    :class="[ns.b(), { [ns.m('highlight-current')]: highlightCurrent }]"
+    role="tree"
+  >
+    <fixed-size-list
+      v-if="isNotEmpty"
+      :class-name="ns.b('virtual-list')"
+      :data="flattenTree"
+      :total="flattenTree.length"
+      :height="height"
+      :item-size="itemSize"
+      :perf-mode="perfMode"
+    >
+      <template #default="{ data, index, style }">
+        <el-tree-node
+          :key="data[index].key"
+          :style="style"
+          :node="data[index]"
+          :expanded="isExpanded(data[index])"
+          :show-checkbox="showCheckbox"
+          :checked="isChecked(data[index])"
+          :indeterminate="isIndeterminate(data[index])"
+          :disabled="isDisabled(data[index])"
+          :current="isCurrent(data[index])"
+          :hidden-expand-icon="isForceHiddenExpandIcon(data[index])"
+          @click="handleNodeClick"
+          @toggle="toggleExpand"
+          @check="handleNodeCheck"
+        />
+      </template>
+    </fixed-size-list>
+    <div v-else :class="ns.e('empty-block')">
+      <span :class="ns.e('empty-text')">{{
+        emptyText ?? t('el.tree.emptyText')
+      }}</span>
+    </div>
+  </div>
+</template>

@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const show = ref(true)
+</script>
+
 <template>
   <div>
     <el-button @click="show = !show">Click Me</el-button>
@@ -12,12 +18,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const show = ref(true)
-</script>
 
 <style>
 .transition-box {

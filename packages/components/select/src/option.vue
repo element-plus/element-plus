@@ -1,23 +1,3 @@
-<template>
-  <li
-    v-show="visible"
-    :class="[
-      ns.be('dropdown', 'item'),
-      ns.is('disabled', isDisabled),
-      {
-        selected: itemSelected,
-        hover,
-      },
-    ]"
-    @mouseenter="hoverItem"
-    @click.stop="selectOptionClick"
-  >
-    <slot>
-      <span>{{ currentLabel }}</span>
-    </slot>
-  </li>
-</template>
-
 <script lang="ts">
 import {
   defineComponent,
@@ -103,3 +83,23 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <li
+    v-show="visible"
+    :class="[
+      ns.be('dropdown', 'item'),
+      ns.is('disabled', isDisabled),
+      {
+        selected: itemSelected,
+        hover,
+      },
+    ]"
+    @mouseenter="hoverItem"
+    @click.stop="selectOptionClick"
+  >
+    <slot>
+      <span>{{ currentLabel }}</span>
+    </slot>
+  </li>
+</template>

@@ -1,58 +1,3 @@
-<template>
-  <div :class="ns.b()">
-    <transfer-panel
-      ref="leftPanel"
-      :data="sourceData"
-      :option-render="optionRender"
-      :placeholder="panelFilterPlaceholder"
-      :title="leftPanelTitle"
-      :filterable="filterable"
-      :format="format"
-      :filter-method="filterMethod"
-      :default-checked="leftDefaultChecked"
-      :props="props"
-      @checked-change="onSourceCheckedChange"
-    >
-      <slot name="left-footer" />
-    </transfer-panel>
-    <div :class="ns.e('buttons')">
-      <el-button
-        type="primary"
-        :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
-        :disabled="rightChecked.length === 0"
-        @click="addToLeft"
-      >
-        <el-icon><arrow-left /></el-icon>
-        <span v-if="buttonTexts[0] !== undefined">{{ buttonTexts[0] }}</span>
-      </el-button>
-      <el-button
-        type="primary"
-        :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
-        :disabled="leftChecked.length === 0"
-        @click="addToRight"
-      >
-        <span v-if="buttonTexts[1] !== undefined">{{ buttonTexts[1] }}</span>
-        <el-icon><arrow-right /></el-icon>
-      </el-button>
-    </div>
-    <transfer-panel
-      ref="rightPanel"
-      :data="targetData"
-      :option-render="optionRender"
-      :placeholder="panelFilterPlaceholder"
-      :filterable="filterable"
-      :format="format"
-      :filter-method="filterMethod"
-      :title="rightPanelTitle"
-      :default-checked="rightDefaultChecked"
-      :props="props"
-      @checked-change="onTargetCheckedChange"
-    >
-      <slot name="right-footer" />
-    </transfer-panel>
-  </div>
-</template>
-
 <script lang="ts">
 import {
   computed,
@@ -254,3 +199,58 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div :class="ns.b()">
+    <transfer-panel
+      ref="leftPanel"
+      :data="sourceData"
+      :option-render="optionRender"
+      :placeholder="panelFilterPlaceholder"
+      :title="leftPanelTitle"
+      :filterable="filterable"
+      :format="format"
+      :filter-method="filterMethod"
+      :default-checked="leftDefaultChecked"
+      :props="props"
+      @checked-change="onSourceCheckedChange"
+    >
+      <slot name="left-footer" />
+    </transfer-panel>
+    <div :class="ns.e('buttons')">
+      <el-button
+        type="primary"
+        :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
+        :disabled="rightChecked.length === 0"
+        @click="addToLeft"
+      >
+        <el-icon><arrow-left /></el-icon>
+        <span v-if="buttonTexts[0] !== undefined">{{ buttonTexts[0] }}</span>
+      </el-button>
+      <el-button
+        type="primary"
+        :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
+        :disabled="leftChecked.length === 0"
+        @click="addToRight"
+      >
+        <span v-if="buttonTexts[1] !== undefined">{{ buttonTexts[1] }}</span>
+        <el-icon><arrow-right /></el-icon>
+      </el-button>
+    </div>
+    <transfer-panel
+      ref="rightPanel"
+      :data="targetData"
+      :option-render="optionRender"
+      :placeholder="panelFilterPlaceholder"
+      :filterable="filterable"
+      :format="format"
+      :filter-method="filterMethod"
+      :title="rightPanelTitle"
+      :default-checked="rightDefaultChecked"
+      :props="props"
+      @checked-change="onTargetCheckedChange"
+    >
+      <slot name="right-footer" />
+    </transfer-panel>
+  </div>
+</template>

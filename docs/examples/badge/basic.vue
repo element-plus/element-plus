@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { CaretBottom } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <el-badge :value="12" class="item">
     <el-button>comments</el-button>
@@ -31,10 +35,6 @@
     </template>
   </el-dropdown>
 </template>
-
-<script lang="ts" setup>
-import { CaretBottom } from '@element-plus/icons-vue'
-</script>
 
 <style scoped>
 .item {

@@ -53,7 +53,7 @@ onMounted(async () => {
             @change="onVersionChange"
           >
             <ElOption
-              v-for="release in releases"
+              v-for="release of releases"
               :key="release.id"
               :value="release.name"
             >

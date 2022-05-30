@@ -15,7 +15,7 @@ const onItemClick = (item: any) => {
 <template>
   <div class="sponsor-container">
     <a
-      v-for="item in leftCustomImgSponsors"
+      v-for="item of leftCustomImgSponsors"
       :key="item.name"
       :href="item.url"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"

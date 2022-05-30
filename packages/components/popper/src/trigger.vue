@@ -1,16 +1,3 @@
-<template>
-  <el-only-child
-    v-if="!virtualTriggering"
-    v-bind="$attrs"
-    :aria-controls="ariaControls"
-    :aria-describedby="ariaDescribedby"
-    :aria-expanded="ariaExpanded"
-    :aria-haspopup="ariaHaspopup"
-  >
-    <slot />
-  </el-only-child>
-</template>
-
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { isNil } from 'lodash-unified'
@@ -23,12 +10,12 @@ import { usePopperTriggerProps } from './trigger'
 
 import type { WatchStopHandle } from 'vue'
 
+const props = defineProps(usePopperTriggerProps)
+
 defineOptions({
   name: 'ElPopperTrigger',
   inheritAttrs: false,
 })
-
-const props = defineProps(usePopperTriggerProps)
 
 const { role, triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
 
@@ -142,3 +129,16 @@ defineExpose({
   triggerRef,
 })
 </script>
+
+<template>
+  <el-only-child
+    v-if="!virtualTriggering"
+    v-bind="$attrs"
+    :aria-controls="ariaControls"
+    :aria-describedby="ariaDescribedby"
+    :aria-expanded="ariaExpanded"
+    :aria-haspopup="ariaHaspopup"
+  >
+    <slot />
+  </el-only-child>
+</template>

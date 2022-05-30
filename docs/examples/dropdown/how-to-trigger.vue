@@ -1,3 +1,14 @@
+<script lang="ts" setup>
+import {
+  ArrowDown,
+  Check,
+  CircleCheck,
+  CirclePlus,
+  CirclePlusFilled,
+  Plus,
+} from '@element-plus/icons-vue'
+</script>
+
 <template>
   <el-row class="block-col-2">
     <el-col :span="8">
@@ -59,17 +70,6 @@
     </el-col>
   </el-row>
 </template>
-
-<script lang="ts" setup>
-import {
-  ArrowDown,
-  Check,
-  CircleCheck,
-  CirclePlus,
-  CirclePlusFilled,
-  Plus,
-} from '@element-plus/icons-vue'
-</script>
 
 <style scoped>
 .block-col-2 .demonstration {

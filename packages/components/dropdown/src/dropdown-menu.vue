@@ -1,19 +1,3 @@
-<template>
-  <ul
-    :ref="dropdownListWrapperRef"
-    :class="dropdownKls"
-    :style="rovingFocusGroupRootStyle"
-    :tabindex="-1"
-    :role="role"
-    :aria-labelledby="triggerId"
-    @blur="onBlur"
-    @focus="onFocus"
-    @keydown="handleKeydown"
-    @mousedown="onMousedown"
-  >
-    <slot />
-  </ul>
-</template>
 <script lang="ts">
 import { computed, defineComponent, inject, unref } from 'vue'
 import { composeEventHandlers, composeRefs } from '@element-plus/utils'
@@ -137,3 +121,19 @@ export default defineComponent({
   },
 })
 </script>
+<template>
+  <ul
+    :ref="dropdownListWrapperRef"
+    :class="dropdownKls"
+    :style="rovingFocusGroupRootStyle"
+    :tabindex="-1"
+    :role="role"
+    :aria-labelledby="triggerId"
+    @blur="onBlur"
+    @focus="onFocus"
+    @keydown="handleKeydown"
+    @mousedown="onMousedown"
+  >
+    <slot />
+  </ul>
+</template>

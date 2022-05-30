@@ -1,3 +1,16 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value1 = ref('')
+const value2 = ref('')
+
+const defaultTime1 = [new Date(2000, 1, 1, 12, 0, 0)] // '12:00:00'
+const defaultTime2 = [
+  new Date(2000, 1, 1, 12, 0, 0),
+  new Date(2000, 2, 1, 8, 0, 0),
+] // '12:00:00', '08:00:00'
+</script>
+
 <template>
   <div class="block">
     <span class="demonstration">Start date time 12:00:00</span>
@@ -22,19 +35,6 @@
     />
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const value1 = ref('')
-const value2 = ref('')
-
-const defaultTime1 = [new Date(2000, 1, 1, 12, 0, 0)] // '12:00:00'
-const defaultTime2 = [
-  new Date(2000, 1, 1, 12, 0, 0),
-  new Date(2000, 2, 1, 8, 0, 0),
-] // '12:00:00', '08:00:00'
-</script>
 <style scoped>
 .block {
   padding: 30px 0;

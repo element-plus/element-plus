@@ -1,10 +1,3 @@
-<template>
-  <el-tree-select v-model="value" :data="data" multiple />
-  <el-divider />
-  show checkbox:
-  <el-tree-select v-model="value" :data="data" multiple show-checkbox />
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -81,3 +74,10 @@ const data = [
   },
 ]
 </script>
+
+<template>
+  <el-tree-select v-model="value" :data="data" multiple />
+  <el-divider />
+  show checkbox:
+  <el-tree-select v-model="value" :data="data" multiple show-checkbox />
+</template>

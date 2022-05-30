@@ -1,13 +1,3 @@
-<template>
-  <el-table-v2
-    :columns="columns"
-    :data="data"
-    :row-class="rowClass"
-    :width="700"
-    :height="400"
-  />
-</template>
-
 <script lang="tsx" setup>
 import { ref } from 'vue'
 import dayjs from 'dayjs'
@@ -86,3 +76,13 @@ const rowClass = ({ rowIndex }: Parameters<RowClassNameGetter<any>>[0]) => {
   return ''
 }
 </script>
+
+<template>
+  <el-table-v2
+    :columns="columns"
+    :data="data"
+    :row-class="rowClass"
+    :width="700"
+    :height="400"
+  />
+</template>

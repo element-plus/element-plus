@@ -1,85 +1,3 @@
-<template>
-  <teleport to="body" :disabled="!teleported">
-    <transition name="viewer-fade" appear>
-      <div
-        ref="wrapper"
-        :tabindex="-1"
-        :class="ns.e('wrapper')"
-        :style="{ zIndex: computedZIndex }"
-      >
-        <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
-
-        <!-- CLOSE -->
-        <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
-          <el-icon><Close /></el-icon>
-        </span>
-
-        <!-- ARROW -->
-        <template v-if="!isSingle">
-          <span
-            :class="[
-              ns.e('btn'),
-              ns.e('prev'),
-              ns.is('disabled', !infinite && isFirst),
-            ]"
-            @click="prev"
-          >
-            <el-icon><ArrowLeft /></el-icon>
-          </span>
-          <span
-            :class="[
-              ns.e('btn'),
-              ns.e('next'),
-              ns.is('disabled', !infinite && isLast),
-            ]"
-            @click="next"
-          >
-            <el-icon><ArrowRight /></el-icon>
-          </span>
-        </template>
-        <!-- ACTIONS -->
-        <div :class="[ns.e('btn'), ns.e('actions')]">
-          <div :class="ns.e('actions__inner')">
-            <el-icon @click="handleActions('zoomOut')">
-              <ZoomOut />
-            </el-icon>
-            <el-icon @click="handleActions('zoomIn')">
-              <ZoomIn />
-            </el-icon>
-            <i :class="ns.e('actions__divider')" />
-            <el-icon @click="toggleMode">
-              <component :is="mode.icon" />
-            </el-icon>
-            <i :class="ns.e('actions__divider')" />
-            <el-icon @click="handleActions('anticlockwise')">
-              <RefreshLeft />
-            </el-icon>
-            <el-icon @click="handleActions('clockwise')">
-              <RefreshRight />
-            </el-icon>
-          </div>
-        </div>
-        <!-- CANVAS -->
-        <div :class="ns.e('canvas')">
-          <img
-            v-for="(url, i) in urlList"
-            v-show="i === index"
-            :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
-            :key="url"
-            :src="url"
-            :style="imgStyle"
-            :class="ns.e('img')"
-            @load="handleImgLoad"
-            @error="handleImgError"
-            @mousedown="handleMouseDown"
-          />
-        </div>
-        <slot />
-      </div>
-    </transition>
-  </teleport>
-</template>
-
 <script lang="ts" setup>
 import {
   computed,
@@ -113,6 +31,10 @@ import { imageViewerEmits, imageViewerProps } from './image-viewer'
 import type { CSSProperties } from 'vue'
 import type { ImageViewerAction, ImageViewerMode } from './image-viewer'
 
+const props = defineProps(imageViewerProps)
+
+const emit = defineEmits(imageViewerEmits)
+
 const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
   CONTAIN: {
     name: 'contain',
@@ -129,9 +51,6 @@ const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
 defineOptions({
   name: 'ElImageViewer',
 })
-
-const props = defineProps(imageViewerProps)
-const emit = defineEmits(imageViewerEmits)
 
 const { t } = useLocale()
 const ns = useNamespace('image-viewer')
@@ -384,3 +303,85 @@ onMounted(() => {
   wrapper.value?.focus?.()
 })
 </script>
+
+<template>
+  <teleport to="body" :disabled="!teleported">
+    <transition name="viewer-fade" appear>
+      <div
+        ref="wrapper"
+        :tabindex="-1"
+        :class="ns.e('wrapper')"
+        :style="{ zIndex: computedZIndex }"
+      >
+        <div :class="ns.e('mask')" @click.self="hideOnClickModal && hide()" />
+
+        <!-- CLOSE -->
+        <span :class="[ns.e('btn'), ns.e('close')]" @click="hide">
+          <el-icon><Close /></el-icon>
+        </span>
+
+        <!-- ARROW -->
+        <template v-if="!isSingle">
+          <span
+            :class="[
+              ns.e('btn'),
+              ns.e('prev'),
+              ns.is('disabled', !infinite && isFirst),
+            ]"
+            @click="prev"
+          >
+            <el-icon><ArrowLeft /></el-icon>
+          </span>
+          <span
+            :class="[
+              ns.e('btn'),
+              ns.e('next'),
+              ns.is('disabled', !infinite && isLast),
+            ]"
+            @click="next"
+          >
+            <el-icon><ArrowRight /></el-icon>
+          </span>
+        </template>
+        <!-- ACTIONS -->
+        <div :class="[ns.e('btn'), ns.e('actions')]">
+          <div :class="ns.e('actions__inner')">
+            <el-icon @click="handleActions('zoomOut')">
+              <ZoomOut />
+            </el-icon>
+            <el-icon @click="handleActions('zoomIn')">
+              <ZoomIn />
+            </el-icon>
+            <i :class="ns.e('actions__divider')" />
+            <el-icon @click="toggleMode">
+              <component :is="mode.icon" />
+            </el-icon>
+            <i :class="ns.e('actions__divider')" />
+            <el-icon @click="handleActions('anticlockwise')">
+              <RefreshLeft />
+            </el-icon>
+            <el-icon @click="handleActions('clockwise')">
+              <RefreshRight />
+            </el-icon>
+          </div>
+        </div>
+        <!-- CANVAS -->
+        <div :class="ns.e('canvas')">
+          <img
+            v-for="(url, i) of urlList"
+            v-show="i === index"
+            :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
+            :key="url"
+            :src="url"
+            :style="imgStyle"
+            :class="ns.e('img')"
+            @load="handleImgLoad"
+            @error="handleImgError"
+            @mousedown="handleMouseDown"
+          />
+        </div>
+        <slot />
+      </div>
+    </transition>
+  </teleport>
+</template>

@@ -1,22 +1,3 @@
-<template>
-  <span :class="ns.e('sizes')">
-    <el-select
-      :model-value="innerPageSize"
-      :disabled="disabled"
-      :popper-class="popperClass"
-      :size="size"
-      @change="handleChange"
-    >
-      <el-option
-        v-for="item in innerPageSizes"
-        :key="item"
-        :value="item"
-        :label="item + t('el.pagination.pagesize')"
-      />
-    </el-select>
-  </span>
-</template>
-
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
@@ -25,12 +6,14 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { usePagination } from '../usePagination'
 import { paginationSizesProps } from './sizes'
 
+const props = defineProps(paginationSizesProps)
+
+const emit = defineEmits(['page-size-change'])
+
 defineOptions({
   name: 'ElPaginationSizes',
 })
 
-const props = defineProps(paginationSizesProps)
-const emit = defineEmits(['page-size-change'])
 const { t } = useLocale()
 const ns = useNamespace('pagination')
 const pagination = usePagination()
@@ -64,3 +47,22 @@ function handleChange(val: number) {
   }
 }
 </script>
+
+<template>
+  <span :class="ns.e('sizes')">
+    <el-select
+      :model-value="innerPageSize"
+      :disabled="disabled"
+      :popper-class="popperClass"
+      :size="size"
+      @change="handleChange"
+    >
+      <el-option
+        v-for="item of innerPageSizes"
+        :key="item"
+        :value="item"
+        :label="item + t('el.pagination.pagesize')"
+      />
+    </el-select>
+  </span>
+</template>

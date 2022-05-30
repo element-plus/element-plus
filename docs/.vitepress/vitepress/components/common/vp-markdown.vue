@@ -2,11 +2,11 @@
 import { computed } from 'vue'
 import MarkdownIt from 'markdown-it'
 
-const md = new MarkdownIt()
-
 const props = defineProps({
   content: { type: String, required: true },
 })
+
+const md = new MarkdownIt()
 
 const attr = 'rel="noreferrer noopenner" target="_blank"'
 

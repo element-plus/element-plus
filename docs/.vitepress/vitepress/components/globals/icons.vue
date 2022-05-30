@@ -48,7 +48,7 @@ const copySvgIcon = async (name, refs) => {
   </div>
   <ul class="demo-icon-list">
     <li
-      v-for="component in Icons"
+      v-for="component of Icons"
       :key="component.name"
       :ref="component.name"
       class="icon-item"

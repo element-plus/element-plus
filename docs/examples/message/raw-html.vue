@@ -1,7 +1,3 @@
-<template>
-  <el-button :plain="true" @click="openHTML">Use HTML String</el-button>
-</template>
-
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 
@@ -12,3 +8,7 @@ const openHTML = () => {
   })
 }
 </script>
+
+<template>
+  <el-button :plain="true" @click="openHTML">Use HTML String</el-button>
+</template>

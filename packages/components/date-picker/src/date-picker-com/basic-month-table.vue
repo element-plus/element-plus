@@ -1,35 +1,3 @@
-<template>
-  <table
-    role="grid"
-    :aria-label="t('el.datepicker.monthTablePrompt')"
-    :class="ns.b()"
-    @click="handleMonthTableClick"
-    @mousemove="handleMouseMove"
-  >
-    <tbody ref="tbodyRef">
-      <tr v-for="(row, key) in rows" :key="key">
-        <td
-          v-for="(cell, key_) in row"
-          :key="key_"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el)"
-          :class="getCellStyle(cell)"
-          :aria-selected="`${isSelectedCell(cell)}`"
-          :aria-label="t(`el.datepicker.month${+cell.text + 1}`)"
-          :tabindex="isSelectedCell(cell) ? 0 : -1"
-          @keydown.space.prevent.stop="handleMonthTableClick"
-          @keydown.enter.prevent.stop="handleMonthTableClick"
-        >
-          <div>
-            <span class="cell">
-              {{ t('el.datepicker.months.' + months[cell.text]) }}
-            </span>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
@@ -251,3 +219,35 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <table
+    role="grid"
+    :aria-label="t('el.datepicker.monthTablePrompt')"
+    :class="ns.b()"
+    @click="handleMonthTableClick"
+    @mousemove="handleMouseMove"
+  >
+    <tbody ref="tbodyRef">
+      <tr v-for="(row, key) of rows" :key="key">
+        <td
+          v-for="(cell, key_) of row"
+          :key="key_"
+          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el)"
+          :class="getCellStyle(cell)"
+          :aria-selected="`${isSelectedCell(cell)}`"
+          :aria-label="t(`el.datepicker.month${+cell.text + 1}`)"
+          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          @keydown.space.prevent.stop="handleMonthTableClick"
+          @keydown.enter.prevent.stop="handleMonthTableClick"
+        >
+          <div>
+            <span class="cell">
+              {{ t('el.datepicker.months.' + months[cell.text]) }}
+            </span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</template>

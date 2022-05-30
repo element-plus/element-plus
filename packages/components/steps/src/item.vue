@@ -1,50 +1,3 @@
-<template>
-  <div
-    :style="style"
-    :class="[
-      ns.b(),
-      ns.is(isSimple ? 'simple' : parent.props.direction),
-      ns.is('flex', isLast && !space && !isCenter),
-      ns.is('center', isCenter && !isVertical && !isSimple),
-    ]"
-  >
-    <!-- icon & line -->
-    <div :class="[ns.e('head'), ns.is(currentStatus)]">
-      <div v-if="!isSimple" :class="ns.e('line')">
-        <i :class="ns.e('line-inner')" :style="lineStyle" />
-      </div>
-
-      <div :class="[ns.e('icon'), ns.is(icon ? 'icon' : 'text')]">
-        <slot
-          v-if="currentStatus !== 'success' && currentStatus !== 'error'"
-          name="icon"
-        >
-          <el-icon v-if="icon" :class="ns.e('icon-inner')">
-            <component :is="icon" />
-          </el-icon>
-          <div v-if="!icon && !isSimple" :class="ns.e('icon-inner')">
-            {{ index + 1 }}
-          </div>
-        </slot>
-        <el-icon v-else :class="[ns.e('icon-inner'), ns.is('status')]">
-          <Check v-if="currentStatus === 'success'" />
-          <Close v-else />
-        </el-icon>
-      </div>
-    </div>
-    <!-- title & description -->
-    <div :class="ns.e('main')">
-      <div :class="[ns.e('title'), ns.is(currentStatus)]">
-        <slot name="title">{{ title }}</slot>
-      </div>
-      <div v-if="isSimple" :class="ns.e('arrow')" />
-      <div v-else :class="[ns.e('description'), ns.is(currentStatus)]">
-        <slot name="description">{{ description }}</slot>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import {
   computed,
@@ -62,6 +15,8 @@ import { Check, Close } from '@element-plus/icons-vue'
 import { stepProps } from './item'
 
 import type { Ref } from 'vue'
+
+const props = defineProps(stepProps)
 
 export interface IStepsProps {
   space: number | string
@@ -89,7 +44,6 @@ defineOptions({
   name: 'ElStep',
 })
 
-const props = defineProps(stepProps)
 const ns = useNamespace('step')
 const index = ref(-1)
 const lineStyle = ref({})
@@ -206,3 +160,50 @@ const stepItemState = reactive({
 
 parent.steps.value = [...parent.steps.value, stepItemState]
 </script>
+
+<template>
+  <div
+    :style="style"
+    :class="[
+      ns.b(),
+      ns.is(isSimple ? 'simple' : parent.props.direction),
+      ns.is('flex', isLast && !space && !isCenter),
+      ns.is('center', isCenter && !isVertical && !isSimple),
+    ]"
+  >
+    <!-- icon & line -->
+    <div :class="[ns.e('head'), ns.is(currentStatus)]">
+      <div v-if="!isSimple" :class="ns.e('line')">
+        <i :class="ns.e('line-inner')" :style="lineStyle" />
+      </div>
+
+      <div :class="[ns.e('icon'), ns.is(icon ? 'icon' : 'text')]">
+        <slot
+          v-if="currentStatus !== 'success' && currentStatus !== 'error'"
+          name="icon"
+        >
+          <el-icon v-if="icon" :class="ns.e('icon-inner')">
+            <component :is="icon" />
+          </el-icon>
+          <div v-if="!icon && !isSimple" :class="ns.e('icon-inner')">
+            {{ index + 1 }}
+          </div>
+        </slot>
+        <el-icon v-else :class="[ns.e('icon-inner'), ns.is('status')]">
+          <Check v-if="currentStatus === 'success'" />
+          <Close v-else />
+        </el-icon>
+      </div>
+    </div>
+    <!-- title & description -->
+    <div :class="ns.e('main')">
+      <div :class="[ns.e('title'), ns.is(currentStatus)]">
+        <slot name="title">{{ title }}</slot>
+      </div>
+      <div v-if="isSimple" :class="ns.e('arrow')" />
+      <div v-else :class="[ns.e('description'), ns.is(currentStatus)]">
+        <slot name="description">{{ description }}</slot>
+      </div>
+    </div>
+  </div>
+</template>

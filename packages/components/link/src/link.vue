@@ -1,3 +1,20 @@
+<script lang="ts" setup>
+import { ElIcon } from '@element-plus/components/icon'
+import { useNamespace } from '@element-plus/hooks'
+import { linkEmits, linkProps } from './link'
+
+const props = defineProps(linkProps)
+const emit = defineEmits(linkEmits)
+defineOptions({
+  name: 'ElLink',
+})
+const ns = useNamespace('link')
+
+function handleClick(event: MouseEvent) {
+  if (!props.disabled) emit('click', event)
+}
+</script>
+
 <template>
   <a
     :class="[
@@ -17,21 +34,3 @@
     <slot v-if="$slots.icon" name="icon" />
   </a>
 </template>
-
-<script lang="ts" setup>
-import { ElIcon } from '@element-plus/components/icon'
-import { useNamespace } from '@element-plus/hooks'
-import { linkEmits, linkProps } from './link'
-
-defineOptions({
-  name: 'ElLink',
-})
-const props = defineProps(linkProps)
-const emit = defineEmits(linkEmits)
-
-const ns = useNamespace('link')
-
-function handleClick(event: MouseEvent) {
-  if (!props.disabled) emit('click', event)
-}
-</script>

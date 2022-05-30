@@ -1,14 +1,3 @@
-<template>
-  <el-select v-model="value" filterable placeholder="Select">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    />
-  </el-select>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -36,3 +25,14 @@ const options = [
   },
 ]
 </script>
+
+<template>
+  <el-select v-model="value" filterable placeholder="Select">
+    <el-option
+      v-for="item of options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
+</template>

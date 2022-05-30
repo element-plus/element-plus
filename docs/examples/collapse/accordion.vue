@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const activeName = ref('1')
+</script>
+
 <template>
   <div class="demo-collapse">
     <el-collapse v-model="activeName" accordion>
@@ -48,9 +54,3 @@
     </el-collapse>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const activeName = ref('1')
-</script>

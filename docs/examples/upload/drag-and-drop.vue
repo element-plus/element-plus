@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { UploadFilled } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <el-upload
     class="upload-demo"
@@ -16,7 +20,3 @@
     </template>
   </el-upload>
 </template>
-
-<script setup lang="ts">
-import { UploadFilled } from '@element-plus/icons-vue'
-</script>

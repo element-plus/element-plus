@@ -1,15 +1,3 @@
-<template>
-  <div class="demo-image__preview">
-    <el-image
-      style="width: 100px; height: 100px"
-      :src="url"
-      :preview-src-list="srcList"
-      :initial-index="4"
-      fit="cover"
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
 const url =
   'https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg'
@@ -23,6 +11,18 @@ const srcList = [
   'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
 ]
 </script>
+
+<template>
+  <div class="demo-image__preview">
+    <el-image
+      style="width: 100px; height: 100px"
+      :src="url"
+      :preview-src-list="srcList"
+      :initial-index="4"
+      fit="cover"
+    />
+  </div>
+</template>
 
 <style scoped>
 .demo-image__error .image-slot {

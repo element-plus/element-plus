@@ -1,7 +1,3 @@
-<template>
-  <el-cascader-panel :options="options" />
-</template>
-
 <script lang="ts" setup>
 const options = [
   {
@@ -272,3 +268,7 @@ const options = [
   },
 ]
 </script>
+
+<template>
+  <el-cascader-panel :options="options" />
+</template>

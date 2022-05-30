@@ -1,13 +1,3 @@
-<template>
-  <div>
-    <el-button m="b-2" @click="toggle"> Switch Lang </el-button>
-    <br />
-    <el-config-provider :locale="locale2">
-      <el-color-picker :model-value="''" style="vertical-align: middle" />
-    </el-config-provider>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -35,3 +25,13 @@ const toggle = () => {
   locale2.value = temp
 }
 </script>
+
+<template>
+  <div>
+    <el-button m="b-2" @click="toggle"> Switch Lang </el-button>
+    <br />
+    <el-config-provider :locale="locale2">
+      <el-color-picker :model-value="''" style="vertical-align: middle" />
+    </el-config-provider>
+  </div>
+</template>

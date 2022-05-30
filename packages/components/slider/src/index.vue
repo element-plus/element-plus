@@ -1,110 +1,3 @@
-<template>
-  <div
-    :id="range ? inputId : undefined"
-    ref="sliderWrapper"
-    :class="sliderKls"
-    :role="range ? 'group' : undefined"
-    :aria-label="range && !isLabeledByFormItem ? groupLabel : undefined"
-    :aria-labelledby="
-      range && isLabeledByFormItem ? elFormItem.labelId : undefined
-    "
-    @touchstart="onSliderWrapperPrevent"
-    @touchmove="onSliderWrapperPrevent"
-  >
-    <div
-      ref="slider"
-      :class="[
-        ns.e('runway'),
-        { 'show-input': showInput && !range },
-        ns.is('disabled', sliderDisabled),
-      ]"
-      :style="runwayStyle"
-      @mousedown="onSliderDown"
-      @touchstart="onSliderDown"
-    >
-      <div :class="ns.e('bar')" :style="barStyle" />
-      <slider-button
-        :id="!range ? inputId : undefined"
-        ref="firstButton"
-        :model-value="firstValue"
-        :vertical="vertical"
-        :tooltip-class="tooltipClass"
-        role="slider"
-        :aria-label="
-          range || !isLabeledByFormItem ? firstButtonLabel : undefined
-        "
-        :aria-labelledby="
-          !range && isLabeledByFormItem ? elFormItem.labelId : undefined
-        "
-        :aria-valuemin="min"
-        :aria-valuemax="range ? secondValue : max"
-        :aria-valuenow="firstValue"
-        :aria-valuetext="firstValueText"
-        :aria-orientation="vertical ? 'vertical' : 'horizontal'"
-        :aria-disabled="sliderDisabled"
-        @update:model-value="setFirstValue"
-      />
-      <slider-button
-        v-if="range"
-        ref="secondButton"
-        :model-value="secondValue"
-        :vertical="vertical"
-        :tooltip-class="tooltipClass"
-        role="slider"
-        :aria-label="secondButtonLabel"
-        :aria-valuemin="firstValue"
-        :aria-valuemax="max"
-        :aria-valuenow="secondValue"
-        :aria-valuetext="secondValueText"
-        :aria-orientation="vertical ? 'vertical' : 'horizontal'"
-        :aria-disabled="sliderDisabled"
-        @update:model-value="setSecondValue"
-      />
-      <div v-if="showStops">
-        <div
-          v-for="(item, key) in stops"
-          :key="key"
-          :class="ns.e('stop')"
-          :style="getStopStyle(item)"
-        />
-      </div>
-      <template v-if="markList.length > 0">
-        <div>
-          <div
-            v-for="(item, key) in markList"
-            :key="key"
-            :style="getStopStyle(item.position)"
-            :class="[ns.e('stop'), ns.e('marks-stop')]"
-          />
-        </div>
-        <div :class="ns.e('marks')">
-          <slider-marker
-            v-for="(item, key) in markList"
-            :key="key"
-            :mark="item.mark"
-            :style="getStopStyle(item.position)"
-          />
-        </div>
-      </template>
-    </div>
-    <el-input-number
-      v-if="showInput && !range"
-      ref="input"
-      :model-value="firstValue"
-      :class="ns.e('input')"
-      :step="step"
-      :disabled="sliderDisabled"
-      :controls="showInputControls"
-      :min="min"
-      :max="max"
-      :debounce="debounce"
-      :size="sliderInputSize"
-      @update:model-value="setFirstValue"
-      @change="emitChange"
-    />
-  </div>
-</template>
-
 <script lang="ts">
 import {
   computed,
@@ -543,3 +436,110 @@ const useLifecycle = (props, initData, resetSize) => {
   }
 }
 </script>
+
+<template>
+  <div
+    :id="range ? inputId : undefined"
+    ref="sliderWrapper"
+    :class="sliderKls"
+    :role="range ? 'group' : undefined"
+    :aria-label="range && !isLabeledByFormItem ? groupLabel : undefined"
+    :aria-labelledby="
+      range && isLabeledByFormItem ? elFormItem.labelId : undefined
+    "
+    @touchstart="onSliderWrapperPrevent"
+    @touchmove="onSliderWrapperPrevent"
+  >
+    <div
+      ref="slider"
+      :class="[
+        ns.e('runway'),
+        { 'show-input': showInput && !range },
+        ns.is('disabled', sliderDisabled),
+      ]"
+      :style="runwayStyle"
+      @mousedown="onSliderDown"
+      @touchstart="onSliderDown"
+    >
+      <div :class="ns.e('bar')" :style="barStyle" />
+      <slider-button
+        :id="!range ? inputId : undefined"
+        ref="firstButton"
+        :model-value="firstValue"
+        :vertical="vertical"
+        :tooltip-class="tooltipClass"
+        role="slider"
+        :aria-label="
+          range || !isLabeledByFormItem ? firstButtonLabel : undefined
+        "
+        :aria-labelledby="
+          !range && isLabeledByFormItem ? elFormItem.labelId : undefined
+        "
+        :aria-valuemin="min"
+        :aria-valuemax="range ? secondValue : max"
+        :aria-valuenow="firstValue"
+        :aria-valuetext="firstValueText"
+        :aria-orientation="vertical ? 'vertical' : 'horizontal'"
+        :aria-disabled="sliderDisabled"
+        @update:model-value="setFirstValue"
+      />
+      <slider-button
+        v-if="range"
+        ref="secondButton"
+        :model-value="secondValue"
+        :vertical="vertical"
+        :tooltip-class="tooltipClass"
+        role="slider"
+        :aria-label="secondButtonLabel"
+        :aria-valuemin="firstValue"
+        :aria-valuemax="max"
+        :aria-valuenow="secondValue"
+        :aria-valuetext="secondValueText"
+        :aria-orientation="vertical ? 'vertical' : 'horizontal'"
+        :aria-disabled="sliderDisabled"
+        @update:model-value="setSecondValue"
+      />
+      <div v-if="showStops">
+        <div
+          v-for="(item, key) of stops"
+          :key="key"
+          :class="ns.e('stop')"
+          :style="getStopStyle(item)"
+        />
+      </div>
+      <template v-if="markList.length > 0">
+        <div>
+          <div
+            v-for="(item, key) of markList"
+            :key="key"
+            :style="getStopStyle(item.position)"
+            :class="[ns.e('stop'), ns.e('marks-stop')]"
+          />
+        </div>
+        <div :class="ns.e('marks')">
+          <slider-marker
+            v-for="(item, key) of markList"
+            :key="key"
+            :mark="item.mark"
+            :style="getStopStyle(item.position)"
+          />
+        </div>
+      </template>
+    </div>
+    <el-input-number
+      v-if="showInput && !range"
+      ref="input"
+      :model-value="firstValue"
+      :class="ns.e('input')"
+      :step="step"
+      :disabled="sliderDisabled"
+      :controls="showInputControls"
+      :min="min"
+      :max="max"
+      :debounce="debounce"
+      :size="sliderInputSize"
+      @update:model-value="setFirstValue"
+      @change="emitChange"
+    />
+  </div>
+</template>

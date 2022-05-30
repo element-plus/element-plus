@@ -1,86 +1,3 @@
-<template>
-  <div :class="switchKls" @click.prevent="switchValue">
-    <input
-      :id="inputId"
-      ref="input"
-      :class="ns.e('input')"
-      type="checkbox"
-      role="switch"
-      :aria-checked="checked"
-      :aria-disabled="switchDisabled"
-      :name="name"
-      :true-value="activeValue"
-      :false-value="inactiveValue"
-      :disabled="switchDisabled"
-      @change="handleChange"
-      @keydown.enter="switchValue"
-    />
-    <span
-      v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
-      :class="[
-        ns.e('label'),
-        ns.em('label', 'left'),
-        ns.is('active', !checked),
-      ]"
-    >
-      <el-icon v-if="inactiveIcon"><component :is="inactiveIcon" /></el-icon>
-      <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
-        inactiveText
-      }}</span>
-    </span>
-    <span ref="core" :class="ns.e('core')" :style="coreStyle">
-      <div v-if="inlinePrompt" :class="ns.e('inner')">
-        <template v-if="activeIcon || inactiveIcon">
-          <el-icon
-            v-if="activeIcon"
-            :class="[ns.is('icon'), checked ? ns.is('show') : ns.is('hide')]"
-          >
-            <component :is="activeIcon" />
-          </el-icon>
-          <el-icon
-            v-if="inactiveIcon"
-            :class="[ns.is('icon'), !checked ? ns.is('show') : ns.is('hide')]"
-          >
-            <component :is="inactiveIcon" />
-          </el-icon>
-        </template>
-        <template v-else-if="activeText || inactiveIcon">
-          <span
-            v-if="activeText"
-            :class="[ns.is('text'), checked ? ns.is('show') : ns.is('hide')]"
-            :aria-hidden="!checked"
-          >
-            {{ activeText.substring(0, 3) }}
-          </span>
-          <span
-            v-if="inactiveText"
-            :class="[ns.is('text'), !checked ? ns.is('show') : ns.is('hide')]"
-            :aria-hidden="checked"
-          >
-            {{ inactiveText.substring(0, 3) }}
-          </span>
-        </template>
-      </div>
-      <div :class="ns.e('action')">
-        <el-icon v-if="loading" :class="ns.is('loading')"><loading /></el-icon>
-      </div>
-    </span>
-    <span
-      v-if="!inlinePrompt && (activeIcon || activeText)"
-      :class="[
-        ns.e('label'),
-        ns.em('label', 'right'),
-        ns.is('active', checked),
-      ]"
-    >
-      <el-icon v-if="activeIcon"><component :is="activeIcon" /></el-icon>
-      <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
-        activeText
-      }}</span>
-    </span>
-  </div>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
 import { isPromise } from '@vue/shared'
@@ -259,3 +176,86 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div :class="switchKls" @click.prevent="switchValue">
+    <input
+      :id="inputId"
+      ref="input"
+      :class="ns.e('input')"
+      type="checkbox"
+      role="switch"
+      :aria-checked="checked"
+      :aria-disabled="switchDisabled"
+      :name="name"
+      :true-value="activeValue"
+      :false-value="inactiveValue"
+      :disabled="switchDisabled"
+      @change="handleChange"
+      @keydown.enter="switchValue"
+    />
+    <span
+      v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
+      :class="[
+        ns.e('label'),
+        ns.em('label', 'left'),
+        ns.is('active', !checked),
+      ]"
+    >
+      <el-icon v-if="inactiveIcon"><component :is="inactiveIcon" /></el-icon>
+      <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
+        inactiveText
+      }}</span>
+    </span>
+    <span ref="core" :class="ns.e('core')" :style="coreStyle">
+      <div v-if="inlinePrompt" :class="ns.e('inner')">
+        <template v-if="activeIcon || inactiveIcon">
+          <el-icon
+            v-if="activeIcon"
+            :class="[ns.is('icon'), checked ? ns.is('show') : ns.is('hide')]"
+          >
+            <component :is="activeIcon" />
+          </el-icon>
+          <el-icon
+            v-if="inactiveIcon"
+            :class="[ns.is('icon'), !checked ? ns.is('show') : ns.is('hide')]"
+          >
+            <component :is="inactiveIcon" />
+          </el-icon>
+        </template>
+        <template v-else-if="activeText || inactiveIcon">
+          <span
+            v-if="activeText"
+            :class="[ns.is('text'), checked ? ns.is('show') : ns.is('hide')]"
+            :aria-hidden="!checked"
+          >
+            {{ activeText.substring(0, 3) }}
+          </span>
+          <span
+            v-if="inactiveText"
+            :class="[ns.is('text'), !checked ? ns.is('show') : ns.is('hide')]"
+            :aria-hidden="checked"
+          >
+            {{ inactiveText.substring(0, 3) }}
+          </span>
+        </template>
+      </div>
+      <div :class="ns.e('action')">
+        <el-icon v-if="loading" :class="ns.is('loading')"><loading /></el-icon>
+      </div>
+    </span>
+    <span
+      v-if="!inlinePrompt && (activeIcon || activeText)"
+      :class="[
+        ns.e('label'),
+        ns.em('label', 'right'),
+        ns.is('active', checked),
+      ]"
+    >
+      <el-icon v-if="activeIcon"><component :is="activeIcon" /></el-icon>
+      <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
+        activeText
+      }}</span>
+    </span>
+  </div>
+</template>

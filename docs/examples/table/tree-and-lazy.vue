@@ -1,30 +1,3 @@
-<template>
-  <div>
-    <el-table
-      :data="tableData"
-      style="width: 100%; margin-bottom: 20px"
-      row-key="id"
-      border
-      default-expand-all
-    >
-      <el-table-column prop="date" label="date" sortable width="180" />
-      <el-table-column prop="name" label="Name" sortable width="180" />
-    </el-table>
-
-    <el-table
-      :data="tableData1"
-      style="width: 100%"
-      row-key="id"
-      border
-      lazy
-      :load="load"
-      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-    >
-      <el-table-column prop="date" label="Date" width="180" />
-      <el-table-column prop="name" label="Name" width="180" />
-    </el-table>
-  </div>
-</template>
 <script lang="ts" setup>
 interface User {
   id: number
@@ -114,3 +87,30 @@ const tableData1: User[] = [
   },
 ]
 </script>
+<template>
+  <div>
+    <el-table
+      :data="tableData"
+      style="width: 100%; margin-bottom: 20px"
+      row-key="id"
+      border
+      default-expand-all
+    >
+      <el-table-column prop="date" label="date" sortable width="180" />
+      <el-table-column prop="name" label="Name" sortable width="180" />
+    </el-table>
+
+    <el-table
+      :data="tableData1"
+      style="width: 100%"
+      row-key="id"
+      border
+      lazy
+      :load="load"
+      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+    >
+      <el-table-column prop="date" label="Date" width="180" />
+      <el-table-column prop="name" label="Name" width="180" />
+    </el-table>
+  </div>
+</template>

@@ -1,9 +1,3 @@
-<template>
-  <span v-bind="$attrs" :style="computedStyle">
-    <slot />
-  </span>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 
@@ -37,3 +31,9 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <span v-bind="$attrs" :style="computedStyle">
+    <slot />
+  </span>
+</template>

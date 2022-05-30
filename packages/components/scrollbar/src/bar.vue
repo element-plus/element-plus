@@ -1,13 +1,3 @@
-<template>
-  <thumb :move="moveX" :ratio="ratioX" :size="width" :always="always" />
-  <thumb
-    :move="moveY"
-    :ratio="ratioY"
-    :size="height"
-    vertical
-    :always="always"
-  />
-</template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import Thumb from './thumb.vue'
@@ -41,3 +31,13 @@ export default defineComponent({
   },
 })
 </script>
+<template>
+  <thumb :move="moveX" :ratio="ratioX" :size="width" :always="always" />
+  <thumb
+    :move="moveY"
+    :ratio="ratioY"
+    :size="height"
+    vertical
+    :always="always"
+  />
+</template>

@@ -1,7 +1,3 @@
-<template>
-  <el-tree :data="data" :props="defaultProps" show-checkbox />
-</template>
-
 <script lang="ts" setup>
 const defaultProps = {
   children: 'children',
@@ -49,3 +45,7 @@ const data = [
   },
 ]
 </script>
+
+<template>
+  <el-tree :data="data" :props="defaultProps" show-checkbox />
+</template>

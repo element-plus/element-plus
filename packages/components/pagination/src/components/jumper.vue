@@ -1,21 +1,3 @@
-<template>
-  <span :class="ns.e('jump')" :disabled="disabled">
-    {{ t('el.pagination.goto') }}
-    <el-input
-      size="small"
-      :class="[ns.e('editor'), ns.is('in-pagination')]"
-      :min="1"
-      :max="pageCount"
-      :disabled="disabled"
-      :model-value="innerValue"
-      type="number"
-      @update:model-value="handleInput"
-      @change="handleChange"
-    />
-    {{ t('el.pagination.pageClassifier') }}
-  </span>
-</template>
-
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -42,3 +24,21 @@ function handleChange(val: number | string) {
   userInput.value = undefined
 }
 </script>
+
+<template>
+  <span :class="ns.e('jump')" :disabled="disabled">
+    {{ t('el.pagination.goto') }}
+    <el-input
+      size="small"
+      :class="[ns.e('editor'), ns.is('in-pagination')]"
+      :min="1"
+      :max="pageCount"
+      :disabled="disabled"
+      :model-value="innerValue"
+      type="number"
+      @update:model-value="handleInput"
+      @change="handleChange"
+    />
+    {{ t('el.pagination.pageClassifier') }}
+  </span>
+</template>

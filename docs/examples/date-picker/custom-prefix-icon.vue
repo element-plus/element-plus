@@ -1,3 +1,15 @@
+<script lang="ts" setup>
+import { h, ref, shallowRef } from 'vue'
+
+const value1 = ref('')
+
+const customPrefix = shallowRef({
+  render() {
+    return h('p', 'pre')
+  },
+})
+</script>
+
 <template>
   <div class="demo-date-picker">
     <div class="block">
@@ -11,18 +23,6 @@
     </div>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { h, ref, shallowRef } from 'vue'
-
-const value1 = ref('')
-
-const customPrefix = shallowRef({
-  render() {
-    return h('p', 'pre')
-  },
-})
-</script>
 <style scoped>
 .demo-date-picker {
   display: flex;

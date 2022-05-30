@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { Eleme } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <el-button type="primary" loading>Loading</el-button>
   <el-button type="primary" :loading-icon="Eleme" loading>Loading</el-button>
@@ -23,10 +27,6 @@
     Loading
   </el-button>
 </template>
-
-<script lang="ts" setup>
-import { Eleme } from '@element-plus/icons-vue'
-</script>
 
 <style scoped>
 .el-button .custom-loading .circular {

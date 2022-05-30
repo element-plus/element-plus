@@ -1,43 +1,3 @@
-<template>
-  <transition
-    :name="ns.b('fade')"
-    @before-leave="onClose"
-    @after-leave="$emit('destroy')"
-  >
-    <div
-      v-show="visible"
-      :id="id"
-      :class="[ns.b(), customClass, horizontalClass]"
-      :style="positionStyle"
-      role="alert"
-      @mouseenter="clearTimer"
-      @mouseleave="startTimer"
-      @click="onClick"
-    >
-      <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
-        <component :is="iconComponent" />
-      </el-icon>
-      <div :class="ns.e('group')">
-        <h2 :class="ns.e('title')" v-text="title" />
-        <div
-          v-show="message"
-          :class="ns.e('content')"
-          :style="!!title ? undefined : { margin: 0 }"
-        >
-          <slot>
-            <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
-            <!-- Caution here, message could've been compromized, nerver use user's input as message -->
-            <!-- eslint-disable-next-line -->
-            <p v-else v-html="message"></p>
-          </slot>
-        </div>
-        <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
-          <close />
-        </el-icon>
-      </div>
-    </div>
-  </transition>
-</template>
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
@@ -141,3 +101,43 @@ export default defineComponent({
   },
 })
 </script>
+<template>
+  <transition
+    :name="ns.b('fade')"
+    @before-leave="onClose"
+    @after-leave="$emit('destroy')"
+  >
+    <div
+      v-show="visible"
+      :id="id"
+      :class="[ns.b(), customClass, horizontalClass]"
+      :style="positionStyle"
+      role="alert"
+      @mouseenter="clearTimer"
+      @mouseleave="startTimer"
+      @click="onClick"
+    >
+      <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
+        <component :is="iconComponent" />
+      </el-icon>
+      <div :class="ns.e('group')">
+        <h2 :class="ns.e('title')" v-text="title" />
+        <div
+          v-show="message"
+          :class="ns.e('content')"
+          :style="!!title ? undefined : { margin: 0 }"
+        >
+          <slot>
+            <p v-if="!dangerouslyUseHTMLString">{{ message }}</p>
+            <!-- Caution here, message could've been compromized, nerver use user's input as message -->
+            <!-- eslint-disable-next-line -->
+            <p v-else v-html="message"></p>
+          </slot>
+        </div>
+        <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
+          <close />
+        </el-icon>
+      </div>
+    </div>
+  </transition>
+</template>

@@ -19,14 +19,14 @@ useActiveSidebarLinks(container, marker)
       <h3 class="toc-content__heading">Contents</h3>
       <ul class="toc-items">
         <li
-          v-for="{ link, text, children } in headers"
+          v-for="{ link, text, children } of headers"
           :key="link"
           class="toc-item"
         >
           <a class="toc-link" :href="link" :title="text">{{ text }}</a>
           <ul v-if="children">
             <li
-              v-for="{ link: childLink, text: childText } in children"
+              v-for="{ link: childLink, text: childText } of children"
               :key="childLink"
               class="toc-item"
             >

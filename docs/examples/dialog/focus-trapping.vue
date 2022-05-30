@@ -1,3 +1,15 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { ElInput } from 'element-plus'
+
+const dialogVisible = ref(false)
+const inputRef = ref<InstanceType<typeof ElInput>>()
+
+const handleCloseAutoFocus = () => {
+  inputRef.value?.focus()
+}
+</script>
+
 <template>
   <el-button text @click="dialogVisible = true"
     >click to open the Dialog</el-button
@@ -28,18 +40,6 @@
     </template>
   </el-dialog>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { ElInput } from 'element-plus'
-
-const dialogVisible = ref(false)
-const inputRef = ref<InstanceType<typeof ElInput>>()
-
-const handleCloseAutoFocus = () => {
-  inputRef.value?.focus()
-}
-</script>
 <style scoped>
 .dialog-footer button:first-child {
   margin-right: 10px;

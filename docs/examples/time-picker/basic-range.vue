@@ -1,15 +1,3 @@
-<template>
-  <div class="example-basic">
-    <el-time-picker
-      v-model="value1"
-      :disabled-hours="disabledHours"
-      :disabled-minutes="disabledMinutes"
-      :disabled-seconds="disabledSeconds"
-      placeholder="Arbitrary time"
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -39,6 +27,18 @@ const disabledSeconds = (hour: number, minute: number) => {
   }
 }
 </script>
+
+<template>
+  <div class="example-basic">
+    <el-time-picker
+      v-model="value1"
+      :disabled-hours="disabledHours"
+      :disabled-minutes="disabledMinutes"
+      :disabled-seconds="disabledSeconds"
+      placeholder="Arbitrary time"
+    />
+  </div>
+</template>
 
 <style>
 .example-basic .el-date-editor {

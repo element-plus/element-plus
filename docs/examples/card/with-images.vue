@@ -1,7 +1,13 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const currentDate = ref(new Date())
+</script>
+
 <template>
   <el-row>
     <el-col
-      v-for="(o, index) in 2"
+      v-for="(o, index) of 2"
       :key="o"
       :span="8"
       :offset="index > 0 ? 2 : 0"
@@ -22,12 +28,6 @@
     </el-col>
   </el-row>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const currentDate = ref(new Date())
-</script>
 
 <style>
 .time {

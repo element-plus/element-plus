@@ -1,3 +1,12 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const calendar = ref()
+const selectDate = (val: string) => {
+  calendar.value.selectDate(val)
+}
+</script>
+
 <template>
   <el-calendar ref="calendar">
     <template #header="{ date }">
@@ -21,12 +30,3 @@
     </template>
   </el-calendar>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const calendar = ref()
-const selectDate = (val: string) => {
-  calendar.value.selectDate(val)
-}
-</script>

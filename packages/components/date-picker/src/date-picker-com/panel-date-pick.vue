@@ -1,187 +1,3 @@
-<template>
-  <div
-    :class="[
-      ppNs.b(),
-      dpNs.b(),
-      {
-        'has-sidebar': $slots.sidebar || hasShortcuts,
-        'has-time': showTime,
-      },
-    ]"
-  >
-    <div :class="ppNs.e('body-wrapper')">
-      <slot name="sidebar" :class="ppNs.e('sidebar')" />
-      <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
-        <button
-          v-for="(shortcut, key) in shortcuts"
-          :key="key"
-          type="button"
-          :class="ppNs.e('shortcut')"
-          @click="handleShortcutClick(shortcut)"
-        >
-          {{ shortcut.text }}
-        </button>
-      </div>
-      <div :class="ppNs.e('body')">
-        <div v-if="showTime" :class="dpNs.e('time-header')">
-          <span :class="dpNs.e('editor-wrap')">
-            <el-input
-              :placeholder="t('el.datepicker.selectDate')"
-              :model-value="visibleDate"
-              size="small"
-              @input="(val) => (userInputDate = val)"
-              @change="handleVisibleDateChange"
-            />
-          </span>
-          <span
-            v-clickoutside="handleTimePickClose"
-            :class="dpNs.e('editor-wrap')"
-          >
-            <el-input
-              :placeholder="t('el.datepicker.selectTime')"
-              :model-value="visibleTime"
-              size="small"
-              @focus="onTimePickerInputFocus"
-              @input="(val) => (userInputTime = val)"
-              @change="handleVisibleTimeChange"
-            />
-            <time-pick-panel
-              :visible="timePickerVisible"
-              :format="timeFormat"
-              :time-arrow-control="arrowControl"
-              :parsed-value="innerDate"
-              @pick="handleTimePick"
-            />
-          </span>
-        </div>
-        <div
-          v-show="currentView !== 'time'"
-          :class="[
-            dpNs.e('header'),
-            (currentView === 'year' || currentView === 'month') &&
-              dpNs.e('header--bordered'),
-          ]"
-        >
-          <span :class="dpNs.e('prev-btn')">
-            <button
-              type="button"
-              :aria-label="t(`el.datepicker.prevYear`)"
-              class="d-arrow-left"
-              :class="ppNs.e('icon-btn')"
-              @click="prevYear_"
-            >
-              <el-icon><d-arrow-left /></el-icon>
-            </button>
-            <button
-              v-show="currentView === 'date'"
-              type="button"
-              :aria-label="t(`el.datepicker.prevMonth`)"
-              :class="ppNs.e('icon-btn')"
-              class="arrow-left"
-              @click="prevMonth_"
-            >
-              <el-icon><arrow-left /></el-icon>
-            </button>
-          </span>
-          <span
-            role="button"
-            :class="dpNs.e('header-label')"
-            aria-live="polite"
-            tabindex="0"
-            @keydown.enter="showYearPicker"
-            @click="showYearPicker"
-            >{{ yearLabel }}</span
-          >
-          <span
-            v-show="currentView === 'date'"
-            role="button"
-            aria-live="polite"
-            tabindex="0"
-            :class="[
-              dpNs.e('header-label'),
-              { active: currentView === 'month' },
-            ]"
-            @keydown.enter="showMonthPicker"
-            @click="showMonthPicker"
-            >{{ t(`el.datepicker.month${month + 1}`) }}</span
-          >
-          <span :class="dpNs.e('next-btn')">
-            <button
-              v-show="currentView === 'date'"
-              type="button"
-              :aria-label="t(`el.datepicker.nextMonth`)"
-              :class="ppNs.e('icon-btn')"
-              class="arrow-right"
-              @click="nextMonth_"
-            >
-              <el-icon><arrow-right /></el-icon>
-            </button>
-            <button
-              type="button"
-              :aria-label="t(`el.datepicker.nextYear`)"
-              :class="ppNs.e('icon-btn')"
-              class="d-arrow-right"
-              @click="nextYear_"
-            >
-              <el-icon><d-arrow-right /></el-icon>
-            </button>
-          </span>
-        </div>
-        <div :class="ppNs.e('content')" @keydown="handleKeydownTable">
-          <date-table
-            v-if="currentView === 'date'"
-            ref="currentViewRef"
-            :selection-mode="selectionMode"
-            :date="innerDate"
-            :parsed-value="parsedValue"
-            :disabled-date="disabledDate"
-            :cell-class-name="cellClassName"
-            @pick="handleDatePick"
-          />
-          <year-table
-            v-if="currentView === 'year'"
-            ref="currentViewRef"
-            :date="innerDate"
-            :disabled-date="disabledDate"
-            :parsed-value="parsedValue"
-            @pick="handleYearPick"
-          />
-          <month-table
-            v-if="currentView === 'month'"
-            ref="currentViewRef"
-            :date="innerDate"
-            :parsed-value="parsedValue"
-            :disabled-date="disabledDate"
-            @pick="handleMonthPick"
-          />
-        </div>
-      </div>
-    </div>
-    <div
-      v-show="footerVisible && currentView === 'date'"
-      :class="ppNs.e('footer')"
-    >
-      <el-button
-        v-show="selectionMode !== 'dates'"
-        text
-        size="small"
-        :class="ppNs.e('link-btn')"
-        @click="changeToNow"
-      >
-        {{ t('el.datepicker.now') }}
-      </el-button>
-      <el-button
-        plain
-        size="small"
-        :class="ppNs.e('link-btn')"
-        @click="onConfirm"
-      >
-        {{ t('el.datepicker.confirm') }}
-      </el-button>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import {
   computed,
@@ -799,3 +615,187 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div
+    :class="[
+      ppNs.b(),
+      dpNs.b(),
+      {
+        'has-sidebar': $slots.sidebar || hasShortcuts,
+        'has-time': showTime,
+      },
+    ]"
+  >
+    <div :class="ppNs.e('body-wrapper')">
+      <slot name="sidebar" :class="ppNs.e('sidebar')" />
+      <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
+        <button
+          v-for="(shortcut, key) of shortcuts"
+          :key="key"
+          type="button"
+          :class="ppNs.e('shortcut')"
+          @click="handleShortcutClick(shortcut)"
+        >
+          {{ shortcut.text }}
+        </button>
+      </div>
+      <div :class="ppNs.e('body')">
+        <div v-if="showTime" :class="dpNs.e('time-header')">
+          <span :class="dpNs.e('editor-wrap')">
+            <el-input
+              :placeholder="t('el.datepicker.selectDate')"
+              :model-value="visibleDate"
+              size="small"
+              @input="(val) => (userInputDate = val)"
+              @change="handleVisibleDateChange"
+            />
+          </span>
+          <span
+            v-clickoutside="handleTimePickClose"
+            :class="dpNs.e('editor-wrap')"
+          >
+            <el-input
+              :placeholder="t('el.datepicker.selectTime')"
+              :model-value="visibleTime"
+              size="small"
+              @focus="onTimePickerInputFocus"
+              @input="(val) => (userInputTime = val)"
+              @change="handleVisibleTimeChange"
+            />
+            <time-pick-panel
+              :visible="timePickerVisible"
+              :format="timeFormat"
+              :time-arrow-control="arrowControl"
+              :parsed-value="innerDate"
+              @pick="handleTimePick"
+            />
+          </span>
+        </div>
+        <div
+          v-show="currentView !== 'time'"
+          :class="[
+            dpNs.e('header'),
+            (currentView === 'year' || currentView === 'month') &&
+              dpNs.e('header--bordered'),
+          ]"
+        >
+          <span :class="dpNs.e('prev-btn')">
+            <button
+              type="button"
+              :aria-label="t(`el.datepicker.prevYear`)"
+              class="d-arrow-left"
+              :class="ppNs.e('icon-btn')"
+              @click="prevYear_"
+            >
+              <el-icon><d-arrow-left /></el-icon>
+            </button>
+            <button
+              v-show="currentView === 'date'"
+              type="button"
+              :aria-label="t(`el.datepicker.prevMonth`)"
+              :class="ppNs.e('icon-btn')"
+              class="arrow-left"
+              @click="prevMonth_"
+            >
+              <el-icon><arrow-left /></el-icon>
+            </button>
+          </span>
+          <span
+            role="button"
+            :class="dpNs.e('header-label')"
+            aria-live="polite"
+            tabindex="0"
+            @keydown.enter="showYearPicker"
+            @click="showYearPicker"
+            >{{ yearLabel }}</span
+          >
+          <span
+            v-show="currentView === 'date'"
+            role="button"
+            aria-live="polite"
+            tabindex="0"
+            :class="[
+              dpNs.e('header-label'),
+              { active: currentView === 'month' },
+            ]"
+            @keydown.enter="showMonthPicker"
+            @click="showMonthPicker"
+            >{{ t(`el.datepicker.month${month + 1}`) }}</span
+          >
+          <span :class="dpNs.e('next-btn')">
+            <button
+              v-show="currentView === 'date'"
+              type="button"
+              :aria-label="t(`el.datepicker.nextMonth`)"
+              :class="ppNs.e('icon-btn')"
+              class="arrow-right"
+              @click="nextMonth_"
+            >
+              <el-icon><arrow-right /></el-icon>
+            </button>
+            <button
+              type="button"
+              :aria-label="t(`el.datepicker.nextYear`)"
+              :class="ppNs.e('icon-btn')"
+              class="d-arrow-right"
+              @click="nextYear_"
+            >
+              <el-icon><d-arrow-right /></el-icon>
+            </button>
+          </span>
+        </div>
+        <div :class="ppNs.e('content')" @keydown="handleKeydownTable">
+          <date-table
+            v-if="currentView === 'date'"
+            ref="currentViewRef"
+            :selection-mode="selectionMode"
+            :date="innerDate"
+            :parsed-value="parsedValue"
+            :disabled-date="disabledDate"
+            :cell-class-name="cellClassName"
+            @pick="handleDatePick"
+          />
+          <year-table
+            v-if="currentView === 'year'"
+            ref="currentViewRef"
+            :date="innerDate"
+            :disabled-date="disabledDate"
+            :parsed-value="parsedValue"
+            @pick="handleYearPick"
+          />
+          <month-table
+            v-if="currentView === 'month'"
+            ref="currentViewRef"
+            :date="innerDate"
+            :parsed-value="parsedValue"
+            :disabled-date="disabledDate"
+            @pick="handleMonthPick"
+          />
+        </div>
+      </div>
+    </div>
+    <div
+      v-show="footerVisible && currentView === 'date'"
+      :class="ppNs.e('footer')"
+    >
+      <el-button
+        v-show="selectionMode !== 'dates'"
+        text
+        size="small"
+        :class="ppNs.e('link-btn')"
+        @click="changeToNow"
+      >
+        {{ t('el.datepicker.now') }}
+      </el-button>
+      <el-button
+        plain
+        size="small"
+        :class="ppNs.e('link-btn')"
+        @click="onConfirm"
+      >
+        {{ t('el.datepicker.confirm') }}
+      </el-button>
+    </div>
+  </div>
+</template>

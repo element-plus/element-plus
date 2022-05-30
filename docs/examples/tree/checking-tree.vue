@@ -1,23 +1,3 @@
-<template>
-  <el-tree
-    ref="treeRef"
-    :data="data"
-    show-checkbox
-    default-expand-all
-    node-key="id"
-    highlight-current
-    :props="defaultProps"
-  />
-
-  <div class="buttons">
-    <el-button @click="getCheckedNodes">get by node</el-button>
-    <el-button @click="getCheckedKeys">get by key</el-button>
-    <el-button @click="setCheckedNodes">set by node</el-button>
-    <el-button @click="setCheckedKeys">set by key</el-button>
-    <el-button @click="resetChecked">reset</el-button>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElTree } from 'element-plus'
@@ -115,3 +95,23 @@ const data: Tree[] = [
   },
 ]
 </script>
+
+<template>
+  <el-tree
+    ref="treeRef"
+    :data="data"
+    show-checkbox
+    default-expand-all
+    node-key="id"
+    highlight-current
+    :props="defaultProps"
+  />
+
+  <div class="buttons">
+    <el-button @click="getCheckedNodes">get by node</el-button>
+    <el-button @click="getCheckedKeys">get by key</el-button>
+    <el-button @click="setCheckedNodes">set by node</el-button>
+    <el-button @click="setCheckedKeys">set by key</el-button>
+    <el-button @click="resetChecked">reset</el-button>
+  </div>
+</template>

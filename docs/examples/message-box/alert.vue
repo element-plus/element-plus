@@ -1,7 +1,3 @@
-<template>
-  <el-button text @click="open">Click to open the Message Box</el-button>
-</template>
-
 <script lang="ts" setup>
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { Action } from 'element-plus'
@@ -18,3 +14,7 @@ const open = () => {
   })
 }
 </script>
+
+<template>
+  <el-button text @click="open">Click to open the Message Box</el-button>
+</template>

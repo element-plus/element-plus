@@ -1,31 +1,3 @@
-<template>
-  <div
-    :class="[ns.b(), ns.m(listType), ns.is('drag', drag)]"
-    tabindex="0"
-    @click="handleClick"
-    @keydown.self.enter.space="handleKeydown"
-  >
-    <template v-if="drag">
-      <upload-dragger :disabled="disabled" @file="uploadFiles">
-        <slot />
-      </upload-dragger>
-    </template>
-    <template v-else>
-      <slot />
-    </template>
-    <input
-      ref="inputRef"
-      :class="ns.e('input')"
-      :name="name"
-      :multiple="multiple"
-      :accept="accept"
-      type="file"
-      @change="handleChange"
-      @click.stop
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
@@ -41,12 +13,13 @@ import type {
   UploadRequestOptions,
 } from './upload'
 
+const props = defineProps(uploadContentProps)
+
 defineOptions({
   name: 'ElUploadContent',
   inheritAttrs: false,
 })
 
-const props = defineProps(uploadContentProps)
 const ns = useNamespace('upload')
 
 const requests = shallowRef<Record<string, XMLHttpRequest | Promise<unknown>>>(
@@ -186,3 +159,31 @@ defineExpose({
   upload,
 })
 </script>
+
+<template>
+  <div
+    :class="[ns.b(), ns.m(listType), ns.is('drag', drag)]"
+    tabindex="0"
+    @click="handleClick"
+    @keydown.self.enter.space="handleKeydown"
+  >
+    <template v-if="drag">
+      <upload-dragger :disabled="disabled" @file="uploadFiles">
+        <slot />
+      </upload-dragger>
+    </template>
+    <template v-else>
+      <slot />
+    </template>
+    <input
+      ref="inputRef"
+      :class="ns.e('input')"
+      :name="name"
+      :multiple="multiple"
+      :accept="accept"
+      type="file"
+      @change="handleChange"
+      @click.stop
+    />
+  </div>
+</template>

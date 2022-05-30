@@ -1,9 +1,3 @@
-<template>
-  <div :class="ns.b()" role="tablist" aria-multiselectable="true">
-    <slot />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { provide, ref, watch } from 'vue'
 import { ensureArray } from '@element-plus/utils'
@@ -13,12 +7,11 @@ import { collapseContextKey } from '@element-plus/tokens'
 import { collapseEmits, collapseProps } from './collapse'
 import type { CollapseActiveName } from './collapse'
 
+const props = defineProps(collapseProps)
+const emit = defineEmits(collapseEmits)
 defineOptions({
   name: 'ElCollapse',
 })
-const props = defineProps(collapseProps)
-const emit = defineEmits(collapseEmits)
-
 const ns = useNamespace('collapse')
 const activeNames = ref(ensureArray(props.modelValue))
 
@@ -68,3 +61,9 @@ defineExpose({
   setActiveNames,
 })
 </script>
+
+<template>
+  <div :class="ns.b()" role="tablist" aria-multiselectable="true">
+    <slot />
+  </div>
+</template>

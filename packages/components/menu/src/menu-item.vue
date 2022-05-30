@@ -1,39 +1,3 @@
-<template>
-  <li
-    :class="[
-      nsMenuItem.b(),
-      nsMenuItem.is('active', active),
-      nsMenuItem.is('disabled', disabled),
-    ]"
-    role="menuitem"
-    tabindex="-1"
-    @click="handleClick"
-  >
-    <el-tooltip
-      v-if="
-        parentMenu.type.name === 'ElMenu' &&
-        rootMenu.props.collapse &&
-        $slots.title
-      "
-      :effect="Effect.DARK"
-      placement="right"
-      :fallback-placements="['left']"
-      persistent
-    >
-      <template #content>
-        <slot name="title" />
-      </template>
-      <div :class="nsMenu.be('tooltip', 'trigger')">
-        <slot />
-      </div>
-    </el-tooltip>
-    <template v-else>
-      <slot />
-      <slot name="title" />
-    </template>
-  </li>
-</template>
-
 <script lang="ts">
 import {
   computed,
@@ -116,3 +80,39 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <li
+    :class="[
+      nsMenuItem.b(),
+      nsMenuItem.is('active', active),
+      nsMenuItem.is('disabled', disabled),
+    ]"
+    role="menuitem"
+    tabindex="-1"
+    @click="handleClick"
+  >
+    <el-tooltip
+      v-if="
+        parentMenu.type.name === 'ElMenu' &&
+        rootMenu.props.collapse &&
+        $slots.title
+      "
+      :effect="Effect.DARK"
+      placement="right"
+      :fallback-placements="['left']"
+      persistent
+    >
+      <template #content>
+        <slot name="title" />
+      </template>
+      <div :class="nsMenu.be('tooltip', 'trigger')">
+        <slot />
+      </div>
+    </el-tooltip>
+    <template v-else>
+      <slot />
+      <slot name="title" />
+    </template>
+  </li>
+</template>

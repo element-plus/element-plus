@@ -1,16 +1,3 @@
-<template>
-  <el-table-v2
-    :columns="columns"
-    :data="data"
-    :sort-by="sort"
-    :estimated-row-height="40"
-    :width="700"
-    :height="400"
-    fixed
-    @column-sort="onColumnSort"
-  />
-</template>
-
 <script lang="tsx" setup>
 import { ref } from 'vue'
 import {
@@ -97,3 +84,16 @@ const onColumnSort = (sortBy: SortBy) => {
   data.value = dataClone
 }
 </script>
+
+<template>
+  <el-table-v2
+    :columns="columns"
+    :data="data"
+    :sort-by="sort"
+    :estimated-row-height="40"
+    :width="700"
+    :height="400"
+    fixed
+    @column-sort="onColumnSort"
+  />
+</template>

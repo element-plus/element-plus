@@ -1,3 +1,53 @@
+<script lang="ts">
+import { defineComponent, provide, reactive, toRefs, vModelText } from 'vue'
+import { ClickOutside } from '@element-plus/directives'
+import ElTooltip from '@element-plus/components/tooltip'
+import ElTag from '@element-plus/components/tag'
+import ElIcon from '@element-plus/components/icon'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import ElSelectMenu from './select-dropdown.vue'
+import useSelect from './useSelect'
+import { selectV2InjectionKey } from './token'
+import { SelectProps } from './defaults'
+export default defineComponent({
+  name: 'ElSelectV2',
+  components: {
+    ElSelectMenu,
+    ElTag,
+    ElTooltip,
+    ElIcon,
+  },
+  directives: { ClickOutside, ModelText: vModelText },
+  props: SelectProps,
+  emits: [
+    UPDATE_MODEL_EVENT,
+    CHANGE_EVENT,
+    'remove-tag',
+    'clear',
+    'visible-change',
+    'focus',
+    'blur',
+  ],
+
+  setup(props, { emit }) {
+    const API = useSelect(props, emit)
+    // TODO, remove the any cast to align the actual API.
+    provide(selectV2InjectionKey, {
+      props: reactive({
+        ...toRefs(props),
+        height: API.popupHeight,
+      }),
+      onSelect: API.onSelect,
+      onHover: API.onHover,
+      onKeyboardNavigate: API.onKeyboardNavigate,
+      onKeyboardSelect: API.onKeyboardSelect,
+    } as any)
+
+    return API
+  },
+})
+</script>
+
 <template>
   <div
     ref="selectRef"
@@ -86,7 +136,7 @@
                     <template #content>
                       <div :class="nsSelectV2.e('selection')">
                         <div
-                          v-for="(selected, idx) in states.cachedOptions"
+                          v-for="(selected, idx) of states.cachedOptions"
                           :key="idx"
                           :class="nsSelectV2.e('selected-item')"
                         >
@@ -125,7 +175,7 @@
 
             <template v-else>
               <div
-                v-for="(selected, idx) in states.cachedOptions"
+                v-for="(selected, idx) of states.cachedOptions"
                 :key="idx"
                 :class="nsSelectV2.e('selected-item')"
               >
@@ -306,53 +356,3 @@
     </el-tooltip>
   </div>
 </template>
-
-<script lang="ts">
-import { defineComponent, provide, reactive, toRefs, vModelText } from 'vue'
-import { ClickOutside } from '@element-plus/directives'
-import ElTooltip from '@element-plus/components/tooltip'
-import ElTag from '@element-plus/components/tag'
-import ElIcon from '@element-plus/components/icon'
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import ElSelectMenu from './select-dropdown.vue'
-import useSelect from './useSelect'
-import { selectV2InjectionKey } from './token'
-import { SelectProps } from './defaults'
-export default defineComponent({
-  name: 'ElSelectV2',
-  components: {
-    ElSelectMenu,
-    ElTag,
-    ElTooltip,
-    ElIcon,
-  },
-  directives: { ClickOutside, ModelText: vModelText },
-  props: SelectProps,
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'remove-tag',
-    'clear',
-    'visible-change',
-    'focus',
-    'blur',
-  ],
-
-  setup(props, { emit }) {
-    const API = useSelect(props, emit)
-    // TODO, remove the any cast to align the actual API.
-    provide(selectV2InjectionKey, {
-      props: reactive({
-        ...toRefs(props),
-        height: API.popupHeight,
-      }),
-      onSelect: API.onSelect,
-      onHover: API.onHover,
-      onKeyboardNavigate: API.onKeyboardNavigate,
-      onKeyboardSelect: API.onKeyboardSelect,
-    } as any)
-
-    return API
-  },
-})
-</script>

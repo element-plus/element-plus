@@ -1,12 +1,3 @@
-<template>
-  <el-table-v2
-    fixed
-    :columns="fixedColumns"
-    :data="data"
-    :width="700"
-    :height="400"
-  />
-</template>
 <script lang="tsx" setup>
 import { ref } from 'vue'
 import {
@@ -107,6 +98,15 @@ const fixedColumns = columns.map((column, columnIndex) => {
   return { ...column, fixed, width: 100 }
 })
 </script>
+<template>
+  <el-table-v2
+    fixed
+    :columns="fixedColumns"
+    :data="data"
+    :width="700"
+    :height="400"
+  />
+</template>
 
 <style>
 .el-table-v2__demo-filter {

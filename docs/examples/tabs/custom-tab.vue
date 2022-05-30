@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { Calendar } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <el-tabs type="border-card" class="demo-tabs">
     <el-tab-pane>
@@ -14,10 +18,6 @@
     <el-tab-pane label="Task">Task</el-tab-pane>
   </el-tabs>
 </template>
-
-<script lang="ts" setup>
-import { Calendar } from '@element-plus/icons-vue'
-</script>
 <style>
 .demo-tabs > .el-tabs__content {
   padding: 32px;

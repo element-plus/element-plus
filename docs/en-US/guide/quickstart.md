@@ -167,12 +167,6 @@ app.use(ElementPlus, { size: 'small', zIndex: 3000 })
 On-demand:
 
 ```vue
-<template>
-  <el-config-provider :size="size" :z-index="zIndex">
-    <app />
-  </el-config-provider>
-</template>
-
 <script>
 import { defineComponent } from 'vue'
 import { ElConfigProvider } from 'element-plus'
@@ -189,6 +183,12 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <el-config-provider :size="size" :z-index="zIndex">
+    <app />
+  </el-config-provider>
+</template>
 ```
 
 ## Using Nuxt.js

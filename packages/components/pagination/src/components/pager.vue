@@ -1,82 +1,13 @@
-<template>
-  <ul :class="nsPager.b()" @click="onPagerClick" @keyup.enter="onEnter">
-    <li
-      v-if="pageCount > 0"
-      :class="[
-        nsPager.is('active', currentPage === 1),
-        nsPager.is('disabled', disabled),
-      ]"
-      class="number"
-      :aria-current="currentPage === 1"
-      tabindex="0"
-    >
-      1
-    </li>
-    <li
-      v-if="showPrevMore"
-      :class="[
-        'more',
-        'btn-quickprev',
-        nsIcon.b(),
-        nsPager.is('disabled', disabled),
-      ]"
-      @mouseenter="onMouseenter('left')"
-      @mouseleave="quickPrevHover = false"
-    >
-      <d-arrow-left v-if="quickPrevHover" />
-      <more-filled v-else />
-    </li>
-    <li
-      v-for="pager in pagers"
-      :key="pager"
-      :class="[
-        nsPager.is('active', currentPage === pager),
-        nsPager.is('disabled', disabled),
-      ]"
-      class="number"
-      :aria-current="currentPage === pager"
-      tabindex="0"
-    >
-      {{ pager }}
-    </li>
-    <li
-      v-if="showNextMore"
-      :class="[
-        'more',
-        'btn-quicknext',
-        nsIcon.b(),
-        nsPager.is('disabled', disabled),
-      ]"
-      @mouseenter="onMouseenter('right')"
-      @mouseleave="quickNextHover = false"
-    >
-      <d-arrow-right v-if="quickNextHover" />
-      <more-filled v-else />
-    </li>
-    <li
-      v-if="pageCount > 1"
-      :class="[
-        nsPager.is('active', currentPage === pageCount),
-        nsPager.is('disabled', disabled),
-      ]"
-      class="number"
-      :aria-current="currentPage === pageCount"
-      tabindex="0"
-    >
-      {{ pageCount }}
-    </li>
-  </ul>
-</template>
 <script lang="ts" setup>
 import { computed, ref, watchEffect } from 'vue'
 import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { paginationPagerProps } from './pager'
+const props = defineProps(paginationPagerProps)
+const emit = defineEmits(['change'])
 defineOptions({
   name: 'ElPaginationPager',
 })
-const props = defineProps(paginationPagerProps)
-const emit = defineEmits(['change'])
 const nsPager = useNamespace('pager')
 const nsIcon = useNamespace('icon')
 const showPrevMore = ref(false)
@@ -182,3 +113,72 @@ function onPagerClick(event: UIEvent) {
   }
 }
 </script>
+<template>
+  <ul :class="nsPager.b()" @click="onPagerClick" @keyup.enter="onEnter">
+    <li
+      v-if="pageCount > 0"
+      :class="[
+        nsPager.is('active', currentPage === 1),
+        nsPager.is('disabled', disabled),
+      ]"
+      class="number"
+      :aria-current="currentPage === 1"
+      tabindex="0"
+    >
+      1
+    </li>
+    <li
+      v-if="showPrevMore"
+      :class="[
+        'more',
+        'btn-quickprev',
+        nsIcon.b(),
+        nsPager.is('disabled', disabled),
+      ]"
+      @mouseenter="onMouseenter('left')"
+      @mouseleave="quickPrevHover = false"
+    >
+      <d-arrow-left v-if="quickPrevHover" />
+      <more-filled v-else />
+    </li>
+    <li
+      v-for="pager of pagers"
+      :key="pager"
+      :class="[
+        nsPager.is('active', currentPage === pager),
+        nsPager.is('disabled', disabled),
+      ]"
+      class="number"
+      :aria-current="currentPage === pager"
+      tabindex="0"
+    >
+      {{ pager }}
+    </li>
+    <li
+      v-if="showNextMore"
+      :class="[
+        'more',
+        'btn-quicknext',
+        nsIcon.b(),
+        nsPager.is('disabled', disabled),
+      ]"
+      @mouseenter="onMouseenter('right')"
+      @mouseleave="quickNextHover = false"
+    >
+      <d-arrow-right v-if="quickNextHover" />
+      <more-filled v-else />
+    </li>
+    <li
+      v-if="pageCount > 1"
+      :class="[
+        nsPager.is('active', currentPage === pageCount),
+        nsPager.is('disabled', disabled),
+      ]"
+      class="number"
+      :aria-current="currentPage === pageCount"
+      tabindex="0"
+    >
+      {{ pageCount }}
+    </li>
+  </ul>
+</template>

@@ -1,63 +1,3 @@
-<template>
-  <div
-    :class="[
-      ns.b(),
-      ns.m(inputNumberSize),
-      ns.is('disabled', inputNumberDisabled),
-      ns.is('without-controls', !controls),
-      ns.is('controls-right', controlsAtRight),
-    ]"
-    @dragstart.prevent
-  >
-    <span
-      v-if="controls"
-      v-repeat-click="decrease"
-      role="button"
-      :aria-label="t('el.inputNumber.decrease')"
-      :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
-      @keydown.enter="decrease"
-    >
-      <el-icon>
-        <arrow-down v-if="controlsAtRight" />
-        <minus v-else />
-      </el-icon>
-    </span>
-    <span
-      v-if="controls"
-      v-repeat-click="increase"
-      role="button"
-      :aria-label="t('el.inputNumber.increase')"
-      :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
-      @keydown.enter="increase"
-    >
-      <el-icon>
-        <arrow-up v-if="controlsAtRight" />
-        <plus v-else />
-      </el-icon>
-    </span>
-    <el-input
-      :id="id"
-      ref="input"
-      type="number"
-      :step="step"
-      :model-value="displayValue"
-      :placeholder="placeholder"
-      :disabled="inputNumberDisabled"
-      :size="inputNumberSize"
-      :max="max"
-      :min="min"
-      :name="name"
-      :label="label"
-      :validate-event="false"
-      @keydown.up.prevent="increase"
-      @keydown.down.prevent="decrease"
-      @blur="handleBlur"
-      @focus="handleFocus"
-      @input="handleInput"
-      @change="handleInputChange"
-    />
-  </div>
-</template>
 <script lang="ts" setup>
 import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
@@ -76,12 +16,13 @@ import { ArrowDown, ArrowUp, Minus, Plus } from '@element-plus/icons-vue'
 import { inputNumberEmits, inputNumberProps } from './input-number'
 import type { InputInstance } from '@element-plus/components/input'
 
+const props = defineProps(inputNumberProps)
+
+const emit = defineEmits(inputNumberEmits)
+
 defineOptions({
   name: 'ElInputNumber',
 })
-
-const props = defineProps(inputNumberProps)
-const emit = defineEmits(inputNumberEmits)
 
 const { t } = useLocale()
 const ns = useNamespace('input-number')
@@ -294,3 +235,63 @@ defineExpose({
   blur,
 })
 </script>
+<template>
+  <div
+    :class="[
+      ns.b(),
+      ns.m(inputNumberSize),
+      ns.is('disabled', inputNumberDisabled),
+      ns.is('without-controls', !controls),
+      ns.is('controls-right', controlsAtRight),
+    ]"
+    @dragstart.prevent
+  >
+    <span
+      v-if="controls"
+      v-repeat-click="decrease"
+      role="button"
+      :aria-label="t('el.inputNumber.decrease')"
+      :class="[ns.e('decrease'), ns.is('disabled', minDisabled)]"
+      @keydown.enter="decrease"
+    >
+      <el-icon>
+        <arrow-down v-if="controlsAtRight" />
+        <minus v-else />
+      </el-icon>
+    </span>
+    <span
+      v-if="controls"
+      v-repeat-click="increase"
+      role="button"
+      :aria-label="t('el.inputNumber.increase')"
+      :class="[ns.e('increase'), ns.is('disabled', maxDisabled)]"
+      @keydown.enter="increase"
+    >
+      <el-icon>
+        <arrow-up v-if="controlsAtRight" />
+        <plus v-else />
+      </el-icon>
+    </span>
+    <el-input
+      :id="id"
+      ref="input"
+      type="number"
+      :step="step"
+      :model-value="displayValue"
+      :placeholder="placeholder"
+      :disabled="inputNumberDisabled"
+      :size="inputNumberSize"
+      :max="max"
+      :min="min"
+      :name="name"
+      :label="label"
+      :validate-event="false"
+      @keydown.up.prevent="increase"
+      @keydown.down.prevent="decrease"
+      @blur="handleBlur"
+      @focus="handleFocus"
+      @input="handleInput"
+      @change="handleInputChange"
+    />
+  </div>
+</template>

@@ -1,14 +1,3 @@
-<template>
-  <el-transfer
-    v-model="value"
-    :props="{
-      key: 'value',
-      label: 'desc',
-    }"
-    :data="data"
-  />
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -33,3 +22,14 @@ const generateData = () => {
 const data = ref<Option[]>(generateData())
 const value = ref([])
 </script>
+
+<template>
+  <el-transfer
+    v-model="value"
+    :props="{
+      key: 'value',
+      label: 'desc',
+    }"
+    :data="data"
+  />
+</template>

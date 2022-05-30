@@ -1,19 +1,3 @@
-<template>
-  <div class="el-color-predefine">
-    <div class="el-color-predefine__colors">
-      <div
-        v-for="(item, index) in rgbaColors"
-        :key="colors[index]"
-        class="el-color-predefine__color-selector"
-        :class="{ selected: item.selected, 'is-alpha': item._alpha < 100 }"
-        @click="handleSelect(index)"
-      >
-        <div :style="{ backgroundColor: item.value }" />
-      </div>
-    </div>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, ref, watch, watchEffect } from 'vue'
 import { useOptions } from '../useOption'
@@ -70,3 +54,19 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="el-color-predefine">
+    <div class="el-color-predefine__colors">
+      <div
+        v-for="(item, index) of rgbaColors"
+        :key="colors[index]"
+        class="el-color-predefine__color-selector"
+        :class="{ selected: item.selected, 'is-alpha': item._alpha < 100 }"
+        @click="handleSelect(index)"
+      >
+        <div :style="{ backgroundColor: item.value }" />
+      </div>
+    </div>
+  </div>
+</template>

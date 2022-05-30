@@ -1,17 +1,3 @@
-<template>
-  <div class="el-color-hue-slider" :class="{ 'is-vertical': vertical }">
-    <div ref="bar" class="el-color-hue-slider__bar" @click="handleClick" />
-    <div
-      ref="thumb"
-      class="el-color-hue-slider__thumb"
-      :style="{
-        left: thumbLeft + 'px',
-        top: thumbTop + 'px',
-      }"
-    />
-  </div>
-</template>
-
 <script lang="ts">
 import {
   computed,
@@ -153,3 +139,17 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div class="el-color-hue-slider" :class="{ 'is-vertical': vertical }">
+    <div ref="bar" class="el-color-hue-slider__bar" @click="handleClick" />
+    <div
+      ref="thumb"
+      class="el-color-hue-slider__thumb"
+      :style="{
+        left: thumbLeft + 'px',
+        top: thumbTop + 'px',
+      }"
+    />
+  </div>
+</template>

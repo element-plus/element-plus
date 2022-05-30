@@ -1,35 +1,3 @@
-<template>
-  <div class="custom-tree-container">
-    <p>Using render-content</p>
-    <el-tree
-      :data="dataSource"
-      show-checkbox
-      node-key="id"
-      default-expand-all
-      :expand-on-click-node="false"
-      :render-content="renderContent"
-    />
-    <p>Using scoped slot</p>
-    <el-tree
-      :data="dataSource"
-      show-checkbox
-      node-key="id"
-      default-expand-all
-      :expand-on-click-node="false"
-    >
-      <template #default="{ node, data }">
-        <span class="custom-tree-node">
-          <span>{{ node.label }}</span>
-          <span>
-            <a @click="append(data)"> Append </a>
-            <a @click="remove(node, data)"> Delete </a>
-          </span>
-        </span>
-      </template>
-    </el-tree>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
@@ -148,6 +116,38 @@ const dataSource = ref<Tree[]>([
   },
 ])
 </script>
+
+<template>
+  <div class="custom-tree-container">
+    <p>Using render-content</p>
+    <el-tree
+      :data="dataSource"
+      show-checkbox
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false"
+      :render-content="renderContent"
+    />
+    <p>Using scoped slot</p>
+    <el-tree
+      :data="dataSource"
+      show-checkbox
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false"
+    >
+      <template #default="{ node, data }">
+        <span class="custom-tree-node">
+          <span>{{ node.label }}</span>
+          <span>
+            <a @click="append(data)"> Append </a>
+            <a @click="remove(node, data)"> Delete </a>
+          </span>
+        </span>
+      </template>
+    </el-tree>
+  </div>
+</template>
 
 <style>
 .custom-tree-node {

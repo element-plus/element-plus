@@ -1,3 +1,11 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const radio1 = ref('1')
+const radio2 = ref('1')
+const radio3 = ref('1')
+</script>
+
 <template>
   <div class="mb-2 flex items-center text-sm">
     <el-radio-group v-model="radio1" class="ml-4">
@@ -24,11 +32,3 @@
     </el-radio-group>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const radio1 = ref('1')
-const radio2 = ref('1')
-const radio3 = ref('1')
-</script>

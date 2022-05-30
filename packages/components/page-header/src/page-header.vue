@@ -1,3 +1,21 @@
+<script lang="ts" setup>
+import { ElIcon } from '@element-plus/components/icon'
+
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import { pageHeaderEmits, pageHeaderProps } from './page-header'
+
+defineProps(pageHeaderProps)
+const emit = defineEmits(pageHeaderEmits)
+defineOptions({
+  name: 'ElPageHeader',
+})
+const { t } = useLocale()
+const ns = useNamespace('page-header')
+
+function handleClick() {
+  emit('back')
+}
+</script>
 <template>
   <div :class="ns.b()">
     <div :class="ns.e('left')" @click="handleClick">
@@ -17,22 +35,3 @@
     </div>
   </div>
 </template>
-<script lang="ts" setup>
-import { ElIcon } from '@element-plus/components/icon'
-
-import { useLocale, useNamespace } from '@element-plus/hooks'
-import { pageHeaderEmits, pageHeaderProps } from './page-header'
-
-defineOptions({
-  name: 'ElPageHeader',
-})
-defineProps(pageHeaderProps)
-const emit = defineEmits(pageHeaderEmits)
-
-const { t } = useLocale()
-const ns = useNamespace('page-header')
-
-function handleClick() {
-  emit('back')
-}
-</script>

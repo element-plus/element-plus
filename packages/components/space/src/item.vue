@@ -1,9 +1,3 @@
-<template>
-  <div :class="classes">
-    <slot />
-  </div>
-</template>
-
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { buildProps } from '@element-plus/utils'
@@ -30,3 +24,9 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div :class="classes">
+    <slot />
+  </div>
+</template>

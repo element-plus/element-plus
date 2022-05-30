@@ -1,24 +1,3 @@
-<template>
-  <el-table-v2
-    :columns="columns"
-    :data="data"
-    :row-height="40"
-    :width="700"
-    :height="400"
-  >
-    <template #overlay>
-      <div
-        class="el-loading-mask"
-        style="display: flex; align-items: center; justify-content: center"
-      >
-        <el-icon class="is-loading" color="var(--el-color-primary)" :size="26">
-          <loading-icon />
-        </el-icon>
-      </div>
-    </template>
-  </el-table-v2>
-</template>
-
 <script lang="ts" setup>
 import { Loading as LoadingIcon } from '@element-plus/icons-vue'
 
@@ -52,3 +31,24 @@ const generateData = (
 const columns = generateColumns(10)
 const data = generateData(columns, 200)
 </script>
+
+<template>
+  <el-table-v2
+    :columns="columns"
+    :data="data"
+    :row-height="40"
+    :width="700"
+    :height="400"
+  >
+    <template #overlay>
+      <div
+        class="el-loading-mask"
+        style="display: flex; align-items: center; justify-content: center"
+      >
+        <el-icon class="is-loading" color="var(--el-color-primary)" :size="26">
+          <loading-icon />
+        </el-icon>
+      </div>
+    </template>
+  </el-table-v2>
+</template>

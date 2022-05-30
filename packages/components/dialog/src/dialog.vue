@@ -1,3 +1,76 @@
+<script lang="ts" setup>
+import { computed, provide, ref, useSlots } from 'vue'
+import { ElOverlay } from '@element-plus/components/overlay'
+import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
+import { dialogInjectionKey } from '@element-plus/tokens'
+import ElFocusTrap from '@element-plus/components/focus-trap'
+import ElDialogContent from './dialog-content.vue'
+import { dialogEmits, dialogProps } from './dialog'
+import { useDialog } from './use-dialog'
+
+const props = defineProps(dialogProps)
+
+defineEmits(dialogEmits)
+
+defineOptions({
+  name: 'ElDialog',
+})
+
+const slots = useSlots()
+
+useDeprecated(
+  {
+    scope: 'el-dialog',
+    from: 'the title slot',
+    replacement: 'the header slot',
+    version: '3.0.0',
+    ref: 'https://element-plus.org/en-US/component/dialog.html#slots',
+  },
+  computed(() => !!slots.title)
+)
+
+const ns = useNamespace('dialog')
+const dialogRef = ref<HTMLElement>()
+const headerRef = ref<HTMLElement>()
+const dialogContentRef = ref()
+
+const {
+  visible,
+  titleId,
+  bodyId,
+  style,
+  rendered,
+  zIndex,
+  afterEnter,
+  afterLeave,
+  beforeLeave,
+  handleClose,
+  onModalClick,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
+  onCloseRequested,
+} = useDialog(props, dialogRef)
+
+provide(dialogInjectionKey, {
+  dialogRef,
+  headerRef,
+  bodyId,
+  ns,
+  rendered,
+  style,
+})
+
+const overlayEvent = useSameTarget(onModalClick)
+
+const draggable = computed(() => props.draggable && !props.fullscreen)
+
+defineExpose({
+  /** @description whether the dialog is visible */
+  visible,
+  dialogContentRef,
+})
+</script>
+
 <template>
   <teleport to="body" :disabled="!appendToBody">
     <transition
@@ -66,74 +139,3 @@
     </transition>
   </teleport>
 </template>
-
-<script lang="ts" setup>
-import { computed, provide, ref, useSlots } from 'vue'
-import { ElOverlay } from '@element-plus/components/overlay'
-import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
-import { dialogInjectionKey } from '@element-plus/tokens'
-import ElFocusTrap from '@element-plus/components/focus-trap'
-import ElDialogContent from './dialog-content.vue'
-import { dialogEmits, dialogProps } from './dialog'
-import { useDialog } from './use-dialog'
-
-defineOptions({
-  name: 'ElDialog',
-})
-
-const props = defineProps(dialogProps)
-defineEmits(dialogEmits)
-const slots = useSlots()
-
-useDeprecated(
-  {
-    scope: 'el-dialog',
-    from: 'the title slot',
-    replacement: 'the header slot',
-    version: '3.0.0',
-    ref: 'https://element-plus.org/en-US/component/dialog.html#slots',
-  },
-  computed(() => !!slots.title)
-)
-
-const ns = useNamespace('dialog')
-const dialogRef = ref<HTMLElement>()
-const headerRef = ref<HTMLElement>()
-const dialogContentRef = ref()
-
-const {
-  visible,
-  titleId,
-  bodyId,
-  style,
-  rendered,
-  zIndex,
-  afterEnter,
-  afterLeave,
-  beforeLeave,
-  handleClose,
-  onModalClick,
-  onOpenAutoFocus,
-  onCloseAutoFocus,
-  onCloseRequested,
-} = useDialog(props, dialogRef)
-
-provide(dialogInjectionKey, {
-  dialogRef,
-  headerRef,
-  bodyId,
-  ns,
-  rendered,
-  style,
-})
-
-const overlayEvent = useSameTarget(onModalClick)
-
-const draggable = computed(() => props.draggable && !props.fullscreen)
-
-defineExpose({
-  /** @description whether the dialog is visible */
-  visible,
-  dialogContentRef,
-})
-</script>

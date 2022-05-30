@@ -7,13 +7,12 @@ import VPHeroContent from './vp-hero-content.vue'
 import VPDocContent from './vp-doc-content.vue'
 import VPNotFound from './vp-not-found.vue'
 
+const props = defineProps<{ isSidebarOpen: boolean }>()
 const { frontmatter } = useData()
 const route = useRoute()
 const isNotFound = computed(() => route.component === VPNotFound)
 const isHeroPost = computed(() => frontmatter.value.page === true)
 const { hasSidebar } = useSidebar()
-
-const props = defineProps<{ isSidebarOpen: boolean }>()
 
 const shouldUpdateProgress = ref(true)
 

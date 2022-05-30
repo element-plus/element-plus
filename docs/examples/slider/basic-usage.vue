@@ -1,3 +1,17 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const value1 = ref(0)
+const value2 = ref(0)
+const value3 = ref(0)
+const value4 = ref(0)
+const value5 = ref(0)
+
+const formatTooltip = (val: number) => {
+  return val / 100
+}
+</script>
+
 <template>
   <div class="slider-demo-block">
     <span class="demonstration">Default value</span>
@@ -20,20 +34,6 @@
     <el-slider v-model="value5" disabled />
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const value1 = ref(0)
-const value2 = ref(0)
-const value3 = ref(0)
-const value4 = ref(0)
-const value5 = ref(0)
-
-const formatTooltip = (val: number) => {
-  return val / 100
-}
-</script>
 <style scoped>
 .slider-demo-block {
   display: flex;

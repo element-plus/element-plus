@@ -1,7 +1,3 @@
-<template>
-  <el-tree-select v-model="value" lazy :load="load" :props="props" />
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -33,3 +29,7 @@ const load = (node, resolve) => {
   }, 400)
 }
 </script>
+
+<template>
+  <el-tree-select v-model="value" lazy :load="load" :props="props" />
+</template>

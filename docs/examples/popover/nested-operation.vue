@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const visible = ref(false)
+</script>
+
 <template>
   <el-popover v-model:visible="visible" placement="top" :width="160">
     <p>Are you sure to delete this?</p>
@@ -12,9 +18,3 @@
     </template>
   </el-popover>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const visible = ref(false)
-</script>

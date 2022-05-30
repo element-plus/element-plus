@@ -1,30 +1,3 @@
-<template>
-  <el-select v-model="value" class="m-2" placeholder="Select" size="large">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    />
-  </el-select>
-  <el-select v-model="value" class="m-2" placeholder="Select">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    />
-  </el-select>
-  <el-select v-model="value" class="m-2" placeholder="Select" size="small">
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    />
-  </el-select>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -53,3 +26,30 @@ const options = [
   },
 ]
 </script>
+
+<template>
+  <el-select v-model="value" class="m-2" placeholder="Select" size="large">
+    <el-option
+      v-for="item of options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
+  <el-select v-model="value" class="m-2" placeholder="Select">
+    <el-option
+      v-for="item of options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
+  <el-select v-model="value" class="m-2" placeholder="Select" size="small">
+    <el-option
+      v-for="item of options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
+</template>

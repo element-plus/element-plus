@@ -1,3 +1,12 @@
+<script lang="ts" setup>
+import { ElMessage } from 'element-plus'
+import { ArrowDown } from '@element-plus/icons-vue'
+
+const handleCommand = (command: string | number | object) => {
+  ElMessage(`click on item ${command}`)
+}
+</script>
+
 <template>
   <el-dropdown @command="handleCommand">
     <span class="el-dropdown-link">
@@ -14,15 +23,6 @@
     </template>
   </el-dropdown>
 </template>
-
-<script lang="ts" setup>
-import { ElMessage } from 'element-plus'
-import { ArrowDown } from '@element-plus/icons-vue'
-
-const handleCommand = (command: string | number | object) => {
-  ElMessage(`click on item ${command}`)
-}
-</script>
 <style scoped>
 .example-showcase .el-dropdown-link {
   cursor: pointer;

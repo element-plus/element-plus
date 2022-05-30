@@ -1,36 +1,3 @@
-<template>
-  <div ref="scrollbar$" :class="ns.b()">
-    <div
-      ref="wrap$"
-      :class="[
-        wrapClass,
-        ns.e('wrap'),
-        { [ns.em('wrap', 'hidden-default')]: !native },
-      ]"
-      :style="style"
-      @scroll="handleScroll"
-    >
-      <component
-        :is="tag"
-        ref="resize$"
-        :class="[ns.e('view'), viewClass]"
-        :style="viewStyle"
-      >
-        <slot />
-      </component>
-    </div>
-    <template v-if="!native">
-      <bar
-        ref="barRef"
-        :height="sizeHeight"
-        :width="sizeWidth"
-        :always="always"
-        :ratio-x="ratioX"
-        :ratio-y="ratioY"
-      />
-    </template>
-  </div>
-</template>
 <script lang="ts">
 import {
   computed,
@@ -209,3 +176,36 @@ export default defineComponent({
   },
 })
 </script>
+<template>
+  <div ref="scrollbar$" :class="ns.b()">
+    <div
+      ref="wrap$"
+      :class="[
+        wrapClass,
+        ns.e('wrap'),
+        { [ns.em('wrap', 'hidden-default')]: !native },
+      ]"
+      :style="style"
+      @scroll="handleScroll"
+    >
+      <component
+        :is="tag"
+        ref="resize$"
+        :class="[ns.e('view'), viewClass]"
+        :style="viewStyle"
+      >
+        <slot />
+      </component>
+    </div>
+    <template v-if="!native">
+      <bar
+        ref="barRef"
+        :height="sizeHeight"
+        :width="sizeWidth"
+        :always="always"
+        :ratio-x="ratioX"
+        :ratio-y="ratioY"
+      />
+    </template>
+  </div>
+</template>

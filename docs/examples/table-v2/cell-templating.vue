@@ -1,13 +1,3 @@
-<template>
-  <el-table-v2
-    :columns="columns"
-    :data="data"
-    :width="700"
-    :height="400"
-    fixed
-  />
-</template>
-
 <script lang="tsx" setup>
 import { ref } from 'vue'
 import dayjs from 'dayjs'
@@ -76,3 +66,13 @@ const columns: Column<any>[] = [
 
 const data = ref(Array.from({ length: 200 }).map(dataGenerator))
 </script>
+
+<template>
+  <el-table-v2
+    :columns="columns"
+    :data="data"
+    :width="700"
+    :height="400"
+    fixed
+  />
+</template>

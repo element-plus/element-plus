@@ -17,7 +17,7 @@ const { copyColor } = useCopyColor()
         <div class="value" text="xs">{{ primary.toUpperCase() }}</div>
         <div class="bg-color-sub" :style="{ background: primary }">
           <div
-            v-for="level in colorLevel"
+            v-for="level of colorLevel"
             :key="level"
             class="bg-blue-sub-item cursor-pointer hover:shadow"
             :style="{

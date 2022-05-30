@@ -1,23 +1,3 @@
-<template>
-  <el-select
-    v-model="value"
-    multiple
-    filterable
-    remote
-    reserve-keyword
-    placeholder="Please enter a keyword"
-    :remote-method="remoteMethod"
-    :loading="loading"
-  >
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    />
-  </el-select>
-</template>
-
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 
@@ -104,3 +84,23 @@ const states = [
   'Wyoming',
 ]
 </script>
+
+<template>
+  <el-select
+    v-model="value"
+    multiple
+    filterable
+    remote
+    reserve-keyword
+    placeholder="Please enter a keyword"
+    :remote-method="remoteMethod"
+    :loading="loading"
+  >
+    <el-option
+      v-for="item of options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
+</template>

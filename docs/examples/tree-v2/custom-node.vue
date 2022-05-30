@@ -1,13 +1,3 @@
-<template>
-  <el-tree-v2 :data="data" :props="props" :height="208">
-    <template #default="{ node }">
-      <span class="prefix" :class="{ 'is-leaf': node.isLeaf }"
-        >[ElementPlus]</span
-      >
-      <span>{{ node.label }}</span>
-    </template>
-  </el-tree-v2>
-</template>
 <script lang="ts" setup>
 interface Tree {
   id: string
@@ -50,6 +40,16 @@ const props = {
 }
 const data = createData(4, 30, 40)
 </script>
+<template>
+  <el-tree-v2 :data="data" :props="props" :height="208">
+    <template #default="{ node }">
+      <span class="prefix" :class="{ 'is-leaf': node.isLeaf }"
+        >[ElementPlus]</span
+      >
+      <span>{{ node.label }}</span>
+    </template>
+  </el-tree-v2>
+</template>
 
 <style scoped>
 .prefix {

@@ -1,20 +1,3 @@
-<template>
-  <span :class="avatarClass" :style="sizeStyle">
-    <img
-      v-if="(src || srcSet) && !hasLoadError"
-      :src="src"
-      :alt="alt"
-      :srcset="srcSet"
-      :style="fitStyle"
-      @error="handleError"
-    />
-    <el-icon v-else-if="icon">
-      <component :is="icon" />
-    </el-icon>
-    <slot v-else />
-  </span>
-</template>
-
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
@@ -24,12 +7,13 @@ import { avatarEmits, avatarProps } from './avatar'
 
 import type { CSSProperties } from 'vue'
 
+const props = defineProps(avatarProps)
+
+const emit = defineEmits(avatarEmits)
+
 defineOptions({
   name: 'ElAvatar',
 })
-
-const props = defineProps(avatarProps)
-const emit = defineEmits(avatarEmits)
 
 const ns = useNamespace('avatar')
 
@@ -68,3 +52,20 @@ function handleError(e: Event) {
   emit('error', e)
 }
 </script>
+
+<template>
+  <span :class="avatarClass" :style="sizeStyle">
+    <img
+      v-if="(src || srcSet) && !hasLoadError"
+      :src="src"
+      :alt="alt"
+      :srcset="srcSet"
+      :style="fitStyle"
+      @error="handleError"
+    />
+    <el-icon v-else-if="icon">
+      <component :is="icon" />
+    </el-icon>
+    <slot v-else />
+  </span>
+</template>

@@ -1,3 +1,8 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+const textarea = ref('')
+</script>
+
 <template>
   <el-input
     v-model="textarea"
@@ -6,8 +11,3 @@
     placeholder="Please input"
   />
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-const textarea = ref('')
-</script>

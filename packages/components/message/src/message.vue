@@ -1,46 +1,3 @@
-<template>
-  <transition
-    :name="ns.b('fade')"
-    @before-leave="onClose"
-    @after-leave="$emit('destroy')"
-  >
-    <div
-      v-show="visible"
-      :id="id"
-      :class="[
-        ns.b(),
-        { [ns.m(type)]: type && !icon },
-        ns.is('center', center),
-        ns.is('closable', showClose),
-        customClass,
-      ]"
-      :style="customStyle"
-      role="alert"
-      @mouseenter="clearTimer"
-      @mouseleave="startTimer"
-    >
-      <el-badge
-        v-if="repeatNum > 1"
-        :value="repeatNum"
-        :type="badgeType"
-        :class="ns.e('badge')"
-      />
-      <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
-        <component :is="iconComponent" />
-      </el-icon>
-      <slot>
-        <p v-if="!dangerouslyUseHTMLString" :class="ns.e('content')">
-          {{ message }}
-        </p>
-        <!-- Caution here, message could've been compromised, never use user's input as message -->
-        <p v-else :class="ns.e('content')" v-html="message" />
-      </slot>
-      <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
-        <close />
-      </el-icon>
-    </div>
-  </transition>
-</template>
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, watch } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
@@ -146,3 +103,46 @@ export default defineComponent({
   },
 })
 </script>
+<template>
+  <transition
+    :name="ns.b('fade')"
+    @before-leave="onClose"
+    @after-leave="$emit('destroy')"
+  >
+    <div
+      v-show="visible"
+      :id="id"
+      :class="[
+        ns.b(),
+        { [ns.m(type)]: type && !icon },
+        ns.is('center', center),
+        ns.is('closable', showClose),
+        customClass,
+      ]"
+      :style="customStyle"
+      role="alert"
+      @mouseenter="clearTimer"
+      @mouseleave="startTimer"
+    >
+      <el-badge
+        v-if="repeatNum > 1"
+        :value="repeatNum"
+        :type="badgeType"
+        :class="ns.e('badge')"
+      />
+      <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
+        <component :is="iconComponent" />
+      </el-icon>
+      <slot>
+        <p v-if="!dangerouslyUseHTMLString" :class="ns.e('content')">
+          {{ message }}
+        </p>
+        <!-- Caution here, message could've been compromised, never use user's input as message -->
+        <p v-else :class="ns.e('content')" v-html="message" />
+      </slot>
+      <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
+        <close />
+      </el-icon>
+    </div>
+  </transition>
+</template>

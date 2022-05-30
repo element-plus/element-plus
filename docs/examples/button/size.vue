@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { Search } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <el-row>
     <el-button size="large">Large</el-button>
@@ -21,7 +25,3 @@
     <el-button :icon="Search" size="small" circle />
   </el-row>
 </template>
-
-<script setup lang="ts">
-import { Search } from '@element-plus/icons-vue'
-</script>

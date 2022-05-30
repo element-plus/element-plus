@@ -1,15 +1,3 @@
-<template>
-  <li :class="ns.b()">
-    <div :class="ns.e('title')">
-      <template v-if="!$slots.title">{{ title }}</template>
-      <slot v-else name="title" />
-    </div>
-    <ul>
-      <slot />
-    </ul>
-  </li>
-</template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
@@ -31,3 +19,15 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <li :class="ns.b()">
+    <div :class="ns.e('title')">
+      <template v-if="!$slots.title">{{ title }}</template>
+      <slot v-else name="title" />
+    </div>
+    <ul>
+      <slot />
+    </ul>
+  </li>
+</template>

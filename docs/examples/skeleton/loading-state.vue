@@ -1,3 +1,10 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const loading = ref(true)
+const currentDate = new Date().toDateString()
+</script>
+
 <template>
   <el-space direction="vertical" alignment="flex-start">
     <div>
@@ -41,10 +48,3 @@
     </el-skeleton>
   </el-space>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const loading = ref(true)
-const currentDate = new Date().toDateString()
-</script>

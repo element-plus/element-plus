@@ -12,7 +12,7 @@ const { copyColor } = useCopyColor()
 <template>
   <el-row :gutter="12">
     <el-col
-      v-for="(type, i) in colorsType"
+      v-for="(type, i) of colorsType"
       :key="i"
       :span="6"
       :xs="{ span: 12 }"
@@ -24,7 +24,7 @@ const { copyColor } = useCopyColor()
         </div>
         <div class="bg-color-sub">
           <div
-            v-for="(level, key) in colorLevel"
+            v-for="(level, key) of colorLevel"
             :key="key"
             class="bg-secondary-sub-item transition cursor-pointer hover:shadow"
             :style="{

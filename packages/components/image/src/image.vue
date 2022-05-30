@@ -1,40 +1,3 @@
-<template>
-  <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
-    <slot v-if="loading" name="placeholder">
-      <div :class="ns.e('placeholder')" />
-    </slot>
-    <slot v-else-if="hasLoadError" name="error">
-      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
-    </slot>
-    <img
-      v-else
-      v-bind="attrs"
-      :src="src"
-      :style="imageStyle"
-      :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
-      @click="clickHandler"
-    />
-    <template v-if="preview">
-      <image-viewer
-        v-if="showViewer"
-        :z-index="zIndex"
-        :initial-index="imageIndex"
-        :infinite="infinite"
-        :url-list="previewSrcList"
-        :hide-on-click-modal="hideOnClickModal"
-        :teleported="previewTeleported"
-        :close-on-press-escape="closeOnPressEscape"
-        @close="closeViewer"
-        @switch="switchViewer"
-      >
-        <div v-if="$slots.viewer">
-          <slot name="viewer" />
-        </div>
-      </image-viewer>
-    </template>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import {
   computed,
@@ -57,13 +20,14 @@ import { imageEmits, imageProps } from './image'
 
 import type { CSSProperties, StyleValue } from 'vue'
 
+const props = defineProps(imageProps)
+
+const emit = defineEmits(imageEmits)
+
 defineOptions({
   name: 'ElImage',
   inheritAttrs: false,
 })
-
-const props = defineProps(imageProps)
-const emit = defineEmits(imageEmits)
 
 let prevOverflow = ''
 
@@ -255,3 +219,40 @@ onMounted(() => {
   }
 })
 </script>
+
+<template>
+  <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
+    <slot v-if="loading" name="placeholder">
+      <div :class="ns.e('placeholder')" />
+    </slot>
+    <slot v-else-if="hasLoadError" name="error">
+      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+    </slot>
+    <img
+      v-else
+      v-bind="attrs"
+      :src="src"
+      :style="imageStyle"
+      :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
+      @click="clickHandler"
+    />
+    <template v-if="preview">
+      <image-viewer
+        v-if="showViewer"
+        :z-index="zIndex"
+        :initial-index="imageIndex"
+        :infinite="infinite"
+        :url-list="previewSrcList"
+        :hide-on-click-modal="hideOnClickModal"
+        :teleported="previewTeleported"
+        :close-on-press-escape="closeOnPressEscape"
+        @close="closeViewer"
+        @switch="switchViewer"
+      >
+        <div v-if="$slots.viewer">
+          <slot name="viewer" />
+        </div>
+      </image-viewer>
+    </template>
+  </div>
+</template>

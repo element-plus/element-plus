@@ -1,18 +1,3 @@
-<template>
-  <div ref="contentRef" :style="contentStyle" data-tooltip-v2-root>
-    <div v-if="!nowrap" :data-side="side" :class="contentClass">
-      <slot :content-style="contentStyle" :content-class="contentClass" />
-      <el-visually-hidden :id="contentId" role="tooltip">
-        <template v-if="ariaLabel">
-          {{ ariaLabel }}
-        </template>
-        <slot v-else />
-      </el-visually-hidden>
-      <slot name="arrow" :style="arrowStyle" :side="side" />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { computed, inject, onMounted, provide, ref, unref, watch } from 'vue'
 import { offset } from '@floating-ui/dom'
@@ -30,11 +15,11 @@ import { tooltipV2CommonProps } from './common'
 import type { CSSProperties } from 'vue'
 import type { Middleware } from '@floating-ui/dom'
 
+const props = defineProps({ ...tooltipV2ContentProps, ...tooltipV2CommonProps })
+
 defineOptions({
   name: 'ElTooltipV2Content',
 })
-
-const props = defineProps({ ...tooltipV2ContentProps, ...tooltipV2CommonProps })
 
 const { triggerRef, contentId } = inject(tooltipV2RootKey)!
 
@@ -116,3 +101,18 @@ onMounted(() => {
 
 provide(tooltipV2ContentKey, { arrowRef })
 </script>
+
+<template>
+  <div ref="contentRef" :style="contentStyle" data-tooltip-v2-root>
+    <div v-if="!nowrap" :data-side="side" :class="contentClass">
+      <slot :content-style="contentStyle" :content-class="contentClass" />
+      <el-visually-hidden :id="contentId" role="tooltip">
+        <template v-if="ariaLabel">
+          {{ ariaLabel }}
+        </template>
+        <slot v-else />
+      </el-visually-hidden>
+      <slot name="arrow" :style="arrowStyle" :side="side" />
+    </div>
+  </div>
+</template>

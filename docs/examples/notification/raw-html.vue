@@ -1,7 +1,3 @@
-<template>
-  <el-button plain @click="open"> Use HTML String </el-button>
-</template>
-
 <script lang="ts" setup>
 import { ElNotification } from 'element-plus'
 
@@ -13,3 +9,7 @@ const open = () => {
   })
 }
 </script>
+
+<template>
+  <el-button plain @click="open"> Use HTML String </el-button>
+</template>

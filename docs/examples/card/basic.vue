@@ -6,7 +6,7 @@
         <el-button class="button" text>Operation button</el-button>
       </div>
     </template>
-    <div v-for="o in 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
+    <div v-for="o of 4" :key="o" class="text item">{{ 'List item ' + o }}</div>
   </el-card>
 </template>
 

@@ -1,11 +1,3 @@
-<template>
-  <teleport v-if="container" :to="container" :disabled="disabled">
-    <div ref="containerRef" :class="ns.b()" :style="containerStyle">
-      <slot />
-    </div>
-  </teleport>
-</template>
-
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
@@ -36,3 +28,11 @@ defineExpose({
   containerRef,
 })
 </script>
+
+<template>
+  <teleport v-if="container" :to="container" :disabled="disabled">
+    <div ref="containerRef" :class="ns.b()" :style="containerStyle">
+      <slot />
+    </div>
+  </teleport>
+</template>

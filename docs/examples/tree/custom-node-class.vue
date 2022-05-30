@@ -1,16 +1,3 @@
-<template>
-  <div class="custom-tree-node-container">
-    <el-tree
-      :data="data"
-      show-checkbox
-      node-key="id"
-      default-expand-all
-      :expand-on-click-node="false"
-      :props="{ class: customNodeClass }"
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
@@ -82,6 +69,19 @@ const data: Tree[] = [
   },
 ]
 </script>
+
+<template>
+  <div class="custom-tree-node-container">
+    <el-tree
+      :data="data"
+      show-checkbox
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false"
+      :props="{ class: customNodeClass }"
+    />
+  </div>
+</template>
 
 <style>
 .is-penultimate > .el-tree-node__content {

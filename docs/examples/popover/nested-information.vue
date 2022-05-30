@@ -1,3 +1,28 @@
+<script lang="ts" setup>
+const gridData = [
+  {
+    date: '2016-05-02',
+    name: 'Jack',
+    address: 'New York City',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Jack',
+    address: 'New York City',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Jack',
+    address: 'New York City',
+  },
+  {
+    date: '2016-05-03',
+    name: 'Jack',
+    address: 'New York City',
+  },
+]
+</script>
+
 <template>
   <div style="display: flex; align-items: center">
     <el-popover placement="right" :width="400" trigger="click">
@@ -52,28 +77,3 @@
     </el-popover>
   </div>
 </template>
-
-<script lang="ts" setup>
-const gridData = [
-  {
-    date: '2016-05-02',
-    name: 'Jack',
-    address: 'New York City',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Jack',
-    address: 'New York City',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Jack',
-    address: 'New York City',
-  },
-  {
-    date: '2016-05-03',
-    name: 'Jack',
-    address: 'New York City',
-  },
-]
-</script>

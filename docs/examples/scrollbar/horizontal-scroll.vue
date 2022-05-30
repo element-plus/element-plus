@@ -1,7 +1,7 @@
 <template>
   <el-scrollbar>
     <div class="scrollbar-flex-content">
-      <p v-for="item in 50" :key="item" class="scrollbar-demo-item">
+      <p v-for="item of 50" :key="item" class="scrollbar-demo-item">
         {{ item }}
       </p>
     </div>

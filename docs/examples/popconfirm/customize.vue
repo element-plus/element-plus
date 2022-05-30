@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { InfoFilled } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <el-popconfirm
     confirm-button-text="OK"
@@ -11,7 +15,3 @@
     </template>
   </el-popconfirm>
 </template>
-
-<script setup lang="ts">
-import { InfoFilled } from '@element-plus/icons-vue'
-</script>

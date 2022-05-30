@@ -1,18 +1,3 @@
-<template>
-  <transition :name="`${ns.namespace.value}-fade-in`">
-    <div
-      v-if="visible"
-      :style="backTopStyle"
-      :class="ns.b()"
-      @click.stop="handleClick"
-    >
-      <slot>
-        <el-icon :class="ns.e('icon')"><caret-top /></el-icon>
-      </slot>
-    </div>
-  </transition>
-</template>
-
 <script lang="ts" setup>
 import { computed, onMounted, ref, shallowRef } from 'vue'
 import { useEventListener, useThrottleFn } from '@vueuse/core'
@@ -22,14 +7,15 @@ import { CaretTop } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { backtopEmits, backtopProps } from './backtop'
 
+const props = defineProps(backtopProps)
+
+const emit = defineEmits(backtopEmits)
+
 const COMPONENT_NAME = 'ElBacktop'
 
 defineOptions({
   name: 'ElBacktop',
 })
-
-const props = defineProps(backtopProps)
-const emit = defineEmits(backtopEmits)
 
 const ns = useNamespace('backtop')
 const el = shallowRef<HTMLElement>()
@@ -83,3 +69,18 @@ onMounted(() => {
   }
 })
 </script>
+
+<template>
+  <transition :name="`${ns.namespace.value}-fade-in`">
+    <div
+      v-if="visible"
+      :style="backTopStyle"
+      :class="ns.b()"
+      @click.stop="handleClick"
+    >
+      <slot>
+        <el-icon :class="ns.e('icon')"><caret-top /></el-icon>
+      </slot>
+    </div>
+  </transition>
+</template>

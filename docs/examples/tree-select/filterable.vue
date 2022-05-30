@@ -1,23 +1,3 @@
-<template>
-  <el-tree-select v-model="value" :data="data" filterable />
-  <el-divider />
-  filter method:
-  <el-tree-select
-    v-model="value"
-    :data="data"
-    :filter-method="filterMethod"
-    filterable
-  />
-  <el-divider />
-  filter node method:
-  <el-tree-select
-    v-model="value"
-    :data="data"
-    :filter-node-method="filterNodeMethod"
-    filterable
-  />
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -101,3 +81,23 @@ const filterMethod = (value) => {
 
 const filterNodeMethod = (value, data) => data.label.includes(value)
 </script>
+
+<template>
+  <el-tree-select v-model="value" :data="data" filterable />
+  <el-divider />
+  filter method:
+  <el-tree-select
+    v-model="value"
+    :data="data"
+    :filter-method="filterMethod"
+    filterable
+  />
+  <el-divider />
+  filter node method:
+  <el-tree-select
+    v-model="value"
+    :data="data"
+    :filter-node-method="filterNodeMethod"
+    filterable
+  />
+</template>

@@ -1,8 +1,3 @@
-<template>
-  <transition :name="ns.b()" v-on="on">
-    <slot />
-  </transition>
-</template>
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 
@@ -70,3 +65,8 @@ const on = {
   },
 }
 </script>
+<template>
+  <transition :name="ns.b()" v-on="on">
+    <slot />
+  </transition>
+</template>

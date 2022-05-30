@@ -1,3 +1,12 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const activeNames = ref(['1'])
+const handleChange = (val: string[]) => {
+  console.log(val)
+}
+</script>
+
 <template>
   <div class="demo-collapse">
     <el-collapse v-model="activeNames" @change="handleChange">
@@ -48,12 +57,3 @@
     </el-collapse>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const activeNames = ref(['1'])
-const handleChange = (val: string[]) => {
-  console.log(val)
-}
-</script>

@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { ArrowDown } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <el-dropdown>
     <span class="el-dropdown-link">
@@ -17,10 +21,6 @@
     </template>
   </el-dropdown>
 </template>
-
-<script lang="ts" setup>
-import { ArrowDown } from '@element-plus/icons-vue'
-</script>
 <style scoped>
 .example-showcase .el-dropdown-link {
   cursor: pointer;

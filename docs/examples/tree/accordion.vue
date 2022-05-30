@@ -1,12 +1,3 @@
-<template>
-  <el-tree
-    :data="data"
-    :props="defaultProps"
-    accordion
-    @node-click="handleNodeClick"
-  />
-</template>
-
 <script lang="ts" setup>
 interface Tree {
   label: string
@@ -79,3 +70,12 @@ const defaultProps = {
   label: 'label',
 }
 </script>
+
+<template>
+  <el-tree
+    :data="data"
+    :props="defaultProps"
+    accordion
+    @node-click="handleNodeClick"
+  />
+</template>

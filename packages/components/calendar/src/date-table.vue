@@ -1,39 +1,3 @@
-<template>
-  <table
-    :class="[nsTable.b(), nsTable.is('range', isInRange)]"
-    cellspacing="0"
-    cellpadding="0"
-  >
-    <thead v-if="!hideHeader">
-      <th v-for="day in weekDays" :key="day">{{ day }}</th>
-    </thead>
-
-    <tbody>
-      <tr
-        v-for="(row, index) in rows"
-        :key="index"
-        :class="{
-          [nsTable.e('row')]: true,
-          [nsTable.em('row', 'hide-border')]: index === 0 && hideHeader,
-        }"
-      >
-        <td
-          v-for="(cell, key) in row"
-          :key="key"
-          :class="getCellClass(cell)"
-          @click="handlePickDay(cell)"
-        >
-          <div :class="nsDay.b()">
-            <slot name="dateCell" :data="getSlotData(cell)">
-              <span>{{ cell.text }}</span>
-            </slot>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
 import dayjs from 'dayjs'
@@ -52,12 +16,13 @@ import {
 import type { CalendarDateCell, CalendarDateCellType } from './date-table'
 import type { Dayjs } from 'dayjs'
 
+const props = defineProps(dateTableProps)
+
+const emit = defineEmits(dateTableEmits)
+
 defineOptions({
   name: 'DateTable',
 })
-
-const props = defineProps(dateTableProps)
-const emit = defineEmits(dateTableEmits)
 
 dayjs.extend(localeData)
 
@@ -175,3 +140,39 @@ defineExpose({
   getFormattedDate,
 })
 </script>
+
+<template>
+  <table
+    :class="[nsTable.b(), nsTable.is('range', isInRange)]"
+    cellspacing="0"
+    cellpadding="0"
+  >
+    <thead v-if="!hideHeader">
+      <th v-for="day of weekDays" :key="day">{{ day }}</th>
+    </thead>
+
+    <tbody>
+      <tr
+        v-for="(row, index) of rows"
+        :key="index"
+        :class="{
+          [nsTable.e('row')]: true,
+          [nsTable.em('row', 'hide-border')]: index === 0 && hideHeader,
+        }"
+      >
+        <td
+          v-for="(cell, key) of row"
+          :key="key"
+          :class="getCellClass(cell)"
+          @click="handlePickDay(cell)"
+        >
+          <div :class="nsDay.b()">
+            <slot name="dateCell" :data="getSlotData(cell)">
+              <span>{{ cell.text }}</span>
+            </slot>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</template>

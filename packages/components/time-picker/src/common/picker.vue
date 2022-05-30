@@ -1,167 +1,3 @@
-<template>
-  <el-tooltip
-    ref="refPopper"
-    v-model:visible="pickerVisible"
-    effect="light"
-    pure
-    trigger="click"
-    v-bind="$attrs"
-    role="dialog"
-    teleported
-    :transition="`${nsDate.namespace.value}-zoom-in-top`"
-    :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
-    :popper-options="elPopperOptions"
-    :fallback-placements="['bottom', 'top', 'right', 'left']"
-    :gpu-acceleration="false"
-    :stop-popper-mouse-event="false"
-    :hide-after="0"
-    persistent
-    @before-show="onBeforeShow"
-    @show="onShow"
-    @hide="onHide"
-  >
-    <template #default>
-      <el-input
-        v-if="!isRangeInput"
-        :id="id"
-        ref="inputRef"
-        container-role="combobox"
-        :model-value="displayValue"
-        :name="name"
-        :size="pickerSize"
-        :disabled="pickerDisabled"
-        :placeholder="placeholder"
-        :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
-        :style="$attrs.style"
-        :readonly="!editable || readonly || isDatesPicker || type === 'week'"
-        :label="label"
-        :tabindex="tabindex"
-        @input="onUserInput"
-        @focus="handleFocusInput"
-        @blur="handleBlurInput"
-        @keydown="handleKeydownInput"
-        @change="handleChange"
-        @mousedown="onMouseDownInput"
-        @mouseenter="onMouseEnter"
-        @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
-        @click.stop
-      >
-        <template #prefix>
-          <el-icon
-            v-if="triggerIcon"
-            :class="nsInput.e('icon')"
-            @mousedown="onMouseDownInput"
-            @touchstart="onTouchStartInput"
-          >
-            <component :is="triggerIcon" />
-          </el-icon>
-        </template>
-        <template #suffix>
-          <el-icon
-            v-if="showClose && clearIcon"
-            :class="`${nsInput.e('icon')} clear-icon`"
-            @click="onClearIconClick"
-          >
-            <component :is="clearIcon" />
-          </el-icon>
-        </template>
-      </el-input>
-      <div
-        v-else
-        ref="inputRef"
-        :class="[
-          nsDate.b('editor'),
-          nsDate.bm('editor', type),
-          nsInput.e('wrapper'),
-          nsDate.is('disabled', pickerDisabled),
-          nsDate.is('active', pickerVisible),
-          nsRange.b('editor'),
-          pickerSize ? nsRange.bm('editor', pickerSize) : '',
-          $attrs.class,
-        ]"
-        :style="$attrs.style"
-        @click="handleFocusInput"
-        @mousedown="onMouseDownInput"
-        @mouseenter="onMouseEnter"
-        @mouseleave="onMouseLeave"
-        @touchstart="onTouchStartInput"
-        @keydown="handleKeydownInput"
-      >
-        <el-icon
-          v-if="triggerIcon"
-          :class="[nsInput.e('icon'), nsRange.e('icon')]"
-          @mousedown="onMouseDownInput"
-          @touchstart="onTouchStartInput"
-        >
-          <component :is="triggerIcon" />
-        </el-icon>
-        <input
-          :id="id && id[0]"
-          autocomplete="off"
-          :name="name && name[0]"
-          :placeholder="startPlaceholder"
-          :value="displayValue && displayValue[0]"
-          :disabled="pickerDisabled"
-          :readonly="!editable || readonly"
-          :class="nsRange.b('input')"
-          @input="handleStartInput"
-          @change="handleStartChange"
-          @focus="handleFocusInput"
-          @blur="handleBlurInput"
-        />
-        <slot name="range-separator">
-          <span :class="nsRange.b('separator')">{{ rangeSeparator }}</span>
-        </slot>
-        <input
-          :id="id && id[1]"
-          autocomplete="off"
-          :name="name && name[1]"
-          :placeholder="endPlaceholder"
-          :value="displayValue && displayValue[1]"
-          :disabled="pickerDisabled"
-          :readonly="!editable || readonly"
-          :class="nsRange.b('input')"
-          @focus="handleFocusInput"
-          @blur="handleBlurInput"
-          @input="handleEndInput"
-          @change="handleEndChange"
-        />
-        <el-icon
-          v-if="clearIcon"
-          :class="[
-            nsInput.e('icon'),
-            nsRange.e('close-icon'),
-            {
-              [nsRange.e('close-icon--hidden')]: !showClose,
-            },
-          ]"
-          @click="onClearIconClick"
-        >
-          <component :is="clearIcon" />
-        </el-icon>
-      </div>
-    </template>
-    <template #content>
-      <slot
-        :visible="pickerVisible"
-        :actual-visible="pickerActualVisible"
-        :parsed-value="parsedValue"
-        :format="format"
-        :unlink-panels="unlinkPanels"
-        :type="type"
-        :default-value="defaultValue"
-        @pick="onPick"
-        @select-range="setSelectionRange"
-        @set-picker-option="onSetPickerOption"
-        @calendar-change="onCalendarChange"
-        @panel-change="onPanelChange"
-        @keydown="onKeydownPopperContent"
-        @mousedown.stop
-      />
-    </template>
-  </el-tooltip>
-</template>
 <script lang="ts">
 import {
   computed,
@@ -784,3 +620,167 @@ export default defineComponent({
   },
 })
 </script>
+<template>
+  <el-tooltip
+    ref="refPopper"
+    v-model:visible="pickerVisible"
+    effect="light"
+    pure
+    trigger="click"
+    v-bind="$attrs"
+    role="dialog"
+    teleported
+    :transition="`${nsDate.namespace.value}-zoom-in-top`"
+    :popper-class="[`${nsDate.namespace.value}-picker__popper`, popperClass]"
+    :popper-options="elPopperOptions"
+    :fallback-placements="['bottom', 'top', 'right', 'left']"
+    :gpu-acceleration="false"
+    :stop-popper-mouse-event="false"
+    :hide-after="0"
+    persistent
+    @before-show="onBeforeShow"
+    @show="onShow"
+    @hide="onHide"
+  >
+    <template #default>
+      <el-input
+        v-if="!isRangeInput"
+        :id="id"
+        ref="inputRef"
+        container-role="combobox"
+        :model-value="displayValue"
+        :name="name"
+        :size="pickerSize"
+        :disabled="pickerDisabled"
+        :placeholder="placeholder"
+        :class="[nsDate.b('editor'), nsDate.bm('editor', type), $attrs.class]"
+        :style="$attrs.style"
+        :readonly="!editable || readonly || isDatesPicker || type === 'week'"
+        :label="label"
+        :tabindex="tabindex"
+        @input="onUserInput"
+        @focus="handleFocusInput"
+        @blur="handleBlurInput"
+        @keydown="handleKeydownInput"
+        @change="handleChange"
+        @mousedown="onMouseDownInput"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+        @touchstart="onTouchStartInput"
+        @click.stop
+      >
+        <template #prefix>
+          <el-icon
+            v-if="triggerIcon"
+            :class="nsInput.e('icon')"
+            @mousedown="onMouseDownInput"
+            @touchstart="onTouchStartInput"
+          >
+            <component :is="triggerIcon" />
+          </el-icon>
+        </template>
+        <template #suffix>
+          <el-icon
+            v-if="showClose && clearIcon"
+            :class="`${nsInput.e('icon')} clear-icon`"
+            @click="onClearIconClick"
+          >
+            <component :is="clearIcon" />
+          </el-icon>
+        </template>
+      </el-input>
+      <div
+        v-else
+        ref="inputRef"
+        :class="[
+          nsDate.b('editor'),
+          nsDate.bm('editor', type),
+          nsInput.e('wrapper'),
+          nsDate.is('disabled', pickerDisabled),
+          nsDate.is('active', pickerVisible),
+          nsRange.b('editor'),
+          pickerSize ? nsRange.bm('editor', pickerSize) : '',
+          $attrs.class,
+        ]"
+        :style="$attrs.style"
+        @click="handleFocusInput"
+        @mousedown="onMouseDownInput"
+        @mouseenter="onMouseEnter"
+        @mouseleave="onMouseLeave"
+        @touchstart="onTouchStartInput"
+        @keydown="handleKeydownInput"
+      >
+        <el-icon
+          v-if="triggerIcon"
+          :class="[nsInput.e('icon'), nsRange.e('icon')]"
+          @mousedown="onMouseDownInput"
+          @touchstart="onTouchStartInput"
+        >
+          <component :is="triggerIcon" />
+        </el-icon>
+        <input
+          :id="id && id[0]"
+          autocomplete="off"
+          :name="name && name[0]"
+          :placeholder="startPlaceholder"
+          :value="displayValue && displayValue[0]"
+          :disabled="pickerDisabled"
+          :readonly="!editable || readonly"
+          :class="nsRange.b('input')"
+          @input="handleStartInput"
+          @change="handleStartChange"
+          @focus="handleFocusInput"
+          @blur="handleBlurInput"
+        />
+        <slot name="range-separator">
+          <span :class="nsRange.b('separator')">{{ rangeSeparator }}</span>
+        </slot>
+        <input
+          :id="id && id[1]"
+          autocomplete="off"
+          :name="name && name[1]"
+          :placeholder="endPlaceholder"
+          :value="displayValue && displayValue[1]"
+          :disabled="pickerDisabled"
+          :readonly="!editable || readonly"
+          :class="nsRange.b('input')"
+          @focus="handleFocusInput"
+          @blur="handleBlurInput"
+          @input="handleEndInput"
+          @change="handleEndChange"
+        />
+        <el-icon
+          v-if="clearIcon"
+          :class="[
+            nsInput.e('icon'),
+            nsRange.e('close-icon'),
+            {
+              [nsRange.e('close-icon--hidden')]: !showClose,
+            },
+          ]"
+          @click="onClearIconClick"
+        >
+          <component :is="clearIcon" />
+        </el-icon>
+      </div>
+    </template>
+    <template #content>
+      <slot
+        :visible="pickerVisible"
+        :actual-visible="pickerActualVisible"
+        :parsed-value="parsedValue"
+        :format="format"
+        :unlink-panels="unlinkPanels"
+        :type="type"
+        :default-value="defaultValue"
+        @pick="onPick"
+        @select-range="setSelectionRange"
+        @set-picker-option="onSetPickerOption"
+        @calendar-change="onCalendarChange"
+        @panel-change="onPanelChange"
+        @keydown="onKeydownPopperContent"
+        @mousedown.stop
+      />
+    </template>
+  </el-tooltip>
+</template>

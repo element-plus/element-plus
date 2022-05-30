@@ -1,244 +1,3 @@
-<template>
-  <div
-    :class="[
-      ppNs.b(),
-      drpNs.b(),
-      {
-        'has-sidebar': $slots.sidebar || hasShortcuts,
-        'has-time': showTime,
-      },
-    ]"
-  >
-    <div :class="ppNs.e('body-wrapper')">
-      <slot name="sidebar" :class="ppNs.e('sidebar')" />
-      <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
-        <button
-          v-for="(shortcut, key) in shortcuts"
-          :key="key"
-          type="button"
-          :class="ppNs.e('shortcut')"
-          @click="handleShortcutClick(shortcut)"
-        >
-          {{ shortcut.text }}
-        </button>
-      </div>
-      <div :class="ppNs.e('body')">
-        <div v-if="showTime" :class="drpNs.e('time-header')">
-          <span :class="drpNs.e('editors-wrap')">
-            <span :class="drpNs.e('time-picker-wrap')">
-              <el-input
-                size="small"
-                :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.startDate')"
-                :class="drpNs.e('editor')"
-                :model-value="minVisibleDate"
-                @input="(val) => handleDateInput(val, 'min')"
-                @change="(val) => handleDateChange(val, 'min')"
-              />
-            </span>
-            <span
-              v-clickoutside="handleMinTimeClose"
-              :class="drpNs.e('time-picker-wrap')"
-            >
-              <el-input
-                size="small"
-                :class="drpNs.e('editor')"
-                :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.startTime')"
-                :model-value="minVisibleTime"
-                @focus="minTimePickerVisible = true"
-                @input="(val) => handleTimeInput(val, 'min')"
-                @change="(val) => handleTimeChange(val, 'min')"
-              />
-              <time-pick-panel
-                :visible="minTimePickerVisible"
-                :format="timeFormat"
-                datetime-role="start"
-                :time-arrow-control="arrowControl"
-                :parsed-value="leftDate"
-                @pick="handleMinTimePick"
-              />
-            </span>
-          </span>
-          <span>
-            <el-icon><arrow-right /></el-icon>
-          </span>
-          <span :class="drpNs.e('editors-wrap')" class="is-right">
-            <span :class="drpNs.e('time-picker-wrap')">
-              <el-input
-                size="small"
-                :class="drpNs.e('editor')"
-                :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.endDate')"
-                :model-value="maxVisibleDate"
-                :readonly="!minDate"
-                @input="(val) => handleDateInput(val, 'max')"
-                @change="(val) => handleDateChange(val, 'max')"
-              />
-            </span>
-            <span
-              v-clickoutside="handleMaxTimeClose"
-              :class="drpNs.e('time-picker-wrap')"
-            >
-              <el-input
-                size="small"
-                :class="drpNs.e('editor')"
-                :disabled="rangeState.selecting"
-                :placeholder="t('el.datepicker.endTime')"
-                :model-value="maxVisibleTime"
-                :readonly="!minDate"
-                @focus="minDate && (maxTimePickerVisible = true)"
-                @input="(val) => handleTimeInput(val, 'max')"
-                @change="(val) => handleTimeChange(val, 'max')"
-              />
-              <time-pick-panel
-                datetime-role="end"
-                :visible="maxTimePickerVisible"
-                :format="timeFormat"
-                :time-arrow-control="arrowControl"
-                :parsed-value="rightDate"
-                @pick="handleMaxTimePick"
-              />
-            </span>
-          </span>
-        </div>
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
-          <div :class="drpNs.e('header')">
-            <button
-              type="button"
-              :class="ppNs.e('icon-btn')"
-              class="d-arrow-left"
-              @click="leftPrevYear"
-            >
-              <el-icon><d-arrow-left /></el-icon>
-            </button>
-            <button
-              type="button"
-              :class="ppNs.e('icon-btn')"
-              class="arrow-left"
-              @click="leftPrevMonth"
-            >
-              <el-icon><arrow-left /></el-icon>
-            </button>
-            <button
-              v-if="unlinkPanels"
-              type="button"
-              :disabled="!enableYearArrow"
-              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
-              class="d-arrow-right"
-              @click="leftNextYear"
-            >
-              <el-icon><d-arrow-right /></el-icon>
-            </button>
-            <button
-              v-if="unlinkPanels"
-              type="button"
-              :disabled="!enableMonthArrow"
-              :class="[
-                ppNs.e('icon-btn'),
-                { 'is-disabled': !enableMonthArrow },
-              ]"
-              class="arrow-right"
-              @click="leftNextMonth"
-            >
-              <el-icon><arrow-right /></el-icon>
-            </button>
-            <div>{{ leftLabel }}</div>
-          </div>
-          <date-table
-            selection-mode="range"
-            :date="leftDate"
-            :min-date="minDate"
-            :max-date="maxDate"
-            :range-state="rangeState"
-            :disabled-date="disabledDate"
-            :cell-class-name="cellClassName"
-            @changerange="handleChangeRange"
-            @pick="handleRangePick"
-            @select="onSelect"
-          />
-        </div>
-        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
-          <div :class="drpNs.e('header')">
-            <button
-              v-if="unlinkPanels"
-              type="button"
-              :disabled="!enableYearArrow"
-              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
-              class="d-arrow-left"
-              @click="rightPrevYear"
-            >
-              <el-icon><d-arrow-left /></el-icon>
-            </button>
-            <button
-              v-if="unlinkPanels"
-              type="button"
-              :disabled="!enableMonthArrow"
-              :class="[
-                ppNs.e('icon-btn'),
-                { 'is-disabled': !enableMonthArrow },
-              ]"
-              class="arrow-left"
-              @click="rightPrevMonth"
-            >
-              <el-icon><arrow-left /></el-icon>
-            </button>
-            <button
-              type="button"
-              :class="ppNs.e('icon-btn')"
-              class="d-arrow-right"
-              @click="rightNextYear"
-            >
-              <el-icon><d-arrow-right /></el-icon>
-            </button>
-            <button
-              type="button"
-              :class="ppNs.e('icon-btn')"
-              class="arrow-right"
-              @click="rightNextMonth"
-            >
-              <el-icon><arrow-right /></el-icon>
-            </button>
-            <div>{{ rightLabel }}</div>
-          </div>
-          <date-table
-            selection-mode="range"
-            :date="rightDate"
-            :min-date="minDate"
-            :max-date="maxDate"
-            :range-state="rangeState"
-            :disabled-date="disabledDate"
-            :cell-class-name="cellClassName"
-            @changerange="handleChangeRange"
-            @pick="handleRangePick"
-            @select="onSelect"
-          />
-        </div>
-      </div>
-    </div>
-    <div v-if="showTime" :class="ppNs.e('footer')">
-      <el-button
-        v-if="clearable"
-        text
-        size="small"
-        :class="ppNs.e('link-btn')"
-        @click="handleClear"
-      >
-        {{ t('el.datepicker.clear') }}
-      </el-button>
-      <el-button
-        plain
-        size="small"
-        :class="ppNs.e('link-btn')"
-        :disabled="btnDisabled"
-        @click="handleRangeConfirm(false)"
-      >
-        {{ t('el.datepicker.confirm') }}
-      </el-button>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, inject, ref, toRef, watch } from 'vue'
 import dayjs from 'dayjs'
@@ -739,3 +498,244 @@ watch(
   { immediate: true }
 )
 </script>
+
+<template>
+  <div
+    :class="[
+      ppNs.b(),
+      drpNs.b(),
+      {
+        'has-sidebar': $slots.sidebar || hasShortcuts,
+        'has-time': showTime,
+      },
+    ]"
+  >
+    <div :class="ppNs.e('body-wrapper')">
+      <slot name="sidebar" :class="ppNs.e('sidebar')" />
+      <div v-if="hasShortcuts" :class="ppNs.e('sidebar')">
+        <button
+          v-for="(shortcut, key) of shortcuts"
+          :key="key"
+          type="button"
+          :class="ppNs.e('shortcut')"
+          @click="handleShortcutClick(shortcut)"
+        >
+          {{ shortcut.text }}
+        </button>
+      </div>
+      <div :class="ppNs.e('body')">
+        <div v-if="showTime" :class="drpNs.e('time-header')">
+          <span :class="drpNs.e('editors-wrap')">
+            <span :class="drpNs.e('time-picker-wrap')">
+              <el-input
+                size="small"
+                :disabled="rangeState.selecting"
+                :placeholder="t('el.datepicker.startDate')"
+                :class="drpNs.e('editor')"
+                :model-value="minVisibleDate"
+                @input="(val) => handleDateInput(val, 'min')"
+                @change="(val) => handleDateChange(val, 'min')"
+              />
+            </span>
+            <span
+              v-clickoutside="handleMinTimeClose"
+              :class="drpNs.e('time-picker-wrap')"
+            >
+              <el-input
+                size="small"
+                :class="drpNs.e('editor')"
+                :disabled="rangeState.selecting"
+                :placeholder="t('el.datepicker.startTime')"
+                :model-value="minVisibleTime"
+                @focus="minTimePickerVisible = true"
+                @input="(val) => handleTimeInput(val, 'min')"
+                @change="(val) => handleTimeChange(val, 'min')"
+              />
+              <time-pick-panel
+                :visible="minTimePickerVisible"
+                :format="timeFormat"
+                datetime-role="start"
+                :time-arrow-control="arrowControl"
+                :parsed-value="leftDate"
+                @pick="handleMinTimePick"
+              />
+            </span>
+          </span>
+          <span>
+            <el-icon><arrow-right /></el-icon>
+          </span>
+          <span :class="drpNs.e('editors-wrap')" class="is-right">
+            <span :class="drpNs.e('time-picker-wrap')">
+              <el-input
+                size="small"
+                :class="drpNs.e('editor')"
+                :disabled="rangeState.selecting"
+                :placeholder="t('el.datepicker.endDate')"
+                :model-value="maxVisibleDate"
+                :readonly="!minDate"
+                @input="(val) => handleDateInput(val, 'max')"
+                @change="(val) => handleDateChange(val, 'max')"
+              />
+            </span>
+            <span
+              v-clickoutside="handleMaxTimeClose"
+              :class="drpNs.e('time-picker-wrap')"
+            >
+              <el-input
+                size="small"
+                :class="drpNs.e('editor')"
+                :disabled="rangeState.selecting"
+                :placeholder="t('el.datepicker.endTime')"
+                :model-value="maxVisibleTime"
+                :readonly="!minDate"
+                @focus="minDate && (maxTimePickerVisible = true)"
+                @input="(val) => handleTimeInput(val, 'max')"
+                @change="(val) => handleTimeChange(val, 'max')"
+              />
+              <time-pick-panel
+                datetime-role="end"
+                :visible="maxTimePickerVisible"
+                :format="timeFormat"
+                :time-arrow-control="arrowControl"
+                :parsed-value="rightDate"
+                @pick="handleMaxTimePick"
+              />
+            </span>
+          </span>
+        </div>
+        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-left">
+          <div :class="drpNs.e('header')">
+            <button
+              type="button"
+              :class="ppNs.e('icon-btn')"
+              class="d-arrow-left"
+              @click="leftPrevYear"
+            >
+              <el-icon><d-arrow-left /></el-icon>
+            </button>
+            <button
+              type="button"
+              :class="ppNs.e('icon-btn')"
+              class="arrow-left"
+              @click="leftPrevMonth"
+            >
+              <el-icon><arrow-left /></el-icon>
+            </button>
+            <button
+              v-if="unlinkPanels"
+              type="button"
+              :disabled="!enableYearArrow"
+              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              class="d-arrow-right"
+              @click="leftNextYear"
+            >
+              <el-icon><d-arrow-right /></el-icon>
+            </button>
+            <button
+              v-if="unlinkPanels"
+              type="button"
+              :disabled="!enableMonthArrow"
+              :class="[
+                ppNs.e('icon-btn'),
+                { 'is-disabled': !enableMonthArrow },
+              ]"
+              class="arrow-right"
+              @click="leftNextMonth"
+            >
+              <el-icon><arrow-right /></el-icon>
+            </button>
+            <div>{{ leftLabel }}</div>
+          </div>
+          <date-table
+            selection-mode="range"
+            :date="leftDate"
+            :min-date="minDate"
+            :max-date="maxDate"
+            :range-state="rangeState"
+            :disabled-date="disabledDate"
+            :cell-class-name="cellClassName"
+            @changerange="handleChangeRange"
+            @pick="handleRangePick"
+            @select="onSelect"
+          />
+        </div>
+        <div :class="[ppNs.e('content'), drpNs.e('content')]" class="is-right">
+          <div :class="drpNs.e('header')">
+            <button
+              v-if="unlinkPanels"
+              type="button"
+              :disabled="!enableYearArrow"
+              :class="[ppNs.e('icon-btn'), { 'is-disabled': !enableYearArrow }]"
+              class="d-arrow-left"
+              @click="rightPrevYear"
+            >
+              <el-icon><d-arrow-left /></el-icon>
+            </button>
+            <button
+              v-if="unlinkPanels"
+              type="button"
+              :disabled="!enableMonthArrow"
+              :class="[
+                ppNs.e('icon-btn'),
+                { 'is-disabled': !enableMonthArrow },
+              ]"
+              class="arrow-left"
+              @click="rightPrevMonth"
+            >
+              <el-icon><arrow-left /></el-icon>
+            </button>
+            <button
+              type="button"
+              :class="ppNs.e('icon-btn')"
+              class="d-arrow-right"
+              @click="rightNextYear"
+            >
+              <el-icon><d-arrow-right /></el-icon>
+            </button>
+            <button
+              type="button"
+              :class="ppNs.e('icon-btn')"
+              class="arrow-right"
+              @click="rightNextMonth"
+            >
+              <el-icon><arrow-right /></el-icon>
+            </button>
+            <div>{{ rightLabel }}</div>
+          </div>
+          <date-table
+            selection-mode="range"
+            :date="rightDate"
+            :min-date="minDate"
+            :max-date="maxDate"
+            :range-state="rangeState"
+            :disabled-date="disabledDate"
+            :cell-class-name="cellClassName"
+            @changerange="handleChangeRange"
+            @pick="handleRangePick"
+            @select="onSelect"
+          />
+        </div>
+      </div>
+    </div>
+    <div v-if="showTime" :class="ppNs.e('footer')">
+      <el-button
+        v-if="clearable"
+        text
+        size="small"
+        :class="ppNs.e('link-btn')"
+        @click="handleClear"
+      >
+        {{ t('el.datepicker.clear') }}
+      </el-button>
+      <el-button
+        plain
+        size="small"
+        :class="ppNs.e('link-btn')"
+        :disabled="btnDisabled"
+        @click="handleRangeConfirm(false)"
+      >
+        {{ t('el.datepicker.confirm') }}
+      </el-button>
+    </div>
+  </div>
+</template>

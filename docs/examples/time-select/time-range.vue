@@ -1,3 +1,10 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const startTime = ref('')
+const endTime = ref('')
+</script>
+
 <template>
   <div class="demo-time-range">
     <el-time-select
@@ -19,10 +26,3 @@
     />
   </div>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const startTime = ref('')
-const endTime = ref('')
-</script>

@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+import type { UploadInstance } from 'element-plus'
+
+const uploadRef = ref<UploadInstance>()
+
+const submitUpload = () => {
+  uploadRef.value!.submit()
+}
+</script>
 <template>
   <el-upload
     ref="uploadRef"
@@ -20,13 +30,3 @@
     </template>
   </el-upload>
 </template>
-<script lang="ts" setup>
-import { ref } from 'vue'
-import type { UploadInstance } from 'element-plus'
-
-const uploadRef = ref<UploadInstance>()
-
-const submitUpload = () => {
-  uploadRef.value!.submit()
-}
-</script>

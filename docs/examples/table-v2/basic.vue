@@ -1,13 +1,3 @@
-<template>
-  <el-table-v2
-    :columns="columns"
-    :data="data"
-    :width="700"
-    :height="400"
-    fixed
-  />
-</template>
-
 <script lang="ts" setup>
 const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
   Array.from({ length }).map((_, columnIndex) => ({
@@ -39,3 +29,13 @@ const generateData = (
 const columns = generateColumns(10)
 const data = generateData(columns, 1000)
 </script>
+
+<template>
+  <el-table-v2
+    :columns="columns"
+    :data="data"
+    :width="700"
+    :height="400"
+    fixed
+  />
+</template>

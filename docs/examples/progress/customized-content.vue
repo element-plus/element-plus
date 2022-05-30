@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { Check } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <div class="demo-progress">
     <el-progress :percentage="50">
@@ -22,10 +26,6 @@
     </el-progress>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { Check } from '@element-plus/icons-vue'
-</script>
 
 <style scoped>
 .percentage-value {

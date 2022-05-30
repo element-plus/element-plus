@@ -1,16 +1,3 @@
-<template>
-  <el-tooltip
-    v-model:visible="visible"
-    content="Bottom center"
-    placement="bottom"
-    effect="light"
-    trigger="click"
-    virtual-triggering
-    :virtual-ref="triggerRef"
-  />
-  <el-button @click="visible = !visible">test</el-button>
-</template>
-
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 
@@ -39,3 +26,16 @@ onMounted(() => {
   })
 })
 </script>
+
+<template>
+  <el-tooltip
+    v-model:visible="visible"
+    content="Bottom center"
+    placement="bottom"
+    effect="light"
+    trigger="click"
+    virtual-triggering
+    :virtual-ref="triggerRef"
+  />
+  <el-button @click="visible = !visible">test</el-button>
+</template>

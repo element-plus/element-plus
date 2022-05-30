@@ -1,39 +1,3 @@
-<template>
-  <div>
-    <el-radio-group v-model="size" label="size control">
-      <el-radio-button label="large">large</el-radio-button>
-      <el-radio-button label="default">default</el-radio-button>
-      <el-radio-button label="small">small</el-radio-button>
-    </el-radio-group>
-  </div>
-  <div class="demo-date-picker">
-    <div class="block">
-      <span class="demonstration">Default</span>
-      <el-date-picker
-        v-model="value1"
-        type="daterange"
-        range-separator="To"
-        start-placeholder="Start date"
-        end-placeholder="End date"
-        :size="size"
-      />
-    </div>
-    <div class="block">
-      <span class="demonstration">With quick options</span>
-      <el-date-picker
-        v-model="value2"
-        type="daterange"
-        unlink-panels
-        range-separator="To"
-        start-placeholder="Start date"
-        end-placeholder="End date"
-        :shortcuts="shortcuts"
-        :size="size"
-      />
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -72,6 +36,42 @@ const shortcuts = [
   },
 ]
 </script>
+
+<template>
+  <div>
+    <el-radio-group v-model="size" label="size control">
+      <el-radio-button label="large">large</el-radio-button>
+      <el-radio-button label="default">default</el-radio-button>
+      <el-radio-button label="small">small</el-radio-button>
+    </el-radio-group>
+  </div>
+  <div class="demo-date-picker">
+    <div class="block">
+      <span class="demonstration">Default</span>
+      <el-date-picker
+        v-model="value1"
+        type="daterange"
+        range-separator="To"
+        start-placeholder="Start date"
+        end-placeholder="End date"
+        :size="size"
+      />
+    </div>
+    <div class="block">
+      <span class="demonstration">With quick options</span>
+      <el-date-picker
+        v-model="value2"
+        type="daterange"
+        unlink-panels
+        range-separator="To"
+        start-placeholder="Start date"
+        end-placeholder="End date"
+        :shortcuts="shortcuts"
+        :size="size"
+      />
+    </div>
+  </div>
+</template>
 <style scoped>
 .demo-date-picker {
   display: flex;

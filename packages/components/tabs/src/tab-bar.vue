@@ -1,10 +1,3 @@
-<template>
-  <div
-    ref="barRef"
-    :class="[ns.e('active-bar'), ns.is(rootTabs.props.tabPosition)]"
-    :style="barStyle"
-  />
-</template>
 <script lang="ts" setup>
 import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
@@ -15,12 +8,11 @@ import { tabBarProps } from './tab-bar'
 
 import type { CSSProperties } from 'vue'
 
+const props = defineProps(tabBarProps)
 const COMPONENT_NAME = 'ElTabBar'
 defineOptions({
   name: 'ElTabBar',
 })
-const props = defineProps(tabBarProps)
-
 const instance = getCurrentInstance()!
 const rootTabs = inject(tabsRootContextKey)
 if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')
@@ -90,3 +82,10 @@ defineExpose({
   update,
 })
 </script>
+<template>
+  <div
+    ref="barRef"
+    :class="[ns.e('active-bar'), ns.is(rootTabs.props.tabPosition)]"
+    :style="barStyle"
+  />
+</template>

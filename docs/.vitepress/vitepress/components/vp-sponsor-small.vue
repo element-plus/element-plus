@@ -10,7 +10,7 @@ const onItemClick = (item: any) => {
 <template>
   <div class="sponsor-container">
     <a
-      v-for="item in goldSponsors"
+      v-for="item of goldSponsors"
       :key="item.name"
       :class="[
         'sponsor-item inline-flex items-center',

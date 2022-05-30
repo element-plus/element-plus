@@ -1,3 +1,33 @@
+<script lang="ts" setup>
+import { getCurrentInstance, inject, ref, toRefs } from 'vue'
+import ElIcon from '@element-plus/components/icon'
+import { breadcrumbKey } from '@element-plus/tokens'
+import { useNamespace } from '@element-plus/hooks'
+import { breadcrumbItemProps } from './breadcrumb-item'
+
+import type { Router } from 'vue-router'
+
+const props = defineProps(breadcrumbItemProps)
+
+defineOptions({
+  name: 'ElBreadcrumbItem',
+})
+
+const instance = getCurrentInstance()!
+const breadcrumbContext = inject(breadcrumbKey, undefined)!
+const ns = useNamespace('breadcrumb')
+
+const { separator, separatorIcon } = toRefs(breadcrumbContext)
+const router = instance.appContext.config.globalProperties.$router as Router
+
+const link = ref<HTMLSpanElement>()
+
+const onClick = () => {
+  if (!props.to || !router) return
+  props.replace ? router.replace(props.to) : router.push(props.to)
+}
+</script>
+
 <template>
   <span :class="ns.e('item')">
     <span
@@ -16,33 +46,3 @@
     </span>
   </span>
 </template>
-
-<script lang="ts" setup>
-import { getCurrentInstance, inject, ref, toRefs } from 'vue'
-import ElIcon from '@element-plus/components/icon'
-import { breadcrumbKey } from '@element-plus/tokens'
-import { useNamespace } from '@element-plus/hooks'
-import { breadcrumbItemProps } from './breadcrumb-item'
-
-import type { Router } from 'vue-router'
-
-defineOptions({
-  name: 'ElBreadcrumbItem',
-})
-
-const props = defineProps(breadcrumbItemProps)
-
-const instance = getCurrentInstance()!
-const breadcrumbContext = inject(breadcrumbKey, undefined)!
-const ns = useNamespace('breadcrumb')
-
-const { separator, separatorIcon } = toRefs(breadcrumbContext)
-const router = instance.appContext.config.globalProperties.$router as Router
-
-const link = ref<HTMLSpanElement>()
-
-const onClick = () => {
-  if (!props.to || !router) return
-  props.replace ? router.replace(props.to) : router.push(props.to)
-}
-</script>

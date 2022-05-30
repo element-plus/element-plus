@@ -1,9 +1,3 @@
-<template>
-  <form :class="formClasses">
-    <slot />
-  </form>
-</template>
-
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs, watch } from 'vue'
 import { debugWarn, isFunction } from '@element-plus/utils'
@@ -22,13 +16,12 @@ import type {
 } from '@element-plus/tokens'
 import type { FormItemProp } from './form-item'
 
+const props = defineProps(formProps)
+const emit = defineEmits(formEmits)
 const COMPONENT_NAME = 'ElForm'
 defineOptions({
   name: 'ElForm',
 })
-const props = defineProps(formProps)
-const emit = defineEmits(formEmits)
-
 const fields: FormItemContext[] = []
 
 const formSize = useSize()
@@ -183,3 +176,9 @@ defineExpose({
   scrollToField,
 })
 </script>
+
+<template>
+  <form :class="formClasses">
+    <slot />
+  </form>
+</template>

@@ -1,16 +1,3 @@
-<template>
-  <el-table-v2
-    :columns="columns"
-    :data="tableData"
-    :fixed-data="fixedData"
-    :width="700"
-    :height="400"
-    :row-class="rowClass"
-    fixed
-    @scroll="onScroll"
-  />
-</template>
-
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 
@@ -62,6 +49,19 @@ const onScroll = ({ scrollTop }) => {
   stickyIndex.value = Math.floor(scrollTop / 250) * 5
 }
 </script>
+
+<template>
+  <el-table-v2
+    :columns="columns"
+    :data="tableData"
+    :fixed-data="fixedData"
+    :width="700"
+    :height="400"
+    :row-class="rowClass"
+    fixed
+    @scroll="onScroll"
+  />
+</template>
 
 <style>
 .el-el-table-v2__fixed-header-row {

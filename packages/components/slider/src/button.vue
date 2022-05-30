@@ -1,34 +1,3 @@
-<template>
-  <div
-    ref="button"
-    :class="[ns.e('button-wrapper'), { hover: hovering, dragging }]"
-    :style="wrapperStyle"
-    tabindex="0"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-    @mousedown="onButtonDown"
-    @touchstart="onButtonDown"
-    @focus="handleMouseEnter"
-    @blur="handleMouseLeave"
-    @keydown="onKeyDown"
-  >
-    <el-tooltip
-      ref="tooltip"
-      v-model:visible="tooltipVisible"
-      placement="top"
-      :stop-popper-mouse-event="false"
-      :popper-class="tooltipClass"
-      :disabled="!showTooltip"
-      persistent
-    >
-      <template #content>
-        <span>{{ formatValue }}</span>
-      </template>
-      <div :class="[ns.e('button'), { hover: hovering, dragging }]" />
-    </el-tooltip>
-  </div>
-</template>
-
 <script lang="ts">
 import { defineComponent, reactive, toRefs } from 'vue'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -111,3 +80,34 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div
+    ref="button"
+    :class="[ns.e('button-wrapper'), { hover: hovering, dragging }]"
+    :style="wrapperStyle"
+    tabindex="0"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+    @mousedown="onButtonDown"
+    @touchstart="onButtonDown"
+    @focus="handleMouseEnter"
+    @blur="handleMouseLeave"
+    @keydown="onKeyDown"
+  >
+    <el-tooltip
+      ref="tooltip"
+      v-model:visible="tooltipVisible"
+      placement="top"
+      :stop-popper-mouse-event="false"
+      :popper-class="tooltipClass"
+      :disabled="!showTooltip"
+      persistent
+    >
+      <template #content>
+        <span>{{ formatValue }}</span>
+      </template>
+      <div :class="[ns.e('button'), { hover: hovering, dragging }]" />
+    </el-tooltip>
+  </div>
+</template>

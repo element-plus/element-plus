@@ -1,38 +1,3 @@
-<template>
-  <div
-    ref="el$"
-    :class="[
-      ns.b(),
-      ns.is('dragging', !!dragState.draggingNode),
-      ns.is('drop-not-allow', !dragState.allowDrop),
-      ns.is('drop-inner', dragState.dropType === 'inner'),
-      { [ns.m('highlight-current')]: highlightCurrent },
-    ]"
-    role="tree"
-  >
-    <el-tree-node
-      v-for="child in root.childNodes"
-      :key="getNodeKey(child)"
-      :node="child"
-      :props="props"
-      :accordion="accordion"
-      :render-after-expand="renderAfterExpand"
-      :show-checkbox="showCheckbox"
-      :render-content="renderContent"
-      @node-expand="handleNodeExpand"
-    />
-    <div v-if="isEmpty" :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{
-        emptyText ?? t('el.tree.emptyText')
-      }}</span>
-    </div>
-    <div
-      v-show="dragState.showDropIndicator"
-      ref="dropIndicator$"
-      :class="ns.e('drop-indicator')"
-    />
-  </div>
-</template>
 <script lang="ts">
 import {
   computed,
@@ -410,3 +375,38 @@ export default defineComponent({
   },
 })
 </script>
+<template>
+  <div
+    ref="el$"
+    :class="[
+      ns.b(),
+      ns.is('dragging', !!dragState.draggingNode),
+      ns.is('drop-not-allow', !dragState.allowDrop),
+      ns.is('drop-inner', dragState.dropType === 'inner'),
+      { [ns.m('highlight-current')]: highlightCurrent },
+    ]"
+    role="tree"
+  >
+    <el-tree-node
+      v-for="child of root.childNodes"
+      :key="getNodeKey(child)"
+      :node="child"
+      :props="props"
+      :accordion="accordion"
+      :render-after-expand="renderAfterExpand"
+      :show-checkbox="showCheckbox"
+      :render-content="renderContent"
+      @node-expand="handleNodeExpand"
+    />
+    <div v-if="isEmpty" :class="ns.e('empty-block')">
+      <span :class="ns.e('empty-text')">{{
+        emptyText ?? t('el.tree.emptyText')
+      }}</span>
+    </div>
+    <div
+      v-show="dragState.showDropIndicator"
+      ref="dropIndicator$"
+      :class="ns.e('drop-indicator')"
+    />
+  </div>
+</template>

@@ -1,3 +1,42 @@
+<script lang="ts" setup>
+import { computed, useSlots } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
+import {
+  checkboxEmits,
+  checkboxProps,
+  useCheckbox,
+  useCheckboxGroup,
+} from './checkbox'
+import type { CSSProperties } from 'vue'
+
+const props = defineProps(checkboxProps)
+
+defineEmits(checkboxEmits)
+
+defineOptions({
+  name: 'ElCheckboxButton',
+})
+
+const slots = useSlots()
+
+const { focus, isChecked, isDisabled, size, model, handleChange } = useCheckbox(
+  props,
+  slots
+)
+const { checkboxGroup } = useCheckboxGroup()
+const ns = useNamespace('checkbox')
+
+const activeStyle = computed<CSSProperties>(() => {
+  const fillValue = checkboxGroup?.fill?.value ?? ''
+  return {
+    backgroundColor: fillValue,
+    borderColor: fillValue,
+    color: checkboxGroup?.textColor?.value ?? '',
+    boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : undefined,
+  }
+})
+</script>
+
 <template>
   <label
     :class="[
@@ -45,40 +84,3 @@
     </span>
   </label>
 </template>
-
-<script lang="ts" setup>
-import { computed, useSlots } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
-import {
-  checkboxEmits,
-  checkboxProps,
-  useCheckbox,
-  useCheckboxGroup,
-} from './checkbox'
-import type { CSSProperties } from 'vue'
-
-defineOptions({
-  name: 'ElCheckboxButton',
-})
-
-const props = defineProps(checkboxProps)
-defineEmits(checkboxEmits)
-const slots = useSlots()
-
-const { focus, isChecked, isDisabled, size, model, handleChange } = useCheckbox(
-  props,
-  slots
-)
-const { checkboxGroup } = useCheckboxGroup()
-const ns = useNamespace('checkbox')
-
-const activeStyle = computed<CSSProperties>(() => {
-  const fillValue = checkboxGroup?.fill?.value ?? ''
-  return {
-    backgroundColor: fillValue,
-    borderColor: fillValue,
-    color: checkboxGroup?.textColor?.value ?? '',
-    boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : undefined,
-  }
-})
-</script>

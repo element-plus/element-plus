@@ -7,6 +7,6 @@ const navs = useNav()
 
 <template>
   <nav v-if="navs" class="navbar-menu">
-    <VPMenuLink v-for="(item, key) in navs" :key="key" :item="item" />
+    <VPMenuLink v-for="(item, key) of navs" :key="key" :item="item" />
   </nav>
 </template>

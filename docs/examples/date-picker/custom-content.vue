@@ -1,22 +1,3 @@
-<template>
-  <div class="demo-date-picker">
-    <el-date-picker
-      v-model="value"
-      type="date"
-      placeholder="Pick a day"
-      format="YYYY/MM/DD"
-      value-format="YYYY-MM-DD"
-    >
-      <template #default="cell">
-        <div class="cell" :class="{ current: cell.isCurrent }">
-          <span class="text">{{ cell.text }}</span>
-          <span v-if="isHoliday(cell)" class="holiday" />
-        </div>
-      </template>
-    </el-date-picker>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -35,6 +16,25 @@ const isHoliday = ({ dayjs }) => {
   return holidays.includes(dayjs.format('YYYY-MM-DD'))
 }
 </script>
+
+<template>
+  <div class="demo-date-picker">
+    <el-date-picker
+      v-model="value"
+      type="date"
+      placeholder="Pick a day"
+      format="YYYY/MM/DD"
+      value-format="YYYY-MM-DD"
+    >
+      <template #default="cell">
+        <div class="cell" :class="{ current: cell.isCurrent }">
+          <span class="text">{{ cell.text }}</span>
+          <span v-if="isHoliday(cell)" class="holiday" />
+        </div>
+      </template>
+    </el-date-picker>
+  </div>
+</template>
 
 <style scoped>
 .cell {

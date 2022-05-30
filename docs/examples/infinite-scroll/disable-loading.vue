@@ -1,17 +1,3 @@
-<template>
-  <div class="infinite-list-wrapper" style="overflow: auto">
-    <ul
-      v-infinite-scroll="load"
-      class="list"
-      :infinite-scroll-disabled="disabled"
-    >
-      <li v-for="i in count" :key="i" class="list-item">{{ i }}</li>
-    </ul>
-    <p v-if="loading">Loading...</p>
-    <p v-if="noMore">No more</p>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 
@@ -27,6 +13,20 @@ const load = () => {
   }, 2000)
 }
 </script>
+
+<template>
+  <div class="infinite-list-wrapper" style="overflow: auto">
+    <ul
+      v-infinite-scroll="load"
+      class="list"
+      :infinite-scroll-disabled="disabled"
+    >
+      <li v-for="i of count" :key="i" class="list-item">{{ i }}</li>
+    </ul>
+    <p v-if="loading">Loading...</p>
+    <p v-if="noMore">No more</p>
+  </div>
+</template>
 
 <style>
 .infinite-list-wrapper {

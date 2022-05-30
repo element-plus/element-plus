@@ -1,12 +1,3 @@
-<template>
-  <div
-    :class="[ns.b('dropdown'), ns.is('multiple', isMultiple), popperClass]"
-    :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
-  >
-    <slot />
-  </div>
-</template>
-
 <script lang="ts">
 import {
   computed,
@@ -69,3 +60,12 @@ export default defineComponent({
   },
 })
 </script>
+
+<template>
+  <div
+    :class="[ns.b('dropdown'), ns.is('multiple', isMultiple), popperClass]"
+    :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
+  >
+    <slot />
+  </div>
+</template>

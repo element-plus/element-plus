@@ -1,8 +1,3 @@
-<template>
-  <el-button plain @click="open1"> Closes automatically </el-button>
-  <el-button plain @click="open2"> Won't close automatically </el-button>
-</template>
-
 <script lang="ts" setup>
 import { h } from 'vue'
 import { ElNotification } from 'element-plus'
@@ -22,3 +17,8 @@ const open2 = () => {
   })
 }
 </script>
+
+<template>
+  <el-button plain @click="open1"> Closes automatically </el-button>
+  <el-button plain @click="open2"> Won't close automatically </el-button>
+</template>

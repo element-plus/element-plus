@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { Plus } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <!-- eslint-disable vue/require-toggle-inside-transition  -->
   <el-tooltip-v2 aria-label="content" placement="top" content-class="scale-in">
@@ -9,10 +13,6 @@
     <div>content</div>
   </el-tooltip-v2>
 </template>
-
-<script setup lang="ts">
-import { Plus } from '@element-plus/icons-vue'
-</script>
 
 <style>
 @keyframes scale-in {

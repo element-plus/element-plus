@@ -19,7 +19,7 @@ const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
           </ElIcon>
         </template>
         <div
-          v-for="l in langs"
+          v-for="l of langs"
           :key="l"
           :class="{ language: true, selected: l === lang }"
           @click="switchLang(l)"

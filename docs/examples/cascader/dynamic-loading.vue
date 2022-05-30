@@ -1,7 +1,3 @@
-<template>
-  <el-cascader :props="props" />
-</template>
-
 <script lang="ts" setup>
 let id = 0
 const props = {
@@ -20,3 +16,7 @@ const props = {
   },
 }
 </script>
+
+<template>
+  <el-cascader :props="props" />
+</template>

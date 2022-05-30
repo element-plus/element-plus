@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const disabled = ref(false)
+</script>
+
 <template>
   <el-tooltip
     :disabled="disabled"
@@ -10,12 +16,6 @@
     >
   </el-tooltip>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const disabled = ref(false)
-</script>
 
 <style>
 .slide-fade-enter-active {

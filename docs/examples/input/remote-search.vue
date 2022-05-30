@@ -1,12 +1,3 @@
-<template>
-  <el-autocomplete
-    v-model="state"
-    :fetch-suggestions="querySearchAsync"
-    placeholder="Please input"
-    @select="handleSelect"
-  />
-</template>
-
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 
@@ -58,3 +49,12 @@ onMounted(() => {
   links.value = loadAll()
 })
 </script>
+
+<template>
+  <el-autocomplete
+    v-model="state"
+    :fetch-suggestions="querySearchAsync"
+    placeholder="Please input"
+    @select="handleSelect"
+  />
+</template>

@@ -1,3 +1,13 @@
+<script lang="ts" setup>
+import { reactive } from 'vue'
+
+const formAccessibility = reactive({
+  fullName: '',
+  firstName: '',
+  lastName: '',
+})
+</script>
+
 <template>
   <el-form label-position="left" label-width="150px" style="max-width: 460px">
     <el-space fill>
@@ -37,13 +47,3 @@
     </el-space>
   </el-form>
 </template>
-
-<script lang="ts" setup>
-import { reactive } from 'vue'
-
-const formAccessibility = reactive({
-  fullName: '',
-  firstName: '',
-  lastName: '',
-})
-</script>

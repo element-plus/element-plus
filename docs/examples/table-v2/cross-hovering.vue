@@ -1,20 +1,3 @@
-<template>
-  <div style="height: 400px">
-    <el-auto-resizer>
-      <template #default="{ height, width }">
-        <el-table-v2
-          :columns="columns"
-          :cell-props="cellProps"
-          :class="kls"
-          :data="data"
-          :width="width"
-          :height="height"
-        />
-      </template>
-    </el-auto-resizer>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -70,6 +53,23 @@ const cellProps = ({ columnIndex }) => {
 
 const kls = ref<string>('')
 </script>
+
+<template>
+  <div style="height: 400px">
+    <el-auto-resizer>
+      <template #default="{ height, width }">
+        <el-table-v2
+          :columns="columns"
+          :cell-props="cellProps"
+          :class="kls"
+          :data="data"
+          :width="width"
+          :height="height"
+        />
+      </template>
+    </el-auto-resizer>
+  </div>
+</template>
 
 <style>
 .hovering-col-0 [data-key='hovering-col-0'],

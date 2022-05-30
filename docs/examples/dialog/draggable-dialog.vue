@@ -1,3 +1,9 @@
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const dialogVisible = ref(false)
+</script>
+
 <template>
   <el-button text @click="dialogVisible = true"
     >Click to open Dialog
@@ -15,9 +21,3 @@
     </template>
   </el-dialog>
 </template>
-
-<script lang="ts" setup>
-import { ref } from 'vue'
-
-const dialogVisible = ref(false)
-</script>

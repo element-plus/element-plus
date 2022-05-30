@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+import { ArrowDown } from '@element-plus/icons-vue'
+</script>
+
 <template>
   <el-dropdown :hide-on-click="false">
     <span class="el-dropdown-link">
@@ -15,10 +19,6 @@
     </template>
   </el-dropdown>
 </template>
-
-<script lang="ts" setup>
-import { ArrowDown } from '@element-plus/icons-vue'
-</script>
 <style scoped>
 .example-showcase .el-dropdown + .el-dropdown {
   margin-left: 15px;

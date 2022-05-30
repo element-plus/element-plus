@@ -1,16 +1,3 @@
-<template>
-  <component
-    :is="tag"
-    :id="groupId"
-    :class="ns.b('group')"
-    role="group"
-    :aria-label="!isLabeledByFormItem ? label || 'checkbox-group' : undefined"
-    :aria-labelledby="isLabeledByFormItem ? elFormItem.labelId : undefined"
-  >
-    <slot />
-  </component>
-</template>
-
 <script lang="ts" setup>
 import { computed, nextTick, provide, toRefs, watch } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -23,12 +10,13 @@ import {
   useCheckboxGroupProps,
 } from './checkbox'
 
+const props = defineProps(useCheckboxGroupProps)
+
+const emit = defineEmits(checkboxEmits)
+
 defineOptions({
   name: 'ElCheckboxGroup',
 })
-
-const props = defineProps(useCheckboxGroupProps)
-const emit = defineEmits(checkboxEmits)
 
 const { elFormItem } = useCheckboxGroup()
 const { groupId, isLabeledByFormItem } = useCheckboxGroupId(props, {
@@ -68,3 +56,16 @@ watch(
   }
 )
 </script>
+
+<template>
+  <component
+    :is="tag"
+    :id="groupId"
+    :class="ns.b('group')"
+    role="group"
+    :aria-label="!isLabeledByFormItem ? label || 'checkbox-group' : undefined"
+    :aria-labelledby="isLabeledByFormItem ? elFormItem.labelId : undefined"
+  >
+    <slot />
+  </component>
+</template>

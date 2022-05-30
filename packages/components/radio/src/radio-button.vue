@@ -1,3 +1,30 @@
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
+import { useRadio } from './radio'
+import { radioButtonProps } from './radio-button'
+import type { CSSProperties } from 'vue'
+
+const props = defineProps(radioButtonProps)
+
+defineOptions({
+  name: 'ElRadioButton',
+})
+
+const ns = useNamespace('radio')
+const { radioRef, focus, size, disabled, modelValue, radioGroup } =
+  useRadio(props)
+
+const activeStyle = computed<CSSProperties>(() => {
+  return {
+    backgroundColor: radioGroup?.fill || '',
+    borderColor: radioGroup?.fill || '',
+    boxShadow: radioGroup?.fill ? `-1px 0 0 0 ${radioGroup.fill}` : '',
+    color: radioGroup?.textColor || '',
+  }
+})
+</script>
+
 <template>
   <label
     :class="[
@@ -30,30 +57,3 @@
     </span>
   </label>
 </template>
-
-<script lang="ts" setup>
-import { computed } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
-import { useRadio } from './radio'
-import { radioButtonProps } from './radio-button'
-import type { CSSProperties } from 'vue'
-
-defineOptions({
-  name: 'ElRadioButton',
-})
-
-const props = defineProps(radioButtonProps)
-
-const ns = useNamespace('radio')
-const { radioRef, focus, size, disabled, modelValue, radioGroup } =
-  useRadio(props)
-
-const activeStyle = computed<CSSProperties>(() => {
-  return {
-    backgroundColor: radioGroup?.fill || '',
-    borderColor: radioGroup?.fill || '',
-    boxShadow: radioGroup?.fill ? `-1px 0 0 0 ${radioGroup.fill}` : '',
-    color: radioGroup?.textColor || '',
-  }
-})
-</script>
