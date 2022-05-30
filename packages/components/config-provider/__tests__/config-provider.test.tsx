@@ -1,4 +1,4 @@
-import { defineComponent, h, nextTick, reactive, ref } from 'vue'
+import { defineComponent, nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { useGlobalConfig, useLocale } from '@element-plus/hooks'
@@ -13,53 +13,46 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { Language } from '@element-plus/locale'
 import type { ConfigProviderProps } from '../src/config-provider'
 
-const TestComp = {
+const TestComp = defineComponent({
   setup() {
     const { t } = useLocale()
-    return () => {
-      return h('div', t('el.popconfirm.confirmButtonText'))
-    }
+    return () => <div>{t('el.popconfirm.confirmButtonText')}</div>
   },
-}
+})
 
 describe('config-provider', () => {
   describe('locale-provider', () => {
     let wrapper: VueWrapper<any>
 
     beforeEach(() => {
-      wrapper = mount({
-        components: {
-          'el-test': TestComp,
-          [ConfigProvider.name]: ConfigProvider,
-        },
-        setup() {
-          const currentLocale = ref<Language>(English)
-          const oppositeLocale = ref<Language>(Chinese)
-          return {
-            currentLocale,
-            oppositeLocale,
-            toEn() {
-              currentLocale.value = English
-              oppositeLocale.value = Chinese
-            },
-            toZh() {
-              currentLocale.value = Chinese
-              oppositeLocale.value = English
-            },
-          }
-        },
-        template: `
-          <el-config-provider :locale="currentLocale">
-            <el-test class="current-locale" />
-            <el-config-provider :locale="oppositeLocale">
-              <el-test class="opposite-locale" />
-            </el-config-provider>
-          </el-config-provider>
+      const currentLocale = ref<Language>(English)
+      const oppositeLocale = ref<Language>(Chinese)
+      const toEn = () => {
+        currentLocale.value = English
+        oppositeLocale.value = Chinese
+      }
+      const toZh = () => {
+        currentLocale.value = Chinese
+        oppositeLocale.value = English
+      }
 
-          <button @click="toEn" class="to-en">toEn</button>
-          <button @click="toZh" class="to-zh">toZh</button>
-        `,
-      })
+      wrapper = mount(() => (
+        <>
+          <ConfigProvider locale={currentLocale.value}>
+            <TestComp class="current-locale" />
+            <ConfigProvider locale={oppositeLocale.value}>
+              <TestComp class="opposite-locale" />
+            </ConfigProvider>
+          </ConfigProvider>
+
+          <button onClick={toEn} class="to-en">
+            toEn
+          </button>
+          <button onClick={toZh} class="to-zh">
+            toZh
+          </button>
+        </>
+      ))
     })
 
     afterEach(() => {
@@ -96,26 +89,24 @@ describe('config-provider', () => {
 
   describe('button-config', () => {
     it('autoInsertSpace', async () => {
-      const wrapper = mount({
-        components: {
-          [ConfigProvider.name]: ConfigProvider,
-          ElButton,
-        },
-        setup() {
-          const config = reactive({
-            autoInsertSpace: true,
-          })
-          return {
-            config,
-          }
-        },
-        template: `
-          <el-config-provider :button="config">
-            <el-button>中文</el-button>
-          </el-config-provider>
-          <button class="toggle" @click="config.autoInsertSpace = !config.autoInsertSpace">toggle</button>
-        `,
+      const config = reactive({
+        autoInsertSpace: true,
       })
+
+      const wrapper = mount(() => (
+        <>
+          <ConfigProvider button={config}>
+            <ElButton>中文</ElButton>
+          </ConfigProvider>
+          <button
+            class="toggle"
+            onClick={() => (config.autoInsertSpace = !config.autoInsertSpace)}
+          >
+            toggle
+          </button>
+        </>
+      ))
+
       await nextTick()
       expect(
         wrapper.find('.el-button .el-button__text--expand').exists()
@@ -129,26 +120,17 @@ describe('config-provider', () => {
 
   describe('namespace-config', () => {
     it('reactive namespace', async () => {
-      const wrapper = mount({
-        components: {
-          [ConfigProvider.name]: ConfigProvider,
-          ElButton,
-        },
-        setup() {
-          const namespace = ref()
-          return {
-            namespace,
-          }
-        },
-        template: `
-          <el-config-provider :namespace="namespace">
-            <el-button>test str</el-button>
-          </el-config-provider>
-        `,
-      })
+      const namespace = ref()
+
+      const wrapper = mount(() => (
+        <ConfigProvider namespace={namespace.value}>
+          <ElButton>test str</ElButton>
+        </ConfigProvider>
+      ))
+
       await nextTick()
       expect(wrapper.find('button').classes().join('')).toBe('el-button')
-      wrapper.vm.namespace = 'ep'
+      namespace.value = 'ep'
       await nextTick()
       expect(wrapper.find('button').classes().join('')).toBe('ep-button')
     })
@@ -160,29 +142,19 @@ describe('config-provider', () => {
     })
 
     it('limit the number of messages displayed at the same time', async () => {
-      const wrapper = mount({
-        components: {
-          [ConfigProvider.name]: ConfigProvider,
-          ElButton,
-        },
-        setup() {
-          const config = reactive({
-            max: 3,
-          })
-          const open = () => {
-            ElMessage('this is a message.')
-          }
-          return {
-            config,
-            open,
-          }
-        },
-        template: `
-          <el-config-provider :message="config">
-            <el-button @click="open">open</el-button>
-          </el-config-provider>
-        `,
+      const config = reactive({
+        max: 3,
       })
+      const open = () => {
+        ElMessage('this is a message.')
+      }
+
+      const wrapper = mount(() => (
+        <ConfigProvider message={config}>
+          <ElButton onClick={open}>open</ElButton>
+        </ConfigProvider>
+      ))
+
       await nextTick()
       wrapper.find('.el-button').trigger('click')
       wrapper.find('.el-button').trigger('click')
@@ -191,7 +163,7 @@ describe('config-provider', () => {
       await nextTick()
       expect(document.querySelectorAll('.el-message').length).toBe(3)
 
-      wrapper.vm.config.max = 10
+      config.max = 10
       await nextTick()
       wrapper.find('.el-button').trigger('click')
       wrapper.find('.el-button').trigger('click')
@@ -202,35 +174,24 @@ describe('config-provider', () => {
     })
 
     it('multiple config-provider config override', async () => {
-      const wrapper = mount({
-        components: {
-          [ConfigProvider.name]: ConfigProvider,
-          ElButton,
-        },
-        setup() {
-          const config = reactive({
-            max: 3,
-          })
-          const overrideConfig = reactive({
-            max: 1,
-          })
-          const open = () => {
-            ElMessage('this is a message.')
-          }
-          return {
-            config,
-            overrideConfig,
-            open,
-          }
-        },
-        template: `
-          <el-config-provider :message="config">
-            <el-config-provider :message="overrideConfig">
-              <el-button @click="open">open</el-button>
-            </el-config-provider>
-          </el-config-provider>
-        `,
+      const config = reactive({
+        max: 3,
       })
+      const overrideConfig = reactive({
+        max: 1,
+      })
+      const open = () => {
+        ElMessage('this is a message.')
+      }
+
+      const wrapper = mount(() => (
+        <ConfigProvider message={config}>
+          <ConfigProvider message={overrideConfig}>
+            <ElButton onClick={open}>open</ElButton>
+          </ConfigProvider>
+        </ConfigProvider>
+      ))
+
       await rAF()
       await wrapper.find('.el-button').trigger('click')
       await wrapper.find('.el-button').trigger('click')
@@ -254,7 +215,7 @@ describe('config-provider', () => {
           [props.configKey]: features,
         }
       },
-      template: `<div />`,
+      render: () => <div />,
     })
 
     it.each([
@@ -264,22 +225,14 @@ describe('config-provider', () => {
     ])(
       'should inject config $feature to $config correctly',
       ({ feature, config }: { feature: string; config: any }) => {
-        const wrapper = mount({
-          components: {
-            [ConfigProvider.name]: ConfigProvider,
-            TestComponent,
-          },
-          template: `
-            <el-config-provider :${feature}="${feature}">
-              <test-component config-key="${feature}" />
-            </el-config-provider>
-          `,
-          data() {
-            return {
-              [feature]: config,
-            }
-          },
-        })
+        const props: Record<string, any> = {}
+        props[feature] = config
+
+        const wrapper = mount(() => (
+          <ConfigProvider {...props}>
+            <TestComponent configKey={feature as keyof ConfigProviderProps} />
+          </ConfigProvider>
+        ))
 
         expect(wrapper.findComponent(TestComponent).vm[feature]).toEqual(config)
       }
