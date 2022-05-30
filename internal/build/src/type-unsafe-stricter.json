@@ -51,7 +51,5 @@
   "packages/components/tree/",
   "packages/components/virtual-list/",
   "packages/components/visual-hidden/",
-  "packages/directives/",
-  "packages/utils/dom/",
-  "packages/utils/vue/"
+  "packages/directives/"
 ]
