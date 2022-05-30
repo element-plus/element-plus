@@ -44,7 +44,6 @@ import {
   nextTick,
   onMounted,
   ref,
-  toRefs,
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
@@ -71,7 +70,6 @@ const emit = defineEmits(imageEmits)
 
 let prevOverflow = ''
 
-const { loading } = toRefs(props)
 const { t } = useLocale()
 const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
@@ -113,8 +111,8 @@ const imageIndex = computed(() => {
 })
 
 const isManual = computed(() => {
-  if (loading?.value === 'eager') return false
-  return (!supportLoading && loading?.value === 'lazy') || props.lazy
+  if (props.loading === 'eager') return false
+  return (!supportLoading && props.loading === 'lazy') || props.lazy
 })
 
 const loadImage = () => {
