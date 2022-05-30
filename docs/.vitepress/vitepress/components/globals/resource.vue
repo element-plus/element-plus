@@ -2,8 +2,12 @@
 import { computed } from 'vue'
 import { useLang } from '../../composables/lang'
 import resourceLocale from '../../../i18n/pages/resource.json'
+import { sendEvent } from '../../../config/analytics'
 const lang = useLang()
 const resourceLang = computed(() => resourceLocale[lang.value])
+const onClick = (item: string) => {
+  sendEvent('resource_download', item)
+}
 </script>
 
 <template>
@@ -20,7 +24,9 @@ const resourceLang = computed(() => resourceLocale[lang.value])
             {{ resourceLang.axureIntro }}
           </p>
           <a
+            target="_blank"
             href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib"
+            @click="onClick('axure')"
           >
             <el-button type="primary">{{ resourceLang.download }}</el-button>
           </a>
@@ -34,7 +40,9 @@ const resourceLang = computed(() => resourceLocale[lang.value])
             {{ resourceLang.sketchIntro }}
           </p>
           <a
+            target="_blank"
             href="https://github.com/ElementUI/Resources/raw/master/Element%20UI%20Kit_v2.0.sketch"
+            @click="onClick('sketch')"
           >
             <el-button type="primary">{{ resourceLang.download }}</el-button>
           </a>
@@ -50,6 +58,7 @@ const resourceLang = computed(() => resourceLocale[lang.value])
           <a
             href="https://www.figma.com/community/file/1021254029764378306"
             target="_blank"
+            @click="onClick('figma')"
           >
             <el-button type="primary">{{ resourceLang.download }}</el-button>
           </a>
