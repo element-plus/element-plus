@@ -40,9 +40,11 @@ function useStyle<T>(
   const resizeState = ref<{
     width: null | number
     height: null | number
+    headerHeight: null | number
   }>({
     width: null,
     height: null,
+    headerHeight: null,
   })
   const isGroup = ref(false)
   const scrollbarViewStyle = {
@@ -124,6 +126,7 @@ function useStyle<T>(
     requestAnimationFrame(doLayout)
 
     const el: HTMLElement = table.vnode.el as HTMLElement
+    const tableHeader: HTMLElement = table.refs.headerWrapper
     if (props.flexible && el && el.parentElement) {
       // Automatic minimum size of flex-items
       // Ensure that the main axis does not follow the width of the items
@@ -133,6 +136,7 @@ function useStyle<T>(
     resizeState.value = {
       width: (tableWidth.value = el.offsetWidth),
       height: el.offsetHeight,
+      headerHeight: props.showHeader ? tableHeader.offsetHeight : null,
     }
 
     // init filters
@@ -195,6 +199,9 @@ function useStyle<T>(
     })
     if (props.fit) {
       addResizeListener(table.vnode.el as ResizableElement, resizeListener)
+      if (props.showHeader) {
+        addResizeListener(table.refs.headerWrapper, resizeListener)
+      }
     } else {
       on(window, 'resize', doLayout)
     }
@@ -210,6 +217,9 @@ function useStyle<T>(
     )
     if (props.fit) {
       removeResizeListener(table.vnode.el as ResizableElement, resizeListener)
+      if (props.showHeader) {
+        removeResizeListener(table.refs.headerWrapper, resizeListener)
+      }
     } else {
       off(window, 'resize', doLayout)
     }
@@ -218,7 +228,11 @@ function useStyle<T>(
     if (!table.$ready) return
     let shouldUpdateLayout = false
     const el = table.vnode.el
-    const { width: oldWidth, height: oldHeight } = resizeState.value
+    const {
+      width: oldWidth,
+      height: oldHeight,
+      headerHeight: oldHeaderHeight,
+    } = resizeState.value
 
     const width = (tableWidth.value = el.offsetWidth)
     if (oldWidth !== width) {
@@ -230,10 +244,16 @@ function useStyle<T>(
       shouldUpdateLayout = true
     }
 
+    const tableHeader: HTMLElement = table.refs.headerWrapper
+    if (props.showHeader && tableHeader.offsetHeight !== oldHeaderHeight) {
+      shouldUpdateLayout = true
+    }
+
     if (shouldUpdateLayout) {
       resizeState.value = {
         width,
         height,
+        headerHeight: props.showHeader ? tableHeader.offsetHeight : null,
       }
       doLayout()
     }
