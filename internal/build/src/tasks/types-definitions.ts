@@ -14,7 +14,6 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import { pathRewriter } from '../utils'
-import typeUnsafe from '../type-unsafe.json'
 import typeUnsafeStricter from '../type-unsafe-stricter.json'
 import type { CompilerOptions, SourceFile } from 'ts-morph'
 
@@ -44,12 +43,6 @@ export const generateTypesDefinitions = async () => {
 
   typeCheck(project, typeUnsafeStricter)
   consola.success('Stricter type check passed!')
-
-  compilerOptions.noImplicitAny = false
-  project.compilerOptions.set(compilerOptions)
-
-  typeCheck(project, typeUnsafe)
-  consola.success('Type check passed!')
 
   await project.emit({
     emitOnlyDtsFiles: true,
