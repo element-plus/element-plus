@@ -183,7 +183,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, ref, toRef, watch } from 'vue'
+import {
+  computed,
+  inject,
+  nextTick,
+  ref,
+  toRef,
+  useAttrs,
+  useSlots,
+  watch,
+} from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
@@ -205,12 +214,11 @@ import {
 } from '@element-plus/icons-vue'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
-import { useShortcut } from '../composables/use-shortcut'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
 
-import type { ComponentPublicInstance, Ref } from 'vue'
+import type { ComponentPublicInstance, Ref, SetupContext } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
 import type { PanelDatePickProps } from '../props/panel-date-pick'
 import type {
@@ -227,6 +235,8 @@ const props = defineProps(panelDatePickProps)
 const contextEmit = defineEmits(['pick', 'set-picker-option', 'panel-change'])
 const ppNs = useNamespace('picker-panel')
 const dpNs = useNamespace('date-picker')
+const attrs = useAttrs()
+const slots = useSlots()
 
 const { t, lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
@@ -350,7 +360,27 @@ const yearLabel = computed(() => {
   return `${year.value} ${yearTranslation}`
 })
 
-const handleShortcutClick = useShortcut(lang)
+type Shortcut = {
+  value: (() => Dayjs) | Dayjs
+  onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
+}
+
+const handleShortcutClick = (shortcut: Shortcut) => {
+  const shortcutValue = isFunction(shortcut.value)
+    ? shortcut.value()
+    : shortcut.value
+  if (shortcutValue) {
+    emit(dayjs(shortcutValue).locale(lang.value))
+    return
+  }
+  if (shortcut.onClick) {
+    shortcut.onClick({
+      attrs,
+      slots,
+      emit: contextEmit as SetupContext['emit'],
+    })
+  }
+}
 
 const selectionMode = computed<DatePickType>(() => {
   const { type } = props

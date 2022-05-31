@@ -7,7 +7,7 @@ import type { useLocale } from '@element-plus/hooks'
 import type { RangePickerSharedEmits } from '../props/shared'
 
 // FIXME: extract this to `date-picker.ts`
-type Shortcut = {
+export type Shortcut = {
   text: string
   value: [Date, Date] | (() => [Date, Date])
   onClick?: (ctx: Omit<SetupContext<RangePickerSharedEmits>, 'expose'>) => void
