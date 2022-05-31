@@ -5,28 +5,24 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
-import type { CSSProperties, ComponentInternalInstance, Ref } from 'vue'
-import type {
-  ButtonRefs,
-  ISliderButton,
-  ISliderInitData,
-  ISliderProps,
-} from './slider.type'
+import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { FormContext, FormItemContext } from '@element-plus/tokens'
+import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
+import type { ButtonRefs, SliderButtonInstance } from '../button'
 
 export const useSlide = (
-  props: ISliderProps,
-  initData: ISliderInitData,
-  emit: ComponentInternalInstance['emit']
+  props: SliderProps,
+  initData: SliderInitData,
+  emit: SetupContext<SliderEmits>['emit']
 ) => {
   const elForm = inject(formContextKey, {} as FormContext)
   const elFormItem = inject(formItemContextKey, {} as FormItemContext)
 
   const slider = shallowRef<HTMLElement>()
 
-  const firstButton = ref<ISliderButton>()
+  const firstButton = ref<SliderButtonInstance>()
 
-  const secondButton = ref<ISliderButton>()
+  const secondButton = ref<SliderButtonInstance>()
 
   const buttonRefs: ButtonRefs = {
     firstButton,
@@ -86,7 +82,7 @@ export const useSlide = (
 
   const getButtonRefByPercent = (
     percent: number
-  ): Ref<ISliderButton | undefined> => {
+  ): Ref<SliderButtonInstance | undefined> => {
     const targetValue = props.min + (percent * (props.max - props.min)) / 100
     if (!props.range) {
       return firstButton
@@ -109,15 +105,17 @@ export const useSlide = (
     return buttonRefs[buttonRefName]
   }
 
-  const setPosition = (percent: number): Ref<ISliderButton | undefined> => {
+  const setPosition = (
+    percent: number
+  ): Ref<SliderButtonInstance | undefined> => {
     const buttonRef = getButtonRefByPercent(percent)
     buttonRef.value!.setPosition(percent)
     return buttonRef
   }
 
-  const setFirstValue = (firstValue: number) => {
-    initData.firstValue = firstValue
-    _emit(props.range ? [minValue.value, maxValue.value] : firstValue)
+  const setFirstValue = (firstValue: number | undefined) => {
+    initData.firstValue = firstValue!
+    _emit(props.range ? [minValue.value, maxValue.value] : firstValue!)
   }
 
   const setSecondValue = (secondValue: number) => {
@@ -143,7 +141,7 @@ export const useSlide = (
 
   const handleSliderPointerEvent = (
     event: MouseEvent | TouchEvent
-  ): Ref<ISliderButton | undefined> | undefined => {
+  ): Ref<SliderButtonInstance | undefined> | undefined => {
     if (sliderDisabled.value || initData.dragging) return
     resetSize()
     let newPercent = 0
