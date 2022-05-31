@@ -1,7 +1,7 @@
 <template>
   <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
     <img
-      v-if="imageSrc"
+      v-if="imageSrc !== undefined && !hasLoadError"
       v-bind="attrs"
       :src="imageSrc"
       :loading="loading"
@@ -75,7 +75,7 @@ const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
 
-const imageSrc = ref('')
+const imageSrc = ref<string | undefined>()
 const hasLoadError = ref(false)
 const isLoading = ref(true)
 const showViewer = ref(false)
