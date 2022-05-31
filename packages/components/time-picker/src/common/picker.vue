@@ -532,8 +532,10 @@ export default defineComponent({
         (Array.isArray(props.modelValue) && !props.modelValue.length)
       )
     })
-    const onMouseDownInput = () => {
-      pickerVisible.value = true
+    const onMouseDownInput = async (event: MouseEvent) => {
+      if ((event.target as HTMLElement)?.tagName !== 'INPUT') {
+        pickerVisible.value = true
+      }
     }
     const onMouseEnter = () => {
       if (props.readonly || pickerDisabled.value) return
@@ -544,8 +546,10 @@ export default defineComponent({
     const onMouseLeave = () => {
       showClose.value = false
     }
-    const onTouchStartInput = () => {
-      pickerVisible.value = true
+    const onTouchStartInput = (event: TouchEvent) => {
+      if ((event.touches[0].target as HTMLElement)?.tagName !== 'INPUT') {
+        pickerVisible.value = true
+      }
     }
     const isRangeInput = computed(() => {
       return props.type.includes('range')

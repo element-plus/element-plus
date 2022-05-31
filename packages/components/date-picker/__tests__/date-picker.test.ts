@@ -272,6 +272,31 @@ describe('DatePicker', () => {
     expect(onChangeValue?.getTime()).toBe(new Date(2016, 9, 1).getTime())
   })
 
+  it('emits focus on click', async () => {
+    const focusHandler = vi.fn()
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        @focus="onFocus"
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) }),
+      {
+        methods: {
+          onFocus(e) {
+            return focusHandler(e)
+          },
+        },
+      }
+    )
+
+    const input = wrapper.find('input')
+    input.trigger('mousedown')
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+  })
+
   it('shortcuts', async () => {
     const text = 'Yesterday'
     const value = new Date(Date.now() - 86400000)
