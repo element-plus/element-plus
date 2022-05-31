@@ -8,16 +8,8 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import {
-  addResizeListener,
-  isNumber,
-  isString,
-  off,
-  on,
-  removeResizeListener,
-} from '@element-plus/utils'
+import { addResizeListener, removeResizeListener } from '@element-plus/utils'
 import { useSize } from '@element-plus/hooks'
-import { parseHeight } from '../util'
 
 import type { ResizableElement } from '@element-plus/utils'
 import type { Table, TableProps } from './defaults'
@@ -40,16 +32,21 @@ function useStyle<T>(
   const resizeState = ref<{
     width: null | number
     height: null | number
+    headerHeight: null | number
   }>({
     width: null,
     height: null,
+    headerHeight: null,
   })
   const isGroup = ref(false)
   const scrollbarViewStyle = {
-    display: 'block',
+    display: 'inline-block',
     verticalAlign: 'middle',
   }
   const tableWidth = ref()
+  const tableScrollHeight = ref(0)
+  const bodyScrollHeight = ref(0)
+  const headerScrollHeight = ref(0)
 
   watchEffect(() => {
     layout.setHeight(props.height)
@@ -124,6 +121,7 @@ function useStyle<T>(
     requestAnimationFrame(doLayout)
 
     const el: HTMLElement = table.vnode.el as HTMLElement
+    const tableHeader: HTMLElement = table.refs.headerWrapper
     if (props.flexible && el && el.parentElement) {
       // Automatic minimum size of flex-items
       // Ensure that the main axis does not follow the width of the items
@@ -133,6 +131,8 @@ function useStyle<T>(
     resizeState.value = {
       width: (tableWidth.value = el.offsetWidth),
       height: el.offsetHeight,
+      headerHeight:
+        props.showHeader && tableHeader ? tableHeader.offsetHeight : null,
     }
 
     // init filters
@@ -196,7 +196,7 @@ function useStyle<T>(
     if (props.fit) {
       addResizeListener(table.vnode.el as ResizableElement, resizeListener)
     } else {
-      on(window, 'resize', doLayout)
+      window.addEventListener('resize', doLayout)
     }
   }
   onBeforeUnmount(() => {
@@ -211,14 +211,18 @@ function useStyle<T>(
     if (props.fit) {
       removeResizeListener(table.vnode.el as ResizableElement, resizeListener)
     } else {
-      off(window, 'resize', doLayout)
+      window.removeEventListener('resize', doLayout)
     }
   }
   const resizeListener = () => {
     if (!table.$ready) return
     let shouldUpdateLayout = false
     const el = table.vnode.el
-    const { width: oldWidth, height: oldHeight } = resizeState.value
+    const {
+      width: oldWidth,
+      height: oldHeight,
+      headerHeight: oldHeaderHeight,
+    } = resizeState.value
 
     const width = (tableWidth.value = el.offsetWidth)
     if (oldWidth !== width) {
@@ -230,10 +234,20 @@ function useStyle<T>(
       shouldUpdateLayout = true
     }
 
+    const tableHeader: HTMLElement = table.refs.headerWrapper
+    if (props.showHeader && tableHeader.offsetHeight !== oldHeaderHeight) {
+      shouldUpdateLayout = true
+    }
+
+    tableScrollHeight.value = table.refs.tableWrapper.scrollHeight
+    headerScrollHeight.value = table.refs.headerWrapper?.scrollHeight || 0
+    bodyScrollHeight.value = tableScrollHeight.value - headerScrollHeight.value
+
     if (shouldUpdateLayout) {
       resizeState.value = {
         width,
         height,
+        headerHeight: props.showHeader ? tableHeader.offsetHeight : null,
       }
       doLayout()
     }
@@ -251,65 +265,63 @@ function useStyle<T>(
     return props.tableLayout
   })
 
-  function calcMaxHeight(
-    maxHeight: string | number,
-    footerHeight: number,
-    headerHeight: number
-  ) {
-    const parsedMaxHeight = parseHeight(maxHeight)
-    const tableHeaderHeight = props.showHeader ? headerHeight : 0
-    if (parsedMaxHeight === null) return
-    if (isString(parsedMaxHeight)) {
-      return `calc(${parsedMaxHeight} - ${footerHeight}px - ${tableHeaderHeight}px)`
+  const emptyBlockStyle = computed(() => {
+    if (props.data && props.data.length) return null
+    let height = '100%'
+    if (bodyScrollHeight.value) {
+      height = `${bodyScrollHeight.value}px`
     }
-    return parsedMaxHeight - footerHeight - tableHeaderHeight
-  }
-
-  const height = computed(() => {
-    const headerHeight = layout.headerHeight.value || 0
-    const bodyHeight = layout.bodyHeight.value
-    const footerHeight = layout.footerHeight.value || 0
-    if (props.height) {
-      return bodyHeight ? bodyHeight : undefined
-    } else if (props.maxHeight) {
-      return calcMaxHeight(props.maxHeight, footerHeight, headerHeight)
+    const width = tableWidth.value
+    return {
+      width: width ? `${width}px` : '',
+      height,
     }
-    return undefined
   })
 
-  const bodyHeight = computed(() => {
-    const headerHeight = layout.headerHeight.value || 0
-    const bodyHeight = layout.bodyHeight.value
-    const footerHeight = layout.footerHeight.value || 0
+  const tableInnerStyle = computed(() => {
     if (props.height) {
       return {
-        height: bodyHeight ? `${bodyHeight}px` : '',
+        height: !Number.isNaN(Number(props.height))
+          ? `${props.height}px`
+          : props.height,
       }
-    } else if (props.maxHeight) {
-      const maxHeight = calcMaxHeight(
-        props.maxHeight,
-        footerHeight,
-        headerHeight
-      )
-      if (maxHeight !== null) {
-        return {
-          'max-height': `${maxHeight}${isNumber(maxHeight) ? 'px' : ''}`,
-        }
+    }
+    if (props.maxHeight) {
+      return {
+        maxHeight: !Number.isNaN(Number(props.maxHeight))
+          ? `${props.maxHeight}px`
+          : props.maxHeight,
       }
     }
     return {}
   })
-  const emptyBlockStyle = computed(() => {
-    if (props.data && props.data.length) return null
-    let height = '100%'
-    if (layout.appendHeight.value) {
-      height = `calc(100% - ${layout.appendHeight.value}px)`
+
+  const scrollbarStyle = computed(() => {
+    if (props.height) {
+      return {
+        height: '100%',
+      }
     }
-    return {
-      width: tableWidth.value ? `${tableWidth.value}px` : '',
-      height,
+    if (props.maxHeight) {
+      if (!Number.isNaN(Number(props.maxHeight))) {
+        const headerHeight = table.refs.headerWrapper?.scrollHeight || 0
+        const maxHeight = props.maxHeight
+        const reachMaxHeight = tableScrollHeight.value >= Number(maxHeight)
+        if (reachMaxHeight) {
+          return {
+            maxHeight: `${tableScrollHeight.value - headerHeight}px`,
+          }
+        }
+      } else {
+        return {
+          maxHeight: `calc(${props.maxHeight} - ${headerScrollHeight.value}px)`,
+        }
+      }
     }
+
+    return {}
   })
+
   /**
    * fix layout
    */
@@ -331,58 +343,6 @@ function useStyle<T>(
       bodyWrapper.scrollLeft += Math.ceil(data.pixelX / 5)
     }
   }
-  const fixedHeight = computed(() => {
-    if (props.maxHeight) {
-      if (props.showSummary) {
-        return {
-          bottom: 0,
-        }
-      }
-      return {
-        bottom:
-          layout.scrollX.value && props.data.length
-            ? `${layout.gutterWidth}px`
-            : '',
-      }
-    } else {
-      if (props.showSummary) {
-        return {
-          height: layout.tableHeight.value
-            ? `${layout.tableHeight.value}px`
-            : '',
-        }
-      }
-      return {
-        height: layout.viewportHeight.value
-          ? `${layout.viewportHeight.value}px`
-          : '',
-      }
-    }
-  })
-  const fixedBodyHeight = computed(() => {
-    if (props.height) {
-      return {
-        height: layout.fixedBodyHeight.value
-          ? `${layout.fixedBodyHeight.value}px`
-          : '',
-      }
-    } else if (props.maxHeight) {
-      let maxHeight = parseHeight(props.maxHeight)
-      if (typeof maxHeight === 'number') {
-        maxHeight = layout.scrollX.value
-          ? maxHeight - layout.gutterWidth
-          : maxHeight
-        if (props.showHeader) {
-          maxHeight -= layout.headerHeight.value
-        }
-        maxHeight -= layout.footerHeight.value
-        return {
-          'max-height': `${maxHeight}px`,
-        }
-      }
-    }
-    return {}
-  })
 
   return {
     isHidden,
@@ -392,12 +352,8 @@ function useStyle<T>(
     handleMouseLeave,
     handleHeaderFooterMousewheel,
     tableSize,
-    bodyHeight,
-    height,
     emptyBlockStyle,
     handleFixedMousewheel,
-    fixedHeight,
-    fixedBodyHeight,
     resizeProxyVisible,
     bodyWidth,
     resizeState,
@@ -405,6 +361,8 @@ function useStyle<T>(
     tableBodyStyles,
     tableLayout,
     scrollbarViewStyle,
+    tableInnerStyle,
+    scrollbarStyle,
   }
 }
 

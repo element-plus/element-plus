@@ -1,7 +1,7 @@
 import { createPopper } from '@popperjs/core'
 import { get } from 'lodash-unified'
 import escapeHtml from 'escape-html'
-import { hasOwn, off, on } from '@element-plus/utils'
+import { hasOwn } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
   IPopperOptions,
@@ -349,11 +349,9 @@ export function createTablePopper(
     try {
       popperInstance && popperInstance.destroy()
       content && parentNode?.removeChild(content)
-      off(trigger, 'mouseenter', showPopper)
-      off(trigger, 'mouseleave', removePopper)
-      if (scrollContainer) {
-        off(scrollContainer, 'scroll', removePopper)
-      }
+      trigger.removeEventListener('mouseenter', showPopper)
+      trigger.removeEventListener('mouseleave', removePopper)
+      scrollContainer?.removeEventListener('scroll', removePopper)
       removePopper = undefined
     } catch {}
   }
@@ -380,11 +378,9 @@ export function createTablePopper(
     ],
     ...popperOptions,
   })
-  on(trigger, 'mouseenter', showPopper)
-  on(trigger, 'mouseleave', removePopper)
-  if (scrollContainer) {
-    on(scrollContainer, 'scroll', removePopper)
-  }
+  trigger.addEventListener('mouseenter', showPopper)
+  trigger.addEventListener('mouseleave', removePopper)
+  scrollContainer?.addEventListener('scroll', removePopper)
   return popperInstance
 }
 
