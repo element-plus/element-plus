@@ -6,28 +6,22 @@ import Col from '../src/col.vue'
 
 describe('Col', () => {
   it('create', () => {
-    const wrapper = mount(Col)
+    const wrapper = mount(() => <Col />)
     expect(wrapper.classes()).toContain('el-col')
   })
 
   it('span', () => {
-    const wrapper = mount(Col, {
-      props: { span: 12 },
-    })
+    const wrapper = mount(() => <Col span={12} />)
     expect(wrapper.classes()).toContain('el-col-12')
   })
 
   it('pull', () => {
-    const wrapper = mount(Col, {
-      props: { span: 12, pull: 3 },
-    })
+    const wrapper = mount(() => <Col span={12} pull={3} />)
     expect(wrapper.classes()).toContain('el-col-pull-3')
   })
 
   it('push', () => {
-    const wrapper = mount(Col, {
-      props: { span: 12, push: 3 },
-    })
+    const wrapper = mount(() => <Col span={12} push={3} />)
     expect(wrapper.classes()).toContain('el-col-push-3')
   })
 
@@ -100,28 +94,22 @@ describe('Col', () => {
 
 describe('Row', () => {
   test('create', () => {
-    const wrapper = mount(Row)
+    const wrapper = mount(() => <Row />)
     expect(wrapper.classes()).toContain('el-row')
   })
 
   test('gutter', () => {
-    const wrapper = mount(Row, {
-      props: { gutter: 20 },
-    })
+    const wrapper = mount(() => <Row gutter={20} />)
     const rowElm = wrapper.element as HTMLElement
     expect(rowElm.style.marginLeft).toEqual('-10px')
     expect(rowElm.style.marginRight).toEqual('-10px')
   })
   test('justify', () => {
-    const wrapper = mount(Row, {
-      props: { justify: 'end' },
-    })
+    const wrapper = mount(() => <Row justify={'end'} />)
     expect(wrapper.classes()).toContain('is-justify-end')
   })
   test('align', () => {
-    const wrapper = mount(Row, {
-      props: { align: 'bottom' },
-    })
+    const wrapper = mount(() => <Row align={'bottom'} />)
     expect(wrapper.classes()).toContain('is-align-bottom')
   })
 })
