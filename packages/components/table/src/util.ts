@@ -317,44 +317,52 @@ export function walkTreeNode(
 export let removePopper
 
 export function createTablePopper(
+  parentNode: HTMLElement | undefined,
   trigger: HTMLElement,
   popperContent: string,
   popperOptions: Partial<IPopperOptions>,
   tooltipEffect: string
 ) {
   const { nextZIndex } = useZIndex()
+  const ns = parentNode?.dataset.prefix
+  const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
   function renderContent(): HTMLDivElement {
     const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
-    content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
+    content.className = `${ns}-popper ${isLight ? 'is-light' : 'is-dark'}`
     popperContent = escapeHtml(popperContent)
     content.innerHTML = popperContent
     content.style.zIndex = String(nextZIndex())
-    document.body.appendChild(content)
+    // Avoid side effects caused by append to body
+    parentNode?.appendChild(content)
     return content
   }
   function renderArrow(): HTMLDivElement {
     const arrow = document.createElement('div')
-    arrow.className = 'el-popper__arrow'
+    arrow.className = `${ns}-popper__arrow`
     return arrow
   }
   function showPopper() {
     popperInstance && popperInstance.update()
   }
-  removePopper = function removePopper() {
+  removePopper = () => {
     try {
       popperInstance && popperInstance.destroy()
-      content && document.body.removeChild(content)
+      content && parentNode?.removeChild(content)
       off(trigger, 'mouseenter', showPopper)
       off(trigger, 'mouseleave', removePopper)
+      if (scrollContainer) {
+        off(scrollContainer, 'scroll', removePopper)
+      }
+      removePopper = undefined
     } catch {}
   }
   let popperInstance: Nullable<PopperInstance> = null
   const content = renderContent()
   const arrow = renderArrow()
   content.appendChild(arrow)
-
   popperInstance = createPopper(trigger, content, {
+    strategy: 'absolute',
     modifiers: [
       {
         name: 'offset',
@@ -374,6 +382,9 @@ export function createTablePopper(
   })
   on(trigger, 'mouseenter', showPopper)
   on(trigger, 'mouseleave', removePopper)
+  if (scrollContainer) {
+    on(scrollContainer, 'scroll', removePopper)
+  }
   return popperInstance
 }
 
