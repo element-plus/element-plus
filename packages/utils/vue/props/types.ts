@@ -76,9 +76,20 @@ export type NativePropType =
 export type IfNativePropType<T, Y, N> = [T] extends [NativePropType] ? Y : N
 
 /**
- * input prop `buildProp` or `buildProps`
+ * input prop `buildProp` or `buildProps` (constraints)
  *
- * prop 输入参数
+ * prop 输入参数（约束）
+ *
+ * @example
+ * EpPropInput<StringConstructor, 'a', never, never, true>
+ * ⬇️
+ * {
+    type?: StringConstructor | undefined;
+    required?: true | undefined;
+    values?: readonly "a"[] | undefined;
+    validator?: ((val: any) => boolean) | ((val: any) => val is never) | undefined;
+    default?: undefined;
+  }
  */
 export type EpPropInput<
   Type,
@@ -97,7 +108,18 @@ export type EpPropInput<
 /**
  * output prop `buildProp` or `buildProps`.
  *
- * prop 输出参数
+ * prop 输出参数。
+ *
+ * @example
+ * EpProp<'a', 'b', true>
+ * ⬇️
+ * {
+    readonly type: PropType<"a">;
+    readonly required: true;
+    readonly validator: ((val: unknown) => boolean) | undefined;
+    readonly default: "b";
+    __epPropKey: true;
+  }
  */
 export type EpProp<Type, Default, Required> = {
   readonly type: PropType<Type>
@@ -123,11 +145,18 @@ export type EpPropConvert<Input> = Input extends EpPropInput<
   any,
   infer Required
 >
-  ? EpProp<
-      EpPropMergeType<Type, Value, Validator>,
-      UnknownToNever<Input['default']>,
-      Required
-    >
+  ? EpPropFinalize<Type, Value, Validator, Input['default'], Required>
   : never
+
+/**
+ * Finalize conversion output
+ *
+ * 最终转换 EpProp
+ */
+export type EpPropFinalize<Type, Value, Validator, Default, Required> = EpProp<
+  EpPropMergeType<Type, Value, Validator>,
+  UnknownToNever<Default>,
+  Required
+>
 
 export {}
