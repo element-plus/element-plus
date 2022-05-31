@@ -11,6 +11,7 @@ type Value<T> = T[keyof T]
  *
  * @example
  * ExtractPropType<{ type: StringConstructor }> => string | undefined
+ * ExtractPropType<{ type: StringConstructor, required: true }> => string
  * ExtractPropType<{ type: BooleanConstructor }> => boolean
  */
 export type ExtractPropType<T extends object> = Value<
@@ -20,9 +21,9 @@ export type ExtractPropType<T extends object> = Value<
 >
 
 /**
- * Extracts types via `ExtractPropTypes`, accepting `PropType<T>`, `never`, `XXXConstructor`...
+ * Extracts types via `ExtractPropTypes`, accepting `PropType<T>`, `XXXConstructor`, `never`...
  *
- * 通过 `ExtractPropTypes` 提取类型，接受 `PropType<T>`、`never`、`XXXConstructor`...
+ * 通过 `ExtractPropTypes` 提取类型，接受 `PropType<T>`、`XXXConstructor`、`never`...
  *
  * @example
  * ResolvePropType<BooleanConstructor> => boolean
@@ -31,9 +32,10 @@ export type ExtractPropType<T extends object> = Value<
 export type ResolvePropType<T> = IfNever<
   T,
   never,
-  ExtractPropTypes<{
-    key: { type: WritableArray<T>; required: true }
-  }>['key']
+  ExtractPropType<{
+    type: WritableArray<T>
+    required: true
+  }>
 >
 
 /**
@@ -42,7 +44,7 @@ export type ResolvePropType<T> = IfNever<
  *
  * @example
  * EpPropMergeType<StringConstructor, '1', 1> =>  1 | "1" // ignores StringConstructor
- * EpPropMergeType<StringConstructor, never, number> =>  string | number // ignores StringConstructor
+ * EpPropMergeType<StringConstructor, never, number> =>  string | number
  */
 export type EpPropMergeType<Type, Value, Validator> =
   | IfNever<UnknownToNever<Value>, ResolvePropType<Type>, never>
