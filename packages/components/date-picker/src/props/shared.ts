@@ -1,10 +1,14 @@
-import { buildProps, definePropType, isArray } from '@element-plus/utils'
+import {
+  buildProp,
+  buildProps,
+  definePropType,
+  isArray,
+} from '@element-plus/utils'
 import { datePickTypes } from '@element-plus/constants'
 
 import type { ExtractPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
-
-const selectionModes = ['date', 'dates', 'year', 'month', 'week', 'range']
+import type { DatePickType } from '@element-plus/constants'
 
 export type RangeState = {
   endDate: null | Dayjs
@@ -39,7 +43,7 @@ export const datePickerSharedProps = buildProps({
 
 export const panelSharedProps = buildProps({
   type: {
-    type: definePropType<typeof datePickTypes>(String),
+    type: definePropType<DatePickType>(String),
     required: true,
     values: datePickTypes,
   },
@@ -52,14 +56,12 @@ export const panelRangeSharedProps = buildProps({
   },
 } as const)
 
-export const selectionModeWithDefault = (
-  mode: typeof selectionModes[number]
-) => {
-  return {
-    type: String,
-    values: selectionModes,
-    default: mode,
-  }
+export const selectionModeWithDefault = (mode: DatePickType) => {
+  return buildProp({
+    type: definePropType<DatePickType>(String),
+    values: datePickTypes,
+    default: mode as any,
+  } as const)
 }
 
 export const rangePickerSharedEmits = {

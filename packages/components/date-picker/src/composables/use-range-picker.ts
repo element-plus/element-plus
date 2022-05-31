@@ -1,34 +1,14 @@
-import {
-  getCurrentInstance,
-  inject,
-  ref,
-  unref,
-  useAttrs,
-  useSlots,
-  watch,
-} from 'vue'
-import dayjs from 'dayjs'
-import { isArray, isFunction } from '@element-plus/utils'
+import { getCurrentInstance, inject, ref, unref, watch } from 'vue'
+import { isArray } from '@element-plus/utils'
 import { ROOT_PICKER_INJECTION_KEY } from '@element-plus/tokens'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-
 import { getDefaultValue, isValidRange } from '../utils'
+import { useShortcut } from './use-shortcut'
 
-import type { Ref, SetupContext } from 'vue'
+import type { Ref } from 'vue'
 import type { Dayjs } from 'dayjs'
-import type {
-  PanelRangeSharedProps,
-  RangePickerSharedEmits,
-  RangeState,
-} from '../props/shared'
+import type { PanelRangeSharedProps, RangeState } from '../props/shared'
 import type { DefaultValue } from '../utils'
-
-// FIXME: extract this to `date-picker.ts`
-type Shortcut = {
-  text: string
-  value: [Date, Date] | (() => [Date, Date])
-  onClick?: (ctx: Omit<SetupContext<RangePickerSharedEmits>, 'expose'>) => void
-}
 
 type UseRangePickerProps = {
   onParsedValueChanged: (
@@ -53,12 +33,11 @@ export const useRangePicker = (
   }: UseRangePickerProps
 ) => {
   const { emit } = getCurrentInstance()!
-  const attrs = useAttrs()
-  const slots = useSlots()
 
   const { pickerNs } = inject(ROOT_PICKER_INJECTION_KEY)!
   const drpNs = useNamespace('date-range-picker')
   const { t, lang } = useLocale()
+  const handleShortcutClick = useShortcut(lang)
   const minDate = ref<Dayjs>()
   const maxDate = ref<Dayjs>()
   const rangeState = ref<RangeState>({
@@ -83,27 +62,6 @@ export const useRangePicker = (
     rangeState.value.selecting = selecting
     if (!selecting) {
       rangeState.value.endDate = null
-    }
-  }
-
-  const handleShortcutClick = (shortcut: Shortcut) => {
-    const shortcutValues = isFunction(shortcut.value)
-      ? shortcut.value()
-      : shortcut.value
-
-    if (shortcutValues) {
-      emit('pick', [
-        dayjs(shortcutValues[0]).locale(lang.value),
-        dayjs(shortcutValues[1]).locale(lang.value),
-      ])
-      return
-    }
-    if (shortcut.onClick) {
-      shortcut.onClick({
-        attrs,
-        slots,
-        emit,
-      })
     }
   }
 
