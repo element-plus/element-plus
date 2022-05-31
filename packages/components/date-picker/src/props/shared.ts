@@ -1,9 +1,4 @@
-import {
-  buildProp,
-  buildProps,
-  definePropType,
-  isArray,
-} from '@element-plus/utils'
+import { buildProps, definePropType, isArray } from '@element-plus/utils'
 import { datePickTypes } from '@element-plus/constants'
 
 import type { ExtractPropTypes } from 'vue'
