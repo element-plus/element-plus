@@ -1,4 +1,4 @@
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { ElFormItem } from '@element-plus/components/form'
@@ -6,382 +6,313 @@ import Radio from '../src/radio.vue'
 import RadioGroup from '../src/radio-group.vue'
 import RadioButton from '../src/radio-button.vue'
 
-const _mount = (template: string, data, otherObj?) =>
-  mount({
-    components: {
-      'el-radio': Radio,
-      'el-radio-group': RadioGroup,
-      'el-radio-button': RadioButton,
-      'el-form-item': ElFormItem,
-    },
-    template,
-    data,
-    ...otherObj,
-  })
-
 describe('Radio', () => {
   test('create', async () => {
-    const wrapper = _mount(
-      `<el-radio v-model="radio" label="a">
-    </el-radio>`,
-      () => ({ radio: '' })
-    )
+    const radio = ref('')
+    const wrapper = mount(() => <Radio v-model={radio.value} label="a" />)
     expect(wrapper.classes()).toContain('el-radio')
     await wrapper.trigger('click')
     expect(wrapper.classes()).toContain('is-checked')
   })
 
   test('disabled', async () => {
-    const wrapper = _mount(
-      `<el-radio
-    v-model="radio"
-    label="3"
-    disabled
-  >
-  </el-radio>`,
-      () => ({ radio: '' })
-    )
+    const radio = ref('')
+    const wrapper = mount(() => (
+      <Radio v-model={radio.value} label="3" disabled />
+    ))
     await wrapper.trigger('click')
-    const vm = wrapper.vm as any
-    expect(vm.radio).toBe('')
+    expect(radio.value).toBe('')
     expect(wrapper.classes()).toContain('is-disabled')
   })
 
   test('border', () => {
-    const wrapper = _mount(
-      `<el-radio
-    v-model="radio"
-    label="3"
-    border
-  >
-  </el-radio>`,
-      () => ({ radio: '' })
-    )
+    const radio = ref('')
+    const wrapper = mount(() => (
+      <Radio v-model={radio.value} label="3" border />
+    ))
     expect(wrapper.classes()).toContain('is-bordered')
   })
 
   test('change event', async () => {
-    const wrapper = _mount(
-      `<el-radio
-    v-model="radio"
-    label="3"
-    @change="handleChange"
-  >
-  </el-radio>`,
-      () => ({
-        radio: '',
-        changeData: '',
-      }),
-      {
-        methods: {
-          handleChange(val) {
-            this.changeData = val
-          },
-        },
-      }
-    )
-    const vm = wrapper.vm as any
+    const radio = ref('')
+    const changeData = ref('')
+    function handleChange(val: string) {
+      changeData.value = val
+    }
+    const wrapper = mount(() => (
+      <Radio v-model={radio.value} label="3" onChange={handleChange} />
+    ))
     await wrapper.trigger('click')
     await nextTick()
-    expect(vm.changeData).toEqual('3')
+    expect(changeData.value).toEqual('3')
   })
 
   test('change event only triggers on user input', async () => {
-    const wrapper = _mount(
-      `<el-radio
-    v-model="radio"
-    label="3"
-    @change="handleChange"
-  >
-  </el-radio>`,
-      () => ({
-        radio: '',
-        changeData: '',
-      }),
-      {
-        methods: {
-          handleChange(val) {
-            this.changeData = val
-          },
-        },
-      }
-    )
-    const vm = wrapper.vm as any
-    vm.radio = '3'
+    const radio = ref('')
+    const changeData = ref('')
+    function handleChange(val: string) {
+      changeData.value = val
+    }
+    mount(() => (
+      <Radio v-model={radio.value} label="3" onChange={handleChange} />
+    ))
+    radio.value = '3'
     await nextTick()
-    expect(vm.changeData).toEqual('')
-    expect(vm.radio).toEqual('3')
+    expect(changeData.value).toEqual('')
+    expect(radio.value).toEqual('3')
   })
 })
 
 describe('Radio group', () => {
   it('create', async () => {
-    const wrapper = _mount(
-      `<el-radio-group v-model="radio">
-    <el-radio :label="3" ref="radio1">3</el-radio>
-    <el-radio :label="6" ref="radio2">6</el-radio>
-    <el-radio :label="9">9</el-radio>
-  </el-radio-group>`,
-      () => ({
-        radio: 3,
-      })
-    )
-    const radio1 = wrapper.findComponent({ ref: 'radio1' })
+    const radio = ref(3)
+    const wrapper = mount(() => (
+      <RadioGroup v-model={radio.value}>
+        <Radio label={3} ref="radio1">
+          3
+        </Radio>
+        <Radio label={6} ref="radio2">
+          6
+        </Radio>
+        <Radio label={9}>9</Radio>
+      </RadioGroup>
+    ))
+    await nextTick()
+    const [radio1, radio2] = wrapper.findAll('.el-radio')
     expect(radio1.classes()).toContain('is-checked')
-    const radio2 = wrapper.findComponent({ ref: 'radio2' })
     await radio2.trigger('click')
     expect(radio2.classes()).toContain('is-checked')
-    const vm = wrapper.vm as any
-    expect(vm.radio).toEqual(6)
+    expect(radio.value).toEqual(6)
   })
 
   it('id auto derive', async () => {
-    const wrapper1 = _mount(
-      `<el-radio-group v-model="radio">
-        <el-radio :label="3" ref="radio1">3</el-radio>
-        <el-radio :label="6" ref="radio2">6</el-radio>
-        <el-radio :label="9">9</el-radio>
-      </el-radio-group>`,
-      () => ({
-        radio: 3,
-      })
-    )
+    const radioValue1 = ref(3)
+    const wrapper1 = mount(() => (
+      <RadioGroup v-model={radioValue1.value}>
+        <Radio label={3} ref="radio1">
+          3
+        </Radio>
+        <Radio label={6} ref="radio2">
+          6
+        </Radio>
+        <Radio label={9}>9</Radio>
+      </RadioGroup>
+    ))
 
-    const wrapper2 = _mount(
-      `<el-radio-group v-model="radio">
-        <el-radio :label="3" ref="radio1">3</el-radio>
-        <el-radio :label="6" ref="radio2">6</el-radio>
-        <el-radio :label="9">9</el-radio>
-      </el-radio-group>`,
-      () => ({
-        radio: 3,
-      })
-    )
+    const radioValue2 = ref(3)
+    const wrapper2 = mount(() => (
+      <RadioGroup v-model={radioValue2.value}>
+        <Radio label={3} ref="radio1">
+          3
+        </Radio>
+        <Radio label={6} ref="radio2">
+          6
+        </Radio>
+        <Radio label={9}>9</Radio>
+      </RadioGroup>
+    ))
 
-    const id1 = wrapper1
-      .findComponent({ name: 'ElRadio' })
-      .find('input')
-      .attributes('name')
-
-    const id2 = wrapper2
-      .findComponent({ name: 'ElRadio' })
-      .find('input')
-      .attributes('name')
+    const id1 = wrapper1.find('.el-radio').find('input').attributes('name')
+    const id2 = wrapper2.find('.el-radio').find('input').attributes('name')
 
     expect(id1).not.toEqual(id2)
   })
 
   it('disabled', async () => {
-    const wrapper = _mount(
-      `<el-radio-group v-model="radio" disabled>
-    <el-radio :label="3" ref="radio1">3</el-radio>
-    <el-radio :label="6" ref="radio2">6</el-radio>
-    <el-radio :label="9">7</el-radio>
-  </el-radio-group>`,
-      () => ({
-        radio: 3,
-      })
-    )
-
+    const radio = ref(3)
+    const wrapper = mount(() => (
+      <RadioGroup v-model={radio.value} disabled>
+        <Radio label={3} ref="radio1">
+          3
+        </Radio>
+        <Radio label={6} ref="radio2">
+          6
+        </Radio>
+        <Radio label={9}>9</Radio>
+      </RadioGroup>
+    ))
     expect(wrapper.find('label.is-disabled').exists()).toBe(true)
-    const radio1 = wrapper.findComponent({ ref: 'radio1' })
+
+    const [radio1, radio2] = wrapper.findAll('.el-radio')
     expect(radio1.classes()).toContain('is-checked')
-    const radio2 = wrapper.findComponent({ ref: 'radio2' })
     await radio2.trigger('click')
-    const vm = wrapper.vm as any
-    expect(vm.radio).toEqual(3)
+    expect(radio.value).toEqual(3)
     expect(radio1.classes()).toContain('is-checked')
   })
   it('change event', async () => {
-    const wrapper = _mount(
-      `<el-radio-group v-model="radio" @change="onChange">
-    <el-radio :label="3">3</el-radio>
-    <el-radio :label="6" ref="radio2">6</el-radio>
-    <el-radio :label="9">9</el-radio>
-  </el-radio-group>`,
-      () => ({
-        radio: 3,
-        data: 0,
-      }),
-      {
-        methods: {
-          onChange(val) {
-            this.data = val
-          },
-        },
-      }
-    )
-
-    const radio2 = wrapper.findComponent({ ref: 'radio2' })
-    await radio2.trigger('click')
+    const radio = ref(3)
+    const data = ref(0)
+    function onChange(val: number) {
+      data.value = val
+    }
+    const wrapper = mount(() => (
+      <RadioGroup v-model={radio.value} onChange={onChange}>
+        <Radio label={3}>3</Radio>
+        <Radio label={6} ref="radio2">
+          6
+        </Radio>
+        <Radio label={9}>9</Radio>
+      </RadioGroup>
+    ))
+    const radio2 = wrapper.findAll('.el-radio').at(1)
+    await radio2?.trigger('click')
     await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.data).toEqual(6)
+    expect(data.value).toEqual(6)
   })
   it('change event only triggers on user input', async () => {
-    const wrapper = _mount(
-      `<el-radio-group v-model="radio" @change="onChange">
-    <el-radio :label="3">3</el-radio>
-    <el-radio :label="6" ref="radio2">6</el-radio>
-    <el-radio :label="9">9</el-radio>
-  </el-radio-group>`,
-      () => ({
-        radio: 3,
-        data: 0,
-      }),
-      {
-        methods: {
-          onChange(val) {
-            this.data = val
-          },
-        },
-      }
-    )
-    const vm = wrapper.vm as any
-    vm.radio = 6
+    const radio = ref(3)
+    const data = ref(0)
+    function onChange(val: number) {
+      data.value = val
+    }
+    mount(() => (
+      <RadioGroup v-model={radio.value} onChange={onChange}>
+        <Radio label={3}>3</Radio>
+        <Radio label={6} ref="radio2">
+          6
+        </Radio>
+        <Radio label={9}>9</Radio>
+      </RadioGroup>
+    ))
+
+    radio.value = 6
     await nextTick()
-    expect(vm.data).toEqual(0)
+    expect(data.value).toEqual(0)
   })
   it('disabled when children is radio button', async () => {
-    const wrapper = _mount(
-      `<el-radio-group v-model="radio" disabled>
-    <el-radio-button :label="3" ref="radio1">3</el-radio-button>
-    <el-radio-button :label="6" ref="radio2">6</el-radio-button>
-    <el-radio-button :label="9">9</el-radio-button>
-  </el-radio-group>`,
-      () => ({
-        radio: 3,
-      })
-    )
+    const radio = ref(3)
+    const wrapper = mount(() => (
+      <RadioGroup v-model={radio.value} disabled>
+        <RadioButton label={3} ref="radio1">
+          3
+        </RadioButton>
+        <RadioButton label={6} ref="radio2">
+          6
+        </RadioButton>
+        <RadioButton label={9}>9</RadioButton>
+      </RadioGroup>
+    ))
 
-    const radio1 = wrapper.findComponent({ ref: 'radio1' })
-    const radio2 = wrapper.findComponent({ ref: 'radio2' })
+    const [radio1, radio2] = wrapper.findAll('.el-radio-button')
     expect(radio1.classes()).toContain('is-active')
     expect(wrapper.findAll('.is-disabled').length).toBe(3)
     await radio2.trigger('click')
-    const vm = wrapper.vm as any
-    expect(vm.radio).toEqual(3)
+    expect(radio.value).toEqual(3)
     expect(radio1.classes()).toContain('is-active')
   })
 })
 
 describe('Radio Button', () => {
   it('create', async () => {
-    const wrapper = _mount(
-      `<el-radio-group v-model="radio">
-    <el-radio-button :label="3" ref="radio1">3</el-radio-button>
-    <el-radio-button :label="6" ref="radio2">6</el-radio-button>
-    <el-radio-button :label="9">9</el-radio-button>
-  </el-radio-group>`,
-      () => ({
-        radio: 3,
-      })
-    )
-    const radio1 = wrapper.findComponent({ ref: 'radio1' })
+    const radio = ref(3)
+    const wrapper = mount(() => (
+      <RadioGroup v-model={radio.value}>
+        <RadioButton label={3} ref="radio1">
+          3
+        </RadioButton>
+        <RadioButton label={6} ref="radio2">
+          6
+        </RadioButton>
+        <RadioButton label={9}>9</RadioButton>
+      </RadioGroup>
+    ))
+    const [radio1, radio2] = wrapper.findAll('.el-radio-button')
     expect(radio1.classes()).toContain('is-active')
-    const radio2 = wrapper.findComponent({ ref: 'radio2' })
     await radio2.trigger('click')
     expect(radio2.classes()).toContain('is-active')
-    const vm = wrapper.vm as any
-    expect(vm.radio).toEqual(6)
+    expect(radio.value).toEqual(6)
   })
   it('custom color', () => {
-    const wrapper = _mount(
-      `<el-radio-group v-model="radio" fill="#000" text-color="#ff0">
-    <el-radio-button :label="3" ref="radio1">3</el-radio-button>
-    <el-radio-button :label="6" ref="radio2">6</el-radio-button>
-    <el-radio-button :label="9">9</el-radio-button>
-  </el-radio-group>`,
-      () => ({
-        radio: 3,
-      })
-    )
-    const radio1 = wrapper.findComponent({ ref: 'radio1' })
+    const radio = ref(3)
+    const wrapper = mount(() => (
+      <RadioGroup v-model={radio.value} fill="#000" text-color="#ff0">
+        <RadioButton label={3} ref="radio1">
+          3
+        </RadioButton>
+        <RadioButton label={6} ref="radio2">
+          6
+        </RadioButton>
+        <RadioButton label={9}>9</RadioButton>
+      </RadioGroup>
+    ))
+    const radio1 = wrapper.find('.el-radio-button')
     expect(radio1.find('span').attributes('style')).toContain(
       'background-color: rgb(0, 0, 0); border-color: #000; box-shadow: -1px 0 0 0 #000; color: rgb(255, 255, 0);'
     )
   })
   it('change event', async () => {
-    const wrapper = _mount(
-      `<el-radio-group v-model="radio" @change="onChange">
-    <el-radio-button :label="3">3</el-radio-button>
-    <el-radio-button :label="6" ref="radio2">6</el-radio-button>
-    <el-radio-button :label="9">9</el-radio-button>
-  </el-radio-group>`,
-      () => ({
-        data: 0,
-        radio: 3,
-      }),
-      {
-        methods: {
-          onChange(val) {
-            this.data = val
-          },
-        },
-      }
-    )
-    const radio2 = wrapper.findComponent({ ref: 'radio2' })
-    await radio2.trigger('click')
-    const vm = wrapper.vm as any
-    expect(vm.radio).toEqual(6)
+    const radio = ref(3)
+    const data = ref(0)
+    function onChange(val: number) {
+      data.value = val
+    }
+    const wrapper = mount(() => (
+      <RadioGroup v-model={radio.value} onChange={onChange}>
+        <RadioButton label={3} ref="radio1">
+          3
+        </RadioButton>
+        <RadioButton label={6} ref="radio2">
+          6
+        </RadioButton>
+        <RadioButton label={9}>9</RadioButton>
+      </RadioGroup>
+    ))
+    const radio2 = wrapper.findAll('.el-radio-button').at(1)
+    await radio2?.trigger('click')
+    expect(radio.value).toEqual(6)
   })
   it('change event only triggers on user input', async () => {
-    const wrapper = _mount(
-      `<el-radio-group v-model="radio" @change="onChange">
-    <el-radio-button :label="3">3</el-radio-button>
-    <el-radio-button :label="6" ref="radio2">6</el-radio-button>
-    <el-radio-button :label="9">9</el-radio-button>
-  </el-radio-group>`,
-      () => ({
-        data: 0,
-        radio: 3,
-      }),
-      {
-        methods: {
-          onChange(val) {
-            this.data = val
-          },
-        },
-      }
-    )
-    const vm = wrapper.vm as any
-    vm.radio = 6
+    const radio = ref(3)
+    const data = ref(0)
+    function onChange(val: number) {
+      data.value = val
+    }
+    mount(() => (
+      <RadioGroup v-model={radio.value} onChange={onChange}>
+        <RadioButton label={3} ref="radio1">
+          3
+        </RadioButton>
+        <RadioButton label={6} ref="radio2">
+          6
+        </RadioButton>
+        <RadioButton label={9}>9</RadioButton>
+      </RadioGroup>
+    ))
+
+    radio.value = 6
     await nextTick()
-    expect(vm.data).toEqual(0)
+    expect(data.value).toEqual(0)
   })
 
   it('size', () => {
-    const wrapper = _mount(
-      `<el-radio-group v-model="radio" size="large">
-    <el-radio-button :label="3" ref="radio1">3</el-radio-button>
-    <el-radio-button :label="6" ref="radio2">6</el-radio-button>
-    <el-radio-button :label="9">9</el-radio-button>
-  </el-radio-group>`,
-      () => ({
-        radio: 3,
-      })
-    )
+    const radio = ref(3)
+    const wrapper = mount(() => (
+      <RadioGroup v-model={radio.value} size="large">
+        <RadioButton label={3} ref="radio1">
+          3
+        </RadioButton>
+        <RadioButton label={6} ref="radio2">
+          6
+        </RadioButton>
+        <RadioButton label={9}>9</RadioButton>
+      </RadioGroup>
+    ))
     expect(wrapper.findAll('.el-radio-button--large').length).toBe(3)
   })
 
   describe('form item accessibility integration', () => {
     test('single radio group in form item', async () => {
-      const wrapper = _mount(
-        `
-        <el-form-item ref="item" label="Test">
-          <el-radio-group ref="radioGroup">
-            <el-radio label="Foo" />
-            <el-radio label="Bar" />
-          </el-radio-group>
-        </el-form-item>
-        `,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem ref="item" label="Test">
+          <RadioGroup ref="radioGroup">
+            <Radio label="Foo" />
+            <Radio label="Bar" />
+          </RadioGroup>
+        </ElFormItem>
+      ))
       await nextTick()
-      const formItem = await wrapper.findComponent({ ref: 'item' })
-      const radioGroup = await wrapper.findComponent({
-        ref: 'radioGroup',
-      })
+      const formItem = await wrapper.findComponent(ElFormItem)
+      const radioGroup = await wrapper.findComponent(RadioGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
       expect(formItem.attributes().role).toBeFalsy()
       expect(radioGroup.attributes().role).toBe('radiogroup')
@@ -392,22 +323,17 @@ describe('Radio Button', () => {
     })
 
     test('single radio group in form item, override label', async () => {
-      const wrapper = _mount(
-        `
-        <el-form-item ref="item" label="Test">
-          <el-radio-group label="Foo" ref="radioGroup">
-            <el-radio label="Foo" />
-            <el-radio label="Bar" />
-          </el-radio-group>
-        </el-form-item>
-        `,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem ref="item" label="Test">
+          <RadioGroup label="Foo" ref="radioGroup">
+            <Radio label="Foo" />
+            <Radio label="Bar" />
+          </RadioGroup>
+        </ElFormItem>
+      ))
       await nextTick()
-      const formItem = await wrapper.findComponent({ ref: 'item' })
-      const radioGroup = await wrapper.findComponent({
-        ref: 'radioGroup',
-      })
+      const formItem = await wrapper.findComponent(ElFormItem)
+      const radioGroup = await wrapper.findComponent(RadioGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
       expect(formItemLabel.attributes().for).toBe(radioGroup.attributes().id)
       expect(radioGroup.attributes().role).toBe('radiogroup')
@@ -416,29 +342,23 @@ describe('Radio Button', () => {
     })
 
     test('multiple radio groups in form item', async () => {
-      const wrapper = _mount(
-        `
-        <el-form-item ref="item" label="Test">
-          <el-radio-group label="Foo" ref="radioGroup1">
-            <el-radio label="Foo" />
-            <el-radio label="Bar" />
-          </el-radio-group>
-          <el-radio-group label="Bar" ref="radioGroup2">
-            <el-radio label="Foo" />
-            <el-radio label="Bar" />
-          </el-radio-group>
-        </el-form-item>
-        `,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem ref="item" label="Test">
+          <RadioGroup label="Foo" ref="radioGroup1">
+            <Radio label="Foo" />
+            <Radio label="Bar" />
+          </RadioGroup>
+          <RadioGroup label="Bar" ref="radioGroup2">
+            <Radio label="Foo" />
+            <Radio label="Bar" />
+          </RadioGroup>
+        </ElFormItem>
+      ))
       await nextTick()
-      const formItem = await wrapper.findComponent({ ref: 'item' })
-      const radioGroup1 = await wrapper.findComponent({
-        ref: 'radioGroup1',
-      })
-      const radioGroup2 = await wrapper.findComponent({
-        ref: 'radioGroup2',
-      })
+      const formItem = await wrapper.findComponent(ElFormItem)
+      const [radioGroup1, radioGroup2] = await wrapper.findAllComponents(
+        RadioGroup
+      )
       const formItemLabel = formItem.find('.el-form-item__label')
       expect(formItem.attributes().role).toBe('group')
       expect(formItem.attributes()['aria-labelledby']).toBe(
