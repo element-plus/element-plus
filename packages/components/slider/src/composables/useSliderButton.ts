@@ -1,20 +1,21 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-
-import type { CSSProperties, ComponentInternalInstance, ComputedRef } from 'vue'
+import { sliderContextKey } from '@element-plus/tokens'
+import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
+import type { SliderProps } from '../slider'
 import type {
-  ISliderButtonInitData,
-  ISliderButtonProps,
-  ISliderProvider,
-} from './slider.type'
+  SliderButtonEmits,
+  SliderButtonInitData,
+  SliderButtonProps,
+} from '../button'
 
 const { left, down, right, up, home, end, pageUp, pageDown } = EVENT_CODE
 
 const useTooltip = (
-  props: ISliderButtonProps,
-  formatTooltip: ComputedRef<(value: number) => number | string>,
-  showTooltip: ComputedRef<boolean>
+  props: SliderButtonProps,
+  formatTooltip: Ref<SliderProps['formatTooltip']>,
+  showTooltip: Ref<SliderProps['showTooltip']>
 ) => {
   const tooltip = ref<any>()
 
@@ -26,7 +27,7 @@ const useTooltip = (
 
   const formatValue = computed(() => {
     return (
-      (enableFormat.value && formatTooltip.value(props.modelValue)) ||
+      (enableFormat.value && formatTooltip.value!(props.modelValue)) ||
       props.modelValue
     )
   })
@@ -49,9 +50,9 @@ const useTooltip = (
 }
 
 export const useSliderButton = (
-  props: ISliderButtonProps,
-  initData: ISliderButtonInitData,
-  emit: ComponentInternalInstance['emit']
+  props: SliderButtonProps,
+  initData: SliderButtonInitData,
+  emit: SetupContext<SliderButtonEmits>['emit']
 ) => {
   const {
     disabled,
@@ -65,12 +66,12 @@ export const useSliderButton = (
     emitChange,
     resetSize,
     updateDragging,
-  } = inject<ISliderProvider>('SliderProvider')!
+  } = inject(sliderContextKey)!
 
   const { tooltip, tooltipVisible, formatValue, displayTooltip, hideTooltip } =
-    useTooltip(props, formatTooltip, showTooltip)
+    useTooltip(props, formatTooltip!, showTooltip)
 
-  const button = ref<any>()
+  const button = ref<HTMLDivElement>()
 
   const currentPosition = computed(() => {
     return `${
@@ -78,12 +79,10 @@ export const useSliderButton = (
     }%`
   })
 
-  const wrapperStyle = computed(() => {
-    return (
-      props.vertical
-        ? { bottom: currentPosition.value }
-        : { left: currentPosition.value }
-    ) as CSSProperties
+  const wrapperStyle: ComputedRef<CSSProperties> = computed(() => {
+    return props.vertical
+      ? { bottom: currentPosition.value }
+      : { left: currentPosition.value }
   })
 
   const handleMouseEnter = () => {
@@ -107,7 +106,7 @@ export const useSliderButton = (
     window.addEventListener('mouseup', onDragEnd)
     window.addEventListener('touchend', onDragEnd)
     window.addEventListener('contextmenu', onDragEnd)
-    button.value.focus()
+    button.value!.focus()
   }
 
   const incrementPosition = (amount: number) => {

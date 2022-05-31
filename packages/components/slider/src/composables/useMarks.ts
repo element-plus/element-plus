@@ -1,7 +1,13 @@
 import { computed } from 'vue'
-import type { ISliderProps, Mark } from './slider.type'
+import type { SliderProps } from '../slider'
+import type { SliderMarkerProps } from '../marker'
 
-export const useMarks = (props: ISliderProps) => {
+export interface Mark extends SliderMarkerProps {
+  point: number
+  position: number
+}
+
+export const useMarks = (props: SliderProps) => {
   return computed(() => {
     if (!props.marks) {
       return []
@@ -16,7 +22,7 @@ export const useMarks = (props: ISliderProps) => {
         (point): Mark => ({
           point,
           position: ((point - props.min) * 100) / (props.max - props.min),
-          mark: props.marks[point],
+          mark: props.marks![point],
         })
       )
   })
