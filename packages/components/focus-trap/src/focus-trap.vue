@@ -164,7 +164,7 @@ export default defineComponent({
       }
     }
 
-    const onFocusOut = async (e: Event) => {
+    const onFocusOut = (e: Event) => {
       const trapContainer = unref(forwardRef)
       if (focusLayer.paused || !trapContainer) return
 
