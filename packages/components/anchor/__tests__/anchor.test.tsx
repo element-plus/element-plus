@@ -6,11 +6,7 @@ const AXIOM = 'Rem is the best girl'
 
 describe('Anchor.vue', () => {
   it('render test', () => {
-    const wrapper = mount(Anchor, {
-      slots: {
-        default: AXIOM,
-      },
-    })
+    const wrapper = mount(() => <Anchor>{AXIOM}</Anchor>)
     expect(wrapper.text()).toEqual(AXIOM)
   })
 })
