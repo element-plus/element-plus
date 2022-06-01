@@ -108,11 +108,11 @@ describe('Row', () => {
     expect(rowElm.style.marginRight).toEqual('-10px')
   })
   test('justify', () => {
-    const wrapper = mount(() => <Row justify={'end'} />)
+    const wrapper = mount(() => <Row justify="end" />)
     expect(wrapper.classes()).toContain('is-justify-end')
   })
   test('align', () => {
-    const wrapper = mount(() => <Row align={'bottom'} />)
+    const wrapper = mount(() => <Row align="bottom" />)
     expect(wrapper.classes()).toContain('is-align-bottom')
   })
 })
