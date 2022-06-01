@@ -26,15 +26,16 @@ describe('Col', () => {
   })
 
   it('gutter', () => {
-    const TestComponent = defineComponent({
-      setup: () => () =>
-        (
+    const wrapper = mount({
+      setup() {
+        return () => (
           <Row gutter={20}>
             <Col span={12} ref="col"></Col>
           </Row>
-        ),
+        )
+      },
     })
-    const wrapper = mount(TestComponent)
+
     const colElm = wrapper.findComponent({ ref: 'col' }).element as HTMLElement
     expect(colElm.style.paddingLeft === '10px').toBe(true)
     expect(colElm.style.paddingRight === '10px').toBe(true)
@@ -42,16 +43,17 @@ describe('Col', () => {
 
   it('change gutter value', async () => {
     const outer = ref(20)
-    const App = defineComponent({
-      setup: () => () =>
-        (
+
+    const wrapper = mount({
+      setup() {
+        return () => (
           <Row gutter={outer.value} ref="row">
             <Col span={12} ref="col" />
           </Row>
-        ),
+        )
+      },
     })
 
-    const wrapper = mount(App)
     const rowElm = wrapper.findComponent({ ref: 'row' }).element as HTMLElement
     const colElm = wrapper.findComponent({ ref: 'col' }).element as HTMLElement
     expect(rowElm.style.marginLeft === '-10px').toBe(true)
@@ -68,9 +70,9 @@ describe('Col', () => {
   })
 
   it('responsive', () => {
-    const TestComponent = defineComponent({
-      setup: () => () =>
-        (
+    const wrapper = mount({
+      setup() {
+        return () => (
           <Row gutter={20}>
             <Col
               ref="col"
@@ -79,9 +81,10 @@ describe('Col', () => {
               lg={{ span: 6, offset: 3 }}
             />
           </Row>
-        ),
+        )
+      },
     })
-    const wrapper = mount(TestComponent)
+
     const colElmClass = wrapper.findComponent({ ref: 'col' }).classes()
     expect(colElmClass.includes('el-col-sm-4')).toBe(true)
     expect(colElmClass.includes('el-col-sm-4')).toBe(true)
