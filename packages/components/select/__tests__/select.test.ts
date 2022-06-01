@@ -1306,6 +1306,52 @@ describe('Select', () => {
     expect(findInnerInput().value).toBe('黄金糕')
   })
 
+  // #8017
+  test('should allow null value in option', async () => {
+    const mockConsoleWarn = () => {
+      const consoleWarn = console.warn
+      console.warn = vi.fn()
+
+      return function unmockConsoleWarn() {
+        console.warn = consoleWarn
+      }
+    }
+    const unmockConsoleWarn = mockConsoleWarn()
+    wrapper = _mount(
+      `
+    <el-select v-model="value">
+      <el-option
+        v-for="item in options"
+        :label="item.label"
+        :key="item.value"
+        :value="item.value">
+      </el-option>
+    </el-select>`,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: null,
+            label: '双皮奶',
+          },
+        ],
+        value: undefined,
+      })
+    )
+    const vm = wrapper.vm as any
+    vm.value = null
+    await nextTick()
+    expect(findInnerInput().value).toBe('双皮奶')
+    vm.value = '选项1'
+    await nextTick()
+    expect(findInnerInput().value).toBe('黄金糕')
+    expect(console.warn).not.toHaveBeenCalled()
+    unmockConsoleWarn()
+  })
+
   test('emptyText error show', async () => {
     wrapper = _mount(
       `
