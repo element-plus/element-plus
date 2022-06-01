@@ -23,6 +23,7 @@
     :teleported="teleported"
     :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
+    focus-on-show
     @before-show="beforeEnter"
     @before-hide="beforeLeave"
     @show="afterEnter"

@@ -264,7 +264,8 @@ describe('TimePicker', () => {
     await nextTick()
     await rAF()
     expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(1)
+    // Now we need to trap focus inside of time picker
+    expect(blurHandler).not.toHaveBeenCalled()
     expect(keydownHandler).toHaveBeenCalledTimes(1)
 
     input.trigger('focus')

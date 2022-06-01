@@ -10,6 +10,7 @@
     effect="light"
     pure
     :popper-class="ns.b()"
+    focus-on-show
     persistent
   >
     <template #content>

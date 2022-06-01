@@ -18,6 +18,7 @@
       :effect="effect"
       :enterable="enterable"
       :fallback-placements="fallbackPlacements"
+      :focus-on-show="focusOnShow"
       :hide-after="hideAfter"
       :gpu-acceleration="gpuAcceleration"
       :offset="offset"

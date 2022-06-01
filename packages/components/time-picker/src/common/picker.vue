@@ -16,6 +16,7 @@
     :stop-popper-mouse-event="false"
     :hide-after="0"
     persistent
+    focus-on-show
     @before-show="onBeforeShow"
     @show="onShow"
     @hide="onHide"

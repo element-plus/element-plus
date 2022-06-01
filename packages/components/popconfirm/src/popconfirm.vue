@@ -3,6 +3,7 @@
     ref="tooltipRef"
     trigger="click"
     effect="light"
+    focus-on-show
     :popper-class="`${ns.namespace.value}-popover`"
     :teleported="teleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"

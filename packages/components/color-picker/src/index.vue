@@ -9,6 +9,7 @@
     :popper-class="[ns.be('picker', 'panel'), ns.b('dropdown'), popperClass]"
     :stop-popper-mouse-event="false"
     effect="light"
+    focus-on-show
     trigger="click"
     transition="el-zoom-in-top"
     persistent

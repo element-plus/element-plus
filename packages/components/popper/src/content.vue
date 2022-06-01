@@ -67,7 +67,7 @@ const formItemContext = inject(formItemContextKey, undefined)
 const { nextZIndex } = useZIndex()
 const ns = useNamespace('popper')
 const popperContentRef = ref<HTMLElement>()
-const focusStartRef = ref<string | HTMLElement>('first')
+const focusStartRef = ref<'first' | HTMLElement>('first')
 const arrowRef = ref<HTMLElement>()
 const arrowOffset = ref<number>()
 provide(POPPER_CONTENT_INJECTION_KEY, {
@@ -111,13 +111,21 @@ const ariaModal = computed<string | undefined>(() => {
   return role && role.value === 'dialog' ? 'false' : undefined
 })
 
-const createPopperInstance = ({ referenceEl, popperContentEl, arrowEl }) => {
+const createPopperInstance = ({
+  referenceEl,
+  popperContentEl,
+  arrowEl,
+}: {
+  referenceEl: ReturnType<typeof unwrapMeasurableEl>
+  popperContentEl: HTMLElement
+  arrowEl?: HTMLElement
+}) => {
   const options = buildPopperOptions(props, {
     arrowEl,
     arrowOffset: unref(arrowOffset),
   })
 
-  return createPopper(referenceEl, popperContentEl, options)
+  return createPopper(referenceEl as HTMLElement, popperContentEl, options)
 }
 
 const updatePopper = (shouldUpdateZIndex = true) => {
@@ -184,7 +192,7 @@ onMounted(() => {
         contentRef.value = popperContentEl
 
         popperInstanceRef.value = createPopperInstance({
-          referenceEl,
+          referenceEl: referenceEl as HTMLElement,
           popperContentEl,
           arrowEl: unref(arrowRef),
         })
