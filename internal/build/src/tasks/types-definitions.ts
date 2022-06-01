@@ -62,7 +62,7 @@ export const generateTypesDefinitions = async () => {
       throw new Error(`Emit no file: ${chalk.bold(relativePath)}`)
     }
 
-    const innerTasks = emitFiles.map(async (outputFile) => {
+    const subTasks = emitFiles.map(async (outputFile) => {
       const filepath = outputFile.getFilePath()
       await fs.mkdir(path.dirname(filepath), {
         recursive: true,
@@ -81,7 +81,7 @@ export const generateTypesDefinitions = async () => {
       )
     })
 
-    await Promise.all(innerTasks)
+    await Promise.all(subTasks)
   })
 
   await Promise.all(tasks)
