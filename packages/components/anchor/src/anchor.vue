@@ -29,7 +29,7 @@ import { getElementOffset, getScrollOffset } from '@element-plus/utils'
 import { anchorEmits, anchorProps, getLinkTarget } from './anchor'
 
 import type { CSSProperties } from 'vue'
-import type { AnchorContext, AnchorLinkInstance } from '@element-plus/tokens'
+import type { AnchorContext, AnchorLinkContext } from '@element-plus/tokens'
 
 const COMPONENT_NAME = 'ElAnchor'
 
@@ -43,7 +43,7 @@ const emit = defineEmits(anchorEmits)
 const ns = useNamespace('anchor')
 
 const anchor$ = shallowRef<HTMLDivElement>()
-const links = shallowReactive<Record<number /* uid */, AnchorLinkInstance>>({})
+const links = shallowReactive<Record<number /* uid */, AnchorLinkContext>>({})
 const container = shallowRef<HTMLElement | Window | null>(null)
 const activeLink = ref<number>()
 
