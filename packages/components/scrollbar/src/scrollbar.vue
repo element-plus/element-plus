@@ -183,6 +183,8 @@ onMounted(() => {
 onUpdated(() => update())
 
 defineExpose({
+  /** @description scrollbar wrap ref */
+  wrap$,
   /** @description update scrollbar state manually */
   update,
   /** @description scrolls to a particular set of coordinates */
