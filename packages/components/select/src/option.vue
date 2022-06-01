@@ -37,8 +37,8 @@ export default defineComponent({
 
   props: {
     value: {
-      required: true,
-      type: [String, Number, Boolean, Object],
+      required: false,
+      validator: (value) => value !== undefined,
     },
     label: [String, Number],
     created: Boolean,
