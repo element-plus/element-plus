@@ -1,4 +1,4 @@
-import { defineComponent, nextTick, ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import Row from '@element-plus/components/row'
