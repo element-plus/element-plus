@@ -1,7 +1,8 @@
-import { defineComponent, markRaw, nextTick, ref } from 'vue'
+import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { Loading, Search } from '@element-plus/icons-vue'
+
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -10,137 +11,143 @@ const AXIOM = 'Rem is the best girl'
 
 describe('Button.vue', () => {
   it('create', () => {
-    const wrapper = mount(Button, {
-      props: { type: 'primary' },
-    })
+    const wrapper = mount(() => <Button type="primary" />)
+
     expect(wrapper.classes()).toContain('el-button--primary')
   })
 
   it('icon', () => {
-    const wrapper = mount(Button, {
-      props: { icon: markRaw(Search) },
-    })
+    const wrapper = mount(() => <Button icon={markRaw(Search)} />)
+
     expect(wrapper.findComponent(Search).exists()).toBeTruthy()
   })
+
   it('nativeType', () => {
-    const wrapper = mount(Button, {
-      props: { nativeType: 'submit' },
-    })
+    const wrapper = mount(() => <Button nativeType="submit" />)
+
     expect(wrapper.attributes('type')).toBe('submit')
   })
+
   it('loading', () => {
-    const wrapper = mount(Button, {
-      props: { loading: true },
-    })
+    const wrapper = mount(() => <Button loading />)
+
     expect(wrapper.classes()).toContain('is-loading')
     expect(wrapper.findComponent(Loading).exists()).toBeTruthy()
   })
+
   it('size', () => {
-    const wrapper = mount(Button, {
-      props: { size: 'large' },
-    })
+    const wrapper = mount(() => <Button size="large" />)
+
     expect(wrapper.classes()).toContain('el-button--large')
   })
+
   it('plain', () => {
-    const wrapper = mount(Button, {
-      props: { plain: true },
-    })
+    const wrapper = mount(() => <Button plain />)
+
     expect(wrapper.classes()).toContain('is-plain')
   })
+
   it('round', () => {
-    const wrapper = mount(Button, {
-      props: { round: true },
-    })
+    const wrapper = mount(() => <Button round />)
     expect(wrapper.classes()).toContain('is-round')
   })
+
   it('circle', () => {
-    const wrapper = mount(Button, {
-      props: { circle: true },
-    })
+    const wrapper = mount(() => <Button circle />)
+
     expect(wrapper.classes()).toContain('is-circle')
   })
 
   it('text', async () => {
-    const wrapper = mount(Button, {
-      props: { text: true },
-    })
+    const bg = ref(false)
+
+    const wrapper = mount(() => <Button text bg={bg.value} />)
 
     expect(wrapper.classes()).toContain('is-text')
-    await wrapper.setProps({
-      bg: true,
-    })
+
+    bg.value = true
+
+    await nextTick()
+
     expect(wrapper.classes()).toContain('is-has-bg')
   })
 
   it('link', async () => {
-    const wrapper = mount(Button, {
-      props: { link: true },
-    })
+    const wrapper = mount(() => <Button link />)
 
     expect(wrapper.classes()).toContain('is-link')
   })
 
   test('render text', () => {
-    const wrapper = mount(Button, {
-      slots: {
-        default: AXIOM,
-      },
-    })
+    const wrapper = mount(() => (
+      <Button
+        v-slots={{
+          default: () => AXIOM,
+        }}
+      />
+    ))
+
     expect(wrapper.text()).toEqual(AXIOM)
   })
 
   test('handle click', async () => {
-    const wrapper = mount(Button, {
-      slots: {
-        default: AXIOM,
-      },
-    })
+    const wrapper = mount(() => (
+      <Button
+        v-slots={{
+          default: () => AXIOM,
+        }}
+      />
+    ))
+
     await wrapper.trigger('click')
     expect(wrapper.emitted()).toBeDefined()
   })
 
   test('handle click inside', async () => {
-    const wrapper = mount(Button, {
-      slots: {
-        default: '<span class="inner-slot"></span>',
-      },
-    })
-    wrapper.element.querySelector<HTMLElement>('.inner-slot')!.click()
+    const wrapper = mount(() => (
+      <Button
+        v-slots={{
+          default: () => <span class="inner-slot"></span>,
+        }}
+      />
+    ))
+
+    wrapper.find('.inner-slot').trigger('click')
     expect(wrapper.emitted()).toBeDefined()
   })
 
   test('loading implies disabled', async () => {
-    const wrapper = mount(Button, {
-      slots: {
-        default: AXIOM,
-      },
-      props: { loading: true },
-    })
+    const wrapper = mount(() => (
+      <Button
+        v-slots={{
+          default: () => AXIOM,
+        }}
+        loading
+      />
+    ))
+
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeUndefined()
   })
 
   it('disabled', async () => {
-    const wrapper = mount(Button, {
-      props: { disabled: true },
-    })
+    const wrapper = mount(() => <Button disabled />)
+
     expect(wrapper.classes()).toContain('is-disabled')
     await wrapper.trigger('click')
     expect(wrapper.emitted('click')).toBeUndefined()
   })
 
   it('loading icon', () => {
-    const wrapper = mount(Button, {
-      props: {
-        loadingIcon: markRaw(Search),
-        loading: true,
-      },
-    })
+    const wrapper = mount(() => (
+      <Button loadingIcon={markRaw(Search)} loading />
+    ))
+
     expect(wrapper.findComponent(Search).exists()).toBeTruthy()
   })
 
   it('loading slot', () => {
-    const App = defineComponent({
+    const wrapper = mount({
       setup: () => () =>
         (
           <Button
@@ -151,7 +158,7 @@ describe('Button.vue', () => {
           </Button>
         ),
     })
-    const wrapper = mount(App)
+
     expect(wrapper.find('.custom-loading').exists()).toBeTruthy()
   })
 })
@@ -214,14 +221,15 @@ describe('Button Group', () => {
   })
 
   it('add space in two Chinese characters', async () => {
-    const wrapper = mount(Button, {
-      slots: {
-        default: '中文',
-      },
-      props: {
-        autoInsertSpace: true,
-      },
-    })
+    const wrapper = mount(() => (
+      <Button
+        v-slots={{
+          default: () => '中文',
+        }}
+        autoInsertSpace
+      />
+    ))
+
     expect(wrapper.find('.el-button span').text()).toBe('中文')
     expect(wrapper.find('.el-button span').classes()).toContain(
       'el-button__text--expand'
@@ -229,14 +237,10 @@ describe('Button Group', () => {
   })
 
   it('add space between two Chinese characters even if there is whitespace at both ends', async () => {
-    const wrapper = mount(Button, {
-      slots: {
-        default: '&nbsp;中文&nbsp;',
-      },
-      props: {
-        autoInsertSpace: true,
-      },
-    })
+    const wrapper = mount(() => (
+      <Button autoInsertSpace>&nbsp;中文&nbsp;</Button>
+    ))
+
     expect(wrapper.find('.el-button span').text()).toBe('中文')
     expect(wrapper.find('.el-button span').classes()).toContain(
       'el-button__text--expand'
