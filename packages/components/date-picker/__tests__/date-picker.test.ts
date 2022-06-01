@@ -261,7 +261,7 @@ describe('DatePicker', () => {
     await nextTick()
     await rAF()
     expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).not.toHaveBeenCalled()
     expect(keydownHandler).toHaveBeenCalledTimes(1)
     input.trigger('focus')
     await nextTick()
