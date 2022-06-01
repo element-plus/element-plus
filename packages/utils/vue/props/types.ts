@@ -147,15 +147,15 @@ export type EpPropConvert<Input> = Input extends EpPropInput<
   any,
   infer Required
 >
-  ? EpPropFinalize<Type, Value, Validator, Input['default'], Required>
+  ? EpPropFinalized<Type, Value, Validator, Input['default'], Required>
   : never
 
 /**
- * Finalize conversion output
+ * Finalized conversion output
  *
  * 最终转换 EpProp
  */
-export type EpPropFinalize<Type, Value, Validator, Default, Required> = EpProp<
+export type EpPropFinalized<Type, Value, Validator, Default, Required> = EpProp<
   EpPropMergeType<Type, Value, Validator>,
   UnknownToNever<Default>,
   Required

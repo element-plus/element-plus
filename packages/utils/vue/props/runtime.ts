@@ -7,7 +7,7 @@ import type { PropType } from 'vue'
 import type {
   EpProp,
   EpPropConvert,
-  EpPropFinalize,
+  EpPropFinalized,
   EpPropInput,
   EpPropMergeType,
   IfEpProp,
@@ -51,7 +51,7 @@ export const buildProp = <
 >(
   prop: EpPropInput<Type, Value, Validator, Default, Required>,
   key?: string
-): EpPropFinalize<Type, Value, Validator, Default, Required> => {
+): EpPropFinalized<Type, Value, Validator, Default, Required> => {
   // filter native prop type and nested prop, e.g `null`, `undefined` (from `buildProps`)
   if (!isObject(prop) || isEpProp(prop)) return prop as any
 
