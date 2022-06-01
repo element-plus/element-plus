@@ -10,6 +10,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import { useSizeProp } from '@element-plus/hooks'
+import type { Arrayable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { SliderMarkerProps } from './marker'
 import type Slider from './slider.vue'
@@ -95,13 +96,12 @@ export const sliderProps = buildProps({
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
 
+const emitChangeFn = (value: Arrayable<number>) =>
+  isNumber(value) || (isArray(value) && value.every(isNumber))
 export const sliderEmits = {
-  [UPDATE_MODEL_EVENT]: (value: number | number[]) =>
-    isNumber(value) || (isArray(value) && value.every(isNumber)),
-  [INPUT_EVENT]: (value: number | number[]) =>
-    isNumber(value) || (isArray(value) && value.every(isNumber)),
-  [CHANGE_EVENT]: (value: number | number[]) =>
-    isNumber(value) || (isArray(value) && value.every(isNumber)),
+  [UPDATE_MODEL_EVENT]: emitChangeFn,
+  [INPUT_EVENT]: emitChangeFn,
+  [CHANGE_EVENT]: emitChangeFn,
 }
 export type SliderEmits = typeof sliderEmits
 
