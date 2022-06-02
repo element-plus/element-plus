@@ -68,7 +68,7 @@
               :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               :class="ppNs.e('icon-btn')"
-              @click="prevYear_"
+              @click="moveByYear(false)"
             >
               <el-icon><d-arrow-left /></el-icon>
             </button>
@@ -78,7 +78,7 @@
               :aria-label="t(`el.datepicker.prevMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-left"
-              @click="prevMonth_"
+              @click="moveByMonth(false)"
             >
               <el-icon><arrow-left /></el-icon>
             </button>
@@ -88,8 +88,8 @@
             :class="dpNs.e('header-label')"
             aria-live="polite"
             tabindex="0"
-            @keydown.enter="showYearPicker"
-            @click="showYearPicker"
+            @keydown.enter="showPicker('year')"
+            @click="showPicker('year')"
             >{{ yearLabel }}</span
           >
           <span
@@ -101,8 +101,8 @@
               dpNs.e('header-label'),
               { active: currentView === 'month' },
             ]"
-            @keydown.enter="showMonthPicker"
-            @click="showMonthPicker"
+            @keydown.enter="showPicker('month')"
+            @click="showPicker('month')"
             >{{ t(`el.datepicker.month${month + 1}`) }}</span
           >
           <span :class="dpNs.e('next-btn')">
@@ -112,7 +112,7 @@
               :aria-label="t(`el.datepicker.nextMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-right"
-              @click="nextMonth_"
+              @click="moveByMonth(true)"
             >
               <el-icon><arrow-right /></el-icon>
             </button>
@@ -121,7 +121,7 @@
               :aria-label="t(`el.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
-              @click="nextYear_"
+              @click="moveByYear(true)"
             >
               <el-icon><d-arrow-right /></el-icon>
             </button>
@@ -218,7 +218,7 @@ import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
 
-import type { ComponentPublicInstance, Ref, SetupContext } from 'vue'
+import type { SetupContext } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
 import type { PanelDatePickProps } from '../props/panel-date-pick'
 import type {
@@ -245,7 +245,7 @@ const { shortcuts, disabledDate, cellClassName, defaultTime, arrowControl } =
   pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
-const currentViewRef = ref<ComponentPublicInstance>()
+const currentViewRef = ref<{ focus: () => void }>()
 
 const innerDate = ref(dayjs().locale(lang.value))
 
@@ -316,31 +316,22 @@ const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
     emit(value as DatesPickerEmits, true) // set true to keep panel open
   }
 }
-const prevMonth_ = () => {
-  innerDate.value = innerDate.value.subtract(1, 'month')
+
+const moveByMonth = (forward: boolean) => {
+  const action = forward ? 'add' : 'subtract'
+  innerDate.value = innerDate.value[action](1, 'month')
   handlePanelChange('month')
 }
 
-const nextMonth_ = () => {
-  innerDate.value = innerDate.value.add(1, 'month')
-  handlePanelChange('month')
-}
+const moveByYear = (forward: boolean) => {
+  const currentDate = innerDate.value
+  const action = forward ? 'add' : 'subtract'
 
-const prevYear_ = () => {
-  if (currentView.value === 'year') {
-    innerDate.value = innerDate.value.subtract(10, 'year')
-  } else {
-    innerDate.value = innerDate.value.subtract(1, 'year')
-  }
-  handlePanelChange('year')
-}
+  innerDate.value =
+    currentView.value === 'year'
+      ? currentDate[action](10, 'year')
+      : currentDate[action](1, 'year')
 
-const nextYear_ = () => {
-  if (currentView.value === 'year') {
-    innerDate.value = innerDate.value.add(10, 'year')
-  } else {
-    innerDate.value = innerDate.value.add(1, 'year')
-  }
   handlePanelChange('year')
 }
 
@@ -394,25 +385,6 @@ const keyboardMode = computed<string>(() => {
     : selectionMode.value
 })
 
-watch(
-  () => selectionMode.value,
-  (val) => {
-    if (['month', 'year'].includes(val)) {
-      currentView.value = val
-      return
-    }
-    currentView.value = 'date'
-  },
-  { immediate: true }
-)
-
-watch(
-  () => currentView.value,
-  () => {
-    popper?.updatePopper()
-  }
-)
-
 const hasShortcuts = computed(() => !!shortcuts.length)
 
 const handleMonthPick = async (month: number) => {
@@ -446,14 +418,8 @@ const handleYearPick = async (year: number) => {
   handlePanelChange('year')
 }
 
-const showMonthPicker = async () => {
-  currentView.value = 'month'
-  await nextTick()
-  handleFocusPicker()
-}
-
-const showYearPicker = async () => {
-  currentView.value = 'year'
+const showPicker = async (view: 'month' | 'year') => {
+  currentView.value = view
   await nextTick()
   handleFocusPicker()
 }
@@ -531,12 +497,21 @@ const handleTimePickClose = () => {
   timePickerVisible.value = false
 }
 
+const getUnits = (date: Dayjs) => {
+  return {
+    hour: date.hour(),
+    minute: date.minute(),
+    second: date.second(),
+    year: date.year(),
+    month: date.month(),
+    date: date.date(),
+  }
+}
+
 const handleTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
+  const { hour, minute, second } = getUnits(value)
   const newDate = props.parsedValue
-    ? (props.parsedValue as Dayjs)
-        .hour(value.hour())
-        .minute(value.minute())
-        .second(value.second())
+    ? (props.parsedValue as Dayjs).hour(hour).minute(minute).second(second)
     : value
   innerDate.value = newDate
   emit(innerDate.value, true)
@@ -548,10 +523,8 @@ const handleTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
 const handleVisibleTimeChange = (value: string) => {
   const newDate = dayjs(value, timeFormat.value).locale(lang.value)
   if (newDate.isValid() && checkDateWithinRange(newDate)) {
-    innerDate.value = newDate
-      .year(innerDate.value.year())
-      .month(innerDate.value.month())
-      .date(innerDate.value.date())
+    const { year, month, date } = getUnits(innerDate.value)
+    innerDate.value = newDate.year(year).month(month).date(date)
     userInputTime.value = null
     timePickerVisible.value = false
     emit(innerDate.value, true)
@@ -564,10 +537,8 @@ const handleVisibleDateChange = (value: string) => {
     if (disabledDate && disabledDate(newDate.toDate())) {
       return
     }
-    innerDate.value = newDate
-      .hour(innerDate.value.hour())
-      .minute(innerDate.value.minute())
-      .second(innerDate.value.second())
+    const { hour, minute, second } = getUnits(innerDate.value)
+    innerDate.value = newDate.hour(hour).minute(minute).second(second)
     userInputDate.value = null
     emit(innerDate.value, true)
   }
@@ -607,7 +578,7 @@ const getDefaultValue = () => {
 
 const handleFocusPicker = async () => {
   if (['week', 'month', 'year', 'date'].includes(selectionMode.value)) {
-    ;(currentViewRef as Ref<any>).value?.focus()
+    currentViewRef.value?.focus()
     if (selectionMode.value === 'week') {
       handleKeyControl(EVENT_CODE.down)
     }
@@ -616,7 +587,7 @@ const handleFocusPicker = async () => {
 
 const handleKeydownTable = (event: KeyboardEvent) => {
   const { code } = event
-  const list = [
+  const validCode = [
     EVENT_CODE.up,
     EVENT_CODE.down,
     EVENT_CODE.left,
@@ -626,7 +597,7 @@ const handleKeydownTable = (event: KeyboardEvent) => {
     EVENT_CODE.pageUp,
     EVENT_CODE.pageDown,
   ]
-  if (list.includes(code)) {
+  if (validCode.includes(code)) {
     handleKeyControl(code)
     event.stopPropagation()
     event.preventDefault()
@@ -719,10 +690,24 @@ const handlePanelChange = (mode: 'month' | 'year') => {
   contextEmit('panel-change', innerDate.value.toDate(), mode, currentView.value)
 }
 
-contextEmit('set-picker-option', ['isValidValue', isValidValue])
-contextEmit('set-picker-option', ['formatToString', formatToString])
-contextEmit('set-picker-option', ['parseUserInput', parseUserInput])
-contextEmit('set-picker-option', ['handleFocusPicker', handleFocusPicker])
+watch(
+  () => selectionMode.value,
+  (val) => {
+    if (['month', 'year'].includes(val)) {
+      currentView.value = val
+      return
+    }
+    currentView.value = 'date'
+  },
+  { immediate: true }
+)
+
+watch(
+  () => currentView.value,
+  () => {
+    popper?.updatePopper()
+  }
+)
 
 watch(
   () => defaultValue.value,
@@ -748,46 +733,8 @@ watch(
   { immediate: true }
 )
 
-// return {
-//   ppNs,
-//   dpNs,
-//   currentViewRef,
-//   handleTimePick,
-//   handleTimePickClose,
-//   onTimePickerInputFocus,
-//   timePickerVisible,
-//   visibleTime,
-//   visibleDate,
-//   showTime,
-//   changeToNow,
-//   onConfirm,
-//   footerVisible,
-//   handleYearPick,
-//   showMonthPicker,
-//   showYearPicker,
-//   handleMonthPick,
-//   hasShortcuts,
-//   shortcuts,
-//   arrowControl,
-//   disabledDate,
-//   cellClassName,
-//   selectionMode,
-//   handleShortcutClick,
-//   prevYear_,
-//   nextYear_,
-//   prevMonth_,
-//   nextMonth_,
-//   innerDate,
-//   t,
-//   yearLabel,
-//   currentView,
-//   month,
-//   handleDatePick,
-//   handleKeydownTable,
-//   handleVisibleTimeChange,
-//   handleVisibleDateChange,
-//   timeFormat,
-//   userInputTime,
-//   userInputDate,
-// }
+contextEmit('set-picker-option', ['isValidValue', isValidValue])
+contextEmit('set-picker-option', ['formatToString', formatToString])
+contextEmit('set-picker-option', ['parseUserInput', parseUserInput])
+contextEmit('set-picker-option', ['handleFocusPicker', handleFocusPicker])
 </script>
