@@ -452,6 +452,7 @@ describe('TimePicker', () => {
       false
     )
   })
+
   it('picker-panel should not pop up when disabled', async () => {
     const wrapper = _mount(
       `<el-time-picker
