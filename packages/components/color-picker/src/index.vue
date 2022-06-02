@@ -101,10 +101,9 @@
   </el-tooltip>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {
   computed,
-  defineComponent,
   inject,
   nextTick,
   onMounted,
@@ -140,242 +139,202 @@ import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ComponentSize } from '@element-plus/constants'
 import type { IUseOptions } from './useOption'
 
-export default defineComponent({
+defineOptions({
   name: 'ElColorPicker',
-  components: {
-    ElButton,
-    ElTooltip,
-    ElInput,
-    ElIcon,
-    Close,
-    ArrowDown,
-    SvPanel,
-    HueSlider,
-    AlphaSlider,
-    Predefine,
-  },
   directives: {
     ClickOutside,
   },
-  props: {
-    modelValue: String,
-    id: String,
-    showAlpha: Boolean,
-    colorFormat: String,
-    disabled: Boolean,
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    popperClass: String,
-    label: {
-      type: String,
-      default: undefined,
-    },
-    tabindex: {
-      type: [String, Number],
-      default: 0,
-    },
-    predefine: Array,
+})
+const props = defineProps({
+  modelValue: String,
+  id: String,
+  showAlpha: Boolean,
+  colorFormat: String,
+  disabled: Boolean,
+  size: {
+    type: String as PropType<ComponentSize>,
+    validator: isValidComponentSize,
   },
-  emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
-  setup(props, { emit }) {
-    const { t } = useLocale()
-    const ns = useNamespace('color')
-    const elForm = inject(formContextKey, {} as FormContext)
-    const elFormItem = inject(formItemContextKey, {} as FormItemContext)
+  popperClass: String,
+  label: {
+    type: String,
+    default: undefined,
+  },
+  tabindex: {
+    type: [String, Number],
+    default: 0,
+  },
+  predefine: Array,
+})
+const emit = defineEmits(['change', 'active-change', UPDATE_MODEL_EVENT])
 
-    const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(
-      props,
-      {
-        formItemContext: elFormItem,
-      }
-    )
+const { t } = useLocale()
+const ns = useNamespace('color')
+const elForm = inject(formContextKey, {} as FormContext)
+const elFormItem = inject(formItemContextKey, {} as FormItemContext)
 
-    const hue = ref(null)
-    const svPanel = ref(null)
-    const alpha = ref(null)
-    const popper = ref(null)
-    // active-change is used to prevent modelValue changes from triggering.
-    let shouldActiveChange = true
-    // data
-    const color = reactive(
-      new Color({
-        enableAlpha: props.showAlpha,
-        format: props.colorFormat,
-        value: props.modelValue,
-      })
-    )
-    const showPicker = ref(false)
-    const showPanelColor = ref(false)
-    const customInput = ref('')
-    // computed
-    const displayedColor = computed(() => {
-      if (!props.modelValue && !showPanelColor.value) {
-        return 'transparent'
-      }
-      return displayedRgb(color, props.showAlpha)
-    })
-    const colorSize = useSize()
-    const colorDisabled = computed(() => {
-      return !!(props.disabled || elForm.disabled)
-    })
+const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(props, {
+  formItemContext: elFormItem,
+})
 
-    const currentColor = computed(() => {
-      return !props.modelValue && !showPanelColor.value ? '' : color.value
-    })
-    const buttonAriaLabel = computed<string | undefined>(() => {
-      return !isLabeledByFormItem.value
-        ? props.label || t('el.colorpicker.defaultLabel')
-        : undefined
-    })
-    const buttonAriaLabelledby = computed<string | undefined>(() => {
-      return isLabeledByFormItem.value ? elFormItem.labelId : undefined
-    })
-    // watch
-    watch(
-      () => props.modelValue,
-      (newVal) => {
-        if (!newVal) {
-          showPanelColor.value = false
-        } else if (newVal && newVal !== color.value) {
-          shouldActiveChange = false
-          color.fromString(newVal)
-        }
-      }
-    )
-    watch(
-      () => currentColor.value,
-      (val) => {
-        customInput.value = val
-        shouldActiveChange && emit('active-change', val)
-        shouldActiveChange = true
-      }
-    )
+const hue = ref(null)
+const svPanel = ref(null)
+const alpha = ref(null)
+const popper = ref(null)
+// active-change is used to prevent modelValue changes from triggering.
+let shouldActiveChange = true
+// data
+const color = reactive(
+  new Color({
+    enableAlpha: props.showAlpha,
+    format: props.colorFormat,
+    value: props.modelValue,
+  })
+)
+const showPicker = ref(false)
+const showPanelColor = ref(false)
+const customInput = ref('')
+// computed
+const displayedColor = computed(() => {
+  if (!props.modelValue && !showPanelColor.value) {
+    return 'transparent'
+  }
+  return displayedRgb(color, props.showAlpha)
+})
+const colorSize = useSize()
+const colorDisabled = computed(() => {
+  return !!(props.disabled || elForm.disabled)
+})
 
-    watch(
-      () => color.value,
-      () => {
-        if (!props.modelValue && !showPanelColor.value) {
-          showPanelColor.value = true
-        }
-      }
-    )
-
-    // methods
-    function displayedRgb(color, showAlpha) {
-      if (!(color instanceof Color)) {
-        throw new TypeError('color should be instance of _color Class')
-      }
-
-      const { r, g, b } = color.toRgb()
-      return showAlpha
-        ? `rgba(${r}, ${g}, ${b}, ${color.get('alpha') / 100})`
-        : `rgb(${r}, ${g}, ${b})`
+const currentColor = computed(() => {
+  return !props.modelValue && !showPanelColor.value ? '' : color.value
+})
+const buttonAriaLabel = computed<string | undefined>(() => {
+  return !isLabeledByFormItem.value
+    ? props.label || t('el.colorpicker.defaultLabel')
+    : undefined
+})
+const buttonAriaLabelledby = computed<string | undefined>(() => {
+  return isLabeledByFormItem.value ? elFormItem.labelId : undefined
+})
+// watch
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    if (!newVal) {
+      showPanelColor.value = false
+    } else if (newVal && newVal !== color.value) {
+      shouldActiveChange = false
+      color.fromString(newVal)
     }
+  }
+)
+watch(
+  () => currentColor.value,
+  (val) => {
+    customInput.value = val
+    shouldActiveChange && emit('active-change', val)
+    shouldActiveChange = true
+  }
+)
 
-    function setShowPicker(value) {
-      showPicker.value = value
+watch(
+  () => color.value,
+  () => {
+    if (!props.modelValue && !showPanelColor.value) {
+      showPanelColor.value = true
     }
+  }
+)
 
-    const debounceSetShowPicker = debounce(setShowPicker, 100)
+// methods
+function displayedRgb(color, showAlpha) {
+  if (!(color instanceof Color)) {
+    throw new TypeError('color should be instance of _color Class')
+  }
 
-    function hide() {
-      debounceSetShowPicker(false)
+  const { r, g, b } = color.toRgb()
+  return showAlpha
+    ? `rgba(${r}, ${g}, ${b}, ${color.get('alpha') / 100})`
+    : `rgb(${r}, ${g}, ${b})`
+}
+
+function setShowPicker(value) {
+  showPicker.value = value
+}
+
+const debounceSetShowPicker = debounce(setShowPicker, 100)
+
+function hide() {
+  debounceSetShowPicker(false)
+  resetColor()
+}
+
+function resetColor() {
+  nextTick(() => {
+    if (props.modelValue) {
+      color.fromString(props.modelValue)
+    } else {
+      showPanelColor.value = false
+    }
+  })
+}
+
+function handleTrigger() {
+  if (colorDisabled.value) return
+  debounceSetShowPicker(!showPicker.value)
+}
+
+function handleConfirm() {
+  color.fromString(customInput.value)
+}
+
+function confirmValue() {
+  const value = color.value
+  emit(UPDATE_MODEL_EVENT, value)
+  emit('change', value)
+  elFormItem.validate?.('change').catch((err) => debugWarn(err))
+  debounceSetShowPicker(false)
+  // check if modelValue change, if not change, then reset color.
+  nextTick(() => {
+    const newColor = new Color({
+      enableAlpha: props.showAlpha,
+      format: props.colorFormat,
+      value: props.modelValue,
+    })
+    if (!color.compare(newColor)) {
       resetColor()
     }
+  })
+}
 
-    function resetColor() {
-      nextTick(() => {
-        if (props.modelValue) {
-          color.fromString(props.modelValue)
-        } else {
-          showPanelColor.value = false
-        }
-      })
-    }
+function clear() {
+  debounceSetShowPicker(false)
+  emit(UPDATE_MODEL_EVENT, null)
+  emit('change', null)
+  if (props.modelValue !== null) {
+    elFormItem.validate?.('change').catch((err) => debugWarn(err))
+  }
+  resetColor()
+}
 
-    function handleTrigger() {
-      if (colorDisabled.value) return
-      debounceSetShowPicker(!showPicker.value)
-    }
-
-    function handleConfirm() {
-      color.fromString(customInput.value)
-    }
-
-    function confirmValue() {
-      const value = color.value
-      emit(UPDATE_MODEL_EVENT, value)
-      emit('change', value)
-      elFormItem.validate?.('change').catch((err) => debugWarn(err))
-      debounceSetShowPicker(false)
-      // check if modelValue change, if not change, then reset color.
-      nextTick(() => {
-        const newColor = new Color({
-          enableAlpha: props.showAlpha,
-          format: props.colorFormat,
-          value: props.modelValue,
-        })
-        if (!color.compare(newColor)) {
-          resetColor()
-        }
-      })
-    }
-
-    function clear() {
-      debounceSetShowPicker(false)
-      emit(UPDATE_MODEL_EVENT, null)
-      emit('change', null)
-      if (props.modelValue !== null) {
-        elFormItem.validate?.('change').catch((err) => debugWarn(err))
-      }
-      resetColor()
-    }
-
-    onMounted(() => {
-      if (props.modelValue) {
-        customInput.value = currentColor.value
-      }
+onMounted(() => {
+  if (props.modelValue) {
+    customInput.value = currentColor.value
+  }
+})
+watch(
+  () => showPicker.value,
+  () => {
+    nextTick(() => {
+      hue.value?.update()
+      svPanel.value?.update()
+      alpha.value?.update()
     })
-    watch(
-      () => showPicker.value,
-      () => {
-        nextTick(() => {
-          hue.value?.update()
-          svPanel.value?.update()
-          alpha.value?.update()
-        })
-      }
-    )
+  }
+)
 
-    provide<IUseOptions>(OPTIONS_KEY, {
-      currentColor,
-    })
-
-    return {
-      color: color as Color,
-      colorDisabled,
-      colorSize,
-      displayedColor,
-      showPanelColor,
-      showPicker,
-      customInput,
-      buttonId,
-      buttonAriaLabel,
-      buttonAriaLabelledby,
-      handleConfirm,
-      hide,
-      handleTrigger,
-      clear,
-      confirmValue,
-      t,
-      ns,
-      hue,
-      svPanel,
-      alpha,
-      popper,
-    }
-  },
+provide<IUseOptions>(OPTIONS_KEY, {
+  currentColor,
 })
 </script>
