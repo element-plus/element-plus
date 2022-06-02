@@ -42,7 +42,7 @@
 import { nextTick } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { radioEmits, radioProps } from './radio'
-import { useRadio } from './useRadio'
+import { useRadio } from './use-radio'
 
 defineOptions({
   name: 'ElRadio',
