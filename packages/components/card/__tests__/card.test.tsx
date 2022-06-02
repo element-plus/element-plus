@@ -55,7 +55,7 @@ describe('Card.vue', () => {
     const style = [{ 'font-size': '14px' }, { color: 'blue' }]
     const wrapper = mount(() => <Card bodyStyle={style}>{AXIOM}</Card>)
     expect(
-      wrapper.find('.el-card__body').attributes('style').replace(/[ ]/g, '')
+      wrapper.find('.el-card__body').attributes('style')?.replace(/[ ]/g, '')
     ).toBe('font-size:14px;color:blue;')
   })
 
