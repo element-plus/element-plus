@@ -60,7 +60,7 @@ describe('Card.vue', () => {
   })
 
   test('shadow', () => {
-    const shadow = 'test-shadow'
+    const shadow = 'always'
     const wrapper = mount(() => <Card shadow={shadow}>{AXIOM}</Card>)
 
     expect(wrapper.find(`.is-${shadow}-shadow`).exists()).toBe(true)
