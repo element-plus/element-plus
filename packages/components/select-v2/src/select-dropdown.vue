@@ -203,7 +203,7 @@ export default defineComponent({
         {
           default: withCtx((props: OptionItemProps) => {
             return renderSlot($slots, 'default', props, () => [
-              h('span', item.label),
+              h('span', item[selectProps.labelKey]),
             ])
           }),
         }

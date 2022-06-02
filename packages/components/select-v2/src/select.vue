@@ -56,7 +56,7 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                    >{{ states.cachedOptions[0]?.label }}</span
+                    >{{ states.cachedOptions[0]?.[labelKey] }}</span
                   >
                 </el-tag>
                 <el-tag

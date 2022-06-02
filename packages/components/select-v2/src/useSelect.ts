@@ -157,7 +157,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // fill the conditions here.
       const query = states.inputValue
       // when query was given, we should test on the label see whether the label contains the given query
-      const containsQueryString = query ? o.label.includes(query) : true
+      const containsQueryString = query
+        ? o[props.labelKey].includes(query)
+        : true
       return containsQueryString
     }
     if (props.loading) {
@@ -358,7 +360,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // if the selected item is item then we get label via indexing
   // otherwise it should be string we simply return the item itself.
   const getLabel = (item: unknown) => {
-    return isObject(item) ? item.label : item
+    return isObject(item) ? get(item, props.labelKey) : item
   }
 
   const resetInputHeight = () => {
@@ -431,7 +433,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       setSoftFocus()
     } else {
       selectedIndex.value = idx
-      states.selectedLabel = option.label
+      states.selectedLabel = option[props.labelKey]
       update(getValueKey(option))
       expanded.value = false
       states.isComposing = false
@@ -684,7 +686,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
           (option) => getValueKey(option) === getValueKey(props.modelValue)
         )
         if (~selectedItemIndex) {
-          states.selectedLabel = options[selectedItemIndex].label
+          states.selectedLabel = options[selectedItemIndex]?.[props.labelKey]
           updateHoveringIndex(selectedItemIndex)
         } else {
           states.selectedLabel = `${props.modelValue}`

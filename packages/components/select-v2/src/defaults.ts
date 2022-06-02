@@ -93,6 +93,10 @@ export const SelectProps = {
     type: String,
     default: 'value',
   },
+  labelKey: {
+    type: String,
+    default: 'label',
+  },
   scrollbarAlwaysOn: {
     type: Boolean,
     default: false,

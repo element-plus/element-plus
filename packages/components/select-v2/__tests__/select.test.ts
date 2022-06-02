@@ -380,6 +380,42 @@ describe('Select', () => {
     expect(vm.value).toBe(vm.options[2].value)
   })
 
+  it('label-key option', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          options: [
+            {
+              name: 'id 1',
+              value: 'value 1',
+              label: 'option 1',
+            },
+            {
+              name: 'id 2',
+              value: 'value 2',
+              label: 'option 2',
+            },
+            {
+              name: 'id 3',
+              value: 'value 3',
+              label: 'option 3',
+            },
+          ],
+          value: '',
+          labelKey: 'name',
+        }
+      },
+    })
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    const options = getOptions()
+    options[2].click()
+    await nextTick()
+    const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+    expect(placeholder.text()).toBe(vm.options[2].name)
+  })
+
   it('disabled option', async () => {
     const wrapper = createSelect({
       data: () => {
