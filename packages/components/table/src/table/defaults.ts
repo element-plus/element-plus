@@ -13,6 +13,7 @@ import type TableLayout from '../table-layout'
 export type DefaultRow = any
 
 interface TableRefs {
+  tableWrapper: HTMLElement
   headerWrapper: HTMLElement
   footerWrapper: HTMLElement
   fixedBodyWrapper: HTMLElement
