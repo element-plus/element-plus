@@ -8,7 +8,6 @@ import type { ComponentSize } from '@element-plus/constants'
 
 const SIZE_MAP = {
   small: 8,
-  '': 8,
   default: 12,
   large: 16,
 } as Record<ComponentSize, number>
