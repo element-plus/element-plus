@@ -15,7 +15,7 @@
                 isSelectedCell(startYear + i * 4 + j) && (currentCellRef = el as HTMLElement)
             "
             class="available"
-            :class="getCellStyle(startYear + i * 4 + j)"
+            :class="getCellKls(startYear + i * 4 + j)"
             :aria-selected="`${isSelectedCell(startYear + i * 4 + j)}`"
             :tabindex="isSelectedCell(startYear + i * 4 + j) ? 0 : -1"
             @keydown.space.prevent.stop="handleYearTableClick"
@@ -30,8 +30,8 @@
   </table>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, nextTick, ref, watch } from 'vue'
+<script lang="ts" setup>
+import { computed, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
@@ -45,81 +45,71 @@ const datesInYear = (year: number, lang: string) => {
   return rangeArr(numOfDays).map((n) => firstDay.add(n, 'day').toDate())
 }
 
-export default defineComponent({
-  props: basicYearTableProps,
+const props = defineProps(basicYearTableProps)
+const emit = defineEmits(['pick'])
 
-  emits: ['pick'],
-  expose: ['focus'],
+const ns = useNamespace('year-table')
 
-  setup(props, ctx) {
-    const ns = useNamespace('year-table')
+const { t, lang } = useLocale()
+const tbodyRef = ref<HTMLElement>()
+const currentCellRef = ref<HTMLElement>()
+const startYear = computed(() => {
+  return Math.floor(props.date.year() / 10) * 10
+})
 
-    const { t, lang } = useLocale()
-    const tbodyRef = ref<HTMLElement>()
-    const currentCellRef = ref<HTMLElement>()
-    const startYear = computed(() => {
-      return Math.floor(props.date.year() / 10) * 10
-    })
+const focus = () => {
+  currentCellRef.value?.focus()
+}
 
-    watch(
-      () => props.date,
-      async () => {
-        if (tbodyRef.value?.contains(document.activeElement)) {
-          await nextTick()
-          currentCellRef.value?.focus()
-        }
-      }
-    )
+const getCellKls = (year: number) => {
+  const kls: Record<string, boolean> = {}
+  const today = dayjs().locale(lang.value)
 
-    const focus = () => {
+  kls.disabled = props.disabledDate
+    ? datesInYear(year, lang.value).every(props.disabledDate)
+    : false
+
+  kls.current =
+    castArray(props.parsedValue).findIndex((d) => d!.year() === year) >= 0
+
+  kls.today = today.year() === year
+
+  return kls
+}
+
+const isSelectedCell = (year: number) => {
+  return (
+    (year === startYear.value &&
+      props.date.year() < startYear.value &&
+      props.date.year() > startYear.value + 9) ||
+    castArray(props.date).findIndex((date) => date.year() === year) >= 0
+  )
+}
+
+const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
+  const clickTarget = event.target as HTMLDivElement
+  const target = clickTarget.closest('td')
+  if (target) {
+    if (hasClass((target as any).parentNode, 'disabled')) return
+    const year = target.textContent || target.innerText
+    emit('pick', Number(year))
+  }
+}
+
+watch(
+  () => props.date,
+  async () => {
+    if (tbodyRef.value?.contains(document.activeElement)) {
+      await nextTick()
       currentCellRef.value?.focus()
     }
+  }
+)
 
-    const getCellStyle = (year: number) => {
-      const style: Record<string, boolean> = {}
-      const today = dayjs().locale(lang.value)
-
-      style.disabled = props.disabledDate
-        ? datesInYear(year, lang.value).every(props.disabledDate)
-        : false
-
-      style.current =
-        castArray(props.parsedValue).findIndex((_) => _.year() === year) >= 0
-
-      style.today = today.year() === year
-
-      return style
-    }
-
-    const isSelectedCell = (year: number) => {
-      return (
-        (year === startYear.value &&
-          props.date.year() < startYear.value &&
-          props.date.year() > startYear.value + 9) ||
-        castArray(props.date).findIndex((date) => date.year() === year) >= 0
-      )
-    }
-
-    const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
-      const clickTarget = event.target as HTMLDivElement
-      const target = clickTarget.closest('td')
-      if (target) {
-        if (hasClass((target as any).parentNode, 'disabled')) return
-        const year = target.textContent || target.innerText
-        ctx.emit('pick', Number(year))
-      }
-    }
-    return {
-      ns,
-      t,
-      tbodyRef,
-      currentCellRef,
-      startYear,
-      focus,
-      isSelectedCell,
-      getCellStyle,
-      handleYearTableClick,
-    }
-  },
+defineExpose({
+  /**
+   * @description focus on the current cell
+   */
+  focus,
 })
 </script>
