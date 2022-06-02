@@ -34,7 +34,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { useRadio } from './radio'
+import { useRadio } from './useRadio'
 import { radioButtonProps } from './radio-button'
 import type { CSSProperties } from 'vue'
 
