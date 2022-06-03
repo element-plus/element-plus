@@ -19,7 +19,7 @@ tooltip/basic
 
 ## Theme
 
-Tooltip has two built-in themes: `dark` and `light`。
+Tooltip has two built-in themes: `dark` and `light`.
 
 :::tip
 
