@@ -9,7 +9,7 @@ Besides the native features of img, support lazy load, custom placeholder and lo
 
 ## Basic Usage
 
-:::demo Indicate how the image should be resized to fit its container by `fit`, same as native [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit)。
+:::demo Indicate how the image should be resized to fit its container by `fit`, same as native [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).
 
 image/basic-usage
 
