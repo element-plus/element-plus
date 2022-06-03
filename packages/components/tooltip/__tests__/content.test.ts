@@ -206,8 +206,11 @@ describe('<ElTooltipContent />', () => {
 
         it('should close component after click outside', async () => {
           trigger.value = 'click'
+          wrapper.vm.onAfterShow()
+          await nextTick()
 
           document.body.click()
+
           await nextTick()
 
           expect(onClose).toHaveBeenCalled()

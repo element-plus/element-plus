@@ -2,6 +2,7 @@ import { computed, getCurrentInstance, onMounted, watch } from 'vue'
 import { isFunction } from '@vue/shared'
 import { isClient } from '@vueuse/core'
 import { buildProp, definePropType, isBoolean } from '@element-plus/utils'
+import type { ExtractPropType } from '@element-plus/utils'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 import type { ComponentPublicInstance, ExtractPropTypes, Ref } from 'vue'
@@ -14,19 +15,27 @@ const _event = buildProp({
   type: definePropType<(val: boolean) => void>(Function),
 } as const)
 
-type _UseModelToggleProps<T extends string> = {
+export type UseModelTogglePropsRaw<T extends string> = {
   [K in T]: typeof _prop
 } & {
   [K in `onUpdate:${T}`]: typeof _event
 }
 
+export type UseModelTogglePropsGeneric<T extends string> = {
+  [K in T]: ExtractPropType<typeof _prop>
+} & {
+  [K in `onUpdate:${T}`]: ExtractPropType<typeof _event>
+}
+
 export const createModelToggleComposable = <T extends string>(name: T) => {
+  const updateEventKey = `update:${name}` as const
+  const updateEventKeyRaw = `onUpdate:${name}` as const
+  const useModelToggleEmits = [updateEventKey]
+
   const useModelToggleProps = {
     [name]: _prop,
-    [`onUpdate:${name}`]: _event,
-  } as _UseModelToggleProps<T>
-
-  const useModelToggleEmits = [`update:${name}`]
+    [updateEventKeyRaw]: _event,
+  } as UseModelTogglePropsRaw<T>
 
   const useModelToggle = ({
     indicator,
@@ -37,15 +46,12 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
     onHide,
   }: ModelToggleParams) => {
     const instance = getCurrentInstance()!
-    const props = instance.props as _UseModelToggleProps<T> & {
+    const { emit } = instance
+    const props = instance.props as UseModelTogglePropsGeneric<T> & {
       disabled: boolean
     }
-    const { emit } = instance
-
-    const updateEventKey = `update:${name}`
-
     const hasUpdateHandler = computed(() =>
-      isFunction(props[`onUpdate:${name}`])
+      isFunction(props[updateEventKeyRaw])
     )
     // when it matches the default value we say this is absent
     // though this could be mistakenly passed from the user but we need to rule out that
@@ -135,7 +141,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
       }
     }
 
-    watch(() => props[name], onChange as any)
+    watch(() => props[name], onChange)
 
     if (
       shouldHideWhenRouteChanges &&
@@ -158,7 +164,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
     }
 
     onMounted(() => {
-      onChange(props[name] as boolean)
+      onChange(props[name])
     })
 
     return {

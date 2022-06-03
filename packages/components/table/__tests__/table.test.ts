@@ -1448,6 +1448,9 @@ describe('Table.vue', () => {
           </el-table>
         </div>
       `,
+      created() {
+        this.testData = getTestData()
+      },
     })
     await nextTick()
     expect(wrapper.find('.right').element.getAttribute('style')).toContain(

@@ -68,7 +68,7 @@
               :aria-label="t(`el.datepicker.prevYear`)"
               class="d-arrow-left"
               :class="ppNs.e('icon-btn')"
-              @click="prevYear_"
+              @click="moveByYear(false)"
             >
               <el-icon><d-arrow-left /></el-icon>
             </button>
@@ -78,7 +78,7 @@
               :aria-label="t(`el.datepicker.prevMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-left"
-              @click="prevMonth_"
+              @click="moveByMonth(false)"
             >
               <el-icon><arrow-left /></el-icon>
             </button>
@@ -88,8 +88,8 @@
             :class="dpNs.e('header-label')"
             aria-live="polite"
             tabindex="0"
-            @keydown.enter="showYearPicker"
-            @click="showYearPicker"
+            @keydown.enter="showPicker('year')"
+            @click="showPicker('year')"
             >{{ yearLabel }}</span
           >
           <span
@@ -101,8 +101,8 @@
               dpNs.e('header-label'),
               { active: currentView === 'month' },
             ]"
-            @keydown.enter="showMonthPicker"
-            @click="showMonthPicker"
+            @keydown.enter="showPicker('month')"
+            @click="showPicker('month')"
             >{{ t(`el.datepicker.month${month + 1}`) }}</span
           >
           <span :class="dpNs.e('next-btn')">
@@ -112,7 +112,7 @@
               :aria-label="t(`el.datepicker.nextMonth`)"
               :class="ppNs.e('icon-btn')"
               class="arrow-right"
-              @click="nextMonth_"
+              @click="moveByMonth(true)"
             >
               <el-icon><arrow-right /></el-icon>
             </button>
@@ -121,7 +121,7 @@
               :aria-label="t(`el.datepicker.nextYear`)"
               :class="ppNs.e('icon-btn')"
               class="d-arrow-right"
-              @click="nextYear_"
+              @click="moveByYear(true)"
             >
               <el-icon><d-arrow-right /></el-icon>
             </button>
@@ -183,7 +183,16 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, nextTick, ref, toRef, watch } from 'vue'
+import {
+  computed,
+  inject,
+  nextTick,
+  ref,
+  toRef,
+  useAttrs,
+  useSlots,
+  watch,
+} from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
@@ -195,7 +204,7 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { isFunction } from '@element-plus/utils'
+import { isArray, isFunction } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   ArrowLeft,
@@ -209,16 +218,25 @@ import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
 import YearTable from './basic-year-table.vue'
 
-import type { ComponentPublicInstance, Ref } from 'vue'
+import type { SetupContext } from 'vue'
 import type { ConfigType, Dayjs } from 'dayjs'
+import type { PanelDatePickProps } from '../props/panel-date-pick'
+import type {
+  DateTableEmits,
+  DatesPickerEmits,
+  WeekPickerEmits,
+} from '../props/basic-date-table'
 
+type DatePickType = PanelDatePickProps['type']
 // todo
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const timeWithinRange = (_: ConfigType, __: any, ___: string) => true
 const props = defineProps(panelDatePickProps)
-const _emit = defineEmits(['pick', 'set-picker-option', 'panel-change'])
+const contextEmit = defineEmits(['pick', 'set-picker-option', 'panel-change'])
 const ppNs = useNamespace('picker-panel')
 const dpNs = useNamespace('date-picker')
+const attrs = useAttrs()
+const slots = useSlots()
 
 const { t, lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
@@ -227,7 +245,7 @@ const { shortcuts, disabledDate, cellClassName, defaultTime, arrowControl } =
   pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
-const currentViewRef = ref<ComponentPublicInstance>()
+const currentViewRef = ref<{ focus: () => void }>()
 
 const innerDate = ref(dayjs().locale(lang.value))
 
@@ -244,8 +262,8 @@ const year = computed(() => {
 })
 
 const selectableRange = ref([])
-const userInputDate = ref(null)
-const userInputTime = ref(null)
+const userInputDate = ref<string | null>(null)
+const userInputTime = ref<string | null>(null)
 // todo update to disableHour
 const checkDateWithinRange = (date: ConfigType) => {
   return selectableRange.value.length > 0
@@ -262,20 +280,21 @@ const formatEmit = (emitDayjs: Dayjs) => {
   if (showTime.value) return emitDayjs.millisecond(0)
   return emitDayjs.startOf('day')
 }
-const emit = (value, ...args) => {
+const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   if (!value) {
-    _emit('pick', value, ...args)
-  } else if (Array.isArray(value)) {
+    contextEmit('pick', value, ...args)
+  } else if (isArray(value)) {
     const dates = value.map(formatEmit)
-    _emit('pick', dates, ...args)
+    contextEmit('pick', dates, ...args)
   } else {
-    _emit('pick', formatEmit(value), ...args)
+    contextEmit('pick', formatEmit(value), ...args)
   }
   userInputDate.value = null
   userInputTime.value = null
 }
-const handleDatePick = (value: Dayjs, keepOpen: boolean = undefined) => {
+const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
   if (selectionMode.value === 'date') {
+    value = value as Dayjs
     let newDate = props.parsedValue
       ? (props.parsedValue as Dayjs)
           .year(value.year())
@@ -292,36 +311,27 @@ const handleDatePick = (value: Dayjs, keepOpen: boolean = undefined) => {
     innerDate.value = newDate
     emit(newDate, showTime.value || keepOpen)
   } else if (selectionMode.value === 'week') {
-    emit(value.date)
+    emit((value as WeekPickerEmits).date)
   } else if (selectionMode.value === 'dates') {
-    emit(value, true) // set true to keep panel open
+    emit(value as DatesPickerEmits, true) // set true to keep panel open
   }
 }
-const prevMonth_ = () => {
-  innerDate.value = innerDate.value.subtract(1, 'month')
+
+const moveByMonth = (forward: boolean) => {
+  const action = forward ? 'add' : 'subtract'
+  innerDate.value = innerDate.value[action](1, 'month')
   handlePanelChange('month')
 }
 
-const nextMonth_ = () => {
-  innerDate.value = innerDate.value.add(1, 'month')
-  handlePanelChange('month')
-}
+const moveByYear = (forward: boolean) => {
+  const currentDate = innerDate.value
+  const action = forward ? 'add' : 'subtract'
 
-const prevYear_ = () => {
-  if (currentView.value === 'year') {
-    innerDate.value = innerDate.value.subtract(10, 'year')
-  } else {
-    innerDate.value = innerDate.value.subtract(1, 'year')
-  }
-  handlePanelChange('year')
-}
+  innerDate.value =
+    currentView.value === 'year'
+      ? currentDate[action](10, 'year')
+      : currentDate[action](1, 'year')
 
-const nextYear_ = () => {
-  if (currentView.value === 'year') {
-    innerDate.value = innerDate.value.add(10, 'year')
-  } else {
-    innerDate.value = innerDate.value.add(1, 'year')
-  }
   handlePanelChange('year')
 }
 
@@ -341,23 +351,32 @@ const yearLabel = computed(() => {
   return `${year.value} ${yearTranslation}`
 })
 
-const handleShortcutClick = (shortcut) => {
-  const shortcutValue =
-    typeof shortcut.value === 'function' ? shortcut.value() : shortcut.value
+type Shortcut = {
+  value: (() => Dayjs) | Dayjs
+  onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
+}
+
+const handleShortcutClick = (shortcut: Shortcut) => {
+  const shortcutValue = isFunction(shortcut.value)
+    ? shortcut.value()
+    : shortcut.value
   if (shortcutValue) {
     emit(dayjs(shortcutValue).locale(lang.value))
     return
   }
   if (shortcut.onClick) {
-    shortcut.onClick(ctx)
+    shortcut.onClick({
+      attrs,
+      slots,
+      emit: contextEmit as SetupContext['emit'],
+    })
   }
 }
 
-const selectionMode = computed(() => {
-  if (['week', 'month', 'year', 'dates'].includes(props.type)) {
-    return props.type
-  }
-  return 'date'
+const selectionMode = computed<DatePickType>(() => {
+  const { type } = props
+  if (['week', 'month', 'year', 'dates'].includes(type)) return type
+  return 'date' as DatePickType
 })
 
 const keyboardMode = computed<string>(() => {
@@ -366,28 +385,9 @@ const keyboardMode = computed<string>(() => {
     : selectionMode.value
 })
 
-watch(
-  () => selectionMode.value,
-  (val) => {
-    if (['month', 'year'].includes(val)) {
-      currentView.value = val
-      return
-    }
-    currentView.value = 'date'
-  },
-  { immediate: true }
-)
-
-watch(
-  () => currentView.value,
-  () => {
-    popper?.updatePopper()
-  }
-)
-
 const hasShortcuts = computed(() => !!shortcuts.length)
 
-const handleMonthPick = async (month) => {
+const handleMonthPick = async (month: number) => {
   innerDate.value = innerDate.value.startOf('month').month(month)
   if (selectionMode.value === 'month') {
     emit(innerDate.value, false)
@@ -402,7 +402,7 @@ const handleMonthPick = async (month) => {
   handlePanelChange('month')
 }
 
-const handleYearPick = async (year) => {
+const handleYearPick = async (year: number) => {
   if (selectionMode.value === 'year') {
     innerDate.value = innerDate.value.startOf('year').year(year)
     emit(innerDate.value, false)
@@ -418,14 +418,8 @@ const handleYearPick = async (year) => {
   handlePanelChange('year')
 }
 
-const showMonthPicker = async () => {
-  currentView.value = 'month'
-  await nextTick()
-  handleFocusPicker()
-}
-
-const showYearPicker = async () => {
-  currentView.value = 'year'
+const showPicker = async (view: 'month' | 'year') => {
+  currentView.value = view
   await nextTick()
   handleFocusPicker()
 }
@@ -440,7 +434,7 @@ const footerVisible = computed(() => {
 
 const onConfirm = () => {
   if (selectionMode.value === 'dates') {
-    emit(props.parsedValue)
+    emit(props.parsedValue as Dayjs[])
   } else {
     // deal with the scenario where: user opens the date time picker, then confirm without doing anything
     let result = props.parsedValue as Dayjs
@@ -503,12 +497,21 @@ const handleTimePickClose = () => {
   timePickerVisible.value = false
 }
 
-const handleTimePick = (value, visible, first) => {
+const getUnits = (date: Dayjs) => {
+  return {
+    hour: date.hour(),
+    minute: date.minute(),
+    second: date.second(),
+    year: date.year(),
+    month: date.month(),
+    date: date.date(),
+  }
+}
+
+const handleTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
+  const { hour, minute, second } = getUnits(value)
   const newDate = props.parsedValue
-    ? (props.parsedValue as Dayjs)
-        .hour(value.hour())
-        .minute(value.minute())
-        .second(value.second())
+    ? (props.parsedValue as Dayjs).hour(hour).minute(minute).second(second)
     : value
   innerDate.value = newDate
   emit(innerDate.value, true)
@@ -517,29 +520,25 @@ const handleTimePick = (value, visible, first) => {
   }
 }
 
-const handleVisibleTimeChange = (value) => {
+const handleVisibleTimeChange = (value: string) => {
   const newDate = dayjs(value, timeFormat.value).locale(lang.value)
   if (newDate.isValid() && checkDateWithinRange(newDate)) {
-    innerDate.value = newDate
-      .year(innerDate.value.year())
-      .month(innerDate.value.month())
-      .date(innerDate.value.date())
+    const { year, month, date } = getUnits(innerDate.value)
+    innerDate.value = newDate.year(year).month(month).date(date)
     userInputTime.value = null
     timePickerVisible.value = false
     emit(innerDate.value, true)
   }
 }
 
-const handleVisibleDateChange = (value) => {
+const handleVisibleDateChange = (value: string) => {
   const newDate = dayjs(value, dateFormat.value).locale(lang.value)
   if (newDate.isValid()) {
     if (disabledDate && disabledDate(newDate.toDate())) {
       return
     }
-    innerDate.value = newDate
-      .hour(innerDate.value.hour())
-      .minute(innerDate.value.minute())
-      .second(innerDate.value.second())
+    const { hour, minute, second } = getUnits(innerDate.value)
+    innerDate.value = newDate.hour(hour).minute(minute).second(second)
     userInputDate.value = null
     emit(innerDate.value, true)
   }
@@ -553,14 +552,14 @@ const isValidValue = (date: unknown) => {
   )
 }
 
-const formatToString = (value) => {
+const formatToString = (value: Dayjs | Dayjs[]) => {
   if (selectionMode.value === 'dates') {
-    return value.map((_) => _.format(props.format))
+    return (value as Dayjs[]).map((_) => _.format(props.format))
   }
-  return value.format(props.format)
+  return (value as Dayjs).format(props.format)
 }
 
-const parseUserInput = (value) => {
+const parseUserInput = (value: Dayjs) => {
   return dayjs(value, props.format).locale(lang.value)
 }
 
@@ -579,16 +578,16 @@ const getDefaultValue = () => {
 
 const handleFocusPicker = async () => {
   if (['week', 'month', 'year', 'date'].includes(selectionMode.value)) {
-    ;(currentViewRef as Ref<any>).value?.focus()
+    currentViewRef.value?.focus()
     if (selectionMode.value === 'week') {
       handleKeyControl(EVENT_CODE.down)
     }
   }
 }
 
-const handleKeydownTable = (event) => {
+const handleKeydownTable = (event: KeyboardEvent) => {
   const { code } = event
-  const list = [
+  const validCode = [
     EVENT_CODE.up,
     EVENT_CODE.down,
     EVENT_CODE.left,
@@ -598,7 +597,7 @@ const handleKeydownTable = (event) => {
     EVENT_CODE.pageUp,
     EVENT_CODE.pageDown,
   ]
-  if (list.includes(code)) {
+  if (validCode.includes(code)) {
     handleKeyControl(code)
     event.stopPropagation()
     event.preventDefault()
@@ -615,46 +614,55 @@ const handleKeydownTable = (event) => {
 
 const handleKeyControl = (code: string) => {
   type KeyControlMappingCallableOffset = (date: Date, step?: number) => number
-  interface KeyControlMapping {
-    [key: string]: {
-      offset: (date: Date, step: number) => any
-      [key: number]: number | KeyControlMappingCallableOffset
-    }
+  type KeyControl = {
+    [key: string]:
+      | number
+      | KeyControlMappingCallableOffset
+      | ((date: Date, step: number) => any)
+    offset: (date: Date, step: number) => any
   }
+  interface KeyControlMapping {
+    [key: string]: KeyControl
+  }
+
+  const { up, down, left, right, home, end, pageUp, pageDown } = EVENT_CODE
   const mapping: KeyControlMapping = {
     year: {
-      [EVENT_CODE.up]: -4,
-      [EVENT_CODE.down]: 4,
-      [EVENT_CODE.left]: -1,
-      [EVENT_CODE.right]: 1,
-      offset: (date, step) => date.setFullYear(date.getFullYear() + step),
+      [up]: -4,
+      [down]: 4,
+      [left]: -1,
+      [right]: 1,
+      offset: (date: Date, step: number) =>
+        date.setFullYear(date.getFullYear() + step),
     },
     month: {
-      [EVENT_CODE.up]: -4,
-      [EVENT_CODE.down]: 4,
-      [EVENT_CODE.left]: -1,
-      [EVENT_CODE.right]: 1,
-      offset: (date, step) => date.setMonth(date.getMonth() + step),
+      [up]: -4,
+      [down]: 4,
+      [left]: -1,
+      [right]: 1,
+      offset: (date: Date, step: number) =>
+        date.setMonth(date.getMonth() + step),
     },
     week: {
-      [EVENT_CODE.up]: -1,
-      [EVENT_CODE.down]: 1,
-      [EVENT_CODE.left]: -1,
-      [EVENT_CODE.right]: 1,
-      offset: (date, step) => date.setDate(date.getDate() + step * 7),
+      [up]: -1,
+      [down]: 1,
+      [left]: -1,
+      [right]: 1,
+      offset: (date: Date, step: number) =>
+        date.setDate(date.getDate() + step * 7),
     },
     date: {
-      [EVENT_CODE.up]: -7,
-      [EVENT_CODE.down]: 7,
-      [EVENT_CODE.left]: -1,
-      [EVENT_CODE.right]: 1,
-      [EVENT_CODE.home]: (date) => -date.getDay(),
-      [EVENT_CODE.end]: (date) => -date.getDay() + 6,
-      [EVENT_CODE.pageUp]: (date) =>
+      [up]: -7,
+      [down]: 7,
+      [left]: -1,
+      [right]: 1,
+      [home]: (date: Date) => -date.getDay(),
+      [end]: (date: Date) => -date.getDay() + 6,
+      [pageUp]: (date: Date) =>
         -new Date(date.getFullYear(), date.getMonth(), 0).getDate(),
-      [EVENT_CODE.pageDown]: (date) =>
+      [pageDown]: (date: Date) =>
         new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(),
-      offset: (date, step) => date.setDate(date.getDate() + step),
+      offset: (date: Date, step: number) => date.setDate(date.getDate() + step),
     },
   }
 
@@ -673,19 +681,33 @@ const handleKeyControl = (code: string) => {
     }
     const result = dayjs(newDate).locale(lang.value)
     innerDate.value = result
-    _emit('pick', result, true)
+    contextEmit('pick', result, true)
     break
   }
 }
 
 const handlePanelChange = (mode: 'month' | 'year') => {
-  _emit('panel-change', innerDate.value.toDate(), mode, currentView.value)
+  contextEmit('panel-change', innerDate.value.toDate(), mode, currentView.value)
 }
 
-_emit('set-picker-option', ['isValidValue', isValidValue])
-_emit('set-picker-option', ['formatToString', formatToString])
-_emit('set-picker-option', ['parseUserInput', parseUserInput])
-_emit('set-picker-option', ['handleFocusPicker', handleFocusPicker])
+watch(
+  () => selectionMode.value,
+  (val) => {
+    if (['month', 'year'].includes(val)) {
+      currentView.value = val
+      return
+    }
+    currentView.value = 'date'
+  },
+  { immediate: true }
+)
+
+watch(
+  () => currentView.value,
+  () => {
+    popper?.updatePopper()
+  }
+)
 
 watch(
   () => defaultValue.value,
@@ -711,46 +733,8 @@ watch(
   { immediate: true }
 )
 
-// return {
-//   ppNs,
-//   dpNs,
-//   currentViewRef,
-//   handleTimePick,
-//   handleTimePickClose,
-//   onTimePickerInputFocus,
-//   timePickerVisible,
-//   visibleTime,
-//   visibleDate,
-//   showTime,
-//   changeToNow,
-//   onConfirm,
-//   footerVisible,
-//   handleYearPick,
-//   showMonthPicker,
-//   showYearPicker,
-//   handleMonthPick,
-//   hasShortcuts,
-//   shortcuts,
-//   arrowControl,
-//   disabledDate,
-//   cellClassName,
-//   selectionMode,
-//   handleShortcutClick,
-//   prevYear_,
-//   nextYear_,
-//   prevMonth_,
-//   nextMonth_,
-//   innerDate,
-//   t,
-//   yearLabel,
-//   currentView,
-//   month,
-//   handleDatePick,
-//   handleKeydownTable,
-//   handleVisibleTimeChange,
-//   handleVisibleDateChange,
-//   timeFormat,
-//   userInputTime,
-//   userInputDate,
-// }
+contextEmit('set-picker-option', ['isValidValue', isValidValue])
+contextEmit('set-picker-option', ['formatToString', formatToString])
+contextEmit('set-picker-option', ['parseUserInput', parseUserInput])
+contextEmit('set-picker-option', ['handleFocusPicker', handleFocusPicker])
 </script>

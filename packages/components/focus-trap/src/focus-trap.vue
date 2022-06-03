@@ -172,7 +172,12 @@ export default defineComponent({
         const relatedTarget = (e as FocusEvent)
           .relatedTarget as HTMLElement | null
         if (!isNil(relatedTarget) && !trapContainer.contains(relatedTarget)) {
-          tryFocus(lastFocusAfterTrapped, true)
+          // Give embedded focus layer time to pause this layer before reclaiming focus
+          setTimeout(() => {
+            if (!focusLayer.paused) {
+              tryFocus(lastFocusAfterTrapped, true)
+            }
+          }, 0)
         }
       } else {
         const target = e.target as HTMLElement | null
