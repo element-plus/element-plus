@@ -1,12 +1,12 @@
-import { computed, inject, nextTick, ref, shallowRef } from 'vue'
+import { computed, nextTick, ref, shallowRef } from 'vue'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import { useFormItem } from '@element-plus/hooks'
 import type { CSSProperties, Ref, SetupContext } from 'vue'
-import type { FormContext, FormItemContext } from '@element-plus/tokens'
+import type { Arrayable } from '@element-plus/utils'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
 import type { ButtonRefs, SliderButtonInstance } from '../button'
 
@@ -15,8 +15,7 @@ export const useSlide = (
   initData: SliderInitData,
   emit: SetupContext<SliderEmits>['emit']
 ) => {
-  const elForm = inject(formContextKey, {} as FormContext)
-  const elFormItem = inject(formItemContextKey, {} as FormItemContext)
+  const { form: elForm, formItem: elFormItem } = useFormItem()
 
   const slider = shallowRef<HTMLElement>()
 
@@ -30,7 +29,7 @@ export const useSlide = (
   }
 
   const sliderDisabled = computed(() => {
-    return props.disabled || elForm.disabled || false
+    return props.disabled || elForm?.disabled || false
   })
 
   const minValue = computed(() => {
@@ -126,7 +125,7 @@ export const useSlide = (
     }
   }
 
-  const _emit = (val: number | number[]) => {
+  const _emit = (val: Arrayable<number>) => {
     emit(UPDATE_MODEL_EVENT, val)
     emit(INPUT_EVENT, val)
   }

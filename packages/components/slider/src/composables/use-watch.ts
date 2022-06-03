@@ -2,6 +2,7 @@ import { watch } from 'vue'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn, throwError } from '@element-plus/utils'
 import type { ComputedRef, SetupContext } from 'vue'
+import type { Arrayable } from '@element-plus/utils'
 import type { FormItemContext } from '@element-plus/tokens'
 import type { SliderEmits, SliderInitData, SliderProps } from '../slider'
 
@@ -13,7 +14,7 @@ export const useWatch = (
   emit: SetupContext<SliderEmits>['emit'],
   elFormItem: FormItemContext
 ) => {
-  const _emit = (val: number | number[]) => {
+  const _emit = (val: Arrayable<number>) => {
     emit(UPDATE_MODEL_EVENT, val)
     emit(INPUT_EVENT, val)
   }
@@ -47,7 +48,7 @@ export const useWatch = (
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          elFormItem.validate?.('change').catch((err) => debugWarn(err))
+          elFormItem?.validate?.('change').catch((err) => debugWarn(err))
           initData.oldValue = val.slice()
         }
       }
@@ -59,7 +60,7 @@ export const useWatch = (
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          elFormItem.validate?.('change').catch((err) => debugWarn(err))
+          elFormItem?.validate?.('change').catch((err) => debugWarn(err))
           initData.oldValue = val
         }
       }

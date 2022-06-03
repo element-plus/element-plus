@@ -1,4 +1,5 @@
-import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import type { SliderInitData, SliderProps } from '../slider'
 
 export const useLifecycle = (
@@ -33,14 +34,10 @@ export const useLifecycle = (
       initData.oldValue = initData.firstValue
     }
 
-    window.addEventListener('resize', resetSize)
+    useEventListener(window, 'resize', resetSize)
 
     await nextTick()
     resetSize()
-  })
-
-  onBeforeUnmount(() => {
-    window.removeEventListener('resize', resetSize)
   })
 
   return {
