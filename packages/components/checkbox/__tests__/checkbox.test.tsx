@@ -9,7 +9,11 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { FormItemInstance } from '@element-plus/components/form'
 import type { CheckboxInstance } from '@element-plus/components/checkbox'
 
-const _mount = (template: string, data, otherObj?: Record<string, unknown>) =>
+const _mount = (
+  template: string,
+  data: () => Record<string, unknown>,
+  otherObj?: Record<string, unknown>
+) =>
   mount({
     components: {
       'el-checkbox': Checkbox,
