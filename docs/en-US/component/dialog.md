@@ -25,7 +25,7 @@ dialog/basic-usage
 
 ## Customized Content
 
-The content of Dialog can be anything, even a table or a form. This example shows how to use Element Plus Table and Form with Dialog。
+The content of Dialog can be anything, even a table or a form. This example shows how to use Element Plus Table and Form with Dialog.
 
 :::demo
 

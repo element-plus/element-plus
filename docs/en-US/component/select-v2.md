@@ -159,7 +159,7 @@ select-v2/remote-search
 | remote-method                     | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | function(keyword: string)          | —                   | —             |
 
 <span style="display: none;">
-<!-- | default-first-option | 在输入框按下回车，选择第一个匹配项。需配合 `filterable` 或 `remote` 使用 | boolean | - | false |
+<!-- | default-first-option | 在输入框按下回车，选择第一个匹配项. 需配合 `filterable` 或 `remote` 使用 | boolean | - | false |
 | filter-method | 自定义搜索方法 | function | — | — |
 | loading | 是否正在从远程获取数据 | boolean | — | false |
 | loading-text | 远程加载时显示的文字 | string | — | 加载中 | -->
