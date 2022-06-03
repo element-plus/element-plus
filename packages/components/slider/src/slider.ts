@@ -20,14 +20,14 @@ type SliderMarks = Record<number, string | SliderMarkerProps['mark']>
 export interface SliderInitData {
   firstValue: number
   secondValue: number
-  oldValue?: number | number[]
+  oldValue?: Arrayable<number>
   dragging: boolean
   sliderSize: number
 }
 
 export const sliderProps = buildProps({
   modelValue: {
-    type: definePropType<number | number[]>([Number, Array]),
+    type: definePropType<Arrayable<number>>([Number, Array]),
     default: 0,
   },
   id: {
@@ -96,12 +96,12 @@ export const sliderProps = buildProps({
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
 
-const emitChangeFn = (value: Arrayable<number>) =>
+const isValidValue = (value: Arrayable<number>) =>
   isNumber(value) || (isArray(value) && value.every(isNumber))
 export const sliderEmits = {
-  [UPDATE_MODEL_EVENT]: emitChangeFn,
-  [INPUT_EVENT]: emitChangeFn,
-  [CHANGE_EVENT]: emitChangeFn,
+  [UPDATE_MODEL_EVENT]: isValidValue,
+  [INPUT_EVENT]: isValidValue,
+  [CHANGE_EVENT]: isValidValue,
 }
 export type SliderEmits = typeof sliderEmits
 
