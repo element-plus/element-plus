@@ -272,7 +272,7 @@ describe('DatePicker', () => {
     expect(onChangeValue?.getTime()).toBe(new Date(2016, 9, 1).getTime())
   })
 
-  it('emits focus on click', async () => {
+  it('emits focus on click when not currently focused', async () => {
     const focusHandler = vi.fn()
     const wrapper = _mount(
       `<el-date-picker
@@ -282,7 +282,7 @@ describe('DatePicker', () => {
       () => ({ value: new Date(2016, 9, 10, 18, 40) }),
       {
         methods: {
-          onFocus(e) {
+          onFocus(e: Event) {
             return focusHandler(e)
           },
         },
@@ -295,6 +295,23 @@ describe('DatePicker', () => {
     await nextTick()
     await rAF()
     expect(focusHandler).toHaveBeenCalledTimes(1)
+  })
+
+  it('opens popper on click when input is focused', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        @focus="onFocus"
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) })
+    )
+    expect(wrapper.vm.$data.pickerVisible).toBeFalsy()
+    const input = wrapper.find('input')
+    input.element.focus()
+    input.trigger('mousedown')
+    await nextTick()
+    await rAF()
+    expect(wrapper.vm.$data.pickerVisible).toBeTruthy()
   })
 
   it('shortcuts', async () => {

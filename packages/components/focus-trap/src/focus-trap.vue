@@ -173,8 +173,9 @@ export default defineComponent({
           .relatedTarget as HTMLElement | null
         if (!isNil(relatedTarget) && !trapContainer.contains(relatedTarget)) {
           // Give embedded focus layer time to pause this layer before reclaiming focus
+          // And only reclaim focus if should currently be trapping
           setTimeout(() => {
-            if (!focusLayer.paused) {
+            if (!focusLayer.paused && props.trapped) {
               tryFocus(lastFocusAfterTrapped, true)
             }
           }, 0)
