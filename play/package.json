@@ -7,7 +7,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^2.0.1",
+    "@element-plus/icons-vue": "^2.0.3",
     "vue": "^3.2.33"
   },
   "devDependencies": {
