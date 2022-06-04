@@ -533,6 +533,7 @@ export default defineComponent({
       )
     })
     const onMouseDownInput = async (event: MouseEvent) => {
+      if (props.readonly || pickerDisabled.value) return
       if ((event.target as HTMLElement)?.tagName !== 'INPUT') {
         pickerVisible.value = true
       }
