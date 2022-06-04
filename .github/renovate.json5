@@ -19,5 +19,6 @@
 
     // test
     'cypress',
+    'jsdom',
   ],
 }
