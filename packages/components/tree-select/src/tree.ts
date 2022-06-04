@@ -135,10 +135,16 @@ export const useTree = (
     onCheck: (data, params) => {
       attrs.onCheck?.(data, params)
 
+      const dataValue = getNodeValByProp('value', data)
       if (props.checkStrictly) {
         emit(
           UPDATE_MODEL_EVENT,
-          props.multiple ? params.checkedKeys : params.checkedKeys[0]
+          // Checking for changes may come from `check-on-node-click`
+          props.multiple
+            ? params.checkedKeys
+            : params.checkedKeys.includes(dataValue)
+            ? dataValue
+            : undefined
         )
       }
       // only can select leaf node
