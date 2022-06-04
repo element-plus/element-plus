@@ -178,7 +178,7 @@ describe('TimeLine.vue', () => {
         <el-timeline>
           <el-timeline-item
             timestamp="2018-04-11"
-            type="large">
+            size="large">
             Step 1: xxxxxx
           </el-timeline-item>
         </el-timeline>
