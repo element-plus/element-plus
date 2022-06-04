@@ -305,13 +305,15 @@ describe('DatePicker', () => {
       />`,
       () => ({ value: new Date(2016, 9, 10, 18, 40) })
     )
-    expect(wrapper.vm.$data.pickerVisible).toBeFalsy()
+    const popperEl = document.querySelector('.el-picker__popper') as HTMLElement
+    expect(popperEl.style.display).toBe('none')
     const input = wrapper.find('input')
     input.element.focus()
     input.trigger('mousedown')
     await nextTick()
     await rAF()
-    expect(wrapper.vm.$data.pickerVisible).toBeTruthy()
+
+    expect(popperEl.style.display).not.toBe('none')
   })
 
   it('shortcuts', async () => {
