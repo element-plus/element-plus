@@ -12,8 +12,8 @@
   min-width: getCssVar('message', 'min-width');
   box-sizing: border-box;
   border-radius: getCssVar('border-radius-base');
-  border-width: getCssVar('border-width-base');
-  border-style: getCssVar('border-style-base');
+  border-width: getCssVar('border-width');
+  border-style: getCssVar('border-style');
   border-color: getCssVar('message', 'border-color');
   position: fixed;
   left: 50%;
