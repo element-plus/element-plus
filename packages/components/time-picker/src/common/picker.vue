@@ -533,7 +533,10 @@ export default defineComponent({
       )
     })
     const onMouseDownInput = async (event: MouseEvent) => {
-      if ((event.target as HTMLElement)?.tagName !== 'INPUT') {
+      if (
+        (event.target as HTMLElement)?.tagName !== 'INPUT' ||
+        refInput.value.includes(document.activeElement as HTMLInputElement)
+      ) {
         pickerVisible.value = true
       }
     }
@@ -547,7 +550,10 @@ export default defineComponent({
       showClose.value = false
     }
     const onTouchStartInput = (event: TouchEvent) => {
-      if ((event.touches[0].target as HTMLElement)?.tagName !== 'INPUT') {
+      if (
+        (event.touches[0].target as HTMLElement)?.tagName !== 'INPUT' ||
+        refInput.value.includes(document.activeElement as HTMLInputElement)
+      ) {
         pickerVisible.value = true
       }
     }
