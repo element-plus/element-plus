@@ -134,26 +134,77 @@ export const useTree = (
     onCheck: (data, params) => {
       attrs.onCheck?.(data, params)
 
-      // remove folder node when `checkStrictly` is false
-      const checkedKeys = !props.checkStrictly
-        ? tree.value?.getCheckedKeys(true)
-        : params.checkedKeys
+      if (props.checkStrictly) {
+        emit(
+          UPDATE_MODEL_EVENT,
+          props.multiple ? params.checkedKeys : params.checkedKeys[0]
+        )
+      }
+      // only can select leaf node
+      else {
+        if (props.multiple) {
+          emit(
+            UPDATE_MODEL_EVENT,
+            (tree.value as InstanceType<typeof ElTree>).getCheckedKeys(true)
+          )
+        } else {
+          // select first leaf node when check parent
+          const firstLeaf = treeFind(
+            [data],
+            (data) =>
+              !isValidArray(getNodeValByProp('children', data)) &&
+              !getNodeValByProp('disabled', data),
+            (data) => getNodeValByProp('children', data)
+          )
+          const firstLeafKey = firstLeaf
+            ? getNodeValByProp('value', firstLeaf)
+            : undefined
 
-      const value = getNodeValByProp('value', data)
-      emit(
-        UPDATE_MODEL_EVENT,
-        props.multiple
-          ? checkedKeys
-          : checkedKeys.includes(value)
-          ? value
-          : undefined
-      )
+          // unselect when any child checked
+          const hasCheckedChild =
+            isValidValue(props.modelValue) &&
+            !!treeFind(
+              [data],
+              (data) => getNodeValByProp('value', data) === props.modelValue,
+              (data) => getNodeValByProp('children', data)
+            )
+
+          emit(
+            UPDATE_MODEL_EVENT,
+            firstLeafKey === props.modelValue || hasCheckedChild
+              ? undefined
+              : firstLeafKey
+          )
+        }
+      }
     },
+  }
+}
+
+function treeFind<T extends Record<string, any>>(
+  treeData: T[],
+  findCallback: (data: T) => boolean,
+  getChildren: (data: T) => any
+): T | undefined {
+  for (const data of treeData) {
+    if (findCallback(data)) {
+      return data
+    } else {
+      const children = getChildren(data)
+      if (isValidArray(children)) {
+        const find = treeFind(children, findCallback, getChildren)
+        if (find) return find
+      }
+    }
   }
 }
 
 function isValidValue(val: any) {
   return val || val === 0
+}
+
+function isValidArray(val: any) {
+  return Array.isArray(val) && val.length
 }
 
 function toValidArray(val: any) {
