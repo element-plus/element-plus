@@ -18,7 +18,7 @@ import {
 } from '@element-plus/components/time-picker'
 
 import { datePickerProps } from './props/date-picker'
-import { getPanel } from './utils'
+import { getPanel } from './panel-utils'
 
 dayjs.extend(localeData)
 dayjs.extend(advancedFormat)
