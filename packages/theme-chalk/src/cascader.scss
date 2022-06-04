@@ -26,6 +26,10 @@
     .#{$namespace}-input__inner {
       text-overflow: ellipsis;
       cursor: pointer;
+
+      &::selection {
+        outline: none;
+      }
     }
 
     .#{$namespace}-input__suffix-inner {
