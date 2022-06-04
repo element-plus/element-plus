@@ -1,6 +1,6 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
@@ -39,7 +39,7 @@ const getSpinnerTextAsArray = (dom, selector) => {
 }
 
 afterEach(() => {
-  document.documentElement.innerHTML = ''
+  document.body.innerHTML = ''
 })
 
 describe('TimePicker', () => {
@@ -733,6 +733,59 @@ describe('TimePicker(range)', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+  })
+
+  describe('dismiss events restore picker', () => {
+    let wrapper: ReturnType<typeof _mount>
+
+    const findInput = () =>
+      wrapper.findComponent({
+        name: 'ElInput',
+      })
+    const findClear = () => wrapper.find('.clear-icon')
+    const findPicker = () =>
+      wrapper.findComponent({
+        name: 'Picker',
+      })
+
+    beforeEach(() => {
+      wrapper = _mount(
+        `<el-time-picker v-model="value" ref="input" />`,
+        () => ({ value: new Date(2016, 9, 10, 18, 40) })
+      )
+    })
+
+    afterEach(() => {
+      wrapper.unmount()
+    })
+
+    it('should be able to focus back and callout picker after clear', async () => {
+      await nextTick()
+      const input = findInput()
+      await input.trigger('mouseenter')
+      await rAF()
+      const clearIcon = findClear()
+      await clearIcon.trigger('click')
+      await rAF()
+      expect(document.activeElement).toBe(wrapper.find('input').element)
+      expect(document.querySelector('.el-time-panel')).toBeFalsy()
+      await input.vm.$emit('input', 'a')
+      await rAF()
+      expect(document.querySelector('.el-time-panel')).toBeTruthy()
+    })
+
+    it('should be able to focus back and callout picker after pick', async () => {
+      await nextTick()
+      const picker = findPicker()
+      const input = findInput()
+      picker.vm.onPick('', false)
+      await rAF()
+      expect(document.activeElement).toBe(wrapper.find('input').element)
+      expect(document.querySelector('.el-time-panel')).toBeFalsy()
+      input.vm.$emit('input', 'a')
+      await rAF()
+      expect(document.querySelector('.el-time-panel')).toBeTruthy()
     })
   })
 })

@@ -61,7 +61,7 @@
           <el-icon
             v-if="showClose && clearIcon"
             :class="`${nsInput.e('icon')} clear-icon`"
-            @click="onClearIconClick"
+            @click.stop="onClearIconClick"
           >
             <component :is="clearIcon" />
           </el-icon>
@@ -352,10 +352,16 @@ export default defineComponent({
         _inputs[1].focus()
       }
     }
+    const focusOnInputBox = () => {
+      focus(true, true)
+      nextTick(() => {
+        ignoreFocusEvent = false
+      })
+    }
 
     const onPick = (date: any = '', visible = false) => {
       if (!visible) {
-        focus(true, true)
+        focusOnInputBox()
       }
       pickerVisible.value = visible
       let result
@@ -514,11 +520,11 @@ export default defineComponent({
 
     const showClose = ref(false)
 
-    const onClearIconClick = (event) => {
+    const onClearIconClick = (event: MouseEvent) => {
       if (props.readonly || pickerDisabled.value) return
       if (showClose.value) {
         event.stopPropagation()
-        focus(true, true)
+        focusOnInputBox()
         emitInput(null)
         emitChange(null, true)
         showClose.value = false
@@ -677,6 +683,11 @@ export default defineComponent({
     }
     const onUserInput = (e) => {
       userInput.value = e
+      // Temporary fix when the picker is dismissed and the input box
+      // is focused, just mimic the behavior of antdesign.
+      if (!pickerVisible.value) {
+        pickerVisible.value = true
+      }
     }
 
     const handleStartInput = (event) => {
