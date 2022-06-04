@@ -4,6 +4,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
+import { isValidArray, isValidValue, toValidArray, treeFind } from './utils'
 import type { Ref } from 'vue'
 import type ElSelect from '@element-plus/components/select'
 import type Node from '@element-plus/components/tree/src/model/node'
@@ -179,34 +180,4 @@ export const useTree = (
       }
     },
   }
-}
-
-function treeFind<T extends Record<string, any>>(
-  treeData: T[],
-  findCallback: (data: T) => boolean,
-  getChildren: (data: T) => any
-): T | undefined {
-  for (const data of treeData) {
-    if (findCallback(data)) {
-      return data
-    } else {
-      const children = getChildren(data)
-      if (isValidArray(children)) {
-        const find = treeFind(children, findCallback, getChildren)
-        if (find) return find
-      }
-    }
-  }
-}
-
-function isValidValue(val: any) {
-  return val || val === 0
-}
-
-function isValidArray(val: any) {
-  return Array.isArray(val) && val.length
-}
-
-function toValidArray(val: any) {
-  return Array.isArray(val) ? val : isValidValue(val) ? [val] : []
 }
