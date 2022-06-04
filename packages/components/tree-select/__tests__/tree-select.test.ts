@@ -384,4 +384,24 @@ describe('TreeSelect.vue', () => {
     await nextTick()
     expect(select.vm.modelValue).toBe(undefined)
   })
+
+  test('show checkbox and check on click node', async () => {
+    const { select, tree } = createComponent({
+      props: {
+        showCheckbox: true,
+        checkOnClickNode: true,
+      },
+    })
+
+    // check child node when folder node checked,
+    // value.value will be 111
+    await tree.findAll('.el-tree-node__content').slice(-1)[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).equal(111)
+
+    // unselect when has child checked
+    await tree.findAll('.el-tree-node__content').slice(-1)[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toBe(undefined)
+  })
 })
