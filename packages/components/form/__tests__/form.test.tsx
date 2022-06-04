@@ -210,6 +210,14 @@ describe('Form', () => {
                 <Input v-model={form.address} />
               </FormItem>
             </Form>
+            <Form model={form} ref="labelRight">
+              <FormItem>
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem>
+                <Input v-model={form.address} />
+              </FormItem>
+            </Form>
           </div>
         )
       },
@@ -219,6 +227,9 @@ describe('Form', () => {
     )
     expect(wrapper.findComponent({ ref: 'labelLeft' }).classes()).toContain(
       'el-form--label-left'
+    )
+    expect(wrapper.findComponent({ ref: 'labelRight' }).classes()).toContain(
+      'el-form--label-right'
     )
   })
 

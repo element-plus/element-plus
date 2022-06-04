@@ -39,32 +39,29 @@ $button-icon-span-gap: map.merge(
   user-select: none;
   vertical-align: middle;
   -webkit-appearance: none;
+  background-color: getCssVar('button', 'bg-color');
+  border: getCssVar('border');
+  border-color: getCssVar('button', 'border-color');
 
-  &:not(.is-text, .is-link, .#{$namespace}-button--text) {
-    background-color: getCssVar('button', 'bg-color');
-    border: getCssVar('border');
-    border-color: getCssVar('button', 'border-color');
+  &:hover,
+  &:focus {
+    color: getCssVar('button', 'hover', 'text-color');
+    border-color: getCssVar('button', 'hover', 'border-color');
+    background-color: getCssVar('button', 'hover', 'bg-color');
+    outline: none;
+  }
 
-    &:hover,
-    &:focus {
-      color: getCssVar('button', 'hover', 'text-color');
-      border-color: getCssVar('button', 'hover', 'border-color');
-      background-color: getCssVar('button', 'hover', 'bg-color');
-      outline: none;
-    }
+  &:active {
+    color: getCssVar('button', 'active', 'text-color');
+    border-color: getCssVar('button', 'active', 'border-color');
+    background-color: getCssVar('button', 'active', 'bg-color');
+    outline: none;
+  }
 
-    &:active {
-      color: getCssVar('button', 'active', 'text-color');
-      border-color: getCssVar('button', 'active', 'border-color');
-      background-color: getCssVar('button', 'active', 'bg-color');
-      outline: none;
-    }
-
-    &:focus-visible {
-      border-color: transparent;
-      outline: 2px solid getCssVar('button', 'border-color');
-      outline-offset: 1px;
-    }
+  &:focus-visible {
+    border-color: transparent;
+    outline: 2px solid getCssVar('button', 'border-color');
+    outline-offset: 1px;
   }
 
   > span {
@@ -205,10 +202,12 @@ $button-icon-span-gap: map.merge(
 
   @include when(link) {
     border-color: transparent;
-    // color: getCssVar('color', 'primary');
+    color: getCssVar('button', 'text-color');
     background: transparent;
     padding-left: 0;
     padding-right: 0;
+    outline: 0;
+    outline-offset: 0;
 
     &:hover {
       color: getCssVar('button', 'hover', 'link-text-color');
@@ -223,13 +222,11 @@ $button-icon-span-gap: map.merge(
     &:not(.is-disabled) {
       &:hover,
       &:focus {
-        // color: getCssVar('color', 'primary', 'light-3');
         border-color: transparent;
         background-color: transparent;
       }
 
       &:active {
-        // color: getCssVar('color', 'primary', 'dark-2');
         border-color: transparent;
         background-color: transparent;
       }

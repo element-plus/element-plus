@@ -86,6 +86,9 @@ export default {
       noData: 'No data',
       placeholder: 'Select',
     },
+    dropdown: {
+      toggleDropdown: 'Toggle Dropdown',
+    },
     cascader: {
       noMatch: 'No matching data',
       loading: 'Loading',

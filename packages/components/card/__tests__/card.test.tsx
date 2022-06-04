@@ -55,12 +55,12 @@ describe('Card.vue', () => {
     const style = [{ 'font-size': '14px' }, { color: 'blue' }]
     const wrapper = mount(() => <Card bodyStyle={style}>{AXIOM}</Card>)
     expect(
-      wrapper.find('.el-card__body').attributes('style').replace(/[ ]/g, '')
+      wrapper.find('.el-card__body').attributes('style')?.replace(/[ ]/g, '')
     ).toBe('font-size:14px;color:blue;')
   })
 
   test('shadow', () => {
-    const shadow = 'test-shadow'
+    const shadow = 'always'
     const wrapper = mount(() => <Card shadow={shadow}>{AXIOM}</Card>)
 
     expect(wrapper.find(`.is-${shadow}-shadow`).exists()).toBe(true)

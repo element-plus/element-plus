@@ -70,12 +70,7 @@
 <script lang="ts" setup>
 import { computed, provide, ref, useSlots } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
-import {
-  useDeprecated,
-  useDraggable,
-  useNamespace,
-  useSameTarget,
-} from '@element-plus/hooks'
+import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
 import { dialogInjectionKey } from '@element-plus/tokens'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElDialogContent from './dialog-content.vue'
@@ -135,8 +130,6 @@ provide(dialogInjectionKey, {
 const overlayEvent = useSameTarget(onModalClick)
 
 const draggable = computed(() => props.draggable && !props.fullscreen)
-
-useDraggable(dialogRef, headerRef, draggable)
 
 defineExpose({
   /** @description whether the dialog is visible */

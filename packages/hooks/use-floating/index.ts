@@ -2,8 +2,7 @@ import { isRef, onMounted, ref, unref, watchEffect } from 'vue'
 import { isClient, unrefElement } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { arrow as arrowCore, computePosition } from '@floating-ui/dom'
-
-import { buildProps } from '@element-plus/utils'
+import { buildProps, keysOf } from '@element-plus/utils'
 
 import type { Ref, ToRefs } from 'vue'
 import type {
@@ -75,7 +74,7 @@ export const useFloating = ({
       middleware: unref(middleware),
     })
 
-    Object.keys(states).forEach((key) => {
+    keysOf(states).forEach((key) => {
       states[key].value = data[key]
     })
   }

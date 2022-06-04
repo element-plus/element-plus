@@ -28,6 +28,7 @@
         :popper-class="popperClass"
         :popper-style="[popperStyle, contentStyle]"
         :reference-el="referenceEl"
+        :trigger-target-el="triggerTargetEl"
         :visible="shouldShow"
         :z-index="zIndex"
         @mouseenter="onContentEnter"
@@ -142,6 +143,18 @@ export default defineComponent({
 
     const onAfterShow = () => {
       onShow()
+      stopHandle = onClickOutside(
+        computed(() => {
+          return contentRef.value?.popperContentRef
+        }),
+        () => {
+          if (unref(controlled)) return
+          const $trigger = unref(trigger)
+          if ($trigger !== 'hover') {
+            onClose()
+          }
+        }
+      )
     }
 
     const onBlur = () => {
@@ -155,20 +168,7 @@ export default defineComponent({
     watch(
       () => unref(open),
       (val) => {
-        if (val) {
-          stopHandle = onClickOutside(
-            computed(() => {
-              return contentRef.value?.popperContentRef
-            }),
-            () => {
-              if (unref(controlled)) return
-              const $trigger = unref(trigger)
-              if ($trigger !== 'hover') {
-                onClose()
-              }
-            }
-          )
-        } else {
+        if (!val) {
           stopHandle?.()
         }
       },

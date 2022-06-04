@@ -120,7 +120,7 @@ cascader/filterable
 
 You can customize the content of cascader node.
 
-:::demo You can customize the content of cascader node by `scoped slot`. You'll have access to `node` and `data` in the scope, standing for the Node object and node data of the current node respectively。
+:::demo You can customize the content of cascader node by `scoped slot`. You'll have access to `node` and `data` in the scope, standing for the Node object and node data of the current node respectively.
 
 cascader/custom-content
 

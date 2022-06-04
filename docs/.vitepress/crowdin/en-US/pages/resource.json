@@ -1,6 +1,7 @@
 {
   "title": "Resources",
-  "lineOne": "More resources are still in development...",
+  "lineOne": "More resources are still under development. ",
+  "lineTwo": "If you are interested in participating in the design of Element Plus, be our guest to contact us via <span><a href=\"mailto:element-plus@outlook.com\" target=\"_blank\">element-plus@outlook.com</a></span>.",
   "download": "Download",
   "axure": "Axure Components",
   "axureIntro": "By importing Element Plus in Axure, you can easily apply all the components we provide during interaction design.",

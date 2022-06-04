@@ -96,6 +96,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       cellChild.scrollWidth > cellChild.offsetWidth
     ) {
       createTablePopper(
+        parent?.refs.tableWrapper,
         cell,
         cell.innerText || cell.textContent,
         {

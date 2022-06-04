@@ -61,7 +61,7 @@
           <el-icon
             v-if="showClose && clearIcon"
             :class="`${nsInput.e('icon')} clear-icon`"
-            @click="onClearIconClick"
+            @click.stop="onClearIconClick"
           >
             <component :is="clearIcon" />
           </el-icon>
@@ -352,10 +352,16 @@ export default defineComponent({
         _inputs[1].focus()
       }
     }
+    const focusOnInputBox = () => {
+      focus(true, true)
+      nextTick(() => {
+        ignoreFocusEvent = false
+      })
+    }
 
     const onPick = (date: any = '', visible = false) => {
       if (!visible) {
-        focus(true, true)
+        focusOnInputBox()
       }
       pickerVisible.value = visible
       let result
@@ -514,11 +520,11 @@ export default defineComponent({
 
     const showClose = ref(false)
 
-    const onClearIconClick = (event) => {
+    const onClearIconClick = (event: MouseEvent) => {
       if (props.readonly || pickerDisabled.value) return
       if (showClose.value) {
         event.stopPropagation()
-        focus(true, true)
+        focusOnInputBox()
         emitInput(null)
         emitChange(null, true)
         showClose.value = false
@@ -532,8 +538,13 @@ export default defineComponent({
         (Array.isArray(props.modelValue) && !props.modelValue.length)
       )
     })
-    const onMouseDownInput = () => {
-      pickerVisible.value = true
+    const onMouseDownInput = async (event: MouseEvent) => {
+      if (
+        (event.target as HTMLElement)?.tagName !== 'INPUT' ||
+        refInput.value.includes(document.activeElement as HTMLInputElement)
+      ) {
+        pickerVisible.value = true
+      }
     }
     const onMouseEnter = () => {
       if (props.readonly || pickerDisabled.value) return
@@ -544,8 +555,13 @@ export default defineComponent({
     const onMouseLeave = () => {
       showClose.value = false
     }
-    const onTouchStartInput = () => {
-      pickerVisible.value = true
+    const onTouchStartInput = (event: TouchEvent) => {
+      if (
+        (event.touches[0].target as HTMLElement)?.tagName !== 'INPUT' ||
+        refInput.value.includes(document.activeElement as HTMLInputElement)
+      ) {
+        pickerVisible.value = true
+      }
     }
     const isRangeInput = computed(() => {
       return props.type.includes('range')
@@ -673,6 +689,11 @@ export default defineComponent({
     }
     const onUserInput = (e) => {
       userInput.value = e
+      // Temporary fix when the picker is dismissed and the input box
+      // is focused, just mimic the behavior of antdesign.
+      if (!pickerVisible.value) {
+        pickerVisible.value = true
+      }
     }
 
     const handleStartInput = (event) => {

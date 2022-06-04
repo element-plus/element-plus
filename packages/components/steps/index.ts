@@ -8,3 +8,6 @@ export const ElSteps = withInstall(Steps, {
 })
 export default ElSteps
 export const ElStep = withNoopInstall(Step)
+
+export * from './src/item'
+export * from './src/steps'

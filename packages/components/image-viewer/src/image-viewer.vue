@@ -64,7 +64,7 @@
           <img
             v-for="(url, i) in urlList"
             v-show="i === index"
-            :ref="(el) => (imgRefs[i] = el)"
+            :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
             :key="url"
             :src="url"
             :style="imgStyle"
@@ -88,13 +88,14 @@ import {
   nextTick,
   onMounted,
   ref,
+  shallowRef,
   watch,
 } from 'vue'
 import { isNumber, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import { isFirefox } from '@element-plus/utils'
+import { isFirefox, keysOf } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import {
   ArrowLeft,
@@ -110,9 +111,9 @@ import {
 import { imageViewerEmits, imageViewerProps } from './image-viewer'
 
 import type { CSSProperties } from 'vue'
-import type { ImageViewerAction } from './image-viewer'
+import type { ImageViewerAction, ImageViewerMode } from './image-viewer'
 
-const Mode = {
+const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
   CONTAIN: {
     name: 'contain',
     icon: markRaw(FullScreen),
@@ -136,13 +137,13 @@ const { t } = useLocale()
 const ns = useNamespace('image-viewer')
 const { nextZIndex } = useZIndex()
 const wrapper = ref<HTMLDivElement>()
-const imgRefs = ref<any[]>([])
+const imgRefs = ref<HTMLImageElement[]>([])
 
 const scopeEventListener = effectScope()
 
 const loading = ref(true)
 const index = ref(props.initialIndex)
-const mode = ref(Mode.CONTAIN)
+const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
   scale: 1,
   deg: 0,
@@ -192,7 +193,7 @@ const imgStyle = computed(() => {
     transform: `scale(${scale}) rotate(${deg}deg) translate(${translateX}px, ${translateY}px)`,
     transition: enableTransition ? 'transform .3s' : '',
   }
-  if (mode.value.name === Mode.CONTAIN.name) {
+  if (mode.value.name === modes.CONTAIN.name) {
     style.maxWidth = style.maxHeight = '100%'
   }
   return style
@@ -308,12 +309,12 @@ function reset() {
 function toggleMode() {
   if (loading.value) return
 
-  const modeNames = Object.keys(Mode)
-  const modeValues = Object.values(Mode)
+  const modeNames = keysOf(modes)
+  const modeValues = Object.values(modes)
   const currentMode = mode.value.name
   const index = modeValues.findIndex((i) => i.name === currentMode)
   const nextIndex = (index + 1) % modeNames.length
-  mode.value = Mode[modeNames[nextIndex]]
+  mode.value = modes[modeNames[nextIndex]]
   reset()
 }
 

@@ -300,6 +300,7 @@
     @include pagination-button;
     cursor: pointer;
     text-align: center;
+    margin: 0 1px;
 
     &.btn-quickprev:hover {
       cursor: pointer;

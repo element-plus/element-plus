@@ -1,6 +1,7 @@
 import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
 import { configProviderContextKey } from '@element-plus/tokens'
 import { debugWarn, keysOf } from '@element-plus/utils'
+
 import type { MaybeRef } from '@vueuse/core'
 import type { App, Ref } from 'vue'
 import type { ConfigProviderContext } from '@element-plus/tokens'
@@ -66,7 +67,7 @@ const mergeConfig = (
   b: ConfigProviderContext
 ): ConfigProviderContext => {
   const keys = [...new Set([...keysOf(a), ...keysOf(b)])]
-  const obj = {}
+  const obj: Record<string, any> = {}
   for (const key of keys) {
     obj[key] = b[key] ?? a[key]
   }

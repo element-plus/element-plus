@@ -166,11 +166,11 @@ const style = computed(() => {
   return style
 })
 
-const setIndex = (val) => {
+const setIndex = (val: number) => {
   index.value = val
 }
 
-const calcProgress = (status) => {
+const calcProgress = (status: string) => {
   let step = 100
   const style: Record<string, unknown> = {}
   style.transitionDelay = `${150 * index.value}ms`
@@ -185,7 +185,7 @@ const calcProgress = (status) => {
   lineStyle.value = style
 }
 
-const updateStatus = (activeIndex) => {
+const updateStatus = (activeIndex: number) => {
   if (activeIndex > index.value) {
     internalStatus.value = parent.props.finishStatus
   } else if (activeIndex === index.value && prevStatus.value !== 'error') {

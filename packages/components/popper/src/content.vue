@@ -3,9 +3,6 @@
     ref="popperContentRef"
     :style="contentStyle"
     :class="contentClass"
-    :role="role"
-    :aria-label="ariaLabel"
-    :aria-modal="ariaModal"
     tabindex="-1"
     @mouseenter="(e) => $emit('mouseenter', e)"
     @mouseleave="(e) => $emit('mouseleave', e)"
@@ -27,8 +24,19 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onMounted, provide, ref, unref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
+  toRefs,
+  unref,
+  watch,
+} from 'vue'
 import { NOOP } from '@vue/shared'
+import { isNil } from 'lodash-unified'
 import { createPopper } from '@popperjs/core'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useNamespace, useZIndex } from '@element-plus/hooks'
@@ -37,6 +45,7 @@ import {
   POPPER_INJECTION_KEY,
   formItemContextKey,
 } from '@element-plus/tokens'
+import { isElement } from '@element-plus/utils'
 import { usePopperContentEmits, usePopperContentProps } from './content'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
 
@@ -80,6 +89,8 @@ if (
 
 const contentZIndex = ref<number>(props.zIndex || nextZIndex())
 const trapped = ref<boolean>(false)
+
+let triggerTargetAriaStopWatch: WatchStopHandle | undefined = undefined
 
 const computedReference = computed(
   () => unwrapMeasurableEl(props.referenceEl) || unref(triggerRef)
@@ -194,6 +205,38 @@ onMounted(() => {
     }
   )
 
+  watch(
+    () => props.triggerTargetEl,
+    (triggerTargetEl, prevTriggerTargetEl) => {
+      triggerTargetAriaStopWatch?.()
+      triggerTargetAriaStopWatch = undefined
+
+      const el = unref(triggerTargetEl || popperContentRef.value)
+      const prevEl = unref(prevTriggerTargetEl || popperContentRef.value)
+
+      if (isElement(el)) {
+        const { ariaLabel, id } = toRefs(props)
+        triggerTargetAriaStopWatch = watch(
+          [role, ariaLabel, ariaModal, id],
+          (watches) => {
+            ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key, idx) => {
+              isNil(watches[idx])
+                ? el.removeAttribute(key)
+                : el.setAttribute(key, watches[idx])
+            })
+          },
+          { immediate: true }
+        )
+      }
+      if (isElement(prevEl)) {
+        ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key) => {
+          prevEl.removeAttribute(key)
+        })
+      }
+    },
+    { immediate: true }
+  )
+
   watch(() => props.visible, togglePopperAlive, { immediate: true })
 
   watch(
@@ -204,6 +247,11 @@ onMounted(() => {
       }),
     (option) => popperInstanceRef.value?.setOptions(option)
   )
+})
+
+onBeforeUnmount(() => {
+  triggerTargetAriaStopWatch?.()
+  triggerTargetAriaStopWatch = undefined
 })
 
 defineExpose({

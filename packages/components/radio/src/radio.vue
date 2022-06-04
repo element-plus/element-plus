@@ -41,7 +41,8 @@
 <script lang="ts" setup>
 import { nextTick } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { radioEmits, radioProps, useRadio } from './radio'
+import { radioEmits, radioProps } from './radio'
+import { useRadio } from './use-radio'
 
 defineOptions({
   name: 'ElRadio',

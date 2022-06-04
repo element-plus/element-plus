@@ -12,6 +12,7 @@ import {
   unref,
   watch,
 } from 'vue'
+import { isNil } from 'lodash-unified'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useEscapeKeydown } from '@element-plus/hooks'
 import { isString } from '@element-plus/utils'
@@ -168,12 +169,16 @@ export default defineComponent({
       if (focusLayer.paused || !trapContainer) return
 
       if (props.trapped) {
-        if (
-          !trapContainer.contains(
-            (e as FocusEvent).relatedTarget as HTMLElement | null
-          )
-        ) {
-          tryFocus(lastFocusAfterTrapped, true)
+        const relatedTarget = (e as FocusEvent)
+          .relatedTarget as HTMLElement | null
+        if (!isNil(relatedTarget) && !trapContainer.contains(relatedTarget)) {
+          // Give embedded focus layer time to pause this layer before reclaiming focus
+          // And only reclaim focus if it should currently be trapping
+          setTimeout(() => {
+            if (!focusLayer.paused && props.trapped) {
+              tryFocus(lastFocusAfterTrapped, true)
+            }
+          }, 0)
         }
       } else {
         const target = e.target as HTMLElement | null

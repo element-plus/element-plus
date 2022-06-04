@@ -32,7 +32,7 @@ jobs:
           CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
 
       - name: Pull Crowdin translations
-        run: cd docs && pnpm exec crowdin -v download -l zh-CN && pnpm exec crowdin download -l es-ES
+        run: cd docs && pnpm exec crowdin download -l es-ES && pnpm exec crowdin download -l zh-CN
 
       - name: Generate common locale
         run: pnpm docs:gen-locale

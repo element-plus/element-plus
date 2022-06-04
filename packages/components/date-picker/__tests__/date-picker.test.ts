@@ -272,6 +272,50 @@ describe('DatePicker', () => {
     expect(onChangeValue?.getTime()).toBe(new Date(2016, 9, 1).getTime())
   })
 
+  it('emits focus on click when not currently focused', async () => {
+    const focusHandler = vi.fn()
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        @focus="onFocus"
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) }),
+      {
+        methods: {
+          onFocus(e: Event) {
+            return focusHandler(e)
+          },
+        },
+      }
+    )
+
+    const input = wrapper.find('input')
+    input.trigger('mousedown')
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+  })
+
+  it('opens popper on click when input is focused', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="value"
+        @focus="onFocus"
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) })
+    )
+    const popperEl = document.querySelector('.el-picker__popper') as HTMLElement
+    expect(popperEl.style.display).toBe('none')
+    const input = wrapper.find('input')
+    input.element.focus()
+    input.trigger('mousedown')
+    await nextTick()
+    await rAF()
+
+    expect(popperEl.style.display).not.toBe('none')
+  })
+
   it('shortcuts', async () => {
     const text = 'Yesterday'
     const value = new Date(Date.now() - 86400000)

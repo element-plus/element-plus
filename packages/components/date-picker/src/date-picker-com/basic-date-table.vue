@@ -4,8 +4,7 @@
     :aria-label="t('el.datepicker.dateTablePrompt')"
     cellspacing="0"
     cellpadding="0"
-    class="el-date-table"
-    :class="{ 'is-week-mode': selectionMode === 'week' }"
+    :class="[ns.b(), { 'is-week-mode': selectionMode === 'week' }]"
     @click="handlePickDate"
     @mousemove="handleMouseMove"
   >
@@ -24,8 +23,7 @@
       <tr
         v-for="(row, key) in rows"
         :key="key"
-        class="el-date-table__row"
-        :class="{ current: isWeekActive(row[1]) }"
+        :class="[ns.e('row'), { current: isWeekActive(row[1]) }]"
       >
         <td
           v-for="(cell, key_) in row"
@@ -47,10 +45,10 @@
 <script lang="ts">
 import { computed, defineComponent, nextTick, ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray } from '@element-plus/utils'
+import { basicDateTableProps } from '../props/basic-date-table'
 import ElDatePickerCell from './basic-cell-render'
-import type { PropType } from 'vue'
 
 import type { Dayjs } from 'dayjs'
 import type { DateCell } from '../date-picker.type'
@@ -59,44 +57,12 @@ export default defineComponent({
   components: {
     ElDatePickerCell,
   },
-  props: {
-    date: {
-      type: Object as PropType<Dayjs>,
-    },
-    minDate: {
-      type: Object as PropType<Dayjs>,
-    },
-    maxDate: {
-      type: Object as PropType<Dayjs>,
-    },
-    parsedValue: {
-      type: [Object, Array] as PropType<Dayjs | Dayjs[]>,
-    },
-    selectionMode: {
-      type: String,
-      default: 'date',
-    },
-    showWeekNumber: {
-      type: Boolean,
-      default: false,
-    },
-    disabledDate: {
-      type: Function,
-    },
-    cellClassName: {
-      type: Function,
-    },
-    rangeState: {
-      type: Object,
-      default: () => ({
-        endDate: null,
-        selecting: false,
-      }),
-    },
-  },
+  props: basicDateTableProps,
   emits: ['changerange', 'pick', 'select'],
   expose: ['focus'],
   setup(props, ctx) {
+    const ns = useNamespace('date-table')
+
     const { t, lang } = useLocale()
 
     const tbodyRef = ref<HTMLElement>()
@@ -406,7 +372,7 @@ export default defineComponent({
       const newDate = getDateOfCell(row, column)
 
       if (props.selectionMode === 'range') {
-        if (!props.rangeState.selecting) {
+        if (!props.rangeState.selecting || !props.minDate) {
           ctx.emit('pick', { minDate: newDate, maxDate: null })
           ctx.emit('select', true)
         } else {
@@ -462,6 +428,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       tbodyRef,
       currentCellRef,
       handleMouseMove,
