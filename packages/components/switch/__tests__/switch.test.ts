@@ -42,6 +42,15 @@ describe('Switch.vue', () => {
     expect(wrapper.find('.el-switch--large').exists()).toBe(true)
   })
 
+  test('tabindex', () => {
+    const wrapper = mount(Switch, {
+      props: {
+        tabindex: '0',
+      },
+    })
+    expect(wrapper.find('.el-switch__input').attributes().tabindex).toBe('0')
+  })
+
   test('inline prompt', () => {
     const wrapper = mount(Switch, {
       props: {

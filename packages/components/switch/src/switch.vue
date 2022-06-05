@@ -12,6 +12,7 @@
       :true-value="activeValue"
       :false-value="inactiveValue"
       :disabled="switchDisabled"
+      :tabindex="tabindex"
       @change="handleChange"
       @keydown.enter="switchValue"
     />
