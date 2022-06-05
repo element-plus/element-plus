@@ -79,6 +79,7 @@ const lastRow = ref<number>()
 const lastColumn = ref<number>()
 const rows = computed<MonthCell[][]>(() => {
   const rows = tableRows.value
+
   const now = dayjs().locale(lang.value).startOf('month')
 
   for (let i = 0; i < 3; i++) {

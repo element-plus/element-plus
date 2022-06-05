@@ -21,17 +21,17 @@
         </th>
       </tr>
       <tr
-        v-for="(row, key) in rows"
-        :key="key"
+        v-for="(row, rowKey) in rows"
+        :key="rowKey"
         :class="[ns.e('row'), { current: isWeekActive(row[1]) }]"
       >
         <td
-          v-for="(cell, key_) in row"
-          :key="key_"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          v-for="(cell, columnKey) in row"
+          :key="`${rowKey}.${columnKey}`"
+          :ref="(el) => { isSelectedCell(cell) && (currentCellRef = el as HTMLElement) }"
           :class="getCellClasses(cell)"
           :aria-current="cell.isCurrent ? 'date' : undefined"
-          :aria-selected="`${cell.isCurrent}`"
+          :aria-selected="cell.isCurrent"
           :tabindex="isSelectedCell(cell) ? 0 : -1"
           @focus="handleFocus"
         >
@@ -43,11 +43,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray } from '@element-plus/utils'
 import { basicDateTableProps } from '../props/basic-date-table'
+import { buildPickerTable } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
 
 import type { Dayjs } from 'dayjs'
@@ -63,8 +64,8 @@ const { t, lang } = useLocale()
 const tbodyRef = ref<HTMLElement>()
 const currentCellRef = ref<HTMLElement>()
 // data
-const lastRow = ref(null)
-const lastColumn = ref(null)
+const lastRow = ref<number>()
+const lastColumn = ref<number>()
 const tableRows = ref<DateCell[][]>([[], [], [], [], [], []])
 
 // todo better way to get Day.js locale object
@@ -98,128 +99,148 @@ const hasCurrent = computed<boolean>(() => {
   })
 })
 
-const rows = computed(() => {
-  // TODO: refactory rows / getCellClasses
+const days = computed(() => {
   const startOfMonth = props.date.startOf('month')
   const startOfMonthDay = startOfMonth.day() || 7 // day of first day
   const dateCountOfMonth = startOfMonth.daysInMonth()
+
   const dateCountOfLastMonth = startOfMonth.subtract(1, 'month').daysInMonth()
+
+  return {
+    startOfMonthDay,
+    dateCountOfMonth,
+    dateCountOfLastMonth,
+  }
+})
+
+const selectedDate = computed(() => {
+  return props.selectionMode === 'dates'
+    ? (castArray(props.parsedValue) as Dayjs[])
+    : ([] as Dayjs[])
+})
+
+// Return value indicates should the counter be incremented
+const setDateText = (
+  cell: DateCell,
+  {
+    count,
+    rowIndex,
+    columnIndex,
+  }: {
+    count: number
+    rowIndex: number
+    columnIndex: number
+  }
+): boolean => {
+  const { startOfMonthDay, dateCountOfMonth, dateCountOfLastMonth } =
+    unref(days)
+  const offset = unref(offsetDay)
+  if (rowIndex >= 0 && rowIndex <= 1) {
+    const numberOfDaysFromPreviousMonth =
+      startOfMonthDay + offset < 0
+        ? 7 + startOfMonthDay + offset
+        : startOfMonthDay + offset
+
+    if (columnIndex + rowIndex * 7 >= numberOfDaysFromPreviousMonth) {
+      cell.text = count
+      return true
+    } else {
+      cell.text =
+        dateCountOfLastMonth -
+        (numberOfDaysFromPreviousMonth - (columnIndex % 7)) +
+        1 +
+        rowIndex * 7
+      cell.type = 'prev-month'
+    }
+  } else {
+    if (count <= dateCountOfMonth) {
+      cell.text = count
+    } else {
+      cell.text = count - dateCountOfMonth
+      cell.type = 'next-month'
+    }
+    return true
+  }
+  return false
+}
+
+const setCellMetadata = (
+  cell: DateCell,
+  {
+    columnIndex,
+    rowIndex,
+  }: {
+    columnIndex: number
+    rowIndex: number
+  },
+  count: number
+) => {
+  const { disabledDate, cellClassName } = props
+  const _selectedDate = unref(selectedDate)
+  const shouldIncrement = setDateText(cell, { count, rowIndex, columnIndex })
+
+  const cellDate = cell.dayjs!.toDate()
+  cell.selected = _selectedDate.find(
+    (d) => d.valueOf() === cell.dayjs!.valueOf()
+  )
+  cell.isSelected = !!cell.selected
+  cell.isCurrent = isCurrent(cell)
+  cell.disabled = disabledDate?.(cellDate)
+  cell.customClass = cellClassName?.(cellDate)
+  return shouldIncrement
+}
+
+const setRowMetadata = (row: DateCell[]) => {
+  if (props.selectionMode === 'week') {
+    const [start, end] = props.showWeekNumber ? [1, 7] : [0, 6]
+    const isActive = isWeekActive(row[start + 1])
+    row[start].inRange = isActive
+    row[start].start = isActive
+    row[end].inRange = isActive
+    row[end].end = isActive
+  }
+}
+
+const rows = computed(() => {
+  const { minDate, maxDate, rangeState, showWeekNumber } = props
 
   const offset = offsetDay.value
   const rows_ = tableRows.value
+  const dateUnit = 'day'
   let count = 1
 
-  const selectedDate: Dayjs[] =
-    props.selectionMode === 'dates' ? castArray(props.parsedValue) : []
-
-  const calNow = dayjs().locale(lang.value).startOf('day')
-
-  for (let i = 0; i < 6; i++) {
-    const row = rows_[i]
-
-    if (props.showWeekNumber) {
-      if (!row[0]) {
-        row[0] = {
+  if (showWeekNumber) {
+    for (let rowIndex = 0; rowIndex < 6; rowIndex++) {
+      if (!rows_[rowIndex][0]) {
+        rows_[rowIndex][0] = {
           type: 'week',
-          text: startDate.value.add(i * 7 + 1, 'day').week(),
+          text: startDate.value.add(rowIndex * 7 + 1, dateUnit).week(),
         }
       }
-    }
-
-    for (let j = 0; j < 7; j++) {
-      let cell = row[props.showWeekNumber ? j + 1 : j]
-      if (!cell) {
-        cell = {
-          row: i,
-          column: j,
-          type: 'normal',
-          inRange: false,
-          start: false,
-          end: false,
-        }
-      }
-      const index = i * 7 + j
-      const calTime = startDate.value.add(index - offset, 'day')
-      cell.dayjs = calTime
-      cell.date = calTime.toDate()
-      cell.timestamp = calTime.valueOf()
-      cell.type = 'normal'
-
-      const calEndDate =
-        props.rangeState.endDate ||
-        props.maxDate ||
-        (props.rangeState.selecting && props.minDate)
-
-      cell.inRange =
-        (props.minDate &&
-          calTime.isSameOrAfter(props.minDate, 'day') &&
-          calEndDate &&
-          calTime.isSameOrBefore(calEndDate, 'day')) ||
-        (props.minDate &&
-          calTime.isSameOrBefore(props.minDate, 'day') &&
-          calEndDate &&
-          calTime.isSameOrAfter(calEndDate, 'day'))
-
-      if (props.minDate?.isSameOrAfter(calEndDate)) {
-        cell.start = calEndDate && calTime.isSame(calEndDate, 'day')
-        cell.end = props.minDate && calTime.isSame(props.minDate, 'day')
-      } else {
-        cell.start = props.minDate && calTime.isSame(props.minDate, 'day')
-        cell.end = calEndDate && calTime.isSame(calEndDate, 'day')
-      }
-
-      const isToday = calTime.isSame(calNow, 'day')
-
-      if (isToday) {
-        cell.type = 'today'
-      }
-
-      if (i >= 0 && i <= 1) {
-        const numberOfDaysFromPreviousMonth =
-          startOfMonthDay + offset < 0
-            ? 7 + startOfMonthDay + offset
-            : startOfMonthDay + offset
-
-        if (j + i * 7 >= numberOfDaysFromPreviousMonth) {
-          cell.text = count++
-        } else {
-          cell.text =
-            dateCountOfLastMonth -
-            (numberOfDaysFromPreviousMonth - (j % 7)) +
-            1 +
-            i * 7
-          cell.type = 'prev-month'
-        }
-      } else {
-        if (count <= dateCountOfMonth) {
-          cell.text = count++
-        } else {
-          cell.text = count++ - dateCountOfMonth
-          cell.type = 'next-month'
-        }
-      }
-
-      const cellDate = calTime.toDate()
-      cell.selected = selectedDate.find(
-        (_) => _.valueOf() === calTime.valueOf()
-      )
-      cell.isSelected = !!cell.selected
-      cell.isCurrent = isCurrent(cell)
-      cell.disabled = props.disabledDate && props.disabledDate(cellDate)
-      cell.customClass = props.cellClassName && props.cellClassName(cellDate)
-      row[props.showWeekNumber ? j + 1 : j] = cell
-    }
-
-    if (props.selectionMode === 'week') {
-      const start = props.showWeekNumber ? 1 : 0
-      const end = props.showWeekNumber ? 7 : 6
-      const isActive = isWeekActive(row[start + 1])
-      row[start].inRange = isActive
-      row[start].start = isActive
-      row[end].inRange = isActive
-      row[end].end = isActive
     }
   }
+
+  buildPickerTable({ row: 6, column: 7 }, rows_, {
+    startDate: minDate,
+    columnIndexOffset: showWeekNumber ? 1 : 0,
+    nextEndDate:
+      rangeState.endDate ||
+      maxDate ||
+      (rangeState.selecting && minDate) ||
+      null,
+    now: dayjs().locale(unref(lang)).startOf(dateUnit),
+    unit: dateUnit,
+    relativeDateGetter: (idx: number) =>
+      startDate.value.add(idx - offset, dateUnit),
+    setCellMetadata: (...args) => {
+      if (setCellMetadata(...args, count)) {
+        count += 1
+      }
+    },
+
+    setRowMetadata,
+  })
+
   return rows_
 })
 
@@ -237,30 +258,34 @@ const focus = async () => {
   currentCellRef.value?.focus()
 }
 
-const isCurrent = (cell): boolean => {
+const isNormalDay = (type = '') => {
+  return ['normal', 'today'].includes(type)
+}
+
+const isCurrent = (cell: DateCell): boolean => {
   return (
     props.selectionMode === 'date' &&
-    (cell.type === 'normal' || cell.type === 'today') &&
-    cellMatchesDate(cell, props.parsedValue)
+    isNormalDay(cell.type) &&
+    cellMatchesDate(cell, props.parsedValue as Dayjs)
   )
 }
 
-const cellMatchesDate = (cell, date) => {
+const cellMatchesDate = (cell: DateCell, date: Dayjs) => {
   if (!date) return false
   return dayjs(date)
     .locale(lang.value)
     .isSame(props.date.date(Number(cell.text)), 'day')
 }
 
-const getCellClasses = (cell) => {
+const getCellClasses = (cell: DateCell) => {
   const classes: string[] = []
-  if ((cell.type === 'normal' || cell.type === 'today') && !cell.disabled) {
+  if (isNormalDay(cell.type) && !cell.disabled) {
     classes.push('available')
     if (cell.type === 'today') {
       classes.push('today')
     }
   } else {
-    classes.push(cell.type)
+    classes.push(cell.type!)
   }
 
   if (isCurrent(cell)) {
@@ -269,9 +294,7 @@ const getCellClasses = (cell) => {
 
   if (
     cell.inRange &&
-    (cell.type === 'normal' ||
-      cell.type === 'today' ||
-      props.selectionMode === 'week')
+    (isNormalDay(cell.type) || props.selectionMode === 'week')
   ) {
     classes.push('in-range')
 
@@ -299,26 +322,26 @@ const getCellClasses = (cell) => {
   return classes.join(' ')
 }
 
-const getDateOfCell = (row, column) => {
+const getDateOfCell = (row: number, column: number) => {
   const offsetFromStart =
     row * 7 + (column - (props.showWeekNumber ? 1 : 0)) - offsetDay.value
   return startDate.value.add(offsetFromStart, 'day')
 }
 
-const handleMouseMove = (event) => {
+const handleMouseMove = (event: MouseEvent) => {
   if (!props.rangeState.selecting) return
 
-  let target = event.target
+  let target = event.target as HTMLElement
   if (target.tagName === 'SPAN') {
-    target = target.parentNode.parentNode
+    target = target.parentNode?.parentNode as HTMLElement
   }
   if (target.tagName === 'DIV') {
-    target = target.parentNode
+    target = target.parentNode as HTMLElement
   }
   if (target.tagName !== 'TD') return
 
-  const row = target.parentNode.rowIndex - 1
-  const column = target.cellIndex
+  const row = (target.parentNode as HTMLTableRowElement).rowIndex - 1
+  const column = (target as HTMLTableCellElement).cellIndex
 
   // can not select disabled date
   if (rows.value[row][column].disabled) return
@@ -349,9 +372,7 @@ const handleFocus = (event: Event) => {
 }
 
 const handlePickDate = (event: Event, isKeyboardMovement = false) => {
-  let target = event.target as HTMLElement
-
-  target = target?.closest('td')
+  const target = (event.target as HTMLElement).closest('td')
 
   if (!target || target.tagName !== 'TD') return
 
@@ -389,14 +410,14 @@ const handlePickDate = (event: Event, isKeyboardMovement = false) => {
   } else if (props.selectionMode === 'dates') {
     const newValue = cell.selected
       ? castArray(props.parsedValue).filter(
-          (_) => _.valueOf() !== newDate.valueOf()
+          (d) => d?.valueOf() !== newDate.valueOf()
         )
       : castArray(props.parsedValue).concat([newDate])
     emit('pick', newValue)
   }
 }
 
-const isWeekActive = (cell) => {
+const isWeekActive = (cell: DateCell) => {
   if (props.selectionMode !== 'week') return false
   let newDate = props.date.startOf('day')
 
@@ -408,7 +429,7 @@ const isWeekActive = (cell) => {
     newDate = newDate.add(1, 'month')
   }
 
-  newDate = newDate.date(Number.parseInt(cell.text, 10))
+  newDate = newDate.date(Number.parseInt(cell.text as any, 10))
 
   if (props.parsedValue && !Array.isArray(props.parsedValue)) {
     const dayOffset = ((props.parsedValue.day() - firstDayOfWeek + 7) % 7) - 1
