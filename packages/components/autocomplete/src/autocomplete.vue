@@ -261,10 +261,16 @@ const focus = () => {
   inputRef.value?.focus()
 }
 
+const blur = () => {
+  inputRef.value?.blur()
+}
+
 const handleSelect = async (item: any) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
+  close()
+  blur()
   await nextTick()
   suggestions.value = []
   highlightedIndex.value = -1
