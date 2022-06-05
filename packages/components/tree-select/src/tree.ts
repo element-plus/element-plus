@@ -67,6 +67,18 @@ export const useTree = (
     }
   }
 
+  const defaultExpandedParentKeys = toValidArray(props.modelValue)
+    .map((value) => {
+      return treeFind(
+        props.data || [],
+        (data) => getNodeValByProp('value', data) === value,
+        (data) => getNodeValByProp('children', data),
+        (data, index, array, parent) =>
+          parent && getNodeValByProp('value', parent)
+      )
+    })
+    .filter((item) => isValidValue(item))
+
   return {
     ...pick(toRefs(props), Object.keys(ElTree.props)),
     ...attrs,
@@ -77,17 +89,12 @@ export const useTree = (
       return !props.checkStrictly
     }),
 
-    // auto expand selected parent node
+    // show current selected node only first time,
+    // fix the problem of expanding multiple nodes when checking multiple nodes
     defaultExpandedKeys: computed(() => {
-      const values = toValidArray(props.modelValue)
-      const parentKeys = tree.value
-        ? values
-            .map((item) => tree.value?.getNode(item)?.parent?.key)
-            .filter((item) => isValidValue(item))
-        : values
       return props.defaultExpandedKeys
-        ? props.defaultExpandedKeys.concat(parentKeys)
-        : parentKeys
+        ? props.defaultExpandedKeys.concat(defaultExpandedParentKeys)
+        : defaultExpandedParentKeys
     }),
 
     renderContent: (h, { node, data, store }) => {

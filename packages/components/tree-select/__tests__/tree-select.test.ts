@@ -404,4 +404,16 @@ describe('TreeSelect.vue', () => {
     await nextTick()
     expect(select.vm.modelValue).toBe(undefined)
   })
+
+  test('expand selected node`s parent in first time', async () => {
+    const value = ref(111)
+    const { tree } = createComponent({
+      props: {
+        modelValue: value,
+      },
+    })
+
+    expect(tree.findAll('.is-expanded[data-key="1"]').length).toBe(1)
+    expect(tree.findAll('.is-expanded[data-key="11"]').length).toBe(1)
+  })
 })
