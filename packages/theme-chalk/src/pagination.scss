@@ -94,6 +94,11 @@
       font-weight: bold;
       width: inherit;
     }
+
+    &:focus-visible {
+      outline: 1px solid getCssVar('pagination-hover-color');
+      color: getCssVar('pagination-hover-color');
+    }
   }
 
   .#{$namespace}-pager li.is-disabled {
@@ -322,6 +327,11 @@
 
       svg {
         pointer-events: none;
+      }
+
+      &:focus-visible {
+        outline: 1px solid getCssVar('pagination-hover-color');
+        color: getCssVar('pagination-hover-color');
       }
     }
 

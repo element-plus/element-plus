@@ -20,10 +20,13 @@
         nsIcon.b(),
         nsPager.is('disabled', disabled),
       ]"
+      tabindex="0"
       @mouseenter="onMouseenter('left')"
       @mouseleave="quickPrevHover = false"
+      @focus="onFocus('left')"
+      @blur="quickPrevFocus = false"
     >
-      <d-arrow-left v-if="quickPrevHover" />
+      <d-arrow-left v-if="quickPrevHover || quickPrevFocus" />
       <more-filled v-else />
     </li>
     <li
@@ -47,10 +50,13 @@
         nsIcon.b(),
         nsPager.is('disabled', disabled),
       ]"
+      tabindex="0"
       @mouseenter="onMouseenter('right')"
       @mouseleave="quickNextHover = false"
+      @focus="onFocus('right')"
+      @blur="quickNextFocus = false"
     >
-      <d-arrow-right v-if="quickNextHover" />
+      <d-arrow-right v-if="quickNextHover || quickNextFocus" />
       <more-filled v-else />
     </li>
     <li
@@ -83,6 +89,8 @@ const showPrevMore = ref(false)
 const showNextMore = ref(false)
 const quickPrevHover = ref(false)
 const quickNextHover = ref(false)
+const quickPrevFocus = ref(false)
+const quickNextFocus = ref(false)
 const pagers = computed(() => {
   const pagerCount = props.pagerCount
   const halfPagerCount = (pagerCount - 1) / 2
@@ -141,6 +149,13 @@ function onMouseenter(direction: 'left' | 'right') {
     quickNextHover.value = true
   }
 }
+function onFocus(direction: 'left' | 'right') {
+  if (direction === 'left') {
+    quickPrevFocus.value = true
+  } else {
+    quickNextFocus.value = true
+  }
+}
 function onEnter(e: UIEvent) {
   const target = e.target as HTMLElement
   if (
@@ -151,6 +166,11 @@ function onEnter(e: UIEvent) {
     if (newPage !== props.currentPage) {
       emit('change', newPage)
     }
+  } else if (
+    target.tagName.toLowerCase() === 'li' &&
+    Array.from(target.classList).includes('more')
+  ) {
+    onPagerClick(e)
   }
 }
 function onPagerClick(event: UIEvent) {
