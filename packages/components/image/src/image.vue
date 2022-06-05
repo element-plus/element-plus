@@ -11,12 +11,14 @@
       @load="handleLoad"
       @error="handleError"
     />
-    <slot v-if="isLoading" name="placeholder">
-      <div :class="ns.e('placeholder')" />
-    </slot>
-    <slot v-else-if="hasLoadError" name="error">
-      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
-    </slot>
+    <div v-if="isLoading || hasLoadError" :class="ns.e('wrapper')">
+      <slot v-if="isLoading" name="placeholder">
+        <div :class="ns.e('placeholder')" />
+      </slot>
+      <slot v-else-if="hasLoadError" name="error">
+        <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+      </slot>
+    </div>
     <template v-if="preview">
       <image-viewer
         v-if="showViewer"
