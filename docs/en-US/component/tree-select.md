@@ -18,6 +18,14 @@ tree-select/basic
 
 :::
 
+:::tip
+
+Since `render-after-expand` defaults to false,
+the selected label name may not be displayed when echoing,
+you can set it to true to display the correct name.
+
+:::
+
 ## Select any level
 
 When using the `check-strictly=true` attribute, any node can be checked,
@@ -26,6 +34,14 @@ otherwise only leaf nodes are supported.
 :::demo
 
 tree-select/check-strictly
+
+:::
+
+:::tip
+
+When using `show-checkbox`, since `check-on-click-node` is false by default,
+it can only be selected by checking, you can set it to true,
+and then click the node to select.
 
 :::
 
