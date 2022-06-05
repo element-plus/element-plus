@@ -43,10 +43,10 @@ import dayjs from 'dayjs'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { isUndefined } from '@element-plus/utils'
+import { panelTimePickerProps } from '../props/panel-time-picker'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
 
-import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 export default defineComponent({
@@ -54,23 +54,7 @@ export default defineComponent({
     TimeSpinner,
   },
 
-  props: {
-    visible: Boolean,
-    actualVisible: {
-      type: Boolean,
-      default: undefined,
-    },
-    datetimeRole: {
-      type: String,
-    },
-    parsedValue: {
-      type: [Object, String] as PropType<string | Dayjs>,
-    },
-    format: {
-      type: String,
-      default: '',
-    },
-  },
+  props: panelTimePickerProps,
 
   emits: ['pick', 'select-range', 'set-picker-option'],
 
