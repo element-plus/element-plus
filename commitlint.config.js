@@ -1,22 +1,23 @@
-const {
-  default: getWorkspacePackages,
-} = require('@pnpm/find-workspace-packages')
+'use strict'
+const { execSync } = require('child_process')
+const fs = require('fs')
+const path = require('path')
 
-async function getPackages(context) {
-  const ctx = context || {}
-  const cwd = ctx.cwd || process.cwd()
-  const packages = await getWorkspacePackages(cwd)
-  return packages
-    .map((pkg) => pkg.manifest.name)
-    .filter((name) => !!name)
-    .map((name) => (name.charAt(0) === '@' ? name.split('/')[1] : name))
-}
+const getPackages = (packagePath) =>
+  fs
+    .readdirSync(path.resolve(__dirname, packagePath), {
+      withFileTypes: true,
+    })
+    .filter((folder) => folder.isDirectory())
 
 const scopes = [
+  ...getPackages('packages'),
+  ...getPackages('internal'),
+  'docs',
+  'play',
   'project',
   'core',
   'style',
-  'docs',
   'ci',
   'dev',
   'build',
@@ -29,18 +30,28 @@ const scopes = [
   'ssr',
 ]
 
+const gitStatus = execSync('git status --porcelain || true')
+  .toString()
+  .trim()
+  .split('\n')
+
+const scopeComplete = gitStatus
+  .find((r) => ~r.indexOf('M  packages'))
+  ?.replace(/\//g, '%%')
+  ?.match(/packages%%((\w|-)*)/)?.[1]
+
+const subjectComplete = gitStatus
+  .find((r) => ~r.indexOf('M  packages/components'))
+  ?.replace(/\//g, '%%')
+  ?.match(/packages%%components%%((\w|-)*)/)?.[1]
+
 module.exports = {
   rules: {
     /**
      * type[scope]: [function] description
      *      ^^^^^
      */
-    'scope-enum': (ctx) =>
-      getPackages(ctx).then((packages) => [
-        2,
-        'always',
-        [...packages, ...scopes],
-      ]),
+    'scope-enum': [2, 'always', scopes],
     /**
      * type[scope]: [function] description
      *
@@ -94,5 +105,12 @@ module.exports = {
         'improvement',
       ],
     ],
+  },
+  prompt: {
+    defaultScope: scopeComplete,
+    customScopesAlign: !scopeComplete ? 'top' : 'bottom',
+    defaultSubject: subjectComplete && `[${subjectComplete}] `,
+    allowCustomIssuePrefixs: false,
+    allowEmptyIssuePrefixs: false,
   },
 }
