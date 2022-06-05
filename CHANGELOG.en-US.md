@@ -1,5 +1,14 @@
 ## Changelog
 
+### 2.2.4
+
+_2022-06-05_
+
+#### Bug fixes
+
+- Components [date-picker] circular dependency (#8093 by @chenxch)
+- Build copy typings (#8098 by @sxzz)
+
 ### 2.2.3
 
 _2022-06-04_

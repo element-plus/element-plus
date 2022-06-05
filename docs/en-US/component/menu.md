@@ -17,6 +17,14 @@ menu/basic
 
 :::
 
+## Left And Right
+
+:::demo You can make the menu items to the left or right.
+
+menu/left-and-right
+
+:::
+
 ## Side bar
 
 Vertical Menu with sub-menus.
