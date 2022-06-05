@@ -43,7 +43,7 @@ importers:
       concurrently: ^7.2.1
       consola: ^2.15.3
       csstype: ^2.6.20
-      cz-git: ^1.3.3
+      cz-git: ^1.3.4
       dayjs: ^1.11.3
       escape-html: ^1.0.3
       eslint: ^8.17.0
