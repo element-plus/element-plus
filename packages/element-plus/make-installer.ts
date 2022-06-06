@@ -5,17 +5,16 @@ import type { ConfigProviderContext } from '@element-plus/tokens'
 
 const INSTALLED_KEY = Symbol('INSTALLED_KEY')
 
-declare module '@vue/runtime-core' {
-  interface App {
-    [INSTALLED_KEY]?: boolean
-  }
+interface ElementPlusApp extends App {
+  [INSTALLED_KEY]: boolean
 }
 
 export const makeInstaller = (components: Plugin[] = []) => {
   const install = (app: App, options?: ConfigProviderContext) => {
-    if (app[INSTALLED_KEY]) return
+    const typedApp = app as ElementPlusApp
+    if (typedApp[INSTALLED_KEY]) return
 
-    app[INSTALLED_KEY] = true
+    typedApp[INSTALLED_KEY] = true
     components.forEach((c) => app.use(c))
 
     if (options) provideGlobalConfig(options, app, true)
