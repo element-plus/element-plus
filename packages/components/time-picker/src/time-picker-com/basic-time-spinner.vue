@@ -85,10 +85,10 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
+import { basicTimeSpinnerProps } from '../props/basic-time-spinner'
 import { getTimeLists } from './useTimePicker'
 
-import type { PropType, Ref } from 'vue'
-import type { Dayjs } from 'dayjs'
+import type { Ref } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 
 export default defineComponent({
@@ -103,34 +103,7 @@ export default defineComponent({
     ArrowDown,
   },
 
-  props: {
-    role: {
-      type: String,
-      required: true,
-    },
-    spinnerDate: {
-      type: Object as PropType<Dayjs>,
-      required: true,
-    },
-    showSeconds: {
-      type: Boolean,
-      default: true,
-    },
-    arrowControl: Boolean,
-    amPmMode: {
-      type: String,
-      default: '', // 'a': am/pm; 'A': AM/PM
-    },
-    disabledHours: {
-      type: Function,
-    },
-    disabledMinutes: {
-      type: Function,
-    },
-    disabledSeconds: {
-      type: Function,
-    },
-  },
+  props: basicTimeSpinnerProps,
 
   emits: ['change', 'select-range', 'set-option'],
 
