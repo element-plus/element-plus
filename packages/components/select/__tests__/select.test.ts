@@ -1,4 +1,4 @@
-import { markRaw, nextTick } from 'vue'
+import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -6,9 +6,14 @@ import { ArrowUp, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import { ElFormItem } from '@element-plus/components/form'
+import ConfigProvider from '@element-plus/components/config-provider'
+import Chinese from '@element-plus/locale/lang/zh-cn'
+import English from '@element-plus/locale/lang/en'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
+
+import type { Language } from '@element-plus/locale'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -2041,5 +2046,43 @@ describe('Select', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+  })
+
+  test('dynamic change local placeholder', async () => {
+    const wrapper = mount({
+      components: {
+        [Select.name]: Select,
+        [Option.name]: Option,
+        [ConfigProvider.name]: ConfigProvider,
+      },
+      setup() {
+        const currentLocale = ref<Language>(English)
+        return {
+          value: ref(''),
+          currentLocale,
+          toZh() {
+            currentLocale.value = Chinese
+          },
+        }
+      },
+      template: `
+        <el-config-provider :locale="currentLocale">
+          <el-select
+            ref="select"
+            v-model="value"
+          />
+        </el-config-provider>
+
+        <button @click="toZh" class="to-zh">to-zh</button>
+      `,
+    })
+    const input = wrapper.find('.el-input__inner')
+    expect((input.element as HTMLInputElement).placeholder).toBe(
+      English.el.select.placeholder
+    )
+    await wrapper.find('.to-zh').trigger('click')
+    expect((input.element as HTMLInputElement).placeholder).toBe(
+      Chinese.el.select.placeholder
+    )
   })
 })
