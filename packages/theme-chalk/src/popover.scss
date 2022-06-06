@@ -6,7 +6,7 @@
   @include set-component-css-var('popover', $popover);
 
   &.#{$namespace}-popper {
-    background: getCssVar('popover-bg-color');
+    background: getCssVar('bg-color', 'overlay');
     min-width: 150px;
     border-radius: getCssVar('popover-border-radius');
     border: 1px solid getCssVar('popover-border-color');
