@@ -82,12 +82,13 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref } from 'vue'
+import { computed, inject, ref, unref } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import { panelTimeRangeProps } from '../props/panel-time-range'
+import { useTimePanel } from '../composables/use-time-panel'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
 
@@ -116,8 +117,8 @@ const {
   defaultValue,
 } = pickerBase.props
 
-const startTime = computed(() => props.parsedValue[0])
-const endTime = computed(() => props.parsedValue[1])
+const startTime = computed(() => props.parsedValue![0])
+const endTime = computed(() => props.parsedValue![1])
 const oldValue = useOldValue(props)
 const handleCancel = () => {
   emit('pick', oldValue.value, false)
@@ -135,10 +136,10 @@ const handleConfirm = (visible = false) => {
   emit('pick', [startTime.value, endTime.value], visible)
 }
 
-const handleMinChange = (date) => {
+const handleMinChange = (date: Dayjs) => {
   handleChange(date.millisecond(0), endTime.value)
 }
-const handleMaxChange = (date) => {
+const handleMaxChange = (date: Dayjs) => {
   handleChange(startTime.value, date.millisecond(0))
 }
 
@@ -148,27 +149,28 @@ const isValidValue = (_date: Dayjs[]) => {
   return parsedDate[0].isSame(result[0]) && parsedDate[1].isSame(result[1])
 }
 
-const handleChange = (_minDate, _maxDate) => {
+const handleChange = (start: Dayjs, end: Dayjs) => {
   // todo getRangeAvailableTime(_date).millisecond(0)
-  emit('pick', [_minDate, _maxDate], true)
+  emit('pick', [start, end], true)
 }
 const btnConfirmDisabled = computed(() => {
   return startTime.value > endTime.value
 })
 
 const selectionRange = ref([0, 2])
-const setMinSelectionRange = (start, end) => {
+const setMinSelectionRange = (start: number, end: number) => {
   emit('select-range', start, end, 'min')
   selectionRange.value = [start, end]
 }
 
 const offset = computed(() => (showSeconds.value ? 11 : 8))
-const setMaxSelectionRange = (start, end) => {
+const setMaxSelectionRange = (start: number, end: number) => {
   emit('select-range', start, end, 'max')
-  selectionRange.value = [start + offset.value, end + offset.value]
+  const _offset = unref(offset)
+  selectionRange.value = [start + _offset, end + _offset]
 }
 
-const changeSelectionRange = (step) => {
+const changeSelectionRange = (step: number) => {
   const list = showSeconds.value ? [0, 3, 6, 11, 14, 17] : [0, 3, 8, 11]
   const mapping = ['hours', 'minutes'].concat(
     showSeconds.value ? ['seconds'] : []
@@ -202,7 +204,7 @@ const handleKeydown = (event: KeyboardEvent) => {
   }
 }
 
-const disabledHours_ = (role, compare) => {
+const disabledHours_ = (role: string, compare?: Dayjs) => {
   const defaultDisable = disabledHours ? disabledHours(role) : []
   const isStart = role === 'start'
   const compareDate = compare || (isStart ? endTime.value : startTime.value)
@@ -212,7 +214,7 @@ const disabledHours_ = (role, compare) => {
     : makeSelectRange(0, compareHour - 1)
   return union(defaultDisable, nextDisable)
 }
-const disabledMinutes_ = (hour, role, compare) => {
+const disabledMinutes_ = (hour: number, role: string, compare?: Dayjs) => {
   const defaultDisable = disabledMinutes ? disabledMinutes(hour, role) : []
   const isStart = role === 'start'
   const compareDate = compare || (isStart ? endTime.value : startTime.value)
@@ -226,7 +228,12 @@ const disabledMinutes_ = (hour, role, compare) => {
     : makeSelectRange(0, compareMinute - 1)
   return union(defaultDisable, nextDisable)
 }
-const disabledSeconds_ = (hour, minute, role, compare) => {
+const disabledSeconds_ = (
+  hour: number,
+  minute: number,
+  role: string,
+  compare?: Dayjs
+) => {
   const defaultDisable = disabledSeconds
     ? disabledSeconds(hour, minute, role)
     : []
@@ -244,47 +251,26 @@ const disabledSeconds_ = (hour, minute, role, compare) => {
   return union(defaultDisable, nextDisable)
 }
 
-const getRangeAvailableTime = (dates: Array<Dayjs>) => {
-  return dates.map((_, index) =>
-    getRangeAvailableTimeEach(dates[0], dates[1], index === 0 ? 'start' : 'end')
-  )
+const getRangeAvailableTime = ([start, end]: Array<Dayjs>) => {
+  return [
+    getAvailableTime(start, 'start', true, end),
+    getAvailableTime(end, 'end', false, start),
+  ]
 }
 
 const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
   getAvailableArrs(disabledHours_, disabledMinutes_, disabledSeconds_)
 
-const getRangeAvailableTimeEach = (startDate: Dayjs, endDate: Dayjs, role) => {
-  const availableMap = {
-    hour: getAvailableHours,
-    minute: getAvailableMinutes,
-    second: getAvailableSeconds,
-  }
-  const isStart = role === 'start'
-  let result = isStart ? startDate : endDate
-  const compareDate = isStart ? endDate : startDate
-  ;['hour', 'minute', 'second'].forEach((_) => {
-    if (availableMap[_]) {
-      let availableArr
-      const method = availableMap[_]
-      if (_ === 'minute') {
-        availableArr = method(result.hour(), role, compareDate)
-      } else if (_ === 'second') {
-        availableArr = method(result.hour(), result.minute(), role, compareDate)
-      } else {
-        availableArr = method(role, compareDate)
-      }
-      if (
-        availableArr &&
-        availableArr.length &&
-        !availableArr.includes(result[_]())
-      ) {
-        const pos = isStart ? 0 : availableArr.length - 1
-        result = result[_](availableArr[pos])
-      }
-    }
-  })
-  return result
-}
+const {
+  timePickerOptions,
+
+  getAvailableTime,
+  onSetOption,
+} = useTimePanel({
+  getAvailableHours,
+  getAvailableMinutes,
+  getAvailableSeconds,
+})
 
 const parseUserInput = (value: Dayjs[] | Dayjs) => {
   if (!value) return null
@@ -304,7 +290,7 @@ const formatToString = (value: Dayjs[] | Dayjs) => {
 
 const getDefaultValue = () => {
   if (Array.isArray(defaultValue)) {
-    return defaultValue.map((_) => dayjs(_).locale(lang.value))
+    return defaultValue.map((d: Date) => dayjs(d).locale(lang.value))
   }
   const defaultDay = dayjs(defaultValue).locale(lang.value)
   return [defaultDay, defaultDay.add(60, 'm')]
@@ -316,9 +302,4 @@ emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['handleKeydownInput', handleKeydown])
 emit('set-picker-option', ['getDefaultValue', getDefaultValue])
 emit('set-picker-option', ['getRangeAvailableTime', getRangeAvailableTime])
-
-const timePickerOptions = {} as any
-const onSetOption = (e) => {
-  timePickerOptions[e[0]] = e[1]
-}
 </script>
