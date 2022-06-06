@@ -532,12 +532,15 @@ export default defineComponent({
         pickerOptions.value.handleClear && pickerOptions.value.handleClear()
       }
     }
+
     const valueIsEmpty = computed(() => {
+      const { modelValue } = props
       return (
-        !props.modelValue ||
-        (Array.isArray(props.modelValue) && !props.modelValue.length)
+        !modelValue ||
+        (Array.isArray(modelValue) && !modelValue.filter(Boolean).length)
       )
     })
+
     const onMouseDownInput = async (event: MouseEvent) => {
       if (
         (event.target as HTMLElement)?.tagName !== 'INPUT' ||
