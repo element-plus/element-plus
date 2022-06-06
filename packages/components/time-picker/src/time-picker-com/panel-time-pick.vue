@@ -8,7 +8,7 @@
           :arrow-control="arrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
-          :spinner-date="parsedValue"
+          :spinner-date="(parsedValue as any)"
           :disabled-hours="disabledHours"
           :disabled-minutes="disabledMinutes"
           :disabled-seconds="disabledSeconds"
@@ -111,15 +111,17 @@ const changeSelectionRange = (step: number) => {
 const handleKeydown = (event: KeyboardEvent) => {
   const code = event.code
 
-  if (code === EVENT_CODE.left || code === EVENT_CODE.right) {
-    const step = code === EVENT_CODE.left ? -1 : 1
+  const { left, right, up, down } = EVENT_CODE
+
+  if ([left, right].includes(code)) {
+    const step = code === left ? -1 : 1
     changeSelectionRange(step)
     event.preventDefault()
     return
   }
 
-  if (code === EVENT_CODE.up || code === EVENT_CODE.down) {
-    const step = code === EVENT_CODE.up ? -1 : 1
+  if ([up, down].includes(code)) {
+    const step = code === up ? -1 : 1
     timePickerOptions['start_scrollDown'](step)
     event.preventDefault()
     return

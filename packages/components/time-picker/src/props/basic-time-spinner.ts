@@ -19,7 +19,7 @@ export const basicTimeSpinnerProps = buildProps({
   arrowControl: Boolean,
   amPmMode: {
     // 'a': am/pm; 'A': AM/PM
-    type: definePropType<'a' | 'A'>(String),
+    type: definePropType<'a' | 'A' | ''>(String),
     default: '',
   },
   disabledHours: {

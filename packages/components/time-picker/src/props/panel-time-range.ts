@@ -7,7 +7,8 @@ export const panelTimeRangeProps = buildProps({
   visible: Boolean,
   actualVisible: Boolean,
   parsedValue: {
-    type: definePropType<Dayjs[]>(Array),
+    type: definePropType<[Dayjs, Dayjs]>(Array),
+    required: true,
   },
   format: {
     type: String,
