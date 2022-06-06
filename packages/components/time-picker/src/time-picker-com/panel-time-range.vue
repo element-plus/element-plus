@@ -86,6 +86,7 @@ import { computed, inject, ref, unref } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { panelTimeRangeProps } from '../props/panel-time-range'
 import { useTimePanel } from '../composables/use-time-panel'
@@ -188,15 +189,17 @@ const changeSelectionRange = (step: number) => {
 const handleKeydown = (event: KeyboardEvent) => {
   const code = event.code
 
-  if (code === EVENT_CODE.left || code === EVENT_CODE.right) {
-    const step = code === EVENT_CODE.left ? -1 : 1
+  const { left, right, up, down } = EVENT_CODE
+
+  if ([left, right].includes(code)) {
+    const step = code === left ? -1 : 1
     changeSelectionRange(step)
     event.preventDefault()
     return
   }
 
-  if (code === EVENT_CODE.up || code === EVENT_CODE.down) {
-    const step = code === EVENT_CODE.up ? -1 : 1
+  if ([up, down].includes(code)) {
+    const step = code === up ? -1 : 1
     const role = selectionRange.value[0] < offset.value ? 'start' : 'end'
     timePickerOptions[`${role}_scrollDown`](step)
     event.preventDefault()
@@ -272,24 +275,24 @@ const {
   getAvailableSeconds,
 })
 
-const parseUserInput = (value: Dayjs[] | Dayjs) => {
-  if (!value) return null
-  if (Array.isArray(value)) {
-    return value.map((_) => dayjs(_, props.format).locale(lang.value))
+const parseUserInput = (days: Dayjs[] | Dayjs) => {
+  if (!days) return null
+  if (isArray(days)) {
+    return days.map((d) => dayjs(d, props.format).locale(lang.value))
   }
-  return dayjs(value, props.format).locale(lang.value)
+  return dayjs(days, props.format).locale(lang.value)
 }
 
-const formatToString = (value: Dayjs[] | Dayjs) => {
-  if (!value) return null
-  if (Array.isArray(value)) {
-    return value.map((_) => _.format(props.format))
+const formatToString = (days: Dayjs[] | Dayjs) => {
+  if (!days) return null
+  if (isArray(days)) {
+    return days.map((d) => d.format(props.format))
   }
-  return value.format(props.format)
+  return days.format(props.format)
 }
 
 const getDefaultValue = () => {
-  if (Array.isArray(defaultValue)) {
+  if (isArray(defaultValue)) {
     return defaultValue.map((d: Date) => dayjs(d).locale(lang.value))
   }
   const defaultDay = dayjs(defaultValue).locale(lang.value)
