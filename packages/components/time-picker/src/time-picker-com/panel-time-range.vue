@@ -87,10 +87,10 @@ import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
+import { panelTimeRangeProps } from '../props/panel-time-range'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
 
-import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 const makeSelectRange = (start: number, end: number) => {
@@ -103,17 +103,7 @@ const makeSelectRange = (start: number, end: number) => {
 export default defineComponent({
   components: { TimeSpinner },
 
-  props: {
-    visible: Boolean,
-    actualVisible: Boolean,
-    parsedValue: {
-      type: [Array] as PropType<Array<Dayjs>>,
-    },
-    format: {
-      type: String,
-      default: '',
-    },
-  },
+  props: panelTimeRangeProps,
 
   emits: ['pick', 'select-range', 'set-picker-option'],
 
