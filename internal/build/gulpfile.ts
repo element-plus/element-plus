@@ -1,7 +1,7 @@
 import path from 'path'
 import { copyFile, mkdir } from 'fs/promises'
 import { copy } from 'fs-extra'
-import { series } from 'gulp'
+import { parallel, series } from 'gulp'
 import {
   buildOutput,
   epOutput,
@@ -32,7 +32,7 @@ export const copyTypesDefinitions: TaskFunction = (done) => {
       copy(src, buildConfig[module].output.path, { recursive: true })
     )
 
-  return series(copyTypes('esm'), copyTypes('cjs'))(done)
+  return parallel(copyTypes('esm'), copyTypes('cjs'))(done)
 }
 
 export const copyFullStyle = async () => {
@@ -47,7 +47,7 @@ export default series(
   withTaskName('clean', () => run('pnpm run clean')),
   withTaskName('createOutput', () => mkdir(epOutput, { recursive: true })),
 
-  series(
+  parallel(
     runTask('buildModules'),
     runTask('buildFullBundle'),
     runTask('generateTypesDefinitions'),
@@ -60,7 +60,7 @@ export default series(
     )
   ),
 
-  series(copyTypesDefinitions, copyFiles)
+  parallel(copyTypesDefinitions, copyFiles)
 )
 
 export * from './src'
