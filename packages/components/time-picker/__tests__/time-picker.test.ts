@@ -788,6 +788,7 @@ describe('TimePicker(range)', () => {
       expect(document.querySelector('.el-time-panel')).toBeTruthy()
     })
   })
+
   it('display value', async () => {
     const wrapper = _mount(
       `<el-time-picker
