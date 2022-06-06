@@ -1,11 +1,11 @@
 import { provideGlobalConfig } from '@element-plus/hooks'
 import { version } from './version'
-import type { App, Plugin } from 'vue'
+import type { App, Plugin } from '@vue/runtime-core'
 import type { ConfigProviderContext } from '@element-plus/tokens'
 
 const INSTALLED_KEY = Symbol('INSTALLED_KEY')
 
-declare module 'vue' {
+declare module '@vue/runtime-core' {
   interface App {
     [INSTALLED_KEY]?: boolean
   }
