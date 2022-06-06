@@ -1,25 +1,17 @@
 import {
   computed,
   nextTick,
-  onBeforeUnmount,
   onMounted,
   ref,
   unref,
   watch,
   watchEffect,
 } from 'vue'
-import {
-  addResizeListener,
-  isNumber,
-  isString,
-  off,
-  on,
-  removeResizeListener,
-} from '@element-plus/utils'
+import { useEventListener, useResizeObserver } from '@vueuse/core'
+import { isNumber, isString } from '@element-plus/utils'
 import { useSize } from '@element-plus/hooks'
 import { parseHeight } from '../util'
 
-import type { ResizableElement } from '@element-plus/utils'
 import type { Table, TableProps } from './defaults'
 import type { Store } from '../store'
 import type TableLayout from '../table-layout'
@@ -190,28 +182,15 @@ function useStyle<T>(
 
   const bindEvents = () => {
     if (!table.refs.scrollBarRef) return
-    table.refs.scrollBarRef.wrap$?.addEventListener('scroll', syncPostion, {
-      passive: true,
-    })
-    if (props.fit) {
-      addResizeListener(table.vnode.el as ResizableElement, resizeListener)
-    } else {
-      on(window, 'resize', doLayout)
+    if (table.refs.scrollBarRef.wrap$) {
+      useEventListener(table.refs.scrollBarRef.wrap$, 'scroll', syncPostion, {
+        passive: true,
+      })
     }
-  }
-  onBeforeUnmount(() => {
-    unbindEvents()
-  })
-  const unbindEvents = () => {
-    table.refs.scrollBarRef.wrap$?.removeEventListener(
-      'scroll',
-      syncPostion,
-      true
-    )
     if (props.fit) {
-      removeResizeListener(table.vnode.el as ResizableElement, resizeListener)
+      useResizeObserver(table.vnode.el as HTMLElement, resizeListener)
     } else {
-      off(window, 'resize', doLayout)
+      useEventListener(window, 'resize', resizeListener)
     }
   }
   const resizeListener = () => {
