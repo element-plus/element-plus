@@ -7,18 +7,18 @@
   </el-button-group>
 
   <el-button-group class="ml-4">
-    <el-button type="primary" :icon="Edit"></el-button>
-    <el-button type="primary" :icon="Share"></el-button>
-    <el-button type="primary" :icon="Delete"></el-button>
+    <el-button type="primary" :icon="Edit" />
+    <el-button type="primary" :icon="Share" />
+    <el-button type="primary" :icon="Delete" />
   </el-button-group>
 </template>
 
 <script setup lang="ts">
 import {
   ArrowLeft,
+  ArrowRight,
+  Delete,
   Edit,
   Share,
-  Delete,
-  ArrowRight,
 } from '@element-plus/icons-vue'
 </script>

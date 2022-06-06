@@ -1,13 +1,20 @@
 <template>
-  <div v-if="actualVisible" class="el-time-range-picker el-picker-panel">
-    <div class="el-time-range-picker__content">
-      <div class="el-time-range-picker__cell">
-        <div class="el-time-range-picker__header">
+  <div
+    v-if="actualVisible"
+    :class="[nsTime.b('range-picker'), nsPicker.b('panel')]"
+  >
+    <div :class="nsTime.be('range-picker', 'content')">
+      <div :class="nsTime.be('range-picker', 'cell')">
+        <div :class="nsTime.be('range-picker', 'header')">
           {{ t('el.datepicker.startTime') }}
         </div>
         <div
-          :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
-          class="el-time-range-picker__body el-time-panel__content"
+          :class="[
+            nsTime.be('range-picker', 'body'),
+            nsTime.be('panel', 'content'),
+            nsTime.is('arrow', arrowControl),
+            { 'has-seconds': showSeconds },
+          ]"
         >
           <time-spinner
             ref="minSpinner"
@@ -25,13 +32,17 @@
           />
         </div>
       </div>
-      <div class="el-time-range-picker__cell">
-        <div class="el-time-range-picker__header">
+      <div :class="nsTime.be('range-picker', 'cell')">
+        <div :class="nsTime.be('range-picker', 'header')">
           {{ t('el.datepicker.endTime') }}
         </div>
         <div
-          :class="{ 'has-seconds': showSeconds, 'is-arrow': arrowControl }"
-          class="el-time-range-picker__body el-time-panel__content"
+          :class="[
+            nsTime.be('range-picker', 'body'),
+            nsTime.be('panel', 'content'),
+            nsTime.is('arrow', arrowControl),
+            { 'has-seconds': showSeconds },
+          ]"
         >
           <time-spinner
             ref="maxSpinner"
@@ -50,17 +61,17 @@
         </div>
       </div>
     </div>
-    <div class="el-time-panel__footer">
+    <div :class="nsTime.be('panel', 'footer')">
       <button
         type="button"
-        class="el-time-panel__btn cancel"
+        :class="[nsTime.be('panel', 'btn'), 'cancel']"
         @click="handleCancel()"
       >
         {{ t('el.datepicker.cancel') }}
       </button>
       <button
         type="button"
-        class="el-time-panel__btn confirm"
+        :class="[nsTime.be('panel', 'btn'), 'confirm']"
         :disabled="btnConfirmDisabled"
         @click="handleConfirm()"
       >
@@ -71,15 +82,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, inject } from 'vue'
+import { computed, defineComponent, inject, ref } from 'vue'
 import dayjs from 'dayjs'
 import { union } from 'lodash-unified'
-import { useLocale } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
+import { panelTimeRangeProps } from '../props/panel-time-range'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
 
-import type { PropType } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 const makeSelectRange = (start: number, end: number) => {
@@ -92,27 +103,19 @@ const makeSelectRange = (start: number, end: number) => {
 export default defineComponent({
   components: { TimeSpinner },
 
-  props: {
-    visible: Boolean,
-    actualVisible: Boolean,
-    parsedValue: {
-      type: [Array] as PropType<Array<Dayjs>>,
-    },
-    format: {
-      type: String,
-      default: '',
-    },
-  },
+  props: panelTimeRangeProps,
 
   emits: ['pick', 'select-range', 'set-picker-option'],
 
   setup(props, ctx) {
     const { t, lang } = useLocale()
+    const nsTime = useNamespace('time')
+    const nsPicker = useNamespace('picker')
     const minDate = computed(() => props.parsedValue[0])
     const maxDate = computed(() => props.parsedValue[1])
     const oldValue = useOldValue(props)
     const handleCancel = () => {
-      ctx.emit('pick', oldValue.value, null)
+      ctx.emit('pick', oldValue.value, false)
     }
     const showSeconds = computed(() => {
       return props.format.includes('ss')
@@ -321,7 +324,7 @@ export default defineComponent({
     ctx.emit('set-picker-option', ['formatToString', formatToString])
     ctx.emit('set-picker-option', ['parseUserInput', parseUserInput])
     ctx.emit('set-picker-option', ['isValidValue', isValidValue])
-    ctx.emit('set-picker-option', ['handleKeydown', handleKeydown])
+    ctx.emit('set-picker-option', ['handleKeydownInput', handleKeydown])
     ctx.emit('set-picker-option', ['getDefaultValue', getDefaultValue])
     ctx.emit('set-picker-option', [
       'getRangeAvailableTime',
@@ -343,6 +346,8 @@ export default defineComponent({
     } = pickerBase.props
 
     return {
+      nsTime,
+      nsPicker,
       arrowControl,
       onSetOption,
       setMaxSelectionRange,

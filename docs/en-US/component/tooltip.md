@@ -19,13 +19,13 @@ tooltip/basic
 
 ## Theme
 
-Tooltip has two built-in themes: `dark` and `light`。
+Tooltip has two built-in themes: `dark` and `light`.
 
 :::tip
 
 To use customized theme, you will have to known where your tooltip is rendered into, if your tooltip is rendered into the root element, you will need to set the css rule globally.
 
-It is recommended that not using linear gradient background color when you using customized theme and showing the arrow at the same time, because the popup arrow and the content is two different elements,
+It is recommended that not using linear gradient background color when you using customized theme and showing the arrow at the same time, because the popup arrow and the content are two different elements,
 the popup arrow's style needs to be set individually, and when it comes to the gradient background color, it might seem a little bit weird.
 
 :::
@@ -157,7 +157,7 @@ tooltip/animations
 | popper-options                           | [popper.js](https://popper.js.org/documentation.html) parameters                                                                                             | Object                     | refer to [popper.js](https://popper.js.org/documentation.html) doc                                        | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 | show-after                               | delay of appearance, in millisecond                                                                                                                          | number                     | —                                                                                                         | 0                                                       |
 | show-arrow                               | whether the tooltip content has an arrow                                                                                                                     | boolean                    | true / false                                                                                              | true                                                    |
-| hide-after                               | delay of disappear, in millisecond                                                                                                                           | number                     | —                                                                                                         | 0                                                       |
+| hide-after                               | delay of disappear, in millisecond                                                                                                                           | number                     | —                                                                                                         | 200                                                     |
 | auto-close                               | timeout in milliseconds to hide tooltip                                                                                                                      | number                     | —                                                                                                         | 0                                                       |
 | manual                                   | whether to control Tooltip manually. `mouseenter` and `mouseleave` won't have effects if set to `true`                                                       | boolean                    | —                                                                                                         | false                                                   |
 | popper-class                             | custom class name for Tooltip's popper                                                                                                                       | string                     | —                                                                                                         | —                                                       |

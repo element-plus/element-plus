@@ -17,7 +17,7 @@
         v-model.number="numberValidateForm.age"
         type="text"
         autocomplete="off"
-      ></el-input>
+      />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(formRef)">Submit</el-button>
@@ -28,9 +28,8 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { ElForm } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 
-type FormInstance = InstanceType<typeof ElForm>
 const formRef = ref<FormInstance>()
 
 const numberValidateForm = reactive({

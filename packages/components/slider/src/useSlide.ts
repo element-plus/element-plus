@@ -1,29 +1,32 @@
 import { computed, inject, nextTick, ref, shallowRef } from 'vue'
 import {
   CHANGE_EVENT,
-  UPDATE_MODEL_EVENT,
   INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
-import type { CSSProperties } from 'vue'
-import type { ButtonRefs, ISliderInitData, ISliderProps } from './slider.type'
-
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
-import type { Nullable } from '@element-plus/utils'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import type { CSSProperties, ComponentInternalInstance, Ref } from 'vue'
+import type {
+  ButtonRefs,
+  ISliderButton,
+  ISliderInitData,
+  ISliderProps,
+} from './slider.type'
+import type { FormContext, FormItemContext } from '@element-plus/tokens'
 
 export const useSlide = (
   props: ISliderProps,
   initData: ISliderInitData,
-  emit
+  emit: ComponentInternalInstance['emit']
 ) => {
-  const elForm = inject(elFormKey, {} as ElFormContext)
-  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+  const elForm = inject(formContextKey, {} as FormContext)
+  const elFormItem = inject(formItemContextKey, {} as FormItemContext)
 
-  const slider = shallowRef<Nullable<HTMLElement>>(null)
+  const slider = shallowRef<HTMLElement>()
 
-  const firstButton = ref(null)
+  const firstButton = ref<ISliderButton>()
 
-  const secondButton = ref(null)
+  const secondButton = ref<ISliderButton>()
 
   const buttonRefs: ButtonRefs = {
     firstButton,
@@ -81,13 +84,14 @@ export const useSlide = (
     }
   }
 
-  const setPosition = (percent: number) => {
+  const getButtonRefByPercent = (
+    percent: number
+  ): Ref<ISliderButton | undefined> => {
     const targetValue = props.min + (percent * (props.max - props.min)) / 100
     if (!props.range) {
-      firstButton.value.setPosition(percent)
-      return
+      return firstButton
     }
-    let buttonRefName: string
+    let buttonRefName: 'firstButton' | 'secondButton'
     if (
       Math.abs(minValue.value - targetValue) <
       Math.abs(maxValue.value - targetValue)
@@ -102,7 +106,13 @@ export const useSlide = (
           ? 'firstButton'
           : 'secondButton'
     }
-    buttonRefs[buttonRefName].value.setPosition(percent)
+    return buttonRefs[buttonRefName]
+  }
+
+  const setPosition = (percent: number): Ref<ISliderButton | undefined> => {
+    const buttonRef = getButtonRefByPercent(percent)
+    buttonRef.value!.setPosition(percent)
+    return buttonRef
   }
 
   const setFirstValue = (firstValue: number) => {
@@ -131,21 +141,51 @@ export const useSlide = (
     )
   }
 
-  const onSliderClick = (event: MouseEvent) => {
+  const handleSliderPointerEvent = (
+    event: MouseEvent | TouchEvent
+  ): Ref<ISliderButton | undefined> | undefined => {
     if (sliderDisabled.value || initData.dragging) return
     resetSize()
+    let newPercent = 0
     if (props.vertical) {
-      const sliderOffsetBottom = slider.value.getBoundingClientRect().bottom
-      setPosition(
-        ((sliderOffsetBottom - event.clientY) / initData.sliderSize) * 100
-      )
+      const clientY =
+        (event as TouchEvent).touches?.item(0)?.clientY ??
+        (event as MouseEvent).clientY
+      const sliderOffsetBottom = slider.value!.getBoundingClientRect().bottom
+      newPercent = ((sliderOffsetBottom - clientY) / initData.sliderSize) * 100
     } else {
-      const sliderOffsetLeft = slider.value.getBoundingClientRect().left
-      setPosition(
-        ((event.clientX - sliderOffsetLeft) / initData.sliderSize) * 100
-      )
+      const clientX =
+        (event as TouchEvent).touches?.item(0)?.clientX ??
+        (event as MouseEvent).clientX
+      const sliderOffsetLeft = slider.value!.getBoundingClientRect().left
+      newPercent = ((clientX - sliderOffsetLeft) / initData.sliderSize) * 100
     }
-    emitChange()
+    if (newPercent < 0 || newPercent > 100) return
+    return setPosition(newPercent)
+  }
+
+  const onSliderWrapperPrevent = (event: TouchEvent) => {
+    if (
+      buttonRefs['firstButton'].value?.dragging ||
+      buttonRefs['secondButton'].value?.dragging
+    ) {
+      event.preventDefault()
+    }
+  }
+
+  const onSliderDown = async (event: MouseEvent | TouchEvent) => {
+    const buttonRef = handleSliderPointerEvent(event)
+    if (buttonRef) {
+      await nextTick()
+      buttonRef.value!.onButtonDown(event)
+    }
+  }
+
+  const onSliderClick = (event: MouseEvent | TouchEvent) => {
+    const buttonRef = handleSliderPointerEvent(event)
+    if (buttonRef) {
+      emitChange()
+    }
   }
 
   return {
@@ -161,7 +201,9 @@ export const useSlide = (
     resetSize,
     setPosition,
     emitChange,
+    onSliderWrapperPrevent,
     onSliderClick,
+    onSliderDown,
     setFirstValue,
     setSecondValue,
   }

@@ -10,7 +10,7 @@
     <el-tooltip
       ref="popper"
       v-model:visible="dropdownMenuVisible"
-      :teleported="compatTeleported"
+      :teleported="teleported"
       :popper-class="[nsSelectV2.e('popper'), popperClass]"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
@@ -22,7 +22,7 @@
       :transition="`${nsSelectV2.namespace.value}-zoom-in-top`"
       trigger="click"
       :persistent="persistent"
-      @show="handleMenuEnter"
+      @before-show="handleMenuEnter"
       @hide="states.inputValue = states.displayInputValue"
     >
       <template #default>
@@ -37,7 +37,7 @@
           ]"
         >
           <div v-if="$slots.prefix">
-            <slot name="prefix"></slot>
+            <slot name="prefix" />
           </div>
           <div v-if="multiple" :class="nsSelectV2.e('selection')">
             <template v-if="collapseTags && modelValue.length > 0">
@@ -66,7 +66,53 @@
                   type="info"
                   disable-transitions
                 >
+                  <el-tooltip
+                    v-if="collapseTagsTooltip"
+                    :disabled="dropdownMenuVisible"
+                    :fallback-placements="['bottom', 'top', 'right', 'left']"
+                    :effect="effect"
+                    placement="bottom"
+                    :teleported="false"
+                  >
+                    <template #default>
+                      <span
+                        :class="nsSelectV2.e('tags-text')"
+                        :style="{
+                          maxWidth: `${tagMaxWidth}px`,
+                        }"
+                        >+ {{ modelValue.length - 1 }}</span
+                      >
+                    </template>
+                    <template #content>
+                      <div :class="nsSelectV2.e('selection')">
+                        <div
+                          v-for="(selected, idx) in states.cachedOptions"
+                          :key="idx"
+                          :class="nsSelectV2.e('selected-item')"
+                        >
+                          <el-tag
+                            :key="getValueKey(selected)"
+                            :closable="!selectDisabled && !selected.disabled"
+                            :size="collapseTagSize"
+                            class="in-tooltip"
+                            type="info"
+                            disable-transitions
+                            @close="deleteTag($event, selected)"
+                          >
+                            <span
+                              :class="nsSelectV2.e('tags-text')"
+                              :style="{
+                                maxWidth: `${tagMaxWidth}px`,
+                              }"
+                              >{{ getLabel(selected) }}</span
+                            >
+                          </el-tag>
+                        </div>
+                      </div>
+                    </template>
+                  </el-tooltip>
                   <span
+                    v-else
                     :class="nsSelectV2.e('tags-text')"
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
@@ -147,8 +193,7 @@
                 aria-hidden="true"
                 :class="nsSelectV2.e('input-calculator')"
                 v-text="states.displayInputValue"
-              >
-              </span>
+              />
             </div>
           </div>
           <template v-else>
@@ -197,8 +242,7 @@
                 nsSelectV2.e('input-calculator'),
               ]"
               v-text="states.displayInputValue"
-            >
-            </span>
+            />
           </template>
           <span
             v-if="shouldShowPlaceholder"
@@ -248,7 +292,7 @@
           :scrollbar-always-on="scrollbarAlwaysOn"
         >
           <template #default="scope">
-            <slot v-bind="scope"></slot>
+            <slot v-bind="scope" />
           </template>
           <template #empty>
             <slot name="empty">
@@ -264,12 +308,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, toRefs, reactive, vModelText } from 'vue'
+import { defineComponent, provide, reactive, toRefs, vModelText } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElSelectMenu from './select-dropdown.vue'
 import useSelect from './useSelect'
 import { selectV2InjectionKey } from './token'

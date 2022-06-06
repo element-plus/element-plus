@@ -1,5 +1,11 @@
 import { buildProps, definePropType, mutable } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes } from 'vue'
+
+export type ImageViewerAction =
+  | 'zoomIn'
+  | 'zoomOut'
+  | 'clockwise'
+  | 'anticlockwise'
 
 export const imageViewerProps = buildProps({
   urlList: {
@@ -25,6 +31,10 @@ export const imageViewerProps = buildProps({
     type: Boolean,
     default: false,
   },
+  closeOnPressEscape: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 
@@ -33,3 +43,8 @@ export const imageViewerEmits = {
   switch: (index: number) => typeof index === 'number',
 }
 export type ImageViewerEmits = typeof imageViewerEmits
+
+export interface ImageViewerMode {
+  name: string
+  icon: Component
+}

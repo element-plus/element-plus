@@ -1,18 +1,17 @@
-import { isObject } from '@vue/shared'
 import {
-  FORWARD,
   BACKWARD,
-  LTR,
-  RTL,
+  FORWARD,
   HORIZONTAL,
-  RTL_OFFSET_NAG,
-  RTL_OFFSET_POS_DESC,
-  RTL_OFFSET_POS_ASC,
+  LTR,
   PageKey,
+  RTL,
+  RTL_OFFSET_NAG,
+  RTL_OFFSET_POS_ASC,
+  RTL_OFFSET_POS_DESC,
 } from './defaults'
 
 import type { CSSProperties } from 'vue'
-import type { RTLOffsetType, Direction, LayoutDirection } from './types'
+import type { Direction, LayoutDirection, RTLOffsetType } from './types'
 
 export const getScrollDir = (prev: number, cur: number) =>
   prev < cur ? FORWARD : BACKWARD
@@ -68,7 +67,19 @@ export const getRelativePos = (
   return 'touches' in e ? e.touches[0][PageKey[layout]] : e[PageKey[layout]]
 }
 
-export function renderThumbStyle({ move, size, bar }, layout: string) {
+type RenderThumbStyleParams = {
+  bar: {
+    size: 'height' | 'width'
+    axis: 'X' | 'Y'
+  }
+  size: string
+  move: number
+}
+
+export function renderThumbStyle(
+  { move, size, bar }: RenderThumbStyleParams,
+  layout: string
+) {
   const style: CSSProperties = {}
   const translate = `translate${bar.axis}(${move}px)`
 
@@ -86,8 +97,3 @@ export function renderThumbStyle({ move, size, bar }, layout: string) {
 
   return style
 }
-
-export const isFF =
-  typeof navigator !== 'undefined' &&
-  isObject(navigator) &&
-  /Firefox/i.test(navigator.userAgent)

@@ -111,6 +111,7 @@ checkbox/with-border
 | disabled              | whether the nesting checkboxes are disabled       | boolean | —                      | false   |
 | min                   | minimum number of checkbox checked                | number  | —                      | —       |
 | max                   | maximum number of checkbox checked                | number  | —                      | —       |
+| label                 | label for screen reader                           | string  | —                      | —       |
 | text-color            | font color when button is active                  | string  | —                      | #ffffff |
 | fill                  | border and background color when button is active | string  | —                      | #409EFF |
 

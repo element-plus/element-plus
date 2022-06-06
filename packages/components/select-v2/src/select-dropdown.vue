@@ -1,20 +1,20 @@
 <script lang="ts">
 import {
-  defineComponent,
   computed,
+  defineComponent,
+  h,
   inject,
   ref,
   renderSlot,
-  h,
   withCtx,
   withKeys,
   withModifiers,
 } from 'vue'
 import { get } from 'lodash-unified'
-import { isUndefined, isObject } from '@element-plus/utils'
+import { isObject, isUndefined } from '@element-plus/utils'
 import {
-  FixedSizeList,
   DynamicSizeList,
+  FixedSizeList,
 } from '@element-plus/components/virtual-list'
 import { useNamespace } from '@element-plus/hooks'
 import GroupItem from './group-item.vue'
@@ -23,7 +23,7 @@ import OptionItem from './option-item.vue'
 import { selectV2InjectionKey } from './token'
 
 import type { ItemProps } from '@element-plus/components/virtual-list'
-import type { OptionItemProps, Option } from './select.types'
+import type { Option, OptionItemProps } from './select.types'
 
 export default defineComponent({
   name: 'ElSelectDropdown',
@@ -82,10 +82,11 @@ export default defineComponent({
     }
 
     const isItemSelected = (modelValue: any[] | any, target: Option) => {
+      const { valueKey } = select.props
       if (select.props.multiple) {
-        return contains(modelValue, target.value)
+        return contains(modelValue, get(target, valueKey))
       }
-      return isEqual(modelValue, target.value)
+      return isEqual(modelValue, get(target, valueKey))
     }
 
     const isItemDisabled = (modelValue: any[] | any, selected: boolean) => {

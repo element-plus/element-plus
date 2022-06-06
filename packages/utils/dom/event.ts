@@ -1,6 +1,6 @@
 /** @deprecated use `element.addEventListener` instead */
 export const on = (
-  element: HTMLElement | Document | Window,
+  element: HTMLElement | Document | Window | Element,
   event: string,
   handler: EventListenerOrEventListenerObject,
   useCapture = false
@@ -12,7 +12,7 @@ export const on = (
 
 /** @deprecated use `element.addEventListener` instead */
 export const off = (
-  element: HTMLElement | Document | Window,
+  element: HTMLElement | Document | Window | Element,
   event: string,
   handler: EventListenerOrEventListenerObject,
   useCapture = false

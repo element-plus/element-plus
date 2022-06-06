@@ -6,8 +6,7 @@
       :preview-src-list="srcList"
       :initial-index="4"
       fit="cover"
-    >
-    </el-image>
+    />
   </div>
 </template>
 

@@ -80,7 +80,7 @@ export default defineComponent({
         const precisions = []
         let notNumber = true
         values.forEach((value) => {
-          if (!isNaN(value)) {
+          if (!Number.isNaN(+value)) {
             notNumber = false
             const decimal = `${value}`.split('.')[1]
             precisions.push(decimal ? decimal.length : 0)
@@ -90,8 +90,10 @@ export default defineComponent({
         if (!notNumber) {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
-            if (!isNaN(value)) {
-              return parseFloat((prev + curr).toFixed(Math.min(precision, 20)))
+            if (!Number.isNaN(+value)) {
+              return Number.parseFloat(
+                (prev + curr).toFixed(Math.min(precision, 20))
+              )
             } else {
               return prev
             }

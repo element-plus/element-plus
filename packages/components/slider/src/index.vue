@@ -1,28 +1,47 @@
 <template>
   <div
+    :id="range ? inputId : undefined"
     ref="sliderWrapper"
     :class="sliderKls"
-    role="slider"
-    :aria-valuemin="min"
-    :aria-valuemax="max"
-    :aria-orientation="vertical ? 'vertical' : 'horizontal'"
-    :aria-disabled="sliderDisabled"
+    :role="range ? 'group' : undefined"
+    :aria-label="range && !isLabeledByFormItem ? groupLabel : undefined"
+    :aria-labelledby="
+      range && isLabeledByFormItem ? elFormItem.labelId : undefined
+    "
+    @touchstart="onSliderWrapperPrevent"
+    @touchmove="onSliderWrapperPrevent"
   >
     <div
       ref="slider"
       :class="[
         ns.e('runway'),
-        { 'show-input': showInput && !range, disabled: sliderDisabled },
+        { 'show-input': showInput && !range },
+        ns.is('disabled', sliderDisabled),
       ]"
       :style="runwayStyle"
-      @click="onSliderClick"
+      @mousedown="onSliderDown"
+      @touchstart="onSliderDown"
     >
-      <div :class="ns.e('bar')" :style="barStyle"></div>
+      <div :class="ns.e('bar')" :style="barStyle" />
       <slider-button
+        :id="!range ? inputId : undefined"
         ref="firstButton"
         :model-value="firstValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
+        role="slider"
+        :aria-label="
+          range || !isLabeledByFormItem ? firstButtonLabel : undefined
+        "
+        :aria-labelledby="
+          !range && isLabeledByFormItem ? elFormItem.labelId : undefined
+        "
+        :aria-valuemin="min"
+        :aria-valuemax="range ? secondValue : max"
+        :aria-valuenow="firstValue"
+        :aria-valuetext="firstValueText"
+        :aria-orientation="vertical ? 'vertical' : 'horizontal'"
+        :aria-disabled="sliderDisabled"
         @update:model-value="setFirstValue"
       />
       <slider-button
@@ -31,6 +50,14 @@
         :model-value="secondValue"
         :vertical="vertical"
         :tooltip-class="tooltipClass"
+        role="slider"
+        :aria-label="secondButtonLabel"
+        :aria-valuemin="firstValue"
+        :aria-valuemax="max"
+        :aria-valuenow="secondValue"
+        :aria-valuetext="secondValueText"
+        :aria-orientation="vertical ? 'vertical' : 'horizontal'"
+        :aria-disabled="sliderDisabled"
         @update:model-value="setSecondValue"
       />
       <div v-if="showStops">
@@ -39,7 +66,7 @@
           :key="key"
           :class="ns.e('stop')"
           :style="getStopStyle(item)"
-        ></div>
+        />
       </div>
       <template v-if="markList.length > 0">
         <div>
@@ -48,7 +75,7 @@
             :key="key"
             :style="getStopStyle(item.position)"
             :class="[ns.e('stop'), ns.e('marks-stop')]"
-          ></div>
+          />
         </div>
         <div :class="ns.e('marks')">
           <slider-marker
@@ -93,21 +120,29 @@ import {
 } from 'vue'
 import ElInputNumber from '@element-plus/components/input-number'
 import {
-  UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { off, on, throwError, isValidComponentSize } from '@element-plus/utils'
-import { useNamespace, useSize } from '@element-plus/hooks'
+import {
+  debugWarn,
+  isValidComponentSize,
+  throwError,
+} from '@element-plus/utils'
+import {
+  useFormItemInputId,
+  useLocale,
+  useNamespace,
+  useSize,
+} from '@element-plus/hooks'
 import SliderButton from './button.vue'
 import SliderMarker from './marker.vue'
 import { useMarks } from './useMarks'
 import { useSlide } from './useSlide'
 import { useStops } from './useStops'
 
-import type { PropType, Ref } from 'vue'
+import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
-import type { Nullable } from '@element-plus/utils'
 
 export default defineComponent({
   name: 'ElSlider',
@@ -122,6 +157,10 @@ export default defineComponent({
     modelValue: {
       type: [Number, Array] as PropType<number | number[]>,
       default: 0,
+    },
+    id: {
+      type: String,
+      default: undefined,
     },
     min: {
       type: Number,
@@ -187,6 +226,18 @@ export default defineComponent({
       type: String,
       default: undefined,
     },
+    rangeStartLabel: {
+      type: String,
+      default: undefined,
+    },
+    rangeEndLabel: {
+      type: String,
+      default: undefined,
+    },
+    formatValueText: {
+      type: Function as PropType<(val: number) => string>,
+      default: undefined,
+    },
     tooltipClass: {
       type: String,
       default: undefined,
@@ -198,6 +249,7 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const ns = useNamespace('slider')
+    const { t } = useLocale()
     const initData = reactive({
       firstValue: 0,
       secondValue: 0,
@@ -218,7 +270,9 @@ export default defineComponent({
       barStyle,
       resetSize,
       emitChange,
+      onSliderWrapperPrevent,
       onSliderClick,
+      onSliderDown,
       setFirstValue,
       setSecondValue,
     } = useSlide(props, initData, emit)
@@ -230,10 +284,48 @@ export default defineComponent({
       maxValue
     )
 
+    const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
+      formItemContext: elFormItem,
+    })
+
     const sliderWrapperSize = useSize()
     const sliderInputSize = computed(
       () => props.inputSize || sliderWrapperSize.value
     )
+
+    const groupLabel = computed<string>(() => {
+      return (
+        props.label ||
+        t('el.slider.defaultLabel', {
+          min: props.min,
+          max: props.max,
+        })
+      )
+    })
+
+    const firstButtonLabel = computed<string>(() => {
+      if (props.range) {
+        return props.rangeStartLabel || t('el.slider.defaultRangeStartLabel')
+      } else {
+        return groupLabel.value
+      }
+    })
+
+    const firstValueText = computed<string>(() => {
+      return props.formatValueText
+        ? props.formatValueText(firstValue.value)
+        : `${firstValue.value}`
+    })
+
+    const secondButtonLabel = computed<string>(() => {
+      return props.rangeEndLabel || t('el.slider.defaultRangeEndLabel')
+    })
+
+    const secondValueText = computed<string>(() => {
+      return props.formatValueText
+        ? props.formatValueText(secondValue.value)
+        : `${secondValue.value}`
+    })
 
     const sliderKls = computed(() => [
       ns.b(),
@@ -281,14 +373,25 @@ export default defineComponent({
       dragging,
       sliderSize,
 
+      inputId,
+      isLabeledByFormItem,
+      elFormItem,
+
       slider,
+      groupLabel,
       firstButton,
+      firstButtonLabel,
+      firstValueText,
       secondButton,
+      secondButtonLabel,
+      secondValueText,
       sliderDisabled,
       runwayStyle,
       barStyle,
       emitChange,
       onSliderClick,
+      onSliderWrapperPrevent,
+      onSliderDown,
       getStopStyle,
       setFirstValue,
       setSecondValue,
@@ -339,11 +442,11 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          elFormItem.validate?.('change')
+          elFormItem.validate?.('change').catch((err) => debugWarn(err))
           initData.oldValue = val.slice()
         }
       }
-    } else if (!props.range && typeof val === 'number' && !isNaN(val)) {
+    } else if (!props.range && typeof val === 'number' && !Number.isNaN(val)) {
       if (val < props.min) {
         _emit(props.min)
       } else if (val > props.max) {
@@ -351,7 +454,7 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          elFormItem.validate?.('change')
+          elFormItem.validate?.('change').catch((err) => debugWarn(err))
           initData.oldValue = val
         }
       }
@@ -398,10 +501,9 @@ const useWatch = (props, initData, minValue, maxValue, emit, elFormItem) => {
 }
 
 const useLifecycle = (props, initData, resetSize) => {
-  const sliderWrapper: Ref<Nullable<HTMLElement>> = ref(null)
+  const sliderWrapper = ref<HTMLElement>()
 
   onMounted(async () => {
-    let valuetext
     if (props.range) {
       if (Array.isArray(props.modelValue)) {
         initData.firstValue = Math.max(props.min, props.modelValue[0])
@@ -411,9 +513,11 @@ const useLifecycle = (props, initData, resetSize) => {
         initData.secondValue = props.max
       }
       initData.oldValue = [initData.firstValue, initData.secondValue]
-      valuetext = `${initData.firstValue}-${initData.secondValue}`
     } else {
-      if (typeof props.modelValue !== 'number' || isNaN(props.modelValue)) {
+      if (
+        typeof props.modelValue !== 'number' ||
+        Number.isNaN(props.modelValue)
+      ) {
         initData.firstValue = props.min
       } else {
         initData.firstValue = Math.min(
@@ -422,25 +526,16 @@ const useLifecycle = (props, initData, resetSize) => {
         )
       }
       initData.oldValue = initData.firstValue
-      valuetext = initData.firstValue
     }
 
-    sliderWrapper.value.setAttribute('aria-valuetext', valuetext)
-
-    // label screen reader
-    sliderWrapper.value.setAttribute(
-      'aria-label',
-      props.label ? props.label : `slider between ${props.min} and ${props.max}`
-    )
-
-    on(window, 'resize', resetSize)
+    window.addEventListener('resize', resetSize)
 
     await nextTick()
     resetSize()
   })
 
   onBeforeUnmount(() => {
-    off(window, 'resize', resetSize)
+    window.removeEventListener('resize', resetSize)
   })
 
   return {

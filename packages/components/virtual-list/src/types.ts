@@ -174,6 +174,40 @@ export type GridConstructorProps<
 
   // configs
   initCache: P
+  injectToInstance?: (instance: Instance, cache: Ref<ReturnType<P>>) => void
   clearCache: boolean
   validateProps: PropValidator<T>
 }
+
+/**
+ * Instance methods and emits
+ */
+export type GridDefaultSlotParams = {
+  columnIndex: number
+  rowIndex: number
+  data: any
+  key: number | string
+  isScrolling?: boolean
+  style: CSSProperties
+}
+
+export type GridItemRenderedEvtParams = {
+  columnCacheStart: number
+  columnCacheEnd: number
+  rowCacheStart: number
+  rowCacheEnd: number
+  columnVisibleStart: number
+  columnVisibleEnd: number
+  rowVisibleStart: number
+  rowVisibleEnd: number
+}
+
+export type GridScrollOptions = { scrollLeft?: number; scrollTop?: number }
+
+export type GridItemKeyGetter = <
+  T extends { [key: string | number]: any }
+>(args: {
+  columnIndex: number
+  data: T
+  rowIndex: number
+}) => string | number

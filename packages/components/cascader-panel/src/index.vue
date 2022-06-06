@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['el-cascader-panel', border && 'is-bordered']"
+    :class="[ns.b('panel'), ns.is('bordered', border)]"
     @keydown="handleKeyDown"
   >
     <el-cascader-menu
@@ -8,7 +8,7 @@
       :key="index"
       :ref="(item) => (menuList[index] = item)"
       :index="index"
-      :nodes="menu"
+      :nodes="[...menu]"
     />
   </div>
 </template>
@@ -25,21 +25,22 @@ import {
   ref,
   watch,
 } from 'vue'
-import { isEqual, flattenDeep } from 'lodash-unified'
+import { flattenDeep, isEqual } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
+  castArray,
   focusNode,
   getSibling,
   isEmpty,
-  unique,
-  castArray,
   scrollIntoView,
+  unique,
 } from '@element-plus/utils'
 import {
+  CHANGE_EVENT,
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
-  CHANGE_EVENT,
 } from '@element-plus/constants'
+import { useNamespace } from '@element-plus/hooks'
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
@@ -51,11 +52,11 @@ import { CASCADER_PANEL_INJECTION_KEY } from './types'
 import type { PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type {
-  CascaderValue,
+  default as CascaderNode,
   CascaderNodeValue,
   CascaderOption,
+  CascaderValue,
   RenderLabel,
-  default as CascaderNode,
 } from './node'
 
 import type { ElCascaderPanelContext } from './types'
@@ -82,6 +83,7 @@ export default defineComponent({
     // for interrupt sync check status in lazy mode
     let manualChecked = false
 
+    const ns = useNamespace('cascader')
     const config = useCascaderConfig(props)
 
     let store: Nullable<Store> = null
@@ -273,13 +275,13 @@ export default defineComponent({
       menuList.value.forEach((menu) => {
         const menuElement = menu?.$el
         if (menuElement) {
-          const container = (menuElement as HTMLElement).querySelector(
-            '.el-scrollbar__wrap'
+          const container = menuElement.querySelector(
+            `.${ns.namespace.value}-scrollbar__wrap`
           )
           const activeNode =
-            menuElement.querySelector('.el-cascader-node.is-active') ||
-            menuElement.querySelector('.el-cascader-node.in-active-path')
-          scrollIntoView(container as HTMLElement, activeNode)
+            menuElement.querySelector(`.${ns.b('node')}.${ns.is('active')}`) ||
+            menuElement.querySelector(`.${ns.b('node')}.in-active-path`)
+          scrollIntoView(container, activeNode)
         }
       })
     }
@@ -294,7 +296,7 @@ export default defineComponent({
           e.preventDefault()
           const distance = code === EVENT_CODE.up ? -1 : 1
           focusNode(
-            getSibling(target, distance, '.el-cascader-node[tabindex="-1"]')
+            getSibling(target, distance, `.${ns.b('node')}[tabindex="-1"]`)
           )
           break
         }
@@ -302,7 +304,7 @@ export default defineComponent({
           e.preventDefault()
           const preMenu = menuList.value[getMenuIndex(target) - 1]
           const expandedNode = preMenu?.$el.querySelector(
-            '.el-cascader-node[aria-expanded="true"]'
+            `.${ns.b('node')}[aria-expanded="true"]`
           )
           focusNode(expandedNode)
           break
@@ -311,17 +313,13 @@ export default defineComponent({
           e.preventDefault()
           const nextMenu = menuList.value[getMenuIndex(target) + 1]
           const firstNode = nextMenu?.$el.querySelector(
-            '.el-cascader-node[tabindex="-1"]'
+            `.${ns.b('node')}[tabindex="-1"]`
           )
           focusNode(firstNode)
           break
         }
         case EVENT_CODE.enter:
           checkNode(target)
-          break
-        case EVENT_CODE.esc:
-        case EVENT_CODE.tab:
-          emit('close')
           break
       }
     }
@@ -366,6 +364,7 @@ export default defineComponent({
     onMounted(() => !isEmpty(props.modelValue) && syncCheckedValue())
 
     return {
+      ns,
       menuList,
       menus,
       checkedNodes,

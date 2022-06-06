@@ -1,20 +1,20 @@
 import {
-  onMounted,
-  onBeforeUnmount,
   computed,
-  ref,
-  watchEffect,
-  watch,
-  unref,
   nextTick,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  unref,
+  watch,
+  watchEffect,
 } from 'vue'
 import {
   addResizeListener,
-  removeResizeListener,
-  on,
-  off,
   isNumber,
   isString,
+  off,
+  on,
+  removeResizeListener,
 } from '@element-plus/utils'
 import { useSize } from '@element-plus/hooks'
 import { parseHeight } from '../util'
@@ -37,11 +37,19 @@ function useStyle<T>(
   const setDragVisible = (visible: boolean) => {
     resizeProxyVisible.value = visible
   }
-  const resizeState = ref({
+  const resizeState = ref<{
+    width: null | number
+    height: null | number
+  }>({
     width: null,
     height: null,
   })
   const isGroup = ref(false)
+  const scrollbarViewStyle = {
+    display: 'block',
+    verticalAlign: 'middle',
+  }
+  const tableWidth = ref()
 
   watchEffect(() => {
     layout.setHeight(props.height)
@@ -110,15 +118,21 @@ function useStyle<T>(
     requestAnimationFrame(syncPostion)
   }
   onMounted(async () => {
-    setScrollClass('is-scrolling-left')
     await nextTick()
     store.updateColumns()
     bindEvents()
     requestAnimationFrame(doLayout)
 
+    const el: HTMLElement = table.vnode.el as HTMLElement
+    if (props.flexible && el && el.parentElement) {
+      // Automatic minimum size of flex-items
+      // Ensure that the main axis does not follow the width of the items
+      el.parentElement.style.minWidth = '0'
+    }
+
     resizeState.value = {
-      width: table.vnode.el.offsetWidth,
-      height: table.vnode.el.offsetHeight,
+      width: (tableWidth.value = el.offsetWidth),
+      height: el.offsetHeight,
     }
 
     // init filters
@@ -145,9 +159,20 @@ function useStyle<T>(
     const { tableWrapper } = table.refs
     setScrollClassByEl(tableWrapper, className)
   }
+  const hasScrollClass = (className: string) => {
+    const { tableWrapper } = table.refs
+    return !!(tableWrapper && tableWrapper.classList.contains(className))
+  }
   const syncPostion = function () {
-    if (!layout.scrollX.value || !table.refs.scrollWrapper) return
-    const scrollContainer = table.refs.scrollWrapper.wrap$
+    if (!table.refs.scrollBarRef) return
+    if (!layout.scrollX.value) {
+      const scrollingNoneClass = 'is-scrolling-none'
+      if (!hasScrollClass(scrollingNoneClass)) {
+        setScrollClass(scrollingNoneClass)
+      }
+      return
+    }
+    const scrollContainer = table.refs.scrollBarRef.wrap$
     if (!scrollContainer) return
     const { scrollLeft, offsetWidth, scrollWidth } = scrollContainer
     const { headerWrapper, footerWrapper } = table.refs
@@ -164,8 +189,8 @@ function useStyle<T>(
   }
 
   const bindEvents = () => {
-    if (!table.refs.scrollWrapper) return
-    table.refs.scrollWrapper.wrap$?.addEventListener('scroll', syncPostion, {
+    if (!table.refs.scrollBarRef) return
+    table.refs.scrollBarRef.wrap$?.addEventListener('scroll', syncPostion, {
       passive: true,
     })
     if (props.fit) {
@@ -178,7 +203,7 @@ function useStyle<T>(
     unbindEvents()
   })
   const unbindEvents = () => {
-    table.refs.scrollWrapper.wrap$?.removeEventListener(
+    table.refs.scrollBarRef.wrap$?.removeEventListener(
       'scroll',
       syncPostion,
       true
@@ -195,7 +220,7 @@ function useStyle<T>(
     const el = table.vnode.el
     const { width: oldWidth, height: oldHeight } = resizeState.value
 
-    const width = el.offsetWidth
+    const width = (tableWidth.value = el.offsetWidth)
     if (oldWidth !== width) {
       shouldUpdateLayout = true
     }
@@ -281,7 +306,7 @@ function useStyle<T>(
       height = `calc(100% - ${layout.appendHeight.value}px)`
     }
     return {
-      width: bodyWidth.value,
+      width: tableWidth.value ? `${tableWidth.value}px` : '',
       height,
     }
   })
@@ -379,6 +404,7 @@ function useStyle<T>(
     doLayout,
     tableBodyStyles,
     tableLayout,
+    scrollbarViewStyle,
   }
 }
 

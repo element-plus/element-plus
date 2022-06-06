@@ -53,6 +53,16 @@ tag/theme
 
 :::
 
+## Rounded <el-tag>> 2.1.7</el-tag>
+
+Tag can also be rounded like button.
+
+:::demo
+
+tag/rounded
+
+:::
+
 ## Checkable tag
 
 Sometimes because of the business needs, we might need checkbox like tag, but **button like checkbox** cannot meet our needs, here comes `check-tag`
@@ -74,6 +84,7 @@ tag/checkable
 | color               | background color of the Tag          | string  | —                           | —       |
 | size                | tag size                             | string  | large / default /small      | default |
 | effect              | component theme                      | string  | dark / light / plain        | light   |
+| round               | whether Tag is rounded               | boolean | —                           | false   |
 
 ## Events
 

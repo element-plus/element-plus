@@ -11,7 +11,7 @@
     <el-icon v-else-if="icon">
       <component :is="icon" />
     </el-icon>
-    <slot v-else></slot>
+    <slot v-else />
   </span>
 </template>
 
@@ -19,7 +19,7 @@
 import { computed, ref, watch } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
-import { isNumber, isString, addUnit } from '@element-plus/utils'
+import { addUnit, isNumber, isString } from '@element-plus/utils'
 import { avatarEmits, avatarProps } from './avatar'
 
 import type { CSSProperties } from 'vue'
@@ -47,9 +47,9 @@ const avatarClass = computed(() => {
 const sizeStyle = computed(() => {
   const { size } = props
   return isNumber(size)
-    ? ({
-        '--el-avatar-size': addUnit(size),
-      } as CSSProperties)
+    ? (ns.cssVarBlock({
+        size: addUnit(size) || '',
+      }) as CSSProperties)
     : undefined
 })
 

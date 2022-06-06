@@ -3,17 +3,17 @@
     :class="[ns.b('dropdown'), ns.is('multiple', isMultiple), popperClass]"
     :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
 <script lang="ts">
 import {
-  defineComponent,
   computed,
-  onMounted,
-  onBeforeUnmount,
+  defineComponent,
   inject,
+  onBeforeUnmount,
+  onMounted,
   ref,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'

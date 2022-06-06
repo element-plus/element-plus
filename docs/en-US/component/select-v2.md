@@ -7,7 +7,7 @@ lang: en-US
 
 :::tip
 
-This component is still under testing, if you found any bug or issue please report it at [Github](https://github.com/element-plus/element-plus/issues) for us to fix.
+This component is still under testing, if you found any bug or issue please report it at [GitHub](https://github.com/element-plus/element-plus/issues) for us to fix.
 
 :::
 
@@ -38,6 +38,8 @@ select-v2/multiple
 :::
 
 ## Hide extra tags when the selected items are too many.
+
+You can collapse tags to a text by using `collapse-tags` attribute. You can check them when mouse hover collapse text by using `collapse-tags-tooltip` attribute.
 
 :::demo
 
@@ -125,7 +127,7 @@ select-v2/remote-search
 
 ## SelectV2 Attributes
 
-| Param                             | Description                                                                                                                              | Type                               | Accepted Values     | Default       |
+| Attribute                         | Description                                                                                                                              | Type                               | Accepted Values     | Default       |
 | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------------------- | ------------- |
 | model-value / v-model             | biding value                                                                                                                             | string / number / boolean / object | —                   | —             |
 | multiple                          | is multiple                                                                                                                              | boolean                            | —                   | false         |
@@ -133,8 +135,9 @@ select-v2/remote-search
 | value-key                         | unique identity key name for value, required when value is an object                                                                     | string                             | —                   | value         |
 | size                              | input box size                                                                                                                           | string                             | large/default/small | default       |
 | clearable                         | whether select can be cleared                                                                                                            | boolean                            | —                   | false         |
-| clear-icon                        | custom clear icon                                                                                                                        | string / component                 | —                   | CircleClose   |
+| clear-icon                        | custom clear icon                                                                                                                        | string / Component                 | —                   | CircleClose   |
 | collapse-tags                     | whether to collapse tags to a text when multiple selecting                                                                               | boolean                            | —                   | false         |
+| collapse-tags-tooltip             | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | boolean                            | true / false        | false         |
 | multiple-limit                    | maximum number of options user can select when multiple is true. No limit when set to 0                                                  | number                             | —                   | 0             |
 | name                              | the name attribute of select input                                                                                                       | string                             | —                   | —             |
 | effect                            | Tooltip theme, built-in theme: `dark` / `light`                                                                                          | string                             | string              | light         |
@@ -150,7 +153,6 @@ select-v2/remote-search
 | persistent                        | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | boolean                            | true / false        | true          |
 | popper-options                    | Customized popper option see more at [popper.js](https://popper.js.org/documentation.html)                                               | object                             | -                   | -             |
 | automatic-dropdown                | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | boolean                            | -                   | false         |
-| clear-icon                        | Customized clear icon component                                                                                                          | string / Component                 | —                   | CircleClose   |
 | height                            | The height of the dropdown panel, 34px for each item                                                                                     | number                             | -                   | 170           |
 | scrollbar-always-on               | Controls whether the scrollbar is always displayed                                                                                       | boolean                            | -                   | false         |
 | remote                            | whether search data from server                                                                                                          | boolean                            | —                   | false         |
@@ -176,7 +178,7 @@ select-v2/remote-search
 
 ## SelectV2 Slots
 
-| name    | Description                   |
+| Name    | Description                   |
 | ------- | ----------------------------- |
 | default | Option renderer               |
 | empty   | content when options is empty |

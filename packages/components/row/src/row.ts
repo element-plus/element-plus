@@ -1,7 +1,17 @@
-import { defineComponent, computed, h, provide } from 'vue'
 import { buildProps } from '@element-plus/utils'
-import { useNamespace } from '@element-plus/hooks'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
+import type { ExtractPropTypes } from 'vue'
+import type Row from './row.vue'
+
+export const RowJustify = [
+  'start',
+  'center',
+  'end',
+  'space-around',
+  'space-between',
+  'space-evenly',
+] as const
+
+export const RowAlign = ['top', 'middle', 'bottom'] as const
 
 export const rowProps = buildProps({
   tag: {
@@ -14,63 +24,15 @@ export const rowProps = buildProps({
   },
   justify: {
     type: String,
-    values: [
-      'start',
-      'center',
-      'end',
-      'space-around',
-      'space-between',
-      'space-evenly',
-    ],
+    values: RowJustify,
     default: 'start',
   },
   align: {
     type: String,
-    values: ['top', 'middle', 'bottom'],
+    values: RowAlign,
     default: 'top',
   },
 } as const)
+
 export type RowProps = ExtractPropTypes<typeof rowProps>
-
-const Row = defineComponent({
-  name: 'ElRow',
-  props: rowProps,
-
-  setup(props, { slots }) {
-    const ns = useNamespace('row')
-
-    const gutter = computed(() => props.gutter)
-    provide('ElRow', {
-      gutter,
-    })
-
-    const style = computed(() => {
-      const styles: CSSProperties = {
-        marginLeft: '',
-        marginRight: '',
-      }
-      if (props.gutter) {
-        styles.marginLeft = `-${props.gutter / 2}px`
-        styles.marginRight = styles.marginLeft
-      }
-      return styles
-    })
-
-    return () =>
-      h(
-        props.tag,
-        {
-          class: [
-            ns.b(),
-            ns.is(`justify-${props.justify}`, props.justify !== 'start'),
-            ns.is(`align-${props.align}`, props.align !== 'top'),
-          ],
-          style: style.value,
-        },
-        slots.default?.()
-      )
-  },
-})
-
-export default Row
 export type RowInstance = InstanceType<typeof Row>

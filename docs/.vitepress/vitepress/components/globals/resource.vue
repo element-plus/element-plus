@@ -1,49 +1,70 @@
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useLang } from '../../composables/lang'
+import resourceLocale from '../../../i18n/pages/resource.json'
+import { sendEvent } from '../../../config/analytics'
+const lang = useLang()
+const resourceLang = computed(() => resourceLocale[lang.value])
+const onClick = (item: string) => {
+  sendEvent('resource_download', item)
+}
+</script>
+
 <template>
   <div class="page-resource">
-    <h1>Resources</h1>
-    <p>More resources are still in development...</p>
-    <el-space :size="20" alignment="start">
-      <el-card class="card" shadow="hover">
-        <img src="/images/Axure-Components.svg" alt="axure" />
-        <h3>Axure Components</h3>
-        <p>
-          By importing Element UI in Axure, you can easily apply all the
-          components we provide during interaction design.
-        </p>
-        <a
-          href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib"
-        >
-          <el-button type="primary">Download</el-button>
-        </a>
-      </el-card>
-      <el-card class="card" shadow="hover">
-        <img src="/images/Sketch-Template.svg" alt="Sketch" />
-        <h3>Sketch Template</h3>
-        <p>
-          Apply components from Element template, so you can improve design
-          efficiency while keeping a unified visual style.
-        </p>
-        <a
-          href="https://github.com/ElementUI/Resources/raw/master/Element%20UI%20Kit_v2.0.sketch"
-        >
-          <el-button type="primary">Download</el-button>
-        </a>
-      </el-card>
-      <el-card class="card" shadow="hover">
-        <img src="/images/figma.png" alt="Figma" />
-        <h3>Figma Template</h3>
-        <p>
-          Newly designed Figma component library for 2022 with new features such
-          as Auto-layout and Variants.
-        </p>
-        <a
-          href="https://www.figma.com/community/file/1021254029764378306"
-          target="_blank"
-        >
-          <el-button type="primary">Download</el-button>
-        </a>
-      </el-card>
-    </el-space>
+    <h1>{{ resourceLang.title }}</h1>
+    <p>{{ resourceLang.lineOne }}</p>
+    <p v-html="resourceLang.lineTwo" />
+    <div class="flex flex-wrap justify-center mt-32px">
+      <div class="inline-flex w-full md:w-1/3" p="2" pl-0>
+        <el-card class="card" shadow="hover">
+          <axure-components-svg w="30" alt="axure" />
+          <h3>{{ resourceLang.axure }}</h3>
+          <p>
+            {{ resourceLang.axureIntro }}
+          </p>
+          <a
+            target="_blank"
+            href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib"
+            @click="onClick('axure')"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+      <div class="inline-flex w-full md:w-1/3" p="2">
+        <el-card class="card" shadow="hover">
+          <sketch-template-svg w="30" alt="Sketch" />
+          <h3>{{ resourceLang.sketch }}</h3>
+          <p>
+            {{ resourceLang.sketchIntro }}
+          </p>
+          <a
+            target="_blank"
+            href="https://github.com/ElementUI/Resources/raw/master/Element%20UI%20Kit_v2.0.sketch"
+            @click="onClick('sketch')"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+      <div class="inline-flex w-full md:w-1/3" p="2">
+        <el-card class="card" shadow="hover">
+          <figma-template-svg w="30" alt="Figma" />
+          <h3>{{ resourceLang.figma }}</h3>
+          <p>
+            {{ resourceLang.figmaIntro }}
+          </p>
+          <a
+            href="https://www.figma.com/community/file/1021254029764378306"
+            target="_blank"
+            @click="onClick('figma')"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,9 +75,14 @@
 
   h1 {
     color: var(--text-color);
-
-    + p {
-      color: var(--text-color-light);
+    margin-bottom: 24px;
+  }
+  p {
+    color: var(--text-color-light);
+    line-height: 24px;
+    margin: 0;
+    &:last-of-type {
+      margin-top: 8px;
     }
   }
 }

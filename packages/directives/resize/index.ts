@@ -1,6 +1,6 @@
 import { addResizeListener, removeResizeListener } from '@element-plus/utils'
 
-import type { ObjectDirective, DirectiveBinding } from 'vue'
+import type { DirectiveBinding, ObjectDirective } from 'vue'
 
 declare interface ResizeEl extends HTMLElement {
   _handleResize?: () => void

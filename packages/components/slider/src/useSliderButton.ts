@@ -1,21 +1,22 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { off, on } from '@element-plus/utils'
+import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ComputedRef, CSSProperties } from 'vue'
+import type { CSSProperties, ComponentInternalInstance, ComputedRef } from 'vue'
 import type {
   ISliderButtonInitData,
   ISliderButtonProps,
   ISliderProvider,
 } from './slider.type'
 
+const { left, down, right, up, home, end, pageUp, pageDown } = EVENT_CODE
+
 const useTooltip = (
   props: ISliderButtonProps,
   formatTooltip: ComputedRef<(value: number) => number | string>,
   showTooltip: ComputedRef<boolean>
 ) => {
-  const tooltip = ref(null)
+  const tooltip = ref<any>()
 
   const tooltipVisible = ref(false)
 
@@ -50,7 +51,7 @@ const useTooltip = (
 export const useSliderButton = (
   props: ISliderButtonProps,
   initData: ISliderButtonInitData,
-  emit
+  emit: ComponentInternalInstance['emit']
 ) => {
   const {
     disabled,
@@ -64,10 +65,12 @@ export const useSliderButton = (
     emitChange,
     resetSize,
     updateDragging,
-  } = inject<ISliderProvider>('SliderProvider')
+  } = inject<ISliderProvider>('SliderProvider')!
 
   const { tooltip, tooltipVisible, formatValue, displayTooltip, hideTooltip } =
     useTooltip(props, formatTooltip, showTooltip)
+
+  const button = ref<any>()
 
   const currentPosition = computed(() => {
     return `${
@@ -99,29 +102,69 @@ export const useSliderButton = (
     if (disabled.value) return
     event.preventDefault()
     onDragStart(event)
-    on(window, 'mousemove', onDragging)
-    on(window, 'touchmove', onDragging)
-    on(window, 'mouseup', onDragEnd)
-    on(window, 'touchend', onDragEnd)
-    on(window, 'contextmenu', onDragEnd)
+    window.addEventListener('mousemove', onDragging)
+    window.addEventListener('touchmove', onDragging)
+    window.addEventListener('mouseup', onDragEnd)
+    window.addEventListener('touchend', onDragEnd)
+    window.addEventListener('contextmenu', onDragEnd)
+    button.value.focus()
+  }
+
+  const incrementPosition = (amount: number) => {
+    if (disabled.value) return
+    initData.newPosition =
+      Number.parseFloat(currentPosition.value) +
+      (amount / (max.value - min.value)) * 100
+    setPosition(initData.newPosition)
+    emitChange()
   }
 
   const onLeftKeyDown = () => {
-    if (disabled.value) return
-    initData.newPosition =
-      parseFloat(currentPosition.value) -
-      (step.value / (max.value - min.value)) * 100
-    setPosition(initData.newPosition)
-    emitChange()
+    incrementPosition(-step.value)
   }
 
   const onRightKeyDown = () => {
+    incrementPosition(step.value)
+  }
+
+  const onPageDownKeyDown = () => {
+    incrementPosition(-step.value * 4)
+  }
+
+  const onPageUpKeyDown = () => {
+    incrementPosition(step.value * 4)
+  }
+
+  const onHomeKeyDown = () => {
     if (disabled.value) return
-    initData.newPosition =
-      parseFloat(currentPosition.value) +
-      (step.value / (max.value - min.value)) * 100
-    setPosition(initData.newPosition)
+    setPosition(0)
     emitChange()
+  }
+
+  const onEndKeyDown = () => {
+    if (disabled.value) return
+    setPosition(100)
+    emitChange()
+  }
+
+  const onKeyDown = (event: KeyboardEvent) => {
+    let isPreventDefault = true
+    if ([left, down].includes(event.key)) {
+      onLeftKeyDown()
+    } else if ([right, up].includes(event.key)) {
+      onRightKeyDown()
+    } else if (event.key === home) {
+      onHomeKeyDown()
+    } else if (event.key === end) {
+      onEndKeyDown()
+    } else if (event.key === pageDown) {
+      onPageDownKeyDown()
+    } else if (event.key === pageUp) {
+      onPageUpKeyDown()
+    } else {
+      isPreventDefault = false
+    }
+    isPreventDefault && event.preventDefault()
   }
 
   const getClientXY = (event: MouseEvent | TouchEvent) => {
@@ -149,7 +192,7 @@ export const useSliderButton = (
     } else {
       initData.startX = clientX
     }
-    initData.startPosition = parseFloat(currentPosition.value)
+    initData.startPosition = Number.parseFloat(currentPosition.value)
     initData.newPosition = initData.startPosition
   }
 
@@ -188,16 +231,16 @@ export const useSliderButton = (
           emitChange()
         }
       }, 0)
-      off(window, 'mousemove', onDragging)
-      off(window, 'touchmove', onDragging)
-      off(window, 'mouseup', onDragEnd)
-      off(window, 'touchend', onDragEnd)
-      off(window, 'contextmenu', onDragEnd)
+      window.removeEventListener('mousemove', onDragging)
+      window.removeEventListener('touchmove', onDragging)
+      window.removeEventListener('mouseup', onDragEnd)
+      window.removeEventListener('touchend', onDragEnd)
+      window.removeEventListener('contextmenu', onDragEnd)
     }
   }
 
   const setPosition = async (newPosition: number) => {
-    if (newPosition === null || isNaN(newPosition)) return
+    if (newPosition === null || Number.isNaN(+newPosition)) return
     if (newPosition < 0) {
       newPosition = 0
     } else if (newPosition > 100) {
@@ -207,7 +250,7 @@ export const useSliderButton = (
     const steps = Math.round(newPosition / lengthPerStep)
     let value =
       steps * lengthPerStep * (max.value - min.value) * 0.01 + min.value
-    value = parseFloat(value.toFixed(precision.value))
+    value = Number.parseFloat(value.toFixed(precision.value))
     emit(UPDATE_MODEL_EVENT, value)
 
     if (!initData.dragging && props.modelValue !== initData.oldValue) {
@@ -227,6 +270,7 @@ export const useSliderButton = (
   )
 
   return {
+    button,
     tooltip,
     tooltipVisible,
     showTooltip,
@@ -235,8 +279,7 @@ export const useSliderButton = (
     handleMouseEnter,
     handleMouseLeave,
     onButtonDown,
-    onLeftKeyDown,
-    onRightKeyDown,
+    onKeyDown,
     setPosition,
   }
 }

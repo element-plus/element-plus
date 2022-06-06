@@ -1,0 +1,20 @@
+{
+  "name": "@element-plus/build-constants",
+  "version": "0.0.1",
+  "description": "Build constants for Element Plus",
+  "keywords": [
+    "element-plus"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "unbuild",
+    "dev": "pnpm run stub",
+    "stub": "unbuild --stub"
+  },
+  "devDependencies": {
+    "unbuild": "^0.7.4"
+  }
+}

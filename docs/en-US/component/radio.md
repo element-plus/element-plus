@@ -80,13 +80,13 @@ radio/with-borders
 
 ## Radio-group Attributes
 
-| Attribute             | Description                                       | Type                      | Accepted Values       | Default |
-| --------------------- | ------------------------------------------------- | ------------------------- | --------------------- | ------- |
-| model-value / v-model | binding value                                     | string / number / boolean | —                     | —       |
-| size                  | the size of radio                                 | string                    | large / small / small | default |
-| disabled              | whether the nesting radios are disabled           | boolean                   | —                     | false   |
-| text-color            | font color when button is active                  | string                    | —                     | #ffffff |
-| fill                  | border and background color when button is active | string                    | —                     | #409EFF |
+| Attribute             | Description                                       | Type                      | Accepted Values         | Default |
+| --------------------- | ------------------------------------------------- | ------------------------- | ----------------------- | ------- |
+| model-value / v-model | binding value                                     | string / number / boolean | —                       | —       |
+| size                  | the size of radio                                 | string                    | large / default / small | default |
+| disabled              | whether the nesting radios are disabled           | boolean                   | —                       | false   |
+| text-color            | font color when button is active                  | string                    | —                       | #ffffff |
+| fill                  | border and background color when button is active | string                    | —                       | #409EFF |
 
 ## Radio-group Events
 

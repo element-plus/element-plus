@@ -5,7 +5,7 @@ import { toggleDark } from '../../composables/dark'
 
 <template>
   <div class="full-screen-theme-toggler">
-    <span> Theme </span>
+    <span>Theme</span>
     <CommonThemeToggler @click="toggleDark()" />
   </div>
 </template>

@@ -14,8 +14,6 @@ export const ElLoading = {
 }
 
 export default ElLoading
-
-export const ElLoadingDirective = vLoading
-export const ElLoadingService = Loading
+export { vLoading, vLoading as ElLoadingDirective, Loading as ElLoadingService }
 
 export * from './src/types'

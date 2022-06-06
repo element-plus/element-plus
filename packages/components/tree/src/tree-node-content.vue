@@ -1,5 +1,5 @@
 <script lang="ts">
-import { h, defineComponent, inject } from 'vue'
+import { defineComponent, h, inject } from 'vue'
 
 import { useNamespace } from '@element-plus/hooks'
 import type { ComponentInternalInstance } from 'vue'

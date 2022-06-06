@@ -1,8 +1,9 @@
-import { inject, ref, computed, unref, provide, getCurrentInstance } from 'vue'
+import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
 import { configProviderContextKey } from '@element-plus/tokens'
 import { debugWarn, keysOf } from '@element-plus/utils'
+
 import type { MaybeRef } from '@vueuse/core'
-import type { Ref, App } from 'vue'
+import type { App, Ref } from 'vue'
 import type { ConfigProviderContext } from '@element-plus/tokens'
 
 // this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
@@ -66,7 +67,7 @@ const mergeConfig = (
   b: ConfigProviderContext
 ): ConfigProviderContext => {
   const keys = [...new Set([...keysOf(a), ...keysOf(b)])]
-  const obj = {}
+  const obj: Record<string, any> = {}
   for (const key of keys) {
     obj[key] = b[key] ?? a[key]
   }

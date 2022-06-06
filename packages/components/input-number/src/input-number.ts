@@ -1,34 +1,35 @@
+import { isNil } from 'lodash-unified'
+import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, isNumber } from '@element-plus/utils'
-import { componentSizes } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
+import type { ExtractPropTypes } from 'vue'
+import type InputNumber from './input-number.vue'
 
 export const inputNumberProps = buildProps({
+  id: {
+    type: String,
+    default: undefined,
+  },
   step: {
     type: Number,
     default: 1,
   },
-  stepStrictly: {
-    type: Boolean,
-    default: false,
-  },
+  stepStrictly: Boolean,
   max: {
     type: Number,
-    default: Infinity,
+    default: Number.POSITIVE_INFINITY,
   },
   min: {
     type: Number,
-    default: -Infinity,
+    default: Number.NEGATIVE_INFINITY,
   },
-  modelValue: {
-    type: Number,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  size: {
-    type: String,
-    values: componentSizes,
-  },
+  modelValue: Number,
+  disabled: Boolean,
+  size: useSizeProp,
   controls: {
     type: Boolean,
     default: true,
@@ -38,20 +39,33 @@ export const inputNumberProps = buildProps({
     default: '',
     values: ['', 'right'],
   },
+  valueOnClear: {
+    type: [String, Number, null],
+    validator: (val: 'min' | 'max' | number | null) =>
+      val === null || isNumber(val) || ['min', 'max'].includes(val),
+    default: null,
+  },
   name: String,
   label: String,
   placeholder: String,
   precision: {
     type: Number,
-    validator: (val: number) => val >= 0 && val === parseInt(`${val}`, 10),
+    validator: (val: number) =>
+      val >= 0 && val === Number.parseInt(`${val}`, 10),
   },
 } as const)
+export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
 
 export const inputNumberEmits = {
-  change: (prev: number, cur: number) => prev !== cur,
+  [CHANGE_EVENT]: (prev: number | undefined, cur: number | undefined) =>
+    prev !== cur,
   blur: (e: FocusEvent) => e instanceof FocusEvent,
   focus: (e: FocusEvent) => e instanceof FocusEvent,
-  input: (val: number) => isNumber(val),
-  'update:modelValue': (val: number | undefined) =>
-    isNumber(val) || val === undefined,
+  [INPUT_EVENT]: (val: number | null | undefined) =>
+    isNumber(val) || isNil(val),
+  [UPDATE_MODEL_EVENT]: (val: number | undefined) =>
+    isNumber(val) || isNil(val),
 }
+export type InputNumberEmits = typeof inputNumberEmits
+
+export type InputNumberInstance = InstanceType<typeof InputNumber>

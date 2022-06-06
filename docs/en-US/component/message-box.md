@@ -114,6 +114,22 @@ If Element Plus is fully imported, it will add the following global methods for 
 - `$confirm(message, title, options)` or `$confirm(message, options)`
 - `$prompt(message, title, options)` or `$prompt(message, options)`
 
+## App context inheritance <el-tag>> 2.0.4</el-tag>
+
+Now message box accepts a `context` as second (forth if you are using message box variants) parameter of the message constructor which allows you to inject current app's context to message which allows you to inherit all the properties of the app.
+
+```ts
+import { getCurrentInstance } from 'vue'
+import { ElMessageBox } from 'element-plus'
+
+// in your setup method
+const { appContext } = getCurrentInstance()!
+// You can pass it like:
+ElMessageBox({}, appContext)
+// or if you are using variants
+ElMessageBox.alert('Hello world!', 'Title', {}, appContext)
+```
+
 ## Local import
 
 If you prefer importing `MessageBox` on demand:
@@ -135,7 +151,7 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 | icon                         | custom icon component, overrides `type`                                                                                                  | string / Component                                                                                                                                                                                                              | —                                | —                                                |
 | custom-class                 | custom class name for MessageBox                                                                                                         | string                                                                                                                                                                                                                          | —                                | —                                                |
 | custom-style                 | custom inline style for MessageBox                                                                                                       | CSSProperties                                                                                                                                                                                                                   | —                                | —                                                |
-| callback                     | MessageBox closing callback if you don't prefer Promise                                                                                  | function(action), where action can be 'confirm', 'cancel' or 'close', and `instance` is the MessageBox instance. You can access to that instance's attributes and methods                                                       | —                                | —                                                |
+| callback                     | MessageBox closing callback if you don't prefer Promise                                                                                  | function(action, instance), where `action` can be 'confirm', 'cancel' or 'close', and `instance` is the MessageBox instance. You can access to that instance's attributes and methods                                           | —                                | —                                                |
 | showClose                    | whether to show close icon of MessageBox                                                                                                 | boolean                                                                                                                                                                                                                         | —                                | true                                             |
 | before-close                 | callback before MessageBox closes, and it will prevent MessageBox from closing                                                           | function(action, instance, done), where `action` can be 'confirm', 'cancel' or 'close'; `instance` is the MessageBox instance, and you can access to that instance's attributes and methods; `done` is for closing the instance | —                                | —                                                |
 | distinguish-cancel-and-close | whether to distinguish canceling and closing the MessageBox                                                                              | boolean                                                                                                                                                                                                                         | —                                | false                                            |

@@ -1,10 +1,10 @@
-import { ref, getCurrentInstance, unref, watch, toRefs } from 'vue'
+import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
 import { hasOwn } from '@element-plus/utils'
 import {
-  getKeysMap,
-  getRowIdentity,
   getColumnById,
   getColumnByKey,
+  getKeysMap,
+  getRowIdentity,
   orderBy,
   toggleRowStatus,
 } from '../util'
@@ -15,7 +15,7 @@ import useTree from './tree'
 import type { Ref } from 'vue'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table, TableRefs } from '../table/defaults'
-import type { StoreFilter } from './index'
+import type { StoreFilter } from '.'
 
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn
@@ -136,7 +136,7 @@ function useWatcher<T>() {
 
   // 选择
   const isSelected = (row) => {
-    return selection.value.indexOf(row) > -1
+    return selection.value.includes(row)
   }
 
   const clearSelection = () => {
@@ -160,17 +160,19 @@ function useWatcher<T>() {
         }
       }
     } else {
-      deleted = selection.value.filter(
-        (item) => data.value.indexOf(item) === -1
-      )
+      deleted = selection.value.filter((item) => !data.value.includes(item))
     }
     if (deleted.length) {
       const newSelection = selection.value.filter(
-        (item) => deleted.indexOf(item) === -1
+        (item) => !deleted.includes(item)
       )
       selection.value = newSelection
       instance.emit('selection-change', newSelection.slice())
     }
+  }
+
+  const getSelectionRows = () => {
+    return (selection.value || []).slice()
   }
 
   const toggleRowSelection = (
@@ -252,7 +254,7 @@ function useWatcher<T>() {
       if (selectedMap) {
         return !!selectedMap[getRowIdentity(row, rowKey.value)]
       } else {
-        return selection.value.indexOf(row) !== -1
+        return selection.value.includes(row)
       }
     }
     let isAllSelected_ = true
@@ -466,6 +468,7 @@ function useWatcher<T>() {
     isSelected,
     clearSelection,
     cleanSelection,
+    getSelectionRows,
     toggleRowSelection,
     _toggleAllSelection,
     toggleAllSelection: null,

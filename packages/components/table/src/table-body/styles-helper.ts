@@ -1,9 +1,9 @@
 import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import {
+  ensurePosition,
   getFixedColumnOffset,
   getFixedColumnsClass,
-  ensurePosition,
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -47,11 +47,6 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
         })
       )
     }
-
-    if (props.store.states.expandRows.value.indexOf(row) > -1) {
-      classes.push('expanded')
-    }
-
     return classes
   }
 
@@ -103,7 +98,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
       )
     }
     classes.push(ns.e('cell'))
-    return classes.join(' ')
+    return classes.filter((className) => Boolean(className)).join(' ')
   }
   const getSpan = (
     row: T,

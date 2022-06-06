@@ -1,15 +1,15 @@
 import {
+  computed,
   defineComponent,
   getCurrentInstance,
-  watch,
-  computed,
-  ref,
-  provide,
-  onMounted,
   h,
-  withDirectives,
-  reactive,
   nextTick,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  watch,
+  withDirectives,
 } from 'vue'
 import { Resize } from '@element-plus/directives'
 import ElIcon from '@element-plus/components/icon'
@@ -17,10 +17,11 @@ import { More } from '@element-plus/icons-vue'
 import {
   buildProps,
   definePropType,
-  mutable,
-  isString,
   isObject,
+  isString,
+  mutable,
 } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
@@ -28,7 +29,7 @@ import { useMenuCssVar } from './use-menu-css-var'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
-import type { VNode, ExtractPropTypes, VNodeNormalizedChildren } from 'vue'
+import type { ExtractPropTypes, VNode, VNodeNormalizedChildren } from 'vue'
 
 export const menuProps = buildProps({
   mode: {
@@ -99,6 +100,8 @@ export default defineComponent({
     const instance = getCurrentInstance()!
     const router = instance.appContext.config.globalProperties.$router as Router
     const menu = ref<HTMLUListElement>()
+    const nsMenu = useNamespace('menu')
+    const nsSubMenu = useNamespace('sub-menu')
 
     // data
     const openedMenus = ref<MenuProvider['openedMenus']>(
@@ -274,6 +277,7 @@ export default defineComponent({
         addSubMenu,
         removeSubMenu,
         mouseInChild: ref(false),
+        level: 0,
       })
     }
 
@@ -281,7 +285,7 @@ export default defineComponent({
     onMounted(() => {
       initMenu()
       if (props.mode === 'horizontal') {
-        new Menubar(instance.vnode.el!)
+        new Menubar(instance.vnode.el!, nsMenu.namespace.value)
       }
     })
 
@@ -324,11 +328,11 @@ export default defineComponent({
         ) as HTMLElement[]
         const originalSlot = flattedChildren(slot)
         const moreItemWidth = 64
-        const paddingLeft = parseInt(
+        const paddingLeft = Number.parseInt(
           getComputedStyle(menu.value).paddingLeft,
           10
         )
-        const paddingRight = parseInt(
+        const paddingRight = Number.parseInt(
           getComputedStyle(menu.value).paddingRight,
           10
         )
@@ -350,14 +354,14 @@ export default defineComponent({
               ElSubMenu,
               {
                 index: 'sub-menu-more',
-                class: 'el-sub-menu__hide-arrow',
+                class: nsSubMenu.e('hide-arrow'),
               },
               {
                 title: () =>
                   h(
                     ElIcon,
                     {
-                      class: ['el-sub-menu__icon-more'],
+                      class: nsSubMenu.e('icon-more'),
                     },
                     { default: () => h(More) }
                   ),
@@ -368,7 +372,7 @@ export default defineComponent({
         }
       }
 
-      const ulStyle = useMenuCssVar(props)
+      const ulStyle = useMenuCssVar(props, 0)
 
       const resizeMenu = (vNode: VNode) =>
         props.ellipsis ? useVNodeResize(vNode) : vNode
@@ -382,12 +386,12 @@ export default defineComponent({
             ref: menu,
             style: ulStyle.value,
             class: {
-              'el-menu': true,
-              'el-menu--horizontal': props.mode === 'horizontal',
-              'el-menu--collapse': props.collapse,
+              [nsMenu.b()]: true,
+              [nsMenu.m(props.mode)]: true,
+              [nsMenu.m('collapse')]: props.collapse,
             },
           },
-          [...slot.map((vnode) => resizeMenu(vnode)), ...vShowMore]
+          [...slot, ...vShowMore]
         )
       )
 

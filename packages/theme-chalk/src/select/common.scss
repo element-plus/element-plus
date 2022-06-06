@@ -1,6 +1,6 @@
 @use '../mixins/mixins' as *;
 
-// same style in select & selevt-v2
+// same style in select & select-v2
 @mixin select-common($name) {
   .#{$namespace}-#{$name}__tags-text {
     text-overflow: ellipsis;

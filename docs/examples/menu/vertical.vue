@@ -86,9 +86,9 @@
 
 <script lang="ts" setup>
 import {
-  Location,
   Document,
   Menu as IconMenu,
+  Location,
   Setting,
 } from '@element-plus/icons-vue'
 const handleOpen = (key: string, keyPath: string[]) => {

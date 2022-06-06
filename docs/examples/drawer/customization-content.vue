@@ -1,8 +1,8 @@
 <template>
-  <el-button type="text" @click="table = true"
+  <el-button text @click="table = true"
     >Open Drawer with nested table</el-button
   >
-  <el-button type="text" @click="dialog = true"
+  <el-button text @click="dialog = true"
     >Open Drawer with nested form</el-button
   >
   <el-drawer
@@ -12,17 +12,9 @@
     size="50%"
   >
     <el-table :data="gridData">
-      <el-table-column
-        property="date"
-        label="Date"
-        width="150"
-      ></el-table-column>
-      <el-table-column
-        property="name"
-        label="Name"
-        width="200"
-      ></el-table-column>
-      <el-table-column property="address" label="Address"></el-table-column>
+      <el-table-column property="date" label="Date" width="150" />
+      <el-table-column property="name" label="Name" width="200" />
+      <el-table-column property="address" label="Address" />
     </el-table>
   </el-drawer>
 
@@ -37,15 +29,15 @@
     <div class="demo-drawer__content">
       <el-form :model="form">
         <el-form-item label="Name" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
         <el-form-item label="Area" :label-width="formLabelWidth">
           <el-select
             v-model="form.region"
             placeholder="Please select activity area"
           >
-            <el-option label="Area1" value="shanghai"></el-option>
-            <el-option label="Area2" value="beijing"></el-option>
+            <el-option label="Area1" value="shanghai" />
+            <el-option label="Area2" value="beijing" />
           </el-select>
         </el-form-item>
       </el-form>
@@ -61,8 +53,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { ElMessageBox } from 'element-plus'
-import type { ElDrawer } from 'element-plus'
+import { ElDrawer, ElMessageBox } from 'element-plus'
 
 const formLabelWidth = '80px'
 let timer

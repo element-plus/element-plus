@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useData, inBrowser } from 'vitepress'
+import { inBrowser, useData } from 'vitepress'
 
-import { useFeatureFlag } from '../composables/feature-flag'
 import VPNavbarSearch from './navbar/vp-search.vue'
 import VPNavbarMenu from './navbar/vp-menu.vue'
 import VPNavbarThemeToggler from './navbar/vp-theme-toggler.vue'
@@ -15,12 +14,13 @@ defineProps<{
 }>()
 
 defineEmits(['toggle'])
-const themeEnabled = useFeatureFlag('theme')
 
-const { theme } = useData()
+const { theme, page } = useData()
 
 const currentLink = computed(() => {
-  if (!inBrowser) return '/'
+  if (!inBrowser) {
+    return `/${page.value?.frontmatter?.lang || ''}/`
+  }
   const existLangIndex = theme.value.langs.findIndex((lang) =>
     window?.location?.pathname.startsWith(`/${lang}`)
   )
@@ -31,7 +31,7 @@ const currentLink = computed(() => {
 
 <template>
   <div class="navbar-wrapper">
-    <div class="container">
+    <div class="header-container">
       <div class="logo-container">
         <a :href="currentLink">
           <img
@@ -44,7 +44,7 @@ const currentLink = computed(() => {
       <div class="content">
         <VPNavbarSearch class="search" :options="theme.agolia" multilang />
         <VPNavbarMenu class="menu" />
-        <VPNavbarThemeToggler v-if="themeEnabled" class="theme-toggler" />
+        <VPNavbarThemeToggler class="theme-toggler" />
         <VPNavbarTranslation class="translation" />
         <VPNavbarSocialLinks class="social-links" />
         <VPNavbarHamburger
@@ -68,7 +68,6 @@ const currentLink = computed(() => {
   }
   .logo {
     position: relative;
-    width: 100%;
     height: 100%;
   }
 }

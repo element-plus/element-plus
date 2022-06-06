@@ -1,15 +1,15 @@
 import {
-  h,
-  ref,
-  provide,
   computed,
   defineComponent,
   getCurrentInstance,
+  h,
+  provide,
+  ref,
   watch,
 } from 'vue'
 import {
-  debugWarn,
   buildProps,
+  debugWarn,
   definePropType,
   mutable,
 } from '@element-plus/utils'
@@ -23,7 +23,7 @@ import Jumper from './components/jumper.vue'
 import Total from './components/total.vue'
 import Pager from './components/pager.vue'
 
-import type { VNode, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, VNode } from 'vue'
 
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number
@@ -54,7 +54,7 @@ export const paginationProps = buildProps({
     validator: (value: unknown) => {
       return (
         typeof value === 'number' &&
-        (value | 0) === value &&
+        Math.trunc(value) === value &&
         value > 4 &&
         value < 22 &&
         value % 2 === 1

@@ -1,7 +1,5 @@
 <template>
-  <el-button type="text" @click="outerVisible = true"
-    >open the outer Dialog</el-button
-  >
+  <el-button text @click="outerVisible = true">open the outer Dialog</el-button>
 
   <el-dialog v-model="outerVisible" title="Outer Dialog">
     <template #default>
@@ -10,8 +8,7 @@
         width="30%"
         title="Inner Dialog"
         append-to-body
-      >
-      </el-dialog>
+      />
     </template>
     <template #footer>
       <div class="dialog-footer">

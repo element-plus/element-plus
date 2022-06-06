@@ -17,6 +17,14 @@ menu/basic
 
 :::
 
+## Left And Right
+
+:::demo You can make the menu items to the left or right.
+
+menu/left-and-right
+
+:::
+
 ## Side bar
 
 Vertical Menu with sub-menus.
@@ -44,9 +52,9 @@ menu/collapse
 | mode                | menu display mode                                                                                          | string  | horizontal / vertical | vertical |
 | collapse            | whether the menu is collapsed (available only in vertical mode)                                            | boolean | —                     | false    |
 | ellipsis            | whether the menu is ellipsis (available only in horizontal mode)                                           | boolean | —                     | true     |
-| background-color    | background color of Menu (hex format)                                                                      | string  | —                     | #ffffff  |
-| text-color          | text color of Menu (hex format)                                                                            | string  | —                     | #303133  |
-| active-text-color   | text color of currently active menu item (hex format)                                                      | string  | —                     | #409EFF  |
+| background-color    | background color of Menu (hex format) (deprecated, use `--bg-color` instead)                               | string  | —                     | #ffffff  |
+| text-color          | text color of Menu (hex format) (deprecated, use `--text-color` instead)                                   | string  | —                     | #303133  |
+| active-text-color   | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)           | string  | —                     | #409EFF  |
 | default-active      | index of currently active menu                                                                             | string  | —                     | —        |
 | default-openeds     | array that contains indexes of currently active sub-menus                                                  | Array   | —                     | —        |
 | unique-opened       | whether only one sub-menu can be active                                                                    | boolean | —                     | false    |
