@@ -99,7 +99,7 @@
     "fast-glob": "^3.2.11",
     "husky": "^8.0.1",
     "jsdom": "16.4.0",
-    "lint-staged": "^12.4.1",
+    "lint-staged": "^13.0.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.6.2",
     "pretty-quick": "^3.1.3",
