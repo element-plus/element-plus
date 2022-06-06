@@ -11,7 +11,7 @@ export const panelTimePickerProps = buildProps({
   },
   datetimeRole: String,
   parsedValue: {
-    type: definePropType<string | Dayjs>([Object, String]),
+    type: definePropType<Dayjs>(Object),
   },
   format: {
     type: String,
