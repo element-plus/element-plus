@@ -2,10 +2,10 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
-  watch,
+  inject,
   onUnmounted,
   onUpdated,
-  inject,
+  watch,
 } from 'vue'
 import { isClient } from '@vueuse/core'
 import { addClass, removeClass } from '@element-plus/utils'

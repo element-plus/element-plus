@@ -1,18 +1,17 @@
 import { ref, watch } from 'vue'
 import { debugWarn, throwError } from '@element-plus/utils'
-import { useDeprecated } from '@element-plus/hooks'
 import { genFileId } from './upload'
 import type { ShallowRef } from 'vue'
 import type {
-  UploadContentProps,
   UploadContentInstance,
+  UploadContentProps,
 } from './upload-content'
 import type {
-  UploadRawFile,
   UploadFile,
-  UploadProps,
-  UploadStatus,
   UploadFiles,
+  UploadProps,
+  UploadRawFile,
+  UploadStatus,
 } from './upload'
 
 const SCOPE = 'ElUpload'
@@ -99,24 +98,9 @@ export const useHandlers = (
   }
 
   const handleRemove: UploadContentProps['onRemove'] = async (
-    file,
-    rawFile // TODO: deprecated in 2.2
+    file
   ): Promise<void> => {
-    if (rawFile) {
-      useDeprecated(
-        {
-          scope: SCOPE,
-          from: 'handleRemove second argument',
-          version: '2.2',
-          replacement: 'first argument `file`',
-          ref: 'https://element-plus.org/en-US/component/upload.html#methods',
-        },
-        true
-      )
-    }
-
-    const _file = rawFile || file
-    const uploadFile = _file instanceof File ? getFile(_file) : _file
+    const uploadFile = file instanceof File ? getFile(file) : file
     if (!uploadFile) throwError(SCOPE, 'file to be removed not found')
 
     const doRemove = (file: UploadFile) => {

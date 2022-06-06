@@ -1,9 +1,9 @@
 import type {
-  ComponentInternalInstance,
   CSSProperties,
+  ComponentInternalInstance,
+  PropType,
   Ref,
   VNode,
-  PropType,
 } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
@@ -13,6 +13,7 @@ import type TableLayout from '../table-layout'
 export type DefaultRow = any
 
 interface TableRefs {
+  tableWrapper: HTMLElement
   headerWrapper: HTMLElement
   footerWrapper: HTMLElement
   fixedBodyWrapper: HTMLElement
@@ -47,7 +48,7 @@ type RenderExpanded<T> = ({
 }: RIS<T>) => VNode
 
 type SummaryMethod<T> = (data: {
-  columns: TableColumnCtx<T>
+  columns: TableColumnCtx<T>[]
   data: T[]
 }) => string[]
 
@@ -135,6 +136,7 @@ interface TableProps<T> {
   className?: string
   style?: CSSProperties
   tableLayout: Layout
+  flexible: boolean
 }
 
 interface Sort {
@@ -259,6 +261,7 @@ export default {
     type: Boolean,
     default: false,
   },
+  flexible: Boolean,
 }
 export type {
   SummaryMethod,

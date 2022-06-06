@@ -1,8 +1,8 @@
 import { useNamespace } from '@element-plus/hooks'
 import {
+  ensurePosition,
   getFixedColumnOffset,
   getFixedColumnsClass,
-  ensurePosition,
 } from '../util'
 import useMapState from './mapState-helper'
 import type { TableColumnCtx } from '../table-column/defaults'

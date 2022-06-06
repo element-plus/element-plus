@@ -10,10 +10,13 @@
     "strict": true,
     "noImplicitAny": false,
     "skipLibCheck": true,
+    "lib": ["WebWorker"],
     "paths": {
-      "element-plus": ["../packages/element-plus"]
+      "element-plus": ["../packages/element-plus"],
+      "~/*": ["./.vitepress/vitepress/*"]
     },
-    "types": ["../typings/components"]
+    "types": ["../typings/components"],
+    "jsx": "preserve"
   },
   "include": ["**/*", ".vitepress/**/*"],
   "exclude": ["node_modules"]

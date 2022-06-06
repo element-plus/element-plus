@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs/promises'
 import chalk from 'chalk'
 import consola from 'consola'
-import { errorAndExit, docRoot } from '@element-plus/build'
+import { docRoot, errorAndExit } from '@element-plus/build-utils'
 
 const credentialPlaceholder = 'API_TOKEN_PLACEHOLDER'
 

@@ -5,12 +5,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, provide } from 'vue'
+import { provide, ref, watch } from 'vue'
 import { ensureArray } from '@element-plus/utils'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import { collapseContextKey } from '@element-plus/tokens'
-import { collapseProps, collapseEmits } from './collapse'
+import { collapseEmits, collapseProps } from './collapse'
 import type { CollapseActiveName } from './collapse'
 
 defineOptions({

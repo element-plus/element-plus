@@ -6,11 +6,11 @@ import type {
 } from 'async-validator'
 import type { ComponentSize } from '@element-plus/constants'
 import type {
-  FormProps,
   FormEmits,
   FormItemProp,
   FormItemProps,
   FormLabelWidthContext,
+  FormProps,
 } from '@element-plus/components/form'
 import type { Arrayable } from '@element-plus/utils'
 
@@ -48,6 +48,11 @@ export interface FormItemContext extends FormItemProps {
   $el: HTMLDivElement | undefined
   size: ComponentSize
   validateState: string
+  isGroup: boolean
+  labelId: string
+  inputIds: string[]
+  addInputId: (id: string) => void
+  removeInputId: (id: string) => void
   validate: (
     trigger: string,
     callback?: FormValidateCallback

@@ -1,4 +1,4 @@
-import { ref, h, inject } from 'vue'
+import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
 import { getStyle, hasClass } from '@element-plus/utils'
 import { createTablePopper, getCell, getColumnByCell } from '../util'
@@ -96,6 +96,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       cellChild.scrollWidth > cellChild.offsetWidth
     ) {
       createTablePopper(
+        parent?.refs.tableWrapper,
         cell,
         cell.innerText || cell.textContent,
         {

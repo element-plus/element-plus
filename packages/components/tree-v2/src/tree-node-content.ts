@@ -1,4 +1,4 @@
-import { h, defineComponent, inject } from 'vue'
+import { defineComponent, h, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { ROOT_TREE_INJECTION_KEY, treeNodeContentProps } from './virtual-tree'
 

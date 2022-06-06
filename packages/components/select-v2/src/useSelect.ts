@@ -1,28 +1,27 @@
 import {
   computed,
-  watch,
-  ref,
-  reactive,
   nextTick,
-  onMounted,
   onBeforeMount,
+  onMounted,
+  reactive,
+  ref,
+  watch,
 } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import { isEqual, debounce as lodashDebounce, get } from 'lodash-unified'
+import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import {
   useFormItem,
   useLocale,
-  useSize,
   useNamespace,
+  useSize,
 } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   ValidateComponentsMap,
   addResizeListener,
-  removeResizeListener,
   debugWarn,
+  removeResizeListener,
 } from '@element-plus/utils'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 
 import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
@@ -32,8 +31,8 @@ import { flattenOptions } from './util'
 import { useInput } from './useInput'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { SelectProps } from './defaults'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { OptionType, Option } from './select.types'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
+import type { Option, OptionType } from './select.types'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
@@ -42,7 +41,6 @@ const TAG_BASE_WIDTH = {
   default: 42,
   small: 33,
 }
-const COMPONENT_NAME = 'ElSelectV2'
 
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
@@ -50,10 +48,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const nsSelectV2 = useNamespace('select-v2')
   const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
-  const { compatTeleported } = useDeprecateAppendToBody(
-    COMPONENT_NAME,
-    'popperAppendToBody'
-  )
 
   const states = reactive({
     inputValue: DEFAULT_INPUT_PLACEHOLDER,
@@ -687,7 +681,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = props.modelValue
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
-          (option) => getValueKey(option) === props.modelValue
+          (option) => getValueKey(option) === getValueKey(props.modelValue)
         )
         if (~selectedItemIndex) {
           states.selectedLabel = options[selectedItemIndex].label
@@ -700,6 +694,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = ''
       }
     }
+    clearAllNewOption()
     calculatePopperSize()
   }
 
@@ -714,6 +709,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
       states.displayInputValue = ''
+      states.previousQuery = null
       createNewOption('')
     }
   })
@@ -799,8 +795,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     validateState,
     validateIcon,
-    // deprecations
-    compatTeleported,
 
     // methods exports
     debouncedOnInputChange,

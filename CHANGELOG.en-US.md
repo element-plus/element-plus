@@ -1,5 +1,524 @@
 ## Changelog
 
+### 2.2.4
+
+_2022-06-05_
+
+#### Bug fixes
+
+- Components [date-picker] circular dependency (#8093 by @chenxch)
+- Build copy typings (#8098 by @sxzz)
+
+### 2.2.3
+
+_2022-06-04_
+
+#### Features
+
+- Components [date-picker] extract props (#7893 by @jw-foss)
+- Components [dropdown] a11y (#7946 by @opengraphica)
+- Components [image] support native lazy loading (#7968 by @tolking)
+
+#### Bug fixes
+
+- Components [input-number] enhanced precision (#7777 by @chenxch)
+- Components [form-item] fix top label height (#7830 by @purepear)
+- Components [dialog] set destory-on-close drag position abnormal (#7822 by @btea)
+- Components [form] label-position props default value (#7838 by @ryuhangyeong)
+- Components [loading] namespace (#7857 by @tolking)
+- Deps update dependency eslint-plugin-vue to v9 (#7848 by @renovate[bot])
+- Build enhance type check (#7880 by @sxzz)
+- Components [date-picker] fix error when type="daterange" (#7858 by @shenX-2021)
+- Theme-chalk [date-picker] basic & range height size (#7831 by @YunYouJun)
+- Components [tabs] card type fixed height (#7840 by @ryuhangyeong)
+- Components [select-v2] status-icon position (#7835 by @chenxch)
+- Components [button] style compatible issue with :not (#7914 by @dreambo8563)
+- Components [focus-trap] respect focusout null relatedTarget (#7915 by @Giwayume)
+- Theme-chalk [dark-model] vue-cli tree sharking (#7910 by @chenxch)
+- Components [date-picker] Make shortcuts reactive (#7698 by @banbri)
+- Components [table] the scrollbar not change (#7905 by @tolking)
+- Components [tree] remove form item context (#7956 by @opengraphica)
+- Hooks type error (#7941 by @sxzz)
+- Deps update dependency yaml-eslint-parser to v1 (#7978 by @renovate[bot])
+- Components [collection] type error (#7940 by @sxzz)
+- Image-viewer typescript error (#7938 by @sxzz)
+- Deps update dependency @element-plus/icons-vue to v2 (#7976 by @renovate[bot])
+- Utils type error (#7939 by @sxzz)
+- Components [button] :not overrides the disabled style (#7977 by @btea)
+- Components [button] link style and docs (#7996 by @chenxch)
+- Build remove type safe (not stricter) (#8004 by @sxzz)
+- Components [picker] Click to focus fires emit (#8001 by @opengraphica)
+- Components [select]  input height is 2px more (#7958 by @chenxch)
+- Components [focus-trap] popper input focus (#8025 by @opengraphica)
+- Components [scrollbar] expose wrap ref (#8035 by @holazz)
+- Components [el-table] hide tooltip when table is scrolling (#8012 by @msidolphin)
+- Components [popper] contextual menu (#8054 by @jw-foss)
+- Components [form] resetFields object error (#8067 by @chenxch)
+- Theme-chalk [message] border width & style css var (#8072 by @YunYouJun)
+- Components [loading] fix typo (#8074 by @btea)
+- Components [upload] beforeUpload hook (#8079 by @sxzz)
+- Components [timeline-item] props validation (#8083 by @ryuhangyeong)
+- Components [time-picker] picker missing (#8082 by @jw-foss)
+- Build tree shaking (#8088 by @sxzz)
+- Components [date-picker] fix style: range-editor padding (#8057 by @zhyipeng)
+- Docs [infinite-scroll] fix error when use directive (#7855 by @uncledrewzhaopeng)
+- Style update cascader.css (#8070 by @xiaoxian521)
+- Fix focus trap datepicker pick (#8085 by @Giwayume)
+
+#### Refactors
+
+- Components [checkbox-group] switch to script-setup syntax (#7825 by @chenxch)
+- Components [checkbox-button] switch to script-setup syntax (#7827 by @chenxch)
+- Build use esbuild and tsx (#7876 by @sxzz)
+- Metadata deduplicate commits (#7879 by @sxzz)
+- Components [date-picker] extract props (#7884 by @jw-foss)
+- Components [time-select] switch to script-setup syntax (#7833 by @metanas)
+- Components [result] switch to script-setup syntax (#7891 by @ryuhangyeong)
+- Components [input-number] export component instance type (#7886 by @holazz)
+- Components [date-picker] extract props (#7899 by @jw-foss)
+- Components useNamespace for date-picker (#7911 by @YunYouJun)
+- Components [time-picker] setup migration (#7908 by @jw-foss)
+- Components [time-picker] date-picker (#7923 by @jw-foss)
+- Components [date-picker] basic cell (#7924 by @jw-foss)
+- Components [date-picker] date-range (#7931 by @jw-foss)
+- Components [input-number] use JSX in Unit test (#7890 by @holazz)
+- Add useMonthRangeHeader hook (#7936 by @iamkun)
+- Components [rate] props and emits validation (#7949 by @ryuhangyeong)
+- Components [tooltip] transition use useNamespace (#7950 by @btea)
+- Components [collapse-transition] switch to script-setup syntax (#7953 by @ryuhangyeong)
+- Components [input-number] switch to script-setup syntax (#7888 by @holazz)
+- Components [progress] switch to script-setup syntax (#7795 by @chenxch)
+- Components [affix] props and emits validation (#7945 by @ryuhangyeong)
+- Component improve code (#7959 by @sxzz)
+- Components [date-picker] month range (#7948 by @jw-foss)
+- Components [alert] use JSX in Unit test (#7973 by @chenxch)
+- Components [badge] use JSX in Unit test (#7972 by @chenxch)
+- Components [popconfirm] export instance type (#7967 by @chenxch)
+- Components [popconfirm] use JSX in Unit test (#7969 by @chenxch)
+- Components [config-provider] export component instance type (#7979 by @holazz)
+- Components [config-provider] use JSX in Unit test (#7980 by @holazz)
+- Components [config-provider] refactor tokens (#7982 by @holazz)
+- Components [col] switch to script-setup syntax (#7971 by @HeftyKoo)
+- Components [steps] validate values ​​and export values (#7947 by @ryuhangyeong)
+- Components [row] switch to script-setup syntax (#7961 by @HeftyKoo)
+- Components [date-picker] range picker (#7994 by @jw-foss)
+- Components [date-picker] panel-date-pick (#7998 by @jw-foss)
+- Components [scrollbar] use JSX in Unit test (#7987 by @holazz)
+- Components [scrollbar] switch to script-setup syntax (#7986 by @holazz)
+- Components [date-picker] panel-date-pick (#8011 by @jw-foss)
+- Components [button] use JSX in Unit test (#8024 by @ryuhangyeong)
+- Components [progress] use JSX in Unit test (#8022 by @ryuhangyeong)
+- Components [radio] use JSX in Unit test (#8019 by @chenxch)
+- Components [layout] use JSX in Unit test (#8020 by @ryuhangyeong)
+- Utils ep prop (#8018 by @sxzz)
+- Components [avatar] use JSX in Unit test (#8021 by @ryuhangyeong)
+- Components [date-picker] panel-date-pick (#8043 by @jw-foss)
+- Components [date-picker] basic-year-table (#8045 by @jw-foss)
+- Build rename variable (#8027 by @Brain777777)
+- Components [input-number] convert to a constant (#8066 by @ryuhangyeong)
+- Components [radio] separate hooks (#8065 by @ryuhangyeong)
+- Components [tag] add event modifier (#8075 by @ryuhangyeong)
+- Components [badge] remove unnecessary condition (#8073 by @ryuhangyeong)
+- Components [date-picker] basic-month-table (#8053 by @jw-foss)
+- Components [pagination] focusing tab border (#7814 by @ryuhangyeong)
+
+### 2.2.2
+
+_2022-05-23_
+
+#### Features
+
+- Dialog expose dialogContentRef (#7633 by @zhoucan38)
+
+#### Bug fixes
+
+- Components [menu] the styles link error (#7820 by @tolking)
+- Components [form] align label width if it exists (#7826 by @ryuhangyeong)
+- Correct the deprecated note for el-button (#7854 by @0song)
+- Components [radio-group] unique id (#7859 by @JeremyWuuuuu)
+
+### 2.2.1
+
+_2022-05-20_
+
+#### Features
+
+- Components [dialog] a11y and focus trap on dialog components (#7550 by @opengraphica)
+- Components [date-picker] work with modal focus trap; a11y controls and attributes (#7598 by @opengraphica)
+- Ci enforce commit message linter (#7609 by @JeremyWuuuuu)
+- Components menu add more controllable styles (#7549 by @CarterLi)
+- Components [button] add link api (#7652 by @chenxch)
+- Components [input-number] add :value-on-clear and make it nullable (#7724 by @CarterLi)
+- Project introducing triage bot (#7732 by @JeremyWuuuuu)
+- Components [button] restore type="text" (#7761 by @JeremyWuuuuu)
+- Components [table] ensure minimum-size doesn't follow the content (#7627 by @msidolphin)
+- Components [popper] focus trap and a11y (#7736 by @opengraphica)
+
+#### Bug fixes
+
+- Components circle progress 0 percent transition effect (#7562 by @ryuhangyeong)
+- Components date picker range input__inner inherit height (#7586 by @YunYouJun)
+- Components input textarea padding & label line-height (#7570 by @YunYouJun)
+- Docs copy icon (#7587 by @btea)
+- Theme-chalk [input] fix unexpected var name of input-inner-height (#7600 by @plainheart)
+- Datepicker range default height by map.get (#7608 by @YunYouJun)
+- Theme-chalk [input] add not-allowed when disabled (#7612 by @satrong)
+- Components [select] in form change size (#7599 by @chenxch)
+- Ci replace token for lint notification (#7625 by @JeremyWuuuuu)
+- Check-strictly bug (#7422 by @chenxch)
+- Ci token limitation for commit lint (#7647 by @JeremyWuuuuu)
+- Components tabs focus visible (#7665 by @ryuhangyeong)
+- Ci token limitation for commit lint (#7675 by @JeremyWuuuuu)
+- Ci post lint message (#7692 by @JeremyWuuuuu)
+- Ci post lint message (#7695 by @JeremyWuuuuu)
+- Components [upload] show close tip text (#7696 by @ryuhangyeong)
+- Components [date-picker] date-table-cell namespace (#7684 by @YunYouJun)
+- Components date-picker add keydown events(#7506 by @lily-elephant) (#7536)
+- Components [cascader] disabled option can't trigger cancel checked (#7604 by @btea)
+- Components [table-v2] don't spread headerClass (#7729 by @btea)
+- Ci lint commit message error (#7731 by @JeremyWuuuuu)
+- Components [form-item] label is not vertically centered (#7780 by @buqiyuan)
+- Theme-chalk [DatetimePicker] change inner to wrapper & use css var (#7703 by @YunYouJun)
+- Components [time-picker] can not hide panel when click frequently (#7779 by @buqiyuan)
+- Components [popper] provide formItemContext conditionally (#7790 by @CarterLi)
+- Hooks use-form-item circular reference (#7793 by @btea)
+- Components [dialog/drawer] header slot
+- Improve deps (#7763 by @sxzz)
+- Radio-group restore name (#7810 by @chenxch)
+
+#### Refactors
+
+- Build use type unsafe (#7523 by @sxzz)
+- Components [main] switch to script-setup syntax (#7707 by @ryuhangyeong)
+- Components [timeline] switch to script-setup syntax (#7705 by @metanas)
+- Components [collection] switch to script-setup syntax (#7710 by @metanas)
+- Components [radio] switch to script-setup synatx (#7701 by @chenxch)
+- Components [container] switch to script-setup syntax (#7725 by @btea)
+- Components [pagination/pager] switch to script-setup syntax (#7746 by @metanas)
+- Components [pagination/jumper] switch to script-setup syntax (#7747 by @metanas)
+- Components [pagination/total] switch to script-setup syntax (#7750 by @metanas)
+- Components [pagination/prev] switch to script-setup syntax (#7745 by @metanas)
+- Components [pagination/next] switch to script-setup syntax (#7748 by @metanas)
+- Components [checkbox] switch to script-setup syntax (#7794 by @chenxch)
+- Components [pagination/sizes] switch to script-setup syntax (#7749 by @metanas)
+- Theme-chalk [table] remove useless style (#7807 by @YunYouJun)
+- Components [step] switch to script-setup syntax (#7782 by @ryuhangyeong)
+- Components [steps] switch to script-setup syntax (#7783 by @ryuhangyeong)
+
+### 2.2.0
+
+_2022-05-09_
+
+[v2.2.0 release note](https://github.com/element-plus/element-plus/discussions/7578)
+
+#### Breaking changes
+
+##### Button
+
+- `type="text"` has been removed from `button`, now you can do this, for more detail see [Documentation](https://element-plus.org/en-US/component/button.html#text-button)
+
+```diff
+--- <el-button type="text"/>
++++ <el-button text />
+```
+
+#### Features
+
+- Components [slider] aria keyboard controls and attrs (#7389 by @opengraphica)
+- Components [switch] add size (#7377 by @josonho)
+- Docs use home svg layers for dark (#7408 by @YunYouJun)
+- Add custom mix function for colors (#7459 by @YunYouJun)
+- Upgrade to pnpm 7 (#7457 by @sxzz)
+- Docs add Spanish translation (#7468 by @sxzz)
+- Upgrade pnpm 7 (#7480 by @sxzz)
+- Docs enable theme toggler (#7479 by @sxzz)
+- Components [form-item] auto attach labels to inputs (#7450 by @opengraphica)
+- Components [button] update text button (#7515 by @JeremyWuuuuu)
+- Components [auto-resizer] new component (#7541 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [el-select-v2] clear created options (#7305 by @josonho)
+- Components [autocomplete] fetch-suggestions support AsyncFunction (#7315 by @chenxch)
+- Components [pagination] fix typo (#7420 by @fzq1998)
+- Docs icon import (#7440 by @KevinLjb)
+- Pin pnpm version (#7455 by @sxzz)
+- Deps update dependency @rollup/plugin-commonjs to v22 (#7452 by @renovate[bot])
+- Components [image] fix attrs (#7451 by @sxzz)
+- Ssr-testing fix code (#7466 by @sxzz)
+- Input-number precision accuracy (#7398 by @chenxch)
+- Components [descriptions] style (#7474 by @kooriookami)
+- Components [select]label is not shown when value is a object (#7054 by @exherb)
+- Theme-chalk dark mode details (#7460 by @YunYouJun)
+- Table/dropdown/step dark details (#7483 by @YunYouJun)
+- Components [select] The problem that the size changes and the height does not change (#7471 by @chenxch)
+- Components [input] when textarea resize is both, the wordLimit position inaccurate (#7445 by @buqiyuan)
+- Components [pickers] text button issue (#7530 by @JeremyWuuuuu)
+- Components [popconfirm] text button type (#7526 by @JeremyWuuuuu)
+- Components [popper] appendToBody API deprecation (#7534 by @JeremyWuuuuu)
+- Ci publish nightly (#7537 by @sxzz)
+- Components [virtual-table] horizontal scroll (#7538 by @JeremyWuuuuu)
+- Theme-chalk [button] auto insert space (#7539 by @sxzz)
+- Theme-chalk datetime picker time panel bg (#7543 by @YunYouJun)
+- Docs icon collection link (#7547 by @btea)
+- Docs fix Cross hovering (#7558 by @kooriookami)
+- Components input internal autofill border color (#7561 by @YunYouJun)
+- Components [el-tree-v2]prop `icon` support Component. fix [#7517] (#7518 by @JobinJia)
+- Tree-select nodeKey default selected (#7172 by @chenxch) (#7181)
+- Component cascader searching placeholder does not disappear (#7540 by @anflower)
+- Components select v2 remote method trigger reset value when blur (#7569 by @YunYouJun)
+
+#### Refactors
+
+- Components [autocomplete] improve typings (#7381 by @sxzz)
+- Theme-chalk scss css var namespace (#7344 by @YunYouJun)
+- Use svg for guide & resources (#7399 by @YunYouJun)
+- Theme-chalk [tabs] use font-size-base (#7416 by @satrong)
+- Remove babel (#7453 by @sxzz)
+- Components [tabs] refactor register pane (#7449 by @sxzz)
+- Docs add missing deps (#7465 by @sxzz)
+- Components!: remove deprecated warning (#7528 by @JeremyWuuuuu)
+- Components [popconfirm] refactor to script-setup (#7522 by @sxzz)
+
+### 2.1.11
+
+_2022-04-25_
+
+#### Features
+
+- Drop jest (#7248 by @sxzz)
+- Components [virtual-table] renderers (#7273 by @JeremyWuuuuu)
+- Components [virtual-list] renderers
+- Components [virtual-table] empty renderer (#7308 by @JeremyWuuuuu)
+- Components [virtual-table] overlay renderer (#7314 by @JeremyWuuuuu)
+- Components [virtual-table] compsables (#7341 by @JeremyWuuuuu)
+- Components [input] add input formatter (#6876 by @Serendipity96)
+- Components[image] imageviewer add close-on-press-escape(#7154 by @chenxch) (#7182)
+
+#### Bug fixes
+
+- Components [el-upload] icon is covered (#6951 by @josonho)
+- Deps update all non-major dependencies (#7209 by @renovate[bot])
+- Theme-chalk components details when dark (#7229 by @YunYouJun)
+- Components [input] fix status icon gap (#7228 by @plainheart)
+- Components [select] not set input padding anymore (#7269 by @plainheart)
+- Docs radio-group (#7257 by @OneDayOneStep)
+- Tsconfig (#7319 by @sxzz)
+- Build dts generate (#7322 by @sxzz)
+- Popperjs esm version (#7321 by @sxzz)
+- Components [upload] stop bubble (#7304 by @josonho)
+- [upload] prevent preview link (#7326 by @sxzz)
+- Components [upload] make action optional (#7325 by @sxzz)
+- Theme-chalk [pagination] fix spacing when sizes is at the end (#7339 by @plainheart)
+- Components [calendar] fix range year bug (#7227 by @Dreamcreative)
+- Components [input-number] suffix icon position (#7358 by @josonho)
+- Components [date-picker] fix input inner box sizing (#7373 by @plainheart)
+- Reasonable remaining (#7353 by @chenxch) (#7364)
+- Components [input] fix prepend/append not fill height (#7274 by @plainheart)
+- Color-picker v-model trigger active-change (#7260 by @chenxch)
+- Directives use standard wheel event with passive option (#7256 by @TANGENNT)
+- Components [col] component typing issue (#7376 by @JeremyWuuuuu)
+
+#### Refactors
+
+- Utils move function (#7336 by @sxzz)
+
+### 2.1.10
+
+_2022-04-18_
+
+#### Features
+
+- Components [form-item] support use form-item only (#7095 by @sxzz)
+
+#### Bug fixes
+
+- Vitest
+- Components [color-picker] vertical bar bg (#7113 by @YunYouJun)
+- Docs outDir error of VitePWA (#7100 by @tolking)
+- Docs contributors when only one language (#7093 by @sxzz)
+- Vitest ui (#7116 by @sxzz)
+- Tag bg color & other dark details (#7138 by @YunYouJun)
+- Docs logo link (#7133 by @sxzz)
+- Docs fix markdown transformer (#7150 by @plainheart)
+- Components [date-picker] fix `cell-class-name` not work (#7149 by @plainheart)
+- Components [TreeSelect] incorrect props interaction and css paths (#7156 by @yujinpan)
+- Components [tree-select] use `proxy` instead of `ctx` (#7160 by @plainheart)
+- Components [popper] zIndex bug (#7115 by @chenxch)
+- Empty svg when dark (#7203 by @YunYouJun)
+- Components [table] fix `SummaryMethod` type (#7206 by @hminghe)
+
+#### Refactors
+
+- Docs improve style and fix typo (#7094 by @sxzz)
+- Metadata move to dev deps (#7126 by @sxzz)
+- Components [message-box] use useNamespace (#5721 by @buqiyuan)
+- Components [time-select] use useNamespace (#6459 by @gjfei)
+- Components [virtual-list, visual-hidden] use useNamespace (#6461 by @gjfei)
+- Refactor menu to support namespace (#7131 by @iamkun)
+- Components [input] change to flex layout (#7179 by @plainheart)
+
+### 2.1.9
+
+_2022-04-11_
+
+#### Features
+
+- Theme-chalk card support dark (#6975 by @YunYouJun)
+- Theme-chalk dark palette & common color mixins (#6999 by @YunYouJun)
+- Components [virtual-table] (#7014 by @JeremyWuuuuu)
+- Components [virtual-table] (#7024 by @JeremyWuuuuu)
+- Components [virtual-table] columns (#7027 by @JeremyWuuuuu)
+- Docs add source and contributors (#6044 by @sxzz)
+- Components [virtual-table] row (#7047 by @JeremyWuuuuu)
+- Components [virtual-table] row (#7060 by @JeremyWuuuuu)
+-  Release Publish eslint config and metadata (#7063 by @sxzz)
+- Components [virtual-table] cell (#7068 by @JeremyWuuuuu)
+- Components [virtual-table] header (#7070 by @JeremyWuuuuu)
+- Components [virtual-table] table header row (#7072 by @JeremyWuuuuu)
+- Components [virtual-table] TableHeaderCell (#7075 by @JeremyWuuuuu)
+- ThemeChalk dark bg color overlay for components (#7005 by @YunYouJun)
+- Docs add PWA support for docs (#7074 by @tolking)
+- Components [virtual-table] grid table (#7081 by @JeremyWuuuuu)
+- Components [virtual-table] Table (#7083 by @JeremyWuuuuu)
+- ThemeChalk Add dark for custom button & adjust details (#7086 by @YunYouJun)
+
+#### Bug fixes
+
+- Docs documentation layout issue
+- Docs small screen docs sidebar layout
+- Docs small screen docs style
+- Components [image] add infinite prop (#7021 by @btea)
+- Deps update dependency eslint-plugin-unicorn to v42 (#6996 by @renovate[bot])
+- Move @types/lodash to dep (#7046 by @sxzz)
+- Utils circular reference (#7057 by @JeremyWuuuuu)
+- Docs contributors when other language (#7066 by @sxzz)
+- Components [popper-container] recreate container when unmounted (#7076 by @nieyuyao)
+- Popover esc after visible invalid (#7064 by @chenxch)
+- Components [scrollbar] dynamic update scrollbar (#7050 by @btea)
+- Components [input] improved when both `suffix` and `prefix` are displayed (#7001 by @baiwusanyu-c)
+- Components [select] inner input height is inconsistent with select (#6979 by @buqiyuan)
+- Components [dropdown] with dialog use zIndex loop (#7012 by @chenxch)
+- Dev Play vite exclude dts deps (#7089 by @weidehai)
+- Components [table]emit "current-change" when currentRowKey changed (#6992 by @kakigakki)
+
+#### Refactors
+
+- Build improve building (#7048 by @sxzz)
+
+### 2.1.8
+
+_2022-04-03_
+
+#### Features
+
+- Components [tooltip-v2] documentation (#6870 by @JeremyWuuuuu)
+- Components [el-table] add placeholder for tree table (#6905 by @msidolphin)
+- Components [el-scrollbar] expose scrollTo method (#6663 by @msidolphin)
+- Components [tag] add new API for rounded
+- Components [el-virtual-list] support native behaviours (#6945 by @msidolphin)
+- Components add tree select component (#6843 by @yujinpan)
+- Components [tabs] add tab-change event (#6978 by @buqiyuan)
+- Locale: Added Azerbaijani language (#6878 by @chz)
+
+#### Bug fixes
+
+- Components [el-input] change icon when showing password (#6846 by @plainheart)
+- Components [autocomplete] can not fetch suggestions after clear (#6847 by @buqiyuan)
+- Deps update all non-major dependencies (#6893 by @renovate[bot])
+- Remove default size warn by set componetSizes (#6908 by @YunYouJun)
+- [ElMessage] grouping mode default type (#6836 by @chenxch)
+- Components [update] fix onChange hook called twice (#6885 by @LYlanfeng)
+- Components [el-table] use table width as empty block width (#6694 by @plainheart)
+- [el-select-v2] 修復select-v2 v-model 不能正常的支持 Object (#6888 by @czh740132583)
+- Components [input] 添加prepend或append插槽后, clearable无法显示 (#6756 by @cn-troy)
+- Docs [el-divider] Document case error, String to string (#6934 by @zcj996)
+- Components [select] value support object (#6933 by @btea)
+- Docs documentation style (#6952 by @JeremyWuuuuu)
+- Theme-chalk [el-table] fix custom header background of fixed column (#6931 by @plainheart)
+
+#### Refactors
+
+- Components [tabs] switch to script-setup syntax (#6468 by @freedomlang)
+- Components [image, image-viewer] refactor (#6704 by @buqiyuan)
+- Components [calendar] refactor (#6682 by @buqiyuan)
+- Chore(components): [calender] remove import defineExpose (#6974 by @btea)
+
+### 2.1.7
+
+_2022-03-28_
+
+Revert "fix(components): [el-tabs] label slot not update (#6738 by @btea)" (#6871)
+
+#### Refactors
+
+- Theme-chalk overlay/mask/box-shadow css vars (#6848 by @YunYouJun)
+
+### 2.1.6
+
+_2022-03-27_
+
+#### Bug fixes
+
+- Time-picker spinner error style (#6850 by @iamkun)
+
+### 2.1.5
+
+_2022-03-25_
+
+#### Features
+
+- Ci enable ssr testing in CI (#6710 by @JeremyWuuuuu)
+- Components [cascader] add tag-type attribute (#6726 by @btea)
+- Components [autocomplete] fetchSuggestions supports Promise (#6695 by @CarterLi)
+- Export constants (#6763 by @sxzz)
+- Components [dropdown] add buttonProps (#6183 by @gjfei) (#6185)
+- Components [el-config-provider] experimental feature toggle (#6794 by @JeremyWuuuuu)
+- Components [el-config-provider] add config items (#6797 by @JeremyWuuuuu)
+- Project adapt floating ui (#6812 by @JeremyWuuuuu)
+- Hooks [floating] add use-floating (#6822 by @JeremyWuuuuu)
+
+#### Bug fixes
+
+- Components [menu-item] add fallback-placement (#6684 by @freedomlang)
+- Docs update tabs click prop type (#6709 by @MrpandaLiu)
+- Fix "Invalid date" display error in docs site (#6714 by @jasonren0403)
+- Components [el-input] keydown event validator warming (#6691 by @HeftyKoo)
+- Style [el-checkbox-group] vertical align in form-item (#6688 by @HeftyKoo)
+- Components [dropdown] ignore show/hide timeouts for click trigger (#6720 by @purepear)
+- Components [el-tabs] label slot not update (#6738 by @HeftyKoo)
+- Components [time-picker] cancel button not work correctly (#6735 by @HeftyKoo)
+- Components [input] textarea border does not display on ios (#6768 by @HeftyKoo)
+- Components [message-box] textarea can not use multiline text (#6774 by @HeftyKoo)
+- Global config when undefined (#6777 by @sxzz)
+- Components [form] add debounce for validate state (#6779 by @sxzz)
+- Doc domain check (#6793 by @0song)
+- Components [el-select] reset selectedLabel when toggle multiple (#6769 by @muuyao)
+- Components [el-table] cannot scroll when tableLayout is auto (#6790 by @msidolphin)
+- Components [el-table] filter failed when tableLayout is auto (#6798 by @msidolphin)
+- Components [form] clear validate after resetFields (#6758 by @sxzz)
+- Components [cascader] loading icon position (#6802 by @btea)
+- Components [el-form] clear validate after reset fields
+- Import dayjs
+- Components [autocomplete] fix can not fetch suggestions when after clear (#6820 by @buqiyuan)
+- Cascader Unexpected display 'No Data' (#6815 by @chenxch)
+- Components [tree-v2] fix setCheckedKeys([]) can't clear halfCheckedKeys (#6819 by @buqiyuan)
+- Components [table-column] does not render defualt slot when children are comment nodes (#6745 by @buqiyuan)
+
+#### Refactors
+
+- Components [carousel] refactor (#6681 by @buqiyuan)
+- Css vars for reset.scss & reset for docs & fix cards (#6698 by @YunYouJun)
+- Build improve build plugin (#6721 by @sxzz)
+- Theme-chalk use css var instead of component hex colors (#6727 by @YunYouJun)
+- Docs switch to unocss (#6728 by @sxzz)
+- Components [empty] refactor (#6703 by @buqiyuan)
+- Theme-chalk use getCssVar instead of var(--el) & fix details
+- Components [upload] improve code and typings (#6762 by @sxzz)
+- Components [time-picker] use useNamespace (#6523 by @gjfei)
+- Theme-chalk remove default size class & simplify button css (#6782 by @YunYouJun)
+- Components [el-popper] refactor popper to script setups (#6725 by @JeremyWuuuuu)
+
 ### 2.1.4
 
 _2022-03-16_

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { hyphenate } from '@vue/shared'
 import clipboardCopy from 'clipboard-copy'
 import { ElMessage } from 'element-plus'
 import * as Icons from '@element-plus/icons-vue'
@@ -31,7 +30,7 @@ const copyContent = async (content) => {
 
 const copySvgIcon = async (name, refs) => {
   if (copyIcon.value) {
-    await copyContent(`<el-icon><${hyphenate(name)} /></el-icon>`)
+    await copyContent(`<el-icon><${name} /></el-icon>`)
   } else {
     const content = refs[name]?.[0].querySelector('svg')?.outerHTML ?? ''
     await copyContent(content)

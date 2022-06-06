@@ -7,7 +7,8 @@
       <el-autocomplete
         v-model="state1"
         :fetch-suggestions="querySearch"
-        class="inline-input"
+        clearable
+        class="inline-input w-50"
         placeholder="Please Input"
         @select="handleSelect"
       />
@@ -20,15 +21,17 @@
         v-model="state2"
         :fetch-suggestions="querySearch"
         :trigger-on-focus="false"
-        class="inline-input"
+        clearable
+        class="inline-input w-50"
         placeholder="Please Input"
         @select="handleSelect"
       />
     </el-col>
   </el-row>
 </template>
+
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 interface RestaurantItem {
   value: string

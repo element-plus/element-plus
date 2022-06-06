@@ -24,8 +24,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, nextTick } from 'vue'
-import type { ElInput } from 'element-plus'
+import { nextTick, ref } from 'vue'
+import { ElInput } from 'element-plus'
 
 const inputValue = ref('')
 const dynamicTags = ref(['Tag 1', 'Tag 2', 'Tag 3'])

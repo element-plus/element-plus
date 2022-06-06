@@ -1,5 +1,6 @@
 import { buildProps, definePropType, isNumber } from '@element-plus/utils'
-import type { StyleValue, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, StyleValue } from 'vue'
+import type Scrollbar from './scrollbar.vue'
 
 export const scrollbarProps = buildProps({
   height: {
@@ -10,10 +11,7 @@ export const scrollbarProps = buildProps({
     type: [String, Number],
     default: '',
   },
-  native: {
-    type: Boolean,
-    default: false,
-  },
+  native: Boolean,
   wrapStyle: {
     type: definePropType<StyleValue>([String, Object, Array]),
     default: '',
@@ -35,16 +33,12 @@ export const scrollbarProps = buildProps({
     type: String,
     default: 'div',
   },
-  always: {
-    type: Boolean,
-    default: false,
-  },
+  always: Boolean,
   minSize: {
     type: Number,
     default: 20,
   },
 } as const)
-
 export type ScrollbarProps = ExtractPropTypes<typeof scrollbarProps>
 
 export const scrollbarEmits = {
@@ -57,3 +51,5 @@ export const scrollbarEmits = {
   }) => isNumber(scrollTop) && isNumber(scrollLeft),
 }
 export type ScrollbarEmits = typeof scrollbarEmits
+
+export type ScrollbarInstance = InstanceType<typeof Scrollbar>

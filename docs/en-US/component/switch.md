@@ -37,7 +37,7 @@ switch/text-description
 
 :::tip
 
-Use the `active-icon` and `active-icon` attribute to add icon. You can pass either string for the component name (registered in advance) or the component itself which is a SVG Vue component. Element Plus has provided a set of icon that you can find at [icon](/en-US/component/icon)
+Use the `active-icon` and `inactive-icon` attribute to add icon. You can pass either string for the component name (registered in advance) or the component itself which is a SVG Vue component. Element Plus has provided a set of icon that you can find at [icon](/en-US/component/icon)
 
 :::
 
@@ -87,7 +87,7 @@ switch/prevent-switching
 | disabled              | whether Switch is disabled                                                                                                                      | boolean                   | —                       | false   |
 | loading               | whether Switch is in loading state                                                                                                              | boolean                   | —                       | false   |
 | size                  | size of Switch                                                                                                                                  | string                    | large / default / small | default |
-| width                 | width of Switch                                                                                                                                 | number                    | —                       | 40      |
+| width                 | width of Switch                                                                                                                                 | number / string           | —                       | —       |
 | inline-prompt         | whether icon or text is displayed inside dot, only the first character will be rendered for text                                                | boolean                   | —                       | false   |
 | active-icon           | component of the icon displayed when in `on` state, overrides `active-text`                                                                     | string / Component        | —                       | —       |
 | inactive-icon         | component of the icon displayed when in `off` state, overrides `inactive-text`                                                                  | string / Component        | —                       | —       |

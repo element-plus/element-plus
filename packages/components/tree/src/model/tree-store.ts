@@ -3,15 +3,15 @@ import Node from './node'
 import { getNodeKey } from './util'
 
 import type {
-  TreeKey,
-  TreeData,
-  TreeStoreNodesMap,
-  LoadFunction,
   FilterNodeMethodFunction,
-  TreeOptionProps,
-  TreeStoreOptions,
   FilterValue,
+  LoadFunction,
+  TreeData,
+  TreeKey,
   TreeNodeData,
+  TreeOptionProps,
+  TreeStoreNodesMap,
+  TreeStoreOptions,
 } from '../tree.type'
 
 export default class TreeStore {

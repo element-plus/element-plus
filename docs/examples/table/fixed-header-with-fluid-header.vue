@@ -9,7 +9,8 @@
     <el-table-column fixed="right" label="Operations" width="120">
       <template #default="scope">
         <el-button
-          type="text"
+          link
+          type="primary"
           size="small"
           @click.prevent="deleteRow(scope.$index)"
         >

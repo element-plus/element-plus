@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { provide, ref, onMounted } from 'vue'
+import { onMounted, provide, ref } from 'vue'
 import { breadcrumbKey } from '@element-plus/tokens'
 
 import { useNamespace } from '@element-plus/hooks'

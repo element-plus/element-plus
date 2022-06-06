@@ -20,7 +20,7 @@
       @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
       @blur="focusing = false"
-      @click="onFileClicked"
+      @click="focusing = false"
     >
       <slot :file="file">
         <img
@@ -41,10 +41,12 @@
         >
           <a
             :class="nsUpload.be('list', 'item-name')"
-            @click="handleClick(file)"
+            @click.prevent="handleClick(file)"
           >
             <el-icon :class="nsIcon.m('document')"><Document /></el-icon>
-            {{ file.name }}
+            <span :class="nsUpload.be('list', 'item-file-name')">
+              {{ file.name }}
+            </span>
           </a>
           <el-progress
             v-if="file.status === 'uploading'"
@@ -109,12 +111,12 @@
 import { ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
-  Document,
-  Delete,
-  Close,
-  ZoomIn,
   Check,
   CircleCheck,
+  Close,
+  Delete,
+  Document,
+  ZoomIn,
 } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
@@ -138,10 +140,6 @@ const focusing = ref(false)
 
 const handleClick = (file: UploadFile) => {
   props.handlePreview(file)
-}
-
-const onFileClicked = (e: Event) => {
-  ;(e.target as HTMLElement).focus()
 }
 
 const handleRemove = (file: UploadFile) => {

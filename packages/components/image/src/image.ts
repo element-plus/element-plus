@@ -1,17 +1,13 @@
 import {
   buildProps,
   definePropType,
-  mutable,
   isNumber,
+  mutable,
 } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
 
 export const imageProps = buildProps({
-  appendToBody: {
-    type: Boolean,
-    default: undefined,
-  },
   hideOnClickModal: {
     type: Boolean,
     default: false,
@@ -24,6 +20,10 @@ export const imageProps = buildProps({
     type: String,
     values: ['', 'contain', 'cover', 'fill', 'none', 'scale-down'],
     default: '',
+  },
+  loading: {
+    type: String,
+    values: ['eager', 'lazy'],
   },
   lazy: {
     type: Boolean,
@@ -46,6 +46,14 @@ export const imageProps = buildProps({
   initialIndex: {
     type: Number,
     default: 0,
+  },
+  infinite: {
+    type: Boolean,
+    default: true,
+  },
+  closeOnPressEscape: {
+    type: Boolean,
+    default: true,
   },
 } as const)
 export type ImageProps = ExtractPropTypes<typeof imageProps>

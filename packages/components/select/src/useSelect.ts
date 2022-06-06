@@ -1,22 +1,27 @@
 import {
+  computed,
   inject,
   nextTick,
-  computed,
-  watch,
-  ref,
   reactive,
+  ref,
   shallowRef,
   triggerRef,
+  watch,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
-import { debounce as lodashDebounce, isEqual, get } from 'lodash-unified'
+import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
-  UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   EVENT_CODE,
+  UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { debugWarn, isKorean, scrollIntoView } from '@element-plus/utils'
+import {
+  debugWarn,
+  getComponentSize,
+  isKorean,
+  scrollIntoView,
+} from '@element-plus/utils'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 
@@ -35,7 +40,6 @@ export function useSelectStates(props) {
     selected: props.multiple ? [] : ({} as any),
     inputLength: 20,
     inputWidth: 0,
-    initialInputHeight: 0,
     optionsCount: 0,
     filteredOptionsCount: 0,
     visible: false,
@@ -171,7 +175,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   // watch
   watch(
-    () => selectDisabled.value,
+    [() => selectDisabled.value, () => selectSize.value, () => elForm.size],
     () => {
       nextTick(() => {
         resetInputHeight()
@@ -328,21 +332,23 @@ export const useSelect = (props, states: States, ctx) => {
     if (props.collapseTags && !props.filterable) return
     nextTick(() => {
       if (!reference.value) return
-      const inputChildNodes = reference.value.$el.childNodes
-      const input = Array.from(inputChildNodes).find(
-        (item) => (item as HTMLElement).tagName === 'INPUT'
+      const input = reference.value.$el.querySelector(
+        'input'
       ) as HTMLInputElement
       const _tags = tags.value
-      const sizeInMap = states.initialInputHeight || 40
-      input.style.height =
+
+      const sizeInMap = getComponentSize(selectSize.value || elForm.size)
+      // it's an inner input so reduce it by 2px.
+      input.style.height = `${
         states.selected.length === 0
-          ? `${sizeInMap}px`
-          : `${Math.max(
+          ? sizeInMap
+          : Math.max(
               _tags
                 ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
                 : 0,
               sizeInMap
-            )}px`
+            ) - 2
+      }px`
 
       states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
 
@@ -440,6 +446,8 @@ export const useSelect = (props, states: States, ctx) => {
       states.selected = option
       if (props.filterable) states.query = states.selectedLabel
       return
+    } else {
+      states.selectedLabel = ''
     }
     const result: any[] = []
     if (Array.isArray(props.modelValue)) {
@@ -752,6 +760,14 @@ export const useSelect = (props, states: States, ctx) => {
     states.visible = false
   }
 
+  const handleKeydownEscape = (event: KeyboardEvent) => {
+    if (states.visible) {
+      event.preventDefault()
+      event.stopPropagation()
+      states.visible = false
+    }
+  }
+
   const toggleMenu = () => {
     if (props.automaticDropdown) return
     if (!selectDisabled.value) {
@@ -851,6 +867,7 @@ export const useSelect = (props, states: States, ctx) => {
     handleBlur,
     handleClearClick,
     handleClose,
+    handleKeydownEscape,
     toggleMenu,
     selectOption,
     getValueKey,

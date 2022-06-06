@@ -192,7 +192,7 @@
 }
 
 @mixin picker-popper($background, $border, $box-shadow) {
-  &.#{$namespace}-popper[role='tooltip'] {
+  &.#{$namespace}-popper {
     background: $background;
     border: $border;
     box-shadow: $box-shadow;
@@ -219,7 +219,7 @@
 
 // dark
 @mixin dark($block) {
-  .dark {
+  html.dark {
     @include b($block) {
       @content;
     }

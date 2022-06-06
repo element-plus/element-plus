@@ -41,6 +41,6 @@
 
   @include e(content) {
     font-size: 18px;
-    color: var(--el-text-color-primary);
+    color: getCssVar('text-color', 'primary');
   }
 }

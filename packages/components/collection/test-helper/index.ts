@@ -1,7 +1,7 @@
 import { inject } from 'vue'
 import {
-  createCollectionWithScope,
   COLLECTION_ITEM_SIGN,
+  createCollectionWithScope,
 } from '../src/collection'
 
 const TestCollection = createCollectionWithScope('Test')

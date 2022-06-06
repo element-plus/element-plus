@@ -6,6 +6,12 @@
   height: 100%;
 }
 
+%position {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 @include b(image) {
   position: relative;
   display: inline-block;
@@ -17,18 +23,20 @@
   }
 
   @include e(placeholder) {
+    @extend %position !optional;
     @extend %size !optional;
     background: getCssVar('fill-color', 'light');
   }
 
   @include e(error) {
+    @extend %position !optional;
     @extend %size !optional;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 14px;
     background: getCssVar('fill-color', 'light');
-    color: var(--el-text-color-placeholder);
+    color: getCssVar('text-color', 'placeholder');
     vertical-align: middle;
   }
 

@@ -195,6 +195,11 @@
         "text": "Table"
       },
       {
+        "link": "/table-v2",
+        "text": "Virtualized Table",
+        "promotion": "2.2.0"
+      },
+      {
         "link": "/tag",
         "text": "Tag"
       },
@@ -205,6 +210,11 @@
       {
         "link": "/tree",
         "text": "Tree"
+      },
+      {
+        "link": "/tree-select",
+        "text": "TreeSelect",
+        "promotion": "2.1.8"
       },
       {
         "link": "/tree-v2",

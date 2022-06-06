@@ -1,4 +1,4 @@
-import { ref, getCurrentInstance, unref } from 'vue'
+import { getCurrentInstance, ref, unref } from 'vue'
 import { getRowIdentity } from '../util'
 
 import type { Ref } from 'vue'
@@ -29,6 +29,7 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
       )
     }
     currentRow.value = _currentRow
+    instance.emit('current-change', currentRow.value, null)
   }
 
   const updateCurrentRow = (_currentRow: T) => {

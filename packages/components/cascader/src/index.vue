@@ -2,7 +2,7 @@
   <el-tooltip
     ref="tooltipRef"
     v-model:visible="popperVisible"
-    :teleported="compatTeleported"
+    :teleported="teleported"
     :popper-class="[nsCascader.e('dropdown'), popperClass]"
     :popper-options="popperOptions"
     :fallback-placements="[
@@ -40,7 +40,7 @@
         <el-input
           ref="input"
           v-model="inputValue"
-          :placeholder="inputPlaceholder"
+          :placeholder="searchInputValue ? '' : inputPlaceholder"
           :readonly="readonly"
           :disabled="isDisabled"
           :validate-event="false"
@@ -196,8 +196,8 @@ import {
   defineComponent,
   inject,
   nextTick,
-  onMounted,
   onBeforeUnmount,
+  onMounted,
   ref,
   watch,
 } from 'vue'
@@ -212,37 +212,36 @@ import ElInput from '@element-plus/components/input'
 import ElTooltip, {
   useTooltipContentProps,
 } from '@element-plus/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
-import { useLocale, useSize, useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 
 import {
+  addResizeListener,
+  debugWarn,
   focusNode,
   getSibling,
-  addResizeListener,
-  removeResizeListener,
-  isValidComponentSize,
   isKorean,
-  debugWarn,
+  isValidComponentSize,
+  removeResizeListener,
 } from '@element-plus/utils'
 import {
+  CHANGE_EVENT,
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
-  CHANGE_EVENT,
 } from '@element-plus/constants'
-import { CircleClose, Check, ArrowDown } from '@element-plus/icons-vue'
+import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 
 import type { Options } from '@element-plus/components/popper'
 import type { ComputedRef, PropType, Ref } from 'vue'
 import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type {
-  CascaderValue,
   CascaderNode,
+  CascaderValue,
   Tag,
 } from '@element-plus/components/cascader-panel'
 import type { ComponentSize } from '@element-plus/constants'
@@ -339,10 +338,6 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    popperAppendToBody: {
-      type: Boolean,
-      default: undefined,
-    },
     teleported: useTooltipContentProps.teleported,
     // eslint-disable-next-line vue/require-prop-types
     tagType: { ...tagProps.type, default: 'info' },
@@ -362,10 +357,6 @@ export default defineComponent({
     let inputInitialHeight = 0
     let pressDeleteCount = 0
 
-    const { compatTeleported } = useDeprecateAppendToBody(
-      COMPONENT_NAME,
-      'popperAppendToBody'
-    )
     const nsCascader = useNamespace('cascader')
     const nsInput = useNamespace('input')
 
@@ -427,7 +418,7 @@ export default defineComponent({
 
     const checkedValue = computed<CascaderValue>({
       get() {
-        return props.modelValue
+        return props.modelValue as CascaderValue
       },
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)
@@ -625,6 +616,12 @@ export default defineComponent({
           e.preventDefault()
           break
         case EVENT_CODE.esc:
+          if (popperVisible.value === true) {
+            e.preventDefault()
+            e.stopPropagation()
+            togglePopperVisible(false)
+          }
+          break
         case EVENT_CODE.tab:
           togglePopperVisible(false)
           break
@@ -666,10 +663,6 @@ export default defineComponent({
         }
         case EVENT_CODE.enter:
           target.click()
-          break
-        case EVENT_CODE.esc:
-        case EVENT_CODE.tab:
-          togglePopperVisible(false)
           break
       }
     }
@@ -763,8 +756,6 @@ export default defineComponent({
       multiple,
       readonly,
       clearBtnVisible,
-      // deprecation in ver 2.1.0
-      compatTeleported,
 
       nsCascader,
       nsInput,

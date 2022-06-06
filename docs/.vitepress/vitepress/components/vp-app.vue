@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import nprogress from 'nprogress'
 import dayjs from 'dayjs'
-import { useStorage, useToggle, isClient } from '@vueuse/core'
+import { isClient, useStorage, useToggle } from '@vueuse/core'
 import { useSidebar } from '../composables/sidebar'
 import { useToggleWidgets } from '../composables/toggle-widgets'
 import { useLang } from '../composables/lang'
@@ -16,10 +16,15 @@ import VPContent from './vp-content.vue'
 import VPSponsors from './vp-sponsors.vue'
 
 const USER_PREFER_GITHUB_PAGE = 'USER_PREFER_GITHUB_PAGE'
-
 const [isSidebarOpen, toggleSidebar] = useToggle(false)
 const { hasSidebar } = useSidebar()
 const lang = useLang()
+
+const mirrorUrl = 'element-plus.gitee.io'
+const isMirrorUrl = () => {
+  if (!isClient) return
+  return window.location.hostname === mirrorUrl
+}
 
 useToggleWidgets(isSidebarOpen, () => {
   if (!isClient) return
@@ -27,6 +32,8 @@ useToggleWidgets(isSidebarOpen, () => {
     toggleSidebar(false)
   }
 })
+
+const userPrefer = useStorage<boolean | string>(USER_PREFER_GITHUB_PAGE, null)
 
 onMounted(async () => {
   if (!isClient) return
@@ -60,11 +67,8 @@ onMounted(async () => {
   )
 
   if (lang.value === 'zh-CN') {
-    if (location.host === 'element-plus.gitee.io') return
-    const userPrefer = useStorage<boolean | string>(
-      USER_PREFER_GITHUB_PAGE,
-      false
-    )
+    if (isMirrorUrl()) return
+
     if (userPrefer.value) {
       // no alert in the next 90 days
       if (
@@ -92,6 +96,12 @@ onMounted(async () => {
       userPrefer.value = String(dayjs().unix())
     }
   }
+  // unregister sw
+  navigator?.serviceWorker?.getRegistrations().then((registrations) => {
+    for (const registration of registrations) {
+      registration.unregister()
+    }
+  })
 })
 </script>
 

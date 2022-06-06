@@ -1,6 +1,6 @@
-import { defineComponent, h, ref, provide } from 'vue'
+import { defineComponent, h, provide, ref } from 'vue'
 import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import { DEFAULT_FORMATS_TIME } from './common/constant'
 import Picker from './common/picker.vue'
 import TimePickPanel from './time-picker-com/panel-time-pick.vue'
@@ -26,10 +26,10 @@ export default defineComponent({
     const refProps = {
       ...props,
       focus: () => {
-        commonPicker.value?.handleFocus()
+        commonPicker.value?.handleFocusInput()
       },
       blur: () => {
-        commonPicker.value?.handleBlur()
+        commonPicker.value?.handleBlurInput()
       },
     }
     provide('ElPopperOptions', props.popperOptions)

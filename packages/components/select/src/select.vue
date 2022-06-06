@@ -9,7 +9,7 @@
       ref="tooltipRef"
       v-model:visible="dropMenuVisible"
       placement="bottom-start"
-      :teleported="compatTeleported"
+      :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       :effect="effect"
@@ -155,7 +155,7 @@
               @keydown="resetInputState"
               @keydown.down.prevent="navigateOptions('next')"
               @keydown.up.prevent="navigateOptions('prev')"
-              @keydown.esc.stop.prevent="visible = false"
+              @keydown.esc="handleKeydownEscape"
               @keydown.enter.stop.prevent="selectOption"
               @keydown.delete="deletePrevTag"
               @keydown.tab="visible = false"
@@ -189,7 +189,7 @@
             @keydown.down.stop.prevent="navigateOptions('next')"
             @keydown.up.stop.prevent="navigateOptions('prev')"
             @keydown.enter.stop.prevent="selectOption"
-            @keydown.esc.stop.prevent="visible = false"
+            @keydown.esc="handleKeydownEscape"
             @keydown.tab="visible = false"
             @mouseenter="inputHovering = true"
             @mouseleave="inputHovering = false"
@@ -208,8 +208,7 @@
             </template>
             <template #suffix>
               <el-icon
-                v-if="iconComponent"
-                v-show="!showClose"
+                v-if="iconComponent && !showClose"
                 :class="[nsSelect.e('caret'), nsSelect.e('icon'), iconReverse]"
               >
                 <component :is="iconComponent" />
@@ -236,7 +235,7 @@
             :class="[
               nsSelect.is(
                 'empty',
-                !allowCreate && query && filteredOptionsCount === 0
+                !allowCreate && Boolean(query) && filteredOptionsCount === 0
               ),
             ]"
           >
@@ -262,14 +261,14 @@
 
 <script lang="ts">
 import {
-  toRefs,
-  defineComponent,
-  onMounted,
-  onBeforeUnmount,
-  nextTick,
-  reactive,
-  provide,
   computed,
+  defineComponent,
+  nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  reactive,
+  toRefs,
   unref,
 } from 'vue'
 import { ClickOutside } from '@element-plus/directives'
@@ -281,20 +280,19 @@ import ElTooltip, {
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   addResizeListener,
-  removeResizeListener,
   isValidComponentSize,
+  removeResizeListener,
 } from '@element-plus/utils'
-import { CircleClose, ArrowUp } from '@element-plus/icons-vue'
+import { ArrowUp, CircleClose } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
 
-import type { PropType, Component } from 'vue'
+import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { SelectContext } from './token'
 
@@ -369,10 +367,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    popperAppendToBody: {
-      type: Boolean,
-      default: undefined,
-    },
     teleported: useTooltipContentProps.teleported,
     persistent: {
       type: Boolean,
@@ -441,6 +435,7 @@ export default defineComponent({
       handleBlur,
       handleClearClick,
       handleClose,
+      handleKeydownEscape,
       toggleMenu,
       selectOption,
       getValueKey,
@@ -530,39 +525,20 @@ export default defineComponent({
         currentPlaceholder.value = ''
       }
       addResizeListener(selectWrapper.value as any, handleResize)
-      if (reference.value && reference.value.$el) {
-        const sizeMap = {
-          large: 36,
-          default: 32,
-          small: 28,
-        }
-        const input = reference.value.input as HTMLInputElement
-        states.initialInputHeight =
-          input.getBoundingClientRect().height || sizeMap[selectSize.value]
-      }
       if (props.remote && props.multiple) {
         resetInputHeight()
       }
       nextTick(() => {
-        if (!reference.value) return
-        if (reference.value.$el) {
-          inputWidth.value = reference.value.$el.getBoundingClientRect().width
-        }
+        const refEl = reference.value && reference.value.$el
+        if (!refEl) return
+        inputWidth.value = refEl.getBoundingClientRect().width
+
         if (ctx.slots.prefix) {
-          const inputChildNodes = reference.value.$el.childNodes
-          const input = (Array.from(inputChildNodes) as HTMLElement[]).find(
-            (item) => item.tagName === 'INPUT'
-          )
-          const prefix = reference.value.$el.querySelector(
-            `.${nsInput.e('prefix')}`
-          )
+          const prefix = refEl.querySelector(`.${nsInput.e('prefix')}`)
           prefixWidth.value = Math.max(
             prefix.getBoundingClientRect().width + 5,
             30
           )
-          if (states.prefixWidth) {
-            input.style.paddingLeft = `${Math.max(states.prefixWidth, 30)}px`
-          }
         }
       })
       setSelected()
@@ -582,11 +558,6 @@ export default defineComponent({
     const popperPaneRef = computed(() => {
       return tooltipRef.value?.popperRef?.contentRef
     })
-
-    const { compatTeleported } = useDeprecateAppendToBody(
-      COMPONENT_NAME,
-      'popperAppendToBody'
-    )
 
     return {
       tagInMultiLine,
@@ -634,6 +605,7 @@ export default defineComponent({
       handleBlur,
       handleClearClick,
       handleClose,
+      handleKeydownEscape,
       toggleMenu,
       selectOption,
       getValueKey,
@@ -651,7 +623,6 @@ export default defineComponent({
 
       wrapperKls,
       selectTagsStyle,
-      compatTeleported,
       nsSelect,
     }
   },

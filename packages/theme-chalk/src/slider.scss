@@ -27,9 +27,9 @@ $slider-height: map.merge(
 
   @include e(runway) {
     flex: 1;
-    height: var(--el-slider-height);
-    background-color: var(--el-slider-runway-bg-color);
-    border-radius: var(--el-slider-border-radius);
+    height: getCssVar('slider-height');
+    background-color: getCssVar('slider-runway-bg-color');
+    border-radius: getCssVar('slider-border-radius');
     position: relative;
     cursor: pointer;
 
@@ -42,11 +42,11 @@ $slider-height: map.merge(
       cursor: default;
 
       .#{$namespace}-slider__bar {
-        background-color: var(--el-slider-disabled-color);
+        background-color: getCssVar('slider-disabled-color');
       }
 
       .#{$namespace}-slider__button {
-        border-color: var(--el-slider-disabled-color);
+        border-color: getCssVar('slider-disabled-color');
       }
 
       .#{$namespace}-slider__button-wrapper {
@@ -85,19 +85,19 @@ $slider-height: map.merge(
   }
 
   @include e(bar) {
-    height: var(--el-slider-height);
-    background-color: var(--el-slider-main-bg-color);
-    border-top-left-radius: var(--el-slider-border-radius);
-    border-bottom-left-radius: var(--el-slider-border-radius);
+    height: getCssVar('slider-height');
+    background-color: getCssVar('slider-main-bg-color');
+    border-top-left-radius: getCssVar('slider-border-radius');
+    border-bottom-left-radius: getCssVar('slider-border-radius');
     position: absolute;
   }
 
   @include e(button-wrapper) {
-    height: var(--el-slider-button-wrapper-size);
-    width: var(--el-slider-button-wrapper-size);
+    height: getCssVar('slider-button-wrapper-size');
+    width: getCssVar('slider-button-wrapper-size');
     position: absolute;
     z-index: 1;
-    top: var(--el-slider-button-wrapper-offset);
+    top: getCssVar('slider-button-wrapper-offset');
     transform: translateX(-50%);
     background-color: transparent;
     text-align: center;
@@ -118,14 +118,14 @@ $slider-height: map.merge(
 
   @include e(button) {
     display: inline-block;
-    width: var(--el-slider-button-size);
-    height: var(--el-slider-button-size);
+    width: getCssVar('slider-button-size');
+    height: getCssVar('slider-button-size');
     vertical-align: middle;
-    border: solid 2px var(--el-slider-main-bg-color);
-    background-color: var(--el-color-white);
+    border: solid 2px getCssVar('slider-main-bg-color');
+    background-color: getCssVar('color-white');
     border-radius: 50%;
     box-sizing: border-box;
-    transition: var(--el-transition-duration-fast);
+    transition: getCssVar('transition-duration-fast');
     user-select: none;
 
     &:hover,
@@ -146,10 +146,10 @@ $slider-height: map.merge(
 
   @include e(stop) {
     position: absolute;
-    height: var(--el-slider-height);
-    width: var(--el-slider-height);
-    border-radius: var(--el-border-radius-circle);
-    background-color: var(--el-slider-stop-bg-color);
+    height: getCssVar('slider-height');
+    width: getCssVar('slider-height');
+    border-radius: getCssVar('border-radius-circle');
+    background-color: getCssVar('slider-stop-bg-color');
     transform: translateX(-50%);
   }
 
@@ -163,7 +163,7 @@ $slider-height: map.merge(
       position: absolute;
       transform: translateX(-50%);
       font-size: 14px;
-      color: var(--el-color-info);
+      color: getCssVar('color-info');
       margin-top: 15px;
     }
   }
@@ -174,18 +174,18 @@ $slider-height: map.merge(
     flex: 0;
 
     .#{$namespace}-slider__runway {
-      width: var(--el-slider-height);
+      width: getCssVar('slider-height');
       height: 100%;
       margin: 0 16px;
     }
     .#{$namespace}-slider__bar {
-      width: var(--el-slider-height);
+      width: getCssVar('slider-height');
       height: auto;
       border-radius: 0 0 3px 3px;
     }
     .#{$namespace}-slider__button-wrapper {
       top: auto;
-      left: var(--el-slider-button-wrapper-offset);
+      left: getCssVar('slider-button-wrapper-offset');
       transform: translateY(50%);
     }
     .#{$namespace}-slider__stop {

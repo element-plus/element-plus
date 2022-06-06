@@ -1,7 +1,7 @@
 import { isValidComponentSize } from '@element-plus/utils'
 import { CircleClose } from '@element-plus/icons-vue'
 
-import type { PropType, Component } from 'vue'
+import type { Component, PropType } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { ComponentSize } from '@element-plus/constants'
 
@@ -107,6 +107,14 @@ export const timePickerDefaultProps = {
   arrowControl: {
     type: Boolean,
     default: false,
+  },
+  label: {
+    type: String,
+    default: undefined,
+  },
+  tabindex: {
+    type: [String, Number],
+    default: 0,
   },
   validateEvent: {
     type: Boolean,

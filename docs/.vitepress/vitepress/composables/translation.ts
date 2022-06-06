@@ -1,6 +1,6 @@
 import { computed } from 'vue'
-import { useRouter, useRoute } from 'vitepress'
-import { useStorage } from '@vueuse/core'
+import { useRoute, useRouter } from 'vitepress'
+import { isClient, useStorage } from '@vueuse/core'
 import { PREFERRED_LANG_KEY } from '../constant'
 
 import langs from '../../i18n/lang.json'
@@ -50,6 +50,13 @@ export const useTranslation = () => {
     const goTo = `/${targetLang}/${route.path.slice(firstSlash + 1)}`
 
     router.go(goTo)
+
+    if (isClient) {
+      navigator?.serviceWorker.controller?.postMessage({
+        type: 'LANG',
+        lang: targetLang,
+      })
+    }
   }
 
   return {

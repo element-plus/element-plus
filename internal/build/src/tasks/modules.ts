@@ -6,13 +6,8 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 import glob from 'fast-glob'
-import {
-  epRoot,
-  pkgRoot,
-  generateExternal,
-  writeBundles,
-  excludeFiles,
-} from '../utils'
+import { epRoot, excludeFiles, pkgRoot } from '@element-plus/build-utils'
+import { generateExternal, writeBundles } from '../utils'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { buildConfigEntries, target } from '../build-info'
 

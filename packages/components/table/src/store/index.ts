@@ -1,4 +1,4 @@
-import { nextTick, getCurrentInstance, unref } from 'vue'
+import { getCurrentInstance, nextTick, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import useWatcher from './watcher'
 

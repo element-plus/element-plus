@@ -17,13 +17,8 @@
     // pure esm
     'chalk',
 
-    // jest
-    '@types/jest',
-    'babel-jest',
-    'jest',
-    'ts-jest',
-    '@vue/test-utils',
-
+    // test
     'cypress',
+    'jsdom',
   ],
 }

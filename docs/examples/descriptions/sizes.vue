@@ -97,11 +97,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import {
-  User,
   Iphone,
   Location,
-  Tickets,
   OfficeBuilding,
+  Tickets,
+  User,
 } from '@element-plus/icons-vue'
 
 const size = ref('')

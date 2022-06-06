@@ -1,4 +1,10 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  isBoolean,
+  isNumber,
+} from '@element-plus/utils'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
 import type { ZIndexProperty } from 'csstype'
 import type Affix from './affix.vue'
@@ -26,8 +32,8 @@ export type AffixProps = ExtractPropTypes<typeof affixProps>
 
 export const affixEmits = {
   scroll: ({ scrollTop, fixed }: { scrollTop: number; fixed: boolean }) =>
-    typeof scrollTop === 'number' && typeof fixed === 'boolean',
-  change: (fixed: boolean) => typeof fixed === 'boolean',
+    isNumber(scrollTop) && isBoolean(fixed),
+  [CHANGE_EVENT]: (fixed: boolean) => isBoolean(fixed),
 }
 export type AffixEmits = typeof affixEmits
 
