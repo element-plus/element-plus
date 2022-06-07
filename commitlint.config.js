@@ -1,14 +1,9 @@
 'use strict'
 const { execSync } = require('child_process')
-const fs = require('fs')
-const path = require('path')
+const fg = require('fast-glob')
 
 const getPackages = (packagePath) =>
-  fs
-    .readdirSync(path.resolve(__dirname, packagePath), {
-      withFileTypes: true,
-    })
-    .filter((folder) => folder.isDirectory())
+  fg.sync('*', { cwd: packagePath, onlyDirectories: true })
 
 const scopes = [
   ...getPackages('packages'),
@@ -20,7 +15,6 @@ const scopes = [
   'style',
   'ci',
   'dev',
-  'build',
   'deploy',
   'other',
   'typography',
