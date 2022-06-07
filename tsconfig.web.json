@@ -6,7 +6,7 @@
     "lib": ["ES2018", "DOM", "DOM.Iterable"],
     "types": ["unplugin-vue-define-options"]
   },
-  "include": ["packages", "typings/components.d.ts", "env.d.ts"],
+  "include": ["packages", "typings/components.d.ts", "typings/env.d.ts"],
   "exclude": [
     "node_modules",
     "**/dist",
