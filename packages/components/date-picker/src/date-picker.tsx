@@ -49,7 +49,6 @@ export default defineComponent({
 
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()
     const refProps = {
-      ...props,
       focus: (focusStartInput = true) => {
         commonPicker.value?.focus(focusStartInput)
       },

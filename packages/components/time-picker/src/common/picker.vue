@@ -758,11 +758,15 @@ provide('EP_PICKER_BASE', {
 
 defineExpose({
   /**
-   * @description focus the input box
+   * @description focus input box.
+   */
+  focus,
+  /**
+   * @description emit focus event
    */
   handleFocusInput,
   /**
-   * @description blur the input box.
+   * @description emit blur event
    */
   handleBlurInput,
   /**
