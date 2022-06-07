@@ -1,14 +1,7 @@
-import {
-  computed,
-  nextTick,
-  onBeforeMount,
-  onMounted,
-  reactive,
-  ref,
-  watch,
-} from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
+import { useResizeObserver } from '@vueuse/core'
 import {
   useFormItem,
   useLocale,
@@ -16,12 +9,7 @@ import {
   useSize,
 } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import {
-  ValidateComponentsMap,
-  addResizeListener,
-  debugWarn,
-  removeResizeListener,
-} from '@element-plus/utils'
+import { ValidateComponentsMap, debugWarn } from '@element-plus/utils'
 
 import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
@@ -755,12 +743,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   onMounted(() => {
     initStates()
-    addResizeListener(selectRef.value, handleResize)
   })
-
-  onBeforeMount(() => {
-    removeResizeListener(selectRef.value, handleResize)
-  })
+  useResizeObserver(selectRef, handleResize)
 
   return {
     // data exports
