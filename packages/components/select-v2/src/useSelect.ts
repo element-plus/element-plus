@@ -261,8 +261,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return -1
   })
 
-  const dropdownMenuVisible = computed(() => {
-    return expanded.value && emptyText.value !== false
+  const dropdownMenuVisible = computed({
+    get() {
+      return expanded.value && emptyText.value !== false
+    },
+    set(val: boolean) {
+      expanded.value = val
+    },
   })
 
   // hooks

@@ -1,15 +1,5 @@
-<script lang="ts">
-import {
-  computed,
-  defineComponent,
-  h,
-  inject,
-  ref,
-  renderSlot,
-  withCtx,
-  withKeys,
-  withModifiers,
-} from 'vue'
+<script lang="tsx">
+import { computed, defineComponent, inject, ref, unref } from 'vue'
 import { get } from 'lodash-unified'
 import { isObject, isUndefined } from '@element-plus/utils'
 import {
@@ -17,6 +7,7 @@ import {
   FixedSizeList,
 } from '@element-plus/components/virtual-list'
 import { useNamespace } from '@element-plus/hooks'
+import { EVENT_CODE } from '@element-plus/constants'
 import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
 
@@ -29,12 +20,15 @@ export default defineComponent({
   name: 'ElSelectDropdown',
 
   props: {
-    data: Array,
+    data: {
+      type: Array,
+      required: true,
+    },
     hoveringIndex: Number,
     width: Number,
   },
-  setup(props) {
-    const select = inject(selectV2InjectionKey) as any
+  setup(props, { slots, expose }) {
+    const select = inject(selectV2InjectionKey)!
     const ns = useNamespace('select')
     const cachedHeights = ref<Array<number>>([])
 
@@ -116,160 +110,139 @@ export default defineComponent({
       }
     }
 
-    // computed
-    return {
-      ns,
-      select,
-      listProps,
+    expose({
       listRef,
       isSized,
 
       isItemDisabled,
       isItemHovering,
       isItemSelected,
-
       scrollToItem,
       resetScrollTop,
-    }
-  },
-
-  render(_ctx, _cache) {
-    const {
-      $slots,
-
-      data,
-      listProps,
-      select,
-      isSized,
-      width,
-      ns,
-      // methods
-      isItemDisabled,
-      isItemHovering,
-      isItemSelected,
-    } = _ctx
-
-    const Comp = isSized ? FixedSizeList : DynamicSizeList
-
-    const {
-      props: selectProps,
-      onSelect,
-      onHover,
-      onKeyboardNavigate,
-      onKeyboardSelect,
-    } = select
-    const { height, modelValue, multiple } = selectProps
-
-    if (data.length === 0) {
-      return h(
-        'div',
-        {
-          class: ns.b('dropdown'),
-          style: {
-            width: `${width}px`,
-          },
-        },
-        $slots.empty?.()
-      )
-    }
-
-    const ListItem = withCtx((scoped: ItemProps<any>) => {
-      const { index, data } = scoped
-      const item = data[index]
-      // render group item which is not selectable.
-      if (data[index].type === 'Group') {
-        return h(GroupItem, {
-          item,
-          style: scoped.style,
-          height: isSized ? listProps.itemSize : listProps.estimatedSize,
-        })
-      }
-
-      const selected = isItemSelected(modelValue, item)
-      const itemDisabled = isItemDisabled(modelValue, selected)
-      // render option item which is selectable
-      return h(
-        OptionItem,
-        {
-          ...scoped,
-          selected,
-          disabled: item.disabled || itemDisabled,
-          created: !!item.created,
-          hovering: isItemHovering(index),
-          item,
-          onSelect,
-          onHover,
-        },
-        {
-          default: withCtx((props: OptionItemProps) => {
-            return renderSlot($slots, 'default', props, () => [
-              h('span', item.label),
-            ])
-          }),
-        }
-      )
     })
 
-    const List = h(
-      Comp,
-      {
-        ref: 'listRef', // forwarded ref so that select can access the list directly
-        className: ns.be('dropdown', 'list'),
-        data,
-        height,
-        width,
-        total: data.length,
-        scrollbarAlwaysOn: selectProps.scrollbarAlwaysOn,
-        onKeydown: [
-          _cache[1] ||
-            (_cache[1] = withKeys(
-              withModifiers(
-                () => onKeyboardNavigate('forward'),
-                ['stop', 'prevent']
-              ),
-              ['down']
-            )),
-          _cache[2] ||
-            (_cache[2] = withKeys(
-              withModifiers(
-                () => onKeyboardNavigate('backward'),
-                ['stop', 'prevent']
-              ),
-              ['up']
-            )),
-          _cache[3] ||
-            (_cache[3] = withKeys(
-              withModifiers(onKeyboardSelect, ['stop', 'prevent']),
-              ['enter']
-            )),
-
-          _cache[4] ||
-            (_cache[4] = withKeys(
-              withModifiers(
-                () => (select.expanded = false),
-                ['stop', 'prevent']
-              ),
-              ['esc']
-            )),
-          _cache[5] ||
-            (_cache[5] = withKeys(() => (select.expanded = false), ['tab'])),
-          // _cache[6] || (_cache[6] = () => {
-          //   console.log(11)
-          // }),
-        ],
-        ...listProps,
-      },
-      {
-        default: ListItem,
+    const Item = (itemProps: ItemProps<any>) => {
+      const { index, data, style } = itemProps
+      const sized = unref(isSized)
+      const { itemSize, estimatedSize } = unref(listProps)
+      const { modelValue } = select.props
+      const { onSelect, onHover } = select
+      const item = data[index]
+      if (item.type === 'Group') {
+        return (
+          <GroupItem
+            item={item}
+            style={style}
+            height={(sized ? itemSize : estimatedSize) as number}
+          />
+        )
       }
-    )
-    return h(
-      'div',
-      {
-        class: [ns.b('dropdown'), ns.is('multiple', multiple)],
-      },
-      [List]
-    )
+
+      const isSelected = isItemSelected(modelValue, item)
+      const isDisabled = isItemDisabled(modelValue, isSelected)
+      const isHovering = isItemHovering(index)
+      return (
+        <OptionItem
+          {...itemProps}
+          selected={isSelected}
+          disabled={item.disabled || isDisabled}
+          created={!!item.created}
+          hovering={isHovering}
+          item={item}
+          onSelect={onSelect}
+          onHover={onHover}
+        >
+          {{
+            default: (props: OptionItemProps) =>
+              slots.default?.(props) || <span>{item.label}</span>,
+          }}
+        </OptionItem>
+      )
+    }
+
+    // computed
+    const { onKeyboardNavigate, onKeyboardSelect } = select
+
+    const onForward = () => {
+      onKeyboardNavigate('forward')
+    }
+
+    const onBackward = () => {
+      onKeyboardNavigate('backward')
+    }
+
+    const onEscOrTab = () => {
+      select.expanded = false
+    }
+
+    const onKeydown = (e: KeyboardEvent) => {
+      const { code } = e
+      const { tab, esc, down, up, enter } = EVENT_CODE
+      if (code !== tab) {
+        e.preventDefault()
+        e.stopPropagation()
+      }
+
+      switch (code) {
+        case tab:
+        case esc: {
+          onEscOrTab()
+          break
+        }
+        case down: {
+          onForward()
+          break
+        }
+        case up: {
+          onBackward()
+          break
+        }
+        case enter: {
+          onKeyboardSelect()
+          break
+        }
+      }
+    }
+
+    return () => {
+      const { data, width } = props
+      const { height, multiple, scrollbarAlwaysOn } = select.props
+
+      if (data.length === 0) {
+        return (
+          <div
+            class={ns.b('dropdown')}
+            style={{
+              width: `${width}px`,
+            }}
+          >
+            {slots.empty?.()}
+          </div>
+        )
+      }
+
+      const List = unref(isSized) ? FixedSizeList : DynamicSizeList
+
+      return (
+        <div class={[ns.b('dropdown'), ns.is('multiple', multiple)]}>
+          <List
+            ref={listRef}
+            {...unref(listProps)}
+            className={ns.be('dropdown', 'list')}
+            scrollbarAlwaysOn={scrollbarAlwaysOn}
+            data={data}
+            height={height}
+            width={width}
+            total={data.length}
+            onKeydown={onKeydown}
+          >
+            {{
+              default: (props: ItemProps<any>) => <Item {...props} />,
+            }}
+          </List>
+        </div>
+      )
+    }
   },
 })
 </script>
