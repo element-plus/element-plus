@@ -19,6 +19,7 @@ importers:
       '@element-plus/theme-chalk': workspace:*
       '@element-plus/tokens': workspace:*
       '@element-plus/utils': workspace:*
+      '@esbuild-kit/cjs-loader': ^2.0.1
       '@floating-ui/dom': ^0.5.2
       '@pnpm/find-workspace-packages': ^4.0.10
       '@pnpm/logger': ^4.0.0
@@ -106,6 +107,7 @@ importers:
       '@element-plus/build': link:internal/build
       '@element-plus/build-utils': link:internal/build-utils
       '@element-plus/eslint-config': link:internal/eslint-config
+      '@esbuild-kit/cjs-loader': 2.0.1
       '@pnpm/find-workspace-packages': 4.0.10_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
       '@pnpm/types': 8.0.1
