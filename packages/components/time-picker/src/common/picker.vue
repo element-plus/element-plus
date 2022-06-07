@@ -23,10 +23,10 @@
     <template #default>
       <el-input
         v-if="!isRangeInput"
-        :id="id"
+        :id="(id as string | undefined)"
         ref="inputRef"
         container-role="combobox"
-        :model-value="displayValue"
+        :model-value="(displayValue as string)"
         :name="name"
         :size="pickerSize"
         :disabled="pickerDisabled"
@@ -39,7 +39,7 @@
         @input="onUserInput"
         @focus="handleFocusInput"
         @blur="handleBlurInput"
-        @keydown="handleKeydownInput"
+        @keydown="handleKeydownInput as any"
         @change="handleChange"
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
@@ -80,7 +80,7 @@
           pickerSize ? nsRange.bm('editor', pickerSize) : '',
           $attrs.class,
         ]"
-        :style="$attrs.style"
+        :style="($attrs.style as any)"
         @click="handleFocusInput"
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
@@ -172,7 +172,7 @@ import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { debugWarn, isEmpty } from '@element-plus/utils'
+import { debugWarn, isArray, isEmpty } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
 import { timePickerDefaultProps } from './props'
@@ -181,7 +181,15 @@ import type { Dayjs } from 'dayjs'
 import type { ComponentPublicInstance } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { FormContext, FormItemContext } from '@element-plus/tokens'
-import type { PickerOptions } from './constant'
+import type {
+  DateModelType,
+  DateOrDates,
+  DayOrDays,
+  PickerOptions,
+  SingleOrRange,
+  TimePickerDefaultProps,
+  UserInput,
+} from './props'
 
 // Date object and string
 const dateEquals = function (a: Date | any, b: Date | any) {
@@ -197,8 +205,8 @@ const dateEquals = function (a: Date | any, b: Date | any) {
 }
 
 const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
-  const aIsArray = Array.isArray(a)
-  const bIsArray = Array.isArray(b)
+  const aIsArray = isArray(a)
+  const bIsArray = isArray(b)
   if (aIsArray && bIsArray) {
     if (a.length !== b.length) {
       return false
@@ -211,11 +219,11 @@ const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
   return false
 }
 
-const parser = function (
+const parseDate = function (
   date: string | number | Date,
-  format: string,
+  format: string | undefined,
   lang: string
-): Dayjs {
+) {
   const day =
     isEmpty(format) || format === 'x'
       ? dayjs(date).locale(lang)
@@ -224,14 +232,18 @@ const parser = function (
 }
 
 const formatter = function (
-  date: string | number | Date,
-  format: string,
+  date: string | number | Date | Dayjs,
+  format: string | undefined,
   lang: string
 ) {
   if (isEmpty(format)) return date
   if (format === 'x') return +date
   return dayjs(date).locale(lang).format(format)
 }
+
+defineOptions({
+  name: 'Picker',
+})
 
 const props = defineProps(timePickerDefaultProps)
 const emit = defineEmits([
@@ -259,7 +271,7 @@ const refPopper = ref<InstanceType<typeof ElTooltip>>()
 const inputRef = ref<HTMLElement | ComponentPublicInstance>()
 const pickerVisible = ref(false)
 const pickerActualVisible = ref(false)
-const valueOnOpen = ref(null)
+const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 
 let hasJustTabExitedInput = false
 let ignoreFocusEvent = false
@@ -274,7 +286,10 @@ watch(pickerVisible, (val) => {
     valueOnOpen.value = props.modelValue
   }
 })
-const emitChange = (val, isClear?: boolean) => {
+const emitChange = (
+  val: TimePickerDefaultProps['modelValue'] | null,
+  isClear?: boolean
+) => {
   // determine user real change only
   if (isClear || !valueEquals(val, valueOnOpen.value)) {
     emit('change', val)
@@ -282,20 +297,23 @@ const emitChange = (val, isClear?: boolean) => {
       elFormItem.validate?.('change').catch((err) => debugWarn(err))
   }
 }
-const emitInput = (val) => {
-  if (!valueEquals(props.modelValue, val)) {
-    let formatValue
-    if (Array.isArray(val)) {
-      formatValue = val.map((_) => formatter(_, props.valueFormat, lang.value))
-    } else if (val) {
-      formatValue = formatter(val, props.valueFormat, lang.value)
+const emitInput = (input: SingleOrRange<DateModelType | Dayjs> | null) => {
+  if (!valueEquals(props.modelValue, input)) {
+    let formatted
+    if (isArray(input)) {
+      formatted = input.map((item) =>
+        formatter(item, props.valueFormat, lang.value)
+      )
+    } else if (input) {
+      formatted = formatter(input, props.valueFormat, lang.value)
     }
-    emit('update:modelValue', val ? formatValue : val, lang.value)
+    emit('update:modelValue', input ? formatted : input, lang.value)
   }
 }
-const emitKeydown = (e) => {
+const emitKeydown = (e: KeyboardEvent) => {
   emit('keydown', e)
 }
+
 const refInput = computed<HTMLInputElement[]>(() => {
   if (inputRef.value) {
     const _r = isRangeInput.value
@@ -312,7 +330,7 @@ const refEndInput = computed(() => {
   return refInput?.value[1]
 })
 
-const setSelectionRange = (start, end, pos) => {
+const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
   const _inputs = refInput.value
   if (!_inputs.length) return
   if (!pos || pos === 'min') {
@@ -336,7 +354,7 @@ const onPick = (date: any = '', visible = false) => {
   }
   pickerVisible.value = visible
   let result
-  if (Array.isArray(date)) {
+  if (isArray(date)) {
     result = date.map((_) => _.toDate())
   } else {
     // clear btn emit null
@@ -377,7 +395,7 @@ const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
   }
 }
 
-const handleFocusInput = (e) => {
+const handleFocusInput = (e?: FocusEvent) => {
   if (
     props.readonly ||
     pickerDisabled.value ||
@@ -390,10 +408,10 @@ const handleFocusInput = (e) => {
   emit('focus', e)
 }
 
-let currentHandleBlurDeferCallback: () => void | undefined
+let currentHandleBlurDeferCallback: () => Promise<void> | undefined
 
 // Check if document.activeElement is inside popper or any input before popper close
-const handleBlurInput = (e) => {
+const handleBlurInput = (e?: FocusEvent) => {
   const handleBlurDefer = async () => {
     setTimeout(() => {
       if (currentHandleBlurDeferCallback === handleBlurDefer) {
@@ -424,40 +442,44 @@ const pickerDisabled = computed(() => {
 })
 
 const parsedValue = computed(() => {
-  let result
+  let dayOrDays: DayOrDays
   if (valueIsEmpty.value) {
     if (pickerOptions.value.getDefaultValue) {
-      result = pickerOptions.value.getDefaultValue()
+      dayOrDays = pickerOptions.value.getDefaultValue()
     }
   } else {
-    if (Array.isArray(props.modelValue)) {
-      result = props.modelValue.map((_) =>
-        parser(_, props.valueFormat, lang.value)
-      )
+    if (isArray(props.modelValue)) {
+      dayOrDays = props.modelValue.map((d) =>
+        parseDate(d, props.valueFormat, lang.value)
+      ) as [Dayjs, Dayjs]
     } else {
-      result = parser(props.modelValue, props.valueFormat, lang.value)
+      dayOrDays = parseDate(props.modelValue, props.valueFormat, lang.value)!
     }
   }
 
   if (pickerOptions.value.getRangeAvailableTime) {
-    const availableResult = pickerOptions.value.getRangeAvailableTime(result)
-    if (!isEqual(availableResult, result)) {
-      result = availableResult
+    const availableResult = pickerOptions.value.getRangeAvailableTime(
+      dayOrDays!
+    )
+    if (!isEqual(availableResult, dayOrDays!)) {
+      dayOrDays = availableResult
       emitInput(
-        Array.isArray(result) ? result.map((_) => _.toDate()) : result.toDate()
+        (isArray(dayOrDays)
+          ? dayOrDays.map((_) => _.toDate())
+          : dayOrDays.toDate()) as SingleOrRange<Date>
       )
     }
   }
-  if (Array.isArray(result) && result.some((_) => !_)) {
-    result = []
+  if (isArray(dayOrDays!) && dayOrDays.some((day) => !day)) {
+    dayOrDays = [] as unknown as DayOrDays
   }
-  return result
+  return dayOrDays!
 })
 
-const displayValue = computed(() => {
-  if (!pickerOptions.value.panelReady) return
+const displayValue = computed<UserInput>(() => {
+  if (!pickerOptions.value.panelReady) return ''
   const formattedValue = formatDayjsToString(parsedValue.value)
-  if (Array.isArray(userInput.value)) {
+  if (isArray(userInput.value)) {
     return [
       userInput.value[0] || (formattedValue && formattedValue[0]) || '',
       userInput.value[1] || (formattedValue && formattedValue[1]) || '',
@@ -465,8 +487,8 @@ const displayValue = computed(() => {
   } else if (userInput.value !== null) {
     return userInput.value
   }
-  if (!isTimePicker.value && valueIsEmpty.value) return
-  if (!pickerVisible.value && valueIsEmpty.value) return
+  if (!isTimePicker.value && valueIsEmpty.value) return ''
+  if (!pickerVisible.value && valueIsEmpty.value) return ''
   if (formattedValue) {
     return isDatesPicker.value
       ? (formattedValue as Array<string>).join(', ')
@@ -501,8 +523,7 @@ const onClearIconClick = (event: MouseEvent) => {
 }
 const valueIsEmpty = computed(() => {
   return (
-    !props.modelValue ||
-    (Array.isArray(props.modelValue) && !props.modelValue.length)
+    !props.modelValue || (isArray(props.modelValue) && !props.modelValue.length)
   )
 })
 const onMouseDownInput = async (event: MouseEvent) => {
@@ -536,10 +557,6 @@ const isRangeInput = computed(() => {
 
 const pickerSize = useSize()
 
-const popperPaneRef = computed(() => {
-  return refPopper.value?.popperRef?.contentRef
-})
-
 const popperEl = computed(() => unref(refPopper)?.popperRef?.contentRef)
 const actualInputRef = computed(() => {
   if (unref(isRangeInput)) {
@@ -563,7 +580,7 @@ onClickOutside(actualInputRef, (e: PointerEvent) => {
   pickerVisible.value = false
 })
 
-const userInput = ref(null)
+const userInput = ref<UserInput>(null)
 
 const handleChange = () => {
   if (userInput.value) {
@@ -571,7 +588,9 @@ const handleChange = () => {
     if (value) {
       if (isValidValue(value)) {
         emitInput(
-          Array.isArray(value) ? value.map((_) => _.toDate()) : value.toDate()
+          (isArray(value)
+            ? value.map((_) => _.toDate())
+            : value.toDate()) as DateOrDates
         )
         userInput.value = null
       }
@@ -584,22 +603,22 @@ const handleChange = () => {
   }
 }
 
-const parseUserInputToDayjs = (value) => {
+const parseUserInputToDayjs = (value: UserInput) => {
   if (!value) return null
-  return pickerOptions.value.parseUserInput(value)
+  return pickerOptions.value.parseUserInput!(value)
 }
 
-const formatDayjsToString = (value) => {
+const formatDayjsToString = (value: DayOrDays) => {
   if (!value) return null
-  return pickerOptions.value.formatToString(value)
+  return pickerOptions.value.formatToString!(value)
 }
 
-const isValidValue = (value) => {
-  return pickerOptions.value.isValidValue(value)
+const isValidValue = (value: DayOrDays) => {
+  return pickerOptions.value.isValidValue!(value)
 }
 
-const handleKeydownInput = async (event) => {
-  const code = event.code
+const handleKeydownInput = async (event: KeyboardEvent) => {
+  const { code } = event
   emitKeydown(event)
   if (code === EVENT_CODE.esc) {
     if (pickerVisible.value === true) {
@@ -634,7 +653,7 @@ const handleKeydownInput = async (event) => {
     if (
       userInput.value === null ||
       userInput.value === '' ||
-      isValidValue(parseUserInputToDayjs(displayValue.value))
+      isValidValue(parseUserInputToDayjs(displayValue.value) as DayOrDays)
     ) {
       handleChange()
       pickerVisible.value = false
@@ -652,7 +671,7 @@ const handleKeydownInput = async (event) => {
     pickerOptions.value.handleKeydownInput(event)
   }
 }
-const onUserInput = (e) => {
+const onUserInput = (e: string) => {
   userInput.value = e
   // Temporary fix when the picker is dismissed and the input box
   // is focused, just mimic the behavior of antdesign.
@@ -661,27 +680,34 @@ const onUserInput = (e) => {
   }
 }
 
-const handleStartInput = (event) => {
+const handleStartInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
   if (userInput.value) {
-    userInput.value = [event.target.value, userInput.value[1]]
+    userInput.value = [target.value, userInput.value[1]]
   } else {
-    userInput.value = [event.target.value, null]
+    userInput.value = [target.value, null]
   }
 }
 
-const handleEndInput = (event) => {
+const handleEndInput = (event: Event) => {
+  const target = event.target as HTMLInputElement
   if (userInput.value) {
-    userInput.value = [userInput.value[0], event.target.value]
+    userInput.value = [userInput.value[0], target.value]
   } else {
-    userInput.value = [null, event.target.value]
+    userInput.value = [null, target.value]
   }
 }
 
 const handleStartChange = () => {
-  const value = parseUserInputToDayjs(userInput.value && userInput.value[0])
+  const values = userInput.value as string[]
+  const value = parseUserInputToDayjs(values && values[0]) as Dayjs
+  const parsedVal = unref(parsedValue) as [Dayjs, Dayjs]
   if (value && value.isValid()) {
-    userInput.value = [formatDayjsToString(value), displayValue.value[1]]
-    const newValue = [value, parsedValue.value && parsedValue.value[1]]
+    userInput.value = [
+      formatDayjsToString(value) as string,
+      displayValue.value?.[1] || null,
+    ]
+    const newValue = [value, parsedVal && (parsedVal[1] || null)] as DayOrDays
     if (isValidValue(newValue)) {
       emitInput(newValue)
       userInput.value = null
@@ -690,10 +716,15 @@ const handleStartChange = () => {
 }
 
 const handleEndChange = () => {
-  const value = parseUserInputToDayjs(userInput.value && userInput.value[1])
+  const values = unref(userInput) as string[]
+  const value = parseUserInputToDayjs(values && values[1]) as Dayjs
+  const parsedVal = unref(parsedValue) as [Dayjs, Dayjs]
   if (value && value.isValid()) {
-    userInput.value = [displayValue.value[0], formatDayjsToString(value)]
-    const newValue = [parsedValue.value && parsedValue.value[0], value]
+    userInput.value = [
+      unref(displayValue)?.[0] || null,
+      formatDayjsToString(value) as string,
+    ]
+    const newValue = [parsedVal && parsedVal[0], value] as DayOrDays
     if (isValidValue(newValue)) {
       emitInput(newValue)
       userInput.value = null
@@ -709,11 +740,15 @@ const onSetPickerOption = <T extends keyof PickerOptions>(
   pickerOptions.value.panelReady = true
 }
 
-const onCalendarChange = (e) => {
+const onCalendarChange = (e: [Date, false | Date]) => {
   emit('calendar-change', e)
 }
 
-const onPanelChange = (value, mode, view) => {
+const onPanelChange = (
+  value: [Dayjs, Dayjs],
+  mode: 'month' | 'year',
+  view: unknown
+) => {
   emit('panel-change', value, mode, view)
 }
 
@@ -730,5 +765,9 @@ defineExpose({
    * @description blur the input box.
    */
   handleBlurInput,
+  /**
+   * @description pick item manually
+   */
+  onPick,
 })
 </script>

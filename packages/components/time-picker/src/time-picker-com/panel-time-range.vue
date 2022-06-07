@@ -258,7 +258,7 @@ const getRangeAvailableTime = ([start, end]: Array<Dayjs>) => {
   return [
     getAvailableTime(start, 'start', true, end),
     getAvailableTime(end, 'end', false, start),
-  ]
+  ] as const
 }
 
 const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
