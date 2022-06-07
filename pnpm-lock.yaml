@@ -40,10 +40,11 @@ importers:
       async-validator: ^4.1.1
       c8: ^7.11.3
       chalk: ^5.0.1
+      commitizen: ^4.2.4
       concurrently: ^7.2.1
       consola: ^2.15.3
       csstype: ^2.6.20
-      cz-conventional-changelog: ^3.3.0
+      cz-git: ^1.3.4
       dayjs: ^1.11.3
       escape-html: ^1.0.3
       eslint: ^8.17.0
@@ -120,10 +121,11 @@ importers:
       '@vue/tsconfig': 0.1.3_@types+node@17.0.40
       c8: 7.11.3
       chalk: 5.0.1
+      commitizen: 4.2.4
       concurrently: 7.2.1
       consola: 2.15.3
       csstype: 2.6.20
-      cz-conventional-changelog: 3.3.0
+      cz-git: 1.3.4
       eslint: 8.17.0
       eslint-define-config: 1.5.1
       expect-type: 0.13.0
@@ -4850,21 +4852,8 @@ packages:
       - '@swc/wasm'
     dev: true
 
-  /cz-conventional-changelog/3.3.0:
-    resolution: {integrity: sha512-U466fIzU5U22eES5lTNiNbZ+d8dfcHcssH4o7QsdWaCcRs/feIPCxKYSWkYBNs5mny7MvEfwpTLWjvbm94hecw==}
-    engines: {node: '>= 10'}
-    dependencies:
-      chalk: 2.4.2
-      commitizen: 4.2.4
-      conventional-commit-types: 3.0.0
-      lodash.map: 4.6.0
-      longest: 2.0.1
-      word-wrap: 1.2.3
-    optionalDependencies:
-      '@commitlint/load': 17.0.0
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+  /cz-git/1.3.4:
+    resolution: {integrity: sha512-px5btT/cux7LYD4v7jB7wXtVV2l5txTnO1R9rBeevsBhgJv+kHkIPcWzRx+Fr5HR/45l/jf1sIVIYRrhPKWo6A==}
     dev: true
 
   /d/1.0.1:
@@ -4962,7 +4951,7 @@ packages:
     dev: false
 
   /dedent/0.7.0:
-    resolution: {integrity: sha1-JJXduvbrh0q7Dhvp3yLS5aVEMmw=}
+    resolution: {integrity: sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA==}
     dev: true
 
   /deep-eql/3.0.1:
@@ -9685,7 +9674,7 @@ packages:
       supports-preserve-symlinks-flag: 1.0.0
 
   /restore-cursor/2.0.0:
-    resolution: {integrity: sha512-6IzJLuGi4+R14vwagDHX+JrXmPVtPpn4mffDJ1UdR7/Edm87fl6yi8mMBIVvFtJaNTUvjughmW4hwLhRG7gC1Q==}
+    resolution: {integrity: sha1-n37ih/gv0ybU/RYpI9YhKe7g368=}
     engines: {node: '>=4'}
     dependencies:
       onetime: 2.0.1
