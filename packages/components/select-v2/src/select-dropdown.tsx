@@ -1,4 +1,3 @@
-<script lang="tsx">
 import { computed, defineComponent, inject, ref, unref } from 'vue'
 import { get } from 'lodash-unified'
 import { isObject, isUndefined } from '@element-plus/utils'
@@ -32,7 +31,7 @@ export default defineComponent({
     const ns = useNamespace('select')
     const cachedHeights = ref<Array<number>>([])
 
-    const listRef = ref(null)
+    const listRef = ref()
 
     const isSized = computed(() =>
       isUndefined(select.props.estimatedOptionHeight)
@@ -245,4 +244,3 @@ export default defineComponent({
     }
   },
 })
-</script>
