@@ -30,7 +30,7 @@
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "lodash": "^4.17.21",
-    "rollup": "^2.75.5",
+    "rollup": "^2.75.6",
     "rollup-plugin-esbuild": "^4.9.1",
     "ts-morph": "^14.0.0",
     "unplugin-vue-define-options": "^0.6.1"
