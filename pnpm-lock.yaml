@@ -33,7 +33,7 @@ importers:
       '@types/sass': ^1.43.1
       '@vitejs/plugin-vue': ^2.3.3
       '@vitejs/plugin-vue-jsx': ^1.3.10
-      '@vitest/ui': ^0.14.1
+      '@vitest/ui': 0.12.6
       '@vue/test-utils': ^2.0.0
       '@vue/tsconfig': ^0.1.3
       '@vueuse/core': ^8.6.0
@@ -71,7 +71,7 @@ importers:
       typescript: ^4.7.3
       unplugin-element-plus: ^0.4.0
       unplugin-vue-define-options: ^0.6.1
-      vitest: ^0.14.1
+      vitest: 0.12.6
       vue: ^3.2.37
       vue-router: ^4.0.15
       vue-tsc: ^0.37.2
@@ -115,7 +115,7 @@ importers:
       '@types/sass': 1.43.1
       '@vitejs/plugin-vue': 2.3.3_vue@3.2.37
       '@vitejs/plugin-vue-jsx': 1.3.10
-      '@vitest/ui': 0.14.1
+      '@vitest/ui': 0.12.6
       '@vue/test-utils': 2.0.0_vue@3.2.37
       '@vue/tsconfig': 0.1.3_@types+node@17.0.25
       c8: 7.11.3
@@ -144,7 +144,7 @@ importers:
       typescript: 4.7.3
       unplugin-element-plus: 0.4.0
       unplugin-vue-define-options: 0.6.1_vue@3.2.37
-      vitest: 0.14.1_agtnewg4hrd2qfk2ikpufb3f6m
+      vitest: 0.12.6_lbwiw37egmogeeglx6tvvejrfy
       vue: 3.2.37
       vue-router: 4.0.15_vue@3.2.37
       vue-tsc: 0.37.2_typescript@4.7.3
@@ -3299,8 +3299,8 @@ packages:
     dependencies:
       vue: 3.2.37
 
-  /@vitest/ui/0.14.1:
-    resolution: {integrity: sha512-rWhltzClVxTT9ktnS9DBQUe3RdRweP+XF1LspK5i3e+P66gn3rc2LChol3EYPYHJghL2Xsm91lvQO1pgE4vgHA==}
+  /@vitest/ui/0.12.6:
+    resolution: {integrity: sha512-3qHt0YWveaEmZEp7yr23Sn4nCWdDSAYjBLSoBHbnDXwpNhryLQz2KVR5XkJ74mQnOInXd+mh//GPMeLrJi7LJA==}
     dependencies:
       sirv: 2.0.2
     dev: true
@@ -11771,8 +11771,8 @@ packages:
       - stylus
     dev: true
 
-  /vitest/0.14.1_agtnewg4hrd2qfk2ikpufb3f6m:
-    resolution: {integrity: sha512-2UUm6jYgkwh7Y3VKSRR8OuaNCm+iA5LPDnal7jyITN39maZK9L+JVxqjtQ39PSFo5Fl3/BgaJvER6GGHX9JLxg==}
+  /vitest/0.12.6_lbwiw37egmogeeglx6tvvejrfy:
+    resolution: {integrity: sha512-YWbCTv0XKBuBw5YtuW/iufuguoi8QhGpYyi2g57Oo7akpscMkkWTAaZGgY0ux1oJJtO/pc/8GFt0EF32WFBUUQ==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
     peerDependencies:
@@ -11792,10 +11792,9 @@ packages:
     dependencies:
       '@types/chai': 4.3.1
       '@types/chai-subset': 1.3.3
-      '@vitest/ui': 0.14.1
+      '@vitest/ui': 0.12.6
       c8: 7.11.3
       chai: 4.3.6
-      debug: 4.3.4
       jsdom: 16.4.0
       local-pkg: 0.4.1
       tinypool: 0.1.3
@@ -11805,7 +11804,6 @@ packages:
       - less
       - sass
       - stylus
-      - supports-color
     dev: true
 
   /vue-demi/0.12.5_vue@3.2.37:

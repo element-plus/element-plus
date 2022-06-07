@@ -20,5 +20,8 @@
     // test
     'cypress',
     'jsdom',
+
+    // https://github.com/vitest-dev/vitest/pull/1340
+    'vitest',
   ],
 }
