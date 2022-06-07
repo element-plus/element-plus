@@ -20,5 +20,11 @@
     // test
     'cypress',
     'jsdom',
+
+    // https://github.com/vitest-dev/vitest/pull/1340
+    'vitest',
+
+    // can't work in v0.34.0
+    'unocss',
   ],
 }
