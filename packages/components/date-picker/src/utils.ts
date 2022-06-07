@@ -1,4 +1,4 @@
-import { default as dayjs, isDayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { isArray } from '@element-plus/utils'
 
 import type { Dayjs } from 'dayjs'
@@ -11,7 +11,9 @@ export const isValidRange = (range: DayRange): boolean => {
 
   const [left, right] = range
 
-  return isDayjs(left) && isDayjs(right) && left.isSameOrBefore(right)
+  return (
+    dayjs.isDayjs(left) && dayjs.isDayjs(right) && left.isSameOrBefore(right)
+  )
 }
 
 type GetDefaultValueParams = {
