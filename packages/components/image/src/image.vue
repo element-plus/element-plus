@@ -6,7 +6,11 @@
       :src="imageSrc"
       :loading="loading"
       :style="imageStyle"
-      :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
+      :class="[
+        ns.e('inner'),
+        preview && ns.e('preview'),
+        isLoading && ns.is('loading'),
+      ]"
       @click="clickHandler"
       @load="handleLoad"
       @error="handleError"
