@@ -164,17 +164,17 @@
 </template>
 <script lang="ts" setup>
 import { computed, inject, nextTick, provide, ref, unref, watch } from 'vue'
-import dayjs from 'dayjs'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
-import { debugWarn, isArray, isEmpty } from '@element-plus/utils'
+import ElTooltip from '@element-plus/components/tooltip'
+import { debugWarn, isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
-import ElTooltip from '@element-plus/components/tooltip'
+import { formatter, parseDate, valueEquals } from '../utils'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
@@ -193,54 +193,6 @@ import type {
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 // Date object and string
-const dateEquals = function (a: Date | any, b: Date | any) {
-  const aIsDate = a instanceof Date
-  const bIsDate = b instanceof Date
-  if (aIsDate && bIsDate) {
-    return a.getTime() === b.getTime()
-  }
-  if (!aIsDate && !bIsDate) {
-    return a === b
-  }
-  return false
-}
-
-const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
-  const aIsArray = isArray(a)
-  const bIsArray = isArray(b)
-  if (aIsArray && bIsArray) {
-    if (a.length !== b.length) {
-      return false
-    }
-    return (a as Array<Date>).every((item, index) => dateEquals(item, b[index]))
-  }
-  if (!aIsArray && !bIsArray) {
-    return dateEquals(a, b)
-  }
-  return false
-}
-
-const parseDate = function (
-  date: string | number | Date,
-  format: string | undefined,
-  lang: string
-) {
-  const day =
-    isEmpty(format) || format === 'x'
-      ? dayjs(date).locale(lang)
-      : dayjs(date, format).locale(lang)
-  return day.isValid() ? day : undefined
-}
-
-const formatter = function (
-  date: string | number | Date | Dayjs,
-  format: string | undefined,
-  lang: string
-) {
-  if (isEmpty(format)) return date
-  if (format === 'x') return +date
-  return dayjs(date).locale(lang).format(format)
-}
 
 defineOptions({
   name: 'Picker',
@@ -324,12 +276,6 @@ const refInput = computed<HTMLInputElement[]>(() => {
   }
   return []
 })
-const refStartInput = computed(() => {
-  return refInput?.value[0]
-})
-const refEndInput = computed(() => {
-  return refInput?.value[1]
-})
 
 const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
   const _inputs = refInput.value
@@ -387,9 +333,10 @@ const onHide = () => {
 
 const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
   ignoreFocusEvent = isIgnoreFocusEvent
-  let input = refStartInput.value
+  const [leftInput, rightInput] = unref(refInput)
+  let input = leftInput
   if (!focusStartInput && isRangeInput.value) {
-    input = refEndInput.value
+    input = rightInput
   }
   if (input) {
     input.focus()
@@ -526,8 +473,7 @@ const onClearIconClick = (event: MouseEvent) => {
 const valueIsEmpty = computed(() => {
   const { modelValue } = props
   return (
-    !modelValue ||
-    (Array.isArray(modelValue) && !modelValue.filter(Boolean).length)
+    !modelValue || (isArray(modelValue) && !modelValue.filter(Boolean).length)
   )
 })
 
