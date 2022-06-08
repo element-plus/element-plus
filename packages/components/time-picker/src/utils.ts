@@ -41,8 +41,8 @@ export const dateEquals = function (a: Date | any, b: Date | any) {
 }
 
 export const valueEquals = function (
-  a: Array<Date> | any,
-  b: Array<Date> | any
+  a: Array<Date> | unknown,
+  b: Array<Date> | unknown
 ) {
   const aIsArray = isArray(a)
   const bIsArray = isArray(b)
@@ -50,7 +50,7 @@ export const valueEquals = function (
     if (a.length !== b.length) {
       return false
     }
-    return (a as Array<Date>).every((item, index) => dateEquals(item, b[index]))
+    return a.every((item, index) => dateEquals(item, b[index]))
   }
   if (!aIsArray && !bIsArray) {
     return dateEquals(a, b)
