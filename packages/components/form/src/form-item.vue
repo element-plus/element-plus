@@ -319,7 +319,7 @@ const resetField: FormItemContext['resetField'] = async () => {
     isResettingField = true
   }
 
-  computedValue.value = initialValue
+  computedValue.value = clone(initialValue)
 
   await nextTick()
   clearValidate()

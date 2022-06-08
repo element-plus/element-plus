@@ -8,7 +8,7 @@ const onItemClick = (item: any) => {
 </script>
 
 <template>
-  <div class="sponsor-container">
+  <div>
     <a
       v-for="item in goldSponsors"
       :key="item.name"
@@ -28,7 +28,7 @@ const onItemClick = (item: any) => {
 
 <style scoped lang="scss">
 @use '../styles/mixins' as *;
-.sponsor-container {
+div {
   display: flex;
   align-items: center;
   .sponsor-item {

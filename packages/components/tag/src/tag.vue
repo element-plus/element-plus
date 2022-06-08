@@ -8,7 +8,7 @@
     <span :class="ns.e('content')">
       <slot />
     </span>
-    <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
+    <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
       <Close />
     </el-icon>
   </span>
@@ -21,7 +21,7 @@
       <span :class="ns.e('content')">
         <slot />
       </span>
-      <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
+      <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
         <Close />
       </el-icon>
     </span>
@@ -59,7 +59,6 @@ const classes = computed(() => {
 
 // methods
 const handleClose = (event: MouseEvent) => {
-  event.stopPropagation()
   emit('close', event)
 }
 
