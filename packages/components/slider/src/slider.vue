@@ -6,7 +6,7 @@
     :role="range ? 'group' : undefined"
     :aria-label="range && !isLabeledByFormItem ? groupLabel : undefined"
     :aria-labelledby="
-      range && isLabeledByFormItem ? elFormItem.labelId : undefined
+      range && isLabeledByFormItem ? elFormItem?.labelId : undefined
     "
     @touchstart="onSliderWrapperPrevent"
     @touchmove="onSliderWrapperPrevent"
@@ -34,7 +34,7 @@
           range || !isLabeledByFormItem ? firstButtonLabel : undefined
         "
         :aria-labelledby="
-          !range && isLabeledByFormItem ? elFormItem.labelId : undefined
+          !range && isLabeledByFormItem ? elFormItem?.labelId : undefined
         "
         :aria-valuemin="min"
         :aria-valuemax="range ? secondValue : max"
@@ -218,7 +218,7 @@ const sliderKls = computed(() => [
 
 const markList = useMarks(props)
 
-useWatch(props, initData, minValue, maxValue, emit, elFormItem)
+useWatch(props, initData, minValue, maxValue, emit, elFormItem!)
 
 const precision = computed(() => {
   const precisions = [props.min, props.max, props.step].map((item) => {
