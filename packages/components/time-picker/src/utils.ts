@@ -28,7 +28,7 @@ export const extractTimeFormat = (format: string) => {
     .trim()
 }
 
-export const dateEquals = function (a: Date | any, b: Date | any) {
+export const dateEquals = function (a: Date | unknown, b: Date | unknown) {
   const aIsDate = isDate(a)
   const bIsDate = isDate(b)
   if (aIsDate && bIsDate) {
