@@ -97,6 +97,7 @@ slider/show-marks
 | debounce              | debounce delay when typing, in milliseconds, works when `show-input` is true                              | number          | —                       | 300     |
 | tooltip-class         | custom class name for the tooltip                                                                         | string          | —                       | —       |
 | marks                 | marks， type of key must be `number` and must in closed interval `[min, max]`, each mark can custom style | object          | —                       | —       |
+| validate-event        | whether to trigger form validation                                                                        | boolean         | -                       | true    |
 
 ## Events
 

@@ -48,7 +48,9 @@ export const useWatch = (
         initData.firstValue = val[0]
         initData.secondValue = val[1]
         if (valueChanged()) {
-          elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+          if (props.validateEvent) {
+            elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+          }
           initData.oldValue = val.slice()
         }
       }
@@ -60,7 +62,9 @@ export const useWatch = (
       } else {
         initData.firstValue = val
         if (valueChanged()) {
-          elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+          if (props.validateEvent) {
+            elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+          }
           initData.oldValue = val
         }
       }

@@ -220,7 +220,9 @@ const setCurrentValue = (value: number | string | null | undefined) => {
   emit('update:modelValue', newVal!)
   emit('input', newVal)
   emit('change', newVal!, oldVal!)
-  formItem?.validate?.('change').catch((err) => debugWarn(err))
+  if (props.validateEvent) {
+    formItem?.validate?.('change').catch((err) => debugWarn(err))
+  }
   data.currentValue = newVal
 }
 const handleInput = (value: string) => {
@@ -248,7 +250,9 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 
 const handleBlur = (event: MouseEvent | FocusEvent) => {
   emit('blur', event)
-  formItem?.validate?.('blur').catch((err) => debugWarn(err))
+  if (props.validateEvent) {
+    formItem?.validate?.('blur').catch((err) => debugWarn(err))
+  }
 }
 
 watch(

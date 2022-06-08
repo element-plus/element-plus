@@ -146,6 +146,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | fit-input-width                   | whether the width of the dropdown is the same as the input                                                                  | boolean                            | —                           | false            |
 | suffix-icon                       | Custom suffix icon component                                                                                                | string / Component                 | —                           | ArrowUp          |
 | tag-type                          | tag type                                                                                                                    | string                             | success/info/warning/danger | info             |
+| validate-event                    | whether to trigger form validation                                                                                          | boolean                            | -                           | true             |
 
 ## Select Events
 

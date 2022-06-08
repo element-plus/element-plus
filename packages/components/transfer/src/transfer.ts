@@ -89,6 +89,10 @@ export const transferProps = buildProps({
     values: ['original', 'push', 'unshift'],
     default: 'original',
   },
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type TransferProps = ExtractPropTypes<typeof transferProps>
 

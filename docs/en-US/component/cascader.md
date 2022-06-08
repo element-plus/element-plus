@@ -159,6 +159,7 @@ cascader/panel
 | teleported                        | whether cascader popup is teleported                                                                                                                                             | boolean                 | true / false                | true    |
 | popper-append-to-body(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | boolean                 | -                           | true    |
 | tag-type                          | tag type                                                                                                                                                                         | string                  | success/info/warning/danger | info    |
+| validate-event                    | whether to trigger form validation                                                                                                                                               | boolean                 | -                           | true    |
 
 ## Cascader Events
 
