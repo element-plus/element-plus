@@ -148,7 +148,7 @@ describe('TimePicker', () => {
     input.trigger('focus')
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
-    expect(vm.value instanceof Date).toBeTruthy()
+    expect(vm.value).toBeInstanceOf(Date)
   })
 
   it('should update oldValue when visible change', async () => {
@@ -560,8 +560,8 @@ describe('TimePicker(range)', () => {
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
     expect(Array.isArray(vm.value)).toBeTruthy()
-    vm.value.forEach((_) => {
-      expect(_ instanceof Date).toBeTruthy()
+    vm.value.forEach((v: unknown) => {
+      expect(v).toBeInstanceOf(Date)
     })
   })
 
