@@ -1,3 +1,5 @@
+export const timeUnits = ['hours', 'minutes', 'seconds'] as const
+
 export const DEFAULT_FORMATS_TIME = 'HH:mm:ss'
 export const DEFAULT_FORMATS_DATE = 'YYYY-MM-DD'
 export const DEFAULT_FORMATS_DATEPICKER = {
@@ -11,3 +13,5 @@ export const DEFAULT_FORMATS_DATEPICKER = {
   daterange: DEFAULT_FORMATS_DATE,
   datetimerange: `${DEFAULT_FORMATS_DATE} ${DEFAULT_FORMATS_TIME}`,
 }
+
+export type TimeUnit = typeof timeUnits[number]

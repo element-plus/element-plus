@@ -58,9 +58,7 @@ const ns = useNamespace('alert')
 
 const visible = ref(true)
 
-const iconComponent = computed(
-  () => TypeComponentsMap[props.type] || TypeComponentsMap['info']
-)
+const iconComponent = computed(() => TypeComponentsMap[props.type])
 
 const iconClass = computed(() => [
   ns.e('icon'),

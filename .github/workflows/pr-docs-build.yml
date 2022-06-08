@@ -39,11 +39,13 @@ jobs:
         run: pnpm build
         env:
           FORCE_COLOR: 2
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Build website
         run: pnpm docs:build
         env:
           DOC_ENV: preview
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Move bundle to docs dist
         if: matrix.os == 'ubuntu-latest'

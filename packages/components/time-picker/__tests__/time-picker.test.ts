@@ -148,7 +148,7 @@ describe('TimePicker', () => {
     input.trigger('focus')
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
-    expect(vm.value instanceof Date).toBeTruthy()
+    expect(vm.value).toBeInstanceOf(Date)
   })
 
   it('should update oldValue when visible change', async () => {
@@ -437,6 +437,36 @@ describe('TimePicker', () => {
     await nextTick()
     expect(vm.value).toEqual('2000-01-01 09:00:00')
   })
+
+  it('picker-panel should not pop up when readonly', async () => {
+    const wrapper = _mount(
+      `<el-time-picker
+        readonly
+      />`,
+      () => ({})
+    )
+    const input = wrapper.find('input')
+    await input.trigger('mousedown')
+    await nextTick()
+    expect((wrapper.findComponent(Picker).vm as any).pickerVisible).toEqual(
+      false
+    )
+  })
+
+  it('picker-panel should not pop up when disabled', async () => {
+    const wrapper = _mount(
+      `<el-time-picker
+        disabled
+      />`,
+      () => ({})
+    )
+    const input = wrapper.find('input')
+    await input.trigger('mousedown')
+    await nextTick()
+    expect((wrapper.findComponent(Picker).vm as any).pickerVisible).toEqual(
+      false
+    )
+  })
 })
 
 describe('TimePicker(range)', () => {
@@ -530,8 +560,8 @@ describe('TimePicker(range)', () => {
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
     expect(Array.isArray(vm.value)).toBeTruthy()
-    vm.value.forEach((_) => {
-      expect(_ instanceof Date).toBeTruthy()
+    vm.value.forEach((v: unknown) => {
+      expect(v).toBeInstanceOf(Date)
     })
   })
 
@@ -787,5 +817,21 @@ describe('TimePicker(range)', () => {
       await rAF()
       expect(document.querySelector('.el-time-panel')).toBeTruthy()
     })
+  })
+
+  it('display value', async () => {
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        :is-range="true"
+      />`,
+      () => ({ value: [undefined, undefined] })
+    )
+
+    await nextTick()
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
   })
 })

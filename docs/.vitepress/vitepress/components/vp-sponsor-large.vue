@@ -13,7 +13,7 @@ const onItemClick = (item: any) => {
 </script>
 
 <template>
-  <div class="sponsor-container">
+  <div>
     <a
       v-for="item in leftCustomImgSponsors"
       :key="item.name"
