@@ -1,5 +1,42 @@
 ## Changelog
 
+### 2.2.5
+
+_2022-06-08_
+
+#### Features
+
+- Check message when commit (#8166 by @sxzz)
+
+#### Bug fixes
+
+- The type extends error (#8106 by @tolking)
+- Docs remove extra slashes (#8134 by @btea)
+- Vue app typing (#8137 by @sxzz)
+- Components [select-v2] remove private API (#8145 by @jw-foss)
+- Components import dayjs by a more compatible way (#8144 by @tolking)
+- Deps update all non-major dependencies (#7847 by @renovate[bot])
+- Components [form] catch validation error when changing rules (#8154 by @HeftyKoo)
+- Components [tag] awrong disable-transitions condition (#8161 by @ryuhangyeong)
+- Components [switch] tabindex property doesn't work (#8101 by @ryuhangyeong)
+- Components [input] hide eye icon if no value (#8096 by @ryuhangyeong)
+- Components [collapse-item] If disabled, no focus (#8081 by @ryuhangyeong)
+- Components [time-picker] filter invalid value (#8119 by @gjfei)
+- Components dts (#8167 by @sxzz)
+- Components picker-panel not pop up when disabled/readonly (#8139 by @Tsong-LC)
+
+#### Refactors
+
+- Components [date-picker] basic-date-table (#8095 by @jw-foss)
+- Components [time-picker] props (#8108 by @jw-foss)
+- Components [time-picker] panel-time-pick (#8115 by @jw-foss)
+- Components [time-picker] script setup (#8128 by @jw-foss)
+- Components [time-picker] basic-time-spinner (#8132 by @jw-foss)
+- Components [link] use JSX in Unit test (#8140 by @logustra)
+- Components [alert] delete unnecessary code (#8129 by @ryuhangyeong)
+- Components use `useResizeObserver` (#8124 by @CarterLi)
+- Components [time-picker] time-picker (#8160 by @jw-foss)
+
 ### 2.2.4
 
 _2022-06-05_
