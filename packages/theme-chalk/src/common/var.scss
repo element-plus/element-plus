@@ -832,7 +832,7 @@ $popup: map.merge(
 $popover: () !default;
 $popover: map.merge(
   (
-    'bg-color': getCssVar('color-white'),
+    'bg-color': getCssVar('bg-color', 'overlay'),
     'font-size': getCssVar('font-size-base'),
     'border-color': getCssVar('border-color-lighter'),
     'padding': 12px,
