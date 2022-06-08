@@ -8,7 +8,7 @@
           :arrow-control="arrowControl"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
-          :spinner-date="parsedValue"
+          :spinner-date="(parsedValue as any)"
           :disabled-hours="disabledHours"
           :disabled-minutes="disabledMinutes"
           :disabled-seconds="disabledSeconds"
@@ -44,6 +44,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { isUndefined } from '@element-plus/utils'
 import { panelTimePickerProps } from '../props/panel-time-picker'
+import { useTimePanel } from '../composables/use-time-panel'
 import TimeSpinner from './basic-time-spinner.vue'
 import { getAvailableArrs, useOldValue } from './useTimePicker'
 
@@ -51,6 +52,18 @@ import type { Dayjs } from 'dayjs'
 
 const props = defineProps(panelTimePickerProps)
 const emit = defineEmits(['pick', 'select-range', 'set-picker-option'])
+
+// Injections
+const pickerBase = inject('EP_PICKER_BASE') as any
+const {
+  arrowControl,
+  disabledHours,
+  disabledMinutes,
+  disabledSeconds,
+  defaultValue,
+} = pickerBase.props
+const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
+  getAvailableArrs(disabledHours, disabledMinutes, disabledSeconds)
 
 const ns = useNamespace('time')
 const { t, lang } = useLocale()
@@ -111,65 +124,31 @@ const changeSelectionRange = (step: number) => {
 const handleKeydown = (event: KeyboardEvent) => {
   const code = event.code
 
-  if (code === EVENT_CODE.left || code === EVENT_CODE.right) {
-    const step = code === EVENT_CODE.left ? -1 : 1
+  const { left, right, up, down } = EVENT_CODE
+
+  if ([left, right].includes(code)) {
+    const step = code === left ? -1 : 1
     changeSelectionRange(step)
     event.preventDefault()
     return
   }
 
-  if (code === EVENT_CODE.up || code === EVENT_CODE.down) {
-    const step = code === EVENT_CODE.up ? -1 : 1
+  if ([up, down].includes(code)) {
+    const step = code === up ? -1 : 1
     timePickerOptions['start_scrollDown'](step)
     event.preventDefault()
     return
   }
 }
 
-const getRangeAvailableTime = (date: Dayjs) => {
-  const availableTimeGetters = {
-    hour: getAvailableHours,
-    minute: getAvailableMinutes,
-    second: getAvailableSeconds,
-  } as const
-  let result = date
-  ;(['hour', 'minute', 'second'] as const).forEach((type) => {
-    if (availableTimeGetters[type]) {
-      let availableTimeSlots
-      const method = availableTimeGetters[type]
-      switch (type) {
-        case 'minute': {
-          availableTimeSlots = (method as typeof getAvailableMinutes)(
-            result.hour(),
-            props.datetimeRole
-          )
-          break
-        }
-        case 'second': {
-          availableTimeSlots = (method as typeof getAvailableSeconds)(
-            result.hour(),
-            result.minute(),
-            props.datetimeRole
-          )
-          break
-        }
-        default: {
-          availableTimeSlots = (method as typeof getAvailableHours)(
-            props.datetimeRole
-          )
-          break
-        }
-      }
+const { timePickerOptions, onSetOption, getAvailableTime } = useTimePanel({
+  getAvailableHours,
+  getAvailableMinutes,
+  getAvailableSeconds,
+})
 
-      if (
-        availableTimeSlots?.length &&
-        !availableTimeSlots.includes(result[type]())
-      ) {
-        result = result[type](availableTimeSlots[0]) as unknown as Dayjs
-      }
-    }
-  })
-  return result
+const getRangeAvailableTime = (date: Dayjs) => {
+  return getAvailableTime(date, props.datetimeRole || '', true)
 }
 
 const parseUserInput = (value: Dayjs) => {
@@ -192,18 +171,4 @@ emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['handleKeydownInput', handleKeydown])
 emit('set-picker-option', ['getRangeAvailableTime', getRangeAvailableTime])
 emit('set-picker-option', ['getDefaultValue', getDefaultValue])
-const timePickerOptions = {} as any
-const onSetOption = (e: [string, number]) => {
-  timePickerOptions[e[0]] = e[1]
-}
-const pickerBase = inject('EP_PICKER_BASE') as any
-const {
-  arrowControl,
-  disabledHours,
-  disabledMinutes,
-  disabledSeconds,
-  defaultValue,
-} = pickerBase.props
-const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
-  getAvailableArrs(disabledHours, disabledMinutes, disabledSeconds)
 </script>

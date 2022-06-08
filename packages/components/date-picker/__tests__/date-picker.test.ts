@@ -1246,6 +1246,25 @@ describe('DateRangePicker', () => {
   it('panel change event', async () => {
     await testDatePickerPanelChange('daterange')
   })
+
+  it('display value', async () => {
+    const wrapper = _mount(
+      `
+      <el-date-picker
+        v-model="value"
+        type="daterange"
+    />`,
+      () => ({
+        value: [undefined, undefined],
+      })
+    )
+
+    await nextTick()
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
+  })
 })
 
 describe('MonthRange', () => {

@@ -264,7 +264,6 @@ import {
   computed,
   defineComponent,
   nextTick,
-  onBeforeUnmount,
   onMounted,
   provide,
   reactive,
@@ -272,6 +271,7 @@ import {
   unref,
   watch,
 } from 'vue'
+import { useResizeObserver } from '@vueuse/core'
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
@@ -282,11 +282,7 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import {
-  addResizeListener,
-  isValidComponentSize,
-  removeResizeListener,
-} from '@element-plus/utils'
+import { isValidComponentSize } from '@element-plus/utils'
 import { ArrowUp, CircleClose } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
@@ -534,7 +530,7 @@ export default defineComponent({
     )
 
     onMounted(() => {
-      addResizeListener(selectWrapper.value as any, handleResize)
+      useResizeObserver(selectWrapper, handleResize)
       if (props.remote && props.multiple) {
         resetInputHeight()
       }
@@ -552,10 +548,6 @@ export default defineComponent({
         }
       })
       setSelected()
-    })
-
-    onBeforeUnmount(() => {
-      removeResizeListener(selectWrapper.value as any, handleResize)
     })
 
     if (props.multiple && !Array.isArray(props.modelValue)) {
