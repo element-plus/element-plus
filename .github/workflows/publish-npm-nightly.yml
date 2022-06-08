@@ -68,3 +68,4 @@ jobs:
           TAG_VERSION: 0.0.${{ steps.date.outputs.date }}
           GIT_HEAD: ${{env.GIT_HEAD}}
           REGISTRY: https://registry.npmjs.com/
+          NODE_OPTIONS: --max-old-space-size=4096
