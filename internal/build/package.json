@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@element-plus/build-constants": "^0.0.1",
-    "@pnpm/find-workspace-packages": "^4.0.5",
+    "@pnpm/find-workspace-packages": "^4.0.10",
     "@pnpm/logger": "^4.0.0",
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
@@ -25,20 +25,20 @@
     "chalk": "^5.0.1",
     "components-helper": "^2.0.0",
     "consola": "^2.15.3",
-    "esbuild": "^0.14.39",
+    "esbuild": "^0.14.42",
     "fast-glob": "^3.2.11",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "lodash": "^4.17.21",
-    "rollup": "^2.73.0",
+    "rollup": "^2.75.6",
     "rollup-plugin-esbuild": "^4.9.1",
     "ts-morph": "^14.0.0",
     "unplugin-vue-define-options": "^0.6.1"
   },
   "devDependencies": {
-    "@esbuild-kit/cjs-loader": "^2.0.0",
+    "@esbuild-kit/cjs-loader": "^2.0.1",
     "@pnpm/types": "^8.0.1",
     "unbuild": "^0.7.4",
-    "vue": "^3.2.33"
+    "vue": "^3.2.37"
   }
 }

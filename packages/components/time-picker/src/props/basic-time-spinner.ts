@@ -19,17 +19,17 @@ export const basicTimeSpinnerProps = buildProps({
   arrowControl: Boolean,
   amPmMode: {
     // 'a': am/pm; 'A': AM/PM
-    type: definePropType<'a' | 'A'>(String),
+    type: definePropType<'a' | 'A' | ''>(String),
     default: '',
   },
   disabledHours: {
-    type: definePropType<(role: string, comparingDate?: Dayjs) => boolean[]>(
+    type: definePropType<(role: string, comparingDate?: Dayjs) => number[]>(
       Function
     ),
   },
   disabledMinutes: {
     type: definePropType<
-      (hour: number, role: string, comparingDate?: Dayjs) => boolean[]
+      (hour: number, role: string, comparingDate?: Dayjs) => number[]
     >(Function),
   },
   disabledSeconds: {
@@ -39,7 +39,7 @@ export const basicTimeSpinnerProps = buildProps({
         minute: number,
         role: string,
         comparingDate?: Dayjs
-      ) => boolean[]
+      ) => number[]
     >(Function),
   },
 } as const)
