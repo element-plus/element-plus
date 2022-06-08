@@ -532,6 +532,7 @@ const valueIsEmpty = computed(() => {
 })
 
 const onMouseDownInput = async (event: MouseEvent) => {
+  if (props.readonly || pickerDisabled.value) return
   if (
     (event.target as HTMLElement)?.tagName !== 'INPUT' ||
     refInput.value.includes(document.activeElement as HTMLInputElement)
