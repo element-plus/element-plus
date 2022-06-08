@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { isArray, isEmpty } from '@element-plus/utils'
+import { isArray, isDate, isEmpty } from '@element-plus/utils'
 
 import type { Dayjs } from 'dayjs'
 export type TimeList = [number | undefined, number, undefined | number]
@@ -29,8 +29,8 @@ export const extractTimeFormat = (format: string) => {
 }
 
 export const dateEquals = function (a: Date | any, b: Date | any) {
-  const aIsDate = a instanceof Date
-  const bIsDate = b instanceof Date
+  const aIsDate = isDate(a)
+  const bIsDate = isDate(b)
   if (aIsDate && bIsDate) {
     return a.getTime() === b.getTime()
   }
