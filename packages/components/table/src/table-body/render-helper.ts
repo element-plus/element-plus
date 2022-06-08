@@ -52,7 +52,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
-      rowClasses.push(`${ns.e('row')}--level-${treeRowData.level}`)
+      rowClasses.push(ns.em('row', `level-${treeRowData.level}`))
       display = treeRowData.display
     }
     const displayStyle = display
