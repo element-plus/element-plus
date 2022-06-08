@@ -788,4 +788,20 @@ describe('TimePicker(range)', () => {
       expect(document.querySelector('.el-time-panel')).toBeTruthy()
     })
   })
+
+  it('display value', async () => {
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        :is-range="true"
+      />`,
+      () => ({ value: [undefined, undefined] })
+    )
+
+    await nextTick()
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
+  })
 })

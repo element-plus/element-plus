@@ -171,10 +171,10 @@ import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
-import ElTooltip from '@element-plus/components/tooltip'
 import { debugWarn, isArray, isEmpty } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
+import ElTooltip from '@element-plus/components/tooltip'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
@@ -190,6 +190,7 @@ import type {
   TimePickerDefaultProps,
   UserInput,
 } from './props'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 // Date object and string
 const dateEquals = function (a: Date | any, b: Date | any) {
@@ -267,7 +268,7 @@ const elForm = inject(formContextKey, {} as FormContext)
 const elFormItem = inject(formItemContextKey, {} as FormItemContext)
 const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
-const refPopper = ref<InstanceType<typeof ElTooltip>>()
+const refPopper = ref<TooltipInstance>()
 const inputRef = ref<HTMLElement | ComponentPublicInstance>()
 const pickerVisible = ref(false)
 const pickerActualVisible = ref(false)
@@ -521,11 +522,15 @@ const onClearIconClick = (event: MouseEvent) => {
     pickerOptions.value.handleClear && pickerOptions.value.handleClear()
   }
 }
+
 const valueIsEmpty = computed(() => {
+  const { modelValue } = props
   return (
-    !props.modelValue || (isArray(props.modelValue) && !props.modelValue.length)
+    !modelValue ||
+    (Array.isArray(modelValue) && !modelValue.filter(Boolean).length)
   )
 })
+
 const onMouseDownInput = async (event: MouseEvent) => {
   if (
     (event.target as HTMLElement)?.tagName !== 'INPUT' ||
