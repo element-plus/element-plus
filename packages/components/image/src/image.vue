@@ -130,9 +130,10 @@ const loadImage = () => {
   imageSrc.value = props.src
 }
 
-function handleLoad() {
+function handleLoad(event: Event) {
   isLoading.value = false
   hasLoadError.value = false
+  emit('load', event)
 }
 
 function handleError(event: Event) {
