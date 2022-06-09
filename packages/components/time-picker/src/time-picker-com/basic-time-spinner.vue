@@ -88,7 +88,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { timeUnits } from '../constants'
 import { buildTimeList } from '../utils'
 import { basicTimeSpinnerProps } from '../props/basic-time-spinner'
-import { getTimeLists } from './useTimePicker'
+import { getTimeLists } from '../composables/use-time-picker'
 
 import type { Ref } from 'vue'
 import type { ScrollbarInstance } from '@element-plus/components/scrollbar'

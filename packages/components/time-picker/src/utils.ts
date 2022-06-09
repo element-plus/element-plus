@@ -79,3 +79,12 @@ export const formatter = function (
   if (format === 'x') return +date
   return dayjs(date).locale(lang).format(format)
 }
+
+export const makeList = (total: number, method?: () => number[]) => {
+  const arr = []
+  const disabledArr = method?.()
+  for (let i = 0; i < total; i++) {
+    arr[i] = disabledArr ? disabledArr.includes(i) : false
+  }
+  return arr
+}
