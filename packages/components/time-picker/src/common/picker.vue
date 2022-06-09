@@ -356,7 +356,9 @@ const handleFocusInput = (e?: FocusEvent) => {
   emit('focus', e)
 }
 
-let currentHandleBlurDeferCallback: () => Promise<void> | undefined
+let currentHandleBlurDeferCallback:
+  | (() => Promise<void> | undefined)
+  | undefined = undefined
 
 // Check if document.activeElement is inside popper or any input before popper close
 const handleBlurInput = (e?: FocusEvent) => {
