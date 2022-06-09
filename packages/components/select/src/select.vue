@@ -321,6 +321,7 @@ export default defineComponent({
     size: {
       type: String as PropType<ComponentSize>,
       validator: isValidComponentSize,
+      default: 'default',
     },
     effect: {
       type: String as PropType<'light' | 'dark' | string>,
