@@ -24,16 +24,19 @@ const makeAvailableArr = (disabledList: boolean[]): number[] => {
 }
 
 export const getTimeLists = (
-  disabledHours: GetDisabledHours,
-  disabledMinutes: GetDisabledMinutes,
-  disabledSeconds: GetDisabledSeconds
+  disabledHours?: GetDisabledHours,
+  disabledMinutes?: GetDisabledMinutes,
+  disabledSeconds?: GetDisabledSeconds
 ) => {
   const getHoursList = (role: string, compare?: Dayjs) => {
-    return makeList(24, () => disabledHours?.(role, compare))
+    return makeList(24, disabledHours && (() => disabledHours?.(role, compare)))
   }
 
   const getMinutesList = (hour: number, role: string, compare?: Dayjs) => {
-    return makeList(60, () => disabledMinutes?.(hour, role, compare))
+    return makeList(
+      60,
+      disabledMinutes && (() => disabledMinutes?.(hour, role, compare))
+    )
   }
 
   const getSecondsList = (
@@ -42,7 +45,10 @@ export const getTimeLists = (
     role: string,
     compare?: Dayjs
   ) => {
-    return makeList(60, () => disabledSeconds?.(hour, minute, role, compare))
+    return makeList(
+      60,
+      disabledSeconds && (() => disabledSeconds?.(hour, minute, role, compare))
+    )
   }
 
   return {

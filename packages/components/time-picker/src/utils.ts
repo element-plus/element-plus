@@ -81,10 +81,10 @@ export const formatter = function (
 }
 
 export const makeList = (total: number, method?: () => number[]) => {
-  const arr = []
+  const arr: boolean[] = []
   const disabledArr = method?.()
   for (let i = 0; i < total; i++) {
-    arr[i] = disabledArr ? disabledArr.includes(i) : false
+    arr.push(disabledArr?.includes(i) ?? false)
   }
   return arr
 }
