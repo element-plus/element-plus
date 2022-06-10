@@ -21,9 +21,9 @@
         nsPager.is('disabled', disabled),
       ]"
       tabindex="0"
-      @mouseenter="onMouseenter('left')"
+      @mouseenter="onMouseenter(true)"
       @mouseleave="quickPrevHover = false"
-      @focus="onFocus('left')"
+      @focus="onFocus(true)"
       @blur="quickPrevFocus = false"
     >
       <d-arrow-left v-if="quickPrevHover || quickPrevFocus" />
@@ -51,9 +51,9 @@
         nsPager.is('disabled', disabled),
       ]"
       tabindex="0"
-      @mouseenter="onMouseenter('right')"
+      @mouseenter="onMouseenter()"
       @mouseleave="quickNextHover = false"
-      @focus="onFocus('right')"
+      @focus="onFocus()"
       @blur="quickNextFocus = false"
     >
       <d-arrow-right v-if="quickNextHover || quickNextFocus" />
@@ -141,16 +141,16 @@ watchEffect(() => {
     }
   }
 })
-function onMouseenter(direction: 'left' | 'right') {
+function onMouseenter(forward = false) {
   if (props.disabled) return
-  if (direction === 'left') {
+  if (forward) {
     quickPrevHover.value = true
   } else {
     quickNextHover.value = true
   }
 }
-function onFocus(direction: 'left' | 'right') {
-  if (direction === 'left') {
+function onFocus(forward = false) {
+  if (forward) {
     quickPrevFocus.value = true
   } else {
     quickNextFocus.value = true
