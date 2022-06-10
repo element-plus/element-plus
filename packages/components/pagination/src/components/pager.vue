@@ -21,7 +21,7 @@
         nsPager.is('disabled', disabled),
       ]"
       tabindex="0"
-      @mouseenter="onMouseenter(true)"
+      @mouseenter="onMouseEnter(true)"
       @mouseleave="quickPrevHover = false"
       @focus="onFocus(true)"
       @blur="quickPrevFocus = false"
@@ -51,7 +51,7 @@
         nsPager.is('disabled', disabled),
       ]"
       tabindex="0"
-      @mouseenter="onMouseenter()"
+      @mouseenter="onMouseEnter()"
       @mouseleave="quickNextHover = false"
       @focus="onFocus()"
       @blur="quickNextFocus = false"
@@ -141,7 +141,7 @@ watchEffect(() => {
     }
   }
 })
-function onMouseenter(forward = false) {
+function onMouseEnter(forward = false) {
   if (props.disabled) return
   if (forward) {
     quickPrevHover.value = true
