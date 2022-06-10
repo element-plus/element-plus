@@ -15,7 +15,7 @@ import type {
 
 const makeAvailableArr = (disabledList: boolean[]): number[] => {
   const trueOrNumber = (isDisabled: boolean, index: number) =>
-    isDisabled ? true : index
+    isDisabled || index
 
   const getNumber = (predicate: number | true): predicate is number =>
     predicate !== true
