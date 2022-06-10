@@ -341,7 +341,7 @@ export const useSelect = (props, states: States, ctx) => {
       // it's an inner input so reduce it by 2px.
       input.style.height = `${
         states.selected.length === 0
-          ? sizeInMap
+          ? sizeInMap - 2
           : Math.max(
               _tags
                 ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
