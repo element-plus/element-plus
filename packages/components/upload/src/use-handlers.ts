@@ -39,9 +39,8 @@ export const useHandlers = (
     /** @default ['ready', 'uploading', 'success', 'fail'] */
     states: UploadStatus[] = ['ready', 'uploading', 'success', 'fail']
   ) {
-    uploadFiles.value = uploadFiles.value.filter(
-      (row) => !states.includes(row.status)
-    )
+    const list = uploadFiles.value.filter((row) => !states.includes(row.status))
+    uploadFiles.value.splice(0, uploadFiles.value.length, ...list)
   }
 
   const handleError: UploadContentProps['onError'] = (err, rawFile) => {
