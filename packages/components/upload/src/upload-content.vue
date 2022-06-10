@@ -109,7 +109,7 @@ const upload = async (rawFile: UploadRawFile) => {
     }
   }
 
-  doUpload(rawFile)
+  doUpload(file)
 }
 
 const doUpload = (rawFile: UploadRawFile) => {
