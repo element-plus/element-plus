@@ -43,12 +43,17 @@ $button-icon-span-gap: map.merge(
   border: getCssVar('border');
   border-color: getCssVar('button', 'border-color');
 
-  &:hover,
-  &:focus {
+  &:hover {
     color: getCssVar('button', 'hover', 'text-color');
     border-color: getCssVar('button', 'hover', 'border-color');
     background-color: getCssVar('button', 'hover', 'bg-color');
     outline: none;
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 2px solid getCssVar('button', 'border-color');
+    outline-offset: 1px;
   }
 
   &:active {
@@ -56,12 +61,6 @@ $button-icon-span-gap: map.merge(
     border-color: getCssVar('button', 'active', 'border-color');
     background-color: getCssVar('button', 'active', 'bg-color');
     outline: none;
-  }
-
-  &:focus-visible {
-    border-color: transparent;
-    outline: 2px solid getCssVar('button', 'border-color');
-    outline-offset: 1px;
   }
 
   > span {
@@ -117,13 +116,18 @@ $button-icon-span-gap: map.merge(
 
   @include when(disabled) {
     &,
-    &:hover,
-    &:focus {
+    &:hover {
       color: getCssVar('button', 'disabled', 'text-color');
       cursor: not-allowed;
       background-image: none;
       background-color: getCssVar('button', 'disabled', 'bg-color');
       border-color: getCssVar('button', 'disabled', 'border-color');
+    }
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      outline-offset: 0;
     }
   }
 
@@ -164,8 +168,7 @@ $button-icon-span-gap: map.merge(
     }
 
     &:not(.is-disabled) {
-      &:hover,
-      &:focus {
+      &:hover {
         background-color: getCssVar('fill-color', 'light');
       }
 
@@ -218,8 +221,7 @@ $button-icon-span-gap: map.merge(
     }
 
     &:not(.is-disabled) {
-      &:hover,
-      &:focus {
+      &:hover {
         border-color: transparent;
         background-color: transparent;
       }
@@ -244,8 +246,7 @@ $button-icon-span-gap: map.merge(
     }
 
     &:not(.is-disabled) {
-      &:hover,
-      &:focus {
+      &:hover {
         color: getCssVar('color', 'primary', 'light-3');
         border-color: transparent;
         background-color: transparent;
