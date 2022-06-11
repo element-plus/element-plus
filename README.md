@@ -76,6 +76,11 @@ You can also try Element Plus out with the components built-in playground.
         </a>
       </td>
     </tr>
+    </tbody>
+</table>
+<table align="center" cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
     <tr>
       <td align="center" valign="middle">
         <a href="https://wonderful-code.gitee.io/?from=element-plus" target="_blank">
