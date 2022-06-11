@@ -700,7 +700,7 @@ function onParsedValueChanged(
   }
 }
 
-emit('set-picker-option', ['isValidRange', isValidRange])
+emit('set-picker-option', ['isValidValue', isValidRange])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['handleClear', handleClear])
