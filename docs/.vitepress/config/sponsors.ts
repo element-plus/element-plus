@@ -8,6 +8,17 @@ export const rightRichTextSponsors = [
   },
 ]
 
+export const rightLogoSmallSponsors = [
+  {
+    name: 'BuildAdmin',
+    img: '/images/sponsors/buildadmin.png',
+    imgL: '/images/sponsors/buildadmin-l.png',
+    url: 'https://wonderful-code.gitee.io/?from=element-plus',
+    slogan: 'Vue3 opensource admin system',
+    slogan_cn: 'Vue3企业级开源后台管理系统',
+  },
+]
+
 export const leftCustomImgSponsors = [
   {
     name: 'VForm',
@@ -33,7 +44,7 @@ export const platinumSponsors = [
   ...rightRichTextSponsors,
 ]
 
-export const goldSponsors = [
+export const leftLogoSponsors = [
   {
     name: 'bit',
     img: '/images/bit.svg',
@@ -59,3 +70,5 @@ export const goldSponsors = [
     slogan_cn: 'Vue表单设计器，赋能企业快速开发',
   },
 ]
+
+export const goldSponsors = [...rightLogoSmallSponsors, ...leftLogoSponsors]
