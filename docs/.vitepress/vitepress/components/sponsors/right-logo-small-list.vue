@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import { rightLogoSmallSponsors } from '../../../config/sponsors'
 import { sendEvent } from '../../../config/analytics'
-import { useLang } from '../../composables/lang'
 import { isDark } from '../../composables/dark'
-const lang = useLang()
-const langZhCN = 'zh-CN'
-const isZhCn = computed(() => lang.value === langZhCN)
 const onItemClick = (item: any) => {
-  sendEvent('sp_click', item.name, 'right_richtext_list')
+  sendEvent('sp_click', item.name, 'right_logo_small')
 }
 </script>
 
