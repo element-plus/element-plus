@@ -45,8 +45,11 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { isUndefined } from '@element-plus/utils'
 import { panelTimePickerProps } from '../props/panel-time-picker'
 import { useTimePanel } from '../composables/use-time-panel'
+import {
+  buildAvailableTimeSlotGetter,
+  useOldValue,
+} from '../composables/use-time-picker'
 import TimeSpinner from './basic-time-spinner.vue'
-import { getAvailableArrs, useOldValue } from './useTimePicker'
 
 import type { Dayjs } from 'dayjs'
 
@@ -63,7 +66,7 @@ const {
   defaultValue,
 } = pickerBase.props
 const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
-  getAvailableArrs(disabledHours, disabledMinutes, disabledSeconds)
+  buildAvailableTimeSlotGetter(disabledHours, disabledMinutes, disabledSeconds)
 
 const ns = useNamespace('time')
 const { t, lang } = useLocale()
