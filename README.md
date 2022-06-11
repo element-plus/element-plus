@@ -57,6 +57,9 @@ You can also try Element Plus out with the components built-in playground.
   <b>Special thanks to the generous sponsorship by:</b>
 </p>
 <br/>
+<p align="center">
+  <b>Platinum Sponsors</b>
+</p>
 <table align="center" cellspacing="0" cellpadding="0">
   <tbody>
     <tr>
@@ -78,28 +81,30 @@ You can also try Element Plus out with the components built-in playground.
     </tr>
     </tbody>
 </table>
+<p align="center">
+  <b>Gold Sponsors</b>
+</p>
 <table align="center" cellspacing="0" cellpadding="0">
   <tbody>
     <tr>
-    <tr>
       <td align="center" valign="middle">
         <a href="https://wonderful-code.gitee.io/?from=element-plus" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
+          <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="https://bit.dev/?from=element-ui" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
+          <img width="130px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="https://www.renren.io/?from=element-ui" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/82012629/126620778-0d8ab509-018a-45d7-b8de-a5bac2ad519a.png">
+          <img width="130px" src="https://user-images.githubusercontent.com/82012629/126620778-0d8ab509-018a-45d7-b8de-a5bac2ad519a.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="https://form.making.link/?from=element_plus" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/159736613-13c7c2dc-744e-4eec-b801-f4ca57871787.png">
+          <img width="130px" src="https://user-images.githubusercontent.com/17680888/159736613-13c7c2dc-744e-4eec-b801-f4ca57871787.png">
         </a>
       </td>
     </tr>
