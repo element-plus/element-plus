@@ -411,5 +411,28 @@ describe('Pagination', () => {
        * expect(style.outline).toBeTruthy()
        */
     })
+
+    test('test tabindex disabled', async () => {
+      const wrapper = mount({
+        setup() {
+          return () => {
+            return h(Pagination, {
+              total: 100,
+              disabled: true,
+            })
+          }
+        },
+      })
+
+      expect(
+        wrapper.find('.el-pager li:first-child').attributes('tabindex')
+      ).toBe('-1')
+
+      await wrapper.setProps({ disabled: false })
+
+      expect(
+        wrapper.find('.el-pager li:first-child').attributes('tabindex')
+      ).toBe('0')
+    })
   })
 })
