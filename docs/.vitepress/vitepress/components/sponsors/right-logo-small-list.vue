@@ -16,7 +16,7 @@ const onItemClick = (item: any) => {
       <div
         v-if="!item.url"
         :class="[
-          isDark && '!bg-#262729',
+          isDark && '!bg-#262729 color-$text-color-placeholder',
           'flex bg-#F9F9F9 rd-0px h-40px w-89px justify-center items-center',
         ]"
       >
