@@ -59,8 +59,7 @@ $button-icon-span-gap: map.merge(
   }
 
   &:focus-visible {
-    border-color: transparent;
-    outline: 2px solid getCssVar('button', 'border-color');
+    outline: 2px solid getCssVar('button', 'outline-color');
     outline-offset: 1px;
   }
 
@@ -170,8 +169,7 @@ $button-icon-span-gap: map.merge(
       }
 
       &:focus-visible {
-        border-color: transparent;
-        outline: 2px solid getCssVar('button', 'border-color');
+        outline: 2px solid getCssVar('button', 'outline-color');
         outline-offset: 1px;
       }
 
