@@ -678,4 +678,54 @@ describe('Tabs.vue', () => {
   test('resize', async () => {
     // TODO: jsdom not support `clientWidth`.
   })
+
+  test('DOM update finished calculating navOffset', async () => {
+    const tabs: string[] = []
+    for (let i = 0; i < 5000; i++) {
+      tabs.push(i.toString())
+    }
+    const wrapper = mount({
+      components: {
+        'el-tabs': Tabs,
+        'el-tab-pane': TabPane,
+      },
+      template: `
+        <el-tabs v-model="activeName">
+          <el-tab-pane
+            v-for="item in tabs"
+            :key="item"
+            :label="item"
+            :name="item"
+          />
+        </el-tabs>
+      `,
+      data() {
+        return {
+          activeName: '0',
+          tabs,
+        }
+      },
+    })
+
+    const tabsWrapper = wrapper.findComponent(Tabs)
+    await nextTick()
+
+    const mockRect = vi
+      .spyOn(wrapper.find('#tab-4999').element, 'getBoundingClientRect')
+      .mockReturnValue({ left: 5000 } as DOMRect)
+    const mockComputedStyle = vi
+      .spyOn(window, 'getComputedStyle')
+      .mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
+
+    await wrapper.find('#tab-4999').trigger('click')
+    await nextTick()
+
+    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch(
+      'translateX(5000px)'
+    )
+
+    mockRect.mockRestore()
+    mockComputedStyle.mockRestore()
+    wrapper.unmount()
+  })
 })
