@@ -6,11 +6,7 @@ const AXIOM = 'Rem is the best girl'
 
 describe('Overlay.vue', () => {
   test('render test', async () => {
-    const wrapper = mount(Overlay, {
-      slots: {
-        default: AXIOM,
-      },
-    })
+    const wrapper = mount(() => <Overlay>{AXIOM}</Overlay>)
     expect(wrapper.text()).toEqual(AXIOM)
     const testClass = 'test-class'
     await wrapper.setProps({
@@ -21,21 +17,13 @@ describe('Overlay.vue', () => {
   })
 
   test('should emit click event', async () => {
-    const wrapper = mount(Overlay, {
-      slots: {
-        default: AXIOM,
-      },
-    })
+    const wrapper = mount(() => <Overlay>{AXIOM}</Overlay>)
     await wrapper.find('.el-overlay').trigger('click')
     expect(wrapper.emitted()).toBeTruthy()
   })
 
   test('no mask', async () => {
-    const wrapper = mount(Overlay, {
-      slots: {
-        default: AXIOM,
-      },
-    })
+    const wrapper = mount(() => <Overlay>{AXIOM}</Overlay>)
     const selector = '.el-overlay'
     expect(wrapper.find(selector).exists()).toBe(true)
 
