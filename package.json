@@ -135,6 +135,13 @@
         "react",
         "react-dom"
       ]
+    },
+    "packageExtensions": {
+      "vue-template-compiler": {
+        "peerDependencies": {
+          "vue": "^2.6.14"
+        }
+      }
     }
   },
   "lint-staged": {

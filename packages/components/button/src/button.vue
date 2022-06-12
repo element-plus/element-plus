@@ -3,9 +3,9 @@
     ref="_ref"
     :class="[
       ns.b(),
-      ns.m(_type),
-      ns.m(_size),
-      ns.is('disabled', _disabled),
+      ns.m(type_),
+      ns.m(size_),
+      ns.is('disabled', disabled_),
       ns.is('loading', loading),
       ns.is('plain', plain),
       ns.is('round', round),
@@ -14,8 +14,8 @@
       ns.is('link', link),
       ns.is('has-bg', bg),
     ]"
-    :aria-disabled="_disabled || loading"
-    :disabled="_disabled || loading"
+    :aria-disabled="disabled_ || loading"
+    :disabled="disabled_ || loading"
     :autofocus="autofocus"
     :type="nativeType"
     :style="buttonStyle"
@@ -78,11 +78,11 @@ const buttonGroupContext = inject(buttonGroupContextKey, undefined)
 const globalConfig = useGlobalConfig('button')
 const ns = useNamespace('button')
 const { form } = useFormItem()
-const _size = useSize(computed(() => buttonGroupContext?.size))
-const _disabled = useDisabled()
+const size_ = useSize(computed(() => buttonGroupContext?.size))
+const disabled_ = useDisabled()
 const _ref = ref<HTMLButtonElement>()
 
-const _type = computed(() => props.type || buttonGroupContext?.type || '')
+const type_ = computed(() => props.type || buttonGroupContext?.type || '')
 const autoInsertSpace = computed(
   () => props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
 )
@@ -113,11 +113,11 @@ defineExpose({
   /** @description button html element */
   ref: _ref,
   /** @description button size */
-  size: _size,
+  size: size_,
   /** @description button type */
-  type: _type,
+  type: type_,
   /** @description button disabled */
-  disabled: _disabled,
+  disabled: disabled_,
   /** @description whether adding space */
   shouldAddSpace,
 })

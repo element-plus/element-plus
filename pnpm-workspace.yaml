@@ -2,4 +2,5 @@ packages:
   - packages/*
   - docs
   - play
+  - playground-vue2
   - internal/*

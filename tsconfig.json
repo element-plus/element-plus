@@ -3,6 +3,7 @@
   "references": [
     { "path": "./tsconfig.web.json" },
     { "path": "./tsconfig.play.json" },
+    { "path": "./tsconfig.play-vue2.json" },
     { "path": "./tsconfig.node.json" },
     { "path": "./tsconfig.vite-config.json" },
     { "path": "./tsconfig.vitest.json" }
