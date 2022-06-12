@@ -205,7 +205,8 @@ $button-icon-span-gap: map.merge(
     padding: 2px;
     height: auto;
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: getCssVar('button', 'hover', 'link-text-color');
     }
 
