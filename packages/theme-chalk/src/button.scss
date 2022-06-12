@@ -224,6 +224,7 @@ $button-icon-span-gap: map.merge(
       }
 
       &:active {
+        color: getCssVar('button', 'active-color');
         border-color: transparent;
         background-color: transparent;
       }
