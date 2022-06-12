@@ -45,6 +45,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
+import { debounce } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray } from '@element-plus/utils'
 import { basicDateTableProps } from '../props/basic-date-table'
@@ -371,7 +372,7 @@ const handleFocus = (event: Event) => {
   }
 }
 
-const handlePickDate = (event: Event, isKeyboardMovement = false) => {
+const handlePickDate = debounce((event: Event, isKeyboardMovement = false) => {
   const target = (event.target as HTMLElement).closest('td')
 
   if (!target || target.tagName !== 'TD') return
@@ -415,7 +416,7 @@ const handlePickDate = (event: Event, isKeyboardMovement = false) => {
       : castArray(props.parsedValue).concat([newDate])
     emit('pick', newValue)
   }
-}
+}, 200)
 
 const isWeekActive = (cell: DateCell) => {
   if (props.selectionMode !== 'week') return false
