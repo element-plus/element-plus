@@ -73,11 +73,6 @@ You can also try Element Plus out with the components built-in playground.
           <img width="150px" src="https://user-images.githubusercontent.com/17680888/160634485-df0d00af-8633-4ab8-9a72-aac2b65d1d36.png">
         </a>
       </td>
-      <td align="center" valign="middle">
-        <a href="https://fantastic-admin.netlify.app/?from=element-plus" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/82012629/167299102-e2e66150-2248-4f03-bbf2-84c622e7d165.png">
-        </a>
-      </td>
     </tr>
     </tbody>
 </table>
