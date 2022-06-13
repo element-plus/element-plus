@@ -250,8 +250,7 @@ const _ref = computed(() => input.value || textarea.value)
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
 const validateState = computed(() => formItem?.validateState || '')
 const validateIcon = computed(
-  () =>
-    (validateState.value && ValidateComponentsMap[validateState.value]) || ''
+  () => validateState.value && ValidateComponentsMap[validateState.value]
 )
 const passwordIcon = computed(() =>
   passwordVisible.value ? IconView : IconHide
