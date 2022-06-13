@@ -96,6 +96,7 @@ export default {
         'style',
         'test',
         'improvement',
+        'typing',
       ],
     ],
   },

@@ -80,7 +80,7 @@
             <el-icon
               v-if="showClear"
               :class="[nsInput.e('icon'), nsInput.e('clear')]"
-              @mousedown.prevent
+              @mousedown.prevent=""
               @click="clear"
             >
               <circle-close />
@@ -191,8 +191,10 @@ import {
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { calcTextareaHeight } from './utils'
 import { inputEmits, inputProps } from './input'
+
 import type { StyleValue } from 'vue'
 
+type ValidationState = keyof typeof ValidateComponentsMap
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
 const PENDANT_MAP = {
   suffix: 'append',
@@ -211,7 +213,7 @@ const rawAttrs = useRawAttrs()
 const slots = useSlots()
 
 const containerAttrs = computed<Record<string, unknown>>(() => {
-  const comboBoxAttrs = {}
+  const comboBoxAttrs: Record<string, unknown> = {}
   if (props.containerRole === 'combobox') {
     comboBoxAttrs['aria-haspopup'] = rawAttrs['aria-haspopup']
     comboBoxAttrs['aria-owns'] = rawAttrs['aria-owns']
@@ -247,8 +249,12 @@ const textareaCalcStyle = shallowRef(props.inputStyle)
 const _ref = computed(() => input.value || textarea.value)
 
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
-const validateState = computed(() => formItem?.validateState || '')
-const validateIcon = computed(() => ValidateComponentsMap[validateState.value])
+const validateState = computed<'' | ValidationState>(
+  () => (formItem?.validateState as ValidationState) || ''
+)
+const validateIcon = computed(
+  () => ValidateComponentsMap[validateState.value as ValidationState]
+)
 const passwordIcon = computed(() =>
   passwordVisible.value ? IconView : IconHide
 )
