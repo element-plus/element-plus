@@ -11,10 +11,6 @@ export const radioPropsBase = buildProps({
     type: [String, Number, Boolean],
     default: '',
   },
-})
-
-export const radioProps = buildProps({
-  ...radioPropsBase,
   modelValue: {
     type: [String, Number, Boolean],
     default: '',
@@ -23,6 +19,10 @@ export const radioProps = buildProps({
     type: String,
     default: '',
   },
+})
+
+export const radioProps = buildProps({
+  ...radioPropsBase,
   border: Boolean,
 } as const)
 

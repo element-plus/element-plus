@@ -301,6 +301,29 @@ describe('Radio Button', () => {
     expect(wrapper.findAll('.el-radio-button--large').length).toBe(3)
   })
 
+  it('should work without radio-group', async () => {
+    const radio = ref(3)
+    const wrapper = mount(() => (
+      <>
+        <RadioButton v-model={radio.value} label={3} class="radio1">
+          3
+        </RadioButton>
+        <RadioButton v-model={radio.value} label={6} class="radio2">
+          6
+        </RadioButton>
+        <RadioButton v-model={radio.value} label={9} class="radio3">
+          9
+        </RadioButton>
+      </>
+    ))
+    expect(wrapper.findAll('.is-no-group').length).toBe(3)
+    expect(wrapper.find('.radio1').classes()).contains('is-active')
+    wrapper.find('.radio2').trigger('click')
+    await nextTick()
+    expect(wrapper.find('.radio2').classes()).contains('is-active')
+    expect(radio.value).toBe(6)
+  })
+
   describe('form item accessibility integration', () => {
     test('single radio group in form item', async () => {
       const wrapper = mount(() => (
