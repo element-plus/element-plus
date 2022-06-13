@@ -11,19 +11,17 @@ import {
 import { definePropType } from './props'
 import type { Component } from 'vue'
 
-type IconType = Record<string, Component>
-
 export const iconPropType = definePropType<string | Component>([
   String,
   Object,
   Function,
 ])
 
-export const CloseComponents: IconType = {
+export const CloseComponents = {
   Close,
 }
 
-export const TypeComponents: IconType = {
+export const TypeComponents = {
   Close,
   SuccessFilled,
   InfoFilled,
@@ -31,14 +29,14 @@ export const TypeComponents: IconType = {
   CircleCloseFilled,
 }
 
-export const TypeComponentsMap: IconType = {
+export const TypeComponentsMap = {
   success: SuccessFilled,
   warning: WarningFilled,
   error: CircleCloseFilled,
   info: InfoFilled,
 }
 
-export const ValidateComponentsMap: IconType = {
+export const ValidateComponentsMap = {
   validating: Loading,
   success: CircleCheck,
   error: CircleClose,
