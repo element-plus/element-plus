@@ -40,7 +40,10 @@
         @input="onUserInput"
         @focus="handleFocusInput"
         @blur="handleBlurInput"
-        @keydown="(handleKeydownInput as any)"
+        @keydown="
+          //
+          handleKeydownInput as any
+        "
         @change="handleChange"
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
