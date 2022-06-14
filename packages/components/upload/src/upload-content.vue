@@ -57,10 +57,10 @@ const inputRef = shallowRef<HTMLInputElement>()
 const uploadFiles = (files: File[]) => {
   if (files.length === 0) return
 
-  const { autoUpload, limit, multiple, onStart, onExceed } = props
+  const { autoUpload, limit, fileList, multiple, onStart, onExceed } = props
 
-  if (limit && props.uploadFiles.length + files.length > limit) {
-    onExceed(files, props.uploadFiles)
+  if (limit && fileList.length + files.length > limit) {
+    onExceed(files, fileList)
     return
   }
 

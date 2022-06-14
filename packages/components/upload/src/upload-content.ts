@@ -5,7 +5,6 @@ import { uploadBaseProps } from './upload'
 import type { ExtractPropTypes } from 'vue'
 import type {
   UploadFile,
-  UploadFiles,
   UploadHooks,
   UploadProgressEvent,
   UploadRawFile,
@@ -15,11 +14,6 @@ import type { UploadAjaxError } from './ajax'
 
 export const uploadContentProps = buildProps({
   ...uploadBaseProps,
-
-  uploadFiles: {
-    type: definePropType<UploadFiles>(Array),
-    required: true,
-  },
 
   beforeUpload: {
     type: definePropType<UploadHooks['beforeUpload']>(Function),
