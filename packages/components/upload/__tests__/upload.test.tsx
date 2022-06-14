@@ -1,87 +1,59 @@
-import { computed, defineComponent, h, nextTick, provide } from 'vue'
-import { flushPromises } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
-import makeMount from '@element-plus/test-utils/make-mount'
-import { on } from '@element-plus/utils'
-import { EVENT_CODE } from '@element-plus/constants'
+import { nextTick, ref } from 'vue'
+import { flushPromises, mount } from '@vue/test-utils'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 
-import { uploadContextKey } from '@element-plus/tokens'
+import { EVENT_CODE } from '@element-plus/constants'
+import Upload from '../src/upload.vue'
 import UploadContent from '../src/upload-content.vue'
 
 const AXIOM = 'Rem is the best girl'
-const action = 'test-action'
 
-const mockGetFile = (element: HTMLInputElement, files: File[]) => {
-  Object.defineProperty(element, 'files', {
-    get() {
-      return files
-    },
-  })
-}
-
-const Wrapper = defineComponent({
-  props: {
-    action: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props, { slots }) {
-    provide(uploadContextKey, { accept: computed(() => 'video/*') })
-    return () => h(UploadContent, props, slots)
-  },
-})
-
-const mount = makeMount(Wrapper, {
-  props: {
-    action,
-  },
-  slots: {
-    default: () => AXIOM,
-  },
-})
+const mockGetFile = (element: HTMLInputElement, files: File[]) =>
+  vi.spyOn(element, 'files', 'get').mockImplementation((): any => files)
 
 describe('<upload />', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   describe('render test', () => {
     test('basic rendering', async () => {
-      const wrapper = mount()
+      const drag = ref(false)
+      const wrapper = mount(() => <Upload drag={drag.value}>{AXIOM}</Upload>)
       expect(wrapper.text()).toEqual(AXIOM)
-      await wrapper.setProps({
-        drag: true,
-      })
 
+      drag.value = true
+      await nextTick()
       expect(wrapper.find('.el-upload-dragger').exists()).toBe(true)
     })
   })
 
   describe('functionality', () => {
     test('works with keydown & click', async () => {
-      const wrapper = mount()
+      const wrapper = mount(() => <UploadContent />)
 
-      const click = vi.fn()
-      on(wrapper.find('input').element, 'click', click)
+      const onClick = vi.fn()
+      wrapper.find('input').element.addEventListener('click', onClick)
 
       await wrapper.trigger('click')
-      expect(click).toHaveBeenCalled()
+      expect(onClick).toHaveBeenCalled()
+
       await wrapper.trigger('keydown', {
         key: EVENT_CODE.enter,
       })
-      expect(click).toHaveBeenCalledTimes(2)
+      expect(onClick).toHaveBeenCalledTimes(2)
 
       await wrapper.trigger('keydown', {
         key: EVENT_CODE.space,
       })
-      expect(click).toHaveBeenCalledTimes(3)
+      expect(onClick).toHaveBeenCalledTimes(3)
     })
 
     test('works when upload file exceeds the limit', async () => {
       const onExceed = vi.fn()
-      const wrapper = mount({
-        props: {
-          onExceed,
-          limit: 1,
-        },
-      })
+      const wrapper = mount(() => (
+        <UploadContent onExceed={onExceed} limit={1} />
+      ))
       const fileList = [
         new File(['content'], 'test-file.txt'),
         new File(['content'], 'test-file.txt'),
@@ -94,14 +66,11 @@ describe('<upload />', () => {
 
     test('onStart works', async () => {
       const onStart = vi.fn()
-      const wrapper = mount({
-        props: {
-          onStart,
-          autoUpload: false, // prevent auto upload
-        },
-      })
-      const fileList = [new File(['content'], 'test-file.txt')]
+      const wrapper = mount(() => (
+        <UploadContent onStart={onStart} autoUpload={false} />
+      ))
 
+      const fileList = [new File(['content'], 'test-file.txt')]
       mockGetFile(wrapper.find('input').element, fileList)
       await wrapper.find('input').trigger('change')
 
@@ -111,15 +80,12 @@ describe('<upload />', () => {
     test('beforeUpload works for rejecting upload', async () => {
       const beforeUpload = vi.fn(() => Promise.reject())
       const onRemove = vi.fn()
-      const wrapper = mount({
-        props: {
-          beforeUpload,
-          onRemove,
-        },
-      })
+      const wrapper = mount(() => (
+        <UploadContent beforeUpload={beforeUpload} onRemove={onRemove} />
+      ))
       const fileList = [new File(['content'], 'test-file.txt')]
-
       mockGetFile(wrapper.find('input').element, fileList)
+
       await wrapper.find('input').trigger('change')
 
       expect(beforeUpload).toHaveBeenCalled()
@@ -129,33 +95,39 @@ describe('<upload />', () => {
 
     test('beforeUpload works for resolving upload', async () => {
       const beforeUpload = vi.fn(() => Promise.resolve())
-      const httpRequest = vi.fn(() => Promise.resolve())
+      const httpRequest = ref(vi.fn(() => Promise.resolve()))
       const onSuccess = vi.fn()
+      const onError = vi.fn()
 
-      const wrapper = mount({
-        props: {
-          beforeUpload,
-          httpRequest,
-          onSuccess,
-        },
-      })
+      const wrapper = mount(() => (
+        <UploadContent
+          beforeUpload={beforeUpload}
+          httpRequest={httpRequest.value}
+          onSuccess={onSuccess}
+          onError={onError}
+        />
+      ))
+
       const fileList = [new File(['content'], 'test-file.txt')]
-
       mockGetFile(wrapper.find('input').element, fileList)
+
       await wrapper.find('input').trigger('change')
 
       expect(beforeUpload).toHaveBeenCalled()
       await flushPromises()
-
       expect(onSuccess).toHaveBeenCalled()
+      expect(onError).not.toHaveBeenCalled()
 
-      const onError = vi.fn()
-      await wrapper.setProps({
-        httpRequest: vi.fn(() => Promise.reject()),
-        onError,
-      })
+      vi.clearAllMocks()
+
+      httpRequest.value = vi.fn(() => Promise.reject())
+      await nextTick()
+
       await wrapper.find('input').trigger('change')
+
+      expect(beforeUpload).toHaveBeenCalled()
       await flushPromises()
+      expect(onSuccess).not.toHaveBeenCalled()
       expect(onError).toHaveBeenCalled()
     })
 
@@ -165,15 +137,13 @@ describe('<upload />', () => {
         onProgress()
         return Promise.resolve()
       })
-      const wrapper = mount({
-        props: {
-          httpRequest,
-          onProgress,
-        },
-      })
-      const fileList = [new File(['content'], 'test-file.txt')]
+      const wrapper = mount(
+        <UploadContent httpRequest={httpRequest} onProgress={onProgress} />
+      )
 
+      const fileList = [new File(['content'], 'test-file.txt')]
       mockGetFile(wrapper.find('input').element, fileList)
+
       await wrapper.find('input').trigger('change')
       await nextTick()
       expect(onProgress).toHaveBeenCalled()
