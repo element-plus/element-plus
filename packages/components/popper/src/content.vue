@@ -148,7 +148,7 @@ const onFocusAfterReleased = () => {
   emit('blur')
 }
 
-const onFocusInTrap = async (event: FocusEvent) => {
+const onFocusInTrap = (event: FocusEvent) => {
   if (props.visible && !trapped.value) {
     if (event.target) {
       focusStartRef.value = event.target as typeof focusStartRef.value
