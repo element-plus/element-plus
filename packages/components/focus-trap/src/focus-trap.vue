@@ -12,7 +12,7 @@ import {
   unref,
   watch,
 } from 'vue'
-import { debounce, isNil } from 'lodash-unified'
+import { isNil } from 'lodash-unified'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useEscapeKeydown } from '@element-plus/hooks'
 import { isString } from '@element-plus/utils'
@@ -145,14 +145,13 @@ export default defineComponent({
     }
     const releaseOnFocus = (e: Event) => emit(ON_RELEASE_FOCUS_EVT, e)
 
-    const debouncedEmitFocusIn = debounce((e) => emit('focusin', e), 0)
-
     const onFocusIn = (e: Event) => {
       const trapContainer = unref(forwardRef)
       if (!trapContainer) return
+
       const target = e.target as HTMLElement | null
       const isFocusedInTrap = target && trapContainer.contains(target)
-      if (isFocusedInTrap) debouncedEmitFocusIn(e)
+      if (isFocusedInTrap) emit('focusin', e)
 
       if (focusLayer.paused) return
 
