@@ -6,50 +6,40 @@ const AXIOM = 'Rem is the best girl'
 
 describe('Divider.vue', () => {
   test('render test', () => {
-    const wrapper = mount(Divider, {
-      slots: {
-        default: AXIOM,
-      },
-    })
+    const wrapper = mount(() => (
+      <Divider
+        v-slots={{
+          default: () => AXIOM,
+        }}
+      />
+    ))
     expect(wrapper.text()).toBe(AXIOM)
   })
 
   test('direction', () => {
-    const wrapper = mount(Divider, {
-      props: {
-        direction: 'vertical',
-      },
-    })
+    const wrapper = mount(() => <Divider direction="vertical" />)
     expect(wrapper.classes()).toContain('el-divider--vertical')
   })
 
   test('contentPosition', () => {
-    const wrapper = mount(Divider, {
-      slots: {
-        default: AXIOM,
-      },
-      props: {
-        contentPosition: 'right',
-      },
-    })
+    const wrapper = mount(() => (
+      <Divider
+        v-slots={{
+          default: () => AXIOM,
+        }}
+        contentPosition="right"
+      />
+    ))
     expect(wrapper.find('.el-divider__text').classes()).toContain('is-right')
   })
 
   test('customClass', () => {
-    const wrapper = mount(Divider, {
-      props: {
-        class: 'customClass',
-      },
-    })
+    const wrapper = mount(() => <Divider class="customClass" />)
     expect(wrapper.classes()).toContain('customClass')
   })
 
   test('line-dashed', () => {
-    const wrapper = mount(Divider, {
-      props: {
-        borderStyle: 'dashed',
-      },
-    })
+    const wrapper = mount(() => <Divider borderStyle="dashed" />)
     expect(
       getComputedStyle(wrapper.element, null).getPropertyValue(
         '--el-border-style'
@@ -58,11 +48,7 @@ describe('Divider.vue', () => {
   })
 
   test('line-solid', () => {
-    const wrapper = mount(Divider, {
-      props: {
-        direction: 'vertical',
-      },
-    })
+    const wrapper = mount(() => <Divider direction="vertical" />)
     expect(
       getComputedStyle(wrapper.element, null).getPropertyValue(
         '--el-border-style'
