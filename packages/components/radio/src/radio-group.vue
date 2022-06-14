@@ -12,16 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  nextTick,
-  onMounted,
-  provide,
-  reactive,
-  ref,
-  toRefs,
-  watch,
-} from 'vue'
+import { computed, nextTick, provide, reactive, ref, toRefs, watch } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { radioGroupKey } from '@element-plus/tokens'
 import {
@@ -53,15 +44,6 @@ const changeEvent = (value: RadioGroupProps['modelValue']) => {
   emit(UPDATE_MODEL_EVENT, value)
   nextTick(() => emit('change', value))
 }
-
-onMounted(() => {
-  const radios =
-    radioGroupRef.value!.querySelectorAll<HTMLInputElement>('[type=radio]')
-  const firstLabel = radios[0]
-  if (!Array.from(radios).some((radio) => radio.checked) && firstLabel) {
-    firstLabel.tabIndex = 0
-  }
-})
 
 const name = computed(() => {
   return props.name || radioId.value
