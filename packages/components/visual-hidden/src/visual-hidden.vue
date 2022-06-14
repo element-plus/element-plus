@@ -14,7 +14,7 @@ defineOptions({
   name: 'ElVisuallyHidden',
 })
 
-const computedStyle = computed(() => {
+const computedStyle = computed<StyleValue>(() => {
   return [
     props.style,
     {
@@ -29,6 +29,6 @@ const computedStyle = computed(() => {
       whiteSpace: 'nowrap',
       wordWrap: 'normal',
     },
-  ] as StyleValue
+  ]
 })
 </script>
