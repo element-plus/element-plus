@@ -13,8 +13,8 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
     "unplugin-vue-components": "^0.19.6",
-    "vite": "^2.9.10",
+    "vite": "^2.9.12",
     "vite-plugin-inspect": "^0.5.0",
-    "vite-plugin-mkcert": "^1.7.1"
+    "vite-plugin-mkcert": "^1.7.2"
   }
 }
