@@ -1,4 +1,5 @@
 import {
+  Fragment,
   computed,
   defineComponent,
   getCurrentInstance,
@@ -585,17 +586,21 @@ const createGrid = ({
         if (totalRow > 0 && totalColumn > 0) {
           for (let row = rowStart; row <= rowEnd; row++) {
             for (let column = columnStart; column <= columnEnd; column++) {
+              const key = itemKey({ columnIndex: column, data, rowIndex: row })
               children.push(
-                slots.default?.({
-                  columnIndex: column,
-                  data,
-                  key: itemKey({ columnIndex: column, data, rowIndex: row }),
-                  isScrolling: useIsScrolling
-                    ? unref(states).isScrolling
-                    : undefined,
-                  style: getItemStyle(row, column),
-                  rowIndex: row,
-                })
+                h(
+                  Fragment,
+                  { key },
+                  slots.default?.({
+                    columnIndex: column,
+                    data,
+                    isScrolling: useIsScrolling
+                      ? unref(states).isScrolling
+                      : undefined,
+                    style: getItemStyle(row, column),
+                    rowIndex: row,
+                  })
+                )
               )
             }
           }

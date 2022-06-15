@@ -1,4 +1,5 @@
 import {
+  Fragment,
   computed,
   defineComponent,
   getCurrentInstance,
@@ -474,13 +475,16 @@ const createList = ({
       if (total > 0) {
         for (let i = start; i <= end; i++) {
           children.push(
-            ($slots.default as Slot)?.({
-              data,
-              key: i,
-              index: i,
-              isScrolling: useIsScrolling ? states.isScrolling : undefined,
-              style: getItemStyle(i),
-            })
+            h(
+              Fragment,
+              { key: i },
+              ($slots.default as Slot)?.({
+                data,
+                index: i,
+                isScrolling: useIsScrolling ? states.isScrolling : undefined,
+                style: getItemStyle(i),
+              })
+            )
           )
         }
       }
