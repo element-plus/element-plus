@@ -26,8 +26,14 @@ describe('Switch.vue', () => {
       },
     })
     const vm = wrapper.vm
+    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
+      '#0f0'
+    )
+    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
+      '#f00'
+    )
+    expect(vm.$el.classList.contains('is-checked')).false
     const coreEl = vm.$el.querySelector('.el-switch__core')
-    expect(coreEl.style.backgroundColor).toEqual('rgb(255, 0, 0)')
     expect(coreEl.style.width).toEqual('100px')
     const leftLabelWrapper = wrapper.find('.el-switch__label--left span')
     expect(leftLabelWrapper.text()).toEqual('off')
@@ -42,6 +48,15 @@ describe('Switch.vue', () => {
     expect(wrapper.find('.el-switch--large').exists()).toBe(true)
   })
 
+  test('tabindex', () => {
+    const wrapper = mount(Switch, {
+      props: {
+        tabindex: '0',
+      },
+    })
+    expect(wrapper.find('.el-switch__input').attributes().tabindex).toBe('0')
+  })
+
   test('inline prompt', () => {
     const wrapper = mount(Switch, {
       props: {
@@ -54,8 +69,14 @@ describe('Switch.vue', () => {
       },
     })
     const vm = wrapper.vm
+    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
+      '#0f0'
+    )
+    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
+      '#f00'
+    )
+    expect(vm.$el.classList.contains('is-checked')).false
     const coreEl = vm.$el.querySelector('.el-switch__core')
-    expect(coreEl.style.backgroundColor).toEqual('rgb(255, 0, 0)')
     expect(coreEl.style.width).toEqual('100px')
     const leftLabelWrapper = wrapper.find('.el-switch__inner span')
     expect(leftLabelWrapper.text()).toEqual('on')
@@ -78,13 +99,11 @@ describe('Switch.vue', () => {
         'el-switch': Switch,
       },
       template: `
-        <div>
-          <el-switch
-            v-model="value"
-            activeColor="#0f0"
-            inactiveColor="#f00">
-          </el-switch>
-        </div>
+        <el-switch
+          v-model="value"
+          activeColor="#0f0"
+          inactiveColor="#f00">
+        </el-switch>
       `,
       data() {
         return {
@@ -93,13 +112,19 @@ describe('Switch.vue', () => {
       },
     })
     const vm = wrapper.vm
-    const coreEl = vm.$el.querySelector('.el-switch__core')
-    expect(coreEl.style.backgroundColor).toEqual('rgb(0, 255, 0)')
+    expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
+      '#0f0'
+    )
+    expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
+      '#f00'
+    )
+    expect(vm.$el.classList.contains('is-checked')).true
     const coreWrapper = wrapper.find('.el-switch__core')
     await coreWrapper.trigger('click')
-    expect(coreEl.style.backgroundColor).toEqual('rgb(255, 0, 0)')
+    expect(vm.$el.classList.contains('is-checked')).false
     expect(vm.value).toEqual(false)
     await coreWrapper.trigger('click')
+    expect(vm.$el.classList.contains('is-checked')).true
     expect(vm.value).toEqual(true)
   })
 

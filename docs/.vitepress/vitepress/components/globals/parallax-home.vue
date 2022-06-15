@@ -128,7 +128,7 @@ useEventListener(window, 'scroll', handleScroll)
             :style="peopleLayer"
             alt="banner"
             class="cursor-pointer"
-            @click="jumpTo('/guide/quickstart.html')"
+            @click="jumpTo('guide/quickstart.html')"
           />
           <left-layer-svg :style="leftLayer" alt="banner" />
           <left-bottom-layer-svg :style="leftBottomLayer" alt="banner" />

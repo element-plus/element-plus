@@ -17,7 +17,7 @@
         :class="[
           ns.be('item', 'header'),
           ns.is('active', isActive),
-          { focusing },
+          { focusing: focusing && !disabled },
         ]"
         role="button"
         :tabindex="disabled ? -1 : 0"

@@ -8,7 +8,7 @@
   "include": [
     "packages",
     "typings/components.d.ts",
-    "env.d.ts",
+    "typings/env.d.ts",
 
     // playground
     "play/main.ts",

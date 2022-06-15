@@ -807,4 +807,23 @@ describe('Datetimerange', () => {
       expect(formItem.attributes().role).toBe('group')
     })
   })
+
+  it('display value', async () => {
+    const wrapper = _mount(
+      `
+      <el-date-picker
+        v-model="value"
+        type="datetimerange"
+    />`,
+      () => ({
+        value: [undefined, undefined],
+      })
+    )
+
+    await nextTick()
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
+  })
 })

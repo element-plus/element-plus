@@ -33,6 +33,8 @@ jobs:
 
       - name: Compile Element Plus
         run: pnpm build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Init Crowdin token
         run: pnpm run docs:crowdin-credentials
