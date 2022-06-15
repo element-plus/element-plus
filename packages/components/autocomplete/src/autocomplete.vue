@@ -23,6 +23,7 @@
       aria-haspopup="listbox"
       :aria-expanded="suggestionVisible"
       :aria-owns="listboxId"
+      @click.stop="handleListboxClick"
     >
       <el-input
         ref="inputRef"
@@ -261,19 +262,23 @@ const focus = () => {
   inputRef.value?.focus()
 }
 
-const blur = () => {
-  inputRef.value?.blur()
-}
-
 const handleSelect = async (item: any) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
   close()
-  blur()
   await nextTick()
   suggestions.value = []
   highlightedIndex.value = -1
+}
+
+const handleListboxClick = () => {
+  if (!props.triggerOnFocus || activated.value) return
+  if (isClear) {
+    isClear = false
+    return
+  }
+  activated.value = true
 }
 
 const highlight = (index: number) => {
