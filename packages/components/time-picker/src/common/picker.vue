@@ -585,6 +585,7 @@ const handleKeydownInput = async (event: KeyboardEvent) => {
   }
 
   if (code === EVENT_CODE.down) {
+    if (props.readonly || pickerDisabled.value) return
     if (pickerOptions.value.handleFocusPicker) {
       event.preventDefault()
       event.stopPropagation()
