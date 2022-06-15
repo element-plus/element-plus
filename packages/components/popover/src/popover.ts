@@ -1,11 +1,13 @@
-import { buildProps } from '@element-plus/utils'
+import { buildProps, isBoolean } from '@element-plus/utils'
 import {
   useTooltipContentProps,
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 import { dropdownProps } from '@element-plus/components/dropdown'
+import type { ExtractPropTypes } from 'vue'
+import type Popover from './popover.vue'
 
-export const usePopoverProps = buildProps({
+export const popoverProps = buildProps({
   trigger: useTooltipTriggerProps.trigger,
   placement: dropdownProps.placement,
   disabled: useTooltipTriggerProps.disabled,
@@ -56,3 +58,15 @@ export const usePopoverProps = buildProps({
     default: true,
   },
 } as const)
+export type PopoverProps = ExtractPropTypes<typeof popoverProps>
+
+export const popoverEmits = {
+  'update:visible': (value: boolean) => isBoolean(value),
+  'before-enter': () => true,
+  'before-leave': () => true,
+  'after-enter': () => true,
+  'after-leave': () => true,
+}
+export type PopoverEmits = typeof popoverEmits
+
+export type PopoverInstance = InstanceType<typeof Popover>
