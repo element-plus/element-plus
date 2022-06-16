@@ -43,7 +43,6 @@ export const getScrollBarWidth = (): number => {
   // Cannot access 'propKey' before initialization
   // need to be dynamic namespace
   outer.className = 'el-scrollbar__wrap'
-  outer.style.visibility = 'hidden'
   outer.style.width = '100px'
   outer.style.position = 'absolute'
   outer.style.top = '-9999px'
