@@ -145,6 +145,7 @@ const dropdownWidth = ref('')
 const activated = ref(false)
 const suggestionDisabled = ref(false)
 const loading = ref(false)
+const focused = ref(false)
 
 const listboxId = computed(() => ns.b(String(generateId())))
 const styles = computed(() => rawAttrs.style as StyleValue)
@@ -213,14 +214,16 @@ const handleChange = (value: string) => {
 }
 
 const handleFocus = (evt: FocusEvent) => {
+  focused.value = true
   activated.value = true
   emit('focus', evt)
   if (props.triggerOnFocus) {
-    debouncedGetData(String(props.modelValue))
+    getData(String(props.modelValue))
   }
 }
 
 const handleBlur = (evt: FocusEvent) => {
+  focused.value = false
   emit('blur', evt)
 }
 
@@ -262,6 +265,10 @@ const focus = () => {
   inputRef.value?.focus()
 }
 
+const blur = () => {
+  inputRef.value?.blur()
+}
+
 const handleSelect = async (item: any) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
@@ -273,12 +280,13 @@ const handleSelect = async (item: any) => {
 }
 
 const handleListboxClick = () => {
-  if (!props.triggerOnFocus || activated.value) return
+  if (!props.triggerOnFocus || activated.value || !focused.value) return
   if (isClear) {
     isClear = false
     return
   }
   activated.value = true
+  getData(String(props.modelValue))
 }
 
 const highlight = (index: number) => {
@@ -348,6 +356,8 @@ defineExpose({
   handleKeyEnter,
   /** @description focus the input element */
   focus,
+  /** @description blur the input element */
+  blur,
   /** @description close suggestion */
   close,
   /** @description highlight an item in a suggestion */
