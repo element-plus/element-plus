@@ -8,7 +8,7 @@
       ]"
       class="number"
       :aria-current="currentPage === 1"
-      tabindex="0"
+      :tabindex="tabindex"
     >
       1
     </li>
@@ -20,10 +20,13 @@
         nsIcon.b(),
         nsPager.is('disabled', disabled),
       ]"
-      @mouseenter="onMouseenter('left')"
+      :tabindex="tabindex"
+      @mouseenter="onMouseEnter(true)"
       @mouseleave="quickPrevHover = false"
+      @focus="onFocus(true)"
+      @blur="quickPrevFocus = false"
     >
-      <d-arrow-left v-if="quickPrevHover" />
+      <d-arrow-left v-if="quickPrevHover || quickPrevFocus" />
       <more-filled v-else />
     </li>
     <li
@@ -35,7 +38,7 @@
       ]"
       class="number"
       :aria-current="currentPage === pager"
-      tabindex="0"
+      :tabindex="tabindex"
     >
       {{ pager }}
     </li>
@@ -47,10 +50,13 @@
         nsIcon.b(),
         nsPager.is('disabled', disabled),
       ]"
-      @mouseenter="onMouseenter('right')"
+      :tabindex="tabindex"
+      @mouseenter="onMouseEnter()"
       @mouseleave="quickNextHover = false"
+      @focus="onFocus()"
+      @blur="quickNextFocus = false"
     >
-      <d-arrow-right v-if="quickNextHover" />
+      <d-arrow-right v-if="quickNextHover || quickNextFocus" />
       <more-filled v-else />
     </li>
     <li
@@ -61,7 +67,7 @@
       ]"
       class="number"
       :aria-current="currentPage === pageCount"
-      tabindex="0"
+      :tabindex="tabindex"
     >
       {{ pageCount }}
     </li>
@@ -83,6 +89,8 @@ const showPrevMore = ref(false)
 const showNextMore = ref(false)
 const quickPrevHover = ref(false)
 const quickNextHover = ref(false)
+const quickPrevFocus = ref(false)
+const quickNextFocus = ref(false)
 const pagers = computed(() => {
   const pagerCount = props.pagerCount
   const halfPagerCount = (pagerCount - 1) / 2
@@ -120,6 +128,7 @@ const pagers = computed(() => {
   }
   return array
 })
+const tabindex = computed(() => (props.disabled ? -1 : 0))
 watchEffect(() => {
   const halfPagerCount = (props.pagerCount - 1) / 2
   showPrevMore.value = false
@@ -133,12 +142,19 @@ watchEffect(() => {
     }
   }
 })
-function onMouseenter(direction: 'left' | 'right') {
+function onMouseEnter(forward = false) {
   if (props.disabled) return
-  if (direction === 'left') {
+  if (forward) {
     quickPrevHover.value = true
   } else {
     quickNextHover.value = true
+  }
+}
+function onFocus(forward = false) {
+  if (forward) {
+    quickPrevFocus.value = true
+  } else {
+    quickNextFocus.value = true
   }
 }
 function onEnter(e: UIEvent) {
@@ -151,6 +167,11 @@ function onEnter(e: UIEvent) {
     if (newPage !== props.currentPage) {
       emit('change', newPage)
     }
+  } else if (
+    target.tagName.toLowerCase() === 'li' &&
+    Array.from(target.classList).includes('more')
+  ) {
+    onPagerClick(e)
   }
 }
 function onPagerClick(event: UIEvent) {

@@ -9,7 +9,7 @@ Switch is used for switching between two opposing states.
 
 ## Basic usage
 
-:::demo Bind `v-model` to a `Boolean` typed variable. The `active-color` and `inactive-color` attribute decides the background color in two states.
+:::demo Bind `v-model` to a `Boolean` typed variable. The `--el-switch-on-color` and `--el-switch-off-color` CSS variables decides the background color in two states.
 
 switch/basic
 
@@ -95,9 +95,9 @@ switch/prevent-switching
 | inactive-text         | text displayed when in `off` state                                                                                                              | string                    | —                       | —       |
 | active-value          | switch value when in `on` state                                                                                                                 | boolean / string / number | —                       | true    |
 | inactive-value        | switch value when in `off` state                                                                                                                | boolean / string / number | —                       | false   |
-| active-color          | background color when in `on` state                                                                                                             | string                    | —                       | #409EFF |
-| inactive-color        | background color when in `off` state                                                                                                            | string                    | —                       | #C0CCDA |
-| border-color          | border color of the switch                                                                                                                      | string                    | —                       | —       |
+| active-color          | background color when in `on` state ( deprecated, use CSS var `--el-switch-on-color` instead )                                                  | string                    | —                       | —       |
+| inactive-color        | background color when in `off` state ( deprecated, use CSS var `--el-switch-off-color` instead )                                                | string                    | —                       | —       |
+| border-color          | border color of the switch ( deprecated, use CSS var `--el-switch-border-color` instead )                                                       | string                    | —                       | —       |
 | name                  | input name of Switch                                                                                                                            | string                    | —                       | —       |
 | validate-event        | whether to trigger form validation                                                                                                              | boolean                   | —                       | true    |
 | before-change         | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | function                  | —                       | —       |

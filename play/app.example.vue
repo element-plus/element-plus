@@ -7,7 +7,7 @@
       <menu-icon />
     </el-icon>
     <el-button>test</el-button>
-    <div v-loading="true"></div>
+    <div v-loading="true" />
   </div>
 </template>
 

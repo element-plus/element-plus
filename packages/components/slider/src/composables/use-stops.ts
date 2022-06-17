@@ -1,18 +1,23 @@
 import { computed } from 'vue'
 import { debugWarn } from '@element-plus/utils'
 import type { CSSProperties, ComputedRef } from 'vue'
-import type { ISliderInitData, ISliderProps, Stops } from './slider.type'
+import type { SliderInitData, SliderProps } from '../slider'
+
+type Stops = {
+  stops: ComputedRef<number[]>
+  getStopStyle: (position: number) => CSSProperties
+}
 
 export const useStops = (
-  props: ISliderProps,
-  initData: ISliderInitData,
+  props: SliderProps,
+  initData: SliderInitData,
   minValue: ComputedRef<number>,
   maxValue: ComputedRef<number>
 ): Stops => {
   const stops = computed(() => {
     if (!props.showStops || props.min > props.max) return []
     if (props.step === 0) {
-      debugWarn('Slider', 'step should not be 0.')
+      debugWarn('ElSlider', 'step should not be 0.')
       return []
     }
 
@@ -39,10 +44,10 @@ export const useStops = (
     }
   })
 
-  const getStopStyle = (position: number) => {
-    return (
-      props.vertical ? { bottom: `${position}%` } : { left: `${position}%` }
-    ) as CSSProperties
+  const getStopStyle = (position: number): CSSProperties => {
+    return props.vertical
+      ? { bottom: `${position}%` }
+      : { left: `${position}%` }
   }
 
   return {

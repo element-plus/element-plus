@@ -1,14 +1,15 @@
 import type { Dayjs } from 'dayjs'
 
+import type {
+  GetDisabledHoursState,
+  GetDisabledMinutesState,
+  GetDisabledSecondsState,
+} from '../types'
+
 type UseTimePanelProps = {
-  getAvailableHours: (role: string, compare?: Dayjs) => number[]
-  getAvailableMinutes: (hour: number, role: string, compare?: Dayjs) => number[]
-  getAvailableSeconds: (
-    hour: number,
-    minute: number,
-    role: string,
-    compare?: Dayjs
-  ) => number[]
+  getAvailableHours: GetDisabledHoursState
+  getAvailableMinutes: GetDisabledMinutesState
+  getAvailableSeconds: GetDisabledSecondsState
 }
 
 export const useTimePanel = ({
@@ -30,7 +31,7 @@ export const useTimePanel = ({
     let result = date
     ;(['hour', 'minute', 'second'] as const).forEach((type) => {
       if (availableTimeGetters[type]) {
-        let availableTimeSlots
+        let availableTimeSlots: number[]
         const method = availableTimeGetters[type]
         switch (type) {
           case 'minute': {

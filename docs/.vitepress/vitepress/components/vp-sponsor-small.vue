@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { isDark } from '../composables/dark'
-import { goldSponsors } from '../../config/sponsors'
+import { leftLogoSponsors } from '../../config/sponsors'
 import { sendEvent } from '../../config/analytics'
 const onItemClick = (item: any) => {
   sendEvent('sp_click', item.name, 'left_small_img')
@@ -10,7 +10,7 @@ const onItemClick = (item: any) => {
 <template>
   <div>
     <a
-      v-for="item in goldSponsors"
+      v-for="item in leftLogoSponsors"
       :key="item.name"
       :class="[
         'sponsor-item inline-flex items-center',

@@ -1,4 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
+import { disabledTimeListsProps } from '../props/shared'
 
 import type { ExtractPropTypes } from 'vue'
 import type { Dayjs } from 'dayjs'
@@ -22,26 +23,7 @@ export const basicTimeSpinnerProps = buildProps({
     type: definePropType<'a' | 'A' | ''>(String),
     default: '',
   },
-  disabledHours: {
-    type: definePropType<(role: string, comparingDate?: Dayjs) => number[]>(
-      Function
-    ),
-  },
-  disabledMinutes: {
-    type: definePropType<
-      (hour: number, role: string, comparingDate?: Dayjs) => number[]
-    >(Function),
-  },
-  disabledSeconds: {
-    type: definePropType<
-      (
-        hour: number,
-        minute: number,
-        role: string,
-        comparingDate?: Dayjs
-      ) => number[]
-    >(Function),
-  },
+  ...disabledTimeListsProps,
 } as const)
 
 export type BasicTimeSpinnerProps = ExtractPropTypes<

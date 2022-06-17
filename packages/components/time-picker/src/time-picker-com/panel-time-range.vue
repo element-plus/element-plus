@@ -90,8 +90,11 @@ import { isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { panelTimeRangeProps } from '../props/panel-time-range'
 import { useTimePanel } from '../composables/use-time-panel'
+import {
+  buildAvailableTimeSlotGetter,
+  useOldValue,
+} from '../composables/use-time-picker'
 import TimeSpinner from './basic-time-spinner.vue'
-import { getAvailableArrs, useOldValue } from './useTimePicker'
 
 import type { Dayjs } from 'dayjs'
 
@@ -99,7 +102,7 @@ const props = defineProps(panelTimeRangeProps)
 const emit = defineEmits(['pick', 'select-range', 'set-picker-option'])
 
 const makeSelectRange = (start: number, end: number) => {
-  const result = []
+  const result: number[] = []
   for (let i = start; i <= end; i++) {
     result.push(i)
   }
@@ -262,7 +265,11 @@ const getRangeAvailableTime = ([start, end]: Array<Dayjs>) => {
 }
 
 const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
-  getAvailableArrs(disabledHours_, disabledMinutes_, disabledSeconds_)
+  buildAvailableTimeSlotGetter(
+    disabledHours_,
+    disabledMinutes_,
+    disabledSeconds_
+  )
 
 const {
   timePickerOptions,

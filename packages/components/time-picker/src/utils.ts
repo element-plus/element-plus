@@ -28,7 +28,7 @@ export const extractTimeFormat = (format: string) => {
     .trim()
 }
 
-export const dateEquals = function (a: Date | any, b: Date | any) {
+export const dateEquals = function (a: Date | unknown, b: Date | unknown) {
   const aIsDate = isDate(a)
   const bIsDate = isDate(b)
   if (aIsDate && bIsDate) {
@@ -78,4 +78,13 @@ export const formatter = function (
   if (isEmpty(format)) return date
   if (format === 'x') return +date
   return dayjs(date).locale(lang).format(format)
+}
+
+export const makeList = (total: number, method?: () => number[]) => {
+  const arr: boolean[] = []
+  const disabledArr = method?.()
+  for (let i = 0; i < total; i++) {
+    arr.push(disabledArr?.includes(i) ?? false)
+  }
+  return arr
 }

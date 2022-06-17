@@ -1,5 +1,5 @@
 <template>
-  <div :class="switchKls" @click.prevent="switchValue">
+  <div :class="switchKls" :style="styles" @click.prevent="switchValue">
     <input
       :id="inputId"
       ref="input"
@@ -167,10 +167,6 @@ export default defineComponent({
     watch(checked, () => {
       input.value!.checked = checked.value
 
-      if (props.activeColor || props.inactiveColor) {
-        setBackgroundColor()
-      }
-
       if (props.validateEvent) {
         formItem?.validate?.('change').catch((err) => debugWarn(err))
       }
@@ -223,24 +219,19 @@ export default defineComponent({
       }
     }
 
-    const setBackgroundColor = (): void => {
-      const newColor = checked.value ? props.activeColor : props.inactiveColor
-      const coreEl = core.value
-      if (props.borderColor) coreEl!.style.borderColor = props.borderColor
-      else if (!props.borderColor) coreEl!.style.borderColor = newColor
-      coreEl!.style.backgroundColor = newColor
-      ;(coreEl!.children[0] as HTMLDivElement).style.color = newColor
-    }
+    const styles = computed(() => {
+      return ns.cssVarBlock({
+        ...(props.activeColor ? { 'on-color': props.activeColor } : null),
+        ...(props.inactiveColor ? { 'off-color': props.inactiveColor } : null),
+        ...(props.borderColor ? { 'border-color': props.borderColor } : null),
+      })
+    })
 
     const focus = (): void => {
       input.value?.focus?.()
     }
 
     onMounted(() => {
-      if (props.activeColor || props.inactiveColor || props.borderColor) {
-        setBackgroundColor()
-      }
-
       input.value!.checked = checked.value
     })
 
@@ -256,6 +247,7 @@ export default defineComponent({
       handleChange,
       switchValue,
       focus,
+      styles,
     }
   },
 })

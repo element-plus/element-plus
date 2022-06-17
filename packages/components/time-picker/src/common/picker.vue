@@ -36,10 +36,14 @@
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
         :label="label"
         :tabindex="tabindex"
+        :validate-event="validateEvent"
         @input="onUserInput"
         @focus="handleFocusInput"
         @blur="handleBlurInput"
-        @keydown="handleKeydownInput as any"
+        @keydown="
+          //
+          handleKeydownInput as any
+        "
         @change="handleChange"
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
@@ -356,7 +360,9 @@ const handleFocusInput = (e?: FocusEvent) => {
   emit('focus', e)
 }
 
-let currentHandleBlurDeferCallback: () => Promise<void> | undefined
+let currentHandleBlurDeferCallback:
+  | (() => Promise<void> | undefined)
+  | undefined = undefined
 
 // Check if document.activeElement is inside popper or any input before popper close
 const handleBlurInput = (e?: FocusEvent) => {

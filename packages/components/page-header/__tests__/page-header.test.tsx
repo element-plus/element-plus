@@ -8,54 +8,58 @@ const AXIOM = 'Rem is the best girl'
 
 describe('PageHeader.vue', () => {
   test('render test', () => {
-    const wrapper = mount(PageHeader, {
-      props: { content: AXIOM },
-    })
+    const wrapper = mount(() => <PageHeader content={AXIOM} />)
     expect(wrapper.find('.el-page-header__content').text()).toEqual(AXIOM)
   })
 
   test('should render icon props', () => {
     const icon = markRaw(ArrowLeft)
-    const wrapper = mount(PageHeader, {
-      props: { icon },
-    })
+    const wrapper = mount(() => <PageHeader icon={icon} />)
     expect(wrapper.findComponent(icon).exists()).toBe(true)
   })
 
   test('should render icon slots', () => {
-    const wrapper = mount(PageHeader, {
-      slots: { icon: AXIOM },
-    })
+    const wrapper = mount(() => (
+      <PageHeader
+        v-slots={{
+          icon: () => AXIOM,
+        }}
+      />
+    ))
     expect(wrapper.find('.el-page-header__icon').text()).toEqual(AXIOM)
   })
 
   test('slot content', () => {
-    const wrapper = mount(PageHeader, {
-      slots: { content: AXIOM },
-    })
+    const wrapper = mount(() => (
+      <PageHeader
+        v-slots={{
+          content: () => AXIOM,
+        }}
+      />
+    ))
     expect(wrapper.find('.el-page-header__content').text()).toEqual(AXIOM)
   })
 
   test('prop title', () => {
-    const wrapper = mount(PageHeader, {
-      props: { title: AXIOM },
-    })
+    const wrapper = mount(() => <PageHeader title={AXIOM} />)
     expect(wrapper.find('.el-page-header__title').text()).toEqual(AXIOM)
   })
 
   test('slot prop', () => {
-    const wrapper = mount(PageHeader, {
-      slots: { title: AXIOM },
-    })
+    const wrapper = mount(() => (
+      <PageHeader
+        v-slots={{
+          title: () => AXIOM,
+        }}
+      />
+    ))
     expect(wrapper.find('.el-page-header__title').text()).toEqual(AXIOM)
   })
 
   test('event back', async () => {
-    const wrapper = mount(PageHeader, {
-      props: { content: AXIOM },
-    })
-
-    await wrapper.find('.el-icon').trigger('click')
-    expect(wrapper.emitted('back')).toBeDefined()
+    const wrapper = mount(() => <PageHeader content={AXIOM} />)
+    const pageHeader = wrapper.findComponent(PageHeader)
+    await pageHeader.find('.el-icon').trigger('click')
+    expect(pageHeader.emitted('back')).toBeDefined()
   })
 })

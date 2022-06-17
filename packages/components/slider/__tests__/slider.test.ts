@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
-import Slider from '../src/index.vue'
+import Slider from '../src/slider.vue'
 
 vi.mock('lodash-unified', async () => {
   return {
