@@ -1,4 +1,12 @@
-import { defineComponent, provide, reactive, ref, renderSlot, watch } from 'vue'
+import {
+  defineComponent,
+  nextTick,
+  provide,
+  reactive,
+  ref,
+  renderSlot,
+  watch,
+} from 'vue'
 import {
   buildProps,
   definePropType,
@@ -137,6 +145,7 @@ export default defineComponent({
     )
 
     watch(currentName, async () => {
+      await nextTick()
       // call exposed function, Vue doesn't support expose in typescript yet.
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
