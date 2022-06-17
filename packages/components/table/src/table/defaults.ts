@@ -174,9 +174,7 @@ interface RenderRowData<T> {
 export default {
   data: {
     type: Array as PropType<DefaultRow[]>,
-    default: () => {
-      return []
-    },
+    default: () => [],
   },
   size: String,
   width: [String, Number],
