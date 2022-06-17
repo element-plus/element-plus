@@ -10,6 +10,7 @@
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
         ]"
+        :style="props.style"
         v-text="content"
       />
     </transition>

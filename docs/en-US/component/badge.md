@@ -47,6 +47,16 @@ badge/dot
 
 :::
 
+## Custom Style
+
+Use custom colors and styles available.
+
+:::demo Use the attribute `style`. It in a `Object`
+
+badge/style
+
+:::
+
 ## Badge API
 
 ### Badge Attributes
@@ -58,6 +68,7 @@ badge/dot
 | `is-dot`  | if a little dot is displayed.                                                   | `boolean`                                                   | `false`    |
 | `hidden`  | hidden badge.                                                                   | `boolean`                                                   | `false`    |
 | `type`    | badge type.                                                                     | `'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'danger'` |
+| `style`   | badge custom style. same as css.                                                | `Object`                                                    | `null`     |
 
 ### Badge Slots
 
