@@ -9,7 +9,7 @@ You can get some recommended tips based on the current input.
 
 :::demo Autocomplete component provides input suggestions. The `fetch-suggestions` attribute is a method that returns suggested input. In this example, `querySearch(queryString, cb)` returns suggestions to Autocomplete via `cb(data)` when suggestions are ready.
 
-input/autocomplete
+autocomplete/autocomplete
 
 :::
 
@@ -19,7 +19,7 @@ Customize how suggestions are displayed.
 
 :::demo Use `scoped slot` to customize suggestion items. In the scope, you can access the suggestion object via the `item` key.
 
-input/autocomplete-template
+autocomplete/autocomplete-template
 
 :::
 
@@ -29,7 +29,7 @@ Search data from server-side.
 
 :::demo
 
-input/remote-search
+autocomplete/remote-search
 
 :::
 
