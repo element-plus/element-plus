@@ -137,6 +137,7 @@ const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
 
+let readonly = false
 let isClear = false
 const suggestions = ref<AutocompleteData>([])
 const highlightedIndex = ref(-1)
@@ -214,7 +215,7 @@ const handleChange = (value: string) => {
 const handleFocus = (evt: FocusEvent) => {
   activated.value = true
   emit('focus', evt)
-  if (props.triggerOnFocus) {
+  if (props.triggerOnFocus && !readonly) {
     debouncedGetData(String(props.modelValue))
   }
 }
@@ -316,6 +317,8 @@ onMounted(() => {
     'aria-activedescendant',
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
+  // get readonly attr
+  readonly = inputRef.value.input.hasAttribute('readonly')
 })
 
 defineExpose({
