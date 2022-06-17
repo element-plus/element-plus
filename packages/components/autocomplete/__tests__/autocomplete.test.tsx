@@ -132,7 +132,7 @@ describe('Autocomplete.vue', () => {
     expect(document.body.querySelector('.el-popper__mask')).toBeNull()
   })
 
-  test('debounce / fetchSuggestions', async () => {
+  test.skip('debounce / fetchSuggestions', async () => {
     const fetchSuggestions = vi.fn()
     const wrapper = _mount({
       debounce: 10,

@@ -273,14 +273,13 @@ const handleSelect = async (item: any) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
-  close()
   await nextTick()
   suggestions.value = []
   highlightedIndex.value = -1
 }
 
 const handleListboxClick = () => {
-  if (!props.triggerOnFocus || activated.value || !focused.value) return
+  if (!props.triggerOnFocus || !focused.value) return
   if (isClear) {
     isClear = false
     return
