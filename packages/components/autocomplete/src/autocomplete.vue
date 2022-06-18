@@ -217,9 +217,6 @@ const handleFocus = (evt: FocusEvent) => {
   focused.value = true
   activated.value = true
   emit('focus', evt)
-  if (props.triggerOnFocus) {
-    getData(String(props.modelValue))
-  }
 }
 
 const handleBlur = (evt: FocusEvent) => {
@@ -279,7 +276,7 @@ const handleSelect = async (item: any) => {
 }
 
 const handleListboxClick = () => {
-  if (!props.triggerOnFocus || !focused.value) return
+  if (!props.triggerOnFocus) return
   if (isClear) {
     isClear = false
     return

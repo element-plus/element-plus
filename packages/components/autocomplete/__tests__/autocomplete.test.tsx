@@ -95,7 +95,8 @@ describe('Autocomplete.vue', () => {
     await nextTick()
 
     await wrapper.setProps({ triggerOnFocus: false })
-    await wrapper.find('input').trigger('focus')
+
+    await wrapper.find('.el-autocomplete').trigger('click')
     vi.runAllTimers()
     await nextTick()
     expect(fetchSuggestions).toHaveBeenCalledTimes(0)
@@ -103,7 +104,7 @@ describe('Autocomplete.vue', () => {
     await wrapper.find('input').trigger('blur')
 
     await wrapper.setProps({ triggerOnFocus: true })
-    await wrapper.find('input').trigger('focus')
+    await wrapper.find('.el-autocomplete').trigger('click')
     vi.runAllTimers()
     await nextTick()
     expect(fetchSuggestions).toHaveBeenCalledTimes(1)
@@ -160,7 +161,7 @@ describe('Autocomplete.vue', () => {
   test('fetchSuggestions with fn-promise', async () => {
     const wrapper = _mount({ debounce: 10 }, 'fn-promise')
     await nextTick()
-    await wrapper.find('input').trigger('focus')
+    await wrapper.find('.el-autocomplete').trigger('click')
     vi.runAllTimers()
     await nextTick()
 
@@ -174,7 +175,7 @@ describe('Autocomplete.vue', () => {
   test('fetchSuggestions with fn-async', async () => {
     const wrapper = _mount({ debounce: 10 }, 'fn-async')
     await nextTick()
-    await wrapper.find('input').trigger('focus')
+    await wrapper.find('.el-autocomplete').trigger('click')
     vi.runAllTimers()
     await nextTick()
     await nextTick()
@@ -189,7 +190,7 @@ describe('Autocomplete.vue', () => {
   test('fetchSuggestions with fn-arr', async () => {
     const wrapper = _mount({ debounce: 10 }, 'fn-arr')
     await nextTick()
-    await wrapper.find('input').trigger('focus')
+    await wrapper.find('.el-autocomplete').trigger('click')
     vi.runAllTimers()
     await nextTick()
 
@@ -203,7 +204,7 @@ describe('Autocomplete.vue', () => {
   test('fetchSuggestions with arr', async () => {
     const wrapper = _mount({ debounce: 10 }, 'arr')
     await nextTick()
-    await wrapper.find('input').trigger('focus')
+    await wrapper.find('.el-autocomplete').trigger('click')
     vi.runAllTimers()
     await nextTick()
 
