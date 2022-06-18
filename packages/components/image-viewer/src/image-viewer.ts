@@ -1,4 +1,9 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  isNumber,
+  mutable,
+} from '@element-plus/utils'
 import type { Component, ExtractPropTypes } from 'vue'
 
 export type ImageViewerAction =
@@ -40,7 +45,7 @@ export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 
 export const imageViewerEmits = {
   close: () => true,
-  switch: (index: number) => typeof index === 'number',
+  switch: (index: number) => isNumber(index),
 }
 export type ImageViewerEmits = typeof imageViewerEmits
 
