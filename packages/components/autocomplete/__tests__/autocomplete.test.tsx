@@ -132,7 +132,7 @@ describe('Autocomplete.vue', () => {
     expect(document.body.querySelector('.el-popper__mask')).toBeNull()
   })
 
-  test.skip('debounce / fetchSuggestions', async () => {
+  test('debounce / fetchSuggestions', async () => {
     const fetchSuggestions = vi.fn()
     const wrapper = _mount({
       debounce: 10,
@@ -140,21 +140,20 @@ describe('Autocomplete.vue', () => {
     })
     await nextTick()
 
-    await wrapper.find('input').trigger('focus')
-    await wrapper.find('input').trigger('blur')
-    await wrapper.find('input').trigger('focus')
-    await wrapper.find('input').trigger('blur')
-    await wrapper.find('input').trigger('focus')
-    await wrapper.find('input').trigger('blur')
+    await wrapper.find('input').setValue('1')
+    await wrapper.find('input').setValue('12')
+    await wrapper.find('input').setValue('123')
+
     expect(fetchSuggestions).toHaveBeenCalledTimes(0)
     vi.runAllTimers()
     await nextTick()
-
     expect(fetchSuggestions).toHaveBeenCalledTimes(1)
-    await wrapper.find('input').trigger('focus')
+
+    await wrapper.find('input').setValue('1234')
+    await wrapper.find('input').setValue('12345')
+    await wrapper.find('input').setValue('123456')
     vi.runAllTimers()
     await nextTick()
-
     expect(fetchSuggestions).toHaveBeenCalledTimes(2)
   })
 
