@@ -17,7 +17,7 @@
       :trigger-target-el="contentRef"
       :show-after="trigger === 'hover' ? showTimeout : 0"
       :stop-popper-mouse-event="false"
-      :virtual-ref="triggeringElementRef"
+      :virtual-ref="triggeringElementRef?.$el"
       :virtual-triggering="splitButton"
       :disabled="disabled"
       :transition="`${ns.namespace.value}-zoom-in-top`"

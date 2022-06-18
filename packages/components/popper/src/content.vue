@@ -188,14 +188,7 @@ onMounted(() => {
           popperContentEl,
           arrowEl: unref(arrowRef),
         })
-
-        updateHandle = watch(
-          () => referenceEl.getBoundingClientRect(),
-          () => updatePopper(),
-          {
-            immediate: true,
-          }
-        )
+        updatePopper()
       } else {
         popperInstanceRef.value = undefined
       }
