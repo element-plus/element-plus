@@ -309,7 +309,7 @@ const useEvent = (
   }
 }
 
-type CheckboxValueType = string | number | boolean
+export type CheckboxValueType = string | number | boolean
 
 export const checkboxEmits = {
   [UPDATE_MODEL_EVENT]: (val: CheckboxValueType) =>
