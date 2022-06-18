@@ -73,7 +73,7 @@
                   <template #content>
                     <div :class="nsSelect.e('collapse-tags')">
                       <div
-                        v-for="(item, idx) in selected"
+                        v-for="(item, idx) in restSelected"
                         :key="idx"
                         :class="nsSelect.e('collapse-tag')"
                       >
@@ -489,6 +489,10 @@ export default defineComponent({
       width: '100%',
     }))
 
+    const restSelected = computed(() =>
+      selected.value.filter((_: any, index: number) => index !== 0)
+    )
+
     provide(
       selectKey,
       reactive({
@@ -567,6 +571,7 @@ export default defineComponent({
       scrollToOption,
       inputWidth,
       selected,
+      restSelected,
       inputLength,
       filteredOptionsCount,
       visible,
