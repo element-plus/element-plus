@@ -215,6 +215,7 @@ const handleChange = (value: string) => {
 const handleFocus = (evt: FocusEvent) => {
   activated.value = true
   emit('focus', evt)
+  // fix https://github.com/element-plus/element-plus/issues/8278
   if (props.triggerOnFocus && !readonly) {
     debouncedGetData(String(props.modelValue))
   }
@@ -318,7 +319,7 @@ onMounted(() => {
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
   // get readonly attr
-  readonly = inputRef.value.input.hasAttribute('readonly')
+  readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
 })
 
 defineExpose({
