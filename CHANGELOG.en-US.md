@@ -1,5 +1,51 @@
 ## Changelog
 
+### 2.2.6
+
+_2022-06-17_
+
+#### Bug fixes
+
+- Components [table] fix namespace in table's expand icon (#8162 by @k713927)
+- Components [image] position styles error when used slots (#8109 by @tolking)
+- Components [pagination] improved keyboard accessibility (#8107 by @ryuhangyeong)
+- Components [date-picker] valid value error (#8187 by @gjfei)
+- Components inputNumber cursor offset up (#8193 by @Tsong-LC)
+- Components [table-v2] `column's min-width` should work normal (#8226 by @webfansplz)
+- Theme-chalk [col] remove float property (#8220 by @ryuhangyeong)
+- Components [time-picker] template type assertion (#8237 by @Tsong-LC)
+- Components [date-picker] validateEvent prop not work (#8194 by @HeftyKoo)
+- Components [checkbox-group] fix Wrong type checking (#8195 by @ytx222)
+- Vitest typings (#8239 by @sxzz)
+- Components [virtual-list] fix namespace in virtual-list (#8255 by @FlareStone)
+- Components [pagination] tab enable error if disabled (#8222 by @ryuhangyeong)
+- Components [upload] two-way binding fileList (#8258 by @sxzz)
+- Components DOM update finished calculating navOffset (#8221 by @Tsong-LC)
+- Style(components): [button] link button add focus-visible css (#8214 by @chenxch)
+- Style(components): [button] focus-visible (#8224 by @chenxch)
+- Style(components): [button] text-button bg mode add focus (#8232 by @chenxch)
+- Style(components): [select] options disabled hover bg (#8266 by @chenxch)
+
+#### Refactors
+
+- Components [slider] switch to script-setup syntax (#8008 by @holazz)
+- Components [switch] Simplify color handling (#8199 by @CarterLi)
+- Utils import path (#8235 by @sxzz)
+- Components [carousel] complete optional values (#8231 by @tolking)
+- Components [input] fix ts error (#8200 by @btea)
+- Components [result] use JSX in Unit test (#8230 by @ryuhangyeong)
+- Components [overlay] use JSX in Unit test (#8227 by @ryuhangyeong)
+- Components [tag] use JSX in Unit test (#8233 by @ryuhangyeong)
+- Components [icon] use JSX in Unit test (#8249 by @ryuhangyeong)
+- Components [empty] use JSX in Unit test (#8245 by @Tsong-LC)
+- Components [divider] use JSX in Unit test (#8248 by @ryuhangyeong)
+- Components [skeleton] use JSX in Unit test (#8265 by @Tsong-LC)
+- Components [page-header] use JSX in Unit test (#8263 by @ryuhangyeong)
+- Components [collapse-transition] type error (#8247 by @tolking)
+- Components [visual-hidden] visual-hidden  (#8192 by @gjfei)
+- Refactor/time picker refactor to setup (#8191 by @jw-foss)
+- Components [scrollbar] simplify emits type checking (#8281 by @ryuhangyeong)
+
 ### 2.2.5
 
 _2022-06-08_

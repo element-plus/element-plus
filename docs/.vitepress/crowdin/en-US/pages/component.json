@@ -57,6 +57,10 @@
     "text": "Form",
     "children": [
       {
+        "link": "/autocomplete",
+        "text": "Autocomplete"
+      },
+      {
         "link": "/cascader",
         "text": "Cascader"
       },

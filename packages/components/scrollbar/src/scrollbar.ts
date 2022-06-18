@@ -48,7 +48,7 @@ export const scrollbarEmits = {
   }: {
     scrollTop: number
     scrollLeft: number
-  }) => isNumber(scrollTop) && isNumber(scrollLeft),
+  }) => [scrollTop, scrollLeft].every(isNumber),
 }
 export type ScrollbarEmits = typeof scrollbarEmits
 

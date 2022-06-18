@@ -8,7 +8,7 @@
       ]"
       class="number"
       :aria-current="currentPage === 1"
-      tabindex="0"
+      :tabindex="tabindex"
     >
       1
     </li>
@@ -20,7 +20,7 @@
         nsIcon.b(),
         nsPager.is('disabled', disabled),
       ]"
-      tabindex="0"
+      :tabindex="tabindex"
       @mouseenter="onMouseEnter(true)"
       @mouseleave="quickPrevHover = false"
       @focus="onFocus(true)"
@@ -38,7 +38,7 @@
       ]"
       class="number"
       :aria-current="currentPage === pager"
-      tabindex="0"
+      :tabindex="tabindex"
     >
       {{ pager }}
     </li>
@@ -50,7 +50,7 @@
         nsIcon.b(),
         nsPager.is('disabled', disabled),
       ]"
-      tabindex="0"
+      :tabindex="tabindex"
       @mouseenter="onMouseEnter()"
       @mouseleave="quickNextHover = false"
       @focus="onFocus()"
@@ -67,7 +67,7 @@
       ]"
       class="number"
       :aria-current="currentPage === pageCount"
-      tabindex="0"
+      :tabindex="tabindex"
     >
       {{ pageCount }}
     </li>
@@ -128,6 +128,7 @@ const pagers = computed(() => {
   }
   return array
 })
+const tabindex = computed(() => (props.disabled ? -1 : 0))
 watchEffect(() => {
   const halfPagerCount = (props.pagerCount - 1) / 2
   showPrevMore.value = false
