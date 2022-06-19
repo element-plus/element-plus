@@ -4,29 +4,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { buildProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 
-const spaceItem = buildProps({
+const props = buildProps({
   prefixCls: {
     type: String,
     default: '',
   },
 } as const)
 
-export default defineComponent({
-  props: spaceItem,
+const ns = useNamespace('space')
 
-  setup(props) {
-    const ns = useNamespace('space')
-
-    const classes = computed(() => `${props.prefixCls || ns.b()}__item`)
-
-    return {
-      classes,
-    }
-  },
-})
+const classes = computed(() => `${props.prefixCls || ns.b()}__item`)
 </script>
