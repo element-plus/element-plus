@@ -18,23 +18,25 @@
   </li>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import { OptionProps } from './defaults'
 
-export default defineComponent({
-  props: OptionProps,
-  emits: ['select', 'hover'],
-  setup(props, { emit }) {
-    const ns = useNamespace('select')
-    const { hoverItem, selectOptionClick } = useOption(props, { emit })
-    return {
-      ns,
-      hoverItem,
-      selectOptionClick,
-    }
-  },
+const props = defineProps(OptionProps)
+
+const emit = defineEmits(['select', 'hover'])
+
+defineOptions({
+  name: 'OptionItem',
+})
+
+const ns = useNamespace('select')
+const { hoverItem, selectOptionClick } = useOption(props, { emit })
+
+defineExpose({
+  ns,
+  hoverItem,
+  selectOptionClick,
 })
 </script>

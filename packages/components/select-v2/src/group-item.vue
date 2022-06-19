@@ -14,24 +14,25 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 
-export default defineComponent({
-  props: {
-    item: {
-      type: Object,
-      required: true,
-    },
-    style: Object,
-    height: Number,
+defineProps({
+  item: {
+    type: Object,
+    required: true,
   },
-  setup() {
-    const ns = useNamespace('select')
-    return {
-      ns,
-    }
-  },
+  style: Object,
+  height: Number,
+})
+
+defineOptions({
+  name: 'GroupItem',
+})
+
+const ns = useNamespace('select')
+
+defineExpose({
+  ns,
 })
 </script>
