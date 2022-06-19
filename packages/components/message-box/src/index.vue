@@ -335,7 +335,7 @@ export default defineComponent({
       () => visible.value,
       (val) => {
         if (val) {
-          if (props.boxType === 'alert' || props.boxType === 'confirm') {
+          if (props.boxType !== 'prompt') {
             focusStartRef.value = confirmRef.value?.$el ?? rootRef.value
           }
           state.zIndex = nextZIndex()
