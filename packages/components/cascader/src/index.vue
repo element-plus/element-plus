@@ -150,7 +150,7 @@
         ref="panel"
         v-model="checkedValue"
         :options="options"
-        :props="props"
+        :props="props.props"
         :border="false"
         :render-label="$slots.default"
         @expand-change="handleExpandChange"
@@ -216,7 +216,7 @@ import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
-import { ClickOutside as Clickoutside } from '@element-plus/directives'
+import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
 
 import {
@@ -248,6 +248,11 @@ type tooltipType = InstanceType<typeof ElTooltip>
 type inputType = InstanceType<typeof ElInput>
 type suggestionPanelType = InstanceType<typeof ElScrollbar>
 
+export default {
+  name: 'ElCascader',
+}
+</script>
+<script lang="ts" setup>
 const DEFAULT_INPUT_HEIGHT = 40
 
 const INPUT_HEIGHT_MAP = {
@@ -271,502 +276,480 @@ const popperOptions: Partial<Options> = {
     },
   ],
 }
-const COMPONENT_NAME = 'ElCascader'
-export default defineComponent({
-  name: COMPONENT_NAME,
 
-  components: {
-    ElCascaderPanel,
-    ElInput,
-    ElTooltip,
-    ElScrollbar,
-    ElTag,
-    ElIcon,
-    CircleClose,
-    Check,
-    ArrowDown,
+const props = defineProps({
+  ...CommonProps,
+  size: {
+    type: String as PropType<ComponentSize>,
+    validator: isValidComponentSize,
   },
-
-  directives: {
-    Clickoutside,
+  placeholder: {
+    type: String,
   },
-
-  props: {
-    ...CommonProps,
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    placeholder: {
-      type: String,
-    },
-    disabled: Boolean,
-    clearable: Boolean,
-    filterable: Boolean,
-    filterMethod: {
-      type: Function as PropType<
-        (node: CascaderNode, keyword: string) => boolean
-      >,
-      default: (node: CascaderNode, keyword: string) =>
-        node.text.includes(keyword),
-    },
-    separator: {
-      type: String,
-      default: ' / ',
-    },
-    showAllLevels: {
-      type: Boolean,
-      default: true,
-    },
-    collapseTags: Boolean,
-    collapseTagsTooltip: {
-      type: Boolean,
-      default: false,
-    },
-    debounce: {
-      type: Number,
-      default: 300,
-    },
-    beforeFilter: {
-      type: Function as PropType<(value: string) => boolean | Promise<any>>,
-      default: () => true,
-    },
-    popperClass: {
-      type: String,
-      default: '',
-    },
-    teleported: useTooltipContentProps.teleported,
-    // eslint-disable-next-line vue/require-prop-types
-    tagType: { ...tagProps.type, default: 'info' },
+  disabled: Boolean,
+  clearable: Boolean,
+  filterable: Boolean,
+  filterMethod: {
+    type: Function as PropType<
+      (node: CascaderNode, keyword: string) => boolean
+    >,
+    default: (node: CascaderNode, keyword: string) =>
+      node.text.includes(keyword),
   },
+  separator: {
+    type: String,
+    default: ' / ',
+  },
+  showAllLevels: {
+    type: Boolean,
+    default: true,
+  },
+  collapseTags: Boolean,
+  collapseTagsTooltip: {
+    type: Boolean,
+    default: false,
+  },
+  debounce: {
+    type: Number,
+    default: 300,
+  },
+  beforeFilter: {
+    type: Function as PropType<(value: string) => boolean | Promise<any>>,
+    default: () => true,
+  },
+  popperClass: {
+    type: String,
+    default: '',
+  },
+  teleported: useTooltipContentProps.teleported,
+  // eslint-disable-next-line vue/require-prop-types
+  tagType: { ...tagProps.type, default: 'info' },
+})
 
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'focus',
-    'blur',
-    'visible-change',
-    'expand-change',
-    'remove-tag',
-  ],
+const emit = defineEmits([
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT,
+  'focus',
+  'blur',
+  'visible-change',
+  'expand-change',
+  'remove-tag',
+])
 
-  setup(props, { emit }) {
-    let inputInitialHeight = 0
-    let pressDeleteCount = 0
+let inputInitialHeight = 0
+let pressDeleteCount = 0
 
-    const nsCascader = useNamespace('cascader')
-    const nsInput = useNamespace('input')
+const nsCascader = useNamespace('cascader')
+const nsInput = useNamespace('input')
 
-    const { t } = useLocale()
-    const elForm = inject(formContextKey, {} as FormContext)
-    const elFormItem = inject(formItemContextKey, {} as FormItemContext)
+const { t } = useLocale()
+const elForm = inject(formContextKey, {} as FormContext)
+const elFormItem = inject(formItemContextKey, {} as FormItemContext)
 
-    const tooltipRef: Ref<tooltipType | null> = ref(null)
-    const input: Ref<inputType | null> = ref(null)
-    const tagWrapper = ref(null)
-    const panel: Ref<cascaderPanelType | null> = ref(null)
-    const suggestionPanel: Ref<suggestionPanelType | null> = ref(null)
-    const popperVisible = ref(false)
-    const inputHover = ref(false)
-    const filtering = ref(false)
-    const inputValue = ref('')
-    const searchInputValue = ref('')
-    const presentTags: Ref<Tag[]> = ref([])
-    const allPresentTags: Ref<Tag[]> = ref([])
-    const suggestions: Ref<CascaderNode[]> = ref([])
-    const isOnComposition = ref(false)
+const tooltipRef: Ref<tooltipType | null> = ref(null)
+const input: Ref<inputType | null> = ref(null)
+const tagWrapper = ref(null)
+const panel: Ref<cascaderPanelType | null> = ref(null)
+const suggestionPanel: Ref<suggestionPanelType | null> = ref(null)
+const popperVisible = ref(false)
+const inputHover = ref(false)
+const filtering = ref(false)
+const inputValue = ref('')
+const searchInputValue = ref('')
+const presentTags: Ref<Tag[]> = ref([])
+const allPresentTags: Ref<Tag[]> = ref([])
+const suggestions: Ref<CascaderNode[]> = ref([])
+const isOnComposition = ref(false)
 
-    const isDisabled = computed(() => props.disabled || elForm.disabled)
-    const inputPlaceholder = computed(
-      () => props.placeholder || t('el.cascader.placeholder')
-    )
-    const realSize = useSize()
-    const tagSize = computed(() =>
-      ['small'].includes(realSize.value) ? 'small' : 'default'
-    )
-    const multiple = computed(() => !!props.props.multiple)
-    const readonly = computed(() => !props.filterable || multiple.value)
-    const searchKeyword = computed(() =>
-      multiple.value ? searchInputValue.value : inputValue.value
-    )
-    const checkedNodes: ComputedRef<CascaderNode[]> = computed(
-      () => panel.value?.checkedNodes || []
-    )
-    const clearBtnVisible = computed(() => {
-      if (
-        !props.clearable ||
-        isDisabled.value ||
-        filtering.value ||
-        !inputHover.value
-      )
-        return false
+const isDisabled = computed(() => props.disabled || elForm.disabled)
+const inputPlaceholder = computed(
+  () => props.placeholder || t('el.cascader.placeholder')
+)
+const realSize = useSize()
+const tagSize = computed(() =>
+  ['small'].includes(realSize.value) ? 'small' : 'default'
+)
+const multiple = computed(() => !!props.props.multiple)
+const readonly = computed(() => !props.filterable || multiple.value)
+const searchKeyword = computed(() =>
+  multiple.value ? searchInputValue.value : inputValue.value
+)
+const checkedNodes: ComputedRef<CascaderNode[]> = computed(
+  () => panel.value?.checkedNodes || []
+)
+const clearBtnVisible = computed(() => {
+  if (
+    !props.clearable ||
+    isDisabled.value ||
+    filtering.value ||
+    !inputHover.value
+  )
+    return false
 
-      return !!checkedNodes.value.length
-    })
-    const presentText = computed(() => {
-      const { showAllLevels, separator } = props
-      const nodes = checkedNodes.value
-      return nodes.length
-        ? multiple.value
-          ? ' '
-          : nodes[0].calcText(showAllLevels, separator)
-        : ''
-    })
+  return !!checkedNodes.value.length
+})
+const presentText = computed(() => {
+  const { showAllLevels, separator } = props
+  const nodes = checkedNodes.value
+  return nodes.length
+    ? multiple.value
+      ? ' '
+      : nodes[0].calcText(showAllLevels, separator)
+    : ''
+})
 
-    const checkedValue = computed<CascaderValue>({
-      get() {
-        return props.modelValue as CascaderValue
-      },
-      set(val) {
-        emit(UPDATE_MODEL_EVENT, val)
-        emit(CHANGE_EVENT, val)
-        elFormItem.validate?.('change').catch((err) => debugWarn(err))
-      },
-    })
+const checkedValue = computed<CascaderValue>({
+  get() {
+    return props.modelValue as CascaderValue
+  },
+  set(val) {
+    emit(UPDATE_MODEL_EVENT, val)
+    emit(CHANGE_EVENT, val)
+    elFormItem.validate?.('change').catch((err) => debugWarn(err))
+  },
+})
 
-    const popperPaneRef = computed(() => {
-      return tooltipRef.value?.popperRef?.contentRef
-    })
+const popperPaneRef = computed(() => {
+  return tooltipRef.value?.popperRef?.contentRef
+})
 
-    const togglePopperVisible = (visible?: boolean) => {
-      if (isDisabled.value) return
+const togglePopperVisible = (visible?: boolean) => {
+  if (isDisabled.value) return
 
-      visible = visible ?? !popperVisible.value
+  visible = visible ?? !popperVisible.value
 
-      if (visible !== popperVisible.value) {
-        popperVisible.value = visible
-        input.value?.input?.setAttribute('aria-expanded', `${visible}`)
+  if (visible !== popperVisible.value) {
+    popperVisible.value = visible
+    input.value?.input?.setAttribute('aria-expanded', `${visible}`)
 
-        if (visible) {
-          updatePopperPosition()
-          nextTick(panel.value?.scrollToExpandingNode)
-        } else if (props.filterable) {
-          const { value } = presentText
-          inputValue.value = value
-          searchInputValue.value = value
-        }
-
-        emit('visible-change', visible)
-      }
-    }
-
-    const updatePopperPosition = () => {
-      nextTick(() => {
-        tooltipRef.value?.updatePopper()
-      })
-    }
-
-    const hideSuggestionPanel = () => {
-      filtering.value = false
-    }
-
-    const genTag = (node: CascaderNode): Tag => {
-      const { showAllLevels, separator } = props
-      return {
-        node,
-        key: node.uid,
-        text: node.calcText(showAllLevels, separator),
-        hitState: false,
-        closable: !isDisabled.value && !node.isDisabled,
-        isCollapseTag: false,
-      }
-    }
-
-    const deleteTag = (tag: Tag) => {
-      const node = tag.node as CascaderNode
-      node.doCheck(false)
-      panel.value?.calculateCheckedValue()
-      emit('remove-tag', node.valueByOption)
-    }
-
-    const calculatePresentTags = () => {
-      if (!multiple.value) return
-
-      const nodes = checkedNodes.value
-      const tags: Tag[] = []
-
-      const allTags: Tag[] = []
-      nodes.forEach((node) => allTags.push(genTag(node)))
-      allPresentTags.value = allTags
-
-      if (nodes.length) {
-        const [first, ...rest] = nodes
-        const restCount = rest.length
-
-        tags.push(genTag(first))
-
-        if (restCount) {
-          if (props.collapseTags) {
-            tags.push({
-              key: -1,
-              text: `+ ${restCount}`,
-              closable: false,
-              isCollapseTag: true,
-            })
-          } else {
-            rest.forEach((node) => tags.push(genTag(node)))
-          }
-        }
-      }
-
-      presentTags.value = tags
-    }
-
-    const calculateSuggestions = () => {
-      const { filterMethod, showAllLevels, separator } = props
-      const res = panel.value
-        ?.getFlattedNodes(!props.props.checkStrictly)
-        ?.filter((node) => {
-          if (node.isDisabled) return false
-          node.calcText(showAllLevels, separator)
-          return filterMethod(node, searchKeyword.value)
-        })
-
-      if (multiple.value) {
-        presentTags.value.forEach((tag) => {
-          tag.hitState = false
-        })
-        allPresentTags.value.forEach((tag) => {
-          tag.hitState = false
-        })
-      }
-
-      filtering.value = true
-      suggestions.value = res!
+    if (visible) {
       updatePopperPosition()
+      nextTick(panel.value?.scrollToExpandingNode)
+    } else if (props.filterable) {
+      const { value } = presentText
+      inputValue.value = value
+      searchInputValue.value = value
     }
 
-    const focusFirstNode = () => {
-      let firstNode!: HTMLElement
+    emit('visible-change', visible)
+  }
+}
 
-      if (filtering.value && suggestionPanel.value) {
-        firstNode = suggestionPanel.value.$el.querySelector(
-          `.${nsCascader.e('suggestion-item')}`
-        )
+const updatePopperPosition = () => {
+  nextTick(() => {
+    tooltipRef.value?.updatePopper()
+  })
+}
+
+const hideSuggestionPanel = () => {
+  filtering.value = false
+}
+
+const genTag = (node: CascaderNode): Tag => {
+  const { showAllLevels, separator } = props
+  return {
+    node,
+    key: node.uid,
+    text: node.calcText(showAllLevels, separator),
+    hitState: false,
+    closable: !isDisabled.value && !node.isDisabled,
+    isCollapseTag: false,
+  }
+}
+
+const deleteTag = (tag: Tag) => {
+  const node = tag.node as CascaderNode
+  node.doCheck(false)
+  panel.value?.calculateCheckedValue()
+  emit('remove-tag', node.valueByOption)
+}
+
+const calculatePresentTags = () => {
+  if (!multiple.value) return
+
+  const nodes = checkedNodes.value
+  const tags: Tag[] = []
+
+  const allTags: Tag[] = []
+  nodes.forEach((node) => allTags.push(genTag(node)))
+  allPresentTags.value = allTags
+
+  if (nodes.length) {
+    const [first, ...rest] = nodes
+    const restCount = rest.length
+
+    tags.push(genTag(first))
+
+    if (restCount) {
+      if (props.collapseTags) {
+        tags.push({
+          key: -1,
+          text: `+ ${restCount}`,
+          closable: false,
+          isCollapseTag: true,
+        })
       } else {
-        firstNode = panel.value?.$el.querySelector(
-          `.${nsCascader.b('node')}[tabindex="-1"]`
-        )
-      }
-
-      if (firstNode) {
-        firstNode.focus()
-        !filtering.value && firstNode.click()
+        rest.forEach((node) => tags.push(genTag(node)))
       }
     }
+  }
 
-    const updateStyle = () => {
-      const inputInner = input.value?.input
-      const tagWrapperEl = tagWrapper.value
-      const suggestionPanelEl = suggestionPanel.value?.$el
+  presentTags.value = tags
+}
 
-      if (!isClient || !inputInner) return
+const calculateSuggestions = () => {
+  const { filterMethod, showAllLevels, separator } = props
+  const res = panel.value
+    ?.getFlattedNodes(!props.props.checkStrictly)
+    ?.filter((node) => {
+      if (node.isDisabled) return false
+      node.calcText(showAllLevels, separator)
+      return filterMethod(node, searchKeyword.value)
+    })
 
-      if (suggestionPanelEl) {
-        const suggestionList = suggestionPanelEl.querySelector(
-          `.${nsCascader.e('suggestion-list')}`
-        )
-        suggestionList.style.minWidth = `${inputInner.offsetWidth}px`
-      }
+  if (multiple.value) {
+    presentTags.value.forEach((tag) => {
+      tag.hitState = false
+    })
+    allPresentTags.value.forEach((tag) => {
+      tag.hitState = false
+    })
+  }
 
-      if (tagWrapperEl) {
-        const { offsetHeight } = tagWrapperEl
-        const height =
-          presentTags.value.length > 0
-            ? `${Math.max(offsetHeight + 6, inputInitialHeight)}px`
-            : `${inputInitialHeight}px`
-        inputInner.style.height = height
-        updatePopperPosition()
-      }
-    }
+  filtering.value = true
+  suggestions.value = res!
+  updatePopperPosition()
+}
 
-    const getCheckedNodes = (leafOnly: boolean) => {
-      return panel.value?.getCheckedNodes(leafOnly)
-    }
+const focusFirstNode = () => {
+  let firstNode!: HTMLElement
 
-    const handleExpandChange = (value: CascaderValue) => {
-      updatePopperPosition()
-      emit('expand-change', value)
-    }
+  if (filtering.value && suggestionPanel.value) {
+    firstNode = suggestionPanel.value.$el.querySelector(
+      `.${nsCascader.e('suggestion-item')}`
+    )
+  } else {
+    firstNode = panel.value?.$el.querySelector(
+      `.${nsCascader.b('node')}[tabindex="-1"]`
+    )
+  }
 
-    const handleComposition = (event: CompositionEvent) => {
-      const text = (event.target as HTMLInputElement)?.value
-      if (event.type === 'compositionend') {
-        isOnComposition.value = false
-        nextTick(() => handleInput(text))
-      } else {
-        const lastCharacter = text[text.length - 1] || ''
-        isOnComposition.value = !isKorean(lastCharacter)
-      }
-    }
+  if (firstNode) {
+    firstNode.focus()
+    !filtering.value && firstNode.click()
+  }
+}
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (isOnComposition.value) return
+const updateStyle = () => {
+  const inputInner = input.value?.input
+  const tagWrapperEl = tagWrapper.value
+  const suggestionPanelEl = suggestionPanel.value?.$el
 
-      switch (e.code) {
-        case EVENT_CODE.enter:
-          togglePopperVisible()
-          break
-        case EVENT_CODE.down:
-          togglePopperVisible(true)
-          nextTick(focusFirstNode)
-          e.preventDefault()
-          break
-        case EVENT_CODE.esc:
-          if (popperVisible.value === true) {
-            e.preventDefault()
-            e.stopPropagation()
-            togglePopperVisible(false)
-          }
-          break
-        case EVENT_CODE.tab:
-          togglePopperVisible(false)
-          break
-      }
-    }
+  if (!isClient || !inputInner) return
 
-    const handleClear = () => {
-      panel.value?.clearCheckedNodes()
-      togglePopperVisible(false)
-    }
+  if (suggestionPanelEl) {
+    const suggestionList = suggestionPanelEl.querySelector(
+      `.${nsCascader.e('suggestion-list')}`
+    )
+    suggestionList.style.minWidth = `${inputInner.offsetWidth}px`
+  }
 
-    const handleSuggestionClick = (node: CascaderNode) => {
-      const { checked } = node
+  if (tagWrapperEl) {
+    const { offsetHeight } = tagWrapperEl
+    const height =
+      presentTags.value.length > 0
+        ? `${Math.max(offsetHeight + 6, inputInitialHeight)}px`
+        : `${inputInitialHeight}px`
+    inputInner.style.height = height
+    updatePopperPosition()
+  }
+}
 
-      if (multiple.value) {
-        panel.value?.handleCheckChange(node, !checked, false)
-      } else {
-        !checked && panel.value?.handleCheckChange(node, true, false)
+const getCheckedNodes = (leafOnly: boolean) => {
+  return panel.value?.getCheckedNodes(leafOnly)
+}
+
+const handleExpandChange = (value: CascaderValue) => {
+  updatePopperPosition()
+  emit('expand-change', value)
+}
+
+const handleComposition = (event: CompositionEvent) => {
+  const text = (event.target as HTMLInputElement)?.value
+  if (event.type === 'compositionend') {
+    isOnComposition.value = false
+    nextTick(() => handleInput(text))
+  } else {
+    const lastCharacter = text[text.length - 1] || ''
+    isOnComposition.value = !isKorean(lastCharacter)
+  }
+}
+
+const handleKeyDown = (e: KeyboardEvent) => {
+  if (isOnComposition.value) return
+
+  switch (e.code) {
+    case EVENT_CODE.enter:
+      togglePopperVisible()
+      break
+    case EVENT_CODE.down:
+      togglePopperVisible(true)
+      nextTick(focusFirstNode)
+      e.preventDefault()
+      break
+    case EVENT_CODE.esc:
+      if (popperVisible.value === true) {
+        e.preventDefault()
+        e.stopPropagation()
         togglePopperVisible(false)
       }
+      break
+    case EVENT_CODE.tab:
+      togglePopperVisible(false)
+      break
+  }
+}
+
+const handleClear = () => {
+  panel.value?.clearCheckedNodes()
+  togglePopperVisible(false)
+}
+
+const handleSuggestionClick = (node: CascaderNode) => {
+  const { checked } = node
+
+  if (multiple.value) {
+    panel.value?.handleCheckChange(node, !checked, false)
+  } else {
+    !checked && panel.value?.handleCheckChange(node, true, false)
+    togglePopperVisible(false)
+  }
+}
+
+const handleSuggestionKeyDown = (e: KeyboardEvent) => {
+  const target = e.target as HTMLElement
+  const { code } = e
+
+  switch (code) {
+    case EVENT_CODE.up:
+    case EVENT_CODE.down: {
+      const distance = code === EVENT_CODE.up ? -1 : 1
+      focusNode(
+        getSibling(
+          target,
+          distance,
+          `.${nsCascader.e('suggestion-item')}[tabindex="-1"]`
+        )
+      )
+      break
     }
+    case EVENT_CODE.enter:
+      target.click()
+      break
+  }
+}
 
-    const handleSuggestionKeyDown = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement
-      const { code } = e
+const handleDelete = () => {
+  const tags = presentTags.value
+  const lastTag = tags[tags.length - 1]
+  pressDeleteCount = searchInputValue.value ? 0 : pressDeleteCount + 1
 
-      switch (code) {
-        case EVENT_CODE.up:
-        case EVENT_CODE.down: {
-          const distance = code === EVENT_CODE.up ? -1 : 1
-          focusNode(
-            getSibling(
-              target,
-              distance,
-              `.${nsCascader.e('suggestion-item')}[tabindex="-1"]`
-            )
-          )
-          break
-        }
-        case EVENT_CODE.enter:
-          target.click()
-          break
-      }
-    }
+  if (!lastTag || !pressDeleteCount) return
 
-    const handleDelete = () => {
-      const tags = presentTags.value
-      const lastTag = tags[tags.length - 1]
-      pressDeleteCount = searchInputValue.value ? 0 : pressDeleteCount + 1
+  if (lastTag.hitState) {
+    deleteTag(lastTag)
+  } else {
+    lastTag.hitState = true
+  }
+}
 
-      if (!lastTag || !pressDeleteCount) return
+const handleFilter = debounce(() => {
+  const { value } = searchKeyword
 
-      if (lastTag.hitState) {
-        deleteTag(lastTag)
-      } else {
-        lastTag.hitState = true
-      }
-    }
+  if (!value) return
 
-    const handleFilter = debounce(() => {
-      const { value } = searchKeyword
+  const passed = props.beforeFilter(value)
 
-      if (!value) return
-
-      const passed = props.beforeFilter(value)
-
-      if (isPromise(passed)) {
-        passed.then(calculateSuggestions).catch(() => {
-          /* prevent log error */
-        })
-      } else if (passed !== false) {
-        calculateSuggestions()
-      } else {
-        hideSuggestionPanel()
-      }
-    }, props.debounce)
-
-    const handleInput = (val: string, e?: KeyboardEvent) => {
-      !popperVisible.value && togglePopperVisible(true)
-
-      if (e?.isComposing) return
-
-      val ? handleFilter() : hideSuggestionPanel()
-    }
-
-    watch(filtering, updatePopperPosition)
-
-    watch([checkedNodes, isDisabled], calculatePresentTags)
-
-    watch(presentTags, () => {
-      nextTick(() => updateStyle())
+  if (isPromise(passed)) {
+    passed.then(calculateSuggestions).catch(() => {
+      /* prevent log error */
     })
+  } else if (passed !== false) {
+    calculateSuggestions()
+  } else {
+    hideSuggestionPanel()
+  }
+}, props.debounce)
 
-    watch(presentText, (val) => (inputValue.value = val), { immediate: true })
+const handleInput = (val: string, e?: KeyboardEvent) => {
+  !popperVisible.value && togglePopperVisible(true)
 
-    onMounted(() => {
-      const inputEl = input.value?.$el
-      inputInitialHeight =
-        inputEl?.offsetHeight ||
-        INPUT_HEIGHT_MAP[realSize.value] ||
-        DEFAULT_INPUT_HEIGHT
-      useResizeObserver(inputEl, updateStyle)
-    })
+  if (e?.isComposing) return
 
-    return {
-      popperOptions,
-      tooltipRef,
-      popperPaneRef,
-      input,
-      tagWrapper,
-      panel,
-      suggestionPanel,
-      popperVisible,
-      inputHover,
-      inputPlaceholder,
-      filtering,
-      presentText,
-      checkedValue,
-      inputValue,
-      searchInputValue,
-      presentTags,
-      allPresentTags,
-      suggestions,
-      isDisabled,
-      isOnComposition,
-      realSize,
-      tagSize,
-      multiple,
-      readonly,
-      clearBtnVisible,
+  val ? handleFilter() : hideSuggestionPanel()
+}
 
-      nsCascader,
-      nsInput,
-      t,
-      togglePopperVisible,
-      hideSuggestionPanel,
-      deleteTag,
-      focusFirstNode,
-      getCheckedNodes,
-      handleExpandChange,
-      handleKeyDown,
-      handleComposition,
-      handleClear,
-      handleSuggestionClick,
-      handleSuggestionKeyDown,
-      handleDelete,
-      handleInput,
-    }
-  },
+watch(filtering, updatePopperPosition)
+
+watch([checkedNodes, isDisabled], calculatePresentTags)
+
+watch(presentTags, () => {
+  nextTick(() => updateStyle())
+})
+
+watch(presentText, (val) => (inputValue.value = val), { immediate: true })
+
+onMounted(() => {
+  const inputEl = input.value?.$el
+  inputInitialHeight =
+    inputEl?.offsetHeight ||
+    INPUT_HEIGHT_MAP[realSize.value] ||
+    DEFAULT_INPUT_HEIGHT
+  useResizeObserver(inputEl, updateStyle)
+})
+
+defineExpose({
+  popperOptions,
+  tooltipRef,
+  popperPaneRef,
+  input,
+  tagWrapper,
+  panel,
+  suggestionPanel,
+  popperVisible,
+  inputHover,
+  inputPlaceholder,
+  filtering,
+  presentText,
+  checkedValue,
+  inputValue,
+  searchInputValue,
+  presentTags,
+  allPresentTags,
+  suggestions,
+  isDisabled,
+  isOnComposition,
+  realSize,
+  tagSize,
+  multiple,
+  readonly,
+  clearBtnVisible,
+
+  nsCascader,
+  nsInput,
+  t,
+  togglePopperVisible,
+  hideSuggestionPanel,
+  deleteTag,
+  focusFirstNode,
+  getCheckedNodes,
+  handleExpandChange,
+  handleKeyDown,
+  handleComposition,
+  handleClear,
+  handleSuggestionClick,
+  handleSuggestionKeyDown,
+  handleDelete,
+  handleInput,
 })
 </script>
