@@ -434,6 +434,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         clearAllNewOption()
       }
       updateHoveringIndex(idx)
+      handleBlur()
     }
   }
 
