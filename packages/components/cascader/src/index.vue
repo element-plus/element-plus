@@ -190,16 +190,8 @@
   </el-tooltip>
 </template>
 
-<script lang="ts">
-import {
-  computed,
-  defineComponent,
-  inject,
-  nextTick,
-  onMounted,
-  ref,
-  watch,
-} from 'vue'
+<script lang="ts" setup>
+import { computed, inject, nextTick, onMounted, ref, watch } from 'vue'
 import { isPromise } from '@vue/shared'
 import { debounce } from 'lodash-unified'
 
@@ -248,11 +240,10 @@ type tooltipType = InstanceType<typeof ElTooltip>
 type inputType = InstanceType<typeof ElInput>
 type suggestionPanelType = InstanceType<typeof ElScrollbar>
 
-export default {
+defineOptions({
   name: 'ElCascader',
-}
-</script>
-<script lang="ts" setup>
+})
+
 const DEFAULT_INPUT_HEIGHT = 40
 
 const INPUT_HEIGHT_MAP = {
