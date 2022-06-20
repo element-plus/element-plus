@@ -323,9 +323,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const update = (val: any) => {
-    emit(UPDATE_MODEL_EVENT, val)
-    emitChange(val)
-    states.previousValue = val.toString()
+    if (val.value) {
+      emit(UPDATE_MODEL_EVENT, val.value)
+      emitChange(val.value)
+      states.previousValue = val.value
+    } else {
+      emit(UPDATE_MODEL_EVENT, val)
+      emitChange(val)
+      states.previousValue = val.toString()
+    }
   }
 
   const getValueIndex = (arr = [], value: unknown) => {
@@ -425,7 +431,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     } else {
       selectedIndex.value = idx
       states.selectedLabel = option.label
-      update(getValueKey(option))
+      update(option)
       expanded.value = false
       states.isComposing = false
       states.isSilentBlur = byClick
@@ -674,7 +680,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = props.modelValue
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
-          (option) => getValueKey(option) === getValueKey(props.modelValue)
+          (option) =>
+            getValueKey(option.value) === getValueKey(props.modelValue)
         )
         if (~selectedItemIndex) {
           states.selectedLabel = options[selectedItemIndex].label

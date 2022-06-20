@@ -340,7 +340,7 @@ describe('Select', () => {
     expect(vm.count).toBe(2)
   })
 
-  it('value-key option', async () => {
+  it('value-key option(base type)', async () => {
     const wrapper = createSelect({
       data: () => {
         return {
@@ -372,12 +372,49 @@ describe('Select', () => {
     const options = getOptions()
     options[1].click()
     await nextTick()
-    expect(vm.value).toBe(vm.options[1].id)
-    vm.valueKey = 'value'
+    expect(vm.value).toBe(vm.options[1].value)
     await nextTick()
     options[2].click()
     await nextTick()
     expect(vm.value).toBe(vm.options[2].value)
+  })
+
+  it('value-key option(object)', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          options: [
+            {
+              label: 'test1',
+              value: {
+                id: 1,
+                name: 'a',
+              },
+            },
+            {
+              label: 'test2',
+              value: {
+                id: 2,
+                name: 'a',
+              },
+            },
+          ],
+          value: '',
+          valueKey: 'id',
+        }
+      },
+    })
+
+    await nextTick()
+    const vm = wrapper.vm as any
+    const options = getOptions()
+    options[0].click()
+    await nextTick()
+    expect(vm.value).toBe(vm.options[0].value)
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    expect(vm.value).toBe(vm.options[1].value)
   })
 
   it('disabled option', async () => {
