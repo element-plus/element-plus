@@ -15,7 +15,7 @@ class TableLayout<T> {
   columns: TableColumnCtx<T>[]
   fit: boolean
   showHeader: boolean
-
+  isFinsh: boolean
   height: Ref<null | number>
   scrollX: Ref<boolean>
   scrollY: Ref<boolean>
@@ -34,6 +34,7 @@ class TableLayout<T> {
   constructor(options: Record<string, any>) {
     this.observers = []
     this.table = null
+    this.isFinsh = false
     this.store = null
     this.columns = []
     this.fit = true
@@ -99,22 +100,34 @@ class TableLayout<T> {
 
   setHeight(value: string | number, prop = 'height') {
     if (!isClient) return
-    const el = this.table.vnode.el
-    value = parseHeight(value)
-    this.height.value = Number(value)
-
-    if (!el && (value || value === 0))
-      return nextTick(() => this.setHeight(value, prop))
-
-    if (typeof value === 'number') {
-      el.style[prop] = `${value}px`
-      this.updateElsHeight()
-    } else if (typeof value === 'string') {
-      el.style[prop] = value
-      this.updateElsHeight()
+    let el = this.table.vnode.el;
+    if (!el && (value || value === 0)) {
+      nextTick(() => {
+        el = this.table.vnode.el;
+        if (prop == 'max-height') {
+          return this.setHeightProp(value, prop, el)
+        }
+        this.setHeightProp(value, prop, el, 'async')
+      })
+    } else {
+      this.isFinsh = true
+      this.setHeightProp(value, prop, el)
     }
   }
-
+  setHeightProp(value: string | number, prop: string, el: any, type?: string) {
+    if (this.isFinsh && type == 'async') {
+      return
+    }
+    value = parseHeight(value)!;
+    this.height.value = Number(value);
+    if (typeof value === "number") {
+      el.style[prop] = `${value}px`;
+      this.updateElsHeight();
+    } else if (typeof value === "string") {
+      el.style[prop] = value;
+      this.updateElsHeight();
+    }
+  }
   setMaxHeight(value: string | number) {
     this.setHeight(value, 'max-height')
   }
