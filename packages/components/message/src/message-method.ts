@@ -189,7 +189,7 @@ messageTypes.forEach((type) => {
 
 export function closeAll(): void {
   for (const instance of instances) {
-    closeMessage(instance)
+    instance.handler.close()
   }
 }
 

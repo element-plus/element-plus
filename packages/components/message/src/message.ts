@@ -1,3 +1,4 @@
+import { isClient } from '@vueuse/core'
 import {
   buildProps,
   definePropType,
@@ -26,9 +27,10 @@ export const messageDefaults = mutable({
   showClose: false,
   type: 'info',
   offset: 20,
+  zIndex: 0,
   grouping: false,
   repeatNum: 1,
-  appendTo: document.body,
+  appendTo: isClient ? document.body : (undefined as never),
 } as const)
 
 export const messageProps = buildProps({
@@ -83,6 +85,7 @@ export const messageProps = buildProps({
   },
   zIndex: {
     type: Number,
+    default: messageDefaults.zIndex,
   },
   grouping: {
     type: Boolean,
