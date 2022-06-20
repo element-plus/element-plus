@@ -79,7 +79,11 @@ export default defineComponent({
       if (select.props.multiple) {
         return contains(modelValue, get(target, valueKey))
       }
-      return isEqual(get(modelValue, valueKey), get(target.value, valueKey))
+      if (typeof target.value === 'object') {
+        return isEqual(get(modelValue, valueKey), get(target.value, valueKey))
+      } else {
+        return isEqual(modelValue, target.value)
+      }
     }
 
     const isItemDisabled = (modelValue: any[] | any, selected: boolean) => {
