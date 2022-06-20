@@ -80,7 +80,7 @@ export default defineComponent({
         return contains(modelValue, get(target, valueKey))
       }
       if (typeof target.value === 'object') {
-        return isEqual(get(modelValue, valueKey), get(target.value, valueKey))
+        return isEqual(get(modelValue, valueKey), get(target, valueKey))
       } else {
         return isEqual(modelValue, target.value)
       }
