@@ -60,26 +60,26 @@ const normalizeOptions = (params?: MessageParams) => {
   return normalized as MessageParamsNormalized
 }
 
+const getNextOffset = (offset: number) => offset + 48 + 16
+
+const computeOffset = () => {
+  if (instances.length === 0) return
+
+  instances.reduce((prev, next) => {
+    next.props.offset = prev
+    return getNextOffset(prev)
+  }, instances[0].options.offset)
+}
+
 const closeMessage = (instance: MessageQueueItem) => {
   const idx = instances.indexOf(instance)
   if (idx === -1) return
 
   instances.splice(idx, 1)
-  const { vnode, handler } = instance
+  const { handler } = instance
   handler.close()
 
-  const removedHeight = vnode.el!.offsetHeight
-  // adjust other instances vertical offset
-  const len = instances.length
-  if (len < 1) return
-  for (let i = idx; i < len; i++) {
-    const pos =
-      Number.parseInt(instances[i].vnode.el!.style['top'], 10) -
-      removedHeight -
-      16
-
-    instances[i].vnode.component!.props.offset = pos
-  }
+  computeOffset()
 }
 
 const createMessage = (
@@ -91,18 +91,20 @@ const createMessage = (
   const id = `message_${seed++}`
   const userOnClose = options.onClose
 
-  let verticalOffset = options.offset
-  instances.forEach(({ vnode: vm }) => {
-    verticalOffset += (vm.el?.offsetHeight || 0) + 16
-  })
-  verticalOffset += 16
+  let offset: number
+  const lastInstance = instances[instances.length - 1]
+  if (lastInstance) {
+    offset = getNextOffset(lastInstance.vm.offset)
+  } else {
+    offset = options.offset
+  }
 
   const container = document.createElement('div')
 
   const props = {
     ...options,
     zIndex: options.zIndex ?? nextZIndex(),
-    offset: verticalOffset,
+    offset,
     id,
     onClose: () => {
       userOnClose?.()
@@ -142,9 +144,12 @@ const createMessage = (
   }
 
   const instance = {
+    id,
     vnode,
     vm,
     handler,
+    options: { appendTo, ...options },
+    props: (vnode.component as any).props,
   }
 
   return instance
@@ -168,8 +173,8 @@ const message: MessageFn &
       ({ vnode: vm }) => vm.props?.message === normalized.message
     )
     if (instance) {
-      ;(instance.vnode.component as any).props.repeatNum += 1
-      ;(instance.vnode.component as any).props.type = normalized.type
+      instance.props.repeatNum += 1
+      instance.props.type = normalized.type
       return instance.handler
     }
   }

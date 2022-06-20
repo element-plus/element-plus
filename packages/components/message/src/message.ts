@@ -142,9 +142,12 @@ export interface Message extends MessageFn {
 }
 
 export type MessageQueueItem = {
+  id: string
   vnode: VNode
   handler: MessageHandler
   vm: MessageInstance
+  options: MessageParamsNormalized
+  props: Mutable<MessageProps>
 }
 
 export type MessageQueue = MessageQueueItem[]
