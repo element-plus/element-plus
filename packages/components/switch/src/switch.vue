@@ -83,7 +83,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  getCurrentInstance,
+  nextTick,
+  onMounted,
+  ref,
+  watch,
+} from 'vue'
 import { isPromise } from '@vue/shared'
 import { addUnit, debugWarn, isBoolean, throwError } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
@@ -94,6 +102,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
+  useDeprecated,
   useDisabled,
   useFormItem,
   useFormItemInputId,
@@ -114,15 +123,28 @@ export default defineComponent({
   emits: switchEmits,
 
   setup(props, { emit }) {
+    const vm = getCurrentInstance()!
     const { formItem } = useFormItem()
+    const switchSize = useSize()
     const switchDisabled = useDisabled(computed(() => props.loading))
     const ns = useNamespace('switch')
+
+    useDeprecated(
+      {
+        from: '"value"',
+        replacement: '"model-value" or "v-model"',
+        scope: COMPONENT_NAME,
+        version: '2.3.0',
+        ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
+        type: 'Attribute',
+      },
+      computed(() => !!vm.vnode.props?.value)
+    )
 
     const { inputId } = useFormItemInputId(props, {
       formItemContext: formItem,
     })
 
-    const switchSize = useSize()
     const isModelValue = ref(props.modelValue !== false)
     const input = ref<HTMLInputElement>()
     const core = ref<HTMLSpanElement>()

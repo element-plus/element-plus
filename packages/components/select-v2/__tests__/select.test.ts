@@ -651,7 +651,7 @@ describe('Select', () => {
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(3)
-      expect(wrapper.findAll('.el-tag')[4].element.textContent).toBe('c2')
+      expect(wrapper.findAll('.el-tag')[3].element.textContent).toBe('c2')
     })
   })
 
