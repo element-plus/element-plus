@@ -21,11 +21,11 @@
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
-import { OptionProps } from './defaults'
+import { OptionProps, OptionsEmits } from './defaults'
 
 const props = defineProps(OptionProps)
 
-const emit = defineEmits(['select', 'hover'])
+const emit = defineEmits(OptionsEmits)
 
 defineOptions({
   name: 'OptionItem',
@@ -33,10 +33,4 @@ defineOptions({
 
 const ns = useNamespace('select')
 const { hoverItem, selectOptionClick } = useOption(props, { emit })
-
-defineExpose({
-  ns,
-  hoverItem,
-  selectOptionClick,
-})
 </script>

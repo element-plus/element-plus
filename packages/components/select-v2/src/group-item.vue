@@ -16,23 +16,13 @@
 
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
+import { GroupProps } from './defaults'
 
-defineProps({
-  item: {
-    type: Object,
-    required: true,
-  },
-  style: Object,
-  height: Number,
-})
+defineProps(GroupProps)
 
 defineOptions({
   name: 'GroupItem',
 })
 
 const ns = useNamespace('select')
-
-defineExpose({
-  ns,
-})
 </script>

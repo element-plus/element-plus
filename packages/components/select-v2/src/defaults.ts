@@ -1,6 +1,7 @@
 import { isValidComponentSize } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -99,6 +100,16 @@ export const SelectProps = {
   },
 }
 
+export const SelectEmits = [
+  UPDATE_MODEL_EVENT,
+  CHANGE_EVENT,
+  'remove-tag',
+  'clear',
+  'visible-change',
+  'focus',
+  'blur',
+]
+
 export const OptionProps = {
   data: Array,
   disabled: Boolean,
@@ -108,4 +119,15 @@ export const OptionProps = {
   style: Object,
   selected: Boolean,
   created: Boolean,
+}
+
+export const OptionsEmits = ['select', 'hover']
+
+export const GroupProps = {
+  item: {
+    type: Object,
+    required: true,
+  },
+  style: Object,
+  height: Number,
 }

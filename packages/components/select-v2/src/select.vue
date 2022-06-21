@@ -309,52 +309,101 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, provide, reactive, toRefs, vModelText } from 'vue'
-import { ClickOutside } from '@element-plus/directives'
+<script lang="ts" setup>
+import { provide, reactive, toRefs, vModelText } from 'vue'
+import { ClickOutside as vClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
 import { selectV2InjectionKey } from './token'
-import { SelectProps } from './defaults'
-export default defineComponent({
-  name: 'ElSelectV2',
-  components: {
-    ElSelectMenu,
-    ElTag,
-    ElTooltip,
-    ElIcon,
-  },
-  directives: { ClickOutside, ModelText: vModelText },
-  props: SelectProps,
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'remove-tag',
-    'clear',
-    'visible-change',
-    'focus',
-    'blur',
-  ],
+import { SelectEmits, SelectProps } from './defaults'
 
-  setup(props, { emit }) {
-    const API = useSelect(props, emit)
-    // TODO, remove the any cast to align the actual API.
-    provide(selectV2InjectionKey, {
-      props: reactive({
-        ...toRefs(props),
-        height: API.popupHeight,
-      }),
-      onSelect: API.onSelect,
-      onHover: API.onHover,
-      onKeyboardNavigate: API.onKeyboardNavigate,
-      onKeyboardSelect: API.onKeyboardSelect,
-    } as any)
+const props = defineProps(SelectProps)
+const emit = defineEmits(SelectEmits)
 
-    return API
-  },
+defineOptions({
+  name: 'ElSelect',
 })
+
+const API = useSelect(props, emit)
+// TODO, remove the any cast to align the actual API.
+provide(selectV2InjectionKey, {
+  props: reactive({
+    ...toRefs(props),
+    height: API.popupHeight,
+  }),
+  onSelect: API.onSelect,
+  onHover: API.onHover,
+  onKeyboardNavigate: API.onKeyboardNavigate,
+  onKeyboardSelect: API.onKeyboardSelect,
+} as any)
+
+const {
+  // data exports
+  collapseTagSize,
+  currentPlaceholder,
+  expanded,
+  emptyText,
+  popupHeight,
+  debounce,
+  filteredOptions,
+  iconComponent,
+  iconReverse,
+  inputWrapperStyle,
+  popperSize,
+  dropdownMenuVisible,
+  hasModelValue,
+  // readonly,
+  shouldShowPlaceholder,
+  selectDisabled,
+  selectSize,
+  showClearBtn,
+  states,
+  tagMaxWidth,
+  nsSelectV2,
+  nsInput,
+
+  // refs items exports
+  calculatorRef,
+  controlRef,
+  inputRef,
+  menuRef,
+  popper,
+  selectRef,
+  selectionRef,
+
+  popperRef,
+
+  validateState,
+  validateIcon,
+
+  // methods exports
+  debouncedOnInputChange,
+  deleteTag,
+  getLabel,
+  getValueKey,
+  handleBlur,
+  handleClear,
+  handleClickOutside,
+  handleDel,
+  handleEsc,
+  handleFocus,
+  handleMenuEnter,
+  handleResize,
+  toggleMenu,
+  scrollTo: scrollToItem,
+  onInput,
+  onKeyboardNavigate,
+  onKeyboardSelect,
+  onSelect,
+  onHover: updateHoveringIndex,
+  onUpdateInputValue,
+  handleCompositionStart,
+  handleCompositionEnd,
+  handleCompositionUpdate,
+} = API
+
+defineExpose(API)
 </script>
