@@ -1,6 +1,6 @@
 import process from 'process'
 import path from 'path'
-import fs from 'fs/promises'
+import { mkdir, readFile, writeFile } from 'fs/promises'
 import consola from 'consola'
 import * as vueCompiler from 'vue/compiler-sfc'
 import glob from 'fast-glob'
@@ -63,11 +63,11 @@ export const generateTypesDefinitions = async () => {
 
     const subTasks = emitFiles.map(async (outputFile) => {
       const filepath = outputFile.getFilePath()
-      await fs.mkdir(path.dirname(filepath), {
+      await mkdir(path.dirname(filepath), {
         recursive: true,
       })
 
-      await fs.writeFile(
+      await writeFile(
         filepath,
         pathRewriter('esm')(outputFile.getText()),
         'utf8'
@@ -108,11 +108,14 @@ async function addSourceFiles(project: Project) {
   await Promise.all([
     ...filePaths.map(async (file) => {
       if (file.endsWith('.vue')) {
-        const content = await fs.readFile(file, 'utf-8')
+        const content = await readFile(file, 'utf-8')
+        const hasTsNoCheck = content.includes('@ts-nocheck')
+
         const sfc = vueCompiler.parse(content)
         const { script, scriptSetup } = sfc.descriptor
         if (script || scriptSetup) {
-          let content = script?.content ?? ''
+          let content =
+            (hasTsNoCheck ? '// @ts-nocheck\n' : '') + (script?.content ?? '')
 
           if (scriptSetup) {
             const compiled = vueCompiler.compileScript(sfc.descriptor, {
@@ -134,7 +137,7 @@ async function addSourceFiles(project: Project) {
       }
     }),
     ...epPaths.map(async (file) => {
-      const content = await fs.readFile(path.resolve(epRoot, file), 'utf-8')
+      const content = await readFile(path.resolve(epRoot, file), 'utf-8')
       sourceFiles.push(
         project.createSourceFile(path.resolve(pkgRoot, file), content)
       )
