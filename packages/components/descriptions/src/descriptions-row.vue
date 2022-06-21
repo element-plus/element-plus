@@ -27,6 +27,7 @@ import { inject } from 'vue'
 
 import ElDescriptionsCell from './descriptions-cell'
 import { elDescriptionsKey } from './token'
+import { descriptionsRowProps } from './descriptions-row'
 
 import type { IDescriptionsInject } from './descriptions.type'
 
@@ -34,12 +35,7 @@ defineOptions({
   name: 'ElDescriptionsRow',
 })
 
-defineProps({
-  row: {
-    type: Array,
-    default: () => [],
-  },
-})
+defineProps(descriptionsRowProps)
 
 const descriptions = inject(elDescriptionsKey, {} as IDescriptionsInject)
 </script>
