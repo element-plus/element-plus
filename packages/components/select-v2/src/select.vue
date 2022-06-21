@@ -341,13 +341,13 @@ provide(selectV2InjectionKey, {
 } as any)
 
 const {
-  // data exports
+  /* data exports */
   collapseTagSize,
   currentPlaceholder,
   expanded,
   emptyText,
-  popupHeight,
-  debounce,
+  // popupHeight,
+  // debounce,
   filteredOptions,
   iconComponent,
   iconReverse,
@@ -355,7 +355,7 @@ const {
   popperSize,
   dropdownMenuVisible,
   hasModelValue,
-  // readonly,
+  /* readonly, */
   shouldShowPlaceholder,
   selectDisabled,
   selectSize,
@@ -365,40 +365,42 @@ const {
   nsSelectV2,
   nsInput,
 
-  // refs items exports
+  /* refs items exports */
   calculatorRef,
-  controlRef,
+  // controlRef,
   inputRef,
   menuRef,
   popper,
   selectRef,
   selectionRef,
 
-  popperRef,
+  // popperRef,
 
   validateState,
   validateIcon,
 
-  // methods exports
-  debouncedOnInputChange,
+  /* methods exports */
+  // debouncedOnInputChange,
   deleteTag,
   getLabel,
   getValueKey,
-  handleBlur,
+  // handleBlur,
   handleClear,
   handleClickOutside,
   handleDel,
   handleEsc,
   handleFocus,
   handleMenuEnter,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleResize,
   toggleMenu,
-  scrollTo: scrollToItem,
+  // scrollTo: scrollToItem,
   onInput,
   onKeyboardNavigate,
   onKeyboardSelect,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onSelect,
-  onHover: updateHoveringIndex,
+  // onHover: updateHoveringIndex,
   onUpdateInputValue,
   handleCompositionStart,
   handleCompositionEnd,
