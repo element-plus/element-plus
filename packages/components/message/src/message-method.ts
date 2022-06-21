@@ -60,7 +60,10 @@ const normalizeOptions = (params?: MessageParams) => {
   return normalized as MessageParamsNormalized
 }
 
-const getNextOffset = (offset: number) => offset + 48 + 16
+const MESSAGE_HEIGHT = 48
+const MESSAGE_GAP = 16
+
+const getNextOffset = (offset: number) => offset + MESSAGE_HEIGHT + MESSAGE_GAP
 
 const computeOffset = () => {
   if (instances.length === 0) return
