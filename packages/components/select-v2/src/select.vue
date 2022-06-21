@@ -324,9 +324,8 @@ const props = defineProps(SelectProps)
 const emit = defineEmits(SelectEmits)
 
 defineOptions({
-  name: 'ElSelect',
+  name: 'ElSelectV2',
 })
-
 const API = useSelect(props, emit)
 // TODO, remove the any cast to align the actual API.
 provide(selectV2InjectionKey, {
