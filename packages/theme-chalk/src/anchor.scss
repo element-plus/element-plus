@@ -2,8 +2,6 @@
 @use 'mixins/utils' as *;
 @use 'common/var' as *;
 
-@import 'affix';
-
 @include b(anchor) {
   position: relative;
 
