@@ -13,6 +13,7 @@
     "**/__tests__/**/*",
     "**/gulpfile.ts",
     "**/test-helper",
-    "packages/test-utils"
+    "packages/test-utils",
+    "**/*.md"
   ]
 }

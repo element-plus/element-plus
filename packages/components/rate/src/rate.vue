@@ -47,6 +47,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+// @ts-nocheck
 import { type CSSProperties, computed, inject, ref, watch } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { hasClass, isArray, isObject } from '@element-plus/utils'
