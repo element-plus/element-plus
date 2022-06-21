@@ -227,6 +227,7 @@ export default defineComponent({
       toggleRowExpansion,
       clearSort,
       sort,
+      updateColumns,
     } = useUtils<Row>(store)
     const {
       isHidden,
@@ -305,6 +306,7 @@ export default defineComponent({
       clearSort,
       doLayout,
       sort,
+      updateColumns,
       t,
       setDragVisible,
       context: table,
