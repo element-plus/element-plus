@@ -97,7 +97,7 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   for (const prop in options) {
     if (hasOwn(options, prop) && !hasOwn(vm.$props, prop)) {
-      vm[prop as string] = options[prop]
+      vm[prop as keyof ComponentPublicInstance] = options[prop]
     }
   }
 
@@ -130,17 +130,20 @@ function MessageBox(
   appContext: AppContext | null = null
 ): Promise<{ value: string; action: Action } | Action> {
   if (!isClient) return Promise.reject()
-  let callback
+  let callback: Callback
   if (isString(options) || isVNode(options)) {
     options = {
       message: options,
     }
   } else {
-    callback = options.callback
+    if (options.callback) callback = options.callback
   }
 
   return new Promise((resolve, reject) => {
-    const vm = showMessage(options, appContext ?? MessageBox._context)
+    const vm = showMessage(
+      options,
+      appContext ?? (MessageBox as IElMessageBox)._context
+    )
     // collect this vm in order to handle upcoming events.
     messageInstance.set(vm, {
       options,
@@ -162,7 +165,7 @@ const MESSAGE_BOX_DEFAULT_OPTS: Record<
 }
 
 MESSAGE_BOX_VARIANTS.forEach((boxType) => {
-  MessageBox[boxType] = messageBoxFactory(boxType)
+  ;(MessageBox as Record<string, any>)[boxType] = messageBoxFactory(boxType)
 })
 
 function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
@@ -210,7 +213,6 @@ MessageBox.close = () => {
 
   messageInstance.clear()
 }
-
-MessageBox._context = null
+;(MessageBox as IElMessageBox)._context = null
 
 export default MessageBox as IElMessageBox
