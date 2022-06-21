@@ -15,7 +15,7 @@ class TableLayout<T> {
   columns: TableColumnCtx<T>[]
   fit: boolean
   showHeader: boolean
-  isFinsh: boolean
+  isFinish: boolean
   height: Ref<null | number>
   scrollX: Ref<boolean>
   scrollY: Ref<boolean>
@@ -34,7 +34,7 @@ class TableLayout<T> {
   constructor(options: Record<string, any>) {
     this.observers = []
     this.table = null
-    this.isFinsh = false
+    this.isFinish = false
     this.store = null
     this.columns = []
     this.fit = true
@@ -104,18 +104,15 @@ class TableLayout<T> {
     if (!el && (value || value === 0)) {
       nextTick(() => {
         el = this.table.vnode.el;
-        if (prop == 'max-height') {
-          return this.setHeightProp(value, prop, el)
-        }
         this.setHeightProp(value, prop, el, 'async')
       })
     } else {
-      this.isFinsh = true
+      this.isFinish = true
       this.setHeightProp(value, prop, el)
     }
   }
   setHeightProp(value: string | number, prop: string, el: any, type?: string) {
-    if (this.isFinsh && type == 'async') {
+    if (this.isFinish && type == 'async') {
       return
     }
     value = parseHeight(value)!;
