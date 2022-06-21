@@ -769,7 +769,6 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const toggleMenu = () => {
-    if (props.automaticDropdown) return
     if (!selectDisabled.value) {
       if (states.menuVisibleOnFocus) {
         states.menuVisibleOnFocus = false
