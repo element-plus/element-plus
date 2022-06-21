@@ -5,23 +5,14 @@ import {
   isBoolean,
   isNumber,
   isString,
-  isValidComponentSize,
 } from '@element-plus/utils'
-import {
-  CHANGE_EVENT,
-  INPUT_EVENT,
-  UPDATE_MODEL_EVENT,
-} from '@element-plus/constants'
-import type { ComponentSize } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { useSizeProp } from '@element-plus/hooks'
 import type Switch from './switch.vue'
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 
 export const switchProps = buildProps({
   modelValue: {
-    type: [Boolean, String, Number],
-    default: false,
-  },
-  value: {
     type: [Boolean, String, Number],
     default: false,
   },
@@ -87,10 +78,7 @@ export const switchProps = buildProps({
   beforeChange: {
     type: definePropType<() => Promise<boolean> | boolean>(Function),
   },
-  size: {
-    type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
-  },
+  size: useSizeProp,
   tabindex: {
     type: [String, Number],
   },
@@ -102,8 +90,6 @@ export const switchEmits = {
   [UPDATE_MODEL_EVENT]: (val: boolean | string | number) =>
     isBoolean(val) || isString(val) || isNumber(val),
   [CHANGE_EVENT]: (val: boolean | string | number) =>
-    isBoolean(val) || isString(val) || isNumber(val),
-  [INPUT_EVENT]: (val: boolean | string | number) =>
     isBoolean(val) || isString(val) || isNumber(val),
 }
 export type SwitchEmits = typeof switchEmits
