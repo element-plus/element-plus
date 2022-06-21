@@ -91,10 +91,8 @@ describe('Message.vue', () => {
       const type = 'some-type'
       const wrapper = _mount({ props: { type } })
 
-      for (const key in TypeComponentsMap) {
-        expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
-          false
-        )
+      for (const component of Object.values(TypeComponentsMap)) {
+        expect(wrapper.findComponent(component).exists()).toBe(false)
       }
       console.warn = consoleWarn
     })

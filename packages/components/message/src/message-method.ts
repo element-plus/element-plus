@@ -5,86 +5,46 @@ import {
   isElement,
   isFunction,
   isNumber,
-  isObject,
   isString,
   isVNode,
 } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
 import MessageConstructor from './message.vue'
-import { messageTypes } from './message'
+import { messageDefaults, messageTypes } from './message'
 
-import type { AppContext, ComponentPublicInstance, VNode } from 'vue'
-import type { Message, MessageFn, MessageProps, MessageQueue } from './message'
+import type { AppContext } from 'vue'
+import type {
+  Message,
+  MessageFn,
+  MessageHandler,
+  MessageInstance,
+  MessageOptions,
+  MessageParams,
+  MessageParamsNormalized,
+  MessageQueue,
+  MessageQueueItem,
+} from './message'
 
 const instances: MessageQueue = []
 let seed = 1
 
 // TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to reduce code duplication.
 
-const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
-  function (options = {}, context?: AppContext | null) {
-    if (!isClient) return { close: () => undefined }
-    if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
-      return { close: () => undefined }
-    }
+const normalizeOptions = (params?: MessageParams) => {
+  const options: MessageOptions =
+    !params || isString(params) || isVNode(params) || isFunction(params)
+      ? { message: params }
+      : params
 
-    if (
-      !isVNode(options) &&
-      isObject(options) &&
-      options.grouping &&
-      !isVNode(options.message) &&
-      instances.length
-    ) {
-      const tempVm: any = instances.find(
-        (item) =>
-          `${item.vm.props?.message ?? ''}` ===
-          `${(options as any).message ?? ''}`
-      )
-      if (tempVm) {
-        tempVm.vm.component!.props.repeatNum += 1
-        tempVm.vm.component!.props.type = options?.type || 'info'
-        return {
-          close: () =>
-            ((
-              vm.component!.proxy as ComponentPublicInstance<{
-                visible: boolean
-              }>
-            ).visible = false),
-        }
-      }
-    }
+  const normalized = {
+    ...messageDefaults,
+    ...options,
+  }
 
-    if (isString(options) || isVNode(options)) {
-      options = { message: options }
-    }
+  if (isString(normalized.appendTo)) {
+    let appendTo = document.querySelector<HTMLElement>(normalized.appendTo)
 
-    let verticalOffset = options.offset || 20
-    instances.forEach(({ vm }) => {
-      verticalOffset += (vm.el?.offsetHeight || 0) + 16
-    })
-    verticalOffset += 16
-
-    const { nextZIndex } = useZIndex()
-
-    const id = `message_${seed++}`
-    const userOnClose = options.onClose
-    const props: Partial<MessageProps> = {
-      zIndex: nextZIndex(),
-      ...options,
-      offset: verticalOffset,
-      id,
-      onClose: () => {
-        close(id, userOnClose)
-      },
-    }
-
-    let appendTo: HTMLElement | null = document.body
-    if (isElement(options.appendTo)) {
-      appendTo = options.appendTo
-    } else if (isString(options.appendTo)) {
-      appendTo = document.querySelector(options.appendTo)
-    }
     // should fallback to default value with a warning
     if (!isElement(appendTo)) {
       debugWarn(
@@ -94,89 +54,142 @@ const message: MessageFn & Partial<Message> & { _context: AppContext | null } =
       appendTo = document.body
     }
 
-    const container = document.createElement('div')
-
-    container.className = `container_${id}`
-
-    const messageContent = props.message
-    const vm = createVNode(
-      MessageConstructor,
-      props,
-      isFunction(messageContent)
-        ? { default: messageContent }
-        : isVNode(messageContent)
-        ? { default: () => messageContent }
-        : null
-    )
-
-    vm.appContext = context || message._context
-
-    // clean message element preventing mem leak
-    vm.props!.onDestroy = () => {
-      render(null, container)
-      // since the element is destroy, then the VNode should be collected by GC as well
-      // we do not want cause any mem leak because we have returned vm as a reference to users
-      // so that we manually set it to false.
-    }
-
-    render(vm, container)
-    // instances will remove this item when close function gets called. So we do not need to worry about it.
-    instances.push({ vm })
-    appendTo.appendChild(container.firstElementChild!)
-
-    return {
-      // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
-      // for out component, so that all closing steps will not be skipped.
-      close: () =>
-        ((
-          vm.component!.proxy as ComponentPublicInstance<{ visible: boolean }>
-        ).visible = false),
-    }
+    normalized.appendTo = appendTo
   }
 
-messageTypes.forEach((type) => {
-  message[type] = (options = {}, appContext?: AppContext | null) => {
-    if (isString(options) || isVNode(options)) {
-      options = {
-        message: options,
-      }
-    }
-    return message(
-      {
-        ...options,
-        type,
-      },
-      appContext
-    )
-  }
-})
+  return normalized as MessageParamsNormalized
+}
 
-export function close(id: string, userOnClose?: (vm: VNode) => void): void {
-  const idx = instances.findIndex(({ vm }) => id === vm.component!.props.id)
+const closeMessage = (instance: MessageQueueItem) => {
+  const idx = instances.indexOf(instance)
   if (idx === -1) return
 
-  const { vm } = instances[idx]
-  if (!vm) return
-  userOnClose?.(vm)
-
-  const removedHeight = vm.el!.offsetHeight
   instances.splice(idx, 1)
+  const { vnode, handler } = instance
+  handler.close()
 
+  const removedHeight = vnode.el!.offsetHeight
   // adjust other instances vertical offset
   const len = instances.length
   if (len < 1) return
   for (let i = idx; i < len; i++) {
     const pos =
-      Number.parseInt(instances[i].vm.el!.style['top'], 10) - removedHeight - 16
+      Number.parseInt(instances[i].vnode.el!.style['top'], 10) -
+      removedHeight -
+      16
 
-    instances[i].vm.component!.props.offset = pos
+    instances[i].vnode.component!.props.offset = pos
   }
 }
 
+const createMessage = (
+  { appendTo, ...options }: MessageParamsNormalized,
+  context?: AppContext | null
+): MessageQueueItem => {
+  const { nextZIndex } = useZIndex()
+
+  const id = `message_${seed++}`
+  const userOnClose = options.onClose
+
+  let verticalOffset = options.offset
+  instances.forEach(({ vnode: vm }) => {
+    verticalOffset += (vm.el?.offsetHeight || 0) + 16
+  })
+  verticalOffset += 16
+
+  const container = document.createElement('div')
+
+  const props = {
+    ...options,
+    zIndex: options.zIndex ?? nextZIndex(),
+    offset: verticalOffset,
+    id,
+    onClose: () => {
+      userOnClose?.()
+      closeMessage(instance)
+    },
+
+    // clean message element preventing mem leak
+    onDestroy: () => {
+      // since the element is destroy, then the VNode should be collected by GC as well
+      // we do not want cause any mem leak because we have returned vm as a reference to users
+      // so that we manually set it to false.
+      render(null, container)
+    },
+  }
+  const vnode = createVNode(
+    MessageConstructor,
+    props,
+    isFunction(props.message) || isVNode(props.message)
+      ? { default: props.message }
+      : null
+  )
+  vnode.appContext = context || message._context
+
+  render(vnode, container)
+  // instances will remove this item when close function gets called. So we do not need to worry about it.
+  appendTo.appendChild(container.firstElementChild!)
+
+  const vm = vnode.component!.proxy as MessageInstance
+  const handler: MessageHandler = {
+    // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
+    // for out component, so that all closing steps will not be skipped.
+    close: () => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore `visible` from defineExpose
+      vm.visible = false
+    },
+  }
+
+  const instance = {
+    vnode,
+    vm,
+    handler,
+  }
+
+  return instance
+}
+
+const message: MessageFn &
+  Partial<Message> & { _context: AppContext | null } = (
+  options = {},
+  context
+) => {
+  if (!isClient) return { close: () => undefined }
+
+  if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
+    return { close: () => undefined }
+  }
+
+  const normalized = normalizeOptions(options)
+
+  if (normalized.grouping && instances.length) {
+    const instance = instances.find(
+      ({ vnode: vm }) => vm.props?.message === normalized.message
+    )
+    if (instance) {
+      ;(instance.vnode.component as any).props.repeatNum += 1
+      ;(instance.vnode.component as any).props.type = normalized.type
+      return instance.handler
+    }
+  }
+
+  const instance = createMessage(normalized, context)
+
+  instances.push(instance)
+  return instance.handler
+}
+
+messageTypes.forEach((type) => {
+  message[type] = (options = {}, appContext) => {
+    const normalized = normalizeOptions(options)
+    return message({ ...normalized, type }, appContext)
+  }
+})
+
 export function closeAll(): void {
-  for (let i = instances.length - 1; i >= 0; i--) {
-    const instance = instances[i].vm.component
-    ;(instance?.proxy as any)?.close()
+  for (const instance of instances) {
+    instance.handler.close()
   }
 }
 
