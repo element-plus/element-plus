@@ -1,16 +1,16 @@
 import { computed, ref, watchEffect } from 'vue'
-import { isNumber } from '@element-plus/utils'
+import { isArray, isNumber } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import type { SpaceProps } from './space'
 
+import type { SpaceProps } from './space'
 import type { CSSProperties, StyleValue } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 
-const SIZE_MAP: Record<ComponentSize, number> = {
+const SIZE_MAP = {
   small: 8,
   default: 12,
   large: 16,
-}
+} as Record<ComponentSize, number>
 
 export function useSpace(props: SpaceProps) {
   const ns = useNamespace('space')
@@ -48,7 +48,7 @@ export function useSpace(props: SpaceProps) {
     const { size = 'small', wrap, direction: dir, fill } = props
 
     // when the specified size have been given
-    if (Array.isArray(size)) {
+    if (isArray(size)) {
       const [h = 0, v = 0] = size
       horizontalSize.value = h
       verticalSize.value = v
