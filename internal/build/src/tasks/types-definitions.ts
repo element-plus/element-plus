@@ -14,7 +14,6 @@ import {
   projRoot,
 } from '@element-plus/build-utils'
 import { pathRewriter } from '../utils'
-import typeUnsafeStricter from '../type-unsafe-stricter.json'
 import type { CompilerOptions, SourceFile } from 'ts-morph'
 
 const TSCONFIG_PATH = path.resolve(projRoot, 'tsconfig.web.json')
@@ -41,8 +40,8 @@ export const generateTypesDefinitions = async () => {
   const sourceFiles = await addSourceFiles(project)
   consola.success('Added source files')
 
-  typeCheck(project, typeUnsafeStricter)
-  consola.success('Stricter type check passed!')
+  typeCheck(project)
+  consola.success('Type check passed!')
 
   await project.emit({
     emitOnlyDtsFiles: true,
@@ -145,21 +144,8 @@ async function addSourceFiles(project: Project) {
   return sourceFiles
 }
 
-function typeCheck(project: Project, paths: string[]) {
-  // Type unsafe list. The TS errors are not all fixed yet, so we need a list of which files are not fixed with TS errors to prevent accidental TS errors.
-  const typeUnsafePaths = paths.map((_path) => {
-    let paths = path.resolve(projRoot, _path)
-    if (_path.endsWith('/')) paths += path.sep
-    return paths
-  })
-
-  const diagnostics = project.getPreEmitDiagnostics().filter((diagnostic) => {
-    const filePath = diagnostic.getSourceFile()?.getFilePath()!
-    if (!filePath) return false
-    const file = path.normalize(filePath)
-    return !typeUnsafePaths.some((safePath) => file.startsWith(safePath))
-  })
-
+function typeCheck(project: Project) {
+  const diagnostics = project.getPreEmitDiagnostics()
   if (diagnostics.length > 0) {
     consola.error(project.formatDiagnosticsWithColorAndContext(diagnostics))
     const err = new Error('Failed to generate dts.')
