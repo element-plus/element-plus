@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { h, nextTick } from 'vue'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { POPPER_CONTAINER_SELECTOR, useZIndex } from '@element-plus/hooks'

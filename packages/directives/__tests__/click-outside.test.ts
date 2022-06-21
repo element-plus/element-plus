@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { h, withDirectives } from 'vue'
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'

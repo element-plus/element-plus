@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick, ref } from 'vue'
 import { afterEach, describe, expect, test } from 'vitest'
 import makeMount from '@element-plus/test-utils/make-mount'

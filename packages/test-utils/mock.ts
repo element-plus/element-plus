@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { afterAll, beforeAll } from 'vitest'
 
