@@ -1,7 +1,6 @@
-// @ts-nocheck
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { ComputedRef, SetupContext } from 'vue'
+import type { Ref, SetupContext } from 'vue'
 import type {
   TransferCheckedState,
   TransferDataItem,
@@ -14,7 +13,7 @@ import type {
 export const useMove = (
   props: TransferProps,
   checkedState: TransferCheckedState,
-  propsKey: ComputedRef<TransferProps['props']['key']>,
+  propsKey: Ref<TransferProps['props']['key']>,
   emit: SetupContext<TransferEmits>['emit']
 ) => {
   const _emit = (

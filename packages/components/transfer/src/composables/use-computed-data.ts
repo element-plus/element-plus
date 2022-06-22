@@ -1,11 +1,12 @@
-// @ts-nocheck
 import { computed } from 'vue'
 
+import type { Ref } from 'vue'
 import type { TransferDataItem, TransferKey, TransferProps } from '../transfer'
 
-export const useComputedData = (props: TransferProps) => {
-  const propsKey = computed(() => props.props.key)
-
+export const useComputedData = (
+  props: TransferProps,
+  propsKey: Ref<TransferProps['props']['key']>
+) => {
   const dataObj = computed(() => {
     return props.data.reduce(
       (o, cur) => (o[cur[propsKey.value!]] = cur) && o,
@@ -39,7 +40,6 @@ export const useComputedData = (props: TransferProps) => {
   })
 
   return {
-    propsKey,
     sourceData,
     targetData,
   }

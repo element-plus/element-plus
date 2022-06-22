@@ -30,10 +30,10 @@
       >
         <el-checkbox
           v-for="item in filteredData"
-          :key="item[keyProp]"
+          :key="item[propsKey]"
           :class="ns.be('panel', 'item')"
-          :label="item[keyProp]"
-          :disabled="item[disabledProp]"
+          :label="item[propsKey]"
+          :disabled="item[propsDisabled]"
         >
           <option-content :option="optionRender?.(item)" />
         </el-checkbox>
@@ -82,9 +82,9 @@ const panelState = reactive<TransferPanelState>({
   checkChangeByUser: true,
 })
 
+const { key: propsKey, disabled: propsDisabled } = reactive(props.props)
+
 const {
-  keyProp,
-  disabledProp,
   filteredData,
   checkedSummary,
   isIndeterminate,

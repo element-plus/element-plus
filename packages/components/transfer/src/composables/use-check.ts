@@ -16,25 +16,25 @@ export const useCheck = (
   panelState: TransferPanelState,
   emit: SetupContext<TransferPanelEmits>['emit']
 ) => {
-  const labelProp = computed(() => props.props?.label || 'label')
-
-  const keyProp = computed(() => props.props?.key || 'key')
-
-  const disabledProp = computed(() => props.props?.disabled || 'disabled')
+  const {
+    label: propsLabel,
+    key: propsKey,
+    disabled: propsDisabled,
+  } = props.props
 
   const filteredData = computed(() => {
     return props.data.filter((item) => {
       if (isFunction(props.filterMethod)) {
         return props.filterMethod(panelState.query, item)
       } else {
-        const label = item[labelProp.value] || item[keyProp.value].toString()
+        const label = item[propsLabel.value] || item[propsKey.value].toString()
         return label.toLowerCase().includes(panelState.query.toLowerCase())
       }
     })
   })
 
   const checkableData = computed(() => {
-    return filteredData.value.filter((item) => !item[disabledProp.value])
+    return filteredData.value.filter((item) => !item[propsDisabled.value])
   })
 
   const checkedSummary = computed(() => {
@@ -60,7 +60,7 @@ export const useCheck = (
 
   const updateAllChecked = () => {
     const checkableDataKeys = checkableData.value.map(
-      (item) => item[keyProp.value]
+      (item) => item[propsKey.value]
     )
     panelState.allChecked =
       checkableDataKeys.length > 0 &&
@@ -69,7 +69,7 @@ export const useCheck = (
 
   const handleAllCheckedChange = (value: CheckboxValueType) => {
     panelState.checked = value
-      ? checkableData.value.map((item) => item[keyProp.value])
+      ? checkableData.value.map((item) => item[propsKey.value])
       : []
   }
 
@@ -99,7 +99,7 @@ export const useCheck = (
     () => {
       const checked: TransferKey[] = []
       const filteredDataKeys = filteredData.value.map(
-        (item) => item[keyProp.value]
+        (item) => item[propsKey.value]
       )
       panelState.checked.forEach((item) => {
         if (filteredDataKeys.includes(item)) {
@@ -123,7 +123,7 @@ export const useCheck = (
 
       const checked: TransferKey[] = []
       const checkableDataKeys = checkableData.value.map(
-        (item) => item[keyProp.value]
+        (item) => item[propsKey.value]
       )
 
       val.forEach((item) => {
@@ -140,9 +140,6 @@ export const useCheck = (
   )
 
   return {
-    labelProp,
-    keyProp,
-    disabledProp,
     filteredData,
     checkableData,
     checkedSummary,
