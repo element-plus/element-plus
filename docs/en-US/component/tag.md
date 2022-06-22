@@ -53,6 +53,16 @@ tag/theme
 
 :::
 
+## Custom Color
+
+Follow the theme for automatic color filling
+
+::: demo Using `color` automatic. Using `is-dark` control the dark night.
+
+tag/custom-color
+
+:::
+
 ## Rounded <el-tag>> 2.1.7</el-tag>
 
 Tag can also be rounded like button.

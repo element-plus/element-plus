@@ -51,12 +51,6 @@ describe('Tag.vue', () => {
     expect(vm.$el.classList.contains('md-fade-center')).toEqual(false)
   })
 
-  test('color', () => {
-    const wrapper = mount(() => <Tag color="rgb(0, 0, 0)" />)
-    const vm = wrapper.vm
-    expect(vm.$el.style.backgroundColor).toEqual('rgb(0, 0, 0)')
-  })
-
   test('theme', () => {
     const wrapper = mount(() => <Tag effect="dark" />)
     const vm = wrapper.vm
