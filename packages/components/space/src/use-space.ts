@@ -56,7 +56,7 @@ export function useSpace(props: SpaceProps) {
       if (isNumber(size)) {
         val = size
       } else {
-        val = SIZE_MAP[size || 'small']
+        val = SIZE_MAP[size || 'small'] || SIZE_MAP.small
       }
 
       if ((wrap || fill) && dir === 'horizontal') {
