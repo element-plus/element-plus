@@ -12,7 +12,9 @@ import { useZIndex } from '@element-plus/hooks'
 import { messageConfig } from '@element-plus/components/config-provider/src/config-provider'
 import MessageConstructor from './message.vue'
 import { messageDefaults, messageTypes } from './message'
+import { instances } from './instance'
 
+import type { MessageContext } from './instance'
 import type { AppContext } from 'vue'
 import type {
   Message,
@@ -22,11 +24,8 @@ import type {
   MessageOptions,
   MessageParams,
   MessageParamsNormalized,
-  MessageQueue,
-  MessageQueueItem,
 } from './message'
 
-const instances: MessageQueue = []
 let seed = 1
 
 // TODO: Since Notify.ts is basically the same like this file. So we could do some encapsulation against them to reduce code duplication.
@@ -60,54 +59,29 @@ const normalizeOptions = (params?: MessageParams) => {
   return normalized as MessageParamsNormalized
 }
 
-const MESSAGE_HEIGHT = 48
-const MESSAGE_GAP = 16
-
-const getNextOffset = (offset: number) => offset + MESSAGE_HEIGHT + MESSAGE_GAP
-
-const computeOffset = () => {
-  if (instances.length === 0) return
-
-  instances.reduce((prev, next) => {
-    next.props.offset = prev
-    return getNextOffset(prev)
-  }, instances[0].options.offset)
-}
-
-const closeMessage = (instance: MessageQueueItem) => {
+const closeMessage = (instance: MessageContext) => {
   const idx = instances.indexOf(instance)
   if (idx === -1) return
 
   instances.splice(idx, 1)
   const { handler } = instance
   handler.close()
-
-  computeOffset()
 }
 
 const createMessage = (
   { appendTo, ...options }: MessageParamsNormalized,
   context?: AppContext | null
-): MessageQueueItem => {
+): MessageContext => {
   const { nextZIndex } = useZIndex()
 
   const id = `message_${seed++}`
   const userOnClose = options.onClose
-
-  let offset: number
-  const lastInstance = instances[instances.length - 1]
-  if (lastInstance) {
-    offset = getNextOffset(lastInstance.vm.offset)
-  } else {
-    offset = options.offset
-  }
 
   const container = document.createElement('div')
 
   const props = {
     ...options,
     zIndex: options.zIndex ?? nextZIndex(),
-    offset,
     id,
     onClose: () => {
       userOnClose?.()
@@ -146,12 +120,11 @@ const createMessage = (
     },
   }
 
-  const instance = {
+  const instance: MessageContext = {
     id,
     vnode,
     vm,
     handler,
-    options: { appendTo, ...options },
     props: (vnode.component as any).props,
   }
 
