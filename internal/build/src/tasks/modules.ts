@@ -10,6 +10,7 @@ import { epRoot, excludeFiles, pkgRoot } from '@element-plus/build-utils'
 import { generateExternal, writeBundles } from '../utils'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import { buildConfigEntries, target } from '../build-info'
+import { ASTPlugin } from '../plugins/ast'
 
 import type { OutputOptions } from 'rollup'
 
@@ -21,6 +22,7 @@ export const buildModules = async () => {
       onlyFiles: true,
     })
   )
+
   const bundle = await rollup({
     input,
     plugins: [
@@ -29,6 +31,7 @@ export const buildModules = async () => {
       vue({
         isProduction: false,
       }),
+      ASTPlugin(),
       vueJsx(),
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.ts'],
