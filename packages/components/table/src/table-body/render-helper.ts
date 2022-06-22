@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, h, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { getRowIdentity } from '../util'

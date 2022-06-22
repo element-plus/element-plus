@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineComponent, provide, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useTable } from './use-table'

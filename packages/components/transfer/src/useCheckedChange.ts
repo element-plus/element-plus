@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Key, TransferCheckedState } from './transfer'
 
 export const LEFT_CHECK_CHANGE_EVENT = 'left-check-change'

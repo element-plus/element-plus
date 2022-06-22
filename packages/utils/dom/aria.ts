@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Nullable } from '../typescript'
 
 const FOCUSABLE_ELEMENT_SELECTORS = `a[href],button:not([disabled]),button:not([hidden]),:not([tabindex="-1"]),input:not([disabled]),input:not([type="hidden"]),select:not([disabled]),textarea:not([disabled])`

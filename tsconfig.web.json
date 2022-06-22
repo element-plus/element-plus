@@ -4,7 +4,8 @@
     "composite": true,
     "jsx": "preserve",
     "lib": ["ES2018", "DOM", "DOM.Iterable"],
-    "types": ["unplugin-vue-define-options"]
+    "types": ["unplugin-vue-define-options"],
+    "skipLibCheck": true
   },
   "include": ["packages", "typings/components.d.ts", "typings/env.d.ts"],
   "exclude": [
@@ -13,6 +14,7 @@
     "**/__tests__/**/*",
     "**/gulpfile.ts",
     "**/test-helper",
-    "packages/test-utils"
+    "packages/test-utils",
+    "**/*.md"
   ]
 }
