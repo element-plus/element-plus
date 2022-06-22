@@ -95,6 +95,16 @@ message-box/centered-content
 
 :::
 
+## Customized Icon
+
+The icon can be customized to any Vue component or [render function (JSX)](https://vuejs.org/guide/extras/render-function.html).
+
+:::demo
+
+message-box/customized-icon
+
+:::
+
 ## Draggable
 
 MessageBox can be draggable.
