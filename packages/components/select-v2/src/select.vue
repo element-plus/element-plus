@@ -373,7 +373,8 @@ const {
   selectRef,
   selectionRef,
 
-  // popperRef,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  popperRef,
 
   validateState,
   validateIcon,
