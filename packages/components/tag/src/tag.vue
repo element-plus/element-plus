@@ -2,7 +2,7 @@
   <span
     v-if="disableTransitions"
     :class="classes"
-    :style="{ backgroundColor: color }"
+    :style="customColor"
     @click="handleClick"
   >
     <span :class="ns.e('content')">
@@ -13,11 +13,7 @@
     </el-icon>
   </span>
   <transition v-else :name="`${ns.namespace.value}-zoom-in-center`" appear>
-    <span
-      :class="classes"
-      :style="{ backgroundColor: color }"
-      @click="handleClick"
-    >
+    <span :class="classes" :style="customColor" @click="handleClick">
       <span :class="ns.e('content')">
         <slot />
       </span>
@@ -35,10 +31,12 @@ import { Close } from '@element-plus/icons-vue'
 
 import { useNamespace, useSize } from '@element-plus/hooks'
 import { tagEmits, tagProps } from './tag'
+import { useTagCustomColor } from './tag-custom-color'
 
 defineOptions({
   name: 'ElTag',
 })
+
 const props = defineProps(tagProps)
 const emit = defineEmits(tagEmits)
 
@@ -56,6 +54,8 @@ const classes = computed(() => {
     ns.is('round', round),
   ]
 })
+
+const customColor = useTagCustomColor(props)
 
 // methods
 const handleClose = (event: MouseEvent) => {
