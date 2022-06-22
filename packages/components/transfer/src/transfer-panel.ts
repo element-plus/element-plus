@@ -2,11 +2,7 @@ import { buildProps, definePropType } from '@element-plus/utils'
 import { transferCheckedChangeFn, transferProps } from './transfer'
 
 import type { ExtractPropTypes, ToRefs, VNode } from 'vue'
-import type {
-  TransferDataItem,
-  TransferKey,
-  TransferPropsAlias,
-} from './transfer'
+import type { TransferDataItem, TransferKey, TransferProps } from './transfer'
 import type TransferPanel from './transfer-panel.vue'
 
 export interface TransferPanelState {
@@ -33,7 +29,7 @@ export const transferPanelProps = buildProps({
   filterMethod: transferProps.filterMethod,
   defaultChecked: transferProps.leftDefaultChecked,
   props: {
-    type: definePropType<ToRefs<Required<TransferPropsAlias>>>(Object),
+    type: definePropType<ToRefs<Required<TransferProps['props']>>>(Object),
     required: true,
   },
 } as const)

@@ -1,8 +1,8 @@
 import { reactive, toRefs } from 'vue'
-import type { TransferProps, TransferPropsAlias } from '../transfer'
+import type { TransferProps } from '../transfer'
 
 export const usePropsAlias = (props: TransferProps) => {
-  const initProps = reactive<Required<TransferPropsAlias>>({
+  const initProps = reactive<Required<TransferProps['props']>>({
     label: 'label',
     key: 'key',
     disabled: 'disabled',
