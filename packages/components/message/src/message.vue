@@ -7,6 +7,7 @@
     <div
       v-show="visible"
       :id="id"
+      ref="messageRef"
       :class="[
         ns.b(),
         { [ns.m(type)]: type && !icon },
@@ -44,13 +45,14 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from 'vue'
-import { useEventListener, useTimeoutFn } from '@vueuse/core'
+import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { messageEmits, messageProps } from './message'
+import { getLastOffset } from './instance'
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
 
@@ -64,23 +66,29 @@ const props = defineProps(messageProps)
 defineEmits(messageEmits)
 
 const ns = useNamespace('message')
+
+const messageRef = ref<HTMLDivElement>()
 const visible = ref(false)
-const badgeType = ref<BadgeProps['type']>(
-  props.type ? (props.type === 'error' ? 'danger' : props.type) : 'info'
-)
+const height = ref(0)
+
 let stopTimer: (() => void) | undefined = undefined
 
+const badgeType = computed<BadgeProps['type']>(() =>
+  props.type ? (props.type === 'error' ? 'danger' : props.type) : 'info'
+)
 const typeClass = computed(() => {
   const type = props.type
   return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
 })
-
 const iconComponent = computed(
   () => props.icon || TypeComponentsMap[props.type] || ''
 )
 
+const lastOffset = computed(() => getLastOffset(props.id))
+const offset = computed(() => props.offset + lastOffset.value)
+const bottom = computed((): number => height.value + offset.value)
 const customStyle = computed<CSSProperties>(() => ({
-  top: `${props.offset}px`,
+  top: `${offset.value}px`,
   zIndex: props.zIndex,
 }))
 
@@ -121,8 +129,13 @@ watch(
 
 useEventListener(document, 'keydown', keydown)
 
+useResizeObserver(messageRef, () => {
+  height.value = messageRef.value!.getBoundingClientRect().height
+})
+
 defineExpose({
   visible,
+  bottom,
   close,
 })
 </script>

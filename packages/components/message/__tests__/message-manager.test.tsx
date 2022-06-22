@@ -3,7 +3,7 @@ import { describe, expect, it, test, vi } from 'vitest'
 import { getStyle } from '@element-plus/utils'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElMessage } from '..'
-import Message from '../src/message-method'
+import Message from '../src/method'
 
 const selector = '.el-message'
 // TODO: testing the original transition with `nextTick`'
