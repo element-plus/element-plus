@@ -50,6 +50,39 @@ describe('Message on command', () => {
     expect(document.querySelectorAll(selector).length).toBe(0)
   })
 
+  test('it should close all messages of the specified type', async () => {
+    const onClose = vi.fn()
+    const instances = []
+    const success = 'success'
+    for (let i = 0; i < 4; i++) {
+      const instance = Message({
+        type: success,
+        duration: 0,
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    for (let i = 0; i < 2; i++) {
+      const instance = Message({
+        duration: 0,
+        onClose,
+      })
+      instances.push(instance)
+    }
+
+    await rAF()
+    const elements = document.querySelectorAll(selector)
+    const successElements = document.querySelectorAll(`${selector}--${success}`)
+    expect(elements.length).toBe(6)
+    expect(successElements.length).toBe(4)
+    Message.closeAll(success)
+    await rAF()
+    expect(onClose).toHaveBeenCalledTimes(4)
+    expect(document.querySelectorAll(selector).length).toBe(2)
+    Message.closeAll()
+  })
+
   test('it should stack messages', async () => {
     const messages = [Message(), Message(), Message()]
     await rAF()

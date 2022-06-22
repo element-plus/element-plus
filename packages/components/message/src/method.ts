@@ -24,6 +24,7 @@ import type {
   MessageOptions,
   MessageParams,
   MessageParamsNormalized,
+  messageType,
 } from './message'
 
 let seed = 1
@@ -168,9 +169,11 @@ messageTypes.forEach((type) => {
   }
 })
 
-export function closeAll(): void {
+export function closeAll(type?: messageType): void {
   for (const instance of instances) {
-    instance.handler.close()
+    if (!type || type === instance.props.type) {
+      instance.handler.close()
+    }
   }
 }
 
