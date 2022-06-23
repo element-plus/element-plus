@@ -28,10 +28,8 @@ export default defineComponent({
     const isFitInputWidth = computed(() => select.props.fitInputWidth)
     const minWidth = ref('')
 
-    function updateMinWidth() {
-      minWidth.value = `${
-        select.selectWrapper?.getBoundingClientRect().width
-      }px`
+    async function updateMinWidth() {
+      minWidth.value = `${select.selectWrapper?.offsetWidth}px`
     }
 
     onMounted(() => {
