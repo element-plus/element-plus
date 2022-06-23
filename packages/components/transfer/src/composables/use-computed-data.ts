@@ -1,29 +1,25 @@
 import { computed } from 'vue'
+import { usePropsAlias } from './use-props-alias'
 
-import type { Ref } from 'vue'
 import type { TransferDataItem, TransferKey, TransferProps } from '../transfer'
 
-export const useComputedData = (
-  props: TransferProps,
-  propsKey: Ref<Required<TransferProps['props']>['key']>
-) => {
-  const dataObj = computed(() => {
-    return props.data.reduce(
-      (o, cur) => (o[cur[propsKey.value]] = cur) && o,
-      {}
-    )
-  })
+export const useComputedData = (props: TransferProps) => {
+  const propsAlias = usePropsAlias(computed(() => props.props))
 
-  const sourceData = computed(() => {
-    return props.data.filter(
-      (item) => !props.modelValue.includes(item[propsKey.value])
+  const dataObj = computed(() =>
+    props.data.reduce((o, cur) => (o[cur[propsAlias.value.key]] = cur) && o, {})
+  )
+
+  const sourceData = computed(() =>
+    props.data.filter(
+      (item) => !props.modelValue.includes(item[propsAlias.value.key])
     )
-  })
+  )
 
   const targetData = computed(() => {
     if (props.targetOrder === 'original') {
       return props.data.filter((item) =>
-        props.modelValue.includes(item[propsKey.value])
+        props.modelValue.includes(item[propsAlias.value.key])
       )
     } else {
       return props.modelValue.reduce(

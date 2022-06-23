@@ -1,6 +1,8 @@
+import { computed } from 'vue'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { usePropsAlias } from './use-props-alias'
 
-import type { Ref, SetupContext } from 'vue'
+import type { SetupContext } from 'vue'
 import type {
   TransferCheckedState,
   TransferDataItem,
@@ -13,9 +15,10 @@ import type {
 export const useMove = (
   props: TransferProps,
   checkedState: TransferCheckedState,
-  propsKey: Ref<TransferProps['props']['key']>,
   emit: SetupContext<TransferEmits>['emit']
 ) => {
+  const propsAlias = usePropsAlias(computed(() => props.props))
+
   const _emit = (
     value: TransferKey[],
     direction: TransferDirection,
@@ -42,13 +45,13 @@ export const useMove = (
 
     const itemsToBeMoved = props.data
       .filter((item: TransferDataItem) => {
-        const itemKey = item[propsKey.value!]
+        const itemKey = item[propsAlias.value.key]
         return (
           checkedState.leftChecked.includes(itemKey) &&
           !props.modelValue.includes(itemKey)
         )
       })
-      .map((item) => item[propsKey.value!])
+      .map((item) => item[propsAlias.value.key])
 
     currentValue =
       props.targetOrder === 'unshift'
@@ -57,8 +60,8 @@ export const useMove = (
 
     if (props.targetOrder === 'original') {
       currentValue = props.data
-        .filter((item) => currentValue.includes(item[propsKey.value!]))
-        .map((item) => item[propsKey.value!])
+        .filter((item) => currentValue.includes(item[propsAlias.value.key]))
+        .map((item) => item[propsAlias.value.key])
     }
 
     _emit(currentValue, 'right', checkedState.leftChecked)

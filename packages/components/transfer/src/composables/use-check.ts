@@ -1,6 +1,7 @@
 import { computed, watch } from 'vue'
 import { isFunction } from '@element-plus/utils'
 import { CHECKED_CHANGE_EVENT } from '../transfer-panel'
+import { usePropsAlias } from './use-props-alias'
 
 import type { SetupContext } from 'vue'
 import type { CheckboxValueType } from '@element-plus/components/checkbox'
@@ -16,26 +17,23 @@ export const useCheck = (
   panelState: TransferPanelState,
   emit: SetupContext<TransferPanelEmits>['emit']
 ) => {
-  const {
-    label: propsLabel,
-    key: propsKey,
-    disabled: propsDisabled,
-  } = props.props
+  const propsAlias = usePropsAlias(computed(() => props.props))
 
   const filteredData = computed(() => {
     return props.data.filter((item) => {
       if (isFunction(props.filterMethod)) {
         return props.filterMethod(panelState.query, item)
       } else {
-        const label = item[propsLabel.value] || item[propsKey.value].toString()
+        const label =
+          item[propsAlias.value.label] || item[propsAlias.value.key].toString()
         return label.toLowerCase().includes(panelState.query.toLowerCase())
       }
     })
   })
 
-  const checkableData = computed(() => {
-    return filteredData.value.filter((item) => !item[propsDisabled.value])
-  })
+  const checkableData = computed(() =>
+    filteredData.value.filter((item) => !item[propsAlias.value.disabled])
+  )
 
   const checkedSummary = computed(() => {
     const checkedLength = panelState.checked.length
@@ -60,7 +58,7 @@ export const useCheck = (
 
   const updateAllChecked = () => {
     const checkableDataKeys = checkableData.value.map(
-      (item) => item[propsKey.value]
+      (item) => item[propsAlias.value.key]
     )
     panelState.allChecked =
       checkableDataKeys.length > 0 &&
@@ -69,7 +67,7 @@ export const useCheck = (
 
   const handleAllCheckedChange = (value: CheckboxValueType) => {
     panelState.checked = value
-      ? checkableData.value.map((item) => item[propsKey.value])
+      ? checkableData.value.map((item) => item[propsAlias.value.key])
       : []
   }
 
@@ -99,7 +97,7 @@ export const useCheck = (
     () => {
       const checked: TransferKey[] = []
       const filteredDataKeys = filteredData.value.map(
-        (item) => item[propsKey.value]
+        (item) => item[propsAlias.value.key]
       )
       panelState.checked.forEach((item) => {
         if (filteredDataKeys.includes(item)) {
@@ -123,7 +121,7 @@ export const useCheck = (
 
       const checked: TransferKey[] = []
       const checkableDataKeys = checkableData.value.map(
-        (item) => item[propsKey.value]
+        (item) => item[propsAlias.value.key]
       )
 
       val.forEach((item) => {

@@ -30,10 +30,10 @@
       >
         <el-checkbox
           v-for="item in filteredData"
-          :key="item[propsKey]"
+          :key="item[propsAlias.key]"
           :class="ns.be('panel', 'item')"
-          :label="item[propsKey]"
-          :disabled="item[propsDisabled]"
+          :label="item[propsAlias.key]"
+          :disabled="item[propsAlias.disabled]"
         >
           <option-content :option="optionRender?.(item)" />
         </el-checkbox>
@@ -56,7 +56,7 @@ import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import { ElInput } from '@element-plus/components/input'
 import { Search } from '@element-plus/icons-vue'
 import { transferPanelEmits, transferPanelProps } from './transfer-panel'
-import { useCheck } from './composables'
+import { useCheck, usePropsAlias } from './composables'
 
 import type { VNode } from 'vue'
 import type { TransferPanelState } from './transfer-panel'
@@ -82,7 +82,7 @@ const panelState = reactive<TransferPanelState>({
   checkChangeByUser: true,
 })
 
-const { key: propsKey, disabled: propsDisabled } = reactive(props.props)
+const propsAlias = usePropsAlias(computed(() => props.props))
 
 const {
   filteredData,

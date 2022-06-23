@@ -13,12 +13,7 @@ import type Transfer from './transfer.vue'
 export type TransferKey = string | number
 export type TransferDirection = 'left' | 'right'
 
-export interface TransferDataItem {
-  key?: TransferKey
-  label?: string
-  disabled?: boolean
-  [name: string]: any
-}
+export type TransferDataItem = Record<string, any>
 
 export interface TransferFormat {
   noChecked?: string

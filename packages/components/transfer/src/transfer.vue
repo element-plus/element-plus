@@ -10,7 +10,7 @@
       :format="format"
       :filter-method="filterMethod"
       :default-checked="leftDefaultChecked"
-      :props="propsAlias"
+      :props="props.props"
       @checked-change="onSourceCheckedChange"
     >
       <slot name="left-footer" />
@@ -45,7 +45,7 @@
       :filter-method="filterMethod"
       :title="rightPanelTitle"
       :default-checked="rightDefaultChecked"
-      :props="propsAlias"
+      :props="props.props"
       @checked-change="onTargetCheckedChange"
     >
       <slot name="right-footer" />
@@ -61,12 +61,7 @@ import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { transferEmits, transferProps } from './transfer'
-import {
-  useCheckedChange,
-  useComputedData,
-  useMove,
-  usePropsAlias,
-} from './composables'
+import { useCheckedChange, useComputedData, useMove } from './composables'
 import TransferPanel from './transfer-panel.vue'
 
 import type {
@@ -93,21 +88,14 @@ const checkedState = reactive<TransferCheckedState>({
   rightChecked: [],
 })
 
-const propsAlias = usePropsAlias(props)
-
-const { sourceData, targetData } = useComputedData(props, propsAlias.key)
+const { sourceData, targetData } = useComputedData(props)
 
 const { onSourceCheckedChange, onTargetCheckedChange } = useCheckedChange(
   checkedState,
   emit
 )
 
-const { addToLeft, addToRight } = useMove(
-  props,
-  checkedState,
-  propsAlias.key,
-  emit
-)
+const { addToLeft, addToRight } = useMove(props, checkedState, emit)
 
 const leftPanel = ref<TransferPanelInstance>()
 const rightPanel = ref<TransferPanelInstance>()
