@@ -45,7 +45,7 @@ popconfirm/trigger-event
 | confirm-button-text | Confirm button text                                                                 | String             | —                                                             | —              |
 | cancel-button-text  | Cancel button text                                                                  | String             | —                                                             | —              |
 | confirm-button-type | Confirm button type                                                                 | String             | primary / success / warning / danger / info / <del>text</del> | primary        |
-| cancel-button-type  | Cancel button type                                                                  | String             | primary / success / warning / danger / info / <del>text</del> | text           |
+| cancel-button-type  | Cancel button type                                                                  | String             | primary / success / warning / danger / info / text            | text           |
 | icon                | Icon Component                                                                      | String / Component | —                                                             | QuestionFilled |
 | icon-color          | Icon color                                                                          | String             | —                                                             | #f90           |
 | hide-icon           | is hide Icon                                                                        | Boolean            | —                                                             | false          |
