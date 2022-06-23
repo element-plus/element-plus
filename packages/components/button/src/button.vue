@@ -24,7 +24,7 @@
     <template v-if="loading">
       <slot v-if="$slots.loading" name="loading" />
       <el-icon v-else :class="ns.is('loading')">
-        <component :is="loadingIcon" />
+        <component :is="LoadingIcon" />
       </el-icon>
     </template>
     <el-icon v-else-if="icon || $slots.icon">
@@ -48,6 +48,7 @@ import {
   useDisabled,
   useFormItem,
   useGlobalConfig,
+  useIcon,
   useNamespace,
   useSize,
 } from '@element-plus/hooks'
@@ -80,12 +81,15 @@ const ns = useNamespace('button')
 const { form } = useFormItem()
 const _size = useSize(computed(() => buttonGroupContext?.size))
 const _disabled = useDisabled()
+const IconLoading = useIcon('Loading')
+
 const _ref = ref<HTMLButtonElement>()
 
 const _type = computed(() => props.type || buttonGroupContext?.type || '')
 const autoInsertSpace = computed(
   () => props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
 )
+const LoadingIcon = computed(() => props.loadingIcon || IconLoading.value)
 
 // add space between two characters in Chinese
 const shouldAddSpace = computed(() => {
