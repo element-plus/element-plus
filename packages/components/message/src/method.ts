@@ -42,6 +42,10 @@ const normalizeOptions = (params?: MessageParams) => {
     ...options,
   }
 
+  normalized.type = messageTypes.includes(normalized.type)
+    ? normalized.type
+    : 'info'
+
   if (isString(normalized.appendTo)) {
     let appendTo = document.querySelector<HTMLElement>(normalized.appendTo)
 
