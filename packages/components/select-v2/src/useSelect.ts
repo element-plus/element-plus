@@ -200,7 +200,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const calculatePopperSize = () => {
-    popperSize.value = selectRef.value?.getBoundingClientRect?.()?.width || 200
+    popperSize.value = selectRef.value?.offsetWidth || 200
   }
 
   const inputWrapperStyle = computed(() => {
