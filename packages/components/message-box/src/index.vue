@@ -18,7 +18,7 @@
       >
         <el-focus-trap
           loop
-          :trapped="autofocus && visible"
+          :trapped="visible"
           :focus-trap-el="rootRef"
           :focus-start-el="focusStartRef"
           @release-requested="onCloseRequested"
@@ -260,7 +260,7 @@ export default defineComponent({
     // s represents state
     const state = reactive<MessageBoxState>({
       // autofocus button when open message-box
-      autofocus: false,
+      autofocus: true,
       beforeClose: null,
       callback: null,
       cancelButtonText: '',
@@ -338,7 +338,7 @@ export default defineComponent({
       () => visible.value,
       (val) => {
         if (val) {
-          if (props.boxType !== 'prompt') {
+          if (props.boxType !== 'prompt' && state.autofocus) {
             focusStartRef.value = confirmRef.value?.$el ?? rootRef.value
           }
           state.zIndex = nextZIndex()
@@ -346,7 +346,7 @@ export default defineComponent({
         if (props.boxType !== 'prompt') return
         if (val) {
           nextTick().then(() => {
-            if (inputRef.value && inputRef.value.$el) {
+            if (inputRef.value && inputRef.value.$el && state.autofocus) {
               focusStartRef.value = getInputElement() ?? rootRef.value
             }
           })
