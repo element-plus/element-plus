@@ -5,6 +5,10 @@ on:
     branches:
       - 'dev'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
