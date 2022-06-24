@@ -7,6 +7,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 
 const open = () => {
   ElMessageBox.prompt('Please input your e-mail', 'Tip', {
+    autofocus: true,
     confirmButtonText: 'OK',
     cancelButtonText: 'Cancel',
     inputPattern:

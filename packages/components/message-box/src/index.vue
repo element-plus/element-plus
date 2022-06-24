@@ -18,7 +18,7 @@
       >
         <el-focus-trap
           loop
-          :trapped="visible"
+          :trapped="autofocus && visible"
           :focus-trap-el="rootRef"
           :focus-start-el="focusStartRef"
           @release-requested="onCloseRequested"
@@ -259,6 +259,8 @@ export default defineComponent({
     const { nextZIndex } = useZIndex()
     // s represents state
     const state = reactive<MessageBoxState>({
+      // autofocus button when open message-box
+      autofocus: false,
       beforeClose: null,
       callback: null,
       cancelButtonText: '',

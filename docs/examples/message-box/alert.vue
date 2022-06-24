@@ -8,6 +8,7 @@ import type { Action } from 'element-plus'
 
 const open = () => {
   ElMessageBox.alert('This is a message', 'Title', {
+    // autofocus: true,
     confirmButtonText: 'OK',
     callback: (action: Action) => {
       ElMessage({

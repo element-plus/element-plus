@@ -144,8 +144,22 @@ describe('MessageBox', () => {
     expect(msgbox).toBe(null)
   })
 
+  test('autofocus', async () => {
+    MessageBox.alert('这是一段内容', {
+      autofocus: true,
+      title: '标题名称',
+    })
+    await rAF()
+    const btnElm = document.querySelector(
+      '.el-message-box__btns .el-button--primary'
+    )
+    const haveFocus = btnElm.isSameNode(document.activeElement)
+    expect(haveFocus).toBe(true)
+  })
+
   test('prompt', async () => {
     MessageBox.prompt('这是一段内容', {
+      autofocus: true,
       title: '标题名称',
       inputPattern: /test/,
       inputErrorMessage: 'validation failed',
@@ -163,6 +177,7 @@ describe('MessageBox', () => {
 
   test('prompt: focus on textarea', async () => {
     MessageBox.prompt('这是一段内容', {
+      autofocus: true,
       inputType: 'textarea',
       title: '标题名称',
     })
