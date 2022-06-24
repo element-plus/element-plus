@@ -61,7 +61,12 @@ import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { transferEmits, transferProps } from './transfer'
-import { useCheckedChange, useComputedData, useMove } from './composables'
+import {
+  useCheckedChange,
+  useComputedData,
+  useMove,
+  usePropsAlias,
+} from './composables'
 import TransferPanel from './transfer-panel.vue'
 
 import type {
@@ -87,6 +92,8 @@ const checkedState = reactive<TransferCheckedState>({
   leftChecked: [],
   rightChecked: [],
 })
+
+const propsAlias = usePropsAlias(computed(() => props.props))
 
 const { sourceData, targetData } = useComputedData(props)
 
@@ -137,7 +144,10 @@ const optionRender = computed(() => (option: TransferDataItem) => {
 
   if (slots.default) return slots.default({ option })
 
-  return h('span', option[props.props.label!] || option[props.props.key!])
+  return h(
+    'span',
+    option[propsAlias.value.label] || option[propsAlias.value.key]
+  )
 })
 
 defineExpose({

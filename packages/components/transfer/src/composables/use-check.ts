@@ -24,8 +24,9 @@ export const useCheck = (
       if (isFunction(props.filterMethod)) {
         return props.filterMethod(panelState.query, item)
       } else {
-        const label =
-          item[propsAlias.value.label] || item[propsAlias.value.key].toString()
+        const label = String(
+          item[propsAlias.value.label] || item[propsAlias.value.key]
+        )
         return label.toLowerCase().includes(panelState.query.toLowerCase())
       }
     })
