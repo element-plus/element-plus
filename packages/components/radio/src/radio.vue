@@ -8,6 +8,7 @@
       ns.is('checked', modelValue === label),
       ns.m(size),
     ]"
+    v-bind="{ ...$attrs, id: undefined }"
   >
     <span
       :class="[
@@ -17,6 +18,7 @@
       ]"
     >
       <input
+        :id="$attrs.id as string"
         ref="radioRef"
         v-model="modelValue"
         :class="ns.e('original')"
@@ -46,6 +48,7 @@ import { useRadio } from './use-radio'
 
 defineOptions({
   name: 'ElRadio',
+  inheritAttrs: false,
 })
 
 const props = defineProps(radioProps)
