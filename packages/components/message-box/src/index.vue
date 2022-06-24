@@ -259,7 +259,7 @@ export default defineComponent({
     const { nextZIndex } = useZIndex()
     // s represents state
     const state = reactive<MessageBoxState>({
-      // autofocus button when open message-box
+      // autofocus element when open message-box
       autofocus: true,
       beforeClose: null,
       callback: null,

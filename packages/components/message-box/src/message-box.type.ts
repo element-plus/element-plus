@@ -64,7 +64,7 @@ export type Callback =
 /** Options used in MessageBox */
 export interface ElMessageBoxOptions {
   /**
-   * auto focus confirm button when open message-box
+   * auto focus when open message-box
    */
   autofocus?: boolean
 
