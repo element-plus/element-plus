@@ -8,6 +8,7 @@
       ns.is('checked', modelValue === label),
       ns.m(size),
     ]"
+    v-bind="labelAttrs"
   >
     <span
       :class="[
@@ -24,6 +25,7 @@
         :name="name || radioGroup?.name"
         :disabled="disabled"
         type="radio"
+        v-bind="inputAttr"
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
@@ -39,17 +41,32 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { computed, nextTick, useAttrs as useRawAttrs } from 'vue'
+import { useAttrs, useNamespace } from '@element-plus/hooks'
 import { radioEmits, radioProps } from './radio'
 import { useRadio } from './use-radio'
 
 defineOptions({
   name: 'ElRadio',
+  inheritAttrs: false,
 })
 
 const props = defineProps(radioProps)
 const emit = defineEmits(radioEmits)
+const rawAttrs = useRawAttrs()
+
+const labelAttrs = computed(() => {
+  const cssAttrs: Record<string, unknown> = {}
+  cssAttrs['class'] = rawAttrs['class']
+  cssAttrs['style'] = rawAttrs['style']
+  return cssAttrs
+})
+
+const inputAttr = useAttrs({
+  excludeKeys: computed<string[]>(() => {
+    return Object.keys(labelAttrs.value)
+  }),
+})
 
 const ns = useNamespace('radio')
 const { radioRef, radioGroup, focus, size, disabled, modelValue } = useRadio(
