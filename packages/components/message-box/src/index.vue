@@ -338,16 +338,24 @@ export default defineComponent({
       () => visible.value,
       (val) => {
         if (val) {
-          if (props.boxType !== 'prompt' && state.autofocus) {
-            focusStartRef.value = confirmRef.value?.$el ?? rootRef.value
+          if (props.boxType !== 'prompt') {
+            if (state.autofocus) {
+              focusStartRef.value = confirmRef.value?.$el ?? rootRef.value
+            } else {
+              focusStartRef.value = rootRef.value
+            }
           }
           state.zIndex = nextZIndex()
         }
         if (props.boxType !== 'prompt') return
         if (val) {
           nextTick().then(() => {
-            if (inputRef.value && inputRef.value.$el && state.autofocus) {
-              focusStartRef.value = getInputElement() ?? rootRef.value
+            if (inputRef.value && inputRef.value.$el) {
+              if (state.autofocus) {
+                focusStartRef.value = getInputElement() ?? rootRef.value
+              } else {
+                focusStartRef.value = rootRef.value
+              }
             }
           })
         } else {
