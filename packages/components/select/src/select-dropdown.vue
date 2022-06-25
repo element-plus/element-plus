@@ -2,6 +2,7 @@
   <div
     :class="[ns.b('dropdown'), ns.is('multiple', isMultiple), popperClass]"
     :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
+    @click.stop="clickScrollBar($event)"
   >
     <slot />
   </div>
@@ -22,6 +23,9 @@ export default defineComponent({
     const select = inject(selectKey)!
     const ns = useNamespace('select')
 
+    const clickScrollBar = (e: Event) => {
+      e.stopPropagation()
+    }
     // computed
     const popperClass = computed(() => select.props.popperClass)
     const isMultiple = computed(() => select.props.multiple)
@@ -45,6 +49,7 @@ export default defineComponent({
       popperClass,
       isMultiple,
       isFitInputWidth,
+      clickScrollBar,
     }
   },
 })

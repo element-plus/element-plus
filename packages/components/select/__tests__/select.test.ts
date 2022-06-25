@@ -1273,6 +1273,22 @@ describe('Select', () => {
     expect(vm.value).toBe('test')
   })
 
+  test('clicking the scroll bar will not turn select-dropdown off', async () => {
+    wrapper = _mount(
+      `
+      <el-select ref="select" v-model="value" filterable>
+        <el-option label="test" value="test" />
+      </el-select>`,
+      () => ({ value: 'test' })
+    )
+    await wrapper.trigger('click')
+    await nextTick()
+    expect(!!document.querySelector('.el-select-dropdown')).toBe(true)
+    document.querySelector('.el-select-dropdown').click()
+    const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
+    expect(selectVm.visible).toBe(true)
+  })
+
   test('default value is null or undefined', async () => {
     wrapper = _mount(
       `
