@@ -1,28 +1,28 @@
-import { isValidComponentSize } from '@element-plus/utils'
+import { definePropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
+import { useSizeProp } from '@element-plus/hooks'
 import type Select from './select.vue'
-import type { Component, PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/constants'
+import type { Component } from 'vue'
 import type { OptionType } from './select.types'
 import type { Options } from '@element-plus/components/popper'
 
 export const SelectProps = {
   allowCreate: Boolean,
   autocomplete: {
-    type: String as PropType<'none' | 'both' | 'list' | 'inline'>,
+    type: definePropType<'none' | 'both' | 'list' | 'inline'>(String),
     default: 'none',
   },
   automaticDropdown: Boolean,
   clearable: Boolean,
   clearIcon: {
-    type: [String, Object] as PropType<string | Component>,
+    type: definePropType<string | Component>([String, Object]),
     default: CircleClose,
   },
   effect: {
-    type: String as PropType<'light' | 'dark' | string>,
+    type: definePropType<'light' | 'dark' | string>(String),
     default: 'light',
   },
   collapseTags: Boolean,
@@ -50,9 +50,9 @@ export const SelectProps = {
   loading: Boolean,
   loadingText: String,
   label: String,
-  modelValue: [Array, String, Number, Boolean, Object] as PropType<
+  modelValue: definePropType<
     any[] | string | number | boolean | Record<string, any> | any
-  >,
+  >([Array, String, Number, Boolean, Object]),
   multiple: Boolean,
   multipleLimit: {
     type: Number,
@@ -67,7 +67,7 @@ export const SelectProps = {
     default: true,
   },
   options: {
-    type: Array as PropType<OptionType[]>,
+    type: definePropType<OptionType[]>(Array),
     required: true,
   },
   placeholder: {
@@ -83,14 +83,11 @@ export const SelectProps = {
     default: '',
   },
   popperOptions: {
-    type: Object as PropType<Partial<Options>>,
+    type: definePropType<Partial<Options>>(Object),
     default: () => ({} as Partial<Options>),
   },
   remote: Boolean,
-  size: {
-    type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
-  },
+  size: useSizeProp,
   valueKey: {
     type: String,
     default: 'value',

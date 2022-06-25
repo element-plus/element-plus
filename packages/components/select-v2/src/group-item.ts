@@ -1,8 +1,23 @@
-export const GroupProps = {
+import { buildProps, definePropType } from '@element-plus/utils'
+
+export const GroupProps = buildProps({
   item: {
-    type: Object,
+    type: definePropType<{
+      isTitle: boolean
+      label: string
+    }>(Object),
     required: true,
+    default: () => ({
+      isTitle: false,
+      label: '',
+    }),
   },
-  style: Object,
-  height: Number,
-}
+  style: {
+    type: Object,
+    default: {},
+  },
+  height: {
+    type: Number,
+    default: 0,
+  },
+})
