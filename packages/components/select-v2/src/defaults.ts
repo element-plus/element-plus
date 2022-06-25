@@ -3,6 +3,7 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
+import type Select from './select.vue'
 import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { OptionType } from './select.types'
@@ -131,3 +132,5 @@ export const GroupProps = {
   style: Object,
   height: Number,
 }
+
+export type SelectInstance = InstanceType<typeof Select>

@@ -7,10 +7,9 @@ import {
 } from '@element-plus/components/virtual-list'
 import { useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
+import { selectV2InjectionKey } from '@element-plus/tokens/select-v2'
 import GroupItem from './group-item.vue'
 import OptionItem from './option-item.vue'
-
-import { selectV2InjectionKey } from './token'
 
 import type { ItemProps } from '@element-plus/components/virtual-list'
 import type { Option, OptionItemProps } from './select.types'

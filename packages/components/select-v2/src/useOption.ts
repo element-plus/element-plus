@@ -1,4 +1,4 @@
-import type { IOptionProps } from './token'
+import type { IOptionProps } from '@element-plus/tokens/select-v2'
 
 export function useOption(props: IOptionProps, { emit }) {
   return {

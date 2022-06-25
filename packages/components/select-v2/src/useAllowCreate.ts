@@ -1,5 +1,5 @@
 import { computed, ref } from 'vue'
-import type { ISelectProps } from './token'
+import type { ISelectProps } from '@element-plus/tokens/select-v2'
 import type { Option } from './select.types'
 
 export function useAllowCreate(props: ISelectProps, states) {

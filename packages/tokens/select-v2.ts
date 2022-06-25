@@ -1,6 +1,9 @@
-import type { OptionProps, SelectProps } from './defaults'
+import type {
+  OptionProps,
+  SelectProps,
+} from '../components/select-v2/src/defaults'
 import type { ExtractPropTypes, InjectionKey } from 'vue'
-import type { Option } from './select.types'
+import type { Option } from '../components/select-v2/src/select.types'
 
 export interface SelectV2Context {
   props: ExtractPropTypes<typeof SelectProps>
