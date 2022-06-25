@@ -9,6 +9,7 @@
     ]"
   >
     <input
+      :id="inputId"
       ref="radioRef"
       v-model="modelValue"
       :class="ns.be('button', 'original-radio')"
@@ -33,7 +34,11 @@
 
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import {
+  useFormItem,
+  useFormItemInputId,
+  useNamespace,
+} from '@element-plus/hooks'
 import { useRadio } from './use-radio'
 import { radioButtonProps } from './radio-button'
 import type { CSSProperties } from 'vue'
@@ -43,6 +48,11 @@ defineOptions({
 })
 
 const props = defineProps(radioButtonProps)
+
+const { formItem } = useFormItem()
+const { inputId } = useFormItemInputId(props, {
+  formItemContext: formItem,
+})
 
 const ns = useNamespace('radio')
 const { radioRef, focus, size, disabled, modelValue, radioGroup } =

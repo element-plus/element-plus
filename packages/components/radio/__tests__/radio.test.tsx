@@ -315,11 +315,10 @@ describe('Radio Button', () => {
       const formItem = await wrapper.findComponent(ElFormItem)
       const radioGroup = await wrapper.findComponent(RadioGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItem.attributes().role).toBe('group')
       expect(radioGroup.attributes().role).toBe('radiogroup')
-      expect(formItemLabel.attributes().for).toBe(radioGroup.attributes().id)
       expect(formItemLabel.attributes().id).toBe(
-        radioGroup.attributes()['aria-labelledby']
+        formItem.attributes()['aria-labelledby']
       )
     })
 
@@ -336,7 +335,9 @@ describe('Radio Button', () => {
       const formItem = await wrapper.findComponent(ElFormItem)
       const radioGroup = await wrapper.findComponent(RadioGroup)
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItemLabel.attributes().for).toBe(radioGroup.attributes().id)
+      expect(formItemLabel.attributes().id).toBe(
+        formItem.attributes()['aria-labelledby']
+      )
       expect(radioGroup.attributes().role).toBe('radiogroup')
       expect(radioGroup.attributes()['aria-label']).toBe('Foo')
       expect(radioGroup.attributes()['aria-labelledby']).toBeFalsy()
@@ -371,6 +372,102 @@ describe('Radio Button', () => {
       expect(radioGroup2.attributes().role).toBe('radiogroup')
       expect(radioGroup2.attributes()['aria-label']).toBe('Bar')
       expect(radioGroup2.attributes()['aria-labelledby']).toBeFalsy()
+    })
+  })
+})
+
+describe('laebl for', () => {
+  test('label and radio', async () => {
+    const radio = ref('')
+    const forId = ref('radio1121')
+    const wrapper = mount(() => (
+      <>
+        <label for={forId.value}>click here</label>
+        <Radio v-model={radio.value} label="Foo" id="radio1121" />
+      </>
+    ))
+    await nextTick()
+    const label = wrapper.find('label')
+    label.trigger('click')
+    expect(radio.value).toBe('Foo')
+    // no for
+    radio.value = ''
+    forId.value = undefined
+    await nextTick()
+    label.trigger('click')
+    expect(radio.value).toBe('')
+  })
+
+  test('label and radioGroup', async () => {
+    const compList = [Radio, RadioButton]
+    compList.forEach(async (comp) => {
+      const radio = ref('')
+      const forId = ref('radio1121')
+      const wrapper = mount(() => (
+        <>
+          <label for={forId.value}>click here</label>
+          <RadioGroup v-model={radio.value}>
+            <comp label="Foo" id="radio1121" />
+            <comp label="Bar" id="radio1122" />
+          </RadioGroup>
+        </>
+      ))
+      await nextTick()
+      const label = wrapper.find('label')
+      label.trigger('click')
+      expect(radio.value).toBe('Foo')
+      // no for
+      radio.value = ''
+      forId.value = undefined
+      await nextTick()
+      label.trigger('click')
+      expect(radio.value).toBe('')
+    })
+  })
+
+  test('form-item label and radio', async () => {
+    const radio = ref('')
+    const wrapper = mount(() => (
+      <ElFormItem label="test">
+        <Radio v-model={radio.value} label="Foo" />
+      </ElFormItem>
+    ))
+    await nextTick()
+    const label = wrapper.find('.el-form-item__label')
+    label.trigger('click')
+    expect(radio.value).toBe('Foo')
+  })
+
+  test('form-item label and radio multiple', async () => {
+    const radio = ref('')
+    const wrapper = mount(() => (
+      <ElFormItem label="test">
+        <Radio v-model={radio.value} label="Foo" />
+        <Radio v-model={radio.value} label="Bar" />
+      </ElFormItem>
+    ))
+    await nextTick()
+    const label = wrapper.find('.el-form-item__label')
+    label.trigger('click')
+    expect(radio.value).toBe('')
+  })
+
+  test('form-item label and radioGroup', async () => {
+    const compList = [Radio, RadioButton]
+    compList.forEach(async (comp) => {
+      const radio = ref('')
+      const wrapper = mount(() => (
+        <ElFormItem label="test">
+          <RadioGroup v-model={radio.value}>
+            <comp label="Foo" id="radio1121" />
+            <comp label="Bar" id="radio1122" />
+          </RadioGroup>
+        </ElFormItem>
+      ))
+      await nextTick()
+      const label = wrapper.find('.el-form-item__label')
+      label.trigger('click')
+      expect(radio.value).toBe('')
     })
   })
 })

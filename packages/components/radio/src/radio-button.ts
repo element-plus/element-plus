@@ -5,6 +5,10 @@ import type RadioButton from './radio-button.vue'
 
 export const radioButtonProps = buildProps({
   ...radioPropsBase,
+  id: {
+    type: String,
+    default: undefined,
+  },
   name: {
     type: String,
     default: '',

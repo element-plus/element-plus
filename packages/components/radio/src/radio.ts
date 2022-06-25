@@ -15,6 +15,10 @@ export const radioPropsBase = buildProps({
 
 export const radioProps = buildProps({
   ...radioPropsBase,
+  id: {
+    type: String,
+    default: undefined,
+  },
   modelValue: {
     type: [String, Number, Boolean],
     default: '',

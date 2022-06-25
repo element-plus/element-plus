@@ -8,7 +8,6 @@
       ns.is('checked', modelValue === label),
       ns.m(size),
     ]"
-    v-bind="{ ...$attrs, id: undefined }"
   >
     <span
       :class="[
@@ -18,7 +17,7 @@
       ]"
     >
       <input
-        :id="$attrs.id as string"
+        :id="inputId"
         ref="radioRef"
         v-model="modelValue"
         :class="ns.e('original')"
@@ -42,17 +41,25 @@
 
 <script lang="ts" setup>
 import { nextTick } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import {
+  useFormItem,
+  useFormItemInputId,
+  useNamespace,
+} from '@element-plus/hooks'
 import { radioEmits, radioProps } from './radio'
 import { useRadio } from './use-radio'
 
 defineOptions({
   name: 'ElRadio',
-  inheritAttrs: false,
 })
 
 const props = defineProps(radioProps)
 const emit = defineEmits(radioEmits)
+
+const { formItem } = useFormItem()
+const { inputId } = useFormItemInputId(props, {
+  formItemContext: formItem,
+})
 
 const ns = useNamespace('radio')
 const { radioRef, radioGroup, focus, size, disabled, modelValue } = useRadio(
