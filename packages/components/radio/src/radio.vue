@@ -43,6 +43,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, useAttrs as useRawAttrs } from 'vue'
 import { useAttrs, useNamespace } from '@element-plus/hooks'
+import { isFunction } from '@element-plus/utils'
 import { radioEmits, radioProps } from './radio'
 import { useRadio } from './use-radio'
 
@@ -56,10 +57,15 @@ const emit = defineEmits(radioEmits)
 const rawAttrs = useRawAttrs()
 
 const labelAttrs = computed(() => {
-  const cssAttrs: Record<string, unknown> = {}
-  cssAttrs['class'] = rawAttrs['class']
-  cssAttrs['style'] = rawAttrs['style']
-  return cssAttrs
+  const containerAttrs: Record<string, unknown> = {}
+  containerAttrs['class'] = rawAttrs['class']
+  containerAttrs['style'] = rawAttrs['style']
+  Object.entries(rawAttrs).forEach(([key, value]) => {
+    if (isFunction(value)) {
+      containerAttrs[key] = value
+    }
+  })
+  return containerAttrs
 })
 
 const inputAttr = useAttrs({
