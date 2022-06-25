@@ -17,22 +17,22 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { useEscapeKeydown } from '@element-plus/hooks'
 import { isString } from '@element-plus/utils'
 import {
-  focusFirstDescendant,
-  focusableStack,
-  getEdges,
-  obtainAllFocusableElements,
-  tryFocus,
-} from './utils'
-import {
   FOCUS_AFTER_RELEASED,
   FOCUS_AFTER_TRAPPED,
   FOCUS_AFTER_TRAPPED_OPTS,
   FOCUS_TRAP_INJECTION_KEY,
   ON_RELEASE_FOCUS_EVT,
   ON_TRAP_FOCUS_EVT,
-} from './tokens'
+} from '../../../tokens/focus-trap'
+import {
+  focusFirstDescendant,
+  focusableStack,
+  getEdges,
+  obtainAllFocusableElements,
+  tryFocus,
+} from './utils'
 
-import type { PropType } from 'vue'
+import { focusTrapEmits, focusTrapProps } from './focus-trap'
 import type { FocusLayer } from './utils'
 
 defineOptions({
@@ -40,24 +40,9 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps({
-  loop: Boolean,
-  trapped: Boolean,
-  focusTrapEl: Object as PropType<HTMLElement>,
-  focusStartEl: {
-    type: [Object, String] as PropType<'container' | 'first' | HTMLElement>,
-    default: 'first',
-  },
-})
+const props = defineProps(focusTrapProps)
 
-const emit = defineEmits([
-  ON_TRAP_FOCUS_EVT,
-  ON_RELEASE_FOCUS_EVT,
-  'focusin',
-  'focusout',
-  'focusout-prevented',
-  'release-requested',
-])
+const emit = defineEmits(focusTrapEmits)
 
 const forwardRef = ref<HTMLElement | undefined>()
 let lastFocusBeforeTrapped: HTMLElement | null
