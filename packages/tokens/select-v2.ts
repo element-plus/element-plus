@@ -1,7 +1,5 @@
-import type {
-  OptionProps,
-  SelectProps,
-} from '../components/select-v2/src/defaults'
+import type { SelectProps } from '@element-plus/components/select-v2/src/select'
+import type { OptionProps } from '@element-plus/components/select-v2/src/option-item'
 import type { ExtractPropTypes, InjectionKey } from 'vue'
 import type { Option } from '../components/select-v2/src/select.types'
 
