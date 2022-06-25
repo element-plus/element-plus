@@ -1,9 +1,8 @@
-import type ElPopover from './index.vue'
 import type { DirectiveBinding, ObjectDirective } from 'vue'
+import type { PopoverInstance } from './popover'
 
 const attachEvents = (el: HTMLElement, binding: DirectiveBinding) => {
-  const popperComponent: InstanceType<typeof ElPopover> =
-    binding.arg || binding.value
+  const popperComponent: PopoverInstance = binding.arg || binding.value
   const popover = popperComponent?.popperRef
   if (popover) {
     popover.triggerRef = el

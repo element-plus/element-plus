@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, inject } from 'vue'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'

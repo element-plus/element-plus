@@ -25,6 +25,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { computed, defineComponent, provide } from 'vue'
 import { isValidComponentSize } from '@element-plus/utils'
 import { useNamespace, useSize } from '@element-plus/hooks'

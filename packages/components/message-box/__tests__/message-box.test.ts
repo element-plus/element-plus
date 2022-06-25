@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test } from 'vitest'

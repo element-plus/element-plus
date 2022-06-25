@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isLeaf } from '@element-plus/utils'
 import type { default as CascaderNode } from './node'
 

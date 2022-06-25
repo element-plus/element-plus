@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, getCurrentInstance, watch } from 'vue'
 
 import type { ExtractPropTypes } from 'vue'

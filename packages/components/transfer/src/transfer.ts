@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CHANGE_EVENT } from '@element-plus/constants'
 
 import type { VNode } from 'vue'

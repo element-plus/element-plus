@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, inject, ref } from 'vue'
 import { addClass, generateId, on } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'

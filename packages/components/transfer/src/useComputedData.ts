@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed } from 'vue'
 
 import type { TransferProps } from './transfer'

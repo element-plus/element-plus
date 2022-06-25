@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { mount } from '@vue/test-utils'
 import { merge } from 'lodash'
 

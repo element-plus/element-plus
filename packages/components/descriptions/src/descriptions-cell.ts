@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineComponent, h, inject } from 'vue'
 import { addUnit, getNormalizedProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
