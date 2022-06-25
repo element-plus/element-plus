@@ -45,8 +45,13 @@ const props = defineProps(focusTrapProps)
 const emit = defineEmits(focusTrapEmits)
 
 const forwardRef = ref<HTMLElement | undefined>()
-let lastFocusBeforeTrapped: HTMLElement | null
-let lastFocusAfterTrapped: HTMLElement | null
+const lastFocus: {
+  beforeTrapped: HTMLElement | null
+  afterTrapped: HTMLElement | null
+} = {
+  beforeTrapped: null,
+  afterTrapped: null,
+}
 
 useEscapeKeydown((event) => {
   if (props.trapped && !focusLayer.paused) {
@@ -144,9 +149,9 @@ const onFocusIn = (e: Event) => {
 
   if (props.trapped) {
     if (isFocusedInTrap) {
-      lastFocusAfterTrapped = target
+      lastFocus.afterTrapped = target
     } else {
-      tryFocus(lastFocusAfterTrapped, true)
+      tryFocus(lastFocus.afterTrapped, true)
     }
   }
 }
@@ -162,7 +167,7 @@ const onFocusOut = (e: Event) => {
       // And only reclaim focus if it should currently be trapping
       setTimeout(() => {
         if (!focusLayer.paused && props.trapped) {
-          tryFocus(lastFocusAfterTrapped, true)
+          tryFocus(lastFocus.afterTrapped, true)
         }
       }, 0)
     }
@@ -180,7 +185,7 @@ async function startTrap() {
   if (trapContainer) {
     focusableStack.push(focusLayer)
     const prevFocusedElement = document.activeElement
-    lastFocusBeforeTrapped = prevFocusedElement as HTMLElement | null
+    lastFocus.beforeTrapped = prevFocusedElement as HTMLElement | null
     const isPrevFocusContained = trapContainer.contains(prevFocusedElement)
     if (!isPrevFocusContained) {
       const focusEvent = new Event(
@@ -230,7 +235,7 @@ function stopTrap() {
     trapContainer.dispatchEvent(releasedEvent)
 
     if (!releasedEvent.defaultPrevented) {
-      tryFocus(lastFocusBeforeTrapped ?? document.body, true)
+      tryFocus(lastFocus.beforeTrapped ?? document.body, true)
     }
 
     trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, trapOnFocus)
