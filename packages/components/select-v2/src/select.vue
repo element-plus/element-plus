@@ -318,7 +318,7 @@ import ElIcon from '@element-plus/components/icon'
 import { selectV2InjectionKey } from '@element-plus/tokens/select-v2'
 import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
-import { SelectEmits, SelectProps } from './defaults'
+import { SelectEmits, SelectProps } from './select'
 
 const props = defineProps(SelectProps)
 const emit = defineEmits(SelectEmits)

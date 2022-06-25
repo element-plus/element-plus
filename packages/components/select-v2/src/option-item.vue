@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
-import { OptionProps, OptionsEmits } from './defaults'
+import { OptionProps, OptionsEmits } from './option-item'
 
 const props = defineProps(OptionProps)
 

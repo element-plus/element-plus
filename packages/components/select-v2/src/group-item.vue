@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
-import { GroupProps } from './defaults'
+import { GroupProps } from './group-item'
 
 defineProps(GroupProps)
 

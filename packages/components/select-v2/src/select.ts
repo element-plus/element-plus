@@ -111,26 +111,4 @@ export const SelectEmits = [
   'blur',
 ]
 
-export const OptionProps = {
-  data: Array,
-  disabled: Boolean,
-  hovering: Boolean,
-  item: Object,
-  index: Number,
-  style: Object,
-  selected: Boolean,
-  created: Boolean,
-}
-
-export const OptionsEmits = ['select', 'hover']
-
-export const GroupProps = {
-  item: {
-    type: Object,
-    required: true,
-  },
-  style: Object,
-  height: Number,
-}
-
 export type SelectInstance = InstanceType<typeof Select>
