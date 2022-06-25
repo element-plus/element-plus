@@ -1,8 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import {
-  ON_RELEASE_FOCUS_EVT,
-  ON_TRAP_FOCUS_EVT,
-} from '../../../tokens/focus-trap'
+import { ON_RELEASE_FOCUS_EVT, ON_TRAP_FOCUS_EVT } from '@element-plus/tokens'
 
 import type { ExtractPropTypes } from 'vue'
 import type FocusTrap from './focus-trap.vue'
