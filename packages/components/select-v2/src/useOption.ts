@@ -1,6 +1,9 @@
 import type { IOptionProps } from '@element-plus/tokens'
 
-export function useOption(props: IOptionProps, { emit }) {
+export function useOption(
+  props: IOptionProps,
+  emit: (event: string, ...args: any[]) => void
+) {
   return {
     hoverItem: () => {
       if (!props.disabled) {

@@ -373,7 +373,6 @@ const {
   selectRef,
   selectionRef,
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   popperRef,
 
   validateState,
@@ -391,14 +390,12 @@ const {
   handleEsc,
   handleFocus,
   handleMenuEnter,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   handleResize,
   toggleMenu,
   // scrollTo: scrollToItem,
   onInput,
   onKeyboardNavigate,
   onKeyboardSelect,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onSelect,
   // onHover: updateHoveringIndex,
   onUpdateInputValue,
@@ -407,5 +404,68 @@ const {
   handleCompositionUpdate,
 } = API
 
-defineExpose(API)
+defineExpose({
+  /* data exports */
+  collapseTagSize,
+  currentPlaceholder,
+  expanded,
+  emptyText,
+  // popupHeight,
+  // debounce,
+  filteredOptions,
+  iconComponent,
+  iconReverse,
+  inputWrapperStyle,
+  popperSize,
+  dropdownMenuVisible,
+  hasModelValue,
+  /* readonly, */
+  shouldShowPlaceholder,
+  selectDisabled,
+  selectSize,
+  showClearBtn,
+  states,
+  tagMaxWidth,
+  nsSelectV2,
+  nsInput,
+
+  /* refs items exports */
+  calculatorRef,
+  // controlRef,
+  inputRef,
+  menuRef,
+  popper,
+  selectRef,
+  selectionRef,
+
+  popperRef,
+
+  validateState,
+  validateIcon,
+
+  /* methods exports */
+  // debouncedOnInputChange,
+  deleteTag,
+  getLabel,
+  getValueKey,
+  // handleBlur,
+  handleClear,
+  handleClickOutside,
+  handleDel,
+  handleEsc,
+  handleFocus,
+  handleMenuEnter,
+  handleResize,
+  toggleMenu,
+  // scrollTo: scrollToItem,
+  onInput,
+  onKeyboardNavigate,
+  onKeyboardSelect,
+  onSelect,
+  // onHover: updateHoveringIndex,
+  onUpdateInputValue,
+  handleCompositionStart,
+  handleCompositionEnd,
+  handleCompositionUpdate,
+})
 </script>

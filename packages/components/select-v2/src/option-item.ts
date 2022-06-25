@@ -9,7 +9,7 @@ export const OptionProps = buildProps({
       label: ''
     }>(Object),
     required: true,
-    defualt: () => ({
+    default: () => ({
       label: '',
     }),
   },
@@ -19,4 +19,4 @@ export const OptionProps = buildProps({
   created: Boolean,
 })
 
-export const OptionsEmits = ['select', 'hover']
+export const OptionEmits = ['select', 'hover']

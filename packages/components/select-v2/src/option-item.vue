@@ -21,16 +21,16 @@
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
-import { OptionProps, OptionsEmits } from './option-item'
+import { OptionEmits, OptionProps } from './option-item'
 
 const props = defineProps(OptionProps)
 
-const emit = defineEmits(OptionsEmits)
+const emit = defineEmits(OptionEmits)
 
 defineOptions({
   name: 'OptionItem',
 })
 
 const ns = useNamespace('select')
-const { hoverItem, selectOptionClick } = useOption(props, { emit })
+const { hoverItem, selectOptionClick } = useOption(props, emit)
 </script>
