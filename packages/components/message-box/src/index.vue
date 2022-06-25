@@ -259,6 +259,8 @@ export default defineComponent({
     const { nextZIndex } = useZIndex()
     // s represents state
     const state = reactive<MessageBoxState>({
+      // autofocus element when open message-box
+      autofocus: true,
       beforeClose: null,
       callback: null,
       cancelButtonText: '',
@@ -337,7 +339,11 @@ export default defineComponent({
       (val) => {
         if (val) {
           if (props.boxType !== 'prompt') {
-            focusStartRef.value = confirmRef.value?.$el ?? rootRef.value
+            if (state.autofocus) {
+              focusStartRef.value = confirmRef.value?.$el ?? rootRef.value
+            } else {
+              focusStartRef.value = rootRef.value
+            }
           }
           state.zIndex = nextZIndex()
         }
@@ -345,7 +351,11 @@ export default defineComponent({
         if (val) {
           nextTick().then(() => {
             if (inputRef.value && inputRef.value.$el) {
-              focusStartRef.value = getInputElement() ?? rootRef.value
+              if (state.autofocus) {
+                focusStartRef.value = getInputElement() ?? rootRef.value
+              } else {
+                focusStartRef.value = rootRef.value
+              }
             }
           })
         } else {
