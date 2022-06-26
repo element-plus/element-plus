@@ -8,8 +8,7 @@
     :aria-labelledby="
       range && isLabeledByFormItem ? elFormItem?.labelId : undefined
     "
-    @touchstart="onSliderWrapperPrevent"
-    @touchmove="onSliderWrapperPrevent"
+    @touchmove.passive="onSliderWrapperPrevent"
   >
     <div
       ref="slider"
@@ -20,7 +19,7 @@
       ]"
       :style="runwayStyle"
       @mousedown="onSliderDown"
-      @touchstart="onSliderDown"
+      @touchstart.passive="onSliderDown"
     >
       <div :class="ns.e('bar')" :style="barStyle" />
       <slider-button
@@ -106,7 +105,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, reactive, toRefs } from 'vue'
+import { computed, onMounted, provide, reactive, toRefs } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import ElInputNumber from '@element-plus/components/input-number'
 import {
   useFormItemInputId,
@@ -229,6 +229,12 @@ const precision = computed(() => {
 })
 
 const { sliderWrapper } = useLifecycle(props, initData, resetSize)
+
+onMounted(() => {
+  useEventListener(sliderWrapper, 'touchstart', onSliderWrapperPrevent, {
+    passive: false,
+  })
+})
 
 const { firstValue, secondValue, sliderSize } = toRefs(initData)
 

@@ -11,7 +11,7 @@ import {
   resolveDynamicComponent,
   unref,
 } from 'vue'
-import { isClient } from '@vueuse/core'
+import { isClient, useEventListener } from '@vueuse/core'
 import { hasOwn, isNumber, isString } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useCache } from '../hooks/use-cache'
@@ -518,8 +518,8 @@ const createList = ({
           class: [ns.e('window'), className],
           style: windowStyle,
           onScroll,
-          onWheel,
           ref: 'windowRef',
+          onWheel,
           key: 0,
         },
         !isString(Container) ? { default: () => [InnerNode] } : [InnerNode]

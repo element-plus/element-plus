@@ -256,7 +256,9 @@ function registerEventListener() {
 
   scopeEventListener.run(() => {
     useEventListener(document, 'keydown', keydownHandler)
-    useEventListener(document, mousewheelEventName, mousewheelHandler)
+    useEventListener(document, mousewheelEventName, mousewheelHandler, {
+      passive: true,
+    })
   })
 }
 
