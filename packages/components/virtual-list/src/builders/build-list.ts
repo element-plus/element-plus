@@ -410,6 +410,12 @@ const createList = ({
         }
       })
 
+      onMounted(() => {
+        useEventListener(windowRef, 'wheel', onWheel, {
+          passive: false,
+        })
+      })
+
       const api = {
         ns,
         clientSize,
@@ -519,7 +525,6 @@ const createList = ({
           style: windowStyle,
           onScroll,
           ref: 'windowRef',
-          onWheel,
           key: 0,
         },
         !isString(Container) ? { default: () => [InnerNode] } : [InnerNode]

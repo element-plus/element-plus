@@ -10,7 +10,7 @@ import {
   resolveDynamicComponent,
   unref,
 } from 'vue'
-import { isClient } from '@vueuse/core'
+import { isClient, useEventListener } from '@vueuse/core'
 import {
   getScrollBarWidth,
   hasOwn,
@@ -643,7 +643,6 @@ const createGrid = ({
                 class: props.className,
                 style: unref(windowStyle),
                 onScroll,
-                onWheel,
                 ref: windowRef,
               },
               !isString(Container) ? { default: () => Inner } : Inner
@@ -653,6 +652,12 @@ const createGrid = ({
           ]
         )
       }
+
+      onMounted(() => {
+        useEventListener(windowRef, 'wheel', onWheel, {
+          passive: false,
+        })
+      })
 
       return renderWindow
     },
