@@ -71,6 +71,7 @@ importers:
       tsx: ^3.4.2
       type-fest: ^2.13.1
       typescript: ^4.7.3
+      unplugin-ast: ^0.4.0
       unplugin-element-plus: ^0.4.0
       unplugin-vue-define-options: ^0.6.1
       vitest: 0.12.6
@@ -146,6 +147,7 @@ importers:
       tsx: 3.4.2
       type-fest: 2.13.1
       typescript: 4.7.3
+      unplugin-ast: 0.4.0
       unplugin-element-plus: 0.4.0
       unplugin-vue-define-options: 0.6.1_vue@3.2.37
       vitest: 0.12.6_p3hsn2gyxkuoma7fybu4bszcau
@@ -201,7 +203,7 @@ importers:
       '@vueuse/core': 8.6.0_vue@3.2.37
       axios: 0.27.2
       clipboard-copy: 4.0.1
-      element-plus: 2.2.5_vue@3.2.37
+      element-plus: 2.2.6_vue@3.2.37
       markdown-it: 13.0.1
       normalize.css: 8.0.1
       nprogress: 0.2.0
@@ -854,6 +856,14 @@ packages:
     hasBin: true
     dependencies:
       '@babel/types': 7.18.4
+
+  /@babel/parser/7.18.5:
+    resolution: {integrity: sha512-YZWVaglMiplo7v8f1oMQ5ZPQr0vn7HPeZXxXWsxXJRjGVrzUFn9OxFQl1sb5wzfootjA/yChhW84BV+383FSOw==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+    dependencies:
+      '@babel/types': 7.18.4
+    dev: true
 
   /@babel/plugin-bugfix-safari-id-destructuring-collision-in-function-expression/7.17.12_@babel+core@7.18.2:
     resolution: {integrity: sha512-xCJQXl4EeQ3J9C4yOmpTrtVGmzpm2iSzyxbkZHw7UCnZBftHpF/hpII80uWVyVrc40ytIClHjgWGTG1g/yB+aw==}
@@ -5145,8 +5155,8 @@ packages:
   /electron-to-chromium/1.4.147:
     resolution: {integrity: sha512-czclPqxLMPqPMkahKcske4TaS5lcznsc26ByBlEFDU8grTBVK9C5W6K9I6oEEhm4Ai4jTihGnys90xY1yjXcRg==}
 
-  /element-plus/2.2.5_vue@3.2.37:
-    resolution: {integrity: sha512-Kl0yn/PQca5YQo3M3NPBP4Xl71NQuMtDx5zNXZGVyl5FjdMujXiFB9SXKYGDUCgFU3d/Rl14vB4Fpmcl2Iz+Hw==}
+  /element-plus/2.2.6_vue@3.2.37:
+    resolution: {integrity: sha512-N9G4yWSxDt1YtreCJgt7UaSsXKuR4Fzb3ThzlBjbGDYDhcHijsrLL3qkdLZgeoSB13LRyr9pgP1ljNXdaYGa+g==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -11177,6 +11187,23 @@ packages:
       - vite
     dev: true
 
+  /unplugin-ast/0.4.0:
+    resolution: {integrity: sha512-BJlKTD+t+ad/dKHbFrSvFKcwFDIeph7TY2bzcmBnncv92/ZBpgYSGOkwr8DX/QbjYWsvqguGB2osHpmxP1lBdg==}
+    engines: {node: '>=14.19.0'}
+    dependencies:
+      '@antfu/utils': 0.5.2
+      '@babel/parser': 7.18.5
+      '@babel/types': 7.18.4
+      '@rollup/pluginutils': 4.2.1
+      magic-string: 0.26.2
+      unplugin: 0.7.0
+    transitivePeerDependencies:
+      - esbuild
+      - rollup
+      - vite
+      - webpack
+    dev: true
+
   /unplugin-element-plus/0.4.0:
     resolution: {integrity: sha512-iE4EZu8pp5Vz/qb9r45sCNSz9Px6KOthBpe6gFBV1E60g9A45HS+JhwAaj4Zki8HZ0YGW3LyrsBCrd+XhOypnQ==}
     engines: {node: '>=14.17.0'}
@@ -11372,6 +11399,29 @@ packages:
     dependencies:
       chokidar: 3.5.3
       vite: 2.9.12
+      webpack-sources: 3.2.3
+      webpack-virtual-modules: 0.4.3
+    dev: true
+
+  /unplugin/0.7.0:
+    resolution: {integrity: sha512-OsiFrgybmqm5bGuaodvbLYhqUrvGuRHRMZDhddKEXTDbuQ1x+hR7M1WpQguXj03whVYjEYChhFo738cZH5RNig==}
+    peerDependencies:
+      esbuild: '>=0.13'
+      rollup: ^2.50.0
+      vite: ^2.3.0
+      webpack: 4 || 5
+    peerDependenciesMeta:
+      esbuild:
+        optional: true
+      rollup:
+        optional: true
+      vite:
+        optional: true
+      webpack:
+        optional: true
+    dependencies:
+      acorn: 8.7.1
+      chokidar: 3.5.3
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.3
     dev: true

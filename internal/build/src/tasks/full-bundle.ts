@@ -24,6 +24,7 @@ import {
   writeBundles,
 } from '../utils'
 import { target } from '../build-info'
+import { ASTPlugin } from '../plugins/ast'
 import type { Plugin } from 'rollup'
 
 const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
@@ -35,6 +36,7 @@ async function buildFullEntry(minify: boolean) {
     vue({
       isProduction: true,
     }),
+    ASTPlugin(),
     vueJsx(),
     nodeResolve({
       extensions: ['.mjs', '.js', '.json', '.ts'],
