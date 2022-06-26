@@ -36,8 +36,8 @@ export default function (element: HTMLElement, options: IOptions) {
     document.ondragstart = () => false
     on(document, 'mousemove', moveFn)
     on(document, 'mouseup', upFn)
-    on(document, 'touchmove', moveFn)
-    on(document, 'touchend', upFn)
+    document.addEventListener('touchmove', moveFn, { passive: true })
+    document.addEventListener('touchend', upFn, { passive: true })
 
     isDragging = true
 
@@ -45,5 +45,5 @@ export default function (element: HTMLElement, options: IOptions) {
   }
 
   on(element, 'mousedown', downFn)
-  on(element, 'touchstart', downFn)
+  document.addEventListener('touchstart', downFn, { passive: true })
 }
