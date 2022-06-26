@@ -464,7 +464,6 @@ const createList = ({
         total,
         onScroll,
         onScrollbarScroll,
-        onWheel,
         states,
         useIsScrolling,
         windowStyle,
