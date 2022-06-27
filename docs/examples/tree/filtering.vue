@@ -29,9 +29,12 @@ const defaultProps = {
   label: 'label',
 }
 
-watch(filterText, (val) => {
-  treeRef.value!.filter(val)
-})
+watch(
+  () => filterText.value,
+  (val) => {
+    treeRef.value!.filter(val)
+  }
+)
 
 const filterNode = (value: string, data: Tree) => {
   if (!value) return true
