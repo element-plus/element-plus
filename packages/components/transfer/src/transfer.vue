@@ -93,7 +93,7 @@ const checkedState = reactive<TransferCheckedState>({
   rightChecked: [],
 })
 
-const propsAlias = usePropsAlias(computed(() => props.props))
+const propsAlias = usePropsAlias(props)
 
 const { sourceData, targetData } = useComputedData(props)
 

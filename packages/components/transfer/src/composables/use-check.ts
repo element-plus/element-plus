@@ -17,7 +17,7 @@ export const useCheck = (
   panelState: TransferPanelState,
   emit: SetupContext<TransferPanelEmits>['emit']
 ) => {
-  const propsAlias = usePropsAlias(computed(() => props.props))
+  const propsAlias = usePropsAlias(props)
 
   const filteredData = computed(() => {
     return props.data.filter((item) => {

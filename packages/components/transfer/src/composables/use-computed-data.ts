@@ -4,7 +4,7 @@ import { usePropsAlias } from './use-props-alias'
 import type { TransferDataItem, TransferKey, TransferProps } from '../transfer'
 
 export const useComputedData = (props: TransferProps) => {
-  const propsAlias = usePropsAlias(computed(() => props.props))
+  const propsAlias = usePropsAlias(props)
 
   const dataObj = computed(() =>
     props.data.reduce((o, cur) => (o[cur[propsAlias.value.key]] = cur) && o, {})

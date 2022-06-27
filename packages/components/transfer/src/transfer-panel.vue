@@ -82,7 +82,7 @@ const panelState = reactive<TransferPanelState>({
   checkChangeByUser: true,
 })
 
-const propsAlias = usePropsAlias(computed(() => props.props))
+const propsAlias = usePropsAlias(props)
 
 const {
   filteredData,

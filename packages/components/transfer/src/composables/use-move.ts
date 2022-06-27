@@ -1,4 +1,3 @@
-import { computed } from 'vue'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { usePropsAlias } from './use-props-alias'
 
@@ -17,7 +16,7 @@ export const useMove = (
   checkedState: TransferCheckedState,
   emit: SetupContext<TransferEmits>['emit']
 ) => {
-  const propsAlias = usePropsAlias(computed(() => props.props))
+  const propsAlias = usePropsAlias(props)
 
   const _emit = (
     value: TransferKey[],
