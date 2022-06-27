@@ -7,8 +7,10 @@
       ns.is('bordered', border),
       ns.is('checked', modelValue === label),
       ns.m(size),
+      rawAttrs.class,
     ]"
-    v-bind="labelAttrs"
+    :style="containerStyle"
+    v-bind="labelListieners"
   >
     <span
       :class="[
@@ -25,7 +27,7 @@
         :name="name || radioGroup?.name"
         :disabled="disabled"
         type="radio"
-        v-bind="inputAttr"
+        v-bind="inputAttrs"
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
@@ -43,9 +45,9 @@
 <script lang="ts" setup>
 import { computed, nextTick, useAttrs as useRawAttrs } from 'vue'
 import { useAttrs, useNamespace } from '@element-plus/hooks'
-import { isFunction } from '@element-plus/utils'
 import { radioEmits, radioProps } from './radio'
 import { useRadio } from './use-radio'
+import type { StyleValue } from 'vue'
 
 defineOptions({
   name: 'ElRadio',
@@ -55,22 +57,13 @@ defineOptions({
 const props = defineProps(radioProps)
 const emit = defineEmits(radioEmits)
 const rawAttrs = useRawAttrs()
+const containerStyle = computed<StyleValue>(() => rawAttrs.style as StyleValue)
 
-const labelAttrs = computed(() => {
-  const containerAttrs: Record<string, unknown> = {}
-  containerAttrs['class'] = rawAttrs['class']
-  containerAttrs['style'] = rawAttrs['style']
-  Object.entries(rawAttrs).forEach(([key, value]) => {
-    if (isFunction(value)) {
-      containerAttrs[key] = value
-    }
-  })
-  return containerAttrs
-})
+const inputAttrs = useAttrs({ excludeListeners: true })
 
-const inputAttr = useAttrs({
+const labelListieners = useAttrs({
   excludeKeys: computed<string[]>(() => {
-    return Object.keys(labelAttrs.value)
+    return Object.keys(inputAttrs.value)
   }),
 })
 
