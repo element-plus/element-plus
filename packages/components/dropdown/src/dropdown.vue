@@ -191,10 +191,10 @@ export default defineComponent({
       }
     }
 
-    function handleShowTooltip(event?: Event) {
-      if (event?.type === 'keydown') {
-        contentRef.value.focus()
-      }
+    function handleShowTooltip() {
+      contentRef.value.focus({
+        preventScroll: true,
+      })
       emit('visible-change', true)
     }
     function handleHideTooltip() {
