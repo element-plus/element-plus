@@ -60,18 +60,13 @@ autocomplete/remote-search
 
 ## Autocomplete Slots
 
-| Name    | Description                     |
-| ------- | ------------------------------- |
-| prefix  | content as Input prefix         |
-| suffix  | content as Input suffix         |
-| prepend | content to prepend before Input |
-| append  | content to append after Input   |
-
-## Autocomplete Scoped Slot
-
-| Name | Description                                                           |
-| ---- | --------------------------------------------------------------------- |
-| —    | Custom content for input suggestions. The scope parameter is { item } |
+| Name    | Description                                                           |
+| ------- | --------------------------------------------------------------------- |
+| —       | Custom content for input suggestions. The scope parameter is { item } |
+| prefix  | content as Input prefix                                               |
+| suffix  | content as Input suffix                                               |
+| prepend | content to prepend before Input                                       |
+| append  | content to append after Input                                         |
 
 ## Autocomplete Events
 
@@ -85,3 +80,4 @@ autocomplete/remote-search
 | Method | Description             | Parameters |
 | ------ | ----------------------- | ---------- |
 | focus  | focus the input element | —          |
+| blur   | blur the input element  | —          |
