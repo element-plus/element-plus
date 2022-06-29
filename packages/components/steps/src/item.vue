@@ -46,7 +46,6 @@
 </template>
 
 <script lang="ts" setup>
-// @ts-nocheck
 import {
   computed,
   getCurrentInstance,
@@ -62,7 +61,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { Check, Close } from '@element-plus/icons-vue'
 import { stepProps } from './item'
 
-import type { Ref } from 'vue'
+import type { CSSProperties, Ref } from 'vue'
 
 export interface IStepsProps {
   space: number | string
@@ -152,7 +151,7 @@ const space = computed(() => {
 })
 
 const style = computed(() => {
-  const style: Record<string, unknown> = {
+  const style: CSSProperties = {
     flexBasis:
       typeof space.value === 'number'
         ? `${space.value}px`
