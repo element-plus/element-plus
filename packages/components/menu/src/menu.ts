@@ -109,6 +109,14 @@ export default defineComponent({
         ? props.defaultOpeneds.slice(0)
         : []
     )
+    watch(
+      () => props.defaultOpeneds,
+      (v) => {
+        if (v && !props.collapse) {
+          openedMenus.value = v.slice(0)
+        }
+      }
+    )
     const activeIndex = ref<MenuProvider['activeIndex']>(props.defaultActive)
     const items = ref<MenuProvider['items']>({})
     const subMenus = ref<MenuProvider['subMenus']>({})

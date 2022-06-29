@@ -328,8 +328,8 @@ describe('submenu', () => {
         },
       }
     )
-    const submenu1 = await wrapper.findComponent({ ref: 'submenu1' })
-    const submenu2 = await wrapper.findComponent({ ref: 'submenu2' })
+    const submenu1 = wrapper.findComponent({ ref: 'submenu1' })
+    const submenu2 = wrapper.findComponent({ ref: 'submenu2' })
     await nextTick()
     expect(submenu1.classes()).toContain('is-opened')
     expect(submenu2.classes()).toContain('is-opened')
@@ -337,7 +337,7 @@ describe('submenu', () => {
     instance.defaultOpeneds = ['2']
     await nextTick()
     expect(submenu1.classes()).toContain('is-opened')
-    expect(submenu2.classes()).toContain('is-opened')
+    expect(submenu2.classes().includes('is-opened')).toBeFalsy()
   })
   test('disabled', async () => {
     const wrapper = _mount(
