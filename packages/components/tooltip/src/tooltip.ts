@@ -1,7 +1,7 @@
 import { buildProps } from '@element-plus/utils'
 import { createModelToggleComposable } from '@element-plus/hooks'
 import {
-  usePopperArrowProps,
+  popperArrowProps,
   usePopperProps,
 } from '@element-plus/components/popper'
 import { useTooltipContentProps } from './content'
@@ -21,7 +21,7 @@ export const useTooltipProps = buildProps({
   ...useTooltipModelToggleProps,
   ...useTooltipContentProps,
   ...useTooltipTriggerProps,
-  ...usePopperArrowProps,
+  ...popperArrowProps,
   openDelay: {
     type: Number,
   },

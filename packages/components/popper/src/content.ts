@@ -3,12 +3,14 @@ import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
 import type { Options, Placement } from '@popperjs/core'
+import type Content from './content.vue'
 
 type ClassObjectType = Record<string, boolean>
 type ClassType = string | ClassObjectType | ClassType[]
 
 const POSITIONING_STRATEGIES = ['fixed', 'absolute'] as const
-export const usePopperCoreConfigProps = buildProps({
+
+export const popperCoreConfigProps = buildProps({
   boundariesPadding: {
     type: Number,
     default: 0,
@@ -40,12 +42,19 @@ export const usePopperCoreConfigProps = buildProps({
     default: 'absolute',
   },
 } as const)
+export type PopperCoreConfigProps = ExtractPropTypes<
+  typeof popperCoreConfigProps
+>
 
-export const usePopperContentProps = buildProps({
-  ...usePopperCoreConfigProps,
+export const popperContentProps = buildProps({
+  ...popperCoreConfigProps,
   id: String,
-  style: { type: definePropType<StyleValue>([String, Array, Object]) },
-  className: { type: definePropType<ClassType>([String, Array, Object]) },
+  style: {
+    type: definePropType<StyleValue>([String, Array, Object]),
+  },
+  className: {
+    type: definePropType<ClassType>([String, Array, Object]),
+  },
   effect: {
     type: String,
     default: 'dark',
@@ -87,19 +96,15 @@ export const usePopperContentProps = buildProps({
   virtualTriggering: Boolean,
   zIndex: Number,
 } as const)
+export type PopperContentProps = ExtractPropTypes<typeof popperContentProps>
 
-export const usePopperContentEmits = [
-  'mouseenter',
-  'mouseleave',
-  'focus',
-  'blur',
-  'close',
-]
+export const popperContentEmits = {
+  mouseenter: (evt: MouseEvent) => evt instanceof MouseEvent,
+  mouseleave: (evt: MouseEvent) => evt instanceof MouseEvent,
+  focus: () => true,
+  blur: () => true,
+  close: () => true,
+}
+export type PopperContentEmits = typeof popperContentEmits
 
-export type UsePopperContentProps = ExtractPropTypes<
-  typeof usePopperContentProps
->
-
-export type UsePopperCoreConfigProps = ExtractPropTypes<
-  typeof usePopperCoreConfigProps
->
+export type PopperContentInstance = InstanceType<typeof Content>

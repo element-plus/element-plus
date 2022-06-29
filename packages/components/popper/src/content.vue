@@ -24,7 +24,6 @@
 </template>
 
 <script lang="ts" setup>
-// @ts-nocheck
 import {
   computed,
   inject,
@@ -47,18 +46,19 @@ import {
   formItemContextKey,
 } from '@element-plus/tokens'
 import { isElement } from '@element-plus/utils'
-import { usePopperContentEmits, usePopperContentProps } from './content'
+import { popperContentEmits, popperContentProps } from './content'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
 
 import type { WatchStopHandle } from 'vue'
+import type { Measurable } from '@element-plus/tokens'
 
 defineOptions({
   name: 'ElPopperContent',
 })
 
-const emit = defineEmits(usePopperContentEmits)
+const emit = defineEmits(popperContentEmits)
 
-const props = defineProps(usePopperContentProps)
+const props = defineProps(popperContentProps)
 
 const { popperInstanceRef, contentRef, triggerRef, role } = inject(
   POPPER_INJECTION_KEY,
@@ -68,7 +68,7 @@ const formItemContext = inject(formItemContextKey, undefined)
 const { nextZIndex } = useZIndex()
 const ns = useNamespace('popper')
 const popperContentRef = ref<HTMLElement>()
-const focusStartRef = ref<string | HTMLElement>('first')
+const focusStartRef = ref<'container' | 'first' | HTMLElement>('first')
 const arrowRef = ref<HTMLElement>()
 const arrowOffset = ref<number>()
 provide(POPPER_CONTENT_INJECTION_KEY, {
@@ -112,7 +112,15 @@ const ariaModal = computed<string | undefined>(() => {
   return role && role.value === 'dialog' ? 'false' : undefined
 })
 
-const createPopperInstance = ({ referenceEl, popperContentEl, arrowEl }) => {
+const createPopperInstance = ({
+  referenceEl,
+  popperContentEl,
+  arrowEl,
+}: {
+  referenceEl: Measurable
+  popperContentEl: HTMLElement
+  arrowEl: HTMLElement | undefined
+}) => {
   const options = buildPopperOptions(props, {
     arrowEl,
     arrowOffset: unref(arrowOffset),
@@ -218,12 +226,12 @@ onMounted(() => {
       if (isElement(el)) {
         const { ariaLabel, id } = toRefs(props)
         triggerTargetAriaStopWatch = watch(
-          [role, ariaLabel, ariaModal, id],
+          [role, ref(ariaLabel), ariaModal, ref(id)],
           (watches) => {
             ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key, idx) => {
               isNil(watches[idx])
                 ? el.removeAttribute(key)
-                : el.setAttribute(key, watches[idx])
+                : el.setAttribute(key, watches[idx]!)
             })
           },
           { immediate: true }
