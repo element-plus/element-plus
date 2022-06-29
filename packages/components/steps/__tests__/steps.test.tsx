@@ -6,6 +6,8 @@ import { Edit } from '@element-plus/icons-vue'
 import ElSteps from '../src/steps.vue'
 import ElStep from '../src/item.vue'
 
+import type { StepsProps } from '../src/steps'
+
 describe('Steps.vue', () => {
   test('render', () => {
     const wrapper = mount(() => (
@@ -107,7 +109,7 @@ describe('Steps.vue', () => {
   })
 
   test('process-status', async () => {
-    const processStatus = ref('success')
+    const processStatus = ref<StepsProps['processStatus']>('success')
 
     const wrapper = mount(() => (
       <ElSteps active={2} processStatus={processStatus.value}>
@@ -129,7 +131,7 @@ describe('Steps.vue', () => {
   })
 
   test('finish-status', async () => {
-    const finishStatus = ref('error')
+    const finishStatus = ref<StepsProps['finishStatus']>('error')
 
     const wrapper = mount(() => (
       <ElSteps active={2} finishStatus={finishStatus.value}>
