@@ -217,7 +217,8 @@ export default defineComponent({
 
       timeout?.()
       ;({ stop: timeout } = useTimeoutFn(() => {
-        rootMenu.openMenu(props.index, indexPath.value)
+        event.type !== 'focus' &&
+          rootMenu.openMenu(props.index, indexPath.value)
       }, showTimeout))
 
       if (appendToBody.value) {
