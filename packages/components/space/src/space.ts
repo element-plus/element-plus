@@ -1,9 +1,11 @@
 import {
+  cloneVNode,
   createTextVNode,
   createVNode,
   defineComponent,
   isVNode,
   renderSlot,
+  unref,
 } from 'vue'
 import { isString } from '@vue/shared'
 import {
@@ -94,8 +96,37 @@ export default defineComponent({
   setup(props, { slots }) {
     const { classes, containerStyle, itemStyle } = useSpace(props)
 
+    const getItemStyle = (
+      isLast: boolean,
+      direction: string,
+      wrap: boolean
+    ) => {
+      const rawStyle = unref(itemStyle) as Record<string, string>[]
+      const isHorizontal = direction === 'horizontal'
+
+      if (!isLast || (wrap && isHorizontal)) {
+        return rawStyle
+      }
+
+      const [baseRawStyle, fillStyle] = rawStyle
+
+      const { paddingBottom, marginRight } = baseRawStyle
+
+      const baseStyle = isHorizontal
+        ? {
+          paddingBottom,
+          marginRight: '0px',
+        }
+        : {
+          marginRight,
+          paddingBottom: '0px',
+        }
+
+      return [baseStyle, fillStyle] as StyleValue
+    }
+
     return () => {
-      const { spacer, prefixCls, direction } = props
+      const { spacer, prefixCls, direction, wrap } = props
 
       const children = renderSlot(slots, 'default', { key: 0 }, () => [])
       // retrieve the children out via a simple for loop
@@ -188,6 +219,16 @@ export default defineComponent({
             []
           )
         }
+
+        const len = extractedChildren.length - 1
+        extractedChildren = extractedChildren.map((vnode, idx) => {
+          return cloneVNode(vnode, {
+            style: [
+              getItemStyle(idx === len, direction, wrap),
+              vnode.props!.style,
+            ],
+          })
+        })
 
         // spacer container.
         return createVNode(
