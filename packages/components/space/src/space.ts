@@ -114,13 +114,13 @@ export default defineComponent({
 
       const baseStyle = isHorizontal
         ? {
-          paddingBottom,
-          marginRight: '0px',
-        }
+            paddingBottom,
+            marginRight: '0px',
+          }
         : {
-          marginRight,
-          paddingBottom: '0px',
-        }
+            marginRight,
+            paddingBottom: '0px',
+          }
 
       return [baseStyle, fillStyle] as StyleValue
     }
