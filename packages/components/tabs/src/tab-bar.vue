@@ -9,7 +9,7 @@
 // @ts-nocheck
 import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
-import { capitalize, throwError } from '@element-plus/utils'
+import { capitalize, isNumber, throwError } from '@element-plus/utils'
 import { tabsRootContextKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
 import { tabBarProps } from './tab-bar'
@@ -41,7 +41,8 @@ const getBarStyle = (): CSSProperties => {
   const sizeDir = sizeName === 'width' ? 'x' : 'y'
 
   props.tabs.every((tab) => {
-    const $el = instance.parent?.refs?.[`tab-${tab.paneName}`] as HTMLElement
+    const key = `tab-${isNumber(tab.paneName) ? 'n-' : ''}${tab.paneName}`
+    const $el = instance.parent?.refs?.[key] as HTMLElement
     if (!$el) return false
 
     if (!tab.active) {
