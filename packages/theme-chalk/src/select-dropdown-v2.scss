@@ -32,7 +32,7 @@
 
   @include when(multiple) {
     .#{$namespace}-select-dropdown__option-item.is-disabled {
-      &.is-selected {
+      @include when(selected) {
         color: getCssVar('text-color-placeholder');
       }
     }
