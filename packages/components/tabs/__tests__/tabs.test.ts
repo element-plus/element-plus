@@ -3,6 +3,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
+import { isNumber } from '@element-plus/utils'
 import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav'
@@ -763,6 +764,50 @@ describe('Tabs.vue', () => {
     ;[1, 0, 2, 0, 3, 0, 1].forEach((val) => {
       navItemsWrapper[val].trigger('click')
       expect(wrapper.vm.activeName).toEqual(val)
+    })
+  })
+
+  test('both number and string for name', async () => {
+    const wrapper = mount({
+      components: {
+        'el-tabs': Tabs,
+        'el-tab-pane': TabPane,
+      },
+      data() {
+        return {
+          activeName: 0,
+        }
+      },
+      methods: {
+        handleClick(tab) {
+          this.activeName = tab.paneName
+        },
+      },
+      template: `
+        <el-tabs :active-name="activeName" @tab-click="handleClick">
+          <el-tab-pane :name="0" label="number-0">A</el-tab-pane>
+          <el-tab-pane name="0" label="string-0">B</el-tab-pane>
+          <el-tab-pane name="1" label="string-1">C</el-tab-pane>
+          <el-tab-pane :name="1" label="number-1">D</el-tab-pane>
+        </el-tabs>
+      `,
+    })
+
+    const navWrapper = wrapper.findComponent(TabNav)
+    const panesWrapper = wrapper.findAllComponents(TabPane)
+    await nextTick()
+
+    const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+
+    ;[0, '0', '1', 1].forEach((item, index) => {
+      const key = isNumber(item) ? `n-${item}` : item
+      const tab = `tab-${key}`
+      const pane = `pane-${key}`
+
+      expect(navItemsWrapper[index].attributes('id')).toBe(tab)
+      expect(navItemsWrapper[index].attributes('aria-controls')).toBe(pane)
+      expect(panesWrapper[index].attributes('id')).toBe(pane)
+      expect(panesWrapper[index].attributes('aria-labelledby')).toBe(tab)
     })
   })
 })
