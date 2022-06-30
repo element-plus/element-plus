@@ -2,15 +2,16 @@
   <div
     v-if="shouldBeRender"
     v-show="active"
-    :id="`pane-${paneName}`"
+    :id="`pane-${isNumber(paneName) ? 'n-' : ''}${paneName}`"
     :class="ns.b()"
     role="tabpanel"
     :aria-hidden="!active"
-    :aria-labelledby="`tab-${paneName}`"
+    :aria-labelledby="`tab-${isNumber(paneName) ? 'n-' : ''}${paneName}`"
   >
     <slot />
   </div>
 </template>
+
 <script lang="ts" setup>
 import {
   computed,
@@ -25,7 +26,7 @@ import {
 } from 'vue'
 import { eagerComputed } from '@vueuse/core'
 import { tabsRootContextKey } from '@element-plus/tokens'
-import { throwError } from '@element-plus/utils'
+import { isNumber, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { tabPaneProps } from './tab-pane'
 
