@@ -94,6 +94,20 @@ describe('InputNumber.vue', () => {
     expect(wrapper.find('input').element.value).toEqual('4')
   })
 
+  test('value decimals miss prop precision', async () => {
+    const num = ref(0.2)
+    const wrapper = mount(() => <InputNumber step={0.1} v-model={num.value} />)
+    const elInputNumber = wrapper.findComponent({ name: 'ElInputNumber' }).vm
+    elInputNumber.increase()
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('0.3')
+    num.value = 0.4
+    await nextTick()
+    elInputNumber.decrease()
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('0.3')
+  })
+
   describe('precision accuracy 2', () => {
     const num = ref(0)
     const wrapper = mount(() => (
