@@ -1,5 +1,14 @@
 ## Changelog
 
+### 2.2.8
+
+_2022-07-01_
+
+#### Bug fixes
+
+- Components [radio] fix typo (#8556 by @holazz)
+- Components [message] fix z-index & offset (#8582 by @sxzz)
+
 ### 2.2.7
 
 _2022-07-01_
