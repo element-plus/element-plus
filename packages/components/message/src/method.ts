@@ -82,7 +82,7 @@ const createMessage = (
 
   const props = {
     ...options,
-    zIndex: options.zIndex ?? nextZIndex(),
+    zIndex: nextZIndex() + options.zIndex,
     id,
     onClose: () => {
       userOnClose?.()
