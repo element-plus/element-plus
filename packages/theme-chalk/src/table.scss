@@ -634,4 +634,35 @@
       margin-right: 8px;
     }
   }
+
+  @include b(table) {
+    &.#{$namespace}-table--border {
+      .#{$namespace}-table__cell {
+        border-right: getCssVar('table-border');
+      }
+    }
+  }
+
+  &:not(.#{$namespace}-table--border) {
+    .#{$namespace}-table__cell {
+      border-right: none;
+    }
+
+    > .#{$namespace}-table__inner-wrapper {
+      &::after {
+        content: none;
+      }
+    }
+
+    @include e((inner-wrapper, footer-wrapper)) {
+      tr:first-child {
+        td,
+        th {
+          &:first-child {
+            border-left: none;
+          }
+        }
+      }
+    }
+  }
 }
