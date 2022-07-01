@@ -146,7 +146,6 @@ function useStore<T>() {
       // 修复 pr https://github.com/ElemeFE/element/pull/15012 导致的 bug
       const { sortingColumn: column, sortProp: prop, sortOrder: order } = states
       if (unref(order) === null) {
-        states.sortingColumn.value = null
         states.sortProp.value = null
       }
       const ingore = { filter: true }
