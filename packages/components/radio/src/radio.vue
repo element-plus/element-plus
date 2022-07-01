@@ -10,7 +10,7 @@
       rawAttrs.class,
     ]"
     :style="containerStyle"
-    v-bind="labelListieners"
+    v-bind="labelListeners"
   >
     <span
       :class="[
@@ -61,7 +61,7 @@ const containerStyle = computed<StyleValue>(() => rawAttrs.style as StyleValue)
 
 const inputAttrs = useAttrs({ excludeListeners: true })
 
-const labelListieners = useAttrs({
+const labelListeners = useAttrs({
   excludeKeys: computed<string[]>(() => {
     return Object.keys(inputAttrs.value)
   }),

@@ -20,7 +20,6 @@ import type {
   Message,
   MessageFn,
   MessageHandler,
-  MessageInstance,
   MessageOptions,
   MessageParams,
   MessageParamsNormalized,
@@ -82,7 +81,7 @@ const createMessage = (
 
   const props = {
     ...options,
-    zIndex: options.zIndex ?? nextZIndex(),
+    zIndex: nextZIndex() + options.zIndex,
     id,
     onClose: () => {
       userOnClose?.()
@@ -110,14 +109,13 @@ const createMessage = (
   // instances will remove this item when close function gets called. So we do not need to worry about it.
   appendTo.appendChild(container.firstElementChild!)
 
-  const vm = vnode.component!.proxy as MessageInstance
+  const vm = vnode.component!
+
   const handler: MessageHandler = {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
     close: () => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore `visible` from defineExpose
-      vm.visible = false
+      vm.exposeProxy!.visible = false
     },
   }
 
