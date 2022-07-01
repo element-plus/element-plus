@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { on, once } from '@element-plus/utils'
 
 import type { DirectiveBinding, ObjectDirective } from 'vue'

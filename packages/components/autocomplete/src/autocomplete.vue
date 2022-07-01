@@ -14,6 +14,8 @@
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
     @before-show="onSuggestionShow"
+    @show="onShow"
+    @hide="onHide"
   >
     <div
       ref="listboxRef"
@@ -38,6 +40,7 @@
         @keydown.enter="handleKeyEnter"
         @keydown.tab="close"
         @keydown.esc="handleKeyEscape"
+        @mousedown="handleMouseDown"
       >
         <template v-if="$slots.prepend" #prepend>
           <slot name="prepend" />
@@ -100,7 +103,7 @@ import {
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
-import { useAttrs, useNamespace } from '@element-plus/hooks'
+import { useAttrs, useDisabled, useNamespace } from '@element-plus/hooks'
 import { generateId, isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -130,6 +133,7 @@ const emit = defineEmits(autocompleteEmits)
 
 const attrs = useAttrs()
 const rawAttrs = useRawAttrs()
+const disabled = useDisabled()
 const ns = useNamespace('autocomplete')
 
 const inputRef = ref<InputInstance>()
@@ -137,7 +141,7 @@ const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
 
-let isClear = false
+let ignoreFocusEvent = false
 const suggestions = ref<AutocompleteData>([])
 const highlightedIndex = ref(-1)
 const dropdownWidth = ref('')
@@ -155,11 +159,29 @@ const suggestionVisible = computed(() => {
 
 const suggestionLoading = computed(() => !props.hideLoading && loading.value)
 
+const refInput = computed<HTMLInputElement[]>(() => {
+  if (inputRef.value) {
+    return Array.from<HTMLInputElement>(
+      inputRef.value.$el.querySelectorAll('input')
+    )
+  }
+  return []
+})
+
 const onSuggestionShow = async () => {
   await nextTick()
   if (suggestionVisible.value) {
     dropdownWidth.value = `${inputRef.value!.$el.offsetWidth}px`
   }
+}
+
+const onShow = () => {
+  ignoreFocusEvent = true
+}
+
+const onHide = () => {
+  ignoreFocusEvent = false
+  highlightedIndex.value = -1
 }
 
 const getData = async (queryString: string) => {
@@ -194,17 +216,25 @@ const handleInput = (value: string) => {
   emit(UPDATE_MODEL_EVENT, value)
 
   suggestionDisabled.value = false
-  activated.value ||= isClear && valuePresented
+  activated.value ||= valuePresented
 
   if (!props.triggerOnFocus && !value) {
     suggestionDisabled.value = true
     suggestions.value = []
     return
   }
-  if (isClear && valuePresented) {
-    isClear = false
-  }
+
   debouncedGetData(value)
+}
+
+const handleMouseDown = (event: MouseEvent) => {
+  if (disabled.value) return
+  if (
+    (event.target as HTMLElement)?.tagName !== 'INPUT' ||
+    refInput.value.includes(document.activeElement as HTMLInputElement)
+  ) {
+    activated.value = true
+  }
 }
 
 const handleChange = (value: string) => {
@@ -212,6 +242,8 @@ const handleChange = (value: string) => {
 }
 
 const handleFocus = (evt: FocusEvent) => {
+  if (ignoreFocusEvent) return
+
   activated.value = true
   emit('focus', evt)
   if (props.triggerOnFocus) {
@@ -220,12 +252,12 @@ const handleFocus = (evt: FocusEvent) => {
 }
 
 const handleBlur = (evt: FocusEvent) => {
+  if (ignoreFocusEvent) return
   emit('blur', evt)
 }
 
 const handleClear = () => {
   activated.value = false
-  isClear = true
   emit(UPDATE_MODEL_EVENT, '')
   emit('clear')
 }
@@ -239,7 +271,6 @@ const handleKeyEnter = async () => {
     handleSelect(suggestions.value[highlightedIndex.value])
   } else if (props.selectWhenUnmatched) {
     emit('select', { value: props.modelValue })
-    await nextTick()
     suggestions.value = []
     highlightedIndex.value = -1
   }
@@ -261,11 +292,14 @@ const focus = () => {
   inputRef.value?.focus()
 }
 
+const blur = () => {
+  inputRef.value?.blur()
+}
+
 const handleSelect = async (item: any) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
-  await nextTick()
   suggestions.value = []
   highlightedIndex.value = -1
 }
@@ -305,7 +339,9 @@ const highlight = (index: number) => {
   )
 }
 
-onClickOutside(listboxRef, close)
+onClickOutside(listboxRef, () => {
+  suggestionVisible.value && close()
+})
 
 onMounted(() => {
   // TODO: use Volar generate dts to fix it.
@@ -337,6 +373,8 @@ defineExpose({
   handleKeyEnter,
   /** @description focus the input element */
   focus,
+  /** @description blur the input element */
+  blur,
   /** @description close suggestion */
   close,
   /** @description highlight an item in a suggestion */

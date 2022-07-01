@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
@@ -1074,8 +1075,8 @@ describe('Select', () => {
     const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
     expect(triggerWrappers[0]).toBeDefined()
     const tags = wrapper.findAll('.el-select__tags-text')
-    expect(tags.length).toBe(5)
-    expect(tags[4].element.textContent).toBe('蚵仔煎')
+    expect(tags.length).toBe(4)
+    expect(tags[3].element.textContent).toBe('蚵仔煎')
   })
 
   test('multiple remove-tag', async () => {

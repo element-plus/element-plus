@@ -1,3 +1,4 @@
+// @ts-nocheck
 import normalizeWheel from 'normalize-wheel-es'
 import type { DirectiveBinding, ObjectDirective } from 'vue'
 

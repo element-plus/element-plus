@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
@@ -727,5 +728,41 @@ describe('Tabs.vue', () => {
     mockRect.mockRestore()
     mockComputedStyle.mockRestore()
     wrapper.unmount()
+  })
+
+  test('value type', async () => {
+    const wrapper = mount({
+      components: {
+        'el-tabs': Tabs,
+        'el-tab-pane': TabPane,
+      },
+      data() {
+        return {
+          activeName: 0,
+        }
+      },
+      methods: {
+        handleClick(tab) {
+          this.activeName = tab.paneName
+        },
+      },
+      template: `
+        <el-tabs :active-name="activeName" @tab-click="handleClick">
+          <el-tab-pane :name="0" label="label-1">A</el-tab-pane>
+          <el-tab-pane :name="1" label="label-2">B</el-tab-pane>
+          <el-tab-pane :name="2" label="label-3" ref="pane-click">C</el-tab-pane>
+          <el-tab-pane :name="3" label="label-4">D</el-tab-pane>
+        </el-tabs>
+      `,
+    })
+
+    const navWrapper = wrapper.findComponent(TabNav)
+    await nextTick()
+
+    const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+    ;[1, 0, 2, 0, 3, 0, 1].forEach((val) => {
+      navItemsWrapper[val].trigger('click')
+      expect(wrapper.vm.activeName).toEqual(val)
+    })
   })
 })

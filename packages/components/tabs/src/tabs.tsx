@@ -1,9 +1,18 @@
-import { defineComponent, provide, reactive, ref, renderSlot, watch } from 'vue'
+import {
+  defineComponent,
+  nextTick,
+  provide,
+  reactive,
+  ref,
+  renderSlot,
+  watch,
+} from 'vue'
 import {
   buildProps,
   definePropType,
   isNumber,
   isString,
+  isUndefined,
 } from '@element-plus/utils'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
@@ -27,13 +36,11 @@ export const tabsProps = buildProps({
   },
   activeName: {
     type: [String, Number],
-    default: '',
   },
   closable: Boolean,
   addable: Boolean,
   modelValue: {
     type: [String, Number],
-    default: '',
   },
   editable: Boolean,
   tabPosition: {
@@ -79,7 +86,9 @@ export default defineComponent({
 
     const nav$ = ref<TabNavInstance>()
     const panes = reactive<Record<number, TabsPaneContext>>({})
-    const currentName = ref(props.modelValue || props.activeName || '0')
+    const currentName = ref<TabPanelName>(
+      props.modelValue ?? props.activeName ?? '0'
+    )
 
     const changeCurrentName = (value: TabPanelName) => {
       currentName.value = value
@@ -87,9 +96,9 @@ export default defineComponent({
       emit('tab-change', value)
     }
 
-    const setCurrentName = async (value: TabPanelName) => {
+    const setCurrentName = async (value?: TabPanelName) => {
       // should do nothing.
-      if (currentName.value === value) return
+      if (currentName.value === value || isUndefined(value)) return
 
       try {
         const canLeave = await props.beforeLeave?.(value, currentName.value)
@@ -115,7 +124,7 @@ export default defineComponent({
     }
 
     const handleTabRemove = (pane: TabsPaneContext, ev: Event) => {
-      if (pane.props.disabled) return
+      if (pane.props.disabled || isUndefined(pane.props.name)) return
       ev.stopPropagation()
       emit('edit', pane.props.name, 'remove')
       emit('tab-remove', pane.props.name)
@@ -137,6 +146,7 @@ export default defineComponent({
     )
 
     watch(currentName, async () => {
+      await nextTick()
       // call exposed function, Vue doesn't support expose in typescript yet.
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error

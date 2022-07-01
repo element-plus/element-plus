@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { hasOwn } from '@element-plus/utils'
 
 const hsv2hsl = function (hue: number, sat: number, val: number) {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { onBeforeUnmount, onMounted, onUpdated, shallowRef, watch } from 'vue'
 import { off, on } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { provideGlobalConfig } from '@element-plus/hooks'
 import { INSTALLED_KEY } from '@element-plus/constants'
 import { version } from './version'

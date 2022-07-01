@@ -1,53 +1,40 @@
-import { computed, getCurrentInstance, watch } from 'vue'
+import { computed, watch } from 'vue'
+import { isFunction } from '@element-plus/utils'
+import { CHECKED_CHANGE_EVENT } from '../transfer-panel'
+import { usePropsAlias } from './use-props-alias'
 
-import type { ExtractPropTypes } from 'vue'
-import type { Key, TransferPanelState } from './transfer'
-
-export const CHECKED_CHANGE_EVENT = 'checked-change'
-
-export const useCheckProps = {
-  data: {
-    type: Array,
-    default() {
-      return []
-    },
-  },
-  optionRender: Function,
-  placeholder: String,
-  title: String,
-  filterable: Boolean,
-  format: Object,
-  filterMethod: Function,
-  defaultChecked: Array,
-  props: Object,
-}
+import type { SetupContext } from 'vue'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
+import type { TransferKey } from '../transfer'
+import type {
+  TransferPanelEmits,
+  TransferPanelProps,
+  TransferPanelState,
+} from '../transfer-panel'
 
 export const useCheck = (
-  props: ExtractPropTypes<typeof useCheckProps>,
-  panelState: TransferPanelState
+  props: TransferPanelProps,
+  panelState: TransferPanelState,
+  emit: SetupContext<TransferPanelEmits>['emit']
 ) => {
-  const { emit } = getCurrentInstance()
-
-  const labelProp = computed(() => props.props.label || 'label')
-
-  const keyProp = computed(() => props.props.key || 'key')
-
-  const disabledProp = computed(() => props.props.disabled || 'disabled')
+  const propsAlias = usePropsAlias(props)
 
   const filteredData = computed(() => {
     return props.data.filter((item) => {
-      if (typeof props.filterMethod === 'function') {
+      if (isFunction(props.filterMethod)) {
         return props.filterMethod(panelState.query, item)
       } else {
-        const label = item[labelProp.value] || item[keyProp.value].toString()
+        const label = String(
+          item[propsAlias.value.label] || item[propsAlias.value.key]
+        )
         return label.toLowerCase().includes(panelState.query.toLowerCase())
       }
     })
   })
 
-  const checkableData = computed(() => {
-    return filteredData.value.filter((item) => !item[disabledProp.value])
-  })
+  const checkableData = computed(() =>
+    filteredData.value.filter((item) => !item[propsAlias.value.disabled])
+  )
 
   const checkedSummary = computed(() => {
     const checkedLength = panelState.checked.length
@@ -72,16 +59,16 @@ export const useCheck = (
 
   const updateAllChecked = () => {
     const checkableDataKeys = checkableData.value.map(
-      (item) => item[keyProp.value]
+      (item) => item[propsAlias.value.key]
     )
     panelState.allChecked =
       checkableDataKeys.length > 0 &&
       checkableDataKeys.every((item) => panelState.checked.includes(item))
   }
 
-  const handleAllCheckedChange = (value: Key[]) => {
+  const handleAllCheckedChange = (value: CheckboxValueType) => {
     panelState.checked = value
-      ? checkableData.value.map((item) => item[keyProp.value])
+      ? checkableData.value.map((item) => item[propsAlias.value.key])
       : []
   }
 
@@ -109,9 +96,9 @@ export const useCheck = (
   watch(
     () => props.data,
     () => {
-      const checked = []
+      const checked: TransferKey[] = []
       const filteredDataKeys = filteredData.value.map(
-        (item) => item[keyProp.value]
+        (item) => item[propsAlias.value.key]
       )
       panelState.checked.forEach((item) => {
         if (filteredDataKeys.includes(item)) {
@@ -133,9 +120,9 @@ export const useCheck = (
       )
         return
 
-      const checked = []
+      const checked: TransferKey[] = []
       const checkableDataKeys = checkableData.value.map(
-        (item) => item[keyProp.value]
+        (item) => item[propsAlias.value.key]
       )
 
       val.forEach((item) => {
@@ -152,9 +139,6 @@ export const useCheck = (
   )
 
   return {
-    labelProp,
-    keyProp,
-    disabledProp,
     filteredData,
     checkableData,
     checkedSummary,

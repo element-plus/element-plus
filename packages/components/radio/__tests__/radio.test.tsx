@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
@@ -370,6 +371,56 @@ describe('Radio Button', () => {
       expect(radioGroup2.attributes().role).toBe('radiogroup')
       expect(radioGroup2.attributes()['aria-label']).toBe('Bar')
       expect(radioGroup2.attributes()['aria-labelledby']).toBeFalsy()
+    })
+  })
+
+  describe('laebl for', () => {
+    test('label and radio', async () => {
+      const radio = ref('')
+      const forId = ref('radio1121')
+      const wrapper = mount(() => (
+        <>
+          <label for={forId.value}>click here</label>
+          <Radio v-model={radio.value} label="Foo" id="radio1121" />
+        </>
+      ))
+      await nextTick()
+      const label = wrapper.find('label')
+      label.trigger('click')
+      expect(radio.value).toBe('Foo')
+      // no for
+      radio.value = ''
+      forId.value = undefined
+      await nextTick()
+      label.trigger('click')
+      expect(radio.value).toBe('')
+    })
+
+    test('label and radioGroup', async () => {
+      const compList = [Radio]
+      compList.forEach(async (comp) => {
+        const radio = ref('')
+        const forId = ref('radio1121')
+        const wrapper = mount(() => (
+          <>
+            <label for={forId.value}>click here</label>
+            <RadioGroup v-model={radio.value}>
+              <comp label="Foo" id="radio1121" />
+              <comp label="Bar" id="radio1122" />
+            </RadioGroup>
+          </>
+        ))
+        await nextTick()
+        const label = wrapper.find('label')
+        label.trigger('click')
+        expect(radio.value).toBe('Foo')
+        // no for
+        radio.value = ''
+        forId.value = undefined
+        await nextTick()
+        label.trigger('click')
+        expect(radio.value).toBe('')
+      })
     })
   })
 })
