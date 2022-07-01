@@ -216,11 +216,13 @@ export default defineComponent({
       subMenu.mouseInChild.value = true
 
       timeout?.()
+
+      // TODO: just fixed flicker after choosing(but why?)
+      if (event.type === 'focus') {
+        showTimeout += 30
+      }
       ;({ stop: timeout } = useTimeoutFn(() => {
-        !(
-          event.type === 'focus' &&
-          hasClass(event.target as HTMLElement, 'is-active')
-        ) && rootMenu.openMenu(props.index, indexPath.value)
+        rootMenu.openMenu(props.index, indexPath.value)
       }, showTimeout))
 
       if (appendToBody.value) {
