@@ -99,7 +99,7 @@ describe('InputNumber.vue', () => {
     const wrapper = mount(() => (
       <InputNumber step-strictly={true} step={0.1} v-model={num.value} />
     ))
-    const elInputNumber = wrapper.findComponent(InputNumber).vm
+    const elInputNumber = wrapper.findComponent({ name: 'ElInputNumber' }).vm
     elInputNumber.increase()
     await nextTick()
     expect(wrapper.find('input').element.value).toEqual('0.3')
