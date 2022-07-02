@@ -54,9 +54,10 @@ autocomplete/remote-search
 | prefix-icon                       | prefix icon class                                                                                                          | string / Component              | —                                                              | —            |
 | suffix-icon                       | suffix icon class                                                                                                          | string / Component              | —                                                              | —            |
 | hide-loading                      | whether to hide the loading icon in remote search                                                                          | boolean                         | —                                                              | false        |
-| popper-append-to-body(deprecated) | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | boolean                         | -                                                              | false        |
+| popper-append-to-body(deprecated) | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | boolean                         | —                                                              | false        |
 | teleported                        | whether select dropdown is teleported to the body                                                                          | boolean                         | true / false                                                   | true         |
 | highlight-first-item              | whether to highlight first item in remote search suggestions by default                                                    | boolean                         | —                                                              | false        |
+| fit-input-width                   | whether the width of the dropdown is the same as the input                                                                 | boolean                         | —                                                              | false        |
 
 ## Autocomplete Slots
 
