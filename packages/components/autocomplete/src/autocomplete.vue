@@ -61,7 +61,7 @@
         ref="regionRef"
         :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
         :style="{
-          [isFitInputWidth ? 'width' : 'minWidth']: dropdownWidth,
+          [fitInputWidth ? 'width' : 'minWidth']: dropdownWidth,
           outline: 'none',
         }"
         role="region"
@@ -154,7 +154,6 @@ const loading = ref(false)
 
 const listboxId = computed(() => ns.b(String(generateId())))
 const styles = computed(() => rawAttrs.style as StyleValue)
-const isFitInputWidth = computed(() => props.fitInputWidth)
 
 const suggestionVisible = computed(() => {
   const isValidData = suggestions.value.length > 0
