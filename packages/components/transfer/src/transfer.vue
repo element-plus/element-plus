@@ -1,31 +1,53 @@
 <template>
   <div :class="ns.b()">
-    <transfer-panel ref="leftPanel" :data="sourceData" :option-render="optionRender"
-      :placeholder="panelFilterPlaceholder" :title="leftPanelTitle" :filterable="filterable" :format="format"
-      :filter-method="filterMethod" :default-checked="leftDefaultChecked" :props="props.props"
-      @checked-change="onSourceCheckedChange">
+    <transfer-panel
+      ref="leftPanel"
+      :data="sourceData"
+      :option-render="optionRender"
+      :placeholder="panelFilterPlaceholder"
+      :title="leftPanelTitle"
+      :filterable="filterable"
+      :format="format"
+      :filter-method="filterMethod"
+      :default-checked="leftDefaultChecked"
+      :props="props.props"
+      @checked-change="onSourceCheckedChange"
+    >
       <slot name="left-footer" />
     </transfer-panel>
     <div :class="ns.e('buttons')">
-      <el-button type="primary" :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
-        :disabled="isEmpty(checkedState.rightChecked)" @click="addToLeft">
-        <el-icon>
-          <arrow-left />
-        </el-icon>
+      <el-button
+        type="primary"
+        :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
+        :disabled="isEmpty(checkedState.rightChecked)"
+        @click="addToLeft"
+      >
+        <el-icon><arrow-left /></el-icon>
         <span v-if="!isUndefined(buttonTexts[0])">{{ buttonTexts[0] }}</span>
       </el-button>
-      <el-button type="primary" :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
-        :disabled="isEmpty(checkedState.leftChecked)" @click="addToRight">
+      <el-button
+        type="primary"
+        :class="[ns.e('button'), ns.is('with-texts', hasButtonTexts)]"
+        :disabled="isEmpty(checkedState.leftChecked)"
+        @click="addToRight"
+      >
         <span v-if="!isUndefined(buttonTexts[1])">{{ buttonTexts[1] }}</span>
-        <el-icon>
-          <arrow-right />
-        </el-icon>
+        <el-icon><arrow-right /></el-icon>
       </el-button>
     </div>
-    <transfer-panel ref="rightPanel" :data="targetData" :option-render="optionRender"
-      :placeholder="panelFilterPlaceholder" :filterable="filterable" :format="format" :filter-method="filterMethod"
-      :title="rightPanelTitle" :default-checked="rightDefaultChecked" :props="props.props"
-      @checked-change="onTargetCheckedChange">
+    <transfer-panel
+      ref="rightPanel"
+      :data="targetData"
+      :option-render="optionRender"
+      :placeholder="panelFilterPlaceholder"
+      :filterable="filterable"
+      :format="format"
+      :filter-method="filterMethod"
+      :title="rightPanelTitle"
+      :default-checked="rightDefaultChecked"
+      :props="props.props"
+      @checked-change="onTargetCheckedChange"
+    >
       <slot name="right-footer" />
     </transfer-panel>
   </div>
