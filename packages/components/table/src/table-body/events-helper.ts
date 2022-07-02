@@ -48,7 +48,8 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   }, 30)
   const handleCellMouseEnter = (
     event: MouseEvent,
-    row: T & { tooltipEffect: string }
+    row: T,
+    tooltipEffect: string
   ) => {
     const table = parent
     const cell = getCell(event)
@@ -104,7 +105,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
           placement: 'top',
           strategy: 'fixed',
         },
-        row.tooltipEffect
+        tooltipEffect
       )
     }
   }

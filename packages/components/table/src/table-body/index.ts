@@ -52,9 +52,6 @@ export default defineComponent({
     onUnmounted(() => {
       removePopper?.()
     })
-    onUpdated(() => {
-      removePopper?.()
-    })
 
     return {
       ns,

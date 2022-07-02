@@ -346,6 +346,7 @@ export function createTablePopper(
   function showPopper() {
     popperInstance && popperInstance.update()
   }
+  removePopper?.()
   removePopper = () => {
     try {
       popperInstance && popperInstance.destroy()
