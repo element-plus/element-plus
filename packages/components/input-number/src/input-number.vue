@@ -201,10 +201,7 @@ const verifyValue = (
     newVal = isString(valueOnClear) ? { min, max }[valueOnClear] : valueOnClear
   }
   if (stepStrictly) {
-    newVal = toPrecision(
-      Math.round(newVal / step) * step,
-      precision || numPrecision.value
-    )
+    newVal = toPrecision(Math.round(newVal / step) * step, precision)
   }
   if (!isUndefined(precision)) {
     newVal = toPrecision(newVal, precision)
