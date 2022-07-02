@@ -714,7 +714,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if (!val || val.toString() !== states.previousValue) {
         initStates()
       }
-      if (!isEqual(val, oldVal)) {
+      if (!isEqual(val, oldVal) && props.validateEvent) {
         elFormItem?.validate?.('change').catch((err) => debugWarn(err))
       }
     },

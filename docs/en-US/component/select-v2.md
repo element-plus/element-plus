@@ -157,6 +157,7 @@ select-v2/remote-search
 | scrollbar-always-on               | Controls whether the scrollbar is always displayed                                                                                       | boolean                            | -                   | false         |
 | remote                            | whether search data from server                                                                                                          | boolean                            | —                   | false         |
 | remote-method                     | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | function(keyword: string)          | —                   | —             |
+| validate-event                    | whether to trigger form validation                                                                                                       | boolean                            | -                   | true          |
 
 <span style="display: none;">
 <!-- | default-first-option | 在输入框按下回车，选择第一个匹配项。需配合 `filterable` 或 `remote` 使用 | boolean | - | false |

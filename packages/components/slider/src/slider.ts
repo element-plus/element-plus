@@ -93,6 +93,10 @@ export const sliderProps = buildProps({
   marks: {
     type: definePropType<SliderMarks>(Object),
   },
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
 
