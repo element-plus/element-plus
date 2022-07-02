@@ -60,7 +60,10 @@
       <div
         ref="regionRef"
         :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
-        :style="{ minWidth: dropdownWidth, outline: 'none' }"
+        :style="{
+          [isFitInputWidth ? 'width' : 'minWidth']: dropdownWidth,
+          outline: 'none',
+        }"
         role="region"
       >
         <el-scrollbar
@@ -151,6 +154,7 @@ const loading = ref(false)
 
 const listboxId = computed(() => ns.b(String(generateId())))
 const styles = computed(() => rawAttrs.style as StyleValue)
+const isFitInputWidth = computed(() => props.fitInputWidth)
 
 const suggestionVisible = computed(() => {
   const isValidData = suggestions.value.length > 0
