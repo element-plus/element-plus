@@ -232,6 +232,7 @@ const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 
 let hasJustTabExitedInput = false
 let ignoreFocusEvent = false
+let focusEle = null
 
 watch(pickerVisible, (val) => {
   if (!val) {
@@ -292,8 +293,8 @@ const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
     _inputs[1].focus()
   }
 }
-const focusOnInputBox = () => {
-  focus(true, true)
+const focusOnInputBox = (focusStartInput = true) => {
+  focus(focusStartInput, true)
   nextTick(() => {
     ignoreFocusEvent = false
   })
@@ -301,7 +302,8 @@ const focusOnInputBox = () => {
 
 const onPick = (date: any = '', visible = false) => {
   if (!visible) {
-    focusOnInputBox()
+    const _inputs = refInput.value
+    focusEle === _inputs[1] ? focusOnInputBox(false) : focusOnInputBox()
   }
   pickerVisible.value = visible
   let result
@@ -348,6 +350,7 @@ const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
 }
 
 const handleFocusInput = (e?: FocusEvent) => {
+  focusEle = document.activeElement
   if (
     props.readonly ||
     pickerDisabled.value ||
