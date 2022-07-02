@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="popperRef"
-    v-model:visible="suggestionVisible"
+    :visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
