@@ -67,7 +67,15 @@ export default defineComponent({
     const vm = getCurrentInstance().proxy
     const key = (vm as unknown as SelectOptionProxy).value
     select.onOptionCreate(vm as unknown as SelectOptionProxy)
-
+    // fix: 8544
+    //  When props are changed, the component is remounted,
+    //  and "onOptionCreate" will be called,
+    //  but in the previous hook method "onBeforeUnmount",
+    // "cachedOptions.delete" will be executed after "onOptionCreate", which leads to a bug (8544).
+    // Here, call "onOptionCreate" again
+    nextTick(() => {
+      select.onOptionCreate(vm as unknown as SelectOptionProxy)
+    })
     onBeforeUnmount(() => {
       const { selected } = select
       const selectedOptions = select.props.multiple ? selected : [selected]
