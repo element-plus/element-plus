@@ -96,7 +96,9 @@ describe('InputNumber.vue', () => {
 
   test('value decimals miss prop precision', async () => {
     const num = ref(0.2)
-    const wrapper = mount(() => <InputNumber step={0.1} v-model={num.value} />)
+    const wrapper = mount(() => (
+      <InputNumber step-strictly={true} step={0.1} v-model={num.value} />
+    ))
     const elInputNumber = wrapper.findComponent(InputNumber).vm
     elInputNumber.increase()
     await nextTick()
