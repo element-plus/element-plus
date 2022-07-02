@@ -11,9 +11,9 @@ import {
   it,
 } from 'vitest'
 import { usePopperContainer } from '@element-plus/hooks'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
 import { genTooltipProvides } from '../test-helper/provides'
 import ElTooltipContent from '../src/content.vue'
-import { TOOLTIP_INJECTION_KEY } from '../src/tokens'
 
 const AXIOM = 'rem is the best girl'
 

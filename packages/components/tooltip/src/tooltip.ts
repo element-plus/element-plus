@@ -1,7 +1,8 @@
-// @ts-nocheck
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProp, buildProps, definePropType } from '@element-plus/utils'
 import {
+  usePopperArrowProps,
   usePopperContentProps,
+  usePopperProps,
   usePopperTriggerProps,
 } from '@element-plus/components/popper'
 import {
@@ -71,6 +72,17 @@ export const useTooltipTriggerProps = buildProps({
 } as const)
 
 export const useTooltipProps = buildProps({
+  ...usePopperProps,
+  ...useTooltipContentProps,
+  ...useTooltipTriggerProps,
+  ...usePopperArrowProps,
+  visible: buildProp({
+    type: definePropType<boolean | null>(Boolean),
+    default: null,
+  } as const),
+  'onUpdate:visible': buildProp({
+    type: definePropType<(val: boolean) => void>(Function),
+  } as const),
   openDelay: {
     type: Number,
   },
@@ -87,6 +99,16 @@ export const useTooltipProps = buildProps({
     default: true,
   },
 })
+
+export const useTooltipEmits = [
+  'update:visible',
+  'before-show',
+  'before-hide',
+  'show',
+  'hide',
+  'open',
+  'close',
+]
 
 export type ElTooltipContentProps = ExtractPropTypes<
   typeof useTooltipContentProps
