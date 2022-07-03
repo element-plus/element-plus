@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick, ref } from 'vue'
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'

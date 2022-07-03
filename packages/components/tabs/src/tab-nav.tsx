@@ -309,7 +309,8 @@ const TabNav = defineComponent({
 
       const tabs = props.panes.map((pane, index) => {
         const tabName = pane.props.name ?? pane.index ?? `${index}`
-        const closable: boolean = pane.isClosable || props.editable
+        const closable: boolean =
+          !pane.props.disabled && (pane.isClosable || props.editable)
         pane.index = `${index}`
 
         const btnClose = closable ? (
@@ -325,7 +326,7 @@ const TabNav = defineComponent({
         ) : null
 
         const tabLabelContent = pane.slots.label?.() || pane.props.label
-        const tabindex = pane.active ? 0 : -1
+        const tabindex = !pane.props.disabled && pane.active ? 0 : -1
 
         return (
           <div
