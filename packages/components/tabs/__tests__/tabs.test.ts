@@ -800,7 +800,7 @@ describe('Tabs.vue', () => {
     const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
 
     ;[0, '0', '1', 1].forEach((item, index) => {
-      const key = isNumber(item) ? `n-${item}` : item
+      const key = isNumber(item) ? `n__${item}` : item
       const tab = `tab-${key}`
       const pane = `pane-${key}`
 
