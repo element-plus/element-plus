@@ -308,8 +308,8 @@ const TabNav = defineComponent({
         : null
 
       const tabs = props.panes.map((pane, index) => {
-        const tabName = pane.props.name ?? pane.index ?? `${index}`
-        const key = `tab-${isNumber(tabName) ? 'n-' : ''}${tabName}`
+        const tabName = pane.paneName ?? `${index}`
+        const key = pane.key ?? `${index}`
         const closable: boolean = pane.isClosable || props.editable
         pane.index = `${index}`
 
@@ -330,7 +330,7 @@ const TabNav = defineComponent({
 
         return (
           <div
-            ref={key}
+            ref={`tab-${key}`}
             class={[
               ns.e('item'),
               ns.is(rootTabs.props.tabPosition),
@@ -339,9 +339,9 @@ const TabNav = defineComponent({
               ns.is('closable', closable),
               ns.is('focus', isFocus.value),
             ]}
-            id={key}
-            key={key}
-            aria-controls={`pane-${isNumber(tabName) ? 'n-' : ''}${tabName}`}
+            id={`tab-${key}`}
+            key={`tab-${key}`}
+            aria-controls={`pane-${key}`}
             role="tab"
             aria-selected={pane.active}
             tabindex={tabindex}

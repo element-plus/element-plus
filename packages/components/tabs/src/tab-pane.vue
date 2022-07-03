@@ -2,11 +2,11 @@
   <div
     v-if="shouldBeRender"
     v-show="active"
-    :id="`pane-${isNumber(paneName) ? 'n-' : ''}${paneName}`"
+    :id="`pane-${key}`"
     :class="ns.b()"
     role="tabpanel"
     :aria-hidden="!active"
-    :aria-labelledby="`tab-${isNumber(paneName) ? 'n-' : ''}${paneName}`"
+    :aria-labelledby="`tab-${key}`"
   >
     <slot />
   </div>
@@ -26,7 +26,7 @@ import {
 } from 'vue'
 import { eagerComputed } from '@vueuse/core'
 import { tabsRootContextKey } from '@element-plus/tokens'
-import { isNumber, throwError } from '@element-plus/utils'
+import { isNumber, isUndefined, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { tabPaneProps } from './tab-pane'
 
@@ -52,6 +52,11 @@ const active = eagerComputed(
 )
 const loaded = ref(active.value)
 const paneName = computed(() => props.name ?? index.value)
+const key = computed(() => {
+  return isUndefined(paneName.value)
+    ? undefined
+    : `${isNumber(paneName.value) ? 'n-' : ''}${paneName.value}`
+})
 const shouldBeRender = eagerComputed(
   () => !props.lazy || loaded.value || active.value
 )
@@ -67,6 +72,7 @@ const pane = reactive({
   paneName,
   active,
   index,
+  key,
   isClosable,
 })
 

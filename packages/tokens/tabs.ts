@@ -8,6 +8,7 @@ export type TabsPaneContext = UnwrapRef<{
   paneName: ComputedRef<string | number | undefined>
   active: ComputedRef<boolean>
   index: Ref<string | undefined>
+  key: ComputedRef<string | undefined>
   isClosable: ComputedRef<boolean>
 }>
 
