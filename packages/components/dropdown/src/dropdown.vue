@@ -24,8 +24,8 @@
       teleported
       pure
       persistent
-      @show="handleShowTooltip"
-      @hide="handleHideTooltip"
+      @before-show="handleShowTooltip"
+      @before-hide="handleHideTooltip"
     >
       <template #content>
         <el-scrollbar
