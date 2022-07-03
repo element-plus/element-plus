@@ -232,7 +232,7 @@ const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
 
 let hasJustTabExitedInput = false
 let ignoreFocusEvent = false
-let focusEle = null
+let focusEle: HTMLElement | null = null
 
 watch(pickerVisible, (val) => {
   if (!val) {
@@ -350,7 +350,7 @@ const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
 }
 
 const handleFocusInput = (e?: FocusEvent) => {
-  focusEle = document.activeElement
+  focusEle = document.activeElement as HTMLElement
   if (
     props.readonly ||
     pickerDisabled.value ||
