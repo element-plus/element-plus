@@ -108,3 +108,21 @@ export const popperContentEmits = {
 export type PopperContentEmits = typeof popperContentEmits
 
 export type PopperContentInstance = InstanceType<typeof Content>
+
+/** @deprecated use `popperCoreConfigProps` instead, and it will be deprecated in the next major version */
+export const usePopperCoreConfigProps = popperCoreConfigProps
+
+/** @deprecated use `popperContentProps` instead, and it will be deprecated in the next major version */
+export const usePopperContentProps = popperContentProps
+
+/** @deprecated use `popperContentEmits` instead, and it will be deprecated in the next major version */
+export const usePopperContentEmits = popperContentEmits
+
+/** @deprecated use `PopperCoreConfigProps` instead, and it will be deprecated in the next major version */
+export type UsePopperCoreConfigProps = PopperCoreConfigProps
+
+/** @deprecated use `PopperContentProps` instead, and it will be deprecated in the next major version */
+export type UsePopperContentProps = PopperContentProps
+
+/** @deprecated use `PopperContentInstance` instead, and it will be deprecated in the next major version */
+export type ElPopperArrowContent = PopperContentInstance
