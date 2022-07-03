@@ -45,6 +45,16 @@ slider/sizes
 
 :::
 
+## Placement
+
+You can custom tooltip placement.
+
+:::demo
+
+slider/placement
+
+:::
+
 ## Range selection
 
 Selecting a range of values is supported.
