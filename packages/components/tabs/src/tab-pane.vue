@@ -55,7 +55,7 @@ const paneName = computed(() => props.name ?? index.value)
 const key = computed(() => {
   return isUndefined(paneName.value)
     ? undefined
-    : `${isNumber(paneName.value) ? 'n-' : ''}${paneName.value}`
+    : `${isNumber(paneName.value) ? 'n__' : ''}${paneName.value}`
 })
 const shouldBeRender = eagerComputed(
   () => !props.lazy || loaded.value || active.value
