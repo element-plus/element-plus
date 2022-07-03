@@ -2,6 +2,7 @@
   <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
     <img
       v-if="imageSrc !== undefined && !hasLoadError"
+      :key="imageSrc"
       v-bind="attrs"
       :src="imageSrc"
       :loading="loading"
