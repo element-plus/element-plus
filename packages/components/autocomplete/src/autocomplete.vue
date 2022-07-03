@@ -60,7 +60,10 @@
       <div
         ref="regionRef"
         :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
-        :style="{ minWidth: dropdownWidth, outline: 'none' }"
+        :style="{
+          [fitInputWidth ? 'width' : 'minWidth']: dropdownWidth,
+          outline: 'none',
+        }"
         role="region"
       >
         <el-scrollbar
