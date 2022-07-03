@@ -14,10 +14,6 @@
   @include e(inner) {
     @extend %size !optional;
     vertical-align: top;
-    opacity: 1;
-    @include when(loading) {
-      opacity: 0;
-    }
   }
 
   @include e(wrapper) {
