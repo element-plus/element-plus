@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -634,7 +634,7 @@ describe('Tabs.vue', () => {
       },
       template: `
         <el-tabs v-model="activeName">
-          <el-tab-pane label="label-1" name="first">A</el-tab-pane>
+          <el-tab-pane label="label-1" name="first" disabled>A</el-tab-pane>
           <el-tab-pane label="label-2" name="second">B</el-tab-pane>
           <el-tab-pane label="label-3" name="third">C</el-tab-pane>
           <el-tab-pane label="label-4" name="fourth">D</el-tab-pane>
@@ -663,17 +663,12 @@ describe('Tabs.vue', () => {
     await wrapper
       .find('#tab-fourth')
       .trigger('keydown', { code: EVENT_CODE.right })
-    expect(vm.activeName).toEqual('first')
+    expect(vm.activeName).toEqual('second')
 
     await wrapper
-      .find('#tab-first')
+      .find('#tab-second')
       .trigger('keydown', { code: EVENT_CODE.left })
     expect(vm.activeName).toEqual('fourth')
-
-    await wrapper
-      .find('#tab-fourth')
-      .trigger('keydown', { code: EVENT_CODE.left })
-    expect(vm.activeName).toEqual('third')
   })
 
   test('resize', async () => {
