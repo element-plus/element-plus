@@ -31,7 +31,6 @@ import {
   onMounted,
   provide,
   ref,
-  toRefs,
   unref,
   watch,
 } from 'vue'
@@ -224,9 +223,8 @@ onMounted(() => {
       const prevEl = unref(prevTriggerTargetEl || popperContentRef.value)
 
       if (isElement(el)) {
-        const { ariaLabel, id } = toRefs(props)
         triggerTargetAriaStopWatch = watch(
-          [role, ref(ariaLabel), ariaModal, ref(id)],
+          [role, () => props.ariaLabel, ariaModal, () => props.id],
           (watches) => {
             ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key, idx) => {
               isNil(watches[idx])
