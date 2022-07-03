@@ -215,7 +215,7 @@ const TabNav = defineComponent({
       // 左右上下键更换tab
       const tabList = Array.from(
         (e.currentTarget as HTMLDivElement).querySelectorAll<HTMLDivElement>(
-          '[role=tab]'
+          '[role=tab]:not(.is-disabled)'
         )
       )
       const currentIndex = tabList.indexOf(e.target as HTMLDivElement)
