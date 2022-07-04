@@ -9,9 +9,8 @@ import {
   reactive,
   ref,
   watch,
-  withDirectives,
 } from 'vue'
-import { Resize } from '@element-plus/directives'
+import { useResizeObserver } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
@@ -213,6 +212,7 @@ export default defineComponent({
         activeIndex.value = val
       }
     }
+
     const handleResize = () => {
       nextTick(() => instance.proxy!.$forceUpdate())
     }
@@ -286,6 +286,10 @@ export default defineComponent({
       initMenu()
       if (props.mode === 'horizontal') {
         new Menubar(instance.vnode.el!, nsMenu.namespace.value)
+
+        if (props.ellipsis) {
+          useResizeObserver(menu, handleResize)
+        }
       }
     })
 
@@ -314,10 +318,6 @@ export default defineComponent({
       return result
     }
 
-    const useVNodeResize = (vnode: VNode) =>
-      props.mode === 'horizontal'
-        ? withDirectives(vnode, [[Resize, handleResize]])
-        : vnode
     return () => {
       let slot = slots.default?.() ?? []
       const vShowMore: VNode[] = []
@@ -374,25 +374,20 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props, 0)
 
-      const resizeMenu = (vNode: VNode) =>
-        props.ellipsis ? useVNodeResize(vNode) : vNode
-
-      const vMenu = resizeMenu(
-        h(
-          'ul',
-          {
-            key: String(props.collapse),
-            role: 'menubar',
-            ref: menu,
-            style: ulStyle.value,
-            class: {
-              [nsMenu.b()]: true,
-              [nsMenu.m(props.mode)]: true,
-              [nsMenu.m('collapse')]: props.collapse,
-            },
+      const vMenu = h(
+        'ul',
+        {
+          key: String(props.collapse),
+          role: 'menubar',
+          ref: menu,
+          style: ulStyle.value,
+          class: {
+            [nsMenu.b()]: true,
+            [nsMenu.m(props.mode)]: true,
+            [nsMenu.m('collapse')]: props.collapse,
           },
-          [...slot, ...vShowMore]
-        )
+        },
+        [...slot, ...vShowMore]
       )
 
       if (props.collapseTransition && props.mode === 'vertical') {
