@@ -1,3 +1,4 @@
+import { placements } from '@popperjs/core'
 import {
   buildProps,
   definePropType,
@@ -89,6 +90,11 @@ export const sliderProps = buildProps({
   tooltipClass: {
     type: String,
     default: undefined,
+  },
+  placement: {
+    type: String,
+    values: placements,
+    default: 'top',
   },
   marks: {
     type: definePropType<SliderMarks>(Object),

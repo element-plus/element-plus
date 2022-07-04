@@ -1,3 +1,4 @@
+import { placements } from '@popperjs/core'
 import { buildProps, isNumber } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes, Ref } from 'vue'
@@ -10,6 +11,11 @@ export const sliderButtonProps = buildProps({
   },
   vertical: Boolean,
   tooltipClass: String,
+  placement: {
+    type: String,
+    values: placements,
+    default: 'top',
+  },
 } as const)
 export type SliderButtonProps = ExtractPropTypes<typeof sliderButtonProps>
 
