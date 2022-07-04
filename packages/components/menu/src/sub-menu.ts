@@ -118,14 +118,7 @@ export default defineComponent({
             'right-start',
             'left-start',
           ]
-        : [
-            'right-start',
-            'left-start',
-            'bottom-start',
-            'bottom-end',
-            'top-start',
-            'top-end',
-          ]
+        : ['right-start', 'left-start']
     )
     const opened = computed(() => rootMenu.openedMenus.includes(props.index))
     const active = computed(() => {
