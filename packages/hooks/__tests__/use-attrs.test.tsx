@@ -20,6 +20,7 @@ const genComp = (
 ) => {
   return defineComponent({
     inheritAttrs,
+    props: {} as Record<string, any>,
     setup() {
       const attrs = useAttrs({ excludeListeners, excludeKeys })
       return () => (
