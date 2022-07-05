@@ -383,7 +383,7 @@ const handleInput = async (event: Event) => {
 
   // should not emit input during composition
   // see: https://github.com/ElemeFE/element/issues/10516
-  if (isComposing && composing.value) return
+  if (isComposing || composing.value) return
 
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
