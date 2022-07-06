@@ -4,7 +4,7 @@ export const rightRichTextSponsors = [
     img: '/images/sponsors/fantasticadmin.png',
     url: 'https://hooray.gitee.io/fantastic-admin/?from=element-plus',
     slogan: 'An out-of-the-box backend framework',
-    slogan_cn: '开箱即用的管理系统框架为开发提供舒适体验',
+    slogan_cn: '开箱即用的后台框架 为开发提供舒适体验',
   },
 ]
 
