@@ -1,11 +1,11 @@
 export const rightRichTextSponsors = [
-  // {
-  //   name: 'Fantastic-admin',
-  //   img: '/images/sponsors/fantasticadmin.png',
-  //   url: 'https://fantastic-admin.netlify.app/?from=element-plus',
-  //   slogan: 'An out-of-the-box backend framework',
-  //   slogan_cn: '开箱即用的 Vue 后台管理框架',
-  // },
+  {
+    name: 'Fantastic-admin',
+    img: '/images/sponsors/fantasticadmin.png',
+    url: 'https://hooray.gitee.io/fantastic-admin/?from=element-plus',
+    slogan: 'An out-of-the-box backend framework',
+    slogan_cn: '开箱即用的管理系统框架为开发提供舒适体验',
+  },
 ]
 
 export const rightLogoSmallSponsors = [
