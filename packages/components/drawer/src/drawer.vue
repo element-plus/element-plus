@@ -86,6 +86,7 @@ import { Close } from '@element-plus/icons-vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useDialog } from '@element-plus/components/dialog'
+import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
@@ -121,9 +122,7 @@ export default defineComponent({
     const isHorizontal = computed(
       () => props.direction === 'rtl' || props.direction === 'ltr'
     )
-    const drawerSize = computed(() =>
-      typeof props.size === 'number' ? `${props.size}px` : props.size
-    )
+    const drawerSize = computed(() => addUnit(props.size))
 
     return {
       ...useDialog(props, drawerRef),

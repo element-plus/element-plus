@@ -1,15 +1,8 @@
-import Transfer from './src/index.vue'
+import { withInstall } from '@element-plus/utils'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils'
+import Transfer from './src/transfer.vue'
 
-Transfer.install = (app: App): void => {
-  app.component(Transfer.name, Transfer)
-}
-
-const _Transfer = Transfer as SFCWithInstall<typeof Transfer>
-
-export default _Transfer
-export const ElTransfer = _Transfer
+export const ElTransfer = withInstall(Transfer)
+export default ElTransfer
 
 export * from './src/transfer'

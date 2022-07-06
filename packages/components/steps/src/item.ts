@@ -16,7 +16,7 @@ export const stepProps = buildProps({
   },
   status: {
     type: String,
-    values: ['', 'wait', 'process', 'finish', 'error', 'success'] as const,
+    values: ['', 'wait', 'process', 'finish', 'error', 'success'],
     default: '',
   },
 } as const)

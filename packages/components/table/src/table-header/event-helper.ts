@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getCurrentInstance, inject, ref } from 'vue'
 import { isClient } from '@vueuse/core'
 import { addClass, hasClass, removeClass } from '@element-plus/utils'

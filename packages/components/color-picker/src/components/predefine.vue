@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, ref, watch, watchEffect } from 'vue'
 import { useOptions } from '../useOption'
 import Color from '../color'

@@ -1,17 +1,14 @@
-import { h, nextTick } from 'vue'
+import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import Space from '../src/space'
 
 const AXIOM = 'Rem is the best girl'
 
 describe('Space.vue', () => {
-  test('render test', async () => {
-    const wrapper = mount(Space, {
-      slots: {
-        default: AXIOM,
-      },
-    })
+  it('render test', async () => {
+    const wrapper = mount(<Space>{AXIOM}</Space>)
+
     expect(wrapper.text()).toEqual(AXIOM)
 
     await wrapper.setProps({
@@ -25,24 +22,22 @@ describe('Space.vue', () => {
     )
   })
 
-  test('sizes', async () => {
+  it('sizes', async () => {
     const warnHandler = vi.fn()
-    const wrapper = mount(Space, {
-      slots: {
-        default: () =>
-          Array.from({ length: 2 }).map((_, idx) => {
-            return `test${idx}`
-          }),
-      },
-      props: {
-        size: 'large',
-      },
-      global: {
-        config: {
-          warnHandler,
+    const wrapper = mount(
+      <Space size="large">
+        {Array.from({ length: 2 }).map((_, idx) => {
+          return `test${idx}`
+        })}
+      </Space>,
+      {
+        global: {
+          config: {
+            warnHandler,
+          },
         },
-      },
-    })
+      }
+    )
 
     await nextTick()
     expect(wrapper.find('.el-space__item').attributes('style')).toContain(
@@ -79,20 +74,15 @@ describe('Space.vue', () => {
     )
   })
 
-  test('should render with spacer', async () => {
+  it('should render with spacer', async () => {
     const stringSpacer = '|'
-    const wrapper = mount(Space, {
-      slots: {
-        default: () =>
-          Array.from({ length: 2 }).map((_, idx) => {
-            return `test${idx}`
-          }),
-      },
-      props: {
-        size: 'large',
-        spacer: stringSpacer,
-      },
-    })
+    const wrapper = mount(
+      <Space size="large" spacer={stringSpacer}>
+        {Array.from({ length: 2 }).map((_, idx) => {
+          return `test${idx}`
+        })}
+      </Space>
+    )
 
     await nextTick()
     expect(wrapper.element.children).toHaveLength(3)
@@ -105,25 +95,21 @@ describe('Space.vue', () => {
 
     // vnode type spacer
     await wrapper.setProps({
-      spacer: h('div', { class: testSpacerCls }, ''),
+      spacer: <div class={testSpacerCls} />,
     })
 
     expect(wrapper.findAll(`.${testSpacerCls}`)).toHaveLength(1)
     expect(wrapper.element.children).toHaveLength(3)
   })
 
-  test('fill', async () => {
-    const wrapper = mount(Space, {
-      slots: {
-        default: () =>
-          Array.from({ length: 2 }).map((_, idx) => {
-            return `test${idx}`
-          }),
-      },
-      props: {
-        fill: true,
-      },
-    })
+  it('fill', async () => {
+    const wrapper = mount(
+      <Space fill>
+        {Array.from({ length: 2 }).map((_, idx) => {
+          return `test${idx}`
+        })}
+      </Space>
+    )
 
     await nextTick()
     expect(wrapper.find('.el-space').attributes('style')).toContain(

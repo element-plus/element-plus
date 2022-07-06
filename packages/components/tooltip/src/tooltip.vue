@@ -51,6 +51,7 @@
 import {
   computed,
   defineComponent,
+  onDeactivated,
   provide,
   readonly,
   ref,
@@ -206,6 +207,8 @@ export default defineComponent({
         contentRef.value?.contentRef?.popperContentRef
       return popperContent && popperContent.contains(document.activeElement)
     }
+
+    onDeactivated(() => open.value && hide())
 
     return {
       compatShowAfter,
