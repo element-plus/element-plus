@@ -100,7 +100,6 @@ export const useHandlers = (
         props.onError(err as Error, uploadFile, uploadFiles.value)
       }
     }
-    uploadFiles.value.push(uploadFile)
     props.onChange(uploadFile, uploadFiles.value)
   }
 
@@ -112,9 +111,7 @@ export const useHandlers = (
 
     const doRemove = (file: UploadFile) => {
       abort(file)
-      const fileList = uploadFiles.value
-      fileList.splice(fileList.indexOf(file), 1)
-      props.onRemove(file, fileList)
+      props.onRemove(file, uploadFiles.value)
       revokeObjectURL(file)
     }
 
