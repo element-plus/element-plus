@@ -140,6 +140,7 @@ form/accessibility
 | `validate-on-rule-change` | Whether to trigger validation when the `rules` prop is changed.                                                                | `boolean`                         | `true`    |
 | `size`                    | Control the size of components in this form.                                                                                   | `'large' \| 'default' \| 'small'` | —         |
 | `disabled`                | Whether to disable all components in this form. If set to `true`, it will override the `disabled` prop of the inner component. | `boolean`                         | `false`   |
+| `scroll-to-error`         | When validation fails, scroll to the first error form entry.                                                                   | `boolean`                         | `false`   |
 
 ### Form Methods
 
