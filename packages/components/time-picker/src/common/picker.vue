@@ -371,7 +371,7 @@ const handleBlurInput = (e?: FocusEvent) => {
       if (currentHandleBlurDeferCallback === handleBlurDefer) {
         if (
           !(
-            refPopper.value?.isFocusInsideContent() && !hasJustTabExitedInput
+            refPopper.value?.isFocusInsideContent() || !hasJustTabExitedInput
           ) &&
           refInput.value.filter((input) => {
             return input.contains(document.activeElement)
