@@ -67,6 +67,7 @@ export default defineComponent({
     )
     const nsMenu = useNamespace('menu')
     const nsSubMenu = useNamespace('sub-menu')
+    const isHideTransition = ref(false)
 
     // inject
     const rootMenu = inject<MenuProvider>('rootMenu')
@@ -217,7 +218,9 @@ export default defineComponent({
 
       timeout?.()
       ;({ stop: timeout } = useTimeoutFn(() => {
-        rootMenu.openMenu(props.index, indexPath.value)
+        if (!isHideTransition.value) {
+          rootMenu.openMenu(props.index, indexPath.value)
+        }
       }, showTimeout))
 
       if (appendToBody.value) {
@@ -247,6 +250,14 @@ export default defineComponent({
           subMenu.handleMouseleave?.(true)
         }
       }
+    }
+
+    const handleBeforeHide = () => {
+      isHideTransition.value = true
+    }
+
+    const handleHide = () => {
+      isHideTransition.value = false
     }
 
     watch(
@@ -321,6 +332,8 @@ export default defineComponent({
               fallbackPlacements: fallbackPlacements.value,
               transition: menuTransitionName.value,
               gpuAcceleration: false,
+              onBeforeHide: handleBeforeHide,
+              onHide: handleHide,
             },
             {
               content: () =>
