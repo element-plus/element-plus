@@ -96,17 +96,17 @@
               :store="store"
               :stripe="stripe"
             />
+            <div
+              v-if="isEmpty"
+              ref="emptyBlock"
+              :style="emptyBlockStyle"
+              :class="ns.e('empty-block')"
+            >
+              <span :class="ns.e('empty-text')">
+                <slot name="empty">{{ computedEmptyText }}</slot>
+              </span>
+            </div>
           </table>
-          <div
-            v-if="isEmpty"
-            ref="emptyBlock"
-            :style="emptyBlockStyle"
-            :class="ns.e('empty-block')"
-          >
-            <span :class="ns.e('empty-text')">
-              <slot name="empty">{{ computedEmptyText }}</slot>
-            </span>
-          </div>
           <div
             v-if="$slots.append"
             ref="appendWrapper"
