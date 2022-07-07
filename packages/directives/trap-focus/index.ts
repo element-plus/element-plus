@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { obtainAllFocusableElements, off, on } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'

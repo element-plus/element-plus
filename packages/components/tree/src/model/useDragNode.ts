@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { provide, ref } from 'vue'
 import { addClass, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'

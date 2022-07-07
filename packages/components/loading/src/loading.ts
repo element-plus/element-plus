@@ -45,10 +45,10 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
       }
       removeClass(target, ns.bm('parent', 'hidden'))
     }
-    remvoeElLoadingChild()
+    removeElLoadingChild()
     loadingInstance.unmount()
   }
-  function remvoeElLoadingChild(): void {
+  function removeElLoadingChild(): void {
     vm.$el?.parentNode?.removeChild(vm.$el)
   }
   function close() {
@@ -149,7 +149,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   return {
     ...toRefs(data),
     setText,
-    remvoeElLoadingChild,
+    removeElLoadingChild,
     close,
     handleAfterLeave,
     vm,

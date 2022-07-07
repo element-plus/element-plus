@@ -41,6 +41,12 @@ $checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='
       &::after {
         @include checked-icon;
       }
+
+      &.is-disabled {
+        &::after {
+          background-color: getCssVar('text-color-placeholder');
+        }
+      }
     }
   }
 
@@ -52,6 +58,16 @@ $checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='
 
   .#{$namespace}-scrollbar.is-empty .#{$namespace}-select-dropdown__list {
     padding: 0;
+  }
+
+  .#{$namespace}-select-dropdown__item.is-disabled {
+    &:hover {
+      background-color: unset;
+    }
+
+    &.selected {
+      color: getCssVar('text-color-placeholder');
+    }
   }
 }
 

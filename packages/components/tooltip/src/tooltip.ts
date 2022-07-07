@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { buildProps, definePropType } from '@element-plus/utils'
 import {
   usePopperContentProps,

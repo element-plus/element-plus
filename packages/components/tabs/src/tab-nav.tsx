@@ -1,8 +1,10 @@
+// @ts-nocheck
 import {
   computed,
   defineComponent,
   getCurrentInstance,
   inject,
+  nextTick,
   onMounted,
   onUpdated,
   ref,
@@ -135,9 +137,11 @@ const TabNav = defineComponent({
       navOffset.value = newOffset
     }
 
-    const scrollToActiveTab = () => {
+    const scrollToActiveTab = async () => {
       const nav = nav$.value
       if (!scrollable.value || !el$.value || !navScroll$.value || !nav) return
+
+      await nextTick()
 
       const activeTab = el$.value.querySelector('.is-active')
       if (!activeTab) return
@@ -304,7 +308,7 @@ const TabNav = defineComponent({
         : null
 
       const tabs = props.panes.map((pane, index) => {
-        const tabName = pane.props.name || pane.index || `${index}`
+        const tabName = pane.props.name ?? pane.index ?? `${index}`
         const closable: boolean = pane.isClosable || props.editable
         pane.index = `${index}`
 

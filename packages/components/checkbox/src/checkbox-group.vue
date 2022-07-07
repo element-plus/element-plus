@@ -12,12 +12,13 @@
 </template>
 
 <script lang="ts" setup>
+// @ts-nocheck
 import { computed, nextTick, provide, toRefs, watch } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import {
-  checkboxEmits,
+  checkboxGroupEmits,
   useCheckboxGroup,
   useCheckboxGroupId,
   useCheckboxGroupProps,
@@ -28,7 +29,7 @@ defineOptions({
 })
 
 const props = defineProps(useCheckboxGroupProps)
-const emit = defineEmits(checkboxEmits)
+const emit = defineEmits(checkboxGroupEmits)
 
 const { elFormItem } = useCheckboxGroup()
 const { groupId, isLabeledByFormItem } = useCheckboxGroupId(props, {
@@ -64,7 +65,9 @@ provide('CheckboxGroup', {
 watch(
   () => props.modelValue,
   () => {
-    elFormItem.validate?.('change').catch((err) => debugWarn(err))
+    if (props.validateEvent) {
+      elFormItem.validate?.('change').catch((err) => debugWarn(err))
+    }
   }
 )
 </script>

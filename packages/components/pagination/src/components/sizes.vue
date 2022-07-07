@@ -18,6 +18,7 @@
 </template>
 
 <script lang="ts" setup>
+// @ts-nocheck
 import { computed, ref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { ElOption, ElSelect } from '@element-plus/components/select'

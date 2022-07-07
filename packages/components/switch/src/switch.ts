@@ -93,6 +93,9 @@ export const switchProps = buildProps({
     type: String as PropType<ComponentSize>,
     validator: isValidComponentSize,
   },
+  tabindex: {
+    type: [String, Number],
+  },
 } as const)
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>

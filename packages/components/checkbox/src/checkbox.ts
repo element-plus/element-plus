@@ -3,7 +3,13 @@ import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { useFormItemInputId, useSize, useSizeProp } from '@element-plus/hooks'
-import { debugWarn, isBoolean, isNumber, isString } from '@element-plus/utils'
+import {
+  debugWarn,
+  isArray,
+  isBoolean,
+  isNumber,
+  isString,
+} from '@element-plus/utils'
 import type { ComponentInternalInstance, ExtractPropTypes, PropType } from 'vue'
 import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
@@ -43,6 +49,10 @@ export const useCheckboxGroupProps = {
   tag: {
     type: String,
     default: 'div',
+  },
+  validateEvent: {
+    type: Boolean,
+    default: true,
   },
 }
 
@@ -84,6 +94,10 @@ export const checkboxProps = {
   border: Boolean,
   size: useSizeProp,
   tabindex: [String, Number],
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
 }
 
 export const useCheckboxGroup = () => {
@@ -253,7 +267,7 @@ const useEvent = (
       ReturnType<typeof useFormItemInputId>
   >
 ) => {
-  const { elFormItem } = useCheckboxGroup()
+  const { elFormItem, checkboxGroup } = useCheckboxGroup()
   const { emit } = getCurrentInstance()!
 
   function getLabeledValue(value: string | number | boolean) {
@@ -290,10 +304,16 @@ const useEvent = (
     }
   }
 
+  const validateEvent = computed(
+    () => checkboxGroup.validateEvent?.value || props.validateEvent
+  )
+
   watch(
     () => props.modelValue,
     () => {
-      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+      if (validateEvent.value) {
+        elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+      }
     }
   )
 
@@ -303,11 +323,18 @@ const useEvent = (
   }
 }
 
+export type CheckboxValueType = string | number | boolean
+
 export const checkboxEmits = {
-  [UPDATE_MODEL_EVENT]: (val: string | number | boolean) =>
+  [UPDATE_MODEL_EVENT]: (val: CheckboxValueType) =>
     isString(val) || isNumber(val) || isBoolean(val),
-  change: (val: string | number | boolean) =>
+  change: (val: CheckboxValueType) =>
     isString(val) || isNumber(val) || isBoolean(val),
+}
+
+export const checkboxGroupEmits = {
+  [UPDATE_MODEL_EVENT]: (val: CheckboxValueType[]) => isArray(val),
+  change: (val: CheckboxValueType[]) => isArray(val),
 }
 
 export const useCheckbox = (

@@ -3,8 +3,9 @@
   "compilerOptions": {
     "composite": true,
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
-    "types": ["node", "jsdom"]
+    "types": ["node", "jsdom", "unplugin-vue-define-options"],
+    "skipLibCheck": true
   },
   "include": ["packages", "vitest.setup.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "**/*.md"]
 }

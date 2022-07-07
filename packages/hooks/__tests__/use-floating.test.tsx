@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'

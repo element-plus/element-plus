@@ -4,7 +4,7 @@
       <el-scrollbar
         v-for="item in spinnerItems"
         :key="item"
-        :ref="(scollbar) => setRef(scollbar, item)"
+        :ref="(scollbar: unknown) => setRef(scollbar as any, item)"
         :class="ns.be('spinner', 'wrapper')"
         wrap-style="max-height: inherit;"
         :view-class="ns.be('spinner', 'list')"
@@ -14,11 +14,11 @@
         @mousemove="adjustCurrentSpinner(item)"
       >
         <li
-          v-for="(disabled, key) in listMap[item].value"
+          v-for="(disabled, key) in timeList[item]"
           :key="key"
           :class="[
             ns.be('spinner', 'item'),
-            ns.is('active', key === timePartsMap[item].value),
+            ns.is('active', key === timePartials[item]),
             ns.is('disabled', disabled),
           ]"
           @click="handleClick(item, { value: key, disabled })"
@@ -41,25 +41,25 @@
         @mouseenter="emitSelectRange(item)"
       >
         <el-icon
-          v-repeat-click="onDecreaseClick"
+          v-repeat-click="onDecrement"
           :class="['arrow-up', ns.be('spinner', 'arrow')]"
         >
           <arrow-up />
         </el-icon>
         <el-icon
-          v-repeat-click="onIncreaseClick"
+          v-repeat-click="onIncrement"
           :class="['arrow-down', ns.be('spinner', 'arrow')]"
         >
           <arrow-down />
         </el-icon>
         <ul :class="ns.be('spinner', 'list')">
           <li
-            v-for="(time, key) in arrowListMap[item].value"
+            v-for="(time, key) in arrowControlTimeList[item]"
             :key="key"
             :class="[
               ns.be('spinner', 'item'),
-              ns.is('active', time === timePartsMap[item].value),
-              ns.is('disabled', listMap[item].value[time]),
+              ns.is('active', time === timePartials[item]),
+              ns.is('disabled', timeList[item][time!]),
             ]"
           >
             <template v-if="typeof time === 'number'">
@@ -77,355 +77,256 @@
     </template>
   </div>
 </template>
-<script lang="ts">
-import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
+<script lang="ts" setup>
+import { computed, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
-import { RepeatClick } from '@element-plus/directives'
+import { RepeatClick as vRepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-import { getTimeLists } from './useTimePicker'
+import { timeUnits } from '../constants'
+import { buildTimeList } from '../utils'
+import { basicTimeSpinnerProps } from '../props/basic-time-spinner'
+import { getTimeLists } from '../composables/use-time-picker'
 
-import type { PropType, Ref } from 'vue'
-import type { Dayjs } from 'dayjs'
-import type { Nullable } from '@element-plus/utils'
+import type { Ref } from 'vue'
+import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
+import type { TimeUnit } from '../constants'
+import type { TimeList } from '../utils'
 
-export default defineComponent({
-  directives: {
-    repeatClick: RepeatClick,
-  },
+const props = defineProps(basicTimeSpinnerProps)
+const emit = defineEmits(['change', 'select-range', 'set-option'])
 
-  components: {
-    ElScrollbar,
-    ElIcon,
-    ArrowUp,
-    ArrowDown,
-  },
+const ns = useNamespace('time')
 
-  props: {
-    role: {
-      type: String,
-      required: true,
-    },
-    spinnerDate: {
-      type: Object as PropType<Dayjs>,
-      required: true,
-    },
-    showSeconds: {
-      type: Boolean,
-      default: true,
-    },
-    arrowControl: Boolean,
-    amPmMode: {
-      type: String,
-      default: '', // 'a': am/pm; 'A': AM/PM
-    },
-    disabledHours: {
-      type: Function,
-    },
-    disabledMinutes: {
-      type: Function,
-    },
-    disabledSeconds: {
-      type: Function,
-    },
-  },
+const { getHoursList, getMinutesList, getSecondsList } = getTimeLists(
+  props.disabledHours,
+  props.disabledMinutes,
+  props.disabledSeconds
+)
 
-  emits: ['change', 'select-range', 'set-option'],
+// data
+let isScrolling = false
 
-  setup(props, ctx) {
-    const ns = useNamespace('time')
-    // data
-    let isScrolling = false
-    const debouncedResetScroll = debounce((type) => {
-      isScrolling = false
-      adjustCurrentSpinner(type)
-    }, 200)
-    const currentScrollbar = ref(null)
-    const listHoursRef: Ref<Nullable<HTMLElement>> = ref(null)
-    const listMinutesRef: Ref<Nullable<HTMLElement>> = ref(null)
-    const listSecondsRef: Ref<Nullable<HTMLElement>> = ref(null)
-    const listRefsMap = {
-      hours: listHoursRef,
-      minutes: listMinutesRef,
-      seconds: listSecondsRef,
-    }
+const currentScrollbar = ref<TimeUnit>()
+const listHoursRef = ref<ScrollbarInstance>()
+const listMinutesRef = ref<ScrollbarInstance>()
+const listSecondsRef = ref<ScrollbarInstance>()
+const listRefsMap: Record<TimeUnit, Ref<ScrollbarInstance | undefined>> = {
+  hours: listHoursRef,
+  minutes: listMinutesRef,
+  seconds: listSecondsRef,
+}
 
-    // computed
-    const spinnerItems = computed(() => {
-      const arr = ['hours', 'minutes', 'seconds']
-      return props.showSeconds ? arr : arr.slice(0, 2)
-    })
-    const hours = computed(() => {
-      return props.spinnerDate.hour()
-    })
-    const minutes = computed(() => {
-      return props.spinnerDate.minute()
-    })
-    const seconds = computed(() => {
-      return props.spinnerDate.second()
-    })
-    const timePartsMap = computed(() => ({
-      hours,
-      minutes,
-      seconds,
-    }))
-    const hoursList = computed(() => {
-      return getHoursList(props.role)
-    })
-    const minutesList = computed(() => {
-      return getMinutesList(hours.value, props.role)
-    })
-    const secondsList = computed(() => {
-      return getSecondsList(hours.value, minutes.value, props.role)
-    })
-    const listMap = computed(() => ({
-      hours: hoursList,
-      minutes: minutesList,
-      seconds: secondsList,
-    }))
-    const arrowHourList = computed(() => {
-      const hour = hours.value
-      return [
-        hour > 0 ? hour - 1 : undefined,
-        hour,
-        hour < 23 ? hour + 1 : undefined,
-      ]
-    })
-    const arrowMinuteList = computed(() => {
-      const minute = minutes.value
-      return [
-        minute > 0 ? minute - 1 : undefined,
-        minute,
-        minute < 59 ? minute + 1 : undefined,
-      ]
-    })
-    const arrowSecondList = computed(() => {
-      const second = seconds.value
-      return [
-        second > 0 ? second - 1 : undefined,
-        second,
-        second < 59 ? second + 1 : undefined,
-      ]
-    })
-    const arrowListMap = computed(() => ({
-      hours: arrowHourList,
-      minutes: arrowMinuteList,
-      seconds: arrowSecondList,
-    }))
-    const getAmPmFlag = (hour) => {
-      const shouldShowAmPm = !!props.amPmMode
-      if (!shouldShowAmPm) return ''
-      const isCapital = props.amPmMode === 'A'
-      // todo locale
-      let content = hour < 12 ? ' am' : ' pm'
-      if (isCapital) content = content.toUpperCase()
-      return content
-    }
-
-    const emitSelectRange = (type) => {
-      if (type === 'hours') {
-        ctx.emit('select-range', 0, 2)
-      } else if (type === 'minutes') {
-        ctx.emit('select-range', 3, 5)
-      } else if (type === 'seconds') {
-        ctx.emit('select-range', 6, 8)
-      }
-      currentScrollbar.value = type
-    }
-
-    const adjustCurrentSpinner = (type) => {
-      adjustSpinner(type, timePartsMap.value[type].value)
-    }
-
-    // NOTE: used by datetime / date-range panel
-    //       renamed from adjustScrollTop
-    //       should try to refactory it
-    const adjustSpinners = () => {
-      adjustCurrentSpinner('hours')
-      adjustCurrentSpinner('minutes')
-      adjustCurrentSpinner('seconds')
-    }
-
-    const getScrollbarElement = (el: HTMLElement) =>
-      el.querySelector(`.${ns.namespace.value}-scrollbar__wrap`) as HTMLElement
-
-    const adjustSpinner = (type, value) => {
-      if (props.arrowControl) return
-      const el = listRefsMap[type]
-      if (el && el.$el) {
-        getScrollbarElement(el.$el).scrollTop = Math.max(
-          0,
-          value * typeItemHeight(type)
-        )
-      }
-    }
-
-    const typeItemHeight = (type) => {
-      const el = listRefsMap[type]
-      return el.$el.querySelector('li').offsetHeight
-    }
-
-    const onIncreaseClick = () => {
-      scrollDown(1)
-    }
-
-    const onDecreaseClick = () => {
-      scrollDown(-1)
-    }
-
-    const scrollDown = (step) => {
-      if (!currentScrollbar.value) {
-        emitSelectRange('hours')
-      }
-
-      const label = currentScrollbar.value
-      let now = timePartsMap.value[label].value
-      const total = currentScrollbar.value === 'hours' ? 24 : 60
-      now = (now + step + total) % total
-
-      modifyDateField(label, now)
-      adjustSpinner(label, now)
-      nextTick(() => emitSelectRange(currentScrollbar.value))
-    }
-
-    const modifyDateField = (type, value) => {
-      const list = listMap.value[type].value
-      const isDisabled = list[value]
-      if (isDisabled) return
-      switch (type) {
-        case 'hours':
-          ctx.emit(
-            'change',
-            props.spinnerDate
-              .hour(value)
-              .minute(minutes.value)
-              .second(seconds.value)
-          )
-          break
-        case 'minutes':
-          ctx.emit(
-            'change',
-            props.spinnerDate
-              .hour(hours.value)
-              .minute(value)
-              .second(seconds.value)
-          )
-          break
-        case 'seconds':
-          ctx.emit(
-            'change',
-            props.spinnerDate
-              .hour(hours.value)
-              .minute(minutes.value)
-              .second(value)
-          )
-          break
-      }
-    }
-
-    const handleClick = (type, { value, disabled }) => {
-      if (!disabled) {
-        modifyDateField(type, value)
-        emitSelectRange(type)
-        adjustSpinner(type, value)
-      }
-    }
-
-    const handleScroll = (type) => {
-      isScrolling = true
-      debouncedResetScroll(type)
-      const value = Math.min(
-        Math.round(
-          (getScrollbarElement(listRefsMap[type].$el).scrollTop -
-            (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) +
-            3) /
-            typeItemHeight(type)
-        ),
-        type === 'hours' ? 23 : 59
-      )
-      modifyDateField(type, value)
-    }
-
-    const scrollBarHeight = (type) => {
-      return listRefsMap[type].$el.offsetHeight
-    }
-
-    const bindScrollEvent = () => {
-      const bindFunction = (type) => {
-        if (listRefsMap[type] && listRefsMap[type].$el) {
-          getScrollbarElement(listRefsMap[type].$el).onscroll = () => {
-            // TODO: scroll is emitted when set scrollTop programatically
-            // should find better solutions in the future!
-            handleScroll(type)
-          }
-        }
-      }
-      bindFunction('hours')
-      bindFunction('minutes')
-      bindFunction('seconds')
-    }
-
-    onMounted(() => {
-      nextTick(() => {
-        !props.arrowControl && bindScrollEvent()
-        adjustSpinners()
-        // set selection on the first hour part
-        if (props.role === 'start') emitSelectRange('hours')
-      })
-    })
-
-    const setRef = (scrollbar, type) => {
-      listRefsMap[type] = scrollbar
-    }
-
-    ctx.emit('set-option', [`${props.role}_scrollDown`, scrollDown])
-    ctx.emit('set-option', [`${props.role}_emitSelectRange`, emitSelectRange])
-
-    const { getHoursList, getMinutesList, getSecondsList } = getTimeLists(
-      props.disabledHours,
-      props.disabledMinutes,
-      props.disabledSeconds
-    )
-
-    watch(
-      () => props.spinnerDate,
-      () => {
-        if (isScrolling) return
-        adjustSpinners()
-      }
-    )
-
-    return {
-      ns,
-
-      setRef,
-      spinnerItems,
-      currentScrollbar,
-      hours,
-      minutes,
-      seconds,
-      hoursList,
-      minutesList,
-      arrowHourList,
-      arrowMinuteList,
-      arrowSecondList,
-      getAmPmFlag,
-      emitSelectRange,
-      adjustCurrentSpinner,
-      typeItemHeight,
-      listHoursRef,
-      listMinutesRef,
-      listSecondsRef,
-      onIncreaseClick,
-      onDecreaseClick,
-      handleClick,
-      secondsList,
-      timePartsMap,
-      arrowListMap,
-      listMap,
-    }
-  },
+// computed
+const spinnerItems = computed(() => {
+  return props.showSeconds ? timeUnits : timeUnits.slice(0, 2)
 })
+
+const timePartials = computed<Record<TimeUnit, number>>(() => {
+  const { spinnerDate } = props
+  const hours = spinnerDate.hour()
+  const minutes = spinnerDate.minute()
+  const seconds = spinnerDate.second()
+  return { hours, minutes, seconds }
+})
+
+const timeList = computed(() => {
+  const { hours, minutes } = unref(timePartials)
+  return {
+    hours: getHoursList(props.role),
+    minutes: getMinutesList(hours, props.role),
+    seconds: getSecondsList(hours, minutes, props.role),
+  }
+})
+
+const arrowControlTimeList = computed<Record<TimeUnit, TimeList>>(() => {
+  const { hours, minutes, seconds } = unref(timePartials)
+
+  return {
+    hours: buildTimeList(hours, 23),
+    minutes: buildTimeList(minutes, 59),
+    seconds: buildTimeList(seconds, 59),
+  }
+})
+
+const debouncedResetScroll = debounce((type) => {
+  isScrolling = false
+  adjustCurrentSpinner(type)
+}, 200)
+
+const getAmPmFlag = (hour: number) => {
+  const shouldShowAmPm = !!props.amPmMode
+  if (!shouldShowAmPm) return ''
+  const isCapital = props.amPmMode === 'A'
+  // todo locale
+  let content = hour < 12 ? ' am' : ' pm'
+  if (isCapital) content = content.toUpperCase()
+  return content
+}
+
+const emitSelectRange = (type: TimeUnit) => {
+  let range
+
+  switch (type) {
+    case 'hours':
+      range = [0, 2]
+      break
+    case 'minutes':
+      range = [3, 5]
+      break
+    case 'seconds':
+      range = [6, 8]
+      break
+  }
+  const [left, right] = range
+
+  emit('select-range', left, right)
+  currentScrollbar.value = type
+}
+
+const adjustCurrentSpinner = (type: TimeUnit) => {
+  adjustSpinner(type, unref(timePartials)[type])
+}
+
+const adjustSpinners = () => {
+  adjustCurrentSpinner('hours')
+  adjustCurrentSpinner('minutes')
+  adjustCurrentSpinner('seconds')
+}
+
+const getScrollbarElement = (el: HTMLElement) =>
+  el.querySelector(`.${ns.namespace.value}-scrollbar__wrap`) as HTMLElement
+
+const adjustSpinner = (type: TimeUnit, value: number) => {
+  if (props.arrowControl) return
+  const scrollbar = unref(listRefsMap[type])
+  if (scrollbar && scrollbar.$el) {
+    getScrollbarElement(scrollbar.$el).scrollTop = Math.max(
+      0,
+      value * typeItemHeight(type)
+    )
+  }
+}
+
+const typeItemHeight = (type: TimeUnit): number => {
+  const scrollbar = unref(listRefsMap[type])
+  return scrollbar?.$el.querySelector('li').offsetHeight || 0
+}
+
+const onIncrement = () => {
+  scrollDown(1)
+}
+
+const onDecrement = () => {
+  scrollDown(-1)
+}
+
+const scrollDown = (step: number) => {
+  if (!currentScrollbar.value) {
+    emitSelectRange('hours')
+  }
+
+  const label = currentScrollbar.value!
+  let now = unref(timePartials)[label]
+  const total = currentScrollbar.value === 'hours' ? 24 : 60
+  now = (now + step + total) % total
+
+  modifyDateField(label, now)
+  adjustSpinner(label, now)
+  nextTick(() => emitSelectRange(label))
+}
+
+const modifyDateField = (type: TimeUnit, value: number) => {
+  const list = unref(timeList)[type]
+  const isDisabled = list[value]
+  if (isDisabled) return
+
+  const { hours, minutes, seconds } = unref(timePartials)
+
+  let changeTo
+  switch (type) {
+    case 'hours':
+      changeTo = props.spinnerDate.hour(value).minute(minutes).second(seconds)
+      break
+    case 'minutes':
+      changeTo = props.spinnerDate.hour(hours).minute(value).second(seconds)
+      break
+    case 'seconds':
+      changeTo = props.spinnerDate.hour(hours).minute(minutes).second(value)
+      break
+  }
+  emit('change', changeTo)
+}
+
+const handleClick = (
+  type: TimeUnit,
+  { value, disabled }: { value: number; disabled: boolean }
+) => {
+  if (!disabled) {
+    modifyDateField(type, value)
+    emitSelectRange(type)
+    adjustSpinner(type, value)
+  }
+}
+
+const handleScroll = (type: TimeUnit) => {
+  isScrolling = true
+  debouncedResetScroll(type)
+  const value = Math.min(
+    Math.round(
+      (getScrollbarElement(unref(listRefsMap[type])!.$el).scrollTop -
+        (scrollBarHeight(type) * 0.5 - 10) / typeItemHeight(type) +
+        3) /
+        typeItemHeight(type)
+    ),
+    type === 'hours' ? 23 : 59
+  )
+  modifyDateField(type, value)
+}
+
+const scrollBarHeight = (type: TimeUnit) => {
+  return unref(listRefsMap[type])!.$el.offsetHeight
+}
+
+const bindScrollEvent = () => {
+  const bindFunction = (type: TimeUnit) => {
+    const scrollbar = unref(listRefsMap[type])
+    if (scrollbar && scrollbar.$el) {
+      getScrollbarElement(scrollbar.$el).onscroll = () => {
+        // TODO: scroll is emitted when set scrollTop programmatically
+        // should find better solutions in the future!
+        handleScroll(type)
+      }
+    }
+  }
+  bindFunction('hours')
+  bindFunction('minutes')
+  bindFunction('seconds')
+}
+
+onMounted(() => {
+  nextTick(() => {
+    !props.arrowControl && bindScrollEvent()
+    adjustSpinners()
+    // set selection on the first hour part
+    if (props.role === 'start') emitSelectRange('hours')
+  })
+})
+
+const setRef = (scrollbar: ScrollbarInstance, type: TimeUnit) => {
+  listRefsMap[type].value = scrollbar
+}
+
+emit('set-option', [`${props.role}_scrollDown`, scrollDown])
+emit('set-option', [`${props.role}_emitSelectRange`, emitSelectRange])
+
+watch(
+  () => props.spinnerDate,
+  () => {
+    if (isScrolling) return
+    adjustSpinners()
+  }
+)
 </script>

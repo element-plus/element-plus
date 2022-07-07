@@ -86,7 +86,9 @@
                     <template #content>
                       <div :class="nsSelectV2.e('selection')">
                         <div
-                          v-for="(selected, idx) in states.cachedOptions"
+                          v-for="(selected, idx) in states.cachedOptions.slice(
+                            1
+                          )"
                           :key="idx"
                           :class="nsSelectV2.e('selected-item')"
                         >
@@ -314,7 +316,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import ElSelectMenu from './select-dropdown.vue'
+import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
 import { selectV2InjectionKey } from './token'
 import { SelectProps } from './defaults'

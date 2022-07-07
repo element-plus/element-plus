@@ -33,7 +33,7 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
@@ -46,10 +46,6 @@ const { Option: ElOption } = ElSelect
 
 defineOptions({
   name: 'ElTimeSelect',
-  model: {
-    prop: 'value',
-    event: 'change',
-  },
 })
 
 defineEmits(['change', 'blur', 'focus', 'update:modelValue'])

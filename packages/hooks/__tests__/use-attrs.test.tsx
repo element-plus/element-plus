@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'

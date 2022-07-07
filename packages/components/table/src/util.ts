@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createPopper } from '@popperjs/core'
 import { get } from 'lodash-unified'
 import escapeHtml from 'escape-html'

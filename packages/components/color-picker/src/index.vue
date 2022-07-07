@@ -67,7 +67,7 @@
         :aria-label="buttonAriaLabel"
         :aria-labelledby="buttonAriaLabelledby"
         :aria-description="
-          t('el.colorpicker.description', { color: modelValue })
+          t('el.colorpicker.description', { color: modelValue || '' })
         "
         :tabindex="tabindex"
         @keydown.enter="handleTrigger"
@@ -102,6 +102,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -177,6 +178,10 @@ export default defineComponent({
       default: 0,
     },
     predefine: Array,
+    validateEvent: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
@@ -192,9 +197,9 @@ export default defineComponent({
       }
     )
 
-    const hue = ref(null)
-    const svPanel = ref(null)
-    const alpha = ref(null)
+    const hue = ref<InstanceType<typeof HueSlider>>()
+    const svPanel = ref<InstanceType<typeof SvPanel>>()
+    const alpha = ref<InstanceType<typeof AlphaSlider>>()
     const popper = ref(null)
     // active-change is used to prevent modelValue changes from triggering.
     let shouldActiveChange = true
@@ -202,10 +207,11 @@ export default defineComponent({
     const color = reactive(
       new Color({
         enableAlpha: props.showAlpha,
-        format: props.colorFormat,
+        format: props.colorFormat || '',
         value: props.modelValue,
       })
     )
+    type ColorType = typeof color
     const showPicker = ref(false)
     const showPanelColor = ref(false)
     const customInput = ref('')
@@ -263,7 +269,7 @@ export default defineComponent({
     )
 
     // methods
-    function displayedRgb(color, showAlpha) {
+    function displayedRgb(color: ColorType, showAlpha: boolean) {
       if (!(color instanceof Color)) {
         throw new TypeError('color should be instance of _color Class')
       }
@@ -274,7 +280,7 @@ export default defineComponent({
         : `rgb(${r}, ${g}, ${b})`
     }
 
-    function setShowPicker(value) {
+    function setShowPicker(value: boolean) {
       showPicker.value = value
     }
 
@@ -290,7 +296,10 @@ export default defineComponent({
         if (props.modelValue) {
           color.fromString(props.modelValue)
         } else {
-          showPanelColor.value = false
+          color.value = ''
+          nextTick(() => {
+            showPanelColor.value = false
+          })
         }
       })
     }
@@ -308,13 +317,15 @@ export default defineComponent({
       const value = color.value
       emit(UPDATE_MODEL_EVENT, value)
       emit('change', value)
-      elFormItem.validate?.('change').catch((err) => debugWarn(err))
+      if (props.validateEvent) {
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
+      }
       debounceSetShowPicker(false)
       // check if modelValue change, if not change, then reset color.
       nextTick(() => {
         const newColor = new Color({
           enableAlpha: props.showAlpha,
-          format: props.colorFormat,
+          format: props.colorFormat || '',
           value: props.modelValue,
         })
         if (!color.compare(newColor)) {
@@ -327,7 +338,7 @@ export default defineComponent({
       debounceSetShowPicker(false)
       emit(UPDATE_MODEL_EVENT, null)
       emit('change', null)
-      if (props.modelValue !== null) {
+      if (props.modelValue !== null && props.validateEvent) {
         elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
       resetColor()

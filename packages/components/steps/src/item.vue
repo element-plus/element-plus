@@ -61,7 +61,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { Check, Close } from '@element-plus/icons-vue'
 import { stepProps } from './item'
 
-import type { Ref } from 'vue'
+import type { CSSProperties, Ref } from 'vue'
 
 export interface IStepsProps {
   space: number | string
@@ -151,7 +151,7 @@ const space = computed(() => {
 })
 
 const style = computed(() => {
-  const style: Record<string, unknown> = {
+  const style: CSSProperties = {
     flexBasis:
       typeof space.value === 'number'
         ? `${space.value}px`
@@ -172,7 +172,7 @@ const setIndex = (val: number) => {
 
 const calcProgress = (status: string) => {
   let step = 100
-  const style: Record<string, unknown> = {}
+  const style: CSSProperties = {}
   style.transitionDelay = `${150 * index.value}ms`
   if (status === parent.props.processStatus) {
     step = 0

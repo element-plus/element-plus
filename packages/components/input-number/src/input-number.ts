@@ -1,6 +1,11 @@
 import { isNil } from 'lodash-unified'
 import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, isNumber } from '@element-plus/utils'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
 import type InputNumber from './input-number.vue'
 
@@ -48,15 +53,22 @@ export const inputNumberProps = buildProps({
     validator: (val: number) =>
       val >= 0 && val === Number.parseInt(`${val}`, 10),
   },
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
 
 export const inputNumberEmits = {
-  change: (prev: number | undefined, cur: number | undefined) => prev !== cur,
+  [CHANGE_EVENT]: (prev: number | undefined, cur: number | undefined) =>
+    prev !== cur,
   blur: (e: FocusEvent) => e instanceof FocusEvent,
   focus: (e: FocusEvent) => e instanceof FocusEvent,
-  input: (val: number | null | undefined) => isNumber(val) || isNil(val),
-  'update:modelValue': (val: number | undefined) => isNumber(val) || isNil(val),
+  [INPUT_EVENT]: (val: number | null | undefined) =>
+    isNumber(val) || isNil(val),
+  [UPDATE_MODEL_EVENT]: (val: number | undefined) =>
+    isNumber(val) || isNil(val),
 }
 export type InputNumberEmits = typeof inputNumberEmits
 

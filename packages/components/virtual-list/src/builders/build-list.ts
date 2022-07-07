@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -514,7 +515,7 @@ const createList = ({
       const listContainer = h(
         Container as VNode,
         {
-          class: ['el-vl__window', className],
+          class: [ns.e('window'), className],
           style: windowStyle,
           onScroll,
           onWheel,

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
 import { getStyle, hasClass } from '@element-plus/utils'

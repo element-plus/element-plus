@@ -1,4 +1,6 @@
+// @ts-nocheck
 import { computed, h, inject } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import { getRowIdentity } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvents from './events-helper'
@@ -8,6 +10,7 @@ import type { RenderRowData, TableProps, TreeNode } from '../table/defaults'
 
 function useRender<T>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY)
+  const ns = useNamespace('table')
   const {
     handleDoubleClick,
     handleClick,
@@ -50,7 +53,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
-      rowClasses.push(`el-table__row--level-${treeRowData.level}`)
+      rowClasses.push(ns.em('row', `level-${treeRowData.level}`))
       display = treeRowData.display
     }
     const displayStyle = display

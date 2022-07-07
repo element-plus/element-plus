@@ -19,7 +19,7 @@ tooltip/basic
 
 ## Theme
 
-Tooltip has two built-in themes: `dark` and `light`。
+Tooltip has two built-in themes: `dark` and `light`.
 
 :::tip
 
@@ -154,7 +154,7 @@ tooltip/animations
 | offset                                   | offset of the Tooltip                                                                                                                                        | number                     | —                                                                                                         | 0                                                       |
 | transition                               | animation name                                                                                                                                               | string                     | —                                                                                                         | el-fade-in-linear                                       |
 | visible-arrow (will deprecate in 2.1.0 ) | whether an arrow is displayed. For more information, check [ElPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper) page | boolean                    | —                                                                                                         | true                                                    |
-| popper-options                           | [popper.js](https://popper.js.org/documentation.html) parameters                                                                                             | Object                     | refer to [popper.js](https://popper.js.org/documentation.html) doc                                        | `{ boundariesElement: 'body', gpuAcceleration: false }` |
+| popper-options                           | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                                       | Object                     | refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                  | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 | show-after                               | delay of appearance, in millisecond                                                                                                                          | number                     | —                                                                                                         | 0                                                       |
 | show-arrow                               | whether the tooltip content has an arrow                                                                                                                     | boolean                    | true / false                                                                                              | true                                                    |
 | hide-after                               | delay of disappear, in millisecond                                                                                                                           | number                     | —                                                                                                         | 200                                                     |
