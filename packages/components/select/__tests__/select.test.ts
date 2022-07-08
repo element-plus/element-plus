@@ -4,7 +4,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ArrowUp, CaretTop, CircleClose } from '@element-plus/icons-vue'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerNode } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import { ElFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
@@ -1856,6 +1856,7 @@ describe('Select', () => {
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
+      const popperContainerNode = usePopperContainerNode()
       wrapper = _mount(
         `
       <el-select v-model="modelValue" multiple>
@@ -1880,12 +1881,14 @@ describe('Select', () => {
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)
+          .innerHTML
       ).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('')
+      const popperContainerNode = usePopperContainerNode()
       wrapper = _mount(
         `
       <el-select v-model="modelValue" multiple :teleported="false">
@@ -1910,7 +1913,8 @@ describe('Select', () => {
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)
+          .innerHTML
       ).toBe('')
     })
   })

@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerNode } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import Cascader from '../src/index.vue'
 
@@ -430,6 +430,7 @@ describe('Cascader.vue', () => {
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
+      const popperContainerNode = usePopperContainerNode()
       _mount({
         template: `
           <cascader
@@ -448,12 +449,14 @@ describe('Cascader.vue', () => {
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)
+          .innerHTML
       ).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('')
+      const popperContainerNode = usePopperContainerNode()
       _mount({
         template: `
           <cascader
@@ -473,7 +476,8 @@ describe('Cascader.vue', () => {
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)
+          .innerHTML
       ).toBe('')
     })
   })

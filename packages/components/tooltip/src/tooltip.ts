@@ -4,11 +4,7 @@ import {
   usePopperContentProps,
   usePopperTriggerProps,
 } from '@element-plus/components/popper'
-import {
-  POPPER_CONTAINER_SELECTOR,
-  useDelayedToggleProps,
-  useNamespace,
-} from '@element-plus/hooks'
+import { useDelayedToggleProps, useNamespace } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
 import type Tooltip from '../tooltip.vue'
 
@@ -24,7 +20,6 @@ export const useTooltipContentProps = buildProps({
   ...usePopperContentProps,
   appendTo: {
     type: definePropType<string | HTMLElement>([String, Object]),
-    default: POPPER_CONTAINER_SELECTOR,
   },
   content: {
     type: String,

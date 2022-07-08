@@ -2,7 +2,7 @@ import { nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
 import { NOOP } from '@vue/shared'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerNode } from '@element-plus/hooks'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Autocomplete from '../src/autocomplete.vue'
 
@@ -317,24 +317,29 @@ describe('Autocomplete.vue', () => {
 
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
+      const popperContainerNode = usePopperContainerNode()
       expect(document.body.innerHTML).toBe('')
       _mount()
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)?.innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)
+          ?.innerHTML
       ).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('')
+      const popperContainerNode = usePopperContainerNode()
+
       _mount({
         teleported: false,
       })
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)?.innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)
+          ?.innerHTML
       ).toBe('')
     })
   })

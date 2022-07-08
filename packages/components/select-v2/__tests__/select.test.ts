@@ -7,7 +7,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerNode } from '@element-plus/hooks'
 import Select from '../src/select.vue'
 
 vi.mock('lodash-unified', async () => {
@@ -1468,6 +1468,7 @@ describe('Select', () => {
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
+      const popperContainerNode = usePopperContainerNode()
       createSelect({
         data() {
           return {
@@ -1501,12 +1502,14 @@ describe('Select', () => {
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)!
+          .innerHTML
       ).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('')
+      const popperContainerNode = usePopperContainerNode()
       createSelect({
         data() {
           return {
@@ -1541,7 +1544,8 @@ describe('Select', () => {
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)
+          .innerHTML
       ).toBe('')
     })
   })

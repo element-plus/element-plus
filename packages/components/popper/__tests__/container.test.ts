@@ -1,16 +1,17 @@
+/* eslint-disable import/first */
+let isClientMocked = false
 import { nextTick } from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import * as vueuse from '@vueuse/core'
-import { POPPER_CONTAINER_SELECTOR, usePopperContainer } from '../src/container'
+import { usePopperContainer, usePopperContainerNode } from '@element-plus/hooks'
 
 const AXIOM = 'rem is the best girl'
 
-vi.mock('@vueuse/core', () => {
-  return {
-    isClient: true,
-  }
-})
+vi.mock('@vueuse/core', () => ({
+  get isClient() {
+    return isClientMocked
+  },
+}))
 
 const mountComponent = () =>
   shallowMount({
@@ -23,6 +24,8 @@ const mountComponent = () =>
   })
 
 describe('usePopperContainer', () => {
+  isClientMocked = true
+  const popperContainerNode = usePopperContainerNode()
   afterEach(() => {
     document.body.innerHTML = ''
   })
@@ -31,13 +34,17 @@ describe('usePopperContainer', () => {
     mountComponent()
     await nextTick()
 
-    expect(document.body.querySelector(POPPER_CONTAINER_SELECTOR)).toBeDefined()
+    expect(
+      document.body.querySelector(popperContainerNode.value.selector)
+    ).toBeDefined()
   })
 
   it('should not append container to the DOM root', async () => {
-    ;(vueuse as any).isClient = false
+    isClientMocked = false
     mountComponent()
     await nextTick()
-    expect(document.body.querySelector(POPPER_CONTAINER_SELECTOR)).toBeNull()
+    expect(
+      document.body.querySelector(popperContainerNode.value.selector)
+    ).toBeNull()
   })
 })

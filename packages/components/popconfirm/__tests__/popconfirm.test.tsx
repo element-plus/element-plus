@@ -2,7 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerNode } from '@element-plus/hooks'
 import Popconfirm from '../src/popconfirm.vue'
 
 const AXIOM = 'rem is the best girl'
@@ -43,6 +43,7 @@ describe('Popconfirm.vue', () => {
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
+      const popperContainerNode = usePopperContainerNode()
       mount(() => (
         <>
           <Popconfirm
@@ -56,12 +57,14 @@ describe('Popconfirm.vue', () => {
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)!
+          .innerHTML
       ).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('')
+      const popperContainerNode = usePopperContainerNode()
       mount(() => (
         <>
           <Popconfirm
@@ -76,7 +79,8 @@ describe('Popconfirm.vue', () => {
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)!
+          .innerHTML
       ).toBe('')
     })
   })

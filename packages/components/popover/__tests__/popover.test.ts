@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { h, nextTick } from 'vue'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
-import { POPPER_CONTAINER_SELECTOR, useZIndex } from '@element-plus/hooks'
+import { usePopperContainerNode, useZIndex } from '@element-plus/hooks'
 import makeMount from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElPopperTrigger } from '@element-plus/components/popper'
@@ -132,23 +132,27 @@ describe('Popover.vue', () => {
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
+      const popperContainerNode = usePopperContainerNode()
       mount()
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)
+          .innerHTML
       ).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('')
+      const popperContainerNode = usePopperContainerNode()
       mount({
         props: { teleported: false },
       })
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+        document.body.querySelector(popperContainerNode.value.selector)
+          .innerHTML
       ).toBe('')
     })
   })

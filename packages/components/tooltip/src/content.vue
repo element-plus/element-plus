@@ -1,5 +1,5 @@
 <template>
-  <teleport :disabled="!teleported" :to="appendTo">
+  <teleport :disabled="!teleported" :to="teleportTo">
     <transition
       :name="transition"
       @after-leave="onTransitionLeave"
@@ -58,7 +58,7 @@ import {
 import { onClickOutside } from '@vueuse/core'
 import { ElPopperContent } from '@element-plus/components/popper'
 import { composeEventHandlers } from '@element-plus/utils'
-
+import { usePopperContainerNode } from '@element-plus/hooks'
 import { useTooltipContentProps } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 
@@ -177,6 +177,15 @@ export default defineComponent({
       }
     )
 
+    const popperContainerNode = usePopperContainerNode()
+
+    const teleportTo = computed(() => {
+      const { appendTo } = props
+      return appendTo !== undefined
+        ? appendTo
+        : popperContainerNode.value.selector
+    })
+
     return {
       ariaHidden,
       entering,
@@ -197,6 +206,7 @@ export default defineComponent({
       onContentLeave,
       onTransitionLeave,
       onBlur,
+      teleportTo,
     }
   },
 })
