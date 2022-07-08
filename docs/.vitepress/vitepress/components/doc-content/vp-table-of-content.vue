@@ -15,13 +15,10 @@ const marker = ref()
 const container = ref()
 const useActiveSidebarLinksResult = useActiveSidebarLinks(container, marker)
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-let manualLink = (hash: string) => {}
-
-if (useActiveSidebarLinksResult) {
-  const { manualLink: fn } = useActiveSidebarLinksResult
-  manualLink = fn
+const manualLink = (hash: string) => {
+  useActiveSidebarLinksResult && useActiveSidebarLinksResult.manualLink(hash)
 }
+
 const lang = useLang()
 const sponsor = computed(() => sponsorLocale[lang.value])
 </script>
