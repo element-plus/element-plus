@@ -103,11 +103,11 @@
                   <span>{{ tag.text }}</span>
                 </template>
                 <template #content>
-                  <div class="el-cascader__collapse-tags">
+                  <div :class="ns.e('collapse-tags')">
                     <div
                       v-for="(tag2, idx) in allPresentTags"
                       :key="idx"
-                      class="el-cascader__collapse-tag"
+                      :class="ns.e('collapse-tag')"
                     >
                       <el-tag
                         :key="tag2.key"
