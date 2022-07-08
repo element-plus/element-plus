@@ -24,8 +24,9 @@
       teleported
       pure
       persistent
+      @before-show="handleBeforeShowTooltip"
       @show="handleShowTooltip"
-      @hide="handleHideTooltip"
+      @before-hide="handleBeforeHideTooltip"
     >
       <template #content>
         <el-scrollbar
@@ -191,13 +192,17 @@ export default defineComponent({
       }
     }
 
+    function handleBeforeShowTooltip() {
+      emit('visible-change', true)
+    }
+
     function handleShowTooltip(event?: Event) {
       if (event?.type === 'keydown') {
         contentRef.value.focus()
       }
-      emit('visible-change', true)
     }
-    function handleHideTooltip() {
+
+    function handleBeforeHideTooltip() {
       emit('visible-change', false)
     }
 
@@ -245,8 +250,9 @@ export default defineComponent({
       handleEntryFocus,
       handleClose,
       handleOpen,
+      handleBeforeShowTooltip,
       handleShowTooltip,
-      handleHideTooltip,
+      handleBeforeHideTooltip,
       onFocusAfterTrapped,
       popperRef,
       contentRef,

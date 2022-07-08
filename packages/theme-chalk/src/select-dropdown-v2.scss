@@ -14,9 +14,30 @@
   }
 
   @include e(option-item) {
+    @include when(selected) {
+      &:not(.is-multiple) {
+        @include when(disabled) {
+          color: getCssVar('text-color-placeholder');
+          &::after {
+            background-color: getCssVar('text-color-placeholder');
+          }
+        }
+      }
+    }
+
     &:hover {
       &:not(.hover) {
         background-color: transparent;
+      }
+    }
+  }
+
+  @include when(multiple) {
+    .#{$namespace}-select-dropdown__option-item {
+      @include when(disabled) {
+        @include when(selected) {
+          color: getCssVar('text-color-placeholder');
+        }
       }
     }
   }

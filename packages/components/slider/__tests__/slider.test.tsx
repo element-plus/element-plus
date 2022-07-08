@@ -89,6 +89,19 @@ describe('Slider', () => {
     expect(slider.vm.formatValue).toBe('$0')
   })
 
+  it('placement', async () => {
+    const TOOLTIP_CLASS = 'custom_tooltip'
+    const PLACEMENT = 'right'
+
+    mount(() => <Slider tooltip-class={TOOLTIP_CLASS} placement={PLACEMENT} />)
+
+    await nextTick()
+
+    expect(
+      document.querySelector(`.${TOOLTIP_CLASS}`).dataset.popperPlacement
+    ).toBe(PLACEMENT)
+  })
+
   describe('drag', () => {
     it('horizontal', async () => {
       vi.useRealTimers()

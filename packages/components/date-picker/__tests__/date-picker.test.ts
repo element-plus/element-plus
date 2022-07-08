@@ -1482,4 +1482,38 @@ describe('MonthRange', () => {
       expect(formItem.attributes().role).toBe('group')
     })
   })
+
+  it('The year which is disabled should not be selectable', async () => {
+    const pickHandler = vi.fn()
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="yearValue"
+        type="year"
+        :disabled-date="validateYear"
+        @panel-change="onPick"
+      />`,
+      () => ({
+        yearValue: '2022',
+        validateYear: (date) => {
+          if (date.getFullYear() > 2022) {
+            return true
+          } else {
+            return false
+          }
+        },
+        onPick(e) {
+          return pickHandler(e)
+        },
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    ;(document.querySelector('td.disabled') as HTMLElement).click()
+    await nextTick()
+    expect(pickHandler).toHaveBeenCalledTimes(0)
+    ;(document.querySelector('td.available') as HTMLElement).click()
+    await nextTick()
+    expect(pickHandler).toHaveBeenCalledTimes(1)
+  })
 })
