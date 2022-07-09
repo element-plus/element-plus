@@ -210,7 +210,7 @@ export const useSelect = (props, states: States, ctx) => {
       if (props.filterable && !props.multiple) {
         states.inputLength = 20
       }
-      if (!isEqual(val, oldVal)) {
+      if (!isEqual(val, oldVal) && props.validateEvent) {
         elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     },

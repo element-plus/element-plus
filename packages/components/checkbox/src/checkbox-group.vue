@@ -65,7 +65,9 @@ provide('CheckboxGroup', {
 watch(
   () => props.modelValue,
   () => {
-    elFormItem.validate?.('change').catch((err) => debugWarn(err))
+    if (props.validateEvent) {
+      elFormItem.validate?.('change').catch((err) => debugWarn(err))
+    }
   }
 )
 </script>

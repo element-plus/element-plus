@@ -32,6 +32,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color var(--el-transition-duration-fast);
+  overflow: hidden;
 }
 
 main {

@@ -94,7 +94,7 @@ export const useFloating = ({
 }
 
 export type ArrowMiddlewareProps = {
-  arrowRef: Ref<HTMLElement | null>
+  arrowRef: Ref<HTMLElement | null | undefined>
   padding?: number | SideObject
 }
 

@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="popperRef"
-    v-model:visible="suggestionVisible"
+    :visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
@@ -60,7 +60,10 @@
       <div
         ref="regionRef"
         :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
-        :style="{ minWidth: dropdownWidth, outline: 'none' }"
+        :style="{
+          [fitInputWidth ? 'width' : 'minWidth']: dropdownWidth,
+          outline: 'none',
+        }"
         role="region"
       >
         <el-scrollbar

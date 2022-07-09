@@ -576,6 +576,8 @@ const isValidValue = (value: DayOrDays) => {
 }
 
 const handleKeydownInput = async (event: KeyboardEvent) => {
+  if (props.readonly || pickerDisabled.value) return
+
   const { code } = event
   emitKeydown(event)
   if (code === EVENT_CODE.esc) {

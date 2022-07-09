@@ -90,7 +90,7 @@ const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
   const clickTarget = event.target as HTMLDivElement
   const target = clickTarget.closest('td')
   if (target) {
-    if (hasClass((target as any).parentNode, 'disabled')) return
+    if (hasClass(target, 'disabled')) return
     const year = target.textContent || target.innerText
     emit('pick', Number(year))
   }

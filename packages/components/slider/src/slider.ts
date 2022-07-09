@@ -1,3 +1,4 @@
+import { placements } from '@popperjs/core'
 import {
   buildProps,
   definePropType,
@@ -90,8 +91,17 @@ export const sliderProps = buildProps({
     type: String,
     default: undefined,
   },
+  placement: {
+    type: String,
+    values: placements,
+    default: 'top',
+  },
   marks: {
     type: definePropType<SliderMarks>(Object),
+  },
+  validateEvent: {
+    type: Boolean,
+    default: true,
   },
 } as const)
 export type SliderProps = ExtractPropTypes<typeof sliderProps>
