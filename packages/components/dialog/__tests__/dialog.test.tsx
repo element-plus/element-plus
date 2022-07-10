@@ -49,7 +49,15 @@ describe('Dialog.vue', () => {
       <Dialog
         modelValue={true}
         v-slots={{
-          header: ({ titleId, titleClass, close }) => (
+          header: ({
+            titleId,
+            titleClass,
+            close,
+          }: {
+            titleId: string
+            titleClass: string
+            close: () => void
+          }) => (
             <button
               data-title-id={titleId}
               data-title-class={titleClass}
@@ -303,9 +311,13 @@ describe('Dialog.vue', () => {
         <Dialog
           modelValue={true}
           v-slots={{
-            header: ({ titleId, titleClass }) => (
-              <h5 id={titleId} class={titleClass} />
-            ),
+            header: ({
+              titleId,
+              titleClass,
+            }: {
+              titleId: string
+              titleClass: string
+            }) => <h5 id={titleId} class={titleClass} />,
           }}
         >
           {AXIOM}
