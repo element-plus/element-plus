@@ -27,10 +27,6 @@ class TableLayout<T> {
   headerHeight: Ref<null | number> // Table Header Height
   appendHeight: Ref<null | number> // Append Slot Height
   footerHeight: Ref<null | number> // Table Footer Height
-  viewportHeight: Ref<null | number> // Table Height - Scroll Bar Height
-  bodyHeight: Ref<null | number> // Table Height - Table Header Height
-  bodyScrollHeight: Ref<number>
-  fixedBodyHeight: Ref<null | number> // Table Height - Table Header Height - Scroll Bar Height
   gutterWidth: number
   constructor(options: Record<string, any>) {
     this.observers = []
@@ -45,14 +41,6 @@ class TableLayout<T> {
     this.bodyWidth = ref(null)
     this.fixedWidth = ref(null)
     this.rightFixedWidth = ref(null)
-    this.tableHeight = ref(null)
-    this.headerHeight = ref(44)
-    this.appendHeight = ref(0)
-    this.footerHeight = ref(44)
-    this.viewportHeight = ref(null)
-    this.bodyHeight = ref(null)
-    this.bodyScrollHeight = ref(0)
-    this.fixedBodyHeight = ref(null)
     this.gutterWidth = 0
     for (const name in options) {
       if (hasOwn(options, name)) {
@@ -78,20 +66,12 @@ class TableLayout<T> {
      * After the table is initialized, when the height is not configured, the height is 0.
      */
     if (height === null) return false
-    const bodyWrapper = this.table.refs.bodyWrapper as HTMLElement
-    if (this.table.vnode.el && bodyWrapper) {
+    const scrollBarRef = this.table.refs.scrollBarRef
+    if (this.table.vnode.el && scrollBarRef) {
       let scrollY = true
       const prevScrollY = this.scrollY.value
-      /**
-       * When bodyHeight has no value,
-       * it means that the table height is not set,
-       * and the scroll bar will never appear
-       */
-      if (this.bodyHeight.value === null) {
-        scrollY = false
-      } else {
-        scrollY = bodyWrapper.scrollHeight > this.bodyHeight.value
-      }
+      scrollY =
+        scrollBarRef.wrap$.scrollHeight > scrollBarRef.wrap$.clientHeight
       this.scrollY.value = scrollY
       return prevScrollY !== scrollY
     }
@@ -136,60 +116,6 @@ class TableLayout<T> {
   }
 
   updateElsHeight() {
-    if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
-    const {
-      tableWrapper,
-      headerWrapper,
-      appendWrapper,
-      footerWrapper,
-      tableHeader,
-      tableBody,
-    } = this.table.refs
-    if (tableWrapper && tableWrapper.style.display === 'none') {
-      // avoid v-show
-      return
-    }
-    const { tableLayout } = this.table.props
-    this.appendHeight.value = appendWrapper ? appendWrapper.offsetHeight : 0
-    if (this.showHeader && !headerWrapper && tableLayout === 'fixed') {
-      return
-    }
-    const headerTrElm: HTMLElement = tableHeader ? tableHeader : null
-    const noneHeader = this.headerDisplayNone(headerTrElm)
-    const headerWrapperOffsetHeight = headerWrapper?.offsetHeight || 0
-    const headerHeight = (this.headerHeight.value = !this.showHeader
-      ? 0
-      : headerWrapperOffsetHeight)
-    if (
-      this.showHeader &&
-      !noneHeader &&
-      headerWrapperOffsetHeight > 0 &&
-      (this.table.store.states.columns.value || []).length > 0 &&
-      headerHeight < 2
-    ) {
-      return nextTick(() => this.updateElsHeight())
-    }
-    const tableHeight = (this.tableHeight.value =
-      this.table?.vnode.el?.clientHeight)
-    const footerHeight = (this.footerHeight.value = footerWrapper
-      ? footerWrapper.offsetHeight
-      : 0)
-    if (this.height.value !== null) {
-      if (this.bodyHeight.value === null) {
-        requestAnimationFrame(() => this.updateElsHeight())
-      }
-      this.bodyHeight.value =
-        tableHeight - headerHeight - footerHeight + (footerWrapper ? 1 : 0)
-      this.bodyScrollHeight.value = tableBody?.scrollHeight
-    }
-    this.fixedBodyHeight.value = this.scrollX.value
-      ? this.bodyHeight.value - this.gutterWidth
-      : this.bodyHeight.value
-
-    this.viewportHeight.value = this.scrollX.value
-      ? tableHeight - this.gutterWidth
-      : tableHeight
-
     this.updateScrollY()
     this.notifyObservers('scrollable')
   }

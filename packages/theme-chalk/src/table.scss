@@ -21,6 +21,9 @@
 
   @include e(inner-wrapper) {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     // 表格底部伪 border，总是有的
     &::before {
       @include extend-rule(border-pseudo);
@@ -35,7 +38,7 @@
   &.has-footer {
     .#{$namespace}-table__inner-wrapper {
       &::before {
-        bottom: 1px;
+        bottom: 0;
       }
     }
   }
@@ -304,6 +307,7 @@
 
     @include e(footer-wrapper) {
       position: relative;
+      flex-shrink: 0;
     }
 
     @include e(footer-wrapper) {
@@ -381,6 +385,7 @@
   }
 
   @include e(header-wrapper) {
+    flex-shrink: 0;
     tr {
       th {
         &.#{$namespace}-table-fixed-column--left,
@@ -483,6 +488,7 @@
   @include e(body-wrapper) {
     overflow: hidden;
     position: relative;
+    flex: 1;
     .#{$namespace}-scrollbar__bar {
       z-index: 2;
     }

@@ -17,9 +17,9 @@
     @include when(selected) {
       &:not(.is-multiple) {
         @include when(disabled) {
-          color: getCssVar('text-color-placeholder');
+          color: getCssVar('text-color-disabled');
           &::after {
-            background-color: getCssVar('text-color-placeholder');
+            background-color: getCssVar('text-color-disabled');
           }
         }
       }
@@ -36,7 +36,7 @@
     .#{$namespace}-select-dropdown__option-item {
       @include when(disabled) {
         @include when(selected) {
-          color: getCssVar('text-color-placeholder');
+          color: getCssVar('text-color-disabled');
         }
       }
     }

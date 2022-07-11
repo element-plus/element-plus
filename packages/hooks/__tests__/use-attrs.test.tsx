@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { computed, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -21,7 +20,7 @@ const genComp = (
 ) => {
   return defineComponent({
     inheritAttrs,
-    props: {},
+    props: {} as Record<string, any>,
     setup() {
       const attrs = useAttrs({ excludeListeners, excludeKeys })
       return () => (
@@ -40,8 +39,6 @@ const _mount = (Comp: ReturnType<typeof genComp>) => {
         <Comp
           class={CLASS}
           style={{ width: WIDTH }}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
           onClick={handleClick}
           {...{ [TEST_KEY]: TEST_VALUE }}
         />
