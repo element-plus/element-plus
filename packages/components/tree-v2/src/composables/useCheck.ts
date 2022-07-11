@@ -79,7 +79,8 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   const toggleCheckbox = (
     node: TreeNode,
     isChecked: boolean,
-    nodeClick = true
+    nodeClick = true,
+    expandedKeys: any
   ) => {
     const checkedKeySet = checkedKeys.value
     const toggle = (node: TreeNode, checked: boolean) => {
@@ -89,7 +90,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
       const children = node.children
       if (!props.checkStrictly && children) {
         children.forEach((childNode) => {
-          if (!childNode.disabled) {
+          if (!childNode.disabled && expandedKeys.has(childNode.key)) {
             toggle(childNode, checked)
           }
         })

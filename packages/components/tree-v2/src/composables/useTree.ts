@@ -209,7 +209,8 @@ export function useTree(props: TreeProps, emit) {
   }
 
   function handleNodeCheck(node: TreeNode, checked: boolean) {
-    toggleCheckbox(node, checked)
+    const expandedKeys = expandedKeySet.value
+    toggleCheckbox(node, checked, undefined, expandedKeys)
   }
 
   function expand(node: TreeNode) {
