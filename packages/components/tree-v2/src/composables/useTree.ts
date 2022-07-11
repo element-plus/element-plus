@@ -156,6 +156,7 @@ export function useTree(props: TreeProps, emit) {
   }
 
   function filter(query: string) {
+    if (query == '') return
     const keys = doFilter(query)
     if (keys) {
       expandedKeySet.value = keys
