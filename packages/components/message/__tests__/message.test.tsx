@@ -1,6 +1,6 @@
-import { h, nextTick } from 'vue'
+import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import makeMount from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -15,60 +15,51 @@ type MessageInstance = ComponentPublicInstance<{
   customStyle: CSSProperties
 }>
 
-const onClose = vi.fn()
-const _mount = makeMount(Message, {
-  props: {
-    onClose,
-  },
-})
-
 describe('Message.vue', () => {
   describe('render', () => {
     test('basic render test', () => {
-      const wrapper = _mount({
-        slots: {
-          default: AXIOM,
-        },
-      })
+      const wrapper = mount(() => <Message>{AXIOM}</Message>)
 
-      const vm = wrapper.vm as MessageInstance
+      const messageWrapper = wrapper.findComponent(Message)
 
-      expect(wrapper.text()).toEqual(AXIOM)
+      const vm = messageWrapper.vm as MessageInstance
+
+      expect(messageWrapper.text()).toEqual(AXIOM)
       expect(vm.visible).toBe(true)
       expect(vm.iconComponent).toBe(TypeComponentsMap['info'])
       expect(vm.customStyle).toEqual({ top: '16px', zIndex: 0 })
     })
 
     test('should be able to render VNode', () => {
-      const wrapper = _mount({
-        slots: {
-          default: h('span', { class: 'text-node' }, AXIOM),
-        },
-      })
+      const wrapper = mount(() => (
+        <Message>
+          <span class="text-node">{AXIOM}</span>
+        </Message>
+      ))
 
       expect(wrapper.find('.text-node').exists()).toBe(true)
     })
 
     test('should be able to render raw HTML with dangerouslyUseHTMLString prop', () => {
       const tagClass = 'test-class'
-      const wrapper = _mount({
-        props: {
-          dangerouslyUseHTMLString: true,
-          message: `<string class="${tagClass}"'>${AXIOM}</strong>`,
-        },
-      })
+      const wrapper = mount(() => (
+        <Message
+          dangerouslyUseHTMLString
+          message={`<string class="${tagClass}"'>${AXIOM}</strong>`}
+        />
+      ))
 
       expect(wrapper.find(`.${tagClass}`).exists()).toBe(true)
     })
 
     test('should not be able to render raw HTML without dangerouslyUseHTMLString prop', () => {
       const tagClass = 'test-class'
-      const wrapper = _mount({
-        props: {
-          dangerouslyUseHTMLString: false,
-          message: `<string class="${tagClass}"'>${AXIOM}</strong>`,
-        },
-      })
+      const wrapper = mount(() => (
+        <Message
+          dangerouslyUseHTMLString={false}
+          message={`<string class="${tagClass}"'>${AXIOM}</strong>`}
+        />
+      ))
 
       expect(wrapper.find(`.${tagClass}`).exists()).toBe(false)
     })
@@ -77,7 +68,7 @@ describe('Message.vue', () => {
   describe('Message.type', () => {
     test('should be able to render typed messages', () => {
       for (const type of ['success', 'warning', 'info', 'error'] as const) {
-        const wrapper = _mount({ props: { type } })
+        const wrapper = mount(() => <Message type={type} />)
 
         expect(wrapper.findComponent(TypeComponentsMap[type]).exists()).toBe(
           true
@@ -89,7 +80,7 @@ describe('Message.vue', () => {
       const consoleWarn = console.warn
       console.warn = vi.fn()
       const type = 'some-type'
-      const wrapper = _mount({ props: { type } })
+      const wrapper = mount(() => <Message type={type} />)
 
       for (const component of Object.values(TypeComponentsMap)) {
         expect(wrapper.findComponent(component).exists()).toBe(false)
@@ -101,25 +92,30 @@ describe('Message.vue', () => {
   describe('event handlers', () => {
     test('it should be able to close the message by clicking close button', async () => {
       const onClose = vi.fn()
-      const wrapper = _mount({
-        slots: { default: AXIOM },
-        props: {
-          onClose,
-          showClose: true,
-        },
-      })
+      const wrapper = mount(() => (
+        <Message showClose onClose={onClose}>
+          {AXIOM}
+        </Message>
+      ))
+
+      const messageWrapper = wrapper.findComponent(Message)
 
       const closeBtn = wrapper.find('.el-message__closeBtn')
       expect(closeBtn.exists()).toBe(true)
       await closeBtn.trigger('click')
-      expect((wrapper.vm as MessageInstance).visible).toBe(false)
+      expect((messageWrapper.vm as MessageInstance).visible).toBe(false)
     })
 
     test('it should close after duration', async () => {
       vi.useFakeTimers()
       const duration = 1000
-      const wrapper = _mount({ props: { duration } })
-      const vm = wrapper.vm as MessageInstance
+      const wrapper = mount(() => (
+        <Message duration={duration}>{AXIOM}</Message>
+      ))
+
+      const messageWrapper = wrapper.findComponent(Message)
+
+      const vm = messageWrapper.vm as MessageInstance
       await nextTick()
       expect(vm.visible).toBe(true)
       vi.runAllTimers()
@@ -131,8 +127,13 @@ describe('Message.vue', () => {
     test('it should prevent close when hovered', async () => {
       vi.useFakeTimers()
       const duration = 1000
-      const wrapper = _mount({ props: { duration } })
-      const vm = wrapper.vm as MessageInstance
+      const wrapper = mount(() => (
+        <Message duration={duration}>{AXIOM}</Message>
+      ))
+
+      const messageWrapper = wrapper.findComponent(Message)
+      const vm = messageWrapper.vm as MessageInstance
+
       vi.advanceTimersByTime(50)
       expect(vm.visible).toBe(true)
       await wrapper.find('[role="alert"]').trigger('mouseenter')
@@ -148,8 +149,13 @@ describe('Message.vue', () => {
     test('it should not close when duration is set to 0', () => {
       vi.useFakeTimers()
       const duration = 0
-      const wrapper = _mount({ props: { duration } })
-      const vm = wrapper.vm as MessageInstance
+      const wrapper = mount(() => (
+        <Message duration={duration}>{AXIOM}</Message>
+      ))
+
+      const messageWrapper = wrapper.findComponent(Message)
+      const vm = messageWrapper.vm as MessageInstance
+
       expect(vm.visible).toBe(true)
       vi.runAllTimers()
       expect(vm.visible).toBe(true)
@@ -157,24 +163,28 @@ describe('Message.vue', () => {
     })
 
     test('it should close when esc is pressed', async () => {
-      const wrapper = _mount({ slots: { default: AXIOM } })
+      const wrapper = mount(() => <Message>{AXIOM}</Message>)
 
       const event = new KeyboardEvent('keydown', {
         code: EVENT_CODE.esc,
       })
       document.dispatchEvent(event)
 
-      expect((wrapper.vm as MessageInstance).visible).toBe(false)
+      const messageWrapper = wrapper.findComponent(Message)
+      const vm = messageWrapper.vm as MessageInstance
+
+      expect(vm.visible).toBe(false)
     })
 
     test('it should call close after transition ends', async () => {
       const onClose = vi.fn()
-      const wrapper = _mount({
-        slots: { default: AXIOM },
-        props: { onClose },
-      })
+      const wrapper = mount(() => <Message onClose={onClose}>{AXIOM}</Message>)
+
       await rAF()
-      const vm = wrapper.vm as MessageInstance
+
+      const messageWrapper = wrapper.findComponent(Message)
+      const vm = messageWrapper.vm as MessageInstance
+
       vm.visible = false
       await rAF()
 
