@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { computed, nextTick, ref, shallowRef, watch } from 'vue'
-import { fa } from '@element-plus/locale'
 import {
   CURRENT_CHANGE,
   NODE_CLICK,
