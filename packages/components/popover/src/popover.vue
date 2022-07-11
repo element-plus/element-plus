@@ -23,6 +23,7 @@
     :teleported="teleported"
     :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
+    @update:visible="onUpdateVisible"
     @before-show="beforeEnter"
     @before-hide="beforeLeave"
     @show="afterEnter"
@@ -56,6 +57,12 @@ defineOptions({
 
 const props = defineProps(popoverProps)
 const emit = defineEmits(popoverEmits)
+
+const updateEventKeyRaw = `onUpdate:visible` as const
+
+const onUpdateVisible = computed(() => {
+  return props[updateEventKeyRaw]
+})
 
 const ns = useNamespace('popover')
 const tooltipRef = ref<TooltipInstance>()

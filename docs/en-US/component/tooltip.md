@@ -122,7 +122,7 @@ tooltip/singleton
 
 ## Controlled
 
-Tooltip can be controlled by the parent component, by using `v-model:visible` you can implement two way binding.
+Tooltip can be controlled by the parent component, by using `:visible` you can implement two way binding.
 
 :::demo
 
