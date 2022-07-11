@@ -38,7 +38,7 @@
     "escape-html": "^1.0.3",
     "fast-glob": "^3.2.11",
     "markdown-it-container": "^3.0.0",
-    "octokit": "^1.8.1",
+    "octokit": "^2.0.3",
     "prismjs": "^1.28.0",
     "unocss": "0.33.5",
     "unplugin-icons": "^0.14.6",
