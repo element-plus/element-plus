@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { computed, nextTick, ref, shallowRef, watch } from 'vue'
+import { fa } from '@element-plus/locale'
 import {
   CURRENT_CHANGE,
   NODE_CLICK,
@@ -197,7 +198,7 @@ export function useTree(props: TreeProps, emit) {
       toggleExpand(node)
     }
     if (props.showCheckbox && props.checkOnClickNode && !node.disabled) {
-      toggleCheckbox(node, !isChecked(node), true)
+      toggleCheckbox(node, !isChecked(node), true, false, new Set())
     }
   }
 
@@ -210,7 +211,7 @@ export function useTree(props: TreeProps, emit) {
 
   function handleNodeCheck(node: TreeNode, checked: boolean) {
     const expandedKeys = expandedKeySet.value
-    toggleCheckbox(node, checked, undefined, expandedKeys)
+    toggleCheckbox(node, checked, false, true, expandedKeys)
   }
 
   function expand(node: TreeNode) {
