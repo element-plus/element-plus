@@ -60,7 +60,7 @@ export const dialogProps = buildProps({
   },
   trapFocus: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 } as const)
 

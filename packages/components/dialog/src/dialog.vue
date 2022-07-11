@@ -26,7 +26,7 @@
         >
           <el-focus-trap
             loop
-            :trapped="visible"
+            :trapped="visible && trapFocus"
             focus-start-el="container"
             @focus-after-trapped="onOpenAutoFocus"
             @focus-after-released="onCloseAutoFocus"
