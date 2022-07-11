@@ -140,7 +140,8 @@
               [nsRange.e('close-icon--hidden')]: !showClose,
             },
           ]"
-          @click="onClearIconClick"
+          @click.stop="onClearIconClick"
+          @mousedown.stop="() => {}"
         >
           <component :is="clearIcon" />
         </el-icon>
@@ -463,10 +464,9 @@ const triggerIcon = computed(
 
 const showClose = ref(false)
 
-const onClearIconClick = (event: MouseEvent) => {
+const onClearIconClick = () => {
   if (props.readonly || pickerDisabled.value) return
   if (showClose.value) {
-    event.stopPropagation()
     focusOnInputBox()
     emitInput(null)
     emitChange(null, true)
