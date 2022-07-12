@@ -209,7 +209,12 @@ export function useTree(props: TreeProps, emit) {
   }
 
   function handleNodeCheck(node: TreeNode, checked: boolean) {
-    toggleCheckbox(node, checked)
+    const hiddenKeys = hiddenNodeKeySet.value
+    if (hiddenKeys.size === 0) {
+      toggleCheckbox(node, checked, true)
+    } else {
+      toggleCheckbox(node, checked, true, hiddenKeys)
+    }
   }
 
   function expand(node: TreeNode) {

@@ -79,7 +79,8 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   const toggleCheckbox = (
     node: TreeNode,
     isChecked: boolean,
-    nodeClick = true
+    nodeClick = true,
+    hiddenKeys: any
   ) => {
     const checkedKeySet = checkedKeys.value
     const toggle = (node: TreeNode, checked: boolean) => {
@@ -90,7 +91,13 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
       if (!props.checkStrictly && children) {
         children.forEach((childNode) => {
           if (!childNode.disabled) {
-            toggle(childNode, checked)
+            if (!hiddenKeys) {
+              toggle(childNode, checked)
+            } else {
+              if (!hiddenKeys.has(childNode.key)) {
+                toggle(childNode, checked)
+              }
+            }
           }
         })
       }
@@ -185,7 +192,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     if (tree?.value && props.showCheckbox) {
       const node = tree.value.treeNodeMap.get(key)
       if (node) {
-        toggleCheckbox(node, isChecked, false)
+        toggleCheckbox(node, isChecked, false, false)
       }
     }
   }
@@ -197,7 +204,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
         for (const key of keys) {
           const node = treeNodeMap.get(key)
           if (node && !isChecked(node)) {
-            toggleCheckbox(node, true, false)
+            toggleCheckbox(node, true, false, false)
           }
         }
       }
