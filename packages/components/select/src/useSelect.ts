@@ -603,6 +603,7 @@ export const useSelect = (props, states: States, ctx) => {
         value.length < props.multipleLimit
       ) {
         value.push(option.value)
+        states.query = ''
       }
       ctx.emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
