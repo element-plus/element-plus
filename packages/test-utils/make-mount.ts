@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { mount } from '@vue/test-utils'
 import { merge } from 'lodash'
 
@@ -12,11 +11,11 @@ interface Options {
     [key: string]: any
   }
   methods?: {
-    [key: string]: (...args) => any
+    [key: string]: (...args: any[]) => any
   }
 }
 
-export const makeMountFunc = (defaultOptions) => {
+export const makeMountFunc = (defaultOptions: Record<string, any>) => {
   return (template: string, options: Options) => {
     return mount({
       ...merge({}, defaultOptions, options),
