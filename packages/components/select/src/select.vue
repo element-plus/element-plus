@@ -73,7 +73,7 @@
                   <template #content>
                     <div :class="nsSelect.e('collapse-tags')">
                       <div
-                        v-for="(item, idx) in selected"
+                        v-for="(item, idx) in selected.slice(1)"
                         :key="idx"
                         :class="nsSelect.e('collapse-tag')"
                       >
@@ -260,6 +260,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -382,6 +383,10 @@ export default defineComponent({
     },
     // eslint-disable-next-line vue/require-prop-types
     tagType: { ...tagProps.type, default: 'info' },
+    validateEvent: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,

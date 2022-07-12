@@ -41,7 +41,6 @@
               :draggable="draggable"
               :fullscreen="fullscreen"
               :show-close="showClose"
-              :style="style"
               :title="title"
               @close="handleClose"
             >

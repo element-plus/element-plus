@@ -36,10 +36,14 @@
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
         :label="label"
         :tabindex="tabindex"
+        :validate-event="validateEvent"
         @input="onUserInput"
         @focus="handleFocusInput"
         @blur="handleBlurInput"
-        @keydown="(handleKeydownInput as any)"
+        @keydown="
+          //
+          handleKeydownInput as any
+        "
         @change="handleChange"
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
@@ -572,6 +576,8 @@ const isValidValue = (value: DayOrDays) => {
 }
 
 const handleKeydownInput = async (event: KeyboardEvent) => {
+  if (props.readonly || pickerDisabled.value) return
+
   const { code } = event
   emitKeydown(event)
   if (code === EVENT_CODE.esc) {

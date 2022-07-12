@@ -233,6 +233,7 @@ export default defineComponent({
             height={height}
             width={width}
             total={data.length}
+            // @ts-ignore - dts problem
             onKeydown={onKeydown}
           >
             {{

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   computed,
   getCurrentInstance,
@@ -16,7 +17,7 @@ import {
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isNumber } from '@element-plus/utils'
+import { addUnit } from '@element-plus/utils'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'
@@ -40,10 +41,6 @@ export const useDialog = (
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
 
-  const normalizeWidth = computed(() =>
-    isNumber(props.width) ? `${props.width}px` : props.width
-  )
-
   const namespace = useGlobalConfig('namespace', defaultNamespace)
 
   const style = computed<CSSProperties>(() => {
@@ -54,7 +51,7 @@ export const useDialog = (
         style[`${varPrefix}-margin-top`] = props.top
       }
       if (props.width) {
-        style[`${varPrefix}-width`] = normalizeWidth.value
+        style[`${varPrefix}-width`] = addUnit(props.width)
       }
     }
     return style

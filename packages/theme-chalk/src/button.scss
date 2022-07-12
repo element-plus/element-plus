@@ -180,7 +180,8 @@ $button-icon-span-gap: map.merge(
       @include when(has-bg) {
         background-color: getCssVar('fill-color', 'light');
 
-        &:hover {
+        &:hover,
+        &:focus {
           background-color: getCssVar('fill-color');
         }
 

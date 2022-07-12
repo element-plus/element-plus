@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   computed,
   inject,
@@ -209,7 +210,7 @@ export const useSelect = (props, states: States, ctx) => {
       if (props.filterable && !props.multiple) {
         states.inputLength = 20
       }
-      if (!isEqual(val, oldVal)) {
+      if (!isEqual(val, oldVal) && props.validateEvent) {
         elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
     },
@@ -340,14 +341,14 @@ export const useSelect = (props, states: States, ctx) => {
       const sizeInMap = getComponentSize(selectSize.value || elForm.size)
       // it's an inner input so reduce it by 2px.
       input.style.height = `${
-        states.selected.length === 0
+        (states.selected.length === 0
           ? sizeInMap
           : Math.max(
               _tags
                 ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
                 : 0,
               sizeInMap
-            ) - 2
+            )) - 2
       }px`
 
       states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
@@ -769,7 +770,6 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const toggleMenu = () => {
-    if (props.automaticDropdown) return
     if (!selectDisabled.value) {
       if (states.menuVisibleOnFocus) {
         states.menuVisibleOnFocus = false

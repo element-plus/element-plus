@@ -61,7 +61,6 @@ function findFirstLegitChild(node: VNode[] | undefined): VNode | null {
         case Comment:
           continue
         case Text:
-          return wrapTextContent(child)
         case 'svg':
           return wrapTextContent(child)
         case Fragment:

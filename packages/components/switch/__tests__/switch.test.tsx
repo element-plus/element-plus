@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
@@ -5,6 +6,8 @@ import { debugWarn } from '@element-plus/utils'
 import { Checked, CircleClose } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import Switch from '../src/switch.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { SwitchInstance } from '../src/switch'
 
 vi.mock('@element-plus/utils/error', () => ({
   debugWarn: vi.fn(),
@@ -142,7 +145,7 @@ describe('Switch.vue', () => {
         </div>
       `,
       methods: {
-        handleChange(val) {
+        handleChange(val: boolean) {
           this.target = val
         },
       },
@@ -214,6 +217,33 @@ describe('Switch.vue', () => {
     expect(vm.value).toEqual('100')
   })
 
+  test('default switch active-value is false', async () => {
+    const wrapper = mount({
+      components: {
+        'el-switch': Switch,
+      },
+      template: `
+        <div>
+          <el-switch v-model="value" :active-value="onValue" :inactive-value="offValue"></el-switch>
+        </div>
+      `,
+      data() {
+        return {
+          value: false,
+          onValue: false,
+          offValue: true,
+        }
+      },
+    })
+    const vm = wrapper.vm
+
+    const coreWrapper = wrapper.find('.el-switch__core')
+    await coreWrapper.trigger('click')
+    expect(vm.value).toEqual(true)
+    await coreWrapper.trigger('click')
+    expect(vm.value).toEqual(false)
+  })
+
   test('value is the single source of truth', async () => {
     const wrapper = mount({
       components: {
@@ -227,7 +257,8 @@ describe('Switch.vue', () => {
     })
     const vm = wrapper.vm
     const coreWrapper = wrapper.find('.el-switch__core')
-    const switchWrapper = wrapper.findComponent(Switch)
+    const switchWrapper: VueWrapper<SwitchInstance> =
+      wrapper.findComponent(Switch)
     const switchVm = switchWrapper.vm
     const inputEl = vm.$el.querySelector('input')
 
@@ -253,7 +284,8 @@ describe('Switch.vue', () => {
     })
     const vm = wrapper.vm
     const coreWrapper = wrapper.find('.el-switch__core')
-    const switchWrapper = wrapper.findComponent(Switch)
+    const switchWrapper: VueWrapper<SwitchInstance> =
+      wrapper.findComponent(Switch)
     const switchVm = switchWrapper.vm
     const inputEl = vm.$el.querySelector('input')
 

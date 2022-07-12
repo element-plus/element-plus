@@ -107,36 +107,6 @@ input/various-size
 
 :::
 
-## Autocomplete
-
-You can get some recommended tips based on the current input.
-
-:::demo Autocomplete component provides input suggestions. The `fetch-suggestions` attribute is a method that returns suggested input. In this example, `querySearch(queryString, cb)` returns suggestions to Autocomplete via `cb(data)` when suggestions are ready.
-
-input/autocomplete
-
-:::
-
-## Custom template
-
-Customize how suggestions are displayed.
-
-:::demo Use `scoped slot` to customize suggestion items. In the scope, you can access the suggestion object via the `item` key.
-
-input/autocomplete-template
-
-:::
-
-## Remote search
-
-Search data from server-side.
-
-:::demo
-
-input/remote-search
-
-:::
-
 ## Limit length
 
 :::demo `maxlength` and `minlength` attributes of input, they declare a limit on the number of characters a user can input. The "number of characters" is measured using JavaScript string length.Setting the `maxlength` prop for a text or textarea type of Input can limit the length of input value, allows you to show word count by setting `show-word-limit` to `true` at the same time.
@@ -190,13 +160,13 @@ input/length-limiting
 
 ## Input Events
 
-| Event Name | Description                                                            | Parameters                |
-| ---------- | ---------------------------------------------------------------------- | ------------------------- |
-| blur       | triggers when Input blurs                                              | (event: Event)            |
-| focus      | triggers when Input focuses                                            | (event: Event)            |
-| change     | triggers only when the input box loses focus or the user presses Enter | (value: string \| number) |
-| input      | triggers when the Input value change                                   | (value: string \| number) |
-| clear      | triggers when the Input is cleared by clicking the clear button        | —                         |
+| Event Name | Description                                                                                           | Parameters                |
+| ---------- | ----------------------------------------------------------------------------------------------------- | ------------------------- |
+| blur       | triggers when Input blurs                                                                             | (event: Event)            |
+| focus      | triggers when Input focuses                                                                           | (event: Event)            |
+| change     | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | (value: string \| number) |
+| input      | triggers when the Input value change                                                                  | (value: string \| number) |
+| clear      | triggers when the Input is cleared by clicking the clear button                                       | —                         |
 
 ## Input Methods
 
@@ -205,56 +175,3 @@ input/length-limiting
 | focus  | focus the input element          | —          |
 | blur   | blur the input element           | —          |
 | select | select the text in input element | —          |
-
-## Autocomplete Attributes
-
-| Attribute                         | Description                                                                                                                | Type                            | Accepted Values                                                | Default      |
-| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | -------------------------------------------------------------- | ------------ |
-| placeholder                       | the placeholder of Autocomplete                                                                                            | string                          | —                                                              | —            |
-| clearable                         | whether to show clear button                                                                                               | boolean                         | —                                                              | false        |
-| disabled                          | whether Autocomplete is disabled                                                                                           | boolean                         | —                                                              | false        |
-| value-key                         | key name of the input suggestion object for display                                                                        | string                          | —                                                              | value        |
-| icon                              | icon component                                                                                                             | string / Component              | —                                                              | —            |
-| model-value / v-model             | binding value                                                                                                              | string                          | —                                                              | —            |
-| debounce                          | debounce delay when typing, in milliseconds                                                                                | number                          | —                                                              | 300          |
-| placement                         | placement of the popup menu                                                                                                | string                          | top / top-start / top-end / bottom / bottom-start / bottom-end | bottom-start |
-| fetch-suggestions                 | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete | Function(queryString, callback) | —                                                              | —            |
-| popper-class                      | custom class name for autocomplete's dropdown                                                                              | string                          | —                                                              | —            |
-| trigger-on-focus                  | whether show suggestions when input focus                                                                                  | boolean                         | —                                                              | true         |
-| name                              | same as `name` in native input                                                                                             | string                          | —                                                              | —            |
-| select-when-unmatched             | whether to emit a `select` event on enter when there is no autocomplete match                                              | boolean                         | —                                                              | false        |
-| label                             | label text                                                                                                                 | string                          | —                                                              | —            |
-| prefix-icon                       | prefix icon class                                                                                                          | string / Component              | —                                                              | —            |
-| suffix-icon                       | suffix icon class                                                                                                          | string / Component              | —                                                              | —            |
-| hide-loading                      | whether to hide the loading icon in remote search                                                                          | boolean                         | —                                                              | false        |
-| popper-append-to-body(deprecated) | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | boolean                         | -                                                              | false        |
-| teleported                        | whether select dropdown is teleported to the body                                                                          | boolean                         | true / false                                                   | true         |
-| highlight-first-item              | whether to highlight first item in remote search suggestions by default                                                    | boolean                         | —                                                              | false        |
-
-## Autocomplete Slots
-
-| Name    | Description                     |
-| ------- | ------------------------------- |
-| prefix  | content as Input prefix         |
-| suffix  | content as Input suffix         |
-| prepend | content to prepend before Input |
-| append  | content to append after Input   |
-
-## Autocomplete Scoped Slot
-
-| Name | Description                                                           |
-| ---- | --------------------------------------------------------------------- |
-| —    | Custom content for input suggestions. The scope parameter is { item } |
-
-## Autocomplete Events
-
-| Event Name | Description                                      | Parameters                |
-| ---------- | ------------------------------------------------ | ------------------------- |
-| select     | triggers when a suggestion is clicked            | suggestion being clicked  |
-| change     | triggers when the icon inside Input value change | (value: string \| number) |
-
-## Autocomplete Methods
-
-| Method | Description             | Parameters |
-| ------ | ----------------------- | ---------- |
-| focus  | focus the input element | —          |

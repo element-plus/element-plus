@@ -1,5 +1,141 @@
 ## Changelog
 
+### 2.2.9
+
+_2022-07-08_
+
+#### Features
+
+- Components [autocomplete] fit input width (#8596 by @kooriookami)
+- Components [slider] placement (#8561 by @ryuhangyeong)
+
+#### Bug fixes
+
+- Components [menu] fix infinite flicker after choosing subMenu (#8533 by @ParkerFiend)
+- Theme-chalk [select] change style when disalbed and selectded (#8354 by @ryuhangyeong)
+- Components [TreeSelect] checkbox interaction (#8102 by @yujinpan)
+- Components [input-number] Fix value decimals miss prop precision (#8587 by @so11y)
+- Components add validate-event for form types component (#8173 by @HeftyKoo)
+- Components [time-picker] Ignore key down if readonly (#8283 by @ryuhangyeong)
+- Components [date-picker] fix type of year disabled failure (#8568 by @ayuan-gy)
+- Components [autocomplete] error message (#8591 by @tolking)
+- Components [dialog] remove not used style props (#8325 by @ryuhangyeong)
+- Components [dialog] make modelValue be an optional property (#8598 by @buqiyuan)
+- Components [dropdown] fix visible-change event delay trigger (#8602 by @shooterRao)
+- Components [table] table-column expand nested table wrong style (#8522 by @asdjgfr)
+- Components [date-picker] disabled year not selectable (#8414 by @Tsong-LC)
+- Components [steps] fix type error (#8627 by @ryuhangyeong)
+- Components [dropdown] fix A11y when tooltip show (#8655 by @shooterRao)
+- Revert(components): [radio] revert input id (#8677 by @chenxch)
+
+#### Refactors
+
+- Components [tabs] add deprecated mark to activeName (#8590 by @tolking)
+- Components [steps] use JSX in Unit test (#8259 by @Tsong-LC)
+
+### 2.2.8
+
+_2022-07-01_
+
+#### Bug fixes
+
+- Components [radio] fix typo (#8556 by @holazz)
+- Components [message] fix z-index & offset (#8582 by @sxzz)
+
+### 2.2.7
+
+_2022-07-01_
+
+#### Features
+
+- Components close all messages of the specified type (#8415 by @Lete114)
+- Components [message-box] add autofocus attribute (#8445 by @YunYouJun)
+- Components [autocomplete] expose blur event (#8364 by @tolking)
+
+#### Bug fixes
+
+- Components [tabs] fix change acitve cannot scroll in view (#8332 by @xiahouwei)
+- Components [select] collapse-tags-tooltip drop first item (#8344 by @chenxch)
+- Components [message-box] the focus error when used ElMessageBox (#8336 by @LinZhanMing)
+- Components [autocomplete] the popup still appears after select (#8350 by @tolking)
+- Components [tooltip] not disappear when <keep-alive> change (#8301 by @sunnyCoCosun)
+- Components [space] missing empty string size (#8039 by @HeftyKoo)
+- Components [message]: offset (#8379 by @sxzz)
+- Components [select] multiple init height (#8423 by @chenxch)
+- Theme-chalk [pagination] style if selected value is disabled (#8447 by @ryuhangyeong)
+- Components [select] fix select dropdown width (#8396 by @Cheerwhy) (#8435)
+- Components [select-v2] fix select-v2 dropdown width (#8442 by @Cheerwhy)
+- Components [popover] fix dark mode background color (#8133 by @holazz)
+- Components [color-picker] can't select predefine value (#8205 by @btea)
+- Components [radio] Divide attrs into label and input (#8476 by @chenxch)
+- Components [tabs] name is number 0 become a string (#8469 by @chenxch)
+- Style(components): [transfer] modify import order (#8345 by @holazz)
+
+#### Refactors
+
+- Components [image-viewer] simplify emits type checking (#8329 by @ryuhangyeong)
+- Components [dialog] using addUnit in the use-dialog (#8304 by @ryuhangyeong)
+- Components [switch] deprecate value prop (#8335 by @sxzz)
+- Components [upload] use JSX in Unit test (#8268 by @sxzz)
+- Components [descriptions] use JSX in Unit test (#8351 by @ryuhangyeong)
+- Components [message] fix typings and switch to script setup (#8378 by @sxzz)
+- Components [switch] switch to script-setup syntax (#7792 by @chenxch)
+- Components [space] refactor (#8386 by @holazz)
+- Components [slider] use JSX in Unit test (#8225 by @holazz)
+- Components [popover] switch to script-setup syntax (#8273 by @holazz)
+- Add ts-nocheck and check all files (#8401 by @sxzz)
+- Components [space] use JSX in Unit test (#8433 by @holazz)
+- Components [popconfirm] changed button type (#8436 by @ryuhangyeong)
+- Components [drawer] replace with addUnit (#8463 by @ryuhangyeong)
+- Components [only-child] simplify conditions (#8480 by @ryuhangyeong)
+- Components [transfer] switch to script-setup syntax (#8343 by @holazz)
+
+### 2.2.6
+
+_2022-06-17_
+
+#### Bug fixes
+
+- Components [table] fix namespace in table's expand icon (#8162 by @k713927)
+- Components [image] position styles error when used slots (#8109 by @tolking)
+- Components [pagination] improved keyboard accessibility (#8107 by @ryuhangyeong)
+- Components [date-picker] valid value error (#8187 by @gjfei)
+- Components inputNumber cursor offset up (#8193 by @Tsong-LC)
+- Components [table-v2] `column's min-width` should work normal (#8226 by @webfansplz)
+- Theme-chalk [col] remove float property (#8220 by @ryuhangyeong)
+- Components [time-picker] template type assertion (#8237 by @Tsong-LC)
+- Components [date-picker] validateEvent prop not work (#8194 by @HeftyKoo)
+- Components [checkbox-group] fix Wrong type checking (#8195 by @ytx222)
+- Vitest typings (#8239 by @sxzz)
+- Components [virtual-list] fix namespace in virtual-list (#8255 by @FlareStone)
+- Components [pagination] tab enable error if disabled (#8222 by @ryuhangyeong)
+- Components [upload] two-way binding fileList (#8258 by @sxzz)
+- Components DOM update finished calculating navOffset (#8221 by @Tsong-LC)
+- Style(components): [button] link button add focus-visible css (#8214 by @chenxch)
+- Style(components): [button] focus-visible (#8224 by @chenxch)
+- Style(components): [button] text-button bg mode add focus (#8232 by @chenxch)
+- Style(components): [select] options disabled hover bg (#8266 by @chenxch)
+
+#### Refactors
+
+- Components [slider] switch to script-setup syntax (#8008 by @holazz)
+- Components [switch] Simplify color handling (#8199 by @CarterLi)
+- Utils import path (#8235 by @sxzz)
+- Components [carousel] complete optional values (#8231 by @tolking)
+- Components [input] fix ts error (#8200 by @btea)
+- Components [result] use JSX in Unit test (#8230 by @ryuhangyeong)
+- Components [overlay] use JSX in Unit test (#8227 by @ryuhangyeong)
+- Components [tag] use JSX in Unit test (#8233 by @ryuhangyeong)
+- Components [icon] use JSX in Unit test (#8249 by @ryuhangyeong)
+- Components [empty] use JSX in Unit test (#8245 by @Tsong-LC)
+- Components [divider] use JSX in Unit test (#8248 by @ryuhangyeong)
+- Components [skeleton] use JSX in Unit test (#8265 by @Tsong-LC)
+- Components [page-header] use JSX in Unit test (#8263 by @ryuhangyeong)
+- Components [collapse-transition] type error (#8247 by @tolking)
+- Components [visual-hidden] visual-hidden  (#8192 by @gjfei)
+- Refactor/time picker refactor to setup (#8191 by @jw-foss)
+- Components [scrollbar] simplify emits type checking (#8281 by @ryuhangyeong)
+
 ### 2.2.5
 
 _2022-06-08_

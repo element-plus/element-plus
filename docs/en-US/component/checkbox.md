@@ -89,6 +89,7 @@ checkbox/with-border
 | name                  | native 'name' attribute                                   | string                             | —                      | —       |
 | checked               | if the Checkbox is checked                                | boolean                            | —                      | false   |
 | indeterminate         | same as `indeterminate` in native checkbox                | boolean                            | —                      | false   |
+| validate-event        | whether to trigger form validation                        | boolean                            | -                      | true    |
 
 ## Checkbox Events
 
@@ -114,6 +115,7 @@ checkbox/with-border
 | label                 | label for screen reader                           | string  | —                      | —       |
 | text-color            | font color when button is active                  | string  | —                      | #ffffff |
 | fill                  | border and background color when button is active | string  | —                      | #409EFF |
+| validate-event        | whether to trigger form validation                | boolean | -                      | true    |
 
 ## Checkbox-group Events
 

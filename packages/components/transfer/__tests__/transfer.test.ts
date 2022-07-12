@@ -1,7 +1,8 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import Transfer from '../src/index.vue'
+import Transfer from '../src/transfer.vue'
 
 describe('Transfer', () => {
   const getTestData = () => {

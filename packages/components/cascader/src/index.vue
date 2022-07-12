@@ -103,11 +103,11 @@
                   <span>{{ tag.text }}</span>
                 </template>
                 <template #content>
-                  <div class="el-cascader__collapse-tags">
+                  <div :class="nsCascader.e('collapse-tags')">
                     <div
                       v-for="(tag2, idx) in allPresentTags"
                       :key="idx"
-                      class="el-cascader__collapse-tag"
+                      :class="nsCascader.e('collapse-tag')"
                     >
                       <el-tag
                         :key="tag2.key"
@@ -177,7 +177,9 @@
             @click="handleSuggestionClick(item)"
           >
             <span>{{ item.text }}</span>
-            <el-icon v-if="item.checked"><check /></el-icon>
+            <el-icon v-if="item.checked">
+              <check />
+            </el-icon>
           </li>
         </template>
         <slot v-else name="empty">
@@ -191,6 +193,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -338,6 +341,10 @@ export default defineComponent({
     teleported: useTooltipContentProps.teleported,
     // eslint-disable-next-line vue/require-prop-types
     tagType: { ...tagProps.type, default: 'info' },
+    validateEvent: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   emits: [
@@ -420,7 +427,9 @@ export default defineComponent({
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)
         emit(CHANGE_EVENT, val)
-        elFormItem.validate?.('change').catch((err) => debugWarn(err))
+        if (props.validateEvent) {
+          elFormItem.validate?.('change').catch((err) => debugWarn(err))
+        }
       },
     })
 

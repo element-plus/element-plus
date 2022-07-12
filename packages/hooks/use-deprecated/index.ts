@@ -9,7 +9,7 @@ type DeprecationParam = {
   scope: string
   version: string
   ref: string
-  type?: 'API' | 'Slot' | 'Event'
+  type?: 'API' | 'Attribute' | 'Event' | 'Slot'
 }
 
 export const useDeprecated = (
@@ -22,7 +22,7 @@ export const useDeprecated = (
       if (val) {
         debugWarn(
           scope,
-          `${type} ${from} is about to be deprecated in version ${version}, please use ${replacement} instead.
+          `[${type}] ${from} is about to be deprecated in version ${version}, please use ${replacement} instead.
 For more detail, please visit: ${ref}
 `
         )

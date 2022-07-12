@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Store } from '../store'
 
 function useUtils<T>(store: Store<T>) {

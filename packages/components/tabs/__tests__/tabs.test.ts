@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
@@ -677,5 +678,91 @@ describe('Tabs.vue', () => {
 
   test('resize', async () => {
     // TODO: jsdom not support `clientWidth`.
+  })
+
+  test('DOM update finished calculating navOffset', async () => {
+    const tabs: string[] = []
+    for (let i = 0; i < 5000; i++) {
+      tabs.push(i.toString())
+    }
+    const wrapper = mount({
+      components: {
+        'el-tabs': Tabs,
+        'el-tab-pane': TabPane,
+      },
+      template: `
+        <el-tabs v-model="activeName">
+          <el-tab-pane
+            v-for="item in tabs"
+            :key="item"
+            :label="item"
+            :name="item"
+          />
+        </el-tabs>
+      `,
+      data() {
+        return {
+          activeName: '0',
+          tabs,
+        }
+      },
+    })
+
+    const tabsWrapper = wrapper.findComponent(Tabs)
+    await nextTick()
+
+    const mockRect = vi
+      .spyOn(wrapper.find('#tab-4999').element, 'getBoundingClientRect')
+      .mockReturnValue({ left: 5000 } as DOMRect)
+    const mockComputedStyle = vi
+      .spyOn(window, 'getComputedStyle')
+      .mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
+
+    await wrapper.find('#tab-4999').trigger('click')
+    await nextTick()
+
+    expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch(
+      'translateX(5000px)'
+    )
+
+    mockRect.mockRestore()
+    mockComputedStyle.mockRestore()
+    wrapper.unmount()
+  })
+
+  test('value type', async () => {
+    const wrapper = mount({
+      components: {
+        'el-tabs': Tabs,
+        'el-tab-pane': TabPane,
+      },
+      data() {
+        return {
+          activeName: 0,
+        }
+      },
+      methods: {
+        handleClick(tab) {
+          this.activeName = tab.paneName
+        },
+      },
+      template: `
+        <el-tabs :active-name="activeName" @tab-click="handleClick">
+          <el-tab-pane :name="0" label="label-1">A</el-tab-pane>
+          <el-tab-pane :name="1" label="label-2">B</el-tab-pane>
+          <el-tab-pane :name="2" label="label-3" ref="pane-click">C</el-tab-pane>
+          <el-tab-pane :name="3" label="label-4">D</el-tab-pane>
+        </el-tabs>
+      `,
+    })
+
+    const navWrapper = wrapper.findComponent(TabNav)
+    await nextTick()
+
+    const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+    ;[1, 0, 2, 0, 3, 0, 1].forEach((val) => {
+      navItemsWrapper[val].trigger('click')
+      expect(wrapper.vm.activeName).toEqual(val)
+    })
   })
 })

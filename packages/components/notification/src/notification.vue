@@ -39,6 +39,7 @@
   </transition>
 </template>
 <script lang="ts">
+// @ts-nocheck
 import { computed, defineComponent, onMounted, ref } from 'vue'
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'

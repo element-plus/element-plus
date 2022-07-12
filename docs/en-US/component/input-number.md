@@ -97,6 +97,7 @@ input-number/controlled
 | label                         | label text                                       | string                 | —               | —           |
 | placeholder                   | placeholder in input                             | string                 | -               | -           |
 | value-on-clear **(\> 2.2.0)** | value should be set when input box is cleared    | string / number / null | min/max         | -           |
+| validate-event                | whether to trigger form validation               | boolean                | -               | true        |
 
 ## Events
 

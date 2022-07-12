@@ -5,19 +5,24 @@ import RepeatClick from '../repeat-click'
 
 const handler = vi.fn()
 const _mount = () =>
-  mount({
-    template: `
-  <div id="block" v-repeat-click="onClick">TEST</div>
-  `,
-    directives: {
-      repeatClick: RepeatClick,
-    },
-    methods: {
-      onClick() {
-        handler()
+  mount(
+    {
+      setup() {
+        return () => (
+          <div id="block" v-repeat-click={handler}>
+            TEST
+          </div>
+        )
       },
     },
-  })
+    {
+      global: {
+        directives: {
+          RepeatClick,
+        },
+      },
+    }
+  )
 
 describe('Directives.vue', () => {
   test('Click test', async () => {

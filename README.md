@@ -74,7 +74,7 @@ You can also try Element Plus out with the components built-in playground.
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://fantastic-admin.netlify.app/?from=element-plus" target="_blank">
+        <a href="https://hooray.gitee.io/fantastic-admin/?from=element-plus" target="_blank">
           <img width="150px" src="https://user-images.githubusercontent.com/82012629/167299102-e2e66150-2248-4f03-bbf2-84c622e7d165.png">
         </a>
       </td>

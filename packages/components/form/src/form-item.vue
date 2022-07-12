@@ -317,9 +317,8 @@ const resetField: FormItemContext['resetField'] = async () => {
   if (!isEqual(computedValue.value, initialValue)) {
     // prevent validation from being triggered
     isResettingField = true
+    computedValue.value = clone(initialValue)
   }
-
-  computedValue.value = clone(initialValue)
 
   await nextTick()
   clearValidate()
