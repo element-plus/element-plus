@@ -1074,9 +1074,9 @@ describe('Select', () => {
     await nextTick()
     const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
     expect(triggerWrappers[0]).toBeDefined()
-    const tags = wrapper.findAll('.el-select__tags-text')
+    const tags = document.querySelectorAll('.el-select__tags-text')
     expect(tags.length).toBe(4)
-    expect(tags[3].element.textContent).toBe('蚵仔煎')
+    expect(tags[3].textContent).toBe('蚵仔煎')
   })
 
   test('multiple remove-tag', async () => {
