@@ -1,7 +1,5 @@
-// @ts-nocheck
-import { h, withDirectives } from 'vue'
 import { mount } from '@vue/test-utils'
-import { beforeEach, describe, expect, it, test, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import ClickOutside from '../click-outside'
 
 const AXIOM = 'Rem is the best girl'
@@ -9,75 +7,52 @@ const TRIGGER = 'trigger'
 const OTHER_CLASS = 'other-class'
 
 // init some local variables
-let mousedownObject
-let mouseupObject
+let mousedownObject: MouseEvent | null
+let mouseupObject: MouseEvent | null
 // mock handler with implementations which makes assignment to the local variable that we registered above.
 const handler = vi.fn((eMouseup, eMousedown) => {
   mouseupObject = eMouseup
   mousedownObject = eMousedown
 })
-const Component = {
-  template: `
-  <div>
-    <div class="${OTHER_CLASS}">Hello</div>
-    <div class="${TRIGGER}" v-click-outside="handler">${AXIOM}</div>
-  </div>
-`,
-  setup() {
-    return {
-      handler,
-    }
-  },
-}
 
 const _mount = () =>
-  mount(Component, {
-    global: {
-      directives: {
-        ClickOutside,
+  mount(
+    {
+      setup() {
+        return () => (
+          <div>
+            <div class={OTHER_CLASS}>Hello</div>
+            <div class={TRIGGER} v-click-outside={handler}>
+              {AXIOM}
+            </div>
+          </div>
+        )
       },
     },
-  })
+    {
+      global: {
+        directives: {
+          ClickOutside,
+        },
+      },
+    }
+  )
 
 const triggerDocumentClickEvent = () => {
-  const mousedown = document.createEvent('MouseEvents')
-  mousedown.initMouseEvent(
-    'mousedown',
-    true,
-    true,
-    window,
-    0,
-    0,
-    0,
-    0,
-    0,
-    false,
-    false,
-    false,
-    false,
-    0,
-    null
-  )
+  const mousedown = new MouseEvent('mousedown', {
+    screenX: 0,
+    screenY: 0,
+    clientX: 0,
+    clientY: 0,
+  })
   document.dispatchEvent(mousedown)
 
-  const mouseup = document.createEvent('MouseEvents')
-  mouseup.initMouseEvent(
-    'mouseup',
-    true,
-    true,
-    window,
-    0,
-    0,
-    0,
-    0,
-    0,
-    false,
-    false,
-    false,
-    false,
-    0,
-    null
-  )
+  const mouseup = new MouseEvent('mouseup', {
+    screenX: 0,
+    screenY: 0,
+    clientX: 0,
+    clientY: 0,
+  })
   document.dispatchEvent(mouseup)
 }
 
@@ -87,7 +62,7 @@ describe('Directives.vue', () => {
     mousedownObject = null
     mouseupObject = null
   })
-  test('render test', () => {
+  it('render test', () => {
     const wrapper = _mount()
     expect(wrapper.text()).toContain(AXIOM)
     expect(handler).toHaveBeenCalledTimes(0)
@@ -95,7 +70,7 @@ describe('Directives.vue', () => {
     wrapper.unmount()
   })
 
-  test('should trigger handler', async () => {
+  it('should trigger handler', async () => {
     const wrapper = _mount()
     await wrapper.find(`.${TRIGGER}`).trigger('mousedown')
     await wrapper.find(`.${TRIGGER}`).trigger('mouseup')
@@ -112,33 +87,29 @@ describe('Directives.vue', () => {
 
 describe('Multiple click-outside directives', () => {
   const firstHandler = vi.fn()
-  const InnerComponent = {
-    template: `<div class="${TRIGGER}" v-click-outside="handler">${AXIOM}</div>`,
-    setup() {
-      return { handler: firstHandler }
-    },
-  }
-
   const secondHandler = vi.fn()
-  const OuterComponent = {
-    setup() {
-      return () => {
-        const triggerNode = withDirectives(h(InnerComponent), [
-          [ClickOutside, secondHandler],
-        ])
-        return h('div', { class: OTHER_CLASS }, triggerNode)
-      }
-    },
-  }
 
   it('should support for multiple directives', async () => {
-    const wrapper = mount(OuterComponent, {
-      global: {
-        directives: {
-          ClickOutside,
+    const wrapper = mount(
+      {
+        setup() {
+          return () => (
+            <div class="other-class" v-click-outside={secondHandler}>
+              <div class="trigger" v-click-outside={firstHandler}>
+                {AXIOM}
+              </div>
+            </div>
+          )
         },
       },
-    })
+      {
+        global: {
+          directives: {
+            ClickOutside,
+          },
+        },
+      }
+    )
 
     // click inside trigger element
     await wrapper.find(`.${TRIGGER}`).trigger('mousedown')
@@ -151,7 +122,7 @@ describe('Multiple click-outside directives', () => {
     expect(firstHandler).toHaveBeenCalledTimes(1)
     expect(secondHandler).toHaveBeenCalledTimes(1)
 
-    // update the component instance
+    // // update the component instance
     wrapper.vm.$forceUpdate()
     triggerDocumentClickEvent()
     expect(firstHandler).toHaveBeenCalledTimes(2)
