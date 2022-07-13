@@ -48,33 +48,26 @@ describe('Pagination', () => {
     })
     test('current-page defined while absence of current-page listener is invalid', () => {
       expect(console.warn).not.toHaveBeenCalled()
-      const wrapper = mount(
+      const wrapper = mount(() => (
         <Pagination total={100} currentPage={1}></Pagination>
-      )
+      ))
 
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
       expect(console.warn).toHaveBeenCalled()
     })
     test('layout with `sizes` restrictions(page-count)', () => {
       expect(console.warn).not.toHaveBeenCalled()
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              layout: 'sizes, pager',
-              pageCount: 10,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => (
+        <Pagination layout="sizes, pager" pageCount={10}></Pagination>
+      ))
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
       expect(console.warn).toHaveBeenCalled()
     })
     test('layout with `sizes` restrictions(page-size)', () => {
       expect(console.warn).not.toHaveBeenCalled()
-      const wrapper = mount(
+      const wrapper = mount(() => (
         <Pagination layout="sizes, pager" pageSize={10}></Pagination>
-      )
+      ))
 
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
       expect(console.warn).toHaveBeenCalled()
@@ -120,7 +113,7 @@ describe('Pagination', () => {
     })
 
     test('layout with default layout prop', () => {
-      const wrapper = mount(<Pagination total={100}></Pagination>)
+      const wrapper = mount(() => <Pagination total={100}></Pagination>)
 
       assertElementsExistence(
         wrapper,
@@ -136,17 +129,19 @@ describe('Pagination', () => {
     })
 
     test('test layout with slot', () => {
-      const wrapper = mount(
+      const wrapper = mount(() => (
         <Pagination layout="slot, prev, pager, next" pageSize={25} total={100}>
           <span class="slot-test">slot test</span>
         </Pagination>
-      )
+      ))
 
       expect(wrapper.find('.slot-test').exists()).toBe(true)
     })
 
     test('test small layout', () => {
-      const wrapper = mount(<Pagination total={100} small={true}></Pagination>)
+      const wrapper = mount(() => (
+        <Pagination total={100} small={true}></Pagination>
+      ))
 
       expect(wrapper.vm.$el.classList.contains('el-pagination--small')).toBe(
         true
@@ -270,7 +265,7 @@ describe('Pagination', () => {
 
   describe('test a11y supports', () => {
     test('test a11y attributes', async () => {
-      const wrapper = mount(<Pagination total={100} />)
+      const wrapper = mount(() => <Pagination total={100} />)
       expect(wrapper.find('.el-pagination').attributes('aria-label')).toBe(
         'pagination'
       )
@@ -305,7 +300,7 @@ describe('Pagination', () => {
     })
 
     test('test tabindex interactive', async () => {
-      const wrapper = mount(<Pagination total={100} />)
+      const wrapper = mount(() => <Pagination total={100} />)
       await wrapper.find('.el-pager li:nth-child(2)').trigger('click')
       assertCurrent(wrapper, 2)
       await wrapper.find('.el-pager li:nth-child(3)').trigger('click', {
@@ -323,14 +318,18 @@ describe('Pagination', () => {
     })
 
     test('test tabindex disabled', async () => {
-      const wrapper = mount(<Pagination total={100} disabled={true} />)
+      const disabled = ref(true)
+      const wrapper = mount(() => (
+        <Pagination total={100} disabled={disabled.value}></Pagination>
+      ))
 
       expect(
         wrapper.find('.el-pager li:first-child').attributes('tabindex')
       ).toBe('-1')
 
-      await wrapper.setProps({ disabled: false })
+      disabled.value = false
 
+      await nextTick()
       expect(
         wrapper.find('.el-pager li:first-child').attributes('tabindex')
       ).toBe('0')
