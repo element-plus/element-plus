@@ -272,8 +272,7 @@ const showClear = computed(
     props.clearable &&
     !inputDisabled.value &&
     !props.readonly &&
-    !!nativeInputValue.value &&
-    (focused.value || hovering.value)
+    !!nativeInputValue.value
 )
 const showPwdVisible = computed(
   () =>
