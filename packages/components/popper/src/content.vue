@@ -71,6 +71,7 @@ const popperContentRef = ref<HTMLElement>()
 const focusStartRef = ref<string | HTMLElement>('first')
 const arrowRef = ref<HTMLElement>()
 const arrowOffset = ref<number>()
+const pickerBase = inject('EP_PICKER_BASE') as any
 provide(POPPER_CONTENT_INJECTION_KEY, {
   arrowRef,
   arrowOffset,
@@ -151,7 +152,7 @@ const onFocusAfterReleased = () => {
 
 const onFocusInTrap = (event: FocusEvent) => {
   if (props.visible && !trapped.value) {
-    if (event.relatedTarget) {
+    if (event.relatedTarget && !pickerBase) {
       ;(event.relatedTarget as HTMLElement)?.focus()
     }
     if (event.target) {
