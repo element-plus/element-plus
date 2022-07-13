@@ -180,7 +180,10 @@ provide(
 )
 
 onMounted(() => {
-  if (!props.native) nextTick(() => update())
+  if (!props.native)
+    nextTick(() => {
+      update()
+    })
 })
 onUpdated(() => update())
 
