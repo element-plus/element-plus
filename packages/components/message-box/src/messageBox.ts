@@ -8,6 +8,7 @@ import {
   isUndefined,
   isVNode,
 } from '@element-plus/utils'
+import { messageBoxConfig } from '@element-plus/components/config-provider/src/config-provider'
 import MessageBoxConstructor from './index.vue'
 
 import type { AppContext, ComponentPublicInstance, VNode } from 'vue'
@@ -37,7 +38,7 @@ const initInstance = (
   container: HTMLElement,
   appContext: AppContext | null = null
 ) => {
-  const vnode = h(MessageBoxConstructor, props)
+  const vnode = h(MessageBoxConstructor, { ...messageBoxConfig, ...props })
   vnode.appContext = appContext
   render(vnode, container)
   document.body.appendChild(container.firstElementChild!)

@@ -7,8 +7,11 @@ import type { ExperimentalFeatures } from '@element-plus/tokens'
 import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 import type { MessageConfigContext } from '@element-plus/components/message'
+import type { ElMessageBoxOptions } from '@element-plus/components/message-box'
 
 export const messageConfig: MessageConfigContext = {}
+
+export const messageBoxConfig: ElMessageBoxOptions = {}
 
 export const configProviderProps = buildProps({
   // Controlling if the users want a11y features.
@@ -47,6 +50,10 @@ export const configProviderProps = buildProps({
     type: String,
     default: 'el',
   },
+
+  messageBox: {
+    type: definePropType<ElMessageBoxOptions>(Object),
+  },
 } as const)
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>
 
@@ -62,6 +69,15 @@ const ConfigProvider = defineComponent({
       },
       { immediate: true, deep: true }
     )
+
+    watch(
+      () => props.messageBox,
+      (val) => {
+        Object.assign(messageBoxConfig, val ?? {})
+      },
+      { immediate: true, deep: true }
+    )
+
     const config = provideGlobalConfig(props)
     return () => renderSlot(slots, 'default', { config: config?.value })
   },
