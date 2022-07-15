@@ -57,7 +57,11 @@ const arraySpanMethod = ({
       return [1, 2]
     } else if (columnIndex === 1) {
       return [0, 0]
+    } else {
+      return [1, 1]
     }
+  } else {
+    return [1, 1]
   }
 }
 
@@ -78,6 +82,11 @@ const objectSpanMethod = ({
         rowspan: 0,
         colspan: 0,
       }
+    }
+  } else {
+    return {
+      rowspan: 1,
+      colspan: 1,
     }
   }
 }
