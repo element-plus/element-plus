@@ -2,6 +2,7 @@
   <el-only-child
     v-if="!virtualTriggering"
     v-bind="$attrs"
+    :tabindex="tabindex"
     :aria-controls="ariaControls"
     :aria-describedby="ariaDescribedby"
     :aria-expanded="ariaExpanded"

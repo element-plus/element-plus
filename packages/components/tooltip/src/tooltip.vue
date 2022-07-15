@@ -4,6 +4,7 @@
       :disabled="disabled"
       :trigger="trigger"
       :trigger-keys="triggerKeys"
+      :tabindex="tabindex"
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
     >

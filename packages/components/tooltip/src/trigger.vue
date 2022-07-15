@@ -3,6 +3,7 @@
     :id="id"
     :virtual-ref="virtualRef"
     :open="open"
+    :tabindex="tabindex"
     :virtual-triggering="virtualTriggering"
     :class="ns.e('trigger')"
     @blur="onBlur"
