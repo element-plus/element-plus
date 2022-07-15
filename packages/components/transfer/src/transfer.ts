@@ -15,6 +15,11 @@ export type TransferDirection = 'left' | 'right'
 
 export type TransferDataItem = Record<string, any>
 
+export type renderContent = (
+  h: typeof H,
+  option: TransferDataItem
+) => VNode | VNode[]
+
 export interface TransferFormat {
   noChecked?: string
   hasChecked?: string
@@ -62,9 +67,7 @@ export const transferProps = buildProps({
     default: () => [],
   },
   renderContent: {
-    type: definePropType<
-      (h: typeof H, option: TransferDataItem) => VNode | VNode[]
-    >(Function),
+    type: definePropType<renderContent>(Function),
   },
   modelValue: {
     type: definePropType<TransferKey[]>(Array),

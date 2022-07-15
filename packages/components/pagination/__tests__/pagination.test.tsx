@@ -1,4 +1,4 @@
-import { h, nextTick, ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import Pagination from '../src/pagination'
@@ -38,13 +38,8 @@ describe('Pagination', () => {
     test('both absence of total & pageCount is invalid', async () => {
       expect(console.warn).not.toHaveBeenCalled()
       const total = ref<number | undefined>(undefined)
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, { total: total.value })
-          }
-        },
-      })
+      const wrapper = mount(() => <Pagination total={total.value}></Pagination>)
+
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
       expect(console.warn).toHaveBeenCalled()
       total.value = 100
@@ -53,46 +48,27 @@ describe('Pagination', () => {
     })
     test('current-page defined while absence of current-page listener is invalid', () => {
       expect(console.warn).not.toHaveBeenCalled()
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              total: 100,
-              currentPage: 1,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => (
+        <Pagination total={100} currentPage={1}></Pagination>
+      ))
+
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
       expect(console.warn).toHaveBeenCalled()
     })
     test('layout with `sizes` restrictions(page-count)', () => {
       expect(console.warn).not.toHaveBeenCalled()
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              layout: 'sizes, pager',
-              pageCount: 10,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => (
+        <Pagination layout="sizes, pager" pageCount={10}></Pagination>
+      ))
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
       expect(console.warn).toHaveBeenCalled()
     })
     test('layout with `sizes` restrictions(page-size)', () => {
       expect(console.warn).not.toHaveBeenCalled()
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              layout: 'sizes, pager',
-              pageSize: 10,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => (
+        <Pagination layout="sizes, pager" pageSize={10}></Pagination>
+      ))
+
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
       expect(console.warn).toHaveBeenCalled()
     })
@@ -100,16 +76,10 @@ describe('Pagination', () => {
 
   describe('test layout & layout reactive change', () => {
     const layoutRef = ref('')
-    const wrapper = mount({
-      setup() {
-        return () => {
-          return h(Pagination, {
-            total: 100,
-            layout: layoutRef.value,
-          })
-        }
-      },
-    })
+    const wrapper = mount(() => (
+      <Pagination total={100} layout={layoutRef.value}></Pagination>
+    ))
+
     test('layout empty', async () => {
       await nextTick()
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
@@ -143,15 +113,8 @@ describe('Pagination', () => {
     })
 
     test('layout with default layout prop', () => {
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              total: 100,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => <Pagination total={100}></Pagination>)
+
       assertElementsExistence(
         wrapper,
         [
@@ -166,34 +129,20 @@ describe('Pagination', () => {
     })
 
     test('test layout with slot', () => {
-      const TestComponent = {
-        template: `
-          <el-pagination
-            layout="slot, prev, pager, next"
-            :page-size="25"
-            :total="100">
-            <span class="slot-test">slot test</span>
-          </el-pagination>
-        `,
-        components: {
-          'el-pagination': Pagination,
-        },
-      }
-      const wrapper = mount(TestComponent)
+      const wrapper = mount(() => (
+        <Pagination layout="slot, prev, pager, next" pageSize={25} total={100}>
+          <span class="slot-test">slot test</span>
+        </Pagination>
+      ))
+
       expect(wrapper.find('.slot-test').exists()).toBe(true)
     })
 
     test('test small layout', () => {
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              total: 100,
-              small: true,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => (
+        <Pagination total={100} small={true}></Pagination>
+      ))
+
       expect(wrapper.vm.$el.classList.contains('el-pagination--small')).toBe(
         true
       )
@@ -201,16 +150,10 @@ describe('Pagination', () => {
 
     test('test with background', async () => {
       const withBackground = ref(true)
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              total: 100,
-              background: withBackground.value,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => (
+        <Pagination total={100} background={withBackground.value}></Pagination>
+      ))
+
       expect(wrapper.find('.is-background').exists()).toBe(true)
       withBackground.value = false
       await nextTick()
@@ -219,16 +162,13 @@ describe('Pagination', () => {
 
     test('test hide-on-single-page prop', async () => {
       const hideOnSinglePage = ref(false)
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              total: 10, // deivded by default page-size(10), there will be only one page
-              hideOnSinglePage: hideOnSinglePage.value,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => (
+        <Pagination
+          total={10} // deivded by default page-size(10), there will be only one page
+          hideOnSinglePage={hideOnSinglePage.value}
+        />
+      ))
+
       expect(wrapper.find('.el-pagination').exists()).toBe(true)
       hideOnSinglePage.value = true
       await nextTick()
@@ -239,17 +179,10 @@ describe('Pagination', () => {
   describe('test pageSize & currentPage reactive change', () => {
     test(`test pageSize change`, async () => {
       const pageSize = ref(10)
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              layout: 'pager',
-              total: 100,
-              pageSize: pageSize.value,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => (
+        <Pagination layout="pager" total={100} pageSize={pageSize.value} />
+      ))
+
       // total pages = Math.ceil(total / pageSize)
       assertPages(wrapper, 10)
       pageSize.value = 20
@@ -262,18 +195,15 @@ describe('Pagination', () => {
     test('test currentPage change', async () => {
       const pageSize = ref(10)
       const defaultCurrentPage = ref(2)
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              layout: 'prev, pager, next',
-              total: 100,
-              pageSize: pageSize.value,
-              defaultCurrentPage: defaultCurrentPage.value,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => (
+        <Pagination
+          layout="prev, pager, next"
+          total={100}
+          pageSize={pageSize.value}
+          defaultCurrentPage={defaultCurrentPage.value}
+        />
+      ))
+
       assertCurrent(wrapper, 2)
       defaultCurrentPage.value = 1
       assertCurrent(wrapper, 2) // still 2
@@ -290,16 +220,10 @@ describe('Pagination', () => {
 
     test('test pageCount change and side effect', async () => {
       const pageCount = ref(10)
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              layout: 'prev, pager, next',
-              pageCount: pageCount.value,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => (
+        <Pagination layout="prev, pager, next" pageCount={pageCount.value} />
+      ))
+
       assertPages(wrapper, 10)
       pageCount.value = 20
       await nextTick()
@@ -317,18 +241,15 @@ describe('Pagination', () => {
     test('test listener work', async () => {
       const pageSizeWatcher = vi.fn()
       const currentPageWatcher = vi.fn()
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              total: 100,
-              layout: 'prev, pager, next, sizes',
-              ['onUpdate:currentPage']: currentPageWatcher,
-              ['onUpdate:pageSize']: pageSizeWatcher,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => (
+        <Pagination
+          total={100}
+          layout="prev, pager, next, sizes"
+          onUpdate:current-page={currentPageWatcher}
+          onUpdate:page-size={pageSizeWatcher}
+        />
+      ))
+
       await wrapper.find('.el-pager li:last-child').trigger('click')
       assertCurrent(wrapper, 10 /* Math.ceil(100/10) */)
       expect(currentPageWatcher).toHaveBeenCalled()
@@ -344,15 +265,7 @@ describe('Pagination', () => {
 
   describe('test a11y supports', () => {
     test('test a11y attributes', async () => {
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              total: 100,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => <Pagination total={100} />)
       expect(wrapper.find('.el-pagination').attributes('aria-label')).toBe(
         'pagination'
       )
@@ -387,15 +300,7 @@ describe('Pagination', () => {
     })
 
     test('test tabindex interactive', async () => {
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              total: 100,
-            })
-          }
-        },
-      })
+      const wrapper = mount(() => <Pagination total={100} />)
       await wrapper.find('.el-pager li:nth-child(2)').trigger('click')
       assertCurrent(wrapper, 2)
       await wrapper.find('.el-pager li:nth-child(3)').trigger('click', {
@@ -413,23 +318,18 @@ describe('Pagination', () => {
     })
 
     test('test tabindex disabled', async () => {
-      const wrapper = mount({
-        setup() {
-          return () => {
-            return h(Pagination, {
-              total: 100,
-              disabled: true,
-            })
-          }
-        },
-      })
+      const disabled = ref(true)
+      const wrapper = mount(() => (
+        <Pagination total={100} disabled={disabled.value}></Pagination>
+      ))
 
       expect(
         wrapper.find('.el-pager li:first-child').attributes('tabindex')
       ).toBe('-1')
 
-      await wrapper.setProps({ disabled: false })
+      disabled.value = false
 
+      await nextTick()
       expect(
         wrapper.find('.el-pager li:first-child').attributes('tabindex')
       ).toBe('0')
