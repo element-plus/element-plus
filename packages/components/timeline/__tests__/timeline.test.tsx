@@ -2,16 +2,17 @@ import { markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import { MoreFilled } from '@element-plus/icons-vue'
-
 import TimeLine from '../src/timeline'
 import TimeLineItem from '../src/timeline-item.vue'
+
+import type { TimelineItemProps } from '../src/timeline-item'
 
 const iconMoreFilled = markRaw(MoreFilled)
 
 const activities: {
   content: string
   timestamp: string
-  placement?: string
+  placement?: TimelineItemProps['placement']
   hideTimestamp?: boolean
 }[] = [
   {
