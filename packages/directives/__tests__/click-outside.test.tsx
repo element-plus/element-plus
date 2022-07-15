@@ -94,8 +94,8 @@ describe('Multiple click-outside directives', () => {
       {
         setup() {
           return () => (
-            <div class="other-class" v-click-outside={secondHandler}>
-              <div class="trigger" v-click-outside={firstHandler}>
+            <div class={OTHER_CLASS} v-click-outside={secondHandler}>
+              <div class={TRIGGER} v-click-outside={firstHandler}>
                 {AXIOM}
               </div>
             </div>
@@ -122,7 +122,7 @@ describe('Multiple click-outside directives', () => {
     expect(firstHandler).toHaveBeenCalledTimes(1)
     expect(secondHandler).toHaveBeenCalledTimes(1)
 
-    // // update the component instance
+    // update the component instance
     wrapper.vm.$forceUpdate()
     triggerDocumentClickEvent()
     expect(firstHandler).toHaveBeenCalledTimes(2)
