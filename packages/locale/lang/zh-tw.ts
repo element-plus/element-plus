@@ -5,8 +5,7 @@ export default {
       confirm: '確認',
       clear: '清空',
       defaultLabel: '色彩選擇器',
-      description:
-        '目前色彩為 {color}。按一下 Enter 以選擇新色彩。',
+      description: '目前色彩為 {color}。按一下 Enter 以選擇新色彩。',
     },
     datepicker: {
       now: '現在',
@@ -14,8 +13,7 @@ export default {
       cancel: '取消',
       clear: '清空',
       confirm: '確認',
-      dateTablePrompt:
-        '使用方向鍵與 Enter 鍵以選擇日期',
+      dateTablePrompt: '使用方向鍵與 Enter 鍵以選擇日期',
       monthTablePrompt: '使用方向鍵與 Enter 鍵以選擇月份',
       yearTablePrompt: '使用方向鍵與 Enter 鍵以選擇年份',
       selectedDate: '已選日期',
