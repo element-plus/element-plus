@@ -70,7 +70,7 @@ const lastRow = ref<number>()
 const lastColumn = ref<number>()
 const tableRows = ref<DateCell[][]>([[], [], [], [], [], []])
 
-const focusWithClick = ref(false)
+let focusWithClick = false
 
 // todo better way to get Day.js locale object
 const firstDayOfWeek = (props.date as any).$locale().weekStart || 7
@@ -370,11 +370,7 @@ const isSelectedCell = (cell: DateCell) => {
 }
 
 const handleFocus = (event: FocusEvent) => {
-  if (
-    focusWithClick.value ||
-    hasCurrent.value ||
-    props.selectionMode !== 'date'
-  )
+  if (focusWithClick || hasCurrent.value || props.selectionMode !== 'date')
     return
   handlePickDate(event, true)
 }
@@ -382,13 +378,13 @@ const handleFocus = (event: FocusEvent) => {
 const handleMouseDown = (event: MouseEvent) => {
   const target = (event.target as HTMLElement).closest('td')
   if (!target) return
-  focusWithClick.value = true
+  focusWithClick = true
 }
 
 const handleMouseUp = (event: MouseEvent) => {
   const target = (event.target as HTMLElement).closest('td')
   if (!target) return
-  focusWithClick.value = false
+  focusWithClick = false
 }
 
 const handlePickDate = (
