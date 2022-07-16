@@ -181,6 +181,7 @@ function initialize(userOptions: any) {
   --docsearch-muted-color: var(--text-color-lighter);
   --docsearch-text-color: var(--text-color-light);
   --docsearch-modal-background: var(--bg-color-soft);
+  --docsearch-modal-shadow: var(--el-box-shadow);
 
   transition: background-color var(--el-transition-duration-fast);
 
