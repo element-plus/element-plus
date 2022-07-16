@@ -160,7 +160,7 @@
 
     @include when(disabled) {
       color: getCssVar('disabled-text-color');
-      cursor: default;
+      cursor: not-allowed;
     }
   }
   @include e(content) {
