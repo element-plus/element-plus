@@ -299,7 +299,7 @@ describe('DatePicker', () => {
     expect(focusHandler).toHaveBeenCalledTimes(1)
   })
 
-  it.only('opens popper on click when input is focused', async () => {
+  it('opens popper on click when input is focused', async () => {
     const wrapper = _mount(
       `<el-date-picker
         v-model="value"
