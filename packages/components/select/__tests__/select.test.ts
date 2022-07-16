@@ -2040,7 +2040,7 @@ describe('Select', () => {
       expect(formItem.attributes().role).toBe('group')
     })
     // fix: 8544
-    it.only('When props are changed, label can be displayed correctly after selecting operation', async () => {
+    it('When props are changed, label can be displayed correctly after selecting operation', async () => {
       wrapper = getGroupSelectVm({}, [
         {
           label: 'group1',
