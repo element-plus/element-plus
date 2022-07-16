@@ -3,6 +3,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
+import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import ConfigProvider from '@element-plus/components/config-provider'
 import { CommonPicker } from '@element-plus/components/time-picker'
@@ -149,7 +150,7 @@ describe('DatePicker', () => {
     await nextTick()
     expect(spans[0].textContent).toContain(date.add(-1, 'year').year())
     expect(spans[1].textContent).toContain(date.format('MMMM'))
-    ;(document.querySelector('td.available') as HTMLElement).click()
+    triggerEvent(document.querySelector('td.available'), 'mousedown', true)
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value).toBeDefined()
@@ -167,7 +168,7 @@ describe('DatePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    ;(document.querySelector('td.available') as HTMLElement).click()
+    triggerEvent(document.querySelector('td.available'), 'mousedown', true)
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value).toBeDefined()
@@ -196,7 +197,7 @@ describe('DatePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    document.querySelector<HTMLElement>('td.available').click()
+    triggerEvent(document.querySelector('td.available'), 'mousedown', true)
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value).toBeDefined()
@@ -213,7 +214,7 @@ describe('DatePicker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    document.querySelector<HTMLElement>('td.available').click()
+    triggerEvent(document.querySelector('td.available'), 'mousedown', true)
     await nextTick()
     expect(vm.value).toBeDefined()
     expect(vm.value.getFullYear()).toBe(2031)
@@ -266,7 +267,7 @@ describe('DatePicker', () => {
     expect(keydownHandler).toHaveBeenCalledTimes(1)
     input.trigger('focus')
     await nextTick()
-    ;(document.querySelector('td.available') as HTMLElement).click()
+    triggerEvent(document.querySelector('td.available'), 'mousedown', true)
     await nextTick()
     await rAF()
     expect(changeHandler).toHaveBeenCalledTimes(1)
@@ -298,11 +299,10 @@ describe('DatePicker', () => {
     expect(focusHandler).toHaveBeenCalledTimes(1)
   })
 
-  it('opens popper on click when input is focused', async () => {
+  it.only('opens popper on click when input is focused', async () => {
     const wrapper = _mount(
       `<el-date-picker
         v-model="value"
-        @focus="onFocus"
       />`,
       () => ({ value: new Date(2016, 9, 10, 18, 40) })
     )
@@ -413,7 +413,11 @@ describe('DatePicker', () => {
     input.trigger('focus')
     await nextTick()
     {
-      ;(document.querySelector('td.available .cell') as HTMLElement).click()
+      triggerEvent(
+        document.querySelector('td.available .cell'),
+        'mousedown',
+        true
+      )
     }
     input.trigger('focus')
     await nextTick()
@@ -525,7 +529,7 @@ describe('DatePicker', () => {
       await input.trigger('focus')
       await nextTick()
       {
-        ;(document.querySelector('td.available') as HTMLElement).click()
+        triggerEvent(document.querySelector('td.available'), 'mousedown', true)
       }
       await nextTick()
       expect(vm.value).toBe(
@@ -572,7 +576,7 @@ describe('DatePicker', () => {
       await input.trigger('blur')
       await input.trigger('focus')
       await nextTick()
-      ;(document.querySelector('td.available') as HTMLElement).click()
+      triggerEvent(document.querySelector('td.available'), 'mousedown', true)
       await nextTick()
       expect(vm.value).toBe(+dayjs().startOf('M'))
       await wrapper.find('button').trigger('click')
@@ -887,11 +891,13 @@ describe('WeekPicker', () => {
       input.trigger('focus')
       await nextTick()
       // click Wednesday
-      ;(
+      triggerEvent(
         document.querySelectorAll(
           '.el-date-table__row ~ .el-date-table__row td'
-        )[3] as HTMLElement
-      ).click()
+        )[3],
+        'mousedown',
+        true
+      )
       await nextTick()
       const vm = wrapper.vm as any
       expect(vm.value).not.toBeNull()
@@ -916,23 +922,21 @@ describe('DatePicker dates', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const td = document.querySelectorAll(
-      '.el-date-table__row .available'
-    ) as NodeListOf<HTMLElement>
+    const td = document.querySelectorAll('.el-date-table__row .available')
     const vm = wrapper.vm as any
-    td[0].click()
+    triggerEvent(td[0], 'mousedown', true)
     await nextTick()
     expect(vm.value.length).toBe(1)
-    td[1].click()
+    triggerEvent(td[1], 'mousedown', true)
     await nextTick()
     expect(vm.value.length).toBe(2)
     expect(
       document.querySelectorAll('.el-date-table__row .selected').length
     ).toBe(2)
-    td[0].click()
+    triggerEvent(td[0], 'mousedown', true)
     await nextTick()
     expect(vm.value.length).toBe(1)
-    td[1].click()
+    triggerEvent(td[1], 'mousedown', true)
     await nextTick()
     expect(vm.value.length).toBe(0)
   })
@@ -1025,9 +1029,9 @@ describe('DateRangePicker', () => {
     expect(outterInput.attributes().style).toBeDefined()
     const panels = document.querySelectorAll('.el-date-range-picker__content')
     expect(panels.length).toBe(2)
-    ;(panels[0].querySelector('td.available') as HTMLElement).click()
+    triggerEvent(panels[0].querySelector('td.available'), 'mousedown', true)
     await nextTick()
-    ;(panels[1].querySelector('td.available') as HTMLElement).click()
+    triggerEvent(panels[1].querySelector('td.available'), 'mousedown', true)
     await nextTick()
     inputs[0].trigger('blur')
     inputs[0].trigger('focus')
@@ -1072,9 +1076,9 @@ describe('DateRangePicker', () => {
     await nextTick()
 
     const panels = document.querySelectorAll('.el-date-range-picker__content')
-    ;(panels[1].querySelector('td.available') as HTMLElement).click()
+    triggerEvent(panels[1].querySelector('td.available'), 'mousedown', true)
     await nextTick()
-    ;(panels[0].querySelector('td.available') as HTMLElement).click()
+    triggerEvent(panels[0].querySelector('td.available'), 'mousedown', true)
     await nextTick()
     inputs[0].trigger('blur')
     inputs[0].trigger('focus')
@@ -1104,9 +1108,9 @@ describe('DateRangePicker', () => {
     inputs[0].trigger('focus')
     await nextTick()
     const panels = document.querySelectorAll('.el-date-range-picker__content')
-    ;(panels[1].querySelector('td.available') as HTMLElement).click()
+    triggerEvent(panels[1].querySelector('td.available'), 'mousedown', true)
     await nextTick()
-    ;(panels[0].querySelector('td.available') as HTMLElement).click()
+    triggerEvent(panels[0].querySelector('td.available'), 'mousedown', true)
     await nextTick()
     ;(wrapper.vm as any).value = ''
     inputs[0].trigger('blur')
@@ -1130,18 +1134,18 @@ describe('DateRangePicker', () => {
       'td.available'
     )
 
-    ;(availableTds[0] as HTMLElement).click()
+    triggerEvent(availableTds[0], 'mousedown', true)
     await nextTick()
-    ;(availableTds[1] as HTMLElement).click()
+    triggerEvent(availableTds[1], 'mousedown', true)
     await nextTick()
 
     expect(availableTds[0].classList.contains('in-range')).toBeTruthy()
     expect(availableTds[0].classList.contains('start-date')).toBeTruthy()
     expect(availableTds[1].classList.contains('in-range')).toBeTruthy()
     expect(availableTds[1].classList.contains('end-date')).toBeTruthy()
-    ;(availableTds[1] as HTMLElement).click()
+    triggerEvent(availableTds[1], 'mousedown', true)
     await nextTick()
-    ;(availableTds[0] as HTMLElement).click()
+    triggerEvent(availableTds[0], 'mousedown', true)
     await nextTick()
 
     expect(availableTds[0].classList.contains('in-range')).toBeTruthy()
@@ -1235,9 +1239,9 @@ describe('DateRangePicker', () => {
     await nextTick()
     const panels = document.querySelectorAll('.el-date-range-picker__content')
     expect(panels.length).toBe(2)
-    ;(panels[0].querySelector('td.available') as HTMLElement).click()
+    triggerEvent(panels[0].querySelector('td.available'), 'mousedown', true)
     await nextTick()
-    ;(panels[1].querySelector('td.available') as HTMLElement).click()
+    triggerEvent(panels[1].querySelector('td.available'), 'mousedown', true)
     await nextTick()
     expect((wrapper.vm as any).value.toString()).toBe(
       ['01/05 2021', '01/06 2021'].toString()
