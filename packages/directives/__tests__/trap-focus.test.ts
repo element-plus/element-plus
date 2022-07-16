@@ -5,7 +5,7 @@ import { afterAll, afterEach, describe, expect, test, vi } from 'vitest'
 import * as Aria from '@element-plus/utils/dom/aria'
 
 import TrapFocus, { FOCUSABLE_CHILDREN } from '../trap-focus'
-import type { ITrapFocusElement } from '../trap-focus'
+import type { TrapFocusElement } from '../trap-focus'
 
 const isVisibleMock = vi.spyOn(Aria, 'isVisible').mockImplementation(() => true)
 
@@ -40,7 +40,7 @@ describe('v-trap-focus', () => {
         </div>
       `)
     expect(
-      (wrapper.element as ITrapFocusElement)[FOCUSABLE_CHILDREN].length
+      (wrapper.element as TrapFocusElement)[FOCUSABLE_CHILDREN].length
     ).toBe(1)
   })
 
@@ -63,7 +63,7 @@ describe('v-trap-focus', () => {
       </div>
     `)
     expect(
-      (wrapper.element as ITrapFocusElement)[FOCUSABLE_CHILDREN].length
+      (wrapper.element as TrapFocusElement)[FOCUSABLE_CHILDREN].length
     ).toBe(5)
   })
 
