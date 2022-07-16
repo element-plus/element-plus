@@ -1,5 +1,38 @@
 ## Changelog
 
+### 2.2.9
+
+_2022-07-08_
+
+#### Features
+
+- Components [autocomplete] fit input width (#8596 by @kooriookami)
+- Components [slider] placement (#8561 by @ryuhangyeong)
+
+#### Bug fixes
+
+- Components [menu] fix infinite flicker after choosing subMenu (#8533 by @ParkerFiend)
+- Theme-chalk [select] change style when disalbed and selectded (#8354 by @ryuhangyeong)
+- Components [TreeSelect] checkbox interaction (#8102 by @yujinpan)
+- Components [input-number] Fix value decimals miss prop precision (#8587 by @so11y)
+- Components add validate-event for form types component (#8173 by @HeftyKoo)
+- Components [time-picker] Ignore key down if readonly (#8283 by @ryuhangyeong)
+- Components [date-picker] fix type of year disabled failure (#8568 by @ayuan-gy)
+- Components [autocomplete] error message (#8591 by @tolking)
+- Components [dialog] remove not used style props (#8325 by @ryuhangyeong)
+- Components [dialog] make modelValue be an optional property (#8598 by @buqiyuan)
+- Components [dropdown] fix visible-change event delay trigger (#8602 by @shooterRao)
+- Components [table] table-column expand nested table wrong style (#8522 by @asdjgfr)
+- Components [date-picker] disabled year not selectable (#8414 by @Tsong-LC)
+- Components [steps] fix type error (#8627 by @ryuhangyeong)
+- Components [dropdown] fix A11y when tooltip show (#8655 by @shooterRao)
+- Revert(components): [radio] revert input id (#8677 by @chenxch)
+
+#### Refactors
+
+- Components [tabs] add deprecated mark to activeName (#8590 by @tolking)
+- Components [steps] use JSX in Unit test (#8259 by @Tsong-LC)
+
 ### 2.2.8
 
 _2022-07-01_

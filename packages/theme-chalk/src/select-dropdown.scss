@@ -44,7 +44,7 @@ $checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='
 
       &.is-disabled {
         &::after {
-          background-color: getCssVar('text-color-placeholder');
+          background-color: getCssVar('text-color-disabled');
         }
       }
     }
@@ -66,7 +66,7 @@ $checked-icon: "data:image/svg+xml;utf8,%3Csvg class='icon' width='200' height='
     }
 
     &.selected {
-      color: getCssVar('text-color-placeholder');
+      color: getCssVar('text-color-disabled');
     }
   }
 }

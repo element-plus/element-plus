@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import nprogress from 'nprogress'
 import dayjs from 'dayjs'
@@ -34,6 +34,15 @@ useToggleWidgets(isSidebarOpen, () => {
 })
 
 const userPrefer = useStorage<boolean | string>(USER_PREFER_GITHUB_PAGE, null)
+
+const scrollRef = ref<Element>()
+
+const handleSidebarClick = () => {
+  toggleSidebar(false)
+  if (scrollRef.value) {
+    scrollRef.value?.scrollTo({ top: 0 })
+  }
+}
 
 onMounted(async () => {
   if (!isClient) return
@@ -106,7 +115,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="App">
+  <el-scrollbar ref="scrollRef" height="100vh" class="App">
     <VPOverlay
       class="overlay"
       :show="isSidebarOpen"
@@ -114,7 +123,7 @@ onMounted(async () => {
     />
     <VPNav />
     <VPSubNav v-if="hasSidebar" @open-menu="toggleSidebar(true)" />
-    <VPSidebar :open="isSidebarOpen" @close="toggleSidebar(false)">
+    <VPSidebar :open="isSidebarOpen" @close="handleSidebarClick">
       <template #top>
         <VPSponsors />
       </template>
@@ -140,5 +149,5 @@ onMounted(async () => {
       </template>
     </VPContent>
     <Debug />
-  </div>
+  </el-scrollbar>
 </template>

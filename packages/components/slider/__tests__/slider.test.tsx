@@ -89,6 +89,19 @@ describe('Slider', () => {
     expect(slider.vm.formatValue).toBe('$0')
   })
 
+  it('placement', async () => {
+    const TOOLTIP_CLASS = 'custom_tooltip'
+    const PLACEMENT = 'right'
+
+    mount(() => <Slider tooltip-class={TOOLTIP_CLASS} placement={PLACEMENT} />)
+
+    await nextTick()
+
+    expect(
+      document.querySelector(`.${TOOLTIP_CLASS}`).dataset.popperPlacement
+    ).toBe(PLACEMENT)
+  })
+
   describe('drag', () => {
     it('horizontal', async () => {
       vi.useRealTimers()
@@ -597,6 +610,9 @@ describe('Slider', () => {
       const marks = wrapper.findAll('.el-slider__marks .el-slider__marks-text')
       expect(marks.length).toBe(2)
       expect(stops.length).toBe(2)
+      expect(getComputedStyle(marks[marks.length - 1].element).color).toBe(
+        'rgb(255, 85, 0)'
+      )
     })
   })
 

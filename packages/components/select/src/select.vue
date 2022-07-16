@@ -63,7 +63,7 @@
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   :effect="effect"
                   placement="bottom"
-                  :teleported="false"
+                  :teleported="teleported"
                 >
                   <template #default>
                     <span :class="nsSelect.e('tags-text')"
@@ -383,6 +383,10 @@ export default defineComponent({
     },
     // eslint-disable-next-line vue/require-prop-types
     tagType: { ...tagProps.type, default: 'info' },
+    validateEvent: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,

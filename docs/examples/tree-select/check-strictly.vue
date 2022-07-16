@@ -1,5 +1,29 @@
 <template>
-  <el-tree-select v-model="value" :data="data" check-strictly />
+  <el-tree-select
+    v-model="value"
+    :data="data"
+    check-strictly
+    :render-after-expand="false"
+  />
+  <el-divider />
+  show checkbox(only click checkbox to select):
+  <el-tree-select
+    v-model="value"
+    :data="data"
+    check-strictly
+    :render-after-expand="false"
+    show-checkbox
+  />
+  <el-divider />
+  show checkbox with `check-on-click-node`:
+  <el-tree-select
+    v-model="value"
+    :data="data"
+    check-strictly
+    :render-after-expand="false"
+    show-checkbox
+    check-on-click-node
+  />
 </template>
 
 <script lang="ts" setup>

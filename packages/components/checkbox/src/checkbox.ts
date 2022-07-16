@@ -50,6 +50,10 @@ export const useCheckboxGroupProps = {
     type: String,
     default: 'div',
   },
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
 }
 
 export type IUseCheckboxGroupProps = ExtractPropTypes<
@@ -90,6 +94,10 @@ export const checkboxProps = {
   border: Boolean,
   size: useSizeProp,
   tabindex: [String, Number],
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
 }
 
 export const useCheckboxGroup = () => {
@@ -259,7 +267,7 @@ const useEvent = (
       ReturnType<typeof useFormItemInputId>
   >
 ) => {
-  const { elFormItem } = useCheckboxGroup()
+  const { elFormItem, checkboxGroup } = useCheckboxGroup()
   const { emit } = getCurrentInstance()!
 
   function getLabeledValue(value: string | number | boolean) {
@@ -296,10 +304,16 @@ const useEvent = (
     }
   }
 
+  const validateEvent = computed(
+    () => checkboxGroup.validateEvent?.value || props.validateEvent
+  )
+
   watch(
     () => props.modelValue,
     () => {
-      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+      if (validateEvent.value) {
+        elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+      }
     }
   )
 
