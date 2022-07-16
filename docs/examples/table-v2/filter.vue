@@ -70,7 +70,7 @@ columns[0].headerCellRenderer = (props: HeaderCellSlotProps) => {
   return (
     <div class="flex items-center justify-center">
       <span class="mr-2 text-xs">{props.column.title}</span>
-      <ElPopover ref={popoverRef} trigger="click">
+      <ElPopover ref={popoverRef} trigger="click" width="180">
         {{
           default: () => (
             <div class="filter-wrapper">
