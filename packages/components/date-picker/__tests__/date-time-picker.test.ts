@@ -352,7 +352,7 @@ describe('Datetime Picker', () => {
     const timeInput = document.querySelector(
       '.el-date-picker__time-header > span:nth-child(2) input'
     )
-    triggerEvent(someDateTd, 'mousedown', true)
+    ;(someDateTd as HTMLElement).click()
     ;(timeInput as HTMLElement).focus()
     await nextTick()
     expect((timeInput as HTMLInputElement).value).toBe('12:24:48')
@@ -382,7 +382,7 @@ describe('Datetime Picker', () => {
     input.trigger('focus')
     await nextTick()
     const cells = document.querySelectorAll('.available .el-date-table-cell')
-    triggerEvent(cells[0], 'mousedown', true)
+    ;(cells[0] as HTMLElement).click()
     await nextTick()
     const timeInput = document.querySelector(
       '.el-date-picker__time-header > span:nth-child(2) input'
@@ -420,10 +420,10 @@ describe('Datetimerange', () => {
     const leftCell = pickers[0].querySelector('td.available')
     const rightCell = pickers[1].querySelector('td.available')
     triggerEvent(leftCell, 'mousemove', true)
-    triggerEvent(leftCell, 'mousedown', true)
+    triggerEvent(leftCell, 'click', true)
     await nextTick()
     triggerEvent(rightCell, 'mousemove', true)
-    triggerEvent(rightCell, 'mousedown', true)
+    triggerEvent(rightCell, 'click', true)
     await nextTick()
     ;(
       document.querySelectorAll(
@@ -494,10 +494,10 @@ describe('Datetimerange', () => {
     const leftCell = pickers[0].querySelector('td.available')
     const rightCell = pickers[1].querySelector('td.available')
     triggerEvent(leftCell, 'mousemove', true)
-    triggerEvent(leftCell, 'mousedown', true)
+    triggerEvent(leftCell, 'click', true)
     await nextTick()
     triggerEvent(rightCell, 'mousemove', true)
-    triggerEvent(rightCell, 'mousedown', true)
+    triggerEvent(rightCell, 'click', true)
     await nextTick()
     const btn = document.querySelectorAll(
       '.el-picker-panel__footer .el-button'

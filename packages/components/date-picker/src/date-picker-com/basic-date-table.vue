@@ -5,8 +5,10 @@
     cellspacing="0"
     cellpadding="0"
     :class="[ns.b(), { 'is-week-mode': selectionMode === 'week' }]"
-    @mousedown.prevent="handlePickDate"
+    @click="handlePickDate"
     @mousemove="handleMouseMove"
+    @mousedown="handleMouseDown"
+    @mouseup="handleMouseUp"
   >
     <tbody ref="tbodyRef">
       <tr>
@@ -67,6 +69,8 @@ const currentCellRef = ref<HTMLElement>()
 const lastRow = ref<number>()
 const lastColumn = ref<number>()
 const tableRows = ref<DateCell[][]>([[], [], [], [], [], []])
+
+const focusWithClick = ref(false)
 
 // todo better way to get Day.js locale object
 const firstDayOfWeek = (props.date as any).$locale().weekStart || 7
@@ -366,17 +370,31 @@ const isSelectedCell = (cell: DateCell) => {
 }
 
 const handleFocus = (event: FocusEvent) => {
-  if (!hasCurrent.value && props.selectionMode === 'date') {
-    handlePickDate(event, true)
-  }
+  if (
+    focusWithClick.value ||
+    hasCurrent.value ||
+    props.selectionMode !== 'date'
+  )
+    return
+  handlePickDate(event, true)
+}
+
+const handleMouseDown = (event: MouseEvent) => {
+  const target = (event.target as HTMLElement).closest('td')
+  if (!target) return
+  focusWithClick.value = true
+}
+
+const handleMouseUp = (event: MouseEvent) => {
+  const target = (event.target as HTMLElement).closest('td')
+  if (!target) return
+  focusWithClick.value = false
 }
 
 const handlePickDate = (
   event: FocusEvent | MouseEvent,
   isKeyboardMovement = false
 ) => {
-  if (event instanceof MouseEvent && event.button !== 0) return
-
   const target = (event.target as HTMLElement).closest('td')
 
   if (!target) return
