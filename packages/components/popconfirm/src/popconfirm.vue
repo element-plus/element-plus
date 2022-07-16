@@ -71,17 +71,13 @@ const hidePopper = () => {
   tooltipRef.value?.onClose?.()
 }
 
-const handleCallback = () => {
-  hidePopper()
-}
-
 const confirm = (e: Event) => {
   props.onConfirm?.(e)
-  handleCallback()
+  hidePopper()
 }
 const cancel = (e: Event) => {
   props.onCancel?.(e)
-  handleCallback()
+  hidePopper()
 }
 
 const finalConfirmButtonText = computed(
