@@ -11,7 +11,7 @@ interface Options {
     [key: string]: any
   }
   methods?: {
-    [key: string]: (...args: any[]) => any
+    [key: string]: (...args: unknown[]) => any
   }
 }
 
