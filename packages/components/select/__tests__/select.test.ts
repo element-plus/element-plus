@@ -161,11 +161,7 @@ const getSelectVm = (configs: SelectProps = {}, options?) => {
   )
 }
 
-const getGroupSelectVm = (
-  configs: SelectProps = {},
-  options?,
-  groupTemplate?
-) => {
+const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
   ;[
     'multiple',
     'clearable',
@@ -247,21 +243,6 @@ const getGroupSelectVm = (
       },
     ]
   }
-  if (!groupTemplate) {
-    groupTemplate = `
-   <el-group-option
-        v-for="group in options"
-        :key="group.label"
-        :disabled="group.disabled"
-        :label="group.label">
-        <el-option
-          v-for="item in group.options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"/>
-      </el-group-option>
-    `
-  }
   return _mount(
     `
     <el-select
@@ -280,7 +261,17 @@ const getGroupSelectVm = (
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
       :fit-input-width="fitInputWidth">
-      ${groupTemplate}
+     <el-group-option
+        v-for="group in options"
+        :key="group.label"
+        :disabled="group.disabled"
+        :label="group.label">
+        <el-option
+          v-for="item in group.options"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"/>
+      </el-group-option>
     </el-select>
 `,
     () => ({
@@ -2049,45 +2040,17 @@ describe('Select', () => {
       expect(formItem.attributes().role).toBe('group')
     })
     // fix: 8544
-    it('When props are changed, label can be displayed correctly after selecting operation', async () => {
-      const optionGroupData = {
-        a: [
-          [
-            'group1',
-            [
-              { value: 0, label: 'x' },
-              { value: 1, label: 'y' },
-              { value: 2, label: 'z' },
-            ],
+    it.only('When props are changed, label can be displayed correctly after selecting operation', async () => {
+      wrapper = getGroupSelectVm({}, [
+        {
+          label: 'group1',
+          options: [
+            { value: 0, label: 'x' },
+            { value: 1, label: 'y' },
+            { value: 2, label: 'z' },
           ],
-        ],
-
-        b: [
-          [
-            'group2',
-            [
-              { value: 0, label: 'x' },
-              { value: 1, label: 'y' },
-              { value: 2, label: 'z' },
-            ],
-          ],
-        ],
-      }
-      const groupTemplate = `
-            <el-group-option
-              v-for="group in options"
-              :key="group[0]"
-              :disabled="group.disabled"
-              :label="group[0]">
-              <el-option
-                v-for="item in group[1]"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"/>
-            </el-group-option>
-      `
-      let item = 'a'
-      wrapper = getGroupSelectVm({}, optionGroupData[item], groupTemplate)
+        },
+      ])
       await wrapper.find('.select-trigger').trigger('click')
       let options = getOptions()
       const vm = wrapper.vm as any
@@ -2096,14 +2059,19 @@ describe('Select', () => {
       await nextTick()
       options[1].click()
       await nextTick()
-      await nextTick()
       expect(vm.value).toBe(1)
       expect(findInnerInput().value).toBe('y')
-      item = 'b'
-      await wrapper.setData({
-        options: optionGroupData[item],
-      })
-      await nextTick()
+      wrapper.vm.options = [
+        {
+          label: 'group2',
+          options: [
+            { value: 0, label: 'x' },
+            { value: 1, label: 'y' },
+            { value: 2, label: 'z' },
+          ],
+        },
+      ]
+
       await nextTick()
       options = getOptions()
       options[1].click()

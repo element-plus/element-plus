@@ -67,6 +67,7 @@ export default defineComponent({
     const vm = getCurrentInstance().proxy
     const key = (vm as unknown as SelectOptionProxy).value
     select.onOptionCreate(vm as unknown as SelectOptionProxy)
+
     onBeforeUnmount(() => {
       const { selected } = select
       const selectedOptions = select.props.multiple ? selected : [selected]
