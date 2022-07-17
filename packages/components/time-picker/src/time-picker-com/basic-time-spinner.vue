@@ -233,11 +233,39 @@ const scrollDown = (step: number) => {
   const total = currentScrollbar.value === 'hours' ? 24 : 60
   now = (now + step + total) % total
 
+  if (props.arrowControl && props.autoSkipDisabled) {
+    now = findNextUnDisabled(label, now, step, total)
+    console.log('findNextUnDisabled', now)
+  }
   modifyDateField(label, now)
   adjustSpinner(label, now)
   nextTick(() => emitSelectRange(label))
 }
-
+const findNextUnDisabled = (
+  type: TimeUnit,
+  value: number,
+  step: number,
+  total: number
+) => {
+  let res: number = value
+  const list = unref(timeList)[type]
+  let isDisabled: boolean = list[value]
+  if (isDisabled) {
+    const len: number = list.length
+    while (isDisabled) {
+      if (!list[value]) {
+        isDisabled = false
+        res = value
+        break
+      }
+      value = (value + step + total) % total
+      if (value >= len) {
+        value = 0
+      }
+    }
+  }
+  return res
+}
 const modifyDateField = (type: TimeUnit, value: number) => {
   const list = unref(timeList)[type]
   const isDisabled = list[value]
