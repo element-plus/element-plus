@@ -235,7 +235,6 @@ const scrollDown = (step: number) => {
 
   if (props.arrowControl && props.autoSkipDisabled) {
     now = findNextUnDisabled(label, now, step, total)
-    console.log('findNextUnDisabled', now)
   }
   modifyDateField(label, now)
   adjustSpinner(label, now)
