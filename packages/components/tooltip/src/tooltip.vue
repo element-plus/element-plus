@@ -146,7 +146,7 @@ export default defineComponent({
     const open = ref(false)
     const toggleReason = ref<Event | undefined>(undefined)
 
-    const { show, hide } = useModelToggle({
+    const { show, hide, hasUpdateHandler } = useModelToggle({
       indicator: open,
       toggleReason,
     })
@@ -158,7 +158,9 @@ export default defineComponent({
       close: hide,
     })
 
-    const controlled = computed(() => isBoolean(props.visible))
+    const controlled = computed(
+      () => isBoolean(props.visible) && !hasUpdateHandler.value
+    )
 
     provide(TOOLTIP_INJECTION_KEY, {
       controlled,

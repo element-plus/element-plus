@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="refPopper"
-    v-model:visible="pickerVisible"
+    :visible="pickerVisible"
     effect="light"
     pure
     trigger="click"
