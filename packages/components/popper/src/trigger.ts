@@ -15,7 +15,9 @@ export const usePopperTriggerProps = buildProps({
   onContextmenu: Function,
   id: String,
   open: Boolean,
-  tabindex: Number,
+  tabindex: {
+    type: [Number, String],
+  },
 } as const)
 
 export type PopperTriggerProps = typeof usePopperTriggerProps
