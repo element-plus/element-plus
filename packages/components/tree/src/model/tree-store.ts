@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { hasOwn } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'

@@ -1,6 +1,6 @@
 <template>
   <span
-    v-if="!disableTransitions"
+    v-if="disableTransitions"
     :class="classes"
     :style="{ backgroundColor: color }"
     @click="handleClick"
@@ -12,7 +12,7 @@
       <Close />
     </el-icon>
   </span>
-  <transition v-else :name="`${ns.namespace.value}-zoom-in-center`">
+  <transition v-else :name="`${ns.namespace.value}-zoom-in-center`" appear>
     <span
       :class="classes"
       :style="{ backgroundColor: color }"

@@ -18,7 +18,7 @@ export const formProps = buildProps({
   },
   labelPosition: {
     type: String,
-    values: ['left', 'right', 'top'] as const,
+    values: ['left', 'right', 'top'],
     default: 'right',
   },
   labelWidth: {

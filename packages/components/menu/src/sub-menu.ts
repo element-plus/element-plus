@@ -202,7 +202,7 @@ export default defineComponent({
       event: MouseEvent | FocusEvent,
       showTimeout = props.showTimeout
     ) => {
-      if (event.type === 'focus' && !event.relatedTarget) {
+      if (event.type === 'focus') {
         return
       }
       if (

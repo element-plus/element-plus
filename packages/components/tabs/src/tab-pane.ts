@@ -9,7 +9,6 @@ export const tabPaneProps = buildProps({
   },
   name: {
     type: [String, Number],
-    default: '',
   },
   closable: Boolean,
   disabled: Boolean,

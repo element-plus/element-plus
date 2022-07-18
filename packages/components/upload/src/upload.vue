@@ -94,7 +94,6 @@ const {
 
 const isPictureCard = computed(() => props.listType === 'picture-card')
 
-// did not use `defineComponent` for performance
 const uploadContentProps = computed<UploadContentProps>(() => ({
   ...props,
   onStart: handleStart,

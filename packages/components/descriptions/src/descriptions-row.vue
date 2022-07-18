@@ -23,6 +23,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, inject } from 'vue'
 import DescriptionsCell from './descriptions-cell'
 import { elDescriptionsKey } from './token'

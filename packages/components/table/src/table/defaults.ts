@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type {
   CSSProperties,
   ComponentInternalInstance,
@@ -125,6 +126,7 @@ interface TableProps<T> {
         rowspan: number
         colspan: number
       }
+    | undefined
   selectOnIndeterminate?: boolean
   indent?: number
   treeProps?: {

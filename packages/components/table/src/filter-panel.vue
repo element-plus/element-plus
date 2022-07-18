@@ -87,6 +87,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'

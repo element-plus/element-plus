@@ -15,7 +15,8 @@
     <el-tooltip
       ref="tooltip"
       v-model:visible="tooltipVisible"
-      placement="top"
+      :placement="placement"
+      :fallback-placements="['top', 'bottom', 'right', 'left']"
       :stop-popper-mouse-event="false"
       :popper-class="tooltipClass"
       :disabled="!showTooltip"
@@ -29,85 +30,57 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
-import ElTooltip from '@element-plus/components/tooltip'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+<script lang="ts" setup>
+import { reactive, toRefs } from 'vue'
+import { ElTooltip } from '@element-plus/components/tooltip'
 import { useNamespace } from '@element-plus/hooks'
-import { useSliderButton } from './useSliderButton'
+import { useSliderButton } from './composables'
+import { sliderButtonEmits, sliderButtonProps } from './button'
+import type { SliderButtonInitData } from './button'
 
-export default defineComponent({
+defineOptions({
   name: 'ElSliderButton',
+})
 
-  components: {
-    ElTooltip,
-  },
+const props = defineProps(sliderButtonProps)
+const emit = defineEmits(sliderButtonEmits)
 
-  props: {
-    modelValue: {
-      type: Number,
-      default: 0,
-    },
-    vertical: {
-      type: Boolean,
-      default: false,
-    },
-    tooltipClass: {
-      type: String,
-      default: '',
-    },
-  },
+const ns = useNamespace('slider')
 
-  emits: [UPDATE_MODEL_EVENT],
+const initData = reactive<SliderButtonInitData>({
+  hovering: false,
+  dragging: false,
+  isClick: false,
+  startX: 0,
+  currentX: 0,
+  startY: 0,
+  currentY: 0,
+  startPosition: 0,
+  newPosition: 0,
+  oldValue: props.modelValue,
+})
 
-  setup(props, { emit }) {
-    const ns = useNamespace('slider')
-    const initData = reactive({
-      hovering: false,
-      dragging: false,
-      isClick: false,
-      startX: 0,
-      currentX: 0,
-      startY: 0,
-      currentY: 0,
-      startPosition: 0,
-      newPosition: 0,
-      oldValue: props.modelValue,
-    })
+const {
+  button,
+  tooltip,
+  showTooltip,
+  tooltipVisible,
+  wrapperStyle,
+  formatValue,
+  handleMouseEnter,
+  handleMouseLeave,
+  onButtonDown,
+  onKeyDown,
+  setPosition,
+} = useSliderButton(props, initData, emit)
 
-    const {
-      button,
-      tooltip,
-      showTooltip,
-      tooltipVisible,
-      wrapperStyle,
-      formatValue,
-      handleMouseEnter,
-      handleMouseLeave,
-      onButtonDown,
-      onKeyDown,
-      setPosition,
-    } = useSliderButton(props, initData, emit)
+const { hovering, dragging } = toRefs(initData)
 
-    const { hovering, dragging } = toRefs(initData)
-
-    return {
-      ns,
-      button,
-      tooltip,
-      tooltipVisible,
-      showTooltip,
-      wrapperStyle,
-      formatValue,
-      handleMouseEnter,
-      handleMouseLeave,
-      onButtonDown,
-      onKeyDown,
-      setPosition,
-
-      hovering,
-      dragging,
-    }
-  },
+defineExpose({
+  onButtonDown,
+  onKeyDown,
+  setPosition,
+  hovering,
+  dragging,
 })
 </script>

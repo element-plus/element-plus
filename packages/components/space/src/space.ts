@@ -16,7 +16,7 @@ import {
   isValidElementNode,
 } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
-import Item from './item.vue'
+import Item from './item'
 import { useSpace } from './use-space'
 
 import type { ExtractPropTypes, StyleValue, VNode, VNodeChild } from 'vue'
@@ -58,15 +58,9 @@ export const spaceProps = buildProps({
     validator: (val: unknown) => isVNode(val) || isNumber(val) || isString(val),
   },
 
-  wrap: {
-    type: Boolean,
-    default: false,
-  },
+  wrap: Boolean,
 
-  fill: {
-    type: Boolean,
-    default: false,
-  },
+  fill: Boolean,
 
   fillRatio: {
     type: Number,
@@ -79,7 +73,7 @@ export const spaceProps = buildProps({
     validator: (val: unknown): val is [number, number] | number => {
       return (
         isNumber(val) ||
-        (isArray(val) && val.length === 2 && val.every((i) => isNumber(i)))
+        (isArray(val) && val.length === 2 && val.every(isNumber))
       )
     },
   },

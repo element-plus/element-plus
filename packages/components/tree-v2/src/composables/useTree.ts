@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, nextTick, ref, shallowRef, watch } from 'vue'
 import {
   CURRENT_CHANGE,
