@@ -415,7 +415,7 @@ const DynamicSizeGrid = createGrid({
         throwError(
           SCOPE,
           `
-          "columnWidth" must be passed as function,
+          "rowHeight" must be passed as function,
             instead ${typeof rowHeight} was given.
         `
         )

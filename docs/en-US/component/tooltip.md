@@ -122,7 +122,7 @@ tooltip/singleton
 
 ## Controlled
 
-Tooltip can be controlled by the parent component, by using `v-model:visible` you can implement two way binding.
+Tooltip can be controlled by the parent component, by using `:visible` you can implement two way binding.
 
 :::demo
 
@@ -167,6 +167,7 @@ tooltip/animations
 | trigger                                  | How should the tooltip be triggered (to show)                                                                                                                | string                     | hover / click / focus / contextmenu                                                                       | hover                                                   |
 | virtual-triggering                       | Indicates whether virtual triggering is enabled                                                                                                              | boolean                    | —                                                                                                         | false                                                   |
 | virtual-ref                              | Indicates the reference element to which the tooltip is attached                                                                                             | HTMLElement                | —                                                                                                         | —                                                       |
+| trigger-keys                             | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard      | Array                      | —                                                                                                         | `['Enter','Space']`                                     |
 
 ## Slots
 

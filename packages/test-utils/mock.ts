@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { nextTick } from 'vue'
 import { afterAll, beforeAll } from 'vitest'
 
@@ -20,6 +19,6 @@ export function mockImageEvent() {
     })
   })
   afterAll(() => {
-    Object.defineProperty(imageProto, 'src', oldDescriptor)
+    Object.defineProperty(imageProto, 'src', oldDescriptor!)
   })
 }
