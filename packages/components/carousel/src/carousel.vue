@@ -64,7 +64,6 @@
 <script lang="ts" setup>
 import {
   computed,
-  nextTick,
   onBeforeUnmount,
   onMounted,
   provide,
@@ -199,14 +198,30 @@ function resetItemPosition(oldIndex?: number) {
 }
 
 function addItem(item: CarouselItemContext) {
-  items.value.push(item)
+  // get insert position with binary search
+  let start = 0
+  let end = items.value.length - 1
+
+  while (start <= end) {
+    const mid = Math.floor((start + end) / 2)
+    const midItem = items.value[mid]
+    const bitmask = item.el.compareDocumentPosition(midItem.el)
+    if (bitmask === Node.DOCUMENT_POSITION_PRECEDING) {
+      start = mid + 1
+    } else if (bitmask === Node.DOCUMENT_POSITION_FOLLOWING) {
+      end = mid - 1
+    }
+  }
+
+  const index = end + 1
+  if (items.value.length === index) items.value.push(item)
+  else items.value.splice(index, -1, item)
 }
 
 function removeItem(uid?: number) {
   const index = items.value.findIndex((item) => item.uid === uid)
   if (index !== -1) {
     items.value.splice(index, 1)
-    if (activeIndex.value === index) next()
   }
 }
 
@@ -299,17 +314,25 @@ watch(
   }
 )
 
+watch(
+  () => items.value.map((item) => item.uid),
+  (ids, oldIds) => {
+    if (activeIndex.value < 0) setActiveItem(props.initialIndex)
+    else {
+      const activeId = oldIds[activeIndex.value]
+      const index = ids.indexOf(activeId)
+      if (index > -1) setActiveItem(index)
+      else setActiveItem(activeIndex.value)
+    }
+  }
+)
+
 const resizeObserver = shallowRef<ReturnType<typeof useResizeObserver>>()
 // lifecycle
 onMounted(async () => {
-  await nextTick()
-
   resizeObserver.value = useResizeObserver(root.value, () => {
     resetItemPosition()
   })
-  if (props.initialIndex < items.value.length && props.initialIndex >= 0) {
-    activeIndex.value = props.initialIndex
-  }
   startTimer()
 })
 

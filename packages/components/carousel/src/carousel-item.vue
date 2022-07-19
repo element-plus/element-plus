@@ -1,6 +1,7 @@
 <template>
   <div
     v-show="ready"
+    ref="carouselItemRef"
     :class="[
       ns.e('item'),
       ns.is('active', active),
@@ -46,6 +47,9 @@ const COMPONENT_NAME = 'ElCarouselItem'
 const carouselContext = inject(carouselContextKey)!
 // instance
 const instance = getCurrentInstance()!
+
+const carouselItemRef = ref<Node>()
+
 if (!carouselContext) {
   debugWarn(
     COMPONENT_NAME,
@@ -185,6 +189,7 @@ onMounted(() => {
     }),
     uid: instance.uid,
     translateItem,
+    el: carouselItemRef.value,
   })
 })
 

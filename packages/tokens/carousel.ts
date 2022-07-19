@@ -17,6 +17,7 @@ export type CarouselItemContext = {
   states: CarouselItemStates
   uid: number | undefined
   translateItem: (index: number, activeIndex: number, oldIndex?: number) => void
+  el: Node
 }
 
 export type CarouselContext = {

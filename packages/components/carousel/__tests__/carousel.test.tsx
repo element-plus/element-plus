@@ -26,11 +26,17 @@ describe('Carousel', () => {
     hasLabel?: boolean
   ) => {
     return mount({
-      setup() {
+      props: {
+        innerCount: {
+          type: Number,
+          default: count,
+        },
+      },
+      setup(innerProps: { innerCount: number | undefined }) {
         return () => (
           <div>
             <Carousel {...props}>
-              {generateCarouselItems(count, hasLabel)}
+              {generateCarouselItems(innerProps.innerCount, hasLabel)}
             </Carousel>
           </div>
         )
@@ -194,5 +200,25 @@ describe('Carousel', () => {
     await nextTick()
     await wait(60)
     expect(items[1].classList.contains('is-active')).toBeTruthy()
+  })
+
+  it('default active first carousel item', async () => {
+    wrapper = createComponent(
+      {
+        autoplay: false,
+      },
+      0,
+      true
+    )
+
+    await nextTick()
+    await wrapper.setProps({ innerCount: 4 })
+    let indicators = wrapper.vm.$el.querySelectorAll('.el-carousel__indicator')
+    expect(indicators[0].classList.contains('is-active')).toBeTruthy()
+
+    await wrapper.setProps({ innerCount: 0 })
+    await wrapper.setProps({ innerCount: 4 })
+    indicators = wrapper.vm.$el.querySelectorAll('.el-carousel__indicator')
+    expect(indicators[0].classList.contains('is-active')).toBeTruthy()
   })
 })
