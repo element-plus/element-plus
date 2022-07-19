@@ -385,7 +385,6 @@ export default class TreeStore {
     if (shouldAutoExpandParent && this.currentNode.level > 1) {
       this.currentNode.parent.expand(null, true)
     }
-    return currNode
   }
 
   setCurrentNodeKey(key: TreeKey, shouldAutoExpandParent = true): void {
@@ -401,6 +400,5 @@ export default class TreeStore {
         this.currentNode.parent.expand(null, true)
       }
     }
-    return node
   }
 }
