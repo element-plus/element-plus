@@ -9,6 +9,7 @@ import {
   removeClass,
   throwError,
 } from '@element-plus/utils'
+import { defaultNamespace, useGlobalConfig } from '@element-plus/hooks'
 
 import type { Ref } from 'vue'
 
@@ -24,7 +25,10 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
       'You need to pass a ref param to this function'
     )
   }
-  if (!isClient || hasClass(document.body, 'el-popup-parent--hidden')) {
+  const namespace = useGlobalConfig('namespace', defaultNamespace)
+  const cls = `${namespace.value}-popup-parent--hidden`
+
+  if (!isClient || hasClass(document.body, cls)) {
     return
   }
 
@@ -34,7 +38,7 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
   let computedBodyPaddingRight = 0
 
   const cleanup = () => {
-    removeClass(document.body, 'el-popup-parent--hidden')
+    removeClass(document.body, cls)
     if (withoutHiddenClass) {
       document.body.style.paddingRight = bodyPaddingRight
     }
@@ -45,7 +49,7 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
       return
     }
 
-    withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
+    withoutHiddenClass = !hasClass(document.body, cls)
     if (withoutHiddenClass) {
       bodyPaddingRight = document.body.style.paddingRight
       computedBodyPaddingRight = Number.parseInt(
@@ -66,7 +70,7 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
         computedBodyPaddingRight + scrollBarWidth
       }px`
     }
-    addClass(document.body, 'el-popup-parent--hidden')
+    addClass(document.body, cls)
   })
   onScopeDispose(() => cleanup())
 }
