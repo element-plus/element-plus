@@ -65,7 +65,7 @@
     "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.2",
     "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.1.2"
+    "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "*",
