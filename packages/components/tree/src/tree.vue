@@ -307,13 +307,20 @@ export default defineComponent({
     const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentNode')
-      store.value.setUserCurrentNode(node, shouldAutoExpandParent)
+      const currNode = store.value.setUserCurrentNode(
+        node,
+        shouldAutoExpandParent
+      )
+      ctx.emit('current-change', currNode ? currNode.data : null, currNode)
     }
 
     const setCurrentKey = (key: TreeKey, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentKey')
-      store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
+      const node = store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
+      if (node) {
+        ctx.emit('current-change', node ? node.data : null, node)
+      }
     }
 
     const getNode = (data: TreeKey | TreeNodeData): Node => {
