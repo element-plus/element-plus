@@ -7,6 +7,14 @@ import type { VueWrapper } from '@vue/test-utils'
 const TestComp = defineComponent({
   setup() {
     const ns = useNamespace('table')
+    const cssVar = ns.cssVar({
+      'border-style': 'solid',
+      'border-width': '',
+    })
+    const cssVarBlock = ns.cssVarBlock({
+      'text-color': '#409eff',
+      'active-color': '',
+    })
     return () => (
       <div
         id="testId"
@@ -27,6 +35,7 @@ const TestComp = defineComponent({
           ns.is('hover', undefined), // return empty string
           ns.is('clicked', false), // return empty string
         ]}
+        style={{ ...cssVar, ...cssVarBlock }}
       >
         text
       </div>
@@ -64,5 +73,11 @@ describe('use-locale', () => {
       'ep-table-body__content--active', // bem('body', 'content', 'active')
       'is-focus', // is('focus')
     ])
+
+    const style = wrapper.find('#testId').attributes('style')
+    expect(style).toMatch('--ep-border-style: solid;')
+    expect(style).not.toMatch('--ep-border-width:')
+    expect(style).toMatch('--ep-table-text-color: #409eff;')
+    expect(style).not.toMatch('--ep-table-active-color:')
   })
 })
