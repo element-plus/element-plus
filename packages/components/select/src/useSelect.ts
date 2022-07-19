@@ -747,6 +747,13 @@ export const useSelect = (props, states: States, ctx) => {
       if (states.isSilentBlur) {
         states.isSilentBlur = false
       } else {
+        if (optionsArray.value[states.hoverIndex]) {
+          emitChange(optionsArray.value[states.hoverIndex].value)
+          ctx.emit(
+            UPDATE_MODEL_EVENT,
+            optionsArray.value[states.hoverIndex].value
+          )
+        }
         ctx.emit('blur', event)
       }
     })
