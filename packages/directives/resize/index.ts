@@ -1,10 +1,10 @@
-// @ts-nocheck
-import { addResizeListener, removeResizeListener } from '@element-plus/utils'
+import { useResizeObserver } from '@vueuse/core'
 
 import type { DirectiveBinding, ObjectDirective } from 'vue'
 
 declare interface ResizeEl extends HTMLElement {
   _handleResize?: () => void
+  _stop?: () => void
 }
 
 const Resize: ObjectDirective = {
@@ -12,10 +12,10 @@ const Resize: ObjectDirective = {
     el._handleResize = () => {
       el && binding.value?.(el)
     }
-    addResizeListener(el, el._handleResize)
+    el._stop = useResizeObserver(el, el._handleResize).stop
   },
   beforeUnmount(el: ResizeEl) {
-    removeResizeListener(el, el._handleResize)
+    el && el._stop!()
   },
 }
 
