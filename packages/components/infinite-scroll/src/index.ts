@@ -2,11 +2,8 @@
 import { nextTick } from 'vue'
 import { isFunction } from '@vue/shared'
 import { throttle } from 'lodash-unified'
-import {
-  getOffsetTopDistance,
-  getScrollContainer,
-  throwError,
-} from '@element-plus/utils'
+import { useIntersectionObserver } from '@vueuse/core'
+import { getScrollContainer, throwError } from '@element-plus/utils'
 
 import type { ComponentPublicInstance, ObjectDirective } from 'vue'
 
@@ -74,33 +71,36 @@ const destroyObserver = (el: InfiniteScrollEl) => {
   }
 }
 
-const handleScroll = (el: InfiniteScrollEl, cb: InfiniteScrollCallback) => {
-  const { container, containerEl, instance, observer, lastScrollTop } =
-    el[SCOPE]
-  const { disabled, distance } = getScrollOptions(el, instance)
-  const { clientHeight, scrollHeight, scrollTop } = containerEl
-  const delta = scrollTop - lastScrollTop
-
-  el[SCOPE].lastScrollTop = scrollTop
-
-  // trigger only if full check has done and not disabled and scroll down
-  if (observer || disabled || delta < 0) return
-
-  let shouldTrigger = false
-
-  if (container === el) {
-    shouldTrigger = scrollHeight - (clientHeight + scrollTop) <= distance
-  } else {
-    // get the scrollHeight since el might be visible overflow
-    const { clientTop, scrollHeight: height } = el
-    const offsetTop = getOffsetTopDistance(el, containerEl)
-    shouldTrigger =
-      scrollTop + clientHeight >= offsetTop + clientTop + height - distance
+const intersectionObserverCallback = (
+  loadMoreEl: HTMLElement,
+  el: InfiniteScrollEl,
+  cb: InfiniteScrollCallback,
+  instance
+) => {
+  const { disabled, distance, container } = getScrollOptions(el, instance)
+  if (disabled) return
+  const { stop } = useIntersectionObserver(
+    loadMoreEl,
+    ([{ isIntersecting }]) => {
+      if (isIntersecting) {
+        cb.call(instance)
+      }
+    },
+    {
+      rootMargin: `0px 0px -${distance}px 0px`,
+      root: container,
+    }
+  )
+  el[SCOPE] = {
+    ...el[SCOPE],
+    stop,
   }
+}
 
-  if (shouldTrigger) {
-    cb.call(instance)
-  }
+const stopIntersectionObserverCallback = (el: InfiniteScrollEl) => {
+  const { stop, loadMoreEl } = el[SCOPE]
+  stop()
+  el.removeChild(loadMoreEl)
 }
 
 function checkFull(el: InfiniteScrollEl, cb: InfiniteScrollCallback) {
@@ -136,9 +136,10 @@ const InfiniteScroll: ObjectDirective<
       container === window
         ? document.documentElement
         : (container as HTMLElement)
-    const onScroll = throttle(handleScroll.bind(null, el, cb), delay)
-
     if (!container) return
+
+    const loadMoreEl = document.createElement('div')
+    el.appendChild(loadMoreEl)
 
     el[SCOPE] = {
       instance,
@@ -146,9 +147,9 @@ const InfiniteScroll: ObjectDirective<
       containerEl,
       delay,
       cb,
-      onScroll,
-      lastScrollTop: containerEl.scrollTop,
+      loadMoreEl,
     }
+    intersectionObserverCallback(loadMoreEl, el, cb, instance)
 
     if (immediate) {
       const observer = new MutationObserver(
@@ -158,13 +159,9 @@ const InfiniteScroll: ObjectDirective<
       observer.observe(el, { childList: true, subtree: true })
       checkFull(el, cb)
     }
-
-    container.addEventListener('scroll', onScroll)
   },
   unmounted(el) {
-    const { container, onScroll } = el[SCOPE]
-
-    container?.removeEventListener('scroll', onScroll)
+    stopIntersectionObserverCallback(el)
     destroyObserver(el)
   },
   async updated(el) {
