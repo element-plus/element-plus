@@ -239,6 +239,15 @@ export default defineComponent({
       }
     )
 
+    watch(
+      () => props.ellipsis,
+      () => {
+        if (props.mode === 'horizontal' && props.ellipsis)
+          useResizeObserver(menu, handleResize)
+      },
+      { immediate: true }
+    )
+
     // provide
     {
       const addSubMenu: MenuProvider['addSubMenu'] = (item) => {
@@ -289,10 +298,6 @@ export default defineComponent({
       initMenu()
       if (props.mode === 'horizontal') {
         new Menubar(instance.vnode.el!, nsMenu.namespace.value)
-
-        if (props.ellipsis) {
-          useResizeObserver(menu, handleResize)
-        }
       }
     })
 
