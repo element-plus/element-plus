@@ -9,6 +9,7 @@ import {
   reactive,
   ref,
   watch,
+  watchPostEffect,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
@@ -239,14 +240,12 @@ export default defineComponent({
       }
     )
 
-    watch(
-      () => props.ellipsis,
-      () => {
-        if (props.mode === 'horizontal' && props.ellipsis)
-          useResizeObserver(menu, handleResize)
-      },
-      { immediate: true }
-    )
+    watchPostEffect(() => {
+      if (props.mode === 'horizontal') {
+        new Menubar(instance.vnode.el!, nsMenu.namespace.value)
+        if (props.ellipsis) useResizeObserver(menu, handleResize)
+      }
+    })
 
     // provide
     {
@@ -294,12 +293,7 @@ export default defineComponent({
     }
 
     // lifecycle
-    onMounted(() => {
-      initMenu()
-      if (props.mode === 'horizontal') {
-        new Menubar(instance.vnode.el!, nsMenu.namespace.value)
-      }
-    })
+    onMounted(() => initMenu())
 
     {
       const open = (index: string) => {
