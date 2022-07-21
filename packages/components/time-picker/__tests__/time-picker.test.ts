@@ -361,65 +361,6 @@ describe('TimePicker', () => {
     expect(enabledSeconds).toEqual([0])
   })
 
-  it('can auto skip when arrow control', async () => {
-    const disabledHoursArr = [
-      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
-    ]
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        :disabled-hours="disabledHours"
-        arrow-control
-        auto-skip-disabled
-      />`,
-      () => ({ value: '' }),
-      {
-        methods: {
-          disabledHours() {
-            return disabledHoursArr
-          },
-        },
-      }
-    )
-    const input = wrapper.find('input')
-    input.trigger('focus')
-    await nextTick()
-
-    const list = document.querySelectorAll('.el-time-spinner__list')
-    const hoursEl = list[0]
-    let activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
-
-    expect(activeHours).toEqual(20)
-    const hoursElWrapperList = document.querySelectorAll(
-      '.el-time-spinner__wrapper'
-    )
-    const hoursElWrapper = hoursElWrapperList[0]
-    const hoursElArrowDown = hoursElWrapper.querySelector('.arrow-down')
-
-    const mousedownEvt = new MouseEvent('mousedown')
-    const mouseupEvt = new MouseEvent('mouseup')
-
-    const testTime = 130
-    ;(hoursElArrowDown as any).dispatchEvent(mousedownEvt)
-    ;(hoursElArrowDown as any).dispatchEvent(mouseupEvt)
-    await sleep(testTime)
-    await nextTick()
-    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
-    expect(activeHours).toEqual(21)
-    ;(hoursElArrowDown as any).dispatchEvent(mousedownEvt)
-    ;(hoursElArrowDown as any).dispatchEvent(mouseupEvt)
-    await sleep(testTime)
-    await nextTick()
-    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
-    expect(activeHours).toEqual(22)
-    ;(hoursElArrowDown as any).dispatchEvent(new MouseEvent('mousedown'))
-    ;(hoursElArrowDown as any).dispatchEvent(new MouseEvent('mouseup'))
-    await sleep(testTime)
-    await nextTick()
-    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
-    expect(activeHours).toEqual(20)
-  })
-
   it('ref focus', async () => {
     _mount(
       `<el-time-picker
@@ -895,65 +836,63 @@ describe('TimePicker(range)', () => {
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
   })
-  it('event change, focus, blur, keydown', async () => {
-    const changeHandler = vi.fn()
-    const focusHandler = vi.fn()
-    const blurHandler = vi.fn()
-    const keydownHandler = vi.fn()
+
+  it('can auto skip when arrow control', async () => {
+    const disabledHoursArr = [
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
+    ]
     const wrapper = _mount(
       `<el-time-picker
         v-model="value"
-        @change="onChange"
-        @focus="onFocus"
-        @blur="onBlur"
-        @keydown="onKeydown"
+        :disabled-hours="disabledHours"
+        arrow-control
+        auto-skip-disabled
       />`,
-      () => ({ value: new Date(2016, 9, 10, 18, 40) }),
+      () => ({ value: '' }),
       {
         methods: {
-          onChange(e) {
-            return changeHandler(e)
-          },
-          onFocus(e) {
-            return focusHandler(e)
-          },
-          onBlur(e) {
-            return blurHandler(e)
-          },
-          onKeydown(e) {
-            return keydownHandler(e)
+          disabledHours() {
+            return disabledHoursArr
           },
         },
       }
     )
-
     const input = wrapper.find('input')
     input.trigger('focus')
     await nextTick()
-    await rAF() // Set selection range causes focus to be retained
-    input.element.blur()
-    input.trigger('blur')
-    await nextTick()
-    await rAF() // Blur is delayed to ensure focus was not moved to popper
-    input.trigger('keydown')
-    await nextTick()
-    await rAF()
-    expect(focusHandler).toHaveBeenCalledTimes(1)
-    expect(blurHandler).toHaveBeenCalledTimes(1)
-    expect(keydownHandler).toHaveBeenCalledTimes(1)
 
-    input.trigger('focus')
-    await nextTick()
-    await rAF()
     const list = document.querySelectorAll('.el-time-spinner__list')
     const hoursEl = list[0]
-    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
-    hourEl.click()
+    let activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+
+    expect(activeHours).toEqual(20)
+    const hoursElWrapperList = document.querySelectorAll(
+      '.el-time-spinner__wrapper'
+    )
+    const hoursElWrapper = hoursElWrapperList[0]
+    const hoursElArrowDown = hoursElWrapper.querySelector('.arrow-down')
+
+    const mousedownEvt = new MouseEvent('mousedown')
+    const mouseupEvt = new MouseEvent('mouseup')
+
+    const testTime = 130
+    ;(hoursElArrowDown as any).dispatchEvent(mousedownEvt)
+    ;(hoursElArrowDown as any).dispatchEvent(mouseupEvt)
+    await sleep(testTime)
     await nextTick()
-    expect(changeHandler).toHaveBeenCalledTimes(0)
-    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(21)
+    ;(hoursElArrowDown as any).dispatchEvent(mousedownEvt)
+    ;(hoursElArrowDown as any).dispatchEvent(mouseupEvt)
+    await sleep(testTime)
     await nextTick()
-    await nextTick() // onchange is triggered by props.modelValue update
-    expect(changeHandler).toHaveBeenCalledTimes(1)
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(22)
+    ;(hoursElArrowDown as any).dispatchEvent(new MouseEvent('mousedown'))
+    ;(hoursElArrowDown as any).dispatchEvent(new MouseEvent('mouseup'))
+    await sleep(testTime)
+    await nextTick()
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(20)
   })
 })
