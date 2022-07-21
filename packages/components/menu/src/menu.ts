@@ -9,6 +9,7 @@ import {
   reactive,
   ref,
   watch,
+  watchEffect,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
@@ -241,15 +242,11 @@ export default defineComponent({
     )
 
     let resizeStopper: UseResizeObserverReturn['stop']
-    watch(
-      () => props.ellipsis,
-      () => {
-        if (props.mode === 'horizontal' && props.ellipsis)
-          resizeStopper = useResizeObserver(menu, handleResize).stop
-        else resizeStopper?.()
-      },
-      { immediate: true }
-    )
+    watchEffect(() => {
+      if (props.mode === 'horizontal' && props.ellipsis)
+        resizeStopper = useResizeObserver(menu, handleResize).stop
+      else resizeStopper?.()
+    })
 
     // provide
     {
