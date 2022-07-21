@@ -227,7 +227,10 @@ export default defineComponent({
       }
     )
 
-    watch(items.value, () => initMenu())
+    watch(items.value, () => {
+      initMenu()
+      if (props.mode === 'horizontal' && props.ellipsis) handleResize()
+    })
 
     watch(
       () => props.collapse,
