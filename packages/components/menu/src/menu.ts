@@ -9,7 +9,6 @@ import {
   reactive,
   ref,
   watch,
-  watchPostEffect,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
@@ -30,6 +29,7 @@ import { useMenuCssVar } from './use-menu-css-var'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type { ExtractPropTypes, VNode, VNodeNormalizedChildren } from 'vue'
+import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
   mode: {
@@ -240,12 +240,16 @@ export default defineComponent({
       }
     )
 
-    watchPostEffect(() => {
-      if (props.mode === 'horizontal') {
-        new Menubar(instance.vnode.el!, nsMenu.namespace.value)
-        if (props.ellipsis) useResizeObserver(menu, handleResize)
-      }
-    })
+    let resizeStopper: UseResizeObserverReturn['stop']
+    watch(
+      () => props.ellipsis,
+      () => {
+        if (props.mode === 'horizontal' && props.ellipsis)
+          resizeStopper = useResizeObserver(menu, handleResize).stop
+        else resizeStopper?.()
+      },
+      { immediate: true }
+    )
 
     // provide
     {
@@ -293,7 +297,12 @@ export default defineComponent({
     }
 
     // lifecycle
-    onMounted(() => initMenu())
+    onMounted(() => {
+      initMenu()
+      if (props.mode === 'horizontal') {
+        new Menubar(instance.vnode.el!, nsMenu.namespace.value)
+      }
+    })
 
     {
       const open = (index: string) => {
