@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts" setup>
-// @ts-nocheck
 import { computed, nextTick, provide, toRefs, watch } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
@@ -23,6 +22,7 @@ import {
   useCheckboxGroupId,
   useCheckboxGroupProps,
 } from './checkbox'
+import type { CheckboxValueType } from './checkbox'
 
 defineOptions({
   name: 'ElCheckboxGroup',
@@ -38,7 +38,7 @@ const { groupId, isLabeledByFormItem } = useCheckboxGroupId(props, {
 const checkboxGroupSize = useSize()
 const ns = useNamespace('checkbox')
 
-const changeEvent = (value) => {
+const changeEvent = (value: CheckboxValueType[]) => {
   emit(UPDATE_MODEL_EVENT, value)
   nextTick(() => {
     emit('change', value)
@@ -56,8 +56,8 @@ const modelValue = computed({
 
 provide('CheckboxGroup', {
   name: 'ElCheckboxGroup',
-  modelValue,
   ...toRefs(props),
+  modelValue,
   checkboxGroupSize,
   changeEvent,
 })
