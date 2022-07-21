@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   computed,
   getCurrentInstance,
@@ -45,7 +44,7 @@ export const useDialog = (
 
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
-    const varPrefix = `--${namespace.value}-dialog`
+    const varPrefix = `--${namespace.value}-dialog` as const
     if (!props.fullscreen) {
       if (props.top) {
         style[`${varPrefix}-margin-top`] = props.top
