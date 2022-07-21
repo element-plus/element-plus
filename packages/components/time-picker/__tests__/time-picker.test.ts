@@ -9,6 +9,7 @@ import { ElFormItem } from '@element-plus/components/form'
 import sleep from '@element-plus/test-utils/sleep'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
+
 const _mount = (template: string, data, otherObj?) =>
   mount(
     {
@@ -283,7 +284,84 @@ describe('TimePicker', () => {
     expect(changeHandler).toHaveBeenCalledTimes(1)
   })
 
-  it('selectableRange can auto skip when arrow control', async () => {
+  it('selectableRange ', async () => {
+    // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
+    const disabledHoursArr = [
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23,
+    ]
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        :disabled-hours="disabledHours"
+        :disabled-minutes="disabledMinutes"
+        :disabled-seconds="disabledSeconds"
+      />`,
+      () => ({ value: '' }),
+      {
+        methods: {
+          disabledHours() {
+            return disabledHoursArr
+          },
+          disabledMinutes(hour) {
+            // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
+            if (hour === 17) {
+              return makeRange(0, 29)
+            }
+            if (hour === 18) {
+              return makeRange(31, 49)
+            }
+            if (hour === 20) {
+              return makeRange(31, 59)
+            }
+            if (hour === 22) {
+              return makeRange(1, 59)
+            }
+          },
+          disabledSeconds(hour, minute) {
+            if (hour === 18 && minute === 30) {
+              return makeRange(1, 59)
+            }
+            if (hour === 20 && minute === 30) {
+              return makeRange(1, 59)
+            }
+            if (hour === 22 && minute === 0) {
+              return makeRange(1, 59)
+            }
+          },
+        },
+      }
+    )
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const minutesEl = list[1]
+    const secondsEl = list[2]
+    const disabledHours = getSpinnerTextAsArray(hoursEl, '.is-disabled')
+    expect(disabledHours).toEqual(disabledHoursArr)
+    const hourSpinners = hoursEl.querySelectorAll('.el-time-spinner__item')
+    ;(hourSpinners[18] as any).click()
+    await nextTick()
+    const disabledMinutes = getSpinnerTextAsArray(minutesEl, '.is-disabled')
+    expect(disabledMinutes.every((t) => t > 30 && t < 50)).toBeTruthy()
+    expect(disabledMinutes.length).toEqual(19)
+    ;(hourSpinners[22] as any).click()
+    await nextTick()
+    const enabledMinutes = getSpinnerTextAsArray(
+      minutesEl,
+      ':not(.is-disabled)'
+    )
+    const enabledSeconds = getSpinnerTextAsArray(
+      secondsEl,
+      ':not(.is-disabled)'
+    )
+    expect(enabledMinutes).toEqual([0])
+    expect(enabledSeconds).toEqual([0])
+  })
+
+  it('can auto skip when arrow control', async () => {
     const disabledHoursArr = [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
     ]
@@ -816,5 +894,66 @@ describe('TimePicker(range)', () => {
     const [startInput, endInput] = wrapper.findAll('input')
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
+  })
+  it('event change, focus, blur, keydown', async () => {
+    const changeHandler = vi.fn()
+    const focusHandler = vi.fn()
+    const blurHandler = vi.fn()
+    const keydownHandler = vi.fn()
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        @change="onChange"
+        @focus="onFocus"
+        @blur="onBlur"
+        @keydown="onKeydown"
+      />`,
+      () => ({ value: new Date(2016, 9, 10, 18, 40) }),
+      {
+        methods: {
+          onChange(e) {
+            return changeHandler(e)
+          },
+          onFocus(e) {
+            return focusHandler(e)
+          },
+          onBlur(e) {
+            return blurHandler(e)
+          },
+          onKeydown(e) {
+            return keydownHandler(e)
+          },
+        },
+      }
+    )
+
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    await rAF() // Set selection range causes focus to be retained
+    input.element.blur()
+    input.trigger('blur')
+    await nextTick()
+    await rAF() // Blur is delayed to ensure focus was not moved to popper
+    input.trigger('keydown')
+    await nextTick()
+    await rAF()
+    expect(focusHandler).toHaveBeenCalledTimes(1)
+    expect(blurHandler).toHaveBeenCalledTimes(1)
+    expect(keydownHandler).toHaveBeenCalledTimes(1)
+
+    input.trigger('focus')
+    await nextTick()
+    await rAF()
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    const hourEl = hoursEl.querySelectorAll('.el-time-spinner__item')[4] as any
+    hourEl.click()
+    await nextTick()
+    expect(changeHandler).toHaveBeenCalledTimes(0)
+    ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
+    await nextTick()
+    await nextTick() // onchange is triggered by props.modelValue update
+    expect(changeHandler).toHaveBeenCalledTimes(1)
   })
 })
