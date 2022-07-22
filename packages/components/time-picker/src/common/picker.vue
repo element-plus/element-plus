@@ -294,9 +294,6 @@ const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
 }
 const focusOnInputBox = () => {
   focus(true, true)
-  nextTick(() => {
-    ignoreFocusEvent = false
-  })
 }
 
 const onPick = (date: any = '', visible = false) => {
@@ -331,7 +328,6 @@ const onKeydownPopperContent = (event: KeyboardEvent) => {
 
 const onHide = () => {
   pickerActualVisible.value = false
-  ignoreFocusEvent = false
   emit('visible-change', false)
 }
 
@@ -379,6 +375,7 @@ const handleBlurInput = (e?: FocusEvent) => {
         ) {
           handleChange()
           pickerVisible.value = false
+          ignoreFocusEvent = false
           emit('blur', e)
           props.validateEvent &&
             elFormItem.validate?.('blur').catch((err) => debugWarn(err))

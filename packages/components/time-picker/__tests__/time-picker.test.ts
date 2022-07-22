@@ -6,6 +6,7 @@ import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
+import { EVENT_CODE } from '@element-plus/constants'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 
@@ -556,8 +557,8 @@ describe('TimePicker(range)', () => {
       false
     )
     expect(document.querySelector('.el-picker-panel')).toBeNull()
-    input.trigger('blur')
-    input.trigger('focus')
+
+    input.trigger('keydown', { code: EVENT_CODE.down })
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
     expect(Array.isArray(vm.value)).toBeTruthy()
