@@ -20,6 +20,7 @@
           :aria-labelledby="!title ? titleId : undefined"
           :aria-describedby="bodyId"
           :class="`${ns.namespace.value}-overlay-dialog`"
+          :style="overlayDialogStyle"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
           @mouseup="overlayEvent.onMouseup"
@@ -37,6 +38,7 @@
               ref="dialogContentRef"
               :custom-class="customClass"
               :center="center"
+              :align-center="alignCenter"
               :close-icon="closeIcon"
               :draggable="draggable"
               :fullscreen="fullscreen"
@@ -105,6 +107,7 @@ const {
   titleId,
   bodyId,
   style,
+  overlayDialogStyle,
   rendered,
   zIndex,
   afterEnter,
