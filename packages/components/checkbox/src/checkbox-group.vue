@@ -49,7 +49,7 @@ const modelValue = computed({
   get() {
     return props.modelValue
   },
-  set(val) {
+  set(val: CheckboxValueType[]) {
     changeEvent(val)
   },
 })
