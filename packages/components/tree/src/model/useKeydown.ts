@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { onBeforeUnmount, onMounted, onUpdated, shallowRef, watch } from 'vue'
-import { off, on } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import type TreeStore from './tree-store'
@@ -19,11 +18,11 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
 
   onMounted(() => {
     initTabIndex()
-    on(el$.value, 'keydown', handleKeydown)
+    el$.value.addEventListener('keydown', handleKeydown)
   })
 
   onBeforeUnmount(() => {
-    off(el$.value, 'keydown', handleKeydown)
+    el$.value.removeEventListener('keydown', handleKeydown)
   })
 
   onUpdated(() => {
