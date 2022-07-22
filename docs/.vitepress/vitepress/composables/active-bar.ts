@@ -1,27 +1,32 @@
-import { onMounted, onUnmounted, onUpdated } from 'vue'
+import { nextTick, onMounted, onUpdated } from 'vue'
 import { isClient } from '@vueuse/core'
 import { throttleAndDebounce } from '../utils'
 
 import type { Ref } from 'vue'
 
+type ManualLinkFn = (hash: string) => void
+
 export function useActiveSidebarLinks(
   container: Ref<HTMLElement>,
   marker: Ref<HTMLElement>
-) {
+): { manualLink: ManualLinkFn } | undefined {
   if (!isClient) return
+
+  let scrollDom: HTMLElement
 
   const onScroll = throttleAndDebounce(setActiveLink, 150)
   function setActiveLink() {
     const sidebarLinks = getSidebarLinks()
     const anchors = getAnchors(sidebarLinks)
-
-    if (
-      anchors.length &&
-      window.scrollY + window.innerHeight === document.body.offsetHeight
-    ) {
-      activateLink(anchors[anchors.length - 1].hash)
-      return
-    }
+    // Cancel the processing of the anchor point being forced to be the last one in the storefront
+    // if (
+    //   anchors.length &&
+    //   scrollDom &&
+    //   scrollDom.scrollTop + scrollDom.clientHeight === scrollDom.scrollHeight
+    // ) {
+    //   activateLink(anchors[anchors.length - 1].hash)
+    //   return
+    // }
     for (let i = 0; i < anchors.length; i++) {
       const anchor = anchors[i]
       const nextAnchor = anchors[i + 1]
@@ -49,6 +54,7 @@ export function useActiveSidebarLinks(
         : (container.value.querySelector(
             `.toc-item a[href="${decodeURIComponent(hash)}"]`
           ) as HTMLAnchorElement))
+
     if (activeLink) {
       activeLink.classList.add('active')
       marker.value.style.opacity = '1'
@@ -65,16 +71,31 @@ export function useActiveSidebarLinks(
 
   onMounted(() => {
     window.requestAnimationFrame(setActiveLink)
-    window.addEventListener('scroll', onScroll)
+    scrollDom = document.querySelector('.App .el-scrollbar__wrap')!
+    scrollDom.onscroll = onScroll
+    location.hash &&
+      nextTick(() => {
+        manualLink(location.hash)
+      })
   })
 
   onUpdated(() => {
     activateLink(location.hash)
   })
 
-  onUnmounted(() => {
-    window.removeEventListener('scroll', onScroll)
-  })
+  function manualLink(hash: string) {
+    const anchor: HTMLElement | null = document.querySelector(hash)
+    if (!anchor) {
+      return
+    }
+    const top = anchor.offsetTop + anchor.offsetHeight
+    scrollDom?.scrollTo(0, top)
+    activateLink(location.hash)
+  }
+
+  return {
+    manualLink,
+  }
 }
 function getSidebarLinks() {
   return Array.from(
@@ -106,7 +127,9 @@ function isAnchorActive(
   anchor: HTMLAnchorElement,
   nextAnchor: HTMLAnchorElement
 ) {
-  const scrollTop = window.scrollY
+  const scrollTop = document.querySelector(
+    '.App .el-scrollbar__wrap'
+  )!.scrollTop
   if (index === 0 && scrollTop === 0) {
     return [true, null]
   }

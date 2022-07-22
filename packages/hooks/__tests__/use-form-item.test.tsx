@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { defineComponent, provide } from 'vue'
 import { NOOP } from '@vue/shared'
 import { mount } from '@vue/test-utils'
@@ -10,11 +9,7 @@ import {
   formItemContextKey,
 } from '@element-plus/tokens'
 
-import type {
-  ButtonGroupContext,
-  FormContext,
-  FormItemContext,
-} from '@element-plus/tokens'
+import type { FormContext, FormItemContext } from '@element-plus/tokens'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -39,7 +34,9 @@ describe('use-form-item', () => {
     const propSize = 'small'
     const wrapper = mountComponent(
       () => {
-        provide(formItemContextKey, { size: 'large' })
+        provide(formItemContextKey, {
+          size: 'large',
+        } as FormItemContext)
       },
       {
         props: { size: propSize },
@@ -54,7 +51,7 @@ describe('use-form-item', () => {
     const wrapper = mountComponent(() => {
       provide(buttonGroupContextKey, {
         size: fallbackSize,
-      } as ButtonGroupContext)
+      })
 
       provide(formItemContextKey, {
         size: 'large',

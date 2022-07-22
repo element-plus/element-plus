@@ -9,9 +9,9 @@ import {
   reactive,
   ref,
   watch,
-  withDirectives,
+  watchEffect,
 } from 'vue'
-import { Resize } from '@element-plus/directives'
+import { useResizeObserver } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
@@ -30,6 +30,7 @@ import { useMenuCssVar } from './use-menu-css-var'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type { ExtractPropTypes, VNode, VNodeNormalizedChildren } from 'vue'
+import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
   mode: {
@@ -213,6 +214,7 @@ export default defineComponent({
         activeIndex.value = val
       }
     }
+
     const handleResize = () => {
       nextTick(() => instance.proxy!.$forceUpdate())
     }
@@ -227,7 +229,10 @@ export default defineComponent({
       }
     )
 
-    watch(items.value, () => initMenu())
+    watch(items.value, () => {
+      initMenu()
+      if (props.mode === 'horizontal' && props.ellipsis) handleResize()
+    })
 
     watch(
       () => props.collapse,
@@ -235,6 +240,13 @@ export default defineComponent({
         if (value) openedMenus.value = []
       }
     )
+
+    let resizeStopper: UseResizeObserverReturn['stop']
+    watchEffect(() => {
+      if (props.mode === 'horizontal' && props.ellipsis)
+        resizeStopper = useResizeObserver(menu, handleResize).stop
+      else resizeStopper?.()
+    })
 
     // provide
     {
@@ -314,10 +326,6 @@ export default defineComponent({
       return result
     }
 
-    const useVNodeResize = (vnode: VNode) =>
-      props.mode === 'horizontal'
-        ? withDirectives(vnode, [[Resize, handleResize]])
-        : vnode
     return () => {
       let slot = slots.default?.() ?? []
       const vShowMore: VNode[] = []
@@ -374,25 +382,20 @@ export default defineComponent({
 
       const ulStyle = useMenuCssVar(props, 0)
 
-      const resizeMenu = (vNode: VNode) =>
-        props.ellipsis ? useVNodeResize(vNode) : vNode
-
-      const vMenu = resizeMenu(
-        h(
-          'ul',
-          {
-            key: String(props.collapse),
-            role: 'menubar',
-            ref: menu,
-            style: ulStyle.value,
-            class: {
-              [nsMenu.b()]: true,
-              [nsMenu.m(props.mode)]: true,
-              [nsMenu.m('collapse')]: props.collapse,
-            },
+      const vMenu = h(
+        'ul',
+        {
+          key: String(props.collapse),
+          role: 'menubar',
+          ref: menu,
+          style: ulStyle.value,
+          class: {
+            [nsMenu.b()]: true,
+            [nsMenu.m(props.mode)]: true,
+            [nsMenu.m('collapse')]: props.collapse,
           },
-          [...slot, ...vShowMore]
-        )
+        },
+        [...slot, ...vShowMore]
       )
 
       if (props.collapseTransition && props.mode === 'vertical') {

@@ -63,7 +63,7 @@
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   :effect="effect"
                   placement="bottom"
-                  :teleported="false"
+                  :teleported="teleported"
                 >
                   <template #default>
                     <span :class="nsSelect.e('tags-text')"

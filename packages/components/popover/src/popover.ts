@@ -4,7 +4,7 @@ import {
   useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
 import { dropdownProps } from '@element-plus/components/dropdown'
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type Popover from './popover.vue'
 
 export const popoverProps = buildProps({
@@ -56,6 +56,9 @@ export const popoverProps = buildProps({
   persistent: {
     type: Boolean,
     default: true,
+  },
+  'onUpdate:visible': {
+    type: Function as PropType<(visible: boolean) => void>,
   },
 } as const)
 export type PopoverProps = ExtractPropTypes<typeof popoverProps>

@@ -14,7 +14,9 @@
         <i :class="ns.e('line-inner')" :style="lineStyle" />
       </div>
 
-      <div :class="[ns.e('icon'), ns.is(icon ? 'icon' : 'text')]">
+      <div
+        :class="[ns.e('icon'), ns.is(icon || $slots.icon ? 'icon' : 'text')]"
+      >
         <slot
           v-if="currentStatus !== 'success' && currentStatus !== 'error'"
           name="icon"

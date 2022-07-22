@@ -1,28 +1,24 @@
-// @ts-nocheck
-import { nextTick } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, afterEach, describe, expect, test, vi } from 'vitest'
 import * as Aria from '@element-plus/utils/dom/aria'
-
 import TrapFocus, { FOCUSABLE_CHILDREN } from '../trap-focus'
-import type { ITrapFocusElement } from '../trap-focus'
+
+import type { ComponentPublicInstance, VNode } from 'vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { TrapFocusElement } from '../trap-focus'
 
 const isVisibleMock = vi.spyOn(Aria, 'isVisible').mockImplementation(() => true)
 
-let wrapper
-const _mount = (template: string) =>
-  mount(
-    {
-      template,
-      props: {},
+let wrapper: VueWrapper<ComponentPublicInstance>
+
+const _mount = (render: () => VNode) =>
+  mount(render, {
+    global: {
+      directives: { TrapFocus },
     },
-    {
-      global: {
-        directives: { TrapFocus },
-      },
-      attachTo: document.body,
-    }
-  )
+    attachTo: document.body,
+  })
 
 afterAll(() => {
   isVisibleMock.mockRestore()
@@ -34,18 +30,18 @@ afterEach(() => {
 
 describe('v-trap-focus', () => {
   test('should fetch all focusable element', () => {
-    wrapper = _mount(`
-        <div v-trap-focus>
-          <button />
-        </div>
-      `)
+    wrapper = _mount(() => (
+      <div v-trap-focus>
+        <button />
+      </div>
+    ))
     expect(
-      (wrapper.element as ITrapFocusElement)[FOCUSABLE_CHILDREN].length
+      (wrapper.element as TrapFocusElement)[FOCUSABLE_CHILDREN].length
     ).toBe(1)
   })
 
   test('should not fetch disabled element', () => {
-    wrapper = _mount(`
+    wrapper = _mount(() => (
       <div v-trap-focus>
         <button />
         <button disabled />
@@ -61,20 +57,20 @@ describe('v-trap-focus', () => {
         <textarea />
         <textarea disabled />
       </div>
-    `)
+    ))
     expect(
-      (wrapper.element as ITrapFocusElement)[FOCUSABLE_CHILDREN].length
+      (wrapper.element as TrapFocusElement)[FOCUSABLE_CHILDREN].length
     ).toBe(5)
   })
 
   test('should trap keyboard.tab event', async () => {
-    wrapper = _mount(`
-    <div v-trap-focus>
-      <button class="button-1" />
-      <button class="button-2" />
-      <button class="button-3" />
-    </div>
-  `)
+    wrapper = _mount(() => (
+      <div v-trap-focus>
+        <button class="button-1" />
+        <button class="button-2" />
+        <button class="button-3" />
+      </div>
+    ))
 
     expect(document.activeElement).toBe(document.body)
     await wrapper.find('.button-1').trigger('keydown', {
@@ -104,11 +100,11 @@ describe('v-trap-focus', () => {
   })
 
   test('should focus on the only focusable element', async () => {
-    wrapper = _mount(`
+    wrapper = _mount(() => (
       <div v-trap-focus>
         <button />
       </div>
-    `)
+    ))
     expect(document.activeElement).toBe(document.body)
     await wrapper.find('button').trigger('keydown', {
       code: 'Tab',
@@ -118,20 +114,19 @@ describe('v-trap-focus', () => {
 
   test('should update focusable list when children changes', async () => {
     wrapper = mount(
-      {
+      defineComponent({
         props: {
-          show: {
-            type: Boolean,
-            default: false,
-          },
+          show: Boolean,
         },
-        template: `
-      <div v-trap-focus>
-        <button />
-        <button v-if="show" />
-      </div>
-    `,
-      },
+        setup(props) {
+          return () => (
+            <div v-trap-focus>
+              <button />
+              {props.show && <button />}
+            </div>
+          )
+        },
+      }),
       {
         global: {
           directives: {
@@ -140,7 +135,10 @@ describe('v-trap-focus', () => {
         },
       }
     )
-    const initialElements = wrapper.element[FOCUSABLE_CHILDREN]
+
+    const initialElements = (wrapper.element as TrapFocusElement)[
+      FOCUSABLE_CHILDREN
+    ]
     expect(initialElements.length).toBe(1)
 
     await wrapper.setProps({
@@ -149,6 +147,8 @@ describe('v-trap-focus', () => {
 
     await nextTick()
 
-    expect(wrapper.element[FOCUSABLE_CHILDREN].length).toBe(2)
+    expect(
+      (wrapper.element as TrapFocusElement)[FOCUSABLE_CHILDREN].length
+    ).toBe(2)
   })
 })

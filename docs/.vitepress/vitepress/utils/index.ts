@@ -100,7 +100,7 @@ export function insertLinkIcon(
     link.classList.add('vp-link')
     if (
       !link.href.startsWith(window.origin) &&
-      !link.innerHTML.includes('<img')
+      !/(<img)|(<svg class="link-icon")/.test(link.innerHTML)
     ) {
       link.innerHTML = `
         ${link.innerHTML}
