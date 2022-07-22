@@ -17,8 +17,6 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
   const treeItems = shallowRef<Nullable<HTMLElement>[]>([])
   const checkboxItems = shallowRef<Nullable<HTMLElement>[]>([])
 
-  useEventListener(el$.value, 'keydown', handleKeydown)
-
   onMounted(() => {
     initTabIndex()
   })
@@ -106,6 +104,8 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
       hasInput.click()
     }
   }
+
+  useEventListener(el$, 'keydown', handleKeydown)
 
   const initTabIndex = (): void => {
     treeItems.value = Array.from(
