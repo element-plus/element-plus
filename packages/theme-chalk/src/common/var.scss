@@ -496,7 +496,7 @@ $messagebox: map.merge(
 $message: () !default;
 $message: map.merge(
   (
-    'min-width': 380px,
+    'width': 380px,
     'bg-color': getCssVar('color', 'info', 'light-9'),
     'border-color': getCssVar('border-color-lighter'),
     'padding': 15px 15px 15px 20px,
