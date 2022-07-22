@@ -196,7 +196,6 @@
     }
 
     input {
-      background-color: map.get($input-disabled, 'fill');
       color: map.get($input-disabled, 'text-color');
       cursor: not-allowed;
       &::placeholder {
