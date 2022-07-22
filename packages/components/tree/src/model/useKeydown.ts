@@ -1,5 +1,6 @@
 // @ts-nocheck
-import { onBeforeUnmount, onMounted, onUpdated, shallowRef, watch } from 'vue'
+import { onMounted, onUpdated, shallowRef, watch } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import type TreeStore from './tree-store'
@@ -16,13 +17,10 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
   const treeItems = shallowRef<Nullable<HTMLElement>[]>([])
   const checkboxItems = shallowRef<Nullable<HTMLElement>[]>([])
 
+  useEventListener(el$.value, 'keydown', handleKeydown)
+
   onMounted(() => {
     initTabIndex()
-    el$.value.addEventListener('keydown', handleKeydown)
-  })
-
-  onBeforeUnmount(() => {
-    el$.value.removeEventListener('keydown', handleKeydown)
   })
 
   onUpdated(() => {
