@@ -580,8 +580,13 @@ describe('TimePicker(range)', () => {
         value: initDates,
       })
     )
+    const findInputWrapper = () => wrapper.find('.el-date-editor')
+    const findClear = () => wrapper.find('.el-range__close-icon')
 
-    const findClear = () => wrapper.find('.clear-icon')
+    await nextTick()
+    const inputWrapper = findInputWrapper()
+    await inputWrapper.trigger('mouseenter')
+    await rAF()
     const clearIcon = findClear()
     await clearIcon.trigger('click')
     await nextTick()
