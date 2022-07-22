@@ -1,5 +1,73 @@
 ## Changelog
 
+### 2.2.10
+
+_2022-07-22_
+
+#### Features
+
+- Components [tooltip] adjust controlled mode (#8762 by @chenxch)
+
+#### Bug fixes
+
+- Components [select-v2] add null check to filter method (#8537 by @lshunran) (#8538)
+- Components [select] change disabled color (#8705 by @ryuhangyeong)
+- Hooks [use-form-item] fix type error (#8726 by @holazz)
+- Hooks [use-floating] fix type error (#8727 by @holazz)
+- Components [step] className should be is-icon when using icon slot (#8706 by @buqiyuan)
+- Components [input] fix type error (#8731 by @ryuhangyeong)
+- Theme-chalk [slider] style error when vertical (#8734 by @tolking)
+- Components [slider] not changed marker style (#8737 by @ryuhangyeong)
+- Hooks [use-attrs] fix type error (#8558 by @holazz)
+- Components [select] automatic-dropdown next focus invalid (#8398 by @chenxch)
+- Components [cascader] fix namespace (#8719 by @gjfei)
+- Hooks [use-locale] fix type error (#8733 by @holazz)
+- Components [tree] allow and node drop-type (#8681 by @chenxch)
+- Components [form-item] clearValidate invalid (#8643 by @chenxch)
+- Components [focus-trap] maximum call stack size exceeded error (#8218 by @webfansplz)
+- Utils fix type error (#8779 by @holazz)
+- Components [select] fix select tooltip zIndex (#8768 by @gjfei)
+- Components [timeline] fix type error (#8829 by @holazz)
+- Components [message] set appentTo value (#8730 by @btea)
+- Directives [click-outside] fix type error (#8782 by @holazz)
+- Locale update ko translation (#8839 by @ryuhangyeong)
+- Components [tabs] disabled pane can still be focused (#8600 by @tolking)
+- Test-utils fix type error (#8780 by @holazz)
+- Components [virtual-list] throw non-corresponding error message (#8835 by @makedopamine)
+- Components [table] spanMethod check return type (#8844 by @chenxch)
+- Docs fixed the link icon would be duplicated when switching pages (#8103 by @SuperRay3)
+- Components [message] fix message grouping styles (#8809 by @gjfei)
+- Components [upload] one-way cannot add attachments (#8877 by @chenxch)
+- Docs fix table v2 filter demo style error (#8847 by @KimYangOfCat)
+- Components [rate] fix type error (#8896 by @Tsong-LC)
+- [select] label can be displayed correctly after selecting operation (#8589 by @baiwusanyu-c)
+- Components [dialog] fix type error (#8898 by @Tsong-LC)
+- Components [date-picker] prevent duplicate pick date (#8588 by @holazz)
+- Directives [repeat-click] click handler is fired correctly (#8828 by @holazz)
+- Components [menu] resize when dynamic data in horizontal mode (#8616 by @holazz)
+
+#### Refactors
+
+- Components [dialog] use JSX in Unit test (#8270 by @Tsong-LC)
+- Components [el-table] using flex to refactor table (#8690 by @msidolphin)
+- Components [popconfirm] remove redundant function (#8786 by @btea)
+- Components [container] use JSX in Unit test (#8778 by @gjfei)
+- Directives [repeat-click] use JSX in Unit test (#8785 by @holazz)
+- Components [pagination] use JSX in Unit test (#8269 by @Tsong-LC)
+- Components [timeline] use JSX in Unit test (#8339 by @ryuhangyeong)
+- Components [transfer] use JSX in Unit test (#8274 by @Tsong-LC)
+- Components [color-picker] use useNamespace (#8722 by @Tsong-LC)
+- Directives [click-outside] use JSX in Unit test (#8783 by @holazz)
+- Directives [trap-focus] refactor (#8818 by @holazz)
+- Directives [trap-focus] use JSX in Unit test (#8819 by @holazz)
+- Components [descriptions] switch to script-setup syntax (#8349 by @ryuhangyeong)
+- Directives [repeat-click] use `addEventListener` (#8784 by @holazz)
+- Directives drop resize (#8617 by @holazz)
+- Perf(components): [slider] emit UPDATE_MODEL_EVENT only if value changes (#8603 by @buqiyuan)
+- Style(theme-chalk): message-box support small screen (#8856 by @kooriookami)
+- Perf(components): [table] improve find the closest ancestor (#8621 by @holazz)
+- Style(theme-chalk): message support small screen (#8957 by @kooriookami)
+
 ### 2.2.9
 
 _2022-07-08_
