@@ -56,11 +56,11 @@ You can also use other CDN providers.
 ```html
 <head>
   <!-- Import style -->
-  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
   <!-- Import Vue 3 -->
-  <script src="https://unpkg.com/vue@3"></script>
+  <script src="//unpkg.com/vue@3"></script>
   <!-- Import component library -->
-  <script src="https://unpkg.com/element-plus"></script>
+  <script src="//unpkg.com/element-plus"></script>
 </head>
 ```
 
@@ -71,12 +71,12 @@ You can also use other CDN providers.
   <!-- Import style -->
   <link
     rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/element-plus/dist/index.css"
+    href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
   />
   <!-- Import Vue 3 -->
-  <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+  <script src="//cdn.jsdelivr.net/npm/vue@3"></script>
   <!-- Import component library -->
-  <script src="https://cdn.jsdelivr.net/npm/element-plus"></script>
+  <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
 </head>
 ```
 
