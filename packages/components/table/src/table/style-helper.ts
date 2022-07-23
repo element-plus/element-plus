@@ -130,8 +130,7 @@ function useStyle<T>(
     resizeState.value = {
       width: (tableWidth.value = el.offsetWidth),
       height: el.offsetHeight,
-      headerHeight:
-        props.showHeader && tableHeader ? tableHeader.offsetHeight : null,
+      headerHeight: tableHeader?.offsetHeight,
     }
 
     // init filters
@@ -221,19 +220,19 @@ function useStyle<T>(
     }
 
     const tableHeader: HTMLElement = table.refs.headerWrapper
-    if (props.showHeader && tableHeader.offsetHeight !== oldHeaderHeight) {
+    if (tableHeader?.offsetHeight !== oldHeaderHeight) {
       shouldUpdateLayout = true
     }
 
     tableScrollHeight.value = table.refs.tableWrapper.scrollHeight
-    headerScrollHeight.value = table.refs.headerWrapper?.scrollHeight || 0
+    headerScrollHeight.value = tableHeader?.scrollHeight || 0
     bodyScrollHeight.value = tableScrollHeight.value - headerScrollHeight.value
 
     if (shouldUpdateLayout) {
       resizeState.value = {
         width,
         height,
-        headerHeight: props.showHeader ? tableHeader.offsetHeight : null,
+        headerHeight: tableHeader?.offsetHeight,
       }
       doLayout()
     }
