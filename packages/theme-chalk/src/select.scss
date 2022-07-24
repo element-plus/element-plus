@@ -142,8 +142,14 @@
     color: getCssVar('select-multiple-input-color');
     font-size: getCssVar('select-font-size');
     appearance: none;
-    height: 28px;
+    height: 24px;
     background-color: transparent;
+
+    @each $size in (large, small) {
+      @include when($size) {
+        height: map.get($tag-height, $size);
+      }
+    }
   }
 
   @include e(close) {
@@ -163,7 +169,7 @@
 
   @include e(tags) {
     position: absolute;
-    line-height: normal;
+    line-height: map.get($tag, 'line-height');
     top: 50%;
     transform: translateY(-50%);
     @include select-tag-normal;

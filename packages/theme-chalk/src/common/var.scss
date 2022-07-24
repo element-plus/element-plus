@@ -872,6 +872,7 @@ $skeleton: map.merge(
 $tag: () !default;
 $tag: map.merge(
   (
+    'line-height': 1,
     'font-size': 12px,
     'border-radius': 4px,
     'border-radius-rounded': 9999px,
