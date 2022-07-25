@@ -5,12 +5,14 @@
   padding-left: 64px;
 
   .toc-content {
-    position: sticky;
+    position: fixed;
     top: calc(var(--header-height) + 32px);
     margin-top: 0;
     padding: 4px 8px 4px 12px;
     margin-bottom: 32px;
     width: 200px;
+    max-height: calc(100vh - var(--header-height) - 32px);
+    overflow: auto;
 
     .toc-marker {
       opacity: 0;

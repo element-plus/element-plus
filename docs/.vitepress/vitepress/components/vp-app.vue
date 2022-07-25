@@ -115,7 +115,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <el-scrollbar ref="scrollRef" height="100vh" class="App">
+  <el-scrollbar ref="scrollRef" class="App">
     <VPOverlay
       class="overlay"
       :show="isSidebarOpen"
