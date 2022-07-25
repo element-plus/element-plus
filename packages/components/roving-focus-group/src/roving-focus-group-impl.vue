@@ -147,11 +147,7 @@ export default defineComponent({
       }
     )
 
-    useEventListener(
-      rovingFocusGroupRef.value,
-      ENTRY_FOCUS_EVT,
-      handleEntryFocus
-    )
+    useEventListener(rovingFocusGroupRef, ENTRY_FOCUS_EVT, handleEntryFocus)
   },
 })
 </script>
