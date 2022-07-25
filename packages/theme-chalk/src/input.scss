@@ -344,7 +344,8 @@
   @each $size in (large, small) {
     @include m($size) {
       @include css-var-from-global('input-height', ('component-size', $size));
-
+      @include css-var-from-global('component-size', ('component-size', $size));
+      
       font-size: map.get($input-font-size, $size);
 
       @include e(wrapper) {
