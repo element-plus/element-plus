@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="tooltipRef"
-    v-model:visible="popperVisible"
+    :visible="popperVisible"
     :teleported="teleported"
     :popper-class="[nsCascader.e('dropdown'), popperClass]"
     :popper-options="popperOptions"
