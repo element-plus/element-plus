@@ -5,19 +5,22 @@ import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { useFormItemInputId, useSize, useSizeProp } from '@element-plus/hooks'
 import {
   debugWarn,
+  definePropType,
   isArray,
   isBoolean,
   isNumber,
   isString,
 } from '@element-plus/utils'
-import type { ComponentInternalInstance, ExtractPropTypes, PropType } from 'vue'
+import type { ComponentInternalInstance, ExtractPropTypes } from 'vue'
 import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 import type Checkbox from './checkbox.vue'
 
+export type CheckboxValueType = string | number | boolean
+
 export const useCheckboxGroupProps = {
   modelValue: {
-    type: Array as PropType<Array<string | number>>,
+    type: definePropType<CheckboxValueType[]>(Array),
     default: () => [],
   },
   disabled: Boolean,
@@ -322,8 +325,6 @@ const useEvent = (
     onClickRoot,
   }
 }
-
-export type CheckboxValueType = string | number | boolean
 
 export const checkboxEmits = {
   [UPDATE_MODEL_EVENT]: (val: CheckboxValueType) =>
