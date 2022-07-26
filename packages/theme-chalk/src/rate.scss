@@ -35,7 +35,7 @@ $rate-height: map.merge(
     font-size: 0;
     vertical-align: middle;
     color: getCssVar('rate-void-color');
-    line-height: initial;
+    line-height: 1;
   }
 
   & .#{bem('rate', 'icon')} {
