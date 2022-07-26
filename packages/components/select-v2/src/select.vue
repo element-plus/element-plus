@@ -9,7 +9,7 @@
   >
     <el-tooltip
       ref="popper"
-      v-model:visible="dropdownMenuVisible"
+      :visible="dropdownMenuVisible"
       :teleported="teleported"
       :popper-class="[nsSelectV2.e('popper'), popperClass]"
       :gpu-acceleration="false"

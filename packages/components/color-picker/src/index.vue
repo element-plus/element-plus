@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="popper"
-    v-model:visible="showPicker"
+    :visible="showPicker"
     :show-arrow="false"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :offset="0"
