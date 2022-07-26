@@ -7,7 +7,7 @@
   >
     <el-tooltip
       ref="tooltipRef"
-      v-model:visible="dropMenuVisible"
+      :visible="dropMenuVisible"
       placement="bottom-start"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
