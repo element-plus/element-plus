@@ -2,6 +2,7 @@
 import {
   computed,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   unref,
@@ -11,6 +12,7 @@ import {
 import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { useSize } from '@element-plus/hooks'
 
+import type { UseResizeObserverReturn } from '@vueuse/core'
 import type { Table, TableProps } from './defaults'
 import type { Store } from '../store'
 import type TableLayout from '../table-layout'
@@ -113,6 +115,7 @@ function useStyle<T>(
     layout.updateColumnsWidth()
     requestAnimationFrame(syncPostion)
   }
+
   onMounted(async () => {
     await nextTick()
     store.updateColumns()
@@ -145,6 +148,9 @@ function useStyle<T>(
     })
     table.$ready = true
   })
+
+  onBeforeUnmount(() => resizeStopper?.())
+
   const setScrollClassByEl = (el: HTMLElement, className: string) => {
     if (!el) return
     const classList = Array.from(el.classList).filter(
@@ -186,6 +192,7 @@ function useStyle<T>(
     }
   }
 
+  let resizeStopper: UseResizeObserverReturn['stop']
   const bindEvents = () => {
     if (!table.refs.scrollBarRef) return
     if (table.refs.scrollBarRef.wrap$) {
@@ -194,9 +201,12 @@ function useStyle<T>(
       })
     }
     if (props.fit) {
-      useResizeObserver(table.vnode.el as HTMLElement, resizeListener)
+      resizeStopper = useResizeObserver(
+        table.vnode.el as HTMLElement,
+        resizeListener
+      ).stop
     } else {
-      useEventListener(window, 'resize', resizeListener)
+      resizeStopper = useEventListener(window, 'resize', resizeListener)
     }
   }
   const resizeListener = () => {
