@@ -202,9 +202,10 @@ function useStyle<T>(
     }
   }
   const resizeListener = () => {
-    if (!table.$ready) return
-    let shouldUpdateLayout = false
     const el = table.vnode.el
+    if (!table.$ready || !el) return
+
+    let shouldUpdateLayout = false
     const {
       width: oldWidth,
       height: oldHeight,
@@ -221,7 +222,10 @@ function useStyle<T>(
       shouldUpdateLayout = true
     }
 
-    const tableHeader: HTMLElement = table.refs.headerWrapper
+    const tableHeader: HTMLElement =
+      props.tableLayout === 'fixed'
+        ? table.refs.headerWrapper
+        : table.refs.tableHeaderRef?.$el
     if (props.showHeader && tableHeader?.offsetHeight !== oldHeaderHeight) {
       shouldUpdateLayout = true
     }
