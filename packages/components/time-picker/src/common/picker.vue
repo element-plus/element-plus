@@ -55,7 +55,7 @@
           <el-icon
             v-if="triggerIcon"
             :class="nsInput.e('icon')"
-            @mousedown="onMouseDownInput"
+            @mousedown.prevent="onMouseDownInput"
             @touchstart="onTouchStartInput"
           >
             <component :is="triggerIcon" />
@@ -94,7 +94,7 @@
         <el-icon
           v-if="triggerIcon"
           :class="[nsInput.e('icon'), nsRange.e('icon')]"
-          @mousedown="onMouseDownInput"
+          @mousedown.prevent="onMouseDownInput"
           @touchstart="onTouchStartInput"
         >
           <component :is="triggerIcon" />
