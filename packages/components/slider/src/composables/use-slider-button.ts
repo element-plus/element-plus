@@ -273,6 +273,7 @@ export const useSliderButton = (
   )
 
   return {
+    disabled,
     button,
     tooltip,
     tooltipVisible,
