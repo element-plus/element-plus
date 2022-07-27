@@ -6,7 +6,7 @@ _2022-07-27_
 
 #### Features
 
-- Components [image] fix #8919 bug (#8920 by @wydingez)
+- Image Component add show event (#8920 by @wydingez)
 
 #### Bug fixes
 
@@ -14,7 +14,7 @@ _2022-07-27_
 - Components [checkbox] fix type error (#8937 by @Tsong-LC)
 - Components [select] sync the tooltip component change (#8998 by @tolking)
 - Build add target (#9018 by @sxzz)
-- [el-menu] horizontal mode menu drag causes browser crash (#9027 by @xiaoxian521)
+- Menu horizontal mode menu drag causes browser crash (#9027 by @xiaoxian521)
 - Components [carousel] computed interval prop (#9022 by @btea)
 - Components [tooltip] related components are controlled (#9019 by @chenxch)
 - Components [time-picker] fix clear for range mode (#8961 by @freedomlang)
@@ -26,7 +26,7 @@ _2022-07-27_
 - Element-plus fix type error (#8982 by @holazz)
 - Directives [mousewheel] fix type error (#8880 by @holazz)
 - Theme-chalk [rate] fix vertical offset (#8959 by @Tsong-LC)
-- [el-time-picker] clicking on prefix does not open the panel (#9044 by @xiaoxian521)
+- Time-picker clicking on prefix does not open the panel (#9044 by @xiaoxian521)
 - Components [slider] disabled slider button can still be focused (#9004 by @tolking)
 - Components [cascader] pass forced param to syncMenuState (#8794 by @nieyuyao)
 - Hooks [use-escape-keydown] fix memory leak (#8005 by @nhpupu) (#8060)
