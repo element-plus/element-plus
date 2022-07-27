@@ -15,10 +15,4 @@
       linear-gradient(45deg, #0000 75%, #292929 75%),
       linear-gradient(135deg, #0000 75%, #292929 75%);
   }
-  ::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.4);
-    }
-  }
 }
