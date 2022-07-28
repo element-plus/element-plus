@@ -35,6 +35,15 @@
     }
   }
 
+  &.has-footer {
+    &.#{$namespace}-table--scrollable-y,
+    &.#{$namespace}-table--fluid-height {
+      tr:last-child td.#{$namespace}-table__cell {
+        border-bottom-color: transparent;
+      }
+    }
+  }
+
   // when data is empty
   @include e(empty-block) {
     position: sticky;
@@ -187,10 +196,6 @@
 
     input[type='checkbox'] {
       margin: 0;
-    }
-
-    &:last-child td.#{$namespace}-table__cell {
-      border-bottom-color: transparent;
     }
   }
 
