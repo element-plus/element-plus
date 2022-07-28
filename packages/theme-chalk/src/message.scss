@@ -55,6 +55,7 @@
 
       .#{$namespace}-message__content {
         color: getCssVar('message', 'text-color');
+        word-break: break-all;
       }
     }
 
