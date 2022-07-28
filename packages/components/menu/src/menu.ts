@@ -236,6 +236,8 @@ export default defineComponent({
       }
     )
 
+    watch(items.value, initMenu)
+
     let resizeStopper: UseResizeObserverReturn['stop']
     watchEffect(() => {
       if (props.mode === 'horizontal' && props.ellipsis)
