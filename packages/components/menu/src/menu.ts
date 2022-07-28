@@ -209,7 +209,6 @@ export default defineComponent({
 
       if (item) {
         activeIndex.value = item.index
-        initMenu()
       } else {
         activeIndex.value = val
       }
@@ -292,7 +291,6 @@ export default defineComponent({
 
     // lifecycle
     onMounted(() => {
-      initMenu()
       if (props.mode === 'horizontal') {
         new Menubar(instance.vnode.el!, nsMenu.namespace.value)
       }
