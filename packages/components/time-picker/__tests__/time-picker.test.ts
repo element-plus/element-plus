@@ -566,6 +566,34 @@ describe('TimePicker(range)', () => {
     })
   })
 
+  it('clear button', async () => {
+    const initDates = [
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ]
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        is-range
+      />`,
+      () => ({
+        value: initDates,
+      })
+    )
+    const findInputWrapper = () => wrapper.find('.el-date-editor')
+    const findClear = () => wrapper.find('.el-range__close-icon')
+
+    await nextTick()
+    const inputWrapper = findInputWrapper()
+    await inputWrapper.trigger('mouseenter')
+    await rAF()
+    const clearIcon = findClear()
+    await clearIcon.trigger('click')
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value).toEqual(null)
+  })
+
   it('selectableRange ', async () => {
     // left ['08:00:00 - 12:59:59'] right ['11:00:00 - 16:59:59']
     const wrapper = _mount(

@@ -97,9 +97,10 @@ menu/collapse
 
 ## SubMenu Slots
 
-| Name | Description               | Subtags                               |
-| ---- | ------------------------- | ------------------------------------- |
-| —    | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
+| Name  | Description               | Subtags                               |
+| ----- | ------------------------- | ------------------------------------- |
+| —     | customize default content | SubMenu / Menu-Item / Menu-Item-Group |
+| title | customize title content   | —                                     |
 
 ## Menu-Item Attributes
 
@@ -117,9 +118,10 @@ menu/collapse
 
 ## Menu-Item Slots
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name  | Description               |
+| ----- | ------------------------- |
+| —     | customize default content |
+| title | customize title content   |
 
 ## Menu-Item-Group Attributes
 
@@ -129,6 +131,7 @@ menu/collapse
 
 ## Menu-Item-Group Slots
 
-| Name | Description               | Subtags   |
-| ---- | ------------------------- | --------- |
-| —    | customize default content | Menu-Item |
+| Name  | Description               | Subtags   |
+| ----- | ------------------------- | --------- |
+| —     | customize default content | Menu-Item |
+| title | customize group title     | —         |

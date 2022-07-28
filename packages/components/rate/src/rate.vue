@@ -4,7 +4,9 @@
     :class="[rateClasses, ns.is('disabled', rateDisabled)]"
     role="slider"
     :aria-label="!isLabeledByFormItem ? label || 'rating' : undefined"
-    :aria-labelledby="isLabeledByFormItem ? formItemContext.labelId : undefined"
+    :aria-labelledby="
+      isLabeledByFormItem ? formItemContext?.labelId : undefined
+    "
     :aria-valuenow="currentValue"
     :aria-valuetext="text || undefined"
     aria-valuemin="0"
@@ -47,7 +49,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-// @ts-nocheck
 import { type CSSProperties, computed, inject, ref, watch } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { hasClass, isArray, isObject } from '@element-plus/utils'

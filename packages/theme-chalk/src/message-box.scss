@@ -11,7 +11,8 @@
 
 @include b(message-box) {
   display: inline-block;
-  width: getCssVar('messagebox-width');
+  max-width: getCssVar('messagebox-width');
+  width: 100%;
   padding-bottom: 10px;
   vertical-align: middle;
   background-color: getCssVar('bg-color');
@@ -35,6 +36,7 @@
       right: 0;
       bottom: 0;
       left: 0;
+      padding: 16px;
       overflow: auto;
 
       &::after {

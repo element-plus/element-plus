@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="refPopper"
-    v-model:visible="pickerVisible"
+    :visible="pickerVisible"
     effect="light"
     pure
     trigger="click"
@@ -55,7 +55,7 @@
           <el-icon
             v-if="triggerIcon"
             :class="nsInput.e('icon')"
-            @mousedown="onMouseDownInput"
+            @mousedown.prevent="onMouseDownInput"
             @touchstart="onTouchStartInput"
           >
             <component :is="triggerIcon" />
@@ -86,7 +86,6 @@
         ]"
         :style="($attrs.style as any)"
         @click="handleFocusInput"
-        @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
         @touchstart="onTouchStartInput"
@@ -95,7 +94,7 @@
         <el-icon
           v-if="triggerIcon"
           :class="[nsInput.e('icon'), nsRange.e('icon')]"
-          @mousedown="onMouseDownInput"
+          @mousedown.prevent="onMouseDownInput"
           @touchstart="onTouchStartInput"
         >
           <component :is="triggerIcon" />
@@ -109,6 +108,7 @@
           :disabled="pickerDisabled"
           :readonly="!editable || readonly"
           :class="nsRange.b('input')"
+          @mousedown="onMouseDownInput"
           @input="handleStartInput"
           @change="handleStartChange"
           @focus="handleFocusInput"
@@ -126,6 +126,7 @@
           :disabled="pickerDisabled"
           :readonly="!editable || readonly"
           :class="nsRange.b('input')"
+          @mousedown="onMouseDownInput"
           @focus="handleFocusInput"
           @blur="handleBlurInput"
           @input="handleEndInput"

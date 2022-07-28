@@ -126,6 +126,7 @@ interface TableProps<T> {
         rowspan: number
         colspan: number
       }
+    | undefined
   selectOnIndeterminate?: boolean
   indent?: number
   treeProps?: {
@@ -175,9 +176,7 @@ interface RenderRowData<T> {
 export default {
   data: {
     type: Array as PropType<DefaultRow[]>,
-    default: () => {
-      return []
-    },
+    default: () => [],
   },
   size: String,
   width: [String, Number],

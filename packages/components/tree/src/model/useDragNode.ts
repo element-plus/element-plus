@@ -4,6 +4,7 @@ import { addClass, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import type { InjectionKey } from 'vue'
 import type Node from './node'
+import type { NodeDropType } from '../tree.type'
 
 interface TreeNode {
   node: Node
@@ -109,7 +110,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     const targetPosition = dropNode.$el.getBoundingClientRect()
     const treePosition = el$.value.getBoundingClientRect()
 
-    let dropType
+    let dropType: NodeDropType
     const prevPercent = dropPrev ? (dropInner ? 0.25 : dropNext ? 0.45 : 1) : -1
     const nextPercent = dropNext ? (dropInner ? 0.75 : dropPrev ? 0.55 : 0) : 1
 

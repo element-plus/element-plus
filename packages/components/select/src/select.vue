@@ -7,7 +7,7 @@
   >
     <el-tooltip
       ref="tooltipRef"
-      v-model:visible="dropMenuVisible"
+      :visible="dropMenuVisible"
       placement="bottom-start"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
@@ -63,7 +63,7 @@
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   :effect="effect"
                   placement="bottom"
-                  :teleported="false"
+                  :teleported="teleported"
                 >
                   <template #default>
                     <span :class="nsSelect.e('tags-text')"

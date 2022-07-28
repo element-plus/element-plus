@@ -243,7 +243,6 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       },
     ]
   }
-
   return _mount(
     `
     <el-select
@@ -262,7 +261,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
       :fit-input-width="fitInputWidth">
-      <el-group-option
+     <el-group-option
         v-for="group in options"
         :key="group.label"
         :disabled="group.disabled"
@@ -1074,9 +1073,9 @@ describe('Select', () => {
     await nextTick()
     const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
     expect(triggerWrappers[0]).toBeDefined()
-    const tags = wrapper.findAll('.el-select__tags-text')
+    const tags = document.querySelectorAll('.el-select__tags-text')
     expect(tags.length).toBe(4)
-    expect(tags[3].element.textContent).toBe('蚵仔煎')
+    expect(tags[3].textContent).toBe('蚵仔煎')
   })
 
   test('multiple remove-tag', async () => {
@@ -2039,6 +2038,50 @@ describe('Select', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+    // fix: 8544
+    it('When props are changed, label can be displayed correctly after selecting operation', async () => {
+      wrapper = getGroupSelectVm({}, [
+        {
+          label: 'group1',
+          options: [
+            { value: 0, label: 'x' },
+            { value: 1, label: 'y' },
+            { value: 2, label: 'z' },
+          ],
+        },
+      ])
+      await wrapper.find('.select-trigger').trigger('click')
+      let options = getOptions()
+      const vm = wrapper.vm as any
+      expect(vm.value).toBe('')
+      expect(findInnerInput().value).toBe('')
+      await nextTick()
+      options[1].click()
+      await nextTick()
+      expect(vm.value).toBe(1)
+      expect(findInnerInput().value).toBe('y')
+      wrapper.vm.options = [
+        {
+          label: 'group2',
+          options: [
+            { value: 0, label: 'x' },
+            { value: 1, label: 'y' },
+            { value: 2, label: 'z' },
+          ],
+        },
+      ]
+
+      await nextTick()
+      options = getOptions()
+      options[1].click()
+      await nextTick()
+      expect(vm.value).toBe(1)
+      expect(findInnerInput().value).toBe('y')
+      options[2].click()
+      await nextTick()
+      expect(vm.value).toBe(2)
+      expect(findInnerInput().value).toBe('z')
     })
   })
 })
