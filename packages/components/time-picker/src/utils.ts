@@ -17,7 +17,7 @@ export const rangeArr = (n: number) =>
 
 export const extractDateFormat = (format: string) => {
   return format
-    .replace(/\W?m{1,2}|\W?ZZ/g, '')
+    .replace(/\W?m{1,2}|\W?ZZ|\W?\d{1,2}/g, '')
     .replace(/\W?h{1,2}|\W?s{1,3}|\W?a/gi, '')
     .trim()
 }
