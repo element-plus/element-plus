@@ -93,8 +93,8 @@ datetime-picker/default-time
 | Event Name      | Description                                                                   | Parameters                                |
 | --------------- | ----------------------------------------------------------------------------- | ----------------------------------------- |
 | change          | triggers when user confirms the value                                         | component's binding value                 |
-| blur            | triggers when Input blurs                                                     | component instance                        |
-| focus           | triggers when Input focuses                                                   | component instance                        |
+| blur            | triggers when Input blurs                                                     | `(e: FocusEvent)`                         |
+| focus           | triggers when Input focuses                                                   | `(e: FocusEvent)`                         |
 | calendar-change | triggers when the calendar selected date is changed. Only for `datetimerange` | [Date, Date]                              |
 | visible-change  | triggers when the DateTimePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
 
