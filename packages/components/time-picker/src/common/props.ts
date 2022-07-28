@@ -112,10 +112,6 @@ export const timePickerDefaultProps = buildProps({
     type: Boolean,
     default: false,
   },
-  autoSkipDisabled: {
-    type: Boolean,
-    default: false,
-  },
   label: {
     type: String,
     default: undefined,
