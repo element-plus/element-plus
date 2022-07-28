@@ -98,11 +98,6 @@ You can also try Element Plus out with the components built-in playground.
         </a>
       </td>
       <td align="center" valign="middle">
-        <a href="https://www.renren.io/?from=element-ui" target="_blank">
-          <img width="130px" src="https://user-images.githubusercontent.com/82012629/126620778-0d8ab509-018a-45d7-b8de-a5bac2ad519a.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://form.making.link/?from=element_plus" target="_blank">
           <img width="130px" src="https://user-images.githubusercontent.com/17680888/159736613-13c7c2dc-744e-4eec-b801-f4ca57871787.png">
         </a>
