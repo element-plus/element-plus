@@ -35,14 +35,6 @@
     }
   }
 
-  &.has-footer {
-    .#{$namespace}-table__inner-wrapper {
-      &::before {
-        bottom: 0;
-      }
-    }
-  }
-
   // when data is empty
   @include e(empty-block) {
     position: sticky;
@@ -196,6 +188,10 @@
     input[type='checkbox'] {
       margin: 0;
     }
+
+    &:last-child td.#{$namespace}-table__cell {
+      border-bottom-color: transparent;
+    }
   }
 
   th.#{$namespace}-table__cell.is-leaf,
@@ -245,6 +241,10 @@
     }
   }
 
+  @include e((footer-wrapper)) {
+    border-top: getCssVar('table-border');
+  }
+
   // 拥有多级表头
   @include m((group, border)) {
     @include e((inner-wrapper, footer-wrapper)) {
@@ -256,9 +256,6 @@
           }
         }
       }
-    }
-    @include e((footer-wrapper)) {
-      border-top: getCssVar('table-border');
     }
 
     @include share-rule(border-pseudo) {
@@ -309,15 +306,6 @@
       position: relative;
       flex-shrink: 0;
     }
-
-    @include e(footer-wrapper) {
-      margin-top: -2px;
-    }
-
-    // fix: #1013
-    // &.#{$namespace}-loading-parent--relative {
-    //   border-color: transparent;
-    // }
 
     .#{$namespace}-table__cell {
       border-right: getCssVar('table-border');

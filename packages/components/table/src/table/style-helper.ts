@@ -228,7 +228,7 @@ function useStyle<T>(
 
     tableScrollHeight.value = table.refs.tableWrapper?.scrollHeight || 0
     headerScrollHeight.value = tableHeader?.scrollHeight || 0
-    footerScrollHeight.value = table.refs.footerWrapper?.scrollHeight || 0
+    footerScrollHeight.value = table.refs.footerWrapper?.offsetHeight || 0
     bodyScrollHeight.value =
       tableScrollHeight.value -
       headerScrollHeight.value -
