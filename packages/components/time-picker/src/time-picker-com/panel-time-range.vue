@@ -22,7 +22,6 @@
             :show-seconds="showSeconds"
             :am-pm-mode="amPmMode"
             :arrow-control="arrowControl"
-            :auto-skip-disabled="autoSkipDisabled"
             :spinner-date="startTime"
             :disabled-hours="disabledHours_"
             :disabled-minutes="disabledMinutes_"
@@ -51,7 +50,6 @@
             :show-seconds="showSeconds"
             :am-pm-mode="amPmMode"
             :arrow-control="arrowControl"
-            :auto-skip-disabled="autoSkipDisabled"
             :spinner-date="endTime"
             :disabled-hours="disabledHours_"
             :disabled-minutes="disabledMinutes_"
@@ -121,7 +119,6 @@ const {
   disabledMinutes,
   disabledSeconds,
   defaultValue,
-  autoSkipDisabled,
 } = pickerBase.props
 
 const startTime = computed(() => props.parsedValue![0])

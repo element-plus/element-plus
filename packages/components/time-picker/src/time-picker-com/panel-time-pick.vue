@@ -6,7 +6,6 @@
           ref="spinner"
           :role="datetimeRole || 'start'"
           :arrow-control="arrowControl"
-          :auto-skip-disabled="autoSkipDisabled"
           :show-seconds="showSeconds"
           :am-pm-mode="amPmMode"
           :spinner-date="(parsedValue as any)"
@@ -65,7 +64,6 @@ const {
   disabledMinutes,
   disabledSeconds,
   defaultValue,
-  autoSkipDisabled,
 } = pickerBase.props
 const { getAvailableHours, getAvailableMinutes, getAvailableSeconds } =
   buildAvailableTimeSlotGetter(disabledHours, disabledMinutes, disabledSeconds)

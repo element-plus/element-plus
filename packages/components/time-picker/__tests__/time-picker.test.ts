@@ -846,7 +846,6 @@ describe('TimePicker(range)', () => {
         v-model="value"
         :disabled-hours="disabledHours"
         arrow-control
-        auto-skip-disabled
       />`,
       () => ({ value: '' }),
       {

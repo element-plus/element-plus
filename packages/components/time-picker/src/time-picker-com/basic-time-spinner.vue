@@ -233,7 +233,7 @@ const scrollDown = (step: number) => {
   const total = currentScrollbar.value === 'hours' ? 24 : 60
   now = (now + step + total) % total
 
-  if (props.arrowControl && props.autoSkipDisabled) {
+  if (props.arrowControl) {
     now = findNextUnDisabled(label, now, step, total)
   }
   modifyDateField(label, now)
