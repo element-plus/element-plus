@@ -121,6 +121,7 @@ ElNotification({}, appContext)
 | onClick                  | callback function when notification clicked                                                                        | function             | —                                           | —             |
 | offset                   | offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset | number               | —                                           | 0             |
 | appendTo                 | set the root element for the notification                                                                          | string / HTMLElement | -                                           | document.body |
+| zIndex                   | initial zIndex                                                                                                     | number               | -                                           | 0             |
 
 ## Methods
 
