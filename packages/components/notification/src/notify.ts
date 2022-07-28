@@ -50,8 +50,8 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
     const id = `notification_${seed++}`
     const userOnClose = options.onClose
     const props: Partial<NotificationProps> = {
-      zIndex: nextZIndex(),
       ...options,
+      zIndex: nextZIndex(),
       offset: verticalOffset,
       id,
       onClose: () => {
