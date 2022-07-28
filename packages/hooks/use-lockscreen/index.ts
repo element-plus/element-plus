@@ -1,5 +1,6 @@
 import { isRef, onScopeDispose, watch } from 'vue'
 
+import { computed } from '@vue/reactivity'
 import { isClient } from '@vueuse/core'
 import {
   addClass,
@@ -9,6 +10,7 @@ import {
   removeClass,
   throwError,
 } from '@element-plus/utils'
+import { useNamespace } from '../use-namespace'
 
 import type { Ref } from 'vue'
 
@@ -24,7 +26,12 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
       'You need to pass a ref param to this function'
     )
   }
-  if (!isClient || hasClass(document.body, 'el-popup-parent--hidden')) {
+
+  const ns = useNamespace('popup')
+
+  const hiddenCls = computed(() => ns.bm('parent', 'hidden'))
+
+  if (!isClient || hasClass(document.body, hiddenCls.value)) {
     return
   }
 
@@ -34,7 +41,7 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
   let computedBodyPaddingRight = 0
 
   const cleanup = () => {
-    removeClass(document.body, 'el-popup-parent--hidden')
+    removeClass(document.body, hiddenCls.value)
     if (withoutHiddenClass) {
       document.body.style.paddingRight = bodyPaddingRight
     }
@@ -45,7 +52,7 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
       return
     }
 
-    withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
+    withoutHiddenClass = !hasClass(document.body, hiddenCls.value)
     if (withoutHiddenClass) {
       bodyPaddingRight = document.body.style.paddingRight
       computedBodyPaddingRight = Number.parseInt(
@@ -53,7 +60,7 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
         10
       )
     }
-    scrollBarWidth = getScrollBarWidth()
+    scrollBarWidth = getScrollBarWidth(ns.namespace.value)
     const bodyHasOverflow =
       document.documentElement.clientHeight < document.body.scrollHeight
     const bodyOverflowY = getStyle(document.body, 'overflowY')
@@ -66,7 +73,7 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
         computedBodyPaddingRight + scrollBarWidth
       }px`
     }
-    addClass(document.body, 'el-popup-parent--hidden')
+    addClass(document.body, hiddenCls.value)
   })
   onScopeDispose(() => cleanup())
 }

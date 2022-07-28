@@ -104,6 +104,7 @@ const items = ref<Array<CarouselItemContext>>([])
 const arrowDisplay = computed(
   () => props.arrow !== 'never' && !unref(isVertical)
 )
+const interval = computed(() => props.interval)
 
 const hasLabel = computed(() => {
   return items.value.some((item) => item.props.label.toString().length > 0)
@@ -152,8 +153,8 @@ function pauseTimer() {
 }
 
 function startTimer() {
-  if (props.interval <= 0 || !props.autoplay || timer.value) return
-  timer.value = setInterval(() => playSlides(), props.interval)
+  if (interval.value <= 0 || !props.autoplay || timer.value) return
+  timer.value = setInterval(() => playSlides(), interval.value)
 }
 
 const playSlides = () => {

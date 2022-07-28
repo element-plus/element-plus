@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="popper"
-    v-model:visible="showPicker"
+    :visible="showPicker"
     :show-arrow="false"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :offset="0"
@@ -178,6 +178,10 @@ export default defineComponent({
       default: 0,
     },
     predefine: Array,
+    validateEvent: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
@@ -313,7 +317,9 @@ export default defineComponent({
       const value = color.value
       emit(UPDATE_MODEL_EVENT, value)
       emit('change', value)
-      elFormItem.validate?.('change').catch((err) => debugWarn(err))
+      if (props.validateEvent) {
+        elFormItem.validate?.('change').catch((err) => debugWarn(err))
+      }
       debounceSetShowPicker(false)
       // check if modelValue change, if not change, then reset color.
       nextTick(() => {
@@ -332,7 +338,7 @@ export default defineComponent({
       debounceSetShowPicker(false)
       emit(UPDATE_MODEL_EVENT, null)
       emit('change', null)
-      if (props.modelValue !== null) {
+      if (props.modelValue !== null && props.validateEvent) {
         elFormItem.validate?.('change').catch((err) => debugWarn(err))
       }
       resetColor()

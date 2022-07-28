@@ -26,7 +26,7 @@
     :data-prefix="ns.namespace.value"
     @mouseleave="handleMouseLeave()"
   >
-    <div :class="ns.e('inner-wrapper')">
+    <div :class="ns.e('inner-wrapper')" :style="tableInnerStyle">
       <div ref="hiddenColumns" class="hidden-columns">
         <slot />
       </div>
@@ -57,12 +57,11 @@
           />
         </table>
       </div>
-      <div ref="bodyWrapper" :style="bodyHeight" :class="ns.e('body-wrapper')">
+      <div ref="bodyWrapper" :class="ns.e('body-wrapper')">
         <el-scrollbar
           ref="scrollBarRef"
-          :height="maxHeight ? undefined : height"
-          :max-height="maxHeight ? height : undefined"
           :view-style="scrollbarViewStyle"
+          :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
         >
           <table
@@ -82,6 +81,7 @@
             />
             <table-header
               v-if="showHeader && tableLayout === 'auto'"
+              ref="tableHeaderRef"
               :border="border"
               :default-sort="defaultSort"
               :store="store"
@@ -116,23 +116,23 @@
           </div>
         </el-scrollbar>
       </div>
+      <div
+        v-if="showSummary"
+        v-show="!isEmpty"
+        ref="footerWrapper"
+        v-mousewheel="handleHeaderFooterMousewheel"
+        :class="ns.e('footer-wrapper')"
+      >
+        <table-footer
+          :border="border"
+          :default-sort="defaultSort"
+          :store="store"
+          :style="tableBodyStyles"
+          :sum-text="computedSumText"
+          :summary-method="summaryMethod"
+        />
+      </div>
       <div v-if="border || isGroup" :class="ns.e('border-left-patch')" />
-    </div>
-    <div
-      v-if="showSummary"
-      v-show="!isEmpty"
-      ref="footerWrapper"
-      v-mousewheel="handleHeaderFooterMousewheel"
-      :class="ns.e('footer-wrapper')"
-    >
-      <table-footer
-        :border="border"
-        :default-sort="defaultSort"
-        :store="store"
-        :style="tableBodyStyles"
-        :sum-text="computedSumText"
-        :summary-method="summaryMethod"
-      />
     </div>
     <div
       v-show="resizeProxyVisible"
@@ -237,12 +237,8 @@ export default defineComponent({
       handleMouseLeave,
       handleHeaderFooterMousewheel,
       tableSize,
-      bodyHeight,
-      height,
       emptyBlockStyle,
       handleFixedMousewheel,
-      fixedHeight,
-      fixedBodyHeight,
       resizeProxyVisible,
       bodyWidth,
       resizeState,
@@ -250,6 +246,8 @@ export default defineComponent({
       tableBodyStyles,
       tableLayout,
       scrollbarViewStyle,
+      tableInnerStyle,
+      scrollbarStyle,
     } = useStyle<Row>(props, layout, store, table)
 
     const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } =
@@ -288,14 +286,10 @@ export default defineComponent({
       resizeState,
       isGroup,
       bodyWidth,
-      bodyHeight,
-      height,
       tableBodyStyles,
       emptyBlockStyle,
       debouncedUpdateLayout,
       handleFixedMousewheel,
-      fixedHeight,
-      fixedBodyHeight,
       setCurrentRow,
       getSelectionRows,
       toggleRowSelection,
@@ -313,6 +307,8 @@ export default defineComponent({
       computedEmptyText,
       tableLayout,
       scrollbarViewStyle,
+      tableInnerStyle,
+      scrollbarStyle,
       scrollBarRef,
       scrollTo,
       setScrollLeft,

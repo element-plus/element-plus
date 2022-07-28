@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { isClient } from '@vueuse/core'
 import { isElement } from '@element-plus/utils'
 
@@ -7,7 +6,6 @@ import type {
   DirectiveBinding,
   ObjectDirective,
 } from 'vue'
-import type { Nullable } from '@element-plus/utils'
 
 type DocumentHandler = <T extends MouseEvent>(mouseup: T, mousedown: T) => void
 type FlushList = Map<
@@ -47,7 +45,7 @@ function createDocumentHandler(
   return function (mouseup, mousedown) {
     const popperRef = (
       binding.instance as ComponentPublicInstance<{
-        popperRef: Nullable<HTMLElement>
+        popperRef: HTMLElement
       }>
     ).popperRef
     const mouseUpTarget = mouseup.target as Node
@@ -86,7 +84,7 @@ const ClickOutside: ObjectDirective = {
       nodeList.set(el, [])
     }
 
-    nodeList.get(el).push({
+    nodeList.get(el)!.push({
       documentHandler: createDocumentHandler(el, binding),
       bindingFn: binding.value,
     })
@@ -96,7 +94,7 @@ const ClickOutside: ObjectDirective = {
       nodeList.set(el, [])
     }
 
-    const handlers = nodeList.get(el)
+    const handlers = nodeList.get(el)!
     const oldHandlerIndex = handlers.findIndex(
       (item) => item.bindingFn === binding.oldValue
     )

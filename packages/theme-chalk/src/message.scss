@@ -9,7 +9,8 @@
 }
 
 @include b(message) {
-  min-width: getCssVar('message', 'min-width');
+  width: getCssVar('message', 'width');
+  max-width: calc(100% - 32px);
   box-sizing: border-box;
   border-radius: getCssVar('border-radius-base');
   border-width: getCssVar('border-width');
@@ -54,6 +55,7 @@
 
       .#{$namespace}-message__content {
         color: getCssVar('message', 'text-color');
+        word-break: break-all;
       }
     }
 
