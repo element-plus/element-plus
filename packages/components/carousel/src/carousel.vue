@@ -314,7 +314,7 @@ watch(
     resetTimer()
   }
 )
-    
+
 watch(
   () => items.value.map((item) => item.uid),
   (ids) => {
