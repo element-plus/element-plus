@@ -1269,13 +1269,24 @@ describe('DateRangePicker', () => {
 })
 
 describe('MonthRange', () => {
+  let calendarChangeValue = null
+  const changeHandler = vi.fn()
   it('works', async () => {
     const wrapper = _mount(
       `<el-date-picker
       type='monthrange'
       v-model="value"
+      @calendarChange="onCalendarChange"
     />`,
-      () => ({ value: '' })
+      () => ({ value: '' }),
+      {
+        methods: {
+          onCalendarChange(e) {
+            calendarChangeValue = e
+            changeHandler(e)
+          },
+        },
+      }
     )
 
     const inputs = wrapper.findAll('input')
@@ -1311,6 +1322,12 @@ describe('MonthRange', () => {
     p0.click()
     await nextTick()
     expect(vm.value[0].getTime() < vm.value[1].getTime()).toBeTruthy()
+
+    // calendar-change event
+    expect(changeHandler).toHaveBeenCalledTimes(4)
+    expect(calendarChangeValue.length).toBe(2)
+    expect(calendarChangeValue[0]).toBeInstanceOf(Date)
+    expect(calendarChangeValue[1]).toBeInstanceOf(Date)
   })
 
   it('range, start-date and end-date', async () => {
