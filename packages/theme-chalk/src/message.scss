@@ -9,7 +9,6 @@
 }
 
 @include b(message) {
-  width: getCssVar('message', 'width');
   max-width: calc(100% - 32px);
   box-sizing: border-box;
   border-radius: getCssVar('border-radius-base');
@@ -20,7 +19,6 @@
   left: 50%;
   top: 20px;
   transform: translateX(-50%);
-  transition: opacity 0.3s, transform 0.4s, top 0.4s;
   background-color: getCssVar('message', 'bg-color');
   transition: opacity getCssVar('transition-duration'), transform 0.4s, top 0.4s;
   padding: getCssVar('message', 'padding');
@@ -33,7 +31,7 @@
 
   @include when(closable) {
     .#{$namespace}-message__content {
-      padding-right: 16px;
+      padding-right: 31px;
     }
   }
 
@@ -55,7 +53,7 @@
 
       .#{$namespace}-message__content {
         color: getCssVar('message', 'text-color');
-        word-break: break-all;
+        overflow-wrap: anywhere;
       }
     }
 
@@ -86,7 +84,7 @@
   & .#{$namespace}-message__closeBtn {
     position: absolute;
     top: 50%;
-    right: 15px;
+    right: 19px;
     transform: translateY(-50%);
     cursor: pointer;
     color: getCssVar('message', 'close-icon-color');
