@@ -5,7 +5,11 @@
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
-    <div :class="ns.e('container')" :style="{ height: height }">
+    <div
+      ref="itemsContainer"
+      :class="ns.e('container')"
+      :style="{ height: height }"
+    >
       <transition v-if="arrowDisplay" name="carousel-arrow-left">
         <button
           v-show="
@@ -73,7 +77,7 @@ import {
   watch,
 } from 'vue'
 import { throttle } from 'lodash-unified'
-import { useResizeObserver } from '@vueuse/core'
+import { useMutationObserver, useResizeObserver } from '@vueuse/core'
 import { debugWarn, isString } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
@@ -97,8 +101,9 @@ const activeIndex = ref(-1)
 const timer = ref<ReturnType<typeof setInterval> | null>(null)
 const hover = ref(false)
 const root = ref<HTMLDivElement>()
+const itemsContainer = ref<HTMLDivElement>()
 const items = ref<Array<CarouselItemContext>>([])
-
+const itemsMap = new WeakMap()
 // computed
 const arrowDisplay = computed(
   () => props.arrow !== 'never' && !unref(isVertical)
@@ -199,24 +204,7 @@ function resetItemPosition(oldIndex?: number) {
 }
 
 function addItem(item: CarouselItemContext) {
-  // get insert position with binary search
-  let start = 0
-  let end = items.value.length - 1
-
-  while (start <= end) {
-    const mid = Math.floor((start + end) / 2)
-    const midItem = items.value[mid]
-    const bitmask = item.el.compareDocumentPosition(midItem.el)
-    if (bitmask === Node.DOCUMENT_POSITION_PRECEDING) {
-      start = mid + 1
-    } else if (bitmask === Node.DOCUMENT_POSITION_FOLLOWING) {
-      end = mid - 1
-    }
-  }
-
-  const index = end + 1
-  if (items.value.length === index) items.value.push(item)
-  else items.value.splice(index, -1, item)
+  itemsMap.set(item.el, item)
 }
 
 function removeItem(uid?: number) {
@@ -317,20 +305,50 @@ watch(
 
 watch(
   () => items.value.map((item) => item.uid),
-  (ids, oldIds) => {
-    if (activeIndex.value < 0) setActiveItem(props.initialIndex)
-    else {
-      const activeId = oldIds[activeIndex.value]
-      const index = ids.indexOf(activeId)
-      if (index > -1) setActiveItem(index)
-      else setActiveItem(activeIndex.value)
-    }
+  (ids) => {
+    if (ids.length > 0) setActiveItem(props.initialIndex)
   }
 )
 
 const resizeObserver = shallowRef<ReturnType<typeof useResizeObserver>>()
 // lifecycle
 onMounted(async () => {
+  useMutationObserver(
+    itemsContainer,
+    (mutations) => {
+      mutations.forEach((record) => {
+        const item = itemsMap.get(record.addedNodes[0])
+        const removeItem = itemsMap.get(record.removedNodes[0])
+        if (removeItem) {
+          const spliceIndex = items.value.indexOf(removeItem)
+          if (spliceIndex !== -1) {
+            items.value.splice(spliceIndex, 1)
+          }
+        }
+        if (item) {
+          // get insert position with binary search
+          let start = 0
+          let end = items.value.length - 1
+
+          while (start <= end) {
+            const mid = Math.floor((start + end) / 2)
+            const midItem = items.value[mid]
+            const bitmask = item.el.compareDocumentPosition(midItem.el)
+            if (bitmask === Node.DOCUMENT_POSITION_PRECEDING) {
+              start = mid + 1
+            } else if (bitmask === Node.DOCUMENT_POSITION_FOLLOWING) {
+              end = mid - 1
+            }
+          }
+
+          const index = end + 1
+          if (items.value.length === index) items.value.push(item)
+          else items.value.splice(index, -1, item)
+        }
+      })
+    },
+    { childList: true }
+  )
   resizeObserver.value = useResizeObserver(root.value, () => {
     resetItemPosition()
   })
