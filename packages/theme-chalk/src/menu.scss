@@ -64,6 +64,7 @@
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title,
       & .#{$namespace}-menu-item-group__title {
+        white-space: nowrap;
         padding-left: calc(
           #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-level')} *
             #{getCssVar('menu-level-padding')}
