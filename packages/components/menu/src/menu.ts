@@ -3,7 +3,6 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
-  nextTick,
   onMounted,
   provide,
   reactive,
@@ -214,9 +213,18 @@ export default defineComponent({
       }
     }
 
-    const handleResize = () => {
-      nextTick(() => instance.proxy!.$forceUpdate())
+    // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms
+    const debounce = (fn: any, wait = 16.67) => {
+      let timmer: ReturnType<typeof setTimeout> | null
+      return () => {
+        timmer && clearTimeout(timmer)
+        timmer = setTimeout(() => {
+          fn()
+        }, wait)
+      }
     }
+
+    const handleResize = () => debounce(() => instance.proxy!.$forceUpdate())()
 
     watch(
       () => props.defaultActive,
@@ -235,7 +243,10 @@ export default defineComponent({
       }
     )
 
-    watch(items.value, initMenu)
+    watch(items.value, () => {
+      initMenu()
+      if (props.mode === 'horizontal' && props.ellipsis) handleResize()
+    })
 
     let resizeStopper: UseResizeObserverReturn['stop']
     watchEffect(() => {
