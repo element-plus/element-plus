@@ -96,6 +96,8 @@ const ns = useNamespace('carousel')
 const COMPONENT_NAME = 'ElCarousel'
 const THROTTLE_TIME = 300
 
+const itemsMap = new WeakMap()
+
 // refs
 const activeIndex = ref(-1)
 const timer = ref<ReturnType<typeof setInterval> | null>(null)
@@ -103,7 +105,6 @@ const hover = ref(false)
 const root = ref<HTMLDivElement>()
 const itemsContainer = ref<HTMLDivElement>()
 const items = ref<Array<CarouselItemContext>>([])
-const itemsMap = new WeakMap()
 // computed
 const arrowDisplay = computed(
   () => props.arrow !== 'never' && !unref(isVertical)
@@ -205,6 +206,24 @@ function resetItemPosition(oldIndex?: number) {
 
 function addItem(item: CarouselItemContext) {
   itemsMap.set(item.el, item)
+  // get insert position with binary search
+  let start = 0
+  let end = items.value.length - 1
+
+  while (start <= end) {
+    const mid = Math.floor((start + end) / 2)
+    const midItem = items.value[mid]
+    const bitmask = item.el.compareDocumentPosition(midItem.el)
+    if (bitmask === Node.DOCUMENT_POSITION_PRECEDING) {
+      start = mid + 1
+    } else if (bitmask === Node.DOCUMENT_POSITION_FOLLOWING) {
+      end = mid - 1
+    }
+  }
+
+  const index = end + 1
+  if (items.value.length === index) items.value.push(item)
+  else items.value.splice(index, -1, item)
 }
 
 function removeItem(uid?: number) {
@@ -328,34 +347,15 @@ onMounted(async () => {
   useMutationObserver(
     itemsContainer,
     (mutations) => {
+      const mayMovedItems = new WeakMap()
       mutations.forEach((record) => {
-        const item = itemsMap.get(record.addedNodes[0])
-        const removeItem = itemsMap.get(record.removedNodes[0])
-        if (removeItem) {
-          const spliceIndex = items.value.indexOf(removeItem)
-          if (spliceIndex !== -1) {
-            items.value.splice(spliceIndex, 1)
-          }
-        }
-        if (item) {
-          // get insert position with binary search
-          let start = 0
-          let end = items.value.length - 1
-
-          while (start <= end) {
-            const mid = Math.floor((start + end) / 2)
-            const midItem = items.value[mid]
-            const bitmask = item.el.compareDocumentPosition(midItem.el)
-            if (bitmask === Node.DOCUMENT_POSITION_PRECEDING) {
-              start = mid + 1
-            } else if (bitmask === Node.DOCUMENT_POSITION_FOLLOWING) {
-              end = mid - 1
-            }
-          }
-
-          const index = end + 1
-          if (items.value.length === index) items.value.push(item)
-          else items.value.splice(index, -1, item)
+        const detachedItem = itemsMap.get(record.removedNodes[0])
+        if (detachedItem) {
+          mayMovedItems.set(record.removedNodes[0], detachedItem)
+        } else if (mayMovedItems.has(record.addedNodes[0])) {
+          const item = mayMovedItems.get(record.addedNodes[0])
+          removeItem(item.uid)
+          addItem(item)
         }
       })
     },

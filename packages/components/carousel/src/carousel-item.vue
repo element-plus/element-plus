@@ -189,7 +189,7 @@ onMounted(() => {
     }),
     uid: instance.uid,
     translateItem,
-    el: carouselItemRef.value as Node,
+    el: instance.vnode.el! as HTMLElement,
   })
 })
 
