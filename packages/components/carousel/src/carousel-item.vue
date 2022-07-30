@@ -48,7 +48,7 @@ const carouselContext = inject(carouselContextKey)!
 // instance
 const instance = getCurrentInstance()!
 
-const carouselItemRef = ref<Node>()
+const carouselItemRef = ref<HTMLDivElement>()
 
 if (!carouselContext) {
   debugWarn(
@@ -189,7 +189,7 @@ onMounted(() => {
     }),
     uid: instance.uid,
     translateItem,
-    el: instance.vnode.el! as HTMLElement,
+    el: carouselItemRef.value!,
   })
 })
 
