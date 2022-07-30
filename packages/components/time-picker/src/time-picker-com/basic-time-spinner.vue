@@ -232,10 +232,7 @@ const scrollDown = (step: number) => {
   let now = unref(timePartials)[label]
   const total = currentScrollbar.value === 'hours' ? 24 : 60
   now = (now + step + total) % total
-
-  if (props.arrowControl) {
-    now = findNextUnDisabled(label, now, step, total)
-  }
+  now = findNextUnDisabled(label, now, step, total)
   modifyDateField(label, now)
   adjustSpinner(label, now)
   nextTick(() => emitSelectRange(label))
@@ -246,7 +243,7 @@ const findNextUnDisabled = (
   step: number,
   total: number
 ) => {
-  let res: number = value
+  let res = value
   const list = unref(timeList)[type]
   let isDisabled: boolean = list[value]
   if (isDisabled) {
