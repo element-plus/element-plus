@@ -47,7 +47,7 @@ describe('Tabs.vue', () => {
       activeName.value = tab.paneName
     }
     const wrapper = mount(() => (
-      <Tabs model-value={activeName.value} onTabClick={handleClick}>
+      <Tabs v-model={activeName.value} onTabClick={handleClick}>
         <TabPane name="a" label="label-1">
           A
         </TabPane>
@@ -642,7 +642,7 @@ describe('Tabs.vue', () => {
       activeName.value = tab.paneName
     }
     const wrapper = mount(() => (
-      <Tabs model-value={activeName.value} onTabClick={handleClick}>
+      <Tabs v-model={activeName.value} onTabClick={handleClick}>
         <TabPane name={0} label="label-1">
           A
         </TabPane>
