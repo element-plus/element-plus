@@ -96,7 +96,7 @@ const ns = useNamespace('carousel')
 const COMPONENT_NAME = 'ElCarousel'
 const THROTTLE_TIME = 300
 
-const itemsMap = new WeakMap()
+const itemsMap: WeakMap<Node, CarouselItemContext> = new WeakMap()
 
 // refs
 const activeIndex = ref(-1)
@@ -347,16 +347,22 @@ onMounted(async () => {
   useMutationObserver(
     itemsContainer,
     (mutations) => {
-      const mayMovedItems = new WeakMap()
+      const mayMovedItems = new Map()
+      const movedItems: CarouselItemContext[] = []
       mutations.forEach((record) => {
         const detachedItem = itemsMap.get(record.removedNodes[0])
         if (detachedItem) {
           mayMovedItems.set(record.removedNodes[0], detachedItem)
         } else if (mayMovedItems.has(record.addedNodes[0])) {
-          const item = mayMovedItems.get(record.addedNodes[0])
-          removeItem(item.uid)
-          addItem(item)
+          const item = mayMovedItems.get(record.addedNodes[0])!
+          movedItems.push(item)
         }
+      })
+      movedItems.forEach((item) => {
+        removeItem(item.uid)
+      })
+      movedItems.forEach((item) => {
+        addItem(item)
       })
     },
     { childList: true }
