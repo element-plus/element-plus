@@ -46,6 +46,7 @@ function useStyle<T>(
   const tableScrollHeight = ref(0)
   const bodyScrollHeight = ref(0)
   const headerScrollHeight = ref(0)
+  const footerScrollHeight = ref(0)
 
   watchEffect(() => {
     layout.setHeight(props.height)
@@ -201,9 +202,10 @@ function useStyle<T>(
     }
   }
   const resizeListener = () => {
-    if (!table.$ready) return
-    let shouldUpdateLayout = false
     const el = table.vnode.el
+    if (!table.$ready || !el) return
+
+    let shouldUpdateLayout = false
     const {
       width: oldWidth,
       height: oldHeight,
@@ -220,20 +222,27 @@ function useStyle<T>(
       shouldUpdateLayout = true
     }
 
-    const tableHeader: HTMLElement = table.refs.headerWrapper
-    if (props.showHeader && tableHeader.offsetHeight !== oldHeaderHeight) {
+    const tableHeader: HTMLElement =
+      props.tableLayout === 'fixed'
+        ? table.refs.headerWrapper
+        : table.refs.tableHeaderRef?.$el
+    if (props.showHeader && tableHeader?.offsetHeight !== oldHeaderHeight) {
       shouldUpdateLayout = true
     }
 
-    tableScrollHeight.value = table.refs.tableWrapper.scrollHeight
-    headerScrollHeight.value = table.refs.headerWrapper?.scrollHeight || 0
-    bodyScrollHeight.value = tableScrollHeight.value - headerScrollHeight.value
+    tableScrollHeight.value = table.refs.tableWrapper?.scrollHeight || 0
+    headerScrollHeight.value = tableHeader?.scrollHeight || 0
+    footerScrollHeight.value = table.refs.footerWrapper?.scrollHeight || 0
+    bodyScrollHeight.value =
+      tableScrollHeight.value -
+      headerScrollHeight.value -
+      footerScrollHeight.value
 
     if (shouldUpdateLayout) {
       resizeState.value = {
         width,
         height,
-        headerHeight: props.showHeader ? tableHeader.offsetHeight : null,
+        headerHeight: (props.showHeader && tableHeader?.offsetHeight) || 0,
       }
       doLayout()
     }
@@ -291,16 +300,21 @@ function useStyle<T>(
     if (props.maxHeight) {
       if (!Number.isNaN(Number(props.maxHeight))) {
         const headerHeight = table.refs.headerWrapper?.scrollHeight || 0
+        const footerHeight = table.refs.footerWrapper?.scrollHeight || 0
         const maxHeight = props.maxHeight
         const reachMaxHeight = tableScrollHeight.value >= Number(maxHeight)
         if (reachMaxHeight) {
           return {
-            maxHeight: `${tableScrollHeight.value - headerHeight}px`,
+            maxHeight: `${
+              tableScrollHeight.value - headerHeight - footerHeight
+            }px`,
           }
         }
       } else {
         return {
-          maxHeight: `calc(${props.maxHeight} - ${headerScrollHeight.value}px)`,
+          maxHeight: `calc(${props.maxHeight} - ${
+            headerScrollHeight.value + footerScrollHeight.value
+          }px)`,
         }
       }
     }

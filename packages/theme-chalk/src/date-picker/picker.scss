@@ -98,7 +98,8 @@
     border: none;
     outline: none;
     display: inline-block;
-    height: 100%;
+    height: #{map.get($input-height, 'default') - 2};
+    line-height: #{map.get($input-height, 'default') - 2};
     margin: 0;
     padding: 0;
     width: 39%;
@@ -154,10 +155,6 @@
     padding: 0 10px;
   }
 
-  .#{$namespace}-range-input {
-    line-height: 1;
-  }
-
   @include when(active) {
     @include inset-input-border(#{getCssVar('input', 'focus-border-color')});
     &:hover {
@@ -179,6 +176,8 @@
       }
 
       .#{$namespace}-range-input {
+        height: #{map.get($input-height, $size) - 2};
+        line-height: #{map.get($input-height, $size) - 2};
         font-size: map.get($input-font-size, $size);
       }
     }

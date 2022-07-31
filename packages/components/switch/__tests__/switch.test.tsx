@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { markRaw, nextTick } from 'vue'
+import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
@@ -19,15 +19,14 @@ describe('Switch.vue', () => {
   })
 
   test('create', () => {
-    const wrapper = mount(Switch, {
-      props: {
-        activeText: 'on',
-        inactiveText: 'off',
-        activeColor: '#0f0',
-        inactiveColor: '#f00',
-        width: 100,
-      },
-    })
+    const props = {
+      activeText: 'on',
+      inactiveText: 'off',
+      activeColor: '#0f0',
+      inactiveColor: '#f00',
+      width: 100,
+    }
+    const wrapper = mount(() => <Switch {...props} />)
     const vm = wrapper.vm
     expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
       '#0f0'
@@ -43,34 +42,25 @@ describe('Switch.vue', () => {
   })
 
   test('size', () => {
-    const wrapper = mount(Switch, {
-      props: {
-        size: 'large',
-      },
-    })
+    const wrapper = mount(() => <Switch size="large" />)
     expect(wrapper.find('.el-switch--large').exists()).toBe(true)
   })
 
   test('tabindex', () => {
-    const wrapper = mount(Switch, {
-      props: {
-        tabindex: '0',
-      },
-    })
+    const wrapper = mount(() => <Switch tabindex="0" />)
     expect(wrapper.find('.el-switch__input').attributes().tabindex).toBe('0')
   })
 
   test('inline prompt', () => {
-    const wrapper = mount(Switch, {
-      props: {
-        inlinePrompt: true,
-        activeText: 'on',
-        inactiveText: 'off',
-        activeColor: '#0f0',
-        inactiveColor: '#f00',
-        width: 100,
-      },
-    })
+    const props = {
+      inlinePrompt: true,
+      activeText: 'on',
+      inactiveText: 'off',
+      activeColor: '#0f0',
+      inactiveColor: '#f00',
+      width: 100,
+    }
+    const wrapper = mount(() => <Switch {...props} />)
     const vm = wrapper.vm
     expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
       '#0f0'
@@ -86,34 +76,21 @@ describe('Switch.vue', () => {
   })
 
   test('switch with icons', () => {
-    const wrapper = mount(Switch, {
-      props: {
-        activeIcon: markRaw(Checked),
-        inactiveIcon: markRaw(CircleClose),
-      },
-    })
+    const wrapper = mount(() => (
+      <Switch
+        activeIcon={markRaw(Checked)}
+        inactiveIcon={markRaw(CircleClose)}
+      />
+    ))
 
     expect(wrapper.findComponent(Checked).exists()).toBe(true)
   })
 
   test('value correctly update', async () => {
-    const wrapper = mount({
-      components: {
-        'el-switch': Switch,
-      },
-      template: `
-        <el-switch
-          v-model="value"
-          activeColor="#0f0"
-          inactiveColor="#f00">
-        </el-switch>
-      `,
-      data() {
-        return {
-          value: true,
-        }
-      },
-    })
+    const value = ref(true)
+    const wrapper = mount(() => (
+      <Switch v-model={value.value} activeColor="#0f0" inactiveColor="#f00" />
+    ))
     const vm = wrapper.vm
     expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
       '#0f0'
@@ -125,136 +102,85 @@ describe('Switch.vue', () => {
     const coreWrapper = wrapper.find('.el-switch__core')
     await coreWrapper.trigger('click')
     expect(vm.$el.classList.contains('is-checked')).false
-    expect(vm.value).toEqual(false)
+    expect(value.value).toEqual(false)
     await coreWrapper.trigger('click')
     expect(vm.$el.classList.contains('is-checked')).true
-    expect(vm.value).toEqual(true)
+    expect(value.value).toEqual(true)
   })
 
   test('change event', async () => {
-    const wrapper = mount({
-      components: {
-        'el-switch': Switch,
-      },
-      template: `
-        <div>
-          <el-switch
-            v-model="value"
-            @update:modelValue="handleChange">
-          </el-switch>
-        </div>
-      `,
-      methods: {
-        handleChange(val: boolean) {
-          this.target = val
-        },
-      },
-      data() {
-        return {
-          target: 1,
-          value: true,
-        }
-      },
-    })
-    const vm = wrapper.vm
+    const target = ref(1)
+    const value = ref(true)
+    const handleChange = (val: boolean) => {
+      target.value = val
+    }
+    const wrapper = mount(() => (
+      <Switch v-model={value.value} onUpdate:modelValue={handleChange} />
+    ))
 
-    expect(vm.target).toEqual(1)
+    expect(target.value).toEqual(1)
     const coreWrapper = wrapper.find('.el-switch__core')
     await coreWrapper.trigger('click')
     const switchWrapper = wrapper.findComponent(Switch)
     expect(switchWrapper.emitted()['update:modelValue']).toBeTruthy()
-    expect(vm.target).toEqual(false)
+    expect(target.value).toEqual(false)
   })
 
   test('disabled switch should not respond to user click', async () => {
-    const wrapper = mount({
-      components: {
-        'el-switch': Switch,
-      },
-      template: `
-        <div>
-          <el-switch disabled v-model="value"></el-switch>
-        </div>
-      `,
-      data() {
-        return {
-          value: true,
-        }
-      },
-    })
-    const vm = wrapper.vm
+    const value = ref(true)
+    const wrapper = mount(() => <Switch disabled v-model={value.value} />)
 
-    expect(vm.value).toEqual(true)
+    expect(value.value).toEqual(true)
     const coreWrapper = wrapper.find('.el-switch__core')
     await coreWrapper.trigger('click')
-    expect(vm.value).toEqual(true)
+    expect(value.value).toEqual(true)
   })
 
   test('expand switch value', async () => {
-    const wrapper = mount({
-      components: {
-        'el-switch': Switch,
-      },
-      template: `
-        <div>
-          <el-switch v-model="value" :active-value="onValue" :inactive-value="offValue"></el-switch>
-        </div>
-      `,
-      data() {
-        return {
-          value: '100',
-          onValue: '100',
-          offValue: '0',
-        }
-      },
-    })
-    const vm = wrapper.vm
+    const value = ref('100')
+    const onValue = ref('100')
+    const offValue = ref('0')
+    const wrapper = mount(() => (
+      <div>
+        <Switch
+          v-model={value.value}
+          active-value={onValue.value}
+          inactive-value={offValue.value}
+        />
+      </div>
+    ))
 
     const coreWrapper = wrapper.find('.el-switch__core')
     await coreWrapper.trigger('click')
-    expect(vm.value).toEqual('0')
+    expect(value.value).toEqual('0')
     await coreWrapper.trigger('click')
-    expect(vm.value).toEqual('100')
+    expect(value.value).toEqual('100')
   })
 
   test('default switch active-value is false', async () => {
-    const wrapper = mount({
-      components: {
-        'el-switch': Switch,
-      },
-      template: `
-        <div>
-          <el-switch v-model="value" :active-value="onValue" :inactive-value="offValue"></el-switch>
-        </div>
-      `,
-      data() {
-        return {
-          value: false,
-          onValue: false,
-          offValue: true,
-        }
-      },
-    })
-    const vm = wrapper.vm
+    const value = ref(false)
+    const onValue = ref(false)
+    const offValue = ref(true)
+    const wrapper = mount(() => (
+      <div>
+        <Switch
+          v-model={value.value}
+          active-value={onValue.value}
+          inactive-value={offValue.value}
+        />
+      </div>
+    ))
 
     const coreWrapper = wrapper.find('.el-switch__core')
     await coreWrapper.trigger('click')
-    expect(vm.value).toEqual(true)
+    expect(value.value).toEqual(true)
     await coreWrapper.trigger('click')
-    expect(vm.value).toEqual(false)
+    expect(value.value).toEqual(false)
   })
 
   test('value is the single source of truth', async () => {
-    const wrapper = mount({
-      components: {
-        'el-switch': Switch,
-      },
-      template: `
-        <div>
-          <el-switch :value="true"></el-switch>
-        </div>
-      `,
-    })
+    const wrapper = mount(() => <Switch value={true} />)
+
     const vm = wrapper.vm
     const coreWrapper = wrapper.find('.el-switch__core')
     const switchWrapper: VueWrapper<SwitchInstance> =
@@ -272,16 +198,8 @@ describe('Switch.vue', () => {
   })
 
   test('model-value is the single source of truth', async () => {
-    const wrapper = mount({
-      components: {
-        'el-switch': Switch,
-      },
-      template: `
-        <div>
-          <el-switch :model-value="true"></el-switch>
-        </div>
-      `,
-    })
+    const wrapper = mount(() => <Switch model-value={true} />)
+
     const vm = wrapper.vm
     const coreWrapper = wrapper.find('.el-switch__core')
     const switchWrapper: VueWrapper<SwitchInstance> =
@@ -299,68 +217,47 @@ describe('Switch.vue', () => {
   })
 
   test('sets checkbox value', async () => {
-    const wrapper = mount({
-      components: {
-        'el-switch': Switch,
-      },
-      template: `
-        <div>
-          <el-switch v-model="value"></el-switch>
-        </div>
-      `,
-      data() {
-        return {
-          value: false,
-        }
-      },
-    })
+    const value = ref(false)
+    const wrapper = mount(() => (
+      <div>
+        <Switch v-model={value.value} />
+      </div>
+    ))
     const vm = wrapper.vm
     const inputEl = vm.$el.querySelector('input')
 
-    vm.value = true
+    value.value = true
     await vm.$nextTick()
     expect(inputEl.checked).toEqual(true)
-    vm.value = false
+    value.value = false
     await vm.$nextTick()
     expect(inputEl.checked).toEqual(false)
   })
 
   test('beforeChange function return promise', async () => {
-    const wrapper = mount({
-      components: {
-        'el-switch': Switch,
-      },
-      template: `
-        <div>
-          <el-switch
-            v-model="value"
-            :loading="loading"
-            :before-change="beforeChange"
-          />
-        </div>
-      `,
-      data() {
-        return {
-          value: true,
-          loading: false,
-          asyncResult: 'error',
-        }
-      },
-      methods: {
-        beforeChange() {
-          this.loading = true
-          return new Promise((resolve, reject) => {
-            setTimeout(() => {
-              this.loading = false
-              return this.asyncResult == 'success'
-                ? resolve(true)
-                : reject(new Error('Error'))
-            }, 1000)
-          })
-        },
-      },
-    })
-    const vm = wrapper.vm
+    const value = ref(true)
+    const loading = ref(false)
+    const asyncResult = ref('error')
+    const beforeChange = () => {
+      loading.value = true
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          loading.value = false
+          return asyncResult.value == 'success'
+            ? resolve(true)
+            : reject(new Error('Error'))
+        }, 1000)
+      })
+    }
+    const wrapper = mount(() => (
+      <div>
+        <Switch
+          v-model={value.value}
+          loading={loading.value}
+          beforeChange={beforeChange}
+        />
+      </div>
+    ))
 
     const coreWrapper = wrapper.find('.el-switch__core')
 
@@ -369,77 +266,58 @@ describe('Switch.vue', () => {
     await coreWrapper.trigger('click')
     vi.runAllTimers()
     await nextTick()
-    expect(vm.value).toEqual(true)
+    expect(value.value).toEqual(true)
     expect(debugWarn).toHaveBeenCalledTimes(0)
 
-    vm.asyncResult = 'success'
+    asyncResult.value = 'success'
 
     await coreWrapper.trigger('click')
     vi.runAllTimers()
     await nextTick()
-    expect(vm.value).toEqual(false)
+    expect(value.value).toEqual(false)
     expect(debugWarn).toHaveBeenCalledTimes(1)
 
     await coreWrapper.trigger('click')
     vi.runAllTimers()
     await nextTick()
-    expect(vm.value).toEqual(true)
+    expect(value.value).toEqual(true)
     expect(debugWarn).toHaveBeenCalledTimes(1)
   })
 
   test('beforeChange function return boolean', async () => {
-    const wrapper = mount({
-      components: {
-        'el-switch': Switch,
-      },
-      template: `
-        <div>
-          <el-switch
-            v-model="value"
-            :before-change="beforeChange"
-          />
-        </div>
-      `,
-      data() {
-        return {
-          value: true,
-          result: false,
-        }
-      },
-      methods: {
-        beforeChange() {
-          // do something ...
-          return this.result
-        },
-      },
-    })
-    const vm = wrapper.vm
+    const value = ref(true)
+    const result = ref(false)
+    const beforeChange = () => {
+      // do something ...
+      return result.value
+    }
+    const wrapper = mount(() => (
+      <div>
+        <Switch v-model={value.value} beforeChange={beforeChange} />
+      </div>
+    ))
 
     const coreWrapper = wrapper.find('.el-switch__core')
 
     await coreWrapper.trigger('click')
-    expect(vm.value).toEqual(true)
+    expect(value.value).toEqual(true)
 
-    vm.result = true
-
-    await coreWrapper.trigger('click')
-    expect(vm.value).toEqual(false)
+    result.value = true
 
     await coreWrapper.trigger('click')
-    expect(vm.value).toEqual(true)
+    expect(value.value).toEqual(false)
+
+    await coreWrapper.trigger('click')
+    expect(value.value).toEqual(true)
   })
 
   describe('form item accessibility integration', () => {
     test('automatic id attachment', async () => {
-      const wrapper = mount({
-        template: `<el-form-item label="Foobar" data-test-ref="item">
-            <el-switch />
-          </el-form-item>`,
-        components: {
-          'el-switch': Switch,
-          'el-form-item': ElFormItem,
-        },
-      })
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <Switch />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -450,15 +328,11 @@ describe('Switch.vue', () => {
     })
 
     test('specified id attachment', async () => {
-      const wrapper = mount({
-        template: `<el-form-item label="Foobar" data-test-ref="item">
-            <el-switch id="foobar" />
-          </el-form-item>`,
-        components: {
-          'el-switch': Switch,
-          'el-form-item': ElFormItem,
-        },
-      })
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <Switch id="foobar" />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -470,16 +344,12 @@ describe('Switch.vue', () => {
     })
 
     test('form item role is group when multiple inputs', async () => {
-      const wrapper = mount({
-        template: `<el-form-item label="Foobar" data-test-ref="item">
-            <el-switch />
-            <el-switch />
-          </el-form-item>`,
-        components: {
-          'el-switch': Switch,
-          'el-form-item': ElFormItem,
-        },
-      })
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <Switch />
+          <Switch />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')

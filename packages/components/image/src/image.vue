@@ -207,6 +207,7 @@ function clickHandler() {
   prevOverflow = document.body.style.overflow
   document.body.style.overflow = 'hidden'
   showViewer.value = true
+  emit('show')
 }
 
 function closeViewer() {
