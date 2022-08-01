@@ -96,6 +96,7 @@ const isPictureCard = computed(() => props.listType === 'picture-card')
 
 const uploadContentProps = computed<UploadContentProps>(() => ({
   ...props,
+  fileList: uploadFiles.value,
   onStart: handleStart,
   onProgress: handleProgress,
   onSuccess: handleSuccess,
