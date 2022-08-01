@@ -238,27 +238,23 @@ const scrollDown = (step: number) => {
 }
 const findNextUnDisabled = (
   type: TimeUnit,
-  value: number,
+  now: number,
   step: number,
   total: number
 ) => {
-  let res = (value + step + total) % total
+  let next = (now + step + total) % total
   const list = unref(timeList)[type]
-  const listSet = new Set(list)
-  if (listSet.size === 1 && listSet.has(true)) {
-    return res
-  }
-  let isDisabled = list[res]
+  let isDisabled = list[next]
   if (isDisabled) {
     while (isDisabled) {
-      if (!list[res]) {
+      if (!list[next] || next === now) {
         isDisabled = false
         break
       }
-      res = (res + step + total) % total
+      next = (next + step + total) % total
     }
   }
-  return res
+  return next
 }
 const modifyDateField = (type: TimeUnit, value: number) => {
   const list = unref(timeList)[type]
