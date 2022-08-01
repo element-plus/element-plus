@@ -43,6 +43,6 @@ export default function (element: HTMLElement, options: IOptions) {
     options.start?.(event)
   }
 
-  document.addEventListener('mousedown', downFn)
-  document.addEventListener('touchstart', downFn)
+  element.addEventListener('mousedown', downFn)
+  element.addEventListener('touchstart', downFn)
 }

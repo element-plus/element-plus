@@ -19,7 +19,13 @@ import { componentSizes } from '@element-plus/constants'
 import Item from './item'
 import { useSpace } from './use-space'
 
-import type { ExtractPropTypes, StyleValue, VNode, VNodeChild } from 'vue'
+import type {
+  ExtractPropTypes,
+  StyleValue,
+  VNode,
+  VNodeArrayChildren,
+  VNodeChild,
+} from 'vue'
 import type { AlignItemsProperty } from 'csstype'
 
 export const spaceProps = buildProps({
@@ -88,30 +94,33 @@ export default defineComponent({
   setup(props, { slots }) {
     const { classes, containerStyle, itemStyle } = useSpace(props)
 
-    return () => {
-      const { spacer, prefixCls, direction } = props
-
-      const children = renderSlot(slots, 'default', { key: 0 }, () => [])
-      // retrieve the children out via a simple for loop
-      // the edge case here is that when users uses directives like <v-for>, <v-if>
-      // we need to go one layer deeper
-
-      if ((children.children ?? []).length === 0) return null
-
-      // loop the children, if current children is rendered via `renderList` or `<v-for>`
-      if (isArray(children.children)) {
-        let extractedChildren: VNode[] = []
-        children.children.forEach((child, loopKey) => {
-          if (isFragment(child)) {
-            if (isArray(child.children)) {
-              child.children.forEach((nested, key) => {
+    // retrieve the children out via a simple for loop
+    // the edge case here is that when users uses directives like <v-for>, <v-if>
+    // we need to go deeper until the child is not the Fragment type
+    function extractChildren(
+      children: VNodeArrayChildren,
+      parentKey = '',
+      extractedChildren: VNode[] = []
+    ) {
+      const { prefixCls } = props
+      children.forEach((child, loopKey) => {
+        if (isFragment(child)) {
+          if (isArray(child.children)) {
+            child.children.forEach((nested, key) => {
+              if (isFragment(nested) && isArray(nested.children)) {
+                extractChildren(
+                  nested.children,
+                  `${parentKey + key}-`,
+                  extractedChildren
+                )
+              } else {
                 extractedChildren.push(
                   createVNode(
                     Item,
                     {
                       style: itemStyle.value,
                       prefixCls,
-                      key: `nested-${key}`,
+                      key: `nested-${parentKey + key}`,
                     },
                     {
                       default: () => [nested],
@@ -120,28 +129,42 @@ export default defineComponent({
                     ['style', 'prefixCls']
                   )
                 )
-              })
-            }
-            // if the current child is valid vnode, then append this current vnode
-            // to item as child node.
-          } else if (isValidElementNode(child)) {
-            extractedChildren.push(
-              createVNode(
-                Item,
-                {
-                  style: itemStyle.value,
-                  prefixCls,
-                  key: `LoopKey${loopKey}`,
-                },
-                {
-                  default: () => [child],
-                },
-                PatchFlags.PROPS | PatchFlags.STYLE,
-                ['style', 'prefixCls']
-              )
-            )
+              }
+            })
           }
-        })
+          // if the current child is valid vnode, then append this current vnode
+          // to item as child node.
+        } else if (isValidElementNode(child)) {
+          extractedChildren.push(
+            createVNode(
+              Item,
+              {
+                style: itemStyle.value,
+                prefixCls,
+                key: `LoopKey${parentKey + loopKey}`,
+              },
+              {
+                default: () => [child],
+              },
+              PatchFlags.PROPS | PatchFlags.STYLE,
+              ['style', 'prefixCls']
+            )
+          )
+        }
+      })
+
+      return extractedChildren
+    }
+
+    return () => {
+      const { spacer, direction } = props
+
+      const children = renderSlot(slots, 'default', { key: 0 }, () => [])
+
+      if ((children.children ?? []).length === 0) return null
+      // loop the children, if current children is rendered via `renderList` or `<v-for>`
+      if (isArray(children.children)) {
+        let extractedChildren = extractChildren(children.children)
 
         if (spacer) {
           // track the current rendering index, when encounters the last element

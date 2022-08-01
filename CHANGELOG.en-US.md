@@ -1,5 +1,27 @@
 ## Changelog
 
+### 2.2.12
+
+_2022-08-01_
+
+#### Bug fixes
+
+- Components [color-picker] element event binding error (#9061 by @btea)
+- Components [menu] expand active menu item (#9069 by @holazz)
+- Theme-chalk [message] long test support newline (#9074 by @Tsong-LC)
+- Components [notification] correct offset value (#9080 by @holazz)
+- Components [table] header scroll height error (#9063 by @tolking)
+- Components [carousel] reset the timer (#8388 by @Tsong-LC)
+- Hooks [use-namespace] exclude invalid CSS variables (#8905 by @tolking)
+- Components [space] extract nested fragment children (#8992 by @HeftyKoo)
+- Style(theme-chalk): message flexable (#9087 by @kooriookami)
+- Style: vertical menu (#9104 by @xiaoxian521)
+
+#### Refactors
+
+- Components [switch] use JSX in Unit test (#9052 by @Tsong-LC)
+- Components [time-select] use JSX in Unit test (#9101 by @Tsong-LC)
+
 ### 2.2.11
 
 _2022-07-27_
