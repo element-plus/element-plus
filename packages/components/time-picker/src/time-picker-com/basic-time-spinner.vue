@@ -229,13 +229,15 @@ const scrollDown = (step: number) => {
   }
 
   const label = currentScrollbar.value!
-  let now = unref(timePartials)[label]
+  const now = unref(timePartials)[label]
   const total = currentScrollbar.value === 'hours' ? 24 : 60
-  now = findNextUnDisabled(label, now, step, total)
-  modifyDateField(label, now)
-  adjustSpinner(label, now)
+  const next = findNextUnDisabled(label, now, step, total)
+
+  modifyDateField(label, next)
+  adjustSpinner(label, next)
   nextTick(() => emitSelectRange(label))
 }
+
 const findNextUnDisabled = (
   type: TimeUnit,
   now: number,
@@ -244,18 +246,12 @@ const findNextUnDisabled = (
 ) => {
   let next = (now + step + total) % total
   const list = unref(timeList)[type]
-  let isDisabled = list[next]
-  if (isDisabled) {
-    while (isDisabled) {
-      if (!list[next] || next === now) {
-        isDisabled = false
-        break
-      }
-      next = (next + step + total) % total
-    }
+  while (list[next] && next !== now) {
+    next = (next + step + total) % total
   }
   return next
 }
+
 const modifyDateField = (type: TimeUnit, value: number) => {
   const list = unref(timeList)[type]
   const isDisabled = list[value]
