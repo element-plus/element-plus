@@ -387,6 +387,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    strictMode: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,

@@ -70,11 +70,20 @@ export function useOption(props, states) {
   }
 
   const isEqual = (a: unknown, b: unknown) => {
-    if (!isObject.value) {
-      return a === b
+    if (props.strictMode) {
+      if (!isObject.value) {
+        return a === b
+      } else {
+        const { valueKey } = select.props
+        return get(a, valueKey) === get(b, valueKey)
+      }
     } else {
-      const { valueKey } = select.props
-      return get(a, valueKey) === get(b, valueKey)
+      if (!isObject.value) {
+        return a == b
+      } else {
+        const { valueKey } = select.props
+        return get(a, valueKey) == get(b, valueKey)
+      }
     }
   }
 

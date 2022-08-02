@@ -467,12 +467,24 @@ export const useSelect = (props, states: States, ctx) => {
     const isObjectValue = toRawType(value).toLowerCase() === 'object'
     const isNull = toRawType(value).toLowerCase() === 'null'
     const isUndefined = toRawType(value).toLowerCase() === 'undefined'
-
+    function isStrictMode(cachedOption) {
+      let isEqualValue
+      if (props.strictMode) {
+        const resultLeft = get(cachedOption.value, props.valueKey)
+        const resultRight = get(value, props.valueKey)
+        isEqualValue = isObjectValue
+          ? resultLeft === resultRight
+          : cachedOption.value === value
+      } else {
+        isEqualValue = isObjectValue
+          ? resultLeft == resultRight
+          : cachedOption.value == value
+      }
+      return isEqualValue
+    }
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
-      const isEqualValue = isObjectValue
-        ? get(cachedOption.value, props.valueKey) === get(value, props.valueKey)
-        : cachedOption.value === value
+      const isEqualValue = isStrictMode(cachedOption)
       if (isEqualValue) {
         option = {
           value,
