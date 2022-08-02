@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { computed, nextTick, ref, shallowRef, watch } from 'vue'
+import { isObject } from '@element-plus/utils'
 import {
   CURRENT_CHANGE,
   NODE_CLICK,
@@ -264,7 +265,7 @@ export function useTree(props: TreeProps, emit) {
   }
 
   function getNode(data: TreeKey | TreeNodeData) {
-    const key = typeof data !== 'object' ? data : getKey(data)
+    const key = isObject(data) ? getKey(data) : data
     return tree.value?.treeNodeMap.get(key)
   }
 
