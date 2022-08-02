@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
@@ -111,8 +110,8 @@ describe('Switch.vue', () => {
   test('change event', async () => {
     const target = ref(1)
     const value = ref(true)
-    const handleChange = (val: boolean) => {
-      target.value = val
+    const handleChange = (val: string | number | boolean) => {
+      target.value = val as number
     }
     const wrapper = mount(() => (
       <Switch v-model={value.value} onUpdate:modelValue={handleChange} />
@@ -185,7 +184,7 @@ describe('Switch.vue', () => {
     const coreWrapper = wrapper.find('.el-switch__core')
     const switchWrapper: VueWrapper<SwitchInstance> =
       wrapper.findComponent(Switch)
-    const switchVm = switchWrapper.vm
+    const switchVm: any = switchWrapper.vm
     const inputEl = vm.$el.querySelector('input')
 
     expect(switchVm.checked).toBe(true)
@@ -204,7 +203,7 @@ describe('Switch.vue', () => {
     const coreWrapper = wrapper.find('.el-switch__core')
     const switchWrapper: VueWrapper<SwitchInstance> =
       wrapper.findComponent(Switch)
-    const switchVm = switchWrapper.vm
+    const switchVm: any = switchWrapper.vm
     const inputEl = vm.$el.querySelector('input')
 
     expect(switchVm.checked).toBe(true)
@@ -238,7 +237,7 @@ describe('Switch.vue', () => {
     const value = ref(true)
     const loading = ref(false)
     const asyncResult = ref('error')
-    const beforeChange = () => {
+    const beforeChange: () => Promise<boolean> | boolean = () => {
       loading.value = true
       return new Promise((resolve, reject) => {
         setTimeout(() => {
