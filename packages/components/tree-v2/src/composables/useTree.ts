@@ -184,9 +184,9 @@ export function useTree(props: TreeProps, emit) {
   function toggleExpand(node: TreeNode) {
     const expandedKeys = expandedKeySet.value
     if (expandedKeys.has(node.key)) {
-      collapse(node)
+      collapseNode(node)
     } else {
-      expand(node)
+      expandNode(node)
     }
   }
 
@@ -212,9 +212,9 @@ export function useTree(props: TreeProps, emit) {
     toggleCheckbox(node, checked)
   }
 
-  function expand(node: TreeNode) {
+  function expandNode(node: TreeNode) {
     const keySet = expandedKeySet.value
-    if (tree?.value && props.accordion) {
+    if (tree.value && props.accordion) {
       // whether only one node among the same level can be expanded at one time
       const { treeNodeMap } = tree.value
       keySet.forEach((key) => {
@@ -228,7 +228,7 @@ export function useTree(props: TreeProps, emit) {
     emit(NODE_EXPAND, node.data, node)
   }
 
-  function collapse(node: TreeNode) {
+  function collapseNode(node: TreeNode) {
     expandedKeySet.value.delete(node.key)
     emit(NODE_COLLAPSE, node.data, node)
   }
@@ -248,7 +248,7 @@ export function useTree(props: TreeProps, emit) {
 
   function getCurrentNode(): TreeNodeData | undefined {
     if (!currentKey.value) return undefined
-    return tree?.value?.treeNodeMap.get(currentKey.value)?.data
+    return tree.value?.treeNodeMap.get(currentKey.value)?.data
   }
 
   function getCurrentKey(): TreeKey | undefined {
@@ -261,6 +261,11 @@ export function useTree(props: TreeProps, emit) {
 
   function setData(data: TreeData) {
     nextTick(() => (tree.value = createTree(data)))
+  }
+
+  function getNode(data: TreeKey | TreeNodeData) {
+    const key = typeof data !== 'object' ? data : getKey(data)
+    return tree.value?.treeNodeMap.get(key)
   }
 
   return {
@@ -291,5 +296,8 @@ export function useTree(props: TreeProps, emit) {
     setCheckedKeys,
     filter,
     setData,
+    getNode,
+    expandNode,
+    collapseNode,
   }
 }
