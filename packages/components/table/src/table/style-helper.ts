@@ -260,9 +260,10 @@ function useStyle<T>(
     return props.tableLayout
   })
 
-  const emptyBlockStyle = computed(() => {
+  const emptyBlockStyle = computed(async () => {
     if (props.data && props.data.length) return null
     let height = '100%'
+    await nextTick()
     if (bodyScrollHeight.value) {
       height = `${bodyScrollHeight.value}px`
     }
