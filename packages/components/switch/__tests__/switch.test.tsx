@@ -108,10 +108,10 @@ describe('Switch.vue', () => {
   })
 
   test('change event', async () => {
-    const target = ref(1)
+    const target = ref<string | number | boolean>(1)
     const value = ref(true)
     const handleChange = (val: string | number | boolean) => {
-      target.value = val as number
+      target.value = val
     }
     const wrapper = mount(() => (
       <Switch v-model={value.value} onUpdate:modelValue={handleChange} />
@@ -184,14 +184,14 @@ describe('Switch.vue', () => {
     const coreWrapper = wrapper.find('.el-switch__core')
     const switchWrapper: VueWrapper<SwitchInstance> =
       wrapper.findComponent(Switch)
-    const switchVm: any = switchWrapper.vm
+    const switchVm = switchWrapper.vm
     const inputEl = vm.$el.querySelector('input')
 
-    expect(switchVm.checked).toBe(true)
+    expect(switchVm.$.exposed?.checked.value).toBe(true)
     expect(switchWrapper.classes('is-checked')).toEqual(true)
     expect(inputEl.checked).toEqual(true)
     await coreWrapper.trigger('click')
-    expect(switchVm.checked).toBe(true)
+    expect(switchVm.$.exposed?.checked.value).toBe(true)
     expect(switchWrapper.classes('is-checked')).toEqual(true)
     expect(inputEl.checked).toEqual(true)
   })
@@ -203,14 +203,14 @@ describe('Switch.vue', () => {
     const coreWrapper = wrapper.find('.el-switch__core')
     const switchWrapper: VueWrapper<SwitchInstance> =
       wrapper.findComponent(Switch)
-    const switchVm: any = switchWrapper.vm
+    const switchVm = switchWrapper.vm
     const inputEl = vm.$el.querySelector('input')
 
-    expect(switchVm.checked).toBe(true)
+    expect(switchVm.$.exposed?.checked.value).toBe(true)
     expect(switchWrapper.classes('is-checked')).toEqual(true)
     expect(inputEl.checked).toEqual(true)
     await coreWrapper.trigger('click')
-    expect(switchVm.checked).toBe(true)
+    expect(switchVm.$.exposed?.checked.value).toBe(true)
     expect(switchWrapper.classes('is-checked')).toEqual(true)
     expect(inputEl.checked).toEqual(true)
   })
@@ -237,9 +237,9 @@ describe('Switch.vue', () => {
     const value = ref(true)
     const loading = ref(false)
     const asyncResult = ref('error')
-    const beforeChange: () => Promise<boolean> | boolean = () => {
+    const beforeChange = () => {
       loading.value = true
-      return new Promise((resolve, reject) => {
+      return new Promise<boolean>((resolve, reject) => {
         setTimeout(() => {
           loading.value = false
           return asyncResult.value == 'success'
