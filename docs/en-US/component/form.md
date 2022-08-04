@@ -138,7 +138,7 @@ form/accessibility
 | `inline-message`          | Whether to display the error message inline with the form item.                                                                | `boolean`                         | `false`   |
 | `status-icon`             | Whether to display an icon indicating the validation result.                                                                   | `boolean`                         | `false`   |
 | `validate-on-rule-change` | Whether to trigger validation when the `rules` prop is changed.                                                                | `boolean`                         | `true`    |
-| `size`                    | Control the size of components in this form.                                                                                   | `'large' \| 'default' \| 'small'` | —         |
+| `size`                    | Control the size of components in this form.                                                                                   | `'large' \| 'default' \| 'small'` | `'default'`        |
 | `disabled`                | Whether to disable all components in this form. If set to `true`, it will override the `disabled` prop of the inner component. | `boolean`                         | `false`   |
 | `scroll-to-error`         | When validation fails, scroll to the first error form entry.                                                                   | `boolean`                         | `false`   |
 
