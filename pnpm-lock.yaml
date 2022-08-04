@@ -59,7 +59,7 @@ importers:
       lodash-es: ^4.17.21
       lodash-unified: ^1.0.2
       memoize-one: ^6.0.0
-      normalize-wheel-es: ^1.1.2
+      normalize-wheel-es: ^1.2.0
       npm-run-all: ^4.1.5
       prettier: ^2.7.1
       pretty-quick: ^3.1.3
@@ -100,7 +100,7 @@ importers:
       lodash-es: 4.17.21
       lodash-unified: 1.0.2_3ib2ivapxullxkx3xftsimdk7u
       memoize-one: 6.0.0
-      normalize-wheel-es: 1.1.2
+      normalize-wheel-es: 1.2.0
     devDependencies:
       '@commitlint/cli': 17.0.3
       '@commitlint/config-conventional': 17.0.3
@@ -396,7 +396,7 @@ importers:
       lodash-es: ^4.17.21
       lodash-unified: ^1.0.2
       memoize-one: ^6.0.0
-      normalize-wheel-es: ^1.1.2
+      normalize-wheel-es: ^1.2.0
       vue: ^3.2.37
       vue-router: ^4.0.16
     dependencies:
@@ -414,7 +414,7 @@ importers:
       lodash-es: 4.17.21
       lodash-unified: 1.0.2_3ib2ivapxullxkx3xftsimdk7u
       memoize-one: 6.0.0
-      normalize-wheel-es: 1.1.2
+      normalize-wheel-es: 1.2.0
     devDependencies:
       '@types/node': 17.0.40
       csstype: 2.6.20
@@ -5260,7 +5260,7 @@ packages:
       lodash-es: 4.17.21
       lodash-unified: 1.0.2_3ib2ivapxullxkx3xftsimdk7u
       memoize-one: 6.0.0
-      normalize-wheel-es: 1.1.2
+      normalize-wheel-es: 1.2.0
       vue: 3.2.37
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -8575,8 +8575,8 @@ packages:
   /normalize-registry-url/2.0.0:
     resolution: {integrity: sha512-3e9FwDyRAhbxXw4slm4Tjv40u78yPwMc/WZkACpqNQOs5sM7wic853AeTLkMFEVhivZkclGYlse8iYsklz0Yvg==}
 
-  /normalize-wheel-es/1.1.2:
-    resolution: {integrity: sha512-scX83plWJXYH1J4+BhAuIHadROzxX0UBF3+HuZNY2Ks8BciE7tSTQ+5JhTsvzjaO0/EJdm4JBGrfObKxFf3Png==}
+  /normalize-wheel-es/1.2.0:
+    resolution: {integrity: sha512-Wj7+EJQ8mSuXr2iWfnujrimU35R2W4FAErEyTmJoJ7ucwTn2hOUSsRehMb5RSYkxXGTM7Y9QpvPmp++w5ftoJw==}
     dev: false
 
   /normalize.css/8.0.1:
@@ -11033,7 +11033,6 @@ packages:
       - rollup
       - vite
       - webpack
-    dev: false
 
   /unplugin/0.6.3:
     resolution: {integrity: sha512-CoW88FQfCW/yabVc4bLrjikN9HC8dEvMU4O7B6K2jsYMPK0l6iAnd9dpJwqGcmXJKRCU9vwSsy653qg+RK0G6A==}

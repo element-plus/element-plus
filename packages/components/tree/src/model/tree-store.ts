@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { hasOwn } from '@element-plus/utils'
+import { hasOwn, isObject } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'
 
@@ -109,7 +109,7 @@ export default class TreeStore {
 
   getNode(data: TreeKey | TreeNodeData): Node {
     if (data instanceof Node) return data
-    const key = typeof data !== 'object' ? data : getNodeKey(this.key, data)
+    const key = isObject(data) ? getNodeKey(this.key, data) : data
     return this.nodesMap[key] || null
   }
 

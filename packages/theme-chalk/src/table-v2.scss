@@ -222,6 +222,9 @@
     @include e('row') {
       overflow: hidden;
       align-items: stretch;
+      @include e('row-cell') {
+        word-break: break-all;
+      }
     }
   }
 }
