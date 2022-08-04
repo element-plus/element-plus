@@ -450,9 +450,7 @@ export default defineComponent({
           updatePopperPosition()
           nextTick(panel.value?.scrollToExpandingNode)
         } else if (props.filterable) {
-          const { value } = presentText
-          inputValue.value = value
-          searchInputValue.value = value
+          syncPresentTextValue()
         }
 
         emit('visible-change', visible)
@@ -636,7 +634,16 @@ export default defineComponent({
 
     const handleClear = () => {
       panel.value?.clearCheckedNodes()
+      if (!popperVisible.value && props.filterable) {
+        syncPresentTextValue()
+      }
       togglePopperVisible(false)
+    }
+
+    const syncPresentTextValue = () => {
+      const { value } = presentText
+      inputValue.value = value
+      searchInputValue.value = value
     }
 
     const handleSuggestionClick = (node: CascaderNode) => {
