@@ -29,15 +29,43 @@ describe('PageHeader.vue', () => {
     expect(wrapper.find('.el-page-header__icon').text()).toEqual(AXIOM)
   })
 
-  test('slot content', () => {
-    const wrapper = mount(() => (
-      <PageHeader
-        v-slots={{
-          content: () => AXIOM,
-        }}
-      />
-    ))
-    expect(wrapper.find('.el-page-header__content').text()).toEqual(AXIOM)
+  describe('slots', () => {
+    test('content', () => {
+      const wrapper = mount(() => (
+        <PageHeader
+          v-slots={{
+            content: () => AXIOM,
+          }}
+        />
+      ))
+      expect(wrapper.find('.el-page-header__content').text()).toEqual(AXIOM)
+    })
+
+    test('breadcrumb', () => {
+      const wrapper = mount(() => (
+        <PageHeader
+          v-slots={{
+            breadcrumb: () => AXIOM,
+          }}
+        />
+      ))
+      console.log(wrapper.classes())
+      expect(wrapper.find('.el-page-header__breadcrumb').exists()).toBe(true)
+      expect(wrapper.classes()).toContain('el-page-header--has-breadcrumb')
+    })
+
+    test('extra', () => {
+      const wrapper = mount(() => (
+        <PageHeader
+          v-slots={{
+            extra: () => AXIOM,
+          }}
+        />
+      ))
+      console.log(wrapper.classes())
+      expect(wrapper.find('.el-page-header__extra').exists()).toBe(true)
+      expect(wrapper.classes()).toContain('el-page-header--has-extra')
+    })
   })
 
   test('prop title', () => {
