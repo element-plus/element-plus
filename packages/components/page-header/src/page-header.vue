@@ -7,7 +7,10 @@
       <div :class="ns.e('left')">
         <div
           v-if="icon || $slots.icon"
+          :aria-label="title || t('el.pageHeader.title')"
           :class="ns.e('icon')"
+          role="button"
+          tabindex="0"
           @click="handleClick"
         >
           <slot name="icon">
