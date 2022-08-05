@@ -21,6 +21,10 @@
       margin-right: 40px;
       position: relative;
 
+      .#{$namespace}-divider--vertical {
+        margin: 0 16px;
+      }
+
       @include e(icon) {
         cursor: pointer;
         font-size: 16px;

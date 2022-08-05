@@ -1,5 +1,5 @@
 <template>
-  <el-page-header :icon="null" content="detail">
+  <el-page-header content="detail" @back="onBack">
     <template #breadcrumb>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: './page-header.html' }"
@@ -14,21 +14,19 @@
     <template #content>
       <div class="flex items-center">
         <el-avatar
-          class="mr-4"
+          class="mr-3"
+          :size="32"
           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
         />
-        <span class="text-large font-600 mr-4"> Title </span>
-        <span class="text-sm mr-4"> Sub title </span>
+        <span class="text-large font-600 mr-3"> Title </span>
+        <span class="text-sm mr-2"> Sub title </span>
         <el-tag type="primary">Default</el-tag>
       </div>
     </template>
     <template #extra>
       <div class="flex items-center">
-        <el-radio-group v-model="radio1" size="small">
-          <el-radio-button label="Action 1" />
-          <el-radio-button label="Action 2" />
-        </el-radio-group>
-        <el-button type="danger" size="small" class="ml-2">Delete</el-button>
+        <el-button>Print</el-button>
+        <el-button type="primary" class="ml-2">Edit</el-button>
       </div>
     </template>
 
@@ -44,15 +42,17 @@
       </el-descriptions-item>
     </el-descriptions>
     <p class="mt-4 text-sm">
-      Element Plus 团队在正常情况下使用 每周 发布策略， 但关键的 bug
-      修复将需要热修复，所以实际发布版本 可能 每周超过 1 次。
+      Element Plus 团队在正常情况下使用每周发布策略，但关键的 bug
+      修复将需要热修复，所以实际发布版本可能每周超过 1 次。
       在这个页面上，你只能看到我们最近更新的 30 条。
     </p>
   </el-page-header>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ElNotification as notify } from 'element-plus'
 
-const radio1 = ref('')
+const onBack = () => {
+  notify('Back')
+}
 </script>
