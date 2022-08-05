@@ -469,6 +469,63 @@ describe('TimePicker', () => {
       false
     )
   })
+
+  it.only('can auto skip when arrow control', async () => {
+    const disabledHoursArr = [
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
+    ]
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        :disabled-hours="disabledHours"
+        arrow-control
+      />`,
+      () => ({ value: new Date(2016, 9, 20, 18, 30) }),
+      {
+        methods: {
+          disabledHours() {
+            return disabledHoursArr
+          },
+        },
+      }
+    )
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    let activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+
+    expect(activeHours).toEqual(20)
+    const hoursElWrapperList = document.querySelectorAll(
+      '.el-time-spinner__wrapper'
+    )
+    const hoursElWrapper = hoursElWrapperList[0]
+    const hoursElArrowDown: Element | null =
+      hoursElWrapper.querySelector('.arrow-down')
+    expect(hoursElArrowDown).toBeTruthy()
+
+    const mousedownEvt = new MouseEvent('mousedown')
+    const mouseupEvt = new MouseEvent('mouseup')
+
+    const testTime = 130
+    hoursElArrowDown.dispatchEvent(mousedownEvt)
+    hoursElArrowDown.dispatchEvent(mouseupEvt)
+    await sleep(testTime)
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(21)
+    hoursElArrowDown.dispatchEvent(mousedownEvt)
+    hoursElArrowDown.dispatchEvent(mouseupEvt)
+    await sleep(testTime)
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(22)
+    hoursElArrowDown.dispatchEvent(new MouseEvent('mousedown'))
+    hoursElArrowDown.dispatchEvent(new MouseEvent('mouseup'))
+    await sleep(testTime)
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(20)
+  })
 })
 
 describe('TimePicker(range)', () => {
@@ -835,63 +892,5 @@ describe('TimePicker(range)', () => {
     const [startInput, endInput] = wrapper.findAll('input')
     expect(startInput.element.value).toBe('')
     expect(endInput.element.value).toBe('')
-  })
-
-  it('can auto skip when arrow control', async () => {
-    const disabledHoursArr = [
-      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
-    ]
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        :disabled-hours="disabledHours"
-        arrow-control
-      />`,
-      () => ({ value: new Date(2016, 9, 20, 18, 30) }),
-      {
-        methods: {
-          disabledHours() {
-            return disabledHoursArr
-          },
-        },
-      }
-    )
-    const input = wrapper.find('input')
-    input.trigger('focus')
-    await nextTick()
-
-    const list = document.querySelectorAll('.el-time-spinner__list')
-    const hoursEl = list[0]
-    let activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
-
-    expect(activeHours).toEqual(20)
-    const hoursElWrapperList = document.querySelectorAll(
-      '.el-time-spinner__wrapper'
-    )
-    const hoursElWrapper = hoursElWrapperList[0]
-    const hoursElArrowDown = hoursElWrapper.querySelector('.arrow-down')
-
-    const mousedownEvt = new MouseEvent('mousedown')
-    const mouseupEvt = new MouseEvent('mouseup')
-
-    const testTime = 130
-    ;(hoursElArrowDown as any).dispatchEvent(mousedownEvt)
-    ;(hoursElArrowDown as any).dispatchEvent(mouseupEvt)
-    await sleep(testTime)
-    await nextTick()
-    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
-    expect(activeHours).toEqual(21)
-    ;(hoursElArrowDown as any).dispatchEvent(mousedownEvt)
-    ;(hoursElArrowDown as any).dispatchEvent(mouseupEvt)
-    await sleep(testTime)
-    await nextTick()
-    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
-    expect(activeHours).toEqual(22)
-    ;(hoursElArrowDown as any).dispatchEvent(new MouseEvent('mousedown'))
-    ;(hoursElArrowDown as any).dispatchEvent(new MouseEvent('mouseup'))
-    await sleep(testTime)
-    await nextTick()
-    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
-    expect(activeHours).toEqual(20)
   })
 })
