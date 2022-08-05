@@ -68,6 +68,16 @@ page-header/additional-sections
 
 :::
 
+## Main content
+
+Sometimes we want the head to show with some co-responding content, we can utilize the `default` slot for doing so.
+
+:::demo
+
+page-header/main-content
+
+:::
+
 ## Attributes
 
 | Attribute | Description    | Type               | Accepted Values | Default |
@@ -91,3 +101,4 @@ page-header/additional-sections
 | content    | content            |
 | extra      | extra              |
 | breadcrumb | breadcrumb content |
+| default    | main content       |

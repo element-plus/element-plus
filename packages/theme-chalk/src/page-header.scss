@@ -2,6 +2,13 @@
 @use 'common/var' as *;
 
 @include b(page-header) {
+  @include when(contentful) {
+    @include e('main') {
+      border-top: 1px solid getCssVar('border-color', 'light');
+      margin-top: 16px;
+    }
+  }
+
   @include e(header) {
     display: flex;
     align-items: center;

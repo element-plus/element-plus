@@ -31,6 +31,23 @@
         <el-button type="danger" size="small" class="ml-2">Delete</el-button>
       </div>
     </template>
+
+    <el-descriptions :column="3" size="small mt-4">
+      <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
+      <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
+      <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
+      <el-descriptions-item label="Remarks">
+        <el-tag size="small">School</el-tag>
+      </el-descriptions-item>
+      <el-descriptions-item label="Address"
+        >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+      </el-descriptions-item>
+    </el-descriptions>
+    <p class="mt-4 text-sm">
+      Element Plus 团队在正常情况下使用 每周 发布策略， 但关键的 bug
+      修复将需要热修复，所以实际发布版本 可能 每周超过 1 次。
+      在这个页面上，你只能看到我们最近更新的 30 条。
+    </p>
   </el-page-header>
 </template>
 

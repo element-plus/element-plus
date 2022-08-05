@@ -49,7 +49,6 @@ describe('PageHeader.vue', () => {
           }}
         />
       ))
-      console.log(wrapper.classes())
       expect(wrapper.find('.el-page-header__breadcrumb').exists()).toBe(true)
       expect(wrapper.classes()).toContain('el-page-header--has-breadcrumb')
     })
@@ -62,9 +61,20 @@ describe('PageHeader.vue', () => {
           }}
         />
       ))
-      console.log(wrapper.classes())
       expect(wrapper.find('.el-page-header__extra').exists()).toBe(true)
       expect(wrapper.classes()).toContain('el-page-header--has-extra')
+    })
+
+    test('default', () => {
+      const wrapper = mount(() => (
+        <PageHeader
+          v-slots={{
+            default: () => AXIOM,
+          }}
+        />
+      ))
+      expect(wrapper.find('.el-page-header__main').exists()).toBe(true)
+      expect(wrapper.classes()).toContain('is-contentful')
     })
   })
 

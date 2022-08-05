@@ -29,6 +29,10 @@
         <slot name="extra" />
       </div>
     </div>
+
+    <div v-if="$slots.default" :class="ns.e('main')">
+      <slot />
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -55,6 +59,7 @@ const kls = computed(() => {
     {
       [ns.m('has-breadcrumb')]: !!slots.breadcrumb,
       [ns.m('has-extra')]: !!slots.extra,
+      [ns.is('contentful')]: !!slots.default,
     },
   ]
 })
