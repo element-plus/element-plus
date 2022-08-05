@@ -84,9 +84,10 @@ page-header/additional-sections
 
 ## Slots
 
-| Name    | Description   |
-| ------- | ------------- |
-| icon    | custom icon   |
-| title   | title content |
-| content | content       |
-| extra   | extra         |
+| Name       | Description        |
+| ---------- | ------------------ |
+| icon       | custom icon        |
+| title      | title content      |
+| content    | content            |
+| extra      | extra              |
+| breadcrumb | breadcrumb content |
