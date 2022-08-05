@@ -1,7 +1,6 @@
 // @ts-nocheck
 import {
   computed,
-  inject,
   nextTick,
   reactive,
   ref,
@@ -23,12 +22,15 @@ import {
   isKorean,
   scrollIntoView,
 } from '@element-plus/utils'
-import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import {
+  useFormItem,
+  useLocale,
+  useNamespace,
+  useSize,
+} from '@element-plus/hooks'
 
 import type { ComponentPublicInstance } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
-import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
 
 export function useSelectStates(props) {
@@ -83,15 +85,13 @@ export const useSelect = (props, states: States, ctx) => {
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
 
-  // inject
-  const elForm = inject(formContextKey, {} as FormContext)
-  const elFormItem = inject(formItemContextKey, {} as FormItemContext)
+  const { form, formItem } = useFormItem()
 
   const readonly = computed(
     () => !props.filterable || props.multiple || !states.visible
   )
 
-  const selectDisabled = computed(() => props.disabled || elForm.disabled)
+  const selectDisabled = computed(() => props.disabled || form?.disabled)
 
   const showClose = computed(() => {
     const hasValue = props.multiple
@@ -176,7 +176,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   // watch
   watch(
-    [() => selectDisabled.value, () => selectSize.value, () => elForm.size],
+    [() => selectDisabled.value, () => selectSize.value, () => form?.size],
     () => {
       nextTick(() => {
         resetInputHeight()
@@ -211,7 +211,7 @@ export const useSelect = (props, states: States, ctx) => {
         states.inputLength = 20
       }
       if (!isEqual(val, oldVal) && props.validateEvent) {
-        elFormItem.validate?.('change').catch((err) => debugWarn(err))
+        formItem?.validate('change').catch((err) => debugWarn(err))
       }
     },
     {
@@ -338,7 +338,7 @@ export const useSelect = (props, states: States, ctx) => {
       ) as HTMLInputElement
       const _tags = tags.value
 
-      const sizeInMap = getComponentSize(selectSize.value || elForm.size)
+      const sizeInMap = getComponentSize(selectSize.value || form?.size)
       // it's an inner input so reduce it by 2px.
       input.style.height = `${
         (states.selected.length === 0
