@@ -6,6 +6,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav'
+import Affix from '../../affix/src/affix.vue'
 
 describe('Tabs.vue', () => {
   test('create', async () => {
@@ -666,5 +667,39 @@ describe('Tabs.vue', () => {
       navItemsWrapper[val].trigger('click')
       expect(activeName.value).toEqual(val)
     })
+  })
+
+  test('wrappable tabs', async () => {
+    const random = Math.random() * 10
+    const activeName = ref(0)
+    const tabWrapper = ref(undefined)
+    const tabWrapperProps = ref({
+      offset: random,
+    })
+
+    const wrapper = mount(() => (
+      <Tabs
+        v-model={activeName.value}
+        tabWrapper={tabWrapper.value}
+        tabWrapperProps={tabWrapperProps.value}
+      >
+        <TabPane name={0} label="label-1">
+          A
+        </TabPane>
+        <TabPane name={1} label="label-2">
+          B
+        </TabPane>
+      </Tabs>
+    ))
+    const noAffixWrapper = wrapper.findAllComponents(Affix)
+    expect(noAffixWrapper.length).eq(0)
+    tabWrapper.value = Affix
+    await nextTick()
+    const affixWrapper = wrapper.findAllComponents(Affix)
+    expect(affixWrapper.length).eq(1)
+    const navWrapper = wrapper.findComponent(TabNav)
+    await nextTick()
+    const navItemsWrapper = navWrapper.findAll('.el-affix .el-tabs__item')
+    expect(navItemsWrapper.length).eq(2)
   })
 })
