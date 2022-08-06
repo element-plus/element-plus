@@ -118,7 +118,7 @@ menu/collapse
 
 | Event Name | Description                                 | Parameters             |
 | ---------- | ------------------------------------------- | ---------------------- |
-| click      | callback function when menu-item is clicked | el: menu-item instance |
+| item-click | callback function when menu-item is clicked | el: menu-item instance |
 
 ## Menu-Item Slots
 
