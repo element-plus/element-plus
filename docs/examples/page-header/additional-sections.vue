@@ -9,7 +9,7 @@
         />
         <span class="text-large font-600 mr-3"> Title </span>
         <span class="text-sm mr-2"> Sub title </span>
-        <el-tag type="primary">Default</el-tag>
+        <el-tag>Default</el-tag>
       </div>
     </template>
     <template #extra>
@@ -20,9 +20,3 @@
     </template>
   </el-page-header>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const radio1 = ref('')
-</script>

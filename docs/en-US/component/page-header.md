@@ -78,6 +78,26 @@ page-header/main-content
 
 :::
 
+## Anatomy
+
+The component is consisted of these parts
+
+```vue
+<template>
+  <el-page-header>
+    <!-- Line 1 -->
+    <template #breadcrumb />
+    <!-- Line 2 -->
+    <template #icon />
+    <template #title />
+    <template #content />
+    <template #extra />
+    <!-- Lines after 2 -->
+    <template #default />
+  </el-page-header>
+</template>
+```
+
 ## Attributes
 
 | Attribute | Description    | Type               | Accepted Values | Default |
