@@ -2,11 +2,11 @@
   <div
     v-if="shouldBeRender"
     v-show="active"
-    :id="`pane-${paneName}`"
+    :id="`pane-${pane.uid}`"
     :class="ns.b()"
     role="tabpanel"
     :aria-hidden="!active"
-    :aria-labelledby="`tab-${paneName}`"
+    :aria-labelledby="`tab-${pane.uid}`"
   >
     <slot />
   </div>
