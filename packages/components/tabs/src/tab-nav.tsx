@@ -340,9 +340,9 @@ const TabNav = defineComponent({
               ns.is('closable', closable),
               ns.is('focus', isFocus.value),
             ]}
-            id={`tab-${uid}`}
+            id={`tab-${tabName}`}
             key={`tab-${uid}`}
-            aria-controls={`pane-${uid}`}
+            aria-controls={`pane-${tabName}`}
             role="tab"
             aria-selected={pane.active}
             tabindex={tabindex}
