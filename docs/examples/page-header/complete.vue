@@ -1,6 +1,6 @@
 <template>
   <div aria-label="A complete example of page header">
-    <el-page-header content="detail" @back="onBack">
+    <el-page-header @back="onBack">
       <template #breadcrumb>
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: './page-header.html' }"
@@ -20,7 +20,12 @@
             src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
           />
           <span class="text-large font-600 mr-3"> Title </span>
-          <span class="text-sm mr-2"> Sub title </span>
+          <span
+            class="text-sm mr-2"
+            style="color: var(--el-text-color-regular)"
+          >
+            Sub title
+          </span>
           <el-tag>Default</el-tag>
         </div>
       </template>

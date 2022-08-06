@@ -1,5 +1,5 @@
 <template>
-  <el-page-header content="detail">
+  <el-page-header>
     <template #breadcrumb>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: './page-header.html' }"
@@ -10,6 +10,9 @@
         >
         <el-breadcrumb-item>route 2</el-breadcrumb-item>
       </el-breadcrumb>
+    </template>
+    <template #content>
+      <span class="text-large font-600 mr-3"> Title </span>
     </template>
   </el-page-header>
 </template>
