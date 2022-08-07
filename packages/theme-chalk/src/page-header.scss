@@ -21,12 +21,17 @@
       margin-right: 40px;
       position: relative;
 
+      @include e('back') {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
       .#{$namespace}-divider--vertical {
         margin: 0 16px;
       }
 
       @include e(icon) {
-        cursor: pointer;
         font-size: 16px;
         margin-right: 10px;
         display: flex;

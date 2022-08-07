@@ -5,22 +5,23 @@
     </div>
     <div :class="ns.e('header')">
       <div :class="ns.e('left')">
-        <div
-          v-if="icon || $slots.icon"
-          :aria-label="title || t('el.pageHeader.title')"
-          :class="ns.e('icon')"
-          role="button"
-          tabindex="0"
-          @click="handleClick"
-        >
-          <slot name="icon">
-            <el-icon v-if="icon">
-              <component :is="icon" />
-            </el-icon>
-          </slot>
-        </div>
-        <div :class="ns.e('title')">
-          <slot name="title">{{ title || t('el.pageHeader.title') }}</slot>
+        <div :class="ns.e('back')" @click="handleClick">
+          <div
+            v-if="icon || $slots.icon"
+            :aria-label="title || t('el.pageHeader.title')"
+            :class="ns.e('icon')"
+            role="button"
+            tabindex="0"
+          >
+            <slot name="icon">
+              <el-icon v-if="icon">
+                <component :is="icon" />
+              </el-icon>
+            </slot>
+          </div>
+          <div :class="ns.e('title')">
+            <slot name="title">{{ title || t('el.pageHeader.title') }}</slot>
+          </div>
         </div>
         <el-divider direction="vertical" />
         <div :class="ns.e('content')">

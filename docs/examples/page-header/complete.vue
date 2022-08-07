@@ -52,9 +52,9 @@
         </el-descriptions-item>
       </el-descriptions>
       <p class="mt-4 text-sm">
-        Element Plus team uses **weekly** release strategy under normal
+        Element Plus team uses <b>weekly</b> release strategy under normal
         circumstance, but critical bug fixes would require hotfix so the actual
-        release number **could be** more than 1 per week.
+        release number <b>could be</b> more than 1 per week.
       </p>
     </el-page-header>
   </div>
