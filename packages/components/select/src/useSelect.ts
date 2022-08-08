@@ -750,7 +750,7 @@ export const useSelect = (props, states: States, ctx) => {
         ctx.emit('blur', event)
       }
     })
-    states.softFocus = false
+    states.softFocus = true
   }
 
   const handleClearClick = (event: Event) => {
