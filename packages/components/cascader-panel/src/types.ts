@@ -21,10 +21,7 @@ export type RenderLabel = ({
   data: CascaderOption,
 }) => VNode | VNode[]
 
-export enum ExpandTrigger {
-  CLICK = 'click',
-  HOVER = 'hover',
-}
+export type ExpandTrigger = 'click' | 'hover'
 
 export interface CascaderOption extends Record<string, unknown> {
   label?: string
