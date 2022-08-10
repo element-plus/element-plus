@@ -10,5 +10,6 @@ export interface ICheckboxGroupInstance {
   fill?: ComputedRef<string>
   textColor?: ComputedRef<string>
   checkboxGroupSize?: ComputedRef<ComponentSize>
+  valueKey?: ComputedRef<string>
   changeEvent?: (...args: any[]) => any
 }

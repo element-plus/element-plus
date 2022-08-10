@@ -50,6 +50,10 @@ export const useCheckboxGroupProps = {
     type: String,
     default: 'div',
   },
+  valueKey: {
+    type: String,
+    default: undefined,
+  },
 }
 
 export type IUseCheckboxGroupProps = ExtractPropTypes<
@@ -171,6 +175,19 @@ const useCheckboxStatus = (
     if (toTypeString(value) === '[object Boolean]') {
       return value
     } else if (Array.isArray(value)) {
+      if (toTypeString(props.label) === '[object Object]') {
+        const valueKey = checkboxGroup.valueKey?.value
+        let temp = false
+        value.forEach((item) => {
+          if (
+            valueKey !== undefined &&
+            item[valueKey] === (props.label as any)[valueKey]
+          ) {
+            temp = true
+          }
+        })
+        return temp
+      }
       return value.includes(props.label)
     } else if (value !== null && value !== undefined) {
       return value === props.trueLabel
