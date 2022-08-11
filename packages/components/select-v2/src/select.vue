@@ -9,7 +9,7 @@
   >
     <el-tooltip
       ref="popper"
-      v-model:visible="dropdownMenuVisible"
+      :visible="dropdownMenuVisible"
       :teleported="teleported"
       :popper-class="[nsSelectV2.e('popper'), popperClass]"
       :gpu-acceleration="false"
@@ -86,7 +86,9 @@
                     <template #content>
                       <div :class="nsSelectV2.e('selection')">
                         <div
-                          v-for="(selected, idx) in states.cachedOptions"
+                          v-for="(selected, idx) in states.cachedOptions.slice(
+                            1
+                          )"
                           :key="idx"
                           :class="nsSelectV2.e('selected-item')"
                         >

@@ -1,36 +1,64 @@
-import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
+import { isClient } from '@vueuse/core'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+  mutable,
+} from '@element-plus/utils'
 import type { AppContext, ExtractPropTypes, VNode } from 'vue'
+import type { Mutable } from '@element-plus/utils'
+import type MessageConstructor from './message.vue'
 
 export const messageTypes = ['success', 'info', 'warning', 'error'] as const
+
+export type messageType = typeof messageTypes[number]
 
 export interface MessageConfigContext {
   max?: number
 }
 
+export const messageDefaults = mutable({
+  customClass: '',
+  center: false,
+  dangerouslyUseHTMLString: false,
+  duration: 3000,
+  icon: '',
+  id: '',
+  message: '',
+  onClose: undefined,
+  showClose: false,
+  type: 'info',
+  offset: 16,
+  zIndex: 0,
+  grouping: false,
+  repeatNum: 1,
+  appendTo: isClient ? document.body : (undefined as never),
+} as const)
+
 export const messageProps = buildProps({
   customClass: {
     type: String,
-    default: '',
+    default: messageDefaults.customClass,
   },
   center: {
     type: Boolean,
-    default: false,
+    default: messageDefaults.center,
   },
   dangerouslyUseHTMLString: {
     type: Boolean,
-    default: false,
+    default: messageDefaults.dangerouslyUseHTMLString,
   },
   duration: {
     type: Number,
-    default: 3000,
+    default: messageDefaults.duration,
   },
   icon: {
     type: iconPropType,
-    default: '',
+    default: messageDefaults.icon,
   },
   id: {
     type: String,
-    default: '',
+    default: messageDefaults.id,
   },
   message: {
     type: definePropType<string | VNode | (() => VNode)>([
@@ -38,7 +66,7 @@ export const messageProps = buildProps({
       Object,
       Function,
     ]),
-    default: '',
+    default: messageDefaults.message,
   },
   onClose: {
     type: definePropType<() => void>(Function),
@@ -46,28 +74,28 @@ export const messageProps = buildProps({
   },
   showClose: {
     type: Boolean,
-    default: false,
+    default: messageDefaults.showClose,
   },
   type: {
     type: String,
     values: messageTypes,
-    default: 'info',
+    default: messageDefaults.type,
   },
   offset: {
     type: Number,
-    default: 20,
+    default: messageDefaults.offset,
   },
   zIndex: {
     type: Number,
-    default: 0,
+    default: messageDefaults.zIndex,
   },
   grouping: {
     type: Boolean,
-    default: false,
+    default: messageDefaults.grouping,
   },
   repeatNum: {
     type: Number,
-    default: 1,
+    default: messageDefaults.repeatNum,
   },
 } as const)
 export type MessageProps = ExtractPropTypes<typeof messageProps>
@@ -77,28 +105,36 @@ export const messageEmits = {
 }
 export type MessageEmits = typeof messageEmits
 
-export type MessageOptions = Omit<MessageProps, 'id'> & {
-  appendTo?: HTMLElement | string
-}
-export type MessageOptionsTyped = Omit<MessageOptions, 'type'>
+export type MessageInstance = InstanceType<typeof MessageConstructor>
 
-export interface MessageHandle {
+export type MessageOptions = Partial<
+  Mutable<
+    Omit<MessageProps, 'id'> & {
+      appendTo?: HTMLElement | string
+    }
+  >
+>
+export type MessageParams = MessageOptions | MessageOptions['message']
+export type MessageParamsNormalized = Omit<MessageProps, 'id'> & {
+  appendTo: HTMLElement
+}
+export type MessageOptionsWithType = Omit<MessageOptions, 'type'>
+export type MessageParamsWithType =
+  | MessageOptionsWithType
+  | MessageOptions['message']
+
+export interface MessageHandler {
   close: () => void
 }
 
-export type MessageParams = Partial<MessageOptions> | string | VNode
-export type MessageParamsTyped = Partial<MessageOptionsTyped> | string | VNode
-
-export type MessageFn = ((
-  options?: MessageParams,
-  appContext?: null | AppContext
-) => MessageHandle) & {
-  closeAll(): void
+export type MessageFn = {
+  (options?: MessageParams, appContext?: null | AppContext): MessageHandler
+  closeAll(type?: messageType): void
 }
 export type MessageTypedFn = (
-  options?: MessageParamsTyped,
+  options?: MessageParamsWithType,
   appContext?: null | AppContext
-) => MessageHandle
+) => MessageHandler
 
 export interface Message extends MessageFn {
   success: MessageTypedFn
@@ -106,9 +142,3 @@ export interface Message extends MessageFn {
   info: MessageTypedFn
   error: MessageTypedFn
 }
-
-type MessageQueueItem = {
-  vm: VNode
-}
-
-export type MessageQueue = MessageQueueItem[]

@@ -50,6 +50,7 @@ color-picker/sizes
 | color-format          | color format of v-model                      | string  | hsl / hsv / hex / rgb  | hex (when show-alpha is false)/ rgb (when show-alpha is true) |
 | popper-class          | custom class name for ColorPicker's dropdown | string  | —                      | —                                                             |
 | predefine             | predefined color options                     | array   | —                      | —                                                             |
+| validate-event        | whether to trigger form validation           | boolean | -                      | true                                                          |
 
 ## Events
 

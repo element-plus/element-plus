@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, h, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { getRowIdentity } from '../util'
@@ -120,7 +121,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             rowspan,
             colspan,
             onMouseenter: ($event) =>
-              handleCellMouseEnter($event, { ...row, tooltipEffect }),
+              handleCellMouseEnter($event, row, tooltipEffect),
             onMouseleave: handleCellMouseLeave,
           },
           [tdChildren]
