@@ -34,6 +34,11 @@ It is used for multiple checkboxes which are bound in one group, and indicates w
 :::demo `checkbox-group` element can manage multiple checkboxes in one group by using `v-model` which is bound as an `Array`. Inside the `el-checkbox` element, `label` is the value of the checkbox. If no content is nested in that tag, `label` will be rendered as the description following the button of the checkbox. `label` also corresponds with the element values in the array. It is selected if the specified value exists in the array, and vice versa.
 
 checkbox/grouping
+:::
+
+:::tip
+
+If the binding label of Checkbox is an object, make sure to assign `value-key` as its unique identity key name.
 
 :::
 
@@ -104,16 +109,17 @@ checkbox/with-border
 
 ## Checkbox-group Attributes
 
-| Attribute             | Description                                       | Type    | Accepted Values        | Default |
-| --------------------- | ------------------------------------------------- | ------- | ---------------------- | ------- |
-| model-value / v-model | binding value                                     | array   | —                      | []      |
-| size                  | size of checkbox                                  | string  | large / default /small | —       |
-| disabled              | whether the nesting checkboxes are disabled       | boolean | —                      | false   |
-| min                   | minimum number of checkbox checked                | number  | —                      | —       |
-| max                   | maximum number of checkbox checked                | number  | —                      | —       |
-| label                 | label for screen reader                           | string  | —                      | —       |
-| text-color            | font color when button is active                  | string  | —                      | #ffffff |
-| fill                  | border and background color when button is active | string  | —                      | #409EFF |
+| Attribute             | Description                                                          | Type    | Accepted Values        | Default |
+| --------------------- | -------------------------------------------------------------------- | ------- | ---------------------- | ------- |
+| model-value / v-model | binding value                                                        | array   | —                      | []      |
+| size                  | size of checkbox                                                     | string  | large / default /small | —       |
+| disabled              | whether the nesting checkboxes are disabled                          | boolean | —                      | false   |
+| min                   | minimum number of checkbox checked                                   | number  | —                      | —       |
+| max                   | maximum number of checkbox checked                                   | number  | —                      | —       |
+| label                 | label for screen reader                                              | string  | —                      | —       |
+| text-color            | font color when button is active                                     | string  | —                      | #ffffff |
+| fill                  | border and background color when button is active                    | string  | —                      | #409EFF |
+| value-key             | unique identity key name for value, required when label is an object | string  | —                      | -       |
 
 ## Checkbox-group Events
 
