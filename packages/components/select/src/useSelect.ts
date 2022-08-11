@@ -5,6 +5,7 @@ import {
   reactive,
   ref,
   shallowRef,
+  toRaw,
   triggerRef,
   watch,
 } from 'vue'
@@ -631,7 +632,8 @@ export const useSelect = (props, states: States, ctx) => {
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (get(item, valueKey) === get(value, valueKey)) {
+      console.log(get(item, valueKey), get(value, valueKey))
+      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
         index = i
         return true
       }
