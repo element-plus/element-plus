@@ -190,7 +190,7 @@ const useCheckboxStatus = (
     if (toTypeString(value) === '[object Boolean]') {
       return value
     } else if (Array.isArray(value)) {
-      return value.map((o) => toRaw(o)).includes(props.label)
+      return value.map(toRaw).includes(props.label)
     } else if (value !== null && value !== undefined) {
       return value === props.trueLabel
     } else {
