@@ -7,7 +7,7 @@
     "docs"
   ],
   "scripts": {
-    "cz": "czg",
+    "cz": "cz",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
     "test:ssr": "vitest --config ./ssr-testing/vitest.config.ts",

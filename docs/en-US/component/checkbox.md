@@ -120,18 +120,8 @@ checkbox/with-border
 | label                 | label for screen reader                                              | string  | —                      | —       |
 | text-color            | font color when button is active                                     | string  | —                      | #ffffff |
 | fill                  | border and background color when button is active                    | string  | —                      | #409EFF |
-| value-key             | unique identity key name for value, required when label is an object | string  | —                      | -       |
-| Attribute             | Description                                                          | Type    | Accepted Values        | Default |
-| --------------------- | -------------------------------------------------                    | ------- | ---------------------- | ------- |
-| model-value / v-model | binding value                                                        | array   | —                      | []      |
-| size                  | size of checkbox                                                     | string  | large / default /small | —       |
-| disabled              | whether the nesting checkboxes are disabled                          | boolean | —                      | false   |
-| min                   | minimum number of checkbox checked                                   | number  | —                      | —       |
-| max                   | maximum number of checkbox checked                                   | number  | —                      | —       |
-| label                 | label for screen reader                                              | string  | —                      | —       |
-| text-color            | font color when button is active                                     | string  | —                      | #ffffff |
-| fill                  | border and background color when button is active                    | string  | —                      | #409EFF |
 | validate-event        | whether to trigger form validation                                   | boolean | -                      | true    |
+| value-key             | unique identity key name for value, required when label is an object | string  | —                      | -       |
 
 ## Checkbox-group Events
 

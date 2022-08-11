@@ -57,12 +57,13 @@ export const useCheckboxGroupProps = {
   valueKey: {
     type: String,
     default: undefined,
-    validateEvent: {
-      type: Boolean,
-      default: true,
-    },
+  },
+  validateEvent: {
+    type: Boolean,
+    default: true,
   },
 }
+
 export type IUseCheckboxGroupProps = ExtractPropTypes<
   typeof useCheckboxGroupProps
 >
