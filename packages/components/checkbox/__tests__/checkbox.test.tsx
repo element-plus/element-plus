@@ -588,3 +588,44 @@ describe('check-button', () => {
     })
   })
 })
+describe('checkbox-group', () => {
+  test('value-key', async () => {
+    const checkList = ref([])
+    const Option1 = {
+      id: 1,
+      name: '1',
+    }
+    const Option2 = {
+      id: 2,
+      name: '2',
+    }
+    const Option3 = {
+      id: 3,
+      name: '3',
+    }
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <CheckboxGroup value-key="id" v-model={checkList.value}>
+            <Checkbox label={Option1} ref="a" />
+            <Checkbox label={Option2} ref="b" />
+            <Checkbox label={Option3} ref="c" />
+          </CheckboxGroup>
+        )
+      },
+    })
+
+    const checkboxA = wrapper.findComponent({ ref: 'a' })
+    const checkboxB = wrapper.findComponent({ ref: 'b' })
+    const checkboxC = wrapper.findComponent({ ref: 'c' })
+    await checkboxA.trigger('click')
+    expect(checkList.value.length).toBe(1)
+    expect(checkboxA.classes()).contains('is-checked')
+    await checkboxB.trigger('click')
+    expect(checkList.value.length).toBe(2)
+    expect(checkboxA.classes()).contains('is-checked')
+    await checkboxC.trigger('click')
+    expect(checkList.value.length).toBe(3)
+    expect(checkboxC.classes()).contains('is-checked')
+  })
+})
