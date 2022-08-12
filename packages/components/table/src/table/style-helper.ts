@@ -200,6 +200,10 @@ function useStyle<T>(
     } else {
       useEventListener(window, 'resize', resizeListener)
     }
+
+    useResizeObserver(table.refs.tableWrapper, () => {
+      table.refs?.scrollBarRef?.update()
+    })
   }
   const resizeListener = () => {
     const el = table.vnode.el
