@@ -211,16 +211,8 @@
     user-select: none;
     background-color: getCssVar('table-header-bg-color');
 
-    > .cell {
-      display: inline-block;
-      box-sizing: border-box;
-      position: relative;
-      vertical-align: middle;
-      width: 100%;
-
-      &.highlight {
-        color: getCssVar('color-primary');
-      }
+    > .cell.highlight {
+      color: getCssVar('color-primary');
     }
 
     &.required > div::before {
@@ -412,6 +404,11 @@
 
   @include e((header-wrapper, body-wrapper)) {
     .#{$namespace}-table-column--selection {
+      > .cell {
+        display: inline-flex;
+        align-items: center;
+        height: 23px;
+      }
       .#{$namespace}-checkbox {
         height: unset;
       }

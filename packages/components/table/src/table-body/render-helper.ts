@@ -121,7 +121,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             rowspan,
             colspan,
             onMouseenter: ($event) =>
-              handleCellMouseEnter($event, { ...row, tooltipEffect }),
+              handleCellMouseEnter($event, row, tooltipEffect),
             onMouseleave: handleCellMouseLeave,
           },
           [tdChildren]

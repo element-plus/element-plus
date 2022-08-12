@@ -1,5 +1,36 @@
 ## Changelog
 
+### 2.2.13
+
+_2022-08-12_
+
+#### Features
+
+- Components [tree-v2] expose several helpful methods (#9156 by @plainheart)
+- Components [popconfirm] add width prop (#9103 by @btea)
+
+#### Bug fixes
+
+- Components [table-body] keep row data reactive (#8592 by @jianjunyuu)
+- Components [table] fix selection style (#9179 by @holazz)
+- Locale update zh-tw translation (#8822 by @ChiahongHong)
+- Components [select] injected form context may be undefined (#8860 by @holazz)
+- Components [cascader] injected form context may be undefined (#8861 by @holazz)
+- Components [color-picker] injected form context may be undefined (#8862 by @holazz)
+- Components [time-picker] injected form context may be undefined (#8866 by @holazz)
+- Components [checkbox] injected form context may be undefined (#8865 by @holazz)
+- Element-plus dts entry (#8842 by @holazz)
+- Timer-pick automatically skip disabled items (#8850 by @baiwusanyu-c)
+- Components [table] the empty slot height error (#9226 by @tolking)
+- Style(theme-chalk): fix message (#9143 by @kooriookami)
+
+#### Refactors
+
+- Components [tabs] use JSX in Unit test (#9050 by @Tsong-LC)
+- Components [notification] switch to script-setup syntax (#9106 by @holazz)
+- Utils drop `resize-event` (#8618 by @holazz)
+- Hooks [use-lockscreen] change from padding to width (#9151 by @chenxch)
+
 ### 2.2.12
 
 _2022-08-01_

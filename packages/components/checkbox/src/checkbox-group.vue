@@ -5,7 +5,7 @@
     :class="ns.b('group')"
     role="group"
     :aria-label="!isLabeledByFormItem ? label || 'checkbox-group' : undefined"
-    :aria-labelledby="isLabeledByFormItem ? elFormItem.labelId : undefined"
+    :aria-labelledby="isLabeledByFormItem ? elFormItem?.labelId : undefined"
   >
     <slot />
   </component>
@@ -66,7 +66,7 @@ watch(
   () => props.modelValue,
   () => {
     if (props.validateEvent) {
-      elFormItem.validate?.('change').catch((err) => debugWarn(err))
+      elFormItem?.validate('change').catch((err) => debugWarn(err))
     }
   }
 )
