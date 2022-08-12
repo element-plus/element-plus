@@ -84,7 +84,7 @@ const kls = computed(() => {
 })
 
 const gpuAcceleration = computed(() => {
-  return props.transition === 'el-fade-in-linear'
+  return props.transition === `${ns.namespace.value}-fade-in-linear`
 })
 
 const hide = () => {
