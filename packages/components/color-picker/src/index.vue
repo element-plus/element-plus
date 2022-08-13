@@ -10,7 +10,7 @@
     :stop-popper-mouse-event="false"
     effect="light"
     trigger="click"
-    transition="el-zoom-in-top"
+    :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
   >
     <template #content>
