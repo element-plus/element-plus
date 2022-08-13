@@ -42,7 +42,7 @@
     "unocss": "0.33.5",
     "unplugin-icons": "^0.14.6",
     "unplugin-vue-components": "^0.20.1",
-    "unplugin-vue-define-options": "^0.6.1",
+    "unplugin-vue-macros": "^0.8.3",
     "vite": "^2.9.13",
     "vite-plugin-inspect": "^0.5.0",
     "vite-plugin-mkcert": "^1.7.2",

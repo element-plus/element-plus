@@ -33,7 +33,7 @@
     "rollup": "^2.75.7",
     "rollup-plugin-esbuild": "^4.9.1",
     "ts-morph": "^14.0.0",
-    "unplugin-vue-define-options": "^0.6.1"
+    "unplugin-vue-macros": "^0.8.3"
   },
   "devDependencies": {
     "@esbuild-kit/cjs-loader": "^2.2.1",

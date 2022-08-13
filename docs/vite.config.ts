@@ -1,7 +1,7 @@
 import path from 'path'
 import Inspect from 'vite-plugin-inspect'
 import { defineConfig, loadEnv } from 'vite'
-import DefineOptions from 'unplugin-vue-define-options/vite'
+import VueMacros from 'unplugin-vue-macros/vite'
 import UnoCSS from 'unocss/vite'
 import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
@@ -69,8 +69,8 @@ export default defineConfig(async ({ mode }) => {
       alias,
     },
     plugins: [
+      VueMacros(),
       vueJsx(),
-      DefineOptions(),
 
       // https://github.com/antfu/unplugin-vue-components
       Components({
