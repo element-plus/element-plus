@@ -3,9 +3,9 @@
     <el-page-header @back="onBack">
       <template #breadcrumb>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: './page-header.html' }"
-            >homepage</el-breadcrumb-item
-          >
+          <el-breadcrumb-item :to="{ path: './page-header.html' }">
+            homepage
+          </el-breadcrumb-item>
           <el-breadcrumb-item
             ><a href="./page-header.html">route 1</a></el-breadcrumb-item
           >

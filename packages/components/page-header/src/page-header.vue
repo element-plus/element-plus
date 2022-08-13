@@ -5,13 +5,16 @@
     </div>
     <div :class="ns.e('header')">
       <div :class="ns.e('left')">
-        <div :class="ns.e('back')" @click="handleClick">
+        <div
+          :class="ns.e('back')"
+          role="button"
+          tabindex="0"
+          @click="handleClick"
+        >
           <div
             v-if="icon || $slots.icon"
             :aria-label="title || t('el.pageHeader.title')"
             :class="ns.e('icon')"
-            role="button"
-            tabindex="0"
           >
             <slot name="icon">
               <el-icon v-if="icon">
