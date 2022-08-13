@@ -21,7 +21,7 @@
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsonc": "^2.3.0",
-    "eslint-plugin-markdown": "^2.2.1",
+    "eslint-plugin-markdown": "^3.0.0",
     "eslint-plugin-prettier": "^4.1.0",
     "eslint-plugin-unicorn": "^42.0.0",
     "eslint-plugin-vue": "^9.1.1",
