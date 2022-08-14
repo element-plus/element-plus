@@ -261,9 +261,7 @@ export default class TreeStore {
     return allNodes
   }
 
-  updateChildren(key: TreeKey, data: TreeData): void {
-    const node = this.nodesMap[key]
-    if (!node) return
+  _updateChildren(node: Node, data: TreeData): void {
     const childNodes = node.childNodes
     for (let i = childNodes.length - 1; i >= 0; i--) {
       const child = childNodes[i]
@@ -271,8 +269,26 @@ export default class TreeStore {
     }
     for (let i = 0, j = data.length; i < j; i++) {
       const child = data[i]
-      this.append(child, node.data)
+      this.append(child, node)
     }
+  }
+
+  updateRootChildren(data: TreeData): void {
+    this._updateChildren(this.root, data)
+  }
+
+  updateKeyChildren(key: TreeKey, data: TreeData): void {
+    const node = this.nodesMap[key]
+    if (!node) return
+    this._updateChildren(node, data)
+  }
+
+  updateNodeChildren(
+    data: TreeData,
+    nodeData: TreeNodeData | TreeKey | Node
+  ): void {
+    const node = nodeData ? this.getNode(nodeData) : this.root
+    this._updateChildren(node, data)
   }
 
   _setCheckedKeys(
@@ -400,5 +416,9 @@ export default class TreeStore {
         this.currentNode.parent.expand(null, true)
       }
     }
+  }
+
+  getRoot() {
+    return this.root
   }
 }

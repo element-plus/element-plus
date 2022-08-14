@@ -714,6 +714,16 @@ describe('Tree.vue', () => {
     expect(node.data.id).toEqual(111)
   })
 
+  test('getRoot', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id"`
+    )
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    expect(tree.getRoot()).toEqual(tree.store.root)
+  })
+
   test('remove', async () => {
     const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id"`)
     const treeWrapper = wrapper.findComponent(Tree)
@@ -738,6 +748,22 @@ describe('Tree.vue', () => {
 
     expect(tree.data[0].children.length).toEqual(2)
     expect(tree.getNode(88).data).toEqual(nodeData)
+  })
+
+  test('update', async () => {
+    const { wrapper } = getTreeVm(`:props="defaultProps" node-key="id"`)
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    const nodeData = [
+      { id: 88, label: '88' },
+      { id: 99, label: '99' },
+    ]
+    tree.update(nodeData, tree.getNode(1))
+
+    expect(tree.data[0].children.length).toEqual(2)
+    expect(tree.getNode(88).data).toEqual(nodeData[0])
+    expect(tree.getNode(99).data).toEqual(nodeData[1])
   })
 
   test('insertBefore', async () => {
@@ -1124,6 +1150,45 @@ describe('Tree.vue', () => {
     expect(tree.store.nodesMap['11']).toEqual(undefined)
     expect(tree.store.nodesMap['1'].childNodes[0].data.id).toEqual(111)
     expect(nodeLabelWrapper.text()).toEqual('三级 1-1')
+  })
+
+  test('updateRootChildren', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" show-checkbox node-key="id" default-expand-all`
+    )
+
+    const treeWrapper = wrapper.findComponent(Tree)
+    const tree = treeWrapper.vm as InstanceType<typeof Tree>
+
+    tree.updateRootChildren([
+      {
+        id: 5,
+        label: '一级 5',
+        children: [
+          {
+            id: 51,
+            label: '二级 5-1',
+            children: [
+              {
+                id: 111,
+                label: '三级 5-1-1',
+                disabled: true,
+              },
+            ],
+          },
+        ],
+      },
+    ])
+
+    await nextTick()
+
+    const nodeContentWrapper = wrapper.findAll('.el-tree-node__content')[0]
+    const nodeLabelWrapper = nodeContentWrapper.find('.el-tree-node__label')
+
+    expect(tree.store.nodesMap['1']).toEqual(undefined)
+    expect(tree.store.nodesMap['11']).toEqual(undefined)
+    expect(tree.store.root.childNodes[0].data.id).toEqual(5)
+    expect(nodeLabelWrapper.text()).toEqual('一级 5')
   })
 
   test('update multi tree data', async () => {
