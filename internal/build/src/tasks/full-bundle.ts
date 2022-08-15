@@ -55,7 +55,12 @@ async function buildFullEntry(minify: boolean) {
     }),
   ]
   if (minify) {
-    plugins.push(minifyPlugin({ sourceMap: true }))
+    plugins.push(
+      minifyPlugin({
+        target,
+        sourceMap: true,
+      })
+    )
   }
 
   const bundle = await rollup({

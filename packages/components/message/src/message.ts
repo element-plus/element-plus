@@ -11,6 +11,8 @@ import type MessageConstructor from './message.vue'
 
 export const messageTypes = ['success', 'info', 'warning', 'error'] as const
 
+export type messageType = typeof messageTypes[number]
+
 export interface MessageConfigContext {
   max?: number
 }
@@ -26,7 +28,7 @@ export const messageDefaults = mutable({
   onClose: undefined,
   showClose: false,
   type: 'info',
-  offset: 20,
+  offset: 16,
   zIndex: 0,
   grouping: false,
   repeatNum: 1,
@@ -127,7 +129,7 @@ export interface MessageHandler {
 
 export type MessageFn = {
   (options?: MessageParams, appContext?: null | AppContext): MessageHandler
-  closeAll(): void
+  closeAll(type?: messageType): void
 }
 export type MessageTypedFn = (
   options?: MessageParamsWithType,
@@ -140,11 +142,3 @@ export interface Message extends MessageFn {
   info: MessageTypedFn
   error: MessageTypedFn
 }
-
-export type MessageQueueItem = {
-  vnode: VNode
-  handler: MessageHandler
-  vm: MessageInstance
-}
-
-export type MessageQueue = MessageQueueItem[]

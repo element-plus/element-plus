@@ -151,12 +151,13 @@ select-v2/remote-search
 | popper-append-to-body(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false              | boolean                            | -                   | false         |
 | teleported                        | whether select dropdown is teleported to the body                                                                                        | boolean                            | true / false        | true          |
 | persistent                        | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                                          | boolean                            | true / false        | true          |
-| popper-options                    | Customized popper option see more at [popper.js](https://popper.js.org/documentation.html)                                               | object                             | -                   | -             |
+| popper-options                    | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                                         | object                             | -                   | -             |
 | automatic-dropdown                | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                                        | boolean                            | -                   | false         |
 | height                            | The height of the dropdown panel, 34px for each item                                                                                     | number                             | -                   | 170           |
 | scrollbar-always-on               | Controls whether the scrollbar is always displayed                                                                                       | boolean                            | -                   | false         |
 | remote                            | whether search data from server                                                                                                          | boolean                            | —                   | false         |
 | remote-method                     | function that gets called when the input value changes. Its parameter is the current input value. To use this, `filterable` must be true | function(keyword: string)          | —                   | —             |
+| validate-event                    | whether to trigger form validation                                                                                                       | boolean                            | -                   | true          |
 
 <span style="display: none;">
 <!-- | default-first-option | 在输入框按下回车，选择第一个匹配项。需配合 `filterable` 或 `remote` 使用 | boolean | - | false |

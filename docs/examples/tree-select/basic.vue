@@ -1,5 +1,13 @@
 <template>
-  <el-tree-select v-model="value" :data="data" />
+  <el-tree-select v-model="value" :data="data" :render-after-expand="false" />
+  <el-divider />
+  show checkbox:
+  <el-tree-select
+    v-model="value"
+    :data="data"
+    :render-after-expand="false"
+    show-checkbox
+  />
 </template>
 
 <script lang="ts" setup>

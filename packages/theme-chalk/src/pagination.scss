@@ -240,6 +240,11 @@
       &.is-disabled {
         color: getCssVar('text-color', 'placeholder');
         background-color: getCssVar('disabled-bg-color');
+
+        &.is-active {
+          color: getCssVar('text-color', 'secondary');
+          background-color: getCssVar('fill-color', 'dark');
+        }
       }
       @include when(first) {
         margin-left: 0;
@@ -350,6 +355,11 @@
     &.is-active {
       color: getCssVar('pagination-hover-color');
       cursor: default;
+
+      &.is-disabled {
+        font-weight: bold;
+        color: getCssVar('text-color', 'secondary');
+      }
     }
   }
 

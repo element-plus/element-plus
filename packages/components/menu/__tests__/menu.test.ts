@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
@@ -421,6 +422,30 @@ describe('other', () => {
     vi.useRealTimers()
 
     expect(onOpen).toHaveBeenCalled()
+  })
+  test('ellipsis', async () => {
+    const wrapper = _mount(
+      `<div :style="{ width: width + 'px' }">
+        <el-menu mode="horizontal" ellipsis>
+          <el-menu-item index="1">Item1</el-menu-item>
+          <el-menu-item index="2">Item2</el-menu-item>
+          <el-menu-item index="3">Item3</el-menu-item>
+          <el-menu-item index="4">Item4</el-menu-item>
+        </el-menu>
+      </div>`,
+      {
+        data() {
+          return {
+            width: 1000,
+          }
+        },
+      }
+    )
+
+    expect(wrapper.find('.el-sub-menu__icon-more').exists()).toBe(false)
+    wrapper.vm.width = 200
+    await nextTick()
+    expect(wrapper.find('.el-sub-menu__icon-more').exists()).toBe(true)
   })
   test('menu group', async () => {
     const wrapper = _mount(

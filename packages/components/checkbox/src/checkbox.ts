@@ -1,8 +1,12 @@
 import { computed, getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
-import { useFormItemInputId, useSize, useSizeProp } from '@element-plus/hooks'
+import {
+  useFormItem,
+  useFormItemInputId,
+  useSize,
+  useSizeProp,
+} from '@element-plus/hooks'
 import {
   debugWarn,
   isArray,
@@ -10,8 +14,8 @@ import {
   isNumber,
   isString,
 } from '@element-plus/utils'
+
 import type { ComponentInternalInstance, ExtractPropTypes, PropType } from 'vue'
-import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 import type Checkbox from './checkbox.vue'
 
@@ -49,6 +53,10 @@ export const useCheckboxGroupProps = {
   tag: {
     type: String,
     default: 'div',
+  },
+  validateEvent: {
+    type: Boolean,
+    default: true,
   },
 }
 
@@ -90,17 +98,20 @@ export const checkboxProps = {
   border: Boolean,
   size: useSizeProp,
   tabindex: [String, Number],
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
 }
 
 export const useCheckboxGroup = () => {
-  const elForm = inject(formContextKey, {} as FormContext)
-  const elFormItem = inject(formItemContextKey, {} as FormItemContext)
+  const { form: elForm, formItem: elFormItem } = useFormItem()
   const checkboxGroup = inject<ICheckboxGroupInstance>('CheckboxGroup', {})
   const isGroup = computed(
     () => checkboxGroup && checkboxGroup?.name === 'ElCheckboxGroup'
   )
   const elFormItemSize = computed(() => {
-    return elFormItem.size
+    return elFormItem?.size
   })
   return {
     isGroup,
@@ -259,7 +270,7 @@ const useEvent = (
       ReturnType<typeof useFormItemInputId>
   >
 ) => {
-  const { elFormItem } = useCheckboxGroup()
+  const { elFormItem, checkboxGroup } = useCheckboxGroup()
   const { emit } = getCurrentInstance()!
 
   function getLabeledValue(value: string | number | boolean) {
@@ -296,10 +307,16 @@ const useEvent = (
     }
   }
 
+  const validateEvent = computed(
+    () => checkboxGroup.validateEvent?.value || props.validateEvent
+  )
+
   watch(
     () => props.modelValue,
     () => {
-      elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+      if (validateEvent.value) {
+        elFormItem?.validate('change').catch((err) => debugWarn(err))
+      }
     }
   )
 
@@ -309,7 +326,7 @@ const useEvent = (
   }
 }
 
-type CheckboxValueType = string | number | boolean
+export type CheckboxValueType = string | number | boolean
 
 export const checkboxEmits = {
   [UPDATE_MODEL_EVENT]: (val: CheckboxValueType) =>

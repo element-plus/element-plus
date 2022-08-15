@@ -1,11 +1,11 @@
 export const rightRichTextSponsors = [
-  // {
-  //   name: 'Fantastic-admin',
-  //   img: '/images/sponsors/fantasticadmin.png',
-  //   url: 'https://fantastic-admin.netlify.app/?from=element-plus',
-  //   slogan: 'An out-of-the-box backend framework',
-  //   slogan_cn: '开箱即用的 Vue 后台管理框架',
-  // },
+  {
+    name: 'Fantastic-admin',
+    img: '/images/sponsors/fantasticadmin.png',
+    url: 'https://hooray.gitee.io/fantastic-admin/?from=element-plus',
+    slogan: 'An out-of-the-box backend framework',
+    slogan_cn: '开箱即用的后台框架 为开发提供舒适体验',
+  },
 ]
 
 export const rightLogoSmallSponsors = [
@@ -51,15 +51,6 @@ export const leftLogoSponsors = [
     url: 'https://bit.dev/?from=element-ui',
     slogan: 'Share Code',
     isDark: true, // dark theme
-  },
-  {
-    name: 'renren.io',
-    name_cn: '人人开源',
-    img: '/images/renren.png',
-    url: 'https://www.renren.io/?from=element-ui',
-    slogan: 'Rapid development platform',
-    slogan_cn: '企业级的快速开发平台',
-    className: 'renren',
   },
   {
     name: 'FormMaking',

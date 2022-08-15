@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -214,7 +215,7 @@ const TabNav = defineComponent({
       // 左右上下键更换tab
       const tabList = Array.from(
         (e.currentTarget as HTMLDivElement).querySelectorAll<HTMLDivElement>(
-          '[role=tab]'
+          '[role=tab]:not(.is-disabled)'
         )
       )
       const currentIndex = tabList.indexOf(e.target as HTMLDivElement)
@@ -307,8 +308,9 @@ const TabNav = defineComponent({
         : null
 
       const tabs = props.panes.map((pane, index) => {
-        const tabName = pane.props.name || pane.index || `${index}`
-        const closable: boolean = pane.isClosable || props.editable
+        const disabled = pane.props.disabled
+        const tabName = pane.props.name ?? pane.index ?? `${index}`
+        const closable = !disabled && (pane.isClosable || props.editable)
         pane.index = `${index}`
 
         const btnClose = closable ? (
@@ -324,7 +326,7 @@ const TabNav = defineComponent({
         ) : null
 
         const tabLabelContent = pane.slots.label?.() || pane.props.label
-        const tabindex = pane.active ? 0 : -1
+        const tabindex = !disabled && pane.active ? 0 : -1
 
         return (
           <div
@@ -333,7 +335,7 @@ const TabNav = defineComponent({
               ns.e('item'),
               ns.is(rootTabs.props.tabPosition),
               ns.is('active', pane.active),
-              ns.is('disabled', pane.props.disabled),
+              ns.is('disabled', disabled),
               ns.is('closable', closable),
               ns.is('focus', isFocus.value),
             ]}

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { h, render, watch } from 'vue'
 import { isClient } from '@vueuse/core'
 import {

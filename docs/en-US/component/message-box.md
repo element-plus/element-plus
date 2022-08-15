@@ -95,6 +95,16 @@ message-box/centered-content
 
 :::
 
+## Customized Icon
+
+The icon can be customized to any Vue component or [render function (JSX)](https://vuejs.org/guide/extras/render-function.html).
+
+:::demo
+
+message-box/customized-icon
+
+:::
+
 ## Draggable
 
 MessageBox can be draggable.
@@ -144,6 +154,7 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 
 | Attribute                    | Description                                                                                                                              | Type                                                                                                                                                                                                                            | Accepted Values                  | Default                                          |
 | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------------ |
+| autofocus                    | auto focus when open MessageBox                                                                                                          | boolean                                                                                                                                                                                                                         | —                                | true                                             |
 | title                        | title of the MessageBox                                                                                                                  | string                                                                                                                                                                                                                          | —                                | —                                                |
 | message                      | content of the MessageBox                                                                                                                | string                                                                                                                                                                                                                          | —                                | —                                                |
 | dangerouslyUseHTMLString     | whether `message` is treated as HTML string                                                                                              | boolean                                                                                                                                                                                                                         | —                                | false                                            |

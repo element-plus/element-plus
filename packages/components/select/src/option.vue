@@ -19,6 +19,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   defineComponent,
   getCurrentInstance,
@@ -74,11 +75,11 @@ export default defineComponent({
         return item.value === (vm as unknown as SelectOptionProxy).value
       })
       // if option is not selected, remove it from cache
-      if (select.cachedOptions.get(key) === vm && !doesSelected) {
-        nextTick(() => {
+      nextTick(() => {
+        if (select.cachedOptions.get(key) === vm && !doesSelected) {
           select.cachedOptions.delete(key)
-        })
-      }
+        }
+      })
       select.onOptionDestroy(key, vm)
     })
 

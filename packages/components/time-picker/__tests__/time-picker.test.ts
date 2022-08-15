@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -5,6 +6,7 @@ import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
 
@@ -467,6 +469,63 @@ describe('TimePicker', () => {
       false
     )
   })
+
+  it('can auto skip when disabled', async () => {
+    const disabledHoursArr = [
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
+    ]
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        :disabled-hours="disabledHours"
+        arrow-control
+      />`,
+      () => ({ value: new Date(2016, 9, 20, 18, 30) }),
+      {
+        methods: {
+          disabledHours() {
+            return disabledHoursArr
+          },
+        },
+      }
+    )
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    let activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+
+    expect(activeHours).toEqual(20)
+    const hoursElWrapperList = document.querySelectorAll(
+      '.el-time-spinner__wrapper'
+    )
+    const hoursElWrapper = hoursElWrapperList[0]
+    const hoursElArrowDown: Element | null =
+      hoursElWrapper.querySelector('.arrow-down')
+    expect(hoursElArrowDown).toBeTruthy()
+
+    const mousedownEvt = new MouseEvent('mousedown')
+    const mouseupEvt = new MouseEvent('mouseup')
+
+    const testTime = 130
+    hoursElArrowDown.dispatchEvent(mousedownEvt)
+    hoursElArrowDown.dispatchEvent(mouseupEvt)
+    await sleep(testTime)
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(21)
+    hoursElArrowDown.dispatchEvent(mousedownEvt)
+    hoursElArrowDown.dispatchEvent(mouseupEvt)
+    await sleep(testTime)
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(22)
+    hoursElArrowDown.dispatchEvent(new MouseEvent('mousedown'))
+    hoursElArrowDown.dispatchEvent(new MouseEvent('mouseup'))
+    await sleep(testTime)
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(20)
+  })
 })
 
 describe('TimePicker(range)', () => {
@@ -563,6 +622,34 @@ describe('TimePicker(range)', () => {
     vm.value.forEach((v: unknown) => {
       expect(v).toBeInstanceOf(Date)
     })
+  })
+
+  it('clear button', async () => {
+    const initDates = [
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ]
+    const wrapper = _mount(
+      `<el-time-picker
+        v-model="value"
+        is-range
+      />`,
+      () => ({
+        value: initDates,
+      })
+    )
+    const findInputWrapper = () => wrapper.find('.el-date-editor')
+    const findClear = () => wrapper.find('.el-range__close-icon')
+
+    await nextTick()
+    const inputWrapper = findInputWrapper()
+    await inputWrapper.trigger('mouseenter')
+    await rAF()
+    const clearIcon = findClear()
+    await clearIcon.trigger('click')
+    await nextTick()
+    const vm = wrapper.vm as any
+    expect(vm.value).toEqual(null)
   })
 
   it('selectableRange ', async () => {

@@ -87,6 +87,7 @@ radio/with-borders
 | disabled              | whether the nesting radios are disabled           | boolean                   | —                       | false   |
 | text-color            | font color when button is active                  | string                    | —                       | #ffffff |
 | fill                  | border and background color when button is active | string                    | —                       | #409EFF |
+| validate-event        | whether to trigger form validation                | boolean                   | -                       | true    |
 
 ## Radio-group Events
 
