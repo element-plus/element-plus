@@ -165,30 +165,30 @@ const MESSAGE_BOX_DEFAULT_OPTS: Record<
 }
 
 MESSAGE_BOX_VARIANTS.forEach((boxType) => {
-  ;(MessageBox as Record<string, any>)[boxType] = messageBoxFactory(boxType)
+  ;(MessageBox as IElMessageBox)[boxType] = messageBoxFactory(boxType)
 })
 
 function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
   return (
     message: string,
-    titleOrOpts: string | ElMessageBoxOptions,
+    title: string | ElMessageBoxOptions | undefined,
     options?: ElMessageBoxOptions,
     appContext?: AppContext | null
   ) => {
-    let title: string
-    if (isObject(titleOrOpts)) {
-      options = titleOrOpts as ElMessageBoxOptions
-      title = ''
-    } else if (isUndefined(titleOrOpts)) {
-      title = ''
+    let titleOrOpts: string = ''
+    if (isObject(title)) {
+      options = title as ElMessageBoxOptions
+      titleOrOpts = ''
+    } else if (isUndefined(title)) {
+      titleOrOpts = ''
     } else {
-      title = titleOrOpts as string
+      titleOrOpts = title as string
     }
 
     return MessageBox(
       Object.assign(
         {
-          title,
+          title: titleOrOpts,
           message,
           type: '',
           ...MESSAGE_BOX_DEFAULT_OPTS[boxType],
