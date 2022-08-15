@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { h, render, watch } from 'vue'
 import { isClient } from '@vueuse/core'
 import {
@@ -104,7 +103,7 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   watch(
     () => vm.message,
-    (newVal, oldVal) => {
+    (newVal: any, oldVal: any) => {
       if (isVNode(newVal)) {
         // Override slots since message is vnode type.
         instance.slots.default = () => [newVal]
@@ -178,12 +177,12 @@ function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
   ) => {
     let title: string
     if (isObject(titleOrOpts)) {
-      options = titleOrOpts
+      options = titleOrOpts as ElMessageBoxOptions
       title = ''
     } else if (isUndefined(titleOrOpts)) {
       title = ''
     } else {
-      title = titleOrOpts
+      title = titleOrOpts as string
     }
 
     return MessageBox(
