@@ -173,10 +173,10 @@ MESSAGE_BOX_VARIANTS.forEach((boxType) => {
 
 function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
   return (
-    message: string | VNode | undefined,
-    title: string | ElMessageBoxOptions | undefined,
-    options: ElMessageBoxOptions | undefined,
-    appContext: AppContext | null | undefined
+    message: string | VNode,
+    title: string | ElMessageBoxOptions,
+    options?: ElMessageBoxOptions,
+    appContext?: AppContext | null
   ) => {
     let titleOrOpts = ''
     if (isObject(title)) {
