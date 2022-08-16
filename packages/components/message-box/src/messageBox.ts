@@ -14,6 +14,7 @@ import type {
   Action,
   Callback,
   ElMessageBoxOptions,
+  ElMessageBoxShortcutMethod,
   IElMessageBox,
   MessageBoxData,
   MessageBoxState,
@@ -165,17 +166,19 @@ const MESSAGE_BOX_DEFAULT_OPTS: Record<
 }
 
 MESSAGE_BOX_VARIANTS.forEach((boxType) => {
-  ;(MessageBox as IElMessageBox)[boxType] = messageBoxFactory(boxType)
+  ;(MessageBox as IElMessageBox)[boxType] = messageBoxFactory(
+    boxType
+  ) as ElMessageBoxShortcutMethod
 })
 
 function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
   return (
-    message: string,
+    message: string | VNode | undefined,
     title: string | ElMessageBoxOptions | undefined,
-    options?: ElMessageBoxOptions,
-    appContext?: AppContext | null
+    options: ElMessageBoxOptions | undefined,
+    appContext: AppContext | null | undefined
   ) => {
-    let titleOrOpts: string = ''
+    let titleOrOpts = ''
     if (isObject(title)) {
       options = title as ElMessageBoxOptions
       titleOrOpts = ''
