@@ -3,7 +3,6 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
-  nextTick,
   onMounted,
   provide,
   reactive,
@@ -30,7 +29,10 @@ import { useMenuCssVar } from './use-menu-css-var'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type { ExtractPropTypes, VNode, VNodeNormalizedChildren } from 'vue'
-import type { UseResizeObserverReturn } from '@vueuse/core'
+import type {
+  ResizeObserverCallback,
+  UseResizeObserverReturn,
+} from '@vueuse/core'
 
 export const menuProps = buildProps({
   mode: {
@@ -214,8 +216,16 @@ export default defineComponent({
       }
     }
 
-    const handleResize = () => {
-      nextTick(() => instance.proxy!.$forceUpdate())
+    let prevMenuWidth = 0
+    const handleResize: ResizeObserverCallback = (entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width
+        // re-render only when menu content width changes
+        if (width !== prevMenuWidth) {
+          prevMenuWidth = width
+          instance.proxy!.$forceUpdate()
+        }
+      }
     }
 
     watch(
