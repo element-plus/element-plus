@@ -201,7 +201,7 @@ function useStyle<T>(
       useEventListener(window, 'resize', resizeListener)
     }
 
-    useResizeObserver(table.refs.tableWrapper, () => {
+    useResizeObserver(table.refs.bodyWrapper, () => {
       table.refs?.scrollBarRef?.update()
     })
   }
