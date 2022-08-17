@@ -3,6 +3,7 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
+  nextTick,
   onMounted,
   provide,
   reactive,
@@ -29,10 +30,7 @@ import { useMenuCssVar } from './use-menu-css-var'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type { ExtractPropTypes, VNode, VNodeNormalizedChildren } from 'vue'
-import type {
-  ResizeObserverCallback,
-  UseResizeObserverReturn,
-} from '@vueuse/core'
+import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
   mode: {
@@ -216,16 +214,8 @@ export default defineComponent({
       }
     }
 
-    let prevMenuWidth = 0
-    const handleResize: ResizeObserverCallback = (entries) => {
-      for (const entry of entries) {
-        const width = entry.contentRect.width
-        // re-render only when menu content width changes
-        if (width !== prevMenuWidth) {
-          prevMenuWidth = width
-          instance.proxy!.$forceUpdate()
-        }
-      }
+    const handleResize = () => {
+      nextTick(() => instance.proxy!.$forceUpdate())
     }
 
     watch(
@@ -331,6 +321,7 @@ export default defineComponent({
       return result
     }
 
+    let firstItemWidth = 0
     return () => {
       let slot = slots.default?.() ?? []
       const vShowMore: VNode[] = []
@@ -339,6 +330,9 @@ export default defineComponent({
         const items = Array.from(menu.value?.childNodes ?? []).filter(
           (item) => item.nodeName !== '#text' || item.nodeValue
         ) as HTMLElement[]
+
+        if (items.length > 1) firstItemWidth = items[0].offsetWidth
+
         const originalSlot = flattedChildren(slot)
         const moreItemWidth = 64
         const paddingLeft = Number.parseInt(
@@ -354,7 +348,10 @@ export default defineComponent({
         let sliceIndex = 0
         items.forEach((item, index) => {
           calcWidth += item.offsetWidth || 0
-          if (calcWidth <= menuWidth - moreItemWidth) {
+          if (
+            calcWidth <= menuWidth - moreItemWidth &&
+            menuWidth - moreItemWidth >= firstItemWidth
+          ) {
             sliceIndex = index + 1
           }
         })
