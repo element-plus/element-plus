@@ -204,7 +204,7 @@
         var(
             #{getCssVarName('input-height')},
             #{map.get($input-height, 'default')}
-          ) - $border-width * 2
+          ) - #{$border-width} * 2
       )
     );
 
@@ -358,7 +358,7 @@
             var(
                 #{getCssVarName('input-height')},
                 #{map.get($input-height, $size)}
-              ) - $border-width * 2
+              ) - #{$border-width} * 2
           )
         );
       }
