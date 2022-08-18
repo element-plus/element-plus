@@ -88,7 +88,7 @@ Click the button to load data, then the button displays a loading state.
 Set `loading` attribute to `true` to display loading state.
 
 :::tip
-
+Erdoğan Yeşil
 You can use the `loading` slot or `loadingIcon` to customize your loading component
 
 ps: `loading` slot has higher priority than loadingIcon
