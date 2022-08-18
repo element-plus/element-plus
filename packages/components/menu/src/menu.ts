@@ -212,7 +212,7 @@ export default defineComponent({
         activeIndex.value = val
       }
     }
-    
+
     // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms
     const debounce = (fn: () => void, wait = 16.67) => {
       let timmer: ReturnType<typeof setTimeout> | null
@@ -329,7 +329,7 @@ export default defineComponent({
       return result
     }
 
-    let firstItemWidth = 0
+    let lastItemWidth = 0
     return () => {
       let slot = slots.default?.() ?? []
       const vShowMore: VNode[] = []
@@ -338,9 +338,6 @@ export default defineComponent({
         const items = Array.from(menu.value?.childNodes ?? []).filter(
           (item) => item.nodeName !== '#text' || item.nodeValue
         ) as HTMLElement[]
-
-        if (items.length > 1) firstItemWidth = items[0].offsetWidth
-
         const originalSlot = flattedChildren(slot)
         const moreItemWidth = 64
         const paddingLeft = Number.parseInt(
@@ -354,15 +351,19 @@ export default defineComponent({
         const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
         let calcWidth = 0
         let sliceIndex = 0
+        let tempItemWidth = 0
         items.forEach((item, index) => {
-          calcWidth += item.offsetWidth || 0
+          const itemWidth = item.offsetWidth || 0
+          calcWidth += itemWidth
           if (
             calcWidth <= menuWidth - moreItemWidth &&
-            menuWidth - moreItemWidth >= firstItemWidth
+            menuWidth - moreItemWidth >= lastItemWidth + (calcWidth - itemWidth)
           ) {
             sliceIndex = index + 1
+            tempItemWidth = itemWidth
           }
         })
+        lastItemWidth = tempItemWidth || items[0]?.offsetWidth || 0
         const slotDefault = originalSlot.slice(0, sliceIndex)
         const slotMore = originalSlot.slice(sliceIndex)
         if (slotMore?.length && props.ellipsis) {
