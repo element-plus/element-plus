@@ -5,7 +5,8 @@ import type { ComputedRef, Ref } from 'vue'
 export const useDraggable = (
   targetRef: Ref<HTMLElement | undefined>,
   dragRef: Ref<HTMLElement | undefined>,
-  draggable: ComputedRef<boolean>
+  draggable: ComputedRef<boolean>,
+  overEdge: Array<'top' | 'bottom' | 'left' | 'right'>
 ) => {
   let transform = {
     offsetX: 0,
@@ -26,10 +27,16 @@ export const useDraggable = (
     const clientWidth = document.documentElement.clientWidth
     const clientHeight = document.documentElement.clientHeight
 
-    const minLeft = -targetLeft + offsetX
-    const minTop = -targetTop + offsetY
-    const maxLeft = clientWidth - targetLeft - targetWidth + offsetX
-    const maxTop = clientHeight - targetTop - targetHeight + offsetY
+    let minLeft = -targetLeft + offsetX
+    let minTop = -targetTop + offsetY
+    let maxLeft = clientWidth - targetLeft - targetWidth + offsetX
+    let maxTop = clientHeight - targetTop - targetHeight + offsetY
+    if (overEdge) {
+      if (overEdge.includes('top')) minTop = -Number.POSITIVE_INFINITY
+      if (overEdge.includes('right')) maxLeft = Number.POSITIVE_INFINITY
+      if (overEdge.includes('bottom')) maxTop = Number.POSITIVE_INFINITY
+      if (overEdge.includes('left')) minLeft = -Number.POSITIVE_INFINITY
+    }
 
     const onMousemove = (e: MouseEvent) => {
       const moveX = Math.min(

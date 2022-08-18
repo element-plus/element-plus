@@ -61,5 +61,5 @@ const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 
 const draggable = computed(() => props.draggable)
-useDraggable(dialogRef, headerRef, draggable)
+useDraggable(dialogRef, headerRef, draggable, ['bottom'])
 </script>
