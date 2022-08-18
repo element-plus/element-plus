@@ -16,7 +16,7 @@
   box-shadow: getCssVar('dialog', 'box-shadow');
   box-sizing: border-box;
   width: var(#{getCssVarName('dialog-width')}, 50%);
-
+  max-height: 100%;
   &:focus {
     outline: none !important;
   }
@@ -95,6 +95,8 @@
     color: getCssVar('text-color', 'regular');
     font-size: getCssVar('dialog-content-font-size');
     word-break: break-all;
+    max-height: calc(100vh - 200px);
+    overflow: auto;
   }
 
   @include e(footer) {
@@ -125,7 +127,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: auto;
+  height: 100%;
 }
 
 .dialog-fade-enter-active {
