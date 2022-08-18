@@ -213,10 +213,19 @@ export default defineComponent({
         activeIndex.value = val
       }
     }
-
-    const handleResize = () => {
-      nextTick(() => instance.proxy!.$forceUpdate())
+    
+    // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms
+    const debounce = (fn: () => void, wait = 16.67) => {
+      let timmer: ReturnType<typeof setTimeout> | null
+      return () => {
+        timmer && clearTimeout(timmer)
+        timmer = setTimeout(() => {
+          fn()
+        }, wait)
+      }
     }
+
+    const handleResize = () => debounce(() => instance.proxy!.$forceUpdate())()
 
     watch(
       () => props.defaultActive,
