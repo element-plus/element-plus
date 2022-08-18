@@ -3,7 +3,6 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
-  nextTick,
   onMounted,
   provide,
   reactive,
