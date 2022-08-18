@@ -259,5 +259,9 @@ defineExpose({
    *  @description manual focus to the switch component
    **/
   focus,
+  /**
+   * @description whether Switch is checked
+   */
+  checked,
 })
 </script>
