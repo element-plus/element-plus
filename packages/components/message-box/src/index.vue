@@ -19,7 +19,7 @@
         <el-focus-trap
           loop
           :trapped="visible"
-          :focus-trap-el="rootRef"
+          :focus-trap-el="keepFocus ? rootRef : undefined"
           :focus-start-el="focusStartRef"
           @release-requested="onCloseRequested"
         >
@@ -246,6 +246,10 @@ export default defineComponent({
     boxType: {
       type: String as PropType<MessageBoxType>,
       default: '',
+    },
+    keepFocus: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['vanish', 'action'],

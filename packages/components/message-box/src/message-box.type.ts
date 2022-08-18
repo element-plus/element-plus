@@ -170,6 +170,9 @@ export interface ElMessageBoxOptions {
 
   /** Custom size of confirm and cancel buttons */
   buttonSize?: ComponentSize
+
+  /** Should re-focus to previous focused target after close */
+  keepFocus?: boolean
 }
 
 export type ElMessageBoxShortcutMethod = ((
