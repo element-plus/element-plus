@@ -189,7 +189,8 @@ const _rules = computed(() => {
   }
 
   if (props.required !== undefined) {
-    rules.push({ required: !!props.required })
+    const lastIndex = Math.max(rules.length - 1, 0)
+    rules.splice(lastIndex, 1, {...rules[lastIndex] || {}, ...{ required: !!props.required }})
   }
 
   return rules
