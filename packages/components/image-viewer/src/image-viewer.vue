@@ -89,6 +89,7 @@ import {
   onMounted,
   ref,
   shallowRef,
+  toRefs,
   watch,
 } from 'vue'
 import { isNumber, useEventListener } from '@vueuse/core'
@@ -142,7 +143,7 @@ const imgRefs = ref<HTMLImageElement[]>([])
 const scopeEventListener = effectScope()
 
 const loading = ref(true)
-const index = ref(props.initialIndex)
+const { initialIndex: index } = toRefs(props)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
   scale: 1,
