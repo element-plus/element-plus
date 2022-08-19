@@ -115,9 +115,7 @@ export const getColumnByKey = function <T>(
   let column = null
   for (let i = 0; i < table.columns.length; i++) {
     const item = table.columns[i]
-    if(!item.columnKey) {
-      throw('column does not have columnKey set');
-    }
+    if(!item.columnKey) throw new Error('column does not have columnKey set')
     if (item.columnKey === columnKey) {
       column = item
       break
