@@ -36,11 +36,9 @@ export const spaceProps = buildProps({
   },
 
   class: {
-    type: definePropType<string | string[] | Record<string, boolean>>([
-      String,
-      Object,
-      Array,
-    ]),
+    type: definePropType<
+      string | Array<Record<string, boolean> | string> | Record<string, boolean>
+    >([String, Object, Array]),
     default: '',
   },
 
