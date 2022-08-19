@@ -1,5 +1,34 @@
 ## Changelog
 
+### 2.2.14
+
+_2022-08-19_
+
+#### Features
+
+- Components [pagination] btns icon can be customized Vuecomponent (#9372 by @Tsong-LC)
+
+#### Bug fixes
+
+- Components use namespace (#9299 by @holazz)
+- Deps update dependency eslint-plugin-markdown to v3 (#9139 by @renovate[bot])
+- Deps update dependency @vueuse/core to v9 (#9138 by @renovate[bot])
+- Deps update dependency eslint-plugin-unicorn to v43 (#8610 by @renovate[bot])
+- Components [dialog] should emit open event after nextTick (#9209 by @buqiyuan)
+- Theme-chalk [select] text overflow shows ellipsis (#9305 by @holazz)
+- Components [docs] menu example code menu name error (#9355 by @feiyuOL)
+- Components [tree] calc parentNode state after doCreateChildren (#9362 by @Tsong-LC)
+- Components [switch] fix type error (#9171 by @Tsong-LC)
+- Components [select] option value is object (#9287 by @chenxch)
+- Components [cascader] placeholder disappeared after clear value (#9190 by @sechi747)
+- Components [menu] resize event infinite invoke (#9342 by @holazz)
+- Perf: RTLOffsetType compare (#9320 by @alwynou)
+- Style(theme-chalk): fix input (#9178 by @daonatural)
+
+#### Refactors
+
+- Components [table] fix typo (#9338 by @Tsong-LC)
+
 ### 2.2.13
 
 _2022-08-12_
