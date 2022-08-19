@@ -20,6 +20,7 @@ import type {
   Message,
   MessageFn,
   MessageHandler,
+  MessageInstance,
   MessageOptions,
   MessageParams,
   MessageParamsNormalized,
@@ -111,13 +112,13 @@ const createMessage = (
   // instances will remove this item when close function gets called. So we do not need to worry about it.
   appendTo.appendChild(container.firstElementChild!)
 
-  const vm = vnode.component!
+  const vm = vnode.component!.proxy as MessageInstance
 
   const handler: MessageHandler = {
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
     close: () => {
-      vm.exposeProxy!.visible = false
+      vm.visible = false
     },
   }
 
