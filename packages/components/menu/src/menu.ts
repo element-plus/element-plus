@@ -3,6 +3,7 @@ import {
   defineComponent,
   getCurrentInstance,
   h,
+  nextTick,
   onMounted,
   provide,
   reactive,
@@ -104,6 +105,8 @@ export default defineComponent({
     const nsSubMenu = useNamespace('sub-menu')
 
     // data
+    const sliceIndex = ref(-1)
+
     const openedMenus = ref<MenuProvider['openedMenus']>(
       props.defaultOpeneds && !props.collapse
         ? props.defaultOpeneds.slice(0)
@@ -213,8 +216,33 @@ export default defineComponent({
       }
     }
 
+    const calcSliceIndex = () => {
+      const items = Array.from(menu.value?.childNodes ?? []).filter(
+        (item) => item.nodeName !== '#text' || item.nodeValue
+      ) as HTMLElement[]
+      const moreItemWidth = 64
+      const paddingLeft = Number.parseInt(
+        getComputedStyle(menu.value!).paddingLeft,
+        10
+      )
+      const paddingRight = Number.parseInt(
+        getComputedStyle(menu.value!).paddingRight,
+        10
+      )
+      const menuWidth = menu.value!.clientWidth - paddingLeft - paddingRight
+      let calcWidth = 0
+      let sliceIndex = 0
+      items.forEach((item, index) => {
+        calcWidth += item.offsetWidth || 0
+        if (calcWidth <= menuWidth - moreItemWidth) {
+          sliceIndex = index + 1
+        }
+      })
+      return sliceIndex
+    }
+
     // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms
-    const debounce = (fn: () => void, wait = 16.67) => {
+    const debounce = (fn: () => void, wait = 16.67 * 2) => {
       let timmer: ReturnType<typeof setTimeout> | null
       return () => {
         timmer && clearTimeout(timmer)
@@ -224,7 +252,18 @@ export default defineComponent({
       }
     }
 
-    const handleResize = () => debounce(() => instance.proxy!.$forceUpdate())()
+    let isFirstTimeRender = true
+    const handleResize = () => {
+      const callback = () => {
+        sliceIndex.value = -1
+        nextTick(() => {
+          sliceIndex.value = calcSliceIndex()
+        })
+      }
+      // execute callback directly when first time resize to avoid shaking
+      isFirstTimeRender ? callback() : debounce(callback)()
+      isFirstTimeRender = false
+    }
 
     watch(
       () => props.defaultActive,
@@ -329,43 +368,20 @@ export default defineComponent({
       return result
     }
 
-    let lastItemWidth = 0
     return () => {
       let slot = slots.default?.() ?? []
       const vShowMore: VNode[] = []
 
       if (props.mode === 'horizontal' && menu.value) {
-        const items = Array.from(menu.value?.childNodes ?? []).filter(
-          (item) => item.nodeName !== '#text' || item.nodeValue
-        ) as HTMLElement[]
         const originalSlot = flattedChildren(slot)
-        const moreItemWidth = 64
-        const paddingLeft = Number.parseInt(
-          getComputedStyle(menu.value).paddingLeft,
-          10
-        )
-        const paddingRight = Number.parseInt(
-          getComputedStyle(menu.value).paddingRight,
-          10
-        )
-        const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
-        let calcWidth = 0
-        let sliceIndex = 0
-        let tempItemWidth = 0
-        items.forEach((item, index) => {
-          const itemWidth = item.offsetWidth || 0
-          calcWidth += itemWidth
-          if (
-            calcWidth <= menuWidth - moreItemWidth &&
-            menuWidth - moreItemWidth >= lastItemWidth + (calcWidth - itemWidth)
-          ) {
-            sliceIndex = index + 1
-            tempItemWidth = itemWidth
-          }
-        })
-        lastItemWidth = tempItemWidth || items[0]?.offsetWidth || 0
-        const slotDefault = originalSlot.slice(0, sliceIndex)
-        const slotMore = originalSlot.slice(sliceIndex)
+        const slotDefault =
+          sliceIndex.value === -1
+            ? originalSlot
+            : originalSlot.slice(0, sliceIndex.value)
+
+        const slotMore =
+          sliceIndex.value === -1 ? [] : originalSlot.slice(sliceIndex.value)
+
         if (slotMore?.length && props.ellipsis) {
           slot = slotDefault
           vShowMore.push(
