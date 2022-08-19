@@ -19,7 +19,7 @@ const props = defineProps(iconProps)
 const ns = useNamespace('icon')
 
 const style = computed<CSSProperties>(() => {
-  const {size, color} = prop
+  const { size, color } = props
   if (!size && !color) return {}
 
   return {
