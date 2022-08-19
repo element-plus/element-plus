@@ -241,8 +241,8 @@ export default defineComponent({
       return sliceIndex === items.length ? -1 : sliceIndex
     }
 
-    // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms
-    const debounce = (fn: () => void, wait = 16.67 * 2) => {
+    // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms, In order to avoid a certain chance of repeated triggering when `resize`, set wait to 16.67 * 2 = 33.34
+    const debounce = (fn: () => void, wait = 33.34) => {
       let timmer: ReturnType<typeof setTimeout> | null
       return () => {
         timmer && clearTimeout(timmer)
