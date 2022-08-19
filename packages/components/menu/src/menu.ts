@@ -217,7 +217,7 @@ export default defineComponent({
     }
 
     const calcSliceIndex = () => {
-      const items = Array.from(menu.value?.childNodes ?? []).filter(
+      const items = Array.from(menu.value!.childNodes ?? []).filter(
         (item) => item.nodeName !== '#text' || item.nodeValue
       ) as HTMLElement[]
       const moreItemWidth = 64
@@ -238,7 +238,7 @@ export default defineComponent({
           sliceIndex = index + 1
         }
       })
-      return sliceIndex
+      return sliceIndex === items.length ? -1 : sliceIndex
     }
 
     // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms
