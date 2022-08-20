@@ -63,7 +63,7 @@
         <div :class="ns.e('canvas')">
           <img
             v-for="(url, i) in urlList"
-            v-show="i === index"
+            v-show="i === activeIndex"
             :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
             :key="url"
             :src="url"
@@ -89,7 +89,6 @@ import {
   onMounted,
   ref,
   shallowRef,
-  toRefs,
   watch,
 } from 'vue'
 import { isNumber, useEventListener } from '@vueuse/core'
@@ -143,7 +142,7 @@ const imgRefs = ref<HTMLImageElement[]>([])
 const scopeEventListener = effectScope()
 
 const loading = ref(true)
-const { initialIndex: index } = toRefs(props)
+const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
   scale: 1,
@@ -159,15 +158,15 @@ const isSingle = computed(() => {
 })
 
 const isFirst = computed(() => {
-  return index.value === 0
+  return activeIndex.value === 0
 })
 
 const isLast = computed(() => {
-  return index.value === props.urlList.length - 1
+  return activeIndex.value === props.urlList.length - 1
 })
 
 const currentImg = computed(() => {
-  return props.urlList[index.value]
+  return props.urlList[activeIndex.value]
 })
 
 const imgStyle = computed(() => {
@@ -319,16 +318,19 @@ function toggleMode() {
   reset()
 }
 
+function setActiveItem(index: number) {
+  const len = props.urlList.length
+  activeIndex.value = (index + len) % len
+}
+
 function prev() {
   if (isFirst.value && !props.infinite) return
-  const len = props.urlList.length
-  index.value = (index.value - 1 + len) % len
+  setActiveItem(activeIndex.value - 1)
 }
 
 function next() {
   if (isLast.value && !props.infinite) return
-  const len = props.urlList.length
-  index.value = (index.value + 1) % len
+  setActiveItem(activeIndex.value + 1)
 }
 
 function handleActions(action: ImageViewerAction, options = {}) {
@@ -373,7 +375,7 @@ watch(currentImg, () => {
   })
 })
 
-watch(index, (val) => {
+watch(activeIndex, (val) => {
   reset()
   emit('switch', val)
 })
@@ -383,5 +385,10 @@ onMounted(() => {
   // add tabindex then wrapper can be focusable via Javascript
   // focus wrapper so arrow key can't cause inner scroll behavior underneath
   wrapper.value?.focus?.()
+})
+
+defineExpose({
+  /** @description manually switch image */
+  setActiveItem,
 })
 </script>
