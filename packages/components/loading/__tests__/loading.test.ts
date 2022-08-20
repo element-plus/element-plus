@@ -169,6 +169,30 @@ describe('Loading', () => {
     await nextTick()
     expect(wrapper.find('.el-loading-text').text()).toEqual('loading...')
   })
+  test('text directive updated', async () => {
+    const wrapper = mount({
+      directives: {
+        loading: vLoading,
+      },
+      template: `<div v-loading="loading" :element-loading-text="loadingText" @click="handleClick" id="text_directive_updated"></div>`,
+      data() {
+        return {
+          loading: true,
+          loadingText: 'loading...',
+        }
+      },
+      methods: {
+        handleClick() {
+          this.loadingText = 'loading updated'
+        },
+      },
+    })
+    await nextTick()
+    expect(wrapper.find('.el-loading-text').text()).toEqual('loading...')
+    await wrapper.find('#text_directive_updated').trigger('click')
+    await nextTick()
+    expect(wrapper.find('.el-loading-text').text()).toEqual('loading updated')
+  })
 
   test('customClass directive', async () => {
     const wrapper = mount({

@@ -16,6 +16,12 @@ export interface ElementLoading extends HTMLElement {
   }
 }
 
+const resolveExpression = (key: any, vm: any) => {
+  const data = (isString(key) && vm?.[key]) || key
+  if (data) return ref(data)
+  else return data
+}
+
 const createInstance = (
   el: ElementLoading,
   binding: DirectiveBinding<LoadingBinding>
@@ -27,16 +33,10 @@ const createInstance = (
   ): LoadingOptions[K] =>
     isObject(binding.value) ? binding.value[key] : undefined
 
-  const resolveExpression = (key: any) => {
-    const data = (isString(key) && vm?.[key]) || key
-    if (data) return ref(data)
-    else return data
-  }
-
   const getProp = <K extends keyof LoadingOptions>(name: K) =>
     resolveExpression(
       getBindingProp(name) ||
-        el.getAttribute(`element-loading-${hyphenate(name)}`)
+        el.getAttribute(`element-loading-${hyphenate(name)}`, vm)
     )
 
   const fullscreen =
@@ -70,6 +70,17 @@ const updateOptions = (
   }
 }
 
+const updateDirectiveAttr = (el, binding, originalOptions: LoadingOptions) => {
+  const vm = binding.instance
+  const getProp = <K extends keyof LoadingOptions>(name: K) =>
+    resolveExpression(el.getAttribute(`element-loading-${hyphenate(name)}`), vm)
+
+  for (const key of Object.keys(originalOptions)) {
+    if (isRef(originalOptions[key]))
+      originalOptions[key].value = getProp(key).value
+  }
+}
+
 export const vLoading: Directive<ElementLoading, LoadingBinding> = {
   mounted(el, binding) {
     if (binding.value) {
@@ -86,6 +97,12 @@ export const vLoading: Directive<ElementLoading, LoadingBinding> = {
           updateOptions(binding.value, instance!.options)
       } else {
         instance?.instance.close()
+      }
+    } else {
+      if (!isObject(binding.value) && !isObject(binding.oldValue)) {
+        updateDirectiveAttr(el, binding, instance!.options)
+      } else {
+        updateOptions(binding.value, instance!.options)
       }
     }
   },
