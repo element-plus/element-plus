@@ -71,9 +71,8 @@ const updateOptions = (
 }
 
 const updateDirectiveAttr = (el, binding, originalOptions: LoadingOptions) => {
-  const vm = binding.instance
   const getProp = <K extends keyof LoadingOptions>(name: K) =>
-    resolveExpression(el.getAttribute(`element-loading-${hyphenate(name)}`), vm)
+    resolveExpression(el.getAttribute(`element-loading-${hyphenate(name)}`))
 
   for (const key of Object.keys(originalOptions)) {
     if (isRef(originalOptions[key]))
