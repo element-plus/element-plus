@@ -46,6 +46,7 @@ export default defineComponent({
       type: [Object, String] as PropType<'container' | 'first' | HTMLElement>,
       default: 'first',
     },
+    focusLastActive: Boolean,
   },
   emits: [
     ON_TRAP_FOCUS_EVT,
@@ -243,7 +244,7 @@ export default defineComponent({
         trapContainer.addEventListener(FOCUS_AFTER_RELEASED, releaseOnFocus)
         trapContainer.dispatchEvent(releasedEvent)
 
-        if (!releasedEvent.defaultPrevented) {
+        if (focusLastActive && !releasedEvent.defaultPrevented) {
           tryFocus(lastFocusBeforeTrapped ?? document.body, true)
         }
 
