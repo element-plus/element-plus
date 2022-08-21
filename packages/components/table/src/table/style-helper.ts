@@ -112,7 +112,7 @@ function useStyle<T>(
       layout.updateElsHeight()
     }
     layout.updateColumnsWidth()
-    requestAnimationFrame(syncPostion)
+    requestAnimationFrame(syncPosition)
   }
   onMounted(async () => {
     await nextTick()
@@ -163,7 +163,7 @@ function useStyle<T>(
     const { tableWrapper } = table.refs
     return !!(tableWrapper && tableWrapper.classList.contains(className))
   }
-  const syncPostion = function () {
+  const syncPosition = function () {
     if (!table.refs.scrollBarRef) return
     if (!layout.scrollX.value) {
       const scrollingNoneClass = 'is-scrolling-none'
@@ -191,7 +191,7 @@ function useStyle<T>(
   const bindEvents = () => {
     if (!table.refs.scrollBarRef) return
     if (table.refs.scrollBarRef.wrap$) {
-      useEventListener(table.refs.scrollBarRef.wrap$, 'scroll', syncPostion, {
+      useEventListener(table.refs.scrollBarRef.wrap$, 'scroll', syncPosition, {
         passive: true,
       })
     }
