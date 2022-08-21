@@ -41,23 +41,23 @@ export const orderBy = function <T>(
   const getKey = sortMethod
     ? null
     : function (value, index) {
-        if (sortBy) {
-          if (!Array.isArray(sortBy)) {
-            sortBy = [sortBy]
+      if (sortBy) {
+        if (!Array.isArray(sortBy)) {
+          sortBy = [sortBy]
+        }
+        return sortBy.map((by) => {
+          if (typeof by === 'string') {
+            return get(value, by)
+          } else {
+            return by(value, index, array)
           }
-          return sortBy.map((by) => {
-            if (typeof by === 'string') {
-              return get(value, by)
-            } else {
-              return by(value, index, array)
-            }
-          })
-        }
-        if (sortKey !== '$key') {
-          if (isObject(value) && '$value' in value) value = value.$value
-        }
-        return [isObject(value) ? get(value, sortKey) : value]
+        })
       }
+      if (sortKey !== '$key') {
+        if (isObject(value) && '$value' in value) value = value.$value
+      }
+      return [isObject(value) ? get(value, sortKey) : value]
+    }
   const compare = function (a, b) {
     if (sortMethod) {
       return sortMethod(a.value, b.value)
@@ -115,7 +115,6 @@ export const getColumnByKey = function <T>(
   let column = null
   for (let i = 0; i < table.columns.length; i++) {
     const item = table.columns[i]
-    if (!item.columnKey) throw new Error('column does not have columnKey set')
     if (item.columnKey === columnKey) {
       column = item
       break
@@ -165,9 +164,9 @@ export const getKeysMap = function <T>(
   rowKey: string
 ): Record<string, { row: T; index: number }> {
   const arrayMap = {}
-  ;(array || []).forEach((row, index) => {
-    arrayMap[getRowIdentity(row, rowKey)] = { row, index }
-  })
+    ; (array || []).forEach((row, index) => {
+      arrayMap[getRowIdentity(row, rowKey)] = { row, index }
+    })
   return arrayMap
 }
 
@@ -347,7 +346,7 @@ export function createTablePopper(
       trigger.removeEventListener('mouseleave', removePopper)
       scrollContainer?.removeEventListener('scroll', removePopper)
       removePopper = undefined
-    } catch {}
+    } catch { }
   }
   let popperInstance: Nullable<PopperInstance> = null
   const content = renderContent()
@@ -427,10 +426,10 @@ export const isFixedColumn = <T>(
   }
   return fixedLayout
     ? {
-        direction: fixedLayout,
-        start,
-        after,
-      }
+      direction: fixedLayout,
+      start,
+      after,
+    }
     : {}
 }
 
@@ -451,8 +450,8 @@ export const getFixedColumnsClass = <T>(
     } else if (
       !isLeft &&
       start ===
-        store.states.columns.value.length -
-          store.states.rightFixedLeafColumnsLength.value
+      store.states.columns.value.length -
+      store.states.rightFixedLeafColumnsLength.value
     ) {
       classes.push('is-first-column')
     }
