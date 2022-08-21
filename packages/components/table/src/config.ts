@@ -198,9 +198,6 @@ export function treeCellPrefix<T>(
   const ele: VNode[] = []
   const callback = function (e) {
     e.stopPropagation()
-    if (treeNode.loading) {
-      return
-    }
     store.loadOrToggle(row)
   }
   if (treeNode.indent) {
