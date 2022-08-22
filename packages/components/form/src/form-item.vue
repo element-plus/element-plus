@@ -189,7 +189,15 @@ const _rules = computed(() => {
   }
 
   if (props.required !== undefined) {
-    rules.push({ required: !!props.required })
+    const requiredRule = rules.find((rule) => {
+      const keys = Object.keys(rule)
+      return keys.length === 1 && keys[0] === 'required'
+    })
+    if (requiredRule) {
+      requiredRule.required = !!props.required
+    } else {
+      rules.push({ required: !!props.required })
+    }
   }
 
   return rules
