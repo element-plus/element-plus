@@ -140,7 +140,7 @@ function MessageBox(
       message: options,
     }
   } else {
-    if (options.callback) callback = options.callback
+    callback = options.callback
   }
 
   return new Promise((resolve, reject) => {
