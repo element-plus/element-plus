@@ -104,7 +104,10 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   watch(
     () => vm.message,
-    (newVal: string | VNode, oldVal: string | VNode) => {
+    (
+      newVal: string | object | undefined,
+      oldVal: string | object | undefined
+    ) => {
       if (isVNode(newVal)) {
         // Override slots since message is vnode type.
         instance.slots.default = () => [newVal]
