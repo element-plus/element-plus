@@ -26,7 +26,7 @@ const messageInstance = new Map<
   ComponentPublicInstance<{ doClose: () => void }>, // marking doClose as function
   {
     options: any
-    callback: Callback
+    callback: Callback | undefined
     resolve: (res: any) => void
     reject: (reason?: any) => void
   }
@@ -104,7 +104,7 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   watch(
     () => vm.message,
-    (newVal: any, oldVal: any) => {
+    (newVal: string | VNode, oldVal: string | VNode) => {
       if (isVNode(newVal)) {
         // Override slots since message is vnode type.
         instance.slots.default = () => [newVal]
@@ -131,7 +131,7 @@ function MessageBox(
   appContext: AppContext | null = null
 ): Promise<{ value: string; action: Action } | Action> {
   if (!isClient) return Promise.reject()
-  let callback: Callback
+  let callback: Callback | undefined
   if (isString(options) || isVNode(options)) {
     options = {
       message: options,
