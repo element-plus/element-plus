@@ -17,7 +17,7 @@ Next section is for those who wants to help develop Element Plus.
 
 You should be having:
 
-NodeJS >= 16
+NodeJS >= 16.17.0
 
 Git > v2.20
 
