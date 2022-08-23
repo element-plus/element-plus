@@ -105,7 +105,7 @@ tree-v2/filter
 | getCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys | `(leafOnly: boolean)` |
 | setCheckedKeys | set certain nodes to be checked | `(keys: TreeKey[])` |
 | setChecked | set node to be checked or not | `(key: TreeKey, checked: boolean)` |
-| setExpendKeys | set certain nodes to be expand | `(keys: TreeKey[])` |
+| setExpandedKeys | set certain nodes to be expanded | `(keys: TreeKey[])` |
 | getHalfCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes | - |
 | getHalfCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | - |
 | getCurrentKey | return the highlight node's key (undefined if no node is highlighted) | - |

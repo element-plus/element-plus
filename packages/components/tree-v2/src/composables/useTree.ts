@@ -191,7 +191,7 @@ export function useTree(props: TreeProps, emit) {
     }
   }
 
-  function setExpendKeys(keys: TreeKey[]) {
+  function setExpandedKeys(keys: TreeKey[]) {
     expandedKeySet.value = new Set(keys)
   }
 
@@ -304,6 +304,6 @@ export function useTree(props: TreeProps, emit) {
     getNode,
     expandNode,
     collapseNode,
-    setExpendKeys,
+    setExpandedKeys,
   }
 }
