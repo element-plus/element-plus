@@ -679,7 +679,12 @@ export default defineComponent({
       const lastTag = tags[tags.length - 1]
       pressDeleteCount = searchInputValue.value ? 0 : pressDeleteCount + 1
 
-      if (!lastTag || !pressDeleteCount) return
+      if (
+        !lastTag ||
+        !pressDeleteCount ||
+        (props.collapseTags && tags.length > 1)
+      )
+        return
 
       if (lastTag.hitState) {
         deleteTag(lastTag)
