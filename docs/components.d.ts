@@ -17,6 +17,8 @@ declare module '@vue/runtime-core' {
     EfficiencySvg: typeof import('./.vitepress/vitepress/components/globals/design/efficiency-svg.vue')['default']
     ElementPlusLogo: typeof import('./.vitepress/vitepress/components/icons/element-plus-logo.vue')['default']
     ElementPlusTextLogo: typeof import('./.vitepress/vitepress/components/icons/element-plus-text-logo.vue')['default']
+    ElThemeDrawer: typeof import('./.vitepress/vitepress/components/el-theme-drawer.vue')['default']
+    EpThemeDrawer: typeof import('./.vitepress/vitepress/components/ep-theme-drawer.vue')['default']
     Expand: typeof import('./.vitepress/vitepress/components/icons/expand.vue')['default']
     FeedbackSvg: typeof import('./.vitepress/vitepress/components/globals/design/feedback-svg.vue')['default']
     FigmaTemplateSvg: typeof import('./.vitepress/vitepress/components/globals/resources/figma-template-svg.vue')['default']
