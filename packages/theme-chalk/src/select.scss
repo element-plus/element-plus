@@ -22,6 +22,7 @@
 @include b(select) {
   display: inline-block;
   position: relative;
+  width: 100%;
   line-height: map.get($input-height, 'default');
 
   @include e(popper) {
