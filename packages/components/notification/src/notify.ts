@@ -5,7 +5,7 @@ import { debugWarn, isElement, isString, isVNode } from '@element-plus/utils'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
 
-import type { AppContext, ComponentPublicInstance, Ref, VNode } from 'vue'
+import type { AppContext, Ref, VNode } from 'vue'
 import type {
   NotificationOptions,
   NotificationProps,
@@ -102,9 +102,8 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
       // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
       // for out component, so that all closing steps will not be skipped.
       close: () => {
-        ;(
-          vm.component!.proxy as ComponentPublicInstance<{ visible: boolean }>
-        ).visible = false
+        ;(vm.component!.exposed as { visible: Ref<boolean> }).visible.value =
+          false
       },
     }
   }
