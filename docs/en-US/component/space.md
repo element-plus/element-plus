@@ -121,18 +121,18 @@ space/fill-ratio
 
 ## Space Attributes
 
-| Attribute  | Description                     | Type                                      | Available value                                                             | Default    |
-| ---------- | ------------------------------- | ----------------------------------------- | --------------------------------------------------------------------------- | ---------- |
-| alignment  | Controls the alignment of items | string                                    | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | 'center'   |
-| class      | Classname                       | string / Array<Object \| String> / Object | -                                                                           | -          |
-| direction  | Placement direction             | string                                    | vertical/horizontal                                                         | horizontal |
-| prefixCls  | Prefix for space-items          | string                                    | el-space                                                                    | -          |
-| style      | Extra style rules               | string / Array<Object \| String> / Object | -                                                                           | -          |
-| spacer     | Spacer                          | string / number / VNode                   | -                                                                           | -          |
-| size       | Spacing size                    | string / number / [number, number]        | -                                                                           | 'small'    |
-| wrap       | Auto wrapping                   | boolean                                   | true / false                                                                | false      |
-| fill       | Whether to fill the container   | boolean                                   | true / false                                                                | false      |
-| fill-ratio | Ratio of fill                   | number                                    | -                                                                           | 100        |
+| Attribute  | Description                     | Type                                                                        | Available value                                                             | Default    |
+| ---------- | ------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ---------- |
+| alignment  | Controls the alignment of items | string                                                                      | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | 'center'   |
+| class      | Classname                       | string / Array<Record<string, boolean> \| String> / Record<string, boolean> | -                                                                           | -          |
+| direction  | Placement direction             | string                                                                      | vertical/horizontal                                                         | horizontal |
+| prefixCls  | Prefix for space-items          | string                                                                      | el-space                                                                    | -          |
+| style      | Extra style rules               | string / Array<Object \| String> / Object                                   | -                                                                           | -          |
+| spacer     | Spacer                          | string / number / VNode                                                     | -                                                                           | -          |
+| size       | Spacing size                    | string / number / [number, number]                                          | -                                                                           | 'small'    |
+| wrap       | Auto wrapping                   | boolean                                                                     | true / false                                                                | false      |
+| fill       | Whether to fill the container   | boolean                                                                     | true / false                                                                | false      |
+| fill-ratio | Ratio of fill                   | number                                                                      | -                                                                           | 100        |
 
 ## Space Slot
 
