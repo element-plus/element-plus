@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { buildProps, definePropType } from '@element-plus/utils'
 import {
   usePopperContentProps,
@@ -10,7 +9,7 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import type Tooltip from '../tooltip.vue'
+import type Tooltip from './tooltip.vue'
 
 import type { ExtractPropTypes } from 'vue'
 
