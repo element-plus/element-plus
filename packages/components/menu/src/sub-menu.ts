@@ -59,19 +59,15 @@ export const subMenuProps = buildProps({
   },
   expandCloseIcon: {
     type: definePropType<Component | (() => VNode)>([Object, Function]),
-    default: '',
   },
   expandOpenIcon: {
     type: definePropType<Component | (() => VNode)>([Object, Function]),
-    default: '',
   },
   collapseCloseIcon: {
     type: definePropType<Component | (() => VNode)>([Object, Function]),
-    default: '',
   },
   collapseOpenIcon: {
     type: definePropType<Component | (() => VNode)>([Object, Function]),
-    default: '',
   },
 } as const)
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
