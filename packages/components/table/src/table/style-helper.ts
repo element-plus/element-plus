@@ -200,6 +200,11 @@ function useStyle<T>(
     } else {
       useEventListener(window, 'resize', resizeListener)
     }
+
+    useResizeObserver(table.refs.bodyWrapper, () => {
+      resizeListener()
+      table.refs?.scrollBarRef?.update()
+    })
   }
   const resizeListener = () => {
     const el = table.vnode.el
@@ -299,14 +304,14 @@ function useStyle<T>(
     }
     if (props.maxHeight) {
       if (!Number.isNaN(Number(props.maxHeight))) {
-        const headerHeight = table.refs.headerWrapper?.scrollHeight || 0
-        const footerHeight = table.refs.footerWrapper?.scrollHeight || 0
         const maxHeight = props.maxHeight
         const reachMaxHeight = tableScrollHeight.value >= Number(maxHeight)
         if (reachMaxHeight) {
           return {
             maxHeight: `${
-              tableScrollHeight.value - headerHeight - footerHeight
+              tableScrollHeight.value -
+              headerScrollHeight.value -
+              footerScrollHeight.value
             }px`,
           }
         }
