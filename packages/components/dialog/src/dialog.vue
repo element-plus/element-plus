@@ -99,6 +99,18 @@ useDeprecated(
   computed(() => !!slots.title)
 )
 
+useDeprecated(
+  {
+    scope: 'el-dialog',
+    from: 'custom-class',
+    replacement: 'class',
+    version: '3.0.0',
+    ref: 'https://element-plus.org/en-US/component/dialog.html#attributes',
+    type: 'Attribute',
+  },
+  computed(() => !!props.customClass)
+)
+
 const ns = useNamespace('dialog')
 const dialogRef = ref<HTMLElement>()
 const headerRef = ref<HTMLElement>()
