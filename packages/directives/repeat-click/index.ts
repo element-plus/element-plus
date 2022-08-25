@@ -26,7 +26,7 @@ const RepeatClick: ObjectDirective = {
       interval = setInterval(() => {
         isHandlerCalled = true
         handler()
-      }, 100)
+      }, 200)
     })
   },
 }
