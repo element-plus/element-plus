@@ -440,7 +440,7 @@
       box-sizing: border-box;
       margin-top: 10px;
       padding: 10px;
-      display: inline-flex;
+      display: flex;
       align-items: center;
 
       .#{bem('icon', '' ,'check')},
