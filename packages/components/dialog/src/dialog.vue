@@ -36,6 +36,7 @@
             <el-dialog-content
               v-if="rendered"
               ref="dialogContentRef"
+              v-bind="$attrs"
               :custom-class="customClass"
               :center="center"
               :align-center="alignCenter"
@@ -80,6 +81,7 @@ import { useDialog } from './use-dialog'
 
 defineOptions({
   name: 'ElDialog',
+  inheritAttrs: false,
 })
 
 const props = defineProps(dialogProps)
