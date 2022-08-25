@@ -33,10 +33,7 @@
           alt=""
         />
         <div
-          v-if="
-            listType !== 'picture' &&
-            (file.status === 'uploading' || listType !== 'picture-card')
-          "
+          v-if="file.status === 'uploading' || listType !== 'picture-card'"
           :class="nsUpload.be('list', 'item-info')"
         >
           <a

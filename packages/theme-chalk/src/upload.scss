@@ -440,6 +440,8 @@
       box-sizing: border-box;
       margin-top: 10px;
       padding: 10px;
+      display: inline-flex;
+      align-items: center;
 
       .#{bem('icon', '' ,'check')},
       .#{bem('icon', '' ,'circle-check')} {
