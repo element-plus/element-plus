@@ -17,7 +17,7 @@ import {
 import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElTooltip from '@element-plus/components/tooltip'
-import { buildProps, iconPropType, throwError } from '@element-plus/utils'
+import { buildProps, definePropType, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
 import { ElIcon } from '@element-plus/components/icon'
@@ -29,7 +29,7 @@ import type {
   CSSProperties,
   Component,
   ExtractPropTypes,
-  PropType,
+  VNode,
   VNodeArrayChildren,
 } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
@@ -58,19 +58,19 @@ export const subMenuProps = buildProps({
     default: 6,
   },
   expandCloseIcon: {
-    type: iconPropType,
+    type: definePropType<Component | (() => VNode)>([Object, Function]),
     default: '',
   },
   expandOpenIcon: {
-    type: iconPropType,
+    type: definePropType<Component | (() => VNode)>([Object, Function]),
     default: '',
   },
   collapseCloseIcon: {
-    type: iconPropType,
+    type: definePropType<Component | (() => VNode)>([Object, Function]),
     default: '',
   },
   collapseOpenIcon: {
-    type: iconPropType,
+    type: definePropType<Component | (() => VNode)>([Object, Function]),
     default: '',
   },
 } as const)
@@ -335,7 +335,7 @@ export default defineComponent({
                 : 'none',
             },
           },
-          { default: () => h(subMenuTitleIcon.value as PropType<Component>) }
+          { default: () => h(subMenuTitleIcon.value) }
         ),
       ]
 
