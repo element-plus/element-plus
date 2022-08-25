@@ -42,6 +42,12 @@ describe('<upload-list />', () => {
 
       await wrapper.find('.el-upload-list__item-preview').trigger('click')
       expect(preview).toHaveBeenCalledTimes(2)
+
+      await wrapper.setProps({
+        listType: 'picture',
+      })
+      await wrapper.find('.el-upload-list__item-thumbnail').trigger('click')
+      expect(preview).toHaveBeenCalledTimes(3)
     })
 
     test('handle delete works', async () => {

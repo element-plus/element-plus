@@ -31,6 +31,7 @@
           :class="nsUpload.be('list', 'item-thumbnail')"
           :src="file.url"
           alt=""
+          @click="handleClick(file)"
         />
         <div
           v-if="
@@ -90,7 +91,7 @@
         >
           <span
             :class="nsUpload.be('list', 'item-preview')"
-            @click="handlePreview(file)"
+            @click="handleClick(file)"
           >
             <el-icon :class="nsIcon.m('zoom-in')"><zoom-in /></el-icon>
           </span>
