@@ -434,7 +434,7 @@ describe('TimePicker', () => {
     const mousedownEvt = new MouseEvent('mousedown')
     const mouseupEvt = new MouseEvent('mouseup')
 
-    const testTime = 130
+    const testTime = 230
     hoursElArrowDown.dispatchEvent(mousedownEvt)
     hoursElArrowDown.dispatchEvent(mouseupEvt)
     await sleep(testTime)
