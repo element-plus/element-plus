@@ -55,7 +55,6 @@ export function useSelectStates(props) {
     inputHovering: false,
     cachedPlaceHolder: '',
     currentPlaceholder: t('el.select.placeholder'),
-    menuVisibleOnFocus: false,
     isOnComposition: false,
     isSilentBlur: false,
     prefixWidth: 11,
@@ -230,7 +229,6 @@ export const useSelect = (props, states: States, ctx) => {
         states.previousQuery = null
         states.selectedLabel = ''
         states.inputLength = 20
-        states.menuVisibleOnFocus = false
         resetHoverIndex()
         nextTick(() => {
           if (
@@ -725,12 +723,6 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleFocus = (event) => {
     if (!states.softFocus) {
-      if (props.automaticDropdown || props.filterable) {
-        if (props.filterable && !states.visible) {
-          states.menuVisibleOnFocus = true
-        }
-        states.visible = true
-      }
       ctx.emit('focus', event)
     } else {
       states.softFocus = false
@@ -772,11 +764,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const toggleMenu = () => {
     if (!selectDisabled.value) {
-      if (states.menuVisibleOnFocus) {
-        states.menuVisibleOnFocus = false
-      } else {
-        states.visible = !states.visible
-      }
+      states.visible = !states.visible
       if (states.visible) {
         ;(input.value || reference.value)?.focus()
       }
