@@ -10,7 +10,7 @@ export const Effect = {
   DARK: 'dark',
 } as const
 
-export const roleType = [
+export const roleTypes = [
   'dialog',
   'grid',
   'listbox',
@@ -25,7 +25,7 @@ export type PopperTrigger = typeof triggers[number]
 export const usePopperProps = buildProps({
   role: {
     type: String,
-    values: roleType,
+    values: roleTypes,
     default: 'tooltip',
   },
 } as const)
