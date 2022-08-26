@@ -32,32 +32,32 @@ describe('Directives.vue', () => {
     const block = wrapper.find('#block')
 
     block.trigger('mousedown')
-    await sleep(330)
+    await sleep(630)
     document.dispatchEvent(new MouseEvent('mouseup'))
 
     expect(handler).toHaveBeenCalledTimes(3)
   })
 
-  it('time interval between mousedown and mouseup is slightly less than 100ms', async () => {
+  it('time interval between mousedown and mouseup is slightly less than 200ms', async () => {
     const wrapper = _mount()
     const block = wrapper.find('#block')
 
     for (let i = 0; i < 10; i++) {
       block.trigger('mousedown')
-      await sleep(99)
+      await sleep(199)
       document.dispatchEvent(new MouseEvent('mouseup'))
     }
 
     expect(handler).toHaveBeenCalledTimes(10)
   })
 
-  it('time interval between mousedown and mouseup is slightly more than 100ms', async () => {
+  it('time interval between mousedown and mouseup is slightly more than 200ms', async () => {
     const wrapper = _mount()
     const block = wrapper.find('#block')
 
     for (let i = 0; i < 10; i++) {
       block.trigger('mousedown')
-      await sleep(101)
+      await sleep(201)
       document.dispatchEvent(new MouseEvent('mouseup'))
     }
 
