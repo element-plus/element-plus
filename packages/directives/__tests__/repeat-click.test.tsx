@@ -27,40 +27,27 @@ const _mount = () =>
   )
 
 describe('Directives.vue', () => {
-  it('click test', async () => {
+  it('single click', async () => {
+    const wrapper = _mount()
+    const block = wrapper.find('#block')
+
+    for (let i = 0; i < 10; i++) {
+      block.trigger('mousedown')
+      await sleep(400)
+      document.dispatchEvent(new MouseEvent('mouseup'))
+    }
+
+    expect(handler).toHaveBeenCalledTimes(10)
+  })
+
+  it('click and hold on', async () => {
     const wrapper = _mount()
     const block = wrapper.find('#block')
 
     block.trigger('mousedown')
-    await sleep(630)
+    await sleep(850)
     document.dispatchEvent(new MouseEvent('mouseup'))
 
     expect(handler).toHaveBeenCalledTimes(3)
-  })
-
-  it('time interval between mousedown and mouseup is slightly less than 200ms', async () => {
-    const wrapper = _mount()
-    const block = wrapper.find('#block')
-
-    for (let i = 0; i < 10; i++) {
-      block.trigger('mousedown')
-      await sleep(199)
-      document.dispatchEvent(new MouseEvent('mouseup'))
-    }
-
-    expect(handler).toHaveBeenCalledTimes(10)
-  })
-
-  it('time interval between mousedown and mouseup is slightly more than 200ms', async () => {
-    const wrapper = _mount()
-    const block = wrapper.find('#block')
-
-    for (let i = 0; i < 10; i++) {
-      block.trigger('mousedown')
-      await sleep(201)
-      document.dispatchEvent(new MouseEvent('mouseup'))
-    }
-
-    expect(handler).toHaveBeenCalledTimes(10)
   })
 })

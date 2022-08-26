@@ -1,32 +1,37 @@
 import type { DirectiveBinding, ObjectDirective } from 'vue'
 
+const REPEAT_INTERVAL = 100
+const REPEAT_DELAY = 600
+
 const RepeatClick: ObjectDirective = {
   beforeMount(el: HTMLElement, binding: DirectiveBinding) {
     let interval: ReturnType<typeof setInterval> | null = null
-    let isHandlerCalled = false
+    let delay: ReturnType<typeof setTimeout> | null = null
 
     const handler = () => binding.value && binding.value()
 
     const clear = () => {
-      clearInterval(interval!)
-      interval = null
-
-      if (!isHandlerCalled) {
-        handler()
+      if (delay) {
+        clearTimeout(delay)
+        delay = null
       }
-      isHandlerCalled = false
+      if (interval) {
+        clearInterval(interval)
+        interval = null
+      }
     }
 
     el.addEventListener('mousedown', (e: MouseEvent) => {
       if (e.button !== 0) return
+      handler()
 
       document.addEventListener('mouseup', clear, { once: true })
-
-      clearInterval(interval!)
-      interval = setInterval(() => {
-        isHandlerCalled = true
-        handler()
-      }, 200)
+      clear()
+      delay = setTimeout(() => {
+        interval = setInterval(() => {
+          handler()
+        }, REPEAT_INTERVAL)
+      }, REPEAT_DELAY)
     })
   },
 }
