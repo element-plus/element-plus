@@ -38,6 +38,13 @@
       }
     }
 
+    @include when(dark) {
+      @include set-css-var-value(
+        'popover-title-text-color',
+        var(#{getCssVarName('bg-color')})
+      );
+    }
+
     &:focus:active,
     &:focus {
       outline-width: 0;

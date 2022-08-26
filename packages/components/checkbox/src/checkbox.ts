@@ -1,4 +1,12 @@
-import { computed, getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  inject,
+  nextTick,
+  ref,
+  toRaw,
+  watch,
+} from 'vue'
 import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
@@ -182,7 +190,7 @@ const useCheckboxStatus = (
     if (toTypeString(value) === '[object Boolean]') {
       return value
     } else if (Array.isArray(value)) {
-      return value.includes(props.label)
+      return value.map(toRaw).includes(props.label)
     } else if (value !== null && value !== undefined) {
       return value === props.trueLabel
     } else {
