@@ -117,6 +117,7 @@
                         :hit="tag2.hitState"
                         :closable="tag2.closable"
                         disable-transitions
+                        style="margin: 2px"
                         @close="deleteTag(tag2)"
                       >
                         <span>{{ tag2.text }}</span>

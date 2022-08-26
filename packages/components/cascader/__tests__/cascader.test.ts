@@ -277,7 +277,6 @@ describe('Cascader.vue', () => {
     await nextTick()
     const tags = document.querySelectorAll('.el-cascader__collapse-tag')
     expect(tags.length).toBe(2)
-    // expect(tags[1].textContent).toBe('Zhejiang / Hangzhou')
     expect(tags[0].textContent).toBe('Zhejiang / Ningbo')
     expect(tags[1].textContent).toBe('Zhejiang / Wenzhou')
   })
