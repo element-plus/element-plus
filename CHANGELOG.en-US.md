@@ -1,5 +1,38 @@
 ## Changelog
 
+### 2.2.15
+
+_2022-08-26_
+
+#### Features
+
+- Components [page-header] enhancement (#9215 by @jw-foss)
+- Components [tree-v2] add `setExpendKeys` method (#9412 by @holazz)
+- Components [form] add require-asterisk-position prop (#9433 by @btea)
+- Components [menu] add `expand-close-icon`、`expand-open-icon`、`collapse-close-icon`、`collapse-open-icon`  props (#9444 by @xiaoxian521)
+
+#### Bug fixes
+
+- Components [message-box] fix Wrong type checking (#8399 by @MMmaXingXing)
+- Components [tree-v2] `setExpandedKeys` instead of `setExpendKeys` (#9413 by @holazz)
+- Components [el-menu] childNodes is null (#9408 by @xiaoxian521)
+- Components [cascader] when multiple is true keyboard delete error (#9415 by @btea)
+- Components [table] repetition labelCellName (#8967 by @gjfei)
+- Components [message] the value of exposeProxy may be null (#9378 by @btea)
+- Components [notification] closeAll invalid (#9417 by @chenxch)
+- Components [opover] effect dark mode title color (#9445 by @chenxch)
+- Components [space] complete the prop of space (#9380 by @MonsterPi13)
+- Components [table] bodyWrapper resized calculate scrollbarStyle (#9149 by @Tsong-LC)
+- Components [checkbox] label is object in group (#9271 by @chenxch)
+- Theme-chalk [select] set `vertical-align` (#8800 by @holazz)
+- Style(docs): change the example mask and overlay z-index (#9356 by @btea)
+- Style(components): [rate] in safari has outline (#9396 by @chenxch)
+
+#### Refactors
+
+- Components [time-picker] use JSX in Unit test (#9134 by @Tsong-LC)
+- Components [table] style of the footer-wrapper (#9084 by @tolking)
+
 ### 2.2.14
 
 _2022-08-19_
