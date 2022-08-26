@@ -191,6 +191,10 @@ export function useTree(props: TreeProps, emit) {
     }
   }
 
+  function setExpandedKeys(keys: TreeKey[]) {
+    expandedKeySet.value = new Set(keys)
+  }
+
   function handleNodeClick(node: TreeNode, e: MouseEvent) {
     emit(NODE_CLICK, node.data, node, e)
     handleCurrentChange(node)
@@ -300,5 +304,6 @@ export function useTree(props: TreeProps, emit) {
     getNode,
     expandNode,
     collapseNode,
+    setExpandedKeys,
   }
 }

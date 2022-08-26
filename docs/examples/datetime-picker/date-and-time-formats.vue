@@ -7,7 +7,7 @@
         v-model="value1"
         type="datetime"
         placeholder="Pick a Date"
-        format="YYYY/MM/DD hh:mm:ss"
+        format="YYYY/MM/DD HH:mm:ss"
       />
     </div>
     <div class="block">
