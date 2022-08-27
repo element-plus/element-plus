@@ -30,7 +30,7 @@ const getBindingProp = <K extends keyof LoadingOptions>(
 
 const getProp = <K extends keyof LoadingOptions>(name: K, ctx) =>
   resolveExpression(
-    getBindingProp(name, ctx.binding) ||
+    (ctx.binding && getBindingProp(name, ctx.binding)) ||
       ctx.el.getAttribute(`element-loading-${hyphenate(name)}`, ctx.vm)
   )
 
@@ -77,15 +77,9 @@ const updateOptions = (
 }
 
 const updateDirectiveAttr = (el, binding, originalOptions: LoadingOptions) => {
-  const ctx = {
-    el,
-  }
-  const getProp = <K extends keyof LoadingOptions>(name: K) =>
-    resolveExpression(el.getAttribute(`element-loading-${hyphenate(name)}`))
-
   for (const key of Object.keys(originalOptions)) {
     if (isRef(originalOptions[key]))
-      originalOptions[key].value = getProp(key, ctx).value
+      originalOptions[key].value = getProp(key, { el }).value
   }
 }
 
