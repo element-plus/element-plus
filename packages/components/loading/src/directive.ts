@@ -22,37 +22,43 @@ const resolveExpression = (key: any, vm: any) => {
   else return data
 }
 
+const getBindingProp = <K extends keyof LoadingOptions>(
+  key: K,
+  binding: DirectiveBinding<LoadingBinding>
+): LoadingOptions[K] =>
+  isObject(binding.value) ? binding.value[key] : undefined
+
+const getProp = <K extends keyof LoadingOptions>(name: K, ctx) =>
+  resolveExpression(
+    getBindingProp(name, ctx.binding) ||
+      ctx.el.getAttribute(`element-loading-${hyphenate(name)}`, ctx.vm)
+  )
+
 const createInstance = (
   el: ElementLoading,
   binding: DirectiveBinding<LoadingBinding>
 ) => {
   const vm = binding.instance
-
-  const getBindingProp = <K extends keyof LoadingOptions>(
-    key: K
-  ): LoadingOptions[K] =>
-    isObject(binding.value) ? binding.value[key] : undefined
-
-  const getProp = <K extends keyof LoadingOptions>(name: K) =>
-    resolveExpression(
-      getBindingProp(name) ||
-        el.getAttribute(`element-loading-${hyphenate(name)}`, vm)
-    )
+  const ctx = {
+    el,
+    binding,
+    vm,
+  }
 
   const fullscreen =
-    getBindingProp('fullscreen') ?? binding.modifiers.fullscreen
+    getBindingProp('fullscreen', binding) ?? binding.modifiers.fullscreen
 
   const options: LoadingOptions = {
-    text: getProp('text'),
-    svg: getProp('svg'),
-    svgViewBox: getProp('svgViewBox'),
-    spinner: getProp('spinner'),
-    background: getProp('background'),
-    customClass: getProp('customClass'),
+    text: getProp('text', ctx),
+    svg: getProp('svg', ctx),
+    svgViewBox: getProp('svgViewBox', ctx),
+    spinner: getProp('spinner', ctx),
+    background: getProp('background', ctx),
+    customClass: getProp('customClass', ctx),
     fullscreen,
-    target: getBindingProp('target') ?? (fullscreen ? undefined : el),
-    body: getBindingProp('body') ?? binding.modifiers.body,
-    lock: getBindingProp('lock') ?? binding.modifiers.lock,
+    target: getBindingProp('target', binding) ?? (fullscreen ? undefined : el),
+    body: getBindingProp('body', binding) ?? binding.modifiers.body,
+    lock: getBindingProp('lock', binding) ?? binding.modifiers.lock,
   }
   el[INSTANCE_KEY] = {
     options,
@@ -71,12 +77,15 @@ const updateOptions = (
 }
 
 const updateDirectiveAttr = (el, binding, originalOptions: LoadingOptions) => {
+  const ctx = {
+    el,
+  }
   const getProp = <K extends keyof LoadingOptions>(name: K) =>
     resolveExpression(el.getAttribute(`element-loading-${hyphenate(name)}`))
 
   for (const key of Object.keys(originalOptions)) {
     if (isRef(originalOptions[key]))
-      originalOptions[key].value = getProp(key).value
+      originalOptions[key].value = getProp(key, ctx).value
   }
 }
 
