@@ -54,7 +54,7 @@
     "@element-plus/theme-chalk": "workspace:*",
     "@element-plus/tokens": "workspace:*",
     "@element-plus/utils": "workspace:*",
-    "@floating-ui/dom": "^0.5.4",
+    "@floating-ui/dom": "^1.0.1",
     "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
     "@types/lodash": "^4.14.182",
     "@types/lodash-es": "^4.17.6",
