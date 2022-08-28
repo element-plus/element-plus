@@ -12,7 +12,8 @@ import { definePropType } from './props'
 
 import type { Component, VNode } from 'vue'
 
-export const iconPropType = definePropType<Component | (() => VNode)>([
+export const iconPropType = definePropType<string | Component | (() => VNode)>([
+  String,
   Object,
   Function,
 ])
