@@ -1,7 +1,7 @@
 - scope: 'component'
   name: 'el-menu'
   type: 'emits'
-  version: '2.2.13'
+  version: '2.3.0'
   commit_hash: 'c9da702'
   description: |
     Adjust menu item emit event name to prevent conflict with native click event.

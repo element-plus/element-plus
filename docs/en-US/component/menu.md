@@ -116,9 +116,9 @@ menu/collapse
 
 ## Menu-Item Events
 
-| Event Name | Description                                 | Parameters             |
-| ---------- | ------------------------------------------- | ---------------------- |
-| item-click | callback function when menu-item is clicked | el: menu-item instance |
+| Event Name                                | Description                                 | Parameters             |
+| ----------------------------------------- | ------------------------------------------- | ---------------------- |
+| item-click <VersionTag version="2.3.0" /> | callback function when menu-item is clicked | el: menu-item instance |
 
 ## Menu-Item Slots
 
