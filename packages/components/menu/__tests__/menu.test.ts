@@ -76,7 +76,7 @@ describe('menu', () => {
   test('menu-item click', async () => {
     const wrapper = _mount(
       `<el-menu>
-        <el-menu-item @click="onMenuItemClick" index="1" ref="item1">处理中心</el-menu-item>
+        <el-menu-item @item-click="onMenuItemClick" index="1" ref="item1">处理中心</el-menu-item>
         <el-menu-item index="2" ref="item2">订单管理</el-menu-item>
       </el-menu>`,
       {
