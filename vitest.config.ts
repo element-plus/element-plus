@@ -4,7 +4,14 @@ import VueJsx from '@vitejs/plugin-vue-jsx'
 import VueMacros from 'unplugin-vue-macros/vite'
 
 export default defineConfig({
-  plugins: [Vue(), VueJsx(), VueMacros()],
+  plugins: [
+    VueMacros({
+      plugins: {
+        vue: Vue(),
+        vueJsx: VueJsx(),
+      },
+    }),
+  ],
   optimizeDeps: {
     disabled: true,
   },

@@ -5,7 +5,14 @@ import VueMacros from 'unplugin-vue-macros/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx(), VueMacros()],
+  plugins: [
+    VueMacros({
+      plugins: {
+        vue: vue(),
+        vueJsx: vueJsx(),
+      },
+    }),
+  ],
   server: {
     port: 5000,
   },

@@ -31,11 +31,14 @@ const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
 async function buildFullEntry(minify: boolean) {
   const plugins: Plugin[] = [
     ElementPlusAlias(),
-    VueMacros(),
-    vue({
-      isProduction: true,
+    VueMacros({
+      plugins: {
+        vue: vue({
+          isProduction: true,
+        }),
+        vueJsx: vueJsx(),
+      },
     }),
-    vueJsx(),
     nodeResolve({
       extensions: ['.mjs', '.js', '.json', '.ts'],
     }),

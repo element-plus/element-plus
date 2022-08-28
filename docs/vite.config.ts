@@ -69,8 +69,11 @@ export default defineConfig(async ({ mode }) => {
       alias,
     },
     plugins: [
-      VueMacros(),
-      vueJsx(),
+      VueMacros({
+        plugins: {
+          vueJsx: vueJsx(),
+        },
+      }),
 
       // https://github.com/antfu/unplugin-vue-components
       Components({

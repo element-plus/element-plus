@@ -25,11 +25,14 @@ export const buildModules = async () => {
     input,
     plugins: [
       ElementPlusAlias(),
-      VueMacros(),
-      vue({
-        isProduction: false,
+      VueMacros({
+        plugins: {
+          vue: vue({
+            isProduction: false,
+          }),
+          vueJsx: vueJsx(),
+        },
       }),
-      vueJsx(),
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.ts'],
       }),

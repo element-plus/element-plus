@@ -16,9 +16,10 @@ import {
   pkgRoot,
   projRoot,
 } from '@element-plus/build-utils'
+import type { Plugin } from 'vite'
 import './vite.init'
 
-const esbuildPlugin = () => ({
+const esbuildPlugin = (): Plugin => ({
   ...esbuild({
     target: 'chrome64',
     include: /\.vue$/,
@@ -57,10 +58,13 @@ export default defineConfig(async ({ mode }) => {
       https: !!env.HTTPS,
     },
     plugins: [
-      vue(),
+      VueMacros({
+        plugins: {
+          vue: vue(),
+          vueJsx: vueJsx(),
+        },
+      }),
       esbuildPlugin(),
-      vueJsx(),
-      VueMacros(),
       Components({
         include: `${__dirname}/**`,
         resolvers: ElementPlusResolver({ importStyle: 'sass' }),
