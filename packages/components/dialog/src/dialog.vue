@@ -104,7 +104,7 @@ useDeprecated(
     scope: 'el-dialog',
     from: 'custom-class',
     replacement: 'class',
-    version: '3.0.0',
+    version: '2.3.0',
     ref: 'https://element-plus.org/en-US/component/dialog.html#attributes',
     type: 'Attribute',
   },
