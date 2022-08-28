@@ -26,6 +26,8 @@ export const buildModules = async () => {
     plugins: [
       ElementPlusAlias(),
       VueMacros({
+        setupComponent: false,
+        setupSFC: false,
         plugins: {
           vue: vue({
             isProduction: false,

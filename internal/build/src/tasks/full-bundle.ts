@@ -32,6 +32,8 @@ async function buildFullEntry(minify: boolean) {
   const plugins: Plugin[] = [
     ElementPlusAlias(),
     VueMacros({
+      setupComponent: false,
+      setupSFC: false,
       plugins: {
         vue: vue({
           isProduction: true,
