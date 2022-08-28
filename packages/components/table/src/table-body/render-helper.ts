@@ -121,7 +121,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             rowspan,
             colspan,
             onMouseenter: ($event) =>
-              handleCellMouseEnter($event, { ...row, tooltipEffect }),
+              handleCellMouseEnter($event, row, tooltipEffect),
             onMouseleave: handleCellMouseLeave,
           },
           [tdChildren]
@@ -164,7 +164,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
                   'td',
                   {
                     colspan: columns.length,
-                    class: 'el-table__cell el-table__expanded-cell',
+                    class: `${ns.e('cell')} ${ns.e('expanded-cell')}`,
                   },
                   [renderExpanded({ row, $index, store, expanded })]
                 ),

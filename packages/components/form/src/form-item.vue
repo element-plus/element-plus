@@ -131,6 +131,9 @@ const formItemClasses = computed(() => [
   ns.is('success', validateState.value === 'success'),
   ns.is('required', isRequired.value || props.required),
   ns.is('no-asterisk', formContext?.hideRequiredAsterisk),
+  formContext?.requireAsteriskPosition === 'right'
+    ? 'asterisk-right'
+    : 'asterisk-left',
   { [ns.m('feedback')]: formContext?.statusIcon },
 ])
 
