@@ -149,7 +149,7 @@ input/length-limiting
 | validate-event       | whether to trigger form validation                                                                                                     | boolean                                  | -                                                                                                                                     | true    |
 | input-style          | the style of the input element or textarea element                                                                                     | object                                   | -                                                                                                                                     | {}      |
 
-## Input slots
+## Input Slots
 
 | Name    | Description                                                               |
 | ------- | ------------------------------------------------------------------------- |
