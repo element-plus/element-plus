@@ -39,7 +39,7 @@ describe('Notification.vue', () => {
 
       expect(wrapper.text()).toEqual(AXIOM)
       expect(vm.visible).toBe(true)
-      expect(vm.iconComponent).toBe('')
+      expect(vm.iconComponent).toBeUndefined()
       expect(vm.horizontalClass).toBe('right')
       expect(vm.positionStyle).toEqual({
         top: '0px',

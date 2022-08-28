@@ -7,7 +7,6 @@ export const dialogContentProps = buildProps({
   },
   closeIcon: {
     type: iconPropType,
-    default: '',
   },
   customClass: {
     type: String,

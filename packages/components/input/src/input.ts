@@ -74,11 +74,9 @@ export const inputProps = buildProps({
   },
   suffixIcon: {
     type: iconPropType,
-    default: '',
   },
   prefixIcon: {
     type: iconPropType,
-    default: '',
   },
   containerRole: {
     type: String,
