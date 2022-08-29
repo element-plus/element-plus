@@ -10,9 +10,9 @@ import {
 } from '@element-plus/icons-vue'
 import { definePropType } from './props'
 
-import type { Component, VNode } from 'vue'
+import type { Component } from 'vue'
 
-export const iconPropType = definePropType<string | Component | (() => VNode)>([
+export const iconPropType = definePropType<string | Component>([
   String,
   Object,
   Function,

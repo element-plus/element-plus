@@ -122,7 +122,7 @@ export declare interface TreeComponentProps {
   filterNodeMethod: FilterNodeMethodFunction
   accordion: boolean
   indent: number
-  icon: string | Component | (() => VNode)
+  icon: string | Component
 }
 
 export declare type NodeDropType = 'before' | 'after' | 'inner' | 'none'
