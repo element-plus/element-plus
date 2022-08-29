@@ -1,11 +1,12 @@
 // @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
+import type { VNode } from 'vue'
 
 const formatStr = 'YYYY-MM-DD HH:mm:ss'
 const makeRange = (start, end) => {
@@ -15,21 +16,10 @@ const makeRange = (start, end) => {
   }
   return result
 }
-const _mount = (template: string, data = () => ({}), otherObj?) =>
-  mount(
-    {
-      components: {
-        'el-date-picker': DatePicker,
-        'el-form-item': ElFormItem,
-      },
-      template,
-      data,
-      ...otherObj,
-    },
-    {
-      attachTo: 'body',
-    }
-  )
+
+const _mount = (render: () => VNode) => {
+  return mount(render, { attachTo: document.body })
+}
 
 afterEach(() => {
   document.documentElement.innerHTML = ''
@@ -37,17 +27,12 @@ afterEach(() => {
 
 describe('Datetime Picker', () => {
   it('both picker show correct formated value (extract date-format and time-format from format property', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetime"
-        :format="format"
-    />`,
-      () => ({
-        value: new Date(2018, 2, 5, 10, 15, 24),
-        format: 'YYYY/MM/DD HH:mm A',
-      })
-    )
+    const value = ref(new Date(2018, 2, 5, 10, 15, 24))
+    const format = ref('YYYY/MM/DD HH:mm A')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" format={format.value} />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -63,24 +48,18 @@ describe('Datetime Picker', () => {
     // both input shows correct value
     expect((dateInput as HTMLInputElement).value).toBe('2018/03/05')
     expect((timeInput as HTMLInputElement).value).toBe('10:15 AM')
-    wrapper.setProps({
-      format: 'MM-DD-YYYY HH a',
-    })
+
+    format.value = 'MM-DD-YYYY HH a'
     await nextTick()
     expect((dateInput as HTMLInputElement).value).toBe('03-05-2018')
     expect((timeInput as HTMLInputElement).value).toBe('10 am')
   })
 
   it('both picker show correct value', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetime"
-    />`,
-      () => ({
-        value: new Date(2000, 9, 1, 10, 0, 1),
-      })
-    )
+    const value = ref(new Date(2000, 9, 1, 10, 0, 1))
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
 
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -104,9 +83,8 @@ describe('Datetime Picker', () => {
     expect(spinners[0].textContent).toBe('10')
     expect(spinners[1].textContent).toBe('00')
     expect(spinners[2].textContent).toBe('01')
-    wrapper.setProps({
-      modelValue: new Date(2001, 10, 2, 11, 1, 2),
-    })
+    value.value = new Date(2001, 10, 2, 11, 1, 2)
+
     await nextTick()
     spinners = document.querySelectorAll(
       '.el-time-spinner ul li.is-active'
@@ -119,15 +97,11 @@ describe('Datetime Picker', () => {
   })
 
   it('click now button', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetime"
-    />`,
-      () => ({
-        value: '',
-      })
-    )
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -136,23 +110,17 @@ describe('Datetime Picker', () => {
       document.querySelector('.el-picker-panel__link-btn') as HTMLElement
     ).click()
     await nextTick()
-    const vm = wrapper.vm as any
     // test if is current time (deviation 10 seconds)
-    expect(dayjs(vm.value).diff(dayjs()) < 10).toBeTruthy()
+    expect(dayjs(value.value).diff(dayjs()) < 10).toBeTruthy()
   })
 
-  it('timepicker select && input time && input date', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetime"
-    />`,
-      () => ({
-        value: '',
-      })
-    )
-    const vm = wrapper.vm as any
-    expect(vm.value).toBe('')
+  it('time-picker select && input time && input date', async () => {
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+
+    expect(value.value).toBe('')
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -169,14 +137,14 @@ describe('Datetime Picker', () => {
     ) as HTMLElement
     button.click()
     await nextTick()
-    expect(vm.value).not.toBe('')
+    expect(value.value).not.toBe('')
     const timeInput = document.querySelectorAll(
       '.el-date-picker__editor-wrap input'
     )[1] as HTMLInputElement
     timeInput.value = '20:30:33'
     timeInput.dispatchEvent(new Event('change'))
     await nextTick()
-    const valueResult = dayjs(vm.value)
+    const valueResult = dayjs(value.value)
     expect(valueResult.hour()).toBe(20)
     expect(valueResult.minute()).toBe(30)
     expect(valueResult.second()).toBe(33)
@@ -186,7 +154,7 @@ describe('Datetime Picker', () => {
     dateInput.value = '2017-02-02'
     dateInput.dispatchEvent(new Event('change'))
     await nextTick()
-    const valueResult2 = dayjs(vm.value)
+    const valueResult2 = dayjs(value.value)
     expect(valueResult2.year()).toBe(2017)
     expect(valueResult2.month()).toBe(1)
     expect(valueResult2.date()).toBe(2)
@@ -194,19 +162,16 @@ describe('Datetime Picker', () => {
 
   it('now button: can not choose disabled date', async () => {
     let isDisable = true
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
+    const value = ref('')
+    const disabledDate = () => isDisable
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
         type="datetime"
-        :disabledDate="disabledDate"
-    />`,
-      () => ({
-        value: '',
-        disabledDate() {
-          return isDisable
-        },
-      })
-    )
+        disabledDate={disabledDate}
+      />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -217,25 +182,21 @@ describe('Datetime Picker', () => {
     ) as HTMLElement
     btn.click()
     await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.value).toBe('')
+
+    expect(value.value).toBe('')
     isDisable = false
     await nextTick()
     btn.click()
     await nextTick()
-    expect(vm.value).not.toBe('')
+    expect(value.value).not.toBe('')
   })
 
   it('confirm button honors picked date', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetime"
-    />`,
-      () => ({
-        value: new Date(2000, 9, 1, 12, 0, 0), // 2010-10-01 12:00:00
-      })
-    )
+    const value = ref(new Date(2000, 9, 1, 12, 0, 0))
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetime" />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -253,59 +214,54 @@ describe('Datetime Picker', () => {
     ).click()
     // click confirm button
     document.querySelectorAll('.el-picker-panel__footer .el-button')[1].click()
-    const vm = wrapper.vm as any
-    expect(dayjs(vm.value).format(formatStr)).toBe('2000-10-01 12:00:00')
+
+    expect(dayjs(value.value).format(formatStr)).toBe('2000-10-01 12:00:00')
   })
 
   it('selectableRange', async () => {
     const disabledHoursArr = [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23,
     ]
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetime"
-        :disabledHours="disabledHours"
-        :disabledMinutes="disabledMinutes"
-        :disabledSeconds="disabledSeconds"
-    />`,
-      () => ({
-        value: new Date(2019, 0, 1, 18, 50),
-      }),
-      {
-        methods: {
-          disabledHours() {
-            return disabledHoursArr
-          },
-          disabledMinutes(hour) {
-            // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
-            if (hour === 17) {
-              return makeRange(0, 29)
-            }
-            if (hour === 18) {
-              return makeRange(31, 49)
-            }
-            if (hour === 20) {
-              return makeRange(31, 59)
-            }
-            if (hour === 22) {
-              return makeRange(1, 59)
-            }
-          },
-          disabledSeconds(hour, minute) {
-            if (hour === 18 && minute === 30) {
-              return makeRange(1, 59)
-            }
-            if (hour === 20 && minute === 30) {
-              return makeRange(1, 59)
-            }
-            if (hour === 22 && minute === 0) {
-              return makeRange(1, 59)
-            }
-          },
-        },
+    const disabledHoursData = () => {
+      return disabledHoursArr
+    }
+    const disabledMinutesData = (hour) => {
+      // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
+      if (hour === 17) {
+        return makeRange(0, 29)
       }
-    )
+      if (hour === 18) {
+        return makeRange(31, 49)
+      }
+      if (hour === 20) {
+        return makeRange(31, 59)
+      }
+      if (hour === 22) {
+        return makeRange(1, 59)
+      }
+    }
+    const disabledSecondsData = (hour, minute) => {
+      if (hour === 18 && minute === 30) {
+        return makeRange(1, 59)
+      }
+      if (hour === 20 && minute === 30) {
+        return makeRange(1, 59)
+      }
+      if (hour === 22 && minute === 0) {
+        return makeRange(1, 59)
+      }
+    }
+    const value = ref(new Date(2019, 0, 1, 18, 50))
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetime"
+        disabledHours={disabledHoursData}
+        disabledMinutes={disabledMinutesData}
+        disabledSeconds={disabledSecondsData}
+      />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -330,17 +286,15 @@ describe('Datetime Picker', () => {
   })
 
   it('defaultTime takes effect when the type is datetime', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
+    const value = ref('')
+    const defaultTime = ref(new Date(2000, 1, 1, 12, 24, 48))
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
         type="datetime"
-        :default-time="defaultTime"
-    />`,
-      () => ({
-        value: '',
-        defaultTime: new Date(2000, 1, 1, 12, 24, 48),
-      })
-    )
+        default-time={defaultTime.value}
+      />
+    ))
 
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -366,17 +320,16 @@ describe('Datetime Picker', () => {
   })
 
   it('defaultTime only takes effect when time is not selected', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
+    const value = ref('')
+    const defaultTime = ref(new Date(2000, 1, 1, 12, 0, 0))
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
         type="datetime"
-        :default-time="defaultTime"
-    />`,
-      () => ({
-        value: '',
-        defaultTime: new Date(2000, 1, 1, 12, 0, 0),
-      })
-    )
+        default-time={defaultTime.value}
+      />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -401,17 +354,19 @@ describe('Datetime Picker', () => {
 
 describe('Datetimerange', () => {
   it('select daterange and default Time and input format', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
+    const value = ref([
+      new Date(2000, 10, 8, 10, 10),
+      new Date(2000, 10, 11, 10, 10),
+    ])
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
         type="datetimerange"
-        :default-time="new Date(2020, 1, 1, 1, 1, 1)"
+        default-time={new Date(2020, 1, 1, 1, 1, 1)}
         format="YYYY/MM/DD HH:mm A"
-    />`,
-      () => ({
-        value: [new Date(2000, 10, 8, 10, 10), new Date(2000, 10, 11, 10, 10)],
-      })
-    )
+      />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -431,8 +386,8 @@ describe('Datetimerange', () => {
       )[1] as HTMLElement
     ).click()
     await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.value.map((_) => dayjs(_).format(formatStr))).toStrictEqual([
+
+    expect(value.value.map((_) => dayjs(_).format(formatStr))).toStrictEqual([
       '2000-11-01 01:01:01',
       '2000-12-01 01:01:01',
     ])
@@ -464,15 +419,11 @@ describe('Datetimerange', () => {
   })
 
   it('input date', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetimerange"
-    />`,
-      () => ({
-        value: '',
-      })
-    )
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetimerange" />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -504,8 +455,8 @@ describe('Datetimerange', () => {
     )[1] as HTMLElement
     btn.click()
     await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.value.map((_) => dayjs(_).format(formatStr))).toStrictEqual([
+
+    expect(value.value.map((_) => dayjs(_).format(formatStr))).toStrictEqual([
       '1999-03-01 00:00:00',
       '1999-04-01 00:00:00',
     ])
@@ -516,21 +467,16 @@ describe('Datetimerange', () => {
     await nextTick()
     btn.click()
     await nextTick()
-    expect(dayjs(vm.value[0]).isBefore(vm.value[1])).toBeTruthy()
+    expect(dayjs(value.value[0]).isBefore(value.value[1])).toBeTruthy()
   })
 
   it('select time', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetimerange"
-    />`,
-      () => ({
-        value: '',
-      })
-    )
-    const vm = wrapper.vm as any
-    expect(vm.value).toBe('')
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetimerange" />
+    ))
+
+    expect(value.value).toBe('')
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -552,24 +498,22 @@ describe('Datetimerange', () => {
     )[1] as HTMLElement
     btn.click()
     await nextTick()
-    expect(vm.value).not.toBe('')
+    expect(value.value).not.toBe('')
   })
 
   it('confirm honors disabledDate', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
+    const value = ref('')
+    const disabledDate = (date) => {
+      return date.getTime() < new Date(2000, 9, 1) // 2000-10-01
+    }
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
         type="datetimerange"
-        :disabledDate="disabledDate"
-    />`,
-      () => ({
-        value: '',
-        disabledDate: (date) => {
-          return date.getTime() < new Date(2000, 9, 1) // 2000-10-01
-        },
-      })
-    )
-    const vm = wrapper.vm as any
+        disabledDate={disabledDate}
+      />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -593,7 +537,7 @@ describe('Datetimerange', () => {
     await nextTick()
     const rangePanel = document.querySelector('.el-date-range-picker')
     expect(rangePanel.getAttribute('visible')).toBe('true') // popper still open
-    expect(vm.value).toBe('')
+    expect(value.value).toBe('')
     leftDateInput.value = '2001-09-01'
     triggerEvent(leftDateInput, 'input', true)
     triggerEvent(leftDateInput, 'change', true)
@@ -602,7 +546,7 @@ describe('Datetimerange', () => {
     btn.click()
     await nextTick()
     expect(rangePanel.getAttribute('visible')).toBe('false') // popper dismiss
-    expect(vm.value).not.toBe('')
+    expect(value.value).not.toBe('')
   })
 
   it('selectableRange', async () => {
@@ -610,26 +554,21 @@ describe('Datetimerange', () => {
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23,
     ]
     const disabledHoursRightArr = [0, 1, 2]
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetimerange"
-        :disabledHours="disabledHours"
-    />`,
-      () => ({
-        value: '',
-      }),
-      {
-        methods: {
-          disabledHours(role) {
-            if (role === 'end') {
-              return disabledHoursRightArr
-            }
-            return disabledHoursArr
-          },
-        },
+    const value = ref('')
+    const disabledHoursData = (role) => {
+      if (role === 'end') {
+        return disabledHoursRightArr
       }
-    )
+      return disabledHoursArr
+    }
+    const wrapper = _mount(() => (
+      <DatePicker
+        v-model={value.value}
+        type="datetimerange"
+        disabledHours={disabledHoursData}
+      />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -646,10 +585,10 @@ describe('Datetimerange', () => {
     leftDateInput.blur()
     leftDateInput.focus()
     await nextTick()
-    const listleft = document.querySelectorAll(
+    const listLeft = document.querySelectorAll(
       '.el-date-range-picker__editors-wrap .el-time-spinner__list'
     )
-    const hoursEl = listleft[0]
+    const hoursEl = listLeft[0]
     const disabledHours = Array.from(
       hoursEl.querySelectorAll('.is-disabled')
     ).map((node) => Number(node.textContent))
@@ -662,10 +601,10 @@ describe('Datetimerange', () => {
     rightDateInput.blur()
     rightDateInput.focus()
     await nextTick()
-    const listright = document.querySelectorAll(
+    const listRight = document.querySelectorAll(
       '.el-date-range-picker__editors-wrap.is-right .el-time-spinner__list'
     )
-    const hoursEl2 = listright[0]
+    const hoursEl2 = listRight[0]
     const disabledHours2 = Array.from(
       hoursEl2.querySelectorAll('.is-disabled')
     ).map((node) => Number(node.textContent))
@@ -674,15 +613,11 @@ describe('Datetimerange', () => {
 
   it('select same date, different time', async () => {
     const leftSelect = ['10', '59', '59']
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        type="datetimerange"
-    />`,
-      () => ({
-        value: '',
-      })
-    )
+    const value = ref('')
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetimerange" />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -749,8 +684,8 @@ describe('Datetimerange', () => {
       )[1] as HTMLElement
     ).click()
     await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.value.map((_) => dayjs(_).format('HH:mm:ss'))).toStrictEqual([
+
+    expect(value.value.map((_) => dayjs(_).format('HH:mm:ss'))).toStrictEqual([
       '10:59:59',
       '12:12:12',
     ])
@@ -758,12 +693,11 @@ describe('Datetimerange', () => {
 
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-date-picker type="datetime" />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = _mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <DatePicker type="datetime" />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -776,12 +710,11 @@ describe('Datetimerange', () => {
     })
 
     it('specified id attachment', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-date-picker type="datetime" id="foobar" />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = _mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <DatePicker type="datetime" id="foobar" />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -795,13 +728,12 @@ describe('Datetimerange', () => {
     })
 
     it('form item role is group when multiple inputs', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-date-picker type="datetime" />
-          <el-date-picker type="datetime" />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = _mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <DatePicker type="datetime" />
+          <DatePicker type="datetime" />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -810,16 +742,10 @@ describe('Datetimerange', () => {
   })
 
   it('display value', async () => {
-    const wrapper = _mount(
-      `
-      <el-date-picker
-        v-model="value"
-        type="datetimerange"
-    />`,
-      () => ({
-        value: [undefined, undefined],
-      })
-    )
+    const value = ref([undefined, undefined])
+    const wrapper = _mount(() => (
+      <DatePicker v-model={value.value} type="datetimerange" />
+    ))
 
     await nextTick()
 
