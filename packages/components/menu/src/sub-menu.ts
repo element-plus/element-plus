@@ -17,7 +17,12 @@ import {
 import { useTimeoutFn } from '@vueuse/core'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElTooltip from '@element-plus/components/tooltip'
-import { buildProps, definePropType, throwError } from '@element-plus/utils'
+import {
+  buildProps,
+  iconPropType,
+  isString,
+  throwError,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
 import { ElIcon } from '@element-plus/components/icon'
@@ -25,13 +30,7 @@ import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
 
 import type { Placement } from '@element-plus/components/popper'
-import type {
-  CSSProperties,
-  Component,
-  ExtractPropTypes,
-  VNode,
-  VNodeArrayChildren,
-} from 'vue'
+import type { CSSProperties, ExtractPropTypes, VNodeArrayChildren } from 'vue'
 import type { MenuProvider, SubMenuProvider } from './types'
 
 export const subMenuProps = buildProps({
@@ -58,16 +57,16 @@ export const subMenuProps = buildProps({
     default: 6,
   },
   expandCloseIcon: {
-    type: definePropType<Component | (() => VNode)>([Object, Function]),
+    type: iconPropType,
   },
   expandOpenIcon: {
-    type: definePropType<Component | (() => VNode)>([Object, Function]),
+    type: iconPropType,
   },
   collapseCloseIcon: {
-    type: definePropType<Component | (() => VNode)>([Object, Function]),
+    type: iconPropType,
   },
   collapseOpenIcon: {
-    type: definePropType<Component | (() => VNode)>([Object, Function]),
+    type: iconPropType,
   },
 } as const)
 export type SubMenuProps = ExtractPropTypes<typeof subMenuProps>
@@ -331,7 +330,12 @@ export default defineComponent({
                 : 'none',
             },
           },
-          { default: () => h(subMenuTitleIcon.value) }
+          {
+            default: () =>
+              isString(subMenuTitleIcon.value)
+                ? h(instance.appContext.components[subMenuTitleIcon.value])
+                : h(subMenuTitleIcon.value),
+          }
         ),
       ]
 
