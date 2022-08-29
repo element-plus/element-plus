@@ -36,6 +36,7 @@
             <el-dialog-content
               v-if="rendered"
               ref="dialogContentRef"
+              v-bind="$attrs"
               :custom-class="customClass"
               :center="center"
               :align-center="alignCenter"
@@ -80,6 +81,7 @@ import { useDialog } from './use-dialog'
 
 defineOptions({
   name: 'ElDialog',
+  inheritAttrs: false,
 })
 
 const props = defineProps(dialogProps)
@@ -95,6 +97,18 @@ useDeprecated(
     ref: 'https://element-plus.org/en-US/component/dialog.html#slots',
   },
   computed(() => !!slots.title)
+)
+
+useDeprecated(
+  {
+    scope: 'el-dialog',
+    from: 'custom-class',
+    replacement: 'class',
+    version: '2.3.0',
+    ref: 'https://element-plus.org/en-US/component/dialog.html#attributes',
+    type: 'Attribute',
+  },
+  computed(() => !!props.customClass)
 )
 
 const ns = useNamespace('dialog')
