@@ -105,7 +105,7 @@
                 <template #content>
                   <div :class="nsCascader.e('collapse-tags')">
                     <div
-                      v-for="(tag2, idx) in allPresentTags"
+                      v-for="(tag2, idx) in allPresentTags.slice(1)"
                       :key="idx"
                       :class="nsCascader.e('collapse-tag')"
                     >
@@ -679,7 +679,12 @@ export default defineComponent({
       const lastTag = tags[tags.length - 1]
       pressDeleteCount = searchInputValue.value ? 0 : pressDeleteCount + 1
 
-      if (!lastTag || !pressDeleteCount) return
+      if (
+        !lastTag ||
+        !pressDeleteCount ||
+        (props.collapseTags && tags.length > 1)
+      )
+        return
 
       if (lastTag.hitState) {
         deleteTag(lastTag)
