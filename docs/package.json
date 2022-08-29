@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@docsearch/js": "^3.1.0",
-    "@element-plus/icons-vue": "^2.0.6",
+    "@element-plus/icons-vue": "^2.0.9",
     "@element-plus/metadata": "workspace:*",
     "@vue/shared": "^3.2.37",
-    "@vueuse/core": "^8.7.5",
+    "@vueuse/core": "^9.1.0",
     "axios": "^0.27.2",
     "clipboard-copy": "^4.0.1",
     "element-plus": "npm:element-plus@latest",

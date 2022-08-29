@@ -1,12 +1,9 @@
-// @ts-nocheck
-import { defineComponent, nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { ElFormItem } from '@element-plus/components/form'
 import ColorPicker from '../src/index.vue'
 import type { ComponentPublicInstance } from 'vue'
-
-import type { Nullable } from '@element-plus/utils'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -19,23 +16,9 @@ vi.mock('lodash-unified', async () => {
   }
 })
 
-const _mount = (template: string, data: () => { [key: string]: any }) => {
-  const Component = defineComponent({
-    components: {
-      ElColorPicker: ColorPicker,
-      ElFormItem,
-    },
-    data,
-    template,
-  })
-  return mount(Component, {
-    attachTo: 'body',
-  })
-}
-
 type ColorPickerVM = ComponentPublicInstance<{
   handleClick: (opt: {
-    target: Nullable<HTMLElement>
+    target: HTMLElement | null
     type: string
     clientX: number
     clientY: number
@@ -51,82 +34,82 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should show alpha slider when show-alpha=true', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color" :show-alpha="true"></el-color-picker>`,
-      () => ({
-        color: '#20A0FF',
-      })
-    )
+    const color = ref('#20A0FF')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} show-alpha={true}></ColorPicker>
+    ))
+
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const alphaSlider = document.querySelector('.el-color-alpha-slider')
     expect(alphaSlider).toBeTruthy()
     wrapper.unmount()
   })
   it('should show correct rgb value', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color"></el-color-picker>`,
-      () => ({
-        color: '#20A0FF',
-      })
-    )
+    const color = ref('#20A0FF')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value}></ColorPicker>
+    ))
+
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     await nextTick()
     const input = document.querySelector<HTMLInputElement>(
       '.el-color-dropdown__value input'
     )
-    expect(input.value.trim().toUpperCase()).toEqual('#20A0FF')
+    expect(input!.value.trim().toUpperCase()).toEqual('#20A0FF')
     wrapper.unmount()
   })
   it('should show correct hex value contains alpha', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color" color-format="hex" show-alpha></el-color-picker>`,
-      () => ({
-        color: '#20A0FFEE',
-      })
-    )
+    const color = ref('#20A0FFEE')
+    const wrapper = mount(() => (
+      <ColorPicker
+        v-model={color.value}
+        color-format="hex"
+        show-alpha
+      ></ColorPicker>
+    ))
+
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     await nextTick()
     const input = document.querySelector<HTMLInputElement>(
       '.el-color-dropdown__value input'
     )
-    expect(input.value.trim().toUpperCase()).toEqual('#20A0FFEE')
+    expect(input!.value.trim().toUpperCase()).toEqual('#20A0FFEE')
     wrapper.unmount()
   })
   it('should pick a color when confirm button click', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color"></el-color-picker>`,
-      () => ({
-        color: null,
-      })
-    )
+    const color = ref(null)
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value}></ColorPicker>
+    ))
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
-    expect(wrapper.vm.color).toEqual('#FF0000')
+    expect(color.value).toEqual('#FF0000')
     wrapper.unmount()
   })
   it('should pick a color contains alpha when confirm button click', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color" color-format="hex" show-alpha></el-color-picker>`,
-      () => ({
-        color: null,
-      })
-    )
+    const color = ref(null)
+    const wrapper = mount(() => (
+      <ColorPicker
+        v-model={color.value}
+        color-format="hex"
+        show-alpha
+      ></ColorPicker>
+    ))
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     document.querySelector<HTMLElement>('.el-color-dropdown__btn')?.click()
     await nextTick()
-    expect(wrapper.vm.color).toEqual('#FF0000FF')
+    expect(color.value).toEqual('#FF0000FF')
     wrapper.unmount()
   })
   it('should init the right color when open', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color"></el-color-picker>`,
-      () => ({
-        color: '#0F0',
-      })
-    )
+    const color = ref('#0F0')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value}></ColorPicker>
+    ))
+
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
     const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hue' })
     const hueSlideDom = hueSlideWrapper.element as HTMLElement
@@ -150,39 +133,36 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should show color picker when click trigger', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color"></el-color-picker>`,
-      () => ({
-        color: '#0F0',
-      })
-    )
+    const color = ref('#0F0')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value}></ColorPicker>
+    ))
+
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const dropdown = document.querySelector('.el-color-dropdown')
     expect(dropdown).toBeTruthy()
     wrapper.unmount()
   })
   it('should clear a color when clear button click', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color"></el-color-picker>`,
-      () => ({
-        color: '#0F0',
-      })
-    )
+    const color = ref('#0F0')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value}></ColorPicker>
+    ))
+
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const clearBtn = document.querySelector<HTMLElement>(
       '.el-color-dropdown__link-btn'
     )
-    clearBtn.click()
-    expect(wrapper.vm.color).toEqual(null)
+    clearBtn!.click()
+    expect(color.value).toEqual(null)
     wrapper.unmount()
   })
   it('should change hue when clicking the hue bar', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color"></el-color-picker>`,
-      () => ({
-        color: '#F00',
-      })
-    )
+    const color = ref('#F00')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value}></ColorPicker>
+    ))
+
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
     const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hue' })
@@ -215,12 +195,10 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should change hue when saturation is zero', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color"></el-color-picker>`,
-      () => ({
-        color: '20A0FF',
-      })
-    )
+    const color = ref('20A0FF')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value}></ColorPicker>
+    ))
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
@@ -259,12 +237,11 @@ describe('Color-picker', () => {
     wrapper.unmount()
   })
   it('should change alpha when clicking the alpha bar', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color" show-alpha></el-color-picker>`,
-      () => ({
-        color: '#F00',
-      })
-    )
+    const color = ref('#F00')
+    const wrapper = mount(() => (
+      <ColorPicker v-model={color.value} show-alpha></ColorPicker>
+    ))
+
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
     const alphaWrapper = colorPickerWrapper.findComponent({ ref: 'alpha' })
@@ -298,12 +275,14 @@ describe('Color-picker', () => {
   })
 
   it('should change saturation and value when clicking the sv-panel', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color" show-alpha color-format="hsv"></el-color-picker>`,
-      () => ({
-        color: 'hsv(0, 50%, 50%)',
-      })
-    )
+    const color = ref('hsv(0, 50%, 50%)')
+    const wrapper = mount(() => (
+      <ColorPicker
+        v-model={color.value}
+        show-alpha
+        color-format="hsv"
+      ></ColorPicker>
+    ))
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
@@ -314,29 +293,32 @@ describe('Color-picker', () => {
       clientY: 0,
     })
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.color._saturation !== 50).toBeTruthy()
-      expect(wrapper.vm.color._value !== 50).toBeTruthy()
+      expect((color.value as any)._saturation !== 50).toBeTruthy()
+      expect((color.value as any)._value !== 50).toBeTruthy()
     })
   })
 
   it('should change color to the selected color', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color" show-alpha :predefine="colors"></el-color-picker>`,
-      () => ({
-        color: 'hsva(180, 65, 20, 0.5)',
-        colors: [
-          'rgba(19, 206, 102, 0.18)',
-          'rgb(25, 159, 147)',
-          'hsv(250, 54, 98)',
-          'hsva(180, 65, 20, 0.5)',
-          'hsl(170, 32%, 87%)',
-          'hsla(45, 62%, 47%, 0.13)',
-          '#7486de',
-          '#45aa9477',
-          '#892345',
-        ],
-      })
-    )
+    const color = ref('hsva(180, 65, 20, 0.5)')
+    const colors = ref([
+      'rgba(19, 206, 102, 0.18)',
+      'rgb(25, 159, 147)',
+      'hsv(250, 54, 98)',
+      'hsva(180, 65, 20, 0.5)',
+      'hsl(170, 32%, 87%)',
+      'hsla(45, 62%, 47%, 0.13)',
+      '#7486de',
+      '#45aa9477',
+      '#892345',
+    ])
+    const wrapper = mount(() => (
+      <ColorPicker
+        v-model={color.value}
+        show-alpha
+        predefine={colors.value}
+      ></ColorPicker>
+    ))
+
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
     const predefineWrapper = colorPickerWrapper.findComponent({
@@ -371,23 +353,26 @@ describe('Color-picker', () => {
   })
 
   it('should change selected state of predefined color', async () => {
-    const wrapper = _mount(
-      `<el-color-picker v-model="color" show-alpha :predefine="colors"></el-color-picker>`,
-      () => ({
-        color: 'hsva(180, 65, 20, 0.5)',
-        colors: [
-          'rgba(19, 206, 102, 0.18)',
-          'rgb(25, 159, 147)',
-          'hsv(250, 54, 98)',
-          'hsva(180, 65, 20, 0.5)',
-          'hsl(170, 32%, 87%)',
-          'hsla(45, 62%, 47%, 0.13)',
-          '#7486de',
-          '#45aa9477',
-          '#892345',
-        ],
-      })
-    )
+    const color = ref('hsva(180, 65, 20, 0.5)')
+    const colors = ref([
+      'rgba(19, 206, 102, 0.18)',
+      'rgb(25, 159, 147)',
+      'hsv(250, 54, 98)',
+      'hsva(180, 65, 20, 0.5)',
+      'hsl(170, 32%, 87%)',
+      'hsla(45, 62%, 47%, 0.13)',
+      '#7486de',
+      '#45aa9477',
+      '#892345',
+    ])
+    const wrapper = mount(() => (
+      <ColorPicker
+        v-model={color.value}
+        show-alpha
+        predefine={colors.value}
+      ></ColorPicker>
+    ))
+
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
     const predefineWrapper = colorPickerWrapper.findComponent({
@@ -443,13 +428,14 @@ describe('Color-picker', () => {
   })
   it('should not execute active-change event', async () => {
     const onActiveChange = vi.fn()
-    const wrapper = _mount(
-      `<el-color-picker :model-value='color' @active-change='onActiveChange'/>`,
-      () => ({
-        color: '#20A0FF',
-        onActiveChange,
-      })
-    )
+    const color = ref('#20A0FF')
+    const wrapper = mount(() => (
+      <ColorPicker
+        modelValue={color.value}
+        active-change={onActiveChange}
+      ></ColorPicker>
+    ))
+
     await nextTick()
     expect(onActiveChange).not.toHaveBeenCalled()
     wrapper.unmount()
@@ -457,12 +443,11 @@ describe('Color-picker', () => {
 
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-color-picker />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <ColorPicker></ColorPicker>
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -475,12 +460,11 @@ describe('Color-picker', () => {
     })
 
     it('specified id attachment', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-color-picker id="foobar" />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <ColorPicker id="foobar"></ColorPicker>
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -494,13 +478,12 @@ describe('Color-picker', () => {
     })
 
     it('form item role is group when multiple inputs', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-color-picker />
-          <el-color-picker />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <ColorPicker></ColorPicker>
+          <ColorPicker></ColorPicker>
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')

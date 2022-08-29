@@ -105,6 +105,8 @@ export default defineComponent({
     const nsSubMenu = useNamespace('sub-menu')
 
     // data
+    const sliceIndex = ref(-1)
+
     const openedMenus = ref<MenuProvider['openedMenus']>(
       props.defaultOpeneds && !props.collapse
         ? props.defaultOpeneds.slice(0)
@@ -209,14 +211,58 @@ export default defineComponent({
 
       if (item) {
         activeIndex.value = item.index
-        initMenu()
       } else {
         activeIndex.value = val
       }
     }
 
+    const calcSliceIndex = () => {
+      const items = Array.from(menu.value?.childNodes ?? []).filter(
+        (item) => item.nodeName !== '#text' || item.nodeValue
+      ) as HTMLElement[]
+      const moreItemWidth = 64
+      const paddingLeft = Number.parseInt(
+        getComputedStyle(menu.value!).paddingLeft,
+        10
+      )
+      const paddingRight = Number.parseInt(
+        getComputedStyle(menu.value!).paddingRight,
+        10
+      )
+      const menuWidth = menu.value!.clientWidth - paddingLeft - paddingRight
+      let calcWidth = 0
+      let sliceIndex = 0
+      items.forEach((item, index) => {
+        calcWidth += item.offsetWidth || 0
+        if (calcWidth <= menuWidth - moreItemWidth) {
+          sliceIndex = index + 1
+        }
+      })
+      return sliceIndex === items.length ? -1 : sliceIndex
+    }
+
+    // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms, In order to avoid a certain chance of repeated triggering when `resize`, set wait to 16.67 * 2 = 33.34
+    const debounce = (fn: () => void, wait = 33.34) => {
+      let timmer: ReturnType<typeof setTimeout> | null
+      return () => {
+        timmer && clearTimeout(timmer)
+        timmer = setTimeout(() => {
+          fn()
+        }, wait)
+      }
+    }
+
+    let isFirstTimeRender = true
     const handleResize = () => {
-      nextTick(() => instance.proxy!.$forceUpdate())
+      const callback = () => {
+        sliceIndex.value = -1
+        nextTick(() => {
+          sliceIndex.value = calcSliceIndex()
+        })
+      }
+      // execute callback directly when first time resize to avoid shaking
+      isFirstTimeRender ? callback() : debounce(callback)()
+      isFirstTimeRender = false
     }
 
     watch(
@@ -229,17 +275,14 @@ export default defineComponent({
       }
     )
 
-    watch(items.value, () => {
-      initMenu()
-      if (props.mode === 'horizontal' && props.ellipsis) handleResize()
-    })
-
     watch(
       () => props.collapse,
       (value) => {
         if (value) openedMenus.value = []
       }
     )
+
+    watch(items.value, initMenu)
 
     let resizeStopper: UseResizeObserverReturn['stop']
     watchEffect(() => {
@@ -295,7 +338,6 @@ export default defineComponent({
 
     // lifecycle
     onMounted(() => {
-      initMenu()
       if (props.mode === 'horizontal') {
         new Menubar(instance.vnode.el!, nsMenu.namespace.value)
       }
@@ -331,30 +373,15 @@ export default defineComponent({
       const vShowMore: VNode[] = []
 
       if (props.mode === 'horizontal' && menu.value) {
-        const items = Array.from(menu.value?.childNodes ?? []).filter(
-          (item) => item.nodeName !== '#text' || item.nodeValue
-        ) as HTMLElement[]
         const originalSlot = flattedChildren(slot)
-        const moreItemWidth = 64
-        const paddingLeft = Number.parseInt(
-          getComputedStyle(menu.value).paddingLeft,
-          10
-        )
-        const paddingRight = Number.parseInt(
-          getComputedStyle(menu.value).paddingRight,
-          10
-        )
-        const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
-        let calcWidth = 0
-        let sliceIndex = 0
-        items.forEach((item, index) => {
-          calcWidth += item.offsetWidth || 0
-          if (calcWidth <= menuWidth - moreItemWidth) {
-            sliceIndex = index + 1
-          }
-        })
-        const slotDefault = originalSlot.slice(0, sliceIndex)
-        const slotMore = originalSlot.slice(sliceIndex)
+        const slotDefault =
+          sliceIndex.value === -1
+            ? originalSlot
+            : originalSlot.slice(0, sliceIndex.value)
+
+        const slotMore =
+          sliceIndex.value === -1 ? [] : originalSlot.slice(sliceIndex.value)
+
         if (slotMore?.length && props.ellipsis) {
           slot = slotDefault
           vShowMore.push(

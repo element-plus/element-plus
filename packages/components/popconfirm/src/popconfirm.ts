@@ -43,6 +43,10 @@ export const popconfirmProps = buildProps({
   },
   teleported: useTooltipContentProps.teleported,
   persistent: useTooltipContentProps.persistent,
+  width: {
+    type: [String, Number],
+    default: 150,
+  },
 } as const)
 export type PopconfirmProps = ExtractPropTypes<typeof popconfirmProps>
 

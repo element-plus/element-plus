@@ -106,7 +106,7 @@ export interface ElMessageBoxOptions {
   message?: string | VNode
 
   /** Title of the MessageBox */
-  title?: string
+  title?: string | ElMessageBoxOptions
 
   /** Message type, used for icon display */
   type?: MessageType

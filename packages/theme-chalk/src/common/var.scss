@@ -496,10 +496,9 @@ $messagebox: map.merge(
 $message: () !default;
 $message: map.merge(
   (
-    'min-width': 380px,
     'bg-color': getCssVar('color', 'info', 'light-9'),
     'border-color': getCssVar('border-color-lighter'),
-    'padding': 15px 15px 15px 20px,
+    'padding': 15px 19px,
     'close-size': 16px,
     'close-icon-color': getCssVar('text-color-placeholder'),
     'close-hover-color': getCssVar('text-color-secondary'),
@@ -1007,8 +1006,6 @@ $menu: map.merge(
     'base-level-padding': 20px,
     'level-padding': 20px,
     'icon-width': 24px,
-    'icon-transform-closed': 'none',
-    'icon-transform-open': 'rotateZ(180deg)',
   ),
   $menu
 );

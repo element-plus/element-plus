@@ -53,15 +53,6 @@ export const leftLogoSponsors = [
     isDark: true, // dark theme
   },
   {
-    name: 'renren.io',
-    name_cn: '人人开源',
-    img: '/images/renren.png',
-    url: 'https://www.renren.io/?from=element-ui',
-    slogan: 'Rapid development platform',
-    slogan_cn: '企业级的快速开发平台',
-    className: 'renren',
-  },
-  {
     name: 'FormMaking',
     name_cn: 'FormMaking',
     img: '/images/formmaking.png',

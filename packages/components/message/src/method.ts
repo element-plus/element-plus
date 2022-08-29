@@ -117,7 +117,7 @@ const createMessage = (
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
     close: () => {
-      vm.exposeProxy!.visible = false
+      vm.exposed!.visible.value = false
     },
   }
 

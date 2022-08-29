@@ -239,7 +239,7 @@ export default defineComponent({
         const nodes = unique(
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
-        syncMenuState(nodes, false)
+        syncMenuState(nodes, forced)
         checkedValue.value = modelValue!
       }
     }

@@ -151,12 +151,12 @@ input/length-limiting
 
 ## Input slots
 
-| Name    | Description                                                       |
-| ------- | ----------------------------------------------------------------- |
-| prefix  | content as Input prefix, only works when `type` is 'text'         |
-| suffix  | content as Input suffix, only works when `type` is 'text'         |
-| prepend | content to prepend before Input, only works when `type` is 'text' |
-| append  | content to append after Input, only works when `type` is 'text'   |
+| Name    | Description                                                               |
+| ------- | ------------------------------------------------------------------------- |
+| prefix  | content as Input prefix, only works when `type` is not 'textarea'         |
+| suffix  | content as Input suffix, only works when `type` is not 'textarea'         |
+| prepend | content to prepend before Input, only works when `type` is not 'textarea' |
+| append  | content to append after Input, only works when `type` is not 'textarea'   |
 
 ## Input Events
 
