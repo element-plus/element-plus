@@ -43,6 +43,7 @@ import {
   ref,
   watch,
 } from 'vue'
+import { iconPropType } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/tokens'
 import TreeStore from './model/tree-store'
@@ -53,7 +54,7 @@ import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
 import type Node from './model/node'
 
-import type { Component, ComponentInternalInstance, PropType } from 'vue'
+import type { ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type {
   TreeComponentProps,
@@ -133,7 +134,9 @@ export default defineComponent({
       type: Number,
       default: 18,
     },
-    icon: [String, Object] as PropType<string | Component>,
+    icon: {
+      type: iconPropType,
+    },
   },
   emits: [
     'check-change',

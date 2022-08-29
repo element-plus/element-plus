@@ -105,7 +105,7 @@
                 <template #content>
                   <div :class="nsCascader.e('collapse-tags')">
                     <div
-                      v-for="(tag2, idx) in allPresentTags"
+                      v-for="(tag2, idx) in allPresentTags.slice(1)"
                       :key="idx"
                       :class="nsCascader.e('collapse-tag')"
                     >
