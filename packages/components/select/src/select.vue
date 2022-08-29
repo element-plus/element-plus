@@ -22,7 +22,11 @@
       @show="handleMenuEnter"
     >
       <template #default>
-        <div class="select-trigger">
+        <div
+          class="select-trigger"
+          @mouseenter="inputHovering = true"
+          @mouseleave="inputHovering = false"
+        >
           <div
             v-if="multiple"
             ref="tags"
@@ -191,8 +195,6 @@
             @keydown.enter.stop.prevent="selectOption"
             @keydown.esc="handleKeydownEscape"
             @keydown.tab="visible = false"
-            @mouseenter="inputHovering = true"
-            @mouseleave="inputHovering = false"
           >
             <template v-if="$slots.prefix" #prefix>
               <div
