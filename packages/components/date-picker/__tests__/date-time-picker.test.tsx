@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
@@ -9,7 +8,7 @@ import DatePicker from '../src/date-picker'
 import type { VNode } from 'vue'
 
 const formatStr = 'YYYY-MM-DD HH:mm:ss'
-const makeRange = (start, end) => {
+const makeRange = (start: number, end: number) => {
   const result = []
   for (let i = start; i <= end; i++) {
     result.push(i)
@@ -131,7 +130,9 @@ describe('Datetime Picker', () => {
     ;(input_ as HTMLElement).focus()
     await nextTick()
     const timePanel = document.querySelector('.el-time-panel')
-    expect(timePanel.querySelector('.el-time-spinner').innerHTML).not.toBeNull()
+    expect(
+      timePanel!.querySelector('.el-time-spinner')!.innerHTML
+    ).not.toBeNull()
     const button = document.querySelector(
       '.el-time-panel .confirm'
     ) as HTMLElement
@@ -213,7 +214,11 @@ describe('Datetime Picker', () => {
       ) as HTMLElement
     ).click()
     // click confirm button
-    document.querySelectorAll('.el-picker-panel__footer .el-button')[1].click()
+    ;(
+      document.querySelectorAll(
+        '.el-picker-panel__footer .el-button'
+      )[1] as HTMLElement
+    ).click()
 
     expect(dayjs(value.value).format(formatStr)).toBe('2000-10-01 12:00:00')
   })
@@ -225,7 +230,7 @@ describe('Datetime Picker', () => {
     const disabledHoursData = () => {
       return disabledHoursArr
     }
-    const disabledMinutesData = (hour) => {
+    const disabledMinutesData = (hour: number) => {
       // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
       if (hour === 17) {
         return makeRange(0, 29)
@@ -239,8 +244,9 @@ describe('Datetime Picker', () => {
       if (hour === 22) {
         return makeRange(1, 59)
       }
+      return []
     }
-    const disabledSecondsData = (hour, minute) => {
+    const disabledSecondsData = (hour: number, minute: number) => {
       if (hour === 18 && minute === 30) {
         return makeRange(1, 59)
       }
@@ -250,6 +256,7 @@ describe('Datetime Picker', () => {
       if (hour === 22 && minute === 0) {
         return makeRange(1, 59)
       }
+      return []
     }
     const value = ref(new Date(2019, 0, 1, 18, 50))
     const wrapper = _mount(() => (
@@ -372,8 +379,8 @@ describe('Datetimerange', () => {
     input.trigger('focus')
     await nextTick()
     const pickers = document.querySelectorAll('.el-date-range-picker__content')
-    const leftCell = pickers[0].querySelector('td.available')
-    const rightCell = pickers[1].querySelector('td.available')
+    const leftCell = pickers[0].querySelector('td.available')!
+    const rightCell = pickers[1].querySelector('td.available')!
     triggerEvent(leftCell, 'mousemove', true)
     triggerEvent(leftCell, 'click', true)
     await nextTick()
@@ -419,7 +426,7 @@ describe('Datetimerange', () => {
   })
 
   it('input date', async () => {
-    const value = ref('')
+    const value = ref<string[]>([])
     const wrapper = _mount(() => (
       <DatePicker v-model={value.value} type="datetimerange" />
     ))
@@ -442,8 +449,8 @@ describe('Datetimerange', () => {
     triggerEvent(leftDateInput, 'change', true)
     await nextTick()
     const pickers = document.querySelectorAll('.el-date-range-picker__content')
-    const leftCell = pickers[0].querySelector('td.available')
-    const rightCell = pickers[1].querySelector('td.available')
+    const leftCell = pickers[0].querySelector('td.available')!
+    const rightCell = pickers[1].querySelector('td.available')!
     triggerEvent(leftCell, 'mousemove', true)
     triggerEvent(leftCell, 'click', true)
     await nextTick()
@@ -503,8 +510,8 @@ describe('Datetimerange', () => {
 
   it('confirm honors disabledDate', async () => {
     const value = ref('')
-    const disabledDate = (date) => {
-      return date.getTime() < new Date(2000, 9, 1) // 2000-10-01
+    const disabledDate = (date: Date) => {
+      return date.getTime() < new Date(2000, 9, 1).getTime() // 2000-10-01
     }
     const wrapper = _mount(() => (
       <DatePicker
@@ -535,7 +542,7 @@ describe('Datetimerange', () => {
     expect(btn.getAttribute('disabled')).not.toBeUndefined() // invalid input disables button
     btn.click()
     await nextTick()
-    const rangePanel = document.querySelector('.el-date-range-picker')
+    const rangePanel = document.querySelector('.el-date-range-picker')!
     expect(rangePanel.getAttribute('visible')).toBe('true') // popper still open
     expect(value.value).toBe('')
     leftDateInput.value = '2001-09-01'
@@ -555,7 +562,7 @@ describe('Datetimerange', () => {
     ]
     const disabledHoursRightArr = [0, 1, 2]
     const value = ref('')
-    const disabledHoursData = (role) => {
+    const disabledHoursData = (role: string) => {
       if (role === 'end') {
         return disabledHoursRightArr
       }
@@ -613,7 +620,7 @@ describe('Datetimerange', () => {
 
   it('select same date, different time', async () => {
     const leftSelect = ['10', '59', '59']
-    const value = ref('')
+    const value = ref<string[]>([])
     const wrapper = _mount(() => (
       <DatePicker v-model={value.value} type="datetimerange" />
     ))
@@ -622,8 +629,8 @@ describe('Datetimerange', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const pickers = document.querySelectorAll('.el-date-range-picker__content')
-    const leftCell = pickers[0].querySelector('td.available')
+    const pickers = document.querySelectorAll('.el-date-range-picker__content')!
+    const leftCell = pickers[0].querySelector('td.available')!
     triggerEvent(leftCell, 'mousemove', true)
     triggerEvent(leftCell, 'click', true)
     await nextTick()
@@ -655,10 +662,10 @@ describe('Datetimerange', () => {
     await nextTick()
     const rightList = document.querySelectorAll(
       '.is-right .el-time-spinner__list'
-    )
+    ) as any
     // auto set left time to right time
     expect(
-      rightList[0].querySelector('.el-time-spinner__item.is-active').innerHTML
+      rightList[0]!.querySelector('.el-time-spinner__item.is-active').innerHTML
     ).toBe(leftSelect[0])
     expect(
       rightList[1].querySelector('.el-time-spinner__item.is-active').innerHTML
