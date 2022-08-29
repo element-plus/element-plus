@@ -69,6 +69,14 @@ The content of Dialog is lazily rendered, which means the default slot is not re
 
 :::
 
+## Align Center dialog
+
+Open dialog from the center of the screen.
+
+:::demo Setting `align-center` to `true` will center the dialog both horizontally and vertically. The prop `top` will not work at the same time because the dialog is vertically centered in a flexbox.
+
+dialog/align-center
+
 ## Destroy on Close
 
 When this is feature is enabled, the content under default slot will be destroyed with a `v-if` directive. Enable this when you have perf concerns.
@@ -116,6 +124,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | before-close          | callback before Dialog closes, and it will prevent Dialog from closing                            | function(done)，done is used to close the Dialog | —               | —       |
 | draggable             | enable dragging feature for Dialog                                                                | boolean                                          | —               | false   |
 | center                | whether to align the header and footer in center                                                  | boolean                                          | —               | false   |
+| align-center          | whether to align the dialog both horizontally and vertically                                      | boolean                                          | —               | false   |
 | destroy-on-close      | Destroy elements in Dialog when closed                                                            | boolean                                          | —               | false   |
 
 ## Slots
