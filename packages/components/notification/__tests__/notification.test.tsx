@@ -118,7 +118,7 @@ describe('Notification.vue', () => {
       const type = 'some-type'
       const wrapper = _mount({
         props: {
-          // @ts-ignore
+          // @ts-expect-error
           type,
         },
       })
