@@ -4,7 +4,7 @@ import { addClass, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import type { InjectionKey } from 'vue'
 import type Node from './node'
-import type { NodeDropType } from '../tree.type'
+import type { NodeDropType, RootTreeType } from '../tree.type'
 
 interface TreeNode {
   node: Node
@@ -13,13 +13,14 @@ interface TreeNode {
 
 interface DragOptions {
   event: DragEvent
-  treeNode: TreeNode
+  treeNode?: TreeNode
+  rootTree?: RootTreeType
 }
 
 export interface DragEvents {
   treeNodeDragStart: (options: DragOptions) => void
   treeNodeDragOver: (options: DragOptions) => void
-  treeNodeDragEnd: (event: DragEvent) => void
+  treeNodeDragEnd: (options: DragOptions) => void
 }
 
 export const dragEventsKey: InjectionKey<DragEvents> = Symbol('dragEvents')
@@ -152,26 +153,45 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     ctx.emit('node-drag-over', draggingNode.node, dropNode.node, event)
   }
 
-  const treeNodeDragEnd = (event: DragEvent) => {
+  const treeNodeDragEnd = ({ event, tree }: DragOptions) => {
     const { draggingNode, dropType, dropNode } = dragState.value
     event.preventDefault()
     event.dataTransfer.dropEffect = 'move'
 
     if (draggingNode && dropNode) {
+      const draggingNodeChecked = draggingNode.node.checked
       const draggingNodeCopy = { data: draggingNode.node.data }
       if (dropType !== 'none') {
+        draggingNode.node.setChecked(
+          !draggingNode.node.checked,
+          !tree.props.checkStrictly
+        )
         draggingNode.node.remove()
       }
+
+      let _draggingNodeCopy
       if (dropType === 'before') {
-        dropNode.node.parent.insertBefore(draggingNodeCopy, dropNode.node)
+        _draggingNodeCopy = dropNode.node.parent.insertBefore(
+          draggingNodeCopy,
+          dropNode.node
+        )
       } else if (dropType === 'after') {
-        dropNode.node.parent.insertAfter(draggingNodeCopy, dropNode.node)
+        _draggingNodeCopy = dropNode.node.parent.insertAfter(
+          draggingNodeCopy,
+          dropNode.node
+        )
       } else if (dropType === 'inner') {
-        dropNode.node.insertChild(draggingNodeCopy)
+        _draggingNodeCopy = dropNode.node.insertChild(draggingNodeCopy)
       }
       if (dropType !== 'none') {
         store.value.registerNode(draggingNodeCopy)
       }
+
+      _draggingNodeCopy &&
+        _draggingNodeCopy.setChecked(
+          draggingNodeChecked,
+          !tree.props.checkStrictly
+        )
 
       removeClass(dropNode.$el, ns.is('drop-inner'))
 

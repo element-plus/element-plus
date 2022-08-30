@@ -901,6 +901,36 @@ describe('Tree.vue', () => {
     expect(nodeWrappers.length).toEqual(4)
   })
 
+  test('dragdown with checked status', async () => {
+    const { wrapper } = getTreeVm(
+      `:props="defaultProps" default-expand-all show-checkbox`
+    )
+    const treeWrapper = wrapper.findComponent(Tree)
+    const secondNodeWrapper = wrapper.findAll('.el-tree-node')[2]
+    const firstNodeWrapper = wrapper.findAll('.el-tree-node')[0]
+    const secondNodeChildrenWrapper = secondNodeWrapper.findAll(
+      '.el-tree-node__children'
+    )[0]
+    const firstNodeChildrenWrapper = firstNodeWrapper.findAll(
+      '.el-tree-node__children'
+    )[0]
+    const secondNodeCheckboxWrapper = secondNodeWrapper.find(
+      '.el-tree-node__content .el-checkbox'
+    )
+    expect(secondNodeCheckboxWrapper.exists()).toBe(true)
+    await secondNodeCheckboxWrapper.trigger('click')
+    await nextTick()
+    await secondNodeChildrenWrapper.trigger('mousedown')
+    await firstNodeChildrenWrapper.trigger('mouseup')
+    await nextTick()
+    expect(
+      (treeWrapper.vm as InstanceType<typeof Tree>).getCheckedNodes().length
+    ).toEqual(3)
+    expect(
+      (treeWrapper.vm as InstanceType<typeof Tree>).getCheckedNodes(true).length
+    ).toEqual(1)
+  })
+
   test('lazy defaultChecked', async () => {
     const { wrapper } = getTreeVm(
       `:props="defaultProps" node-key="id" lazy :load="loadNode" show-checkbox`,
