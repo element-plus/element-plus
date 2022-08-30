@@ -110,4 +110,4 @@ skeleton/avoiding-rendering-bouncing
 
 | Attribute | Description                         | Type                                                                                                | Default  |
 | --------- | ----------------------------------- | --------------------------------------------------------------------------------------------------- | -------- |
-| `variant` | The current rendering skeleton type | `'p' \| 'text' \| 'h1' \| 'h3' \| 'text' \| 'caption' \| 'button' \| 'image' \| 'circle' \| 'rect'` | `'text'` |
+| `variant` | The current rendering skeleton type | `'p' \| 'text' \| 'h1' \| 'h3' \| 'caption' \| 'button' \| 'image' \| 'circle' \| 'rect'` | `'text'` |
