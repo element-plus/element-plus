@@ -144,10 +144,11 @@ function useStore<T>() {
 
     changeSortCondition(states: StoreStates, options: Sort) {
       // 修复 pr https://github.com/ElemeFE/element/pull/15012 导致的 bug
-      const { sortingColumn: column, sortProp: prop, sortOrder: order } = states
-      const columnValue = unref(column),
-        propValue = unref(prop),
-        orderValue = unref(order)
+      // https://github.com/element-plus/element-plus/pull/4640
+      const { sortingColumn, sortProp, sortOrder } = states
+      const columnValue = unref(sortingColumn),
+        propValue = unref(sortProp),
+        orderValue = unref(sortOrder)
       if (orderValue === null) {
         states.sortingColumn.value = null
         states.sortProp.value = null
