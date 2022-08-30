@@ -42,6 +42,7 @@
       :step="step"
       :model-value="displayValue"
       :placeholder="placeholder"
+      :readonly="readonly"
       :disabled="inputNumberDisabled"
       :size="inputNumberSize"
       :max="max"
@@ -174,13 +175,13 @@ const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
   return toPrecision(val + props.step * coefficient)
 }
 const increase = () => {
-  if (inputNumberDisabled.value || maxDisabled.value) return
+  if (props.readonly || inputNumberDisabled.value || maxDisabled.value) return
   const value = props.modelValue || 0
   const newVal = ensurePrecision(value)
   setCurrentValue(newVal)
 }
 const decrease = () => {
-  if (inputNumberDisabled.value || minDisabled.value) return
+  if (props.readonly || inputNumberDisabled.value || minDisabled.value) return
   const value = props.modelValue || 0
   const newVal = ensurePrecision(value, -1)
   setCurrentValue(newVal)
