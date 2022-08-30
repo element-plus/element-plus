@@ -1,6 +1,6 @@
 {
-  "1": "A Desktop UI Library",
-  "2": "Element Plus, a Vue 3 based component library for developers, designers and product managers",
+  "1": "",
+  "2": "",
   "3": "Guide",
   "4": "Understand the design guidelines, helping designers build product that's logically sound, reasonably structured and easy to use.",
   "5": "View Detail",
@@ -11,11 +11,16 @@
   "10": "Links",
   "11": "GitHub",
   "12": "Changelog",
-  "13": "Starter kit",
+  "13": "Element UI for Vue 2",
   "14": "Online Theme Roller",
   "15": "Gitter",
   "16": "Feedback",
   "17": "Contribution",
   "18": "SegmentFault",
-  "19": "Community"
+  "19": "Community",
+  "20": "Become a Sponsor!",
+  "21": "Please contact us via",
+  "title_release": "Element Plus stable release is coming",
+  "title": "Element Plus",
+  "title_sub": "a Vue 3 based component library for designers and developers"
 }

@@ -1,9 +1,8 @@
 <template>
   <el-radio-group v-model="size">
-    <el-radio label="">Default</el-radio>
-    <el-radio label="medium">Medium</el-radio>
+    <el-radio label="large">Large</el-radio>
+    <el-radio>Default</el-radio>
     <el-radio label="small">Small</el-radio>
-    <el-radio label="mini">Mini</el-radio>
   </el-radio-group>
 
   <el-descriptions
@@ -14,40 +13,60 @@
     border
   >
     <template #extra>
-      <el-button type="primary" size="small">Operation</el-button>
+      <el-button type="primary">Operation</el-button>
     </template>
     <el-descriptions-item>
       <template #label>
-        <el-icon><user /></el-icon>
-        Username
+        <div class="cell-item">
+          <el-icon :style="iconStyle">
+            <user />
+          </el-icon>
+          Username
+        </div>
       </template>
       kooriookami
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <el-icon><iphone /></el-icon>
-        Telephone
+        <div class="cell-item">
+          <el-icon :style="iconStyle">
+            <iphone />
+          </el-icon>
+          Telephone
+        </div>
       </template>
       18100000000
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <el-icon><location /></el-icon>
-        Place
+        <div class="cell-item">
+          <el-icon :style="iconStyle">
+            <location />
+          </el-icon>
+          Place
+        </div>
       </template>
       Suzhou
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <el-icon><tickets /></el-icon>
-        Remarks
+        <div class="cell-item">
+          <el-icon :style="iconStyle">
+            <tickets />
+          </el-icon>
+          Remarks
+        </div>
       </template>
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <el-icon><office-building /></el-icon>
-        Address
+        <div class="cell-item">
+          <el-icon :style="iconStyle">
+            <office-building />
+          </el-icon>
+          Address
+        </div>
       </template>
       No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
     </el-descriptions-item>
@@ -58,9 +77,10 @@
     title="Without border"
     :column="3"
     :size="size"
+    :style="blockMargin"
   >
     <template #extra>
-      <el-button type="primary" size="small">Operation</el-button>
+      <el-button type="primary">Operation</el-button>
     </template>
     <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
     <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
@@ -69,21 +89,53 @@
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
     <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-      Province</el-descriptions-item
-    >
+      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    </el-descriptions-item>
   </el-descriptions>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import {
-  User,
   Iphone,
   Location,
-  Tickets,
   OfficeBuilding,
-} from '@element-plus/icons'
+  Tickets,
+  User,
+} from '@element-plus/icons-vue'
 
 const size = ref('')
+const iconStyle = computed(() => {
+  const marginMap = {
+    large: '8px',
+    default: '6px',
+    small: '4px',
+  }
+  return {
+    marginRight: marginMap[size.value] || marginMap.default,
+  }
+})
+const blockMargin = computed(() => {
+  const marginMap = {
+    large: '32px',
+    default: '28px',
+    small: '24px',
+  }
+  return {
+    marginTop: marginMap[size.value] || marginMap.default,
+  }
+})
 </script>
+
+<style scoped>
+.el-descriptions {
+  margin-top: 20px;
+}
+.cell-item {
+  display: flex;
+  align-items: center;
+}
+.margin-top {
+  margin-top: 20px;
+}
+</style>

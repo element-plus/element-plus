@@ -1,101 +1,93 @@
 <template>
   <div
-    ref="bar$"
-    :class="['el-tabs__active-bar', `is-${rootTabs.props.tabPosition}`]"
+    ref="barRef"
+    :class="[ns.e('active-bar'), ns.is(rootTabs.props.tabPosition)]"
     :style="barStyle"
-  ></div>
+  />
 </template>
-<script lang="ts">
-import {
-  defineComponent,
-  inject,
-  getCurrentInstance,
-  watch,
-  nextTick,
-  ref,
-} from 'vue'
-import { capitalize } from '@vue/shared'
+<script lang="ts" setup>
+// @ts-nocheck
+import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
+import { capitalize, throwError } from '@element-plus/utils'
 import { tabsRootContextKey } from '@element-plus/tokens'
-import { throwError } from '@element-plus/utils/error'
-import { tabBar } from './tab-bar'
+import { useNamespace } from '@element-plus/hooks'
+import { tabBarProps } from './tab-bar'
 
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElTabBar'
-export default defineComponent({
-  name: COMPONENT_NAME,
-  props: tabBar,
+defineOptions({
+  name: 'ElTabBar',
+})
+const props = defineProps(tabBarProps)
 
-  setup(props) {
-    const instance = getCurrentInstance()!
-    const rootTabs = inject(tabsRootContextKey)
-    if (!rootTabs) throwError(COMPONENT_NAME, 'must use with ElTabs')
+const instance = getCurrentInstance()!
+const rootTabs = inject(tabsRootContextKey)
+if (!rootTabs) throwError(COMPONENT_NAME, '<el-tabs><el-tab-bar /></el-tabs>')
 
-    const bar$ = ref<HTMLDivElement>()
-    const barStyle = ref()
+const ns = useNamespace('tabs')
 
-    const getBarStyle = (): CSSProperties => {
-      let offset = 0
-      let tabSize = 0
+const barRef = ref<HTMLDivElement>()
+const barStyle = ref<CSSProperties>()
 
-      const sizeName = ['top', 'bottom'].includes(rootTabs.props.tabPosition)
-        ? 'width'
-        : 'height'
-      const sizeDir = sizeName === 'width' ? 'x' : 'y'
+const getBarStyle = (): CSSProperties => {
+  let offset = 0
+  let tabSize = 0
 
-      props.tabs.every((tab) => {
-        const $el = instance.parent?.refs?.[
-          `tab-${tab.paneName}`
-        ] as HTMLElement
-        if (!$el) return false
+  const sizeName = ['top', 'bottom'].includes(rootTabs.props.tabPosition)
+    ? 'width'
+    : 'height'
+  const sizeDir = sizeName === 'width' ? 'x' : 'y'
 
-        if (!tab.active) {
-          return true
-        }
+  props.tabs.every((tab) => {
+    const $el = instance.parent?.refs?.[`tab-${tab.paneName}`] as HTMLElement
+    if (!$el) return false
 
-        tabSize = $el[`client${capitalize(sizeName)}`]
-        const position = sizeDir === 'x' ? 'left' : 'top'
-        offset =
-          $el.getBoundingClientRect()[position] -
-          ($el.parentElement?.getBoundingClientRect()[position] ?? 0)
-        const tabStyles = window.getComputedStyle($el)
+    if (!tab.active) {
+      return true
+    }
 
-        if (sizeName === 'width') {
-          if (props.tabs.length > 1) {
-            tabSize -=
-              parseFloat(tabStyles.paddingLeft) +
-              parseFloat(tabStyles.paddingRight)
-          }
-          offset += parseFloat(tabStyles.paddingLeft)
-        }
-        return false
-      })
+    tabSize = $el[`client${capitalize(sizeName)}`]
+    const position = sizeDir === 'x' ? 'left' : 'top'
+    offset =
+      $el.getBoundingClientRect()[position] -
+      ($el.parentElement?.getBoundingClientRect()[position] ?? 0)
+    const tabStyles = window.getComputedStyle($el)
 
-      return {
-        [sizeName]: `${tabSize}px`,
-        transform: `translate${capitalize(sizeDir)}(${offset}px)`,
+    if (sizeName === 'width') {
+      if (props.tabs.length > 1) {
+        tabSize -=
+          Number.parseFloat(tabStyles.paddingLeft) +
+          Number.parseFloat(tabStyles.paddingRight)
       }
+      offset += Number.parseFloat(tabStyles.paddingLeft)
     }
+    return false
+  })
 
-    const update = () => (barStyle.value = getBarStyle())
+  return {
+    [sizeName]: `${tabSize}px`,
+    transform: `translate${capitalize(sizeDir)}(${offset}px)`,
+  }
+}
 
-    watch(
-      () => props.tabs,
-      async () => {
-        await nextTick()
-        update()
-      },
-      { immediate: true }
-    )
-    useResizeObserver(bar$, () => update())
+const update = () => (barStyle.value = getBarStyle())
 
-    return {
-      bar$,
-      rootTabs,
-      barStyle,
-      update,
-    }
+watch(
+  () => props.tabs,
+  async () => {
+    await nextTick()
+    update()
   },
+  { immediate: true }
+)
+useResizeObserver(barRef, () => update())
+
+defineExpose({
+  /** @description tab root html element */
+  ref: barRef,
+  /** @description method to manually update tab bar style */
+  update,
 })
 </script>

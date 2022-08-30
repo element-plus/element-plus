@@ -14,11 +14,22 @@
   @include e(inner) {
     @extend %size !optional;
     vertical-align: top;
+    opacity: 1;
+    @include when(loading) {
+      opacity: 0;
+    }
+  }
+
+  @include e(wrapper) {
+    @extend %size !optional;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   @include e(placeholder) {
     @extend %size !optional;
-    background: $background-color-base;
+    background: getCssVar('fill-color', 'light');
   }
 
   @include e(error) {
@@ -27,8 +38,8 @@
     justify-content: center;
     align-items: center;
     font-size: 14px;
-    background: $background-color-base;
-    color: var(--el-text-color-placeholder);
+    background: getCssVar('fill-color', 'light');
+    color: getCssVar('text-color', 'placeholder');
     vertical-align: middle;
   }
 

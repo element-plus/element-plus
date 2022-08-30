@@ -1,0 +1,10 @@
+@use '../mixins/mixins' as *;
+@use '../mixins/utils' as *;
+
+// same style in select & select-v2
+@mixin select-common($name) {
+  .#{$namespace}-#{$name}__tags-text {
+    display: inline-block;
+    @include utils-ellipsis;
+  }
+}

@@ -8,5 +8,5 @@
 </template>
 
 <script lang="ts" setup>
-import { ArrowRight } from '@element-plus/icons'
+import { ArrowRight } from '@element-plus/icons-vue'
 </script>

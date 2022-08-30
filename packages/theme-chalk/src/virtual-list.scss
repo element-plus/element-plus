@@ -18,9 +18,19 @@
     }
   }
 }
+
+.#{$namespace}-vl__window {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 @include b(virtual-scrollbar) {
   opacity: 0;
   transition: opacity 340ms ease-out;
+  &.always-on {
+    opacity: 1;
+  }
 }
 
 @include b(vg) {

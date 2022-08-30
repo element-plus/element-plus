@@ -1,5 +1,6 @@
-import type { VNode, InjectionKey } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+// @ts-nocheck
+import type { InjectionKey, VNode } from 'vue'
+import type { Nullable } from '@element-plus/utils'
 import type { default as CascaderNode } from './node'
 
 export type { CascaderNode }
@@ -54,6 +55,7 @@ export interface Tag {
   text: string
   hitState?: boolean
   closable: boolean
+  isCollapseTag: boolean
 }
 
 export interface ElCascaderPanelContext {
@@ -61,6 +63,7 @@ export interface ElCascaderPanelContext {
   expandingNode: Nullable<CascaderNode>
   checkedNodes: CascaderNode[]
   isHoverMenu: boolean
+  initialLoaded: boolean
   renderLabelFn: RenderLabel
   lazyLoad: (
     node?: CascaderNode,

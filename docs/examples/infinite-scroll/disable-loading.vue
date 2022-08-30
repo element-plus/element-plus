@@ -3,7 +3,7 @@
     <ul
       v-infinite-scroll="load"
       class="list"
-      infinite-scroll-disabled="disabled"
+      :infinite-scroll-disabled="disabled"
     >
       <li v-for="i in count" :key="i" class="list-item">{{ i }}</li>
     </ul>
@@ -12,54 +12,42 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const count = ref(10)
-    const loading = ref(false)
-    const noMore = computed(() => count.value >= 20)
-    const disabled = computed(() => loading.value || noMore.value)
-    const load = () => {
-      loading.value = true
-      setTimeout(() => {
-        count.value += 2
-        loading.value = false
-      }, 2000)
-    }
-    return {
-      count,
-      loading,
-      noMore,
-      disabled,
-      load,
-    }
-  },
-})
+const count = ref(10)
+const loading = ref(false)
+const noMore = computed(() => count.value >= 20)
+const disabled = computed(() => loading.value || noMore.value)
+const load = () => {
+  loading.value = true
+  setTimeout(() => {
+    count.value += 2
+    loading.value = false
+  }, 2000)
+}
 </script>
 
-<style lang="scss">
+<style>
 .infinite-list-wrapper {
   height: 300px;
   text-align: center;
+}
+.infinite-list-wrapper .list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
 
-  .list {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .list-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    background: var(--el-color-danger-lighter);
-    color: var(--el-color-danger);
-    & + .list-item {
-      margin-top: 10px;
-    }
-  }
+.infinite-list-wrapper .list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  background: var(--el-color-danger-light-9);
+  color: var(--el-color-danger);
+}
+.infinite-list-wrapper .list-item + .list-item {
+  margin-top: 10px;
 }
 </style>

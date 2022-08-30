@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { withBase } from 'vitepress'
-import { ArrowLeft, ArrowRight } from '@element-plus/icons'
+import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { usePageNav } from '../../composables/page-nav'
 
 const { hasLinks, prev, next } = usePageNav()
@@ -11,7 +11,7 @@ const { hasLinks, prev, next } = usePageNav()
     <div class="container">
       <div class="prev">
         <a v-if="prev" class="link" :href="withBase(prev.link)">
-          <ElIcon>
+          <ElIcon class="mr-1">
             <ArrowLeft />
           </ElIcon>
           <span class="text">{{ prev.text }}</span>
@@ -20,7 +20,7 @@ const { hasLinks, prev, next } = usePageNav()
       <div class="next">
         <a v-if="next" class="link" :href="withBase(next.link)">
           <span class="text">{{ next.text }}</span>
-          <ElIcon>
+          <ElIcon class="ml-1">
             <ArrowRight />
           </ElIcon>
         </a>
@@ -60,23 +60,26 @@ const { hasLinks, prev, next } = usePageNav()
 
 .link {
   display: inline-flex;
+  justify-content: center;
   align-items: center;
+
   max-width: 100%;
-  font-size: 1rem;
+  height: 24px;
+  font-size: 14px;
   font-weight: 500;
 }
 
 .text {
-  display: block;
+  display: inline-flex;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .el-icon {
-  display: block;
+  display: inline-flex;
   flex-shrink: 0;
-  font-size: 1rem;
+  font-size: 12px;
   color: var(--text-color);
   transform: translateY(1px);
 }

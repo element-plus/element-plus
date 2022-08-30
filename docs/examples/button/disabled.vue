@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row class="mb-4">
     <el-button disabled>Default</el-button>
     <el-button type="primary" disabled>Primary</el-button>
     <el-button type="success" disabled>Success</el-button>

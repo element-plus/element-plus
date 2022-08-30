@@ -15,22 +15,19 @@
   </el-dropdown>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { ElMessage } from 'element-plus'
-import { ArrowDown } from '@element-plus/icons'
+import { ArrowDown } from '@element-plus/icons-vue'
 
-export default defineComponent({
-  components: {
-    ArrowDown,
-  },
-  setup() {
-    const handleCommand = (command) => {
-      ElMessage(`click on item ${command}`)
-    }
-    return {
-      handleCommand,
-    }
-  },
-})
+const handleCommand = (command: string | number | object) => {
+  ElMessage(`click on item ${command}`)
+}
 </script>
+<style scoped>
+.example-showcase .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
+}
+</style>

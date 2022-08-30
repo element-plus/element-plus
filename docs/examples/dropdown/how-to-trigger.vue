@@ -63,10 +63,19 @@
 <script lang="ts" setup>
 import {
   ArrowDown,
-  CircleCheck,
   Check,
+  CircleCheck,
   CirclePlus,
   CirclePlusFilled,
   Plus,
-} from '@element-plus/icons'
+} from '@element-plus/icons-vue'
 </script>
+
+<style scoped>
+.block-col-2 .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>

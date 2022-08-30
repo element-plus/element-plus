@@ -2,9 +2,30 @@
 @use 'mixins/utils' as *;
 @use 'common/var' as *;
 
-@include b(upload) {
-  display: inline-block;
+@mixin upload-success($color: null) {
+  right: -15px;
+  top: -6px;
+  width: 40px;
+  height: 24px;
+  background: getCssVar('color-success');
   text-align: center;
+  transform: rotate(45deg);
+
+  i {
+    font-size: 12px;
+    margin-top: 11px;
+    transform: rotate(-45deg);
+    color: $color;
+  }
+}
+
+@include b(upload) {
+  @include set-component-css-var('upload', $upload);
+}
+
+@include b(upload) {
+  @include utils-inline-flex-center;
+
   cursor: pointer;
   outline: none;
   @include e(input) {
@@ -13,7 +34,7 @@
 
   @include e(tip) {
     font-size: 12px;
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
     margin-top: 7px;
   }
 
@@ -26,181 +47,197 @@
     filter: alpha(opacity=0);
   }
 
-  /* 照片墙模式 */
+  /* Picture Card for Wall */
   @include m(picture-card) {
-    background-color: #fbfdff;
-    border: 1px dashed #c0ccda;
+    @include set-css-var-value(('upload', 'picture-card', 'size'), 148px);
+
+    background-color: getCssVar('fill-color', 'lighter');
+    border: 1px dashed getCssVar('border-color', 'darker');
     border-radius: 6px;
     box-sizing: border-box;
-    width: 148px;
-    height: 148px;
+    width: getCssVar('upload', 'picture-card', 'size');
+    height: getCssVar('upload', 'picture-card', 'size');
     cursor: pointer;
     vertical-align: top;
 
+    @include utils-inline-flex-center;
+
     i {
-      margin-top: 59px; /* (148px - 28px) / 2 - 1px */
       font-size: 28px;
-      color: #8c939d;
+      color: getCssVar('text-color', 'secondary');
     }
 
     &:hover {
-      border-color: var(--el-color-primary);
-      color: var(--el-color-primary);
+      border-color: getCssVar('color-primary');
+      color: getCssVar('color-primary');
     }
   }
+
+  @include when(drag) {
+    display: block;
+  }
+
   &:focus {
-    border-color: var(--el-color-primary);
-    color: var(--el-color-primary);
+    border-color: getCssVar('color-primary');
+    color: getCssVar('color-primary');
 
     .#{$namespace}-upload-dragger {
-      border-color: var(--el-color-primary);
+      border-color: getCssVar('color-primary');
     }
   }
 }
 
 @include b(upload-dragger) {
-  background-color: #fff;
-  border: 1px dashed #d9d9d9;
+  padding: getCssVar('upload-dragger-padding-horizontal')
+    getCssVar('upload-dragger-padding-vertical');
+  background-color: getCssVar('fill-color', 'blank');
+  border: 1px dashed getCssVar('border-color');
   border-radius: 6px;
   box-sizing: border-box;
-  width: 360px;
-  height: 180px;
   text-align: center;
   cursor: pointer;
   position: relative;
   overflow: hidden;
 
-  .#{$namespace}-icon--upload {
+  .#{bem('icon', '', 'upload')} {
     font-size: 67px;
-    color: var(--el-text-color-placeholder);
-    margin: 40px 0 16px;
+    color: getCssVar('text-color', 'placeholder');
+    margin-bottom: 16px;
     line-height: 50px;
   }
 
-  + .#{$namespace}-upload__tip {
+  + .#{bem('upload', 'tip')} {
     text-align: center;
   }
 
-  ~ .#{$namespace}-upload__files {
-    border-top: $border-base;
+  ~ .#{bem('upload', 'files')} {
+    border-top: getCssVar('border');
     margin-top: 7px;
     padding-top: 5px;
   }
 
-  .#{$namespace}-upload__text {
-    color: var(--el-text-color-regular);
+  .#{bem('upload', 'text')} {
+    color: getCssVar('text-color', 'regular');
     font-size: 14px;
     text-align: center;
 
     em {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
       font-style: normal;
     }
   }
 
   &:hover {
-    border-color: var(--el-color-primary);
+    border-color: getCssVar('color-primary');
   }
 
   @include when(dragover) {
-    background-color: rgba(32, 159, 255, 0.06);
-    border: 2px dashed var(--el-color-primary);
+    padding: calc(#{getCssVar('upload-dragger-padding-horizontal')} - 1px)
+      calc(#{getCssVar('upload-dragger-padding-vertical')} - 1px);
+    background-color: getCssVar('color', 'primary', 'light-9');
+    border: 2px dashed getCssVar('color-primary');
   }
 }
 
 @include b(upload-list) {
-  margin: 0;
+  margin: 10px 0 0;
   padding: 0;
   list-style: none;
-
+  position: relative;
   @include e(item) {
     transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
     font-size: 14px;
-    color: var(--el-text-color-regular);
-    line-height: 1.8;
-    margin-top: 5px;
+    color: getCssVar('text-color', 'regular');
+    margin-bottom: 5px;
     position: relative;
     box-sizing: border-box;
     border-radius: 4px;
     width: 100%;
 
-    .#{$namespace}-progress {
+    .#{bem('progress')} {
       position: absolute;
       top: 20px;
       width: 100%;
     }
 
-    .#{$namespace}-progress__text {
+    .#{bem('progress', 'text')} {
       position: absolute;
       right: 0;
       top: -13px;
     }
 
-    .#{$namespace}-progress-bar {
+    .#{bem('progress-bar')} {
       margin-right: 0;
       padding-right: 0;
     }
 
-    &:first-child {
-      margin-top: 10px;
+    & .#{bem('icon', '', 'upload-success')} {
+      color: getCssVar('color-success');
     }
 
-    & .#{$namespace}-icon--upload-success {
-      color: var(--el-color-success);
-    }
-
-    .#{$namespace}-icon--close {
+    .#{bem('icon', '', 'close')} {
       display: none;
       position: absolute;
-      top: 5px;
       right: 5px;
+      top: 50%;
       cursor: pointer;
       opacity: 0.75;
-      color: var(--el-text-color-regular);
-      //transform: scale(.7);
+      color: getCssVar('text-color', 'regular');
+      transition: opacity getCssVar('transition-duration');
+      transform: translateY(-50%);
 
       &:hover {
         opacity: 1;
+        color: getCssVar('color-primary');
       }
     }
 
-    & .#{$namespace}-icon--close-tip {
+    & .#{bem('icon', '', 'close-tip')} {
       display: none;
       position: absolute;
-      top: 5px;
+      top: 1px;
       right: 5px;
       font-size: 12px;
       cursor: pointer;
       opacity: 1;
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
+      font-style: normal;
     }
 
     &:hover {
-      background-color: $background-color-base;
+      background-color: getCssVar('fill-color', 'light');
 
-      .#{$namespace}-icon--close {
-        display: inline-block;
+      .#{bem('icon', '', 'close')} {
+        display: inline-flex;
       }
 
-      .#{$namespace}-progress__text {
+      .#{bem('progress', 'text')} {
         display: none;
       }
     }
 
+    .#{bem('upload-list', 'item-info')} {
+      display: inline-flex;
+      justify-content: center;
+      flex-direction: column;
+      width: calc(100% - 30px);
+      margin-left: 4px;
+    }
+
     @include when(success) {
-      .#{$namespace}-upload-list__item-status-label {
-        display: block;
+      .#{bem('upload-list', 'item-status-label')} {
+        display: inline-flex;
       }
 
-      .#{$namespace}-upload-list__item-name:hover,
-      .#{$namespace}-upload-list__item-name:focus {
-        color: var(--el-color-primary);
+      .#{bem('upload-list', 'item-name')}:hover,
+      .#{bem('upload-list', 'item-name')}:focus {
+        color: getCssVar('color-primary');
         cursor: pointer;
       }
 
       &:focus:not(:hover) {
         /* 键盘focus */
-        .#{$namespace}-icon-close-tip {
+        .#{bem('icon', '', 'close-tip')} {
           display: inline-block;
         }
       }
@@ -209,45 +246,49 @@
       &:active {
         /* click时 */
         outline-width: 0;
-        .#{$namespace}-icon--close-tip {
+        .#{bem('icon', '', 'close-tip')} {
           display: none;
         }
       }
 
       &:hover,
       &:focus {
-        .#{$namespace}-upload-list__item-status-label {
+        .#{bem('upload-list', 'item-status-label')} {
           display: none;
+          opacity: 0;
         }
       }
     }
   }
 
   @include when(disabled) {
-    .#{$namespace}-upload-list__item:hover
-      .#{$namespace}-upload-list__item-status-label {
+    .#{bem('upload-list', 'item')}:hover,
+    .#{bem('upload-list', 'item-status-label')} {
       display: block;
     }
   }
 
   @include e(item-name) {
-    color: var(--el-text-color-regular);
-    display: block;
-    margin-right: 40px;
-    overflow: hidden;
-    padding-left: 4px;
-    text-overflow: ellipsis;
-    transition: color var(--el-transition-duration);
-    white-space: nowrap;
+    color: getCssVar('text-color', 'regular');
+    display: inline-flex;
+    text-align: center;
+    align-items: center;
 
-    & .#{$namespace}-icon {
-      margin-right: 7px;
-      color: var(--el-text-color-secondary);
+    padding: 0 4px;
 
-      svg {
-        vertical-align: text-bottom;
-      }
+    transition: color getCssVar('transition-duration');
+    font-size: getCssVar('font-size', 'base');
+
+    .#{$namespace}-icon {
+      margin-right: 6px;
+      color: getCssVar('text-color', 'secondary');
     }
+  }
+
+  @include e(item-file-name) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   @include e(item-status-label) {
@@ -256,6 +297,12 @@
     top: 0;
     line-height: inherit;
     display: none;
+
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+
+    transition: opacity getCssVar('transition-duration');
   }
 
   @include e(item-delete) {
@@ -263,41 +310,48 @@
     right: 10px;
     top: 0;
     font-size: 12px;
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
     display: none;
 
     &:hover {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
     }
   }
 
+  // upload-list
   @include m(picture-card) {
-    margin: 0;
-    display: inline;
-    vertical-align: top;
+    @include set-css-var-value(('upload-list', 'picture-card', 'size'), 148px);
 
-    .#{$namespace}-upload-list__item {
+    display: inline-flex;
+    flex-wrap: wrap;
+    margin: 0;
+
+    .#{bem('upload-list', 'item')} {
       overflow: hidden;
-      background-color: #fff;
-      border: 1px solid #c0ccda;
+      background-color: getCssVar('fill-color', 'blank');
+      border: 1px solid getCssVar('border-color');
       border-radius: 6px;
       box-sizing: border-box;
-      width: 148px;
-      height: 148px;
+      width: getCssVar('upload-list', 'picture-card', 'size');
+      height: getCssVar('upload-list', 'picture-card', 'size');
       margin: 0 8px 8px 0;
-      display: inline-block;
+      padding: 0;
 
-      .#{$namespace}-icon--check,
-      .#{$namespace}-icon--circle-check {
+      display: inline-flex;
+
+      .#{bem('icon', '' ,'check')},
+      .#{bem('icon', '' ,'circle-check')} {
         color: $color-white;
       }
 
-      .#{$namespace}-icon--close {
+      .#{bem('icon', '', 'close')} {
         display: none;
       }
       &:hover {
-        .#{$namespace}-upload-list__item-status-label {
-          display: none;
+        .#{bem('upload-list', 'item-status-label')} {
+          opacity: 0;
+          // for fade out
+          display: block;
         }
 
         .#{$namespace}-progress__text {
@@ -306,52 +360,39 @@
       }
     }
 
-    .#{$namespace}-upload-list__item-name {
-      display: none;
-    }
-
-    .#{$namespace}-upload-list__item-thumbnail {
-      width: 100%;
-      height: 100%;
-    }
-
-    .#{$namespace}-upload-list__item-status-label {
-      position: absolute;
-      right: -15px;
-      top: -6px;
-      width: 40px;
-      height: 24px;
-      background: #13ce66;
-      text-align: center;
-      transform: rotate(45deg);
-      box-shadow: 0 0 1pc 1px rgba(0, 0, 0, 0.2);
-
-      i {
-        font-size: 12px;
-        margin-top: 11px;
-        transform: rotate(-45deg);
+    .#{bem('upload-list', 'item')} {
+      .#{bem('upload-list', 'item-name')} {
+        display: none;
       }
     }
 
-    .#{$namespace}-upload-list__item-actions {
+    .#{bem('upload-list', 'item-thumbnail')} {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .#{bem('upload-list', 'item-status-label')} {
+      @include upload-success();
+    }
+
+    .#{bem('upload-list', 'item-actions')} {
       position: absolute;
       width: 100%;
       height: 100%;
       left: 0;
       top: 0;
       cursor: default;
-      text-align: center;
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+
       color: #fff;
       opacity: 0;
       font-size: 20px;
-      background-color: rgba(0, 0, 0, 0.5);
-      transition: opacity var(--el-transition-duration);
-      &::after {
-        display: inline-block;
-        content: '';
-        height: 100%;
-        vertical-align: middle;
-      }
+      background-color: getCssVar('overlay-color', 'lighter');
+      transition: opacity getCssVar('transition-duration');
 
       span {
         display: none;
@@ -359,10 +400,10 @@
       }
 
       span + span {
-        margin-left: 15px;
+        margin-left: 1rem;
       }
 
-      .#{$namespace}-upload-list__item-delete {
+      .#{bem('upload-list', 'item-delete')} {
         position: static;
         font-size: inherit;
         color: inherit;
@@ -371,12 +412,12 @@
       &:hover {
         opacity: 1;
         span {
-          display: inline-block;
+          display: inline-flex;
         }
       }
     }
 
-    .#{$namespace}-progress {
+    .#{bem('progress')} {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -390,81 +431,73 @@
   }
 
   @include m(picture) {
-    .#{$namespace}-upload-list__item {
+    .#{bem('upload-list', 'item')} {
       overflow: hidden;
       z-index: 0;
-      background-color: #fff;
-      border: 1px solid #c0ccda;
+      background-color: getCssVar('fill-color', 'blank');
+      border: 1px solid getCssVar('border-color');
       border-radius: 6px;
       box-sizing: border-box;
       margin-top: 10px;
-      padding: 10px 10px 10px 90px;
-      height: 92px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
 
-      .#{$namespace}-icon--check,
-      .#{$namespace}-icon--circle-check {
+      .#{bem('icon', '' ,'check')},
+      .#{bem('icon', '' ,'circle-check')} {
         color: $color-white;
       }
 
       &:hover {
-        .#{$namespace}-upload-list__item-status-label {
-          background: transparent;
-          box-shadow: none;
-          top: -2px;
-          right: -12px;
+        .#{bem('upload-list', 'item-status-label')} {
+          opacity: 0;
+          display: block;
         }
 
-        .#{$namespace}-progress__text {
+        .#{bem('progress', 'text')} {
           display: block;
         }
       }
 
       &.is-success {
-        .#{$namespace}-upload-list__item-name {
-          line-height: 70px;
-          margin-top: 0;
+        .#{bem('upload-list', 'item-name')} {
           i {
             display: none;
           }
         }
       }
-    }
 
-    .#{$namespace}-upload-list__item-thumbnail {
-      vertical-align: middle;
-      display: inline-block;
-      width: 70px;
-      height: 70px;
-      float: left;
-      position: relative;
-      z-index: 1;
-      margin-left: -80px;
-      background-color: $color-white;
-    }
-
-    .#{$namespace}-upload-list__item-name {
-      display: block;
-      margin-top: 20px;
-
-      i {
-        font-size: 70px;
-        line-height: 1;
-        position: absolute;
-        left: 9px;
-        top: 10px;
+      & .#{bem('icon', '' ,'close')} {
+        top: 5px;
+        transform: translateY(0);
       }
     }
 
-    .#{$namespace}-upload-list__item-status-label {
+    .#{bem('upload-list', 'item-thumbnail')} {
+      $item-thumbnail-size: 70px;
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+
+      width: $item-thumbnail-size;
+      height: $item-thumbnail-size;
+      object-fit: contain;
+
+      position: relative;
+      z-index: 1;
+      background-color: getCssVar('color-white');
+    }
+
+    .#{bem('upload-list', 'item-status-label')} {
       position: absolute;
       right: -17px;
       top: -7px;
       width: 46px;
       height: 26px;
-      background: #13ce66;
+      background: getCssVar('color-success');
       text-align: center;
       transform: rotate(45deg);
-      box-shadow: 0 1px 1px #ccc;
 
       i {
         font-size: 12px;
@@ -498,22 +531,7 @@
   }
 
   @include e(label) {
-    position: absolute;
-    right: -15px;
-    top: -6px;
-    width: 40px;
-    height: 24px;
-    background: #13ce66;
-    text-align: center;
-    transform: rotate(45deg);
-    box-shadow: 0 0 1pc 1px rgba(0, 0, 0, 0.2);
-
-    i {
-      font-size: 12px;
-      margin-top: 11px;
-      transform: rotate(-45deg);
-      color: #fff;
-    }
+    @include upload-success(#fff);
   }
 
   @include e(progress) {
@@ -522,7 +540,7 @@
     position: static;
     width: 243px;
 
-    + .#{$namespace}-upload__inner {
+    + .#{bem('upload', 'inner')} {
       opacity: 0;
     }
   }
@@ -541,7 +559,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(#000, 0.72);
+    background-color: getCssVar('overlay-color', 'light');
     text-align: center;
 
     .btn {
@@ -550,7 +568,7 @@
       font-size: 14px;
       cursor: pointer;
       vertical-align: middle;
-      transition: var(--el-transition-md-fade);
+      transition: getCssVar('transition-md-fade');
       margin-top: 60px;
 
       i {
@@ -600,10 +618,10 @@
     margin: 0;
     line-height: 36px;
     font-size: 14px;
-    color: var(--el-text-color-primary);
+    color: getCssVar('text-color', 'primary');
   }
 
-  + .#{$namespace}-upload__inner {
+  + .#{bem('upload', 'inner')} {
     opacity: 0;
     position: relative;
     z-index: 1;

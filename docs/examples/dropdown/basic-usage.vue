@@ -19,5 +19,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ArrowDown } from '@element-plus/icons'
+import { ArrowDown } from '@element-plus/icons-vue'
 </script>
+<style scoped>
+.example-showcase .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
+}
+</style>

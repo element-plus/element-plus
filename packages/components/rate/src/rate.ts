@@ -1,12 +1,25 @@
-import { Star, StarFilled } from '@element-plus/icons'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
-import type { Component, ExtractPropTypes } from 'vue'
+import { Star, StarFilled } from '@element-plus/icons-vue'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+  isNumber,
+  isValidComponentSize,
+  mutable,
+} from '@element-plus/utils'
+import type { ComponentSize } from '@element-plus/constants'
+import type { Component, ExtractPropTypes, PropType } from 'vue'
+import type Rate from './rate.vue'
 
 export const rateProps = buildProps({
   modelValue: {
     type: Number,
     default: 0,
+  },
+  id: {
+    type: String,
+    default: undefined,
   },
   lowThreshold: {
     type: Number,
@@ -22,15 +35,15 @@ export const rateProps = buildProps({
   },
   colors: {
     type: definePropType<string[] | Record<number, string>>([Array, Object]),
-    default: () => mutable(['#F7BA2A', '#F7BA2A', '#F7BA2A'] as const),
+    default: () => mutable(['', '', ''] as const),
   },
   voidColor: {
     type: String,
-    default: '#C6D1DE',
+    default: '',
   },
   disabledVoidColor: {
     type: String,
-    default: '#EFF2F7',
+    default: '',
   },
   icons: {
     type: definePropType<
@@ -39,35 +52,31 @@ export const rateProps = buildProps({
     default: () => [StarFilled, StarFilled, StarFilled],
   },
   voidIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: () => Star,
   },
-  disabledvoidIcon: {
-    type: definePropType<string | Component>([String, Object]),
+  disabledVoidIcon: {
+    type: iconPropType,
     default: () => StarFilled,
   },
   disabled: {
     type: Boolean,
-    default: false,
   },
   allowHalf: {
     type: Boolean,
-    default: false,
   },
   showText: {
     type: Boolean,
-    default: false,
   },
   showScore: {
     type: Boolean,
-    default: false,
   },
   textColor: {
     type: String,
-    default: '#1f2d3d',
+    default: '',
   },
   texts: {
-    type: definePropType<string[]>([Array]),
+    type: definePropType<string[]>(Array),
     default: () =>
       mutable([
         'Extremely bad',
@@ -81,12 +90,22 @@ export const rateProps = buildProps({
     type: String,
     default: '{value}',
   },
+  size: {
+    type: String as PropType<ComponentSize>,
+    validator: isValidComponentSize,
+  },
+  label: {
+    type: String,
+    default: undefined,
+  },
 } as const)
 
 export type RateProps = ExtractPropTypes<typeof rateProps>
 
 export const rateEmits = {
-  change: (value: number) => typeof value === 'number',
-  [UPDATE_MODEL_EVENT]: (value: number) => typeof value === 'number',
+  [CHANGE_EVENT]: (value: number) => isNumber(value),
+  [UPDATE_MODEL_EVENT]: (value: number) => isNumber(value),
 }
 export type RateEmits = typeof rateEmits
+
+export type RateInstance = InstanceType<typeof Rate>

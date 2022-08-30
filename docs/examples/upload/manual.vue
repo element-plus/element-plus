@@ -1,20 +1,18 @@
 <template>
   <el-upload
-    ref="upload"
+    ref="uploadRef"
     class="upload-demo"
-    action="https://jsonplaceholder.typicode.com/posts/"
+    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
     :auto-upload="false"
   >
     <template #trigger>
-      <el-button size="small" type="primary">select file</el-button>
+      <el-button type="primary">select file</el-button>
     </template>
-    <el-button
-      style="margin-left: 10px"
-      size="small"
-      type="success"
-      @click="submitUpload"
-      >upload to server</el-button
-    >
+
+    <el-button class="ml-3" type="success" @click="submitUpload">
+      upload to server
+    </el-button>
+
     <template #tip>
       <div class="el-upload__tip">
         jpg/png files with a size less than 500kb
@@ -22,12 +20,13 @@
     </template>
   </el-upload>
 </template>
-<script lang="ts">
-export default {
-  methods: {
-    submitUpload() {
-      this.$refs.upload.submit()
-    },
-  },
+<script lang="ts" setup>
+import { ref } from 'vue'
+import type { UploadInstance } from 'element-plus'
+
+const uploadRef = ref<UploadInstance>()
+
+const submitUpload = () => {
+  uploadRef.value!.submit()
 }
 </script>

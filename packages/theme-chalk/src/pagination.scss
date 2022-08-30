@@ -5,24 +5,48 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+@mixin remove-margin {
+  & + button.btn-prev[type='button'] {
+    margin-left: 0;
+  }
+
+  & + .#{$namespace}-pager {
+    .number {
+      &:first-child {
+        margin-left: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+@mixin pagination-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: getCssVar('pagination-font-size');
+  min-width: getCssVar('pagination-button-width');
+  height: getCssVar('pagination-button-height');
+  line-height: getCssVar('pagination-button-height');
+  box-sizing: border-box;
+}
+
 @include b(pagination) {
   @include set-component-css-var('pagination', $pagination);
 
   white-space: nowrap;
   padding: 2px 5px;
-  color: var(--el-pagination-text-color);
-  font-weight: bold;
+  color: getCssVar('pagination-text-color');
+  font-weight: normal;
+  display: flex;
+  align-items: center;
   @include utils-clearfix;
 
   span:not([class*='suffix']),
   button {
-    display: inline-block;
-    font-size: var(--el-pagination-font-size);
-    min-width: var(--el-pagination-button-width);
-    height: var(--el-pagination-button-height);
-    line-height: var(--el-pagination-button-height);
-    vertical-align: top;
-    box-sizing: border-box;
+    @include pagination-button;
   }
 
   .#{$namespace}-input__inner {
@@ -31,20 +55,8 @@
     line-height: normal;
   }
 
-  // pagesize 的下拉 icon
-  .#{$namespace}-input__suffix {
-    right: 0;
-    transform: scale(0.8);
-  }
-
   .#{$namespace}-select .#{$namespace}-input {
-    width: 100px;
-    margin: 0 5px;
-
-    .#{$namespace}-input__inner {
-      padding-right: 25px;
-      border-radius: var(--el-pagination-border-radius);
-    }
+    width: 128px;
   }
 
   button {
@@ -57,12 +69,12 @@
     }
 
     &:hover {
-      color: var(--el-pagination-hover-color);
+      color: getCssVar('pagination-hover-color');
     }
 
     &:disabled {
-      color: var(--el-pagination-button-disabled-color);
-      background-color: var(--el-pagination-button-disabled-bg-color);
+      color: getCssVar('pagination-button-disabled-color');
+      background-color: getCssVar('pagination-button-disabled-bg-color');
       cursor: not-allowed;
     }
   }
@@ -71,10 +83,10 @@
   .btn-next {
     background: center center no-repeat;
     background-size: 16px;
-    background-color: var(--el-pagination-bg-color);
+    background-color: getCssVar('pagination-bg-color');
     cursor: pointer;
     margin: 0;
-    color: var(--el-pagination-button-color);
+    color: getCssVar('pagination-button-color');
 
     .#{$namespace}-icon {
       display: block;
@@ -82,18 +94,15 @@
       font-weight: bold;
       width: inherit;
     }
+
+    &:focus-visible {
+      outline: 1px solid getCssVar('pagination-hover-color');
+      color: getCssVar('pagination-hover-color');
+    }
   }
 
-  .btn-prev {
-    padding-right: 12px;
-  }
-
-  .btn-next {
-    padding-left: 12px;
-  }
-
-  .#{$namespace}-pager li.disabled {
-    color: var(--el-text-color-placeholder);
+  .#{$namespace}-pager li.is-disabled {
+    color: getCssVar('text-color', 'placeholder');
     cursor: not-allowed;
   }
 
@@ -105,102 +114,110 @@
     .#{$namespace}-pager li.btn-quickprev,
     .#{$namespace}-pager li:last-child {
       border-color: transparent;
-      font-size: var(--el-font-size-extra-small);
-      line-height: var(--el-pagination-line-height-extra-small);
-      height: var(--el-pagination-height-extra-small);
-      min-width: 22px;
+      font-size: getCssVar('font-size-extra-small');
+      line-height: getCssVar('pagination-line-height-extra-small');
+      height: getCssVar('pagination-height-extra-small');
+      min-width: 24px;
     }
 
-    .arrow.disabled {
+    .arrow.is-disabled {
       visibility: hidden;
     }
 
     .more::before,
     li.more::before {
-      line-height: var(--el-pagination-line-height-extra-small);
+      line-height: getCssVar('pagination-line-height-extra-small');
     }
 
     span:not([class*='suffix']),
     button {
-      height: var(--el-pagination-height-extra-small);
-      line-height: var(--el-pagination-line-height-extra-small);
+      height: getCssVar('pagination-height-extra-small');
+      line-height: getCssVar('pagination-line-height-extra-small');
+      font-size: getCssVar('font-size-extra-small');
     }
 
     @include e(editor) {
-      height: var(--el-pagination-line-height-extra-small);
+      height: getCssVar('pagination-line-height-extra-small');
       &.#{$namespace}-input .#{$namespace}-input__inner {
-        height: var(--el-pagination-height-extra-small);
+        height: getCssVar('pagination-height-extra-small');
       }
     }
 
     .#{$namespace}-input__inner,
-    .#{$namespace}-input--mini {
-      height: var(--el-pagination-height-extra-small) !important;
-      line-height: var(--el-pagination-line-height-extra-small);
+    .#{$namespace}-input--small {
+      height: getCssVar('pagination-height-extra-small') !important;
+      line-height: getCssVar('pagination-line-height-extra-small');
     }
 
     .#{$namespace}-input__suffix {
-      line-height: var(--el-pagination-line-height-extra-small);
+      line-height: getCssVar('pagination-line-height-extra-small');
       .#{$namespace}-input__suffix-inner {
-        line-height: var(--el-pagination-line-height-extra-small);
-        i.el-select__caret {
-          line-height: var(--el-pagination-line-height-extra-small);
+        line-height: getCssVar('pagination-line-height-extra-small');
+        i.#{$namespace}-select__caret {
+          line-height: getCssVar('pagination-line-height-extra-small');
         }
       }
+    }
+
+    .#{$namespace}-select .#{$namespace}-input {
+      width: 100px;
     }
   }
 
   @include e(sizes) {
-    margin: 0 10px 0 0;
+    margin: 0 16px 0 0;
     font-weight: normal;
-    color: var(--el-text-color-regular);
-
-    .#{$namespace}-input .#{$namespace}-input__inner {
-      font-size: var(--el-pagination-font-size);
-      padding-left: 8px;
-
-      &:hover {
-        border-color: var(--el-pagination-hover-color);
-      }
-    }
+    color: getCssVar('text-color', 'regular');
+    @include remove-margin();
   }
 
   @include e(total) {
-    margin-right: 10px;
+    margin-right: 16px;
     font-weight: normal;
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
+    @include remove-margin();
+    &[disabled='true'] {
+      color: getCssVar('text-color', 'placeholder');
+    }
   }
 
   @include e(jump) {
-    margin-left: 24px;
+    margin-left: 16px;
     font-weight: normal;
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
 
     .#{$namespace}-input__inner {
       padding: 0 3px;
     }
+
+    &[disabled='true'] {
+      color: getCssVar('text-color', 'placeholder');
+    }
   }
 
   @include e(rightwrapper) {
-    float: right;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
   }
 
   @include e(editor) {
     line-height: 18px;
-    padding: 0 2px;
-    height: var(--el-pagination-button-height);
+    margin: 0 8px;
+    height: getCssVar('pagination-button-height');
+    min-width: 56px;
 
     text-align: center;
-    margin: 0 2px;
     box-sizing: border-box;
-    border-radius: var(--el-pagination-border-radius);
+    border-radius: getCssVar('pagination-border-radius');
 
     &.#{$namespace}-input {
       width: 50px;
     }
 
     &.#{$namespace}-input .#{$namespace}-input__inner {
-      height: var(--el-pagination-button-height);
+      height: getCssVar('pagination-button-height');
     }
 
     .#{$namespace}-input__inner::-webkit-inner-spin-button,
@@ -214,14 +231,26 @@
     .btn-prev,
     .btn-next,
     .#{$namespace}-pager li {
-      margin: 0 5px;
-      background-color: map.get($colors, 'info', 'light-9');
-      color: var(--el-text-color-regular);
-      min-width: 30px;
+      margin: 0 4px;
+      background-color: getCssVar('pagination-button-bg-color');
+      color: getCssVar('text-color', 'regular');
+      min-width: 32px;
       border-radius: 2px;
 
-      &.disabled {
-        color: var(--el-text-color-placeholder);
+      &.is-disabled {
+        color: getCssVar('text-color', 'placeholder');
+        background-color: getCssVar('disabled-bg-color');
+
+        &.is-active {
+          color: getCssVar('text-color', 'secondary');
+          background-color: getCssVar('fill-color', 'dark');
+        }
+      }
+      @include when(first) {
+        margin-left: 0;
+      }
+      @include when(last) {
+        margin-right: 0;
       }
     }
 
@@ -230,18 +259,23 @@
       padding: 0;
 
       &:disabled {
-        color: var(--el-text-color-placeholder);
+        color: getCssVar('text-color', 'placeholder');
+        background-color: getCssVar('disabled-bg-color');
+      }
+      &:hover:not([disabled]) {
+        color: getCssVar('pagination-hover-color');
       }
     }
 
-    .#{$namespace}-pager li:not(.disabled) {
+    .#{$namespace}-pager li:not(.is-disabled) {
       &:hover {
-        color: var(--el-pagination-hover-color);
+        color: getCssVar('pagination-hover-color');
       }
 
-      &.active {
-        background-color: var(--el-color-primary);
-        color: var(--el-color-white);
+      &.is-active {
+        background-color: getCssVar('color-primary');
+        color: getCssVar('color-white');
+        font-weight: bold;
       }
     }
 
@@ -249,8 +283,13 @@
       .btn-prev,
       .btn-next,
       .#{$namespace}-pager li {
-        margin: 0 3px;
-        min-width: 22px;
+        min-width: 24px;
+      }
+    }
+
+    @include e(sizes) {
+      @include when(last) {
+        margin-left: 16px;
       }
     }
   }
@@ -259,39 +298,19 @@
 @include b(pager) {
   user-select: none;
   list-style: none;
-  display: inline-block;
-  vertical-align: top;
   font-size: 0;
   padding: 0;
   margin: 0;
+  display: flex;
+  align-items: center;
 
   li {
     padding: 0 4px;
-    background: var(--el-pagination-bg-color);
-    vertical-align: top;
-    display: inline-block;
-    font-size: var(--el-pagination-font-size);
-    min-width: var(--el-pagination-button-width);
-    height: var(--el-pagination-button-height);
-    line-height: var(--el-pagination-button-height);
+    background: getCssVar('pagination-bg-color');
+    @include pagination-button;
     cursor: pointer;
-    box-sizing: border-box;
     text-align: center;
-    margin: 1px;
-
-    &.btn-quicknext,
-    &.btn-quickprev {
-      line-height: 32px;
-      color: var(--el-pagination-button-color);
-
-      &.disabled {
-        color: var(--el-text-color-placeholder);
-      }
-
-      svg {
-        pointer-events: none;
-      }
-    }
+    margin: 0 1px;
 
     &.btn-quickprev:hover {
       cursor: pointer;
@@ -301,21 +320,50 @@
       cursor: pointer;
     }
 
-    &.active + li {
+    &.btn-quicknext,
+    &.btn-quickprev {
+      line-height: 32px;
+      color: getCssVar('pagination-button-color');
+
+      &.is-disabled {
+        color: getCssVar('text-color', 'placeholder');
+        cursor: not-allowed;
+      }
+
+      svg {
+        pointer-events: none;
+      }
+
+      &:focus-visible {
+        outline: 1px solid getCssVar('pagination-hover-color');
+        color: getCssVar('pagination-hover-color');
+      }
+    }
+
+    &.is-active + li {
       border-left: 0;
     }
 
     &:focus-visible {
-      outline: 1px solid var(--el-pagination-hover-color);
+      outline: 1px solid getCssVar('pagination-hover-color');
     }
 
     &:hover {
-      color: var(--el-pagination-hover-color);
+      color: getCssVar('pagination-hover-color');
     }
 
-    &.active {
-      color: var(--el-pagination-hover-color);
+    &.is-active {
+      color: getCssVar('pagination-hover-color');
       cursor: default;
+
+      &.is-disabled {
+        font-weight: bold;
+        color: getCssVar('text-color', 'secondary');
+      }
     }
+  }
+
+  & + button.btn-next[type='button'] {
+    margin-right: 0;
   }
 }

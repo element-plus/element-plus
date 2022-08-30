@@ -1,5 +1,6 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import type { Component, ExtractPropTypes } from 'vue'
+import { buildProps, iconPropType } from '@element-plus/utils'
+import type { ExtractPropTypes } from 'vue'
+import type Link from './link.vue'
 
 export const linkProps = buildProps({
   type: {
@@ -14,8 +15,7 @@ export const linkProps = buildProps({
   disabled: { type: Boolean, default: false },
   href: { type: String, default: '' },
   icon: {
-    type: definePropType<string | Component>([String, Object]),
-    default: '',
+    type: iconPropType,
   },
 } as const)
 export type LinkProps = ExtractPropTypes<typeof linkProps>
@@ -24,3 +24,5 @@ export const linkEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
 }
 export type LinkEmits = typeof linkEmits
+
+export type LinkInstance = InstanceType<typeof Link>

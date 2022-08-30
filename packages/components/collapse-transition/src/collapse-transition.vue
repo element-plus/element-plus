@@ -1,83 +1,73 @@
 <template>
-  <transition v-on="on">
-    <slot></slot>
+  <transition :name="ns.b()" v-on="on">
+    <slot />
   </transition>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { addClass, removeClass } from '@element-plus/utils/dom'
+<script lang="ts" setup>
+import { useNamespace } from '@element-plus/hooks'
+import type { RendererElement } from '@vue/runtime-core'
 
-export default defineComponent({
+defineOptions({
   name: 'ElCollapseTransition',
-  setup() {
-    return {
-      on: {
-        beforeEnter(el) {
-          addClass(el, 'collapse-transition')
-          if (!el.dataset) el.dataset = {}
+})
 
-          el.dataset.oldPaddingTop = el.style.paddingTop
-          el.dataset.oldPaddingBottom = el.style.paddingBottom
+const ns = useNamespace('collapse-transition')
 
-          el.style.height = '0'
-          el.style.paddingTop = 0
-          el.style.paddingBottom = 0
-        },
+const on = {
+  beforeEnter(el: RendererElement) {
+    if (!el.dataset) el.dataset = {}
 
-        enter(el) {
-          el.dataset.oldOverflow = el.style.overflow
-          if (el.scrollHeight !== 0) {
-            el.style.height = `${el.scrollHeight}px`
-            el.style.paddingTop = el.dataset.oldPaddingTop
-            el.style.paddingBottom = el.dataset.oldPaddingBottom
-          } else {
-            el.style.height = ''
-            el.style.paddingTop = el.dataset.oldPaddingTop
-            el.style.paddingBottom = el.dataset.oldPaddingBottom
-          }
+    el.dataset.oldPaddingTop = el.style.paddingTop
+    el.dataset.oldPaddingBottom = el.style.paddingBottom
 
-          el.style.overflow = 'hidden'
-        },
+    el.style.maxHeight = 0
+    el.style.paddingTop = 0
+    el.style.paddingBottom = 0
+  },
 
-        afterEnter(el) {
-          // for safari: remove class then reset height is necessary
-          removeClass(el, 'collapse-transition')
-          el.style.height = ''
-          el.style.overflow = el.dataset.oldOverflow
-        },
+  enter(el: RendererElement) {
+    el.dataset.oldOverflow = el.style.overflow
+    if (el.scrollHeight !== 0) {
+      el.style.maxHeight = `${el.scrollHeight}px`
+      el.style.paddingTop = el.dataset.oldPaddingTop
+      el.style.paddingBottom = el.dataset.oldPaddingBottom
+    } else {
+      el.style.maxHeight = 0
+      el.style.paddingTop = el.dataset.oldPaddingTop
+      el.style.paddingBottom = el.dataset.oldPaddingBottom
+    }
 
-        beforeLeave(el) {
-          if (!el.dataset) el.dataset = {}
-          el.dataset.oldPaddingTop = el.style.paddingTop
-          el.dataset.oldPaddingBottom = el.style.paddingBottom
-          el.dataset.oldOverflow = el.style.overflow
+    el.style.overflow = 'hidden'
+  },
 
-          el.style.height = `${el.scrollHeight}px`
-          el.style.overflow = 'hidden'
-        },
+  afterEnter(el: RendererElement) {
+    el.style.maxHeight = ''
+    el.style.overflow = el.dataset.oldOverflow
+  },
 
-        leave(el) {
-          if (el.scrollHeight !== 0) {
-            // for safari: add class after set height, or it will jump to zero height suddenly, weired
-            addClass(el, 'collapse-transition')
-            // fix #968 collapse animation failure.
-            // in vue3.0.4, transitionProperty is set 'none' to avoid 'v-leave-from' issue
-            el.style.transitionProperty = 'height'
-            el.style.height = 0
-            el.style.paddingTop = 0
-            el.style.paddingBottom = 0
-          }
-        },
+  beforeLeave(el: RendererElement) {
+    if (!el.dataset) el.dataset = {}
+    el.dataset.oldPaddingTop = el.style.paddingTop
+    el.dataset.oldPaddingBottom = el.style.paddingBottom
+    el.dataset.oldOverflow = el.style.overflow
 
-        afterLeave(el) {
-          removeClass(el, 'collapse-transition')
-          el.style.height = ''
-          el.style.overflow = el.dataset.oldOverflow
-          el.style.paddingTop = el.dataset.oldPaddingTop
-          el.style.paddingBottom = el.dataset.oldPaddingBottom
-        },
-      },
+    el.style.maxHeight = `${el.scrollHeight}px`
+    el.style.overflow = 'hidden'
+  },
+
+  leave(el: RendererElement) {
+    if (el.scrollHeight !== 0) {
+      el.style.maxHeight = 0
+      el.style.paddingTop = 0
+      el.style.paddingBottom = 0
     }
   },
-})
+
+  afterLeave(el: RendererElement) {
+    el.style.maxHeight = ''
+    el.style.overflow = el.dataset.oldOverflow
+    el.style.paddingTop = el.dataset.oldPaddingTop
+    el.style.paddingBottom = el.dataset.oldPaddingBottom
+  },
+}
 </script>

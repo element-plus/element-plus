@@ -14,93 +14,142 @@
         :z-index="zIndex"
       >
         <div
-          class="el-overlay-dialog"
+          role="dialog"
+          aria-modal="true"
+          :aria-label="title || undefined"
+          :aria-labelledby="!title ? titleId : undefined"
+          :aria-describedby="bodyId"
+          :class="`${ns.namespace.value}-overlay-dialog`"
+          :style="overlayDialogStyle"
           @click="overlayEvent.onClick"
           @mousedown="overlayEvent.onMousedown"
           @mouseup="overlayEvent.onMouseup"
         >
-          <div
-            ref="dialogRef"
-            v-trap-focus
-            :class="[
-              'el-dialog',
-              {
-                'is-fullscreen': fullscreen,
-                'el-dialog--center': center,
-              },
-              customClass,
-            ]"
-            aria-modal="true"
-            role="dialog"
-            :aria-label="title || 'dialog'"
-            :style="style"
-            @click.stop=""
+          <el-focus-trap
+            loop
+            :trapped="visible"
+            focus-start-el="container"
+            @focus-after-trapped="onOpenAutoFocus"
+            @focus-after-released="onCloseAutoFocus"
+            @release-requested="onCloseRequested"
           >
-            <div class="el-dialog__header">
-              <slot name="title">
-                <span class="el-dialog__title">
-                  {{ title }}
-                </span>
-              </slot>
-              <button
-                v-if="showClose"
-                aria-label="close"
-                class="el-dialog__headerbtn"
-                type="button"
-                @click="handleClose"
-              >
-                <el-icon class="el-dialog__close"><close /> </el-icon>
-              </button>
-            </div>
-            <template v-if="rendered">
-              <div class="el-dialog__body">
-                <slot></slot>
-              </div>
-            </template>
-            <div v-if="$slots.footer" class="el-dialog__footer">
-              <slot name="footer"></slot>
-            </div>
-          </div>
+            <el-dialog-content
+              v-if="rendered"
+              ref="dialogContentRef"
+              v-bind="$attrs"
+              :custom-class="customClass"
+              :center="center"
+              :align-center="alignCenter"
+              :close-icon="closeIcon"
+              :draggable="draggable"
+              :fullscreen="fullscreen"
+              :show-close="showClose"
+              :title="title"
+              @close="handleClose"
+            >
+              <template #header>
+                <slot
+                  v-if="!$slots.title"
+                  name="header"
+                  :close="handleClose"
+                  :title-id="titleId"
+                  :title-class="ns.e('title')"
+                />
+                <slot v-else name="title" />
+              </template>
+              <slot />
+              <template v-if="$slots.footer" #footer>
+                <slot name="footer" />
+              </template>
+            </el-dialog-content>
+          </el-focus-trap>
         </div>
       </el-overlay>
     </transition>
   </teleport>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { TrapFocus } from '@element-plus/directives'
+<script lang="ts" setup>
+import { computed, provide, ref, useSlots } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
-import { ElIcon } from '@element-plus/components/icon'
-import { CloseComponents } from '@element-plus/utils/icon'
-import { useSameTarget } from '@element-plus/hooks'
-import { dialogProps, dialogEmits } from './dialog'
+import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
+import { dialogInjectionKey } from '@element-plus/tokens'
+import ElFocusTrap from '@element-plus/components/focus-trap'
+import ElDialogContent from './dialog-content.vue'
+import { dialogEmits, dialogProps } from './dialog'
 import { useDialog } from './use-dialog'
 
-export default defineComponent({
+defineOptions({
   name: 'ElDialog',
-  components: {
-    ElOverlay,
-    ElIcon,
-    ...CloseComponents,
-  },
-  directives: {
-    TrapFocus,
-  },
+  inheritAttrs: false,
+})
 
-  props: dialogProps,
-  emits: dialogEmits,
+const props = defineProps(dialogProps)
+defineEmits(dialogEmits)
+const slots = useSlots()
 
-  setup(props, ctx) {
-    const dialogRef = ref<HTMLElement>()
-    const dialog = useDialog(props, ctx, dialogRef)
-    const overlayEvent = useSameTarget(dialog.onModalClick)
-
-    return {
-      dialogRef,
-      overlayEvent,
-      ...dialog,
-    }
+useDeprecated(
+  {
+    scope: 'el-dialog',
+    from: 'the title slot',
+    replacement: 'the header slot',
+    version: '3.0.0',
+    ref: 'https://element-plus.org/en-US/component/dialog.html#slots',
   },
+  computed(() => !!slots.title)
+)
+
+useDeprecated(
+  {
+    scope: 'el-dialog',
+    from: 'custom-class',
+    replacement: 'class',
+    version: '2.3.0',
+    ref: 'https://element-plus.org/en-US/component/dialog.html#attributes',
+    type: 'Attribute',
+  },
+  computed(() => !!props.customClass)
+)
+
+const ns = useNamespace('dialog')
+const dialogRef = ref<HTMLElement>()
+const headerRef = ref<HTMLElement>()
+const dialogContentRef = ref()
+
+const {
+  visible,
+  titleId,
+  bodyId,
+  style,
+  overlayDialogStyle,
+  rendered,
+  zIndex,
+  afterEnter,
+  afterLeave,
+  beforeLeave,
+  handleClose,
+  onModalClick,
+  onOpenAutoFocus,
+  onCloseAutoFocus,
+  onCloseRequested,
+} = useDialog(props, dialogRef)
+
+provide(dialogInjectionKey, {
+  dialogRef,
+  headerRef,
+  bodyId,
+  ns,
+  rendered,
+  style,
+})
+
+const overlayEvent = useSameTarget(onModalClick)
+
+const draggable = computed(() => props.draggable && !props.fullscreen)
+
+defineExpose({
+  /** @description whether the dialog is visible */
+  visible,
+  dialogContentRef,
 })
 </script>

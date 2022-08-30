@@ -37,7 +37,7 @@ tag/editable
 
 Besides default size, Tag component provides three additional sizes for you to choose among different scenarios.
 
-:::demo Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
+:::demo Use attribute `size` to set additional sizes with `large`, `default` or `small`.
 
 tag/sizes
 
@@ -50,6 +50,16 @@ Tag provide three different themes: `dark`、`light` and `plain`
 :::demo Using `effect` to change, default is `light`
 
 tag/theme
+
+:::
+
+## Rounded <el-tag>> 2.1.7</el-tag>
+
+Tag can also be rounded like button.
+
+:::demo
+
+tag/rounded
 
 :::
 
@@ -72,8 +82,9 @@ tag/checkable
 | disable-transitions | whether to disable animations        | boolean | —                           | false   |
 | hit                 | whether Tag has a highlighted border | boolean | —                           | false   |
 | color               | background color of the Tag          | string  | —                           | —       |
-| size                | tag size                             | string  | medium / small / mini       | —       |
+| size                | tag size                             | string  | large / default /small      | default |
 | effect              | component theme                      | string  | dark / light / plain        | light   |
+| round               | whether Tag is rounded               | boolean | —                           | false   |
 
 ## Events
 

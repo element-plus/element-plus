@@ -1,6 +1,9 @@
 @use 'function' as *;
 @use '../common/var' as *;
+// forward mixins
 @forward 'config';
+@forward 'function';
+@forward '_var';
 @use 'config' as *;
 
 // Break-points
@@ -17,8 +20,8 @@
 
 // Scrollbar
 @mixin scroll-bar {
-  $scrollbar-thumb-background: #b4bccc;
-  $scrollbar-track-background: #fff;
+  $scrollbar-thumb-background: getCssVar('text-color', 'disabled');
+  $scrollbar-track-background: getCssVar('fill-color', 'blank');
 
   &::-webkit-scrollbar {
     z-index: 11;
@@ -189,7 +192,7 @@
 }
 
 @mixin picker-popper($background, $border, $box-shadow) {
-  &.#{$namespace}-popper[role='tooltip'] {
+  &.#{$namespace}-popper {
     background: $background;
     border: $border;
     box-shadow: $box-shadow;
@@ -216,9 +219,17 @@
 
 // dark
 @mixin dark($block) {
-  .dark {
+  html.dark {
     @include b($block) {
       @content;
     }
+  }
+}
+
+@mixin inset-input-border($color, $important: false) {
+  @if $important == true {
+    box-shadow: 0 0 0 1px $color inset !important;
+  } @else {
+    box-shadow: 0 0 0 1px $color inset;
   }
 }

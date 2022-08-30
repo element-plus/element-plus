@@ -15,7 +15,7 @@
           <span>Yummy hamburger</span>
           <div class="bottom">
             <time class="time">{{ currentDate }}</time>
-            <el-button type="text" class="button">Operating</el-button>
+            <el-button text class="button">Operating</el-button>
           </div>
         </div>
       </el-card>
@@ -23,23 +23,15 @@
   </el-row>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const currentDate = ref(new Date())
-
-    return {
-      currentDate,
-    }
-  },
-})
+const currentDate = ref(new Date())
 </script>
 
 <style>
 .time {
-  font-size: 13px;
+  font-size: 12px;
   color: #999;
 }
 

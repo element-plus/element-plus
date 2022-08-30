@@ -1,18 +1,11 @@
-import type { TabsProps, TabPaneProps } from '@element-plus/components/tabs'
-import type {
-  ComponentInternalInstance,
-  ComputedRef,
-  Ref,
-  InjectionKey,
-  UnwrapRef,
-  ShallowReactive,
-} from 'vue'
+import type { TabPaneProps, TabsProps } from '@element-plus/components/tabs'
+import type { ComputedRef, InjectionKey, Ref, Slots, UnwrapRef } from 'vue'
 
 export type TabsPaneContext = UnwrapRef<{
   uid: number
-  instance: ShallowReactive<ComponentInternalInstance>
+  slots: Slots
   props: TabPaneProps
-  paneName: ComputedRef<string | undefined>
+  paneName: ComputedRef<string | number | undefined>
   active: ComputedRef<boolean>
   index: Ref<string | undefined>
   isClosable: ComputedRef<boolean>
@@ -20,8 +13,9 @@ export type TabsPaneContext = UnwrapRef<{
 
 export interface TabsRootContext {
   props: TabsProps
-  currentName: Ref<string>
-  updatePaneState: (pane: TabsPaneContext) => void
+  currentName: Ref<string | number>
+  registerPane: (pane: TabsPaneContext) => void
+  unregisterPane: (uid: number) => void
 }
 
 export const tabsRootContextKey: InjectionKey<TabsRootContext> =

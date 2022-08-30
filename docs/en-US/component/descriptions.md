@@ -7,22 +7,6 @@ lang: en-US
 
 Display multiple fields in list form.
 
-<style lang="scss" scoped>
-.example-showcase {
-  .margin-top {
-    margin-top: 20px;
-  }
-
-  .my-label {
-    background: var(--el-color-success-lighter);
-  }
-
-  .my-content {
-    background: var(--el-color-danger-lighter);
-  }
-}
-</style>
-
 ## Basic usage
 
 :::demo
@@ -57,14 +41,14 @@ descriptions/customized-style
 
 ## Descriptions Attributes
 
-| Attribute | Description                                | Type    | Accepted Values       | Default    |
-| --------- | ------------------------------------------ | ------- | --------------------- | ---------- |
-| border    | with or without border                     | boolean | —                     | false      |
-| column    | numbers of `Descriptions Item` in one line | number  | —                     | 3          |
-| direction | direction of list                          | string  | vertical / horizontal | horizontal |
-| size      | size of list                               | string  | medium / small / mini | —          |
-| title     | title text, display on the top left        | string  | —                     | —          |
-| extra     | extra text, display on the top right       | string  | —                     | —          |
+| Attribute | Description                                | Type    | Accepted Values         | Default    |
+| --------- | ------------------------------------------ | ------- | ----------------------- | ---------- |
+| border    | with or without border                     | boolean | —                       | false      |
+| column    | numbers of `Descriptions Item` in one line | number  | —                       | 3          |
+| direction | direction of list                          | string  | vertical / horizontal   | horizontal |
+| size      | size of list                               | string  | large / default / small | default    |
+| title     | title text, display on the top left        | string  | —                       | —          |
+| extra     | extra text, display on the top right       | string  | —                       | —          |
 
 ## Descriptions Slots
 

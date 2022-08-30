@@ -7,7 +7,7 @@ lang: en-US
 
 Displays important alert messages.
 
-## Basic usage
+## Basic Usage
 
 Alert components are non-overlay elements in the page that does not disappear automatically.
 
@@ -27,7 +27,7 @@ alert/theme
 
 :::
 
-## Customizable close button
+## Customizable Close Button
 
 Customize the close button as texts or other symbols.
 
@@ -37,7 +37,7 @@ alert/close-button
 
 :::
 
-## With icon
+## With Icon
 
 Displaying an icon improves readability.
 
@@ -47,7 +47,7 @@ alert/icon
 
 :::
 
-## Centered text
+## Centered Text
 
 Use the `center` attribute to center the text.
 
@@ -57,7 +57,7 @@ alert/center
 
 :::
 
-## With description
+## With Description
 
 Description includes a message with more detailed information.
 
@@ -67,7 +67,7 @@ alert/description
 
 :::
 
-## With icon and description
+## With Icon and Description
 
 :::demo At last, this is an example with both icon and description.
 
@@ -75,39 +75,30 @@ alert/icon-description
 
 :::
 
-## Attributes
+## Alert API
 
-| Attribute   | Description                                                | Type    | Accepted Values            | Default |
-| ----------- | ---------------------------------------------------------- | ------- | -------------------------- | ------- |
-| title       | title                                                      | string  | —                          | —       |
-| type        | Component type                                             | string  | success/warning/info/error | info    |
-| description | Descriptive text. Can also be passed with the default slot | string  | —                          | —       |
-| closable    | If closable or not                                         | boolean | —                          | true    |
-| center      | Whether to center the text                                 | boolean | —                          | false   |
-| close-text  | Customized close button text                               | string  | —                          | —       |
-| show-icon   | If a type icon is displayed                                | boolean | —                          | false   |
-| effect      | Choose theme                                               | string  | light/dark                 | light   |
+### Alert Attributes
 
-## Slots
+| Name          | Description                       | Type                                          | Default   | Required |
+| ------------- | --------------------------------- | --------------------------------------------- | --------- | -------- |
+| `title`       | alert title.                      | `string`                                      | —         | No       |
+| `type`        | alert type.                       | `'success' \| 'warning' \| 'info' \| 'error'` | `'info'`  | No       |
+| `description` | descriptive text.                 | `string`                                      | —         | No       |
+| `closable`    | whether closable or not.          | `boolean`                                     | `true`    | No       |
+| `center`      | whether to center the text.       | `boolean`                                     | `false`   | No       |
+| `close-text`  | customized close button text.     | `string`                                      | —         | No       |
+| `show-icon`   | whether a type icon is displayed. | `boolean`                                     | `false`   | No       |
+| `effect`      | theme style.                      | `'light' \| 'dark'`                           | `'light'` | No       |
 
-| Name  | Description                |
-| ----- | -------------------------- |
-| —     | description                |
-| title | content of the Alert title |
+### Alert Events
 
-## Events
+| Name    | Description                   | Type                        |
+| ------- | ----------------------------- | --------------------------- |
+| `close` | trigger when alert is closed. | `(evt: MouseEvent) => void` |
 
-| Event Name | Description                | Parameters |
-| ---------- | -------------------------- | ---------- |
-| close      | fires when alert is closed | —          |
+### Alert Slots
 
-<style lang="scss">
-.example-showcase {
-  .el-alert {
-    margin: 20px 0 0;
-    &:first-child {
-      margin: 0
-    }
-  }
-}
-</style>
+| Name      | Description                       |
+| --------- | --------------------------------- |
+| `default` | content of the alert description. |
+| `title`   | content of the alert title.       |

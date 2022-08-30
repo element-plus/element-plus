@@ -16,6 +16,7 @@ export interface SelectContext {
     modelValue?: string | number | unknown | unknown[]
     popperClass?: string
     remote?: boolean
+    fitInputWidth?: boolean
   }
   queryChange: Ref<QueryChangeCtx>
   groupQueryChange: Ref<string>

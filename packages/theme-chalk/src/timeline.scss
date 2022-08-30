@@ -8,7 +8,7 @@
 
 @include b(timeline) {
   margin: 0;
-  font-size: var(--el-font-size-base);
+  font-size: getCssVar('font-size', 'base');
   list-style: none;
 
   .#{$namespace}-timeline-item:last-child {

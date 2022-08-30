@@ -1,9 +1,7 @@
 {
   "cSpell.words": ["Element Plus", "element-plus"],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
+  "editor.formatOnSave": true,
   "npm.packageManager": "pnpm",
   "eslint.probe": [
     "javascript",
@@ -12,7 +10,9 @@
     "typescriptreact",
     "html",
     "vue",
-    "markdown"
+    "markdown",
+    "json",
+    "jsonc"
   ],
   "eslint.validate": [
     "javascript",
@@ -21,11 +21,15 @@
     "typescriptreact",
     "html",
     "vue",
-    "markdown"
+    "markdown",
+    "json",
+    "jsonc"
   ],
   "vite.devCommand": "pnpm run dev -- --",
   "i18n-ally.localesPaths": "packages/locale/lang",
   "i18n-ally.enabledParsers": ["ts"],
   "i18n-ally.enabledFrameworks": ["vue", "vue-sfc"],
-  "i18n-ally.keystyle": "nested"
+  "i18n-ally.keystyle": "nested",
+  "iconify.includes": ["ep"],
+  "unocss.root": "./docs"
 }

@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @use 'mixins/mixins' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
@@ -13,12 +15,39 @@
   height: fit-content;
   width: 100%;
   max-width: 100%;
-  background-color: var(--el-table-bg-color);
+  background-color: getCssVar('table-bg-color');
   font-size: 14px;
-  color: var(--el-table-text-color);
+  color: getCssVar('table-text-color');
+
+  @include e(inner-wrapper) {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    // 表格底部伪 border，总是有的
+    &::before {
+      @include extend-rule(border-pseudo);
+      left: 0;
+      bottom: 0px;
+      width: 100%;
+      height: 1px;
+      z-index: 3;
+    }
+  }
+
+  &.has-footer {
+    &.#{$namespace}-table--scrollable-y,
+    &.#{$namespace}-table--fluid-height {
+      tr:last-child td.#{$namespace}-table__cell {
+        border-bottom-color: transparent;
+      }
+    }
+  }
 
   // when data is empty
   @include e(empty-block) {
+    position: sticky;
+    left: 0;
     min-height: 60px;
     text-align: center;
     width: 100%;
@@ -32,7 +61,7 @@
     // set empty text line height up to contrainer min-height as workaround.
     line-height: 60px;
     width: 50%;
-    color: var(--el-text-color-secondary);
+    color: getCssVar('text-color', 'secondary');
   }
 
   // expand the row
@@ -40,15 +69,16 @@
     .cell {
       padding: 0;
       text-align: center;
+      user-select: none;
     }
   }
 
   @include e(expand-icon) {
     position: relative;
     cursor: pointer;
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
     font-size: 12px;
-    transition: transform var(--el-transition-duration-fast) ease-in-out;
+    transition: transform getCssVar('transition-duration-fast') ease-in-out;
     height: 20px;
 
     @include m(expanded) {
@@ -61,7 +91,7 @@
   }
 
   @include e(expanded-cell) {
-    background-color: var(--el-table-expanded-cell-bg-color);
+    background-color: getCssVar('table-expanded-cell-bg-color');
 
     // increase the weight purely
     &[class*='cell'] {
@@ -92,38 +122,26 @@
     }
   }
 
-  @include m(scrollable-x) {
-    .#{$namespace}-table__body-wrapper {
-      overflow-x: auto;
-    }
-  }
-
-  @include m(scrollable-y) {
-    .#{$namespace}-table__body-wrapper {
-      overflow-y: auto;
-    }
-  }
-
   thead {
-    color: var(--el-table-header-text-color);
+    color: getCssVar('table-header-text-color');
     font-weight: 500;
 
     &.is-group {
       th.#{$namespace}-table__cell {
-        background: var(--el-bg-color-base);
+        background: getCssVar('fill-color', 'light');
       }
     }
   }
 
   .#{$namespace}-table__cell {
-    padding: 12px 0;
+    padding: map.get($table-padding, 'default');
     min-width: 0;
     box-sizing: border-box;
     text-overflow: ellipsis;
     vertical-align: middle;
     position: relative;
     text-align: left;
-
+    z-index: 1;
     @include when(center) {
       text-align: center;
     }
@@ -146,28 +164,35 @@
     }
   }
 
-  @include m(medium) {
-    .#{$namespace}-table__cell {
-      padding: 10px 0;
+  .cell {
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    line-height: 23px;
+    padding: 0 12px;
+
+    &.#{$namespace}-tooltip {
+      white-space: nowrap;
+      min-width: 50px;
     }
   }
 
-  @include m(small) {
-    font-size: 12px;
-    .#{$namespace}-table__cell {
-      padding: 8px 0;
-    }
-  }
-
-  @include m(mini) {
-    font-size: 12px;
-    .#{$namespace}-table__cell {
-      padding: 6px 0;
+  @each $size in (large, small) {
+    @include m($size) {
+      font-size: map.get($table-font-size, $size);
+      .#{$namespace}-table__cell {
+        padding: map.get($table-padding, $size);
+      }
+      .cell {
+        padding: map.get($table-cell-padding, $size);
+      }
     }
   }
 
   tr {
-    background-color: var(--el-table-tr-bg-color);
+    background-color: getCssVar('table-tr-bg-color');
 
     input[type='checkbox'] {
       margin: 0;
@@ -176,7 +201,7 @@
 
   th.#{$namespace}-table__cell.is-leaf,
   td.#{$namespace}-table__cell {
-    border-bottom: var(--el-table-border);
+    border-bottom: getCssVar('table-border');
   }
 
   th.#{$namespace}-table__cell.is-sortable {
@@ -184,20 +209,11 @@
   }
 
   th.#{$namespace}-table__cell {
-    overflow: hidden;
     user-select: none;
-    background-color: var(--el-table-header-bg-color);
+    background-color: getCssVar('table-header-bg-color');
 
-    > .cell {
-      display: inline-block;
-      box-sizing: border-box;
-      position: relative;
-      vertical-align: middle;
-      width: 100%;
-
-      &.highlight {
-        color: var(--el-color-primary);
-      }
+    > .cell.highlight {
+      color: getCssVar('color-primary');
     }
 
     &.required > div::before {
@@ -222,77 +238,83 @@
     }
   }
 
-  .cell {
-    box-sizing: border-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    word-break: break-all;
-    line-height: 23px;
-    padding-left: 10px;
-    padding-right: 10px;
-
-    &.#{$namespace}-tooltip {
-      white-space: nowrap;
-      min-width: 50px;
-    }
+  @include e((footer-wrapper)) {
+    border-top: getCssVar('table-border');
   }
 
   // 拥有多级表头
   @include m((group, border)) {
-    border: var(--el-table-border);
+    @include e((inner-wrapper, footer-wrapper)) {
+      tr:first-child {
+        td,
+        th {
+          &:first-child {
+            border-left: getCssVar('table-border');
+          }
+        }
+      }
+    }
 
     @include share-rule(border-pseudo) {
       content: '';
       position: absolute;
-      background-color: var(--el-table-border-color);
-      z-index: 1;
+      background-color: getCssVar('table-border-color');
+      z-index: 3;
     }
-
-    // 表格右部伪 border
-    &::after {
-      @include extend-rule(border-pseudo);
-      top: 0;
-      right: 0;
-      width: 1px;
-      height: 100%;
-    }
-  }
-
-  // 表格底部伪 border，总是有的
-  &::before {
-    @include extend-rule(border-pseudo);
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
   }
 
   // table--border
   @include m(border) {
-    border-right: none;
-    border-bottom: none;
-
-    // fix: #1013
-    // &.#{$namespace}-loading-parent--relative {
-    //   border-color: transparent;
-    // }
-
-    .#{$namespace}-table__cell {
-      border-right: var(--el-table-border);
-
-      &:first-child .cell {
-        padding-left: 10px;
+    @include e(inner-wrapper) {
+      &::after {
+        @include extend-rule(border-pseudo);
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 1px;
+        z-index: 3;
       }
     }
 
+    &::before {
+      @include extend-rule(border-pseudo);
+      top: -1px;
+      left: 0;
+      width: 1px;
+      height: 100%;
+      z-index: 3;
+    }
+
+    &::after {
+      @include extend-rule(border-pseudo);
+      top: -1px;
+      right: 0;
+      width: 1px;
+      height: 100%;
+      z-index: 3;
+    }
+
+    @include e(inner-wrapper) {
+      border-right: none;
+      border-bottom: none;
+    }
+
+    @include e(footer-wrapper) {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .#{$namespace}-table__cell {
+      border-right: getCssVar('table-border');
+    }
+
     th.#{$namespace}-table__cell.gutter:last-of-type {
-      border-bottom: var(--el-table-border);
+      border-bottom: getCssVar('table-border');
       border-bottom-width: 1px;
     }
 
     & th.#{$namespace}-table__cell {
-      border-bottom: var(--el-table-border);
+      border-bottom: getCssVar('table-border');
     }
   }
 
@@ -300,83 +322,62 @@
     visibility: hidden;
   }
 
-  @include e((fixed, fixed-right)) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    box-shadow: var(--el-table-fixed-box-shadow);
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 1px;
-      background-color: var(--el-border-color-lighter);
-      z-index: 4;
-    }
-  }
-
-  @include e(fixed-right-patch) {
-    position: absolute;
-    top: -1px;
-    right: 0;
-    background-color: var(--el-table-header-bg-color);
-    border-bottom: var(--el-table-border);
-  }
-
-  @include e(fixed-right) {
-    top: 0;
-    left: auto;
-    right: 0;
-
-    .#{$namespace}-table__fixed-header-wrapper,
-    .#{$namespace}-table__fixed-body-wrapper,
-    .#{$namespace}-table__fixed-footer-wrapper {
-      left: auto;
-      right: 0;
-    }
-  }
-
-  @include e(fixed-header-wrapper) {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 3;
-  }
-
-  @include e(fixed-footer-wrapper) {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    z-index: 3;
-
-    & tbody td.#{$namespace}-table__cell {
-      border-top: var(--el-table-border);
-      background-color: var(--el-table-row-hover-bg-color);
-      color: var(--el-table-text-color);
-    }
-  }
-
-  @include e(fixed-body-wrapper) {
-    position: absolute;
-    left: 0;
-    top: 37px;
-    overflow: hidden;
-    z-index: 3;
-  }
-
   @include e((header-wrapper, body-wrapper, footer-wrapper)) {
     width: 100%;
+    tr {
+      td,
+      th {
+        &.#{$namespace}-table-fixed-column--left,
+        &.#{$namespace}-table-fixed-column--right {
+          position: sticky !important;
+          z-index: 2;
+          background: getCssVar('bg-color');
+          &.is-last-column,
+          &.is-first-column {
+            &::before {
+              content: '';
+              position: absolute;
+              top: 0px;
+              width: 10px;
+              bottom: -1px;
+              overflow-x: hidden;
+              overflow-y: hidden;
+              box-shadow: none;
+              touch-action: none;
+              pointer-events: none;
+            }
+          }
+          &.is-first-column {
+            &::before {
+              left: -10px;
+            }
+          }
+          &.is-last-column {
+            &::before {
+              right: -10px;
+              box-shadow: none;
+            }
+          }
+        }
+        &.#{$namespace}-table__fixed-right-patch {
+          position: sticky !important;
+          z-index: 2;
+          background: #fff;
+          right: 0;
+        }
+      }
+    }
   }
 
-  @include e(footer-wrapper) {
-    margin-top: -1px;
-    td.#{$namespace}-table__cell {
-      border-top: var(--el-table-border);
+  @include e(header-wrapper) {
+    flex-shrink: 0;
+    tr {
+      th {
+        &.#{$namespace}-table-fixed-column--left,
+        &.#{$namespace}-table-fixed-column--right {
+          background-color: getCssVar('table-header-bg-color');
+        }
+      }
     }
   }
 
@@ -389,46 +390,97 @@
     overflow: hidden;
 
     & tbody td.#{$namespace}-table__cell {
-      background-color: var(--el-table-row-hover-bg-color);
-      color: var(--el-table-text-color);
+      background-color: getCssVar('table-row-hover-bg-color');
+      color: getCssVar('table-text-color');
+    }
+  }
+
+  @include e((header-wrapper, body-wrapper)) {
+    .#{$namespace}-table-column--selection {
+      > .cell {
+        display: inline-flex;
+        align-items: center;
+        height: 23px;
+      }
+      .#{$namespace}-checkbox {
+        height: unset;
+      }
+    }
+  }
+
+  @include when(scrolling-left) {
+    .#{$namespace}-table-fixed-column--right.is-first-column {
+      &::before {
+        box-shadow: getCssVar('table-fixed-right-column');
+      }
+    }
+    &.#{$namespace}-table--border {
+      .#{$namespace}-table-fixed-column--left {
+        &.is-last-column {
+          &.#{$namespace}-table__cell {
+            border-right: getCssVar('table-border');
+          }
+        }
+      }
+    }
+    th.#{$namespace}-table-fixed-column--left {
+      background-color: getCssVar('table-header-bg-color');
+    }
+  }
+
+  @include when(scrolling-right) {
+    .#{$namespace}-table-fixed-column--left.is-last-column {
+      &::before {
+        box-shadow: getCssVar('table-fixed-left-column');
+      }
+    }
+    .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
+      border-right: none;
+    }
+    th.#{$namespace}-table-fixed-column--right {
+      background-color: getCssVar('table-header-bg-color');
+    }
+  }
+
+  @include when(scrolling-middle) {
+    .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
+      border-right: none;
+    }
+    .#{$namespace}-table-fixed-column--right.is-first-column {
+      &::before {
+        box-shadow: getCssVar('table-fixed-right-column');
+      }
+    }
+    .#{$namespace}-table-fixed-column--left.is-last-column {
+      &::before {
+        box-shadow: getCssVar('table-fixed-left-column');
+      }
+    }
+  }
+
+  @include when(scrolling-none) {
+    .#{$namespace}-table-fixed-column--left,
+    .#{$namespace}-table-fixed-column--right {
+      &.is-first-column,
+      &.is-last-column {
+        &::before {
+          box-shadow: none;
+        }
+      }
+    }
+
+    th.#{$namespace}-table-fixed-column--left,
+    th.#{$namespace}-table-fixed-column--right {
+      background-color: getCssVar('table-header-bg-color');
     }
   }
 
   @include e(body-wrapper) {
     overflow: hidden;
     position: relative;
-
-    @include when(scrolling-none) {
-      ~ .#{$namespace}-table__fixed,
-      ~ .#{$namespace}-table__fixed-right {
-        box-shadow: none;
-      }
-    }
-
-    @include when(scrolling-left) {
-      ~ .#{$namespace}-table__fixed {
-        box-shadow: none;
-      }
-    }
-
-    @include when(scrolling-right) {
-      ~ .#{$namespace}-table__fixed-right {
-        box-shadow: none;
-      }
-    }
-
-    .#{$namespace}-table--border {
-      @include when(scrolling-right) {
-        ~ .#{$namespace}-table__fixed-right {
-          border-left: var(--el-table-border);
-        }
-      }
-
-      @include when(scrolling-left) {
-        ~ .#{$namespace}-table__fixed {
-          border-right: var(--el-table-border);
-        }
-      }
+    flex: 1;
+    .#{$namespace}-scrollbar__bar {
+      z-index: 2;
     }
   }
 
@@ -452,22 +504,22 @@
     left: 7px;
 
     &.ascending {
-      border-bottom-color: var(--el-text-color-placeholder);
+      border-bottom-color: getCssVar('text-color', 'placeholder');
       top: -5px;
     }
 
     &.descending {
-      border-top-color: var(--el-text-color-placeholder);
+      border-top-color: getCssVar('text-color', 'placeholder');
       bottom: -3px;
     }
   }
 
   .ascending .sort-caret.ascending {
-    border-bottom-color: var(--el-color-primary);
+    border-bottom-color: getCssVar('color-primary');
   }
 
   .descending .sort-caret.descending {
-    border-top-color: var(--el-color-primary);
+    border-top-color: getCssVar('color-primary');
   }
 
   .hidden-columns {
@@ -480,11 +532,11 @@
     & .#{$namespace}-table__body {
       & tr.#{$namespace}-table__row--striped {
         td.#{$namespace}-table__cell {
-          background: #fafafa;
+          background: getCssVar('fill-color', 'lighter');
         }
 
         &.current-row td.#{$namespace}-table__cell {
-          background-color: var(--el-table-current-row-bg-color);
+          background-color: getCssVar('table-current-row-bg-color');
         }
       }
     }
@@ -497,14 +549,14 @@
         &,
         &.current-row {
           > td.#{$namespace}-table__cell {
-            background-color: var(--el-table-row-hover-bg-color);
+            background-color: getCssVar('table-row-hover-bg-color');
           }
         }
       }
     }
 
     tr.current-row > td.#{$namespace}-table__cell {
-      background-color: var(--el-table-current-row-bg-color);
+      background-color: getCssVar('table-current-row-bg-color');
     }
   }
 
@@ -514,7 +566,7 @@
     top: 0;
     bottom: 0;
     width: 0;
-    border-left: var(--el-table-border);
+    border-left: getCssVar('table-border');
     z-index: 10;
   }
 
@@ -523,11 +575,37 @@
     cursor: pointer;
 
     & i {
-      color: var(--el-color-info);
-      font-size: 12px;
+      color: getCssVar('color-info');
+      font-size: 14px;
       vertical-align: middle;
-      transform: scale(0.75);
     }
+  }
+
+  @include e(border-left-patch) {
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    z-index: 3;
+    position: absolute;
+    background-color: getCssVar('table-border-color');
+  }
+
+  @include e(border-bottom-patch) {
+    left: 0;
+    height: 1px;
+    z-index: 3;
+    position: absolute;
+    background-color: getCssVar('table-border-color');
+  }
+
+  @include e(border-right-patch) {
+    top: 0;
+    height: 100%;
+    width: 1px;
+    z-index: 3;
+    position: absolute;
+    background-color: getCssVar('table-border-color');
   }
 
   @include m(enable-row-transition) {
@@ -538,15 +616,7 @@
 
   @include m(enable-row-hover) {
     .#{$namespace}-table__body tr:hover > td.#{$namespace}-table__cell {
-      background-color: var(--el-table-row-hover-bg-color);
-    }
-  }
-
-  @include m(fluid-height) {
-    .#{$namespace}-table__fixed,
-    .#{$namespace}-table__fixed-right {
-      bottom: 0;
-      overflow: hidden;
+      background-color: getCssVar('table-row-hover-bg-color');
     }
   }
 
@@ -558,6 +628,37 @@
       height: 12px;
       text-align: center;
       margin-right: 8px;
+    }
+  }
+
+  @include b(table) {
+    &.#{$namespace}-table--border {
+      .#{$namespace}-table__cell {
+        border-right: getCssVar('table-border');
+      }
+    }
+  }
+
+  &:not(.#{$namespace}-table--border) {
+    .#{$namespace}-table__cell {
+      border-right: none;
+    }
+
+    > .#{$namespace}-table__inner-wrapper {
+      &::after {
+        content: none;
+      }
+    }
+
+    @include e((inner-wrapper, footer-wrapper)) {
+      tr:first-child {
+        td,
+        th {
+          &:first-child {
+            border-left: none;
+          }
+        }
+      }
     }
   }
 }
