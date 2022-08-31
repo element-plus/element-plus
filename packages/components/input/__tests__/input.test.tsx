@@ -17,7 +17,6 @@ describe('Input.vue', () => {
     const handleFocus = vi.fn()
     const wrapper = mount(() => (
       <Input
-        // @ts-expect-error native attribute
         minlength={3}
         maxlength={5}
         placeholder="请输入内容"
@@ -60,7 +59,6 @@ describe('Input.vue', () => {
       const wrapper = mount(() => (
         <Input
           class="test-exceed"
-          // @ts-expect-error native html attribute
           maxlength="4"
           showWordLimit
           v-model={inputVal.value}
@@ -98,7 +96,6 @@ describe('Input.vue', () => {
       const wrapper = mount(() => (
         <Input
           type="textarea"
-          // @ts-expect-error native html attribute
           maxlength="4"
           showWordLimit
           v-model={inputVal.value}
@@ -149,13 +146,7 @@ describe('Input.vue', () => {
   })
 
   test('rows', () => {
-    const wrapper = mount(() => (
-      <Input
-        type="textarea"
-        // @ts-expect-error native html attribute
-        rows={3}
-      />
-    ))
+    const wrapper = mount(() => <Input type="textarea" rows={3} />)
     expect(wrapper.find('textarea').element.rows).toEqual(3)
   })
 
@@ -204,7 +195,6 @@ describe('Input.vue', () => {
           class="test-text"
           type="text"
           v-model={input1.value}
-          // @ts-expect-error native html attribute
           maxlength="10"
           showWordLimit={show.value}
         />
@@ -212,7 +202,6 @@ describe('Input.vue', () => {
           class="test-textarea"
           type="textarea"
           v-model={input2.value}
-          // @ts-expect-error native html attribute
           maxlength="10"
           showWordLimit
         />
@@ -220,7 +209,6 @@ describe('Input.vue', () => {
           class="test-password"
           type="password"
           v-model={input3.value}
-          // @ts-expect-error native html attribute
           maxlength="10"
           showWordLimit
         />
@@ -228,7 +216,6 @@ describe('Input.vue', () => {
           class="test-initial-exceed"
           type="text"
           v-model={input4.value}
-          // @ts-expect-error native html attribute
           maxlength="2"
           showWordLimit
         />

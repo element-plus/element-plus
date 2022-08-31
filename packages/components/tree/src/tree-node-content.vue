@@ -1,4 +1,5 @@
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, h, inject } from 'vue'
 
 import { useNamespace } from '@element-plus/hooks'

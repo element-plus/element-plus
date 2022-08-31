@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="popperRef"
-    v-model:visible="suggestionVisible"
+    :visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
@@ -60,7 +60,10 @@
       <div
         ref="regionRef"
         :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
-        :style="{ minWidth: dropdownWidth, outline: 'none' }"
+        :style="{
+          [fitInputWidth ? 'width' : 'minWidth']: dropdownWidth,
+          outline: 'none',
+        }"
         role="region"
       >
         <el-scrollbar
@@ -292,6 +295,10 @@ const focus = () => {
   inputRef.value?.focus()
 }
 
+const blur = () => {
+  inputRef.value?.blur()
+}
+
 const handleSelect = async (item: any) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
@@ -369,6 +376,8 @@ defineExpose({
   handleKeyEnter,
   /** @description focus the input element */
   focus,
+  /** @description blur the input element */
+  blur,
   /** @description close suggestion */
   close,
   /** @description highlight an item in a suggestion */

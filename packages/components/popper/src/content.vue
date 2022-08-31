@@ -24,6 +24,7 @@
 </template>
 
 <script lang="ts" setup>
+// @ts-nocheck
 import {
   computed,
   inject,
@@ -150,13 +151,13 @@ const onFocusAfterReleased = () => {
 
 const onFocusInTrap = (event: FocusEvent) => {
   if (props.visible && !trapped.value) {
-    if (event.relatedTarget) {
-      ;(event.relatedTarget as HTMLElement)?.focus()
-    }
     if (event.target) {
       focusStartRef.value = event.target as typeof focusStartRef.value
     }
     trapped.value = true
+    if (event.relatedTarget) {
+      ;(event.relatedTarget as HTMLElement)?.focus()
+    }
   }
 }
 

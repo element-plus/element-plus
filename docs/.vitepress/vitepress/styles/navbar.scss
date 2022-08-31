@@ -5,14 +5,14 @@
 @use './nav/menu';
 
 .navbar-wrapper {
-  @include with-bg;
   position: relative;
   border-bottom: 1px solid var(--border-color);
   height: var(--header-height);
   padding: 0 12px 0 24px;
-  backdrop-filter: saturate(50%) blur(8px);
-  background: var(--bg-color-filter);
-  -webkit-backdrop-filter: saturate(50%) blur(8px);
+  background-image: radial-gradient(transparent 1px, var(--bg-color) 1px);
+  background-size: 4px 4px;
+  backdrop-filter: saturate(50%) blur(4px);
+  -webkit-backdrop-filter: saturate(50%) blur(4px);
   top: 0;
 
   @include respond-to('md') {
@@ -59,7 +59,7 @@
   z-index: var(--nav-z-index);
 
   @include respond-to('lg') {
-    position: fixed;
+    position: sticky;
     width: 100%;
   }
 }

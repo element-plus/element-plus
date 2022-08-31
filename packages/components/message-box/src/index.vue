@@ -147,6 +147,7 @@
   </transition>
 </template>
 <script lang="ts">
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -177,8 +178,6 @@ import {
   TypeComponents,
   TypeComponentsMap,
   isValidComponentSize,
-  off,
-  on,
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import ElFocusTrap from '@element-plus/components/focus-trap'
@@ -258,6 +257,8 @@ export default defineComponent({
     const { nextZIndex } = useZIndex()
     // s represents state
     const state = reactive<MessageBoxState>({
+      // autofocus element when open message-box
+      autofocus: true,
       beforeClose: null,
       callback: null,
       cancelButtonText: '',
@@ -336,7 +337,11 @@ export default defineComponent({
       (val) => {
         if (val) {
           if (props.boxType !== 'prompt') {
-            focusStartRef.value = confirmRef.value?.$el ?? rootRef.value
+            if (state.autofocus) {
+              focusStartRef.value = confirmRef.value?.$el ?? rootRef.value
+            } else {
+              focusStartRef.value = rootRef.value
+            }
           }
           state.zIndex = nextZIndex()
         }
@@ -344,7 +349,11 @@ export default defineComponent({
         if (val) {
           nextTick().then(() => {
             if (inputRef.value && inputRef.value.$el) {
-              focusStartRef.value = getInputElement() ?? rootRef.value
+              if (state.autofocus) {
+                focusStartRef.value = getInputElement() ?? rootRef.value
+              } else {
+                focusStartRef.value = rootRef.value
+              }
             }
           })
         } else {
@@ -360,13 +369,13 @@ export default defineComponent({
     onMounted(async () => {
       await nextTick()
       if (props.closeOnHashChange) {
-        on(window, 'hashchange', doClose)
+        window.addEventListener('hashchange', doClose)
       }
     })
 
     onBeforeUnmount(() => {
       if (props.closeOnHashChange) {
-        off(window, 'hashchange', doClose)
+        window.removeEventListener('hashchange', doClose)
       }
     })
 

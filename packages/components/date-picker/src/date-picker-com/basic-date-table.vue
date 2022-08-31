@@ -7,6 +7,8 @@
     :class="[ns.b(), { 'is-week-mode': selectionMode === 'week' }]"
     @click="handlePickDate"
     @mousemove="handleMouseMove"
+    @mousedown="handleMouseDown"
+    @mouseup="handleMouseUp"
   >
     <tbody ref="tbodyRef">
       <tr>
@@ -28,7 +30,7 @@
         <td
           v-for="(cell, columnKey) in row"
           :key="`${rowKey}.${columnKey}`"
-          :ref="(el) => { isSelectedCell(cell) && (currentCellRef = el as HTMLElement) }"
+          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
           :class="getCellClasses(cell)"
           :aria-current="cell.isCurrent ? 'date' : undefined"
           :aria-selected="cell.isCurrent"
@@ -45,6 +47,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
+import { flatten } from 'lodash'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray } from '@element-plus/utils'
 import { basicDateTableProps } from '../props/basic-date-table'
@@ -67,6 +70,8 @@ const currentCellRef = ref<HTMLElement>()
 const lastRow = ref<number>()
 const lastColumn = ref<number>()
 const tableRows = ref<DateCell[][]>([[], [], [], [], [], []])
+
+let focusWithClick = false
 
 // todo better way to get Day.js locale object
 const firstDayOfWeek = (props.date as any).$locale().weekStart || 7
@@ -94,7 +99,7 @@ const WEEKS = computed(() => {
 })
 
 const hasCurrent = computed<boolean>(() => {
-  return rows.value.flat().some((row) => {
+  return flatten(rows.value).some((row) => {
     return row.isCurrent
   })
 })
@@ -365,16 +370,31 @@ const isSelectedCell = (cell: DateCell) => {
   )
 }
 
-const handleFocus = (event: Event) => {
-  if (!hasCurrent.value && props.selectionMode === 'date') {
-    handlePickDate(event, true)
-  }
+const handleFocus = (event: FocusEvent) => {
+  if (focusWithClick || hasCurrent.value || props.selectionMode !== 'date')
+    return
+  handlePickDate(event, true)
 }
 
-const handlePickDate = (event: Event, isKeyboardMovement = false) => {
+const handleMouseDown = (event: MouseEvent) => {
+  const target = (event.target as HTMLElement).closest('td')
+  if (!target) return
+  focusWithClick = true
+}
+
+const handleMouseUp = (event: MouseEvent) => {
+  const target = (event.target as HTMLElement).closest('td')
+  if (!target) return
+  focusWithClick = false
+}
+
+const handlePickDate = (
+  event: FocusEvent | MouseEvent,
+  isKeyboardMovement = false
+) => {
   const target = (event.target as HTMLElement).closest('td')
 
-  if (!target || target.tagName !== 'TD') return
+  if (!target) return
 
   const row = (target.parentNode as HTMLTableRowElement).rowIndex - 1
   const column = (target as HTMLTableCellElement).cellIndex

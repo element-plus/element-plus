@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     Contributors: typeof import('./.vitepress/vitepress/components/globals/contributors.vue')['default']
     ControllabilitySvg: typeof import('./.vitepress/vitepress/components/globals/design/controllability-svg.vue')['default']
     Dark: typeof import('./.vitepress/vitepress/components/icons/dark.vue')['default']
+    DeprecatedTag: typeof import('./.vitepress/vitepress/components/dev/DeprecatedTag.vue')['default']
     DesignGuide: typeof import('./.vitepress/vitepress/components/globals/design-guide.vue')['default']
     EfficiencySvg: typeof import('./.vitepress/vitepress/components/globals/design/efficiency-svg.vue')['default']
     ElementPlusLogo: typeof import('./.vitepress/vitepress/components/icons/element-plus-logo.vue')['default']

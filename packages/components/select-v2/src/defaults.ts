@@ -97,6 +97,10 @@ export const SelectProps = {
     type: Boolean,
     default: false,
   },
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
 }
 
 export const OptionProps = {

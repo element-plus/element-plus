@@ -15,7 +15,7 @@
   --bg-brand-color: var(--el-color-primary-light-9);
 
   --bg-color: var(--el-bg-color);
-  --bg-color-filter: #ffffffb3;
+  --bg-color-rgb: 255, 255, 255;
   --bg-color-soft: #fafafa;
   --bg-color-mute: #f2f2f2;
   --border-color: var(--el-border-color);
@@ -55,8 +55,8 @@
   --content-min-width: 16rem;
   --content-max-width: 48rem;
 
-  --nav-z-index: 20;
-  --sub-nav-z-index: 10;
+  --nav-z-index: 11;
+  --sub-nav-z-index: 11;
   --sidebar-z-index: 40;
   --overlay-z-index: 30;
   // --dropdown-z-index: 22;
@@ -77,7 +77,7 @@
 }
 
 .dark {
+  --bg-color-rgb: 0, 0, 0;
   --bg-color-soft: #242424;
   --bg-color-mute: #2c2c2c;
-  --bg-color-filter: #141414b3;
 }

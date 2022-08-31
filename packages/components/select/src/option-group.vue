@@ -10,6 +10,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   defineComponent,
   getCurrentInstance,

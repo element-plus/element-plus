@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isFunction } from '@vue/shared'
 import { capitalize, isEmpty, isUndefined } from '@element-plus/utils'
 import type { VNode } from 'vue'

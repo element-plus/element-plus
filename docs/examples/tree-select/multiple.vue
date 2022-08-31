@@ -1,14 +1,37 @@
 <template>
-  <el-tree-select v-model="value" :data="data" multiple />
+  <el-tree-select
+    v-model="value"
+    :data="data"
+    multiple
+    :render-after-expand="false"
+  />
   <el-divider />
   show checkbox:
-  <el-tree-select v-model="value" :data="data" multiple show-checkbox />
+  <el-tree-select
+    v-model="value"
+    :data="data"
+    multiple
+    :render-after-expand="false"
+    show-checkbox
+  />
+  <el-divider />
+  show checkbox with `check-strictly`:
+  <el-tree-select
+    v-model="valueStrictly"
+    :data="data"
+    multiple
+    :render-after-expand="false"
+    show-checkbox
+    check-strictly
+    check-on-click-node
+  />
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 
 const value = ref()
+const valueStrictly = ref()
 
 const data = [
   {
