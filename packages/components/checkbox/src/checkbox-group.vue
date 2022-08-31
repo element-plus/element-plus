@@ -17,7 +17,7 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
-import { useCheckboxGroup, useCheckboxGroupId } from './checkbox'
+import { useCheckboxGroup, useCheckboxGroupId } from './composables'
 import type { CheckboxValueType } from './checkbox'
 
 defineOptions({

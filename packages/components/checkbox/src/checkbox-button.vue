@@ -49,12 +49,8 @@
 <script lang="ts" setup>
 import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import {
-  checkboxEmits,
-  checkboxProps,
-  useCheckbox,
-  useCheckboxGroup,
-} from './checkbox'
+import { useCheckbox, useCheckboxGroup } from './composables'
+import { checkboxEmits, checkboxProps } from './checkbox'
 import type { CSSProperties } from 'vue'
 
 defineOptions({

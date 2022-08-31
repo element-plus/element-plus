@@ -2,7 +2,8 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ComputedRef, ExtractPropTypes } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 import type checkboxGroup from './checkbox-group.vue'
 import type { CheckboxValueType } from './checkbox'
 
@@ -37,3 +38,17 @@ export const checkboxGroupEmits = {
 export type CheckboxGroupProps = ExtractPropTypes<typeof checkboxGroupProps>
 export type CheckboxGroupEmits = typeof checkboxGroupEmits
 export type CheckboxGroupInstance = InstanceType<typeof checkboxGroup>
+
+export type ICheckboxGroupInstance = {
+  name?: string
+  modelValue?: ComputedRef
+  disabled?: ComputedRef<boolean>
+  min?: ComputedRef<string | number>
+  max?: ComputedRef<string | number>
+  size?: ComputedRef<string>
+  fill?: ComputedRef<string>
+  textColor?: ComputedRef<string>
+  checkboxGroupSize?: ComputedRef<ComponentSize>
+  validateEvent?: ComputedRef<boolean>
+  changeEvent?: Pick<CheckboxGroupEmits, 'change'>['change']
+}
