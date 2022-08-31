@@ -1,10 +1,10 @@
+// @ts-nocheck
 import {
   defineComponent,
   getCurrentInstance,
   h,
   inject,
   onUnmounted,
-  onUpdated,
   watch,
 } from 'vue'
 import { isClient } from '@vueuse/core'
@@ -49,9 +49,6 @@ export default defineComponent({
     })
 
     onUnmounted(() => {
-      removePopper?.()
-    })
-    onUpdated(() => {
       removePopper?.()
     })
 

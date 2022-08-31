@@ -6,7 +6,6 @@
     <el-button type="info">Info</el-button>
     <el-button type="warning">Warning</el-button>
     <el-button type="danger">Danger</el-button>
-    <el-button>中文</el-button>
   </el-row>
 
   <el-row class="mb-4">

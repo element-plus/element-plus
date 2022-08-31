@@ -126,5 +126,7 @@ watchEffect(update)
 defineExpose({
   /** @description update affix status */
   update,
+  /** @description update rootRect info */
+  updateRoot,
 })
 </script>

@@ -77,6 +77,7 @@
 </template>
 
 <script lang="ts" setup>
+// @ts-nocheck
 import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {

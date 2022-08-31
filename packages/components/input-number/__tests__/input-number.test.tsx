@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it, test } from 'vitest'
+import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import InputNumber from '../src/input-number.vue'
@@ -94,6 +94,22 @@ describe('InputNumber.vue', () => {
     expect(wrapper.find('input').element.value).toEqual('4')
   })
 
+  test('value decimals miss prop precision', async () => {
+    const num = ref(0.2)
+    const wrapper = mount(() => (
+      <InputNumber step-strictly={true} step={0.1} v-model={num.value} />
+    ))
+    const elInputNumber = wrapper.findComponent({ name: 'ElInputNumber' }).vm
+    elInputNumber.increase()
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('0.3')
+    num.value = 0.4
+    await nextTick()
+    elInputNumber.decrease()
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('0.3')
+  })
+
   describe('precision accuracy 2', () => {
     const num = ref(0)
     const wrapper = mount(() => (
@@ -139,6 +155,28 @@ describe('InputNumber.vue', () => {
         expect(wrapper.find('input').element.value).toEqual(`${output}`)
       }
     )
+  })
+
+  test('readonly', async () => {
+    const num = ref(0)
+    const handleFocus = vi.fn()
+    const wrapper = mount(() => (
+      <InputNumber readonly v-model={num.value} onFocus={handleFocus} />
+    ))
+
+    wrapper.find('.el-input__inner').trigger('focus')
+    await nextTick()
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+
+    wrapper.find('.el-input-number__decrease').trigger('mousedown')
+    document.dispatchEvent(mouseup)
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('0')
+
+    wrapper.find('.el-input-number__increase').trigger('mousedown')
+    document.dispatchEvent(mouseup)
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('0')
   })
 
   test('disabled', async () => {
