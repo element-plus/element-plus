@@ -4,7 +4,7 @@ import { useFormItem, useFormItemInputId } from '@element-plus/hooks'
 import type {
   CheckboxGroupProps,
   ICheckboxGroupInstance,
-} from '../checkbox-group'
+} from '../../checkbox-group'
 
 export const useCheckboxGroup = () => {
   const { form: elForm, formItem: elFormItem } = useFormItem()
