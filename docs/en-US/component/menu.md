@@ -47,20 +47,20 @@ menu/collapse
 
 ## Menu Attributes
 
-| Attribute           | Description                                                                                                | Type    | Accepted Values       | Default  |
-| ------------------- | ---------------------------------------------------------------------------------------------------------- | ------- | --------------------- | -------- |
-| mode                | menu display mode                                                                                          | string  | horizontal / vertical | vertical |
-| collapse            | whether the menu is collapsed (available only in vertical mode)                                            | boolean | —                     | false    |
-| ellipsis            | whether the menu is ellipsis (available only in horizontal mode)                                           | boolean | —                     | true     |
-| background-color    | background color of Menu (hex format) (deprecated, use `--bg-color` instead)                               | string  | —                     | #ffffff  |
-| text-color          | text color of Menu (hex format) (deprecated, use `--text-color` instead)                                   | string  | —                     | #303133  |
-| active-text-color   | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)           | string  | —                     | #409EFF  |
-| default-active      | index of active menu on page load                                                                          | string  | —                     | —        |
-| default-openeds     | array that contains indexes of currently active sub-menus                                                  | Array   | —                     | —        |
-| unique-opened       | whether only one sub-menu can be active                                                                    | boolean | —                     | false    |
-| menu-trigger        | how sub-menus are triggered, only works when `mode` is 'horizontal'                                        | string  | hover / click         | hover    |
+| Attribute           | Description                                                                                                                                                           | Type    | Accepted Values       | Default  |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------------------- | -------- |
+| mode                | menu display mode                                                                                                                                                     | string  | horizontal / vertical | vertical |
+| collapse            | whether the menu is collapsed (available only in vertical mode)                                                                                                       | boolean | —                     | false    |
+| ellipsis            | whether the menu is ellipsis (available only in horizontal mode)                                                                                                      | boolean | —                     | true     |
+| background-color    | background color of Menu (hex format) (deprecated, use `--bg-color` instead)                                                                                          | string  | —                     | #ffffff  |
+| text-color          | text color of Menu (hex format) (deprecated, use `--text-color` instead)                                                                                              | string  | —                     | #303133  |
+| active-text-color   | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)                                                                      | string  | —                     | #409EFF  |
+| default-active      | index of active menu on page load                                                                                                                                     | string  | —                     | —        |
+| default-openeds     | array that contains indexes of currently active sub-menus                                                                                                             | Array   | —                     | —        |
+| unique-opened       | whether only one sub-menu can be active                                                                                                                               | boolean | —                     | false    |
+| menu-trigger        | how sub-menus are triggered, only works when `mode` is 'horizontal'                                                                                                   | string  | hover / click         | hover    |
 | router              | whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load. | boolean | —                     | false    |
-| collapse-transition | whether to enable the collapse transition                                                                  | boolean | —                     | true     |
+| collapse-transition | whether to enable the collapse transition                                                                                                                             | boolean | —                     | true     |
 
 ## Menu Methods
 
