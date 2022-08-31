@@ -61,6 +61,12 @@ export default defineComponent({
       focus: (focusStartInput = true) => {
         commonPicker.value?.focus(focusStartInput)
       },
+      handleOpen: () => {
+        commonPicker.value?.handleOpen()
+      },
+      handleClose: () => {
+        commonPicker.value?.handleClose()
+      },
     }
     ctx.expose(refProps)
     return () => {

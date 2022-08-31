@@ -242,6 +242,54 @@ describe('DatePicker', () => {
     expect(attr).toEqual('false')
   })
 
+  it('ref handleOpen', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input"
+      />`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.handleOpen()
+        },
+      }
+    )
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
+  })
+
+  it('ref handleClose', async () => {
+    jest.useFakeTimers()
+
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input"
+      />`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.handleOpen()
+
+          setTimeout(() => {
+            this.$refs.input.handleClose()
+          }, 1000000)
+        },
+      }
+    )
+
+    jest.runAllTimers()
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('true')
+
+    jest.useRealTimers()
+  })
+
   it('custom content', async () => {
     const wrapper = _mount(
       `<el-date-picker
