@@ -9,9 +9,9 @@ import {
   reactive,
   ref,
   watch,
-  withDirectives,
+  watchEffect,
 } from 'vue'
-import { Resize } from '@element-plus/directives'
+import { useResizeObserver } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
@@ -30,6 +30,7 @@ import { useMenuCssVar } from './use-menu-css-var'
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
 import type { ExtractPropTypes, VNode, VNodeNormalizedChildren } from 'vue'
+import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
   mode: {
@@ -104,6 +105,8 @@ export default defineComponent({
     const nsSubMenu = useNamespace('sub-menu')
 
     // data
+    const sliceIndex = ref(-1)
+
     const openedMenus = ref<MenuProvider['openedMenus']>(
       props.defaultOpeneds && !props.collapse
         ? props.defaultOpeneds.slice(0)
@@ -208,13 +211,58 @@ export default defineComponent({
 
       if (item) {
         activeIndex.value = item.index
-        initMenu()
       } else {
         activeIndex.value = val
       }
     }
+
+    const calcSliceIndex = () => {
+      const items = Array.from(menu.value?.childNodes ?? []).filter(
+        (item) => item.nodeName !== '#text' || item.nodeValue
+      ) as HTMLElement[]
+      const moreItemWidth = 64
+      const paddingLeft = Number.parseInt(
+        getComputedStyle(menu.value!).paddingLeft,
+        10
+      )
+      const paddingRight = Number.parseInt(
+        getComputedStyle(menu.value!).paddingRight,
+        10
+      )
+      const menuWidth = menu.value!.clientWidth - paddingLeft - paddingRight
+      let calcWidth = 0
+      let sliceIndex = 0
+      items.forEach((item, index) => {
+        calcWidth += item.offsetWidth || 0
+        if (calcWidth <= menuWidth - moreItemWidth) {
+          sliceIndex = index + 1
+        }
+      })
+      return sliceIndex === items.length ? -1 : sliceIndex
+    }
+
+    // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms, In order to avoid a certain chance of repeated triggering when `resize`, set wait to 16.67 * 2 = 33.34
+    const debounce = (fn: () => void, wait = 33.34) => {
+      let timmer: ReturnType<typeof setTimeout> | null
+      return () => {
+        timmer && clearTimeout(timmer)
+        timmer = setTimeout(() => {
+          fn()
+        }, wait)
+      }
+    }
+
+    let isFirstTimeRender = true
     const handleResize = () => {
-      nextTick(() => instance.proxy!.$forceUpdate())
+      const callback = () => {
+        sliceIndex.value = -1
+        nextTick(() => {
+          sliceIndex.value = calcSliceIndex()
+        })
+      }
+      // execute callback directly when first time resize to avoid shaking
+      isFirstTimeRender ? callback() : debounce(callback)()
+      isFirstTimeRender = false
     }
 
     watch(
@@ -227,14 +275,21 @@ export default defineComponent({
       }
     )
 
-    watch(items.value, () => initMenu())
-
     watch(
       () => props.collapse,
       (value) => {
         if (value) openedMenus.value = []
       }
     )
+
+    watch(items.value, initMenu)
+
+    let resizeStopper: UseResizeObserverReturn['stop']
+    watchEffect(() => {
+      if (props.mode === 'horizontal' && props.ellipsis)
+        resizeStopper = useResizeObserver(menu, handleResize).stop
+      else resizeStopper?.()
+    })
 
     // provide
     {
@@ -277,12 +332,12 @@ export default defineComponent({
         addSubMenu,
         removeSubMenu,
         mouseInChild: ref(false),
+        level: 0,
       })
     }
 
     // lifecycle
     onMounted(() => {
-      initMenu()
       if (props.mode === 'horizontal') {
         new Menubar(instance.vnode.el!, nsMenu.namespace.value)
       }
@@ -313,39 +368,20 @@ export default defineComponent({
       return result
     }
 
-    const useVNodeResize = (vnode: VNode) =>
-      props.mode === 'horizontal'
-        ? withDirectives(vnode, [[Resize, handleResize]])
-        : vnode
     return () => {
       let slot = slots.default?.() ?? []
       const vShowMore: VNode[] = []
 
       if (props.mode === 'horizontal' && menu.value) {
-        const items = Array.from(menu.value?.childNodes ?? []).filter(
-          (item) => item.nodeName !== '#text' || item.nodeValue
-        ) as HTMLElement[]
         const originalSlot = flattedChildren(slot)
-        const moreItemWidth = 64
-        const paddingLeft = Number.parseInt(
-          getComputedStyle(menu.value).paddingLeft,
-          10
-        )
-        const paddingRight = Number.parseInt(
-          getComputedStyle(menu.value).paddingRight,
-          10
-        )
-        const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
-        let calcWidth = 0
-        let sliceIndex = 0
-        items.forEach((item, index) => {
-          calcWidth += item.offsetWidth || 0
-          if (calcWidth <= menuWidth - moreItemWidth) {
-            sliceIndex = index + 1
-          }
-        })
-        const slotDefault = originalSlot.slice(0, sliceIndex)
-        const slotMore = originalSlot.slice(sliceIndex)
+        const slotDefault =
+          sliceIndex.value === -1
+            ? originalSlot
+            : originalSlot.slice(0, sliceIndex.value)
+
+        const slotMore =
+          sliceIndex.value === -1 ? [] : originalSlot.slice(sliceIndex.value)
+
         if (slotMore?.length && props.ellipsis) {
           slot = slotDefault
           vShowMore.push(
@@ -371,27 +407,22 @@ export default defineComponent({
         }
       }
 
-      const ulStyle = useMenuCssVar(props)
+      const ulStyle = useMenuCssVar(props, 0)
 
-      const resizeMenu = (vNode: VNode) =>
-        props.ellipsis ? useVNodeResize(vNode) : vNode
-
-      const vMenu = resizeMenu(
-        h(
-          'ul',
-          {
-            key: String(props.collapse),
-            role: 'menubar',
-            ref: menu,
-            style: ulStyle.value,
-            class: {
-              [nsMenu.b()]: true,
-              [nsMenu.m('horizontal')]: props.mode === 'horizontal',
-              [nsMenu.m('collapse')]: props.collapse,
-            },
+      const vMenu = h(
+        'ul',
+        {
+          key: String(props.collapse),
+          role: 'menubar',
+          ref: menu,
+          style: ulStyle.value,
+          class: {
+            [nsMenu.b()]: true,
+            [nsMenu.m(props.mode)]: true,
+            [nsMenu.m('collapse')]: props.collapse,
           },
-          [...slot, ...vShowMore]
-        )
+        },
+        [...slot, ...vShowMore]
       )
 
       if (props.collapseTransition && props.mode === 'vertical') {

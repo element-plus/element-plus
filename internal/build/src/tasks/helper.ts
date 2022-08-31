@@ -8,22 +8,27 @@ import {
 } from '@element-plus/build-utils'
 
 import type { TaskFunction } from 'gulp'
-import type { InstallOptions } from 'components-helper'
+import type {
+  ReAttribute,
+  ReComponentName,
+  ReDocUrl,
+  ReWebTypesSource,
+} from 'components-helper'
 
-const reComponentName: InstallOptions['reComponentName'] = (title: string) =>
+const reComponentName: ReComponentName = (title: string) =>
   `el-${title
     .replace(/\B([A-Z])/g, '-$1')
     .replace(/[ ]+/g, '-')
     .toLowerCase()}`
 
-const reDocUrl: InstallOptions['reDocUrl'] = (fileName, header) => {
+const reDocUrl: ReDocUrl = (fileName, header) => {
   const docs = 'https://element-plus.org/en-US/component/'
   const _header = header ? header.replaceAll(/\s+/g, '-').toLowerCase() : ''
 
   return `${docs}${fileName}.html${_header ? '#' : ''}${_header}`
 }
 
-const reWebTypesSource: InstallOptions['reWebTypesSource'] = (title) => {
+const reWebTypesSource: ReWebTypesSource = (title) => {
   const symbol = `El${title
     .replaceAll(/-/g, ' ')
     .replaceAll(/^\w|\s+\w/g, (item) => {
@@ -33,9 +38,11 @@ const reWebTypesSource: InstallOptions['reWebTypesSource'] = (title) => {
   return { symbol }
 }
 
-const reAttribute: InstallOptions['reAttribute'] = (value, key) => {
-  const _value = value.match(/^\*\*(.*)\*\*$/)
-  const str = _value ? _value[1] : value
+const reAttribute: ReAttribute = (value, key) => {
+  const str = value
+    .replace(/^\*\*(.*)\*\*$/, (_, item) => item)
+    .replace(/^`(.*)`$/, (_, item) => item)
+    .replaceAll(/<del>.*<\/del>/g, '')
 
   if (key === 'Name' && /^(-|—)$/.test(str)) {
     return 'default'
@@ -47,7 +54,12 @@ const reAttribute: InstallOptions['reAttribute'] = (value, key) => {
   } else if (key === 'Attribute' && /v-model/.test(str)) {
     return 'model-value'
   } else if (key === 'Attribute') {
-    return str.replace(/\B([A-Z])/g, '-$1').toLowerCase()
+    return str
+      .replaceAll(/\s*[\\*]\s*/g, '')
+      .replaceAll(/\s*<.*>\s*/g, '')
+      .replaceAll(/\s*\(.*\)\s*/g, '')
+      .replaceAll(/\B([A-Z])/g, '-$1')
+      .toLowerCase()
   } else if (key === 'Type') {
     return str
       .replace(/\s*\/\s*/g, '|')
@@ -98,7 +110,7 @@ export const buildHelper: TaskFunction = (done) => {
     propsOptions: 'Accepted Values',
     eventsName: 'Event Name',
     tableRegExp:
-      '#+\\s+(.*\\s*Attributes|.*\\s*Events|.*\\s*Slots|.*\\s*Directives)\\s*\\n+(\\|?.+\\|.+)\\n\\|?\\s*:?-+:?\\s*\\|.+((\\n\\|?.+\\|.+)+)',
+      /#+\s+(.*\s*Attributes|.*\s*Events|.*\s*Slots|.*\s*Directives)\s*\n+(\|?.+\|.+)\n\|?\s*:?-+:?\s*\|.+((\n\|?.+\|.+)+)/g,
   })
 
   done()

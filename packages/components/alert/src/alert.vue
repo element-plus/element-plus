@@ -5,12 +5,10 @@
       :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"
       role="alert"
     >
-      <el-icon
-        v-if="showIcon && iconComponent"
-        :class="[ns.e('icon'), isBigIcon]"
-      >
+      <el-icon v-if="showIcon && iconComponent" :class="iconClass">
         <component :is="iconComponent" />
       </el-icon>
+
       <div :class="ns.e('content')">
         <span
           v-if="title || $slots.title"
@@ -58,21 +56,19 @@ const slots = useSlots()
 
 const ns = useNamespace('alert')
 
-// state
 const visible = ref(true)
 
-// computed
-const iconComponent = computed(
-  () => TypeComponentsMap[props.type] || TypeComponentsMap['info']
-)
-const isBigIcon = computed(
-  () => props.description || { [ns.is('big')]: slots.default }
-)
+const iconComponent = computed(() => TypeComponentsMap[props.type])
+
+const iconClass = computed(() => [
+  ns.e('icon'),
+  { [ns.is('big')]: !!props.description || !!slots.default },
+])
+
 const isBoldTitle = computed(
   () => props.description || { [ns.is('bold')]: slots.default }
 )
 
-// methods
 const close = (evt: MouseEvent) => {
   visible.value = false
   emit('close', evt)

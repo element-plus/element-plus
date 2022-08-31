@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { isDark } from '../composables/dark'
-import { goldSponsors } from '../../config/sponsors'
+import { leftLogoSponsors } from '../../config/sponsors'
+import { sendEvent } from '../../config/analytics'
+const onItemClick = (item: any) => {
+  sendEvent('sp_click', item.name, 'left_small_img')
+}
 </script>
 
 <template>
-  <div class="sponsor-container">
+  <div>
     <a
-      v-for="item in goldSponsors"
+      v-for="item in leftLogoSponsors"
       :key="item.name"
       :class="[
         'sponsor-item inline-flex items-center',
@@ -15,6 +19,7 @@ import { goldSponsors } from '../../config/sponsors'
       :href="item.url"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
       target="_blank"
+      @click="onItemClick(item)"
     >
       <img :src="item.img" :alt="item.name" />
     </a>
@@ -23,7 +28,7 @@ import { goldSponsors } from '../../config/sponsors'
 
 <style scoped lang="scss">
 @use '../styles/mixins' as *;
-.sponsor-container {
+div {
   display: flex;
   align-items: center;
   .sponsor-item {

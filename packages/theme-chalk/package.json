@@ -24,10 +24,11 @@
   "style": "index.css",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "gulp --require sucrase/register/ts"
+    "build": "gulp --require @esbuild-kit/cjs-loader"
   },
   "devDependencies": {
     "@element-plus/build": "workspace:*",
+    "@esbuild-kit/cjs-loader": "^2.2.1",
     "@types/gulp-autoprefixer": "^0.0.33",
     "@types/gulp-clean-css": "^4.3.0",
     "@types/gulp-rename": "^2.0.1",

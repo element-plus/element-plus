@@ -18,7 +18,7 @@ Nous sommes ravis que vous souhaitiez contribuer à Element Plus. Avant de soume
 
 - Faites un fork de ce dépôt vers votre compte. Ne créez pas de branches ici.
 
-- les informations soumises doivent être présentées sous la forme `type(scope): info about commit`.(par exemple, `fix(components): [el-scrollbar] fix xxx bug`)
+- les informations soumises doivent être présentées sous la forme `type(scope): info about commit`.(par exemple, `fix(components): [scrollbar] fix xxx bug`)
 
   1. Type: le type doit être l'un des [build, chore, ci, docs, feat, fix, perf, refactor, revert, release, style, test, improvement].
 

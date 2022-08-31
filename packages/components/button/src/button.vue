@@ -10,7 +10,11 @@
       ns.is('plain', plain),
       ns.is('round', round),
       ns.is('circle', circle),
+      ns.is('text', text),
+      ns.is('link', link),
+      ns.is('has-bg', bg),
     ]"
+    :aria-disabled="_disabled || loading"
     :disabled="_disabled || loading"
     :autofocus="autofocus"
     :type="nativeType"
@@ -40,6 +44,7 @@
 import { Text, computed, inject, ref, useSlots } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
+  useDeprecated,
   useDisabled,
   useFormItem,
   useGlobalConfig,
@@ -57,6 +62,17 @@ defineOptions({
 const props = defineProps(buttonProps)
 const emit = defineEmits(buttonEmits)
 const slots = useSlots()
+
+useDeprecated(
+  {
+    from: 'type.text',
+    replacement: 'type.link',
+    version: '3.0.0',
+    scope: 'props',
+    ref: 'https://element-plus.org/en-US/component/button.html#button-attributes',
+  },
+  computed(() => props.type === 'text')
+)
 
 const buttonGroupContext = inject(buttonGroupContextKey, undefined)
 const globalConfig = useGlobalConfig('button')

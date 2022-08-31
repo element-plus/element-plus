@@ -3,18 +3,12 @@
     <slot />
   </main>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 
-export default defineComponent({
+defineOptions({
   name: 'ElMain',
-  setup() {
-    const ns = useNamespace('main')
-
-    return {
-      ns,
-    }
-  },
 })
+
+const ns = useNamespace('main')
 </script>

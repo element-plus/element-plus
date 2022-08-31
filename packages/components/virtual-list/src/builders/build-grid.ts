@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -5,7 +6,6 @@ import {
   h,
   nextTick,
   onMounted,
-  onUpdated,
   ref,
   resolveDynamicComponent,
   unref,
@@ -244,14 +244,13 @@ const createGrid = ({
           xAxisScrollDir,
           yAxisScrollDir,
         } = unref(states)
-        emit(
-          SCROLL_EVT,
+        emit(SCROLL_EVT, {
           xAxisScrollDir,
           scrollLeft,
           yAxisScrollDir,
           scrollTop,
-          updateRequested
-        )
+          updateRequested,
+        })
       }
 
       const onScroll = (e: Event) => {
@@ -265,6 +264,7 @@ const createGrid = ({
         } = e.currentTarget as HTMLElement
 
         const _states = unref(states)
+
         if (
           _states.scrollTop === scrollTop &&
           _states.scrollLeft === scrollLeft
@@ -293,13 +293,14 @@ const createGrid = ({
             0,
             Math.min(scrollTop, scrollHeight - clientHeight)
           ),
-          updateRequested: false,
+          updateRequested: true,
           xAxisScrollDir: getScrollDir(_states.scrollLeft, _scrollLeft),
           yAxisScrollDir: getScrollDir(_states.scrollTop, scrollTop),
         }
 
-        nextTick(resetIsScrolling)
+        nextTick(() => resetIsScrolling())
 
+        onUpdated()
         emitEvents()
       }
 
@@ -373,7 +374,10 @@ const createGrid = ({
           updateRequested: true,
         }
 
-        nextTick(resetIsScrolling)
+        nextTick(() => resetIsScrolling())
+
+        onUpdated()
+        emitEvents()
       }
 
       const scrollToItem = (
@@ -384,7 +388,7 @@ const createGrid = ({
         const _states = unref(states)
         columnIdx = Math.max(0, Math.min(columnIdx, props.totalColumn! - 1))
         rowIndex = Math.max(0, Math.min(rowIndex, props.totalRow! - 1))
-        const scrollBarWidth = getScrollBarWidth()
+        const scrollBarWidth = getScrollBarWidth(ns.namespace.value)
 
         const _cache = unref(cache)
         const estimatedHeight = getEstimatedTotalHeight(props, _cache)
@@ -415,7 +419,6 @@ const createGrid = ({
         columnIndex: number
       ): CSSProperties => {
         const { columnWidth, direction, rowHeight } = props
-
         const itemStyleCache = getItemStyleCache.value(
           clearCache && columnWidth,
           clearCache && rowHeight,
@@ -476,12 +479,11 @@ const createGrid = ({
         emitEvents()
       })
 
-      onUpdated(() => {
+      const onUpdated = () => {
         const { direction } = props
         const { scrollLeft, scrollTop, updateRequested } = unref(states)
 
         const windowElement = unref(windowRef)
-
         if (updateRequested && windowElement) {
           if (direction === RTL) {
             switch (getRTLOffsetType()) {
@@ -506,7 +508,10 @@ const createGrid = ({
 
           windowElement.scrollTop = Math.max(0, scrollTop)
         }
-      })
+      }
+
+      const { resetAfterColumnIndex, resetAfterRowIndex, resetAfter } =
+        instance.proxy as any
 
       expose({
         windowRef,
@@ -515,12 +520,21 @@ const createGrid = ({
         scrollTo,
         scrollToItem,
         states,
+        resetAfterColumnIndex,
+        resetAfterRowIndex,
+        resetAfter,
       })
 
       // rendering part
 
       const renderScrollbars = () => {
-        const { totalColumn, totalRow } = props
+        const {
+          scrollbarAlwaysOn,
+          scrollbarStartGap,
+          scrollbarEndGap,
+          totalColumn,
+          totalRow,
+        } = props
 
         const width = unref(parsedWidth)
         const height = unref(parsedHeight)
@@ -529,6 +543,10 @@ const createGrid = ({
         const { scrollLeft, scrollTop } = unref(states)
         const horizontalScrollbar = h(Scrollbar, {
           ref: hScrollbar,
+          alwaysOn: scrollbarAlwaysOn,
+          startGap: scrollbarStartGap,
+          endGap: scrollbarEndGap,
+          class: ns.e('horizontal'),
           clientSize: width,
           layout: 'horizontal',
           onScroll: onHorizontalScroll,
@@ -540,11 +558,16 @@ const createGrid = ({
 
         const verticalScrollbar = h(Scrollbar, {
           ref: vScrollbar,
+          alwaysOn: scrollbarAlwaysOn,
+          startGap: scrollbarStartGap,
+          endGap: scrollbarEndGap,
+          class: ns.e('vertical'),
           clientSize: height,
           layout: 'vertical',
           onScroll: onVerticalScroll,
           ratio: (height * 100) / estimatedHeight,
           scrollFrom: scrollTop / (estimatedHeight - height),
+
           total: totalColumn,
           visible: true,
         })
@@ -558,7 +581,7 @@ const createGrid = ({
       const renderItems = () => {
         const [columnStart, columnEnd] = unref(columnsToRender)
         const [rowStart, rowEnd] = unref(rowsToRender)
-        const { data, totalColumn, totalRow, useIsScrolling } = props
+        const { data, totalColumn, totalRow, useIsScrolling, itemKey } = props
         const children: VNodeChild[] = []
         if (totalRow > 0 && totalColumn > 0) {
           for (let row = rowStart; row <= rowEnd; row++) {
@@ -567,7 +590,7 @@ const createGrid = ({
                 slots.default?.({
                   columnIndex: column,
                   data,
-                  key: column,
+                  key: itemKey({ columnIndex: column, data, rowIndex: row }),
                   isScrolling: useIsScrolling
                     ? unref(states).isScrolling
                     : undefined,

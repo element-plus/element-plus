@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { buildProps, definePropType } from '@element-plus/utils'
 import {
   usePopperContentProps,
@@ -6,12 +7,15 @@ import {
 import {
   POPPER_CONTAINER_SELECTOR,
   useDelayedToggleProps,
+  useNamespace,
 } from '@element-plus/hooks'
-import type Tooltip from '../src/tooltip.vue'
+import { EVENT_CODE } from '@element-plus/constants'
+import type Tooltip from '../tooltip.vue'
 
 import type { ExtractPropTypes } from 'vue'
 
 const triggers = ['hover', 'focus', 'click', 'contextmenu'] as const
+const ns = useNamespace('tooltip')
 
 export type Trigger = typeof triggers[number]
 
@@ -42,7 +46,7 @@ export const useTooltipContentProps = buildProps({
   },
   transition: {
     type: String,
-    default: 'el-fade-in-linear',
+    default: `${ns.namespace.value}-fade-in-linear`,
   },
   teleported: {
     type: Boolean,
@@ -59,6 +63,10 @@ export const useTooltipTriggerProps = buildProps({
   trigger: {
     type: definePropType<Trigger | Trigger[]>([String, Array]),
     default: 'hover',
+  },
+  triggerKeys: {
+    type: definePropType<string[]>(Array),
+    default: () => [EVENT_CODE.enter, EVENT_CODE.space],
   },
 } as const)
 

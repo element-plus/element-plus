@@ -81,7 +81,7 @@ export interface UploadHooks {
 export const uploadBaseProps = buildProps({
   action: {
     type: String,
-    required: true,
+    default: '#',
   },
   headers: {
     type: definePropType<Headers | Record<string, any>>(Object),

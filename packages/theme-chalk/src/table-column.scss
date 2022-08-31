@@ -13,7 +13,7 @@
 }
 
 @include b(table-filter) {
-  border: solid 1px var(--el-border-color-lighter);
+  border: solid 1px getCssVar('border-color-lighter');
   border-radius: 2px;
   background-color: $color-white;
   box-shadow: map.get($dropdown, 'menu-box-shadow');
@@ -31,7 +31,7 @@
     line-height: 36px;
     padding: 0 10px;
     cursor: pointer;
-    font-size: var(--el-font-size-base);
+    font-size: getCssVar('font-size', 'base');
 
     &:hover {
       background-color: map.get($dropdown, 'menuItem-hover-fill');
@@ -39,7 +39,7 @@
     }
 
     @include when(active) {
-      background-color: var(--el-color-primary);
+      background-color: getCssVar('color-primary');
       color: $color-white;
     }
   }
@@ -49,19 +49,19 @@
   }
 
   @include e(bottom) {
-    border-top: 1px solid var(--el-border-color-lighter);
+    border-top: 1px solid getCssVar('border-color-lighter');
     padding: 8px;
 
     button {
       background: transparent;
       border: none;
-      color: var(--el-text-color-regular);
+      color: getCssVar('text-color', 'regular');
       cursor: pointer;
-      font-size: var(--el-font-size-small);
+      font-size: getCssVar('font-size-small');
       padding: 0 3px;
 
       &:hover {
-        color: var(--el-color-primary);
+        color: getCssVar('color-primary');
       }
 
       &:focus {

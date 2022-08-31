@@ -1,5 +1,9 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import {
+  virtualizedGridProps,
+  virtualizedScrollbarProps,
+} from '@element-plus/components/virtual-list'
+import {
   classType,
   columns,
   dataType,
@@ -12,7 +16,7 @@ import { tableV2RowProps } from './row'
 import { tableV2HeaderProps } from './header'
 import { tableV2GridProps } from './grid'
 
-import type { ExtractPropTypes, StyleValue } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { SortOrder } from './constants'
 import type {
   Column,
@@ -20,6 +24,8 @@ import type {
   DataGetter,
   KeyType,
   RowCommonParams,
+  SortBy,
+  SortState,
 } from './types'
 
 /**
@@ -36,7 +42,8 @@ export type ColumnSortParams<T> = {
  */
 
 export type ExtraCellPropGetter<T> = (
-  params: ColumnCommonParams<T> & RowCommonParams<T>
+  params: ColumnCommonParams<T> &
+    RowCommonParams & { cellData: T; rowData: any }
 ) => any
 
 export type ExtractHeaderPropGetter<T> = (params: {
@@ -49,7 +56,7 @@ export type ExtractHeaderCellPropGetter<T> = (
 ) => any
 
 export type ExtractRowPropGetter<T> = (
-  params: { columns: Column<T>[] } & RowCommonParams<T>
+  params: { columns: Column<T>[] } & RowCommonParams
 ) => any
 
 export type HeaderClassNameGetter<T> = (params: {
@@ -58,7 +65,7 @@ export type HeaderClassNameGetter<T> = (params: {
 }) => string
 
 export type RowClassNameGetter<T> = (
-  params: { columns: Column<T>[] } & RowCommonParams<T>
+  params: { columns: Column<T>[] } & RowCommonParams
 ) => string
 
 /**
@@ -66,17 +73,12 @@ export type RowClassNameGetter<T> = (
  */
 export type ColumnSortHandler<T> = (params: ColumnSortParams<T>) => void
 export type ColumnResizeHandler<T> = (column: Column<T>, width: number) => void
+export type ExpandedRowsChangeHandler = (expandedRowKeys: KeyType[]) => void
 
 export const tableV2Props = buildProps({
   cache: tableV2GridProps.cache,
   estimatedRowHeight: tableV2RowProps.estimatedRowHeight,
   rowKey,
-  /**
-   * extra props deriver
-   */
-  cellProps: {
-    type: definePropType<any | ExtraCellPropGetter<any>>([Object, Function]),
-  },
   // Header attributes
   headerClass: {
     type: definePropType<string | HeaderClassNameGetter<any>>([
@@ -117,6 +119,16 @@ export const tableV2Props = buildProps({
     type: Number,
     default: 50,
   },
+
+  /**
+   * Cell attributes
+   */
+  cellProps: {
+    type: definePropType<Record<string, any> | ExtraCellPropGetter<any>>([
+      Object,
+      Function,
+    ]),
+  },
   /**
    * Data models
    */
@@ -125,7 +137,6 @@ export const tableV2Props = buildProps({
   dataGetter: {
     type: definePropType<DataGetter<any>>(Function),
   },
-  dataKey: String,
   fixedData: fixedDataType,
   /**
    * Expanded keys
@@ -138,25 +149,36 @@ export const tableV2Props = buildProps({
    * Attributes
    */
   class: classType,
-  disabled: Boolean,
+  // disabled: Boolean,
   fixed: Boolean,
   style: {
-    type: definePropType<StyleValue>([String, Array, Object]),
+    type: definePropType<CSSProperties>(Object),
   },
   width: requiredNumber,
-  height: Number,
+  height: requiredNumber,
   maxHeight: Number,
+  useIsScrolling: Boolean,
+  indentSize: {
+    type: Number,
+    default: 12,
+  },
+  iconSize: {
+    type: Number,
+    default: 12,
+  },
+  hScrollbarSize: virtualizedGridProps.hScrollbarSize,
+  vScrollbarSize: virtualizedGridProps.vScrollbarSize,
+  scrollbarAlwaysOn: virtualizedScrollbarProps.alwaysOn,
 
   /**
    * Sorting
    */
   sortBy: {
-    type: definePropType<{ key: KeyType; order: SortOrder }>(Object),
+    type: definePropType<SortBy>(Object),
     default: () => ({} as { key: KeyType; order: SortOrder }),
   },
-
   sortState: {
-    type: definePropType<Record<KeyType, SortOrder>>(Object),
+    type: definePropType<SortState>(Object),
     default: undefined,
   },
 
@@ -166,19 +188,15 @@ export const tableV2Props = buildProps({
   onColumnSort: {
     type: definePropType<ColumnSortHandler<any>>(Function),
   },
-  onColumnResize: {
-    type: definePropType<ColumnResizeHandler<any>>(Function),
+  onExpandedRowsChange: {
+    type: definePropType<ExpandedRowsChangeHandler>(Function),
   },
-  onColumnResizeEnded: {
-    type: definePropType<ColumnResizeHandler<any>>(Function),
-  },
-  onExpandedRowsChange: Function,
   onEndReached: {
     type: definePropType<(distance: number) => void>(Function),
   },
   onRowExpand: tableV2RowProps.onRowExpand,
   onScroll: tableV2GridProps.onScroll,
-  onRowRendered: tableV2GridProps.onRowRendered,
+  onRowsRendered: tableV2GridProps.onRowsRendered,
   rowEventHandlers: tableV2RowProps.rowEventHandlers,
 } as const)
 

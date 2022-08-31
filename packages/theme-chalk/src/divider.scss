@@ -9,7 +9,7 @@
     height: 1px;
     width: 100%;
     margin: 24px 0;
-    border-top: 1px getCssVar('border-color') var(--el-border-style);
+    border-top: 1px getCssVar('border-color') getCssVar('border-style');
   }
 
   @include m(vertical) {
@@ -19,7 +19,7 @@
     margin: 0 8px;
     vertical-align: middle;
     position: relative;
-    border-left: 1px getCssVar('border-color') var(--el-border-style);
+    border-left: 1px getCssVar('border-color') getCssVar('border-style');
   }
 
   @include e(text) {
@@ -27,7 +27,7 @@
     background-color: getCssVar('bg-color');
     padding: 0 20px;
     font-weight: 500;
-    color: var(--el-text-color-primary);
+    color: getCssVar('text-color', 'primary');
     font-size: 14px;
 
     @include when(left) {

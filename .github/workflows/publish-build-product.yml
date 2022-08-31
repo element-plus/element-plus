@@ -10,6 +10,10 @@ jobs:
     name: Build Product Check
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -21,31 +25,20 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-        with:
-          version: latest
 
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
-
-      - name: Cache ~/.pnpm-store
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-pnpm-store
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-
-            ${{ runner.os }}-${{ matrix.node-version }}-test-
-            ${{ runner.os }}-
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
 
       - name: Local build
         run: pnpm build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Check build product
         run: sh -c ./scripts/file-check.sh
@@ -62,7 +55,7 @@ jobs:
           path: ./tmp/diff.md
 
       - name: Set comment
-        uses: actions-cool/maintain-one-comment@v2.0.2
+        uses: actions-cool/maintain-one-comment@v3.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.diff.outputs.content }}

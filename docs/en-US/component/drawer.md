@@ -25,7 +25,7 @@ drawer/basic-usage
 
 ## No Title
 
-When you no longer need a title, you can remove title from drawer.
+When you no longer need a title, you can remove it from the drawer.
 
 :::demo Set the `withHeader` attribute to **false**, you can remove the title from drawer, thus your drawer can have more space on screen. If you want to be accessible, make sure to set the `title` attribute.
 
@@ -33,13 +33,23 @@ drawer/no-title
 
 :::
 
-## Customization Content
+## Customized Content
 
-Like `Dialog`, `Drawer` can do many diverse interaction as you wanted.
+Like `Dialog`, `Drawer` can be used to display a multitude of diverse interactions.
 
 :::demo
 
 drawer/customization-content
+
+:::
+
+## Customized Header
+
+The `header` slot can be used to customize the area where the title is displayed. In order to maintain accessibility, use the `title` attribute in addition to using this slot, or use the `titleId` slot property to specify which element should be read out as the drawer title.
+
+:::demo
+
+drawer/customization-header
 
 :::
 
@@ -90,11 +100,12 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 ## Drawer Slots
 
-| Name   | Description           |
-| ------ | --------------------- |
-| —      | Drawer's Content      |
-| title  | Drawer Title Section  |
-| footer | Drawer footer Section |
+| Name              | Description                                                                                    |
+| ----------------- | ---------------------------------------------------------------------------------------------- |
+| —                 | Drawer's Content                                                                               |
+| header            | Drawer header section; Replacing this removes the title, but does not remove the close button. |
+| title(deprecated) | Works the same as the header slot. Use that instead.                                           |
+| footer            | Drawer footer Section                                                                          |
 
 ## Drawer Methods
 

@@ -131,11 +131,11 @@ const copyCode = async () => {
   border-radius: var(--el-border-radius-base);
 
   .op-btns {
-    padding: 0.3rem;
+    padding: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    height: 2rem;
+    height: 2.5rem;
 
     .el-icon {
       &:hover {

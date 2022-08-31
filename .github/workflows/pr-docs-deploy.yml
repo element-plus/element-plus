@@ -40,9 +40,9 @@ jobs:
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
           PULL_REQUEST_NUMBER: ${{ steps.pr.outputs.id }}
 
-      - name: Deploy has succeeded
+      - name: Comment preview link
         if: ${{ success() }}
-        uses: actions-cool/maintain-one-comment@v2.0.2
+        uses: actions-cool/maintain-one-comment@v3.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
@@ -51,9 +51,21 @@ jobs:
           body-include: '<!-- ELEMENT_PLUS_PREVIEW -->'
           number: ${{ steps.pr.outputs.id }}
 
+      - name: Comment playground link
+        if: ${{ success() }}
+        uses: actions-cool/maintain-one-comment@v3.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            🧪 Playground Preview: https://element-plus.run/?pr=${{ steps.pr.outputs.id }}
+            Please comment the example via this playground if needed.
+            <!-- ELEMENT_PLUS_PLAYGROUND -->
+          body-include: '<!-- ELEMENT_PLUS_PLAYGROUND -->'
+          number: ${{ steps.pr.outputs.id }}
+
       - name: Deploy has failed
         if: ${{ failure() }}
-        uses: actions-cool/maintain-one-comment@v2.0.2
+        uses: actions-cool/maintain-one-comment@v3.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
@@ -80,7 +92,7 @@ jobs:
         run: echo "::set-output name=id::$(<pr.txt)"
 
       - name: Deploy has failed
-        uses: actions-cool/maintain-one-comment@v2.0.2
+        uses: actions-cool/maintain-one-comment@v3.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
