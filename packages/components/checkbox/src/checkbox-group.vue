@@ -16,19 +16,15 @@ import { computed, nextTick, provide, toRefs, watch } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace, useSize } from '@element-plus/hooks'
-import {
-  checkboxGroupEmits,
-  useCheckboxGroup,
-  useCheckboxGroupId,
-  useCheckboxGroupProps,
-} from './checkbox'
+import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
+import { useCheckboxGroup, useCheckboxGroupId } from './checkbox'
 import type { CheckboxValueType } from './checkbox'
 
 defineOptions({
   name: 'ElCheckboxGroup',
 })
 
-const props = defineProps(useCheckboxGroupProps)
+const props = defineProps(checkboxGroupProps)
 const emit = defineEmits(checkboxGroupEmits)
 
 const { elFormItem } = useCheckboxGroup()

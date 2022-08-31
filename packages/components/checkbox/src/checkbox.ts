@@ -343,11 +343,6 @@ export const checkboxEmits = {
     isString(val) || isNumber(val) || isBoolean(val),
 }
 
-export const checkboxGroupEmits = {
-  [UPDATE_MODEL_EVENT]: (val: CheckboxValueType[]) => isArray(val),
-  change: (val: CheckboxValueType[]) => isArray(val),
-}
-
 export const useCheckbox = (
   props: CheckboxProps,
   slots: ComponentInternalInstance['slots']
