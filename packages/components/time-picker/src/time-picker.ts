@@ -31,6 +31,12 @@ export default defineComponent({
       blur: () => {
         commonPicker.value?.handleBlur()
       },
+      handleOpen: () => {
+        commonPicker.value?.handleOpen()
+      },
+      handleClose: () => {
+        commonPicker.value?.handleClose()
+      },
     }
     provide('ElPopperOptions', props.popperOptions)
     ctx.expose(refProps)

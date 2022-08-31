@@ -370,6 +370,54 @@ describe('TimePicker', () => {
     expect(attr).toEqual('true')
   })
 
+  it('ref handleOpen', async () => {
+    _mount(
+      `<el-time-picker
+        v-model="value"
+        ref="input"
+      />`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.handleOpen()
+        },
+      }
+    )
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
+  })
+
+  it('ref handleClose', async () => {
+    jest.useFakeTimers()
+
+    _mount(
+      `<el-time-picker
+        v-model="value"
+        ref="input"
+      />`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.handleOpen()
+
+          setTimeout(() => {
+            this.$refs.input.handleClose()
+          }, 1000000)
+        },
+      }
+    )
+
+    jest.runAllTimers()
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('true')
+
+    jest.useRealTimers()
+  })
+
   it('model value should sync when disabled-hours was updated', async () => {
     const wrapper = _mount(
       `

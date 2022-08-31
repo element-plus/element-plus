@@ -319,14 +319,23 @@ export default defineComponent({
       }
     }
 
+    const handleOpen = () => {
+      pickerVisible.value = true
+    }
+
+    const handleClose = () => {
+      pickerVisible.value = false
+    }
+
     const handleFocus = (e) => {
       if (props.readonly || pickerDisabled.value || pickerVisible.value) return
-      pickerVisible.value = true
+
+      handleOpen()
       ctx.emit('focus', e)
     }
 
     const handleBlur = () => {
-      pickerVisible.value = false
+      handleClose()
       blurInput()
     }
 
@@ -408,7 +417,7 @@ export default defineComponent({
         emitInput(null)
         emitChange(null, true)
         showClose.value = false
-        pickerVisible.value = false
+        handleClose()
         pickerOptions.value.handleClear && pickerOptions.value.handleClear()
       }
     }
@@ -439,7 +448,7 @@ export default defineComponent({
 
     const onClickOutside = () => {
       if (!pickerVisible.value) return
-      pickerVisible.value = false
+      handleClose()
     }
 
     const userInput = ref(null)
@@ -487,7 +496,7 @@ export default defineComponent({
       const code = event.code
 
       if (code === EVENT_CODE.esc) {
-        pickerVisible.value = false
+        handleClose()
         event.stopPropagation()
         return
       }
@@ -495,13 +504,13 @@ export default defineComponent({
       if (code === EVENT_CODE.tab) {
         if (!isRangeInput.value) {
           handleChange()
-          pickerVisible.value = false
+          handleClose()
           event.stopPropagation()
         } else {
           // user may change focus between two input
           setTimeout(() => {
             if (refInput.value.indexOf(document.activeElement) === -1) {
-              pickerVisible.value = false
+              handleClose()
               blurInput()
             }
           }, 0)
@@ -516,7 +525,7 @@ export default defineComponent({
           isValidValue(parseUserInputToDayjs(displayValue.value))
         ) {
           handleChange()
-          pickerVisible.value = false
+          handleClose()
         }
         event.stopPropagation()
         return
@@ -606,6 +615,8 @@ export default defineComponent({
       onUserInput,
       handleChange,
       handleKeydown,
+      handleOpen,
+      handleClose,
       popperPaneRef,
       onClickOutside,
       pickerSize,
