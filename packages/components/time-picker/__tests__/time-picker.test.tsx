@@ -1,29 +1,14 @@
 // @ts-nocheck
-import { nextTick } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import TimePicker from '../src/time-picker'
 import Picker from '../src/common/picker.vue'
-
-const _mount = (template: string, data, otherObj?) =>
-  mount(
-    {
-      components: {
-        'el-time-picker': TimePicker,
-        'el-form-item': ElFormItem,
-      },
-      template,
-      data,
-      ...otherObj,
-    },
-    {
-      attachTo: 'body',
-    }
-  )
 
 const makeRange = (start, end) => {
   const result = []
@@ -45,15 +30,17 @@ afterEach(() => {
 
 describe('TimePicker', () => {
   it('create & custom class & style', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-    :placeholder="placeholder"
-    :readonly="readonly"
-    :style="{color:'red'}"
-    class="customClass"
-  />`,
-      () => ({ placeholder: 'test_', readonly: true })
-    )
+    const placeholder = ref('test_')
+    const readonly = ref(true)
+    const wrapper = mount(() => (
+      <TimePicker
+        placeholder={placeholder.value}
+        readonly={readonly.value}
+        style="color:red"
+        class="customClass"
+      />
+    ))
+
     const input = wrapper.find('input')
     expect(input.attributes('placeholder')).toBe('test_')
     expect(input.attributes('readonly')).not.toBeUndefined()
@@ -63,14 +50,12 @@ describe('TimePicker', () => {
   })
 
   it('set format && default value && set AM/PM spinner && no $attr to panel', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-        :format="format"
-        v-model="value"
-        class="customClass"
-      />`,
-      () => ({ format: 'hh-mm:ss A', value: new Date(2016, 9, 10, 18, 40) })
-    )
+    const format = ref('hh-mm:ss A')
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const wrapper = mount(() => (
+      <TimePicker format={format.value} v-model={value.value} />
+    ))
+
     await nextTick()
     const input = wrapper.find('input')
     expect(input.element.value).toBe('06-40:00 PM') // format
@@ -93,12 +78,9 @@ describe('TimePicker', () => {
   })
 
   it('select time', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-      />`,
-      () => ({ value: '' })
-    )
+    const value = ref('')
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -121,8 +103,8 @@ describe('TimePicker', () => {
     await nextTick()
     secondEl.click()
     await nextTick()
-    const vm = wrapper.vm as any
-    const date = vm.value
+
+    const date = value.value
     expect(hourEl.classList.contains('is-active')).toBeTruthy()
     expect(minuteEl.classList.contains('is-active')).toBeTruthy()
     expect(secondEl.classList.contains('is-active')).toBeTruthy()
@@ -132,33 +114,26 @@ describe('TimePicker', () => {
   })
 
   it('click confirm / cancel button', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-      />`,
-      () => ({ value: '' })
-    )
+    const value = ref('')
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
-    const vm = wrapper.vm as any
-    expect(vm.value).toBe('')
+
+    expect(value.value).toBe('')
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
-    expect(vm.value).toBeInstanceOf(Date)
+    expect(value.value).toBeInstanceOf(Date)
   })
 
   it('should update oldValue when visible change', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-      />`,
-      () => ({ value: new Date(2016, 9, 10, 18, 40) })
-    )
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
 
     // show picker panel
     const input = wrapper.find('input')
@@ -187,7 +162,7 @@ describe('TimePicker', () => {
 
     // click confirm button
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
-    const date = (wrapper.vm as any).value
+    const date = value.value
     expect(date.getHours()).toBe(4)
     expect(date.getMinutes()).toBe(36)
     expect(date.getSeconds()).toBe(20)
@@ -203,13 +178,11 @@ describe('TimePicker', () => {
   })
 
   it('set format', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        format='HH:mm'
-      />`,
-      () => ({ value: '' })
-    )
+    const value = ref('')
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} format="HH:mm" />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -226,32 +199,17 @@ describe('TimePicker', () => {
     const focusHandler = vi.fn()
     const blurHandler = vi.fn()
     const keydownHandler = vi.fn()
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        @change="onChange"
-        @focus="onFocus"
-        @blur="onBlur"
-        @keydown="onKeydown"
-      />`,
-      () => ({ value: new Date(2016, 9, 10, 18, 40) }),
-      {
-        methods: {
-          onChange(e) {
-            return changeHandler(e)
-          },
-          onFocus(e) {
-            return focusHandler(e)
-          },
-          onBlur(e) {
-            return blurHandler(e)
-          },
-          onKeydown(e) {
-            return keydownHandler(e)
-          },
-        },
-      }
-    )
+
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const wrapper = mount(() => (
+      <TimePicker
+        v-model={value.value}
+        onChange={changeHandler}
+        onFocus={focusHandler}
+        onBlur={blurHandler}
+        onKeydown={keydownHandler}
+      />
+    ))
 
     const input = wrapper.find('input')
     input.trigger('focus')
@@ -288,48 +246,45 @@ describe('TimePicker', () => {
     const disabledHoursArr = [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23,
     ]
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        :disabled-hours="disabledHours"
-        :disabled-minutes="disabledMinutes"
-        :disabled-seconds="disabledSeconds"
-      />`,
-      () => ({ value: '' }),
-      {
-        methods: {
-          disabledHours() {
-            return disabledHoursArr
-          },
-          disabledMinutes(hour) {
-            // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
-            if (hour === 17) {
-              return makeRange(0, 29)
-            }
-            if (hour === 18) {
-              return makeRange(31, 49)
-            }
-            if (hour === 20) {
-              return makeRange(31, 59)
-            }
-            if (hour === 22) {
-              return makeRange(1, 59)
-            }
-          },
-          disabledSeconds(hour, minute) {
-            if (hour === 18 && minute === 30) {
-              return makeRange(1, 59)
-            }
-            if (hour === 20 && minute === 30) {
-              return makeRange(1, 59)
-            }
-            if (hour === 22 && minute === 0) {
-              return makeRange(1, 59)
-            }
-          },
-        },
+    const disabledHoursData = () => {
+      return disabledHoursArr
+    }
+    const disabledMinutesData = (hour) => {
+      // ['17:30:00 - 18:30:00', '18:50:00 - 20:30:00', '21:00:00 - 22:00:00']
+      if (hour === 17) {
+        return makeRange(0, 29)
       }
-    )
+      if (hour === 18) {
+        return makeRange(31, 49)
+      }
+      if (hour === 20) {
+        return makeRange(31, 59)
+      }
+      if (hour === 22) {
+        return makeRange(1, 59)
+      }
+    }
+    const disabledSeconds = (hour, minute) => {
+      if (hour === 18 && minute === 30) {
+        return makeRange(1, 59)
+      }
+      if (hour === 20 && minute === 30) {
+        return makeRange(1, 59)
+      }
+      if (hour === 22 && minute === 0) {
+        return makeRange(1, 59)
+      }
+    }
+    const value = ref('')
+    const wrapper = mount(() => (
+      <TimePicker
+        v-model={value.value}
+        disabled-hours={disabledHoursData}
+        disabled-minutes={disabledMinutesData}
+        disabled-seconds={disabledSeconds}
+      />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('focus')
     await nextTick()
@@ -361,18 +316,12 @@ describe('TimePicker', () => {
   })
 
   it('ref focus', async () => {
-    _mount(
-      `<el-time-picker
-        v-model="value"
-        ref="input"
-      />`,
-      () => ({ value: new Date(2016, 9, 10, 18, 40) }),
-      {
-        mounted() {
-          this.$refs.input.focus()
-        },
-      }
-    )
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+
+    await nextTick()
+    wrapper.findComponent(TimePicker).vm.$.exposed.focus()
+
     // This one allows mounted to take effect
     await nextTick()
     // These following two allows popper to gets rendered.
@@ -383,19 +332,15 @@ describe('TimePicker', () => {
   })
 
   it('ref blur', async () => {
-    _mount(
-      `<el-time-picker
-        v-model="value"
-        ref="input"
-      />`,
-      () => ({ value: new Date(2016, 9, 10, 18, 40) }),
-      {
-        mounted() {
-          this.$refs.input.focus()
-          this.$refs.input.blur()
-        },
-      }
-    )
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+    const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed
+
+    await nextTick()
+    timePickerExposed.focus()
+    await nextTick()
+    timePickerExposed.blur()
+
     await nextTick()
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
@@ -403,49 +348,36 @@ describe('TimePicker', () => {
   })
 
   it('model value should sync when disabled-hours was updated', async () => {
-    const wrapper = _mount(
-      `
-       <el-time-picker
-        v-model="value"
-        :disabled-hours="disabledHours"
+    const value = ref('2000-01-01 00:00:00')
+    const minHour = ref('8')
+    const disabledHours = computed(() => () => {
+      return Array.from({ length: 24 })
+        .fill(null)
+        .map((_, i) => i)
+        .filter((h) => h < Number.parseInt(minHour.value, 10))
+    })
+    mount(() => (
+      <TimePicker
+        v-model={value.value}
+        disabled-hours={disabledHours.value}
         value-format="YYYY-MM-DD HH:mm:ss"
       />
-    `,
-      () => ({
-        value: '2000-01-01 00:00:00',
-        minHour: '8',
-      }),
-      {
-        computed: {
-          disabledHours() {
-            return () => {
-              return Array.from({ length: 24 })
-                .fill(null)
-                .map((_, i) => i)
-                .filter((h) => h < Number.parseInt(this.minHour, 10))
-            }
-          },
-        },
-      }
-    )
+    ))
+
     await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.value).toEqual('2000-01-01 08:00:00')
-    vm.minHour = '9'
+
+    expect(value.value).toEqual('2000-01-01 08:00:00')
+    minHour.value = '9'
     await nextTick()
-    expect(vm.value).toEqual('2000-01-01 09:00:00')
-    vm.minHour = '8'
+    expect(value.value).toEqual('2000-01-01 09:00:00')
+    minHour.value = '8'
     await nextTick()
-    expect(vm.value).toEqual('2000-01-01 09:00:00')
+    expect(value.value).toEqual('2000-01-01 09:00:00')
   })
 
   it('picker-panel should not pop up when readonly', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-        readonly
-      />`,
-      () => ({})
-    )
+    const wrapper = mount(() => <TimePicker readonly />)
+
     const input = wrapper.find('input')
     await input.trigger('mousedown')
     await nextTick()
@@ -455,12 +387,8 @@ describe('TimePicker', () => {
   })
 
   it('picker-panel should not pop up when disabled', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-        disabled
-      />`,
-      () => ({})
-    )
+    const wrapper = mount(() => <TimePicker readonly />)
+
     const input = wrapper.find('input')
     await input.trigger('mousedown')
     await nextTick()
@@ -468,20 +396,76 @@ describe('TimePicker', () => {
       false
     )
   })
+
+  it('can auto skip when disabled', async () => {
+    const disabledHours = () => [
+      0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 23,
+    ]
+    const value = ref(new Date(2016, 9, 20, 18, 30))
+    const wrapper = mount(
+      () => (
+        <TimePicker
+          v-model={value.value}
+          disabled-hours={disabledHours}
+          arrow-control
+        />
+      ),
+      {
+        attachTo: document.body,
+      }
+    )
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+
+    const list = document.querySelectorAll('.el-time-spinner__list')
+    const hoursEl = list[0]
+    let activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+
+    expect(activeHours).toEqual(20)
+    const hoursElWrapperList = document.querySelectorAll(
+      '.el-time-spinner__wrapper'
+    )
+    const hoursElWrapper = hoursElWrapperList[0]
+    const hoursElArrowDown: Element | null =
+      hoursElWrapper.querySelector('.arrow-down')
+    expect(hoursElArrowDown).toBeTruthy()
+
+    const mousedownEvt = new MouseEvent('mousedown')
+    const mouseupEvt = new MouseEvent('mouseup')
+
+    const testTime = 130
+    hoursElArrowDown.dispatchEvent(mousedownEvt)
+    hoursElArrowDown.dispatchEvent(mouseupEvt)
+    await sleep(testTime)
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(21)
+    hoursElArrowDown.dispatchEvent(mousedownEvt)
+    hoursElArrowDown.dispatchEvent(mouseupEvt)
+    await sleep(testTime)
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(22)
+    hoursElArrowDown.dispatchEvent(new MouseEvent('mousedown'))
+    hoursElArrowDown.dispatchEvent(new MouseEvent('mouseup'))
+    await sleep(testTime)
+    activeHours = getSpinnerTextAsArray(hoursEl, '.is-active')[0]
+    expect(activeHours).toEqual(20)
+  })
 })
 
 describe('TimePicker(range)', () => {
   it('create', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        size="small"
-        :is-range="true"
-      />`,
-      () => ({
-        value: [new Date(2016, 9, 10, 18, 40), new Date(2016, 9, 10, 19, 40)],
-      })
+    const value = ref([
+      new Date(2016, 9, 10, 18, 40),
+      new Date(2016, 9, 10, 19, 40),
+    ])
+    const wrapper = mount(
+      () => <TimePicker v-model={value.value} size="small" is-range={true} />,
+      {
+        attachTo: document.body,
+      }
     )
+
     expect(wrapper.find('.el-range-editor--small').exists()).toBeTruthy()
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -492,23 +476,29 @@ describe('TimePicker(range)', () => {
     const list = document.querySelectorAll(
       '.el-time-spinner__list .el-time-spinner__item.is-active'
     )
+
     ;['18', '40', '00', '19', '40', '00'].forEach((_, i) => {
       expect(list[i].textContent).toBe(_)
     })
   })
 
   it('default value', async () => {
-    const defaultValue = [
+    const value = ref('')
+    const defaultValue = ref([
       new Date(2000, 9, 1, 10, 20, 0),
       new Date(2000, 9, 1, 11, 10, 0),
-    ]
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        :default-value="defaultValue"
-        :is-range="true"
-      />`,
-      () => ({ value: '', defaultValue })
+    ])
+    const wrapper = mount(
+      () => (
+        <TimePicker
+          v-model={value.value}
+          default-value={defaultValue.value}
+          is-range={true}
+        />
+      ),
+      {
+        attachTo: document.body,
+      }
     )
 
     const input = wrapper.find('input')
@@ -531,15 +521,10 @@ describe('TimePicker(range)', () => {
       new Date(2016, 9, 10, 9, 40),
       new Date(2016, 9, 10, 15, 40),
     ]
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        is-range
-      />`,
-      () => ({
-        value: cancelDates,
-      })
-    )
+    const value = ref(cancelDates)
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />, {
+      attachTo: document.body,
+    })
 
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -550,8 +535,8 @@ describe('TimePicker(range)', () => {
     await rAF()
     ;(document.querySelector('.el-time-panel__btn.cancel') as any).click()
     await rAF()
-    const vm = wrapper.vm as any
-    expect(vm.value).toEqual(cancelDates)
+
+    expect(value.value).toEqual(cancelDates)
     expect((wrapper.findComponent(Picker).vm as any).pickerVisible).toEqual(
       false
     )
@@ -560,26 +545,19 @@ describe('TimePicker(range)', () => {
     input.trigger('focus')
     await nextTick()
     ;(document.querySelector('.el-time-panel__btn.confirm') as any).click()
-    expect(Array.isArray(vm.value)).toBeTruthy()
-    vm.value.forEach((v: unknown) => {
+    expect(Array.isArray(value.value)).toBeTruthy()
+    value.value.forEach((v: unknown) => {
       expect(v).toBeInstanceOf(Date)
     })
   })
 
   it('clear button', async () => {
-    const initDates = [
+    const value = ref([
       new Date(2016, 9, 10, 9, 40),
       new Date(2016, 9, 10, 15, 40),
-    ]
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        is-range
-      />`,
-      () => ({
-        value: initDates,
-      })
-    )
+    ])
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
+
     const findInputWrapper = () => wrapper.find('.el-date-editor')
     const findClear = () => wrapper.find('.el-range__close-icon')
 
@@ -590,32 +568,29 @@ describe('TimePicker(range)', () => {
     const clearIcon = findClear()
     await clearIcon.trigger('click')
     await nextTick()
-    const vm = wrapper.vm as any
-    expect(vm.value).toEqual(null)
+    expect(value.value).toEqual(null)
   })
 
   it('selectableRange ', async () => {
     // left ['08:00:00 - 12:59:59'] right ['11:00:00 - 16:59:59']
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        is-range
-        :disabled-hours="disabledHours"
-      />`,
-      () => ({
-        value: [new Date(2016, 9, 10, 9, 40), new Date(2016, 9, 10, 15, 40)],
-      }),
-      {
-        methods: {
-          disabledHours(role) {
-            if (role === 'start') {
-              return makeRange(0, 7).concat(makeRange(13, 23))
-            }
-            return makeRange(0, 10).concat(makeRange(17, 23))
-          },
-        },
+    const value = ref([
+      new Date(2016, 9, 10, 9, 40),
+      new Date(2016, 9, 10, 15, 40),
+    ])
+    const disabledHours = (role) => {
+      if (role === 'start') {
+        return makeRange(0, 7).concat(makeRange(13, 23))
       }
-    )
+      return makeRange(0, 10).concat(makeRange(17, 23))
+    }
+    const wrapper = mount(() => (
+      <TimePicker
+        v-model={value.value}
+        is-range
+        disabled-hours={disabledHours}
+      />
+    ))
+
     const input = wrapper.find('input')
     input.trigger('focus')
     await nextTick()
@@ -645,13 +620,10 @@ describe('TimePicker(range)', () => {
   })
 
   it('arrow key', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        format="YYYY-MM-DD HH:mm:ss"
-      />`,
-      () => ({ value: new Date(2016, 9, 10, 18, 40) })
-    )
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const wrapper = mount(() => (
+      <TimePicker v-model={value.value} format="YYYY-MM-DD HH:mm:ss" />
+    ))
 
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -674,21 +646,23 @@ describe('TimePicker(range)', () => {
     const ElPopperOptions = {
       strategy: 'fixed',
     }
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        format="YYYY-MM-DD HH:mm:ss"
-        :popper-options="options"
-      />`,
-      () => ({
-        value: new Date(2016, 9, 10, 18, 40),
-        options: ElPopperOptions,
-      }),
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const options = ref(ElPopperOptions)
+    const wrapper = mount(
+      () => (
+        <TimePicker
+          v-model={value.value}
+          format="YYYY-MM-DD HH:mm:ss"
+          popper-options={options.value}
+        />
+      ),
       {
-        provide() {
-          return {
-            ElPopperOptions,
-          }
+        global: {
+          provide() {
+            return {
+              ElPopperOptions,
+            }
+          },
         },
       }
     )
@@ -701,22 +675,24 @@ describe('TimePicker(range)', () => {
   })
 
   it('am/pm mode avoid render redundant content', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="timeRange"
-        is-range
-        range-separator="To"
-        start-placeholder="Start time"
-        end-placeholder="End time"
-        arrow-control
-        format="hh:mm:ss a"
-      >
-      </el-time-picker>
-      `,
-      () => ({
-        timeRange: [],
-      })
+    const timeRange = ref([])
+    const wrapper = mount(
+      () => (
+        <TimePicker
+          v-model={timeRange.value}
+          is-range
+          range-separator="To"
+          start-placeholder="Start time"
+          end-placeholder="End time"
+          arrow-control
+          format="hh:mm:ss a"
+        />
+      ),
+      {
+        attachTo: document.body,
+      }
     )
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -744,12 +720,11 @@ describe('TimePicker(range)', () => {
 
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-time-picker />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <TimePicker />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -762,12 +737,11 @@ describe('TimePicker(range)', () => {
     })
 
     it('specified id attachment', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-time-picker id="foobar" />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <TimePicker id="foobar" />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -781,13 +755,12 @@ describe('TimePicker(range)', () => {
     })
 
     it('form item role is group when multiple inputs', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-time-picker />
-          <el-time-picker />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <TimePicker />
+          <TimePicker />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -796,7 +769,7 @@ describe('TimePicker(range)', () => {
   })
 
   describe('dismiss events restore picker', () => {
-    let wrapper: ReturnType<typeof _mount>
+    let wrapper: ReturnType<typeof mount>
 
     const findInput = () =>
       wrapper.findComponent({
@@ -809,10 +782,10 @@ describe('TimePicker(range)', () => {
       })
 
     beforeEach(() => {
-      wrapper = _mount(
-        `<el-time-picker v-model="value" ref="input" />`,
-        () => ({ value: new Date(2016, 9, 10, 18, 40) })
-      )
+      const value = ref(new Date(2016, 9, 10, 18, 40))
+      wrapper = mount(() => <TimePicker v-model={value.value} ref="input" />, {
+        attachTo: document.body,
+      })
     })
 
     afterEach(() => {
@@ -849,13 +822,8 @@ describe('TimePicker(range)', () => {
   })
 
   it('display value', async () => {
-    const wrapper = _mount(
-      `<el-time-picker
-        v-model="value"
-        :is-range="true"
-      />`,
-      () => ({ value: [undefined, undefined] })
-    )
+    const value = ref([undefined, undefined])
+    const wrapper = mount(() => <TimePicker v-model={value.value} is-range />)
 
     await nextTick()
 

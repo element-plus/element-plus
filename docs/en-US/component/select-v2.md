@@ -125,6 +125,14 @@ select-v2/remote-search
 
 :::
 
+## use value-key
+
+:::demo when `options.value` is an object, you should set a unique identity key name for value
+
+select-v2/use-valueKey
+
+:::
+
 ## SelectV2 Attributes
 
 | Attribute                         | Description                                                                                                                              | Type                               | Accepted Values     | Default       |
@@ -135,7 +143,7 @@ select-v2/remote-search
 | value-key                         | unique identity key name for value, required when value is an object                                                                     | string                             | —                   | value         |
 | size                              | input box size                                                                                                                           | string                             | large/default/small | default       |
 | clearable                         | whether select can be cleared                                                                                                            | boolean                            | —                   | false         |
-| clear-icon                        | custom clear icon                                                                                                                        | string / Component                 | —                   | CircleClose   |
+| clear-icon                        | custom clear icon                                                                                                                        | `string \| Component`              | —                   | CircleClose   |
 | collapse-tags                     | whether to collapse tags to a text when multiple selecting                                                                               | boolean                            | —                   | false         |
 | collapse-tags-tooltip             | whether show all selected tags when mouse hover text of collapse-tags. To use this, `collapse-tags` must be true                         | boolean                            | true / false        | false         |
 | multiple-limit                    | maximum number of options user can select when multiple is true. No limit when set to 0                                                  | number                             | —                   | 0             |

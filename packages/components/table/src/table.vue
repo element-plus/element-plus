@@ -81,6 +81,7 @@
             />
             <table-header
               v-if="showHeader && tableLayout === 'auto'"
+              ref="tableHeaderRef"
               :border="border"
               :default-sort="defaultSort"
               :store="store"

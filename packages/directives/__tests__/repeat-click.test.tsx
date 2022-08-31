@@ -1,8 +1,8 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import sleep from '@element-plus/test-utils/sleep'
-import RepeatClick from '../repeat-click'
+import RepeatClick, { REPEAT_DELAY, REPEAT_INTERVAL } from '../repeat-click'
 
+const PRESS_TIME = REPEAT_DELAY + REPEAT_INTERVAL
 let handler: ReturnType<typeof vi.fn>
 
 const _mount = () =>
@@ -27,40 +27,28 @@ const _mount = () =>
   )
 
 describe('Directives.vue', () => {
-  it('click test', async () => {
+  it('single click', async () => {
     const wrapper = _mount()
     const block = wrapper.find('#block')
 
+    vi.useFakeTimers()
     block.trigger('mousedown')
-    await sleep(330)
+    vi.advanceTimersByTime(PRESS_TIME - 1)
+    document.dispatchEvent(new MouseEvent('mouseup'))
+    expect(handler).toHaveBeenCalledTimes(1)
+    vi.useRealTimers()
+  })
+
+  it('click and hold on', async () => {
+    const wrapper = _mount()
+    const block = wrapper.find('#block')
+
+    vi.useFakeTimers()
+    block.trigger('mousedown')
+    vi.advanceTimersByTime(PRESS_TIME)
     document.dispatchEvent(new MouseEvent('mouseup'))
 
-    expect(handler).toHaveBeenCalledTimes(3)
-  })
-
-  it('time interval between mousedown and mouseup is slightly less than 100ms', async () => {
-    const wrapper = _mount()
-    const block = wrapper.find('#block')
-
-    for (let i = 0; i < 10; i++) {
-      block.trigger('mousedown')
-      await sleep(99)
-      document.dispatchEvent(new MouseEvent('mouseup'))
-    }
-
-    expect(handler).toHaveBeenCalledTimes(10)
-  })
-
-  it('time interval between mousedown and mouseup is slightly more than 100ms', async () => {
-    const wrapper = _mount()
-    const block = wrapper.find('#block')
-
-    for (let i = 0; i < 10; i++) {
-      block.trigger('mousedown')
-      await sleep(101)
-      document.dispatchEvent(new MouseEvent('mouseup'))
-    }
-
-    expect(handler).toHaveBeenCalledTimes(10)
+    expect(handler).toHaveBeenCalledTimes(2)
+    vi.useRealTimers()
   })
 })

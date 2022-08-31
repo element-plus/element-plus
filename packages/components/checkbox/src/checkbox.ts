@@ -1,8 +1,20 @@
-import { computed, getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
+import {
+  computed,
+  getCurrentInstance,
+  inject,
+  nextTick,
+  ref,
+  toRaw,
+  watch,
+} from 'vue'
 import { toTypeString } from '@vue/shared'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
-import { useFormItemInputId, useSize, useSizeProp } from '@element-plus/hooks'
+import {
+  useFormItem,
+  useFormItemInputId,
+  useSize,
+  useSizeProp,
+} from '@element-plus/hooks'
 import {
   debugWarn,
   isArray,
@@ -10,8 +22,8 @@ import {
   isNumber,
   isString,
 } from '@element-plus/utils'
+
 import type { ComponentInternalInstance, ExtractPropTypes, PropType } from 'vue'
-import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ICheckboxGroupInstance } from './checkbox.type'
 import type Checkbox from './checkbox.vue'
 
@@ -101,14 +113,13 @@ export const checkboxProps = {
 }
 
 export const useCheckboxGroup = () => {
-  const elForm = inject(formContextKey, {} as FormContext)
-  const elFormItem = inject(formItemContextKey, {} as FormItemContext)
+  const { form: elForm, formItem: elFormItem } = useFormItem()
   const checkboxGroup = inject<ICheckboxGroupInstance>('CheckboxGroup', {})
   const isGroup = computed(
     () => checkboxGroup && checkboxGroup?.name === 'ElCheckboxGroup'
   )
   const elFormItemSize = computed(() => {
-    return elFormItem.size
+    return elFormItem?.size
   })
   return {
     isGroup,
@@ -179,7 +190,7 @@ const useCheckboxStatus = (
     if (toTypeString(value) === '[object Boolean]') {
       return value
     } else if (Array.isArray(value)) {
-      return value.includes(props.label)
+      return value.map(toRaw).includes(props.label)
     } else if (value !== null && value !== undefined) {
       return value === props.trueLabel
     } else {
@@ -312,7 +323,7 @@ const useEvent = (
     () => props.modelValue,
     () => {
       if (validateEvent.value) {
-        elFormItem?.validate?.('change').catch((err) => debugWarn(err))
+        elFormItem?.validate('change').catch((err) => debugWarn(err))
       }
     }
   )

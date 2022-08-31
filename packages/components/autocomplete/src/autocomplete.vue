@@ -144,6 +144,7 @@ const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
 
+let readonly = false
 let ignoreFocusEvent = false
 const suggestions = ref<AutocompleteData>([])
 const highlightedIndex = ref(-1)
@@ -249,7 +250,8 @@ const handleFocus = (evt: FocusEvent) => {
 
   activated.value = true
   emit('focus', evt)
-  if (props.triggerOnFocus) {
+  // fix https://github.com/element-plus/element-plus/issues/8278
+  if (props.triggerOnFocus && !readonly) {
     debouncedGetData(String(props.modelValue))
   }
 }
@@ -355,6 +357,8 @@ onMounted(() => {
     'aria-activedescendant',
     `${listboxId.value}-item-${highlightedIndex.value}`
   )
+  // get readonly attr
+  readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
 })
 
 defineExpose({

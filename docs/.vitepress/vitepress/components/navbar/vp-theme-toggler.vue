@@ -13,6 +13,7 @@ import CommonThemeToggler from '../common/vp-theme-toggler.vue'
 @use '../../styles/mixins' as *;
 .theme-toggler-content {
   @include with-bg;
+  background-color: transparent;
   display: none;
   border-radius: 50%;
   height: 24px;
