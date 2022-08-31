@@ -10,7 +10,7 @@
     :stop-popper-mouse-event="false"
     effect="light"
     trigger="click"
-    transition="el-zoom-in-top"
+    :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
   >
     <template #content>
@@ -106,7 +106,6 @@
 import {
   computed,
   defineComponent,
-  inject,
   nextTick,
   onMounted,
   provide,
@@ -118,8 +117,8 @@ import { debounce } from 'lodash-unified'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import { ClickOutside } from '@element-plus/directives'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import {
+  useFormItem,
   useFormItemInputId,
   useLocale,
   useNamespace,
@@ -137,7 +136,6 @@ import SvPanel from './components/sv-panel.vue'
 import Color from './color'
 import { OPTIONS_KEY } from './useOption'
 import type { PropType } from 'vue'
-import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ComponentSize } from '@element-plus/constants'
 import type { IUseOptions } from './useOption'
 
@@ -187,13 +185,12 @@ export default defineComponent({
   setup(props, { emit }) {
     const { t } = useLocale()
     const ns = useNamespace('color')
-    const elForm = inject(formContextKey, {} as FormContext)
-    const elFormItem = inject(formItemContextKey, {} as FormItemContext)
+    const { form, formItem } = useFormItem()
 
     const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(
       props,
       {
-        formItemContext: elFormItem,
+        formItemContext: formItem,
       }
     )
 
@@ -224,7 +221,7 @@ export default defineComponent({
     })
     const colorSize = useSize()
     const colorDisabled = computed(() => {
-      return !!(props.disabled || elForm.disabled)
+      return !!(props.disabled || form?.disabled)
     })
 
     const currentColor = computed(() => {
@@ -236,7 +233,7 @@ export default defineComponent({
         : undefined
     })
     const buttonAriaLabelledby = computed<string | undefined>(() => {
-      return isLabeledByFormItem.value ? elFormItem.labelId : undefined
+      return isLabeledByFormItem.value ? formItem?.labelId : undefined
     })
     // watch
     watch(
@@ -318,7 +315,7 @@ export default defineComponent({
       emit(UPDATE_MODEL_EVENT, value)
       emit('change', value)
       if (props.validateEvent) {
-        elFormItem.validate?.('change').catch((err) => debugWarn(err))
+        formItem?.validate('change').catch((err) => debugWarn(err))
       }
       debounceSetShowPicker(false)
       // check if modelValue change, if not change, then reset color.
@@ -339,7 +336,7 @@ export default defineComponent({
       emit(UPDATE_MODEL_EVENT, null)
       emit('change', null)
       if (props.modelValue !== null && props.validateEvent) {
-        elFormItem.validate?.('change').catch((err) => debugWarn(err))
+        formItem?.validate('change').catch((err) => debugWarn(err))
       }
       resetColor()
     }

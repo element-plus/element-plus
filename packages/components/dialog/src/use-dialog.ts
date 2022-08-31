@@ -56,6 +56,13 @@ export const useDialog = (
     return style
   })
 
+  const overlayDialogStyle = computed<CSSProperties>(() => {
+    if (props.alignCenter) {
+      return { display: 'flex' }
+    }
+    return {}
+  })
+
   function afterEnter() {
     emit('opened')
   }
@@ -148,10 +155,10 @@ export const useDialog = (
         closed.value = false
         open()
         rendered.value = true // enables lazy rendering
-        emit('open')
         zIndex.value = props.zIndex ? zIndex.value++ : nextZIndex()
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
+          emit('open')
           if (targetRef.value) {
             targetRef.value.scrollTop = 0
           }
@@ -201,6 +208,7 @@ export const useDialog = (
     bodyId,
     closed,
     style,
+    overlayDialogStyle,
     rendered,
     visible,
     zIndex,

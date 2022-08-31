@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import dayjs from 'dayjs'
@@ -11,43 +11,25 @@ dayjs.extend(customParseFormat)
 
 const { Option } = Select
 
-const _mount = (template: string, data, otherObj?) =>
-  mount(
-    {
-      components: {
-        'el-time-select': TimeSelect,
-        'el-form-item': ElFormItem,
-      },
-      template,
-      data,
-      ...otherObj,
-    },
-    {
-      attachTo: 'body',
-    }
-  )
-
 afterEach(() => {
   document.documentElement.innerHTML = ''
 })
 
 describe('TimeSelect', () => {
   it('create', async () => {
-    const wrapper = _mount(
-      `<el-time-select :style="{color:'red'}" class="customClass" />`,
-      () => ({
-        readonly: true,
-      })
-    )
+    const wrapper = mount(() => (
+      <TimeSelect style={{ color: 'red' }} class="customClass" />
+    ))
+
     const outerInput = wrapper.find('.el-select')
     expect(outerInput.classes()).toContain('customClass')
     expect(outerInput.attributes().style).toBeDefined()
   })
 
   it('set default value', async () => {
-    const wrapper = _mount(`<el-time-select v-model="value" />`, () => ({
-      value: '14:30',
-    }))
+    const value = ref('14:30')
+    const wrapper = mount(() => <TimeSelect v-model={value.value} />)
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -57,7 +39,8 @@ describe('TimeSelect', () => {
   })
 
   it('set minTime', async () => {
-    const wrapper = _mount(`<el-time-select minTime="14:30" />`, () => ({}))
+    const wrapper = mount(() => <TimeSelect minTime="14:30" />)
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -68,7 +51,8 @@ describe('TimeSelect', () => {
   })
 
   it('set maxTime', async () => {
-    const wrapper = _mount(`<el-time-select maxTime="14:30" />`, () => ({}))
+    const wrapper = mount(() => <TimeSelect maxTime="14:30" />)
+
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -78,28 +62,28 @@ describe('TimeSelect', () => {
   })
 
   it('set value update', async () => {
-    const wrapper = _mount(`<el-time-select v-model="value" />`, () => ({
-      value: '10:00',
-    }))
-    await nextTick()
+    const value = ref('10:00')
+    const wrapper = mount(() => <TimeSelect v-model={value.value} />)
 
+    await nextTick()
     const input = wrapper.find('input')
 
     expect(input.exists()).toBe(true)
     expect(input.element.value).toBe('10:00')
 
-    wrapper.setData({ value: '10:30' })
+    value.value = '10:30'
     await nextTick()
-    expect(wrapper.vm.value).toBe('10:30')
+
+    expect(wrapper.findComponent(TimeSelect).vm.value).toBe('10:30')
     expect(input.element.value).toBe('10:30')
   })
 
   it('update value', async () => {
-    const wrapper = _mount(`<el-time-select v-model="value" />`, () => ({
-      value: '10:00',
-    }))
+    const value = ref('10:00')
+    const wrapper = mount(() => <TimeSelect v-model={value.value} />)
+
     await nextTick()
-    const vm = wrapper.vm as any
+    const vm = wrapper.findComponent(TimeSelect).vm
     const input = wrapper.find('input')
     expect(vm.value).toBe('10:00')
     expect(input.element.value).toBe('10:00')
@@ -116,45 +100,42 @@ describe('TimeSelect', () => {
   })
 
   it('set disabled', async () => {
-    const wrapper = _mount(
-      `<el-time-select v-model="value" :disabled="disabled" />`,
-      () => ({
-        value: '10:00',
-        disabled: false,
-      })
-    )
-    const vm = wrapper.vm as any
+    const value = ref('10:00')
+    const disabled = ref(false)
+    const wrapper = mount(() => (
+      <TimeSelect v-model={value.value} disabled={disabled.value} />
+    ))
+
     const select = wrapper.findComponent({ name: 'ElSelect' })
     expect(select.props().disabled).toBe(false)
 
-    vm.disabled = true
+    disabled.value = true
     await nextTick()
     expect(select.props().disabled).toBe(true)
   })
 
   it('set editable', async () => {
-    const wrapper = _mount(
-      `<el-time-select v-model="value" :editable="editable" />`,
-      () => ({
-        value: '10:00',
-        editable: false,
-      })
-    )
-    const vm = wrapper.vm as any
+    const value = ref('10:00')
+    const editable = ref(false)
+    const wrapper = mount(() => (
+      <TimeSelect v-model={value.value} editable={editable.value} />
+    ))
+
     const select = wrapper.findComponent({ name: 'ElSelect' })
     expect(select.props().filterable).toBe(false)
 
-    vm.editable = true
+    editable.value = true
     await nextTick()
     expect(select.props().filterable).toBe(true)
   })
 
   it('ref focus', async () => {
-    _mount(`<el-time-select ref="input" />`, () => ({}), {
-      mounted() {
-        this.$refs.input.focus()
-      },
+    const wrapper = mount(() => <TimeSelect />, {
+      attachTo: document.body,
     })
+
+    wrapper.findComponent(TimeSelect).vm.$.exposed.focus()
+
     await nextTick()
     await nextTick()
 
@@ -164,13 +145,14 @@ describe('TimeSelect', () => {
   })
 
   it('ref blur', async () => {
-    _mount(`<el-time-select ref="input" />`, () => ({}), {
-      async mounted() {
-        this.$refs.input.focus()
-        await nextTick()
-        this.$refs.input.blur()
-      },
+    const wrapper = mount(() => <TimeSelect />, {
+      attachTo: document.body,
     })
+
+    wrapper.findComponent(TimeSelect).vm.$.exposed.focus()
+    await nextTick()
+    wrapper.findComponent(TimeSelect).vm.$.exposed.blur()
+
     await nextTick()
     await nextTick()
 
@@ -180,17 +162,17 @@ describe('TimeSelect', () => {
   })
 
   it('set format', async () => {
-    const wrapper = _mount(
-      `<el-time-select
-    v-model="value"
-    start="13:00"
-    step="00:30"
-    end="13:30"
-    format="hh:mm A"
-  >
-  </el-time-select>`,
-      () => ({ value: '' })
-    )
+    const value = ref('')
+    const wrapper = mount(() => (
+      <TimeSelect
+        v-model={value.value}
+        start="13:00"
+        step="00:30"
+        end="13:30"
+        format="hh:mm A"
+      />
+    ))
+
     const input = wrapper.find('.el-input__inner')
     await input.trigger('click')
     await nextTick()
@@ -200,12 +182,11 @@ describe('TimeSelect', () => {
 
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-time-select />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <TimeSelect />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -218,12 +199,11 @@ describe('TimeSelect', () => {
     })
 
     it('specified id attachment', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-time-select id="foobar" />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <TimeSelect id="foobar" />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
@@ -237,13 +217,12 @@ describe('TimeSelect', () => {
     })
 
     it('form item role is group when multiple inputs', async () => {
-      const wrapper = _mount(
-        `<el-form-item label="Foobar" data-test-ref="item">
-          <el-time-select />
-          <el-time-select />
-        </el-form-item>`,
-        () => ({})
-      )
+      const wrapper = mount(() => (
+        <ElFormItem label="Foobar" data-test-ref="item">
+          <TimeSelect />
+          <TimeSelect />
+        </ElFormItem>
+      ))
 
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')

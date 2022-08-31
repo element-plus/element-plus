@@ -185,6 +185,10 @@ function initialize(userOptions: any) {
 
   transition: background-color var(--el-transition-duration-fast);
 
+  &.DocSearch-Container {
+    z-index: 20000;
+  }
+
   &.DocSearch-Button {
     margin-right: 8px;
   }
