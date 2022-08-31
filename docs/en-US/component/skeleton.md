@@ -108,6 +108,6 @@ skeleton/avoiding-rendering-bouncing
 
 ### Skeleton Item Attributes
 
-| Attribute | Description                         | Type                                                                                                | Default  |
-| --------- | ----------------------------------- | --------------------------------------------------------------------------------------------------- | -------- |
+| Attribute | Description                         | Type                                                                                      | Default  |
+| --------- | ----------------------------------- | ----------------------------------------------------------------------------------------- | -------- |
 | `variant` | The current rendering skeleton type | `'p' \| 'text' \| 'h1' \| 'h3' \| 'caption' \| 'button' \| 'image' \| 'circle' \| 'rect'` | `'text'` |
