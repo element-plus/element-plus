@@ -1,9 +1,11 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElTooltip } from '@element-plus/components/tooltip'
+import Button from '@element-plus/components/button'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
@@ -15,6 +17,7 @@ const CONTEXTMENU = 'contextmenu'
 const _mount = (template: string, data, otherObj?) =>
   mount({
     components: {
+      [Button.name]: Button,
       [Dropdown.name]: Dropdown,
       [DropdownItem.name]: DropdownItem,
       [DropdownMenu.name]: DropdownMenu,
@@ -352,7 +355,7 @@ describe('Dropdown', () => {
           dropdown<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <template #dropdown>
-          <el-dropdown-menu ref="a">
+          <el-dropdown-menu ref="dropdown-menu">
             <el-dropdown-item ref="d">Apple</el-dropdown-item>
             <el-dropdown-item>Orange</el-dropdown-item>
             <el-dropdown-item ref="c">Cherry</el-dropdown-item>
@@ -365,7 +368,7 @@ describe('Dropdown', () => {
       () => ({})
     )
     await nextTick()
-    const content = wrapper.findComponent({ ref: 'a' })
+    const content = wrapper.findComponent({ ref: 'dropdown-menu' })
     const triggerElm = wrapper.find('.el-tooltip__trigger')
     await triggerElm.trigger(MOUSE_ENTER_EVENT)
     await rAF()
@@ -482,6 +485,9 @@ describe('Dropdown', () => {
     const wrapper = _mount(
       `
       <el-dropdown>
+        <span class="el-dropdown-link">
+          Custom Attributes
+        </span>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item data-custom-attribute="hello">Item</el-dropdown-item>
@@ -603,5 +609,151 @@ describe('Dropdown', () => {
     })
     expect(tooltipElement.vm.showAfter).toBe(0)
     expect(tooltipElement.vm.hideAfter).toBe(0)
+  })
+
+  describe('accessibility', () => {
+    test('Custom span trigger has proper attributes', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown>
+          <span class="el-dropdown-link" data-test-ref="trigger">
+            Dropdown List
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item>Item</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const trigger = wrapper.find('[data-test-ref="trigger"]')
+      const menu = wrapper.findComponent({ ref: 'menu' })
+      expect(trigger.attributes()['role']).toBe('button')
+      expect(trigger.attributes()['tabindex']).toBe('0')
+      expect(trigger.attributes()['aria-haspopup']).toBe('menu')
+      expect(trigger.attributes()['id']).toBe(
+        menu.attributes()['aria-labelledby']
+      )
+      expect(trigger.attributes()['aria-controls']).toBe(
+        menu.attributes()['id']
+      )
+    })
+
+    test('ElButton trigger has proper attributes', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown>
+          <el-button ref="trigger">
+            Dropdown List
+          </el-button>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item>Item</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const trigger = wrapper.findComponent({ ref: 'trigger' })
+      const menu = wrapper.findComponent({ ref: 'menu' })
+      expect(trigger.attributes()['role']).toBe('button')
+      expect(trigger.attributes()['tabindex']).toBe('0')
+      expect(trigger.attributes()['aria-haspopup']).toBe('menu')
+      expect(trigger.attributes()['id']).toBe(
+        menu.attributes()['aria-labelledby']
+      )
+      expect(trigger.attributes()['aria-controls']).toBe(
+        menu.attributes()['id']
+      )
+    })
+
+    test('Split button trigger has proper attributes', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown split-button>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item>Item</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      await nextTick()
+      const trigger = wrapper.find('.el-dropdown__caret-button')
+      const menu = wrapper.findComponent({ ref: 'menu' })
+      expect(trigger.attributes()['role']).toBe('button')
+      expect(trigger.attributes()['tabindex']).toBe('0')
+      expect(trigger.attributes()['aria-haspopup']).toBe('menu')
+      expect(trigger.attributes()['id']).toBe(
+        menu.attributes()['aria-labelledby']
+      )
+      expect(trigger.attributes()['aria-controls']).toBe(
+        menu.attributes()['id']
+      )
+    })
+
+    test('Menu items with "menu" role', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown split-button>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item ref="menu-item">Item</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      const menu = wrapper.findComponent({ ref: 'menu' })
+      const menuItem = menu.find('.el-dropdown-menu__item')
+      expect(menu.attributes()['role']).toBe('menu')
+      expect(menuItem.attributes()['role']).toBe('menuitem')
+    })
+
+    test('Menu items with "navigation" role', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown split-button role="navigation">
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item ref="menu-item">Item</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      const menu = wrapper.findComponent({ ref: 'menu' })
+      const menuItem = menu.find('.el-dropdown-menu__item')
+      expect(menu.attributes()['role']).toBe('navigation')
+      expect(menuItem.attributes()['role']).toBe('link')
+    })
+
+    test('Menu items with "group" role', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown split-button role="group">
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item ref="menu-item">Item</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      const menu = wrapper.findComponent({ ref: 'menu' })
+      const menuItem = menu.find('.el-dropdown-menu__item')
+      expect(menu.attributes()['role']).toBe('group')
+      expect(menuItem.attributes()['role']).toBe('button')
+    })
   })
 })

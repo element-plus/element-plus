@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -651,7 +652,7 @@ describe('Select', () => {
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(3)
-      expect(wrapper.findAll('.el-tag')[4].element.textContent).toBe('c2')
+      expect(wrapper.findAll('.el-tag')[3].element.textContent).toBe('c2')
     })
   })
 
@@ -1437,7 +1438,7 @@ describe('Select', () => {
   })
 
   describe('scrollbarAlwaysOn flag control the scrollbar whether always displayed', () => {
-    it('The default scrollbar is not always displayed', async (done) => {
+    it('The default scrollbar is not always displayed', async () => {
       const wrapper = createSelect()
       await nextTick()
       const select = wrapper.findComponent(Select)
@@ -1445,10 +1446,9 @@ describe('Select', () => {
       expect((select.vm as any).expanded).toBeTruthy()
       const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
       expect(hasClass(box, 'always-on')).toBe(false)
-      done()
     })
 
-    it('set the scrollbar-always-on value to true, keep the scroll bar displayed', async (done) => {
+    it('set the scrollbar-always-on value to true, keep the scroll bar displayed', async () => {
       const wrapper = createSelect({
         data() {
           return {
@@ -1462,7 +1462,6 @@ describe('Select', () => {
       expect((select.vm as any).expanded).toBeTruthy()
       const box = document.querySelector<HTMLElement>('.el-vl__wrapper')
       expect(hasClass(box, 'always-on')).toBe(true)
-      done()
     })
   })
 

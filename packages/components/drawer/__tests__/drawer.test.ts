@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
@@ -353,6 +354,7 @@ describe('Drawer', () => {
     const drawer = wrapper.vm.$refs.drawer as any
 
     vm.visible = true
+    await nextTick()
     await nextTick()
     expect(open).toHaveBeenCalled()
     drawer.afterEnter()

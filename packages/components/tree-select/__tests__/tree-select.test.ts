@@ -361,4 +361,59 @@ describe('TreeSelect.vue', () => {
     expect(select.vm.modelValue).toEqual([])
     expect(wrapperRef.getCheckedKeys()).toEqual([])
   })
+
+  test('only show checkbox', async () => {
+    const { select, tree } = createComponent({
+      props: {
+        showCheckbox: true,
+      },
+    })
+
+    // check child node when folder node checked,
+    // value.value will be 111
+    await tree
+      .find('.el-tree-node__content .el-checkbox__original')
+      .trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).equal(111)
+
+    // unselect when has child checked
+    await tree
+      .find('.el-tree-node__content .el-checkbox__original')
+      .trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toBe(undefined)
+  })
+
+  test('show checkbox and check on click node', async () => {
+    const { select, tree } = createComponent({
+      props: {
+        showCheckbox: true,
+        checkOnClickNode: true,
+      },
+    })
+
+    // check child node when folder node checked,
+    // value.value will be 111
+    await tree.findAll('.el-tree-node__content').slice(-1)[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).equal(111)
+
+    // unselect when has child checked
+    await tree.findAll('.el-tree-node__content').slice(-1)[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).toBe(undefined)
+  })
+
+  test('expand selected node`s parent in first time', async () => {
+    const value = ref(111)
+    const { tree } = createComponent({
+      props: {
+        modelValue: value,
+      },
+    })
+
+    expect(tree.findAll('.is-expanded[data-key="1"]').length).toBe(1)
+    expect(tree.findAll('.is-expanded[data-key="11"]').length).toBe(1)
+  })
 })

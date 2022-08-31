@@ -5,6 +5,7 @@
 </template>
 
 <script lang="ts" setup>
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import { checkTagEmits, checkTagProps } from './check-tag'
 
@@ -18,7 +19,7 @@ const ns = useNamespace('check-tag')
 
 const handleChange = () => {
   const checked = !props.checked
-  emit('change', checked)
+  emit(CHANGE_EVENT, checked)
   emit('update:checked', checked)
 }
 </script>

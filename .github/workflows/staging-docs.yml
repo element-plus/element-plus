@@ -5,6 +5,10 @@ on:
     branches:
       - 'dev'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
@@ -33,6 +37,8 @@ jobs:
 
       - name: Compile Element Plus
         run: pnpm build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Init Crowdin token
         run: pnpm run docs:crowdin-credentials
@@ -60,7 +66,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Deploy staging website
-        uses: JamesIves/github-pages-deploy-action@v4.3.0
+        uses: JamesIves/github-pages-deploy-action@v4.3.4
         with:
           token: ${{ secrets.EP_BOT_TOKEN }}
           branch: main

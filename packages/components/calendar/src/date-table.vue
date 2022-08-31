@@ -48,10 +48,9 @@ import {
   getPrevMonthLastDays,
   toNestedArr,
 } from './date-table'
+
 import type { CalendarDateCell, CalendarDateCellType } from './date-table'
 import type { Dayjs } from 'dayjs'
-
-dayjs.extend(localeData)
 
 defineOptions({
   name: 'DateTable',
@@ -59,6 +58,8 @@ defineOptions({
 
 const props = defineProps(dateTableProps)
 const emit = defineEmits(dateTableEmits)
+
+dayjs.extend(localeData)
 
 const { t, lang } = useLocale()
 const nsTable = useNamespace('calendar-table')

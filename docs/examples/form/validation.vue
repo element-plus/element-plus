@@ -6,6 +6,7 @@
     label-width="120px"
     class="demo-ruleForm"
     :size="formSize"
+    status-icon
   >
     <el-form-item label="Activity name" prop="name">
       <el-input v-model="ruleForm.name" />
@@ -15,6 +16,13 @@
         <el-option label="Zone one" value="shanghai" />
         <el-option label="Zone two" value="beijing" />
       </el-select>
+    </el-form-item>
+    <el-form-item label="Activity count" prop="count">
+      <el-select-v2
+        v-model="ruleForm.count"
+        placeholder="Activity count"
+        :options="options"
+      />
     </el-form-item>
     <el-form-item label="Activity time" required>
       <el-col :span="11">
@@ -80,6 +88,7 @@ const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive({
   name: 'Hello',
   region: '',
+  count: '',
   date1: '',
   date2: '',
   delivery: false,
@@ -97,6 +106,13 @@ const rules = reactive<FormRules>({
     {
       required: true,
       message: 'Please select Activity zone',
+      trigger: 'change',
+    },
+  ],
+  count: [
+    {
+      required: true,
+      message: 'Please select Activity count',
       trigger: 'change',
     },
   ],
@@ -151,4 +167,9 @@ const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
 }
+
+const options = Array.from({ length: 10000 }).map((_, idx) => ({
+  value: `${idx + 1}`,
+  label: `${idx + 1}`,
+}))
 </script>

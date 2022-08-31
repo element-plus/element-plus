@@ -66,7 +66,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
 
   const cellKls = [
     ns.e('header-cell'),
-    ...tryCall(headerClass, props, ''),
+    tryCall(headerClass, props, ''),
     column.align === Alignment.CENTER && ns.is('align-center'),
     column.align === Alignment.RIGHT && ns.is('align-right'),
     sortable && ns.is('sortable'),

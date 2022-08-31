@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
@@ -404,7 +405,7 @@ describe('Datetimerange', () => {
       `<el-date-picker
         v-model="value"
         type="datetimerange"
-        :defaultTime="new Date(2020, 1, 1, 1, 1, 1)"
+        :default-time="new Date(2020, 1, 1, 1, 1, 1)"
         format="YYYY/MM/DD HH:mm A"
     />`,
       () => ({
@@ -806,5 +807,24 @@ describe('Datetimerange', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+  })
+
+  it('display value', async () => {
+    const wrapper = _mount(
+      `
+      <el-date-picker
+        v-model="value"
+        type="datetimerange"
+    />`,
+      () => ({
+        value: [undefined, undefined],
+      })
+    )
+
+    await nextTick()
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
   })
 })

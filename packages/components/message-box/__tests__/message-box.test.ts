@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test } from 'vitest'
@@ -141,6 +142,19 @@ describe('MessageBox', () => {
     await rAF()
     const msgbox: HTMLElement = document.querySelector(selector)
     expect(msgbox).toBe(null)
+  })
+
+  test('autofocus', async () => {
+    MessageBox.alert('这是一段内容', {
+      autofocus: false,
+      title: '标题名称',
+    })
+    await rAF()
+    const btnElm = document.querySelector(
+      '.el-message-box__btns .el-button--primary'
+    )
+    const haveFocus = btnElm.isSameNode(document.activeElement)
+    expect(haveFocus).toBe(false)
   })
 
   test('prompt', async () => {

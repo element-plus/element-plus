@@ -131,6 +131,9 @@ const formItemClasses = computed(() => [
   ns.is('success', validateState.value === 'success'),
   ns.is('required', isRequired.value || props.required),
   ns.is('no-asterisk', formContext?.hideRequiredAsterisk),
+  formContext?.requireAsteriskPosition === 'right'
+    ? 'asterisk-right'
+    : 'asterisk-left',
   { [ns.m('feedback')]: formContext?.statusIcon },
 ])
 
@@ -317,9 +320,8 @@ const resetField: FormItemContext['resetField'] = async () => {
   if (!isEqual(computedValue.value, initialValue)) {
     // prevent validation from being triggered
     isResettingField = true
+    computedValue.value = clone(initialValue)
   }
-
-  computedValue.value = initialValue
 
   await nextTick()
   clearValidate()

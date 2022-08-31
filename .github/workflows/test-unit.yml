@@ -4,6 +4,10 @@ name: 🧪 Unit Test
 
 on: pull_request
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Unit Test (${{ matrix.node-name }})
@@ -14,12 +18,15 @@ jobs:
         include:
           - node-version: '16'
             node-name: 'Latest'
+
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - name: Add dev branch
         run: git branch dev origin/dev
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
 
@@ -31,7 +38,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
+
       - name: Lint
         run: pnpm lint
+
+      - name: Type Check
+        run: pnpm typecheck
+
       - name: Test
         run: pnpm test

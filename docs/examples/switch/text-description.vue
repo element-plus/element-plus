@@ -9,8 +9,7 @@
   <el-switch
     v-model="value2"
     class="mb-2"
-    active-color="#13ce66"
-    inactive-color="#ff4949"
+    style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
     active-text="Pay by month"
     inactive-text="Pay by year"
   />
@@ -25,8 +24,7 @@
     v-model="value4"
     class="ml-2"
     inline-prompt
-    active-color="#13ce66"
-    inactive-color="#ff4949"
+    style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
     active-text="Y"
     inactive-text="N"
   />

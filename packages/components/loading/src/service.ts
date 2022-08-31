@@ -1,8 +1,9 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { isString } from '@vue/shared'
 import { isClient } from '@vueuse/core'
 import { addClass, getStyle, removeClass } from '@element-plus/utils'
-import { useZIndex } from '@element-plus/hooks'
+import { useNamespace, useZIndex } from '@element-plus/hooks'
 import { createLoadingComponent } from './loading'
 import type { LoadingInstance } from './loading'
 import type { LoadingOptionsResolved } from '..'
@@ -134,17 +135,19 @@ const addClassList = (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
+  const ns = useNamespace('loading')
+
   if (
     instance.originalPosition.value !== 'absolute' &&
     instance.originalPosition.value !== 'fixed'
   ) {
-    addClass(parent, 'el-loading-parent--relative')
+    addClass(parent, ns.bm('parent', 'relative'))
   } else {
-    removeClass(parent, 'el-loading-parent--relative')
+    removeClass(parent, ns.bm('parent', 'relative'))
   }
   if (options.fullscreen && options.lock) {
-    addClass(parent, 'el-loading-parent--hidden')
+    addClass(parent, ns.bm('parent', 'hidden'))
   } else {
-    removeClass(parent, 'el-loading-parent--hidden')
+    removeClass(parent, ns.bm('parent', 'hidden'))
   }
 }

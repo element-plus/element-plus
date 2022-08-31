@@ -1,9 +1,9 @@
 <template>
-  <div class="el-color-hue-slider" :class="{ 'is-vertical': vertical }">
-    <div ref="bar" class="el-color-hue-slider__bar" @click="handleClick" />
+  <div :class="[ns.b(), ns.is('vertical', vertical)]">
+    <div ref="bar" :class="ns.e('bar')" @click="handleClick" />
     <div
       ref="thumb"
-      class="el-color-hue-slider__thumb"
+      :class="ns.e('thumb')"
       :style="{
         left: thumbLeft + 'px',
         top: thumbTop + 'px',
@@ -13,6 +13,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -22,6 +23,7 @@ import {
   watch,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -39,6 +41,7 @@ export default defineComponent({
     vertical: Boolean,
   },
   setup(props) {
+    const ns = useNamespace('color-hue-slider')
     const instance = getCurrentInstance()
     // ref
     const thumb = ref<HTMLElement | null>(null)
@@ -149,6 +152,7 @@ export default defineComponent({
       hueValue,
       handleClick,
       update,
+      ns,
     }
   },
 })

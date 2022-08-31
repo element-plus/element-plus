@@ -23,7 +23,6 @@
       :role="indeterminate ? 'checkbox' : undefined"
       :aria-checked="indeterminate ? 'mixed' : undefined"
     >
-      <span :class="ns.e('inner')" />
       <input
         v-if="trueLabel || falseLabel"
         :id="inputId"
@@ -55,6 +54,7 @@
         @focus="focus = true"
         @blur="focus = false"
       />
+      <span :class="ns.e('inner')" />
     </span>
     <span v-if="hasOwnLabel" :class="ns.e('label')">
       <slot />
@@ -62,23 +62,32 @@
     </span>
   </component>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
+<script lang="ts" setup>
+import { useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { useCheckbox, useCheckboxProps } from './useCheckbox'
+import { checkboxEmits, checkboxProps, useCheckbox } from './checkbox'
 
-export default defineComponent({
+defineOptions({
   name: 'ElCheckbox',
-  props: useCheckboxProps,
-  emits: [UPDATE_MODEL_EVENT, 'change'],
-  setup(props, { slots }) {
-    const ns = useNamespace('checkbox')
-
-    return {
-      ns,
-      ...useCheckbox(props, slots),
-    }
-  },
 })
+
+const props = defineProps(checkboxProps)
+defineEmits(checkboxEmits)
+const slots = useSlots()
+
+const {
+  inputId,
+  isLabeledByFormItem,
+  isChecked,
+  isDisabled,
+  checkboxSize,
+  hasOwnLabel,
+  model,
+  handleChange,
+  onClickRoot,
+  focus,
+} = useCheckbox(props, slots)
+
+const ns = useNamespace('checkbox')
 </script>

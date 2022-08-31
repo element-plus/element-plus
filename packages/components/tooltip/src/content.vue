@@ -28,10 +28,13 @@
         :popper-class="popperClass"
         :popper-style="[popperStyle, contentStyle]"
         :reference-el="referenceEl"
+        :trigger-target-el="triggerTargetEl"
         :visible="shouldShow"
         :z-index="zIndex"
         @mouseenter="onContentEnter"
         @mouseleave="onContentLeave"
+        @blur="onBlur"
+        @close="onClose"
       >
         <!-- Workaround bug #6378 -->
         <template v-if="!destroyed">
@@ -55,7 +58,6 @@ import {
 import { onClickOutside } from '@vueuse/core'
 import { ElPopperContent } from '@element-plus/components/popper'
 import { composeEventHandlers } from '@element-plus/utils'
-import { useEscapeKeydown } from '@element-plus/hooks'
 
 import { useTooltipContentProps } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
@@ -110,8 +112,6 @@ export default defineComponent({
 
     const ariaHidden = computed(() => !unref(open))
 
-    useEscapeKeydown(onClose)
-
     const onTransitionLeave = () => {
       onHide()
     }
@@ -143,6 +143,24 @@ export default defineComponent({
 
     const onAfterShow = () => {
       onShow()
+      stopHandle = onClickOutside(
+        computed(() => {
+          return contentRef.value?.popperContentRef
+        }),
+        () => {
+          if (unref(controlled)) return
+          const $trigger = unref(trigger)
+          if ($trigger !== 'hover') {
+            onClose()
+          }
+        }
+      )
+    }
+
+    const onBlur = () => {
+      if (!props.virtualTriggering) {
+        onClose()
+      }
     }
 
     let stopHandle: ReturnType<typeof onClickOutside>
@@ -150,20 +168,7 @@ export default defineComponent({
     watch(
       () => unref(open),
       (val) => {
-        if (val) {
-          stopHandle = onClickOutside(
-            computed(() => {
-              return contentRef.value?.popperContentRef
-            }),
-            () => {
-              if (unref(controlled)) return
-              const $trigger = unref(trigger)
-              if ($trigger !== 'hover') {
-                onClose()
-              }
-            }
-          )
-        } else {
+        if (!val) {
           stopHandle?.()
         }
       },
@@ -183,6 +188,7 @@ export default defineComponent({
       destroyed,
       shouldRender,
       shouldShow,
+      onClose,
       open,
       onAfterShow,
       onBeforeEnter,
@@ -190,6 +196,7 @@ export default defineComponent({
       onContentEnter,
       onContentLeave,
       onTransitionLeave,
+      onBlur,
     }
   },
 })
