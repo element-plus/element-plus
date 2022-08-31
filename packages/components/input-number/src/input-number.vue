@@ -42,6 +42,7 @@
       :step="step"
       :model-value="displayValue"
       :placeholder="placeholder"
+      :readonly="readonly"
       :disabled="inputNumberDisabled"
       :size="inputNumberSize"
       :max="max"
@@ -174,13 +175,13 @@ const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
   return toPrecision(val + props.step * coefficient)
 }
 const increase = () => {
-  if (inputNumberDisabled.value || maxDisabled.value) return
+  if (props.readonly || inputNumberDisabled.value || maxDisabled.value) return
   const value = props.modelValue || 0
   const newVal = ensurePrecision(value)
   setCurrentValue(newVal)
 }
 const decrease = () => {
-  if (inputNumberDisabled.value || minDisabled.value) return
+  if (props.readonly || inputNumberDisabled.value || minDisabled.value) return
   const value = props.modelValue || 0
   const newVal = ensurePrecision(value, -1)
   setCurrentValue(newVal)
@@ -201,7 +202,7 @@ const verifyValue = (
     newVal = isString(valueOnClear) ? { min, max }[valueOnClear] : valueOnClear
   }
   if (stepStrictly) {
-    newVal = Math.round(newVal / step) * step
+    newVal = toPrecision(Math.round(newVal / step) * step, precision)
   }
   if (!isUndefined(precision)) {
     newVal = toPrecision(newVal, precision)
@@ -220,7 +221,9 @@ const setCurrentValue = (value: number | string | null | undefined) => {
   emit('update:modelValue', newVal!)
   emit('input', newVal)
   emit('change', newVal!, oldVal!)
-  formItem?.validate?.('change').catch((err) => debugWarn(err))
+  if (props.validateEvent) {
+    formItem?.validate?.('change').catch((err) => debugWarn(err))
+  }
   data.currentValue = newVal
 }
 const handleInput = (value: string) => {
@@ -248,7 +251,9 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 
 const handleBlur = (event: MouseEvent | FocusEvent) => {
   emit('blur', event)
-  formItem?.validate?.('blur').catch((err) => debugWarn(err))
+  if (props.validateEvent) {
+    formItem?.validate?.('blur').catch((err) => debugWarn(err))
+  }
 }
 
 watch(

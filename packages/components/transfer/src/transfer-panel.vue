@@ -18,30 +18,27 @@
         :class="ns.be('panel', 'filter')"
         size="default"
         :placeholder="placeholder"
-        :prefix-icon="SearchIcon"
+        :prefix-icon="Search"
         clearable
         @mouseenter="inputHover = true"
         @mouseleave="inputHover = false"
       />
       <el-checkbox-group
-        v-show="!hasNoMatch && data.length > 0"
+        v-show="!hasNoMatch && !isEmpty(data)"
         v-model="checked"
         :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >
         <el-checkbox
           v-for="item in filteredData"
-          :key="item[keyProp]"
+          :key="item[propsAlias.key]"
           :class="ns.be('panel', 'item')"
-          :label="item[keyProp]"
-          :disabled="item[disabledProp]"
+          :label="item[propsAlias.key]"
+          :disabled="item[propsAlias.disabled]"
         >
-          <option-content :option="optionRender(item)" />
+          <option-content :option="optionRender?.(item)" />
         </el-checkbox>
       </el-checkbox-group>
-      <p
-        v-show="hasNoMatch || data.length === 0"
-        :class="ns.be('panel', 'empty')"
-      >
+      <p v-show="hasNoMatch || isEmpty(data)" :class="ns.be('panel', 'empty')">
         {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
       </p>
     </div>
@@ -51,81 +48,59 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { computed, reactive, toRefs, useSlots } from 'vue'
+import { isEmpty } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
-import ElInput from '@element-plus/components/input'
+import { ElInput } from '@element-plus/components/input'
 import { Search } from '@element-plus/icons-vue'
-import { CHECKED_CHANGE_EVENT, useCheck, useCheckProps } from './useCheck'
+import { transferPanelEmits, transferPanelProps } from './transfer-panel'
+import { useCheck, usePropsAlias } from './composables'
 
-export default defineComponent({
+import type { VNode } from 'vue'
+import type { TransferPanelState } from './transfer-panel'
+
+defineOptions({
   name: 'ElTransferPanel',
+})
 
-  components: {
-    ElCheckboxGroup,
-    ElCheckbox,
-    ElInput,
-    OptionContent: ({ option }) => option,
-  },
+const props = defineProps(transferPanelProps)
+const emit = defineEmits(transferPanelEmits)
+const slots = useSlots()
 
-  props: useCheckProps,
+const OptionContent = ({ option }: { option: VNode | VNode[] }) => option
 
-  emits: [CHECKED_CHANGE_EVENT],
+const { t } = useLocale()
+const ns = useNamespace('transfer')
 
-  setup(props, { slots }) {
-    const { t } = useLocale()
-    const ns = useNamespace('transfer')
+const panelState = reactive<TransferPanelState>({
+  checked: [],
+  allChecked: false,
+  query: '',
+  inputHover: false,
+  checkChangeByUser: true,
+})
 
-    const panelState = reactive({
-      checked: [],
-      allChecked: false,
-      query: '',
-      inputHover: false,
-      checkChangeByUser: true,
-    })
+const propsAlias = usePropsAlias(props)
 
-    const {
-      labelProp,
-      keyProp,
-      disabledProp,
-      filteredData,
-      checkedSummary,
-      isIndeterminate,
-      handleAllCheckedChange,
-    } = useCheck(props, panelState)
+const {
+  filteredData,
+  checkedSummary,
+  isIndeterminate,
+  handleAllCheckedChange,
+} = useCheck(props, panelState, emit)
 
-    const hasNoMatch = computed(() => {
-      return panelState.query.length > 0 && filteredData.value.length === 0
-    })
+const hasNoMatch = computed(
+  () => !isEmpty(panelState.query) && isEmpty(filteredData.value)
+)
 
-    const hasFooter = computed(() => !!slots.default()[0].children.length)
+const hasFooter = computed(() => !isEmpty(slots.default!()[0].children))
 
-    const { checked, allChecked, query, inputHover, checkChangeByUser } =
-      toRefs(panelState)
+const { checked, allChecked, query, inputHover } = toRefs(panelState)
 
-    return {
-      ns,
-      labelProp,
-      keyProp,
-      disabledProp,
-      filteredData,
-      checkedSummary,
-      isIndeterminate,
-      handleAllCheckedChange,
-
-      checked,
-      allChecked,
-      query,
-      inputHover,
-      checkChangeByUser,
-
-      hasNoMatch,
-      SearchIcon: Search,
-      hasFooter,
-
-      t,
-    }
-  },
+defineExpose({
+  /** @description filter keyword */
+  query,
 })
 </script>

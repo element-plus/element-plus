@@ -170,6 +170,8 @@ $slider-height: map.merge(
 
   @include when(vertical) {
     position: relative;
+    display: inline-flex;
+    width: auto;
     height: 100%;
     flex: 0;
 

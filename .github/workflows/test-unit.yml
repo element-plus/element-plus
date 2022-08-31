@@ -4,6 +4,10 @@ name: 🧪 Unit Test
 
 on: pull_request
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Unit Test (${{ matrix.node-name }})

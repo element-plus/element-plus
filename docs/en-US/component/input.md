@@ -131,8 +131,8 @@ input/length-limiting
 | show-password        | whether to show toggleable password input                                                                                              | boolean                                  | —                                                                                                                                     | false   |
 | disabled             | whether Input is disabled                                                                                                              | boolean                                  | —                                                                                                                                     | false   |
 | size                 | size of Input, works when `type` is not 'textarea'                                                                                     | string                                   | large / default / small                                                                                                               | —       |
-| prefix-icon          | prefix icon component                                                                                                                  | string / Component                       | —                                                                                                                                     | —       |
-| suffix-icon          | suffix icon component                                                                                                                  | string / Component                       | —                                                                                                                                     | —       |
+| prefix-icon          | prefix icon component                                                                                                                  | `string \| Component`                    | —                                                                                                                                     | —       |
+| suffix-icon          | suffix icon component                                                                                                                  | `string \| Component`                    | —                                                                                                                                     | —       |
 | rows                 | number of rows of textarea, only works when `type` is 'textarea'                                                                       | number                                   | —                                                                                                                                     | 2       |
 | autosize             | whether textarea has an adaptive height, only works when `type` is 'textarea'. Can accept an object, e.g. `{ minRows: 2, maxRows: 6 }` | boolean / object                         | —                                                                                                                                     | false   |
 | autocomplete         | same as `autocomplete` in native input                                                                                                 | string                                   | —                                                                                                                                     | off     |
@@ -149,24 +149,24 @@ input/length-limiting
 | validate-event       | whether to trigger form validation                                                                                                     | boolean                                  | -                                                                                                                                     | true    |
 | input-style          | the style of the input element or textarea element                                                                                     | object                                   | -                                                                                                                                     | {}      |
 
-## Input slots
+## Input Slots
 
-| Name    | Description                                                       |
-| ------- | ----------------------------------------------------------------- |
-| prefix  | content as Input prefix, only works when `type` is 'text'         |
-| suffix  | content as Input suffix, only works when `type` is 'text'         |
-| prepend | content to prepend before Input, only works when `type` is 'text' |
-| append  | content to append after Input, only works when `type` is 'text'   |
+| Name    | Description                                                               |
+| ------- | ------------------------------------------------------------------------- |
+| prefix  | content as Input prefix, only works when `type` is not 'textarea'         |
+| suffix  | content as Input suffix, only works when `type` is not 'textarea'         |
+| prepend | content to prepend before Input, only works when `type` is not 'textarea' |
+| append  | content to append after Input, only works when `type` is not 'textarea'   |
 
 ## Input Events
 
-| Event Name | Description                                                            | Parameters                |
-| ---------- | ---------------------------------------------------------------------- | ------------------------- |
-| blur       | triggers when Input blurs                                              | (event: Event)            |
-| focus      | triggers when Input focuses                                            | (event: Event)            |
-| change     | triggers only when the input box loses focus or the user presses Enter | (value: string \| number) |
-| input      | triggers when the Input value change                                   | (value: string \| number) |
-| clear      | triggers when the Input is cleared by clicking the clear button        | —                         |
+| Event Name | Description                                                                                           | Parameters                |
+| ---------- | ----------------------------------------------------------------------------------------------------- | ------------------------- |
+| blur       | triggers when Input blurs                                                                             | (event: Event)            |
+| focus      | triggers when Input focuses                                                                           | (event: Event)            |
+| change     | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | (value: string \| number) |
+| input      | triggers when the Input value change                                                                  | (value: string \| number) |
+| clear      | triggers when the Input is cleared by clicking the clear button                                       | —                         |
 
 ## Input Methods
 
