@@ -7,7 +7,7 @@ import autoprefixer from 'gulp-autoprefixer'
 import cleanCSS from 'gulp-clean-css'
 import rename from 'gulp-rename'
 import consola from 'consola'
-import { epOutput } from '@element-plus/build'
+import { epOutput } from '@element-plus/build-utils'
 
 const distFolder = path.resolve(__dirname, 'dist')
 const distBundle = path.resolve(epOutput, 'theme-chalk')
@@ -43,6 +43,27 @@ function buildThemeChalk() {
 }
 
 /**
+ * Build dark Css Vars
+ * @returns
+ */
+function buildDarkCssVars() {
+  const sass = gulpSass(dartSass)
+  return src(path.resolve(__dirname, 'src/dark/css-vars.scss'))
+    .pipe(sass.sync())
+    .pipe(autoprefixer({ cascade: false }))
+    .pipe(
+      cleanCSS({}, (details) => {
+        consola.success(
+          `${chalk.cyan(details.name)}: ${chalk.yellow(
+            details.stats.originalSize / 1000
+          )} KB -> ${chalk.green(details.stats.minifiedSize / 1000)} KB`
+        )
+      })
+    )
+    .pipe(dest(`${distFolder}/dark`))
+}
+
+/**
  * copy from packages/theme-chalk/dist to dist/element-plus/theme-chalk
  */
 export function copyThemeChalkBundle() {
@@ -61,7 +82,7 @@ export function copyThemeChalkSource() {
 
 export const build = parallel(
   copyThemeChalkSource,
-  series(buildThemeChalk, copyThemeChalkBundle)
+  series(buildThemeChalk, buildDarkCssVars, copyThemeChalkBundle)
 )
 
 export default build

@@ -4,6 +4,7 @@ import type { useNamespace } from '@element-plus/hooks'
 export type DialogContext = {
   dialogRef: Ref<HTMLElement | undefined>
   headerRef: Ref<HTMLElement | undefined>
+  bodyId: Ref<string>
   ns: ReturnType<typeof useNamespace>
   rendered: Ref<boolean>
   style: ComputedRef<CSSProperties>

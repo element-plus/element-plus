@@ -1,54 +1,91 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import resourceLocale from '../../../i18n/pages/resource.json'
+import { sendEvent } from '../../../config/analytics'
+const mirrorUrl = 'element-plus.gitee.io'
+const isMirrorUrl = () => {
+  if (!isClient) return
+  return window.location.hostname === mirrorUrl
+}
+const resourceUrl = {
+  github: {
+    sketch:
+      'https://github.com/ElementUI/Resources/raw/master/Element_Plus_Design_System_2022_1.0_Beta.zip',
+    axure:
+      'https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib',
+  },
+  gitee: {
+    sketch:
+      'https://gitee.com/element-plus/resources/raw/master/Element_Plus_Design_System_2022_1.0_Beta.zip',
+    axure:
+      'https://gitee.com/element-plus/resources/raw/master/Element_Components_v2.1.0.rplib',
+  },
+}[isMirrorUrl() ? 'gitee' : 'github']
+
 const lang = useLang()
 const resourceLang = computed(() => resourceLocale[lang.value])
+const onClick = (item: string) => {
+  sendEvent('resource_download', item)
+}
 </script>
 
 <template>
   <div class="page-resource">
     <h1>{{ resourceLang.title }}</h1>
     <p>{{ resourceLang.lineOne }}</p>
-    <el-space :size="20" alignment="start">
-      <el-card class="card" shadow="hover">
-        <img src="/images/Axure-Components.svg" alt="axure" />
-        <h3>{{ resourceLang.axure }}</h3>
-        <p>
-          {{ resourceLang.axureIntro }}
-        </p>
-        <a
-          href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib"
-        >
-          <el-button type="primary">{{ resourceLang.download }}</el-button>
-        </a>
-      </el-card>
-      <el-card class="card" shadow="hover">
-        <img src="/images/Sketch-Template.svg" alt="Sketch" />
-        <h3>{{ resourceLang.sketch }}</h3>
-        <p>
-          {{ resourceLang.sketchIntro }}
-        </p>
-        <a
-          href="https://github.com/ElementUI/Resources/raw/master/Element%20UI%20Kit_v2.0.sketch"
-        >
-          <el-button type="primary">{{ resourceLang.download }}</el-button>
-        </a>
-      </el-card>
-      <el-card class="card" shadow="hover">
-        <img src="/images/figma.png" alt="Figma" />
-        <h3>{{ resourceLang.figma }}</h3>
-        <p>
-          {{ resourceLang.figmaIntro }}
-        </p>
-        <a
-          href="https://www.figma.com/community/file/1021254029764378306"
-          target="_blank"
-        >
-          <el-button type="primary">{{ resourceLang.download }}</el-button>
-        </a>
-      </el-card>
-    </el-space>
+    <p v-html="resourceLang.lineTwo" />
+    <div class="flex flex-wrap justify-center mt-32px">
+      <div class="inline-flex w-full md:w-1/3" p="2" pl-0>
+        <el-card class="card" shadow="hover">
+          <axure-components-svg w="30" alt="axure" />
+          <h3>{{ resourceLang.axure }}</h3>
+          <p>
+            {{ resourceLang.axureIntro }}
+          </p>
+          <a
+            target="_blank"
+            :href="resourceUrl.axure"
+            @click="onClick('axure')"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+      <div class="inline-flex w-full md:w-1/3" p="2">
+        <el-card class="card" shadow="hover">
+          <sketch-template-svg w="30" alt="Sketch" />
+          <h3>{{ resourceLang.sketch }}</h3>
+          <p>
+            {{ resourceLang.sketchIntro }}
+          </p>
+          <a
+            target="_blank"
+            :href="resourceUrl.sketch"
+            @click="onClick('sketch')"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+      <div class="inline-flex w-full md:w-1/3" p="2">
+        <el-card class="card" shadow="hover">
+          <figma-template-svg w="30" alt="Figma" />
+          <h3>{{ resourceLang.figma }}</h3>
+          <p>
+            {{ resourceLang.figmaIntro }}
+          </p>
+          <a
+            href="https://www.figma.com/community/file/1021254029764378306"
+            target="_blank"
+            @click="onClick('figma')"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -59,9 +96,14 @@ const resourceLang = computed(() => resourceLocale[lang.value])
 
   h1 {
     color: var(--text-color);
-
-    + p {
-      color: var(--text-color-light);
+    margin-bottom: 24px;
+  }
+  p {
+    color: var(--text-color-light);
+    line-height: 24px;
+    margin: 0;
+    &:last-of-type {
+      margin-top: 8px;
     }
   }
 }

@@ -1,0 +1,72 @@
+name: Lint commit message
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        node-version: ['16']
+        include:
+          - node-version: '16'
+            node-name: 'Latest'
+    outputs:
+      failed: ${{ steps.lint_commit.outputs.failed == 'true' }}
+    env:
+      PULL_REQUEST_NUMBER: ${{ github.event.number }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Add dev branch
+        run: git branch dev origin/dev
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache ~/.pnpm-store
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-pnpm-store
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-
+            ${{ runner.os }}-${{ matrix.node-version }}-test-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+      - name: Lint commit
+        id: lint_commit
+        run: pnpm lint:commit || echo "::set-output name=failed::true"
+      - name: Set success result
+        if: ${{ steps.lint_commit.outputs.failed != 'true' }}
+        run: echo 'true' > ./lint-result.txt
+      - name: Set failed result
+        if: ${{ steps.lint_commit.outputs.failed == 'true' }}
+        run: echo 'false' > ./lint-result.txt
+      - name: Set PR number
+        run: echo $PULL_REQUEST_NUMBER > pr.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: commit-lint-report
+          path: ./commit-lint.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: commit-lint-result
+          path: ./lint-result.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          name: pr-number
+          path: ./pr.txt

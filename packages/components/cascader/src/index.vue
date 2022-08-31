@@ -1,8 +1,8 @@
 <template>
   <el-tooltip
     ref="tooltipRef"
-    v-model:visible="popperVisible"
-    :teleported="compatTeleported"
+    :visible="popperVisible"
+    :teleported="teleported"
     :popper-class="[nsCascader.e('dropdown'), popperClass]"
     :popper-options="popperOptions"
     :fallback-placements="[
@@ -40,7 +40,7 @@
         <el-input
           ref="input"
           v-model="inputValue"
-          :placeholder="inputPlaceholder"
+          :placeholder="searchInputValue ? '' : inputPlaceholder"
           :readonly="readonly"
           :disabled="isDisabled"
           :validate-event="false"
@@ -103,11 +103,11 @@
                   <span>{{ tag.text }}</span>
                 </template>
                 <template #content>
-                  <div class="el-cascader__collapse-tags">
+                  <div :class="nsCascader.e('collapse-tags')">
                     <div
-                      v-for="(tag2, idx) in allPresentTags"
+                      v-for="(tag2, idx) in allPresentTags.slice(1)"
                       :key="idx"
-                      class="el-cascader__collapse-tag"
+                      :class="nsCascader.e('collapse-tag')"
                     >
                       <el-tag
                         :key="tag2.key"
@@ -177,7 +177,9 @@
             @click="handleSuggestionClick(item)"
           >
             <span>{{ item.text }}</span>
-            <el-icon v-if="item.checked"><check /></el-icon>
+            <el-icon v-if="item.checked">
+              <check />
+            </el-icon>
           </li>
         </template>
         <slot v-else name="empty">
@@ -191,20 +193,12 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  inject,
-  nextTick,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  watch,
-} from 'vue'
+// @ts-nocheck
+import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
 import { isPromise } from '@vue/shared'
 import { debounce } from 'lodash-unified'
 
-import { isClient } from '@vueuse/core'
+import { isClient, useResizeObserver } from '@vueuse/core'
 import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
@@ -212,23 +206,24 @@ import ElInput from '@element-plus/components/input'
 import ElTooltip, {
   useTooltipContentProps,
 } from '@element-plus/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { ClickOutside as Clickoutside } from '@element-plus/directives'
-import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
+import {
+  useFormItem,
+  useLocale,
+  useNamespace,
+  useSize,
+} from '@element-plus/hooks'
 
 import {
-  addResizeListener,
   debugWarn,
   focusNode,
   getSibling,
   isKorean,
   isValidComponentSize,
-  removeResizeListener,
 } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -239,7 +234,6 @@ import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 
 import type { Options } from '@element-plus/components/popper'
 import type { ComputedRef, PropType, Ref } from 'vue'
-import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type {
   CascaderNode,
   CascaderValue,
@@ -339,13 +333,13 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    popperAppendToBody: {
-      type: Boolean,
-      default: undefined,
-    },
     teleported: useTooltipContentProps.teleported,
     // eslint-disable-next-line vue/require-prop-types
     tagType: { ...tagProps.type, default: 'info' },
+    validateEvent: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   emits: [
@@ -362,16 +356,11 @@ export default defineComponent({
     let inputInitialHeight = 0
     let pressDeleteCount = 0
 
-    const { compatTeleported } = useDeprecateAppendToBody(
-      COMPONENT_NAME,
-      'popperAppendToBody'
-    )
     const nsCascader = useNamespace('cascader')
     const nsInput = useNamespace('input')
 
     const { t } = useLocale()
-    const elForm = inject(formContextKey, {} as FormContext)
-    const elFormItem = inject(formItemContextKey, {} as FormItemContext)
+    const { form, formItem } = useFormItem()
 
     const tooltipRef: Ref<tooltipType | null> = ref(null)
     const input: Ref<inputType | null> = ref(null)
@@ -388,7 +377,7 @@ export default defineComponent({
     const suggestions: Ref<CascaderNode[]> = ref([])
     const isOnComposition = ref(false)
 
-    const isDisabled = computed(() => props.disabled || elForm.disabled)
+    const isDisabled = computed(() => props.disabled || form?.disabled)
     const inputPlaceholder = computed(
       () => props.placeholder || t('el.cascader.placeholder')
     )
@@ -427,12 +416,14 @@ export default defineComponent({
 
     const checkedValue = computed<CascaderValue>({
       get() {
-        return props.modelValue
+        return props.modelValue as CascaderValue
       },
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)
         emit(CHANGE_EVENT, val)
-        elFormItem.validate?.('change').catch((err) => debugWarn(err))
+        if (props.validateEvent) {
+          formItem?.validate('change').catch((err) => debugWarn(err))
+        }
       },
     })
 
@@ -453,9 +444,7 @@ export default defineComponent({
           updatePopperPosition()
           nextTick(panel.value?.scrollToExpandingNode)
         } else if (props.filterable) {
-          const { value } = presentText
-          inputValue.value = value
-          searchInputValue.value = value
+          syncPresentTextValue()
         }
 
         emit('visible-change', visible)
@@ -625,6 +614,12 @@ export default defineComponent({
           e.preventDefault()
           break
         case EVENT_CODE.esc:
+          if (popperVisible.value === true) {
+            e.preventDefault()
+            e.stopPropagation()
+            togglePopperVisible(false)
+          }
+          break
         case EVENT_CODE.tab:
           togglePopperVisible(false)
           break
@@ -633,7 +628,16 @@ export default defineComponent({
 
     const handleClear = () => {
       panel.value?.clearCheckedNodes()
+      if (!popperVisible.value && props.filterable) {
+        syncPresentTextValue()
+      }
       togglePopperVisible(false)
+    }
+
+    const syncPresentTextValue = () => {
+      const { value } = presentText
+      inputValue.value = value
+      searchInputValue.value = value
     }
 
     const handleSuggestionClick = (node: CascaderNode) => {
@@ -667,10 +671,6 @@ export default defineComponent({
         case EVENT_CODE.enter:
           target.click()
           break
-        case EVENT_CODE.esc:
-        case EVENT_CODE.tab:
-          togglePopperVisible(false)
-          break
       }
     }
 
@@ -679,7 +679,12 @@ export default defineComponent({
       const lastTag = tags[tags.length - 1]
       pressDeleteCount = searchInputValue.value ? 0 : pressDeleteCount + 1
 
-      if (!lastTag || !pressDeleteCount) return
+      if (
+        !lastTag ||
+        !pressDeleteCount ||
+        (props.collapseTags && tags.length > 1)
+      )
+        return
 
       if (lastTag.hitState) {
         deleteTag(lastTag)
@@ -730,11 +735,7 @@ export default defineComponent({
         inputEl?.offsetHeight ||
         INPUT_HEIGHT_MAP[realSize.value] ||
         DEFAULT_INPUT_HEIGHT
-      addResizeListener(inputEl, updateStyle)
-    })
-
-    onBeforeUnmount(() => {
-      removeResizeListener(input.value?.$el, updateStyle)
+      useResizeObserver(inputEl, updateStyle)
     })
 
     return {
@@ -763,8 +764,6 @@ export default defineComponent({
       multiple,
       readonly,
       clearBtnVisible,
-      // deprecation in ver 2.1.0
-      compatTeleported,
 
       nsCascader,
       nsInput,

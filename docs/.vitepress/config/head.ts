@@ -1,8 +1,8 @@
 import fs from 'fs'
 import path from 'path'
-import { vpRoot } from '@element-plus/build'
+import { vpRoot } from '@element-plus/build-utils'
 import { languages } from '../utils/lang'
-import { features } from './features'
+
 import type { HeadConfig } from 'vitepress'
 
 export const head: HeadConfig[] = [
@@ -11,20 +11,44 @@ export const head: HeadConfig[] = [
     {
       rel: 'icon',
       href: '/images/element-plus-logo-small.svg',
+      type: 'image/svg+xm',
     },
   ],
   [
     'link',
     {
-      rel: 'stylesheet',
-      href: '//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap',
+      rel: 'apple-touch-icon',
+      href: '/apple-touch-icon.png',
+      sizes: '180x180',
     },
   ],
   [
     'link',
     {
-      rel: 'stylesheet',
-      href: '//unpkg.com/nprogress@0.2.0/nprogress.css',
+      rel: 'mask-icon',
+      href: '/safari-pinned-tab.svg',
+      color: '#5bbad5',
+    },
+  ],
+  [
+    'meta',
+    {
+      name: 'theme-color',
+      content: '#ffffff',
+    },
+  ],
+  [
+    'meta',
+    {
+      name: 'msapplication-TileColor',
+      content: '#409eff',
+    },
+  ],
+  [
+    'meta',
+    {
+      name: 'msapplication-config',
+      content: '/browserconfig.xml',
     },
   ],
   [
@@ -46,10 +70,44 @@ export const head: HeadConfig[] = [
   [
     'script',
     {},
+    `if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(function(registration) {
+          console.log(registration);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    }`,
+  ],
+  [
+    'script',
+    {
+      async: 'true',
+    },
     `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'UA-175337989-1');`,
+  ],
+  [
+    'script',
+    {
+      async: 'true',
+      src: 'https://www.googletagmanager.com/gtag/js?id=G-M74ZHEQ1M1',
+    },
+  ],
+  [
+    'script',
+    {},
+    `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-M74ZHEQ1M1');
+    `,
   ],
   [
     'script',
@@ -63,11 +121,24 @@ gtag('config', 'UA-175337989-1');`,
       a.appendChild(r);
   })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`,
   ],
-]
-if (features.theme) {
-  head.push([
+  [
     'script',
-    {},
-    fs.readFileSync(path.resolve(vpRoot, 'dark-mode.js'), 'utf-8'),
-  ])
-}
+    {
+      async: 'true',
+    },
+    `
+  var resource = document.createElement('link');
+  resource.setAttribute("rel", "stylesheet");
+  resource.setAttribute("href","//fonts.loli.net/css?family=Inter:300,400,500,600|Open+Sans:400,600;display=swap");
+  resource.setAttribute("type","text/css");
+  var head = document.querySelector('head');
+  head.appendChild(resource);
+    `,
+  ],
+]
+
+head.push([
+  'script',
+  {},
+  fs.readFileSync(path.resolve(vpRoot, 'dark-mode.js'), 'utf-8'),
+])

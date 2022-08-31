@@ -23,7 +23,7 @@ const renderContent = (h, { data }) => {
     'span',
     {
       style: {
-        color: 'orange',
+        color: '#626AEF',
       },
     },
     data.label
@@ -101,4 +101,3 @@ const data = [
   },
 ]
 </script>
-```

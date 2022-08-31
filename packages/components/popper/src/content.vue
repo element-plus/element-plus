@@ -3,23 +3,51 @@
     ref="popperContentRef"
     :style="contentStyle"
     :class="contentClass"
-    role="tooltip"
+    tabindex="-1"
     @mouseenter="(e) => $emit('mouseenter', e)"
     @mouseleave="(e) => $emit('mouseleave', e)"
   >
-    <slot />
+    <el-focus-trap
+      :trapped="trapped"
+      :trap-on-focus-in="true"
+      :focus-trap-el="popperContentRef"
+      :focus-start-el="focusStartRef"
+      @focus-after-trapped="onFocusAfterTrapped"
+      @focus-after-released="onFocusAfterReleased"
+      @focusin="onFocusInTrap"
+      @focusout-prevented="onFocusoutPrevented"
+      @release-requested="onReleaseRequested"
+    >
+      <slot />
+    </el-focus-trap>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onMounted, provide, ref, unref, watch } from 'vue'
+// @ts-nocheck
+import {
+  computed,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
+  toRefs,
+  unref,
+  watch,
+} from 'vue'
+import { NOOP } from '@vue/shared'
+import { isNil } from 'lodash-unified'
 import { createPopper } from '@popperjs/core'
+import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useNamespace, useZIndex } from '@element-plus/hooks'
 import {
   POPPER_CONTENT_INJECTION_KEY,
   POPPER_INJECTION_KEY,
+  formItemContextKey,
 } from '@element-plus/tokens'
-import { usePopperContentProps } from './content'
+import { isElement } from '@element-plus/utils'
+import { usePopperContentEmits, usePopperContentProps } from './content'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
 
 import type { WatchStopHandle } from 'vue'
@@ -28,24 +56,42 @@ defineOptions({
   name: 'ElPopperContent',
 })
 
-defineEmits(['mouseenter', 'mouseleave'])
+const emit = defineEmits(usePopperContentEmits)
 
 const props = defineProps(usePopperContentProps)
 
-const { popperInstanceRef, contentRef, triggerRef } = inject(
+const { popperInstanceRef, contentRef, triggerRef, role } = inject(
   POPPER_INJECTION_KEY,
   undefined
 )!
+const formItemContext = inject(formItemContextKey, undefined)
 const { nextZIndex } = useZIndex()
 const ns = useNamespace('popper')
 const popperContentRef = ref<HTMLElement>()
+const focusStartRef = ref<string | HTMLElement>('first')
 const arrowRef = ref<HTMLElement>()
 const arrowOffset = ref<number>()
 provide(POPPER_CONTENT_INJECTION_KEY, {
   arrowRef,
   arrowOffset,
 })
-const contentZIndex = ref(props.zIndex || nextZIndex())
+
+if (
+  formItemContext &&
+  (formItemContext.addInputId || formItemContext.removeInputId)
+) {
+  // disallow auto-id from inside popper content
+  provide(formItemContextKey, {
+    ...formItemContext,
+    addInputId: NOOP,
+    removeInputId: NOOP,
+  })
+}
+
+const contentZIndex = ref<number>(props.zIndex || nextZIndex())
+const trapped = ref<boolean>(false)
+
+let triggerTargetAriaStopWatch: WatchStopHandle | undefined = undefined
 
 const computedReference = computed(
   () => unwrapMeasurableEl(props.referenceEl) || unref(triggerRef)
@@ -62,6 +108,10 @@ const contentClass = computed(() => [
   props.popperClass,
 ])
 
+const ariaModal = computed<string | undefined>(() => {
+  return role && role.value === 'dialog' ? 'false' : undefined
+})
+
 const createPopperInstance = ({ referenceEl, popperContentEl, arrowEl }) => {
   const options = buildPopperOptions(props, {
     arrowEl,
@@ -71,9 +121,9 @@ const createPopperInstance = ({ referenceEl, popperContentEl, arrowEl }) => {
   return createPopper(referenceEl, popperContentEl, options)
 }
 
-const updatePopper = () => {
+const updatePopper = (shouldUpdateZIndex = true) => {
   unref(popperInstanceRef)?.update()
-  contentZIndex.value = props.zIndex || nextZIndex()
+  shouldUpdateZIndex && (contentZIndex.value = props.zIndex || nextZIndex())
 }
 
 const togglePopperAlive = () => {
@@ -82,7 +132,44 @@ const togglePopperAlive = () => {
     ...options,
     modifiers: [...(options.modifiers || []), monitorable],
   }))
-  updatePopper()
+  updatePopper(false)
+  if (props.visible && props.focusOnShow) {
+    trapped.value = true
+  } else if (props.visible === false) {
+    trapped.value = false
+  }
+}
+
+const onFocusAfterTrapped = () => {
+  emit('focus')
+}
+
+const onFocusAfterReleased = () => {
+  focusStartRef.value = 'first'
+  emit('blur')
+}
+
+const onFocusInTrap = (event: FocusEvent) => {
+  if (props.visible && !trapped.value) {
+    if (event.target) {
+      focusStartRef.value = event.target as typeof focusStartRef.value
+    }
+    trapped.value = true
+    if (event.relatedTarget) {
+      ;(event.relatedTarget as HTMLElement)?.focus()
+    }
+  }
+}
+
+const onFocusoutPrevented = () => {
+  if (!props.trapping) {
+    trapped.value = false
+  }
+}
+
+const onReleaseRequested = () => {
+  trapped.value = false
+  emit('close')
 }
 
 onMounted(() => {
@@ -119,6 +206,38 @@ onMounted(() => {
     }
   )
 
+  watch(
+    () => props.triggerTargetEl,
+    (triggerTargetEl, prevTriggerTargetEl) => {
+      triggerTargetAriaStopWatch?.()
+      triggerTargetAriaStopWatch = undefined
+
+      const el = unref(triggerTargetEl || popperContentRef.value)
+      const prevEl = unref(prevTriggerTargetEl || popperContentRef.value)
+
+      if (isElement(el)) {
+        const { ariaLabel, id } = toRefs(props)
+        triggerTargetAriaStopWatch = watch(
+          [role, ariaLabel, ariaModal, id],
+          (watches) => {
+            ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key, idx) => {
+              isNil(watches[idx])
+                ? el.removeAttribute(key)
+                : el.setAttribute(key, watches[idx])
+            })
+          },
+          { immediate: true }
+        )
+      }
+      if (isElement(prevEl)) {
+        ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key) => {
+          prevEl.removeAttribute(key)
+        })
+      }
+    },
+    { immediate: true }
+  )
+
   watch(() => props.visible, togglePopperAlive, { immediate: true })
 
   watch(
@@ -129,6 +248,11 @@ onMounted(() => {
       }),
     (option) => popperInstanceRef.value?.setOptions(option)
   )
+})
+
+onBeforeUnmount(() => {
+  triggerTargetAriaStopWatch?.()
+  triggerTargetAriaStopWatch = undefined
 })
 
 defineExpose({

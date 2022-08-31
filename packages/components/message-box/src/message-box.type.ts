@@ -16,6 +16,7 @@ export interface MessageBoxInputValidator {
 }
 
 export declare interface MessageBoxState {
+  autofocus: boolean
   title: string
   message: string
   type: MessageType
@@ -62,6 +63,11 @@ export type Callback =
 
 /** Options used in MessageBox */
 export interface ElMessageBoxOptions {
+  /**
+   * auto focus when open message-box
+   */
+  autofocus?: boolean
+
   /** Callback before MessageBox closes, and it will prevent MessageBox from closing */
   beforeClose?: (
     action: Action,
@@ -100,7 +106,7 @@ export interface ElMessageBoxOptions {
   message?: string | VNode
 
   /** Title of the MessageBox */
-  title?: string
+  title?: string | ElMessageBoxOptions
 
   /** Message type, used for icon display */
   type?: MessageType

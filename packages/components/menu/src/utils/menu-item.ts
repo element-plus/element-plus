@@ -1,17 +1,18 @@
+// @ts-nocheck
 import { triggerEvent } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import SubMenu from './submenu'
 
 class MenuItem {
   public submenu: SubMenu = null
-  constructor(public domNode: HTMLElement) {
+  constructor(public domNode: HTMLElement, namespace: string) {
     this.submenu = null
-    this.init()
+    this.init(namespace)
   }
 
-  init(): void {
+  init(namespace: string): void {
     this.domNode.setAttribute('tabindex', '0')
-    const menuChild = this.domNode.querySelector('.el-menu')
+    const menuChild = this.domNode.querySelector(`.${namespace}-menu`)
     if (menuChild) {
       this.submenu = new SubMenu(this, menuChild)
     }

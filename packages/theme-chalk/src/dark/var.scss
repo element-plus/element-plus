@@ -2,6 +2,8 @@
 @use 'sass:math';
 
 @use '../common/var.scss' as common;
+@use '../mixins/mixins.scss' as *;
+@use '../color/index.scss' as *;
 
 $colors: () !default;
 @each $type in common.$types {
@@ -50,16 +52,6 @@ $colors: () !default;
   // ) !global;
 }
 
-// dark-mode
-@each $type in common.$types {
-  @for $i from 1 through 9 {
-    @include set-color-mix-level($type, $i, 'light', common.$color-black);
-  }
-}
-@each $type in common.$types {
-  @include set-color-mix-level($type, 2, 'dark', common.$color-white);
-}
-
 // Background
 $bg-color: () !default;
 $bg-color: map.merge(
@@ -70,6 +62,16 @@ $bg-color: map.merge(
   ),
   $bg-color
 );
+
+// dark-mode
+@each $type in common.$types {
+  @for $i from 1 through 9 {
+    @include set-color-mix-level($type, $i, 'light', map.get($bg-color, ''));
+  }
+}
+@each $type in common.$types {
+  @include set-color-mix-level($type, 2, 'dark', common.$color-white);
+}
 
 // border
 $border-color-base: #f5f8ff;
@@ -84,6 +86,39 @@ $border-color: map.merge(
     'extra-light': rgba($border-color-base, 0.1),
   ),
   $border-color
+);
+
+// mix to hex to avoid overlay issues
+@each $key, $val in $border-color {
+  $border-color: map.merge(
+    $border-color,
+    (
+      $key: mix-overlay-color($val, map.get($bg-color, '')),
+    )
+  ) !global;
+}
+
+// Box-shadow
+$box-shadow: () !default;
+$box-shadow: map.merge(
+  (
+    '': (
+      0px 12px 32px 4px rgba(0, 0, 0, 0.36),
+      0px 8px 20px rgba(0, 0, 0, 0.72),
+    ),
+    'light': (
+      0px 0px 12px rgba(0, 0, 0, 0.72),
+    ),
+    'lighter': (
+      0px 0px 6px rgba(0, 0, 0, 0.72),
+    ),
+    'dark': (
+      0px 16px 48px 16px rgba(0, 0, 0, 0.72),
+      0px 12px 32px #000000,
+      0px 8px 16px -8px #000000,
+    ),
+  ),
+  $box-shadow
 );
 
 // fill
@@ -102,6 +137,18 @@ $fill-color: map.merge(
   $fill-color
 );
 
+// mix to hex to avoid overlay issues
+@each $key, $val in $fill-color {
+  @if ($key != 'blank') {
+    $fill-color: map.merge(
+      $fill-color,
+      (
+        $key: mix-overlay-color($val, map.get($bg-color, '')),
+      )
+    ) !global;
+  }
+}
+
 // text
 $text-color-base: #f0f5ff;
 $text-color: () !default;
@@ -115,6 +162,35 @@ $text-color: map.merge(
   ),
   $text-color
 );
+// mix to hex to avoid overlay issues
+@each $key, $val in $text-color {
+  $text-color: map.merge(
+    $text-color,
+    (
+      $key: mix-overlay-color($val, map.get($bg-color, '')),
+    )
+  ) !global;
+}
+
+// mask
+$mask-color: () !default;
+$mask-color: map.merge(
+  (
+    '': rgba(0, 0, 0, 0.8),
+    'extra-light': rgba(0, 0, 0, 0.3),
+  ),
+  $mask-color
+);
+
+// Button
+// css3 var in packages/theme-chalk/src/button.scss
+$button: () !default;
+$button: map.merge(
+  (
+    'disabled-text-color': rgba(255, 255, 255, 0.5),
+  ),
+  $button
+);
 
 // card
 $card: () !default;
@@ -123,4 +199,23 @@ $card: map.merge(
     'bg-color': getCssVar('bg-color', 'overlay'),
   ),
   $card
+);
+
+// Empty
+// css3 var in packages/theme-chalk/src/empty.scss
+$empty: () !default;
+$empty: map.merge(
+  (
+    'fill-color-0': getCssVar('color-black'),
+    'fill-color-1': #4b4b52,
+    'fill-color-2': #36383d,
+    'fill-color-3': #1e1e20,
+    'fill-color-4': #262629,
+    'fill-color-5': #202124,
+    'fill-color-6': #212224,
+    'fill-color-7': #1b1c1f,
+    'fill-color-8': #1c1d1f,
+    'fill-color-9': #18181a,
+  ),
+  $empty
 );

@@ -1,7 +1,7 @@
 import path from 'path'
 import { createApp } from 'vue'
 import { renderToString } from '@vue/server-renderer'
-import { beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import puppeteer from 'puppeteer'
 import glob from 'fast-glob'
 import ElementPlus, { ID_INJECTION_KEY } from '../dist/element-plus'
@@ -15,6 +15,10 @@ describe('Cypress Button', () => {
   let browser: Browser
   beforeAll(async () => {
     browser = await puppeteer.launch()
+  })
+
+  afterAll(() => {
+    browser.close()
   })
 
   describe('when initialized', () => {
@@ -58,6 +62,7 @@ describe('Cypress Button', () => {
       //   path: path.join(testRoot, 'screenshots', screenshotPath),
       //   fullPage: true,
       // })
+
       await page.close()
       expect(true).toBe(true)
     })

@@ -20,7 +20,6 @@ import { ElIcon } from '@element-plus/components/icon'
 import { easeInOutCubic, throwError } from '@element-plus/utils'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
-
 import { backtopEmits, backtopProps } from './backtop'
 
 const COMPONENT_NAME = 'ElBacktop'
@@ -43,6 +42,8 @@ const backTopStyle = computed(() => ({
 }))
 
 const scrollToTop = () => {
+  // TODO: use https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo, with behavior: 'smooth'
+
   if (!el.value) return
   const beginTime = Date.now()
   const beginValue = el.value.scrollTop
@@ -68,6 +69,7 @@ const handleClick = (event: MouseEvent) => {
 
 const handleScrollThrottled = useThrottleFn(handleScroll, 300)
 
+useEventListener(container, 'scroll', handleScrollThrottled)
 onMounted(() => {
   container.value = document
   el.value = document.documentElement
@@ -79,7 +81,5 @@ onMounted(() => {
     }
     container.value = el.value
   }
-
-  useEventListener(container, 'scroll', handleScrollThrottled)
 })
 </script>

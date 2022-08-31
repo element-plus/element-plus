@@ -31,6 +31,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--el-transition-duration-fast);
 }
 
 main {
@@ -161,11 +162,10 @@ a.header-anchor {
   padding-right: 0.23em;
   font-size: 0.85em;
   opacity: 0;
-}
-
-a.header-anchor:hover,
-a.header-anchor:focus {
-  text-decoration: none;
+  &:hover,
+  :focus {
+    text-decoration: none;
+  }
 }
 
 figure {
@@ -235,6 +235,14 @@ blockquote > p {
 
 form {
   margin: 0;
+}
+
+details {
+  summary {
+    margin: 16px 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
 }
 
 .el-popover.is-light.translation-popup {

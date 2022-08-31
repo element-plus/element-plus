@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getCurrentInstance, watch } from 'vue'
 import { hasOwn } from '@element-plus/utils'
 import { parseMinWidth, parseWidth } from '../util'
@@ -5,6 +6,12 @@ import { parseMinWidth, parseWidth } from '../util'
 import type { ComputedRef } from 'vue'
 import type { TableColumn, TableColumnCtx, ValueOf } from './defaults'
 
+function getAllAliases(props, aliases) {
+  return props.reduce((prev, cur) => {
+    prev[cur] = cur
+    return prev
+  }, aliases)
+}
 function useWatcher<T>(
   owner: ComputedRef<any>,
   props_: Partial<TableColumnCtx<T>>
@@ -16,11 +23,7 @@ function useWatcher<T>(
       realWidth: 'width',
       realMinWidth: 'minWidth',
     }
-    const allAliases = props.reduce((prev, cur) => {
-      prev[cur] = cur
-      return prev
-    }, aliases)
-
+    const allAliases = getAllAliases(props, aliases)
     Object.keys(allAliases).forEach((key) => {
       const columnKey = aliases[key]
       if (hasOwn(props_, columnKey)) {
@@ -60,10 +63,7 @@ function useWatcher<T>(
       align: 'realAlign',
       headerAlign: 'realHeaderAlign',
     }
-    const allAliases = props.reduce((prev, cur) => {
-      prev[cur] = cur
-      return prev
-    }, aliases)
+    const allAliases = getAllAliases(props, aliases)
     Object.keys(allAliases).forEach((key) => {
       const columnKey = aliases[key]
       if (hasOwn(props_, columnKey)) {

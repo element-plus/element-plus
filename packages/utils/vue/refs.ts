@@ -1,4 +1,4 @@
-import { isFunction } from '@element-plus/utils'
+import { isFunction } from '../types'
 
 import type { ComponentPublicInstance, Ref } from 'vue'
 

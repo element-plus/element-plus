@@ -18,7 +18,7 @@ Estamos orgullosos de que usted esta interesado en contribuir al proyecto `Eleme
 
 - Crea una bifurcación (“fork”) del repositorio a su propia cuenta en github.com. Por favor no crea ramas nuevas aquí.
 
-- El formato de la información de envío debe ser `type(scope): info about commit`. (por ejemplo, `fix(components): [el-scrollbar] fix xxx bug`)
+- El formato de la información de envío debe ser `type(scope): info about commit`. (por ejemplo, `fix(components): [scrollbar] fix xxx bug`)
 
   1. Tipo: el tipo debe ser uno de [build, chore, ci, docs, feat, fix, perf, refactor, revert, release, style, test, improvement].
 

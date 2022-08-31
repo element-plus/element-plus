@@ -6,7 +6,9 @@ In this chapter, we will discuss how to help translating the documentation of El
 
 ## Background
 
-Before we did the upgrade of the documentation architecture, each documentation update needs 5 languages, which most of the contributors use online translator for their non-native languages, sometimes it would be not only inaccurate but also stressful to them.
+Before we did the upgrade of the documentation architecture, each documentation update needs 5 languages,
+which most of the contributors use online translator for their non-native languages,
+sometimes it would be not only inaccurate but also stressful to them.
 
 So we decided to give the documentation site an upgrade.
 
@@ -28,4 +30,5 @@ After you submit your work, it would be online once the translation is approved 
 
 ## How can I become a proofreader?
 
-You can [raise an issue](https://crowdin.com/project/element-plus/discussions) on Crowdin to us for becoming a proofreader of the language you wish to be.
+You can [raise an issue](https://crowdin.com/project/element-plus/discussions) on Crowdin to us for
+becoming a proofreader of the language you wish to be.

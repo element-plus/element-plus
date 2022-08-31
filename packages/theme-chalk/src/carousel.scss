@@ -28,19 +28,19 @@
     outline: none;
     padding: 0;
     margin: 0;
-    height: var(--el-carousel-arrow-size);
-    width: var(--el-carousel-arrow-size);
+    height: getCssVar('carousel', 'arrow-size');
+    width: getCssVar('carousel', 'arrow-size');
     cursor: pointer;
-    transition: var(--el-transition-duration);
+    transition: getCssVar('transition', 'duration');
     border-radius: 50%;
-    background-color: var(--el-carousel-arrow-background);
+    background-color: getCssVar('carousel', 'arrow-background');
     color: $color-white;
     position: absolute;
     top: 50%;
     z-index: 10;
     transform: translateY(-50%);
     text-align: center;
-    font-size: var(--el-carousel-arrow-font-size);
+    font-size: getCssVar('carousel', 'arrow-font-size');
 
     @include utils-inline-flex-center;
 
@@ -53,7 +53,7 @@
     }
 
     &:hover {
-      background-color: var(--el-carousel-arrow-hover-background);
+      background-color: getCssVar('carousel', 'arrow-hover-background');
     }
 
     & i {
@@ -66,7 +66,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    z-index: calc(var(--el-index-normal) + 1);
+    z-index: calc(#{getCssVar('index-normal')} + 1);
 
     @include m(horizontal) {
       bottom: 0;
@@ -82,8 +82,8 @@
 
     @include m(outside) {
       bottom: calc(
-        var(--el-carousel-indicator-height) +
-          var(--el-carousel-indicator-padding-vertical) * 2
+        getCssVar('carousel-indicator-height') +
+          getCssVar('carousel-indicator-padding-vertical') * 2
       );
       text-align: center;
       position: static;
@@ -92,7 +92,7 @@
         opacity: 0.64;
       }
       button {
-        background-color: var(--el-carousel-indicator-out-color);
+        background-color: getCssVar('carousel', 'indicator-out-color');
         opacity: 0.24;
       }
     }
@@ -126,16 +126,16 @@
 
     @include m(horizontal) {
       display: inline-block;
-      padding: var(--el-carousel-indicator-padding-vertical)
-        var(--el-carousel-indicator-padding-horizontal);
+      padding: getCssVar('carousel-indicator-padding-vertical')
+        getCssVar('carousel-indicator-padding-horizontal');
     }
 
     @include m(vertical) {
-      padding: var(--el-carousel-indicator-padding-horizontal)
-        var(--el-carousel-indicator-padding-vertical);
+      padding: getCssVar('carousel-indicator-padding-horizontal')
+        getCssVar('carousel-indicator-padding-vertical');
       .#{$namespace}-carousel__button {
-        width: var(--el-carousel-indicator-height);
-        height: calc(var(--el-carousel-indicator-width) / 2);
+        width: getCssVar('carousel-indicator-height');
+        height: calc(#{getCssVar('carousel-indicator-width')} / 2);
       }
     }
 
@@ -149,15 +149,15 @@
   @include e(button) {
     display: block;
     opacity: 0.48;
-    width: var(--el-carousel-indicator-width);
-    height: var(--el-carousel-indicator-height);
+    width: getCssVar('carousel-indicator-width');
+    height: getCssVar('carousel-indicator-height');
     background-color: $color-white;
     border: none;
     outline: none;
     padding: 0;
     margin: 0;
     cursor: pointer;
-    transition: var(--el-transition-duration);
+    transition: getCssVar('transition-duration');
   }
 }
 

@@ -1,13 +1,12 @@
 <template>
   <li
-    class="el-menu-item"
+    :class="[
+      nsMenuItem.b(),
+      nsMenuItem.is('active', active),
+      nsMenuItem.is('disabled', disabled),
+    ]"
     role="menuitem"
     tabindex="-1"
-    :style="paddingStyle"
-    :class="{
-      'is-active': active,
-      'is-disabled': disabled,
-    }"
     @click="handleClick"
   >
     <el-tooltip
@@ -24,7 +23,7 @@
       <template #content>
         <slot name="title" />
       </template>
-      <div class="el-menu-tooltip__trigger">
+      <div :class="nsMenu.be('tooltip', 'trigger')">
         <slot />
       </div>
     </el-tooltip>
@@ -36,6 +35,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -49,6 +49,7 @@ import {
 import ElTooltip from '@element-plus/components/tooltip'
 import { Effect } from '@element-plus/components/popper'
 import { throwError } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import useMenu from './use-menu'
 import { menuItemEmits, menuItemProps } from './menu-item'
 
@@ -67,12 +68,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const instance = getCurrentInstance()!
     const rootMenu = inject<MenuProvider>('rootMenu')
+    const nsMenu = useNamespace('menu')
+    const nsMenuItem = useNamespace('menu-item')
     if (!rootMenu) throwError(COMPONENT_NAME, 'can not inject root menu')
 
-    const { parentMenu, paddingStyle, indexPath } = useMenu(
-      instance,
-      toRef(props, 'index')
-    )
+    const { parentMenu, indexPath } = useMenu(instance, toRef(props, 'index'))
 
     const subMenu = inject<SubMenuProvider>(`subMenu:${parentMenu.value.uid}`)
     if (!subMenu) throwError(COMPONENT_NAME, 'can not inject sub menu')
@@ -109,9 +109,9 @@ export default defineComponent({
       Effect,
       parentMenu,
       rootMenu,
-      paddingStyle,
       active,
-
+      nsMenu,
+      nsMenuItem,
       handleClick,
     }
   },
