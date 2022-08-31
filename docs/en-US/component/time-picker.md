@@ -64,7 +64,9 @@ time-picker/range
 
 ## Methods
 
-| Method | Description               | Parameters |
-| ------ | ------------------------- | ---------- |
-| focus  | focus the Input component | —          |
-| blur   | blur the Input component  | —          |
+| Method      | Description                 | Parameters |
+| ----------- | --------------------------- | ---------- |
+| focus       | focus the Input component   | —          |
+| blur        | blur the Input component    | —          |
+| handleOpen  | open the datepicker popper  | —          |
+| handleClose | close the datepicker popper | —          |
