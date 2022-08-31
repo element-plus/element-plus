@@ -387,7 +387,10 @@ const handleInput = async (event: Event) => {
 
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
-  if (value === nativeInputValue.value) return
+  if (value === nativeInputValue.value) {
+    setNativeInputValue()
+    return
+  }
 
   emit(UPDATE_MODEL_EVENT, value)
   emit('input', value)
