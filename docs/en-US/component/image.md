@@ -96,7 +96,7 @@ image/image-preview
 
 ### Image Viewer Attributes
 
-| Name                  | Description                                                                                                                   | Type               | Default |
+| Attribute             | Description                                                                                                                   | Type               | Default |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------- |
 | `url-list`            | preview link list.                                                                                                            | `string[]`         | `[]`    |
 | `z-index`             | preview backdrop z-index.                                                                                                     | `number \| string` | —       |
@@ -111,3 +111,9 @@ image/image-preview
 | ---------- | ------------------------------------------------------------------------------------------------- | ------------------------- |
 | `close`    | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | `() => void`              |
 | `switch`   | trigger when switching images.                                                                    | `(index: number) => void` |
+
+## Image Viewer Methods
+
+| Method        | Description           | Parameters                                            |
+| ------------- | --------------------- | ----------------------------------------------------- |
+| setActiveItem | manually switch image | index of the image to be switched to, starting from 0 |

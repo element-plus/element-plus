@@ -1,62 +1,55 @@
-// @ts-nocheck
-import { h, nextTick } from 'vue'
+import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import makeMount from '@element-plus/test-utils/make-mount'
 import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useZIndex } from '@element-plus/hooks'
+import { notificationTypes } from '../src/notification'
 import Notification from '../src/notification.vue'
 
-import type { Component, ComponentPublicInstance } from 'vue'
+import type { VNode } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { SpyInstance } from 'vitest'
+import type {
+  NotificationInstance,
+  NotificationProps,
+} from '../src/notification'
 
 const AXIOM = 'Rem is the best girl'
 
 const onClose = vi.fn()
 
-const _mount = makeMount(Notification, {
-  props: {
-    onClose,
-  },
-})
+const _mount = ({
+  props,
+  slots,
+}: {
+  props?: Partial<NotificationProps>
+  slots?: Record<'default', () => string | VNode>
+}) => mount(<Notification {...{ onClose, ...props }} v-slots={slots} />)
 
 describe('Notification.vue', () => {
   describe('render', () => {
     test('basic render test', () => {
       const wrapper = _mount({
         slots: {
-          default: AXIOM,
+          default: () => AXIOM,
         },
       })
 
-      const vm = wrapper.vm as ComponentPublicInstance<{
-        visible: boolean
-        iconComponent: Component
-        horizontalClass: string
-        positionStyle: Record<string, string>
-      }>
-
       expect(wrapper.text()).toEqual(AXIOM)
-      expect(vm.visible).toBe(true)
-      expect(vm.iconComponent).toBe('')
-      expect(vm.horizontalClass).toBe('right')
-      expect(vm.positionStyle).toEqual({
+      expect(wrapper.vm.visible).toBe(true)
+      expect(wrapper.vm.iconComponent).toBeUndefined()
+      expect(wrapper.vm.horizontalClass).toBe('right')
+      expect(wrapper.vm.positionStyle).toEqual({
         top: '0px',
         zIndex: 0,
-      } as CSSProperties)
+      })
     })
 
     test('should be able to render VNode', () => {
       const wrapper = _mount({
         slots: {
-          default: h(
-            'span',
-            {
-              class: 'text-node',
-            },
-            AXIOM
-          ),
+          default: () => <span class="text-node">{AXIOM}</span>,
         },
       })
 
@@ -96,22 +89,18 @@ describe('Notification.vue', () => {
         },
       })
 
-      const vm = wrapper.vm as ComponentPublicInstance<{
-        positionStyle: Record<string, string>
-      }>
-
-      expect(vm.positionStyle).toEqual({
+      expect(wrapper.vm.positionStyle).toEqual({
         top: '0px',
         zIndex,
-      } as CSSProperties)
+      })
     })
   })
 
   describe('Notification.type', () => {
     test('should be able to render typed notification', () => {
-      let wrapper: VueWrapper<ComponentPublicInstance>
+      let wrapper: VueWrapper<NotificationInstance>
 
-      for (const type of ['success', 'warning', 'info', 'error']) {
+      for (const type of notificationTypes) {
         wrapper = _mount({
           props: {
             type,
@@ -129,6 +118,7 @@ describe('Notification.vue', () => {
       const type = 'some-type'
       const wrapper = _mount({
         props: {
+          // @ts-expect-error
           type,
         },
       })
@@ -144,7 +134,7 @@ describe('Notification.vue', () => {
       const onClose = vi.fn()
       const wrapper = _mount({
         slots: {
-          default: AXIOM,
+          default: () => AXIOM,
         },
         props: { onClose },
       })
@@ -167,9 +157,7 @@ describe('Notification.vue', () => {
       vi.runAllTimers()
       vi.useRealTimers()
 
-      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean }>
-
-      expect(vm.visible).toBe(false)
+      expect(wrapper.vm.visible).toBe(false)
     })
 
     test('should be able to prevent close itself when hover over', async () => {
@@ -182,18 +170,16 @@ describe('Notification.vue', () => {
       })
       vi.advanceTimersByTime(50)
 
-      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean }>
-
       await wrapper.find('[role=alert]').trigger('mouseenter')
       vi.advanceTimersByTime(5000)
-      expect(vm.visible).toBe(true)
+      expect(wrapper.vm.visible).toBe(true)
 
       await wrapper.find('[role=alert]').trigger('mouseleave')
       // expect(wrapper.vm.timer).not.toBe(null)
-      expect(vm.visible).toBe(true)
+      expect(wrapper.vm.visible).toBe(true)
       // expect(wrapper.vm.closed).toBe(false)
       vi.runAllTimers()
-      expect(vm.visible).toBe(false)
+      expect(wrapper.vm.visible).toBe(false)
       // expect(wrapper.vm.timer).toBe(null)
       // expect(wrapper.vm.closed).toBe(true)
       vi.useRealTimers()
@@ -208,10 +194,8 @@ describe('Notification.vue', () => {
         },
       })
 
-      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean }>
-
       vi.runAllTimers()
-      expect(vm.visible).toBe(true)
+      expect(wrapper.vm.visible).toBe(true)
       vi.useRealTimers()
     })
 
@@ -232,20 +216,18 @@ describe('Notification.vue', () => {
       vi.useFakeTimers()
       const wrapper = _mount({
         slots: {
-          default: AXIOM,
+          default: () => AXIOM,
         },
       })
 
-      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean }>
-
       const event = new KeyboardEvent('keydown', {
         code: EVENT_CODE.backspace,
-        babels: true,
-      } as any)
+        bubbles: true,
+      })
       document.dispatchEvent(event)
 
       vi.runAllTimers()
-      expect(vm.visible).toBe(true)
+      expect(wrapper.vm.visible).toBe(true)
       vi.useRealTimers()
     })
 
@@ -256,18 +238,18 @@ describe('Notification.vue', () => {
           duration: 0,
         },
         slots: {
-          default: AXIOM,
+          default: () => AXIOM,
         },
       })
-      const vm = wrapper.vm as ComponentPublicInstance<{ visible: boolean }>
+
       // Same as above
       const event = new KeyboardEvent('keydown', {
         code: EVENT_CODE.esc,
-      } as any)
+      })
 
       document.dispatchEvent(event)
       vi.runAllTimers()
-      expect(vm.visible).toBe(false)
+      expect(wrapper.vm.visible).toBe(false)
       vi.useRealTimers()
     })
   })
