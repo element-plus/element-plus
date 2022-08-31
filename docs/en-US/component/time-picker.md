@@ -68,5 +68,5 @@ time-picker/range
 | ----------- | --------------------------- | ---------- |
 | focus       | focus the Input component   | —          |
 | blur        | blur the Input component    | —          |
-| handleOpen  | open the datepicker popper  | —          |
-| handleClose | close the datepicker popper | —          |
+| handleOpen  | open the TimePicker popper  | —          |
+| handleClose | close the TimePicker popper | —          |
