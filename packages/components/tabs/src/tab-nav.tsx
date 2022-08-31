@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -350,7 +349,7 @@ const TabNav = defineComponent({
             onBlur={() => removeFocus()}
             onClick={(ev: MouseEvent) => {
               removeFocus()
-              props.onTabClick(pane, tabName, ev)
+              props.onTabClick!(pane, tabName, ev)
             }}
             onKeydown={(ev: KeyboardEvent) => {
               if (
@@ -358,7 +357,7 @@ const TabNav = defineComponent({
                 (ev.code === EVENT_CODE.delete ||
                   ev.code === EVENT_CODE.backspace)
               ) {
-                props.onTabRemove(pane, ev)
+                props.onTabRemove!(pane, ev)
               }
             }}
           >
