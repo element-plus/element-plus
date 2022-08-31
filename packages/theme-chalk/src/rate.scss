@@ -25,7 +25,7 @@ $rate-height: map.merge(
 
   &:focus,
   &:active {
-    outline-width: 0;
+    outline: none;
   }
 
   @include e(item) {
@@ -34,15 +34,16 @@ $rate-height: map.merge(
     position: relative;
     font-size: 0;
     vertical-align: middle;
-    color: var(--el-rate-void-color);
+    color: getCssVar('rate-void-color');
+    line-height: normal;
   }
 
   & .#{bem('rate', 'icon')} {
     position: relative;
     display: inline-block;
-    font-size: var(--el-rate-icon-size);
-    margin-right: var(--el-rate-icon-margin);
-    transition: var(--el-transition-duration);
+    font-size: getCssVar('rate-icon-size');
+    margin-right: getCssVar('rate-icon-margin');
+    transition: getCssVar('transition-duration');
 
     &.hover {
       transform: scale(1.15);
@@ -69,7 +70,7 @@ $rate-height: map.merge(
   }
 
   @include e(text) {
-    font-size: var(--el-rate-font-size);
+    font-size: getCssVar('rate-font-size');
     vertical-align: middle;
     color: getCssVar('rate', 'text-color');
   }

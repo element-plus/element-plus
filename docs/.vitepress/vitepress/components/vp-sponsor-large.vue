@@ -1,22 +1,28 @@
 <script setup lang="ts">
-import { platinumSponsors } from '../../config/sponsors'
+import { leftCustomImgSponsors } from '../../config/sponsors'
+import { sendEvent } from '../../config/analytics'
 
 defineProps({
   itemClass: String,
   itemStyle: [String, Object, Array],
 })
+
+const onItemClick = (item: any) => {
+  sendEvent('sp_click', item.name, 'left_custom_img')
+}
 </script>
 
 <template>
-  <div class="sponsor-container">
+  <div>
     <a
-      v-for="item in platinumSponsors"
+      v-for="item in leftCustomImgSponsors"
       :key="item.name"
       :href="item.url"
       :title="`${item.name_cn || item.name} - ${item.slogan_cn || item.slogan}`"
       :class="['sponsor-item inline-flex', itemClass]"
       :style="itemStyle"
       target="_blank"
+      @click="onItemClick(item)"
     >
       <img :src="item.banner_img" :alt="item.name" />
     </a>

@@ -58,11 +58,13 @@ Then add the code below into your `Vite` or `Webpack` config file.
 
 ```ts
 // vite.config.ts
+import { defineConfig } from 'vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
-export default {
+export default defineConfig({
+  // ...
   plugins: [
     // ...
     AutoImport({
@@ -72,7 +74,7 @@ export default {
       resolvers: [ElementPlusResolver()],
     }),
   ],
-}
+})
 ```
 
 ##### Webpack
@@ -122,11 +124,13 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
 
 ```ts
 // vite.config.ts
+import { defineConfig } from 'vite'
 import ElementPlus from 'unplugin-element-plus/vite'
 
-export default {
+export default defineConfig({
+  // ...
   plugins: [ElementPlus()],
-}
+})
 ```
 
 :::warning

@@ -30,8 +30,20 @@ export const useGridWheel = (
   const onWheel = (e: WheelEvent) => {
     cAF(frameHandle!)
 
-    const x = e.deltaX
-    const y = e.deltaY
+    let x = e.deltaX
+    let y = e.deltaY
+    // Simulate native behavior when using touch pad/track pad for wheeling.
+    if (Math.abs(x) > Math.abs(y)) {
+      y = 0
+    } else {
+      x = 0
+    }
+
+    // Special case for windows machine with shift key + wheel scrolling
+    if (e.shiftKey && y !== 0) {
+      x = y
+      y = 0
+    }
 
     if (
       hasReachedEdge(xOffset, yOffset) &&

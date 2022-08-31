@@ -6,7 +6,7 @@
 
 @include b(select-dropdown) {
   @include e(option-item) {
-    font-size: var(--el-select-font-size);
+    font-size: getCssVar('select-font-size');
     // 20 as the padding of option item, 12 as the size of ✓ icon size
     padding: 0 #{20 + 12}px 0 20px;
     position: relative;
@@ -24,7 +24,7 @@
       cursor: not-allowed;
 
       &:hover {
-        background-color: var(--el-color-white);
+        background-color: getCssVar('bg-color');
       }
     }
 

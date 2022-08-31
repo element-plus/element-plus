@@ -57,6 +57,10 @@
     "text": "Form",
     "children": [
       {
+        "link": "/autocomplete",
+        "text": "Autocomplete"
+      },
+      {
         "link": "/cascader",
         "text": "Cascader"
       },
@@ -195,6 +199,11 @@
         "text": "Table"
       },
       {
+        "link": "/table-v2",
+        "text": "Virtualized Table",
+        "promotion": "2.2.0"
+      },
+      {
         "link": "/tag",
         "text": "Tag"
       },
@@ -287,7 +296,7 @@
       },
       {
         "link": "/popconfirm",
-        "text": "Pop Confirm"
+        "text": "Popconfirm"
       },
       {
         "link": "/popover",

@@ -57,7 +57,7 @@ badge/dot
 | `max`     | maximum value, shows `{max}+` when exceeded. Only works if `value` is a number. | `number`                                                    | `99`       |
 | `is-dot`  | if a little dot is displayed.                                                   | `boolean`                                                   | `false`    |
 | `hidden`  | hidden badge.                                                                   | `boolean`                                                   | `false`    |
-| `type`    | button type.                                                                    | `'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'danger'` |
+| `type`    | badge type.                                                                     | `'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'danger'` |
 
 ### Badge Slots
 

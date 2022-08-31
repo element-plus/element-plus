@@ -7,8 +7,6 @@ import {
   computed,
   defineComponent,
   inject,
-  onBeforeUnmount,
-  onMounted,
   provide,
   readonly,
   ref,
@@ -16,7 +14,8 @@ import {
   unref,
   watch,
 } from 'vue'
-import { composeEventHandlers, off, on } from '@element-plus/utils'
+import { useEventListener } from '@vueuse/core'
+import { composeEventHandlers } from '@element-plus/utils'
 import {
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,
   rovingFocusGroupProps,
@@ -148,15 +147,7 @@ export default defineComponent({
       }
     )
 
-    onMounted(() => {
-      const rovingFocusGroupEl = unref(rovingFocusGroupRef)!
-      on(rovingFocusGroupEl, ENTRY_FOCUS_EVT, handleEntryFocus)
-    })
-
-    onBeforeUnmount(() => {
-      const rovingFocusGroupEl = unref(rovingFocusGroupRef)!
-      off(rovingFocusGroupEl, ENTRY_FOCUS_EVT, handleEntryFocus)
-    })
+    useEventListener(rovingFocusGroupRef, ENTRY_FOCUS_EVT, handleEntryFocus)
   },
 })
 </script>

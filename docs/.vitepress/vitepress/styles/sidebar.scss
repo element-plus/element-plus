@@ -13,7 +13,7 @@
   padding: 48px 32px 0;
   overflow-y: auto;
   transform: translate(-100%);
-  transition: background-color 0.5s, opacity 0.25s,
+  transition: background-color var(--el-transition-duration-fast), opacity 0.25s,
     transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
 
   &.open {
@@ -50,18 +50,18 @@
 
   @include respond-to('xxl') {
     // 6px stands for 3px sidebar scrollbar width + 3 content scrollbar width
-    padding: 48px 32px 96px calc((100% - var(--vp-screen-max-width)) / 2);
+    padding: 48px 32px 96px calc((100vw - var(--vp-screen-max-width)) / 2);
 
     width: calc(
-      (100% - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small)
+      (100vw - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small)
     );
   }
 
   @include respond-to('max') {
-    padding: 48px 48px 96px calc((100% - var(--vp-screen-max-width)) / 2);
+    padding: 48px 48px 96px calc((100vw - var(--vp-screen-max-width)) / 2);
 
     width: calc(
-      (100% - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small)
+      (100vw - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small)
     );
   }
 }

@@ -25,10 +25,10 @@ breadcrumb/icon
 
 ## Breadcrumb Attributes
 
-| Attribute      | Description                      | Type               | Accepted Values | Default |
-| -------------- | -------------------------------- | ------------------ | --------------- | ------- |
-| separator      | separator character              | string             | —               | /       |
-| separator-icon | icon component of icon separator | string / Component | —               | -       |
+| Attribute      | Description                      | Type                  | Accepted Values | Default |
+| -------------- | -------------------------------- | --------------------- | --------------- | ------- |
+| separator      | separator character              | string                | —               | /       |
+| separator-icon | icon component of icon separator | `string \| Component` | —               | -       |
 
 ## Breadcrumb Slots
 

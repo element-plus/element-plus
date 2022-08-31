@@ -16,7 +16,16 @@ export const formProps = buildProps({
   rules: {
     type: definePropType<FormRules>(Object),
   },
-  labelPosition: String,
+  labelPosition: {
+    type: String,
+    values: ['left', 'right', 'top'],
+    default: 'right',
+  },
+  requireAsteriskPosition: {
+    type: String,
+    values: ['left', 'right'],
+    default: 'left',
+  },
   labelWidth: {
     type: [String, Number],
     default: '',

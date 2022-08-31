@@ -4,15 +4,19 @@
 
 @include b(tooltip-v2) {
   @include e(content) {
-    --el-tooltip-v2-padding: 5px 10px;
-    --el-tooltip-v2-border-radius: 4px;
-    --#{$namespace}-tooltip-v2-border-color: var(--el-border-color);
+    --#{$namespace}-tooltip-v2-padding: 5px 10px;
+    --#{$namespace}-tooltip-v2-border-radius: 4px;
 
-    border-radius: var(--el-tooltip-v2-border-radius);
-    color: var(--el-color-black);
-    background-color: var(--el-color-white);
-    padding: var(--el-tooltip-v2-padding);
-    border: 1px solid var(--el-border-color);
+    @include css-var-from-global(
+      ('tooltip-v2', 'border-color'),
+      ('border-color')
+    );
+
+    border-radius: getCssVar('tooltip-v2-border-radius');
+    color: getCssVar('color-black');
+    background-color: getCssVar('color-white');
+    padding: getCssVar('tooltip-v2-padding');
+    border: 1px solid getCssVar('border-color');
 
     $content-selector: &;
 
@@ -25,7 +29,7 @@
 
     @include e(arrow) {
       position: absolute;
-      color: var(--el-color-white);
+      color: getCssVar('color-white');
       width: var(--#{$namespace}-tooltip-v2-arrow-width);
       height: var(--#{$namespace}-tooltip-v2-arrow-height);
       pointer-events: none;
@@ -78,12 +82,12 @@
 
     &.is-dark {
       --#{$namespace}-tooltip-v2-border-color: transparent;
-      background-color: var(--el-color-black);
-      color: var(--el-color-white);
+      background-color: getCssVar('color-black');
+      color: getCssVar('color-white');
       border-color: transparent;
 
       @include e(arrow) {
-        background-color: var(--el-color-black);
+        background-color: getCssVar('color-black');
         border-color: transparent;
       }
     }

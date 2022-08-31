@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isFunction } from '@vue/shared'
 import { isNumber, isUndefined, throwError } from '@element-plus/utils'
 import createGrid from '../builders/build-grid'
@@ -57,6 +58,7 @@ const getItemFromCache = (
     }
 
     for (let i = lastVisited + 1; i <= index; i++) {
+      // console.log(i, sizer(i))
       const size = sizer(i)
 
       cachedItems[i] = {
@@ -339,12 +341,16 @@ const DynamicSizeGrid = createGrid({
       }
 
       if (isNumber(rowIndex)) {
+        // console.log(rowIndex)
         cache.value.lastVisitedRowIndex = Math.min(
           cache.value.lastVisitedRowIndex,
           rowIndex - 1
         )
       }
-      if (forceUpdate) instance.update()
+
+      instance.exposed?.getItemStyleCache.value(-1, null, null)
+
+      if (forceUpdate) instance.proxy?.$forceUpdate()
     }
 
     const resetAfterColumnIndex = (
@@ -391,7 +397,7 @@ const DynamicSizeGrid = createGrid({
     return cache
   },
 
-  clearCache: true,
+  clearCache: false,
 
   validateProps: ({ columnWidth, rowHeight }) => {
     if (process.env.NODE_ENV !== 'production') {
@@ -409,7 +415,7 @@ const DynamicSizeGrid = createGrid({
         throwError(
           SCOPE,
           `
-          "columnWidth" must be passed as function,
+          "rowHeight" must be passed as function,
             instead ${typeof rowHeight} was given.
         `
         )

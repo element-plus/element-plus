@@ -1,4 +1,5 @@
 <script lang="ts">
+// @ts-nocheck
 import { computed, defineComponent, h, onMounted, reactive, ref } from 'vue'
 import { pick } from 'lodash-unified'
 import ElSelect from '@element-plus/components/select'
@@ -20,7 +21,7 @@ export default defineComponent({
     const select = ref<InstanceType<typeof ElSelect>>()
     const tree = ref<InstanceType<typeof ElTree>>()
 
-    const key = computed(() => props.valueKey || props.nodeKey || 'value')
+    const key = computed(() => props.nodeKey || props.valueKey || 'value')
 
     const selectProps = useSelect(props, context, { select, tree, key })
     const treeProps = useTree(props, context, { select, tree, key })

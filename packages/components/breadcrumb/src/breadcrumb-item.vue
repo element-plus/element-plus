@@ -18,14 +18,13 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, inject, ref } from 'vue'
+import { getCurrentInstance, inject, ref, toRefs } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { breadcrumbKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
 import { breadcrumbItemProps } from './breadcrumb-item'
 
 import type { Router } from 'vue-router'
-import type { BreadcrumbProps } from './breadcrumb'
 
 defineOptions({
   name: 'ElBreadcrumbItem',
@@ -34,12 +33,11 @@ defineOptions({
 const props = defineProps(breadcrumbItemProps)
 
 const instance = getCurrentInstance()!
-const router = instance.appContext.config.globalProperties.$router as Router
-const breadcrumbInjection = inject(breadcrumbKey, {} as BreadcrumbProps)!
-
+const breadcrumbContext = inject(breadcrumbKey, undefined)!
 const ns = useNamespace('breadcrumb')
 
-const { separator, separatorIcon } = breadcrumbInjection
+const { separator, separatorIcon } = toRefs(breadcrumbContext)
+const router = instance.appContext.config.globalProperties.$router as Router
 
 const link = ref<HTMLSpanElement>()
 
