@@ -44,4 +44,26 @@ describe('<image-viewer />', () => {
     expect(wrapper.emitted('close')).toBeDefined()
     wrapper.unmount()
   })
+
+  test('manually switch image', async () => {
+    const wrapper = mount({
+      props: {
+        urlList: [IMAGE_SUCCESS, IMAGE_SUCCESS],
+      },
+    })
+
+    await doubleWait()
+    const viewer = wrapper.find('.el-image-viewer__wrapper')
+    expect(viewer.exists()).toBe(true)
+
+    const imgList = wrapper.findAll('.el-image-viewer__img')
+    expect(imgList[0].attributes('style')).not.contains('display: none;')
+    expect(imgList[1].attributes('style')).contains('display: none;')
+
+    wrapper.vm.setActiveItem(1)
+    await doubleWait()
+    expect(imgList[0].attributes('style')).contains('display: none;')
+    expect(imgList[1].attributes('style')).not.contains('display: none;')
+    wrapper.unmount()
+  })
 })

@@ -62,7 +62,9 @@ export const useNamespace = (block: string) => {
   const cssVar = (object: Record<string, string>) => {
     const styles: Record<string, string> = {}
     for (const key in object) {
-      styles[`--${namespace.value}-${key}`] = object[key]
+      if (object[key]) {
+        styles[`--${namespace.value}-${key}`] = object[key]
+      }
     }
     return styles
   }
@@ -70,7 +72,9 @@ export const useNamespace = (block: string) => {
   const cssVarBlock = (object: Record<string, string>) => {
     const styles: Record<string, string> = {}
     for (const key in object) {
-      styles[`--${namespace.value}-${block}-${key}`] = object[key]
+      if (object[key]) {
+        styles[`--${namespace.value}-${block}-${key}`] = object[key]
+      }
     }
     return styles
   }

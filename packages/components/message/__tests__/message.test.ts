@@ -36,7 +36,7 @@ describe('Message.vue', () => {
       expect(wrapper.text()).toEqual(AXIOM)
       expect(vm.visible).toBe(true)
       expect(vm.iconComponent).toBe(TypeComponentsMap['info'])
-      expect(vm.customStyle).toEqual({ top: '20px', zIndex: 0 })
+      expect(vm.customStyle).toEqual({ top: '16px', zIndex: 0 })
     })
 
     test('should be able to render VNode', () => {
@@ -91,10 +91,8 @@ describe('Message.vue', () => {
       const type = 'some-type'
       const wrapper = _mount({ props: { type } })
 
-      for (const key in TypeComponentsMap) {
-        expect(wrapper.findComponent(TypeComponentsMap[key]).exists()).toBe(
-          false
-        )
+      for (const component of Object.values(TypeComponentsMap)) {
+        expect(wrapper.findComponent(component).exists()).toBe(false)
       }
       console.warn = consoleWarn
     })

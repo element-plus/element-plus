@@ -1,8 +1,8 @@
 <template>
-  <div class="el-color-alpha-slider" :class="{ 'is-vertical': vertical }">
+  <div :class="[ns.b(), ns.is('vertical', vertical)]">
     <div
       ref="bar"
-      class="el-color-alpha-slider__bar"
+      :class="ns.e('bar')"
       :style="{
         background,
       }"
@@ -10,7 +10,7 @@
     />
     <div
       ref="thumb"
-      class="el-color-alpha-slider__thumb"
+      :class="ns.e('thumb')"
       :style="{
         left: thumbLeft + 'px',
         top: thumbTop + 'px',
@@ -20,6 +20,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   defineComponent,
   getCurrentInstance,
@@ -29,6 +30,7 @@ import {
   watch,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -48,6 +50,8 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const ns = useNamespace('color-alpha-slider')
+
     const instance = getCurrentInstance()
     // ref
     const thumb = shallowRef<Nullable<HTMLElement>>(null)
@@ -174,6 +178,7 @@ export default defineComponent({
       background,
       handleClick,
       update,
+      ns,
     }
   },
 })

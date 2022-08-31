@@ -14,14 +14,15 @@ export function useActiveSidebarLinks(
   function setActiveLink() {
     const sidebarLinks = getSidebarLinks()
     const anchors = getAnchors(sidebarLinks)
-
-    if (
-      anchors.length &&
-      window.scrollY + window.innerHeight === document.body.offsetHeight
-    ) {
-      activateLink(anchors[anchors.length - 1].hash)
-      return
-    }
+    // Cancel the processing of the anchor point being forced to be the last one in the storefront
+    // if (
+    //   anchors.length &&
+    //   scrollDom &&
+    //   scrollDom.scrollTop + scrollDom.clientHeight === scrollDom.scrollHeight
+    // ) {
+    //   activateLink(anchors[anchors.length - 1].hash)
+    //   return
+    // }
     for (let i = 0; i < anchors.length; i++) {
       const anchor = anchors[i]
       const nextAnchor = anchors[i + 1]

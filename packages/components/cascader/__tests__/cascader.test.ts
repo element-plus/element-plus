@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
@@ -274,13 +275,12 @@ describe('Cascader.vue', () => {
       },
     })
     await nextTick()
-    expect(wrapper.findAll(TAG).length).toBe(5)
+    expect(wrapper.findAll(TAG).length).toBe(4)
     const tags = wrapper.findAll(TAG).filter((item) => {
       return hasClass(item.element, 'in-tooltip')
     })
-    expect(tags[0].text()).toBe('Zhejiang / Hangzhou')
-    expect(tags[1].text()).toBe('Zhejiang / Ningbo')
-    expect(tags[2].text()).toBe('Zhejiang / Wenzhou')
+    expect(tags[0].text()).toBe('Zhejiang / Ningbo')
+    expect(tags[1].text()).toBe('Zhejiang / Wenzhou')
   })
 
   test('tag type', async () => {
