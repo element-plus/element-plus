@@ -3,7 +3,6 @@
     v-model="value"
     :options="options"
     placeholder="Please select"
-    size="large"
     value-key="value.name"
   />
 </template>
