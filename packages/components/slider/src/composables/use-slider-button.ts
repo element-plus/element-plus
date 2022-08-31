@@ -228,8 +228,8 @@ export const useSliderButton = (
         }
         if (!initData.isClick) {
           setPosition(initData.newPosition)
-          emitChange()
         }
+        emitChange()
       }, 0)
       window.removeEventListener('mousemove', onDragging)
       window.removeEventListener('touchmove', onDragging)
@@ -251,7 +251,10 @@ export const useSliderButton = (
     let value =
       steps * lengthPerStep * (max.value - min.value) * 0.01 + min.value
     value = Number.parseFloat(value.toFixed(precision.value))
-    emit(UPDATE_MODEL_EVENT, value)
+
+    if (value !== props.modelValue) {
+      emit(UPDATE_MODEL_EVENT, value)
+    }
 
     if (!initData.dragging && props.modelValue !== initData.oldValue) {
       initData.oldValue = props.modelValue
@@ -270,6 +273,7 @@ export const useSliderButton = (
   )
 
   return {
+    disabled,
     button,
     tooltip,
     tooltipVisible,

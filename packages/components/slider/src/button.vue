@@ -3,7 +3,7 @@
     ref="button"
     :class="[ns.e('button-wrapper'), { hover: hovering, dragging }]"
     :style="wrapperStyle"
-    tabindex="0"
+    :tabindex="disabled ? -1 : 0"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
     @mousedown="onButtonDown"
@@ -14,8 +14,9 @@
   >
     <el-tooltip
       ref="tooltip"
-      v-model:visible="tooltipVisible"
-      placement="top"
+      :visible="tooltipVisible"
+      :placement="placement"
+      :fallback-placements="['top', 'bottom', 'right', 'left']"
       :stop-popper-mouse-event="false"
       :popper-class="tooltipClass"
       :disabled="!showTooltip"
@@ -60,6 +61,7 @@ const initData = reactive<SliderButtonInitData>({
 })
 
 const {
+  disabled,
   button,
   tooltip,
   showTooltip,

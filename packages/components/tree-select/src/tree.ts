@@ -1,9 +1,11 @@
+// @ts-nocheck
 import { computed, nextTick, toRefs, watch } from 'vue'
 import { isEqual, pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
+import { isValidArray, isValidValue, toValidArray, treeFind } from './utils'
 import type { Ref } from 'vue'
 import type ElSelect from '@element-plus/components/select'
 import type Node from '@element-plus/components/tree/src/model/node'
@@ -66,6 +68,18 @@ export const useTree = (
     }
   }
 
+  const defaultExpandedParentKeys = toValidArray(props.modelValue)
+    .map((value) => {
+      return treeFind(
+        props.data || [],
+        (data) => getNodeValByProp('value', data) === value,
+        (data) => getNodeValByProp('children', data),
+        (data, index, array, parent) =>
+          parent && getNodeValByProp('value', parent)
+      )
+    })
+    .filter((item) => isValidValue(item))
+
   return {
     ...pick(toRefs(props), Object.keys(ElTree.props)),
     ...attrs,
@@ -76,17 +90,12 @@ export const useTree = (
       return !props.checkStrictly
     }),
 
-    // auto expand selected parent node
+    // show current selected node only first time,
+    // fix the problem of expanding multiple nodes when checking multiple nodes
     defaultExpandedKeys: computed(() => {
-      const values = toValidArray(props.modelValue)
-      const parentKeys = tree.value
-        ? values
-            .map((item) => tree.value?.getNode(item)?.parent?.key)
-            .filter((item) => isValidValue(item))
-        : values
       return props.defaultExpandedKeys
-        ? props.defaultExpandedKeys.concat(parentKeys)
-        : parentKeys
+        ? props.defaultExpandedKeys.concat(defaultExpandedParentKeys)
+        : defaultExpandedParentKeys
     }),
 
     renderContent: (h, { node, data, store }) => {
@@ -113,14 +122,11 @@ export const useTree = (
     onNodeClick: (data, node, e) => {
       attrs.onNodeClick?.(data, node, e)
 
-      if (
-        (props.checkStrictly
-          ? props.showCheckbox
-            ? props.checkOnClickNode
-            : props.checkStrictly
-          : props.checkStrictly) ||
-        node.isLeaf
-      ) {
+      // `onCheck` is trigger when `checkOnClickNode`
+      if (props.showCheckbox && props.checkOnClickNode) return
+
+      // now `checkOnClickNode` is false, only no checkbox and `checkStrictly` or `isLeaf`
+      if (!props.showCheckbox && (props.checkStrictly || node.isLeaf)) {
         if (!getNodeValByProp('disabled', data)) {
           const option = select.value?.options.get(
             getNodeValByProp('value', data)
@@ -134,28 +140,55 @@ export const useTree = (
     onCheck: (data, params) => {
       attrs.onCheck?.(data, params)
 
-      // remove folder node when `checkStrictly` is false
-      const checkedKeys = !props.checkStrictly
-        ? tree.value?.getCheckedKeys(true)
-        : params.checkedKeys
+      const dataValue = getNodeValByProp('value', data)
+      if (props.checkStrictly) {
+        emit(
+          UPDATE_MODEL_EVENT,
+          // Checking for changes may come from `check-on-node-click`
+          props.multiple
+            ? params.checkedKeys
+            : params.checkedKeys.includes(dataValue)
+            ? dataValue
+            : undefined
+        )
+      }
+      // only can select leaf node
+      else {
+        if (props.multiple) {
+          emit(
+            UPDATE_MODEL_EVENT,
+            (tree.value as InstanceType<typeof ElTree>).getCheckedKeys(true)
+          )
+        } else {
+          // select first leaf node when check parent
+          const firstLeaf = treeFind(
+            [data],
+            (data) =>
+              !isValidArray(getNodeValByProp('children', data)) &&
+              !getNodeValByProp('disabled', data),
+            (data) => getNodeValByProp('children', data)
+          )
+          const firstLeafKey = firstLeaf
+            ? getNodeValByProp('value', firstLeaf)
+            : undefined
 
-      const value = getNodeValByProp('value', data)
-      emit(
-        UPDATE_MODEL_EVENT,
-        props.multiple
-          ? checkedKeys
-          : checkedKeys.includes(value)
-          ? value
-          : undefined
-      )
+          // unselect when any child checked
+          const hasCheckedChild =
+            isValidValue(props.modelValue) &&
+            !!treeFind(
+              [data],
+              (data) => getNodeValByProp('value', data) === props.modelValue,
+              (data) => getNodeValByProp('children', data)
+            )
+
+          emit(
+            UPDATE_MODEL_EVENT,
+            firstLeafKey === props.modelValue || hasCheckedChild
+              ? undefined
+              : firstLeafKey
+          )
+        }
+      }
     },
   }
-}
-
-function isValidValue(val: any) {
-  return val || val === 0
-}
-
-function toValidArray(val: any) {
-  return Array.isArray(val) ? val : isValidValue(val) ? [val] : []
 }

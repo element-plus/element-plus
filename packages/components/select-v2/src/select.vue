@@ -9,7 +9,7 @@
   >
     <el-tooltip
       ref="popper"
-      v-model:visible="dropdownMenuVisible"
+      :visible="dropdownMenuVisible"
       :teleported="teleported"
       :popper-class="[nsSelectV2.e('popper'), popperClass]"
       :gpu-acceleration="false"
@@ -179,6 +179,7 @@
                 :unselectable="expanded ? 'on' : undefined"
                 @update:modelValue="onUpdateInputValue"
                 @focus="handleFocus"
+                @blur="handleBlur"
                 @input="onInput"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
@@ -227,6 +228,7 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @focus="handleFocus"
+                @blur="handleBlur"
                 @input="onInput"
                 @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
                 @keydown.down.stop.prevent="onKeyboardNavigate('forward')"

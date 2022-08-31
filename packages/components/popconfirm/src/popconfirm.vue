@@ -3,7 +3,9 @@
     ref="tooltipRef"
     trigger="click"
     effect="light"
+    v-bind="$attrs"
     :popper-class="`${ns.namespace.value}-popover`"
+    :popper-style="style"
     :teleported="teleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
@@ -53,6 +55,7 @@ import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { addUnit } from '@element-plus/utils'
 import { popconfirmProps } from './popconfirm'
 
 import type { TooltipInstance } from '@element-plus/components/tooltip'
@@ -71,17 +74,19 @@ const hidePopper = () => {
   tooltipRef.value?.onClose?.()
 }
 
-const handleCallback = () => {
-  hidePopper()
-}
+const style = computed(() => {
+  return {
+    width: addUnit(props.width),
+  }
+})
 
 const confirm = (e: Event) => {
   props.onConfirm?.(e)
-  handleCallback()
+  hidePopper()
 }
 const cancel = (e: Event) => {
   props.onCancel?.(e)
-  handleCallback()
+  hidePopper()
 }
 
 const finalConfirmButtonText = computed(

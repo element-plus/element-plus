@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, nextTick, toRefs } from 'vue'
 import { pick } from 'lodash-unified'
 import ElSelect from '@element-plus/components/select'

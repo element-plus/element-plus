@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
@@ -145,7 +146,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // fill the conditions here.
       const query = states.inputValue
       // when query was given, we should test on the label see whether the label contains the given query
-      const containsQueryString = query ? o.label.includes(query) : true
+      const containsQueryString = query ? o.label?.includes(query) : true
       return containsQueryString
     }
     if (props.loading) {
@@ -199,7 +200,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const calculatePopperSize = () => {
-    popperSize.value = selectRef.value?.getBoundingClientRect?.()?.width || 200
+    popperSize.value = selectRef.value?.offsetWidth || 200
   }
 
   const inputWrapperStyle = computed(() => {
@@ -467,7 +468,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const handleBlur = () => {
+  const handleBlur = (event: FocusEvent) => {
     states.softFocus = false
 
     // reset input value when blurred
@@ -482,7 +483,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.isSilentBlur = false
       } else {
         if (states.isComposing) {
-          emit('blur')
+          emit('blur', event)
         }
       }
       states.isComposing = false
@@ -713,7 +714,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if (!val || val.toString() !== states.previousValue) {
         initStates()
       }
-      if (!isEqual(val, oldVal)) {
+      if (!isEqual(val, oldVal) && props.validateEvent) {
         elFormItem?.validate?.('change').catch((err) => debugWarn(err))
       }
     },

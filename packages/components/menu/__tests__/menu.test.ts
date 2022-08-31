@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
@@ -190,7 +191,7 @@ describe('menu', () => {
   })
 
   test('menu-overflow', async () => {
-    // TODO: jsdom not support `offsetWidth`.
+    // TODO: jsdom not support `offsetWidth` and `ResizeObserver`.
   })
 })
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+// @ts-nocheck
 import { computed, defineComponent, h, onMounted, reactive, ref } from 'vue'
 import { pick } from 'lodash-unified'
 import ElSelect from '@element-plus/components/select'
