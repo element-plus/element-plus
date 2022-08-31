@@ -221,8 +221,8 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | Method      | Description                 | Parameters |
 | ----------- | --------------------------- | ---------- |
 | focus       | focus the Input component   | —          |
-| handleOpen  | open the datepicker popper  | —          |
-| handleClose | close the datepicker popper | —          |
+| handleOpen  | open the DatePicker popper  | —          |
+| handleClose | close the DatePicker popper | —          |
 
 ## Slots
 
