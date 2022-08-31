@@ -1,7 +1,7 @@
 import type { DirectiveBinding, ObjectDirective } from 'vue'
 
-const REPEAT_INTERVAL = 100
-const REPEAT_DELAY = 600
+export const REPEAT_INTERVAL = 100
+export const REPEAT_DELAY = 600
 
 const RepeatClick: ObjectDirective = {
   beforeMount(el: HTMLElement, binding: DirectiveBinding) {
