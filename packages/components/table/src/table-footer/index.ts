@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineComponent, h } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { hColgroup } from '../h-helper'
@@ -80,7 +81,7 @@ export default defineComponent({
         const precisions = []
         let notNumber = true
         values.forEach((value) => {
-          if (!isNaN(value)) {
+          if (!Number.isNaN(+value)) {
             notNumber = false
             const decimal = `${value}`.split('.')[1]
             precisions.push(decimal ? decimal.length : 0)
@@ -90,8 +91,10 @@ export default defineComponent({
         if (!notNumber) {
           sums[index] = values.reduce((prev, curr) => {
             const value = Number(curr)
-            if (!isNaN(value)) {
-              return parseFloat((prev + curr).toFixed(Math.min(precision, 20)))
+            if (!Number.isNaN(+value)) {
+              return Number.parseFloat(
+                (prev + curr).toFixed(Math.min(precision, 20))
+              )
             } else {
               return prev
             }
@@ -110,7 +113,9 @@ export default defineComponent({
         border: '0',
       },
       [
-        hColgroup(columns),
+        hColgroup({
+          columns,
+        }),
         h('tbody', [
           h('tr', {}, [
             ...columns.map((column, cellIndex) =>

@@ -4,24 +4,19 @@
       <slot name="header">{{ header }}</slot>
     </div>
     <div :class="ns.e('body')" :style="bodyStyle">
-      <slot></slot>
+      <slot />
     </div>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
 import { cardProps } from './card'
 
-export default defineComponent({
+defineOptions({
   name: 'ElCard',
-  props: cardProps,
-  setup() {
-    const ns = useNamespace('card')
-
-    return {
-      ns,
-    }
-  },
 })
+
+defineProps(cardProps)
+
+const ns = useNamespace('card')
 </script>

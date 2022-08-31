@@ -1,5 +1,7 @@
 # Why this chapter exists
 
+Please refer to [Conventional Commits](https://www.conventionalcommits.org/) for more information.
+
 A good commit message enables us:
 
 1. To understand what the contributor is trying to do
@@ -58,7 +60,7 @@ A good commit message enables us:
 Below is a template commit message for your reference.
 
 ```md
-feat(components): [el-button] I did something with button
+feat(components): [button] I did something with button
 
 Blank between subject and body is expected.(period is expected)
 Describes your change in one line or multi-line.
@@ -75,3 +77,7 @@ For the subject header, the format is:
 ```
 
 You can checkout the allowed values for **type** and **scope** in [commitlint.config.js](https://github.com/element-plus/element-plus/blob/c2ee36a7fc72b17742d43ecdff4e2912c416141d/commitlint.config.js#L57),
+
+## Useful links
+
+[Keeping git commit history clean](https://about.gitlab.com/blog/2018/06/07/keeping-git-commit-history-clean/)

@@ -26,9 +26,9 @@
     :data-prefix="ns.namespace.value"
     @mouseleave="handleMouseLeave()"
   >
-    <div :class="ns.e('inner-wrapper')">
+    <div :class="ns.e('inner-wrapper')" :style="tableInnerStyle">
       <div ref="hiddenColumns" class="hidden-columns">
-        <slot></slot>
+        <slot />
       </div>
       <div
         v-if="showHeader && tableLayout === 'fixed'"
@@ -47,8 +47,9 @@
           <hColgroup
             :columns="store.states.columns.value"
             :table-layout="tableLayout"
-          ></hColgroup>
+          />
           <table-header
+            ref="tableHeaderRef"
             :border="border"
             :default-sort="defaultSort"
             :store="store"
@@ -56,11 +57,12 @@
           />
         </table>
       </div>
-      <div ref="bodyWrapper" :style="bodyHeight" :class="ns.e('body-wrapper')">
+      <div ref="bodyWrapper" :class="ns.e('body-wrapper')">
         <el-scrollbar
-          ref="scrollWrapper"
-          :height="maxHeight ? undefined : height"
-          :max-height="maxHeight ? height : undefined"
+          ref="scrollBarRef"
+          :view-style="scrollbarViewStyle"
+          :wrap-style="scrollbarStyle"
+          :always="scrollbarAlwaysOn"
         >
           <table
             ref="tableBody"
@@ -76,9 +78,10 @@
             <hColgroup
               :columns="store.states.columns.value"
               :table-layout="tableLayout"
-            ></hColgroup>
+            />
             <table-header
               v-if="showHeader && tableLayout === 'auto'"
+              ref="tableHeaderRef"
               :border="border"
               :default-sort="defaultSort"
               :store="store"
@@ -109,38 +112,39 @@
             ref="appendWrapper"
             :class="ns.e('append-wrapper')"
           >
-            <slot name="append"></slot>
+            <slot name="append" />
           </div>
         </el-scrollbar>
       </div>
-      <div v-if="border || isGroup" :class="ns.e('border-left-patch')"></div>
-    </div>
-    <div
-      v-if="showSummary"
-      v-show="!isEmpty"
-      ref="footerWrapper"
-      v-mousewheel="handleHeaderFooterMousewheel"
-      :class="ns.e('footer-wrapper')"
-    >
-      <table-footer
-        :border="border"
-        :default-sort="defaultSort"
-        :store="store"
-        :style="tableBodyStyles"
-        :sum-text="computedSumText"
-        :summary-method="summaryMethod"
-      />
+      <div
+        v-if="showSummary"
+        v-show="!isEmpty"
+        ref="footerWrapper"
+        v-mousewheel="handleHeaderFooterMousewheel"
+        :class="ns.e('footer-wrapper')"
+      >
+        <table-footer
+          :border="border"
+          :default-sort="defaultSort"
+          :store="store"
+          :style="tableBodyStyles"
+          :sum-text="computedSumText"
+          :summary-method="summaryMethod"
+        />
+      </div>
+      <div v-if="border || isGroup" :class="ns.e('border-left-patch')" />
     </div>
     <div
       v-show="resizeProxyVisible"
       ref="resizeProxy"
       :class="ns.e('column-resize-proxy')"
-    ></div>
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, getCurrentInstance, computed, provide } from 'vue'
+// @ts-nocheck
+import { computed, defineComponent, getCurrentInstance, provide } from 'vue'
 import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -155,6 +159,7 @@ import useStyle from './table/style-helper'
 import defaultProps from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
+import { useScrollbar } from './composables/use-scrollbar'
 
 import type { Table } from './table/defaults'
 
@@ -215,6 +220,7 @@ export default defineComponent({
      */
     const {
       setCurrentRow,
+      getSelectionRows,
       toggleRowSelection,
       clearSelection,
       clearFilter,
@@ -231,19 +237,21 @@ export default defineComponent({
       handleMouseLeave,
       handleHeaderFooterMousewheel,
       tableSize,
-      bodyHeight,
-      height,
       emptyBlockStyle,
       handleFixedMousewheel,
-      fixedHeight,
-      fixedBodyHeight,
       resizeProxyVisible,
       bodyWidth,
       resizeState,
       doLayout,
       tableBodyStyles,
       tableLayout,
+      scrollbarViewStyle,
+      tableInnerStyle,
+      scrollbarStyle,
     } = useStyle<Row>(props, layout, store, table)
+
+    const { scrollBarRef, scrollTo, setScrollLeft, setScrollTop } =
+      useScrollbar()
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
 
@@ -278,15 +286,12 @@ export default defineComponent({
       resizeState,
       isGroup,
       bodyWidth,
-      bodyHeight,
-      height,
       tableBodyStyles,
       emptyBlockStyle,
       debouncedUpdateLayout,
       handleFixedMousewheel,
-      fixedHeight,
-      fixedBodyHeight,
       setCurrentRow,
+      getSelectionRows,
       toggleRowSelection,
       clearSelection,
       clearFilter,
@@ -301,6 +306,13 @@ export default defineComponent({
       computedSumText,
       computedEmptyText,
       tableLayout,
+      scrollbarViewStyle,
+      tableInnerStyle,
+      scrollbarStyle,
+      scrollBarRef,
+      scrollTo,
+      setScrollLeft,
+      setScrollTop,
     }
   },
 })

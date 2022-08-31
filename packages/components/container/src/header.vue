@@ -1,36 +1,31 @@
 <template>
   <header :class="ns.b()" :style="style">
-    <slot></slot>
+    <slot />
   </header>
 </template>
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ElHeader',
-  props: {
-    height: {
-      type: String,
-      default: null,
-    },
-  },
-  setup(props) {
-    const ns = useNamespace('header')
+})
 
-    return {
-      style: computed(
-        () =>
-          (props.height
-            ? {
-                '--el-header-height': props.height,
-              }
-            : {}) as CSSProperties
-      ),
-      ns,
-    }
+const props = defineProps({
+  height: {
+    type: String,
+    default: null,
   },
+})
+
+const ns = useNamespace('header')
+const style = computed(() => {
+  return props.height
+    ? (ns.cssVarBlock({
+        height: props.height,
+      }) as CSSProperties)
+    : {}
 })
 </script>

@@ -1,32 +1,25 @@
 <template>
-  <span :class="[ns.b(), ns.is('checked', checked)]" @click="onChange">
-    <slot></slot>
+  <span :class="[ns.b(), ns.is('checked', checked)]" @click="handleChange">
+    <slot />
   </span>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue'
+
+<script lang="ts" setup>
+import { CHANGE_EVENT } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
-import { checkTagProps, checkTagEmits } from './check-tag'
+import { checkTagEmits, checkTagProps } from './check-tag'
 
-export default defineComponent({
+defineOptions({
   name: 'ElCheckTag',
-
-  props: checkTagProps,
-  emits: checkTagEmits,
-
-  setup(props, { emit }) {
-    const ns = useNamespace('check-tag')
-
-    const onChange = () => {
-      const checked = !props.checked
-      emit('change', checked)
-      emit('update:checked', checked)
-    }
-
-    return {
-      ns,
-      onChange,
-    }
-  },
 })
+const props = defineProps(checkTagProps)
+const emit = defineEmits(checkTagEmits)
+
+const ns = useNamespace('check-tag')
+
+const handleChange = () => {
+  const checked = !props.checked
+  emit(CHANGE_EVENT, checked)
+  emit('update:checked', checked)
+}
 </script>

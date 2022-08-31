@@ -1,14 +1,16 @@
 <template>
-  <el-popper ref="popperRef">
+  <el-popper ref="popperRef" :role="role">
     <el-tooltip-trigger
       :disabled="disabled"
       :trigger="trigger"
+      :trigger-keys="triggerKeys"
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
     >
       <slot v-if="$slots.default" />
     </el-tooltip-trigger>
     <el-tooltip-content
+      ref="contentRef"
       :aria-label="ariaLabel"
       :boundaries-padding="boundariesPadding"
       :content="content"
@@ -27,14 +29,17 @@
       :pure="pure"
       :raw-content="rawContent"
       :reference-el="referenceEl"
+      :trigger-target-el="triggerTargetEl"
       :show-after="compatShowAfter"
       :strategy="strategy"
       :teleported="teleported"
       :transition="transition"
+      :virtual-triggering="virtualTriggering"
       :z-index="zIndex"
+      :append-to="appendTo"
     >
       <slot name="content">
-        <span v-if="rawContent" v-html="content"></span>
+        <span v-if="rawContent" v-html="content" />
         <span v-else>{{ content }}</span>
       </slot>
       <el-popper-arrow v-if="compatShowArrow" :arrow-offset="arrowOffset" />
@@ -44,33 +49,36 @@
 
 <script lang="ts">
 import {
-  defineComponent,
   computed,
-  ref,
+  defineComponent,
+  onDeactivated,
   provide,
-  toRef,
   readonly,
+  ref,
+  toRef,
   unref,
+  watch,
 } from 'vue'
 import {
   ElPopper,
   ElPopperArrow,
   usePopperArrowProps,
+  usePopperProps,
 } from '@element-plus/components/popper'
 
 import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils'
 import {
-  usePopperContainer,
-  useId,
   createModelToggleComposable,
   useDelayedToggle,
+  useId,
+  usePopperContainer,
 } from '@element-plus/hooks'
 import ElTooltipContent from './content.vue'
 import ElTooltipTrigger from './trigger.vue'
 import {
   useTooltipContentProps,
-  useTooltipTriggerProps,
   useTooltipProps,
+  useTooltipTriggerProps,
 } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 
@@ -86,13 +94,22 @@ export default defineComponent({
     ElTooltipTrigger,
   },
   props: {
+    ...usePopperProps,
     ...useModelToggleProps,
     ...useTooltipContentProps,
     ...useTooltipTriggerProps,
     ...usePopperArrowProps,
     ...useTooltipProps,
   },
-  emits: [...useModelToggleEmits, 'show', 'hide'],
+  emits: [
+    ...useModelToggleEmits,
+    'before-show',
+    'before-hide',
+    'show',
+    'hide',
+    'open',
+    'close',
+  ],
   setup(props, { emit }) {
     usePopperContainer()
     const compatShowAfter = computed(() => {
@@ -118,6 +135,7 @@ export default defineComponent({
 
     const id = useId()
     const popperRef = ref<InstanceType<typeof ElPopper> | null>(null)
+    const contentRef = ref<InstanceType<typeof ElTooltipContent> | null>(null)
 
     const updatePopper = () => {
       const popperComponent = unref(popperRef)
@@ -126,9 +144,11 @@ export default defineComponent({
       }
     }
     const open = ref(false)
+    const toggleReason = ref<Event | undefined>(undefined)
 
-    const { show, hide } = useModelToggle({
+    const { show, hide, hasUpdateHandler } = useModelToggle({
       indicator: open,
+      toggleReason,
     })
 
     const { onOpen, onClose } = useDelayedToggle({
@@ -138,37 +158,68 @@ export default defineComponent({
       close: hide,
     })
 
-    const controlled = computed(() => isBoolean(props.visible))
+    const controlled = computed(
+      () => isBoolean(props.visible) && !hasUpdateHandler.value
+    )
 
     provide(TOOLTIP_INJECTION_KEY, {
       controlled,
       id,
       open: readonly(open),
       trigger: toRef(props, 'trigger'),
-      onOpen,
-      onClose,
-      onToggle: () => {
+      onOpen: (event?: Event) => {
+        onOpen(event)
+      },
+      onClose: (event?: Event) => {
+        onClose(event)
+      },
+      onToggle: (event?: Event) => {
         if (unref(open)) {
-          onClose()
+          onClose(event)
         } else {
-          onOpen()
+          onOpen(event)
         }
       },
       onShow: () => {
-        emit('show')
+        emit('show', toggleReason.value)
       },
       onHide: () => {
-        emit('hide')
+        emit('hide', toggleReason.value)
+      },
+      onBeforeShow: () => {
+        emit('before-show', toggleReason.value)
+      },
+      onBeforeHide: () => {
+        emit('before-hide', toggleReason.value)
       },
       updatePopper,
     })
+
+    watch(
+      () => props.disabled,
+      (disabled) => {
+        if (disabled && open.value) {
+          open.value = false
+        }
+      }
+    )
+
+    const isFocusInsideContent = () => {
+      const popperContent: HTMLElement | undefined =
+        contentRef.value?.contentRef?.popperContentRef
+      return popperContent && popperContent.contains(document.activeElement)
+    }
+
+    onDeactivated(() => open.value && hide())
 
     return {
       compatShowAfter,
       compatShowArrow,
       popperRef,
+      contentRef,
       open,
       hide,
+      isFocusInsideContent,
       updatePopper,
       onOpen,
       onClose,

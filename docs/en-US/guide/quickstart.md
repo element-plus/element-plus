@@ -58,11 +58,13 @@ Then add the code below into your `Vite` or `Webpack` config file.
 
 ```ts
 // vite.config.ts
+import { defineConfig } from 'vite'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
-export default {
+export default defineConfig({
+  // ...
   plugins: [
     // ...
     AutoImport({
@@ -72,12 +74,12 @@ export default {
       resolvers: [ElementPlusResolver()],
     }),
   ],
-}
+})
 ```
 
 ##### Webpack
 
-```ts
+```js
 // webpack.config.js
 const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
@@ -122,11 +124,13 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
 
 ```ts
 // vite.config.ts
+import { defineConfig } from 'vite'
 import ElementPlus from 'unplugin-element-plus/vite'
 
-export default {
+export default defineConfig({
+  // ...
   plugins: [ElementPlus()],
-}
+})
 ```
 
 :::warning
@@ -168,7 +172,7 @@ On-demand:
 
 ```vue
 <template>
-  <el-config-provider :size="size" :zIndex="zIndex">
+  <el-config-provider :size="size" :z-index="zIndex">
     <app />
   </el-config-provider>
 </template>
@@ -193,10 +197,10 @@ export default defineComponent({
 
 ## Using Nuxt.js
 
-We can also use [Nuxt.js](https://nuxtjs.org)：
+We can also use [Nuxt.js](https://v3.nuxtjs.org/)：
 
 <div class="glitch-embed-wrap" style="height: 420px; width: 100%;">
-  <iframe src="https://glitch.com/embed/#!/embed/nuxt-with-element?path=nuxt.config.js&previewSize=0&attributionHidden=true" alt="nuxt-with-element on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
+  <iframe src="https://glitch.com/edit/#!/nuxt-element-plus?path=components%2FExamples.vue%3A1%3A0" alt="nuxt-element-plus on glitch" style="height: 100%; width: 100%; border: 0;"></iframe>
 </div>
 
 ## Let's Get Started

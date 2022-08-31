@@ -3,24 +3,25 @@
     <li :class="ns.be('group', 'title')">{{ label }}</li>
     <li>
       <ul :class="ns.b('group')">
-        <slot></slot>
+        <slot />
       </ul>
     </li>
   </ul>
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   defineComponent,
-  provide,
-  inject,
-  ref,
-  reactive,
-  toRefs,
   getCurrentInstance,
+  inject,
   onMounted,
-  watch,
+  provide,
+  reactive,
+  ref,
   toRaw,
+  toRefs,
+  watch,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey, selectKey } from './token'

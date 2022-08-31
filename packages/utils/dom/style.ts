@@ -1,8 +1,11 @@
 import { isClient } from '@vueuse/core'
-import { isObject } from '../types'
+import { isNumber, isObject, isString } from '../types'
 import { camelize } from '../strings'
 import { entriesOf, keysOf } from '../objects'
+import { debugWarn } from '../error'
 import type { CSSProperties } from 'vue'
+
+const SCOPE = 'utils/dom/style'
 
 export const classNameToArray = (cls = '') =>
   cls.split(' ').filter((item) => !!item.trim())
@@ -32,12 +35,12 @@ export const getStyle = (
   let key = camelize(styleName)
   if (key === 'float') key = 'cssFloat'
   try {
-    const style = element.style[styleName]
+    const style = (element.style as any)[key]
     if (style) return style
-    const computed = document.defaultView?.getComputedStyle(element, '')
-    return computed ? computed[styleName] : ''
+    const computed: any = document.defaultView?.getComputedStyle(element, '')
+    return computed ? computed[key] : ''
   } catch {
-    return element.style[styleName]
+    return (element.style as any)[key]
   }
 }
 
@@ -53,8 +56,8 @@ export const setStyle = (
       setStyle(element, prop, value)
     )
   } else {
-    const key = camelize(styleName)
-    element.style[key] = value
+    const key: any = camelize(styleName)
+    element.style[key] = value as any
   }
 }
 
@@ -69,4 +72,14 @@ export const removeStyle = (
   } else {
     setStyle(element, style, '')
   }
+}
+
+export function addUnit(value?: string | number, defaultUnit = 'px') {
+  if (!value) return ''
+  if (isString(value)) {
+    return value
+  } else if (isNumber(value)) {
+    return `${value}${defaultUnit}`
+  }
+  debugWarn(SCOPE, 'binding value must be a string or number')
 }

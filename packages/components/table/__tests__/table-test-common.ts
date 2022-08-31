@@ -1,15 +1,22 @@
+import { nextTick } from 'vue'
 import { mount as _mount } from '@vue/test-utils'
+import { vi } from 'vitest'
 
-jest.mock('lodash-unified', () => {
+vi.mock('lodash-unified', async () => {
   return {
-    ...(jest.requireActual('lodash-unified') as Record<string, any>),
-    debounce: jest.fn((fn) => {
-      fn.cancel = jest.fn()
-      fn.flush = jest.fn()
+    ...((await vi.importActual('lodash-unified')) as Record<string, any>),
+    debounce: vi.fn((fn) => {
+      fn.cancel = vi.fn()
+      fn.flush = vi.fn()
       return fn
     }),
   }
 })
+
+export async function doubleWait() {
+  await nextTick()
+  await nextTick()
+}
 
 export const mount = (opt: any) =>
   _mount<any>(opt, {
@@ -55,10 +62,3 @@ export function getTestData() {
     },
   ]
 }
-
-// https://stackoverflow.com/a/59864054/2198656
-describe('test util does not need jest testing', () => {
-  it.skip('too lazy to change jest match config', () => {
-    // nothing!
-  })
-})

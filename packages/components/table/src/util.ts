@@ -1,25 +1,18 @@
+// @ts-nocheck
 import { createPopper } from '@popperjs/core'
 import { get } from 'lodash-unified'
-import { hasOwn, off, on } from '@element-plus/utils'
+import escapeHtml from 'escape-html'
+import { hasOwn } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
-  PopperInstance,
   IPopperOptions,
+  PopperInstance,
 } from '@element-plus/components/popper'
 import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
 
-export const getCell = function (event: Event): HTMLElement {
-  let cell = event.target as HTMLElement
-
-  while (cell && cell.tagName.toUpperCase() !== 'HTML') {
-    if (cell.tagName.toUpperCase() === 'TD') {
-      return cell
-    }
-    cell = cell.parentNode as HTMLElement
-  }
-
-  return null
+export const getCell = function (event: Event) {
+  return (event.target as HTMLElement)?.closest('td')
 }
 
 const isObject = function (obj: unknown): boolean {
@@ -52,7 +45,7 @@ export const orderBy = function <T>(
           if (!Array.isArray(sortBy)) {
             sortBy = [sortBy]
           }
-          return sortBy.map(function (by) {
+          return sortBy.map((by) => {
             if (typeof by === 'string') {
               return get(value, by)
             } else {
@@ -80,14 +73,14 @@ export const orderBy = function <T>(
     return 0
   }
   return array
-    .map(function (value, index) {
+    .map((value, index) => {
       return {
         value,
         index,
         key: getKey ? getKey(value, index) : null,
       }
     })
-    .sort(function (a, b) {
+    .sort((a, b) => {
       let order = compare(a, b)
       if (!order) {
         // make stable https://en.wikipedia.org/wiki/Sorting_algorithm#Stability
@@ -105,7 +98,7 @@ export const getColumnById = function <T>(
   columnId: string
 ): null | TableColumnCtx<T> {
   let column = null
-  table.columns.forEach(function (item) {
+  table.columns.forEach((item) => {
     if (item.id === columnId) {
       column = item
     }
@@ -152,13 +145,13 @@ export const getRowIdentity = <T>(
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
   if (typeof rowKey === 'string') {
-    if (rowKey.indexOf('.') < 0) {
+    if (!rowKey.includes('.')) {
       return `${row[rowKey]}`
     }
     const key = rowKey.split('.')
     let current = row
-    for (let i = 0; i < key.length; i++) {
-      current = current[key[i]]
+    for (const element of key) {
+      current = current[element]
     }
     return `${current}`
   } else if (typeof rowKey === 'function') {
@@ -197,7 +190,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
 export function parseWidth(width: number | string): number | string {
   if (width === '') return width
   if (width !== undefined) {
-    width = parseInt(width as string, 10)
+    width = Number.parseInt(width as string, 10)
     if (Number.isNaN(width)) {
       width = ''
     }
@@ -222,7 +215,7 @@ export function parseHeight(height: number | string) {
   }
   if (typeof height === 'string') {
     if (/^\d+(?:px)?$/.test(height)) {
-      return parseInt(height, 10)
+      return Number.parseInt(height, 10)
     } else {
       return height
     }
@@ -316,43 +309,51 @@ export function walkTreeNode(
 export let removePopper
 
 export function createTablePopper(
+  parentNode: HTMLElement | undefined,
   trigger: HTMLElement,
   popperContent: string,
   popperOptions: Partial<IPopperOptions>,
   tooltipEffect: string
 ) {
   const { nextZIndex } = useZIndex()
+  const ns = parentNode?.dataset.prefix
+  const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
   function renderContent(): HTMLDivElement {
     const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
-    content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
+    content.className = `${ns}-popper ${isLight ? 'is-light' : 'is-dark'}`
+    popperContent = escapeHtml(popperContent)
     content.innerHTML = popperContent
     content.style.zIndex = String(nextZIndex())
-    document.body.appendChild(content)
+    // Avoid side effects caused by append to body
+    parentNode?.appendChild(content)
     return content
   }
   function renderArrow(): HTMLDivElement {
     const arrow = document.createElement('div')
-    arrow.className = 'el-popper__arrow'
+    arrow.className = `${ns}-popper__arrow`
     return arrow
   }
   function showPopper() {
     popperInstance && popperInstance.update()
   }
-  removePopper = function removePopper() {
+  removePopper?.()
+  removePopper = () => {
     try {
       popperInstance && popperInstance.destroy()
-      content && document.body.removeChild(content)
-      off(trigger, 'mouseenter', showPopper)
-      off(trigger, 'mouseleave', removePopper)
+      content && parentNode?.removeChild(content)
+      trigger.removeEventListener('mouseenter', showPopper)
+      trigger.removeEventListener('mouseleave', removePopper)
+      scrollContainer?.removeEventListener('scroll', removePopper)
+      removePopper = undefined
     } catch {}
   }
   let popperInstance: Nullable<PopperInstance> = null
   const content = renderContent()
   const arrow = renderArrow()
   content.appendChild(arrow)
-
   popperInstance = createPopper(trigger, content, {
+    strategy: 'absolute',
     modifiers: [
       {
         name: 'offset',
@@ -370,8 +371,9 @@ export function createTablePopper(
     ],
     ...popperOptions,
   })
-  on(trigger, 'mouseenter', showPopper)
-  on(trigger, 'mouseleave', removePopper)
+  trigger.addEventListener('mouseenter', showPopper)
+  trigger.addEventListener('mouseleave', removePopper)
+  scrollContainer?.addEventListener('scroll', removePopper)
   return popperInstance
 }
 

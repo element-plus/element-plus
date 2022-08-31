@@ -1,12 +1,11 @@
 import { isClient } from '@vueuse/core'
-import { on } from '@element-plus/utils'
+import { isElement } from '@element-plus/utils'
 
 import type {
   ComponentPublicInstance,
   DirectiveBinding,
   ObjectDirective,
 } from 'vue'
-import type { Nullable } from '@element-plus/utils'
 
 type DocumentHandler = <T extends MouseEvent>(mouseup: T, mousedown: T) => void
 type FlushList = Map<
@@ -22,8 +21,8 @@ const nodeList: FlushList = new Map()
 let startClick: MouseEvent
 
 if (isClient) {
-  on(document, 'mousedown', (e: MouseEvent) => (startClick = e))
-  on(document, 'mouseup', (e: MouseEvent) => {
+  document.addEventListener('mousedown', (e: MouseEvent) => (startClick = e))
+  document.addEventListener('mouseup', (e: MouseEvent) => {
     for (const handlers of nodeList.values()) {
       for (const { documentHandler } of handlers) {
         documentHandler(e as MouseEvent, startClick)
@@ -39,14 +38,14 @@ function createDocumentHandler(
   let excludes: HTMLElement[] = []
   if (Array.isArray(binding.arg)) {
     excludes = binding.arg
-  } else if ((binding.arg as unknown) instanceof HTMLElement) {
+  } else if (isElement(binding.arg)) {
     // due to current implementation on binding type is wrong the type casting is necessary here
     excludes.push(binding.arg as unknown as HTMLElement)
   }
   return function (mouseup, mousedown) {
     const popperRef = (
       binding.instance as ComponentPublicInstance<{
-        popperRef: Nullable<HTMLElement>
+        popperRef: HTMLElement
       }>
     ).popperRef
     const mouseUpTarget = mouseup.target as Node
@@ -85,7 +84,7 @@ const ClickOutside: ObjectDirective = {
       nodeList.set(el, [])
     }
 
-    nodeList.get(el).push({
+    nodeList.get(el)!.push({
       documentHandler: createDocumentHandler(el, binding),
       bindingFn: binding.value,
     })
@@ -95,7 +94,7 @@ const ClickOutside: ObjectDirective = {
       nodeList.set(el, [])
     }
 
-    const handlers = nodeList.get(el)
+    const handlers = nodeList.get(el)!
     const oldHandlerIndex = handlers.findIndex(
       (item) => item.bindingFn === binding.oldValue
     )

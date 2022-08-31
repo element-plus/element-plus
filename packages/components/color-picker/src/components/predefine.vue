@@ -1,21 +1,26 @@
 <template>
-  <div class="el-color-predefine">
-    <div class="el-color-predefine__colors">
+  <div :class="ns.b()">
+    <div :class="ns.e('colors')">
       <div
         v-for="(item, index) in rgbaColors"
         :key="colors[index]"
-        class="el-color-predefine__color-selector"
-        :class="{ selected: item.selected, 'is-alpha': item._alpha < 100 }"
+        :class="[
+          ns.e('color-selector'),
+          ns.is('alpha', item._alpha < 100),
+          { selected: item.selected },
+        ]"
         @click="handleSelect(index)"
       >
-        <div :style="{ backgroundColor: item.value }"></div>
+        <div :style="{ backgroundColor: item.value }" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { ref, watch, watchEffect, defineComponent } from 'vue'
+// @ts-nocheck
+import { defineComponent, ref, watch, watchEffect } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import { useOptions } from '../useOption'
 import Color from '../color'
 
@@ -30,6 +35,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const ns = useNamespace('color-predefine')
     const { currentColor } = useOptions()
     //data
     const rgbaColors = ref(parseColors(props.colors, props.color))
@@ -66,6 +72,7 @@ export default defineComponent({
     return {
       rgbaColors,
       handleSelect,
+      ns,
     }
   },
 })

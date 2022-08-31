@@ -4,33 +4,36 @@ import { Loading } from '@element-plus/icons-vue'
 import type { ExtractPropTypes } from 'vue'
 import type button from './button.vue'
 
-export const buttonType = [
+export const buttonTypes = [
   'default',
   'primary',
   'success',
   'warning',
   'info',
   'danger',
+  /**
+   * @deprecated
+   * Text type will be deprecated in the next major version (3.0.0)
+   */
   'text',
   '',
 ] as const
-export const buttonNativeType = ['button', 'submit', 'reset'] as const
+export const buttonNativeTypes = ['button', 'submit', 'reset'] as const
 
 export const buttonProps = buildProps({
   size: useSizeProp,
   disabled: Boolean,
   type: {
     type: String,
-    values: buttonType,
+    values: buttonTypes,
     default: '',
   },
   icon: {
     type: iconPropType,
-    default: '',
   },
   nativeType: {
     type: String,
-    values: buttonNativeType,
+    values: buttonNativeTypes,
     default: 'button',
   },
   loading: Boolean,
@@ -39,20 +42,19 @@ export const buttonProps = buildProps({
     default: () => Loading,
   },
   plain: Boolean,
+  text: Boolean,
+  link: Boolean,
+  bg: Boolean,
   autofocus: Boolean,
   round: Boolean,
   circle: Boolean,
   color: String,
+  dark: Boolean,
   autoInsertSpace: {
     type: Boolean,
     default: undefined,
   },
 } as const)
-
-export interface ButtonConfigContext {
-  autoInsertSpace?: boolean
-}
-
 export const buttonEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
 }
@@ -64,3 +66,7 @@ export type ButtonType = ButtonProps['type']
 export type ButtonNativeType = ButtonProps['nativeType']
 
 export type ButtonInstance = InstanceType<typeof button>
+
+export interface ButtonConfigContext {
+  autoInsertSpace?: boolean
+}

@@ -1,8 +1,10 @@
+// @ts-nocheck
 import { provide, ref } from 'vue'
 import { addClass, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import type { InjectionKey } from 'vue'
 import type Node from './node'
+import type { NodeDropType } from '../tree.type'
 
 interface TreeNode {
   node: Node
@@ -47,7 +49,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       // setData is required for draggable to work in FireFox
       // the content has to be '' so dragging a node out of the tree won't open a new tab in FireFox
       event.dataTransfer.setData('text/plain', '')
-    } catch (e) {}
+    } catch {}
     dragState.value.draggingNode = treeNode
     ctx.emit('node-drag-start', treeNode.node, event)
   }
@@ -108,7 +110,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     const targetPosition = dropNode.$el.getBoundingClientRect()
     const treePosition = el$.value.getBoundingClientRect()
 
-    let dropType
+    let dropType: NodeDropType
     const prevPercent = dropPrev ? (dropInner ? 0.25 : dropNext ? 0.45 : 1) : -1
     const nextPercent = dropNext ? (dropInner ? 0.75 : dropPrev ? 0.55 : 0) : 1
 

@@ -3,7 +3,7 @@
     <ul
       v-infinite-scroll="load"
       class="list"
-      infinite-scroll-disabled="disabled"
+      :infinite-scroll-disabled="disabled"
     >
       <li v-for="i in count" :key="i" class="list-item">{{ i }}</li>
     </ul>
@@ -13,11 +13,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const count = ref(10)
 const loading = ref(false)
 const noMore = computed(() => count.value >= 20)
+const disabled = computed(() => loading.value || noMore.value)
 const load = () => {
   loading.value = true
   setTimeout(() => {
@@ -43,7 +44,7 @@ const load = () => {
   align-items: center;
   justify-content: center;
   height: 50px;
-  background: var(--el-color-danger-lighter);
+  background: var(--el-color-danger-light-9);
   color: var(--el-color-danger);
 }
 .infinite-list-wrapper .list-item + .list-item {

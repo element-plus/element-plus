@@ -1,9 +1,9 @@
 <template>
   <div :class="ns.b()">
-    <slot></slot>
+    <slot />
     <transition :name="`${ns.namespace.value}-zoom-in-center`">
       <sup
-        v-show="!hidden && (content || content === '0' || isDot)"
+        v-show="!hidden && (content || isDot)"
         :class="[
           ns.e('content'),
           ns.em('content', type),
@@ -11,38 +11,36 @@
           ns.is('dot', isDot),
         ]"
         v-text="content"
-      >
-      </sup>
+      />
     </transition>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { isNumber } from '@element-plus/utils'
 import { badgeProps } from './badge'
 
-export default defineComponent({
+defineOptions({
   name: 'ElBadge',
+})
 
-  props: badgeProps,
+const props = defineProps(badgeProps)
 
-  setup(props) {
-    const ns = useNamespace('badge')
+const ns = useNamespace('badge')
 
-    const content = computed<string>(() => {
-      if (props.isDot) return ''
+const content = computed<string>(() => {
+  if (props.isDot) return ''
 
-      if (typeof props.value === 'number' && typeof props.max === 'number') {
-        return props.max < props.value ? `${props.max}+` : `${props.value}`
-      }
-      return `${props.value}`
-    })
+  if (isNumber(props.value) && isNumber(props.max)) {
+    return props.max < props.value ? `${props.max}+` : `${props.value}`
+  }
+  return `${props.value}`
+})
 
-    return {
-      ns,
-      content,
-    }
-  },
+defineExpose({
+  /** @description badge content */
+  content,
 })
 </script>

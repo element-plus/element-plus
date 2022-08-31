@@ -1,11 +1,12 @@
+// @ts-nocheck
 import {
   defineComponent,
   getCurrentInstance,
-  onMounted,
-  nextTick,
-  ref,
   h,
   inject,
+  nextTick,
+  onMounted,
+  ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
@@ -15,7 +16,7 @@ import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvent from './event-helper'
 import useStyle from './style.helper'
 import useUtils from './utils-helper'
-import type { ComponentInternalInstance, Ref, PropType } from 'vue'
+import type { ComponentInternalInstance, PropType, Ref } from 'vue'
 import type { DefaultRow, Sort } from '../table/defaults'
 import type { Store } from '../store'
 export interface TableHeader extends ComponentInternalInstance {
@@ -63,12 +64,12 @@ export default defineComponent({
     const ns = useNamespace('table')
     const filterPanels = ref({})
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
-    onMounted(() => {
-      nextTick(() => {
-        const { prop, order } = props.defaultSort
-        const init = true
-        parent?.store.commit('sort', { prop, order, init })
-      })
+    onMounted(async () => {
+      // Need double await, because udpateColumns is executed after nextTick for now
+      await nextTick()
+      await nextTick()
+      const { prop, order } = props.defaultSort
+      parent?.store.commit('sort', { prop, order, init: true })
     })
     const {
       handleHeaderClick,
@@ -93,7 +94,6 @@ export default defineComponent({
       onColumnsChange,
       onScrollableChange,
     }
-    // eslint-disable-next-line
     instance.filterPanels = filterPanels
 
     return {
@@ -187,7 +187,6 @@ export default defineComponent({
                       column.filteredValue && column.filteredValue.length > 0
                         ? 'highlight'
                         : '',
-                      column.labelClassName,
                     ],
                   },
                   [
@@ -221,7 +220,7 @@ export default defineComponent({
                       ),
                     column.filterable &&
                       h(FilterPanel, {
-                        store: $parent.store,
+                        store,
                         placement: column.filterPlacement || 'bottom-start',
                         column,
                         upDataColumn: (key, value) => {

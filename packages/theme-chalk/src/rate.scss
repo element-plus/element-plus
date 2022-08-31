@@ -25,23 +25,26 @@ $rate-height: map.merge(
 
   &:focus,
   &:active {
-    outline-width: 0;
+    outline: none;
   }
 
   @include e(item) {
+    cursor: pointer;
     display: inline-block;
     position: relative;
     font-size: 0;
     vertical-align: middle;
+    color: getCssVar('rate-void-color');
+    line-height: normal;
   }
 
-  @include e(icon) {
+  & .#{bem('rate', 'icon')} {
     position: relative;
     display: inline-block;
-    font-size: var(--el-rate-icon-size);
-    margin-right: var(--el-rate-icon-margin);
-    color: var(--el-rate-icon-color);
-    transition: var(--el-transition-duration);
+    font-size: getCssVar('rate-icon-size');
+    margin-right: getCssVar('rate-icon-margin');
+    transition: getCssVar('transition-duration');
+
     &.hover {
       transform: scale(1.15);
     }
@@ -51,6 +54,10 @@ $rate-height: map.merge(
       left: 0;
       top: 0;
     }
+
+    @include when(active) {
+      color: getCssVar('rate', 'fill-color');
+    }
   }
 
   @include e(decimal) {
@@ -59,16 +66,25 @@ $rate-height: map.merge(
     left: 0;
     display: inline-block;
     overflow: hidden;
+    color: getCssVar('rate', 'fill-color');
   }
 
   @include e(text) {
-    font-size: var(--el-rate-font-size);
+    font-size: getCssVar('rate-font-size');
     vertical-align: middle;
+    color: getCssVar('rate', 'text-color');
   }
 
   @each $size in (large, small) {
     @include m($size) {
       height: map.get($rate-height, $size);
+    }
+  }
+
+  @include when(disabled) {
+    @include e(item) {
+      cursor: auto;
+      color: getCssVar('rate', 'disabled-void-color');
     }
   }
 }

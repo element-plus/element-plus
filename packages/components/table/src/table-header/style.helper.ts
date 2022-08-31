@@ -1,9 +1,9 @@
 import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import {
-  getFixedColumnsClass,
-  getFixedColumnOffset,
   ensurePosition,
+  getFixedColumnOffset,
+  getFixedColumnsClass,
 } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -109,7 +109,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
 
     classes.push(ns.e('cell'))
 
-    return classes.join(' ')
+    return classes.filter((className) => Boolean(className)).join(' ')
   }
 
   return {

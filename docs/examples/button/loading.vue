@@ -16,7 +16,7 @@
             L 15 15
           "
             style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"
-          ></path>
+          />
         </svg>
       </div>
     </template>
@@ -29,9 +29,6 @@ import { Eleme } from '@element-plus/icons-vue'
 </script>
 
 <style scoped>
-:root {
-  --el-color-primary: #409eff;
-}
 .el-button .custom-loading .circular {
   margin-right: 6px;
   width: 18px;

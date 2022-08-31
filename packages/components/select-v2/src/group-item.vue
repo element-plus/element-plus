@@ -10,11 +10,12 @@
     <span
       :class="ns.be('group', 'split-dash')"
       :style="{ top: `${height / 2}px` }"
-    ></span>
+    />
   </div>
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 

@@ -8,9 +8,9 @@ import {
   isValidComponentSize,
 } from '@element-plus/utils'
 import {
-  UPDATE_MODEL_EVENT,
   CHANGE_EVENT,
   INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import type { ComponentSize } from '@element-plus/constants'
 import type Switch from './switch.vue'
@@ -30,8 +30,8 @@ export const switchProps = buildProps({
     default: false,
   },
   width: {
-    type: Number,
-    default: 40,
+    type: [String, Number],
+    default: '',
   },
   inlinePrompt: {
     type: Boolean,
@@ -39,11 +39,9 @@ export const switchProps = buildProps({
   },
   activeIcon: {
     type: iconPropType,
-    default: '',
   },
   inactiveIcon: {
     type: iconPropType,
-    default: '',
   },
   activeText: {
     type: String,
@@ -92,6 +90,9 @@ export const switchProps = buildProps({
   size: {
     type: String as PropType<ComponentSize>,
     validator: isValidComponentSize,
+  },
+  tabindex: {
+    type: [String, Number],
   },
 } as const)
 

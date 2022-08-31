@@ -1,7 +1,7 @@
-import { unref, computed } from 'vue'
+import { computed, unref } from 'vue'
 import { useGlobalConfig } from '../use-global-config'
 
-const defaultNamespace = 'el'
+export const defaultNamespace = 'el'
 const statePrefix = 'is-'
 
 const _bem = (
@@ -56,6 +56,33 @@ export const useNamespace = (block: string) => {
     const state = args.length >= 1 ? args[0]! : true
     return name && state ? `${statePrefix}${name}` : ''
   }
+
+  // for css var
+  // --el-xxx: value;
+  const cssVar = (object: Record<string, string>) => {
+    const styles: Record<string, string> = {}
+    for (const key in object) {
+      if (object[key]) {
+        styles[`--${namespace.value}-${key}`] = object[key]
+      }
+    }
+    return styles
+  }
+  // with block
+  const cssVarBlock = (object: Record<string, string>) => {
+    const styles: Record<string, string> = {}
+    for (const key in object) {
+      if (object[key]) {
+        styles[`--${namespace.value}-${block}-${key}`] = object[key]
+      }
+    }
+    return styles
+  }
+
+  const cssVarName = (name: string) => `--${namespace.value}-${name}`
+  const cssVarBlockName = (name: string) =>
+    `--${namespace.value}-${block}-${name}`
+
   return {
     namespace,
     b,
@@ -66,5 +93,12 @@ export const useNamespace = (block: string) => {
     bm,
     bem,
     is,
+    // css
+    cssVar,
+    cssVarName,
+    cssVarBlock,
+    cssVarBlockName,
   }
 }
+
+export type UseNamespaceReturn = ReturnType<typeof useNamespace>

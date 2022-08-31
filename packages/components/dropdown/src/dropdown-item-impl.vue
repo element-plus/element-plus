@@ -1,17 +1,18 @@
 <template>
-  <div
+  <li
     v-if="divided"
+    role="separator"
     :class="ns.bem('menu', 'item', 'divided')"
     v-bind="$attrs"
-  ></div>
-  <div
+  />
+  <li
     :ref="itemRef"
     v-bind="{ ...dataset, ...$attrs }"
     :aria-disabled="disabled"
     :class="[ns.be('menu', 'item'), ns.is('disabled', disabled)]"
     :tabindex="tabIndex"
-    role="menuitem"
-    @click="(e) => $emit('click', e)"
+    :role="role"
+    @click="(e) => $emit('clickimpl', e)"
     @focus="handleFocus"
     @keydown="handleKeydown"
     @mousedown="handleMousedown"
@@ -20,11 +21,12 @@
   >
     <el-icon v-if="icon"><component :is="icon" /></el-icon>
     <slot />
-  </div>
+  </li>
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from 'vue'
+// @ts-nocheck
+import { computed, defineComponent, inject } from 'vue'
 import {
   ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
   ROVING_FOCUS_ITEM_COLLECTION_INJECTION_KEY,
@@ -38,6 +40,7 @@ import {
   DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
   dropdownItemProps,
 } from './dropdown'
+import { DROPDOWN_INJECTION_KEY } from './tokens'
 
 export default defineComponent({
   name: 'DropdownItemImpl',
@@ -45,9 +48,11 @@ export default defineComponent({
     ElIcon,
   },
   props: dropdownItemProps,
-  emits: ['pointermove', 'pointerleave', 'click'],
+  emits: ['pointermove', 'pointerleave', 'click', 'clickimpl'],
   setup(_, { emit }) {
     const ns = useNamespace('dropdown')
+
+    const { role: menuRole } = inject(DROPDOWN_INJECTION_KEY, undefined)!
 
     const { collectionItemRef: dropdownCollectionItemRef } = inject(
       DROPDOWN_COLLECTION_ITEM_INJECTION_KEY,
@@ -73,12 +78,21 @@ export default defineComponent({
       rovingFocusGroupItemRef
     )
 
+    const role = computed<string>(() => {
+      if (menuRole.value === 'menu') {
+        return 'menuitem'
+      } else if (menuRole.value === 'navigation') {
+        return 'link'
+      }
+      return 'button'
+    })
+
     const handleKeydown = composeEventHandlers((e: KeyboardEvent) => {
       const { code } = e
       if (code === EVENT_CODE.enter || code === EVENT_CODE.space) {
         e.preventDefault()
         e.stopImmediatePropagation()
-        emit('click', e)
+        emit('clickimpl', e)
         return true
       }
     }, handleItemKeydown)
@@ -89,6 +103,7 @@ export default defineComponent({
       dataset: {
         [COLLECTION_ITEM_SIGN]: '',
       },
+      role,
       tabIndex,
       handleFocus,
       handleKeydown,

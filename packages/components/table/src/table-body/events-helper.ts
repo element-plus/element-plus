@@ -1,4 +1,5 @@
-import { ref, h, inject } from 'vue'
+// @ts-nocheck
+import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
 import { getStyle, hasClass } from '@element-plus/utils'
 import { createTablePopper, getCell, getColumnByCell } from '../util'
@@ -39,15 +40,16 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const handleContextMenu = (event: Event, row: T) => {
     handleEvent(event, row, 'contextmenu')
   }
-  const handleMouseEnter = debounce(function (index: number) {
+  const handleMouseEnter = debounce((index: number) => {
     props.store.commit('setHoverRow', index)
   }, 30)
-  const handleMouseLeave = debounce(function () {
+  const handleMouseLeave = debounce(() => {
     props.store.commit('setHoverRow', null)
   }, 30)
   const handleCellMouseEnter = (
     event: MouseEvent,
-    row: T & { tooltipEffect: string }
+    row: T,
+    tooltipEffect: string
   ) => {
     const table = parent
     const cell = getCell(event)
@@ -89,20 +91,21 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     range.setEnd(cellChild, cellChild.childNodes.length)
     const rangeWidth = range.getBoundingClientRect().width
     const padding =
-      (parseInt(getStyle(cellChild, 'paddingLeft'), 10) || 0) +
-      (parseInt(getStyle(cellChild, 'paddingRight'), 10) || 0)
+      (Number.parseInt(getStyle(cellChild, 'paddingLeft'), 10) || 0) +
+      (Number.parseInt(getStyle(cellChild, 'paddingRight'), 10) || 0)
     if (
       rangeWidth + padding > cellChild.offsetWidth ||
       cellChild.scrollWidth > cellChild.offsetWidth
     ) {
       createTablePopper(
+        parent?.refs.tableWrapper,
         cell,
         cell.innerText || cell.textContent,
         {
           placement: 'top',
           strategy: 'fixed',
         },
-        row.tooltipEffect
+        tooltipEffect
       )
     }
   }

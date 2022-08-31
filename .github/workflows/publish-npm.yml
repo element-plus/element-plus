@@ -7,20 +7,28 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Add dev branch
         run: git branch dev origin/dev
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
-          version: latest
+          node-version: ${{ matrix.node-version }}
+          registry-url: https://registry.npmjs.com/
+          cache: 'pnpm'
+
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
       - name: Lint
@@ -32,15 +40,14 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
           registry-url: https://registry.npmjs.com/
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-        with:
-          version: latest
+
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Get git head
@@ -55,3 +62,5 @@ jobs:
           GIT_HEAD: ${{env.GIT_HEAD}}
           REGISTRY: https://registry.npmjs.com/
           FORCE_COLOR: 2
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_OPTIONS: --max-old-space-size=4096

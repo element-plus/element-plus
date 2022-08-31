@@ -5,25 +5,25 @@
     class="demo-tabs"
     @tab-click="handleClick"
   >
-    <el-tab-pane label="User">User</el-tab-pane>
-    <el-tab-pane label="Config">Config</el-tab-pane>
-    <el-tab-pane label="Role">Role</el-tab-pane>
-    <el-tab-pane label="Task">Task</el-tab-pane>
+    <el-tab-pane label="User" name="first">User</el-tab-pane>
+    <el-tab-pane label="Config" name="second">Config</el-tab-pane>
+    <el-tab-pane label="Role" name="third">Role</el-tab-pane>
+    <el-tab-pane label="Task" name="fourth">Task</el-tab-pane>
   </el-tabs>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
+import type { TabsPaneContext } from 'element-plus'
 
 const activeName = ref('first')
 
-const handleClick = (tab: string, event: Event) => {
+const handleClick = (tab: TabsPaneContext, event: Event) => {
   console.log(tab, event)
 }
 </script>
 <style>
 .demo-tabs > .el-tabs__content {
   padding: 32px;
-  background-color: #f4f5f7;
   color: #6b778c;
   font-size: 32px;
   font-weight: 600;

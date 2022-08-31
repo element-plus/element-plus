@@ -9,7 +9,7 @@ lang: en-US
 
 Similar to Tooltip, Popover is also built with `ElPopper`. So for some duplicated attributes, please refer to the documentation of Tooltip.
 
-:::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus` or `manual`.
+:::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus` or `contextmenu` . If you want to manually controll it, you can set `:visible`.
 
 popover/basic-usage
 
@@ -17,7 +17,7 @@ popover/basic-usage
 
 ## Virtual triggering
 
-Like Tooltip, Popover can be triggered by virtual elements, if your use case includes separate the trigging element and the content element, you should definitely use the mechanism, normally we use `#reference` to place our triggering element, with `triggering-element` API you can set your triggering element anywhere you like, but notice that the triggering element should be an element that accepts `mouse` and `keyboard` event.
+Like Tooltip, Popover can be triggered by virtual elements, if your use case includes separate the triggering element and the content element, you should definitely use the mechanism, normally we use `#reference` to place our triggering element, with `triggering-element` API you can set your triggering element anywhere you like, but notice that the triggering element should be an element that accepts `mouse` and `keyboard` event.
 
 :::warning
 
@@ -66,8 +66,9 @@ popover/directive-usage
 
 | Attribute                 | Description                                                                                                                                                              | Type            | Accepted Values                                                                                           | Default                                                 |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| trigger                   | how the popover is triggered                                                                                                                                             | string          | click/focus/hover/manual                                                                                  | click                                                   |
+| trigger                   | how the popover is triggered                                                                                                                                             | string          | click/focus/hover/contextmenu                                                                             | click                                                   |
 | title                     | popover title                                                                                                                                                            | string          | —                                                                                                         | —                                                       |
+| effect                    | Tooltip theme, built-in theme: `dark` / `light`                                                                                                                          | string          | string                                                                                                    | light                                                   |
 | content                   | popover content, can be replaced with a default `slot`                                                                                                                   | string          | —                                                                                                         | —                                                       |
 | width                     | popover width                                                                                                                                                            | string / number | —                                                                                                         | Min width 150px                                         |
 | placement                 | popover placement                                                                                                                                                        | string          | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom                                                  |
@@ -82,6 +83,8 @@ popover/directive-usage
 | hide-after                | delay of disappear, in millisecond                                                                                                                                       | number          | —                                                                                                         | 200                                                     |
 | auto-close                | timeout in milliseconds to hide tooltip                                                                                                                                  | number          | —                                                                                                         | 0                                                       |
 | tabindex                  | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Popover                                                                      | number          | —                                                                                                         | —                                                       |
+| teleported                | whether popover dropdown is teleported to the body                                                                                                                       | boolean         | true / false                                                                                              | true                                                    |
+| persistent                | when popover inactive and `persistent` is `false` , popover will be destroyed                                                                                            | boolean         | —                                                                                                         | true                                                    |
 
 ## Slots
 
@@ -92,9 +95,11 @@ popover/directive-usage
 
 ## Events
 
-| Event Name  | Description                                | Parameters |
-| ----------- | ------------------------------------------ | ---------- |
-| show        | triggers when popover shows                | —          |
-| after-enter | triggers when the entering transition ends | —          |
-| hide        | triggers when popover hides                | —          |
-| after-leave | triggers when the leaving transition ends  | —          |
+| Event Name   | Description                                   | Parameters |
+| ------------ | --------------------------------------------- | ---------- |
+| show         | triggers when popover shows                   | —          |
+| before-enter | triggers when the entering transition befores | —          |
+| after-enter  | triggers when the entering transition ends    | —          |
+| hide         | triggers when popover hides                   | —          |
+| before-leave | triggers when the leaving transition befores  | —          |
+| after-leave  | triggers when the leaving transition ends     | —          |

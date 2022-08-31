@@ -8,7 +8,7 @@
         v-bind="propsAndAttrs"
         @pointerleave="handlePointerLeave"
         @pointermove="handlePointerMove"
-        @click="handleClick"
+        @clickimpl="handleClick"
       >
         <slot />
       </el-dropdown-item-impl>
@@ -84,7 +84,7 @@ export default defineComponent({
     const handleClick = composeEventHandlers(
       (e: PointerEvent) => {
         emit('click', e)
-        return e.defaultPrevented
+        return e.type !== 'keydown' && e.defaultPrevented
       },
       (e) => {
         if (props.disabled) {

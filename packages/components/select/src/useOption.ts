@@ -1,7 +1,8 @@
-import { inject, computed, getCurrentInstance, watch, toRaw, unref } from 'vue'
+// @ts-nocheck
+import { computed, getCurrentInstance, inject, toRaw, unref, watch } from 'vue'
 import { get } from 'lodash-unified'
-import { escapeRegexpString } from '@element-plus/utils'
-import { selectKey, selectGroupKey } from './token'
+import { escapeStringRegexp } from '@element-plus/utils'
+import { selectGroupKey, selectKey } from './token'
 
 import type { Ref } from 'vue'
 import type { QueryChangeCtx } from './token'
@@ -56,13 +57,13 @@ export function useOption(props, states) {
 
   const contains = (arr = [], target) => {
     if (!isObject.value) {
-      return arr && arr.indexOf(target) > -1
+      return arr && arr.includes(target)
     } else {
       const valueKey = select.props.valueKey
       return (
         arr &&
         arr.some((item) => {
-          return get(item, valueKey) === get(target, valueKey)
+          return toRaw(get(item, valueKey)) === get(target, valueKey)
         })
       )
     }
@@ -94,6 +95,12 @@ export function useOption(props, states) {
     () => props.value,
     (val, oldVal) => {
       const { remote, valueKey } = select.props
+
+      if (!Object.is(val, oldVal)) {
+        select.onOptionDestroy(oldVal, instance.proxy)
+        select.onOptionCreate(instance.proxy)
+      }
+
       if (!props.created && !remote) {
         if (
           valueKey &&
@@ -120,7 +127,7 @@ export function useOption(props, states) {
   watch(queryChange, (changes: Ref<QueryChangeCtx>) => {
     const { query } = unref(changes)
 
-    const regexp = new RegExp(escapeRegexpString(query), 'i')
+    const regexp = new RegExp(escapeStringRegexp(query), 'i')
     states.visible = regexp.test(currentLabel.value) || props.created
     if (!states.visible) {
       select.filteredOptionsCount--

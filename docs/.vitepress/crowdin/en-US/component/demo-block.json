@@ -1,7 +1,8 @@
 {
   "view-source": "View source",
-  "edit-in-editor": "Edit in PlayGround",
-  "edit-on-github": "Edit on Github",
+  "hide-source": "Hide source",
+  "edit-in-editor": "Edit in Playground",
+  "edit-on-github": "Edit on GitHub",
   "edit-in-codepen": "Edit in Codepen.io",
   "copy-code": "Copy code",
   "switch-button-option-text": "Switch to Options API",

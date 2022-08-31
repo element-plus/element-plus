@@ -4,26 +4,27 @@
     class="mb-2"
     active-text="Pay by month"
     inactive-text="Pay by year"
-  >
-  </el-switch>
+  />
   <br />
   <el-switch
     v-model="value2"
     class="mb-2"
-    active-color="#13ce66"
-    inactive-color="#ff4949"
+    style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
     active-text="Pay by month"
     inactive-text="Pay by year"
   />
   <br />
-  <el-switch v-model="value3" inline-prompt active-text="是" inactive-text="否">
-  </el-switch>
+  <el-switch
+    v-model="value3"
+    inline-prompt
+    active-text="是"
+    inactive-text="否"
+  />
   <el-switch
     v-model="value4"
     class="ml-2"
     inline-prompt
-    active-color="#13ce66"
-    inactive-color="#ff4949"
+    style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
     active-text="Y"
     inactive-text="N"
   />

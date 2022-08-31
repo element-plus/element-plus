@@ -10,16 +10,25 @@
   @include set-component-css-var('dialog', $dialog);
 
   position: relative;
-  margin: var(--el-dialog-margin-top, 15vh) auto 50px;
-  background: var(--el-dialog-bg-color);
-  border-radius: var(--el-border-radius-small);
-  box-shadow: var(--el-dialog-box-shadow);
+  margin: var(#{getCssVarName('dialog-margin-top')}, 15vh) auto 50px;
+  background: getCssVar('dialog', 'bg-color');
+  border-radius: getCssVar('dialog', 'border-radius');
+  box-shadow: getCssVar('dialog', 'box-shadow');
   box-sizing: border-box;
-  width: var(--el-dialog-width, 50%);
+  width: var(#{getCssVarName('dialog-width')}, 50%);
+
+  &:focus {
+    outline: none !important;
+  }
+
+  @include when(align-center) {
+    margin: auto;
+  }
 
   @include when(fullscreen) {
-    --el-dialog-width: 100%;
-    --el-dialog-margin-top: 0;
+    @include set-css-var-value('dialog-width', 100%);
+    @include set-css-var-value('dialog-margin-top', 0);
+
     margin-bottom: 0;
     height: 100%;
     overflow: auto;
@@ -43,50 +52,57 @@
   }
 
   @include e(header) {
-    padding: var(--el-dialog-padding-primary);
+    padding: getCssVar('dialog', 'padding-primary');
     padding-bottom: 10px;
+    margin-right: 16px;
+    word-break: break-all;
   }
 
   @include e(headerbtn) {
     position: absolute;
-    top: var(--el-dialog-padding-primary);
-    right: var(--el-dialog-padding-primary);
+    top: 6px;
+    right: 0;
     padding: 0;
+    width: 54px;
+    height: 54px;
     background: transparent;
     border: none;
     outline: none;
     cursor: pointer;
-    font-size: var(--el-message-close-size, map.get($message, 'close-size'));
+    font-size: var(
+      #{getCssVarName('message-close-size')},
+      map.get($message, 'close-size')
+    );
 
     .#{$namespace}-dialog__close {
-      color: var(--el-color-info);
+      color: getCssVar('color', 'info');
       font-size: inherit;
     }
 
     &:focus,
     &:hover {
       .#{$namespace}-dialog__close {
-        color: var(--el-color-primary);
+        color: getCssVar('color', 'primary');
       }
     }
   }
 
   @include e(title) {
-    line-height: var(--el-dialog-font-line-height);
-    font-size: var(--el-dialog-title-font-size);
-    color: var(--el-text-color-primary);
+    line-height: getCssVar('dialog-font-line-height');
+    font-size: getCssVar('dialog-title-font-size');
+    color: getCssVar('text-color', 'primary');
   }
 
   @include e(body) {
-    padding: calc(var(--el-dialog-padding-primary) + 10px)
-      var(--el-dialog-padding-primary);
-    color: var(--el-text-color-regular);
-    font-size: var(--el-dialog-content-font-size);
+    padding: calc(#{getCssVar('dialog-padding-primary')} + 10px)
+      getCssVar('dialog-padding-primary');
+    color: getCssVar('text-color', 'regular');
+    font-size: getCssVar('dialog-content-font-size');
     word-break: break-all;
   }
 
   @include e(footer) {
-    padding: var(--el-dialog-padding-primary);
+    padding: getCssVar('dialog-padding-primary');
     padding-top: 10px;
     text-align: right;
     box-sizing: border-box;
@@ -98,7 +114,7 @@
 
     @include e(body) {
       text-align: initial;
-      padding: 25px calc(var(--el-dialog-padding-primary) + 5px) 30px;
+      padding: 25px calc(#{getCssVar('dialog-padding-primary')} + 5px) 30px;
     }
 
     @include e(footer) {
@@ -117,16 +133,16 @@
 }
 
 .dialog-fade-enter-active {
-  animation: modal-fade-in var(--el-transition-duration);
+  animation: modal-fade-in getCssVar('transition-duration');
   .#{$namespace}-overlay-dialog {
-    animation: dialog-fade-in var(--el-transition-duration);
+    animation: dialog-fade-in getCssVar('transition-duration');
   }
 }
 
 .dialog-fade-leave-active {
-  animation: modal-fade-out var(--el-transition-duration);
+  animation: modal-fade-out getCssVar('transition-duration');
   .#{$namespace}-overlay-dialog {
-    animation: dialog-fade-out var(--el-transition-duration);
+    animation: dialog-fade-out getCssVar('transition-duration');
   }
 }
 

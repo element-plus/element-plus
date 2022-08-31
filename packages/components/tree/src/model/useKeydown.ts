@@ -1,5 +1,6 @@
-import { onMounted, onUpdated, onBeforeUnmount, watch, shallowRef } from 'vue'
-import { on, off } from '@element-plus/utils'
+// @ts-nocheck
+import { onMounted, onUpdated, shallowRef, watch } from 'vue'
+import { useEventListener } from '@vueuse/core'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import type TreeStore from './tree-store'
@@ -18,11 +19,6 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
 
   onMounted(() => {
     initTabIndex()
-    on(el$.value, 'keydown', handleKeydown)
-  })
-
-  onBeforeUnmount(() => {
-    off(el$.value, 'keydown', handleKeydown)
   })
 
   onUpdated(() => {
@@ -40,14 +36,14 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
 
   const handleKeydown = (ev: KeyboardEvent): void => {
     const currentItem = ev.target as HTMLElement
-    if (currentItem.className.indexOf(ns.b('node')) === -1) return
+    if (!currentItem.className.includes(ns.b('node'))) return
     const code = ev.code
     treeItems.value = Array.from(
       el$.value.querySelectorAll(`.${ns.is('focusable')}[role=treeitem]`)
     )
     const currentIndex = treeItems.value.indexOf(currentItem)
     let nextIndex
-    if ([EVENT_CODE.up, EVENT_CODE.down].indexOf(code) > -1) {
+    if ([EVENT_CODE.up, EVENT_CODE.down].includes(code)) {
       ev.preventDefault()
       if (code === EVENT_CODE.up) {
         nextIndex =
@@ -96,18 +92,20 @@ export function useKeydown({ el$ }: UseKeydownOption, store: Ref<TreeStore>) {
       }
       nextIndex !== -1 && treeItems.value[nextIndex].focus()
     }
-    if ([EVENT_CODE.left, EVENT_CODE.right].indexOf(code) > -1) {
+    if ([EVENT_CODE.left, EVENT_CODE.right].includes(code)) {
       ev.preventDefault()
       currentItem.click()
     }
     const hasInput = currentItem.querySelector(
       '[type="checkbox"]'
     ) as Nullable<HTMLInputElement>
-    if ([EVENT_CODE.enter, EVENT_CODE.space].indexOf(code) > -1 && hasInput) {
+    if ([EVENT_CODE.enter, EVENT_CODE.space].includes(code) && hasInput) {
       ev.preventDefault()
       hasInput.click()
     }
   }
+
+  useEventListener(el$, 'keydown', handleKeydown)
 
   const initTabIndex = (): void => {
     treeItems.value = Array.from(

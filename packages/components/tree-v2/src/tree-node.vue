@@ -49,6 +49,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { computed, defineComponent, inject } from 'vue'
 import { CaretRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
@@ -56,8 +57,8 @@ import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
 import ElNodeContent from './tree-node-content'
 import {
-  ROOT_TREE_INJECTION_KEY,
   NODE_CONTEXTMENU,
+  ROOT_TREE_INJECTION_KEY,
   treeNodeEmits,
   treeNodeProps,
 } from './virtual-tree'

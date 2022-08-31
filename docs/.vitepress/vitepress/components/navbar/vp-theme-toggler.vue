@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { useTheme } from '../../composables/theme'
+import { toggleDark } from '../../composables/dark'
 import CommonThemeToggler from '../common/vp-theme-toggler.vue'
-
-const toggle = useTheme()
 </script>
 
 <template>
   <div class="theme-toggler-content">
-    <CommonThemeToggler @click="toggle" />
+    <CommonThemeToggler @click="() => toggleDark()" />
   </div>
 </template>
 
@@ -15,13 +13,15 @@ const toggle = useTheme()
 @use '../../styles/mixins' as *;
 .theme-toggler-content {
   @include with-bg;
+  background-color: transparent;
   display: none;
   border-radius: 50%;
-  height: 20px;
-  padding: 0 8px;
+  height: 24px;
+  padding: 0 12px;
 
   @include respond-to('md') {
-    display: block;
+    display: flex;
+    align-items: center;
   }
 }
 </style>

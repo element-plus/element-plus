@@ -7,13 +7,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@element-plus/icons-vue": "^0.2.6"
+    "@element-plus/icons-vue": "^2.0.6",
+    "vue": "^3.2.37"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "2.2.0",
-    "unplugin-vue-components": "0.17.18",
-    "vite": "2.8.1",
-    "vite-plugin-inspect": "0.3.14",
-    "vite-plugin-mkcert": "1.5.2"
+    "@vitejs/plugin-vue": "^2.3.3",
+    "unplugin-vue-components": "^0.20.1",
+    "vite": "^2.9.13",
+    "vite-plugin-inspect": "^0.5.0",
+    "vite-plugin-mkcert": "^1.7.2"
   }
 }

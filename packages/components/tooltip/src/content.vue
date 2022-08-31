@@ -5,12 +5,15 @@
       @after-leave="onTransitionLeave"
       @before-enter="onBeforeEnter"
       @after-enter="onAfterShow"
+      @before-leave="onBeforeLeave"
     >
       <el-popper-content
         v-if="shouldRender"
         v-show="shouldShow"
+        :id="id"
         ref="contentRef"
         v-bind="$attrs"
+        :aria-label="ariaLabel"
         :aria-hidden="ariaHidden"
         :boundaries-padding="boundariesPadding"
         :fallback-placements="fallbackPlacements"
@@ -25,26 +28,36 @@
         :popper-class="popperClass"
         :popper-style="[popperStyle, contentStyle]"
         :reference-el="referenceEl"
+        :trigger-target-el="triggerTargetEl"
+        :visible="shouldShow"
         :z-index="zIndex"
         @mouseenter="onContentEnter"
         @mouseleave="onContentLeave"
+        @blur="onBlur"
+        @close="onClose"
       >
-        <slot />
-        <el-visually-hidden :id="id" role="tooltip">
-          {{ ariaLabel }}
-        </el-visually-hidden>
+        <!-- Workaround bug #6378 -->
+        <template v-if="!destroyed">
+          <slot />
+        </template>
       </el-popper-content>
     </transition>
   </teleport>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, ref, unref, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  inject,
+  onBeforeUnmount,
+  ref,
+  unref,
+  watch,
+} from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { ElPopperContent } from '@element-plus/components/popper'
-import { ElVisuallyHidden } from '@element-plus/components/visual-hidden'
 import { composeEventHandlers } from '@element-plus/utils'
-import { useEscapeKeydown } from '@element-plus/hooks'
 
 import { useTooltipContentProps } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
@@ -53,7 +66,6 @@ export default defineComponent({
   name: 'ElTooltipContent',
   components: {
     ElPopperContent,
-    ElVisuallyHidden,
   },
   inheritAttrs: false,
   props: useTooltipContentProps,
@@ -62,8 +74,19 @@ export default defineComponent({
     const intermediateOpen = ref(false)
     const entering = ref(false)
     const leaving = ref(false)
-    const { controlled, id, open, trigger, onClose, onOpen, onShow, onHide } =
-      inject(TOOLTIP_INJECTION_KEY, undefined)!
+    const destroyed = ref(false)
+    const {
+      controlled,
+      id,
+      open,
+      trigger,
+      onClose,
+      onOpen,
+      onShow,
+      onHide,
+      onBeforeShow,
+      onBeforeHide,
+    } = inject(TOOLTIP_INJECTION_KEY, undefined)!
     const persistentRef = computed(() => {
       // For testing, we would always want the content to be rendered
       // to the DOM, so we need to return true here.
@@ -71,6 +94,10 @@ export default defineComponent({
         return true
       }
       return props.persistent
+    })
+
+    onBeforeUnmount(() => {
+      destroyed.value = true
     })
 
     const shouldRender = computed(() => {
@@ -84,8 +111,6 @@ export default defineComponent({
     const contentStyle = computed(() => (props.style ?? {}) as any)
 
     const ariaHidden = computed(() => !unref(open))
-
-    useEscapeKeydown(onClose)
 
     const onTransitionLeave = () => {
       onHide()
@@ -109,10 +134,33 @@ export default defineComponent({
 
     const onBeforeEnter = () => {
       contentRef.value?.updatePopper?.()
+      onBeforeShow?.()
+    }
+
+    const onBeforeLeave = () => {
+      onBeforeHide?.()
     }
 
     const onAfterShow = () => {
       onShow()
+      stopHandle = onClickOutside(
+        computed(() => {
+          return contentRef.value?.popperContentRef
+        }),
+        () => {
+          if (unref(controlled)) return
+          const $trigger = unref(trigger)
+          if ($trigger !== 'hover') {
+            onClose()
+          }
+        }
+      )
+    }
+
+    const onBlur = () => {
+      if (!props.virtualTriggering) {
+        onClose()
+      }
     }
 
     let stopHandle: ReturnType<typeof onClickOutside>
@@ -120,20 +168,7 @@ export default defineComponent({
     watch(
       () => unref(open),
       (val) => {
-        if (val) {
-          stopHandle = onClickOutside(
-            computed(() => {
-              return contentRef.value?.popperContentRef
-            }),
-            () => {
-              if (unref(controlled)) return
-              const $trigger = unref(trigger)
-              if ($trigger !== 'hover') {
-                onClose()
-              }
-            }
-          )
-        } else {
+        if (!val) {
           stopHandle?.()
         }
       },
@@ -150,14 +185,18 @@ export default defineComponent({
       intermediateOpen,
       contentStyle,
       contentRef,
+      destroyed,
       shouldRender,
       shouldShow,
+      onClose,
       open,
       onAfterShow,
       onBeforeEnter,
+      onBeforeLeave,
       onContentEnter,
       onContentLeave,
       onTransitionLeave,
+      onBlur,
     }
   },
 })

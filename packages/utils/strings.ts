@@ -5,5 +5,8 @@ export {
   hyphenate as kebabCase, // alias
 } from '@vue/shared'
 
-export const escapeRegexpString = (value = '') =>
-  String(value).replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
+/**
+ * fork from {@link https://github.com/sindresorhus/escape-string-regexp}
+ */
+export const escapeStringRegexp = (string = '') =>
+  string.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')

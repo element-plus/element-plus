@@ -25,7 +25,33 @@ button/disabled
 
 :::
 
+## Link Button
+
+:::warning
+
+`type="text"` has been **deprecated**, and **will be** removed in <VersionTag version="3.0.0" />, consider switching to new API.
+
+New API `link` has been added in <VersionTag version="2.2.1" />, you can use `type` API to set the theme of your link button
+
+:::
+
+:::demo
+
+button/link
+
+:::
+
 ## Text Button
+
+:::tip
+
+Text button has been upgraded with a new design since <el-tag round effect="plain" size="small">2.2.0</el-tag> , if you want to use the
+previous version like button, you might want to check [Link](./link.md#basic) out.
+
+The API is also updated, because the `type` attribute also represents the button's style. So we have to make a new API
+`text: boolean` for text button.
+
+:::
 
 Buttons without border and background.
 
@@ -85,7 +111,7 @@ button/size
 
 :::
 
-## Custom Color <el-tag>beta</el-tag>
+## Custom Color <VersionTag version="beta" />
 
 You can custom button color.
 
@@ -99,20 +125,23 @@ button/custom
 
 ## Button Attributes
 
-| Attribute         | Description                                                 | Type               | Accepted Values                                    | Default |
-| ----------------- | ----------------------------------------------------------- | ------------------ | -------------------------------------------------- | ------- |
-| size              | button size                                                 | string             | large / default /small                             | —       |
-| type              | button type                                                 | string             | primary / success / warning / danger / info / text | —       |
-| plain             | determine whether it's a plain button                       | boolean            | —                                                  | false   |
-| round             | determine whether it's a round button                       | boolean            | —                                                  | false   |
-| circle            | determine whether it's a circle button                      | boolean            | —                                                  | false   |
-| loading           | determine whether it's loading                              | boolean            | —                                                  | false   |
-| loading-icon      | customize loading icon component                            | string / Component | —                                                  | Loading |
-| disabled          | disable the button                                          | boolean            | —                                                  | false   |
-| icon              | icon component                                              | string / Component | —                                                  | —       |
-| autofocus         | same as native button's `autofocus`                         | boolean            | —                                                  | false   |
-| native-type       | same as native button's `type`                              | string             | button / submit / reset                            | button  |
-| auto-insert-space | automatically insert a space between two chinese characters | boolean            |                                                    | —       |
+| Attribute                           | Description                                                     | Type                  | Accepted Values                                               | Default |
+| ----------------------------------- | --------------------------------------------------------------- | --------------------- | ------------------------------------------------------------- | ------- |
+| size                                | button size                                                     | string                | large / default /small                                        | —       |
+| type                                | button type                                                     | string                | primary / success / warning / danger / info / <del>text</del> | —       |
+| plain                               | determine whether it's a plain button                           | boolean               | —                                                             | false   |
+| text <VersionTag version="2.2.0" /> | determine whether it's a text button                            | boolean               | —                                                             | false   |
+| bg <VersionTag version="2.2.0" />   | determine whether the text button background color is always on | boolean               | —                                                             | false   |
+| link <VersionTag version="2.2.1" /> | determine whether it's a link button                            | boolean               | —                                                             | false   |
+| round                               | determine whether it's a round button                           | boolean               | —                                                             | false   |
+| circle                              | determine whether it's a circle button                          | boolean               | —                                                             | false   |
+| loading                             | determine whether it's loading                                  | boolean               | —                                                             | false   |
+| loading-icon                        | customize loading icon component                                | `string \| Component` | —                                                             | Loading |
+| disabled                            | disable the button                                              | boolean               | —                                                             | false   |
+| icon                                | icon component                                                  | `string \| Component` | —                                                             | —       |
+| autofocus                           | same as native button's `autofocus`                             | boolean               | —                                                             | false   |
+| native-type                         | same as native button's `type`                                  | string                | button / submit / reset                                       | button  |
+| auto-insert-space                   | automatically insert a space between two chinese characters     | boolean               |                                                               | —       |
 
 ## Button Slots
 
@@ -120,13 +149,14 @@ button/custom
 | ------- | --------------------------- |
 | —       | customize default content   |
 | loading | customize loading component |
+| icon    | customize icon component    |
 
 ## Button-Group Attributes
 
-| Attribute | Description                                      | Type   | Accepted Values             | Default |
-| --------- | ------------------------------------------------ | ------ | --------------------------- | ------- |
-| size      | control the size of buttons in this button-group | string | large / small               | —       |
-| type      | control the type of buttons in this button-group | string | primary / success / warning | —       |
+| Attribute | Description                                      | Type   | Accepted Values       | Default |
+| --------- | ------------------------------------------------ | ------ | --------------------- | ------- |
+| size      | control the size of buttons in this button-group | string | same as button's size | —       |
+| type      | control the type of buttons in this button-group | string | same as button's type | —       |
 
 ## Button-Group Slots
 

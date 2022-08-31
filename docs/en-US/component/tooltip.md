@@ -19,13 +19,13 @@ tooltip/basic
 
 ## Theme
 
-Tooltip has two built-in themes: `dark` and `light`。
+Tooltip has two built-in themes: `dark` and `light`.
 
 :::tip
 
 To use customized theme, you will have to known where your tooltip is rendered into, if your tooltip is rendered into the root element, you will need to set the css rule globally.
 
-It is recommended that not using linear gradient background color when you using customized theme and showing the arrow at the same time, because the popup arrow and the content is two different elements,
+It is recommended that not using linear gradient background color when you using customized theme and showing the arrow at the same time, because the popup arrow and the content are two different elements,
 the popup arrow's style needs to be set individually, and when it comes to the gradient background color, it might seem a little bit weird.
 
 :::
@@ -122,7 +122,7 @@ tooltip/singleton
 
 ## Controlled
 
-Tooltip can be controlled by the parent component, by using `v-model:visible` you can implement two way binding.
+Tooltip can be controlled by the parent component, by using `:visible` you can implement two way binding.
 
 :::demo
 
@@ -145,7 +145,6 @@ tooltip/animations
 | Attribute                                | Description                                                                                                                                                  | Type                       | Accepted Values                                                                                           | Default                                                 |
 | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
 | append-to                                | which element the tooltip CONTENT appends to                                                                                                                 | CSSSelector \| HTMLElement | —                                                                                                         | #el-popper-container-[randomValue]                      |
-| append-to-body (deprecated)              | indicates whether the tooltip contents will be append to the document.body element                                                                           | boolean                    | true / false                                                                                              | true                                                    |
 | effect                                   | Tooltip theme, built-in theme: `dark` / `light`                                                                                                              | string                     | string                                                                                                    | dark                                                    |
 | content                                  | display content, can be overridden by `slot#content`                                                                                                         | String                     | —                                                                                                         | —                                                       |
 | raw-content                              | whether `content` is treated as HTML string                                                                                                                  | boolean                    | —                                                                                                         | false                                                   |
@@ -155,10 +154,10 @@ tooltip/animations
 | offset                                   | offset of the Tooltip                                                                                                                                        | number                     | —                                                                                                         | 0                                                       |
 | transition                               | animation name                                                                                                                                               | string                     | —                                                                                                         | el-fade-in-linear                                       |
 | visible-arrow (will deprecate in 2.1.0 ) | whether an arrow is displayed. For more information, check [ElPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper) page | boolean                    | —                                                                                                         | true                                                    |
-| popper-options                           | [popper.js](https://popper.js.org/documentation.html) parameters                                                                                             | Object                     | refer to [popper.js](https://popper.js.org/documentation.html) doc                                        | `{ boundariesElement: 'body', gpuAcceleration: false }` |
+| popper-options                           | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                                                       | Object                     | refer to [popper.js](https://popper.js.org/docs/v2/) doc                                                  | `{ boundariesElement: 'body', gpuAcceleration: false }` |
 | show-after                               | delay of appearance, in millisecond                                                                                                                          | number                     | —                                                                                                         | 0                                                       |
 | show-arrow                               | whether the tooltip content has an arrow                                                                                                                     | boolean                    | true / false                                                                                              | true                                                    |
-| hide-after                               | delay of disappear, in millisecond                                                                                                                           | number                     | —                                                                                                         | 0                                                       |
+| hide-after                               | delay of disappear, in millisecond                                                                                                                           | number                     | —                                                                                                         | 200                                                     |
 | auto-close                               | timeout in milliseconds to hide tooltip                                                                                                                      | number                     | —                                                                                                         | 0                                                       |
 | manual                                   | whether to control Tooltip manually. `mouseenter` and `mouseleave` won't have effects if set to `true`                                                       | boolean                    | —                                                                                                         | false                                                   |
 | popper-class                             | custom class name for Tooltip's popper                                                                                                                       | string                     | —                                                                                                         | —                                                       |
@@ -168,6 +167,7 @@ tooltip/animations
 | trigger                                  | How should the tooltip be triggered (to show)                                                                                                                | string                     | hover / click / focus / contextmenu                                                                       | hover                                                   |
 | virtual-triggering                       | Indicates whether virtual triggering is enabled                                                                                                              | boolean                    | —                                                                                                         | false                                                   |
 | virtual-ref                              | Indicates the reference element to which the tooltip is attached                                                                                             | HTMLElement                | —                                                                                                         | —                                                       |
+| trigger-keys                             | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard      | Array                      | —                                                                                                         | `['Enter','Space']`                                     |
 
 ## Slots
 

@@ -15,7 +15,7 @@
           <span>Yummy hamburger</span>
           <div class="bottom">
             <time class="time">{{ currentDate }}</time>
-            <el-button type="text" class="button">Operating</el-button>
+            <el-button text class="button">Operating</el-button>
           </div>
         </div>
       </el-card>
@@ -31,7 +31,7 @@ const currentDate = ref(new Date())
 
 <style>
 .time {
-  font-size: 13px;
+  font-size: 12px;
   color: #999;
 }
 
