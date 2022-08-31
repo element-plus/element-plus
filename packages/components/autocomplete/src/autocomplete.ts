@@ -6,13 +6,18 @@ import {
   isString,
 } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
+
 import type { ExtractPropTypes } from 'vue'
 import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
 import type { Awaitable } from '@element-plus/utils'
 
-export type AutocompleteData = { value: string }[]
+export type AutocompleteData = Record<string, any>[]
 export type AutocompleteFetchSuggestionsCallback = (
   data: AutocompleteData
 ) => void
@@ -76,13 +81,17 @@ export const autocompleteProps = buildProps({
     type: Boolean,
     default: false,
   },
+  fitInputWidth: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 
 export const autocompleteEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
-  input: (value: string) => isString(value),
-  change: (value: string) => isString(value),
+  [INPUT_EVENT]: (value: string) => isString(value),
+  [CHANGE_EVENT]: (value: string) => isString(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,

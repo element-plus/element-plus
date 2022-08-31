@@ -12,12 +12,22 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, provide, reactive, ref, toRefs, watch } from 'vue'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  provide,
+  reactive,
+  ref,
+  toRefs,
+  watch,
+} from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { radioGroupKey } from '@element-plus/tokens'
 import {
   useFormItem,
   useFormItemInputId,
+  useId,
   useNamespace,
 } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
@@ -32,6 +42,7 @@ const props = defineProps(radioGroupProps)
 const emit = defineEmits(radioGroupEmits)
 
 const ns = useNamespace('radio')
+const radioId = useId()
 const radioGroupRef = ref<HTMLDivElement>()
 const { formItem } = useFormItem()
 const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
@@ -52,16 +63,25 @@ onMounted(() => {
   }
 })
 
+const name = computed(() => {
+  return props.name || radioId.value
+})
+
 provide(
   radioGroupKey,
   reactive({
     ...toRefs(props),
     changeEvent,
+    name,
   })
 )
 
 watch(
   () => props.modelValue,
-  () => formItem?.validate('change').catch((err) => debugWarn(err))
+  () => {
+    if (props.validateEvent) {
+      formItem?.validate('change').catch((err) => debugWarn(err))
+    }
+  }
 )
 </script>

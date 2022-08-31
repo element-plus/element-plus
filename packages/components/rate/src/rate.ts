@@ -1,9 +1,10 @@
 import { Star, StarFilled } from '@element-plus/icons-vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   buildProps,
   definePropType,
   iconPropType,
+  isNumber,
   isValidComponentSize,
   mutable,
 } from '@element-plus/utils'
@@ -60,19 +61,15 @@ export const rateProps = buildProps({
   },
   disabled: {
     type: Boolean,
-    default: false,
   },
   allowHalf: {
     type: Boolean,
-    default: false,
   },
   showText: {
     type: Boolean,
-    default: false,
   },
   showScore: {
     type: Boolean,
-    default: false,
   },
   textColor: {
     type: String,
@@ -106,8 +103,8 @@ export const rateProps = buildProps({
 export type RateProps = ExtractPropTypes<typeof rateProps>
 
 export const rateEmits = {
-  change: (value: number) => typeof value === 'number',
-  [UPDATE_MODEL_EVENT]: (value: number) => typeof value === 'number',
+  [CHANGE_EVENT]: (value: number) => isNumber(value),
+  [UPDATE_MODEL_EVENT]: (value: number) => isNumber(value),
 }
 export type RateEmits = typeof rateEmits
 

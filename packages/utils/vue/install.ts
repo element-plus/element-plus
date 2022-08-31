@@ -30,6 +30,14 @@ export const withInstallFunction = <T>(fn: T, name: string) => {
   return fn as SFCInstallWithContext<T>
 }
 
+export const withInstallDirective = <T>(directive: T, name: string) => {
+  ;(directive as SFCWithInstall<T>).install = (app: App): void => {
+    app.directive(name, directive)
+  }
+
+  return directive as SFCWithInstall<T>
+}
+
 export const withNoopInstall = <T>(component: T) => {
   ;(component as SFCWithInstall<T>).install = NOOP
 

@@ -1,5 +1,5 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.node.json",
+  "extends": "../tsconfig.node.json",
   "include": ["../packages/components/**/ssr/*.vue", "**/*"],
   "compilerOptions": {
     "isolatedModules": false,

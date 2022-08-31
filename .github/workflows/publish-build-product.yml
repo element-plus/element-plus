@@ -37,6 +37,8 @@ jobs:
 
       - name: Local build
         run: pnpm build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Check build product
         run: sh -c ./scripts/file-check.sh
@@ -53,7 +55,7 @@ jobs:
           path: ./tmp/diff.md
 
       - name: Set comment
-        uses: actions-cool/maintain-one-comment@v2.0.2
+        uses: actions-cool/maintain-one-comment@v3.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.diff.outputs.content }}

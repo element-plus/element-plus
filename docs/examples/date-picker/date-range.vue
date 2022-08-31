@@ -1,4 +1,11 @@
 <template>
+  <div>
+    <el-radio-group v-model="size" label="size control">
+      <el-radio-button label="large">large</el-radio-button>
+      <el-radio-button label="default">default</el-radio-button>
+      <el-radio-button label="small">small</el-radio-button>
+    </el-radio-group>
+  </div>
   <div class="demo-date-picker">
     <div class="block">
       <span class="demonstration">Default</span>
@@ -8,6 +15,7 @@
         range-separator="To"
         start-placeholder="Start date"
         end-placeholder="End date"
+        :size="size"
       />
     </div>
     <div class="block">
@@ -20,6 +28,7 @@
         start-placeholder="Start date"
         end-placeholder="End date"
         :shortcuts="shortcuts"
+        :size="size"
       />
     </div>
   </div>
@@ -27,6 +36,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
+const size = ref<'' | 'large' | 'small'>('')
 
 const value1 = ref('')
 const value2 = ref('')

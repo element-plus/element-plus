@@ -18,66 +18,61 @@
           :trapped="visible"
           :focus-trap-el="drawerRef"
           :focus-start-el="focusStartRef"
+          @release-requested="onCloseRequested"
         >
-          <template #default="{ handleKeydown }">
-            <div
-              ref="drawerRef"
-              aria-modal="true"
-              :aria-label="title || undefined"
-              :aria-labelledby="!title ? titleId : undefined"
-              :aria-describedby="bodyId"
-              :class="[ns.b(), direction, visible && 'open', customClass]"
-              :style="
-                isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
-              "
-              role="dialog"
-              @click.stop
-              @keydown="handleKeydown"
-            >
-              <span
-                ref="focusStartRef"
-                :class="ns.e('sr-focus')"
-                tabindex="-1"
-              />
-              <header v-if="withHeader" :class="ns.e('header')">
-                <slot
-                  name="header"
-                  :close="handleClose"
-                  :title-id="titleId"
-                  :title-class="ns.e('title')"
+          <div
+            ref="drawerRef"
+            aria-modal="true"
+            :aria-label="title || undefined"
+            :aria-labelledby="!title ? titleId : undefined"
+            :aria-describedby="bodyId"
+            :class="[ns.b(), direction, visible && 'open', customClass]"
+            :style="
+              isHorizontal ? 'width: ' + drawerSize : 'height: ' + drawerSize
+            "
+            role="dialog"
+            @click.stop
+          >
+            <span ref="focusStartRef" :class="ns.e('sr-focus')" tabindex="-1" />
+            <header v-if="withHeader" :class="ns.e('header')">
+              <slot
+                v-if="!$slots.title"
+                name="header"
+                :close="handleClose"
+                :title-id="titleId"
+                :title-class="ns.e('title')"
+              >
+                <span
+                  v-if="!$slots.title"
+                  :id="titleId"
+                  role="heading"
+                  :class="ns.e('title')"
                 >
-                  <span
-                    v-if="!$slots.title"
-                    :id="titleId"
-                    role="heading"
-                    :class="ns.e('title')"
-                  >
-                    {{ title }}
-                  </span>
-                </slot>
-                <slot name="title">
-                  <!-- DEPRECATED SLOT -->
-                </slot>
-                <button
-                  v-if="showClose"
-                  :aria-label="t('el.drawer.close')"
-                  :class="ns.e('close-btn')"
-                  type="button"
-                  @click="handleClose"
-                >
-                  <el-icon :class="ns.e('close')"><close /></el-icon>
-                </button>
-              </header>
-              <template v-if="rendered">
-                <div :id="bodyId" :class="ns.e('body')">
-                  <slot />
-                </div>
-              </template>
-              <div v-if="$slots.footer" :class="ns.e('footer')">
-                <slot name="footer" />
+                  {{ title }}
+                </span>
+              </slot>
+              <slot v-else name="title">
+                <!-- DEPRECATED SLOT -->
+              </slot>
+              <button
+                v-if="showClose"
+                :aria-label="t('el.drawer.close')"
+                :class="ns.e('close-btn')"
+                type="button"
+                @click="handleClose"
+              >
+                <el-icon :class="ns.e('close')"><close /></el-icon>
+              </button>
+            </header>
+            <template v-if="rendered">
+              <div :id="bodyId" :class="ns.e('body')">
+                <slot />
               </div>
+            </template>
+            <div v-if="$slots.footer" :class="ns.e('footer')">
+              <slot name="footer" />
             </div>
-          </template>
+          </div>
         </el-focus-trap>
       </el-overlay>
     </transition>
@@ -91,6 +86,7 @@ import { Close } from '@element-plus/icons-vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useDialog } from '@element-plus/components/dialog'
+import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
@@ -112,7 +108,7 @@ export default defineComponent({
         scope: 'el-drawer',
         from: 'the title slot',
         replacement: 'the header slot',
-        version: '2.3.0',
+        version: '3.0.0',
         ref: 'https://element-plus.org/en-US/component/drawer.html#slots',
       },
       computed(() => !!slots.title)
@@ -126,9 +122,7 @@ export default defineComponent({
     const isHorizontal = computed(
       () => props.direction === 'rtl' || props.direction === 'ltr'
     )
-    const drawerSize = computed(() =>
-      typeof props.size === 'number' ? `${props.size}px` : props.size
-    )
+    const drawerSize = computed(() => addUnit(props.size))
 
     return {
       ...useDialog(props, drawerRef),

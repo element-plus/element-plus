@@ -60,7 +60,7 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include m(label-left) {
     .#{$namespace}-form-item__label {
-      text-align: left;
+      justify-content: flex-start;
     }
   }
   @include m(label-top) {
@@ -69,6 +69,7 @@ $form-item-label-top-margin-bottom: map.merge(
 
       .#{$namespace}-form-item__label {
         display: block;
+        height: auto;
         text-align: left;
         margin-bottom: #{map.get($form-item-label-top-margin-bottom, 'default')};
         line-height: #{map.get($form-item-label-top-line-height, 'default')};
@@ -127,6 +128,7 @@ $form-item-label-top-margin-bottom: map.merge(
       margin-bottom: #{map.get($form-item-margin-bottom, $size)};
 
       @include e(label) {
+        height: #{map.get($form-item-line-height, $size)};
         line-height: #{map.get($form-item-line-height, $size)};
       }
       @include e(content) {
@@ -191,12 +193,23 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include when(required) {
     @include pseudo('not(.is-no-asterisk)') {
-      > .#{$namespace}-form-item__label:before,
-      > .#{$namespace}-form-item__label-wrap
-        > .#{$namespace}-form-item__label:before {
-        content: '*';
-        color: getCssVar('color-danger');
-        margin-right: 4px;
+      &.asterisk-left {
+        > .#{$namespace}-form-item__label:before,
+        > .#{$namespace}-form-item__label-wrap
+          > .#{$namespace}-form-item__label:before {
+          content: '*';
+          color: getCssVar('color-danger');
+          margin-right: 4px;
+        }
+      }
+      &.asterisk-right {
+        > .#{$namespace}-form-item__label:after,
+        > .#{$namespace}-form-item__label-wrap
+          > .#{$namespace}-form-item__label:after {
+          content: '*';
+          color: getCssVar('color-danger');
+          margin-left: 4px;
+        }
       }
     }
   }

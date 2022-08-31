@@ -6,6 +6,7 @@
   />
 </template>
 <script lang="ts" setup>
+// @ts-nocheck
 import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, throwError } from '@element-plus/utils'

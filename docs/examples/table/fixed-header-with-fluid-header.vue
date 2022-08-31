@@ -8,7 +8,12 @@
     <el-table-column prop="zip" label="Zip" width="120" />
     <el-table-column fixed="right" label="Operations" width="120">
       <template #default="scope">
-        <el-button text size="small" @click.prevent="deleteRow(scope.$index)">
+        <el-button
+          link
+          type="primary"
+          size="small"
+          @click.prevent="deleteRow(scope.$index)"
+        >
           Remove
         </el-button>
       </template>

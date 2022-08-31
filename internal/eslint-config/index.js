@@ -195,12 +195,15 @@ module.exports = defineConfig({
       'error',
       { disallowTypeAnnotations: false },
     ],
+    '@typescript-eslint/ban-ts-comment': ['off', { 'ts-ignore': false }],
 
     // vue
     'vue/no-v-html': 'off',
     'vue/require-default-prop': 'off',
     'vue/require-explicit-emits': 'off',
     'vue/multi-word-component-names': 'off',
+    'vue/prefer-import-from-vue': 'off',
+    'vue/no-v-text-v-html-on-component': 'off',
     'vue/html-self-closing': [
       'error',
       {

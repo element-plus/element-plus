@@ -94,6 +94,11 @@
       font-weight: bold;
       width: inherit;
     }
+
+    &:focus-visible {
+      outline: 1px solid getCssVar('pagination-hover-color');
+      color: getCssVar('pagination-hover-color');
+    }
   }
 
   .#{$namespace}-pager li.is-disabled {
@@ -235,6 +240,11 @@
       &.is-disabled {
         color: getCssVar('text-color', 'placeholder');
         background-color: getCssVar('disabled-bg-color');
+
+        &.is-active {
+          color: getCssVar('text-color', 'secondary');
+          background-color: getCssVar('fill-color', 'dark');
+        }
       }
       @include when(first) {
         margin-left: 0;
@@ -300,6 +310,7 @@
     @include pagination-button;
     cursor: pointer;
     text-align: center;
+    margin: 0 1px;
 
     &.btn-quickprev:hover {
       cursor: pointer;
@@ -322,6 +333,11 @@
       svg {
         pointer-events: none;
       }
+
+      &:focus-visible {
+        outline: 1px solid getCssVar('pagination-hover-color');
+        color: getCssVar('pagination-hover-color');
+      }
     }
 
     &.is-active + li {
@@ -339,6 +355,11 @@
     &.is-active {
       color: getCssVar('pagination-hover-color');
       cursor: default;
+
+      &.is-disabled {
+        font-weight: bold;
+        color: getCssVar('text-color', 'secondary');
+      }
     }
   }
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, getCurrentInstance, inject, toRaw, unref, watch } from 'vue'
 import { get } from 'lodash-unified'
 import { escapeStringRegexp } from '@element-plus/utils'
@@ -62,7 +63,7 @@ export function useOption(props, states) {
       return (
         arr &&
         arr.some((item) => {
-          return get(item, valueKey) === get(target, valueKey)
+          return toRaw(get(item, valueKey)) === get(target, valueKey)
         })
       )
     }

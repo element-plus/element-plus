@@ -217,6 +217,10 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
       #{getCssVarName('input-icon-color')},
       map.get($input, 'icon-color')
     );
+
+    .#{$namespace}-input__icon {
+      height: inherit;
+    }
   }
 
   @include e(caret) {

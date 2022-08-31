@@ -81,22 +81,23 @@ input-number/controlled
 
 ## Attributes
 
-| Attribute                                     | Description                                      | Type                   | Accepted Values | Default     |
-| --------------------------------------------- | ------------------------------------------------ | ---------------------- | --------------- | ----------- |
-| model-value / v-model                         | binding value                                    | number / undefined     | —               | —           |
-| min                                           | the minimum allowed value                        | number                 | —               | `-Infinity` |
-| max                                           | the maximum allowed value                        | number                 | —               | `Infinity`  |
-| step                                          | incremental step                                 | number                 | —               | 1           |
-| step-strictly                                 | whether input value can only be multiple of step | boolean                | —               | false       |
-| precision                                     | precision of input value                         | number                 | —               | —           |
-| size                                          | size of the component                            | string                 | large/small     | default     |
-| disabled                                      | whether the component is disabled                | boolean                | —               | false       |
-| controls                                      | whether to enable the control buttons            | boolean                | —               | true        |
-| controls-position                             | position of the control buttons                  | string                 | right           | -           |
-| name                                          | same as `name` in native input                   | string                 | —               | —           |
-| label                                         | label text                                       | string                 | —               | —           |
-| placeholder                                   | placeholder in input                             | string                 | -               | -           |
-| value-on-clear <VersionTag version="2.2.1" /> | value should be set when input box is cleared    | string / number / null | min/max         | -           |
+| Attribute                     | Description                                      | Type                   | Accepted Values | Default     |
+| ----------------------------- | ------------------------------------------------ | ---------------------- | --------------- | ----------- |
+| model-value / v-model         | binding value                                    | number / undefined     | —               | —           |
+| min                           | the minimum allowed value                        | number                 | —               | `-Infinity` |
+| max                           | the maximum allowed value                        | number                 | —               | `Infinity`  |
+| step                          | incremental step                                 | number                 | —               | 1           |
+| step-strictly                 | whether input value can only be multiple of step | boolean                | —               | false       |
+| precision                     | precision of input value                         | number                 | —               | —           |
+| size                          | size of the component                            | string                 | large/small     | default     |
+| disabled                      | whether the component is disabled                | boolean                | —               | false       |
+| controls                      | whether to enable the control buttons            | boolean                | —               | true        |
+| controls-position             | position of the control buttons                  | string                 | right           | -           |
+| name                          | same as `name` in native input                   | string                 | —               | —           |
+| label                         | label text                                       | string                 | —               | —           |
+| placeholder                   | placeholder in input                             | string                 | -               | -           |
+| value-on-clear **(\> 2.2.0)** | value should be set when input box is cleared    | string / number / null | min/max         | -           |
+| validate-event                | whether to trigger form validation               | boolean                | -               | true        |
 
 ## Events
 
