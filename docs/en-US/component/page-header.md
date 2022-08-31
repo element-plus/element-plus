@@ -100,11 +100,11 @@ The component is consisted of these parts
 
 ## Attributes
 
-| Attribute | Description    | Type               | Accepted Values | Default |
-| --------- | -------------- | ------------------ | --------------- | ------- |
-| icon      | icon component | string / Component | —               | Back    |
-| title     | main title     | string             | —               | Back    |
-| content   | content        | string             | —               | —       |
+| Attribute | Description    | Type                  | Accepted Values | Default |
+| --------- | -------------- | --------------------- | --------------- | ------- |
+| icon      | icon component | `string \| Component` | —               | Back    |
+| title     | main title     | string                | —               | Back    |
+| content   | content        | string                | —               | —       |
 
 ## Events
 

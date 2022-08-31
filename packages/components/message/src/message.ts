@@ -22,7 +22,7 @@ export const messageDefaults = mutable({
   center: false,
   dangerouslyUseHTMLString: false,
   duration: 3000,
-  icon: '',
+  icon: undefined,
   id: '',
   message: '',
   onClose: undefined,
