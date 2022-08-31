@@ -221,15 +221,16 @@ export default defineComponent({
         (item) => item.nodeName !== '#text' || item.nodeValue
       ) as HTMLElement[]
       const moreItemWidth = 64
+      if (!menu.value) return
       const paddingLeft = Number.parseInt(
-        getComputedStyle(menu.value!).paddingLeft,
+        getComputedStyle(menu.value).paddingLeft,
         10
       )
       const paddingRight = Number.parseInt(
-        getComputedStyle(menu.value!).paddingRight,
+        getComputedStyle(menu.value).paddingRight,
         10
       )
-      const menuWidth = menu.value!.clientWidth - paddingLeft - paddingRight
+      const menuWidth = menu.value.clientWidth - paddingLeft - paddingRight
       let calcWidth = 0
       let sliceIndex = 0
       items.forEach((item, index) => {
