@@ -762,8 +762,9 @@ describe('Select', () => {
       .spyOn(selectDom, 'getBoundingClientRect')
       .mockReturnValue(selectRect as DOMRect)
     const dropdown = wrapper.findComponent({ name: 'ElSelectDropdown' })
-    dropdown.vm.minWidth = `${selectWrapper.element.getBoundingClientRect().width
-      }px`
+    dropdown.vm.minWidth = `${
+      selectWrapper.element.getBoundingClientRect().width
+    }px`
     await nextTick()
     expect(dropdown.element.style.width).toBe('221px')
     mockSelectWidth.mockRestore()
