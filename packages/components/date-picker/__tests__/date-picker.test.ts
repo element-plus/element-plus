@@ -409,7 +409,7 @@ describe('DatePicker', () => {
   })
 
   it('ref handleClose', async () => {
-    jest.useFakeTimers()
+    vi.useFakeTimers()
 
     _mount(
       `<el-date-picker
@@ -428,13 +428,13 @@ describe('DatePicker', () => {
       }
     )
 
-    jest.runAllTimers()
+    vi.runAllTimers()
     await nextTick()
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('true')
 
-    jest.useRealTimers()
+    vi.useRealTimers()
   })
 
   it('custom content', async () => {
