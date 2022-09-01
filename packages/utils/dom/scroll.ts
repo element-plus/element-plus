@@ -35,14 +35,12 @@ export const getScrollContainer = (
 }
 
 let scrollBarWidth: number
-export const getScrollBarWidth = (): number => {
+export const getScrollBarWidth = (namespace: string): number => {
   if (!isClient) return 0
   if (scrollBarWidth !== undefined) return scrollBarWidth
 
   const outer = document.createElement('div')
-  // Cannot access 'propKey' before initialization
-  // need to be dynamic namespace
-  outer.className = 'el-scrollbar__wrap'
+  outer.className = `${namespace}-scrollbar__wrap`
   outer.style.width = '100px'
   outer.style.position = 'absolute'
   outer.style.top = '-9999px'

@@ -14,6 +14,7 @@ import type {
   Action,
   Callback,
   ElMessageBoxOptions,
+  ElMessageBoxShortcutMethod,
   IElMessageBox,
   MessageBoxData,
   MessageBoxState,
@@ -25,7 +26,7 @@ const messageInstance = new Map<
   ComponentPublicInstance<{ doClose: () => void }>, // marking doClose as function
   {
     options: any
-    callback: Callback
+    callback: Callback | undefined
     resolve: (res: any) => void
     reject: (reason?: any) => void
   }
@@ -97,7 +98,7 @@ const showMessage = (options: any, appContext?: AppContext | null) => {
 
   for (const prop in options) {
     if (hasOwn(options, prop) && !hasOwn(vm.$props, prop)) {
-      vm[prop as string] = options[prop]
+      vm[prop as keyof ComponentPublicInstance] = options[prop]
     }
   }
 
@@ -130,7 +131,7 @@ function MessageBox(
   appContext: AppContext | null = null
 ): Promise<{ value: string; action: Action } | Action> {
   if (!isClient) return Promise.reject()
-  let callback
+  let callback: Callback | undefined
   if (isString(options) || isVNode(options)) {
     options = {
       message: options,
@@ -140,7 +141,10 @@ function MessageBox(
   }
 
   return new Promise((resolve, reject) => {
-    const vm = showMessage(options, appContext ?? MessageBox._context)
+    const vm = showMessage(
+      options,
+      appContext ?? (MessageBox as IElMessageBox)._context
+    )
     // collect this vm in order to handle upcoming events.
     messageInstance.set(vm, {
       options,
@@ -162,30 +166,32 @@ const MESSAGE_BOX_DEFAULT_OPTS: Record<
 }
 
 MESSAGE_BOX_VARIANTS.forEach((boxType) => {
-  MessageBox[boxType] = messageBoxFactory(boxType)
+  ;(MessageBox as IElMessageBox)[boxType] = messageBoxFactory(
+    boxType
+  ) as ElMessageBoxShortcutMethod
 })
 
 function messageBoxFactory(boxType: typeof MESSAGE_BOX_VARIANTS[number]) {
   return (
-    message: string,
-    titleOrOpts: string | ElMessageBoxOptions,
+    message: string | VNode,
+    title: string | ElMessageBoxOptions,
     options?: ElMessageBoxOptions,
     appContext?: AppContext | null
   ) => {
-    let title: string
-    if (isObject(titleOrOpts)) {
-      options = titleOrOpts
-      title = ''
-    } else if (isUndefined(titleOrOpts)) {
-      title = ''
+    let titleOrOpts = ''
+    if (isObject(title)) {
+      options = title as ElMessageBoxOptions
+      titleOrOpts = ''
+    } else if (isUndefined(title)) {
+      titleOrOpts = ''
     } else {
-      title = titleOrOpts
+      titleOrOpts = title as string
     }
 
     return MessageBox(
       Object.assign(
         {
-          title,
+          title: titleOrOpts,
           message,
           type: '',
           ...MESSAGE_BOX_DEFAULT_OPTS[boxType],
@@ -210,7 +216,6 @@ MessageBox.close = () => {
 
   messageInstance.clear()
 }
-
-MessageBox._context = null
+;(MessageBox as IElMessageBox)._context = null
 
 export default MessageBox as IElMessageBox

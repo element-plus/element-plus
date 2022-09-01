@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
@@ -384,22 +385,22 @@ describe('Tree.vue', () => {
 
     const treeWrapper = wrapper.findComponent(Tree)
     const treeVm = treeWrapper.vm as InstanceType<typeof Tree>
-    const seconNodeContentWrapper = treeWrapper.findAll(
+    const secondNodeContentWrapper = treeWrapper.findAll(
       '.el-tree-node__content'
     )[1]
-    const seconNodeCheckboxWrapper =
-      seconNodeContentWrapper.find('.el-checkbox')
-    const seconNodeExpandIconWrapper = seconNodeContentWrapper.find(
+    const secondNodeCheckboxWrapper =
+      secondNodeContentWrapper.find('.el-checkbox')
+    const secondNodeExpandIconWrapper = secondNodeContentWrapper.find(
       '.el-tree-node__expand-icon'
     )
 
-    expect(seconNodeCheckboxWrapper.exists()).toBe(true)
-    await seconNodeCheckboxWrapper.trigger('click')
+    expect(secondNodeCheckboxWrapper.exists()).toBe(true)
+    await secondNodeCheckboxWrapper.trigger('click')
 
     expect(treeVm.getCheckedNodes().length).toEqual(3)
     expect(treeVm.getCheckedNodes(true).length).toEqual(2)
 
-    await seconNodeExpandIconWrapper.trigger('click')
+    await secondNodeExpandIconWrapper.trigger('click')
     await nextTick()
 
     const secondTreeNodeWrapper = treeWrapper.findAll('.el-tree-node')[1]

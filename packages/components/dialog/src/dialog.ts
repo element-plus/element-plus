@@ -49,7 +49,7 @@ export const dialogProps = buildProps({
   },
   modelValue: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   modalClass: String,
   width: {

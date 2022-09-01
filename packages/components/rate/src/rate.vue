@@ -4,7 +4,9 @@
     :class="[rateClasses, ns.is('disabled', rateDisabled)]"
     role="slider"
     :aria-label="!isLabeledByFormItem ? label || 'rating' : undefined"
-    :aria-labelledby="isLabeledByFormItem ? formItemContext.labelId : undefined"
+    :aria-labelledby="
+      isLabeledByFormItem ? formItemContext?.labelId : undefined
+    "
     :aria-valuenow="currentValue"
     :aria-valuetext="text || undefined"
     aria-valuemin="0"

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { IOptionProps } from './token'
 
 export function useOption(props: IOptionProps, { emit }) {

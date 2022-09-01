@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Store } from '../store'
 
 function useUtils<T>(store: Store<T>) {
@@ -20,7 +21,7 @@ function useUtils<T>(store: Store<T>) {
   const toggleAllSelection = () => {
     store.commit('toggleAllSelection')
   }
-  const toggleRowExpansion = (row: T, expanded: boolean) => {
+  const toggleRowExpansion = (row: T, expanded?: boolean) => {
     store.toggleRowExpansionAdapter(row, expanded)
   }
   const clearSort = () => {
