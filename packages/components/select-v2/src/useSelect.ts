@@ -468,7 +468,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const handleBlur = () => {
+  const handleBlur = (event: FocusEvent) => {
     states.softFocus = false
 
     // reset input value when blurred
@@ -483,7 +483,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.isSilentBlur = false
       } else {
         if (states.isComposing) {
-          emit('blur')
+          emit('blur', event)
         }
       }
       states.isComposing = false

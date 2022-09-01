@@ -30,7 +30,6 @@ export const buttonProps = buildProps({
   },
   icon: {
     type: iconPropType,
-    default: '',
   },
   nativeType: {
     type: String,
