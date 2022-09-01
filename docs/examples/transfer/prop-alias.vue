@@ -6,28 +6,30 @@
       label: 'desc',
     }"
     :data="data"
-  >
-  </el-transfer>
+  />
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    const generateData = (_) => {
-      const data = []
-      for (let i = 1; i <= 15; i++) {
-        data.push({
-          value: i,
-          desc: `Option ${i}`,
-          disabled: i % 4 === 0,
-        })
-      }
-      return data
-    }
-    return {
-      data: generateData(),
-      value: [],
-    }
-  },
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+interface Option {
+  value: number
+  desc: string
+  disabled: boolean
 }
+
+const generateData = () => {
+  const data: Option[] = []
+  for (let i = 1; i <= 15; i++) {
+    data.push({
+      value: i,
+      desc: `Option ${i}`,
+      disabled: i % 4 === 0,
+    })
+  }
+  return data
+}
+
+const data = ref<Option[]>(generateData())
+const value = ref([])
 </script>

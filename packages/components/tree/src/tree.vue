@@ -1,13 +1,13 @@
 <template>
   <div
     ref="el$"
-    class="el-tree"
-    :class="{
-      'el-tree--highlight-current': highlightCurrent,
-      'is-dragging': !!dragState.draggingNode,
-      'is-drop-not-allow': !dragState.allowDrop,
-      'is-drop-inner': dragState.dropType === 'inner',
-    }"
+    :class="[
+      ns.b(),
+      ns.is('dragging', !!dragState.draggingNode),
+      ns.is('drop-not-allow', !dragState.allowDrop),
+      ns.is('drop-inner', dragState.dropType === 'inner'),
+      { [ns.m('highlight-current')]: highlightCurrent },
+    ]"
     role="tree"
   >
     <el-tree-node
@@ -21,28 +21,31 @@
       :render-content="renderContent"
       @node-expand="handleNodeExpand"
     />
-    <div v-if="isEmpty" class="el-tree__empty-block">
-      <span class="el-tree__empty-text">{{
+    <div v-if="isEmpty" :class="ns.e('empty-block')">
+      <span :class="ns.e('empty-text')">{{
         emptyText ?? t('el.tree.emptyText')
       }}</span>
     </div>
     <div
       v-show="dragState.showDropIndicator"
       ref="dropIndicator$"
-      class="el-tree__drop-indicator"
-    ></div>
+      :class="ns.e('drop-indicator')"
+    />
   </div>
 </template>
 <script lang="ts">
+// @ts-nocheck
 import {
-  defineComponent,
-  ref,
-  provide,
   computed,
-  watch,
+  defineComponent,
   getCurrentInstance,
+  provide,
+  ref,
+  watch,
 } from 'vue'
-import { useLocale } from '@element-plus/hooks'
+import { iconPropType } from '@element-plus/utils'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import { formItemContextKey } from '@element-plus/tokens'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil } from './model/util'
 import ElTreeNode from './tree-node.vue'
@@ -51,13 +54,13 @@ import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
 import type Node from './model/node'
 
-import type { ComponentInternalInstance, PropType, Component } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { ComponentInternalInstance, PropType } from 'vue'
+import type { Nullable } from '@element-plus/utils'
 import type {
   TreeComponentProps,
-  TreeNodeData,
-  TreeKey,
   TreeData,
+  TreeKey,
+  TreeNodeData,
 } from './tree.type'
 
 export default defineComponent({
@@ -131,7 +134,9 @@ export default defineComponent({
       type: Number,
       default: 18,
     },
-    icon: [String, Object] as PropType<string | Component>,
+    icon: {
+      type: iconPropType,
+    },
   },
   emits: [
     'check-change',
@@ -150,6 +155,7 @@ export default defineComponent({
   ],
   setup(props, ctx) {
     const { t } = useLocale()
+    const ns = useNamespace('tree')
 
     const store = ref<TreeStore>(
       new TreeStore({
@@ -207,7 +213,6 @@ export default defineComponent({
     watch(
       () => props.defaultExpandedKeys,
       (newVal) => {
-        store.value.defaultExpandedKeys = newVal
         store.value.setDefaultExpandedKeys(newVal)
       }
     )
@@ -252,13 +257,13 @@ export default defineComponent({
     }
 
     const getCheckedNodes = (
-      leafOnly: boolean,
-      includeHalfChecked: boolean
+      leafOnly?: boolean,
+      includeHalfChecked?: boolean
     ): TreeNodeData[] => {
       return store.value.getCheckedNodes(leafOnly, includeHalfChecked)
     }
 
-    const getCheckedKeys = (leafOnly: boolean): TreeKey[] => {
+    const getCheckedKeys = (leafOnly?: boolean): TreeKey[] => {
       return store.value.getCheckedKeys(leafOnly)
     }
 
@@ -274,13 +279,13 @@ export default defineComponent({
       return currentNode ? currentNode[props.nodeKey] : null
     }
 
-    const setCheckedNodes = (nodes: Node[], leafOnly: boolean) => {
+    const setCheckedNodes = (nodes: Node[], leafOnly?: boolean) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCheckedNodes')
       store.value.setCheckedNodes(nodes, leafOnly)
     }
 
-    const setCheckedKeys = (keys, leafOnly: boolean) => {
+    const setCheckedKeys = (keys, leafOnly?: boolean) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCheckedKeys')
       store.value.setCheckedKeys(keys, leafOnly)
@@ -305,13 +310,25 @@ export default defineComponent({
     const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentNode')
+
+      const preNode = store.value.currentNode
       store.value.setUserCurrentNode(node, shouldAutoExpandParent)
+      const currNode = store.value.currentNode
+      if (preNode !== currNode) {
+        ctx.emit('current-change', currNode ? currNode.data : null, currNode)
+      }
     }
 
     const setCurrentKey = (key: TreeKey, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentKey')
+
+      const preNode = store.value.currentNode
       store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
+      const currNode = store.value.currentNode
+      if (preNode !== currNode) {
+        ctx.emit('current-change', currNode ? currNode.data : null, currNode)
+      }
     }
 
     const getNode = (data: TreeKey | TreeNodeData): Node => {
@@ -367,7 +384,10 @@ export default defineComponent({
       instance: getCurrentInstance(),
     } as any)
 
+    provide(formItemContextKey, undefined)
+
     return {
+      ns,
       // ref
       store,
       root,

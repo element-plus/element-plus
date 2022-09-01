@@ -1,11 +1,84 @@
+/* https://github.com/antfu/prism-theme-vars */
+@use 'prism-theme-vars/base.css';
+@use 'prism-theme-vars/marker.css';
+
+[class*='language-']:before {
+  font-family: var(--code-font-family);
+}
+
+span[class~='language-css']:before {
+  content: '';
+}
+
+:root {
+  --prism-marker-opacity: 0.6;
+  --prism-marker-color: var(--code-text-color);
+  --prism-line-height: var(--code-line-height);
+}
+
+html:not(.dark) {
+  --prism-builtin: #3182bd;
+  --prism-comment: #848486;
+  --prism-deleted: #3182bd;
+  --prism-function: #6196cc;
+  --prism-boolean: #c25205;
+  --prism-number: #c25205;
+  --prism-property: #717c11;
+  --prism-punctuation: #a8a9cc;
+  --prism-keyword: #c792ea;
+  --prism-variable: #0b8235;
+  --prism-url-decoration: #67cdcc;
+  --prism-symbol: green;
+  --prism-selector: #0b8235;
+}
+
+html.dark {
+  --prism-scheme: dark;
+  --prism-foreground: #a6accd;
+  --prism-background: #181818;
+  --prism-comment: #758575;
+  --prism-string: #c3e88d;
+  --prism-literal: #429988;
+  --prism-keyword: #89ddff;
+  --prism-boolean: #6394bf;
+  --prism-number: #6394bf;
+  --prism-variable: #c2b36e;
+  --prism-function: #82aaff;
+  --prism-deleted: #bc6066;
+  --prism-class: #54b1bf;
+  --prism-builtin: var(--el-color-primary-light-3);
+  --prism-property: #c792ea;
+  --prism-namespace: #db889a;
+  --prism-punctuation: #89ddff;
+  --prism-decorator: #bd8f8f;
+  --prism-regex: #ab5e3f;
+  --prism-json-property: #6b8b9e;
+  --prism-line-number: #888888;
+  --prism-line-number-gutter: #eeeeee;
+  --prism-line-highlight-background: #444444;
+  --prism-selection-background: #444444;
+  --prism-inline-background: #2d2d2d;
+}
+
 code {
   margin: 0;
-  border-radius: 3px;
-  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
   font-family: var(--code-font-family);
   font-size: var(--code-font-size);
   color: var(--code-text-color);
+  line-height: var(--code-line-height);
   background-color: var(--code-bg-color);
+}
+
+pre {
+  code {
+    background-color: transparent;
+  }
+}
+
+a > code {
+  color: var(--code-link-color);
 }
 
 code .token.deleted {
@@ -21,10 +94,6 @@ div[class*='language-'] {
   margin: 1rem -1.5rem;
   background-color: var(--code-bg-color);
   overflow-x: auto;
-
-  .dark & {
-    background-color: var(--bg-color-soft);
-  }
 }
 
 li > div[class*='language-'] {
@@ -39,7 +108,7 @@ li > div[class*='language-'] {
   }
 
   li > div[class*='language-'] {
-    margin: 1rem 0 1rem 0rem;
+    margin: 1rem 0 1rem 0;
     border-radius: 6px;
   }
 }
@@ -59,7 +128,7 @@ li > div[class*='language-'] {
   position: relative;
   z-index: 1;
   margin: 0;
-  padding: 1.25rem 1.5rem;
+  padding: 0.25rem;
   background: transparent;
   overflow-x: auto;
 }
@@ -103,7 +172,7 @@ div[class*='language-'].line-numbers-mode {
   bottom: 0;
   left: 0;
   z-index: 3;
-  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  border-right: 1px solid var(--el-overlay-color-lighter);
   padding: 1.25rem 0;
   width: 3.5rem;
   text-align: center;
@@ -111,187 +180,4 @@ div[class*='language-'].line-numbers-mode {
   font-family: var(--code-font-family);
   font-size: var(--code-font-size);
   color: #888;
-}
-
-/* Language marker */
-
-div[class*='language-']:before {
-  position: absolute;
-  top: 0.6em;
-  right: 1em;
-  z-index: 2;
-  font-size: 0.8rem;
-  color: #888;
-}
-
-div[class~='language-html']:before,
-div[class~='language-markup']:before {
-  content: 'html';
-}
-
-div[class~='language-md']:before,
-div[class~='language-markdown']:before {
-  content: 'md';
-}
-
-div[class~='language-css']:before {
-  content: 'css';
-}
-
-div[class~='language-sass']:before {
-  content: 'sass';
-}
-
-div[class~='language-scss']:before {
-  content: 'scss';
-}
-
-div[class~='language-less']:before {
-  content: 'less';
-}
-
-div[class~='language-stylus']:before {
-  content: 'styl';
-}
-
-div[class~='language-js']:before,
-div[class~='language-javascript']:before {
-  content: 'js';
-}
-
-div[class~='language-ts']:before,
-div[class~='language-typescript']:before {
-  content: 'ts';
-}
-
-div[class~='language-json']:before {
-  content: 'json';
-}
-
-div[class~='language-rb']:before,
-div[class~='language-ruby']:before {
-  content: 'rb';
-}
-
-div[class~='language-py']:before,
-div[class~='language-python']:before {
-  content: 'py';
-}
-
-div[class~='language-sh']:before,
-div[class~='language-bash']:before {
-  content: 'sh';
-}
-
-div[class~='language-php']:before {
-  content: 'php';
-}
-
-div[class~='language-go']:before {
-  content: 'go';
-}
-
-div[class~='language-rust']:before {
-  content: 'rust';
-}
-
-div[class~='language-java']:before {
-  content: 'java';
-}
-
-div[class~='language-c']:before {
-  content: 'c';
-}
-
-div[class~='language-yaml']:before {
-  content: 'yaml';
-}
-
-div[class~='language-dockerfile']:before {
-  content: 'dockerfile';
-}
-
-div[class~='language-vue']:before {
-  content: 'vue';
-}
-
-/**
- * prism.js tomorrow night eighties for JavaScript, CoffeeScript, CSS and HTML.
- * Based on https://github.com/chriskempson/tomorrow-theme
- *
- * @author Rose Pritchard
- */
-.token.comment,
-.token.block-comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  color: #848486;
-}
-
-.token.punctuation {
-  color: #a8a9cc;
-}
-
-.token.tag,
-.token.attr-name,
-.token.namespace,
-.token.deleted {
-  color: #3182bd;
-}
-
-.token.function-name {
-  color: #6196cc;
-}
-
-.token.boolean,
-.token.number,
-.token.function {
-  color: #c25205;
-}
-
-.token.property,
-.token.class-name,
-.token.constant,
-.token.symbol {
-  color: #717c11;
-}
-
-.token.selector,
-.token.important,
-.token.atrule,
-.token.keyword,
-.token.builtin {
-  color: #c792ea;
-}
-
-.token.string,
-.token.char,
-.token.attr-value,
-.token.regex,
-.token.variable {
-  color: #0b8235;
-}
-
-.token.operator,
-.token.entity,
-.token.url {
-  color: #67cdcc;
-}
-
-.token.important,
-.token.bold {
-  font-weight: bold;
-}
-
-.token.italic {
-  font-style: italic;
-}
-
-.token.entity {
-  cursor: help;
-}
-
-.token.inserted {
-  color: green;
 }

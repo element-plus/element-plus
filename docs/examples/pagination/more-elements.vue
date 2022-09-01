@@ -1,81 +1,106 @@
 <template>
+  <div class="flex items-center mb-4">
+    <el-radio-group v-model="small" class="mr-4">
+      <el-radio-button :label="false">default</el-radio-button>
+      <el-radio-button :label="true">small</el-radio-button>
+    </el-radio-group>
+    <div>
+      background:
+      <el-switch v-model="background" class="ml-2" />
+    </div>
+    <div class="ml-4">
+      disabled: <el-switch v-model="disabled" class="ml-2" />
+    </div>
+  </div>
+
+  <hr class="my-4" />
+
   <div class="demo-pagination-block">
-    <span class="demonstration">Total item count</span>
+    <div class="demonstration">Total item count</div>
     <el-pagination
       v-model:currentPage="currentPage1"
       :page-size="100"
+      :small="small"
+      :disabled="disabled"
+      :background="background"
       layout="total, prev, pager, next"
       :total="1000"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    />
   </div>
   <div class="demo-pagination-block">
-    <span class="demonstration">Change page size</span>
+    <div class="demonstration">Change page size</div>
     <el-pagination
       v-model:currentPage="currentPage2"
+      v-model:page-size="pageSize2"
       :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :small="small"
+      :disabled="disabled"
+      :background="background"
       layout="sizes, prev, pager, next"
       :total="1000"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    />
   </div>
   <div class="demo-pagination-block">
-    <span class="demonstration">Jump to</span>
+    <div class="demonstration">Jump to</div>
     <el-pagination
       v-model:currentPage="currentPage3"
-      :page-size="100"
+      v-model:page-size="pageSize3"
+      :small="small"
+      :disabled="disabled"
+      :background="background"
       layout="prev, pager, next, jumper"
       :total="1000"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    />
   </div>
   <div class="demo-pagination-block">
-    <span class="demonstration">All combined</span>
+    <div class="demonstration">All combined</div>
     <el-pagination
       v-model:currentPage="currentPage4"
+      v-model:page-size="pageSize4"
       :page-sizes="[100, 200, 300, 400]"
-      :page-size="100"
+      :small="small"
+      :disabled="disabled"
+      :background="background"
       layout="total, sizes, prev, pager, next, jumper"
       :total="400"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-    >
-    </el-pagination>
+    />
   </div>
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const handleSizeChange = (val) => {
-      console.log(`${val} items per page`)
-    }
-    const handleCurrentChange = (val) => {
-      console.log(`current page: ${val}`)
-    }
+const currentPage1 = ref(5)
+const currentPage2 = ref(5)
+const currentPage3 = ref(5)
+const currentPage4 = ref(4)
+const pageSize2 = ref(100)
+const pageSize3 = ref(100)
+const pageSize4 = ref(100)
+const small = ref(false)
+const background = ref(false)
+const disabled = ref(false)
 
-    return {
-      currentPage1: ref(5),
-      currentPage2: ref(5),
-      currentPage3: ref(5),
-      currentPage4: ref(4),
-      handleSizeChange,
-      handleCurrentChange,
-    }
-  },
-})
+const handleSizeChange = (val: number) => {
+  console.log(`${val} items per page`)
+}
+const handleCurrentChange = (val: number) => {
+  console.log(`current page: ${val}`)
+}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .demo-pagination-block + .demo-pagination-block {
   margin-top: 10px;
+}
+.demo-pagination-block .demonstration {
+  margin-bottom: 16px;
 }
 </style>

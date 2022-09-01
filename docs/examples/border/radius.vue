@@ -17,44 +17,39 @@
             ? `var(--el-border-radius-${radius.type})`
             : '',
         }"
-      ></div>
+      />
     </el-col>
   </el-row>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      radiusGroup: [
-        {
-          name: 'No Radius',
-          type: '',
-        },
-        {
-          name: 'Small Radius',
-          type: 'small',
-        },
-        {
-          name: 'Large Radius',
-          type: 'base',
-        },
-        {
-          name: 'Round Radius',
-          type: 'round',
-        },
-      ],
-    }
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const radiusGroup = ref([
+  {
+    name: 'No Radius',
+    type: '',
   },
-  methods: {
-    getValue(type) {
-      const getCssVarValue = (prefix, type) =>
-        getComputedStyle(document.documentElement).getPropertyValue(
-          `--el-${prefix}-${type}`
-        )
-      return getCssVarValue('border-radius', type)
-    },
+  {
+    name: 'Small Radius',
+    type: 'small',
   },
+  {
+    name: 'Large Radius',
+    type: 'base',
+  },
+  {
+    name: 'Round Radius',
+    type: 'round',
+  },
+])
+
+const getValue = (type: string) => {
+  const getCssVarValue = (prefix, type) =>
+    getComputedStyle(document.documentElement).getPropertyValue(
+      `--el-${prefix}-${type}`
+    )
+  return getCssVarValue('border-radius', type)
 }
 </script>
 <style scoped>
@@ -71,7 +66,7 @@ export default {
 .demo-radius .radius {
   height: 40px;
   width: 70%;
-  border: 1px solid var(--el-border-color-base);
+  border: 1px solid var(--el-border-color);
   border-radius: 0;
   margin-top: 20px;
 }

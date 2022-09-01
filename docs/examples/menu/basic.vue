@@ -21,7 +21,7 @@
     <el-menu-item index="3" disabled>Info</el-menu-item>
     <el-menu-item index="4">Orders</el-menu-item>
   </el-menu>
-  <div class="line"></div>
+  <div class="h-6" />
   <el-menu
     :default-active="activeIndex2"
     class="el-menu-demo"
@@ -49,21 +49,12 @@
   </el-menu>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const activeIndex = ref('1')
-    const activeIndex2 = ref('1')
-    const handleSelect = (key, keyPath) => {
-      console.log(key, keyPath)
-    }
-    return {
-      activeIndex,
-      activeIndex2,
-      handleSelect,
-    }
-  },
-})
+const activeIndex = ref('1')
+const activeIndex2 = ref('1')
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
 </script>

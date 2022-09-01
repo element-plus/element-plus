@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
+import { withInstall, withNoopInstall } from '@element-plus/utils'
 
 import Collapse from './src/collapse.vue'
 import CollapseItem from './src/collapse-item.vue'
@@ -8,3 +8,6 @@ export const ElCollapse = withInstall(Collapse, {
 })
 export default ElCollapse
 export const ElCollapseItem = withNoopInstall(CollapseItem)
+
+export * from './src/collapse'
+export * from './src/collapse-item'

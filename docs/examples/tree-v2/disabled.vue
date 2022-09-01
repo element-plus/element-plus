@@ -1,51 +1,46 @@
 <template>
-  <el-tree-v2
-    :data="data"
-    :props="props"
-    show-checkbox
-    :height="208"
-  ></el-tree-v2>
+  <el-tree-v2 :data="data" :props="props" show-checkbox :height="208" />
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+interface Tree {
+  id: string
+  label: string
+  children?: Tree[]
+}
 
-const getKey = (prefix, id) => {
+const getKey = (prefix: string, id: number) => {
   return `${prefix}-${id}`
 }
 
 const createData = (
-  maxDeep,
-  maxChildren,
-  minNodesNumber,
+  maxDeep: number,
+  maxChildren: number,
+  minNodesNumber: number,
   deep = 1,
   key = 'node'
-) => {
+): Tree[] => {
   let id = 0
-  return new Array(minNodesNumber).fill(deep).map(() => {
-    const childrenNumber =
-      deep === maxDeep ? 0 : Math.round(Math.random() * maxChildren)
-    const nodeKey = getKey(key, ++id)
-    return {
-      id: nodeKey,
-      label: nodeKey,
-      disabled: Math.random() > 0.6,
-      children: childrenNumber
-        ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
-        : undefined,
-    }
-  })
+  return Array.from({ length: minNodesNumber })
+    .fill(deep)
+    .map(() => {
+      const childrenNumber =
+        deep === maxDeep ? 0 : Math.round(Math.random() * maxChildren)
+      const nodeKey = getKey(key, ++id)
+      return {
+        id: nodeKey,
+        label: nodeKey,
+        children: childrenNumber
+          ? createData(maxDeep, maxChildren, childrenNumber, deep + 1, nodeKey)
+          : undefined,
+      }
+    })
 }
-export default defineComponent({
-  setup() {
-    return {
-      data: createData(4, 30, 40),
-      props: ref({
-        value: 'id',
-        label: 'label',
-        children: 'children',
-        disabled: 'disabled',
-      }),
-    }
-  },
-})
+
+const props = {
+  value: 'id',
+  label: 'label',
+  children: 'children',
+  disabled: 'disabled',
+}
+const data = createData(4, 30, 40)
 </script>

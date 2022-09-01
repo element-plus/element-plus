@@ -1,49 +1,24 @@
 <template>
   <div>
-    <el-config-provider :locale="locale2">
-      <el-color-picker :model-value="''" style="vertical-align: middle" />
+    <el-button mb-2 @click="toggle">Switch Language</el-button>
+    <br />
+
+    <el-config-provider :locale="locale">
+      <el-table mb-1 :data="[]" />
+      <el-pagination :total="100" />
     </el-config-provider>
-    <el-button style="margin-left: 8px; vertical-align: middle" @click="toggle">
-      Switch Lang
-    </el-button>
   </div>
 </template>
 
-<script lang="ts">
-// import { ConfigProvider } from 'element-plus'
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import en from 'element-plus/dist/locale/en.mjs'
 
-export default defineComponent({
-  setup() {
-    const locale1 = ref({
-      name: 'zh-cn',
-      el: {
-        colorpicker: {
-          confirm: '确定',
-          clear: '清空',
-        },
-      },
-    })
-    const locale2 = ref({
-      name: 'en',
-      el: {
-        colorpicker: {
-          confirm: 'Confirm',
-          clear: 'Clear',
-        },
-      },
-    })
-    const toggle = () => {
-      const temp = locale1.value
-      locale1.value = locale2.value
-      locale2.value = temp
-    }
+const language = ref('zh-cn')
+const locale = computed(() => (language.value === 'zh-cn' ? zhCn : en))
 
-    return {
-      locale1,
-      locale2,
-      toggle,
-    }
-  },
-})
+const toggle = () => {
+  language.value = language.value === 'zh-cn' ? 'en' : 'zh-cn'
+}
 </script>

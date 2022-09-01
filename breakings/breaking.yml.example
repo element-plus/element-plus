@@ -1,0 +1,18 @@
+- scope: 'component' # package name under packages/*
+  name: 'el-button' # the name of which file you changed
+  type: 'props' # which API you have changed, must match the field the same level with the detailed changes, in this case "props"
+  version: '2.2.0' # which version this breaking change is going to make to.
+  commit_hash: 'a4aad5a'
+  description:
+    | # detailed description for the reason of this breaking change, you may also include links. Markdown supported.
+    We want to make text button more like a button, instead of like a text/link.
+    In addition with design changes, text button now looks more like a button.
+    Because the API `type` also represents how the button looks like, so we decided to add a
+    new API `text` to represent the text button.
+  props: # this is used for building a table in the breaking change list.
+    - api: 'type' # API name
+      before: '"primary" | "success" | "warning" | "danger" | "info" | "text"' # before changed
+      after: '"primary" | "success" | "warning" | "danger" | "info"' # after changed
+    - api: 'text'
+      before: '-'
+      after: 'boolean'

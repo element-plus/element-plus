@@ -11,48 +11,45 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs, onMounted } from 'vue'
+<script lang="ts" setup>
+import { onMounted, ref } from 'vue'
 import { Minus, Plus } from '@element-plus/icons-vue'
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      percentage: 10,
-      percentage2: 0,
-      colors: [
-        { color: '#f56c6c', percentage: 20 },
-        { color: '#e6a23c', percentage: 40 },
-        { color: '#5cb87a', percentage: 60 },
-        { color: '#1989fa', percentage: 80 },
-        { color: '#6f7ad3', percentage: 100 },
-      ],
-    })
-    const increase = () => {
-      state.percentage += 10
-      if (state.percentage > 100) {
-        state.percentage = 100
-      }
-    }
-    const decrease = () => {
-      state.percentage -= 10
-      if (state.percentage < 0) {
-        state.percentage = 0
-      }
-    }
-    onMounted(() => {
-      setInterval(() => {
-        state.percentage2 = (state.percentage2 % 100) + 10
-      }, 500)
-    })
+const percentage = ref(10)
+const percentage2 = ref(0)
 
-    return {
-      ...toRefs(state),
-      increase,
-      decrease,
-      Minus,
-      Plus,
-    }
-  },
+const colors = [
+  { color: '#f56c6c', percentage: 20 },
+  { color: '#e6a23c', percentage: 40 },
+  { color: '#5cb87a', percentage: 60 },
+  { color: '#1989fa', percentage: 80 },
+  { color: '#6f7ad3', percentage: 100 },
+]
+
+const increase = () => {
+  percentage.value += 10
+  if (percentage.value > 100) {
+    percentage.value = 100
+  }
+}
+const decrease = () => {
+  percentage.value -= 10
+  if (percentage.value < 0) {
+    percentage.value = 0
+  }
+}
+onMounted(() => {
+  setInterval(() => {
+    percentage2.value = (percentage2.value % 100) + 10
+  }, 500)
 })
 </script>
+<style scoped>
+.demo-progress .el-progress--line {
+  margin-bottom: 15px;
+  width: 350px;
+}
+.demo-progress .el-progress--circle {
+  margin-right: 15px;
+}
+</style>

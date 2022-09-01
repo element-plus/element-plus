@@ -43,37 +43,22 @@
   </el-menu>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 import {
-  Location,
   Document,
   Menu as IconMenu,
+  Location,
   Setting,
 } from '@element-plus/icons-vue'
 
-export default defineComponent({
-  components: {
-    Location,
-    Document,
-    Setting,
-    IconMenu,
-  },
-  setup() {
-    const isCollapse = ref(true)
-    const handleOpen = (key, keyPath) => {
-      console.log(key, keyPath)
-    }
-    const handleClose = (key, keyPath) => {
-      console.log(key, keyPath)
-    }
-    return {
-      isCollapse,
-      handleOpen,
-      handleClose,
-    }
-  },
-})
+const isCollapse = ref(true)
+const handleOpen = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+const handleClose = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
 </script>
 
 <style>

@@ -13,79 +13,7 @@ The component has been upgraded with a flex layout to replace the old float layo
 
 :::
 
-<style lang="scss" scoped>
-.example-showcase {
-  .el-select .el-input {
-    width: 380px;
-  }
-  .el-form {
-    width: 460px;
-  }
-
-  .el-checkbox-group {
-    width: 320px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-
-    &:after,
-    &:before {
-      content: ' ';
-      display: table;
-    }
-    &:after {
-      clear: both;
-      visibility: hidden;
-      font-size: 0;
-      height: 0;
-    }
-
-    .el-checkbox {
-      float: left;
-      width: 160px;
-      padding-right: 20px;
-      margin: 0;
-      padding: 0;
-
-      + .el-checkbox {
-        margin-left: 0;
-      }
-    }
-  }
-  .demo-form-normal {
-    width: 460px;
-  }
-  .demo-form-inline {
-    width: auto;
-
-    .el-input {
-      width: 150px;
-    }
-    > * {
-      margin-right: 10px;
-    }
-  }
-  .demo-ruleForm {
-    width: 460px;
-
-    .el-select .el-input {
-      width: 360px;
-    }
-  }
-  .demo-dynamic {
-    .el-input {
-      margin-right: 10px;
-      width: 270px;
-      vertical-align: top;
-    }
-  }
-  .fr {
-    float: right;
-  }
-}
-</style>
-
-## Basic form
+## Basic Form
 
 It includes all kinds of input items, such as `input`, `select`, `radio` and `checkbox`.
 
@@ -105,7 +33,7 @@ To prevent this behavior, you can add `@submit.prevent` on `<el-form>`.
 
 :::
 
-## Inline form
+## Inline Form
 
 When the vertical space is limited and the form is relatively simple, you can put it in one line.
 
@@ -129,13 +57,13 @@ form/alignment
 
 Form component allows you to verify your data, helping you find and correct errors.
 
-:::demo Just add the `rules` attribute for `Form` component, pass validation rules, and set `prop` attribute for `Form-Item` as a specific key that needs to be validated. See more information at [async-validator](https://github.com/yiminghe/async-validator).
+:::demo Just add the `rules` attribute for `Form` component, pass validation rules, and set `prop` attribute for `FormItem` as a specific key that needs to be validated. See more information at [async-validator](https://github.com/yiminghe/async-validator).
 
 form/validation
 
 :::
 
-## Custom validation rules
+## Custom Validation Rules
 
 This example shows how to customize your own validation rules to finish a two-factor password verification.
 
@@ -151,7 +79,7 @@ Custom validate callback function must be called. See more advanced usage at [as
 
 :::
 
-## Delete or add form items dynamically
+## Add/Delete Form Item
 
 :::demo In addition to passing all validation rules at once on the form component, you can also pass the validation rules or delete rules on a single form field dynamically.
 
@@ -161,7 +89,7 @@ form/form-items
 
 ## Number Validate
 
-:::demo Number Validate need a `.number` modifier added on the input `v-model` binding，it's used to transform the string value to the number which is provided by Vuejs.
+:::demo Number Validate need a `.number` modifier added on the input `v-model` binding，it's used to transform the string value to the number which is provided by Vue.
 
 form/number-validate
 
@@ -173,7 +101,7 @@ When an `el-form-item` is nested in another `el-form-item`, its label width will
 
 :::
 
-## Size control
+## Size Control
 
 All components in a Form inherit their `size` attribute from that Form. Similarly, FormItem also has a `size` attribute.
 
@@ -183,77 +111,93 @@ form/size-control
 
 :::
 
-## Form Attributes
+## Accessibility
 
-| Attribute               | Description                                                                                                                       | Type            | Accepted Values         | Default |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- | --------------- | ----------------------- | ------- |
-| model                   | data of form component                                                                                                            | object          | —                       | —       |
-| rules                   | validation rules of form                                                                                                          | object          | —                       | —       |
-| inline                  | whether the form is inline                                                                                                        | boolean         | —                       | false   |
-| label-position          | position of label. If set to 'left' or 'right', `label-width` prop is also required                                               | string          | left / right / top      | right   |
-| label-width             | width of label, e.g. '50px'. All its direct child form items will inherit this value. Width `auto` is supported.                  | string / number | —                       | —       |
-| label-suffix            | suffix of the label                                                                                                               | string          | —                       | —       |
-| hide-required-asterisk  | whether required fields should have a red asterisk (star) beside their labels                                                     | boolean         | —                       | false   |
-| show-message            | whether to show the error message                                                                                                 | boolean         | —                       | true    |
-| inline-message          | whether to display the error message inline with the form item                                                                    | boolean         | —                       | false   |
-| status-icon             | whether to display an icon indicating the validation result                                                                       | boolean         | —                       | false   |
-| validate-on-rule-change | whether to trigger validation when the `rules` prop is changed                                                                    | boolean         | —                       | true    |
-| size                    | control the size of components in this form                                                                                       | string          | large / default / small | —       |
-| disabled                | whether to disabled all components in this form. If set to true, it cannot be overridden by its inner components' `disabled` prop | boolean         | —                       | false   |
+When only a single input (or related control such as select or checkbox) is inside of a `el-form-item`, the form item's label will automatically be attached to that input. However, if multiple inputs are inside of the `el-form-item`, the form item will be assigned the [WAI-ARIA](https://www.w3.org/WAI/standards-guidelines/aria/) role of [group](https://www.w3.org/TR/wai-aria/#group) instead. In this case, it is your responsibility to assign assistive labels to the individual inputs.
 
-## Form Methods
+:::demo
 
-| Method        | Description                                                                                                                                                                                                                                                                      | Parameters                                                                 |
-| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| validate      | validate the whole form. Takes a callback as a param. After validation, the callback will be executed with two params: a boolean indicating if the validation has passed, and an object containing all fields that fail the validation. Returns a promise if callback is omitted | Function(callback: Function(boolean, object))                              |
-| validateField | validate one or several form items                                                                                                                                                                                                                                               | Function(props: string \| array, callback: Function(errorMessage: string)) |
-| resetFields   | reset all the fields and remove validation result                                                                                                                                                                                                                                | —                                                                          |
-| scrollToField | Scroll to the specified form field                                                                                                                                                                                                                                               | Function(prop: string)                                                     |
-| clearValidate | clear validation message for certain fields. The parameter is prop name or an array of prop names of the form items whose validation messages will be removed. When omitted, all fields' validation messages will be cleared                                                     | Function(props: string \| array)                                           |
+form/accessibility
 
-## Form Events
+:::
 
-| Event Name | Description                             | Parameters                                                                                            |
-| ---------- | --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| validate   | triggers after a form item is validated | prop name of the form item being validated, whether validation is passed and the error message if not |
+## Form API
 
-## Form Slots
+### Form Attributes
 
-| Name | Description                | Subtags   |
-| ---- | -------------------------- | --------- |
-| —    | customize of Dropdown Item | Form-Item |
+| Attribute                   | Description                                                                                                                    | Type                              | Default   |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------- | --------- |
+| `model`                     | Data of form component.                                                                                                        | `Record<string, any>`             | —         |
+| `rules`                     | Validation rules of form.                                                                                                      | `FormRules`                       | —         |
+| `inline`                    | Whether the form is inline.                                                                                                    | `boolean`                         | `false`   |
+| `label-position`            | Position of label. If set to `'left'` or `'right'`, `label-width` prop is also required.                                       | `'left' \| 'right' \| 'top'`      | `'right'` |
+| `label-width`               | Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported.                   | `string \| number`                | —         |
+| `label-suffix`              | Suffix of the label.                                                                                                           | `string`                          | —         |
+| `hide-required-asterisk`    | Whether required fields should have a red asterisk (star) beside their labels.                                                 | `boolean`                         | `false`   |
+| `require-asterisk-position` | Position of asterisk.                                                                                                          | `'left' \| 'right'`               | `'left'`  |
+| `show-message`              | Whether to show the error message.                                                                                             | `boolean`                         | `true`    |
+| `inline-message`            | Whether to display the error message inline with the form item.                                                                | `boolean`                         | `false`   |
+| `status-icon`               | Whether to display an icon indicating the validation result.                                                                   | `boolean`                         | `false`   |
+| `validate-on-rule-change`   | Whether to trigger validation when the `rules` prop is changed.                                                                | `boolean`                         | `true`    |
+| `size`                      | Control the size of components in this form.                                                                                   | `'large' \| 'default' \| 'small'` | —         |
+| `disabled`                  | Whether to disable all components in this form. If set to `true`, it will override the `disabled` prop of the inner component. | `boolean`                         | `false`   |
+| `scroll-to-error`           | When validation fails, scroll to the first error form entry.                                                                   | `boolean`                         | `false`   |
 
-## Form-Item Attributes
+### Form Methods
 
-| Attribute      | Description                                                                                                                              | Type            | Accepted Values                     | Default |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | --------------- | ----------------------------------- | ------- |
-| prop           | a key of `model`. In the use of validate and resetFields method, the attribute is required                                               | string          | keys of model that passed to `form` |
-| label          | label                                                                                                                                    | string          | —                                   | —       |
-| label-width    | width of label, e.g. '50px'. Width `auto` is supported.                                                                                  | string / number | —                                   | —       |
-| required       | whether the field is required or not, will be determined by validation rules if omitted                                                  | boolean         | —                                   | false   |
-| rules          | validation rules of form, see the following table, more advanced usage at [async-validator](https://github.com/yiminghe/async-validator) | object / array  | —                                   | —       |
-| error          | field error message, set its value and the field will validate error and show this message immediately                                   | string          | —                                   | —       |
-| show-message   | whether to show the error message                                                                                                        | boolean         | —                                   | true    |
-| inline-message | inline style validate message                                                                                                            | boolean         | —                                   | false   |
-| size           | control the size of components in this form-item                                                                                         | string          | large / default / small             | default |
+| Method          | Description                                                        | Type                                                                                                                             |
+| --------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| `validate`      | Validate the whole form. Receives a callback or returns `Promise`. | `(callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<void>`                                  |
+| `validateField` | Validate specified fields.                                         | `(props?: Arrayable<FormItemProp>, callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<void>` |
+| `resetFields`   | Reset specified fields and remove validation result.               | `(props?: Arrayable<FormItemProp>) => void`                                                                                      |
+| `scrollToField` | Scroll to the specified fields.                                    | `(prop: FormItemProp) => void`                                                                                                   |
+| `clearValidate` | Clear validation message for specified fields.                     | `(props?: Arrayable<FormItemProp>) => void`                                                                                      |
 
-## Rules
+### Form Events
 
-| Attribute | Description                    | Type   | Accepted Values | Default |
-| --------- | ------------------------------ | ------ | --------------- | ------- |
-| trigger   | how the validator is triggered | string | blur / change   | —       |
+| Event Name | Description                             | Parameters                                                        |
+| ---------- | --------------------------------------- | ----------------------------------------------------------------- |
+| `validate` | triggers after a form item is validated | `(prop: FormItemProp, isValid: boolean, message: string) => void` |
 
-## Form-Item Slots
+### Form Slots
 
-| Name  | Description                                                                    |
-| ----- | ------------------------------------------------------------------------------ |
-| —     | content of Form Item                                                           |
-| label | Custom content to display on label. The scope parameter is { label }           |
-| error | Custom content to display validation message. The scope parameter is { error } |
+| Name | Description               | Subtags  |
+| ---- | ------------------------- | -------- |
+| -    | customize default content | FormItem |
 
-## Form-Item Methods
+## Form Item API
 
-| Method        | Description                                      | Parameters |
-| ------------- | ------------------------------------------------ | ---------- |
-| resetField    | reset current field and remove validation result | —          |
-| clearValidate | remove validation status of the field            | —          |
+### Form Item Attributes
+
+| Attribute        | Description                                                                                                                                                   | Type                              | Default     |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ----------- |
+| `prop`           | A key of `model`. It could be an array of property paths (e.g `['a', 'b', 0]`). In the use of `validate` and `resetFields` method, the attribute is required. | `string \| string[]`              | —           |
+| `label`          | Label text.                                                                                                                                                   | `string`                          | —           |
+| `label-width`    | Width of label, e.g. `'50px'`. `'auto'` is supported.                                                                                                         | `string \| number`                | —           |
+| `required`       | Whether the field is required or not, will be determined by validation rules if omitted.                                                                      | `boolean`                         | `false`     |
+| `rules`          | Validation rules of form, see the [following table](#formitemrule), more advanced usage at [async-validator](https://github.com/yiminghe/async-validator).    | `FormItemRule \| FormItemRule[]`  | —           |
+| `error`          | Field error message, set its value and the field will validate error and show this message immediately.                                                       | `string`                          | —           |
+| `show-message`   | Whether to show the error message.                                                                                                                            | `boolean`                         | `true`      |
+| `inline-message` | Inline style validate message.                                                                                                                                | `boolean`                         | `false`     |
+| `size`           | Control the size of components in this form-item.                                                                                                             | `'large' \| 'default' \| 'small'` | `'default'` |
+
+#### FormItemRule
+
+| Name      | Description                     | Type                 | Default |
+| --------- | ------------------------------- | -------------------- | ------- |
+| `trigger` | How the validator is triggered. | `'blur' \| 'change'` | —       |
+
+### Form Item Slots
+
+| Name    | Description                                   | Slot Scope  |
+| ------- | --------------------------------------------- | ----------- |
+| —       | Content of Form Item.                         | —           |
+| `label` | Custom content to display on label.           | `{ label }` |
+| `error` | Custom content to display validation message. | `{ error }` |
+
+### Form Item Methods
+
+| Method          | Description                                       | Type         |
+| --------------- | ------------------------------------------------- | ------------ |
+| `resetField`    | Reset current field and remove validation result. | `() => void` |
+| `clearValidate` | Remove validation status of the field.            | `() => void` |

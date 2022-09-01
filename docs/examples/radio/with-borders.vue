@@ -1,11 +1,15 @@
 <template>
   <div>
-    <el-radio v-model="radio1" label="1" size="large" border>Option A</el-radio>
-    <el-radio v-model="radio1" label="2" size="large" border>Option B</el-radio>
+    <el-radio-group v-model="radio1">
+      <el-radio label="1" size="large" border>Option A</el-radio>
+      <el-radio label="2" size="large" border>Option B</el-radio>
+    </el-radio-group>
   </div>
   <div style="margin-top: 20px">
-    <el-radio v-model="radio2" label="1" border>Option A</el-radio>
-    <el-radio v-model="radio2" label="2" border>Option B</el-radio>
+    <el-radio-group v-model="radio2">
+      <el-radio label="1" border>Option A</el-radio>
+      <el-radio label="2" border>Option B</el-radio>
+    </el-radio-group>
   </div>
   <div style="margin-top: 20px">
     <el-radio-group v-model="radio3" size="small">
@@ -21,17 +25,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      radio1: ref('1'),
-      radio2: ref('1'),
-      radio3: ref('1'),
-      radio4: ref('1'),
-    }
-  },
-})
+const radio1 = ref('1')
+const radio2 = ref('1')
+const radio3 = ref('1')
+const radio4 = ref('1')
 </script>

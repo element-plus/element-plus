@@ -1,6 +1,6 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-
+import { buildProps, definePropType } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
+import type Divider from './divider.vue'
 
 export type BorderStyle = CSSStyleDeclaration['borderStyle']
 
@@ -21,3 +21,5 @@ export const dividerProps = buildProps({
   },
 } as const)
 export type DividerProps = ExtractPropTypes<typeof dividerProps>
+
+export type DividerInstance = InstanceType<typeof Divider>

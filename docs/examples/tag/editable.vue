@@ -11,40 +11,39 @@
   </el-tag>
   <el-input
     v-if="inputVisible"
-    ref="saveTagInput"
+    ref="InputRef"
     v-model="inputValue"
     class="ml-1 w-20"
     size="small"
     @keyup.enter="handleInputConfirm"
     @blur="handleInputConfirm"
-  >
-  </el-input>
+  />
   <el-button v-else class="button-new-tag ml-1" size="small" @click="showInput">
     + New Tag
   </el-button>
 </template>
 
 <script lang="ts" setup>
-import { ref, nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
+import { ElInput } from 'element-plus'
 
+const inputValue = ref('')
 const dynamicTags = ref(['Tag 1', 'Tag 2', 'Tag 3'])
 const inputVisible = ref(false)
-const inputValue = ref('')
+const InputRef = ref<InstanceType<typeof ElInput>>()
 
-const saveTagInput = ref()
-
-function handleClose(tag) {
+const handleClose = (tag: string) => {
   dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1)
 }
 
-function showInput() {
+const showInput = () => {
   inputVisible.value = true
-  nextTick((_) => {
-    saveTagInput.value.$refs.input.focus()
+  nextTick(() => {
+    InputRef.value!.input!.focus()
   })
 }
 
-function handleInputConfirm() {
+const handleInputConfirm = () => {
   if (inputValue.value) {
     dynamicTags.value.push(inputValue.value)
   }

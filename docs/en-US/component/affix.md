@@ -7,17 +7,17 @@ lang: en-US
 
 Fix the element to a specific visible area.
 
-## Basic usage
+## Basic Usage
 
 Affix is fixed at the top of the page by default.
 
-:::demo You can set `offset` attribute to change the offset top，the default value is 0。
+:::demo You can set `offset` attribute to change the offset top，the default value is 0.
 
 affix/basic
 
 :::
 
-## Target container
+## Target Container
 
 You can set `target` attribute to keep the affix in the container at all times. It will be hidden if out of range.
 
@@ -27,7 +27,7 @@ affix/target
 
 :::
 
-## Fixed position
+## Fixed Position
 
 The affix component provides two fixed positions: `top` and `bottom`.
 
@@ -37,41 +37,32 @@ affix/fixed
 
 :::
 
-## Attributes
+## Affix API
 
-| Attribute | Description                     | Type   | Accepted Values | Default |
-| --------- | ------------------------------- | ------ | --------------- | ------- |
-| offset    | offset distance                 | number | —               | 0       |
-| position  | position of affix               | string | top / bottom    | top     |
-| target    | target container (CSS selector) | string | —               | —       |
-| z-index   | z-index of affix                | number | —               | 100     |
+### Affix Attributes
 
-## Events
+| Name       | Description                      | Type                | Default | Required |
+| ---------- | -------------------------------- | ------------------- | ------- | -------- |
+| `offset`   | offset distance.                 | `number`            | `0`     | No       |
+| `position` | position of affix.               | `'top' \| 'bottom'` | `'top'` | No       |
+| `target`   | target container. (CSS selector) | `string`            | —       | No       |
+| `z-index`  | `z-index` of affix               | `number`            | `100`   | No       |
 
-| Event Name | Description                       | Parameters                 |
-| ---------- | --------------------------------- | -------------------------- |
-| change     | triggers when fixed state changed | (value: boolean)           |
-| scroll     | triggers when scrolling           | scroll top and fixed state |
+### Affix Events
 
-## Methods
+| Name     | Description                        | Type                                                     |
+| -------- | ---------------------------------- | -------------------------------------------------------- |
+| `change` | triggers when fixed state changed. | `(fixed: boolean) => void`                               |
+| `scroll` | triggers when scrolling.           | `(value: { scrollTop: number, fixed: boolean }) => void` |
 
-| Method | Description                 | Parameters |
-| ------ | --------------------------- | ---------- |
-| update | update affix state manually | —          |
+### Affix Exposes
 
-## Slots
+| Method   | Description                 | Type         |
+| -------- | --------------------------- | ------------ |
+| `update` | update affix state manually | `() => void` |
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+### Affix Slots
 
-<style lang="scss">
-.example-showcase {
-  .affix-container {
-    text-align: center;
-    height: 400px;
-    border-radius: 4px;
-    background: var(--el-color-primary-light-9);
-  }
-}
-</style>
+| Name      | Description                |
+| --------- | -------------------------- |
+| `default` | customize default content. |

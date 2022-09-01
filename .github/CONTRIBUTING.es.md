@@ -2,7 +2,7 @@
 
 ¡Hola! Gracias por elegir [Element Plus](http://element.eleme.io/#/en-US).
 
-`Element Plus` es un archivo de componentes para desarrolladores y para gerentes de productos ‘web’ basado en [Vue 3.0](https://vuejs.org/)
+`Element Plus` es un archivo de componentes para desarrolladores y para gerentes de productos ‘web’ basado en [Vue 3](https://vuejs.org/)
 
 Estamos orgullosos de que usted esta interesado en contribuir al proyecto `Element Plus`. Antes de someter sus contribuciones, por favor tome un momentito para leer estas simples guías para contribuidores.
 
@@ -18,7 +18,7 @@ Estamos orgullosos de que usted esta interesado en contribuir al proyecto `Eleme
 
 - Crea una bifurcación (“fork”) del repositorio a su propia cuenta en github.com. Por favor no crea ramas nuevas aquí.
 
-- El formato de la información de envío debe ser `type(scope): info about commit`. (por ejemplo, `fix(components): [el-scrollbar] fix xxx bug`)
+- El formato de la información de envío debe ser `type(scope): info about commit`. (por ejemplo, `fix(components): [scrollbar] fix xxx bug`)
 
   1. Tipo: el tipo debe ser uno de [build, chore, ci, docs, feat, fix, perf, refactor, revert, release, style, test, improvement].
 

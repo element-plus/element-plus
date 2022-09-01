@@ -1,14 +1,16 @@
-import { watch, isRef, onScopeDispose } from 'vue'
+import { isRef, onScopeDispose, watch } from 'vue'
 
+import { computed } from '@vue/reactivity'
 import { isClient } from '@vueuse/core'
-import getScrollBarWidth from '@element-plus/utils/scrollbar-width'
-import { throwError } from '@element-plus/utils/error'
 import {
   addClass,
-  removeClass,
-  hasClass,
+  getScrollBarWidth,
   getStyle,
-} from '@element-plus/utils/dom'
+  hasClass,
+  removeClass,
+  throwError,
+} from '@element-plus/utils'
+import { useNamespace } from '../use-namespace'
 
 import type { Ref } from 'vue'
 
@@ -24,19 +26,23 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
       'You need to pass a ref param to this function'
     )
   }
-  if (!isClient || hasClass(document.body, 'el-popup-parent--hidden')) {
+
+  const ns = useNamespace('popup')
+
+  const hiddenCls = computed(() => ns.bm('parent', 'hidden'))
+
+  if (!isClient || hasClass(document.body, hiddenCls.value)) {
     return
   }
 
   let scrollBarWidth = 0
   let withoutHiddenClass = false
-  let bodyPaddingRight = '0'
-  let computedBodyPaddingRight = 0
+  let bodyWidth = '0'
 
   const cleanup = () => {
-    removeClass(document.body, 'el-popup-parent--hidden')
+    removeClass(document.body, hiddenCls.value)
     if (withoutHiddenClass) {
-      document.body.style.paddingRight = bodyPaddingRight
+      document.body.style.width = bodyWidth
     }
   }
   watch(trigger, (val) => {
@@ -45,15 +51,11 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
       return
     }
 
-    withoutHiddenClass = !hasClass(document.body, 'el-popup-parent--hidden')
+    withoutHiddenClass = !hasClass(document.body, hiddenCls.value)
     if (withoutHiddenClass) {
-      bodyPaddingRight = document.body.style.paddingRight
-      computedBodyPaddingRight = parseInt(
-        getStyle(document.body, 'paddingRight'),
-        10
-      )
+      bodyWidth = document.body.style.width
     }
-    scrollBarWidth = getScrollBarWidth()
+    scrollBarWidth = getScrollBarWidth(ns.namespace.value)
     const bodyHasOverflow =
       document.documentElement.clientHeight < document.body.scrollHeight
     const bodyOverflowY = getStyle(document.body, 'overflowY')
@@ -62,11 +64,9 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
       (bodyHasOverflow || bodyOverflowY === 'scroll') &&
       withoutHiddenClass
     ) {
-      document.body.style.paddingRight = `${
-        computedBodyPaddingRight + scrollBarWidth
-      }px`
+      document.body.style.width = `calc(100% - ${scrollBarWidth}px)`
     }
-    addClass(document.body, 'el-popup-parent--hidden')
+    addClass(document.body, hiddenCls.value)
   })
   onScopeDispose(() => cleanup())
 }

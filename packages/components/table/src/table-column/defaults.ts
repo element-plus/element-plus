@@ -1,4 +1,5 @@
-import type { PropType, ComponentInternalInstance, Ref, VNode } from 'vue'
+// @ts-nocheck
+import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue'
 import type { DefaultRow, Table } from '../table/defaults'
 
 type CI<T> = { column: TableColumnCtx<T>; $index: number }
@@ -58,6 +59,7 @@ interface TableColumnCtx<T> {
   filterable: boolean | FilterMethods<T> | Filters
   order: string
   isColumnGroup: boolean
+  isSubColumn: boolean
   columns: TableColumnCtx<T>[]
   getColumnIndex: () => number
   no: number
@@ -134,8 +136,8 @@ export default {
       return ['ascending', 'descending', null]
     },
     validator: (val: TableColumnCtx<unknown>['sortOrders']) => {
-      return val.every(
-        (order: string) => ['ascending', 'descending', null].indexOf(order) > -1
+      return val.every((order: string) =>
+        ['ascending', 'descending', null].includes(order)
       )
     },
   },

@@ -1,12 +1,7 @@
 <template>
   <el-button @click="resetDateFilter">reset date filter</el-button>
   <el-button @click="clearFilter">reset all filters</el-button>
-  <el-table
-    ref="filterTable"
-    row-key="date"
-    :data="tableData"
-    style="width: 100%"
-  >
+  <el-table ref="tableRef" row-key="date" :data="tableData" style="width: 100%">
     <el-table-column
       prop="date"
       label="Date"
@@ -46,55 +41,68 @@
   </el-table>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      tableData: [
-        {
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Home',
-        },
-        {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Office',
-        },
-        {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Home',
-        },
-        {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-          tag: 'Office',
-        },
-      ],
-    }
-  },
-  methods: {
-    resetDateFilter() {
-      this.$refs.filterTable.clearFilter('date')
-    },
-    clearFilter() {
-      this.$refs.filterTable.clearFilter()
-    },
-    formatter(row, column) {
-      return row.address
-    },
-    filterTag(value, row) {
-      return row.tag === value
-    },
-    filterHandler(value, row, column) {
-      const property = column['property']
-      return row[property] === value
-    },
-  },
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { ElTable } from 'element-plus'
+import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
+
+interface User {
+  date: string
+  name: string
+  address: string
+  tag: string
 }
+
+const tableRef = ref<InstanceType<typeof ElTable>>()
+
+const resetDateFilter = () => {
+  tableRef.value!.clearFilter(['date'])
+}
+// TODO: improvement typing when refactor table
+const clearFilter = () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  tableRef.value!.clearFilter()
+}
+const formatter = (row: User, column: TableColumnCtx<User>) => {
+  return row.address
+}
+const filterTag = (value: string, row: User) => {
+  return row.tag === value
+}
+const filterHandler = (
+  value: string,
+  row: User,
+  column: TableColumnCtx<User>
+) => {
+  const property = column['property']
+  return row[property] === value
+}
+
+const tableData: User[] = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'Home',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'Office',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'Home',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    tag: 'Office',
+  },
+]
 </script>

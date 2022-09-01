@@ -1,27 +1,29 @@
 <template>
-  <ul v-show="visible" class="el-select-group__wrap">
-    <li class="el-select-group__title">{{ label }}</li>
+  <ul v-show="visible" :class="ns.be('group', 'wrap')">
+    <li :class="ns.be('group', 'title')">{{ label }}</li>
     <li>
-      <ul class="el-select-group">
-        <slot></slot>
+      <ul :class="ns.b('group')">
+        <slot />
       </ul>
     </li>
   </ul>
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   defineComponent,
-  provide,
-  inject,
-  ref,
-  reactive,
-  toRefs,
   getCurrentInstance,
+  inject,
   onMounted,
-  watch,
+  provide,
+  reactive,
+  ref,
   toRaw,
+  toRefs,
+  watch,
 } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import { selectGroupKey, selectKey } from './token'
 
 export default defineComponent({
@@ -36,6 +38,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const ns = useNamespace('select')
     const visible = ref(true)
     const instance = getCurrentInstance()
     const children = ref([])
@@ -80,6 +83,7 @@ export default defineComponent({
 
     return {
       visible,
+      ns,
     }
   },
 })

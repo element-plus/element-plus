@@ -8,21 +8,17 @@
     class="demo-ruleForm"
   >
     <el-form-item label="Password" prop="pass">
-      <el-input
-        v-model="ruleForm.pass"
-        type="password"
-        autocomplete="off"
-      ></el-input>
+      <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
     </el-form-item>
     <el-form-item label="Confirm" prop="checkPass">
       <el-input
         v-model="ruleForm.checkPass"
         type="password"
         autocomplete="off"
-      ></el-input>
+      />
     </el-form-item>
     <el-form-item label="Age" prop="age">
-      <el-input v-model.number="ruleForm.age"></el-input>
+      <el-input v-model.number="ruleForm.age" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(ruleFormRef)"
@@ -34,12 +30,10 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
-// More info see https://github.com/element-plus/element-plus/blob/dev/docs/examples/form/utils.ts
-import { resetForm, submitForm } from './utils'
-import type { ElForm } from 'element-plus'
+import { reactive, ref } from 'vue'
+import type { FormInstance } from 'element-plus'
 
-const ruleFormRef = ref<InstanceType<typeof ElForm>>()
+const ruleFormRef = ref<FormInstance>()
 
 const checkAge = (rule: any, value: any, callback: any) => {
   if (!value) {
@@ -90,4 +84,21 @@ const rules = reactive({
   checkPass: [{ validator: validatePass2, trigger: 'blur' }],
   age: [{ validator: checkAge, trigger: 'blur' }],
 })
+
+const submitForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      console.log('submit!')
+    } else {
+      console.log('error submit!')
+      return false
+    }
+  })
+}
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.resetFields()
+}
 </script>
