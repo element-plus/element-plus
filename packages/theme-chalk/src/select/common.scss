@@ -5,6 +5,7 @@
 @mixin select-common($name) {
   .#{$namespace}-#{$name}__tags-text {
     display: inline-block;
+    line-height: normal;
     @include utils-ellipsis;
   }
 }

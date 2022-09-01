@@ -5,6 +5,7 @@ import {
   reactive,
   ref,
   shallowRef,
+  toRaw,
   triggerRef,
   watch,
 } from 'vue'
@@ -359,7 +360,7 @@ export const useSelect = (props, states: States, ctx) => {
     })
   }
 
-  const handleQueryChange = (val) => {
+  const handleQueryChange = async (val) => {
     if (states.previousQuery === val || states.isOnComposition) return
     if (
       states.previousQuery === null &&
@@ -400,6 +401,7 @@ export const useSelect = (props, states: States, ctx) => {
       (props.filterable || props.remote) &&
       states.filteredOptionsCount
     ) {
+      await nextTick()
       checkDefaultFirstOption()
     }
   }
@@ -631,7 +633,7 @@ export const useSelect = (props, states: States, ctx) => {
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (get(item, valueKey) === get(value, valueKey)) {
+      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
         index = i
         return true
       }
