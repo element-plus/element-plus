@@ -5,16 +5,15 @@ import { useCheckboxGroup } from '../use-checkbox-group'
 
 import type { ComponentInternalInstance } from 'vue'
 import type { CheckboxProps } from '../../checkbox'
-import type { useModel } from './use-model'
+import type { CheckboxModel } from './use-model'
 
 export const useStatus = (
   props: CheckboxProps,
   slots: ComponentInternalInstance['slots'],
-  { model }: Partial<ReturnType<typeof useModel>>
+  { model }: Partial<CheckboxModel>
 ) => {
   const { isGroup, checkboxGroup } = useCheckboxGroup()
-  const focus = ref(false)
-  const size = useSize(checkboxGroup?.checkboxGroupSize, { prop: true })
+  const isFocused = ref(false)
   const isChecked = computed<boolean>(() => {
     const value = model!.value
     if (toTypeString(value) === '[object Boolean]') {
@@ -40,8 +39,7 @@ export const useStatus = (
 
   return {
     isChecked,
-    focus,
-    size,
+    isFocused,
     checkboxSize,
     hasOwnLabel,
   }

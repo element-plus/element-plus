@@ -26,12 +26,10 @@ export const useCheckbox = (
   slots: ComponentInternalInstance['slots']
 ) => {
   const { model, isGroup, isLimitExceeded, elFormItem } = useModel(props)
-  const { focus, size, isChecked, checkboxSize, hasOwnLabel } = useStatus(
+  const { isFocused, isChecked, checkboxSize, hasOwnLabel } = useStatus(
     props,
     slots,
-    {
-      model,
-    }
+    { model }
   )
   const { isDisabled } = useDisabled({ model, isChecked })
   const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
@@ -50,18 +48,15 @@ export const useCheckbox = (
   setStoreValue(props, { model })
 
   return {
-    elFormItem,
     inputId,
     isLabeledByFormItem,
     isChecked,
     isDisabled,
-    isGroup,
+    isFocused,
     checkboxSize,
     hasOwnLabel,
     model,
     handleChange,
     onClickRoot,
-    focus,
-    size,
   }
 }
