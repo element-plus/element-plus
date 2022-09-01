@@ -1,19 +1,26 @@
 <script setup lang="ts">
+import { useToggle } from '@vueuse/core'
 import VPLink from '../common/vp-link.vue'
 import { useTranslation } from '../../composables/translation'
-import { useToggle } from '../../composables/toggle'
 import ExpandIcon from '../icons/expand.vue'
+
+const emit = defineEmits(['close'])
 
 const { languageMap, langs, lang, switchLang, helpTranslate } = useTranslation()
 
 const [show, toggle] = useToggle()
+
+const onSwitchLang = (lang: string) => {
+  switchLang(lang)
+  emit('close')
+}
 </script>
 
 <template>
   <div class="full-screen-translation">
     <ElButton
-      type="text"
       style="width: 100%; color: var(--text-color)"
+      text
       @click="toggle"
     >
       <div class="translation-toggler">
@@ -29,7 +36,7 @@ const [show, toggle] = useToggle()
         :key="l"
         :class="{ active: l === lang }"
         class="translation-item"
-        @click="switchLang(l)"
+        @click="onSwitchLang(l)"
       >
         {{ languageMap[l] }}
       </p>

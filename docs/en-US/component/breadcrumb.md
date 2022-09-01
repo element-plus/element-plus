@@ -1,3 +1,8 @@
+---
+title: Breadcrumb
+lang: en-US
+---
+
 # Breadcrumb
 
 Displays the location of the current page, making it easier to browser back.
@@ -12,7 +17,7 @@ breadcrumb/basic
 
 ## Icon separator
 
-:::demo Set `separator-class` to use `iconfont` as the separator，it will cover `separator`
+:::demo Set `separator-icon` to use `svg icon` as the separator，it will cover `separator`
 
 breadcrumb/icon
 
@@ -20,10 +25,10 @@ breadcrumb/icon
 
 ## Breadcrumb Attributes
 
-| Attribute       | Description                  | Type   | Accepted Values | Default |
-| --------------- | ---------------------------- | ------ | --------------- | ------- |
-| separator       | separator character          | string | —               | /       |
-| separator-class | class name of icon separator | string | —               | -       |
+| Attribute      | Description                      | Type                  | Accepted Values | Default |
+| -------------- | -------------------------------- | --------------------- | --------------- | ------- |
+| separator      | separator character              | string                | —               | /       |
+| separator-icon | icon component of icon separator | `string \| Component` | —               | -       |
 
 ## Breadcrumb Slots
 

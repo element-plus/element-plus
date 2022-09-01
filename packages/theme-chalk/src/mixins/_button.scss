@@ -1,24 +1,53 @@
 @use 'sass:map';
 
+@use '../mixins/var' as *;
+@use '../mixins/function' as *;
 @use '../common/var' as *;
 
-@mixin button-plain($color, $type) {
-  color: $color;
-  background-color: map.get($colors, $type, 'light-9');
-  border-color: map.get($colors, $type, 'light-6');
+@mixin button-plain($type) {
+  $button-color-types: (
+    '': (
+      'text-color': (
+        'color',
+        $type,
+      ),
+      'bg-color': (
+        'color',
+        $type,
+        'light-9',
+      ),
+      'border-color': (
+        'color',
+        $type,
+        'light-5',
+      ),
+    ),
+    'hover': (
+      'text-color': (
+        'color',
+        'white',
+      ),
+      'bg-color': (
+        'color',
+        $type,
+      ),
+      'border-color': (
+        'color',
+        $type,
+      ),
+    ),
+    'active': (
+      'text-color': (
+        'color',
+        'white',
+      ),
+    ),
+  );
 
-  &:hover,
-  &:focus {
-    background: $color;
-    border-color: $color;
-    color: var(--el-color-white);
-  }
-
-  &:active {
-    background: var(--el-button-active-background-color);
-    border-color: var(--el-button-active-border-color);
-    color: var(--el-color-white);
-    outline: none;
+  @each $type, $typeMap in $button-color-types {
+    @each $typeColor, $list in $typeMap {
+      @include css-var-from-global(('button', $type, $typeColor), $list);
+    }
   }
 
   &.is-disabled {
@@ -26,47 +55,100 @@
     &:hover,
     &:focus,
     &:active {
-      color: map.get($colors, $type, 'light-4');
-      background-color: map.get($colors, $type, 'light-9');
-      border-color: map.get($colors, $type, 'light-8');
+      color: getCssVar('color', $type, 'light-5');
+      background-color: getCssVar('color', $type, 'light-9');
+      border-color: getCssVar('color', $type, 'light-8');
     }
   }
 }
 
 @mixin button-variant($type) {
-  &:hover,
-  &:focus {
-    background: var(--el-button-hover-color);
-    border-color: var(--el-button-hover-color);
-    color: var(--el-button-font-color);
-  }
+  $button-color-types: (
+    '': (
+      'text-color': (
+        'color',
+        'white',
+      ),
+      'bg-color': (
+        'color',
+        $type,
+      ),
+      'border-color': (
+        'color',
+        $type,
+      ),
+      'outline-color': (
+        'color',
+        $type,
+        'light-5',
+      ),
+      'active-color': (
+        'color',
+        $type,
+        'dark-2',
+      ),
+    ),
+    'hover': (
+      'text-color': (
+        'color',
+        'white',
+      ),
+      'link-text-color': (
+        'color',
+        $type,
+        'light-5',
+      ),
+      'bg-color': (
+        'color',
+        $type,
+        'light-3',
+      ),
+      'border-color': (
+        'color',
+        $type,
+        'light-3',
+      ),
+    ),
+    'active': (
+      'bg-color': (
+        'color',
+        $type,
+        'dark-2',
+      ),
+      'border-color': (
+        'color',
+        $type,
+        'dark-2',
+      ),
+    ),
+    'disabled': (
+      'text-color': (
+        'color',
+        'white',
+      ),
+      'bg-color': (
+        'color',
+        $type,
+        'light-5',
+      ),
+      'border-color': (
+        'color',
+        $type,
+        'light-5',
+      ),
+    ),
+  );
 
-  &:active {
-    background: var(--el-button-active-background-color);
-    border-color: var(--el-button-active-border-color);
-    color: var(--el-button-active-font-color);
-    outline: none;
-  }
-
-  &.is-active {
-    background: var(--el-button-active-background-color);
-    border-color: var(--el-button-active-border-color);
-    color: var(--el-button-active-font-color);
-  }
-
-  &.is-disabled {
-    &,
-    &:hover,
-    &:focus,
-    &:active {
-      color: $color-white;
-      background-color: map.get($colors, $type, 'light-5');
-      border-color: map.get($colors, $type, 'light-5');
+  @each $type, $typeMap in $button-color-types {
+    @each $typeColor, $list in $typeMap {
+      @include css-var-from-global(('button', $type, $typeColor), $list);
     }
   }
 
-  &.is-plain {
-    @include button-plain(var(--el-button-background-color), $type);
+  &.is-plain,
+  &.is-text,
+  &.is-link {
+    @include button-plain($type);
   }
 }
 

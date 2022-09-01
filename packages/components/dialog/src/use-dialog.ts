@@ -1,44 +1,66 @@
-import { computed, ref, watch, nextTick, onMounted } from 'vue'
-import { useTimeoutFn } from '@vueuse/core'
+import {
+  computed,
+  getCurrentInstance,
+  nextTick,
+  onMounted,
+  ref,
+  watch,
+} from 'vue'
+import { isClient, useTimeoutFn } from '@vueuse/core'
 
-import { useLockScreen, useRestoreActive, useModal } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import isServer from '@element-plus/utils/isServer'
-import PopupManager from '@element-plus/utils/popup-manager'
-import { isNumber } from '@element-plus/utils/util'
+import {
+  defaultNamespace,
+  useGlobalConfig,
+  useId,
+  useLockscreen,
+  useZIndex,
+} from '@element-plus/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { addUnit } from '@element-plus/utils'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'
 
 export const useDialog = (
   props: DialogProps,
-  { emit }: SetupContext<DialogEmits>,
   targetRef: Ref<HTMLElement | undefined>
 ) => {
+  const instance = getCurrentInstance()!
+  const emit = instance.emit as SetupContext<DialogEmits>['emit']
+  const { nextZIndex } = useZIndex()
+
+  let lastPosition = ''
+  const titleId = useId()
+  const bodyId = useId()
   const visible = ref(false)
   const closed = ref(false)
   const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
-  const zIndex = ref(props.zIndex || PopupManager.nextZIndex())
+  const zIndex = ref(props.zIndex || nextZIndex())
 
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
 
-  const normalizeWidth = computed(() =>
-    isNumber(props.width) ? `${props.width}px` : props.width
-  )
+  const namespace = useGlobalConfig('namespace', defaultNamespace)
 
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
-    const varPrefix = `--el-dialog`
+    const varPrefix = `--${namespace.value}-dialog` as const
     if (!props.fullscreen) {
       if (props.top) {
         style[`${varPrefix}-margin-top`] = props.top
       }
       if (props.width) {
-        style[`${varPrefix}-width`] = normalizeWidth.value
+        style[`${varPrefix}-width`] = addUnit(props.width)
       }
     }
     return style
+  })
+
+  const overlayDialogStyle = computed<CSSProperties>(() => {
+    if (props.alignCenter) {
+      return { display: 'flex' }
+    }
+    return {}
   })
 
   function afterEnter() {
@@ -69,7 +91,6 @@ export const useDialog = (
   }
 
   function close() {
-    // if (this.willClose && !this.willClose()) return;
     openTimer?.()
     closeTimer?.()
 
@@ -80,13 +101,13 @@ export const useDialog = (
     }
   }
 
-  function hide(shouldCancel: boolean) {
-    if (shouldCancel) return
-    closed.value = true
-    visible.value = false
-  }
-
   function handleClose() {
+    function hide(shouldCancel?: boolean) {
+      if (shouldCancel) return
+      closed.value = true
+      visible.value = false
+    }
+
     if (props.beforeClose) {
       props.beforeClose(hide)
     } else {
@@ -101,13 +122,7 @@ export const useDialog = (
   }
 
   function doOpen() {
-    if (isServer) {
-      return
-    }
-
-    // if (props.willOpen?.()) {
-    //  return
-    // }
+    if (!isClient) return
     visible.value = true
   }
 
@@ -115,20 +130,23 @@ export const useDialog = (
     visible.value = false
   }
 
+  function onOpenAutoFocus() {
+    emit('openAutoFocus')
+  }
+
+  function onCloseAutoFocus() {
+    emit('closeAutoFocus')
+  }
+
   if (props.lockScroll) {
-    useLockScreen(visible)
+    useLockscreen(visible)
   }
 
-  if (props.closeOnPressEscape) {
-    useModal(
-      {
-        handleClose,
-      },
-      visible
-    )
+  function onCloseRequested() {
+    if (props.closeOnPressEscape) {
+      handleClose()
+    }
   }
-
-  useRestoreActive(visible)
 
   watch(
     () => props.modelValue,
@@ -137,10 +155,10 @@ export const useDialog = (
         closed.value = false
         open()
         rendered.value = true // enables lazy rendering
-        emit('open')
-        zIndex.value = props.zIndex ? zIndex.value++ : PopupManager.nextZIndex()
+        zIndex.value = props.zIndex ? zIndex.value++ : nextZIndex()
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
+          emit('open')
           if (targetRef.value) {
             targetRef.value.scrollTop = 0
           }
@@ -150,6 +168,19 @@ export const useDialog = (
         if (visible.value) {
           close()
         }
+      }
+    }
+  )
+
+  watch(
+    () => props.fullscreen,
+    (val) => {
+      if (!targetRef.value) return
+      if (val) {
+        lastPosition = targetRef.value.style.transform
+        targetRef.value.style.transform = ''
+      } else {
+        targetRef.value.style.transform = lastPosition
       }
     }
   )
@@ -168,8 +199,16 @@ export const useDialog = (
     beforeLeave,
     handleClose,
     onModalClick,
+    close,
+    doClose,
+    onOpenAutoFocus,
+    onCloseAutoFocus,
+    onCloseRequested,
+    titleId,
+    bodyId,
     closed,
     style,
+    overlayDialogStyle,
     rendered,
     visible,
     zIndex,

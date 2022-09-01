@@ -1,3 +1,8 @@
+import type { CSSProperties } from 'vue'
+import type { ThumbProps } from './thumb'
+
+export const GAP = 4 // top 2 + bottom 2 of bar instance
+
 export const BAR_MAP = {
   vertical: {
     offset: 'offsetHeight',
@@ -19,16 +24,15 @@ export const BAR_MAP = {
     client: 'clientX',
     direction: 'left',
   },
-}
+} as const
 
-export function renderThumbStyle({ move, size, bar }) {
-  const style = {} as any
-  const translate = `translate${bar.axis}(${move}%)`
-
-  style[bar.size] = size
-  style.transform = translate
-  style.msTransform = translate
-  style.webkitTransform = translate
-
-  return style
-}
+export const renderThumbStyle = ({
+  move,
+  size,
+  bar,
+}: Pick<ThumbProps, 'move' | 'size'> & {
+  bar: typeof BAR_MAP[keyof typeof BAR_MAP]
+}): CSSProperties => ({
+  [bar.size]: size,
+  transform: `translate${bar.axis}(${move}%)`,
+})

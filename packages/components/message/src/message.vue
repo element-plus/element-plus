@@ -1,17 +1,18 @@
 <template>
   <transition
-    name="el-message-fade"
+    :name="ns.b('fade')"
     @before-leave="onClose"
     @after-leave="$emit('destroy')"
   >
     <div
       v-show="visible"
       :id="id"
+      ref="messageRef"
       :class="[
-        'el-message',
-        type && !iconClass ? `el-message--${type}` : '',
-        center ? 'is-center' : '',
-        showClose ? 'is-closable' : '',
+        ns.b(),
+        { [ns.m(type)]: type && !icon },
+        ns.is('center', center),
+        ns.is('closable', showClose),
         customClass,
       ]"
       :style="customStyle"
@@ -19,102 +20,122 @@
       @mouseenter="clearTimer"
       @mouseleave="startTimer"
     >
-      <i
-        v-if="type || iconClass"
-        :class="['el-message__icon', typeClass, iconClass]"
-      ></i>
+      <el-badge
+        v-if="repeatNum > 1"
+        :value="repeatNum"
+        :type="badgeType"
+        :class="ns.e('badge')"
+      />
+      <el-icon v-if="iconComponent" :class="[ns.e('icon'), typeClass]">
+        <component :is="iconComponent" />
+      </el-icon>
       <slot>
-        <p v-if="!dangerouslyUseHTMLString" class="el-message__content">
+        <p v-if="!dangerouslyUseHTMLString" :class="ns.e('content')">
           {{ message }}
         </p>
         <!-- Caution here, message could've been compromised, never use user's input as message -->
-        <p v-else class="el-message__content" v-html="message"></p>
+        <p v-else :class="ns.e('content')" v-html="message" />
       </slot>
-      <div
-        v-if="showClose"
-        class="el-message__closeBtn el-icon-close"
-        @click.stop="close"
-      ></div>
+      <el-icon v-if="showClose" :class="ns.e('closeBtn')" @click.stop="close">
+        <Close />
+      </el-icon>
     </div>
   </transition>
 </template>
-<script lang="ts">
-import { defineComponent, computed, ref, onMounted } from 'vue'
-import { useEventListener, useTimeoutFn } from '@vueuse/core'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+
+<script lang="ts" setup>
+import { computed, onMounted, ref, watch } from 'vue'
+import { useEventListener, useResizeObserver, useTimeoutFn } from '@vueuse/core'
+import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
+import { EVENT_CODE } from '@element-plus/constants'
+import ElBadge from '@element-plus/components/badge'
+import { ElIcon } from '@element-plus/components/icon'
+import { useNamespace } from '@element-plus/hooks'
 import { messageEmits, messageProps } from './message'
-
+import { getLastOffset } from './instance'
+import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
-import type { MessageProps } from './message'
 
-const typeMap: Record<MessageProps['type'], string> = {
-  success: 'el-icon-success',
-  info: 'el-icon-info',
-  warning: 'el-icon-warning',
-  error: 'el-icon-error',
+const { Close } = TypeComponents
+
+defineOptions({
+  name: 'ElMessage',
+})
+
+const props = defineProps(messageProps)
+defineEmits(messageEmits)
+
+const ns = useNamespace('message')
+
+const messageRef = ref<HTMLDivElement>()
+const visible = ref(false)
+const height = ref(0)
+
+let stopTimer: (() => void) | undefined = undefined
+
+const badgeType = computed<BadgeProps['type']>(() =>
+  props.type ? (props.type === 'error' ? 'danger' : props.type) : 'info'
+)
+const typeClass = computed(() => {
+  const type = props.type
+  return { [ns.bm('icon', type)]: type && TypeComponentsMap[type] }
+})
+const iconComponent = computed(
+  () => props.icon || TypeComponentsMap[props.type] || ''
+)
+
+const lastOffset = computed(() => getLastOffset(props.id))
+const offset = computed(() => props.offset + lastOffset.value)
+const bottom = computed((): number => height.value + offset.value)
+const customStyle = computed<CSSProperties>(() => ({
+  top: `${offset.value}px`,
+  zIndex: props.zIndex,
+}))
+
+function startTimer() {
+  if (props.duration === 0) return
+  ;({ stop: stopTimer } = useTimeoutFn(() => {
+    close()
+  }, props.duration))
 }
 
-export default defineComponent({
-  name: 'ElMessage',
+function clearTimer() {
+  stopTimer?.()
+}
 
-  props: messageProps,
-  emits: messageEmits,
+function close() {
+  visible.value = false
+}
 
-  setup(props) {
-    const visible = ref(false)
-    let timer: (() => void) | undefined = undefined
+function keydown({ code }: KeyboardEvent) {
+  if (code === EVENT_CODE.esc) {
+    // press esc to close the message
+    close()
+  }
+}
 
-    const typeClass = computed(() =>
-      props.iconClass ? props.iconClass : typeMap[props.type] ?? ''
-    )
-    const customStyle = computed<CSSProperties>(() => ({
-      top: `${props.offset}px`,
-      zIndex: props.zIndex,
-    }))
+onMounted(() => {
+  startTimer()
+  visible.value = true
+})
 
-    function startTimer() {
-      if (props.duration > 0) {
-        ;({ stop: timer } = useTimeoutFn(() => {
-          if (visible.value) close()
-        }, props.duration))
-      }
-    }
+watch(
+  () => props.repeatNum,
+  () => {
+    clearTimer()
+    startTimer()
+  }
+)
 
-    function clearTimer() {
-      timer?.()
-    }
+useEventListener(document, 'keydown', keydown)
 
-    function close() {
-      visible.value = false
-    }
+useResizeObserver(messageRef, () => {
+  height.value = messageRef.value!.getBoundingClientRect().height
+})
 
-    function keydown({ code }: KeyboardEvent) {
-      if (code === EVENT_CODE.esc) {
-        // press esc to close the message
-        if (visible.value) {
-          close()
-        }
-      } else {
-        startTimer() // resume timer
-      }
-    }
-
-    onMounted(() => {
-      startTimer()
-      visible.value = true
-    })
-
-    useEventListener(document, 'keydown', keydown)
-
-    return {
-      typeClass,
-      customStyle,
-      visible,
-
-      close,
-      clearTimer,
-      startTimer,
-    }
-  },
+defineExpose({
+  visible,
+  bottom,
+  close,
 })
 </script>

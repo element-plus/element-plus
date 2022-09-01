@@ -1,36 +1,18 @@
-import { setConfig } from '@element-plus/utils/config'
-import { LocaleInjectionKey, localeProviderMaker } from '@element-plus/hooks'
+import { provideGlobalConfig } from '@element-plus/hooks'
+import { INSTALLED_KEY } from '@element-plus/constants'
 import { version } from './version'
 
-import type { App, Plugin } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
-import type { InstallOptions } from '@element-plus/utils/config'
+import type { App, Plugin } from '@vue/runtime-core'
+import type { ConfigProviderContext } from '@element-plus/tokens'
 
-const makeInstaller = (components: Plugin[] = []) => {
-  const apps: App[] = []
+export const makeInstaller = (components: Plugin[] = []) => {
+  const install = (app: App, options?: ConfigProviderContext) => {
+    if (app[INSTALLED_KEY]) return
 
-  const install = (app: App, opts: InstallOptions) => {
-    const defaultInstallOpt: InstallOptions = {
-      size: '' as ComponentSize,
-      zIndex: 2000,
-    }
+    app[INSTALLED_KEY] = true
+    components.forEach((c) => app.use(c))
 
-    const option = Object.assign(defaultInstallOpt, opts)
-    if (apps.includes(app)) return
-    apps.push(app)
-
-    components.forEach((c) => {
-      app.use(c)
-    })
-
-    if (option.locale) {
-      const localeProvides = localeProviderMaker(opts.locale)
-      app.provide(LocaleInjectionKey, localeProvides)
-    }
-
-    app.config.globalProperties.$ELEMENT = option
-    // app.provide() ? is this better? I think its not that flexible but worth implement
-    setConfig(option)
+    if (options) provideGlobalConfig(options, app, true)
   }
 
   return {
@@ -38,5 +20,3 @@ const makeInstaller = (components: Plugin[] = []) => {
     install,
   }
 }
-
-export default makeInstaller

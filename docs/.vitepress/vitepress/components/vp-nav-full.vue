@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useLockScreen } from '../composables/lock-screen'
-import { useFeatureFlag } from '../composables/feature-flag'
 import VPFullScreenMenu from './full-screen/vp-menu.vue'
 import VPFullScreenTranslation from './full-screen/vp-translation.vue'
 import VPFullScreenThemeToggler from './full-screen/vp-theme-toggler.vue'
@@ -12,7 +11,6 @@ defineProps<{
 
 const { lock, cleanup } = useLockScreen()
 const fullscreen = ref()
-const themeEnabled = useFeatureFlag('theme')
 </script>
 
 <template>
@@ -20,8 +18,8 @@ const themeEnabled = useFeatureFlag('theme')
     <div v-if="fullScreen" ref="fullscreen">
       <div class="full-screen-container">
         <VPFullScreenMenu @close="$emit('close')" />
-        <VPFullScreenTranslation />
-        <VPFullScreenThemeToggler v-if="themeEnabled" />
+        <VPFullScreenTranslation @close="$emit('close')" />
+        <VPFullScreenThemeToggler />
       </div>
     </div>
   </Transition>

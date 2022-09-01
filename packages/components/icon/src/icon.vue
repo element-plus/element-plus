@@ -1,33 +1,30 @@
 <template>
-  <i class="el-icon" :style="style" v-bind="$attrs">
-    <slot></slot>
+  <i :class="ns.b()" :style="style" v-bind="$attrs">
+    <slot />
   </i>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { addUnit, isUndefined } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import { iconProps } from './icon'
-
 import type { CSSProperties } from 'vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ElIcon',
   inheritAttrs: false,
+})
+const props = defineProps(iconProps)
+const ns = useNamespace('icon')
 
-  props: iconProps,
+const style = computed<CSSProperties>(() => {
+  const { size, color } = props
+  if (!size && !color) return {}
 
-  setup(props) {
-    return {
-      style: computed<CSSProperties>(() => {
-        if (!props.size && !props.color) {
-          return {}
-        }
-        return {
-          ...(props.size ? { '--font-size': `${props.size}px` } : {}),
-          ...(props.color ? { '--color': props.color } : {}),
-        } as CSSProperties
-      }),
-    }
-  },
+  return {
+    fontSize: isUndefined(size) ? undefined : addUnit(size),
+    '--color': color,
+  }
 })
 </script>

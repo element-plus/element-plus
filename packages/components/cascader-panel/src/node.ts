@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { isFunction } from '@vue/shared'
-import { capitalize, isUndefined, isEmpty } from '@element-plus/utils/util'
+import { capitalize, isEmpty, isUndefined } from '@element-plus/utils'
 import type { VNode } from 'vue'
 
 export type CascaderNodeValue = string | number
@@ -120,7 +121,7 @@ class Node {
     return isUndefined(isLeaf)
       ? lazy && !loaded
         ? false
-        : !Array.isArray(childrenData)
+        : !(Array.isArray(childrenData) && childrenData.length)
       : !!isLeaf
   }
 
@@ -194,7 +195,9 @@ class Node {
 
     this.checked =
       this.loaded &&
-      this.children.every((child) => child.loaded && child.checked) &&
+      this.children
+        .filter((child) => !child.isDisabled)
+        .every((child) => child.loaded && child.checked) &&
       checked
     this.indeterminate =
       this.loaded && checkedNum !== totalNum && checkedNum > 0

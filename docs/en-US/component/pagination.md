@@ -1,3 +1,8 @@
+---
+title: Pagination
+lang: en-US
+---
+
 # Pagination
 
 If you have too much data to display in one page, use pagination.
@@ -58,24 +63,26 @@ pagination/more-elements
 
 ## Attributes
 
-| Attribute            | Description                                                                                                                     | Type     | Accepted Values                                                          | Default                                |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------ | -------------------------------------- |
-| small                | whether to use small pagination                                                                                                 | boolean  | —                                                                        | false                                  |
-| background           | whether the buttons have a background color                                                                                     | boolean  | —                                                                        | false                                  |
-| page-size            | item count of each page, supports the v-model bidirectional binding                                                             | number   | —                                                                        | 10                                     |
-| default-page-size    | default initial value of page size                                                                                              | number   | -                                                                        | -                                      |
-| total                | total item count                                                                                                                | number   | —                                                                        | —                                      |
-| page-count           | total page count. Set either `total` or `page-count` and pages will be displayed; if you need `page-sizes`, `total` is required | number   | —                                                                        | —                                      |
-| pager-count          | number of pagers. Pagination collapses when the total page count exceeds this value                                             | number   | odd number between 5 and 21                                              | 7                                      |
-| current-page         | current page number, supports the v-model bidirectional binding                                                                 | number   | —                                                                        | 1                                      |
-| default-current-page | default initial value of current-page                                                                                           | number   | -                                                                        | -                                      |
-| layout               | layout of Pagination, elements separated with a comma                                                                           | string   | `sizes` / `prev` / `pager` / `next` / `jumper` / `->` / `total` / `slot` | 'prev, pager, next, jumper, ->, total' |
-| page-sizes           | options of item count per page                                                                                                  | number[] | —                                                                        | [10, 20, 30, 40, 50, 100]              |
-| popper-class         | custom class name for the page size Select's dropdown                                                                           | string   | —                                                                        | —                                      |
-| prev-text            | text for the prev button                                                                                                        | string   | —                                                                        | —                                      |
-| next-text            | text for the next button                                                                                                        | string   | —                                                                        | —                                      |
-| disabled             | whether Pagination is disabled                                                                                                  | boolean  | —                                                                        | false                                  |
-| hide-on-single-page  | whether to hide when there's only one page                                                                                      | boolean  | —                                                                        | -                                      |
+| Attribute            | Description                                                                                                                     | Type                  | Accepted Values                                                          | Default                                |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------ | -------------------------------------- |
+| small                | whether to use small pagination                                                                                                 | boolean               | —                                                                        | false                                  |
+| background           | whether the buttons have a background color                                                                                     | boolean               | —                                                                        | false                                  |
+| page-size            | item count of each page, supports the v-model bidirectional binding                                                             | number                | —                                                                        | 10                                     |
+| default-page-size    | default initial value of page size                                                                                              | number                | -                                                                        | -                                      |
+| total                | total item count                                                                                                                | number                | —                                                                        | —                                      |
+| page-count           | total page count. Set either `total` or `page-count` and pages will be displayed; if you need `page-sizes`, `total` is required | number                | —                                                                        | —                                      |
+| pager-count          | number of pagers. Pagination collapses when the total page count exceeds this value                                             | number                | odd number between 5 and 21                                              | 7                                      |
+| current-page         | current page number, supports the v-model bidirectional binding                                                                 | number                | —                                                                        | 1                                      |
+| default-current-page | default initial value of current-page                                                                                           | number                | -                                                                        | -                                      |
+| layout               | layout of Pagination, elements separated with a comma                                                                           | string                | `sizes` / `prev` / `pager` / `next` / `jumper` / `->` / `total` / `slot` | 'prev, pager, next, jumper, ->, total' |
+| page-sizes           | options of item count per page                                                                                                  | number[]              | —                                                                        | [10, 20, 30, 40, 50, 100]              |
+| popper-class         | custom class name for the page size Select's dropdown                                                                           | string                | —                                                                        | —                                      |
+| prev-text            | text for the prev button                                                                                                        | string                | —                                                                        | —                                      |
+| prev-icon            | icon for the prev button, higher priority of `prev-text`                                                                        | `string \| Component` | —                                                                        | ArrowLeft                              |
+| next-text            | text for the next button                                                                                                        | string                | —                                                                        | —                                      |
+| next-icon            | icon for the next button, higher priority of `next-text`                                                                        | `string \| Component` | —                                                                        | ArrowRight                             |
+| disabled             | whether Pagination is disabled                                                                                                  | boolean               | —                                                                        | false                                  |
+| hide-on-single-page  | whether to hide when there's only one page                                                                                      | boolean               | —                                                                        | -                                      |
 
 :::warning
 
@@ -98,7 +105,7 @@ We'll detect some deprecated usages, if your pagination don't appeared or worked
 
 :::warning
 
-Events above are not recommended(but are still supported for compatible reason), better chioce is to use the two-way data binding by `v-model`.
+Events above are not recommended(but are still supported for compatible reason), better choice is to use the two-way data binding by `v-model`.
 
 :::
 

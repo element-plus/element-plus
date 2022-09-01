@@ -1,4 +1,6 @@
-import { nextTick, getCurrentInstance, unref } from 'vue'
+// @ts-nocheck
+import { getCurrentInstance, nextTick, unref } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import useWatcher from './watcher'
 
 import type { Ref } from 'vue'
@@ -37,10 +39,11 @@ function sortColumn<T>(array: TableColumnCtx<T>[]) {
 function useStore<T>() {
   const instance = getCurrentInstance() as Table<T>
   const watcher = useWatcher<T>()
+  const ns = useNamespace('table')
   type StoreStates = typeof watcher.states
   const mutations = {
     setData(states: StoreStates, data: T[]) {
-      const dataInstanceChanged = unref(states.data) !== data
+      const dataInstanceChanged = unref(states._data) !== data
       states.data.value = data
       states._data.value = data
       instance.store.execQuery()
@@ -141,19 +144,23 @@ function useStore<T>() {
 
     changeSortCondition(states: StoreStates, options: Sort) {
       // 修复 pr https://github.com/ElemeFE/element/pull/15012 导致的 bug
-      const { sortingColumn: column, sortProp: prop, sortOrder: order } = states
-      if (unref(order) === null) {
+      // https://github.com/element-plus/element-plus/pull/4640
+      const { sortingColumn, sortProp, sortOrder } = states
+      const columnValue = unref(sortingColumn),
+        propValue = unref(sortProp),
+        orderValue = unref(sortOrder)
+      if (orderValue === null) {
         states.sortingColumn.value = null
         states.sortProp.value = null
       }
-      const ingore = { filter: true }
-      instance.store.execQuery(ingore)
+      const ignore = { filter: true }
+      instance.store.execQuery(ignore)
 
       if (!options || !(options.silent || options.init)) {
         instance.emit('sort-change', {
-          column: unref(column),
-          prop: unref(prop),
-          order: unref(order),
+          column: columnValue,
+          prop: propValue,
+          order: orderValue,
         })
       }
 
@@ -200,17 +207,20 @@ function useStore<T>() {
     nextTick(() => instance.layout.updateScrollY.apply(instance.layout))
   }
   return {
+    ns,
     ...watcher,
     mutations,
     commit,
     updateTableScrollY,
   }
 }
+
 export default useStore
 
 class HelperStore<T> {
   Return = useStore<T>()
 }
+
 type StoreFilter = Record<string, string[]>
 type Store<T> = HelperStore<T>['Return']
 export type { WatcherPropsData, Store, StoreFilter }

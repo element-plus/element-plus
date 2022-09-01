@@ -1,19 +1,16 @@
-import { h, getCurrentInstance, computed } from 'vue'
+// @ts-nocheck
+import { computed, h, inject } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import { getRowIdentity } from '../util'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvents from './events-helper'
 import useStyles from './styles-helper'
-
 import type { TableBodyProps } from './defaults'
-import type {
-  RenderRowData,
-  Table,
-  TreeNode,
-  TableProps,
-} from '../table/defaults'
+import type { RenderRowData, TableProps, TreeNode } from '../table/defaults'
 
 function useRender<T>(props: Partial<TableBodyProps<T>>) {
-  const instance = getCurrentInstance()
-  const parent = instance.parent as Table<T>
+  const parent = inject(TABLE_INJECTION_KEY)
+  const ns = useNamespace('table')
   const {
     handleDoubleClick,
     handleClick,
@@ -45,13 +42,18 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     }
     return index
   }
-  const rowRender = (row: T, $index: number, treeRowData?: TreeNode) => {
+  const rowRender = (
+    row: T,
+    $index: number,
+    treeRowData?: TreeNode,
+    expanded = false
+  ) => {
     const { tooltipEffect, store } = props
     const { indent, columns } = store.states
     const rowClasses = getRowClass(row, $index)
     let display = true
     if (treeRowData) {
-      rowClasses.push(`el-table__row--level-${treeRowData.level}`)
+      rowClasses.push(ns.em('row', `level-${treeRowData.level}`))
       display = treeRowData.display
     }
     const displayStyle = display
@@ -88,6 +90,8 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           column: columnData,
           row,
           $index,
+          cellIndex,
+          expanded,
         }
         if (cellIndex === firstDefaultColumnIndex.value && treeRowData) {
           data.treeNode = {
@@ -107,6 +111,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         }
         const baseKey = `${$index},${cellIndex}`
         const patchKey = columnData.columnKey || columnData.rawColumnKey || ''
+        const tdChildren = cellChildren(cellIndex, column, data)
         return h(
           'td',
           {
@@ -116,52 +121,62 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             rowspan,
             colspan,
             onMouseenter: ($event) =>
-              handleCellMouseEnter($event, { ...row, tooltipEffect }),
+              handleCellMouseEnter($event, row, tooltipEffect),
             onMouseleave: handleCellMouseLeave,
           },
-          [column.renderCell(data)]
+          [tdChildren]
         )
       })
     )
   }
+  const cellChildren = (cellIndex, column, data) => {
+    return column.renderCell(data)
+  }
+
   const wrappedRowRender = (row: T, $index: number) => {
     const store = props.store
     const { isRowExpanded, assertRowKey } = store
     const { treeData, lazyTreeNodeMap, childrenColumnName, rowKey } =
       store.states
-    const hasExpandColumn = store.states.columns.value.some(
-      ({ type }) => type === 'expand'
-    )
-    if (hasExpandColumn && isRowExpanded(row)) {
+    const columns = store.states.columns.value
+    const hasExpandColumn = columns.some(({ type }) => type === 'expand')
+    if (hasExpandColumn) {
+      const expanded = isRowExpanded(row)
+      const tr = rowRender(row, $index, undefined, expanded)
       const renderExpanded = parent.renderExpanded
-      const tr = rowRender(row, $index, undefined)
-      if (!renderExpanded) {
-        console.error('[Element Error]renderExpanded is required.')
-        return tr
+      if (expanded) {
+        if (!renderExpanded) {
+          console.error('[Element Error]renderExpanded is required.')
+          return tr
+        }
+        // 使用二维数组，避免修改 $index
+        // Use a matrix to avoid modifying $index
+        return [
+          [
+            tr,
+            h(
+              'tr',
+              {
+                key: `expanded-row__${tr.key as string}`,
+              },
+              [
+                h(
+                  'td',
+                  {
+                    colspan: columns.length,
+                    class: `${ns.e('cell')} ${ns.e('expanded-cell')}`,
+                  },
+                  [renderExpanded({ row, $index, store, expanded })]
+                ),
+              ]
+            ),
+          ],
+        ]
+      } else {
+        // 使用二维数组，避免修改 $index
+        // Use a two dimensional array avoid modifying $index
+        return [[tr]]
       }
-      // 使用二维数组，避免修改 $index
-      // Use a two dimensional array avoid modifying $index
-      return [
-        [
-          tr,
-          h(
-            'tr',
-            {
-              key: `expanded-row__${tr.key as string}`,
-            },
-            [
-              h(
-                'td',
-                {
-                  colspan: store.states.columns.value.length,
-                  class: 'el-table__cell el-table__expanded-cell',
-                },
-                [renderExpanded({ row, $index, store })]
-              ),
-            ]
-          ),
-        ],
-      ]
     } else if (Object.keys(treeData.value).length) {
       assertRowKey()
       // TreeTable 时，rowKey 必须由用户设定，不使用 getKeyOfRow 计算
@@ -200,7 +215,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             }
             const childKey = getRowIdentity(node, rowKey.value)
             if (childKey === undefined || childKey === null) {
-              throw new Error('for nested data item, row-key is required.')
+              throw new Error('For nested data item, row-key is required.')
             }
             cur = { ...treeData.value[childKey] }
             // 对于当前节点，分成有无子节点两种情况。

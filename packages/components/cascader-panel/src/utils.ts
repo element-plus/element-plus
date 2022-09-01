@@ -1,33 +1,11 @@
-import type { Nullable } from '@element-plus/utils/types'
+// @ts-nocheck
+import { isLeaf } from '@element-plus/utils'
 import type { default as CascaderNode } from './node'
-
-export const isLeaf = (el: HTMLElement) => !el.getAttribute('aria-owns')
-
-export const getSibling = (
-  el: HTMLElement,
-  distance: number
-): Nullable<Element> => {
-  const { parentNode } = el
-
-  if (!parentNode) return null
-
-  const siblings = parentNode.querySelectorAll(
-    '.el-cascader-node[tabindex="-1"]'
-  )
-  const index = Array.prototype.indexOf.call(siblings, el)
-  return siblings[index + distance] || null
-}
 
 export const getMenuIndex = (el: HTMLElement) => {
   if (!el) return 0
   const pieces = el.id.split('-')
   return Number(pieces[pieces.length - 2])
-}
-
-export const focusNode = (el) => {
-  if (!el) return
-  el.focus()
-  !isLeaf(el) && el.click()
 }
 
 export const checkNode = (el) => {

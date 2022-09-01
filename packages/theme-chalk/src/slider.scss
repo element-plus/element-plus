@@ -5,37 +5,48 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+$slider-height: () !default;
+$slider-height: map.merge(
+  (
+    'large': 40px,
+    'default': 32px,
+    'small': 24px,
+  ),
+  $slider-height
+);
+
 @include b(slider) {
   @include set-component-css-var('slider', $slider);
 }
 
 @include b(slider) {
-  @include utils-clearfix;
+  width: 100%;
+  height: map.get($slider-height, 'default');
+  display: flex;
+  align-items: center;
 
   @include e(runway) {
-    width: 100%;
-    height: var(--el-slider-height);
-    margin: var(--el-slider-margin);
-    background-color: var(--el-slider-runway-background-color);
-    border-radius: var(--el-slider-border-radius);
+    flex: 1;
+    height: getCssVar('slider-height');
+    background-color: getCssVar('slider-runway-bg-color');
+    border-radius: getCssVar('slider-border-radius');
     position: relative;
     cursor: pointer;
-    vertical-align: middle;
 
     &.show-input {
-      margin-right: 160px;
+      margin-right: 30px;
       width: auto;
     }
 
-    &.disabled {
+    &.is-disabled {
       cursor: default;
 
       .#{$namespace}-slider__bar {
-        background-color: var(--el-slider-disable-color);
+        background-color: getCssVar('slider-disabled-color');
       }
 
       .#{$namespace}-slider__button {
-        border-color: var(--el-slider-disable-color);
+        border-color: getCssVar('slider-disabled-color');
       }
 
       .#{$namespace}-slider__button-wrapper {
@@ -69,37 +80,24 @@
   }
 
   @include e(input) {
-    float: right;
-    margin-top: 3px;
+    flex-shrink: 0;
     width: 130px;
-
-    &.#{$namespace}-input-number--mini {
-      margin-top: 5px;
-    }
-
-    &.#{$namespace}-input-number--medium {
-      margin-top: 0;
-    }
-
-    &.#{$namespace}-input-number--large {
-      margin-top: -2px;
-    }
   }
 
   @include e(bar) {
-    height: var(--el-slider-height);
-    background-color: var(--el-slider-main-background-color);
-    border-top-left-radius: var(--el-slider-border-radius);
-    border-bottom-left-radius: var(--el-slider-border-radius);
+    height: getCssVar('slider-height');
+    background-color: getCssVar('slider-main-bg-color');
+    border-top-left-radius: getCssVar('slider-border-radius');
+    border-bottom-left-radius: getCssVar('slider-border-radius');
     position: absolute;
   }
 
   @include e(button-wrapper) {
-    height: var(--el-slider-button-wrapper-size);
-    width: var(--el-slider-button-wrapper-size);
+    height: getCssVar('slider-button-wrapper-size');
+    width: getCssVar('slider-button-wrapper-size');
     position: absolute;
     z-index: 1;
-    top: var(--el-slider-button-wrapper-offset);
+    top: getCssVar('slider-button-wrapper-offset');
     transform: translateX(-50%);
     background-color: transparent;
     text-align: center;
@@ -120,14 +118,14 @@
 
   @include e(button) {
     display: inline-block;
-    width: var(--el-slider-button-size);
-    height: var(--el-slider-button-size);
+    width: getCssVar('slider-button-size');
+    height: getCssVar('slider-button-size');
     vertical-align: middle;
-    border: solid 2px var(--el-slider-main-background-color);
-    background-color: var(--el-color-white);
+    border: solid 2px getCssVar('slider-main-bg-color');
+    background-color: getCssVar('color-white');
     border-radius: 50%;
     box-sizing: border-box;
-    transition: var(--el-transition-duration-fast);
+    transition: getCssVar('transition-duration-fast');
     user-select: none;
 
     &:hover,
@@ -148,10 +146,10 @@
 
   @include e(stop) {
     position: absolute;
-    height: var(--el-slider-height);
-    width: var(--el-slider-height);
-    border-radius: var(--el-border-radius-circle);
-    background-color: var(--el-slider-stop-background-color);
+    height: getCssVar('slider-height');
+    width: getCssVar('slider-height');
+    border-radius: getCssVar('border-radius-circle');
+    background-color: getCssVar('slider-stop-bg-color');
     transform: translateX(-50%);
   }
 
@@ -165,98 +163,49 @@
       position: absolute;
       transform: translateX(-50%);
       font-size: 14px;
-      color: var(--el-color-info);
+      color: getCssVar('color-info');
       margin-top: 15px;
     }
   }
 
   @include when(vertical) {
     position: relative;
+    display: inline-flex;
+    width: auto;
+    height: 100%;
+    flex: 0;
+
     .#{$namespace}-slider__runway {
-      width: var(--el-slider-height);
+      width: getCssVar('slider-height');
       height: 100%;
       margin: 0 16px;
     }
     .#{$namespace}-slider__bar {
-      width: var(--el-slider-height);
+      width: getCssVar('slider-height');
       height: auto;
       border-radius: 0 0 3px 3px;
     }
     .#{$namespace}-slider__button-wrapper {
       top: auto;
-      left: var(--el-slider-button-wrapper-offset);
+      left: getCssVar('slider-button-wrapper-offset');
       transform: translateY(50%);
     }
     .#{$namespace}-slider__stop {
       transform: translateY(50%);
-    }
-    &.#{$namespace}-slider--with-input {
-      padding-bottom: #{map.get($input-height, 'medium') + 22px};
-      .#{$namespace}-slider__input {
-        overflow: visible;
-        float: none;
-        position: absolute;
-        bottom: 22px;
-        width: 36px;
-        margin-top: 15px;
-        .#{$namespace}-input__inner {
-          text-align: center;
-          padding-left: 5px;
-          padding-right: 5px;
-        }
-        .#{$namespace}-input-number__decrease,
-        .#{$namespace}-input-number__increase {
-          top: map.get($input-height, 'small');
-          margin-top: -1px;
-          border: var(--el-input-border, map.get($input, 'border'));
-          line-height: 20px;
-          box-sizing: border-box;
-          transition: var(--el-transition-border);
-        }
-        .#{$namespace}-input-number__decrease {
-          width: 18px;
-          right: 18px;
-          border-bottom-left-radius: var(
-            --el-input-border-radius,
-            map.get($input, 'border-radius')
-          );
-        }
-        .#{$namespace}-input-number__increase {
-          width: 19px;
-          border-bottom-right-radius: var(
-            --el-input-border-radius,
-            map.get($input, 'border-radius')
-          );
-          & ~ .#{$namespace}-input .#{$namespace}-input__inner {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-          }
-        }
-        &:hover {
-          .#{$namespace}-input-number__decrease,
-          .#{$namespace}-input-number__increase {
-            border-color: var(
-              --el-input-hover-border,
-              map.get($input, 'hover-border')
-            );
-          }
-        }
-        &:active {
-          .#{$namespace}-input-number__decrease,
-          .#{$namespace}-input-number__increase {
-            border-color: var(
-              --el-input-focus-border,
-              map.get($input, 'focus-border')
-            );
-          }
-        }
-      }
     }
 
     @include e(marks-text) {
       margin-top: 0;
       left: 15px;
       transform: translateY(50%);
+    }
+  }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      height: map.get($slider-height, $size);
+      @include e(runway) {
+      }
     }
   }
 }

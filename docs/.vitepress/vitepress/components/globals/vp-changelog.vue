@@ -7,8 +7,13 @@ import { useLang } from '../../composables/lang'
 import { useLocale } from '../../composables/locale'
 import changelogLocale from '../../../i18n/component/changelog.json'
 
+interface Release {
+  id: number
+  name: string
+}
+
 const loading = ref(true)
-const releases = ref([])
+const releases = ref<Release[]>([])
 const currentRelease = ref()
 const changelog = useLocale(changelogLocale)
 const lang = useLang()
@@ -20,12 +25,12 @@ const onVersionChange = (val) => {
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get(
+    const { data } = await axios.get<Release[]>(
       'https://api.github.com/repos/element-plus/element-plus/releases'
     )
     releases.value = data
     currentRelease.value = data[0]
-  } catch (e) {
+  } catch {
     releases.value = []
     currentRelease.value = undefined
     // do something

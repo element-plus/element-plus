@@ -1,3 +1,8 @@
+---
+title: Checkbox
+lang: en-US
+---
+
 # Checkbox
 
 A group of options for multiple choices.
@@ -72,18 +77,19 @@ checkbox/with-border
 
 ## Checkbox Attributes
 
-| Attribute             | Description                                               | Type                               | Accepted Values       | Default |
-| --------------------- | --------------------------------------------------------- | ---------------------------------- | --------------------- | ------- |
-| model-value / v-model | binding value                                             | string / number / boolean          | —                     | —       |
-| label                 | value of the Checkbox when used inside a `checkbox-group` | string / number / boolean / object | —                     | —       |
-| true-label            | value of the Checkbox if it's checked                     | string / number                    | —                     | —       |
-| false-label           | value of the Checkbox if it's not checked                 | string / number                    | —                     | —       |
-| disabled              | whether the Checkbox is disabled                          | boolean                            | —                     | false   |
-| border                | whether to add a border around Checkbox                   | boolean                            | —                     | false   |
-| size                  | size of the Checkbox                                      | string                             | medium / small / mini | —       |
-| name                  | native 'name' attribute                                   | string                             | —                     | —       |
-| checked               | if the Checkbox is checked                                | boolean                            | —                     | false   |
-| indeterminate         | same as `indeterminate` in native checkbox                | boolean                            | —                     | false   |
+| Attribute             | Description                                               | Type                               | Accepted Values        | Default |
+| --------------------- | --------------------------------------------------------- | ---------------------------------- | ---------------------- | ------- |
+| model-value / v-model | binding value                                             | string / number / boolean          | —                      | —       |
+| label                 | value of the Checkbox when used inside a `checkbox-group` | string / number / boolean / object | —                      | —       |
+| true-label            | value of the Checkbox if it's checked                     | string / number                    | —                      | —       |
+| false-label           | value of the Checkbox if it's not checked                 | string / number                    | —                      | —       |
+| disabled              | whether the Checkbox is disabled                          | boolean                            | —                      | false   |
+| border                | whether to add a border around Checkbox                   | boolean                            | —                      | false   |
+| size                  | size of the Checkbox                                      | string                             | large / default /small | —       |
+| name                  | native 'name' attribute                                   | string                             | —                      | —       |
+| checked               | if the Checkbox is checked                                | boolean                            | —                      | false   |
+| indeterminate         | same as `indeterminate` in native checkbox                | boolean                            | —                      | false   |
+| validate-event        | whether to trigger form validation                        | boolean                            | -                      | true    |
 
 ## Checkbox Events
 
@@ -99,15 +105,17 @@ checkbox/with-border
 
 ## Checkbox-group Attributes
 
-| Attribute             | Description                                       | Type    | Accepted Values       | Default |
-| --------------------- | ------------------------------------------------- | ------- | --------------------- | ------- |
-| model-value / v-model | binding value                                     | array   | —                     | —       |
-| size                  | size of checkbox                                  | string  | medium / small / mini | —       |
-| disabled              | whether the nesting checkboxes are disabled       | boolean | —                     | false   |
-| min                   | minimum number of checkbox checked                | number  | —                     | —       |
-| max                   | maximum number of checkbox checked                | number  | —                     | —       |
-| text-color            | font color when button is active                  | string  | —                     | #ffffff |
-| fill                  | border and background color when button is active | string  | —                     | #409EFF |
+| Attribute             | Description                                       | Type    | Accepted Values        | Default |
+| --------------------- | ------------------------------------------------- | ------- | ---------------------- | ------- |
+| model-value / v-model | binding value                                     | array   | —                      | []      |
+| size                  | size of checkbox                                  | string  | large / default /small | —       |
+| disabled              | whether the nesting checkboxes are disabled       | boolean | —                      | false   |
+| min                   | minimum number of checkbox checked                | number  | —                      | —       |
+| max                   | maximum number of checkbox checked                | number  | —                      | —       |
+| label                 | label for screen reader                           | string  | —                      | —       |
+| text-color            | font color when button is active                  | string  | —                      | #ffffff |
+| fill                  | border and background color when button is active | string  | —                      | #409EFF |
+| validate-event        | whether to trigger form validation                | boolean | -                      | true    |
 
 ## Checkbox-group Events
 

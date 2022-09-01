@@ -3,89 +3,77 @@
     v-if="shouldBeRender"
     v-show="active"
     :id="`pane-${paneName}`"
-    class="el-tab-pane"
+    :class="ns.b()"
     role="tabpanel"
     :aria-hidden="!active"
     :aria-labelledby="`tab-${paneName}`"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import {
-  defineComponent,
-  ref,
   computed,
-  inject,
   getCurrentInstance,
+  inject,
+  onMounted,
+  onUnmounted,
+  reactive,
+  ref,
+  useSlots,
   watch,
 } from 'vue'
-import type { RootTabs, UpdatePaneStateCallback } from './token'
+import { eagerComputed } from '@vueuse/core'
+import { tabsRootContextKey } from '@element-plus/tokens'
+import { throwError } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
+import { tabPaneProps } from './tab-pane'
 
-export default defineComponent({
+const COMPONENT_NAME = 'ElTabPane'
+defineOptions({
   name: 'ElTabPane',
-  props: {
-    label: {
-      type: String,
-      default: '',
-    },
-    name: {
-      type: String,
-      default: '',
-    },
-    closable: Boolean,
-    disabled: Boolean,
-    lazy: Boolean,
-  },
-  setup(props) {
-    const index = ref<string>(null)
-    const loaded = ref(false)
-    const rootTabs = inject<RootTabs>('rootTabs')
-    const updatePaneState = inject<UpdatePaneStateCallback>('updatePaneState')
+})
+const props = defineProps(tabPaneProps)
 
-    if (!rootTabs || !updatePaneState) {
-      throw new Error(`ElTabPane must use with ElTabs`)
-    }
+const instance = getCurrentInstance()!
+const slots = useSlots()
 
-    const isClosable = computed(() => {
-      return props.closable || rootTabs.props.closable
-    })
+const tabsRoot = inject(tabsRootContextKey)
+if (!tabsRoot)
+  throwError(COMPONENT_NAME, 'usage: <el-tabs><el-tab-pane /></el-tabs/>')
 
-    const active = computed(() => {
-      return rootTabs.currentName.value === (props.name || index.value)
-    })
+const ns = useNamespace('tab-pane')
 
-    const paneName = computed((): string => {
-      return props.name || index.value
-    })
+const index = ref<string>()
+const isClosable = computed(() => props.closable || tabsRoot.props.closable)
+const active = eagerComputed(
+  () => tabsRoot.currentName.value === (props.name ?? index.value)
+)
+const loaded = ref(active.value)
+const paneName = computed(() => props.name ?? index.value)
+const shouldBeRender = eagerComputed(
+  () => !props.lazy || loaded.value || active.value
+)
 
-    const shouldBeRender = computed(() => {
-      return !props.lazy || loaded.value || active.value
-    })
+watch(active, (val) => {
+  if (val) loaded.value = true
+})
 
-    watch(active, (val) => {
-      if (val) loaded.value = true
-    })
+const pane = reactive({
+  uid: instance.uid,
+  slots,
+  props,
+  paneName,
+  active,
+  index,
+  isClosable,
+})
 
-    const instance = getCurrentInstance()
-    updatePaneState({
-      uid: instance.uid,
-      instance,
-      props,
-      paneName,
-      active,
-      index,
-      isClosable,
-    })
+onMounted(() => {
+  tabsRoot.registerPane(pane)
+})
 
-    return {
-      index,
-      loaded,
-      isClosable,
-      active,
-      paneName,
-      shouldBeRender,
-    }
-  },
+onUnmounted(() => {
+  tabsRoot.unregisterPane(pane.uid)
 })
 </script>

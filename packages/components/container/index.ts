@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
+import { withInstall, withNoopInstall } from '@element-plus/utils'
 
 import Container from './src/container.vue'
 import Aside from './src/aside.vue'
@@ -18,3 +18,9 @@ export const ElAside = withNoopInstall(Aside)
 export const ElFooter = withNoopInstall(Footer)
 export const ElHeader = withNoopInstall(Header)
 export const ElMain = withNoopInstall(Main)
+
+export type ContainerInstance = InstanceType<typeof Container>
+export type AsideInstance = InstanceType<typeof Aside>
+export type FooterInstance = InstanceType<typeof Footer>
+export type HeaderInstance = InstanceType<typeof Header>
+export type MainInstance = InstanceType<typeof Main>

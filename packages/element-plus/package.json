@@ -2,7 +2,6 @@
   "name": "element-plus",
   "version": "0.0.0-dev.1",
   "description": "A Component Library for Vue 3",
-  "homepage": "https://element-plus.org/",
   "keywords": [
     "element-plus",
     "element",
@@ -11,38 +10,70 @@
     "ui",
     "vue"
   ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
   "license": "MIT",
   "main": "lib/index.js",
-  "module": "es/index.js",
-  "style": "dist/index.css",
+  "module": "es/index.mjs",
+  "types": "es/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/index.js",
+      "import": "./es/index.mjs",
+      "types": "./es/index.d.ts"
+    },
+    "./es": "./es/index.mjs",
+    "./lib": "./lib/index.js",
+    "./es/*.mjs": "./es/*.mjs",
+    "./es/*": "./es/*.mjs",
+    "./lib/*.js": "./lib/*.js",
+    "./lib/*": "./lib/*.js",
+    "./*": "./*"
+  },
   "unpkg": "dist/index.full.js",
   "jsdelivr": "dist/index.full.js",
-  "sideEffects": [
-    "dist/*",
-    "theme-chalk/*.css",
-    "theme-chalk/src/*.scss",
-    "es/components/*/style/*",
-    "lib/components/*/style/*"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/element-plus/element-plus.git"
   },
-  "bugs": {
-    "url": "https://github.com/element-plus/element-plus/issues"
+  "publishConfig": {
+    "access": "public"
   },
+  "style": "dist/index.css",
+  "sideEffects": [
+    "dist/*",
+    "theme-chalk/**/*.css",
+    "theme-chalk/src/**/*.scss",
+    "es/components/*/style/*",
+    "lib/components/*/style/*"
+  ],
   "peerDependencies": {
     "vue": "^3.2.0"
   },
   "dependencies": {
-    "@popperjs/core": "^2.10.1",
-    "@vueuse/core": "~6.1.0",
-    "async-validator": "^4.0.3",
-    "dayjs": "^1.10.7",
+    "@ctrl/tinycolor": "^3.4.1",
+    "@element-plus/icons-vue": "^2.0.6",
+    "@floating-ui/dom": "^1.0.1",
+    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
+    "@types/lodash": "^4.14.182",
+    "@types/lodash-es": "^4.17.6",
+    "@vueuse/core": "^9.1.0",
+    "async-validator": "^4.2.5",
+    "dayjs": "^1.11.3",
+    "escape-html": "^1.0.3",
     "lodash": "^4.17.21",
-    "memoize-one": "^5.2.1",
-    "normalize-wheel-es": "^1.1.0",
-    "resize-observer-polyfill": "^1.5.1"
+    "lodash-es": "^4.17.21",
+    "lodash-unified": "^1.0.2",
+    "memoize-one": "^6.0.0",
+    "normalize-wheel-es": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "csstype": "^2.6.20",
+    "vue": "^3.2.37",
+    "vue-router": "^4.0.16"
   },
   "vetur": {
     "tags": "tags.json",

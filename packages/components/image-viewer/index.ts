@@ -1,13 +1,8 @@
-import ImageViewer from './src/index.vue'
+import { withInstall } from '@element-plus/utils'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import ImageViewer from './src/image-viewer.vue'
 
-ImageViewer.install = (app: App): void => {
-  app.component(ImageViewer.name, ImageViewer)
-}
+export const ElImageViewer = withInstall(ImageViewer)
+export default ElImageViewer
 
-const _ImageViewer = ImageViewer as SFCWithInstall<typeof ImageViewer>
-
-export default _ImageViewer
-export const ElImageViewer = _ImageViewer
+export * from './src/image-viewer'

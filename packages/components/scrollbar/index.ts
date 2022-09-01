@@ -1,15 +1,10 @@
-import Scrollbar from './src/index.vue'
+import { withInstall } from '@element-plus/utils'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import Scrollbar from './src/scrollbar.vue'
 
-Scrollbar.install = (app: App): void => {
-  app.component(Scrollbar.name, Scrollbar)
-}
-
-const _Scrollbar = Scrollbar as SFCWithInstall<typeof Scrollbar>
-
-export default _Scrollbar
-export const ElScrollbar = _Scrollbar
+export const ElScrollbar = withInstall(Scrollbar)
+export default ElScrollbar
 
 export * from './src/util'
+export * from './src/scrollbar'
+export * from './src/thumb'

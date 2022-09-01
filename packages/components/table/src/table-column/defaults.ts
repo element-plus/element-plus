@@ -1,4 +1,5 @@
-import type { PropType, ComponentInternalInstance, Ref, VNode } from 'vue'
+// @ts-nocheck
+import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue'
 import type { DefaultRow, Table } from '../table/defaults'
 
 type CI<T> = { column: TableColumnCtx<T>; $index: number }
@@ -40,7 +41,7 @@ interface TableColumnCtx<T> {
     column: TableColumnCtx<T>,
     cellValue,
     index: number
-  ) => VNode
+  ) => VNode | string
   selectable: (row: T, index: number) => boolean
   reserveSelection: boolean
   filterMethod: FilterMethods<T>
@@ -58,16 +59,16 @@ interface TableColumnCtx<T> {
   filterable: boolean | FilterMethods<T> | Filters
   order: string
   isColumnGroup: boolean
+  isSubColumn: boolean
   columns: TableColumnCtx<T>[]
   getColumnIndex: () => number
   no: number
   filterOpened?: boolean
 
-  // 表头显示辅助信息
   showHelper: boolean
   helperMessage: string
-  helperIconClass: string
   helperIconColor: string
+  helperPlacement: string
 }
 
 interface TableColumn<T> extends ComponentInternalInstance {
@@ -140,20 +141,20 @@ export default {
       return ['ascending', 'descending', null]
     },
     validator: (val: TableColumnCtx<unknown>['sortOrders']) => {
-      return val.every(
-        (order: string) => ['ascending', 'descending', null].indexOf(order) > -1
+      return val.every((order: string) =>
+        ['ascending', 'descending', null].includes(order)
       )
     },
   },
-  // 表头显示辅助信息
   showHelper: {
     type: Boolean,
     default: false,
   },
-  helperMessage: String,
-  helperIconClass: {
+  helperMessage: {
     type: String,
-    default: 'el-icon-question',
   },
   helperIconColor: String,
+  helperPlacement: {
+    type: String as PropType<Placement>,
+  },
 }

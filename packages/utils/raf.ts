@@ -1,11 +1,9 @@
-import isServer from './isServer'
+import { isClient } from '@vueuse/core'
 
-let rAF = (fn: () => void) => setTimeout(fn, 16) as unknown as number
-let cAF = (handle: number) => clearTimeout(handle)
+export const rAF = (fn: () => void) =>
+  isClient
+    ? window.requestAnimationFrame(fn)
+    : (setTimeout(fn, 16) as unknown as number)
 
-if (!isServer) {
-  rAF = (fn: () => void) => window.requestAnimationFrame(fn)
-  cAF = (handle: number) => window.cancelAnimationFrame(handle)
-}
-
-export { rAF, cAF }
+export const cAF = (handle: number) =>
+  isClient ? window.cancelAnimationFrame(handle) : clearTimeout(handle)

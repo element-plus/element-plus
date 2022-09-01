@@ -1,11 +1,11 @@
 ---
 title: 'Changelog'
+lang: en-US
 ---
 
 <style scoped lang="scss">
 @at-root .hero-content {
   padding: 32px;
-
 }
 </style>
 
@@ -15,4 +15,4 @@ Element Plus team uses **weekly** release strategy under normal circumstance, bu
 
 On this page you can only see the latest 30 records of our [changelog](https://github.com/element-plus/element-plus/blob/dev/CHANGELOG.en-US.md).
 
-<Changelog />
+<VpChangelog />

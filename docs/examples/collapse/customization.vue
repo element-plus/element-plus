@@ -3,7 +3,9 @@
     <el-collapse accordion>
       <el-collapse-item name="1">
         <template #title>
-          Consistency<i class="header-icon el-icon-info"></i>
+          Consistency<el-icon class="header-icon">
+            <info-filled />
+          </el-icon>
         </template>
         <div>
           Consistent with real life: in line with the process and logic of real
@@ -51,3 +53,7 @@
     </el-collapse>
   </div>
 </template>
+
+<script setup lang="ts">
+import { InfoFilled } from '@element-plus/icons-vue'
+</script>

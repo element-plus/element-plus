@@ -1,22 +1,10 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
-    "noImplicitAny": false,
-    "removeComments": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "jsx": "preserve",
-    "noLib": false,
-    "target": "es6",
-    "sourceMap": true,
-    "lib": ["ESNext", "DOM"],
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "skipLibCheck": true
-  },
-  "exclude": ["node_modules", "**/__tests__", "dist/**"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.web.json" },
+    { "path": "./tsconfig.play.json" },
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.vite-config.json" },
+    { "path": "./tsconfig.vitest.json" }
+  ]
 }

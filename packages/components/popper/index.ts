@@ -1,27 +1,21 @@
-import Popper from './src/index.vue'
+import { withInstall } from '@element-plus/utils'
+import Popper from './src/popper.vue'
 
-import type { App } from 'vue'
-import type { SFCWithInstall } from '@element-plus/utils/types'
+import ElPopperArrow from './src/arrow.vue'
+import ElPopperTrigger from './src/trigger.vue'
+import ElPopperContent from './src/content.vue'
 
-Popper.install = (app: App): void => {
-  app.component(Popper.name, Popper)
-}
+export { ElPopperArrow, ElPopperTrigger, ElPopperContent }
 
-const _Popper = Popper as SFCWithInstall<typeof Popper>
+export const ElPopper = withInstall(Popper)
+export default ElPopper
 
-export default _Popper
-export const ElPopper = _Popper
+export * from './src/popper'
+export * from './src/trigger'
+export * from './src/content'
+export * from './src/arrow'
 
-export {
-  default as popperDefaultProps,
-  Effect,
-} from './src/use-popper/defaults'
-export * from './src/renderers'
-export { default as usePopper } from './src/use-popper'
 export type { Placement, Options } from '@popperjs/core'
-export type { EmitType } from './src/use-popper'
-export type {
-  TriggerType,
-  IPopperOptions,
-  PopperInstance,
-} from './src/use-popper/defaults'
+export type ElPopperArrowInstance = InstanceType<typeof ElPopperArrow>
+export type ElPopperArrowTrigger = InstanceType<typeof ElPopperTrigger>
+export type ElPopperArrowContent = InstanceType<typeof ElPopperContent>

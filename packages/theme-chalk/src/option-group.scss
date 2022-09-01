@@ -26,7 +26,7 @@
         right: $gap;
         bottom: 12px;
         height: 1px;
-        background: var(--el-border-color-light);
+        background: getCssVar('border-color-light');
       }
     }
   }
@@ -37,14 +37,14 @@
       left: $gap;
       right: $gap;
       height: 1px;
-      background: var(--el-border-color-light);
+      background: getCssVar('border-color-light');
     }
   }
 
   @include e(title) {
     padding-left: $gap;
     font-size: map.get($select-group, 'font-size');
-    color: map.get($select-group, 'color');
+    color: map.get($select-group, 'text-color');
     line-height: map.get($select-group, 'height');
   }
 

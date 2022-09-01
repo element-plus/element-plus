@@ -16,7 +16,7 @@ defineProps<{
     rel="noreferrer noopener"
     class="social-link"
   >
-    <ElIcon :size="20">
+    <ElIcon v-if="icon" :size="24">
       <component :is="icon" />
     </ElIcon>
   </a>
@@ -24,7 +24,6 @@ defineProps<{
 
 <style scoped lang="scss">
 .social-link {
-  padding: 0 4px;
   color: var(--text-color);
 }
 </style>

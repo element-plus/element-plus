@@ -3,12 +3,12 @@
     "text": "Basic",
     "children": [
       {
-        "link": "/border",
-        "text": "Border"
-      },
-      {
         "link": "/button",
         "text": "Button"
+      },
+      {
+        "link": "/border",
+        "text": "Border"
       },
       {
         "link": "/color",
@@ -56,6 +56,10 @@
   "form": {
     "text": "Form",
     "children": [
+      {
+        "link": "/autocomplete",
+        "text": "Autocomplete"
+      },
       {
         "link": "/cascader",
         "text": "Cascader"
@@ -195,6 +199,11 @@
         "text": "Table"
       },
       {
+        "link": "/table-v2",
+        "text": "Virtualized Table",
+        "promotion": "2.2.0"
+      },
+      {
         "link": "/tag",
         "text": "Tag"
       },
@@ -205,6 +214,11 @@
       {
         "link": "/tree",
         "text": "Tree"
+      },
+      {
+        "link": "/tree-select",
+        "text": "TreeSelect",
+        "promotion": "2.1.8"
       },
       {
         "link": "/tree-v2",
@@ -218,6 +232,10 @@
       {
         "link": "/affix",
         "text": "Affix"
+      },
+      {
+        "link": "/backtop",
+        "text": "Backtop"
       },
       {
         "link": "/breadcrumb",
@@ -278,7 +296,7 @@
       },
       {
         "link": "/popconfirm",
-        "text": "Pop Confirm"
+        "text": "Popconfirm"
       },
       {
         "link": "/popover",
@@ -293,10 +311,6 @@
   "others": {
     "text": "Others",
     "children": [
-      {
-        "link": "/backtop",
-        "text": "Backtop"
-      },
       {
         "link": "/divider",
         "text": "Divider"

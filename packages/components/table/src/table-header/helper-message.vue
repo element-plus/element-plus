@@ -22,7 +22,7 @@ defineProps({
   helperMessage: String,
   helperPlacement: {
     type: String as PropType<Placement>,
-    default: 'right-start',
+    default: 'top-start',
   },
   helperIconColor: String,
   helperIcon: {

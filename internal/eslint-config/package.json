@@ -1,0 +1,36 @@
+{
+  "name": "@element-plus/eslint-config",
+  "version": "0.0.1",
+  "description": "ESLint Config",
+  "license": "MIT",
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "eslint": "^8.0.0"
+  },
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.0",
+    "@typescript-eslint/parser": "^5.30.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-define-config": "^1.5.1",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsonc": "^2.3.0",
+    "eslint-plugin-markdown": "^3.0.0",
+    "eslint-plugin-prettier": "^4.1.0",
+    "eslint-plugin-unicorn": "^43.0.2",
+    "eslint-plugin-vue": "^9.1.1",
+    "jsonc-eslint-parser": "^2.1.0",
+    "prettier": "^2.7.1",
+    "typescript": "^4.7.4",
+    "yaml-eslint-parser": "^1.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.18.0"
+  }
+}

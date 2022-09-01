@@ -34,7 +34,7 @@ export default {
       month10: 'Oktober',
       month11: 'November',
       month12: 'Desember',
-      // week: 'minggu',
+      week: 'Minggu',
       weeks: {
         sun: 'Min',
         mon: 'Sen',
@@ -73,9 +73,11 @@ export default {
     },
     pagination: {
       goto: 'Pergi ke',
-      pagesize: '/laman',
+      pagesize: '/halaman',
       total: 'Total {total}',
       pageClassifier: '',
+      deprecationWarning:
+        'Penggunaan yang tidak akan digunakan lagi terdeteksi, silakan lihat dokumentasi el-pagination untuk lebih jelasnya',
     },
     messagebox: {
       title: 'Pesan',
@@ -94,7 +96,7 @@ export default {
       confirmFilter: 'Konfirmasi',
       resetFilter: 'Atur ulang',
       clearFilter: 'Semua',
-      sumText: 'Jml',
+      sumText: 'Jumlah',
     },
     tree: {
       emptyText: 'Tidak ada data',
@@ -102,9 +104,9 @@ export default {
     transfer: {
       noMatch: 'Tidak ada data yg cocok',
       noData: 'Tidak ada data',
-      titles: ['Senarai 1', 'Senarai 2'],
+      titles: ['Daftar 1', 'Daftar 2'],
       filterPlaceholder: 'Masukan kata kunci',
-      noCheckedFormat: '{total} butir',
+      noCheckedFormat: '{total} item',
       hasCheckedFormat: '{checked}/{total} terpilih',
     },
     image: {

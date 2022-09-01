@@ -11,7 +11,7 @@
 }
 
 @include b(transfer) {
-  font-size: var(--el-font-size-base);
+  font-size: getCssVar('font-size', 'base');
 
   @include e(buttons) {
     display: inline-block;
@@ -20,9 +20,7 @@
   }
 
   @include e(button) {
-    &:first-child {
-      margin-bottom: 10px;
-    }
+    vertical-align: top;
 
     &:nth-child(2) {
       margin: 0 0 0 10px;
@@ -33,30 +31,35 @@
       font-size: 14px;
     }
 
-    & [class*='#{$namespace}-icon-'] + span {
+    & .#{$namespace}-icon + span {
       margin-left: 0;
     }
   }
 }
 
 @include b(transfer-panel) {
-  border: 1px solid var(--el-transfer-border-color);
-  border-radius: var(--el-transfer-border-radius);
   overflow: hidden;
-  background: var(--el-color-white);
+  background: getCssVar('bg-color', 'overlay');
   display: inline-block;
   text-align: left;
   vertical-align: middle;
-  width: var(--el-transfer-panel-width);
+  width: getCssVar('transfer-panel-width');
   max-height: 100%;
   box-sizing: border-box;
   position: relative;
 
   @include e(body) {
-    height: var(--el-transfer-panel-body-height);
-
-    @include when(with-footer) {
-      padding-bottom: var(--el-transfer-panel-footer-height);
+    height: getCssVar('transfer-panel-body-height');
+    border-left: 1px solid getCssVar('transfer-border-color');
+    border-right: 1px solid getCssVar('transfer-border-color');
+    border-bottom: 1px solid getCssVar('transfer-border-color');
+    border-bottom-left-radius: getCssVar('transfer-border-radius');
+    border-bottom-right-radius: getCssVar('transfer-border-radius');
+    overflow: hidden;
+    @include when('with-footer') {
+      border-bottom: none;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
   }
 
@@ -64,22 +67,18 @@
     margin: 0;
     padding: 6px 0;
     list-style: none;
-    height: var(--el-transfer-panel-body-height);
+    height: getCssVar('transfer-panel-body-height');
     overflow: auto;
     box-sizing: border-box;
-
     @include when(filterable) {
-      height: calc(
-        var(--el-transfer-panel-body-height) - var(--el-transfer-filter-height) -
-          20px
-      );
+      height: calc(100% - getCssVar('transfer-filter-height') - 30px);
       padding-top: 0;
     }
   }
 
   @include e(item) {
-    height: var(--el-transfer-item-height);
-    line-height: var(--el-transfer-item-height);
+    height: getCssVar('transfer-item-height');
+    line-height: getCssVar('transfer-item-height');
     padding-left: 15px;
     display: block !important;
 
@@ -88,11 +87,11 @@
     }
 
     &.#{$namespace}-checkbox {
-      color: var(--el-text-color-regular);
+      color: getCssVar('text-color', 'regular');
     }
 
     &:hover {
-      color: var(--el-color-primary);
+      color: getCssVar('color-primary');
     }
 
     &.#{$namespace}-checkbox .#{$namespace}-checkbox__label {
@@ -100,8 +99,8 @@
       @include utils-ellipsis;
       display: block;
       box-sizing: border-box;
-      padding-left: 24px;
-      line-height: var(--el-transfer-item-height);
+      padding-left: 22px;
+      line-height: getCssVar('transfer-item-height');
     }
 
     .#{$namespace}-checkbox__input {
@@ -114,22 +113,15 @@
     text-align: center;
     margin: 15px;
     box-sizing: border-box;
-    display: block;
     width: auto;
 
     .#{$namespace}-input__inner {
-      height: var(--el-transfer-filter-height);
+      height: getCssVar('transfer-filter-height');
       width: 100%;
       font-size: 12px;
       display: inline-block;
       box-sizing: border-box;
-      border-radius: calc(var(--el-transfer-filter-height) / 2);
-      padding-right: 10px;
-      padding-left: 30px;
-    }
-
-    .#{$namespace}-input__icon {
-      margin-left: 5px;
+      border-radius: calc(#{getCssVar('transfer-filter-height')} / 2);
     }
 
     .#{$namespace}-icon-circle-close {
@@ -138,28 +130,35 @@
   }
 
   .#{$namespace}-transfer-panel__header {
-    height: var(--el-transfer-panel-header-height);
-    line-height: var(--el-transfer-panel-header-height);
-    background: var(--el-transfer-panel-header-background-color);
+    display: flex;
+    align-items: center;
+    height: getCssVar('transfer-panel-header-height');
+    background: getCssVar('transfer-panel-header-bg-color');
     margin: 0;
     padding-left: 15px;
-    border-bottom: 1px solid var(--el-transfer-border-color);
+    border: 1px solid getCssVar('transfer-border-color');
+    border-top-left-radius: getCssVar('transfer-border-radius');
+    border-top-right-radius: getCssVar('transfer-border-radius');
     box-sizing: border-box;
-    color: var(--el-color-black);
+    color: getCssVar('color-black');
 
     .#{$namespace}-checkbox {
-      display: block;
-      line-height: 40px;
+      position: relative;
+      display: flex;
+      width: 100%;
+      align-items: center;
 
       .#{$namespace}-checkbox__label {
         font-size: 16px;
-        color: var(--el-text-color-primary);
+        color: getCssVar('text-color', 'primary');
         font-weight: normal;
 
         span {
           position: absolute;
           right: 15px;
-          color: var(--el-text-color-secondary);
+          top: 50%;
+          transform: translate3d(0, -50%, 0);
+          color: getCssVar('text-color', 'secondary');
           font-size: 12px;
           font-weight: normal;
         }
@@ -168,30 +167,27 @@
   }
 
   .#{$namespace}-transfer-panel__footer {
-    height: var(--el-transfer-panel-footer-height);
-    background: var(--el-color-white);
+    height: getCssVar('transfer-panel-footer-height');
+    background: getCssVar('bg-color', 'overlay');
     margin: 0;
     padding: 0;
-    border-top: 1px solid var(--el-transfer-border-color);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: var(--el-index-normal);
+    border: 1px solid getCssVar('transfer-border-color');
+    border-bottom-left-radius: getCssVar('transfer-border-radius');
+    border-bottom-right-radius: getCssVar('transfer-border-radius');
     @include utils-vertical-center;
 
     .#{$namespace}-checkbox {
       padding-left: 20px;
-      color: var(--el-text-color-regular);
+      color: getCssVar('text-color', 'regular');
     }
   }
 
   .#{$namespace}-transfer-panel__empty {
     margin: 0;
-    height: var(--el-transfer-item-height);
-    line-height: var(--el-transfer-item-height);
+    height: getCssVar('transfer-item-height');
+    line-height: getCssVar('transfer-item-height');
     padding: 6px 15px 0;
-    color: var(--el-text-color-secondary);
+    color: getCssVar('text-color', 'secondary');
     text-align: center;
   }
 

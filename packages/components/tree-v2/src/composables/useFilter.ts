@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { isFunction } from '@vue/shared'
 import type { Ref } from 'vue'
-import type { TreeProps, TreeKey, TreeNode, Tree } from '../types'
+import type { Tree, TreeKey, TreeNode, TreeProps } from '../types'
 
 // When the data volume is very large using filter will cause lag
 // I haven't found a better way to optimize it for now
@@ -45,8 +45,7 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
           } else if (children) {
             // If all child nodes are hidden, then the expand icon will be hidden
             let allHidden = true
-            for (let i = 0; i < children.length; ++i) {
-              const childNode = children[i]
+            for (const childNode of children) {
               if (!hiddenKeys.has(childNode.key)) {
                 allHidden = false
                 break

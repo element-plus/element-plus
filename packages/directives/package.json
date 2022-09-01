@@ -1,18 +1,14 @@
 {
   "name": "@element-plus/directives",
-  "description": "Element Plus directives",
   "version": "0.0.5",
+  "description": "Element Plus directives",
+  "license": "MIT",
   "main": "index.ts",
   "module": "index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
-  "license": "MIT",
   "peerDependencies": {
     "vue": "^3.2.0"
-  },
-  "scripts": {
-    "clean": "rimraf dist",
-    "build": "gulp"
   },
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }

@@ -1,24 +1,27 @@
 @use 'function' as *;
 @use '../common/var' as *;
+// forward mixins
 @forward 'config';
+@forward 'function';
+@forward '_var';
 @use 'config' as *;
 
 // Break-points
 @mixin res($key, $map: $breakpoints) {
-  // 循环断点Map，如果存在则返回
+  // loop breakpoint Map, return if present
   @if map-has-key($map, $key) {
     @media only screen and #{unquote(map-get($map, $key))} {
       @content;
     }
   } @else {
-    @warn "Undefeined points: `#{$map}`";
+    @warn "Undefined points: `#{$map}`";
   }
 }
 
 // Scrollbar
 @mixin scroll-bar {
-  $scrollbar-thumb-background: #b4bccc;
-  $scrollbar-track-background: #fff;
+  $scrollbar-thumb-background: getCssVar('text-color', 'disabled');
+  $scrollbar-track-background: getCssVar('fill-color', 'blank');
 
   &::-webkit-scrollbar {
     z-index: 11;
@@ -46,21 +49,6 @@
         width: 6px;
       }
     }
-  }
-}
-
-// Placeholder
-@mixin placeholder {
-  &::-webkit-input-placeholder {
-    @content;
-  }
-
-  &::-moz-placeholder {
-    @content;
-  }
-
-  &:-ms-input-placeholder {
-    @content;
   }
 }
 
@@ -186,7 +174,7 @@
 }
 
 @mixin extend-rule($name) {
-  @extend #{'%shared-' + $name};
+  @extend #{'%shared-' + $name} !optional;
 }
 
 @mixin share-rule($name) {
@@ -204,7 +192,7 @@
 }
 
 @mixin picker-popper($background, $border, $box-shadow) {
-  &.#{$namespace}-popper[role='tooltip'] {
+  &.#{$namespace}-popper {
     background: $background;
     border: $border;
     box-shadow: $box-shadow;
@@ -231,9 +219,17 @@
 
 // dark
 @mixin dark($block) {
-  .dark {
+  html.dark {
     @include b($block) {
       @content;
     }
+  }
+}
+
+@mixin inset-input-border($color, $important: false) {
+  @if $important == true {
+    box-shadow: 0 0 0 1px $color inset !important;
+  } @else {
+    box-shadow: 0 0 0 1px $color inset;
   }
 }

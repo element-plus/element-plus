@@ -4,14 +4,55 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+$dropdown-item-line-height: () !default;
+$dropdown-item-line-height: map.merge(
+  (
+    'large': 22px,
+    'default': 22px,
+    'small': 20px,
+  ),
+  $dropdown-item-line-height
+);
+
+$dropdown-item-padding: () !default;
+$dropdown-item-padding: map.merge(
+  (
+    'large': 7px 20px,
+    'default': 5px 16px,
+    'small': 2px 12px,
+  ),
+  $dropdown-item-padding
+);
+
+$dropdown-item-divided-margin: () !default;
+$dropdown-item-divided-margin: map.merge(
+  (
+    'large': 8px 0,
+    'default': 6px 0,
+    'small': 4px 0,
+  ),
+  $dropdown-item-divided-margin
+);
+
+$dropdown-caret-width: () !default;
+$dropdown-caret-width: map.merge($common-component-size, $dropdown-caret-width);
+
+$dropdown-divider-width: 1px !default;
+
 @include b(dropdown) {
   @include set-component-css-var('dropdown', $dropdown);
 
-  display: inline-block;
+  display: inline-flex;
   position: relative;
-  color: var(--el-text-color-regular);
-  font-size: var(--el-font-size-base);
+  color: getCssVar('text-color', 'regular');
+  font-size: getCssVar('font-size', 'base');
   line-height: 1;
+  vertical-align: top;
+
+  &.is-disabled {
+    color: getCssVar('text-color', 'placeholder');
+    cursor: not-allowed;
+  }
 
   @include e(popper) {
     @include set-component-css-var('dropdown', $dropdown);
@@ -19,9 +60,9 @@
     // using attributes selector to override
 
     @include picker-popper(
-      $color-white,
-      1px solid var(--el-border-color-light),
-      var(--el-dropdown-menu-box-shadow)
+      getCssVar('bg-color', 'overlay'),
+      1px solid getCssVar('border-color-light'),
+      getCssVar('dropdown-menu-box-shadow')
     );
 
     .#{$namespace}-dropdown-menu {
@@ -33,7 +74,7 @@
     }
 
     @include b(scrollbar__bar) {
-      z-index: calc(var(--el-dropdown-menu-index) + 1);
+      z-index: calc(#{getCssVar('dropdown', 'menu-index')} + 1);
     }
 
     @include b(dropdown__list) {
@@ -44,85 +85,93 @@
     }
   }
 
-  .#{$namespace}-button-group {
-    display: block;
-
-    .#{$namespace}-button {
-      float: none;
-    }
-  }
-
   & .#{$namespace}-dropdown__caret-button {
-    padding-left: 5px;
-    padding-right: 5px;
-    position: relative;
+    padding-left: 0;
+    padding-right: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: map.get($dropdown-caret-width, 'default');
     border-left: none;
 
-    &::before {
-      $gap: 5px;
+    > span {
+      display: inline-flex;
+    }
 
+    &::before {
       content: '';
       position: absolute;
       display: block;
       width: 1px;
-      top: $gap;
-      bottom: $gap;
+      top: -1px;
+      bottom: -1px;
       left: 0;
-      background: mix(white, transparent, 50%);
+      background: getCssVar('overlay-color', 'lighter');
     }
 
-    &.#{$namespace}-button--default::before {
-      background: var(--el-default-border-color);
+    &.#{$namespace}-button::before {
+      background: getCssVar('border-color');
       opacity: 0.5;
     }
 
-    &:hover {
-      &::before {
-        top: 0;
-        bottom: 0;
-      }
-    }
-
     & .#{$namespace}-dropdown__icon {
+      font-size: inherit;
       padding-left: 0;
     }
-  }
-  @include e(icon) {
-    font-size: 12px;
-    margin: 0 3px;
   }
 
   .#{$namespace}-dropdown-selfdefine {
     // 自定义
     outline: none;
   }
+
+  @each $size in (large, small) {
+    @include m($size) {
+      .#{$namespace}-dropdown__caret-button {
+        width: map.get($dropdown-caret-width, $size);
+      }
+    }
+  }
 }
+
+$dropdown-menu-padding-vertical: () !default;
+$dropdown-menu-padding-vertical: map.merge(
+  (
+    'large': 8px,
+    'default': 6px,
+    'small': 4px,
+  ),
+  $dropdown-menu-padding-vertical
+);
 
 @include b(dropdown-menu) {
   position: relative;
   top: 0;
   left: 0;
-  z-index: var(--el-dropdown-menu-index);
-  padding: 10px 0;
+  z-index: getCssVar('dropdown-menu-index');
+  padding: map.get($dropdown-menu-padding-vertical, 'default')-$border-width 0;
   margin: 0;
-  background-color: $color-white;
+  background-color: getCssVar('bg-color', 'overlay');
   border: none;
-  border-radius: var(--el-border-radius-base);
+  border-radius: getCssVar('border-radius-base');
   box-shadow: none;
+  list-style: none;
 
   @include e(item) {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
     list-style: none;
-    line-height: 36px;
-    padding: 0 20px;
+    line-height: map.get($dropdown-item-line-height, 'default');
+    padding: map.get($dropdown-item-padding, 'default');
     margin: 0;
-    font-size: var(--el-font-size-base);
-    color: var(--el-text-color-regular);
+    font-size: getCssVar('font-size', 'base');
+    color: getCssVar('text-color', 'regular');
     cursor: pointer;
     outline: none;
-    &:not(.is-disabled):hover,
-    &:focus {
-      background-color: var(--el-dropdown-menuItem-hover-fill);
-      color: var(--el-dropdown-menuItem-hover-color);
+    &:not(.is-disabled):focus {
+      background-color: getCssVar('dropdown-menuItem-hover-fill');
+      color: getCssVar('dropdown-menuItem-hover-color');
     }
 
     i {
@@ -130,82 +179,27 @@
     }
 
     @include m(divided) {
-      $divided-offset: 6px;
-
-      position: relative;
-      margin-top: $divided-offset;
-      border-top: 1px solid var(--el-border-color-lighter);
-
-      &:before {
-        content: '';
-        height: $divided-offset;
-        display: block;
-        margin: 0 -20px;
-        background-color: $color-white;
-      }
+      margin: map.get($dropdown-item-divided-margin, 'default');
+      border-top: 1px solid getCssVar('border-color-lighter');
     }
 
     @include when(disabled) {
       cursor: not-allowed;
-      color: var(--el-font-color-disabled-base);
+      color: getCssVar('text-color-disabled');
     }
   }
 
-  @include m(medium) {
-    padding: 6px 0;
+  @each $size in (large, small) {
+    @include m($size) {
+      padding: map.get($dropdown-menu-padding-vertical, $size)-$border-width 0;
 
-    @include e(item) {
-      line-height: 30px;
-      padding: 0 17px;
-      font-size: 14px;
+      @include e(item) {
+        padding: map.get($dropdown-item-padding, $size);
+        line-height: map.get($dropdown-item-line-height, $size);
+        font-size: map.get($input-font-size, $size);
 
-      &.#{$namespace}-dropdown-menu__item--divided {
-        $divided-offset: 6px;
-        margin-top: $divided-offset;
-
-        &:before {
-          height: $divided-offset;
-          margin: 0 -17px;
-        }
-      }
-    }
-  }
-
-  @include m(small) {
-    padding: 6px 0;
-
-    @include e(item) {
-      line-height: 27px;
-      padding: 0 15px;
-      font-size: 13px;
-
-      &.#{$namespace}-dropdown-menu__item--divided {
-        $divided-offset: 4px;
-        margin-top: $divided-offset;
-
-        &:before {
-          height: $divided-offset;
-          margin: 0 -15px;
-        }
-      }
-    }
-  }
-
-  @include m(mini) {
-    padding: 3px 0;
-
-    @include e(item) {
-      line-height: 24px;
-      padding: 0 10px;
-      font-size: 12px;
-
-      &.#{$namespace}-dropdown-menu__item--divided {
-        $divided-offset: 3px;
-        margin-top: $divided-offset;
-
-        &:before {
-          height: $divided-offset;
-          margin: 0 -10px;
+        @include m(divided) {
+          margin: map.get($dropdown-item-divided-margin, $size);
         }
       }
     }

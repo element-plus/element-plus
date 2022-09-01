@@ -1,16 +1,17 @@
+// @ts-nocheck
 import { reactive } from 'vue'
-import { hasOwn } from '@vue/shared'
-import { markNodeData, NODE_KEY } from './util'
+import { hasOwn } from '@element-plus/utils'
+import { NODE_KEY, markNodeData } from './util'
 import type TreeStore from './tree-store'
 
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 import type {
-  TreeNodeOptions,
-  TreeNodeData,
-  TreeKey,
   FakeNode,
-  TreeNodeLoadedDefaultProps,
+  TreeKey,
   TreeNodeChildState,
+  TreeNodeData,
+  TreeNodeLoadedDefaultProps,
+  TreeNodeOptions,
 } from '../tree.type'
 
 export const getChildState = (node: Node[]): TreeNodeChildState => {
@@ -34,7 +35,7 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
 }
 
 const reInitChecked = function (node: Node): void {
-  if (node.childNodes.length === 0) return
+  if (node.childNodes.length === 0 || node.loading) return
 
   const { all, none, half } = getChildState(node.childNodes)
   if (all) {
@@ -155,11 +156,7 @@ class Node {
     const defaultExpandedKeys = store.defaultExpandedKeys
     const key = store.key
 
-    if (
-      key &&
-      defaultExpandedKeys &&
-      defaultExpandedKeys.indexOf(this.key) !== -1
-    ) {
+    if (key && defaultExpandedKeys && defaultExpandedKeys.includes(this.key)) {
       this.expand(null, store.autoExpandParent)
     }
 
@@ -190,7 +187,7 @@ class Node {
     this.childNodes = []
 
     let children
-    if (this.level === 0 && this.data instanceof Array) {
+    if (this.level === 0 && Array.isArray(this.data)) {
       children = this.data
     } else {
       children = getPropertyFromData(this, 'children') || []
@@ -251,12 +248,12 @@ class Node {
   }
 
   insertChild(child?: FakeNode | Node, index?: number, batch?: boolean): void {
-    if (!child) throw new Error('insertChild error: child is required.')
+    if (!child) throw new Error('InsertChild error: child is required.')
 
     if (!(child instanceof Node)) {
       if (!batch) {
         const children = this.getChildren(true)
-        if (children.indexOf(child.data) === -1) {
+        if (!children.includes(child.data)) {
           if (typeof index === 'undefined' || index < 0) {
             children.push(child.data)
           } else {
@@ -539,11 +536,11 @@ class Node {
       this.loading = true
 
       const resolve = (children) => {
-        this.loaded = true
-        this.loading = false
         this.childNodes = []
 
         this.doCreateChildren(children, defaultProps)
+        this.loaded = true
+        this.loading = false
 
         this.updateLeafState()
         if (callback) {
