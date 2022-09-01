@@ -416,6 +416,7 @@ export default defineComponent({
 
     const checkedValue = computed<CascaderValue>({
       get() {
+        props.modelValue && formItem?.validate('change')
         return props.modelValue as CascaderValue
       },
       set(val) {
