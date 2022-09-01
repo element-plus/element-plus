@@ -33,7 +33,7 @@ export const useCheckbox = (
       model,
     }
   )
-  const { isDisabled } = useDisabled(props, { model, isChecked })
+  const { isDisabled } = useDisabled({ model, isChecked })
   const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
     formItemContext: elFormItem,
     disableIdGeneration: hasOwnLabel,

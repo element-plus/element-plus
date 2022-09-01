@@ -4,9 +4,9 @@ import { useCheckboxGroup } from '../use-checkbox-group'
 
 import type { useFormItemInputId } from '@element-plus/hooks'
 import type { CheckboxProps } from '../../checkbox'
-import type { useDisabled } from './use-disabled'
-import type { useModel } from './use-model'
-import type { useStatus } from './use-status'
+import type { CheckboxDisabled } from './use-disabled'
+import type { CheckboxModel } from './use-model'
+import type { CheckboxStatus } from './use-status'
 
 export const useEvent = (
   props: CheckboxProps,
@@ -17,9 +17,9 @@ export const useEvent = (
     isDisabled,
     isLabeledByFormItem,
   }: Partial<
-    ReturnType<typeof useModel> &
-      ReturnType<typeof useStatus> &
-      ReturnType<typeof useDisabled> &
+    CheckboxModel &
+      CheckboxStatus &
+      CheckboxDisabled &
       ReturnType<typeof useFormItemInputId>
   >
 ) => {

@@ -36,3 +36,5 @@ export const useModel = (props: CheckboxProps) => {
     elFormItem,
   }
 }
+
+export type CheckboxModel = ReturnType<typeof useModel>

@@ -46,3 +46,5 @@ export const useStatus = (
     hasOwnLabel,
   }
 }
+
+export type CheckboxStatus = ReturnType<typeof useStatus>
