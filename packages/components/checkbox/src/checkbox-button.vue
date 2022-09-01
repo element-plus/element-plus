@@ -2,10 +2,10 @@
   <label
     :class="[
       ns.b('button'),
-      ns.bm('button', size),
+      ns.bm('button', checkboxButtonSize),
       ns.is('disabled', isDisabled),
       ns.is('checked', isChecked),
-      ns.is('focus', focus),
+      ns.is('focus', isFocused),
     ]"
   >
     <input
@@ -19,8 +19,8 @@
       :true-value="trueLabel"
       :false-value="falseLabel"
       @change="handleChange"
-      @focus="focus = true"
-      @blur="focus = false"
+      @focus="isFocused = true"
+      @blur="isFocused = false"
     />
     <input
       v-else
@@ -32,8 +32,8 @@
       :disabled="isDisabled"
       :value="label"
       @change="handleChange"
-      @focus="focus = true"
-      @blur="focus = false"
+      @focus="isFocused = true"
+      @blur="isFocused = false"
     />
 
     <span
@@ -61,10 +61,14 @@ const props = defineProps(checkboxProps)
 defineEmits(checkboxEmits)
 const slots = useSlots()
 
-const { focus, isChecked, isDisabled, size, model, handleChange } = useCheckbox(
-  props,
-  slots
-)
+const {
+  isFocused,
+  isChecked,
+  isDisabled,
+  checkboxButtonSize,
+  model,
+  handleChange,
+} = useCheckbox(props, slots)
 const { checkboxGroup } = useCheckboxGroup()
 const ns = useNamespace('checkbox')
 

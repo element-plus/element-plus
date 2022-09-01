@@ -27,6 +27,9 @@ export const useStatus = (
     }
   })
 
+  const checkboxButtonSize = useSize(checkboxGroup.checkboxGroupSize, {
+    prop: true,
+  })
   const checkboxSize = useSize(
     computed(() =>
       isGroup.value ? checkboxGroup?.checkboxGroupSize?.value : undefined
@@ -38,6 +41,7 @@ export const useStatus = (
   })
 
   return {
+    checkboxButtonSize,
     isChecked,
     isFocused,
     checkboxSize,
