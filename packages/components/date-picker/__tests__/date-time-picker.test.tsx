@@ -36,22 +36,22 @@ describe('Datetime Picker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const dateInput = document.querySelector(
+    const dateInput: HTMLInputElement = document.querySelector(
       '.el-date-picker__time-header > span:nth-child(1) input'
-    )
-    const timeInput = document.querySelector(
+    )!
+    const timeInput: HTMLInputElement = document.querySelector(
       '.el-date-picker__time-header > span:nth-child(2) input'
-    )
-    ;(timeInput as HTMLElement).focus()
+    )!
+    timeInput.focus()
     await nextTick()
     // both input shows correct value
-    expect((dateInput as HTMLInputElement).value).toBe('2018/03/05')
-    expect((timeInput as HTMLInputElement).value).toBe('10:15 AM')
+    expect(dateInput.value).toBe('2018/03/05')
+    expect(timeInput.value).toBe('10:15 AM')
 
     format.value = 'MM-DD-YYYY HH a'
     await nextTick()
-    expect((dateInput as HTMLInputElement).value).toBe('03-05-2018')
-    expect((timeInput as HTMLInputElement).value).toBe('10 am')
+    expect(dateInput.value).toBe('03-05-2018')
+    expect(timeInput.value).toBe('10 am')
   })
 
   it('both picker show correct value', async () => {
@@ -64,21 +64,21 @@ describe('Datetime Picker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const dateInput = document.querySelector(
+    const dateInput: HTMLInputElement = document.querySelector(
       '.el-date-picker__time-header > span:nth-child(1) input'
-    )
-    const timeInput = document.querySelector(
+    )!
+    const timeInput: HTMLInputElement = document.querySelector(
       '.el-date-picker__time-header > span:nth-child(2) input'
-    )
-    ;(timeInput as HTMLElement).focus()
+    )!
+    timeInput.focus()
     await nextTick()
     // both input shows correct value
-    expect((dateInput as HTMLInputElement).value).toBe('2000-10-01')
-    expect((timeInput as HTMLInputElement).value).toBe('10:00:01')
+    expect(dateInput.value).toBe('2000-10-01')
+    expect(timeInput.value).toBe('10:00:01')
     // time spinner highlight is correct
     let spinners = document.querySelectorAll(
       '.el-time-spinner ul li.is-active'
-    ) as any
+    ) as NodeListOf<HTMLElement>
     expect(spinners[0].textContent).toBe('10')
     expect(spinners[1].textContent).toBe('00')
     expect(spinners[2].textContent).toBe('01')
@@ -87,9 +87,9 @@ describe('Datetime Picker', () => {
     await nextTick()
     spinners = document.querySelectorAll(
       '.el-time-spinner ul li.is-active'
-    ) as any
-    expect((dateInput as HTMLInputElement).value).toBe('2001-11-02')
-    expect((timeInput as HTMLInputElement).value).toBe('11:01:02')
+    ) as NodeListOf<HTMLElement>
+    expect(dateInput.value).toBe('2001-11-02')
+    expect(timeInput.value).toBe('11:01:02')
     expect(spinners[0].textContent).toBe('11')
     expect(spinners[1].textContent).toBe('01')
     expect(spinners[2].textContent).toBe('02')
@@ -126,16 +126,16 @@ describe('Datetime Picker', () => {
     await nextTick()
     const input_ = document.querySelectorAll(
       '.el-date-picker__editor-wrap input'
-    )[1]
-    ;(input_ as HTMLElement).focus()
+    )[1] as HTMLElement
+    input_.focus()
     await nextTick()
     const timePanel = document.querySelector('.el-time-panel')
     expect(
       timePanel!.querySelector('.el-time-spinner')!.innerHTML
     ).not.toBeNull()
-    const button = document.querySelector(
+    const button: HTMLElement = document.querySelector(
       '.el-time-panel .confirm'
-    ) as HTMLElement
+    )!
     button.click()
     await nextTick()
     expect(value.value).not.toBe('')
@@ -149,9 +149,9 @@ describe('Datetime Picker', () => {
     expect(valueResult.hour()).toBe(20)
     expect(valueResult.minute()).toBe(30)
     expect(valueResult.second()).toBe(33)
-    const dateInput = document.querySelector(
+    const dateInput: HTMLInputElement = document.querySelector(
       '.el-date-picker__editor-wrap input'
-    ) as HTMLInputElement
+    )!
     dateInput.value = '2017-02-02'
     dateInput.dispatchEvent(new Event('change'))
     await nextTick()
@@ -178,9 +178,9 @@ describe('Datetime Picker', () => {
     input.trigger('focus')
     await nextTick()
     // click now button
-    const btn = document.querySelector(
+    const btn: HTMLElement = document.querySelector(
       '.el-picker-panel__footer .is-text'
-    ) as HTMLElement
+    )!
     btn.click()
     await nextTick()
 
@@ -307,20 +307,20 @@ describe('Datetime Picker', () => {
     input.trigger('blur')
     input.trigger('focus')
     await nextTick()
-    const someDateTd = document.querySelector(
+    const someDateTd: HTMLElement = document.querySelector(
       '.el-picker-panel__content tr:nth-child(3) td:nth-child(4)'
-    )
-    const timeInput = document.querySelector(
+    )!
+    const timeInput: HTMLInputElement = document.querySelector(
       '.el-date-picker__time-header > span:nth-child(2) input'
-    )
-    ;(someDateTd as HTMLElement).click()
-    ;(timeInput as HTMLElement).focus()
+    )!
+    someDateTd.click()
+    timeInput.focus()
     await nextTick()
-    expect((timeInput as HTMLInputElement).value).toBe('12:24:48')
+    expect(timeInput.value).toBe('12:24:48')
     // time spinner highlight is correct
     const spinners = document.querySelectorAll(
       '.el-time-spinner ul li.is-active'
-    ) as any
+    ) as NodeListOf<HTMLElement>
     expect(spinners[0].textContent).toBe('12')
     expect(spinners[1].textContent).toBe('24')
     expect(spinners[2].textContent).toBe('48')
@@ -344,15 +344,15 @@ describe('Datetime Picker', () => {
     const cells = document.querySelectorAll('.available .el-date-table-cell')
     ;(cells[0] as HTMLElement).click()
     await nextTick()
-    const timeInput = document.querySelector(
+    const timeInput: HTMLInputElement = document.querySelector(
       '.el-date-picker__time-header > span:nth-child(2) input'
-    ) as HTMLInputElement
+    )!
     expect(timeInput.value).toBe('12:00:00')
-    ;(timeInput as HTMLElement).focus()
+    timeInput.focus()
     await nextTick()
-    const spinner = document.querySelector(
+    const spinner: HTMLElement = document.querySelector(
       '.el-time-spinner ul li.is-active'
-    ) as HTMLElement
+    )!
     ;(spinner.nextSibling as HTMLElement).click()
     await nextTick()
     expect(timeInput.value).toBe('13:00:00')
@@ -495,9 +495,9 @@ describe('Datetimerange', () => {
     timeInput.focus()
     timeInput.blur()
     await nextTick()
-    const button = document.querySelector(
+    const button: HTMLElement = document.querySelector(
       '.el-date-range-picker__time-picker-wrap .el-time-panel .confirm'
-    ) as HTMLElement
+    )!
     button.click()
     await nextTick()
     const btn = document.querySelectorAll(
