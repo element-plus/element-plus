@@ -30,7 +30,7 @@ export const calcColumnStyle = (
 
   if (!fixedColumn) {
     if (column.maxWidth) style.maxWidth = column.maxWidth
-    if (column.minWidth) style.maxWidth = column.minWidth
+    if (column.minWidth) style.minWidth = column.minWidth
   }
 
   return style

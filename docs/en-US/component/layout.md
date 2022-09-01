@@ -90,7 +90,7 @@ import 'element-plus/theme-chalk/display.css'
 The classes are:
 
 - `hidden-xs-only` - hide when on extra small viewports only
-- `hidden-sm-only` - hide when on small viewports and down
+- `hidden-sm-only` - hide when on small viewports only
 - `hidden-sm-and-down` - hide when on small viewports and down
 - `hidden-sm-and-up` - hide when on small viewports and up
 - `hidden-md-only` - hide when on medium viewports only

@@ -115,6 +115,22 @@ describe('Image.vue', () => {
     ).not.toContain('display: none')
   })
 
+  test('native loading attributes', async () => {
+    const wrapper = mount(Image, {
+      props: {
+        src: IMAGE_SUCCESS,
+        loading: 'eager',
+      } as ElImageProps,
+    })
+
+    await doubleWait()
+    expect(wrapper.find('img').exists()).toBe(true)
+    expect(wrapper.find('img').attributes('loading')).toBe('eager')
+
+    await wrapper.setProps({ loading: undefined })
+    expect(wrapper.find('img').attributes('loading')).toBe(undefined)
+  })
+
   test('$attrs', async () => {
     const alt = 'this ia alt'
     const props: ElImageProps = {

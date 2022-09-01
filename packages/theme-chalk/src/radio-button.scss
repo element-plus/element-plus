@@ -101,6 +101,21 @@
       }
     }
 
+    &:focus-visible {
+      & + .#{$namespace}-radio-button__inner {
+        border-left: getCssVar('border');
+        border-left-color: getCssVarWithDefault(
+          'radio-button-checked-border-color',
+          map.get($radio-button, 'checked-border-color')
+        );
+        outline: 2px solid getCssVar('radio-button-checked-border-color');
+        outline-offset: 1px;
+        z-index: 2;
+        border-radius: getCssVar('border-radius-base');
+        box-shadow: none;
+      }
+    }
+
     &:disabled {
       & + .#{$namespace}-radio-button__inner {
         color: getCssVar('disabled-text-color');
@@ -146,10 +161,5 @@
         );
       }
     }
-  }
-
-  &:focus:not(.is-focus):not(:active):not(.is-disabled) {
-    /*获得焦点时 样式提醒*/
-    box-shadow: 0 0 2px 2px getCssVar('radio-button-checked-border-color');
   }
 }

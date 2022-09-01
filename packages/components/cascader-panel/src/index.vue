@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -238,7 +239,7 @@ export default defineComponent({
         const nodes = unique(
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
-        syncMenuState(nodes, false)
+        syncMenuState(nodes, forced)
         checkedValue.value = modelValue!
       }
     }
@@ -320,10 +321,6 @@ export default defineComponent({
         }
         case EVENT_CODE.enter:
           checkNode(target)
-          break
-        case EVENT_CODE.esc:
-        case EVENT_CODE.tab:
-          emit('close')
           break
       }
     }

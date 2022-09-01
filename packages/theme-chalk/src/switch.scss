@@ -76,6 +76,7 @@ $switch-button-size: map.merge(
   line-height: map.get($switch-core-height, 'default');
   height: map.get($switch-height, 'default');
   vertical-align: middle;
+
   @include when(disabled) {
     & .#{$namespace}-switch__core,
     & .#{$namespace}-switch__label {
@@ -123,6 +124,13 @@ $switch-button-size: map.merge(
     height: 0;
     opacity: 0;
     margin: 0;
+
+    &:focus-visible {
+      & ~ .#{$namespace}-switch__core {
+        outline: 2px solid getCssVar('switch-on-color');
+        outline-offset: 1px;
+      }
+    }
   }
 
   @include e(core) {
@@ -131,7 +139,11 @@ $switch-button-size: map.merge(
     position: relative;
     width: map.get($switch-core-width, 'default');
     height: map.get($switch-core-height, 'default');
-    border: 1px solid getCssVar('switch-off-color');
+    border: 1px solid
+      var(
+        #{getCssVarName('switch-border-color')},
+        #{getCssVar('switch-off-color')}
+      );
     outline: none;
     border-radius: map.get($switch-core-border-radius, 'default');
     box-sizing: border-box;
@@ -200,7 +212,10 @@ $switch-button-size: map.merge(
 
   @include when(checked) {
     .#{$namespace}-switch__core {
-      border-color: getCssVar('switch-on-color');
+      border-color: var(
+        #{getCssVarName('switch-border-color')},
+        #{getCssVar('switch-on-color')}
+      );
       background-color: getCssVar('switch-on-color');
 
       .#{$namespace}-switch__action {

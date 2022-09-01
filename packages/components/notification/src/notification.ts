@@ -1,6 +1,7 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes, VNode } from 'vue'
+import type Notification from './notification.vue'
 
 export const notificationTypes = [
   'success',
@@ -23,8 +24,7 @@ export const notificationProps = buildProps({
     default: 4500,
   },
   icon: {
-    type: definePropType<string | Comment>([String, Object]),
-    default: '',
+    type: iconPropType,
   },
   id: {
     type: String,
@@ -75,6 +75,8 @@ export const notificationEmits = {
   destroy: () => true,
 }
 export type NotificationEmits = typeof notificationEmits
+
+export type NotificationInstance = InstanceType<typeof Notification>
 
 export type NotificationOptions = Omit<NotificationProps, 'id'> & {
   appendTo?: HTMLElement | string

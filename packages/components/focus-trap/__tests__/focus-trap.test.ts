@@ -106,6 +106,83 @@ describe('<ElFocusTrap', () => {
       expect(focusOnUnmount).toHaveBeenCalled()
       expect(document.activeElement).toBe(document.body)
     })
+
+    it('should be able to dispatch `release-requested` if escape key pressed while trapped', async () => {
+      wrapper = createComponent(
+        {
+          trapped: false,
+          loop: true,
+        },
+        1
+      )
+      await nextTick()
+
+      const focusContainer = findFocusContainer()
+
+      focusContainer?.trigger('keydown', {
+        key: EVENT_CODE.esc,
+      })
+
+      await nextTick()
+      await nextTick()
+
+      expect(wrapper.emitted('release-requested')).toBeFalsy()
+
+      await wrapper.setProps({ trapped: true })
+
+      await nextTick()
+      await nextTick()
+
+      const items = findDescendants()
+      const firstItem = items.at(0)
+      expect(document.activeElement).toBe(firstItem?.element)
+
+      // Expect no emit if esc while not trapped
+      expect(wrapper.emitted('release-requested')).toBeFalsy()
+
+      focusContainer?.trigger('keydown', {
+        key: EVENT_CODE.esc,
+      })
+
+      await nextTick()
+      await nextTick()
+
+      // Expect emit if esc while trapped
+      expect(wrapper.emitted('release-requested')?.length).toBe(1)
+
+      createComponent({ loop: true }, 3)
+      await nextTick()
+      await nextTick()
+
+      focusContainer?.trigger('keydown', {
+        key: EVENT_CODE.esc,
+      })
+
+      // Expect no emit if esc while layer paused
+      expect(wrapper.emitted('release-requested')?.length).toBe(1)
+    })
+
+    it('should be able to dispatch `focusout-prevented` when trab wraps due to trapped or is blocked', async () => {
+      wrapper = createComponent(undefined, 3)
+      await nextTick()
+      await nextTick()
+
+      const childComponent = findFocusContainer()
+      const items = findDescendants()
+      expect(document.activeElement).toBe(items.at(0)?.element)
+
+      expect(wrapper.emitted('focusout-prevented')).toBeFalsy()
+      await childComponent.trigger('keydown.shift', {
+        key: EVENT_CODE.tab,
+      })
+      expect(document.activeElement).toBe(items.at(0)?.element)
+      expect(wrapper.emitted('focusout-prevented')?.length).toBe(2)
+      ;(items.at(2)?.element as HTMLElement).focus()
+      await childComponent.trigger('keydown', {
+        key: EVENT_CODE.tab,
+      })
+      expect(wrapper.emitted('focusout-prevented')?.length).toBe(4)
+    })
   })
 
   describe('features', () => {
@@ -248,6 +325,30 @@ describe('<ElFocusTrap', () => {
         key: EVENT_CODE.tab,
       })
       expect(document.activeElement).toBe(items.at(0)?.element)
+    })
+
+    it('should steal focus when trapped', async () => {
+      wrapper = createComponent(
+        {
+          trapped: false,
+          loop: true,
+        },
+        1
+      )
+      await nextTick()
+
+      const beforeTrap = findBeforeTrap()
+      ;(beforeTrap.element as HTMLElement).focus()
+      expect(document.activeElement).toBe(beforeTrap.element)
+
+      await wrapper.setProps({ trapped: true })
+
+      await nextTick()
+      await nextTick()
+
+      const items = findDescendants()
+      const firstItem = items.at(0)
+      expect(document.activeElement).toBe(firstItem?.element)
     })
   })
 })

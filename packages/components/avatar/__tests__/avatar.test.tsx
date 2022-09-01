@@ -9,52 +9,51 @@ import {
 } from '@element-plus/test-utils/mock'
 
 import Avatar from '../src/avatar.vue'
-import type { VNode } from 'vue'
-
-const _mount = (render: () => VNode) =>
-  mount({
-    setup: () => render,
-  })
 
 describe('Avatar.vue', () => {
   mockImageEvent()
 
   test('render test', () => {
-    const wrapper = mount(Avatar)
+    const wrapper = mount(() => <Avatar />)
     expect(wrapper.find('.el-avatar').exists()).toBe(true)
   })
 
   test('size is number', () => {
-    const wrapper = _mount(() => <Avatar size={50} />)
+    const wrapper = mount(() => <Avatar size={50} />)
     expect(wrapper.attributes('style')).toContain('--el-avatar-size: 50px;')
   })
 
   test('size is string', () => {
-    const wrapper = _mount(() => <Avatar size="small" />)
+    const wrapper = mount(() => <Avatar size="small" />)
     expect(wrapper.classes()).toContain('el-avatar--small')
   })
 
   test('shape', () => {
-    const wrapper = _mount(() => <Avatar size="small" shape="square" />)
+    const wrapper = mount(() => <Avatar size="small" shape="square" />)
     expect(wrapper.classes()).toContain('el-avatar--square')
   })
 
   test('icon avatar', () => {
-    const wrapper = _mount(() => <Avatar icon={markRaw(User)} />)
+    const wrapper = mount(() => <Avatar icon={markRaw(User)} />)
     expect(wrapper.classes()).toContain('el-avatar--icon')
     expect(wrapper.findComponent(User).exists()).toBe(true)
   })
 
   test('image avatar', () => {
-    const wrapper = _mount(() => <Avatar src={IMAGE_SUCCESS} />)
+    const wrapper = mount(() => <Avatar src={IMAGE_SUCCESS} />)
     expect(wrapper.find('img').exists()).toBe(true)
   })
 
   test('image fallback', async () => {
-    const wrapper = mount(Avatar, {
-      props: { src: IMAGE_FAIL },
-      slots: { default: 'fallback' },
-    })
+    const wrapper = mount(
+      <Avatar
+        src={IMAGE_FAIL}
+        v-slots={{
+          default: () => 'fallback',
+        }}
+      />
+    )
+
     await nextTick()
     expect(wrapper.emitted('error')).toBeDefined()
     await nextTick()
@@ -65,7 +64,7 @@ describe('Avatar.vue', () => {
   test('image fit', () => {
     const fits = ['fill', 'contain', 'cover', 'none', 'scale-down'] as const
     for (const fit of fits) {
-      const wrapper = _mount(() => <Avatar fit={fit} src={IMAGE_SUCCESS} />)
+      const wrapper = mount(() => <Avatar fit={fit} src={IMAGE_SUCCESS} />)
       expect(wrapper.find('img').attributes('style')).toContain(
         `object-fit: ${fit};`
       )
@@ -73,9 +72,14 @@ describe('Avatar.vue', () => {
   })
 
   test('src changed', async () => {
-    const wrapper = mount(Avatar, {
-      slots: { default: 'fallback' },
-    })
+    const wrapper = mount(
+      <Avatar
+        v-slots={{
+          default: () => 'fallback',
+        }}
+      />
+    )
+
     expect(wrapper.vm.hasLoadError).toBe(false)
     await wrapper.setProps({ src: IMAGE_FAIL })
     // wait error event trigger

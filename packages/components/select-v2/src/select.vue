@@ -9,7 +9,7 @@
   >
     <el-tooltip
       ref="popper"
-      v-model:visible="dropdownMenuVisible"
+      :visible="dropdownMenuVisible"
       :teleported="teleported"
       :popper-class="[nsSelectV2.e('popper'), popperClass]"
       :gpu-acceleration="false"
@@ -86,7 +86,9 @@
                     <template #content>
                       <div :class="nsSelectV2.e('selection')">
                         <div
-                          v-for="(selected, idx) in states.cachedOptions"
+                          v-for="(selected, idx) in states.cachedOptions.slice(
+                            1
+                          )"
                           :key="idx"
                           :class="nsSelectV2.e('selected-item')"
                         >
@@ -177,6 +179,7 @@
                 :unselectable="expanded ? 'on' : undefined"
                 @update:modelValue="onUpdateInputValue"
                 @focus="handleFocus"
+                @blur="handleBlur"
                 @input="onInput"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
@@ -225,6 +228,7 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @focus="handleFocus"
+                @blur="handleBlur"
                 @input="onInput"
                 @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
                 @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
@@ -314,7 +318,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import ElSelectMenu from './select-dropdown.vue'
+import ElSelectMenu from './select-dropdown'
 import useSelect from './useSelect'
 import { selectV2InjectionKey } from './token'
 import { SelectProps } from './defaults'

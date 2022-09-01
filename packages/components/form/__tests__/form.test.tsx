@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import {
@@ -21,7 +22,6 @@ import FormItem from '../src/form-item.vue'
 import DynamicDomainForm, { formatDomainError } from '../mocks/mock-data'
 
 import type { VueWrapper } from '@vue/test-utils'
-import type { ValidateFieldsError } from 'async-validator'
 import type { FormRules } from '@element-plus/tokens'
 
 type FormInstance = InstanceType<typeof Form>
@@ -211,6 +211,14 @@ describe('Form', () => {
                 <Input v-model={form.address} />
               </FormItem>
             </Form>
+            <Form model={form} ref="labelRight">
+              <FormItem>
+                <Input v-model={form.name} />
+              </FormItem>
+              <FormItem>
+                <Input v-model={form.address} />
+              </FormItem>
+            </Form>
           </div>
         )
       },
@@ -220,6 +228,9 @@ describe('Form', () => {
     )
     expect(wrapper.findComponent({ ref: 'labelLeft' }).classes()).toContain(
       'el-form--label-left'
+    )
+    expect(wrapper.findComponent({ ref: 'labelRight' }).classes()).toContain(
+      'el-form--label-right'
     )
   })
 
@@ -247,7 +258,7 @@ describe('Form', () => {
     )
   })
 
-  it('show message', (done) => {
+  it('show message', async () => {
     const wrapper = mount({
       setup() {
         const form = reactive({
@@ -274,16 +285,18 @@ describe('Form', () => {
       },
     })
     const form = wrapper.findComponent(Form).vm as FormInstance
-    form
-      .validate(async (valid: boolean) => {
-        expect(valid).toBe(false)
-        await nextTick()
-        expect(wrapper.find('.el-form-item__error').exists()).toBe(false)
-        done()
-      })
-      .catch((e: ValidateFieldsError) => {
-        expect(e).toBeDefined()
-      })
+
+    vi.useFakeTimers()
+    const valid = await form
+      .validate()
+      .then(() => true)
+      .catch(() => false)
+    vi.runAllTimers()
+    vi.useRealTimers()
+
+    await nextTick()
+    expect(valid).toBe(false)
+    expect(wrapper.find('.el-form-item__error').exists()).toBe(false)
   })
 
   it('reset field', async () => {

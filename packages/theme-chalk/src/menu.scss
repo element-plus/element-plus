@@ -11,7 +11,7 @@
   line-height: getCssVar('menu-item-height');
   font-size: getCssVar('menu-item-font-size');
   color: getCssVar('menu-text-color');
-  padding: 0 20px;
+  padding: 0 getCssVar('menu-base-level-padding');
   list-style: none;
   cursor: pointer;
   position: relative;
@@ -45,9 +45,12 @@
   }
 }
 
-@include b(menu) {
+:root {
+  // They are defined on :root so they can be inherited by sub-menu instead of overwritten
   @include set-component-css-var('menu', $menu);
+}
 
+@include b(menu) {
   border-right: solid 1px getCssVar('menu-border-color');
   list-style: none;
   position: relative;
@@ -55,6 +58,20 @@
   padding-left: 0;
   background-color: getCssVar('menu-bg-color');
   box-sizing: border-box;
+
+  @include m(vertical) {
+    &:not(.#{$namespace}-menu--collapse):not(.#{$namespace}-menu--popup-container) {
+      & .#{$namespace}-menu-item,
+      & .#{$namespace}-sub-menu__title,
+      & .#{$namespace}-menu-item-group__title {
+        white-space: nowrap;
+        padding-left: calc(
+          #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-level')} *
+            #{getCssVar('menu-level-padding')}
+        );
+      }
+    }
+  }
 
   @include m(horizontal) {
     display: flex;
@@ -124,7 +141,7 @@
         background-color: getCssVar('menu-bg-color');
         display: flex;
         align-items: center;
-        height: 36px;
+        height: getCssVar('menu-horizontal-sub-item-height');
         padding: 0 10px;
         color: getCssVar('menu-text-color');
       }
@@ -150,14 +167,17 @@
     }
   }
   @include m(collapse) {
-    width: 64px;
+    width: calc(
+      #{getCssVar('menu-icon-width')} + #{getCssVar('menu-base-level-padding')} *
+        2
+    );
 
     > .#{$namespace}-menu-item,
     > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title {
       [class^='#{$namespace}-icon'] {
         margin: 0;
         vertical-align: middle;
-        width: 24px;
+        width: getCssVar('menu-icon-width');
         text-align: center;
       }
 
@@ -195,11 +215,6 @@
         border-radius: getCssVar('border-radius-small');
         box-shadow: getCssVar('box-shadow-light');
       }
-      &.is-opened {
-        > .#{$namespace}-sub-menu__title .#{$namespace}-sub-menu__icon-arrow {
-          transform: none;
-        }
-      }
 
       &.is-active .#{$namespace}-sub-menu__title {
         color: getCssVar('menu-active-color');
@@ -225,7 +240,7 @@
 
   & [class^='#{$namespace}-icon'] {
     margin-right: 5px;
-    width: 24px;
+    width: getCssVar('menu-icon-width');
     text-align: center;
     font-size: 18px;
     vertical-align: middle;
@@ -245,7 +260,7 @@
     display: inline-flex;
     align-items: center;
     box-sizing: border-box;
-    padding: 0 20px;
+    padding: 0 getCssVar('menu-base-level-padding');
   }
 }
 
@@ -265,9 +280,8 @@
     border: none;
   }
   & .#{$namespace}-menu-item {
-    height: 50px;
-    line-height: 50px;
-    padding: 0 45px;
+    height: getCssVar('menu-sub-item-height');
+    line-height: getCssVar('menu-sub-item-height');
     min-width: 200px;
   }
   @include e(hide-arrow) {
@@ -278,11 +292,6 @@
   @include when(active) {
     .#{$namespace}-sub-menu__title {
       border-bottom-color: getCssVar('menu-active-color');
-    }
-  }
-  @include when(opened) {
-    > .#{$namespace}-sub-menu__title .#{$namespace}-sub-menu__icon-arrow {
-      transform: rotateZ(180deg);
     }
   }
   @include when(disabled) {
@@ -296,7 +305,7 @@
   .#{$namespace}-icon {
     vertical-align: middle;
     margin-right: 5px;
-    width: 24px;
+    width: getCssVar('menu-icon-width');
     text-align: center;
     font-size: 18px;
 
@@ -307,7 +316,7 @@
   .#{$namespace}-sub-menu__icon-arrow {
     position: absolute;
     top: 50%;
-    right: 20px;
+    right: getCssVar('menu-base-level-padding');
     margin-top: -7px;
     transition: transform getCssVar('transition-duration');
     font-size: 12px;
@@ -321,7 +330,7 @@
     padding: 0;
   }
   @include e(title) {
-    padding: 7px 0 7px 20px;
+    padding: 7px 0 7px getCssVar('menu-base-level-padding');
     line-height: normal;
     font-size: 12px;
     color: getCssVar('text-color', 'secondary');

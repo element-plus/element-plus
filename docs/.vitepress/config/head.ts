@@ -31,13 +31,6 @@ export const head: HeadConfig[] = [
     },
   ],
   [
-    'link',
-    {
-      rel: 'manifest',
-      href: '/manifest.webmanifest',
-    },
-  ],
-  [
     'meta',
     {
       name: 'theme-color',
@@ -73,6 +66,20 @@ export const head: HeadConfig[] = [
       async: 'true',
       src: 'https://www.googletagmanager.com/gtag/js?id=UA-175337989-1',
     },
+  ],
+  [
+    'script',
+    {},
+    `if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(function(registration) {
+          console.log(registration);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    }`,
   ],
   [
     'script',

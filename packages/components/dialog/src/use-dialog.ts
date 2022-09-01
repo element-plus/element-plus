@@ -13,11 +13,10 @@ import {
   useGlobalConfig,
   useId,
   useLockscreen,
-  useModal,
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isNumber } from '@element-plus/utils'
+import { addUnit } from '@element-plus/utils'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'
@@ -41,24 +40,27 @@ export const useDialog = (
   let openTimer: (() => void) | undefined = undefined
   let closeTimer: (() => void) | undefined = undefined
 
-  const normalizeWidth = computed(() =>
-    isNumber(props.width) ? `${props.width}px` : props.width
-  )
-
   const namespace = useGlobalConfig('namespace', defaultNamespace)
 
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
-    const varPrefix = `--${namespace.value}-dialog`
+    const varPrefix = `--${namespace.value}-dialog` as const
     if (!props.fullscreen) {
       if (props.top) {
         style[`${varPrefix}-margin-top`] = props.top
       }
       if (props.width) {
-        style[`${varPrefix}-width`] = normalizeWidth.value
+        style[`${varPrefix}-width`] = addUnit(props.width)
       }
     }
     return style
+  })
+
+  const overlayDialogStyle = computed<CSSProperties>(() => {
+    if (props.alignCenter) {
+      return { display: 'flex' }
+    }
+    return {}
   })
 
   function afterEnter() {
@@ -140,13 +142,10 @@ export const useDialog = (
     useLockscreen(visible)
   }
 
-  if (props.closeOnPressEscape) {
-    useModal(
-      {
-        handleClose,
-      },
-      visible
-    )
+  function onCloseRequested() {
+    if (props.closeOnPressEscape) {
+      handleClose()
+    }
   }
 
   watch(
@@ -156,10 +155,10 @@ export const useDialog = (
         closed.value = false
         open()
         rendered.value = true // enables lazy rendering
-        emit('open')
         zIndex.value = props.zIndex ? zIndex.value++ : nextZIndex()
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
+          emit('open')
           if (targetRef.value) {
             targetRef.value.scrollTop = 0
           }
@@ -204,10 +203,12 @@ export const useDialog = (
     doClose,
     onOpenAutoFocus,
     onCloseAutoFocus,
+    onCloseRequested,
     titleId,
     bodyId,
     closed,
     style,
+    overlayDialogStyle,
     rendered,
     visible,
     zIndex,

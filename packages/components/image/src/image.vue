@@ -1,19 +1,28 @@
 <template>
   <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
-    <slot v-if="loading" name="placeholder">
-      <div :class="ns.e('placeholder')" />
-    </slot>
-    <slot v-else-if="hasLoadError" name="error">
-      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
-    </slot>
     <img
-      v-else
+      v-if="imageSrc !== undefined && !hasLoadError"
       v-bind="attrs"
-      :src="src"
+      :src="imageSrc"
+      :loading="loading"
       :style="imageStyle"
-      :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
+      :class="[
+        ns.e('inner'),
+        preview && ns.e('preview'),
+        isLoading && ns.is('loading'),
+      ]"
       @click="clickHandler"
+      @load="handleLoad"
+      @error="handleError"
     />
+    <div v-if="isLoading || hasLoadError" :class="ns.e('wrapper')">
+      <slot v-if="isLoading" name="placeholder">
+        <div :class="ns.e('placeholder')" />
+      </slot>
+      <slot v-else-if="hasLoadError" name="error">
+        <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+      </slot>
+    </div>
     <template v-if="preview">
       <image-viewer
         v-if="showViewer"
@@ -72,16 +81,16 @@ const ns = useNamespace('image')
 const rawAttrs = useRawAttrs()
 const attrs = useAttrs()
 
+const imageSrc = ref<string | undefined>()
 const hasLoadError = ref(false)
-const loading = ref(true)
-const imgWidth = ref(0)
-const imgHeight = ref(0)
+const isLoading = ref(true)
 const showViewer = ref(false)
 const container = ref<HTMLElement>()
-
 const _scrollContainer = ref<HTMLElement | Window>()
-let stopScrollListener: () => void
-let stopWheelListener: () => void
+
+const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
+let stopScrollListener: (() => void) | undefined
+let stopWheelListener: (() => void) | undefined
 
 const containerStyle = computed(() => rawAttrs.style as StyleValue)
 
@@ -107,49 +116,28 @@ const imageIndex = computed(() => {
   return previewIndex
 })
 
+const isManual = computed(() => {
+  if (props.loading === 'eager') return false
+  return (!supportLoading && props.loading === 'lazy') || props.lazy
+})
+
 const loadImage = () => {
   if (!isClient) return
 
   // reset status
-  loading.value = true
+  isLoading.value = true
   hasLoadError.value = false
-
-  const img = new Image()
-  const currentImageSrc = props.src
-
-  // load & error callbacks are only responsible for currentImageSrc
-  img.addEventListener('load', (e) => {
-    if (currentImageSrc !== props.src) {
-      return
-    }
-    handleLoad(e, img)
-  })
-  img.addEventListener('error', (e) => {
-    if (currentImageSrc !== props.src) {
-      return
-    }
-    handleError(e)
-  })
-
-  // bind html attrs
-  // so it can behave consistently
-  Object.entries(rawAttrs).forEach(([key, value]) => {
-    // avoid onload to be overwritten
-    if (key.toLowerCase() === 'onload') return
-    img.setAttribute(key, value as string)
-  })
-  img.src = currentImageSrc
+  imageSrc.value = props.src
 }
 
-function handleLoad(e: Event, img: HTMLImageElement) {
-  imgWidth.value = img.width
-  imgHeight.value = img.height
-  loading.value = false
+function handleLoad(event: Event) {
+  isLoading.value = false
   hasLoadError.value = false
+  emit('load', event)
 }
 
 function handleError(event: Event) {
-  loading.value = false
+  isLoading.value = false
   hasLoadError.value = true
   emit('error', event)
 }
@@ -191,7 +179,7 @@ async function addLazyLoadListener() {
 function removeLazyLoadListener() {
   if (!isClient || !_scrollContainer.value || !lazyLoadHandler) return
 
-  stopScrollListener()
+  stopScrollListener?.()
   _scrollContainer.value = undefined
 }
 
@@ -219,6 +207,7 @@ function clickHandler() {
   prevOverflow = document.body.style.overflow
   document.body.style.overflow = 'hidden'
   showViewer.value = true
+  emit('show')
 }
 
 function closeViewer() {
@@ -235,9 +224,9 @@ function switchViewer(val: number) {
 watch(
   () => props.src,
   () => {
-    if (props.lazy) {
+    if (isManual.value) {
       // reset status
-      loading.value = true
+      isLoading.value = true
       hasLoadError.value = false
       removeLazyLoadListener()
       addLazyLoadListener()
@@ -248,7 +237,7 @@ watch(
 )
 
 onMounted(() => {
-  if (props.lazy) {
+  if (isManual.value) {
     addLazyLoadListener()
   } else {
     loadImage()

@@ -5,10 +5,11 @@ lang: en-US
 
 ## Custom namespace <VersionTag version="2.2.0" />
 
-::: tip
-We provide a example in [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter).
+:::tip
 
+We provide a example in [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter).
 Just check it.
+
 :::
 
 Default namespace is `el`.

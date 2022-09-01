@@ -77,11 +77,26 @@
         'color',
         $type,
       ),
+      'outline-color': (
+        'color',
+        $type,
+        'light-5',
+      ),
+      'active-color': (
+        'color',
+        $type,
+        'dark-2',
+      ),
     ),
     'hover': (
       'text-color': (
         'color',
         'white',
+      ),
+      'link-text-color': (
+        'color',
+        $type,
+        'light-5',
       ),
       'bg-color': (
         'color',
@@ -131,7 +146,8 @@
   }
 
   &.is-plain,
-  &.is-text {
+  &.is-text,
+  &.is-link {
     @include button-plain($type);
   }
 }

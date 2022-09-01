@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { computed, inject, ref } from 'vue'
-import { addClass, generateId, on } from '@element-plus/utils'
+import { addClass, generateId } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import type { Nullable } from '@element-plus/utils'
@@ -95,8 +96,8 @@ export const initDropdownDomEvent = (
   }
 
   function initEvent() {
-    on(triggerElm, 'keydown', handleTriggerKeyDown)
-    on(dropdownElm.value, 'keydown', handleItemKeyDown, true)
+    triggerElm?.addEventListener('keydown', handleTriggerKeyDown)
+    dropdownElm.value?.addEventListener('keydown', handleItemKeyDown, true)
   }
 
   function initDomOperation() {

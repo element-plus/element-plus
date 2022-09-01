@@ -1,22 +1,20 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "allowJs": true,
-    "module": "ESNext",
-    "target": "ES2018",
-    "noImplicitAny": false,
-    "declaration": true,
-    "sourceMap": true,
+    "composite": true,
+    "jsx": "preserve",
     "lib": ["ES2018", "DOM", "DOM.Iterable"],
-    "allowSyntheticDefaultImports": true,
-    "types": ["unplugin-vue-define-options"]
+    "types": ["unplugin-vue-define-options"],
+    "skipLibCheck": true
   },
-  "include": ["packages", "typings"],
+  "include": ["packages", "typings/components.d.ts", "typings/env.d.ts"],
   "exclude": [
     "node_modules",
     "**/dist",
     "**/__tests__/**/*",
-    "**/test/**",
-    "**/tests/**"
+    "**/gulpfile.ts",
+    "**/test-helper",
+    "packages/test-utils",
+    "**/*.md"
   ]
 }

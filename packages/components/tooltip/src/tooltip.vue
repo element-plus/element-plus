@@ -3,6 +3,7 @@
     <el-tooltip-trigger
       :disabled="disabled"
       :trigger="trigger"
+      :trigger-keys="triggerKeys"
       :virtual-ref="virtualRef"
       :virtual-triggering="virtualTriggering"
     >
@@ -28,10 +29,12 @@
       :pure="pure"
       :raw-content="rawContent"
       :reference-el="referenceEl"
+      :trigger-target-el="triggerTargetEl"
       :show-after="compatShowAfter"
       :strategy="strategy"
       :teleported="teleported"
       :transition="transition"
+      :virtual-triggering="virtualTriggering"
       :z-index="zIndex"
       :append-to="appendTo"
     >
@@ -48,6 +51,7 @@
 import {
   computed,
   defineComponent,
+  onDeactivated,
   provide,
   readonly,
   ref,
@@ -140,9 +144,11 @@ export default defineComponent({
       }
     }
     const open = ref(false)
+    const toggleReason = ref<Event | undefined>(undefined)
 
-    const { show, hide } = useModelToggle({
+    const { show, hide, hasUpdateHandler } = useModelToggle({
       indicator: open,
+      toggleReason,
     })
 
     const { onOpen, onClose } = useDelayedToggle({
@@ -152,37 +158,39 @@ export default defineComponent({
       close: hide,
     })
 
-    const controlled = computed(() => isBoolean(props.visible))
+    const controlled = computed(
+      () => isBoolean(props.visible) && !hasUpdateHandler.value
+    )
 
     provide(TOOLTIP_INJECTION_KEY, {
       controlled,
       id,
       open: readonly(open),
       trigger: toRef(props, 'trigger'),
-      onOpen: () => {
-        onOpen()
+      onOpen: (event?: Event) => {
+        onOpen(event)
       },
-      onClose: () => {
-        onClose()
+      onClose: (event?: Event) => {
+        onClose(event)
       },
-      onToggle: () => {
+      onToggle: (event?: Event) => {
         if (unref(open)) {
-          onClose()
+          onClose(event)
         } else {
-          onOpen()
+          onOpen(event)
         }
       },
       onShow: () => {
-        emit('show')
+        emit('show', toggleReason.value)
       },
       onHide: () => {
-        emit('hide')
+        emit('hide', toggleReason.value)
       },
       onBeforeShow: () => {
-        emit('before-show')
+        emit('before-show', toggleReason.value)
       },
       onBeforeHide: () => {
-        emit('before-hide')
+        emit('before-hide', toggleReason.value)
       },
       updatePopper,
     })
@@ -201,6 +209,8 @@ export default defineComponent({
         contentRef.value?.contentRef?.popperContentRef
       return popperContent && popperContent.contains(document.activeElement)
     }
+
+    onDeactivated(() => open.value && hide())
 
     return {
       compatShowAfter,

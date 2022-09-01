@@ -21,7 +21,6 @@
 import { defineComponent, inject, ref, toRef, unref } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import { composeEventHandlers } from '@element-plus/utils'
-import { EVENT_CODE } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 import { useTooltipTriggerProps } from './tooltip'
@@ -89,7 +88,8 @@ export default defineComponent({
       stopWhenControlledOrDisabled,
       (e: KeyboardEvent) => {
         const { code } = e
-        if (code === EVENT_CODE.enter || code === EVENT_CODE.space) {
+        if (props.triggerKeys.includes(code)) {
+          e.preventDefault()
           onToggle(e)
         }
       }

@@ -19,8 +19,8 @@ const onSwitchLang = (lang: string) => {
 <template>
   <div class="full-screen-translation">
     <ElButton
-      type="text"
       style="width: 100%; color: var(--text-color)"
+      text
       @click="toggle"
     >
       <div class="translation-toggler">
