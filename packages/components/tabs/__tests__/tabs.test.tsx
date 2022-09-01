@@ -2,12 +2,12 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
+import Affix from '../../affix/src/affix.vue'
 import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav'
 import type { TabPanelName } from '../src/tabs'
 import type { TabsPaneContext } from '@element-plus/tokens'
-import Affix from '../../affix/src/affix.vue'
 
 describe('Tabs.vue', () => {
   test('create', async () => {
@@ -746,5 +746,4 @@ describe('Tabs.vue', () => {
     const navItemsWrapper = navWrapper.findAll('.el-affix .el-tabs__item')
     expect(navItemsWrapper.length).eq(2)
   })
-
 })
