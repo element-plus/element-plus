@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import { useDisabled as useCheckboxDisabled } from '@element-plus/hooks'
 import { isUndefined } from '@element-plus/utils'
-import { useCheckboxGroup } from '../use-checkbox-group'
+import { useCheckboxGroup } from './use-group'
 
 import type { CheckboxModel } from './use-model'
 import type { CheckboxStatus } from './use-status'

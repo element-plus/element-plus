@@ -1,6 +1,6 @@
 import { computed, getCurrentInstance, nextTick, watch } from 'vue'
 import { debugWarn } from '@element-plus/utils'
-import { useCheckboxGroup } from '../use-checkbox-group'
+import { useCheckboxGroup } from './use-group'
 
 import type { useFormItemInputId } from '@element-plus/hooks'
 import type { CheckboxProps } from '../../checkbox'

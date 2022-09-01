@@ -1,7 +1,7 @@
 import { computed, ref, toRaw } from 'vue'
 import { toTypeString } from '@vue/shared'
 import { useSize } from '@element-plus/hooks'
-import { useCheckboxGroup } from '../use-checkbox-group'
+import { useCheckboxGroup } from './use-group'
 
 import type { ComponentInternalInstance } from 'vue'
 import type { CheckboxProps } from '../../checkbox'

@@ -1,6 +1,6 @@
 import { computed, getCurrentInstance, ref } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useCheckboxGroup } from '../use-checkbox-group'
+import { useCheckboxGroup } from './use-group'
 
 import type { CheckboxProps } from '../../checkbox'
 
