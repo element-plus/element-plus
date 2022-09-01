@@ -49,14 +49,15 @@ card/shadow
 
 ## Attributes
 
-| Attribute  | Description                                                   | Type   | Accepted Values        | Default             |
-| ---------- | ------------------------------------------------------------- | ------ | ---------------------- | ------------------- |
-| header     | title of the card. Also accepts a DOM passed by `slot#header` | string | —                      | —                   |
-| body-style | CSS style of body                                             | object | —                      | { padding: '20px' } |
-| shadow     | when to show card shadows                                     | string | always / hover / never | always              |
+| Attribute  | Description                                                   | Type   | Accepted Values        | Default               |
+| ---------- | ------------------------------------------------------------- | ------ | ---------------------- | --------------------- |
+| header     | title of the card. Also accepts a DOM passed by `slot#header` | string | —                      | —                     |
+| body-style | CSS style of body                                             | object | —                      | `{ padding: '20px' }` |
+| shadow     | when to show card shadows                                     | string | always / hover / never | always                |
 
 ## Slots
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name   | Description                |
+| ------ | -------------------------- |
+| —      | customize default content  |
+| header | content of the Card header |

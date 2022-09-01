@@ -35,3 +35,8 @@
     </template>
   </el-dropdown>
 </template>
+<style scoped>
+.example-showcase .el-dropdown + .el-dropdown {
+  margin-left: 15px;
+}
+</style>

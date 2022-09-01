@@ -1,9 +1,8 @@
-import { createVNode, defineComponent, renderSlot, h } from 'vue'
-import { PatchFlags } from '@element-plus/utils/vnode'
-import { useSameTarget } from '@element-plus/hooks'
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { createVNode, defineComponent, h, renderSlot } from 'vue'
+import { PatchFlags, buildProps, definePropType } from '@element-plus/utils'
+import { useNamespace, useSameTarget } from '@element-plus/hooks'
 
-import type { ExtractPropTypes, CSSProperties } from 'vue'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { ZIndexProperty } from 'csstype'
 
 export const overlayProps = buildProps({
@@ -40,6 +39,8 @@ export default defineComponent({
   emits: overlayEmits,
 
   setup(props, { slots, emit }) {
+    const ns = useNamespace('overlay')
+
     const onMaskClick = (e: MouseEvent) => {
       emit('click', e)
     }
@@ -56,7 +57,7 @@ export default defineComponent({
         ? createVNode(
             'div',
             {
-              class: ['el-overlay', props.overlayClass],
+              class: [ns.b(), props.overlayClass],
               style: {
                 zIndex: props.zIndex,
               },

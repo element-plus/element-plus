@@ -5,22 +5,17 @@ import navLocale from '../i18n/pages/sidebar.json'
 
 function getNav() {
   return Object.fromEntries(
-    Object.entries(navLocale).map(([lang, val]) => {
-      const value: {
+    Object.entries(navLocale).map(([lang, locales]) => {
+      const item: {
         link: string
         text: string
         activeMatch?: string
-      }[] = Object.values(val).map((item) => ({
+      }[] = Object.values(locales).map((item) => ({
         ...item,
         link: `${ensureLang(lang)}${item.link}`,
       }))
 
-      value.push({
-        text: lang === 'zh-CN' ? '旧版文档' : 'Old Doc',
-        link: 'https://doc-archive.element-plus.org/',
-      })
-
-      return [lang, value]
+      return [lang, item]
     })
   )
 }

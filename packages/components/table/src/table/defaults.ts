@@ -1,11 +1,12 @@
+// @ts-nocheck
 import type {
-  ComponentInternalInstance,
   CSSProperties,
+  ComponentInternalInstance,
+  PropType,
   Ref,
   VNode,
-  PropType,
 } from 'vue'
-import type { Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
@@ -13,6 +14,7 @@ import type TableLayout from '../table-layout'
 export type DefaultRow = any
 
 interface TableRefs {
+  tableWrapper: HTMLElement
   headerWrapper: HTMLElement
   footerWrapper: HTMLElement
   fixedBodyWrapper: HTMLElement
@@ -37,12 +39,17 @@ type HoverState<T> = Nullable<{
   row: T
 }>
 
-type RIS<T> = { row: T; $index: number; store: Store<T> }
+type RIS<T> = { row: T; $index: number; store: Store<T>; expanded: boolean }
 
-type RenderExpanded<T> = ({ row, $index, store }: RIS<T>) => VNode
+type RenderExpanded<T> = ({
+  row,
+  $index,
+  store,
+  expanded: boolean,
+}: RIS<T>) => VNode
 
 type SummaryMethod<T> = (data: {
-  columns: TableColumnCtx<T>
+  columns: TableColumnCtx<T>[]
   data: T[]
 }) => string[]
 
@@ -77,7 +84,7 @@ type CellStyle<T> =
       column: TableColumnCtx<T>
       columnIndex: number
     }) => CSSProperties)
-
+type Layout = 'fixed' | 'auto'
 interface TableProps<T> {
   data: T[]
   size?: string
@@ -119,6 +126,7 @@ interface TableProps<T> {
         rowspan: number
         colspan: number
       }
+    | undefined
   selectOnIndeterminate?: boolean
   indent?: number
   treeProps?: {
@@ -129,6 +137,8 @@ interface TableProps<T> {
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: CSSProperties
+  tableLayout: Layout
+  flexible: boolean
 }
 
 interface Sort {
@@ -160,14 +170,13 @@ interface RenderRowData<T> {
   row: T
   $index: number
   treeNode?: TreeNode
+  expanded: boolean
 }
 
 export default {
   data: {
     type: Array as PropType<DefaultRow[]>,
-    default: () => {
-      return []
-    },
+    default: () => [],
   },
   size: String,
   width: [String, Number],
@@ -244,6 +253,15 @@ export default {
     type: String,
     default: '',
   },
+  tableLayout: {
+    type: String as PropType<Layout>,
+    default: 'fixed',
+  },
+  scrollbarAlwaysOn: {
+    type: Boolean,
+    default: false,
+  },
+  flexible: Boolean,
 }
 export type {
   SummaryMethod,

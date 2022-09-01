@@ -1,53 +1,30 @@
-import type { CSSProperties, Plugin } from 'vue'
+import { isArray, isObject } from '@vue/shared'
+import { isNil } from 'lodash-unified'
 
-type OptionalKeys<T extends Record<string, unknown>> = {
-  [K in keyof T]: T extends Record<K, T[K]> ? never : K
-}[keyof T]
+export {
+  isArray,
+  isFunction,
+  isObject,
+  isString,
+  isDate,
+  isPromise,
+  isSymbol,
+} from '@vue/shared'
+export { isBoolean, isNumber } from '@vueuse/core'
+export { isVNode } from 'vue'
 
-type RequiredKeys<T extends Record<string, unknown>> = Exclude<
-  keyof T,
-  OptionalKeys<T>
->
+export const isUndefined = (val: any): val is undefined => val === undefined
 
-type MonoArgEmitter<T, Keys extends keyof T> = <K extends Keys>(
-  evt: K,
-  arg?: T[K]
-) => void
+export const isEmpty = (val: unknown) =>
+  (!val && val !== 0) ||
+  (isArray(val) && val.length === 0) ||
+  (isObject(val) && !Object.keys(val).length)
 
-type BiArgEmitter<T, Keys extends keyof T> = <K extends Keys>(
-  evt: K,
-  arg: T[K]
-) => void
-
-export type EventEmitter<T extends Record<string, unknown>> = MonoArgEmitter<
-  T,
-  OptionalKeys<T>
-> &
-  BiArgEmitter<T, RequiredKeys<T>>
-
-export type AnyFunction<T> = (...args: any[]) => T
-
-export type PartialReturnType<T extends (...args: unknown[]) => unknown> =
-  Partial<ReturnType<T>>
-
-export type SFCWithInstall<T> = T & Plugin
-
-export type Nullable<T> = T | null
-
-export type RefElement = Nullable<HTMLElement>
-
-export type CustomizedHTMLElement<T> = HTMLElement & T
-
-export type Indexable<T> = {
-  [key: string]: T
+export const isElement = (e: unknown): e is Element => {
+  if (typeof Element === 'undefined') return false
+  return e instanceof Element
 }
 
-export type Hash<T> = Indexable<T>
-
-export type TimeoutHandle = number
-
-export type ComponentSize = 'large' | 'default' | 'small'
-
-export type StyleValue = string | CSSProperties | Array<StyleValue>
-
-export type Mutable<T> = { -readonly [P in keyof T]: T[P] }
+export const isPropAbsent = (prop: unknown): prop is null | undefined => {
+  return isNil(prop)
+}

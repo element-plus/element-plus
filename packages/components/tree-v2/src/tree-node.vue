@@ -1,13 +1,13 @@
 <template>
   <div
     ref="node$"
-    class="el-tree-node"
-    :class="{
-      'is-expanded': expanded,
-      'is-current': current,
-      'is-focusable': !disabled,
-      'is-checked': !disabled && checked,
-    }"
+    :class="[
+      ns.b('node'),
+      ns.is('expanded', expanded),
+      ns.is('current', current),
+      ns.is('focusable', !disabled),
+      ns.is('checked', !disabled && checked),
+    ]"
     role="treeitem"
     tabindex="-1"
     :aria-expanded="expanded"
@@ -18,18 +18,18 @@
     @contextmenu="handleContextMenu"
   >
     <div
-      class="el-tree-node__content"
+      :class="ns.be('node', 'content')"
       :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
     >
       <el-icon
         v-if="icon"
         :class="[
+          ns.is('leaf', !!node?.isLeaf),
+          ns.is('hidden', hiddenExpandIcon),
           {
-            'is-leaf': node?.isLeaf,
-            'is-hidden': hiddenExpandIcon,
             expanded: !node?.isLeaf && expanded,
           },
-          'el-tree-node__expand-icon',
+          ns.be('node', 'expand-icon'),
         ]"
         @click.stop="handleExpandIconClick"
       >
@@ -49,14 +49,16 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { computed, defineComponent, inject } from 'vue'
 import { CaretRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { useNamespace } from '@element-plus/hooks'
 import ElNodeContent from './tree-node-content'
 import {
-  ROOT_TREE_INJECTION_KEY,
   NODE_CONTEXTMENU,
+  ROOT_TREE_INJECTION_KEY,
   treeNodeEmits,
   treeNodeProps,
 } from './virtual-tree'
@@ -75,6 +77,7 @@ export default defineComponent({
   emits: treeNodeEmits,
   setup(props, { emit }) {
     const tree = inject(ROOT_TREE_INJECTION_KEY)
+    const ns = useNamespace('tree')
 
     const indent = computed(() => {
       return tree?.props.indent ?? 16
@@ -84,8 +87,8 @@ export default defineComponent({
       return tree?.props.icon ?? DEFAULT_ICON
     })
 
-    const handleClick = () => {
-      emit('click', props.node)
+    const handleClick = (e: MouseEvent) => {
+      emit('click', props.node, e)
     }
     const handleExpandIconClick = () => {
       emit('toggle', props.node)
@@ -102,6 +105,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       indent,
       icon,
       handleClick,

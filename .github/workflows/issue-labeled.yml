@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: contribution welcome
         if: github.event.label.name == 'contribution welcome' || github.event.label.name == 'help wanted'
-        uses: actions-cool/issues-helper@v2
+        uses: actions-cool/issues-helper@v3
         with:
           actions: 'create-comment'
           issue-number: ${{ github.event.issue.number }}
@@ -21,7 +21,7 @@ jobs:
 
       - name: need reproduction
         if: github.event.label.name == 'need reproduction'
-        uses: actions-cool/issues-helper@v2
+        uses: actions-cool/issues-helper@v3
         with:
           actions: 'create-comment'
           issue-number: ${{ github.event.issue.number }}
@@ -32,7 +32,7 @@ jobs:
 
       - name: invalid
         if: github.event.label.name == 'invalid'
-        uses: actions-cool/issues-helper@v2
+        uses: actions-cool/issues-helper@v3
         with:
           actions: 'create-comment, close-issue'
           issue-number: ${{ github.event.issue.number }}

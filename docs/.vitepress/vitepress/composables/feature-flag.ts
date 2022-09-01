@@ -1,10 +1,22 @@
-import { computed } from 'vue'
+import { computed, unref } from 'vue'
 import { useData } from 'vitepress'
+import { isClient, useBrowserLocation } from '@vueuse/core'
+import type { MaybeRef } from '@vueuse/core'
 
-export const useFeatureFlag = (flag: string) => {
+const location = useBrowserLocation()
+
+export const useFeatureFlag = (flag: MaybeRef<string>) => {
   const { theme } = useData()
-
   return computed(() => {
-    return (theme.value.features || {})[flag]
+    const _flag = unref(flag)
+
+    if (isClient) {
+      const params = new URLSearchParams(location.value.search)
+      if (params.get(`feature:${_flag}`)) {
+        return true
+      }
+    }
+
+    return theme.value.features[_flag]
   })
 }

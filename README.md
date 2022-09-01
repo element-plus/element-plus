@@ -7,7 +7,10 @@
     <img src="https://img.shields.io/npm/v/element-plus.svg">
   </a>
   <a href="https://npmcharts.com/compare/element-plus?minimal=true">
-    <img src="http://img.shields.io/npm/dm/element-plus.svg">
+    <img src="https://img.shields.io/npm/dm/element-plus.svg">
+  </a>
+  <a href="https://codecov.io/gh/element-plus/element-plus">
+    <img src="https://codecov.io/gh/element-plus/element-plus/branch/dev/graph/badge.svg?token=BKSBO2GLZI"/>
   </a>
   <br>
 </p>
@@ -17,48 +20,81 @@
 - 💪 Vue 3 Composition API
 - 🔥 Written in TypeScript
 
-## Archived website
+## Getting Started
 
-If you are looking for previous version website, here is the link.
+Alright, for you to get started if you are looking for making Element Plus better you should keep reading.
+For developers that uses Element Plus to develop your website you should go ahead visit [Getting Started](https://element-plus.org/).
 
-[Element Plus Documentation Archived](https://github.com/element-plus/doc-archive)
+- 中国大陆[加速镜像站点](https://element-plus.gitee.io/)
 
-The new website is launched at 17th Sep 2021.
+## Breaking change list
 
-## Status: Beta
+The first stable release of Element Plus suitable for use in production was released on February 07, 2022. The APIs is stable right now, and here's also a full list about how to get upgraded from [Element UI](https://element.eleme.io) to Element Plus.
 
-This project is still under heavy development. Feel free to join us and make your first pull request.
+You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/discussions/5658).
+
+### Migration Tool :hammer_and_wrench:
+
+We have made a migration tool for you to migrate your project from [Element UI](https://element.eleme.io) to Element Plus.
+
+You can find the [gogo code migration tool](https://github.com/thx/gogocode/tree/main/packages/gogocode-plugin-element) here.
+
+We have tested this on [Vue Element Admin](https://github.com/PanJiaChen/vue-element-admin). You can find the transpiled code [here](https://github.com/gogocodeio/vue-element-admin).
 
 ### Playground
+
+You can also try Element Plus out with the components built-in playground.
+
+#### Try it with our built-in playground
+
+[Playground](https://element-plus.run/)
 
 #### Try it with code sandbox
 
 [![Edit element-plus](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/element-plus-demo-dxtcr)
 
-#### Try it with our built-in playground
-
-[Playground](https://play.element-plus.org/)
-
 <p align="center">
   <b>Special thanks to the generous sponsorship by:</b>
 </p>
 <br/>
+<p align="center">
+  <b>Platinum Sponsors</b>
+</p>
 <table align="center" cellspacing="0" cellpadding="0">
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://www.jnpfsoft.com/index.html?from=elementUI" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/17680888/145664631-bbe85550-4406-4f20-a19f-7e6e844a9b85.png">
+        <a href="https://vform666.com/vform3.html?from=element_plus" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/156870588-b25a42d5-888b-4943-8b1b-5239dfd8f4d2.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://js.design?source=element-plus" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/17680888/160634485-df0d00af-8633-4ab8-9a72-aac2b65d1d36.png">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://hooray.gitee.io/fantastic-admin/?from=element-plus" target="_blank">
+          <img width="150px" src="https://user-images.githubusercontent.com/82012629/167299102-e2e66150-2248-4f03-bbf2-84c622e7d165.png">
+        </a>
+      </td>
+    </tr>
+    </tbody>
+</table>
+<p align="center">
+  <b>Gold Sponsors</b>
+</p>
+<table align="center" cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr>
+      <td align="center" valign="middle">
+        <a href="https://wonderful-code.gitee.io/?from=element-plus" target="_blank">
+          <img width="130px" src="https://user-images.githubusercontent.com/17680888/173179536-30e35fd1-cd5a-482a-bc41-9d5f0aa66fd4.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="https://bit.dev/?from=element-ui" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
-        <a href="https://www.renren.io/?from=element-ui" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/82012629/126620778-0d8ab509-018a-45d7-b8de-a5bac2ad519a.png">
+          <img width="130px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
         </a>
       </td>
     </tr>
@@ -72,99 +108,30 @@ This project is still under heavy development. Feel free to join us and make you
 Element Plus is translated to multiple languages, you can click the badge to help up update the translation or apply to become
 a proofreader [![Crowdin](https://badges.crowdin.net/element-plus/localized.svg)](https://crowdin.com/project/element-plus)
 
-## Documentation
+For now we are only showing English and Chinese for resource reasons, but we are looking forward to translate it into more languages, please go to the link
+above and leave a message if you want to help translating Element Plus into your desired language.
 
-You can find for more details, API, and other docs on [https://element-plus.org](https://element-plus.org/)
+### How to help translating
 
-国内[加速镜像站点](https://element-plus.gitee.io/)
+See how to help translating in [Translating Element Plus](./HELP_TRANSLATING.md).
+
+## Stay tuned :eyes:
 
 Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody.
 
-## Breaking change list
+## This thing is broken, I should help improve it!
 
-You can find the breaking change list here: [Breaking Change List](https://github.com/element-plus/element-plus/issues/162).
+Awesommmmmmee. Everything you need is down below. You can also refer to
+[CONTRIBUTING](https://github.com/element-plus/element-plus/blob/dev/CONTRIBUTING.md) and
+[Code of Conduct](https://github.com/element-plus/element-plus/blob/dev/CODE_OF_CONDUCT.md)
+where you'll find the same information listed below.
 
-## Bootstrap project
+## I would like to become a part of the development team!
 
-With command
+Welcome :star_struck:! We are looking for talented developers to join us and making Element Plus better! If you care to join the development team, please
+reach out to us, you are more than welcomed to join us! :heart:
 
-```bash
-$ pnpm i
-```
-
-the project will install all dependencies
-
-## Website preview
-
-With command
-
-```bash
-$ pnpm docs:dev
-```
-
-the project will launch website for you to preview all existing component
-
-## Local development
-
-1. With command
-
-```shell
-$ pnpm dev
-```
-
-will start the local development environment
-
-2. Add your component into `play/src/App.vue`
-
-> App.vue
-
-```vue
-<template>
-  <ComponentYouAreDeveloping />
-</template>
-
-<script setup lang="ts">
-// make sure this component is registered in @element-plus/components
-import { ComponentYouAreDeveloping } from '@element-plus/components'
-</script>
-```
-
-Modify `App.vue` file per your needs to get things work.
-
-## Component migration process
-
-1. Convert the item in https://github.com/element-plus/element-plus/projects/1 to an issue
-2. Assign yourself to the issue
-3. Author your component by generating new component command below
-4. Migrate tests and docs
-5. Open a new pull request, fill in the component issue link in 1
-
-## Generate new component
-
-With command
-
-```bash
-$ pnpm gen component-name
-```
-
-Note the `component-name` must be in `kebab-case`, combining words by replacing each space with a dash.
-
-And component type must be added to `typings/global.d.ts`.
-
-## Commit template
-
-With command
-
-```bash
-pnpm cz
-```
-
-Example
-
-```
-# [TYPE](SCOPE): [el-component-name] DESCRIPTION#[ISSUE]
-# example: feat(components): [el-button] add type for form usage #1234
-```
+We are now lacking of experts of `Testing`, `GitHub Actions`, `PM`, if you do feel like you can and willing to help us, please do reach out to us. :pray:
 
 ## Sponsors
 
@@ -185,7 +152,7 @@ And thank you to all our backers! 🙏
   <img src="https://contrib.rocks/image?repo=element-plus/element-plus" />
 </a>
 
-## Licence
+## License
 
 Element Plus is open source software licensed as
 [MIT](https://github.com/element-plus/element-plus/blob/master/LICENSE).

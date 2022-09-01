@@ -1,6 +1,5 @@
 import { computed } from 'vue'
 import { useData } from 'vitepress'
-import { joinUrl } from '../utils'
 
 import type { PageData } from 'vitepress'
 
@@ -17,17 +16,6 @@ export const useToc = () => {
   const { page } = useData()
 
   return computed(() => resolveHeaders(page.value.headers))
-}
-
-export const resolveLink = (base: string, path: string) => {
-  if (path === undefined) {
-    return path
-  }
-  // keep relative hash to the same page
-  if (path.startsWith('#')) {
-    return path
-  }
-  return joinUrl(base, path)
 }
 
 export const resolveHeaders = (headers: PageData['headers']) => {

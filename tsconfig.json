@@ -1,20 +1,10 @@
 {
-  "compilerOptions": {
-    "allowJs": true,
-    "strict": true,
-    "module": "ES6",
-    "target": "ES2018",
-    "noImplicitAny": false,
-    "declaration": true,
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "lib": ["ES2018", "DOM"],
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
-  },
-  "include": ["packages"],
-  "exclude": ["node_modules", "**/__test?__", "**/dist"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.web.json" },
+    { "path": "./tsconfig.play.json" },
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.vite-config.json" },
+    { "path": "./tsconfig.vitest.json" }
+  ]
 }

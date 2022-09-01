@@ -1,5 +1,4 @@
 import { isClient } from '@vueuse/core'
-import { on, off } from '@element-plus/utils/dom'
 
 let isDragging = false
 
@@ -17,10 +16,10 @@ export default function (element: HTMLElement, options: IOptions) {
   }
 
   const upFn = function (event: Event) {
-    off(document, 'mousemove', moveFn)
-    off(document, 'mouseup', upFn)
-    off(document, 'touchmove', moveFn)
-    off(document, 'touchend', upFn)
+    document.removeEventListener('mousemove', moveFn)
+    document.removeEventListener('mouseup', upFn)
+    document.removeEventListener('touchmove', moveFn)
+    document.removeEventListener('touchend', upFn)
     document.onselectstart = null
     document.ondragstart = null
 
@@ -34,16 +33,16 @@ export default function (element: HTMLElement, options: IOptions) {
     event.preventDefault()
     document.onselectstart = () => false
     document.ondragstart = () => false
-    on(document, 'mousemove', moveFn)
-    on(document, 'mouseup', upFn)
-    on(document, 'touchmove', moveFn)
-    on(document, 'touchend', upFn)
+    document.addEventListener('mousemove', moveFn)
+    document.addEventListener('mouseup', upFn)
+    document.addEventListener('touchmove', moveFn)
+    document.addEventListener('touchend', upFn)
 
     isDragging = true
 
     options.start?.(event)
   }
 
-  on(element, 'mousedown', downFn)
-  on(element, 'touchstart', downFn)
+  element.addEventListener('mousedown', downFn)
+  element.addEventListener('touchstart', downFn)
 }

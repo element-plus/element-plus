@@ -1,4 +1,4 @@
-import { withInstall } from '@element-plus/utils/with-install'
+import { withInstall } from '@element-plus/utils'
 
 import Scrollbar from './src/scrollbar.vue'
 
@@ -7,4 +7,4 @@ export default ElScrollbar
 
 export * from './src/util'
 export * from './src/scrollbar'
-export * from './src/bar'
+export * from './src/thumb'

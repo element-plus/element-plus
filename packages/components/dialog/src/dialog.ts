@@ -1,32 +1,24 @@
-import { isValidWidthUnit } from '@element-plus/utils/validators'
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { dialogContentProps } from './dialog-content'
 
-import type { ExtractPropTypes, Component } from 'vue'
+import type { ExtractPropTypes } from 'vue'
+
+type DoneFn = (cancel?: boolean) => void
+export type DialogBeforeCloseFn = (done: DoneFn) => void
 
 export const dialogProps = buildProps({
+  ...dialogContentProps,
   appendToBody: {
     type: Boolean,
     default: false,
   },
   beforeClose: {
-    type: definePropType<(...args: any[]) => void>(Function),
+    type: definePropType<DialogBeforeCloseFn>(Function),
   },
   destroyOnClose: {
     type: Boolean,
     default: false,
-  },
-  center: {
-    type: Boolean,
-    default: false,
-  },
-  customClass: {
-    type: String,
-    default: '',
-  },
-  closeIcon: {
-    type: definePropType<string | Component>([String, Object]),
-    default: '',
   },
   closeOnClickModal: {
     type: Boolean,
@@ -36,10 +28,6 @@ export const dialogProps = buildProps({
     type: Boolean,
     default: true,
   },
-  fullscreen: {
-    type: Boolean,
-    default: false,
-  },
   lockScroll: {
     type: Boolean,
     default: true,
@@ -47,14 +35,6 @@ export const dialogProps = buildProps({
   modal: {
     type: Boolean,
     default: true,
-  },
-  showClose: {
-    type: Boolean,
-    default: true,
-  },
-  title: {
-    type: String,
-    default: '',
   },
   openDelay: {
     type: Number,
@@ -69,17 +49,21 @@ export const dialogProps = buildProps({
   },
   modelValue: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   modalClass: String,
   width: {
     type: [String, Number],
-    validator: isValidWidthUnit,
   },
   zIndex: {
     type: Number,
   },
+  trapFocus: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
+
 export type DialogProps = ExtractPropTypes<typeof dialogProps>
 
 export const dialogEmits = {
@@ -87,6 +71,8 @@ export const dialogEmits = {
   opened: () => true,
   close: () => true,
   closed: () => true,
-  [UPDATE_MODEL_EVENT]: (value: boolean) => typeof value === 'boolean',
+  [UPDATE_MODEL_EVENT]: (value: boolean) => isBoolean(value),
+  openAutoFocus: () => true,
+  closeAutoFocus: () => true,
 }
 export type DialogEmits = typeof dialogEmits

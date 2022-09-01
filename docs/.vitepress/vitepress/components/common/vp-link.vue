@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import ExternalLink from '../icons/external-link-icon.vue'
 
 const props = defineProps<{
   href?: string
@@ -21,7 +20,7 @@ const isExternal = computed(() => props.href && /^[a-z]+:/i.test(props.href))
   >
     <slot />
     <ElIcon v-if="isExternal && !noIcon">
-      <ExternalLink class="link-icon" />
+      <i-ri-external-link-line class="link-icon" />
     </ElIcon>
   </component>
 </template>
