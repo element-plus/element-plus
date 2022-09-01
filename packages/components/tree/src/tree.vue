@@ -204,6 +204,13 @@ export default defineComponent({
     })
 
     watch(
+      () => props.currentNodeKey,
+      (newVal) => {
+        store.value.setCurrentNodeKey(newVal)
+      }
+    )
+
+    watch(
       () => props.defaultCheckedKeys,
       (newVal) => {
         store.value.setDefaultCheckedKey(newVal)
