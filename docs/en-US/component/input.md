@@ -1,4 +1,4 @@
-﻿---
+---
 title: Input
 lang: en-US
 ---
@@ -148,6 +148,8 @@ input/length-limiting
 | tabindex             | input tabindex                                                                                                                         | string / number                          | -                                                                                                                                     | -       |
 | validate-event       | whether to trigger form validation                                                                                                     | boolean                                  | -                                                                                                                                     | true    |
 | input-style          | the style of the input element or textarea element                                                                                     | object                                   | -                                                                                                                                     | {}      |
+| uppercase            | convert the input English letters to uppercase letters                                                                                 | boolean                                  | —                                                                                                                                     | false   |
+| trim-type            | remove extra spaces when typing                                                                                                        | string                                   | start/end/both/all                                                                                                                    | —       |
 
 ## Input Slots
 
