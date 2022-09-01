@@ -122,7 +122,6 @@ function useRender<T>(
     }
 
     let originRenderCell = column.renderCell
-    const hasTreeColumnValue = hasTreeColumn.value
     // TODO: 这里的实现调整
     if (column.type === 'expand') {
       // 对于展开行，renderCell 不允许配置的。在上一步中已经设置过，这里需要简单封装一下。
@@ -151,7 +150,7 @@ function useRender<T>(
           children = originRenderCell(data)
         }
         const shouldCreatePlaceholder =
-          hasTreeColumnValue && data.cellIndex === 0
+          hasTreeColumn.value && data.cellIndex === 0
         const prefix = treeCellPrefix(data, shouldCreatePlaceholder)
         const props = {
           class: 'cell',

@@ -125,6 +125,14 @@ select-v2/remote-search
 
 :::
 
+## use value-key
+
+:::demo when `options.value` is an object, you should set a unique identity key name for value
+
+select-v2/use-valueKey
+
+:::
+
 ## SelectV2 Attributes
 
 | Attribute                         | Description                                                                                                                              | Type                               | Accepted Values     | Default       |

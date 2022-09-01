@@ -416,4 +416,24 @@ describe('TreeSelect.vue', () => {
     expect(tree.findAll('.is-expanded[data-key="1"]').length).toBe(1)
     expect(tree.findAll('.is-expanded[data-key="11"]').length).toBe(1)
   })
+
+  test('expand-on-click-node', async () => {
+    const { wrapper, tree } = createComponent({
+      props: {
+        expandOnClickNode: false,
+        checkOnClickNode: true,
+      },
+    })
+
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    expect(
+      tree.findAll('.el-tree-node__children')[0].attributes('style')
+    ).toContain('display: none;')
+
+    await wrapper.setProps({ expandOnClickNode: true })
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    expect(
+      tree.findAll('.el-tree-node__children')[0].attributes('style')
+    ).not.toContain('display: none;')
+  })
 })

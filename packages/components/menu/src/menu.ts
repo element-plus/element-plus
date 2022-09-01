@@ -217,6 +217,7 @@ export default defineComponent({
     }
 
     const calcSliceIndex = () => {
+      if (!menu.value) return -1
       const items = Array.from(menu.value?.childNodes ?? []).filter(
         (item) => item.nodeName !== '#text' || item.nodeValue
       ) as HTMLElement[]
