@@ -1,7 +1,10 @@
+// @ts-nocheck
 import {
   computed,
   defineComponent,
+  getCurrentInstance,
   inject,
+  nextTick,
   onMounted,
   onUpdated,
   ref,
@@ -71,6 +74,8 @@ const TabNav = defineComponent({
   props: tabNavProps,
 
   setup(props, { expose }) {
+    const vm = getCurrentInstance()!
+
     const rootTabs = inject(tabsRootContextKey)
     if (!rootTabs) throwError(COMPONENT_NAME, `<el-tabs><tab-nav /></el-tabs>`)
 
@@ -132,9 +137,11 @@ const TabNav = defineComponent({
       navOffset.value = newOffset
     }
 
-    const scrollToActiveTab = () => {
+    const scrollToActiveTab = async () => {
       const nav = nav$.value
       if (!scrollable.value || !el$.value || !navScroll$.value || !nav) return
+
+      await nextTick()
 
       const activeTab = el$.value.querySelector('.is-active')
       if (!activeTab) return
@@ -208,7 +215,7 @@ const TabNav = defineComponent({
       // 左右上下键更换tab
       const tabList = Array.from(
         (e.currentTarget as HTMLDivElement).querySelectorAll<HTMLDivElement>(
-          '[role=tab]'
+          '[role=tab]:not(.is-disabled)'
         )
       )
       const currentIndex = tabList.indexOf(e.target as HTMLDivElement)
@@ -266,6 +273,12 @@ const TabNav = defineComponent({
       removeFocus,
     })
 
+    watch(
+      () => props.panes,
+      () => vm.update(),
+      { flush: 'post' }
+    )
+
     return () => {
       const scrollBtn = scrollable.value
         ? [
@@ -295,37 +308,40 @@ const TabNav = defineComponent({
         : null
 
       const tabs = props.panes.map((pane, index) => {
-        const tabName = pane.props.name || pane.index || `${index}`
-        const closable: boolean = pane.isClosable || props.editable
+        const uid = pane.uid
+        const disabled = pane.props.disabled
+        const tabName = pane.props.name ?? pane.index ?? `${index}`
+        const closable = !disabled && (pane.isClosable || props.editable)
         pane.index = `${index}`
 
         const btnClose = closable ? (
           <ElIcon
             class="is-icon-close"
-            // @ts-expect-error native event
+            // `onClick` not exist when generate dts
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             onClick={(ev: MouseEvent) => props.onTabRemove(pane, ev)}
           >
             <Close />
           </ElIcon>
         ) : null
 
-        const tabLabelContent =
-          pane.instance.slots.label?.() || pane.props.label
-        const tabindex = pane.active ? 0 : -1
+        const tabLabelContent = pane.slots.label?.() || pane.props.label
+        const tabindex = !disabled && pane.active ? 0 : -1
 
         return (
           <div
-            ref={`tab-${tabName}`}
+            ref={`tab-${uid}`}
             class={[
               ns.e('item'),
               ns.is(rootTabs.props.tabPosition),
               ns.is('active', pane.active),
-              ns.is('disabled', pane.props.disabled),
+              ns.is('disabled', disabled),
               ns.is('closable', closable),
               ns.is('focus', isFocus.value),
             ]}
             id={`tab-${tabName}`}
-            key={`tab-${tabName}`}
+            key={`tab-${uid}`}
             aria-controls={`pane-${tabName}`}
             role="tab"
             aria-selected={pane.active}

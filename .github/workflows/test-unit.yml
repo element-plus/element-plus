@@ -4,6 +4,10 @@ name: 🧪 Unit Test
 
 on: pull_request
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Unit Test (${{ matrix.node-name }})
@@ -14,36 +18,32 @@ jobs:
         include:
           - node-version: '16'
             node-name: 'Latest'
+
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+
       - name: Add dev branch
         run: git branch dev origin/dev
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-        with:
-          version: latest
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Cache ~/.pnpm-store
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-pnpm-store
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-test-${{ env.cache-name }}-
-            ${{ runner.os }}-${{ matrix.node-version }}-test-
-            ${{ runner.os }}-
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
+
       - name: Lint
         run: pnpm lint
+
+      - name: Type Check
+        run: pnpm typecheck
+
       - name: Test
-        run: pnpm test:jest && pnpm test:vitest
+        run: pnpm test

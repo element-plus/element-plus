@@ -1,8 +1,8 @@
 <template>
-  <el-button type="text" @click="table = true"
+  <el-button text @click="table = true"
     >Open Drawer with nested table</el-button
   >
-  <el-button type="text" @click="dialog = true"
+  <el-button text @click="dialog = true"
     >Open Drawer with nested form</el-button
   >
   <el-drawer
@@ -53,8 +53,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import { ElMessageBox } from 'element-plus'
-import type { ElDrawer } from 'element-plus'
+import { ElDrawer, ElMessageBox } from 'element-plus'
 
 const formLabelWidth = '80px'
 let timer

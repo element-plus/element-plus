@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
 import DefineOptions from 'unplugin-vue-define-options/vite'
@@ -9,10 +9,9 @@ export default defineConfig({
     disabled: true,
   },
   test: {
-    include: ['**/*.vitest.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    exclude: ['**/*.test.*', '**/*.spec.*', '**/node_modules'],
+    clearMocks: true,
     environment: 'jsdom',
-    setupFiles: ['./vitest.setup.js'],
+    setupFiles: ['./vitest.setup.ts'],
     transformMode: {
       web: [/\.[jt]sx$/],
     },

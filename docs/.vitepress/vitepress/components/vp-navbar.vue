@@ -2,7 +2,6 @@
 import { computed } from 'vue'
 import { inBrowser, useData } from 'vitepress'
 
-import { useFeatureFlag } from '../composables/feature-flag'
 import VPNavbarSearch from './navbar/vp-search.vue'
 import VPNavbarMenu from './navbar/vp-menu.vue'
 import VPNavbarThemeToggler from './navbar/vp-theme-toggler.vue'
@@ -15,7 +14,6 @@ defineProps<{
 }>()
 
 defineEmits(['toggle'])
-const themeEnabled = useFeatureFlag('theme')
 
 const { theme, page } = useData()
 
@@ -46,7 +44,7 @@ const currentLink = computed(() => {
       <div class="content">
         <VPNavbarSearch class="search" :options="theme.agolia" multilang />
         <VPNavbarMenu class="menu" />
-        <VPNavbarThemeToggler v-if="themeEnabled" class="theme-toggler" />
+        <VPNavbarThemeToggler class="theme-toggler" />
         <VPNavbarTranslation class="translation" />
         <VPNavbarSocialLinks class="social-links" />
         <VPNavbarHamburger

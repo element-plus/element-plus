@@ -26,7 +26,7 @@ export const copyFiles = () =>
   ])
 
 export const copyTypesDefinitions: TaskFunction = (done) => {
-  const src = path.resolve(buildOutput, 'types')
+  const src = path.resolve(buildOutput, 'types', 'packages')
   const copyTypes = (module: Module) =>
     withTaskName(`copyTypes:${module}`, () =>
       copy(src, buildConfig[module].output.path, { recursive: true })
@@ -54,7 +54,7 @@ export default series(
     runTask('buildHelper'),
     series(
       withTaskName('buildThemeChalk', () =>
-        run('pnpm run --filter ./packages/ build --parallel')
+        run('pnpm run -C packages/theme-chalk build')
       ),
       copyFullStyle
     )

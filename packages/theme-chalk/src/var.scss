@@ -3,6 +3,7 @@
 // CSS3 var
 @use 'common/var' as *;
 @use 'mixins/var' as *;
+@use 'mixins/mixins' as *;
 
 // for better performance do not dynamically change the root variable if you really
 // do not need that, since this could introduce recalculation overhead for rendering.
@@ -38,6 +39,9 @@
 
   @include set-component-css-var('transition-function', $transition-function);
   @include set-component-css-var('transition', $transition);
+
+  // common component size
+  @include set-component-css-var('component-size', $common-component-size);
 }
 
 // for light
@@ -79,7 +83,8 @@
   @include set-css-var-value('border-color-hover', $border-color-hover);
   @include set-css-var-value(
     'border',
-    #{var(--el-border-width) var(--el-border-style) var(--el-border-color)}
+    getCssVar('border-width') getCssVar('border-style')
+      getCssVar('border-color')
   );
 
   // Svg

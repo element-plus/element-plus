@@ -1,14 +1,13 @@
 import { get } from 'lodash-unified'
 import { isFunction, isObject } from '@element-plus/utils'
-import TableCell from '../table-cell'
-import ExpandIcon from '../expand-icon'
+import { ExpandIcon, TableCell } from '../components'
 import { Alignment } from '../constants'
 import { placeholderSign } from '../private'
-import { componentToSlot, enforceUnit } from '../utils'
+import { componentToSlot, enforceUnit, tryCall } from '../utils'
 
 import type { FunctionalComponent, UnwrapNestedRefs, VNode } from 'vue'
 import type { CellRendererParams } from '../types'
-import type { TableV2RowCellRenderParam } from '../table-row'
+import type { TableV2RowCellRenderParam } from '../components'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { UseTableReturn } from '../use-table'
 import type { TableV2Props } from '../table'
@@ -18,9 +17,7 @@ type CellRendererProps = TableV2RowCellRenderParam &
     TableV2Props,
     'cellProps' | 'expandColumnKey' | 'indentSize' | 'iconSize' | 'rowKey'
   > &
-  UnwrapNestedRefs<
-    Pick<UseTableReturn, 'columnsStyles' | 'expandedRowKeys'>
-  > & {
+  UnwrapNestedRefs<Pick<UseTableReturn, 'expandedRowKeys'>> & {
     ns: UseNamespaceReturn
   }
 
@@ -36,10 +33,11 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
     rowData,
     rowIndex,
     // from use-table
-    columnsStyles,
+    style,
     expandedRowKeys,
     ns,
     // derived props
+    cellProps: _cellProps,
     expandColumnKey,
     indentSize,
     iconSize,
@@ -47,7 +45,7 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
   },
   { slots }
 ) => {
-  const cellStyle = enforceUnit(columnsStyles[column.key])
+  const cellStyle = enforceUnit(style)
 
   if (column.placeholderSign === placeholderSign) {
     return <div class={ns.em('row-cell', 'placeholder')} style={cellStyle} />
@@ -64,6 +62,15 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
   const cellData = isFunction(dataGetter)
     ? dataGetter({ columns, column, columnIndex, rowData, rowIndex })
     : get(rowData, dataKey ?? '')
+
+  const extraCellProps = tryCall(_cellProps, {
+    cellData,
+    columns,
+    column,
+    columnIndex,
+    rowIndex,
+    rowData,
+  })
 
   const cellProps = {
     class: ns.e('cell-text'),
@@ -114,17 +121,7 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
   }
 
   return (
-    <div
-      // {...tryCall(cellProps, {
-      //   columns,
-      //   column,
-      //   columnIndex,
-      //   rowData,
-      //   rowIndex,
-      // })}
-      class={kls}
-      style={cellStyle}
-    >
+    <div class={kls} style={cellStyle} {...extraCellProps}>
       {IconOrPlaceholder}
       {Cell}
     </div>

@@ -30,8 +30,8 @@ export const switchProps = buildProps({
     default: false,
   },
   width: {
-    type: Number,
-    default: 40,
+    type: [String, Number],
+    default: '',
   },
   inlinePrompt: {
     type: Boolean,
@@ -39,11 +39,9 @@ export const switchProps = buildProps({
   },
   activeIcon: {
     type: iconPropType,
-    default: '',
   },
   inactiveIcon: {
     type: iconPropType,
-    default: '',
   },
   activeText: {
     type: String,
@@ -92,6 +90,9 @@ export const switchProps = buildProps({
   size: {
     type: String as PropType<ComponentSize>,
     validator: isValidComponentSize,
+  },
+  tabindex: {
+    type: [String, Number],
   },
 } as const)
 

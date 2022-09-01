@@ -6,10 +6,27 @@ import {
   isString,
 } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
+
 import type { ExtractPropTypes } from 'vue'
 import type Autocomplete from './autocomplete.vue'
 import type { Placement } from '@element-plus/components/popper'
+import type { Awaitable } from '@element-plus/utils'
+
+export type AutocompleteData = Record<string, any>[]
+export type AutocompleteFetchSuggestionsCallback = (
+  data: AutocompleteData
+) => void
+export type AutocompleteFetchSuggestions =
+  | ((
+      queryString: string,
+      cb: AutocompleteFetchSuggestionsCallback
+    ) => Awaitable<AutocompleteData> | void)
+  | AutocompleteData
 
 export const autocompleteProps = buildProps({
   valueKey: {
@@ -37,13 +54,7 @@ export const autocompleteProps = buildProps({
     default: 'bottom-start',
   },
   fetchSuggestions: {
-    type: definePropType<
-      | ((
-          queryString: string,
-          cb: (data: { value: string }[]) => void
-        ) => { value: string }[] | Promise<{ value: string }[]> | void)
-      | { value: string }[]
-    >([Function, Array]),
+    type: definePropType<AutocompleteFetchSuggestions>([Function, Array]),
     default: NOOP,
   },
   popperClass: {
@@ -62,12 +73,15 @@ export const autocompleteProps = buildProps({
     type: Boolean,
     default: false,
   },
-  popperAppendToBody: {
-    type: Boolean,
-    default: undefined,
+  label: {
+    type: String,
   },
   teleported: useTooltipContentProps.teleported,
   highlightFirstItem: {
+    type: Boolean,
+    default: false,
+  },
+  fitInputWidth: {
     type: Boolean,
     default: false,
   },
@@ -76,8 +90,8 @@ export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 
 export const autocompleteEmits = {
   [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
-  input: (value: string) => isString(value),
-  change: (value: string) => isString(value),
+  [INPUT_EVENT]: (value: string) => isString(value),
+  [CHANGE_EVENT]: (value: string) => isString(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,

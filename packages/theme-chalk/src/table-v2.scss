@@ -14,7 +14,7 @@
 }
 
 @mixin safe-padding() {
-  padding-inline-end: var(--#{$namespace}-table-scrollbar-size);
+  padding-inline-end: getCssVar('table-scrollbar-size');
 }
 
 @mixin cell-alignment() {
@@ -52,6 +52,7 @@
 }
 
 @include b('table-v2') {
+  font-size: 14px;
   * {
     box-sizing: border-box;
   }
@@ -110,6 +111,28 @@
     overflow: hidden;
   }
 
+  @include e('footer') {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+
+  @include e('empty') {
+    position: absolute;
+    left: 0;
+  }
+
+  @include e('overlay') {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9999;
+  }
+
   @include e('header-row') {
     display: flex;
     border-bottom: getCssVar('table', 'border');
@@ -120,6 +143,7 @@
       @include cell-alignment;
       height: 100%;
       user-select: none;
+      overflow: hidden;
       background-color: getCssVar('table-header', 'bg-color');
       color: getCssVar('table-header', 'text-color');
       font-weight: bold;
@@ -148,11 +172,16 @@
   }
 
   @include e('row') {
-    @include center-flex;
     border-bottom: getCssVar('table', 'border');
+
+    @include center-flex;
     transition: background-color getCssVar('transition-duration', '');
 
     @include when('hovered') {
+      background-color: getCssVar('table-row', 'hover-bg-color');
+    }
+
+    &:hover {
       background-color: getCssVar('table-row', 'hover-bg-color');
     }
 
@@ -161,12 +190,6 @@
       overflow: hidden;
       @include center-flex;
       @include cell-padding;
-
-      @include e('cell-text') {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
       @include cell-alignment;
     }
 
@@ -183,6 +206,24 @@
         svg {
           transform: rotate(90deg);
         }
+      }
+    }
+  }
+
+  &:not(.is-dynamic) {
+    @include e('cell-text') {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  @include when(dynamic) {
+    @include e('row') {
+      overflow: hidden;
+      align-items: stretch;
+      @include e('row-cell') {
+        word-break: break-all;
       }
     }
   }

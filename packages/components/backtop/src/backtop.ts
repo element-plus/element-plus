@@ -1,4 +1,5 @@
 import type { ExtractPropTypes } from 'vue'
+import type Backtop from './backtop.vue'
 
 export const backtopProps = {
   visibilityHeight: {
@@ -24,3 +25,5 @@ export const backtopEmits = {
   click: (evt: MouseEvent) => evt instanceof MouseEvent,
 }
 export type BacktopEmits = typeof backtopEmits
+
+export type BacktopInstance = InstanceType<typeof Backtop>

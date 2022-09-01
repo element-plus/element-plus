@@ -7,9 +7,9 @@
   >
     <el-tooltip
       ref="tooltipRef"
-      v-model:visible="dropMenuVisible"
+      :visible="dropMenuVisible"
       placement="bottom-start"
-      :teleported="compatTeleported"
+      :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       :effect="effect"
@@ -63,7 +63,7 @@
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   :effect="effect"
                   placement="bottom"
-                  :teleported="false"
+                  :teleported="teleported"
                 >
                   <template #default>
                     <span :class="nsSelect.e('tags-text')"
@@ -73,7 +73,7 @@
                   <template #content>
                     <div :class="nsSelect.e('collapse-tags')">
                       <div
-                        v-for="(item, idx) in selected"
+                        v-for="(item, idx) in selected.slice(1)"
                         :key="idx"
                         :class="nsSelect.e('collapse-tag')"
                       >
@@ -155,7 +155,7 @@
               @keydown="resetInputState"
               @keydown.down.prevent="navigateOptions('next')"
               @keydown.up.prevent="navigateOptions('prev')"
-              @keydown.esc.stop.prevent="visible = false"
+              @keydown.esc="handleKeydownEscape"
               @keydown.enter.stop.prevent="selectOption"
               @keydown.delete="deletePrevTag"
               @keydown.tab="visible = false"
@@ -189,7 +189,7 @@
             @keydown.down.stop.prevent="navigateOptions('next')"
             @keydown.up.stop.prevent="navigateOptions('prev')"
             @keydown.enter.stop.prevent="selectOption"
-            @keydown.esc.stop.prevent="visible = false"
+            @keydown.esc="handleKeydownEscape"
             @keydown.tab="visible = false"
             @mouseenter="inputHovering = true"
             @mouseleave="inputHovering = false"
@@ -260,17 +260,18 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   computed,
   defineComponent,
   nextTick,
-  onBeforeUnmount,
   onMounted,
   provide,
   reactive,
   toRefs,
   unref,
 } from 'vue'
+import { useResizeObserver } from '@vueuse/core'
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
@@ -280,17 +281,8 @@ import ElTooltip, {
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
-import {
-  CHANGE_EVENT,
-  UPDATE_MODEL_EVENT,
-  getComponentSize,
-} from '@element-plus/constants'
-import {
-  addResizeListener,
-  isValidComponentSize,
-  removeResizeListener,
-} from '@element-plus/utils'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isValidComponentSize } from '@element-plus/utils'
 import { ArrowUp, CircleClose } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
@@ -372,10 +364,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    popperAppendToBody: {
-      type: Boolean,
-      default: undefined,
-    },
     teleported: useTooltipContentProps.teleported,
     persistent: {
       type: Boolean,
@@ -395,6 +383,10 @@ export default defineComponent({
     },
     // eslint-disable-next-line vue/require-prop-types
     tagType: { ...tagProps.type, default: 'info' },
+    validateEvent: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,
@@ -444,6 +436,7 @@ export default defineComponent({
       handleBlur,
       handleClearClick,
       handleClose,
+      handleKeydownEscape,
       toggleMenu,
       selectOption,
       getValueKey,
@@ -532,45 +525,24 @@ export default defineComponent({
       ) {
         currentPlaceholder.value = ''
       }
-      addResizeListener(selectWrapper.value as any, handleResize)
-      if (reference.value && reference.value.$el) {
-        const input = reference.value.input as HTMLInputElement
-        states.initialInputHeight =
-          input.getBoundingClientRect().height ||
-          getComponentSize(selectSize.value)
-      }
+      useResizeObserver(selectWrapper, handleResize)
       if (props.remote && props.multiple) {
         resetInputHeight()
       }
       nextTick(() => {
-        if (!reference.value) return
-        if (reference.value.$el) {
-          inputWidth.value = reference.value.$el.getBoundingClientRect().width
-        }
+        const refEl = reference.value && reference.value.$el
+        if (!refEl) return
+        inputWidth.value = refEl.getBoundingClientRect().width
+
         if (ctx.slots.prefix) {
-          const inputChildNodes = reference.value.$el.childNodes
-          const input = (Array.from(inputChildNodes) as HTMLElement[]).find(
-            (item) => item.tagName === 'INPUT'
+          const prefix = refEl.querySelector(`.${nsInput.e('prefix')}`)
+          prefixWidth.value = Math.max(
+            prefix.getBoundingClientRect().width + 5,
+            30
           )
-          if (input) {
-            const prefix = reference.value.$el.querySelector(
-              `.${nsInput.e('prefix')}`
-            )
-            prefixWidth.value = Math.max(
-              prefix.getBoundingClientRect().width + 5,
-              30
-            )
-            if (states.prefixWidth) {
-              input.style.paddingLeft = `${Math.max(states.prefixWidth, 30)}px`
-            }
-          }
         }
       })
       setSelected()
-    })
-
-    onBeforeUnmount(() => {
-      removeResizeListener(selectWrapper.value as any, handleResize)
     })
 
     if (props.multiple && !Array.isArray(props.modelValue)) {
@@ -583,11 +555,6 @@ export default defineComponent({
     const popperPaneRef = computed(() => {
       return tooltipRef.value?.popperRef?.contentRef
     })
-
-    const { compatTeleported } = useDeprecateAppendToBody(
-      COMPONENT_NAME,
-      'popperAppendToBody'
-    )
 
     return {
       tagInMultiLine,
@@ -635,6 +602,7 @@ export default defineComponent({
       handleBlur,
       handleClearClick,
       handleClose,
+      handleKeydownEscape,
       toggleMenu,
       selectOption,
       getValueKey,
@@ -652,7 +620,6 @@ export default defineComponent({
 
       wrapperKls,
       selectTagsStyle,
-      compatTeleported,
       nsSelect,
     }
   },

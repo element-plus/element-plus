@@ -1,20 +1,20 @@
-import HeaderRow from '../table-header-row'
+import { HeaderRow } from '../components'
 import { tryCall } from '../utils'
 
 import type { FunctionalComponent } from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
-import type { TableV2HeaderRendererParams } from '../table-header'
+import type { TableV2HeaderRendererParams } from '../components'
 import type { TableV2Props } from '../table'
 
 type HeaderRendererProps = TableV2HeaderRendererParams &
   Pick<TableV2Props, 'headerClass' | 'headerProps'> & {
     ns: UseNamespaceReturn
   }
-//  & UnwrapNestedRefs<Pick<UseTableReturn, 'resizingKey'>>
 
 const HeaderRenderer: FunctionalComponent<HeaderRendererProps> = (
   {
     columns,
+    columnsStyles,
     headerIndex,
     style,
     // derived from root
@@ -22,8 +22,6 @@ const HeaderRenderer: FunctionalComponent<HeaderRendererProps> = (
     headerProps,
 
     ns,
-    // returned by use-table
-    // resizingKey,
   },
   { slots }
 ) => {
@@ -40,6 +38,7 @@ const HeaderRenderer: FunctionalComponent<HeaderRendererProps> = (
 
   const extraProps = {
     ...tryCall(headerProps, param),
+    columnsStyles,
     class: kls,
     columns,
     headerIndex,

@@ -71,10 +71,6 @@ export const SelectProps = {
   placeholder: {
     type: String,
   },
-  popperAppendToBody: {
-    type: Boolean,
-    default: undefined,
-  },
   teleported: useTooltipContentProps.teleported,
   persistent: {
     type: Boolean,
@@ -100,6 +96,10 @@ export const SelectProps = {
   scrollbarAlwaysOn: {
     type: Boolean,
     default: false,
+  },
+  validateEvent: {
+    type: Boolean,
+    default: true,
   },
 }
 

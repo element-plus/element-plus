@@ -35,12 +35,12 @@ export const getScrollContainer = (
 }
 
 let scrollBarWidth: number
-export const getScrollBarWidth = (): number => {
+export const getScrollBarWidth = (namespace: string): number => {
   if (!isClient) return 0
   if (scrollBarWidth !== undefined) return scrollBarWidth
 
   const outer = document.createElement('div')
-  outer.className = 'el-scrollbar__wrap'
+  outer.className = `${namespace}-scrollbar__wrap`
   outer.style.visibility = 'hidden'
   outer.style.width = '100px'
   outer.style.position = 'absolute'

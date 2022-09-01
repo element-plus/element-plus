@@ -20,7 +20,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { ElTree } from 'element-plus'
+import { ElTree } from 'element-plus'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
 interface Tree {

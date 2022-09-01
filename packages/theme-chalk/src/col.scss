@@ -5,7 +5,6 @@
 @use 'mixins/_col' as *;
 
 [class*='#{$namespace}-col-'] {
-  float: left;
   box-sizing: border-box;
   @include when(guttered) {
     display: block;

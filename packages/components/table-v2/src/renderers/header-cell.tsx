@@ -1,28 +1,18 @@
-import HeaderCell from '../table-header-cell'
+import { HeaderCell, SortIcon } from '../components'
 // import ColumnResizer from '../table-column-resizer'
-import SortIcon from '../sort-icon'
 import { Alignment, SortOrder, oppositeOrderMap } from '../constants'
 import { placeholderSign } from '../private'
-import { componentToSlot, tryCall } from '../utils'
+import { componentToSlot, enforceUnit, tryCall } from '../utils'
 
 import type { FunctionalComponent, UnwrapNestedRefs } from 'vue'
 import type { UseNamespaceReturn } from '@element-plus/hooks'
-import type { TableV2HeaderRowCellRendererParams } from '../table-header-row'
+import type { TableV2HeaderRowCellRendererParams } from '../components'
 import type { UseTableReturn } from '../use-table'
 import type { TableV2Props } from '../table'
 import type { TableV2HeaderCell } from '../header-cell'
 
-type HeaderCellRendererProps = TableV2HeaderRowCellRendererParams &
-  UnwrapNestedRefs<
-    Pick<
-      UseTableReturn,
-      'columnsStyles' | 'onColumnSorted'
-      // | 'resizingKey'
-      // | 'onColumnResized'
-      // | 'onColumnResizeEnd'
-      // | 'onColumnResizeStart'
-    >
-  > &
+export type HeaderCellRendererProps = TableV2HeaderRowCellRendererParams &
+  UnwrapNestedRefs<Pick<UseTableReturn, 'onColumnSorted'>> &
   Pick<TableV2Props, 'sortBy' | 'sortState' | 'headerCellProps'> & {
     ns: UseNamespaceReturn
   }
@@ -31,21 +21,14 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
   props,
   { slots }
 ) => {
-  const {
-    column,
-    ns,
-    columnsStyles,
-    // resizingKey,
-    // onColumnResizeEnd,
-    // onColumnResizeStart,
-    // onColumnResized,
-    onColumnSorted,
-  } = props
+  const { column, ns, style, onColumnSorted } = props
 
-  const style = columnsStyles[column.key]
+  const cellStyle = enforceUnit(style)
 
   if (column.placeholderSign === placeholderSign) {
-    return <div class={ns.em('header-row-cell', 'placeholder')} style={style} />
+    return (
+      <div class={ns.em('header-row-cell', 'placeholder')} style={cellStyle} />
+    )
   }
 
   const { headerCellRenderer, headerClass, sortable } = column
@@ -83,18 +66,17 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
 
   const cellKls = [
     ns.e('header-cell'),
-    ...tryCall(headerClass, props, ''),
+    tryCall(headerClass, props, ''),
     column.align === Alignment.CENTER && ns.is('align-center'),
     column.align === Alignment.RIGHT && ns.is('align-right'),
     sortable && ns.is('sortable'),
-    // column.key === resizingKey && ns.is('resizing'),
   ]
 
   const cellWrapperProps = {
     ...tryCall(headerCellProps, props),
     onClick: column.sortable ? onColumnSorted : undefined,
     class: cellKls,
-    style,
+    style: cellStyle,
     ['data-key']: column.key,
   }
 
@@ -109,18 +91,9 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
           sortOrder={sortOrder}
         />
       )}
-
-      {/* {resizable && (
-        <ColumnResizer
-          class={ns.e('column-resizer')}
-          column={column}
-          onResize={onColumnResized}
-          onResizeStart={onColumnResizeStart}
-          onResizeStop={onColumnResizeEnd}
-        />
-      )} */}
     </div>
   )
 }
 
 export default HeaderCellRenderer
+export type HeaderCellSlotProps = HeaderCellRendererProps & { class: string }

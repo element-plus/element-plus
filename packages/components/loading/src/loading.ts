@@ -10,6 +10,7 @@ import {
   withCtx,
   withDirectives,
 } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import { removeClass } from '@element-plus/utils'
 
 import type { LoadingOptionsResolved } from './types'
@@ -17,6 +18,7 @@ import type { LoadingOptionsResolved } from './types'
 export function createLoadingComponent(options: LoadingOptionsResolved) {
   let afterLeaveTimer: number
 
+  const ns = useNamespace('loading')
   const afterLeaveFlag = ref(false)
   const data = reactive({
     ...options,
@@ -36,17 +38,17 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
         target.getAttribute('loading-number')
       loadingNumber = Number.parseInt(loadingNumber as any) - 1
       if (!loadingNumber) {
-        removeClass(target, 'el-loading-parent--relative')
+        removeClass(target, ns.bm('parent', 'relative'))
         target.removeAttribute('loading-number')
       } else {
         target.setAttribute('loading-number', loadingNumber.toString())
       }
-      removeClass(target, 'el-loading-parent--hidden')
+      removeClass(target, ns.bm('parent', 'hidden'))
     }
-    remvoeElLoadingChild()
+    removeElLoadingChild()
     loadingInstance.unmount()
   }
-  function remvoeElLoadingChild(): void {
+  function removeElLoadingChild(): void {
     vm.$el?.parentNode?.removeChild(vm.$el)
   }
   function close() {
@@ -98,13 +100,13 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
         )
 
         const spinnerText = data.text
-          ? h('p', { class: 'el-loading-text' }, [data.text])
+          ? h('p', { class: ns.b('text') }, [data.text])
           : undefined
 
         return h(
           Transition,
           {
-            name: 'el-loading-fade',
+            name: ns.b('fade'),
             onAfterLeave: handleAfterLeave,
           },
           {
@@ -117,7 +119,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
                       backgroundColor: data.background || '',
                     },
                     class: [
-                      'el-loading-mask',
+                      ns.b('mask'),
                       data.customClass,
                       data.fullscreen ? 'is-fullscreen' : '',
                     ],
@@ -126,7 +128,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
                     h(
                       'div',
                       {
-                        class: 'el-loading-spinner',
+                        class: ns.b('spinner'),
                       },
                       [spinner, spinnerText]
                     ),
@@ -147,7 +149,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   return {
     ...toRefs(data),
     setText,
-    remvoeElLoadingChild,
+    removeElLoadingChild,
     close,
     handleAfterLeave,
     vm,

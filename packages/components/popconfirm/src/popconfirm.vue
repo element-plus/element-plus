@@ -1,11 +1,12 @@
 <template>
   <el-tooltip
     ref="tooltipRef"
-    v-bind="$attrs"
     trigger="click"
     effect="light"
+    v-bind="$attrs"
     :popper-class="`${ns.namespace.value}-popover`"
-    :teleported="compatTeleported"
+    :popper-style="style"
+    :teleported="teleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
     :persistent="persistent"
@@ -23,10 +24,20 @@
           {{ title }}
         </div>
         <div :class="ns.e('action')">
-          <el-button size="small" :type="cancelButtonType" @click="cancel">
+          <el-button
+            size="small"
+            :type="cancelButtonType === 'text' ? '' : cancelButtonType"
+            :text="cancelButtonType === 'text'"
+            @click="cancel"
+          >
             {{ finalCancelButtonText }}
           </el-button>
-          <el-button size="small" :type="confirmButtonType" @click="confirm">
+          <el-button
+            size="small"
+            :type="confirmButtonType === 'text' ? '' : confirmButtonType"
+            :text="confirmButtonType === 'text'"
+            @click="confirm"
+          >
             {{ finalConfirmButtonText }}
           </el-button>
         </div>
@@ -38,72 +49,50 @@
   </el-tooltip>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref, unref } from 'vue'
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { addUnit } from '@element-plus/utils'
 import { popconfirmProps } from './popconfirm'
 
-const COMPONENT_NAME = 'ElPopconfirm'
-export default defineComponent({
-  name: COMPONENT_NAME,
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 
-  components: {
-    ElButton,
-    ElTooltip,
-    ElIcon,
-  },
-
-  props: popconfirmProps,
-
-  setup(props) {
-    const { compatTeleported } = useDeprecateAppendToBody(
-      COMPONENT_NAME,
-      'appendToBody'
-    )
-    const { t } = useLocale()
-    const ns = useNamespace('popconfirm')
-    const tooltipRef = ref<{ onClose: () => void }>()
-
-    const hidePopper = () => {
-      unref(tooltipRef)?.onClose?.()
-    }
-
-    const handleCallback = () => {
-      hidePopper()
-    }
-
-    const confirm = (e: Event) => {
-      props.onConfirm?.(e)
-      handleCallback()
-    }
-    const cancel = (e: Event) => {
-      props.onCancel?.(e)
-      handleCallback()
-    }
-
-    const finalConfirmButtonText = computed(
-      () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
-    )
-    const finalCancelButtonText = computed(
-      () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
-    )
-
-    return {
-      finalConfirmButtonText,
-      finalCancelButtonText,
-      tooltipRef,
-      ns,
-
-      // Deprecation in 2.1.0
-      compatTeleported,
-
-      confirm,
-      cancel,
-    }
-  },
+defineOptions({
+  name: 'ElPopconfirm',
 })
+
+const props = defineProps(popconfirmProps)
+
+const { t } = useLocale()
+const ns = useNamespace('popconfirm')
+const tooltipRef = ref<TooltipInstance>()
+
+const hidePopper = () => {
+  tooltipRef.value?.onClose?.()
+}
+
+const style = computed(() => {
+  return {
+    width: addUnit(props.width),
+  }
+})
+
+const confirm = (e: Event) => {
+  props.onConfirm?.(e)
+  hidePopper()
+}
+const cancel = (e: Event) => {
+  props.onCancel?.(e)
+  hidePopper()
+}
+
+const finalConfirmButtonText = computed(
+  () => props.confirmButtonText || t('el.popconfirm.confirmButtonText')
+)
+const finalCancelButtonText = computed(
+  () => props.cancelButtonText || t('el.popconfirm.cancelButtonText')
+)
 </script>

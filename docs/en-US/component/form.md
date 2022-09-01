@@ -111,25 +111,37 @@ form/size-control
 
 :::
 
+## Accessibility
+
+When only a single input (or related control such as select or checkbox) is inside of a `el-form-item`, the form item's label will automatically be attached to that input. However, if multiple inputs are inside of the `el-form-item`, the form item will be assigned the [WAI-ARIA](https://www.w3.org/WAI/standards-guidelines/aria/) role of [group](https://www.w3.org/TR/wai-aria/#group) instead. In this case, it is your responsibility to assign assistive labels to the individual inputs.
+
+:::demo
+
+form/accessibility
+
+:::
+
 ## Form API
 
 ### Form Attributes
 
-| Attribute                 | Description                                                                                                                    | Type                              | Default   |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------- | --------- |
-| `model`                   | Data of form component.                                                                                                        | `Record<string, any>`             | —         |
-| `rules`                   | Validation rules of form.                                                                                                      | `FormRules`                       | —         |
-| `inline`                  | Whether the form is inline.                                                                                                    | `boolean`                         | `false`   |
-| `label-position`          | Position of label. If set to `'left'` or `'right'`, `label-width` prop is also required.                                       | `'left' \| 'right' \| 'top'`      | `'right'` |
-| `label-width`             | Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported.                   | `string \| number`                | —         |
-| `label-suffix`            | Suffix of the label.                                                                                                           | `string`                          | —         |
-| `hide-required-asterisk`  | Whether required fields should have a red asterisk (star) beside their labels.                                                 | `boolean`                         | `false`   |
-| `show-message`            | Whether to show the error message.                                                                                             | `boolean`                         | `true`    |
-| `inline-message`          | Whether to display the error message inline with the form item.                                                                | `boolean`                         | `false`   |
-| `status-icon`             | Whether to display an icon indicating the validation result.                                                                   | `boolean`                         | `false`   |
-| `validate-on-rule-change` | Whether to trigger validation when the `rules` prop is changed.                                                                | `boolean`                         | `true`    |
-| `size`                    | Control the size of components in this form.                                                                                   | `'large' \| 'default' \| 'small'` | —         |
-| `disabled`                | Whether to disable all components in this form. If set to `true`, it will override the `disabled` prop of the inner component. | `boolean`                         | `false`   |
+| Attribute                   | Description                                                                                                                    | Type                              | Default   |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------- | --------- |
+| `model`                     | Data of form component.                                                                                                        | `Record<string, any>`             | —         |
+| `rules`                     | Validation rules of form.                                                                                                      | `FormRules`                       | —         |
+| `inline`                    | Whether the form is inline.                                                                                                    | `boolean`                         | `false`   |
+| `label-position`            | Position of label. If set to `'left'` or `'right'`, `label-width` prop is also required.                                       | `'left' \| 'right' \| 'top'`      | `'right'` |
+| `label-width`               | Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported.                   | `string \| number`                | —         |
+| `label-suffix`              | Suffix of the label.                                                                                                           | `string`                          | —         |
+| `hide-required-asterisk`    | Whether required fields should have a red asterisk (star) beside their labels.                                                 | `boolean`                         | `false`   |
+| `require-asterisk-position` | Position of asterisk.                                                                                                          | `'left' \| 'right'`               | `'left'`  |
+| `show-message`              | Whether to show the error message.                                                                                             | `boolean`                         | `true`    |
+| `inline-message`            | Whether to display the error message inline with the form item.                                                                | `boolean`                         | `false`   |
+| `status-icon`               | Whether to display an icon indicating the validation result.                                                                   | `boolean`                         | `false`   |
+| `validate-on-rule-change`   | Whether to trigger validation when the `rules` prop is changed.                                                                | `boolean`                         | `true`    |
+| `size`                      | Control the size of components in this form.                                                                                   | `'large' \| 'default' \| 'small'` | —         |
+| `disabled`                  | Whether to disable all components in this form. If set to `true`, it will override the `disabled` prop of the inner component. | `boolean`                         | `false`   |
+| `scroll-to-error`           | When validation fails, scroll to the first error form entry.                                                                   | `boolean`                         | `false`   |
 
 ### Form Methods
 

@@ -120,7 +120,7 @@ cascader/filterable
 
 You can customize the content of cascader node.
 
-:::demo You can customize the content of cascader node by `scoped slot`. You'll have access to `node` and `data` in the scope, standing for the Node object and node data of the current node respectively。
+:::demo You can customize the content of cascader node by `scoped slot`. You'll have access to `node` and `data` in the scope, standing for the Node object and node data of the current node respectively.
 
 cascader/custom-content
 
@@ -159,6 +159,7 @@ cascader/panel
 | teleported                        | whether cascader popup is teleported                                                                                                                                             | boolean                 | true / false                | true    |
 | popper-append-to-body(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | boolean                 | -                           | true    |
 | tag-type                          | tag type                                                                                                                                                                         | string                  | success/info/warning/danger | info    |
+| validate-event                    | whether to trigger form validation                                                                                                                                               | boolean                 | -                           | true    |
 
 ## Cascader Events
 

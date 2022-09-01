@@ -1,21 +1,10 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
-  "compilerOptions": {
-    "allowJs": true,
-    "module": "ESNext",
-    "target": "ES2018",
-    "noImplicitAny": false,
-    "declaration": true,
-    "sourceMap": true,
-    "lib": ["ES2018", "DOM", "DOM.Iterable"],
-    "allowSyntheticDefaultImports": true,
-    "types": ["unplugin-vue-define-options"]
-  },
+  "files": [],
   "references": [
+    { "path": "./tsconfig.web.json" },
+    { "path": "./tsconfig.play.json" },
+    { "path": "./tsconfig.node.json" },
     { "path": "./tsconfig.vite-config.json" },
-    { "path": "./tsconfig.jest.json" },
     { "path": "./tsconfig.vitest.json" }
-  ],
-  "include": ["packages", "typings"],
-  "exclude": ["node_modules", "**/dist", "**/__tests__/**/*"]
+  ]
 }
