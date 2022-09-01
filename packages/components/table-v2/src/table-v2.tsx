@@ -270,7 +270,7 @@ const TableV2 = defineComponent({
                     {...tableCellProps}
                     style={_columnsStyles[props.column.key]}
                   >
-                    {slots.cell}
+                    {slots.cell()}
                   </Cell>
                 ) : (
                   <Cell
