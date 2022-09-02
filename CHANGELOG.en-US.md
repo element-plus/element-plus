@@ -1,5 +1,77 @@
 ## Changelog
 
+### 2.2.16
+
+_2022-09-02_
+
+#### Features
+
+- Components [image-viewer] add `setActiveItem` method (#9389 by @holazz)
+- Components [dialog] add align center prop (#8947 by @Hfutsora)
+- Components [input-number] add new prop `readonly` (#9545 by @holazz)
+- Components [time-picker] add open and close handlers (#9572 by @jagoncalves14)
+- Components [date-picker] add open and close handlers (#9571 by @jagoncalves14)
+- Components el-tree.currentNodekey responsive. close #9576 (#9577 by @zhiyuanzmj)
+- Components  CascaderProps expandTrigger enum to type (#9265 by @hcwhan)
+
+#### Bug fixes
+
+- Theme-chalk fix datepicker sidebar of panel is covered by footer (#9352 by @Duncanxyz)
+- Components [date-picker] add flat polyfill (#9465 by @sxzz)
+- Components [upload] onExceed is not called (#9145 by @makedopamine)
+- Components [upload] `onPreview` not work when `picture` list type (#9448 by @holazz)
+- Components [time-select] inherit disabled from form (#9242 by @Tsong-LC)
+- Components [affix] expose `updateRoot` (#9159 by @CodeListener)
+- Deps update dependency @floating-ui/dom to v1 (#9000 by @renovate[bot])
+- Components [notification] custom icon not work (#9498 by @holazz)
+- Utils fix `iconPropType` (#9506 by @holazz)
+- Components [cascader] collapse-tags-tooltip drop first item (#9503 by @ryuhangyeong)
+- Components [table-v2] fix style import (#9510 by @holazz)
+- Components [dialog] bind `$attrs` (#9455 by @holazz)
+- Components [date-picker] only `td` tags with content can be select (#9537 by @btea)
+- Components [table] fix sort-change event behavior (#4640 by @cokemine)
+- Components [slider] trigger change event correctly (#9553 by @holazz)
+- Components [select-v2] emit('blur') does not carry parameter (#9547 by @sechi747)
+- Components [table] el-table__placeholder class disappear(#9527 by @wiidede) (#9529)
+- Components [table-v2] cell slots invalid (#9531 by @chenxch)
+- Components [select] update finished calculating optionsInDropdown (#9475 by @Tsong-LC)
+- Components [input] formatted values are out of sync (#9501 by @chenxch)
+- Directives [repeat-click] Interval time is too short for single clicks (#9466 by @opuu)
+- Components [tabs] nav offset error when use both number and string (#9222 by @tolking)
+- Components [select] support dynamic value for option (#9220 by @buqiyuan)
+- Issue #8278 (#8331 by @StephenKe)
+- [el-date-picker] fix DatePicker render error (#7017 by @soandsoprogrammer)
+- Components [form] reset field validate invalid (#7166 by @btea)
+- Components [el-form] clear validate after reset fields
+- Components [el-menu] compatible `menu.value` is null (#9566 by @xiaoxian521)
+- Components [page-header] fix styles introduced on demand (#9564 by @LiZhequ)
+- Components [pagination] add validate-event (#9563 by @tolking)
+- Components [loading] prevent click through (#5822 by @weidehai)
+- Components [tree-v2] updated when pass dynamic defaultCheckedKeys (#8228 by @webfansplz)
+- Components [tree-select] `expand-on-click-node` not work (#8973 by @holazz)
+- Components [table] toggleRowExpansion typing (#9512 by @wiidede)
+- Components [tree] fix setCurrentKey setCurrentNode emit (#8881 by @gjfei)
+- Components [select] fix typo (#9578 by @Tsong-LC)
+- Components [transfer] child component don't validate (#9403 by @Tsong-LC)
+- Components [date-picker] Component ElInput validateEvent pass true (#9402 by @Tsong-LC)
+- Components [table-v2] header-cell slots invalid (#9585 by @btea)
+- UseTree.ts修复tree-v2组件开启accordion模式后展开不了的问题 (#9591 by @qinhuangdaoooo)
+- Style(components): [select, select-v2] adjust style (#9496 by @daonatural)
+- Fix Table using load to click to expand will trigger multiple load callbacks (#9397 by @qq282126990)
+- Perf(components): [table] export table defaults (#8393 by @xiaoxian521)
+- Perf(hooks): [use-namespace] simplify code (#9298 by @holazz)
+
+#### Refactors
+
+- Components [tree] fix typo (#9477 by @Tsong-LC)
+- Components [popper]redfine the prop role type (#9471 by @MonsterPi13)
+- Components [popover] use JSX in Unit test (#8337 by @holazz)
+- Utils refactor `iconPropType` (#9502 by @holazz)
+- Utils refine `iconPropType` (#9515 by @holazz)
+- Components [notification] use JSX in Unit test (#9530 by @holazz)
+- Icon reduce getter access (#9360 by @zhangenming)
+- Components [date-time-picker] use JSX in Unit test (#9520 by @Tsong-LC)
+
 ### 2.2.15
 
 _2022-08-26_
