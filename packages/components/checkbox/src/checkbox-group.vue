@@ -31,13 +31,12 @@ defineOptions({
 
 const props = defineProps(checkboxGroupProps)
 const emit = defineEmits(checkboxGroupEmits)
+const ns = useNamespace('checkbox')
 
 const { formItem: elFormItem } = useFormItem()
-const { formItem } = useFormItem()
 const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
-  formItemContext: formItem,
+  formItemContext: elFormItem,
 })
-const ns = useNamespace('checkbox')
 
 const changeEvent = (value: CheckboxValueType[]) => {
   emit(UPDATE_MODEL_EVENT, value)

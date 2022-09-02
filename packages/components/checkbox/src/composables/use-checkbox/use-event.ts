@@ -24,7 +24,6 @@ export const useEvent = (
       ReturnType<typeof useFormItemInputId>
   >
 ) => {
-  // const { elFormItem, checkboxGroup } = useCheckboxGroup()
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
   const { formItem } = useFormItem()
   const { emit } = getCurrentInstance()!
@@ -44,12 +43,14 @@ export const useEvent = (
 
   function handleChange(e: Event) {
     if (isLimitExceeded!.value) return
+
     const target = e.target as HTMLInputElement
     emit('change', getLabeledValue(target.checked), e)
   }
 
   async function onClickRoot(e: MouseEvent) {
     if (isLimitExceeded!.value) return
+
     if (
       !hasOwnLabel!.value &&
       !isDisabled!.value &&
