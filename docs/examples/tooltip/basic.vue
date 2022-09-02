@@ -7,7 +7,7 @@
         content="Top Left prompts info"
         placement="top-start"
       >
-        <el-button class="item">top-start</el-button>
+        <el-button>top-start</el-button>
       </el-tooltip>
       <el-tooltip
         class="box-item"
@@ -15,7 +15,7 @@
         content="Top Center prompts info"
         placement="top"
       >
-        <el-button class="item">top</el-button>
+        <el-button>top</el-button>
       </el-tooltip>
       <el-tooltip
         class="box-item"
@@ -23,7 +23,7 @@
         content="Top Right prompts info"
         placement="top-end"
       >
-        <el-button class="item">top-end</el-button>
+        <el-button>top-end</el-button>
       </el-tooltip>
     </div>
     <div class="row">
@@ -33,7 +33,7 @@
         content="Left Top prompts info"
         placement="left-start"
       >
-        <el-button class="item">left-start</el-button>
+        <el-button>left-start</el-button>
       </el-tooltip>
       <el-tooltip
         class="box-item"
@@ -51,7 +51,7 @@
         content="Left Center prompts info"
         placement="left"
       >
-        <el-button>left</el-button>
+        <el-button class="mt-3 mb-3">left</el-button>
       </el-tooltip>
       <el-tooltip
         class="box-item"
@@ -59,7 +59,7 @@
         content="Right Center prompts info"
         placement="right"
       >
-        <el-button class="item">right</el-button>
+        <el-button>right</el-button>
       </el-tooltip>
     </div>
     <div class="row">
@@ -77,7 +77,7 @@
         content="Right Bottom prompts info"
         placement="right-end"
       >
-        <el-button class="item">right-end</el-button>
+        <el-button>right-end</el-button>
       </el-tooltip>
     </div>
     <div class="row center">
@@ -87,7 +87,7 @@
         content="Bottom Left prompts info"
         placement="bottom-start"
       >
-        <el-button class="item">bottom-start</el-button>
+        <el-button>bottom-start</el-button>
       </el-tooltip>
       <el-tooltip
         class="box-item"
@@ -95,7 +95,7 @@
         content="Bottom Center prompts info"
         placement="bottom"
       >
-        <el-button class="item">bottom</el-button>
+        <el-button>bottom</el-button>
       </el-tooltip>
       <el-tooltip
         class="box-item"
@@ -103,7 +103,7 @@
         content="Bottom Right prompts info"
         placement="bottom-end"
       >
-        <el-button class="item">bottom-end</el-button>
+        <el-button>bottom-end</el-button>
       </el-tooltip>
     </div>
   </div>

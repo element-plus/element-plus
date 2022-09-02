@@ -1,5 +1,5 @@
 <template>
-  <el-button type="text" @click="centerDialogVisible = true"
+  <el-button text @click="centerDialogVisible = true"
     >Click to open Dialog</el-button
   >
 
@@ -33,3 +33,8 @@ import { ref } from 'vue'
 
 const centerDialogVisible = ref(false)
 </script>
+<style scoped>
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+</style>

@@ -1,6 +1,17 @@
-import { defineComponent, computed, h, provide } from 'vue'
-import { buildProps } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
+import type Row from './row.vue'
+
+export const RowJustify = [
+  'start',
+  'center',
+  'end',
+  'space-around',
+  'space-between',
+  'space-evenly',
+] as const
+
+export const RowAlign = ['top', 'middle', 'bottom'] as const
 
 export const rowProps = buildProps({
   tag: {
@@ -13,51 +24,15 @@ export const rowProps = buildProps({
   },
   justify: {
     type: String,
-    values: ['start', 'center', 'end', 'space-around', 'space-between'],
+    values: RowJustify,
     default: 'start',
   },
   align: {
     type: String,
-    values: ['top', 'middle', 'bottom'],
+    values: RowAlign,
     default: 'top',
   },
 } as const)
+
 export type RowProps = ExtractPropTypes<typeof rowProps>
-
-export default defineComponent({
-  name: 'ElRow',
-  props: rowProps,
-
-  setup(props, { slots }) {
-    const gutter = computed(() => props.gutter)
-    provide('ElRow', {
-      gutter,
-    })
-
-    const style = computed(() => {
-      const ret = {
-        marginLeft: '',
-        marginRight: '',
-      }
-      if (props.gutter) {
-        ret.marginLeft = `-${props.gutter / 2}px`
-        ret.marginRight = ret.marginLeft
-      }
-      return ret
-    })
-
-    return () =>
-      h(
-        props.tag,
-        {
-          class: [
-            'el-row',
-            props.justify !== 'start' ? `is-justify-${props.justify}` : '',
-            props.align !== 'top' ? `is-align-${props.align}` : '',
-          ],
-          style: style.value,
-        },
-        slots.default?.()
-      )
-  },
-})
+export type RowInstance = InstanceType<typeof Row>

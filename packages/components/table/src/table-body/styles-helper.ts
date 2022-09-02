@@ -1,19 +1,21 @@
-import { getCurrentInstance } from 'vue'
+// @ts-nocheck
+import { inject } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import {
+  ensurePosition,
   getFixedColumnOffset,
   getFixedColumnsClass,
-  ensurePosition,
 } from '../util'
+import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
-import type { Table } from '../table/defaults'
 import type { TableBodyProps } from './defaults'
 
 function useStyles<T>(props: Partial<TableBodyProps<T>>) {
-  const instance = getCurrentInstance()
-  const parent = instance.parent as Table<T>
+  const parent = inject(TABLE_INJECTION_KEY)
+  const ns = useNamespace('table')
 
   const getRowStyle = (row: T, rowIndex: number) => {
-    const rowStyle = parent.props.rowStyle
+    const rowStyle = parent?.props.rowStyle
     if (typeof rowStyle === 'function') {
       return rowStyle.call(null, {
         row,
@@ -24,18 +26,18 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
   }
 
   const getRowClass = (row: T, rowIndex: number) => {
-    const classes = ['el-table__row']
+    const classes = [ns.e('row')]
     if (
-      parent.props.highlightCurrentRow &&
+      parent?.props.highlightCurrentRow &&
       row === props.store.states.currentRow.value
     ) {
       classes.push('current-row')
     }
 
     if (props.stripe && rowIndex % 2 === 1) {
-      classes.push('el-table__row--striped')
+      classes.push(ns.em('row', 'striped'))
     }
-    const rowClassName = parent.props.rowClassName
+    const rowClassName = parent?.props.rowClassName
     if (typeof rowClassName === 'string') {
       classes.push(rowClassName)
     } else if (typeof rowClassName === 'function') {
@@ -46,11 +48,6 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
         })
       )
     }
-
-    if (props.store.states.expandRows.value.indexOf(row) > -1) {
-      classes.push('expanded')
-    }
-
     return classes
   }
 
@@ -60,7 +57,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     row: T,
     column: TableColumnCtx<T>
   ) => {
-    const cellStyle = parent.props.cellStyle
+    const cellStyle = parent?.props.cellStyle
     let cellStyles = cellStyle ?? {}
     if (typeof cellStyle === 'function') {
       cellStyles = cellStyle.call(null, {
@@ -70,11 +67,9 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
         column,
       })
     }
-    const fixedStyle = getFixedColumnOffset(
-      columnIndex,
-      props.fixed,
-      props.store
-    )
+    const fixedStyle = column.isSubColumn
+      ? null
+      : getFixedColumnOffset(columnIndex, props?.fixed, props.store)
     ensurePosition(fixedStyle, 'left')
     ensurePosition(fixedStyle, 'right')
     return Object.assign({}, cellStyles, fixedStyle)
@@ -88,9 +83,9 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
   ) => {
     const fixedClasses = column.isSubColumn
       ? []
-      : getFixedColumnsClass(columnIndex, props.fixed, props.store)
+      : getFixedColumnsClass(ns.b(), columnIndex, props?.fixed, props.store)
     const classes = [column.id, column.align, column.className, ...fixedClasses]
-    const cellClassName = parent.props.cellClassName
+    const cellClassName = parent?.props.cellClassName
     if (typeof cellClassName === 'string') {
       classes.push(cellClassName)
     } else if (typeof cellClassName === 'function') {
@@ -103,10 +98,8 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
         })
       )
     }
-
-    classes.push('el-table__cell')
-
-    return classes.join(' ')
+    classes.push(ns.e('cell'))
+    return classes.filter((className) => Boolean(className)).join(' ')
   }
   const getSpan = (
     row: T,
@@ -116,7 +109,7 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
   ) => {
     let rowspan = 1
     let colspan = 1
-    const fn = parent.props.spanMethod
+    const fn = parent?.props.spanMethod
     if (typeof fn === 'function') {
       const result = fn({
         row,

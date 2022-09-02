@@ -2,13 +2,13 @@
   "name": "@element-plus/tokens",
   "version": "0.0.5",
   "license": "MIT",
+  "main": "index.ts",
+  "module": "index.ts",
+  "unpkg": "index.js",
+  "jsdelivr": "index.js",
   "peerDependencies": {
     "vue": "^3.2.0"
   },
-  "main": "index.ts",
-  "module": "index.ts",
   "types": "index.d.js",
-  "unpkg": "index.js",
-  "jsdelivr": "index.js",
   "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
 }

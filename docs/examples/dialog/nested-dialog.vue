@@ -1,7 +1,5 @@
 <template>
-  <el-button type="text" @click="outerVisible = true"
-    >open the outer Dialog</el-button
-  >
+  <el-button text @click="outerVisible = true">open the outer Dialog</el-button>
 
   <el-dialog v-model="outerVisible" title="Outer Dialog">
     <template #default>
@@ -10,8 +8,7 @@
         width="30%"
         title="Inner Dialog"
         append-to-body
-      >
-      </el-dialog>
+      />
     </template>
     <template #footer>
       <div class="dialog-footer">
@@ -30,3 +27,8 @@ import { ref } from 'vue'
 const outerVisible = ref(false)
 const innerVisible = ref(false)
 </script>
+<style scoped>
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+</style>

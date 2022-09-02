@@ -1,9 +1,20 @@
 <template>
+  <div>
+    <el-radio-group v-model="size" label="size control">
+      <el-radio-button label="large">large</el-radio-button>
+      <el-radio-button label="default">default</el-radio-button>
+      <el-radio-button label="small">small</el-radio-button>
+    </el-radio-group>
+  </div>
   <div class="demo-date-picker">
     <div class="block">
       <span class="demonstration">Default</span>
-      <el-date-picker v-model="value1" type="date" placeholder="Pick a day">
-      </el-date-picker>
+      <el-date-picker
+        v-model="value1"
+        type="date"
+        placeholder="Pick a day"
+        :size="size"
+      />
     </div>
     <div class="block">
       <span class="demonstration">Picker with quick options</span>
@@ -13,14 +24,16 @@
         placeholder="Pick a day"
         :disabled-date="disabledDate"
         :shortcuts="shortcuts"
-      >
-      </el-date-picker>
+        :size="size"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+
+const size = ref<'' | 'large' | 'small'>('')
 
 const value1 = ref('')
 const value2 = ref('')
@@ -52,3 +65,26 @@ const disabledDate = (time: Date) => {
   return time.getTime() > Date.now()
 }
 </script>
+<style scoped>
+.demo-date-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.demo-date-picker .block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  flex: 1;
+}
+.demo-date-picker .block:last-child {
+  border-right: none;
+}
+.demo-date-picker .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>

@@ -1,28 +1,37 @@
+// @ts-nocheck
 import {
-  inject,
-  nextTick,
   computed,
-  watch,
-  ref,
+  nextTick,
   reactive,
+  ref,
   shallowRef,
+  toRaw,
   triggerRef,
+  watch,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
-import lodashDebounce from 'lodash/debounce'
-import isEqual from 'lodash/isEqual'
+import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { useLocale, useSize } from '@element-plus/hooks'
-import scrollIntoView from '@element-plus/utils/scroll-into-view'
-import { isKorean } from '@element-plus/utils/isDef'
-import { getValueByPath } from '@element-plus/utils/util'
-import { elFormKey, elFormItemKey } from '@element-plus/tokens'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
+import {
+  debugWarn,
+  getComponentSize,
+  isKorean,
+  scrollIntoView,
+} from '@element-plus/utils'
+import {
+  useFormItem,
+  useLocale,
+  useNamespace,
+  useSize,
+} from '@element-plus/hooks'
 
 import type { ComponentPublicInstance } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
-import type { ElFormContext, ElFormItemContext } from '@element-plus/tokens'
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
 
 export function useSelectStates(props) {
@@ -35,7 +44,6 @@ export function useSelectStates(props) {
     selected: props.multiple ? [] : ({} as any),
     inputLength: 20,
     inputWidth: 0,
-    initialInputHeight: 0,
     optionsCount: 0,
     filteredOptionsCount: 0,
     visible: false,
@@ -50,7 +58,7 @@ export function useSelectStates(props) {
     menuVisibleOnFocus: false,
     isOnComposition: false,
     isSilentBlur: false,
-    prefixWidth: 0,
+    prefixWidth: 11,
     tagInMultiLine: false,
   })
 }
@@ -59,6 +67,7 @@ type States = ReturnType<typeof useSelectStates>
 
 export const useSelect = (props, states: States, ctx) => {
   const { t } = useLocale()
+  const ns = useNamespace('select')
 
   // template refs
   const reference = ref<ComponentPublicInstance<{
@@ -77,15 +86,13 @@ export const useSelect = (props, states: States, ctx) => {
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
 
-  // inject
-  const elForm = inject(elFormKey, {} as ElFormContext)
-  const elFormItem = inject(elFormItemKey, {} as ElFormItemContext)
+  const { form, formItem } = useFormItem()
 
   const readonly = computed(
     () => !props.filterable || props.multiple || !states.visible
   )
 
-  const selectDisabled = computed(() => props.disabled || elForm.disabled)
+  const selectDisabled = computed(() => props.disabled || form?.disabled)
 
   const showClose = computed(() => {
     const hasValue = props.multiple
@@ -105,7 +112,7 @@ export const useSelect = (props, states: States, ctx) => {
     props.remote && props.filterable ? '' : props.suffixIcon
   )
   const iconReverse = computed(() =>
-    iconComponent.value && states.visible ? 'is-reverse' : ''
+    ns.is('reverse', iconComponent.value && states.visible)
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
@@ -156,7 +163,7 @@ export const useSelect = (props, states: States, ctx) => {
   const selectSize = useSize()
 
   const collapseTagSize = computed(() =>
-    ['small'].indexOf(selectSize.value) > -1 ? 'small' : 'default'
+    ['small'].includes(selectSize.value) ? 'small' : 'default'
   )
 
   const dropMenuVisible = computed({
@@ -170,7 +177,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   // watch
   watch(
-    () => selectDisabled.value,
+    [() => selectDisabled.value, () => selectSize.value, () => form?.size],
     () => {
       nextTick(() => {
         resetInputHeight()
@@ -204,8 +211,8 @@ export const useSelect = (props, states: States, ctx) => {
       if (props.filterable && !props.multiple) {
         states.inputLength = 20
       }
-      if (!isEqual(val, oldVal)) {
-        elFormItem.validate?.('change')
+      if (!isEqual(val, oldVal) && props.validateEvent) {
+        formItem?.validate('change').catch((err) => debugWarn(err))
       }
     },
     {
@@ -264,7 +271,7 @@ export const useSelect = (props, states: States, ctx) => {
             input.value?.focus()
           } else {
             if (states.selectedLabel) {
-              states.currentPlaceholder = states.selectedLabel
+              states.currentPlaceholder = `${states.selectedLabel}`
               states.selectedLabel = ''
             }
           }
@@ -293,9 +300,7 @@ export const useSelect = (props, states: States, ctx) => {
       }
       const inputs = selectWrapper.value?.querySelectorAll('input') || []
       if (
-        Array.from(inputs).indexOf(
-          document.activeElement as HTMLInputElement
-        ) === -1
+        !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
       ) {
         setSelected()
       }
@@ -329,23 +334,25 @@ export const useSelect = (props, states: States, ctx) => {
     if (props.collapseTags && !props.filterable) return
     nextTick(() => {
       if (!reference.value) return
-      const inputChildNodes = reference.value.$el.childNodes
-      const input = Array.from(inputChildNodes).filter(
-        (item) => (item as HTMLElement).tagName === 'INPUT'
-      )[0] as HTMLInputElement
+      const input = reference.value.$el.querySelector(
+        'input'
+      ) as HTMLInputElement
       const _tags = tags.value
-      const sizeInMap = states.initialInputHeight || 40
-      input.style.height =
-        states.selected.length === 0
-          ? `${sizeInMap}px`
-          : `${Math.max(
+
+      const sizeInMap = getComponentSize(selectSize.value || form?.size)
+      // it's an inner input so reduce it by 2px.
+      input.style.height = `${
+        (states.selected.length === 0
+          ? sizeInMap
+          : Math.max(
               _tags
                 ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
                 : 0,
               sizeInMap
-            )}px`
+            )) - 2
+      }px`
 
-      states.tagInMultiLine = parseFloat(input.style.height) > sizeInMap
+      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
 
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
@@ -353,7 +360,7 @@ export const useSelect = (props, states: States, ctx) => {
     })
   }
 
-  const handleQueryChange = (val) => {
+  const handleQueryChange = async (val) => {
     if (states.previousQuery === val || states.isOnComposition) return
     if (
       states.previousQuery === null &&
@@ -394,6 +401,7 @@ export const useSelect = (props, states: States, ctx) => {
       (props.filterable || props.remote) &&
       states.filteredOptionsCount
     ) {
+      await nextTick()
       checkDefaultFirstOption()
     }
   }
@@ -420,7 +428,7 @@ export const useSelect = (props, states: States, ctx) => {
     const optionsInDropdown = optionsArray.value.filter(
       (n) => n.visible && !n.disabled && !n.states.groupDisabled
     )
-    const userCreatedOption = optionsInDropdown.filter((n) => n.created)[0]
+    const userCreatedOption = optionsInDropdown.find((n) => n.created)
     const firstOriginOption = optionsInDropdown[0]
     states.hoverIndex = getValueIndex(
       optionsArray.value,
@@ -441,6 +449,8 @@ export const useSelect = (props, states: States, ctx) => {
       states.selected = option
       if (props.filterable) states.query = states.selectedLabel
       return
+    } else {
+      states.selectedLabel = ''
     }
     const result: any[] = []
     if (Array.isArray(props.modelValue)) {
@@ -463,8 +473,7 @@ export const useSelect = (props, states: States, ctx) => {
     for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
       const cachedOption = cachedOptionsArray.value[i]
       const isEqualValue = isObjectValue
-        ? getValueByPath(cachedOption.value, props.valueKey) ===
-          getValueByPath(value, props.valueKey)
+        ? get(cachedOption.value, props.valueKey) === get(value, props.valueKey)
         : cachedOption.value === value
       if (isEqualValue) {
         option = {
@@ -476,7 +485,11 @@ export const useSelect = (props, states: States, ctx) => {
       }
     }
     if (option) return option
-    const label = !isObjectValue && !isNull && !isUndefined ? value : ''
+    const label = isObjectValue
+      ? value.label
+      : !isNull && !isUndefined
+      ? value
+      : ''
     const newOption = {
       value,
       currentLabel: label,
@@ -500,10 +513,7 @@ export const useSelect = (props, states: States, ctx) => {
             null,
             states.selected.map((selected) => {
               return optionsArray.value.findIndex((item) => {
-                return (
-                  getValueByPath(item, valueKey) ===
-                  getValueByPath(selected, valueKey)
-                )
+                return get(item, valueKey) === get(selected, valueKey)
               })
             })
           )
@@ -517,7 +527,7 @@ export const useSelect = (props, states: States, ctx) => {
   const handleResize = () => {
     resetInputWidth()
     tooltipRef.value?.updatePopper?.()
-    if (props.multiple) resetInputHeight()
+    if (props.multiple && !props.filterable) resetInputHeight()
   }
 
   const resetInputWidth = () => {
@@ -623,7 +633,7 @@ export const useSelect = (props, states: States, ctx) => {
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (getValueByPath(item, valueKey) === getValueByPath(value, valueKey)) {
+      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
         index = i
         return true
       }
@@ -655,7 +665,7 @@ export const useSelect = (props, states: States, ctx) => {
 
     if (tooltipRef.value && target) {
       const menu = tooltipRef.value?.popperRef?.contentRef?.querySelector?.(
-        '.el-select-dropdown__wrap'
+        `.${ns.be('dropdown', 'wrap')}`
       )
       if (menu) {
         scrollIntoView(menu as HTMLElement, target)
@@ -671,10 +681,12 @@ export const useSelect = (props, states: States, ctx) => {
     states.cachedOptions.set(vm.value, vm)
   }
 
-  const onOptionDestroy = (key) => {
-    states.optionsCount--
-    states.filteredOptionsCount--
-    states.options.delete(key)
+  const onOptionDestroy = (key, vm: SelectOptionProxy) => {
+    if (states.options.get(key) === vm) {
+      states.optionsCount--
+      states.filteredOptionsCount--
+      states.options.delete(key)
+    }
   }
 
   const resetInputState = (e: KeyboardEvent) => {
@@ -715,10 +727,10 @@ export const useSelect = (props, states: States, ctx) => {
   const handleFocus = (event) => {
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
-        states.visible = true
-        if (props.filterable) {
+        if (props.filterable && !states.visible) {
           states.menuVisibleOnFocus = true
         }
+        states.visible = true
       }
       ctx.emit('focus', event)
     } else {
@@ -751,8 +763,15 @@ export const useSelect = (props, states: States, ctx) => {
     states.visible = false
   }
 
+  const handleKeydownEscape = (event: KeyboardEvent) => {
+    if (states.visible) {
+      event.preventDefault()
+      event.stopPropagation()
+      states.visible = false
+    }
+  }
+
   const toggleMenu = () => {
-    if (props.automaticDropdown) return
     if (!selectDisabled.value) {
       if (states.menuVisibleOnFocus) {
         states.menuVisibleOnFocus = false
@@ -776,9 +795,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const getValueKey = (item) => {
-    return isObject(item.value)
-      ? getValueByPath(item.value, props.valueKey)
-      : item.value
+    return isObject(item.value) ? get(item.value, props.valueKey) : item.value
   }
 
   const optionsAllDisabled = computed(() =>
@@ -852,6 +869,7 @@ export const useSelect = (props, states: States, ctx) => {
     handleBlur,
     handleClearClick,
     handleClose,
+    handleKeydownEscape,
     toggleMenu,
     selectOption,
     getValueKey,

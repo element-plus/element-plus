@@ -2,8 +2,14 @@
   "intro": {
     "text": "Basics",
     "children": [
-      { "text": "Design", "link": "/guide/design" },
-      { "text": "Navigation", "link": "/guide/nav" },
+      {
+        "text": "Design",
+        "link": "/guide/design"
+      },
+      {
+        "text": "Navigation",
+        "link": "/guide/nav"
+      },
       {
         "text": "Installation",
         "link": "/guide/installation"
@@ -17,10 +23,32 @@
   "advanced": {
     "text": "Advanced",
     "children": [
-      { "text": "i18n", "link": "/guide/i18n" },
-      { "text": "Migration", "link": "/guide/migration" },
-      { "text": "Theming", "link": "/guide/theming" },
-      { "text": "Built-in Transitions", "link": "/guide/transitions" },
+      {
+        "text": "i18n",
+        "link": "/guide/i18n"
+      },
+      {
+        "text": "Migration from ElementUI",
+        "link": "/guide/migration"
+      },
+      {
+        "text": "Theming",
+        "link": "/guide/theming"
+      },
+      {
+        "text": "Dark Mode",
+        "link": "/guide/dark-mode",
+        "promotion": "2.2.0"
+      },
+      {
+        "text": "Custom Namespace",
+        "link": "/guide/namespace",
+        "promotion": "2.2.0"
+      },
+      {
+        "text": "Built-in Transitions",
+        "link": "/guide/transitions"
+      },
       {
         "text": "Changelog",
         "link": "/guide/changelog"

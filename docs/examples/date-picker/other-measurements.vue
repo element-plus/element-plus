@@ -8,8 +8,7 @@
           type="week"
           format="[Week] ww"
           placeholder="Pick a week"
-        >
-        </el-date-picker>
+        />
       </div>
       <div class="block">
         <span class="demonstration">Month</span>
@@ -17,15 +16,17 @@
           v-model="value2"
           type="month"
           placeholder="Pick a month"
-        >
-        </el-date-picker>
+        />
       </div>
     </div>
     <div class="container">
       <div class="block">
         <span class="demonstration">Year</span>
-        <el-date-picker v-model="value3" type="year" placeholder="Pick a year">
-        </el-date-picker>
+        <el-date-picker
+          v-model="value3"
+          type="year"
+          placeholder="Pick a year"
+        />
       </div>
       <div class="block">
         <span class="demonstration">Dates</span>
@@ -33,8 +34,7 @@
           v-model="value4"
           type="dates"
           placeholder="Pick one or more dates"
-        >
-        </el-date-picker>
+        />
       </div>
     </div>
   </div>
@@ -47,3 +47,42 @@ const value2 = ref('')
 const value3 = ref('')
 const value4 = ref('')
 </script>
+<style scoped>
+.demo-date-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+.demo-date-picker .block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  flex: 1;
+}
+.demo-date-picker .block:last-child {
+  border-right: none;
+}
+
+.demo-date-picker .container {
+  flex: 1;
+  border-right: solid 1px var(--el-border-color);
+}
+.demo-date-picker .container .block {
+  border-right: none;
+}
+.demo-date-picker .container .block:last-child {
+  border-top: solid 1px var(--el-border-color);
+}
+.demo-date-picker .container:last-child {
+  border-right: none;
+}
+
+.demo-date-picker .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>

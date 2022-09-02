@@ -7,17 +7,17 @@
 @mixin menu-item {
   display: flex;
   align-items: center;
-  height: var(--el-menu-item-height);
-  line-height: var(--el-menu-item-height);
-  font-size: var(--el-menu-item-font-size);
-  color: var(--el-menu-text-color);
-  padding: 0 20px;
+  height: getCssVar('menu-item-height');
+  line-height: getCssVar('menu-item-height');
+  font-size: getCssVar('menu-item-font-size');
+  color: getCssVar('menu-text-color');
+  padding: 0 getCssVar('menu-base-level-padding');
   list-style: none;
   cursor: pointer;
   position: relative;
-  transition: border-color var(--el-transition-duration),
-    background-color var(--el-transition-duration),
-    color var(--el-transition-duration);
+  transition: border-color getCssVar('transition-duration'),
+    background-color getCssVar('transition-duration'),
+    color getCssVar('transition-duration');
   box-sizing: border-box;
   white-space: nowrap;
 
@@ -35,7 +35,7 @@
   }
 
   &:hover {
-    background-color: var(--el-menu-hover-bg-color);
+    background-color: getCssVar('menu-hover-bg-color');
   }
 
   @include when(disabled) {
@@ -45,21 +45,38 @@
   }
 }
 
-@include b(menu) {
+:root {
+  // They are defined on :root so they can be inherited by sub-menu instead of overwritten
   @include set-component-css-var('menu', $menu);
+}
 
-  border-right: solid 1px var(--el-menu-border-color);
+@include b(menu) {
+  border-right: solid 1px getCssVar('menu-border-color');
   list-style: none;
   position: relative;
   margin: 0;
   padding-left: 0;
-  background-color: var(--el-menu-bg-color);
+  background-color: getCssVar('menu-bg-color');
   box-sizing: border-box;
+
+  @include m(vertical) {
+    &:not(.#{$namespace}-menu--collapse):not(.#{$namespace}-menu--popup-container) {
+      & .#{$namespace}-menu-item,
+      & .#{$namespace}-sub-menu__title,
+      & .#{$namespace}-menu-item-group__title {
+        white-space: nowrap;
+        padding-left: calc(
+          #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-level')} *
+            #{getCssVar('menu-level-padding')}
+        );
+      }
+    }
+  }
 
   @include m(horizontal) {
     display: flex;
     flex-wrap: nowrap;
-    border-bottom: solid 1px var(--el-menu-border-color);
+    border-bottom: solid 1px getCssVar('menu-border-color');
     border-right: none;
 
     & > .#{$namespace}-menu-item {
@@ -70,7 +87,7 @@
       height: 100%;
       margin: 0;
       border-bottom: 2px solid transparent;
-      color: var(--el-menu-text-color);
+      color: getCssVar('menu-text-color');
 
       a,
       a:hover {
@@ -90,24 +107,24 @@
 
       &:hover {
         .#{$namespace}-sub-menu__title {
-          color: var(--el-menu-hover-text-color);
+          color: getCssVar('menu-hover-text-color');
         }
       }
 
       &.is-active {
         .#{$namespace}-sub-menu__title {
-          border-bottom: 2px solid var(--el-menu-active-color);
-          color: var(--el-menu-active-color);
+          border-bottom: 2px solid getCssVar('menu-active-color');
+          color: getCssVar('menu-active-color');
         }
       }
 
       & .#{$namespace}-sub-menu__title {
         height: 100%;
         border-bottom: 2px solid transparent;
-        color: var(--el-menu-text-color);
+        color: getCssVar('menu-text-color');
 
         &:hover {
-          background-color: #fff;
+          background-color: getCssVar('bg-color', 'overlay');
         }
       }
 
@@ -121,39 +138,46 @@
     & .#{$namespace}-menu {
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title {
-        background-color: var(--el-menu-bg-color);
+        background-color: getCssVar('menu-bg-color');
         display: flex;
         align-items: center;
-        height: 36px;
+        height: getCssVar('menu-horizontal-sub-item-height');
         padding: 0 10px;
-        color: var(--el-menu-text-color);
+        color: getCssVar('menu-text-color');
+      }
+
+      & .#{$namespace}-sub-menu__title {
+        padding-right: 40px;
       }
 
       & .#{$namespace}-menu-item.is-active,
       & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title {
-        color: var(--el-menu-active-color);
+        color: getCssVar('menu-active-color');
       }
     }
     & .#{$namespace}-menu-item:not(.is-disabled):hover,
     & .#{$namespace}-menu-item:not(.is-disabled):focus {
       outline: none;
-      color: var(--el-menu-hover-text-color);
-      background-color: var(--el-menu-hover-bg-color);
+      color: getCssVar('menu-hover-text-color');
+      background-color: getCssVar('menu-hover-bg-color');
     }
     & > .#{$namespace}-menu-item.is-active {
-      border-bottom: 2px solid var(--el-menu-active-color);
-      color: var(--el-menu-active-color) !important;
+      border-bottom: 2px solid getCssVar('menu-active-color');
+      color: getCssVar('menu-active-color') !important;
     }
   }
   @include m(collapse) {
-    width: 64px;
+    width: calc(
+      #{getCssVar('menu-icon-width')} + #{getCssVar('menu-base-level-padding')} *
+        2
+    );
 
     > .#{$namespace}-menu-item,
     > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title {
       [class^='#{$namespace}-icon'] {
         margin: 0;
         vertical-align: middle;
-        width: 24px;
+        width: getCssVar('menu-icon-width');
         text-align: center;
       }
 
@@ -187,19 +211,13 @@
         top: 0;
         left: 100%;
         z-index: 10;
-        border: 1px solid var(--el-border-color-light);
-        border-radius: var(--el-border-radius-small);
-        box-shadow: var(--el-box-shadow-light);
+        border: 1px solid getCssVar('border-color-light');
+        border-radius: getCssVar('border-radius-small');
+        box-shadow: getCssVar('box-shadow-light');
       }
 
-      &.is-opened {
-        > .#{$namespace}-sub-menu__title .#{$namespace}-sub-menu__icon-arrow {
-          transform: none;
-        }
-      }
-
-      &.is-active i {
-        color: inherit;
+      &.is-active .#{$namespace}-sub-menu__title {
+        color: getCssVar('menu-active-color');
       }
     }
   }
@@ -208,8 +226,12 @@
     min-width: 200px;
     border: none;
     padding: 5px 0;
-    border-radius: var(--el-border-radius-small);
-    box-shadow: var(--el-box-shadow-light);
+    border-radius: getCssVar('border-radius-small');
+    box-shadow: getCssVar('box-shadow-light');
+  }
+
+  .#{$namespace}-icon {
+    flex-shrink: 0;
   }
 }
 
@@ -218,16 +240,27 @@
 
   & [class^='#{$namespace}-icon'] {
     margin-right: 5px;
-    width: 24px;
+    width: getCssVar('menu-icon-width');
     text-align: center;
     font-size: 18px;
     vertical-align: middle;
   }
   @include when(active) {
-    color: var(--el-menu-active-color);
+    color: getCssVar('menu-active-color');
     i {
       color: inherit;
     }
+  }
+  .#{$namespace}-menu-tooltip__trigger {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 getCssVar('menu-base-level-padding');
   }
 }
 
@@ -240,16 +273,15 @@
     @include menu-item;
 
     &:hover {
-      background-color: var(--el-menu-hover-bg-color);
+      background-color: getCssVar('menu-hover-bg-color');
     }
   }
   & .#{$namespace}-menu {
     border: none;
   }
   & .#{$namespace}-menu-item {
-    height: 50px;
-    line-height: 50px;
-    padding: 0 45px;
+    height: getCssVar('menu-sub-item-height');
+    line-height: getCssVar('menu-sub-item-height');
     min-width: 200px;
   }
   @include e(hide-arrow) {
@@ -259,12 +291,7 @@
   }
   @include when(active) {
     .#{$namespace}-sub-menu__title {
-      border-bottom-color: var(--el-menu-active-color);
-    }
-  }
-  @include when(opened) {
-    > .#{$namespace}-sub-menu__title .#{$namespace}-sub-menu__icon-arrow {
-      transform: rotateZ(180deg);
+      border-bottom-color: getCssVar('menu-active-color');
     }
   }
   @include when(disabled) {
@@ -278,7 +305,7 @@
   .#{$namespace}-icon {
     vertical-align: middle;
     margin-right: 5px;
-    width: 24px;
+    width: getCssVar('menu-icon-width');
     text-align: center;
     font-size: 18px;
 
@@ -289,9 +316,9 @@
   .#{$namespace}-sub-menu__icon-arrow {
     position: absolute;
     top: 50%;
-    right: 20px;
+    right: getCssVar('menu-base-level-padding');
     margin-top: -7px;
-    transition: transform var(--el-transition-duration);
+    transition: transform getCssVar('transition-duration');
     font-size: 12px;
     margin-right: 0;
     width: inherit;
@@ -303,16 +330,16 @@
     padding: 0;
   }
   @include e(title) {
-    padding: 7px 0 7px 20px;
+    padding: 7px 0 7px getCssVar('menu-base-level-padding');
     line-height: normal;
     font-size: 12px;
-    color: var(--el-text-color-secondary);
+    color: getCssVar('text-color', 'secondary');
   }
 }
 
 .horizontal-collapse-transition
   .#{$namespace}-sub-menu__title
   .#{$namespace}-sub-menu__icon-arrow {
-  transition: var(--el-transition-duration-fast);
+  transition: getCssVar('transition-duration-fast');
   opacity: 0;
 }

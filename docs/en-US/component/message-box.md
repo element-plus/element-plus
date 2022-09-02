@@ -89,9 +89,29 @@ message-box/distinguishable-close-cancel
 
 Content of MessageBox can be centered.
 
-:::demo Setting `center` to `true` will center the content
+:::demo Setting `center` to `true` will center the content.
 
 message-box/centered-content
+
+:::
+
+## Customized Icon
+
+The icon can be customized to any Vue component or [render function (JSX)](https://vuejs.org/guide/extras/render-function.html).
+
+:::demo
+
+message-box/customized-icon
+
+:::
+
+## Draggable
+
+MessageBox can be draggable.
+
+:::demo Setting `draggable` to `true` allows user to drag MessageBox.
+
+message-box/draggable
 
 :::
 
@@ -103,6 +123,22 @@ If Element Plus is fully imported, it will add the following global methods for 
 - `$alert(message, title, options)` or `$alert(message, options)`
 - `$confirm(message, title, options)` or `$confirm(message, options)`
 - `$prompt(message, title, options)` or `$prompt(message, options)`
+
+## App context inheritance <el-tag>> 2.0.4</el-tag>
+
+Now message box accepts a `context` as second (forth if you are using message box variants) parameter of the message constructor which allows you to inject current app's context to message which allows you to inherit all the properties of the app.
+
+```ts
+import { getCurrentInstance } from 'vue'
+import { ElMessageBox } from 'element-plus'
+
+// in your setup method
+const { appContext } = getCurrentInstance()!
+// You can pass it like:
+ElMessageBox({}, appContext)
+// or if you are using variants
+ElMessageBox.alert('Hello world!', 'Title', {}, appContext)
+```
 
 ## Local import
 
@@ -118,14 +154,15 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 
 | Attribute                    | Description                                                                                                                              | Type                                                                                                                                                                                                                            | Accepted Values                  | Default                                          |
 | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------------ |
+| autofocus                    | auto focus when open MessageBox                                                                                                          | boolean                                                                                                                                                                                                                         | —                                | true                                             |
 | title                        | title of the MessageBox                                                                                                                  | string                                                                                                                                                                                                                          | —                                | —                                                |
 | message                      | content of the MessageBox                                                                                                                | string                                                                                                                                                                                                                          | —                                | —                                                |
 | dangerouslyUseHTMLString     | whether `message` is treated as HTML string                                                                                              | boolean                                                                                                                                                                                                                         | —                                | false                                            |
 | type                         | message type, used for icon display                                                                                                      | string                                                                                                                                                                                                                          | success / info / warning / error | —                                                |
-| icon                         | custom icon component, overrides `type`                                                                                                  | string / Component                                                                                                                                                                                                              | —                                | —                                                |
+| icon                         | custom icon component, overrides `type`                                                                                                  | `string \| Component`                                                                                                                                                                                                           | —                                | —                                                |
 | custom-class                 | custom class name for MessageBox                                                                                                         | string                                                                                                                                                                                                                          | —                                | —                                                |
 | custom-style                 | custom inline style for MessageBox                                                                                                       | CSSProperties                                                                                                                                                                                                                   | —                                | —                                                |
-| callback                     | MessageBox closing callback if you don't prefer Promise                                                                                  | function(action), where action can be 'confirm', 'cancel' or 'close', and `instance` is the MessageBox instance. You can access to that instance's attributes and methods                                                       | —                                | —                                                |
+| callback                     | MessageBox closing callback if you don't prefer Promise                                                                                  | function(action, instance), where `action` can be 'confirm', 'cancel' or 'close', and `instance` is the MessageBox instance. You can access to that instance's attributes and methods                                           | —                                | —                                                |
 | showClose                    | whether to show close icon of MessageBox                                                                                                 | boolean                                                                                                                                                                                                                         | —                                | true                                             |
 | before-close                 | callback before MessageBox closes, and it will prevent MessageBox from closing                                                           | function(action, instance, done), where `action` can be 'confirm', 'cancel' or 'close'; `instance` is the MessageBox instance, and you can access to that instance's attributes and methods; `done` is for closing the instance | —                                | —                                                |
 | distinguish-cancel-and-close | whether to distinguish canceling and closing the MessageBox                                                                              | boolean                                                                                                                                                                                                                         | —                                | false                                            |
@@ -147,5 +184,6 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 | input-validator              | validation function for the input. Should returns a boolean or string. If a string is returned, it will be assigned to inputErrorMessage | function                                                                                                                                                                                                                        | —                                | —                                                |
 | input-error-message          | error message when validation fails                                                                                                      | string                                                                                                                                                                                                                          | —                                | Illegal input                                    |
 | center                       | whether to align the content in center                                                                                                   | boolean                                                                                                                                                                                                                         | —                                | false                                            |
+| draggable                    | whether MessageBox is draggable                                                                                                          | boolean                                                                                                                                                                                                                         | —                                | false                                            |
 | round-button                 | whether to use round button                                                                                                              | boolean                                                                                                                                                                                                                         | —                                | false                                            |
 | button-size                  | custom size of confirm and cancel buttons                                                                                                | string                                                                                                                                                                                                                          | small / default / large          | default                                          |

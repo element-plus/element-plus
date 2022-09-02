@@ -1,8 +1,12 @@
+import { isClient, unrefElement } from '@vueuse/core'
+
 import type { ComponentPublicInstance } from 'vue'
-import type { UsePopperCoreConfigProps, Measurable } from './popper'
+import type { MaybeRef } from '@vueuse/core'
+import type { Measurable } from '@element-plus/tokens'
+import type { UsePopperCoreConfigProps } from './content'
 
 type ArrowProps = {
-  arrowEl: HTMLElement | null
+  arrowEl: HTMLElement | undefined
   arrowOffset: number | undefined
 }
 
@@ -24,18 +28,10 @@ export const buildPopperOptions = (
 }
 
 export const unwrapMeasurableEl = (
-  $el: Measurable | null | ComponentPublicInstance
+  $el: MaybeRef<Measurable | undefined | ComponentPublicInstance>
 ) => {
-  let el: HTMLElement | null = null
-  if (!$el) return null
-
-  if ('getBoundingClientRect' in $el || ($el as any) instanceof HTMLElement) {
-    el = $el as HTMLElement
-  } else {
-    // refs can be Vue component
-    el = ($el as any as ComponentPublicInstance).$el
-  }
-  return el
+  if (!isClient) return
+  return unrefElement($el as HTMLElement)
 }
 
 function genModifiers(options: UsePopperCoreConfigProps) {

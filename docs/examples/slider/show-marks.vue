@@ -1,11 +1,11 @@
 <template>
   <div class="slider-demo-block">
-    <el-slider v-model="value" range :marks="marks"> </el-slider>
+    <el-slider v-model="value" range :marks="marks" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import type { CSSProperties } from 'vue'
 
 interface Mark {
@@ -28,3 +28,13 @@ const marks = reactive<Marks>({
   },
 })
 </script>
+<style scoped>
+.slider-demo-block {
+  display: flex;
+  align-items: center;
+}
+.slider-demo-block .el-slider {
+  margin-top: 0;
+  margin-left: 12px;
+}
+</style>

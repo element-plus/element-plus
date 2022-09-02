@@ -1,13 +1,12 @@
-import { isNumber } from '@element-plus/utils/util'
-import { throwError } from '@element-plus/utils/error'
+import { isNumber, throwError } from '@element-plus/utils'
 import createGrid from '../builders/build-grid'
 
 import {
   AUTO_ALIGNMENT,
-  SMART_ALIGNMENT,
-  START_ALIGNMENT,
   CENTERED_ALIGNMENT,
   END_ALIGNMENT,
+  SMART_ALIGNMENT,
+  START_ALIGNMENT,
 } from '../defaults'
 
 const SCOPE = 'ElFixedSizeGrid'

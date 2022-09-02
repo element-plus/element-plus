@@ -1,24 +1,16 @@
-import {
-  computed,
-  watch,
-  ref,
-  reactive,
-  nextTick,
-  onMounted,
-  onBeforeMount,
-} from 'vue'
+// @ts-nocheck
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import isEqual from 'lodash/isEqual'
-import lodashDebounce from 'lodash/debounce'
-import { useFormItem, useLocale, useSize } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/utils/constants'
-import { ValidateComponentsMap } from '@element-plus/utils/icon'
+import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
+import { useResizeObserver } from '@vueuse/core'
 import {
-  addResizeListener,
-  removeResizeListener,
-} from '@element-plus/utils/resize-event'
-import { getValueByPath } from '@element-plus/utils/util'
-import { Effect } from '@element-plus/components/popper'
+  useFormItem,
+  useLocale,
+  useNamespace,
+  useSize,
+} from '@element-plus/hooks'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { ValidateComponentsMap, debugWarn } from '@element-plus/utils'
 
 import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
@@ -28,8 +20,8 @@ import { flattenOptions } from './util'
 import { useInput } from './useInput'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { SelectProps } from './defaults'
-import type { ExtractPropTypes, CSSProperties } from 'vue'
-import type { OptionType, Option } from './select.types'
+import type { CSSProperties, ExtractPropTypes } from 'vue'
+import type { Option, OptionType } from './select.types'
 
 const DEFAULT_INPUT_PLACEHOLDER = ''
 const MINIMUM_INPUT_WIDTH = 11
@@ -42,6 +34,8 @@ const TAG_BASE_WIDTH = {
 const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // inject
   const { t } = useLocale()
+  const nsSelectV2 = useNamespace('select-v2')
+  const nsInput = useNamespace('input')
   const { form: elForm, formItem: elFormItem } = useFormItem()
 
   const states = reactive({
@@ -118,8 +112,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     props.remote && props.filterable ? '' : ArrowUp
   )
 
-  const iconReverse = computed(() =>
-    iconComponent.value && expanded.value ? 'is-reverse' : ''
+  const iconReverse = computed(
+    () => iconComponent.value && nsSelectV2.is('reverse', expanded.value)
   )
 
   const validateState = computed(() => elFormItem?.validateState || '')
@@ -152,7 +146,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // fill the conditions here.
       const query = states.inputValue
       // when query was given, we should test on the label see whether the label contains the given query
-      const containsQueryString = query ? o.label.includes(query) : true
+      const containsQueryString = query ? o.label?.includes(query) : true
       return containsQueryString
     }
     if (props.loading) {
@@ -195,10 +189,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const select = selectionRef.value
     const size = collapseTagSize.value || 'default'
     const paddingLeft = select
-      ? parseInt(getComputedStyle(select).paddingLeft)
+      ? Number.parseInt(getComputedStyle(select).paddingLeft)
       : 0
     const paddingRight = select
-      ? parseInt(getComputedStyle(select).paddingRight)
+      ? Number.parseInt(getComputedStyle(select).paddingRight)
       : 0
     return (
       states.selectWidth - paddingRight - paddingLeft - TAG_BASE_WIDTH[size]
@@ -206,7 +200,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const calculatePopperSize = () => {
-    popperSize.value = selectRef.value?.getBoundingClientRect?.()?.width || 200
+    popperSize.value = selectRef.value?.offsetWidth || 200
   }
 
   const inputWrapperStyle = computed(() => {
@@ -256,8 +250,13 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return -1
   })
 
-  const dropdownMenuVisible = computed(() => {
-    return expanded.value && emptyText.value !== false
+  const dropdownMenuVisible = computed({
+    get() {
+      return expanded.value && emptyText.value !== false
+    },
+    set(val: boolean) {
+      expanded.value = val
+    },
   })
 
   // hooks
@@ -337,7 +336,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     const valueKey = props.valueKey
     let index = -1
     arr.some((item, i) => {
-      if (getValueByPath(item, valueKey) === getValueByPath(value, valueKey)) {
+      if (get(item, valueKey) === get(value, valueKey)) {
         index = i
         return true
       }
@@ -347,7 +346,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const getValueKey = (item: unknown) => {
-    return isObject(item) ? getValueByPath(item, props.valueKey) : item
+    return isObject(item) ? get(item, props.valueKey) : item
   }
 
   // if the selected item is item then we get label via indexing
@@ -414,7 +413,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         handleQueryChange('')
         states.inputLength = 20
       }
-      if (props.filterable) {
+      if (props.filterable && !props.reserveKeyword) {
         inputRef.value.focus?.()
         onUpdateInputValue('')
       }
@@ -440,7 +439,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const deleteTag = (event: MouseEvent, tag: Option) => {
-    const index = (props.modelValue as Array<any>).indexOf(tag.value)
+    const { valueKey } = props
+    const index = (props.modelValue as Array<any>).indexOf(get(tag, valueKey))
 
     if (index > -1 && !selectDisabled.value) {
       const value = [
@@ -449,7 +449,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       ]
       states.cachedOptions.splice(index, 1)
       update(value)
-      emit('remove-tag', tag.value)
+      emit('remove-tag', get(tag, valueKey))
       states.softFocus = true
       removeNewOption(tag)
       return nextTick(focusAndUpdatePopup)
@@ -468,7 +468,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const handleBlur = () => {
+  const handleBlur = (event: FocusEvent) => {
     states.softFocus = false
 
     // reset input value when blurred
@@ -483,7 +483,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.isSilentBlur = false
       } else {
         if (states.isComposing) {
-          emit('blur')
+          emit('blur', event)
         }
       }
       states.isComposing = false
@@ -581,7 +581,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const onKeyboardSelect = () => {
     if (!expanded.value) {
       return toggleMenu()
-    } else if (~states.hoveringIndex) {
+    } else if (
+      ~states.hoveringIndex &&
+      filteredOptions.value[states.hoveringIndex]
+    ) {
       onSelect(
         filteredOptions.value[states.hoveringIndex],
         states.hoveringIndex,
@@ -648,7 +651,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if ((props.modelValue as Array<any>).length > 0) {
         let initHovering = false
         states.cachedOptions.length = 0
-        ;(props.modelValue as Array<any>).map((selected) => {
+        states.previousValue = props.modelValue.toString()
+        ;(props.modelValue as Array<any>).forEach((selected) => {
           const itemIndex = filteredOptions.value.findIndex(
             (option) => getValueKey(option) === selected
           )
@@ -664,12 +668,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         })
       } else {
         states.cachedOptions = []
+        states.previousValue = ''
       }
     } else {
       if (hasModelValue.value) {
+        states.previousValue = props.modelValue
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
-          (option) => getValueKey(option) === props.modelValue
+          (option) => getValueKey(option) === getValueKey(props.modelValue)
         )
         if (~selectedItemIndex) {
           states.selectedLabel = options[selectedItemIndex].label
@@ -679,8 +685,10 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         }
       } else {
         states.selectedLabel = ''
+        states.previousValue = ''
       }
     }
+    clearAllNewOption()
     calculatePopperSize()
   }
 
@@ -695,6 +703,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // the purpose of this function is to differ the blur event trigger mechanism
     } else {
       states.displayInputValue = ''
+      states.previousQuery = null
       createNewOption('')
     }
   })
@@ -705,8 +714,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       if (!val || val.toString() !== states.previousValue) {
         initStates()
       }
-      if (!isEqual(val, oldVal)) {
-        elFormItem?.validate?.('change')
+      if (!isEqual(val, oldVal) && props.validateEvent) {
+        elFormItem?.validate?.('change').catch((err) => debugWarn(err))
       }
     },
     {
@@ -735,12 +744,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   onMounted(() => {
     initStates()
-    addResizeListener(selectRef.value, handleResize)
   })
-
-  onBeforeMount(() => {
-    removeResizeListener(selectRef.value, handleResize)
-  })
+  useResizeObserver(selectRef, handleResize)
 
   return {
     // data exports
@@ -764,6 +769,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     showClearBtn,
     states,
     tagMaxWidth,
+    nsSelectV2,
+    nsInput,
 
     // refs items exports
     calculatorRef,
@@ -778,8 +785,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     validateState,
     validateIcon,
-
-    Effect,
 
     // methods exports
     debouncedOnInputChange,

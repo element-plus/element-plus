@@ -1,7 +1,7 @@
-import { nextTick, ref, isRef } from 'vue'
-import { hasOwn } from '@vue/shared'
+// @ts-nocheck
+import { isRef, nextTick, ref } from 'vue'
 import { isClient } from '@vueuse/core'
-import scrollbarWidth from '@element-plus/utils/scrollbar-width'
+import { hasOwn } from '@element-plus/utils'
 import { parseHeight } from './util'
 import type { Ref } from 'vue'
 
@@ -27,10 +27,6 @@ class TableLayout<T> {
   headerHeight: Ref<null | number> // Table Header Height
   appendHeight: Ref<null | number> // Append Slot Height
   footerHeight: Ref<null | number> // Table Footer Height
-  viewportHeight: Ref<null | number> // Table Height - Scroll Bar Height
-  bodyHeight: Ref<null | number> // Table Height - Table Header Height
-  bodyScrollHeight: Ref<number>
-  fixedBodyHeight: Ref<null | number> // Table Height - Table Header Height - Scroll Bar Height
   gutterWidth: number
   constructor(options: Record<string, any>) {
     this.observers = []
@@ -45,15 +41,7 @@ class TableLayout<T> {
     this.bodyWidth = ref(null)
     this.fixedWidth = ref(null)
     this.rightFixedWidth = ref(null)
-    this.tableHeight = ref(null)
-    this.headerHeight = ref(44)
-    this.appendHeight = ref(0)
-    this.footerHeight = ref(44)
-    this.viewportHeight = ref(null)
-    this.bodyHeight = ref(null)
-    this.bodyScrollHeight = ref(0)
-    this.fixedBodyHeight = ref(null)
-    this.gutterWidth = scrollbarWidth()
+    this.gutterWidth = 0
     for (const name in options) {
       if (hasOwn(options, name)) {
         if (isRef(this[name])) {
@@ -78,21 +66,12 @@ class TableLayout<T> {
      * After the table is initialized, when the height is not configured, the height is 0.
      */
     if (height === null) return false
-    const bodyWrapper = this.table.refs.bodyWrapper as HTMLElement
-    if (this.table.vnode.el && bodyWrapper) {
+    const scrollBarRef = this.table.refs.scrollBarRef
+    if (this.table.vnode.el && scrollBarRef) {
       let scrollY = true
       const prevScrollY = this.scrollY.value
-      /**
-       * When bodyHeight has no value,
-       * it means that the table height is not set,
-       * and the scroll bar will never appear
-       */
-      if (this.bodyHeight.value === null) {
-        scrollY = false
-      } else {
-        const body = bodyWrapper.querySelector('.el-table__body') as HTMLElement
-        scrollY = body.offsetHeight > this.bodyHeight.value
-      }
+      scrollY =
+        scrollBarRef.wrap$.scrollHeight > scrollBarRef.wrap$.clientHeight
       this.scrollY.value = scrollY
       return prevScrollY !== scrollY
     }
@@ -137,51 +116,6 @@ class TableLayout<T> {
   }
 
   updateElsHeight() {
-    if (!this.table.$ready) return nextTick(() => this.updateElsHeight())
-    const { headerWrapper, appendWrapper, footerWrapper, bodyWrapper } =
-      this.table.refs
-    this.appendHeight.value = appendWrapper ? appendWrapper.offsetHeight : 0
-    if (this.showHeader && !headerWrapper) return
-
-    const headerTrElm: HTMLElement = headerWrapper
-      ? headerWrapper.querySelector('.el-table__header tr')
-      : null
-    const noneHeader = this.headerDisplayNone(headerTrElm)
-
-    const headerHeight = (this.headerHeight.value = !this.showHeader
-      ? 0
-      : headerWrapper.offsetHeight)
-    if (
-      this.showHeader &&
-      !noneHeader &&
-      headerWrapper.offsetWidth > 0 &&
-      (this.table.store.states.columns.value || []).length > 0 &&
-      headerHeight < 2
-    ) {
-      return nextTick(() => this.updateElsHeight())
-    }
-    const tableHeight = (this.tableHeight.value =
-      this.table.vnode.el.clientHeight)
-    const footerHeight = (this.footerHeight.value = footerWrapper
-      ? footerWrapper.offsetHeight
-      : 0)
-    if (this.height.value !== null) {
-      if (this.bodyHeight.value === null) {
-        requestAnimationFrame(() => this.updateElsHeight())
-      }
-      this.bodyHeight.value =
-        tableHeight - headerHeight - footerHeight + (footerWrapper ? 1 : 0)
-      this.bodyScrollHeight.value =
-        bodyWrapper.querySelector('.el-table__body')?.scrollHeight!
-    }
-    this.fixedBodyHeight.value = this.scrollX.value
-      ? this.bodyHeight.value - this.gutterWidth
-      : this.bodyHeight.value
-
-    this.viewportHeight.value = this.scrollX.value
-      ? tableHeight - this.gutterWidth
-      : tableHeight
-
     this.updateScrollY()
     this.notifyObservers('scrollable')
   }
@@ -217,14 +151,11 @@ class TableLayout<T> {
       flattenColumns.forEach((column) => {
         bodyMinWidth += Number(column.width || column.minWidth || 80)
       })
-
-      const scrollYWidth = this.scrollY.value ? this.gutterWidth : 0
-
-      if (bodyMinWidth <= bodyWidth - scrollYWidth) {
+      if (bodyMinWidth <= bodyWidth) {
         // DON'T HAVE SCROLL BAR
         this.scrollX.value = false
 
-        const totalFlexWidth = bodyWidth - scrollYWidth - bodyMinWidth
+        const totalFlexWidth = bodyWidth - bodyMinWidth
 
         if (flexColumns.length === 1) {
           flexColumns[0].realWidth =
@@ -254,7 +185,7 @@ class TableLayout<T> {
       } else {
         // HAVE HORIZONTAL SCROLL BAR
         this.scrollX.value = true
-        flexColumns.forEach(function (column) {
+        flexColumns.forEach((column) => {
           column.realWidth = Number(column.minWidth)
         })
       }
@@ -279,7 +210,7 @@ class TableLayout<T> {
 
     if (fixedColumns.length > 0) {
       let fixedWidth = 0
-      fixedColumns.forEach(function (column) {
+      fixedColumns.forEach((column) => {
         fixedWidth += Number(column.realWidth || column.width)
       })
 
@@ -289,7 +220,7 @@ class TableLayout<T> {
     const rightFixedColumns = this.store.states.rightFixedColumns.value
     if (rightFixedColumns.length > 0) {
       let rightFixedWidth = 0
-      rightFixedColumns.forEach(function (column) {
+      rightFixedColumns.forEach((column) => {
         rightFixedWidth += Number(column.realWidth || column.width)
       })
 

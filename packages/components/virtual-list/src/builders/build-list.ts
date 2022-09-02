@@ -1,39 +1,39 @@
+// @ts-nocheck
 import {
   computed,
   defineComponent,
   getCurrentInstance,
-  ref,
+  h,
   nextTick,
   onMounted,
   onUpdated,
+  ref,
   resolveDynamicComponent,
-  h,
   unref,
 } from 'vue'
-import { hasOwn } from '@vue/shared'
-
 import { isClient } from '@vueuse/core'
-import { isNumber, isString } from '@element-plus/utils/util'
-
+import { hasOwn, isNumber, isString } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import { useCache } from '../hooks/use-cache'
 import useWheel from '../hooks/use-wheel'
 import Scrollbar from '../components/scrollbar'
-import { getScrollDir, isHorizontal, getRTLOffsetType } from '../utils'
+import { getRTLOffsetType, getScrollDir, isHorizontal } from '../utils'
 import { virtualizedListProps } from '../props'
 import {
   AUTO_ALIGNMENT,
   BACKWARD,
   FORWARD,
-  RTL,
   HORIZONTAL,
   ITEM_RENDER_EVT,
-  SCROLL_EVT,
+  RTL,
   RTL_OFFSET_NAG,
+  RTL_OFFSET_POS_ASC,
   RTL_OFFSET_POS_DESC,
+  SCROLL_EVT,
 } from '../defaults'
 
-import type { VNode, CSSProperties, Slot, VNodeChild } from 'vue'
-import type { ListConstructorProps, Alignment } from '../types'
+import type { CSSProperties, Slot, VNode, VNodeChild } from 'vue'
+import type { Alignment, ListConstructorProps } from '../types'
 import type { VirtualizedListProps } from '../props'
 
 const createList = ({
@@ -55,6 +55,9 @@ const createList = ({
     setup(props, { emit, expose }) {
       validateProps(props)
       const instance = getCurrentInstance()!
+
+      const ns = useNamespace('vl')
+
       const dynamicSizeCache = ref(initCache(props, instance))
 
       const getItemStyleCache = useCache()
@@ -119,7 +122,7 @@ const createList = ({
       const windowStyle = computed(() => [
         {
           position: 'relative',
-          overflow: 'hidden',
+          [`overflow-${_isHorizontal.value ? 'x' : 'y'}`]: 'scroll',
           WebkitOverflowScrolling: 'touch',
           willChange: 'transform',
         },
@@ -384,11 +387,11 @@ const createList = ({
               // This is not the case for all browsers though (e.g. Chrome reports values as positive, measured relative to the left).
               // So we need to determine which browser behavior we're dealing with, and mimic it.
               switch (getRTLOffsetType()) {
-                case 'negative': {
+                case RTL_OFFSET_NAG: {
                   windowElement.scrollLeft = -scrollOffset
                   break
                 }
-                case 'positive-ascending': {
+                case RTL_OFFSET_POS_ASC: {
                   windowElement.scrollLeft = scrollOffset
                   break
                 }
@@ -409,6 +412,7 @@ const createList = ({
       })
 
       const api = {
+        ns,
         clientSize,
         estimatedTotalSize,
         windowStyle,
@@ -459,6 +463,7 @@ const createList = ({
         states,
         useIsScrolling,
         windowStyle,
+        ns,
       } = ctx
 
       const [start, end] = itemsToRender
@@ -511,7 +516,7 @@ const createList = ({
       const listContainer = h(
         Container as VNode,
         {
-          class: className,
+          class: [ns.e('window'), className],
           style: windowStyle,
           onScroll,
           onWheel,
@@ -525,10 +530,7 @@ const createList = ({
         'div',
         {
           key: 0,
-          class: [
-            'el-vl__wrapper',
-            states.scrollbarAlwaysOn ? 'always-on' : '',
-          ],
+          class: [ns.e('wrapper'), states.scrollbarAlwaysOn ? 'always-on' : ''],
         },
         [listContainer, scrollbar]
       )

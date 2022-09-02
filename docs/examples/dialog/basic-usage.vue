@@ -1,5 +1,5 @@
 <template>
-  <el-button type="text" @click="dialogVisible = true"
+  <el-button text @click="dialogVisible = true"
     >click to open the Dialog</el-button
   >
 
@@ -37,3 +37,8 @@ const handleClose = (done: () => void) => {
     })
 }
 </script>
+<style scoped>
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+</style>

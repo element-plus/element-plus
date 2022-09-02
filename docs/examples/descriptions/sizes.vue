@@ -97,11 +97,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import {
-  User,
   Iphone,
   Location,
-  Tickets,
   OfficeBuilding,
+  Tickets,
+  User,
 } from '@element-plus/icons-vue'
 
 const size = ref('')
@@ -131,9 +131,11 @@ const blockMargin = computed(() => {
 .el-descriptions {
   margin-top: 20px;
 }
-
 .cell-item {
   display: flex;
   align-items: center;
+}
+.margin-top {
+  margin-top: 20px;
 }
 </style>

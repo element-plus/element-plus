@@ -1,8 +1,8 @@
 import { unref } from 'vue'
-import { buildProps } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils'
 import { useTimeout } from '../use-timeout'
 
-import type { ToRefs, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, ToRefs } from 'vue'
 
 export const useDelayedToggleProps = buildProps({
   showAfter: {
@@ -13,11 +13,11 @@ export const useDelayedToggleProps = buildProps({
     type: Number,
     default: 200,
   },
-})
+} as const)
 
 export type UseDelayedToggleProps = {
-  open: () => void
-  close: () => void
+  open: (event?: Event) => void
+  close: (event?: Event) => void
 } & ToRefs<ExtractPropTypes<typeof useDelayedToggleProps>>
 
 export const useDelayedToggle = ({
@@ -28,15 +28,15 @@ export const useDelayedToggle = ({
 }: UseDelayedToggleProps) => {
   const { registerTimeout } = useTimeout()
 
-  const onOpen = () => {
+  const onOpen = (event?: Event) => {
     registerTimeout(() => {
-      open()
+      open(event)
     }, unref(showAfter))
   }
 
-  const onClose = () => {
+  const onClose = (event?: Event) => {
     registerTimeout(() => {
-      close()
+      close(event)
     }, unref(hideAfter))
   }
 

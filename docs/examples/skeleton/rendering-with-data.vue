@@ -30,8 +30,8 @@
           <div style="padding: 14px">
             <span>{{ item.name }}</span>
             <div class="bottom card-header">
-              <span class="time">{{ currentDate }}</span>
-              <el-button type="text" class="button">Operation button</el-button>
+              <div class="time">{{ currentDate }}</div>
+              <el-button text class="button">Operation button</el-button>
             </div>
           </div>
         </el-card>
@@ -42,7 +42,6 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import dayjs from 'dayjs'
 
 interface ListItem {
   imgUrl: string
@@ -51,7 +50,7 @@ interface ListItem {
 
 const loading = ref(true)
 const lists = ref<ListItem[]>([])
-const currentDate = ref(dayjs().format('YYYY-MM-DD'))
+const currentDate = new Date().toDateString()
 
 const setLoading = () => {
   loading.value = true

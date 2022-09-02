@@ -37,8 +37,8 @@
           <div style="padding: 14px">
             <span>Delicious hamburger</span>
             <div class="bottom card-header">
-              <span class="time">{{ currentDate }}</span>
-              <el-button type="text" class="button">operation button</el-button>
+              <div class="time">{{ currentDate }}</div>
+              <el-button text class="button">operation button</el-button>
             </div>
           </div>
         </el-card>
@@ -49,8 +49,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import dayjs from 'dayjs'
 
 const loading = ref(false)
-const currentDate = dayjs().format('YYYY-MM-DD')
+const currentDate = new Date().toDateString()
 </script>

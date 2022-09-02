@@ -1,19 +1,16 @@
 <template>
   <template v-if="uiLoading">
-    <div
-      :class="['el-skeleton', animated ? 'is-animated' : '']"
-      v-bind="$attrs"
-    >
+    <div :class="[ns.b(), ns.is('animated', animated)]" v-bind="$attrs">
       <template v-for="i in count" :key="i">
         <slot v-if="loading" :key="i" name="template">
-          <el-skeleton-item class="is-first" variant="p" />
+          <el-skeleton-item :class="ns.is('first')" variant="p" />
           <el-skeleton-item
             v-for="item in rows"
             :key="item"
-            :class="{
-              'el-skeleton__paragraph': true,
-              'is-last': item === rows && rows > 1,
-            }"
+            :class="[
+              ns.e('paragraph'),
+              ns.is('last', item === rows && rows > 1),
+            ]"
             variant="p"
           />
         </slot>
@@ -21,32 +18,26 @@
     </div>
   </template>
   <template v-else>
-    <slot v-bind="$attrs"></slot>
+    <slot v-bind="$attrs" />
   </template>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { useThrottleRender } from '@element-plus/hooks'
-import SkeletonItem from './skeleton-item.vue'
+<script lang="ts" setup>
+import { toRef } from 'vue'
+import { useNamespace, useThrottleRender } from '@element-plus/hooks'
 import { skeletonProps } from './skeleton'
+import ElSkeletonItem from './skeleton-item.vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ElSkeleton',
-  components: {
-    [SkeletonItem.name]: SkeletonItem,
-  },
-  props: skeletonProps,
-  setup(props) {
-    const innerLoading = computed(() => {
-      return props.loading
-    })
+})
+const props = defineProps(skeletonProps)
 
-    const uiLoading = useThrottleRender(innerLoading, props.throttle)
+const ns = useNamespace('skeleton')
+const uiLoading = useThrottleRender(toRef(props, 'loading'), props.throttle)
 
-    return {
-      uiLoading,
-    }
-  },
+defineExpose({
+  /** @description loading state */
+  uiLoading,
 })
 </script>

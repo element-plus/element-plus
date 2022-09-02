@@ -6,20 +6,19 @@
 import {
   computed,
   defineComponent,
-  provide,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  unref,
   inject,
-  watch,
+  provide,
   readonly,
+  ref,
   toRef,
+  unref,
+  watch,
 } from 'vue'
-import { composeEventHandlers, on, off } from '@element-plus/utils/dom'
+import { useEventListener } from '@vueuse/core'
+import { composeEventHandlers } from '@element-plus/utils'
 import {
-  rovingFocusGroupProps,
   ROVING_FOCUS_COLLECTION_INJECTION_KEY,
+  rovingFocusGroupProps,
 } from './roving-focus-group'
 import { ROVING_FOCUS_GROUP_INJECTION_KEY } from './tokens'
 import { focusFirst } from './utils'
@@ -148,15 +147,7 @@ export default defineComponent({
       }
     )
 
-    onMounted(() => {
-      const rovingFocusGroupEl = unref(rovingFocusGroupRef)!
-      on(rovingFocusGroupEl, ENTRY_FOCUS_EVT, handleEntryFocus)
-    })
-
-    onBeforeUnmount(() => {
-      const rovingFocusGroupEl = unref(rovingFocusGroupRef)!
-      off(rovingFocusGroupEl, ENTRY_FOCUS_EVT, handleEntryFocus)
-    })
+    useEventListener(rovingFocusGroupRef, ENTRY_FOCUS_EVT, handleEntryFocus)
   },
 })
 </script>

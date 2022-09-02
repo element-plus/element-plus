@@ -4,13 +4,13 @@
     :virtual-ref="virtualRef"
     :open="open"
     :virtual-triggering="virtualTriggering"
-    class="el-tooltip__trigger"
+    :class="ns.e('trigger')"
     @blur="onBlur"
+    @click="onClick"
     @contextmenu="onContextMenu"
     @focus="onFocus"
     @mouseenter="onMouseenter"
     @mouseleave="onMouseleave"
-    @mousedown="onMousedown"
     @keydown="onKeydown"
   >
     <slot />
@@ -18,15 +18,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref, unref, toRef } from 'vue'
+import { defineComponent, inject, ref, toRef, unref } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
-import { EVENT_CODE } from '@element-plus/utils/aria'
-import { composeEventHandlers } from '@element-plus/utils/dom'
+import { composeEventHandlers } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 import { useTooltipTriggerProps } from './tooltip'
 import { whenTrigger } from './utils'
 
-import type { ElOnlyChildExpose } from '@element-plus/components/slot'
+import type { OnlyChildExpose } from '@element-plus/components/slot'
 
 export default defineComponent({
   name: 'ElTooltipTrigger',
@@ -35,11 +35,12 @@ export default defineComponent({
   },
   props: useTooltipTriggerProps,
   setup(props) {
+    const ns = useNamespace('tooltip')
     const { controlled, id, open, onOpen, onClose, onToggle } = inject(
       TOOLTIP_INJECTION_KEY,
       undefined
     )!
-    const triggerRef = ref<ElOnlyChildExpose | null>(null)
+    const triggerRef = ref<OnlyChildExpose | null>(null)
 
     const stopWhenControlledOrDisabled = () => {
       if (unref(controlled) || props.disabled) {
@@ -55,7 +56,7 @@ export default defineComponent({
       stopWhenControlledOrDisabled,
       whenTrigger(trigger, 'hover', onClose)
     )
-    const onMousedown = composeEventHandlers(
+    const onClick = composeEventHandlers(
       stopWhenControlledOrDisabled,
       whenTrigger(trigger, 'click', (e) => {
         // distinguish left click
@@ -87,7 +88,8 @@ export default defineComponent({
       stopWhenControlledOrDisabled,
       (e: KeyboardEvent) => {
         const { code } = e
-        if (code === EVENT_CODE.enter || code === EVENT_CODE.space) {
+        if (props.triggerKeys.includes(code)) {
+          e.preventDefault()
           onToggle(e)
         }
       }
@@ -99,11 +101,12 @@ export default defineComponent({
       onFocus,
       onMouseenter,
       onMouseleave,
-      onMousedown,
+      onClick,
       onKeydown,
       open,
       id,
       triggerRef,
+      ns,
     }
   },
 })

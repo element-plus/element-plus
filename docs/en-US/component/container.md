@@ -25,9 +25,49 @@ These components use flex for layout, so please make sure your browser supports 
 
 ## Common layouts
 
+<style lang="scss">
+@use '../../examples/container/common-layout.scss';
+</style>
+
 :::demo
 
-container/basic
+container/layout-hm
+
+:::
+
+:::demo
+
+container/layout-hmf
+
+:::
+
+:::demo
+
+container/layout-am
+
+:::
+
+:::demo
+
+container/layout-ham
+
+:::
+
+:::demo
+
+container/layout-hamf
+
+:::
+
+:::demo
+
+container/layout-ahm
+
+:::
+
+:::demo
+
+container/layout-ahmf
 
 :::
 
@@ -92,52 +132,3 @@ container/example
 | Name | Description               |
 | ---- | ------------------------- |
 | —    | customize default content |
-
-<style lang="scss">
-.example-showcase {
-  .el-header,
-  .el-footer {
-    background-color: #b3c0d1;
-    color: var(--el-text-color-primary);
-  }
-
-  .el-aside {
-    color: var(--el-text-color-primary);
-  }
-
-  .common-layout {
-    .el-header,
-    .el-footer {
-      text-align: center;
-    }
-
-    .el-aside {
-      background-color: #d3dce6;
-      text-align: center;
-      line-height: 200px;
-    }
-
-    .el-main {
-      background-color: #e9eef3;
-      color: var(--el-text-color-primary);
-      text-align: center;
-      line-height: 160px;
-    }
-
-    .el-container {
-      margin-bottom: 40px;
-      &:last-child {
-        margin-bottom: 0;
-      }
-      &:nth-child(5) .el-aside,
-      &:nth-child(6) .el-aside {
-        line-height: 260px;
-      }
-
-      &:nth-child(7) .el-aside {
-        line-height: 320px;
-      }
-    }
-  }
-}
-</style>

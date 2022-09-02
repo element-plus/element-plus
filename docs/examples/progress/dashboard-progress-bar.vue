@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Minus, Plus } from '@element-plus/icons-vue'
 
 const percentage = ref(10)
@@ -44,3 +44,12 @@ onMounted(() => {
   }, 500)
 })
 </script>
+<style scoped>
+.demo-progress .el-progress--line {
+  margin-bottom: 15px;
+  width: 350px;
+}
+.demo-progress .el-progress--circle {
+  margin-right: 15px;
+}
+</style>

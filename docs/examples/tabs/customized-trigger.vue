@@ -7,6 +7,7 @@
   <el-tabs
     v-model="editableTabsValue"
     type="card"
+    class="demo-tabs"
     closable
     @tab-remove="removeTab"
   >
@@ -65,3 +66,11 @@ const removeTab = (targetName: string) => {
   editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
 }
 </script>
+<style>
+.demo-tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+</style>

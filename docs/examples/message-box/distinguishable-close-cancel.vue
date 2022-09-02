@@ -1,9 +1,9 @@
 <template>
-  <el-button type="text" @click="open">Click to open Message Box</el-button>
+  <el-button text @click="open">Click to open Message Box</el-button>
 </template>
 
 <script lang="ts" setup>
-import { ElMessageBox, ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import type { Action } from 'element-plus'
 const open = () => {
   ElMessageBox.confirm(

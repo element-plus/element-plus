@@ -1,12 +1,14 @@
 <template>
   <li
     v-show="visible"
-    class="el-select-dropdown__item"
-    :class="{
-      selected: itemSelected,
-      'is-disabled': isDisabled,
-      hover: hover,
-    }"
+    :class="[
+      ns.be('dropdown', 'item'),
+      ns.is('disabled', isDisabled),
+      {
+        selected: itemSelected,
+        hover,
+      },
+    ]"
     @mouseenter="hoverItem"
     @click.stop="selectOptionClick"
   >
@@ -17,13 +19,16 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
-  toRefs,
   defineComponent,
   getCurrentInstance,
+  nextTick,
   onBeforeUnmount,
   reactive,
+  toRefs,
 } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import type { SelectOptionProxy } from './token'
 
@@ -45,6 +50,7 @@ export default defineComponent({
   },
 
   setup(props) {
+    const ns = useNamespace('select')
     const states = reactive({
       index: -1,
       groupDisabled: false,
@@ -59,21 +65,23 @@ export default defineComponent({
     const { visible, hover } = toRefs(states)
 
     const vm = getCurrentInstance().proxy
-    const key = (vm as unknown as SelectOptionProxy).value
+
     select.onOptionCreate(vm as unknown as SelectOptionProxy)
 
     onBeforeUnmount(() => {
+      const key = (vm as unknown as SelectOptionProxy).value
       const { selected } = select
       const selectedOptions = select.props.multiple ? selected : [selected]
-      const doesExist = select.cachedOptions.has(key)
       const doesSelected = selectedOptions.some((item) => {
         return item.value === (vm as unknown as SelectOptionProxy).value
       })
       // if option is not selected, remove it from cache
-      if (doesExist && !doesSelected) {
-        select.cachedOptions.delete(key)
-      }
-      select.onOptionDestroy(key)
+      nextTick(() => {
+        if (select.cachedOptions.get(key) === vm && !doesSelected) {
+          select.cachedOptions.delete(key)
+        }
+      })
+      select.onOptionDestroy(key, vm)
     })
 
     function selectOptionClick() {
@@ -83,6 +91,7 @@ export default defineComponent({
     }
 
     return {
+      ns,
       currentLabel,
       itemSelected,
       isDisabled,

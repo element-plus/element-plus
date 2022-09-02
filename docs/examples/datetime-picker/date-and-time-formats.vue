@@ -1,5 +1,5 @@
 <template>
-  <div class="demo-date-picker">
+  <div class="demo-datetime-picker">
     <div class="block">
       <span class="demonstration">Emits Date object</span>
       <div class="demonstration">Value: {{ value1 }}</div>
@@ -7,9 +7,8 @@
         v-model="value1"
         type="datetime"
         placeholder="Pick a Date"
-        format="YYYY/MM/DD hh:mm:ss"
-      >
-      </el-date-picker>
+        format="YYYY/MM/DD HH:mm:ss"
+      />
     </div>
     <div class="block">
       <span class="demonstration">Use value-format</span>
@@ -20,8 +19,7 @@
         placeholder="Pick a Date"
         format="YYYY/MM/DD hh:mm:ss"
         value-format="YYYY-MM-DD h:m:s a"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">Timestamp</span>
@@ -32,26 +30,38 @@
         placeholder="Pick a Date"
         format="YYYY/MM/DD hh:mm:ss"
         value-format="x"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const value1 = ref('')
-    const value2 = ref('')
-    const value3 = ref('')
-
-    return {
-      value1,
-      value2,
-      value3,
-    }
-  },
-})
+const value1 = ref('')
+const value2 = ref('')
+const value3 = ref('')
 </script>
+<style scoped>
+.demo-datetime-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.demo-datetime-picker .block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  flex: 1;
+}
+.demo-datetime-picker .block:last-child {
+  border-right: none;
+}
+.demo-datetime-picker .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>

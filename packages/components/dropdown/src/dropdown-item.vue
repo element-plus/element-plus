@@ -5,10 +5,10 @@
   >
     <el-roving-focus-item :focusable="!disabled">
       <el-dropdown-item-impl
-        v-bind="$props"
+        v-bind="propsAndAttrs"
         @pointerleave="handlePointerLeave"
         @pointermove="handlePointerMove"
-        @click="handleClick"
+        @clickimpl="handleClick"
       >
         <slot />
       </el-dropdown-item-impl>
@@ -25,7 +25,7 @@ import {
   unref,
 } from 'vue'
 import { ElRovingFocusItem } from '@element-plus/components/roving-focus-group'
-import { composeEventHandlers, whenMouse } from '@element-plus/utils/dom'
+import { composeEventHandlers, whenMouse } from '@element-plus/utils'
 import ElDropdownItemImpl from './dropdown-item-impl.vue'
 import { useDropdown } from './useDropdown'
 import {
@@ -41,9 +41,10 @@ export default defineComponent({
     ElRovingFocusItem,
     ElDropdownItemImpl,
   },
+  inheritAttrs: false,
   props: dropdownItemProps,
-  emits: ['pointermove', 'pointerleave'],
-  setup(props, { emit }) {
+  emits: ['pointermove', 'pointerleave', 'click'],
+  setup(props, { emit, attrs }) {
     const { elDropdown } = useDropdown()
     const _instance = getCurrentInstance()
     const itemRef = ref<HTMLElement | null>(null)
@@ -79,23 +80,35 @@ export default defineComponent({
         onItemLeave(e)
       })
     )
-    function handleClick(e: UIEvent) {
-      // if disabled don't collapse the drop-down list
-      if (props.disabled) {
-        e.stopImmediatePropagation()
-        return
+
+    const handleClick = composeEventHandlers(
+      (e: PointerEvent) => {
+        emit('click', e)
+        return e.type !== 'keydown' && e.defaultPrevented
+      },
+      (e) => {
+        if (props.disabled) {
+          e.stopImmediatePropagation()
+          return
+        }
+        if (elDropdown?.hideOnClick?.value) {
+          elDropdown.handleClick?.()
+        }
+        elDropdown.commandHandler?.(props.command, _instance, e)
       }
-      if (elDropdown?.hideOnClick?.value) {
-        elDropdown.handleClick?.()
-      }
-      elDropdown.commandHandler?.(props.command, _instance, e)
-    }
+    )
+
+    // direct usage of v-bind={ ...$props, ...$attrs } causes type errors
+    const propsAndAttrs = computed(() => {
+      return { ...props, ...attrs }
+    })
 
     return {
       handleClick,
       handlePointerMove,
       handlePointerLeave,
       textContent,
+      propsAndAttrs,
     }
   },
 })

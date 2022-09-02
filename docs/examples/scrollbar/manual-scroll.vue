@@ -12,12 +12,12 @@
     :max="max"
     :format-tooltip="formatTooltip"
     @input="inputSlider"
-  ></el-slider>
+  />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import type { ElScrollbar } from 'element-plus'
+import { ElScrollbar } from 'element-plus'
 
 const max = ref(0)
 const value = ref(0)
@@ -38,3 +38,20 @@ const formatTooltip = (value: number) => {
   return `${value} px`
 }
 </script>
+
+<style scoped>
+.scrollbar-demo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 4px;
+  background: var(--el-color-primary-light-9);
+  color: var(--el-color-primary);
+}
+.el-slider {
+  margin-top: 20px;
+}
+</style>

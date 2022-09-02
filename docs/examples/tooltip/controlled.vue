@@ -1,13 +1,11 @@
 <template>
-  <el-tooltip v-model="visible">
+  <el-tooltip :visible="visible">
     <template #content>
-      <span>
-        <p>Content</p>
-      </span>
+      <span>Content</span>
     </template>
-    <span @mouseenter="visible = true" @mouseleave="visible = false"
-      >Hover me</span
-    >
+    <el-button @mouseenter="visible = true" @mouseleave="visible = false">
+      Hover me
+    </el-button>
   </el-tooltip>
 </template>
 

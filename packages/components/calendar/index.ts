@@ -1,4 +1,4 @@
-import { withInstall } from '@element-plus/utils/with-install'
+import { withInstall } from '@element-plus/utils'
 import Calendar from './src/calendar.vue'
 
 export const ElCalendar = withInstall(Calendar)

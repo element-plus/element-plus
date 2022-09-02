@@ -10,7 +10,7 @@
       <template #default="cell">
         <div class="cell" :class="{ current: cell.isCurrent }">
           <span class="text">{{ cell.text }}</span>
-          <span v-if="isHoliday(cell)" class="holiday"></span>
+          <span v-if="isHoliday(cell)" class="holiday" />
         </div>
       </template>
     </el-date-picker>
@@ -54,14 +54,14 @@ const isHoliday = ({ dayjs }) => {
   border-radius: 50%;
 }
 .cell.current .text {
-  background: purple;
+  background: #626aef;
   color: #fff;
 }
 .cell .holiday {
   position: absolute;
   width: 6px;
   height: 6px;
-  background: red;
+  background: var(--el-color-danger);
   border-radius: 50%;
   bottom: 0px;
   left: 50%;

@@ -5,6 +5,7 @@
     filterable
     allow-create
     default-first-option
+    :reserve-keyword="false"
     placeholder="Choose tags for your article"
   >
     <el-option
@@ -12,8 +13,7 @@
       :key="item.value"
       :label="item.label"
       :value="item.value"
-    >
-    </el-option>
+    />
   </el-select>
 </template>
 

@@ -8,8 +8,7 @@
         type="date"
         placeholder="Pick a Date"
         format="YYYY/MM/DD"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">Use value-format</span>
@@ -20,8 +19,7 @@
         placeholder="Pick a Date"
         format="YYYY/MM/DD"
         value-format="YYYY-MM-DD"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">Timestamp</span>
@@ -32,8 +30,7 @@
         placeholder="Pick a Date"
         format="YYYY/MM/DD"
         value-format="x"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>
@@ -45,3 +42,26 @@ const value1 = ref('')
 const value2 = ref('')
 const value3 = ref('')
 </script>
+<style scoped>
+.demo-date-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.demo-date-picker .block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  flex: 1;
+}
+.demo-date-picker .block:last-child {
+  border-right: none;
+}
+.demo-date-picker .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>

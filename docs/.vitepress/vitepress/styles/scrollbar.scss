@@ -1,14 +1,18 @@
+@use './vars' as *;
+
 // scrollbar
 * {
-  scrollbar-color: var(--el-scrollbar-bg-color) var(--el-bg-color);
+  scrollbar-color: var(--el-scrollbar-bg-color) var(--el-fill-color-light);
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: $scrollbar-size;
 }
+
 ::-webkit-scrollbar:horizontal {
-  height: 6px;
+  height: $scrollbar-size;
 }
+
 ::-webkit-scrollbar-track {
   border-radius: 10px;
 }
@@ -21,5 +25,14 @@
   &:hover {
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+.dark {
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
   }
 }

@@ -10,15 +10,13 @@
     </el-table-column>
     <el-table-column label="Name" width="180">
       <template #default="scope">
-        <el-popover effect="light" trigger="hover" placement="top">
+        <el-popover effect="light" trigger="hover" placement="top" width="auto">
           <template #default>
-            <p>name: {{ scope.row.name }}</p>
-            <p>address: {{ scope.row.address }}</p>
+            <div>name: {{ scope.row.name }}</div>
+            <div>address: {{ scope.row.address }}</div>
           </template>
           <template #reference>
-            <div class="name-wrapper">
-              <el-tag>{{ scope.row.name }}</el-tag>
-            </div>
+            <el-tag>{{ scope.row.name }}</el-tag>
           </template>
         </el-popover>
       </template>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { PropType } from 'vue'
 import type { Store } from '../store'
 import type {

@@ -1,7 +1,8 @@
+// @ts-nocheck
 import { defineComponent, h, inject } from 'vue'
-import { addUnit } from '@element-plus/utils/util'
-import { getNormalizedProps } from '@element-plus/utils/vnode'
-import { elDescriptionsKey } from './token'
+import { addUnit, getNormalizedProps } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
+import { descriptionsKey } from './token'
 
 import type { VNode } from 'vue'
 import type {
@@ -23,7 +24,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const descriptions = inject(elDescriptionsKey, {} as IDescriptionsInject)
+    const descriptions = inject(descriptionsKey, {} as IDescriptionsInject)
 
     return {
       descriptions,
@@ -47,6 +48,7 @@ export default defineComponent({
       width: addUnit(item.width),
       minWidth: addUnit(item.minWidth),
     }
+    const ns = useNamespace('descriptions')
 
     switch (this.type) {
       case 'label':
@@ -55,12 +57,10 @@ export default defineComponent({
           {
             style,
             class: [
-              'el-descriptions__cell',
-              'el-descriptions__label',
-              {
-                'is-bordered-label': border,
-                'is-vertical-label': isVertical,
-              },
+              ns.e('cell'),
+              ns.e('label'),
+              ns.is('bordered-label', border),
+              ns.is('vertical-label', isVertical),
               labelAlign,
               labelClassName,
             ],
@@ -74,12 +74,10 @@ export default defineComponent({
           {
             style,
             class: [
-              'el-descriptions__cell',
-              'el-descriptions__content',
-              {
-                'is-bordered-content': border,
-                'is-vertical-content': isVertical,
-              },
+              ns.e('cell'),
+              ns.e('content'),
+              ns.is('bordered-content', border),
+              ns.is('vertical-content', isVertical),
               align,
               className,
             ],
@@ -92,21 +90,21 @@ export default defineComponent({
           'td',
           {
             style,
-            class: ['el-descriptions__cell', align],
+            class: [ns.e('cell'), align],
             colSpan: span,
           },
           [
             h(
               'span',
               {
-                class: ['el-descriptions__label', labelClassName],
+                class: [ns.e('label'), labelClassName],
               },
               label
             ),
             h(
               'span',
               {
-                class: ['el-descriptions__content', className],
+                class: [ns.e('content'), className],
               },
               content
             ),

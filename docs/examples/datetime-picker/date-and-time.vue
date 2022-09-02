@@ -1,13 +1,12 @@
 <template>
-  <div class="flex">
+  <div class="demo-datetime-picker">
     <div class="block">
       <span class="demonstration">Default</span>
       <el-date-picker
         v-model="value1"
         type="datetime"
         placeholder="Select date and time"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">With shortcuts</span>
@@ -16,8 +15,7 @@
         type="datetime"
         placeholder="Select date and time"
         :shortcuts="shortcuts"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">With default time</span>
@@ -26,8 +24,7 @@
         type="datetime"
         placeholder="Select date and time"
         :default-time="defaultTime"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>
@@ -63,3 +60,26 @@ const shortcuts = [
   },
 ]
 </script>
+<style scoped>
+.demo-datetime-picker {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.demo-datetime-picker .block {
+  padding: 30px 0;
+  text-align: center;
+  border-right: solid 1px var(--el-border-color);
+  flex: 1;
+}
+.demo-datetime-picker .block:last-child {
+  border-right: none;
+}
+.demo-datetime-picker .demonstration {
+  display: block;
+  color: var(--el-text-color-secondary);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+</style>

@@ -1,4 +1,4 @@
-name: Publish to NPM registry Nightly
+name: Publish to NPM registry (nightly)
 
 on:
   schedule:
@@ -9,18 +9,26 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
-          version: latest
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
       - name: Lint
@@ -31,16 +39,15 @@ jobs:
   publish:
     needs: test
     runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '16'
           registry-url: https://registry.npmjs.com/
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
-        with:
-          version: latest
 
       - name: Get current date
         id: date
@@ -61,3 +68,4 @@ jobs:
           TAG_VERSION: 0.0.${{ steps.date.outputs.date }}
           GIT_HEAD: ${{env.GIT_HEAD}}
           REGISTRY: https://registry.npmjs.com/
+          NODE_OPTIONS: --max-old-space-size=4096

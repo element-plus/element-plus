@@ -1,28 +1,18 @@
-import { hasOwn } from '@vue/shared'
+// @ts-nocheck
 import { createPopper } from '@popperjs/core'
-import { PopupManager } from '@element-plus/utils/popup-manager'
-import { getValueByPath } from '@element-plus/utils/util'
-import scrollbarWidth from '@element-plus/utils/scrollbar-width'
-import { off, on } from '@element-plus/utils/dom'
-
+import { get } from 'lodash-unified'
+import escapeHtml from 'escape-html'
+import { hasOwn } from '@element-plus/utils'
+import { useZIndex } from '@element-plus/hooks'
 import type {
-  PopperInstance,
   IPopperOptions,
+  PopperInstance,
 } from '@element-plus/components/popper'
-import type { Indexable, Nullable } from '@element-plus/utils/types'
+import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
 
-export const getCell = function (event: Event): HTMLElement {
-  let cell = event.target as HTMLElement
-
-  while (cell && cell.tagName.toUpperCase() !== 'HTML') {
-    if (cell.tagName.toUpperCase() === 'TD') {
-      return cell
-    }
-    cell = cell.parentNode as HTMLElement
-  }
-
-  return null
+export const getCell = function (event: Event) {
+  return (event.target as HTMLElement)?.closest('td')
 }
 
 const isObject = function (obj: unknown): boolean {
@@ -55,9 +45,9 @@ export const orderBy = function <T>(
           if (!Array.isArray(sortBy)) {
             sortBy = [sortBy]
           }
-          return sortBy.map(function (by) {
+          return sortBy.map((by) => {
             if (typeof by === 'string') {
-              return getValueByPath(value, by)
+              return get(value, by)
             } else {
               return by(value, index, array)
             }
@@ -66,7 +56,7 @@ export const orderBy = function <T>(
         if (sortKey !== '$key') {
           if (isObject(value) && '$value' in value) value = value.$value
         }
-        return [isObject(value) ? getValueByPath(value, sortKey) : value]
+        return [isObject(value) ? get(value, sortKey) : value]
       }
   const compare = function (a, b) {
     if (sortMethod) {
@@ -83,14 +73,14 @@ export const orderBy = function <T>(
     return 0
   }
   return array
-    .map(function (value, index) {
+    .map((value, index) => {
       return {
         value,
         index,
         key: getKey ? getKey(value, index) : null,
       }
     })
-    .sort(function (a, b) {
+    .sort((a, b) => {
       let order = compare(a, b)
       if (!order) {
         // make stable https://en.wikipedia.org/wiki/Sorting_algorithm#Stability
@@ -108,7 +98,7 @@ export const getColumnById = function <T>(
   columnId: string
 ): null | TableColumnCtx<T> {
   let column = null
-  table.columns.forEach(function (item) {
+  table.columns.forEach((item) => {
     if (item.id === columnId) {
       column = item
     }
@@ -137,9 +127,12 @@ export const getColumnByCell = function <T>(
   table: {
     columns: TableColumnCtx<T>[]
   },
-  cell: HTMLElement
+  cell: HTMLElement,
+  namespace: string
 ): null | TableColumnCtx<T> {
-  const matches = (cell.className || '').match(/el-table_[^\s]+/gm)
+  const matches = (cell.className || '').match(
+    new RegExp(`${namespace}-table_[^\\s]+`, 'gm')
+  )
   if (matches) {
     return getColumnById(table, matches[0])
   }
@@ -152,13 +145,13 @@ export const getRowIdentity = <T>(
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
   if (typeof rowKey === 'string') {
-    if (rowKey.indexOf('.') < 0) {
+    if (!rowKey.includes('.')) {
       return `${row[rowKey]}`
     }
     const key = rowKey.split('.')
     let current = row
-    for (let i = 0; i < key.length; i++) {
-      current = current[key[i]]
+    for (const element of key) {
+      current = current[element]
     }
     return `${current}`
   } else if (typeof rowKey === 'function') {
@@ -184,7 +177,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
     options[key] = defaults[key]
   }
   for (key in config) {
-    if (hasOwn(config as unknown as Indexable<any>, key)) {
+    if (hasOwn(config as unknown as Record<string, any>, key)) {
       const value = config[key]
       if (typeof value !== 'undefined') {
         options[key] = value
@@ -194,20 +187,22 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
   return options
 }
 
-export function parseWidth(width: number | string): number {
+export function parseWidth(width: number | string): number | string {
+  if (width === '') return width
   if (width !== undefined) {
-    width = parseInt(width as string, 10)
-    if (isNaN(width)) {
-      width = null
+    width = Number.parseInt(width as string, 10)
+    if (Number.isNaN(width)) {
+      width = ''
     }
   }
-  return +width
+  return width
 }
 
-export function parseMinWidth(minWidth): number {
-  if (typeof minWidth !== 'undefined') {
+export function parseMinWidth(minWidth: number | string): number | string {
+  if (minWidth === '') return minWidth
+  if (minWidth !== undefined) {
     minWidth = parseWidth(minWidth)
-    if (isNaN(minWidth)) {
+    if (Number.isNaN(minWidth)) {
       minWidth = 80
     }
   }
@@ -220,7 +215,7 @@ export function parseHeight(height: number | string) {
   }
   if (typeof height === 'string') {
     if (/^\d+(?:px)?$/.test(height)) {
-      return parseInt(height, 10)
+      return Number.parseInt(height, 10)
     } else {
       return height
     }
@@ -314,42 +309,51 @@ export function walkTreeNode(
 export let removePopper
 
 export function createTablePopper(
+  parentNode: HTMLElement | undefined,
   trigger: HTMLElement,
   popperContent: string,
   popperOptions: Partial<IPopperOptions>,
   tooltipEffect: string
 ) {
+  const { nextZIndex } = useZIndex()
+  const ns = parentNode?.dataset.prefix
+  const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
   function renderContent(): HTMLDivElement {
     const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
-    content.className = `el-popper ${isLight ? 'is-light' : 'is-dark'}`
+    content.className = `${ns}-popper ${isLight ? 'is-light' : 'is-dark'}`
+    popperContent = escapeHtml(popperContent)
     content.innerHTML = popperContent
-    content.style.zIndex = String(PopupManager.nextZIndex())
-    document.body.appendChild(content)
+    content.style.zIndex = String(nextZIndex())
+    // Avoid side effects caused by append to body
+    parentNode?.appendChild(content)
     return content
   }
   function renderArrow(): HTMLDivElement {
     const arrow = document.createElement('div')
-    arrow.className = 'el-popper__arrow'
+    arrow.className = `${ns}-popper__arrow`
     return arrow
   }
   function showPopper() {
     popperInstance && popperInstance.update()
   }
-  removePopper = function removePopper() {
+  removePopper?.()
+  removePopper = () => {
     try {
       popperInstance && popperInstance.destroy()
-      content && document.body.removeChild(content)
-      off(trigger, 'mouseenter', showPopper)
-      off(trigger, 'mouseleave', removePopper)
+      content && parentNode?.removeChild(content)
+      trigger.removeEventListener('mouseenter', showPopper)
+      trigger.removeEventListener('mouseleave', removePopper)
+      scrollContainer?.removeEventListener('scroll', removePopper)
+      removePopper = undefined
     } catch {}
   }
   let popperInstance: Nullable<PopperInstance> = null
   const content = renderContent()
   const arrow = renderArrow()
   content.appendChild(arrow)
-
   popperInstance = createPopper(trigger, content, {
+    strategy: 'absolute',
     modifiers: [
       {
         name: 'offset',
@@ -367,8 +371,9 @@ export function createTablePopper(
     ],
     ...popperOptions,
   })
-  on(trigger, 'mouseenter', showPopper)
-  on(trigger, 'mouseleave', removePopper)
+  trigger.addEventListener('mouseenter', showPopper)
+  trigger.addEventListener('mouseleave', removePopper)
+  scrollContainer?.addEventListener('scroll', removePopper)
   return popperInstance
 }
 
@@ -381,6 +386,10 @@ export const isFixedColumn = <T>(
   let start = 0
   let after = index
   if (realColumns) {
+    if (realColumns[index].colSpan > 1) {
+      // fixed column not supported in grouped header
+      return {}
+    }
     // handle group
     for (let i = 0; i < index; i++) {
       start += realColumns[i].colSpan
@@ -425,6 +434,7 @@ export const isFixedColumn = <T>(
 }
 
 export const getFixedColumnsClass = <T>(
+  namespace: string,
   index: number,
   fixed: string | boolean,
   store: any,
@@ -434,7 +444,7 @@ export const getFixedColumnsClass = <T>(
   const { direction, start } = isFixedColumn(index, fixed, store, realColumns)
   if (direction) {
     const isLeft = direction === 'left'
-    classes.push(`el-table-fixed-column--${direction}`)
+    classes.push(`${namespace}-fixed-column--${direction}`)
     if (isLeft && start === store.states.fixedLeafColumnsLength.value - 1) {
       classes.push('is-last-column')
     } else if (
@@ -452,7 +462,9 @@ export const getFixedColumnsClass = <T>(
 function getOffset<T>(offset: number, column: TableColumnCtx<T>) {
   return (
     offset +
-    (Number.isNaN(column.realWidth) ? Number(column.width) : column.realWidth)
+    (column.realWidth === null || Number.isNaN(column.realWidth)
+      ? Number(column.width)
+      : column.realWidth)
   )
 }
 
@@ -483,26 +495,6 @@ export const getFixedColumnOffset = <T>(
       .reduce(getOffset, 0)
   }
   return styles
-}
-
-export function getCellStyle<T>(
-  column: TableColumnCtx<T>,
-  cellIndex: number,
-  hasGutter: boolean,
-  gutterWidth: number,
-  store: any
-) {
-  const fixedStyle = getFixedColumnOffset(cellIndex, column.fixed, store)
-  ensureRightFixedStyle(fixedStyle, hasGutter)
-  ensurePosition(fixedStyle, 'left')
-  ensurePosition(fixedStyle, 'right')
-  return fixedStyle
-}
-
-export const ensureRightFixedStyle = (style, hasGutter: boolean) => {
-  if (hasGutter && style && !Number.isNaN(style.right)) {
-    style.right += scrollbarWidth()
-  }
 }
 
 export const ensurePosition = (style, key: string) => {
