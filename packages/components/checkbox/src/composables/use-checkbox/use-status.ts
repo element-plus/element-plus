@@ -1,7 +1,7 @@
-import { computed, ref, toRaw } from 'vue'
+import { computed, inject, ref, toRaw } from 'vue'
 import { toTypeString } from '@vue/shared'
 import { useSize } from '@element-plus/hooks'
-import { useCheckboxGroup } from './use-group'
+import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 
 import type { ComponentInternalInstance } from 'vue'
 import type { CheckboxProps } from '../../checkbox'
@@ -12,7 +12,7 @@ export const useStatus = (
   slots: ComponentInternalInstance['slots'],
   { model }: Partial<CheckboxModel>
 ) => {
-  const { isGroup, checkboxGroup } = useCheckboxGroup()
+  const checkboxGroup = inject(checkboxGroupContextKey, undefined)
   const isFocused = ref(false)
   const isChecked = computed<boolean>(() => {
     const value = model!.value
@@ -27,14 +27,10 @@ export const useStatus = (
     }
   })
 
-  const checkboxButtonSize = useSize(checkboxGroup.checkboxGroupSize, {
+  const checkboxButtonSize = useSize(checkboxGroup?.size, {
     prop: true,
   })
-  const checkboxSize = useSize(
-    computed(() =>
-      isGroup.value ? checkboxGroup?.checkboxGroupSize?.value : undefined
-    )
-  )
+  const checkboxSize = useSize(checkboxGroup?.size)
 
   const hasOwnLabel = computed<boolean>(() => {
     return !!(slots.default || props.label)

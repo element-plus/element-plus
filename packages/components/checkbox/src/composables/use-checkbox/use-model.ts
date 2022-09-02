@@ -1,26 +1,27 @@
-import { computed, getCurrentInstance, ref } from 'vue'
+import { computed, getCurrentInstance, inject, ref } from 'vue'
+import { isUndefined } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useCheckboxGroup } from './use-group'
+import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 
 import type { CheckboxProps } from '../../checkbox'
 
 export const useModel = (props: CheckboxProps) => {
   const selfModel = ref<any>(false)
   const { emit } = getCurrentInstance()!
-  const { isGroup, checkboxGroup, elFormItem } = useCheckboxGroup()
+  const checkboxGroup = inject(checkboxGroupContextKey, undefined)
+  const isGroup = computed(() => isUndefined(checkboxGroup) === false)
   const isLimitExceeded = ref(false)
   const model = computed({
     get() {
       return isGroup.value
-        ? checkboxGroup.modelValue?.value
+        ? checkboxGroup?.modelValue?.value
         : props.modelValue ?? selfModel.value
     },
 
     set(val: unknown) {
       if (isGroup.value && Array.isArray(val)) {
         isLimitExceeded.value =
-          checkboxGroup.max !== undefined &&
-          val.length > checkboxGroup.max.value
+          checkboxGroup?.max !== undefined && val.length > checkboxGroup.max
         isLimitExceeded.value === false && checkboxGroup?.changeEvent?.(val)
       } else {
         emit(UPDATE_MODEL_EVENT, val)
@@ -33,7 +34,6 @@ export const useModel = (props: CheckboxProps) => {
     model,
     isGroup,
     isLimitExceeded,
-    elFormItem,
   }
 }
 

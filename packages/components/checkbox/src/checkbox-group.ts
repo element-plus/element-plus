@@ -16,7 +16,6 @@ export const checkboxGroupProps = buildProps({
   min: Number,
   max: Number,
   size: useSizeProp,
-  id: String,
   label: String,
   fill: String,
   textColor: String,

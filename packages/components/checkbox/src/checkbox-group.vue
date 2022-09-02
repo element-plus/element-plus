@@ -12,12 +12,17 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, provide, toRefs, watch } from 'vue'
+import { computed, nextTick, provide, watch } from 'vue'
+import { omit } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
-import { useNamespace, useSize } from '@element-plus/hooks'
+import {
+  useFormItem,
+  useFormItemInputId,
+  useNamespace,
+} from '@element-plus/hooks'
+import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
-import { useCheckboxGroup, useCheckboxGroupId } from './composables'
 import type { CheckboxValueType } from './checkbox'
 
 defineOptions({
@@ -27,11 +32,11 @@ defineOptions({
 const props = defineProps(checkboxGroupProps)
 const emit = defineEmits(checkboxGroupEmits)
 
-const { elFormItem } = useCheckboxGroup()
-const { groupId, isLabeledByFormItem } = useCheckboxGroupId(props, {
-  elFormItem,
+const { formItem: elFormItem } = useFormItem()
+const { formItem } = useFormItem()
+const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
+  formItemContext: formItem,
 })
-const checkboxGroupSize = useSize()
 const ns = useNamespace('checkbox')
 
 const changeEvent = (value: CheckboxValueType[]) => {
@@ -50,11 +55,9 @@ const modelValue = computed({
   },
 })
 
-provide('CheckboxGroup', {
-  name: 'ElCheckboxGroup',
-  ...toRefs(props),
+provide(checkboxGroupContextKey, {
+  ...omit(props, ['modelValue', 'label', 'tag']),
   modelValue,
-  checkboxGroupSize,
   changeEvent,
 })
 

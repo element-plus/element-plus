@@ -1,6 +1,7 @@
-import { computed, getCurrentInstance, nextTick, watch } from 'vue'
+import { computed, getCurrentInstance, inject, nextTick, watch } from 'vue'
+import { useFormItem } from '@element-plus/hooks'
+import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 import { debugWarn } from '@element-plus/utils'
-import { useCheckboxGroup } from './use-group'
 
 import type { useFormItemInputId } from '@element-plus/hooks'
 import type { CheckboxProps } from '../../checkbox'
@@ -23,7 +24,9 @@ export const useEvent = (
       ReturnType<typeof useFormItemInputId>
   >
 ) => {
-  const { elFormItem, checkboxGroup } = useCheckboxGroup()
+  // const { elFormItem, checkboxGroup } = useCheckboxGroup()
+  const checkboxGroup = inject(checkboxGroupContextKey, undefined)
+  const { formItem } = useFormItem()
   const { emit } = getCurrentInstance()!
 
   function getLabeledValue(value: string | number | boolean) {
@@ -61,14 +64,14 @@ export const useEvent = (
   }
 
   const validateEvent = computed(
-    () => checkboxGroup.validateEvent?.value || props.validateEvent
+    () => checkboxGroup?.validateEvent || props.validateEvent
   )
 
   watch(
     () => props.modelValue,
     () => {
       if (validateEvent.value) {
-        elFormItem?.validate('change').catch((err) => debugWarn(err))
+        formItem?.validate('change').catch((err) => debugWarn(err))
       }
     }
   )

@@ -1,4 +1,4 @@
-import { useFormItemInputId } from '@element-plus/hooks'
+import { useFormItem, useFormItemInputId } from '@element-plus/hooks'
 import { useDisabled } from './use-disabled'
 import { useEvent } from './use-event'
 import { useModel } from './use-model'
@@ -25,7 +25,8 @@ export const useCheckbox = (
   props: CheckboxProps,
   slots: ComponentInternalInstance['slots']
 ) => {
-  const { model, isGroup, isLimitExceeded, elFormItem } = useModel(props)
+  const { formItem: elFormItem } = useFormItem()
+  const { model, isGroup, isLimitExceeded } = useModel(props)
   const {
     isFocused,
     isChecked,
@@ -63,5 +64,3 @@ export const useCheckbox = (
     onClickRoot,
   }
 }
-
-export * from './use-group'

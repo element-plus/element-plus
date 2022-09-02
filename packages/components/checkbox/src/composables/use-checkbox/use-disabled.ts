@@ -1,7 +1,7 @@
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useDisabled as useCheckboxDisabled } from '@element-plus/hooks'
 import { isUndefined } from '@element-plus/utils'
-import { useCheckboxGroup } from './use-group'
+import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 
 import type { CheckboxModel } from './use-model'
 import type { CheckboxStatus } from './use-status'
@@ -10,11 +10,11 @@ export const useDisabled = ({
   model,
   isChecked,
 }: Partial<CheckboxModel> & Partial<CheckboxStatus>) => {
-  const { checkboxGroup } = useCheckboxGroup()
+  const checkboxGroup = inject(checkboxGroupContextKey, undefined)
 
   const isLimitDisabled = computed(() => {
-    const max = checkboxGroup.max?.value!
-    const min = checkboxGroup.min?.value!
+    const max = checkboxGroup?.max
+    const min = checkboxGroup?.min
     return (
       (!isUndefined(max) && model!.value.length >= max && !isChecked!.value) ||
       (!isUndefined(min) && model!.value.length <= min && isChecked!.value)
@@ -22,7 +22,7 @@ export const useDisabled = ({
   })
 
   const isDisabled = useCheckboxDisabled(
-    computed(() => checkboxGroup?.disabled?.value || isLimitDisabled.value)
+    computed(() => checkboxGroup?.disabled || isLimitDisabled.value)
   )
 
   return {
