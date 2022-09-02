@@ -225,11 +225,11 @@ export const useSelect = (props, states: States, ctx) => {
     () => states.visible,
     (val) => {
       if (!val) {
-        if(props.filterable){
-          if(typeof props.filterMethod === 'function'){
+        if (props.filterable) {
+          if (typeof props.filterMethod === 'function') {
             props.filterMethod()
           }
-          if(typeof props.remoteMethod === 'function'){
+          if (typeof props.remoteMethod === 'function') {
             props.remoteMethod()
           }
         }
