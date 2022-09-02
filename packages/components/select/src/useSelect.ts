@@ -608,8 +608,8 @@ export const useSelect = (props, states: States, ctx) => {
       }
       ctx.emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
+      states.query = ''
       if (option.created) {
-        states.query = ''
         handleQueryChange('')
         states.inputLength = 20
       }
