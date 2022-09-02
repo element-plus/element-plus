@@ -51,4 +51,25 @@ describe('TableV2.vue', () => {
     expect(cell.exists()).toBe(true)
     expect(cell.find('span').text()).toBe(customText)
   })
+
+  test('slots header-cell', async () => {
+    const columns = ref(generateColumns(10))
+    const data = ref(generateData(columns.value, 20))
+    const customText = 'header'
+    const wrapper = mount(() => (
+      <TableV2
+        columns={columns.value}
+        data={data.value}
+        width={700}
+        height={400}
+        v-slots={{
+          'header-cell': () => <span>{customText}</span>,
+        }}
+      />
+    ))
+    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
+    const cell = wrapper.find('.el-table-v2__header-cell')
+    expect(cell.exists()).toBe(true)
+    expect(cell.find('span').text()).toBe(customText)
+  })
 })
