@@ -24,8 +24,8 @@
           v-if="$slots['date-cell'] || $slots.dateCell"
           #date-cell="data"
         >
-          <slot name="date-cell" v-bind="data" />
-          <slot name="dateCell" v-bind="data" />
+          <slot v-if="$slots['date-cell']" name="date-cell" v-bind="data" />
+          <slot v-else name="dateCell" v-bind="data" />
         </template>
       </date-table>
     </div>
@@ -43,8 +43,8 @@
           v-if="$slots['date-cell'] || $slots.dateCell"
           #date-cell="data"
         >
-          <slot name="date-cell" v-bind="data" />
-          <slot name="dateCell" v-bind="data" />
+          <slot v-if="$slots['date-cell']" name="date-cell" v-bind="data" />
+          <slot v-else name="dateCell" v-bind="data" />
         </template>
       </date-table>
     </div>
