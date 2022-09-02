@@ -1,6 +1,5 @@
 import { computed } from 'vue'
 import { NOOP } from '@vue/shared'
-import { ExpandTrigger } from './node'
 
 import type { PropType } from 'vue'
 import type {
@@ -23,7 +22,7 @@ export const CommonProps = {
 }
 
 export const DefaultProps: CascaderConfig = {
-  expandTrigger: ExpandTrigger.CLICK,
+  expandTrigger: 'click',
   multiple: false,
   checkStrictly: false, // whether all nodes can be selected
   emitPath: true, // wether to emit an array of all levels value in which node is located

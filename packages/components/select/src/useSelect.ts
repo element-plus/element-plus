@@ -360,7 +360,7 @@ export const useSelect = (props, states: States, ctx) => {
     })
   }
 
-  const handleQueryChange = (val) => {
+  const handleQueryChange = async (val) => {
     if (states.previousQuery === val || states.isOnComposition) return
     if (
       states.previousQuery === null &&
@@ -401,6 +401,7 @@ export const useSelect = (props, states: States, ctx) => {
       (props.filterable || props.remote) &&
       states.filteredOptionsCount
     ) {
+      await nextTick()
       checkDefaultFirstOption()
     }
   }

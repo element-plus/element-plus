@@ -1170,7 +1170,7 @@ describe('Select', () => {
     expect(handleBlur).toHaveBeenCalled()
   })
 
-  test('event:focus & blur for multile & filterable select', async () => {
+  test('event:focus & blur for multiple & filterable select', async () => {
     const handleFocus = vi.fn()
     const handleBlur = vi.fn()
     wrapper = _mount(
