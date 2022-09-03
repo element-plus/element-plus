@@ -47,9 +47,17 @@ switch/custom-icons
 
 :::
 
+## Indeterminate state
+
+:::demo In the example below, toggles between the three states (indeterminate/true/false) with help from `indeterminate`.
+
+switch/indeterminate
+
+:::
+
 ## Extended value types
 
-:::demo You can set `active-value` and `inactive-value` attributes. They both receive a `Boolean`, `String` or `Number` typed value.
+:::demo You can set `active-value` and `inactive-value` attributes. They both receive a `Boolean`, `String` or `Number` typed value. The second ElSwitch, You can set the property `indeterminate-value`, otherwise the indeterminate value will be considered null.
 
 switch/extended-value-types
 
@@ -86,6 +94,7 @@ switch/prevent-switching
 | model-value / v-model | binding value, it should be equivalent to either `active-value` or `inactive-value`, by default it's `boolean` type                             | boolean / string / number           | —                       | —       |
 | disabled              | whether Switch is disabled                                                                                                                      | boolean                             | —                       | false   |
 | loading               | whether Switch is in loading state                                                                                                              | boolean                             | —                       | false   |
+| indeterminate         | whether Switch has indeterminate state                                                                                                          | boolean                             | —                       | false   |
 | size                  | size of Switch                                                                                                                                  | string                              | large / default / small | default |
 | width                 | width of Switch                                                                                                                                 | number / string                     | —                       | —       |
 | inline-prompt         | whether icon or text is displayed inside dot, only the first character will be rendered for text                                                | boolean                             | —                       | false   |
@@ -95,8 +104,10 @@ switch/prevent-switching
 | inactive-text         | text displayed when in `off` state                                                                                                              | string                              | —                       | —       |
 | active-value          | switch value when in `on` state                                                                                                                 | boolean / string / number           | —                       | true    |
 | inactive-value        | switch value when in `off` state                                                                                                                | boolean / string / number           | —                       | false   |
+| indeterminate-value   | switch value when in `indeterminate` state                                                                                                      | boolean / string / number / null    | —                       | null    |
 | active-color          | background color when in `on` state ( deprecated, use CSS var `--el-switch-on-color` instead )                                                  | string                              | —                       | —       |
 | inactive-color        | background color when in `off` state ( deprecated, use CSS var `--el-switch-off-color` instead )                                                | string                              | —                       | —       |
+| indeterminate-color   | background color when in `indeterminate` state ( deprecated, use CSS var `--el-switch-indeterminate-color` instead )                            | string                              | —                       | —       |
 | border-color          | border color of the switch ( deprecated, use CSS var `--el-switch-border-color` instead )                                                       | string                              | —                       | —       |
 | name                  | input name of Switch                                                                                                                            | string                              | —                       | —       |
 | validate-event        | whether to trigger form validation                                                                                                              | boolean                             | —                       | true    |

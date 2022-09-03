@@ -722,6 +722,7 @@ $switch: map.merge(
   (
     'on-color': getCssVar('color-primary'),
     'off-color': getCssVar('border-color'),
+    'indeterminate-color': getCssVar('border-color'),
   ),
   $switch
 );

@@ -21,7 +21,7 @@
       :class="[
         ns.e('label'),
         ns.em('label', 'left'),
-        ns.is('active', !checked),
+        ns.is('active', !checked && !isIndeterminate),
       ]"
     >
       <el-icon v-if="inactiveIcon"><component :is="inactiveIcon" /></el-icon>
@@ -30,7 +30,7 @@
       }}</span>
     </span>
     <span ref="core" :class="ns.e('core')" :style="coreStyle">
-      <div v-if="inlinePrompt" :class="ns.e('inner')">
+      <div v-if="inlinePrompt && !isIndeterminate" :class="ns.e('inner')">
         <template v-if="activeIcon || inactiveIcon">
           <el-icon
             v-if="activeIcon"
@@ -151,6 +151,7 @@ const switchKls = computed(() => [
   ns.m(switchSize.value),
   ns.is('disabled', switchDisabled.value),
   ns.is('checked', checked.value),
+  ns.is('indeterminate', isIndeterminate.value),
 ])
 
 const coreStyle = computed<CSSProperties>(() => ({
@@ -177,12 +178,6 @@ const actualValue = computed(() => {
 
 const checked = computed(() => actualValue.value === props.activeValue)
 
-if (![props.activeValue, props.inactiveValue].includes(actualValue.value)) {
-  emit(UPDATE_MODEL_EVENT, props.inactiveValue)
-  emit(CHANGE_EVENT, props.inactiveValue)
-  emit(INPUT_EVENT, props.inactiveValue)
-}
-
 watch(checked, (val) => {
   input.value!.checked = val
 
@@ -191,8 +186,19 @@ watch(checked, (val) => {
   }
 })
 
+const isIndeterminate = computed(
+  () => ![props.activeValue, props.inactiveValue].includes(actualValue.value)
+)
+
 const handleChange = () => {
-  const val = checked.value ? props.inactiveValue : props.activeValue
+  const val = isIndeterminate.value
+    ? props.activeValue
+    : checked.value
+    ? props.inactiveValue
+    : props.indeterminate
+    ? props.indeterminateValue
+    : props.activeValue
+
   emit(UPDATE_MODEL_EVENT, val)
   emit(CHANGE_EVENT, val)
   emit(INPUT_EVENT, val)
@@ -242,6 +248,9 @@ const styles = computed(() => {
   return ns.cssVarBlock({
     ...(props.activeColor ? { 'on-color': props.activeColor } : null),
     ...(props.inactiveColor ? { 'off-color': props.inactiveColor } : null),
+    ...(props.indeterminateColor
+      ? { 'indeterminate-color': props.indeterminateColor }
+      : null),
     ...(props.borderColor ? { 'border-color': props.borderColor } : null),
   })
 })

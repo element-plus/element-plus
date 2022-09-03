@@ -23,6 +23,7 @@ describe('Switch.vue', () => {
       inactiveText: 'off',
       activeColor: '#0f0',
       inactiveColor: '#f00',
+      indeterminateColor: '#00f',
       width: 100,
     }
     const wrapper = mount(() => <Switch {...props} />)
@@ -33,6 +34,9 @@ describe('Switch.vue', () => {
     expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
       '#f00'
     )
+    expect(
+      vm.$el.style.getPropertyValue('--el-switch-indeterminate-color')
+    ).toEqual('#00f')
     expect(vm.$el.classList.contains('is-checked')).false
     const coreEl = vm.$el.querySelector('.el-switch__core')
     expect(coreEl.style.width).toEqual('100px')
@@ -50,16 +54,20 @@ describe('Switch.vue', () => {
     expect(wrapper.find('.el-switch__input').attributes().tabindex).toBe('0')
   })
 
-  test('inline prompt', () => {
+  test('inline prompt', async () => {
+    const indeterminate = ref(false)
     const props = {
       inlinePrompt: true,
       activeText: 'on',
       inactiveText: 'off',
       activeColor: '#0f0',
       inactiveColor: '#f00',
+      indeterminateColor: '#00f',
       width: 100,
     }
-    const wrapper = mount(() => <Switch {...props} />)
+    const wrapper = mount(() => (
+      <Switch {...props} indeterminate={indeterminate.value} />
+    ))
     const vm = wrapper.vm
     expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
       '#0f0'
@@ -67,28 +75,53 @@ describe('Switch.vue', () => {
     expect(vm.$el.style.getPropertyValue('--el-switch-off-color')).toEqual(
       '#f00'
     )
+    expect(
+      vm.$el.style.getPropertyValue('--el-switch-indeterminate-color')
+    ).toEqual('#00f')
     expect(vm.$el.classList.contains('is-checked')).false
     const coreEl = vm.$el.querySelector('.el-switch__core')
     expect(coreEl.style.width).toEqual('100px')
     const leftLabelWrapper = wrapper.find('.el-switch__inner span')
     expect(leftLabelWrapper.text()).toEqual('on')
+
+    expect(wrapper.find('.el-switch__inner').exists()).toEqual(true)
+    indeterminate.value = true
+    await vm.$nextTick()
+    expect(wrapper.find('.el-switch__inner').exists()).toEqual(false)
   })
 
-  test('switch with icons', () => {
+  test('switch with icons', async () => {
+    const indeterminate = ref(false)
     const wrapper = mount(() => (
       <Switch
         activeIcon={markRaw(Checked)}
         inactiveIcon={markRaw(CircleClose)}
+        indeterminate={indeterminate.value}
       />
     ))
 
     expect(wrapper.findComponent(Checked).exists()).toBe(true)
+
+    expect(wrapper.find('.el-switch__label--left.is-active').exists()).toEqual(
+      true
+    )
+    indeterminate.value = true
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('.el-switch__label--left.is-active').exists()).toEqual(
+      false
+    )
   })
 
   test('value correctly update', async () => {
     const value = ref(true)
+    const indeterminate = ref(false)
     const wrapper = mount(() => (
-      <Switch v-model={value.value} activeColor="#0f0" inactiveColor="#f00" />
+      <Switch
+        v-model={value.value}
+        activeColor="#0f0"
+        inactiveColor="#f00"
+        indeterminate={indeterminate.value}
+      />
     ))
     const vm = wrapper.vm
     expect(vm.$el.style.getPropertyValue('--el-switch-on-color')).toEqual(
@@ -102,6 +135,18 @@ describe('Switch.vue', () => {
     await coreWrapper.trigger('click')
     expect(vm.$el.classList.contains('is-checked')).false
     expect(value.value).toEqual(false)
+    await coreWrapper.trigger('click')
+    expect(vm.$el.classList.contains('is-checked')).true
+    expect(value.value).toEqual(true)
+
+    indeterminate.value = true
+    await wrapper.vm.$nextTick()
+    await coreWrapper.trigger('click')
+    expect(vm.$el.classList.contains('is-checked')).false
+    expect(value.value).toEqual(false)
+    await coreWrapper.trigger('click')
+    expect(vm.$el.classList.contains('is-indeterminate')).true
+    expect(value.value).toEqual(null)
     await coreWrapper.trigger('click')
     expect(vm.$el.classList.contains('is-checked')).true
     expect(value.value).toEqual(true)
@@ -139,12 +184,16 @@ describe('Switch.vue', () => {
     const value = ref('100')
     const onValue = ref('100')
     const offValue = ref('0')
+    const indeterminateValue = ref('50')
+    const indeterminate = ref(false)
     const wrapper = mount(() => (
       <div>
         <Switch
+          indeterminate={indeterminate.value}
           v-model={value.value}
           active-value={onValue.value}
           inactive-value={offValue.value}
+          indeterminate-value={indeterminateValue.value}
         />
       </div>
     ))
@@ -152,6 +201,15 @@ describe('Switch.vue', () => {
     const coreWrapper = wrapper.find('.el-switch__core')
     await coreWrapper.trigger('click')
     expect(value.value).toEqual('0')
+    await coreWrapper.trigger('click')
+    expect(value.value).toEqual('100')
+
+    indeterminate.value = true
+    await wrapper.vm.$nextTick()
+    await coreWrapper.trigger('click')
+    expect(value.value).toEqual('0')
+    await coreWrapper.trigger('click')
+    expect(value.value).toEqual('50')
     await coreWrapper.trigger('click')
     expect(value.value).toEqual('100')
   })
