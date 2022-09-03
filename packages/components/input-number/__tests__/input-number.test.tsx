@@ -1,6 +1,6 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, it, test } from 'vitest'
+import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
 import InputNumber from '../src/input-number.vue'
@@ -155,6 +155,28 @@ describe('InputNumber.vue', () => {
         expect(wrapper.find('input').element.value).toEqual(`${output}`)
       }
     )
+  })
+
+  test('readonly', async () => {
+    const num = ref(0)
+    const handleFocus = vi.fn()
+    const wrapper = mount(() => (
+      <InputNumber readonly v-model={num.value} onFocus={handleFocus} />
+    ))
+
+    wrapper.find('.el-input__inner').trigger('focus')
+    await nextTick()
+    expect(handleFocus).toHaveBeenCalledTimes(1)
+
+    wrapper.find('.el-input-number__decrease').trigger('mousedown')
+    document.dispatchEvent(mouseup)
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('0')
+
+    wrapper.find('.el-input-number__increase').trigger('mousedown')
+    document.dispatchEvent(mouseup)
+    await nextTick()
+    expect(wrapper.find('input').element.value).toEqual('0')
   })
 
   test('disabled', async () => {

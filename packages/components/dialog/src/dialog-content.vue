@@ -5,6 +5,7 @@
       ns.b(),
       ns.is('fullscreen', fullscreen),
       ns.is('draggable', draggable),
+      ns.is('align-center', alignCenter),
       { [ns.m('center')]: center },
       customClass,
     ]"
