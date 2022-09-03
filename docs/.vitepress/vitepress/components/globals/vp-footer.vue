@@ -46,13 +46,13 @@ const homeLang = computed(() => homeLocale[lang.value])
     </div>
 
     <div class="footer-main">
-      <h4>{{ homeLang['discord'] }}</h4>
+      <h4>{{ homeLang['19'] }}</h4>
       <a
         href="https://discord.link/ElementPlus"
         class="footer-main-link"
         target="_blank"
       >
-        {{ homeLang['15'] }}
+        {{ homeLang['discord'] }}
       </a>
       <a
         href="https://github.com/element-plus/element-plus/issues"
