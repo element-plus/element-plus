@@ -24,7 +24,7 @@
           @click="handlePickDay(cell)"
         >
           <div :class="nsDay.b()">
-            <slot name="dateCell" :data="getSlotData(cell)">
+            <slot name="date-cell" :data="getSlotData(cell)">
               <span>{{ cell.text }}</span>
             </slot>
           </div>
