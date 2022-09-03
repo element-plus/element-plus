@@ -1,5 +1,4 @@
-import { isRef, onScopeDispose, watch } from 'vue'
-
+import { isRef, nextTick, onScopeDispose, watch } from 'vue'
 import { computed } from '@vue/reactivity'
 import { isClient } from '@vueuse/core'
 import {
@@ -40,10 +39,12 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
   let bodyWidth = '0'
 
   const cleanup = () => {
-    removeClass(document.body, hiddenCls.value)
-    if (withoutHiddenClass) {
-      document.body.style.width = bodyWidth
-    }
+    setTimeout(() => {
+      removeClass(document.body, hiddenCls.value)
+      if (withoutHiddenClass) {
+        document.body.style.width = bodyWidth
+      }
+    }, 200)
   }
   watch(trigger, (val) => {
     if (!val) {
