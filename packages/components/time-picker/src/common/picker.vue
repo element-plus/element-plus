@@ -36,7 +36,7 @@
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
         :label="label"
         :tabindex="tabindex"
-        :validate-event="validateEvent"
+        :validate-event="false"
         @input="onUserInput"
         @focus="handleFocusInput"
         @blur="handleBlurInput"
@@ -336,6 +336,14 @@ const onHide = () => {
   pickerActualVisible.value = false
   ignoreFocusEvent = false
   emit('visible-change', false)
+}
+
+const handleOpen = () => {
+  pickerVisible.value = true
+}
+
+const handleClose = () => {
+  pickerVisible.value = false
 }
 
 const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
@@ -732,6 +740,14 @@ defineExpose({
    * @description emit blur event
    */
   handleBlurInput,
+  /**
+   * @description opens picker
+   */
+  handleOpen,
+  /**
+   * @description closes picker
+   */
+  handleClose,
   /**
    * @description pick item manually
    */

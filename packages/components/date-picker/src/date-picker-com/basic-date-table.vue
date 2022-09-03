@@ -47,7 +47,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
-import { flatten } from 'lodash'
+import { flatten } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { castArray } from '@element-plus/utils'
 import { basicDateTableProps } from '../props/basic-date-table'
