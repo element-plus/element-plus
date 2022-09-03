@@ -149,9 +149,8 @@ const decimalStyle = computed(() => {
   }
 })
 const componentMap = computed(() => {
-  const icons = markRaw(
-    isArray(props.icons) ? [...props.icons] : { ...props.icons }
-  )
+  let icons = isArray(props.icons) ? [...props.icons] : { ...props.icons }
+  icons = markRaw(icons)
   return isArray(icons)
     ? {
         [props.lowThreshold]: icons[0],
