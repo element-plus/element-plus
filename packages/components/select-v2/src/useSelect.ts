@@ -88,11 +88,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   })
 
   const hasModelValue = computed(() => {
-    return (
-      props.modelValue !== undefined &&
-      props.modelValue !== null &&
-      props.modelValue !== ''
-    )
+    return props.modelValue !== undefined && props.modelValue !== null
   })
 
   const showClearBtn = computed(() => {
