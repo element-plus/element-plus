@@ -1,9 +1,14 @@
 <template>
   <div
+    :id="inputId"
     :class="[rateClasses, ns.is('disabled', rateDisabled)]"
     role="slider"
+    :aria-label="!isLabeledByFormItem ? label || 'rating' : undefined"
+    :aria-labelledby="
+      isLabeledByFormItem ? formItemContext?.labelId : undefined
+    "
     :aria-valuenow="currentValue"
-    :aria-valuetext="text"
+    :aria-valuetext="text || undefined"
     aria-valuemin="0"
     :aria-valuemax="max"
     tabindex="0"
@@ -44,13 +49,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { inject, computed, ref, watch, type CSSProperties } from 'vue'
+import { type CSSProperties, computed, inject, ref, watch } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isObject, isArray, hasClass } from '@element-plus/utils'
-import { formContextKey } from '@element-plus/tokens'
+import { hasClass, isArray, isObject } from '@element-plus/utils'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { ElIcon } from '@element-plus/components/icon'
-import { useNamespace, useSize } from '@element-plus/hooks'
-import { rateProps, rateEmits } from './rate'
+import { useFormItemInputId, useNamespace, useSize } from '@element-plus/hooks'
+import { rateEmits, rateProps } from './rate'
 
 function getValueFromMap<T>(
   value: number,
@@ -80,8 +85,12 @@ const props = defineProps(rateProps)
 const emit = defineEmits(rateEmits)
 
 const formContext = inject(formContextKey, undefined)
+const formItemContext = inject(formItemContextKey, undefined)
 const rateSize = useSize()
 const ns = useNamespace('rate')
+const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
+  formItemContext,
+})
 
 const currentValue = ref(props.modelValue)
 const hoverIndex = ref(-1)
@@ -90,11 +99,11 @@ const pointerAtLeftHalf = ref(true)
 const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)])
 const rateDisabled = computed(() => props.disabled || formContext?.disabled)
 const rateStyles = computed(() => {
-  return {
-    '--el-rate-void-color': props.voidColor,
-    '--el-rate-disabled-void-color': props.disabledVoidColor,
-    '--el-rate-fill-color': activeColor.value,
-  } as CSSProperties
+  return ns.cssVarBlock({
+    'void-color': props.voidColor,
+    'disabled-void-color': props.disabledVoidColor,
+    'fill-color': activeColor.value,
+  }) as CSSProperties
 })
 
 const text = computed(() => {

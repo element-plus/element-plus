@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="[ns.b(), ns.m(listType)]"
+    :class="[ns.b(), ns.m(listType), ns.is('drag', drag)]"
     tabindex="0"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
@@ -21,6 +21,7 @@
       :accept="accept"
       type="file"
       @change="handleChange"
+      @click.stop
     />
   </div>
 </template>
@@ -34,14 +35,15 @@ import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
 
 import type {
-  UploadRequestOptions,
-  UploadRawFile,
   UploadFile,
   UploadHooks,
+  UploadRawFile,
+  UploadRequestOptions,
 } from './upload'
 
 defineOptions({
   name: 'ElUploadContent',
+  inheritAttrs: false,
 })
 
 const props = defineProps(uploadContentProps)
@@ -102,12 +104,13 @@ const upload = async (rawFile: UploadRawFile) => {
         type: rawFile.type,
       })
     }
-    for (const key of Object.keys(rawFile)) {
-      file[key] = rawFile[key]
-    }
   }
 
-  doUpload(rawFile)
+  doUpload(
+    Object.assign(file, {
+      uid: rawFile.uid,
+    })
+  )
 }
 
 const doUpload = (rawFile: UploadRawFile) => {

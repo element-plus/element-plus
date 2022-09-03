@@ -13,23 +13,23 @@ import {
   computed,
   defineComponent,
   inject,
-  ref,
-  unref,
   nextTick,
   provide,
+  ref,
+  unref,
 } from 'vue'
 import { useId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
-  ROVING_FOCUS_COLLECTION_INJECTION_KEY,
   ElCollectionItem as ElRovingFocusCollectionItem,
+  ROVING_FOCUS_COLLECTION_INJECTION_KEY,
 } from './roving-focus-group'
 import {
   ROVING_FOCUS_GROUP_INJECTION_KEY,
   ROVING_FOCUS_GROUP_ITEM_INJECTION_KEY,
 } from './tokens'
-import { getFocusIntent, reorderArray, focusFirst } from './utils'
+import { focusFirst, getFocusIntent, reorderArray } from './utils'
 
 export default defineComponent({
   components: {

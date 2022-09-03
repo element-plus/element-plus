@@ -1,13 +1,14 @@
+// @ts-nocheck
 import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { createCollectionWithScope } from '@element-plus/components/collection'
 import {
-  useTooltipTriggerProps,
   useTooltipContentProps,
+  useTooltipTriggerProps,
 } from '@element-plus/components/tooltip'
-import type { Options } from '@popperjs/core'
 
-import type { ButtonType } from '@element-plus/components/button'
+import type { Options } from '@popperjs/core'
+import type { ButtonProps, ButtonType } from '@element-plus/components/button'
 import type { Placement } from '@element-plus/components/popper'
 import type { ComponentInternalInstance, ComputedRef } from 'vue'
 import type { Nullable } from '@element-plus/utils'
@@ -41,6 +42,7 @@ export const dropdownProps = buildProps({
     type: definePropType<Partial<Options>>(Object),
     default: () => ({}),
   },
+  id: String,
   size: {
     type: String,
     default: '',
@@ -52,6 +54,7 @@ export const dropdownProps = buildProps({
   },
   loop: {
     type: Boolean,
+    default: true,
   },
   showTimeout: {
     type: Number,
@@ -76,6 +79,13 @@ export const dropdownProps = buildProps({
   disabled: {
     type: Boolean,
     default: false,
+  },
+  role: {
+    type: String,
+    default: 'menu',
+  },
+  buttonProps: {
+    type: definePropType<ButtonProps>(Object),
   },
 } as const)
 

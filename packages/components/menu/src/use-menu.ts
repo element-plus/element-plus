@@ -1,16 +1,11 @@
-import { computed, inject } from 'vue'
-import { throwError } from '@element-plus/utils'
+import { computed } from 'vue'
 
-import type { ComponentInternalInstance, Ref, CSSProperties } from 'vue'
-import type { MenuProvider } from './types'
+import type { ComponentInternalInstance, Ref } from 'vue'
 
 export default function useMenu(
   instance: ComponentInternalInstance,
   currentIndex: Ref<string>
 ) {
-  const rootMenu = inject<MenuProvider>('rootMenu')
-  if (!rootMenu) throwError('useMenu', 'can not inject root menu')
-
   const indexPath = computed(() => {
     let parent = instance.parent!
     const path = [currentIndex.value]
@@ -30,28 +25,9 @@ export default function useMenu(
     }
     return parent!
   })
-  const paddingStyle = computed<CSSProperties>(() => {
-    let parent = instance.parent
-    if (rootMenu.props.mode !== 'vertical') return {}
-
-    let padding = 20
-
-    if (rootMenu.props.collapse) {
-      padding = 20
-    } else {
-      while (parent && parent.type.name !== 'ElMenu') {
-        if (parent.type.name === 'ElSubMenu') {
-          padding += 20
-        }
-        parent = parent.parent
-      }
-    }
-    return { paddingLeft: `${padding}px` }
-  })
 
   return {
     parentMenu,
-    paddingStyle,
     indexPath,
   }
 }

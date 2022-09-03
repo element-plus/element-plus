@@ -63,15 +63,15 @@
 
 <script lang="ts" setup>
 import {
-  ref,
   computed,
-  provide,
-  onMounted,
-  onBeforeUnmount,
-  watch,
   nextTick,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
   shallowRef,
   unref,
+  watch,
 } from 'vue'
 import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
@@ -80,7 +80,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
 import { carouselContextKey } from '@element-plus/tokens'
-import { carouselProps, carouselEmits } from './carousel'
+import { carouselEmits, carouselProps } from './carousel'
 import type { CarouselItemContext } from '@element-plus/tokens'
 
 defineOptions({
@@ -190,6 +190,7 @@ function setActiveItem(index: number | string) {
   if (oldIndex === activeIndex.value) {
     resetItemPosition(oldIndex)
   }
+  resetTimer()
 }
 
 function resetItemPosition(oldIndex?: number) {
@@ -276,6 +277,11 @@ function next() {
   setActiveItem(activeIndex.value + 1)
 }
 
+function resetTimer() {
+  pauseTimer()
+  startTimer()
+}
+
 // watch
 watch(
   () => activeIndex.value,
@@ -296,6 +302,13 @@ watch(
   () => props.loop,
   () => {
     setActiveItem(activeIndex.value)
+  }
+)
+
+watch(
+  () => props.interval,
+  () => {
+    resetTimer()
   }
 )
 

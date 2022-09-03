@@ -1,16 +1,24 @@
-import { getCurrentInstance, h, ref, computed, watchEffect, unref } from 'vue'
+// @ts-nocheck
+import {
+  Comment,
+  computed,
+  getCurrentInstance,
+  h,
+  ref,
+  unref,
+  watchEffect,
+} from 'vue'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,
   defaultRenderCell,
-  treeCellPrefix,
   getDefaultClassName,
+  treeCellPrefix,
 } from '../config'
-import { parseWidth, parseMinWidth } from '../util'
-
+import { parseMinWidth, parseWidth } from '../util'
 import type { ComputedRef } from 'vue'
-import type { TableColumnCtx, TableColumn } from './defaults'
+import type { TableColumn, TableColumnCtx } from './defaults'
 
 function useRender<T>(
   props: TableColumnCtx<T>,
@@ -41,6 +49,13 @@ function useRender<T>(
       parent = parent.vnode.vParent || parent.parent
     }
     return parent
+  })
+  const hasTreeColumn = computed<boolean>(() => {
+    const { store } = instance.parent
+    if (!store) return false
+    const { treeData } = store.states
+    const treeDataValue = treeData.value
+    return treeDataValue && Object.keys(treeDataValue).length > 0
   })
 
   const realWidth = ref(parseWidth(props.width))
@@ -127,11 +142,16 @@ function useRender<T>(
       column.renderCell = (data) => {
         let children = null
         if (slots.default) {
-          children = slots.default(data)
+          const vnodes = slots.default(data)
+          children = vnodes.some((v) => v.type !== Comment)
+            ? vnodes
+            : originRenderCell(data)
         } else {
           children = originRenderCell(data)
         }
-        const prefix = treeCellPrefix(data)
+        const shouldCreatePlaceholder =
+          hasTreeColumn.value && data.cellIndex === 0
+        const prefix = treeCellPrefix(data, shouldCreatePlaceholder)
         const props = {
           class: 'cell',
           style: {},

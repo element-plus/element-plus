@@ -16,7 +16,7 @@
       class="input-with-select"
     >
       <template #prepend>
-        <el-select v-model="select" placeholder="Select" style="width: 110px">
+        <el-select v-model="select" placeholder="Select" style="width: 115px">
           <el-option label="Restaurant" value="1" />
           <el-option label="Order No." value="2" />
           <el-option label="Tel" value="3" />
@@ -37,7 +37,7 @@
         <el-button :icon="Search" />
       </template>
       <template #append>
-        <el-select v-model="select" placeholder="Select" style="width: 110px">
+        <el-select v-model="select" placeholder="Select" style="width: 115px">
           <el-option label="Restaurant" value="1" />
           <el-option label="Order No." value="2" />
           <el-option label="Tel" value="3" />

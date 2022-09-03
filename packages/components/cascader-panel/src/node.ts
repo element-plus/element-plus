@@ -1,5 +1,6 @@
+// @ts-nocheck
 import { isFunction } from '@vue/shared'
-import { capitalize, isUndefined, isEmpty } from '@element-plus/utils'
+import { capitalize, isEmpty, isUndefined } from '@element-plus/utils'
 import type { VNode } from 'vue'
 
 export type CascaderNodeValue = string | number
@@ -9,10 +10,7 @@ export type CascaderValue =
   | CascaderNodePathValue
   | (CascaderNodeValue | CascaderNodePathValue)[]
 export type CascaderConfig = Required<CascaderProps>
-export enum ExpandTrigger {
-  CLICK = 'click',
-  HOVER = 'hover',
-}
+export type ExpandTrigger = 'click' | 'hover'
 export type isDisabled = (data: CascaderOption, node: Node) => boolean
 export type isLeaf = (data: CascaderOption, node: Node) => boolean
 export type Resolve = (dataList?: CascaderOption[]) => void
@@ -194,7 +192,9 @@ class Node {
 
     this.checked =
       this.loaded &&
-      this.children.every((child) => child.loaded && child.checked) &&
+      this.children
+        .filter((child) => !child.isDisabled)
+        .every((child) => child.loaded && child.checked) &&
       checked
     this.indeterminate =
       this.loaded && checkedNum !== totalNum && checkedNum > 0

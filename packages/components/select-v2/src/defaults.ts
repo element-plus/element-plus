@@ -2,7 +2,7 @@ import { isValidComponentSize } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 
-import type { PropType, Component } from 'vue'
+import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { OptionType } from './select.types'
 import type { Options } from '@element-plus/components/popper'
@@ -71,10 +71,6 @@ export const SelectProps = {
   placeholder: {
     type: String,
   },
-  popperAppendToBody: {
-    type: Boolean,
-    default: undefined,
-  },
   teleported: useTooltipContentProps.teleported,
   persistent: {
     type: Boolean,
@@ -100,6 +96,10 @@ export const SelectProps = {
   scrollbarAlwaysOn: {
     type: Boolean,
     default: false,
+  },
+  validateEvent: {
+    type: Boolean,
+    default: true,
   },
 }
 

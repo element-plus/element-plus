@@ -1,7 +1,7 @@
 import {
+  Fragment,
   computed,
   defineComponent,
-  Fragment,
   inject,
   nextTick,
   onBeforeUnmount,
@@ -12,7 +12,7 @@ import {
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { throwError } from '@element-plus/utils'
-import { formItemContextKey, formContextKey } from '@element-plus/tokens'
+import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'
@@ -26,12 +26,12 @@ export default defineComponent({
   },
 
   setup(props, { slots }) {
-    const formContext = inject(formContextKey)
+    const formContext = inject(formContextKey, undefined)
     const formItemContext = inject(formItemContextKey)
-    if (!formContext || !formItemContext)
+    if (!formItemContext)
       throwError(
         COMPONENT_NAME,
-        'usage: <el-form><el-form-item><label-wrap /></el-form-item></el-form>'
+        'usage: <el-form-item><label-wrap /></el-form-item>'
       )
 
     const ns = useNamespace('form')
@@ -54,7 +54,7 @@ export default defineComponent({
           if (action === 'update') {
             computedWidth.value = getLabelWidth()
           } else if (action === 'remove') {
-            formContext.deregisterLabelWidth(computedWidth.value)
+            formContext?.deregisterLabelWidth(computedWidth.value)
           }
         }
       })
@@ -71,7 +71,7 @@ export default defineComponent({
 
     watch(computedWidth, (val, oldVal) => {
       if (props.updateAll) {
-        formContext.registerLabelWidth(val, oldVal)
+        formContext?.registerLabelWidth(val, oldVal)
       }
     })
 
@@ -87,7 +87,7 @@ export default defineComponent({
 
       const { isAutoWidth } = props
       if (isAutoWidth) {
-        const autoLabelWidth = formContext.autoLabelWidth
+        const autoLabelWidth = formContext?.autoLabelWidth
         const style: CSSProperties = {}
         if (autoLabelWidth && autoLabelWidth !== 'auto') {
           const marginWidth = Math.max(

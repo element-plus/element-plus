@@ -1,17 +1,14 @@
 import path from 'path'
-import { mkdir, copyFile } from 'fs/promises'
+import { copyFile, mkdir } from 'fs/promises'
 import { copy } from 'fs-extra'
-import { series, parallel } from 'gulp'
+import { parallel, series } from 'gulp'
 import {
-  run,
-  runTask,
-  withTaskName,
   buildOutput,
   epOutput,
   epPackage,
   projRoot,
-  buildConfig,
-} from './src'
+} from '@element-plus/build-utils'
+import { buildConfig, run, runTask, withTaskName } from './src'
 import type { TaskFunction } from 'gulp'
 import type { Module } from './src'
 
@@ -29,7 +26,7 @@ export const copyFiles = () =>
   ])
 
 export const copyTypesDefinitions: TaskFunction = (done) => {
-  const src = path.resolve(buildOutput, 'types')
+  const src = path.resolve(buildOutput, 'types', 'packages')
   const copyTypes = (module: Module) =>
     withTaskName(`copyTypes:${module}`, () =>
       copy(src, buildConfig[module].output.path, { recursive: true })
@@ -57,7 +54,7 @@ export default series(
     runTask('buildHelper'),
     series(
       withTaskName('buildThemeChalk', () =>
-        run('pnpm run --filter ./packages/ build --parallel')
+        run('pnpm run -C packages/theme-chalk build')
       ),
       copyFullStyle
     )

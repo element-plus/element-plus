@@ -15,12 +15,15 @@
   height: fit-content;
   width: 100%;
   max-width: 100%;
-  background-color: var(--el-table-bg-color);
+  background-color: getCssVar('table-bg-color');
   font-size: 14px;
-  color: var(--el-table-text-color);
+  color: getCssVar('table-text-color');
 
   @include e(inner-wrapper) {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     // 表格底部伪 border，总是有的
     &::before {
       @include extend-rule(border-pseudo);
@@ -33,9 +36,10 @@
   }
 
   &.has-footer {
-    .#{$namespace}-table__inner-wrapper {
-      &::before {
-        bottom: 1px;
+    &.#{$namespace}-table--scrollable-y,
+    &.#{$namespace}-table--fluid-height {
+      tr:last-child td.#{$namespace}-table__cell {
+        border-bottom-color: transparent;
       }
     }
   }
@@ -57,7 +61,7 @@
     // set empty text line height up to contrainer min-height as workaround.
     line-height: 60px;
     width: 50%;
-    color: var(--el-text-color-secondary);
+    color: getCssVar('text-color', 'secondary');
   }
 
   // expand the row
@@ -72,9 +76,9 @@
   @include e(expand-icon) {
     position: relative;
     cursor: pointer;
-    color: var(--el-text-color-regular);
+    color: getCssVar('text-color', 'regular');
     font-size: 12px;
-    transition: transform var(--el-transition-duration-fast) ease-in-out;
+    transition: transform getCssVar('transition-duration-fast') ease-in-out;
     height: 20px;
 
     @include m(expanded) {
@@ -87,7 +91,7 @@
   }
 
   @include e(expanded-cell) {
-    background-color: var(--el-table-expanded-cell-bg-color);
+    background-color: getCssVar('table-expanded-cell-bg-color');
 
     // increase the weight purely
     &[class*='cell'] {
@@ -119,7 +123,7 @@
   }
 
   thead {
-    color: var(--el-table-header-text-color);
+    color: getCssVar('table-header-text-color');
     font-weight: 500;
 
     &.is-group {
@@ -188,7 +192,7 @@
   }
 
   tr {
-    background-color: var(--el-table-tr-bg-color);
+    background-color: getCssVar('table-tr-bg-color');
 
     input[type='checkbox'] {
       margin: 0;
@@ -197,7 +201,7 @@
 
   th.#{$namespace}-table__cell.is-leaf,
   td.#{$namespace}-table__cell {
-    border-bottom: var(--el-table-border);
+    border-bottom: getCssVar('table-border');
   }
 
   th.#{$namespace}-table__cell.is-sortable {
@@ -206,18 +210,10 @@
 
   th.#{$namespace}-table__cell {
     user-select: none;
-    background-color: var(--el-table-header-bg-color);
+    background-color: getCssVar('table-header-bg-color');
 
-    > .cell {
-      display: inline-block;
-      box-sizing: border-box;
-      position: relative;
-      vertical-align: middle;
-      width: 100%;
-
-      &.highlight {
-        color: var(--el-color-primary);
-      }
+    > .cell.highlight {
+      color: getCssVar('color-primary');
     }
 
     &.required > div::before {
@@ -242,6 +238,10 @@
     }
   }
 
+  @include e((footer-wrapper)) {
+    border-top: getCssVar('table-border');
+  }
+
   // 拥有多级表头
   @include m((group, border)) {
     @include e((inner-wrapper, footer-wrapper)) {
@@ -249,19 +249,16 @@
         td,
         th {
           &:first-child {
-            border-left: var(--el-table-border);
+            border-left: getCssVar('table-border');
           }
         }
       }
-    }
-    @include e((footer-wrapper)) {
-      border-top: var(--el-table-border);
     }
 
     @include share-rule(border-pseudo) {
       content: '';
       position: absolute;
-      background-color: var(--el-table-border-color);
+      background-color: getCssVar('table-border-color');
       z-index: 3;
     }
   }
@@ -304,31 +301,20 @@
 
     @include e(footer-wrapper) {
       position: relative;
+      flex-shrink: 0;
     }
-
-    @include e(footer-wrapper) {
-      margin-top: -2px;
-    }
-
-    // fix: #1013
-    // &.#{$namespace}-loading-parent--relative {
-    //   border-color: transparent;
-    // }
 
     .#{$namespace}-table__cell {
-      border-right: var(--el-table-border);
-      &:first-child .cell {
-        padding-left: 10px;
-      }
+      border-right: getCssVar('table-border');
     }
 
     th.#{$namespace}-table__cell.gutter:last-of-type {
-      border-bottom: var(--el-table-border);
+      border-bottom: getCssVar('table-border');
       border-bottom-width: 1px;
     }
 
     & th.#{$namespace}-table__cell {
-      border-bottom: var(--el-table-border);
+      border-bottom: getCssVar('table-border');
     }
   }
 
@@ -345,7 +331,7 @@
         &.#{$namespace}-table-fixed-column--right {
           position: sticky !important;
           z-index: 2;
-          background: #fff;
+          background: getCssVar('bg-color');
           &.is-last-column,
           &.is-first-column {
             &::before {
@@ -383,6 +369,18 @@
     }
   }
 
+  @include e(header-wrapper) {
+    flex-shrink: 0;
+    tr {
+      th {
+        &.#{$namespace}-table-fixed-column--left,
+        &.#{$namespace}-table-fixed-column--right {
+          background-color: getCssVar('table-header-bg-color');
+        }
+      }
+    }
+  }
+
   @include e((header, body, footer)) {
     table-layout: fixed;
     border-collapse: separate;
@@ -392,13 +390,18 @@
     overflow: hidden;
 
     & tbody td.#{$namespace}-table__cell {
-      background-color: var(--el-table-row-hover-bg-color);
-      color: var(--el-table-text-color);
+      background-color: getCssVar('table-row-hover-bg-color');
+      color: getCssVar('table-text-color');
     }
   }
 
   @include e((header-wrapper, body-wrapper)) {
     .#{$namespace}-table-column--selection {
+      > .cell {
+        display: inline-flex;
+        align-items: center;
+        height: 23px;
+      }
       .#{$namespace}-checkbox {
         height: unset;
       }
@@ -408,28 +411,34 @@
   @include when(scrolling-left) {
     .#{$namespace}-table-fixed-column--right.is-first-column {
       &::before {
-        box-shadow: var(--el-table-fixed-right-column);
+        box-shadow: getCssVar('table-fixed-right-column');
       }
     }
     &.#{$namespace}-table--border {
       .#{$namespace}-table-fixed-column--left {
         &.is-last-column {
           &.#{$namespace}-table__cell {
-            border-right: var(--el-table-border);
+            border-right: getCssVar('table-border');
           }
         }
       }
+    }
+    th.#{$namespace}-table-fixed-column--left {
+      background-color: getCssVar('table-header-bg-color');
     }
   }
 
   @include when(scrolling-right) {
     .#{$namespace}-table-fixed-column--left.is-last-column {
       &::before {
-        box-shadow: var(--el-table-fixed-left-column);
+        box-shadow: getCssVar('table-fixed-left-column');
       }
     }
     .#{$namespace}-table-fixed-column--left.is-last-column.#{$namespace}-table__cell {
       border-right: none;
+    }
+    th.#{$namespace}-table-fixed-column--right {
+      background-color: getCssVar('table-header-bg-color');
     }
   }
 
@@ -439,12 +448,12 @@
     }
     .#{$namespace}-table-fixed-column--right.is-first-column {
       &::before {
-        box-shadow: var(--el-table-fixed-right-column);
+        box-shadow: getCssVar('table-fixed-right-column');
       }
     }
     .#{$namespace}-table-fixed-column--left.is-last-column {
       &::before {
-        box-shadow: var(--el-table-fixed-left-column);
+        box-shadow: getCssVar('table-fixed-left-column');
       }
     }
   }
@@ -459,11 +468,17 @@
         }
       }
     }
+
+    th.#{$namespace}-table-fixed-column--left,
+    th.#{$namespace}-table-fixed-column--right {
+      background-color: getCssVar('table-header-bg-color');
+    }
   }
 
   @include e(body-wrapper) {
     overflow: hidden;
     position: relative;
+    flex: 1;
     .#{$namespace}-scrollbar__bar {
       z-index: 2;
     }
@@ -489,22 +504,22 @@
     left: 7px;
 
     &.ascending {
-      border-bottom-color: var(--el-text-color-placeholder);
+      border-bottom-color: getCssVar('text-color', 'placeholder');
       top: -5px;
     }
 
     &.descending {
-      border-top-color: var(--el-text-color-placeholder);
+      border-top-color: getCssVar('text-color', 'placeholder');
       bottom: -3px;
     }
   }
 
   .ascending .sort-caret.ascending {
-    border-bottom-color: var(--el-color-primary);
+    border-bottom-color: getCssVar('color-primary');
   }
 
   .descending .sort-caret.descending {
-    border-top-color: var(--el-color-primary);
+    border-top-color: getCssVar('color-primary');
   }
 
   .hidden-columns {
@@ -517,11 +532,11 @@
     & .#{$namespace}-table__body {
       & tr.#{$namespace}-table__row--striped {
         td.#{$namespace}-table__cell {
-          background: #fafafa;
+          background: getCssVar('fill-color', 'lighter');
         }
 
         &.current-row td.#{$namespace}-table__cell {
-          background-color: var(--el-table-current-row-bg-color);
+          background-color: getCssVar('table-current-row-bg-color');
         }
       }
     }
@@ -534,14 +549,14 @@
         &,
         &.current-row {
           > td.#{$namespace}-table__cell {
-            background-color: var(--el-table-row-hover-bg-color);
+            background-color: getCssVar('table-row-hover-bg-color');
           }
         }
       }
     }
 
     tr.current-row > td.#{$namespace}-table__cell {
-      background-color: var(--el-table-current-row-bg-color);
+      background-color: getCssVar('table-current-row-bg-color');
     }
   }
 
@@ -551,7 +566,7 @@
     top: 0;
     bottom: 0;
     width: 0;
-    border-left: var(--el-table-border);
+    border-left: getCssVar('table-border');
     z-index: 10;
   }
 
@@ -560,7 +575,7 @@
     cursor: pointer;
 
     & i {
-      color: var(--el-color-info);
+      color: getCssVar('color-info');
       font-size: 14px;
       vertical-align: middle;
     }
@@ -573,7 +588,7 @@
     height: 100%;
     z-index: 3;
     position: absolute;
-    background-color: var(--el-table-border-color);
+    background-color: getCssVar('table-border-color');
   }
 
   @include e(border-bottom-patch) {
@@ -581,7 +596,7 @@
     height: 1px;
     z-index: 3;
     position: absolute;
-    background-color: var(--el-table-border-color);
+    background-color: getCssVar('table-border-color');
   }
 
   @include e(border-right-patch) {
@@ -590,7 +605,7 @@
     width: 1px;
     z-index: 3;
     position: absolute;
-    background-color: var(--el-table-border-color);
+    background-color: getCssVar('table-border-color');
   }
 
   @include m(enable-row-transition) {
@@ -601,7 +616,7 @@
 
   @include m(enable-row-hover) {
     .#{$namespace}-table__body tr:hover > td.#{$namespace}-table__cell {
-      background-color: var(--el-table-row-hover-bg-color);
+      background-color: getCssVar('table-row-hover-bg-color');
     }
   }
 
@@ -613,6 +628,37 @@
       height: 12px;
       text-align: center;
       margin-right: 8px;
+    }
+  }
+
+  @include b(table) {
+    &.#{$namespace}-table--border {
+      .#{$namespace}-table__cell {
+        border-right: getCssVar('table-border');
+      }
+    }
+  }
+
+  &:not(.#{$namespace}-table--border) {
+    .#{$namespace}-table__cell {
+      border-right: none;
+    }
+
+    > .#{$namespace}-table__inner-wrapper {
+      &::after {
+        content: none;
+      }
+    }
+
+    @include e((inner-wrapper, footer-wrapper)) {
+      tr:first-child {
+        td,
+        th {
+          &:first-child {
+            border-left: none;
+          }
+        }
+      }
     }
   }
 }

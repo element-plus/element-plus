@@ -1,16 +1,18 @@
 import {
-  h,
-  ref,
-  provide,
   computed,
   defineComponent,
   getCurrentInstance,
+  h,
+  provide,
+  ref,
   watch,
 } from 'vue'
+import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
 import {
-  debugWarn,
   buildProps,
+  debugWarn,
   definePropType,
+  iconPropType,
   mutable,
 } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -23,7 +25,7 @@ import Jumper from './components/jumper.vue'
 import Total from './components/total.vue'
 import Pager from './components/pager.vue'
 
-import type { VNode, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, VNode } from 'vue'
 
 /**
  * It it user's responsibility to guarantee that the value of props.total... is number
@@ -80,9 +82,17 @@ export const paginationProps = buildProps({
     type: String,
     default: '',
   },
+  prevIcon: {
+    type: iconPropType,
+    default: () => ArrowLeft,
+  },
   nextText: {
     type: String,
     default: '',
+  },
+  nextIcon: {
+    type: iconPropType,
+    default: () => ArrowRight,
   },
   small: Boolean,
   background: Boolean,
@@ -278,6 +288,7 @@ export default defineComponent({
           disabled: props.disabled,
           currentPage: currentPageBridge.value,
           prevText: props.prevText,
+          prevIcon: props.prevIcon,
           onClick: prev,
         }),
         jumper: h(Jumper),
@@ -293,6 +304,7 @@ export default defineComponent({
           currentPage: currentPageBridge.value,
           pageCount: pageCountBridge.value,
           nextText: props.nextText,
+          nextIcon: props.nextIcon,
           onClick: next,
         }),
         sizes: h(Sizes, {

@@ -13,7 +13,7 @@ import {
 } from '../defaults'
 import type { VirtualizedListProps } from '../props'
 
-import type { ListCache, ListItem, ItemSize } from '../types'
+import type { ItemSize, ListCache, ListItem } from '../types'
 
 type Props = VirtualizedListProps
 

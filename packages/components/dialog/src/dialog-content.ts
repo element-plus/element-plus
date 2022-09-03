@@ -1,13 +1,16 @@
-import { iconPropType, buildProps } from '@element-plus/utils'
+import { buildProps, iconPropType } from '@element-plus/utils'
 
 export const dialogContentProps = buildProps({
   center: {
     type: Boolean,
     default: false,
   },
+  alignCenter: {
+    type: Boolean,
+    default: false,
+  },
   closeIcon: {
     type: iconPropType,
-    default: '',
   },
   customClass: {
     type: String,

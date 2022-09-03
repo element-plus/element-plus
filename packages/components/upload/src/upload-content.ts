@@ -1,25 +1,19 @@
 import { NOOP } from '@vue/shared'
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import { uploadBaseProps } from './upload'
 
 import type { ExtractPropTypes } from 'vue'
 import type {
-  UploadRawFile,
   UploadFile,
-  UploadProgressEvent,
   UploadHooks,
+  UploadProgressEvent,
+  UploadRawFile,
 } from './upload'
 import type UploadContent from './upload-content.vue'
 import type { UploadAjaxError } from './ajax'
 
 export const uploadContentProps = buildProps({
   ...uploadBaseProps,
-
-  // override
-  fileList: {
-    type: definePropType<UploadFile[]>(Array),
-    default: () => mutable([] as const),
-  },
 
   beforeUpload: {
     type: definePropType<UploadHooks['beforeUpload']>(Function),

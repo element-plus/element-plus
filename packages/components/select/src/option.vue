@@ -19,13 +19,14 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
-  toRefs,
   defineComponent,
   getCurrentInstance,
+  nextTick,
   onBeforeUnmount,
   reactive,
-  nextTick,
+  toRefs,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
@@ -64,21 +65,22 @@ export default defineComponent({
     const { visible, hover } = toRefs(states)
 
     const vm = getCurrentInstance().proxy
-    const key = (vm as unknown as SelectOptionProxy).value
+
     select.onOptionCreate(vm as unknown as SelectOptionProxy)
 
     onBeforeUnmount(() => {
+      const key = (vm as unknown as SelectOptionProxy).value
       const { selected } = select
       const selectedOptions = select.props.multiple ? selected : [selected]
       const doesSelected = selectedOptions.some((item) => {
         return item.value === (vm as unknown as SelectOptionProxy).value
       })
       // if option is not selected, remove it from cache
-      if (select.cachedOptions.get(key) === vm && !doesSelected) {
-        nextTick(() => {
+      nextTick(() => {
+        if (select.cachedOptions.get(key) === vm && !doesSelected) {
           select.cachedOptions.delete(key)
-        })
-      }
+        }
+      })
       select.onOptionDestroy(key, vm)
     })
 

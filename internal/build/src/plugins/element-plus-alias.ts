@@ -1,23 +1,20 @@
-import { EP_PKG, EP_PREFIX } from '../constants'
+import { PKG_NAME, PKG_PREFIX } from '@element-plus/build-constants'
 
 import type { Plugin } from 'rollup'
 
 export function ElementPlusAlias(): Plugin {
-  const THEME_CHALK = `${EP_PREFIX}/theme-chalk`
+  const themeChalk = 'theme-chalk'
+  const sourceThemeChalk = `${PKG_PREFIX}/${themeChalk}` as const
+  const bundleThemeChalk = `${PKG_NAME}/${themeChalk}` as const
 
   return {
     name: 'element-plus-alias-plugin',
-    resolveId(id, importer, options) {
-      if (!id.startsWith(EP_PREFIX)) return
-
-      if (id.startsWith(THEME_CHALK)) {
-        return {
-          id: id.replaceAll(THEME_CHALK, `${EP_PKG}/theme-chalk`),
-          external: 'absolute',
-        }
+    resolveId(id) {
+      if (!id.startsWith(sourceThemeChalk)) return
+      return {
+        id: id.replaceAll(sourceThemeChalk, bundleThemeChalk),
+        external: 'absolute',
       }
-
-      return this.resolve(id, importer, { skipSelf: true, ...options })
     },
   }
 }

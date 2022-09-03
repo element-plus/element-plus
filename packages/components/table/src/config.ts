@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { h } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
@@ -171,22 +172,37 @@ export function defaultRenderCell<T>({
   return value?.toString?.() || ''
 }
 
-export function treeCellPrefix<T>({
-  row,
-  treeNode,
-  store,
-}: {
-  row: T
-  treeNode: TreeNode
-  store: Store<T>
-}) {
-  if (!treeNode) return null
+export function treeCellPrefix<T>(
+  {
+    row,
+    treeNode,
+    store,
+  }: {
+    row: T
+    treeNode: TreeNode
+    store: Store<T>
+  },
+  createPlacehoder = false
+) {
+  const { ns } = store
+  if (!treeNode) {
+    if (createPlacehoder) {
+      return [
+        h('span', {
+          class: ns.e('placeholder'),
+        }),
+      ]
+    }
+    return null
+  }
   const ele: VNode[] = []
   const callback = function (e) {
     e.stopPropagation()
+    if (treeNode.loading) {
+      return
+    }
     store.loadOrToggle(row)
   }
-  const { ns } = store
   if (treeNode.indent) {
     ele.push(
       h('span', {

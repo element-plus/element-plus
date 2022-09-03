@@ -8,12 +8,13 @@
       :key="index"
       :ref="(item) => (menuList[index] = item)"
       :index="index"
-      :nodes="menu"
+      :nodes="[...menu]"
     />
   </div>
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -25,26 +26,26 @@ import {
   ref,
   watch,
 } from 'vue'
-import { isEqual, flattenDeep } from 'lodash-unified'
+import { flattenDeep, isEqual } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
+  castArray,
   focusNode,
   getSibling,
   isEmpty,
-  unique,
-  castArray,
   scrollIntoView,
+  unique,
 } from '@element-plus/utils'
 import {
+  CHANGE_EVENT,
   EVENT_CODE,
   UPDATE_MODEL_EVENT,
-  CHANGE_EVENT,
 } from '@element-plus/constants'
 import { useNamespace } from '@element-plus/hooks'
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
-import Node, { ExpandTrigger } from './node'
+import Node from './node'
 import { CommonProps, useCascaderConfig } from './config'
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
@@ -52,11 +53,11 @@ import { CASCADER_PANEL_INJECTION_KEY } from './types'
 import type { PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type {
-  CascaderValue,
+  default as CascaderNode,
   CascaderNodeValue,
   CascaderOption,
+  CascaderValue,
   RenderLabel,
-  default as CascaderNode,
 } from './node'
 
 import type { ElCascaderPanelContext } from './types'
@@ -94,9 +95,7 @@ export default defineComponent({
     const expandingNode = ref<Nullable<CascaderNode>>(null)
     const checkedNodes = ref<CascaderNode[]>([])
 
-    const isHoverMenu = computed(
-      () => config.value.expandTrigger === ExpandTrigger.HOVER
-    )
+    const isHoverMenu = computed(() => config.value.expandTrigger === 'hover')
     const renderLabelFn = computed(() => props.renderLabel || slots.default)
 
     const initStore = () => {
@@ -238,7 +237,7 @@ export default defineComponent({
         const nodes = unique(
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
-        syncMenuState(nodes, false)
+        syncMenuState(nodes, forced)
         checkedValue.value = modelValue!
       }
     }
@@ -320,10 +319,6 @@ export default defineComponent({
         }
         case EVENT_CODE.enter:
           checkNode(target)
-          break
-        case EVENT_CODE.esc:
-        case EVENT_CODE.tab:
-          emit('close')
           break
       }
     }

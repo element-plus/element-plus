@@ -1,10 +1,11 @@
-import { ref, getCurrentInstance, unref, watch, toRefs } from 'vue'
+// @ts-nocheck
+import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
 import { hasOwn } from '@element-plus/utils'
 import {
-  getKeysMap,
-  getRowIdentity,
   getColumnById,
   getColumnByKey,
+  getKeysMap,
+  getRowIdentity,
   orderBy,
   toggleRowStatus,
 } from '../util'
@@ -452,7 +453,7 @@ function useWatcher<T>() {
   }
 
   // 展开行与 TreeTable 都要使用
-  const toggleRowExpansionAdapter = (row: T, expanded: boolean) => {
+  const toggleRowExpansionAdapter = (row: T, expanded?: boolean) => {
     const hasExpandColumn = columns.value.some(({ type }) => type === 'expand')
     if (hasExpandColumn) {
       toggleRowExpansion(row, expanded)

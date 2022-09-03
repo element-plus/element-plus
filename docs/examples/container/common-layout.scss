@@ -10,19 +10,19 @@
 
   .el-header,
   .el-footer {
-    background-color: #b3c0d1;
+    background-color: var(--el-color-primary-light-7);
     color: var(--el-text-color-primary);
     text-align: center;
   }
 
   .el-aside {
-    background-color: #d3dce6;
+    background-color: var(--el-color-primary-light-8);
     color: var(--el-text-color-primary);
     text-align: center;
   }
 
   .el-main {
-    background-color: #e9eef3;
+    background-color: var(--el-color-primary-light-9);
     color: var(--el-text-color-primary);
     text-align: center;
 

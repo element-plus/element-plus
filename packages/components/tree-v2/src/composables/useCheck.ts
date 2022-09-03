@@ -1,11 +1,11 @@
-import { nextTick, ref, watch, getCurrentInstance } from 'vue'
+import { getCurrentInstance, nextTick, ref, watch } from 'vue'
 import {
-  NODE_CHECK_CHANGE,
   NODE_CHECK,
+  NODE_CHECK_CHANGE,
   SetOperationEnum,
 } from '../virtual-tree'
 import type { Ref } from 'vue'
-import type { TreeProps, TreeKey, TreeNode, Tree, TreeNodeData } from '../types'
+import type { Tree, TreeKey, TreeNode, TreeNodeData, TreeProps } from '../types'
 
 export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   const checkedKeys = ref<Set<TreeKey>>(new Set())
@@ -13,7 +13,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   const { emit } = getCurrentInstance()!
 
   watch(
-    () => tree.value,
+    [() => tree.value, () => props.defaultCheckedKeys],
     () => {
       return nextTick(() => {
         _setCheckedKeys(props.defaultCheckedKeys)
@@ -177,6 +177,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
 
   function setCheckedKeys(keys: TreeKey[]) {
     checkedKeys.value.clear()
+    indeterminateKeys.value.clear()
     _setCheckedKeys(keys)
   }
 

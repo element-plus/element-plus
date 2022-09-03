@@ -1,18 +1,19 @@
+// @ts-nocheck
 import {
-  defineComponent,
-  ref,
-  onBeforeMount,
-  onMounted,
+  Fragment,
   computed,
+  defineComponent,
   getCurrentInstance,
   h,
+  onBeforeMount,
   onBeforeUnmount,
-  Fragment,
+  onMounted,
+  ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { isString } from '@element-plus/utils'
 import { cellStarts } from '../config'
-import { mergeOptions, compose } from '../util'
+import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'

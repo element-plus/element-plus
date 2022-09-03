@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, onUpdated, watch, ref, nextTick } from 'vue'
+import { computed, nextTick, onUpdated, ref, watch } from 'vue'
 import nprogress from 'nprogress'
 import { useData, useRoute } from 'vitepress'
 import { useSidebar } from '../composables/sidebar'
 import VPHeroContent from './vp-hero-content.vue'
 import VPDocContent from './vp-doc-content.vue'
 import VPNotFound from './vp-not-found.vue'
+import VPFooter from './globals/vp-footer.vue'
 
 const { frontmatter } = useData()
 const route = useRoute()
@@ -42,5 +43,6 @@ onUpdated(() => {
       <template #content-top><slot name="content-top" /></template>
       <template #content-bottom><slot name="content-bottom" /></template>
     </VPDocContent>
+    <VPFooter v-if="!isHeroPost" />
   </main>
 </template>

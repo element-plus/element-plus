@@ -1,15 +1,16 @@
 <template>
   <el-upload
-    action="https://jsonplaceholder.typicode.com/posts/"
+    v-model:file-list="fileList"
+    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
     list-type="picture-card"
     :on-preview="handlePictureCardPreview"
     :on-remove="handleRemove"
-    :file-list="fileList"
   >
     <el-icon><Plus /></el-icon>
   </el-upload>
+
   <el-dialog v-model="dialogVisible">
-    <img style="width: 100%" :src="dialogImageUrl" alt="" />
+    <img w-full :src="dialogImageUrl" alt="Preview Image" />
   </el-dialog>
 </template>
 
@@ -17,7 +18,7 @@
 import { ref } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 
-import type { UploadFile, UploadUserFile } from 'element-plus'
+import type { UploadProps, UploadUserFile } from 'element-plus'
 
 const fileList = ref<UploadUserFile[]>([
   {
@@ -25,43 +26,44 @@ const fileList = ref<UploadUserFile[]>([
     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
   },
   {
-    name: 'food2.jpeg',
-    url: '/images/guide.png',
+    name: 'plant-1.png',
+    url: '/images/plant-1.png',
   },
   {
     name: 'food.jpeg',
     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
   },
   {
-    name: 'food2.jpeg',
-    url: '/images/guide.png',
+    name: 'plant-2.png',
+    url: '/images/plant-2.png',
   },
   {
     name: 'food.jpeg',
     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
   },
   {
-    name: 'food2.jpeg',
-    url: '/images/guide.png',
+    name: 'figure-1.png',
+    url: '/images/figure-1.png',
   },
   {
     name: 'food.jpeg',
     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
   },
   {
-    name: 'food2.jpeg',
-    url: '/images/guide.png',
+    name: 'figure-2.png',
+    url: '/images/figure-2.png',
   },
 ])
 
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
 
-const handleRemove = (file: UploadFile, fileList: UploadFile[]) => {
-  console.log(file, fileList)
+const handleRemove: UploadProps['onRemove'] = (uploadFile, uploadFiles) => {
+  console.log(uploadFile, uploadFiles)
 }
-const handlePictureCardPreview = (file: UploadFile) => {
-  dialogImageUrl.value = file.url!
+
+const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
+  dialogImageUrl.value = uploadFile.url!
   dialogVisible.value = true
 }
 </script>

@@ -41,6 +41,7 @@
 <script lang="ts">
 import { defineComponent, getCurrentInstance, provide } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { formItemContextKey } from '@element-plus/tokens'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
 import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'
@@ -61,6 +62,7 @@ export default defineComponent({
       props,
       instance: getCurrentInstance(),
     })
+    provide(formItemContextKey, undefined)
     const { t } = useLocale()
     const ns = useNamespace('tree')
     const {
@@ -88,6 +90,10 @@ export default defineComponent({
       setCheckedKeys,
       filter,
       setData,
+      getNode,
+      expandNode,
+      collapseNode,
+      setExpandedKeys,
     } = useTree(props, ctx.emit)
 
     ctx.expose({
@@ -102,6 +108,10 @@ export default defineComponent({
       setCheckedKeys,
       filter,
       setData,
+      getNode,
+      expandNode,
+      collapseNode,
+      setExpandedKeys,
     })
 
     return {

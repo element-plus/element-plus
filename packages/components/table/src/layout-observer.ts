@@ -1,10 +1,11 @@
+// @ts-nocheck
 import {
-  onBeforeMount,
-  onUnmounted,
-  onMounted,
-  onUpdated,
   computed,
   getCurrentInstance,
+  onBeforeMount,
+  onMounted,
+  onUnmounted,
+  onUpdated,
 } from 'vue'
 
 import type { TableHeader } from './table-header'

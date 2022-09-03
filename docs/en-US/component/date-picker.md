@@ -160,8 +160,8 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | id                    | same as `id` in native input                                                                          | string / array(string)                           | String `id="my-date"` or array `:id="['my-range-start', 'my-range-end']"` for date range                          | -           |
 | name                  | same as `name` in native input                                                                        | string                                           | —                                                                                                                 | —           |
 | unlink-panels         | unlink two date-panels in range-picker                                                                | boolean                                          | —                                                                                                                 | false       |
-| prefix-icon           | custom prefix icon component                                                                          | string / Component                               | —                                                                                                                 | Date        |
-| clear-icon            | custom clear icon component                                                                           | string / Component                               | —                                                                                                                 | CircleClose |
+| prefix-icon           | custom prefix icon component                                                                          | `string \| Component`                            | —                                                                                                                 | Date        |
+| clear-icon            | custom clear icon component                                                                           | `string \| Component`                            | —                                                                                                                 | CircleClose |
 | validate-event        | whether to trigger form validation                                                                    | boolean                                          | -                                                                                                                 | true        |
 | disabled-date         | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function                                         | —                                                                                                                 | —           |
 | shortcuts             | an object array to set shortcut options                                                               | object[{ text: string, value: date / function }] | —                                                                                                                 | —           |
@@ -170,20 +170,22 @@ Note, date time locale (month name, first day of the week ...) are also configur
 
 ## Events
 
-| Event Name      | Description                                                               | Parameters                                |
-| --------------- | ------------------------------------------------------------------------- | ----------------------------------------- |
-| change          | triggers when user confirms the value                                     | component's binding value                 |
-| blur            | triggers when Input blurs                                                 | component instance                        |
-| focus           | triggers when Input focuses                                               | component instance                        |
-| calendar-change | triggers when the calendar selected date is changed. Only for `daterange` | [Date, Date]                              |
-| panel-change    | triggers when the navigation button click.                                | `(date, mode, view)`                      |
-| visible-change  | triggers when the DatePicker's dropdown appears/disappears                | true when it appears, and false otherwise |
+| Event Name      | Description                                                               | Parameters              |
+| --------------- | ------------------------------------------------------------------------- | ----------------------- |
+| change          | triggers when user confirms the value                                     | `(val: typeof v-model)` |
+| blur            | triggers when Input blurs                                                 | `(e: FocusEvent)`       |
+| focus           | triggers when Input focuses                                               | `(e: FocusEvent)`       |
+| calendar-change | triggers when the calendar selected date is changed. Only for `daterange` | `(val: [Date, Date])`   |
+| panel-change    | triggers when the navigation button click.                                | `(date, mode, view)`    |
+| visible-change  | triggers when the DatePicker's dropdown appears/disappears                | `(visibility: boolean)` |
 
 ## Methods
 
-| Method | Description               | Parameters      |
-| ------ | ------------------------- | --------------- |
-| focus  | focus the Input component | focusStartInput |
+| Method      | Description                 | Parameters |
+| ----------- | --------------------------- | ---------- |
+| focus       | focus the Input component   | —          |
+| handleOpen  | open the DatePicker popper  | —          |
+| handleClose | close the DatePicker popper | —          |
 
 ## Slots
 

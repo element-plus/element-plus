@@ -1,26 +1,39 @@
-import { on, once } from '@element-plus/utils'
+import type { DirectiveBinding, ObjectDirective } from 'vue'
 
-import type { ObjectDirective, DirectiveBinding } from 'vue'
+export const REPEAT_INTERVAL = 100
+export const REPEAT_DELAY = 600
 
-export default {
+const RepeatClick: ObjectDirective = {
   beforeMount(el: HTMLElement, binding: DirectiveBinding) {
-    let interval = null
-    let startTime: number
+    let interval: ReturnType<typeof setInterval> | null = null
+    let delay: ReturnType<typeof setTimeout> | null = null
+
     const handler = () => binding.value && binding.value()
+
     const clear = () => {
-      if (Date.now() - startTime < 100) {
-        handler()
+      if (delay) {
+        clearTimeout(delay)
+        delay = null
       }
-      clearInterval(interval)
-      interval = null
+      if (interval) {
+        clearInterval(interval)
+        interval = null
+      }
     }
 
-    on(el, 'mousedown', (e: MouseEvent) => {
-      if ((e as any).button !== 0) return
-      startTime = Date.now()
-      once(document as any, 'mouseup', clear)
-      clearInterval(interval)
-      interval = setInterval(handler, 100)
+    el.addEventListener('mousedown', (e: MouseEvent) => {
+      if (e.button !== 0) return
+      handler()
+
+      document.addEventListener('mouseup', clear, { once: true })
+      clear()
+      delay = setTimeout(() => {
+        interval = setInterval(() => {
+          handler()
+        }, REPEAT_INTERVAL)
+      }, REPEAT_DELAY)
     })
   },
-} as ObjectDirective
+}
+
+export default RepeatClick

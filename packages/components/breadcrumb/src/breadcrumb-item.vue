@@ -1,6 +1,11 @@
 <template>
   <span :class="ns.e('item')">
-    <span ref="link" :class="[ns.e('inner'), ns.is('link', !!to)]" role="link">
+    <span
+      ref="link"
+      :class="[ns.e('inner'), ns.is('link', !!to)]"
+      role="link"
+      @click="onClick"
+    >
       <slot />
     </span>
     <el-icon v-if="separatorIcon" :class="ns.e('separator')">
@@ -13,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, ref, onMounted, getCurrentInstance } from 'vue'
+import { getCurrentInstance, inject, ref, toRefs } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { breadcrumbKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
@@ -28,19 +33,16 @@ defineOptions({
 const props = defineProps(breadcrumbItemProps)
 
 const instance = getCurrentInstance()!
-const router = instance.appContext.config.globalProperties.$router as Router
-const parent = inject(breadcrumbKey, undefined)
+const breadcrumbContext = inject(breadcrumbKey, undefined)!
 const ns = useNamespace('breadcrumb')
 
-const { separator, separatorIcon } = parent ?? {}
+const { separator, separatorIcon } = toRefs(breadcrumbContext)
+const router = instance.appContext.config.globalProperties.$router as Router
 
 const link = ref<HTMLSpanElement>()
 
-onMounted(() => {
-  link.value!.setAttribute('role', 'link')
-  link.value!.addEventListener('click', () => {
-    if (!props.to || !router) return
-    props.replace ? router.replace(props.to) : router.push(props.to)
-  })
-})
+const onClick = () => {
+  if (!props.to || !router) return
+  props.replace ? router.replace(props.to) : router.push(props.to)
+}
 </script>

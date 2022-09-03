@@ -3,8 +3,8 @@ import {
   buildProps,
   definePropType,
   isArray,
-  isString,
   isBoolean,
+  isString,
 } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
@@ -16,7 +16,16 @@ export const formProps = buildProps({
   rules: {
     type: definePropType<FormRules>(Object),
   },
-  labelPosition: String,
+  labelPosition: {
+    type: String,
+    values: ['left', 'right', 'top'],
+    default: 'right',
+  },
+  requireAsteriskPosition: {
+    type: String,
+    values: ['left', 'right'],
+    default: 'left',
+  },
   labelWidth: {
     type: [String, Number],
     default: '',

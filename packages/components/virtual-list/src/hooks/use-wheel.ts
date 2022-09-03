@@ -1,4 +1,5 @@
-import { rAF, cAF, isFirefox } from '@element-plus/utils'
+// @ts-nocheck
+import { cAF, isFirefox, rAF } from '@element-plus/utils'
 import { HORIZONTAL, VERTICAL } from '../defaults'
 
 import type { ComputedRef } from 'vue'

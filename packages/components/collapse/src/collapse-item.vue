@@ -17,7 +17,7 @@
         :class="[
           ns.be('item', 'header'),
           ns.is('active', isActive),
-          { focusing },
+          { focusing: focusing && !disabled },
         ]"
         role="button"
         :tabindex="disabled ? -1 : 0"
@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, computed, ref } from 'vue'
+import { computed, inject, ref } from 'vue'
 import { generateId } from '@element-plus/utils'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElIcon from '@element-plus/components/icon'

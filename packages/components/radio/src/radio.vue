@@ -8,11 +8,6 @@
       ns.is('checked', modelValue === label),
       ns.m(size),
     ]"
-    role="radio"
-    :aria-checked="modelValue === label"
-    :aria-disabled="disabled"
-    :tabindex="tabIndex"
-    @keydown.space.stop.prevent="modelValue = disabled ? modelValue : label"
   >
     <span
       :class="[
@@ -21,21 +16,19 @@
         ns.is('checked', modelValue === label),
       ]"
     >
-      <span :class="ns.e('inner')" />
       <input
         ref="radioRef"
         v-model="modelValue"
         :class="ns.e('original')"
         :value="label"
-        type="radio"
-        aria-hidden="true"
-        :name="name"
+        :name="name || radioGroup?.name"
         :disabled="disabled"
-        tabindex="-1"
+        type="radio"
         @focus="focus = true"
         @blur="focus = false"
         @change="handleChange"
       />
+      <span :class="ns.e('inner')" />
     </span>
     <span :class="ns.e('label')" @keydown.stop>
       <slot>
@@ -45,37 +38,26 @@
   </label>
 </template>
 
-<script lang="ts">
-import { defineComponent, nextTick } from 'vue'
+<script lang="ts" setup>
+import { nextTick } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { useRadio, radioEmits, radioProps } from './radio'
+import { radioEmits, radioProps } from './radio'
+import { useRadio } from './use-radio'
 
-export default defineComponent({
+defineOptions({
   name: 'ElRadio',
-  props: radioProps,
-  emits: radioEmits,
-
-  setup(props, { emit }) {
-    const ns = useNamespace('radio')
-    const { radioRef, isGroup, focus, size, disabled, tabIndex, modelValue } =
-      useRadio(props, emit)
-
-    function handleChange() {
-      nextTick(() => emit('change', modelValue.value))
-    }
-
-    return {
-      ns,
-      focus,
-      isGroup,
-      modelValue,
-      tabIndex,
-      size,
-      disabled,
-      radioRef,
-
-      handleChange,
-    }
-  },
 })
+
+const props = defineProps(radioProps)
+const emit = defineEmits(radioEmits)
+
+const ns = useNamespace('radio')
+const { radioRef, radioGroup, focus, size, disabled, modelValue } = useRadio(
+  props,
+  emit
+)
+
+function handleChange() {
+  nextTick(() => emit('change', modelValue.value))
+}
 </script>

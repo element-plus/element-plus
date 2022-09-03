@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="popper"
-    v-model:visible="showPicker"
+    :visible="showPicker"
     :show-arrow="false"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :offset="0"
@@ -10,7 +10,7 @@
     :stop-popper-mouse-event="false"
     effect="light"
     trigger="click"
-    transition="el-zoom-in-top"
+    :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
   >
     <template #content>
@@ -37,9 +37,9 @@
             />
           </span>
           <el-button
-            size="small"
-            type="text"
             :class="ns.be('dropdown', 'link-btn')"
+            text
+            size="small"
             @click="clear"
           >
             {{ t('el.colorpicker.clear') }}
@@ -57,11 +57,20 @@
     </template>
     <template #default>
       <div
+        :id="buttonId"
         :class="[
           ns.b('picker'),
           ns.is('disabled', colorDisabled),
           ns.bm('picker', colorSize),
         ]"
+        role="button"
+        :aria-label="buttonAriaLabel"
+        :aria-labelledby="buttonAriaLabelledby"
+        :aria-description="
+          t('el.colorpicker.description', { color: modelValue || '' })
+        "
+        :tabindex="tabindex"
+        @keydown.enter="handleTrigger"
       >
         <div v-if="colorDisabled" :class="ns.be('picker', 'mask')" />
         <div :class="ns.be('picker', 'trigger')" @click="handleTrigger">
@@ -93,10 +102,10 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   computed,
   defineComponent,
-  inject,
   nextTick,
   onMounted,
   provide,
@@ -108,13 +117,18 @@ import { debounce } from 'lodash-unified'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
 import { ClickOutside } from '@element-plus/directives'
-import { formItemContextKey, formContextKey } from '@element-plus/tokens'
-import { useLocale, useSize, useNamespace } from '@element-plus/hooks'
+import {
+  useFormItem,
+  useFormItemInputId,
+  useLocale,
+  useNamespace,
+  useSize,
+} from '@element-plus/hooks'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElInput from '@element-plus/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn, isValidComponentSize } from '@element-plus/utils'
-import { Close, ArrowDown } from '@element-plus/icons-vue'
+import { ArrowDown, Close } from '@element-plus/icons-vue'
 import AlphaSlider from './components/alpha-slider.vue'
 import HueSlider from './components/hue-slider.vue'
 import Predefine from './components/predefine.vue'
@@ -122,7 +136,6 @@ import SvPanel from './components/sv-panel.vue'
 import Color from './color'
 import { OPTIONS_KEY } from './useOption'
 import type { PropType } from 'vue'
-import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type { ComponentSize } from '@element-plus/constants'
 import type { IUseOptions } from './useOption'
 
@@ -145,6 +158,7 @@ export default defineComponent({
   },
   props: {
     modelValue: String,
+    id: String,
     showAlpha: Boolean,
     colorFormat: String,
     disabled: Boolean,
@@ -153,27 +167,48 @@ export default defineComponent({
       validator: isValidComponentSize,
     },
     popperClass: String,
+    label: {
+      type: String,
+      default: undefined,
+    },
+    tabindex: {
+      type: [String, Number],
+      default: 0,
+    },
     predefine: Array,
+    validateEvent: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
     const { t } = useLocale()
     const ns = useNamespace('color')
-    const elForm = inject(formContextKey, {} as FormContext)
-    const elFormItem = inject(formItemContextKey, {} as FormItemContext)
+    const { form, formItem } = useFormItem()
 
-    const hue = ref(null)
-    const svPanel = ref(null)
-    const alpha = ref(null)
+    const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(
+      props,
+      {
+        formItemContext: formItem,
+      }
+    )
+
+    const hue = ref<InstanceType<typeof HueSlider>>()
+    const svPanel = ref<InstanceType<typeof SvPanel>>()
+    const alpha = ref<InstanceType<typeof AlphaSlider>>()
     const popper = ref(null)
+    // active-change is used to prevent modelValue changes from triggering.
+    let shouldActiveChange = true
     // data
     const color = reactive(
       new Color({
         enableAlpha: props.showAlpha,
-        format: props.colorFormat,
+        format: props.colorFormat || '',
         value: props.modelValue,
       })
     )
+    type ColorType = typeof color
     const showPicker = ref(false)
     const showPanelColor = ref(false)
     const customInput = ref('')
@@ -186,11 +221,19 @@ export default defineComponent({
     })
     const colorSize = useSize()
     const colorDisabled = computed(() => {
-      return !!(props.disabled || elForm.disabled)
+      return !!(props.disabled || form?.disabled)
     })
 
     const currentColor = computed(() => {
       return !props.modelValue && !showPanelColor.value ? '' : color.value
+    })
+    const buttonAriaLabel = computed<string | undefined>(() => {
+      return !isLabeledByFormItem.value
+        ? props.label || t('el.colorpicker.defaultLabel')
+        : undefined
+    })
+    const buttonAriaLabelledby = computed<string | undefined>(() => {
+      return isLabeledByFormItem.value ? formItem?.labelId : undefined
     })
     // watch
     watch(
@@ -199,6 +242,7 @@ export default defineComponent({
         if (!newVal) {
           showPanelColor.value = false
         } else if (newVal && newVal !== color.value) {
+          shouldActiveChange = false
           color.fromString(newVal)
         }
       }
@@ -207,7 +251,8 @@ export default defineComponent({
       () => currentColor.value,
       (val) => {
         customInput.value = val
-        emit('active-change', val)
+        shouldActiveChange && emit('active-change', val)
+        shouldActiveChange = true
       }
     )
 
@@ -221,7 +266,7 @@ export default defineComponent({
     )
 
     // methods
-    function displayedRgb(color, showAlpha) {
+    function displayedRgb(color: ColorType, showAlpha: boolean) {
       if (!(color instanceof Color)) {
         throw new TypeError('color should be instance of _color Class')
       }
@@ -232,7 +277,7 @@ export default defineComponent({
         : `rgb(${r}, ${g}, ${b})`
     }
 
-    function setShowPicker(value) {
+    function setShowPicker(value: boolean) {
       showPicker.value = value
     }
 
@@ -248,7 +293,10 @@ export default defineComponent({
         if (props.modelValue) {
           color.fromString(props.modelValue)
         } else {
-          showPanelColor.value = false
+          color.value = ''
+          nextTick(() => {
+            showPanelColor.value = false
+          })
         }
       })
     }
@@ -266,13 +314,15 @@ export default defineComponent({
       const value = color.value
       emit(UPDATE_MODEL_EVENT, value)
       emit('change', value)
-      elFormItem.validate?.('change').catch((err) => debugWarn(err))
+      if (props.validateEvent) {
+        formItem?.validate('change').catch((err) => debugWarn(err))
+      }
       debounceSetShowPicker(false)
       // check if modelValue change, if not change, then reset color.
       nextTick(() => {
         const newColor = new Color({
           enableAlpha: props.showAlpha,
-          format: props.colorFormat,
+          format: props.colorFormat || '',
           value: props.modelValue,
         })
         if (!color.compare(newColor)) {
@@ -285,8 +335,8 @@ export default defineComponent({
       debounceSetShowPicker(false)
       emit(UPDATE_MODEL_EVENT, null)
       emit('change', null)
-      if (props.modelValue !== null) {
-        elFormItem.validate?.('change').catch((err) => debugWarn(err))
+      if (props.modelValue !== null && props.validateEvent) {
+        formItem?.validate('change').catch((err) => debugWarn(err))
       }
       resetColor()
     }
@@ -319,6 +369,9 @@ export default defineComponent({
       showPanelColor,
       showPicker,
       customInput,
+      buttonId,
+      buttonAriaLabel,
+      buttonAriaLabelledby,
       handleConfirm,
       hide,
       handleTrigger,

@@ -24,45 +24,28 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
-import { useNamespace, useDeprecated } from '@element-plus/hooks'
-import { resultProps, IconComponentMap, IconMap } from './result'
-const COMPONENT_NAME = 'ElResult'
-export default defineComponent({
-  name: COMPONENT_NAME,
-  props: resultProps,
-  setup(props, { slots }) {
-    const ns = useNamespace('result')
+<script lang="ts" setup>
+import { computed } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
+import { IconComponentMap, IconMap, resultProps } from './result'
 
-    useDeprecated(
-      {
-        scope: COMPONENT_NAME,
-        type: 'Slot',
-        from: 'subTitle',
-        replacement: 'sub-title',
-        version: '2.1.3',
-        ref: 'https://github.com/element-plus/element-plus/pull/6636/',
-      },
-      computed(() => !!slots.subTitle)
-    )
+defineOptions({
+  name: 'ElResult',
+})
 
-    const resultIcon = computed(() => {
-      const icon = props.icon
-      const iconClass = icon && IconMap[icon] ? IconMap[icon] : 'icon-info'
-      const iconComponent =
-        IconComponentMap[iconClass] || IconComponentMap['icon-info']
+const props = defineProps(resultProps)
 
-      return {
-        class: iconClass,
-        component: iconComponent,
-      }
-    })
+const ns = useNamespace('result')
 
-    return {
-      ns,
-      resultIcon,
-    }
-  },
+const resultIcon = computed(() => {
+  const icon = props.icon
+  const iconClass = icon && IconMap[icon] ? IconMap[icon] : 'icon-info'
+  const iconComponent =
+    IconComponentMap[iconClass] || IconComponentMap['icon-info']
+
+  return {
+    class: iconClass,
+    component: iconComponent,
+  }
 })
 </script>

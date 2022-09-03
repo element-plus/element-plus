@@ -1,13 +1,14 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { isFunction } from '@vue/shared'
 import { throttle } from 'lodash-unified'
 import {
-  getScrollContainer,
   getOffsetTopDistance,
+  getScrollContainer,
   throwError,
 } from '@element-plus/utils'
 
-import type { ObjectDirective, ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, ObjectDirective } from 'vue'
 
 export const SCOPE = 'ElInfiniteScroll'
 export const CHECK_INTERVAL = 50

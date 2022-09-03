@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import '@docsearch/css'
-import { watch, onMounted, getCurrentInstance } from 'vue'
-import { useRouter, useRoute } from 'vitepress'
+import { getCurrentInstance, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vitepress'
 import docsearch from '@docsearch/js'
 import { isClient } from '@vueuse/core'
-import { useLang } from '../../composables/lang'
+// import { useLang } from '../../composables/lang'
 // import type { DefaultTheme } from '../config'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
@@ -52,24 +52,24 @@ function update(options: any) {
   }
 }
 
-const lang = useLang()
+// const lang = useLang()
 
 function initialize(userOptions: any) {
   // if the user has multiple locales, the search results should be filtered
   // based on the language
-  const facetFilters = props.multilang ? [`language:${lang.value}`] : []
+  // const facetFilters = props.multilang ? [`language:${lang.value}`] : []
 
   docsearch(
     Object.assign({}, userOptions, {
       container: '#docsearch',
       indexName: 'element-plus',
-      searchParameters: Object.assign({}, userOptions.searchParameters, {
-        // pass a custom lang facetFilter to allow multiple language search
-        // https://github.com/algolia/docsearch-configs/pull/3942
-        facetFilters: facetFilters.concat(
-          userOptions.searchParameters?.facetFilters || []
-        ),
-      }),
+      // searchParameters: Object.assign({}, userOptions.searchParameters, {
+      //   // pass a custom lang facetFilter to allow multiple language search
+      //   // https://github.com/algolia/docsearch-configs/pull/3942
+      //   facetFilters: facetFilters.concat(
+      //     userOptions.searchParameters?.facetFilters || []
+      //   ),
+      // }),
 
       navigator: {
         navigate: ({ suggestionUrl }: { suggestionUrl: string }) => {
@@ -176,10 +176,29 @@ function initialize(userOptions: any) {
   --docsearch-footer-background: var(--bg-color);
   --docsearch-footer-shadow: 0 -1px 0 0 #e0e3e8,
     0 -3px 6px 0 rgba(69, 98, 155, 0.12);
+  --docsearch-searchbox-background: rgba(var(--bg-color-rgb), 0.8);
   --docsearch-searchbox-focus-background: var(--bg-color-mute);
   --docsearch-muted-color: var(--text-color-lighter);
   --docsearch-text-color: var(--text-color-light);
   --docsearch-modal-background: var(--bg-color-soft);
+  --docsearch-modal-shadow: var(--el-box-shadow);
+
+  transition: background-color var(--el-transition-duration-fast);
+
+  &.DocSearch-Container {
+    z-index: 20000;
+  }
+
+  &.DocSearch-Button {
+    margin-right: 8px;
+  }
+
+  @media (max-width: 749px) {
+    &.DocSearch-Button {
+      margin: 0 12px;
+      padding: 0;
+    }
+  }
 
   .dark & {
     --docsearch-text-color: var(--text-color-light);

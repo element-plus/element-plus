@@ -1,4 +1,5 @@
-import type { PropType, ComponentInternalInstance, Ref, VNode } from 'vue'
+// @ts-nocheck
+import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue'
 import type { DefaultRow, Table } from '../table/defaults'
 
 type CI<T> = { column: TableColumnCtx<T>; $index: number }
