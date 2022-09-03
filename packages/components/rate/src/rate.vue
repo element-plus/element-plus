@@ -56,7 +56,8 @@ import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItemInputId, useNamespace, useSize } from '@element-plus/hooks'
 import { rateEmits, rateProps } from './rate'
-import type { CSSProperties } from 'vue'
+import type { iconPropType } from '@element-plus/utils'
+import type { CSSProperties, Component } from 'vue'
 
 function getValueFromMap<T>(
   value: number,
@@ -150,7 +151,9 @@ const decimalStyle = computed(() => {
 })
 const componentMap = computed(() => {
   let icons = isArray(props.icons) ? [...props.icons] : { ...props.icons }
-  icons = markRaw(icons)
+  icons = markRaw(icons) as
+    | Array<string | Component>
+    | Record<number, string | Component>
   return isArray(icons)
     ? {
         [props.lowThreshold]: icons[0],
@@ -169,10 +172,10 @@ const voidComponent = computed(() =>
   rateDisabled.value
     ? isString(props.disabledVoidIcon)
       ? props.disabledVoidIcon
-      : markRaw(props.disabledVoidIcon)
+      : (markRaw(props.disabledVoidIcon) as typeof iconPropType)
     : isString(props.voidIcon)
     ? props.voidIcon
-    : markRaw(props.voidIcon)
+    : (markRaw(props.voidIcon) as typeof iconPropType)
 )
 const activeComponent = computed(() =>
   getValueFromMap(currentValue.value, componentMap.value)
