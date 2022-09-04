@@ -40,6 +40,18 @@ export default defineComponent({
       blur: (e: FocusEvent | undefined) => {
         commonPicker.value?.handleBlurInput(e)
       },
+      /**
+       * @description opens the picker element
+       */
+      handleOpen: () => {
+        commonPicker.value?.handleOpen()
+      },
+      /**
+       * @description closes the picker element
+       */
+      handleClose: () => {
+        commonPicker.value?.handleClose()
+      },
     })
 
     return () => {

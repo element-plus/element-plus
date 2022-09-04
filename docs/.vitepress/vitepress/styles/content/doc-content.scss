@@ -17,17 +17,17 @@
   }
 
   @include respond-to('md') {
-    padding: 48px 32px 96px;
+    padding: 48px 32px 42px;
   }
   @include respond-to('lg') {
-    padding: 64px 64px 96px;
+    padding: 64px 64px 42px;
   }
   @include respond-to('xxl') {
-    padding: 64px 0 96px 64px;
+    padding: 64px 0 42px 64px;
     display: flex;
   }
   @include respond-to('max') {
-    padding: 64px 0 96px 96px;
+    padding: 64px 0 42px 96px;
     display: flex;
   }
 }

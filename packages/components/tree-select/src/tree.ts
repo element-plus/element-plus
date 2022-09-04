@@ -87,7 +87,7 @@ export const useTree = (
 
     // only expand on click node when the `check-strictly` is false
     expandOnClickNode: computed(() => {
-      return !props.checkStrictly
+      return !props.checkStrictly && props.expandOnClickNode
     }),
 
     // show current selected node only first time,
@@ -133,7 +133,7 @@ export const useTree = (
           )
           select.value?.handleOptionSelect(option, true)
         }
-      } else {
+      } else if (props.expandOnClickNode) {
         e.proxy.handleExpandIconClick()
       }
     },

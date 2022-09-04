@@ -58,8 +58,8 @@ time-picker/range
 | default-value         | optional, default date of the calendar                  | Date for TimePicker, string for TimeSelect | anything accepted by `new Date()` for TimePicker, selectable value for TimeSelect   | —           |
 | id                    | same as `id` in native input                            | string / array(string)                     | String `id="my-time"` or array `:id="['my-range-start', 'my-range-end']"` for range | -           |
 | name                  | same as `name` in native input                          | string                                     | —                                                                                   | —           |
-| prefix-icon           | Custom prefix icon component                            | string / Component                         | —                                                                                   | Clock       |
-| clear-icon            | Custom clear icon component                             | string / Component                         | —                                                                                   | CircleClose |
+| prefix-icon           | Custom prefix icon component                            | `string \| Component`                      | —                                                                                   | Clock       |
+| clear-icon            | Custom clear icon component                             | `string \| Component`                      | —                                                                                   | CircleClose |
 | disabled-hours        | To specify the array of hours that cannot be selected   | function                                   | —                                                                                   | —           |
 | disabled-minutes      | To specify the array of minutes that cannot be selected | function(selectedHour)                     | —                                                                                   | —           |
 | disabled-seconds      | To specify the array of seconds that cannot be selected | function(selectedHour, selectedMinute)     | —                                                                                   | —           |
@@ -76,7 +76,9 @@ time-picker/range
 
 ## Methods
 
-| Method | Description               | Parameters |
-| ------ | ------------------------- | ---------- |
-| focus  | focus the Input component | —          |
-| blur   | blur the Input component  | —          |
+| Method      | Description                 | Parameters |
+| ----------- | --------------------------- | ---------- |
+| focus       | focus the Input component   | —          |
+| blur        | blur the Input component    | —          |
+| handleOpen  | open the TimePicker popper  | —          |
+| handleClose | close the TimePicker popper | —          |

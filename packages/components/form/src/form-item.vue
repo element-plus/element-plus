@@ -51,7 +51,7 @@ import {
   watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import { clone, isEqual } from 'lodash-unified'
+import { clone } from 'lodash-unified'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
@@ -131,6 +131,9 @@ const formItemClasses = computed(() => [
   ns.is('success', validateState.value === 'success'),
   ns.is('required', isRequired.value || props.required),
   ns.is('no-asterisk', formContext?.hideRequiredAsterisk),
+  formContext?.requireAsteriskPosition === 'right'
+    ? 'asterisk-right'
+    : 'asterisk-left',
   { [ns.m('feedback')]: formContext?.statusIcon },
 ])
 
@@ -281,7 +284,6 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
   // skip validation if its resetting
   if (isResettingField) {
-    isResettingField = false
     return false
   }
 
@@ -314,6 +316,7 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
 const clearValidate: FormItemContext['clearValidate'] = () => {
   setValidationState('')
   validateMessage.value = ''
+  isResettingField = false
 }
 
 const resetField: FormItemContext['resetField'] = async () => {
@@ -322,14 +325,15 @@ const resetField: FormItemContext['resetField'] = async () => {
 
   const computedValue = getProp(model, props.prop)
 
-  if (!isEqual(computedValue.value, initialValue)) {
-    // prevent validation from being triggered
-    isResettingField = true
-    computedValue.value = clone(initialValue)
-  }
+  // prevent validation from being triggered
+  isResettingField = true
+
+  computedValue.value = clone(initialValue)
 
   await nextTick()
   clearValidate()
+
+  isResettingField = false
 }
 
 const addInputId: FormItemContext['addInputId'] = (id: string) => {

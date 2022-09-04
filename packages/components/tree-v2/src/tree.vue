@@ -93,6 +93,7 @@ export default defineComponent({
       getNode,
       expandNode,
       collapseNode,
+      setExpandedKeys,
     } = useTree(props, ctx.emit)
 
     ctx.expose({
@@ -110,6 +111,7 @@ export default defineComponent({
       getNode,
       expandNode,
       collapseNode,
+      setExpandedKeys,
     })
 
     return {
