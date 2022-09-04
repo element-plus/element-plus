@@ -80,6 +80,9 @@ const homeLang = computed(() => homeLocale[lang.value])
 </template>
 
 <style lang="scss">
+.dark .footer {
+  background-color: var(--el-fill-color-lighter);
+}
 .footer {
   background-color: #f5f7fa;
   box-sizing: border-box;
