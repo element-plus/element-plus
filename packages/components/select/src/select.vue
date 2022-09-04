@@ -282,14 +282,14 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { isValidComponentSize } from '@element-plus/utils'
-import { ArrowUp, CircleClose } from '@element-plus/icons-vue'
+import { iconPropType, isValidComponentSize } from '@element-plus/utils'
+import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
 
-import type { Component, PropType } from 'vue'
+import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { SelectContext } from './token'
 
@@ -370,7 +370,7 @@ export default defineComponent({
       default: true,
     },
     clearIcon: {
-      type: [String, Object] as PropType<string | Component>,
+      type: iconPropType,
       default: CircleClose,
     },
     fitInputWidth: {
@@ -378,12 +378,20 @@ export default defineComponent({
       default: false,
     },
     suffixIcon: {
-      type: [String, Object] as PropType<string | Component>,
-      default: ArrowUp,
+      type: iconPropType,
+      default: ArrowDown,
     },
     // eslint-disable-next-line vue/require-prop-types
     tagType: { ...tagProps.type, default: 'info' },
     validateEvent: {
+      type: Boolean,
+      default: true,
+    },
+    remoteShowSuffix: {
+      type: Boolean,
+      default: false,
+    },
+    suffixTransition: {
       type: Boolean,
       default: true,
     },
