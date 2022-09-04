@@ -1,12 +1,11 @@
 import { placements } from '@popperjs/core'
-import { isValidComponentSize } from '@element-plus/utils'
+import { definePropType, isValidComponentSize } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { OptionType } from './select.types'
-import type { Options } from '@element-plus/components/popper'
-import type { Placements } from '@popperjs/core'
+import type { Options, Placement } from '@element-plus/components/popper'
 
 export const SelectProps = {
   allowCreate: Boolean,
@@ -103,7 +102,7 @@ export const SelectProps = {
     default: true,
   },
   placement: {
-    type: String as PropType<Placements>,
+    type: definePropType<Placement>(String),
     values: placements,
     default: 'bottom-start',
   },
