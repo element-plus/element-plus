@@ -156,8 +156,8 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | visible-change | triggers when the dropdown appears/disappears                 | true when it appears, and false otherwise |
 | remove-tag     | triggers when a tag is removed in multiple mode               | removed tag value                         |
 | clear          | triggers when the clear icon is clicked in a clearable Select | —                                         |
-| blur           | triggers when Input blurs                                     | (event: Event)                            |
-| focus          | triggers when Input focuses                                   | (event: Event)                            |
+| blur           | triggers when Input blurs                                     | (event: FocusEvent)                       |
+| focus          | triggers when Input focuses                                   | (event: FocusEvent)                       |
 
 ## Select Slots
 
