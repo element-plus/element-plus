@@ -8,7 +8,7 @@
     <el-tooltip
       ref="tooltipRef"
       :visible="dropMenuVisible"
-      placement="bottom-start"
+      :placement="placement"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
@@ -272,6 +272,7 @@ import {
   unref,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
+import { placements } from '@popperjs/core'
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
@@ -386,6 +387,11 @@ export default defineComponent({
     validateEvent: {
       type: Boolean,
       default: true,
+    },
+    placement: {
+      type: String,
+      values: placements,
+      default: 'bottom-start',
     },
   },
   emits: [
