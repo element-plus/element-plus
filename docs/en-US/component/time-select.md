@@ -73,8 +73,8 @@ time-select/time-range
 | Event Name | Description                           | Parameters                |
 | ---------- | ------------------------------------- | ------------------------- |
 | change     | triggers when user confirms the value | component's binding value |
-| blur       | triggers when Input blurs             | component instance        |
-| focus      | triggers when Input focuses           | component instance        |
+| blur       | triggers when Input blurs             | (event: FocusEvent)       |
+| focus      | triggers when Input focuses           | (event: FocusEvent)       |
 
 ## Methods
 
