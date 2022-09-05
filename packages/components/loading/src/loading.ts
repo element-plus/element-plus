@@ -31,17 +31,28 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     data.text = text
   }
 
+  function getLoadingNumber() {
+    const target = data.parent
+    let loadingNumber: number | string | null =
+      target.getAttribute('loading-number')
+    loadingNumber = Number.parseInt(loadingNumber as any)
+    return loadingNumber
+  }
+  function setLoadingNumber(loadingNumber: number | string | null) {
+    const target = data.parent
+    if (!loadingNumber) {
+      removeClass(target, ns.bm('parent', 'relative'))
+      target.removeAttribute('loading-number')
+    } else {
+      target.setAttribute('loading-number', loadingNumber.toString())
+    }
+  }
   function destroySelf() {
     const target = data.parent
     if (!target.vLoadingAddClassList) {
-      let loadingNumber: number | string | null =
-        target.getAttribute('loading-number')
-      loadingNumber = Number.parseInt(loadingNumber as any) - 1
+      const loadingNumber = getLoadingNumber()
       if (!loadingNumber) {
         removeClass(target, ns.bm('parent', 'relative'))
-        target.removeAttribute('loading-number')
-      } else {
-        target.setAttribute('loading-number', loadingNumber.toString())
       }
       removeClass(target, ns.bm('parent', 'hidden'))
     }
@@ -56,6 +67,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
 
     const target = data.parent
     target.vLoadingAddClassList = undefined
+    setLoadingNumber(getLoadingNumber() - 1)
     afterLeaveFlag.value = true
     clearTimeout(afterLeaveTimer)
 
