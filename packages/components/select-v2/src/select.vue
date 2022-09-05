@@ -17,7 +17,7 @@
       :popper-options="popperOptions"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       :effect="effect"
-      placement="bottom-start"
+      :placement="placement"
       pure
       :transition="`${nsSelectV2.namespace.value}-zoom-in-top`"
       trigger="click"
