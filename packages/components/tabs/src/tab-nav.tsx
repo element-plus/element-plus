@@ -9,7 +9,6 @@ import {
   ref,
   watch,
 } from 'vue'
-import { NOOP } from '@vue/shared'
 import {
   useDocumentVisibility,
   useResizeObserver,
@@ -47,16 +46,6 @@ export const tabNavProps = buildProps({
     default: '',
   },
   editable: Boolean,
-  onTabClick: {
-    type: definePropType<
-      (tab: TabsPaneContext, tabName: TabPanelName, ev: Event) => void
-    >(Function),
-    default: NOOP,
-  },
-  onTabRemove: {
-    type: definePropType<(tab: TabsPaneContext, ev: Event) => void>(Function),
-    default: NOOP,
-  },
   type: {
     type: String,
     values: ['card', 'border-card', ''],
@@ -65,14 +54,21 @@ export const tabNavProps = buildProps({
   stretch: Boolean,
 } as const)
 
+export const tabNavEmits = {
+  'tab-click': (tab: TabsPaneContext, tabName: TabPanelName, ev: Event) =>
+    ev instanceof Event,
+  'tab-remove': (tab: TabsPaneContext, ev: Event) => ev instanceof Event,
+}
+
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
+export type TabNavEmits = typeof tabNavEmits
 
 const COMPONENT_NAME = 'ElTabNav'
 const TabNav = defineComponent({
   name: COMPONENT_NAME,
   props: tabNavProps,
-
-  setup(props, { expose }) {
+  emits: tabNavEmits,
+  setup(props, { expose, emit }) {
     const vm = getCurrentInstance()!
 
     const rootTabs = inject(tabsRootContextKey)
@@ -319,7 +315,7 @@ const TabNav = defineComponent({
             // `onClick` not exist when generate dts
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            onClick={(ev: MouseEvent) => props.onTabRemove(pane, ev)}
+            onClick={(ev: MouseEvent) => emit('tab-remove', pane, ev)}
           >
             <Close />
           </ElIcon>
@@ -349,7 +345,7 @@ const TabNav = defineComponent({
             onBlur={() => removeFocus()}
             onClick={(ev: MouseEvent) => {
               removeFocus()
-              props.onTabClick!(pane, tabName, ev)
+              emit('tab-click', pane, tabName, ev)
             }}
             onKeydown={(ev: KeyboardEvent) => {
               if (
@@ -357,7 +353,7 @@ const TabNav = defineComponent({
                 (ev.code === EVENT_CODE.delete ||
                   ev.code === EVENT_CODE.backspace)
               ) {
-                props.onTabRemove!(pane, ev)
+                emit('tab-remove', pane, ev)
               }
             }}
           >

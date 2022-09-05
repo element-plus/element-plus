@@ -209,8 +209,8 @@ export default defineComponent({
             type={props.type}
             panes={Object.values(panes)}
             stretch={props.stretch}
-            onTabClick={handleTabClick}
-            onTabRemove={handleTabRemove}
+            onTab-click={handleTabClick}
+            onTab-remove={handleTabRemove}
           />
         </div>
       )
