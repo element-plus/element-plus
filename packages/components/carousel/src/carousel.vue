@@ -190,6 +190,7 @@ function setActiveItem(index: number | string) {
   if (oldIndex === activeIndex.value) {
     resetItemPosition(oldIndex)
   }
+  resetTimer()
 }
 
 function resetItemPosition(oldIndex?: number) {
@@ -276,6 +277,11 @@ function next() {
   setActiveItem(activeIndex.value + 1)
 }
 
+function resetTimer() {
+  pauseTimer()
+  startTimer()
+}
+
 // watch
 watch(
   () => activeIndex.value,
@@ -296,6 +302,13 @@ watch(
   () => props.loop,
   () => {
     setActiveItem(activeIndex.value)
+  }
+)
+
+watch(
+  () => props.interval,
+  () => {
+    resetTimer()
   }
 )
 

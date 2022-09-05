@@ -17,6 +17,14 @@ export const rightLogoSmallSponsors = [
     slogan: 'Vue3 opensource admin system',
     slogan_cn: 'Vue3企业级开源后台管理系统',
   },
+  {
+    name: 'bit',
+    img: '/images/bit.svg',
+    imgL: '/images/bit-l.png',
+    url: 'https://bit.dev/?from=element-ui',
+    slogan: 'Share Code',
+    isDark: true, // dark theme
+  },
 ]
 
 export const leftCustomImgSponsors = [
@@ -44,31 +52,6 @@ export const platinumSponsors = [
   ...rightRichTextSponsors,
 ]
 
-export const leftLogoSponsors = [
-  {
-    name: 'bit',
-    img: '/images/bit.svg',
-    url: 'https://bit.dev/?from=element-ui',
-    slogan: 'Share Code',
-    isDark: true, // dark theme
-  },
-  {
-    name: 'renren.io',
-    name_cn: '人人开源',
-    img: '/images/renren.png',
-    url: 'https://www.renren.io/?from=element-ui',
-    slogan: 'Rapid development platform',
-    slogan_cn: '企业级的快速开发平台',
-    className: 'renren',
-  },
-  {
-    name: 'FormMaking',
-    name_cn: 'FormMaking',
-    img: '/images/formmaking.png',
-    url: 'https://form.making.link/?from=element_plus',
-    slogan: 'Vue form designer',
-    slogan_cn: 'Vue表单设计器，赋能企业快速开发',
-  },
-]
+export const leftLogoSponsors = []
 
 export const goldSponsors = [...rightLogoSmallSponsors, ...leftLogoSponsors]

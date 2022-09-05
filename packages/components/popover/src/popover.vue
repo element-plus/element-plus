@@ -23,6 +23,7 @@
     :teleported="teleported"
     :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
+    @update:visible="onUpdateVisible"
     @before-show="beforeEnter"
     @before-hide="beforeLeave"
     @show="afterEnter"
@@ -57,6 +58,12 @@ defineOptions({
 const props = defineProps(popoverProps)
 const emit = defineEmits(popoverEmits)
 
+const updateEventKeyRaw = `onUpdate:visible` as const
+
+const onUpdateVisible = computed(() => {
+  return props[updateEventKeyRaw]
+})
+
 const ns = useNamespace('popover')
 const tooltipRef = ref<TooltipInstance>()
 const popperRef = computed(() => {
@@ -77,7 +84,7 @@ const kls = computed(() => {
 })
 
 const gpuAcceleration = computed(() => {
-  return props.transition === 'el-fade-in-linear'
+  return props.transition === `${ns.namespace.value}-fade-in-linear`
 })
 
 const hide = () => {

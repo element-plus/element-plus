@@ -1,13 +1,15 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
-import sleep from '@element-plus/test-utils/sleep'
-import RepeatClick from '../repeat-click'
+import { describe, expect, it, vi } from 'vitest'
+import RepeatClick, { REPEAT_DELAY, REPEAT_INTERVAL } from '../repeat-click'
 
-const handler = vi.fn()
+const PRESS_TIME = REPEAT_DELAY + REPEAT_INTERVAL
+let handler: ReturnType<typeof vi.fn>
+
 const _mount = () =>
   mount(
     {
       setup() {
+        handler = vi.fn()
         return () => (
           <div id="block" v-repeat-click={handler}>
             TEST
@@ -25,14 +27,28 @@ const _mount = () =>
   )
 
 describe('Directives.vue', () => {
-  test('Click test', async () => {
+  it('single click', async () => {
     const wrapper = _mount()
     const block = wrapper.find('#block')
+
+    vi.useFakeTimers()
     block.trigger('mousedown')
-    const testTime = 330
-    await sleep(testTime)
-    block.trigger('mouseup')
-    const expectResult = Math.floor(testTime / 100)
-    expect(handler).toHaveBeenCalledTimes(expectResult)
+    vi.advanceTimersByTime(PRESS_TIME - 1)
+    document.dispatchEvent(new MouseEvent('mouseup'))
+    expect(handler).toHaveBeenCalledTimes(1)
+    vi.useRealTimers()
+  })
+
+  it('click and hold on', async () => {
+    const wrapper = _mount()
+    const block = wrapper.find('#block')
+
+    vi.useFakeTimers()
+    block.trigger('mousedown')
+    vi.advanceTimersByTime(PRESS_TIME)
+    document.dispatchEvent(new MouseEvent('mouseup'))
+
+    expect(handler).toHaveBeenCalledTimes(2)
+    vi.useRealTimers()
   })
 })

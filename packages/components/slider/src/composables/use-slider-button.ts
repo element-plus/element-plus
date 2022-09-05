@@ -228,8 +228,8 @@ export const useSliderButton = (
         }
         if (!initData.isClick) {
           setPosition(initData.newPosition)
-          emitChange()
         }
+        emitChange()
       }, 0)
       window.removeEventListener('mousemove', onDragging)
       window.removeEventListener('touchmove', onDragging)
@@ -273,6 +273,7 @@ export const useSliderButton = (
   )
 
   return {
+    disabled,
     button,
     tooltip,
     tooltipVisible,

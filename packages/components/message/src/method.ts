@@ -41,7 +41,9 @@ const normalizeOptions = (params?: MessageParams) => {
     ...options,
   }
 
-  if (isString(normalized.appendTo)) {
+  if (!normalized.appendTo) {
+    normalized.appendTo = document.body
+  } else if (isString(normalized.appendTo)) {
     let appendTo = document.querySelector<HTMLElement>(normalized.appendTo)
 
     // should fallback to default value with a warning
@@ -115,7 +117,7 @@ const createMessage = (
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
     close: () => {
-      vm.exposeProxy!.visible = false
+      vm.exposed!.visible.value = false
     },
   }
 

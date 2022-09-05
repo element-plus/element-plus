@@ -1,8 +1,29 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { isClient } from '@vueuse/core'
 import { useLang } from '../../composables/lang'
 import resourceLocale from '../../../i18n/pages/resource.json'
 import { sendEvent } from '../../../config/analytics'
+const mirrorUrl = 'element-plus.gitee.io'
+const isMirrorUrl = () => {
+  if (!isClient) return
+  return window.location.hostname === mirrorUrl
+}
+const resourceUrl = {
+  github: {
+    sketch:
+      'https://github.com/ElementUI/Resources/raw/master/Element_Plus_Design_System_2022_1.0_Beta.zip',
+    axure:
+      'https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib',
+  },
+  gitee: {
+    sketch:
+      'https://gitee.com/element-plus/resources/raw/master/Element_Plus_Design_System_2022_1.0_Beta.zip',
+    axure:
+      'https://gitee.com/element-plus/resources/raw/master/Element_Components_v2.1.0.rplib',
+  },
+}[isMirrorUrl() ? 'gitee' : 'github']
+
 const lang = useLang()
 const resourceLang = computed(() => resourceLocale[lang.value])
 const onClick = (item: string) => {
@@ -25,7 +46,7 @@ const onClick = (item: string) => {
           </p>
           <a
             target="_blank"
-            href="https://github.com/ElementUI/Resources/raw/master/Element_Components_v2.1.0.rplib"
+            :href="resourceUrl.axure"
             @click="onClick('axure')"
           >
             <el-button type="primary">{{ resourceLang.download }}</el-button>
@@ -41,7 +62,7 @@ const onClick = (item: string) => {
           </p>
           <a
             target="_blank"
-            href="https://github.com/ElementUI/Resources/raw/master/Element%20UI%20Kit_v2.0.sketch"
+            :href="resourceUrl.sketch"
             @click="onClick('sketch')"
           >
             <el-button type="primary">{{ resourceLang.download }}</el-button>

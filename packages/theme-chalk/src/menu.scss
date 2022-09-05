@@ -64,6 +64,7 @@
       & .#{$namespace}-menu-item,
       & .#{$namespace}-sub-menu__title,
       & .#{$namespace}-menu-item-group__title {
+        white-space: nowrap;
         padding-left: calc(
           #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-level')} *
             #{getCssVar('menu-level-padding')}
@@ -214,11 +215,6 @@
         border-radius: getCssVar('border-radius-small');
         box-shadow: getCssVar('box-shadow-light');
       }
-      &.is-opened {
-        > .#{$namespace}-sub-menu__title .#{$namespace}-sub-menu__icon-arrow {
-          transform: getCssVar('menu-icon-transform-closed');
-        }
-      }
 
       &.is-active .#{$namespace}-sub-menu__title {
         color: getCssVar('menu-active-color');
@@ -298,11 +294,6 @@
       border-bottom-color: getCssVar('menu-active-color');
     }
   }
-  @include when(opened) {
-    > .#{$namespace}-sub-menu__title .#{$namespace}-sub-menu__icon-arrow {
-      transform: getCssVar('menu-icon-transform-open');
-    }
-  }
   @include when(disabled) {
     .#{$namespace}-sub-menu__title,
     .#{$namespace}-menu-item {
@@ -327,7 +318,6 @@
     top: 50%;
     right: getCssVar('menu-base-level-padding');
     margin-top: -7px;
-    transform: getCssVar('menu-icon-transform-closed');
     transition: transform getCssVar('transition-duration');
     font-size: 12px;
     margin-right: 0;
