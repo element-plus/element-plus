@@ -367,7 +367,6 @@ const handleFocusInput = (e?: FocusEvent) => {
   ) {
     return
   }
-  pickerVisible.value = true
   emit('focus', e)
 }
 
