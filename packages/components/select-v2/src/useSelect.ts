@@ -652,7 +652,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
           const itemIndex = filteredOptions.value.findIndex((option) => {
             const _value = getValueKey(option)
             return (
-              (shared.isObject(_value) ? _value?.[props.valueKey] : _value) ===
+              (isObject(_value) ? _value?.[props.valueKey] : _value) ===
               getValueKey(selected)
             )
           })
