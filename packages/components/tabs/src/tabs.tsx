@@ -67,12 +67,12 @@ const isPanelName = (value: unknown): value is string | number =>
 
 export const tabsEmits = {
   [UPDATE_MODEL_EVENT]: (name: TabPanelName) => isPanelName(name),
-  'tab-click': (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
-  'tab-change': (name: TabPanelName) => isPanelName(name),
+  tabClick: (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
+  tabChange: (name: TabPanelName) => isPanelName(name),
   edit: (paneName: TabPanelName | undefined, action: 'remove' | 'add') =>
     ['remove', 'add'].includes(action),
-  'tab-remove': (name: TabPanelName) => isPanelName(name),
-  'tab-add': () => true,
+  tabRemove: (name: TabPanelName) => isPanelName(name),
+  tabAdd: () => true,
 }
 export type TabsEmits = typeof tabsEmits
 
@@ -94,7 +94,7 @@ export default defineComponent({
     const changeCurrentName = (value: TabPanelName) => {
       currentName.value = value
       emit(UPDATE_MODEL_EVENT, value)
-      emit('tab-change', value)
+      emit('tabChange', value)
     }
 
     const setCurrentName = async (value?: TabPanelName) => {
@@ -121,19 +121,19 @@ export default defineComponent({
     ) => {
       if (tab.props.disabled) return
       setCurrentName(tabName)
-      emit('tab-click', tab, event)
+      emit('tabClick', tab, event)
     }
 
     const handleTabRemove = (pane: TabsPaneContext, ev: Event) => {
       if (pane.props.disabled || isUndefined(pane.props.name)) return
       ev.stopPropagation()
       emit('edit', pane.props.name, 'remove')
-      emit('tab-remove', pane.props.name)
+      emit('tabRemove', pane.props.name)
     }
 
     const handleTabAdd = () => {
       emit('edit', undefined, 'add')
-      emit('tab-add')
+      emit('tabAdd')
     }
 
     useDeprecated(
@@ -209,8 +209,8 @@ export default defineComponent({
             type={props.type}
             panes={Object.values(panes)}
             stretch={props.stretch}
-            onTab-click={handleTabClick}
-            onTab-remove={handleTabRemove}
+            onTabClick={handleTabClick}
+            onTabRemove={handleTabRemove}
           />
         </div>
       )

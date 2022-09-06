@@ -55,9 +55,9 @@ export const tabNavProps = buildProps({
 } as const)
 
 export const tabNavEmits = {
-  'tab-click': (tab: TabsPaneContext, tabName: TabPanelName, ev: Event) =>
+  tabClick: (tab: TabsPaneContext, tabName: TabPanelName, ev: Event) =>
     ev instanceof Event,
-  'tab-remove': (tab: TabsPaneContext, ev: Event) => ev instanceof Event,
+  tabRemove: (tab: TabsPaneContext, ev: Event) => ev instanceof Event,
 }
 
 export type TabNavProps = ExtractPropTypes<typeof tabNavProps>
@@ -315,7 +315,7 @@ const TabNav = defineComponent({
             // `onClick` not exist when generate dts
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            onClick={(ev: MouseEvent) => emit('tab-remove', pane, ev)}
+            onClick={(ev: MouseEvent) => emit('tabRemove', pane, ev)}
           >
             <Close />
           </ElIcon>
@@ -345,7 +345,7 @@ const TabNav = defineComponent({
             onBlur={() => removeFocus()}
             onClick={(ev: MouseEvent) => {
               removeFocus()
-              emit('tab-click', pane, tabName, ev)
+              emit('tabClick', pane, tabName, ev)
             }}
             onKeydown={(ev: KeyboardEvent) => {
               if (
@@ -353,7 +353,7 @@ const TabNav = defineComponent({
                 (ev.code === EVENT_CODE.delete ||
                   ev.code === EVENT_CODE.backspace)
               ) {
-                emit('tab-remove', pane, ev)
+                emit('tabRemove', pane, ev)
               }
             }}
           >
