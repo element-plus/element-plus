@@ -338,6 +338,14 @@ const onHide = () => {
   emit('visible-change', false)
 }
 
+const handleOpen = () => {
+  pickerVisible.value = true
+}
+
+const handleClose = () => {
+  pickerVisible.value = false
+}
+
 const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
   ignoreFocusEvent = isIgnoreFocusEvent
   const [leftInput, rightInput] = unref(refInput)
@@ -732,6 +740,14 @@ defineExpose({
    * @description emit blur event
    */
   handleBlurInput,
+  /**
+   * @description opens picker
+   */
+  handleOpen,
+  /**
+   * @description closes picker
+   */
+  handleClose,
   /**
    * @description pick item manually
    */

@@ -724,7 +724,7 @@ export const useSelect = (props, states: States, ctx) => {
     nextTick(() => scrollToOption(states.selected))
   }
 
-  const handleFocus = (event) => {
+  const handleFocus = (event: FocusEvent) => {
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
         if (props.filterable && !states.visible) {
@@ -743,7 +743,7 @@ export const useSelect = (props, states: States, ctx) => {
     reference.value?.blur()
   }
 
-  const handleBlur = (event: Event) => {
+  const handleBlur = (event: FocusEvent) => {
     // https://github.com/ElemeFE/element/pull/10822
     nextTick(() => {
       if (states.isSilentBlur) {

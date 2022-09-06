@@ -17,21 +17,26 @@
       <div
         :class="[ns.e('icon'), ns.is(icon || $slots.icon ? 'icon' : 'text')]"
       >
-        <slot
-          v-if="currentStatus !== 'success' && currentStatus !== 'error'"
-          name="icon"
-        >
+        <slot name="icon">
           <el-icon v-if="icon" :class="ns.e('icon-inner')">
             <component :is="icon" />
           </el-icon>
-          <div v-if="!icon && !isSimple" :class="ns.e('icon-inner')">
+          <el-icon
+            v-else-if="currentStatus === 'success'"
+            :class="[ns.e('icon-inner'), ns.is('status')]"
+          >
+            <Check />
+          </el-icon>
+          <el-icon
+            v-else-if="currentStatus === 'error'"
+            :class="[ns.e('icon-inner'), ns.is('status')]"
+          >
+            <Close />
+          </el-icon>
+          <div v-else-if="!isSimple" :class="ns.e('icon-inner')">
             {{ index + 1 }}
           </div>
         </slot>
-        <el-icon v-else :class="[ns.e('icon-inner'), ns.is('status')]">
-          <Check v-if="currentStatus === 'success'" />
-          <Close v-else />
-        </el-icon>
       </div>
     </div>
     <!-- title & description -->

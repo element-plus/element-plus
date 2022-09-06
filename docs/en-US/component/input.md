@@ -164,8 +164,8 @@ input/length-limiting
 
 | Event Name | Description                                                                                           | Parameters                |
 | ---------- | ----------------------------------------------------------------------------------------------------- | ------------------------- |
-| blur       | triggers when Input blurs                                                                             | (event: Event)            |
-| focus      | triggers when Input focuses                                                                           | (event: Event)            |
+| blur       | triggers when Input blurs                                                                             | (event: FocusEvent)       |
+| focus      | triggers when Input focuses                                                                           | (event: FocusEvent)       |
 | change     | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | (value: string \| number) |
 | input      | triggers when the Input value change                                                                  | (value: string \| number) |
 | clear      | triggers when the Input is cleared by clicking the clear button                                       | —                         |
