@@ -79,7 +79,7 @@ const reAttribute: ReAttribute = (value, key) => {
   } else if (key === 'Accepted Values') {
     return /\[.+\]\(.+\)/.test(str) || /^\*$/.test(str)
       ? undefined
-      : str.replaceAll(/`/g, '')
+      : str.replaceAll(/`/g, '').replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
   } else if (key === 'Subtags') {
     return str
       ? `el-${str
@@ -96,7 +96,7 @@ const reAttribute: ReAttribute = (value, key) => {
 const reWebTypesType: ReWebTypesType = (type) => {
   const isEnum = isEnumType(type)
   const isTuple = /^\[.*\]$/.test(type)
-  const isArrowFunction = /^\(\w*\)\s*=>\w+/.test(type)
+  const isArrowFunction = /^\(.*\)\s*=>\s*\w+/.test(type)
   const isPublicType = isCommonType(type)
   const symbol = getTypeSymbol(type)
   const isUnion = isUnionType(symbol)
