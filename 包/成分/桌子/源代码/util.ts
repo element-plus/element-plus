@@ -121,7 +121,7 @@ export const getColumnByKey = function <T>(
     }
   }
   if (!column)
-throw new Error(`[Table] No column matching with column-key: ${columnKey}`)
+    throw new Error(`[Table] No column matching with column-key: ${columnKey}`)
 
   return column
 }
