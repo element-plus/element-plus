@@ -1,10 +1,16 @@
 import { onBeforeMount } from 'vue'
 import { isClient } from '@vueuse/core'
 import { generateId } from '@element-plus/utils'
+import { useGlobalConfig } from '../use-global-config'
+import { defaultNamespace } from '../use-namespace'
 
 let cachedContainer: HTMLElement
 
-export const POPPER_CONTAINER_ID = `el-popper-container-${generateId()}`
+const namespace = useGlobalConfig('namespace', defaultNamespace)
+
+export const POPPER_CONTAINER_ID = `${
+  namespace.value
+}-popper-container-${generateId()}`
 
 export const POPPER_CONTAINER_SELECTOR = `#${POPPER_CONTAINER_ID}`
 

@@ -44,11 +44,9 @@
                 disable-transitions
                 @close="deleteTag($event, selected[0])"
               >
-                <span
-                  :class="nsSelect.e('tags-text')"
-                  :style="{ maxWidth: inputWidth - 123 + 'px' }"
-                  >{{ selected[0].currentLabel }}</span
-                >
+                <span :class="nsSelect.e('tags-text')" :style="tagTextStyle">
+                  {{ selected[0].currentLabel }}
+                </span>
               </el-tag>
               <el-tag
                 v-if="selected.length > 1"
@@ -500,6 +498,14 @@ export default defineComponent({
       width: '100%',
     }))
 
+    const tagTextStyle = computed(() => {
+      const maxWidth =
+        unref(inputWidth) > 123
+          ? unref(inputWidth) - 123
+          : unref(inputWidth) - 75
+      return { maxWidth: `${maxWidth}px` }
+    })
+
     provide(
       selectKey,
       reactive({
@@ -627,6 +633,7 @@ export default defineComponent({
       wrapperKls,
       selectTagsStyle,
       nsSelect,
+      tagTextStyle,
     }
   },
 })

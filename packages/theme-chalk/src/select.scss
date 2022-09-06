@@ -145,6 +145,10 @@
     appearance: none;
     height: 28px;
     background-color: transparent;
+
+    @include when(small) {
+      height: 14px;
+    }
   }
 
   @include e(close) {
