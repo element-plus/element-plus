@@ -347,6 +347,40 @@ describe('TimePicker', () => {
     expect(attr).toEqual('false')
   })
 
+  it('ref handleOpen', async () => {
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+    const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed
+
+    await nextTick()
+    timePickerExposed.handleOpen()
+
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
+  })
+
+  it('ref handleClose', async () => {
+    vi.useFakeTimers()
+
+    const value = ref(new Date(2016, 9, 10, 18, 40))
+    const wrapper = mount(() => <TimePicker v-model={value.value} />)
+    const timePickerExposed = wrapper.findComponent(TimePicker).vm.$.exposed
+
+    await nextTick()
+    timePickerExposed.handleOpen()
+    await nextTick()
+    timePickerExposed.handleClose()
+
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('true')
+
+    vi.useRealTimers()
+  })
+
   it('model value should sync when disabled-hours was updated', async () => {
     const value = ref('2000-01-01 00:00:00')
     const minHour = ref('8')

@@ -43,17 +43,18 @@ import {
   ref,
   watch,
 } from 'vue'
+import { iconPropType } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/tokens'
 import TreeStore from './model/tree-store'
-import { getNodeKey as getNodeKeyUtil } from './model/util'
+import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import ElTreeNode from './tree-node.vue'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
 import type Node from './model/node'
 
-import type { Component, ComponentInternalInstance, PropType } from 'vue'
+import type { ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
 import type {
   TreeComponentProps,
@@ -133,7 +134,9 @@ export default defineComponent({
       type: Number,
       default: 18,
     },
-    icon: [String, Object] as PropType<string | Component>,
+    icon: {
+      type: iconPropType,
+    },
   },
   emits: [
     'check-change',
@@ -199,6 +202,13 @@ export default defineComponent({
         childNodes.every(({ visible }) => !visible)
       )
     })
+
+    watch(
+      () => props.currentNodeKey,
+      (newVal) => {
+        store.value.setCurrentNodeKey(newVal)
+      }
+    )
 
     watch(
       () => props.defaultCheckedKeys,
@@ -307,13 +317,19 @@ export default defineComponent({
     const setCurrentNode = (node: Node, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentNode')
-      store.value.setUserCurrentNode(node, shouldAutoExpandParent)
+
+      handleCurrentChange(store, ctx.emit, () =>
+        store.value.setUserCurrentNode(node, shouldAutoExpandParent)
+      )
     }
 
     const setCurrentKey = (key: TreeKey, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentKey')
-      store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
+
+      handleCurrentChange(store, ctx.emit, () =>
+        store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
+      )
     }
 
     const getNode = (data: TreeKey | TreeNodeData): Node => {

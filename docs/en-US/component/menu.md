@@ -47,20 +47,20 @@ menu/collapse
 
 ## Menu Attributes
 
-| Attribute           | Description                                                                                                | Type    | Accepted Values       | Default  |
-| ------------------- | ---------------------------------------------------------------------------------------------------------- | ------- | --------------------- | -------- |
-| mode                | menu display mode                                                                                          | string  | horizontal / vertical | vertical |
-| collapse            | whether the menu is collapsed (available only in vertical mode)                                            | boolean | —                     | false    |
-| ellipsis            | whether the menu is ellipsis (available only in horizontal mode)                                           | boolean | —                     | true     |
-| background-color    | background color of Menu (hex format) (deprecated, use `--bg-color` instead)                               | string  | —                     | #ffffff  |
-| text-color          | text color of Menu (hex format) (deprecated, use `--text-color` instead)                                   | string  | —                     | #303133  |
-| active-text-color   | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)           | string  | —                     | #409EFF  |
-| default-active      | index of currently active menu                                                                             | string  | —                     | —        |
-| default-openeds     | array that contains indexes of currently active sub-menus                                                  | Array   | —                     | —        |
-| unique-opened       | whether only one sub-menu can be active                                                                    | boolean | —                     | false    |
-| menu-trigger        | how sub-menus are triggered, only works when `mode` is 'horizontal'                                        | string  | hover / click         | hover    |
-| router              | whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action | boolean | —                     | false    |
-| collapse-transition | whether to enable the collapse transition                                                                  | boolean | —                     | true     |
+| Attribute           | Description                                                                                                                                                           | Type    | Accepted Values       | Default  |
+| ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------------------- | -------- |
+| mode                | menu display mode                                                                                                                                                     | string  | horizontal / vertical | vertical |
+| collapse            | whether the menu is collapsed (available only in vertical mode)                                                                                                       | boolean | —                     | false    |
+| ellipsis            | whether the menu is ellipsis (available only in horizontal mode)                                                                                                      | boolean | —                     | true     |
+| background-color    | background color of Menu (hex format) (deprecated, use `--bg-color` instead)                                                                                          | string  | —                     | #ffffff  |
+| text-color          | text color of Menu (hex format) (deprecated, use `--text-color` instead)                                                                                              | string  | —                     | #303133  |
+| active-text-color   | text color of currently active menu item (hex format) (deprecated, use `--active-color` instead)                                                                      | string  | —                     | #409EFF  |
+| default-active      | index of active menu on page load                                                                                                                                     | string  | —                     | —        |
+| default-openeds     | array that contains indexes of currently active sub-menus                                                                                                             | Array   | —                     | —        |
+| unique-opened       | whether only one sub-menu can be active                                                                                                                               | boolean | —                     | false    |
+| menu-trigger        | how sub-menus are triggered, only works when `mode` is 'horizontal'                                                                                                   | string  | hover / click         | hover    |
+| router              | whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load. | boolean | —                     | false    |
+| collapse-transition | whether to enable the collapse transition                                                                                                                             | boolean | —                     | true     |
 
 ## Menu Methods
 
@@ -85,15 +85,19 @@ menu/collapse
 
 ## SubMenu Attributes
 
-| Attribute                         | Description                                                                                                      | Type    | Accepted Values | Default                                         |
-| --------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------- | --------------- | ----------------------------------------------- |
-| index                             | unique identification                                                                                            | string  | —               | —                                               |
-| popper-class                      | custom class name for the popup menu                                                                             | string  | —               | —                                               |
-| show-timeout                      | timeout before showing a sub-menu                                                                                | number  | —               | 300                                             |
-| hide-timeout                      | timeout before hiding a sub-menu                                                                                 | number  | —               | 300                                             |
-| disabled                          | whether the sub-menu is disabled                                                                                 | boolean | —               | false                                           |
-| popper-append-to-body(deprecated) | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop | boolean | -               | level one SubMenu: true / other SubMenus: false |
-| popper-offset                     | offset of the popper                                                                                             | number  | —               | 6                                               |
+| Attribute                         | Description                                                                                                                                   | Type                  | Accepted Values | Default                                         |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | --------------- | ----------------------------------------------- |
+| index                             | unique identification                                                                                                                         | string                | —               | —                                               |
+| popper-class                      | custom class name for the popup menu                                                                                                          | string                | —               | —                                               |
+| show-timeout                      | timeout before showing a sub-menu                                                                                                             | number                | —               | 300                                             |
+| hide-timeout                      | timeout before hiding a sub-menu                                                                                                              | number                | —               | 300                                             |
+| disabled                          | whether the sub-menu is disabled                                                                                                              | boolean               | —               | false                                           |
+| popper-append-to-body(deprecated) | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop                              | boolean               | —               | level one SubMenu: true / other SubMenus: false |
+| popper-offset                     | offset of the popper                                                                                                                          | number                | —               | 6                                               |
+| expand-close-icon                 | Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
+| expand-open-icon                  | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
+| collapse-close-icon               | Icon when menu are collapsed and submenu are closed, `collapse-close-icon` and `collapse-open-icon` need to be passed together to take effect | `string \| Component` | —               | —                                               |
+| collapse-open-icon                | Icon when menu are collapsed and submenu are opened, `collapse-open-icon` and `collapse-close-icon` need to be passed together to take effect | `string \| Component` | —               | —                                               |
 
 ## SubMenu Slots
 

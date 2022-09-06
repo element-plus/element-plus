@@ -56,6 +56,13 @@ export const useDialog = (
     return style
   })
 
+  const overlayDialogStyle = computed<CSSProperties>(() => {
+    if (props.alignCenter) {
+      return { display: 'flex' }
+    }
+    return {}
+  })
+
   function afterEnter() {
     emit('opened')
   }
@@ -201,6 +208,7 @@ export const useDialog = (
     bodyId,
     closed,
     style,
+    overlayDialogStyle,
     rendered,
     visible,
     zIndex,

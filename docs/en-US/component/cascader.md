@@ -167,8 +167,8 @@ cascader/panel
 | -------------- | --------------------------------------------------- | --------------------------------------------- |
 | change         | triggers when the binding value changes             | value                                         |
 | expand-change  | triggers when expand option changes                 | an array of the expanding node's parent nodes |
-| blur           | triggers when Cascader blurs                        | (event: Event)                                |
-| focus          | triggers when Cascader focuses                      | (event: Event)                                |
+| blur           | triggers when Cascader blurs                        | (event: FocusEvent)                           |
+| focus          | triggers when Cascader focuses                      | (event: FocusEvent)                           |
 | visible-change | triggers when the dropdown appears/disappears       | true when it appears, and false otherwise     |
 | remove-tag     | triggers when remove tag in multiple selection mode | the value of the tag which is removed         |
 

@@ -90,6 +90,7 @@ input-number/controlled
 | step-strictly                 | whether input value can only be multiple of step | boolean                | —               | false       |
 | precision                     | precision of input value                         | number                 | —               | —           |
 | size                          | size of the component                            | string                 | large/small     | default     |
+| readonly                      | same as `readonly` in native input               | boolean                | —               | false       |
 | disabled                      | whether the component is disabled                | boolean                | —               | false       |
 | controls                      | whether to enable the control buttons            | boolean                | —               | true        |
 | controls-position             | position of the control buttons                  | string                 | right           | -           |
@@ -104,8 +105,8 @@ input-number/controlled
 | Event Name | Description                     | Parameters                                             |
 | ---------- | ------------------------------- | ------------------------------------------------------ |
 | change     | triggers when the value changes | (currentValue: number \| NaN, oldValue: number \| NaN) |
-| blur       | triggers when Input blurs       | (event: Event)                                         |
-| focus      | triggers when Input focuses     | (event: Event)                                         |
+| blur       | triggers when Input blurs       | (event: FocusEvent)                                    |
+| focus      | triggers when Input focuses     | (event: FocusEvent)                                    |
 
 ## Methods
 

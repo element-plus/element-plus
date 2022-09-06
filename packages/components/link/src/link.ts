@@ -16,7 +16,6 @@ export const linkProps = buildProps({
   href: { type: String, default: '' },
   icon: {
     type: iconPropType,
-    default: '',
   },
 } as const)
 export type LinkProps = ExtractPropTypes<typeof linkProps>

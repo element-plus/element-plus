@@ -4,7 +4,9 @@ import {
   isNumber,
   mutable,
 } from '@element-plus/utils'
+
 import type { Component, ExtractPropTypes } from 'vue'
+import type ImageViewer from './image-viewer.vue'
 
 export type ImageViewerAction =
   | 'zoomIn'
@@ -53,3 +55,5 @@ export interface ImageViewerMode {
   name: string
   icon: Component
 }
+
+export type ImageViewerInstance = InstanceType<typeof ImageViewer>
