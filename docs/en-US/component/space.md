@@ -130,8 +130,8 @@ space/fill-ratio
 | style      | Extra style rules               | string / Array\<Object \| String\> / Object                                       | -                                                                           | -          |
 | spacer     | Spacer                          | string / number / VNode                                                           | -                                                                           | -          |
 | size       | Spacing size                    | string / number / [number, number]                                                | -                                                                           | 'small'    |
-| wrap       | Auto wrapping                   | boolean                                                                           | true /false                                                                 | false      |
-| fill       | Whether to fill the container   | boolean                                                                           | true /false                                                                 | false      |
+| wrap       | Auto wrapping                   | boolean                                                                           | true / false                                                                | false      |
+| fill       | Whether to fill the container   | boolean                                                                           | true / false                                                                | false      |
 | fill-ratio | Ratio of fill                   | number                                                                            | -                                                                           | 100        |
 
 ## Space Slot
