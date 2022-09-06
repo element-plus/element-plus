@@ -2,7 +2,7 @@
 import { useSidebar } from '../composables/sidebar'
 import { useBackTop } from '../composables/back-top'
 import ToggleSidebarBtn from './subnav/toggle-sidebar-btn.vue'
-defineEmits(['open-menu'])
+defineEmits(['openMenu'])
 
 const { hasSidebar } = useSidebar()
 const { shouldShow, scrollToTop } = useBackTop()
@@ -10,7 +10,7 @@ const { shouldShow, scrollToTop } = useBackTop()
 
 <template>
   <div class="sub-nav py-3 flex items-center">
-    <ToggleSidebarBtn v-if="hasSidebar" @click="$emit('open-menu')" />
+    <ToggleSidebarBtn v-if="hasSidebar" @click="$emit('openMenu')" />
     <Transition name="shifting">
       <ElLink
         :class="{ 'go-back-top': true, show: shouldShow }"

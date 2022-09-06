@@ -96,7 +96,7 @@ import type { TimeUnit } from '../constants'
 import type { TimeList } from '../utils'
 
 const props = defineProps(basicTimeSpinnerProps)
-const emit = defineEmits(['change', 'select-range', 'set-option'])
+const emit = defineEmits(['change', 'selectRange', 'setOption'])
 
 const ns = useNamespace('time')
 
@@ -182,7 +182,7 @@ const emitSelectRange = (type: TimeUnit) => {
   }
   const [left, right] = range
 
-  emit('select-range', left, right)
+  emit('selectRange', left, right)
   currentScrollbar.value = type
 }
 
@@ -333,8 +333,8 @@ const setRef = (scrollbar: ScrollbarInstance, type: TimeUnit) => {
   listRefsMap[type].value = scrollbar
 }
 
-emit('set-option', [`${props.role}_scrollDown`, scrollDown])
-emit('set-option', [`${props.role}_emitSelectRange`, emitSelectRange])
+emit('setOption', [`${props.role}_scrollDown`, scrollDown])
+emit('setOption', [`${props.role}_emitSelectRange`, emitSelectRange])
 
 watch(
   () => props.spinnerDate,

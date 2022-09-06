@@ -445,7 +445,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       ]
       states.cachedOptions.splice(index, 1)
       update(value)
-      emit('remove-tag', get(tag, valueKey))
+      emit('removeTag', get(tag, valueKey))
       states.softFocus = true
       removeNewOption(tag)
       return nextTick(focusAndUpdatePopup)
@@ -693,7 +693,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   // be invoked.
 
   watch(expanded, (val) => {
-    emit('visible-change', val)
+    emit('visibleChange', val)
     if (val) {
       popper.value.update?.()
       // the purpose of this function is to differ the blur event trigger mechanism

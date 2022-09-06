@@ -64,7 +64,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
       )
       const hoverState = (table.hoverState = { cell, column, row })
       table?.emit(
-        'cell-mouse-enter',
+        'cellMouseEnter',
         hoverState.row,
         hoverState.column,
         hoverState.cell,
@@ -115,7 +115,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
 
     const oldHoverState = parent?.hoverState
     parent?.emit(
-      'cell-mouse-leave',
+      'cellMouseLeave',
       oldHoverState?.row,
       oldHoverState?.column,
       oldHoverState?.cell,

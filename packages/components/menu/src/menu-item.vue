@@ -91,7 +91,7 @@ export default defineComponent({
           indexPath: indexPath.value,
           route: props.route,
         })
-        emit('item-click', item)
+        emit('itemClick', item)
       }
     }
 

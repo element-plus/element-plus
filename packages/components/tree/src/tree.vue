@@ -139,19 +139,19 @@ export default defineComponent({
     },
   },
   emits: [
-    'check-change',
-    'current-change',
-    'node-click',
-    'node-contextmenu',
-    'node-collapse',
-    'node-expand',
+    'checkChange',
+    'currentChange',
+    'nodeClick',
+    'nodeContextmenu',
+    'nodeCollapse',
+    'nodeExpand',
     'check',
-    'node-drag-start',
-    'node-drag-end',
-    'node-drop',
-    'node-drag-leave',
-    'node-drag-enter',
-    'node-drag-over',
+    'nodeDragStart',
+    'nodeDragEnd',
+    'nodeDrop',
+    'nodeDragLeave',
+    'nodeDragEnter',
+    'nodeDragOver',
   ],
   setup(props, ctx) {
     const { t } = useLocale()
@@ -367,7 +367,7 @@ export default defineComponent({
       instance: ComponentInternalInstance
     ) => {
       broadcastExpanded(node)
-      ctx.emit('node-expand', nodeData, node, instance)
+      ctx.emit('nodeExpand', nodeData, node, instance)
     }
 
     const updateKeyChildren = (key: TreeKey, data: TreeData) => {

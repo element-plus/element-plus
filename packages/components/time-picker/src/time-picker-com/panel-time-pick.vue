@@ -54,7 +54,7 @@ import TimeSpinner from './basic-time-spinner.vue'
 import type { Dayjs } from 'dayjs'
 
 const props = defineProps(panelTimePickerProps)
-const emit = defineEmits(['pick', 'select-range', 'set-picker-option'])
+const emit = defineEmits(['pick', 'selectRange', 'setPickerOption'])
 
 // Injections
 const pickerBase = inject('EP_PICKER_BASE') as any
@@ -110,7 +110,7 @@ const handleChange = (_date: Dayjs) => {
 }
 
 const setSelectionRange = (start: number, end: number) => {
-  emit('select-range', start, end)
+  emit('selectRange', start, end)
   selectionRange.value = [start, end]
 }
 
@@ -168,10 +168,10 @@ const getDefaultValue = () => {
   return dayjs(defaultValue).locale(lang.value)
 }
 
-emit('set-picker-option', ['isValidValue', isValidValue])
-emit('set-picker-option', ['formatToString', formatToString])
-emit('set-picker-option', ['parseUserInput', parseUserInput])
-emit('set-picker-option', ['handleKeydownInput', handleKeydown])
-emit('set-picker-option', ['getRangeAvailableTime', getRangeAvailableTime])
-emit('set-picker-option', ['getDefaultValue', getDefaultValue])
+emit('setPickerOption', ['isValidValue', isValidValue])
+emit('setPickerOption', ['formatToString', formatToString])
+emit('setPickerOption', ['parseUserInput', parseUserInput])
+emit('setPickerOption', ['handleKeydownInput', handleKeydown])
+emit('setPickerOption', ['getRangeAvailableTime', getRangeAvailableTime])
+emit('setPickerOption', ['getDefaultValue', getDefaultValue])
 </script>
