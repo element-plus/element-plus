@@ -120,6 +120,7 @@ export const getColumnByKey = function <T>(
       break
     }
   }
+  if (!column) throw new Error(`[Table] No column matching with column-key: ${columnKey}`)
   return column
 }
 
