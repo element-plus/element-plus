@@ -108,7 +108,7 @@ The classes are:
 | gutter    | grid spacing                        | number | —                                                        | 0       |
 | justify   | horizontal alignment of flex layout | string | start/end/center/space-around/space-between/space-evenly | start   |
 | align     | vertical alignment of flex layout   | string | top/middle/bottom                                        | top     |
-| tag       | custom element tag                  | string | \*                                                       | div     |
+| tag       | custom element tag                  | string | (\*)                                                     | div     |
 
 ## Row Slots
 
@@ -129,7 +129,7 @@ The classes are:
 | md        | `≥992px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
 | lg        | `≥1200px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
 | xl        | `≥1920px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| tag       | custom element tag                                  | string                                    | \*              | div     |
+| tag       | custom element tag                                  | string                                    | (\*)            | div     |
 
 ## Col Slots
 

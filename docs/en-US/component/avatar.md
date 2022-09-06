@@ -51,7 +51,7 @@ avatar/fit
 
 ### Avatar Attributes
 
-| Name      | Description                                               | Type                                                       | Default     | Required |
+| Attribute | Description                                               | Type                                                       | Default     | Required |
 | --------- | --------------------------------------------------------- | ---------------------------------------------------------- | ----------- | -------- |
 | `icon`    | representation type to icon, more info on icon component. | `string \| Component`                                      | —           | No       |
 | `size`    | avatar size.                                              | `number \| 'large' \| 'default' \| 'small'`                | `'default'` | No       |
@@ -63,9 +63,9 @@ avatar/fit
 
 ### Avatar Events
 
-| Name    | Description                    | Type                 |
-| ------- | ------------------------------ | -------------------- |
-| `error` | trigger when image load error. | `(e: Event) => void` |
+| Event Name | Description                    | Type                 |
+| ---------- | ------------------------------ | -------------------- |
+| `error`    | trigger when image load error. | `(e: Event) => void` |
 
 ### Avatar Slots
 

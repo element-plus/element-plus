@@ -63,7 +63,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | --------- | --------------------------------------------------------------------- | ------ | --------------- | ------- |
 | max       | the maximum number of messages that can be displayed at the same time | number | -               | -       |
 
-## ConfigProvider Slots
+## Config Provider Slots
 
 | Name | Description               | Scope                                                   |
 | ---- | ------------------------- | ------------------------------------------------------- |

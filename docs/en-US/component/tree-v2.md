@@ -81,7 +81,7 @@ tree-v2/filter
 | show-checkbox         | whether node is selectable                                                                                                                   | boolean               | false   |
 | check-strictly        | whether checked state of a node not affects its father and child nodes when `show-checkbox` is `true`                                        | boolean               | false   |
 | default-checked-keys  | array of keys of initially checked nodes                                                                                                     | array                 | —       |
-| current-node-key      | key of initially selected node                                                                                                               | string, number        | —       |
+| current-node-key      | key of initially selected node                                                                                                               | string / number       | —       |
 | filter-method         | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data) | —       |
 | indent                | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                | 16      |
 | icon                  | custome tree node icon                                                                                                                       | `string \| Component` | -       |

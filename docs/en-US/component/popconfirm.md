@@ -49,7 +49,7 @@ popconfirm/trigger-event
 | icon                | Icon Component                                                                      | `string \| Component` | —                                                  | QuestionFilled  |
 | icon-color          | Icon color                                                                          | String                | —                                                  | #f90            |
 | hide-icon           | is hide Icon                                                                        | Boolean               | —                                                  | false           |
-| teleported          | whether popconfirm is teleported to the body                                        | boolean               | true / false                                       | true            |
+| teleported          | whether popconfirm is teleported to the body                                        | boolean               |                                                    | true            |
 | persistent          | when popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed | boolean               | —                                                  | false           |
 | width               | popconfirm width                                                                    | string/number         | -                                                  | Min width 150px |
 

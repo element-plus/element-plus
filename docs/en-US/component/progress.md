@@ -73,7 +73,7 @@ progress/indeterminate-progress
 
 | Attribute      | Description                                                                           | Type                  | Accepted Values           | Default |
 | -------------- | ------------------------------------------------------------------------------------- | --------------------- | ------------------------- | ------- |
-| percentage     | percentage, **required**                                                              | number                | 0-100                     | 0       |
+| percentage     | percentage, **required**                                                              | number                | (0-100)                   | 0       |
 | type           | the type of progress bar                                                              | string                | line/circle/dashboard     | line    |
 | stroke-width   | the width of progress bar                                                             | number                | —                         | 6       |
 | text-inside    | whether to place the percentage inside progress bar, only works when `type` is 'line' | boolean               | —                         | false   |

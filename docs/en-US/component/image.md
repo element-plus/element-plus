@@ -77,12 +77,12 @@ image/image-preview
 
 ### Image Events
 
-| Name     | Description                                                                                       | Type                      |
-| -------- | ------------------------------------------------------------------------------------------------- | ------------------------- |
-| `load`   | same as native load.                                                                              | `(e: Event) => void`      |
-| `error`  | same as native error.                                                                             | `(e: Error) => void`      |
-| `switch` | trigger when switching images.                                                                    | `(index: number) => void` |
-| `close`  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | `() => void`              |
+| Event Name | Description                                                                                       | Type                      |
+| ---------- | ------------------------------------------------------------------------------------------------- | ------------------------- |
+| `load`     | same as native load.                                                                              | `(e: Event) => void`      |
+| `error`    | same as native error.                                                                             | `(e: Error) => void`      |
+| `switch`   | trigger when switching images.                                                                    | `(index: number) => void` |
+| `close`    | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | `() => void`              |
 
 ### Image Slots
 
