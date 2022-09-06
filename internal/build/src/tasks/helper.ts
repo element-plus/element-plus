@@ -1,5 +1,13 @@
 import path from 'path'
-import helper from 'components-helper'
+import {
+  arrayToRegExp,
+  getTypeSymbol,
+  hyphenate,
+  isCommonType,
+  isEnumType,
+  isUnionType,
+  main,
+} from 'components-helper'
 import {
   epOutput,
   epPackage,
@@ -13,13 +21,15 @@ import type {
   ReComponentName,
   ReDocUrl,
   ReWebTypesSource,
+  ReWebTypesType,
 } from 'components-helper'
 
-const reComponentName: ReComponentName = (title: string) =>
-  `el-${title
-    .replace(/\B([A-Z])/g, '-$1')
-    .replace(/[ ]+/g, '-')
-    .toLowerCase()}`
+const typeMap = {
+  vue: ['Component', 'VNode'],
+}
+
+const reComponentName: ReComponentName = (title) =>
+  `el-${hyphenate(title).replace(/[ ]+/g, '-')}`
 
 const reDocUrl: ReDocUrl = (fileName, header) => {
   const docs = 'https://element-plus.org/en-US/component/'
@@ -44,7 +54,7 @@ const reAttribute: ReAttribute = (value, key) => {
     .replace(/^`(.*)`$/, (_, item) => item)
     .replaceAll(/<del>.*<\/del>/g, '')
 
-  if (key === 'Name' && /^(-|—)$/.test(str)) {
+  if (key === 'Event Name' && /^(-|—)$/.test(str)) {
     return 'default'
   } else if (str === '' || /^(-|—)$/.test(str)) {
     return undefined
@@ -62,14 +72,14 @@ const reAttribute: ReAttribute = (value, key) => {
       .toLowerCase()
   } else if (key === 'Type') {
     return str
-      .replace(/\s*\/\s*/g, '|')
-      .replace(/\s*,\s*/g, '|')
-      .replace(/\(.*\)/g, '')
-      .toLowerCase()
+      .replaceAll(/\bfunction(\(.*\))?(:\s*\w+)?\b/gi, 'Function')
+      .replaceAll(/\bdate\b/g, 'Date')
+      .replaceAll(/\bstring \| Component\b/g, 'string / Component')
+      .replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
   } else if (key === 'Accepted Values') {
     return /\[.+\]\(.+\)/.test(str) || /^\*$/.test(str)
       ? undefined
-      : str.replace(/`/g, '')
+      : str.replaceAll(/`/g, '')
   } else if (key === 'Subtags') {
     return str
       ? `el-${str
@@ -83,6 +93,41 @@ const reAttribute: ReAttribute = (value, key) => {
   }
 }
 
+const reWebTypesType: ReWebTypesType = (type) => {
+  const isEnum = isEnumType(type)
+  const isTuple = /^\[.*\]$/.test(type)
+  const isArrowFunction = /^\(\w*\)\s*=>\w+/.test(type)
+  const isPublicType = isCommonType(type)
+  const symbol = getTypeSymbol(type)
+  const isUnion = isUnionType(symbol)
+  const module = findModule(type)
+
+  return isEnum ||
+    isTuple ||
+    isArrowFunction ||
+    isPublicType ||
+    !symbol ||
+    isUnion
+    ? type
+    : { name: type, source: { symbol, module } }
+}
+
+const findModule = (type: string): string | undefined => {
+  let result: string | undefined = undefined
+
+  for (const key in typeMap) {
+    const regExp = arrayToRegExp(typeMap[key as keyof typeof typeMap])
+    const inModule = regExp.test(getTypeSymbol(type))
+
+    if (inModule) {
+      result = key
+      break
+    }
+  }
+
+  return result
+}
+
 export const buildHelper: TaskFunction = (done) => {
   const { name, version } = getPackageManifest(epPackage)
 
@@ -93,7 +138,7 @@ export const buildHelper: TaskFunction = (done) => {
       : tagVer
     : version!
 
-  helper({
+  main({
     name: name!,
     version: _version,
     entry: `${path.resolve(
@@ -105,6 +150,7 @@ export const buildHelper: TaskFunction = (done) => {
     reDocUrl,
     reWebTypesSource,
     reAttribute,
+    reWebTypesType,
     props: 'Attributes',
     propsName: 'Attribute',
     propsOptions: 'Accepted Values',
