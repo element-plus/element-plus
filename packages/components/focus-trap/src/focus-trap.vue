@@ -52,8 +52,8 @@ export default defineComponent({
     ON_RELEASE_FOCUS_EVT,
     'focusin',
     'focusout',
-    'focusout-prevented',
-    'release-requested',
+    'focusoutPrevented',
+    'releaseRequested',
   ],
   setup(props, { emit }) {
     const forwardRef = ref<HTMLElement | undefined>()
@@ -62,7 +62,7 @@ export default defineComponent({
 
     useEscapeKeydown((event) => {
       if (props.trapped && !focusLayer.paused) {
-        emit('release-requested', event)
+        emit('releaseRequested', event)
       }
     })
 
@@ -93,20 +93,20 @@ export default defineComponent({
         if (!isTabbable) {
           if (currentFocusingEl === container) {
             e.preventDefault()
-            emit('focusout-prevented')
+            emit('focusoutPrevented')
           }
         } else {
           if (!shiftKey && currentFocusingEl === last) {
             e.preventDefault()
             if (loop) tryFocus(first, true)
-            emit('focusout-prevented')
+            emit('focusoutPrevented')
           } else if (
             shiftKey &&
             [first, container].includes(currentFocusingEl as HTMLElement)
           ) {
             e.preventDefault()
             if (loop) tryFocus(last, true)
-            emit('focusout-prevented')
+            emit('focusoutPrevented')
           }
         }
       }

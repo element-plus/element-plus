@@ -126,7 +126,7 @@ describe('<ElFocusTrap', () => {
       await nextTick()
       await nextTick()
 
-      expect(wrapper.emitted('release-requested')).toBeFalsy()
+      expect(wrapper.emitted('releaseRequested')).toBeFalsy()
 
       await wrapper.setProps({ trapped: true })
 
@@ -138,7 +138,7 @@ describe('<ElFocusTrap', () => {
       expect(document.activeElement).toBe(firstItem?.element)
 
       // Expect no emit if esc while not trapped
-      expect(wrapper.emitted('release-requested')).toBeFalsy()
+      expect(wrapper.emitted('releaseRequested')).toBeFalsy()
 
       focusContainer?.trigger('keydown', {
         key: EVENT_CODE.esc,
@@ -148,7 +148,7 @@ describe('<ElFocusTrap', () => {
       await nextTick()
 
       // Expect emit if esc while trapped
-      expect(wrapper.emitted('release-requested')?.length).toBe(1)
+      expect(wrapper.emitted('releaseRequested')?.length).toBe(1)
 
       createComponent({ loop: true }, 3)
       await nextTick()
@@ -159,7 +159,7 @@ describe('<ElFocusTrap', () => {
       })
 
       // Expect no emit if esc while layer paused
-      expect(wrapper.emitted('release-requested')?.length).toBe(1)
+      expect(wrapper.emitted('releaseRequested')?.length).toBe(1)
     })
 
     it('should be able to dispatch `focusout-prevented` when trab wraps due to trapped or is blocked', async () => {
@@ -171,17 +171,17 @@ describe('<ElFocusTrap', () => {
       const items = findDescendants()
       expect(document.activeElement).toBe(items.at(0)?.element)
 
-      expect(wrapper.emitted('focusout-prevented')).toBeFalsy()
+      expect(wrapper.emitted('focusoutPrevented')).toBeFalsy()
       await childComponent.trigger('keydown.shift', {
         key: EVENT_CODE.tab,
       })
       expect(document.activeElement).toBe(items.at(0)?.element)
-      expect(wrapper.emitted('focusout-prevented')?.length).toBe(2)
+      expect(wrapper.emitted('focusoutPrevented')?.length).toBe(2)
       ;(items.at(2)?.element as HTMLElement).focus()
       await childComponent.trigger('keydown', {
         key: EVENT_CODE.tab,
       })
-      expect(wrapper.emitted('focusout-prevented')?.length).toBe(4)
+      expect(wrapper.emitted('focusoutPrevented')?.length).toBe(4)
     })
   })
 

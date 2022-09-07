@@ -181,7 +181,7 @@ export default defineComponent({
       default: true,
     },
   },
-  emits: ['change', 'active-change', UPDATE_MODEL_EVENT],
+  emits: ['change', 'activeChange', UPDATE_MODEL_EVENT],
   setup(props, { emit }) {
     const { t } = useLocale()
     const ns = useNamespace('color')
@@ -198,7 +198,7 @@ export default defineComponent({
     const svPanel = ref<InstanceType<typeof SvPanel>>()
     const alpha = ref<InstanceType<typeof AlphaSlider>>()
     const popper = ref(null)
-    // active-change is used to prevent modelValue changes from triggering.
+    // activeChange is used to prevent modelValue changes from triggering.
     let shouldActiveChange = true
     // data
     const color = reactive(
@@ -251,7 +251,7 @@ export default defineComponent({
       () => currentColor.value,
       (val) => {
         customInput.value = val
-        shouldActiveChange && emit('active-change', val)
+        shouldActiveChange && emit('activeChange', val)
         shouldActiveChange = true
       }
     )

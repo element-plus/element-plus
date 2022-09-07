@@ -1,17 +1,17 @@
 /* istanbul ignore file */
 import { getCurrentInstance } from 'vue'
 
-const AFTER_APPEAR = 'after-appear'
-const AFTER_ENTER = 'after-enter'
-const AFTER_LEAVE = 'after-leave'
+const AFTER_APPEAR = 'afterAppear'
+const AFTER_ENTER = 'afterEnter'
+const AFTER_LEAVE = 'afterLeave'
 const APPEAR = 'appear'
-const APPEAR_CANCELLED = 'appear-cancelled'
-const BEFORE_ENTER = 'before-enter'
-const BEFORE_LEAVE = 'before-leave'
+const APPEAR_CANCELLED = 'appearCancelled'
+const BEFORE_ENTER = 'beforeEnter'
+const BEFORE_LEAVE = 'beforeLeave'
 const ENTER = 'enter'
-const ENTER_CANCELLED = 'enter-cancelled'
+const ENTER_CANCELLED = 'enterCancelled'
 const LEAVE = 'leave'
-const LEAVE_CANCELLED = 'leave-cancelled'
+const LEAVE_CANCELLED = 'leaveCancelled'
 
 export const useTransitionFallthroughEmits = [
   AFTER_APPEAR,

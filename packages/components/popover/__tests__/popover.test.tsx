@@ -112,7 +112,7 @@ describe('Popover.vue', () => {
     vi.useRealTimers()
     await rAF()
     expect(wrapper.findComponent(Popover).emitted()).toHaveProperty(
-      'after-enter'
+      'afterEnter'
     )
 
     vi.useFakeTimers()
@@ -121,7 +121,7 @@ describe('Popover.vue', () => {
     vi.useRealTimers()
     await rAF()
     expect(wrapper.findComponent(Popover).emitted()).toHaveProperty(
-      'after-leave'
+      'afterLeave'
     )
   })
 

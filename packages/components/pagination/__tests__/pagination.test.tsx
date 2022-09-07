@@ -265,8 +265,8 @@ describe('Pagination', () => {
         <Pagination
           total={100}
           layout="prev, pager, next, sizes"
-          onUpdate:current-page={currentPageWatcher}
-          onUpdate:page-size={pageSizeWatcher}
+          onUpdate:currentPage={currentPageWatcher}
+          onUpdate:pageSize={pageSizeWatcher}
         />
       ))
 

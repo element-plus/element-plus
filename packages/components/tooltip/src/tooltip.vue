@@ -103,8 +103,8 @@ export default defineComponent({
   },
   emits: [
     ...useModelToggleEmits,
-    'before-show',
-    'before-hide',
+    'beforeShow',
+    'beforeHide',
     'show',
     'hide',
     'open',
@@ -187,10 +187,10 @@ export default defineComponent({
         emit('hide', toggleReason.value)
       },
       onBeforeShow: () => {
-        emit('before-show', toggleReason.value)
+        emit('beforeShow', toggleReason.value)
       },
       onBeforeHide: () => {
-        emit('before-hide', toggleReason.value)
+        emit('beforeHide', toggleReason.value)
       },
       updatePopper,
     })

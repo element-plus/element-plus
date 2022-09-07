@@ -347,9 +347,9 @@ export default defineComponent({
     CHANGE_EVENT,
     'focus',
     'blur',
-    'visible-change',
-    'expand-change',
-    'remove-tag',
+    'visibleChange',
+    'expandChange',
+    'removeTag',
   ],
 
   setup(props, { emit }) {
@@ -447,7 +447,7 @@ export default defineComponent({
           syncPresentTextValue()
         }
 
-        emit('visible-change', visible)
+        emit('visibleChange', visible)
       }
     }
 
@@ -477,7 +477,7 @@ export default defineComponent({
       const node = tag.node as CascaderNode
       node.doCheck(false)
       panel.value?.calculateCheckedValue()
-      emit('remove-tag', node.valueByOption)
+      emit('removeTag', node.valueByOption)
     }
 
     const calculatePresentTags = () => {
@@ -587,7 +587,7 @@ export default defineComponent({
 
     const handleExpandChange = (value: CascaderValue) => {
       updatePopperPosition()
-      emit('expand-change', value)
+      emit('expandChange', value)
     }
 
     const handleComposition = (event: CompositionEvent) => {

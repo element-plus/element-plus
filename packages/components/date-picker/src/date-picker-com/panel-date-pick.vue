@@ -234,7 +234,7 @@ type DatePickType = PanelDatePickProps['type']
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const timeWithinRange = (_: ConfigType, __: any, ___: string) => true
 const props = defineProps(panelDatePickProps)
-const contextEmit = defineEmits(['pick', 'set-picker-option', 'panel-change'])
+const contextEmit = defineEmits(['pick', 'setPickerOption', 'panelChange'])
 const ppNs = useNamespace('picker-panel')
 const dpNs = useNamespace('date-picker')
 const attrs = useAttrs()
@@ -689,7 +689,7 @@ const handleKeyControl = (code: string) => {
 }
 
 const handlePanelChange = (mode: 'month' | 'year') => {
-  contextEmit('panel-change', innerDate.value.toDate(), mode, currentView.value)
+  contextEmit('panelChange', innerDate.value.toDate(), mode, currentView.value)
 }
 
 watch(
@@ -735,8 +735,8 @@ watch(
   { immediate: true }
 )
 
-contextEmit('set-picker-option', ['isValidValue', isValidValue])
-contextEmit('set-picker-option', ['formatToString', formatToString])
-contextEmit('set-picker-option', ['parseUserInput', parseUserInput])
-contextEmit('set-picker-option', ['handleFocusPicker', handleFocusPicker])
+contextEmit('setPickerOption', ['isValidValue', isValidValue])
+contextEmit('setPickerOption', ['formatToString', formatToString])
+contextEmit('setPickerOption', ['parseUserInput', parseUserInput])
+contextEmit('setPickerOption', ['handleFocusPicker', handleFocusPicker])
 </script>
