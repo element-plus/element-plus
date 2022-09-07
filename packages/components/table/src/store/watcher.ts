@@ -157,7 +157,7 @@ function useWatcher<T>() {
     const oldSelection = selection.value
     if (oldSelection.length) {
       selection.value = []
-      instance.emit('selection-change', [])
+      instance.emit('selectionChange', [])
     }
   }
 
@@ -180,7 +180,7 @@ function useWatcher<T>() {
         (item) => !deleted.includes(item)
       )
       selection.value = newSelection
-      instance.emit('selection-change', newSelection.slice())
+      instance.emit('selectionChange', newSelection.slice())
     }
   }
 
@@ -200,7 +200,7 @@ function useWatcher<T>() {
       if (emitChange) {
         instance.emit('select', newSelection, row)
       }
-      instance.emit('selection-change', newSelection)
+      instance.emit('selectionChange', newSelection)
     }
   }
 
@@ -234,11 +234,11 @@ function useWatcher<T>() {
 
     if (selectionChanged) {
       instance.emit(
-        'selection-change',
+        'selectionChange',
         selection.value ? selection.value.slice() : []
       )
     }
-    instance.emit('select-all', selection.value)
+    instance.emit('selectAll', selection.value)
   }
 
   const updateSelectionByRowKey = () => {

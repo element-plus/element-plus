@@ -6,7 +6,7 @@ import ToggleSidebarBtn from './subnav/toggle-sidebar-btn.vue'
 defineProps<{
   isSidebarOpen: boolean
 }>()
-defineEmits(['open-menu'])
+defineEmits(['openMenu'])
 
 const { hasSidebar } = useSidebar()
 const { shouldShow, scrollToTop } = useBackTop()
@@ -17,7 +17,7 @@ const { shouldShow, scrollToTop } = useBackTop()
     <ToggleSidebarBtn
       v-if="hasSidebar"
       :aria-expanded="isSidebarOpen"
-      @click="$emit('open-menu')"
+      @click="$emit('openMenu')"
     />
     <Transition name="shifting">
       <ElButton

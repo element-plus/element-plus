@@ -157,12 +157,12 @@ export const paginationProps = buildProps({
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 
 export const paginationEmits = {
-  'update:current-page': (val: number) => isNumber(val),
-  'update:page-size': (val: number) => isNumber(val),
-  'size-change': (val: number) => isNumber(val),
-  'current-change': (val: number) => isNumber(val),
-  'prev-click': (val: number) => isNumber(val),
-  'next-click': (val: number) => isNumber(val),
+  'update:currentPage': (val: number) => isNumber(val),,
+  'update:pageSize': (val: number) => isNumber(val),,
+  sizeChange: (val: number) => isNumber(val),,
+  currentChange: (val: number) => isNumber(val),,
+  prevClick: (val: number) => isNumber(val),,
+  nextClick: (val: number) => isNumber(val),,
 }
 export type PaginationEmits = typeof paginationEmits
 
@@ -180,11 +180,11 @@ export default defineComponent({
     // we can find @xxx="xxx" props on `vnodeProps` to check if user bind corresponding events
     const hasCurrentPageListener =
       'onUpdate:currentPage' in vnodeProps ||
-      'onUpdate:current-page' in vnodeProps ||
+      'onUpdate:currentPage' in vnodeProps ||
       'onCurrentChange' in vnodeProps
     const hasPageSizeListener =
       'onUpdate:pageSize' in vnodeProps ||
-      'onUpdate:page-size' in vnodeProps ||
+      'onUpdate:pageSize' in vnodeProps ||
       'onSizeChange' in vnodeProps
     const assertValidUsage = computed(() => {
       // Users have to set either one, otherwise count of pages cannot be determined
@@ -237,8 +237,8 @@ export default defineComponent({
           innerPageSize.value = v
         }
         if (hasPageSizeListener) {
-          emit('update:page-size', v)
-          emit('size-change', v)
+          emit('update:pageSize', v)
+          emit('sizeChange', v)
         }
       },
     })
@@ -270,8 +270,8 @@ export default defineComponent({
           innerCurrentPage.value = newCurrentPage
         }
         if (hasCurrentPageListener) {
-          emit('update:current-page', newCurrentPage)
-          emit('current-change', newCurrentPage)
+          emit('update:currentPage', newCurrentPage)
+          emit('currentChange', newCurrentPage)
         }
       },
     })
@@ -295,13 +295,13 @@ export default defineComponent({
     function prev() {
       if (props.disabled) return
       currentPageBridge.value -= 1
-      emit('prev-click', currentPageBridge.value)
+      emit('prevClick', currentPageBridge.value)
     }
 
     function next() {
       if (props.disabled) return
       currentPageBridge.value += 1
-      emit('next-click', currentPageBridge.value)
+      emit('nextClick', currentPageBridge.value)
     }
 
     function addClass(element: any, cls: string) {

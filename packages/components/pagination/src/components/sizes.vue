@@ -31,7 +31,7 @@ defineOptions({
 })
 
 const props = defineProps(paginationSizesProps)
-const emit = defineEmits(['page-size-change'])
+const emit = defineEmits(['pageSizeChange'])
 const { t } = useLocale()
 const ns = useNamespace('pagination')
 const pagination = usePagination()
@@ -45,7 +45,7 @@ watch(
       const pageSize = newVal.includes(props.pageSize!)
         ? props.pageSize
         : props.pageSizes[0]
-      emit('page-size-change', pageSize)
+      emit('pageSizeChange', pageSize)
     }
   }
 )

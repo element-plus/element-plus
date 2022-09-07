@@ -137,10 +137,10 @@ provide(TOOLTIP_INJECTION_KEY, {
     emit('hide', toggleReason.value)
   },
   onBeforeShow: () => {
-    emit('before-show', toggleReason.value)
+    emit('beforeShow', toggleReason.value)
   },
   onBeforeHide: () => {
-    emit('before-hide', toggleReason.value)
+    emit('beforeHide', toggleReason.value)
   },
   updatePopper,
 })

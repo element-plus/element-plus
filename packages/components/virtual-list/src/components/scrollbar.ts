@@ -154,14 +154,14 @@ const ScrollBar = defineComponent({
             bar.value.direction
           ])
 
-      emit('start-move')
+      emit('startMove')
       attachEvents()
     }
 
     const onMouseUp = () => {
       state.isDragging = false
       state[bar.value.axis] = 0
-      emit('stop-move')
+      emit('stopMove')
       detachEvents()
     }
 

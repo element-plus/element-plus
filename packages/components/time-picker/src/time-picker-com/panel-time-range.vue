@@ -99,7 +99,7 @@ import TimeSpinner from './basic-time-spinner.vue'
 import type { Dayjs } from 'dayjs'
 
 const props = defineProps(panelTimeRangeProps)
-const emit = defineEmits(['pick', 'select-range', 'set-picker-option'])
+const emit = defineEmits(['pick', 'selectRange', 'setPickerOption'])
 
 const makeSelectRange = (start: number, end: number) => {
   const result: number[] = []
@@ -163,13 +163,13 @@ const btnConfirmDisabled = computed(() => {
 
 const selectionRange = ref([0, 2])
 const setMinSelectionRange = (start: number, end: number) => {
-  emit('select-range', start, end, 'min')
+  emit('selectRange', start, end, 'min')
   selectionRange.value = [start, end]
 }
 
 const offset = computed(() => (showSeconds.value ? 11 : 8))
 const setMaxSelectionRange = (start: number, end: number) => {
-  emit('select-range', start, end, 'max')
+  emit('selectRange', start, end, 'max')
   const _offset = unref(offset)
   selectionRange.value = [start + _offset, end + _offset]
 }
@@ -306,10 +306,10 @@ const getDefaultValue = () => {
   return [defaultDay, defaultDay.add(60, 'm')]
 }
 
-emit('set-picker-option', ['formatToString', formatToString])
-emit('set-picker-option', ['parseUserInput', parseUserInput])
-emit('set-picker-option', ['isValidValue', isValidValue])
-emit('set-picker-option', ['handleKeydownInput', handleKeydown])
-emit('set-picker-option', ['getDefaultValue', getDefaultValue])
-emit('set-picker-option', ['getRangeAvailableTime', getRangeAvailableTime])
+emit('setPickerOption', ['formatToString', formatToString])
+emit('setPickerOption', ['parseUserInput', parseUserInput])
+emit('setPickerOption', ['isValidValue', isValidValue])
+emit('setPickerOption', ['handleKeydownInput', handleKeydown])
+emit('setPickerOption', ['getDefaultValue', getDefaultValue])
+emit('setPickerOption', ['getRangeAvailableTime', getRangeAvailableTime])
 </script>

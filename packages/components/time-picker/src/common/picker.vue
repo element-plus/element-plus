@@ -208,9 +208,9 @@ const emit = defineEmits([
   'change',
   'focus',
   'blur',
-  'calendar-change',
-  'panel-change',
-  'visible-change',
+  'calendarChange',
+  'panelChange',
+  'visibleChange',
   'keydown',
 ])
 
@@ -323,7 +323,7 @@ const onBeforeShow = () => {
 }
 
 const onShow = () => {
-  emit('visible-change', true)
+  emit('visibleChange', true)
 }
 
 const onKeydownPopperContent = (event: KeyboardEvent) => {
@@ -336,7 +336,7 @@ const onHide = () => {
   pickerActualVisible.value = false
   pickerVisible.value = false
   ignoreFocusEvent = false
-  emit('visible-change', false)
+  emit('visibleChange', false)
 }
 
 const handleOpen = () => {
@@ -714,7 +714,7 @@ const onSetPickerOption = <T extends keyof PickerOptions>(
 }
 
 const onCalendarChange = (e: [Date, false | Date]) => {
-  emit('calendar-change', e)
+  emit('calendarChange', e)
 }
 
 const onPanelChange = (
@@ -722,7 +722,7 @@ const onPanelChange = (
   mode: 'month' | 'year',
   view: unknown
 ) => {
-  emit('panel-change', value, mode, view)
+  emit('panelChange', value, mode, view)
 }
 
 provide('EP_PICKER_BASE', {

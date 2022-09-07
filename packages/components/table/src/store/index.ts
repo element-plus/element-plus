@@ -177,7 +177,7 @@ function useStore<T>() {
       instance.store.execQuery(ignore)
 
       if (!options || !(options.silent || options.init)) {
-        instance.emit('sort-change', {
+        instance.emit('sortChange', {
           column: columnValue,
           prop: propValue,
           order: orderValue,
@@ -193,7 +193,7 @@ function useStore<T>() {
       instance.store.execQuery()
 
       if (!silent) {
-        instance.emit('filter-change', newFilters)
+        instance.emit('filterChange', newFilters)
       }
       instance.store.updateTableScrollY()
     },

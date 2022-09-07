@@ -135,7 +135,7 @@ export default defineComponent({
       default: false,
     },
   },
-  emits: ['node-expand'],
+  emits: ['nodeExpand'],
   setup(props, ctx) {
     const ns = useNamespace('tree')
     const { broadcastExpanded } = useNodeExpandEventBroadcast(props)
@@ -222,7 +222,7 @@ export default defineComponent({
         oldChecked.value !== checked ||
         oldIndeterminate.value !== indeterminate
       ) {
-        tree.ctx.emit('check-change', props.node.data, checked, indeterminate)
+        tree.ctx.emit('checkChange', props.node.data, checked, indeterminate)
       }
       oldChecked.value = checked
       oldIndeterminate.value = indeterminate
@@ -243,7 +243,7 @@ export default defineComponent({
           target: { checked: !props.node.checked },
         })
       }
-      tree.ctx.emit('node-click', props.node.data, props.node, instance, e)
+      tree.ctx.emit('nodeClick', props.node.data, props.node, instance, e)
     }
 
     const handleContextMenu = (event: Event) => {
@@ -252,7 +252,7 @@ export default defineComponent({
         event.preventDefault()
       }
       tree.ctx.emit(
-        'node-contextmenu',
+        'nodeContextmenu',
         event,
         props.node.data,
         props.node,
@@ -263,11 +263,11 @@ export default defineComponent({
     const handleExpandIconClick = () => {
       if (props.node.isLeaf) return
       if (expanded.value) {
-        tree.ctx.emit('node-collapse', props.node.data, props.node, instance)
+        tree.ctx.emit('nodeCollapse', props.node.data, props.node, instance)
         props.node.collapse()
       } else {
         props.node.expand()
-        ctx.emit('node-expand', props.node.data, props.node, instance)
+        ctx.emit('nodeExpand', props.node.data, props.node, instance)
       }
     }
 
@@ -290,7 +290,7 @@ export default defineComponent({
       instance: ComponentInternalInstance
     ) => {
       broadcastExpanded(node)
-      tree.ctx.emit('node-expand', nodeData, node, instance)
+      tree.ctx.emit('nodeExpand', nodeData, node, instance)
     }
 
     const handleDragStart = (event: DragEvent) => {

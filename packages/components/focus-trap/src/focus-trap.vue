@@ -55,8 +55,8 @@ export default defineComponent({
     ON_RELEASE_FOCUS_EVT,
     'focusin',
     'focusout',
-    'focusout-prevented',
-    'release-requested',
+    'focusoutPrevented',
+    'releaseRequested',
   ],
   setup(props, { emit }) {
     const forwardRef = ref<HTMLElement | undefined>()
@@ -67,7 +67,7 @@ export default defineComponent({
 
     useEscapeKeydown((event) => {
       if (props.trapped && !focusLayer.paused) {
-        emit('release-requested', event)
+        emit('releaseRequested', event)
       }
     })
 
@@ -100,7 +100,7 @@ export default defineComponent({
             const focusoutPreventedEvent = createFocusOutPreventedEvent({
               focusReason: focusReason.value,
             })
-            emit('focusout-prevented', focusoutPreventedEvent)
+            emit('focusoutPrevented', focusoutPreventedEvent)
             if (!focusoutPreventedEvent.defaultPrevented) {
               e.preventDefault()
             }
@@ -110,7 +110,7 @@ export default defineComponent({
             const focusoutPreventedEvent = createFocusOutPreventedEvent({
               focusReason: focusReason.value,
             })
-            emit('focusout-prevented', focusoutPreventedEvent)
+            emit('focusoutPrevented', focusoutPreventedEvent)
             if (!focusoutPreventedEvent.defaultPrevented) {
               e.preventDefault()
               if (loop) tryFocus(first, true)
@@ -122,7 +122,7 @@ export default defineComponent({
             const focusoutPreventedEvent = createFocusOutPreventedEvent({
               focusReason: focusReason.value,
             })
-            emit('focusout-prevented', focusoutPreventedEvent)
+            emit('focusoutPrevented', focusoutPreventedEvent)
             if (!focusoutPreventedEvent.defaultPrevented) {
               e.preventDefault()
               if (loop) tryFocus(last, true)
@@ -209,7 +209,7 @@ export default defineComponent({
               const focusoutPreventedEvent = createFocusOutPreventedEvent({
                 focusReason: focusReason.value,
               })
-              emit('focusout-prevented', focusoutPreventedEvent)
+              emit('focusoutPrevented', focusoutPreventedEvent)
               if (!focusoutPreventedEvent.defaultPrevented) {
                 tryFocus(lastFocusAfterTrapped, true)
               }

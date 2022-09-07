@@ -12,7 +12,7 @@ export interface TransferPanelState {
   checkChangeByUser: boolean
 }
 
-export const CHECKED_CHANGE_EVENT = 'checked-change'
+export const CHECKED_CHANGE_EVENT = 'checkedChange'
 
 export const transferPanelProps = buildProps({
   data: transferProps.data,

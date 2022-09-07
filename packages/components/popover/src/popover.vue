@@ -92,19 +92,19 @@ const hide = () => {
 }
 
 const beforeEnter = () => {
-  emit('before-enter')
+  emit('beforeEnter')
 }
 const beforeLeave = () => {
-  emit('before-leave')
+  emit('beforeLeave')
 }
 
 const afterEnter = () => {
-  emit('after-enter')
+  emit('afterEnter')
 }
 
 const afterLeave = () => {
   emit('update:visible', false)
-  emit('after-leave')
+  emit('afterLeave')
 }
 
 defineExpose({

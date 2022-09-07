@@ -279,9 +279,9 @@ type UserInput = {
 const props = defineProps(panelDateRangeProps)
 const emit = defineEmits([
   'pick',
-  'set-picker-option',
-  'calendar-change',
-  'panel-change',
+  'setPickerOption',
+  'calendarChange',
+  'panelChange',
 ])
 
 const unit = 'month'
@@ -452,11 +452,7 @@ const rightPrevMonth = () => {
 }
 
 const handlePanelChange = (mode: 'month' | 'year') => {
-  emit(
-    'panel-change',
-    [leftDate.value.toDate(), rightDate.value.toDate()],
-    mode
-  )
+  emit('panelChange', [leftDate.value.toDate(), rightDate.value.toDate()], mode)
 }
 
 const enableMonthArrow = computed(() => {
@@ -521,7 +517,7 @@ const handleRangePick = (
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
     return
   }
-  emit('calendar-change', [min_.toDate(), max_ && max_.toDate()])
+  emit('calendarChange', [min_.toDate(), max_ && max_.toDate()])
   maxDate.value = maxDate_
   minDate.value = minDate_
 
@@ -704,8 +700,8 @@ function onParsedValueChanged(
   }
 }
 
-emit('set-picker-option', ['isValidValue', isValidRange])
-emit('set-picker-option', ['parseUserInput', parseUserInput])
-emit('set-picker-option', ['formatToString', formatToString])
-emit('set-picker-option', ['handleClear', handleClear])
+emit('setPickerOption', ['isValidValue', isValidRange])
+emit('setPickerOption', ['parseUserInput', parseUserInput])
+emit('setPickerOption', ['formatToString', formatToString])
+emit('setPickerOption', ['handleClear', handleClear])
 </script>

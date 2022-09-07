@@ -30,19 +30,19 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
       )
     }
     currentRow.value = _currentRow
-    instance.emit('current-change', currentRow.value, null)
+    instance.emit('currentChange', currentRow.value, null)
   }
 
   const updateCurrentRow = (_currentRow: T) => {
     const oldCurrentRow = currentRow.value
     if (_currentRow && _currentRow !== oldCurrentRow) {
       currentRow.value = _currentRow
-      instance.emit('current-change', currentRow.value, oldCurrentRow)
+      instance.emit('currentChange', currentRow.value, oldCurrentRow)
       return
     }
     if (!_currentRow && oldCurrentRow) {
       currentRow.value = null
-      instance.emit('current-change', null, oldCurrentRow)
+      instance.emit('currentChange', null, oldCurrentRow)
     }
   }
 
@@ -60,7 +60,7 @@ function useCurrent<T>(watcherData: WatcherPropsData<T>) {
         currentRow.value = null
       }
       if (currentRow.value === null) {
-        instance.emit('current-change', null, oldCurrentRow)
+        instance.emit('currentChange', null, oldCurrentRow)
       }
     } else if (_currentRowKey.value) {
       // 把初始时下设置的 rowKey 转化成 rowData

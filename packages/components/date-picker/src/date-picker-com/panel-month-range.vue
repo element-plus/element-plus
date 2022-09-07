@@ -209,5 +209,5 @@ function onParsedValueChanged(
   }
 }
 
-emit('set-picker-option', ['formatToString', formatToString])
+emit('setPickerOption', ['formatToString', formatToString])
 </script>

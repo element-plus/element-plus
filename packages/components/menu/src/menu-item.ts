@@ -17,7 +17,7 @@ export const menuItemProps = buildProps({
 export type MenuItemProps = ExtractPropTypes<typeof menuItemProps>
 
 export const menuItemEmits = {
-  'item-click': (item: MenuItemRegistered) =>
+  itemClick: (item: MenuItemRegistered) =>
     isString(item.index) && Array.isArray(item.indexPath),
 }
 export type MenuItemEmits = typeof menuItemEmits

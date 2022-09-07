@@ -171,7 +171,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       expanded = typeof expanded === 'undefined' ? !data.expanded : expanded
       treeData.value[id].expanded = expanded
       if (oldExpanded !== expanded) {
-        instance.emit('expand-change', row, expanded)
+        instance.emit('expandChange', row, expanded)
       }
       instance.store.updateTableScrollY()
     }
@@ -203,7 +203,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         if (data.length) {
           lazyTreeNodeMap.value[key] = data
         }
-        instance.emit('expand-change', row, true)
+        instance.emit('expandChange', row, true)
       })
     }
   }
