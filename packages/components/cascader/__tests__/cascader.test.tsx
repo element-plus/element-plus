@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -8,6 +7,8 @@ import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import Cascader from '../src/index.vue'
+
+import type { VNode } from 'vue'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -50,18 +51,10 @@ const SUGGESTION_ITEM = '.el-cascader__suggestion-item'
 const SUGGESTION_PANEL = '.el-cascader__suggestion-panel'
 const DROPDOWN = '.el-cascader__dropdown'
 
-const _mount: typeof mount = (options) =>
-  mount(
-    {
-      components: {
-        Cascader,
-      },
-      ...options,
-    },
-    {
-      attachTo: 'body',
-    }
-  )
+const _mount = (render: () => VNode) =>
+  mount(render, {
+    attachTo: document.body,
+  })
 
 afterEach(() => {
   document.body.innerHTML = ''
@@ -70,14 +63,10 @@ afterEach(() => {
 describe('Cascader.vue', () => {
   test('toggle popper visible', async () => {
     const handleVisibleChange = vi.fn()
-    const wrapper = _mount({
-      template: `
-        <cascader @visible-change="handleVisibleChange" />
-      `,
-      methods: {
-        handleVisibleChange,
-      },
-    })
+    const wrapper = _mount(() => (
+      <Cascader onVisibleChange={handleVisibleChange} />
+    ))
+
     const trigger = wrapper.find(TRIGGER)
     const dropdown = wrapper.findComponent(ArrowDown).element as HTMLDivElement
 
@@ -94,28 +83,18 @@ describe('Cascader.vue', () => {
   test('expand and check', async () => {
     const handleChange = vi.fn()
     const handleExpandChange = vi.fn()
-    const wrapper = _mount({
-      template: `
-        <cascader
-          v-model="value"
-          :options="options"
-          @change="handleChange"
-          @expand-change="handleExpandChange"
-        />
-      `,
-      data() {
-        return {
-          value: [],
-          options: OPTIONS,
-        }
-      },
-      methods: {
-        handleChange,
-        handleExpandChange,
-      },
-    })
+    const value = ref([])
+
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        options={OPTIONS}
+        onChange={handleChange}
+        onExpandChange={handleExpandChange}
+      />
+    ))
+
     const trigger = wrapper.find(TRIGGER)
-    const vm = wrapper.vm as any
 
     await trigger.trigger('click')
     ;(document.querySelector(NODE) as HTMLElement).click()
@@ -124,110 +103,98 @@ describe('Cascader.vue', () => {
     ;(document.querySelectorAll(NODE)[1] as HTMLElement).click()
     await nextTick()
     expect(handleChange).toBeCalledWith(['zhejiang', 'hangzhou'])
-    expect(vm.value).toEqual(['zhejiang', 'hangzhou'])
+    expect(value.value).toEqual(['zhejiang', 'hangzhou'])
     expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
   })
 
   test('with default value', async () => {
-    const wrapper = mount(Cascader, {
-      props: {
-        options: OPTIONS,
-        modelValue: ['zhejiang', 'hangzhou'],
-      },
-    })
+    const value = ref(['zhejiang', 'hangzhou'])
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} options={OPTIONS} />
+    ))
+
     await nextTick()
     expect(wrapper.find('input').element.value).toBe('Zhejiang / Hangzhou')
-    await wrapper.setProps({ modelValue: ['zhejiang', 'ningbo'] })
+    value.value = ['zhejiang', 'ningbo']
+    await nextTick()
     expect(wrapper.find('input').element.value).toBe('Zhejiang / Ningbo')
   })
 
   test('options change', async () => {
-    const wrapper = mount(Cascader, {
-      props: {
-        options: OPTIONS,
-        modelValue: ['zhejiang', 'hangzhou'],
-      },
-    })
-    await wrapper.setProps({ options: [] })
+    const value = ref(['zhejiang', 'hangzhou'])
+    const options = ref(OPTIONS)
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} options={options.value} />
+    ))
+
+    options.value = []
+    await nextTick()
     expect(wrapper.find('input').element.value).toBe('')
   })
 
   test('disabled', async () => {
     const handleVisibleChange = vi.fn()
-    const wrapper = _mount({
-      template: `
-        <cascader disabled @visible-change="handleVisibleChange" />
-      `,
-      methods: {
-        handleVisibleChange,
-      },
-    })
+    const wrapper = _mount(() => (
+      <Cascader disabled onVisibleChange={handleVisibleChange} />
+    ))
+
     await wrapper.find(TRIGGER).trigger('click')
     expect(handleVisibleChange).not.toBeCalled()
     expect(wrapper.find('input[disabled]').exists()).toBe(true)
   })
 
   test('custom placeholder', async () => {
-    const wrapper = mount(Cascader, {
-      props: {
-        placeholder: AXIOM,
-      },
-    })
+    const wrapper = _mount(() => <Cascader placeholder={AXIOM} />)
+
     expect(wrapper.find('input').attributes().placeholder).toBe(AXIOM)
   })
 
   test('clearable', async () => {
-    const wrapper = mount(Cascader, {
-      props: {
-        options: OPTIONS,
-        clearable: true,
-        modelValue: ['zhejiang', 'hangzhou'],
-      },
-    })
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={['zhejiang', 'hangzhou']}
+        clearable
+        options={OPTIONS}
+      />
+    ))
+
     const trigger = wrapper.find(TRIGGER)
     expect(wrapper.findComponent(ArrowDown).exists()).toBe(true)
     await trigger.trigger('mouseenter')
     expect(wrapper.findComponent(ArrowDown).exists()).toBe(false)
     await wrapper.findComponent(CircleClose).trigger('click')
     expect(wrapper.find('input').element.value).toBe('')
-    expect((wrapper.vm as any).getCheckedNodes().length).toBe(0)
+    expect(
+      wrapper.findComponent(Cascader).vm.getCheckedNodes(false)?.length
+    ).toBe(0)
     await trigger.trigger('mouseleave')
     await trigger.trigger('mouseenter')
     await expect(wrapper.findComponent(CircleClose).exists()).toBe(false)
   })
 
   test('show last level label', async () => {
-    const wrapper = mount(Cascader, {
-      props: {
-        options: OPTIONS,
-        showAllLevels: false,
-        modelValue: ['zhejiang', 'hangzhou'],
-      },
-    })
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={['zhejiang', 'hangzhou']}
+        showAllLevels={false}
+        options={OPTIONS}
+      />
+    ))
+
     await nextTick()
     expect(wrapper.find('input').element.value).toBe('Hangzhou')
   })
 
   test('multiple mode', async () => {
-    const wrapper = _mount({
-      template: `
-        <cascader
-          v-model="value"
-          :options="options"
-          :props="props"
-        />
-      `,
-      data() {
-        return {
-          options: OPTIONS,
-          props: { multiple: true },
-          value: [
-            ['zhejiang', 'hangzhou'],
-            ['zhejiang', 'ningbo'],
-          ],
-        }
-      },
-    })
+    const value = ref([
+      ['zhejiang', 'hangzhou'],
+      ['zhejiang', 'ningbo'],
+    ])
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} props={props} options={OPTIONS} />
+    ))
+
     await nextTick()
     const tags = wrapper.findAll(TAG)
     const [firstTag, secondTag] = tags
@@ -236,22 +203,24 @@ describe('Cascader.vue', () => {
     expect(secondTag.text()).toBe('Zhejiang / Ningbo')
     await firstTag.find('.el-tag__close').trigger('click')
     expect(wrapper.findAll(TAG).length).toBe(1)
-    expect(wrapper.vm.value).toEqual([['zhejiang', 'ningbo']])
+    expect(value.value).toEqual([['zhejiang', 'ningbo']])
   })
 
   test('collapse tags', async () => {
-    const wrapper = mount(Cascader, {
-      props: {
-        options: OPTIONS,
-        props: { multiple: true },
-        collapseTags: true,
-        modelValue: [
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[
           ['zhejiang', 'hangzhou'],
           ['zhejiang', 'ningbo'],
           ['zhejiang', 'wenzhou'],
-        ],
-      },
-    })
+        ]}
+        collapseTags
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+
     await nextTick()
     const tags = wrapper.findAll(TAG).filter((item) => {
       return !hasClass(item.element, 'in-tooltip')
@@ -261,19 +230,21 @@ describe('Cascader.vue', () => {
   })
 
   test('collapse tags tooltip', async () => {
-    const wrapper = mount(Cascader, {
-      props: {
-        options: OPTIONS,
-        props: { multiple: true },
-        collapseTags: true,
-        collapseTagsTooltip: true,
-        modelValue: [
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[
           ['zhejiang', 'hangzhou'],
           ['zhejiang', 'ningbo'],
           ['zhejiang', 'wenzhou'],
-        ],
-      },
-    })
+        ]}
+        collapseTags
+        collapseTagsTooltip
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+
     await nextTick()
     expect(wrapper.findAll(TAG).length).toBe(4)
     const tags = wrapper.findAll(TAG).filter((item) => {
@@ -284,34 +255,25 @@ describe('Cascader.vue', () => {
   })
 
   test('tag type', async () => {
-    const wrapper = mount(Cascader, {
-      props: {
-        options: OPTIONS,
-        props: { multiple: true },
-        tagType: 'success',
-        modelValue: [['zhejiang', 'hangzhou']],
-      },
-    })
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        modelValue={[['zhejiang', 'hangzhou']]}
+        tagType="success"
+        props={props}
+        options={OPTIONS}
+      />
+    ))
+
     await nextTick()
     expect(wrapper.find('.el-tag').classes()).toContain('el-tag--success')
   })
 
   test('filterable', async () => {
-    const wrapper = _mount({
-      template: `
-        <cascader
-          v-model="value"
-          :options="options"
-          filterable
-        />
-      `,
-      data() {
-        return {
-          options: OPTIONS,
-          value: [],
-        }
-      },
-    })
+    const value = ref([])
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} filterable options={OPTIONS} />
+    ))
 
     const input = wrapper.find('input')
     input.element.value = 'Ni'
@@ -330,30 +292,23 @@ describe('Cascader.vue', () => {
     hzSuggestion.click()
     await nextTick()
     expect(wrapper.findComponent(Check).exists()).toBeTruthy()
-    expect(wrapper.vm.value).toEqual(['zhejiang', 'hangzhou'])
+    expect(value.value).toEqual(['zhejiang', 'hangzhou'])
     hzSuggestion.click()
     await nextTick()
-    expect(wrapper.vm.value).toEqual(['zhejiang', 'hangzhou'])
+    expect(value.value).toEqual(['zhejiang', 'hangzhou'])
   })
 
   test('filterable in multiple mode', async () => {
-    const wrapper = _mount({
-      template: `
-        <cascader
-          v-model="value"
-          :options="options"
-          :props="props"
-          filterable
-        />
-      `,
-      data() {
-        return {
-          options: OPTIONS,
-          props: { multiple: true },
-          value: [],
-        }
-      },
-    })
+    const value = ref([])
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader
+        v-model={value.value}
+        props={props}
+        filterable
+        options={OPTIONS}
+      />
+    ))
 
     const input = wrapper.find('.el-cascader__search-input')
     ;(input.element as HTMLInputElement).value = 'Ha'
@@ -362,10 +317,10 @@ describe('Cascader.vue', () => {
     const hzSuggestion = document.querySelector(SUGGESTION_ITEM) as HTMLElement
     hzSuggestion.click()
     await nextTick()
-    expect(wrapper.vm.value).toEqual([['zhejiang', 'hangzhou']])
+    expect(value.value).toEqual([['zhejiang', 'hangzhou']])
     hzSuggestion.click()
     await nextTick()
-    expect(wrapper.vm.value).toEqual([])
+    expect(value.value).toEqual([])
   })
 
   test('filter method', async () => {
@@ -373,13 +328,9 @@ describe('Cascader.vue', () => {
       const { text, value } = node
       return text.includes(keyword) || value.includes(keyword)
     })
-    const wrapper = mount(Cascader, {
-      props: {
-        options: OPTIONS,
-        filterable: true,
-        filterMethod,
-      },
-    })
+    const wrapper = _mount(() => (
+      <Cascader filterMethod={filterMethod} filterable options={OPTIONS} />
+    ))
 
     const input = wrapper.find('input')
     input.element.value = 'ha'
@@ -390,24 +341,13 @@ describe('Cascader.vue', () => {
   })
 
   test('filterable keyboard selection', async () => {
-    const wrapper = _mount({
-      template: `
-        <cascader
-          v-model="value"
-          :options="options"
-          filterable
-        />
-      `,
-      data() {
-        return {
-          options: OPTIONS,
-          value: [],
-        }
-      },
-    })
+    const value = ref([])
+    const wrapper = _mount(() => (
+      <Cascader v-model={value.value} filterable options={OPTIONS} />
+    ))
 
     const input = wrapper.find('input')
-    const dropdown = document.querySelector(DROPDOWN)
+    const dropdown = document.querySelector(DROPDOWN)!
     input.element.value = 'h'
     await input.trigger('input')
     const suggestionsPanel = document.querySelector(
@@ -418,61 +358,43 @@ describe('Cascader.vue', () => {
     ) as NodeListOf<HTMLElement>
     const hzSuggestion = suggestions[0]
     triggerEvent(suggestionsPanel, 'keydown', EVENT_CODE.down)
-    expect(document.activeElement.textContent).toBe('Zhejiang / Hangzhou')
+    expect(document.activeElement!.textContent).toBe('Zhejiang / Hangzhou')
     triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.down)
-    expect(document.activeElement.textContent).toBe('Zhejiang / Ningbo')
+    expect(document.activeElement!.textContent).toBe('Zhejiang / Ningbo')
     triggerEvent(hzSuggestion, 'keydown', EVENT_CODE.enter)
     await nextTick()
-    expect(wrapper.vm.value).toEqual(['zhejiang', 'hangzhou'])
+    expect(value.value).toEqual(['zhejiang', 'hangzhou'])
   })
 
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
-      _mount({
-        template: `
-          <cascader
-            v-model="value"
-            :options="options"
-            filterable
-          />
-        `,
-        data() {
-          return {
-            options: OPTIONS,
-            value: [],
-          }
-        },
-      })
+      const value = ref([])
+      _mount(() => (
+        <Cascader v-model={value.value} filterable options={OPTIONS} />
+      ))
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
       ).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('')
-      _mount({
-        template: `
-          <cascader
-            v-model="value"
-            :options="options"
-            :teleported="false"
-            filterable
-          />
-        `,
-        data() {
-          return {
-            options: OPTIONS,
-            value: [],
-          }
-        },
-      })
+      const value = ref([])
+      _mount(() => (
+        <Cascader
+          v-model={value.value}
+          filterable
+          teleported={false}
+          options={OPTIONS}
+        />
+      ))
 
       await nextTick()
       expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
       ).toBe('')
     })
   })

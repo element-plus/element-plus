@@ -315,7 +315,7 @@ describe('TreeSelect.vue', () => {
     expect(onNodeClick).toBeCalled()
   })
 
-  test('check-strictly showCheckbox clik node', async () => {
+  test('check-strictly showCheckbox click node', async () => {
     const { getWrapperRef, select, tree } = createComponent({
       props: {
         checkStrictly: true,
@@ -338,7 +338,7 @@ describe('TreeSelect.vue', () => {
     expect(wrapperRef.getCheckedKeys()).toEqual([1])
   })
 
-  test('check-strictly showCheckbox checkOnClickNode clik node', async () => {
+  test('check-strictly showCheckbox checkOnClickNode click node', async () => {
     const { getWrapperRef, select, tree } = createComponent({
       props: {
         checkStrictly: true,
