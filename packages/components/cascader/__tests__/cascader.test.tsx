@@ -7,6 +7,7 @@ import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import Cascader from '../src/index.vue'
+
 import type { VNode } from 'vue'
 
 vi.mock('lodash-unified', async () => {
@@ -83,12 +84,11 @@ describe('Cascader.vue', () => {
     const handleChange = vi.fn()
     const handleExpandChange = vi.fn()
     const value = ref([])
-    const options = ref(OPTIONS)
 
     const wrapper = _mount(() => (
       <Cascader
         v-model={value.value}
-        options={options.value}
+        options={OPTIONS}
         onChange={handleChange}
         onExpandChange={handleExpandChange}
       />
@@ -320,7 +320,6 @@ describe('Cascader.vue', () => {
     expect(value.value).toEqual([['zhejiang', 'hangzhou']])
     hzSuggestion.click()
     await nextTick()
-    console.log(value.value)
     expect(value.value).toEqual([])
   })
 
