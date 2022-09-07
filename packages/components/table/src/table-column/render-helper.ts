@@ -153,7 +153,9 @@ function useRender<T>(
           children = originRenderCell(data)
         }
         const shouldCreatePlaceholder =
-          hasTreeColumn.value && data.cellIndex === 0
+          hasTreeColumn.value &&
+          data.cellIndex === 0 &&
+          data.column.type !== 'selection'
         const prefix = treeCellPrefix(data, shouldCreatePlaceholder)
         const props = {
           class: 'cell',

@@ -1,6 +1,6 @@
+import { capitalize as toCapitalize } from '@vue/shared'
 export {
   camelize,
-  capitalize,
   hyphenate,
   hyphenate as kebabCase, // alias
 } from '@vue/shared'
@@ -10,3 +10,7 @@ export {
  */
 export const escapeStringRegexp = (string = '') =>
   string.replace(/[|\\{}()[\]^$+*?.]/g, '\\$&').replace(/-/g, '\\x2d')
+
+// NOTE: improve capitalize types. Restore previous code after the [PR](https://github.com/vuejs/core/pull/6212) merge
+export const capitalize = <T extends string>(str: T) =>
+  toCapitalize(str) as Capitalize<T>
