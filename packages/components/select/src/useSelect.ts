@@ -289,7 +289,7 @@ export const useSelect = (props, states: States, ctx) => {
           }
         }
       }
-      ctx.emit('visible-change', val)
+      ctx.emit('visibleChange', val)
     }
   )
 
@@ -582,7 +582,7 @@ export const useSelect = (props, states: States, ctx) => {
       value.splice(index, 1)
       ctx.emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
-      ctx.emit('remove-tag', tag.value)
+      ctx.emit('removeTag', tag.value)
     }
     event.stopPropagation()
   }

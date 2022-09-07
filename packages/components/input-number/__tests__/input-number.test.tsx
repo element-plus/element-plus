@@ -206,7 +206,7 @@ describe('InputNumber.vue', () => {
   test('controls-position', async () => {
     const num = ref(0)
     const wrapper = mount(() => (
-      <InputNumber controls-position="right" v-model={num.value} />
+      <InputNumber controlsPosition="right" v-model={num.value} />
     ))
     expect(wrapper.findComponent(ArrowDown).exists()).toBe(true)
     expect(wrapper.findComponent(ArrowUp).exists()).toBe(true)
@@ -253,7 +253,7 @@ describe('InputNumber.vue', () => {
     expect(wrapper.getComponent(InputNumber).emitted('focus')).toHaveLength(1)
   })
 
-  test('clear with :value-on-clear="null"', async () => {
+  test('clear with :valueOnClear="null"', async () => {
     const num = ref(2)
     const wrapper = mount(() => (
       <InputNumber v-model={num.value} min={1} max={10} />
@@ -279,10 +279,10 @@ describe('InputNumber.vue', () => {
     expect(num.value).toBe(1)
   })
 
-  test('clear with value-on-clear="min"', async () => {
+  test('clear with valueOnClear="min"', async () => {
     const num = ref(2)
     const wrapper = mount(() => (
-      <InputNumber value-on-clear="min" v-model={num.value} min={1} max={10} />
+      <InputNumber valueOnClear="min" v-model={num.value} min={1} max={10} />
     ))
     const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
     elInput.handleInputChange('')
@@ -299,10 +299,10 @@ describe('InputNumber.vue', () => {
     expect(num.value).toBe(1)
   })
 
-  test('clear with value-on-clear="max"', async () => {
+  test('clear with valueOnClear="max"', async () => {
     const num = ref(2)
     const wrapper = mount(() => (
-      <InputNumber value-on-clear="max" v-model={num.value} min={1} max={10} />
+      <InputNumber valueOnClear="max" v-model={num.value} min={1} max={10} />
     ))
     const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
     elInput.handleInputChange('')
@@ -319,10 +319,10 @@ describe('InputNumber.vue', () => {
     expect(num.value).toBe(9)
   })
 
-  test('clear with :value-on-clear="5"', async () => {
+  test('clear with :valueOnClear="5"', async () => {
     const num = ref(2)
     const wrapper = mount(() => (
-      <InputNumber value-on-clear={5} v-model={num.value} min={1} max={10} />
+      <InputNumber valueOnClear={5} v-model={num.value} min={1} max={10} />
     ))
     const elInput = wrapper.findComponent({ name: 'ElInputNumber' }).vm
     elInput.handleInputChange('')

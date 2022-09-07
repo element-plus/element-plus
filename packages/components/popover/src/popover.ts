@@ -65,10 +65,10 @@ export type PopoverProps = ExtractPropTypes<typeof popoverProps>
 
 export const popoverEmits = {
   'update:visible': (value: boolean) => isBoolean(value),
-  'before-enter': () => true,
-  'before-leave': () => true,
-  'after-enter': () => true,
-  'after-leave': () => true,
+  beforeEnter: () => true,
+  beforeLeave: () => true,
+  afterEnter: () => true,
+  afterLeave: () => true,
 }
 export type PopoverEmits = typeof popoverEmits
 

@@ -20,11 +20,11 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
     } else if (column.filterable && !column.sortable) {
       handleFilterClick(event)
     }
-    parent?.emit('header-click', column, event)
+    parent?.emit('headerClick', column, event)
   }
 
   const handleHeaderContextMenu = (event: Event, column: TableColumnCtx<T>) => {
-    parent?.emit('header-contextmenu', column, event)
+    parent?.emit('headerContextmenu', column, event)
   }
   const draggingColumn = ref(null)
   const dragging = ref(false)
@@ -37,7 +37,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
       dragging.value = true
 
       const table = parent
-      emit('set-drag-visible', true)
+      emit('setDragVisible', true)
       const tableEl = table?.vnode.el
       const tableLeft = tableEl.getBoundingClientRect().left
       const columnEl = instance.vnode.el.querySelector(`th.${column.id}`)
@@ -77,7 +77,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
           const columnWidth = finalLeft - startColumnLeft
           column.width = column.realWidth = columnWidth
           table?.emit(
-            'header-dragend',
+            'headerDragend',
             column.width,
             startLeft - startColumnLeft,
             column,
@@ -90,7 +90,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
           dragging.value = false
           draggingColumn.value = null
           dragState.value = {}
-          emit('set-drag-visible', false)
+          emit('setDragVisible', false)
         }
 
         document.removeEventListener('mousemove', handleMouseMove)
