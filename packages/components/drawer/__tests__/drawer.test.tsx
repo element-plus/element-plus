@@ -129,7 +129,7 @@ describe('Drawer', () => {
 
   test('should close dialog by clicking the close button', async () => {
     const wrapper = mount({
-      data: () => ({ visible: false }),
+      data: () => ({ visible: true }),
       render() {
         return (
           <Drawer
