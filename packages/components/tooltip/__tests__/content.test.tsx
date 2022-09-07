@@ -55,13 +55,17 @@ describe('<ElTooltipContent />', () => {
         components: {
           ElTooltipContent,
         },
-        template: `<el-tooltip-content><slot /></el-tooltip-content>`,
         setup() {
           usePopperContainer()
+
+          return () => (
+            <el-tooltip-content {...props}>
+              <slot />
+            </el-tooltip-content>
+          )
         },
       },
       {
-        props,
         global: {
           provide: {
             ...defaultProvide,
@@ -84,11 +88,11 @@ describe('<ElTooltipContent />', () => {
   let wrapper: ReturnType<typeof createComponent>
   const OLD_ENV = process.env.NODE_ENV
   beforeAll(() => {
-    process.env.NODE_ENV = 'test'
+    process.env['NODE_ENV'] = 'test'
   })
 
   afterAll(() => {
-    process.env.NODE_ENV = OLD_ENV
+    process.env['NODE_ENV'] = OLD_ENV
   })
 
   afterEach(() => {

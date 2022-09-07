@@ -10,6 +10,7 @@ import {
   useNamespace,
 } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
+import { createModelToggleComposable } from '../../../hooks/use-model-toggle/index'
 import type Tooltip from '../tooltip.vue'
 
 import type { ExtractPropTypes } from 'vue'
@@ -87,6 +88,10 @@ export const useTooltipProps = buildProps({
     default: true,
   },
 })
+
+export const createModelToggleComposableResult = createModelToggleComposable(
+  'visible' as const
+)
 
 export type ElTooltipContentProps = ExtractPropTypes<
   typeof useTooltipContentProps

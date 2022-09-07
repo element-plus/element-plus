@@ -45,159 +45,148 @@
   </teleport>
 </template>
 
-<script lang="ts">
-import {
-  computed,
-  defineComponent,
-  inject,
-  onBeforeUnmount,
-  ref,
-  unref,
-  watch,
-} from 'vue'
+<script setup lang="ts">
+import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import { ElPopperContent } from '@element-plus/components/popper'
 import { composeEventHandlers } from '@element-plus/utils'
 
+import { ElPopperContent } from '@element-plus/components/popper'
 import { useTooltipContentProps } from './tooltip'
 import { TOOLTIP_INJECTION_KEY } from './tokens'
 
-export default defineComponent({
+defineOptions({
   name: 'ElTooltipContent',
-  components: {
-    ElPopperContent,
-  },
   inheritAttrs: false,
-  props: useTooltipContentProps,
-  setup(props) {
-    const contentRef = ref<InstanceType<typeof ElPopperContent> | null>(null)
-    const intermediateOpen = ref(false)
-    const entering = ref(false)
-    const leaving = ref(false)
-    const destroyed = ref(false)
-    const {
-      controlled,
-      id,
-      open,
-      trigger,
-      onClose,
-      onOpen,
-      onShow,
-      onHide,
-      onBeforeShow,
-      onBeforeHide,
-    } = inject(TOOLTIP_INJECTION_KEY, undefined)!
-    const persistentRef = computed(() => {
-      // For testing, we would always want the content to be rendered
-      // to the DOM, so we need to return true here.
-      if (process.env.NODE_ENV === 'test') {
-        return true
-      }
-      return props.persistent
-    })
+})
 
-    onBeforeUnmount(() => {
-      destroyed.value = true
-    })
+const props = defineProps(useTooltipContentProps)
 
-    const shouldRender = computed(() => {
-      return unref(persistentRef) ? true : unref(open)
-    })
+const contentRef = ref<InstanceType<typeof ElPopperContent> | null>(null)
+const intermediateOpen = ref(false)
+const entering = ref(false)
+const leaving = ref(false)
+const destroyed = ref(false)
+const {
+  controlled,
+  id,
+  open,
+  trigger,
+  onClose,
+  onOpen,
+  onShow,
+  onHide,
+  onBeforeShow,
+  onBeforeHide,
+} = inject(TOOLTIP_INJECTION_KEY, undefined)!
+const persistentRef = computed(() => {
+  // For testing, we would always want the content to be rendered
+  // to the DOM, so we need to return true here.
+  if (process.env.NODE_ENV === 'test') {
+    return true
+  }
+  return props.persistent
+})
 
-    const shouldShow = computed(() => {
-      return props.disabled ? false : unref(open)
-    })
+onBeforeUnmount(() => {
+  destroyed.value = true
+})
 
-    const contentStyle = computed(() => (props.style ?? {}) as any)
+const shouldRender = computed(() => {
+  return unref(persistentRef) ? true : unref(open)
+})
 
-    const ariaHidden = computed(() => !unref(open))
+const shouldShow = computed(() => {
+  return props.disabled ? false : unref(open)
+})
 
-    const onTransitionLeave = () => {
-      onHide()
-    }
+const contentStyle = computed(() => (props.style ?? {}) as any)
 
-    const stopWhenControlled = () => {
-      if (unref(controlled)) return true
-    }
+const ariaHidden = computed(() => !unref(open))
 
-    const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
-      if (props.enterable && unref(trigger) === 'hover') {
-        onOpen()
-      }
-    })
+const onTransitionLeave = () => {
+  onHide()
+}
 
-    const onContentLeave = composeEventHandlers(stopWhenControlled, () => {
-      if (unref(trigger) === 'hover') {
-        onClose()
-      }
-    })
+const stopWhenControlled = () => {
+  if (unref(controlled)) return true
+}
 
-    const onBeforeEnter = () => {
-      contentRef.value?.updatePopper?.()
-      onBeforeShow?.()
-    }
+const onContentEnter = composeEventHandlers(stopWhenControlled, () => {
+  if (props.enterable && unref(trigger) === 'hover') {
+    onOpen()
+  }
+})
 
-    const onBeforeLeave = () => {
-      onBeforeHide?.()
-    }
+const onContentLeave = composeEventHandlers(stopWhenControlled, () => {
+  if (unref(trigger) === 'hover') {
+    onClose()
+  }
+})
 
-    const onAfterShow = () => {
-      onShow()
-      stopHandle = onClickOutside(
-        computed(() => {
-          return contentRef.value?.popperContentRef
-        }),
-        () => {
-          if (unref(controlled)) return
-          const $trigger = unref(trigger)
-          if ($trigger !== 'hover') {
-            onClose()
-          }
-        }
-      )
-    }
+const onBeforeEnter = () => {
+  contentRef.value?.updatePopper?.()
+  onBeforeShow?.()
+}
 
-    const onBlur = () => {
-      if (!props.virtualTriggering) {
+const onBeforeLeave = () => {
+  onBeforeHide?.()
+}
+
+const onAfterShow = () => {
+  onShow()
+  stopHandle = onClickOutside(
+    computed(() => {
+      return contentRef.value?.popperContentRef
+    }),
+    () => {
+      if (unref(controlled)) return
+      const $trigger = unref(trigger)
+      if ($trigger !== 'hover') {
         onClose()
       }
     }
+  )
+}
 
-    let stopHandle: ReturnType<typeof onClickOutside>
+const onBlur = () => {
+  if (!props.virtualTriggering) {
+    onClose()
+  }
+}
 
-    watch(
-      () => unref(open),
-      (val) => {
-        if (!val) {
-          stopHandle?.()
-        }
-      },
-      {
-        flush: 'post',
-      }
-    )
+let stopHandle: ReturnType<typeof onClickOutside>
 
-    return {
-      ariaHidden,
-      entering,
-      leaving,
-      id,
-      intermediateOpen,
-      contentStyle,
-      contentRef,
-      destroyed,
-      shouldRender,
-      shouldShow,
-      onClose,
-      open,
-      onAfterShow,
-      onBeforeEnter,
-      onBeforeLeave,
-      onContentEnter,
-      onContentLeave,
-      onTransitionLeave,
-      onBlur,
+watch(
+  () => unref(open),
+  (val) => {
+    if (!val) {
+      stopHandle?.()
     }
   },
+  {
+    flush: 'post',
+  }
+)
+
+defineExpose({
+  ariaHidden,
+  entering,
+  leaving,
+  id,
+  intermediateOpen,
+  contentStyle,
+  contentRef,
+  destroyed,
+  shouldRender,
+  shouldShow,
+  onClose,
+  open,
+  onAfterShow,
+  onBeforeEnter,
+  onBeforeLeave,
+  onContentEnter,
+  onContentLeave,
+  onTransitionLeave,
+  onBlur,
 })
 </script>
