@@ -77,6 +77,9 @@ const onKeydown = composeEventHandlers(
 )
 
 defineExpose({
+  /**
+   * @description trigger element
+   */
   triggerRef,
 })
 </script>
