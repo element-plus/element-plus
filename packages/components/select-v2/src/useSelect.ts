@@ -649,13 +649,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.cachedOptions.length = 0
         states.previousValue = props.modelValue.toString()
         ;(props.modelValue as Array<any>).forEach((selected) => {
-          const itemIndex = filteredOptions.value.findIndex((option) => {
-            const _value = getValueKey(option)
-            return (
-              (isObject(_value) ? _value?.[props.valueKey] : _value) ===
-              getValueKey(selected)
-            )
-          })
+          const itemIndex = filteredOptions.value.findIndex(
+            (option) => getValueKey(option.value) === getValueKey(selected)
+          )
           if (~itemIndex) {
             states.cachedOptions.push(
               filteredOptions.value[itemIndex] as Option
