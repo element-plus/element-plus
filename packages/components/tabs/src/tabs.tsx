@@ -93,8 +93,6 @@ export default defineComponent({
 
     const changeCurrentName = (value: TabPanelName) => {
       currentName.value = value
-      emit(UPDATE_MODEL_EVENT, value)
-      emit('tabChange', value)
     }
 
     const setCurrentName = async (value?: TabPanelName) => {
@@ -120,7 +118,10 @@ export default defineComponent({
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName)
+      if (tabName !== currentName.value) {
+        emit(UPDATE_MODEL_EVENT, tabName)
+        emit('tabChange', tabName)
+      }
       emit('tabClick', tab, event)
     }
 
