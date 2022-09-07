@@ -2,7 +2,7 @@
 import { createPopper } from '@popperjs/core'
 import { get } from 'lodash-unified'
 import escapeHtml from 'escape-html'
-import { hasOwn } from '@element-plus/utils'
+import { hasOwn, throwError } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
   IPopperOptions,
@@ -121,7 +121,7 @@ export const getColumnByKey = function <T>(
     }
   }
   if (!column)
-    throw new Error(`[Table] No column matching with column-key: ${columnKey}`)
+    throwError('ElTable', `No column matching with column-key: ${columnKey}`)
   return column
 }
 
