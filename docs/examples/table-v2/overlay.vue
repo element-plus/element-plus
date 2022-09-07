@@ -52,3 +52,8 @@ const generateData = (
 const columns = generateColumns(10)
 const data = generateData(columns, 200)
 </script>
+<style>
+.example-showcase .el-table-v2__overlay {
+  z-index: 9;
+}
+</style>

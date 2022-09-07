@@ -59,8 +59,10 @@ export const imageProps = buildProps({
 export type ImageProps = ExtractPropTypes<typeof imageProps>
 
 export const imageEmits = {
+  load: (evt: Event) => evt instanceof Event,
   error: (evt: Event) => evt instanceof Event,
   switch: (val: number) => isNumber(val),
   close: () => true,
+  show: () => true,
 }
 export type ImageEmits = typeof imageEmits

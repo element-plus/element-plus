@@ -6,17 +6,23 @@
       :src="imageSrc"
       :loading="loading"
       :style="imageStyle"
-      :class="[ns.e('inner'), preview ? ns.e('preview') : '']"
+      :class="[
+        ns.e('inner'),
+        preview && ns.e('preview'),
+        isLoading && ns.is('loading'),
+      ]"
       @click="clickHandler"
       @load="handleLoad"
       @error="handleError"
     />
-    <slot v-if="isLoading" name="placeholder">
-      <div :class="ns.e('placeholder')" />
-    </slot>
-    <slot v-else-if="hasLoadError" name="error">
-      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
-    </slot>
+    <div v-if="isLoading || hasLoadError" :class="ns.e('wrapper')">
+      <slot v-if="isLoading" name="placeholder">
+        <div :class="ns.e('placeholder')" />
+      </slot>
+      <slot v-else-if="hasLoadError" name="error">
+        <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+      </slot>
+    </div>
     <template v-if="preview">
       <image-viewer
         v-if="showViewer"
@@ -124,9 +130,10 @@ const loadImage = () => {
   imageSrc.value = props.src
 }
 
-function handleLoad() {
+function handleLoad(event: Event) {
   isLoading.value = false
   hasLoadError.value = false
+  emit('load', event)
 }
 
 function handleError(event: Event) {
@@ -200,6 +207,7 @@ function clickHandler() {
   prevOverflow = document.body.style.overflow
   document.body.style.overflow = 'hidden'
   showViewer.value = true
+  emit('show')
 }
 
 function closeViewer() {

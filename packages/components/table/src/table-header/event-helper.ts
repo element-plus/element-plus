@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { getCurrentInstance, inject, ref } from 'vue'
 import { isClient } from '@vueuse/core'
 import { addClass, hasClass, removeClass } from '@element-plus/utils'
@@ -109,10 +110,8 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
   const handleMouseMove = (event: MouseEvent, column: TableColumnCtx<T>) => {
     if (column.children && column.children.length > 0) return
-    let target = event.target as HTMLElement
-    while (target && target.tagName !== 'TH') {
-      target = target.parentNode as HTMLElement
-    }
+
+    const target = (event.target as HTMLElement)?.closest('th')
 
     if (!column || !column.resizable) return
 
@@ -154,12 +153,9 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
     const order =
       column.order === givenOrder ? null : givenOrder || toggleOrder(column)
 
-    let target = event.target as HTMLElement
-    while (target && target.tagName !== 'TH') {
-      target = target.parentNode as HTMLElement
-    }
+    const target = (event.target as HTMLElement)?.closest('th')
 
-    if (target && target.tagName === 'TH') {
+    if (target) {
       if (hasClass(target, 'noclick')) {
         removeClass(target, 'noclick')
         return

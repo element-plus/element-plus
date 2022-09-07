@@ -1,6 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { useSizeProp } from '@element-plus/hooks'
 import { CircleClose } from '@element-plus/icons-vue'
+import { disabledTimeListsProps } from '../props/shared'
 
 import type { Component, ExtractPropTypes } from 'vue'
 import type { Options } from '@popperjs/core'
@@ -12,6 +13,18 @@ export type ModelValueType = SingleOrRange<DateModelType>
 export type DayOrDays = SingleOrRange<Dayjs>
 export type DateOrDates = SingleOrRange<Date>
 export type UserInput = SingleOrRange<string | null>
+export type GetDisabledHours = (role: string, comparingDate?: Dayjs) => number[]
+export type GetDisabledMinutes = (
+  hour: number,
+  role: string,
+  comparingDate?: Dayjs
+) => number[]
+export type GetDisabledSeconds = (
+  hour: number,
+  minute: number,
+  role: string,
+  comparingDate?: Dayjs
+) => number[]
 
 export const timePickerDefaultProps = buildProps({
   id: {
@@ -84,15 +97,7 @@ export const timePickerDefaultProps = buildProps({
     type: Boolean,
     default: false,
   },
-  disabledHours: {
-    type: Function,
-  },
-  disabledMinutes: {
-    type: Function,
-  },
-  disabledSeconds: {
-    type: Function,
-  },
+  ...disabledTimeListsProps,
   disabledDate: {
     type: Function,
   },

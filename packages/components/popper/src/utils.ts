@@ -58,7 +58,7 @@ function genModifiers(options: UsePopperCoreConfigProps) {
       name: 'flip',
       options: {
         padding: 5,
-        fallbackPlacements: fallbackPlacements ?? [],
+        fallbackPlacements,
       },
     },
     {

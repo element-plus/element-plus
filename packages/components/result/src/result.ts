@@ -36,7 +36,7 @@ export const resultProps = buildProps({
   },
   icon: {
     type: String,
-    values: ['success', 'warning', 'info', 'error'] as const,
+    values: ['success', 'warning', 'info', 'error'],
     default: 'info',
   },
 } as const)

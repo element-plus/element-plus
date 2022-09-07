@@ -80,7 +80,7 @@
             <el-icon
               v-if="showClear"
               :class="[nsInput.e('icon'), nsInput.e('clear')]"
-              @mousedown.prevent
+              @mousedown.prevent="NOOP"
               @click="clear"
             >
               <circle-close />
@@ -174,6 +174,7 @@ import {
   View as IconView,
 } from '@element-plus/icons-vue'
 import {
+  NOOP,
   ValidateComponentsMap,
   debugWarn,
   isKorean,
@@ -210,8 +211,8 @@ const instance = getCurrentInstance()!
 const rawAttrs = useRawAttrs()
 const slots = useSlots()
 
-const containerAttrs = computed<Record<string, unknown>>(() => {
-  const comboBoxAttrs = {}
+const containerAttrs = computed(() => {
+  const comboBoxAttrs: Record<string, unknown> = {}
   if (props.containerRole === 'combobox') {
     comboBoxAttrs['aria-haspopup'] = rawAttrs['aria-haspopup']
     comboBoxAttrs['aria-owns'] = rawAttrs['aria-owns']
@@ -248,7 +249,9 @@ const _ref = computed(() => input.value || textarea.value)
 
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
 const validateState = computed(() => formItem?.validateState || '')
-const validateIcon = computed(() => ValidateComponentsMap[validateState.value])
+const validateIcon = computed(
+  () => validateState.value && ValidateComponentsMap[validateState.value]
+)
 const passwordIcon = computed(() =>
   passwordVisible.value ? IconView : IconHide
 )
@@ -383,7 +386,10 @@ const handleInput = async (event: Event) => {
 
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
-  if (value === nativeInputValue.value) return
+  if (value === nativeInputValue.value) {
+    setNativeInputValue()
+    return
+  }
 
   emit(UPDATE_MODEL_EVENT, value)
   emit('input', value)

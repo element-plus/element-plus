@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
 import { describe, expect, test, vi } from 'vitest'

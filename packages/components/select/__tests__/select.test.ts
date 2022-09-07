@@ -1,8 +1,9 @@
+// @ts-nocheck
 import { markRaw, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
-import { ArrowUp, CaretTop, CircleClose } from '@element-plus/icons-vue'
+import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import { ElFormItem } from '@element-plus/components/form'
@@ -247,7 +248,6 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       },
     ]
   }
-
   return _mount(
     `
     <el-select
@@ -266,7 +266,7 @@ const getGroupSelectVm = (configs: SelectProps = {}, options?) => {
       :remoteMethod="remoteMethod"
       :automatic-dropdown="automaticDropdown"
       :fit-input-width="fitInputWidth">
-      <el-group-option
+     <el-group-option
         v-for="group in options"
         :key="group.label"
         :disabled="group.disabled"
@@ -745,10 +745,41 @@ describe('Select', () => {
 
   test('suffix icon', async () => {
     wrapper = _mount(`<el-select></el-select>`)
-    let suffixIcon = wrapper.findComponent(ArrowUp)
+    let suffixIcon = wrapper.findComponent(ArrowDown)
     expect(suffixIcon.exists()).toBe(true)
     await wrapper.setProps({ suffixIcon: markRaw(CaretTop) })
     suffixIcon = wrapper.findComponent(CaretTop)
+    expect(suffixIcon.exists()).toBe(true)
+  })
+
+  test('test suffix transition', async () => {
+    wrapper = _mount(`<el-select></el-select>`)
+    expect(wrapper.find('.el-select__caret').classes()).not.toContain(
+      'is-reverse'
+    )
+    // open dropdown
+    wrapper.trigger('click')
+    await nextTick()
+    expect(wrapper.find('.el-select__caret').classes()).toContain('is-reverse')
+
+    await wrapper.setProps({ suffixTransition: false })
+
+    wrapper.trigger('click')
+    await nextTick()
+    expect(wrapper.find('.el-select__caret').classes()).not.toContain(
+      'is-reverse'
+    )
+  })
+
+  test('test remote show suffix', async () => {
+    wrapper = _mount(`<el-select></el-select>`)
+    await wrapper.setProps({
+      remote: true,
+      filters: true,
+      remoteShowSuffix: true,
+    })
+
+    const suffixIcon = wrapper.findComponent(ArrowDown)
     expect(suffixIcon.exists()).toBe(true)
   })
 
@@ -1078,9 +1109,9 @@ describe('Select', () => {
     await nextTick()
     const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
     expect(triggerWrappers[0]).toBeDefined()
-    const tags = wrapper.findAll('.el-select__tags-text')
-    expect(tags.length).toBe(5)
-    expect(tags[4].element.textContent).toBe('蚵仔煎')
+    const tags = document.querySelectorAll('.el-select__tags-text')
+    expect(tags.length).toBe(4)
+    expect(tags[3].textContent).toBe('蚵仔煎')
   })
 
   test('multiple remove-tag', async () => {
@@ -1175,7 +1206,7 @@ describe('Select', () => {
     expect(handleBlur).toHaveBeenCalled()
   })
 
-  test('event:focus & blur for multile & filterable select', async () => {
+  test('event:focus & blur for multiple & filterable select', async () => {
     const handleFocus = vi.fn()
     const handleBlur = vi.fn()
     wrapper = _mount(
@@ -2043,6 +2074,50 @@ describe('Select', () => {
       await nextTick()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+    })
+    // fix: 8544
+    it('When props are changed, label can be displayed correctly after selecting operation', async () => {
+      wrapper = getGroupSelectVm({}, [
+        {
+          label: 'group1',
+          options: [
+            { value: 0, label: 'x' },
+            { value: 1, label: 'y' },
+            { value: 2, label: 'z' },
+          ],
+        },
+      ])
+      await wrapper.find('.select-trigger').trigger('click')
+      let options = getOptions()
+      const vm = wrapper.vm as any
+      expect(vm.value).toBe('')
+      expect(findInnerInput().value).toBe('')
+      await nextTick()
+      options[1].click()
+      await nextTick()
+      expect(vm.value).toBe(1)
+      expect(findInnerInput().value).toBe('y')
+      wrapper.vm.options = [
+        {
+          label: 'group2',
+          options: [
+            { value: 0, label: 'x' },
+            { value: 1, label: 'y' },
+            { value: 2, label: 'z' },
+          ],
+        },
+      ]
+
+      await nextTick()
+      options = getOptions()
+      options[1].click()
+      await nextTick()
+      expect(vm.value).toBe(1)
+      expect(findInnerInput().value).toBe('y')
+      options[2].click()
+      await nextTick()
+      expect(vm.value).toBe(2)
+      expect(findInnerInput().value).toBe('z')
     })
   })
 

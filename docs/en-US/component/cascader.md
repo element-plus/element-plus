@@ -159,6 +159,7 @@ cascader/panel
 | teleported                        | whether cascader popup is teleported                                                                                                                                             | boolean                 | true / false                | true    |
 | popper-append-to-body(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false                                                      | boolean                 | -                           | true    |
 | tag-type                          | tag type                                                                                                                                                                         | string                  | success/info/warning/danger | info    |
+| validate-event                    | whether to trigger form validation                                                                                                                                               | boolean                 | -                           | true    |
 
 ## Cascader Events
 
@@ -166,8 +167,8 @@ cascader/panel
 | -------------- | --------------------------------------------------- | --------------------------------------------- |
 | change         | triggers when the binding value changes             | value                                         |
 | expand-change  | triggers when expand option changes                 | an array of the expanding node's parent nodes |
-| blur           | triggers when Cascader blurs                        | (event: Event)                                |
-| focus          | triggers when Cascader focuses                      | (event: Event)                                |
+| blur           | triggers when Cascader blurs                        | (event: FocusEvent)                           |
+| focus          | triggers when Cascader focuses                      | (event: FocusEvent)                           |
 | visible-change | triggers when the dropdown appears/disappears       | true when it appears, and false otherwise     |
 | remove-tag     | triggers when remove tag in multiple selection mode | the value of the tag which is removed         |
 

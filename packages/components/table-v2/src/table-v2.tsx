@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineComponent, provide, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useTable } from './use-table'
@@ -269,7 +270,7 @@ const TableV2 = defineComponent({
                     {...tableCellProps}
                     style={_columnsStyles[props.column.key]}
                   >
-                    {slots.cell}
+                    {slots.cell()}
                   </Cell>
                 ) : (
                   <Cell
@@ -292,7 +293,7 @@ const TableV2 = defineComponent({
                     {...tableHeaderCellProps}
                     style={_columnsStyles[props.column.key]}
                   >
-                    {slots['header-cell']}
+                    {slots['header-cell']()}
                   </HeaderCell>
                 ) : (
                   <HeaderCell

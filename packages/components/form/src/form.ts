@@ -18,8 +18,13 @@ export const formProps = buildProps({
   },
   labelPosition: {
     type: String,
-    values: ['left', 'right', 'top'] as const,
+    values: ['left', 'right', 'top'],
     default: 'right',
+  },
+  requireAsteriskPosition: {
+    type: String,
+    values: ['left', 'right'],
+    default: 'left',
   },
   labelWidth: {
     type: [String, Number],

@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="refPopper"
-    v-model:visible="pickerVisible"
+    :visible="pickerVisible"
     effect="light"
     pure
     trigger="click"
@@ -36,10 +36,14 @@
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
         :label="label"
         :tabindex="tabindex"
+        :validate-event="false"
         @input="onUserInput"
         @focus="handleFocusInput"
         @blur="handleBlurInput"
-        @keydown="handleKeydownInput as any"
+        @keydown="
+          //
+          handleKeydownInput as any
+        "
         @change="handleChange"
         @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
@@ -51,7 +55,7 @@
           <el-icon
             v-if="triggerIcon"
             :class="nsInput.e('icon')"
-            @mousedown="onMouseDownInput"
+            @mousedown.prevent="onMouseDownInput"
             @touchstart="onTouchStartInput"
           >
             <component :is="triggerIcon" />
@@ -82,7 +86,6 @@
         ]"
         :style="($attrs.style as any)"
         @click="handleFocusInput"
-        @mousedown="onMouseDownInput"
         @mouseenter="onMouseEnter"
         @mouseleave="onMouseLeave"
         @touchstart="onTouchStartInput"
@@ -91,7 +94,7 @@
         <el-icon
           v-if="triggerIcon"
           :class="[nsInput.e('icon'), nsRange.e('icon')]"
-          @mousedown="onMouseDownInput"
+          @mousedown.prevent="onMouseDownInput"
           @touchstart="onTouchStartInput"
         >
           <component :is="triggerIcon" />
@@ -105,6 +108,7 @@
           :disabled="pickerDisabled"
           :readonly="!editable || readonly"
           :class="nsRange.b('input')"
+          @mousedown="onMouseDownInput"
           @input="handleStartInput"
           @change="handleStartChange"
           @focus="handleFocusInput"
@@ -122,6 +126,7 @@
           :disabled="pickerDisabled"
           :readonly="!editable || readonly"
           :class="nsRange.b('input')"
+          @mousedown="onMouseDownInput"
           @focus="handleFocusInput"
           @blur="handleBlurInput"
           @input="handleEndInput"
@@ -164,23 +169,26 @@
 </template>
 <script lang="ts" setup>
 import { computed, inject, nextTick, provide, ref, unref, watch } from 'vue'
-import dayjs from 'dayjs'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import { useLocale, useNamespace, useSize } from '@element-plus/hooks'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import {
+  useFormItem,
+  useLocale,
+  useNamespace,
+  useSize,
+} from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
-import { debugWarn, isArray, isEmpty } from '@element-plus/utils'
+import ElTooltip from '@element-plus/components/tooltip'
+import { debugWarn, isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
-import ElTooltip from '@element-plus/components/tooltip'
+import { formatter, parseDate, valueEquals } from '../utils'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
 import type { ComponentPublicInstance } from 'vue'
 import type { Options } from '@popperjs/core'
-import type { FormContext, FormItemContext } from '@element-plus/tokens'
 import type {
   DateModelType,
   DateOrDates,
@@ -193,54 +201,6 @@ import type {
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 // Date object and string
-const dateEquals = function (a: Date | any, b: Date | any) {
-  const aIsDate = a instanceof Date
-  const bIsDate = b instanceof Date
-  if (aIsDate && bIsDate) {
-    return a.getTime() === b.getTime()
-  }
-  if (!aIsDate && !bIsDate) {
-    return a === b
-  }
-  return false
-}
-
-const valueEquals = function (a: Array<Date> | any, b: Array<Date> | any) {
-  const aIsArray = isArray(a)
-  const bIsArray = isArray(b)
-  if (aIsArray && bIsArray) {
-    if (a.length !== b.length) {
-      return false
-    }
-    return (a as Array<Date>).every((item, index) => dateEquals(item, b[index]))
-  }
-  if (!aIsArray && !bIsArray) {
-    return dateEquals(a, b)
-  }
-  return false
-}
-
-const parseDate = function (
-  date: string | number | Date,
-  format: string | undefined,
-  lang: string
-) {
-  const day =
-    isEmpty(format) || format === 'x'
-      ? dayjs(date).locale(lang)
-      : dayjs(date, format).locale(lang)
-  return day.isValid() ? day : undefined
-}
-
-const formatter = function (
-  date: string | number | Date | Dayjs,
-  format: string | undefined,
-  lang: string
-) {
-  if (isEmpty(format)) return date
-  if (format === 'x') return +date
-  return dayjs(date).locale(lang).format(format)
-}
 
 defineOptions({
   name: 'Picker',
@@ -264,8 +224,7 @@ const nsDate = useNamespace('date')
 const nsInput = useNamespace('input')
 const nsRange = useNamespace('range')
 
-const elForm = inject(formContextKey, {} as FormContext)
-const elFormItem = inject(formItemContextKey, {} as FormItemContext)
+const { form, formItem } = useFormItem()
 const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
 const refPopper = ref<TooltipInstance>()
@@ -295,7 +254,7 @@ const emitChange = (
   if (isClear || !valueEquals(val, valueOnOpen.value)) {
     emit('change', val)
     props.validateEvent &&
-      elFormItem.validate?.('change').catch((err) => debugWarn(err))
+      formItem?.validate('change').catch((err) => debugWarn(err))
   }
 }
 const emitInput = (input: SingleOrRange<DateModelType | Dayjs> | null) => {
@@ -323,12 +282,6 @@ const refInput = computed<HTMLInputElement[]>(() => {
     return Array.from<HTMLInputElement>(_r.querySelectorAll('input'))
   }
   return []
-})
-const refStartInput = computed(() => {
-  return refInput?.value[0]
-})
-const refEndInput = computed(() => {
-  return refInput?.value[1]
 })
 
 const setSelectionRange = (start: number, end: number, pos?: 'min' | 'max') => {
@@ -385,11 +338,20 @@ const onHide = () => {
   emit('visible-change', false)
 }
 
+const handleOpen = () => {
+  pickerVisible.value = true
+}
+
+const handleClose = () => {
+  pickerVisible.value = false
+}
+
 const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
   ignoreFocusEvent = isIgnoreFocusEvent
-  let input = refStartInput.value
+  const [leftInput, rightInput] = unref(refInput)
+  let input = leftInput
   if (!focusStartInput && isRangeInput.value) {
-    input = refEndInput.value
+    input = rightInput
   }
   if (input) {
     input.focus()
@@ -409,7 +371,9 @@ const handleFocusInput = (e?: FocusEvent) => {
   emit('focus', e)
 }
 
-let currentHandleBlurDeferCallback: () => Promise<void> | undefined
+let currentHandleBlurDeferCallback:
+  | (() => Promise<void> | undefined)
+  | undefined = undefined
 
 // Check if document.activeElement is inside popper or any input before popper close
 const handleBlurInput = (e?: FocusEvent) => {
@@ -428,7 +392,7 @@ const handleBlurInput = (e?: FocusEvent) => {
           pickerVisible.value = false
           emit('blur', e)
           props.validateEvent &&
-            elFormItem.validate?.('blur').catch((err) => debugWarn(err))
+            formItem?.validate('blur').catch((err) => debugWarn(err))
         }
         hasJustTabExitedInput = false
       }
@@ -439,7 +403,7 @@ const handleBlurInput = (e?: FocusEvent) => {
 }
 
 const pickerDisabled = computed(() => {
-  return props.disabled || elForm.disabled
+  return props.disabled || form?.disabled
 })
 
 const parsedValue = computed(() => {
@@ -526,12 +490,12 @@ const onClearIconClick = (event: MouseEvent) => {
 const valueIsEmpty = computed(() => {
   const { modelValue } = props
   return (
-    !modelValue ||
-    (Array.isArray(modelValue) && !modelValue.filter(Boolean).length)
+    !modelValue || (isArray(modelValue) && !modelValue.filter(Boolean).length)
   )
 })
 
 const onMouseDownInput = async (event: MouseEvent) => {
+  if (props.readonly || pickerDisabled.value) return
   if (
     (event.target as HTMLElement)?.tagName !== 'INPUT' ||
     refInput.value.includes(document.activeElement as HTMLInputElement)
@@ -623,6 +587,8 @@ const isValidValue = (value: DayOrDays) => {
 }
 
 const handleKeydownInput = async (event: KeyboardEvent) => {
+  if (props.readonly || pickerDisabled.value) return
+
   const { code } = event
   emitKeydown(event)
   if (code === EVENT_CODE.esc) {
@@ -774,6 +740,14 @@ defineExpose({
    * @description emit blur event
    */
   handleBlurInput,
+  /**
+   * @description opens picker
+   */
+  handleOpen,
+  /**
+   * @description closes picker
+   */
+  handleClose,
   /**
    * @description pick item manually
    */
