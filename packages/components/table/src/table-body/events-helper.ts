@@ -25,20 +25,20 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         namespace
       )
       if (column) {
-        table?.emit(`cell-${name}`, row, column, cell, event)
+        table?.emit(`cell${name}`, row, column, cell, event)
       }
     }
-    table?.emit(`row-${name}`, row, column, event)
+    table?.emit(`row${name}`, row, column, event)
   }
   const handleDoubleClick = (event: Event, row: T) => {
-    handleEvent(event, row, 'dblclick')
+    handleEvent(event, row, 'Dblclick')
   }
   const handleClick = (event: Event, row: T) => {
     props.store.commit('setCurrentRow', row)
-    handleEvent(event, row, 'click')
+    handleEvent(event, row, 'Click')
   }
   const handleContextMenu = (event: Event, row: T) => {
-    handleEvent(event, row, 'contextmenu')
+    handleEvent(event, row, 'Contextmenu')
   }
   const handleMouseEnter = debounce((index: number) => {
     props.store.commit('setHoverRow', index)

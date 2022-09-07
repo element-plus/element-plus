@@ -158,13 +158,13 @@ export const treeNodeContentProps = buildProps({
 } as const)
 
 // emits
-export const NODE_CLICK = 'node-click'
-export const NODE_EXPAND = 'node-expand'
-export const NODE_COLLAPSE = 'node-collapse'
-export const CURRENT_CHANGE = 'current-change'
+export const NODE_CLICK = 'nodeClick'
+export const NODE_EXPAND = 'nodeExpand'
+export const NODE_COLLAPSE = 'nodeCollapse'
+export const CURRENT_CHANGE = 'currentChange'
 export const NODE_CHECK = 'check'
-export const NODE_CHECK_CHANGE = 'check-change'
-export const NODE_CONTEXTMENU = 'node-contextmenu'
+export const NODE_CHECK_CHANGE = 'checkChange'
+export const NODE_CONTEXTMENU = 'nodeContextmenu'
 
 export const treeEmits = {
   [NODE_CLICK]: (data: TreeNodeData, node: TreeNode, e: MouseEvent) =>

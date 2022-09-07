@@ -36,8 +36,8 @@ export interface TransferCheckedState {
   rightChecked: TransferKey[]
 }
 
-export const LEFT_CHECK_CHANGE_EVENT = 'left-check-change'
-export const RIGHT_CHECK_CHANGE_EVENT = 'right-check-change'
+export const LEFT_CHECK_CHANGE_EVENT = 'leftCheckChange'
+export const RIGHT_CHECK_CHANGE_EVENT = 'rightCheckChange'
 
 export const transferProps = buildProps({
   data: {
