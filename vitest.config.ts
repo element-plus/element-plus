@@ -24,5 +24,6 @@ export default defineConfig({
     transformMode: {
       web: [/\.[jt]sx$/],
     },
+    reporters: 'dot',
   },
 })

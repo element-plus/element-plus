@@ -127,7 +127,7 @@ export default defineComponent({
     ArrowDown,
   },
   props: dropdownProps,
-  emits: ['visible-change', 'click', 'command'],
+  emits: ['visibleChange', 'click', 'command'],
   setup(props, { emit }) {
     const _instance = getCurrentInstance()
     const ns = useNamespace('dropdown')
@@ -193,7 +193,7 @@ export default defineComponent({
     }
 
     function handleBeforeShowTooltip() {
-      emit('visible-change', true)
+      emit('visibleChange', true)
     }
 
     function handleShowTooltip(event?: Event) {
@@ -203,7 +203,7 @@ export default defineComponent({
     }
 
     function handleBeforeHideTooltip() {
-      emit('visible-change', false)
+      emit('visibleChange', false)
     }
 
     provide(DROPDOWN_INJECTION_KEY, {

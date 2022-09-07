@@ -216,6 +216,7 @@ module.exports = defineConfig({
         math: 'always',
       },
     ],
+    'vue/custom-event-name-casing': 'error',
 
     // prettier
     'prettier/prettier': 'error',
