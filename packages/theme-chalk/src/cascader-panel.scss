@@ -124,8 +124,11 @@
     text-overflow: ellipsis;
   }
 
-  > .#{$namespace}-radio,
-  .#{$namespace}-checkbox {
+  > .#{$namespace}-checkbox {
+    margin-right: 0;
+  }
+
+  > .#{$namespace}-radio {
     margin-right: 0;
 
     .#{$namespace}-radio__label {
