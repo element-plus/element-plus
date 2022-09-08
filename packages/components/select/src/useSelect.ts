@@ -109,10 +109,15 @@ export const useSelect = (props, states: States, ctx) => {
     return criteria
   })
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : props.suffixIcon
+    props.remote && props.filterable && !props.remoteShowSuffix
+      ? ''
+      : props.suffixIcon
   )
   const iconReverse = computed(() =>
-    ns.is('reverse', iconComponent.value && states.visible)
+    ns.is(
+      'reverse',
+      iconComponent.value && states.visible && props.suffixTransition
+    )
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
@@ -322,6 +327,8 @@ export const useSelect = (props, states: States, ctx) => {
     (val) => {
       if (typeof val === 'number' && val > -1) {
         hoverOption.value = optionsArray.value[val] || {}
+      } else {
+        hoverOption.value = {}
       }
       optionsArray.value.forEach((option) => {
         option.hover = hoverOption.value === option
@@ -590,6 +597,7 @@ export const useSelect = (props, states: States, ctx) => {
     }
     ctx.emit(UPDATE_MODEL_EVENT, value)
     emitChange(value)
+    states.hoverIndex = -1
     states.visible = false
     ctx.emit('clear')
   }

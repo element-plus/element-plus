@@ -47,7 +47,7 @@ import { iconPropType } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/tokens'
 import TreeStore from './model/tree-store'
-import { getNodeKey as getNodeKeyUtil } from './model/util'
+import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import ElTreeNode from './tree-node.vue'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeHandler } from './model/useDragNode'
@@ -318,24 +318,18 @@ export default defineComponent({
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentNode')
 
-      const preNode = store.value.currentNode
-      store.value.setUserCurrentNode(node, shouldAutoExpandParent)
-      const currNode = store.value.currentNode
-      if (preNode !== currNode) {
-        ctx.emit('current-change', currNode ? currNode.data : null, currNode)
-      }
+      handleCurrentChange(store, ctx.emit, () =>
+        store.value.setUserCurrentNode(node, shouldAutoExpandParent)
+      )
     }
 
     const setCurrentKey = (key: TreeKey, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentKey')
 
-      const preNode = store.value.currentNode
-      store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
-      const currNode = store.value.currentNode
-      if (preNode !== currNode) {
-        ctx.emit('current-change', currNode ? currNode.data : null, currNode)
-      }
+      handleCurrentChange(store, ctx.emit, () =>
+        store.value.setCurrentNodeKey(key, shouldAutoExpandParent)
+      )
     }
 
     const getNode = (data: TreeKey | TreeNodeData): Node => {
