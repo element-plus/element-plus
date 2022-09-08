@@ -48,7 +48,7 @@ describe('Tabs.vue', () => {
       activeName.value = tab.paneName
     }
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value} onTab-click={handleClick}>
+      <Tabs v-model={activeName.value} onTabClick={handleClick}>
         <TabPane name="a" label="label-1">
           A
         </TabPane>
@@ -308,8 +308,8 @@ describe('Tabs.vue', () => {
         type="card"
         addable
         closable
-        onTab-add={addTab}
-        onTab-remove={removeTab}
+        onTabAdd={addTab}
+        onTabRemove={removeTab}
       >
         {editableTabs.value.map((item) => (
           <TabPane
@@ -646,7 +646,7 @@ describe('Tabs.vue', () => {
       activeName.value = tab.paneName
     }
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value} onTab-click={handleClick}>
+      <Tabs v-model={activeName.value} onTabClick={handleClick}>
         <TabPane name={0} label="label-1">
           A
         </TabPane>
@@ -678,7 +678,7 @@ describe('Tabs.vue', () => {
       activeName.value = tab.paneName
     }
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value} onTab-click={handleClick}>
+      <Tabs v-model={activeName.value} onTabClick={handleClick}>
         <TabPane name={0} label="n-0">
           number-0
         </TabPane>
