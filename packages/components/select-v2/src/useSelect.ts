@@ -434,20 +434,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const deleteTag = (event: MouseEvent, tag: Option) => {
-    const { valueKey } = props
-    const index = (props.modelValue as Array<any>).indexOf(get(tag, valueKey))
+  const deleteTag = (event: MouseEvent, option: Option) => {
+    let selectedOptions = (props.modelValue as any[]).slice()
 
+    const index = getValueIndex(selectedOptions, option.value)
     if (index > -1 && !selectDisabled.value) {
-      const value = [
+      selectedOptions = [
         ...(props.modelValue as Array<unknown>).slice(0, index),
         ...(props.modelValue as Array<unknown>).slice(index + 1),
       ]
       states.cachedOptions.splice(index, 1)
-      update(value)
-      emit('removeTag', get(tag, valueKey))
+      update(selectedOptions)
+      emit('removeTag', option.value)
       states.softFocus = true
-      removeNewOption(tag)
+      removeNewOption(option)
       return nextTick(focusAndUpdatePopup)
     }
     event.stopPropagation()
