@@ -33,13 +33,6 @@ describe('Tabs.vue', () => {
     expect(panesWrapper[0].attributes('id')).toBe('pane-0')
     expect(panesWrapper[0].attributes('aria-hidden')).toEqual('false')
     expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('0')
-
-    await navItemsWrapper[2].trigger('click')
-    expect(navItemsWrapper[0].classes('is-active')).toBe(false)
-    expect(panesWrapper[0].attributes('aria-hidden')).toEqual('true')
-    expect(navItemsWrapper[2].classes('is-active')).toBe(true)
-    expect(panesWrapper[2].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('2')
   })
 
   test('active-name', async () => {
@@ -430,9 +423,15 @@ describe('Tabs.vue', () => {
   })
 
   test('tab active bar offset', async () => {
+    const activeName = ref<TabPanelName | undefined>('A')
     const tabPosition = ref('bottom')
     const wrapper = mount(() => (
-      <Tabs ref="tabs" stretch tab-position={tabPosition.value}>
+      <Tabs
+        ref="tabs"
+        v-model={activeName.value}
+        stretch
+        tab-position={tabPosition.value}
+      >
         <TabPane label="label-1" name="A">
           A
         </TabPane>

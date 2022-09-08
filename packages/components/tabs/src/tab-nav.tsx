@@ -388,10 +388,7 @@ const TabNav = defineComponent({
               role="tablist"
               onKeydown={changeTab}
             >
-              {...[
-                !props.type ? <TabBar tabs={[...props.panes]} /> : null,
-                tabs,
-              ]}
+              {...[!props.type ? <TabBar tabs={[...props.panes]} /> : '', tabs]}
             </div>
           </div>
         </div>
