@@ -66,7 +66,9 @@ export const parseDate = function (
   const day =
     isEmpty(format) || format === 'x'
       ? dayjs(date).locale(lang)
-      : dayjs(date, format).locale(lang)
+      : !format?.includes('ww')
+      ? dayjs(date, format).locale(lang)
+      : dayjs().week(Number.parseInt((date as string).split('Week')[1]))
   return day.isValid() ? day : undefined
 }
 
