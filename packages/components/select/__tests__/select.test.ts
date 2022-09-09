@@ -1817,6 +1817,7 @@ describe('Select', () => {
       vm.debouncedQueryChange(event)
       await nextTick()
       const groups = wrapper.findAllComponents(Group)
+      await nextTick()
       expect(
         groups.filter((group) => {
           const vm = group.vm as any
