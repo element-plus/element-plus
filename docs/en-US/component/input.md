@@ -117,7 +117,7 @@ input/length-limiting
 
 ## Input Attributes
 
-| Attribute            | Description                                                                                                                            | Type                                | Accepted Values                                                                                                                       | Default |
+| Name                 | Description                                                                                                                            | Type                                | Accepted Values                                                                                                                       | Default |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | type                 | type of input                                                                                                                          | string                              | text, textarea and other [native input types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types) | text    |
 | modelValue / v-model | binding value                                                                                                                          | string / number                     | —                                                                                                                                     | —       |
@@ -160,13 +160,13 @@ input/length-limiting
 
 ## Input Events
 
-| Event Name | Description                                                                                           | Parameters                |
-| ---------- | ----------------------------------------------------------------------------------------------------- | ------------------------- |
-| blur       | triggers when Input blurs                                                                             | (event: FocusEvent)       |
-| focus      | triggers when Input focuses                                                                           | (event: FocusEvent)       |
-| change     | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | (value: string \| number) |
-| input      | triggers when the Input value change                                                                  | (value: string \| number) |
-| clear      | triggers when the Input is cleared by clicking the clear button                                       | —                         |
+| Name   | Description                                                                                           | Parameters                |
+| ------ | ----------------------------------------------------------------------------------------------------- | ------------------------- |
+| blur   | triggers when Input blurs                                                                             | (event: FocusEvent)       |
+| focus  | triggers when Input focuses                                                                           | (event: FocusEvent)       |
+| change | triggers when the input box loses focus or the user presses Enter, only if the modelValue has changed | (value: string \| number) |
+| input  | triggers when the Input value change                                                                  | (value: string \| number) |
+| clear  | triggers when the Input is cleared by clicking the clear button                                       | —                         |
 
 ## Input Methods
 

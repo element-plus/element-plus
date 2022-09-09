@@ -71,7 +71,7 @@ progress/indeterminate-progress
 
 ## Attributes
 
-| Attribute      | Description                                                                           | Type                  | Accepted Values           | Default |
+| Name           | Description                                                                           | Type                  | Accepted Values           | Default |
 | -------------- | ------------------------------------------------------------------------------------- | --------------------- | ------------------------- | ------- |
 | percentage     | percentage, **required**                                                              | number                | (0-100)                   | 0       |
 | type           | the type of progress bar                                                              | string                | line/circle/dashboard     | line    |

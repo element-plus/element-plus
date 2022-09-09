@@ -69,7 +69,7 @@ tree-v2/filter
 
 ## TreeV2 Attributes
 
-| Attribute             | Description                                                                                                                                  | Type                  | Default |
+| Name                  | Description                                                                                                                                  | Type                  | Default |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
 | data                  | tree data                                                                                                                                    | array                 | —       |
 | empty-text            | text displayed when data is void                                                                                                             | string                | —       |
@@ -118,7 +118,7 @@ tree-v2/filter
 
 ## TreeV2 Events
 
-| Event Name       | Description                                          | Parameters                                                                                                                              |
+| Name             | Description                                          | Parameters                                                                                                                              |
 | ---------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | node-click       | triggers when a node is clicked                      | `(data: TreeNodeData, node: TreeNode, e: MouseEvent)`                                                                                   |
 | node-contextmenu | triggers when a node is clicked by right button      | `(e: Event, data: TreeNodeData, node: TreeNode)`                                                                                        |

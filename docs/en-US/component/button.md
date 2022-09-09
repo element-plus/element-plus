@@ -125,7 +125,7 @@ button/custom
 
 ## Button Attributes
 
-| Attribute                           | Description                                                     | Type                  | Accepted Values                                               | Default |
+| Name                                | Description                                                     | Type                  | Accepted Values                                               | Default |
 | ----------------------------------- | --------------------------------------------------------------- | --------------------- | ------------------------------------------------------------- | ------- |
 | size                                | button size                                                     | string                | large / default /small                                        | —       |
 | type                                | button type                                                     | string                | primary / success / warning / danger / info / <del>text</del> | —       |
@@ -153,10 +153,10 @@ button/custom
 
 ## Button-Group Attributes
 
-| Attribute | Description                                      | Type   | Accepted Values                             | Default |
-| --------- | ------------------------------------------------ | ------ | ------------------------------------------- | ------- |
-| size      | control the size of buttons in this button-group | string | large / default /small                      | —       |
-| type      | control the type of buttons in this button-group | string | primary / success / warning / danger / info | —       |
+| Name | Description                                      | Type   | Accepted Values                             | Default |
+| ---- | ------------------------------------------------ | ------ | ------------------------------------------- | ------- |
+| size | control the size of buttons in this button-group | string | large / default /small                      | —       |
+| type | control the type of buttons in this button-group | string | primary / success / warning / danger / info | —       |
 
 ## Button-Group Slots
 

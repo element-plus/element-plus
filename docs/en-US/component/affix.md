@@ -41,7 +41,7 @@ affix/fixed
 
 ### Affix Attributes
 
-| Attribute  | Description                      | Type                | Default | Required |
+| Name       | Description                      | Type                | Default | Required |
 | ---------- | -------------------------------- | ------------------- | ------- | -------- |
 | `offset`   | offset distance.                 | `number`            | `0`     | No       |
 | `position` | position of affix.               | `'top' \| 'bottom'` | `'top'` | No       |
@@ -50,10 +50,10 @@ affix/fixed
 
 ### Affix Events
 
-| Event Name | Description                        | Type                                                     |
-| ---------- | ---------------------------------- | -------------------------------------------------------- |
-| `change`   | triggers when fixed state changed. | `(fixed: boolean) => void`                               |
-| `scroll`   | triggers when scrolling.           | `(value: { scrollTop: number, fixed: boolean }) => void` |
+| Name     | Description                        | Type                                                     |
+| -------- | ---------------------------------- | -------------------------------------------------------- |
+| `change` | triggers when fixed state changed. | `(fixed: boolean) => void`                               |
+| `scroll` | triggers when scrolling.           | `(value: { scrollTop: number, fixed: boolean }) => void` |
 
 ### Affix Exposes
 

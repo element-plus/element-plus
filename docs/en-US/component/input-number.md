@@ -81,7 +81,7 @@ input-number/controlled
 
 ## Attributes
 
-| Attribute                     | Description                                      | Type                   | Accepted Values         | Default     |
+| Name                          | Description                                      | Type                   | Accepted Values         | Default     |
 | ----------------------------- | ------------------------------------------------ | ---------------------- | ----------------------- | ----------- |
 | model-value / v-model         | binding value                                    | number / undefined     | —                       | —           |
 | min                           | the minimum allowed value                        | number                 | —                       | `-Infinity` |
@@ -102,11 +102,11 @@ input-number/controlled
 
 ## Events
 
-| Event Name | Description                     | Parameters                                             |
-| ---------- | ------------------------------- | ------------------------------------------------------ |
-| change     | triggers when the value changes | (currentValue: number \| NaN, oldValue: number \| NaN) |
-| blur       | triggers when Input blurs       | (event: FocusEvent)                                    |
-| focus      | triggers when Input focuses     | (event: FocusEvent)                                    |
+| Name   | Description                     | Parameters                                             |
+| ------ | ------------------------------- | ------------------------------------------------------ |
+| change | triggers when the value changes | (currentValue: number \| NaN, oldValue: number \| NaN) |
+| blur   | triggers when Input blurs       | (event: FocusEvent)                                    |
+| focus  | triggers when Input focuses     | (event: FocusEvent)                                    |
 
 ## Methods
 

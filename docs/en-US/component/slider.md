@@ -83,7 +83,7 @@ slider/show-marks
 
 ## Attributes
 
-| Attribute             | Description                                                                                              | Type            | Accepted Values                                                                                           | Default |
+| Name                  | Description                                                                                              | Type            | Accepted Values                                                                                           | Default |
 | --------------------- | -------------------------------------------------------------------------------------------------------- | --------------- | --------------------------------------------------------------------------------------------------------- | ------- |
 | model-value / v-model | binding value                                                                                            | number          | —                                                                                                         | 0       |
 | min                   | minimum value                                                                                            | number          | —                                                                                                         | 0       |
@@ -112,7 +112,7 @@ slider/show-marks
 
 ## Events
 
-| Event Name | Description                                                                                                       | Parameters           |
-| ---------- | ----------------------------------------------------------------------------------------------------------------- | -------------------- |
-| change     | triggers when the value changes (if the mouse is being dragged, this event only fires when the mouse is released) | value after changing |
-| input      | triggers when the data changes (It'll be emitted in real time during sliding)                                     | value after changing |
+| Name   | Description                                                                                                       | Parameters           |
+| ------ | ----------------------------------------------------------------------------------------------------------------- | -------------------- |
+| change | triggers when the value changes (if the mouse is being dragged, this event only fires when the mouse is released) | value after changing |
+| input  | triggers when the data changes (It'll be emitted in real time during sliding)                                     | value after changing |

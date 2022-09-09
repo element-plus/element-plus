@@ -48,22 +48,22 @@ const reWebTypesSource: ReWebTypesSource = (title) => {
   return { symbol }
 }
 
-const reAttribute: ReAttribute = (value, key) => {
+const reAttribute: ReAttribute = (value, key, _, title) => {
   const str = value
     .replace(/^\*\*(.*)\*\*$/, (_, item) => item)
     .replace(/^`(.*)`$/, (_, item) => item)
     .replaceAll(/<del>.*<\/del>/g, '')
 
-  if (key === 'Event Name' && /^(-|—)$/.test(str)) {
+  if (title === 'Events' && key === 'Name' && /^(-|—)$/.test(str)) {
     return 'default'
   } else if (str === '' || /^(-|—)$/.test(str)) {
     return undefined
-  } else if (key === 'Attribute' && /v-model:(.+)/.test(str)) {
+  } else if (key === 'Name' && /v-model:(.+)/.test(str)) {
     const _str = str.match(/v-model:(.+)/)
     return _str ? _str[1] : undefined
-  } else if (key === 'Attribute' && /v-model/.test(str)) {
+  } else if (key === 'Name' && /v-model/.test(str)) {
     return 'model-value'
-  } else if (key === 'Attribute') {
+  } else if (key === 'Name') {
     return str
       .replaceAll(/\s*[\\*]\s*/g, '')
       .replaceAll(/\s*<.*>\s*/g, '')
@@ -152,9 +152,7 @@ export const buildHelper: TaskFunction = (done) => {
     reAttribute,
     reWebTypesType,
     props: 'Attributes',
-    propsName: 'Attribute',
     propsOptions: 'Accepted Values',
-    eventsName: 'Event Name',
     tableRegExp:
       /#+\s+(.*\s*Attributes|.*\s*Events|.*\s*Slots|.*\s*Directives)\s*\n+(\|?.+\|.+)\n\|?\s*:?-+:?\s*\|.+((\n\|?.+\|.+)+)/g,
   })

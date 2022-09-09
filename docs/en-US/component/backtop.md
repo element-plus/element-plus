@@ -31,7 +31,7 @@ backtop/custom
 
 ### Backtop Attributes
 
-| Attribute           | Description                                                          | Type     | Default |
+| Name                | Description                                                          | Type     | Default |
 | ------------------- | -------------------------------------------------------------------- | -------- | ------- |
 | `target`            | the target to trigger scroll.                                        | `string` | —       |
 | `visibility-height` | the button will not show until the scroll height reaches this value. | `number` | `200`   |
@@ -40,9 +40,9 @@ backtop/custom
 
 ## Backtop Events
 
-| Event Name | Description          | Parameters                  |
-| ---------- | -------------------- | --------------------------- |
-| `click`    | triggers when click. | `(evt: MouseEvent) => void` |
+| Name    | Description          | Parameters                  |
+| ------- | -------------------- | --------------------------- |
+| `click` | triggers when click. | `(evt: MouseEvent) => void` |
 
 ## Backtop Slots
 

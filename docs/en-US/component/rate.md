@@ -77,7 +77,7 @@ Use `css/scss` language to change the global or local color. We set some global 
 
 ## Attributes
 
-| Attribute             | Description                                                                                                                                                                                                                    | Type             | Accepted Values         | Default                                                            |
+| Name                  | Description                                                                                                                                                                                                                    | Type             | Accepted Values         | Default                                                            |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- | ----------------------- | ------------------------------------------------------------------ |
 | model-value / v-model | binding value                                                                                                                                                                                                                  | number           | —                       | 0                                                                  |
 | max                   | max rating score                                                                                                                                                                                                               | number           | —                       | 5                                                                  |
@@ -100,6 +100,6 @@ Use `css/scss` language to change the global or local color. We set some global 
 
 ## Events
 
-| Event Name | Description                         | Parameters           |
-| ---------- | ----------------------------------- | -------------------- |
-| change     | Triggers when rate value is changed | value after changing |
+| Name   | Description                         | Parameters           |
+| ------ | ----------------------------------- | -------------------- |
+| change | Triggers when rate value is changed | value after changing |

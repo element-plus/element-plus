@@ -79,7 +79,7 @@ alert/icon-description
 
 ### Alert Attributes
 
-| Attribute     | Description                       | Type                                          | Default   | Required |
+| Name          | Description                       | Type                                          | Default   | Required |
 | ------------- | --------------------------------- | --------------------------------------------- | --------- | -------- |
 | `title`       | alert title.                      | `string`                                      | —         | No       |
 | `type`        | alert type.                       | `'success' \| 'warning' \| 'info' \| 'error'` | `'info'`  | No       |
@@ -92,9 +92,9 @@ alert/icon-description
 
 ### Alert Events
 
-| Event Name | Description                   | Type                        |
-| ---------- | ----------------------------- | --------------------------- |
-| `close`    | trigger when alert is closed. | `(evt: MouseEvent) => void` |
+| Name    | Description                   | Type                        |
+| ------- | ----------------------------- | --------------------------- |
+| `close` | trigger when alert is closed. | `(evt: MouseEvent) => void` |
 
 ### Alert Slots
 

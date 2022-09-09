@@ -63,7 +63,7 @@ pagination/more-elements
 
 ## Attributes
 
-| Attribute            | Description                                                                                                                     | Type                  | Accepted Values                                                          | Default                                |
+| Name                 | Description                                                                                                                     | Type                  | Accepted Values                                                          | Default                                |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------ | -------------------------------------- |
 | small                | whether to use small pagination                                                                                                 | boolean               | —                                                                        | false                                  |
 | background           | whether the buttons have a background color                                                                                     | boolean               | —                                                                        | false                                  |
@@ -96,7 +96,7 @@ We'll detect some deprecated usages, if your pagination don't appeared or worked
 
 ## Events
 
-| Event Name     | Description                                                       | Parameters           |
+| Name           | Description                                                       | Parameters           |
 | -------------- | ----------------------------------------------------------------- | -------------------- |
 | size-change    | triggers when `page-size` changes                                 | the new page size    |
 | current-change | triggers when `current-page` changes                              | the new current page |

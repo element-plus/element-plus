@@ -125,7 +125,7 @@ form/accessibility
 
 ### Form Attributes
 
-| Attribute                   | Description                                                                                                                    | Type                              | Default   |
+| Name                        | Description                                                                                                                    | Type                              | Default   |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------- | --------- |
 | `model`                     | Data of form component.                                                                                                        | `Record<string, any>`             | —         |
 | `rules`                     | Validation rules of form.                                                                                                      | `FormRules`                       | —         |
@@ -155,7 +155,7 @@ form/accessibility
 
 ### Form Events
 
-| Event Name | Description                             | Parameters                                                        |
+| Name       | Description                             | Parameters                                                        |
 | ---------- | --------------------------------------- | ----------------------------------------------------------------- |
 | `validate` | triggers after a form item is validated | `(prop: FormItemProp, isValid: boolean, message: string) => void` |
 
@@ -169,7 +169,7 @@ form/accessibility
 
 ### Form Item Attributes
 
-| Attribute        | Description                                                                                                                                                   | Type                              | Default     |
+| Name             | Description                                                                                                                                                   | Type                              | Default     |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ----------- |
 | `prop`           | A key of `model`. It could be an array of property paths (e.g `['a', 'b', 0]`). In the use of `validate` and `resetFields` method, the attribute is required. | `string \| string[]`              | —           |
 | `label`          | Label text.                                                                                                                                                   | `string`                          | —           |

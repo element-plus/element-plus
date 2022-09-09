@@ -121,7 +121,7 @@ space/fill-ratio
 
 ## Space Attributes
 
-| Attribute  | Description                     | Type                                                                              | Available value                                                             | Default    |
+| Name       | Description                     | Type                                                                              | Available value                                                             | Default    |
 | ---------- | ------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ---------- |
 | alignment  | Controls the alignment of items | string                                                                            | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | 'center'   |
 | class      | Classname                       | string / Array\<Record\<string, boolean\> \| String\> / Record\<string, boolean\> | -                                                                           | -          |

@@ -105,7 +105,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 ## Attributes
 
-| Attribute                      | Description                                                                                       | Type                                              | Accepted Values | Default |
+| Name                           | Description                                                                                       | Type                                              | Accepted Values | Default |
 | ------------------------------ | ------------------------------------------------------------------------------------------------- | ------------------------------------------------- | --------------- | ------- |
 | model-value / v-model          | visibility of Dialog                                                                              | boolean                                           | —               | —       |
 | title                          | title of Dialog. Can also be passed with a named slot (see the following table)                   | string                                            | —               | —       |
@@ -144,7 +144,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 ## Events
 
-| Event Name       | Description                                      | Parameters |
+| Name             | Description                                      | Parameters |
 | ---------------- | ------------------------------------------------ | ---------- |
 | open             | triggers when the Dialog opens                   | —          |
 | opened           | triggers when the Dialog opening animation ends  | —          |
