@@ -139,7 +139,8 @@ const addClassList = (
 
   if (
     instance.originalPosition.value !== 'absolute' &&
-    instance.originalPosition.value !== 'fixed'
+    instance.originalPosition.value !== 'fixed' &&
+    instance.originalPosition.value !== 'sticky'
   ) {
     addClass(parent, ns.bm('parent', 'relative'))
   } else {
