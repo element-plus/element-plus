@@ -63,7 +63,7 @@ importers:
       npm-run-all: ^4.1.5
       prettier: ^2.7.1
       pretty-quick: ^3.1.3
-      puppeteer: ^16.2.0
+      puppeteer: ^17.1.3
       resize-observer-polyfill: ^1.5.1
       rimraf: ^3.0.2
       sass: ^1.53.0
@@ -138,7 +138,7 @@ importers:
       npm-run-all: 4.1.5
       prettier: 2.7.1
       pretty-quick: 3.1.3_prettier@2.7.1
-      puppeteer: 16.2.0
+      puppeteer: 17.1.3
       resize-observer-polyfill: 1.5.1
       rimraf: 3.0.2
       sass: 1.53.0
@@ -172,7 +172,6 @@ importers:
       chalk: ^4.1.2
       clipboard-copy: ^4.0.1
       consola: ^2.15.3
-      cross-env: ^7.0.3
       element-plus: npm:element-plus@latest
       escape-html: ^1.0.3
       fast-glob: ^3.2.11
@@ -218,7 +217,6 @@ importers:
       '@vitejs/plugin-vue-jsx': 1.3.10
       chalk: 4.1.2
       consola: 2.15.3
-      cross-env: 7.0.3
       escape-html: 1.0.3
       fast-glob: 3.2.11
       markdown-it-container: 3.0.0
@@ -349,7 +347,6 @@ importers:
       '@types/lodash-es': ^4.17.6
       chalk: ^5.0.1
       consola: ^2.15.3
-      cross-env: ^7.0.3
       fast-glob: ^3.2.11
       lodash-es: ^4.17.21
       npm-run-all: ^4.1.5
@@ -362,7 +359,6 @@ importers:
       '@types/lodash-es': 4.17.6
       chalk: 5.0.1
       consola: 2.15.3
-      cross-env: 7.0.3
       fast-glob: 3.2.11
       lodash-es: 4.17.21
       npm-run-all: 4.1.5
@@ -4875,14 +4871,6 @@ packages:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
     dev: true
 
-  /cross-env/7.0.3:
-    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
-    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
-    hasBin: true
-    dependencies:
-      cross-spawn: 7.0.3
-    dev: true
-
   /cross-fetch/3.1.5:
     resolution: {integrity: sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==}
     dependencies:
@@ -5128,8 +5116,8 @@ packages:
     resolution: {integrity: sha512-463v3ZeIrcWtdgIg6vI6XUncguvr2TnGl4SzDXinkt9mSLpBJKXT3mW6xT3VQdDN11+WVs29pgvivTc4Lp8v+w==}
     engines: {node: '>=8'}
 
-  /devtools-protocol/0.0.1019158:
-    resolution: {integrity: sha512-wvq+KscQ7/6spEV7czhnZc9RM/woz1AY+/Vpd8/h2HFMwJSdTliu7f/yr1A6vDdJfKICZsShqsYpEQbdhg8AFQ==}
+  /devtools-protocol/0.0.1036444:
+    resolution: {integrity: sha512-0y4f/T8H9lsESV9kKP1HDUXgHxCdniFeJh6Erq+FbdOEvp/Ydp9t8kcAAM5gOd17pMrTDlFWntoHtzzeTUWKNw==}
     dev: true
 
   /diff/4.0.2:
@@ -9204,14 +9192,14 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /puppeteer/16.2.0:
-    resolution: {integrity: sha512-7Au6iC98rS6WEAD110V4Bxd0iIbqoFtzz9XzkG1BSofidS1VAJ881E1+GFR7Xn2Yea0hbj8n0ErzRyseMp1Ctg==}
+  /puppeteer/17.1.3:
+    resolution: {integrity: sha512-tVtvNSOOqlq75rUgwLeDAEQoLIiBqmRg0/zedpI6fuqIocIkuxG23A7FIl1oVSkuSMMLgcOP5kVhNETmsmjvPw==}
     engines: {node: '>=14.1.0'}
     requiresBuild: true
     dependencies:
       cross-fetch: 3.1.5
       debug: 4.3.4
-      devtools-protocol: 0.0.1019158
+      devtools-protocol: 0.0.1036444
       extract-zip: 2.0.1
       https-proxy-agent: 5.0.1
       progress: 2.0.3
