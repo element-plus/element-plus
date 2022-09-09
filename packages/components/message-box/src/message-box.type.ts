@@ -103,7 +103,7 @@ export interface ElMessageBoxOptions {
   draggable?: boolean
 
   /** Content of the MessageBox */
-  message?: string | VNode
+  message?: string | VNode | (() => VNode)
 
   /** Title of the MessageBox */
   title?: string | ElMessageBoxOptions

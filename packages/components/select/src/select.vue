@@ -8,7 +8,7 @@
     <el-tooltip
       ref="tooltipRef"
       :visible="dropMenuVisible"
-      placement="bottom-start"
+      :placement="placement"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
@@ -48,11 +48,9 @@
                 disable-transitions
                 @close="deleteTag($event, selected[0])"
               >
-                <span
-                  :class="nsSelect.e('tags-text')"
-                  :style="{ maxWidth: inputWidth - 123 + 'px' }"
-                  >{{ selected[0].currentLabel }}</span
-                >
+                <span :class="nsSelect.e('tags-text')" :style="tagTextStyle">
+                  {{ selected[0].currentLabel }}
+                </span>
               </el-tag>
               <el-tag
                 v-if="selected.length > 1"
@@ -274,6 +272,7 @@ import {
   unref,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
+import { placements } from '@popperjs/core'
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
@@ -389,6 +388,11 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    placement: {
+      type: String,
+      values: placements,
+      default: 'bottom-start',
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,
@@ -495,6 +499,14 @@ export default defineComponent({
       maxWidth: `${unref(inputWidth) - 32}px`,
       width: '100%',
     }))
+
+    const tagTextStyle = computed(() => {
+      const maxWidth =
+        unref(inputWidth) > 123
+          ? unref(inputWidth) - 123
+          : unref(inputWidth) - 75
+      return { maxWidth: `${maxWidth}px` }
+    })
 
     provide(
       selectKey,
@@ -623,6 +635,7 @@ export default defineComponent({
       wrapperKls,
       selectTagsStyle,
       nsSelect,
+      tagTextStyle,
     }
   },
 })

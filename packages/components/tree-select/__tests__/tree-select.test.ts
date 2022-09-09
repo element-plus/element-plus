@@ -315,7 +315,7 @@ describe('TreeSelect.vue', () => {
     expect(onNodeClick).toBeCalled()
   })
 
-  test('check-strictly showCheckbox clik node', async () => {
+  test('check-strictly showCheckbox click node', async () => {
     const { getWrapperRef, select, tree } = createComponent({
       props: {
         checkStrictly: true,
@@ -338,7 +338,7 @@ describe('TreeSelect.vue', () => {
     expect(wrapperRef.getCheckedKeys()).toEqual([1])
   })
 
-  test('check-strictly showCheckbox checkOnClickNode clik node', async () => {
+  test('check-strictly showCheckbox checkOnClickNode click node', async () => {
     const { getWrapperRef, select, tree } = createComponent({
       props: {
         checkStrictly: true,
@@ -415,5 +415,25 @@ describe('TreeSelect.vue', () => {
 
     expect(tree.findAll('.is-expanded[data-key="1"]').length).toBe(1)
     expect(tree.findAll('.is-expanded[data-key="11"]').length).toBe(1)
+  })
+
+  test('expand-on-click-node', async () => {
+    const { wrapper, tree } = createComponent({
+      props: {
+        expandOnClickNode: false,
+        checkOnClickNode: true,
+      },
+    })
+
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    expect(
+      tree.findAll('.el-tree-node__children')[0].attributes('style')
+    ).toContain('display: none;')
+
+    await wrapper.setProps({ expandOnClickNode: true })
+    await tree.findAll('.el-tree-node__content')[0].trigger('click')
+    expect(
+      tree.findAll('.el-tree-node__children')[0].attributes('style')
+    ).not.toContain('display: none;')
   })
 })

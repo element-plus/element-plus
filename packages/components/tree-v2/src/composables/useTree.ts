@@ -223,8 +223,8 @@ export function useTree(props: TreeProps, emit) {
       // whether only one node among the same level can be expanded at one time
       const { treeNodeMap } = tree.value
       keySet.forEach((key) => {
-        const node = treeNodeMap.get(key)
-        if (node && node.level === node.level) {
+        const treeNode = treeNodeMap.get(key)
+        if (node && node.level === treeNode.level) {
           keySet.delete(key)
         }
       })
