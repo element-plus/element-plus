@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody">
+  <teleport v-if="isClient" to="body" :disabled="!appendToBody">
     <transition
       name="dialog-fade"
       @after-enter="afterEnter"
@@ -71,6 +71,7 @@
 
 <script lang="ts" setup>
 import { computed, provide, ref, useSlots } from 'vue'
+import { useMounted } from '@vueuse/core'
 import { ElOverlay } from '@element-plus/components/overlay'
 import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
 import { dialogInjectionKey } from '@element-plus/tokens'
@@ -112,6 +113,7 @@ useDeprecated(
 )
 
 const ns = useNamespace('dialog')
+const isClient = useMounted()
 const dialogRef = ref<HTMLElement>()
 const headerRef = ref<HTMLElement>()
 const dialogContentRef = ref()

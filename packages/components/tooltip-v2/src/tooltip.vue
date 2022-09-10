@@ -4,7 +4,7 @@
       <tooltip-v2-trigger v-bind="triggerProps" nowrap>
         <slot name="trigger" />
       </tooltip-v2-trigger>
-      <teleport :to="to" :disabled="!teleported">
+      <teleport v-if="isClient" :to="to" :disabled="!teleported">
         <template v-if="fullTransition">
           <transition v-bind="transitionProps">
             <tooltip-v2-content v-if="alwaysOn || open" v-bind="contentProps">
@@ -41,6 +41,7 @@
 <script setup lang="ts">
 // @ts-nocheck
 import { reactive, toRefs } from 'vue'
+import { useMounted } from '@vueuse/core'
 import { pick } from 'lodash-unified'
 import { tooltipV2ArrowProps } from './arrow'
 import { tooltipV2ContentProps } from './content'
@@ -59,6 +60,8 @@ defineOptions({
 const props = defineProps(tooltipV2Props)
 
 const refedProps = toRefs(props)
+
+const isClient = useMounted()
 
 const arrowProps = reactive(pick(refedProps, Object.keys(tooltipV2ArrowProps)))
 
