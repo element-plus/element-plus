@@ -154,12 +154,14 @@ export default defineComponent({
     instance.columnId = columnId.value
 
     instance.columnConfig = columnConfig
-    return
+    return {
+      states: owner.value.store.states,
+    }
   },
   render() {
     try {
       const renderDefault = this.$slots.default?.({
-        row: {},
+        row: this.states.data.value[0] || {},
         column: {},
         $index: -1,
       })
