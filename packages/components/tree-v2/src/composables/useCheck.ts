@@ -13,7 +13,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   const { emit } = getCurrentInstance()!
 
   watch(
-    () => tree.value,
+    [() => tree.value, () => props.defaultCheckedKeys],
     () => {
       return nextTick(() => {
         _setCheckedKeys(props.defaultCheckedKeys)

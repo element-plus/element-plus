@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { cAF, isFirefox, rAF } from '@element-plus/utils'
 import { HORIZONTAL, VERTICAL } from '../defaults'
 

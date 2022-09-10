@@ -78,6 +78,10 @@ provide(
 
 watch(
   () => props.modelValue,
-  () => formItem?.validate('change').catch((err) => debugWarn(err))
+  () => {
+    if (props.validateEvent) {
+      formItem?.validate('change').catch((err) => debugWarn(err))
+    }
+  }
 )
 </script>

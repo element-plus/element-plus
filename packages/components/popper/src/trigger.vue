@@ -12,6 +12,7 @@
 </template>
 
 <script lang="ts" setup>
+// @ts-nocheck
 import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { unrefElement } from '@vueuse/core'

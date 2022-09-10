@@ -29,6 +29,7 @@
               :placeholder="t('el.datepicker.selectDate')"
               :model-value="visibleDate"
               size="small"
+              :validate-event="false"
               @input="(val) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
@@ -41,6 +42,7 @@
               :placeholder="t('el.datepicker.selectTime')"
               :model-value="visibleTime"
               size="small"
+              :validate-event="false"
               @focus="onTimePickerInputFocus"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"

@@ -9,7 +9,7 @@
   >
     <el-tooltip
       ref="popper"
-      v-model:visible="dropdownMenuVisible"
+      :visible="dropdownMenuVisible"
       :teleported="teleported"
       :popper-class="[nsSelectV2.e('popper'), popperClass]"
       :gpu-acceleration="false"
@@ -17,7 +17,7 @@
       :popper-options="popperOptions"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       :effect="effect"
-      placement="bottom-start"
+      :placement="placement"
       pure
       :transition="`${nsSelectV2.namespace.value}-zoom-in-top`"
       trigger="click"
@@ -86,7 +86,9 @@
                     <template #content>
                       <div :class="nsSelectV2.e('selection')">
                         <div
-                          v-for="(selected, idx) in states.cachedOptions"
+                          v-for="(selected, idx) in states.cachedOptions.slice(
+                            1
+                          )"
                           :key="idx"
                           :class="nsSelectV2.e('selected-item')"
                         >
@@ -177,6 +179,7 @@
                 :unselectable="expanded ? 'on' : undefined"
                 @update:modelValue="onUpdateInputValue"
                 @focus="handleFocus"
+                @blur="handleBlur"
                 @input="onInput"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
@@ -225,6 +228,7 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @focus="handleFocus"
+                @blur="handleBlur"
                 @input="onInput"
                 @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
                 @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
@@ -251,9 +255,7 @@
               nsSelectV2.is(
                 'transparent',
                 states.isComposing ||
-                  (placeholder && multiple
-                    ? modelValue.length === 0
-                    : !hasModelValue)
+                  (multiple ? modelValue.length === 0 : !hasModelValue)
               ),
             ]"
           >

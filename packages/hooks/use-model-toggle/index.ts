@@ -171,6 +171,7 @@ export const createModelToggleComposable = <T extends string>(name: T) => {
       hide,
       show,
       toggle,
+      hasUpdateHandler,
     }
   }
 

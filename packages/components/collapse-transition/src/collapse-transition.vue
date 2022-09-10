@@ -5,6 +5,7 @@
 </template>
 <script lang="ts" setup>
 import { useNamespace } from '@element-plus/hooks'
+import type { RendererElement } from '@vue/runtime-core'
 
 defineOptions({
   name: 'ElCollapseTransition',
@@ -13,7 +14,7 @@ defineOptions({
 const ns = useNamespace('collapse-transition')
 
 const on = {
-  beforeEnter(el) {
+  beforeEnter(el: RendererElement) {
     if (!el.dataset) el.dataset = {}
 
     el.dataset.oldPaddingTop = el.style.paddingTop
@@ -24,7 +25,7 @@ const on = {
     el.style.paddingBottom = 0
   },
 
-  enter(el) {
+  enter(el: RendererElement) {
     el.dataset.oldOverflow = el.style.overflow
     if (el.scrollHeight !== 0) {
       el.style.maxHeight = `${el.scrollHeight}px`
@@ -39,12 +40,12 @@ const on = {
     el.style.overflow = 'hidden'
   },
 
-  afterEnter(el) {
+  afterEnter(el: RendererElement) {
     el.style.maxHeight = ''
     el.style.overflow = el.dataset.oldOverflow
   },
 
-  beforeLeave(el) {
+  beforeLeave(el: RendererElement) {
     if (!el.dataset) el.dataset = {}
     el.dataset.oldPaddingTop = el.style.paddingTop
     el.dataset.oldPaddingBottom = el.style.paddingBottom
@@ -54,7 +55,7 @@ const on = {
     el.style.overflow = 'hidden'
   },
 
-  leave(el) {
+  leave(el: RendererElement) {
     if (el.scrollHeight !== 0) {
       el.style.maxHeight = 0
       el.style.paddingTop = 0
@@ -62,7 +63,7 @@ const on = {
     }
   },
 
-  afterLeave(el) {
+  afterLeave(el: RendererElement) {
     el.style.maxHeight = ''
     el.style.overflow = el.dataset.oldOverflow
     el.style.paddingTop = el.dataset.oldPaddingTop

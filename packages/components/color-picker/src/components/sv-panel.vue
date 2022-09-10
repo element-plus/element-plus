@@ -1,14 +1,14 @@
 <template>
   <div
-    class="el-color-svpanel"
+    :class="ns.b()"
     :style="{
       backgroundColor: background,
     }"
   >
-    <div class="el-color-svpanel__white" />
-    <div class="el-color-svpanel__black" />
+    <div :class="ns.e('white')" />
+    <div :class="ns.e('black')" />
     <div
-      class="el-color-svpanel__cursor"
+      :class="ns.e('cursor')"
       :style="{
         top: cursorTop + 'px',
         left: cursorLeft + 'px',
@@ -20,6 +20,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -29,6 +30,7 @@ import {
   watch,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
 import draggable from '../draggable'
 
 import type { PropType } from 'vue'
@@ -44,6 +46,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const ns = useNamespace('color-svpanel')
     // instance
     const instance = getCurrentInstance()
     // data
@@ -118,6 +121,7 @@ export default defineComponent({
       colorValue,
       handleDrag,
       update,
+      ns,
     }
   },
 })

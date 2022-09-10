@@ -289,6 +289,32 @@ describe('Autocomplete.vue', () => {
     expect(document.body.querySelector('.highlighted')).toBeDefined()
   })
 
+  test('fitInputWidth', async () => {
+    const wrapper = _mount({
+      fitInputWidth: true,
+    })
+    await nextTick()
+
+    const inputDom = wrapper.find('.el-input').element
+    const mockInputWidth = vi
+      .spyOn(inputDom as HTMLElement, 'offsetWidth', 'get')
+      .mockReturnValue(200)
+    await wrapper.find('input').trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+    await nextTick()
+    await nextTick()
+
+    expect(
+      (
+        document.body.querySelector(
+          '.el-autocomplete-suggestion'
+        ) as HTMLElement
+      ).style.width
+    ).toBe('200px')
+    mockInputWidth.mockRestore()
+  })
+
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')

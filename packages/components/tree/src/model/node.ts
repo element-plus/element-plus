@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { reactive } from 'vue'
 import { hasOwn } from '@element-plus/utils'
 import { NODE_KEY, markNodeData } from './util'
@@ -34,7 +35,7 @@ export const getChildState = (node: Node[]): TreeNodeChildState => {
 }
 
 const reInitChecked = function (node: Node): void {
-  if (node.childNodes.length === 0) return
+  if (node.childNodes.length === 0 || node.loading) return
 
   const { all, none, half } = getChildState(node.childNodes)
   if (all) {
@@ -535,11 +536,11 @@ class Node {
       this.loading = true
 
       const resolve = (children) => {
-        this.loaded = true
-        this.loading = false
         this.childNodes = []
 
         this.doCreateChildren(children, defaultProps)
+        this.loaded = true
+        this.loading = false
 
         this.updateLeafState()
         if (callback) {

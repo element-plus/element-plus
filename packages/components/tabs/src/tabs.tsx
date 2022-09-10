@@ -1,15 +1,25 @@
-import { defineComponent, provide, reactive, ref, renderSlot, watch } from 'vue'
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  provide,
+  reactive,
+  ref,
+  renderSlot,
+  watch,
+} from 'vue'
 import {
   buildProps,
   definePropType,
   isNumber,
   isString,
+  isUndefined,
 } from '@element-plus/utils'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-plus/tokens'
-import { useNamespace } from '@element-plus/hooks'
+import { useDeprecated, useNamespace } from '@element-plus/hooks'
 import TabNav from './tab-nav'
 import type { TabNavInstance } from './tab-nav'
 import type { TabsPaneContext } from '@element-plus/tokens'
@@ -27,13 +37,11 @@ export const tabsProps = buildProps({
   },
   activeName: {
     type: [String, Number],
-    default: '',
   },
   closable: Boolean,
   addable: Boolean,
   modelValue: {
     type: [String, Number],
-    default: '',
   },
   editable: Boolean,
   tabPosition: {
@@ -59,12 +67,12 @@ const isPanelName = (value: unknown): value is string | number =>
 
 export const tabsEmits = {
   [UPDATE_MODEL_EVENT]: (name: TabPanelName) => isPanelName(name),
-  'tab-click': (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
-  'tab-change': (name: TabPanelName) => isPanelName(name),
+  tabClick: (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
+  tabChange: (name: TabPanelName) => isPanelName(name),
   edit: (paneName: TabPanelName | undefined, action: 'remove' | 'add') =>
     ['remove', 'add'].includes(action),
-  'tab-remove': (name: TabPanelName) => isPanelName(name),
-  'tab-add': () => true,
+  tabRemove: (name: TabPanelName) => isPanelName(name),
+  tabAdd: () => true,
 }
 export type TabsEmits = typeof tabsEmits
 
@@ -79,17 +87,19 @@ export default defineComponent({
 
     const nav$ = ref<TabNavInstance>()
     const panes = reactive<Record<number, TabsPaneContext>>({})
-    const currentName = ref(props.modelValue || props.activeName || '0')
+    const currentName = ref<TabPanelName>(
+      props.modelValue ?? props.activeName ?? '0'
+    )
 
     const changeCurrentName = (value: TabPanelName) => {
       currentName.value = value
       emit(UPDATE_MODEL_EVENT, value)
-      emit('tab-change', value)
+      emit('tabChange', value)
     }
 
-    const setCurrentName = async (value: TabPanelName) => {
+    const setCurrentName = async (value?: TabPanelName) => {
       // should do nothing.
-      if (currentName.value === value) return
+      if (currentName.value === value || isUndefined(value)) return
 
       try {
         const canLeave = await props.beforeLeave?.(value, currentName.value)
@@ -111,20 +121,32 @@ export default defineComponent({
     ) => {
       if (tab.props.disabled) return
       setCurrentName(tabName)
-      emit('tab-click', tab, event)
+      emit('tabClick', tab, event)
     }
 
     const handleTabRemove = (pane: TabsPaneContext, ev: Event) => {
-      if (pane.props.disabled) return
+      if (pane.props.disabled || isUndefined(pane.props.name)) return
       ev.stopPropagation()
       emit('edit', pane.props.name, 'remove')
-      emit('tab-remove', pane.props.name)
+      emit('tabRemove', pane.props.name)
     }
 
     const handleTabAdd = () => {
       emit('edit', undefined, 'add')
-      emit('tab-add')
+      emit('tabAdd')
     }
+
+    useDeprecated(
+      {
+        from: '"activeName"',
+        replacement: '"model-value" or "v-model"',
+        scope: 'ElTabs',
+        version: '2.3.0',
+        ref: 'https://element-plus.org/en-US/component/tabs.html#attributes',
+        type: 'Attribute',
+      },
+      computed(() => !!props.activeName)
+    )
 
     watch(
       () => props.activeName,
@@ -137,6 +159,7 @@ export default defineComponent({
     )
 
     watch(currentName, async () => {
+      await nextTick()
       // call exposed function, Vue doesn't support expose in typescript yet.
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error

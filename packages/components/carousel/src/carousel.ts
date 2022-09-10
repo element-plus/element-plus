@@ -7,9 +7,13 @@ export const carouselProps = buildProps({
     type: Number,
     default: 0,
   },
-  height: { type: String, default: '' },
+  height: {
+    type: String,
+    default: '',
+  },
   trigger: {
     type: String,
+    values: ['hover', 'click'],
     default: 'hover',
   },
   autoplay: {
@@ -20,26 +24,33 @@ export const carouselProps = buildProps({
     type: Number,
     default: 3000,
   },
-  indicatorPosition: { type: String, default: '' },
+  indicatorPosition: {
+    type: String,
+    values: ['', 'none', 'outside'],
+    default: '',
+  },
   indicator: {
     type: Boolean,
     default: true,
   },
   arrow: {
     type: String,
+    values: ['always', 'hover', 'never'],
     default: 'hover',
   },
-  type: { type: String, default: '' },
+  type: {
+    type: String,
+    values: ['', 'card'],
+    default: '',
+  },
   loop: {
     type: Boolean,
     default: true,
   },
   direction: {
     type: String,
+    values: ['horizontal', 'vertical'],
     default: 'horizontal',
-    validator(val: string) {
-      return ['horizontal', 'vertical'].includes(val)
-    },
   },
   pauseOnHover: {
     type: Boolean,

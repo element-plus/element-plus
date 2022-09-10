@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isFunction } from '@vue/shared'
 import { capitalize, isEmpty, isUndefined } from '@element-plus/utils'
 import type { VNode } from 'vue'
@@ -9,10 +10,7 @@ export type CascaderValue =
   | CascaderNodePathValue
   | (CascaderNodeValue | CascaderNodePathValue)[]
 export type CascaderConfig = Required<CascaderProps>
-export enum ExpandTrigger {
-  CLICK = 'click',
-  HOVER = 'hover',
-}
+export type ExpandTrigger = 'click' | 'hover'
 export type isDisabled = (data: CascaderOption, node: Node) => boolean
 export type isLeaf = (data: CascaderOption, node: Node) => boolean
 export type Resolve = (dataList?: CascaderOption[]) => void

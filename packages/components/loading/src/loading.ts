@@ -54,17 +54,10 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   function close() {
     if (options.beforeClose && !options.beforeClose()) return
 
-    const target = data.parent
-    target.vLoadingAddClassList = undefined
     afterLeaveFlag.value = true
     clearTimeout(afterLeaveTimer)
 
-    afterLeaveTimer = window.setTimeout(() => {
-      if (afterLeaveFlag.value) {
-        afterLeaveFlag.value = false
-        destroySelf()
-      }
-    }, 400)
+    afterLeaveTimer = window.setTimeout(handleAfterLeave, 400)
     data.visible = false
 
     options.closed?.()
@@ -72,7 +65,9 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
 
   function handleAfterLeave() {
     if (!afterLeaveFlag.value) return
+    const target = data.parent
     afterLeaveFlag.value = false
+    target.vLoadingAddClassList = undefined
     destroySelf()
   }
 

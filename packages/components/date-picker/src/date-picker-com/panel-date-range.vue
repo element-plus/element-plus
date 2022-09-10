@@ -32,6 +32,7 @@
                 :placeholder="t('el.datepicker.startDate')"
                 :class="drpNs.e('editor')"
                 :model-value="minVisibleDate"
+                :validate-event="false"
                 @input="(val) => handleDateInput(val, 'min')"
                 @change="(val) => handleDateChange(val, 'min')"
               />
@@ -46,6 +47,7 @@
                 :disabled="rangeState.selecting"
                 :placeholder="t('el.datepicker.startTime')"
                 :model-value="minVisibleTime"
+                :validate-event="false"
                 @focus="minTimePickerVisible = true"
                 @input="(val) => handleTimeInput(val, 'min')"
                 @change="(val) => handleTimeChange(val, 'min')"
@@ -72,6 +74,7 @@
                 :placeholder="t('el.datepicker.endDate')"
                 :model-value="maxVisibleDate"
                 :readonly="!minDate"
+                :validate-event="false"
                 @input="(val) => handleDateInput(val, 'max')"
                 @change="(val) => handleDateChange(val, 'max')"
               />
@@ -87,6 +90,7 @@
                 :placeholder="t('el.datepicker.endTime')"
                 :model-value="maxVisibleTime"
                 :readonly="!minDate"
+                :validate-event="false"
                 @focus="minDate && (maxTimePickerVisible = true)"
                 @input="(val) => handleTimeInput(val, 'max')"
                 @change="(val) => handleTimeChange(val, 'max')"
@@ -700,7 +704,7 @@ function onParsedValueChanged(
   }
 }
 
-emit('set-picker-option', ['isValidRange', isValidRange])
+emit('set-picker-option', ['isValidValue', isValidRange])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['handleClear', handleClear])

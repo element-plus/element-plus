@@ -51,6 +51,7 @@
 import {
   computed,
   defineComponent,
+  onDeactivated,
   provide,
   readonly,
   ref,
@@ -145,7 +146,7 @@ export default defineComponent({
     const open = ref(false)
     const toggleReason = ref<Event | undefined>(undefined)
 
-    const { show, hide } = useModelToggle({
+    const { show, hide, hasUpdateHandler } = useModelToggle({
       indicator: open,
       toggleReason,
     })
@@ -157,7 +158,9 @@ export default defineComponent({
       close: hide,
     })
 
-    const controlled = computed(() => isBoolean(props.visible))
+    const controlled = computed(
+      () => isBoolean(props.visible) && !hasUpdateHandler.value
+    )
 
     provide(TOOLTIP_INJECTION_KEY, {
       controlled,
@@ -206,6 +209,8 @@ export default defineComponent({
         contentRef.value?.contentRef?.popperContentRef
       return popperContent && popperContent.contains(document.activeElement)
     }
+
+    onDeactivated(() => open.value && hide())
 
     return {
       compatShowAfter,

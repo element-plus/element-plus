@@ -23,22 +23,18 @@ describe('use-locale', () => {
 
   beforeEach(() => {
     wrapper = mount(
-      {
+      defineComponent({
         props: {
-          locale: Object as PropType<Language>,
+          locale: {
+            type: Object as PropType<Language>,
+            default: Chinese,
+          },
         },
-        components: {
-          'el-test': TestComp,
-        },
-        setup(props, { slots }) {
+        setup(props) {
           provideGlobalConfig(computed(() => ({ locale: props.locale })))
-          return () => slots.default?.()
+          return () => <TestComp />
         },
-      },
-      {
-        props: { locale: Chinese },
-        slots: { default: () => <TestComp /> },
-      }
+      })
     )
   })
 

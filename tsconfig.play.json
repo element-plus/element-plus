@@ -2,8 +2,7 @@
   "extends": "./tsconfig.web.json",
   "compilerOptions": {
     "allowJs": true,
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "types": []
+    "lib": ["ESNext", "DOM", "DOM.Iterable"]
   },
   "include": [
     "packages",

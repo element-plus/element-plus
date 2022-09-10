@@ -41,7 +41,7 @@ scrollbar/manual-scroll
 
 ## Scrollbar Attributes
 
-| Attribute  | Description                                                                                                                     | Type            | Accepted Values | Default |
+| Name       | Description                                                                                                                     | Type            | Accepted Values | Default |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------- | --------------- | ------- |
 | height     | height of scrollbar                                                                                                             | string / number | —               | —       |
 | max-height | max height of scrollbar                                                                                                         | string / number | —               | —       |
@@ -57,9 +57,9 @@ scrollbar/manual-scroll
 
 ## Scrollbar Events
 
-| Event Name | Description             | Parameters                                        |
-| ---------- | ----------------------- | ------------------------------------------------- |
-| scroll     | triggers when scrolling | distance of scrolling `{ scrollLeft, scrollTop }` |
+| Name   | Description             | Parameters                                        |
+| ------ | ----------------------- | ------------------------------------------------- |
+| scroll | triggers when scrolling | distance of scrolling `{ scrollLeft, scrollTop }` |
 
 ## Scrollbar Methods
 

@@ -59,7 +59,7 @@ image/image-preview
 
 ### Image Attributes
 
-| Attribute                                | Description                                                                                                                                       | Type                                                        | Default                                                                 |
+| Name                                     | Description                                                                                                                                       | Type                                                        | Default                                                                 |
 | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------------------- |
 | `src`                                    | image source, same as native.                                                                                                                     | `string`                                                    | —                                                                       |
 | `fit`                                    | indicate how the image should be resized to fit its container, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit). | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale'-down'` | —                                                                       |
@@ -107,7 +107,13 @@ image/image-preview
 
 ### Image Viewer Events
 
-| Event name | Description                                                                                       | Type                      |
-| ---------- | ------------------------------------------------------------------------------------------------- | ------------------------- |
-| `close`    | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | `() => void`              |
-| `switch`   | trigger when switching images.                                                                    | `(index: number) => void` |
+| Name     | Description                                                                                       | Type                      |
+| -------- | ------------------------------------------------------------------------------------------------- | ------------------------- |
+| `close`  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | `() => void`              |
+| `switch` | trigger when switching images.                                                                    | `(index: number) => void` |
+
+## Image Viewer Methods
+
+| Method        | Description           | Parameters                                            |
+| ------------- | --------------------- | ----------------------------------------------------- |
+| setActiveItem | manually switch image | index of the image to be switched to, starting from 0 |

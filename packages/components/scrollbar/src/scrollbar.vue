@@ -93,6 +93,8 @@ const handleScroll = () => {
   }
 }
 
+// TODO: refactor method overrides, due to script setup dts
+// @ts-nocheck
 function scrollTo(xCord: number, yCord?: number): void
 function scrollTo(options: ScrollToOptions): void
 function scrollTo(arg1: unknown, arg2?: number) {
@@ -178,7 +180,10 @@ provide(
 )
 
 onMounted(() => {
-  if (!props.native) nextTick(() => update())
+  if (!props.native)
+    nextTick(() => {
+      update()
+    })
 })
 onUpdated(() => update())
 
