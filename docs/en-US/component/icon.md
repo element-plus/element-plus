@@ -214,10 +214,10 @@ import { Edit, Share, Delete, Search, Loading } from '@element-plus/icons-vue'
 
 ## Icon Attributes
 
-| Attribute | Description                | Type                           | Acceptable Value | Default                |
-| --------- | -------------------------- | ------------------------------ | ---------------- | ---------------------- |
-| color     | SVG tag's fill attribute   | Pick\<CSSProperties, 'color'\> | -                | inherit from color     |
-| size      | SVG icon size, size x size | number \| string               | -                | inherit from font size |
+| Name  | Description                | Type                           | Acceptable Value | Default                |
+| ----- | -------------------------- | ------------------------------ | ---------------- | ---------------------- |
+| color | SVG tag's fill attribute   | Pick\<CSSProperties, 'color'\> | -                | inherit from color     |
+| size  | SVG icon size, size x size | number \| string               | -                | inherit from font size |
 
 ## Icon Slots
 
