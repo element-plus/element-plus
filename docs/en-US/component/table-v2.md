@@ -296,7 +296,7 @@ table-v2/manual-scroll
 
 ## TableV2 Attributes
 
-| Attribute                 | Description                                                                                                                | Type                                                 | Default   |
+| Name                      | Description                                                                                                                | Type                                                 | Default   |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | --------- |
 | cache                     | Number of rows rendered in advance for boosting the performance                                                            | Number                                               | 2         |
 | estimated-row-height      | The estimated row height for rendering dynamic height rows                                                                 | Number                                               | -         |
@@ -340,9 +340,9 @@ table-v2/manual-scroll
 | empty       | -                               |
 | overlay     | -                               |
 
-## Table Events
+## TableV2 Events
 
-| Event Name           | Description                                   | Parameters                               |
+| Name                 | Description                                   | Parameters                               |
 | -------------------- | --------------------------------------------- | ---------------------------------------- |
 | column-sort          | Invoked when column sorted                    | Object\<ColumnSortParam\>                |
 | expanded-rows-change | Invoked when expanded rows changed            | `Array<KeyType>`                         |
@@ -351,7 +351,7 @@ table-v2/manual-scroll
 | rows-rendered        | Invoked when rows are rendered                | Object\<[RowsRenderedParams](#typings)\> |
 | row-event-handlers   | A collection of handlers attached to each row | Object\<[RowEventHandlers](#typings)\>   |
 
-## Table Methods
+## TableV2 Methods
 
 | Event Name   | Description                                          | Parameters                                                                 |
 | ------------ | ---------------------------------------------------- | -------------------------------------------------------------------------- |
@@ -368,7 +368,7 @@ Note that these are `JavaScript` Objects, so that you **CANNOT USE** kebab-case 
 
 ## Column Attribute
 
-| Attribute      | Description                                                               | Type                                                                                                                                                             | Default |
+| Name           | Description                                                               | Type                                                                                                                                                             | Default |
 | -------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | align          | Alignment of the table cell content                                       | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L6)         | left    |
 | class          | Class name for the column                                                 | String                                                                                                                                                           | -       |

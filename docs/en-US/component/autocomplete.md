@@ -35,7 +35,7 @@ autocomplete/remote-search
 
 ## Autocomplete Attributes
 
-| Attribute                         | Description                                                                                                                | Type                            | Accepted Values                                                | Default      |
+| Name                              | Description                                                                                                                | Type                            | Accepted Values                                                | Default      |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | -------------------------------------------------------------- | ------------ |
 | placeholder                       | the placeholder of Autocomplete                                                                                            | string                          | —                                                              | —            |
 | clearable                         | whether to show clear button                                                                                               | boolean                         | —                                                              | false        |
@@ -68,10 +68,10 @@ autocomplete/remote-search
 
 ## Autocomplete Events
 
-| Event Name | Description                                      | Parameters                |
-| ---------- | ------------------------------------------------ | ------------------------- |
-| select     | triggers when a suggestion is clicked            | suggestion being clicked  |
-| change     | triggers when the icon inside Input value change | (value: string \| number) |
+| Name   | Description                                      | Parameters                |
+| ------ | ------------------------------------------------ | ------------------------- |
+| select | triggers when a suggestion is clicked            | suggestion being clicked  |
+| change | triggers when the icon inside Input value change | (value: string \| number) |
 
 ## Autocomplete Methods
 

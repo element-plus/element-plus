@@ -85,7 +85,7 @@ tabs/navbar
 
 ## Tabs Attributes
 
-| Attribute             | Description                                                                                                                             | Type                                | Accepted Values       | Default           |
+| Name                  | Description                                                                                                                             | Type                                | Accepted Values       | Default           |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | --------------------- | ----------------- |
 | model-value / v-model | binding value, name of the selected tab                                                                                                 | string / number                     | —                     | name of first tab |
 | type                  | type of Tab                                                                                                                             | string                              | card/border-card      | —                 |
@@ -99,7 +99,7 @@ tabs/navbar
 
 ## Tabs Events
 
-| Event Name | Description                                           | Parameters                                                           |
+| Name       | Description                                           | Parameters                                                           |
 | ---------- | ----------------------------------------------------- | -------------------------------------------------------------------- |
 | tab-click  | triggers when a tab is clicked                        | (pane: `TabsPaneContext`, ev: `Event`)                               |
 | tab-change | triggers when `activeName` is changed                 | (name: `TabPanelName`)                                               |
@@ -117,13 +117,13 @@ tabs/navbar
 
 ## Tab-pane Attributes
 
-| Attribute | Description                                                                          | Type            | Accepted Values | Default                                                                        |
-| --------- | ------------------------------------------------------------------------------------ | --------------- | --------------- | ------------------------------------------------------------------------------ |
-| label     | title of the tab                                                                     | string          | —               | —                                                                              |
-| disabled  | whether Tab is disabled                                                              | boolean         | —               | false                                                                          |
-| name      | identifier corresponding to the name of Tabs, representing the alias of the tab-pane | string / number | —               | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '0' |
-| closable  | whether Tab is closable                                                              | boolean         | —               | false                                                                          |
-| lazy      | whether Tab is lazily rendered                                                       | boolean         | —               | false                                                                          |
+| Name     | Description                                                                          | Type            | Accepted Values | Default                                                                        |
+| -------- | ------------------------------------------------------------------------------------ | --------------- | --------------- | ------------------------------------------------------------------------------ |
+| label    | title of the tab                                                                     | string          | —               | —                                                                              |
+| disabled | whether Tab is disabled                                                              | boolean         | —               | false                                                                          |
+| name     | identifier corresponding to the name of Tabs, representing the alias of the tab-pane | string / number | —               | ordinal number of the tab-pane in the sequence, e.g. the first tab-pane is '0' |
+| closable | whether Tab is closable                                                              | boolean         | —               | false                                                                          |
+| lazy     | whether Tab is lazily rendered                                                       | boolean         | —               | false                                                                          |
 
 ## Tab-pane Slots
 
