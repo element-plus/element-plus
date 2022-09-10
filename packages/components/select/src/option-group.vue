@@ -15,7 +15,6 @@ import {
   defineComponent,
   getCurrentInstance,
   inject,
-  nextTick,
   onMounted,
   provide,
   reactive,
@@ -78,11 +77,13 @@ export default defineComponent({
     }
 
     const { groupQueryChange } = toRaw(select)
-    watch(groupQueryChange, () => {
-      nextTick(() => {
+    watch(
+      groupQueryChange,
+      () => {
         visible.value = children.value.some((option) => option.visible === true)
-      })
-    })
+      },
+      { flush: 'post' }
+    )
 
     return {
       visible,
