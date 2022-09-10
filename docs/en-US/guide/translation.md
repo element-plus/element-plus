@@ -1,10 +1,15 @@
-[中文](./HELP_TRANSLATING_ZH.md) | English
+---
+title: Translation
+lang: en-US
+---
 
-# How to help translating
+# Translation
+
+## Documentation
 
 In this chapter, we will discuss how to help translating the documentation of Element Plus.
 
-## Background
+### Background
 
 Before we did the upgrade of the documentation architecture, each documentation update needs 5 languages,
 which most of the contributors use online translator for their non-native languages,
@@ -17,7 +22,7 @@ So we decided to give the documentation site an upgrade.
 
 We took [Crowdin](https://crowdin.com) as our first step to make the documentation site more automated.
 
-## How do I translate the documentation?
+### How do I translate the documentation?
 
 1. Create an account on [Crowdin](https://crowdin.com), it is recommended that you use your GitHub account to authorize Crowdin.
 2. Go to [Element Plus](https://crowdin.com/project/element-plus) project.
@@ -28,7 +33,7 @@ We took [Crowdin](https://crowdin.com) as our first step to make the documentati
 That simple, and the UI is very intuitive to use, you should have no trouble using it.
 After you submit your work, it would be online once the translation is approved by proofreader.
 
-## How can I become a proofreader?
+### How can I become a proofreader?
 
 You can [raise an issue](https://crowdin.com/project/element-plus/discussions) on Crowdin to us for
 becoming a proofreader of the language you wish to be.

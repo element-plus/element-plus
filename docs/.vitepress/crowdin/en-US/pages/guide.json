@@ -54,5 +54,14 @@
         "link": "/guide/changelog"
       }
     ]
+  },
+  "development": {
+    "text": "Development",
+    "children": [
+      {
+        "text": "Translation",
+        "link": "/guide/translation"
+      }
+    ]
   }
 }
