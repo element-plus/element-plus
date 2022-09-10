@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody">
+  <teleport v-if="isClient" to="body" :disabled="!appendToBody">
     <transition
       :name="ns.b('fade')"
       @after-enter="afterEnter"
@@ -81,8 +81,8 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
+import { useMounted } from '@vueuse/core'
 import { Close } from '@element-plus/icons-vue'
-
 import { ElOverlay } from '@element-plus/components/overlay'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useDialog } from '@element-plus/components/dialog'
@@ -118,6 +118,7 @@ export default defineComponent({
     const focusStartRef = ref<HTMLElement>()
     const ns = useNamespace('drawer')
     const { t } = useLocale()
+    const isClient = useMounted()
 
     const isHorizontal = computed(
       () => props.direction === 'rtl' || props.direction === 'ltr'
@@ -128,6 +129,7 @@ export default defineComponent({
       ...useDialog(props, drawerRef),
       drawerRef,
       focusStartRef,
+      isClient,
       isHorizontal,
       drawerSize,
       ns,

@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body" :disabled="!teleported">
+  <teleport v-if="isClient" to="body" :disabled="!teleported">
     <transition name="viewer-fade" appear>
       <div
         ref="wrapper"
@@ -91,7 +91,7 @@ import {
   shallowRef,
   watch,
 } from 'vue'
-import { isNumber, useEventListener } from '@vueuse/core'
+import { isNumber, useEventListener, useMounted } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -136,6 +136,7 @@ const emit = defineEmits(imageViewerEmits)
 const { t } = useLocale()
 const ns = useNamespace('image-viewer')
 const { nextZIndex } = useZIndex()
+const isClient = useMounted()
 const wrapper = ref<HTMLDivElement>()
 const imgRefs = ref<HTMLImageElement[]>([])
 

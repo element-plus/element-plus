@@ -1,5 +1,5 @@
 <template>
-  <teleport :disabled="!teleported" :to="appendTo">
+  <teleport v-if="isClient" :disabled="!teleported" :to="appendTo">
     <transition
       :name="transition"
       @after-leave="onTransitionLeave"
@@ -55,7 +55,7 @@ import {
   unref,
   watch,
 } from 'vue'
-import { onClickOutside } from '@vueuse/core'
+import { onClickOutside, useMounted } from '@vueuse/core'
 import { ElPopperContent } from '@element-plus/components/popper'
 import { composeEventHandlers } from '@element-plus/utils'
 
@@ -70,6 +70,7 @@ export default defineComponent({
   inheritAttrs: false,
   props: useTooltipContentProps,
   setup(props) {
+    const isClient = useMounted()
     const contentRef = ref<InstanceType<typeof ElPopperContent> | null>(null)
     const intermediateOpen = ref(false)
     const entering = ref(false)
@@ -183,6 +184,7 @@ export default defineComponent({
       leaving,
       id,
       intermediateOpen,
+      isClient,
       contentStyle,
       contentRef,
       destroyed,
