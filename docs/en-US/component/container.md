@@ -81,7 +81,7 @@ container/example
 
 ## Container Attributes
 
-| Attribute | Description                         | Type   | Accepted Values       | Default                                                                    |
+| Name      | Description                         | Type   | Accepted Values       | Default                                                                    |
 | --------- | ----------------------------------- | ------ | --------------------- | -------------------------------------------------------------------------- |
 | direction | layout direction for child elements | string | horizontal / vertical | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
 
@@ -93,9 +93,9 @@ container/example
 
 ## Header Attributes
 
-| Attribute | Description          | Type   | Accepted Values | Default |
-| --------- | -------------------- | ------ | --------------- | ------- |
-| height    | height of the header | string | —               | 60px    |
+| Name   | Description          | Type   | Accepted Values | Default |
+| ------ | -------------------- | ------ | --------------- | ------- |
+| height | height of the header | string | —               | 60px    |
 
 ## Header Slots
 
@@ -105,9 +105,9 @@ container/example
 
 ## Aside Attributes
 
-| Attribute | Description               | Type   | Accepted Values | Default |
-| --------- | ------------------------- | ------ | --------------- | ------- |
-| width     | width of the side section | string | —               | 300px   |
+| Name  | Description               | Type   | Accepted Values | Default |
+| ----- | ------------------------- | ------ | --------------- | ------- |
+| width | width of the side section | string | —               | 300px   |
 
 ## Aside Slots
 
@@ -123,9 +123,9 @@ container/example
 
 ## Footer Attributes
 
-| Attribute | Description          | Type   | Accepted Values | Default |
-| --------- | -------------------- | ------ | --------------- | ------- |
-| height    | height of the footer | string | —               | 60px    |
+| Name   | Description          | Type   | Accepted Values | Default |
+| ------ | -------------------- | ------ | --------------- | ------- |
+| height | height of the footer | string | —               | 60px    |
 
 ## Footer Slots
 
