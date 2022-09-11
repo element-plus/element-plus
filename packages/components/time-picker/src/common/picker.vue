@@ -169,7 +169,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, inject, nextTick, provide, ref, unref, watch } from 'vue'
-import { isEqual } from 'lodash-unified'
+import { isEqual, isNil } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import {
   useFormItem,
@@ -338,6 +338,14 @@ const onHide = () => {
   emit('visible-change', false)
 }
 
+const handleOpen = () => {
+  pickerVisible.value = true
+}
+
+const handleClose = () => {
+  pickerVisible.value = false
+}
+
 const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
   ignoreFocusEvent = isIgnoreFocusEvent
   const [leftInput, rightInput] = unref(refInput)
@@ -359,7 +367,7 @@ const handleFocusInput = (e?: FocusEvent) => {
   ) {
     return
   }
-  pickerVisible.value = true
+  pickerVisible.value = isNil(e?.relatedTarget)
   emit('focus', e)
 }
 
@@ -732,6 +740,14 @@ defineExpose({
    * @description emit blur event
    */
   handleBlurInput,
+  /**
+   * @description opens picker
+   */
+  handleOpen,
+  /**
+   * @description closes picker
+   */
+  handleClose,
   /**
    * @description pick item manually
    */

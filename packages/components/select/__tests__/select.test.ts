@@ -3,7 +3,7 @@ import { markRaw, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
-import { ArrowUp, CaretTop, CircleClose } from '@element-plus/icons-vue'
+import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import { ElFormItem } from '@element-plus/components/form'
@@ -740,10 +740,41 @@ describe('Select', () => {
 
   test('suffix icon', async () => {
     wrapper = _mount(`<el-select></el-select>`)
-    let suffixIcon = wrapper.findComponent(ArrowUp)
+    let suffixIcon = wrapper.findComponent(ArrowDown)
     expect(suffixIcon.exists()).toBe(true)
     await wrapper.setProps({ suffixIcon: markRaw(CaretTop) })
     suffixIcon = wrapper.findComponent(CaretTop)
+    expect(suffixIcon.exists()).toBe(true)
+  })
+
+  test('test suffix transition', async () => {
+    wrapper = _mount(`<el-select></el-select>`)
+    expect(wrapper.find('.el-select__caret').classes()).not.toContain(
+      'is-reverse'
+    )
+    // open dropdown
+    wrapper.trigger('click')
+    await nextTick()
+    expect(wrapper.find('.el-select__caret').classes()).toContain('is-reverse')
+
+    await wrapper.setProps({ suffixTransition: false })
+
+    wrapper.trigger('click')
+    await nextTick()
+    expect(wrapper.find('.el-select__caret').classes()).not.toContain(
+      'is-reverse'
+    )
+  })
+
+  test('test remote show suffix', async () => {
+    wrapper = _mount(`<el-select></el-select>`)
+    await wrapper.setProps({
+      remote: true,
+      filters: true,
+      remoteShowSuffix: true,
+    })
+
+    const suffixIcon = wrapper.findComponent(ArrowDown)
     expect(suffixIcon.exists()).toBe(true)
   })
 

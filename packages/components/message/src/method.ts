@@ -102,7 +102,11 @@ const createMessage = (
     MessageConstructor,
     props,
     isFunction(props.message) || isVNode(props.message)
-      ? { default: props.message }
+      ? {
+          default: isFunction(props.message)
+            ? props.message
+            : () => props.message,
+        }
       : null
   )
   vnode.appContext = context || message._context

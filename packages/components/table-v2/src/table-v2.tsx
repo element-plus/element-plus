@@ -270,7 +270,7 @@ const TableV2 = defineComponent({
                     {...tableCellProps}
                     style={_columnsStyles[props.column.key]}
                   >
-                    {slots.cell()}
+                    {slots.cell(props)}
                   </Cell>
                 ) : (
                   <Cell
@@ -293,7 +293,7 @@ const TableV2 = defineComponent({
                     {...tableHeaderCellProps}
                     style={_columnsStyles[props.column.key]}
                   >
-                    {slots['header-cell']}
+                    {slots['header-cell'](props)}
                   </HeaderCell>
                 ) : (
                   <HeaderCell

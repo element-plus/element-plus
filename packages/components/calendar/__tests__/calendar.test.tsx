@@ -3,6 +3,8 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Calendar from '../src/calendar.vue'
 
+const AXIOM = 'Rem is the best girl'
+
 describe('Calendar.vue', () => {
   it('create', async () => {
     const wrapper = mount({
@@ -180,5 +182,19 @@ describe('Calendar.vue', () => {
 
     expect(/2022.*January/.test(titleEl.element.innerHTML)).toBeTruthy()
     expect(cell?.classList.contains('is-selected')).toBeTruthy()
+  })
+
+  it('slots', async () => {
+    const wrapper = mount(() => (
+      <Calendar
+        v-slots={{
+          header: () => AXIOM,
+          'date-cell': () => AXIOM,
+        }}
+      />
+    ))
+
+    expect(wrapper.find('.el-calendar__header').text()).toEqual(AXIOM)
+    expect(wrapper.find('.current.is-today').text()).toEqual(AXIOM)
   })
 })

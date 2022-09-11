@@ -65,6 +65,9 @@ function useRender<T>(
     if (realMinWidth.value) {
       column.minWidth = realMinWidth.value
     }
+    if (!realWidth.value && realMinWidth.value) {
+      column.width = undefined
+    }
     if (!column.minWidth) {
       column.minWidth = 80
     }
@@ -150,7 +153,9 @@ function useRender<T>(
           children = originRenderCell(data)
         }
         const shouldCreatePlaceholder =
-          hasTreeColumn.value && data.cellIndex === 0
+          hasTreeColumn.value &&
+          data.cellIndex === 0 &&
+          data.column.type !== 'selection'
         const prefix = treeCellPrefix(data, shouldCreatePlaceholder)
         const props = {
           class: 'cell',
