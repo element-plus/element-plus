@@ -1,14 +1,12 @@
 {
   "extends": "@element-plus/tsconfig/tsconfig.web.json",
-  "include": ["packages", "typings/components.d.ts", "typings/env.d.ts"],
+  "include": ["packages/web", "typings/components.d.ts", "typings/env.d.ts"],
   "exclude": [
-    "packages/node",
     "node_modules",
     "**/dist",
     "**/__tests__/**/*",
     "**/gulpfile.ts",
     "**/test-helper",
-    "packages/test-utils",
     "**/*.md"
   ],
   "compilerOptions": {

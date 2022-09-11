@@ -79,16 +79,16 @@ importers:
       vue-router: ^4.0.16
       vue-tsc: ^0.38.2
     dependencies:
-      '@element-plus/components': link:packages/components
-      '@element-plus/constants': link:packages/constants
-      '@element-plus/directives': link:packages/directives
-      '@element-plus/hooks': link:packages/hooks
+      '@element-plus/components': link:packages/web/components
+      '@element-plus/constants': link:packages/web/constants
+      '@element-plus/directives': link:packages/web/directives
+      '@element-plus/hooks': link:packages/web/hooks
       '@element-plus/icons-vue': 2.0.6_vue@3.2.37
-      '@element-plus/locale': link:packages/locale
-      '@element-plus/test-utils': link:packages/test-utils
-      '@element-plus/theme-chalk': link:packages/theme-chalk
-      '@element-plus/tokens': link:packages/tokens
-      '@element-plus/utils': link:packages/utils
+      '@element-plus/locale': link:packages/web/locale
+      '@element-plus/test-utils': link:packages/web/test-utils
+      '@element-plus/theme-chalk': link:packages/web/theme-chalk
+      '@element-plus/tokens': link:packages/web/tokens
+      '@element-plus/utils': link:packages/web/utils
       '@floating-ui/dom': 1.0.1
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
       '@types/lodash': 4.14.182
@@ -330,64 +330,6 @@ importers:
       octokit: 2.0.3
       tsx: 3.6.0
 
-  packages/components:
-    specifiers: {}
-
-  packages/constants:
-    specifiers: {}
-
-  packages/directives:
-    specifiers: {}
-
-  packages/element-plus:
-    specifiers:
-      '@ctrl/tinycolor': ^3.4.1
-      '@element-plus/icons-vue': ^2.0.6
-      '@floating-ui/dom': ^1.0.1
-      '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
-      '@types/lodash': ^4.14.182
-      '@types/lodash-es': ^4.17.6
-      '@types/node': '*'
-      '@vueuse/core': ^9.1.0
-      async-validator: ^4.2.5
-      csstype: ^2.6.20
-      dayjs: ^1.11.3
-      escape-html: ^1.0.3
-      lodash: ^4.17.21
-      lodash-es: ^4.17.21
-      lodash-unified: ^1.0.2
-      memoize-one: ^6.0.0
-      normalize-wheel-es: ^1.2.0
-      vue: ^3.2.37
-      vue-router: ^4.0.16
-    dependencies:
-      '@ctrl/tinycolor': 3.4.1
-      '@element-plus/icons-vue': 2.0.6_vue@3.2.37
-      '@floating-ui/dom': 1.0.1
-      '@popperjs/core': /@sxzz/popperjs-es/2.11.7
-      '@types/lodash': 4.14.182
-      '@types/lodash-es': 4.17.6
-      '@vueuse/core': 9.1.0_vue@3.2.37
-      async-validator: 4.2.5
-      dayjs: 1.11.3
-      escape-html: 1.0.3
-      lodash: 4.17.21
-      lodash-es: 4.17.21
-      lodash-unified: 1.0.2_3ib2ivapxullxkx3xftsimdk7u
-      memoize-one: 6.0.0
-      normalize-wheel-es: 1.2.0
-    devDependencies:
-      '@types/node': 17.0.40
-      csstype: 2.6.20
-      vue: 3.2.37
-      vue-router: 4.0.16_vue@3.2.37
-
-  packages/hooks:
-    specifiers: {}
-
-  packages/locale:
-    specifiers: {}
-
   packages/node/eslint-config:
     specifiers:
       '@typescript-eslint/eslint-plugin': ^5.30.0
@@ -431,10 +373,68 @@ importers:
   packages/node/tsconfig:
     specifiers: {}
 
-  packages/test-utils:
+  packages/web/components:
     specifiers: {}
 
-  packages/theme-chalk:
+  packages/web/constants:
+    specifiers: {}
+
+  packages/web/directives:
+    specifiers: {}
+
+  packages/web/element-plus:
+    specifiers:
+      '@ctrl/tinycolor': ^3.4.1
+      '@element-plus/icons-vue': ^2.0.6
+      '@floating-ui/dom': ^1.0.1
+      '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
+      '@types/lodash': ^4.14.182
+      '@types/lodash-es': ^4.17.6
+      '@types/node': '*'
+      '@vueuse/core': ^9.1.0
+      async-validator: ^4.2.5
+      csstype: ^2.6.20
+      dayjs: ^1.11.3
+      escape-html: ^1.0.3
+      lodash: ^4.17.21
+      lodash-es: ^4.17.21
+      lodash-unified: ^1.0.2
+      memoize-one: ^6.0.0
+      normalize-wheel-es: ^1.2.0
+      vue: ^3.2.37
+      vue-router: ^4.0.16
+    dependencies:
+      '@ctrl/tinycolor': 3.4.1
+      '@element-plus/icons-vue': 2.0.9_vue@3.2.37
+      '@floating-ui/dom': 1.0.1
+      '@popperjs/core': /@sxzz/popperjs-es/2.11.7
+      '@types/lodash': 4.14.182
+      '@types/lodash-es': 4.17.6
+      '@vueuse/core': 9.1.0_vue@3.2.37
+      async-validator: 4.2.5
+      dayjs: 1.11.3
+      escape-html: 1.0.3
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      lodash-unified: 1.0.2_3ib2ivapxullxkx3xftsimdk7u
+      memoize-one: 6.0.0
+      normalize-wheel-es: 1.2.0
+    devDependencies:
+      '@types/node': 17.0.40
+      csstype: 2.6.20
+      vue: 3.2.37
+      vue-router: 4.0.16_vue@3.2.37
+
+  packages/web/hooks:
+    specifiers: {}
+
+  packages/web/locale:
+    specifiers: {}
+
+  packages/web/test-utils:
+    specifiers: {}
+
+  packages/web/theme-chalk:
     specifiers:
       '@element-plus/build': workspace:*
       '@esbuild-kit/cjs-loader': ^2.2.1
@@ -447,7 +447,7 @@ importers:
       gulp-rename: ^2.0.0
       gulp-sass: ^5.1.0
     devDependencies:
-      '@element-plus/build': link:../../internal/build
+      '@element-plus/build': link:../../../internal/build
       '@esbuild-kit/cjs-loader': 2.2.1
       '@types/gulp-autoprefixer': 0.0.33
       '@types/gulp-clean-css': 4.3.0
@@ -458,10 +458,10 @@ importers:
       gulp-rename: 2.0.0
       gulp-sass: 5.1.0
 
-  packages/tokens:
+  packages/web/tokens:
     specifiers: {}
 
-  packages/utils:
+  packages/web/utils:
     specifiers: {}
 
   play:
@@ -10121,7 +10121,7 @@ packages:
     dev: false
 
   /source-map/0.5.7:
-    resolution: {integrity: sha1-igOdLRAh0i0eoUyA2OpGi6LvP8w=}
+    resolution: {integrity: sha512-LbrmJOMUSdEVxIKvdcJzQC+nQhe8FUZQTXQy6+I75skNgn3OoQ0DZA8YnFa7gp8tqtL3KPf1kmo0R5DoApeSGQ==}
     engines: {node: '>=0.10.0'}
 
   /source-map/0.6.1:
@@ -10323,7 +10323,7 @@ packages:
     dev: true
 
   /strip-ansi/3.0.1:
-    resolution: {integrity: sha1-ajhfuIU9lS1f8F0Oiq+UJ43GPc8=}
+    resolution: {integrity: sha512-VhumSSbBqDTP8p2ZLKj40UjBCV4+v8bUSEpUb4KjRgWk9pbqGF4REFj6KEagidb2f/M6AzC0EmFyDNGaw9OCzg==}
     engines: {node: '>=0.10.0'}
     dependencies:
       ansi-regex: 2.1.1
@@ -10550,7 +10550,7 @@ packages:
       readable-stream: 3.6.0
 
   /time-stamp/1.1.0:
-    resolution: {integrity: sha1-dkpaEa9QVhkhsTPztE5hhofg9cM=}
+    resolution: {integrity: sha512-gLCeArryy2yNTRzTGKbZbloctj64jkZ57hj5zdraXue6aFgd6PmvVtEyiUU+hvU0v7q08oVv8r8ev0tRo6bvgw==}
     engines: {node: '>=0.10.0'}
 
   /tinypool/0.1.3:
