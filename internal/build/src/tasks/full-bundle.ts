@@ -5,6 +5,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
 import DefineOptions from 'unplugin-vue-define-options/rollup'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import json from '@rollup/plugin-json'
 import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild'
 import { parallel } from 'gulp'
 import glob from 'fast-glob'
@@ -15,7 +16,7 @@ import {
   PKG_CAMELCASE_NAME,
 } from '@element-plus/build-constants'
 import { epOutput, epRoot, localeRoot } from '@element-plus/build-utils'
-import { version } from '../../../../packages/web/element-plus/version'
+import { version } from '../../../../packages/web/element-plus/package.json'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
 import {
   formatBundleFilename,
@@ -36,6 +37,7 @@ async function buildFullEntry(minify: boolean) {
       isProduction: true,
     }),
     vueJsx(),
+    json(),
     nodeResolve({
       extensions: ['.mjs', '.js', '.json', '.ts'],
     }),

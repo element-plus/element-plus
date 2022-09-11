@@ -5,7 +5,6 @@
     "internal/**/*.json",
     "scripts/**/*",
     "packages/web/theme-chalk/*",
-    "packages/web/element-plus/version.ts",
     "packages/web/element-plus/package.json",
     "packages/node/**/*",
     "packages/node/**/*.json",

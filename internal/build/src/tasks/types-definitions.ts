@@ -57,7 +57,11 @@ export const generateTypesDefinitions = async () => {
 
     const emitOutput = sourceFile.getEmitOutput()
     const emitFiles = emitOutput.getOutputFiles()
-    if (emitFiles.length === 0 && !sourceFile.getFilePath().endsWith('.d.ts')) {
+    if (
+      emitFiles.length === 0 &&
+      !sourceFile.getFilePath().endsWith('.d.ts') &&
+      !sourceFile.getFilePath().endsWith('.json')
+    ) {
       throw new Error(`Emit no file: ${chalk.bold(relativePath)}`)
     }
 
@@ -98,7 +102,7 @@ async function addSourceFiles(project: Project) {
     })
   )
   const epPaths = excludeFiles(
-    await glob(globSourceFile, {
+    await glob([globSourceFile, 'package.json'], {
       cwd: epRoot,
       onlyFiles: true,
     })

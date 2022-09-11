@@ -4,6 +4,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import DefineOptions from 'unplugin-vue-define-options/rollup'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
+import json from '@rollup/plugin-json'
 import esbuild from 'rollup-plugin-esbuild'
 import glob from 'fast-glob'
 import { epRoot, excludeFiles, pkgRoot } from '@element-plus/build-utils'
@@ -30,6 +31,7 @@ export const buildModules = async () => {
         isProduction: false,
       }),
       vueJsx(),
+      json(),
       nodeResolve({
         extensions: ['.mjs', '.js', '.json', '.ts'],
       }),

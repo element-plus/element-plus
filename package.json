@@ -9,7 +9,6 @@
     "prepare:e2e": "if [ ! -d \"docs/.vitepress/dist\" ]; then pnpm run docs:build; fi;",
     "dev": "pnpm -C play dev",
     "gen": "bash ./scripts/gc.sh",
-    "gen:version": "tsx scripts/gen-version.ts",
     "diff:table": "tsx scripts/build-table.ts",
     "update:version": "tsx scripts/update-version.ts",
     "clean": "pnpm run clean:dist && pnpm run -r --parallel clean",
@@ -33,8 +32,7 @@
     "docs:gen-locale": "pnpm run -C docs gen-locale",
     "docs:crowdin-credentials": "pnpm run -C docs crowdin-credentials",
     "stub": "pnpm run -r --parallel stub",
-    "prepare": "husky install",
-    "postinstall": "pnpm stub && concurrently \"pnpm gen:version\" \"pnpm run -C internal/metadata dev\""
+    "prepare": "husky install"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
@@ -78,6 +76,7 @@
     "@pnpm/find-workspace-packages": "^4.0.16",
     "@pnpm/logger": "^4.0.0",
     "@pnpm/types": "^8.4.0",
+    "@rollup/plugin-json": "^4.1.0",
     "@types/fs-extra": "^9.0.13",
     "@types/gulp": "^4.0.9",
     "@types/jsdom": "^16.2.14",
@@ -90,7 +89,6 @@
     "@vue/tsconfig": "^0.1.3",
     "c8": "^7.11.3",
     "chalk": "^5.0.1",
-    "concurrently": "^7.2.2",
     "consola": "^2.15.3",
     "csstype": "^2.6.20",
     "cz-git": "^1.3.8",
