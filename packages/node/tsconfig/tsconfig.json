@@ -20,7 +20,11 @@
     "paths": {
       "element-plus": ["packages/web/element-plus/src/index"],
       "@element-plus/build/config": ["packages/node/build/src/config.ts"],
-      "@element-plus/*": ["packages/web/*/src", "packages/node/*/src"],
+      "@element-plus/*": [
+        "packages/*",
+        "packages/web/*/src",
+        "packages/node/*/src"
+      ],
       "@element-plus/locale/lang/*": ["packages/web/locale/src/lang/*.ts"]
     }
   }
