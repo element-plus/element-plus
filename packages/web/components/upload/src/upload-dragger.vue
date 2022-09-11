@@ -11,9 +11,8 @@
 <script lang="ts" setup>
 import { inject, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-
 import { uploadContextKey } from '@element-plus/tokens'
-import { throwError } from '@element-plus/utils/error'
+import { throwError } from '@element-plus/utils'
 import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
 
 const COMPONENT_NAME = 'ElUploadDrag'

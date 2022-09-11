@@ -21,7 +21,7 @@ import type {
   Writable,
   WritableArray,
   epPropKey,
-} from '../..'
+} from '../../src'
 
 import type { ExtractPropTypes, PropType } from 'vue'
 

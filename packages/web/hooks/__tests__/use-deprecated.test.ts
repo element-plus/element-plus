@@ -6,12 +6,12 @@ import { useDeprecated } from '../use-deprecated'
 
 const AXIOM = 'Rem is the best girl'
 
-vi.mock('@element-plus/utils/error', async () => {
-  return {
-    ...(await vi.importActual<any>('@element-plus/utils/error')),
-    debugWarn: vi.fn(),
-  }
-})
+vi.mock('@element-plus/utils', async () => ({
+  ...(await vi.importActual<typeof import('@element-plus/utils')>(
+    '@element-plus/utils'
+  )),
+  debugWarn: vi.fn(),
+}))
 
 const DummyComponent = defineComponent({
   props: {
