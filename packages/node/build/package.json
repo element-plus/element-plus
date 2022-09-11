@@ -1,0 +1,69 @@
+{
+  "name": "@element-plus/build",
+  "version": "3.0.0-alpha.0",
+  "description": "Build Toolchain for Element Plus.",
+  "type": "module",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue",
+    "build",
+    "core"
+  ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./config": {
+      "dev": "./src/config.ts",
+      "require": "./dist/config.cjs",
+      "import": "./dist/config.js"
+    },
+    "./*": "./*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "ep-cli build",
+    "clean": "rimraf ./dist"
+  },
+  "dependencies": {
+    "@element-plus/node-constants": "workspace:*",
+    "@element-plus/node-utils": "workspace:*",
+    "@element-plus/workspace": "workspace:*",
+    "esbuild": "^0.15.5",
+    "local-pkg": "^0.4.1",
+    "tsup": "^6.2.2",
+    "unconfig": "^0.3.4",
+    "unplugin-vue": "^3.0.1"
+  },
+  "devDependencies": {
+    "tsx": "^3.4.3",
+    "vue": "^3.2.37"
+  }
+}
