@@ -19,3 +19,5 @@ packages/web/element-plus/version.ts
 cypress/screenshots/*
 cypress/videos/*
 tmp
+
+.eslintcache
