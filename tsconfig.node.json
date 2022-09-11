@@ -1,18 +1,24 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "composite": true,
-    "lib": ["ESNext"],
-    "types": ["node"],
-    "skipLibCheck": true
-  },
+  "extends": "@element-plus/tsconfig/tsconfig.node.json",
   "include": [
     "internal/**/*",
     "internal/**/*.json",
     "scripts/**/*",
-    "packages/theme-chalk/*",
-    "packages/element-plus/version.ts",
-    "packages/element-plus/package.json"
+    "packages/web/theme-chalk/*",
+    "packages/web/element-plus/version.ts",
+    "packages/web/element-plus/package.json",
+    "packages/node/**/*",
+    "packages/node/**/*.json",
+    "**/build.config.ts",
+    "**/scripts/**/*"
   ],
-  "exclude": ["**/__tests__/**", "**/tests/**", "**/dist"]
+  "exclude": [
+    "**/__tests__/**",
+    "**/tests/**",
+    "**/dist",
+    "packages/node/test-utils"
+  ],
+  "compilerOptions": {
+    "composite": true
+  }
 }
