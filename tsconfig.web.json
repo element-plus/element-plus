@@ -1,6 +1,12 @@
 {
   "extends": "@element-plus/tsconfig/tsconfig.web.json",
-  "include": ["packages/web", "typings/components.d.ts", "typings/env.d.ts"],
+  "include": [
+    "packages/web",
+    "packages/web/*/src/**/*",
+    "packages/web/*/package.json",
+    "packages/web/env.d.ts",
+    "typings/components.d.ts"
+  ],
   "exclude": [
     "node_modules",
     "**/dist",
