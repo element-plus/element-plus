@@ -6,8 +6,7 @@
     "packages/**/__tests__/**/*",
     "packages/**/tests/**/*",
     "packages/node/test-utils",
-    "vitest.setup.ts",
-    "typings/env.d.ts"
+    "vitest.setup.ts"
   ],
   "compilerOptions": {
     "composite": true

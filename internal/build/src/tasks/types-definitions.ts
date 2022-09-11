@@ -57,7 +57,7 @@ export const generateTypesDefinitions = async () => {
 
     const emitOutput = sourceFile.getEmitOutput()
     const emitFiles = emitOutput.getOutputFiles()
-    if (emitFiles.length === 0) {
+    if (emitFiles.length === 0 && !sourceFile.getFilePath().endsWith('.d.ts')) {
       throw new Error(`Emit no file: ${chalk.bold(relativePath)}`)
     }
 
@@ -87,7 +87,7 @@ export const generateTypesDefinitions = async () => {
 }
 
 async function addSourceFiles(project: Project) {
-  project.addSourceFileAtPath(path.resolve(projRoot, 'typings/env.d.ts'))
+  project.addSourceFileAtPath(path.resolve(pkgRoot, 'env.d.ts'))
 
   const globSourceFile = '**/*.{js?(x),ts?(x),vue}'
   const filePaths = excludeFiles(
