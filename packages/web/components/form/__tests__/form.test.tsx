@@ -10,8 +10,7 @@ import {
   it,
   vi,
 } from 'vitest'
-import { rAF } from '@element-plus/test-utils/tick'
-import installStyle from '@element-plus/test-utils/style-plugin'
+import { installStylePlugin, rAF } from '@element-plus/test-utils'
 import {
   ElCheckbox as Checkbox,
   ElCheckboxGroup as CheckboxGroup,
@@ -34,7 +33,7 @@ const findStyle = (wrapper: VueWrapper<any>, selector: string) =>
 
 describe('Form', () => {
   beforeAll(() => {
-    installStyle()
+    installStylePlugin()
   })
 
   it('label width', async () => {

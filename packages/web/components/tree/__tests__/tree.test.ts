@@ -2,7 +2,7 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import defineGetter from '@element-plus/test-utils/define-getter'
+import { defineGetter } from '@element-plus/test-utils'
 import Tree from '../src/tree.vue'
 import type Node from '../src/model/node'
 

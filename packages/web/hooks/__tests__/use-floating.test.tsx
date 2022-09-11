@@ -1,7 +1,7 @@
 import { computed, nextTick, reactive, ref, watch } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { rAF } from '@element-plus/test-utils/tick'
+import { rAF } from '@element-plus/test-utils'
 import { arrowMiddleware, useFloating } from '../use-floating'
 
 import type { CSSProperties } from 'vue'

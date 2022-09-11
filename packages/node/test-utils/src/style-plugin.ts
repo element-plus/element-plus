@@ -1,12 +1,12 @@
 import { config } from '@vue/test-utils'
 
-const stylePlugin = (wrapper: any) => {
+export const stylePlugin = (wrapper: any) => {
   return {
     style: wrapper.element.style,
   }
 }
 
-export default function install() {
+export function installStylePlugin() {
   config.plugins.DOMWrapper.install(stylePlugin)
   config.plugins.VueWrapper.install(stylePlugin)
 }

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { describe, expect, it, vi } from 'vitest'
-import triggerEvent from '@element-plus/test-utils/trigger-event'
+import { triggerEvent } from '@element-plus/test-utils'
 import ElTable from '../src/table.vue'
 import ElTableColumn from '../src/table-column'
 import { doubleWait, getTestData, mount } from './table-test-common'
