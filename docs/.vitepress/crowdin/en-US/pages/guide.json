@@ -62,8 +62,11 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 5900f4e5f (docs: move documentations to docs (#9733))
+=======
+>>>>>>> d6acdc821 (docs: move documentations to docs (#9733))
         "text": "Development Guide",
         "link": "/guide/dev-guide"
       },
@@ -77,12 +80,15 @@
       },
       {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 0491afe98 (docs: move translation guide to docs (#9730))
 =======
 >>>>>>> 5900f4e5f (docs: move documentations to docs (#9733))
 =======
 >>>>>>> 3fb5f1d01 (docs: move translation guide to docs (#9730))
+=======
+>>>>>>> d6acdc821 (docs: move documentations to docs (#9733))
         "text": "Translation",
         "link": "/guide/translation"
       }
