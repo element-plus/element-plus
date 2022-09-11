@@ -4,7 +4,13 @@ import { defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { expectTypeOf } from 'expect-type'
-import { buildProp, buildProps, definePropType, keysOf, mutable } from '../..'
+import {
+  buildProp,
+  buildProps,
+  definePropType,
+  keysOf,
+  mutable,
+} from '../../src'
 import type {
   EpProp,
   EpPropInputDefault,

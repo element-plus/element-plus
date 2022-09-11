@@ -6,7 +6,7 @@ import {
   escapeStringRegexp,
   hyphenate,
   kebabCase,
-} from '..'
+} from '../src'
 
 describe('strings', () => {
   it('escapeStringRegexp should work', () => {

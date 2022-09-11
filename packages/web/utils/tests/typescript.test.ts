@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mutable } from '..'
+import { mutable } from '../src'
 
 describe('typescript', () => {
   it('mutable should work', () => {

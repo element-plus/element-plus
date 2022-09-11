@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addClass, hasClass, removeClass } from '../..'
+import { addClass, hasClass, removeClass } from '../../src'
 
 const getClass = (el: Element) => {
   if (!el) return ''

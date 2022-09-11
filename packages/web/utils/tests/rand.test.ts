@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { generateId, getRandomInt } from '..'
+import { generateId, getRandomInt } from '../src'
 
 describe('rand', () => {
   it('generateId should work', () => {

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { isFocusable, triggerEvent } from '../..'
+import { isFocusable, triggerEvent } from '../../src'
 
 const CE = (tag: string) => document.createElement(tag)
 

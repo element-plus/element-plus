@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isKorean } from '..'
+import { isKorean } from '../src'
 
 describe('i18n', () => {
   it('isKorean should work', () => {
