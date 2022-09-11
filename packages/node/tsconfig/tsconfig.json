@@ -22,6 +22,7 @@
       "@element-plus/build/config": ["packages/node/build/src/config.ts"],
       "@element-plus/*": [
         "packages/*",
+        "packages/web/*",
         "packages/web/*/src",
         "packages/node/*/src"
       ],
