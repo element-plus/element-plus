@@ -6,7 +6,7 @@ import {
   IMAGE_FAIL,
   IMAGE_SUCCESS,
   mockImageEvent,
-} from '@element-plus/test-utils/mock'
+} from '@element-plus/test-utils'
 
 import Avatar from '../src/avatar.vue'
 
