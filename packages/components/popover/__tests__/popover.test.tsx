@@ -38,22 +38,25 @@ describe('Popover.vue', () => {
     document.body.innerHTML = ''
   })
 
-  it('render test', () => {
+  it('render test', async () => {
     wrapper = _mount()
 
+    await nextTick()
     expect(findContentComp().text()).toEqual(AXIOM)
   })
 
-  it('should render with title', () => {
+  it('should render with title', async () => {
     const title = 'test title'
     wrapper = _mount({ title })
 
+    await nextTick()
     expect(findContentComp().text()).toContain(title)
   })
 
   it(`should modify popover's style with width`, async () => {
     wrapper = _mount({ width: 200 })
 
+    await nextTick()
     const popperContent = findContentComp()
     expect(getComputedStyle(popperContent.element).width).toBe('200px')
 
@@ -62,14 +65,15 @@ describe('Popover.vue', () => {
     expect(getComputedStyle(popperContent.element).width).toBe('100vw')
   })
 
-  it('the content should be overrode by slots', () => {
+  it('the content should be overrode by slots', async () => {
     const content = 'test content'
     wrapper = _mount({ content })
 
+    await nextTick()
     expect(findContentComp().text()).toContain(AXIOM)
   })
 
-  it('should render content when no slots were passed', () => {
+  it('should render content when no slots were passed', async () => {
     const content = 'test content'
     const virtualRef = document.createElement('button')
     wrapper = mount(() => (
@@ -81,12 +85,14 @@ describe('Popover.vue', () => {
       />
     ))
 
+    await nextTick()
     expect(findContentComp().text()).toBe(content)
   })
 
-  it('popper z-index should be dynamical', () => {
+  it('popper z-index should be dynamical', async () => {
     wrapper = _mount()
 
+    await nextTick()
     const { currentZIndex } = useZIndex()
     expect(
       Number.parseInt(window.getComputedStyle(findContentComp().element).zIndex)
@@ -95,6 +101,8 @@ describe('Popover.vue', () => {
 
   it('defind hide method', async () => {
     wrapper = _mount()
+
+    await nextTick()
     const vm = wrapper.findComponent(Popover).vm
 
     expect(vm.hide).toBeDefined()

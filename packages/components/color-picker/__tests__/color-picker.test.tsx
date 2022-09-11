@@ -110,6 +110,7 @@ describe('Color-picker', () => {
       <ColorPicker v-model={color.value}></ColorPicker>
     ))
 
+    await nextTick()
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
     const hueSlideWrapper = colorPickerWrapper.findComponent({ ref: 'hue' })
     const hueSlideDom = hueSlideWrapper.element as HTMLElement

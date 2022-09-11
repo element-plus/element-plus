@@ -1420,6 +1420,7 @@ describe('Select', () => {
       .spyOn(selectDom, 'getBoundingClientRect')
       .mockReturnValue(selectRect as DOMRect)
     selectVm.handleResize()
+    await nextTick()
     const options = getOptions()
     options[0].click()
     await nextTick()

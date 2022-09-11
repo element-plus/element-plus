@@ -306,6 +306,7 @@ describe('DatePicker', () => {
       />`,
       () => ({ value: new Date(2016, 9, 10, 18, 40) })
     )
+    await nextTick()
     const popperEl = document.querySelector('.el-picker__popper') as HTMLElement
     expect(popperEl.style.display).toBe('none')
     const input = wrapper.find('input')
@@ -1173,6 +1174,7 @@ describe('DateRangePicker', () => {
       () => ({ value: '' })
     )
 
+    await nextTick()
     const table = document.querySelector('.el-date-table')
     const availableTds = (table as HTMLTableElement).querySelectorAll(
       'td.available'
@@ -1370,6 +1372,7 @@ describe('MonthRange', () => {
       () => ({ value: '' })
     )
 
+    await nextTick()
     const table = document.querySelector('.el-month-table')
     const tds = (table as HTMLTableElement).querySelectorAll('td')
 

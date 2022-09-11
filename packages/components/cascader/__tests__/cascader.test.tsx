@@ -310,6 +310,7 @@ describe('Cascader.vue', () => {
       />
     ))
 
+    await nextTick()
     const input = wrapper.find('.el-cascader__search-input')
     ;(input.element as HTMLInputElement).value = 'Ha'
     await input.trigger('input')
@@ -332,6 +333,7 @@ describe('Cascader.vue', () => {
       <Cascader filterMethod={filterMethod} filterable options={OPTIONS} />
     ))
 
+    await nextTick()
     const input = wrapper.find('input')
     input.element.value = 'ha'
     await input.trigger('input')
@@ -346,6 +348,7 @@ describe('Cascader.vue', () => {
       <Cascader v-model={value.value} filterable options={OPTIONS} />
     ))
 
+    await nextTick()
     const input = wrapper.find('input')
     const dropdown = document.querySelector(DROPDOWN)!
     input.element.value = 'h'

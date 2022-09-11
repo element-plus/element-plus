@@ -210,6 +210,7 @@ describe('Drawer', () => {
     const vm = wrapper.vm as any
     vm.$refs.drawer.handleClose()
 
+    await nextTick()
     expect(beforeClose).toHaveBeenCalled()
   })
 
@@ -226,6 +227,7 @@ describe('Drawer', () => {
       })
     )
 
+    await nextTick()
     expect(wrapper.find('.el-drawer__close-btn').exists()).toBe(false)
   })
 
@@ -243,6 +245,7 @@ describe('Drawer', () => {
       })
     )
 
+    await nextTick()
     expect(wrapper.find(`.${classes}`).exists()).toBe(true)
   })
 
@@ -285,6 +288,7 @@ describe('Drawer', () => {
       })
     )
 
+    await nextTick()
     expect(wrapper.find('.el-drawer__header').exists()).toBe(false)
   })
 
@@ -303,19 +307,35 @@ describe('Drawer', () => {
       )
     }
     test('should render from left to right', async () => {
-      expect(renderer('ltr').find('.ltr').exists()).toBe(true)
+      const wrapper = renderer('ltr')
+
+      await nextTick()
+      const drawer = wrapper.find('.ltr')
+      expect(drawer.exists()).toBe(true)
     })
 
     test('should render from right to left', async () => {
-      expect(renderer('rtl').find('.rtl').exists()).toBe(true)
+      const wrapper = renderer('rtl')
+
+      await nextTick()
+      const drawer = wrapper.find('.rtl')
+      expect(drawer.exists()).toBe(true)
     })
 
     test('should render from top to bottom', async () => {
-      expect(renderer('ttb').find('.ttb').exists()).toBe(true)
+      const wrapper = renderer('ttb')
+
+      await nextTick()
+      const drawer = wrapper.find('.ttb')
+      expect(drawer.exists()).toBe(true)
     })
 
     test('should render from bottom to top', async () => {
-      expect(renderer('btt').find('.btt').exists()).toBe(true)
+      const wrapper = renderer('btt')
+
+      await nextTick()
+      const drawer = wrapper.find('.btt')
+      expect(drawer.exists()).toBe(true)
     })
   })
 
@@ -386,14 +406,18 @@ describe('Drawer', () => {
       )
 
     test('should effect height when drawer is vertical', async () => {
-      const drawerEl = renderer('50%', true).find('.el-drawer')
-        .element as HTMLDivElement
+      const wrapper = renderer('50%', true)
+
+      await nextTick()
+      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
       expect(drawerEl.style.width).toEqual('50%')
     })
 
     test('should effect width when drawer is horizontal', async () => {
-      const drawerEl = renderer('50%', false).find('.el-drawer')
-        .element as HTMLDivElement
+      const wrapper = renderer('50%', false)
+
+      await nextTick()
+      const drawerEl = wrapper.find('.el-drawer').element as HTMLDivElement
       expect(drawerEl.style.height).toEqual('50%')
     })
   })
