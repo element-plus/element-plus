@@ -21,7 +21,7 @@
     "clean:dist": "rimraf dist",
     "build": "pnpm run -C internal/build start",
     "build:theme": "pnpm run -C packages/theme-chalk build",
-    "format": "prettier --write .",
+    "format": "prettier --write --cache .",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 --cache",
     "lint:fix": "pnpm run lint --fix",
     "lint:commit": "commitlint --from $(git merge-base origin/dev HEAD) --to HEAD > ./commit-lint.txt",
