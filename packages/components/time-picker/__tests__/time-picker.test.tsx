@@ -41,6 +41,7 @@ describe('TimePicker', () => {
       />
     ))
 
+    await nextTick()
     const input = wrapper.find('input')
     expect(input.attributes('placeholder')).toBe('test_')
     expect(input.attributes('readonly')).not.toBeUndefined()
@@ -81,6 +82,7 @@ describe('TimePicker', () => {
     const value = ref('')
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
 
+    await nextTick()
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -117,6 +119,7 @@ describe('TimePicker', () => {
     const value = ref('')
     const wrapper = mount(() => <TimePicker v-model={value.value} />)
 
+    await nextTick()
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -183,6 +186,7 @@ describe('TimePicker', () => {
       <TimePicker v-model={value.value} format="HH:mm" />
     ))
 
+    await nextTick()
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -285,9 +289,10 @@ describe('TimePicker', () => {
       />
     ))
 
+    await nextTick()
     const input = wrapper.find('input')
     input.trigger('focus')
-    await nextTick()
+    await rAF()
 
     const list = document.querySelectorAll('.el-time-spinner__list')
     const hoursEl = list[0]
@@ -412,6 +417,7 @@ describe('TimePicker', () => {
   it('picker-panel should not pop up when readonly', async () => {
     const wrapper = mount(() => <TimePicker readonly />)
 
+    await nextTick()
     const input = wrapper.find('input')
     await input.trigger('mousedown')
     await nextTick()
@@ -423,6 +429,7 @@ describe('TimePicker', () => {
   it('picker-panel should not pop up when disabled', async () => {
     const wrapper = mount(() => <TimePicker readonly />)
 
+    await nextTick()
     const input = wrapper.find('input')
     await input.trigger('mousedown')
     await nextTick()
@@ -448,6 +455,7 @@ describe('TimePicker', () => {
         attachTo: document.body,
       }
     )
+    await nextTick()
     const input = wrapper.find('input')
     input.trigger('focus')
     await nextTick()
@@ -500,6 +508,7 @@ describe('TimePicker(range)', () => {
       }
     )
 
+    await nextTick()
     expect(wrapper.find('.el-range-editor--small').exists()).toBeTruthy()
     const input = wrapper.find('input')
     input.trigger('blur')
@@ -535,6 +544,7 @@ describe('TimePicker(range)', () => {
       }
     )
 
+    await nextTick()
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -574,6 +584,7 @@ describe('TimePicker(range)', () => {
     expect((wrapper.findComponent(Picker).vm as any).pickerVisible).toEqual(
       false
     )
+    await rAF()
     expect(document.querySelector('.el-picker-panel')).toBeNull()
     input.trigger('blur')
     input.trigger('focus')
@@ -625,6 +636,7 @@ describe('TimePicker(range)', () => {
       />
     ))
 
+    await nextTick()
     const input = wrapper.find('input')
     input.trigger('focus')
     await nextTick()
@@ -659,6 +671,7 @@ describe('TimePicker(range)', () => {
       <TimePicker v-model={value.value} format="YYYY-MM-DD HH:mm:ss" />
     ))
 
+    await nextTick()
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')
@@ -727,6 +740,7 @@ describe('TimePicker(range)', () => {
       }
     )
 
+    await nextTick()
     const input = wrapper.find('input')
     input.trigger('blur')
     input.trigger('focus')

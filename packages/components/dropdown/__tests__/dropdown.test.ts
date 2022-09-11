@@ -581,6 +581,7 @@ describe('Dropdown', () => {
       `,
       () => ({})
     )
+    await nextTick()
     const tooltipElement = wrapper.getComponent({
       name: 'ElTooltip',
     })
@@ -604,6 +605,7 @@ describe('Dropdown', () => {
       `,
       () => ({})
     )
+    await nextTick()
     const tooltipElement = wrapper.getComponent({
       name: 'ElTooltip',
     })
@@ -712,6 +714,7 @@ describe('Dropdown', () => {
         `,
         () => ({})
       )
+      await nextTick()
       const menu = wrapper.findComponent({ ref: 'menu' })
       const menuItem = menu.find('.el-dropdown-menu__item')
       expect(menu.attributes()['role']).toBe('menu')
@@ -731,6 +734,7 @@ describe('Dropdown', () => {
         `,
         () => ({})
       )
+      await nextTick()
       const menu = wrapper.findComponent({ ref: 'menu' })
       const menuItem = menu.find('.el-dropdown-menu__item')
       expect(menu.attributes()['role']).toBe('navigation')
@@ -750,6 +754,7 @@ describe('Dropdown', () => {
         `,
         () => ({})
       )
+      await nextTick()
       const menu = wrapper.findComponent({ ref: 'menu' })
       const menuItem = menu.find('.el-dropdown-menu__item')
       expect(menu.attributes()['role']).toBe('group')
