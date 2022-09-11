@@ -60,6 +60,9 @@
     "children": [
       {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5900f4e5f (docs: move documentations to docs (#9733))
         "text": "Development Guide",
         "link": "/guide/dev-guide"
       },
@@ -72,8 +75,11 @@
         "link": "/guide/commit-examples"
       },
       {
+<<<<<<< HEAD
 =======
 >>>>>>> 0491afe98 (docs: move translation guide to docs (#9730))
+=======
+>>>>>>> 5900f4e5f (docs: move documentations to docs (#9733))
         "text": "Translation",
         "link": "/guide/translation"
       }
