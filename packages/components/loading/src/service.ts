@@ -138,9 +138,7 @@ const addClassList = (
   const ns = useNamespace('loading')
 
   if (
-    instance.originalPosition.value !== 'absolute' &&
-    instance.originalPosition.value !== 'fixed' &&
-    instance.originalPosition.value !== 'sticky'
+    !['absolute', 'fixed', 'sticky'].includes(instance.originalPosition.value)
   ) {
     addClass(parent, ns.bm('parent', 'relative'))
   } else {
