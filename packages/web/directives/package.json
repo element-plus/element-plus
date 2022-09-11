@@ -16,16 +16,8 @@
     "url": "https://github.com/element-plus/element-plus/issues"
   },
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "exports": {
-    ".": {
-      "dev": "./src/index.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    },
-    "./*": "./*"
-  },
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/element-plus/element-plus.git"
