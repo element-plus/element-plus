@@ -24,6 +24,7 @@
         "packages/*",
         "packages/web/*",
         "packages/web/*/src",
+        "packages/node/*",
         "packages/node/*/src"
       ],
       "@element-plus/locale/lang/*": ["packages/web/locale/src/lang/*.ts"]

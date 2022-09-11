@@ -1,11 +1,15 @@
 {
-  "extends": "./tsconfig.web.json",
+  "extends": "@element-plus/tsconfig/tsconfig.vitest.json",
+  "include": [
+    "packages/web/**/*",
+    "packages/web/*/package.json",
+    "packages/**/__tests__/**/*",
+    "packages/**/tests/**/*",
+    "packages/node/test-utils",
+    "vitest.setup.ts",
+    "typings/env.d.ts"
+  ],
   "compilerOptions": {
-    "composite": true,
-    "lib": ["ES2021", "DOM", "DOM.Iterable"],
-    "types": ["node", "jsdom", "unplugin-vue-define-options"],
-    "skipLibCheck": true
-  },
-  "include": ["packages", "vitest.setup.ts", "typings/env.d.ts"],
-  "exclude": ["node_modules", "dist", "**/*.md"]
+    "composite": true
+  }
 }
