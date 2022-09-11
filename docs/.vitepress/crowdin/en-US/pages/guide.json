@@ -59,6 +59,7 @@
     "text": "Development",
     "children": [
       {
+<<<<<<< HEAD
         "text": "Development Guide",
         "link": "/guide/dev-guide"
       },
@@ -71,6 +72,8 @@
         "link": "/guide/commit-examples"
       },
       {
+=======
+>>>>>>> 0491afe98 (docs: move translation guide to docs (#9730))
         "text": "Translation",
         "link": "/guide/translation"
       }
