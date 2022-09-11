@@ -64,7 +64,7 @@ import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { ElInput } from '@element-plus/components/input'
 import { ElIcon } from '@element-plus/components/icon'
-import { RepeatClick as vRepeatClick } from '@element-plus/directives'
+import { RepeatClick as vRepeatClick } from '@element-plus/vue-directives'
 import {
   useDisabled,
   useFormItem,

@@ -1,5 +1,5 @@
 {
-  "name": "@element-plus/directives",
+  "name": "@element-plus/vue-directives",
   "version": "3.0.0-alpha.0",
   "description": "Vue directives for Element Plus.",
   "keywords": [

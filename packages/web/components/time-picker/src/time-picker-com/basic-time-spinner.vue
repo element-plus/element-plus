@@ -80,7 +80,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
-import { RepeatClick as vRepeatClick } from '@element-plus/directives'
+import { RepeatClick as vRepeatClick } from '@element-plus/vue-directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'

@@ -160,7 +160,7 @@ import {
   watch,
 } from 'vue'
 import ElButton from '@element-plus/components/button'
-import { TrapFocus } from '@element-plus/directives'
+import { TrapFocus } from '@element-plus/vue-directives'
 import {
   useDraggable,
   useId,

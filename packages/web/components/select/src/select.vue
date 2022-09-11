@@ -273,7 +273,7 @@ import {
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { placements } from '@popperjs/core'
-import { ClickOutside } from '@element-plus/directives'
+import { ClickOutside } from '@element-plus/vue-directives'
 import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import ElTooltip, {
