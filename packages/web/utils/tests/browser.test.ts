@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { isFirefox } from '..'
+import { isFirefox } from '../src'
 
 describe('browser', () => {
   it('isFirefox should work', () => {

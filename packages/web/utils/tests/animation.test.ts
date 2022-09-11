@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { cubic, easeInOutCubic } from '..'
+import { cubic, easeInOutCubic } from '../src'
 
 describe('animation', () => {
   it('cubic should work', () => {

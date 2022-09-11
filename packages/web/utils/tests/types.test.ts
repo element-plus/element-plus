@@ -17,7 +17,7 @@ import {
   isSymbol,
   isUndefined,
   isVNode,
-} from '..'
+} from '../src'
 
 describe('types', () => {
   it('re-export from @vue/shared', () => {

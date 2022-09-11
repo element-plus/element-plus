@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { castArray as lodashCastArray } from 'lodash-es'
-import { castArray, ensureArray, unique } from '..'
+import { castArray, ensureArray, unique } from '../src'
 
 describe('arrays', () => {
   it('unique should work', () => {
