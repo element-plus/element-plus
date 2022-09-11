@@ -3,7 +3,7 @@ import type { DirectiveBinding, ObjectDirective } from 'vue'
 export const REPEAT_INTERVAL = 100
 export const REPEAT_DELAY = 600
 
-const RepeatClick: ObjectDirective = {
+export const RepeatClick: ObjectDirective = {
   beforeMount(el: HTMLElement, binding: DirectiveBinding) {
     let interval: ReturnType<typeof setInterval> | null = null
     let delay: ReturnType<typeof setTimeout> | null = null
@@ -35,5 +35,3 @@ const RepeatClick: ObjectDirective = {
     })
   },
 }
-
-export default RepeatClick

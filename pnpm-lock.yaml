@@ -449,7 +449,17 @@ importers:
     specifiers: {}
 
   packages/web/directives:
-    specifiers: {}
+    specifiers:
+      '@element-plus/constants': workspace:*
+      '@element-plus/utils': workspace:*
+      normalize-wheel-es: ^1.2.0
+      vue: ^3.2.31
+    dependencies:
+      '@element-plus/constants': link:../constants
+      '@element-plus/utils': link:../utils
+      normalize-wheel-es: 1.2.0
+    devDependencies:
+      vue: 3.2.37
 
   packages/web/element-plus:
     specifiers:
@@ -3134,7 +3144,7 @@ packages:
       joycon: 3.1.1
       postcss-load-config: 3.1.4
       resolve-from: 5.0.0
-      rollup: 2.75.7
+      rollup: 2.78.1
       source-map: 0.8.0-beta.0
       sucrase: 3.25.0
       tree-kill: 1.2.2
@@ -3169,7 +3179,7 @@ packages:
       joycon: 3.1.1
       postcss-load-config: 3.1.4
       resolve-from: 5.0.0
-      rollup: 2.75.7
+      rollup: 2.78.1
       source-map: 0.8.0-beta.0
       sucrase: 3.25.0
       tree-kill: 1.2.2
@@ -3722,7 +3732,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 2.9.13_sass@1.53.0
+      vite: 2.9.13
       vue: 3.2.37
     dev: true
 
@@ -11717,7 +11727,7 @@ packages:
         optional: true
     dependencies:
       chokidar: 3.5.3
-      vite: 2.9.13_sass@1.53.0
+      vite: 2.9.13
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.3
     dev: true

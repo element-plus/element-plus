@@ -1,14 +1,49 @@
 {
   "name": "@element-plus/directives",
-  "version": "0.0.5",
-  "description": "Element Plus directives",
+  "version": "3.0.0-alpha.0",
+  "description": "Vue directives for Element Plus.",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue",
+    "directives"
+  ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
   "license": "MIT",
-  "main": "index.ts",
-  "module": "index.ts",
-  "unpkg": "index.js",
-  "jsdelivr": "index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./*": "./*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "ep-cli build",
+    "clean": "rimraf ./dist"
+  },
   "peerDependencies": {
     "vue": "^3.2.0"
   },
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  "dependencies": {
+    "@element-plus/constants": "workspace:*",
+    "@element-plus/utils": "workspace:*",
+    "normalize-wheel-es": "^1.2.0"
+  },
+  "devDependencies": {
+    "vue": "^3.2.31"
+  }
 }

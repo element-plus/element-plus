@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import ClickOutside from '../click-outside'
+import { ClickOutside } from '../src'
 
 const AXIOM = 'Rem is the best girl'
 const TRIGGER = 'trigger'
