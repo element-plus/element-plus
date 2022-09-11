@@ -19,6 +19,7 @@ importers:
       '@element-plus/test-utils': workspace:*
       '@element-plus/theme-chalk': workspace:*
       '@element-plus/tokens': workspace:*
+      '@element-plus/tsconfig': workspace:*
       '@element-plus/utils': workspace:*
       '@esbuild-kit/cjs-loader': ^2.2.1
       '@floating-ui/dom': ^1.0.1
@@ -108,6 +109,7 @@ importers:
       '@element-plus/build-published': /@element-plus-next/build/3.0.0-alpha.3_j6bzmzd4ujpabbp5objtwxyjp4
       '@element-plus/build-utils': link:internal/build-utils
       '@element-plus/eslint-config': link:packages/node/eslint-config
+      '@element-plus/tsconfig': link:packages/node/tsconfig
       '@esbuild-kit/cjs-loader': 2.2.1
       '@pnpm/find-workspace-packages': 4.0.16_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
@@ -424,6 +426,9 @@ importers:
       typescript: 4.7.4
 
   packages/node/node-constants:
+    specifiers: {}
+
+  packages/node/tsconfig:
     specifiers: {}
 
   packages/test-utils:
