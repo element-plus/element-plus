@@ -72,6 +72,7 @@
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
     "@element-plus/build": "workspace:^0.0.1",
+    "@element-plus/build-published": "npm:@element-plus-next/build@3.0.0-alpha.3",
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
     "@esbuild-kit/cjs-loader": "^2.2.1",
