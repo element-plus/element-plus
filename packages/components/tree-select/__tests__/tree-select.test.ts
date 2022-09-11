@@ -1,6 +1,7 @@
 import { h, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
+import { rAF } from '@element-plus/test-utils/tick'
 import TreeSelect from '../src/tree-select.vue'
 import type { RenderFunction } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
@@ -59,26 +60,33 @@ const createComponent = ({
   return {
     wrapper,
     getWrapperRef: () =>
-      new Promise((resolve) =>
-        nextTick(() => resolve(wrapperRef.value))
-      ) as Promise<InstanceType<typeof ElTree> & InstanceType<typeof ElSelect>>,
-    select: wrapper.findComponent({ name: 'ElSelect' }) as VueWrapper<
-      InstanceType<typeof ElSelect>
-    >,
-    tree: wrapper.findComponent({ name: 'ElTree' }) as VueWrapper<
-      InstanceType<typeof ElTree>
-    >,
+      new Promise<InstanceType<typeof ElTree> & InstanceType<typeof ElSelect>>(
+        (resolve) => nextTick(() => resolve(wrapperRef.value))
+      ),
+    getSelect: () =>
+      new Promise<VueWrapper<InstanceType<typeof ElSelect>>>((resolve) =>
+        nextTick(() => resolve(wrapper.findComponent({ name: 'ElSelect' })))
+      ),
+    getTree: () =>
+      new Promise<VueWrapper<InstanceType<typeof ElTree>>>((resolve) =>
+        nextTick(() => resolve(wrapper.findComponent({ name: 'ElTree' })))
+      ),
   }
 }
 
 describe('TreeSelect.vue', () => {
+  afterEach(() => {
+    document.body.innerHTML = ''
+  })
+
   test('render test', async () => {
-    const { wrapper, tree } = createComponent({
+    const { wrapper, getTree } = createComponent({
       props: {
         defaultExpandAll: true,
       },
     })
 
+    const tree = await getTree()
     expect(wrapper.find('.el-tree')).toBeTruthy()
     expect(wrapper.find('.el-select')).toBeTruthy()
 
@@ -95,7 +103,7 @@ describe('TreeSelect.vue', () => {
 
   test('modelValue', async () => {
     const value = ref(1)
-    const { getWrapperRef, select, tree } = createComponent({
+    const { wrapper, getWrapperRef, getTree, getSelect } = createComponent({
       props: {
         modelValue: value,
         checkStrictly: true,
@@ -105,37 +113,43 @@ describe('TreeSelect.vue', () => {
     })
 
     const wrapperRef = await getWrapperRef()
+    const tree = await getTree()
+    const select = await getSelect()
 
-    await nextTick()
-    expect(select.vm.modelValue).toBe(1)
-    expect(wrapperRef.getCheckedKeys()).toEqual([1])
+    setTimeout(async () => {
+      await wrapper.trigger('click')
+      await rAF()
 
-    value.value = 11
-    await nextTick(nextTick)
-    expect(select.vm.modelValue).toBe(11)
-    expect(wrapperRef.getCheckedKeys()).toEqual([11])
+      expect(select.vm.modelValue).toBe(1)
+      expect(wrapperRef.getCheckedKeys()).toEqual([1])
 
-    await tree
-      .findAll('.el-select-dropdown__item')
-      .slice(-1)[0]
-      .trigger('click')
-    await nextTick()
-    expect(select.vm.modelValue).toBe(111)
-    expect(wrapperRef.getCheckedKeys()).toEqual([111])
+      value.value = 11
+      await nextTick(nextTick)
+      expect(select.vm.modelValue).toBe(11)
+      expect(wrapperRef.getCheckedKeys()).toEqual([11])
 
-    await tree.find('.el-tree-node__content').trigger('click')
-    await nextTick()
-    expect(select.vm.modelValue).toBe(1)
-    expect(wrapperRef.getCheckedKeys()).toEqual([1])
+      await tree
+        .findAll('.el-select-dropdown__item')
+        .slice(-1)[0]
+        .trigger('click')
+      await nextTick()
+      expect(select.vm.modelValue).toBe(111)
+      expect(wrapperRef.getCheckedKeys()).toEqual([111])
 
-    await tree.findAll('.el-checkbox__original')[1].trigger('click')
-    await nextTick()
-    expect(select.vm.modelValue).toBe(11)
-    expect(wrapperRef.getCheckedKeys()).toEqual([11])
+      await tree.find('.el-tree-node__content').trigger('click')
+      await nextTick()
+      expect(select.vm.modelValue).toBe(1)
+      expect(wrapperRef.getCheckedKeys()).toEqual([1])
+
+      await tree.findAll('.el-checkbox__original')[1].trigger('click')
+      await nextTick()
+      expect(select.vm.modelValue).toBe(11)
+      expect(wrapperRef.getCheckedKeys()).toEqual([11])
+    })
   })
 
   test('disabled', async () => {
-    const { wrapper, tree } = createComponent({
+    const { wrapper, getTree } = createComponent({
       props: {
         data: [
           {
@@ -157,6 +171,8 @@ describe('TreeSelect.vue', () => {
       },
     })
 
+    const tree = await getTree()
+
     await nextTick()
     await tree.find('.el-tree-node').trigger('click')
     await tree.find('.el-tree-node .el-checkbox.is-disabled').trigger('click')
@@ -169,7 +185,7 @@ describe('TreeSelect.vue', () => {
 
   test('multiple', async () => {
     const value = ref([1])
-    const { getWrapperRef, select, tree } = createComponent({
+    const { wrapper, getWrapperRef, getTree, getSelect } = createComponent({
       props: {
         modelValue: value,
         checkStrictly: true,
@@ -180,41 +196,49 @@ describe('TreeSelect.vue', () => {
     })
 
     const wrapperRef = await getWrapperRef()
+    const tree = await getTree()
+    const select = await getSelect()
 
-    await nextTick()
-    expect(select.vm.modelValue).toEqual([1])
-    expect(wrapperRef.getCheckedKeys()).toEqual([1])
+    setTimeout(async () => {
+      await wrapper.trigger('click')
+      await rAF()
 
-    value.value = [11]
-    await nextTick(nextTick)
-    expect(select.vm.modelValue).toEqual([11])
-    expect(wrapperRef.getCheckedKeys()).toEqual([11])
+      expect(select.vm.modelValue).toEqual([1])
+      expect(wrapperRef.getCheckedKeys()).toEqual([1])
 
-    await tree
-      .findAll('.el-select-dropdown__item')
-      .slice(-1)[0]
-      .trigger('click')
-    await nextTick()
-    expect(select.vm.modelValue).toEqual([11, 111])
-    expect(wrapperRef.getCheckedKeys()).toEqual([11, 111])
+      value.value = [11]
+      await nextTick(nextTick)
+      expect(select.vm.modelValue).toEqual([11])
+      expect(wrapperRef.getCheckedKeys()).toEqual([11])
 
-    await tree.find('.el-tree-node__content').trigger('click')
-    await nextTick()
-    expect(select.vm.modelValue).toEqual([1, 11, 111])
-    expect(wrapperRef.getCheckedKeys()).toEqual([1, 11, 111])
+      await tree
+        .findAll('.el-select-dropdown__item')
+        .slice(-1)[0]
+        .trigger('click')
+      await nextTick()
+      expect(select.vm.modelValue).toEqual([11, 111])
+      expect(wrapperRef.getCheckedKeys()).toEqual([11, 111])
 
-    await tree.findAll('.el-checkbox')[1].trigger('click')
-    await nextTick()
-    expect(select.vm.modelValue).toEqual([1, 111])
-    expect(wrapperRef.getCheckedKeys()).toEqual([1, 111])
+      await tree.find('.el-tree-node__content').trigger('click')
+      await nextTick()
+      expect(select.vm.modelValue).toEqual([1, 11, 111])
+      expect(wrapperRef.getCheckedKeys()).toEqual([1, 11, 111])
+
+      await tree.findAll('.el-checkbox')[1].trigger('click')
+      await nextTick()
+      expect(select.vm.modelValue).toEqual([1, 111])
+      expect(wrapperRef.getCheckedKeys()).toEqual([1, 111])
+    })
   })
 
   test('filter', async () => {
-    const { tree } = createComponent({
+    const { getTree } = createComponent({
       props: {
         filterable: true,
       },
     })
+
+    const tree = await getTree()
 
     tree.vm.filter('一级 1')
     await nextTick()
@@ -222,7 +246,7 @@ describe('TreeSelect.vue', () => {
   })
 
   test('props', async () => {
-    const { wrapper, select, tree } = createComponent({
+    const { wrapper, getTree, getSelect } = createComponent({
       props: {
         data: [
           {
@@ -244,6 +268,9 @@ describe('TreeSelect.vue', () => {
       },
     })
 
+    const tree = await getTree()
+    const select = await getSelect()
+
     await nextTick()
     expect(tree.find('.el-select-dropdown__item').text()).toBe('1')
     wrapper.vm.modelValue = '2'
@@ -252,12 +279,15 @@ describe('TreeSelect.vue', () => {
   })
 
   test('slots', async () => {
-    const { select, tree } = createComponent({
+    const { getTree, getSelect } = createComponent({
       slots: {
         default: ({ data }: { data: { label: string } }) => `123${data.label}`,
         prefix: () => 'prefix',
       },
     })
+
+    const tree = await getTree()
+    const select = await getSelect()
 
     await nextTick()
     expect(tree.find('.el-select-dropdown__item').text()).toBe('123一级 1')
@@ -265,7 +295,7 @@ describe('TreeSelect.vue', () => {
   })
 
   test('renderContent', async () => {
-    const { tree } = createComponent({
+    const { getTree } = createComponent({
       props: {
         renderContent: (
           h: RenderFunction,
@@ -276,12 +306,14 @@ describe('TreeSelect.vue', () => {
       },
     })
 
+    const tree = await getTree()
+
     await nextTick()
     expect(tree.find('.el-select-dropdown__item').text()).toBe('123一级 1')
   })
 
   test('lazy', async () => {
-    const { tree } = createComponent({
+    const { getTree } = createComponent({
       props: {
         data: [
           {
@@ -296,6 +328,8 @@ describe('TreeSelect.vue', () => {
       },
     })
 
+    const tree = await getTree()
+
     await nextTick()
     await tree.find('.el-tree-node').trigger('click')
     await nextTick()
@@ -304,11 +338,14 @@ describe('TreeSelect.vue', () => {
 
   test('events', async () => {
     const onNodeClick = vi.fn()
-    const { tree } = createComponent({
+    const { getTree } = createComponent({
       props: {
         onNodeClick,
       },
     })
+
+    const tree = await getTree()
+
     await nextTick()
     await tree.find('.el-tree-node').trigger('click')
     await nextTick()
@@ -316,7 +353,7 @@ describe('TreeSelect.vue', () => {
   })
 
   test('check-strictly showCheckbox click node', async () => {
-    const { getWrapperRef, select, tree } = createComponent({
+    const { getWrapperRef, getTree, getSelect } = createComponent({
       props: {
         checkStrictly: true,
         showCheckbox: true,
@@ -325,6 +362,9 @@ describe('TreeSelect.vue', () => {
     })
 
     const wrapperRef = await getWrapperRef()
+    const tree = await getTree()
+    const select = await getSelect()
+
     await tree.findAll('.el-tree-node__content')[0].trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toEqual([])
@@ -339,7 +379,7 @@ describe('TreeSelect.vue', () => {
   })
 
   test('check-strictly showCheckbox checkOnClickNode click node', async () => {
-    const { getWrapperRef, select, tree } = createComponent({
+    const { getWrapperRef, getTree, getSelect } = createComponent({
       props: {
         checkStrictly: true,
         showCheckbox: true,
@@ -349,6 +389,9 @@ describe('TreeSelect.vue', () => {
     })
 
     const wrapperRef = await getWrapperRef()
+    const tree = await getTree()
+    const select = await getSelect()
+
     await tree.findAll('.el-tree-node__content')[0].trigger('click')
     await nextTick()
     expect(select.vm.modelValue).toEqual([1])
@@ -363,11 +406,14 @@ describe('TreeSelect.vue', () => {
   })
 
   test('only show checkbox', async () => {
-    const { select, tree } = createComponent({
+    const { getTree, getSelect } = createComponent({
       props: {
         showCheckbox: true,
       },
     })
+
+    const tree = await getTree()
+    const select = await getSelect()
 
     // check child node when folder node checked,
     // value.value will be 111
@@ -386,12 +432,15 @@ describe('TreeSelect.vue', () => {
   })
 
   test('show checkbox and check on click node', async () => {
-    const { select, tree } = createComponent({
+    const { getTree, getSelect } = createComponent({
       props: {
         showCheckbox: true,
         checkOnClickNode: true,
       },
     })
+
+    const tree = await getTree()
+    const select = await getSelect()
 
     // check child node when folder node checked,
     // value.value will be 111
@@ -407,23 +456,27 @@ describe('TreeSelect.vue', () => {
 
   test('expand selected node`s parent in first time', async () => {
     const value = ref(111)
-    const { tree } = createComponent({
+    const { getTree } = createComponent({
       props: {
         modelValue: value,
       },
     })
+
+    const tree = await getTree()
 
     expect(tree.findAll('.is-expanded[data-key="1"]').length).toBe(1)
     expect(tree.findAll('.is-expanded[data-key="11"]').length).toBe(1)
   })
 
   test('expand-on-click-node', async () => {
-    const { wrapper, tree } = createComponent({
+    const { wrapper, getTree } = createComponent({
       props: {
         expandOnClickNode: false,
         checkOnClickNode: true,
       },
     })
+
+    const tree = await getTree()
 
     await tree.findAll('.el-tree-node__content')[0].trigger('click')
     expect(
