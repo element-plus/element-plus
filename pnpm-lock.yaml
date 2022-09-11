@@ -85,7 +85,7 @@ importers:
       '@element-plus/hooks': link:packages/web/hooks
       '@element-plus/icons-vue': 2.0.6_vue@3.2.37
       '@element-plus/locale': link:packages/web/locale
-      '@element-plus/test-utils': link:packages/web/test-utils
+      '@element-plus/test-utils': link:packages/node/test-utils
       '@element-plus/theme-chalk': link:packages/web/theme-chalk
       '@element-plus/tokens': link:packages/web/tokens
       '@element-plus/utils': link:packages/web/utils
@@ -370,6 +370,9 @@ importers:
   packages/node/node-constants:
     specifiers: {}
 
+  packages/node/test-utils:
+    specifiers: {}
+
   packages/node/tsconfig:
     specifiers: {}
 
@@ -429,9 +432,6 @@ importers:
     specifiers: {}
 
   packages/web/locale:
-    specifiers: {}
-
-  packages/web/test-utils:
     specifiers: {}
 
   packages/web/theme-chalk:
