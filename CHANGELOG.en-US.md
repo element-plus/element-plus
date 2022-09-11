@@ -1,5 +1,170 @@
 ## Changelog
 
+### 2.2.16
+
+_2022-09-02_
+
+#### Features
+
+- Components [image-viewer] add `setActiveItem` method (#9389 by @holazz)
+- Components [dialog] add align center prop (#8947 by @Hfutsora)
+- Components [input-number] add new prop `readonly` (#9545 by @holazz)
+- Components [time-picker] add open and close handlers (#9572 by @jagoncalves14)
+- Components [date-picker] add open and close handlers (#9571 by @jagoncalves14)
+- Components el-tree.currentNodekey responsive. close #9576 (#9577 by @zhiyuanzmj)
+- Components  CascaderProps expandTrigger enum to type (#9265 by @hcwhan)
+
+#### Bug fixes
+
+- Theme-chalk fix datepicker sidebar of panel is covered by footer (#9352 by @Duncanxyz)
+- Components [date-picker] add flat polyfill (#9465 by @sxzz)
+- Components [upload] onExceed is not called (#9145 by @makedopamine)
+- Components [upload] `onPreview` not work when `picture` list type (#9448 by @holazz)
+- Components [time-select] inherit disabled from form (#9242 by @Tsong-LC)
+- Components [affix] expose `updateRoot` (#9159 by @CodeListener)
+- Deps update dependency @floating-ui/dom to v1 (#9000 by @renovate[bot])
+- Components [notification] custom icon not work (#9498 by @holazz)
+- Utils fix `iconPropType` (#9506 by @holazz)
+- Components [cascader] collapse-tags-tooltip drop first item (#9503 by @ryuhangyeong)
+- Components [table-v2] fix style import (#9510 by @holazz)
+- Components [dialog] bind `$attrs` (#9455 by @holazz)
+- Components [date-picker] only `td` tags with content can be select (#9537 by @btea)
+- Components [table] fix sort-change event behavior (#4640 by @cokemine)
+- Components [slider] trigger change event correctly (#9553 by @holazz)
+- Components [select-v2] emit('blur') does not carry parameter (#9547 by @sechi747)
+- Components [table] el-table__placeholder class disappear(#9527 by @wiidede) (#9529)
+- Components [table-v2] cell slots invalid (#9531 by @chenxch)
+- Components [select] update finished calculating optionsInDropdown (#9475 by @Tsong-LC)
+- Components [input] formatted values are out of sync (#9501 by @chenxch)
+- Directives [repeat-click] Interval time is too short for single clicks (#9466 by @opuu)
+- Components [tabs] nav offset error when use both number and string (#9222 by @tolking)
+- Components [select] support dynamic value for option (#9220 by @buqiyuan)
+- Issue #8278 (#8331 by @StephenKe)
+- [el-date-picker] fix DatePicker render error (#7017 by @soandsoprogrammer)
+- Components [form] reset field validate invalid (#7166 by @btea)
+- Components [el-form] clear validate after reset fields
+- Components [el-menu] compatible `menu.value` is null (#9566 by @xiaoxian521)
+- Components [page-header] fix styles introduced on demand (#9564 by @LiZhequ)
+- Components [pagination] add validate-event (#9563 by @tolking)
+- Components [loading] prevent click through (#5822 by @weidehai)
+- Components [tree-v2] updated when pass dynamic defaultCheckedKeys (#8228 by @webfansplz)
+- Components [tree-select] `expand-on-click-node` not work (#8973 by @holazz)
+- Components [table] toggleRowExpansion typing (#9512 by @wiidede)
+- Components [tree] fix setCurrentKey setCurrentNode emit (#8881 by @gjfei)
+- Components [select] fix typo (#9578 by @Tsong-LC)
+- Components [transfer] child component don't validate (#9403 by @Tsong-LC)
+- Components [date-picker] Component ElInput validateEvent pass true (#9402 by @Tsong-LC)
+- Components [table-v2] header-cell slots invalid (#9585 by @btea)
+- UseTree.ts修复tree-v2组件开启accordion模式后展开不了的问题 (#9591 by @qinhuangdaoooo)
+- Style(components): [select, select-v2] adjust style (#9496 by @daonatural)
+- Fix Table using load to click to expand will trigger multiple load callbacks (#9397 by @qq282126990)
+- Perf(components): [table] export table defaults (#8393 by @xiaoxian521)
+- Perf(hooks): [use-namespace] simplify code (#9298 by @holazz)
+
+#### Refactors
+
+- Components [tree] fix typo (#9477 by @Tsong-LC)
+- Components [popper]redfine the prop role type (#9471 by @MonsterPi13)
+- Components [popover] use JSX in Unit test (#8337 by @holazz)
+- Utils refactor `iconPropType` (#9502 by @holazz)
+- Utils refine `iconPropType` (#9515 by @holazz)
+- Components [notification] use JSX in Unit test (#9530 by @holazz)
+- Icon reduce getter access (#9360 by @zhangenming)
+- Components [date-time-picker] use JSX in Unit test (#9520 by @Tsong-LC)
+
+### 2.2.15
+
+_2022-08-26_
+
+#### Features
+
+- Components [page-header] enhancement (#9215 by @jw-foss)
+- Components [tree-v2] add `setExpendKeys` method (#9412 by @holazz)
+- Components [form] add require-asterisk-position prop (#9433 by @btea)
+- Components [menu] add `expand-close-icon`、`expand-open-icon`、`collapse-close-icon`、`collapse-open-icon`  props (#9444 by @xiaoxian521)
+
+#### Bug fixes
+
+- Components [message-box] fix Wrong type checking (#8399 by @MMmaXingXing)
+- Components [tree-v2] `setExpandedKeys` instead of `setExpendKeys` (#9413 by @holazz)
+- Components [el-menu] childNodes is null (#9408 by @xiaoxian521)
+- Components [cascader] when multiple is true keyboard delete error (#9415 by @btea)
+- Components [table] repetition labelCellName (#8967 by @gjfei)
+- Components [message] the value of exposeProxy may be null (#9378 by @btea)
+- Components [notification] closeAll invalid (#9417 by @chenxch)
+- Components [opover] effect dark mode title color (#9445 by @chenxch)
+- Components [space] complete the prop of space (#9380 by @MonsterPi13)
+- Components [table] bodyWrapper resized calculate scrollbarStyle (#9149 by @Tsong-LC)
+- Components [checkbox] label is object in group (#9271 by @chenxch)
+- Theme-chalk [select] set `vertical-align` (#8800 by @holazz)
+- Style(docs): change the example mask and overlay z-index (#9356 by @btea)
+- Style(components): [rate] in safari has outline (#9396 by @chenxch)
+
+#### Refactors
+
+- Components [time-picker] use JSX in Unit test (#9134 by @Tsong-LC)
+- Components [table] style of the footer-wrapper (#9084 by @tolking)
+
+### 2.2.14
+
+_2022-08-19_
+
+#### Features
+
+- Components [pagination] btns icon can be customized Vuecomponent (#9372 by @Tsong-LC)
+
+#### Bug fixes
+
+- Components use namespace (#9299 by @holazz)
+- Deps update dependency eslint-plugin-markdown to v3 (#9139 by @renovate[bot])
+- Deps update dependency @vueuse/core to v9 (#9138 by @renovate[bot])
+- Deps update dependency eslint-plugin-unicorn to v43 (#8610 by @renovate[bot])
+- Components [dialog] should emit open event after nextTick (#9209 by @buqiyuan)
+- Theme-chalk [select] text overflow shows ellipsis (#9305 by @holazz)
+- Components [docs] menu example code menu name error (#9355 by @feiyuOL)
+- Components [tree] calc parentNode state after doCreateChildren (#9362 by @Tsong-LC)
+- Components [switch] fix type error (#9171 by @Tsong-LC)
+- Components [select] option value is object (#9287 by @chenxch)
+- Components [cascader] placeholder disappeared after clear value (#9190 by @sechi747)
+- Components [menu] resize event infinite invoke (#9342 by @holazz)
+- Perf: RTLOffsetType compare (#9320 by @alwynou)
+- Style(theme-chalk): fix input (#9178 by @daonatural)
+
+#### Refactors
+
+- Components [table] fix typo (#9338 by @Tsong-LC)
+
+### 2.2.13
+
+_2022-08-12_
+
+#### Features
+
+- Components [tree-v2] expose several helpful methods (#9156 by @plainheart)
+- Components [popconfirm] add width prop (#9103 by @btea)
+
+#### Bug fixes
+
+- Components [table-body] keep row data reactive (#8592 by @jianjunyuu)
+- Components [table] fix selection style (#9179 by @holazz)
+- Locale update zh-tw translation (#8822 by @ChiahongHong)
+- Components [select] injected form context may be undefined (#8860 by @holazz)
+- Components [cascader] injected form context may be undefined (#8861 by @holazz)
+- Components [color-picker] injected form context may be undefined (#8862 by @holazz)
+- Components [time-picker] injected form context may be undefined (#8866 by @holazz)
+- Components [checkbox] injected form context may be undefined (#8865 by @holazz)
+- Element-plus dts entry (#8842 by @holazz)
+- Timer-pick automatically skip disabled items (#8850 by @baiwusanyu-c)
+- Components [table] the empty slot height error (#9226 by @tolking)
+- Style(theme-chalk): fix message (#9143 by @kooriookami)
+
+#### Refactors
+
+- Components [tabs] use JSX in Unit test (#9050 by @Tsong-LC)
+- Components [notification] switch to script-setup syntax (#9106 by @holazz)
+- Utils drop `resize-event` (#8618 by @holazz)
+- Hooks [use-lockscreen] change from padding to width (#9151 by @chenxch)
+
 ### 2.2.12
 
 _2022-08-01_

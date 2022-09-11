@@ -69,7 +69,7 @@ tree-v2/filter
 
 ## TreeV2 Attributes
 
-| Attribute             | Description                                                                                                                                  | Type                  | Default |
+| Name                  | Description                                                                                                                                  | Type                  | Default |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
 | data                  | tree data                                                                                                                                    | array                 | —       |
 | empty-text            | text displayed when data is void                                                                                                             | string                | —       |
@@ -81,10 +81,10 @@ tree-v2/filter
 | show-checkbox         | whether node is selectable                                                                                                                   | boolean               | false   |
 | check-strictly        | whether checked state of a node not affects its father and child nodes when `show-checkbox` is `true`                                        | boolean               | false   |
 | default-checked-keys  | array of keys of initially checked nodes                                                                                                     | array                 | —       |
-| current-node-key      | key of initially selected node                                                                                                               | string, number        | —       |
+| current-node-key      | key of initially selected node                                                                                                               | string / number       | —       |
 | filter-method         | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data) | —       |
 | indent                | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                | 16      |
-| icon                  | custome tree node icon                                                                                                                       | string / Component    | -       |
+| icon                  | custome tree node icon                                                                                                                       | `string \| Component` | -       |
 
 ## props
 
@@ -105,6 +105,7 @@ tree-v2/filter
 | getCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently selected array of node's keys | `(leafOnly: boolean)` |
 | setCheckedKeys | set certain nodes to be checked | `(keys: TreeKey[])` |
 | setChecked | set node to be checked or not | `(key: TreeKey, checked: boolean)` |
+| setExpandedKeys | set certain nodes to be expanded | `(keys: TreeKey[])` |
 | getHalfCheckedNodes | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of nodes | - |
 | getHalfCheckedKeys | If the node can be selected (`show-checkbox` is `true`), it returns the currently half selected array of node's keys | - |
 | getCurrentKey | return the highlight node's key (undefined if no node is highlighted) | - |
@@ -117,7 +118,7 @@ tree-v2/filter
 
 ## TreeV2 Events
 
-| Event Name       | Description                                          | Parameters                                                                                                                              |
+| Name             | Description                                          | Parameters                                                                                                                              |
 | ---------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | node-click       | triggers when a node is clicked                      | `(data: TreeNodeData, node: TreeNode, e: MouseEvent)`                                                                                   |
 | node-contextmenu | triggers when a node is clicked by right button      | `(e: Event, data: TreeNodeData, node: TreeNode)`                                                                                        |

@@ -39,11 +39,9 @@ export const switchProps = buildProps({
   },
   activeIcon: {
     type: iconPropType,
-    default: '',
   },
   inactiveIcon: {
     type: iconPropType,
-    default: '',
   },
   activeText: {
     type: String,

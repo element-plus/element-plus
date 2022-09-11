@@ -1,5 +1,5 @@
-import { h, nextTick } from 'vue'
-import { afterEach, describe, expect, it, test, vi } from 'vitest'
+import { nextTick } from 'vue'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Notification, { closeAll } from '../src/notify'
 import { ElNotification } from '..'
@@ -13,7 +13,7 @@ describe('Notification on command', () => {
     closeAll()
   })
 
-  test('it should get component handle', async () => {
+  it('it should get component handle', async () => {
     const handle = Notification()
     await rAF()
     expect(document.querySelector(selector)).toBeDefined()
@@ -27,11 +27,11 @@ describe('Notification on command', () => {
     ).toBeNull()
   })
 
-  test('it should be able to render vnode', async () => {
+  it('it should be able to render vnode', async () => {
     const testClassName = 'test-classname'
     const { close } = Notification({
       duration: 0,
-      message: h('div', { class: testClassName }, 'test-content'),
+      message: <div class={testClassName}>test-content</div>,
     })
 
     await rAF()
@@ -39,7 +39,7 @@ describe('Notification on command', () => {
     close()
   })
 
-  test('it should be able to close notification by manually close', async () => {
+  it('it should be able to close notification by manually close', async () => {
     const { close } = Notification({
       duration: 0,
     })
@@ -54,7 +54,7 @@ describe('Notification on command', () => {
     expect(document.querySelector(selector)).toBeNull()
   })
 
-  test('it should close all notifications', async () => {
+  it('it should close all notifications', async () => {
     const notifications: NotificationHandle[] = []
     const onClose = vi.fn()
     for (let i = 0; i < 4; i++) {
@@ -76,14 +76,14 @@ describe('Notification on command', () => {
     expect(document.querySelectorAll(selector).length).toBe(0)
   })
 
-  test('it should be able to render all types notification', () => {
+  it('it should be able to render all types notification', () => {
     for (const type of ['success', 'warning', 'error', 'info'] as const) {
       Notification[type]({})
       expect(document.querySelector(`.el-icon-${type}`)).toBeDefined()
     }
   })
 
-  test('it should appendTo specified HTMLElement', async () => {
+  it('it should appendTo specified HTMLElement', async () => {
     const htmlElement = document.createElement('div')
     const handle = Notification({
       appendTo: htmlElement,
@@ -97,7 +97,7 @@ describe('Notification on command', () => {
     expect(htmlElement.querySelector(selector)).toBeNull()
   })
 
-  test('it should appendTo specified selector', async () => {
+  it('it should appendTo specified selector', async () => {
     const htmlElement = document.createElement('div')
     htmlElement.classList.add('notification-manager')
     document.body.appendChild(htmlElement)
