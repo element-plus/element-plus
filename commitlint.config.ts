@@ -34,7 +34,7 @@ const scopeComplete = gitStatus
   ?.match(/packages%%((\w|-)*)/)?.[1]
 
 const subjectComplete = gitStatus
-  .find((r) => ~r.indexOf('M  packages/components'))
+  .find((r) => ~r.indexOf('M  packages/web/components'))
   ?.replace(/\//g, '%%')
   ?.match(/packages%%components%%((\w|-)*)/)?.[1]
 

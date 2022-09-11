@@ -123,8 +123,8 @@ const calcContributors = (commits: ApiResult['nodes']) => {
 
 const getContributorsByComponents = async (components: string[]) => {
   let options: FetchOption[] = components.flatMap((component) => [
-    { key: component, path: `packages/components/${component}` },
-    { key: component, path: `packages/theme-chalk/src/${component}.scss` },
+    { key: component, path: `packages/web/components/${component}` },
+    { key: component, path: `packages/web/theme-chalk/src/${component}.scss` },
     { key: component, path: `docs/examples/${component}` },
     { key: component, path: `docs/en-US/component/${component}.md` },
   ])
@@ -156,7 +156,7 @@ async function getContributors() {
   if (!process.env.GITHUB_TOKEN) throw new Error('GITHUB_TOKEN is empty')
 
   const components = await glob('*', {
-    cwd: path.resolve(projRoot, 'packages/components'),
+    cwd: path.resolve(projRoot, 'packages/web/components'),
     onlyDirectories: true,
   })
   let contributors: Record<string, ContributorInfo[]> = {}

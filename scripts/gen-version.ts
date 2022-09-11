@@ -2,7 +2,7 @@ import { writeFile } from 'fs/promises'
 import path from 'path'
 import consola from 'consola'
 import { epRoot } from '@element-plus/build-utils'
-import pkg from '../packages/element-plus/package.json' // need to be checked
+import pkg from '../packages/web/element-plus/package.json' // need to be checked
 
 function getVersion() {
   const tagVer = process.env.TAG_VERSION

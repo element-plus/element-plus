@@ -90,10 +90,10 @@ const transformComponentMarkdown = (
 ) => {
   const lang = getLang(id)
   const docUrl = `${GITHUB_BLOB_URL}/${docsDirName}/en-US/component/${componentId}.md`
-  const componentUrl = `${GITHUB_TREE_URL}/packages/components/${componentId}`
+  const componentUrl = `${GITHUB_TREE_URL}/packages/web/components/${componentId}`
   const componentPath = path.resolve(
     projRoot,
-    `packages/components/${componentId}`
+    `packages/web/components/${componentId}`
   )
   const isComponent = fs.existsSync(componentPath)
 
