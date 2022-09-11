@@ -1,7 +1,24 @@
 {
   "name": "@element-plus/test-utils",
-  "version": "0.0.5",
+  "version": "3.0.0-alpha.0",
   "private": true,
+  "description": "Test utils for Element Plus.",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "test utils"
+  ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
   "license": "MIT",
-  "main": "index.ts"
+  "main": "src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  }
 }

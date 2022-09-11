@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { nextTick } from 'vue'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
-import makeMount from '@element-plus/test-utils/make-mount'
+import { makeMount } from '@element-plus/test-utils'
 import setupMock from '../setup-mock'
 import {
   END_ALIGNMENT,

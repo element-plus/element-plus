@@ -7,7 +7,7 @@ import { isFunction, isUndefined } from 'lodash'
  * @param value The value of `obj[prop]` or a getter
  * @returns A restore function which can reset `obj[prop]`'s value or getter
  */
-const defineGetter = (
+export const defineGetter = (
   obj: Record<string, any>,
   prop: string,
   value: any,
@@ -41,5 +41,3 @@ const defineGetter = (
     })
   }
 }
-
-export default defineGetter

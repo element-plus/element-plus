@@ -5,7 +5,7 @@ import { useGlobalConfig, useLocale } from '@element-plus/hooks'
 import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import { ElButton, ElMessage } from '@element-plus/components'
-import { rAF } from '@element-plus/test-utils/tick'
+import { rAF } from '@element-plus/test-utils'
 import ConfigProvider from '../src/config-provider'
 
 import type { PropType } from 'vue'
