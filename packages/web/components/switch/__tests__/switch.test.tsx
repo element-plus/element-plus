@@ -8,7 +8,10 @@ import Switch from '../src/switch.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { SwitchInstance } from '../src/switch'
 
-vi.mock('@element-plus/utils/error', () => ({
+vi.mock('@element-plus/utils', async () => ({
+  ...(await vi.importActual<typeof import('@element-plus/utils')>(
+    '@element-plus/utils'
+  )),
   debugWarn: vi.fn(),
 }))
 

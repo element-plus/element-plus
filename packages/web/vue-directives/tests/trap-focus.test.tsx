@@ -1,7 +1,7 @@
 import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, afterEach, describe, expect, test, vi } from 'vitest'
-import * as Aria from '@element-plus/utils/dom/aria'
+import * as Aria from '@element-plus/utils'
 import { FOCUSABLE_CHILDREN, TrapFocus } from '../src'
 import type { ComponentPublicInstance, VNode } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'

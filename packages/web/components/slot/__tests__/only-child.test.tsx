@@ -8,7 +8,10 @@ import type { MountingOptions } from '@vue/test-utils'
 
 type Slot = NonNullable<NonNullable<MountingOptions<any>['slots']>['default']>
 
-vi.mock('@element-plus/utils/error', () => ({
+vi.mock('@element-plus/utils', async () => ({
+  ...(await vi.importActual<typeof import('@element-plus/utils')>(
+    '@element-plus/utils'
+  )),
   debugWarn: vi.fn(),
 }))
 
