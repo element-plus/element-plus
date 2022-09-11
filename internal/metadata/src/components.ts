@@ -10,7 +10,7 @@ async function main() {
   await ensureDir(pathOutput)
 
   const components = await glob('*', {
-    cwd: path.resolve(projRoot, 'packages/components'),
+    cwd: path.resolve(projRoot, 'packages/web/components'),
     onlyDirectories: true,
   })
 

@@ -13,6 +13,7 @@ import {
   docPackage,
   epPackage,
   getPackageDependencies,
+  pkgRoot,
   projRoot,
 } from '@element-plus/build-utils'
 import { MarkdownTransform } from './.vitepress/plugins/markdown-transform'
@@ -29,7 +30,7 @@ if (process.env.DOC_ENV !== 'production') {
   alias.push(
     {
       find: /^element-plus(\/(es|lib))?$/,
-      replacement: path.resolve(projRoot, 'packages/element-plus/index.ts'),
+      replacement: path.resolve(pkgRoot, 'element-plus/index.ts'),
     },
     {
       find: /^element-plus\/(es|lib)\/(.*)$/,
