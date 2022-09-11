@@ -1,14 +1,25 @@
 {
   "name": "@element-plus/eslint-config",
-  "version": "0.0.1",
-  "description": "ESLint Config",
-  "license": "MIT",
-  "files": [
-    "index.js"
+  "version": "3.0.0-alpha.0",
+  "description": "ESLint config for Element Plus.",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue",
+    "eslint-config"
   ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
+  "license": "MIT",
   "main": "index.js",
-  "publishConfig": {
-    "access": "public"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
   },
   "peerDependencies": {
     "eslint": "^8.0.0"
@@ -27,10 +38,10 @@
     "eslint-plugin-vue": "^9.1.1",
     "jsonc-eslint-parser": "^2.1.0",
     "prettier": "^2.7.1",
-    "typescript": "^4.7.4",
     "yaml-eslint-parser": "^1.0.1"
   },
   "devDependencies": {
-    "eslint": "^8.18.0"
+    "eslint": "^8.18.0",
+    "typescript": "^4.7.4"
   }
 }
