@@ -1,18 +1,15 @@
-# This workflow runs on target, so there is no need to worry about secrets
-
 name: 🧪 Test SSR
 
 on: pull_request
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
-  # Build successfully, start deployment
   test:
     name: SSR rendering test
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -26,7 +23,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -37,5 +34,5 @@ jobs:
         env:
           NODE_OPTIONS: --max-old-space-size=4096
 
-      - name: Do test
+      - name: Test
         run: pnpm test:ssr
