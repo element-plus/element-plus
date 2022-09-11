@@ -49,7 +49,7 @@ const FOCUS_HANDLER = (e: KeyboardEvent) => {
   }
 }
 
-const TrapFocus: ObjectDirective = {
+export const TrapFocus: ObjectDirective = {
   beforeMount(el: TrapFocusElement) {
     el[FOCUSABLE_CHILDREN] = obtainAllFocusableElements(el)
     FOCUS_STACK.push(el)
@@ -69,5 +69,3 @@ const TrapFocus: ObjectDirective = {
     }
   },
 }
-
-export default TrapFocus

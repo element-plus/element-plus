@@ -77,7 +77,7 @@ function createDocumentHandler(
   }
 }
 
-const ClickOutside: ObjectDirective = {
+export const ClickOutside: ObjectDirective = {
   beforeMount(el: HTMLElement, binding: DirectiveBinding) {
     // there could be multiple handlers on the element
     if (!nodeList.has(el)) {
@@ -115,5 +115,3 @@ const ClickOutside: ObjectDirective = {
     nodeList.delete(el)
   },
 }
-
-export default ClickOutside

@@ -16,10 +16,8 @@ const mousewheel = function (
   }
 }
 
-const Mousewheel: ObjectDirective = {
+export const Mousewheel: ObjectDirective = {
   beforeMount(el: HTMLElement, binding: DirectiveBinding) {
     mousewheel(el, binding.value)
   },
 }
-
-export default Mousewheel

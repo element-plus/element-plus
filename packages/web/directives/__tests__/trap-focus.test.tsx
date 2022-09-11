@@ -2,11 +2,10 @@ import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, afterEach, describe, expect, test, vi } from 'vitest'
 import * as Aria from '@element-plus/utils/dom/aria'
-import TrapFocus, { FOCUSABLE_CHILDREN } from '../trap-focus'
-
+import { FOCUSABLE_CHILDREN, TrapFocus } from '../src'
 import type { ComponentPublicInstance, VNode } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
-import type { TrapFocusElement } from '../trap-focus'
+import type { TrapFocusElement } from '../src'
 
 const isVisibleMock = vi.spyOn(Aria, 'isVisible').mockImplementation(() => true)
 
