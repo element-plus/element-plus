@@ -81,9 +81,9 @@ jobs:
             ${{ steps.read.outputs.content }}
             ```
 
-            Please refer to [Commit Example](https://github.com/element-plus/element-plus/blob/dev/commit-example.md) for fixing it.
+            Please refer to [Commit Example](https://element-plus.org/en-US/guide/commit-examples.html) for fixing it.
 
-            请参考 [提交示例](https://github.com/element-plus/element-plus/blob/dev/commit-example.md) 来修改你的提交消息。
+            请参考 [提交示例](https://element-plus.org/en-US/guide/commit-examples.html) 来修改你的提交消息。
 
             Note that all your commits will be squashed into one for being linted, so you might need to revision your commits.
             If you do not know how to do so, please refer to [Keeping git commit history clean](https://about.gitlab.com/blog/2018/06/07/keeping-git-commit-history-clean/) to update your commit message.
