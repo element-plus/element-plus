@@ -246,7 +246,7 @@
 <script lang="ts" setup>
 import { computed, inject, ref, toRef, unref } from 'vue'
 import dayjs from 'dayjs'
-import { ClickOutside as vClickoutside } from '@element-plus/directives'
+import { ClickOutside as vClickoutside } from '@element-plus/vue-directives'
 import { isArray } from '@element-plus/utils'
 import { useLocale } from '@element-plus/hooks'
 import ElButton from '@element-plus/components/button'

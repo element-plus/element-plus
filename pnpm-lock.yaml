@@ -12,7 +12,6 @@ importers:
       '@element-plus/cli': workspace:*
       '@element-plus/components': workspace:*
       '@element-plus/constants': workspace:*
-      '@element-plus/directives': workspace:*
       '@element-plus/eslint-config': workspace:*
       '@element-plus/hooks': workspace:*
       '@element-plus/icons-vue': ^2.0.6
@@ -22,6 +21,7 @@ importers:
       '@element-plus/tokens': workspace:*
       '@element-plus/tsconfig': workspace:*
       '@element-plus/utils': workspace:*
+      '@element-plus/vue-directives': workspace:*
       '@esbuild-kit/cjs-loader': ^2.2.1
       '@floating-ui/dom': ^1.0.1
       '@pnpm/find-workspace-packages': ^4.0.16
@@ -85,7 +85,6 @@ importers:
       '@element-plus/cli': link:packages/node/cli
       '@element-plus/components': link:packages/web/components
       '@element-plus/constants': link:packages/web/constants
-      '@element-plus/directives': link:packages/web/directives
       '@element-plus/hooks': link:packages/web/hooks
       '@element-plus/icons-vue': 2.0.6_vue@3.2.37
       '@element-plus/locale': link:packages/web/locale
@@ -93,6 +92,7 @@ importers:
       '@element-plus/theme-chalk': link:packages/web/theme-chalk
       '@element-plus/tokens': link:packages/web/tokens
       '@element-plus/utils': link:packages/web/utils
+      '@element-plus/vue-directives': link:packages/web/vue-directives
       '@floating-ui/dom': 1.0.1
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
       '@types/lodash': 4.14.182
@@ -448,19 +448,6 @@ importers:
   packages/web/constants:
     specifiers: {}
 
-  packages/web/directives:
-    specifiers:
-      '@element-plus/constants': workspace:*
-      '@element-plus/utils': workspace:*
-      normalize-wheel-es: ^1.2.0
-      vue: ^3.2.31
-    dependencies:
-      '@element-plus/constants': link:../constants
-      '@element-plus/utils': link:../utils
-      normalize-wheel-es: 1.2.0
-    devDependencies:
-      vue: 3.2.37
-
   packages/web/element-plus:
     specifiers:
       '@ctrl/tinycolor': ^3.4.1
@@ -539,6 +526,19 @@ importers:
 
   packages/web/utils:
     specifiers: {}
+
+  packages/web/vue-directives:
+    specifiers:
+      '@element-plus/constants': workspace:*
+      '@element-plus/utils': workspace:*
+      normalize-wheel-es: ^1.2.0
+      vue: ^3.2.31
+    dependencies:
+      '@element-plus/constants': link:../constants
+      '@element-plus/utils': link:../utils
+      normalize-wheel-es: 1.2.0
+    devDependencies:
+      vue: 3.2.37
 
   play:
     specifiers:

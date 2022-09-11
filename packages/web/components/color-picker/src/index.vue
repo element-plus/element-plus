@@ -116,7 +116,7 @@ import {
 import { debounce } from 'lodash-unified'
 import ElButton from '@element-plus/components/button'
 import ElIcon from '@element-plus/components/icon'
-import { ClickOutside } from '@element-plus/directives'
+import { ClickOutside } from '@element-plus/vue-directives'
 import {
   useFormItem,
   useFormItemInputId,

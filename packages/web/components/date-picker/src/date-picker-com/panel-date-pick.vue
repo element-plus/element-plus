@@ -197,7 +197,7 @@ import {
 } from 'vue'
 import dayjs from 'dayjs'
 import ElButton from '@element-plus/components/button'
-import { ClickOutside as vClickOutside } from '@element-plus/directives'
+import { ClickOutside as vClickOutside } from '@element-plus/vue-directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import {

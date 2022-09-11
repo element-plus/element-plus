@@ -311,7 +311,7 @@
 
 <script lang="ts">
 import { defineComponent, provide, reactive, toRefs, vModelText } from 'vue'
-import { ClickOutside } from '@element-plus/directives'
+import { ClickOutside } from '@element-plus/vue-directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'

@@ -44,7 +44,7 @@
     "@element-plus/cli": "workspace:*",
     "@element-plus/components": "workspace:*",
     "@element-plus/constants": "workspace:*",
-    "@element-plus/directives": "workspace:*",
+    "@element-plus/vue-directives": "workspace:*",
     "@element-plus/hooks": "workspace:*",
     "@element-plus/icons-vue": "^2.0.6",
     "@element-plus/locale": "workspace:*",

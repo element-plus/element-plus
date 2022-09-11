@@ -210,7 +210,7 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 
-import { ClickOutside as Clickoutside } from '@element-plus/directives'
+import { ClickOutside as Clickoutside } from '@element-plus/vue-directives'
 import {
   useFormItem,
   useLocale,

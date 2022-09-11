@@ -146,7 +146,7 @@
 // @ts-nocheck
 import { computed, defineComponent, getCurrentInstance, provide } from 'vue'
 import { debounce } from 'lodash-unified'
-import { Mousewheel } from '@element-plus/directives'
+import { Mousewheel } from '@element-plus/vue-directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import { createStore } from './store/helper'
