@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.web.json",
+  "compilerOptions": {
+    "lib": ["ES2019", "WebWorker"],
+    "jsx": "preserve",
+    "declaration": true
+  },
+  "vueCompilerOptions": {
+    "target": 3
+  }
+}

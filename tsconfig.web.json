@@ -1,14 +1,8 @@
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "composite": true,
-    "jsx": "preserve",
-    "lib": ["ES2018", "DOM", "DOM.Iterable"],
-    "types": ["unplugin-vue-define-options"],
-    "skipLibCheck": true
-  },
+  "extends": "@element-plus/tsconfig/tsconfig.web.json",
   "include": ["packages", "typings/components.d.ts", "typings/env.d.ts"],
   "exclude": [
+    "packages/node",
     "node_modules",
     "**/dist",
     "**/__tests__/**/*",
@@ -16,5 +10,8 @@
     "**/test-helper",
     "packages/test-utils",
     "**/*.md"
-  ]
+  ],
+  "compilerOptions": {
+    "composite": true
+  }
 }

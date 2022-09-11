@@ -75,6 +75,7 @@
     "@element-plus/build-published": "npm:@element-plus-next/build@3.0.0-alpha.3",
     "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
+    "@element-plus/tsconfig": "workspace:*",
     "@esbuild-kit/cjs-loader": "^2.2.1",
     "@pnpm/find-workspace-packages": "^4.0.16",
     "@pnpm/logger": "^4.0.0",

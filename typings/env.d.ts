@@ -1,3 +1,5 @@
+/// <reference types="unplugin-vue-define-options" />
+
 import type { vShow } from 'vue'
 import type { INSTALLED_KEY } from '@element-plus/constants'
 
