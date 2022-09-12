@@ -41,7 +41,7 @@ jobs:
         run: cd docs && pnpm i element-plus@latest
 
       - name: Build Metadata
-        run: cd internal/metadata && pnpm build
+        run: cd packages/node/metadata && pnpm build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

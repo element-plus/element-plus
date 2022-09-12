@@ -46,7 +46,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Build Metadata (Dev)
-        run: cd internal/metadata && pnpm dev
+        run: cd packages/node/metadata && pnpm dev
 
       - name: Build website
         run: pnpm docs:build

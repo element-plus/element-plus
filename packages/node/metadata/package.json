@@ -1,14 +1,33 @@
 {
   "name": "@element-plus/metadata",
-  "version": "0.0.1",
-  "description": "Metadata for Element Plus",
+  "version": "3.0.0-alpha.0",
+  "description": "Metadata for Element Plus.",
   "keywords": [
-    "element-plus"
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue",
+    "metadata"
   ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
   "license": "MIT",
   "files": [
     "dist"
   ],
+  "exports": {
+    "./components": "./dist/components.json",
+    "./contributors": "./dist/contributors.json",
+    "./*": "./*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
   "publishConfig": {
     "access": "public"
   },

@@ -201,7 +201,7 @@ importers:
     dependencies:
       '@docsearch/js': 3.1.0
       '@element-plus/icons-vue': 2.0.9_vue@3.2.37
-      '@element-plus/metadata': link:../internal/metadata
+      '@element-plus/metadata': link:../packages/node/metadata
       '@vue/shared': 3.2.37
       '@vueuse/core': 9.1.0_vue@3.2.37
       axios: 0.27.2
@@ -308,32 +308,6 @@ importers:
     devDependencies:
       unbuild: 0.7.4
 
-  internal/metadata:
-    specifiers:
-      '@element-plus/build': ^0.0.1
-      '@element-plus/build-constants': ^0.0.1
-      '@element-plus/build-utils': ^0.0.1
-      '@types/lodash-es': ^4.17.6
-      chalk: ^5.0.1
-      consola: ^2.15.3
-      fast-glob: ^3.2.11
-      lodash-es: ^4.17.21
-      npm-run-all: ^4.1.5
-      octokit: ^2.0.3
-      tsx: ^3.6.0
-    devDependencies:
-      '@element-plus/build': link:../build
-      '@element-plus/build-constants': link:../build-constants
-      '@element-plus/build-utils': link:../build-utils
-      '@types/lodash-es': 4.17.6
-      chalk: 5.0.1
-      consola: 2.15.3
-      fast-glob: 3.2.11
-      lodash-es: 4.17.21
-      npm-run-all: 4.1.5
-      octokit: 2.0.3
-      tsx: 3.6.0
-
   packages/node/build:
     specifiers:
       '@element-plus/node-constants': workspace:*
@@ -410,6 +384,32 @@ importers:
     devDependencies:
       eslint: 8.18.0
       typescript: 4.7.4
+
+  packages/node/metadata:
+    specifiers:
+      '@element-plus/build': ^0.0.1
+      '@element-plus/build-constants': ^0.0.1
+      '@element-plus/build-utils': ^0.0.1
+      '@types/lodash-es': ^4.17.6
+      chalk: ^5.0.1
+      consola: ^2.15.3
+      fast-glob: ^3.2.11
+      lodash-es: ^4.17.21
+      npm-run-all: ^4.1.5
+      octokit: ^2.0.3
+      tsx: ^3.6.0
+    devDependencies:
+      '@element-plus/build': link:../../../internal/build
+      '@element-plus/build-constants': link:../../../internal/build-constants
+      '@element-plus/build-utils': link:../../../internal/build-utils
+      '@types/lodash-es': 4.17.6
+      chalk: 5.0.1
+      consola: 2.15.3
+      fast-glob: 3.2.11
+      lodash-es: 4.17.21
+      npm-run-all: 4.1.5
+      octokit: 2.0.3
+      tsx: 3.9.0
 
   packages/node/node-constants:
     specifiers: {}
@@ -2226,11 +2226,11 @@ packages:
       '@element-plus-next/node-constants': 3.0.0-alpha.3
       '@element-plus-next/node-utils': 3.0.0-alpha.3
       '@element-plus-next/workspace': 3.0.0-alpha.3
-      esbuild: 0.14.47
+      esbuild: 0.14.54
       local-pkg: 0.4.1
       tsup: /@sxzz/tsup/6.2.0
       unconfig: 0.3.4
-      unplugin-vue: 2.2.1_esbuild@0.14.47
+      unplugin-vue: 2.2.1_esbuild@0.14.54
     transitivePeerDependencies:
       - '@swc/core'
       - postcss
@@ -2249,11 +2249,11 @@ packages:
       '@element-plus-next/node-constants': 3.0.0-alpha.3
       '@element-plus-next/node-utils': 3.0.0-alpha.3
       '@element-plus-next/workspace': 3.0.0-alpha.3
-      esbuild: 0.14.47
+      esbuild: 0.14.54
       local-pkg: 0.4.1
       tsup: /@sxzz/tsup/6.2.0_typescript@4.7.4
       unconfig: 0.3.4
-      unplugin-vue: 2.2.1_o5syzqhglememzlvzxgvva7zjy
+      unplugin-vue: 2.2.1_4s4q6rxetubtxpiojnmhkv67ja
     transitivePeerDependencies:
       - '@swc/core'
       - postcss
@@ -2364,7 +2364,6 @@ packages:
     cpu: [loong64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /@esbuild/linux-loong64/0.15.7:
@@ -3341,11 +3340,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      bundle-require: 3.1.0_esbuild@0.14.47
+      bundle-require: 3.1.0_esbuild@0.14.54
       cac: 6.7.12
       chokidar: 3.5.3
       debug: 4.3.4
-      esbuild: 0.14.47
+      esbuild: 0.14.54
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
@@ -3376,11 +3375,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      bundle-require: 3.1.0_esbuild@0.14.47
+      bundle-require: 3.1.0_esbuild@0.14.54
       cac: 6.7.12
       chokidar: 3.5.3
       debug: 4.3.4
-      esbuild: 0.14.47
+      esbuild: 0.14.54
       execa: 5.1.1
       globby: 11.1.0
       joycon: 3.1.1
@@ -4865,13 +4864,13 @@ packages:
     resolution: {integrity: sha512-zhaCDicdLuWN5UbN5IMnFqNMhNfo919sH85y2/ea+5Yg9TsTkeZxpL+JLbp6cgYFS4sRLp3YV4S6yDuqVWHYOw==}
     engines: {node: '>=6'}
 
-  /bundle-require/3.1.0_esbuild@0.14.47:
+  /bundle-require/3.1.0_esbuild@0.14.54:
     resolution: {integrity: sha512-IIXtAO7fKcwPHNPt9kY/WNVJqy7NDy6YqJvv6ENH0TOZoJ+yjpEsn1w40WKZbR2ibfu5g1rfgJTvmFHpm5aOMA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
       esbuild: '>=0.13'
     dependencies:
-      esbuild: 0.14.47
+      esbuild: 0.14.54
       load-tsconfig: 0.2.3
 
   /bundle-require/3.1.0_esbuild@0.15.7:
@@ -5924,7 +5923,6 @@ packages:
     cpu: [x64]
     os: [android]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-android-64/0.15.7:
@@ -5966,7 +5964,6 @@ packages:
     cpu: [arm64]
     os: [android]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-android-arm64/0.15.7:
@@ -6008,7 +6005,6 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-darwin-64/0.15.7:
@@ -6050,7 +6046,6 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-darwin-arm64/0.15.7:
@@ -6092,7 +6087,6 @@ packages:
     cpu: [x64]
     os: [freebsd]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-freebsd-64/0.15.7:
@@ -6134,7 +6128,6 @@ packages:
     cpu: [arm64]
     os: [freebsd]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-freebsd-arm64/0.15.7:
@@ -6176,7 +6169,6 @@ packages:
     cpu: [ia32]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-linux-32/0.15.7:
@@ -6218,7 +6210,6 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-linux-64/0.15.7:
@@ -6260,7 +6251,6 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-linux-arm/0.15.7:
@@ -6302,7 +6292,6 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-linux-arm64/0.15.7:
@@ -6344,7 +6333,6 @@ packages:
     cpu: [mips64el]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-linux-mips64le/0.15.7:
@@ -6386,7 +6374,6 @@ packages:
     cpu: [ppc64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-linux-ppc64le/0.15.7:
@@ -6420,7 +6407,6 @@ packages:
     cpu: [riscv64]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-linux-riscv64/0.15.7:
@@ -6454,7 +6440,6 @@ packages:
     cpu: [s390x]
     os: [linux]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-linux-s390x/0.15.7:
@@ -6496,7 +6481,6 @@ packages:
     cpu: [x64]
     os: [netbsd]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-netbsd-64/0.15.7:
@@ -6538,7 +6522,6 @@ packages:
     cpu: [x64]
     os: [openbsd]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-openbsd-64/0.15.7:
@@ -6588,7 +6571,6 @@ packages:
     cpu: [x64]
     os: [sunos]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-sunos-64/0.15.7:
@@ -6630,7 +6612,6 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-windows-32/0.15.7:
@@ -6672,7 +6653,6 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-windows-64/0.15.7:
@@ -6714,7 +6694,6 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
-    dev: true
     optional: true
 
   /esbuild-windows-arm64/0.15.7:
@@ -6831,7 +6810,6 @@ packages:
       esbuild-windows-32: 0.14.54
       esbuild-windows-64: 0.14.54
       esbuild-windows-arm64: 0.14.54
-    dev: true
 
   /esbuild/0.15.7:
     resolution: {integrity: sha512-7V8tzllIbAQV1M4QoE52ImKu8hT/NLGlGXkiDsbEU5PS6K8Mn09ZnYoS+dcmHxOS9CRsV4IRAMdT3I67IyUNXw==}
@@ -12286,7 +12264,7 @@ packages:
       - webpack
     dev: false
 
-  /unplugin-vue/2.2.1_esbuild@0.14.47:
+  /unplugin-vue/2.2.1_4s4q6rxetubtxpiojnmhkv67ja:
     resolution: {integrity: sha512-MToZFqW7v6dKqm2QatKCegWoQ0FwucSASbz1TPtyDV4t020whxGn44+HfD4V38NjoMyiin/0Z03vs1yn5yF1vQ==}
     engines: {node: '>=14.17.0'}
     peerDependencies:
@@ -12301,30 +12279,7 @@ packages:
       hash-sum: 2.0.0
       source-map: 0.6.1
       tsx: 3.9.0
-      unplugin: 0.6.3_esbuild@0.14.47
-    transitivePeerDependencies:
-      - esbuild
-      - rollup
-      - supports-color
-      - webpack
-    dev: true
-
-  /unplugin-vue/2.2.1_o5syzqhglememzlvzxgvva7zjy:
-    resolution: {integrity: sha512-MToZFqW7v6dKqm2QatKCegWoQ0FwucSASbz1TPtyDV4t020whxGn44+HfD4V38NjoMyiin/0Z03vs1yn5yF1vQ==}
-    engines: {node: '>=14.17.0'}
-    peerDependencies:
-      vite: ^2.5.10
-      vue: ^3.2.25
-    peerDependenciesMeta:
-      vite:
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 4.2.1
-      debug: 4.3.4
-      hash-sum: 2.0.0
-      source-map: 0.6.1
-      tsx: 3.9.0
-      unplugin: 0.6.3_esbuild@0.14.47+vite@3.1.0
+      unplugin: 0.6.3_esbuild@0.14.54+vite@3.1.0
       vite: 3.1.0_sass@1.53.0
       vue: 3.2.37
     transitivePeerDependencies:
@@ -12333,6 +12288,29 @@ packages:
       - supports-color
       - webpack
     dev: false
+
+  /unplugin-vue/2.2.1_esbuild@0.14.54:
+    resolution: {integrity: sha512-MToZFqW7v6dKqm2QatKCegWoQ0FwucSASbz1TPtyDV4t020whxGn44+HfD4V38NjoMyiin/0Z03vs1yn5yF1vQ==}
+    engines: {node: '>=14.17.0'}
+    peerDependencies:
+      vite: ^2.5.10
+      vue: ^3.2.25
+    peerDependenciesMeta:
+      vite:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 4.2.1
+      debug: 4.3.4
+      hash-sum: 2.0.0
+      source-map: 0.6.1
+      tsx: 3.9.0
+      unplugin: 0.6.3_esbuild@0.14.54
+    transitivePeerDependencies:
+      - esbuild
+      - rollup
+      - supports-color
+      - webpack
+    dev: true
 
   /unplugin-vue/3.0.3_esbuild@0.15.7+vue@3.2.37:
     resolution: {integrity: sha512-5snl4dNE7gXgzNonQEFt12LboU7LJ8znquuhT7dKno1qCIfYELJ++sDkQ+lNJPfRb5IcVkrmfDHyaDsktnv4Tg==}
@@ -12355,7 +12333,7 @@ packages:
       - webpack
     dev: false
 
-  /unplugin/0.6.3_esbuild@0.14.47:
+  /unplugin/0.6.3_esbuild@0.14.54:
     resolution: {integrity: sha512-CoW88FQfCW/yabVc4bLrjikN9HC8dEvMU4O7B6K2jsYMPK0l6iAnd9dpJwqGcmXJKRCU9vwSsy653qg+RK0G6A==}
     peerDependencies:
       esbuild: '>=0.13'
@@ -12373,12 +12351,12 @@ packages:
         optional: true
     dependencies:
       chokidar: 3.5.3
-      esbuild: 0.14.47
+      esbuild: 0.14.54
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.3
     dev: true
 
-  /unplugin/0.6.3_esbuild@0.14.47+vite@3.1.0:
+  /unplugin/0.6.3_esbuild@0.14.54+vite@3.1.0:
     resolution: {integrity: sha512-CoW88FQfCW/yabVc4bLrjikN9HC8dEvMU4O7B6K2jsYMPK0l6iAnd9dpJwqGcmXJKRCU9vwSsy653qg+RK0G6A==}
     peerDependencies:
       esbuild: '>=0.13'
@@ -12396,7 +12374,7 @@ packages:
         optional: true
     dependencies:
       chokidar: 3.5.3
-      esbuild: 0.14.47
+      esbuild: 0.14.54
       vite: 3.1.0_sass@1.53.0
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.3
