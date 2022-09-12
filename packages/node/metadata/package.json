@@ -1,0 +1,53 @@
+{
+  "name": "@element-plus/metadata",
+  "version": "3.0.0-alpha.0",
+  "description": "Metadata for Element Plus.",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue",
+    "metadata"
+  ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./components": "./dist/components.json",
+    "./contributors": "./dist/contributors.json",
+    "./*": "./*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "generate": "run-p \"generate:*\"",
+    "generate:contributor": "tsx src/contributor.ts",
+    "generate:components": "tsx src/components.ts",
+    "dev": "DEV=1 pnpm run build"
+  },
+  "devDependencies": {
+    "@element-plus/build": "^0.0.1",
+    "@element-plus/build-constants": "^0.0.1",
+    "@element-plus/build-utils": "^0.0.1",
+    "@types/lodash-es": "^4.17.6",
+    "chalk": "^5.0.1",
+    "consola": "^2.15.3",
+    "fast-glob": "^3.2.11",
+    "lodash-es": "^4.17.21",
+    "npm-run-all": "^4.1.5",
+    "octokit": "^2.0.3",
+    "tsx": "^3.6.0"
+  }
+}

@@ -201,7 +201,7 @@ importers:
     dependencies:
       '@docsearch/js': 3.1.0
       '@element-plus/icons-vue': 2.0.9_vue@3.2.37
-      '@element-plus/metadata': link:../internal/metadata
+      '@element-plus/metadata': link:../packages/node/metadata
       '@vue/shared': 3.2.37
       '@vueuse/core': 9.1.0_vue@3.2.37
       axios: 0.27.2
@@ -308,32 +308,6 @@ importers:
     devDependencies:
       unbuild: 0.7.4
 
-  internal/metadata:
-    specifiers:
-      '@element-plus/build': ^0.0.1
-      '@element-plus/build-constants': ^0.0.1
-      '@element-plus/build-utils': ^0.0.1
-      '@types/lodash-es': ^4.17.6
-      chalk: ^5.0.1
-      consola: ^2.15.3
-      fast-glob: ^3.2.11
-      lodash-es: ^4.17.21
-      npm-run-all: ^4.1.5
-      octokit: ^2.0.3
-      tsx: ^3.6.0
-    devDependencies:
-      '@element-plus/build': link:../build
-      '@element-plus/build-constants': link:../build-constants
-      '@element-plus/build-utils': link:../build-utils
-      '@types/lodash-es': 4.17.6
-      chalk: 5.0.1
-      consola: 2.15.3
-      fast-glob: 3.2.11
-      lodash-es: 4.17.21
-      npm-run-all: 4.1.5
-      octokit: 2.0.3
-      tsx: 3.6.0
-
   packages/node/build:
     specifiers:
       '@element-plus/node-constants': workspace:*
@@ -410,6 +384,32 @@ importers:
     devDependencies:
       eslint: 8.18.0
       typescript: 4.7.4
+
+  packages/node/metadata:
+    specifiers:
+      '@element-plus/build': ^0.0.1
+      '@element-plus/build-constants': ^0.0.1
+      '@element-plus/build-utils': ^0.0.1
+      '@types/lodash-es': ^4.17.6
+      chalk: ^5.0.1
+      consola: ^2.15.3
+      fast-glob: ^3.2.11
+      lodash-es: ^4.17.21
+      npm-run-all: ^4.1.5
+      octokit: ^2.0.3
+      tsx: ^3.6.0
+    devDependencies:
+      '@element-plus/build': link:../../../internal/build
+      '@element-plus/build-constants': link:../../../internal/build-constants
+      '@element-plus/build-utils': link:../../../internal/build-utils
+      '@types/lodash-es': 4.17.6
+      chalk: 5.0.1
+      consola: 2.15.3
+      fast-glob: 3.2.11
+      lodash-es: 4.17.21
+      npm-run-all: 4.1.5
+      octokit: 2.0.3
+      tsx: 3.9.0
 
   packages/node/node-constants:
     specifiers: {}
