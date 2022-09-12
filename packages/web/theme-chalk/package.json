@@ -1,42 +1,47 @@
 {
   "name": "@element-plus/theme-chalk",
-  "version": "0.1.0",
-  "description": "Element component chalk theme.",
+  "version": "3.0.0-alpha.0",
+  "description": "Theme chalk for Element Plus.",
+  "type": "module",
   "keywords": [
-    "vue-components",
     "element-plus",
-    "theme-chalk",
-    "theme-light"
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue",
+    "theme-chalk"
   ],
-  "homepage": "https://github.com/element-plus/element-plus/blob/dev/packages/theme-chalk/README.md",
+  "homepage": "https://element-plus.org/",
   "bugs": {
-    "url": "https://github.com/element-plus/element-plus#issues"
+    "url": "https://github.com/element-plus/element-plus/issues"
   },
   "license": "MIT",
-  "author": "yi.shyang@ele.me",
-  "main": "index.css",
-  "unpkg": "index.css",
-  "jsdelivr": "index.css",
+  "files": [
+    "dist",
+    "src"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/element-plus/element-plus.git"
   },
-  "style": "index.css",
   "scripts": {
-    "clean": "rimraf dist",
-    "build": "gulp --require @esbuild-kit/cjs-loader"
+    "build": "tsx scripts/build.ts",
+    "clean": "rimraf ./dist"
   },
   "devDependencies": {
-    "@element-plus/build": "workspace:*",
-    "@esbuild-kit/cjs-loader": "^2.2.1",
-    "@types/gulp-autoprefixer": "^0.0.33",
-    "@types/gulp-clean-css": "^4.3.0",
-    "@types/gulp-rename": "^2.0.1",
-    "@types/gulp-sass": "^5.0.0",
-    "gulp-autoprefixer": "^8.0.0",
-    "gulp-clean-css": "^4.3.0",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^5.1.0"
-  },
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+    "@types/clean-css": "^4.2.5",
+    "@types/postcss-preset-env": "^7.7.0",
+    "autoprefixer": "^10.4.4",
+    "chalk": "^5.0.1",
+    "clean-css": "^5.3.0",
+    "consola": "^2.15.3",
+    "esbuild": "^0.15.7",
+    "esbuild-sass-plugin": "^2.3.2",
+    "fast-glob": "^3.2.11",
+    "postcss": "^8.4.12",
+    "postcss-preset-env": "^7.4.3",
+    "sass": "^1.50.0",
+    "tsx": "^3.4.3"
+  }
 }

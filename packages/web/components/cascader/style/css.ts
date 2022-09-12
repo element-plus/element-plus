@@ -1,5 +1,5 @@
 import '@element-plus/components/base/style/css'
-import '@element-plus/theme-chalk/el-cascader.css'
+import '@element-plus/theme-chalk/dist/cascader.css'
 import '@element-plus/components/input/style/css'
 import '@element-plus/components/popper/style/css'
 import '@element-plus/components/tag/style/css'

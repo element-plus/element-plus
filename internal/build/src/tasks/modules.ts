@@ -16,7 +16,7 @@ import type { OutputOptions } from 'rollup'
 
 export const buildModules = async () => {
   const input = excludeFiles(
-    await glob(['**/*.{js,ts,vue}', '!node', '!web'], {
+    await glob(['**/*.{js,ts,vue}', '!theme-chalk'], {
       cwd: pkgRoot,
       absolute: true,
       onlyFiles: true,
