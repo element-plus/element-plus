@@ -87,13 +87,17 @@ export default defineComponent({
 
     const nav$ = ref<TabNavInstance>()
     const panes = reactive<Record<number, TabsPaneContext>>({})
-    const currentName = ref<TabPanelName>(
-      props.modelValue ?? props.activeName ?? '0'
-    )
+    const currentName = computed<TabPanelName>({
+      get() {
+        return props.modelValue ?? props.activeName ?? '0'
+      },
+      set(value) {
+        emit(UPDATE_MODEL_EVENT, value)
+      },
+    })
 
     const changeCurrentName = (value: TabPanelName) => {
       currentName.value = value
-      emit(UPDATE_MODEL_EVENT, value)
       emit('tabChange', value)
     }
 
