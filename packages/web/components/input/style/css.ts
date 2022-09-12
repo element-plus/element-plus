@@ -1,2 +1,2 @@
 import '@element-plus/components/base/style/css'
-import '@element-plus/theme-chalk/el-input.css'
+import '@element-plus/theme-chalk/dist/input.css'

@@ -7,6 +7,7 @@ import {
   epOutput,
   epPackage,
   projRoot,
+  themeRoot,
 } from '@element-plus/build-utils'
 import { buildConfig, run, runTask, withTaskName } from './src'
 import type { TaskFunction } from 'gulp'
@@ -38,7 +39,7 @@ export const copyTypesDefinitions: TaskFunction = (done) => {
 export const copyFullStyle = async () => {
   await mkdir(path.resolve(epOutput, 'dist'), { recursive: true })
   await copyFile(
-    path.resolve(epOutput, 'theme-chalk/index.css'),
+    path.resolve(themeRoot, 'dist/index.css'),
     path.resolve(epOutput, 'dist/index.css')
   )
 }
