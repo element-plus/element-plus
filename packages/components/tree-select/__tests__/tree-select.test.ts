@@ -8,6 +8,9 @@ import type { VueWrapper } from '@vue/test-utils'
 import type ElSelect from '@element-plus/components/select'
 import type ElTree from '@element-plus/components/tree'
 
+type SelectInstance = InstanceType<typeof ElSelect>
+type TreeInstance = InstanceType<typeof ElTree>
+
 const createComponent = ({
   slots = {},
   props = {},
@@ -60,16 +63,20 @@ const createComponent = ({
   return {
     wrapper,
     getWrapperRef: () =>
-      new Promise<InstanceType<typeof ElTree> & InstanceType<typeof ElSelect>>(
-        (resolve) => nextTick(() => resolve(wrapperRef.value))
+      new Promise<TreeInstance & SelectInstance>((resolve) =>
+        nextTick(() => resolve(wrapperRef.value))
       ),
     getSelect: () =>
-      new Promise<VueWrapper<InstanceType<typeof ElSelect>>>((resolve) =>
-        nextTick(() => resolve(wrapper.findComponent({ name: 'ElSelect' })))
+      new Promise<VueWrapper<SelectInstance>>((resolve) =>
+        nextTick(() => {
+          resolve(wrapper.findComponent<SelectInstance>({ name: 'ElSelect' }))
+        })
       ),
     getTree: () =>
-      new Promise<VueWrapper<InstanceType<typeof ElTree>>>((resolve) =>
-        nextTick(() => resolve(wrapper.findComponent({ name: 'ElTree' })))
+      new Promise<VueWrapper<TreeInstance>>((resolve) =>
+        nextTick(() => {
+          resolve(wrapper.findComponent<TreeInstance>({ name: 'ElTree' }))
+        })
       ),
   }
 }
