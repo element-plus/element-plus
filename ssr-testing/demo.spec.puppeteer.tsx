@@ -4,7 +4,9 @@ import { renderToString } from '@vue/server-renderer'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import puppeteer from 'puppeteer'
 import glob from 'fast-glob'
-import ElementPlus, { ID_INJECTION_KEY } from '../dist/element-plus'
+import ElementPlus, {
+  ID_INJECTION_KEY,
+} from '../dist/element-plus/dist/index.full.mjs'
 
 import type { Browser } from 'puppeteer'
 

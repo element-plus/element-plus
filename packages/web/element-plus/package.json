@@ -15,25 +15,9 @@
     "url": "https://github.com/element-plus/element-plus/issues"
   },
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "es/index.mjs",
-  "types": "es/index.d.ts",
-  "exports": {
-    ".": {
-      "require": "./lib/index.js",
-      "import": "./es/index.mjs",
-      "types": "./es/index.d.ts"
-    },
-    "./es": "./es/index.mjs",
-    "./lib": "./lib/index.js",
-    "./es/*.mjs": "./es/*.mjs",
-    "./es/*": "./es/*.mjs",
-    "./lib/*.js": "./lib/*.js",
-    "./lib/*": "./lib/*.js",
-    "./*": "./*"
-  },
-  "unpkg": "dist/index.full.js",
-  "jsdelivr": "dist/index.full.js",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/element-plus/element-plus.git"
@@ -41,7 +25,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "style": "dist/index.css",
   "sideEffects": [
     "dist/*",
     "theme-chalk/**/*.css",

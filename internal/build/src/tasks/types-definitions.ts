@@ -103,7 +103,7 @@ async function addSourceFiles(project: Project) {
   )
   const epPaths = excludeFiles(
     await glob([globSourceFile, 'package.json'], {
-      cwd: epRoot,
+      cwd: path.resolve(epRoot, 'src'),
       onlyFiles: true,
     })
   )
@@ -141,7 +141,7 @@ async function addSourceFiles(project: Project) {
       }
     }),
     ...epPaths.map(async (file) => {
-      const content = await readFile(path.resolve(epRoot, file), 'utf-8')
+      const content = await readFile(path.resolve(epRoot, 'src', file), 'utf-8')
       sourceFiles.push(
         project.createSourceFile(path.resolve(pkgRoot, file), content)
       )

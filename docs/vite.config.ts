@@ -30,7 +30,7 @@ if (process.env.DOC_ENV !== 'production') {
   alias.push(
     {
       find: /^element-plus(\/(es|lib))?$/,
-      replacement: path.resolve(pkgRoot, 'element-plus/index.ts'),
+      replacement: path.resolve(pkgRoot, 'element-plus/src/index.ts'),
     },
     {
       find: /^element-plus\/(es|lib)\/(.*)$/,
