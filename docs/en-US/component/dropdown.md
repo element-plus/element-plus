@@ -79,7 +79,7 @@ dropdown/sizes
 
 ## Dropdown Attributes
 
-| Attribute      | Description                                                                                                           | Type            | Accepted Values                                          | Default                                                                    |
+| Name           | Description                                                                                                           | Type            | Accepted Values                                          | Default                                                                    |
 | -------------- | --------------------------------------------------------------------------------------------------------------------- | --------------- | -------------------------------------------------------- | -------------------------------------------------------------------------- |
 | type           | menu button type, refer to `Button` Component, only works when `split-button` is true                                 | string          | —                                                        | —                                                                          |
 | size           | menu size, also works on the split button                                                                             | string          | large / default / small                                  | default                                                                    |
@@ -105,7 +105,7 @@ dropdown/sizes
 
 ## Dropdown Events
 
-| Event Name     | Description                                                       | Parameters                                    |
+| Name           | Description                                                       | Parameters                                    |
 | -------------- | ----------------------------------------------------------------- | --------------------------------------------- |
 | click          | if `split-button` is `true`, triggers when left button is clicked | —                                             |
 | command        | triggers when a dropdown item is clicked                          | the command dispatched from the dropdown item |
@@ -126,12 +126,12 @@ dropdown/sizes
 
 ## Dropdown-Item Attributes
 
-| Attribute | Description                                                 | Type                  | Accepted Values | Default |
-| --------- | ----------------------------------------------------------- | --------------------- | --------------- | ------- |
-| command   | a command to be dispatched to Dropdown's `command` callback | string/number/object  | —               | —       |
-| disabled  | whether the item is disabled                                | boolean               | —               | false   |
-| divided   | whether a divider is displayed                              | boolean               | —               | false   |
-| icon      | custom icon                                                 | `string \| Component` | —               | —       |
+| Name     | Description                                                 | Type                  | Accepted Values | Default |
+| -------- | ----------------------------------------------------------- | --------------------- | --------------- | ------- |
+| command  | a command to be dispatched to Dropdown's `command` callback | string/number/object  | —               | —       |
+| disabled | whether the item is disabled                                | boolean               | —               | false   |
+| divided  | whether a divider is displayed                              | boolean               | —               | false   |
+| icon     | custom icon                                                 | `string \| Component` | —               | —       |
 
 ## Dropdown-Item Slots
 
