@@ -23,6 +23,7 @@ import {
 } from '@element-plus/hooks'
 import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
+
 import type { CheckboxValueType } from './checkbox'
 
 defineOptions({

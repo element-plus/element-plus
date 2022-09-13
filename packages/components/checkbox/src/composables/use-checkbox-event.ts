@@ -11,7 +11,7 @@ import type {
   CheckboxStatus,
 } from '../composables'
 
-export const useEvent = (
+export const useCheckboxEvent = (
   props: CheckboxProps,
   {
     model,

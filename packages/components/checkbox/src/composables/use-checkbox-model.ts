@@ -5,7 +5,7 @@ import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 
 import type { CheckboxProps } from '../checkbox'
 
-export const useModel = (props: CheckboxProps) => {
+export const useCheckboxModel = (props: CheckboxProps) => {
   const selfModel = ref<any>(false)
   const { emit } = getCurrentInstance()!
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
@@ -37,4 +37,4 @@ export const useModel = (props: CheckboxProps) => {
   }
 }
 
-export type CheckboxModel = ReturnType<typeof useModel>
+export type CheckboxModel = ReturnType<typeof useCheckboxModel>

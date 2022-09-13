@@ -1,12 +1,18 @@
 import { useFormItem, useFormItemInputId } from '@element-plus/hooks'
-import { useDisabled, useEvent, useModel, useStatus } from '../composables'
+import {
+  useCheckboxDisabled,
+  useCheckboxEvent,
+  useCheckboxModel,
+  useCheckboxStatus,
+} from '../composables'
 
 import type { ComponentInternalInstance } from 'vue'
 import type { CheckboxProps } from '../checkbox'
+import type { CheckboxModel } from '../composables'
 
 const setStoreValue = (
   props: CheckboxProps,
-  { model }: Partial<ReturnType<typeof useModel>>
+  { model }: Partial<CheckboxModel>
 ) => {
   function addToStore() {
     if (Array.isArray(model!.value) && !model!.value.includes(props.label)) {
@@ -23,21 +29,21 @@ export const useCheckbox = (
   slots: ComponentInternalInstance['slots']
 ) => {
   const { formItem: elFormItem } = useFormItem()
-  const { model, isGroup, isLimitExceeded } = useModel(props)
+  const { model, isGroup, isLimitExceeded } = useCheckboxModel(props)
   const {
     isFocused,
     isChecked,
     checkboxButtonSize,
     checkboxSize,
     hasOwnLabel,
-  } = useStatus(props, slots, { model })
-  const { isDisabled } = useDisabled({ model, isChecked })
+  } = useCheckboxStatus(props, slots, { model })
+  const { isDisabled } = useCheckboxDisabled({ model, isChecked })
   const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
     formItemContext: elFormItem,
     disableIdGeneration: hasOwnLabel,
     disableIdManagement: isGroup,
   })
-  const { handleChange, onClickRoot } = useEvent(props, {
+  const { handleChange, onClickRoot } = useCheckboxEvent(props, {
     model,
     isLimitExceeded,
     hasOwnLabel,

@@ -7,7 +7,7 @@ import type { ComponentInternalInstance } from 'vue'
 import type { CheckboxProps } from '../checkbox'
 import type { CheckboxModel } from '../composables'
 
-export const useStatus = (
+export const useCheckboxStatus = (
   props: CheckboxProps,
   slots: ComponentInternalInstance['slots'],
   { model }: Partial<CheckboxModel>
@@ -45,4 +45,4 @@ export const useStatus = (
   }
 }
 
-export type CheckboxStatus = ReturnType<typeof useStatus>
+export type CheckboxStatus = ReturnType<typeof useCheckboxStatus>
