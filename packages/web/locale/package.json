@@ -1,12 +1,37 @@
 {
   "name": "@element-plus/locale",
-  "version": "0.0.5",
-  "description": "Element Plus locale",
+  "version": "3.0.0-alpha.0",
+  "description": "Locale for Element Plus.",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "locale"
+  ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
   "license": "MIT",
-  "main": "index.ts",
-  "module": "index.ts",
-  "unpkg": "index.js",
-  "jsdelivr": "index.js",
-  "types": "index.d.ts",
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "ep-cli build",
+    "clean": "rimraf ./dist"
+  }
 }

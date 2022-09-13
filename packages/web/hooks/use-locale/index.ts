@@ -1,6 +1,6 @@
 import { computed, isRef, ref, unref } from 'vue'
 import { get } from 'lodash-unified'
-import English from '@element-plus/locale/lang/en'
+import English from '@element-plus/locale/src/lang/en'
 import { useGlobalConfig } from '../use-global-config'
 import type { MaybeRef } from '@vueuse/core'
 import type { Ref } from 'vue'
