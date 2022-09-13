@@ -1,11 +1,18 @@
 <template>
-  <div ref="formItemRef" :class="formItemClasses">
+  <div
+    ref="formItemRef"
+    :class="formItemClasses"
+    :role="isGroup ? 'group' : undefined"
+    :aria-labelledby="isGroup ? labelId : undefined"
+  >
     <form-label-wrap
       :is-auto-width="labelStyle.width === 'auto'"
-      :update-all="formContext.labelWidth === 'auto'"
+      :update-all="formContext?.labelWidth === 'auto'"
     >
-      <label
-        v-if="label || $slots.label"
+      <component
+        :is="labelFor ? 'label' : 'div'"
+        v-if="hasLabel"
+        :id="labelId"
         :for="labelFor"
         :class="ns.e('label')"
         :style="labelStyle"
@@ -13,7 +20,7 @@
         <slot name="label" :label="currentLabel">
           {{ currentLabel }}
         </slot>
-      </label>
+      </component>
     </form-label-wrap>
 
     <div :class="ns.e('content')" :style="contentStyle">
@@ -44,7 +51,7 @@ import {
   watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import { clone, isEqual } from 'lodash-unified'
+import { clone } from 'lodash-unified'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
@@ -53,10 +60,9 @@ import {
   isBoolean,
   isFunction,
   isString,
-  throwError,
 } from '@element-plus/utils'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
-import { useNamespace, useSize } from '@element-plus/hooks'
+import { useId, useNamespace, useSize } from '@element-plus/hooks'
 import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
 
@@ -70,20 +76,20 @@ import type {
 import type { Arrayable } from '@element-plus/utils'
 import type { FormItemValidateState } from './form-item'
 
-const COMPONENT_NAME = 'ElFormItem'
 defineOptions({
   name: 'ElFormItem',
 })
 const props = defineProps(formItemProps)
 const slots = useSlots()
 
-const formContext = inject(formContextKey)
-if (!formContext)
-  throwError(COMPONENT_NAME, 'usage: <el-form><el-form-item /></el-form>')
+const formContext = inject(formContextKey, undefined)
 const parentFormItemContext = inject(formItemContextKey, undefined)
 
 const _size = useSize(undefined, { formItem: false })
 const ns = useNamespace('form-item')
+
+const labelId = useId().value
+const inputIds = ref<string[]>([])
 
 const validateState = ref<FormItemValidateState>('')
 const validateStateDebounced = refDebounced(validateState, 100)
@@ -94,23 +100,23 @@ let initialValue: any = undefined
 let isResettingField = false
 
 const labelStyle = computed<CSSProperties>(() => {
-  if (formContext.labelPosition === 'top') {
+  if (formContext?.labelPosition === 'top') {
     return {}
   }
 
-  const labelWidth = addUnit(props.labelWidth || formContext.labelWidth || '')
+  const labelWidth = addUnit(props.labelWidth || formContext?.labelWidth || '')
   if (labelWidth) return { width: labelWidth }
   return {}
 })
 
 const contentStyle = computed<CSSProperties>(() => {
-  if (formContext.labelPosition === 'top' || formContext.inline) {
+  if (formContext?.labelPosition === 'top' || formContext?.inline) {
     return {}
   }
   if (!props.label && !props.labelWidth && isNested) {
     return {}
   }
-  const labelWidth = addUnit(props.labelWidth || formContext.labelWidth || '')
+  const labelWidth = addUnit(props.labelWidth || formContext?.labelWidth || '')
   if (!props.label && !slots.label) {
     return { marginLeft: labelWidth }
   }
@@ -124,14 +130,17 @@ const formItemClasses = computed(() => [
   ns.is('validating', validateState.value === 'validating'),
   ns.is('success', validateState.value === 'success'),
   ns.is('required', isRequired.value || props.required),
-  ns.is('no-asterisk', formContext.hideRequiredAsterisk),
-  { [ns.m('feedback')]: formContext.statusIcon },
+  ns.is('no-asterisk', formContext?.hideRequiredAsterisk),
+  formContext?.requireAsteriskPosition === 'right'
+    ? 'asterisk-right'
+    : 'asterisk-left',
+  { [ns.m('feedback')]: formContext?.statusIcon },
 ])
 
 const _inlineMessage = computed(() =>
   isBoolean(props.inlineMessage)
     ? props.inlineMessage
-    : formContext.inlineMessage || false
+    : formContext?.inlineMessage || false
 )
 
 const validateClasses = computed(() => [
@@ -144,22 +153,40 @@ const propString = computed(() => {
   return isString(props.prop) ? props.prop : props.prop.join('.')
 })
 
-const labelFor = computed(() => props.for || propString.value)
+const hasLabel = computed<boolean>(() => {
+  return !!(props.label || slots.label)
+})
+
+const labelFor = computed<string | undefined>(() => {
+  return props.for || inputIds.value.length === 1
+    ? inputIds.value[0]
+    : undefined
+})
+
+const isGroup = computed<boolean>(() => {
+  return !labelFor.value && hasLabel.value
+})
 
 const isNested = !!parentFormItemContext
 
 const fieldValue = computed(() => {
-  const model = formContext.model
+  const model = formContext?.model
   if (!model || !props.prop) {
     return
   }
   return getProp(model, props.prop).value
 })
 
-const _rules = computed(() => {
-  const rules: FormItemRule[] = props.rules ? ensureArray(props.rules) : []
+const normalizedRules = computed(() => {
+  const { required } = props
 
-  const formRules = formContext.rules
+  const rules: FormItemRule[] = []
+
+  if (props.rules) {
+    rules.push(...ensureArray(props.rules))
+  }
+
+  const formRules = formContext?.rules
   if (formRules && props.prop) {
     const _rules = getProp<Arrayable<FormItemRule> | undefined>(
       formRules,
@@ -170,17 +197,28 @@ const _rules = computed(() => {
     }
   }
 
-  if (props.required !== undefined) {
-    rules.push({ required: !!props.required })
+  if (required !== undefined) {
+    const requiredRules = rules
+      .map((rule, i) => [rule, i] as const)
+      .filter(([rule]) => Object.keys(rule).includes('required'))
+
+    if (requiredRules.length > 0) {
+      for (const [rule, i] of requiredRules) {
+        if (rule.required === required) continue
+        rules[i] = { ...rule, required }
+      }
+    } else {
+      rules.push({ required })
+    }
   }
 
   return rules
 })
 
-const validateEnabled = computed(() => _rules.value.length > 0)
+const validateEnabled = computed(() => normalizedRules.value.length > 0)
 
 const getFilteredRule = (trigger: string) => {
-  const rules = _rules.value
+  const rules = normalizedRules.value
   return (
     rules
       .filter((rule) => {
@@ -198,18 +236,18 @@ const getFilteredRule = (trigger: string) => {
 }
 
 const isRequired = computed(() =>
-  _rules.value.some((rule) => rule.required === true)
+  normalizedRules.value.some((rule) => rule.required)
 )
 
 const shouldShowError = computed(
   () =>
     validateStateDebounced.value === 'error' &&
     props.showMessage &&
-    formContext.showMessage
+    (formContext?.showMessage ?? true)
 )
 
 const currentLabel = computed(
-  () => `${props.label || ''}${formContext.labelSuffix || ''}`
+  () => `${props.label || ''}${formContext?.labelSuffix || ''}`
 )
 
 const setValidationState = (state: FormItemValidateState) => {
@@ -227,12 +265,12 @@ const onValidationFailed = (error: FormValidateFailure) => {
     ? errors?.[0]?.message ?? `${props.prop} is required`
     : ''
 
-  formContext.emit('validate', props.prop!, false, validateMessage.value)
+  formContext?.emit('validate', props.prop!, false, validateMessage.value)
 }
 
 const onValidationSucceeded = () => {
   setValidationState('success')
-  formContext.emit('validate', props.prop!, true, '')
+  formContext?.emit('validate', props.prop!, true, '')
 }
 
 const doValidate = async (rules: RuleItem[]): Promise<true> => {
@@ -255,7 +293,6 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
   // skip validation if its resetting
   if (isResettingField) {
-    isResettingField = false
     return false
   }
 
@@ -288,23 +325,34 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
 const clearValidate: FormItemContext['clearValidate'] = () => {
   setValidationState('')
   validateMessage.value = ''
+  isResettingField = false
 }
 
 const resetField: FormItemContext['resetField'] = async () => {
-  const model = formContext.model
+  const model = formContext?.model
   if (!model || !props.prop) return
 
   const computedValue = getProp(model, props.prop)
 
-  if (!isEqual(computedValue.value, initialValue)) {
-    // prevent validation from being triggered
-    isResettingField = true
-  }
+  // prevent validation from being triggered
+  isResettingField = true
 
-  computedValue.value = initialValue
+  computedValue.value = clone(initialValue)
 
   await nextTick()
   clearValidate()
+
+  isResettingField = false
+}
+
+const addInputId: FormItemContext['addInputId'] = (id: string) => {
+  if (!inputIds.value.includes(id)) {
+    inputIds.value.push(id)
+  }
+}
+
+const removeInputId: FormItemContext['removeInputId'] = (id: string) => {
+  inputIds.value = inputIds.value.filter((listId) => listId !== id)
 }
 
 watch(
@@ -326,6 +374,11 @@ const context: FormItemContext = reactive({
   $el: formItemRef,
   size: _size,
   validateState,
+  labelId,
+  inputIds,
+  isGroup,
+  addInputId,
+  removeInputId,
   resetField,
   clearValidate,
   validate,
@@ -335,13 +388,13 @@ provide(formItemContextKey, context)
 
 onMounted(() => {
   if (props.prop) {
-    formContext.addField(context)
+    formContext?.addField(context)
     initialValue = clone(fieldValue.value)
   }
 })
 
 onBeforeUnmount(() => {
-  formContext.removeField(context)
+  formContext?.removeField(context)
 })
 
 defineExpose({

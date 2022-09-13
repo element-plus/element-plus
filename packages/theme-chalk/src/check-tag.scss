@@ -5,14 +5,14 @@
 
 @include b(check-tag) {
   background-color: getCssVar('color', 'info', 'light-9');
-  border-radius: var(--el-border-radius-base);
-  color: var(--el-color-info);
+  border-radius: getCssVar('border-radius', 'base');
+  color: getCssVar('color', 'info');
   cursor: pointer;
   display: inline-block;
-  font-size: var(--el-font-size-base);
-  line-height: var(--el-font-size-base);
+  font-size: getCssVar('font-size', 'base');
+  line-height: getCssVar('font-size', 'base');
   padding: 7px 15px;
-  transition: var(--el-transition-all);
+  transition: getCssVar('transition', 'all');
   font-weight: bold;
 
   &:hover {
@@ -21,7 +21,7 @@
 
   @include when(checked) {
     background-color: getCssVar('color', 'primary', 'light-8');
-    color: getCssVar('color', 'primary', 'light-1');
+    color: getCssVar('color', 'primary');
     &:hover {
       background-color: getCssVar('color', 'primary', 'light-7');
     }

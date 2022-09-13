@@ -24,7 +24,7 @@
           @click="handlePickDay(cell)"
         >
           <div :class="nsDay.b()">
-            <slot name="dateCell" :data="getSlotData(cell)">
+            <slot name="date-cell" :data="getSlotData(cell)">
               <span>{{ cell.text }}</span>
             </slot>
           </div>
@@ -48,10 +48,9 @@ import {
   getPrevMonthLastDays,
   toNestedArr,
 } from './date-table'
+
 import type { CalendarDateCell, CalendarDateCellType } from './date-table'
 import type { Dayjs } from 'dayjs'
-
-dayjs.extend(localeData)
 
 defineOptions({
   name: 'DateTable',
@@ -59,6 +58,8 @@ defineOptions({
 
 const props = defineProps(dateTableProps)
 const emit = defineEmits(dateTableEmits)
+
+dayjs.extend(localeData)
 
 const { t, lang } = useLocale()
 const nsTable = useNamespace('calendar-table')
@@ -91,7 +92,7 @@ const rows = computed(() => {
     )
     days = currentMonthRange.concat(nextMonthRange)
   } else {
-    const firstDay = props.date.startOf('month').day() || 7
+    const firstDay = props.date.startOf('month').day()
     const prevMonthDays: CalendarDateCell[] = getPrevMonthLastDays(
       props.date,
       firstDay - firstDayOfWeek
@@ -106,7 +107,8 @@ const rows = computed(() => {
       })
     )
     days = [...prevMonthDays, ...currentMonthDays]
-    const nextMonthDays: CalendarDateCell[] = rangeArr(42 - days.length).map(
+    const remaining = 7 - (days.length % 7 || 7)
+    const nextMonthDays: CalendarDateCell[] = rangeArr(remaining).map(
       (_, index) => ({
         text: index + 1,
         type: 'next',

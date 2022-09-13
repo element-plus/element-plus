@@ -60,7 +60,7 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include m(label-left) {
     .#{$namespace}-form-item__label {
-      text-align: left;
+      justify-content: flex-start;
     }
   }
   @include m(label-top) {
@@ -69,6 +69,7 @@ $form-item-label-top-margin-bottom: map.merge(
 
       .#{$namespace}-form-item__label {
         display: block;
+        height: auto;
         text-align: left;
         margin-bottom: #{map.get($form-item-label-top-margin-bottom, 'default')};
         line-height: #{map.get($form-item-label-top-line-height, 'default')};
@@ -122,10 +123,12 @@ $form-item-label-top-margin-bottom: map.merge(
   @each $size in (large, default, small) {
     @include m($size) {
       --font-size: #{map.get($input-font-size, $size)};
-      --el-form-label-font-size: var(--font-size);
+      @include set-css-var-value(('form', 'label-font-size'), var(--font-size));
+
       margin-bottom: #{map.get($form-item-margin-bottom, $size)};
 
       @include e(label) {
+        height: #{map.get($form-item-line-height, $size)};
         line-height: #{map.get($form-item-line-height, $size)};
       }
       @include e(content) {
@@ -139,18 +142,20 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include e(label-wrap) {
     display: flex;
-
-    .#{$namespace}-form-item__label {
-      display: inline-block;
-    }
   }
 
   @include e(label) {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+
     flex: 0 0 auto;
-    text-align: right;
-    font-size: var(--el-form-label-font-size);
-    color: var(--el-text-color-regular);
+    font-size: getCssVar('form-label-font-size');
+    color: getCssVar('text-color', 'regular');
+
+    height: #{map.get($form-item-line-height, 'default')};
     line-height: #{map.get($form-item-line-height, 'default')};
+
     padding: 0 12px 0 0;
     box-sizing: border-box;
   }
@@ -169,7 +174,7 @@ $form-item-label-top-margin-bottom: map.merge(
     }
   }
   @include e(error) {
-    color: var(--el-color-danger);
+    color: getCssVar('color-danger');
     font-size: 12px;
     line-height: 1;
     padding-top: #{map.get($form-item-error-padding-top, 'default')};
@@ -188,33 +193,46 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include when(required) {
     @include pseudo('not(.is-no-asterisk)') {
-      > .#{$namespace}-form-item__label:before,
-      > .#{$namespace}-form-item__label-wrap
-        > .#{$namespace}-form-item__label:before {
-        content: '*';
-        color: var(--el-color-danger);
-        margin-right: 4px;
+      &.asterisk-left {
+        > .#{$namespace}-form-item__label:before,
+        > .#{$namespace}-form-item__label-wrap
+          > .#{$namespace}-form-item__label:before {
+          content: '*';
+          color: getCssVar('color-danger');
+          margin-right: 4px;
+        }
+      }
+      &.asterisk-right {
+        > .#{$namespace}-form-item__label:after,
+        > .#{$namespace}-form-item__label-wrap
+          > .#{$namespace}-form-item__label:after {
+          content: '*';
+          color: getCssVar('color-danger');
+          margin-left: 4px;
+        }
       }
     }
   }
 
   @include when(error) {
     .#{$namespace}-select-v2__wrapper,
-    .#{$namespace}-input__inner,
     .#{$namespace}-textarea__inner {
       &,
       &:focus {
-        box-shadow: 0 0 0 1px var(--el-color-danger) inset;
+        box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
       }
+    }
+    .#{$namespace}-input__wrapper {
+      box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
     }
     .#{$namespace}-input-group__append,
     .#{$namespace}-input-group__prepend {
-      .#{$namespace}-input__inner {
+      .#{$namespace}-input__wrapper {
         box-shadow: 0 0 0 1px transparent inset;
       }
     }
     .#{$namespace}-input__validateIcon {
-      color: var(--el-color-danger);
+      color: getCssVar('color-danger');
     }
   }
 

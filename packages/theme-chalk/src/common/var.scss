@@ -137,7 +137,7 @@ $bg-color: () !default;
 $bg-color: map.merge(
   (
     '': #ffffff,
-    'page': #ffffff,
+    'page': #f2f3f5,
     'overlay': #ffffff,
   ),
   $bg-color
@@ -496,10 +496,9 @@ $messagebox: map.merge(
 $message: () !default;
 $message: map.merge(
   (
-    'min-width': 380px,
     'bg-color': getCssVar('color', 'info', 'light-9'),
     'border-color': getCssVar('border-color-lighter'),
-    'padding': 15px 15px 15px 20px,
+    'padding': 15px 19px,
     'close-size': 16px,
     'close-icon-color': getCssVar('text-color-placeholder'),
     'close-hover-color': getCssVar('text-color-secondary'),
@@ -643,6 +642,9 @@ $button: map.merge(
     'active-text-color': getCssVar('button-hover-text-color'),
     'active-border-color': getCssVar('color-primary'),
     'active-bg-color': getCssVar('button', 'hover-bg-color'),
+    'outline-color': getCssVar('color-primary', 'light-5'),
+    'hover-link-text-color': getCssVar('color-info'),
+    'active-color': getCssVar('text-color', 'primary'),
   ),
   $button
 );
@@ -720,10 +722,6 @@ $switch: map.merge(
   (
     'on-color': getCssVar('color-primary'),
     'off-color': getCssVar('border-color'),
-    'core-border-radius': 10px,
-    'width': 40px,
-    'height': 20px,
-    'button-size': 16px,
   ),
   $switch
 );
@@ -757,7 +755,7 @@ $table: map.merge(
     'header-text-color': getCssVar('text-color-secondary'),
     'row-hover-bg-color': getCssVar('fill-color', 'light'),
     'current-row-bg-color': getCssVar('color-primary-light-9'),
-    'header-bg-color': getCssVar('fill-color', 'blank'),
+    'header-bg-color': getCssVar('bg-color'),
     'fixed-box-shadow': getCssVar('box-shadow', 'light'),
     'bg-color': getCssVar('fill-color', 'blank'),
     'tr-bg-color': getCssVar('fill-color', 'blank'),
@@ -836,7 +834,7 @@ $popup: map.merge(
 $popover: () !default;
 $popover: map.merge(
   (
-    'bg-color': getCssVar('color-white'),
+    'bg-color': getCssVar('bg-color', 'overlay'),
     'font-size': getCssVar('font-size-base'),
     'border-color': getCssVar('border-color-lighter'),
     'padding': 12px,
@@ -923,13 +921,12 @@ $tree: map.merge(
 );
 
 // Dropdown
-
 $dropdown: () !default;
 $dropdown: map.merge(
   (
     'menu-box-shadow': getCssVar('box-shadow-light'),
     'menuItem-hover-fill': getCssVar('color-primary-light-9'),
-    'menuItem-hover-color': getCssVar('color-primary-light-3'),
+    'menuItem-hover-color': getCssVar('color-primary'),
     'menu-index': 10,
   ),
   $dropdown
@@ -997,13 +994,18 @@ $menu: map.merge(
   (
     'active-color': getCssVar('color-primary'),
     'text-color': getCssVar('text-color-primary'),
-    'hover-text-color': getCssVar('text-color-primary'),
+    'hover-text-color': getCssVar('color-primary'),
     'bg-color': getCssVar('fill-color', 'blank'),
     'hover-bg-color': getCssVar('color-primary-light-9'),
     'item-height': 56px,
+    'sub-item-height': calc(#{getCssVar('menu-item-height')} - 6px),
+    'horizontal-sub-item-height': 36px,
     'item-font-size': getCssVar('font-size-base'),
     'item-hover-fill': getCssVar('color-primary-light-9'),
     'border-color': getCssVar('border-color'),
+    'base-level-padding': 20px,
+    'level-padding': 20px,
+    'icon-width': 24px,
   ),
   $menu
 );
@@ -1145,6 +1147,16 @@ $timeline: map.merge(
   $timeline
 );
 
+// Tabs
+// css3 var in packages/theme-chalk/src/tabs.scss
+$tabs: () !default;
+$tabs: map.merge(
+  (
+    'header-height': 40px,
+  ),
+  $tabs
+);
+
 // Backtop
 // css3 var in packages/theme-chalk/src/backtop.scss
 $backtop: () !default;
@@ -1200,7 +1212,6 @@ $calendar: map.merge(
 );
 
 // Form
-
 // css3 var in packages/theme-chalk/src/form.scss
 $form: () !default;
 $form: map.merge(
@@ -1235,7 +1246,6 @@ $avatar-size: map.merge(
 );
 
 // Empty
-
 // css3 var in packages/theme-chalk/src/empty.scss
 $empty: () !default;
 $empty: map.merge(
@@ -1259,7 +1269,6 @@ $empty: map.merge(
 );
 
 // Descriptions
-
 // css3 var in packages/theme-chalk/src/descriptions.scss
 $descriptions: () !default;
 $descriptions: map.merge(
@@ -1271,7 +1280,6 @@ $descriptions: map.merge(
 );
 
 // Result
-
 // css3 var in packages/theme-chalk/src/result.scss
 $result: () !default;
 $result: map.merge(
@@ -1284,6 +1292,17 @@ $result: map.merge(
     'extra-margin-top': 30px,
   ),
   $result
+);
+
+// Upload
+// css3 var in packages/theme-chalk/src/upload.scss
+$upload: () !default;
+$upload: map.merge(
+  (
+    'dragger-padding-horizontal': 40px,
+    'dragger-padding-vertical': 10px,
+  ),
+  $upload
 );
 
 // transition

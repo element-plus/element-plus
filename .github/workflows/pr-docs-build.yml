@@ -2,6 +2,10 @@ name: PR Docs Build
 
 on: pull_request
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
@@ -9,7 +13,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [16.x]
+        os: [ubuntu-latest, windows-latest]
       fail-fast: false
 
     env:
@@ -19,28 +24,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
-          registry-url: https://registry.npmjs.com/
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: latest
-
-      - name: Cache ~/.pnpm-store
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-pnpm-store
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-preview-${{ env.cache-name }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-preview-${{ env.cache-name }}-
-            ${{ runner.os }}-preview-
-            ${{ runner.os }}-
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
@@ -52,11 +43,17 @@ jobs:
         run: pnpm build
         env:
           FORCE_COLOR: 2
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Build website
         run: pnpm docs:build
         env:
           DOC_ENV: preview
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Move bundle to docs dist
+        if: matrix.os == 'ubuntu-latest'
+        run: mkdir docs/.vitepress/dist/bundle && mv dist/element-plus/dist/*.* docs/.vitepress/dist/bundle
 
       # share website dist
       - name: Upload artifact

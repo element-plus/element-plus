@@ -1,5 +1,9 @@
 <template>
-  <div :class="[ns.b(), ns.m(direction)]" :style="dividerStyle">
+  <div
+    :class="[ns.b(), ns.m(direction)]"
+    :style="dividerStyle"
+    role="separator"
+  >
     <div
       v-if="$slots.default && direction !== 'vertical'"
       :class="[ns.e('text'), ns.is(contentPosition)]"
@@ -21,8 +25,8 @@ defineOptions({
 const props = defineProps(dividerProps)
 const ns = useNamespace('divider')
 const dividerStyle = computed(() => {
-  return {
-    '--el-border-style': props.borderStyle,
-  } as CSSProperties
+  return ns.cssVar({
+    'border-style': props.borderStyle,
+  }) as CSSProperties
 })
 </script>

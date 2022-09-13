@@ -7,7 +7,3 @@ export const componentSizeMap = {
   default: 32,
   small: 24,
 } as const
-
-export const getComponentSize = (size: ComponentSize = 'default') => {
-  return componentSizeMap[size || 'default']
-}

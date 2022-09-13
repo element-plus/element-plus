@@ -1,5 +1,5 @@
 <template>
-  <el-button type="text" @click="dialogVisible = true"
+  <el-button text @click="dialogVisible = true"
     >click to open the Dialog</el-button
   >
 
@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { ElInput } from 'element-plus'
+import { ElInput } from 'element-plus'
 
 const dialogVisible = ref(false)
 const inputRef = ref<InstanceType<typeof ElInput>>()

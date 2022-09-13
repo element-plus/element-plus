@@ -22,7 +22,7 @@
 
   @include when(light) {
     .#{$namespace}-alert__close-btn {
-      color: var(--el-text-color-placeholder);
+      color: getCssVar('text-color', 'placeholder');
     }
   }
 
@@ -72,13 +72,13 @@
     width: getCssVar('alert', 'icon-size');
 
     @include when(big) {
-      font-size: var(--el-alert-icon-large-size);
-      width: var(--el-alert-icon-large-size);
+      font-size: getCssVar('alert', 'icon-large-size');
+      width: getCssVar('alert', 'icon-large-size');
     }
   }
 
   @include e(title) {
-    font-size: var(--el-alert-title-font-size);
+    font-size: getCssVar('alert', 'title-font-size');
     line-height: 18px;
     vertical-align: text-top;
     @include when(bold) {
@@ -87,12 +87,12 @@
   }
 
   & .#{$namespace}-alert__description {
-    font-size: var(--el-alert-description-font-size);
+    font-size: getCssVar('alert', 'description-font-size');
     margin: 5px 0 0 0;
   }
 
   & .#{$namespace}-alert__close-btn {
-    font-size: var(--el-alert-close-font-size);
+    font-size: getCssVar('alert', 'close-font-size');
     opacity: 1;
     position: absolute;
     top: 12px;
@@ -101,7 +101,7 @@
 
     @include when(customed) {
       font-style: normal;
-      font-size: var(--el-alert-close-customed-font-size);
+      font-size: getCssVar('alert', 'close-customed-font-size');
       top: 9px;
     }
   }

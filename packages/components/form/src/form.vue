@@ -149,7 +149,9 @@ const scrollToField = (prop: FormItemProp) => {
 watch(
   () => props.rules,
   () => {
-    if (props.validateOnRuleChange) validate()
+    if (props.validateOnRuleChange) {
+      validate().catch((err) => debugWarn(err))
+    }
   },
   { deep: true }
 )

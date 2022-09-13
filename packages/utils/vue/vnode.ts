@@ -2,13 +2,12 @@ import {
   Comment,
   Fragment,
   Text,
-  camelize,
   createBlock,
   createCommentVNode,
   isVNode,
   openBlock,
 } from 'vue'
-import { isArray } from '@vue/shared'
+import { camelize, isArray } from '@vue/shared'
 import { hasOwn } from '../objects'
 import { debugWarn } from '../error'
 import type {

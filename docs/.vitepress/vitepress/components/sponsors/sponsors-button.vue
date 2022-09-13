@@ -8,7 +8,9 @@
         </a>
       </template>
       <a href="mailto:element-plus@outlook.com" target="_blank">
-        <el-button :round="round">{{ homeLang['20'] }}</el-button>
+        <el-button style="overflow: hidden" :round="round">{{
+          homeLang['20']
+        }}</el-button>
       </a>
     </el-tooltip>
   </div>

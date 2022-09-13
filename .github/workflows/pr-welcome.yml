@@ -15,7 +15,7 @@ jobs:
           require: 'write'
           username: ${{ github.event.pull_request.user.login }}
 
-      - uses: actions-awesome/pr-helper@1.0.15
+      - uses: actions-awesome/pr-helper@1.1.1
         if: steps.isTeamMember.outputs.require-result == 'false'
         with:
           actions: 'add-assignees, add-reviewers, greeting, add-labels'

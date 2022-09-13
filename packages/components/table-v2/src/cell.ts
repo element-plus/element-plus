@@ -1,17 +1,18 @@
 import { buildProps, definePropType } from '@element-plus/utils'
+import { column } from './common'
 
-import type { ExtractPropTypes } from 'vue'
-import type { Column } from './types'
+import type { ExtractPropTypes, StyleValue } from 'vue'
 
 export const tableV2CellProps = buildProps({
   class: String,
   cellData: {
     type: definePropType<any>([String, Boolean, Number, Object]),
   },
-  column: {
-    type: definePropType<Column<any>>(Object),
-  },
+  column,
   columnIndex: Number,
+  style: {
+    type: definePropType<StyleValue>([String, Array, Object]),
+  },
   rowData: {
     type: definePropType<any>(Object),
   },

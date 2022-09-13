@@ -35,3 +35,7 @@ html.dark {
 @include dark(card) {
   @include set-component-css-var('card', $card);
 }
+
+@include dark(empty) {
+  @include set-component-css-var('empty', $empty);
+}

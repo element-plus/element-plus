@@ -1,11 +1,11 @@
 <template>
   <el-tooltip
     ref="popperRef"
-    v-model:visible="suggestionVisible"
+    :visible="suggestionVisible"
     :placement="placement"
     :fallback-placements="['bottom-start', 'top-start']"
     :popper-class="[ns.e('popper'), popperClass]"
-    :teleported="compatTeleported"
+    :teleported="teleported"
     :gpu-acceleration="false"
     pure
     manual-mode
@@ -14,6 +14,8 @@
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
     @before-show="onSuggestionShow"
+    @show="onShow"
+    @hide="onHide"
   >
     <div
       ref="listboxRef"
@@ -22,7 +24,7 @@
       role="combobox"
       aria-haspopup="listbox"
       :aria-expanded="suggestionVisible"
-      :aria-owns="id"
+      :aria-owns="listboxId"
     >
       <el-input
         ref="inputRef"
@@ -37,6 +39,8 @@
         @keydown.down.prevent="highlight(highlightedIndex + 1)"
         @keydown.enter="handleKeyEnter"
         @keydown.tab="close"
+        @keydown.esc="handleKeyEscape"
+        @mousedown="handleMouseDown"
       >
         <template v-if="$slots.prepend" #prepend>
           <slot name="prepend" />
@@ -56,11 +60,14 @@
       <div
         ref="regionRef"
         :class="[ns.b('suggestion'), ns.is('loading', suggestionLoading)]"
-        :style="{ minWidth: dropdownWidth, outline: 'none' }"
+        :style="{
+          [fitInputWidth ? 'width' : 'minWidth']: dropdownWidth,
+          outline: 'none',
+        }"
         role="region"
       >
         <el-scrollbar
-          :id="id"
+          :id="listboxId"
           tag="ul"
           :wrap-class="ns.be('suggestion', 'wrap')"
           :view-class="ns.be('suggestion', 'list')"
@@ -72,7 +79,7 @@
           <template v-else>
             <li
               v-for="(item, index) in suggestions"
-              :id="`${id}-item-${index}`"
+              :id="`${listboxId}-item-${index}`"
               :key="index"
               :class="{ highlighted: highlightedIndex === index }"
               role="option"
@@ -94,21 +101,25 @@ import {
   nextTick,
   onMounted,
   ref,
-  useAttrs as useCompAttrs,
+  useAttrs as useRawAttrs,
 } from 'vue'
-import { isPromise } from '@vue/shared'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import { useAttrs, useNamespace } from '@element-plus/hooks'
+import { Loading } from '@element-plus/icons-vue'
+import { useAttrs, useDisabled, useNamespace } from '@element-plus/hooks'
 import { generateId, isArray, throwError } from '@element-plus/utils'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
-import { useDeprecateAppendToBody } from '@element-plus/components/popper'
 import ElIcon from '@element-plus/components/icon'
-import { Loading } from '@element-plus/icons-vue'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
+import type { AutocompleteData } from './autocomplete'
+
 import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
@@ -123,112 +134,140 @@ const COMPONENT_NAME = 'ElAutocomplete'
 const props = defineProps(autocompleteProps)
 const emit = defineEmits(autocompleteEmits)
 
-const ns = useNamespace('autocomplete')
-const { compatTeleported } = useDeprecateAppendToBody(
-  COMPONENT_NAME,
-  'popperAppendToBody'
-)
-let isClear = false
 const attrs = useAttrs()
-const compAttrs = useCompAttrs()
-const suggestions = ref<any[]>([])
-const highlightedIndex = ref(-1)
-const dropdownWidth = ref('')
-const activated = ref(false)
-const suggestionDisabled = ref(false)
-const loading = ref(false)
+const rawAttrs = useRawAttrs()
+const disabled = useDisabled()
+const ns = useNamespace('autocomplete')
+
 const inputRef = ref<InputInstance>()
 const regionRef = ref<HTMLElement>()
 const popperRef = ref<TooltipInstance>()
 const listboxRef = ref<HTMLElement>()
 
-const id = computed(() => {
-  return ns.b(String(generateId()))
-})
-const styles = computed(() => compAttrs.style as StyleValue)
+let readonly = false
+let ignoreFocusEvent = false
+const suggestions = ref<AutocompleteData>([])
+const highlightedIndex = ref(-1)
+const dropdownWidth = ref('')
+const activated = ref(false)
+const suggestionDisabled = ref(false)
+const loading = ref(false)
+
+const listboxId = computed(() => ns.b(String(generateId())))
+const styles = computed(() => rawAttrs.style as StyleValue)
+
 const suggestionVisible = computed(() => {
-  const isValidData = isArray(suggestions.value) && suggestions.value.length > 0
+  const isValidData = suggestions.value.length > 0
   return (isValidData || loading.value) && activated.value
 })
-const suggestionLoading = computed(() => {
-  return !props.hideLoading && loading.value
+
+const suggestionLoading = computed(() => !props.hideLoading && loading.value)
+
+const refInput = computed<HTMLInputElement[]>(() => {
+  if (inputRef.value) {
+    return Array.from<HTMLInputElement>(
+      inputRef.value.$el.querySelectorAll('input')
+    )
+  }
+  return []
 })
 
-const onSuggestionShow = () => {
-  nextTick(() => {
-    if (suggestionVisible.value) {
-      dropdownWidth.value = `${inputRef.value!.$el.offsetWidth}px`
-    }
-  })
+const onSuggestionShow = async () => {
+  await nextTick()
+  if (suggestionVisible.value) {
+    dropdownWidth.value = `${inputRef.value!.$el.offsetWidth}px`
+  }
 }
 
-const getData = (queryString: string) => {
-  if (suggestionDisabled.value) {
-    return
-  }
-  loading.value = true
-  const cb = (suggestionsArg: any[]) => {
+const onShow = () => {
+  ignoreFocusEvent = true
+}
+
+const onHide = () => {
+  ignoreFocusEvent = false
+  highlightedIndex.value = -1
+}
+
+const getData = async (queryString: string) => {
+  if (suggestionDisabled.value) return
+
+  const cb = (suggestionList: AutocompleteData) => {
     loading.value = false
-    if (suggestionDisabled.value) {
-      return
-    }
-    if (isArray(suggestionsArg)) {
-      suggestions.value = suggestionsArg
+    if (suggestionDisabled.value) return
+
+    if (isArray(suggestionList)) {
+      suggestions.value = suggestionList
       highlightedIndex.value = props.highlightFirstItem ? 0 : -1
     } else {
       throwError(COMPONENT_NAME, 'autocomplete suggestions must be an array')
     }
   }
+
+  loading.value = true
   if (isArray(props.fetchSuggestions)) {
     cb(props.fetchSuggestions)
   } else {
-    const result = props.fetchSuggestions(queryString, cb)
-    if (isArray(result)) {
-      cb(result)
-    } else if (isPromise(result)) {
-      result.then(cb)
-    }
+    const result = await props.fetchSuggestions(queryString, cb)
+    if (isArray(result)) cb(result)
   }
 }
 const debouncedGetData = debounce(getData, props.debounce)
-const handleInput = (value: string) => {
-  const valuePresented = Boolean(value)
 
-  emit('input', value)
+const handleInput = (value: string) => {
+  const valuePresented = !!value
+
+  emit(INPUT_EVENT, value)
   emit(UPDATE_MODEL_EVENT, value)
+
   suggestionDisabled.value = false
-  activated.value ||= isClear && valuePresented
+  activated.value ||= valuePresented
 
   if (!props.triggerOnFocus && !value) {
     suggestionDisabled.value = true
     suggestions.value = []
     return
   }
-  if (isClear && valuePresented) {
-    isClear = false
-  }
+
   debouncedGetData(value)
 }
-const handleChange = (value: string) => {
-  emit('change', value)
+
+const handleMouseDown = (event: MouseEvent) => {
+  if (disabled.value) return
+  if (
+    (event.target as HTMLElement)?.tagName !== 'INPUT' ||
+    refInput.value.includes(document.activeElement as HTMLInputElement)
+  ) {
+    activated.value = true
+  }
 }
+
+const handleChange = (value: string) => {
+  emit(CHANGE_EVENT, value)
+}
+
 const handleFocus = (evt: FocusEvent) => {
+  if (ignoreFocusEvent) return
+
   activated.value = true
   emit('focus', evt)
-  if (props.triggerOnFocus) {
+  // fix https://github.com/element-plus/element-plus/issues/8278
+  if (props.triggerOnFocus && !readonly) {
     debouncedGetData(String(props.modelValue))
   }
 }
+
 const handleBlur = (evt: FocusEvent) => {
+  if (ignoreFocusEvent) return
   emit('blur', evt)
 }
+
 const handleClear = () => {
   activated.value = false
-  isClear = true
   emit(UPDATE_MODEL_EVENT, '')
   emit('clear')
 }
-const handleKeyEnter = () => {
+
+const handleKeyEnter = async () => {
   if (
     suggestionVisible.value &&
     highlightedIndex.value >= 0 &&
@@ -237,12 +276,19 @@ const handleKeyEnter = () => {
     handleSelect(suggestions.value[highlightedIndex.value])
   } else if (props.selectWhenUnmatched) {
     emit('select', { value: props.modelValue })
-    nextTick(() => {
-      suggestions.value = []
-      highlightedIndex.value = -1
-    })
+    suggestions.value = []
+    highlightedIndex.value = -1
   }
 }
+
+const handleKeyEscape = (evt: Event) => {
+  if (suggestionVisible.value) {
+    evt.preventDefault()
+    evt.stopPropagation()
+    close()
+  }
+}
+
 const close = () => {
   activated.value = false
 }
@@ -251,23 +297,26 @@ const focus = () => {
   inputRef.value?.focus()
 }
 
-const handleSelect = (item: any) => {
-  emit('input', item[props.valueKey])
+const blur = () => {
+  inputRef.value?.blur()
+}
+
+const handleSelect = async (item: any) => {
+  emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
-  nextTick(() => {
-    suggestions.value = []
-    highlightedIndex.value = -1
-  })
+  suggestions.value = []
+  highlightedIndex.value = -1
 }
+
 const highlight = (index: number) => {
-  if (!suggestionVisible.value || loading.value) {
-    return
-  }
+  if (!suggestionVisible.value || loading.value) return
+
   if (index < 0) {
     highlightedIndex.value = -1
     return
   }
+
   if (index >= suggestions.value.length) {
     index = suggestions.value.length - 1
   }
@@ -291,11 +340,13 @@ const highlight = (index: number) => {
   // TODO: use Volar generate dts to fix it.
   ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
-    `${id.value}-item-${highlightedIndex.value}`
+    `${listboxId.value}-item-${highlightedIndex.value}`
   )
 }
 
-onClickOutside(listboxRef, close)
+onClickOutside(listboxRef, () => {
+  suggestionVisible.value && close()
+})
 
 onMounted(() => {
   // TODO: use Volar generate dts to fix it.
@@ -304,8 +355,10 @@ onMounted(() => {
   ;(inputRef.value as any).ref!.setAttribute('aria-controls', 'id')
   ;(inputRef.value as any).ref!.setAttribute(
     'aria-activedescendant',
-    `${id.value}-item-${highlightedIndex.value}`
+    `${listboxId.value}-item-${highlightedIndex.value}`
   )
+  // get readonly attr
+  readonly = (inputRef.value as any).ref!.hasAttribute('readonly')
 })
 
 defineExpose({
@@ -327,6 +380,8 @@ defineExpose({
   handleKeyEnter,
   /** @description focus the input element */
   focus,
+  /** @description blur the input element */
+  blur,
   /** @description close suggestion */
   close,
   /** @description highlight an item in a suggestion */

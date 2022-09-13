@@ -1,7 +1,6 @@
-import { computed, unref } from 'vue'
 import { useGlobalConfig } from '../use-global-config'
 
-const defaultNamespace = 'el'
+export const defaultNamespace = 'el'
 const statePrefix = 'is-'
 
 const _bem = (
@@ -25,29 +24,28 @@ const _bem = (
 }
 
 export const useNamespace = (block: string) => {
-  const globalConfig = useGlobalConfig('namespace')
-  const namespace = computed(() => globalConfig.value || defaultNamespace)
+  const namespace = useGlobalConfig('namespace', defaultNamespace)
   const b = (blockSuffix = '') =>
-    _bem(unref(namespace), block, blockSuffix, '', '')
+    _bem(namespace.value, block, blockSuffix, '', '')
   const e = (element?: string) =>
-    element ? _bem(unref(namespace), block, '', element, '') : ''
+    element ? _bem(namespace.value, block, '', element, '') : ''
   const m = (modifier?: string) =>
-    modifier ? _bem(unref(namespace), block, '', '', modifier) : ''
+    modifier ? _bem(namespace.value, block, '', '', modifier) : ''
   const be = (blockSuffix?: string, element?: string) =>
     blockSuffix && element
-      ? _bem(unref(namespace), block, blockSuffix, element, '')
+      ? _bem(namespace.value, block, blockSuffix, element, '')
       : ''
   const em = (element?: string, modifier?: string) =>
     element && modifier
-      ? _bem(unref(namespace), block, '', element, modifier)
+      ? _bem(namespace.value, block, '', element, modifier)
       : ''
   const bm = (blockSuffix?: string, modifier?: string) =>
     blockSuffix && modifier
-      ? _bem(unref(namespace), block, blockSuffix, '', modifier)
+      ? _bem(namespace.value, block, blockSuffix, '', modifier)
       : ''
   const bem = (blockSuffix?: string, element?: string, modifier?: string) =>
     blockSuffix && element && modifier
-      ? _bem(unref(namespace), block, blockSuffix, element, modifier)
+      ? _bem(namespace.value, block, blockSuffix, element, modifier)
       : ''
   const is: {
     (name: string, state: boolean | undefined): string
@@ -56,6 +54,33 @@ export const useNamespace = (block: string) => {
     const state = args.length >= 1 ? args[0]! : true
     return name && state ? `${statePrefix}${name}` : ''
   }
+
+  // for css var
+  // --el-xxx: value;
+  const cssVar = (object: Record<string, string>) => {
+    const styles: Record<string, string> = {}
+    for (const key in object) {
+      if (object[key]) {
+        styles[`--${namespace.value}-${key}`] = object[key]
+      }
+    }
+    return styles
+  }
+  // with block
+  const cssVarBlock = (object: Record<string, string>) => {
+    const styles: Record<string, string> = {}
+    for (const key in object) {
+      if (object[key]) {
+        styles[`--${namespace.value}-${block}-${key}`] = object[key]
+      }
+    }
+    return styles
+  }
+
+  const cssVarName = (name: string) => `--${namespace.value}-${name}`
+  const cssVarBlockName = (name: string) =>
+    `--${namespace.value}-${block}-${name}`
+
   return {
     namespace,
     b,
@@ -66,6 +91,11 @@ export const useNamespace = (block: string) => {
     bm,
     bem,
     is,
+    // css
+    cssVar,
+    cssVarName,
+    cssVarBlock,
+    cssVarBlockName,
   }
 }
 

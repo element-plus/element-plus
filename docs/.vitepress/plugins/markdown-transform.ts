@@ -28,7 +28,8 @@ export function MarkdownTransform(): Plugin {
 
       code = transformVpScriptSetup(code, append)
 
-      const compPaths = await glob(`{${languages.join(',')}}/component`, {
+      const pattern = `{${[...languages, languages[0]].join(',')}}/component`
+      const compPaths = await glob(pattern, {
         cwd: docRoot,
         absolute: true,
         onlyDirectories: true,
@@ -103,7 +104,8 @@ const transformComponentMarkdown = (
     .map(([text, link]) => `[${text}](${link})`)
     .join(' • ')
 
-  const sourceSection = `## ${footerLocale[lang].source}
+  const sourceSection = `
+## ${footerLocale[lang].source}
 
 ${linksText}
 `

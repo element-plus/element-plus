@@ -1,14 +1,14 @@
 import type { InjectionKey, Ref } from 'vue'
 
-export const FOCUS_ON_MOUNT = 'focus-trap.focus-on-mount'
-export const FOCUS_ON_UNMOUNT = 'focus-trap.focus-on-unmount'
-export const FOCUS_ON_MOUNT_OPTS: EventInit = {
+export const FOCUS_AFTER_TRAPPED = 'focus-trap.focus-after-trapped'
+export const FOCUS_AFTER_RELEASED = 'focus-trap.focus-after-released'
+export const FOCUS_AFTER_TRAPPED_OPTS: EventInit = {
   cancelable: true,
   bubbles: false,
 }
 
-export const ON_MOUNT_FOCUS_EVT = 'mountOnFocus'
-export const ON_UNMOUNT_FOCUS_EVT = 'unmountOnFocus'
+export const ON_TRAP_FOCUS_EVT = 'focusAfterTrapped'
+export const ON_RELEASE_FOCUS_EVT = 'focusAfterReleased'
 
 export type FocusTrapInjectionContext = {
   focusTrapRef: Ref<HTMLElement | undefined>

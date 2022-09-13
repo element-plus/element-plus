@@ -1,6 +1,6 @@
 <template>
   <span
-    v-if="!disableTransitions"
+    v-if="disableTransitions"
     :class="classes"
     :style="{ backgroundColor: color }"
     @click="handleClick"
@@ -8,11 +8,11 @@
     <span :class="ns.e('content')">
       <slot />
     </span>
-    <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
+    <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
       <Close />
     </el-icon>
   </span>
-  <transition v-else :name="`${ns.namespace.value}-zoom-in-center`">
+  <transition v-else :name="`${ns.namespace.value}-zoom-in-center`" appear>
     <span
       :class="classes"
       :style="{ backgroundColor: color }"
@@ -21,7 +21,7 @@
       <span :class="ns.e('content')">
         <slot />
       </span>
-      <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
+      <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
         <Close />
       </el-icon>
     </span>
@@ -59,7 +59,6 @@ const classes = computed(() => {
 
 // methods
 const handleClose = (event: MouseEvent) => {
-  event.stopPropagation()
   emit('close', event)
 }
 

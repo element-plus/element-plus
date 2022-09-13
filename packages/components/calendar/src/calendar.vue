@@ -20,8 +20,12 @@
     </div>
     <div v-if="validatedRange.length === 0" :class="ns.e('body')">
       <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
-        <template v-if="$slots.dateCell" #dateCell="data">
-          <slot name="dateCell" v-bind="data" />
+        <template
+          v-if="$slots['date-cell'] || $slots.dateCell"
+          #date-cell="data"
+        >
+          <slot v-if="$slots['date-cell']" name="date-cell" v-bind="data" />
+          <slot v-else name="dateCell" v-bind="data" />
         </template>
       </date-table>
     </div>
@@ -35,8 +39,12 @@
         :hide-header="index !== 0"
         @pick="pickDay"
       >
-        <template v-if="$slots.dateCell" #dateCell="data">
-          <slot name="dateCell" v-bind="data" />
+        <template
+          v-if="$slots['date-cell'] || $slots.dateCell"
+          #date-cell="data"
+        >
+          <slot v-if="$slots['date-cell']" name="date-cell" v-bind="data" />
+          <slot v-else name="dateCell" v-bind="data" />
         </template>
       </date-table>
     </div>
@@ -44,11 +52,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, useSlots } from 'vue'
 import dayjs from 'dayjs'
 import { ElButton, ElButtonGroup } from '@element-plus/components/button'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
+import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import DateTable from './date-table.vue'
 import { calendarEmits, calendarProps } from './calendar'
 
@@ -65,32 +74,12 @@ defineOptions({
 const props = defineProps(calendarProps)
 const emit = defineEmits(calendarEmits)
 
+const solts = useSlots()
 const ns = useNamespace('calendar')
-
 const { t, lang } = useLocale()
+
 const selectedDay = ref<Dayjs>()
 const now = dayjs().locale(lang.value)
-
-const prevMonthDayjs = computed(() => {
-  return date.value.subtract(1, 'month').date(1)
-})
-
-const nextMonthDayjs = computed(() => {
-  return date.value.add(1, 'month').date(1)
-})
-
-const prevYearDayjs = computed(() => {
-  return date.value.subtract(1, 'year').date(1)
-})
-
-const nextYearDayjs = computed(() => {
-  return date.value.add(1, 'year').date(1)
-})
-
-const i18nDate = computed(() => {
-  const pickedMonth = `el.datepicker.month${date.value.format('M')}`
-  return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
-})
 
 const realSelectedDay = computed<Dayjs | undefined>({
   get() {
@@ -102,9 +91,34 @@ const realSelectedDay = computed<Dayjs | undefined>({
     selectedDay.value = val
     const result = val.toDate()
 
-    emit('input', result)
-    emit('update:modelValue', result)
+    emit(INPUT_EVENT, result)
+    emit(UPDATE_MODEL_EVENT, result)
   },
+})
+
+// if range is valid, we get a two-digit array
+const validatedRange = computed(() => {
+  if (!props.range) return []
+  const rangeArrDayjs = props.range.map((_) => dayjs(_).locale(lang.value))
+  const [startDayjs, endDayjs] = rangeArrDayjs
+  if (startDayjs.isAfter(endDayjs)) {
+    debugWarn(COMPONENT_NAME, 'end time should be greater than start time')
+    return []
+  }
+  if (startDayjs.isSame(endDayjs, 'month')) {
+    // same month
+    return calculateValidatedDateRange(startDayjs, endDayjs)
+  } else {
+    // two months
+    if (startDayjs.add(1, 'month').month() !== endDayjs.month()) {
+      debugWarn(
+        COMPONENT_NAME,
+        'start time and end time interval must not exceed two months'
+      )
+      return []
+    }
+    return calculateValidatedDateRange(startDayjs, endDayjs)
+  }
 })
 
 const date: ComputedRef<Dayjs> = computed(() => {
@@ -118,6 +132,15 @@ const date: ComputedRef<Dayjs> = computed(() => {
   } else {
     return dayjs(props.modelValue).locale(lang.value)
   }
+})
+const prevMonthDayjs = computed(() => date.value.subtract(1, 'month').date(1))
+const nextMonthDayjs = computed(() => date.value.add(1, 'month').date(1))
+const prevYearDayjs = computed(() => date.value.subtract(1, 'year').date(1))
+const nextYearDayjs = computed(() => date.value.add(1, 'year').date(1))
+
+const i18nDate = computed(() => {
+  const pickedMonth = `el.datepicker.month${date.value.format('M')}`
+  return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
 })
 
 // https://github.com/element-plus/element-plus/issues/3155
@@ -152,7 +175,10 @@ const calculateValidatedDateRange = (
     ]
   }
   // Three consecutive months (compatible: 2021-01-30 to 2021-02-28)
-  else if (firstMonth + 2 === lastMonth) {
+  else if (
+    firstMonth + 2 === lastMonth ||
+    (firstMonth + 1) % 11 === lastMonth
+  ) {
     const firstMonthLastDay = firstDay.endOf('month')
     const secondMonthFirstDay = firstDay.add(1, 'month').startOf('month')
 
@@ -191,31 +217,6 @@ const calculateValidatedDateRange = (
   }
 }
 
-// if range is valid, we get a two-digit array
-const validatedRange = computed(() => {
-  if (!props.range) return []
-  const rangeArrDayjs = props.range.map((_) => dayjs(_).locale(lang.value))
-  const [startDayjs, endDayjs] = rangeArrDayjs
-  if (startDayjs.isAfter(endDayjs)) {
-    debugWarn(COMPONENT_NAME, 'end time should be greater than start time')
-    return []
-  }
-  if (startDayjs.isSame(endDayjs, 'month')) {
-    // same month
-    return calculateValidatedDateRange(startDayjs, endDayjs)
-  } else {
-    // two months
-    if (startDayjs.add(1, 'month').month() !== endDayjs.month()) {
-      debugWarn(
-        COMPONENT_NAME,
-        'start time and end time interval must not exceed two months'
-      )
-      return []
-    }
-    return calculateValidatedDateRange(startDayjs, endDayjs)
-  }
-})
-
 const pickDay = (day: Dayjs) => {
   realSelectedDay.value = day
 }
@@ -237,6 +238,18 @@ const selectDate = (type: CalendarDateType) => {
   if (day.isSame(date.value, 'day')) return
   pickDay(day)
 }
+
+useDeprecated(
+  {
+    from: '"dateCell"',
+    replacement: '"date-cell"',
+    scope: 'ElCalendar',
+    version: '2.3.0',
+    ref: 'https://element-plus.org/en-US/component/calendar.html#slots',
+    type: 'Slot',
+  },
+  computed(() => !!solts.dateCell)
+)
 
 defineExpose({
   /** @description currently selected date */

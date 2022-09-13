@@ -4,6 +4,9 @@ export default {
     colorpicker: {
       confirm: '확인',
       clear: '초기화',
+      defaultLabel: '색상 선택기',
+      description:
+        '현재 색상은 {color}입니다. Enter 키를 눌러 새 색상을 선택합니다.',
     },
     datepicker: {
       now: '지금',
@@ -11,6 +14,10 @@ export default {
       cancel: '취소',
       clear: '초기화',
       confirm: '확인',
+      dateTablePrompt: '화살표 키를 사용하고 Enter를 눌러 날짜를 선택하십시오.',
+      monthTablePrompt: '화살표 키를 사용하고 Enter를 눌러 월을 선택합니다.',
+      yearTablePrompt:
+        '화살표 키를 사용하고 Enter 키를 눌러 연도를 선택합니다.',
       selectDate: '날짜 선택',
       selectTime: '시간 선택',
       startDate: '시작 날짜',
@@ -59,11 +66,18 @@ export default {
         dec: '12월',
       },
     },
+    inputNumber: {
+      decrease: '값 증가',
+      increase: '값 감소',
+    },
     select: {
       loading: '불러오는 중',
       noMatch: '검색된 데이터 없음',
       noData: '데이터 없음',
       placeholder: '선택',
+    },
+    dropdown: {
+      toggleDropdown: '드롭다운 전환',
     },
     cascader: {
       noMatch: '검색된 데이터 없음',
@@ -76,18 +90,32 @@ export default {
       pagesize: '건/페이지',
       total: '총 {total} 건',
       pageClassifier: '페이지로',
+      deprecationWarning:
+        '더 이상 사용되지 않는 동작이 감지되었습니다. 자세한 내용은 el-pagination 문서를 참조하세요.',
+    },
+    dialog: {
+      close: '대화 상자 닫기',
+    },
+    drawer: {
+      close: '대화 상자 닫기',
     },
     messagebox: {
       title: '메시지',
       confirm: '확인',
       cancel: '취소',
       error: '올바르지 않은 입력',
+      close: '대화 상자 닫기',
     },
     upload: {
       deleteTip: 'Delete 키를 눌러 삭제',
       delete: '삭제',
       preview: '미리보기',
       continue: '계속하기',
+    },
+    slider: {
+      defaultLabel: '{min}과 {max} 사이의 슬라이더',
+      defaultRangeStartLabel: '시작 값 선택',
+      defaultRangeEndLabel: '종료 값 선택',
     },
     table: {
       emptyText: '데이터 없음',

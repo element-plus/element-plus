@@ -1,5 +1,8 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { virtualizedListProps } from '@element-plus/components/virtual-list'
+import {
+  virtualizedGridProps,
+  virtualizedListProps,
+} from '@element-plus/components/virtual-list'
 import {
   classType,
   columns,
@@ -12,6 +15,14 @@ import { tableV2HeaderProps } from './header'
 import { tableV2RowProps } from './row'
 
 import type { ExtractPropTypes } from 'vue'
+import type { ItemSize } from '@element-plus/components/virtual-list'
+
+export type onRowRenderedParams = {
+  rowCacheStart: number
+  rowCacheEnd: number
+  rowVisibleStart: number
+  rowVisibleEnd: number
+}
 
 export const tableV2GridProps = buildProps({
   columns,
@@ -35,8 +46,10 @@ export const tableV2GridProps = buildProps({
    * Special attributes
    */
   cache: virtualizedListProps.cache,
-  rowKey: tableV2RowProps.rowKey,
   useIsScrolling: Boolean,
+  scrollbarAlwaysOn: virtualizedGridProps.scrollbarAlwaysOn,
+  scrollbarStartGap: virtualizedGridProps.scrollbarStartGap,
+  scrollbarEndGap: virtualizedGridProps.scrollbarEndGap,
 
   /**
    * CSS attributes
@@ -45,11 +58,17 @@ export const tableV2GridProps = buildProps({
   style: styleType,
   containerStyle: styleType,
 
+  getRowHeight: {
+    type: definePropType<ItemSize>(Function),
+    required: true,
+  },
+  rowKey: tableV2RowProps.rowKey,
+
   /**
    * Event handlers
    */
-  onRowRendered: {
-    type: Function,
+  onRowsRendered: {
+    type: definePropType<(params: onRowRenderedParams) => void>(Function),
   },
   onScroll: {
     type: definePropType<(...args: any[]) => void>(Function),

@@ -30,7 +30,7 @@
       border-bottom-left-radius: map.get($button-border-radius, 'default');
 
       &.is-round {
-        border-radius: var(--el-border-radius-round);
+        border-radius: getCssVar('border-radius', 'round');
       }
 
       &.is-circle {
@@ -59,21 +59,21 @@
     & > .#{$namespace}-button {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-      border-left-color: var(--el-button-divide-border-color);
+      border-left-color: getCssVar('button', 'divide-border-color');
     }
   }
 
   @each $type in (primary, success, warning, danger, info) {
     .#{$namespace}-button--#{$type} {
       &:first-child {
-        border-right-color: var(--el-button-divide-border-color);
+        border-right-color: getCssVar('button', 'divide-border-color');
       }
       &:last-child {
-        border-left-color: var(--el-button-divide-border-color);
+        border-left-color: getCssVar('button', 'divide-border-color');
       }
       &:not(:first-child):not(:last-child) {
-        border-left-color: var(--el-button-divide-border-color);
-        border-right-color: var(--el-button-divide-border-color);
+        border-left-color: getCssVar('button', 'divide-border-color');
+        border-right-color: getCssVar('button', 'divide-border-color');
       }
     }
   }

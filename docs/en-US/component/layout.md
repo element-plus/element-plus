@@ -90,7 +90,7 @@ import 'element-plus/theme-chalk/display.css'
 The classes are:
 
 - `hidden-xs-only` - hide when on extra small viewports only
-- `hidden-sm-only` - hide when on small viewports and down
+- `hidden-sm-only` - hide when on small viewports only
 - `hidden-sm-and-down` - hide when on small viewports and down
 - `hidden-sm-and-up` - hide when on small viewports and up
 - `hidden-md-only` - hide when on medium viewports only
@@ -103,12 +103,12 @@ The classes are:
 
 ## Row Attributes
 
-| Attribute | Description                         | Type   | Accepted Values                                          | Default |
-| --------- | ----------------------------------- | ------ | -------------------------------------------------------- | ------- |
-| gutter    | grid spacing                        | number | —                                                        | 0       |
-| justify   | horizontal alignment of flex layout | string | start/end/center/space-around/space-between/space-evenly | start   |
-| align     | vertical alignment of flex layout   | string | top/middle/bottom                                        | top     |
-| tag       | custom element tag                  | string | \*                                                       | div     |
+| Name    | Description                         | Type   | Accepted Values                                          | Default |
+| ------- | ----------------------------------- | ------ | -------------------------------------------------------- | ------- |
+| gutter  | grid spacing                        | number | —                                                        | 0       |
+| justify | horizontal alignment of flex layout | string | start/end/center/space-around/space-between/space-evenly | start   |
+| align   | vertical alignment of flex layout   | string | top/middle/bottom                                        | top     |
+| tag     | custom element tag                  | string | (\*)                                                     | div     |
 
 ## Row Slots
 
@@ -118,21 +118,25 @@ The classes are:
 
 ## Col Attributes
 
-| Attribute | Description                                         | Type                                      | Accepted Values | Default |
-| --------- | --------------------------------------------------- | ----------------------------------------- | --------------- | ------- |
-| span      | number of column the grid spans                     | number                                    | —               | 24      |
-| offset    | number of spacing on the left side of the grid      | number                                    | —               | 0       |
-| push      | number of columns that grid moves to the right      | number                                    | —               | 0       |
-| pull      | number of columns that grid moves to the left       | number                                    | —               | 0       |
-| xs        | `<768px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| sm        | `≥768px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| md        | `≥992px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| lg        | `≥1200px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| xl        | `≥1920px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| tag       | custom element tag                                  | string                                    | \*              | div     |
+| Name   | Description                                         | Type                                      | Accepted Values | Default |
+| ------ | --------------------------------------------------- | ----------------------------------------- | --------------- | ------- |
+| span   | number of column the grid spans                     | number                                    | —               | 24      |
+| offset | number of spacing on the left side of the grid      | number                                    | —               | 0       |
+| push   | number of columns that grid moves to the right      | number                                    | —               | 0       |
+| pull   | number of columns that grid moves to the left       | number                                    | —               | 0       |
+| xs     | `<768px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
+| sm     | `≥768px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
+| md     | `≥992px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
+| lg     | `≥1200px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
+| xl     | `≥1920px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
+| tag    | custom element tag                                  | string                                    | (\*)            | div     |
 
 ## Col Slots
 
 | Name | Description               |
 | ---- | ------------------------- |
 | —    | customize default content |
+
+<style lang="scss">
+@use '../../examples/layout/index.scss';
+</style>

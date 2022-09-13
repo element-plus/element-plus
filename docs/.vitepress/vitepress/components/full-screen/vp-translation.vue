@@ -19,8 +19,8 @@ const onSwitchLang = (lang: string) => {
 <template>
   <div class="full-screen-translation">
     <ElButton
-      type="text"
       style="width: 100%; color: var(--text-color)"
+      text
       @click="toggle"
     >
       <div class="translation-toggler">
@@ -41,7 +41,7 @@ const onSwitchLang = (lang: string) => {
         {{ languageMap[l] }}
       </p>
       <p class="translation-item">
-        <VPLink href="https://crowdin.com/project/element-plus">
+        <VPLink :href="`/${lang}/guide/translation`">
           {{ helpTranslate }}
         </VPLink>
       </p>

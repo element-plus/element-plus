@@ -1,6 +1,6 @@
-import { ref, watch } from 'vue'
+import { watch } from 'vue'
+import { useVModel } from '@vueuse/core'
 import { debugWarn, throwError } from '@element-plus/utils'
-import { useDeprecated } from '@element-plus/hooks'
 import { genFileId } from './upload'
 import type { ShallowRef } from 'vue'
 import type {
@@ -27,7 +27,12 @@ export const useHandlers = (
   props: UploadProps,
   uploadRef: ShallowRef<UploadContentInstance | undefined>
 ) => {
-  const uploadFiles = ref<UploadFiles>([])
+  const uploadFiles = useVModel(
+    props as Omit<UploadProps, 'fileList'> & { fileList: UploadFiles },
+    'fileList',
+    undefined,
+    { passive: true }
+  )
 
   const getFile = (rawFile: UploadRawFile) =>
     uploadFiles.value.find((file) => file.uid === rawFile.uid)
@@ -49,6 +54,7 @@ export const useHandlers = (
     const file = getFile(rawFile)
     if (!file) return
 
+    console.error(err)
     file.status = 'fail'
     uploadFiles.value.splice(uploadFiles.value.indexOf(file), 1)
     props.onError(err, file, uploadFiles.value)
@@ -94,29 +100,14 @@ export const useHandlers = (
         props.onError(err as Error, uploadFile, uploadFiles.value)
       }
     }
-    uploadFiles.value.push(uploadFile)
+    uploadFiles.value = [...uploadFiles.value, uploadFile]
     props.onChange(uploadFile, uploadFiles.value)
   }
 
   const handleRemove: UploadContentProps['onRemove'] = async (
-    file,
-    rawFile // TODO: deprecated in 2.2
+    file
   ): Promise<void> => {
-    if (rawFile) {
-      useDeprecated(
-        {
-          scope: SCOPE,
-          from: 'handleRemove second argument',
-          version: '2.2',
-          replacement: 'first argument `file`',
-          ref: 'https://element-plus.org/en-US/component/upload.html#methods',
-        },
-        true
-      )
-    }
-
-    const _file = rawFile || file
-    const uploadFile = _file instanceof File ? getFile(_file) : _file
+    const uploadFile = file instanceof File ? getFile(file) : file
     if (!uploadFile) throwError(SCOPE, 'file to be removed not found')
 
     const doRemove = (file: UploadFile) => {
@@ -163,18 +154,19 @@ export const useHandlers = (
   )
 
   watch(
-    () => props.fileList,
-    (fileList) => {
-      for (const file of fileList) {
+    uploadFiles,
+    (files) => {
+      for (const file of files) {
         file.uid ||= genFileId()
         file.status ||= 'success'
       }
-      uploadFiles.value = fileList as UploadFiles
     },
     { immediate: true, deep: true }
   )
 
   return {
+    /** @description two-way binding ref from props `fileList` */
+    uploadFiles,
     abort,
     clearFiles,
     handleError,
@@ -183,6 +175,5 @@ export const useHandlers = (
     handleSuccess,
     handleRemove,
     submit,
-    uploadFiles,
   }
 }
