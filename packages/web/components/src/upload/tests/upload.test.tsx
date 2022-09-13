@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick, ref } from 'vue'
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'

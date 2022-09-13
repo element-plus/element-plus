@@ -1,4 +1,4 @@
-import type { InjectionKey, Ref, StyleValue } from 'vue'
+import type { InjectionKey, Ref, ShallowRef, StyleValue } from 'vue'
 import type { ElRovingFocusGroupProps } from './roving-focus-group'
 
 type EventHandler<T = Event> = (e: T) => void
@@ -9,7 +9,7 @@ export type RovingGroupInjectionContext = {
   loop: Ref<ElRovingFocusGroupProps['loop']>
   orientation: Ref<ElRovingFocusGroupProps['orientation']>
   tabIndex: Ref<number>
-  rovingFocusGroupRef: Ref<HTMLElement | null>
+  rovingFocusGroupRef: ShallowRef<HTMLElement | null>
   rovingFocusGroupRootStyle: Ref<StyleValue>
   onBlur: EventHandler
   onFocus: EventHandler<FocusEvent>

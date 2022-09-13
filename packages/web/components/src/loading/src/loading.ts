@@ -13,7 +13,7 @@ import {
 import { useNamespace } from '@element-plus/hooks'
 import { removeClass } from '@element-plus/utils'
 
-import type { LoadingOptionsResolved } from './types'
+import type { LoadingOptionsResolved, LoadingParentElement } from './types'
 
 export function createLoadingComponent(options: LoadingOptionsResolved) {
   let afterLeaveTimer: number
@@ -32,7 +32,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   }
 
   function destroySelf() {
-    const target = data.parent
+    const target = data.parent as LoadingParentElement
     if (!target.vLoadingAddClassList) {
       let loadingNumber: number | string | null =
         target.getAttribute('loading-number')

@@ -15,7 +15,7 @@ import {
   inject,
   nextTick,
   provide,
-  ref,
+  shallowRef,
   unref,
 } from 'vue'
 import { useId } from '@element-plus/hooks'
@@ -58,7 +58,7 @@ export default defineComponent({
     )!
 
     const id = useId()
-    const rovingFocusGroupItemRef = ref<HTMLElement | null>(null)
+    const rovingFocusGroupItemRef = shallowRef<HTMLElement | null>(null)
 
     const handleMousedown = composeEventHandlers(
       (e: Event) => {

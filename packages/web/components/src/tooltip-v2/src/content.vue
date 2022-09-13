@@ -14,7 +14,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, onMounted, provide, ref, unref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  onMounted,
+  provide,
+  ref,
+  shallowRef,
+  unref,
+  watch,
+} from 'vue'
 import { offset } from '@floating-ui/dom'
 import { tooltipV2ContentKey, tooltipV2RootKey } from '@element-plus/tokens'
 import {
@@ -40,7 +49,7 @@ const { triggerRef, contentId } = inject(tooltipV2RootKey)!
 
 const placement = ref(props.placement)
 const strategy = ref(props.strategy)
-const arrowRef = ref<HTMLElement | null>(null)
+const arrowRef = shallowRef<HTMLElement | null>(null)
 
 const { referenceRef, contentRef, middlewareData, x, y, update } = useFloating({
   placement,

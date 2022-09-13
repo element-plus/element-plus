@@ -1,4 +1,12 @@
-import { inject, onBeforeUnmount, onMounted, provide, ref, unref } from 'vue'
+import {
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  provide,
+  ref,
+  shallowRef,
+  unref,
+} from 'vue'
 import Collection from './collection.vue'
 import CollectionItem from './collection-item.vue'
 
@@ -53,7 +61,7 @@ export const createCollectionWithScope = (name: string) => {
     ...CollectionItem,
     name: COLLECTION_ITEM_NAME,
     setup(_: unknown, { attrs }: SetupContext) {
-      const collectionItemRef = ref<HTMLElement | null>(null)
+      const collectionItemRef = shallowRef<HTMLElement | null>(null)
       const collectionInjection = inject(COLLECTION_INJECTION_KEY, undefined)!
 
       provide(COLLECTION_ITEM_INJECTION_KEY, {

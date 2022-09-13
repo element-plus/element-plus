@@ -10,6 +10,7 @@ import {
   provide,
   readonly,
   ref,
+  shallowRef,
   toRef,
   unref,
   watch,
@@ -40,7 +41,7 @@ export default defineComponent({
     )
     const isBackingOut = ref(false)
     const isClickFocus = ref(false)
-    const rovingFocusGroupRef = ref<HTMLElement | null>(null)
+    const rovingFocusGroupRef = shallowRef<HTMLElement | null>(null)
     const { getItems } = inject(
       ROVING_FOCUS_COLLECTION_INJECTION_KEY,
       undefined
