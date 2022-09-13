@@ -1,0 +1,7 @@
+import '@element-plus/components/src/base/style'
+import '@element-plus/components/src/input/style'
+import '@element-plus/components/src/tag/style'
+import '@element-plus/components/src/scrollbar/style'
+import '@element-plus/components/src/popper/style'
+import '@element-plus/components/src/virtual-list/style'
+import '@element-plus/theme-chalk/src/select-v2.scss'

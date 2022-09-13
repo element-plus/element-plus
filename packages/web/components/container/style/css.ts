@@ -1,6 +1,0 @@
-import '@element-plus/components/base/style/css'
-import '@element-plus/theme-chalk/dist/container.css'
-import '@element-plus/theme-chalk/dist/aside.css'
-import '@element-plus/theme-chalk/dist/footer.css'
-import '@element-plus/theme-chalk/dist/header.css'
-import '@element-plus/theme-chalk/dist/main.css'

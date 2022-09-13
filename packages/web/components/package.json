@@ -1,15 +1,64 @@
 {
   "name": "@element-plus/components",
-  "version": "0.0.5",
-  "description": "all components are settled here",
-  "main": "index.ts",
-  "module": "index.ts",
-  "unpkg": "index.js",
-  "jsdelivr": "index.js",
+  "version": "3.0.0-alpha.0",
+  "description": "Vue component for Element Plus.",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue",
+    "components"
+  ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "run-p build:*",
+    "build:lib": "ep-cli build",
+    "build:types": "pnpm vue-tsc -p tsconfig.build.json",
+    "clean": "rimraf ./dist"
+  },
   "peerDependencies": {
     "vue": "^3.2.0"
   },
-  "types": "index.d.ts",
-  "sideEffects": false,
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  "dependencies": {
+    "@ctrl/tinycolor": "^3.4.1",
+    "@element-plus/constants": "workspace:*",
+    "@element-plus/icons-vue": "^2.0.9",
+    "@element-plus/locale": "workspace:*",
+    "@element-plus/utils": "workspace:*",
+    "@element-plus/vue-directives": "workspace:*",
+    "@floating-ui/dom": "^1.0.1",
+    "@popperjs/core": "^2.11.6",
+    "@types/lodash": "^4.14.184",
+    "@types/lodash-es": "^4.17.6",
+    "@vueuse/core": "^9.1.1",
+    "async-validator": "^4.2.5",
+    "csstype": "^2.0.0",
+    "dayjs": "^1.11.5",
+    "escape-html": "^1.0.3",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "lodash-unified": "^1.0.2",
+    "memoize-one": "^6.0.0",
+    "vue-router": "^4.1.5"
+  },
+  "devDependencies": {
+    "@vue/runtime-dom": "^3.2.37",
+    "@vue/test-utils": "^2.0.2",
+    "typescript": "^4.7.4",
+    "vue": "^3.2.31",
+    "vue-tsc": "^0.40.1"
+  }
 }

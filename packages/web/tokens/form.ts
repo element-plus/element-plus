@@ -12,7 +12,7 @@ import type {
   FormItemValidateState,
   FormLabelWidthContext,
   FormProps,
-} from '@element-plus/components/form'
+} from '@element-plus/components/src/form'
 import type { Arrayable } from '@element-plus/utils'
 
 export interface FormItemRule extends RuleItem {

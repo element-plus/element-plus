@@ -1,6 +1,0 @@
-import '@element-plus/components/base/style'
-import '@element-plus/components/input/style'
-import '@element-plus/components/button/style'
-import '@element-plus/components/checkbox/style'
-import '@element-plus/components/checkbox-group/style'
-import '@element-plus/theme-chalk/src/transfer.scss'

@@ -1,6 +1,0 @@
-import '@element-plus/components/base/style'
-import '@element-plus/theme-chalk/src/cascader.scss'
-import '@element-plus/components/input/style'
-import '@element-plus/components/popper/style'
-import '@element-plus/components/tag/style'
-import '@element-plus/components/cascader-panel/style'

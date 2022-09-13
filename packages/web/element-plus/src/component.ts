@@ -1,103 +1,115 @@
-import { ElAffix } from '@element-plus/components/affix'
-import { ElAlert } from '@element-plus/components/alert'
-import { ElAutocomplete } from '@element-plus/components/autocomplete'
-import { ElAvatar } from '@element-plus/components/avatar'
-import { ElBacktop } from '@element-plus/components/backtop'
-import { ElBadge } from '@element-plus/components/badge'
+import { ElAffix } from '@element-plus/components/src/affix'
+import { ElAlert } from '@element-plus/components/src/alert'
+import { ElAutocomplete } from '@element-plus/components/src/autocomplete'
+import { ElAvatar } from '@element-plus/components/src/avatar'
+import { ElBacktop } from '@element-plus/components/src/backtop'
+import { ElBadge } from '@element-plus/components/src/badge'
 import {
   ElBreadcrumb,
   ElBreadcrumbItem,
-} from '@element-plus/components/breadcrumb'
-import { ElButton, ElButtonGroup } from '@element-plus/components/button'
-import { ElCalendar } from '@element-plus/components/calendar'
-import { ElCard } from '@element-plus/components/card'
-import { ElCarousel, ElCarouselItem } from '@element-plus/components/carousel'
-import { ElCascader } from '@element-plus/components/cascader'
-import { ElCascaderPanel } from '@element-plus/components/cascader-panel'
-import { ElCheckTag } from '@element-plus/components/check-tag'
+} from '@element-plus/components/src/breadcrumb'
+import { ElButton, ElButtonGroup } from '@element-plus/components/src/button'
+import { ElCalendar } from '@element-plus/components/src/calendar'
+import { ElCard } from '@element-plus/components/src/card'
+import {
+  ElCarousel,
+  ElCarouselItem,
+} from '@element-plus/components/src/carousel'
+import { ElCascader } from '@element-plus/components/src/cascader'
+import { ElCascaderPanel } from '@element-plus/components/src/cascader-panel'
+import { ElCheckTag } from '@element-plus/components/src/check-tag'
 import {
   ElCheckbox,
   ElCheckboxButton,
   ElCheckboxGroup,
-} from '@element-plus/components/checkbox'
-import { ElCol } from '@element-plus/components/col'
-import { ElCollapse, ElCollapseItem } from '@element-plus/components/collapse'
-import { ElCollapseTransition } from '@element-plus/components/collapse-transition'
-import { ElColorPicker } from '@element-plus/components/color-picker'
-import { ElConfigProvider } from '@element-plus/components/config-provider'
+} from '@element-plus/components/src/checkbox'
+import { ElCol } from '@element-plus/components/src/col'
+import {
+  ElCollapse,
+  ElCollapseItem,
+} from '@element-plus/components/src/collapse'
+import { ElCollapseTransition } from '@element-plus/components/src/collapse-transition'
+import { ElColorPicker } from '@element-plus/components/src/color-picker'
+import { ElConfigProvider } from '@element-plus/components/src/config-provider'
 import {
   ElAside,
   ElContainer,
   ElFooter,
   ElHeader,
   ElMain,
-} from '@element-plus/components/container'
-import { ElDatePicker } from '@element-plus/components/date-picker'
+} from '@element-plus/components/src/container'
+import { ElDatePicker } from '@element-plus/components/src/date-picker'
 import {
   ElDescriptions,
   ElDescriptionsItem,
-} from '@element-plus/components/descriptions'
-import { ElDialog } from '@element-plus/components/dialog'
-import { ElDivider } from '@element-plus/components/divider'
-import { ElDrawer } from '@element-plus/components/drawer'
+} from '@element-plus/components/src/descriptions'
+import { ElDialog } from '@element-plus/components/src/dialog'
+import { ElDivider } from '@element-plus/components/src/divider'
+import { ElDrawer } from '@element-plus/components/src/drawer'
 import {
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
-} from '@element-plus/components/dropdown'
-import { ElEmpty } from '@element-plus/components/empty'
-import { ElForm, ElFormItem } from '@element-plus/components/form'
-import { ElIcon } from '@element-plus/components/icon'
-import { ElImage } from '@element-plus/components/image'
-import { ElImageViewer } from '@element-plus/components/image-viewer'
-import { ElInput } from '@element-plus/components/input'
-import { ElInputNumber } from '@element-plus/components/input-number'
-import { ElLink } from '@element-plus/components/link'
+} from '@element-plus/components/src/dropdown'
+import { ElEmpty } from '@element-plus/components/src/empty'
+import { ElForm, ElFormItem } from '@element-plus/components/src/form'
+import { ElIcon } from '@element-plus/components/src/icon'
+import { ElImage } from '@element-plus/components/src/image'
+import { ElImageViewer } from '@element-plus/components/src/image-viewer'
+import { ElInput } from '@element-plus/components/src/input'
+import { ElInputNumber } from '@element-plus/components/src/input-number'
+import { ElLink } from '@element-plus/components/src/link'
 import {
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
-} from '@element-plus/components/menu'
-import { ElPageHeader } from '@element-plus/components/page-header'
-import { ElPagination } from '@element-plus/components/pagination'
-import { ElPopconfirm } from '@element-plus/components/popconfirm'
-import { ElPopover } from '@element-plus/components/popover'
-import { ElPopper } from '@element-plus/components/popper'
-import { ElProgress } from '@element-plus/components/progress'
+} from '@element-plus/components/src/menu'
+import { ElPageHeader } from '@element-plus/components/src/page-header'
+import { ElPagination } from '@element-plus/components/src/pagination'
+import { ElPopconfirm } from '@element-plus/components/src/popconfirm'
+import { ElPopover } from '@element-plus/components/src/popover'
+import { ElPopper } from '@element-plus/components/src/popper'
+import { ElProgress } from '@element-plus/components/src/progress'
 import {
   ElRadio,
   ElRadioButton,
   ElRadioGroup,
-} from '@element-plus/components/radio'
-import { ElRate } from '@element-plus/components/rate'
-import { ElResult } from '@element-plus/components/result'
-import { ElRow } from '@element-plus/components/row'
-import { ElScrollbar } from '@element-plus/components/scrollbar'
+} from '@element-plus/components/src/radio'
+import { ElRate } from '@element-plus/components/src/rate'
+import { ElResult } from '@element-plus/components/src/result'
+import { ElRow } from '@element-plus/components/src/row'
+import { ElScrollbar } from '@element-plus/components/src/scrollbar'
 import {
   ElOption,
   ElOptionGroup,
   ElSelect,
-} from '@element-plus/components/select'
-import { ElSelectV2 } from '@element-plus/components/select-v2'
-import { ElSkeleton, ElSkeletonItem } from '@element-plus/components/skeleton'
-import { ElSlider } from '@element-plus/components/slider'
-import { ElSpace } from '@element-plus/components/space'
-import { ElStep, ElSteps } from '@element-plus/components/steps'
-import { ElSwitch } from '@element-plus/components/switch'
-import { ElTable, ElTableColumn } from '@element-plus/components/table'
-import { ElAutoResizer, ElTableV2 } from '@element-plus/components/table-v2'
-import { ElTabPane, ElTabs } from '@element-plus/components/tabs'
-import { ElTag } from '@element-plus/components/tag'
-import { ElTimePicker } from '@element-plus/components/time-picker'
-import { ElTimeSelect } from '@element-plus/components/time-select'
-import { ElTimeline, ElTimelineItem } from '@element-plus/components/timeline'
-import { ElTooltip } from '@element-plus/components/tooltip'
-import { ElTooltipV2 } from '@element-plus/components/tooltip-v2'
-import { ElTransfer } from '@element-plus/components/transfer'
-import { ElTree } from '@element-plus/components/tree'
-import { ElTreeSelect } from '@element-plus/components/tree-select'
-import { ElTreeV2 } from '@element-plus/components/tree-v2'
-import { ElUpload } from '@element-plus/components/upload'
+} from '@element-plus/components/src/select'
+import { ElSelectV2 } from '@element-plus/components/src/select-v2'
+import {
+  ElSkeleton,
+  ElSkeletonItem,
+} from '@element-plus/components/src/skeleton'
+import { ElSlider } from '@element-plus/components/src/slider'
+import { ElSpace } from '@element-plus/components/src/space'
+import { ElStep, ElSteps } from '@element-plus/components/src/steps'
+import { ElSwitch } from '@element-plus/components/src/switch'
+import { ElTable, ElTableColumn } from '@element-plus/components/src/table'
+import { ElAutoResizer, ElTableV2 } from '@element-plus/components/src/table-v2'
+import { ElTabPane, ElTabs } from '@element-plus/components/src/tabs'
+import { ElTag } from '@element-plus/components/src/tag'
+import { ElTimePicker } from '@element-plus/components/src/time-picker'
+import { ElTimeSelect } from '@element-plus/components/src/time-select'
+import {
+  ElTimeline,
+  ElTimelineItem,
+} from '@element-plus/components/src/timeline'
+import { ElTooltip } from '@element-plus/components/src/tooltip'
+import { ElTooltipV2 } from '@element-plus/components/src/tooltip-v2'
+import { ElTransfer } from '@element-plus/components/src/transfer'
+import { ElTree } from '@element-plus/components/src/tree'
+import { ElTreeSelect } from '@element-plus/components/src/tree-select'
+import { ElTreeV2 } from '@element-plus/components/src/tree-v2'
+import { ElUpload } from '@element-plus/components/src/upload'
 import type { Plugin } from 'vue'
 
 export default [

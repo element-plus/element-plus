@@ -10,7 +10,7 @@
   "exclude": [
     "node_modules",
     "**/dist",
-    "**/__tests__/**/*",
+    "**/tests/**/*",
     "**/gulpfile.ts",
     "**/test-helper",
     "**/*.md"

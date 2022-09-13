@@ -1,6 +1,6 @@
 import type { InjectionKey, Ref } from 'vue'
 
-import type { CarouselItemProps } from '@element-plus/components/carousel'
+import type { CarouselItemProps } from '@element-plus/components/src/carousel'
 
 export type CarouselItemStates = {
   hover: boolean

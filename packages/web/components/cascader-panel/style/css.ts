@@ -1,5 +1,0 @@
-import '@element-plus/components/base/style/css'
-import '@element-plus/theme-chalk/dist/cascader-panel.css'
-import '@element-plus/components/checkbox/style/css'
-import '@element-plus/components/radio/style/css'
-import '@element-plus/components/scrollbar/style/css'
