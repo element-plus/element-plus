@@ -56,7 +56,6 @@
   },
   "devDependencies": {
     "@vue/runtime-dom": "^3.2.37",
-    "@vue/test-utils": "^2.0.2",
     "typescript": "^4.7.4",
     "vue": "^3.2.31",
     "vue-tsc": "^0.40.1"
