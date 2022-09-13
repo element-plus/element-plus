@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
-import { useModal } from '../use-modal'
+import { useModal } from '../src'
 
 describe('useModal', () => {
   it('should work when ref value changed', async () => {

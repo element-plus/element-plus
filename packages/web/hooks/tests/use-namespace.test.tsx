@@ -1,7 +1,7 @@
 import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { provideGlobalConfig, useNamespace } from '..'
+import { provideGlobalConfig, useNamespace } from '../src'
 import type { VueWrapper } from '@vue/test-utils'
 
 const TestComp = defineComponent({

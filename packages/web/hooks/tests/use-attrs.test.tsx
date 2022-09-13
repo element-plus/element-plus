@@ -1,7 +1,7 @@
 import { computed, defineComponent } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { useAttrs } from '../use-attrs'
+import { useAttrs } from '../src'
 
 import type { ComputedRef } from 'vue'
 

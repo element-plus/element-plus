@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import { hasClass } from '@element-plus/utils'
 
-import { useLockscreen } from '../use-lockscreen'
+import { useLockscreen } from '../src'
 
 const kls = 'el-popup-parent--hidden'
 
