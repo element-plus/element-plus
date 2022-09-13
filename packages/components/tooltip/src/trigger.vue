@@ -25,8 +25,6 @@ import { TOOLTIP_INJECTION_KEY } from './tokens'
 import { useTooltipTriggerProps } from './tooltip'
 import { whenTrigger } from './utils'
 
-import type { OnlyChildExpose } from '@element-plus/components/slot'
-
 defineOptions({
   name: 'ElTooltipTrigger',
 })
@@ -40,7 +38,6 @@ const { controlled, id, open, onOpen, onClose, onToggle } = inject(
 )!
 
 // TODO any is temporary, replace with `OnlyChildExpose | null` later
-
 const triggerRef = ref<any>(null)
 
 const stopWhenControlledOrDisabled = () => {
