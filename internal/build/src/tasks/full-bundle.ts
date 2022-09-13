@@ -71,7 +71,7 @@ async function buildFullEntry(minify: boolean) {
   }
 
   const bundle = await rollup({
-    input: path.resolve(epRoot, 'index.ts'),
+    input: path.resolve(epRoot, 'src/index.ts'),
     plugins,
     external: await generateExternal({ full: true }),
     treeshake: true,
