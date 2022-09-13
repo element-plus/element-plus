@@ -106,8 +106,8 @@
   &:first-child {
     .#{$namespace}-checkbox-button__inner {
       border-left: getCssVar('border');
-      border-radius: getCssVar('border-radius-base') 0 0
-        getCssVar('border-radius-base');
+      border-top-left-radius: getCssVar('border-radius-base');
+      border-bottom-left-radius: getCssVar('border-radius-base');
       box-shadow: none !important;
     }
   }
@@ -120,8 +120,8 @@
 
   &:last-child {
     .#{$namespace}-checkbox-button__inner {
-      border-radius: 0 getCssVar('border-radius-base')
-        getCssVar('border-radius-base') 0;
+      border-top-right-radius: getCssVar('border-radius-base');
+      border-bottom-right-radius: getCssVar('border-radius-base');
     }
   }
 
