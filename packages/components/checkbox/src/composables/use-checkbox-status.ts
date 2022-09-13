@@ -4,8 +4,8 @@ import { useSize } from '@element-plus/hooks'
 import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 
 import type { ComponentInternalInstance } from 'vue'
-import type { CheckboxProps } from '../../checkbox'
-import type { CheckboxModel } from './use-model'
+import type { CheckboxProps } from '../checkbox'
+import type { CheckboxModel } from '../composables'
 
 export const useStatus = (
   props: CheckboxProps,

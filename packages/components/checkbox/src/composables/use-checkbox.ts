@@ -1,11 +1,8 @@
 import { useFormItem, useFormItemInputId } from '@element-plus/hooks'
-import { useDisabled } from './use-disabled'
-import { useEvent } from './use-event'
-import { useModel } from './use-model'
-import { useStatus } from './use-status'
+import { useDisabled, useEvent, useModel, useStatus } from '../composables'
 
 import type { ComponentInternalInstance } from 'vue'
-import type { CheckboxProps } from '../../checkbox'
+import type { CheckboxProps } from '../checkbox'
 
 const setStoreValue = (
   props: CheckboxProps,

@@ -3,7 +3,7 @@ import { isUndefined } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 
-import type { CheckboxProps } from '../../checkbox'
+import type { CheckboxProps } from '../checkbox'
 
 export const useModel = (props: CheckboxProps) => {
   const selfModel = ref<any>(false)

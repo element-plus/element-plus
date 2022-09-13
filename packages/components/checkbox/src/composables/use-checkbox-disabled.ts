@@ -3,8 +3,7 @@ import { useDisabled as useCheckboxDisabled } from '@element-plus/hooks'
 import { isUndefined } from '@element-plus/utils'
 import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 
-import type { CheckboxModel } from './use-model'
-import type { CheckboxStatus } from './use-status'
+import type { CheckboxModel, CheckboxStatus } from '../composables'
 
 export const useDisabled = ({
   model,

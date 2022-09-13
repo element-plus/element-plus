@@ -4,10 +4,12 @@ import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 import { debugWarn } from '@element-plus/utils'
 
 import type { useFormItemInputId } from '@element-plus/hooks'
-import type { CheckboxProps } from '../../checkbox'
-import type { CheckboxDisabled } from './use-disabled'
-import type { CheckboxModel } from './use-model'
-import type { CheckboxStatus } from './use-status'
+import type { CheckboxProps } from '../checkbox'
+import type {
+  CheckboxDisabled,
+  CheckboxModel,
+  CheckboxStatus,
+} from '../composables'
 
 export const useEvent = (
   props: CheckboxProps,
