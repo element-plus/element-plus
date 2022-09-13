@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { triggerEvent } from '@element-plus/test-utils'
-import { usePreventGlobal } from '../use-prevent-global'
+import { usePreventGlobal } from '../src'
 
 describe('usePreventGlobal', () => {
   const evtName = 'keydown'

@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { describe, expect, it } from 'vitest'
-import { useFocus } from '../use-focus'
+import { useFocus } from '../src'
 
 describe('useFocus', () => {
   it('should focus el', async () => {

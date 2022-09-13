@@ -2,18 +2,14 @@ import { nextTick } from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import * as vueuse from '@vueuse/core'
-import {
-  POPPER_CONTAINER_SELECTOR,
-  usePopperContainer,
-} from '../use-popper-container'
+import { POPPER_CONTAINER_SELECTOR, usePopperContainer } from '../src'
 
 const AXIOM = 'rem is the best girl'
 
-vi.mock('@vueuse/core', () => {
-  return {
-    isClient: true,
-  }
-})
+vi.mock('@vueuse/core', async () => ({
+  ...(await vi.importActual<typeof import('@vueuse/core')>('@vueuse/core')),
+  isClient: true,
+}))
 
 const mountComponent = () =>
   shallowMount({

@@ -1,15 +1,48 @@
 {
   "name": "@element-plus/hooks",
-  "version": "0.0.5",
-  "description": "Element Plus composables",
+  "version": "3.0.0-alpha.0",
+  "description": "Vue hooks for Element Plus.",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue",
+    "hooks"
+  ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
   "license": "MIT",
-  "main": "index.ts",
-  "module": "index.ts",
-  "unpkg": "index.js",
-  "jsdelivr": "index.js",
-  "types": "index.d.ts",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "ep-cli build",
+    "clean": "rimraf ./dist"
+  },
   "peerDependencies": {
     "vue": "^3.2.0"
   },
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  "dependencies": {
+    "@element-plus/constants": "workspace:*",
+    "@element-plus/locale": "workspace:*",
+    "@element-plus/utils": "workspace:*",
+    "@floating-ui/dom": "^1.0.1",
+    "@vueuse/core": "^9.1.1",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "lodash-unified": "^1.0.2",
+    "vue-router": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "vue": "^3.2.31"
+  }
 }
