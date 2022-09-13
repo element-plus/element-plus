@@ -39,7 +39,9 @@ const { controlled, id, open, onOpen, onClose, onToggle } = inject(
   undefined
 )!
 
-const triggerRef = ref<OnlyChildExpose | null>(null)
+// TODO any is temporary, replace with `OnlyChildExpose | null` later
+
+const triggerRef = ref<any>(null)
 
 const stopWhenControlledOrDisabled = () => {
   if (unref(controlled) || props.disabled) {

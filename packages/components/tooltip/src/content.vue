@@ -60,8 +60,8 @@ defineOptions({
 })
 
 const props = defineProps(useTooltipContentProps)
-
-const contentRef = ref<InstanceType<typeof ElPopperContent> | null>(null)
+// TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
+const contentRef = ref<any>(null)
 const intermediateOpen = ref(false)
 const entering = ref(false)
 const leaving = ref(false)

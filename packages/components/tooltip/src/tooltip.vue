@@ -77,8 +77,10 @@ const compatShowArrow = computed(() => {
 })
 
 const id = useId()
-const popperRef = ref<InstanceType<typeof ElPopper> | null>(null)
-const contentRef = ref<InstanceType<typeof ElTooltipContent> | null>(null)
+// TODO any is temporary, replace with `InstanceType<typeof ElPopper> | null` later
+const popperRef = ref<any>(null)
+// TODO any is temporary, replace with `InstanceType<typeof ElTooltipContent> | null` later
+const contentRef = ref<any>(null)
 
 const updatePopper = () => {
   const popperComponent = unref(popperRef)
