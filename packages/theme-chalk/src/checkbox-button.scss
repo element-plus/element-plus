@@ -129,7 +129,6 @@
     .#{$namespace}-checkbox-button__inner {
       border-radius: getCssVar('border-radius-base');
     }
-    
   }
 
   @each $size in (large, small) {
