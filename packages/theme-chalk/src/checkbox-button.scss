@@ -125,6 +125,13 @@
     }
   }
 
+  &:only-child {
+    .#{$namespace}-checkbox-button__inner {
+      border-radius: getCssVar('border-radius-base');
+    }
+    
+  }
+
   @each $size in (large, small) {
     @include m($size) {
       .#{$namespace}-checkbox-button__inner {
