@@ -34,7 +34,7 @@ module.exports = defineConfig({
       },
     },
     {
-      files: ['**/__tests__/**'],
+      files: ['**/tests/**', '**/__tests__/**' /* V3 todo */],
       rules: {
         'no-console': 'off',
         'vue/one-component-per-file': 'off',
