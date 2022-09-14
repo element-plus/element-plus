@@ -33,14 +33,14 @@
     "./*": "./*"
   },
   "bin": {
-    "ep-cli": "./bin/ep-cli.sh"
+    "ep-cli": "./bin/ep-cli.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/element-plus/element-plus.git"
   },
   "scripts": {
-    "build": "./bin/ep-cli.sh build",
+    "build": "node ./bin/ep-cli.js build",
     "clean": "rimraf ./dist"
   },
   "dependencies": {
