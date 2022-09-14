@@ -7,17 +7,13 @@ import type { Project } from '@pnpm/find-workspace-packages'
 let workspaceRoot: string
 export const getWorkspaceRoot = async () => {
   if (workspaceRoot) return workspaceRoot
-  return (workspaceRoot = (await (findWorkspaceDir as any).default(
-    process.cwd()
-  ))!)
+  return (workspaceRoot = (await findWorkspaceDir(process.cwd()))!)
 }
 
 let pkgs: Record<string, Project>
 export const getWorkspacePackages = async () => {
   if (pkgs) return pkgs
-  const _pkgs: Project[] = await (findWorkspacePackages as any).default(
-    await getWorkspaceRoot()
-  )
+  const _pkgs: Project[] = await findWorkspacePackages(await getWorkspaceRoot())
   return (pkgs = Object.fromEntries(
     _pkgs
       .filter((pkg) => !!pkg?.manifest?.name)
@@ -27,13 +23,13 @@ export const getWorkspacePackages = async () => {
 
 export const getDependencies = (
   pkg: Project,
-  { includeDev = false }: { includeDev?: boolean } = {}
+  { dev = false }: { dev?: boolean } = {}
 ) =>
   Array.from(
     new Set([
       ...Object.keys(pkg.manifest.peerDependencies || {}),
       ...Object.keys(pkg.manifest.dependencies || {}),
-      ...Object.keys((includeDev ? pkg.manifest.devDependencies : {}) || {}),
+      ...Object.keys((dev ? pkg.manifest.devDependencies : {}) || {}),
     ])
   )
 
