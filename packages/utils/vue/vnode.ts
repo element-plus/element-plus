@@ -139,10 +139,10 @@ export const ensureOnlyChild = (children: VNodeArrayChildren | undefined) => {
 }
 
 export const flattedChildren = (children: VNodeNormalizedChildren) => {
-  const vNodes = Array.isArray(children) ? children : [children]
+  const vNodes = isArray(children) ? children : [children]
   const result: any[] = []
   vNodes.forEach((child: any) => {
-    if (Array.isArray(child.children)) {
+    if (isArray(child.children)) {
       result.push(...flattedChildren(child.children))
     } else {
       result.push(child)
