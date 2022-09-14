@@ -19,12 +19,10 @@ export const useCheckboxEvent = (
     hasOwnLabel,
     isDisabled,
     isLabeledByFormItem,
-  }: Partial<
-    CheckboxModel &
-      CheckboxStatus &
-      CheckboxDisabled &
-      ReturnType<typeof useFormItemInputId>
-  >
+  }: Pick<CheckboxModel, 'model' | 'isLimitExceeded'> &
+    Pick<CheckboxStatus, 'hasOwnLabel'> &
+    Pick<CheckboxDisabled, 'isDisabled'> &
+    Pick<ReturnType<typeof useFormItemInputId>, 'isLabeledByFormItem'>
 ) => {
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
   const { formItem } = useFormItem()
@@ -44,25 +42,21 @@ export const useCheckboxEvent = (
   }
 
   function handleChange(e: Event) {
-    if (isLimitExceeded!.value) return
+    if (isLimitExceeded.value) return
 
     const target = e.target as HTMLInputElement
     emit('change', getLabeledValue(target.checked), e)
   }
 
   async function onClickRoot(e: MouseEvent) {
-    if (isLimitExceeded!.value) return
+    if (isLimitExceeded.value) return
 
-    if (
-      !hasOwnLabel!.value &&
-      !isDisabled!.value &&
-      isLabeledByFormItem!.value
-    ) {
-      model!.value = getLabeledValue(
-        [false, props.falseLabel].includes(model!.value)
+    if (!hasOwnLabel.value && !isDisabled.value && isLabeledByFormItem.value) {
+      model.value = getLabeledValue(
+        [false, props.falseLabel].includes(model.value)
       )
       await nextTick()
-      emitChangeEvent(model!.value, e)
+      emitChangeEvent(model.value, e)
     }
   }
 
