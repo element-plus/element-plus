@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, nextTick, provide, watch } from 'vue'
+import { computed, nextTick, provide, toRefs, watch } from 'vue'
 import { reactiveOmit } from '@vueuse/core'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
@@ -56,7 +56,7 @@ const modelValue = computed({
 })
 
 provide(checkboxGroupContextKey, {
-  props: reactiveOmit(props, ['modelValue', 'label', 'tag']),
+  ...toRefs(reactiveOmit(props, ['modelValue', 'label', 'tag'])),
   modelValue,
   changeEvent,
 })

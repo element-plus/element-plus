@@ -28,12 +28,12 @@ export const useCheckboxStatus = (
   })
 
   const checkboxButtonSize = useSize(
-    computed(() => checkboxGroup?.props?.size),
+    computed(() => checkboxGroup?.size?.value),
     {
       prop: true,
     }
   )
-  const checkboxSize = useSize(computed(() => checkboxGroup?.props?.size))
+  const checkboxSize = useSize(computed(() => checkboxGroup?.size?.value))
 
   const hasOwnLabel = computed<boolean>(() => {
     return !!(slots.default || props.label)

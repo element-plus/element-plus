@@ -21,8 +21,8 @@ export const useCheckboxModel = (props: CheckboxProps) => {
     set(val: unknown) {
       if (isGroup.value && isArray(val)) {
         isLimitExceeded.value =
-          checkboxGroup?.props?.max !== undefined &&
-          val.length > checkboxGroup?.props?.max
+          checkboxGroup?.max !== undefined &&
+          val.length > checkboxGroup?.max.value!
         isLimitExceeded.value === false && checkboxGroup?.changeEvent?.(val)
       } else {
         emit(UPDATE_MODEL_EVENT, val)

@@ -74,11 +74,11 @@ const checkboxGroup = inject(checkboxGroupContextKey)
 const ns = useNamespace('checkbox')
 
 const activeStyle = computed<CSSProperties>(() => {
-  const fillValue = checkboxGroup?.props?.fill ?? ''
+  const fillValue = checkboxGroup?.fill?.value ?? ''
   return {
     backgroundColor: fillValue,
     borderColor: fillValue,
-    color: checkboxGroup?.props?.textColor ?? '',
+    color: checkboxGroup?.textColor?.value ?? '',
     boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : undefined,
   }
 })

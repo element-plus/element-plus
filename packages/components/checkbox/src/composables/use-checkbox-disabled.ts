@@ -12,8 +12,8 @@ export const useCheckboxDisabled = ({
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
 
   const isLimitDisabled = computed(() => {
-    const max = checkboxGroup?.props?.max
-    const min = checkboxGroup?.props?.min
+    const max = checkboxGroup?.max?.value
+    const min = checkboxGroup?.min?.value
     return (
       (!isUndefined(max) && model!.value.length >= max && !isChecked!.value) ||
       (!isUndefined(min) && model!.value.length <= min && isChecked!.value)
@@ -21,7 +21,7 @@ export const useCheckboxDisabled = ({
   })
 
   const isDisabled = useDisabled(
-    computed(() => checkboxGroup?.props?.disabled || isLimitDisabled.value)
+    computed(() => checkboxGroup?.disabled.value || isLimitDisabled.value)
   )
 
   return {
