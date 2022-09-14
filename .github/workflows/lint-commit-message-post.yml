@@ -1,8 +1,8 @@
-name: 📮 Post lint commit message
+name: 📮 Lint Commit Message Post
 
 on:
   workflow_run:
-    workflows: ['Lint commit message']
+    workflows: ['Lint Commit Message']
     types: [completed]
 
 jobs:
