@@ -35,7 +35,7 @@
     "generate": "run-p \"generate:*\"",
     "generate:contributor": "tsx src/contributor.ts",
     "generate:components": "tsx src/components.ts",
-    "dev": "DEV=1 pnpm run build"
+    "dev": "DEV=1 pnpm run generate"
   },
   "devDependencies": {
     "@element-plus/build": "^0.0.1",

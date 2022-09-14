@@ -29,6 +29,11 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile && pnpm run stub
 
+      - name: Build Element Plus (New)
+        run: pnpm build:node
+        env:
+          EP_BUILD: dev
+
       - name: Local build
         run: pnpm build
         env:

@@ -39,6 +39,11 @@ jobs:
       - name: Generate common locale
         run: pnpm docs:gen-locale
 
+      - name: Build Element Plus (New)
+        run: pnpm build:node
+        env:
+          EP_BUILD: dev
+
       - name: Build Element Plus
         run: pnpm build
         env:

@@ -14,7 +14,7 @@
     "clean": "pnpm run clean:dist && pnpm run -r --parallel clean",
     "clean:dist": "rimraf dist",
     "build": "pnpm run -C internal/build start",
-    "build:node": "EP_BUILD=dev pnpm run --filter \"./packages/node/*\" --stream build",
+    "build:node": "pnpm run --filter \"./packages/node/*\" --stream build",
     "build:theme": "pnpm run -C packages/web/theme-chalk build",
     "format": "prettier --write --cache .",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 --cache",
