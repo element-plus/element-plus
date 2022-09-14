@@ -1,4 +1,5 @@
 import { useFormItem, useFormItemInputId } from '@element-plus/hooks'
+import { isArray } from '@element-plus/utils'
 import {
   useCheckboxDisabled,
   useCheckboxEvent,
@@ -15,7 +16,7 @@ const setStoreValue = (
   { model }: Partial<CheckboxModel>
 ) => {
   function addToStore() {
-    if (Array.isArray(model!.value) && !model!.value.includes(props.label)) {
+    if (isArray(model!.value) && !model!.value.includes(props.label)) {
       model!.value.push(props.label)
     } else {
       model!.value = props.trueLabel || true
