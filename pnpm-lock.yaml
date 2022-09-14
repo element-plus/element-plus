@@ -165,10 +165,10 @@ importers:
       '@docsearch/js': ^3.1.0
       '@docsearch/react': ^3.1.0
       '@element-plus/build': workspace:*
-      '@element-plus/build-constants': workspace:*
       '@element-plus/build-utils': workspace:*
       '@element-plus/icons-vue': ^2.0.9
       '@element-plus/metadata': workspace:*
+      '@element-plus/node-constants': workspace:*
       '@iconify-json/ri': ^1.1.3
       '@types/markdown-it': ^12.2.3
       '@vitejs/plugin-vue-jsx': ^1.3.10
@@ -216,8 +216,8 @@ importers:
       '@crowdin/cli': 3.7.8
       '@docsearch/react': 3.1.0
       '@element-plus/build': link:../packages/node/build
-      '@element-plus/build-constants': link:../internal/build-constants
       '@element-plus/build-utils': link:../internal/build-utils
+      '@element-plus/node-constants': link:../packages/node/node-constants
       '@iconify-json/ri': 1.1.3
       '@types/markdown-it': 12.2.3
       '@vitejs/plugin-vue-jsx': 1.3.10
@@ -240,7 +240,7 @@ importers:
 
   internal/build:
     specifiers:
-      '@element-plus/build-constants': ^0.0.1
+      '@element-plus/node-constants': workspace:*
       '@esbuild-kit/cjs-loader': ^2.2.1
       '@pnpm/find-workspace-packages': ^4.0.16
       '@pnpm/logger': ^4.0.0
@@ -264,7 +264,7 @@ importers:
       unplugin-vue-macros: ^0.11.2
       vue: ^3.2.37
     dependencies:
-      '@element-plus/build-constants': link:../build-constants
+      '@element-plus/node-constants': link:../../packages/node/node-constants
       '@pnpm/find-workspace-packages': 4.0.16_@pnpm+logger@4.0.0
       '@pnpm/logger': 4.0.0
       '@rollup/plugin-commonjs': 22.0.1_rollup@2.75.7
@@ -288,12 +288,6 @@ importers:
       '@pnpm/types': 8.4.0
       unbuild: 0.7.4
       vue: 3.2.37
-
-  internal/build-constants:
-    specifiers:
-      unbuild: ^0.7.4
-    devDependencies:
-      unbuild: 0.7.4
 
   internal/build-utils:
     specifiers:
@@ -388,8 +382,8 @@ importers:
   packages/node/metadata:
     specifiers:
       '@element-plus/build': ^0.0.1
-      '@element-plus/build-constants': ^0.0.1
       '@element-plus/build-utils': ^0.0.1
+      '@element-plus/node-constants': workspace:*
       '@types/lodash-es': ^4.17.6
       chalk: ^5.0.1
       consola: ^2.15.3
@@ -400,8 +394,8 @@ importers:
       tsx: ^3.6.0
     devDependencies:
       '@element-plus/build': link:../../../internal/build
-      '@element-plus/build-constants': link:../../../internal/build-constants
       '@element-plus/build-utils': link:../../../internal/build-utils
+      '@element-plus/node-constants': link:../node-constants
       '@types/lodash-es': 4.17.6
       chalk: 5.0.1
       consola: 2.15.3

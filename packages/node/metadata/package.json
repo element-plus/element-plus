@@ -39,8 +39,8 @@
   },
   "devDependencies": {
     "@element-plus/build": "^0.0.1",
-    "@element-plus/build-constants": "^0.0.1",
     "@element-plus/build-utils": "^0.0.1",
+    "@element-plus/node-constants": "workspace:*",
     "@types/lodash-es": "^4.17.6",
     "chalk": "^5.0.1",
     "consola": "^2.15.3",

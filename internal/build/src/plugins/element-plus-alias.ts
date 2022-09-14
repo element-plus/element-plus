@@ -1,4 +1,4 @@
-import { PKG_NAME, PKG_PREFIX } from '@element-plus/build-constants'
+import { PKG_NAME, PKG_PREFIX } from '@element-plus/node-constants'
 
 import type { Plugin } from 'rollup'
 

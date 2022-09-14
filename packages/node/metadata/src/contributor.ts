@@ -15,7 +15,7 @@ import {
   REPO_BRANCH,
   REPO_NAME,
   REPO_OWNER,
-} from '@element-plus/build-constants'
+} from '@element-plus/node-constants'
 
 interface FetchOption {
   key: string

@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import glob from 'fast-glob'
 import { docRoot, docsDirName, projRoot } from '@element-plus/build-utils'
-import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
+import { REPO_BRANCH, REPO_PATH } from '@element-plus/node-constants'
 import { getLang, languages } from '../utils/lang'
 import footerLocale from '../i18n/component/footer.json'
 

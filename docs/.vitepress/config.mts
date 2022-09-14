@@ -1,5 +1,5 @@
 import consola from 'consola'
-import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
+import { REPO_BRANCH, REPO_PATH } from '@element-plus/node-constants'
 import { docsDirName } from '@element-plus/build-utils'
 import { languages } from './utils/lang'
 import { features, head, mdPlugin, nav, sidebars } from './config'

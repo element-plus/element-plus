@@ -14,7 +14,7 @@ import {
   PKG_BRAND_NAME,
   PKG_CAMELCASE_LOCAL_NAME,
   PKG_CAMELCASE_NAME,
-} from '@element-plus/build-constants'
+} from '@element-plus/node-constants'
 import { epOutput, epRoot, localeRoot } from '@element-plus/build-utils'
 import { version } from '../../../../packages/web/element-plus/package.json'
 import { ElementPlusAlias } from '../plugins/element-plus-alias'
