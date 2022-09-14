@@ -6,7 +6,7 @@ import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
 import type { CheckboxProps } from '../checkbox'
 
 export const useCheckboxModel = (props: CheckboxProps) => {
-  const selfModel = ref<any>(false)
+  const selfModel = ref<unknown>(false)
   const { emit } = getCurrentInstance()!
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
   const isGroup = computed(() => isUndefined(checkboxGroup) === false)
