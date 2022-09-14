@@ -31,7 +31,7 @@ const buildTransformers = () => {
   return transformers
 }
 
-consola.debug(`DOC_ENV: ${process.env.DOC_ENV}`)
+console.debug(`DOC_ENV: ${process.env.DOC_ENV}`)
 
 const locales = {}
 languages.forEach((lang) => {
