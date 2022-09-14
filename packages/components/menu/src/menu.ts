@@ -17,6 +17,7 @@ import { More } from '@element-plus/icons-vue'
 import {
   buildProps,
   definePropType,
+  flattedChildren,
   isObject,
   isString,
   mutable,
@@ -29,7 +30,7 @@ import { useMenuCssVar } from './use-menu-css-var'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
-import type { ExtractPropTypes, VNode, VNodeNormalizedChildren } from 'vue'
+import type { ExtractPropTypes, VNode } from 'vue'
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
@@ -354,19 +355,6 @@ export default defineComponent({
         close: closeMenu,
         handleResize,
       })
-    }
-
-    const flattedChildren = (children: VNodeNormalizedChildren) => {
-      const vnodes = Array.isArray(children) ? children : [children]
-      const result: any[] = []
-      vnodes.forEach((child: any) => {
-        if (Array.isArray(child.children)) {
-          result.push(...flattedChildren(child.children))
-        } else {
-          result.push(child)
-        }
-      })
-      return result
     }
 
     return () => {
