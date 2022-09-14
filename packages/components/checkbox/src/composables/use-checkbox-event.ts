@@ -67,7 +67,7 @@ export const useCheckboxEvent = (
   }
 
   const validateEvent = computed(
-    () => checkboxGroup?.validateEvent || props.validateEvent
+    () => checkboxGroup?.props?.validateEvent || props.validateEvent
   )
 
   watch(
