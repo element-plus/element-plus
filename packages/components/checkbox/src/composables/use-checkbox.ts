@@ -16,7 +16,7 @@ const setStoreValue = (
   { model }: Pick<CheckboxModel, 'model'>
 ) => {
   function addToStore() {
-    if (isArray(model!.value) && !model.value.includes(props.label)) {
+    if (isArray(model.value) && !model.value.includes(props.label)) {
       model.value.push(props.label)
     } else {
       model.value = props.trueLabel || true
