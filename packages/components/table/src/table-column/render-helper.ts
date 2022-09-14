@@ -65,6 +65,9 @@ function useRender<T>(
     if (realMinWidth.value) {
       column.minWidth = realMinWidth.value
     }
+    if (!realWidth.value && realMinWidth.value) {
+      column.width = undefined
+    }
     if (!column.minWidth) {
       column.minWidth = 80
     }

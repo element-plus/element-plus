@@ -20,6 +20,7 @@ import {
 import {
   debugWarn,
   getComponentSize,
+  isFunction,
   isKorean,
   scrollIntoView,
 } from '@element-plus/utils'
@@ -226,10 +227,10 @@ export const useSelect = (props, states: States, ctx) => {
     (val) => {
       if (!val) {
         if (props.filterable) {
-          if (typeof props.filterMethod === 'function') {
+          if (isFunction(props.filterMethod)) {
             props.filterMethod()
           }
-          if (typeof props.remoteMethod === 'function') {
+          if (isFunction(props.remoteMethod)) {
             props.remoteMethod()
           }
         }
@@ -732,7 +733,7 @@ export const useSelect = (props, states: States, ctx) => {
     nextTick(() => scrollToOption(states.selected))
   }
 
-  const handleFocus = (event) => {
+  const handleFocus = (event: FocusEvent) => {
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
         if (props.filterable && !states.visible) {
@@ -751,7 +752,7 @@ export const useSelect = (props, states: States, ctx) => {
     reference.value?.blur()
   }
 
-  const handleBlur = (event: Event) => {
+  const handleBlur = (event: FocusEvent) => {
     // https://github.com/ElemeFE/element/pull/10822
     nextTick(() => {
       if (states.isSilentBlur) {
