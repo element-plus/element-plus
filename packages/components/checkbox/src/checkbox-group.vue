@@ -21,7 +21,7 @@ import {
   useFormItemInputId,
   useNamespace,
 } from '@element-plus/hooks'
-import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
+import { checkboxGroupContextKey } from '@element-plus/tokens'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
 
 import type { CheckboxValueType } from './checkbox'
