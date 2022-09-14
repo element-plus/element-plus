@@ -5,7 +5,8 @@ const getPackages = (packagePath) =>
   fg.sync('*', { cwd: packagePath, onlyDirectories: true })
 
 const scopes = [
-  ...getPackages('packages'),
+  ...getPackages('packages/node'),
+  ...getPackages('packages/web'),
   ...getPackages('internal'),
   'docs',
   'play',
