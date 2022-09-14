@@ -108,7 +108,7 @@ above and leave a message if you want to help translating Element Plus into your
 
 ### How to help translating
 
-See how to help translating in [Translating Element Plus](./HELP_TRANSLATING.md).
+See how to help translating in [Translating Element Plus](https://element-plus.org/en-US/guide/translation.html).
 
 ## Stay tuned :eyes:
 

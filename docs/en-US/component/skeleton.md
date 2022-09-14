@@ -89,7 +89,7 @@ skeleton/avoiding-rendering-bouncing
 
 ### Skeleton Attributes
 
-| Attribute  | Description                                                      | Type      | Default |
+| Name       | Description                                                      | Type      | Default |
 | ---------- | ---------------------------------------------------------------- | --------- | ------- |
 | `animated` | whether showing the animation                                    | `boolean` | `false` |
 | `count`    | how many fake items to render to the DOM                         | `number`  | `1`     |
@@ -108,6 +108,6 @@ skeleton/avoiding-rendering-bouncing
 
 ### Skeleton Item Attributes
 
-| Attribute | Description                         | Type                                                                                      | Default  |
+| Name      | Description                         | Type                                                                                      | Default  |
 | --------- | ----------------------------------- | ----------------------------------------------------------------------------------------- | -------- |
 | `variant` | The current rendering skeleton type | `'p' \| 'text' \| 'h1' \| 'h3' \| 'caption' \| 'button' \| 'image' \| 'circle' \| 'rect'` | `'text'` |
