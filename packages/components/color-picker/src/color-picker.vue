@@ -157,14 +157,13 @@ const popper = ref(null)
 // active-change is used to prevent modelValue changes from triggering.
 let shouldActiveChange = true
 // data
-const color = reactive<Color>(
+const color = reactive(
   new Color({
     enableAlpha: props.showAlpha,
     format: props.colorFormat || '',
     value: props.modelValue,
   })
-)
-type ColorType = typeof color
+) as Color
 const showPicker = ref(false)
 const showPanelColor = ref(false)
 const customInput = ref('')
@@ -222,7 +221,7 @@ watch(
 )
 
 // methods
-function displayedRgb(color: ColorType, showAlpha: boolean) {
+function displayedRgb(color: Color, showAlpha: boolean) {
   if (!(color instanceof Color)) {
     throw new TypeError('color should be instance of _color Class')
   }
