@@ -151,7 +151,7 @@ const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(props, {
 })
 
 const hue = ref<InstanceType<typeof HueSlider>>()
-const svPanel = ref<InstanceType<typeof SvPanel>>()
+const sv = ref<InstanceType<typeof SvPanel>>()
 const alpha = ref<InstanceType<typeof AlphaSlider>>()
 const popper = ref(null)
 // active-change is used to prevent modelValue changes from triggering.
@@ -307,7 +307,7 @@ watch(
   () => {
     nextTick(() => {
       hue.value?.update()
-      svPanel.value?.update()
+      sv.value?.update()
       alpha.value?.update()
     })
   }
@@ -336,7 +336,7 @@ defineExpose({
   t,
   ns,
   hue,
-  svPanel,
+  sv,
   alpha,
   popper,
 })
