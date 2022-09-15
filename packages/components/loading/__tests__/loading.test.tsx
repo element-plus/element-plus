@@ -1,12 +1,14 @@
-// @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { Loading } from '../src/service'
 import { vLoading } from '../src/directive'
 import ElInput from '../../input'
 
-function destroyLoadingInstance(loadingInstance) {
+import type { LoadingInstance } from '../src/loading'
+import type { VNode } from 'vue'
+
+function destroyLoadingInstance(loadingInstance: LoadingInstance) {
   if (!loadingInstance) return
   loadingInstance.close()
   loadingInstance.$el &&
@@ -14,8 +16,16 @@ function destroyLoadingInstance(loadingInstance) {
     loadingInstance.$el.parentNode.removeChild(loadingInstance.$el)
 }
 
+const _mount = (render?: () => VNode | null) => {
+  return mount(render, {
+    global: {
+      directives: { loading: vLoading },
+    },
+  })
+}
+
 describe('Loading', () => {
-  let loadingInstance, loadingInstance2
+  let loadingInstance: LoadingInstance, loadingInstance2: LoadingInstance
 
   afterEach(() => {
     destroyLoadingInstance(loadingInstance)
@@ -23,26 +33,16 @@ describe('Loading', () => {
   })
 
   test('create directive', async () => {
-    const wrapper = mount({
-      directives: {
-        loading: vLoading,
-      },
-      template: `<div v-loading="loading"></div>`,
-      data() {
-        return {
-          loading: true,
-        }
-      },
-    })
+    const loading = ref(true)
+    const wrapper = _mount(() => <div v-loading={loading.value} />)
 
     await nextTick()
-    const vm = wrapper.vm
 
     const maskWrapper = wrapper.find('.el-loading-mask')
     expect(maskWrapper.exists()).toBeTruthy()
 
     vi.useFakeTimers()
-    vm.loading = false
+    loading.value = false
     // Trigger update event for dispatching close event.
     await nextTick()
 
@@ -53,152 +53,90 @@ describe('Loading', () => {
   })
 
   test('unmounted directive', async () => {
-    const wrapper1 = mount({
-      directives: {
-        loading: vLoading,
-      },
-      template: `<div v-if="show" v-loading="loading"></div>`,
-      data() {
-        return {
-          show: true,
-          loading: true,
-        }
-      },
-    })
-
-    const wrapper2 = mount({
-      directives: {
-        loading: vLoading,
-      },
-      template: `<div v-if="show" v-loading="loading"></div>`,
-      data() {
-        return {
-          show: true,
-          loading: true,
-        }
-      },
-    })
+    const loading1 = ref(true)
+    const show1 = ref(true)
+    const loading2 = ref(true)
+    const show2 = ref(true)
+    _mount(() => (show1.value ? <div v-loading={loading1.value} /> : null))
+    _mount(() => (show2.value ? <div v-loading={loading2.value} /> : null))
 
     await nextTick()
-    const vm1 = wrapper1.vm
-    const vm2 = wrapper2.vm
-
-    vm1.loading = false
-    vm2.loading = false
+    loading1.value = false
+    loading2.value = false
 
     await nextTick()
-    vm1.show = false
-    vm2.show = false
+    show1.value = false
+    show2.value = false
 
     await nextTick()
     expect(document.querySelector('.el-loading-mask')).toBeFalsy()
   })
 
   test('body directive', async () => {
-    const wrapper = mount({
-      directives: {
-        loading: vLoading,
-      },
-      template: `<div v-loading.body="loading"></div>`,
-      data() {
-        return {
-          loading: true,
-        }
-      },
-    })
+    const loading = ref(true)
+    const wrapper = _mount(() => <div v-loading_body={loading.value} />)
+
     await nextTick()
-    const mask = document.querySelector('.el-loading-mask')
+    const mask = document.querySelector('.el-loading-mask')!
     expect(mask.parentNode === document.body).toBeTruthy()
     wrapper.vm.loading = false
     document.body.removeChild(mask)
   })
 
   test('fullscreen directive', async () => {
-    const wrapper = mount({
-      directives: {
-        loading: vLoading,
-      },
-      template: `<div v-loading.fullscreen="loading"></div>`,
-      data() {
-        return {
-          loading: true,
-        }
-      },
-    })
+    const loading = ref(true)
+    _mount(() => <div v-loading_fullscreen={loading.value} />)
+
     await nextTick()
-    const mask = document.querySelector('.el-loading-mask')
+    const mask = document.querySelector('.el-loading-mask')!
     expect(mask.parentNode === document.body).toBeTruthy()
     expect(mask.classList.contains('is-fullscreen')).toBeTruthy()
-    wrapper.vm.loading = false
+    loading.value = false
     document.body.removeChild(mask)
   })
 
   test('lock directive', async () => {
-    const wrapper = mount({
-      directives: {
-        loading: vLoading,
-      },
-      template: `<div v-loading.fullscreen.lock="loading"></div>`,
-      data() {
-        return {
-          loading: true,
-        }
-      },
-    })
-    const vm = wrapper.vm
+    const loading = ref(true)
+    _mount(() => <div v-loading_fullscreen_lock={loading.value} />)
+
     await nextTick()
     expect(
       document.body.classList.contains('el-loading-parent--hidden')
     ).toBeTruthy()
-    vm.loading = false
-    document.body.removeChild(document.querySelector('.el-loading-mask'))
+    loading.value = false
+    document.body.removeChild(document.querySelector('.el-loading-mask')!)
   })
 
   test('text directive', async () => {
-    const wrapper = mount({
-      directives: {
-        loading: vLoading,
-      },
-      template: `<div v-loading="loading" element-loading-text="loading..."></div>`,
-      data() {
-        return {
-          loading: true,
-        }
-      },
-    })
+    const loading = ref(true)
+    const wrapper = _mount(() => (
+      <div v-loading={loading.value} element-loading-text="loading..." />
+    ))
+
     await nextTick()
     expect(wrapper.find('.el-loading-text').text()).toEqual('loading...')
   })
 
   test('customClass directive', async () => {
-    const wrapper = mount({
-      directives: {
-        loading: vLoading,
-      },
-      template: `<div v-loading="loading" element-loading-custom-class="loading-custom-class"></div>`,
-      data() {
-        return {
-          loading: true,
-        }
-      },
-    })
+    const loading = ref(true)
+    const wrapper = _mount(() => (
+      <div
+        v-loading={loading.value}
+        element-loading-custom-class="loading-custom-class"
+      />
+    ))
+
     await nextTick()
     expect(wrapper.find('.loading-custom-class').exists()).toBeTruthy()
   })
 
   test('customSvg directive', async () => {
-    const wrapper = mount({
-      directives: {
-        loading: vLoading,
-      },
-      template: `<div v-loading="loading" :element-loading-svg="svg"></div>`,
-      data() {
-        return {
-          loading: true,
-          svg: `<path class="custom-path" d="M 30 15"/>`,
-        }
-      },
-    })
+    const loading = ref(true)
+    const svg = '<path class="custom-path" d="M 30 15"/>'
+    const wrapper = _mount(() => (
+      <div v-loading={loading.value} element-loading-svg={svg} />
+    ))
+
     await nextTick()
     expect(wrapper.find('.custom-path').attributes().d).toEqual('M 30 15')
   })
@@ -220,7 +158,7 @@ describe('Loading', () => {
     document.body.appendChild(container)
 
     loadingInstance = Loading({ target: '.loading-container' })
-    const mask = container.querySelector('.el-loading-mask')
+    const mask = container.querySelector('.el-loading-mask')!
     expect(mask).toBeTruthy()
     expect(mask.parentNode).toEqual(container)
 
@@ -245,14 +183,14 @@ describe('Loading', () => {
     document.body.appendChild(container)
 
     loadingInstance = Loading({ target: '.loading-container', body: true })
-    const mask = document.querySelector('.el-loading-mask')
+    const mask = document.querySelector('.el-loading-mask')!
     expect(mask).toBeTruthy()
     expect(mask.parentNode).toEqual(document.body)
   })
 
   test('fullscreen service', async () => {
     loadingInstance = Loading({ fullscreen: true })
-    const mask = document.querySelector('.el-loading-mask')
+    const mask = document.querySelector('.el-loading-mask')!
     expect(mask.parentNode).toEqual(document.body)
     expect(mask.classList.contains('is-fullscreen')).toBeTruthy()
   })
@@ -288,7 +226,7 @@ describe('Loading', () => {
 
   test('text service', async () => {
     loadingInstance = Loading({ text: 'Loading...' })
-    const text = document.querySelector('.el-loading-text')
+    const text = document.querySelector('.el-loading-text')!
     expect(text).toBeTruthy()
     expect(text.textContent).toEqual('Loading...')
   })
@@ -300,19 +238,16 @@ describe('Loading', () => {
   })
 
   test("parent's display is not block", async () => {
-    const wrapper = mount({
-      directives: {
-        loading: vLoading,
-      },
-      components: {
-        ElInput,
-      },
-      template: `<el-input v-loading="true">
-      <template #append>
-        Loading Text
-      </template>
-      </el-input>`,
-    })
+    const loading = ref(true)
+    const wrapper = _mount(() => (
+      <ElInput
+        v-loading={loading.value}
+        v-slots={{
+          append: () => 'Loading Text',
+        }}
+      ></ElInput>
+    ))
+
     await nextTick()
     await nextTick()
     const maskDisplay = getComputedStyle(
