@@ -10,12 +10,12 @@ import type { CheckboxModel } from '../composables'
 export const useCheckboxStatus = (
   props: CheckboxProps,
   slots: ComponentInternalInstance['slots'],
-  { model }: Partial<CheckboxModel>
+  { model }: Pick<CheckboxModel, 'model'>
 ) => {
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
   const isFocused = ref(false)
   const isChecked = computed<boolean>(() => {
-    const value = model!.value
+    const value = model.value
     if (isBoolean(value)) {
       return value
     } else if (isArray(value)) {
