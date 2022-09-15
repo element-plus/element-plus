@@ -1,4 +1,6 @@
-# Why this chapter exists
+# Commit Examples
+
+## Why this chapter exists
 
 Please refer to [Conventional Commits](https://www.conventionalcommits.org/) for more information.
 
@@ -7,7 +9,7 @@ A good commit message enables us:
 1. To understand what the contributor is trying to do
 2. Automatically generates change log
 
-## Rule for writing commit message
+### Rule for writing commit message
 
 ```md
 # (If applied, this commit will...) <subject> (Max 72 characters)
@@ -55,7 +57,7 @@ A good commit message enables us:
 # --------------------
 ```
 
-## Template for commit messages
+### Template for commit messages
 
 Below is a template commit message for your reference.
 
@@ -72,12 +74,12 @@ Please do not exceeds 72 characters per line, because that would be harder to co
 
 For the subject header, the format is:
 
-```md
+```
 [type](scope): [messages]
 ```
 
 You can checkout the allowed values for **type** and **scope** in [commitlint.config.js](https://github.com/element-plus/element-plus/blob/c2ee36a7fc72b17742d43ecdff4e2912c416141d/commitlint.config.js#L57),
 
-## Useful links
+### Useful links
 
 [Keeping git commit history clean](https://about.gitlab.com/blog/2018/06/07/keeping-git-commit-history-clean/)

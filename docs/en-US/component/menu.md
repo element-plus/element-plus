@@ -47,7 +47,7 @@ menu/collapse
 
 ## Menu Attributes
 
-| Attribute           | Description                                                                                                                                                           | Type    | Accepted Values       | Default  |
+| Name                | Description                                                                                                                                                           | Type    | Accepted Values       | Default  |
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | --------------------- | -------- |
 | mode                | menu display mode                                                                                                                                                     | string  | horizontal / vertical | vertical |
 | collapse            | whether the menu is collapsed (available only in vertical mode)                                                                                                       | boolean | —                     | false    |
@@ -71,11 +71,11 @@ menu/collapse
 
 ## Menu Events
 
-| Event Name | Description                               | Parameters                                                                                                                                                                 |
-| ---------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| select     | callback function when menu is activated  | index: index of activated menu, indexPath: index path of activated menu, item: the selected menu item, routeResult: result returned by `vue-router` if `router` is enabled |
-| open       | callback function when sub-menu expands   | index: index of expanded sub-menu, indexPath: index path of expanded sub-menu                                                                                              |
-| close      | callback function when sub-menu collapses | index: index of collapsed sub-menu, indexPath: index path of collapsed sub-menu                                                                                            |
+| Name   | Description                               | Parameters                                                                                                                                                                 |
+| ------ | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| select | callback function when menu is activated  | index: index of activated menu, indexPath: index path of activated menu, item: the selected menu item, routeResult: result returned by `vue-router` if `router` is enabled |
+| open   | callback function when sub-menu expands   | index: index of expanded sub-menu, indexPath: index path of expanded sub-menu                                                                                              |
+| close  | callback function when sub-menu collapses | index: index of collapsed sub-menu, indexPath: index path of collapsed sub-menu                                                                                            |
 
 ## Menu Slots
 
@@ -85,7 +85,7 @@ menu/collapse
 
 ## SubMenu Attributes
 
-| Attribute                         | Description                                                                                                                                   | Type                  | Accepted Values | Default                                         |
+| Name                              | Description                                                                                                                                   | Type                  | Accepted Values | Default                                         |
 | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | --------------- | ----------------------------------------------- |
 | index                             | unique identification                                                                                                                         | string                | —               | —                                               |
 | popper-class                      | custom class name for the popup menu                                                                                                          | string                | —               | —                                               |
@@ -108,17 +108,17 @@ menu/collapse
 
 ## Menu-Item Attributes
 
-| Attribute | Description           | Type        | Accepted Values | Default |
-| --------- | --------------------- | ----------- | --------------- | ------- |
-| index     | unique identification | string/null | —               | null    |
-| route     | Vue Router object     | object      | —               | —       |
-| disabled  | whether disabled      | boolean     | —               | false   |
+| Name     | Description           | Type        | Accepted Values | Default |
+| -------- | --------------------- | ----------- | --------------- | ------- |
+| index    | unique identification | string/null | —               | null    |
+| route    | Vue Router object     | object      | —               | —       |
+| disabled | whether disabled      | boolean     | —               | false   |
 
 ## Menu-Item Events
 
-| Event Name | Description                                 | Parameters             |
-| ---------- | ------------------------------------------- | ---------------------- |
-| click      | callback function when menu-item is clicked | el: menu-item instance |
+| Name  | Description                                 | Parameters             |
+| ----- | ------------------------------------------- | ---------------------- |
+| click | callback function when menu-item is clicked | el: menu-item instance |
 
 ## Menu-Item Slots
 
@@ -129,9 +129,9 @@ menu/collapse
 
 ## Menu-Item-Group Attributes
 
-| Attribute | Description | Type   | Accepted Values | Default |
-| --------- | ----------- | ------ | --------------- | ------- |
-| title     | group title | string | —               | —       |
+| Name  | Description | Type   | Accepted Values | Default |
+| ----- | ----------- | ------ | --------------- | ------- |
+| title | group title | string | —               | —       |
 
 ## Menu-Item-Group Slots
 
