@@ -1,6 +1,7 @@
 import {
   computed,
   defineComponent,
+  getCurrentInstance,
   nextTick,
   provide,
   reactive,
@@ -11,6 +12,8 @@ import {
 import {
   buildProps,
   definePropType,
+  flattedChildren,
+  getFirstValidNode,
   isNumber,
   isString,
   isUndefined,
@@ -21,10 +24,10 @@ import { Plus } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-plus/tokens'
 import { useDeprecated, useNamespace } from '@element-plus/hooks'
 import TabNav from './tab-nav'
+
 import type { TabNavInstance } from './tab-nav'
 import type { TabsPaneContext } from '@element-plus/tokens'
-
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, VNode, VNodeNormalizedChildren } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 
 export type TabPanelName = string | number
@@ -83,10 +86,13 @@ export default defineComponent({
   emits: tabsEmits,
 
   setup(props, { emit, slots, expose }) {
+    const vm = getCurrentInstance()!
+
     const ns = useNamespace('tabs')
 
     const nav$ = ref<TabNavInstance>()
     const panes = reactive<Record<number, TabsPaneContext>>({})
+    const orderedPanes = ref<Array<TabsPaneContext>>([])
     const currentName = ref<TabPanelName>(
       props.modelValue ?? props.activeName ?? '0'
     )
@@ -166,9 +172,40 @@ export default defineComponent({
       nav$.value?.scrollToActiveTab()
     })
 
+    // panes-order control
     {
-      const registerPane = (pane: TabsPaneContext) => (panes[pane.uid] = pane)
-      const unregisterPane = (uid: number) => delete panes[uid]
+      const calcOrderedPanes = () => {
+        const tabContentChildren = getTabContentChildren()
+        orderedPanes.value = tabContentChildren.map(
+          (node) => panes[node.component.uid]
+        )
+      }
+
+      const getTabContentChildren = () => {
+        const node = vm.subTree
+        if (Array.isArray(node?.children)) {
+          const nodeTabContent = node.children.find((x) => {
+            return (x as VNode)?.props?.class === ns.e('content')
+          })
+          const validNodeTabContent = getFirstValidNode(
+            nodeTabContent as VNodeNormalizedChildren
+          )
+          const nodePanes = flattedChildren(
+            validNodeTabContent as VNodeNormalizedChildren
+          )
+          return nodePanes
+        }
+        return []
+      }
+
+      const registerPane = (pane: TabsPaneContext) => {
+        panes[pane.uid] = pane
+        calcOrderedPanes()
+      }
+      const unregisterPane = (uid: number) => {
+        delete panes[uid]
+        calcOrderedPanes()
+      }
 
       provide(tabsRootContextKey, {
         props,
@@ -207,7 +244,7 @@ export default defineComponent({
             currentName={currentName.value}
             editable={props.editable}
             type={props.type}
-            panes={Object.values(panes)}
+            panes={orderedPanes.value}
             stretch={props.stretch}
             onTabClick={handleTabClick}
             onTabRemove={handleTabRemove}
