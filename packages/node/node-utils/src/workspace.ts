@@ -4,16 +4,22 @@ import { PKG_PREFIX } from '@element-plus/node-constants'
 
 import type { Project } from '@pnpm/find-workspace-packages'
 
+const interopDefault = <T>(fn: T): T => (fn as any)?.default || fn
+
 let workspaceRoot: string
 export const getWorkspaceRoot = async () => {
   if (workspaceRoot) return workspaceRoot
-  return (workspaceRoot = (await findWorkspaceDir(process.cwd()))!)
+  return (workspaceRoot = (await interopDefault(findWorkspaceDir)(
+    process.cwd()
+  ))!)
 }
 
 let pkgs: Record<string, Project>
 export const getWorkspacePackages = async () => {
   if (pkgs) return pkgs
-  const _pkgs: Project[] = await findWorkspacePackages(await getWorkspaceRoot())
+  const _pkgs: Project[] = await interopDefault(findWorkspacePackages)(
+    await getWorkspaceRoot()
+  )
   return (pkgs = Object.fromEntries(
     _pkgs
       .filter((pkg) => !!pkg?.manifest?.name)

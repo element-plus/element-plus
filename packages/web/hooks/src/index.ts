@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="../../env.d.ts" />
+
 export * from './use-attrs'
 export * from './use-common-props'
 export * from './use-deprecated'

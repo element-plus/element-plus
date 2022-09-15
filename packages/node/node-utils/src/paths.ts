@@ -1,6 +1,10 @@
 import { resolve } from 'path'
+import { fileURLToPath } from 'url'
 
-export const projRoot = resolve(__dirname, '../../../..')
+const filename =
+  typeof __dirname !== 'undefined' ? __filename : fileURLToPath(import.meta.url)
+
+export const projRoot = resolve(filename, '../../../../..')
 export const pkgRoot = resolve(projRoot, 'packages/web')
 export const themeRoot = resolve(pkgRoot, 'theme-chalk')
 export const localeRoot = resolve(pkgRoot, 'locale')

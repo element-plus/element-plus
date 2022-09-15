@@ -16,15 +16,22 @@
     "url": "https://github.com/element-plus/element-plus/issues"
   },
   "license": "MIT",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./*": "./*"
+  },
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/element-plus/element-plus.git"
   },
-  "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "run-p build:*",
     "build:lib": "ep-cli build",
     "build:types": "pnpm vue-tsc -p tsconfig.build.json",
     "clean": "rimraf ./dist"

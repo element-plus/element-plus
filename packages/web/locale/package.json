@@ -15,8 +15,17 @@
     "url": "https://github.com/element-plus/element-plus/issues"
   },
   "license": "MIT",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
+    },
+    "./*": "./*"
+  },
+  "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
       "*": [
@@ -29,7 +38,6 @@
     "type": "git",
     "url": "git+https://github.com/element-plus/element-plus.git"
   },
-  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "ep-cli build",
     "clean": "rimraf ./dist"

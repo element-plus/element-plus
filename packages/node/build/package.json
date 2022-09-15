@@ -55,7 +55,6 @@
   "dependencies": {
     "@element-plus/node-constants": "workspace:*",
     "@element-plus/node-utils": "workspace:*",
-    "@element-plus/workspace": "workspace:*",
     "esbuild": "^0.15.5",
     "local-pkg": "^0.4.1",
     "tsup": "^6.2.2",

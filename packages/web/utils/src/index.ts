@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="../../env.d.ts" />
+
 // Internal code, don't use in your app!
 export * from './dom'
 export * from './vue'

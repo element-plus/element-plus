@@ -14,6 +14,7 @@
     "clean": "pnpm run clean:dist && pnpm run -r --parallel clean",
     "clean:dist": "rimraf dist",
     "build": "pnpm run -C internal/build start",
+    "build:web": "pnpm run --filter \"./packages/web/*\" --stream build",
     "build:node": "pnpm run --filter \"./packages/node/*\" --stream build",
     "build:theme": "pnpm run -C packages/web/theme-chalk build",
     "format": "prettier --write --cache .",
@@ -67,9 +68,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",
-    "@element-plus/build": "workspace:^0.0.1",
+    "@element-plus/build": "workspace:*",
     "@element-plus/build-published": "npm:@element-plus-next/build@3.0.0-alpha.3",
-    "@element-plus/build-utils": "workspace:^0.0.1",
     "@element-plus/eslint-config": "workspace:*",
     "@element-plus/tsconfig": "workspace:*",
     "@esbuild-kit/cjs-loader": "^2.2.1",

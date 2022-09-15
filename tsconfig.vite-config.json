@@ -1,9 +1,13 @@
 {
-  "extends": "./tsconfig.node.json",
+  "extends": "@element-plus/tsconfig/tsconfig.vite-config.json",
+  "include": [
+    "**/vite.config.*",
+    "**/vitest.config.*",
+    "**/vite.init.*",
+    "packages/node/*/src/**/*",
+    "packages/node/*/package.json"
+  ],
   "compilerOptions": {
-    "composite": true,
-    "types": ["node"]
-  },
-  "include": ["**/vite.config.*", "**/vitest.config.*", "**/vite.init.*"],
-  "exclude": ["docs"]
+    "composite": true
+  }
 }

@@ -1,7 +1,7 @@
 import path from 'path'
 import { loadConfig } from 'unconfig'
 import type { Format } from 'tsup'
-import type { Project } from '@element-plus/workspace'
+import type { Project } from '@element-plus/node-utils'
 import type { BuildOptions } from '../config'
 
 export type BuildOptionsResolved = Required<BuildOptions> & {

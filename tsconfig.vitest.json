@@ -2,8 +2,7 @@
   "extends": "@element-plus/tsconfig/tsconfig.vitest.json",
   "include": [
     "packages/web/**/*",
-    "packages/web/*/package.json",
-    "packages/**/__tests__/**/*",
+    "packages/web/**/*.json",
     "packages/**/tests/**/*",
     "packages/node/test-utils",
     "vitest.setup.ts"

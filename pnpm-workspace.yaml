@@ -1,6 +1,5 @@
 packages:
+  - docs
   - packages/web/*
   - packages/node/*
-  - docs
   - play
-  - internal/*
