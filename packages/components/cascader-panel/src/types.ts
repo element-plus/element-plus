@@ -1,9 +1,14 @@
 // @ts-nocheck
 import type { InjectionKey, VNode } from 'vue'
 import type { Nullable } from '@element-plus/utils'
-import type { default as CascaderNode } from './node'
+import type {
+  default as CascaderNode,
+  CascaderOption,
+  CascaderProps,
+  ExpandTrigger,
+} from './node'
 
-export type { CascaderNode }
+export type { CascaderNode, CascaderOption, CascaderProps, ExpandTrigger }
 
 export type CascaderNodeValue = string | number
 export type CascaderNodePathValue = CascaderNodeValue[]
@@ -20,34 +25,6 @@ export type RenderLabel = ({
   node: CascaderNode,
   data: CascaderOption,
 }) => VNode | VNode[]
-
-export enum ExpandTrigger {
-  CLICK = 'click',
-  HOVER = 'hover',
-}
-
-export interface CascaderOption extends Record<string, unknown> {
-  label?: string
-  value?: CascaderNodeValue
-  children?: CascaderOption[]
-  disabled?: boolean
-  leaf?: boolean
-}
-
-export interface CascaderProps {
-  expandTrigger?: ExpandTrigger
-  multiple?: boolean
-  checkStrictly?: boolean
-  emitPath?: boolean
-  lazy?: boolean
-  lazyLoad?: LazyLoad
-  value?: string
-  label?: string
-  children?: string
-  disabled?: string | isDisabled
-  leaf?: string | isLeaf
-  hoverThreshold?: number
-}
 
 export interface Tag {
   node?: CascaderNode

@@ -17,7 +17,7 @@ By design MessageBox provides simulations of system's `alert`, `confirm` and `pr
 
 Alert interrupts user operation until the user confirms.
 
-:::demo Open an alert by calling the `$alert` method. It simulates the system's `alert`, and cannot be closed by pressing ESC or clicking outside the box. In this example, two parameters `message` and `title` are received. It is worth mentioning that when the box is closed, it returns a `Promise` object for further processing. If you are not sure if your target browsers support `Promise`, you should import a third party polyfill or use callbacks instead like this example.
+:::demo Open an alert by calling the `ElMessageBox.alert` method. It simulates the system's `alert`, and cannot be closed by pressing ESC or clicking outside the box. In this example, two parameters `message` and `title` are received. It is worth mentioning that when the box is closed, it returns a `Promise` object for further processing. If you are not sure if your target browsers support `Promise`, you should import a third party polyfill or use callbacks instead like this example.
 
 message-box/alert
 
@@ -27,7 +27,7 @@ message-box/alert
 
 Confirm is used to ask users' confirmation.
 
-:::demo Call `$confirm` method to open a confirm, and it simulates the system's `confirm`. We can also highly customize Message Box by passing a third attribute `options` which is a literal object. The attribute `type` indicates the message type, and it's value can be `success`, `error`, `info` and `warning`. Note that the second attribute `title` must be a `string`, and if it is an `object`, it will be handled as the attribute `options`. Here we use `Promise` to handle further processing.
+:::demo Call `ElMessageBox.confirm` method to open a confirm, and it simulates the system's `confirm`. We can also highly customize Message Box by passing a third attribute `options` which is a literal object. The attribute `type` indicates the message type, and it's value can be `success`, `error`, `info` and `warning`. Note that the second attribute `title` must be a `string`, and if it is an `object`, it will be handled as the attribute `options`. Here we use `Promise` to handle further processing.
 
 message-box/confirm
 
@@ -37,9 +37,19 @@ message-box/confirm
 
 Prompt is used when user input is required.
 
-:::demo Call `$prompt` method to open a prompt, and it simulates the system's `prompt`. You can use `inputPattern` parameter to specify your own RegExp pattern. Use `inputValidator` to specify validation method, and it should return `Boolean` or `String`. Returning `false` or `String` means the validation has failed, and the string returned will be used as the `inputErrorMessage`. In addition, you can customize the placeholder of the input box with `inputPlaceholder` parameter.
+:::demo Call `ElMessageBox.prompt` method to open a prompt, and it simulates the system's `prompt`. You can use `inputPattern` parameter to specify your own RegExp pattern. Use `inputValidator` to specify validation method, and it should return `Boolean` or `String`. Returning `false` or `String` means the validation has failed, and the string returned will be used as the `inputErrorMessage`. In addition, you can customize the placeholder of the input box with `inputPlaceholder` parameter.
 
 message-box/prompt
+
+:::
+
+## Use VNode
+
+`message` can be VNode.
+
+:::demo
+
+message-box/use-vnode
 
 :::
 
@@ -47,15 +57,9 @@ message-box/prompt
 
 Can be customized to show various content.
 
-:::demo The three methods mentioned above are repackagings of the `$msgbox` method. This example calls `$msgbox` method directly using the `showCancelButton` attribute, which is used to indicate if a cancel button is displayed. Besides we can use `cancelButtonClass` to add a custom style and `cancelButtonText` to customize the button text (the confirm button also has these fields, and a complete list of fields can be found at the end of this documentation). This example also uses the `beforeClose` attribute. It is a method and will be triggered when the MessageBox instance will be closed, and its execution will stop the instance from closing. It has three parameters: `action`, `instance` and `done`. Using it enables you to manipulate the instance before it closes, e.g. activating `loading` for confirm button; you can invoke the `done` method to close the MessageBox instance (if `done` is not called inside `beforeClose`, the instance will not be closed).
+:::demo The three methods mentioned above are repackagings of the `ElMessageBox` method. This example calls `ElMessageBox` method directly using the `showCancelButton` attribute, which is used to indicate if a cancel button is displayed. Besides we can use `cancelButtonClass` to add a custom style and `cancelButtonText` to customize the button text (the confirm button also has these fields, and a complete list of fields can be found at the end of this documentation). This example also uses the `beforeClose` attribute. It is a method and will be triggered when the MessageBox instance will be closed, and its execution will stop the instance from closing. It has three parameters: `action`, `instance` and `done`. Using it enables you to manipulate the instance before it closes, e.g. activating `loading` for confirm button; you can invoke the `done` method to close the MessageBox instance (if `done` is not called inside `beforeClose`, the instance will not be closed).
 
 message-box/customization
-
-:::
-
-:::tip
-
-The content of MessageBox can be `VNode`, allowing us to pass custom components. When opening the MessageBox, Vue compares new `VNode` with old `VNode`, then figures out how to efficiently update the UI, so the components may not be completely re-rendered ([#8931](https://github.com/ElemeFE/element/issues/8931)). In this case, you can add a unique key to `VNode` each time MessageBox opens: [example](https://jsfiddle.net/zhiyang/ezmhq2ef).
 
 :::
 
@@ -156,10 +160,10 @@ The corresponding methods are: `ElMessageBox`, `ElMessageBox.alert`, `ElMessageB
 | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------------ |
 | autofocus                    | auto focus when open MessageBox                                                                                                          | boolean                                                                                                                                                                                                                         | —                                | true                                             |
 | title                        | title of the MessageBox                                                                                                                  | string                                                                                                                                                                                                                          | —                                | —                                                |
-| message                      | content of the MessageBox                                                                                                                | string                                                                                                                                                                                                                          | —                                | —                                                |
+| message                      | content of the MessageBox                                                                                                                | `string \| VNode \| (() => VNode)`                                                                                                                                                                                              | —                                | —                                                |
 | dangerouslyUseHTMLString     | whether `message` is treated as HTML string                                                                                              | boolean                                                                                                                                                                                                                         | —                                | false                                            |
 | type                         | message type, used for icon display                                                                                                      | string                                                                                                                                                                                                                          | success / info / warning / error | —                                                |
-| icon                         | custom icon component, overrides `type`                                                                                                  | `string \| Component \| (() => VNode)`                                                                                                                                                                                          | —                                | —                                                |
+| icon                         | custom icon component, overrides `type`                                                                                                  | `string \| Component`                                                                                                                                                                                                           | —                                | —                                                |
 | custom-class                 | custom class name for MessageBox                                                                                                         | string                                                                                                                                                                                                                          | —                                | —                                                |
 | custom-style                 | custom inline style for MessageBox                                                                                                       | CSSProperties                                                                                                                                                                                                                   | —                                | —                                                |
 | callback                     | MessageBox closing callback if you don't prefer Promise                                                                                  | function(action, instance), where `action` can be 'confirm', 'cancel' or 'close', and `instance` is the MessageBox instance. You can access to that instance's attributes and methods                                           | —                                | —                                                |

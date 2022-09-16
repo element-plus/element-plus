@@ -79,7 +79,7 @@ steps/simple
 
 ## Steps Attributes
 
-| Attribute      | Description                                                                   | Type            | Accepted Values                           | Default    |
+| Name           | Description                                                                   | Type            | Accepted Values                           | Default    |
 | -------------- | ----------------------------------------------------------------------------- | --------------- | ----------------------------------------- | ---------- |
 | space          | the spacing of each step, will be responsive if omitted. Supports percentage. | number / string | —                                         | —          |
 | direction      | display direction                                                             | string          | vertical/horizontal                       | horizontal |
@@ -97,12 +97,12 @@ steps/simple
 
 ## Step Attributes
 
-| Attribute   | Description                                                              | Type                                   | Accepted Values                           | Default |
-| ----------- | ------------------------------------------------------------------------ | -------------------------------------- | ----------------------------------------- | ------- |
-| title       | step title                                                               | string                                 | —                                         | —       |
-| description | step description                                                         | string                                 | —                                         | —       |
-| icon        | step custom icon. Icons can be passed via named slot as well             | `string \| Component \| (() => VNode)` | —                                         | —       |
-| status      | current status. It will be automatically set by Steps if not configured. | string                                 | wait / process / finish / error / success | —       |
+| Name        | Description                                                              | Type                  | Accepted Values                           | Default |
+| ----------- | ------------------------------------------------------------------------ | --------------------- | ----------------------------------------- | ------- |
+| title       | step title                                                               | string                | —                                         | —       |
+| description | step description                                                         | string                | —                                         | —       |
+| icon        | step custom icon. Icons can be passed via named slot as well             | `string \| Component` | —                                         | —       |
+| status      | current status. It will be automatically set by Steps if not configured. | string                | wait / process / finish / error / success | —       |
 
 ## Step Slots
 
