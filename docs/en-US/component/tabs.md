@@ -75,6 +75,14 @@ tabs/customized-trigger
 
 :::
 
+## Only navbar without panels and with `prefix` & `suffix` slots
+
+:::demo
+
+tabs/navbar
+
+:::
+
 ## Tabs Attributes
 
 | Name                  | Description                                                                                                                             | Type                                | Accepted Values       | Default           |
@@ -87,6 +95,7 @@ tabs/customized-trigger
 | tab-position          | position of tabs                                                                                                                        | string                              | top/right/bottom/left | top               |
 | stretch               | whether width of tab automatically fits its container                                                                                   | boolean                             | -                     | false             |
 | before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | Function(activeName, oldActiveName) | —                     | —                 |
+| navbar                | only show navbar without panels                                                                                                         | boolean                             | -                     | false             |
 
 ## Tabs Events
 
@@ -100,9 +109,11 @@ tabs/customized-trigger
 
 ## Tabs Slots
 
-| Name | Description               | Subtags  |
-| ---- | ------------------------- | -------- |
-| -    | customize default content | Tab-pane |
+| Name   | Description                        | Subtags  |
+| ------ | ---------------------------------- | -------- |
+| -      | customize default content          | Tab-pane |
+| prefix | only navbar, the prefix for navbar | -        |
+| suffix | only navbar, the suffix for navbar | -        |
 
 ## Tab-pane Attributes
 

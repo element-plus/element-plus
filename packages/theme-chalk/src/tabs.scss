@@ -281,13 +281,15 @@
     }
   }
   @include m((top, bottom)) {
-    .#{$namespace}-tabs__item.is-top:nth-child(2),
-    .#{$namespace}-tabs__item.is-bottom:nth-child(2) {
-      padding-left: 0;
-    }
-    .#{$namespace}-tabs__item.is-top:last-child,
-    .#{$namespace}-tabs__item.is-bottom:last-child {
-      padding-right: 0;
+    &:not(.#{bem(tabs, '', navbar)}) {
+      .#{$namespace}-tabs__item.is-top:nth-child(2),
+      .#{$namespace}-tabs__item.is-bottom:nth-child(2) {
+        padding-left: 0;
+      }
+      .#{$namespace}-tabs__item.is-top:last-child,
+      .#{$namespace}-tabs__item.is-bottom:last-child {
+        padding-right: 0;
+      }
     }
 
     &.#{$namespace}-tabs--border-card,
@@ -396,6 +398,7 @@
       float: left;
       margin-bottom: 0;
       margin-right: 10px;
+      border-bottom-color: transparent;
     }
     .#{$namespace}-tabs__nav-wrap.is-left {
       margin-right: -1px;
@@ -473,6 +476,7 @@
       float: right;
       margin-bottom: 0;
       margin-left: 10px;
+      border-bottom-color: transparent;
     }
 
     .#{$namespace}-tabs__nav-wrap.is-right {
@@ -532,6 +536,209 @@
           border-top-color: rgb(209, 219, 229);
           border-bottom-color: rgb(209, 219, 229);
         }
+      }
+    }
+  }
+
+  @include m(navbar) {
+    display: flex;
+
+    @include e((prefix, suffix)) {
+      flex: none;
+      display: flex;
+    }
+    @include e(nav-wrap) {
+      flex: auto;
+    }
+
+    &.#{bem(tabs)} {
+      @include m((card, border-card)) {
+        @include e(nav-wrap) {
+          margin-bottom: 0;
+
+          &::after {
+            height: 1px;
+          }
+
+          @include e(nav) {
+            border: 1px solid getCssVar('border-color-light');
+          }
+        }
+        @include e(item) {
+          &:not(:last-child) {
+            &::after {
+              content: '';
+              position: absolute;
+              z-index: -1;
+              background: getCssVar('border-color-light');
+              box-sizing: border-box;
+            }
+          }
+        }
+
+        &.#{bem(tabs,'',top)},
+        &.#{bem(tabs,'',bottom)} {
+          @include e(item) {
+            &:not(:last-child) {
+              &::after {
+                top: -1px;
+                right: 0;
+                bottom: -1px;
+                width: 1px;
+              }
+            }
+          }
+        }
+        &.#{bem(tabs,'',top)} {
+          @include e(nav) {
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+          }
+        }
+        &.#{bem(tabs,'',bottom)} {
+          @include e(nav-wrap) {
+            &::after {
+              top: 0;
+              bottom: auto;
+            }
+          }
+          @include e(nav) {
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+          }
+        }
+
+        &.#{bem(tabs,'',left)},
+        &.#{bem(tabs,'',right)} {
+          @include e(nav-wrap) {
+            margin: 0;
+
+            &::after {
+              width: 1px;
+            }
+
+            @include e(nav) {
+              @include e(item) {
+                margin: 0;
+                border: 0 none;
+              }
+            }
+          }
+
+          @include e(item) {
+            &:not(:last-child) {
+              &::after {
+                right: -1px;
+                bottom: 0;
+                left: -1px;
+                height: 1px;
+              }
+            }
+          }
+        }
+        &.#{bem(tabs,'',left)} {
+          @include e(nav) {
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+          }
+        }
+        &.#{bem(tabs,'',right)} {
+          @include e(nav) {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+          }
+        }
+      }
+      @include m(border-card) {
+        border: 0 none;
+
+        @include e(item) {
+          @include when(active) {
+            &::before {
+              content: '';
+              position: absolute;
+              z-index: -1;
+              background: getCssVar('bg-color');
+              box-sizing: border-box;
+            }
+          }
+        }
+
+        &.#{bem(tabs,'',top)},
+        &.#{bem(tabs,'',bottom)} {
+          @include e(item) {
+            @include when(active) {
+              &::before {
+                right: 1px;
+                left: 0;
+                height: 2px;
+              }
+            }
+          }
+        }
+        &.#{bem(tabs,'',top)} {
+          @include e(item) {
+            @include when(active) {
+              &::before {
+                bottom: -1px;
+              }
+            }
+          }
+        }
+        &.#{bem(tabs,'',bottom)} {
+          @include e(nav-wrap) {
+            @include when(bottom) {
+              margin-top: 0;
+            }
+
+            @include e(item) {
+              @include when(bottom) {
+                margin: 0;
+                border: 0 none;
+              }
+              @include when(active) {
+                &::before {
+                  top: -1px;
+                }
+              }
+            }
+          }
+        }
+
+        &.#{bem(tabs,'',right)},
+        &.#{bem(tabs,'',left)} {
+          @include e(item) {
+            @include when(active) {
+              &::before {
+                top: 0;
+                bottom: 0;
+                width: 1px;
+              }
+            }
+          }
+        }
+        &.#{bem(tabs,'',right)} {
+          @include e(item) {
+            @include when(active) {
+              &::before {
+                left: -1px;
+              }
+            }
+          }
+        }
+        &.#{bem(tabs,'',left)} {
+          @include e(item) {
+            @include when(active) {
+              &::before {
+                right: -1px;
+              }
+            }
+          }
+        }
+      }
+      @include m((left, right)) {
+        display: inline-flex;
+        flex-direction: column;
       }
     }
   }

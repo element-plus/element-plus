@@ -59,6 +59,7 @@ export const tabsProps = buildProps({
     default: () => true,
   },
   stretch: Boolean,
+  navbar: Boolean,
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
 
@@ -93,8 +94,6 @@ export default defineComponent({
 
     const changeCurrentName = (value: TabPanelName) => {
       currentName.value = value
-      emit(UPDATE_MODEL_EVENT, value)
-      emit('tabChange', value)
     }
 
     const setCurrentName = async (value?: TabPanelName) => {
@@ -120,7 +119,10 @@ export default defineComponent({
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName)
+      if (tabName !== currentName.value) {
+        emit(UPDATE_MODEL_EVENT, tabName)
+        emit('tabChange', tabName)
+      }
       emit('tabClick', tab, event)
     }
 
@@ -199,25 +201,40 @@ export default defineComponent({
           </span>
         ) : null
 
-      const header = (
-        <div class={[ns.e('header'), ns.is(props.tabPosition)]}>
-          {newButton}
-          <TabNav
-            ref={nav$}
-            currentName={currentName.value}
-            editable={props.editable}
-            type={props.type}
-            panes={Object.values(panes)}
-            stretch={props.stretch}
-            onTabClick={handleTabClick}
-            onTabRemove={handleTabRemove}
-          />
-        </div>
+      const tabNav = (
+        <TabNav
+          ref={nav$}
+          currentName={currentName.value}
+          editable={props.editable}
+          type={props.type}
+          panes={Object.values(panes)}
+          stretch={props.stretch}
+          onTabClick={handleTabClick}
+          onTabRemove={handleTabRemove}
+        />
       )
 
-      const panels = (
-        <div class={ns.e('content')}>{renderSlot(slots, 'default')}</div>
-      )
+      const [header, panels] = [
+        [
+          <div class={[ns.e('header'), ns.is(props.tabPosition)]}>
+            {newButton}
+            {tabNav}
+          </div>,
+          <div class={ns.e('content')}>{renderSlot(slots, 'default')}</div>,
+        ],
+        [
+          <>
+            {slots.prefix && (
+              <div class={[ns.e('prefix')]}>{renderSlot(slots, 'prefix')}</div>
+            )}
+            {tabNav}
+            {slots.suffix && (
+              <div class={[ns.e('suffix')]}>{renderSlot(slots, 'suffix')}</div>
+            )}
+          </>,
+          renderSlot(slots, 'default'),
+        ],
+      ][+props.navbar]
 
       return (
         <div
@@ -227,6 +244,7 @@ export default defineComponent({
             {
               [ns.m('card')]: props.type === 'card',
               [ns.m('border-card')]: props.type === 'border-card',
+              [ns.m('navbar')]: props.navbar,
             },
           ]}
         >

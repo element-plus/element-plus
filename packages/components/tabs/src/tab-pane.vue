@@ -1,6 +1,7 @@
 <template>
+  <template v-if="tabsRoot.props.navbar" />
   <div
-    v-if="shouldBeRender"
+    v-else-if="shouldBeRender"
     v-show="active"
     :id="`pane-${paneName}`"
     :class="ns.b()"
@@ -10,6 +11,7 @@
   >
     <slot />
   </div>
+  <template v-else />
 </template>
 
 <script lang="ts" setup>
