@@ -47,6 +47,16 @@ tabs/tab-position
 
 :::
 
+## Wrappable tab
+
+You can use `tab-wrapper` attribute to set the tab's wrapper. And use `tab-wrapper-props` attribute to set the component's props.
+
+:::demo
+
+tabs/tab-wrapper
+
+:::
+
 ## Custom Tab
 
 You can use named slot to customize the tab label content.
@@ -87,6 +97,8 @@ tabs/customized-trigger
 | tab-position          | position of tabs                                                                                                                        | string                              | top/right/bottom/left | top               |
 | stretch               | whether width of tab automatically fits its container                                                                                   | boolean                             | -                     | false             |
 | before-leave          | hook function before switching tab. If `false` is returned or a `Promise` is returned and then is rejected, switching will be prevented | Function(activeName, oldActiveName) | —                     | —                 |
+| tab-wrapper           | wrapper of tab-nav                                                                                                                      | Component                           | -                     | -                 |
+| tab-wrapper-props     | the props of tab wrapper. Active when `tab-wrapper` is not null                                                                         | object                              | -                     | -                 |
 
 ## Tabs Events
 

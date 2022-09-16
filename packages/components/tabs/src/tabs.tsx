@@ -1,6 +1,7 @@
 import {
   computed,
   defineComponent,
+  h,
   nextTick,
   provide,
   reactive,
@@ -24,7 +25,7 @@ import TabNav from './tab-nav'
 import type { TabNavInstance } from './tab-nav'
 import type { TabsPaneContext } from '@element-plus/tokens'
 
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, ToRef, VNodeProps, VueElement } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 
 export type TabPanelName = string | number
@@ -59,7 +60,14 @@ export const tabsProps = buildProps({
     default: () => true,
   },
   stretch: Boolean,
+  tabWrapperProps: {
+    type: definePropType<VNodeProps | undefined>(Object),
+  },
+  tabWrapper: {
+    type: definePropType<ToRef<VueElement> | undefined>(Object),
+  },
 } as const)
+
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
 
 const isPanelName = (value: unknown): value is string | number =>
@@ -215,6 +223,10 @@ export default defineComponent({
         </div>
       )
 
+      const wrappedHeader = props.tabWrapper
+        ? h(props.tabWrapper, props.tabWrapperProps, [header])
+        : header
+
       const panels = (
         <div class={ns.e('content')}>{renderSlot(slots, 'default')}</div>
       )
@@ -231,8 +243,8 @@ export default defineComponent({
           ]}
         >
           {...props.tabPosition !== 'bottom'
-            ? [header, panels]
-            : [panels, header]}
+            ? [wrappedHeader, panels]
+            : [panels, wrappedHeader]}
         </div>
       )
     }
