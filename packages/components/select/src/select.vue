@@ -3,7 +3,7 @@
     ref="selectWrapper"
     v-click-outside:[popperPaneRef]="handleClose"
     :class="wrapperKls"
-    @click.stop="toggleMenu"
+    @click.stop="(e) => toggleMenu(e)"
   >
     <el-tooltip
       ref="tooltipRef"

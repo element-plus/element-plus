@@ -788,7 +788,10 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
-  const toggleMenu = () => {
+  const toggleMenu = (e?: PointerEvent) => {
+    if (e && e.pointerType === '') {
+      return
+    }
     if (!selectDisabled.value) {
       if (states.menuVisibleOnFocus) {
         states.menuVisibleOnFocus = false
