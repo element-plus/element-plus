@@ -245,7 +245,7 @@ describe('Loading', () => {
         v-slots={{
           append: () => 'Loading Text',
         }}
-      ></ElInput>
+      />
     ))
 
     await nextTick()
