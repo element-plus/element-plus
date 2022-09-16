@@ -245,7 +245,6 @@ describe('TreeSelect.vue', () => {
     await nextTick()
     expect(tree.find('.el-select-dropdown__item').text()).toBe('1')
     await wrapper.setProps({ modelValue: '2' })
-    await nextTick()
     expect(select.vm.selectedLabel).toBe('2')
   })
 
