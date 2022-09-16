@@ -10,7 +10,7 @@ export type CheckboxValueType = string | number | boolean
 export const checkboxProps = {
   modelValue: {
     type: [Number, String, Boolean],
-    default: () => undefined,
+    default: undefined,
   },
   label: {
     type: [String, Boolean, Number, Object],
