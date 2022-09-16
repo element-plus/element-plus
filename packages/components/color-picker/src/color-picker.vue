@@ -322,4 +322,8 @@ watch(
 provide(colorPickerContextKey, {
   currentColor,
 })
+
+defineExpose({
+  color,
+})
 </script>
