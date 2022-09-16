@@ -5,8 +5,8 @@ import { Loading } from '../src/service'
 import { vLoading } from '../src/directive'
 import ElInput from '../../input'
 
-import type { LoadingInstance } from '../src/loading'
 import type { VNode } from 'vue'
+import type { LoadingInstance } from '../src/loading'
 
 function destroyLoadingInstance(loadingInstance: LoadingInstance) {
   if (!loadingInstance) return
