@@ -63,7 +63,7 @@ pagination/more-elements
 
 ## Attributes
 
-| Attribute            | Description                                                                                                                     | Type                  | Accepted Values                                                          | Default                                |
+| Name                 | Description                                                                                                                     | Type                  | Accepted Values                                                          | Default                                |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------ | -------------------------------------- |
 | small                | whether to use small pagination                                                                                                 | boolean               | —                                                                        | false                                  |
 | background           | whether the buttons have a background color                                                                                     | boolean               | —                                                                        | false                                  |
@@ -71,7 +71,7 @@ pagination/more-elements
 | default-page-size    | default initial value of page size                                                                                              | number                | -                                                                        | -                                      |
 | total                | total item count                                                                                                                | number                | —                                                                        | —                                      |
 | page-count           | total page count. Set either `total` or `page-count` and pages will be displayed; if you need `page-sizes`, `total` is required | number                | —                                                                        | —                                      |
-| pager-count          | number of pagers. Pagination collapses when the total page count exceeds this value                                             | number                | odd number between 5 and 21                                              | 7                                      |
+| pager-count          | number of pagers. Pagination collapses when the total page count exceeds this value                                             | number                | (odd number between 5 and 21)                                            | 7                                      |
 | current-page         | current page number, supports the v-model bidirectional binding                                                                 | number                | —                                                                        | 1                                      |
 | default-current-page | default initial value of current-page                                                                                           | number                | -                                                                        | -                                      |
 | layout               | layout of Pagination, elements separated with a comma                                                                           | string                | `sizes` / `prev` / `pager` / `next` / `jumper` / `->` / `total` / `slot` | 'prev, pager, next, jumper, ->, total' |
@@ -96,7 +96,7 @@ We'll detect some deprecated usages, if your pagination don't appeared or worked
 
 ## Events
 
-| Event Name     | Description                                                       | Parameters           |
+| Name           | Description                                                       | Parameters           |
 | -------------- | ----------------------------------------------------------------- | -------------------- |
 | size-change    | triggers when `page-size` changes                                 | the new page size    |
 | current-change | triggers when `current-page` changes                              | the new current page |

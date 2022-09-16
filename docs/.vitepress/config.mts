@@ -2,11 +2,7 @@ import consola from 'consola'
 import { REPO_BRANCH, REPO_PATH } from '@element-plus/build-constants'
 import { docsDirName } from '@element-plus/build-utils'
 import { languages } from './utils/lang'
-import { head } from './config/head'
-import { sidebars } from './config/sidebars'
-import { nav } from './config/nav'
-import { mdPlugin } from './config/plugins'
-import { features } from './config/features'
+import { features, head, mdPlugin, nav, sidebars } from './config'
 import type { UserConfig } from 'vitepress'
 
 const buildTransformers = () => {

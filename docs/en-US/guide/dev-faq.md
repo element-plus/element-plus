@@ -1,10 +1,11 @@
-# DEV FAQ
+# Development FAQ
 
 Here are the problems that are easy to encounter in development.
 
 ## If you encounter dependency related issues
 
 ```bash
+rm -fr node_modules
 pnpm i
 ```
 

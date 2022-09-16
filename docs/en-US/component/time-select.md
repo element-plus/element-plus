@@ -49,7 +49,7 @@ time-select/time-range
 
 ## Attributes
 
-| Attribute             | Description                                              | Type                  | Accepted Values                                                                        | Default     |
+| Name                  | Description                                              | Type                  | Accepted Values                                                                        | Default     |
 | --------------------- | -------------------------------------------------------- | --------------------- | -------------------------------------------------------------------------------------- | ----------- |
 | model-value / v-model | binding value                                            | string                | —                                                                                      | —           |
 | disabled              | whether TimeSelect is disabled                           | boolean               | —                                                                                      | false       |
@@ -70,11 +70,11 @@ time-select/time-range
 
 ## Events
 
-| Event Name | Description                           | Parameters                |
-| ---------- | ------------------------------------- | ------------------------- |
-| change     | triggers when user confirms the value | component's binding value |
-| blur       | triggers when Input blurs             | component instance        |
-| focus      | triggers when Input focuses           | component instance        |
+| Name   | Description                           | Parameters                |
+| ------ | ------------------------------------- | ------------------------- |
+| change | triggers when user confirms the value | component's binding value |
+| blur   | triggers when Input blurs             | (event: FocusEvent)       |
+| focus  | triggers when Input focuses           | (event: FocusEvent)       |
 
 ## Methods
 

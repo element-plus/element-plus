@@ -1,15 +1,8 @@
 import { nextTick } from 'vue'
+import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
-
 import { IMAGE_SUCCESS } from '@element-plus/test-utils/mock'
-import makeMount from '@element-plus/test-utils/make-mount'
 import ImageViewer from '../src/image-viewer.vue'
-
-const mount = makeMount(ImageViewer, {
-  props: {
-    urlList: [IMAGE_SUCCESS],
-  },
-})
 
 async function doubleWait() {
   await nextTick()
@@ -18,7 +11,8 @@ async function doubleWait() {
 
 describe('<image-viewer />', () => {
   test('big image preview', async () => {
-    const wrapper = mount()
+    const wrapper = mount(<ImageViewer urlList={[IMAGE_SUCCESS]} />)
+
     await doubleWait()
     const viewer = wrapper.find('.el-image-viewer__wrapper')
     expect(viewer.exists()).toBe(true)
@@ -28,7 +22,7 @@ describe('<image-viewer />', () => {
   })
 
   test('image preview hide-click-on-modal', async () => {
-    const wrapper = mount()
+    const wrapper = mount(<ImageViewer urlList={[IMAGE_SUCCESS]} />)
 
     await doubleWait()
     const viewer = wrapper.find('.el-image-viewer__wrapper')
@@ -46,11 +40,9 @@ describe('<image-viewer />', () => {
   })
 
   test('manually switch image', async () => {
-    const wrapper = mount({
-      props: {
-        urlList: [IMAGE_SUCCESS, IMAGE_SUCCESS],
-      },
-    })
+    const wrapper = mount(
+      <ImageViewer urlList={[IMAGE_SUCCESS, IMAGE_SUCCESS]} />
+    )
 
     await doubleWait()
     const viewer = wrapper.find('.el-image-viewer__wrapper')

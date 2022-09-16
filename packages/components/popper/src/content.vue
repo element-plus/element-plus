@@ -229,7 +229,7 @@ onMounted(() => {
           { immediate: true }
         )
       }
-      if (isElement(prevEl)) {
+      if (prevEl !== el && isElement(prevEl)) {
         ;['role', 'aria-label', 'aria-modal', 'id'].forEach((key) => {
           prevEl.removeAttribute(key)
         })
