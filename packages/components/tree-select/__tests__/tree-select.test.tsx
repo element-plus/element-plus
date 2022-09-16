@@ -17,38 +17,36 @@ const createComponent = ({
   // vm can not get component expose, use ref
   const wrapperRef = ref()
   const value = props.modelValue || ref('')
-  const wrapper = mount({
-    data() {
-      return {
-        modelValue: value,
-        data: [
+  const data = ref(
+    props.data || [
+      {
+        value: 1,
+        label: '一级 1',
+        children: [
           {
-            value: 1,
-            label: '一级 1',
+            value: 11,
+            label: '二级 1-1',
             children: [
               {
-                value: 11,
-                label: '二级 1-1',
-                children: [
-                  {
-                    value: 111,
-                    label: '三级 1-1',
-                  },
-                ],
+                value: 111,
+                label: '三级 1-1',
               },
             ],
           },
         ],
-        'onUpdate:modelValue': (val: string) => (value.value = val),
-        renderAfterExpand: false,
-        ...props,
-      }
-    },
+      },
+    ]
+  )
+  const wrapper = mount({
     render() {
       return (
         <TreeSelect
-          {...this.$data}
+          data={data.value}
+          renderAfterExpand={false}
+          {...props}
+          modelValue={value.value}
           ref={(val: object) => (wrapperRef.value = val)}
+          onUpdate:modelValue={(val: string) => (value.value = val)}
           v-slots={slots}
         />
       )
@@ -67,12 +65,14 @@ const createComponent = ({
     tree: wrapper.findComponent({ name: 'ElTree' }) as VueWrapper<
       InstanceType<typeof ElTree>
     >,
+    data,
+    value,
   }
 }
 
 describe('TreeSelect.vue', () => {
   test('render test', async () => {
-    const { wrapper, tree } = createComponent({
+    const { wrapper, tree, data } = createComponent({
       props: {
         defaultExpandAll: true,
       },
@@ -85,7 +85,7 @@ describe('TreeSelect.vue', () => {
     expect(tree.findAll('.el-tree .el-tree-node').length).toBe(3)
     expect(tree.findAll('.el-tree .el-select-dropdown__item').length).toBe(3)
 
-    wrapper.vm.data[0].children = []
+    data.value[0].children = []
 
     await nextTick()
 
@@ -134,7 +134,7 @@ describe('TreeSelect.vue', () => {
   })
 
   test('disabled', async () => {
-    const { wrapper, tree } = createComponent({
+    const { tree, value } = createComponent({
       props: {
         data: [
           {
@@ -163,7 +163,7 @@ describe('TreeSelect.vue', () => {
       .find('.el-tree-node .el-select-dropdown__item.is-disabled')
       .trigger('click')
     await nextTick()
-    expect(wrapper.vm.modelValue).toBe('1')
+    expect(value.value).toBe('1')
   })
 
   test('multiple', async () => {
@@ -221,7 +221,7 @@ describe('TreeSelect.vue', () => {
   })
 
   test('props', async () => {
-    const { wrapper, select, tree } = createComponent({
+    const { select, tree, value } = createComponent({
       props: {
         data: [
           {
@@ -245,7 +245,7 @@ describe('TreeSelect.vue', () => {
 
     await nextTick()
     expect(tree.find('.el-select-dropdown__item').text()).toBe('1')
-    wrapper.vm.modelValue = '2'
+    value.value = '2'
     await nextTick()
     expect(select.vm.selectedLabel).toBe('2')
   })
