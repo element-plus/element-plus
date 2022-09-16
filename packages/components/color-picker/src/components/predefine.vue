@@ -22,7 +22,7 @@
 import { defineComponent, ref, watch, watchEffect } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOptions } from '../useOption'
-import Color from '../color'
+import Color from '../utils/color'
 
 import type { PropType } from 'vue'
 

@@ -31,11 +31,11 @@ import {
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import draggable from '../draggable'
+import { draggable } from '../utils/draggable'
 
 import type { PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
-import type Color from '../color'
+import type Color from '../utils/color'
 
 export default defineComponent({
   name: 'ElColorAlphaSlider',

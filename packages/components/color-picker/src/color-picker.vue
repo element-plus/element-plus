@@ -112,18 +112,19 @@ import {
   watch,
 } from 'vue'
 import { debounce } from 'lodash-unified'
-import ElButton from '@element-plus/components/button'
-import ElIcon from '@element-plus/components/icon'
+import { ElButton } from '@element-plus/components/button'
+import { ElIcon } from '@element-plus/components/icon'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
 import {
+  useDisabled,
   useFormItem,
   useFormItemInputId,
   useLocale,
   useNamespace,
   useSize,
 } from '@element-plus/hooks'
-import ElTooltip from '@element-plus/components/tooltip'
-import ElInput from '@element-plus/components/input'
+import { ElTooltip } from '@element-plus/components/tooltip'
+import { ElInput } from '@element-plus/components/input'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
@@ -131,20 +132,25 @@ import AlphaSlider from './components/alpha-slider.vue'
 import HueSlider from './components/hue-slider.vue'
 import Predefine from './components/predefine.vue'
 import SvPanel from './components/sv-panel.vue'
-import Color from './color'
-import { OPTIONS_KEY } from './useOption'
-import { colorPickerProps } from './color-picker'
-import type { IUseOptions } from './useOption'
+import Color from './utils/color'
+import {
+  colorPickerContextKey,
+  colorPickerEmits,
+  colorPickerProps,
+} from './color-picker'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
 
 defineOptions({
   name: 'ElColorPicker',
 })
 const props = defineProps(colorPickerProps)
-const emit = defineEmits(['change', 'activeChange', UPDATE_MODEL_EVENT])
+const emit = defineEmits(colorPickerEmits)
 
 const { t } = useLocale()
 const ns = useNamespace('color')
-const { form, formItem } = useFormItem()
+const { formItem } = useFormItem()
+const colorSize = useSize()
+const colorDisabled = useDisabled()
 
 const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -153,10 +159,11 @@ const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(props, {
 const hue = ref<InstanceType<typeof HueSlider>>()
 const sv = ref<InstanceType<typeof SvPanel>>()
 const alpha = ref<InstanceType<typeof AlphaSlider>>()
-const popper = ref(null)
+const popper = ref<TooltipInstance>()
+
 // active-change is used to prevent modelValue changes from triggering.
 let shouldActiveChange = true
-// data
+
 const color = reactive(
   new Color({
     enableAlpha: props.showAlpha,
@@ -164,63 +171,32 @@ const color = reactive(
     value: props.modelValue,
   })
 ) as Color
+
 const showPicker = ref(false)
 const showPanelColor = ref(false)
 const customInput = ref('')
-// computed
+
 const displayedColor = computed(() => {
   if (!props.modelValue && !showPanelColor.value) {
     return 'transparent'
   }
   return displayedRgb(color, props.showAlpha)
 })
-const colorSize = useSize()
-const colorDisabled = computed(() => {
-  return !!(props.disabled || form?.disabled)
-})
 
 const currentColor = computed(() => {
   return !props.modelValue && !showPanelColor.value ? '' : color.value
 })
+
 const buttonAriaLabel = computed<string | undefined>(() => {
   return !isLabeledByFormItem.value
     ? props.label || t('el.colorpicker.defaultLabel')
     : undefined
 })
+
 const buttonAriaLabelledby = computed<string | undefined>(() => {
   return isLabeledByFormItem.value ? formItem?.labelId : undefined
 })
-// watch
-watch(
-  () => props.modelValue,
-  (newVal) => {
-    if (!newVal) {
-      showPanelColor.value = false
-    } else if (newVal && newVal !== color.value) {
-      shouldActiveChange = false
-      color.fromString(newVal)
-    }
-  }
-)
-watch(
-  () => currentColor.value,
-  (val) => {
-    customInput.value = val
-    shouldActiveChange && emit('activeChange', val)
-    shouldActiveChange = true
-  }
-)
 
-watch(
-  () => color.value,
-  () => {
-    if (!props.modelValue && !showPanelColor.value) {
-      showPanelColor.value = true
-    }
-  }
-)
-
-// methods
 function displayedRgb(color: Color, showAlpha: boolean) {
   if (!(color instanceof Color)) {
     throw new TypeError('color should be instance of _color Class')
@@ -301,6 +277,37 @@ onMounted(() => {
     customInput.value = currentColor.value
   }
 })
+
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    if (!newVal) {
+      showPanelColor.value = false
+    } else if (newVal && newVal !== color.value) {
+      shouldActiveChange = false
+      color.fromString(newVal)
+    }
+  }
+)
+
+watch(
+  () => currentColor.value,
+  (val) => {
+    customInput.value = val
+    shouldActiveChange && emit('activeChange', val)
+    shouldActiveChange = true
+  }
+)
+
+watch(
+  () => color.value,
+  () => {
+    if (!props.modelValue && !showPanelColor.value) {
+      showPanelColor.value = true
+    }
+  }
+)
+
 watch(
   () => showPicker.value,
   () => {
@@ -312,31 +319,7 @@ watch(
   }
 )
 
-provide<IUseOptions>(OPTIONS_KEY, {
+provide(colorPickerContextKey, {
   currentColor,
-})
-
-defineExpose({
-  color: color as Color,
-  colorDisabled,
-  colorSize,
-  displayedColor,
-  showPanelColor,
-  showPicker,
-  customInput,
-  buttonId,
-  buttonAriaLabel,
-  buttonAriaLabelledby,
-  handleConfirm,
-  hide,
-  handleTrigger,
-  clear,
-  confirmValue,
-  t,
-  ns,
-  hue,
-  sv,
-  alpha,
-  popper,
 })
 </script>

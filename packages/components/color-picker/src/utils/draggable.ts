@@ -2,13 +2,13 @@ import { isClient } from '@vueuse/core'
 
 let isDragging = false
 
-export declare interface IOptions {
+export interface DraggableOptions {
   drag?: (event: Event) => void
   start?: (event: Event) => void
   end?: (event: Event) => void
 }
 
-export default function (element: HTMLElement, options: IOptions) {
+export function draggable(element: HTMLElement, options: DraggableOptions) {
   if (!isClient) return
 
   const moveFn = function (event: Event) {
