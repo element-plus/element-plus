@@ -32,7 +32,7 @@
     "lodash": "^4.17.21",
     "rollup": "^2.75.7",
     "rollup-plugin-esbuild": "^4.9.1",
-    "ts-morph": "^14.0.0",
+    "ts-morph": "^16.0.0",
     "unplugin-vue-macros": "^0.11.2"
   },
   "devDependencies": {
