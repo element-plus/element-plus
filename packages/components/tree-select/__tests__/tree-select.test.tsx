@@ -1,4 +1,4 @@
-import { h, nextTick, ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import TreeSelect from '../src/tree-select.vue'
@@ -45,13 +45,12 @@ const createComponent = ({
       }
     },
     render() {
-      return h(
-        TreeSelect,
-        {
-          ...this.$data,
-          ref: (val: object) => (wrapperRef.value = val),
-        },
-        slots
+      return (
+        <TreeSelect
+          {...this.$data}
+          ref={(val: object) => (wrapperRef.value = val)}
+          v-slots={slots}
+        />
       )
     },
   })
