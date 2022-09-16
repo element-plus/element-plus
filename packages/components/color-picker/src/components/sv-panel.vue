@@ -20,7 +20,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -45,10 +44,13 @@ export default defineComponent({
       required: true,
     },
   },
+
   setup(props) {
     const ns = useNamespace('color-svpanel')
+
     // instance
-    const instance = getCurrentInstance()
+    const instance = getCurrentInstance()!
+
     // data
     const cursorTop = ref(0)
     const cursorLeft = ref(0)
@@ -64,7 +66,7 @@ export default defineComponent({
       const saturation = props.color.get('saturation')
       const value = props.color.get('value')
 
-      const el = instance.vnode.el
+      const el = instance.vnode.el!
       const { clientWidth: width, clientHeight: height } = el
 
       cursorLeft.value = (saturation * width) / 100
@@ -73,8 +75,8 @@ export default defineComponent({
       background.value = `hsl(${props.color.get('hue')}, 100%, 50%)`
     }
 
-    function handleDrag(event) {
-      const el = instance.vnode.el
+    function handleDrag(event: MouseEvent | TouchEvent) {
+      const el = instance.vnode.el!
       const rect = el.getBoundingClientRect()
       const { clientX, clientY } = getClientXY(event)
 

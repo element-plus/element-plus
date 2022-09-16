@@ -18,17 +18,19 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
-import { defineComponent, ref, watch, watchEffect } from 'vue'
+import { defineComponent, inject, ref, watch, watchEffect } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { useOptions } from '../useOption'
+import { colorPickerContextKey } from '../color-picker'
 import Color from '../utils/color'
 
-import type { PropType } from 'vue'
+import type { PropType, Ref } from 'vue'
 
 export default defineComponent({
   props: {
-    colors: { type: Array, required: true },
+    colors: {
+      type: Array as PropType<string[]>,
+      required: true,
+    },
     color: {
       type: Object as PropType<Color>,
       required: true,
@@ -36,11 +38,12 @@ export default defineComponent({
   },
   setup(props) {
     const ns = useNamespace('color-predefine')
-    const { currentColor } = useOptions()
-    //data
-    const rgbaColors = ref(parseColors(props.colors, props.color))
+    const { currentColor } = inject(colorPickerContextKey)!
 
-    //watch
+    const rgbaColors = ref(parseColors(props.colors, props.color)) as Ref<
+      Color[]
+    >
+
     watch(
       () => currentColor.value,
       (val) => {
@@ -52,14 +55,16 @@ export default defineComponent({
         })
       }
     )
+
     watchEffect(() => {
       rgbaColors.value = parseColors(props.colors, props.color)
     })
 
-    function handleSelect(index) {
+    function handleSelect(index: number) {
       props.color.fromString(props.colors[index])
     }
-    function parseColors(colors, color) {
+
+    function parseColors(colors: string[], color: Color) {
       return colors.map((value) => {
         const c = new Color()
         c.enableAlpha = true

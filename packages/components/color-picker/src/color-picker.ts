@@ -1,4 +1,4 @@
-import { buildProps, isString } from '@element-plus/utils'
+import { buildProps, definePropType, isString } from '@element-plus/utils'
 import { useSizeProp } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
@@ -24,7 +24,9 @@ export const colorPickerProps = buildProps({
     type: [String, Number],
     default: 0,
   },
-  predefine: Array,
+  predefine: {
+    type: definePropType<string[]>(Array),
+  },
   validateEvent: {
     type: Boolean,
     default: true,

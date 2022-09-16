@@ -3,19 +3,19 @@ import { isClient } from '@vueuse/core'
 let isDragging = false
 
 export interface DraggableOptions {
-  drag?: (event: Event) => void
-  start?: (event: Event) => void
-  end?: (event: Event) => void
+  drag?: (event: MouseEvent | TouchEvent) => void
+  start?: (event: MouseEvent | TouchEvent) => void
+  end?: (event: MouseEvent | TouchEvent) => void
 }
 
 export function draggable(element: HTMLElement, options: DraggableOptions) {
   if (!isClient) return
 
-  const moveFn = function (event: Event) {
+  const moveFn = function (event: MouseEvent | TouchEvent) {
     options.drag?.(event)
   }
 
-  const upFn = function (event: Event) {
+  const upFn = function (event: MouseEvent | TouchEvent) {
     document.removeEventListener('mousemove', moveFn)
     document.removeEventListener('mouseup', upFn)
     document.removeEventListener('touchmove', moveFn)
@@ -28,7 +28,7 @@ export function draggable(element: HTMLElement, options: DraggableOptions) {
     options.end?.(event)
   }
 
-  const downFn = function (event: Event) {
+  const downFn = function (event: MouseEvent | TouchEvent) {
     if (isDragging) return
     event.preventDefault()
     document.onselectstart = () => false

@@ -178,7 +178,7 @@ export default class Color {
   private _hue = 0
   private _saturation = 100
   private _value = 100
-  private _alpha = 100
+  _alpha = 100
   public enableAlpha = false
   public format = 'hex'
   public value = ''
@@ -208,8 +208,7 @@ export default class Color {
       return
     }
 
-    // @ts-expect-error
-    this[`_${prop}`] = value
+    ;(this as any)[`_${prop}`] = value
     this.doOnChange()
   }
 
@@ -217,8 +216,7 @@ export default class Color {
     if (prop === 'alpha') {
       return Math.floor(this[`_${prop}`])
     }
-    // @ts-expect-error
-    return this[`_${prop}`]
+    return (this as any)[`_${prop}`]
   }
 
   toRgb() {
