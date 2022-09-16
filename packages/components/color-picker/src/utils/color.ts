@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { hasOwn } from '@element-plus/utils'
 
 const hsv2hsl = function (hue: number, sat: number, val: number) {
@@ -40,22 +39,35 @@ const bound01 = function (value: number | string, max: number | string) {
   return (value % (max as number)) / Number.parseFloat(max as string)
 }
 
-const INT_HEX_MAP = { 10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F' }
+const INT_HEX_MAP: Record<string, string> = {
+  10: 'A',
+  11: 'B',
+  12: 'C',
+  13: 'D',
+  14: 'E',
+  15: 'F',
+}
 
-const hexOne = function (value: number) {
+const hexOne = (value: number) => {
   value = Math.min(Math.round(value), 255)
   const high = Math.floor(value / 16)
   const low = value % 16
   return `${INT_HEX_MAP[high] || high}${INT_HEX_MAP[low] || low}`
 }
 
-const toHex = function ({ r, g, b }) {
+const toHex = function ({ r, g, b }: { r: number; g: number; b: number }) {
   if (Number.isNaN(+r) || Number.isNaN(+g) || Number.isNaN(+b)) return ''
-
   return `#${hexOne(r)}${hexOne(g)}${hexOne(b)}`
 }
 
-const HEX_INT_MAP = { A: 10, B: 11, C: 12, D: 13, E: 14, F: 15 }
+const HEX_INT_MAP: Record<string, number> = {
+  A: 10,
+  B: 11,
+  C: 12,
+  D: 13,
+  E: 14,
+  F: 15,
+}
 
 const parseHexChannel = function (hex: string) {
   if (hex.length === 2) {
@@ -94,14 +106,14 @@ const hsl2hsv = function (hue: number, sat: number, light: number) {
 // Converts an RGB color value to HSV
 // *Assumes:* r, g, and b are contained in the set [0, 255] or [0, 1]
 // *Returns:* { h, s, v } in [0,1]
-const rgb2hsv = function (r, g, b) {
+const rgb2hsv = (r: number, g: number, b: number) => {
   r = bound01(r, 255)
   g = bound01(g, 255)
   b = bound01(b, 255)
 
   const max = Math.max(r, g, b)
   const min = Math.min(r, g, b)
-  let h
+  let h: number
   const v = max
 
   const d = max - min
@@ -124,17 +136,17 @@ const rgb2hsv = function (r, g, b) {
         break
       }
     }
-    h /= 6
+    h! /= 6
   }
 
-  return { h: h * 360, s: s * 100, v: v * 100 }
+  return { h: h! * 360, s: s * 100, v: v * 100 }
 }
 
 // `hsvToRgb`
 // Converts an HSV color value to RGB.
 // *Assumes:* h is contained in [0, 1] or [0, 360] and s and v are contained in [0, 1] or [0, 100]
 // *Returns:* { r, g, b } in the set [0, 255]
-const hsv2rgb = function (h, s, v) {
+const hsv2rgb = function (h: number, s: number, v: number) {
   h = bound01(h, 360) * 6
   s = bound01(s, 100)
   v = bound01(v, 100)
@@ -156,7 +168,7 @@ const hsv2rgb = function (h, s, v) {
   }
 }
 
-export interface Options {
+interface ColorOptions {
   enableAlpha: boolean
   format: string
   value?: string
@@ -166,14 +178,13 @@ export default class Color {
   private _hue = 0
   private _saturation = 100
   private _value = 100
-  private _alpha = 100
+  _alpha = 100
   public enableAlpha = false
   public format = 'hex'
   public value = ''
   public selected?: boolean
-  constructor(options?: Options) {
-    options = options || ({} as Options)
 
+  constructor(options: Partial<ColorOptions> = {}) {
     for (const option in options) {
       if (hasOwn(options, option)) {
         this[option] = options[option]
@@ -197,7 +208,7 @@ export default class Color {
       return
     }
 
-    this[`_${prop}`] = value
+    ;(this as any)[`_${prop}`] = value
     this.doOnChange()
   }
 
@@ -205,14 +216,14 @@ export default class Color {
     if (prop === 'alpha') {
       return Math.floor(this[`_${prop}`])
     }
-    return this[`_${prop}`]
+    return (this as any)[`_${prop}`]
   }
 
   toRgb() {
     return hsv2rgb(this._hue, this._saturation, this._value)
   }
 
-  fromString(value) {
+  fromString(value: string) {
     if (!value) {
       this._hue = 0
       this._saturation = 100
@@ -222,7 +233,7 @@ export default class Color {
       return
     }
 
-    const fromHSV = (h, s, v) => {
+    const fromHSV = (h: number, s: number, v: number) => {
       this._hue = Math.max(0, Math.min(360, h))
       this._saturation = Math.max(0, Math.min(100, s))
       this._value = Math.max(0, Math.min(100, v))
@@ -240,6 +251,7 @@ export default class Color {
         )
 
       if (parts.length === 4) {
+        // @ts-expect-error
         this._alpha = Number.parseFloat(parts[3]) * 100
       } else if (parts.length === 3) {
         this._alpha = 100
@@ -258,6 +270,7 @@ export default class Color {
         )
 
       if (parts.length === 4) {
+        // @ts-expect-error
         this._alpha = Number.parseFloat(parts[3]) * 100
       } else if (parts.length === 3) {
         this._alpha = 100
@@ -275,6 +288,7 @@ export default class Color {
         )
 
       if (parts.length === 4) {
+        // @ts-expect-error
         this._alpha = Number.parseFloat(parts[3]) * 100
       } else if (parts.length === 3) {
         this._alpha = 100
@@ -287,7 +301,7 @@ export default class Color {
       const hex = value.replace('#', '').trim()
       if (!/^[0-9a-fA-F]{3}$|^[0-9a-fA-F]{6}$|^[0-9a-fA-F]{8}$/.test(hex))
         return
-      let r, g, b
+      let r: number, g: number, b: number
 
       if (hex.length === 3) {
         r = parseHexChannel(hex[0] + hex[0])
@@ -305,12 +319,12 @@ export default class Color {
         this._alpha = 100
       }
 
-      const { h, s, v } = rgb2hsv(r, g, b)
+      const { h, s, v } = rgb2hsv(r!, g!, b!)
       fromHSV(h, s, v)
     }
   }
 
-  compare(color) {
+  compare(color: this) {
     return (
       Math.abs(color._hue - this._hue) < 2 &&
       Math.abs(color._saturation - this._saturation) < 1 &&
