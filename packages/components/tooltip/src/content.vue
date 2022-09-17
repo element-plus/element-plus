@@ -45,7 +45,7 @@
   </teleport>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { composeEventHandlers } from '@element-plus/utils'
@@ -173,5 +173,17 @@ defineExpose({
    * @description el-popper-content component instance
    */
   contentRef,
+  /**
+   * @description expose intermediateOpen state
+   */
+  intermediateOpen,
+  /**
+   * @description expose leaving state
+   */
+  leaving,
+  /**
+   * @description expose entering state
+   */
+  entering,
 })
 </script>
