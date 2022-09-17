@@ -19,7 +19,7 @@ const createComponent = ({
   slots?: Record<string, any>
   props?: typeof TreeSelect['props']
 } = {}) => {
-  const wrapperRef = ref<InstanceType<typeof TreeSelect>>()
+  const wrapperRef = ref<TreeInstance & SelectInstance>()
   const value = props.modelValue || ref('')
   const data = ref([
     {
@@ -49,9 +49,7 @@ const createComponent = ({
           {...props}
           modelValue={value.value}
           onUpdate:modelValue={(val: string) => (value.value = val)}
-          ref={(val: InstanceType<typeof TreeSelect>) =>
-            (wrapperRef.value = val)
-          }
+          ref={(val: TreeInstance & SelectInstance) => (wrapperRef.value = val)}
           v-slots={slots}
         />
       )
@@ -62,7 +60,7 @@ const createComponent = ({
     wrapper,
     getWrapperRef: () =>
       new Promise<TreeInstance & SelectInstance>((resolve) =>
-        nextTick(() => resolve(wrapperRef.value))
+        nextTick(() => resolve(wrapperRef.value!))
       ),
     getSelect: () =>
       new Promise<VueWrapper<SelectInstance>>((resolve) =>
