@@ -3,7 +3,7 @@
     v-model="value"
     :options="options"
     placeholder="Please select"
-    value-key="value.name"
+    value-key="name"
   />
 </template>
 
@@ -11,7 +11,7 @@
 import { ref } from 'vue'
 const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
-const value = ref()
+const value = ref({ name: 'Option 1', test: 'test 0' })
 const options = Array.from({ length: 1000 }).map((_, idx) => ({
   value: {
     name: `Option ${idx + 1}`,

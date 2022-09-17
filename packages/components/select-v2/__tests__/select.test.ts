@@ -267,22 +267,19 @@ describe('Select', () => {
   it('default value is Object', async () => {
     const wrapper = createSelect({
       data: () => ({
-        valueKey: 'value',
-        value: {
-          value: '1',
-          label: 'option_a',
-        },
+        valueKey: 'id',
+        value: { id: 1 },
         options: [
           {
-            value: '1',
+            value: { id: 1 },
             label: 'option_a',
           },
           {
-            value: '2',
+            value: { id: 2 },
             label: 'option_b',
           },
           {
-            value: '3',
+            value: { id: 3 },
             label: 'option_c',
           },
         ],
@@ -293,9 +290,7 @@ describe('Select', () => {
     expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
       vm.options[0].label
     )
-    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
-      vm.value.label
-    )
+    expect(vm.value).toEqual(vm.options[0].value)
   })
 
   it('sync set value and options', async () => {
@@ -347,22 +342,19 @@ describe('Select', () => {
         return {
           options: [
             {
-              id: 'id 1',
-              value: 'value 1',
+              value: { id: 1 },
               label: 'option 1',
             },
             {
-              id: 'id 2',
-              value: 'value 2',
+              value: { id: 2 },
               label: 'option 2',
             },
             {
-              id: 'id 3',
-              value: 'value 3',
+              value: { id: 3 },
               label: 'option 3',
             },
           ],
-          value: '',
+          value: undefined,
           valueKey: 'id',
         }
       },
@@ -371,14 +363,14 @@ describe('Select', () => {
     await nextTick()
     const vm = wrapper.vm as any
     const options = getOptions()
+
     options[1].click()
     await nextTick()
-    expect(vm.value).toBe(vm.options[1].id)
-    vm.valueKey = 'value'
-    await nextTick()
+    expect(vm.value).toEqual(vm.options[1].value)
+
     options[2].click()
     await nextTick()
-    expect(vm.value).toBe(vm.options[2].value)
+    expect(vm.value).toEqual(vm.options[2].value)
   })
 
   it('disabled option', async () => {
@@ -562,18 +554,15 @@ describe('Select', () => {
           return {
             options: [
               {
-                id: 'id 1',
-                value: 'value 1',
+                value: { id: 1 },
                 label: 'option 1',
               },
               {
-                id: 'id 2',
-                value: 'value 2',
+                value: { id: 2 },
                 label: 'option 2',
               },
               {
-                id: 'id 3',
-                value: 'value 3',
+                value: { id: 3 },
                 label: 'option 3',
               },
             ],
@@ -587,16 +576,21 @@ describe('Select', () => {
       await nextTick()
       const vm = wrapper.vm as any
       const options = getOptions()
+
       options[1].click()
       await nextTick()
       expect(vm.value.length).toBe(1)
-      expect(vm.value[0]).toBe(vm.options[1].id)
-      vm.valueKey = 'value'
-      await nextTick()
+      expect(vm.value).toContainEqual(vm.options[1].value)
+
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(2)
-      expect(vm.value[1]).toBe(vm.options[2].value)
+      expect(vm.value).toContainEqual(vm.options[2].value)
+
+      options[2].click()
+      await nextTick()
+      expect(vm.value.length).toBe(1)
+      expect(vm.value).not.toContainEqual(vm.options[2].value)
     })
   })
 
