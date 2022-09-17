@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import {
@@ -48,20 +47,24 @@ describe('<ElTooltipContent />', () => {
     },
   }
 
-  let unmount
+  let unmount: () => void
   const createComponent = (props = {}, provides = {}) => {
     const wrapper = mount(
       {
         components: {
           ElTooltipContent,
         },
-        template: `<el-tooltip-content><slot /></el-tooltip-content>`,
         setup() {
           usePopperContainer()
+
+          return () => (
+            <el-tooltip-content {...props}>
+              <slot />
+            </el-tooltip-content>
+          )
         },
       },
       {
-        props,
         global: {
           provide: {
             ...defaultProvide,
@@ -84,11 +87,11 @@ describe('<ElTooltipContent />', () => {
   let wrapper: ReturnType<typeof createComponent>
   const OLD_ENV = process.env.NODE_ENV
   beforeAll(() => {
-    process.env.NODE_ENV = 'test'
+    process.env['NODE_ENV'] = 'test'
   })
 
   afterAll(() => {
-    process.env.NODE_ENV = OLD_ENV
+    process.env['NODE_ENV'] = OLD_ENV
   })
 
   afterEach(() => {
@@ -118,7 +121,7 @@ describe('<ElTooltipContent />', () => {
         })
         await nextTick()
 
-        expect(wrapper.vm.contentStyle).toEqual(customStyle)
+        expect((wrapper.vm as any).contentStyle).toEqual(customStyle)
       })
     })
 
@@ -130,7 +133,7 @@ describe('<ElTooltipContent />', () => {
 
         await nextTick()
 
-        expect(wrapper.vm.shouldShow).toBe(false)
+        expect((wrapper.vm as any).shouldShow).toBe(false)
       })
     })
 
@@ -147,11 +150,11 @@ describe('<ElTooltipContent />', () => {
         const { vm } = wrapper
         expect(onOpen).not.toHaveBeenCalled()
         const enterEvent = new MouseEvent('mouseenter')
-        vm.onContentEnter(enterEvent)
+        ;(vm as any).onContentEnter(enterEvent)
         expect(onOpen).toHaveBeenCalled()
         const leaveEvent = new MouseEvent('mouseleave')
         expect(onClose).not.toHaveBeenCalled()
-        vm.onContentLeave(leaveEvent)
+        ;(vm as any).onContentLeave(leaveEvent)
         expect(onClose).toHaveBeenCalled()
       })
 
@@ -162,7 +165,7 @@ describe('<ElTooltipContent />', () => {
         await nextTick()
         const leaveEvent = new MouseEvent('mouseleave')
         expect(onClose).not.toHaveBeenCalled()
-        vm.onContentLeave(leaveEvent)
+        ;(vm as any).onContentLeave(leaveEvent)
         expect(onClose).not.toHaveBeenCalled()
       })
 
@@ -173,11 +176,11 @@ describe('<ElTooltipContent />', () => {
 
         expect(onOpen).not.toHaveBeenCalled()
         const enterEvent = new MouseEvent('mouseenter')
-        vm.onContentEnter(enterEvent)
+        ;(vm as any).onContentEnter(enterEvent)
         expect(onOpen).not.toHaveBeenCalled()
         const leaveEvent = new MouseEvent('mouseleave')
         expect(onClose).not.toHaveBeenCalled()
-        vm.onContentLeave(leaveEvent)
+        ;(vm as any).onContentLeave(leaveEvent)
         expect(onClose).not.toHaveBeenCalled()
       })
 
@@ -207,7 +210,7 @@ describe('<ElTooltipContent />', () => {
 
         it('should close component after click outside', async () => {
           trigger.value = 'click'
-          wrapper.vm.onAfterShow()
+          ;(wrapper.vm as any).onAfterShow()
           await nextTick()
 
           document.body.click()
