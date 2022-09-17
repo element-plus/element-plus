@@ -169,24 +169,9 @@ watch(
 )
 
 defineExpose({
-  ariaHidden,
-  entering,
-  leaving,
-  id,
-  intermediateOpen,
-  contentStyle,
+  /**
+   * @description el-popper-content component instance
+   */
   contentRef,
-  destroyed,
-  shouldRender,
-  shouldShow,
-  onClose,
-  open,
-  onAfterShow,
-  onBeforeEnter,
-  onBeforeLeave,
-  onContentEnter,
-  onContentLeave,
-  onTransitionLeave,
-  onBlur,
 })
 </script>

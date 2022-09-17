@@ -98,15 +98,5 @@ defineExpose({
    * @description trigger element
    */
   triggerRef,
-  onBlur,
-  onContextMenu,
-  onFocus,
-  onMouseenter,
-  onMouseleave,
-  onClick,
-  onKeydown,
-  open,
-  id,
-  ns,
 })
 </script>
