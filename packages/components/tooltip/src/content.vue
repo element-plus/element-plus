@@ -62,9 +62,6 @@ defineOptions({
 const props = defineProps(useTooltipContentProps)
 // TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
 const contentRef = ref<any>(null)
-const intermediateOpen = ref(false)
-const entering = ref(false)
-const leaving = ref(false)
 const destroyed = ref(false)
 const {
   controlled,
@@ -173,17 +170,5 @@ defineExpose({
    * @description el-popper-content component instance
    */
   contentRef,
-  /**
-   * @description expose intermediateOpen state
-   */
-  intermediateOpen,
-  /**
-   * @description expose leaving state
-   */
-  leaving,
-  /**
-   * @description expose entering state
-   */
-  entering,
 })
 </script>
