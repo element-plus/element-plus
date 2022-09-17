@@ -2,10 +2,10 @@
   <label
     :class="[
       ns.b('button'),
-      ns.bm('button', size),
+      ns.bm('button', checkboxButtonSize),
       ns.is('disabled', isDisabled),
       ns.is('checked', isChecked),
-      ns.is('focus', focus),
+      ns.is('focus', isFocused),
     ]"
   >
     <input
@@ -19,8 +19,8 @@
       :true-value="trueLabel"
       :false-value="falseLabel"
       @change="handleChange"
-      @focus="focus = true"
-      @blur="focus = false"
+      @focus="isFocused = true"
+      @blur="isFocused = false"
     />
     <input
       v-else
@@ -32,8 +32,8 @@
       :disabled="isDisabled"
       :value="label"
       @change="handleChange"
-      @focus="focus = true"
-      @blur="focus = false"
+      @focus="isFocused = true"
+      @blur="isFocused = false"
     />
 
     <span
@@ -47,14 +47,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, useSlots } from 'vue'
+import { computed, inject, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import {
-  checkboxEmits,
-  checkboxProps,
-  useCheckbox,
-  useCheckboxGroup,
-} from './checkbox'
+import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
+import { useCheckbox } from './composables'
+import { checkboxEmits, checkboxProps } from './checkbox'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -65,11 +62,15 @@ const props = defineProps(checkboxProps)
 defineEmits(checkboxEmits)
 const slots = useSlots()
 
-const { focus, isChecked, isDisabled, size, model, handleChange } = useCheckbox(
-  props,
-  slots
-)
-const { checkboxGroup } = useCheckboxGroup()
+const {
+  isFocused,
+  isChecked,
+  isDisabled,
+  checkboxButtonSize,
+  model,
+  handleChange,
+} = useCheckbox(props, slots)
+const checkboxGroup = inject(checkboxGroupContextKey)
 const ns = useNamespace('checkbox')
 
 const activeStyle = computed<CSSProperties>(() => {
