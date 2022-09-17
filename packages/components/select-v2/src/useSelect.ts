@@ -386,7 +386,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (props.multiple) {
       let selectedOptions = (props.modelValue as any[]).slice()
 
-      const index = getValueIndex(selectedOptions, getValueKey(option))
+      const index = getValueIndex(selectedOptions, option.value)
       if (index > -1) {
         selectedOptions = [
           ...selectedOptions.slice(0, index),
@@ -398,7 +398,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         props.multipleLimit <= 0 ||
         selectedOptions.length < props.multipleLimit
       ) {
-        selectedOptions = [...selectedOptions, getValueKey(option)]
+        selectedOptions = [...selectedOptions, option.value]
         states.cachedOptions.push(option)
         selectNewOption(option)
         updateHoveringIndex(idx)
@@ -422,7 +422,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     } else {
       selectedIndex.value = idx
       states.selectedLabel = option.label
-      update(getValueKey(option))
+      update(option.value)
       expanded.value = false
       states.isComposing = false
       states.isSilentBlur = byClick
@@ -434,20 +434,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const deleteTag = (event: MouseEvent, tag: Option) => {
-    const { valueKey } = props
-    const index = (props.modelValue as Array<any>).indexOf(get(tag, valueKey))
+  const deleteTag = (event: MouseEvent, option: Option) => {
+    let selectedOptions = (props.modelValue as any[]).slice()
 
+    const index = getValueIndex(selectedOptions, option.value)
     if (index > -1 && !selectDisabled.value) {
-      const value = [
+      selectedOptions = [
         ...(props.modelValue as Array<unknown>).slice(0, index),
         ...(props.modelValue as Array<unknown>).slice(index + 1),
       ]
       states.cachedOptions.splice(index, 1)
-      update(value)
-      emit('removeTag', get(tag, valueKey))
+      update(selectedOptions)
+      emit('removeTag', option.value)
       states.softFocus = true
-      removeNewOption(tag)
+      removeNewOption(option)
       return nextTick(focusAndUpdatePopup)
     }
     event.stopPropagation()
@@ -650,7 +650,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = props.modelValue.toString()
         ;(props.modelValue as Array<any>).forEach((selected) => {
           const itemIndex = filteredOptions.value.findIndex(
-            (option) => getValueKey(option) === selected
+            (option) => getValueKey(option.value) === getValueKey(selected)
           )
           if (~itemIndex) {
             states.cachedOptions.push(
@@ -671,7 +671,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         states.previousValue = props.modelValue
         const options = filteredOptions.value
         const selectedItemIndex = options.findIndex(
-          (option) => getValueKey(option) === getValueKey(props.modelValue)
+          (option) =>
+            getValueKey(option.value) === getValueKey(props.modelValue)
         )
         if (~selectedItemIndex) {
           states.selectedLabel = options[selectedItemIndex].label
