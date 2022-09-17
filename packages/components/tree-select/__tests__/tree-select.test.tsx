@@ -1,8 +1,9 @@
-import { h, nextTick, ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import TreeSelect from '../src/tree-select.vue'
+
 import type { RenderFunction } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type ElSelect from '@element-plus/components/select'
@@ -18,44 +19,41 @@ const createComponent = ({
   slots?: Record<string, any>
   props?: typeof TreeSelect['props']
 } = {}) => {
-  // vm can not get component expose, use ref
-  const wrapperRef = ref()
+  const wrapperRef = ref<InstanceType<typeof TreeSelect>>()
   const value = props.modelValue || ref('')
-  const wrapper = mount({
-    data() {
-      return {
-        modelValue: value,
-        data: [
-          {
-            value: 1,
-            label: '一级 1',
-            children: [
-              {
-                value: 11,
-                label: '二级 1-1',
-                children: [
-                  {
-                    value: 111,
-                    label: '三级 1-1',
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-        'onUpdate:modelValue': (val: string) => (value.value = val),
-        renderAfterExpand: false,
-        ...props,
-      }
-    },
-    render() {
-      return h(
-        TreeSelect,
+  const data = ref([
+    {
+      value: 1,
+      label: '一级 1',
+      children: [
         {
-          ...this.$data,
-          ref: (val: object) => (wrapperRef.value = val),
+          value: 11,
+          label: '二级 1-1',
+          children: [
+            {
+              value: 111,
+              label: '三级 1-1',
+            },
+          ],
         },
-        slots
+      ],
+    },
+  ])
+
+  const wrapper = mount({
+    render() {
+      return (
+        <TreeSelect
+          data={data.value}
+          renderAfterExpand={false}
+          {...props}
+          modelValue={value.value}
+          onUpdate:modelValue={(val: string) => (value.value = val)}
+          ref={(val: InstanceType<typeof TreeSelect>) =>
+            (wrapperRef.value = val)
+          }
+          v-slots={slots}
+        />
       )
     },
   })
@@ -101,7 +99,7 @@ describe('TreeSelect.vue', () => {
     expect(tree.findAll('.el-tree .el-tree-node').length).toBe(3)
     expect(tree.findAll('.el-tree .el-select-dropdown__item').length).toBe(3)
 
-    wrapper.vm.data[0].children = []
+    wrapper.findComponent(TreeSelect).vm.data[0].children = []
 
     await nextTick()
 
@@ -187,7 +185,7 @@ describe('TreeSelect.vue', () => {
       .find('.el-tree-node .el-select-dropdown__item.is-disabled')
       .trigger('click')
     await nextTick()
-    expect(wrapper.vm.modelValue).toBe('1')
+    expect(wrapper.findComponent(TreeSelect).vm.modelValue).toBe('1')
   })
 
   test('multiple', async () => {
@@ -280,8 +278,7 @@ describe('TreeSelect.vue', () => {
 
     await nextTick()
     expect(tree.find('.el-select-dropdown__item').text()).toBe('1')
-    wrapper.vm.modelValue = '2'
-    await nextTick()
+    await wrapper.setProps({ modelValue: '2' })
     expect(select.vm.selectedLabel).toBe('2')
   })
 
