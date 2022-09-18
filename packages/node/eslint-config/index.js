@@ -171,6 +171,7 @@ module.exports = defineConfig({
     'no-multi-str': 'error',
     'no-with': 'error',
     'no-void': 'error',
+    'require-await': 'error',
 
     'sort-imports': [
       'warn',
