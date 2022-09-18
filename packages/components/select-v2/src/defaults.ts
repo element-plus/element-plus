@@ -1,26 +1,28 @@
 import { placements } from '@popperjs/core'
-import { definePropType, isValidComponentSize } from '@element-plus/utils'
+import { useSizeProp } from '@element-plus/hooks'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
-import type { Component, PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/constants'
-import type { OptionType } from './select.types'
+import { defaultProps } from './useProps'
+
+import type { Option, OptionType } from './select.types'
+import type { Props } from './useProps'
 import type { Options, Placement } from '@element-plus/components/popper'
 
-export const SelectProps = {
+export const SelectProps = buildProps({
   allowCreate: Boolean,
   autocomplete: {
-    type: String as PropType<'none' | 'both' | 'list' | 'inline'>,
+    type: definePropType<'none' | 'both' | 'list' | 'inline'>(String),
     default: 'none',
   },
   automaticDropdown: Boolean,
   clearable: Boolean,
   clearIcon: {
-    type: [String, Object] as PropType<string | Component>,
+    type: iconPropType,
     default: CircleClose,
   },
   effect: {
-    type: String as PropType<'light' | 'dark' | string>,
+    type: definePropType<'light' | 'dark' | string>(String),
     default: 'light',
   },
   collapseTags: Boolean,
@@ -48,9 +50,11 @@ export const SelectProps = {
   loading: Boolean,
   loadingText: String,
   label: String,
-  modelValue: [Array, String, Number, Boolean, Object] as PropType<
-    any[] | string | number | boolean | Record<string, any> | any
-  >,
+  modelValue: {
+    type: definePropType<
+      any[] | string | number | boolean | Record<string, any> | any
+    >([Array, String, Number, Boolean, Object]),
+  },
   multiple: Boolean,
   multipleLimit: {
     type: Number,
@@ -65,7 +69,7 @@ export const SelectProps = {
     default: true,
   },
   options: {
-    type: Array as PropType<OptionType[]>,
+    type: definePropType<OptionType[]>(Array),
     required: true,
   },
   placeholder: {
@@ -81,13 +85,14 @@ export const SelectProps = {
     default: '',
   },
   popperOptions: {
-    type: Object as PropType<Partial<Options>>,
+    type: definePropType<Partial<Options>>(Object),
     default: () => ({} as Partial<Options>),
   },
   remote: Boolean,
-  size: {
-    type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
+  size: useSizeProp,
+  props: {
+    type: definePropType<Props>(Object),
+    default: () => defaultProps,
   },
   valueKey: {
     type: String,
@@ -106,15 +111,18 @@ export const SelectProps = {
     values: placements,
     default: 'bottom-start',
   },
-}
+} as const)
 
-export const OptionProps = {
+export const OptionProps = buildProps({
   data: Array,
   disabled: Boolean,
   hovering: Boolean,
-  item: Object,
+  item: {
+    type: definePropType<Option>(Object),
+    required: true,
+  },
   index: Number,
   style: Object,
   selected: Boolean,
   created: Boolean,
-}
+} as const)

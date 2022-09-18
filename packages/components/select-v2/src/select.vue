@@ -44,7 +44,7 @@
               <div :class="nsSelectV2.e('selected-item')">
                 <el-tag
                   :closable="
-                    !selectDisabled && !states.cachedOptions[0]?.disable
+                    !selectDisabled && !getDisabled(states.cachedOptions[0])
                   "
                   :size="collapseTagSize"
                   type="info"
@@ -56,8 +56,9 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                    >{{ states.cachedOptions[0]?.label }}</span
                   >
+                    {{ getLabel(states.cachedOptions[0]) }}
+                  </span>
                 </el-tag>
                 <el-tag
                   v-if="modelValue.length > 1"
@@ -80,8 +81,9 @@
                         :style="{
                           maxWidth: `${tagMaxWidth}px`,
                         }"
-                        >+ {{ modelValue.length - 1 }}</span
                       >
+                        + {{ modelValue.length - 1 }}
+                      </span>
                     </template>
                     <template #content>
                       <div :class="nsSelectV2.e('selection')">
@@ -93,8 +95,10 @@
                           :class="nsSelectV2.e('selected-item')"
                         >
                           <el-tag
-                            :key="getValueKey(selected)"
-                            :closable="!selectDisabled && !selected.disabled"
+                            :key="getValueKey(getValue(selected))"
+                            :closable="
+                              !selectDisabled && !getDisabled(selected)
+                            "
                             :size="collapseTagSize"
                             class="in-tooltip"
                             type="info"
@@ -106,8 +110,9 @@
                               :style="{
                                 maxWidth: `${tagMaxWidth}px`,
                               }"
-                              >{{ getLabel(selected) }}</span
                             >
+                              {{ getLabel(selected) }}
+                            </span>
                           </el-tag>
                         </div>
                       </div>
@@ -119,8 +124,9 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                    >+ {{ modelValue.length - 1 }}</span
                   >
+                    + {{ modelValue.length - 1 }}
+                  </span>
                 </el-tag>
               </div>
             </template>
@@ -132,8 +138,8 @@
                 :class="nsSelectV2.e('selected-item')"
               >
                 <el-tag
-                  :key="getValueKey(selected)"
-                  :closable="!selectDisabled && !selected.disabled"
+                  :key="getValueKey(getValue(selected))"
+                  :closable="!selectDisabled && !getDisabled(selected)"
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
@@ -144,8 +150,9 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                    >{{ getLabel(selected) }}</span
                   >
+                    {{ getLabel(selected) }}
+                  </span>
                 </el-tag>
               </div>
             </template>
