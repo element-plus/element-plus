@@ -49,9 +49,10 @@
 <script lang="ts" setup>
 import { computed, inject, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
+import { checkboxGroupContextKey } from '@element-plus/tokens'
 import { useCheckbox } from './composables'
 import { checkboxEmits, checkboxProps } from './checkbox'
+
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -70,7 +71,7 @@ const {
   model,
   handleChange,
 } = useCheckbox(props, slots)
-const checkboxGroup = inject(checkboxGroupContextKey)
+const checkboxGroup = inject(checkboxGroupContextKey, undefined)
 const ns = useNamespace('checkbox')
 
 const activeStyle = computed<CSSProperties>(() => {
