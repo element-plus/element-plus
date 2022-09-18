@@ -1,4 +1,4 @@
-import { computed, defineComponent, provide } from 'vue'
+import { computed, provide } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { uploadContextKey } from '@element-plus/tokens'
@@ -6,18 +6,13 @@ import UploadDragger from '../src/upload-dragger.vue'
 
 const AXIOM = 'Rem is the best girl'
 
-const _mount = (options = {}) =>
-  mount(
-    defineComponent({
-      setup() {
-        provide(uploadContextKey, { accept: computed(() => 'video/*') })
-      },
-      render() {
-        return <UploadDragger {...this.$attrs}>{AXIOM}</UploadDragger>
-      },
-    }),
-    options
-  )
+const _mount = (props = {}) =>
+  mount({
+    setup() {
+      provide(uploadContextKey, { accept: computed(() => 'video/*') })
+      return () => <UploadDragger {...props}>{AXIOM}</UploadDragger>
+    },
+  })
 
 describe('<upload-dragger />', () => {
   describe('render test', () => {
@@ -37,11 +32,7 @@ describe('<upload-dragger />', () => {
 
     test('ondrop works for any given video type', async () => {
       const onDrop = vi.fn()
-      const wrapper = _mount({
-        props: {
-          onDrop,
-        },
-      })
+      const wrapper = _mount({ onDrop })
       const dragger = wrapper.findComponent(UploadDragger)
 
       await dragger.trigger('drop', {
