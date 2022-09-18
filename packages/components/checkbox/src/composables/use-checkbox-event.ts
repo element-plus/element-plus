@@ -1,6 +1,6 @@
 import { computed, getCurrentInstance, inject, nextTick, watch } from 'vue'
 import { useFormItem } from '@element-plus/hooks'
-import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
+import { checkboxGroupContextKey } from '@element-plus/tokens'
 import { debugWarn } from '@element-plus/utils'
 
 import type { useFormItemInputId } from '@element-plus/hooks'
