@@ -145,7 +145,7 @@ const coreStyle = computed<CSSProperties>(() => ({
   width: addUnit(props.width),
 }))
 
-const toggleSwitch = async () => {
+const toggleSwitch = () => {
   checked.value = !checked.value
   rAF(() => {
     input.value!.checked = checked.value
