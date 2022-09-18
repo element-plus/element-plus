@@ -47,7 +47,7 @@
   </el-popper>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
   computed,
   onDeactivated,
@@ -58,12 +58,7 @@ import {
   unref,
   watch,
 } from 'vue'
-import {
-  ElPopper,
-  ElPopperArrow,
-  usePopperArrowProps,
-  usePopperProps,
-} from '@element-plus/components/popper'
+import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
 
 import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils'
 import {
@@ -71,37 +66,21 @@ import {
   useId,
   usePopperContainer,
 } from '@element-plus/hooks'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
 import {
+  TooltipEmits,
+  TooltipProps,
   createModelToggleComposableResult,
-  useTooltipContentProps,
-  useTooltipProps,
-  useTooltipTriggerProps,
 } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
-import { TOOLTIP_INJECTION_KEY } from './tokens'
 import ElTooltipContent from './content.vue'
 
 defineOptions({
   name: 'ElTooltip',
 })
 
-const props = defineProps({
-  ...usePopperProps,
-  ...createModelToggleComposableResult.useModelToggleProps,
-  ...useTooltipContentProps,
-  ...useTooltipTriggerProps,
-  ...usePopperArrowProps,
-  ...useTooltipProps,
-})
-const emit = defineEmits([
-  ...createModelToggleComposableResult.useModelToggleEmits,
-  'before-show',
-  'before-hide',
-  'show',
-  'hide',
-  'open',
-  'close',
-])
+const props = defineProps(TooltipProps)
+const emit = defineEmits(TooltipEmits)
 
 const { useModelToggle } = createModelToggleComposableResult
 
@@ -127,9 +106,9 @@ const compatShowArrow = computed(() => {
 
 const id = useId()
 // TODO any is temporary, replace with `InstanceType<typeof ElPopper> | null` later
-const popperRef = ref<any>(null)
+const popperRef = ref<any>()
 // TODO any is temporary, replace with `InstanceType<typeof ElTooltipContent> | null` later
-const contentRef = ref<any>(null)
+const contentRef = ref<any>()
 
 const updatePopper = () => {
   const popperComponent = unref(popperRef)
@@ -138,7 +117,7 @@ const updatePopper = () => {
   }
 }
 const open = ref(false)
-const toggleReason = ref<Event | undefined>(undefined)
+const toggleReason = ref<Event>()
 
 const { show, hide, hasUpdateHandler } = useModelToggle({
   indicator: open,

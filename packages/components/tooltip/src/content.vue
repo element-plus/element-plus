@@ -49,10 +49,9 @@
 import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { composeEventHandlers } from '@element-plus/utils'
-
 import { ElPopperContent } from '@element-plus/components/popper'
-import { useTooltipContentProps } from './tooltip'
-import { TOOLTIP_INJECTION_KEY } from './tokens'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { useTooltipContentProps } from './content'
 
 defineOptions({
   name: 'ElTooltipContent',

@@ -1,7 +1,7 @@
 import { unref } from 'vue'
 import { isArray } from '@element-plus/utils'
 import type { Ref } from 'vue'
-import type { Trigger } from './tooltip'
+import type { Trigger } from './trigger'
 
 export const isTriggerType = (trigger: Trigger | Trigger[], type: Trigger) => {
   if (isArray(trigger)) {

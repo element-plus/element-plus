@@ -3,5 +3,7 @@ import Tooltip from './src/tooltip.vue'
 
 export const ElTooltip = withInstall(Tooltip)
 export * from './src/tooltip'
-export * from './src/tokens'
+export * from './src/trigger'
+export * from './src/content'
+export * from '@element-plus/tokens/tooltip'
 export default ElTooltip
