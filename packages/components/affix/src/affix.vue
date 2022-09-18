@@ -1,7 +1,7 @@
 <template>
   <div ref="root" :class="ns.b()" :style="rootStyle">
     <div :class="{ [ns.m('fixed')]: fixed }" :style="affixStyle">
-      <slot />
+      <div ref="content"><slot /></div>
     </div>
   </div>
 </template>
@@ -30,6 +30,7 @@ const ns = useNamespace('affix')
 
 const target = shallowRef<HTMLElement>()
 const root = shallowRef<HTMLDivElement>()
+const content = shallowRef<HTMLDivElement>()
 const scrollContainer = shallowRef<HTMLElement | Window>()
 const { height: windowHeight } = useWindowSize()
 const {
@@ -39,16 +40,15 @@ const {
   bottom: rootBottom,
   update: updateRoot,
 } = useElementBounding(root)
+const { height: contentHeight } = useElementBounding(content)
 const targetRect = useElementBounding(target)
 
 const fixed = ref(false)
 const scrollTop = ref(0)
 const transform = ref(0)
-
 const rootStyle = computed<CSSProperties>(() => {
   return {
-    height: fixed.value ? `${rootHeight.value}px` : '',
-    width: fixed.value ? `${rootWidth.value}px` : '',
+    height: fixed.value ? `${contentHeight.value}px` : '',
   }
 })
 
@@ -57,7 +57,7 @@ const affixStyle = computed<CSSProperties>(() => {
 
   const offset = props.offset ? `${props.offset}px` : 0
   return {
-    height: `${rootHeight.value}px`,
+    height: `${contentHeight.value}px`,
     width: `${rootWidth.value}px`,
     top: props.position === 'top' ? offset : '',
     bottom: props.position === 'bottom' ? offset : '',
@@ -104,7 +104,6 @@ const handleScroll = () => {
     fixed: fixed.value,
   })
 }
-
 watch(fixed, (val) => emit('change', val))
 
 onMounted(() => {
