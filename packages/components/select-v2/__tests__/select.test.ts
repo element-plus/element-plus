@@ -9,6 +9,8 @@ import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Select from '../src/select.vue'
+import { useProps } from '../src/useProps'
+import type { Props } from '../src/useProps'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -27,8 +29,8 @@ const _mount = makeMountFunc({
   },
 })
 
+const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 const createData = (count = 1000) => {
-  const initials = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
   return Array.from({ length: count }).map((_, idx) => ({
     value: `option_${idx + 1}`,
     label: `${initials[idx % 10]}${idx}`,
@@ -60,6 +62,7 @@ interface SelectProps {
   allowCreate?: boolean
   popperAppendToBody?: boolean
   placeholder?: string
+  props?: Props
   [key: string]: any
 }
 
@@ -113,6 +116,7 @@ const createSelect = (
         :reserve-keyword="reserveKeyword"
         :scrollbar-always-on="scrollbarAlwaysOn"
         :teleported="teleported"
+        :props="props"
         ${
           options.methods && options.methods.filterMethod
             ? `:filter-method="filterMethod"`
@@ -154,6 +158,7 @@ const createSelect = (
           scrollbarAlwaysOn: false,
           popperAppendToBody: undefined,
           teleported: undefined,
+          props: undefined,
           ...(options.data && options.data()),
         }
       },
@@ -179,6 +184,7 @@ const CLASS_NAME = 'el-select-v2'
 const WRAPPER_CLASS_NAME = 'el-select-v2__wrapper'
 const OPTION_ITEM_CLASS_NAME = 'el-select-dropdown__option-item'
 const PLACEHOLDER_CLASS_NAME = 'el-select-v2__placeholder'
+const GROUP_TITLE_CLASS_NAME = 'el-select-group__title'
 const DEFAULT_PLACEHOLDER = 'Select'
 
 describe('Select', () => {
@@ -1537,6 +1543,194 @@ describe('Select', () => {
       expect(
         document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
       ).toBe('')
+    })
+  })
+
+  describe('props', () => {
+    const props = {
+      label: 'name',
+      value: 'id',
+      disabled: 'disable',
+      options: 'children',
+    }
+
+    const createData = (count = 100) => {
+      return Array.from({ length: count }).map((_, idx) => ({
+        id: `Option ${idx + 1}`,
+        name: `${initials[idx % 10]}${idx}`,
+        disable: !(idx % 10),
+      }))
+    }
+
+    const createGloup = (count = 10, child = 5) => {
+      return Array.from({ length: count }).map((_, idx) => {
+        const label = idx + 1
+        return {
+          id: `Group ${label}`,
+          name: `Group ${label}`,
+          children: Array.from({ length: child }).map((_, idx) => ({
+            id: `Option ${idx + 1 + 10 * label}`,
+            name: `${initials[idx % 10]}${idx + 1 + 10 * label}`,
+            disable: !(idx % 10),
+          })),
+        }
+      })
+    }
+
+    it('useProps', () => {
+      const { aliasProps, getLabel, getValue, getDisabled, getOptions } =
+        useProps({ props })
+      const options = createData(40)
+      const group = createGloup(1, 5)
+
+      expect(aliasProps.value).toEqual(props)
+      ;[2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31].forEach((index) => {
+        expect(getLabel(options[index])).toBe(options[index].name)
+        expect(getValue(options[index])).toBe(options[index].id)
+        expect(getDisabled(options[index])).toBe(options[index].disable)
+      })
+
+      expect(getOptions(group[0]).length).toBe(5)
+      expect(getOptions(group[0])).toEqual(group[0].children)
+    })
+
+    it('single select', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            options: createData(),
+            props,
+          }
+        },
+      })
+      const vm = wrapper.vm as any
+      const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+      await nextTick()
+
+      expect(wrapper.classes()).toContain(CLASS_NAME)
+      expect(placeholder.text()).toContain(DEFAULT_PLACEHOLDER)
+
+      const select = wrapper.findComponent(Select)
+      await wrapper.trigger('click')
+      await nextTick()
+      expect((select.vm as any).expanded).toBeTruthy()
+
+      const options = getOptions()
+      expect(vm.value).toBe('')
+      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+      options[2].click()
+      await nextTick()
+      expect(vm.value).toBe(vm.options[2].id)
+      expect(placeholder.text()).toBe(vm.options[2].name)
+    })
+
+    it('default value', async () => {
+      const wrapper = createSelect({
+        data: () => ({
+          value: 'Option 2',
+          options: createData(),
+          props,
+        }),
+      })
+      const vm = wrapper.vm as any
+      const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
+      await nextTick()
+
+      expect(placeholder.text()).toBe(vm.options[1].name)
+    })
+
+    it('multiple select', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            value: [],
+            options: createData(),
+            props,
+          }
+        },
+      })
+      const vm = wrapper.vm as any
+      await nextTick()
+
+      const options = getOptions()
+      options[1].click()
+      await nextTick()
+      expect(vm.value.length).toBe(1)
+      expect(vm.value[0]).toBe(vm.options[1].id)
+
+      options[3].click()
+      await nextTick()
+      expect(vm.value.length).toBe(2)
+      expect(vm.value[1]).toBe(vm.options[3].id)
+
+      const tagIcon = wrapper.find('.el-tag__close')
+      await tagIcon.trigger('click')
+      expect(vm.value.length).toBe(1)
+    })
+
+    it('gloup', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            options: createGloup(10, 5),
+            props,
+          }
+        },
+      })
+      const vm = wrapper.vm as any
+      await nextTick()
+
+      const gloupTitle = Array.from(
+        document.querySelectorAll(`.${GROUP_TITLE_CLASS_NAME}`)
+      )
+      const result = gloupTitle.every((item, index) => {
+        const text = item.textContent
+        return text === vm.options[index].name
+      })
+      expect(result).toBeTruthy()
+    })
+
+    it('allow-create', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            allowCreate: true,
+            filterable: true,
+            clearable: true,
+            multiple: true,
+            options: createData(20),
+            value: ['Option 2'],
+          }
+        },
+      })
+      const vm = wrapper.vm as any
+      await nextTick()
+
+      expect(vm.value.length).toBe(1)
+      expect(vm.value[0]).toBe(vm.options[1].id)
+
+      await wrapper.trigger('click')
+      const input = wrapper.find('input')
+      input.element.value = '1111'
+      await input.trigger('input')
+      await nextTick()
+      const select = wrapper.findComponent(Select)
+      const selectVm = select.vm as any
+      expect(selectVm.filteredOptions.length).toBe(1)
+
+      selectVm.onSelect(selectVm.filteredOptions[0])
+      await wrapper.trigger('click')
+      input.element.value = '2222'
+      await input.trigger('input')
+      await nextTick()
+      selectVm.onSelect(selectVm.filteredOptions[0])
+
+      expect(vm.value).toContain('Option 2')
+      expect(vm.value).toContain('1111')
+      expect(vm.value).toContain('2222')
+      await wrapper.trigger('click')
+      expect(selectVm.filteredOptions.length).toBe(22)
     })
   })
 })
