@@ -125,9 +125,17 @@ select-v2/remote-search
 
 :::
 
-## use value-key
+## Aliases for custom options
 
-:::demo when `options.value` is an object, you should set a unique identity key name for value
+:::demo When your `options` format is different from the default format, you can customize the alias of the `options` through the `props` attribute
+
+select-v2/props
+
+:::
+
+## Select object
+
+:::demo When you need to select object, you should set a unique identity key name for value
 
 select-v2/use-valueKey
 
@@ -138,6 +146,8 @@ select-v2/use-valueKey
 | Name                              | Description                                                                                                                              | Type                               | Accepted Values                                                                                           | Default       |
 | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------- |
 | model-value / v-model             | biding value                                                                                                                             | string / number / boolean / object | —                                                                                                         | —             |
+| options                           | data of the options, the key of `value` and `label` can be customize by `props`                                                          | Array                              | —                                                                                                         | —             |
+| props                             | configuration options, see the following table                                                                                           | object                             | —                                                                                                         | —             |
 | multiple                          | is multiple                                                                                                                              | boolean                            | —                                                                                                         | false         |
 | disabled                          | is disabled                                                                                                                              | boolean                            | —                                                                                                         | false         |
 | value-key                         | unique identity key name for value, required when value is an object                                                                     | string                             | —                                                                                                         | value         |
@@ -174,6 +184,15 @@ select-v2/use-valueKey
 | loading | 是否正在从远程获取数据 | boolean | — | false |
 | loading-text | 远程加载时显示的文字 | string | — | 加载中 | -->
 </span>
+
+## props
+
+| Attribute | Description                                                     | Type   | Default  |
+| --------- | --------------------------------------------------------------- | ------ | -------- |
+| value     | specify which key of node object is used as the node's value    | string | value    |
+| label     | specify which key of node object is used as the node's label    | string | label    |
+| options   | specify which key of node object is used as the node's children | string | options  |
+| disabled  | specify which key of node object is used as the node's disabled | string | disabled |
 
 ## SelectV2 Events
 
