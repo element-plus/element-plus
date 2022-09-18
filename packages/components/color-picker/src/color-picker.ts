@@ -1,6 +1,7 @@
+import { isNil } from 'lodash-unified'
 import { buildProps, definePropType, isString } from '@element-plus/utils'
 import { useSizeProp } from '@element-plus/hooks'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { ComputedRef, ExtractPropTypes, InjectionKey } from 'vue'
 import type ColorPicker from './color-picker.vue'
@@ -33,9 +34,9 @@ export const colorPickerProps = buildProps({
   },
 } as const)
 export const colorPickerEmits = {
-  change: (color: string | null) => isString(color),
-  activeChange: (color: string | null) => isString(color),
-  [UPDATE_MODEL_EVENT]: (color: string | null) => isString(color),
+  [UPDATE_MODEL_EVENT]: (val: string | null) => isString(val) || isNil(val),
+  [CHANGE_EVENT]: (val: string | null) => isString(val) || isNil(val),
+  activeChange: (val: string | null) => isString(val) || isNil(val),
 }
 
 export type ColorPickerProps = ExtractPropTypes<typeof colorPickerProps>
