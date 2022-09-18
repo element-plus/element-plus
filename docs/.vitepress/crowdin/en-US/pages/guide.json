@@ -54,5 +54,26 @@
         "link": "/guide/changelog"
       }
     ]
+  },
+  "development": {
+    "text": "Development",
+    "children": [
+      {
+        "text": "Development Guide",
+        "link": "/guide/dev-guide"
+      },
+      {
+        "text": "Development FAQ",
+        "link": "/guide/dev-faq"
+      },
+      {
+        "text": "Commit Examples",
+        "link": "/guide/commit-examples"
+      },
+      {
+        "text": "Translation",
+        "link": "/guide/translation"
+      }
+    ]
   }
 }

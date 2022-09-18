@@ -2,7 +2,11 @@ node_modules
 dist
 pnpm-lock.yaml
 CHANGELOG.en-US.md
-!.*
 docs/components.d.ts
 coverage
+play
 ssr-testing/cases/*
+docs/.vitepress/i18n/*
+docs/.vitepress/crowdin/*
+!docs/.vitepress/crowdin/en-US
+!.*

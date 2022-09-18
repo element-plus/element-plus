@@ -41,7 +41,7 @@ descriptions/customized-style
 
 ## Descriptions Attributes
 
-| Attribute | Description                                | Type    | Accepted Values         | Default    |
+| Name      | Description                                | Type    | Accepted Values         | Default    |
 | --------- | ------------------------------------------ | ------- | ----------------------- | ---------- |
 | border    | with or without border                     | boolean | —                       | false      |
 | column    | numbers of `Descriptions Item` in one line | number  | —                       | 3          |
@@ -60,7 +60,7 @@ descriptions/customized-style
 
 ## Descriptions Item Attributes
 
-| Attribute        | Description                                                                                                                                                                                  | Type            | Accepted Values       | Default |
+| Name             | Description                                                                                                                                                                                  | Type            | Accepted Values       | Default |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- | --------------------- | ------- |
 | label            | label text                                                                                                                                                                                   | string          | —                     | —       |
 | span             | colspan of column                                                                                                                                                                            | number          | —                     | 1       |

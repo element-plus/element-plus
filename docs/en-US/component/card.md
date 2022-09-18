@@ -49,7 +49,7 @@ card/shadow
 
 ## Attributes
 
-| Attribute  | Description                                                   | Type   | Accepted Values        | Default               |
+| Name       | Description                                                   | Type   | Accepted Values        | Default               |
 | ---------- | ------------------------------------------------------------- | ------ | ---------------------- | --------------------- |
 | header     | title of the card. Also accepts a DOM passed by `slot#header` | string | —                      | —                     |
 | body-style | CSS style of body                                             | object | —                      | `{ padding: '20px' }` |
