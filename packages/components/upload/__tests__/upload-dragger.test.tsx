@@ -1,30 +1,28 @@
-import { computed, defineComponent, h, provide } from 'vue'
+import { computed, defineComponent, provide } from 'vue'
+import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
-import makeMount from '@element-plus/test-utils/make-mount'
 import { uploadContextKey } from '@element-plus/tokens'
 import UploadDragger from '../src/upload-dragger.vue'
 
 const AXIOM = 'Rem is the best girl'
 
-const Wrapper = defineComponent({
-  props: {
-    onDrop: Function,
-  },
-  setup(props, { slots }) {
-    provide(uploadContextKey, { accept: computed(() => 'video/*') })
-    return () => h(UploadDragger, props, slots)
-  },
-})
-const mount = makeMount(Wrapper, {
-  slots: {
-    default: () => AXIOM,
-  },
-})
+const _mount = (options = {}) =>
+  mount(
+    defineComponent({
+      setup() {
+        provide(uploadContextKey, { accept: computed(() => 'video/*') })
+      },
+      render() {
+        return <UploadDragger {...this.$attrs}>{AXIOM}</UploadDragger>
+      },
+    }),
+    options
+  )
 
 describe('<upload-dragger />', () => {
   describe('render test', () => {
     test('should render correct', () => {
-      const wrapper = mount()
+      const wrapper = _mount()
 
       expect(wrapper.text()).toBe(AXIOM)
     })
@@ -32,14 +30,14 @@ describe('<upload-dragger />', () => {
 
   describe('functionality', () => {
     test('onDrag works', async () => {
-      const wrapper = mount()
+      const wrapper = _mount()
       await wrapper.find('.el-upload-dragger').trigger('dragover')
       expect(wrapper.classes('is-dragover')).toBe(true)
     })
 
     test('ondrop works for any given video type', async () => {
       const onDrop = vi.fn()
-      const wrapper = mount({
+      const wrapper = _mount({
         props: {
           onDrop,
         },
