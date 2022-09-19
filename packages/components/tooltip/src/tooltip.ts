@@ -6,8 +6,6 @@ import {
 } from '@element-plus/components/popper'
 import { useTooltipContentProps } from './content'
 import { useTooltipTriggerProps } from './trigger'
-import type { ElTooltipTriggerProps } from './trigger'
-import type { ElTooltipContentProps } from './content'
 import type Tooltip from './tooltip.vue'
 
 import type { ExtractPropTypes } from 'vue'
