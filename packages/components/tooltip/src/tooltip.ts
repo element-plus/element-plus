@@ -31,10 +31,6 @@ export const useTooltipProps = buildProps({
     type: Boolean,
     default: undefined,
   },
-  hideAfter: {
-    type: Number,
-    default: 200,
-  },
   showArrow: {
     type: Boolean,
     default: true,
@@ -51,8 +47,6 @@ export const tooltipEmits = [
   'close',
 ]
 
-export type ElTooltipProps = ExtractPropTypes<typeof useTooltipProps> &
-  ElTooltipContentProps &
-  ElTooltipTriggerProps
+export type ElTooltipProps = ExtractPropTypes<typeof useTooltipProps>
 
 export type TooltipInstance = InstanceType<typeof Tooltip>
