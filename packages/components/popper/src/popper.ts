@@ -13,8 +13,10 @@ export const Effect = {
 export const roleTypes = [
   'dialog',
   'grid',
+  'group',
   'listbox',
   'menu',
+  'navigation',
   'tooltip',
   'tree',
 ] as const
