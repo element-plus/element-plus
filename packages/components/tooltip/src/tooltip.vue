@@ -214,5 +214,9 @@ defineExpose({
    * @description expose disable state
    */
   disabled: props.disabled,
+  /**
+   * @description expose hide function
+   */
+  hide,
 })
 </script>
