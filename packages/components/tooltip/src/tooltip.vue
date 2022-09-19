@@ -67,7 +67,7 @@ import {
   usePopperContainer,
 } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
-import { tooltipEmits, tooltipProps, useTooltipModelToggle } from './tooltip'
+import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
 
@@ -75,7 +75,7 @@ defineOptions({
   name: 'ElTooltip',
 })
 
-const props = defineProps(tooltipProps)
+const props = defineProps(useTooltipProps)
 const emit = defineEmits(tooltipEmits)
 
 usePopperContainer()

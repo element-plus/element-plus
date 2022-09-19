@@ -19,6 +19,11 @@ export const {
 } = createModelToggleComposable('visible' as const)
 
 export const useTooltipProps = buildProps({
+  ...usePopperProps,
+  ...useTooltipModelToggleProps,
+  ...useTooltipContentProps,
+  ...useTooltipTriggerProps,
+  ...usePopperArrowProps,
   openDelay: {
     type: Number,
   },
@@ -36,15 +41,6 @@ export const useTooltipProps = buildProps({
   },
 })
 
-export const tooltipProps = {
-  ...useTooltipProps,
-  ...usePopperProps,
-  ...useTooltipModelToggleProps,
-  ...useTooltipContentProps,
-  ...useTooltipTriggerProps,
-  ...usePopperArrowProps,
-}
-
 export const tooltipEmits = [
   ...useTooltipModelToggleEmits,
   'before-show',
@@ -55,7 +51,7 @@ export const tooltipEmits = [
   'close',
 ]
 
-export type ElTooltipProps = ExtractPropTypes<typeof tooltipProps> &
+export type ElTooltipProps = ExtractPropTypes<typeof useTooltipProps> &
   ElTooltipContentProps &
   ElTooltipTriggerProps
 
