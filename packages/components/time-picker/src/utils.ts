@@ -63,13 +63,10 @@ export const parseDate = function (
   format: string | undefined,
   lang: string
 ) {
-  const dateType = ['ww', 'w']
   const day =
     isEmpty(format) || format === 'x'
       ? dayjs(date).locale(lang)
-      : !dateType.some((item) => format?.includes(item))
-      ? dayjs(date, format).locale(lang)
-      : dayjs().week(Number.parseInt((date as string).split('Week')[1]))
+      : dayjs(date, format).locale(lang)
   return day.isValid() ? day : undefined
 }
 
@@ -79,8 +76,10 @@ export const formatter = function (
   lang: string
 ) {
   if (isEmpty(format)) return date
-  if (format === 'x') return +date
-  return dayjs(date).locale(lang).format(format)
+  if (['ww', 'w', 'x'].some((item) => format?.includes(item))) {
+    return dayjs(+date).locale(lang)
+  }
+  return dayjs(date, format).locale(lang)
 }
 
 export const makeList = (total: number, method?: () => number[]) => {
