@@ -1,0 +1,17 @@
+- scope: 'component'
+  name: 'el-switch'
+  type: 'props'
+  version: '2.3.0'
+  commit_hash: 'e0db71cd8'
+  description: |
+    Remove `value` prop and `input` event. Since Vue 3 no longer uses `value` and `input`, but `modelValue` and `update:modelValue`. Also they are not public in the documentation either.
+
+  props:
+    - api: value
+      before: '`string`'
+      after: removed
+
+  emits:
+    - api: input
+      before: '`(val: boolean | string | number) => void`'
+      after: removed
