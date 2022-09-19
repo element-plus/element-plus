@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { replace } from 'lodash-unified'
 import { isArray, isDate, isEmpty } from '@element-plus/utils'
 
 import type { Dayjs } from 'dayjs'
@@ -66,6 +67,8 @@ export const parseDate = function (
   const day =
     isEmpty(format) || format === 'x'
       ? dayjs(date).locale(lang)
+      : ['ww', 'w'].some((item) => format?.includes(item))
+      ? dayjs().week(replace(date as string, /[^0-9]/gi, '') as any)
       : dayjs(date, format).locale(lang)
   return day.isValid() ? day : undefined
 }
@@ -76,10 +79,8 @@ export const formatter = function (
   lang: string
 ) {
   if (isEmpty(format)) return date
-  if (['ww', 'w', 'x'].some((item) => format?.includes(item))) {
-    return dayjs(+date).locale(lang)
-  }
-  return dayjs(date, format).locale(lang)
+  if (format === 'x') return +date
+  return dayjs(date).locale(lang).format(format)
 }
 
 export const makeList = (total: number, method?: () => number[]) => {
