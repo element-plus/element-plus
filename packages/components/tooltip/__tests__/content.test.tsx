@@ -13,6 +13,7 @@ import { usePopperContainer } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
 import { genTooltipProvides } from '../test-helper/provides'
 import ElTooltipContent from '../src/content.vue'
+import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'rem is the best girl'
 
@@ -51,20 +52,14 @@ describe('<ElTooltipContent />', () => {
   const createComponent = (props = {}, provides = {}) => {
     const wrapper = mount(
       {
-        components: {
-          ElTooltipContent,
-        },
         setup() {
           usePopperContainer()
 
-          return () => (
-            <el-tooltip-content {...props}>
-              <slot />
-            </el-tooltip-content>
-          )
+          return () => <ElTooltipContent>{AXIOM}</ElTooltipContent>
         },
       },
       {
+        props,
         global: {
           provide: {
             ...defaultProvide,
@@ -72,10 +67,6 @@ describe('<ElTooltipContent />', () => {
           },
           stubs: ['ElPopperContent'],
         },
-        slots: {
-          default: () => [AXIOM],
-        },
-
         attachTo: document.body,
       }
     )
@@ -84,7 +75,7 @@ describe('<ElTooltipContent />', () => {
     return wrapper.findComponent(ElTooltipContent)
   }
 
-  let wrapper: ReturnType<typeof createComponent>
+  let wrapper: VueWrapper<any>
   const OLD_ENV = process.env.NODE_ENV
   beforeAll(() => {
     process.env['NODE_ENV'] = 'test'
@@ -121,7 +112,7 @@ describe('<ElTooltipContent />', () => {
         })
         await nextTick()
 
-        expect((wrapper.vm as any).contentStyle).toEqual(customStyle)
+        expect(wrapper.vm.contentStyle).toEqual(customStyle)
       })
     })
 
@@ -133,7 +124,7 @@ describe('<ElTooltipContent />', () => {
 
         await nextTick()
 
-        expect((wrapper.vm as any).shouldShow).toBe(false)
+        expect(wrapper.vm.shouldShow).toBe(false)
       })
     })
 
@@ -150,11 +141,11 @@ describe('<ElTooltipContent />', () => {
         const { vm } = wrapper
         expect(onOpen).not.toHaveBeenCalled()
         const enterEvent = new MouseEvent('mouseenter')
-        ;(vm as any).onContentEnter(enterEvent)
+        vm.onContentEnter(enterEvent)
         expect(onOpen).toHaveBeenCalled()
         const leaveEvent = new MouseEvent('mouseleave')
         expect(onClose).not.toHaveBeenCalled()
-        ;(vm as any).onContentLeave(leaveEvent)
+        vm.onContentLeave(leaveEvent)
         expect(onClose).toHaveBeenCalled()
       })
 
@@ -165,7 +156,7 @@ describe('<ElTooltipContent />', () => {
         await nextTick()
         const leaveEvent = new MouseEvent('mouseleave')
         expect(onClose).not.toHaveBeenCalled()
-        ;(vm as any).onContentLeave(leaveEvent)
+        vm.onContentLeave(leaveEvent)
         expect(onClose).not.toHaveBeenCalled()
       })
 
@@ -176,11 +167,11 @@ describe('<ElTooltipContent />', () => {
 
         expect(onOpen).not.toHaveBeenCalled()
         const enterEvent = new MouseEvent('mouseenter')
-        ;(vm as any).onContentEnter(enterEvent)
+        vm.onContentEnter(enterEvent)
         expect(onOpen).not.toHaveBeenCalled()
         const leaveEvent = new MouseEvent('mouseleave')
         expect(onClose).not.toHaveBeenCalled()
-        ;(vm as any).onContentLeave(leaveEvent)
+        vm.onContentLeave(leaveEvent)
         expect(onClose).not.toHaveBeenCalled()
       })
 
@@ -189,7 +180,7 @@ describe('<ElTooltipContent />', () => {
           // Have to mock this ref because we are not going to render the content in this component
           wrapper.vm.contentRef = {
             popperContentRef: document.createElement('div'),
-          } as any
+          }
         })
 
         it('should not close the content after click outside when trigger is hover', async () => {
@@ -210,7 +201,7 @@ describe('<ElTooltipContent />', () => {
 
         it('should close component after click outside', async () => {
           trigger.value = 'click'
-          ;(wrapper.vm as any).onAfterShow()
+          wrapper.vm.onAfterShow()
           await nextTick()
 
           document.body.click()
