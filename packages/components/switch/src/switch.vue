@@ -1,5 +1,5 @@
 <template>
-  <div :class="switchKls" :style="styles" @click.prevent="switchValue">
+  <div :class="switchKls" :style="styles" @click.prevent="handleToggle">
     <input
       :id="inputId"
       ref="input"
@@ -13,8 +13,8 @@
       :false-value="inactiveValue"
       :disabled="switchDisabled"
       :tabindex="tabindex"
-      @change="handleChange"
-      @keydown.enter="switchValue"
+      @change="toggleSwitch"
+      @keydown.enter="handleToggle"
     />
     <span
       v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
@@ -69,16 +69,15 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, onMounted, ref, watch } from 'vue'
+import { useVModel } from '@vueuse/core'
 import {
-  computed,
-  getCurrentInstance,
-  nextTick,
-  onMounted,
-  ref,
-  watch,
-} from 'vue'
-import { isPromise } from '@vue/shared'
-import { addUnit, debugWarn, isBoolean, throwError } from '@element-plus/utils'
+  addUnit,
+  debugWarn,
+  isBoolean,
+  rAF,
+  throwError,
+} from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import {
   useFormDisabled,
@@ -87,12 +86,8 @@ import {
   useFormSize,
 } from '@element-plus/components/form'
 import { Loading } from '@element-plus/icons-vue'
-import {
-  CHANGE_EVENT,
-  INPUT_EVENT,
-  UPDATE_MODEL_EVENT,
-} from '@element-plus/constants'
-import { useDeprecated, useNamespace } from '@element-plus/hooks'
+import { CHANGE_EVENT } from '@element-plus/constants'
+import { useNamespace } from '@element-plus/hooks'
 import { switchEmits, switchProps } from './switch'
 import type { CSSProperties } from 'vue'
 
@@ -104,29 +99,24 @@ defineOptions({
 const props = defineProps(switchProps)
 const emit = defineEmits(switchEmits)
 
-const vm = getCurrentInstance()!
 const { formItem } = useFormItem()
 const switchSize = useFormSize()
+const switchDisabled = useFormDisabled(computed(() => props.loading))
 const ns = useNamespace('switch')
-
-useDeprecated(
-  {
-    from: '"value"',
-    replacement: '"model-value" or "v-model"',
-    scope: COMPONENT_NAME,
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!vm.vnode.props?.value)
-)
-
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
 
-const switchDisabled = useFormDisabled(computed(() => props.loading))
-const isControlled = ref(props.modelValue !== false)
+const value = useVModel(props, 'modelValue', emit)
+const checked = computed({
+  get: () => value.value === props.activeValue,
+  set: (checked) => {
+    const val = checked ? props.activeValue : props.inactiveValue
+    value.value = val
+    emit(CHANGE_EVENT, val)
+  },
+})
+
 const input = ref<HTMLInputElement>()
 const core = ref<HTMLSpanElement>()
 
@@ -141,85 +131,37 @@ const coreStyle = computed<CSSProperties>(() => ({
   width: addUnit(props.width),
 }))
 
-watch(
-  () => props.modelValue,
-  () => {
-    isControlled.value = true
-  }
-)
-
-watch(
-  () => props.value,
-  () => {
-    isControlled.value = false
-  }
-)
-
-const actualValue = computed(() => {
-  return isControlled.value ? props.modelValue : props.value
-})
-
-const checked = computed(() => actualValue.value === props.activeValue)
-
-if (![props.activeValue, props.inactiveValue].includes(actualValue.value)) {
-  emit(UPDATE_MODEL_EVENT, props.inactiveValue)
-  emit(CHANGE_EVENT, props.inactiveValue)
-  emit(INPUT_EVENT, props.inactiveValue)
-}
-
-watch(checked, (val) => {
-  input.value!.checked = val
-
-  if (props.validateEvent) {
-    formItem?.validate?.('change').catch((err) => debugWarn(err))
-  }
-})
-
-const handleChange = () => {
-  const val = checked.value ? props.inactiveValue : props.activeValue
-  emit(UPDATE_MODEL_EVENT, val)
-  emit(CHANGE_EVENT, val)
-  emit(INPUT_EVENT, val)
-  nextTick(() => {
+const toggleSwitch = () => {
+  checked.value = !checked.value
+  rAF(() => {
     input.value!.checked = checked.value
   })
 }
 
-const switchValue = () => {
+const handleToggle = async () => {
   if (switchDisabled.value) return
 
   const { beforeChange } = props
   if (!beforeChange) {
-    handleChange()
+    toggleSwitch()
     return
   }
 
-  const shouldChange = beforeChange()
+  let shouldChange: boolean
+  try {
+    shouldChange = await beforeChange()
+  } catch (e) {
+    debugWarn(COMPONENT_NAME, `some error occurred: ${e}`)
+    return
+  }
 
-  const isPromiseOrBool = [
-    isPromise(shouldChange),
-    isBoolean(shouldChange),
-  ].includes(true)
-  if (!isPromiseOrBool) {
+  if (!isBoolean(shouldChange)) {
     throwError(
       COMPONENT_NAME,
       'beforeChange must return type `Promise<boolean>` or `boolean`'
     )
-  }
-
-  if (isPromise(shouldChange)) {
-    shouldChange
-      .then((result) => {
-        if (result) {
-          handleChange()
-        }
-      })
-      .catch((e) => {
-        debugWarn(COMPONENT_NAME, `some error occurred: ${e}`)
-      })
-  } else if (shouldChange) {
-    handleChange()
-  }
+  } else if (!shouldChange) return
+  toggleSwitch()
 }
 
 const styles = computed(() => {
@@ -237,6 +179,24 @@ const focus = (): void => {
 onMounted(() => {
   input.value!.checked = checked.value
 })
+
+watch(checked, (val) => {
+  input.value!.checked = val
+
+  if (props.validateEvent) {
+    formItem?.validate('change').catch((err) => debugWarn(err))
+  }
+})
+
+watch(
+  value,
+  (value) => {
+    if (![props.activeValue, props.inactiveValue].includes(value)) {
+      checked.value = false
+    }
+  },
+  { immediate: true }
+)
 
 defineExpose({
   /**

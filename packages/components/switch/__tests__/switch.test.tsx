@@ -177,25 +177,6 @@ describe('Switch.vue', () => {
     expect(value.value).toEqual(false)
   })
 
-  test('value is the single source of truth', async () => {
-    const wrapper = mount(() => <Switch value={true} />)
-
-    const vm = wrapper.vm
-    const coreWrapper = wrapper.find('.el-switch__core')
-    const switchWrapper: VueWrapper<SwitchInstance> =
-      wrapper.findComponent(Switch)
-    const switchVm = switchWrapper.vm
-    const inputEl = vm.$el.querySelector('input')
-
-    expect(switchVm.$.exposed?.checked.value).toBe(true)
-    expect(switchWrapper.classes('is-checked')).toEqual(true)
-    expect(inputEl.checked).toEqual(true)
-    await coreWrapper.trigger('click')
-    expect(switchVm.$.exposed?.checked.value).toBe(true)
-    expect(switchWrapper.classes('is-checked')).toEqual(true)
-    expect(inputEl.checked).toEqual(true)
-  })
-
   test('model-value is the single source of truth', async () => {
     const wrapper = mount(() => <Switch model-value={true} />)
 
@@ -236,51 +217,51 @@ describe('Switch.vue', () => {
   test('beforeChange function return promise', async () => {
     const value = ref(true)
     const loading = ref(false)
-    const asyncResult = ref('error')
+    let asyncResult = 'error'
     const beforeChange = () => {
       loading.value = true
       return new Promise<boolean>((resolve, reject) => {
         setTimeout(() => {
           loading.value = false
-          return asyncResult.value == 'success'
+          return asyncResult === 'success'
             ? resolve(true)
             : reject(new Error('Error'))
         }, 1000)
       })
     }
-    const wrapper = mount(() => (
-      <div>
-        <Switch
-          v-model={value.value}
-          loading={loading.value}
-          beforeChange={beforeChange}
-        />
-      </div>
-    ))
 
-    const coreWrapper = wrapper.find('.el-switch__core')
+    const wrapper = mount(() => (
+      <Switch
+        v-model={value.value}
+        loading={loading.value}
+        beforeChange={beforeChange}
+      />
+    ))
 
     vi.useFakeTimers()
 
+    const coreWrapper = wrapper.find('.el-switch__core')
+
     await coreWrapper.trigger('click')
     vi.runAllTimers()
     await nextTick()
-    expect(value.value).toEqual(true)
+    expect(value.value).toBe(true)
+    expect(debugWarn).toHaveBeenCalledTimes(1)
+
+    vi.resetAllMocks()
+
+    asyncResult = 'success'
+    await coreWrapper.trigger('click')
+    vi.runAllTimers()
+    await nextTick()
+    expect(value.value).toBe(false)
     expect(debugWarn).toHaveBeenCalledTimes(0)
 
-    asyncResult.value = 'success'
-
     await coreWrapper.trigger('click')
     vi.runAllTimers()
     await nextTick()
-    expect(value.value).toEqual(false)
-    expect(debugWarn).toHaveBeenCalledTimes(1)
-
-    await coreWrapper.trigger('click')
-    vi.runAllTimers()
-    await nextTick()
-    expect(value.value).toEqual(true)
-    expect(debugWarn).toHaveBeenCalledTimes(1)
+    expect(value.value).toBe(true)
+    expect(debugWarn).toHaveBeenCalledTimes(0)
   })
 
   test('beforeChange function return boolean', async () => {
