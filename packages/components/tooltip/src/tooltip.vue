@@ -67,11 +67,7 @@ import {
   usePopperContainer,
 } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
-import {
-  TooltipEmits,
-  TooltipProps,
-  createModelToggleComposableResult,
-} from './tooltip'
+import { tooltipEmits, tooltipProps, useTooltipModelToggle } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
 
@@ -79,10 +75,8 @@ defineOptions({
   name: 'ElTooltip',
 })
 
-const props = defineProps(TooltipProps)
-const emit = defineEmits(TooltipEmits)
-
-const { useModelToggle } = createModelToggleComposableResult
+const props = defineProps(tooltipProps)
+const emit = defineEmits(tooltipEmits)
 
 usePopperContainer()
 const compatShowAfter = computed(() => {
@@ -119,7 +113,7 @@ const updatePopper = () => {
 const open = ref(false)
 const toggleReason = ref<Event>()
 
-const { show, hide, hasUpdateHandler } = useModelToggle({
+const { show, hide, hasUpdateHandler } = useTooltipModelToggle({
   indicator: open,
   toggleReason,
 })
@@ -210,10 +204,6 @@ defineExpose({
    * @description expose onOpen function to mange el-tooltip open state
    */
   onClose,
-  /**
-   * @description expose disable state
-   */
-  disabled: props.disabled,
   /**
    * @description expose hide function
    */

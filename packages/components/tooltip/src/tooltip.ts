@@ -12,6 +12,12 @@ import type Tooltip from './tooltip.vue'
 
 import type { ExtractPropTypes } from 'vue'
 
+export const {
+  useModelToggleProps: useTooltipModelToggleProps,
+  useModelToggleEmits: useTooltipModelToggleEmits,
+  useModelToggle: useTooltipModelToggle,
+} = createModelToggleComposable('visible' as const)
+
 export const useTooltipProps = buildProps({
   openDelay: {
     type: Number,
@@ -30,21 +36,17 @@ export const useTooltipProps = buildProps({
   },
 })
 
-export const createModelToggleComposableResult = createModelToggleComposable(
-  'visible' as const
-)
-
-export const TooltipProps = {
+export const tooltipProps = {
+  ...useTooltipProps,
   ...usePopperProps,
-  ...createModelToggleComposableResult.useModelToggleProps,
+  ...useTooltipModelToggleProps,
   ...useTooltipContentProps,
   ...useTooltipTriggerProps,
   ...usePopperArrowProps,
-  ...useTooltipProps,
 }
 
-export const TooltipEmits = [
-  ...createModelToggleComposableResult.useModelToggleEmits,
+export const tooltipEmits = [
+  ...useTooltipModelToggleEmits,
   'before-show',
   'before-hide',
   'show',
