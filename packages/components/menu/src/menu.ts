@@ -62,10 +62,7 @@ export const menuProps = buildProps({
     type: Boolean,
     default: true,
   },
-  ellipsis: {
-    type: Boolean,
-    default: true,
-  },
+  ellipsis: Boolean,
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 

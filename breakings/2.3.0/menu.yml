@@ -9,3 +9,15 @@
     - api: 'click'
       before: 'click'
       after: 'item-click'
+
+- scope: component
+  name: el-menu
+  type: props
+  version: 2.3.0
+  commit_hash: d40d080
+  description: |
+    Disable ellipsis by default. It will break layout in the cases, not suitable for all cases.
+  props:
+    - api: ellipsis
+      before: '`true` by default'
+      after: '`false` by default'
