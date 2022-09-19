@@ -62,10 +62,7 @@ export const menuProps = buildProps({
     type: Boolean,
     default: true,
   },
-  ellipsis: {
-    type: Boolean,
-    default: true,
-  },
+  ellipsis: Boolean,
   popperEffect: {
     type: String,
     values: ['dark', 'light'],
