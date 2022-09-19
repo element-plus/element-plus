@@ -16,7 +16,7 @@ const AXIOM = 'Rem is the best girl'
 
 describe('<ElTooltip />', () => {
   const createComponent = (props: any = {}, content: string | VNode = '') =>
-    mount(Tooltip, {
+    mount(<Tooltip />, {
       slots: {
         default: () => AXIOM,
         content: () => content,
