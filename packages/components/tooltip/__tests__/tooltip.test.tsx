@@ -15,16 +15,19 @@ vi.mock('@element-plus/utils/error', () => ({
 const AXIOM = 'Rem is the best girl'
 
 describe('<ElTooltip />', () => {
-  const createComponent = (props: any = {}, content: string | VNode = '') =>
-    mount(<Tooltip />, {
-      slots: {
-        default: () => AXIOM,
-        content: () => content,
-      },
-      props,
-      attachTo: document.body,
-    })
-
+  const createComponent = (props = {}, content: string | VNode = '') =>
+    mount(
+      <Tooltip
+        {...props}
+        v-slots={{
+          default: () => AXIOM,
+          content: () => content,
+        }}
+      />,
+      {
+        attachTo: document.body,
+      }
+    )
   let wrapper: ReturnType<typeof createComponent>
   const findTrigger = () => wrapper.findComponent(ElPopperTrigger)
 
