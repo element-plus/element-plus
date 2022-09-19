@@ -262,7 +262,7 @@ export const useSliderButton = (
 
     await nextTick()
     initData.dragging && displayTooltip()
-    tooltip.value.updatePopper()
+    tooltip.value!.updatePopper()
   }
 
   watch(
