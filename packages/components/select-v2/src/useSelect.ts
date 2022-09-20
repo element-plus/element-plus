@@ -221,7 +221,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const currentPlaceholder = computed(() => {
     const _placeholder = props.placeholder || t('el.select.placeholder')
-    return props.multiple ? _placeholder : states.selectedLabel || _placeholder
+    return props.multiple || isNil(props.modelValue)
+      ? _placeholder
+      : states.selectedLabel
   })
 
   // this obtains the actual popper DOM element.
