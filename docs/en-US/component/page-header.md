@@ -100,17 +100,17 @@ The component is consisted of these parts
 
 ## Attributes
 
-| Attribute | Description    | Type                  | Accepted Values | Default |
-| --------- | -------------- | --------------------- | --------------- | ------- |
-| icon      | icon component | `string \| Component` | —               | Back    |
-| title     | main title     | string                | —               | Back    |
-| content   | content        | string                | —               | —       |
+| Name    | Description    | Type                  | Accepted Values | Default |
+| ------- | -------------- | --------------------- | --------------- | ------- |
+| icon    | icon component | `string \| Component` | —               | Back    |
+| title   | main title     | string                | —               | Back    |
+| content | content        | string                | —               | —       |
 
 ## Events
 
-| Event Name | Description                         | Parameters |
-| ---------- | ----------------------------------- | ---------- |
-| back       | triggers when right side is clicked | —          |
+| Name | Description                         | Parameters |
+| ---- | ----------------------------------- | ---------- |
+| back | triggers when right side is clicked | —          |
 
 ## Slots
 

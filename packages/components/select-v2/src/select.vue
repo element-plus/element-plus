@@ -255,9 +255,7 @@
               nsSelectV2.is(
                 'transparent',
                 states.isComposing ||
-                  (placeholder && multiple
-                    ? modelValue.length === 0
-                    : !hasModelValue)
+                  (multiple ? modelValue.length === 0 : !hasModelValue)
               ),
             ]"
           >

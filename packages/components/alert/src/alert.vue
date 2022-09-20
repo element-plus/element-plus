@@ -65,9 +65,9 @@ const iconClass = computed(() => [
   { [ns.is('big')]: !!props.description || !!slots.default },
 ])
 
-const isBoldTitle = computed(
-  () => props.description || { [ns.is('bold')]: slots.default }
-)
+const isBoldTitle = computed(() => {
+  return { [ns.is('bold')]: props.description || slots.default }
+})
 
 const close = (evt: MouseEvent) => {
   visible.value = false

@@ -323,7 +323,7 @@ export default defineComponent({
       )
     }
 
-    const setCurrentKey = (key: TreeKey, shouldAutoExpandParent = true) => {
+    const setCurrentKey = (key?: TreeKey, shouldAutoExpandParent = true) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCurrentKey')
 

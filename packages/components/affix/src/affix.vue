@@ -20,7 +20,7 @@ import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElAffix'
 defineOptions({
-  name: 'ElAffix',
+  name: COMPONENT_NAME,
 })
 
 const props = defineProps(affixProps)
