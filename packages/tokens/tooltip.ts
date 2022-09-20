@@ -1,11 +1,12 @@
+import type { Arrayable } from '../utils/typescript'
 import type { InjectionKey, Ref } from 'vue'
-import type { Trigger } from './tooltip'
+import type { TooltipTriggerType } from '@element-plus/components/tooltip'
 
 export type ElTooltipInjectionContext = {
   controlled: Ref<boolean>
   id: Ref<string>
   open: Ref<boolean>
-  trigger: Ref<Trigger | Trigger[]>
+  trigger: Ref<Arrayable<TooltipTriggerType>>
   onOpen: (e?: Event) => void
   onClose: (e?: Event) => void
   onToggle: (e: Event) => void
