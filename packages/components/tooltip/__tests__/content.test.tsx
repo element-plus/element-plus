@@ -13,6 +13,7 @@ import { usePopperContainer } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
 import { genTooltipProvides } from '../test-helper/provides'
 import ElTooltipContent from '../src/content.vue'
+
 import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'rem is the best girl'
@@ -55,11 +56,10 @@ describe('<ElTooltipContent />', () => {
         setup() {
           usePopperContainer()
 
-          return () => <ElTooltipContent>{AXIOM}</ElTooltipContent>
+          return () => <ElTooltipContent {...props}>{AXIOM}</ElTooltipContent>
         },
       },
       {
-        props,
         global: {
           provide: {
             ...defaultProvide,
