@@ -4,7 +4,7 @@
       <el-scrollbar
         v-for="item in spinnerItems"
         :key="item"
-        :ref="(scollbar: unknown) => setRef(scollbar as any, item)"
+        :ref="(scrollbar: unknown) => setRef(scrollbar as any, item)"
         :class="ns.be('spinner', 'wrapper')"
         wrap-style="max-height: inherit;"
         :view-class="ns.be('spinner', 'list')"

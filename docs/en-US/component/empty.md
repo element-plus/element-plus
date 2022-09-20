@@ -68,7 +68,7 @@ But usually, if you want to change style, you need to change all color, because 
 
 ## Empty Attributes
 
-| Attribute   | Description        | Type   | Acceptable Value | Default |
+| Name        | Description        | Type   | Acceptable Value | Default |
 | ----------- | ------------------ | ------ | ---------------- | ------- |
 | image       | image URL          | string | —                | —       |
 | image-size  | image size (width) | number | —                | —       |

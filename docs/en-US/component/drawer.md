@@ -77,7 +77,7 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 ## Drawer Attributes
 
-| Attribute             | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                   | Acceptable Values     | Default |
+| Name                  | Description                                                                                                                                                                                                                                                                                                  | Type                                                                                                                                                   | Acceptable Values     | Default |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------- | ------- |
 | model-value / v-model | Should Drawer be displayed                                                                                                                                                                                                                                                                                   | boolean                                                                                                                                                | —                     | false   |
 | append-to-body        | Controls should Drawer be inserted to DocumentBody Element, nested Drawer must assign this param to **true**                                                                                                                                                                                                 | boolean                                                                                                                                                | —                     | false   |
@@ -115,9 +115,9 @@ Drawer provides an API called `destroyOnClose`, which is a flag variable that in
 
 ## Drawer Events
 
-| Event Name | Description                                      | Parameter |
-| ---------- | ------------------------------------------------ | --------- |
-| open       | Triggered before Drawer opening animation begins | —         |
-| opened     | Triggered after Drawer opening animation ended   | —         |
-| close      | Triggered before Drawer closing animation begins | —         |
-| closed     | Triggered after Drawer closing animation ended   | —         |
+| Name   | Description                                      | Parameter |
+| ------ | ------------------------------------------------ | --------- |
+| open   | Triggered before Drawer opening animation begins | —         |
+| opened | Triggered after Drawer opening animation ended   | —         |
+| close  | Triggered before Drawer closing animation begins | —         |
+| closed | Triggered after Drawer closing animation ended   | —         |

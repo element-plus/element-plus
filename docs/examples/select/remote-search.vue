@@ -1,21 +1,67 @@
 <template>
-  <el-select
-    v-model="value"
-    multiple
-    filterable
-    remote
-    reserve-keyword
-    placeholder="Please enter a keyword"
-    :remote-method="remoteMethod"
-    :loading="loading"
-  >
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value"
-    />
-  </el-select>
+  <div style="display: inline-block; margin-left: 20px">
+    <p style="margin-left: 10px">default</p>
+    <el-select
+      v-model="value"
+      multiple
+      filterable
+      remote
+      reserve-keyword
+      placeholder="Please enter a keyword"
+      :remote-method="remoteMethod"
+      :loading="loading"
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
+  </div>
+  <div style="display: inline-block; margin-left: 20px">
+    <p style="margin-left: 10px">use remote-show-suffix</p>
+    <el-select
+      v-model="value"
+      multiple
+      filterable
+      remote
+      reserve-keyword
+      placeholder="Please enter a keyword"
+      remote-show-suffix
+      :remote-method="remoteMethod"
+      :loading="loading"
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
+  </div>
+  <div style="display: inline-block; margin-left: 20px">
+    <p style="margin-left: 10px">disabled suffix-transition</p>
+    <el-select
+      v-model="value"
+      multiple
+      filterable
+      remote
+      reserve-keyword
+      placeholder="Please enter a keyword"
+      remote-show-suffix
+      :remote-method="remoteMethod"
+      :loading="loading"
+      :suffix-transition="false"
+    >
+      <el-option
+        v-for="item in options"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
+  </div>
 </template>
 
 <script lang="ts" setup>
