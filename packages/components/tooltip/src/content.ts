@@ -1,5 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { usePopperContentProps } from '@element-plus/components/popper'
+import { popperContentProps } from '@element-plus/components/popper'
 import {
   POPPER_CONTAINER_SELECTOR,
   useDelayedToggleProps,
@@ -11,7 +11,7 @@ const ns = useNamespace('tooltip')
 
 export const useTooltipContentProps = buildProps({
   ...useDelayedToggleProps,
-  ...usePopperContentProps,
+  ...popperContentProps,
   appendTo: {
     type: definePropType<string | HTMLElement>([String, Object]),
     default: POPPER_CONTAINER_SELECTOR,
