@@ -1,3 +1,5 @@
+import { isFunction } from '@element-plus/utils'
+
 import type { ObjectDirective } from 'vue'
 
 export const REPEAT_INTERVAL = 100
@@ -15,14 +17,16 @@ export const vRepeatClick: ObjectDirective<
 > = {
   beforeMount(el, binding) {
     const value = binding.value
-    const { interval = REPEAT_INTERVAL, delay = REPEAT_DELAY } =
-      typeof value === 'object' ? value : {}
+    const { interval = REPEAT_INTERVAL, delay = REPEAT_DELAY } = isFunction(
+      value
+    )
+      ? {}
+      : value
 
     let intervalId: ReturnType<typeof setInterval> | undefined
     let delayId: ReturnType<typeof setTimeout> | undefined
 
-    const handler = () =>
-      typeof value === 'object' ? value.handler() : value()
+    const handler = () => (isFunction(value) ? value() : value.handler())
 
     const clear = () => {
       if (delayId) {
