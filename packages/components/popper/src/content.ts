@@ -3,12 +3,19 @@ import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes, StyleValue } from 'vue'
 import type { Options, Placement } from '@popperjs/core'
+import type { Measurable } from '@element-plus/tokens'
 import type Content from './content.vue'
 
 type ClassObjectType = Record<string, boolean>
 type ClassType = string | ClassObjectType | ClassType[]
 
 const POSITIONING_STRATEGIES = ['fixed', 'absolute'] as const
+
+export interface CreatePopperInstanceParams {
+  referenceEl: Measurable
+  popperContentEl: HTMLElement
+  arrowEl: HTMLElement | undefined
+}
 
 export const popperCoreConfigProps = buildProps({
   boundariesPadding: {

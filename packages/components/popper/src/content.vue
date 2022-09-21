@@ -49,7 +49,7 @@ import { popperContentEmits, popperContentProps } from './content'
 import { buildPopperOptions, unwrapMeasurableEl } from './utils'
 
 import type { WatchStopHandle } from 'vue'
-import type { Measurable } from '@element-plus/tokens'
+import type { CreatePopperInstanceParams } from './content'
 
 defineOptions({
   name: 'ElPopperContent',
@@ -115,11 +115,7 @@ const createPopperInstance = ({
   referenceEl,
   popperContentEl,
   arrowEl,
-}: {
-  referenceEl: Measurable
-  popperContentEl: HTMLElement
-  arrowEl: HTMLElement | undefined
-}) => {
+}: CreatePopperInstanceParams) => {
   const options = buildPopperOptions(props, {
     arrowEl,
     arrowOffset: unref(arrowOffset),
