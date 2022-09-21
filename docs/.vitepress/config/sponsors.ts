@@ -1,12 +1,4 @@
-export const rightRichTextSponsors = [
-  {
-    name: 'Fantastic-admin',
-    img: '/images/sponsors/fantasticadmin.png',
-    url: 'https://hooray.gitee.io/fantastic-admin/?from=element-plus',
-    slogan: 'An out-of-the-box backend framework',
-    slogan_cn: '开箱即用的后台框架 为开发提供舒适体验',
-  },
-]
+export const rightRichTextSponsors = []
 
 export const rightLogoSmallSponsors = [
   {
@@ -16,6 +8,14 @@ export const rightLogoSmallSponsors = [
     url: 'https://wonderful-code.gitee.io/?from=element-plus',
     slogan: 'Vue3 opensource admin system',
     slogan_cn: 'Vue3企业级开源后台管理系统',
+  },
+  {
+    name: 'bit',
+    img: '/images/bit.svg',
+    imgL: '/images/bit-l.png',
+    url: 'https://bit.dev/?from=element-ui',
+    slogan: 'Share Code',
+    isDark: true, // dark theme
   },
 ]
 
@@ -44,22 +44,6 @@ export const platinumSponsors = [
   ...rightRichTextSponsors,
 ]
 
-export const leftLogoSponsors = [
-  {
-    name: 'bit',
-    img: '/images/bit.svg',
-    url: 'https://bit.dev/?from=element-ui',
-    slogan: 'Share Code',
-    isDark: true, // dark theme
-  },
-  {
-    name: 'FormMaking',
-    name_cn: 'FormMaking',
-    img: '/images/formmaking.png',
-    url: 'https://form.making.link/?from=element_plus',
-    slogan: 'Vue form designer',
-    slogan_cn: 'Vue表单设计器，赋能企业快速开发',
-  },
-]
+export const leftLogoSponsors = []
 
 export const goldSponsors = [...rightLogoSmallSponsors, ...leftLogoSponsors]

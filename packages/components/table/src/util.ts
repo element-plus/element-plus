@@ -2,7 +2,7 @@
 import { createPopper } from '@popperjs/core'
 import { get } from 'lodash-unified'
 import escapeHtml from 'escape-html'
-import { hasOwn } from '@element-plus/utils'
+import { hasOwn, throwError } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
   IPopperOptions,
@@ -120,6 +120,8 @@ export const getColumnByKey = function <T>(
       break
     }
   }
+  if (!column)
+    throwError('ElTable', `No column matching with column-key: ${columnKey}`)
   return column
 }
 
@@ -337,6 +339,7 @@ export function createTablePopper(
   function showPopper() {
     popperInstance && popperInstance.update()
   }
+  removePopper?.()
   removePopper = () => {
     try {
       popperInstance && popperInstance.destroy()

@@ -112,9 +112,8 @@ import { switchEmits, switchProps } from './switch'
 import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElSwitch'
-
 defineOptions({
-  name: 'ElSwitch',
+  name: COMPONENT_NAME,
 })
 
 const props = defineProps(switchProps)
@@ -259,5 +258,9 @@ defineExpose({
    *  @description manual focus to the switch component
    **/
   focus,
+  /**
+   * @description whether Switch is checked
+   */
+  checked,
 })
 </script>

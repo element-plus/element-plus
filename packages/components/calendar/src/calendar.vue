@@ -20,8 +20,12 @@
     </div>
     <div v-if="validatedRange.length === 0" :class="ns.e('body')">
       <date-table :date="date" :selected-day="realSelectedDay" @pick="pickDay">
-        <template v-if="$slots.dateCell" #dateCell="data">
-          <slot name="dateCell" v-bind="data" />
+        <template
+          v-if="$slots['date-cell'] || $slots.dateCell"
+          #date-cell="data"
+        >
+          <slot v-if="$slots['date-cell']" name="date-cell" v-bind="data" />
+          <slot v-else name="dateCell" v-bind="data" />
         </template>
       </date-table>
     </div>
@@ -35,8 +39,12 @@
         :hide-header="index !== 0"
         @pick="pickDay"
       >
-        <template v-if="$slots.dateCell" #dateCell="data">
-          <slot name="dateCell" v-bind="data" />
+        <template
+          v-if="$slots['date-cell'] || $slots.dateCell"
+          #date-cell="data"
+        >
+          <slot v-if="$slots['date-cell']" name="date-cell" v-bind="data" />
+          <slot v-else name="dateCell" v-bind="data" />
         </template>
       </date-table>
     </div>
@@ -44,10 +52,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, useSlots } from 'vue'
 import dayjs from 'dayjs'
 import { ElButton, ElButtonGroup } from '@element-plus/components/button'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import DateTable from './date-table.vue'
@@ -58,14 +66,14 @@ import type { ComputedRef } from 'vue'
 import type { Dayjs } from 'dayjs'
 
 const COMPONENT_NAME = 'ElCalendar'
-
 defineOptions({
-  name: 'ElCalendar',
+  name: COMPONENT_NAME,
 })
 
 const props = defineProps(calendarProps)
 const emit = defineEmits(calendarEmits)
 
+const solts = useSlots()
 const ns = useNamespace('calendar')
 const { t, lang } = useLocale()
 
@@ -229,6 +237,18 @@ const selectDate = (type: CalendarDateType) => {
   if (day.isSame(date.value, 'day')) return
   pickDay(day)
 }
+
+useDeprecated(
+  {
+    from: '"dateCell"',
+    replacement: '"date-cell"',
+    scope: 'ElCalendar',
+    version: '2.3.0',
+    ref: 'https://element-plus.org/en-US/component/calendar.html#slots',
+    type: 'Slot',
+  },
+  computed(() => !!solts.dateCell)
+)
 
 defineExpose({
   /** @description currently selected date */

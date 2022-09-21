@@ -4,7 +4,7 @@
       <el-scrollbar
         v-for="item in spinnerItems"
         :key="item"
-        :ref="(scollbar: unknown) => setRef(scollbar as any, item)"
+        :ref="(scrollbar: unknown) => setRef(scrollbar as any, item)"
         :class="ns.be('spinner', 'wrapper')"
         wrap-style="max-height: inherit;"
         :view-class="ns.be('spinner', 'list')"
@@ -80,7 +80,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
-import { RepeatClick as vRepeatClick } from '@element-plus/directives'
+import { vRepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
@@ -229,13 +229,27 @@ const scrollDown = (step: number) => {
   }
 
   const label = currentScrollbar.value!
-  let now = unref(timePartials)[label]
+  const now = unref(timePartials)[label]
   const total = currentScrollbar.value === 'hours' ? 24 : 60
-  now = (now + step + total) % total
+  const next = findNextUnDisabled(label, now, step, total)
 
-  modifyDateField(label, now)
-  adjustSpinner(label, now)
+  modifyDateField(label, next)
+  adjustSpinner(label, next)
   nextTick(() => emitSelectRange(label))
+}
+
+const findNextUnDisabled = (
+  type: TimeUnit,
+  now: number,
+  step: number,
+  total: number
+) => {
+  let next = (now + step + total) % total
+  const list = unref(timeList)[type]
+  while (list[next] && next !== now) {
+    next = (next + step + total) % total
+  }
+  return next
 }
 
 const modifyDateField = (type: TimeUnit, value: number) => {

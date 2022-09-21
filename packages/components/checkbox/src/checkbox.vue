@@ -17,7 +17,7 @@
         ns.is('disabled', isDisabled),
         ns.is('checked', isChecked),
         ns.is('indeterminate', indeterminate),
-        ns.is('focus', focus),
+        ns.is('focus', isFocused),
       ]"
       :tabindex="indeterminate ? 0 : undefined"
       :role="indeterminate ? 'checkbox' : undefined"
@@ -36,8 +36,8 @@
         :true-value="trueLabel"
         :false-value="falseLabel"
         @change="handleChange"
-        @focus="focus = true"
-        @blur="focus = false"
+        @focus="isFocused = true"
+        @blur="isFocused = false"
       />
       <input
         v-else
@@ -51,8 +51,8 @@
         :name="name"
         :tabindex="tabindex"
         @change="handleChange"
-        @focus="focus = true"
-        @blur="focus = false"
+        @focus="isFocused = true"
+        @blur="isFocused = false"
       />
       <span :class="ns.e('inner')" />
     </span>
@@ -66,7 +66,8 @@
 <script lang="ts" setup>
 import { useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { checkboxEmits, checkboxProps, useCheckbox } from './checkbox'
+import { checkboxEmits, checkboxProps } from './checkbox'
+import { useCheckbox } from './composables'
 
 defineOptions({
   name: 'ElCheckbox',
@@ -81,12 +82,12 @@ const {
   isLabeledByFormItem,
   isChecked,
   isDisabled,
+  isFocused,
   checkboxSize,
   hasOwnLabel,
   model,
   handleChange,
   onClickRoot,
-  focus,
 } = useCheckbox(props, slots)
 
 const ns = useNamespace('checkbox')
