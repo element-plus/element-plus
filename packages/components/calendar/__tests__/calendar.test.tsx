@@ -2,7 +2,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import updateLocale from 'dayjs/plugin/updateLocale'
-import { dayjs } from '../../../element-plus/index'
+import dayjs from 'dayjs'
 import Calendar from '../src/calendar.vue'
 
 const AXIOM = 'Rem is the best girl'
