@@ -1,9 +1,19 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import updateLocale from 'dayjs/plugin/updateLocale'
+import dayjs from 'dayjs'
 import Calendar from '../src/calendar.vue'
 
 const AXIOM = 'Rem is the best girl'
+
+const setDayjsWeekStart = (weekStart = 0) => {
+  dayjs.extend(updateLocale)
+  const dayjsLocale = dayjs.locale()
+  dayjs.updateLocale(dayjsLocale, {
+    weekStart,
+  })
+}
 
 describe('Calendar.vue', () => {
   it('create', async () => {
@@ -123,6 +133,26 @@ describe('Calendar.vue', () => {
     expect(firstRow?.lastElementChild?.innerHTML).toContain('6')
   })
 
+  it('firstDayOfWeek when set 1', async () => {
+    setDayjsWeekStart(1)
+    const wrapper = mount({
+      data: () => ({ value: new Date('2019-09-01') }),
+      render() {
+        return <Calendar v-model={this.value} />
+      },
+    })
+    const head = wrapper.element.querySelector('.el-calendar-table thead')
+    expect(head?.firstElementChild?.innerHTML).toBe('Mon')
+    expect(head?.lastElementChild?.innerHTML).toBe('Sun')
+    const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
+    expect(firstRow?.firstElementChild?.innerHTML).toContain('26')
+    expect(firstRow?.lastElementChild?.innerHTML).toContain('1')
+    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    expect(rows.length).toBe(6)
+    // reset weekStart 0
+    setDayjsWeekStart()
+  })
+
   it('firstDayOfWeek in range mode', async () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-03-04') }),
@@ -130,9 +160,8 @@ describe('Calendar.vue', () => {
         return (
           <Calendar
             v-model={this.value}
-            first-day-of-week={7}
             range={[new Date(2019, 1, 3), new Date(2019, 2, 23)]}
-          ></Calendar>
+          />
         )
       },
     })
