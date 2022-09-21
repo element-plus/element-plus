@@ -185,12 +185,14 @@ const increase = () => {
   const value = props.modelValue || 0
   const newVal = ensurePrecision(value)
   setCurrentValue(newVal)
+  emit(INPUT_EVENT, data.currentValue)
 }
 const decrease = () => {
   if (props.readonly || inputNumberDisabled.value || minDisabled.value) return
   const value = props.modelValue || 0
   const newVal = ensurePrecision(value, -1)
   setCurrentValue(newVal)
+  emit(INPUT_EVENT, data.currentValue)
 }
 const verifyValue = (
   value: number | string | null | undefined,
