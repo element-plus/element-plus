@@ -20,7 +20,7 @@ describe('Calendar.vue', () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-04-01') }),
       render() {
-        return <Calendar v-model={this.value}></Calendar>
+        return <Calendar v-model={this.value} />
       },
     })
     const titleEl = wrapper.find('.el-calendar__title')
@@ -41,9 +41,7 @@ describe('Calendar.vue', () => {
 
   it('range', () => {
     const wrapper = mount(() => (
-      <Calendar
-        range={[new Date(2019, 2, 4), new Date(2019, 2, 24)]}
-      ></Calendar>
+      <Calendar range={[new Date(2019, 2, 4), new Date(2019, 2, 24)]} />
     ))
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2019.*March/.test(titleEl.element.innerHTML)).toBeTruthy()
@@ -57,9 +55,7 @@ describe('Calendar.vue', () => {
   // https://github.com/element-plus/element-plus/issues/3155
   it('range when the start date will be calculated to last month', () => {
     const wrapper = mount(() => (
-      <Calendar
-        range={[new Date(2021, 1, 2), new Date(2021, 1, 28)]}
-      ></Calendar>
+      <Calendar range={[new Date(2021, 1, 2), new Date(2021, 1, 28)]} />
     ))
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2021.*January/.test(titleEl.element.innerHTML)).toBeTruthy()
@@ -72,9 +68,7 @@ describe('Calendar.vue', () => {
 
   it('range tow monthes', async () => {
     const wrapper = mount(() => (
-      <Calendar
-        range={[new Date(2019, 3, 14), new Date(2019, 4, 18)]}
-      ></Calendar>
+      <Calendar range={[new Date(2019, 3, 14), new Date(2019, 4, 18)]} />
     ))
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2019.*April/.test(titleEl.element.innerHTML)).toBeTruthy()
@@ -96,9 +90,7 @@ describe('Calendar.vue', () => {
   // https://github.com/element-plus/element-plus/issues/3155
   it('range tow monthes when the start date will be calculated to last month', async () => {
     const wrapper = mount(() => (
-      <Calendar
-        range={[new Date(2021, 1, 2), new Date(2021, 2, 21)]}
-      ></Calendar>
+      <Calendar range={[new Date(2021, 1, 2), new Date(2021, 2, 21)]} />
     ))
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2021.*January/.test(titleEl.element.innerHTML)).toBeTruthy()
@@ -122,7 +114,7 @@ describe('Calendar.vue', () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-04-01') }),
       render() {
-        return <Calendar v-model={this.value}></Calendar>
+        return <Calendar v-model={this.value} />
       },
     })
     const head = wrapper.element.querySelector('.el-calendar-table thead')
@@ -177,7 +169,7 @@ describe('Calendar.vue', () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-04-01') }),
       render() {
-        return <Calendar v-model={this.value}></Calendar>
+        return <Calendar v-model={this.value} />
       },
     })
     await nextTick()
@@ -192,9 +184,7 @@ describe('Calendar.vue', () => {
 
   it('range two years', async () => {
     const wrapper = mount(() => (
-      <Calendar
-        range={[new Date(2022, 0, 1), new Date(2022, 0, 31)]}
-      ></Calendar>
+      <Calendar range={[new Date(2022, 0, 1), new Date(2022, 0, 31)]} />
     ))
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2021.*December/.test(titleEl.element.innerHTML)).toBeTruthy()
