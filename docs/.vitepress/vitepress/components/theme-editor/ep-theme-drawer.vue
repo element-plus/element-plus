@@ -14,7 +14,10 @@ const direction = ref('rtl')
       :lock-scroll="false"
       :direction="direction"
     >
-      <EpThemePrimary />
+      <div class="-mt-4">
+        <EpThemePrimaryColors />
+        <EpThemePrimary />
+      </div>
     </el-drawer>
 
     <el-button

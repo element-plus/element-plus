@@ -21,6 +21,7 @@ declare module '@vue/runtime-core' {
     ElThemeDrawer: typeof import('./.vitepress/vitepress/components/el-theme-drawer.vue')['default']
     EpThemeDrawer: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-drawer.vue')['default']
     EpThemePrimary: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-primary.vue')['default']
+    EpThemePrimaryColors: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-primary-colors.vue')['default']
     Expand: typeof import('./.vitepress/vitepress/components/icons/expand.vue')['default']
     FeedbackSvg: typeof import('./.vitepress/vitepress/components/globals/design/feedback-svg.vue')['default']
     FigmaTemplateSvg: typeof import('./.vitepress/vitepress/components/globals/resources/figma-template-svg.vue')['default']
