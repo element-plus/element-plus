@@ -8,10 +8,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-
     steps:
       - uses: actions/checkout@v3
         with:
@@ -25,14 +21,28 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16
           registry-url: https://registry.npmjs.com/
-          cache: 'pnpm'
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
+
       - name: Lint
         run: pnpm lint
+
       - name: Test
         run: pnpm test
 
@@ -41,19 +51,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: 16
           registry-url: https://registry.npmjs.com/
+
       - name: Setup pnpm
         uses: pnpm/action-setup@v2
 
       - name: Get version
         run: echo "TAG_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
       - name: Get git head
         run: echo "GIT_HEAD=${GITHUB_SHA}" >> $GITHUB_ENV
+
       - name: Gen npmrc
         run: echo "//registry.npmjs.com/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> ./.npmrc
+
       - name: Build&publish
         run: sh ./scripts/publish.sh
         env:
