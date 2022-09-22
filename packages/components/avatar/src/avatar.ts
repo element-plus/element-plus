@@ -5,8 +5,10 @@ import {
   isNumber,
 } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
+import { avatarFallbackProps } from './avatar-fallback'
+import { avatarImageProps } from './avatar-image'
+
 import type { ExtractPropTypes } from 'vue'
-import type { ObjectFitProperty } from 'csstype'
 import type Avatar from './avatar.vue'
 
 export const avatarProps = buildProps({
@@ -24,16 +26,8 @@ export const avatarProps = buildProps({
   icon: {
     type: iconPropType,
   },
-  src: {
-    type: String,
-    default: '',
-  },
-  alt: String,
-  srcSet: String,
-  fit: {
-    type: definePropType<ObjectFitProperty>(String),
-    default: 'cover',
-  },
+  ...avatarImageProps,
+  ...avatarFallbackProps,
 } as const)
 export type AvatarProps = ExtractPropTypes<typeof avatarProps>
 
