@@ -95,6 +95,7 @@ dropdown/sizes
 | tabindex       | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Dropdown                  | number          | —                                                        | 0                                                                          |
 | popper-class   | custom class name for Dropdown's dropdown                                                                             | string          | —                                                        | —                                                                          |
 | popper-options | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | Object          | refer to [popper.js](https://popper.js.org/docs/v2/) doc | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
+| persistent     | when menu is inactive and `persistent` is `false`, menu will be destroyed                                             | boolean         | —                                                     | true
 
 ## Dropdown Slots
 
