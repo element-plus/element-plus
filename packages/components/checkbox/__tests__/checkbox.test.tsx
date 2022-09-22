@@ -302,6 +302,22 @@ describe('Checkbox', () => {
     await checkbox.trigger('click')
     expect(checklist.value[0]).toEqual('')
   })
+
+  test('label is object', async () => {
+    const checklist = ref([])
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model={checklist.value}>
+        <Checkbox label={{ a: 1 }}>all</Checkbox>
+        <Checkbox label={{ a: 2 }}>a</Checkbox>
+        <Checkbox label={{ b: 1 }}>b</Checkbox>
+      </CheckboxGroup>
+    ))
+
+    const checkbox = wrapper.find('.el-checkbox')
+    await checkbox.trigger('click')
+    expect(checklist.value[0]).toEqual({ a: 1 })
+    expect(checkbox.classes()).contains('is-checked')
+  })
 })
 
 describe('check-button', () => {
