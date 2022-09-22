@@ -1,5 +1,5 @@
 // GlobalComponents for Volar
-declare module 'vue' {
+declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ElAffix: typeof import('element-plus')['ElAffix']
     ElAlert: typeof import('element-plus')['ElAlert']
@@ -56,6 +56,7 @@ declare module 'vue' {
     ElPagination: typeof import('element-plus')['ElPagination']
     ElPopconfirm: typeof import('element-plus')['ElPopconfirm']
     ElPopper: typeof import('element-plus')['ElPopper']
+    ElPopover: typeof import('element-plus')['ElPopover']
     ElProgress: typeof import('element-plus')['ElProgress']
     ElRadio: typeof import('element-plus')['ElRadio']
     ElRadioButton: typeof import('element-plus')['ElRadioButton']
@@ -92,9 +93,7 @@ declare module 'vue' {
     ElResult: typeof import('element-plus')['ElResult']
     ElSelectV2: typeof import('element-plus')['ElSelectV2']
   }
-}
 
-declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $message: typeof import('element-plus')['ElMessage']
     $notify: typeof import('element-plus')['ElNotification']

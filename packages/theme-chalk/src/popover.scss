@@ -18,6 +18,7 @@
     font-size: getCssVar('popover-font-size');
     box-shadow: getCssVar('box-shadow-light');
     word-break: break-all;
+    box-sizing: border-box;
 
     @include m(plain) {
       padding: getCssVar('popover-padding-large');
@@ -35,6 +36,13 @@
       &:focus:hover {
         outline-width: 0;
       }
+    }
+
+    @include when(dark) {
+      @include set-css-var-value(
+        'popover-title-text-color',
+        var(#{getCssVarName('bg-color')})
+      );
     }
 
     &:focus:active,

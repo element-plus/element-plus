@@ -16,9 +16,14 @@ describe('strings', () => {
     )
   })
 
+  it('capitalize', () => {
+    ;['capitalize', 'camelize', 'hyphenate'].forEach((item) => {
+      expect(capitalize(item)).toBe(vueShared.capitalize(item))
+    })
+  })
+
   it('re-export from @vue/shared', () => {
     expect(camelize).toBe(vueShared.camelize)
-    expect(capitalize).toBe(vueShared.capitalize)
     expect(hyphenate).toBe(vueShared.hyphenate)
     expect(kebabCase).toBe(vueShared.hyphenate)
   })

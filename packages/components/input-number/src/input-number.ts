@@ -28,6 +28,7 @@ export const inputNumberProps = buildProps({
     default: Number.NEGATIVE_INFINITY,
   },
   modelValue: Number,
+  readonly: Boolean,
   disabled: Boolean,
   size: useSizeProp,
   controls: {
@@ -52,6 +53,10 @@ export const inputNumberProps = buildProps({
     type: Number,
     validator: (val: number) =>
       val >= 0 && val === Number.parseInt(`${val}`, 10),
+  },
+  validateEvent: {
+    type: Boolean,
+    default: true,
   },
 } as const)
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>

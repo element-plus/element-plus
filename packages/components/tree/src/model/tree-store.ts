@@ -1,4 +1,5 @@
-import { hasOwn } from '@element-plus/utils'
+// @ts-nocheck
+import { hasOwn, isObject } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'
 
@@ -108,7 +109,7 @@ export default class TreeStore {
 
   getNode(data: TreeKey | TreeNodeData): Node {
     if (data instanceof Node) return data
-    const key = typeof data !== 'object' ? data : getNodeKey(this.key, data)
+    const key = isObject(data) ? getNodeKey(this.key, data) : data
     return this.nodesMap[key] || null
   }
 
@@ -386,7 +387,7 @@ export default class TreeStore {
     }
   }
 
-  setCurrentNodeKey(key: TreeKey, shouldAutoExpandParent = true): void {
+  setCurrentNodeKey(key?: TreeKey, shouldAutoExpandParent = true): void {
     if (key === null || key === undefined) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null

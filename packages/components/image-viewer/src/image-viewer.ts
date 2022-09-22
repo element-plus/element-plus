@@ -1,5 +1,12 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  isNumber,
+  mutable,
+} from '@element-plus/utils'
+
 import type { Component, ExtractPropTypes } from 'vue'
+import type ImageViewer from './image-viewer.vue'
 
 export type ImageViewerAction =
   | 'zoomIn'
@@ -40,7 +47,7 @@ export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 
 export const imageViewerEmits = {
   close: () => true,
-  switch: (index: number) => typeof index === 'number',
+  switch: (index: number) => isNumber(index),
 }
 export type ImageViewerEmits = typeof imageViewerEmits
 
@@ -48,3 +55,5 @@ export interface ImageViewerMode {
   name: string
   icon: Component
 }
+
+export type ImageViewerInstance = InstanceType<typeof ImageViewer>

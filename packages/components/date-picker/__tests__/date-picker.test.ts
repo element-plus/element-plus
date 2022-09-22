@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -298,13 +299,9 @@ describe('DatePicker', () => {
   })
 
   it('opens popper on click when input is focused', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        @focus="onFocus"
-      />`,
-      () => ({ value: new Date(2016, 9, 10, 18, 40) })
-    )
+    const wrapper = _mount(`<el-date-picker v-model="value" />`, () => ({
+      value: new Date(2016, 9, 10, 18, 40),
+    }))
     const popperEl = document.querySelector('.el-picker__popper') as HTMLElement
     expect(popperEl.style.display).toBe('none')
     const input = wrapper.find('input')
@@ -386,6 +383,54 @@ describe('DatePicker', () => {
     const popperEl = document.querySelector('.el-picker__popper')
     const attr = popperEl.getAttribute('aria-hidden')
     expect(attr).toEqual('false')
+  })
+
+  it('ref handleOpen', async () => {
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input"
+      />`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.handleOpen()
+        },
+      }
+    )
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('false')
+  })
+
+  it('ref handleClose', async () => {
+    vi.useFakeTimers()
+
+    _mount(
+      `<el-date-picker
+        v-model="value"
+        ref="input"
+      />`,
+      () => ({ value: '' }),
+      {
+        mounted() {
+          this.$refs.input.handleOpen()
+
+          setTimeout(() => {
+            this.$refs.input.handleClose()
+          }, 1000000)
+        },
+      }
+    )
+
+    vi.runAllTimers()
+    await nextTick()
+    const popperEl = document.querySelector('.el-picker__popper')
+    const attr = popperEl.getAttribute('aria-hidden')
+    expect(attr).toEqual('true')
+
+    vi.useRealTimers()
   })
 
   it('custom content', async () => {
@@ -1246,6 +1291,25 @@ describe('DateRangePicker', () => {
   it('panel change event', async () => {
     await testDatePickerPanelChange('daterange')
   })
+
+  it('display value', async () => {
+    const wrapper = _mount(
+      `
+      <el-date-picker
+        v-model="value"
+        type="daterange"
+    />`,
+      () => ({
+        value: [undefined, undefined],
+      })
+    )
+
+    await nextTick()
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    expect(startInput.element.value).toBe('')
+    expect(endInput.element.value).toBe('')
+  })
 })
 
 describe('MonthRange', () => {
@@ -1461,5 +1525,39 @@ describe('MonthRange', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+  })
+
+  it('The year which is disabled should not be selectable', async () => {
+    const pickHandler = vi.fn()
+    const wrapper = _mount(
+      `<el-date-picker
+        v-model="yearValue"
+        type="year"
+        :disabled-date="validateYear"
+        @panel-change="onPick"
+      />`,
+      () => ({
+        yearValue: '2022',
+        validateYear: (date) => {
+          if (date.getFullYear() > 2022) {
+            return true
+          } else {
+            return false
+          }
+        },
+        onPick(e) {
+          return pickHandler(e)
+        },
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('focus')
+    await nextTick()
+    ;(document.querySelector('td.disabled') as HTMLElement).click()
+    await nextTick()
+    expect(pickHandler).toHaveBeenCalledTimes(0)
+    ;(document.querySelector('td.available') as HTMLElement).click()
+    await nextTick()
+    expect(pickHandler).toHaveBeenCalledTimes(1)
   })
 })

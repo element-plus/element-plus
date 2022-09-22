@@ -5,6 +5,7 @@
       :disabled="disabled"
       :popper-class="popperClass"
       :size="size"
+      :validate-event="false"
       @change="handleChange"
     >
       <el-option
@@ -18,6 +19,7 @@
 </template>
 
 <script lang="ts" setup>
+// @ts-nocheck
 import { computed, ref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { ElOption, ElSelect } from '@element-plus/components/select'

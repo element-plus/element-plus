@@ -17,10 +17,12 @@
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.mjs",
+  "types": "es/index.d.ts",
   "exports": {
     ".": {
       "require": "./lib/index.js",
-      "import": "./es/index.mjs"
+      "import": "./es/index.mjs",
+      "types": "./es/index.d.ts"
     },
     "./es": "./es/index.mjs",
     "./lib": "./lib/index.js",
@@ -52,26 +54,26 @@
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.1",
-    "@element-plus/icons-vue": "^2.0.5",
-    "@floating-ui/dom": "^0.5.0",
+    "@element-plus/icons-vue": "^2.0.6",
+    "@floating-ui/dom": "^1.0.1",
     "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
     "@types/lodash": "^4.14.182",
     "@types/lodash-es": "^4.17.6",
-    "@vueuse/core": "^8.5.0",
-    "async-validator": "^4.1.1",
-    "dayjs": "^1.11.2",
+    "@vueuse/core": "^9.1.0",
+    "async-validator": "^4.2.5",
+    "dayjs": "^1.11.3",
     "escape-html": "^1.0.3",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "lodash-unified": "^1.0.2",
     "memoize-one": "^6.0.0",
-    "normalize-wheel-es": "^1.1.2"
+    "normalize-wheel-es": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "*",
     "csstype": "^2.6.20",
-    "vue": "^3.2.33",
-    "vue-router": "^4.0.15"
+    "vue": "^3.2.37",
+    "vue-router": "^4.0.16"
   },
   "vetur": {
     "tags": "tags.json",

@@ -24,7 +24,7 @@ import type { FormItemProp } from './form-item'
 
 const COMPONENT_NAME = 'ElForm'
 defineOptions({
-  name: 'ElForm',
+  name: COMPONENT_NAME,
 })
 const props = defineProps(formProps)
 const emit = defineEmits(formEmits)
@@ -149,7 +149,9 @@ const scrollToField = (prop: FormItemProp) => {
 watch(
   () => props.rules,
   () => {
-    if (props.validateOnRuleChange) validate()
+    if (props.validateOnRuleChange) {
+      validate().catch((err) => debugWarn(err))
+    }
   },
   { deep: true }
 )

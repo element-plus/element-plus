@@ -1,11 +1,14 @@
 <template>
-  <div class="el-color-predefine">
-    <div class="el-color-predefine__colors">
+  <div :class="ns.b()">
+    <div :class="ns.e('colors')">
       <div
         v-for="(item, index) in rgbaColors"
         :key="colors[index]"
-        class="el-color-predefine__color-selector"
-        :class="{ selected: item.selected, 'is-alpha': item._alpha < 100 }"
+        :class="[
+          ns.e('color-selector'),
+          ns.is('alpha', item._alpha < 100),
+          { selected: item.selected },
+        ]"
         @click="handleSelect(index)"
       >
         <div :style="{ backgroundColor: item.value }" />
@@ -15,26 +18,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, watchEffect } from 'vue'
-import { useOptions } from '../useOption'
-import Color from '../color'
+import { defineComponent, inject, ref, watch, watchEffect } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
+import { colorPickerContextKey } from '../color-picker'
+import Color from '../utils/color'
 
-import type { PropType } from 'vue'
+import type { PropType, Ref } from 'vue'
 
 export default defineComponent({
   props: {
-    colors: { type: Array, required: true },
+    colors: {
+      type: Array as PropType<string[]>,
+      required: true,
+    },
     color: {
       type: Object as PropType<Color>,
       required: true,
     },
   },
   setup(props) {
-    const { currentColor } = useOptions()
-    //data
-    const rgbaColors = ref(parseColors(props.colors, props.color))
+    const ns = useNamespace('color-predefine')
+    const { currentColor } = inject(colorPickerContextKey)!
 
-    //watch
+    const rgbaColors = ref(parseColors(props.colors, props.color)) as Ref<
+      Color[]
+    >
+
     watch(
       () => currentColor.value,
       (val) => {
@@ -46,14 +55,16 @@ export default defineComponent({
         })
       }
     )
+
     watchEffect(() => {
       rgbaColors.value = parseColors(props.colors, props.color)
     })
 
-    function handleSelect(index) {
+    function handleSelect(index: number) {
       props.color.fromString(props.colors[index])
     }
-    function parseColors(colors, color) {
+
+    function parseColors(colors: string[], color: Color) {
       return colors.map((value) => {
         const c = new Color()
         c.enableAlpha = true
@@ -66,6 +77,7 @@ export default defineComponent({
     return {
       rgbaColors,
       handleSelect,
+      ns,
     }
   },
 })

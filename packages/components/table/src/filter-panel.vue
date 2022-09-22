@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="tooltip"
-    v-model:visible="tooltipVisible"
+    :visible="tooltipVisible"
     :offset="0"
     :placement="placement"
     :show-arrow="false"
@@ -87,6 +87,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'

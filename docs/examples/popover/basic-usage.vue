@@ -49,7 +49,7 @@
   </el-popover>
 
   <el-popover
-    v-model:visible="visible"
+    :visible="visible"
     placement="bottom"
     title="Title"
     :width="200"

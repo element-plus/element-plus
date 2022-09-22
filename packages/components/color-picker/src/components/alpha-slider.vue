@@ -1,8 +1,8 @@
 <template>
-  <div class="el-color-alpha-slider" :class="{ 'is-vertical': vertical }">
+  <div :class="[ns.b(), ns.is('vertical', vertical)]">
     <div
       ref="bar"
-      class="el-color-alpha-slider__bar"
+      :class="ns.e('bar')"
       :style="{
         background,
       }"
@@ -10,7 +10,7 @@
     />
     <div
       ref="thumb"
-      class="el-color-alpha-slider__thumb"
+      :class="ns.e('thumb')"
       :style="{
         left: thumbLeft + 'px',
         top: thumbTop + 'px',
@@ -29,11 +29,11 @@ import {
   watch,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
-import draggable from '../draggable'
+import { useNamespace } from '@element-plus/hooks'
+import { draggable } from '../utils/draggable'
 
 import type { PropType } from 'vue'
-import type { Nullable } from '@element-plus/utils'
-import type Color from '../color'
+import type Color from '../utils/color'
 
 export default defineComponent({
   name: 'ElColorAlphaSlider',
@@ -48,15 +48,17 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const instance = getCurrentInstance()
+    const ns = useNamespace('color-alpha-slider')
+
+    const instance = getCurrentInstance()!
     // ref
-    const thumb = shallowRef<Nullable<HTMLElement>>(null)
-    const bar = shallowRef<Nullable<HTMLElement>>(null)
+    const thumb = shallowRef<HTMLElement>()
+    const bar = shallowRef<HTMLElement>()
 
     // data
     const thumbLeft = ref(0)
     const thumbTop = ref(0)
-    const background = ref<Nullable<string>>(null)
+    const background = ref<string>()
 
     watch(
       () => props.color.get('alpha'),
@@ -73,6 +75,8 @@ export default defineComponent({
 
     //methods
     function getThumbLeft() {
+      if (!thumb.value) return 0
+
       if (props.vertical) return 0
       const el = instance.vnode.el
       const alpha = props.color.get('alpha')
@@ -84,6 +88,8 @@ export default defineComponent({
     }
 
     function getThumbTop() {
+      if (!thumb.value) return 0
+
       const el = instance.vnode.el
       if (!props.vertical) return 0
       const alpha = props.color.get('alpha')
@@ -99,10 +105,10 @@ export default defineComponent({
         const { r, g, b } = props.color.toRgb()
         return `linear-gradient(to right, rgba(${r}, ${g}, ${b}, 0) 0%, rgba(${r}, ${g}, ${b}, 1) 100%)`
       }
-      return null
+      return ''
     }
 
-    function handleClick(event: Event) {
+    function handleClick(event: MouseEvent | TouchEvent) {
       const target = event.target
 
       if (target !== thumb.value) {
@@ -110,7 +116,9 @@ export default defineComponent({
       }
     }
 
-    function handleDrag(event) {
+    function handleDrag(event: MouseEvent | TouchEvent) {
+      if (!bar.value || !thumb.value) return
+
       const el = instance.vnode.el as HTMLElement
       const rect = el.getBoundingClientRect()
       const { clientX, clientY } = getClientXY(event)
@@ -152,11 +160,13 @@ export default defineComponent({
 
     // mounded
     onMounted(() => {
+      if (!bar.value || !thumb.value) return
+
       const dragConfig = {
-        drag: (event) => {
+        drag: (event: MouseEvent | TouchEvent) => {
           handleDrag(event)
         },
-        end: (event) => {
+        end: (event: MouseEvent | TouchEvent) => {
           handleDrag(event)
         },
       }
@@ -174,6 +184,7 @@ export default defineComponent({
       background,
       handleClick,
       update,
+      ns,
     }
   },
 })
