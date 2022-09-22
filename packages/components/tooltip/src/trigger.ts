@@ -1,5 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { usePopperTriggerProps } from '@element-plus/components/popper'
+import { popperTriggerProps } from '@element-plus/components/popper'
 import { EVENT_CODE } from '@element-plus/constants'
 import type { Arrayable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
@@ -7,7 +7,7 @@ import type { ExtractPropTypes } from 'vue'
 export type TooltipTriggerType = 'hover' | 'focus' | 'click' | 'contextmenu'
 
 export const useTooltipTriggerProps = buildProps({
-  ...usePopperTriggerProps,
+  ...popperTriggerProps,
   disabled: Boolean,
   trigger: {
     type: definePropType<Arrayable<TooltipTriggerType>>([String, Array]),

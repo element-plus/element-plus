@@ -1,9 +1,6 @@
 import { buildProps } from '@element-plus/utils'
 import { createModelToggleComposable } from '@element-plus/hooks'
-import {
-  usePopperArrowProps,
-  usePopperProps,
-} from '@element-plus/components/popper'
+import { popperArrowProps, popperProps } from '@element-plus/components/popper'
 import { useTooltipContentProps } from './content'
 import { useTooltipTriggerProps } from './trigger'
 import type Tooltip from './tooltip.vue'
@@ -17,11 +14,11 @@ export const {
 } = createModelToggleComposable('visible' as const)
 
 export const useTooltipProps = buildProps({
-  ...usePopperProps,
+  ...popperProps,
   ...useTooltipModelToggleProps,
   ...useTooltipContentProps,
   ...useTooltipTriggerProps,
-  ...usePopperArrowProps,
+  ...popperArrowProps,
   openDelay: {
     type: Number,
   },
