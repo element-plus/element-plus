@@ -92,12 +92,6 @@ const TabNav = defineComponent({
         ? 'width'
         : 'height'
     )
-    const navStyle = computed<CSSProperties>(() => {
-      const dir = sizeName.value === 'width' ? 'X' : 'Y'
-      return {
-        transform: `translate${dir}(-${navOffset.value}px)`,
-      }
-    })
 
     const scrollPrev = () => {
       if (!navScroll$.value) return
@@ -384,7 +378,6 @@ const TabNav = defineComponent({
                 ),
               ]}
               ref={nav$}
-              style={navStyle.value}
               role="tablist"
               onKeydown={changeTab}
             >
