@@ -45,7 +45,7 @@ import { useNamespace } from '@element-plus/hooks'
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
-import Node, { ExpandTrigger } from './node'
+import Node from './node'
 import { CommonProps, useCascaderConfig } from './config'
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
@@ -95,9 +95,7 @@ export default defineComponent({
     const expandingNode = ref<Nullable<CascaderNode>>(null)
     const checkedNodes = ref<CascaderNode[]>([])
 
-    const isHoverMenu = computed(
-      () => config.value.expandTrigger === ExpandTrigger.HOVER
-    )
+    const isHoverMenu = computed(() => config.value.expandTrigger === 'hover')
     const renderLabelFn = computed(() => props.renderLabel || slots.default)
 
     const initStore = () => {

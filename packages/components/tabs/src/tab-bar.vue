@@ -5,8 +5,8 @@
     :style="barStyle"
   />
 </template>
+
 <script lang="ts" setup>
-// @ts-nocheck
 import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, throwError } from '@element-plus/utils'
@@ -18,7 +18,7 @@ import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElTabBar'
 defineOptions({
-  name: 'ElTabBar',
+  name: COMPONENT_NAME,
 })
 const props = defineProps(tabBarProps)
 
@@ -41,7 +41,7 @@ const getBarStyle = (): CSSProperties => {
   const sizeDir = sizeName === 'width' ? 'x' : 'y'
 
   props.tabs.every((tab) => {
-    const $el = instance.parent?.refs?.[`tab-${tab.paneName}`] as HTMLElement
+    const $el = instance.parent?.refs?.[`tab-${tab.uid}`] as HTMLElement
     if (!$el) return false
 
     if (!tab.active) {

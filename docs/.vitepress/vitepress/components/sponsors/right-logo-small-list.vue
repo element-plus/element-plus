@@ -34,7 +34,7 @@ const onItemClick = (item: any) => {
         <div
           :class="[
             isDark && '!bg-#262729',
-            'flex bg-#F9F9F9 rd-0px h-40px w-89px justify-center items-center',
+            'flex m-b-2px bg-#F9F9F9 rd-0px h-40px w-89px justify-center items-center',
           ]"
         >
           <img :src="item.imgL" :alt="item.name" />

@@ -17,7 +17,7 @@
       :popper-options="popperOptions"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       :effect="effect"
-      placement="bottom-start"
+      :placement="placement"
       pure
       :transition="`${nsSelectV2.namespace.value}-zoom-in-top`"
       trigger="click"
@@ -179,6 +179,7 @@
                 :unselectable="expanded ? 'on' : undefined"
                 @update:modelValue="onUpdateInputValue"
                 @focus="handleFocus"
+                @blur="handleBlur"
                 @input="onInput"
                 @compositionstart="handleCompositionStart"
                 @compositionupdate="handleCompositionUpdate"
@@ -227,6 +228,7 @@
                 @compositionupdate="handleCompositionUpdate"
                 @compositionend="handleCompositionEnd"
                 @focus="handleFocus"
+                @blur="handleBlur"
                 @input="onInput"
                 @keydown.up.stop.prevent="onKeyboardNavigate('backward')"
                 @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
@@ -253,9 +255,7 @@
               nsSelectV2.is(
                 'transparent',
                 states.isComposing ||
-                  (placeholder && multiple
-                    ? modelValue.length === 0
-                    : !hasModelValue)
+                  (multiple ? modelValue.length === 0 : !hasModelValue)
               ),
             ]"
           >

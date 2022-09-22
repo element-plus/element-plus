@@ -23,9 +23,8 @@ import { useNamespace } from '@element-plus/hooks'
 import { backtopEmits, backtopProps } from './backtop'
 
 const COMPONENT_NAME = 'ElBacktop'
-
 defineOptions({
-  name: 'ElBacktop',
+  name: COMPONENT_NAME,
 })
 
 const props = defineProps(backtopProps)
