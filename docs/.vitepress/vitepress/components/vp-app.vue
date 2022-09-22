@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import nprogress from 'nprogress'
 import dayjs from 'dayjs'
@@ -19,6 +19,8 @@ const USER_PREFER_GITHUB_PAGE = 'USER_PREFER_GITHUB_PAGE'
 const [isSidebarOpen, toggleSidebar] = useToggle(false)
 const { hasSidebar } = useSidebar()
 const lang = useLang()
+
+const isDev = ref(import.meta.env.DEV)
 
 const mirrorUrl = 'element-plus.gitee.io'
 const isMirrorUrl = () => {
@@ -141,5 +143,5 @@ onMounted(async () => {
     </VPContent>
     <Debug />
   </div>
-  <EpThemeDrawer />
+  <EpThemeDrawer v-if="isDev" />
 </template>

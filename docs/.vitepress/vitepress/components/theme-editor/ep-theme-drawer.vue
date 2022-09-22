@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { Brush } from '@element-plus/icons-vue'
 
-const drawer = ref(true)
+const drawer = ref(import.meta.env.DEV)
 const direction = ref('rtl')
 </script>
 
@@ -10,16 +10,16 @@ const direction = ref('rtl')
   <div>
     <el-drawer
       v-model="drawer"
-      title="I am the title"
+      title="Theme Editor"
       :lock-scroll="false"
       :direction="direction"
     >
-      <span>Hi, there!</span>
+      <EpThemePrimary />
     </el-drawer>
 
     <el-button
       v-if="!drawer"
-      class="absolute right-10 bottom-10"
+      class="fixed right-10 bottom-10"
       :icon="Brush"
       circle
       @click="drawer = true"
