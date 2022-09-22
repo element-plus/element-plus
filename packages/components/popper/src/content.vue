@@ -3,7 +3,6 @@
     ref="popperContentRef"
     :style="contentStyle"
     :class="contentClass"
-    tabindex="-1"
     @mouseenter="(e) => $emit('mouseenter', e)"
     @mouseleave="(e) => $emit('mouseleave', e)"
   >
