@@ -200,7 +200,7 @@ const updateStatus = (activeIndex: number) => {
   } else {
     internalStatus.value = 'wait'
   }
-  const prevChild = parent.steps.value[stepsCount.value - 1]
+  const prevChild = parent.steps.value[index.value - 1]
   if (prevChild) prevChild.calcProgress(internalStatus.value)
 }
 
