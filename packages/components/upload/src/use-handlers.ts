@@ -1,4 +1,5 @@
 import { watch } from 'vue'
+import { isNil } from 'lodash-unified'
 import { useVModel } from '@vueuse/core'
 import { debugWarn, throwError } from '@element-plus/utils'
 import { genFileId } from './upload'
@@ -84,6 +85,7 @@ export const useHandlers = (
   }
 
   const handleStart: UploadContentProps['onStart'] = (file) => {
+    if (isNil(file.uid)) file.uid = genFileId()
     const uploadFile: UploadFile = {
       name: file.name,
       percentage: 0,
