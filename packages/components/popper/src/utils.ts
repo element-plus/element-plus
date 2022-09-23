@@ -3,7 +3,7 @@ import { isClient, unrefElement } from '@vueuse/core'
 import type { ComponentPublicInstance } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
 import type { Measurable } from '@element-plus/tokens'
-import type { UsePopperCoreConfigProps } from './content'
+import type { PopperCoreConfigProps } from './content'
 
 type ArrowProps = {
   arrowEl: HTMLElement | undefined
@@ -11,7 +11,7 @@ type ArrowProps = {
 }
 
 export const buildPopperOptions = (
-  props: UsePopperCoreConfigProps,
+  props: PopperCoreConfigProps,
   arrowProps: ArrowProps
 ) => {
   const { placement, strategy, popperOptions } = props
@@ -34,7 +34,7 @@ export const unwrapMeasurableEl = (
   return unrefElement($el as HTMLElement)
 }
 
-function genModifiers(options: UsePopperCoreConfigProps) {
+function genModifiers(options: PopperCoreConfigProps) {
   const { offset, gpuAcceleration, fallbackPlacements } = options
   return [
     {
@@ -83,7 +83,7 @@ function attachArrow(options: any, { arrowEl, arrowOffset }: ArrowProps) {
 
 function deriveExtraModifiers(
   options: any,
-  modifiers: UsePopperCoreConfigProps['popperOptions']['modifiers']
+  modifiers: PopperCoreConfigProps['popperOptions']['modifiers']
 ) {
   if (modifiers) {
     options.modifiers = [...options.modifiers, ...(modifiers ?? [])]
