@@ -72,8 +72,7 @@ describe('Slider', () => {
       },
     })
 
-    const slider = wrapper.vm.$refs.slider
-    const tooltip = slider.$refs.firstButton.$refs.tooltip
+    const tooltip = wrapper.findComponent({ name: 'ElTooltip' }).vm
     expect(tooltip.disabled).toBe(true)
   })
 

@@ -1,16 +1,26 @@
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
+import updateLocale from 'dayjs/plugin/updateLocale'
+import dayjs from 'dayjs'
 import Calendar from '../src/calendar.vue'
 
 const AXIOM = 'Rem is the best girl'
+
+const setDayjsWeekStart = (weekStart = 0) => {
+  dayjs.extend(updateLocale)
+  const dayjsLocale = dayjs.locale()
+  dayjs.updateLocale(dayjsLocale, {
+    weekStart,
+  })
+}
 
 describe('Calendar.vue', () => {
   it('create', async () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-04-01') }),
       render() {
-        return <Calendar v-model={this.value}></Calendar>
+        return <Calendar v-model={this.value} />
       },
     })
     const titleEl = wrapper.find('.el-calendar__title')
@@ -31,9 +41,7 @@ describe('Calendar.vue', () => {
 
   it('range', () => {
     const wrapper = mount(() => (
-      <Calendar
-        range={[new Date(2019, 2, 4), new Date(2019, 2, 24)]}
-      ></Calendar>
+      <Calendar range={[new Date(2019, 2, 4), new Date(2019, 2, 24)]} />
     ))
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2019.*March/.test(titleEl.element.innerHTML)).toBeTruthy()
@@ -47,9 +55,7 @@ describe('Calendar.vue', () => {
   // https://github.com/element-plus/element-plus/issues/3155
   it('range when the start date will be calculated to last month', () => {
     const wrapper = mount(() => (
-      <Calendar
-        range={[new Date(2021, 1, 2), new Date(2021, 1, 28)]}
-      ></Calendar>
+      <Calendar range={[new Date(2021, 1, 2), new Date(2021, 1, 28)]} />
     ))
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2021.*January/.test(titleEl.element.innerHTML)).toBeTruthy()
@@ -62,9 +68,7 @@ describe('Calendar.vue', () => {
 
   it('range tow monthes', async () => {
     const wrapper = mount(() => (
-      <Calendar
-        range={[new Date(2019, 3, 14), new Date(2019, 4, 18)]}
-      ></Calendar>
+      <Calendar range={[new Date(2019, 3, 14), new Date(2019, 4, 18)]} />
     ))
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2019.*April/.test(titleEl.element.innerHTML)).toBeTruthy()
@@ -86,9 +90,7 @@ describe('Calendar.vue', () => {
   // https://github.com/element-plus/element-plus/issues/3155
   it('range tow monthes when the start date will be calculated to last month', async () => {
     const wrapper = mount(() => (
-      <Calendar
-        range={[new Date(2021, 1, 2), new Date(2021, 2, 21)]}
-      ></Calendar>
+      <Calendar range={[new Date(2021, 1, 2), new Date(2021, 2, 21)]} />
     ))
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2021.*January/.test(titleEl.element.innerHTML)).toBeTruthy()
@@ -112,7 +114,7 @@ describe('Calendar.vue', () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-04-01') }),
       render() {
-        return <Calendar v-model={this.value}></Calendar>
+        return <Calendar v-model={this.value} />
       },
     })
     const head = wrapper.element.querySelector('.el-calendar-table thead')
@@ -123,6 +125,26 @@ describe('Calendar.vue', () => {
     expect(firstRow?.lastElementChild?.innerHTML).toContain('6')
   })
 
+  it('firstDayOfWeek when set 1', async () => {
+    setDayjsWeekStart(1)
+    const wrapper = mount({
+      data: () => ({ value: new Date('2019-09-01') }),
+      render() {
+        return <Calendar v-model={this.value} />
+      },
+    })
+    const head = wrapper.element.querySelector('.el-calendar-table thead')
+    expect(head?.firstElementChild?.innerHTML).toBe('Mon')
+    expect(head?.lastElementChild?.innerHTML).toBe('Sun')
+    const firstRow = wrapper.element.querySelector('.el-calendar-table__row')
+    expect(firstRow?.firstElementChild?.innerHTML).toContain('26')
+    expect(firstRow?.lastElementChild?.innerHTML).toContain('1')
+    const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
+    expect(rows.length).toBe(6)
+    // reset weekStart 0
+    setDayjsWeekStart()
+  })
+
   it('firstDayOfWeek in range mode', async () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-03-04') }),
@@ -130,9 +152,8 @@ describe('Calendar.vue', () => {
         return (
           <Calendar
             v-model={this.value}
-            first-day-of-week={7}
             range={[new Date(2019, 1, 3), new Date(2019, 2, 23)]}
-          ></Calendar>
+          />
         )
       },
     })
@@ -148,7 +169,7 @@ describe('Calendar.vue', () => {
     const wrapper = mount({
       data: () => ({ value: new Date('2019-04-01') }),
       render() {
-        return <Calendar v-model={this.value}></Calendar>
+        return <Calendar v-model={this.value} />
       },
     })
     await nextTick()
@@ -163,9 +184,7 @@ describe('Calendar.vue', () => {
 
   it('range two years', async () => {
     const wrapper = mount(() => (
-      <Calendar
-        range={[new Date(2022, 0, 1), new Date(2022, 0, 31)]}
-      ></Calendar>
+      <Calendar range={[new Date(2022, 0, 1), new Date(2022, 0, 31)]} />
     ))
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2021.*December/.test(titleEl.element.innerHTML)).toBeTruthy()

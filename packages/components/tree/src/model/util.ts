@@ -29,5 +29,5 @@ export const handleCurrentChange = (
   const currentNode = store.value.currentNode
   if (preCurrentNode === currentNode) return
 
-  emit('current-change', currentNode ? currentNode : null, currentNode)
+  emit('current-change', currentNode ? currentNode.data : null, currentNode)
 }

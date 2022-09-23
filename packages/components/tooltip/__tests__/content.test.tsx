@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import {
@@ -11,9 +10,11 @@ import {
   it,
 } from 'vitest'
 import { usePopperContainer } from '@element-plus/hooks'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
 import { genTooltipProvides } from '../test-helper/provides'
 import ElTooltipContent from '../src/content.vue'
-import { TOOLTIP_INJECTION_KEY } from '../src/tokens'
+
+import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'rem is the best girl'
 
@@ -48,20 +49,17 @@ describe('<ElTooltipContent />', () => {
     },
   }
 
-  let unmount
+  let unmount: () => void
   const createComponent = (props = {}, provides = {}) => {
     const wrapper = mount(
       {
-        components: {
-          ElTooltipContent,
-        },
-        template: `<el-tooltip-content><slot /></el-tooltip-content>`,
         setup() {
           usePopperContainer()
+
+          return () => <ElTooltipContent {...props}>{AXIOM}</ElTooltipContent>
         },
       },
       {
-        props,
         global: {
           provide: {
             ...defaultProvide,
@@ -69,10 +67,6 @@ describe('<ElTooltipContent />', () => {
           },
           stubs: ['ElPopperContent'],
         },
-        slots: {
-          default: () => [AXIOM],
-        },
-
         attachTo: document.body,
       }
     )
@@ -81,14 +75,14 @@ describe('<ElTooltipContent />', () => {
     return wrapper.findComponent(ElTooltipContent)
   }
 
-  let wrapper: ReturnType<typeof createComponent>
+  let wrapper: VueWrapper<any>
   const OLD_ENV = process.env.NODE_ENV
   beforeAll(() => {
-    process.env.NODE_ENV = 'test'
+    process.env['NODE_ENV'] = 'test'
   })
 
   afterAll(() => {
-    process.env.NODE_ENV = OLD_ENV
+    process.env['NODE_ENV'] = OLD_ENV
   })
 
   afterEach(() => {
@@ -186,7 +180,7 @@ describe('<ElTooltipContent />', () => {
           // Have to mock this ref because we are not going to render the content in this component
           wrapper.vm.contentRef = {
             popperContentRef: document.createElement('div'),
-          } as any
+          }
         })
 
         it('should not close the content after click outside when trigger is hover', async () => {
