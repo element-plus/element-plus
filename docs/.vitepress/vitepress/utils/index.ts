@@ -4,7 +4,6 @@ import {
   isExternal,
   normalize,
 } from 'vitepress/dist/client/theme-default/utils'
-import { inBrowser } from 'vitepress'
 
 import type { Route } from 'vitepress'
 
@@ -83,20 +82,4 @@ export function createCrowdinUrl(targetLang: string) {
     translateLang = targetLang.split('-').shift()!.toLocaleLowerCase()
   }
   return `https://crowdin.com/translate/element-plus/all/en-${translateLang}`
-}
-
-export function insertTableWrapper(contentRef: any) {
-  if (!inBrowser) return
-  const tables: HTMLTableElement[] = Array.from(
-    contentRef.value?.$el.querySelectorAll(
-      'table:not(.el-table__body):not(.el-table__header)'
-    ) ?? []
-  )
-  tables.forEach((table) => {
-    const wrapper = document.createElement('div')
-    wrapper.classList.add('vp-table')
-    table.parentNode!.insertBefore(wrapper, table)
-    table.parentNode!.removeChild(table)
-    wrapper.appendChild(table)
-  })
 }
