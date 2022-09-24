@@ -7,7 +7,9 @@
       ns.is('disabled', isDisabled),
       ns.is('bordered', border),
       ns.is('checked', isChecked),
+      $attrs.class,
     ]"
+    :style="$attrs.style"
     :aria-controls="indeterminate ? controls : null"
     @click="onClickRoot"
   >
@@ -26,6 +28,7 @@
       <input
         v-if="trueLabel || falseLabel"
         :id="inputId"
+        v-bind="attrs"
         v-model="model"
         :class="ns.e('original')"
         type="checkbox"
@@ -42,6 +45,7 @@
       <input
         v-else
         :id="inputId"
+        v-bind="attrs"
         v-model="model"
         :class="ns.e('original')"
         type="checkbox"
@@ -65,17 +69,20 @@
 
 <script lang="ts" setup>
 import { useSlots } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useAttrs, useNamespace } from '@element-plus/hooks'
 import { checkboxEmits, checkboxProps } from './checkbox'
 import { useCheckbox } from './composables'
 
 defineOptions({
   name: 'ElCheckbox',
+  inheritAttrs: false,
 })
 
 const props = defineProps(checkboxProps)
 defineEmits(checkboxEmits)
 const slots = useSlots()
+
+const attrs = useAttrs()
 
 const {
   inputId,
