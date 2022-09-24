@@ -299,7 +299,7 @@ describe('Virtual Tree', () => {
     expect(wrapper.classes()).toContain('el-tree--highlight-current')
   })
 
-  test('showCheckbox', async () => {
+  test.only('showCheckbox', async () => {
     const { wrapper } = createTree({
       data() {
         return {
@@ -360,13 +360,13 @@ describe('Virtual Tree', () => {
     nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
     expect(nodes.length).toBe(8)
     // When node-1 is checked, all child nodes should be checked
-    await nodes[0].find('.el-checkbox').trigger('click')
+    await nodes[0].find('.el-checkbox input').trigger('click')
     expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(7)
     // When cancel node-1 checked, all child nodes should not be checked
-    await nodes[0].find('.el-checkbox').trigger('click')
+    await nodes[0].find('.el-checkbox input').trigger('click')
     expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(0)
     // When node-1-1 is checked, node-1-1-1 and node-1-1-2 should be checked
-    await nodes[1].find('.el-checkbox').trigger('click')
+    await nodes[1].find('.el-checkbox input').trigger('click')
     expect(
       wrapper
         .findAll(`${TREE_NODE_CLASS_NAME}.is-checked`)
@@ -374,21 +374,21 @@ describe('Virtual Tree', () => {
         .toString()
     ).toBe(['node-1-1', 'node-1-1-1', 'node-1-1-2'].toString())
     // When cancel node-1-1, node-1-1-1 and node-1-1-2 should not be checked
-    await nodes[1].find('.el-checkbox').trigger('click')
+    await nodes[1].find('.el-checkbox input').trigger('click')
     expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(0)
     // When node-1-1-1 is checked, node-1 and node-1-1 should be indeterminate
-    await nodes[2].find('.el-checkbox').trigger('click')
+    await nodes[2].find('.el-checkbox input').trigger('click')
     expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(1)
     expect(wrapper.findAll('.el-checkbox .is-indeterminate').length).toBe(2)
     // When node-1-1-1 and node-1-1-2 are checked, node-1-1 should be checked, node-1 should be indeterminate
-    await nodes[3].find('.el-checkbox').trigger('click')
+    await nodes[3].find('.el-checkbox input').trigger('click')
     expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(3)
     expect(wrapper.findAll('.el-checkbox .is-indeterminate').length).toBe(1)
-    await nodes[3].find('.el-checkbox').trigger('click')
-    await nodes[2].find('.el-checkbox').trigger('click')
+    await nodes[3].find('.el-checkbox input').trigger('click')
+    await nodes[2].find('.el-checkbox input').trigger('click')
     // test one leaf node
     // When node-1-2-1 is checked, node-1-2 should be checked
-    await nodes[5].find('.el-checkbox').trigger('click')
+    await nodes[5].find('.el-checkbox input').trigger('click')
     expect(
       wrapper
         .findAll(`${TREE_NODE_CLASS_NAME}.is-checked`)
@@ -396,7 +396,7 @@ describe('Virtual Tree', () => {
         .toString()
     ).toBe(['node-1-2', 'node-1-2-1'].toString())
     // cancel node-1-2-1, node-1-2 should not be checked
-    await nodes[5].find('.el-checkbox').trigger('click')
+    await nodes[5].find('.el-checkbox input').trigger('click')
     expect(wrapper.findAll('.el-checkbox.is-checked').length).toBe(0)
     expect(wrapper.findAll('.el-checkbox .is-indeterminate').length).toBe(0)
   })
@@ -516,7 +516,7 @@ describe('Virtual Tree', () => {
     expect(treeRef.getHalfCheckedKeys().length).toBe(0)
     // manual
     const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
-    await nodes[0].find('.el-checkbox').trigger('click')
+    await nodes[0].find('.el-checkbox input').trigger('click')
     expect(treeRef.getCheckedKeys().length).toBe(3)
   })
 
@@ -862,7 +862,7 @@ describe('Virtual Tree', () => {
       })
       await nextTick()
       const nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
-      await nodes[2].find('.el-checkbox').trigger('click')
+      await nodes[2].find('.el-checkbox input').trigger('click')
       expect(onNodeCheck).toHaveBeenCalledTimes(1)
       expect(onNodeCheck).toHaveBeenCalledWith(
         { id: '1-1-1', label: 'node-1-1-1' },
