@@ -299,7 +299,7 @@ describe('Virtual Tree', () => {
     expect(wrapper.classes()).toContain('el-tree--highlight-current')
   })
 
-  test.only('showCheckbox', async () => {
+  test('showCheckbox', async () => {
     const { wrapper } = createTree({
       data() {
         return {
