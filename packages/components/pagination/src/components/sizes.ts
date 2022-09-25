@@ -19,7 +19,6 @@ export const paginationSizesProps = buildProps({
   size: {
     type: String,
     values: componentSizes,
-    default: 'default',
   },
 } as const)
 
