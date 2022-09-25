@@ -319,12 +319,7 @@ describe('<ElFocusTrap', () => {
       newFocusTrap.unmount()
       await nextTick()
 
-      expect(document.activeElement).toBe(items.at(2)?.element)
-
-      await focusComponent.trigger('keydown', {
-        key: EVENT_CODE.tab,
-      })
-      expect(document.activeElement).toBe(items.at(0)?.element)
+      expect(document.activeElement).toBe(document.body)
     })
 
     it('should steal focus when trapped', async () => {
