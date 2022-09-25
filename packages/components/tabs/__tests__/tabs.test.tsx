@@ -451,7 +451,7 @@ describe('Tabs.vue', () => {
     const tabsWrapper = wrapper.findComponent(Tabs)
     await nextTick()
     const mockOffsetLeft = vi
-      .spyOn(wrapper.find('#tab-C').element, 'offsetLeft' as any, 'get')
+      .spyOn(wrapper.find('#tab-C').element as HTMLElement, 'offsetLeft', 'get')
       .mockImplementation(() => 300)
     const mockComputedStyle = vi
       .spyOn(window, 'getComputedStyle')
@@ -466,7 +466,7 @@ describe('Tabs.vue', () => {
     tabPosition.value = 'left'
     await nextTick()
     const mockOffsetTop = vi
-      .spyOn(wrapper.find('#tab-C').element, 'offsetTop' as any, 'get')
+      .spyOn(wrapper.find('#tab-C').element as HTMLElement, 'offsetTop', 'get')
       .mockImplementation(() => 200)
     await wrapper.find('#tab-A').trigger('click')
     await wrapper.find('#tab-C').trigger('click')
@@ -622,7 +622,11 @@ describe('Tabs.vue', () => {
     await nextTick()
 
     const mockOffsetLeft = vi
-      .spyOn(wrapper.find('#tab-4999').element, 'offsetLeft' as any, 'get')
+      .spyOn(
+        wrapper.find('#tab-4999').element as HTMLElement,
+        'offsetLeft',
+        'get'
+      )
       .mockImplementation(() => 5000)
     const mockComputedStyle = vi
       .spyOn(window, 'getComputedStyle')
