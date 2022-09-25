@@ -23,19 +23,19 @@ const hsbString = computed(() => {
 <template>
   <div class="border border-$el-color-primary rounded-md" p="2">
     <div
-      class="rounded text-sm flex flex-wrap justify-between uppercase"
+      class="rounded text-sm flex flex-col uppercase"
       w="full"
       bg="$el-color-primary"
-      p="x-2 y-3"
+      p="2"
       text="white"
     >
-      <div>
+      <div class="flex justify-between">
         <span class="inline-flex" m="r-2">
           HEX: {{ pColor.toHexString() }}
         </span>
         <span class="inline-flex"> HSB: {{ hsbString }} </span>
       </div>
-      <div>
+      <div class="flex justify-between">
         <span class="inline-flex" m="r-2"> APCA: TODO </span>
         <span class="inline-flex">
           RGB: {{ pColor.toRgbString().replace('RGB', '') }}
