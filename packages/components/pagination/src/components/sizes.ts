@@ -1,5 +1,11 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
-import type { ExtractPropTypes } from 'vue'
+import {
+  buildProps,
+  definePropType,
+  isValidComponentSize,
+  mutable,
+} from '@element-plus/utils'
+import type { ComponentSize } from '@element-plus/constants'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type Sizes from './sizes.vue'
 
 export const paginationSizesProps = buildProps({
@@ -16,7 +22,8 @@ export const paginationSizesProps = buildProps({
   },
   disabled: Boolean,
   size: {
-    type: String,
+    type: String as PropType<ComponentSize>,
+    validator: isValidComponentSize,
     default: 'default',
   },
 } as const)
