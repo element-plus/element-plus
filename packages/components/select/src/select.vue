@@ -41,19 +41,21 @@
               ]"
             >
               <el-tag
-                :closable="!selectDisabled && !selected[0].isDisabled"
+                v-for="item in selected.slice(0, collapseTagsReserveCount)"
+                :key="getValueKey(item)"
+                :closable="!selectDisabled && !item.isDisabled"
                 :size="collapseTagSize"
-                :hit="selected[0].hitState"
+                :hit="item.hitState"
                 :type="tagType"
                 disable-transitions
-                @close="deleteTag($event, selected[0])"
+                @close="deleteTag($event, item)"
               >
                 <span :class="nsSelect.e('tags-text')" :style="tagTextStyle">
-                  {{ selected[0].currentLabel }}
+                  {{ item.currentLabel }}
                 </span>
               </el-tag>
               <el-tag
-                v-if="selected.length > 1"
+                v-if="selected.length > collapseTagsReserveCount"
                 :closable="false"
                 :size="collapseTagSize"
                 :type="tagType"
@@ -69,13 +71,15 @@
                 >
                   <template #default>
                     <span :class="nsSelect.e('tags-text')"
-                      >+ {{ selected.length - 1 }}</span
+                      >+ {{ selected.length - collapseTagsReserveCount }}</span
                     >
                   </template>
                   <template #content>
                     <div :class="nsSelect.e('collapse-tags')">
                       <div
-                        v-for="(item, idx) in selected.slice(1)"
+                        v-for="(item, idx) in selected.slice(
+                          collapseTagsReserveCount
+                        )"
                         :key="idx"
                         :class="nsSelect.e('collapse-tag')"
                       >
@@ -103,7 +107,7 @@
                   </template>
                 </el-tooltip>
                 <span v-else :class="nsSelect.e('tags-text')"
-                  >+ {{ selected.length - 1 }}</span
+                  >+ {{ selected.length - collapseTagsReserveCount }}</span
                 >
               </el-tag>
             </span>
@@ -364,6 +368,10 @@ export default defineComponent({
     collapseTagsTooltip: {
       type: Boolean,
       default: false,
+    },
+    collapseTagsReserveCount: {
+      type: Number,
+      default: 1,
     },
     teleported: useTooltipContentProps.teleported,
     persistent: {
