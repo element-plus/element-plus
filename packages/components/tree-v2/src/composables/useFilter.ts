@@ -25,6 +25,10 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
     const nodes = tree.value?.treeNodes || []
     const filter = props.filterMethod
     hiddenKeys.clear()
+
+    if (!query.length) {
+      return expandKeySet
+    }
     function traverse(nodes: TreeNode[]) {
       nodes.forEach((node) => {
         family.push(node)
@@ -62,6 +66,7 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
       })
     }
     traverse(nodes)
+    console.log('expandedKeySet', expandKeySet)
     return expandKeySet
   }
 
