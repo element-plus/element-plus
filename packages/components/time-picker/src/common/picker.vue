@@ -513,6 +513,7 @@ const onMouseLeave = () => {
   showClose.value = false
 }
 const onTouchStartInput = (event: TouchEvent) => {
+  if (props.readonly || pickerDisabled.value) return
   if (
     (event.touches[0].target as HTMLElement)?.tagName !== 'INPUT' ||
     refInput.value.includes(document.activeElement as HTMLInputElement)
