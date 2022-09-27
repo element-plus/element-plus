@@ -153,16 +153,16 @@ export const useFocusReason = (): {
 } => {
   if (!isFocusReasonHandlersAttached) {
     isFocusReasonHandlersAttached = true
-    if (window.document) {
-      window.document.addEventListener('mousedown', () => {
+    if (typeof document !== 'undefined') {
+      document.addEventListener('mousedown', () => {
         focusReason.value = 'pointer'
         lastUserFocusTimestamp.value = window.performance.now()
       })
-      window.document.addEventListener('touchstart', () => {
+      document.addEventListener('touchstart', () => {
         focusReason.value = 'pointer'
         lastUserFocusTimestamp.value = window.performance.now()
       })
-      window.document.addEventListener('keydown', () => {
+      document.addEventListener('keydown', () => {
         focusReason.value = 'keyboard'
         lastUserFocusTimestamp.value = window.performance.now()
       })
