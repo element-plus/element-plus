@@ -37,7 +37,7 @@ import {
 import type { PropType } from 'vue'
 import type { FocusLayer } from './utils'
 
-const { focusReason, lastUserFocusTimestamp } = useFocusReason()
+const { focusReason } = useFocusReason()
 
 export default defineComponent({
   name: 'ElFocusTrap',
