@@ -108,7 +108,7 @@ export default {
       hasCheckedFormat: ' נבחרו {checked}/{total}',
     },
     image: {
-      error: 'שגיאה', 
+      error: 'שגיאה',
     },
     pageHeader: {
       title: 'חזרה',
