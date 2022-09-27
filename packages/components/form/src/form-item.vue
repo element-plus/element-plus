@@ -51,7 +51,7 @@ import {
   watch,
 } from 'vue'
 import AsyncValidator from 'async-validator'
-import { clone, isEqual } from 'lodash-unified'
+import { clone } from 'lodash-unified'
 import { refDebounced } from '@vueuse/core'
 import {
   addUnit,
@@ -177,8 +177,14 @@ const fieldValue = computed(() => {
   return getProp(model, props.prop).value
 })
 
-const _rules = computed(() => {
-  const rules: FormItemRule[] = props.rules ? ensureArray(props.rules) : []
+const normalizedRules = computed(() => {
+  const { required } = props
+
+  const rules: FormItemRule[] = []
+
+  if (props.rules) {
+    rules.push(...ensureArray(props.rules))
+  }
 
   const formRules = formContext?.rules
   if (formRules && props.prop) {
@@ -191,17 +197,28 @@ const _rules = computed(() => {
     }
   }
 
-  if (props.required !== undefined) {
-    rules.push({ required: !!props.required })
+  if (required !== undefined) {
+    const requiredRules = rules
+      .map((rule, i) => [rule, i] as const)
+      .filter(([rule]) => Object.keys(rule).includes('required'))
+
+    if (requiredRules.length > 0) {
+      for (const [rule, i] of requiredRules) {
+        if (rule.required === required) continue
+        rules[i] = { ...rule, required }
+      }
+    } else {
+      rules.push({ required })
+    }
   }
 
   return rules
 })
 
-const validateEnabled = computed(() => _rules.value.length > 0)
+const validateEnabled = computed(() => normalizedRules.value.length > 0)
 
 const getFilteredRule = (trigger: string) => {
-  const rules = _rules.value
+  const rules = normalizedRules.value
   return (
     rules
       .filter((rule) => {
@@ -219,7 +236,7 @@ const getFilteredRule = (trigger: string) => {
 }
 
 const isRequired = computed(() =>
-  _rules.value.some((rule) => rule.required === true)
+  normalizedRules.value.some((rule) => rule.required)
 )
 
 const shouldShowError = computed(
@@ -276,7 +293,6 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
   // skip validation if its resetting
   if (isResettingField) {
-    isResettingField = false
     return false
   }
 
@@ -309,6 +325,7 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
 const clearValidate: FormItemContext['clearValidate'] = () => {
   setValidationState('')
   validateMessage.value = ''
+  isResettingField = false
 }
 
 const resetField: FormItemContext['resetField'] = async () => {
@@ -317,14 +334,15 @@ const resetField: FormItemContext['resetField'] = async () => {
 
   const computedValue = getProp(model, props.prop)
 
-  if (!isEqual(computedValue.value, initialValue)) {
-    // prevent validation from being triggered
-    isResettingField = true
-    computedValue.value = clone(initialValue)
-  }
+  // prevent validation from being triggered
+  isResettingField = true
+
+  computedValue.value = clone(initialValue)
 
   await nextTick()
   clearValidate()
+
+  isResettingField = false
 }
 
 const addInputId: FormItemContext['addInputId'] = (id: string) => {
@@ -359,6 +377,7 @@ const context: FormItemContext = reactive({
   labelId,
   inputIds,
   isGroup,
+  hasLabel,
   addInputId,
   removeInputId,
   resetField,

@@ -67,7 +67,7 @@ const typeClass = computed(() => {
 })
 
 const iconComponent = computed(() => {
-  if (!props.type) return ''
+  if (!props.type) return props.icon
   return TypeComponentsMap[props.type] || props.icon
 })
 

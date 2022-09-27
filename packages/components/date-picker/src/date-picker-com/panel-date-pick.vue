@@ -29,6 +29,7 @@
               :placeholder="t('el.datepicker.selectDate')"
               :model-value="visibleDate"
               size="small"
+              :validate-event="false"
               @input="(val) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
@@ -41,6 +42,7 @@
               :placeholder="t('el.datepicker.selectTime')"
               :model-value="visibleTime"
               size="small"
+              :validate-event="false"
               @focus="onTimePickerInputFocus"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
@@ -212,7 +214,7 @@ import {
   DArrowLeft,
   DArrowRight,
 } from '@element-plus/icons-vue'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
 import { panelDatePickProps } from '../props/panel-date-pick'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'

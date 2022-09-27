@@ -20,6 +20,7 @@ import {
 import {
   debugWarn,
   getComponentSize,
+  isFunction,
   isKorean,
   scrollIntoView,
 } from '@element-plus/utils'
@@ -109,10 +110,15 @@ export const useSelect = (props, states: States, ctx) => {
     return criteria
   })
   const iconComponent = computed(() =>
-    props.remote && props.filterable ? '' : props.suffixIcon
+    props.remote && props.filterable && !props.remoteShowSuffix
+      ? ''
+      : props.suffixIcon
   )
   const iconReverse = computed(() =>
-    ns.is('reverse', iconComponent.value && states.visible)
+    ns.is(
+      'reverse',
+      iconComponent.value && states.visible && props.suffixTransition
+    )
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
@@ -225,6 +231,14 @@ export const useSelect = (props, states: States, ctx) => {
     () => states.visible,
     (val) => {
       if (!val) {
+        if (props.filterable) {
+          if (isFunction(props.filterMethod)) {
+            props.filterMethod()
+          }
+          if (isFunction(props.remoteMethod)) {
+            props.remoteMethod()
+          }
+        }
         input.value && input.value.blur()
         states.query = ''
         states.previousQuery = null
@@ -322,6 +336,8 @@ export const useSelect = (props, states: States, ctx) => {
     (val) => {
       if (typeof val === 'number' && val > -1) {
         hoverOption.value = optionsArray.value[val] || {}
+      } else {
+        hoverOption.value = {}
       }
       optionsArray.value.forEach((option) => {
         option.hover = hoverOption.value === option
@@ -360,7 +376,7 @@ export const useSelect = (props, states: States, ctx) => {
     })
   }
 
-  const handleQueryChange = (val) => {
+  const handleQueryChange = async (val) => {
     if (states.previousQuery === val || states.isOnComposition) return
     if (
       states.previousQuery === null &&
@@ -401,6 +417,7 @@ export const useSelect = (props, states: States, ctx) => {
       (props.filterable || props.remote) &&
       states.filteredOptionsCount
     ) {
+      await nextTick()
       checkDefaultFirstOption()
     }
   }
@@ -589,6 +606,7 @@ export const useSelect = (props, states: States, ctx) => {
     }
     ctx.emit(UPDATE_MODEL_EVENT, value)
     emitChange(value)
+    states.hoverIndex = -1
     states.visible = false
     ctx.emit('clear')
   }
@@ -723,7 +741,7 @@ export const useSelect = (props, states: States, ctx) => {
     nextTick(() => scrollToOption(states.selected))
   }
 
-  const handleFocus = (event) => {
+  const handleFocus = (event: FocusEvent) => {
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
         if (props.filterable && !states.visible) {
@@ -742,7 +760,7 @@ export const useSelect = (props, states: States, ctx) => {
     reference.value?.blur()
   }
 
-  const handleBlur = (event: Event) => {
+  const handleBlur = (event: FocusEvent) => {
     // https://github.com/ElemeFE/element/pull/10822
     nextTick(() => {
       if (states.isSilentBlur) {

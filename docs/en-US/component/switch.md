@@ -81,7 +81,7 @@ switch/prevent-switching
 
 ## Attributes
 
-| Attribute             | Description                                                                                                                                     | Type                                | Accepted Values         | Default |
+| Name                  | Description                                                                                                                                     | Type                                | Accepted Values         | Default |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | ----------------------- | ------- |
 | model-value / v-model | binding value, it should be equivalent to either `active-value` or `inactive-value`, by default it's `boolean` type                             | boolean / string / number           | —                       | —       |
 | disabled              | whether Switch is disabled                                                                                                                      | boolean                             | —                       | false   |
@@ -89,8 +89,8 @@ switch/prevent-switching
 | size                  | size of Switch                                                                                                                                  | string                              | large / default / small | default |
 | width                 | width of Switch                                                                                                                                 | number / string                     | —                       | —       |
 | inline-prompt         | whether icon or text is displayed inside dot, only the first character will be rendered for text                                                | boolean                             | —                       | false   |
-| active-icon           | component of the icon displayed when in `on` state, overrides `active-text`                                                                     | string / Component                  | —                       | —       |
-| inactive-icon         | component of the icon displayed when in `off` state, overrides `inactive-text`                                                                  | string / Component                  | —                       | —       |
+| active-icon           | component of the icon displayed when in `on` state, overrides `active-text`                                                                     | `string \| Component`               | —                       | —       |
+| inactive-icon         | component of the icon displayed when in `off` state, overrides `inactive-text`                                                                  | `string \| Component`               | —                       | —       |
 | active-text           | text displayed when in `on` state                                                                                                               | string                              | —                       | —       |
 | inactive-text         | text displayed when in `off` state                                                                                                              | string                              | —                       | —       |
 | active-value          | switch value when in `on` state                                                                                                                 | boolean / string / number           | —                       | true    |
@@ -104,9 +104,9 @@ switch/prevent-switching
 
 ## Events
 
-| Event Name | Description                 | Parameters           |
-| ---------- | --------------------------- | -------------------- |
-| change     | triggers when value changes | value after changing |
+| Name   | Description                 | Parameters           |
+| ------ | --------------------------- | -------------------- |
+| change | triggers when value changes | value after changing |
 
 ## Methods
 

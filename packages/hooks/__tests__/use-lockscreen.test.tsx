@@ -29,7 +29,10 @@ describe('useLockscreen', () => {
 
     wrapper.unmount()
     await nextTick()
-    expect(hasClass(document.body, kls)).toBe(false)
+
+    setTimeout(() => {
+      expect(hasClass(document.body, kls)).toBe(false)
+    }, 250)
   })
 
   it('should cleanup when unmounted', async () => {
@@ -45,6 +48,8 @@ describe('useLockscreen', () => {
     shouldRender.value = false
     await nextTick()
 
-    expect(hasClass(document.body, kls)).toBe(false)
+    setTimeout(() => {
+      expect(hasClass(document.body, kls)).toBe(false)
+    }, 250)
   })
 })
