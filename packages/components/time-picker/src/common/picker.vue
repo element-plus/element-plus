@@ -169,7 +169,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, inject, nextTick, provide, ref, unref, watch } from 'vue'
-import { isEqual, isNil } from 'lodash-unified'
+import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import {
   useFormItem,
@@ -243,7 +243,11 @@ watch(pickerVisible, (val) => {
       emitChange(props.modelValue)
     })
   } else {
-    valueOnOpen.value = props.modelValue
+    nextTick(() => {
+      if (val) {
+        valueOnOpen.value = props.modelValue
+      }
+    })
   }
 })
 const emitChange = (
@@ -367,7 +371,7 @@ const handleFocusInput = (e?: FocusEvent) => {
   ) {
     return
   }
-  pickerVisible.value = isNil(e?.relatedTarget)
+  pickerVisible.value = true
   emit('focus', e)
 }
 
