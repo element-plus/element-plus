@@ -102,7 +102,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         cell,
         cell.innerText || cell.textContent,
         {
-          placement: 'top',
+          placement: 'right',
           strategy: 'fixed',
         },
         tooltipEffect

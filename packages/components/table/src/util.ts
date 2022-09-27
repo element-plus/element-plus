@@ -317,13 +317,16 @@ export function createTablePopper(
   popperOptions: Partial<IPopperOptions>,
   tooltipEffect: string
 ) {
+  let timer: number
   const { nextZIndex } = useZIndex()
   const ns = parentNode?.dataset.prefix
   const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
   function renderContent(): HTMLDivElement {
     const isLight = tooltipEffect === 'light'
     const content = document.createElement('div')
-    content.className = `${ns}-popper ${isLight ? 'is-light' : 'is-dark'}`
+    content.className = `${ns}-popper ${ns}-popper__table-tooltip ${
+      isLight ? 'is-light' : 'is-dark'
+    }`
     popperContent = escapeHtml(popperContent)
     content.innerHTML = popperContent
     content.style.zIndex = String(nextZIndex())
@@ -339,13 +342,24 @@ export function createTablePopper(
   function showPopper() {
     popperInstance && popperInstance.update()
   }
+  function onMouseEnter() {
+    if (timer) clearTimeout(timer)
+    showPopper()
+  }
+
+  function onMouseLeave() {
+    timer = setTimeout(removePopper, 200)
+  }
+
   removePopper?.()
   removePopper = () => {
     try {
       popperInstance && popperInstance.destroy()
       content && parentNode?.removeChild(content)
-      trigger.removeEventListener('mouseenter', showPopper)
-      trigger.removeEventListener('mouseleave', removePopper)
+      trigger.removeEventListener('mouseenter', onMouseEnter)
+      trigger.removeEventListener('mouseleave', onMouseLeave)
+      content.removeEventListener('mouseenter', onMouseEnter)
+      content.removeEventListener('mouseleave', onMouseLeave)
       scrollContainer?.removeEventListener('scroll', removePopper)
       removePopper = undefined
     } catch {}
@@ -373,8 +387,10 @@ export function createTablePopper(
     ],
     ...popperOptions,
   })
-  trigger.addEventListener('mouseenter', showPopper)
-  trigger.addEventListener('mouseleave', removePopper)
+  trigger.addEventListener('mouseenter', onMouseEnter)
+  trigger.addEventListener('mouseleave', onMouseLeave)
+  content.addEventListener('mouseenter', onMouseEnter)
+  content.addEventListener('mouseleave', onMouseLeave)
   scrollContainer?.addEventListener('scroll', removePopper)
   return popperInstance
 }

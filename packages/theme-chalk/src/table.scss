@@ -636,3 +636,9 @@
     }
   }
 }
+
+@include b(popper) {
+  @include e(table-tooltip) {
+    max-width: 500px;
+  }
+}
