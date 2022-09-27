@@ -235,6 +235,11 @@
     &.gutter {
       width: 0;
     }
+
+    .cell {
+      display: flex;
+      align-items: center;
+    }
   }
 
   @include e((footer-wrapper)) {
