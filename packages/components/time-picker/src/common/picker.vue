@@ -338,6 +338,7 @@ const onKeydownPopperContent = (event: KeyboardEvent) => {
 
 const onHide = () => {
   pickerActualVisible.value = false
+  pickerVisible.value = false
   ignoreFocusEvent = false
   emit('visible-change', false)
 }

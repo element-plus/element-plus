@@ -1,3 +1,10 @@
+import { ref } from 'vue'
+
+const focusReason = ref<'pointer' | 'keyboard'>()
+const lastUserFocusTimestamp = ref<number>(0)
+const lastAutomatedFocusTimestamp = ref<number>(0)
+let isFocusReasonHandlersAttached = false
+
 export type FocusLayer = {
   paused: boolean
   pause: () => void
@@ -74,6 +81,7 @@ export const tryFocus = (
   if (element && element.focus) {
     const prevFocusedElement = document.activeElement
     element.focus({ preventScroll: true })
+    lastAutomatedFocusTimestamp.value = window.performance.now()
     if (
       element !== prevFocusedElement &&
       isSelectable(element) &&
@@ -132,3 +140,34 @@ export const focusFirstDescendant = (
 }
 
 export const focusableStack = createFocusableStack()
+
+export const isFocusCausedByUserEvent = (): boolean => {
+  return lastUserFocusTimestamp.value > lastAutomatedFocusTimestamp.value
+}
+
+export const useFocusReason = (): {
+  focusReason: typeof focusReason
+  lastUserFocusTimestamp: typeof lastUserFocusTimestamp
+  lastAutomatedFocusTimestamp: typeof lastAutomatedFocusTimestamp
+} => {
+  if (!isFocusReasonHandlersAttached) {
+    isFocusReasonHandlersAttached = true
+    document.addEventListener('mousedown', () => {
+      focusReason.value = 'pointer'
+      lastUserFocusTimestamp.value = window.performance.now()
+    })
+    document.addEventListener('touchstart', () => {
+      focusReason.value = 'pointer'
+      lastUserFocusTimestamp.value = window.performance.now()
+    })
+    document.addEventListener('keydown', () => {
+      focusReason.value = 'keyboard'
+      lastUserFocusTimestamp.value = window.performance.now()
+    })
+  }
+  return {
+    focusReason,
+    lastUserFocusTimestamp,
+    lastAutomatedFocusTimestamp,
+  }
+}
