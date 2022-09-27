@@ -17,6 +17,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { useEscapeKeydown } from '@element-plus/hooks'
 import { isString } from '@element-plus/utils'
 import {
+  createFocusOutPreventedEvent,
   focusFirstDescendant,
   focusableStack,
   getEdges,
@@ -96,21 +97,36 @@ export default defineComponent({
         const isTabbable = first && last
         if (!isTabbable) {
           if (currentFocusingEl === container) {
-            e.preventDefault()
-            emit('focusout-prevented', focusReason.value)
+            const focusoutPreventedEvent = createFocusOutPreventedEvent({
+              focusReason: focusReason.value,
+            })
+            emit('focusout-prevented', focusoutPreventedEvent)
+            if (!focusoutPreventedEvent.defaultPrevented) {
+              e.preventDefault()
+            }
           }
         } else {
           if (!shiftKey && currentFocusingEl === last) {
-            e.preventDefault()
-            if (loop) tryFocus(first, true)
-            emit('focusout-prevented', focusReason.value)
+            const focusoutPreventedEvent = createFocusOutPreventedEvent({
+              focusReason: focusReason.value,
+            })
+            emit('focusout-prevented', focusoutPreventedEvent)
+            if (!focusoutPreventedEvent.defaultPrevented) {
+              e.preventDefault()
+              if (loop) tryFocus(first, true)
+            }
           } else if (
             shiftKey &&
             [first, container].includes(currentFocusingEl as HTMLElement)
           ) {
-            e.preventDefault()
-            if (loop) tryFocus(last, true)
-            emit('focusout-prevented', focusReason.value)
+            const focusoutPreventedEvent = createFocusOutPreventedEvent({
+              focusReason: focusReason.value,
+            })
+            emit('focusout-prevented', focusoutPreventedEvent)
+            if (!focusoutPreventedEvent.defaultPrevented) {
+              e.preventDefault()
+              if (loop) tryFocus(last, true)
+            }
           }
         }
       }
@@ -190,8 +206,13 @@ export default defineComponent({
           // And only reclaim focus if it should currently be trapping
           setTimeout(() => {
             if (!focusLayer.paused && props.trapped) {
-              tryFocus(lastFocusAfterTrapped, true)
-              emit('focusout-prevented', focusReason.value)
+              const focusoutPreventedEvent = createFocusOutPreventedEvent({
+                focusReason: focusReason.value,
+              })
+              emit('focusout-prevented', focusoutPreventedEvent)
+              if (!focusoutPreventedEvent.defaultPrevented) {
+                tryFocus(lastFocusAfterTrapped, true)
+              }
             }
           }, 0)
         }

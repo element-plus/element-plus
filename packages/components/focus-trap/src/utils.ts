@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { FOCUSOUT_PREVENTED, FOCUSOUT_PREVENTED_OPTS } from './tokens'
 
 const focusReason = ref<'pointer' | 'keyboard'>()
 const lastUserFocusTimestamp = ref<number>(0)
@@ -152,22 +153,33 @@ export const useFocusReason = (): {
 } => {
   if (!isFocusReasonHandlersAttached) {
     isFocusReasonHandlersAttached = true
-    document.addEventListener('mousedown', () => {
-      focusReason.value = 'pointer'
-      lastUserFocusTimestamp.value = window.performance.now()
-    })
-    document.addEventListener('touchstart', () => {
-      focusReason.value = 'pointer'
-      lastUserFocusTimestamp.value = window.performance.now()
-    })
-    document.addEventListener('keydown', () => {
-      focusReason.value = 'keyboard'
-      lastUserFocusTimestamp.value = window.performance.now()
-    })
+    if (window.document) {
+      window.document.addEventListener('mousedown', () => {
+        focusReason.value = 'pointer'
+        lastUserFocusTimestamp.value = window.performance.now()
+      })
+      window.document.addEventListener('touchstart', () => {
+        focusReason.value = 'pointer'
+        lastUserFocusTimestamp.value = window.performance.now()
+      })
+      window.document.addEventListener('keydown', () => {
+        focusReason.value = 'keyboard'
+        lastUserFocusTimestamp.value = window.performance.now()
+      })
+    }
   }
   return {
     focusReason,
     lastUserFocusTimestamp,
     lastAutomatedFocusTimestamp,
   }
+}
+
+export const createFocusOutPreventedEvent = (
+  detail: CustomEventInit['detail']
+) => {
+  return new CustomEvent(FOCUSOUT_PREVENTED, {
+    ...FOCUSOUT_PREVENTED_OPTS,
+    detail,
+  })
 }

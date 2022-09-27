@@ -163,8 +163,11 @@ const onFocusInTrap = (event: FocusEvent) => {
   }
 }
 
-const onFocusoutPrevented = () => {
+const onFocusoutPrevented = (e) => {
   if (!props.trapping) {
+    if (e.detail.focusReason === 'pointer') {
+      e.preventDefault()
+    }
     trapped.value = false
   }
 }
