@@ -30,7 +30,7 @@ export const withInstallFunction = <T>(fn: T, name: string) => {
   return fn as SFCInstallWithContext<T>
 }
 
-export const withInstallDirective = <T extends Directive<any, any>>(
+export const withInstallDirective = <T extends Directive>(
   directive: T,
   name: string
 ) => {
