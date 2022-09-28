@@ -1,10 +1,10 @@
-import { ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { FOCUSOUT_PREVENTED, FOCUSOUT_PREVENTED_OPTS } from './tokens'
 
 const focusReason = ref<'pointer' | 'keyboard'>()
 const lastUserFocusTimestamp = ref<number>(0)
 const lastAutomatedFocusTimestamp = ref<number>(0)
-let isFocusReasonHandlersAttached = false
+let focusReasonUserCount = 0
 
 export type FocusLayer = {
   paused: boolean
@@ -146,28 +146,39 @@ export const isFocusCausedByUserEvent = (): boolean => {
   return lastUserFocusTimestamp.value > lastAutomatedFocusTimestamp.value
 }
 
+const notifyFocusReasonPointer = () => {
+  focusReason.value = 'pointer'
+  lastUserFocusTimestamp.value = window.performance.now()
+}
+
+const notifyFocusReasonKeydown = () => {
+  focusReason.value = 'keyboard'
+  lastUserFocusTimestamp.value = window.performance.now()
+}
+
 export const useFocusReason = (): {
   focusReason: typeof focusReason
   lastUserFocusTimestamp: typeof lastUserFocusTimestamp
   lastAutomatedFocusTimestamp: typeof lastAutomatedFocusTimestamp
 } => {
-  if (!isFocusReasonHandlersAttached) {
-    isFocusReasonHandlersAttached = true
-    if (typeof document !== 'undefined') {
-      document.addEventListener('mousedown', () => {
-        focusReason.value = 'pointer'
-        lastUserFocusTimestamp.value = window.performance.now()
-      })
-      document.addEventListener('touchstart', () => {
-        focusReason.value = 'pointer'
-        lastUserFocusTimestamp.value = window.performance.now()
-      })
-      document.addEventListener('keydown', () => {
-        focusReason.value = 'keyboard'
-        lastUserFocusTimestamp.value = window.performance.now()
-      })
+  onMounted(() => {
+    if (focusReasonUserCount === 0 && typeof document !== 'undefined') {
+      document.addEventListener('mousedown', notifyFocusReasonPointer)
+      document.addEventListener('touchstart', notifyFocusReasonPointer)
+      document.addEventListener('keydown', notifyFocusReasonKeydown)
     }
-  }
+    focusReasonUserCount++
+  })
+
+  onBeforeUnmount(() => {
+    focusReasonUserCount--
+    if (focusReasonUserCount <= 0 && typeof document !== 'undefined') {
+      document.removeEventListener('mousedown', notifyFocusReasonPointer)
+      document.removeEventListener('touchstart', notifyFocusReasonPointer)
+      document.removeEventListener('keydown', notifyFocusReasonKeydown)
+    }
+  })
+
   return {
     focusReason,
     lastUserFocusTimestamp,

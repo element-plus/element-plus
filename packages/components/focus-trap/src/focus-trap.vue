@@ -38,8 +38,6 @@ import {
 import type { PropType } from 'vue'
 import type { FocusLayer } from './utils'
 
-const { focusReason } = useFocusReason()
-
 export default defineComponent({
   name: 'ElFocusTrap',
   inheritAttrs: false,
@@ -64,6 +62,8 @@ export default defineComponent({
     const forwardRef = ref<HTMLElement | undefined>()
     let lastFocusBeforeTrapped: HTMLElement | null
     let lastFocusAfterTrapped: HTMLElement | null
+
+    const { focusReason } = useFocusReason()
 
     useEscapeKeydown((event) => {
       if (props.trapped && !focusLayer.paused) {
