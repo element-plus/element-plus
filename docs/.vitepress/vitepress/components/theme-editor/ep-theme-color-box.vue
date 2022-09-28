@@ -18,7 +18,7 @@ const hex = computed(() => {
 
 const styles = computed(() => {
   return {
-    '--uc-c-bg': hex.value,
+    '--ep-c-bg': hex.value,
   } as CSSProperties
 })
 
@@ -61,6 +61,6 @@ const copyHex = () => {
   justify-content: center;
   align-items: center;
 
-  background-color: var(--uc-c-bg);
+  background-color: var(--ep-c-bg);
 }
 </style>
