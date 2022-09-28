@@ -162,7 +162,7 @@ export const useFocusReason = (): {
   lastAutomatedFocusTimestamp: typeof lastAutomatedFocusTimestamp
 } => {
   onMounted(() => {
-    if (focusReasonUserCount === 0 && typeof document !== 'undefined') {
+    if (focusReasonUserCount === 0) {
       document.addEventListener('mousedown', notifyFocusReasonPointer)
       document.addEventListener('touchstart', notifyFocusReasonPointer)
       document.addEventListener('keydown', notifyFocusReasonKeydown)
@@ -172,7 +172,7 @@ export const useFocusReason = (): {
 
   onBeforeUnmount(() => {
     focusReasonUserCount--
-    if (focusReasonUserCount <= 0 && typeof document !== 'undefined') {
+    if (focusReasonUserCount <= 0) {
       document.removeEventListener('mousedown', notifyFocusReasonPointer)
       document.removeEventListener('touchstart', notifyFocusReasonPointer)
       document.removeEventListener('keydown', notifyFocusReasonKeydown)
