@@ -54,7 +54,7 @@ const copyHex = () => {
   />
 </template>
 
-<style>
+<style scoped>
 .color-box {
   display: inline-flex;
   flex-direction: column;
