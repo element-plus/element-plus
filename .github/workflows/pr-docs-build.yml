@@ -8,13 +8,19 @@ concurrency:
 
 jobs:
   build:
-    name: Build
+    name: Build ${{ matrix.os }} ${{ matrix.node-name }}
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [16, 18]
         os: [ubuntu-latest, windows-latest]
+        include:
+          - node-version: 16
+            node-name: LTS
+          - node-version: 18
+            node-name: Current
+
       fail-fast: false
 
     env:
@@ -31,7 +37,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: pnpm i --frozen-lockfile

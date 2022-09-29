@@ -133,7 +133,7 @@ form/accessibility
 | `label-position`            | Position of label. If set to `'left'` or `'right'`, `label-width` prop is also required.                                       | `'left' \| 'right' \| 'top'`      | `'right'` |
 | `label-width`               | Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported.                   | `string \| number`                | —         |
 | `label-suffix`              | Suffix of the label.                                                                                                           | `string`                          | —         |
-| `hide-required-asterisk`    | Whether required fields should have a red asterisk (star) beside their labels.                                                 | `boolean`                         | `false`   |
+| `hide-required-asterisk`    | Whether to hide required fields should have a red asterisk (star) beside their labels.                                         | `boolean`                         | `false`   |
 | `require-asterisk-position` | Position of asterisk.                                                                                                          | `'left' \| 'right'`               | `'left'`  |
 | `show-message`              | Whether to show the error message.                                                                                             | `boolean`                         | `true`    |
 | `inline-message`            | Whether to display the error message inline with the form item.                                                                | `boolean`                         | `false`   |

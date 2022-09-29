@@ -1,5 +1,4 @@
 import dayjs from 'dayjs'
-import { replace } from 'lodash-unified'
 import { isArray, isDate, isEmpty } from '@element-plus/utils'
 
 import type { Dayjs } from 'dayjs'

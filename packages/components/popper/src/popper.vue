@@ -5,7 +5,7 @@
 <script lang="ts" setup>
 import { computed, provide, ref } from 'vue'
 import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
-import { usePopperProps } from './popper'
+import { popperProps } from './popper'
 
 import type { Instance as PopperInstance } from '@popperjs/core'
 import type { ElPopperInjectionContext } from '@element-plus/tokens'
@@ -14,7 +14,7 @@ defineOptions({
   name: 'ElPopperRoot',
   inheritAttrs: false,
 })
-const props = defineProps(usePopperProps)
+const props = defineProps(popperProps)
 
 const triggerRef = ref<HTMLElement>()
 const popperInstanceRef = ref<PopperInstance>()
