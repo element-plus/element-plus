@@ -59,6 +59,17 @@ export const valueEquals = function (
   return false
 }
 
+const extractWeek = (formatted: string, format: string): number => {
+  const formatArray = Object.values(format.replace(/\[|\]+/g, ''))
+  let week = ''
+  for (const [i, element] of formatArray.entries()) {
+    if (element !== formatted[i]) {
+      week += formatted[i]
+    }
+  }
+  return Number(week)
+}
+
 export const parseDate = function (
   date: string | number | Date,
   format: string | undefined,
@@ -68,7 +79,7 @@ export const parseDate = function (
     isEmpty(format) || format === 'x'
       ? dayjs(date).locale(lang)
       : ['ww', 'w'].some((item) => format?.includes(item))
-      ? dayjs().week(replace(date as string, /[^0-9]/gi, '') as any)
+      ? dayjs().week(extractWeek(date as string, format as string))
       : dayjs(date, format).locale(lang)
   return day.isValid() ? day : undefined
 }
