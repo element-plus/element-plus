@@ -6,7 +6,7 @@ import VpLink from '../common/vp-link.vue'
 const props = defineProps<{ id: string }>()
 
 const contributors = computed(() =>
-  _contributors[props.id].filter((c) => c.login !== 'renovate[bot]')
+  _contributors[props.id]?.filter((c) => c.login !== 'renovate[bot]')
 )
 </script>
 
