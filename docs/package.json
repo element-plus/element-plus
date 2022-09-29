@@ -20,6 +20,7 @@
     "markdown-it": "^13.0.1",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
+    "pinia": "^2.0.22",
     "prism-theme-vars": "^0.2.3",
     "vue": "^3.2.37"
   },
@@ -29,6 +30,7 @@
     "@element-plus/build": "workspace:*",
     "@element-plus/build-constants": "workspace:*",
     "@element-plus/build-utils": "workspace:*",
+    "@iconify-json/ep": "^1.1.7",
     "@iconify-json/ri": "^1.1.3",
     "@types/markdown-it": "^12.2.3",
     "@vitejs/plugin-vue-jsx": "^1.3.10",
