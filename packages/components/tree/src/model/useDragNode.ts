@@ -11,7 +11,7 @@ interface TreeNode {
   $el?: HTMLElement
 }
 
-interface DragOptions {
+export interface DragOptions {
   event: DragEvent
   treeNode: TreeNode
 }
@@ -204,5 +204,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
 
   return {
     dragState,
+    treeNodeDragStart,
+    treeNodeDragEnd,
   }
 }
