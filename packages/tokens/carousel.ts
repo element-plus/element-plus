@@ -15,9 +15,8 @@ export type CarouselItemStates = {
 export type CarouselItemContext = {
   props: CarouselItemProps
   states: CarouselItemStates
-  uid: number | undefined
+  uid: number
   translateItem: (index: number, activeIndex: number, oldIndex?: number) => void
-  el: HTMLDivElement
 }
 
 export type CarouselContext = {
@@ -27,7 +26,7 @@ export type CarouselContext = {
   isVertical: Ref<boolean>
   loop: boolean
   addItem: (item: CarouselItemContext) => void
-  removeItem: (uid: number | undefined) => void
+  removeItem: (uid: number) => void
   setActiveItem: (index: number) => void
 }
 

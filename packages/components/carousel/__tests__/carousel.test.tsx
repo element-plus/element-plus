@@ -1,4 +1,4 @@
-import { nextTick, reactive } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import Carousel from '../src/carousel.vue'
@@ -194,5 +194,31 @@ describe('Carousel', () => {
     await nextTick()
     await wait(60)
     expect(items[1].classList.contains('is-active')).toBeTruthy()
+  })
+  it('sholud guarantee order of indicators', async () => {
+    const data = ref([1, 2, 3, 4])
+    wrapper = mount({
+      setup() {
+        return () => (
+          <div>
+            <Carousel>
+              {data.value.map((value) => (
+                <CarouselItem label={value} key={value}>
+                  {value}
+                </CarouselItem>
+              ))}
+            </Carousel>
+          </div>
+        )
+      },
+    })
+    await nextTick()
+
+    data.value.splice(1, 0, 5)
+    await nextTick()
+    const indicators = wrapper.vm.$el.querySelectorAll('.el-carousel__button')
+    data.value.forEach((value, index) => {
+      expect(indicators[index].textContent).toEqual(value.toString())
+    })
   })
 })
