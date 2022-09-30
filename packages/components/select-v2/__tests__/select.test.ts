@@ -125,7 +125,7 @@ const createSelect = (
         }
         @change="onChange"
         @visible-change="onVisibleChange"
-        @remove-tah="onRemoveTag"
+        @remove-tag="onRemoveTag"
         @focus="onFocus"
         @blur="onBlur"
         v-model="value">
