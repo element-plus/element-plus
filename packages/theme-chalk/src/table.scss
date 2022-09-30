@@ -132,6 +132,12 @@
     }
   }
 
+  tfoot {
+    tr {
+      background-color: getCssVar('table-row-hover-bg-color');
+      pointer-events: none;
+    }
+  }
   .#{$namespace}-table__cell {
     padding: map.get($table-padding, 'default');
     min-width: 0;

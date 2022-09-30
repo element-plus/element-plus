@@ -96,6 +96,21 @@
               :store="store"
               :stripe="stripe"
             />
+            <table-footer
+              v-if="showSummary"
+              v-show="!isEmpty"
+              ref="footerWrapper"
+              v-mousewheel="handleHeaderFooterMousewheel"
+              :border="border"
+              :default-sort="defaultSort"
+              :store="store"
+              :class="ns.e('footer-wrapper')"
+              :style="{
+                ...tableBodyStyles,
+              }"
+              :sum-text="computedSumText"
+              :summary-method="summaryMethod"
+            />
           </table>
           <div
             v-if="isEmpty"
@@ -115,22 +130,6 @@
             <slot name="append" />
           </div>
         </el-scrollbar>
-      </div>
-      <div
-        v-if="showSummary"
-        v-show="!isEmpty"
-        ref="footerWrapper"
-        v-mousewheel="handleHeaderFooterMousewheel"
-        :class="ns.e('footer-wrapper')"
-      >
-        <table-footer
-          :border="border"
-          :default-sort="defaultSort"
-          :store="store"
-          :style="tableBodyStyles"
-          :sum-text="computedSumText"
-          :summary-method="summaryMethod"
-        />
       </div>
       <div v-if="border || isGroup" :class="ns.e('border-left-patch')" />
     </div>
