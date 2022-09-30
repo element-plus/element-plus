@@ -1,6 +1,5 @@
 import { defineComponent, provide, reactive, ref, toRef } from 'vue'
 import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import advancedFormat from 'dayjs/plugin/advancedFormat.js'
 import localeData from 'dayjs/plugin/localeData.js'
 import weekOfYear from 'dayjs/plugin/weekOfYear.js'
@@ -22,7 +21,6 @@ import { getPanel } from './panel-utils'
 
 dayjs.extend(localeData)
 dayjs.extend(advancedFormat)
-dayjs.extend(customParseFormat)
 dayjs.extend(weekOfYear)
 dayjs.extend(weekYear)
 dayjs.extend(dayOfYear)
