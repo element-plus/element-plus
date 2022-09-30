@@ -793,7 +793,9 @@ export const useSelect = (props, states: States, ctx) => {
       if (states.menuVisibleOnFocus) {
         states.menuVisibleOnFocus = false
       } else {
-        states.visible = !states.visible
+        if (!tooltipRef.value || !tooltipRef.value.isFocusInsideContent()) {
+          states.visible = !states.visible
+        }
       }
       if (states.visible) {
         ;(input.value || reference.value)?.focus()
