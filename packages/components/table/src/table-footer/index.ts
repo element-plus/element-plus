@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { defineComponent, h } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { hColgroup } from '../h-helper'
 import useStyle from './style-helper'
 import type { Store } from '../store'
 
@@ -105,31 +104,40 @@ export default defineComponent({
       })
     }
     return h(
-      h('tfoot', [
-        h('tr', {}, [
-          ...columns.map((column, cellIndex) =>
-            h(
-              'td',
-              {
-                key: cellIndex,
-                colspan: column.colSpan,
-                rowspan: column.rowSpan,
-                class: getCellClasses(columns, cellIndex),
-                style: getCellStyles(column, cellIndex),
-              },
-              [
-                h(
-                  'div',
-                  {
-                    class: ['cell', column.labelClassName],
-                  },
-                  [sums[cellIndex]]
-                ),
-              ]
-            )
-          ),
-        ]),
-      ])
+      h(
+        'tfoot',
+        {
+          class: ns.e('footer'),
+          cellspacing: '0',
+          cellpadding: '0',
+          border: '0',
+        },
+        [
+          h('tr', {}, [
+            ...columns.map((column, cellIndex) =>
+              h(
+                'td',
+                {
+                  key: cellIndex,
+                  colspan: column.colSpan,
+                  rowspan: column.rowSpan,
+                  class: getCellClasses(columns, cellIndex),
+                  style: getCellStyles(column, cellIndex),
+                },
+                [
+                  h(
+                    'div',
+                    {
+                      class: ['cell', column.labelClassName],
+                    },
+                    [sums[cellIndex]]
+                  ),
+                ]
+              )
+            ),
+          ]),
+        ]
+      )
     )
   },
 })
