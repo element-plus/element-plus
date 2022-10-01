@@ -1,7 +1,7 @@
 import { computed, getCurrentInstance, inject, ref } from 'vue'
 import { isArray, isUndefined } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { checkboxGroupContextKey } from '@element-plus/tokens/checkbox'
+import { checkboxGroupContextKey } from '@element-plus/tokens'
 
 import type { CheckboxProps } from '../checkbox'
 
