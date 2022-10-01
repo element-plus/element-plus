@@ -1,10 +1,11 @@
 import { nextTick, ref } from 'vue'
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { POPPER_CONTENT_INJECTION_KEY } from '@element-plus/tokens'
 import ElArrow from '../src/arrow.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
+import type { PopperArrowInstance } from '../src/arrow'
 
 const popperContentInjection = {
   arrowRef: ref(null),
@@ -12,7 +13,7 @@ const popperContentInjection = {
 }
 
 const mountArrow = () =>
-  shallowMount(ElArrow, {
+  mount(<ElArrow />, {
     global: {
       provide: {
         [POPPER_CONTENT_INJECTION_KEY as symbol]: popperContentInjection,
@@ -21,7 +22,7 @@ const mountArrow = () =>
   })
 
 describe('<ElPopperArrow />', () => {
-  let wrapper: VueWrapper<InstanceType<typeof ElArrow>>
+  let wrapper: VueWrapper<PopperArrowInstance>
 
   beforeEach(() => {
     wrapper = mountArrow()

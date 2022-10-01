@@ -66,7 +66,7 @@ const handleClick = (event: MouseEvent) => {
   emit('click', event)
 }
 
-const handleScrollThrottled = useThrottleFn(handleScroll, 300)
+const handleScrollThrottled = useThrottleFn(handleScroll, 300, true)
 
 useEventListener(container, 'scroll', handleScrollThrottled)
 onMounted(() => {

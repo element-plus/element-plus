@@ -299,14 +299,9 @@ describe('DatePicker', () => {
   })
 
   it('opens popper on click when input is focused', async () => {
-    const wrapper = _mount(
-      `<el-date-picker
-        v-model="value"
-        @focus="onFocus"
-      />`,
-      () => ({ value: new Date(2016, 9, 10, 18, 40) })
-    )
-    await nextTick()
+    const wrapper = _mount(`<el-date-picker v-model="value" />`, () => ({
+      value: new Date(2016, 9, 10, 18, 40),
+    }))
     const popperEl = document.querySelector('.el-picker__popper') as HTMLElement
     expect(popperEl.style.display).toBe('none')
     const input = wrapper.find('input')

@@ -38,7 +38,7 @@ const {
   top: rootTop,
   bottom: rootBottom,
   update: updateRoot,
-} = useElementBounding(root)
+} = useElementBounding(root, { windowScroll: false })
 const targetRect = useElementBounding(target)
 
 const fixed = ref(false)
@@ -99,6 +99,7 @@ const update = () => {
 }
 
 const handleScroll = () => {
+  updateRoot()
   emit('scroll', {
     scrollTop: scrollTop.value,
     fixed: fixed.value,
