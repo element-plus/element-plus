@@ -46,7 +46,6 @@ const COMPONENT_NAME = 'ElCarouselItem'
 const carouselContext = inject(carouselContextKey)!
 // instance
 const instance = getCurrentInstance()!
-
 if (!carouselContext) {
   debugWarn(
     COMPONENT_NAME,

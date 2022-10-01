@@ -78,9 +78,8 @@ import { useResizeObserver } from '@vueuse/core'
 import { debugWarn, isString } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { carouselContextKey } from '@element-plus/tokens'
-import { useOrderedChildren } from '@element-plus/hooks/use-ordered-children'
 import { carouselEmits, carouselProps } from './carousel'
 import type { CarouselItemContext } from '@element-plus/tokens'
 
@@ -318,7 +317,7 @@ watch(
 
 const resizeObserver = shallowRef<ReturnType<typeof useResizeObserver>>()
 // lifecycle
-onMounted(async () => {
+onMounted(() => {
   resizeObserver.value = useResizeObserver(root.value, () => {
     resetItemPosition()
   })
