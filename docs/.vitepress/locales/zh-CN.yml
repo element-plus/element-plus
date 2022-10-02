@@ -1,0 +1,23 @@
+home:
+  title: Element Plus
+  title_sub: 基于 Vue 3，面向设计师和开发者的组件库
+  china_mirror: 国内镜像站点 🇨🇳
+  links: 链接
+  changelog: 更新日志
+  element_ui: Element UI for Vue 2
+  contact_us: 请通过此邮箱联系我们
+  become_sponsor: 成为赞助商！
+  contribution: 参与贡献
+  segmentfault: SegmentFault
+  feedback: 建议反馈
+  view_detail: 查看详情
+  guide: 指南
+  guide_desc: 了解设计指南，帮助产品设计人员搭建逻辑清晰、结构合理且高效易用的产品。
+  component: 组件
+  component_desc: 使用组件 Demo 快速体验交互细节；使用前端框架封装的代码帮助工程师快速开发。
+  resource: 资源
+  resource_desc: 下载相关资源，用其快速搭建页面原型或高保真视觉稿，提升产品设计效率。
+not-found: 未找到页面
+editor:
+  primary-color: 主题色
+  secondary-color: 辅助色
