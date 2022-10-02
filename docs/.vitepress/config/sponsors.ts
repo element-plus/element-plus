@@ -1,12 +1,4 @@
-export const rightRichTextSponsors = [
-  {
-    name: 'Fantastic-admin',
-    img: '/images/sponsors/fantasticadmin.png',
-    url: 'https://hooray.gitee.io/fantastic-admin/?from=element-plus',
-    slogan: 'An out-of-the-box backend framework',
-    slogan_cn: '开箱即用的后台框架 为开发提供舒适体验',
-  },
-]
+export const rightRichTextSponsors = []
 
 export const rightLogoSmallSponsors = [
   {

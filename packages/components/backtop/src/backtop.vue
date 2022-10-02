@@ -23,9 +23,8 @@ import { useNamespace } from '@element-plus/hooks'
 import { backtopEmits, backtopProps } from './backtop'
 
 const COMPONENT_NAME = 'ElBacktop'
-
 defineOptions({
-  name: 'ElBacktop',
+  name: COMPONENT_NAME,
 })
 
 const props = defineProps(backtopProps)
@@ -67,7 +66,7 @@ const handleClick = (event: MouseEvent) => {
   emit('click', event)
 }
 
-const handleScrollThrottled = useThrottleFn(handleScroll, 300)
+const handleScrollThrottled = useThrottleFn(handleScroll, 300, true)
 
 useEventListener(container, 'scroll', handleScrollThrottled)
 onMounted(() => {

@@ -1,5 +1,69 @@
 ## Changelog
 
+### 2.2.17
+
+_2022-09-16_
+
+#### Features
+
+- Components [select] add placement (#9621 by @chenxch)
+- Components [select-v2] add placement (#9622 by @chenxch)
+- Components [el-steps] support custom icon when status is error (#9603 by @z-ao)
+- Components [message-box] allow pass function to `message` option (#9405 by @holazz)
+- Components [select] enhanced suffix (#9619 by @chenxch)
+- Components [select-v2][tree-v2] add virtual-list style dependency (#7129 by @muuyao)
+
+#### Bug fixes
+
+- Components [select-v2] support empty string value (#9609 by @chenxch)
+- Components [tree-node-content] slot inherit styles (#9613 by @chenxch)
+- Hooks [useLockscreen] close shake (#9610 by @chenxch)
+- Components [button] type text deprecated (#9611 by @chenxch)
+- Components [upload] always display upload trigger (#9607 by @holazz)
+- ElPopover components dts (#9569 by @hackycy)
+- Components [form-item] don't add required rule repeatedly (#9618 by @sxzz)
+- Components [popper] default flip feature (#9584 by @YornQiu)
+- Components [table] typed column's min-width not effect  (#9540 by @wiidede) (#9593)
+- Components [tree-select] fix typo (#9635 by @Tsong-LC)
+- Components [table] selection column don't create table placeholder (#9637 by @Tsong-LC)
+- Theme-chalk [select] missing the is-small style (#9639 by @humorHan)
+- Components [select] fix content overflow (#9633 by @Tsong-LC)
+- Components [table] fix namespace (#9654 by @holazz)
+- Components [tree] repeat trigger change event on the same node (#9645 by @holazz)
+- Components [select] keep hover after clearing (#9644 by @chenxch)
+- Components [loading] remove `el-loading-parent--relative` correctly (#9630 by @wiidede)
+- Hooks [use-popper-container] fix namespace (#9655 by @holazz)
+- Components [rate] fast move mouseLeave not triggered (#9608 by @chenxch)
+- Components [select-v2] Tags content overflow wrap (#9677 by @Tsong-LC)
+- Components [table] throw error when no matching column (#9682 by @qq282126990)
+- Components [table-v2] cell and header-cell slots parmas (#9665 by @chenxch)
+- Components [select-v2] fix placeholder style (#9707 by @holazz)
+- Components [select-v2] respect `--el-component-size` (#9706 by @holazz)
+- Components [time-picker] fix end-time can't be callback (#9669 by @MrCat33)
+- Components [tree] setCurrentKey() type error (#9709 by @zhiyuanzmj)
+- Components [cascader] fix large interval when multiple checkboxes (#9428 by @Tsong-LC)
+- Components [select] fix select hover flicker (#9521 by @ChenAdien)
+- Components [select] fix option-group get wrong visible (#9726 by @init-qy)
+- Components [loading] fix invalid position sticky (#9720 by @Tsong-LC)
+- Components [el-input] center in vertical direction (#9732 by @btea)
+- Components [checkbox] fix only child element style border-radius (#9746 by @Tsong-LC)
+- Components [popper] add missing id (#9632 by @plehnen)
+- Components [cascader-panel] fix type error (#9753 by @Tsong-LC)
+- [alert] description value in title's class (#9771 by @baiwusanyu-c)
+- Components [virtual-list] fix type error (#9780 by @Tsong-LC)
+
+#### Refactors
+
+- Components [calendar] rename slot dateCell to date-cell (#9590 by @tolking)
+- Components [tabs] improve types (#9561 by @tolking)
+- Components [cascader] use JSX in Unit test (#9674 by @Tsong-LC)
+- Build use pnpm `shell-emulator` instead of `cross-env` (#9693 by @sxzz)
+- Components [cascader-panel] use JSX in Unit test (#9710 by @Tsong-LC)
+- Components [image-viewer] use JSX in Unit test (#9717 by @holazz)
+- Docs simplify imports (#9724 by @jack-pearson)
+- Utils refactor `flattedChildren` (#9748 by @Tsong-LC)
+- Perf(components): [message] prefer function slots (#9625 by @holazz)
+
 ### 2.2.16
 
 _2022-09-02_

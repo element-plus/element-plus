@@ -31,7 +31,6 @@
       bottom: 0px;
       width: 100%;
       height: 1px;
-      z-index: 3;
     }
   }
 
@@ -244,17 +243,6 @@
 
   // 拥有多级表头
   @include m((group, border)) {
-    @include e((inner-wrapper, footer-wrapper)) {
-      tr:first-child {
-        td,
-        th {
-          &:first-child {
-            border-left: getCssVar('table-border');
-          }
-        }
-      }
-    }
-
     @include share-rule(border-pseudo) {
       content: '';
       position: absolute;
@@ -272,7 +260,6 @@
         top: 0;
         width: 100%;
         height: 1px;
-        z-index: 3;
       }
     }
 
@@ -282,7 +269,6 @@
       left: 0;
       width: 1px;
       height: 100%;
-      z-index: 3;
     }
 
     &::after {
@@ -291,7 +277,6 @@
       right: 0;
       width: 1px;
       height: 100%;
-      z-index: 3;
     }
 
     @include e(inner-wrapper) {
@@ -647,17 +632,6 @@
     > .#{$namespace}-table__inner-wrapper {
       &::after {
         content: none;
-      }
-    }
-
-    @include e((inner-wrapper, footer-wrapper)) {
-      tr:first-child {
-        td,
-        th {
-          &:first-child {
-            border-left: none;
-          }
-        }
       }
     }
   }
