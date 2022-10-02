@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue'
+import { computed } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 import { useClipboard } from '@vueuse/core'
 import { ElMessage } from 'element-plus'

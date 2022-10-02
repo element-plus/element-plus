@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useLang } from '../../composables/lang'
-import homeLocale from '../../../i18n/pages/home.json'
 const lang = useLang()
 
-const homeLang = computed(() => homeLocale[lang.value])
+const { t } = useI18n()
 </script>
 
 <template>
@@ -13,27 +12,31 @@ const homeLang = computed(() => homeLocale[lang.value])
       <li>
         <div class="card">
           <guide-svg w="40" m="y-12" />
-          <h3>{{ homeLang['3'] }}</h3>
-          <p>{{ homeLang['4'] }}</p>
-          <a :href="`/${lang}/guide/design.html`">{{ homeLang['5'] }}</a>
+          <h3>{{ t('home.guide') }}</h3>
+          <p>{{ t('home.guide_desc') }}</p>
+          <a :href="`/${lang}/guide/design.html`">{{
+            t('home.view_detail')
+          }}</a>
         </div>
       </li>
       <li>
         <div class="card">
           <component-svg w="40" m="y-12" />
-          <h3>{{ homeLang['6'] }}</h3>
-          <p>{{ homeLang['7'] }}</p>
+          <h3>{{ t('home.component') }}</h3>
+          <p>{{ t('home.component_desc') }}</p>
           <a :href="`/${lang}/component/layout.html`">
-            {{ homeLang['5'] }}
+            {{ t('home.view_detail') }}
           </a>
         </div>
       </li>
       <li>
         <div class="card">
           <resource-svg w="40" m="y-12" />
-          <h3>{{ homeLang['8'] }}</h3>
-          <p>{{ homeLang['9'] }}</p>
-          <a :href="`/${lang}/resource/index.html`"> {{ homeLang['5'] }} </a>
+          <h3>{{ t('home.resource') }}</h3>
+          <p>{{ t('home.resource_desc') }}</p>
+          <a :href="`/${lang}/resource/index.html`">
+            {{ t('home.view_detail') }}
+          </a>
         </div>
       </li>
     </ul>

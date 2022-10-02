@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useThemeStore } from '~/store/theme'
 
+const { t } = useI18n()
 const primaryColors = [
   {
     name: '经典蓝',
@@ -32,7 +34,7 @@ const curPrimary = computed({
 <template>
   <div>
     <div class="mb-5">
-      <h3 text="lg">主题色</h3>
+      <h3 text="lg">{{ t('editor.primary-color') }}</h3>
       <div
         v-for="item in primaryColors"
         :key="item.name"

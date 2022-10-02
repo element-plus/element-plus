@@ -1,0 +1,24 @@
+home:
+  title: Element Plus
+  title_sub: a Vue 3 based component library for designers and developers
+  china_mirror: China Mirror 🇨🇳
+  links: Links
+  changelog: Changelog
+  element_ui: Element UI for Vue 2
+  contact_us: Please contact us via
+  become_sponsor: Become a Sponsor!
+  community: Community
+  contribution: Contribution
+  segmentfault: SegmentFault
+  feedback: Feedback
+  view_detail: View Detail
+  guide: Guide
+  guide_desc: Understand the design guidelines, helping designers build product that's logically sound, reasonably structured and easy to use.
+  component: Component
+  component_desc: Experience interaction details by strolling through component demos. Use encapsulated code to improve developing efficiency.
+  resource: Resource
+  resource_desc: Download relevant design resources for shaping page prototype or visual draft, increasing design efficiency.
+not-found: Not found
+editor:
+  primary-color: Primary Color
+  secondary-color: Secondary Color

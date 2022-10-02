@@ -1,79 +1,76 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-import { useLang } from '../../composables/lang'
-import homeLocale from '../../../i18n/pages/home.json'
+import { useI18n } from 'vue-i18n'
 
 defineProps<{
   isHome?: boolean
 }>()
 
-const lang = useLang()
-const homeLang = computed(() => homeLocale[lang.value])
+const { t } = useI18n()
 </script>
 
 <template>
   <footer class="footer" :class="{ 'is-home': isHome }">
     <div class="footer-main">
-      <h4>{{ homeLang['10'] }}</h4>
+      <h4>{{ t('home.links') }}</h4>
       <a
         href="https://github.com/element-plus/element-plus"
         class="footer-main-link"
         target="_blank"
       >
-        {{ homeLang['11'] }}
+        GitHub
       </a>
       <a
         href="https://element-plus.gitee.io/zh-CN/"
         class="footer-main-link"
         target="_blank"
       >
-        {{ homeLang['china_mirror'] }}
+        {{ t('home.china_mirror') }}
       </a>
       <a
         href="https://github.com/element-plus/element-plus/releases"
         class="footer-main-link"
         target="_blank"
       >
-        {{ homeLang['12'] }}
+        {{ t('home.changelog') }}
       </a>
       <a
         href="https://element.eleme.io/"
         class="footer-main-link"
         target="_blank"
       >
-        {{ homeLang['13'] }}
+        {{ t['home.element_ui'] }}
       </a>
     </div>
 
     <div class="footer-main">
-      <h4>{{ homeLang['19'] }}</h4>
+      <h4>{{ t('home.community') }}</h4>
       <a
         href="https://discord.link/ElementPlus"
         class="footer-main-link"
         target="_blank"
       >
-        {{ homeLang['discord'] }}
+        Discord
       </a>
       <a
         href="https://github.com/element-plus/element-plus/issues"
         class="footer-main-link"
         target="_blank"
       >
-        {{ homeLang['16'] }}
+        {{ t('home.feedback') }}
       </a>
       <a
         href="https://github.com/element-plus/element-plus/blob/dev/.github/CONTRIBUTING.en-US.md"
         class="footer-main-link"
         target="_blank"
       >
-        {{ homeLang['17'] }}
+        {{ t('home.contribution') }}
       </a>
       <a
         href="https://segmentfault.com/t/element-plus"
         class="footer-main-link"
         target="_blank"
       >
-        {{ homeLang['18'] }}
+        {{ t('home.segmentfault') }}
       </a>
     </div>
   </footer>
