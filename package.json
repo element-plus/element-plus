@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "cz": "czg",
-    "test": "vitest",
+    "test": "vitest checkbox",
     "test:coverage": "vitest --coverage",
     "test:ssr": "vitest --config ./ssr-testing/vitest.config.ts",
     "prepare:e2e": "if [ ! -d \"docs/.vitepress/dist\" ]; then pnpm run docs:build; fi;",

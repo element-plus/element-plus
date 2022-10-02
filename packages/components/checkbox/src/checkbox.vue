@@ -9,7 +9,6 @@
       ns.is('checked', isChecked),
     ]"
     :aria-controls="indeterminate ? controls : null"
-    @click="onClickRoot"
   >
     <span
       :class="[
@@ -87,7 +86,6 @@ const {
   hasOwnLabel,
   model,
   handleChange,
-  onClickRoot,
 } = useCheckbox(props, slots)
 
 const ns = useNamespace('checkbox')

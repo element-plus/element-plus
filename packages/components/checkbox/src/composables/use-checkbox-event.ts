@@ -34,29 +34,16 @@ export const useCheckboxEvent = (
       : props.falseLabel ?? false
   }
 
-  function emitChangeEvent(
-    checked: string | number | boolean,
-    e: InputEvent | MouseEvent
-  ) {
-    emit('change', getLabeledValue(checked), e)
-  }
-
-  function handleChange(e: Event) {
+  async function handleChange(e: Event) {
     if (isLimitExceeded.value) return
 
     const target = e.target as HTMLInputElement
-    emit('change', getLabeledValue(target.checked), e)
-  }
-
-  async function onClickRoot(e: MouseEvent) {
-    if (isLimitExceeded.value) return
-
     if (!hasOwnLabel.value && !isDisabled.value && isLabeledByFormItem.value) {
       model.value = getLabeledValue(
         [false, props.falseLabel].includes(model.value)
       )
       await nextTick()
-      emitChangeEvent(model.value, e)
+      emit('change', getLabeledValue(target.checked), e)
     }
   }
 
@@ -75,6 +62,5 @@ export const useCheckboxEvent = (
 
   return {
     handleChange,
-    onClickRoot,
   }
 }
