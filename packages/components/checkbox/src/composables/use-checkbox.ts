@@ -44,7 +44,7 @@ export const useCheckbox = (
     disableIdGeneration: hasOwnLabel,
     disableIdManagement: isGroup,
   })
-  const { handleChange } = useCheckboxEvent(props, {
+  const { handleChange, onClickRoot } = useCheckboxEvent(props, {
     model,
     isLimitExceeded,
     hasOwnLabel,
@@ -65,5 +65,6 @@ export const useCheckbox = (
     hasOwnLabel,
     model,
     handleChange,
+    onClickRoot,
   }
 }
