@@ -104,7 +104,8 @@ async function buildFullEntry(minify: boolean) {
 }
 
 async function buildFullLocale(minify: boolean) {
-  const files = await glob(`${path.resolve(localeRoot, 'lang')}/*.ts`, {
+  const files = await glob(`**/*.ts`, {
+    cwd: path.resolve(localeRoot, 'lang'),
     absolute: true,
   })
   return Promise.all(
