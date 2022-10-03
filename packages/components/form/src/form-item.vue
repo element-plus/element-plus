@@ -178,7 +178,7 @@ const fieldValue = computed(() => {
 })
 
 const normalizedRules = computed(() => {
-  const { required } = props
+  const { required, prop } = props
 
   const rules: FormItemRule[] = []
 
@@ -197,7 +197,7 @@ const normalizedRules = computed(() => {
     }
   }
 
-  if (required !== undefined) {
+  if (required !== undefined && prop !== undefined) {
     const requiredRules = rules
       .map((rule, i) => [rule, i] as const)
       .filter(([rule]) => Object.keys(rule).includes('required'))
