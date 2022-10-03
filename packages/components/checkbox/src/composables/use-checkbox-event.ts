@@ -34,16 +34,36 @@ export const useCheckboxEvent = (
       : props.falseLabel ?? false
   }
 
-  async function handleChange(e: Event) {
+  function emitChangeEvent(
+    checked: string | number | boolean,
+    e: InputEvent | MouseEvent
+  ) {
+    emit('change', getLabeledValue(checked), e)
+  }
+
+  function handleChange(e: Event) {
     if (isLimitExceeded.value) return
 
     const target = e.target as HTMLInputElement
+    emit('change', getLabeledValue(target.checked), e)
+  }
+
+  async function onClickRoot(e: MouseEvent) {
+    // fix: https://github.com/element-plus/element-plus/issues/9981
+    const eventTargets: Array<EventTarget> = e.composedPath && e.composedPath()
+    const hasLabel = eventTargets.some(
+      (item) => (item as HTMLElement)?.tagName === 'LABEL'
+    )
+    if (hasLabel) return
+
+    if (isLimitExceeded.value) return
+
     if (!hasOwnLabel.value && !isDisabled.value && isLabeledByFormItem.value) {
       model.value = getLabeledValue(
         [false, props.falseLabel].includes(model.value)
       )
       await nextTick()
-      emit('change', getLabeledValue(target.checked), e)
+      emitChangeEvent(model.value, e)
     }
   }
 
@@ -62,5 +82,6 @@ export const useCheckboxEvent = (
 
   return {
     handleChange,
+    onClickRoot,
   }
 }
