@@ -1,7 +1,7 @@
 import { computed, getCurrentInstance, inject, nextTick, watch } from 'vue'
 import { useFormItem } from '@element-plus/hooks'
 import { checkboxGroupContextKey } from '@element-plus/tokens'
-import { debugWarn } from '@element-plus/utils'
+import { NOOP, debugWarn } from '@element-plus/utils'
 
 import type { useFormItemInputId } from '@element-plus/hooks'
 import type { CheckboxProps } from '../checkbox'
@@ -26,7 +26,7 @@ export const useCheckboxEvent = (
 ) => {
   const checkboxGroup = inject(checkboxGroupContextKey, undefined)
   const { formItem } = useFormItem()
-  const { emit } = getCurrentInstance()!
+  const { emit, vnode } = getCurrentInstance()!
 
   function getLabeledValue(value: string | number | boolean) {
     return value === props.trueLabel || value === true
@@ -48,16 +48,26 @@ export const useCheckboxEvent = (
     emit('change', getLabeledValue(target.checked), e)
   }
 
-  async function onClickRoot(e: MouseEvent) {
-    if (isLimitExceeded.value) return
-
-    if (!hasOwnLabel.value && !isDisabled.value && isLabeledByFormItem.value) {
-      model.value = getLabeledValue(
-        [false, props.falseLabel].includes(model.value)
+  // get whether the checkbox input is wrapped with label
+  function wrappedByLabel(e: Event) {
+    let isWrapped = false
+    // root element of checkbox component is span instead of label if the following condition is true
+    if (!hasOwnLabel.value && isLabeledByFormItem.value) {
+      // users still possible to wrap checkbox with label
+      const eventTargets = e.composedPath()
+      isWrapped = eventTargets.some(
+        (target) => (target as HTMLElement)?.tagName === 'LABEL'
       )
-      await nextTick()
-      emitChangeEvent(model.value, e)
+    } else {
+      isWrapped = true
     }
+    return isWrapped
+  }
+
+  function attachToInput(e: Event) {
+    return !isLimitExceeded.value && !isDisabled.value && !wrappedByLabel(e)
+      ? vnode.el?.querySelector('input:first-of-type').click()
+      : NOOP
   }
 
   const validateEvent = computed(
@@ -75,6 +85,6 @@ export const useCheckboxEvent = (
 
   return {
     handleChange,
-    onClickRoot,
+    attachToInput,
   }
 }

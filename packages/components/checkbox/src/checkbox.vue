@@ -9,7 +9,6 @@
       ns.is('checked', isChecked),
     ]"
     :aria-controls="indeterminate ? controls : null"
-    @click="onClickRoot"
   >
     <span
       :class="[
@@ -54,9 +53,9 @@
         @focus="isFocused = true"
         @blur="isFocused = false"
       />
-      <span :class="ns.e('inner')" />
+      <span :class="ns.e('inner')" @click.stop="attachToInput" />
     </span>
-    <span v-if="hasOwnLabel" :class="ns.e('label')">
+    <span v-if="hasOwnLabel" :class="ns.e('label')" @click.stop>
       <slot />
       <template v-if="!$slots.default">{{ label }}</template>
     </span>
@@ -68,7 +67,6 @@ import { useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { checkboxEmits, checkboxProps } from './checkbox'
 import { useCheckbox } from './composables'
-
 defineOptions({
   name: 'ElCheckbox',
 })
@@ -87,7 +85,7 @@ const {
   hasOwnLabel,
   model,
   handleChange,
-  onClickRoot,
+  attachToInput,
 } = useCheckbox(props, slots)
 
 const ns = useNamespace('checkbox')

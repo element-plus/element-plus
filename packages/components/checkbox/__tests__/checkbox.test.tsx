@@ -83,7 +83,7 @@ describe('Checkbox', () => {
         </ElFormItem>
       ))
 
-      await wrapper.findComponent(Checkbox).trigger('click')
+      await wrapper.find('.el-checkbox__inner').trigger('click')
       expect(data.value).toBe(true)
     })
 
@@ -211,7 +211,7 @@ describe('Checkbox', () => {
         </ElFormItem>
       ))
 
-      const checkbox = wrapper.findComponent(Checkbox)
+      const checkbox = wrapper.find('.el-checkbox__inner')
       await checkbox.trigger('click')
       await nextTick()
       expect(checked.value).toBe(3)
