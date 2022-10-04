@@ -45,7 +45,6 @@ export const useCheckbox = (
     disableIdManagement: isGroup,
   })
   const { handleChange, attachToInput } = useCheckboxEvent(props, {
-    model,
     isLimitExceeded,
     hasOwnLabel,
     isDisabled,

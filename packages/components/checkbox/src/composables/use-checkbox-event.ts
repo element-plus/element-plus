@@ -1,4 +1,4 @@
-import { computed, getCurrentInstance, inject, nextTick, watch } from 'vue'
+import { computed, getCurrentInstance, inject, watch } from 'vue'
 import { useFormItem } from '@element-plus/hooks'
 import { checkboxGroupContextKey } from '@element-plus/tokens'
 import { NOOP, debugWarn } from '@element-plus/utils'
@@ -14,12 +14,11 @@ import type {
 export const useCheckboxEvent = (
   props: CheckboxProps,
   {
-    model,
     isLimitExceeded,
     hasOwnLabel,
     isDisabled,
     isLabeledByFormItem,
-  }: Pick<CheckboxModel, 'model' | 'isLimitExceeded'> &
+  }: Pick<CheckboxModel, 'isLimitExceeded'> &
     Pick<CheckboxStatus, 'hasOwnLabel'> &
     Pick<CheckboxDisabled, 'isDisabled'> &
     Pick<ReturnType<typeof useFormItemInputId>, 'isLabeledByFormItem'>
@@ -32,13 +31,6 @@ export const useCheckboxEvent = (
     return value === props.trueLabel || value === true
       ? props.trueLabel ?? true
       : props.falseLabel ?? false
-  }
-
-  function emitChangeEvent(
-    checked: string | number | boolean,
-    e: InputEvent | MouseEvent
-  ) {
-    emit('change', getLabeledValue(checked), e)
   }
 
   function handleChange(e: Event) {
