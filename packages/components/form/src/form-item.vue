@@ -182,15 +182,15 @@ const normalizedRules = computed(() => {
 
   const rules: FormItemRule[] = []
 
-  if (props.rules) {
+  if (props.rules && prop) {
     rules.push(...ensureArray(props.rules))
   }
 
   const formRules = formContext?.rules
-  if (formRules && props.prop) {
+  if (formRules && prop) {
     const _rules = getProp<Arrayable<FormItemRule> | undefined>(
       formRules,
-      props.prop
+      prop
     ).value
     if (_rules) {
       rules.push(...ensureArray(_rules))
