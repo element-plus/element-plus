@@ -182,6 +182,7 @@ select-v2/use-valueKey
 | change         | triggers when the selected value changes                      | current selected value                    |
 | visible-change | triggers when the dropdown appears/disappears                 | true when it appears, and false otherwise |
 | remove-tag     | triggers when a tag is removed in multiple mode               | removed tag value                         |
+| click-tag      | triggers when a tag is clicked in multiple, if you need to avoid the drop-down box from appearing, use the second callback parameter and pass true in the callback | clicked tag value, the callback that controls the display of the drop-down box                                                |
 | clear          | triggers when the clear icon is clicked in a clearable Select | —                                         |
 | blur           | triggers when Input blurs                                     | (event: FocusEvent)                       |
 | focus          | triggers when Input focuses                                   | (event: FocusEvent)                       |

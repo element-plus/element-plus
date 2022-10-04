@@ -50,6 +50,7 @@
                   type="info"
                   disable-transitions
                   @close="deleteTag($event, states.cachedOptions[0])"
+                  @click="clickTag($event, states.cachedOptions[0])"
                 >
                   <span
                     :class="nsSelectV2.e('tags-text')"
@@ -100,6 +101,7 @@
                             type="info"
                             disable-transitions
                             @close="deleteTag($event, selected)"
+                            @click="clickTag($event, selected)"
                           >
                             <span
                               :class="nsSelectV2.e('tags-text')"
@@ -138,6 +140,7 @@
                   type="info"
                   disable-transitions
                   @close="deleteTag($event, selected)"
+                  @click="clickTag($event, selected)"
                 >
                   <span
                     :class="nsSelectV2.e('tags-text')"
@@ -334,6 +337,7 @@ export default defineComponent({
     UPDATE_MODEL_EVENT,
     CHANGE_EVENT,
     'remove-tag',
+    'click-tag',
     'clear',
     'visible-change',
     'focus',

@@ -1168,6 +1168,65 @@ describe('Select', () => {
     expect(vm.value.length).toBe(0)
   })
 
+  test('multiple clicck-tag', async () => {
+    const handleClickTag = vi.fn()
+    wrapper = _mount(
+      `
+      <el-select v-model="value" multiple @click-tag="clickTag">
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value">
+          <p>{{item.label}} {{item.value}}</p>
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        value: ['选项1', '选项2', '选项3'],
+      }),
+      {
+        methods: {
+          clickTag(val, stop) {
+            handleClickTag()
+            stop(true)
+          },
+        },
+      }
+    )
+
+    const vm = wrapper.vm as any
+    await nextTick()
+    expect(vm.value.length).toBe(3)
+    const tagContents = wrapper.findAll('.el-tag__content')
+    const selectTrigger = wrapper.find('.select-trigger')
+    await tagContents[1].trigger('click')
+    expect(handleClickTag).toHaveBeenCalled()
+    expect(selectTrigger.attributes()['aria-describedby']).toBe(undefined)
+  })
+
   test('multiple limit', async () => {
     wrapper = getSelectVm({ multiple: true, multipleLimit: 1 })
     const vm = wrapper.vm as any

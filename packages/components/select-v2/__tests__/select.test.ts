@@ -67,6 +67,7 @@ interface SelectEvents {
   onChange?: (value?: string) => void
   onVisibleChange?: (visible?: boolean) => void
   onRemoveTag?: (tag?: string) => void
+  onClickTag?: (tag?: string, stop?: (b: boolean) => void) => void
   onFocus?: (event?: FocusEvent) => void
   onBlur?: (event?) => void
   filterMethod?: (query: string) => void | undefined
@@ -126,6 +127,7 @@ const createSelect = (
         @change="onChange"
         @visible-change="onVisibleChange"
         @remove-tag="onRemoveTag"
+        @click-tag="onClickTag"
         @focus="onFocus"
         @blur="onBlur"
         v-model="value">
@@ -161,6 +163,7 @@ const createSelect = (
         onChange: NOOP,
         onVisibleChange: NOOP,
         onRemoveTag: NOOP,
+        onClickTag: NOOP,
         onFocus: NOOP,
         onBlur: NOOP,
         ...options.methods,
@@ -533,6 +536,39 @@ describe('Select', () => {
       expect(vm.value.length).toBe(2)
       await tagCloseIcons[0].trigger('click')
       expect(vm.value.length).toBe(1)
+    })
+
+    it('click-tag', async () => {
+      const handleClickTag = vi.fn()
+      const wrapper = createSelect({
+        data() {
+          return {
+            tagValue: '',
+            multiple: true,
+          }
+        },
+        methods: {
+          onClickTag(tag) {
+            handleClickTag()
+            this.tagValue = tag
+          },
+        },
+      })
+      await nextTick()
+      const vm = wrapper.vm as any
+      await nextTick()
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      options[1].click()
+      await nextTick()
+      options[2].click()
+      await nextTick()
+      expect(vm.value.length).toBe(3)
+      const tagContents = wrapper.findAll('.el-tag__content')
+      await tagContents[0].trigger('click')
+      expect(vm.value.length).toBe(3)
+      expect(handleClickTag).toHaveBeenCalled()
     })
 
     it('limit', async () => {

@@ -597,6 +597,17 @@ export const useSelect = (props, states: States, ctx) => {
     event.stopPropagation()
   }
 
+  const clickTag = (event, tag) => {
+    const index = states.selected.indexOf(tag)
+    let isStopPropagation = false
+    if (index > -1 && !selectDisabled.value) {
+      ctx.emit('click-tag', tag.value, (b = false) => {
+        isStopPropagation = b
+      })
+    }
+    isStopPropagation && event.stopPropagation()
+  }
+
   const deleteSelected = (event) => {
     event.stopPropagation()
     const value: string | any[] = props.multiple ? [] : ''
@@ -873,6 +884,7 @@ export const useSelect = (props, states: States, ctx) => {
     debouncedQueryChange,
     deletePrevTag,
     deleteTag,
+    clickTag,
     deleteSelected,
     handleOptionSelect,
     scrollToOption,

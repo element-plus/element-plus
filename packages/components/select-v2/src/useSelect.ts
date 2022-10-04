@@ -455,6 +455,23 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     event.stopPropagation()
   }
 
+  const clickTag = (event: MouseEvent, tag: Option) => {
+    const { valueKey } = props
+    const index = (props.modelValue as Array<any>).indexOf(get(tag, valueKey))
+
+    if (index > -1 && !selectDisabled.value) {
+      let isStopPropagation = false
+      emit('click-tag', get(tag, valueKey), (b = false) => {
+        isStopPropagation = b
+      })
+      isStopPropagation && event.stopPropagation()
+      states.softFocus = true
+      return nextTick(() => {
+        inputRef.value.focus?.()
+      })
+    }
+  }
+
   const handleFocus = (event: FocusEvent) => {
     const focused = states.isComposing
     states.isComposing = true
@@ -787,6 +804,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     // methods exports
     debouncedOnInputChange,
     deleteTag,
+    clickTag,
     getLabel,
     getValueKey,
     handleBlur,
