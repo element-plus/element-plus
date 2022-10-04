@@ -178,26 +178,26 @@ const fieldValue = computed(() => {
 })
 
 const normalizedRules = computed(() => {
-  const { required, prop } = props
+  const { required } = props
 
   const rules: FormItemRule[] = []
 
-  if (props.rules && prop) {
+  if (props.rules) {
     rules.push(...ensureArray(props.rules))
   }
 
   const formRules = formContext?.rules
-  if (formRules && prop) {
+  if (formRules) {
     const _rules = getProp<Arrayable<FormItemRule> | undefined>(
       formRules,
-      prop
+      props.prop
     ).value
     if (_rules) {
       rules.push(...ensureArray(_rules))
     }
   }
 
-  if (required !== undefined && prop !== undefined) {
+  if (required !== undefined) {
     const requiredRules = rules
       .map((rule, i) => [rule, i] as const)
       .filter(([rule]) => Object.keys(rule).includes('required'))
