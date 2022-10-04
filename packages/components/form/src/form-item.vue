@@ -187,7 +187,7 @@ const normalizedRules = computed(() => {
   }
 
   const formRules = formContext?.rules
-  if (formRules) {
+  if (formRules && props.prop) {
     const _rules = getProp<Arrayable<FormItemRule> | undefined>(
       formRules,
       props.prop
