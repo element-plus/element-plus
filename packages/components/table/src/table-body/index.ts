@@ -38,12 +38,9 @@ export default defineComponent({
       raf(() => {
         // just get first level children; fix #9723
         const el = instance?.vnode.el as HTMLElement
-        const tempId = Date.now()
-        el?.setAttribute('tempId', String(tempId))
-        const rows = el?.querySelectorAll(
-          `[tempId="${tempId}"] > .${ns.e('row')}`
+        const rows = Array.from(el?.children || []).filter((e) =>
+          e?.classList.contains(`${ns.e('row')}`)
         )
-        el?.removeAttribute('tempId')
         const oldRow = rows[oldVal]
         const newRow = rows[newVal]
         if (oldRow) {
