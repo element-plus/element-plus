@@ -1,7 +1,7 @@
 import { computed, getCurrentInstance, inject, watch } from 'vue'
 import { useFormItem } from '@element-plus/hooks'
 import { checkboxGroupContextKey } from '@element-plus/tokens'
-import { NOOP, debugWarn } from '@element-plus/utils'
+import { debugWarn } from '@element-plus/utils'
 
 import type { useFormItemInputId } from '@element-plus/hooks'
 import type { CheckboxProps } from '../checkbox'
@@ -57,9 +57,9 @@ export const useCheckboxEvent = (
   }
 
   function attachToInput(e: Event) {
-    return !isLimitExceeded.value && !isDisabled.value && !wrappedByLabel(e)
-      ? vnode.el?.querySelector('input:first-of-type').click()
-      : NOOP
+    if (!isLimitExceeded.value && !isDisabled.value && !wrappedByLabel(e)) {
+      vnode.el?.querySelector('input:first-of-type').click()
+    }
   }
 
   const validateEvent = computed(
