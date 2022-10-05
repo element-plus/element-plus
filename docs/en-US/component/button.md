@@ -151,6 +151,12 @@ button/custom
 | loading | customize loading component |
 | icon    | customize icon component    |
 
+## Button Methods
+
+| Method | Description              | Parameters |
+| ------ | ------------------------ | ---------- |
+| click  | click the button element | —          |
+
 ## Button-Group Attributes
 
 | Name | Description                                      | Type   | Accepted Values                             | Default |
