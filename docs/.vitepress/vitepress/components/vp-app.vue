@@ -20,8 +20,6 @@ const [isSidebarOpen, toggleSidebar] = useToggle(false)
 const { hasSidebar } = useSidebar()
 const lang = useLang()
 
-const isDev = ref(import.meta.env.DEV)
-
 const mirrorUrl = 'element-plus.gitee.io'
 const isMirrorUrl = () => {
   if (!isClient) return
@@ -143,5 +141,5 @@ onMounted(async () => {
     </VPContent>
     <Debug />
   </div>
-  <EpThemeDrawer v-if="isDev" />
+  <EpThemeEditor />
 </template>

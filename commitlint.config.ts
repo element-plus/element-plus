@@ -21,6 +21,7 @@ const scopes = [
   'border',
   'var',
   'ssr',
+  'theme-editor',
 ]
 
 const gitStatus = execSync('git status --porcelain || true')

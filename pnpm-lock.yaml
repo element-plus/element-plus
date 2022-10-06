@@ -164,10 +164,12 @@ importers:
       '@iconify-json/ep': ^1.1.7
       '@iconify-json/ri': ^1.1.3
       '@intlify/vite-plugin-vue-i18n': ^6.0.3
+      '@types/apca-w3': ^0.1.0
       '@types/markdown-it': ^12.2.3
       '@vitejs/plugin-vue-jsx': ^1.3.10
       '@vue/shared': ^3.2.37
       '@vueuse/core': ^9.1.0
+      apca-w3: ^0.1.9
       axios: ^0.27.2
       chalk: ^4.1.2
       clipboard-copy: ^4.0.1
@@ -219,8 +221,10 @@ importers:
       '@iconify-json/ep': 1.1.7
       '@iconify-json/ri': 1.1.3
       '@intlify/vite-plugin-vue-i18n': 6.0.3_vite@2.9.15+vue-i18n@9.2.2
+      '@types/apca-w3': 0.1.0
       '@types/markdown-it': 12.2.3
       '@vitejs/plugin-vue-jsx': 1.3.10
+      apca-w3: 0.1.9
       chalk: 4.1.2
       consola: 2.15.3
       escape-html: 1.0.3
@@ -3088,6 +3092,10 @@ packages:
     resolution: {integrity: sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==}
     dev: true
 
+  /@types/apca-w3/0.1.0:
+    resolution: {integrity: sha512-uPXMZMDumm3D5Gw37WgzIqy8F4ihMC34bK4JHwmejLiw7it1G8aY09fCiDGoLHZuCm2h06kZ0l1iMmjWc4wSCQ==}
+    dev: true
+
   /@types/aws-lambda/8.10.98:
     resolution: {integrity: sha512-dJ/R9qamtI2nNpxhNwPBTwsfYwbcCWsYBJxhpgGyMLCD0HxKpORcMpPpSrFP/FIceNEYfnS3R5EfjSZJmX2oJg==}
     dev: true
@@ -4281,6 +4289,12 @@ packages:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
+  /apca-w3/0.1.9:
+    resolution: {integrity: sha512-Zrf6AeBeQjNe/fxK7U1jCo5zfdjDl6T4/kdw5Xlky3G7u+EJTZkyItjMYQGtwf9pkftsINxcYyOpuLkzKf1ITQ==}
+    dependencies:
+      colorparsley: 0.1.8
+    dev: true
+
   /append-buffer/1.0.2:
     resolution: {integrity: sha512-WLbYiXzD3y/ATLZFufV/rZvWdZOs+Z/+5v1rBZ463Jn398pa6kcde27cvozYnBoxXblGZTFfoPpsaEw0orU5BA==}
     engines: {node: '>=0.10.0'}
@@ -5122,6 +5136,10 @@ packages:
 
   /colorette/2.0.17:
     resolution: {integrity: sha512-hJo+3Bkn0NCHybn9Tu35fIeoOKGOk5OCC32y4Hz2It+qlCO2Q3DeQ1hRn/tDDMQKRYUEzqsl7jbF6dYKjlE60g==}
+    dev: true
+
+  /colorparsley/0.1.8:
+    resolution: {integrity: sha512-rObESTTTE6G5qO5WFwFxWPggpw4KfpxnLC6Ssl8bITBnNVRhDsyCeTRAUxWQNVTx2pRknKlO2nddYTxjkdNFaw==}
     dev: true
 
   /combined-stream/1.0.8:

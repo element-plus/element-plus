@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
+import { calcAPCA } from 'apca-w3'
 import { useThemeStore } from '~/store/theme'
 
 const tStore = useThemeStore()
@@ -18,6 +19,10 @@ const hsbString = computed(() => {
     hsb.v * 100
   )})`
 })
+
+const apca = computed(() =>
+  (calcAPCA(primaryColor.value, '#fff') as number).toFixed(1)
+)
 </script>
 
 <template>
@@ -29,14 +34,14 @@ const hsbString = computed(() => {
       p="2"
       text="white"
     >
-      <div class="flex justify-between">
+      <div class="flex justify-between" p="1">
         <span class="inline-flex" m="r-2">
           HEX: {{ pColor.toHexString() }}
         </span>
         <span class="inline-flex"> HSB: {{ hsbString }} </span>
       </div>
-      <div class="flex justify-between">
-        <span class="inline-flex" m="r-2"> APCA: TODO </span>
+      <div class="flex justify-between" p="1">
+        <span class="inline-flex" m="r-2"> APCA: {{ apca }} </span>
         <span class="inline-flex">
           RGB: {{ pColor.toRgbString().replace('RGB', '') }}
         </span>

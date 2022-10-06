@@ -22,6 +22,7 @@ declare module '@vue/runtime-core' {
     EpThemeColorBar: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-color-bar.vue')['default']
     EpThemeColorBox: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-color-box.vue')['default']
     EpThemeDrawer: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-drawer.vue')['default']
+    EpThemeEditor: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-editor.vue')['default']
     EpThemePrimary: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-primary.vue')['default']
     EpThemePrimaryColors: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-primary-colors.vue')['default']
     EpThemeSecondaryColor: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-secondary-color.vue')['default']
