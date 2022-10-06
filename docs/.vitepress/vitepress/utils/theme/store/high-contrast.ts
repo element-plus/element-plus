@@ -1,4 +1,4 @@
-import type { EpTheme } from './types'
+import type { EpTheme } from '../types'
 
 const theme: EpTheme = {
   colors: {

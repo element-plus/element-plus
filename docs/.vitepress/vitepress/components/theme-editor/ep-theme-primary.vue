@@ -6,7 +6,7 @@ import { useThemeStore } from '~/store/theme'
 
 const tStore = useThemeStore()
 const primaryColor = computed({
-  get: () => tStore.theme.colors['primary'],
+  get: () => tStore.theme.colors['primary'] || '',
   set: (val) => {
     tStore.updateColor('primary', val)
   },

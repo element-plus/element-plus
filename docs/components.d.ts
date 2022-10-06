@@ -27,6 +27,7 @@ declare module '@vue/runtime-core' {
     EpThemePrimaryColors: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-primary-colors.vue')['default']
     EpThemeSecondaryColor: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-secondary-color.vue')['default']
     EpThemeSecondaryColors: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-secondary-colors.vue')['default']
+    EpThemeUploadTheme: typeof import('./.vitepress/vitepress/components/theme-editor/ep-theme-upload-theme.vue')['default']
     Expand: typeof import('./.vitepress/vitepress/components/icons/expand.vue')['default']
     FeedbackSvg: typeof import('./.vitepress/vitepress/components/globals/design/feedback-svg.vue')['default']
     FigmaTemplateSvg: typeof import('./.vitepress/vitepress/components/globals/resources/figma-template-svg.vue')['default']
