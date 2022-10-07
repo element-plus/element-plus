@@ -118,7 +118,6 @@ export default defineComponent({
       t,
       ns,
       flattenTree,
-      itemSize: 26,
       isNotEmpty,
       toggleExpand,
       toggleCheckbox,

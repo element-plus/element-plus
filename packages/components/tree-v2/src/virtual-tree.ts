@@ -50,6 +50,10 @@ export const treeProps = buildProps({
     type: Number,
     default: 200,
   },
+  itemSize: {
+    type: Number,
+    default: 26,
+  },
   props: {
     type: definePropType<TreeOptionProps>(Object),
     default: () =>

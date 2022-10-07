@@ -74,6 +74,8 @@ tree-v2/filter
 | data                  | tree data                                                                                                                                    | array                 | —       |
 | empty-text            | text displayed when data is void                                                                                                             | string                | —       |
 | props                 | configuration options, see the following table                                                                                               | object                | —       |
+| height                | The height of tree-v2                                                                                                                        | number                | —       |
+| item-size             | The height of tree-v2-node                                                                                                                   | number                | —       |
 | highlight-current     | whether current node is highlighted                                                                                                          | boolean               | false   |
 | expand-on-click-node  | whether to expand or collapse node when clicking on the node, if false, then expand or collapse node only when clicking on the arrow icon.   | boolean               | true    |
 | check-on-click-node   | whether to check or uncheck node when clicking on the node, if false, the node can only be checked or unchecked by clicking on the checkbox. | boolean               | false   |
