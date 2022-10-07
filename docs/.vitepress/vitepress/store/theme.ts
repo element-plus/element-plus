@@ -1,4 +1,4 @@
-import { watch } from 'vue'
+import { computed, watch } from 'vue'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
 import type { EpTheme } from '~/utils/theme'
@@ -7,12 +7,12 @@ import { setCssVarValue } from '~/utils'
 import { isColor } from '~/utils/colors/helper'
 
 export const useThemeStore = defineStore('theme', () => {
-  const theme = useStorage<EpTheme>('ep-custom-theme', themes.default)
-  console.log(theme.value)
-  theme.value = Object.assign({}, themes.default, theme.value)
+  const theme = useStorage<Partial<EpTheme>>('ep-custom-theme', themes.default)
+  const fullTheme = computed<EpTheme>(() =>
+    Object.assign({}, themes.default, theme.value)
+  )
 
   if (JSON.stringify(theme.value) !== JSON.stringify(themes.default)) {
-    console.log('init')
     init()
   }
 
@@ -69,6 +69,10 @@ export const useThemeStore = defineStore('theme', () => {
 
   return {
     theme,
+    /**
+     * theme with default theme
+     */
+    fullTheme,
     init,
     updateColor,
     parse,

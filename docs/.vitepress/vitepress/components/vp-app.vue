@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import nprogress from 'nprogress'
 import dayjs from 'dayjs'
