@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 import { computedAsync } from '@vueuse/core'
 import { useThemeStore } from '~/store/theme'
