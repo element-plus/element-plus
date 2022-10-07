@@ -504,7 +504,7 @@ watch(
   }
 )
 
-onMounted(async () => {
+onMounted(() => {
   if (!props.formatter && props.parser) {
     debugWarn(
       'ElInput',
@@ -513,13 +513,11 @@ onMounted(async () => {
   }
   setNativeInputValue()
   updateIconOffset()
-  await nextTick()
-  resizeTextarea()
+  nextTick(resizeTextarea)
 })
 
-onUpdated(async () => {
-  await nextTick()
-  updateIconOffset()
+onUpdated(() => {
+  nextTick(updateIconOffset)
 })
 
 defineExpose({

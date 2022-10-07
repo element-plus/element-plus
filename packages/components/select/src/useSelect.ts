@@ -20,6 +20,7 @@ import {
 import {
   debugWarn,
   getComponentSize,
+  isFunction,
   isKorean,
   scrollIntoView,
 } from '@element-plus/utils'
@@ -60,6 +61,7 @@ export function useSelectStates(props) {
     isSilentBlur: false,
     prefixWidth: 11,
     tagInMultiLine: false,
+    mouseEnter: false,
   })
 }
 
@@ -230,6 +232,14 @@ export const useSelect = (props, states: States, ctx) => {
     () => states.visible,
     (val) => {
       if (!val) {
+        if (props.filterable) {
+          if (isFunction(props.filterMethod)) {
+            props.filterMethod()
+          }
+          if (isFunction(props.remoteMethod)) {
+            props.remoteMethod()
+          }
+        }
         input.value && input.value.blur()
         states.query = ''
         states.previousQuery = null
@@ -779,7 +789,10 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
-  const toggleMenu = () => {
+  const toggleMenu = (e?: PointerEvent) => {
+    if (e && !states.mouseEnter) {
+      return
+    }
     if (!selectDisabled.value) {
       if (states.menuVisibleOnFocus) {
         states.menuVisibleOnFocus = false
@@ -844,6 +857,14 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
+  const handleMouseEnter = () => {
+    states.mouseEnter = true
+  }
+
+  const handleMouseLeave = () => {
+    states.mouseEnter = false
+  }
+
   return {
     optionsArray,
     selectSize,
@@ -893,5 +914,9 @@ export const useSelect = (props, states: States, ctx) => {
     tags,
     selectWrapper,
     scrollbar,
+
+    // Mouser Event
+    handleMouseEnter,
+    handleMouseLeave,
   }
 }

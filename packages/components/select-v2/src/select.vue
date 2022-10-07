@@ -348,6 +348,7 @@ export default defineComponent({
         ...toRefs(props),
         height: API.popupHeight,
       }),
+      popper: API.popper,
       onSelect: API.onSelect,
       onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
