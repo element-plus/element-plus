@@ -68,6 +68,7 @@ import {
 } from '@element-plus/hooks'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
+import { getActiveElement } from './utils'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
 
@@ -174,7 +175,7 @@ watch(
 const isFocusInsideContent = () => {
   const popperContent: HTMLElement | undefined =
     contentRef.value?.contentRef?.popperContentRef
-  return popperContent && popperContent.contains(document.activeElement)
+  return popperContent && popperContent.contains(getActiveElement())
 }
 
 onDeactivated(() => open.value && hide())
