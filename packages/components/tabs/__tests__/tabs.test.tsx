@@ -48,7 +48,7 @@ describe('Tabs.vue', () => {
       activeName.value = tab.paneName
     }
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value} onTab-click={handleClick}>
+      <Tabs v-model={activeName.value} onTabClick={handleClick}>
         <TabPane name="a" label="label-1">
           A
         </TabPane>
@@ -308,8 +308,8 @@ describe('Tabs.vue', () => {
         type="card"
         addable
         closable
-        onTab-add={addTab}
-        onTab-remove={removeTab}
+        onTabAdd={addTab}
+        onTabRemove={removeTab}
       >
         {editableTabs.value.map((item) => (
           <TabPane
@@ -450,9 +450,9 @@ describe('Tabs.vue', () => {
 
     const tabsWrapper = wrapper.findComponent(Tabs)
     await nextTick()
-    const mockCRect = vi
-      .spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect')
-      .mockReturnValue({ left: 300 } as DOMRect)
+    const mockOffsetLeft = vi
+      .spyOn(wrapper.find('#tab-C').element as HTMLElement, 'offsetLeft', 'get')
+      .mockImplementation(() => 300)
     const mockComputedStyle = vi
       .spyOn(window, 'getComputedStyle')
       .mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
@@ -465,9 +465,9 @@ describe('Tabs.vue', () => {
 
     tabPosition.value = 'left'
     await nextTick()
-    const mockCYRect = vi
-      .spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect')
-      .mockReturnValue({ top: 200 } as DOMRect)
+    const mockOffsetTop = vi
+      .spyOn(wrapper.find('#tab-C').element as HTMLElement, 'offsetTop', 'get')
+      .mockImplementation(() => 200)
     await wrapper.find('#tab-A').trigger('click')
     await wrapper.find('#tab-C').trigger('click')
 
@@ -476,8 +476,8 @@ describe('Tabs.vue', () => {
       'translateY(200px)'
     )
 
-    mockCRect.mockRestore()
-    mockCYRect.mockRestore()
+    mockOffsetLeft.mockRestore()
+    mockOffsetTop.mockRestore()
     mockComputedStyle.mockRestore()
     wrapper.unmount()
   })
@@ -621,9 +621,13 @@ describe('Tabs.vue', () => {
     const tabsWrapper = wrapper.findComponent(Tabs)
     await nextTick()
 
-    const mockRect = vi
-      .spyOn(wrapper.find('#tab-4999').element, 'getBoundingClientRect')
-      .mockReturnValue({ left: 5000 } as DOMRect)
+    const mockOffsetLeft = vi
+      .spyOn(
+        wrapper.find('#tab-4999').element as HTMLElement,
+        'offsetLeft',
+        'get'
+      )
+      .mockImplementation(() => 5000)
     const mockComputedStyle = vi
       .spyOn(window, 'getComputedStyle')
       .mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
@@ -635,7 +639,7 @@ describe('Tabs.vue', () => {
       'translateX(5000px)'
     )
 
-    mockRect.mockRestore()
+    mockOffsetLeft.mockRestore()
     mockComputedStyle.mockRestore()
     wrapper.unmount()
   })
@@ -646,7 +650,7 @@ describe('Tabs.vue', () => {
       activeName.value = tab.paneName
     }
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value} onTab-click={handleClick}>
+      <Tabs v-model={activeName.value} onTabClick={handleClick}>
         <TabPane name={0} label="label-1">
           A
         </TabPane>
@@ -678,7 +682,7 @@ describe('Tabs.vue', () => {
       activeName.value = tab.paneName
     }
     const wrapper = mount(() => (
-      <Tabs v-model={activeName.value} onTab-click={handleClick}>
+      <Tabs v-model={activeName.value} onTabClick={handleClick}>
         <TabPane name={0} label="n-0">
           number-0
         </TabPane>

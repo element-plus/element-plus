@@ -292,7 +292,7 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
 
 const validate: FormItemContext['validate'] = async (trigger, callback) => {
   // skip validation if its resetting
-  if (isResettingField) {
+  if (isResettingField || !props.prop) {
     return false
   }
 
@@ -377,6 +377,7 @@ const context: FormItemContext = reactive({
   labelId,
   inputIds,
   isGroup,
+  hasLabel,
   addInputId,
   removeInputId,
   resetField,

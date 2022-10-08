@@ -169,7 +169,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, inject, nextTick, provide, ref, unref, watch } from 'vue'
-import { isEqual } from 'lodash-unified'
+import { isEqual, isNil } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import {
   useFormItem,
@@ -367,7 +367,7 @@ const handleFocusInput = (e?: FocusEvent) => {
   ) {
     return
   }
-  pickerVisible.value = true
+  pickerVisible.value = isNil(e?.relatedTarget)
   emit('focus', e)
 }
 

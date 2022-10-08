@@ -5,8 +5,8 @@
     :style="barStyle"
   />
 </template>
+
 <script lang="ts" setup>
-// @ts-nocheck
 import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, throwError } from '@element-plus/utils'
@@ -18,7 +18,7 @@ import type { CSSProperties } from 'vue'
 
 const COMPONENT_NAME = 'ElTabBar'
 defineOptions({
-  name: 'ElTabBar',
+  name: COMPONENT_NAME,
 })
 const props = defineProps(tabBarProps)
 
@@ -50,9 +50,19 @@ const getBarStyle = (): CSSProperties => {
 
     tabSize = $el[`client${capitalize(sizeName)}`]
     const position = sizeDir === 'x' ? 'left' : 'top'
+
     offset =
-      $el.getBoundingClientRect()[position] -
-      ($el.parentElement?.getBoundingClientRect()[position] ?? 0)
+      $el[`offset${capitalize(position)}`] -
+      ($el.parentElement?.[`offset${capitalize(position)}`] ?? 0)
+
+    const scrollwrapEl = $el.closest('.is-scrollable')
+    if (scrollwrapEl) {
+      const scrollWrapStyle = window.getComputedStyle(scrollwrapEl)
+      offset += Number.parseFloat(
+        scrollWrapStyle[`padding${capitalize(position)}`]
+      )
+    }
+
     const tabStyles = window.getComputedStyle($el)
 
     if (sizeName === 'width') {
