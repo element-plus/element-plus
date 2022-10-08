@@ -13,5 +13,9 @@ export interface EpThemeColors {
 }
 
 export interface EpTheme {
-  colors: EpThemeColors
+  /**
+   * @default 'el'
+   */
+  namespace?: string
+  colors: Partial<EpThemeColors>
 }

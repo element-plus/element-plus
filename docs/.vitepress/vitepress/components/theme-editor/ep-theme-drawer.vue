@@ -2,21 +2,12 @@
 import { ref } from 'vue'
 import { Brush } from '@element-plus/icons-vue'
 import { useThemeStore } from '~/store/theme'
+import { downloadTheme } from '~/utils/theme'
 
 const drawer = ref(import.meta.env.DEV)
 const direction = ref('rtl')
 
 const tStore = useThemeStore()
-
-const downloadTheme = () => {
-  // eslint-disable-next-line no-alert
-  alert('TODO')
-}
-
-const uploadTheme = () => {
-  // eslint-disable-next-line no-alert
-  alert('TODO')
-}
 </script>
 
 <template>
@@ -36,11 +27,12 @@ const uploadTheme = () => {
         </el-button>
 
         <div m="t-2" class="flex justify-between">
-          <el-button class="inline-flex flex-1" @click="uploadTheme">
-            <i-ep-upload />
-            导入
-          </el-button>
-          <el-button class="inline-flex flex-1" @click="downloadTheme">
+          <EpThemeUploadTheme />
+          <el-button
+            class="inline-flex flex-1"
+            m="l-2"
+            @click="downloadTheme('el-custom-theme.css', tStore.theme)"
+          >
             <i-ep-download />
             导出
           </el-button>

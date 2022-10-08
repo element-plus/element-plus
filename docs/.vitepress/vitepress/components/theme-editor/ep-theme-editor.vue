@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { isClient } from '@vueuse/core'
 
-const isDev = ref(import.meta.env.DEV)
+const showDrawer = computed(() => {
+  if (!isClient) return false
+  const params = new URLSearchParams(location.search)
+  return params.get('themeEditor') || import.meta.env.DEV
+})
 </script>
 
 <template>
-  <EpThemeDrawer v-if="isDev" />
+  <EpThemeDrawer v-if="showDrawer" />
 </template>

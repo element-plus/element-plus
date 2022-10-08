@@ -26,7 +26,7 @@ const tStore = useThemeStore()
 const curPrimary = computed({
   get: () => tStore.theme.colors.primary,
   set: (val) => {
-    tStore.updateColor('primary', val)
+    tStore.updateColor('primary', val || '')
   },
 })
 </script>

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
-import { calcAPCA } from 'apca-w3'
+import { computedAsync } from '@vueuse/core'
 import { useThemeStore } from '~/store/theme'
 
 const tStore = useThemeStore()
 const primaryColor = computed({
-  get: () => tStore.theme.colors['primary'],
+  get: () => tStore.fullTheme.colors['primary'] || '',
   set: (val) => {
     tStore.updateColor('primary', val)
   },
@@ -20,9 +20,10 @@ const hsbString = computed(() => {
   )})`
 })
 
-const apca = computed(() =>
-  (calcAPCA(primaryColor.value, '#fff') as number).toFixed(1)
-)
+const apca = computedAsync(async () => {
+  const { calcAPCA } = await import('apca-w3')
+  return (calcAPCA(primaryColor.value, '#fff') as number).toFixed(1)
+})
 </script>
 
 <template>
