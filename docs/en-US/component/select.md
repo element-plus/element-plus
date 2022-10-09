@@ -146,11 +146,16 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | clear-icon                        | Custom clear icon component                                                                                                 | `string \| Component`                      | —                                                                                                         | CircleClose      |
 | fit-input-width                   | whether the width of the dropdown is the same as the input                                                                  | boolean                                    | true / false                                                                                              | false            |
 | suffix-icon                       | Custom suffix icon component                                                                                                | `string \| Component`                      | —                                                                                                         | ArrowDown        |
-| suffix-transition                 | animation when dropdown appears/disappears icon                                                                             | boolean                                    | true / false                                                                                              | true             |
+| suffix-transition <DeprecatedTag />                | animation when dropdown appears/disappears icon                                                                             | boolean                                    | true / false                                                                                              | true             |
 | tag-type                          | tag type                                                                                                                    | string                                     | success/info/warning/danger                                                                               | info             |
 | validate-event                    | whether to trigger form validation                                                                                          | boolean                                    | true / false                                                                                              | true             |
 | placement                         | position of dropdown                                                                                                        | string                                     | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom-start     |
 
+:::warning
+
+`suffix-transition` has been **deprecated**, and **will be** removed in <VersionTag version="2.3.0" />, please use override style scheme.
+
+:::
 ## Select Events
 
 | Name           | Description                                                   | Parameters                                |
