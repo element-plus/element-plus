@@ -108,14 +108,14 @@ export default {
       hasCheckedFormat: '{checked}/{total} valitud',
     },
     image: {
-      error: 'Ebaõnnestus', 
+      error: 'Ebaõnnestus',
     },
     pageHeader: {
-      title: 'Tagasi', 
+      title: 'Tagasi',
     },
     popconfirm: {
-      confirmButtonText: 'Jah', 
-      cancelButtonText: 'Ei', 
+      confirmButtonText: 'Jah',
+      cancelButtonText: 'Ei',
     },
   },
 }
