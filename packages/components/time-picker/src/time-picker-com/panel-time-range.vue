@@ -84,7 +84,6 @@
 <script lang="ts" setup>
 import { computed, inject, ref, unref } from 'vue'
 import dayjs from 'dayjs'
-import { union } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { isArray } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -212,16 +211,18 @@ const handleKeydown = (event: KeyboardEvent) => {
 
 const disabledHours_ = (role: string, compare?: Dayjs) => {
   const defaultDisable = disabledHours ? disabledHours(role) : []
+  if (disabledHours) return defaultDisable
   const isStart = role === 'start'
   const compareDate = compare || (isStart ? endTime.value : startTime.value)
   const compareHour = compareDate.hour()
   const nextDisable = isStart
     ? makeSelectRange(compareHour + 1, 23)
     : makeSelectRange(0, compareHour - 1)
-  return union(defaultDisable, nextDisable)
+  return nextDisable
 }
 const disabledMinutes_ = (hour: number, role: string, compare?: Dayjs) => {
   const defaultDisable = disabledMinutes ? disabledMinutes(hour, role) : []
+  if (disabledMinutes) return defaultDisable
   const isStart = role === 'start'
   const compareDate = compare || (isStart ? endTime.value : startTime.value)
   const compareHour = compareDate.hour()
@@ -232,7 +233,7 @@ const disabledMinutes_ = (hour: number, role: string, compare?: Dayjs) => {
   const nextDisable = isStart
     ? makeSelectRange(compareMinute + 1, 59)
     : makeSelectRange(0, compareMinute - 1)
-  return union(defaultDisable, nextDisable)
+  return nextDisable
 }
 const disabledSeconds_ = (
   hour: number,
@@ -243,6 +244,7 @@ const disabledSeconds_ = (
   const defaultDisable = disabledSeconds
     ? disabledSeconds(hour, minute, role)
     : []
+  if (disabledSeconds) return defaultDisable
   const isStart = role === 'start'
   const compareDate = compare || (isStart ? endTime.value : startTime.value)
   const compareHour = compareDate.hour()
@@ -254,7 +256,7 @@ const disabledSeconds_ = (
   const nextDisable = isStart
     ? makeSelectRange(compareSecond + 1, 59)
     : makeSelectRange(0, compareSecond - 1)
-  return union(defaultDisable, nextDisable)
+  return nextDisable
 }
 
 const getRangeAvailableTime = ([start, end]: Array<Dayjs>) => {
