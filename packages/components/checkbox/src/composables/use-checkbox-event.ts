@@ -53,10 +53,9 @@ export const useCheckboxEvent = (
 
     if (!hasOwnLabel.value && !isDisabled.value && isLabeledByFormItem.value) {
       // fix: https://github.com/element-plus/element-plus/issues/9981
-      const eventTargets: Array<EventTarget> =
-        e.composedPath && e.composedPath()
+      const eventTargets: EventTarget[] = e.composedPath()
       const hasLabel = eventTargets.some(
-        (item) => (item as HTMLElement)?.tagName === 'LABEL'
+        (item) => (item as HTMLElement).tagName === 'LABEL'
       )
       if (!hasLabel) {
         model.value = getLabeledValue(
