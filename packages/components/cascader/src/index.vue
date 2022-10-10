@@ -727,7 +727,7 @@ export default defineComponent({
       nextTick(() => updateStyle())
     })
 
-    watch(presentText, (val) => (inputValue.value = val), { immediate: true })
+    watch(presentText, () => syncPresentTextValue(), { immediate: true })
 
     onMounted(() => {
       const inputEl = input.value?.$el
