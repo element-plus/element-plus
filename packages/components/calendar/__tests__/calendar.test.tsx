@@ -18,11 +18,12 @@ const setDayjsWeekStart = (weekStart = 0) => {
 describe('Calendar.vue', () => {
   it('create', async () => {
     const wrapper = mount({
-      data: () => ({ value: new Date('2019-04-01') }),
+      data: () => ({ value: new Date(Date.UTC(2019, 4, 1)) }),
       render() {
         return <Calendar v-model={this.value} />
       },
     })
+    await nextTick()
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2019.*April/.test(titleEl.element?.innerHTML)).toBeTruthy()
     expect(wrapper.element.querySelectorAll('thead th').length).toBe(7)
@@ -39,10 +40,11 @@ describe('Calendar.vue', () => {
     expect(wrapper.find('.is-selected span').element.innerHTML).toBe('4')
   })
 
-  it('range', () => {
+  it('range', async () => {
     const wrapper = mount(() => (
       <Calendar range={[new Date(2019, 2, 4), new Date(2019, 2, 24)]} />
     ))
+    await nextTick()
     const titleEl = wrapper.find('.el-calendar__title')
     expect(/2019.*March/.test(titleEl.element.innerHTML)).toBeTruthy()
     const rows = wrapper.element.querySelectorAll('.el-calendar-table__row')
@@ -112,11 +114,12 @@ describe('Calendar.vue', () => {
   it('firstDayOfWeek', async () => {
     // default en locale, weekStart 0 Sunday
     const wrapper = mount({
-      data: () => ({ value: new Date('2019-04-01') }),
+      data: () => ({ value: new Date(Date.UTC(2019, 4, 1)) }),
       render() {
         return <Calendar v-model={this.value} />
       },
     })
+    await nextTick()
     const head = wrapper.element.querySelector('.el-calendar-table thead')
     expect(head?.firstElementChild?.innerHTML).toBe('Sun')
     expect(head?.lastElementChild?.innerHTML).toBe('Sat')
@@ -128,7 +131,7 @@ describe('Calendar.vue', () => {
   it('firstDayOfWeek when set 1', async () => {
     setDayjsWeekStart(1)
     const wrapper = mount({
-      data: () => ({ value: new Date('2019-09-01') }),
+      data: () => ({ value: new Date(Date.UTC(2019, 9, 1)) }),
       render() {
         return <Calendar v-model={this.value} />
       },
