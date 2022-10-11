@@ -3,6 +3,7 @@ import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 
+import sleep from '@element-plus/test-utils/sleep'
 import Menu from '../src/menu'
 import MenuGroup from '../src/menu-item-group.vue'
 import MenuItem from '../src/menu-item.vue'
@@ -476,5 +477,50 @@ describe('other', () => {
     expect(
       instance.$el.querySelector('.el-menu-item.is-active').innerHTML
     ).toEqual('new')
+  })
+
+  test('async menus item with ellipsis', async () => {
+    const wrapper = _mount(
+      `<el-menu :default-active="active" style="width: 100px" mode="horizontal" ellipsis>
+        <el-menu-item
+          v-for="menu in menus"
+          :index="menu.index"
+          :key="menu.index">
+          {{menu.index}}
+        </el-menu-item>
+      </el-menu>`,
+      {
+        data() {
+          return {
+            active: '',
+            menus: [],
+          }
+        },
+      }
+    )
+    await nextTick()
+
+    const instance = wrapper.vm as any
+
+    const submenuItem = await wrapper.findAllComponents({ name: 'ElSubMenu' })
+    expect(submenuItem).toHaveLength(0)
+
+    await sleep(1000)
+
+    instance.menus = [
+      { name: '1', description: 'one' },
+      { name: '2', description: 'tow' },
+      { name: '3', description: 'three' },
+      { name: '4', description: 'four' },
+      { name: '5', description: 'five' },
+      { name: '6', description: 'six' },
+      { name: '7', description: 'seven' },
+      { name: '8', description: 'eight' },
+    ]
+
+    await nextTick()
+    await sleep(1000)
+    const submenuItem2 = await wrapper.findAllComponents({ name: 'ElSubMenu' })
+    expect(submenuItem2).toHaveLength(1)
   })
 })

@@ -11,7 +11,7 @@ import {
   watch,
   watchEffect,
 } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
+import { useResizeObserver, useThrottleFn } from '@vueuse/core'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
@@ -243,29 +243,14 @@ export default defineComponent({
       return sliceIndex === items.length ? -1 : sliceIndex
     }
 
-    // Common computer monitor FPS is 60Hz, which means 60 redraws per second. Calculation formula: 1000ms/60 ≈ 16.67ms, In order to avoid a certain chance of repeated triggering when `resize`, set wait to 16.67 * 2 = 33.34
-    const debounce = (fn: () => void, wait = 33.34) => {
-      let timmer: ReturnType<typeof setTimeout> | null
-      return () => {
-        timmer && clearTimeout(timmer)
-        timmer = setTimeout(() => {
-          fn()
-        }, wait)
-      }
-    }
-
-    let isFirstTimeRender = true
-    const handleResize = () => {
-      const callback = () => {
+    const handleResize = useThrottleFn(() => {
+      if (props.ellipsis && props.mode === 'horizontal') {
         sliceIndex.value = -1
         nextTick(() => {
           sliceIndex.value = calcSliceIndex()
         })
       }
-      // execute callback directly when first time resize to avoid shaking
-      isFirstTimeRender ? callback() : debounce(callback)()
-      isFirstTimeRender = false
-    }
+    }, 16)
 
     watch(
       () => props.defaultActive,
@@ -305,10 +290,12 @@ export default defineComponent({
 
       const addMenuItem: MenuProvider['addMenuItem'] = (item) => {
         items.value[item.index] = item
+        handleResize()
       }
 
       const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
         delete items.value[item.index]
+        handleResize()
       }
       provide<MenuProvider>(
         'rootMenu',
@@ -361,7 +348,7 @@ export default defineComponent({
       let slot: VNodeArrayChildren = slots.default?.() ?? []
       const vShowMore: VNode[] = []
 
-      if (props.mode === 'horizontal' && menu.value) {
+      if (props.mode === 'horizontal' && menu.value && props.ellipsis) {
         const originalSlot = flattedChildren(slot) as VNodeArrayChildren
         const slotDefault =
           sliceIndex.value === -1
@@ -371,7 +358,7 @@ export default defineComponent({
         const slotMore =
           sliceIndex.value === -1 ? [] : originalSlot.slice(sliceIndex.value)
 
-        if (slotMore?.length && props.ellipsis) {
+        if (slotMore?.length) {
           slot = slotDefault
           vShowMore.push(
             h(
