@@ -422,7 +422,7 @@ describe('Cascader.vue', () => {
     await nextTick()
     expect(wrapper.find('input').element.placeholder).toBe('')
 
-    wrapper.findComponent(ElForm).vm.$.exposed.resetFields()
+    wrapper.findComponent(ElForm).vm.$.exposed!.resetFields()
     await nextTick()
     expect(wrapper.find('input').element.placeholder).toBe(AXIOM)
   })
