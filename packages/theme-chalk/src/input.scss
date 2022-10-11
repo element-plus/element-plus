@@ -166,6 +166,16 @@
   }
 
   @include e(wrapper) {
+    // use map.get as default value for date picker range
+    @include set-css-var-value(
+      'input-inner-height',
+      calc(
+        var(
+            #{getCssVarName('input-height')},
+            #{map.get($input-height, 'default')}
+          ) - $border-width * 2
+      )
+    );
     display: inline-flex;
     flex-grow: 1;
     align-items: center;
@@ -198,17 +208,6 @@
   }
 
   @include e(inner) {
-    // use map.get as default value for date picker range
-    @include set-css-var-value(
-      'input-inner-height',
-      calc(
-        var(
-            #{getCssVarName('input-height')},
-            #{map.get($input-height, 'default')}
-          ) - $border-width * 2
-      )
-    );
-
     width: 100%;
     flex-grow: 1;
     -webkit-appearance: none;
@@ -248,7 +247,7 @@
       white-space: nowrap;
       flex-shrink: 0;
       flex-wrap: nowrap;
-      height: 100%;
+      height: getCssVar('input-inner-height');
       text-align: center;
       color: var(
         #{getCssVarName('input-icon-color')},
