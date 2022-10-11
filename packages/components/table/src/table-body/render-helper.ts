@@ -48,6 +48,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     const { tooltipEffect, store } = props
     const { indent, columns } = store.states
     const rowClasses = getRowClass(row, $index)
+    const rowKey = getKeyOfRow(row, $index)
     let display = true
     if (treeRowData) {
       rowClasses.push(`el-table__row--level-${treeRowData.level}`)
@@ -63,7 +64,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
       {
         style: [displayStyle, getRowStyle(row, $index)],
         class: rowClasses,
-        key: getKeyOfRow(row, $index),
+        key: rowKey,
         onDblclick: ($event) => handleDoubleClick($event, row),
         onClick: ($event) => handleClick($event, row),
         onContextmenu: ($event) => handleContextMenu($event, row),
@@ -106,7 +107,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             }
           }
         }
-        const baseKey = `${$index},${cellIndex}`
+        const baseKey = `${rowKey},${cellIndex}`
         const patchKey = columnData.columnKey || columnData.rawColumnKey || ''
         const tdChildren = cellChildren(cellIndex, column, data)
         return h(
