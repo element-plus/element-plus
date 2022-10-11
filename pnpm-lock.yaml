@@ -242,7 +242,7 @@ importers:
       '@vitejs/plugin-vue': ^2.3.3
       '@vitejs/plugin-vue-jsx': ^1.3.10
       chalk: ^5.0.1
-      components-helper: ^2.1.2
+      components-helper: ^2.1.3
       consola: ^2.15.3
       esbuild: ^0.14.47
       fast-glob: ^3.2.11
@@ -264,7 +264,7 @@ importers:
       '@vitejs/plugin-vue': 2.3.3_vue@3.2.37
       '@vitejs/plugin-vue-jsx': 1.3.10
       chalk: 5.0.1
-      components-helper: 2.1.2
+      components-helper: 2.1.3
       consola: 2.15.3
       esbuild: 0.14.47
       fast-glob: 3.2.11
@@ -5050,8 +5050,8 @@ packages:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==}
     dev: false
 
-  /components-helper/2.1.2:
-    resolution: {integrity: sha512-KGzom/KUa/y8nL59Q+XPV/ARiHzVIAR1AJlJEmrV4zCJBVCXqbvGbpFxdtEugy6mICBrWdpeDzcewzwCjHewyw==}
+  /components-helper/2.1.3:
+    resolution: {integrity: sha512-t3PFNxbtPtzAY2GEoJBq6OipxwunqZKvaohkRL2uPK5hsuekM47RzhfxPxIqZ9Kd6Nnc2rTUaDnjx9gz2dImEQ==}
     engines: {node: '>10.0.0'}
     dependencies:
       fast-glob: 3.2.11

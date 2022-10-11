@@ -748,26 +748,6 @@ describe('Select', () => {
     expect(suffixIcon.exists()).toBe(true)
   })
 
-  test('test suffix transition', async () => {
-    wrapper = _mount(`<el-select></el-select>`)
-    expect(wrapper.find('.el-select__caret').classes()).not.toContain(
-      'is-reverse'
-    )
-    // open dropdown
-    await wrapper.trigger('mouseenter')
-    wrapper.trigger('click')
-    await nextTick()
-    expect(wrapper.find('.el-select__caret').classes()).toContain('is-reverse')
-
-    await wrapper.setProps({ suffixTransition: false })
-
-    wrapper.trigger('click')
-    await nextTick()
-    expect(wrapper.find('.el-select__caret').classes()).not.toContain(
-      'is-reverse'
-    )
-  })
-
   test('test remote show suffix', async () => {
     wrapper = _mount(`<el-select></el-select>`)
     await wrapper.setProps({
