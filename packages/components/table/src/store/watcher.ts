@@ -136,8 +136,13 @@ function useWatcher<T>() {
   }
 
   // 选择
-  const isSelected = (row) => {
-    return selection.value.includes(row)
+  const isSelected = function (row) {
+    const selectedMap = getKeysMap(selection.value, rowKey.value)
+    if (selectedMap) {
+      return !!selectedMap[getRowIdentity(row, rowKey.value)]
+    } else {
+      return selection.value.includes(row)
+    }
   }
 
   const clearSelection = () => {
@@ -181,7 +186,12 @@ function useWatcher<T>() {
     selected = undefined,
     emitChange = true
   ) => {
-    const changed = toggleRowStatus(selection.value, row, selected)
+    const changed = toggleRowStatus(
+      selection.value,
+      row,
+      selected,
+      rowKey.value
+    )
     if (changed) {
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
@@ -202,22 +212,21 @@ function useWatcher<T>() {
 
     let selectionChanged = false
     let childrenCount = 0
-    const rowKey = instance?.store?.states?.rowKey.value
     data.value.forEach((row, index) => {
       const rowIndex = index + childrenCount
       if (selectable.value) {
         if (
           selectable.value.call(null, row, rowIndex) &&
-          toggleRowStatus(selection.value, row, value)
+          toggleRowStatus(selection.value, row, value, rowKey.value)
         ) {
           selectionChanged = true
         }
       } else {
-        if (toggleRowStatus(selection.value, row, value)) {
+        if (toggleRowStatus(selection.value, row, value, rowKey.value)) {
           selectionChanged = true
         }
       }
-      childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
+      childrenCount += getChildrenCount(getRowIdentity(row, rowKey.value))
     })
 
     if (selectionChanged) {
@@ -251,13 +260,7 @@ function useWatcher<T>() {
     if (rowKey.value) {
       selectedMap = getKeysMap(selection.value, rowKey.value)
     }
-    const isSelected = function (row) {
-      if (selectedMap) {
-        return !!selectedMap[getRowIdentity(row, rowKey.value)]
-      } else {
-        return selection.value.includes(row)
-      }
-    }
+
     let isAllSelected_ = true
     let selectedCount = 0
     let childrenCount = 0

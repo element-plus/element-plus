@@ -243,10 +243,30 @@ export function compose(...funcs) {
 export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
-  newVal: boolean
+  newVal: boolean,
+  rowKey: string | ((row: T) => any)
 ): boolean {
   let changed = false
-  const index = statusArr.indexOf(row)
+  const index = statusArr.findIndex((statusRow) => {
+    if (!rowKey) return row === statusRow
+    if (typeof rowKey === 'string') {
+      if (!rowKey.includes('.')) {
+        return row[rowKey] === statusRow[rowKey]
+      }
+      const keys = rowKey.split('.')
+      let current = row
+      let currentStatus = statusRow
+      for (const element of keys) {
+        current = current[element]
+        currentStatus = currentStatus[element]
+      }
+      return current === currentStatus
+    } else if (typeof rowKey === 'function') {
+      return rowKey.call(null, row) === rowKey.call(null, statusRow)
+    }
+
+    return row[rowKey] === statusRow[rowKey]
+  })
   const included = index !== -1
 
   const addRow = () => {
