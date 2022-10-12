@@ -138,7 +138,7 @@ function useWatcher<T>() {
   // 选择
   const isSelected = function (row) {
     const selectedMap = getKeysMap(selection.value, rowKey.value)
-    if (selectedMap) {
+    if (selectedMap && rowKey.value) {
       return !!selectedMap[getRowIdentity(row, rowKey.value)]
     } else {
       return selection.value.includes(row)
