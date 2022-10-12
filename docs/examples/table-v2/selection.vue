@@ -15,12 +15,10 @@
 </template>
 
 <script lang="tsx" setup>
-import { ref, resolveDynamicComponent, unref } from 'vue'
+import { ref, unref } from 'vue'
 
 import type { FunctionalComponent } from 'vue'
-import type { Column, ElCheckbox } from 'element-plus'
-
-const Checkbox = resolveDynamicComponent('ElCheckbox') as typeof ElCheckbox
+import type { Column } from 'element-plus'
 
 type SelectionCellProps = {
   value: boolean
@@ -34,7 +32,7 @@ const SelectionCell: FunctionalComponent<SelectionCellProps> = ({
   onChange,
 }) => {
   return (
-    <Checkbox
+    <el-checkbox
       onChange={onChange}
       modelValue={value}
       indeterminate={intermediate}
