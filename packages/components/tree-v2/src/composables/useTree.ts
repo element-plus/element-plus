@@ -191,6 +191,10 @@ export function useTree(props: TreeProps, emit) {
     }
   }
 
+  function setExpandedKeys(keys: TreeKey[]) {
+    expandedKeySet.value = new Set(keys)
+  }
+
   function handleNodeClick(node: TreeNode, e: MouseEvent) {
     emit(NODE_CLICK, node.data, node, e)
     handleCurrentChange(node)
@@ -219,8 +223,8 @@ export function useTree(props: TreeProps, emit) {
       // whether only one node among the same level can be expanded at one time
       const { treeNodeMap } = tree.value
       keySet.forEach((key) => {
-        const node = treeNodeMap.get(key)
-        if (node && node.level === node.level) {
+        const treeNode = treeNodeMap.get(key)
+        if (node && node.level === treeNode.level) {
           keySet.delete(key)
         }
       })
@@ -300,5 +304,6 @@ export function useTree(props: TreeProps, emit) {
     getNode,
     expandNode,
     collapseNode,
+    setExpandedKeys,
   }
 }
