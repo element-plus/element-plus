@@ -13,10 +13,10 @@
     "access": "public"
   },
   "scripts": {
-    "build": "run-p build:*",
+    "build": "run-p \"build:*\"",
     "build:contributor": "tsx src/contributor.ts",
     "build:components": "tsx src/components.ts",
-    "dev": "cross-env DEV=1 pnpm run build"
+    "dev": "DEV=1 pnpm run build"
   },
   "devDependencies": {
     "@element-plus/build": "^0.0.1",
@@ -25,7 +25,6 @@
     "@types/lodash-es": "^4.17.6",
     "chalk": "^5.0.1",
     "consola": "^2.15.3",
-    "cross-env": "^7.0.3",
     "fast-glob": "^3.2.11",
     "lodash-es": "^4.17.21",
     "npm-run-all": "^4.1.5",

@@ -25,7 +25,7 @@ result/customized-content
 
 ## Result Attributes
 
-| Attribute | Description | Type   | Accepted Values                  | Default |
+| Name      | Description | Type   | Accepted Values                  | Default |
 | --------- | ----------- | ------ | -------------------------------- | ------- |
 | title     | title       | string | —                                | —       |
 | sub-title | sub title   | string | —                                | —       |

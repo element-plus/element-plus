@@ -386,7 +386,10 @@ const handleInput = async (event: Event) => {
 
   // hack for https://github.com/ElemeFE/element/issues/8548
   // should remove the following line when we don't support IE
-  if (value === nativeInputValue.value) return
+  if (value === nativeInputValue.value) {
+    setNativeInputValue()
+    return
+  }
 
   emit(UPDATE_MODEL_EVENT, value)
   emit('input', value)
@@ -501,7 +504,7 @@ watch(
   }
 )
 
-onMounted(async () => {
+onMounted(() => {
   if (!props.formatter && props.parser) {
     debugWarn(
       'ElInput',
@@ -510,13 +513,11 @@ onMounted(async () => {
   }
   setNativeInputValue()
   updateIconOffset()
-  await nextTick()
-  resizeTextarea()
+  nextTick(resizeTextarea)
 })
 
-onUpdated(async () => {
-  await nextTick()
-  updateIconOffset()
+onUpdated(() => {
+  nextTick(updateIconOffset)
 })
 
 defineExpose({
