@@ -329,9 +329,11 @@ const resizeTextarea = () => {
   if (autosize) {
     const minRows = isObject(autosize) ? autosize.minRows : undefined
     const maxRows = isObject(autosize) ? autosize.maxRows : undefined
-    textareaCalcStyle.value = {
-      ...calcTextareaHeight(textarea.value!, minRows, maxRows),
-    }
+    setTimeout(() => {
+      textareaCalcStyle.value = {
+        ...calcTextareaHeight(textarea.value!, minRows, maxRows),
+      }
+    })
   } else {
     textareaCalcStyle.value = {
       minHeight: calcTextareaHeight(textarea.value!).minHeight,
