@@ -308,7 +308,7 @@ const focusOnInputBox = () => {
 
 const onPick = (date: any = '', visible = false) => {
   if (!visible) {
-    focusOnInputBox()
+    ignoreFocusEvent = true
   }
   pickerVisible.value = visible
   let result
