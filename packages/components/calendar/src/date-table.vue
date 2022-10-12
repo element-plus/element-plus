@@ -24,7 +24,7 @@
           @click="handlePickDay(cell)"
         >
           <div :class="nsDay.b()">
-            <slot name="dateCell" :data="getSlotData(cell)">
+            <slot name="date-cell" :data="getSlotData(cell)">
               <span>{{ cell.text }}</span>
             </slot>
           </div>
@@ -66,8 +66,8 @@ const nsTable = useNamespace('calendar-table')
 const nsDay = useNamespace('calendar-day')
 
 const now = dayjs().locale(lang.value)
-// todo better way to get Day.js locale object
-const firstDayOfWeek: number = (now as any).$locale().weekStart || 0
+// https://day.js.org/docs/en/i18n/locale-data
+const firstDayOfWeek: number = dayjs.localeData().firstDayOfWeek()
 
 const isInRange = computed(() => !!props.range && !!props.range.length)
 
@@ -95,7 +95,7 @@ const rows = computed(() => {
     const firstDay = props.date.startOf('month').day()
     const prevMonthDays: CalendarDateCell[] = getPrevMonthLastDays(
       props.date,
-      firstDay - firstDayOfWeek
+      (firstDay - firstDayOfWeek + 7) % 7
     ).map((day) => ({
       text: day,
       type: 'prev',

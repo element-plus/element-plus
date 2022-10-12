@@ -17,7 +17,7 @@ export function useFormLabelWidth() {
 
   function getLabelWidthIndex(width: number) {
     const index = potentialLabelWidthArr.value.indexOf(width)
-    if (index === -1) {
+    if (index === -1 && autoLabelWidth.value === '0') {
       debugWarn(SCOPE, `unexpected width ${width}`)
     }
     return index
