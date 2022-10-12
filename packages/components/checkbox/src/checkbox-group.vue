@@ -5,7 +5,7 @@
     :class="ns.b('group')"
     role="group"
     :aria-label="!isLabeledByFormItem ? label || 'checkbox-group' : undefined"
-    :aria-labelledby="isLabeledByFormItem ? elFormItem.labelId : undefined"
+    :aria-labelledby="isLabeledByFormItem ? formItem?.labelId : undefined"
   >
     <slot />
   </component>
@@ -13,58 +13,67 @@
 
 <script lang="ts" setup>
 import { computed, nextTick, provide, toRefs, watch } from 'vue'
+import { pick } from 'lodash-unified'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
-import { useNamespace, useSize } from '@element-plus/hooks'
 import {
-  checkboxEmits,
-  useCheckboxGroup,
-  useCheckboxGroupId,
-  useCheckboxGroupProps,
-} from './checkbox'
+  useFormItem,
+  useFormItemInputId,
+  useNamespace,
+} from '@element-plus/hooks'
+import { checkboxGroupContextKey } from '@element-plus/tokens'
+import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
+
+import type { CheckboxValueType } from './checkbox'
 
 defineOptions({
   name: 'ElCheckboxGroup',
 })
 
-const props = defineProps(useCheckboxGroupProps)
-const emit = defineEmits(checkboxEmits)
-
-const { elFormItem } = useCheckboxGroup()
-const { groupId, isLabeledByFormItem } = useCheckboxGroupId(props, {
-  elFormItem,
-})
-const checkboxGroupSize = useSize()
+const props = defineProps(checkboxGroupProps)
+const emit = defineEmits(checkboxGroupEmits)
 const ns = useNamespace('checkbox')
 
-const changeEvent = (value) => {
+const { formItem } = useFormItem()
+const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
+  formItemContext: formItem,
+})
+
+const changeEvent = async (value: CheckboxValueType[]) => {
   emit(UPDATE_MODEL_EVENT, value)
-  nextTick(() => {
-    emit('change', value)
-  })
+  await nextTick()
+  emit('change', value)
 }
 
 const modelValue = computed({
   get() {
     return props.modelValue
   },
-  set(val) {
+  set(val: CheckboxValueType[]) {
     changeEvent(val)
   },
 })
 
-provide('CheckboxGroup', {
-  name: 'ElCheckboxGroup',
+provide(checkboxGroupContextKey, {
+  ...pick(toRefs(props), [
+    'size',
+    'min',
+    'max',
+    'disabled',
+    'validateEvent',
+    'fill',
+    'textColor',
+  ]),
   modelValue,
-  ...toRefs(props),
-  checkboxGroupSize,
   changeEvent,
 })
 
 watch(
   () => props.modelValue,
   () => {
-    elFormItem.validate?.('change').catch((err) => debugWarn(err))
+    if (props.validateEvent) {
+      formItem?.validate('change').catch((err) => debugWarn(err))
+    }
   }
 )
 </script>

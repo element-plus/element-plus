@@ -9,6 +9,7 @@ import type {
   FormEmits,
   FormItemProp,
   FormItemProps,
+  FormItemValidateState,
   FormLabelWidthContext,
   FormProps,
 } from '@element-plus/components/form'
@@ -47,10 +48,11 @@ export type FormContext = FormProps &
 export interface FormItemContext extends FormItemProps {
   $el: HTMLDivElement | undefined
   size: ComponentSize
-  validateState: string
+  validateState: FormItemValidateState
   isGroup: boolean
   labelId: string
   inputIds: string[]
+  hasLabel: boolean
   addInputId: (id: string) => void
   removeInputId: (id: string) => void
   validate: (

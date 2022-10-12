@@ -58,18 +58,16 @@ const ns = useNamespace('alert')
 
 const visible = ref(true)
 
-const iconComponent = computed(
-  () => TypeComponentsMap[props.type] || TypeComponentsMap['info']
-)
+const iconComponent = computed(() => TypeComponentsMap[props.type])
 
 const iconClass = computed(() => [
   ns.e('icon'),
   { [ns.is('big')]: !!props.description || !!slots.default },
 ])
 
-const isBoldTitle = computed(
-  () => props.description || { [ns.is('bold')]: slots.default }
-)
+const isBoldTitle = computed(() => {
+  return { [ns.is('bold')]: props.description || slots.default }
+})
 
 const close = (evt: MouseEvent) => {
   visible.value = false

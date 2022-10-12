@@ -81,6 +81,10 @@ export const autocompleteProps = buildProps({
     type: Boolean,
     default: false,
   },
+  fitInputWidth: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 

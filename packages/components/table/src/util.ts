@@ -1,7 +1,8 @@
+// @ts-nocheck
 import { createPopper } from '@popperjs/core'
 import { get } from 'lodash-unified'
 import escapeHtml from 'escape-html'
-import { hasOwn, off, on } from '@element-plus/utils'
+import { hasOwn, throwError } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
   IPopperOptions,
@@ -10,17 +11,8 @@ import type {
 import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
 
-export const getCell = function (event: Event): HTMLElement {
-  let cell = event.target as HTMLElement
-
-  while (cell && cell.tagName.toUpperCase() !== 'HTML') {
-    if (cell.tagName.toUpperCase() === 'TD') {
-      return cell
-    }
-    cell = cell.parentNode as HTMLElement
-  }
-
-  return null
+export const getCell = function (event: Event) {
+  return (event.target as HTMLElement)?.closest('td')
 }
 
 const isObject = function (obj: unknown): boolean {
@@ -128,6 +120,8 @@ export const getColumnByKey = function <T>(
       break
     }
   }
+  if (!column)
+    throwError('ElTable', `No column matching with column-key: ${columnKey}`)
   return column
 }
 
@@ -345,15 +339,14 @@ export function createTablePopper(
   function showPopper() {
     popperInstance && popperInstance.update()
   }
+  removePopper?.()
   removePopper = () => {
     try {
       popperInstance && popperInstance.destroy()
       content && parentNode?.removeChild(content)
-      off(trigger, 'mouseenter', showPopper)
-      off(trigger, 'mouseleave', removePopper)
-      if (scrollContainer) {
-        off(scrollContainer, 'scroll', removePopper)
-      }
+      trigger.removeEventListener('mouseenter', showPopper)
+      trigger.removeEventListener('mouseleave', removePopper)
+      scrollContainer?.removeEventListener('scroll', removePopper)
       removePopper = undefined
     } catch {}
   }
@@ -380,11 +373,9 @@ export function createTablePopper(
     ],
     ...popperOptions,
   })
-  on(trigger, 'mouseenter', showPopper)
-  on(trigger, 'mouseleave', removePopper)
-  if (scrollContainer) {
-    on(scrollContainer, 'scroll', removePopper)
-  }
+  trigger.addEventListener('mouseenter', showPopper)
+  trigger.addEventListener('mouseleave', removePopper)
+  scrollContainer?.addEventListener('scroll', removePopper)
   return popperInstance
 }
 

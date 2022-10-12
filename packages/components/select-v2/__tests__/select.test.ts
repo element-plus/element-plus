@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { NOOP } from '@vue/shared'
 import { afterEach, describe, expect, it, vi } from 'vitest'
@@ -124,7 +125,7 @@ const createSelect = (
         }
         @change="onChange"
         @visible-change="onVisibleChange"
-        @remove-tah="onRemoveTag"
+        @remove-tag="onRemoveTag"
         @focus="onFocus"
         @blur="onBlur"
         v-model="value">
@@ -189,9 +190,7 @@ describe('Select', () => {
     const wrapper = createSelect()
     await nextTick()
     expect(wrapper.classes()).toContain(CLASS_NAME)
-    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toContain(
-      DEFAULT_PLACEHOLDER
-    )
+    expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe('')
     const select = wrapper.findComponent(Select)
     await wrapper.trigger('click')
     expect((select.vm as any).expanded).toBeTruthy()
@@ -251,7 +250,11 @@ describe('Select', () => {
   })
 
   it('default value is null or undefined', async () => {
-    const wrapper = createSelect()
+    const wrapper = createSelect({
+      data: () => ({
+        value: undefined,
+      }),
+    })
     const vm = wrapper.vm as any
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
@@ -328,7 +331,7 @@ describe('Select', () => {
     const vm = wrapper.vm as any
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
     expect(vm.value).toBe('')
-    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+    expect(placeholder.text()).toBe('')
     options[2].click()
     await nextTick()
     expect(vm.value).toBe(vm.options[2].value)
@@ -414,7 +417,7 @@ describe('Select', () => {
     option.click()
     await nextTick()
     expect(vm.value).toBe('')
-    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+    expect(placeholder.text()).toBe('')
     vm.options[2].disabled = true
     await nextTick()
     const options = document.querySelectorAll<HTMLElement>(
@@ -425,7 +428,7 @@ describe('Select', () => {
     options.item(1).click()
     await nextTick()
     expect(vm.value).toBe('')
-    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+    expect(placeholder.text()).toBe('')
   })
 
   it('disabled select', async () => {
@@ -472,7 +475,7 @@ describe('Select', () => {
     await clickClearButton(wrapper)
     expect(vm.value).toBe('')
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
-    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+    expect(placeholder.text()).toBe('')
   })
 
   describe('multiple', () => {
@@ -651,7 +654,7 @@ describe('Select', () => {
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(3)
-      expect(wrapper.findAll('.el-tag')[4].element.textContent).toBe('c2')
+      expect(wrapper.findAll('.el-tag')[3].element.textContent).toBe('c2')
     })
   })
 
@@ -670,7 +673,7 @@ describe('Select', () => {
       const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
 
       expect(vm.value).toBe('')
-      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+      expect(placeholder.text()).toBe('')
 
       options[0].click()
       await nextTick()
@@ -681,7 +684,7 @@ describe('Select', () => {
       vm.value = ''
       await nextTick()
       expect(vm.value).toBe('')
-      expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
+      expect(placeholder.text()).toBe('')
 
       vm.value = option
       await nextTick()

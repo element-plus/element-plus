@@ -83,6 +83,8 @@
     line-height: 44px;
     font-size: 12px;
     color: getCssVar('text-color', 'secondary');
+    width: 20px;
+    text-align: center;
   }
   @include e(nav-next) {
     right: 0;
@@ -160,7 +162,7 @@
 
     @include when(disabled) {
       color: getCssVar('disabled-text-color');
-      cursor: default;
+      cursor: not-allowed;
     }
   }
   @include e(content) {

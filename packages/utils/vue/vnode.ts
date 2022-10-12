@@ -2,13 +2,12 @@ import {
   Comment,
   Fragment,
   Text,
-  camelize,
   createBlock,
   createCommentVNode,
   isVNode,
   openBlock,
 } from 'vue'
-import { isArray } from '@vue/shared'
+import { camelize, isArray } from '@vue/shared'
 import { hasOwn } from '../objects'
 import { debugWarn } from '../error'
 import type {
@@ -35,6 +34,12 @@ export enum PatchFlags {
   HOISTED = -1,
   BAIL = -2,
 }
+
+export type VNodeChildAtom = Exclude<VNodeChild, Array<any>>
+export type RawSlots = Exclude<
+  VNodeNormalizedChildren,
+  Array<any> | null | string
+>
 
 export function isFragment(node: VNode): boolean
 export function isFragment(node: unknown): node is VNode
@@ -137,4 +142,24 @@ export const ensureOnlyChild = (children: VNodeArrayChildren | undefined) => {
     throw new Error('expect to receive a single Vue element child')
   }
   return children[0]
+}
+
+export type FlattenVNodes = Array<VNodeChildAtom | RawSlots>
+
+export const flattedChildren = (
+  children: FlattenVNodes | VNode | VNodeNormalizedChildren
+): FlattenVNodes => {
+  const vNodes = isArray(children) ? children : [children]
+  const result: FlattenVNodes = []
+
+  vNodes.forEach((child) => {
+    if (isArray(child)) {
+      result.push(...flattedChildren(child))
+    } else if (isVNode(child) && isArray(child.children)) {
+      result.push(...flattedChildren(child.children))
+    } else {
+      result.push(child)
+    }
+  })
+  return result
 }

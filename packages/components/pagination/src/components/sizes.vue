@@ -5,6 +5,7 @@
       :disabled="disabled"
       :popper-class="popperClass"
       :size="size"
+      :validate-event="false"
       @change="handleChange"
     >
       <el-option

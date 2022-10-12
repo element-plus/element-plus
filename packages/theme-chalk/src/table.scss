@@ -21,6 +21,9 @@
 
   @include e(inner-wrapper) {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     // 表格底部伪 border，总是有的
     &::before {
       @include extend-rule(border-pseudo);
@@ -28,14 +31,14 @@
       bottom: 0px;
       width: 100%;
       height: 1px;
-      z-index: 3;
     }
   }
 
   &.has-footer {
-    .#{$namespace}-table__inner-wrapper {
-      &::before {
-        bottom: 1px;
+    &.#{$namespace}-table--scrollable-y,
+    &.#{$namespace}-table--fluid-height {
+      tr:last-child td.#{$namespace}-table__cell {
+        border-bottom-color: transparent;
       }
     }
   }
@@ -208,16 +211,8 @@
     user-select: none;
     background-color: getCssVar('table-header-bg-color');
 
-    > .cell {
-      display: inline-block;
-      box-sizing: border-box;
-      position: relative;
-      vertical-align: middle;
-      width: 100%;
-
-      &.highlight {
-        color: getCssVar('color-primary');
-      }
+    > .cell.highlight {
+      color: getCssVar('color-primary');
     }
 
     &.required > div::before {
@@ -242,22 +237,12 @@
     }
   }
 
+  @include e((footer-wrapper)) {
+    border-top: getCssVar('table-border');
+  }
+
   // 拥有多级表头
   @include m((group, border)) {
-    @include e((inner-wrapper, footer-wrapper)) {
-      tr:first-child {
-        td,
-        th {
-          &:first-child {
-            border-left: getCssVar('table-border');
-          }
-        }
-      }
-    }
-    @include e((footer-wrapper)) {
-      border-top: getCssVar('table-border');
-    }
-
     @include share-rule(border-pseudo) {
       content: '';
       position: absolute;
@@ -275,7 +260,6 @@
         top: 0;
         width: 100%;
         height: 1px;
-        z-index: 3;
       }
     }
 
@@ -285,7 +269,6 @@
       left: 0;
       width: 1px;
       height: 100%;
-      z-index: 3;
     }
 
     &::after {
@@ -294,7 +277,6 @@
       right: 0;
       width: 1px;
       height: 100%;
-      z-index: 3;
     }
 
     @include e(inner-wrapper) {
@@ -304,16 +286,8 @@
 
     @include e(footer-wrapper) {
       position: relative;
+      flex-shrink: 0;
     }
-
-    @include e(footer-wrapper) {
-      margin-top: -2px;
-    }
-
-    // fix: #1013
-    // &.#{$namespace}-loading-parent--relative {
-    //   border-color: transparent;
-    // }
 
     .#{$namespace}-table__cell {
       border-right: getCssVar('table-border');
@@ -381,6 +355,7 @@
   }
 
   @include e(header-wrapper) {
+    flex-shrink: 0;
     tr {
       th {
         &.#{$namespace}-table-fixed-column--left,
@@ -407,6 +382,11 @@
 
   @include e((header-wrapper, body-wrapper)) {
     .#{$namespace}-table-column--selection {
+      > .cell {
+        display: inline-flex;
+        align-items: center;
+        height: 23px;
+      }
       .#{$namespace}-checkbox {
         height: unset;
       }
@@ -483,6 +463,7 @@
   @include e(body-wrapper) {
     overflow: hidden;
     position: relative;
+    flex: 1;
     .#{$namespace}-scrollbar__bar {
       z-index: 2;
     }
@@ -632,6 +613,26 @@
       height: 12px;
       text-align: center;
       margin-right: 8px;
+    }
+  }
+
+  @include b(table) {
+    &.#{$namespace}-table--border {
+      .#{$namespace}-table__cell {
+        border-right: getCssVar('table-border');
+      }
+    }
+  }
+
+  &:not(.#{$namespace}-table--border) {
+    .#{$namespace}-table__cell {
+      border-right: none;
+    }
+
+    > .#{$namespace}-table__inner-wrapper {
+      &::after {
+        content: none;
+      }
     }
   }
 }

@@ -5,7 +5,7 @@ import { useLang } from '../../composables/lang'
 import homeLocale from '../../../i18n/pages/home.json'
 import HomeSponsors from '../home/home-sponsors.vue'
 import HomeCards from '../home/home-cards.vue'
-import HomeFooter from './home-footer.vue'
+import HomeFooter from './vp-footer.vue'
 import type { CSSProperties } from 'vue'
 const target = ref<HTMLElement | null>(null)
 const parallax = reactive(useParallax(target))
@@ -128,7 +128,7 @@ useEventListener(window, 'scroll', handleScroll)
             :style="peopleLayer"
             alt="banner"
             class="cursor-pointer"
-            @click="jumpTo('/guide/quickstart.html')"
+            @click="jumpTo('guide/quickstart.html')"
           />
           <left-layer-svg :style="leftLayer" alt="banner" />
           <left-bottom-layer-svg :style="leftBottomLayer" alt="banner" />
@@ -144,7 +144,7 @@ useEventListener(window, 'scroll', handleScroll)
     <HomeSponsors />
     <HomeCards />
   </div>
-  <HomeFooter />
+  <HomeFooter :is-home="true" />
 </template>
 
 <style lang="scss">

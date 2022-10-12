@@ -15,7 +15,7 @@ export const stepsProps = buildProps({
   direction: {
     type: String,
     default: 'horizontal',
-    values: ['horizontal', 'vertical'] as const,
+    values: ['horizontal', 'vertical'],
   },
   alignCenter: {
     type: Boolean,
@@ -25,12 +25,12 @@ export const stepsProps = buildProps({
   },
   finishStatus: {
     type: String,
-    values: ['wait', 'process', 'finish', 'error', 'success'] as const,
+    values: ['wait', 'process', 'finish', 'error', 'success'],
     default: 'finish',
   },
   processStatus: {
     type: String,
-    values: ['wait', 'process', 'finish', 'error', 'success'] as const,
+    values: ['wait', 'process', 'finish', 'error', 'success'],
     default: 'process',
   },
 } as const)

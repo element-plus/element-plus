@@ -1,10 +1,21 @@
-export const rightRichTextSponsors = [
+export const rightRichTextSponsors = []
+
+export const rightLogoSmallSponsors = [
   {
-    name: 'Fantastic-admin',
-    img: '/images/sponsors/fantasticadmin.png',
-    url: 'https://fantastic-admin.netlify.app/?from=element-plus',
-    slogan: 'An out-of-the-box backend framework',
-    slogan_cn: '开箱即用的 Vue 后台管理框架',
+    name: 'BuildAdmin',
+    img: '/images/sponsors/buildadmin.png',
+    imgL: '/images/sponsors/buildadmin-l.png',
+    url: 'https://wonderful-code.gitee.io/?from=element-plus',
+    slogan: 'Vue3 opensource admin system',
+    slogan_cn: 'Vue3企业级开源后台管理系统',
+  },
+  {
+    name: 'bit',
+    img: '/images/bit.svg',
+    imgL: '/images/bit-l.png',
+    url: 'https://bit.dev/?from=element-ui',
+    slogan: 'Share Code',
+    isDark: true, // dark theme
   },
 ]
 
@@ -33,29 +44,6 @@ export const platinumSponsors = [
   ...rightRichTextSponsors,
 ]
 
-export const goldSponsors = [
-  {
-    name: 'bit',
-    img: '/images/bit.svg',
-    url: 'https://bit.dev/?from=element-ui',
-    slogan: 'Share Code',
-    isDark: true, // dark theme
-  },
-  {
-    name: 'renren.io',
-    name_cn: '人人开源',
-    img: '/images/renren.png',
-    url: 'https://www.renren.io/?from=element-ui',
-    slogan: 'Rapid development platform',
-    slogan_cn: '企业级的快速开发平台',
-    className: 'renren',
-  },
-  {
-    name: 'FormMaking',
-    name_cn: 'FormMaking',
-    img: '/images/formmaking.png',
-    url: 'https://form.making.link/?from=element_plus',
-    slogan: 'Vue form designer',
-    slogan_cn: 'Vue表单设计器，赋能企业快速开发',
-  },
-]
+export const leftLogoSponsors = []
+
+export const goldSponsors = [...rightLogoSmallSponsors, ...leftLogoSponsors]

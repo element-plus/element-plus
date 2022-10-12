@@ -77,7 +77,7 @@ checkbox/with-border
 
 ## Checkbox Attributes
 
-| Attribute             | Description                                               | Type                               | Accepted Values        | Default |
+| Name                  | Description                                               | Type                               | Accepted Values        | Default |
 | --------------------- | --------------------------------------------------------- | ---------------------------------- | ---------------------- | ------- |
 | model-value / v-model | binding value                                             | string / number / boolean          | —                      | —       |
 | label                 | value of the Checkbox when used inside a `checkbox-group` | string / number / boolean / object | —                      | —       |
@@ -89,12 +89,13 @@ checkbox/with-border
 | name                  | native 'name' attribute                                   | string                             | —                      | —       |
 | checked               | if the Checkbox is checked                                | boolean                            | —                      | false   |
 | indeterminate         | same as `indeterminate` in native checkbox                | boolean                            | —                      | false   |
+| validate-event        | whether to trigger form validation                        | boolean                            | -                      | true    |
 
 ## Checkbox Events
 
-| Event Name | Description                             | Parameters        |
-| ---------- | --------------------------------------- | ----------------- |
-| change     | triggers when the binding value changes | the updated value |
+| Name   | Description                             | Parameters        |
+| ------ | --------------------------------------- | ----------------- |
+| change | triggers when the binding value changes | the updated value |
 
 ## Checkbox Slots
 
@@ -104,7 +105,7 @@ checkbox/with-border
 
 ## Checkbox-group Attributes
 
-| Attribute             | Description                                       | Type    | Accepted Values        | Default |
+| Name                  | Description                                       | Type    | Accepted Values        | Default |
 | --------------------- | ------------------------------------------------- | ------- | ---------------------- | ------- |
 | model-value / v-model | binding value                                     | array   | —                      | []      |
 | size                  | size of checkbox                                  | string  | large / default /small | —       |
@@ -114,12 +115,13 @@ checkbox/with-border
 | label                 | label for screen reader                           | string  | —                      | —       |
 | text-color            | font color when button is active                  | string  | —                      | #ffffff |
 | fill                  | border and background color when button is active | string  | —                      | #409EFF |
+| validate-event        | whether to trigger form validation                | boolean | -                      | true    |
 
 ## Checkbox-group Events
 
-| Event Name | Description                             | Parameters        |
-| ---------- | --------------------------------------- | ----------------- |
-| change     | triggers when the binding value changes | the updated value |
+| Name   | Description                             | Parameters        |
+| ------ | --------------------------------------- | ----------------- |
+| change | triggers when the binding value changes | the updated value |
 
 ## Checkbox-group Slots
 
@@ -129,7 +131,7 @@ checkbox/with-border
 
 ## Checkbox-button Attributes
 
-| Attribute   | Description                                               | Type                               | Accepted Values | Default |
+| Name        | Description                                               | Type                               | Accepted Values | Default |
 | ----------- | --------------------------------------------------------- | ---------------------------------- | --------------- | ------- |
 | label       | value of the checkbox when used inside a `checkbox-group` | string / number / boolean / object | —               | —       |
 | true-label  | value of the checkbox if it's checked                     | string / number                    | —               | —       |

@@ -3,9 +3,9 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
-import DefineOptions from 'unplugin-vue-define-options/rollup'
+import VueMacros from 'unplugin-vue-macros/rollup'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import esbuild from 'rollup-plugin-esbuild'
+import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild'
 import { parallel } from 'gulp'
 import glob from 'fast-glob'
 import { camelCase, upperFirst } from 'lodash'
@@ -24,37 +24,55 @@ import {
   writeBundles,
 } from '../utils'
 import { target } from '../build-info'
+import type { Plugin } from 'rollup'
 
 const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
 
 async function buildFullEntry(minify: boolean) {
+  const plugins: Plugin[] = [
+    ElementPlusAlias(),
+    VueMacros({
+      setupComponent: false,
+      setupSFC: false,
+      plugins: {
+        vue: vue({
+          isProduction: true,
+        }),
+        vueJsx: vueJsx(),
+      },
+    }),
+    nodeResolve({
+      extensions: ['.mjs', '.js', '.json', '.ts'],
+    }),
+    commonjs(),
+    esbuild({
+      exclude: [],
+      sourceMap: minify,
+      target,
+      loaders: {
+        '.vue': 'ts',
+      },
+      define: {
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      },
+      treeShaking: true,
+      legalComments: 'eof',
+    }),
+  ]
+  if (minify) {
+    plugins.push(
+      minifyPlugin({
+        target,
+        sourceMap: true,
+      })
+    )
+  }
+
   const bundle = await rollup({
     input: path.resolve(epRoot, 'index.ts'),
-    plugins: [
-      ElementPlusAlias(),
-      DefineOptions(),
-      vue({
-        isProduction: true,
-      }),
-      vueJsx(),
-      nodeResolve({
-        extensions: ['.mjs', '.js', '.json', '.ts'],
-      }),
-      commonjs(),
-      esbuild({
-        exclude: [],
-        minify,
-        sourceMap: minify,
-        target,
-        loaders: {
-          '.vue': 'ts',
-        },
-        define: {
-          'process.env.NODE_ENV': JSON.stringify('production'),
-        },
-      }),
-    ],
+    plugins,
     external: await generateExternal({ full: true }),
+    treeshake: true,
   })
   await writeBundles(bundle, [
     {
@@ -86,7 +104,8 @@ async function buildFullEntry(minify: boolean) {
 }
 
 async function buildFullLocale(minify: boolean) {
-  const files = await glob(`${path.resolve(localeRoot, 'lang')}/*.ts`, {
+  const files = await glob(`**/*.ts`, {
+    cwd: path.resolve(localeRoot, 'lang'),
     absolute: true,
   })
   return Promise.all(

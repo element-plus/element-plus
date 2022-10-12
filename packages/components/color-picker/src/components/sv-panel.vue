@@ -1,14 +1,14 @@
 <template>
   <div
-    class="el-color-svpanel"
+    :class="ns.b()"
     :style="{
       backgroundColor: background,
     }"
   >
-    <div class="el-color-svpanel__white" />
-    <div class="el-color-svpanel__black" />
+    <div :class="ns.e('white')" />
+    <div :class="ns.e('black')" />
     <div
-      class="el-color-svpanel__cursor"
+      :class="ns.e('cursor')"
       :style="{
         top: cursorTop + 'px',
         left: cursorLeft + 'px',
@@ -29,10 +29,11 @@ import {
   watch,
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
-import draggable from '../draggable'
+import { useNamespace } from '@element-plus/hooks'
+import { draggable } from '../utils/draggable'
 
 import type { PropType } from 'vue'
-import type Color from '../color'
+import type Color from '../utils/color'
 
 export default defineComponent({
   name: 'ElSlPanel',
@@ -43,9 +44,13 @@ export default defineComponent({
       required: true,
     },
   },
+
   setup(props) {
+    const ns = useNamespace('color-svpanel')
+
     // instance
-    const instance = getCurrentInstance()
+    const instance = getCurrentInstance()!
+
     // data
     const cursorTop = ref(0)
     const cursorLeft = ref(0)
@@ -61,7 +66,7 @@ export default defineComponent({
       const saturation = props.color.get('saturation')
       const value = props.color.get('value')
 
-      const el = instance.vnode.el
+      const el = instance.vnode.el!
       const { clientWidth: width, clientHeight: height } = el
 
       cursorLeft.value = (saturation * width) / 100
@@ -70,8 +75,8 @@ export default defineComponent({
       background.value = `hsl(${props.color.get('hue')}, 100%, 50%)`
     }
 
-    function handleDrag(event) {
-      const el = instance.vnode.el
+    function handleDrag(event: MouseEvent | TouchEvent) {
+      const el = instance.vnode.el!
       const rect = el.getBoundingClientRect()
       const { clientX, clientY } = getClientXY(event)
 
@@ -118,6 +123,7 @@ export default defineComponent({
       colorValue,
       handleDrag,
       update,
+      ns,
     }
   },
 })

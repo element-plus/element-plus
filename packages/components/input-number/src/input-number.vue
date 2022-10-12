@@ -42,6 +42,7 @@
       :step="step"
       :model-value="displayValue"
       :placeholder="placeholder"
+      :readonly="readonly"
       :disabled="inputNumberDisabled"
       :size="inputNumberSize"
       :max="max"
@@ -63,7 +64,7 @@ import { computed, onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { ElInput } from '@element-plus/components/input'
 import { ElIcon } from '@element-plus/components/icon'
-import { RepeatClick as vRepeatClick } from '@element-plus/directives'
+import { vRepeatClick } from '@element-plus/directives'
 import {
   useDisabled,
   useFormItem,
@@ -73,7 +74,13 @@ import {
 } from '@element-plus/hooks'
 import { debugWarn, isNumber, isString, isUndefined } from '@element-plus/utils'
 import { ArrowDown, ArrowUp, Minus, Plus } from '@element-plus/icons-vue'
+import {
+  CHANGE_EVENT,
+  INPUT_EVENT,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { inputNumberEmits, inputNumberProps } from './input-number'
+
 import type { InputInstance } from '@element-plus/components/input'
 
 defineOptions({
@@ -174,16 +181,18 @@ const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
   return toPrecision(val + props.step * coefficient)
 }
 const increase = () => {
-  if (inputNumberDisabled.value || maxDisabled.value) return
+  if (props.readonly || inputNumberDisabled.value || maxDisabled.value) return
   const value = props.modelValue || 0
   const newVal = ensurePrecision(value)
   setCurrentValue(newVal)
+  emit(INPUT_EVENT, data.currentValue)
 }
 const decrease = () => {
-  if (inputNumberDisabled.value || minDisabled.value) return
+  if (props.readonly || inputNumberDisabled.value || minDisabled.value) return
   const value = props.modelValue || 0
   const newVal = ensurePrecision(value, -1)
   setCurrentValue(newVal)
+  emit(INPUT_EVENT, data.currentValue)
 }
 const verifyValue = (
   value: number | string | null | undefined,
@@ -201,14 +210,14 @@ const verifyValue = (
     newVal = isString(valueOnClear) ? { min, max }[valueOnClear] : valueOnClear
   }
   if (stepStrictly) {
-    newVal = Math.round(newVal / step) * step
+    newVal = toPrecision(Math.round(newVal / step) * step, precision)
   }
   if (!isUndefined(precision)) {
     newVal = toPrecision(newVal, precision)
   }
   if (newVal > max || newVal < min) {
     newVal = newVal > max ? max : min
-    update && emit('update:modelValue', newVal)
+    update && emit(UPDATE_MODEL_EVENT, newVal)
   }
   return newVal
 }
@@ -217,14 +226,16 @@ const setCurrentValue = (value: number | string | null | undefined) => {
   const newVal = verifyValue(value)
   if (oldVal === newVal) return
   data.userInput = null
-  emit('update:modelValue', newVal!)
-  emit('input', newVal)
-  emit('change', newVal!, oldVal!)
-  formItem?.validate?.('change').catch((err) => debugWarn(err))
+  emit(UPDATE_MODEL_EVENT, newVal!)
+  emit(CHANGE_EVENT, newVal!, oldVal!)
+  if (props.validateEvent) {
+    formItem?.validate?.('change').catch((err) => debugWarn(err))
+  }
   data.currentValue = newVal
 }
 const handleInput = (value: string) => {
-  return (data.userInput = value)
+  data.userInput = value
+  emit(INPUT_EVENT, value === '' ? null : Number(value))
 }
 const handleInputChange = (value: string) => {
   const newVal = value !== '' ? Number(value) : ''
@@ -248,7 +259,9 @@ const handleFocus = (event: MouseEvent | FocusEvent) => {
 
 const handleBlur = (event: MouseEvent | FocusEvent) => {
   emit('blur', event)
-  formItem?.validate?.('blur').catch((err) => debugWarn(err))
+  if (props.validateEvent) {
+    formItem?.validate?.('blur').catch((err) => debugWarn(err))
+  }
 }
 
 watch(
@@ -280,7 +293,7 @@ onMounted(() => {
     if (Number.isNaN(val)) {
       val = null
     }
-    emit('update:modelValue', val!)
+    emit(UPDATE_MODEL_EVENT, val!)
   }
 })
 onUpdated(() => {

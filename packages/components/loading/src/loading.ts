@@ -45,26 +45,19 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
       }
       removeClass(target, ns.bm('parent', 'hidden'))
     }
-    remvoeElLoadingChild()
+    removeElLoadingChild()
     loadingInstance.unmount()
   }
-  function remvoeElLoadingChild(): void {
+  function removeElLoadingChild(): void {
     vm.$el?.parentNode?.removeChild(vm.$el)
   }
   function close() {
     if (options.beforeClose && !options.beforeClose()) return
 
-    const target = data.parent
-    target.vLoadingAddClassList = undefined
     afterLeaveFlag.value = true
     clearTimeout(afterLeaveTimer)
 
-    afterLeaveTimer = window.setTimeout(() => {
-      if (afterLeaveFlag.value) {
-        afterLeaveFlag.value = false
-        destroySelf()
-      }
-    }, 400)
+    afterLeaveTimer = window.setTimeout(handleAfterLeave, 400)
     data.visible = false
 
     options.closed?.()
@@ -72,7 +65,9 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
 
   function handleAfterLeave() {
     if (!afterLeaveFlag.value) return
+    const target = data.parent
     afterLeaveFlag.value = false
+    target.vLoadingAddClassList = undefined
     destroySelf()
   }
 
@@ -85,14 +80,14 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
           'svg',
           {
             class: 'circular',
-            viewBox: data.svgViewBox ? data.svgViewBox : '25 25 50 50',
+            viewBox: data.svgViewBox ? data.svgViewBox : '0 0 50 50',
             ...(svg ? { innerHTML: svg } : {}),
           },
           [
             h('circle', {
               class: 'path',
-              cx: '50',
-              cy: '50',
+              cx: '25',
+              cy: '25',
               r: '20',
               fill: 'none',
             }),
@@ -149,7 +144,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   return {
     ...toRefs(data),
     setText,
-    remvoeElLoadingChild,
+    removeElLoadingChild,
     close,
     handleAfterLeave,
     vm,

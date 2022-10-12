@@ -13,7 +13,7 @@ const onItemClick = (item: any) => {
 </script>
 
 <template>
-  <div class="sponsor-container m-t-16px">
+  <div class="m-t-16px">
     <a
       v-for="item in rightRichTextSponsors"
       :key="item.name"

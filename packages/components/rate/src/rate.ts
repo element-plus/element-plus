@@ -98,6 +98,10 @@ export const rateProps = buildProps({
     type: String,
     default: undefined,
   },
+  clearable: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 
 export type RateProps = ExtractPropTypes<typeof rateProps>

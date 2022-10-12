@@ -104,12 +104,13 @@ const upload = async (rawFile: UploadRawFile) => {
         type: rawFile.type,
       })
     }
-    for (const key of Object.keys(rawFile)) {
-      file[key] = rawFile[key]
-    }
   }
 
-  doUpload(rawFile)
+  doUpload(
+    Object.assign(file, {
+      uid: rawFile.uid,
+    })
+  )
 }
 
 const doUpload = (rawFile: UploadRawFile) => {

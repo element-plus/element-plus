@@ -18,7 +18,7 @@ import {
 } from '@element-plus/components/time-picker'
 
 import { datePickerProps } from './props/date-picker'
-import { getPanel } from './utils'
+import { getPanel } from './panel-utils'
 
 dayjs.extend(localeData)
 dayjs.extend(advancedFormat)
@@ -49,9 +49,14 @@ export default defineComponent({
 
     const commonPicker = ref<InstanceType<typeof CommonPicker>>()
     const refProps = {
-      ...props,
       focus: (focusStartInput = true) => {
         commonPicker.value?.focus(focusStartInput)
+      },
+      handleOpen: () => {
+        commonPicker.value?.handleOpen()
+      },
+      handleClose: () => {
+        commonPicker.value?.handleClose()
       },
     }
 

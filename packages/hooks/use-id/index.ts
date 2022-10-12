@@ -1,6 +1,8 @@
 import { computed, inject, unref } from 'vue'
 import { isClient } from '@vueuse/core'
 import { debugWarn } from '@element-plus/utils'
+import { useGlobalConfig } from '../use-global-config'
+import { defaultNamespace } from '../use-namespace'
 
 import type { InjectionKey, Ref } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
@@ -32,10 +34,11 @@ usage: app.provide(ID_INJECTION_KEY, {
     )
   }
 
+  const namespace = useGlobalConfig('namespace', defaultNamespace)
   const idRef = computed(
     () =>
       unref(deterministicId) ||
-      `el-id-${idInjection.prefix}-${idInjection.current++}`
+      `${namespace.value}-id-${idInjection.prefix}-${idInjection.current++}`
   )
 
   return idRef
