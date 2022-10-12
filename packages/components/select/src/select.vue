@@ -192,7 +192,7 @@
             @compositionend="handleComposition"
             @keydown.down.stop.prevent="navigateOptions('next')"
             @keydown.up.stop.prevent="navigateOptions('prev')"
-            @keydown.enter.stop.prevent="selectOption"
+            @keypress.enter.stop.prevent="selectOption"
             @keydown.esc="handleKeydownEscape"
             @keydown.tab="visible = false"
           >
