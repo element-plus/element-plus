@@ -16,6 +16,7 @@
 
 <script lang="tsx" setup>
 import { ref } from 'vue'
+import { ElInput } from 'element-plus'
 
 import type { FunctionalComponent } from 'vue'
 import type { Column, InputInstance } from 'element-plus'
@@ -33,7 +34,7 @@ const InputCell: FunctionalComponent<SelectionCellProps> = ({
   forwardRef,
 }) => {
   return (
-    <el-input ref={forwardRef as any} onInput={onChange} modelValue={value} />
+    <ElInput ref={forwardRef as any} onInput={onChange} modelValue={value} />
   )
 }
 

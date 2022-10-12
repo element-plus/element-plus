@@ -16,14 +16,15 @@
 
 <script lang="tsx" setup>
 import { ref, unref } from 'vue'
+import { ElCheckbox } from 'element-plus'
 
 import type { FunctionalComponent } from 'vue'
-import type { Column } from 'element-plus'
+import type { CheckboxValueType, Column } from 'element-plus'
 
 type SelectionCellProps = {
   value: boolean
   intermediate?: boolean
-  onChange: (value: boolean) => void
+  onChange: (value: CheckboxValueType) => void
 }
 
 const SelectionCell: FunctionalComponent<SelectionCellProps> = ({
@@ -32,7 +33,7 @@ const SelectionCell: FunctionalComponent<SelectionCellProps> = ({
   onChange,
 }) => {
   return (
-    <el-checkbox
+    <ElCheckbox
       onChange={onChange}
       modelValue={value}
       indeterminate={intermediate}
@@ -73,13 +74,13 @@ columns.unshift({
   key: 'selection',
   width: 50,
   cellRenderer: ({ rowData }) => {
-    const onChange = (value: boolean) => (rowData.checked = value)
+    const onChange = (value: CheckboxValueType) => (rowData.checked = value)
     return <SelectionCell value={rowData.checked} onChange={onChange} />
   },
 
   headerCellRenderer: () => {
     const _data = unref(data)
-    const onChange = (value: boolean) =>
+    const onChange = (value: CheckboxValueType) =>
       (data.value = _data.map((row) => {
         row.checked = value
         return row
