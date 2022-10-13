@@ -315,6 +315,7 @@ describe('Select', () => {
     expect(wrapper.classes()).toContain('el-select')
     expect(findInnerInput().placeholder).toBe('Select')
     const select = wrapper.findComponent({ name: 'ElSelect' })
+    await select.trigger('mouseenter')
     await select.trigger('click')
     await nextTick()
     expect((select.vm as any).visible).toBe(true)
@@ -750,25 +751,6 @@ describe('Select', () => {
     await wrapper.setProps({ suffixIcon: markRaw(CaretTop) })
     suffixIcon = wrapper.findComponent(CaretTop)
     expect(suffixIcon.exists()).toBe(true)
-  })
-
-  test('test suffix transition', async () => {
-    wrapper = _mount(`<el-select></el-select>`)
-    expect(wrapper.find('.el-select__caret').classes()).not.toContain(
-      'is-reverse'
-    )
-    // open dropdown
-    wrapper.trigger('click')
-    await nextTick()
-    expect(wrapper.find('.el-select__caret').classes()).toContain('is-reverse')
-
-    await wrapper.setProps({ suffixTransition: false })
-
-    wrapper.trigger('click')
-    await nextTick()
-    expect(wrapper.find('.el-select__caret').classes()).not.toContain(
-      'is-reverse'
-    )
   })
 
   test('test remote show suffix', async () => {
@@ -1301,6 +1283,7 @@ describe('Select', () => {
       () => ({ value: 'test' })
     )
     const vm = wrapper.vm as any
+    await wrapper.trigger('mouseenter')
     await wrapper.trigger('click')
     const selectVm = wrapper.findComponent({ name: 'ElSelect' }).vm as any
     expect(selectVm.visible).toBe(true)
@@ -1380,6 +1363,7 @@ describe('Select', () => {
       })
     )
     const select = wrapper.findComponent({ name: 'ElSelect' })
+    await select.trigger('mouseenter')
     await select.trigger('click')
     await nextTick()
     expect(
@@ -1778,11 +1762,27 @@ describe('Select', () => {
       clearable: true,
     })
     const select = wrapper.findComponent({ name: 'ElSelect' })
+    await select.trigger('mouseenter')
     const suffixIcon = select.find('.el-input__suffix')
     await suffixIcon.trigger('click')
     expect((select.vm as any).visible).toBe(true)
     await suffixIcon.trigger('click')
     expect((select.vm as any).visible).toBe(false)
+  })
+
+  test('mouseenter click', async () => {
+    wrapper = getSelectVm({
+      filterable: true,
+      clearable: true,
+    })
+    const select = wrapper.findComponent({ name: 'ElSelect' })
+
+    await select.trigger('click')
+    expect((select.vm as any).visible).toBe(false)
+
+    await select.trigger('mouseenter')
+    await select.trigger('click')
+    expect((select.vm as any).visible).toBe(true)
   })
 
   describe('should show all options when open select dropdown', () => {
@@ -1850,6 +1850,7 @@ describe('Select', () => {
       const secondInputLetter = 'aa'
 
       await nextTick()
+      await wrapper.trigger('mouseenter')
 
       const input = wrapper.find(
         multiple ? '.el-select__input' : '.el-input__inner'

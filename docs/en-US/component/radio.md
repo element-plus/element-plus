@@ -57,7 +57,7 @@ radio/with-borders
 
 ## Radio Attributes
 
-| Attribute             | Description                          | Type                      | Accepted Values        | Default |
+| Name                  | Description                          | Type                      | Accepted Values        | Default |
 | --------------------- | ------------------------------------ | ------------------------- | ---------------------- | ------- |
 | model-value / v-model | binding value                        | string / number / boolean | —                      | —       |
 | label                 | the value of Radio                   | string / number / boolean | —                      | —       |
@@ -68,9 +68,9 @@ radio/with-borders
 
 ## Radio Events
 
-| Event Name | Description                           | Parameters                          |
-| ---------- | ------------------------------------- | ----------------------------------- |
-| change     | triggers when the bound value changes | the label value of the chosen radio |
+| Name   | Description                           | Parameters                          |
+| ------ | ------------------------------------- | ----------------------------------- |
+| change | triggers when the bound value changes | the label value of the chosen radio |
 
 ## Radio Slots
 
@@ -80,7 +80,7 @@ radio/with-borders
 
 ## Radio-group Attributes
 
-| Attribute             | Description                                       | Type                      | Accepted Values         | Default |
+| Name                  | Description                                       | Type                      | Accepted Values         | Default |
 | --------------------- | ------------------------------------------------- | ------------------------- | ----------------------- | ------- |
 | model-value / v-model | binding value                                     | string / number / boolean | —                       | —       |
 | size                  | the size of radio                                 | string                    | large / default / small | default |
@@ -91,9 +91,9 @@ radio/with-borders
 
 ## Radio-group Events
 
-| Event Name | Description                           | Parameters                          |
-| ---------- | ------------------------------------- | ----------------------------------- |
-| change     | triggers when the bound value changes | the label value of the chosen radio |
+| Name   | Description                           | Parameters                          |
+| ------ | ------------------------------------- | ----------------------------------- |
+| change | triggers when the bound value changes | the label value of the chosen radio |
 
 ## Radio-group Slots
 
@@ -103,11 +103,11 @@ radio/with-borders
 
 ## Radio-button Attributes
 
-| Attribute | Description               | Type            | Accepted Values | Default |
-| --------- | ------------------------- | --------------- | --------------- | ------- |
-| label     | the value of radio        | string / number | —               | —       |
-| disabled  | whether radio is disabled | boolean         | —               | false   |
-| name      | native 'name' attribute   | string          | —               | —       |
+| Name     | Description               | Type            | Accepted Values | Default |
+| -------- | ------------------------- | --------------- | --------------- | ------- |
+| label    | the value of radio        | string / number | —               | —       |
+| disabled | whether radio is disabled | boolean         | —               | false   |
+| name     | native 'name' attribute   | string          | —               | —       |
 
 ## Radio-button Slots
 

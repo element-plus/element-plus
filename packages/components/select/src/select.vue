@@ -3,6 +3,8 @@
     ref="selectWrapper"
     v-click-outside:[popperPaneRef]="handleClose"
     :class="wrapperKls"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
     @click.stop="toggleMenu"
   >
     <el-tooltip
@@ -22,7 +24,11 @@
       @show="handleMenuEnter"
     >
       <template #default>
-        <div class="select-trigger">
+        <div
+          class="select-trigger"
+          @mouseenter="inputHovering = true"
+          @mouseleave="inputHovering = false"
+        >
           <div
             v-if="multiple"
             ref="tags"
@@ -189,8 +195,6 @@
             @keydown.enter.stop.prevent="selectOption"
             @keydown.esc="handleKeydownEscape"
             @keydown.tab="visible = false"
-            @mouseenter="inputHovering = true"
-            @mouseleave="inputHovering = false"
           >
             <template v-if="$slots.prefix" #prefix>
               <div
@@ -464,6 +468,8 @@ export default defineComponent({
       scrollbar,
       queryChange,
       groupQueryChange,
+      handleMouseEnter,
+      handleMouseLeave,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -652,6 +658,8 @@ export default defineComponent({
       selectTagsStyle,
       nsSelect,
       tagTextStyle,
+      handleMouseEnter,
+      handleMouseLeave,
     }
   },
 })

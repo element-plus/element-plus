@@ -64,7 +64,7 @@ popover/directive-usage
 
 ## Attributes
 
-| Attribute                 | Description                                                                                                                                                              | Type            | Accepted Values                                                                                           | Default                                                                    |
+| Name                      | Description                                                                                                                                                              | Type            | Accepted Values                                                                                           | Default                                                                    |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | trigger                   | how the popover is triggered                                                                                                                                             | string          | click/focus/hover/contextmenu                                                                             | click                                                                      |
 | title                     | popover title                                                                                                                                                            | string          | —                                                                                                         | —                                                                          |
@@ -95,7 +95,7 @@ popover/directive-usage
 
 ## Events
 
-| Event Name   | Description                                   | Parameters |
+| Name         | Description                                   | Parameters |
 | ------------ | --------------------------------------------- | ---------- |
 | show         | triggers when popover shows                   | —          |
 | before-enter | triggers when the entering transition befores | —          |

@@ -20,10 +20,12 @@ import {
 import {
   debugWarn,
   getComponentSize,
+  isFunction,
   isKorean,
   scrollIntoView,
 } from '@element-plus/utils'
 import {
+  useDeprecated,
   useFormItem,
   useLocale,
   useNamespace,
@@ -60,6 +62,7 @@ export function useSelectStates(props) {
     isSilentBlur: false,
     prefixWidth: 11,
     tagInMultiLine: false,
+    mouseEnter: false,
   })
 }
 
@@ -68,6 +71,17 @@ type States = ReturnType<typeof useSelectStates>
 export const useSelect = (props, states: States, ctx) => {
   const { t } = useLocale()
   const ns = useNamespace('select')
+
+  useDeprecated(
+    {
+      from: 'suffixTransition',
+      replacement: 'override style scheme',
+      version: '2.3.0',
+      scope: 'props',
+      ref: 'https://element-plus.org/en-US/component/select.html#select-attributes',
+    },
+    computed(() => props.suffixTransition === false)
+  )
 
   // template refs
   const reference = ref<ComponentPublicInstance<{
@@ -230,6 +244,14 @@ export const useSelect = (props, states: States, ctx) => {
     () => states.visible,
     (val) => {
       if (!val) {
+        if (props.filterable) {
+          if (isFunction(props.filterMethod)) {
+            props.filterMethod()
+          }
+          if (isFunction(props.remoteMethod)) {
+            props.remoteMethod()
+          }
+        }
         input.value && input.value.blur()
         states.query = ''
         states.previousQuery = null
@@ -779,7 +801,10 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
-  const toggleMenu = () => {
+  const toggleMenu = (e?: PointerEvent) => {
+    if (e && !states.mouseEnter) {
+      return
+    }
     if (!selectDisabled.value) {
       if (states.menuVisibleOnFocus) {
         states.menuVisibleOnFocus = false
@@ -844,6 +869,14 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
+  const handleMouseEnter = () => {
+    states.mouseEnter = true
+  }
+
+  const handleMouseLeave = () => {
+    states.mouseEnter = false
+  }
+
   return {
     optionsArray,
     selectSize,
@@ -893,5 +926,9 @@ export const useSelect = (props, states: States, ctx) => {
     tags,
     selectWrapper,
     scrollbar,
+
+    // Mouser Event
+    handleMouseEnter,
+    handleMouseLeave,
   }
 }

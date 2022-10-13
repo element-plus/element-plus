@@ -111,7 +111,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 
 ## Select Attributes
 
-| Attribute                         | Description                                                                                                                 | Type                                       | Accepted Values                                                                                           | Default          |
+| Name                              | Description                                                                                                                 | Type                                       | Accepted Values                                                                                           | Default          |
 | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------------------------------- | ---------------- |
 | model-value / v-model             | binding value                                                                                                               | array / string / number / boolean / object | —                                                                                                         | —                |
 | multiple                          | whether multiple-select is activated                                                                                        | boolean                                    | true / false                                                                                              | false            |
@@ -146,14 +146,19 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | clear-icon                        | Custom clear icon component                                                                                                 | `string \| Component`                      | —                                                                                                         | CircleClose      |
 | fit-input-width                   | whether the width of the dropdown is the same as the input                                                                  | boolean                                    | true / false                                                                                              | false            |
 | suffix-icon                       | Custom suffix icon component                                                                                                | `string \| Component`                      | —                                                                                                         | ArrowDown        |
-| suffix-transition                 | animation when dropdown appears/disappears icon                                                                             | boolean                                    | true / false                                                                                              | true             |
+| suffix-transition <DeprecatedTag />                | animation when dropdown appears/disappears icon                                                                             | boolean                                    | true / false                                                                                              | true             |
 | tag-type                          | tag type                                                                                                                    | string                                     | success/info/warning/danger                                                                               | info             |
 | validate-event                    | whether to trigger form validation                                                                                          | boolean                                    | true / false                                                                                              | true             |
 | placement                         | position of dropdown                                                                                                        | string                                     | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom-start     |
 
+:::warning
+
+`suffix-transition` has been **deprecated**, and **will be** removed in <VersionTag version="2.3.0" />, please use override style scheme.
+
+:::
 ## Select Events
 
-| Event Name     | Description                                                   | Parameters                                |
+| Name           | Description                                                   | Parameters                                |
 | -------------- | ------------------------------------------------------------- | ----------------------------------------- |
 | change         | triggers when the selected value changes                      | current selected value                    |
 | visible-change | triggers when the dropdown appears/disappears                 | true when it appears, and false otherwise |
@@ -172,10 +177,10 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 
 ## Option Group Attributes
 
-| Attribute | Description                                  | Type    | Accepted Values | Default |
-| --------- | -------------------------------------------- | ------- | --------------- | ------- |
-| label     | name of the group                            | string  | —               | —       |
-| disabled  | whether to disable all options in this group | boolean | —               | false   |
+| Name     | Description                                  | Type    | Accepted Values | Default |
+| -------- | -------------------------------------------- | ------- | --------------- | ------- |
+| label    | name of the group                            | string  | —               | —       |
+| disabled | whether to disable all options in this group | boolean | —               | false   |
 
 ## Option Group Slots
 
@@ -185,11 +190,11 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 
 ## Option Attributes
 
-| Attribute | Description                                 | Type                               | Accepted Values | Default |
-| --------- | ------------------------------------------- | ---------------------------------- | --------------- | ------- |
-| value     | value of option                             | string / number / boolean / object | —               | —       |
-| label     | label of option, same as `value` if omitted | string/number                      | —               | —       |
-| disabled  | whether option is disabled                  | boolean                            | —               | false   |
+| Name     | Description                                 | Type                               | Accepted Values | Default |
+| -------- | ------------------------------------------- | ---------------------------------- | --------------- | ------- |
+| value    | value of option                             | string / number / boolean / object | —               | —       |
+| label    | label of option, same as `value` if omitted | string/number                      | —               | —       |
+| disabled | whether option is disabled                  | boolean                            | —               | false   |
 
 ## Option Slots
 
