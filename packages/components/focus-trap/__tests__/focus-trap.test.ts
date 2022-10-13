@@ -2,8 +2,8 @@ import { h, inject, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
+import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/tokens'
 import ElFocusTrap from '../src/focus-trap.vue'
-import { FOCUS_TRAP_INJECTION_KEY } from '../src/tokens'
 
 const AXIOM = 'rem is the best girl'
 
