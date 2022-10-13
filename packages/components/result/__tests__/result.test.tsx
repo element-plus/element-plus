@@ -1,8 +1,8 @@
-// @ts-nocheck
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import Result from '../src/result.vue'
+import type { ResultProps } from '../src/result'
 
 const AXIOM = 'Rem is the best girl'
 
@@ -24,7 +24,7 @@ describe('Result.vue', () => {
   })
 
   test('should render icon props', async () => {
-    const icon = ref('success')
+    const icon = ref<ResultProps['icon']>('success')
     const wrapper = mount(() => <Result icon={icon.value} />)
     expect(wrapper.find('.el-result__icon svg').exists()).toBe(true)
     expect(wrapper.find('.el-result__icon svg').classes()).toContain(

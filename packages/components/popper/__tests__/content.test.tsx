@@ -4,6 +4,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
 import ElContent from '../src/content.vue'
 
+import type { VueWrapper } from '@vue/test-utils'
+import type { PopperContentInstance } from '../src/content'
+
 const AXIOM = 'rem is the best girl'
 const popperInjection = {
   triggerRef: ref(),
@@ -12,11 +15,7 @@ const popperInjection = {
 }
 
 const mountContent = (props = {}) =>
-  mount(ElContent, {
-    props,
-    slots: {
-      default: () => AXIOM,
-    },
+  mount(<ElContent {...props}>{AXIOM}</ElContent>, {
     global: {
       provide: {
         [POPPER_INJECTION_KEY as symbol]: popperInjection,
@@ -27,7 +26,8 @@ const mountContent = (props = {}) =>
 describe('<ElPopperContent />', () => {
   describe('with triggerRef provided', () => {
     const triggerKls = 'el-popper__trigger'
-    let wrapper: ReturnType<typeof mountContent>
+    let wrapper: VueWrapper<PopperContentInstance>
+
     beforeEach(() => {
       const trigger = document.createElement('div')
       trigger.className = triggerKls

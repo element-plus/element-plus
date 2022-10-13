@@ -195,20 +195,26 @@ function showDecimalIcon(item: number) {
   return showWhenDisabled || showWhenAllowHalf
 }
 
+function emitValue(value: number) {
+  // if allow clear, and selected value is same as modelValue, reset value to 0
+  if (props.clearable && value === props.modelValue) {
+    value = 0
+  }
+
+  emit(UPDATE_MODEL_EVENT, value)
+  if (props.modelValue !== value) {
+    emit('change', value)
+  }
+}
+
 function selectValue(value: number) {
   if (rateDisabled.value) {
     return
   }
   if (props.allowHalf && pointerAtLeftHalf.value) {
-    emit(UPDATE_MODEL_EVENT, currentValue.value)
-    if (props.modelValue !== currentValue.value) {
-      emit('change', currentValue.value)
-    }
+    emitValue(currentValue.value)
   } else {
-    emit(UPDATE_MODEL_EVENT, value)
-    if (props.modelValue !== value) {
-      emit('change', value)
-    }
+    emitValue(value)
   }
 }
 

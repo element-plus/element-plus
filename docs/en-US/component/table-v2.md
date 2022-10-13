@@ -342,14 +342,15 @@ table-v2/manual-scroll
 
 ## TableV2 Events
 
-| Name                 | Description                                   | Parameters                               |
-| -------------------- | --------------------------------------------- | ---------------------------------------- |
-| column-sort          | Invoked when column sorted                    | Object\<ColumnSortParam\>                |
-| expanded-rows-change | Invoked when expanded rows changed            | `Array<KeyType>`                         |
-| end-reached          | Invoked when the end of the table is reached  | -                                        |
-| scroll               | Invoked after scrolled                        | Object\<[ScrollParams](#typings)\>       |
-| rows-rendered        | Invoked when rows are rendered                | Object\<[RowsRenderedParams](#typings)\> |
-| row-event-handlers   | A collection of handlers attached to each row | Object\<[RowEventHandlers](#typings)\>   |
+| Name                 | Description                                                           | Parameters                               |
+| -------------------- | --------------------------------------------------------------------- | ---------------------------------------- |
+| column-sort          | Invoked when column sorted                                            | Object\<ColumnSortParam\>                |
+| expanded-rows-change | Invoked when expanded rows changed                                    | `Array<KeyType>`                         |
+| end-reached          | Invoked when the end of the table is reached                          | -                                        |
+| scroll               | Invoked after scrolled                                                | Object\<[ScrollParams](#typings)\>       |
+| rows-rendered        | Invoked when rows are rendered                                        | Object\<[RowsRenderedParams](#typings)\> |
+| row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon | Object\<[RowExpandParams](#typings)\>    |
+| row-event-handlers   | A collection of handlers attached to each row                         | Object\<[RowEventHandlers](#typings)\>   |
 
 ## TableV2 Methods
 

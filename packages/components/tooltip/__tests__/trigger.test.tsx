@@ -1,10 +1,12 @@
 import { nextTick } from 'vue'
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
 import ElTooltipTrigger from '../src/trigger.vue'
 import { genTooltipProvides } from '../test-helper/provides'
-import { TOOLTIP_INJECTION_KEY } from '../src/tokens'
+
+import type { VueWrapper } from '@vue/test-utils'
 
 const AXIOM = 'rem is the best girl'
 
@@ -38,18 +40,22 @@ describe('<ElTooltipTrigger />', () => {
   }
 
   const createComponent = (props = {}) =>
-    shallowMount(ElTooltipTrigger, {
-      props,
-      global: {
-        provide: defaultProvide,
+    mount(
+      {
+        setup() {
+          return () => <ElTooltipTrigger {...props}>{AXIOM}</ElTooltipTrigger>
+        },
       },
-      slots: {
-        default: () => AXIOM,
-      },
-      attachTo: document.body,
-    })
+      {
+        global: {
+          provide: defaultProvide,
+          stubs: ['ElPopperTrigger'],
+        },
+        attachTo: document.body,
+      }
+    )
 
-  let wrapper: ReturnType<typeof createComponent>
+  let wrapper: VueWrapper<any>
 
   afterEach(() => {
     open.value = false
@@ -71,7 +77,9 @@ describe('<ElTooltipTrigger />', () => {
         controlled.value = true
         await nextTick()
 
-        const { vm } = wrapper
+        const { vm } = wrapper.findComponent(
+          ElTooltipTrigger
+        ) as VueWrapper<any>
         const blurEvt = new FocusEvent('blur')
         vm.onBlur(blurEvt)
         await nextTick()
@@ -111,7 +119,9 @@ describe('<ElTooltipTrigger />', () => {
         wrapper = createComponent()
         await nextTick()
 
-        const { vm } = wrapper
+        const { vm } = wrapper.findComponent(
+          ElTooltipTrigger
+        ) as VueWrapper<any>
         await wrapper.setProps({
           trigger: 'focus',
         })

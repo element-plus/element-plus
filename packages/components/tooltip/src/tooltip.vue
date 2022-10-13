@@ -47,10 +47,9 @@
   </el-popper>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {
   computed,
-  defineComponent,
   onDeactivated,
   provide,
   readonly,
@@ -59,171 +58,155 @@ import {
   unref,
   watch,
 } from 'vue'
-import {
-  ElPopper,
-  ElPopperArrow,
-  usePopperArrowProps,
-  usePopperProps,
-} from '@element-plus/components/popper'
+import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
 
 import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils'
 import {
-  createModelToggleComposable,
   useDelayedToggle,
   useId,
   usePopperContainer,
 } from '@element-plus/hooks'
-import ElTooltipContent from './content.vue'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
-import {
-  useTooltipContentProps,
-  useTooltipProps,
-  useTooltipTriggerProps,
-} from './tooltip'
-import { TOOLTIP_INJECTION_KEY } from './tokens'
+import ElTooltipContent from './content.vue'
 
-const { useModelToggleProps, useModelToggle, useModelToggleEmits } =
-  createModelToggleComposable('visible' as const)
-
-export default defineComponent({
+defineOptions({
   name: 'ElTooltip',
-  components: {
-    ElPopper,
-    ElPopperArrow,
-    ElTooltipContent,
-    ElTooltipTrigger,
-  },
-  props: {
-    ...usePopperProps,
-    ...useModelToggleProps,
-    ...useTooltipContentProps,
-    ...useTooltipTriggerProps,
-    ...usePopperArrowProps,
-    ...useTooltipProps,
-  },
-  emits: [
-    ...useModelToggleEmits,
-    'before-show',
-    'before-hide',
-    'show',
-    'hide',
-    'open',
-    'close',
-  ],
-  setup(props, { emit }) {
-    usePopperContainer()
-    const compatShowAfter = computed(() => {
-      if (!isUndefined(props.openDelay)) {
-        debugWarn(
-          'ElTooltip',
-          'open-delay is about to be deprecated in the next major version, please use `show-after` instead'
-        )
-      }
-      return props.openDelay || (props.showAfter as number)
-    })
-    const compatShowArrow = computed(() => {
-      if (!isUndefined(props.visibleArrow)) {
-        debugWarn(
-          'ElTooltip',
-          '`visible-arrow` is about to be deprecated in the next major version, please use `show-arrow` instead'
-        )
-      }
-      return isBoolean(props.visibleArrow)
-        ? props.visibleArrow
-        : props.showArrow
-    })
+})
 
-    const id = useId()
-    const popperRef = ref<InstanceType<typeof ElPopper> | null>(null)
-    const contentRef = ref<InstanceType<typeof ElTooltipContent> | null>(null)
+const props = defineProps(useTooltipProps)
+const emit = defineEmits(tooltipEmits)
 
-    const updatePopper = () => {
-      const popperComponent = unref(popperRef)
-      if (popperComponent) {
-        popperComponent.popperInstanceRef?.update()
-      }
-    }
-    const open = ref(false)
-    const toggleReason = ref<Event | undefined>(undefined)
-
-    const { show, hide, hasUpdateHandler } = useModelToggle({
-      indicator: open,
-      toggleReason,
-    })
-
-    const { onOpen, onClose } = useDelayedToggle({
-      showAfter: compatShowAfter,
-      hideAfter: toRef(props, 'hideAfter'),
-      open: show,
-      close: hide,
-    })
-
-    const controlled = computed(
-      () => isBoolean(props.visible) && !hasUpdateHandler.value
+usePopperContainer()
+const compatShowAfter = computed(() => {
+  if (!isUndefined(props.openDelay)) {
+    debugWarn(
+      'ElTooltip',
+      'open-delay is about to be deprecated in the next major version, please use `show-after` instead'
     )
-
-    provide(TOOLTIP_INJECTION_KEY, {
-      controlled,
-      id,
-      open: readonly(open),
-      trigger: toRef(props, 'trigger'),
-      onOpen: (event?: Event) => {
-        onOpen(event)
-      },
-      onClose: (event?: Event) => {
-        onClose(event)
-      },
-      onToggle: (event?: Event) => {
-        if (unref(open)) {
-          onClose(event)
-        } else {
-          onOpen(event)
-        }
-      },
-      onShow: () => {
-        emit('show', toggleReason.value)
-      },
-      onHide: () => {
-        emit('hide', toggleReason.value)
-      },
-      onBeforeShow: () => {
-        emit('before-show', toggleReason.value)
-      },
-      onBeforeHide: () => {
-        emit('before-hide', toggleReason.value)
-      },
-      updatePopper,
-    })
-
-    watch(
-      () => props.disabled,
-      (disabled) => {
-        if (disabled && open.value) {
-          open.value = false
-        }
-      }
+  }
+  return props.openDelay || (props.showAfter as number)
+})
+const compatShowArrow = computed(() => {
+  if (!isUndefined(props.visibleArrow)) {
+    debugWarn(
+      'ElTooltip',
+      '`visible-arrow` is about to be deprecated in the next major version, please use `show-arrow` instead'
     )
+  }
+  return isBoolean(props.visibleArrow) ? props.visibleArrow : props.showArrow
+})
 
-    const isFocusInsideContent = () => {
-      const popperContent: HTMLElement | undefined =
-        contentRef.value?.contentRef?.popperContentRef
-      return popperContent && popperContent.contains(document.activeElement)
-    }
+const id = useId()
+// TODO any is temporary, replace with `InstanceType<typeof ElPopper> | null` later
+const popperRef = ref<any>()
+// TODO any is temporary, replace with `InstanceType<typeof ElTooltipContent> | null` later
+const contentRef = ref<any>()
 
-    onDeactivated(() => open.value && hide())
+const updatePopper = () => {
+  const popperComponent = unref(popperRef)
+  if (popperComponent) {
+    popperComponent.popperInstanceRef?.update()
+  }
+}
+const open = ref(false)
+const toggleReason = ref<Event>()
 
-    return {
-      compatShowAfter,
-      compatShowArrow,
-      popperRef,
-      contentRef,
-      open,
-      hide,
-      isFocusInsideContent,
-      updatePopper,
-      onOpen,
-      onClose,
+const { show, hide, hasUpdateHandler } = useTooltipModelToggle({
+  indicator: open,
+  toggleReason,
+})
+
+const { onOpen, onClose } = useDelayedToggle({
+  showAfter: compatShowAfter,
+  hideAfter: toRef(props, 'hideAfter'),
+  open: show,
+  close: hide,
+})
+
+const controlled = computed(
+  () => isBoolean(props.visible) && !hasUpdateHandler.value
+)
+
+provide(TOOLTIP_INJECTION_KEY, {
+  controlled,
+  id,
+  open: readonly(open),
+  trigger: toRef(props, 'trigger'),
+  onOpen: (event?: Event) => {
+    onOpen(event)
+  },
+  onClose: (event?: Event) => {
+    onClose(event)
+  },
+  onToggle: (event?: Event) => {
+    if (unref(open)) {
+      onClose(event)
+    } else {
+      onOpen(event)
     }
   },
+  onShow: () => {
+    emit('show', toggleReason.value)
+  },
+  onHide: () => {
+    emit('hide', toggleReason.value)
+  },
+  onBeforeShow: () => {
+    emit('before-show', toggleReason.value)
+  },
+  onBeforeHide: () => {
+    emit('before-hide', toggleReason.value)
+  },
+  updatePopper,
+})
+
+watch(
+  () => props.disabled,
+  (disabled) => {
+    if (disabled && open.value) {
+      open.value = false
+    }
+  }
+)
+
+const isFocusInsideContent = () => {
+  const popperContent: HTMLElement | undefined =
+    contentRef.value?.contentRef?.popperContentRef
+  return popperContent && popperContent.contains(document.activeElement)
+}
+
+onDeactivated(() => open.value && hide())
+
+defineExpose({
+  /**
+   * @description el-popper component instance
+   */
+  popperRef,
+  /**
+   * @description el-tooltip-content component instance
+   */
+  contentRef,
+  /**
+   * @description validate current focus event is trigger inside el-tooltip-content
+   */
+  isFocusInsideContent,
+  /**
+   * @description update el-popper component instance
+   */
+  updatePopper,
+  /**
+   * @description expose onOpen function to mange el-tooltip open state
+   */
+  onOpen,
+  /**
+   * @description expose onOpen function to mange el-tooltip open state
+   */
+  onClose,
+  /**
+   * @description expose hide function
+   */
+  hide,
 })
 </script>
