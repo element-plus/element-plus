@@ -45,10 +45,6 @@ export function useOption(props, states) {
     return props.label || (isObject.value ? '' : props.value)
   })
 
-  const currentValue = computed(() => {
-    return props.value || props.label || ''
-  })
-
   const isDisabled = computed(() => {
     return props.disabled || states.groupDisabled || limitReached.value
   })
@@ -94,22 +90,14 @@ export function useOption(props, states) {
   watch(
     () => props.value,
     (val, oldVal) => {
-      const { remote, valueKey } = select.props
+      const { remote } = select.props
 
-      if (!Object.is(val, oldVal)) {
+      if (!isEqual(val, oldVal)) {
         select.onOptionDestroy(oldVal, instance.proxy)
         select.onOptionCreate(instance.proxy)
       }
 
-      if (!props.created && !remote) {
-        if (
-          valueKey &&
-          typeof val === 'object' &&
-          typeof oldVal === 'object' &&
-          val[valueKey] === oldVal[valueKey]
-        ) {
-          return
-        }
+      if (!props.created && !remote && !isEqual(val, oldVal)) {
         select.setSelected()
       }
     }
@@ -137,7 +125,6 @@ export function useOption(props, states) {
   return {
     select,
     currentLabel,
-    currentValue,
     itemSelected,
     isDisabled,
     hoverItem,

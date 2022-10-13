@@ -531,7 +531,6 @@ export const useSelect = (props, states: States, ctx) => {
 
   const resetHoverIndex = () => {
     setTimeout(() => {
-      const valueKey = props.valueKey
       if (!props.multiple) {
         states.hoverIndex = optionsArray.value.findIndex((item) => {
           return getValueKey(item) === getValueKey(states.selected)
@@ -542,7 +541,7 @@ export const useSelect = (props, states: States, ctx) => {
             null,
             states.selected.map((selected) => {
               return optionsArray.value.findIndex((item) => {
-                return get(item, valueKey) === get(selected, valueKey)
+                return getValueKey(item) === getValueKey(selected)
               })
             })
           )
@@ -707,15 +706,15 @@ export const useSelect = (props, states: States, ctx) => {
   const onOptionCreate = (vm: SelectOptionProxy) => {
     states.optionsCount++
     states.filteredOptionsCount++
-    states.options.set(vm.value, vm)
-    states.cachedOptions.set(vm.value, vm)
+    states.options.set(getValueKey(vm.value), vm)
+    states.cachedOptions.set(getValueKey(vm.value), vm)
   }
 
-  const onOptionDestroy = (key, vm: SelectOptionProxy) => {
-    if (states.options.get(key) === vm) {
+  const onOptionDestroy = (item, vm: SelectOptionProxy) => {
+    if (states.options.get(getValueKey(item)) === vm) {
       states.optionsCount--
       states.filteredOptionsCount--
-      states.options.delete(key)
+      states.options.delete(getValueKey(item))
     }
   }
 

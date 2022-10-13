@@ -538,6 +538,7 @@ export default defineComponent({
         setSelected,
         queryChange,
         groupQueryChange,
+        getValueKey,
       }) as unknown as SelectContext
     )
 

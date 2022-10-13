@@ -32,6 +32,7 @@ export interface SelectContext {
   onOptionCreate(vm: SelectOptionProxy): void
   onOptionDestroy(key: number | string | Record<string, any>): void
   handleOptionSelect(vm: unknown, byClick: boolean): void
+  getValueKey: (item: any) => any
 }
 
 // For individual build sharing injection key, we had to make `Symbol` to string
