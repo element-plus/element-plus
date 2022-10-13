@@ -50,15 +50,17 @@
             v-if="activeText"
             :class="[ns.is('text'), checked ? ns.is('show') : ns.is('hide')]"
             :aria-hidden="!checked"
+            :style="textStyle"
           >
-            {{ activeText.substring(0, 3) }}
+            {{ activeText }}
           </span>
           <span
             v-if="inactiveText"
             :class="[ns.is('text'), !checked ? ns.is('show') : ns.is('hide')]"
             :aria-hidden="checked"
+            :style="textStyle"
           >
-            {{ inactiveText.substring(0, 3) }}
+            {{ inactiveText }}
           </span>
         </template>
       </div>
@@ -151,9 +153,14 @@ const switchKls = computed(() => [
   ns.is('disabled', switchDisabled.value),
   ns.is('checked', checked.value),
 ])
+console.log(props.width)
 
 const coreStyle = computed<CSSProperties>(() => ({
   width: addUnit(props.width),
+}))
+const textStyle = computed<CSSProperties>(() => ({
+  maxWidth: `calc(${addUnit(props.width)} - 32px)`,
+  overflow: 'hidden',
 }))
 
 watch(
