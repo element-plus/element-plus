@@ -75,7 +75,7 @@ const tableRows = ref<DateCell[][]>([[], [], [], [], [], []])
 let focusWithClick = false
 const tableEl = ref<HTMLElement>()
 onMounted(() => {
-  changeUpdate(tableEl.value.querySelector('td.available.current'))
+  changeUpdate(tableEl.value?.querySelector('td.available.current'))
 })
 
 // todo better way to get Day.js locale object
@@ -451,7 +451,7 @@ watch(
   () => props.parsedValue,
   async () => {
     await nextTick()
-    changeUpdate(tableEl.value.querySelector('td.available.current'))
+    changeUpdate(tableEl.value?.querySelector('td.available.current'))
   }
 )
 
