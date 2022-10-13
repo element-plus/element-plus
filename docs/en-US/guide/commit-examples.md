@@ -1,8 +1,3 @@
----
-title: Commit Examples
-lang: en-US
----
-
 # Commit Examples
 
 ## Why this chapter exists

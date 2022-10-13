@@ -1,8 +1,3 @@
----
-title: Local Development
-lang: en-US
----
-
 # Local Development
 
 ## Bootstrap project
