@@ -169,6 +169,7 @@ $switch-button-size: map.merge(('large': 20px,
         user-select: none;
         width: 100%;
         overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
