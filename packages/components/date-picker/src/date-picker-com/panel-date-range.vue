@@ -596,8 +596,7 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
         .hour(parsedValueD.hour())
         .minute(parsedValueD.minute())
         .second(parsedValueD.second())
-      rightDate.value = maxDate.value
-      if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
+      if (!minDate.value || maxDate.value.isBefore(minDate.value)) {
         minDate.value = maxDate.value
       }
     }
@@ -607,10 +606,8 @@ const handleTimeInput = (value: string | null, type: ChangeType) => {
 const handleTimeChange = (value: string | null, type: ChangeType) => {
   timeUserInput.value[type] = null
   if (type === 'min') {
-    leftDate.value = minDate.value!
     minTimePickerVisible.value = false
   } else {
-    rightDate.value = maxDate.value!
     maxTimePickerVisible.value = false
   }
 }
