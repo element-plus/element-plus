@@ -256,11 +256,6 @@ function useWatcher<T>() {
       return
     }
 
-    let selectedMap
-    if (rowKey.value) {
-      selectedMap = getKeysMap(selection.value, rowKey.value)
-    }
-
     let isAllSelected_ = true
     let selectedCount = 0
     let childrenCount = 0
