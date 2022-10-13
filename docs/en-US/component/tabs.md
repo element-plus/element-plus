@@ -93,10 +93,10 @@ tabs/customized-trigger
 | Name       | Description                                           | Parameters                                                           |
 | ---------- | ----------------------------------------------------- | -------------------------------------------------------------------- |
 | tab-click  | triggers when a tab is clicked                        | (pane: `TabsPaneContext`, ev: `Event`)                               |
-| tab-change | triggers when `activeName` is changed                 | (name: `TabPanelName`)                                               |
-| tab-remove | triggers when tab-remove button is clicked            | (name: `TabPanelName`)                                               |
+| tab-change | triggers when `activeName` is changed                 | (name: `TabPaneName`)                                               |
+| tab-remove | triggers when tab-remove button is clicked            | (name: `TabPaneName`)                                               |
 | tab-add    | triggers when tab-add button is clicked               | —                                                                    |
-| edit       | triggers when tab-add button or tab-remove is clicked | (paneName: `TabPanelName \| undefined`, action: `'remove' \| 'add'`) |
+| edit       | triggers when tab-add button or tab-remove is clicked | (paneName: `TabPaneName \| undefined`, action: `'remove' \| 'add'`) |
 
 ## Tabs Slots
 
