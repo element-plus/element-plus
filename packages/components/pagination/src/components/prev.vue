@@ -7,14 +7,15 @@
     @click="$emit('click', $event)"
   >
     <span v-if="prevText">{{ prevText }}</span>
-    <el-icon v-else><arrow-left /></el-icon>
+    <el-icon v-else>
+      <component :is="prevIcon" />
+    </el-icon>
   </button>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { ArrowLeft } from '@element-plus/icons-vue'
 import { paginationPrevEmits, paginationPrevProps } from './prev'
 
 defineOptions({

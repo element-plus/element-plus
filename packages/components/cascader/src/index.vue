@@ -105,7 +105,7 @@
                 <template #content>
                   <div :class="nsCascader.e('collapse-tags')">
                     <div
-                      v-for="(tag2, idx) in allPresentTags"
+                      v-for="(tag2, idx) in allPresentTags.slice(1)"
                       :key="idx"
                       :class="nsCascader.e('collapse-tag')"
                     >
@@ -444,9 +444,7 @@ export default defineComponent({
           updatePopperPosition()
           nextTick(panel.value?.scrollToExpandingNode)
         } else if (props.filterable) {
-          const { value } = presentText
-          inputValue.value = value
-          searchInputValue.value = value
+          syncPresentTextValue()
         }
 
         emit('visible-change', visible)
@@ -630,7 +628,16 @@ export default defineComponent({
 
     const handleClear = () => {
       panel.value?.clearCheckedNodes()
+      if (!popperVisible.value && props.filterable) {
+        syncPresentTextValue()
+      }
       togglePopperVisible(false)
+    }
+
+    const syncPresentTextValue = () => {
+      const { value } = presentText
+      inputValue.value = value
+      searchInputValue.value = value
     }
 
     const handleSuggestionClick = (node: CascaderNode) => {
@@ -672,7 +679,12 @@ export default defineComponent({
       const lastTag = tags[tags.length - 1]
       pressDeleteCount = searchInputValue.value ? 0 : pressDeleteCount + 1
 
-      if (!lastTag || !pressDeleteCount) return
+      if (
+        !lastTag ||
+        !pressDeleteCount ||
+        (props.collapseTags && tags.length > 1)
+      )
+        return
 
       if (lastTag.hitState) {
         deleteTag(lastTag)
@@ -715,7 +727,7 @@ export default defineComponent({
       nextTick(() => updateStyle())
     })
 
-    watch(presentText, (val) => (inputValue.value = val), { immediate: true })
+    watch(presentText, syncPresentTextValue, { immediate: true })
 
     onMounted(() => {
       const inputEl = input.value?.$el
