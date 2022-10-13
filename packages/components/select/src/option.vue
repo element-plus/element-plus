@@ -19,7 +19,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   defineComponent,
   getCurrentInstance,
@@ -64,7 +63,7 @@ export default defineComponent({
 
     const { visible, hover } = toRefs(states)
 
-    const vm = getCurrentInstance().proxy
+    const vm = getCurrentInstance()!.proxy as unknown as SelectOptionProxy
 
     select.onOptionCreate(vm)
 
@@ -72,7 +71,7 @@ export default defineComponent({
       const { selected, getValueKey } = select
       const key = getValueKey(vm)
       const selectedOptions = select.props.multiple ? selected : [selected]
-      const doesSelected = selectedOptions.some((item) => {
+      const doesSelected = selectedOptions.some((item: any) => {
         return getValueKey(item) === key
       })
       // if option is not selected, remove it from cache

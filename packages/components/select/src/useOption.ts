@@ -9,7 +9,7 @@ import type { QueryChangeCtx } from './token'
 
 export function useOption(props, states) {
   // inject
-  const select = inject(selectKey)
+  const select = inject(selectKey)!
   const selectGroup = inject(selectGroupKey, { disabled: false })
 
   // computed

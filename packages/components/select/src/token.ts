@@ -30,7 +30,10 @@ export interface SelectContext {
   selected: any | any[]
   setSelected(): void
   onOptionCreate(vm: SelectOptionProxy): void
-  onOptionDestroy(key: number | string | Record<string, any>): void
+  onOptionDestroy(
+    key: number | string | Record<string, any>,
+    vm: SelectOptionProxy
+  ): void
   handleOptionSelect(vm: unknown, byClick: boolean): void
   getValueKey: (item: any) => any
 }
