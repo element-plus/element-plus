@@ -1,10 +1,10 @@
-// @ts-nocheck
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Drawer from '../src/drawer.vue'
 import Button from '../../button/src/button.vue'
+import type { DrawerProps } from '../src/drawer'
 
 const title = 'Drawer Title'
 const content = 'content'
@@ -41,22 +41,12 @@ describe('Drawer', () => {
   })
 
   test('should append to body, when append-to-body flag is true', async () => {
-    const wrapper = mount({
-      data: () => ({ visible: false }),
-      render() {
-        return (
-          <Drawer
-            title={title}
-            modelValue={this.visible}
-            append-to-body={true}
-          />
-        )
-      },
-    })
+    const visible = ref(false)
+    mount(() => (
+      <Drawer title={title} v-model={visible.value} append-to-body={true} />
+    ))
 
-    const vm = wrapper.vm as any
-
-    vm.visible = true
+    visible.value = true
     await nextTick()
     await rAF()
     await nextTick()
@@ -70,22 +60,18 @@ describe('Drawer', () => {
     const onClosed = vi.fn()
     const onOpened = vi.fn()
 
-    const wrapper = mount({
-      data: () => ({ visible: false }),
-      render() {
-        return (
-          <Drawer
-            title={title}
-            modelValue={this.visible}
-            onClose={onClose}
-            onClosed={onClosed}
-            onOpened={onOpened}
-          />
-        )
-      },
-    })
+    const visible = ref(false)
 
-    const vm = wrapper.vm as any
+    const wrapper = mount(() => (
+      <Drawer
+        title={title}
+        v-model={visible.value}
+        onClose={onClose}
+        onClosed={onClosed}
+        onOpened={onOpened}
+      />
+    ))
+
     await nextTick()
     await rAF()
     await nextTick()
@@ -94,7 +80,7 @@ describe('Drawer', () => {
     const drawerEl = wrapper.find('.el-overlay').element as HTMLDivElement
     expect(drawerEl.style.display).toEqual('none')
 
-    vm.visible = true
+    visible.value = true
     await nextTick()
     await rAF()
     expect(drawerEl.style.display).not.toEqual('none')
@@ -128,45 +114,30 @@ describe('Drawer', () => {
   })
 
   test('should close dialog by clicking the close button', async () => {
-    const wrapper = mount({
-      data: () => ({ visible: true }),
-      render() {
-        return (
-          <Drawer
-            title={title}
-            modelValue={this.visible}
-            onUpdate:modelValue={(val) => (this.visible = val)}
-          />
-        )
-      },
-    })
+    const visible = ref(false)
+
+    const wrapper = mount(() => (
+      <Drawer title={title} v-model={visible.value} destroy-on-close />
+    ))
     await nextTick()
     await rAF()
     await nextTick()
-    const vm = wrapper.vm as any
 
     await wrapper.find('.el-drawer__close-btn').trigger('click')
     await nextTick()
     await rAF()
     await nextTick()
-    expect(vm.visible).toEqual(false)
+    expect(visible.value).toEqual(false)
   })
 
   test('should invoke before-close', async () => {
     const beforeClose = vi.fn()
 
-    const wrapper = mount({
-      data: () => ({ visible: false }),
-      render() {
-        return (
-          <Drawer
-            title={title}
-            modelValue={this.visible}
-            beforeClose={beforeClose}
-          />
-        )
-      },
-    })
+    const visible = ref(false)
+
+    const wrapper = mount(() => (
+      <Drawer title={title} v-model={visible.value} destroy-on-close />
+    ))
 
     await wrapper.find('.el-drawer__close-btn').trigger('click')
     expect(beforeClose).toHaveBeenCalled()
@@ -190,11 +161,19 @@ describe('Drawer', () => {
   })
 
   test('drawer header should have slot props', async () => {
-    const wrapper = mount(
+    const wrapper = mount(() => (
       <Drawer
         modelValue={true}
         v-slots={{
-          header: ({ titleId, titleClass, close }) => (
+          header: ({
+            titleId,
+            titleClass,
+            close,
+          }: {
+            titleId: string
+            titleClass: string
+            close: () => void
+          }) => (
             <button
               data-title-id={titleId}
               data-title-class={titleClass}
@@ -203,7 +182,7 @@ describe('Drawer', () => {
           ),
         }}
       />
-    )
+    ))
 
     await nextTick()
     const headerButton = wrapper.find('button')
@@ -225,7 +204,7 @@ describe('Drawer', () => {
   })
 
   describe('directions', () => {
-    const renderer = (direction: string) => {
+    const renderer = (direction: DrawerProps['direction']) => {
       return mount(() => (
         <Drawer title={title} modelValue={true} direction={direction} />
       ))
@@ -253,25 +232,20 @@ describe('Drawer', () => {
     const onClose = vi.fn()
     const onClosed = vi.fn()
 
-    const wrapper = mount({
-      data: () => ({ visible: false }),
-      render() {
-        return (
-          <Drawer
-            title={title}
-            modelValue={this.visible}
-            onClose={onClose}
-            onClosed={onClosed}
-            onOpen={onOpen}
-            onOpened={onOpened}
-          />
-        )
-      },
-    })
+    const visible = ref(false)
 
-    const vm = wrapper.vm as any
+    mount(() => (
+      <Drawer
+        title={title}
+        v-model={visible.value}
+        onClose={onClose}
+        onClosed={onClosed}
+        onOpen={onOpen}
+        onOpened={onOpened}
+      />
+    ))
 
-    vm.visible = true
+    visible.value = true
     await nextTick()
     await nextTick()
     expect(onOpen).toHaveBeenCalled()
@@ -282,7 +256,7 @@ describe('Drawer', () => {
     expect(onClose).not.toHaveBeenCalled()
     expect(onClosed).not.toHaveBeenCalled()
 
-    vm.visible = false
+    visible.value = false
     await nextTick()
     expect(onClose).toHaveBeenCalled()
     await nextTick()
@@ -329,9 +303,13 @@ describe('Drawer', () => {
         <Drawer
           modelValue={true}
           v-slots={{
-            header: ({ titleId, titleClass }) => (
-              <h5 id={titleId} class={titleClass} />
-            ),
+            header: ({
+              titleId,
+              titleClass,
+            }: {
+              titleId: string
+              titleClass: string
+            }) => <h5 id={titleId} class={titleClass} />,
           }}
         />
       ))
