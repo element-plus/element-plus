@@ -9,7 +9,7 @@ lang: en-US
 
 With command
 
-```bash
+```shell
 pnpm i
 ```
 
@@ -19,7 +19,7 @@ the project will install all dependencies.
 
 With command
 
-```bash
+```shell
 pnpm docs:dev
 ```
 
