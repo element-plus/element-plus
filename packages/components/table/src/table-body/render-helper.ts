@@ -116,7 +116,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           'td',
           {
             style: getCellStyle($index, cellIndex, row, column),
-            class: getCellClass($index, cellIndex, row, column),
+            class: getCellClass($index, cellIndex, row, column, colspan),
             key: `${patchKey}${baseKey}`,
             rowspan,
             colspan,
