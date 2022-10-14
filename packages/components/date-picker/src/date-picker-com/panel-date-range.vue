@@ -631,10 +631,12 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
 
   if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
     maxDate.value = minDate.value
-    rightDate.value = rightDate.value
-      .hour(value.hour())
-      .minute(value.minute())
-      .second(value.second())
+    if (value) {
+      rightDate.value = rightDate.value
+        .hour(value.hour())
+        .minute(value.minute())
+        .second(value.second())
+    }
   }
 }
 
@@ -658,10 +660,12 @@ const handleMaxTimePick = (
 
   if (maxDate.value && maxDate.value.isBefore(minDate.value)) {
     minDate.value = maxDate.value
-    leftDate.value = leftDate.value
-      .hour(value.hour())
-      .minute(value.minute())
-      .second(value.second())
+    if (value) {
+      leftDate.value = leftDate.value
+        .hour(value.hour())
+        .minute(value.minute())
+        .second(value.second())
+    }
   }
 }
 
