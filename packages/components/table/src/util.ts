@@ -441,9 +441,8 @@ export const getFixedColumnsClass = <T>(
   fixed: string | boolean,
   store: any,
   realColumns?: TableColumnCtx<T>[],
-  offset?
+  offset = 0
 ) => {
-  offset = offset || 0
   const classes: string[] = []
   const { direction, start } = isFixedColumn(index, fixed, store, realColumns)
   if (direction) {
