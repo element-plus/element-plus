@@ -79,19 +79,11 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>,
-    colspan: number
+    column: TableColumnCtx<T>
   ) => {
     const fixedClasses = column.isSubColumn
       ? []
-      : getFixedColumnsClass(
-          ns.b(),
-          columnIndex,
-          props?.fixed,
-          props.store,
-          undefined,
-          colspan
-        )
+      : getFixedColumnsClass(ns.b(), columnIndex, props?.fixed, props.store)
     const classes = [column.id, column.align, column.className, ...fixedClasses]
     const cellClassName = parent?.props.cellClassName
     if (typeof cellClassName === 'string') {

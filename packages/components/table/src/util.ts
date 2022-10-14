@@ -440,22 +440,18 @@ export const getFixedColumnsClass = <T>(
   index: number,
   fixed: string | boolean,
   store: any,
-  realColumns?: TableColumnCtx<T>[],
-  colspan? = 1
+  realColumns?: TableColumnCtx<T>[]
 ) => {
   const classes: string[] = []
   const { direction, start } = isFixedColumn(index, fixed, store, realColumns)
   if (direction) {
     const isLeft = direction === 'left'
     classes.push(`${namespace}-fixed-column--${direction}`)
-    if (
-      isLeft &&
-      start + (colspan - 1) === store.states.fixedLeafColumnsLength.value - 1
-    ) {
+    if (isLeft && start === store.states.fixedLeafColumnsLength.value - 1) {
       classes.push('is-last-column')
     } else if (
       !isLeft &&
-      start - (colspan - 1) ===
+      start ===
         store.states.columns.value.length -
           store.states.rightFixedLeafColumnsLength.value
     ) {
