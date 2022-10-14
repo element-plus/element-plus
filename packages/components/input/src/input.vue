@@ -156,10 +156,8 @@
 <script lang="ts" setup>
 import {
   computed,
-  getCurrentInstance,
   nextTick,
   onMounted,
-  onUpdated,
   ref,
   shallowRef,
   toRef,
@@ -197,10 +195,6 @@ import { inputEmits, inputProps } from './input'
 import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
-const PENDANT_MAP = {
-  suffix: 'append',
-  prefix: 'prepend',
-} as const
 
 defineOptions({
   name: 'ElInput',
@@ -209,7 +203,6 @@ defineOptions({
 const props = defineProps(inputProps)
 const emit = defineEmits(inputEmits)
 
-const instance = getCurrentInstance()!
 const rawAttrs = useRawAttrs()
 const slots = useSlots()
 
@@ -347,31 +340,6 @@ const setNativeInputValue = () => {
   input.value = nativeInputValue.value
 }
 
-const calcIconOffset = (place: 'prefix' | 'suffix') => {
-  const { el } = instance.vnode
-  if (!el) return
-  const elList = Array.from(
-    (el as Element).querySelectorAll<HTMLSpanElement>(`.${nsInput.e(place)}`)
-  )
-  const target = elList.find((item) => item.parentNode === el)
-  if (!target) return
-
-  const pendant = PENDANT_MAP[place]
-
-  if (slots[pendant]) {
-    target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
-      el.querySelector(`.${nsInput.be('group', pendant)}`).offsetWidth
-    }px)`
-  } else {
-    target.removeAttribute('style')
-  }
-}
-
-const updateIconOffset = () => {
-  calcIconOffset('prefix')
-  calcIconOffset('suffix')
-}
-
 const handleInput = async (event: Event) => {
   recordCursor()
 
@@ -502,7 +470,6 @@ watch(
     await nextTick()
     setNativeInputValue()
     resizeTextarea()
-    updateIconOffset()
   }
 )
 
@@ -514,12 +481,7 @@ onMounted(() => {
     )
   }
   setNativeInputValue()
-  updateIconOffset()
   nextTick(resizeTextarea)
-})
-
-onUpdated(() => {
-  nextTick(updateIconOffset)
 })
 
 defineExpose({
