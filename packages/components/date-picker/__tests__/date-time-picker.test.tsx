@@ -776,9 +776,11 @@ describe('Datetimerange', () => {
     const rightPanelHeader = document.querySelector(
       '.el-date-range-picker__content.is-right .el-date-range-picker__header'
     ) as HTMLElement
-
-    const endTimeInput = document.querySelector(
-      `input[placeholder='End Time']`
+    const pickers = document.querySelectorAll(
+      '.el-date-range-picker__time-header .el-date-range-picker__editors-wrap'
+    )
+    const endTimeInput = pickers[1].querySelector(
+      '.el-date-range-picker__time-picker-wrap:nth-child(2) input'
     ) as HTMLInputElement
     endTimeInput.value = ''
     triggerEvent(endTimeInput, 'input', true)
