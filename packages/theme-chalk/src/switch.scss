@@ -210,7 +210,7 @@ $switch-button-size: map.merge(
     }
 
     .is-show {
-      opacity: 1;
+      display: block;
     }
 
     .is-hide {
@@ -234,10 +234,8 @@ $switch-button-size: map.merge(
 
       .#{$namespace}-switch__inner {
         padding: 0 20px 0 4px;
-        left: 0px;
         width: 100%;
         overflow: hidden;
-        white-space: nowrap;
       }
     }
   }
