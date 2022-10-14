@@ -1,5 +1,83 @@
 ## Changelog
 
+### 2.2.18
+
+_2022-10-13_
+
+#### Features
+
+- Components [select] Simplified API (#9994 by @chenxch)
+- Components [rate] add clearable attribute (#10031 by @HeftyKoo)
+- Export type TableInstance TableColumnInstance (#10021 by @yangliguo7)
+
+#### Bug fixes
+
+- Components [color-picker] expose color (#9797 by @sxzz)
+- Components [tabs] tabs order
+- Components [checkbox] fix injection warn (#9813 by @holazz)
+- Components [color-picker] correct event validation (#9814 by @holazz)
+- Components [date-picker] remove extra prop in unit test (#9822 by @holazz)
+- Components [popper] perfect role types (#9823 by @holazz)
+- Components [select-v2] pressing the up key may cause errors (#9818 by @tolking)
+- Components [select-v2] improve placeholder display (#9835 by @holazz)
+- Components [affix] fix affix when scroll container is not window (#9660 by @LiZhequ)
+- Components [calendar] show wrong weekday when set weekStart (#9824 by @init-qy)
+- Components [input-number] correct input event behavior (#9850 by @holazz)
+- Components [dialog] fix document click event invalid (#6711 by @gjfei)
+- Theme-chalk [drawer] close btn align style (#9875 by @YunYouJun)
+- Components [steps] step line style (#9865 by @gjfei)
+- Components [tree] tree node click parameter (#9872 by @gjfei)
+- Components [select] excute filter/remoteMethod when blur (#9587 by @Circkoooooo)
+- Components [radio] fix type error (#9879 by @Tsong-LC)
+- Theme-chalk [table] remove redundant border styles (#9839 by @tolking)
+- Components [slider] fix type error (#9886 by @ryuhangyeong)
+- Components [result] fix type error (#9887 by @ryuhangyeong)
+- Components [backtop] fix a display bug (#9892 by @fwr220807)
+- Components [progress] fix type error (#9894 by @ryuhangyeong)
+- Components [time-select] fix type error (#9884 by @Tsong-LC)
+- Components [pagination] fix type error (#9893 by @ryuhangyeong)
+- Components [descriptions] fix type error (#9899 by @Tsong-LC)
+- Components [tabs] correct the position of tab-bar when scaling (#9896 by @holazz)
+- Locale added missing strings for Hebrew (#9871 by @yeya)
+- Components [form] no margin when there is no label (#9940 by @iDestin)
+- `withInstallDirective` type error (#9946 by @BTBMan)
+- Components [select-v2] Test file code misspelled (#9978 by @wizardAEI)
+- Components [select] click label only focus in form (#9798 by @chenxch)
+- Components [carousel] improper active item (#8904 by @makedopamine)
+- Components [input] memory leak (#9965 by @chenxch)
+- Components [tabs] arrow icon centered horizontally (#9989 by @btea)
+- Components [el-form] adjust the warn about label (#9889 by @btea)
+- Components [select-v2] dynamic update popper (#9888 by @btea)
+- Components [tabs] prevent scroll tab into view after focusing it (#9990 by @makedopamine)
+- Components [table] wrong hover style in nested tables (#9932 by @init-qy)
+- Build fix Window build locale (#9995 by @frank201113)
+- Components [form-item] do not validate without `prop` property (#9993 by @btea)
+- Components [dropdown] button group style missing (#10029 by @chenxch)
+- Locale update estonian translations (#10004 by @vinksz)
+- Components the label causes the click event to trigger twice (#9991 by @iDestin)
+- Components [tooltip] update popper after content change (#10044 by @btea)
+- Components [cascader] placeholder disappear when resetForm (#10036 by @Tsong-LC)
+- Components [tabs] fix typo of PaneName (#10006 by @THUzxj)
+- Components [time-picker] fix popup not showing (#9941 by @Giwayume)
+
+#### Refactors
+
+- Components [loading] use JSX in Unit test (#9772 by @Tsong-LC)
+- Components [checkbox] refactor (#9594 by @MonsterPi13)
+- Components [color-picker] switch to script-setup syntax (#9672 by @weidehai)
+- Components switch to vue macros (#9306 by @sxzz)
+- Components [loading] change `viewBox` default value (#9769 by @tolking)
+- Components [tree-select] use JSX in Unit test (#9786 by @Tsong-LC)
+- Components [upload] use JSX in Unit test (#9811 by @ryuhangyeong)
+- Components [tooltip] switch to script-setup syntax (#9685 by @SnowingFox)
+- Directives [repeat-click] refactor (#9853 by @sxzz)
+- Components [calendar] use self-closing element (#9854 by @Tsong-LC)
+- Components [popper] fix type error (#8529 by @holazz)
+- Components [popper] use JSX in Unit test (#8462 by @holazz)
+- Docs filter bot in contributors list (#9967 by @btea)
+- Perf(components): [tabs] improve order performance
+- Build optimize the conversion of attributes in documents (#9970 by @tolking)
+
 ### 2.2.17
 
 _2022-09-16_

@@ -117,13 +117,13 @@ upload/manual
 | `file-list` / `v-model:file-list` | default uploaded files.                                                                                                                                                               | `UploadUserFile[]`                                                                            | `[]`     | No       |
 | `list-type`                       | type of file list.                                                                                                                                                                    | `'text' \| 'picture' \| 'picture-card'`                                                       | `'text'` | No       |
 | `auto-upload`                     | whether to auto upload file.                                                                                                                                                          | `boolean`                                                                                     | `true`   | No       |
-| `http-request`                    | override default xhr behavior, allowing you to implement your own upload-file's request.                                                                                              | (options: UploadRequestOptions) => XMLHttpRequest \| Promise\<unknown\>                       | —        | No       |
-| `disabled`                        | whether to disable upload.                                                                                                                                                            | boolean                                                                                       | `false`  | No       |
-| `limit`                           | maximum number of uploads allowed.                                                                                                                                                    | number                                                                                        | —        | No       |
+| `http-request`                    | override default xhr behavior, allowing you to implement your own upload-file's request.                                                                                              | `(options: UploadRequestOptions) => XMLHttpRequest \| Promise<unknown>`                       | —        | No       |
+| `disabled`                        | whether to disable upload.                                                                                                                                                            | `boolean`                                                                                     | `false`  | No       |
+| `limit`                           | maximum number of uploads allowed.                                                                                                                                                    | `number`                                                                                      | —        | No       |
 
 ### Slots
 
-| Name      | Description                         | Scope                  |
+| Name      | Description                         | Type                   |
 | --------- | ----------------------------------- | ---------------------- |
 | `default` | customize default content.          | -                      |
 | `trigger` | content which triggers file dialog. | -                      |
