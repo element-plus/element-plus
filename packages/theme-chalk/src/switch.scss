@@ -162,7 +162,6 @@ $switch-button-size: map.merge(
       left: 0px;
       width: 100%;
       box-sizing: border-box;
-      padding: 0 4px 0 20px;
       transition: all getCssVar('transition-duration');
       height: map.get($switch-button-size, 'default');
       display: flex;
@@ -172,13 +171,16 @@ $switch-button-size: map.merge(
 
       .is-icon,
       .is-text {
+        box-sizing: border-box;
         color: getCssVar('color-white');
         transition: opacity getCssVar('transition-duration');
         user-select: none;
         width: 100%;
+        min-width: map.get($switch-core-width, 'default');
         overflow: hidden;
         text-align: center;
         text-overflow: ellipsis;
+        padding: 0 2px 0 20px;
       }
     }
 
@@ -202,6 +204,7 @@ $switch-button-size: map.merge(
         position: absolute;
         user-select: none;
         text-align: center;
+        box-sizing: border-box;
       }
     }
 
@@ -233,9 +236,10 @@ $switch-button-size: map.merge(
       }
 
       .#{$namespace}-switch__inner {
-        padding: 0 20px 0 4px;
-        width: 100%;
-        overflow: hidden;
+        .is-icon,
+        .is-text {
+          padding: 0 20px 0 2px;
+        }
       }
     }
   }
@@ -287,7 +291,11 @@ $switch-button-size: map.merge(
 
         .#{$namespace}-switch__inner {
           height: map.get($switch-button-size, $size);
-          padding: 0 4px 0 #{map.get($switch-button-size, $size) + 4};
+          .is-icon,
+          .is-text {
+            min-width: map.get($switch-core-width, $size);
+            padding: 0 2px 0 #{map.get($switch-button-size, $size) + 4};
+          }
         }
 
         .#{$namespace}-switch__action {
@@ -303,7 +311,10 @@ $switch-button-size: map.merge(
           }
 
           .#{$namespace}-switch__inner {
-            padding: 0 #{map.get($switch-button-size, $size) + 4} 0 4px;
+            .is-icon,
+            .is-text {
+              padding: 0 #{map.get($switch-button-size, $size) + 4} 0 2px;
+            }
           }
         }
       }

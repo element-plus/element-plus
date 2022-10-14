@@ -154,7 +154,6 @@ const switchKls = computed(() => [
 
 const coreStyle = computed<CSSProperties>(() => ({
   width: addUnit(props.width),
-  minWidth: (props.activeText || props.inactiveIcon) && '40px',
 }))
 
 watch(
