@@ -1,3 +1,4 @@
+import { isNull } from 'lodash-unified'
 import {
   buildProps,
   definePropType,
@@ -18,11 +19,11 @@ import type { ExtractPropTypes, PropType } from 'vue'
 
 export const switchProps = buildProps({
   modelValue: {
-    type: [Boolean, String, Number],
+    type: [Boolean, String, Number, null],
     default: false,
   },
   value: {
-    type: [Boolean, String, Number],
+    type: [Boolean, String, Number, null],
     default: false,
   },
   disabled: {
@@ -34,6 +35,10 @@ export const switchProps = buildProps({
     default: '',
   },
   inlinePrompt: {
+    type: Boolean,
+    default: false,
+  },
+  indeterminate: {
     type: Boolean,
     default: false,
   },
@@ -59,6 +64,10 @@ export const switchProps = buildProps({
     type: String,
     default: '',
   },
+  indeterminateColor: {
+    type: String,
+    default: '',
+  },
   borderColor: {
     type: String,
     default: '',
@@ -70,6 +79,10 @@ export const switchProps = buildProps({
   inactiveValue: {
     type: [Boolean, String, Number],
     default: false,
+  },
+  indeterminateValue: {
+    type: [Boolean, String, Number, null],
+    default: null,
   },
   name: {
     type: String,
@@ -100,11 +113,11 @@ export type SwitchProps = ExtractPropTypes<typeof switchProps>
 
 export const switchEmits = {
   [UPDATE_MODEL_EVENT]: (val: boolean | string | number) =>
-    isBoolean(val) || isString(val) || isNumber(val),
+    isBoolean(val) || isString(val) || isNumber(val) || isNull(val),
   [CHANGE_EVENT]: (val: boolean | string | number) =>
-    isBoolean(val) || isString(val) || isNumber(val),
+    isBoolean(val) || isString(val) || isNumber(val) || isNull(val),
   [INPUT_EVENT]: (val: boolean | string | number) =>
-    isBoolean(val) || isString(val) || isNumber(val),
+    isBoolean(val) || isString(val) || isNumber(val) || isNull(val),
 }
 export type SwitchEmits = typeof switchEmits
 

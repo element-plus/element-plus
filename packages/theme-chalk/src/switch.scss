@@ -232,6 +232,21 @@ $switch-button-size: map.merge(
     }
   }
 
+  @include when(indeterminate) {
+    .#{$namespace}-switch__core {
+      border-color: var(
+        #{getCssVarName('switch-border-color')},
+        #{getCssVar('switch-indeterminate-color')}
+      );
+      background-color: getCssVar('switch-indeterminate-color');
+
+      .#{$namespace}-switch__action {
+        left: 75%;
+        margin-left: calc(-1px - #{map.get($switch-button-size, 'default')});
+      }
+    }
+  }
+
   @include when(disabled) {
     opacity: 0.6;
   }
@@ -295,6 +310,14 @@ $switch-button-size: map.merge(
           }
 
           .#{$namespace}-switch__inner {
+            margin-left: calc(-1px - #{map.get($switch-button-size, $size)});
+          }
+        }
+      }
+
+      @include when(indeterminate) {
+        .#{$namespace}-switch__core {
+          .#{$namespace}-switch__action {
             margin-left: calc(-1px - #{map.get($switch-button-size, $size)});
           }
         }
