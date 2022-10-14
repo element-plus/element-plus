@@ -162,7 +162,7 @@ $switch-button-size: map.merge(
       left: 0px;
       width: 100%;
       box-sizing: border-box;
-      padding: 0 10px 0 20px;
+      padding: 0 4px 0 20px;
       transition: all getCssVar('transition-duration');
       height: map.get($switch-button-size, 'default');
       display: flex;
@@ -233,7 +233,7 @@ $switch-button-size: map.merge(
       }
 
       .#{$namespace}-switch__inner {
-        padding: 0 20px 0 10px;
+        padding: 0 20px 0 4px;
         left: 0px;
         width: 100%;
         overflow: hidden;
@@ -289,10 +289,7 @@ $switch-button-size: map.merge(
 
         .#{$namespace}-switch__inner {
           height: map.get($switch-button-size, $size);
-          padding: 0 #{map.get($switch-button-size, $size) * 0.5+2} 0 #{map.get(
-              $switch-button-size,
-              $size
-            ) + 4};
+          padding: 0 4px 0 #{map.get($switch-button-size, $size) + 4};
         }
 
         .#{$namespace}-switch__action {
@@ -308,10 +305,7 @@ $switch-button-size: map.merge(
           }
 
           .#{$namespace}-switch__inner {
-            padding: 0 #{map.get($switch-button-size, $size) + 4} 0 #{map.get(
-                $switch-button-size,
-                $size
-              ) * 0.5+2};
+            padding: 0 #{map.get($switch-button-size, $size) + 4} 0 4px;
           }
         }
       }
