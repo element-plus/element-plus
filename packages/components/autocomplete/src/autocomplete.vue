@@ -14,7 +14,6 @@
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
     @before-show="onSuggestionShow"
-    @show="onShow"
     @hide="onHide"
   >
     <div
@@ -178,10 +177,6 @@ const onSuggestionShow = async () => {
   }
 }
 
-const onShow = () => {
-  ignoreFocusEvent = true
-}
-
 const onHide = () => {
   ignoreFocusEvent = false
   highlightedIndex.value = -1
@@ -245,19 +240,25 @@ const handleChange = (value: string) => {
 }
 
 const handleFocus = (evt: FocusEvent) => {
-  if (ignoreFocusEvent) return
+  setTimeout(() => {
+    if (!ignoreFocusEvent) {
+      activated.value = true
+      emit('focus', evt)
 
-  activated.value = true
-  emit('focus', evt)
-  // fix https://github.com/element-plus/element-plus/issues/8278
-  if (props.triggerOnFocus && !readonly) {
-    debouncedGetData(String(props.modelValue))
-  }
+      if (props.triggerOnFocus && !readonly) {
+        debouncedGetData(String(props.modelValue))
+      }
+    } else {
+      ignoreFocusEvent = false
+    }
+  })
 }
 
 const handleBlur = (evt: FocusEvent) => {
-  if (ignoreFocusEvent) return
-  emit('blur', evt)
+  setTimeout(() => {
+    if (ignoreFocusEvent || popperRef.value?.isFocusInsideContent()) return
+    emit('blur', evt)
+  })
 }
 
 const handleClear = () => {
@@ -304,6 +305,7 @@ const handleSelect = async (item: any) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
+  ignoreFocusEvent = true
   suggestions.value = []
   highlightedIndex.value = -1
 }
