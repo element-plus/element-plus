@@ -70,13 +70,6 @@ const _mount = (
     },
   })
 
-const getOptions = () =>
-  Array.from(
-    document.querySelectorAll<HTMLElement>(
-      'body .el-autocomplete__popper .el-autocomplete-suggestion .el-autocomplete-suggestion__list li'
-    )
-  )
-
 describe('Autocomplete.vue', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
