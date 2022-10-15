@@ -70,6 +70,13 @@ const _mount = (
     },
   })
 
+const getOptions = () =>
+  Array.from(
+    document.querySelectorAll<HTMLElement>(
+      'body .el-autocomplete__popper .el-autocomplete-suggestion .el-autocomplete-suggestion__list li'
+    )
+  )
+
 describe('Autocomplete.vue', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
@@ -385,7 +392,33 @@ describe('Autocomplete.vue', () => {
     })
   })
 
-  test('blur', async () => {
+  test('event:focus', async () => {
+    const onFocus = vi.fn()
+    const wrapper = _mount({ onFocus })
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+
+    await wrapper.find('input').trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+    expect(onFocus).toHaveBeenCalledTimes(1)
+
+    await target.handleSelect({ value: 'Go', tag: 'go' })
+    expect(target.modelValue).toBe('Go')
+    vi.runAllTimers()
+    await nextTick()
+    expect(onFocus).toHaveBeenCalledTimes(1)
+
+    await wrapper.find('input').trigger('blur')
+    vi.runAllTimers()
+    await nextTick()
+    expect(onFocus).toHaveBeenCalledTimes(1)
+  })
+
+  test('event:blur', async () => {
     const onBlur = vi.fn()
     const wrapper = _mount({ onBlur })
     await nextTick()
