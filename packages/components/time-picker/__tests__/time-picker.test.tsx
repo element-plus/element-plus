@@ -845,8 +845,12 @@ describe('TimePicker(range)', () => {
       await nextTick()
       const picker = findPicker()
       const input = findInput()
-      picker.vm.onPick('', false)
+      input.vm.$emit('input', 'a')
       await rAF()
+      expect(document.querySelector('.el-time-panel')).toBeTruthy()
+      picker.vm.onPick('', false)
+      await rAF() // Picker triggers popup close, event propagation
+      await rAF() // Focus trap recognizes focusout event, and propagation
       expect(document.activeElement).toBe(wrapper.find('input').element)
       expect(document.querySelector('.el-time-panel')).toBeFalsy()
       input.vm.$emit('input', 'a')
