@@ -65,10 +65,11 @@ export default defineComponent({
     const { visible, hover } = toRefs(states)
 
     const vm = getCurrentInstance().proxy
-    const key = (vm as unknown as SelectOptionProxy).value
+
     select.onOptionCreate(vm as unknown as SelectOptionProxy)
 
     onBeforeUnmount(() => {
+      const key = (vm as unknown as SelectOptionProxy).value
       const { selected } = select
       const selectedOptions = select.props.multiple ? selected : [selected]
       const doesSelected = selectedOptions.some((item) => {

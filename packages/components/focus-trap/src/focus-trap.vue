@@ -17,11 +17,14 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { useEscapeKeydown } from '@element-plus/hooks'
 import { isString } from '@element-plus/utils'
 import {
+  createFocusOutPreventedEvent,
   focusFirstDescendant,
   focusableStack,
   getEdges,
+  isFocusCausedByUserEvent,
   obtainAllFocusableElements,
   tryFocus,
+  useFocusReason,
 } from './utils'
 import {
   FOCUS_AFTER_RELEASED,
@@ -60,6 +63,8 @@ export default defineComponent({
     let lastFocusBeforeTrapped: HTMLElement | null
     let lastFocusAfterTrapped: HTMLElement | null
 
+    const { focusReason } = useFocusReason()
+
     useEscapeKeydown((event) => {
       if (props.trapped && !focusLayer.paused) {
         emit('release-requested', event)
@@ -92,21 +97,36 @@ export default defineComponent({
         const isTabbable = first && last
         if (!isTabbable) {
           if (currentFocusingEl === container) {
-            e.preventDefault()
-            emit('focusout-prevented')
+            const focusoutPreventedEvent = createFocusOutPreventedEvent({
+              focusReason: focusReason.value,
+            })
+            emit('focusout-prevented', focusoutPreventedEvent)
+            if (!focusoutPreventedEvent.defaultPrevented) {
+              e.preventDefault()
+            }
           }
         } else {
           if (!shiftKey && currentFocusingEl === last) {
-            e.preventDefault()
-            if (loop) tryFocus(first, true)
-            emit('focusout-prevented')
+            const focusoutPreventedEvent = createFocusOutPreventedEvent({
+              focusReason: focusReason.value,
+            })
+            emit('focusout-prevented', focusoutPreventedEvent)
+            if (!focusoutPreventedEvent.defaultPrevented) {
+              e.preventDefault()
+              if (loop) tryFocus(first, true)
+            }
           } else if (
             shiftKey &&
             [first, container].includes(currentFocusingEl as HTMLElement)
           ) {
-            e.preventDefault()
-            if (loop) tryFocus(last, true)
-            emit('focusout-prevented')
+            const focusoutPreventedEvent = createFocusOutPreventedEvent({
+              focusReason: focusReason.value,
+            })
+            emit('focusout-prevented', focusoutPreventedEvent)
+            if (!focusoutPreventedEvent.defaultPrevented) {
+              e.preventDefault()
+              if (loop) tryFocus(last, true)
+            }
           }
         }
       }
@@ -145,12 +165,22 @@ export default defineComponent({
     }
     const releaseOnFocus = (e: Event) => emit(ON_RELEASE_FOCUS_EVT, e)
 
-    const onFocusIn = (e: Event) => {
+    const onFocusIn = (e: FocusEvent) => {
       const trapContainer = unref(forwardRef)
       if (!trapContainer) return
 
       const target = e.target as HTMLElement | null
+      const relatedTarget = e.relatedTarget as HTMLElement | null
       const isFocusedInTrap = target && trapContainer.contains(target)
+
+      if (!props.trapped) {
+        const isPrevFocusedInTrap =
+          relatedTarget && trapContainer.contains(relatedTarget)
+        if (!isPrevFocusedInTrap) {
+          lastFocusBeforeTrapped = relatedTarget
+        }
+      }
+
       if (isFocusedInTrap) emit('focusin', e)
 
       if (focusLayer.paused) return
@@ -176,7 +206,13 @@ export default defineComponent({
           // And only reclaim focus if it should currently be trapping
           setTimeout(() => {
             if (!focusLayer.paused && props.trapped) {
-              tryFocus(lastFocusAfterTrapped, true)
+              const focusoutPreventedEvent = createFocusOutPreventedEvent({
+                focusReason: focusReason.value,
+              })
+              emit('focusout-prevented', focusoutPreventedEvent)
+              if (!focusoutPreventedEvent.defaultPrevented) {
+                tryFocus(lastFocusAfterTrapped, true)
+              }
             }
           }, 0)
         }
@@ -193,7 +229,11 @@ export default defineComponent({
       const trapContainer = unref(forwardRef)
       if (trapContainer) {
         focusableStack.push(focusLayer)
-        const prevFocusedElement = document.activeElement
+        const prevFocusedElement = trapContainer.contains(
+          document.activeElement
+        )
+          ? lastFocusBeforeTrapped
+          : document.activeElement
         lastFocusBeforeTrapped = prevFocusedElement as HTMLElement | null
         const isPrevFocusContained = trapContainer.contains(prevFocusedElement)
         if (!isPrevFocusContained) {
@@ -236,14 +276,19 @@ export default defineComponent({
       if (trapContainer) {
         trapContainer.removeEventListener(FOCUS_AFTER_TRAPPED, trapOnFocus)
 
-        const releasedEvent = new Event(
-          FOCUS_AFTER_RELEASED,
-          FOCUS_AFTER_TRAPPED_OPTS
-        )
+        const releasedEvent = new CustomEvent(FOCUS_AFTER_RELEASED, {
+          ...FOCUS_AFTER_TRAPPED_OPTS,
+          detail: {
+            focusReason: focusReason.value,
+          },
+        })
         trapContainer.addEventListener(FOCUS_AFTER_RELEASED, releaseOnFocus)
         trapContainer.dispatchEvent(releasedEvent)
 
-        if (!releasedEvent.defaultPrevented) {
+        if (
+          !releasedEvent.defaultPrevented &&
+          (focusReason.value == 'keyboard' || !isFocusCausedByUserEvent())
+        ) {
           tryFocus(lastFocusBeforeTrapped ?? document.body, true)
         }
 

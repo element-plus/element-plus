@@ -5,12 +5,12 @@
       ns.b(),
       ns.is('fullscreen', fullscreen),
       ns.is('draggable', draggable),
+      ns.is('align-center', alignCenter),
       { [ns.m('center')]: center },
       customClass,
     ]"
     :style="style"
     tabindex="-1"
-    @click.stop
   >
     <header ref="headerRef" :class="ns.e('header')">
       <slot name="header">

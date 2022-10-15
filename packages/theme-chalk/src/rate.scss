@@ -25,7 +25,7 @@ $rate-height: map.merge(
 
   &:focus,
   &:active {
-    outline-width: 0;
+    outline: none;
   }
 
   @include e(item) {

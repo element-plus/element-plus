@@ -63,7 +63,7 @@ Although `message` property supports HTML strings, dynamically rendering arbitra
 
 :::
 
-## grouping
+## Grouping
 
 merge messages with the same content.
 

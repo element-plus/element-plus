@@ -27,7 +27,7 @@ const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
           {{ languageMap[l] }}
         </div>
         <div class="language">
-          <VPLink href="https://crowdin.com/project/element-plus">
+          <VPLink :href="`/${lang}/guide/translation`">
             {{ helpTranslate }}
           </VPLink>
         </div>
