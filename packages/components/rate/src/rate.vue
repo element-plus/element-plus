@@ -46,15 +46,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, inject, markRaw, ref, watch } from 'vue'
+import { type CSSProperties, computed, inject, ref, watch } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { hasClass, isArray, isObject, isString } from '@element-plus/utils'
+import { hasClass, isArray, isObject } from '@element-plus/utils'
 import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItemInputId, useNamespace, useSize } from '@element-plus/hooks'
 import { rateEmits, rateProps } from './rate'
-import type { iconPropType } from '@element-plus/utils'
-import type { CSSProperties, Component } from 'vue'
 
 function getValueFromMap<T>(
   value: number,
@@ -146,37 +144,34 @@ const decimalStyle = computed(() => {
     width,
   }
 })
-const componentMap = computed(() => {
-  let icons = isArray(props.icons) ? [...props.icons] : { ...props.icons }
-  icons = markRaw(icons) as
-    | Array<string | Component>
-    | Record<number, string | Component>
-  return isArray(icons)
+const componentMap = computed(() =>
+  isArray(props.icons)
     ? {
-        [props.lowThreshold]: icons[0],
+        [props.lowThreshold]: props.icons[0],
         [props.highThreshold]: {
-          value: icons[1],
+          value: props.icons[1],
           excluded: true,
         },
-        [props.max]: icons[2],
+        [props.max]: props.icons[2],
       }
-    : icons
-})
+    : props.icons
+)
 const decimalIconComponent = computed(() =>
   getValueFromMap(props.modelValue, componentMap.value)
 )
 const voidComponent = computed(() =>
-  rateDisabled.value
-    ? isString(props.disabledVoidIcon)
-      ? props.disabledVoidIcon
-      : (markRaw(props.disabledVoidIcon) as typeof iconPropType)
-    : isString(props.voidIcon)
-    ? props.voidIcon
-    : (markRaw(props.voidIcon) as typeof iconPropType)
+  rateDisabled.value ? props.disabledVoidIcon : props.voidIcon
 )
 const activeComponent = computed(() =>
   getValueFromMap(currentValue.value, componentMap.value)
 )
+const iconComponents = computed(() => {
+  const result = Array.from({ length: props.max })
+  const threshold = currentValue.value
+  result.fill(activeComponent.value, 0, threshold)
+  result.fill(voidComponent.value, threshold, props.max)
+  return result
+})
 
 function showDecimalIcon(item: number) {
   const showWhenDisabled =
@@ -192,26 +187,20 @@ function showDecimalIcon(item: number) {
   return showWhenDisabled || showWhenAllowHalf
 }
 
-function emitValue(value: number) {
-  // if allow clear, and selected value is same as modelValue, reset value to 0
-  if (props.clearable && value === props.modelValue) {
-    value = 0
-  }
-
-  emit(UPDATE_MODEL_EVENT, value)
-  if (props.modelValue !== value) {
-    emit('change', value)
-  }
-}
-
 function selectValue(value: number) {
   if (rateDisabled.value) {
     return
   }
   if (props.allowHalf && pointerAtLeftHalf.value) {
-    emitValue(currentValue.value)
+    emit(UPDATE_MODEL_EVENT, currentValue.value)
+    if (props.modelValue !== currentValue.value) {
+      emit('change', currentValue.value)
+    }
   } else {
-    emitValue(value)
+    emit(UPDATE_MODEL_EVENT, value)
+    if (props.modelValue !== value) {
+      emit('change', value)
+    }
   }
 }
 
