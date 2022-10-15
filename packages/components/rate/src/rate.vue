@@ -30,10 +30,7 @@
           ns.is('active', item <= currentValue),
         ]"
       >
-        <component
-          :is="iconComponents[item - 1]"
-          v-if="!showDecimalIcon(item)"
-        />
+        <component :is="iconComponents[item - 1]" />
         <el-icon
           v-if="showDecimalIcon(item)"
           :style="decimalStyle"

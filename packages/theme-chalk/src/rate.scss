@@ -39,7 +39,6 @@ $rate-height: map.merge(
   }
 
   & .#{bem('rate', 'icon')} {
-    position: relative;
     display: inline-block;
     font-size: getCssVar('rate-icon-size');
     margin-right: getCssVar('rate-icon-margin');
