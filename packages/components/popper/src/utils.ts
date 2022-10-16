@@ -65,7 +65,6 @@ function genModifiers(options: PopperCoreConfigProps) {
       name: 'computeStyles',
       options: {
         gpuAcceleration,
-        adaptive: gpuAcceleration,
       },
     },
   ]
