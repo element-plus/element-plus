@@ -2,7 +2,7 @@
   <el-select
     ref="select"
     :model-value="value"
-    :disabled="disabled"
+    :disabled="_disabled"
     :clearable="clearable"
     :clear-icon="clearIcon"
     :size="size"
@@ -36,7 +36,7 @@ import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import ElSelect from '@element-plus/components/select'
 import ElIcon from '@element-plus/components/icon'
-import { useNamespace } from '@element-plus/hooks'
+import { useDisabled, useNamespace } from '@element-plus/hooks'
 import { timeSelectProps } from './time-select'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
 
@@ -54,6 +54,8 @@ const props = defineProps(timeSelectProps)
 
 const nsInput = useNamespace('input')
 const select = ref<typeof ElSelect>()
+
+const _disabled = useDisabled()
 
 const value = computed(() => props.modelValue)
 const start = computed(() => {

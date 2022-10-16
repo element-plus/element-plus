@@ -77,7 +77,7 @@ checkbox/with-border
 
 ## Checkbox Attributes
 
-| Attribute             | Description                                               | Type                               | Accepted Values        | Default |
+| Name                  | Description                                               | Type                               | Accepted Values        | Default |
 | --------------------- | --------------------------------------------------------- | ---------------------------------- | ---------------------- | ------- |
 | model-value / v-model | binding value                                             | string / number / boolean          | —                      | —       |
 | label                 | value of the Checkbox when used inside a `checkbox-group` | string / number / boolean / object | —                      | —       |
@@ -93,9 +93,9 @@ checkbox/with-border
 
 ## Checkbox Events
 
-| Event Name | Description                             | Parameters        |
-| ---------- | --------------------------------------- | ----------------- |
-| change     | triggers when the binding value changes | the updated value |
+| Name   | Description                             | Parameters        |
+| ------ | --------------------------------------- | ----------------- |
+| change | triggers when the binding value changes | the updated value |
 
 ## Checkbox Slots
 
@@ -105,7 +105,7 @@ checkbox/with-border
 
 ## Checkbox-group Attributes
 
-| Attribute             | Description                                       | Type    | Accepted Values        | Default |
+| Name                  | Description                                       | Type    | Accepted Values        | Default |
 | --------------------- | ------------------------------------------------- | ------- | ---------------------- | ------- |
 | model-value / v-model | binding value                                     | array   | —                      | []      |
 | size                  | size of checkbox                                  | string  | large / default /small | —       |
@@ -119,9 +119,9 @@ checkbox/with-border
 
 ## Checkbox-group Events
 
-| Event Name | Description                             | Parameters        |
-| ---------- | --------------------------------------- | ----------------- |
-| change     | triggers when the binding value changes | the updated value |
+| Name   | Description                             | Parameters        |
+| ------ | --------------------------------------- | ----------------- |
+| change | triggers when the binding value changes | the updated value |
 
 ## Checkbox-group Slots
 
@@ -131,7 +131,7 @@ checkbox/with-border
 
 ## Checkbox-button Attributes
 
-| Attribute   | Description                                               | Type                               | Accepted Values | Default |
+| Name        | Description                                               | Type                               | Accepted Values | Default |
 | ----------- | --------------------------------------------------------- | ---------------------------------- | --------------- | ------- |
 | label       | value of the checkbox when used inside a `checkbox-group` | string / number / boolean / object | —               | —       |
 | true-label  | value of the checkbox if it's checked                     | string / number                    | —               | —       |

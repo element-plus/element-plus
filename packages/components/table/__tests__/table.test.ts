@@ -825,6 +825,54 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    // https://github.com/element-plus/element-plus/issues/4589
+    it('sort-change event', async () => {
+      const handleSortChange = vi.fn()
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" @sort-change="handleSortChange">
+          <el-table-column prop="name" />
+          <el-table-column prop="release" />
+          <el-table-column prop="director" />
+          <el-table-column prop="runtime" sortable ref="runtime" />
+          </el-table>
+        `,
+        data() {
+          return { testData: getTestData() }
+        },
+        methods: {
+          handleSortChange,
+        },
+      })
+      await doubleWait()
+      const elm = wrapper.find('.caret-wrapper')
+
+      elm.trigger('click')
+      expect(handleSortChange).toHaveBeenLastCalledWith({
+        column: expect.any(Object),
+        prop: 'runtime',
+        order: 'ascending',
+      })
+
+      elm.trigger('click')
+      expect(handleSortChange).toHaveBeenLastCalledWith({
+        column: expect.any(Object),
+        prop: 'runtime',
+        order: 'descending',
+      })
+
+      elm.trigger('click')
+      expect(handleSortChange).toHaveBeenLastCalledWith({
+        column: expect.any(Object),
+        prop: 'runtime',
+        order: null,
+      })
+    })
+
     it('setCurrentRow', async () => {
       const wrapper = mount({
         components: {
