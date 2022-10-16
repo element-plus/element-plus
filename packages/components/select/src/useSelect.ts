@@ -226,7 +226,6 @@ export const useSelect = (props, states: States, ctx) => {
       if (!val) {
         input.value && input.value.blur()
         states.query = ''
-        states.previousQuery = null
         states.selectedLabel = ''
         states.inputLength = 20
         states.menuVisibleOnFocus = false
@@ -361,14 +360,6 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleQueryChange = (val) => {
     if (states.previousQuery === val || states.isOnComposition) return
-    if (
-      states.previousQuery === null &&
-      (typeof props.filterMethod === 'function' ||
-        typeof props.remoteMethod === 'function')
-    ) {
-      states.previousQuery = val
-      return
-    }
     states.previousQuery = val
     nextTick(() => {
       if (states.visible) tooltipRef.value?.updatePopper?.()
@@ -533,7 +524,12 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const onInputChange = () => {
-    if (props.filterable && states.query !== states.selectedLabel) {
+    if (
+      (props.filterable &&
+        states.query &&
+        states.query !== states.selectedLabel) ||
+      !states.query
+    ) {
       states.query = states.selectedLabel
       handleQueryChange(states.query)
     }
