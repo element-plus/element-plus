@@ -147,9 +147,11 @@ const onFocusAfterTrapped = () => {
   emit('focus')
 }
 
-const onFocusAfterReleased = () => {
-  focusStartRef.value = 'first'
-  emit('blur')
+const onFocusAfterReleased = (event: CustomEvent) => {
+  if (event.detail?.focusReason !== 'pointer') {
+    focusStartRef.value = 'first'
+    emit('blur')
+  }
 }
 
 const onFocusInTrap = (event: FocusEvent) => {
@@ -158,14 +160,14 @@ const onFocusInTrap = (event: FocusEvent) => {
       focusStartRef.value = event.target as typeof focusStartRef.value
     }
     trapped.value = true
-    if (event.relatedTarget) {
-      ;(event.relatedTarget as HTMLElement)?.focus()
-    }
   }
 }
 
-const onFocusoutPrevented = () => {
+const onFocusoutPrevented = (event: CustomEvent) => {
   if (!props.trapping) {
+    if (event.detail.focusReason === 'pointer') {
+      event.preventDefault()
+    }
     trapped.value = false
   }
 }
