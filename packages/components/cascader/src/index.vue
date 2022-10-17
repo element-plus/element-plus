@@ -222,6 +222,7 @@ import {
   debugWarn,
   focusNode,
   getSibling,
+  isArray,
   isKorean,
   isValidComponentSize,
 } from '@element-plus/utils'
@@ -416,7 +417,11 @@ export default defineComponent({
 
     const checkedValue = computed<CascaderValue>({
       get() {
-        return props.modelValue as CascaderValue
+        return (
+          isArray(props.modelValue)
+            ? [...props.modelValue]
+            : { ...props.modelValue }
+        ) as CascaderValue
       },
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)

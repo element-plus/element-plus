@@ -351,12 +351,15 @@ export default defineComponent({
       }
     )
 
-    watch(checkedValue, (val) => {
-      if (!isEqual(val, props.modelValue)) {
-        emit(UPDATE_MODEL_EVENT, val)
-        emit(CHANGE_EVENT, val)
+    watch(
+      () => checkedValue.value,
+      (val) => {
+        if (!isEqual(val, props.modelValue)) {
+          emit(UPDATE_MODEL_EVENT, val)
+          emit(CHANGE_EVENT, val)
+        }
       }
-    })
+    )
 
     onBeforeUpdate(() => (menuList.value = []))
 
