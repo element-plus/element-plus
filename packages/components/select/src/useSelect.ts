@@ -169,6 +169,7 @@ export const useSelect = (props, states: States, ctx) => {
     )
   })
 
+  // Use orderIndexMap to ensure the optionsArray/cachedOptionsArray order is correct
   const setOptionArr = (keyArr: Array<string>, option) => {
     const optionArr = []
     keyArr.forEach((val, index) => {
