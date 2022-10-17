@@ -1505,6 +1505,89 @@ describe('Select', () => {
     vi.useRealTimers()
   })
 
+  test('asdwqdqwdsadad', async () => {
+    vi.useFakeTimers()
+    wrapper = mount({
+      template: `
+      <el-select
+        v-model="value"
+        multiple
+        filterable
+        remote
+        reserve-keyword
+        placeholder="请输入关键词"
+        :remote-method="remoteMethod"
+        :loading="loading"
+      >
+        <el-option
+          v-for="(item, index) in options"
+          :key="item.value"
+          :index="index"
+          :label="item.label"
+          :value="item"
+        />
+      </el-select>`,
+      components: { ElSelect: Select, ElOption: Option },
+      data() {
+        return {
+          options: [],
+          value: [],
+          list: [],
+          loading: false,
+          states: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California'],
+        }
+      },
+      mounted() {
+        this.list = this.states.map((item) => {
+          return { value: `value:${item}`, label: `label:${item}` }
+        })
+      },
+      methods: {
+        remoteMethod(query) {
+          if (query !== '') {
+            this.loading = true
+            setTimeout(() => {
+              this.loading = false
+              this.options = this.list.filter((item) => {
+                return item.label.toLowerCase().includes(query.toLowerCase())
+              })
+            }, 200)
+          } else {
+            this.options = []
+          }
+        },
+      },
+    })
+
+    const select = wrapper.findComponent({ name: 'ElSelect' }).vm
+    select.debouncedQueryChange({
+      target: {
+        value: '',
+      },
+    })
+
+    select.debouncedQueryChange({
+      target: {
+        value: 'al',
+      },
+    })
+    vi.runAllTimers()
+    await nextTick()
+
+    const val = Array.from(select.options.values())[2].value.value
+    expect(val).toBe('value:California')
+    await nextTick()
+    select.debouncedQueryChange({
+      target: {
+        value: 'a',
+      },
+    })
+    vi.runAllTimers()
+    await nextTick()
+    const updateVal = Array.from(select.options.values())[2].value.value
+    expect(updateVal).toBe('label:Arizona')
+  })
+
   test('disabled group', async () => {
     wrapper = _mount(
       `

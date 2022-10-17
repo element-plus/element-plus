@@ -27,6 +27,7 @@ import {
   onBeforeUnmount,
   reactive,
   toRefs,
+  watch,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
@@ -43,6 +44,7 @@ export default defineComponent({
     },
     label: [String, Number],
     created: Boolean,
+    index: Number,
     disabled: {
       type: Boolean,
       default: false,
@@ -68,6 +70,19 @@ export default defineComponent({
 
     select.onOptionCreate(vm as unknown as SelectOptionProxy)
 
+    watch(
+      () => props.index,
+      (nVal, oVal) => {
+        if (nVal !== oVal) {
+          const key = (vm as unknown as SelectOptionProxy).value
+          select.onOptionDestroy(key, vm as unknown as SelectOptionProxy)
+          nextTick(() => {
+            select.onOptionCreate(vm as unknown as SelectOptionProxy)
+          })
+        }
+      }
+    )
+
     onBeforeUnmount(() => {
       const key = (vm as unknown as SelectOptionProxy).value
       const { selected } = select
@@ -81,7 +96,7 @@ export default defineComponent({
           select.cachedOptions.delete(key)
         }
       })
-      select.onOptionDestroy(key, vm)
+      select.onOptionDestroy(key, vm as unknown as SelectOptionProxy)
     })
 
     function selectOptionClick() {
