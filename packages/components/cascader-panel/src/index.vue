@@ -32,6 +32,7 @@ import {
   castArray,
   focusNode,
   getSibling,
+  isArray,
   isEmpty,
   scrollIntoView,
   unique,
@@ -238,7 +239,9 @@ export default defineComponent({
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
         syncMenuState(nodes, forced)
-        checkedValue.value = modelValue!
+        checkedValue.value = isArray(modelValue)
+          ? [...modelValue]
+          : { ...modelValue }
       }
     }
 
@@ -348,6 +351,9 @@ export default defineComponent({
       () => {
         manualChecked = false
         syncCheckedValue()
+      },
+      {
+        deep: true,
       }
     )
 
