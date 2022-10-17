@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createPopper } from '@popperjs/core'
-import { get } from 'lodash-unified'
+import { flatMap, get } from 'lodash-unified'
 import escapeHtml from 'escape-html'
 import { hasOwn, throwError } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
@@ -381,7 +381,7 @@ export function createTablePopper(
 
 function getCurrentColumns<T>(column: TableColumnCtx<T>): TableColumnCtx<T>[] {
   if (column.children) {
-    return column.children.flatMap(getCurrentColumns)
+    return flatMap(column.children, getCurrentColumns)
   } else {
     return [column]
   }
