@@ -70,15 +70,12 @@ export default defineComponent({
 
     select.onOptionCreate(vm as unknown as SelectOptionProxy)
 
+    select.setOrderIndex(props.index, vm as unknown as SelectOptionProxy)
     watch(
       () => props.index,
       (nVal, oVal) => {
         if (nVal !== oVal) {
-          const key = (vm as unknown as SelectOptionProxy).value
-          select.onOptionDestroy(key, vm as unknown as SelectOptionProxy)
-          nextTick(() => {
-            select.onOptionCreate(vm as unknown as SelectOptionProxy)
-          })
+          select.setOrderIndex(nVal, vm as unknown as SelectOptionProxy)
         }
       }
     )

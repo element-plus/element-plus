@@ -41,6 +41,7 @@ export function useSelectStates(props) {
   return reactive({
     options: new Map(),
     cachedOptions: new Map(),
+    orderIndexMap: new Map(),
     createdLabel: null,
     createdSelected: false,
     selected: props.multiple ? [] : ({} as any),
@@ -157,11 +158,31 @@ export const useSelect = (props, states: States, ctx) => {
     return null
   })
 
-  const optionsArray = computed(() => Array.from(states.options.values()))
+  const optionsArray = computed(() => {
+    return setOptionArr(Array.from(states.options.keys()), states.options)
+  })
 
-  const cachedOptionsArray = computed(() =>
-    Array.from(states.cachedOptions.values())
-  )
+  const cachedOptionsArray = computed(() => {
+    return setOptionArr(
+      Array.from(states.cachedOptions.keys()),
+      states.cachedOptions
+    )
+  })
+
+  const setOptionArr = (keyArr: Array<string>, option) => {
+    const optionArr = []
+    keyArr.forEach((val, index) => {
+      let orderIndex = index
+      if (
+        states.orderIndexMap.get(val) ||
+        states.orderIndexMap.get(val) === 0
+      ) {
+        orderIndex = states.orderIndexMap.get(val)
+      }
+      optionArr[orderIndex] = option.get(val)
+    })
+    return optionArr
+  }
 
   const showNewOption = computed(() => {
     const hasExistingOption = optionsArray.value
@@ -717,6 +738,13 @@ export const useSelect = (props, states: States, ctx) => {
       states.filteredOptionsCount--
       states.options.delete(key)
     }
+    if (states.orderIndexMap.get(key)) {
+      states.orderIndexMap.delete(key)
+    }
+  }
+
+  const setOrderIndex = (index: number, vm: SelectOptionProxy) => {
+    states.orderIndexMap.set(vm.value, index)
   }
 
   const resetInputState = (e: KeyboardEvent) => {
@@ -906,6 +934,7 @@ export const useSelect = (props, states: States, ctx) => {
     handleComposition,
     onOptionCreate,
     onOptionDestroy,
+    setOrderIndex,
     handleMenuEnter,
     handleFocus,
     blur,

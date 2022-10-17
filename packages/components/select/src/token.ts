@@ -34,6 +34,7 @@ export interface SelectContext {
     key: number | string | Record<string, any>,
     vm: SelectOptionProxy
   ): void
+  setOrderIndex(index: number, vm: SelectOptionProxy): void
   handleOptionSelect(vm: unknown, byClick: boolean): void
 }
 

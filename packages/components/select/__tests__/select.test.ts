@@ -1505,7 +1505,8 @@ describe('Select', () => {
     vi.useRealTimers()
   })
 
-  test('asdwqdqwdsadad', async () => {
+  // #fix:10107
+  test('selected in the correct order', async () => {
     vi.useFakeTimers()
     wrapper = mount({
       template: `
@@ -1534,7 +1535,58 @@ describe('Select', () => {
           value: [],
           list: [],
           loading: false,
-          states: ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California'],
+          states: [
+            'Alabama',
+            'Alaska',
+            'Arizona',
+            'Arkansas',
+            'California',
+            'Colorado',
+            'Connecticut',
+            'Delaware',
+            'Florida',
+            'Georgia',
+            'Hawaii',
+            'Idaho',
+            'Illinois',
+            'Indiana',
+            'Iowa',
+            'Kansas',
+            'Kentucky',
+            'Louisiana',
+            'Maine',
+            'Maryland',
+            'Massachusetts',
+            'Michigan',
+            'Minnesota',
+            'Mississippi',
+            'Missouri',
+            'Montana',
+            'Nebraska',
+            'Nevada',
+            'New Hampshire',
+            'New Jersey',
+            'New Mexico',
+            'New York',
+            'North Carolina',
+            'North Dakota',
+            'Ohio',
+            'Oklahoma',
+            'Oregon',
+            'Pennsylvania',
+            'Rhode Island',
+            'South Carolina',
+            'South Dakota',
+            'Tennessee',
+            'Texas',
+            'Utah',
+            'Vermont',
+            'Virginia',
+            'Washington',
+            'West Virginia',
+            'Wisconsin',
+            'Wyoming',
+          ],
         }
       },
       mounted() {
@@ -1574,7 +1626,7 @@ describe('Select', () => {
     vi.runAllTimers()
     await nextTick()
 
-    const val = Array.from(select.options.values())[2].value.value
+    const val = select.optionsArray[2].value.value
     expect(val).toBe('value:California')
     await nextTick()
     select.debouncedQueryChange({
@@ -1584,8 +1636,8 @@ describe('Select', () => {
     })
     vi.runAllTimers()
     await nextTick()
-    const updateVal = Array.from(select.options.values())[2].value.value
-    expect(updateVal).toBe('label:Arizona')
+    const updateVal = select.optionsArray[2].value.value
+    expect(updateVal).toBe('value:Arizona')
   })
 
   test('disabled group', async () => {
