@@ -77,6 +77,8 @@ Open dialog from the center of the screen.
 
 dialog/align-center
 
+:::
+
 ## Destroy on Close
 
 When this is feature is enabled, the content under default slot will be destroyed with a `v-if` directive. Enable this when you have perf concerns.

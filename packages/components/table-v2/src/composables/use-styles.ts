@@ -121,6 +121,7 @@ export const useStyles = (
     footerHeight,
     emptyStyle,
     rootStyle,
+    headerHeight,
   }
 }
 
