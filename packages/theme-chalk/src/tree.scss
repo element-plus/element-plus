@@ -109,6 +109,8 @@
 
   @include e(label) {
     font-size: getCssVar('font-size', 'base');
+    width: 100%;
+    display: inherit;
   }
 
   @include e(loading-icon) {
