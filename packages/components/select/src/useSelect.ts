@@ -25,6 +25,7 @@ import {
   scrollIntoView,
 } from '@element-plus/utils'
 import {
+  useDeprecated,
   useFormItem,
   useLocale,
   useNamespace,
@@ -70,6 +71,17 @@ type States = ReturnType<typeof useSelectStates>
 export const useSelect = (props, states: States, ctx) => {
   const { t } = useLocale()
   const ns = useNamespace('select')
+
+  useDeprecated(
+    {
+      from: 'suffixTransition',
+      replacement: 'override style scheme',
+      version: '2.3.0',
+      scope: 'props',
+      ref: 'https://element-plus.org/en-US/component/select.html#select-attributes',
+    },
+    computed(() => props.suffixTransition === false)
+  )
 
   // template refs
   const reference = ref<ComponentPublicInstance<{
@@ -797,7 +809,9 @@ export const useSelect = (props, states: States, ctx) => {
       if (states.menuVisibleOnFocus) {
         states.menuVisibleOnFocus = false
       } else {
-        states.visible = !states.visible
+        if (!tooltipRef.value || !tooltipRef.value.isFocusInsideContent()) {
+          states.visible = !states.visible
+        }
       }
       if (states.visible) {
         ;(input.value || reference.value)?.focus()

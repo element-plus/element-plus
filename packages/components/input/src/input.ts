@@ -54,7 +54,6 @@ export const inputProps = buildProps({
   },
   form: {
     type: String,
-    default: '',
   },
   readonly: {
     type: Boolean,

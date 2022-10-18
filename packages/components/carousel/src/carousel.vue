@@ -64,7 +64,7 @@
 <script lang="ts" setup>
 import {
   computed,
-  nextTick,
+  getCurrentInstance,
   onBeforeUnmount,
   onMounted,
   provide,
@@ -78,7 +78,7 @@ import { useResizeObserver } from '@vueuse/core'
 import { debugWarn, isString } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useNamespace, useOrderedChildren } from '@element-plus/hooks'
 import { carouselContextKey } from '@element-plus/tokens'
 import { carouselEmits, carouselProps } from './carousel'
 import type { CarouselItemContext } from '@element-plus/tokens'
@@ -93,12 +93,20 @@ const ns = useNamespace('carousel')
 const COMPONENT_NAME = 'ElCarousel'
 const THROTTLE_TIME = 300
 
+const {
+  children: items,
+  addChild: addItem,
+  removeChild: removeItem,
+} = useOrderedChildren<CarouselItemContext>(
+  getCurrentInstance()!,
+  'ElCarouselItem'
+)
+
 // refs
 const activeIndex = ref(-1)
 const timer = ref<ReturnType<typeof setInterval> | null>(null)
 const hover = ref(false)
 const root = ref<HTMLDivElement>()
-const items = ref<Array<CarouselItemContext>>([])
 
 // computed
 const arrowDisplay = computed(
@@ -197,18 +205,6 @@ function resetItemPosition(oldIndex?: number) {
   items.value.forEach((item, index) => {
     item.translateItem(index, activeIndex.value, oldIndex)
   })
-}
-
-function addItem(item: CarouselItemContext) {
-  items.value.push(item)
-}
-
-function removeItem(uid?: number) {
-  const index = items.value.findIndex((item) => item.uid === uid)
-  if (index !== -1) {
-    items.value.splice(index, 1)
-    if (activeIndex.value === index) next()
-  }
 }
 
 function itemInStage(item: CarouselItemContext, index: number) {
@@ -312,17 +308,19 @@ watch(
   }
 )
 
+watch(
+  () => items.value,
+  () => {
+    if (items.value.length > 0) setActiveItem(props.initialIndex)
+  }
+)
+
 const resizeObserver = shallowRef<ReturnType<typeof useResizeObserver>>()
 // lifecycle
-onMounted(async () => {
-  await nextTick()
-
+onMounted(() => {
   resizeObserver.value = useResizeObserver(root.value, () => {
     resetItemPosition()
   })
-  if (props.initialIndex < items.value.length && props.initialIndex >= 0) {
-    activeIndex.value = props.initialIndex
-  }
   startTimer()
 })
 

@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -6,6 +6,7 @@ import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
+import ElForm, { ElFormItem } from '@element-plus/components/form'
 import Cascader from '../src/index.vue'
 
 import type { VNode } from 'vue'
@@ -400,5 +401,32 @@ describe('Cascader.vue', () => {
         document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
       ).toBe('')
     })
+  })
+
+  test('placeholder disappear when resetForm', async () => {
+    const model = reactive({
+      name: new Array<string>(),
+    })
+
+    const wrapper = _mount(() => (
+      <ElForm model={model}>
+        <ElFormItem label="Activity name" prop="name">
+          <Cascader
+            v-model={model.name}
+            options={OPTIONS}
+            filterable
+            placeholder={AXIOM}
+          />
+        </ElFormItem>
+      </ElForm>
+    ))
+
+    model.name = ['zhejiang', 'hangzhou']
+    await nextTick()
+    expect(wrapper.find('input').element.placeholder).toBe('')
+
+    wrapper.findComponent(ElForm).vm.$.exposed!.resetFields()
+    await nextTick()
+    expect(wrapper.find('input').element.placeholder).toBe(AXIOM)
   })
 })

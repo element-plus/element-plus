@@ -41,6 +41,14 @@ rate/text
 
 :::
 
+## Clearable
+
+:::demo You can reset the value to `0` when you click at the same value again.
+
+rate/clearable
+
+:::
+
 ## More icons
 
 You can use different icons to distinguish different rate components.
@@ -97,6 +105,7 @@ Use `css/scss` language to change the global or local color. We set some global 
 | text-color            | color of texts                                                                                                                                                                                                                 | string           | —                       | #1F2D3D                                                            |
 | texts                 | text array                                                                                                                                                                                                                     | array            | —                       | ['Extremely bad', 'Disappointed', 'Fair', 'Satisfied', 'Surprise'] |
 | score-template        | score template                                                                                                                                                                                                                 | string           | —                       | {value}                                                            |
+| clearable             | whether value can be reset to `0`                                                                                                                                                                                              | boolean          | —                       | false                                                              |
 
 ## Events
 
