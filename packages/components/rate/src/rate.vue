@@ -186,9 +186,10 @@ const activeComponent = computed(() =>
 )
 
 function showHalfIcon(item: number, currentValue: number) {
-  return (
-    item <= currentValue || (item - 0.5 <= currentValue && item > currentValue)
-  )
+  const base = item <= currentValue
+  return props.allowHalf
+    ? base || (item - 0.5 <= currentValue && item > currentValue)
+    : base
 }
 
 function showDecimalIcon(item: number) {
