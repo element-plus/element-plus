@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it } from 'vitest'
@@ -74,7 +73,9 @@ describe('TimeSelect', () => {
     value.value = '10:30'
     await nextTick()
 
-    expect(wrapper.findComponent(TimeSelect).vm.value).toBe('10:30')
+    expect(wrapper.findComponent({ name: 'ElTimeSelect' }).vm.value).toBe(
+      '10:30'
+    )
     expect(input.element.value).toBe('10:30')
   })
 
@@ -83,7 +84,7 @@ describe('TimeSelect', () => {
     const wrapper = mount(() => <TimeSelect v-model={value.value} />)
 
     await nextTick()
-    const vm = wrapper.findComponent(TimeSelect).vm
+    const vm = wrapper.findComponent({ name: 'ElTimeSelect' }).vm
     const input = wrapper.find('input')
     expect(vm.value).toBe('10:00')
     expect(input.element.value).toBe('10:00')
@@ -134,7 +135,7 @@ describe('TimeSelect', () => {
       attachTo: document.body,
     })
 
-    wrapper.findComponent(TimeSelect).vm.$.exposed.focus()
+    wrapper.findComponent(TimeSelect).vm.$.exposed!.focus()
 
     await nextTick()
     await nextTick()
@@ -149,9 +150,9 @@ describe('TimeSelect', () => {
       attachTo: document.body,
     })
 
-    wrapper.findComponent(TimeSelect).vm.$.exposed.focus()
+    wrapper.findComponent(TimeSelect).vm.$.exposed!.focus()
     await nextTick()
-    wrapper.findComponent(TimeSelect).vm.$.exposed.blur()
+    wrapper.findComponent(TimeSelect).vm.$.exposed!.blur()
 
     await nextTick()
     await nextTick()

@@ -35,13 +35,12 @@ autocomplete/remote-search
 
 ## Autocomplete Attributes
 
-| Attribute                         | Description                                                                                                                | Type                            | Accepted Values                                                | Default      |
+| Name                              | Description                                                                                                                | Type                            | Accepted Values                                                | Default      |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | -------------------------------------------------------------- | ------------ |
 | placeholder                       | the placeholder of Autocomplete                                                                                            | string                          | —                                                              | —            |
 | clearable                         | whether to show clear button                                                                                               | boolean                         | —                                                              | false        |
 | disabled                          | whether Autocomplete is disabled                                                                                           | boolean                         | —                                                              | false        |
 | value-key                         | key name of the input suggestion object for display                                                                        | string                          | —                                                              | value        |
-| icon                              | icon component                                                                                                             | string / Component              | —                                                              | —            |
 | model-value / v-model             | binding value                                                                                                              | string                          | —                                                              | —            |
 | debounce                          | debounce delay when typing, in milliseconds                                                                                | number                          | —                                                              | 300          |
 | placement                         | placement of the popup menu                                                                                                | string                          | top / top-start / top-end / bottom / bottom-start / bottom-end | bottom-start |
@@ -51,8 +50,6 @@ autocomplete/remote-search
 | name                              | same as `name` in native input                                                                                             | string                          | —                                                              | —            |
 | select-when-unmatched             | whether to emit a `select` event on enter when there is no autocomplete match                                              | boolean                         | —                                                              | false        |
 | label                             | label text                                                                                                                 | string                          | —                                                              | —            |
-| prefix-icon                       | prefix icon class                                                                                                          | string / Component              | —                                                              | —            |
-| suffix-icon                       | suffix icon class                                                                                                          | string / Component              | —                                                              | —            |
 | hide-loading                      | whether to hide the loading icon in remote search                                                                          | boolean                         | —                                                              | false        |
 | popper-append-to-body(deprecated) | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | boolean                         | —                                                              | false        |
 | teleported                        | whether select dropdown is teleported to the body                                                                          | boolean                         | true / false                                                   | true         |
@@ -71,10 +68,10 @@ autocomplete/remote-search
 
 ## Autocomplete Events
 
-| Event Name | Description                                      | Parameters                |
-| ---------- | ------------------------------------------------ | ------------------------- |
-| select     | triggers when a suggestion is clicked            | suggestion being clicked  |
-| change     | triggers when the icon inside Input value change | (value: string \| number) |
+| Name   | Description                                      | Parameters                |
+| ------ | ------------------------------------------------ | ------------------------- |
+| select | triggers when a suggestion is clicked            | suggestion being clicked  |
+| change | triggers when the icon inside Input value change | (value: string \| number) |
 
 ## Autocomplete Methods
 

@@ -41,6 +41,14 @@ rate/text
 
 :::
 
+## Clearable
+
+:::demo You can reset the value to `0` when you click at the same value again.
+
+rate/clearable
+
+:::
+
 ## More icons
 
 You can use different icons to distinguish different rate components.
@@ -77,7 +85,7 @@ Use `css/scss` language to change the global or local color. We set some global 
 
 ## Attributes
 
-| Attribute             | Description                                                                                                                                                                                                                    | Type             | Accepted Values         | Default                                                            |
+| Name                  | Description                                                                                                                                                                                                                    | Type             | Accepted Values         | Default                                                            |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- | ----------------------- | ------------------------------------------------------------------ |
 | model-value / v-model | binding value                                                                                                                                                                                                                  | number           | —                       | 0                                                                  |
 | max                   | max rating score                                                                                                                                                                                                               | number           | —                       | 5                                                                  |
@@ -90,16 +98,17 @@ Use `css/scss` language to change the global or local color. We set some global 
 | void-color            | color of unselected icons                                                                                                                                                                                                      | string           | —                       | #C6D1DE                                                            |
 | disabled-void-color   | color of unselected read-only icons                                                                                                                                                                                            | string           | —                       | #EFF2F7                                                            |
 | icons                 | icon components. If array, ot should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding icon component | array/object     | —                       | [StarFilled, StarFilled, StarFilled]                               |
-| void-icon             | component of unselected icons                                                                                                                                                                                                  | string/component | —                       | Star                                                               |
-| disabled-void-icon    | component of unselected read-only icons                                                                                                                                                                                        | string/component | —                       | StarFilled                                                         |
+| void-icon             | component of unselected icons                                                                                                                                                                                                  | string/Component | —                       | Star                                                               |
+| disabled-void-icon    | component of unselected read-only icons                                                                                                                                                                                        | string/Component | —                       | StarFilled                                                         |
 | show-text             | whether to display texts                                                                                                                                                                                                       | boolean          | —                       | false                                                              |
 | show-score            | whether to display current score. show-score and show-text cannot be true at the same time                                                                                                                                     | boolean          | —                       | false                                                              |
 | text-color            | color of texts                                                                                                                                                                                                                 | string           | —                       | #1F2D3D                                                            |
 | texts                 | text array                                                                                                                                                                                                                     | array            | —                       | ['Extremely bad', 'Disappointed', 'Fair', 'Satisfied', 'Surprise'] |
 | score-template        | score template                                                                                                                                                                                                                 | string           | —                       | {value}                                                            |
+| clearable             | whether value can be reset to `0`                                                                                                                                                                                              | boolean          | —                       | false                                                              |
 
 ## Events
 
-| Event Name | Description                         | Parameters           |
-| ---------- | ----------------------------------- | -------------------- |
-| change     | Triggers when rate value is changed | value after changing |
+| Name   | Description                         | Parameters           |
+| ------ | ----------------------------------- | -------------------- |
+| change | Triggers when rate value is changed | value after changing |

@@ -3,7 +3,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import { rollup } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from '@vitejs/plugin-vue'
-import DefineOptions from 'unplugin-vue-define-options/rollup'
+import VueMacros from 'unplugin-vue-macros/rollup'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import esbuild, { minify as minifyPlugin } from 'rollup-plugin-esbuild'
 import { parallel } from 'gulp'
@@ -31,11 +31,16 @@ const banner = `/*! ${PKG_BRAND_NAME} v${version} */\n`
 async function buildFullEntry(minify: boolean) {
   const plugins: Plugin[] = [
     ElementPlusAlias(),
-    DefineOptions(),
-    vue({
-      isProduction: true,
+    VueMacros({
+      setupComponent: false,
+      setupSFC: false,
+      plugins: {
+        vue: vue({
+          isProduction: true,
+        }),
+        vueJsx: vueJsx(),
+      },
     }),
-    vueJsx(),
     nodeResolve({
       extensions: ['.mjs', '.js', '.json', '.ts'],
     }),
@@ -99,7 +104,8 @@ async function buildFullEntry(minify: boolean) {
 }
 
 async function buildFullLocale(minify: boolean) {
-  const files = await glob(`${path.resolve(localeRoot, 'lang')}/*.ts`, {
+  const files = await glob(`**/*.ts`, {
+    cwd: path.resolve(localeRoot, 'lang'),
     absolute: true,
   })
   return Promise.all(
