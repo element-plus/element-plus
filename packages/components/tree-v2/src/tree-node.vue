@@ -50,7 +50,6 @@
 
 <script lang="ts" setup>
 import { computed, inject } from 'vue'
-import { CaretRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { useNamespace } from '@element-plus/hooks'
@@ -99,8 +98,4 @@ const handleContextMenu = (event: Event) => {
   }
   tree?.ctx.emit(NODE_CONTEXTMENU, event, props.node?.data, props.node)
 }
-
-defineExpose({
-  CaretRight,
-})
 </script>
