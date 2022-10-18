@@ -48,9 +48,8 @@
   </div>
 </template>
 
-<script lang="ts">
-// @ts-nocheck
-import { computed, defineComponent, inject } from 'vue'
+<script lang="ts" setup>
+import { computed, inject } from 'vue'
 import { CaretRight } from '@element-plus/icons-vue'
 import ElIcon from '@element-plus/components/icon'
 import ElCheckbox from '@element-plus/components/checkbox'
@@ -62,57 +61,46 @@ import {
   treeNodeEmits,
   treeNodeProps,
 } from './virtual-tree'
+import type { CheckboxValueType } from '@element-plus/components/checkbox/src/checkbox'
 
 const DEFAULT_ICON = 'caret-right'
 
-export default defineComponent({
+defineOptions({
   name: 'ElTreeNode',
-  components: {
-    ElIcon,
-    CaretRight,
-    ElCheckbox,
-    ElNodeContent,
-  },
-  props: treeNodeProps,
-  emits: treeNodeEmits,
-  setup(props, { emit }) {
-    const tree = inject(ROOT_TREE_INJECTION_KEY)
-    const ns = useNamespace('tree')
+})
 
-    const indent = computed(() => {
-      return tree?.props.indent ?? 16
-    })
+const props = defineProps(treeNodeProps)
+const emit = defineEmits(treeNodeEmits)
 
-    const icon = computed(() => {
-      return tree?.props.icon ?? DEFAULT_ICON
-    })
+const tree = inject(ROOT_TREE_INJECTION_KEY)
+const ns = useNamespace('tree')
 
-    const handleClick = (e: MouseEvent) => {
-      emit('click', props.node, e)
-    }
-    const handleExpandIconClick = () => {
-      emit('toggle', props.node)
-    }
-    const handleCheckChange = (value: boolean) => {
-      emit('check', props.node, value)
-    }
-    const handleContextMenu = (event: Event) => {
-      if (tree?.instance?.vnode?.props?.['onNodeContextmenu']) {
-        event.stopPropagation()
-        event.preventDefault()
-      }
-      tree?.ctx.emit(NODE_CONTEXTMENU, event, props.node?.data, props.node)
-    }
+const indent = computed(() => {
+  return tree?.props.indent ?? 16
+})
 
-    return {
-      ns,
-      indent,
-      icon,
-      handleClick,
-      handleExpandIconClick,
-      handleCheckChange,
-      handleContextMenu,
-    }
-  },
+const icon = computed(() => {
+  return tree?.props.icon ?? DEFAULT_ICON
+})
+
+const handleClick = (e: MouseEvent) => {
+  emit('click', props.node, e)
+}
+const handleExpandIconClick = () => {
+  emit('toggle', props.node)
+}
+const handleCheckChange = (value: CheckboxValueType) => {
+  emit('check', props.node, value as boolean)
+}
+const handleContextMenu = (event: Event) => {
+  if (tree?.instance?.vnode?.props?.['onNodeContextmenu']) {
+    event.stopPropagation()
+    event.preventDefault()
+  }
+  tree?.ctx.emit(NODE_CONTEXTMENU, event, props.node?.data, props.node)
+}
+
+defineExpose({
+  CaretRight,
 })
 </script>

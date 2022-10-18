@@ -4,8 +4,9 @@ import {
   iconPropType,
   mutable,
 } from '@element-plus/utils'
+import type { CheckboxValueType } from '@element-plus/components/checkbox/src/checkbox'
 import type { InjectionKey } from 'vue'
-import type { TreeNodeData } from '../../tree/src/tree.type'
+import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
 import type {
   CheckedInfo,
   FilterMethod,
@@ -183,6 +184,6 @@ export const treeEmits = {
 export const treeNodeEmits = {
   click: (node: TreeNode, e: MouseEvent) => !!(node && e),
   toggle: (node: TreeNode) => !!node,
-  check: (node: TreeNode, checked: boolean) =>
+  check: (node: TreeNode, checked: CheckboxValueType) =>
     node && typeof checked === 'boolean',
 }
