@@ -1638,6 +1638,7 @@ describe('Select', () => {
     await nextTick()
     const updateVal = select.optionsArray[2].value.value
     expect(updateVal).toBe('value:Arizona')
+    vi.useRealTimers()
   })
 
   test('disabled group', async () => {
