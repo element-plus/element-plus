@@ -9,7 +9,7 @@ lang: en-US
 
 Similar to Tooltip, Popover is also built with `ElPopper`. So for some duplicated attributes, please refer to the documentation of Tooltip.
 
-:::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus` or `contextmenu` . If you want to manually controll it, you can set `:visible`.
+:::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus` or `contextmenu` . If you want to manually control it, you can set `:visible`.
 
 popover/basic-usage
 
@@ -95,11 +95,11 @@ popover/directive-usage
 
 ## Events
 
-| Name         | Description                                   | Parameters |
-| ------------ | --------------------------------------------- | ---------- |
-| show         | triggers when popover shows                   | —          |
-| before-enter | triggers when the entering transition befores | —          |
-| after-enter  | triggers when the entering transition ends    | —          |
-| hide         | triggers when popover hides                   | —          |
-| before-leave | triggers when the leaving transition befores  | —          |
-| after-leave  | triggers when the leaving transition ends     | —          |
+| Name         | Description                                  | Parameters |
+| ------------ | -------------------------------------------- | ---------- |
+| show         | triggers when popover shows                  | —          |
+| before-enter | triggers when the entering transition before | —          |
+| after-enter  | triggers when the entering transition ends   | —          |
+| hide         | triggers when popover hides                  | —          |
+| before-leave | triggers when the leaving transition before  | —          |
+| after-leave  | triggers when the leaving transition ends    | —          |

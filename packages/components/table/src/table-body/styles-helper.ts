@@ -81,13 +81,16 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     rowIndex: number,
     columnIndex: number,
     row: T,
-    column: TableColumnCtx<T>
+    column: TableColumnCtx<T>,
+    offset: number
   ) => {
     const fixedClasses = getFixedColumnsClass(
       ns.b(),
       columnIndex,
       props?.fixed,
-      props.store
+      props.store,
+      undefined,
+      offset
     )
     const classes = [column.id, column.align, column.className, ...fixedClasses]
     const cellClassName = parent?.props.cellClassName
