@@ -11,8 +11,8 @@
     center
   >
     <span>
-      Notice: before dialog gets opened for the first time this node and the
-      one bellow will not be rendered
+      Notice: before dialog gets opened for the first time this node and the one
+      bellow will not be rendered
     </span>
     <div>
       <strong>Extra content (Not rendered)</strong>
