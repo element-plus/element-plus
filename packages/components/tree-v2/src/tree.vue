@@ -39,11 +39,10 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, provide, unref, useSlots } from 'vue'
+import { getCurrentInstance, provide, useSlots } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/tokens'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
-import { useAttrs } from '@element-plus/hooks/use-attrs/index'
 import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'
 import { ROOT_TREE_INJECTION_KEY, treeEmits, treeProps } from './virtual-tree'
@@ -56,7 +55,6 @@ const props = defineProps(treeProps)
 const emit = defineEmits(treeEmits)
 
 const slots = useSlots()
-const attrs = useAttrs()
 
 const itemSize = 26
 
@@ -64,7 +62,6 @@ provide(ROOT_TREE_INJECTION_KEY, {
   ctx: {
     emit,
     slots,
-    attrs: unref(attrs),
   },
   props,
   instance: getCurrentInstance()!,

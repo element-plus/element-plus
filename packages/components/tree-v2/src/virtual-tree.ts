@@ -4,7 +4,7 @@ import {
   iconPropType,
   mutable,
 } from '@element-plus/utils'
-import type { CheckboxValueType } from '@element-plus/components/checkbox/src/checkbox'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type { InjectionKey } from 'vue'
 import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
 import type {

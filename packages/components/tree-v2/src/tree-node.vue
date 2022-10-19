@@ -60,7 +60,7 @@ import {
   treeNodeEmits,
   treeNodeProps,
 } from './virtual-tree'
-import type { CheckboxValueType } from '@element-plus/components/checkbox/src/checkbox'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
 const DEFAULT_ICON = 'caret-right'
 
@@ -89,7 +89,7 @@ const handleExpandIconClick = () => {
   emit('toggle', props.node)
 }
 const handleCheckChange = (value: CheckboxValueType) => {
-  emit('check', props.node, value as boolean)
+  emit('check', props.node, value)
 }
 const handleContextMenu = (event: Event) => {
   if (tree?.instance?.vnode?.props?.['onNodeContextmenu']) {

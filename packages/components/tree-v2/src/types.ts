@@ -32,7 +32,7 @@ export interface TreeNode {
 }
 
 export interface TreeContext {
-  ctx: Omit<SetupContext<typeof treeEmits>, 'expose'>
+  ctx: Omit<SetupContext<typeof treeEmits>, 'expose' | 'attrs'>
   instance: ComponentInternalInstance
   props: TreeProps
 }

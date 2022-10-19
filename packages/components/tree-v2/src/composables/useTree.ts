@@ -11,7 +11,7 @@ import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
 import type { SetupContext } from 'vue'
 import type { treeEmits } from '../virtual-tree'
-import type { CheckboxValueType } from '@element-plus/components/checkbox/src/checkbox'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type {
   Tree,
   TreeData,
@@ -219,7 +219,7 @@ export function useTree(
   }
 
   function handleNodeCheck(node: TreeNode, checked: CheckboxValueType) {
-    toggleCheckbox(node, checked as boolean)
+    toggleCheckbox(node, checked)
   }
 
   function expandNode(node: TreeNode) {
