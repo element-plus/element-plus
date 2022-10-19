@@ -285,6 +285,7 @@ const resizeTextarea = () => {
     }
 
     nextTick(() => {
+      // NOTE: Force repaint to make sure the style set above is applied.
       textarea.value!.offsetHeight
       textareaCalcStyle.value = textareaStyle
     })
