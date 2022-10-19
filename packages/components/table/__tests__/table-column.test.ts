@@ -701,6 +701,71 @@ describe('table column', () => {
       wrapper.unmount()
     })
 
+    it('should work with fixed', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData">
+            <el-table-column prop="name" />
+            <el-table-column label="group" fixed="left">
+              <el-table-column label="group's group">
+                <el-table-column prop="runtime" width="100" fixed="right"/>
+                <el-table-column prop="director" width="100" fixed="right"/>
+              </el-table-column>
+              <el-table-column  prop="director"/>
+            </el-table-column>
+            <el-table-column prop="director"/>
+            <el-table-column prop="runtime"/>
+            <el-table-column label="group2" fixed="right">
+              <el-table-column prop="runtime" width="100" fixed="left"/>
+              <el-table-column prop="director" width="50"/>
+            </el-table-column>
+            <el-table-column prop="runtime"/>
+          </el-table>
+        `,
+
+        created() {
+          this.testData = getTestData()
+          this.groupFixed = 'left'
+        },
+      })
+
+      await doubleWait()
+      // 分层判断
+      // 1/2/2
+      const lfhcolumns = wrapper
+        .findAll('.el-table__header tr')
+        .map((item) => item.findAll('.el-table-fixed-column--left'))
+      const lfbcolumns = wrapper.findAll(
+        '.el-table__body .el-table-fixed-column--left'
+      )
+      const rfhcolumns = wrapper
+        .findAll('.el-table__header tr')
+        .map((item) => item.findAll('.el-table-fixed-column--right'))
+      const rfbcolumns = wrapper.findAll(
+        '.el-table__body .el-table-fixed-column--right'
+      )
+      expect(lfbcolumns).toHaveLength(15)
+      expect(rfbcolumns).toHaveLength(10)
+      expect(lfhcolumns.at(0).at(0).classes()).toContain('is-last-column')
+      expect(lfhcolumns.at(1).at(1).classes()).toContain('is-last-column')
+      expect(getComputedStyle(lfhcolumns.at(1).at(1).element).left).toBe(
+        '200px'
+      )
+      expect(getComputedStyle(lfhcolumns.at(2).at(1).element).left).toBe(
+        '100px'
+      )
+      expect(rfhcolumns.at(0).at(0).classes()).toContain('is-first-column')
+      expect(rfhcolumns.at(1).at(0).classes()).toContain('is-first-column')
+      expect(getComputedStyle(rfhcolumns.at(1).at(0).element).right).toBe(
+        '50px'
+      )
+      wrapper.unmount()
+    })
+
     it('el-table-column should callback itself', async () => {
       const TableColumn = {
         name: 'TableColumn',
