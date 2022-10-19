@@ -32,33 +32,13 @@
     <span ref="core" :class="ns.e('core')" :style="coreStyle">
       <div v-if="inlinePrompt" :class="ns.e('inner')">
         <template v-if="activeIcon || inactiveIcon">
-          <el-icon
-            v-if="activeIcon"
-            :class="[ns.is('icon'), checked ? ns.is('show') : ns.is('hide')]"
-          >
-            <component :is="activeIcon" />
-          </el-icon>
-          <el-icon
-            v-if="inactiveIcon"
-            :class="[ns.is('icon'), !checked ? ns.is('show') : ns.is('hide')]"
-          >
-            <component :is="inactiveIcon" />
+          <el-icon :class="ns.is('icon')">
+            <component :is="checked ? activeIcon : inactiveIcon" />
           </el-icon>
         </template>
-        <template v-else-if="activeText || inactiveIcon">
-          <span
-            v-if="activeText"
-            :class="[ns.is('text'), checked ? ns.is('show') : ns.is('hide')]"
-            :aria-hidden="!checked"
-          >
-            {{ activeText }}
-          </span>
-          <span
-            v-if="inactiveText"
-            :class="[ns.is('text'), !checked ? ns.is('show') : ns.is('hide')]"
-            :aria-hidden="checked"
-          >
-            {{ inactiveText }}
+        <template v-else-if="activeText || inactiveText">
+          <span :class="ns.is('text')" :aria-hidden="!checked">
+            {{ checked ? activeText : inactiveText }}
           </span>
         </template>
       </div>
