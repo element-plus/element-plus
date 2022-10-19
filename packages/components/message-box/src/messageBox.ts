@@ -1,7 +1,9 @@
 import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
 import {
+  debugWarn,
   hasOwn,
+  isElement,
   isFunction,
   isObject,
   isString,
@@ -33,6 +35,28 @@ const messageInstance = new Map<
   }
 >()
 
+const getAppendToElement = (props: any): HTMLElement => {
+  let appendTo: HTMLElement | null = document.body
+  if (props.appendTo) {
+    if (isString(props.appendTo)) {
+      appendTo = document.querySelector<HTMLElement>(props.appendTo)
+    }
+    if (isElement(props.appendTo)) {
+      appendTo = props.appendTo
+    }
+
+    // should fallback to default value with a warning
+    if (!isElement(appendTo)) {
+      debugWarn(
+        'ElMessageBox',
+        'the appendTo option is not an HTMLElement. Falling back to document.body.'
+      )
+      appendTo = document.body
+    }
+  }
+  return appendTo
+}
+
 const initInstance = (
   props: any,
   container: HTMLElement,
@@ -51,7 +75,7 @@ const initInstance = (
   )
   vnode.appContext = appContext
   render(vnode, container)
-  document.body.appendChild(container.firstElementChild!)
+  getAppendToElement(props).appendChild(container.firstElementChild!)
   return vnode.component
 }
 
