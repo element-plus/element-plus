@@ -70,8 +70,8 @@ describe('Switch.vue', () => {
     expect(vm.$el.classList.contains('is-checked')).false
     const coreEl = vm.$el.querySelector('.el-switch__core')
     expect(coreEl.style.width).toEqual('100px')
-    const leftLabelWrapper = wrapper.find('.el-switch__inner span')
-    expect(leftLabelWrapper.text()).toEqual('on')
+    const label = wrapper.find('.el-switch__inner span')
+    expect(label.text()).toEqual('off')
   })
 
   test('switch with icons', () => {
