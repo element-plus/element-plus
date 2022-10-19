@@ -74,6 +74,7 @@ const uploadFiles = (files: File[]) => {
     onStart(rawFile)
     if (autoUpload) upload(rawFile)
   }
+  Object.assign(fileList, files)
 }
 
 const upload = async (rawFile: UploadRawFile) => {
