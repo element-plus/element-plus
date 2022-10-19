@@ -57,7 +57,7 @@ function useStyle<T>(
   watch(
     () => [props.currentRowKey, store.states.rowKey],
     ([currentRowKey, rowKey]) => {
-      if (!unref(rowKey)) return
+      if (!unref(rowKey) || !unref(currentRowKey)) return
       store.setCurrentRowKey(`${currentRowKey}`)
     },
     {
