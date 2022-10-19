@@ -26,13 +26,12 @@ import {
   ref,
   watch,
 } from 'vue'
-import { flattenDeep, isEqual } from 'lodash-unified'
+import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
   castArray,
   focusNode,
   getSibling,
-  isArray,
   isEmpty,
   scrollIntoView,
   unique,
@@ -239,9 +238,7 @@ export default defineComponent({
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
         syncMenuState(nodes, forced)
-        checkedValue.value = isArray(modelValue)
-          ? [...modelValue]
-          : { ...modelValue }
+        checkedValue.value = cloneDeep(modelValue)
       }
     }
 
