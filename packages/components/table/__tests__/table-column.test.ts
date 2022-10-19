@@ -715,7 +715,7 @@ describe('table column', () => {
                 <el-table-column prop="runtime" width="100" fixed="right"/>
                 <el-table-column prop="director" width="100" fixed="right"/>
               </el-table-column>
-              <el-table-column  prop="director"/>
+              <el-table-column prop="director"/>
             </el-table-column>
             <el-table-column prop="director"/>
             <el-table-column prop="runtime"/>
@@ -729,13 +729,10 @@ describe('table column', () => {
 
         created() {
           this.testData = getTestData()
-          this.groupFixed = 'left'
         },
       })
 
       await doubleWait()
-      // 分层判断
-      // 1/2/2
       const lfhcolumns = wrapper
         .findAll('.el-table__header tr')
         .map((item) => item.findAll('.el-table-fixed-column--left'))
