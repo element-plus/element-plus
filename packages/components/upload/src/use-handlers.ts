@@ -100,7 +100,7 @@ export const useHandlers = (
         props.onError(err as Error, uploadFile, uploadFiles.value)
       }
     }
-    uploadFiles.value = [...uploadFiles.value, uploadFile]
+    Object.assign(uploadFiles.value, [...uploadFiles.value, uploadFile])
     props.onChange(uploadFile, uploadFiles.value)
   }
 
