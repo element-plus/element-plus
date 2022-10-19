@@ -1,7 +1,7 @@
 <template>
-  <el-button text @click="centerDialogVisible = true"
-    >Click to open Dialog</el-button
-  >
+  <el-button text @click="centerDialogVisible = true">
+    Click to open Dialog
+  </el-button>
 
   <el-dialog
     v-model="centerDialogVisible"
@@ -10,19 +10,19 @@
     destroy-on-close
     center
   >
-    <span
-      >Notice: before dialog gets opened for the first time this node and the
-      one bellow will not be rendered</span
-    >
+    <span>
+      Notice: before dialog gets opened for the first time this node and the
+      one bellow will not be rendered
+    </span>
     <div>
       <strong>Extra content (Not rendered)</strong>
     </div>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="centerDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="centerDialogVisible = false"
-          >Confirm</el-button
-        >
+        <el-button type="primary" @click="centerDialogVisible = false">
+          Confirm
+        </el-button>
       </span>
     </template>
   </el-dialog>
