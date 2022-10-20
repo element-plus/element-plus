@@ -10,7 +10,6 @@
       customClass,
     ]"
     :style="style"
-    tabindex="-1"
   >
     <header ref="headerRef" :class="ns.e('header')">
       <slot name="header">
