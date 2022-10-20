@@ -60,6 +60,5 @@ export const useBackTop = (
   return {
     visible,
     handleClick,
-    handleScrollThrottled,
   }
 }
