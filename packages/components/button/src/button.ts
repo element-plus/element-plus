@@ -2,7 +2,6 @@ import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, iconPropType } from '@element-plus/utils'
 import { Loading } from '@element-plus/icons-vue'
 import type { ExtractPropTypes } from 'vue'
-import type button from './button.vue'
 
 export const buttonTypes = [
   'default',
@@ -64,8 +63,6 @@ export type ButtonEmits = typeof buttonEmits
 
 export type ButtonType = ButtonProps['type']
 export type ButtonNativeType = ButtonProps['nativeType']
-
-export type ButtonInstance = InstanceType<typeof button>
 
 export interface ButtonConfigContext {
   autoInsertSpace?: boolean
