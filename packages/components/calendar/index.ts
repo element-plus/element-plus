@@ -5,4 +5,7 @@ export const ElCalendar = withInstall(Calendar)
 export default ElCalendar
 
 export * from './src/calendar'
-export type { DateTableInstance } from './src/instance'
+export type {
+  CalendarDateTableInstance,
+  DateTableInstance,
+} from './src/instance'
