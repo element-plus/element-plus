@@ -1,6 +1,7 @@
 @use 'sass:map';
 
 @use 'mixins/mixins' as *;
+@use 'mixins/utils' as *;
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
@@ -62,6 +63,16 @@ $switch-button-size: map.merge(
     'small': 12px,
   ),
   $switch-button-size
+);
+
+$switch-content-padding: () !default;
+$switch-content-padding: map.merge(
+  (
+    'large': 6px,
+    'default': 4px,
+    'small': 2px,
+  ),
+  $switch-content-padding
 );
 
 @include b(switch) {
@@ -134,10 +145,10 @@ $switch-button-size: map.merge(
   }
 
   @include e(core) {
-    margin: 0;
-    display: inline-block;
+    display: inline-flex;
     position: relative;
-    width: map.get($switch-core-width, 'default');
+    align-items: center;
+    min-width: map.get($switch-core-width, 'default');
     height: map.get($switch-core-height, 'default');
     border: 1px solid
       var(
@@ -151,33 +162,31 @@ $switch-button-size: map.merge(
     cursor: pointer;
     transition: border-color getCssVar('transition-duration'),
       background-color getCssVar('transition-duration');
-    vertical-align: middle;
 
     .#{$namespace}-switch__inner {
-      position: absolute;
-      top: 1px;
-      left: 1px;
+      width: 100%;
       transition: all getCssVar('transition-duration');
-      width: map.get($switch-button-size, 'default');
       height: map.get($switch-button-size, 'default');
       display: flex;
       justify-content: center;
       align-items: center;
-      left: 50%;
-      white-space: nowrap;
+      overflow: hidden;
 
       .is-icon,
       .is-text {
+        font-size: 12px;
         color: getCssVar('color-white');
-        transition: opacity getCssVar('transition-duration');
-        position: absolute;
         user-select: none;
+        @include utils-ellipsis;
       }
+      padding: 0 #{map.get($switch-content-padding, 'default')} 0 calc(#{map.get(
+              $switch-button-size,
+              'default'
+            )} + 2px);
     }
 
     .#{$namespace}-switch__action {
       position: absolute;
-      top: 1px;
       left: 1px;
       border-radius: getCssVar('border-radius-circle');
       transition: all getCssVar('transition-duration');
@@ -188,25 +197,6 @@ $switch-button-size: map.merge(
       justify-content: center;
       align-items: center;
       color: getCssVar('switch-off-color');
-
-      .is-icon,
-      .is-text {
-        transition: opacity getCssVar('transition-duration');
-        position: absolute;
-        user-select: none;
-      }
-    }
-
-    .is-text {
-      font-size: 12px;
-    }
-
-    .is-show {
-      opacity: 1;
-    }
-
-    .is-hide {
-      opacity: 0;
     }
   }
 
@@ -219,15 +209,15 @@ $switch-button-size: map.merge(
       background-color: getCssVar('switch-on-color');
 
       .#{$namespace}-switch__action {
-        left: 100%;
-        margin-left: calc(-1px - #{map.get($switch-button-size, 'default')});
+        left: calc(100% - #{map.get($switch-button-size, 'default') + 1px});
         color: getCssVar('switch-on-color');
       }
 
       .#{$namespace}-switch__inner {
-        left: 50%;
-        white-space: nowrap;
-        margin-left: calc(-1px - #{map.get($switch-button-size, 'default')});
+        padding: 0 calc(#{map.get($switch-button-size, 'default')} + 2px) 0 #{map.get(
+            $switch-content-padding,
+            'default'
+          )};
       }
     }
   }
@@ -273,13 +263,16 @@ $switch-button-size: map.merge(
       }
 
       @include e(core) {
-        width: map.get($switch-core-width, $size);
+        min-width: map.get($switch-core-width, $size);
         height: map.get($switch-core-height, $size);
         border-radius: map.get($switch-core-border-radius, $size);
 
         .#{$namespace}-switch__inner {
-          width: map.get($switch-button-size, $size);
           height: map.get($switch-button-size, $size);
+          padding: 0 #{map.get($switch-content-padding, $size)} 0 calc(#{map.get(
+                  $switch-button-size,
+                  $size
+                )} + 2px);
         }
 
         .#{$namespace}-switch__action {
@@ -291,11 +284,14 @@ $switch-button-size: map.merge(
       @include when(checked) {
         .#{$namespace}-switch__core {
           .#{$namespace}-switch__action {
-            margin-left: calc(-1px - #{map.get($switch-button-size, $size)});
+            left: calc(100% - #{map.get($switch-button-size, $size) + 1px});
           }
 
           .#{$namespace}-switch__inner {
-            margin-left: calc(-1px - #{map.get($switch-button-size, $size)});
+            padding: 0 calc(#{map.get($switch-button-size, $size)} + 2px) 0 #{map.get(
+                $switch-content-padding,
+                $size
+              )};
           }
         }
       }
