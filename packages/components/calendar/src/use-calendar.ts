@@ -8,12 +8,55 @@ import type { ComputedRef, SetupContext } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type { CalendarDateType, CalendarEmits, CalendarProps } from './calendar'
 
+const adjacentMonth = (start: Dayjs, end: Dayjs): [Dayjs, Dayjs][] => {
+  const firstMonthLastDay = start.endOf('month')
+  const lastMonthFirstDay = end.startOf('month')
+
+  // Whether the last day of the first month and the first day of the last month is in the same week
+  const isSameWeek = firstMonthLastDay.isSame(lastMonthFirstDay, 'week')
+  const lastMonthStartDay = isSameWeek
+    ? lastMonthFirstDay.add(1, 'week')
+    : lastMonthFirstDay
+
+  return [
+    [start, firstMonthLastDay],
+    [lastMonthStartDay.startOf('week'), end],
+  ]
+}
+
+const threeConsecutiveMonth = (start: Dayjs, end: Dayjs): [Dayjs, Dayjs][] => {
+  const firstMonthLastDay = start.endOf('month')
+  const secondMonthFirstDay = start.add(1, 'month').startOf('month')
+
+  // Whether the last day of the first month and the second month is in the same week
+  const secondMonthStartDay = firstMonthLastDay.isSame(
+    secondMonthFirstDay,
+    'week'
+  )
+    ? secondMonthFirstDay.add(1, 'week')
+    : secondMonthFirstDay
+
+  const secondMonthLastDay = secondMonthStartDay.endOf('month')
+  const lastMonthFirstDay = end.startOf('month')
+
+  // Whether the last day of the second month and the last day of the last month is in the same week
+  const lastMonthStartDay = secondMonthLastDay.isSame(lastMonthFirstDay, 'week')
+    ? lastMonthFirstDay.add(1, 'week')
+    : lastMonthFirstDay
+
+  return [
+    [start, firstMonthLastDay],
+    [secondMonthStartDay.startOf('week'), secondMonthLastDay],
+    [lastMonthStartDay.startOf('week'), end],
+  ]
+}
+
 export const useCalendar = (
   props: CalendarProps,
   emit: SetupContext<CalendarEmits>['emit'],
   componentName: string
 ) => {
-  const solts = useSlots()
+  const slots = useSlots()
   const { t, lang } = useLocale()
 
   const selectedDay = ref<Dayjs>()
@@ -61,12 +104,10 @@ export const useCalendar = (
 
   const date: ComputedRef<Dayjs> = computed(() => {
     if (!props.modelValue) {
-      if (realSelectedDay.value) {
-        return realSelectedDay.value
-      } else if (validatedRange.value.length) {
-        return validatedRange.value[0][0]
-      }
-      return now
+      return (
+        realSelectedDay.value ||
+        (validatedRange.value.length ? validatedRange.value[0][0] : now)
+      )
     } else {
       return dayjs(props.modelValue).locale(lang.value)
     }
@@ -98,52 +139,14 @@ export const useCalendar = (
     }
     // Two adjacent months
     else if (firstMonth + 1 === lastMonth) {
-      const firstMonthLastDay = firstDay.endOf('month')
-      const lastMonthFirstDay = lastDay.startOf('month')
-
-      // Whether the last day of the first month and the first day of the last month is in the same week
-      const isSameWeek = firstMonthLastDay.isSame(lastMonthFirstDay, 'week')
-      const lastMonthStartDay = isSameWeek
-        ? lastMonthFirstDay.add(1, 'week')
-        : lastMonthFirstDay
-
-      return [
-        [firstDay, firstMonthLastDay],
-        [lastMonthStartDay.startOf('week'), lastDay],
-      ]
+      return adjacentMonth(firstDay, lastDay)
     }
     // Three consecutive months (compatible: 2021-01-30 to 2021-02-28)
     else if (
       firstMonth + 2 === lastMonth ||
       (firstMonth + 1) % 11 === lastMonth
     ) {
-      const firstMonthLastDay = firstDay.endOf('month')
-      const secondMonthFirstDay = firstDay.add(1, 'month').startOf('month')
-
-      // Whether the last day of the first month and the second month is in the same week
-      const secondMonthStartDay = firstMonthLastDay.isSame(
-        secondMonthFirstDay,
-        'week'
-      )
-        ? secondMonthFirstDay.add(1, 'week')
-        : secondMonthFirstDay
-
-      const secondMonthLastDay = secondMonthStartDay.endOf('month')
-      const lastMonthFirstDay = lastDay.startOf('month')
-
-      // Whether the last day of the second month and the last day of the last month is in the same week
-      const lastMonthStartDay = secondMonthLastDay.isSame(
-        lastMonthFirstDay,
-        'week'
-      )
-        ? lastMonthFirstDay.add(1, 'week')
-        : lastMonthFirstDay
-
-      return [
-        [firstDay, firstMonthLastDay],
-        [secondMonthStartDay.startOf('week'), secondMonthLastDay],
-        [lastMonthStartDay.startOf('week'), lastDay],
-      ]
+      return threeConsecutiveMonth(firstDay, lastDay)
     }
     // Other cases
     else {
@@ -184,7 +187,7 @@ export const useCalendar = (
       ref: 'https://element-plus.org/en-US/component/calendar.html#slots',
       type: 'Slot',
     },
-    computed(() => !!solts.dateCell)
+    computed(() => !!slots.dateCell)
   )
 
   return {
