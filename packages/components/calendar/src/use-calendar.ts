@@ -57,7 +57,7 @@ export const useCalendar = (
   componentName: string
 ) => {
   const slots = useSlots()
-  const { t, lang } = useLocale()
+  const { lang } = useLocale()
 
   const selectedDay = ref<Dayjs>()
   const now = dayjs().locale(lang.value)
@@ -116,11 +116,6 @@ export const useCalendar = (
   const nextMonthDayjs = computed(() => date.value.add(1, 'month').date(1))
   const prevYearDayjs = computed(() => date.value.subtract(1, 'year').date(1))
   const nextYearDayjs = computed(() => date.value.add(1, 'year').date(1))
-
-  const i18nDate = computed(() => {
-    const pickedMonth = `el.datepicker.month${date.value.format('M')}`
-    return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
-  })
 
   // https://github.com/element-plus/element-plus/issues/3155
   // Calculate the validate date range according to the start and end dates
@@ -197,7 +192,5 @@ export const useCalendar = (
     pickDay,
     selectDate,
     validatedRange,
-    t,
-    i18nDate,
   }
 }
