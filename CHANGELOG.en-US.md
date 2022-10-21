@@ -1,5 +1,33 @@
 ## Changelog
 
+### 2.2.19
+
+_2022-10-21_
+
+#### Features
+
+- Components [message-box] add append-to option (#10071 by @consultation-applio)
+
+#### Bug fixes
+
+- Components [input] missing native form attribute (#10093 by @HeftyKoo)
+- Components [date-picker] fix readonly picker can be triggered (#9931 by @ntnyq)
+- Components [table-v2] fix scroll to bottom (#9959 by @Tsong-LC)
+- Component [table] row-key due to current-change trigger (#10060 by @Simon-He95)
+- Components [autocomplete] optimize the select event type (#10105 by @tolking)
+- Components [table] fix merge cell cannot show side shadow (#10095 by @tinyfind)
+- Components [switch] clipped text (#10081 by @Simon-He95)
+- Components [cascader] modelValue update problem (#10119 by @chenxch)
+- Components [dialog] click allow focus out (#10160 by @Giwayume)
+
+#### Refactors
+
+- Components [backtop] (#10151 by @jw-foss)
+- Components [button] (#10152 by @jw-foss)
+- Components [calendar] (#10155 by @jw-foss)
+- Components [calendar] (#10158 by @jw-foss)
+- Components [tree-v2] switch to script-setup syntax (#10133 by @SnowingFox)
+
 ### 2.2.18
 
 _2022-10-13_
