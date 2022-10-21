@@ -1,7 +1,7 @@
 <template>
-  <el-button text @click="dialogTableVisible = true"
-    >open a Table nested Dialog</el-button
-  >
+  <el-button text @click="dialogTableVisible = true">
+    open a Table nested Dialog
+  </el-button>
 
   <el-dialog v-model="dialogTableVisible" title="Shipping address">
     <el-table :data="gridData">
@@ -12,9 +12,9 @@
   </el-dialog>
 
   <!-- Form -->
-  <el-button text @click="dialogFormVisible = true"
-    >open a Form nested Dialog</el-button
-  >
+  <el-button text @click="dialogFormVisible = true">
+    open a Form nested Dialog
+  </el-button>
 
   <el-dialog v-model="dialogFormVisible" title="Shipping address">
     <el-form :model="form">
@@ -31,9 +31,9 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false"
-          >Confirm</el-button
-        >
+        <el-button type="primary" @click="dialogFormVisible = false">
+          Confirm
+        </el-button>
       </span>
     </template>
   </el-dialog>
