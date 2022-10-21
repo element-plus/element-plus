@@ -3,11 +3,15 @@ title: Autocomplete
 lang: en-US
 ---
 
-## Autocomplete
+# Autocomplete
 
-You can get some recommended tips based on the current input.
+Get some recommended tips based on the current input.
 
-:::demo Autocomplete component provides input suggestions. The `fetch-suggestions` attribute is a method that returns suggested input. In this example, `querySearch(queryString, cb)` returns suggestions to Autocomplete via `cb(data)` when suggestions are ready.
+## Basic Usage
+
+Autocomplete component provides input suggestions.
+
+:::demo The `fetch-suggestions` attribute is a method that returns suggested input. In this example, `querySearch(queryString, cb)` returns suggestions to Autocomplete via `cb(data)` when suggestions are ready.
 
 autocomplete/autocomplete
 
