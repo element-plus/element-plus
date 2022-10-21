@@ -1,9 +1,4 @@
-import {
-  buildProps,
-  definePropType,
-  iconPropType,
-  isNumber,
-} from '@element-plus/utils'
+import { buildProps, iconPropType, isNumber } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 import { avatarFallbackProps } from './avatar-fallback'
 import { avatarImageProps } from './avatar-image'
