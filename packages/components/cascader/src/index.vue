@@ -77,7 +77,14 @@
           </template>
         </el-input>
 
-        <div v-if="multiple" ref="tagWrapper" :class="nsCascader.e('tags')">
+        <div
+          v-if="multiple"
+          ref="tagWrapper"
+          :class="nsCascader.e('tags')"
+          :style="{
+            zIndex: tooltipShow ? 1 : 0,
+          }"
+        >
           <el-tag
             v-for="tag in presentTags"
             :key="tag.key"
@@ -98,6 +105,8 @@
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 placement="bottom"
                 effect="light"
+                @before-show="onShow"
+                @before-hide="onHide"
               >
                 <template #default>
                   <span>{{ tag.text }}</span>
@@ -355,7 +364,7 @@ export default defineComponent({
   setup(props, { emit }) {
     let inputInitialHeight = 0
     let pressDeleteCount = 0
-
+    const tooltipShow = ref(false)
     const nsCascader = useNamespace('cascader')
     const nsInput = useNamespace('input')
 
@@ -719,6 +728,12 @@ export default defineComponent({
       val ? handleFilter() : hideSuggestionPanel()
     }
 
+    const onShow = () => {
+      tooltipShow.value = true
+    }
+    const onHide = () => {
+      tooltipShow.value = false
+    }
     watch(filtering, updatePopperPosition)
 
     watch([checkedNodes, isDisabled], calculatePresentTags)
@@ -764,6 +779,7 @@ export default defineComponent({
       multiple,
       readonly,
       clearBtnVisible,
+      tooltipShow,
 
       nsCascader,
       nsInput,
@@ -781,6 +797,8 @@ export default defineComponent({
       handleSuggestionKeyDown,
       handleDelete,
       handleInput,
+      onShow,
+      onHide,
     }
   },
 })
