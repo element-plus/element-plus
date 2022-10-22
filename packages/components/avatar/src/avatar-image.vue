@@ -4,7 +4,7 @@
     :srcSet="srcSet"
     :style="fitStyle"
     v-bind="$attrs"
-    @error="$emit('error')"
+    @error="(e) => $emit('error', e)"
   />
   <img
     v-if="!srcSet && imageLoadingStatus === 'loaded'"
