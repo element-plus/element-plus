@@ -196,7 +196,7 @@
 // @ts-nocheck
 import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
 import { isPromise } from '@vue/shared'
-import { debounce } from 'lodash-unified'
+import { cloneDeep, debounce } from 'lodash-unified'
 
 import { isClient, useResizeObserver } from '@vueuse/core'
 import ElCascaderPanel, {
@@ -416,7 +416,7 @@ export default defineComponent({
 
     const checkedValue = computed<CascaderValue>({
       get() {
-        return props.modelValue as CascaderValue
+        return cloneDeep(props.modelValue) as CascaderValue
       },
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)
