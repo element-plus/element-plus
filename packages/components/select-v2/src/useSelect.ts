@@ -57,7 +57,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     selectWidth: 200,
     initialInputHeight: 0,
     previousQuery: null,
-    previousValue: '',
+    previousValue: undefined,
     query: '',
     selectedLabel: '',
     softFocus: false,
@@ -324,7 +324,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const update = (val: any) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
-    states.previousValue = val.toString()
+    states.previousValue = val?.toString()
   }
 
   const getValueIndex = (arr = [], value: unknown) => {
@@ -512,7 +512,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (isArray(props.modelValue)) {
       emptyValue = []
     } else {
-      emptyValue = ''
+      emptyValue = undefined
     }
 
     states.softFocus = true
@@ -666,7 +666,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         })
       } else {
         states.cachedOptions = []
-        states.previousValue = ''
+        states.previousValue = undefined
       }
     } else {
       if (hasModelValue.value) {
@@ -683,7 +683,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         }
       } else {
         states.selectedLabel = ''
-        states.previousValue = ''
+        states.previousValue = undefined
       }
     }
     clearAllNewOption()
