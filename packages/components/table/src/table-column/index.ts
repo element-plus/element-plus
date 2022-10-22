@@ -176,8 +176,13 @@ export default defineComponent({
             Array.isArray(childNode.children)
           ) {
             childNode.children.forEach((vnode) => {
-              // No rendering when vnode is dynamic slot or text
-              if (vnode?.patchFlag !== 1024 && !isString(vnode?.children)) {
+              if (vnode.type?.name === 'ElTableColumn' || vnode.shapeFlag & 2) {
+                children.push(vnode)
+              } else if (
+                vnode?.patchFlag !== 1024 &&
+                !isString(vnode?.children)
+              ) {
+                // No rendering when vnode is dynamic slot or text
                 children.push(vnode)
               }
             })

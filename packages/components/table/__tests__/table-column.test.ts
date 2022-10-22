@@ -701,6 +701,40 @@ describe('table column', () => {
       wrapper.unmount()
     })
 
+    it('should work in one column', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData">
+            <el-table-column label="group">
+              <el-table-column v-for="item in ['col1', 'col2']" :key="item">
+                <template #header>{{item}}</template>
+              </el-table-column>
+            </el-table-column>
+          </el-table>
+        `,
+
+        created() {
+          this.testData = null
+        },
+      })
+
+      await doubleWait()
+      const trs = wrapper.findAll('.el-table__header tr')
+      expect(trs.length).toEqual(2)
+      const firstRowLength = trs[0].findAll('th .cell').length
+      const secondRowLength = trs[1].findAll('th .cell').length
+      expect(firstRowLength).toEqual(1)
+      expect(secondRowLength).toEqual(2)
+
+      expect(trs[0].find('th:first-child').attributes('rowspan')).toEqual('1')
+      expect(trs[0].find('th:first-child').attributes('colspan')).toEqual('2')
+      wrapper.unmount()
+    })
+
     it('el-table-column should callback itself', async () => {
       const TableColumn = {
         name: 'TableColumn',
