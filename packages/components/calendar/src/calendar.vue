@@ -52,8 +52,9 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
 import { ElButton, ElButtonGroup } from '@element-plus/components/button'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 
 import DateTable from './date-table.vue'
 import { useCalendar } from './use-calendar'
@@ -75,10 +76,15 @@ const {
   pickDay,
   realSelectedDay,
   selectDate,
-  t,
-  i18nDate,
   validatedRange,
 } = useCalendar(props, emit, COMPONENT_NAME)
+
+const { t } = useLocale()
+
+const i18nDate = computed(() => {
+  const pickedMonth = `el.datepicker.month${date.value.format('M')}`
+  return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
+})
 
 defineExpose({
   /** @description currently selected date */
