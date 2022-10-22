@@ -6,6 +6,7 @@ import { rAF } from '@element-plus/test-utils/tick'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import Button from '@element-plus/components/button'
+import { CaretBottom } from '@element-plus/icons-vue'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
@@ -259,6 +260,30 @@ describe('Dropdown', () => {
     vi.runAllTimers()
     vi.useRealTimers()
     expect(content.open).toBe(true)
+  })
+
+  test('split button icon', async () => {
+    const wrapper = _mount(
+      `
+      <el-dropdown split-button :split-button-icon="caretBottom" type="primary">
+        Dropdown List
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item>Action 1</el-dropdown-item>
+            <el-dropdown-item>Action 2</el-dropdown-item>
+            <el-dropdown-item>Action 3</el-dropdown-item>
+            <el-dropdown-item>Action 4</el-dropdown-item>
+            <el-dropdown-item>Action 5</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
+      `,
+      () => ({
+        caretBottom: CaretBottom,
+      })
+    )
+
+    expect(wrapper.findComponent(CaretBottom).exists()).toBeTruthy()
   })
 
   test('hide on click', async () => {

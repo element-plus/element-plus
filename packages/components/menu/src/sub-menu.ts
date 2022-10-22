@@ -24,7 +24,6 @@ import {
   throwError,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
 import { ElIcon } from '@element-plus/components/icon'
 import useMenu from './use-menu'
 import { useMenuCssVar } from './use-menu-css-var'
@@ -113,12 +112,12 @@ export default defineComponent({
           ? opened.value
             ? props.expandOpenIcon
             : props.expandCloseIcon
-          : ArrowDown
+          : rootMenu.props.subMenuArrowDownIcon
         : props.collapseCloseIcon && props.collapseOpenIcon
         ? opened.value
           ? props.collapseOpenIcon
           : props.collapseCloseIcon
-        : ArrowRight
+        : rootMenu.props.subMenuArrowRightIcon
     })
     const isFirstLevel = computed(() => {
       return subMenu.level === 0
