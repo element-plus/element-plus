@@ -3,7 +3,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import {
+  computed,
+  inject,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  shallowRef,
+  watch,
+} from 'vue'
 import { isUndefined } from '@element-plus/utils'
 import { avatarKey } from '@element-plus/tokens'
 import { avatarFallbackProps } from './avatar-fallback'
@@ -16,13 +24,13 @@ const show = computed(() => {
   return canRender.value && imageLoadingStatus.value !== 'loaded'
 })
 
-let timer: number
+const timer = shallowRef<number>()
 
 onMounted(() => {
   watch(
     () => props.delayMs,
     (delay) => {
-      timer = window.setTimeout(() => {
+      timer.value = window.setTimeout(() => {
         canRender.value = true
       }, delay)
     },
@@ -33,8 +41,8 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  if (timer) {
-    window.clearTimeout(timer)
+  if (timer.value) {
+    window.clearTimeout(timer.value)
   }
 })
 </script>
