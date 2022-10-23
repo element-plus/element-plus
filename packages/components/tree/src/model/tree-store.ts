@@ -100,6 +100,7 @@ export default class TreeStore {
   setData(newVal: TreeData): void {
     const instanceChanged = newVal !== this.root.data
     if (instanceChanged) {
+      this.nodesMap = {}
       this.root.setData(newVal)
       this._initDefaultCheckedNodes()
     } else {
