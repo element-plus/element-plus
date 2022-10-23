@@ -95,6 +95,16 @@ table/grouping-header
 
 :::
 
+## Table with fixed group header
+
+fixed group head is supported
+
+:::demo The attribute `fixed` of the group header is determined by the outermost `el-table-column`
+
+table/fixed-column-and-group-header
+
+:::
+
 ## Single select
 
 Single row selection is supported.
