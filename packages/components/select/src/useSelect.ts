@@ -137,7 +137,11 @@ export const useSelect = (props, states: States, ctx) => {
     return null
   })
 
-  const optionsArray = computed(() => Array.from(states.options.values()))
+  const optionsArray = computed(() =>
+    Array.from(states.options.values()).sort(
+      (a, b) => a.states.index - b.states.index
+    )
+  )
 
   const cachedOptionsArray = computed(() =>
     Array.from(states.cachedOptions.values())
@@ -319,7 +323,7 @@ export const useSelect = (props, states: States, ctx) => {
   watch(
     () => states.hoverIndex,
     (val) => {
-      if (typeof val === 'number' && val > -1) {
+      if (typeof val === 'number' && val >= -1) {
         hoverOption.value = optionsArray.value[val] || {}
       }
       optionsArray.value.forEach((option) => {
@@ -383,7 +387,6 @@ export const useSelect = (props, states: States, ctx) => {
       })
     }
     if (props.remote && typeof props.remoteMethod === 'function') {
-      states.hoverIndex = -1
       props.remoteMethod(val)
     } else if (typeof props.filterMethod === 'function') {
       props.filterMethod(val)
@@ -403,7 +406,6 @@ export const useSelect = (props, states: States, ctx) => {
       checkDefaultFirstOption()
     }
   }
-
   const managePlaceholder = () => {
     if (states.currentPlaceholder !== '') {
       states.currentPlaceholder = input.value!.value
@@ -672,10 +674,21 @@ export const useSelect = (props, states: States, ctx) => {
     scrollbar.value?.handleScroll()
   }
 
-  const onOptionCreate = (vm: SelectOptionProxy) => {
+  const onOptionCreate = (vm: SelectOptionProxy, options?: VNode[]) => {
     states.optionsCount++
     states.filteredOptionsCount++
     states.options.set(vm.value, vm)
+    // 重新按照options的顺序排序
+    if (options && options.length === states.options.size) {
+      options.forEach((child, idx) => {
+        const key = child.props.value
+        const oldVm = states.options.get(key)
+        if (oldVm) {
+          oldVm.states.index = idx
+          states.options.set(key, oldVm)
+        }
+      })
+    }
     states.cachedOptions.set(vm.value, vm)
   }
 

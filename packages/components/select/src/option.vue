@@ -31,7 +31,6 @@ import {
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'
 import type { SelectOptionProxy } from './token'
-
 export default defineComponent({
   name: 'ElOption',
   componentName: 'ElOption',
@@ -63,10 +62,16 @@ export default defineComponent({
       useOption(props, states)
 
     const { visible, hover } = toRefs(states)
-
     const vm = getCurrentInstance().proxy
     const key = (vm as unknown as SelectOptionProxy).value
-    select.onOptionCreate(vm as unknown as SelectOptionProxy)
+    const parent =
+      getCurrentInstance().parent.slots.default()[1].children[0].children
+    nextTick(() => {
+      select.onOptionCreate(
+        vm as unknown as SelectOptionProxy,
+        parent as VNode[]
+      )
+    })
 
     onBeforeUnmount(() => {
       const { selected } = select
