@@ -251,10 +251,20 @@ export function toggleRowStatus<T>(
 
   const addRow = () => {
     statusArr.push(row)
+    if (row.children) {
+      row.children.forEach((item) => {
+        statusArr.push(item)
+      })
+    }
     changed = true
   }
   const removeRow = () => {
     statusArr.splice(index, 1)
+    if (row.children) {
+      row.children.forEach((item) => {
+        statusArr.splice(item, 1)
+      })
+    }
     changed = true
   }
 
