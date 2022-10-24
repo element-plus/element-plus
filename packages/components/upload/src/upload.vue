@@ -60,7 +60,7 @@ import { useDisabled } from '@element-plus/hooks'
 import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
 import { useHandlers } from './use-handlers'
-import { uploadProps } from './upload'
+import { uploadEmits, uploadProps } from './upload'
 import type {
   UploadContentInstance,
   UploadContentProps,
@@ -71,6 +71,7 @@ defineOptions({
 })
 
 const props = defineProps(uploadProps)
+const emit = defineEmits(uploadEmits)
 
 const slots = useSlots()
 const disabled = useDisabled()
@@ -86,7 +87,7 @@ const {
   handleRemove,
   handleSuccess,
   handleProgress,
-} = useHandlers(props, uploadRef)
+} = useHandlers(props, emit, uploadRef)
 
 const isPictureCard = computed(() => props.listType === 'picture-card')
 
