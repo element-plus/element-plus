@@ -16,6 +16,8 @@
         :for="labelFor"
         :class="ns.e('label')"
         :style="labelStyle"
+        @mouseenter="labelInOut(true,currentLabel)"
+        @mouseleave="labelInOut(false,'')"
       >
         <slot name="label" :label="currentLabel">
           {{ currentLabel }}
@@ -98,6 +100,10 @@ const formItemRef = ref<HTMLDivElement>()
 // special inline value.
 let initialValue: any = undefined
 let isResettingField = false
+
+function labelInOut(flag:boolean,e: string) {
+  props?.labelInOutFunc?.(flag,e)
+}
 
 const labelStyle = computed<CSSProperties>(() => {
   if (formContext?.labelPosition === 'top') {

@@ -1,3 +1,8 @@
+/*
+ * @Description:
+ * @Author: wangchao
+ * @Date: 2022-10-09 11:20:56
+ */
 import { componentSizes } from '@element-plus/constants'
 import { buildProps, definePropType } from '@element-plus/utils'
 
@@ -20,6 +25,10 @@ export const formItemProps = buildProps({
   labelWidth: {
     type: [String, Number],
     default: '',
+  },
+  labelInOutFunc: {
+    type: Function,
+    default: () => {},
   },
   prop: {
     type: definePropType<FormItemProp>([String, Array]),
