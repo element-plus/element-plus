@@ -42,7 +42,6 @@ class MenuItem {
         }
         case EVENT_CODE.enter:
         case EVENT_CODE.space: {
-          prevDef = true
           ;(event.currentTarget as HTMLElement).click()
           break
         }
