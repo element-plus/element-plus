@@ -253,7 +253,7 @@ export function toggleRowStatus<T>(
     statusArr.push(row)
     if (row.children) {
       row.children.forEach((item) => {
-        statusArr.push(item)
+        toggleRowStatus(statusArr, item, newVal)
       })
     }
     changed = true
@@ -262,7 +262,7 @@ export function toggleRowStatus<T>(
     statusArr.splice(index, 1)
     if (row.children) {
       row.children.forEach((item) => {
-        statusArr.splice(item, 1)
+        toggleRowStatus(statusArr, item, newVal)
       })
     }
     changed = true
