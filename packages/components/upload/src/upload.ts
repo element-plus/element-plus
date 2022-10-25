@@ -128,9 +128,6 @@ export const uploadBaseProps = buildProps({
     type: definePropType<UploadUserFile[]>(Array),
     default: () => mutable([] as const),
   },
-  'onUpdate:fileList': {
-    type: definePropType<UploadUserFile[]>(Function),
-  },
   autoUpload: {
     type: Boolean,
     default: true,

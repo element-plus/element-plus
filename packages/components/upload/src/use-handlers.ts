@@ -1,6 +1,6 @@
-import { computed, ref, watch } from 'vue'
-import { isEqual } from 'lodash-unified'
-import { debugWarn, isFunction, throwError } from '@element-plus/utils'
+import { ref, watch } from 'vue'
+import { cloneDeep, isEqual } from 'lodash-unified'
+import { debugWarn, throwError } from '@element-plus/utils'
 import { genFileId } from './upload'
 import type { SetupContext, ShallowRef } from 'vue'
 import type {
@@ -30,10 +30,6 @@ export const useHandlers = (
   uploadRef: ShallowRef<UploadContentInstance | undefined>
 ) => {
   const uploadFiles = ref<UploadFiles>([])
-
-  const updateEventKeyRaw = `onUpdate:fileList` as const
-
-  const hasUpdateHandler = computed(() => isFunction(props[updateEventKeyRaw]))
 
   const getFile = (rawFile: UploadRawFile) =>
     uploadFiles.value.find((file) => file.uid === rawFile.uid)
@@ -103,9 +99,7 @@ export const useHandlers = (
     }
     uploadFiles.value.push(uploadFile)
 
-    if (hasUpdateHandler.value) {
-      emit('update:fileList', uploadFiles.value)
-    }
+    emit('update:fileList', uploadFiles.value)
     props.onChange(uploadFile, uploadFiles.value)
   }
 
@@ -119,9 +113,7 @@ export const useHandlers = (
       abort(file)
       const fileList = uploadFiles.value
       fileList.splice(fileList.indexOf(file), 1)
-      if (hasUpdateHandler.value) {
-        emit('update:fileList', uploadFiles.value)
-      }
+      emit('update:fileList', uploadFiles.value)
       props.onRemove(file, fileList)
       revokeObjectURL(file)
     }
@@ -144,7 +136,7 @@ export const useHandlers = (
     () => props.fileList,
     (val) => {
       if (isEqual(uploadFiles.value, val)) return
-      uploadFiles.value = [...val] as UploadFiles
+      uploadFiles.value = cloneDeep(val) as UploadFiles
     },
     {
       immediate: true,
