@@ -219,14 +219,18 @@ export default defineComponent({
                         ]
                       ),
                     column.filterable &&
-                      h(FilterPanel, {
-                        store,
-                        placement: column.filterPlacement || 'bottom-start',
-                        column,
-                        upDataColumn: (key, value) => {
-                          column[key] = value
+                      h(
+                        FilterPanel,
+                        {
+                          store,
+                          placement: column.filterPlacement || 'bottom-start',
+                          column,
+                          upDataColumn: (key, value) => {
+                            column[key] = value
+                          },
                         },
-                      }),
+                        { filter: column.filterRender }
+                      ),
                   ]
                 ),
               ]

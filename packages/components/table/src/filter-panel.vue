@@ -16,18 +16,27 @@
       <div v-if="multiple">
         <div :class="ns.e('content')">
           <el-scrollbar :wrap-class="ns.e('wrap')">
-            <el-checkbox-group
-              v-model="filteredValue"
-              :class="ns.e('checkbox-group')"
+            <slot
+              name="filter"
+              :multiple="multiple"
+              :filters="filters"
+              :filtered-value="filteredValue"
+              :handle-confirm="handleConfirm"
+              :handle-reset="handleReset"
             >
-              <el-checkbox
-                v-for="filter in filters"
-                :key="filter.value"
-                :label="filter.value"
+              <el-checkbox-group
+                v-model="filteredValue"
+                :class="ns.e('checkbox-group')"
               >
-                {{ filter.text }}
-              </el-checkbox>
-            </el-checkbox-group>
+                <el-checkbox
+                  v-for="filter in filters"
+                  :key="filter.value"
+                  :label="filter.value"
+                >
+                  {{ filter.text }}
+                </el-checkbox>
+              </el-checkbox-group>
+            </slot>
           </el-scrollbar>
         </div>
         <div :class="ns.e('bottom')">
@@ -44,29 +53,40 @@
           </button>
         </div>
       </div>
-      <ul v-else :class="ns.e('list')">
-        <li
-          :class="[
-            ns.e('list-item'),
-            {
-              [ns.is('active')]:
-                filterValue === undefined || filterValue === null,
-            },
-          ]"
-          @click="handleSelect(null)"
-        >
-          {{ t('el.table.clearFilter') }}
-        </li>
-        <li
-          v-for="filter in filters"
-          :key="filter.value"
-          :class="[ns.e('list-item'), ns.is('active', isActive(filter))]"
-          :label="filter.value"
-          @click="handleSelect(filter.value)"
-        >
-          {{ filter.text }}
-        </li>
-      </ul>
+
+      <slot
+        v-else
+        name="filter"
+        :multiple="multiple"
+        :filters="filters"
+        :filter-value="filterValue"
+        :is-active="isActive"
+        :handle-select="handleSelect"
+      >
+        <ul :class="ns.e('list')">
+          <li
+            :class="[
+              ns.e('list-item'),
+              {
+                [ns.is('active')]:
+                  filterValue === undefined || filterValue === null,
+              },
+            ]"
+            @click="handleSelect(null)"
+          >
+            {{ t('el.table.clearFilter') }}
+          </li>
+          <li
+            v-for="filter in filters"
+            :key="filter.value"
+            :class="[ns.e('list-item'), ns.is('active', isActive(filter))]"
+            :label="filter.value"
+            @click="handleSelect(filter.value)"
+          >
+            {{ filter.text }}
+          </li>
+        </ul>
+      </slot>
     </template>
     <template #default>
       <span

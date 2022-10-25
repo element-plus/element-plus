@@ -124,6 +124,13 @@ function useRender<T>(
       }
     }
 
+    if (column.type !== 'selection') {
+      column.filterRender = (scope) => {
+        const filterRender = slots.filter
+        return filterRender ? filterRender(scope) : null
+      }
+    }
+
     let originRenderCell = column.renderCell
     // TODO: 这里的实现调整
     if (column.type === 'expand') {
