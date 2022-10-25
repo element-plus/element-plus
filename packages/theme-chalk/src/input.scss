@@ -259,7 +259,6 @@
     }
 
     @include e(#{$slot}-inner) {
-      pointer-events: all;
       display: inline-flex;
       align-items: center;
       justify-content: center;
