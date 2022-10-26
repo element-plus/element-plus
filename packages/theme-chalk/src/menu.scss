@@ -61,7 +61,6 @@
   & .#{$namespace}-menu-item:not(.is-disabled):hover,
   & .#{$namespace}-menu-item:not(.is-disabled):focus {
     outline: none;
-    color: getCssVar('menu-hover-text-color');
     background-color: getCssVar('menu-hover-bg-color');
   }
   @include m(vertical) {
