@@ -60,7 +60,7 @@ import {
 } from 'vue'
 import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
 
-import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils'
+import { isBoolean } from '@element-plus/utils'
 import {
   useDelayedToggle,
   useId,
@@ -80,22 +80,10 @@ const emit = defineEmits(tooltipEmits)
 
 usePopperContainer()
 const compatShowAfter = computed(() => {
-  if (!isUndefined(props.openDelay)) {
-    debugWarn(
-      'ElTooltip',
-      'open-delay is about to be deprecated in the next major version, please use `show-after` instead'
-    )
-  }
-  return props.openDelay || (props.showAfter as number)
+  return props.showAfter
 })
 const compatShowArrow = computed(() => {
-  if (!isUndefined(props.visibleArrow)) {
-    debugWarn(
-      'ElTooltip',
-      '`visible-arrow` is about to be deprecated in the next major version, please use `show-arrow` instead'
-    )
-  }
-  return isBoolean(props.visibleArrow) ? props.visibleArrow : props.showArrow
+  return props.showArrow
 })
 
 const id = useId()

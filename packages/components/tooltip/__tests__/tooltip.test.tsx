@@ -57,20 +57,6 @@ describe('<ElTooltip />', () => {
     })
   })
 
-  describe('deprecating API', () => {
-    it('should warn about API that will be deprecated', async () => {
-      expect(debugWarn).toHaveBeenCalledTimes(0)
-
-      wrapper = createComponent({
-        openDelay: 200,
-        visibleArrow: true,
-      })
-
-      await nextTick()
-      expect(debugWarn).toHaveBeenCalledTimes(2)
-    })
-  })
-
   describe('functionality', () => {
     const content = 'Test content'
 
