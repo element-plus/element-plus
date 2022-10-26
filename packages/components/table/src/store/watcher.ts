@@ -137,7 +137,7 @@ function useWatcher<T>() {
 
   // 选择
   const isSelected = (row) => {
-    return selection.value.includes(row)
+    return selection.value.some((item) => item.id === row.id)
   }
 
   const clearSelection = () => {
