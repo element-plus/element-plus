@@ -390,10 +390,6 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    labelInValue: {
-      type: Boolean,
-      default: false,
-    },
     remoteShowSuffix: {
       type: Boolean,
       default: false,
