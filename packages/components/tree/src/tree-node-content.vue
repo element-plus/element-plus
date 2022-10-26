@@ -24,11 +24,11 @@ export default defineComponent({
       const { data, store } = node
       return props.renderContent
         ? props.renderContent(h, { _self: nodeInstance, node, data, store })
-        : h('span', { class: ns.be('node', 'label') }, [
+        : h('span', { class: ns.be('node', 'label') }), [
             tree.ctx.slots.default
               ? tree.ctx.slots.default({ node, data })
               : node.label,
-          ])
+          ]
     }
   },
 })
