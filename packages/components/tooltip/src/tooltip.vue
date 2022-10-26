@@ -57,6 +57,7 @@ import {
   toRef,
   unref,
   watch,
+  watchEffect,
 } from 'vue'
 import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
 
@@ -74,10 +75,10 @@ import ElTooltipContent from './content.vue'
 defineOptions({
   name: 'ElTooltip',
 })
-
+const teleported = ref(true)
 const props = defineProps(useTooltipProps)
 const emit = defineEmits(tooltipEmits)
-
+watchEffect(() => (teleported.value = !props.visible))
 usePopperContainer()
 const compatShowAfter = computed(() => {
   if (!isUndefined(props.openDelay)) {

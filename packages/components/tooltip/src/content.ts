@@ -38,10 +38,6 @@ export const useTooltipContentProps = buildProps({
     type: String,
     default: `${ns.namespace.value}-fade-in-linear`,
   },
-  teleported: {
-    type: Boolean,
-    default: true,
-  },
   disabled: {
     type: Boolean,
   },
