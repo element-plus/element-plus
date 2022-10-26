@@ -311,7 +311,7 @@ export const useSelect = (props, states: States, ctx) => {
           }
         }
       }
-      ctx.emit('visible-change', props.labelInValue ? getOption(val) : val)
+      ctx.emit('visible-change', val)
     }
   )
 
@@ -580,7 +580,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const emitChange = (val) => {
     if (!isEqual(props.modelValue, val)) {
-      ctx.emit(CHANGE_EVENT, props.labelInValue ? getOption(val) : val)
+      ctx.emit(CHANGE_EVENT, val)
     }
   }
 
