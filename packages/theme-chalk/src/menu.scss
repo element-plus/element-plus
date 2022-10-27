@@ -58,8 +58,7 @@
   padding-left: 0;
   background-color: getCssVar('menu-bg-color');
   box-sizing: border-box;
-  & .#{$namespace}-menu-item:not(.is-disabled):hover,
-  & .#{$namespace}-menu-item:not(.is-disabled):focus {
+  & .#{$namespace}-menu-item:not(.is-disabled):hover {
     outline: none;
     background-color: getCssVar('menu-hover-bg-color');
   }
