@@ -124,12 +124,11 @@ import type { StyleValue } from 'vue'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { InputInstance } from '@element-plus/components/input'
 
+const COMPONENT_NAME = 'ElAutocomplete'
 defineOptions({
-  name: 'ElAutocomplete',
+  name: COMPONENT_NAME,
   inheritAttrs: false,
 })
-
-const COMPONENT_NAME = 'ElAutocomplete'
 
 const props = defineProps(autocompleteProps)
 const emit = defineEmits(autocompleteEmits)

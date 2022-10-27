@@ -103,12 +103,12 @@ The classes are:
 
 ## Row Attributes
 
-| Attribute | Description                         | Type   | Accepted Values                                          | Default |
-| --------- | ----------------------------------- | ------ | -------------------------------------------------------- | ------- |
-| gutter    | grid spacing                        | number | —                                                        | 0       |
-| justify   | horizontal alignment of flex layout | string | start/end/center/space-around/space-between/space-evenly | start   |
-| align     | vertical alignment of flex layout   | string | top/middle/bottom                                        | top     |
-| tag       | custom element tag                  | string | \*                                                       | div     |
+| Name    | Description                         | Type   | Accepted Values                                          | Default |
+| ------- | ----------------------------------- | ------ | -------------------------------------------------------- | ------- |
+| gutter  | grid spacing                        | number | —                                                        | 0       |
+| justify | horizontal alignment of flex layout | string | start/end/center/space-around/space-between/space-evenly | start   |
+| align   | vertical alignment of flex layout   | string | top/middle/bottom                                        | top     |
+| tag     | custom element tag                  | string | (\*)                                                     | div     |
 
 ## Row Slots
 
@@ -118,18 +118,18 @@ The classes are:
 
 ## Col Attributes
 
-| Attribute | Description                                         | Type                                      | Accepted Values | Default |
-| --------- | --------------------------------------------------- | ----------------------------------------- | --------------- | ------- |
-| span      | number of column the grid spans                     | number                                    | —               | 24      |
-| offset    | number of spacing on the left side of the grid      | number                                    | —               | 0       |
-| push      | number of columns that grid moves to the right      | number                                    | —               | 0       |
-| pull      | number of columns that grid moves to the left       | number                                    | —               | 0       |
-| xs        | `<768px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| sm        | `≥768px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| md        | `≥992px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| lg        | `≥1200px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| xl        | `≥1920px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| tag       | custom element tag                                  | string                                    | \*              | div     |
+| Name   | Description                                         | Type                                      | Accepted Values | Default |
+| ------ | --------------------------------------------------- | ----------------------------------------- | --------------- | ------- |
+| span   | number of column the grid spans                     | number                                    | —               | 24      |
+| offset | number of spacing on the left side of the grid      | number                                    | —               | 0       |
+| push   | number of columns that grid moves to the right      | number                                    | —               | 0       |
+| pull   | number of columns that grid moves to the left       | number                                    | —               | 0       |
+| xs     | `<768px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
+| sm     | `≥768px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
+| md     | `≥992px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
+| lg     | `≥1200px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
+| xl     | `≥1920px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
+| tag    | custom element tag                                  | string                                    | (\*)            | div     |
 
 ## Col Slots
 

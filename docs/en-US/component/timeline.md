@@ -55,7 +55,7 @@ timeline/center
 
 ## Timeline-Item Attributes
 
-| Attribute      | Description                 | Type                  | Accepted Values                             | Default |
+| Name           | Description                 | Type                  | Accepted Values                             | Default |
 | -------------- | --------------------------- | --------------------- | ------------------------------------------- | ------- |
 | timestamp      | timestamp content           | string                | —                                           | —       |
 | hide-timestamp | whether to show timestamp   | boolean               | —                                           | false   |

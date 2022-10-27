@@ -112,6 +112,22 @@ describe('Checkbox', () => {
       await wrapper.trigger('click')
       expect(data.value).toBe(true)
     })
+
+    test('checkbox is wrapped in label', async () => {
+      const checked = ref(true)
+      const data = ref()
+      const onChange = (val: CheckboxValueType) => (data.value = val)
+      const wrapper = mount(() => (
+        <ElFormItem label="test">
+          <label>
+            <Checkbox v-model={checked.value} onChange={onChange} />
+          </label>
+        </ElFormItem>
+      ))
+
+      await wrapper.findComponent(Checkbox).trigger('click')
+      expect(data.value).toBe(false)
+    })
   })
 
   test('checkbox group', async () => {

@@ -79,7 +79,7 @@ dropdown/sizes
 
 ## Dropdown Attributes
 
-| Attribute      | Description                                                                                                           | Type            | Accepted Values                                          | Default                                                                    |
+| Name           | Description                                                                                                           | Type            | Accepted Values                                          | Default                                                                    |
 | -------------- | --------------------------------------------------------------------------------------------------------------------- | --------------- | -------------------------------------------------------- | -------------------------------------------------------------------------- |
 | type           | menu button type, refer to `Button` Component, only works when `split-button` is true                                 | string          | —                                                        | —                                                                          |
 | size           | menu size, also works on the split button                                                                             | string          | large / default / small                                  | default                                                                    |
@@ -95,6 +95,7 @@ dropdown/sizes
 | tabindex       | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Dropdown                  | number          | —                                                        | 0                                                                          |
 | popper-class   | custom class name for Dropdown's dropdown                                                                             | string          | —                                                        | —                                                                          |
 | popper-options | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | Object          | refer to [popper.js](https://popper.js.org/docs/v2/) doc | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
+| teleported     | whether the dropdown popup is teleported to the body                                                                  | boolean         | —                                                        | true                                                                       |
 
 ## Dropdown Slots
 
@@ -105,7 +106,7 @@ dropdown/sizes
 
 ## Dropdown Events
 
-| Event Name     | Description                                                       | Parameters                                    |
+| Name           | Description                                                       | Parameters                                    |
 | -------------- | ----------------------------------------------------------------- | --------------------------------------------- |
 | click          | if `split-button` is `true`, triggers when left button is clicked | —                                             |
 | command        | triggers when a dropdown item is clicked                          | the command dispatched from the dropdown item |
@@ -126,12 +127,12 @@ dropdown/sizes
 
 ## Dropdown-Item Attributes
 
-| Attribute | Description                                                 | Type                  | Accepted Values | Default |
-| --------- | ----------------------------------------------------------- | --------------------- | --------------- | ------- |
-| command   | a command to be dispatched to Dropdown's `command` callback | string/number/object  | —               | —       |
-| disabled  | whether the item is disabled                                | boolean               | —               | false   |
-| divided   | whether a divider is displayed                              | boolean               | —               | false   |
-| icon      | custom icon                                                 | `string \| Component` | —               | —       |
+| Name     | Description                                                 | Type                  | Accepted Values | Default |
+| -------- | ----------------------------------------------------------- | --------------------- | --------------- | ------- |
+| command  | a command to be dispatched to Dropdown's `command` callback | string/number/object  | —               | —       |
+| disabled | whether the item is disabled                                | boolean               | —               | false   |
+| divided  | whether a divider is displayed                              | boolean               | —               | false   |
+| icon     | custom icon                                                 | `string \| Component` | —               | —       |
 
 ## Dropdown-Item Slots
 

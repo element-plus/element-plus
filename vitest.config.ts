@@ -1,10 +1,19 @@
 import { defineConfig } from 'vitest/config'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
-import DefineOptions from 'unplugin-vue-define-options/vite'
+import VueMacros from 'unplugin-vue-macros/vite'
 
 export default defineConfig({
-  plugins: [Vue(), VueJsx(), DefineOptions()],
+  plugins: [
+    VueMacros({
+      setupComponent: false,
+      setupSFC: false,
+      plugins: {
+        vue: Vue(),
+        vueJsx: VueJsx(),
+      },
+    }),
+  ],
   optimizeDeps: {
     disabled: true,
   },

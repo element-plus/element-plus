@@ -25,7 +25,7 @@ breadcrumb/icon
 
 ## Breadcrumb Attributes
 
-| Attribute      | Description                      | Type                  | Accepted Values | Default |
+| Name           | Description                      | Type                  | Accepted Values | Default |
 | -------------- | -------------------------------- | --------------------- | --------------- | ------- |
 | separator      | separator character              | string                | —               | /       |
 | separator-icon | icon component of icon separator | `string \| Component` | —               | -       |
@@ -38,10 +38,10 @@ breadcrumb/icon
 
 ## Breadcrumb Item Attributes
 
-| Attribute | Description                                               | Type          | Accepted Values | Default |
-| --------- | --------------------------------------------------------- | ------------- | --------------- | ------- |
-| to        | target route of the link, same as `to` of `vue-router`    | string/object | —               | —       |
-| replace   | if `true`, the navigation will not leave a history record | boolean       | —               | false   |
+| Name    | Description                                               | Type          | Accepted Values | Default |
+| ------- | --------------------------------------------------------- | ------------- | --------------- | ------- |
+| to      | target route of the link, same as `to` of `vue-router`    | string/object | —               | —       |
+| replace | if `true`, the navigation will not leave a history record | boolean       | —               | false   |
 
 ## Breadcrumb Item Slots
 

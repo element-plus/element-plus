@@ -3,11 +3,15 @@ title: Autocomplete
 lang: en-US
 ---
 
-## Autocomplete
+# Autocomplete
 
-You can get some recommended tips based on the current input.
+Get some recommended tips based on the current input.
 
-:::demo Autocomplete component provides input suggestions. The `fetch-suggestions` attribute is a method that returns suggested input. In this example, `querySearch(queryString, cb)` returns suggestions to Autocomplete via `cb(data)` when suggestions are ready.
+## Basic Usage
+
+Autocomplete component provides input suggestions.
+
+:::demo The `fetch-suggestions` attribute is a method that returns suggested input. In this example, `querySearch(queryString, cb)` returns suggestions to Autocomplete via `cb(data)` when suggestions are ready.
 
 autocomplete/autocomplete
 
@@ -35,7 +39,7 @@ autocomplete/remote-search
 
 ## Autocomplete Attributes
 
-| Attribute                         | Description                                                                                                                | Type                            | Accepted Values                                                | Default      |
+| Name                              | Description                                                                                                                | Type                            | Accepted Values                                                | Default      |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------------- | -------------------------------------------------------------- | ------------ |
 | placeholder                       | the placeholder of Autocomplete                                                                                            | string                          | —                                                              | —            |
 | clearable                         | whether to show clear button                                                                                               | boolean                         | —                                                              | false        |
@@ -68,10 +72,10 @@ autocomplete/remote-search
 
 ## Autocomplete Events
 
-| Event Name | Description                                      | Parameters                |
-| ---------- | ------------------------------------------------ | ------------------------- |
-| select     | triggers when a suggestion is clicked            | suggestion being clicked  |
-| change     | triggers when the icon inside Input value change | (value: string \| number) |
+| Name   | Description                                      | Parameters                |
+| ------ | ------------------------------------------------ | ------------------------- |
+| select | triggers when a suggestion is clicked            | suggestion being clicked  |
+| change | triggers when the icon inside Input value change | (value: string \| number) |
 
 ## Autocomplete Methods
 

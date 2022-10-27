@@ -243,7 +243,11 @@ watch(pickerVisible, (val) => {
       emitChange(props.modelValue)
     })
   } else {
-    valueOnOpen.value = props.modelValue
+    nextTick(() => {
+      if (val) {
+        valueOnOpen.value = props.modelValue
+      }
+    })
   }
 })
 const emitChange = (
@@ -304,7 +308,7 @@ const focusOnInputBox = () => {
 
 const onPick = (date: any = '', visible = false) => {
   if (!visible) {
-    focusOnInputBox()
+    ignoreFocusEvent = true
   }
   pickerVisible.value = visible
   let result
@@ -334,6 +338,7 @@ const onKeydownPopperContent = (event: KeyboardEvent) => {
 
 const onHide = () => {
   pickerActualVisible.value = false
+  pickerVisible.value = false
   ignoreFocusEvent = false
   emit('visible-change', false)
 }
@@ -513,6 +518,7 @@ const onMouseLeave = () => {
   showClose.value = false
 }
 const onTouchStartInput = (event: TouchEvent) => {
+  if (props.readonly || pickerDisabled.value) return
   if (
     (event.touches[0].target as HTMLElement)?.tagName !== 'INPUT' ||
     refInput.value.includes(document.activeElement as HTMLInputElement)

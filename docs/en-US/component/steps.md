@@ -79,7 +79,7 @@ steps/simple
 
 ## Steps Attributes
 
-| Attribute      | Description                                                                   | Type            | Accepted Values                           | Default    |
+| Name           | Description                                                                   | Type            | Accepted Values                           | Default    |
 | -------------- | ----------------------------------------------------------------------------- | --------------- | ----------------------------------------- | ---------- |
 | space          | the spacing of each step, will be responsive if omitted. Supports percentage. | number / string | —                                         | —          |
 | direction      | display direction                                                             | string          | vertical/horizontal                       | horizontal |
@@ -97,7 +97,7 @@ steps/simple
 
 ## Step Attributes
 
-| Attribute   | Description                                                              | Type                  | Accepted Values                           | Default |
+| Name        | Description                                                              | Type                  | Accepted Values                           | Default |
 | ----------- | ------------------------------------------------------------------------ | --------------------- | ----------------------------------------- | ------- |
 | title       | step title                                                               | string                | —                                         | —       |
 | description | step description                                                         | string                | —                                         | —       |

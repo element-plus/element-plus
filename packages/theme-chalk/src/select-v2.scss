@@ -94,8 +94,18 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     }
 
     #{$selector}__input-wrapper input {
-      line-height: map.get($input-height, 'default') - 8px;
-      height: map.get($input-height, 'default') - 8px;
+      @include set-css-var-value(
+        'input-inner-height',
+        calc(
+          var(
+              #{getCssVarName('component-size')},
+              #{map.get($input-height, 'default')}
+            ) - 8px
+        )
+      );
+
+      height: getCssVar('input-inner-height');
+      line-height: getCssVar('input-inner-height');
       min-width: 4px;
       width: 100%;
 

@@ -113,6 +113,29 @@ describe('Rate.vue', () => {
     expect(changeCount.value).toEqual(1)
   })
 
+  it('clearable', () => {
+    const value = ref(4)
+    const changeCount = ref(0)
+    const handleChange = () => {
+      changeCount.value++
+    }
+    const wrapper = mount(() => (
+      <Rate v-model={value.value} clearable onChange={handleChange} />
+    ))
+
+    const fourthStar = wrapper.findAll('.el-rate__item')[3]
+      .element as HTMLElement
+    fourthStar.click()
+
+    expect(value.value).toEqual(0)
+    expect(changeCount.value).toEqual(1)
+    const fifthStar = wrapper.findAll('.el-rate__item')[4]
+      .element as HTMLElement
+    fifthStar.click()
+    expect(value.value).toEqual(5)
+    expect(changeCount.value).toEqual(2)
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = mount(() => (

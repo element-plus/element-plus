@@ -57,7 +57,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     selectWidth: 200,
     initialInputHeight: 0,
     previousQuery: null,
-    previousValue: '',
+    previousValue: undefined,
     query: '',
     selectedLabel: '',
     softFocus: false,
@@ -221,7 +221,9 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const currentPlaceholder = computed(() => {
     const _placeholder = props.placeholder || t('el.select.placeholder')
-    return props.multiple ? _placeholder : states.selectedLabel || _placeholder
+    return props.multiple || isNil(props.modelValue)
+      ? _placeholder
+      : states.selectedLabel
   })
 
   // this obtains the actual popper DOM element.
@@ -322,7 +324,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const update = (val: any) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
-    states.previousValue = val.toString()
+    states.previousValue = val?.toString()
   }
 
   const getValueIndex = (arr = [], value: unknown) => {
@@ -510,7 +512,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (isArray(props.modelValue)) {
       emptyValue = []
     } else {
-      emptyValue = ''
+      emptyValue = undefined
     }
 
     states.softFocus = true
@@ -559,7 +561,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       }
     } else if (direction === 'backward') {
       newIndex = hoveringIndex - 1
-      if (newIndex < 0) {
+      if (newIndex < 0 || newIndex >= options.length) {
         // navigate to the last one
         newIndex = options.length - 1
       }
@@ -664,7 +666,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         })
       } else {
         states.cachedOptions = []
-        states.previousValue = ''
+        states.previousValue = undefined
       }
     } else {
       if (hasModelValue.value) {
@@ -681,7 +683,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         }
       } else {
         states.selectedLabel = ''
-        states.previousValue = ''
+        states.previousValue = undefined
       }
     }
     clearAllNewOption()

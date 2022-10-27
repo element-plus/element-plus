@@ -135,7 +135,7 @@ select-v2/use-valueKey
 
 ## SelectV2 Attributes
 
-| Attribute                         | Description                                                                                                                              | Type                               | Accepted Values                                                                                           | Default       |
+| Name                              | Description                                                                                                                              | Type                               | Accepted Values                                                                                           | Default       |
 | --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------- |
 | model-value / v-model             | biding value                                                                                                                             | string / number / boolean / object | —                                                                                                         | —             |
 | multiple                          | is multiple                                                                                                                              | boolean                            | —                                                                                                         | false         |
@@ -177,7 +177,7 @@ select-v2/use-valueKey
 
 ## SelectV2 Events
 
-| Event Name     | Description                                                   | Params                                    |
+| Name           | Description                                                   | Params                                    |
 | -------------- | ------------------------------------------------------------- | ----------------------------------------- |
 | change         | triggers when the selected value changes                      | current selected value                    |
 | visible-change | triggers when the dropdown appears/disappears                 | true when it appears, and false otherwise |

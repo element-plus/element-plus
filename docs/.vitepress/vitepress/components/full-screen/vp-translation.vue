@@ -41,7 +41,7 @@ const onSwitchLang = (lang: string) => {
         {{ languageMap[l] }}
       </p>
       <p class="translation-item">
-        <VPLink href="https://crowdin.com/project/element-plus">
+        <VPLink :href="`/${lang}/guide/translation`">
           {{ helpTranslate }}
         </VPLink>
       </p>

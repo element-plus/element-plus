@@ -66,7 +66,7 @@ touch play/src/App.vue # Adding an entry for the play to run.
 pnpm run dev
 ```
 
-You can follow the [LOCAL DEVELOPMENT GUIDE](https://github.com/element-plus/element-plus/blob/dev/LOCAL_DEV.md) to do development more quickly.
+You can follow the [LOCAL DEVELOPMENT GUIDE](https://element-plus.org/en-US/guide/dev-guide.html) to do development more quickly.
 
 ### Compile the source code
 
@@ -110,7 +110,7 @@ pnpm cz
 2. You can also write the commit message by hand, but make sure your
    commit message follows the rules.
 
-We have a [commit template](https://github.com/element-plus/element-plus/blob/dev/commit-example.md)
+We have a [commit template](https://element-plus.org/en-US/guide/commit-examples.html)
 
 NOTE:
 **PRs with unformatted commit message WILL NOT BE ACCEPTED**

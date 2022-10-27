@@ -125,7 +125,7 @@ form/accessibility
 
 ### Form Attributes
 
-| Attribute                   | Description                                                                                                                    | Type                              | Default   |
+| Name                        | Description                                                                                                                    | Type                              | Default   |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------- | --------- |
 | `model`                     | Data of form component.                                                                                                        | `Record<string, any>`             | —         |
 | `rules`                     | Validation rules of form.                                                                                                      | `FormRules`                       | —         |
@@ -133,7 +133,7 @@ form/accessibility
 | `label-position`            | Position of label. If set to `'left'` or `'right'`, `label-width` prop is also required.                                       | `'left' \| 'right' \| 'top'`      | `'right'` |
 | `label-width`               | Width of label, e.g. `'50px'`. All its direct child form items will inherit this value. `auto` is supported.                   | `string \| number`                | —         |
 | `label-suffix`              | Suffix of the label.                                                                                                           | `string`                          | —         |
-| `hide-required-asterisk`    | Whether required fields should have a red asterisk (star) beside their labels.                                                 | `boolean`                         | `false`   |
+| `hide-required-asterisk`    | Whether to hide required fields should have a red asterisk (star) beside their labels.                                         | `boolean`                         | `false`   |
 | `require-asterisk-position` | Position of asterisk.                                                                                                          | `'left' \| 'right'`               | `'left'`  |
 | `show-message`              | Whether to show the error message.                                                                                             | `boolean`                         | `true`    |
 | `inline-message`            | Whether to display the error message inline with the form item.                                                                | `boolean`                         | `false`   |
@@ -155,7 +155,7 @@ form/accessibility
 
 ### Form Events
 
-| Event Name | Description                             | Parameters                                                        |
+| Name       | Description                             | Parameters                                                        |
 | ---------- | --------------------------------------- | ----------------------------------------------------------------- |
 | `validate` | triggers after a form item is validated | `(prop: FormItemProp, isValid: boolean, message: string) => void` |
 
@@ -169,7 +169,7 @@ form/accessibility
 
 ### Form Item Attributes
 
-| Attribute        | Description                                                                                                                                                   | Type                              | Default     |
+| Name             | Description                                                                                                                                                   | Type                              | Default     |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ----------- |
 | `prop`           | A key of `model`. It could be an array of property paths (e.g `['a', 'b', 0]`). In the use of `validate` and `resetFields` method, the attribute is required. | `string \| string[]`              | —           |
 | `label`          | Label text.                                                                                                                                                   | `string`                          | —           |

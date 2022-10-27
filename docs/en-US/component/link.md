@@ -55,7 +55,7 @@ link/with-icon
 
 ## Attributes
 
-| Attribute | Description                         | Type                  | Accepted Values                                       | Default |
+| Name      | Description                         | Type                  | Accepted Values                                       | Default |
 | --------- | ----------------------------------- | --------------------- | ----------------------------------------------------- | ------- |
 | type      | type                                | string                | primary / success / warning / danger / info / default | default |
 | underline | whether the component has underline | boolean               | —                                                     | true    |
