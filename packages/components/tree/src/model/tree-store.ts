@@ -7,6 +7,7 @@ import type {
   FilterNodeMethodFunction,
   FilterValue,
   LoadFunction,
+  NodeKey,
   TreeData,
   TreeKey,
   TreeNodeData,
@@ -24,7 +25,7 @@ export default class TreeStore {
   lazy: boolean
   load: LoadFunction
   filterNodeMethod: FilterNodeMethodFunction
-  key: TreeKey
+  key: NodeKey
   defaultCheckedKeys: TreeKey[]
   checkStrictly: boolean
   defaultExpandedKeys: TreeKey[]

@@ -78,7 +78,7 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    nodeKey: String,
+    nodeKey: [String, Function] as PropType<TreeComponentProps['nodeKey']>,
     checkStrictly: Boolean,
     defaultExpandAll: Boolean,
     expandOnClickNode: {
