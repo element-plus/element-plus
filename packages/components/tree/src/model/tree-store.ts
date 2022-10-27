@@ -289,7 +289,7 @@ export default class TreeStore {
     allNodes.forEach((node) => node.setChecked(false, false))
     for (let i = 0, j = allNodes.length; i < j; i++) {
       const node = allNodes[i]
-      const nodeKey = node.key.toString()
+      const nodeKey = getNodeKey(key, node.data)?.toString()
       const checked = keys.includes(nodeKey)
       if (!checked) {
         if (node.checked && !cache[nodeKey]) {
@@ -300,7 +300,7 @@ export default class TreeStore {
 
       let parent = node.parent
       while (parent && parent.level > 0) {
-        cache[parent.key] = true
+        cache[getNodeKey(key, parent.data)] = true
         parent = parent.parent
       }
 

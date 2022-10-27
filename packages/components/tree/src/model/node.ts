@@ -204,8 +204,8 @@ class Node {
 
   get key(): TreeKey {
     const nodeKey = this.store.key
-    if (this.data) return getNodeKey(nodeKey, this.data)
-    return null
+    if (this.data && !Array.isArray(this.data))
+      return getNodeKey(nodeKey, this.data)
   }
 
   get disabled(): boolean {
