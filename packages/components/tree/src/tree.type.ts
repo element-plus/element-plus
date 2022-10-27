@@ -20,7 +20,10 @@ export interface RootTreeType {
 
 export declare type hType = typeof h
 export declare type TreeData = TreeNodeData[]
-export declare type TreeKey = string | number
+export declare type TreeKey =
+  | string
+  | number
+  | ((d: TreeNodeData) => string | number)
 export declare interface FakeNode {
   data: TreeNodeData
 }

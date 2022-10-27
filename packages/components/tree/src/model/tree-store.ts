@@ -221,7 +221,9 @@ export default class TreeStore {
   }
 
   getCheckedKeys(leafOnly = false): TreeKey[] {
-    return this.getCheckedNodes(leafOnly).map((data) => (data || {})[this.key])
+    return this.getCheckedNodes(leafOnly).map((data) =>
+      getNodeKey(this.key, data)
+    )
   }
 
   getHalfCheckedNodes(): TreeNodeData[] {
@@ -246,7 +248,7 @@ export default class TreeStore {
   }
 
   getHalfCheckedKeys(): TreeKey[] {
-    return this.getHalfCheckedNodes().map((data) => (data || {})[this.key])
+    return this.getHalfCheckedNodes().map((data) => getNodeKey(this.key, data))
   }
 
   _getAllNodes(): Node[] {
@@ -286,7 +288,7 @@ export default class TreeStore {
     allNodes.forEach((node) => node.setChecked(false, false))
     for (let i = 0, j = allNodes.length; i < j; i++) {
       const node = allNodes[i]
-      const nodeKey = node.data[key].toString()
+      const nodeKey = node.key.toString()
       const checked = keys.includes(nodeKey)
       if (!checked) {
         if (node.checked && !cache[nodeKey]) {
@@ -297,7 +299,7 @@ export default class TreeStore {
 
       let parent = node.parent
       while (parent && parent.level > 0) {
-        cache[parent.data[key]] = true
+        cache[parent.key] = true
         parent = parent.parent
       }
 
@@ -327,7 +329,7 @@ export default class TreeStore {
     const key = this.key
     const checkedKeys = {}
     array.forEach((item) => {
-      checkedKeys[(item || {})[key]] = true
+      checkedKeys[getNodeKey(key, item)] = true
     })
 
     this._setCheckedKeys(key, leafOnly, checkedKeys)
@@ -379,7 +381,7 @@ export default class TreeStore {
   }
 
   setUserCurrentNode(node: Node, shouldAutoExpandParent = true): void {
-    const key = node[this.key]
+    const key = getNodeKey(this.key, node)
     const currNode = this.nodesMap[key]
     this.setCurrentNode(currNode)
     if (shouldAutoExpandParent && this.currentNode.level > 1) {

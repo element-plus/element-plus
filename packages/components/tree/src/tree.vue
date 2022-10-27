@@ -283,7 +283,7 @@ export default defineComponent({
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in getCurrentKey')
       const currentNode = getCurrentNode()
-      return currentNode ? currentNode[props.nodeKey] : null
+      return currentNode ? getNodeKeyUtil(props.nodeKey, currentNode) : null
     }
 
     const setCheckedNodes = (nodes: Node[], leafOnly?: boolean) => {
