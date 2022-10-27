@@ -170,6 +170,9 @@ export interface ElMessageBoxOptions {
 
   /** Custom size of confirm and cancel buttons */
   buttonSize?: ComponentSize
+
+  /** Custom element to append the message box to */
+  appendTo?: HTMLElement | string
 }
 
 export type ElMessageBoxShortcutMethod = ((

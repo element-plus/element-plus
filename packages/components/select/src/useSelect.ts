@@ -246,10 +246,10 @@ export const useSelect = (props, states: States, ctx) => {
       if (!val) {
         if (props.filterable) {
           if (isFunction(props.filterMethod)) {
-            props.filterMethod()
+            props.filterMethod('')
           }
           if (isFunction(props.remoteMethod)) {
-            props.remoteMethod()
+            props.remoteMethod('')
           }
         }
         input.value && input.value.blur()
