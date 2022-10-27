@@ -473,9 +473,9 @@ describe('Select', () => {
     vm.value = vm.options[1].value
     await nextTick()
     await clickClearButton(wrapper)
-    expect(vm.value).toBe('')
+    expect(vm.value).toBeUndefined()
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
-    expect(placeholder.text()).toBe('')
+    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
   })
 
   describe('multiple', () => {
