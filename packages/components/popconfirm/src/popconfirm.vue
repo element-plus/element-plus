@@ -82,7 +82,7 @@ const handleBeforeHide = () => {
   visible.value = null
 }
 
-const onUpdateVisible = (v) => (visible.value = v)
+const onUpdateVisible = (v: boolean) => (visible.value = v)
 
 const hidePopper = () => {
   tooltipRef.value?.onClose?.()

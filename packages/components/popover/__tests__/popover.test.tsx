@@ -206,7 +206,7 @@ describe('Popover.vue', () => {
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('')
-      _mount({ teleported: false })
+      _mount({ appendTo: 'body' })
 
       await nextTick()
       expect(
