@@ -341,6 +341,45 @@ describe('Tabs.vue', () => {
     expect(panesWrapper.length).toEqual(2)
   })
 
+  test('tab order', async () => {
+    const editableTabs = ref([
+      {
+        title: 'Tab 1',
+        name: '1',
+        content: 'Tab 1 content',
+      },
+      {
+        title: 'Tab 2',
+        name: '2',
+        content: 'Tab 2 content',
+      },
+    ])
+
+    const wrapper = mount(() => (
+      <Tabs ref="tabs" type="card">
+        {editableTabs.value.map((item) => (
+          <TabPane
+            label={item.title}
+            key={item.name}
+            name={item.name}
+          ></TabPane>
+        ))}
+      </Tabs>
+    ))
+
+    editableTabs.value.splice(1, 0, {
+      title: 'Tab 3',
+      name: '3',
+      content: 'Tab 3 content',
+    })
+    await nextTick()
+
+    const items = wrapper.findAll('.el-tabs__item')
+    editableTabs.value.forEach((tab, index) => {
+      expect(items[index].element.textContent).toEqual(tab.title)
+    })
+  })
+
   test('closable in tab-pane', async () => {
     const wrapper = mount(() => (
       <Tabs type="card" ref="tabs">
