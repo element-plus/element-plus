@@ -30,7 +30,7 @@
       :raw-content="rawContent"
       :reference-el="referenceEl"
       :trigger-target-el="triggerTargetEl"
-      :show-after="compatShowAfter"
+      :show-after="showAfter"
       :strategy="strategy"
       :teleported="teleported"
       :transition="transition"
@@ -42,7 +42,7 @@
         <span v-if="rawContent" v-html="content" />
         <span v-else>{{ content }}</span>
       </slot>
-      <el-popper-arrow v-if="compatShowArrow" :arrow-offset="arrowOffset" />
+      <el-popper-arrow v-if="showArrow" :arrow-offset="arrowOffset" />
     </el-tooltip-content>
   </el-popper>
 </template>
@@ -79,12 +79,6 @@ const props = defineProps(useTooltipProps)
 const emit = defineEmits(tooltipEmits)
 
 usePopperContainer()
-const compatShowAfter = computed(() => {
-  return props.showAfter
-})
-const compatShowArrow = computed(() => {
-  return props.showArrow
-})
 
 const id = useId()
 // TODO any is temporary, replace with `InstanceType<typeof ElPopper> | null` later
@@ -107,7 +101,7 @@ const { show, hide, hasUpdateHandler } = useTooltipModelToggle({
 })
 
 const { onOpen, onClose } = useDelayedToggle({
-  showAfter: compatShowAfter,
+  showAfter: toRef(props, 'showAfter'),
   hideAfter: toRef(props, 'hideAfter'),
   open: show,
   close: hide,
