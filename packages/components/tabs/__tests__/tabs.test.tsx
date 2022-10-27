@@ -5,7 +5,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav'
-import type { TabPanelName } from '../src/tabs'
+import type { TabPaneName } from '../src/tabs'
 import type { TabsPaneContext } from '@element-plus/tokens'
 
 describe('Tabs.vue', () => {
@@ -43,7 +43,7 @@ describe('Tabs.vue', () => {
   })
 
   test('active-name', async () => {
-    const activeName = ref<TabPanelName | undefined>('b')
+    const activeName = ref<TabPaneName | undefined>('b')
     const handleClick = (tab: TabsPaneContext) => {
       activeName.value = tab.paneName
     }
@@ -186,7 +186,7 @@ describe('Tabs.vue', () => {
     ])
     const tabIndex = ref(3)
     const handleTabsEdit = (
-      targetName: TabPanelName | undefined,
+      targetName: TabPaneName | undefined,
       action: 'remove' | 'add'
     ) => {
       if (action === 'add') {
@@ -284,7 +284,7 @@ describe('Tabs.vue', () => {
       })
       editableTabsValue.value = newTabName
     }
-    const removeTab = (targetName: TabPanelName) => {
+    const removeTab = (targetName: TabPaneName) => {
       const tabs = editableTabs.value
       let activeName = editableTabsValue.value
       if (activeName === targetName) {
@@ -339,6 +339,45 @@ describe('Tabs.vue', () => {
 
     expect(navItemsWrapper.length).toEqual(2)
     expect(panesWrapper.length).toEqual(2)
+  })
+
+  test('tab order', async () => {
+    const editableTabs = ref([
+      {
+        title: 'Tab 1',
+        name: '1',
+        content: 'Tab 1 content',
+      },
+      {
+        title: 'Tab 2',
+        name: '2',
+        content: 'Tab 2 content',
+      },
+    ])
+
+    const wrapper = mount(() => (
+      <Tabs ref="tabs" type="card">
+        {editableTabs.value.map((item) => (
+          <TabPane
+            label={item.title}
+            key={item.name}
+            name={item.name}
+          ></TabPane>
+        ))}
+      </Tabs>
+    ))
+
+    editableTabs.value.splice(1, 0, {
+      title: 'Tab 3',
+      name: '3',
+      content: 'Tab 3 content',
+    })
+    await nextTick()
+
+    const items = wrapper.findAll('.el-tabs__item')
+    editableTabs.value.forEach((tab, index) => {
+      expect(items[index].element.textContent).toEqual(tab.title)
+    })
   })
 
   test('closable in tab-pane', async () => {
@@ -645,7 +684,7 @@ describe('Tabs.vue', () => {
   })
 
   test('value type', async () => {
-    const activeName = ref<TabPanelName | undefined>(0)
+    const activeName = ref<TabPaneName | undefined>(0)
     const handleClick = (tab: TabsPaneContext) => {
       activeName.value = tab.paneName
     }
@@ -677,7 +716,7 @@ describe('Tabs.vue', () => {
   })
 
   test('both number and string for name', async () => {
-    const activeName = ref<TabPanelName | undefined>(0)
+    const activeName = ref<TabPaneName | undefined>(0)
     const handleClick = (tab: TabsPaneContext) => {
       activeName.value = tab.paneName
     }
