@@ -23,6 +23,7 @@
     :teleported="teleported"
     :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
+    :append-to="appendTo"
     @update:visible="onUpdateVisible"
     @before-show="beforeEnter"
     @before-hide="beforeLeave"

@@ -60,13 +60,12 @@ import {
   watchEffect,
 } from 'vue'
 import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
-
-import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils'
 import {
   useDelayedToggle,
   useId,
   usePopperContainer,
 } from '@element-plus/hooks'
+import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
@@ -77,6 +76,7 @@ defineOptions({
 })
 const teleported = ref(true)
 const props = defineProps(useTooltipProps)
+
 const emit = defineEmits(tooltipEmits)
 watchEffect(() => (teleported.value = !props.visible))
 usePopperContainer()

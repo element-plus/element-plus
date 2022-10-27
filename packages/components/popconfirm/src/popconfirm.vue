@@ -10,6 +10,10 @@
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
     :persistent="persistent"
+    :visible="visible"
+    @before-show="handleBeforeShow"
+    @before-hide="handleBeforeHide"
+    @update:visible="onUpdateVisible"
   >
     <template #content>
       <div :class="ns.b()">
@@ -64,11 +68,22 @@ defineOptions({
   name: 'ElPopconfirm',
 })
 
+const visible = ref<null | boolean>(null)
 const props = defineProps(popconfirmProps)
 
 const { t } = useLocale()
 const ns = useNamespace('popconfirm')
 const tooltipRef = ref<TooltipInstance>()
+
+const handleBeforeShow = () => {
+  visible.value = true
+}
+
+const handleBeforeHide = () => {
+  visible.value = null
+}
+
+const onUpdateVisible = (v) => (visible.value = v)
 
 const hidePopper = () => {
   tooltipRef.value?.onClose?.()

@@ -1,5 +1,5 @@
 <template>
-  <teleport :disabled="!teleported" :to="appendTo">
+  <teleport :disabled="disabled" :to="appendTo">
     <transition
       :name="transition"
       @after-leave="onTransitionLeave"
@@ -51,6 +51,7 @@ import { onClickOutside } from '@vueuse/core'
 import { composeEventHandlers } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import { useTooltipContentProps } from './content'
 
 defineOptions({
@@ -59,6 +60,11 @@ defineOptions({
 })
 
 const props = defineProps(useTooltipContentProps)
+const disabled = computed(() =>
+  props.appendTo === POPPER_CONTAINER_SELECTOR
+    ? !props.teleported
+    : props.teleported
+)
 // TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
 const contentRef = ref<any>(null)
 const destroyed = ref(false)
