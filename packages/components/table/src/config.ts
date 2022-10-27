@@ -71,10 +71,12 @@ export const cellForced = {
       store: Store<T>
       $index: string
     }) {
+      const disabled = column.selectable
+        ? !column.selectable.call(null, row, $index)
+        : false
+      store.states.disabled.value.set(row, disabled)
       return h(ElCheckbox, {
-        disabled: column.selectable
-          ? !column.selectable.call(null, row, $index)
-          : false,
+        disabled,
         size: store.states.tableSize.value,
         onChange: () => {
           store.commit('rowSelectedChanged', row)
