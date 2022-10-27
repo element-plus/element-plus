@@ -194,7 +194,7 @@
 // @ts-nocheck
 import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
 import { isPromise } from '@vue/shared'
-import { debounce } from 'lodash-unified'
+import { cloneDeep, debounce } from 'lodash-unified'
 
 import { isClient, useResizeObserver } from '@vueuse/core'
 import ElCascaderPanel, {
@@ -241,14 +241,6 @@ type cascaderPanelType = InstanceType<typeof ElCascaderPanel>
 type tooltipType = InstanceType<typeof ElTooltip>
 type inputType = InstanceType<typeof ElInput>
 type suggestionPanelType = InstanceType<typeof ElScrollbar>
-
-const DEFAULT_INPUT_HEIGHT = 40
-
-const INPUT_HEIGHT_MAP = {
-  large: 36,
-  default: 32,
-  small: 28,
-}
 
 const popperOptions: Partial<Options> = {
   modifiers: [
@@ -411,7 +403,7 @@ export default defineComponent({
 
     const checkedValue = computed<CascaderValue>({
       get() {
-        return props.modelValue as CascaderValue
+        return cloneDeep(props.modelValue) as CascaderValue
       },
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)
@@ -725,12 +717,9 @@ export default defineComponent({
     watch(presentText, syncPresentTextValue, { immediate: true })
 
     onMounted(() => {
-      const inputEl = input.value?.$el
-      inputInitialHeight =
-        inputEl?.offsetHeight ||
-        INPUT_HEIGHT_MAP[realSize.value] ||
-        DEFAULT_INPUT_HEIGHT
-      useResizeObserver(inputEl, updateStyle)
+      const inputInner = input.value!.input!
+      inputInitialHeight = inputInner.offsetHeight
+      useResizeObserver(inputInner, updateStyle)
     })
 
     return {

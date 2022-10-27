@@ -31,6 +31,7 @@
             focus-start-el="container"
             @focus-after-trapped="onOpenAutoFocus"
             @focus-after-released="onCloseAutoFocus"
+            @focusout-prevented="onFocusoutPrevented"
             @release-requested="onCloseRequested"
           >
             <el-dialog-content
@@ -132,6 +133,7 @@ const {
   onOpenAutoFocus,
   onCloseAutoFocus,
   onCloseRequested,
+  onFocusoutPrevented,
 } = useDialog(props, dialogRef)
 
 provide(dialogInjectionKey, {

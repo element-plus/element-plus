@@ -1,11 +1,12 @@
 // @ts-nocheck
 import { nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { describe, expect, test, vi } from 'vitest'
+import { afterEach, describe, expect, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import Button from '@element-plus/components/button'
+import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
@@ -28,6 +29,10 @@ const _mount = (template: string, data, otherObj?) =>
   })
 
 describe('Dropdown', () => {
+  afterEach(() => {
+    document.body.innerHTML = ''
+  })
+
   test('create', async () => {
     const wrapper = _mount(
       `
@@ -754,6 +759,62 @@ describe('Dropdown', () => {
       const menuItem = menu.find('.el-dropdown-menu__item')
       expect(menu.attributes()['role']).toBe('group')
       expect(menuItem.attributes()['role']).toBe('button')
+    })
+  })
+
+  describe('teleported API', () => {
+    test('should mount on popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      _mount(
+        `
+        <el-dropdown ref="b" placement="right">
+          <span class="el-dropdown-link" ref="a">
+            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>Apple</el-dropdown-item>
+              <el-dropdown-item>Orange</el-dropdown-item>
+              <el-dropdown-item>Cherry</el-dropdown-item>
+              <el-dropdown-item disabled>Peach</el-dropdown-item>
+              <el-dropdown-item divided>Pear</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>`,
+        () => ({})
+      )
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).not.toBe('')
+    })
+
+    test('should not mount on the popper container', async () => {
+      expect(document.body.innerHTML).toBe('')
+      _mount(
+        `
+        <el-dropdown ref="b" placement="right" :teleported="false">
+          <span class="el-dropdown-link" ref="a">
+            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>Apple</el-dropdown-item>
+              <el-dropdown-item>Orange</el-dropdown-item>
+              <el-dropdown-item>Cherry</el-dropdown-item>
+              <el-dropdown-item disabled>Peach</el-dropdown-item>
+              <el-dropdown-item divided>Pear</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>`,
+        () => ({})
+      )
+
+      await nextTick()
+      expect(
+        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
+      ).toBe('')
     })
   })
 })
