@@ -11,7 +11,6 @@
       ref="tooltipRef"
       :visible="dropMenuVisible"
       :placement="placement"
-      :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       :effect="effect"
@@ -67,7 +66,6 @@
                   :fallback-placements="['bottom', 'top', 'right', 'left']"
                   :effect="effect"
                   placement="bottom"
-                  :teleported="teleported"
                 >
                   <template #default>
                     <span :class="nsSelect.e('tags-text')"
@@ -278,9 +276,7 @@ import { placements } from '@popperjs/core'
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import ElTooltip, {
-  useTooltipContentProps,
-} from '@element-plus/components/tooltip'
+import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
@@ -367,7 +363,6 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    teleported: useTooltipContentProps.teleported,
     persistent: {
       type: Boolean,
       default: true,

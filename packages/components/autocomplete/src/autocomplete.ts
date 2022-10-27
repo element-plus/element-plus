@@ -5,7 +5,6 @@ import {
   isObject,
   isString,
 } from '@element-plus/utils'
-import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
@@ -76,7 +75,6 @@ export const autocompleteProps = buildProps({
   label: {
     type: String,
   },
-  teleported: useTooltipContentProps.teleported,
   highlightFirstItem: {
     type: Boolean,
     default: false,

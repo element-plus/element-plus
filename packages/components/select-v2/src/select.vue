@@ -10,7 +10,6 @@
     <el-tooltip
       ref="popper"
       :visible="dropdownMenuVisible"
-      :teleported="teleported"
       :popper-class="[nsSelectV2.e('popper'), popperClass]"
       :gpu-acceleration="false"
       :stop-popper-mouse-event="false"
@@ -72,7 +71,6 @@
                     :fallback-placements="['bottom', 'top', 'right', 'left']"
                     :effect="effect"
                     placement="bottom"
-                    :teleported="false"
                   >
                     <template #default>
                       <span

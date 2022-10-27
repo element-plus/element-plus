@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body" :disabled="!appendToBody">
+  <teleport to="body" :disabled="false">
     <transition
       name="dialog-fade"
       @after-enter="afterEnter"

@@ -60,11 +60,7 @@ defineOptions({
 })
 
 const props = defineProps(useTooltipContentProps)
-const disabled = computed(() =>
-  props.appendTo === POPPER_CONTAINER_SELECTOR
-    ? !props.teleported
-    : props.teleported
-)
+const disabled = computed(() => props.appendTo === POPPER_CONTAINER_SELECTOR)
 // TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
 const contentRef = ref<any>(null)
 const destroyed = ref(false)

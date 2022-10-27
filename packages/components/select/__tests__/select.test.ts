@@ -1889,7 +1889,7 @@ describe('Select', () => {
       expect(document.body.innerHTML).toBe('')
       wrapper = _mount(
         `
-      <el-select v-model="modelValue" multiple>
+      <el-select v-model="modelValue" multiple append-to="body">
         <el-option
           v-for="option in options"
           :key="option.value"
@@ -1919,7 +1919,7 @@ describe('Select', () => {
       expect(document.body.innerHTML).toBe('')
       wrapper = _mount(
         `
-      <el-select v-model="modelValue" multiple :teleported="false">
+      <el-select v-model="modelValue" multiple>
         <el-option
           v-for="option in options"
           :key="option.value"

@@ -1,5 +1,5 @@
 <template>
-  <teleport v-if="container" :to="container" :disabled="disabled">
+  <teleport v-if="container" :to="container" :disabled="false">
     <div ref="containerRef" :class="ns.b()" :style="containerStyle">
       <slot />
     </div>

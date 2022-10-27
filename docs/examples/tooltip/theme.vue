@@ -1,12 +1,17 @@
 <template>
-  <el-tooltip content="Top center" placement="top">
+  <el-tooltip content="Top center" placement="top" append-to="body">
     <el-button>Dark</el-button>
   </el-tooltip>
-  <el-tooltip content="Bottom center" placement="bottom" effect="light">
+  <el-tooltip
+    content="Bottom center"
+    placement="bottom"
+    effect="light"
+    append-to="body"
+  >
     <el-button>Light</el-button>
   </el-tooltip>
 
-  <el-tooltip content="Bottom center" effect="customized">
+  <el-tooltip content="Bottom center" effect="customized" append-to="body">
     <el-button>Customized theme</el-button>
   </el-tooltip>
 </template>

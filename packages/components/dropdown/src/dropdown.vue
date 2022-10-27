@@ -21,7 +21,6 @@
       :virtual-triggering="splitButton"
       :disabled="disabled"
       :transition="`${ns.namespace.value}-zoom-in-top`"
-      teleported
       pure
       persistent
       @before-show="handleBeforeShowTooltip"

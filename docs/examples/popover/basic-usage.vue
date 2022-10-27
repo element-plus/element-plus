@@ -5,6 +5,7 @@
     :width="200"
     trigger="hover"
     content="this is content, this is content, this is content"
+    append-to="body"
   >
     <template #reference>
       <el-button>Hover to activate</el-button>
@@ -17,6 +18,7 @@
     :width="200"
     trigger="click"
     content="this is content, this is content, this is content"
+    append-to="body"
   >
     <template #reference>
       <el-button>Click to activate</el-button>
@@ -30,6 +32,7 @@
     :width="200"
     trigger="focus"
     content="this is content, this is content, this is content"
+    append-to="body"
   >
     <template #reference>
       <el-button>Focus to activate</el-button>
@@ -42,6 +45,7 @@
     :width="200"
     trigger="contextmenu"
     content="this is content, this is content, this is content"
+    append-to="body"
   >
     <template #reference>
       <el-button>contextmenu to activate</el-button>
@@ -54,6 +58,7 @@
     title="Title"
     :width="200"
     content="this is content, this is content, this is content"
+    append-to="body"
   >
     <template #reference>
       <el-button @click="visible = !visible">Manual to activate</el-button>

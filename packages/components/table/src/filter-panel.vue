@@ -6,7 +6,6 @@
     :placement="placement"
     :show-arrow="false"
     :stop-popper-mouse-event="false"
-    teleported
     effect="light"
     pure
     :popper-class="ns.b()"

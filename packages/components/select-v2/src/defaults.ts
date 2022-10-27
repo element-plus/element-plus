@@ -1,6 +1,5 @@
 import { placements } from '@popperjs/core'
 import { definePropType, isValidComponentSize } from '@element-plus/utils'
-import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
 import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -71,7 +70,6 @@ export const SelectProps = {
   placeholder: {
     type: String,
   },
-  teleported: useTooltipContentProps.teleported,
   persistent: {
     type: Boolean,
     default: true,

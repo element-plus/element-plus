@@ -31,7 +31,6 @@
         :infinite="infinite"
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
-        :teleported="previewTeleported"
         :close-on-press-escape="closeOnPressEscape"
         @close="closeViewer"
         @switch="switchViewer"

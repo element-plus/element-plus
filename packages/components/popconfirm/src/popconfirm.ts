@@ -41,7 +41,6 @@ export const popconfirmProps = buildProps({
   onCancel: {
     type: definePropType<(e: Event) => Promise<void> | void>(Function),
   },
-  teleported: useTooltipContentProps.teleported,
   persistent: useTooltipContentProps.persistent,
   width: {
     type: [String, Number],

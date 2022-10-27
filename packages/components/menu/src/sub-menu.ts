@@ -357,7 +357,6 @@ export default defineComponent({
               persistent: true,
               popperClass: props.popperClass,
               placement: currentPlacement.value,
-              teleported: appendToBody.value,
               fallbackPlacements: fallbackPlacements.value,
               transition: menuTransitionName.value,
               gpuAcceleration: false,

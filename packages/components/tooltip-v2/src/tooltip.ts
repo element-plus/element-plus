@@ -17,7 +17,6 @@ export const tooltipV2Props = buildProps({
     type: definePropType<TransitionProps | null>(Object),
     default: null,
   },
-  teleported: Boolean,
   to: {
     type: definePropType<TeleportProps['to']>(String),
     default: 'body',

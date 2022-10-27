@@ -20,7 +20,6 @@
     :enterable="enterable"
     :popper-class="kls"
     :popper-style="style"
-    :teleported="teleported"
     :persistent="persistent"
     :gpu-acceleration="gpuAcceleration"
     :append-to="appendTo"

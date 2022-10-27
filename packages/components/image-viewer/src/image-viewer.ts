@@ -34,10 +34,6 @@ export const imageViewerProps = buildProps({
     type: Boolean,
     default: false,
   },
-  teleported: {
-    type: Boolean,
-    default: false,
-  },
   closeOnPressEscape: {
     type: Boolean,
     default: true,

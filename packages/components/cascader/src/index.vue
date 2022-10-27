@@ -2,7 +2,6 @@
   <el-tooltip
     ref="tooltipRef"
     :visible="popperVisible"
-    :teleported="teleported"
     :popper-class="[nsCascader.e('dropdown'), popperClass]"
     :popper-options="popperOptions"
     :fallback-placements="[
@@ -93,7 +92,6 @@
             </template>
             <template v-else>
               <el-tooltip
-                :teleported="false"
                 :disabled="popperVisible || !collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 placement="bottom"
@@ -203,9 +201,7 @@ import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
-import ElTooltip, {
-  useTooltipContentProps,
-} from '@element-plus/components/tooltip'
+import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
@@ -333,7 +329,6 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    teleported: useTooltipContentProps.teleported,
     // eslint-disable-next-line vue/require-prop-types
     tagType: { ...tagProps.type, default: 'info' },
     validateEvent: {

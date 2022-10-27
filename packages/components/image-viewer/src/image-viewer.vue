@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body" :disabled="!teleported">
+  <teleport to="body" :disabled="false">
     <transition name="viewer-fade" appear>
       <div
         ref="wrapper"

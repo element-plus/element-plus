@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip-v2 aria-label="content" teleported to="body">
+  <el-tooltip-v2 aria-label="content" to="body">
     <template #trigger>
       <el-button>hover me</el-button>
     </template>

@@ -6,6 +6,7 @@
         effect="dark"
         content="Top Left prompts info"
         placement="top-start"
+        append-to="body"
       >
         <el-button>top-start</el-button>
       </el-tooltip>
@@ -14,6 +15,7 @@
         effect="dark"
         content="Top Center prompts info"
         placement="top"
+        append-to="body"
       >
         <el-button>top</el-button>
       </el-tooltip>
@@ -22,6 +24,7 @@
         effect="dark"
         content="Top Right prompts info"
         placement="top-end"
+        append-to="body"
       >
         <el-button>top-end</el-button>
       </el-tooltip>
@@ -32,6 +35,7 @@
         effect="dark"
         content="Left Top prompts info"
         placement="left-start"
+        append-to="body"
       >
         <el-button>left-start</el-button>
       </el-tooltip>
@@ -58,6 +62,7 @@
         effect="dark"
         content="Right Center prompts info"
         placement="right"
+        append-to="body"
       >
         <el-button>right</el-button>
       </el-tooltip>
@@ -68,6 +73,7 @@
         effect="dark"
         content="Left Bottom prompts info"
         placement="left-end"
+        append-to="body"
       >
         <el-button>left-end</el-button>
       </el-tooltip>
@@ -76,6 +82,7 @@
         effect="dark"
         content="Right Bottom prompts info"
         placement="right-end"
+        append-to="body"
       >
         <el-button>right-end</el-button>
       </el-tooltip>
@@ -86,6 +93,7 @@
         effect="dark"
         content="Bottom Left prompts info"
         placement="bottom-start"
+        append-to="body"
       >
         <el-button>bottom-start</el-button>
       </el-tooltip>
@@ -94,6 +102,7 @@
         effect="dark"
         content="Bottom Center prompts info"
         placement="bottom"
+        append-to="body"
       >
         <el-button>bottom</el-button>
       </el-tooltip>
@@ -102,6 +111,7 @@
         effect="dark"
         content="Bottom Right prompts info"
         placement="bottom-end"
+        append-to="body"
       >
         <el-button>bottom-end</el-button>
       </el-tooltip>

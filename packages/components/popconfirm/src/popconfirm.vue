@@ -6,7 +6,6 @@
     v-bind="$attrs"
     :popper-class="`${ns.namespace.value}-popover`"
     :popper-style="style"
-    :teleported="teleported"
     :fallback-placements="['bottom', 'top', 'right', 'left']"
     :hide-after="hideAfter"
     :persistent="persistent"

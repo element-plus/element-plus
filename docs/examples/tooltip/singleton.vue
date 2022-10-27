@@ -12,6 +12,7 @@
   <el-tooltip
     ref="tooltipRef"
     v-model:visible="visible"
+    append-to="body"
     :popper-options="{
       modifiers: [
         {
@@ -44,6 +45,6 @@ const visible = ref(false)
 
 <style>
 .singleton-tooltip {
-  transition: transform 0.3s var(--el-transition-function-fast-bezier);
+  /* transition: transform 0.3s var(--el-transition-function-fast-bezier); */
 }
 </style>

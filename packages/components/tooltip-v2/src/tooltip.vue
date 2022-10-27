@@ -4,7 +4,7 @@
       <tooltip-v2-trigger v-bind="triggerProps" nowrap>
         <slot name="trigger" />
       </tooltip-v2-trigger>
-      <teleport :to="to" :disabled="!teleported">
+      <teleport :to="to" :disabled="to === 'body'">
         <template v-if="fullTransition">
           <transition v-bind="transitionProps">
             <tooltip-v2-content v-if="alwaysOn || open" v-bind="contentProps">

@@ -27,7 +27,6 @@ export const popoverProps = buildProps({
     ...useTooltipContentProps.effect,
     default: 'light',
   },
-  teleported: useTooltipContentProps.teleported,
   title: String,
 
   width: {
