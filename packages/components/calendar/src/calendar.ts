@@ -6,7 +6,6 @@ import {
 } from '@element-plus/utils'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
-import type Calendar from './calendar.vue'
 
 export type CalendarDateType =
   | 'prev-month'
@@ -34,5 +33,3 @@ export const calendarEmits = {
   [INPUT_EVENT]: (value: Date) => isDate(value),
 }
 export type CalendarEmits = typeof calendarEmits
-
-export type CalendarInstance = InstanceType<typeof Calendar>

@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { createPopper } from '@popperjs/core'
-import { get } from 'lodash-unified'
+import { flatMap, get } from 'lodash-unified'
 import escapeHtml from 'escape-html'
 import { hasOwn, throwError } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
@@ -379,6 +379,18 @@ export function createTablePopper(
   return popperInstance
 }
 
+function getCurrentColumns<T>(column: TableColumnCtx<T>): TableColumnCtx<T>[] {
+  if (column.children) {
+    return flatMap(column.children, getCurrentColumns)
+  } else {
+    return [column]
+  }
+}
+
+function getColSpan<T>(colSpan: number, column: TableColumnCtx<T>) {
+  return colSpan + column.colSpan
+}
+
 export const isFixedColumn = <T>(
   index: number,
   fixed: string | boolean,
@@ -387,21 +399,18 @@ export const isFixedColumn = <T>(
 ) => {
   let start = 0
   let after = index
+  const columns = store.states.columns.value
   if (realColumns) {
-    if (realColumns[index].colSpan > 1) {
-      // fixed column not supported in grouped header
-      return {}
-    }
-    // handle group
-    for (let i = 0; i < index; i++) {
-      start += realColumns[i].colSpan
-    }
-    after = start + realColumns[index].colSpan - 1
+    // fixed column supported in grouped header
+    const curColumns = getCurrentColumns(realColumns[index])
+    const preColumns = columns.slice(0, columns.indexOf(curColumns[0]))
+
+    start = preColumns.reduce(getColSpan, 0)
+    after = start + curColumns.reduce(getColSpan, 0) - 1
   } else {
     start = index
   }
   let fixedLayout
-  const columns = store.states.columns
   switch (fixed) {
     case 'left':
       if (after < store.states.fixedLeafColumnsLength.value) {
@@ -411,7 +420,7 @@ export const isFixedColumn = <T>(
     case 'right':
       if (
         start >=
-        columns.value.length - store.states.rightFixedLeafColumnsLength.value
+        columns.length - store.states.rightFixedLeafColumnsLength.value
       ) {
         fixedLayout = 'right'
       }
@@ -421,7 +430,7 @@ export const isFixedColumn = <T>(
         fixedLayout = 'left'
       } else if (
         start >=
-        columns.value.length - store.states.rightFixedLeafColumnsLength.value
+        columns.length - store.states.rightFixedLeafColumnsLength.value
       ) {
         fixedLayout = 'right'
       }
@@ -444,13 +453,18 @@ export const getFixedColumnsClass = <T>(
   offset = 0
 ) => {
   const classes: string[] = []
-  const { direction, start } = isFixedColumn(index, fixed, store, realColumns)
+  const { direction, start, after } = isFixedColumn(
+    index,
+    fixed,
+    store,
+    realColumns
+  )
   if (direction) {
     const isLeft = direction === 'left'
     classes.push(`${namespace}-fixed-column--${direction}`)
     if (
       isLeft &&
-      start + offset === store.states.fixedLeafColumnsLength.value - 1
+      after + offset === store.states.fixedLeafColumnsLength.value - 1
     ) {
       classes.push('is-last-column')
     } else if (
@@ -480,12 +494,11 @@ export const getFixedColumnOffset = <T>(
   store: any,
   realColumns?: TableColumnCtx<T>[]
 ) => {
-  const { direction, start = 0 } = isFixedColumn(
-    index,
-    fixed,
-    store,
-    realColumns
-  )
+  const {
+    direction,
+    start = 0,
+    after = 0,
+  } = isFixedColumn(index, fixed, store, realColumns)
   if (!direction) {
     return
   }
@@ -493,10 +506,10 @@ export const getFixedColumnOffset = <T>(
   const isLeft = direction === 'left'
   const columns = store.states.columns.value
   if (isLeft) {
-    styles.left = columns.slice(0, index).reduce(getOffset, 0)
+    styles.left = columns.slice(0, start).reduce(getOffset, 0)
   } else {
     styles.right = columns
-      .slice(start + 1)
+      .slice(after + 1)
       .reverse()
       .reduce(getOffset, 0)
   }
