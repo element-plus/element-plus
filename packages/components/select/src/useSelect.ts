@@ -675,7 +675,7 @@ export const useSelect = (props, states: States, ctx) => {
     if (targetOption?.value) {
       target = optionsArray.value.find(
         (item) => item.value === targetOption.value
-      )[0]?.$el
+      )?.[0]?.$el
     }
 
     if (tooltipRef.value && target) {
