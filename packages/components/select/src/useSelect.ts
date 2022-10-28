@@ -811,9 +811,10 @@ export const useSelect = (props, states: States, ctx) => {
   )
   const navigateOptions = (direction: 'prev' | 'next') => {
     states.visible = true
+    const maxSize = states.options.size
     if (
       !states.visible ||
-      states.options.size === 0 ||
+      maxSize === 0 ||
       states.filteredOptionsCount === 0 ||
       states.isOnComposition ||
       optionsAllDisabled.value
@@ -821,8 +822,7 @@ export const useSelect = (props, states: States, ctx) => {
       return
 
     states.hoverIndex =
-      direction === 'next' ? states.hoverIndex++ : states.hoverIndex--
-    const maxSize = states.options.size
+      direction === 'next' ? states.hoverIndex + 1 : states.hoverIndex - 1
     if (states.hoverIndex === maxSize) {
       states.hoverIndex = 0
     } else if (states.hoverIndex < 0) {

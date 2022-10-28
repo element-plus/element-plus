@@ -652,16 +652,21 @@ describe('Select', () => {
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const vm = select.vm as any
     let i = 8
+    // disabled: 0 1
+    // options size: 6
     while (i--) {
+      // 2 3 4 5 6 7 8 9
+      // 2 3 4 5 2 3 4 5
       vm.navigateOptions('next')
     }
-    vm.navigateOptions('prev')
-    vm.navigateOptions('prev')
-    vm.navigateOptions('prev')
+    vm.navigateOptions('prev') // 4
+    vm.navigateOptions('prev') // 3
+    vm.navigateOptions('prev') // 2
+    expect(vm.hoverIndex).toBe(2)
     await nextTick()
     vm.selectOption()
     await nextTick()
-    expect((wrapper.vm as any).value).toBe('Dalian')
+    expect((wrapper.vm as any).value).toBe('Shanghai')
   })
 
   test('visible event', async () => {
@@ -702,17 +707,20 @@ describe('Select', () => {
     const select = wrapper.findComponent({ name: 'ElSelect' })
     const vm = select.vm as any
     let i = 8
+    // options size: 5
     while (i--) {
+      // 0 1 2 3 4 5 6 7
+      // 0 1 2 3 4 0 1 2
       vm.navigateOptions('next')
     }
-    vm.navigateOptions('prev')
-    vm.navigateOptions('prev')
-    vm.navigateOptions('prev')
+    vm.navigateOptions('prev') //1
+    vm.navigateOptions('prev') //0
+    vm.navigateOptions('prev') //4
     await nextTick()
-    expect(vm.hoverIndex).toBe(3)
+    expect(vm.hoverIndex).toBe(4)
     vm.selectOption()
     await nextTick()
-    expect((wrapper.vm as any).value).toBe('选项4')
+    expect((wrapper.vm as any).value).toBe('选项5')
     vm.toggleMenu()
 
     vi.runAllTimers()
@@ -720,7 +728,7 @@ describe('Select', () => {
 
     vm.toggleMenu()
     await nextTick()
-    expect(vm.hoverIndex).toBe(3)
+    expect(vm.hoverIndex).toBe(4)
     vi.useRealTimers()
   })
 
