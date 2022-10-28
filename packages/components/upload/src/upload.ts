@@ -1,5 +1,10 @@
 import { NOOP } from '@vue/shared'
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  isArray,
+  mutable,
+} from '@element-plus/utils'
 import { ajaxUpload } from './ajax'
 
 import type { UploadAjaxError } from './ajax'
@@ -180,5 +185,11 @@ export const uploadProps = buildProps({
 } as const)
 
 export type UploadProps = ExtractPropTypes<typeof uploadProps>
+
+export const uploadEmits = {
+  'update:fileList': (value: UploadUserFile[]) => isArray(value),
+}
+
+export type UploadEmits = typeof uploadEmits
 
 export type UploadInstance = InstanceType<typeof Upload>

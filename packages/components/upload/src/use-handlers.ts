@@ -1,13 +1,14 @@
-import { watch } from 'vue'
-import { useVModel } from '@vueuse/core'
+import { ref, watch } from 'vue'
+import { cloneDeep, isEqual } from 'lodash-unified'
 import { debugWarn, throwError } from '@element-plus/utils'
 import { genFileId } from './upload'
-import type { ShallowRef } from 'vue'
+import type { SetupContext, ShallowRef } from 'vue'
 import type {
   UploadContentInstance,
   UploadContentProps,
 } from './upload-content'
 import type {
+  UploadEmits,
   UploadFile,
   UploadFiles,
   UploadProps,
@@ -25,14 +26,10 @@ const revokeObjectURL = (file: UploadFile) => {
 
 export const useHandlers = (
   props: UploadProps,
+  emit: SetupContext<UploadEmits>['emit'],
   uploadRef: ShallowRef<UploadContentInstance | undefined>
 ) => {
-  const uploadFiles = useVModel(
-    props as Omit<UploadProps, 'fileList'> & { fileList: UploadFiles },
-    'fileList',
-    undefined,
-    { passive: true }
-  )
+  const uploadFiles = ref<UploadFiles>([])
 
   const getFile = (rawFile: UploadRawFile) =>
     uploadFiles.value.find((file) => file.uid === rawFile.uid)
@@ -100,7 +97,9 @@ export const useHandlers = (
         props.onError(err as Error, uploadFile, uploadFiles.value)
       }
     }
-    uploadFiles.value = [...uploadFiles.value, uploadFile]
+    uploadFiles.value.push(uploadFile)
+
+    emit('update:fileList', uploadFiles.value)
     props.onChange(uploadFile, uploadFiles.value)
   }
 
@@ -114,6 +113,7 @@ export const useHandlers = (
       abort(file)
       const fileList = uploadFiles.value
       fileList.splice(fileList.indexOf(file), 1)
+      emit('update:fileList', uploadFiles.value)
       props.onRemove(file, fileList)
       revokeObjectURL(file)
     }
@@ -131,6 +131,17 @@ export const useHandlers = (
       .filter(({ status }) => status === 'ready')
       .forEach(({ raw }) => raw && uploadRef.value?.upload(raw))
   }
+
+  watch(
+    () => props.fileList,
+    (val) => {
+      if (isEqual(uploadFiles.value, val)) return
+      uploadFiles.value = cloneDeep(val) as UploadFiles
+    },
+    {
+      immediate: true,
+    }
+  )
 
   watch(
     () => props.listType,
