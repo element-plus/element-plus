@@ -159,6 +159,9 @@ export const flattedChildren = (
       result.push(...flattedChildren(child.children))
     } else {
       result.push(child)
+      if (isVNode(child) && child.component && child.component.subTree) {
+        result.push(...flattedChildren(child.component.subTree.children))
+      }
     }
   })
   return result
