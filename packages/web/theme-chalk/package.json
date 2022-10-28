@@ -1,0 +1,47 @@
+{
+  "name": "@element-plus/theme-chalk",
+  "version": "3.0.0-alpha.0",
+  "description": "Theme chalk for Element Plus.",
+  "type": "module",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue",
+    "theme-chalk"
+  ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "clean": "rimraf ./dist"
+  },
+  "devDependencies": {
+    "@types/clean-css": "^4.2.5",
+    "@types/postcss-preset-env": "^7.7.0",
+    "autoprefixer": "^10.4.4",
+    "chalk": "^5.0.1",
+    "clean-css": "^5.3.0",
+    "consola": "^2.15.3",
+    "esbuild": "^0.15.7",
+    "esbuild-sass-plugin": "^2.3.2",
+    "fast-glob": "^3.2.11",
+    "postcss": "^8.4.12",
+    "postcss-preset-env": "^7.4.3",
+    "sass": "^1.50.0",
+    "tsx": "^3.4.3"
+  }
+}

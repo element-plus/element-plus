@@ -25,8 +25,8 @@
     "json",
     "jsonc"
   ],
-  "vite.devCommand": "pnpm run dev -- --",
-  "i18n-ally.localesPaths": "packages/locale/lang",
+  "vite.devCommand": "pnpm run dev",
+  "i18n-ally.localesPaths": "packages/web/locale/lang",
   "i18n-ally.enabledParsers": ["ts"],
   "i18n-ally.enabledFrameworks": ["vue", "vue-sfc"],
   "i18n-ally.keystyle": "nested",

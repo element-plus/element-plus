@@ -1,0 +1,55 @@
+{
+  "name": "@element-plus/cli",
+  "version": "3.0.0-alpha.0",
+  "description": "CLI for Element Plus.",
+  "type": "module",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue",
+    "build",
+    "cli"
+  ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./*": "./*"
+  },
+  "bin": {
+    "ep-cli": "./bin/ep-cli.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "scripts": {
+    "build": "./bin/ep-cli.sh build",
+    "clean": "rimraf ./dist"
+  },
+  "dependencies": {
+    "@element-plus/build": "workspace:*",
+    "@element-plus/node-utils": "workspace:*",
+    "commander": "^9.1.0"
+  },
+  "devDependencies": {
+    "@element-plus/cli-published": "npm:@element-plus-next/cli@3.0.0-alpha.3",
+    "tsx": "^3.4.3"
+  }
+}

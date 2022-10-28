@@ -15,7 +15,7 @@ cd internal/eslint-config
 npm publish
 cd -
 
-cd internal/metadata
+cd packages/node/metadata
 pnpm build
 npm publish
 cd -

@@ -57,7 +57,11 @@ export const generateTypesDefinitions = async () => {
 
     const emitOutput = sourceFile.getEmitOutput()
     const emitFiles = emitOutput.getOutputFiles()
-    if (emitFiles.length === 0) {
+    if (
+      emitFiles.length === 0 &&
+      !sourceFile.getFilePath().endsWith('.d.ts') &&
+      !sourceFile.getFilePath().endsWith('.json')
+    ) {
       throw new Error(`Emit no file: ${chalk.bold(relativePath)}`)
     }
 
@@ -87,7 +91,7 @@ export const generateTypesDefinitions = async () => {
 }
 
 async function addSourceFiles(project: Project) {
-  project.addSourceFileAtPath(path.resolve(projRoot, 'typings/env.d.ts'))
+  project.addSourceFileAtPath(path.resolve(pkgRoot, 'env.d.ts'))
 
   const globSourceFile = '**/*.{js?(x),ts?(x),vue}'
   const filePaths = excludeFiles(
@@ -98,8 +102,8 @@ async function addSourceFiles(project: Project) {
     })
   )
   const epPaths = excludeFiles(
-    await glob(globSourceFile, {
-      cwd: epRoot,
+    await glob([globSourceFile, 'package.json'], {
+      cwd: path.resolve(epRoot, 'src'),
       onlyFiles: true,
     })
   )
@@ -137,7 +141,7 @@ async function addSourceFiles(project: Project) {
       }
     }),
     ...epPaths.map(async (file) => {
-      const content = await readFile(path.resolve(epRoot, file), 'utf-8')
+      const content = await readFile(path.resolve(epRoot, 'src', file), 'utf-8')
       sourceFiles.push(
         project.createSourceFile(path.resolve(pkgRoot, file), content)
       )

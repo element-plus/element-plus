@@ -1,0 +1,39 @@
+{
+  "name": "@element-plus/node-constants",
+  "version": "3.0.0-alpha.0",
+  "description": "Common constants for Element Plus.",
+  "type": "module",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "constants"
+  ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./*": "./*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "scripts": {
+    "build": "ep-cli build",
+    "clean": "rimraf ./dist"
+  }
+}

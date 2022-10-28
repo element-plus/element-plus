@@ -1,0 +1,47 @@
+{
+  "name": "@element-plus/node-utils",
+  "version": "3.0.0-alpha.0",
+  "description": "Build utils for Element Plus.",
+  "type": "module",
+  "keywords": [
+    "element-plus",
+    "element",
+    "component library",
+    "ui framework",
+    "ui",
+    "vue",
+    "build",
+    "cli"
+  ],
+  "homepage": "https://element-plus.org/",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    },
+    "./*": "./*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git"
+  },
+  "scripts": {
+    "build": "ep-cli build",
+    "clean": "rimraf ./dist"
+  },
+  "dependencies": {
+    "@element-plus/node-constants": "workspace:*",
+    "consola": "^2.15.3",
+    "typescript": "^4.6.3"
+  }
+}
