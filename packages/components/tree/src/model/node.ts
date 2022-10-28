@@ -434,7 +434,7 @@ class Node {
             const child = childNodes[i]
             passValue = passValue || value !== false
             const isCheck = child.disabled ? child.checked : passValue
-            child.setChecked(isCheck, deep, true, passValue)
+            child.visible && child.setChecked(isCheck, deep, true, passValue)
           }
           const { half, all } = getChildState(childNodes)
           if (!all) {
