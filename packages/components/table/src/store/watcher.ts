@@ -7,7 +7,6 @@ import {
   getKeysMap,
   getRowIdentity,
   orderBy,
-  toggleRowStatus,
 } from '../util'
 import useExpand from './expand'
 import useCurrent from './current'
@@ -201,6 +200,49 @@ function useWatcher<T>() {
       }
       instance.emit('selection-change', newSelection)
     }
+  }
+  const toggleRowStatus = <T>(
+    statusArr: T[],
+    row: T,
+    newVal: boolean
+  ): boolean => {
+    let changed = false
+    const index = statusArr.indexOf(row)
+    const included = index !== -1
+
+    const addRow = () => {
+      statusArr.push(row)
+      if (row.children) {
+        row.children.forEach((item) => {
+          toggleRowSelection(item, newVal ?? !included)
+        })
+      }
+      changed = true
+    }
+    const removeRow = () => {
+      statusArr.splice(index, 1)
+      if (row.children) {
+        row.children.forEach((item) => {
+          toggleRowSelection(item, newVal ?? !included)
+        })
+      }
+      changed = true
+    }
+
+    if (typeof newVal === 'boolean') {
+      if (newVal && !included) {
+        addRow()
+      } else if (!newVal && included) {
+        removeRow()
+      }
+    } else {
+      if (included) {
+        removeRow()
+      } else {
+        addRow()
+      }
+    }
+    return changed
   }
 
   const _toggleAllSelection = () => {
@@ -482,6 +524,7 @@ function useWatcher<T>() {
     cleanSelection,
     getSelectionRows,
     toggleRowSelection,
+    toggleRowStatus,
     _toggleAllSelection,
     toggleAllSelection: null,
     updateSelectionByRowKey,

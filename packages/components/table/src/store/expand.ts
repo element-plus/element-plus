@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { getCurrentInstance, ref } from 'vue'
-import { getKeysMap, getRowIdentity, toggleRowStatus } from '../util'
+import { getKeysMap, getRowIdentity } from '../util'
 
 import type { Ref } from 'vue'
 import type { WatcherPropsData } from '.'
@@ -32,7 +32,7 @@ function useExpand<T>(watcherData: WatcherPropsData<T>) {
   }
 
   const toggleRowExpansion = (row: T, expanded?: boolean) => {
-    const changed = toggleRowStatus(expandRows.value, row, expanded)
+    const changed = instance.store.toggleRowStatus(row, expanded)
     if (changed) {
       instance.emit('expand-change', row, expandRows.value.slice())
     }

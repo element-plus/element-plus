@@ -240,50 +240,6 @@ export function compose(...funcs) {
   )
 }
 
-export function toggleRowStatus<T>(
-  statusArr: T[],
-  row: T,
-  newVal: boolean
-): boolean {
-  let changed = false
-  const index = statusArr.indexOf(row)
-  const included = index !== -1
-
-  const addRow = () => {
-    statusArr.push(row)
-    if (row.children) {
-      row.children.forEach((item) => {
-        toggleRowStatus(statusArr, item, newVal)
-      })
-    }
-    changed = true
-  }
-  const removeRow = () => {
-    statusArr.splice(index, 1)
-    if (row.children) {
-      row.children.forEach((item) => {
-        toggleRowStatus(statusArr, item, newVal)
-      })
-    }
-    changed = true
-  }
-
-  if (typeof newVal === 'boolean') {
-    if (newVal && !included) {
-      addRow()
-    } else if (!newVal && included) {
-      removeRow()
-    }
-  } else {
-    if (included) {
-      removeRow()
-    } else {
-      addRow()
-    }
-  }
-  return changed
-}
-
 export function walkTreeNode(
   root,
   cb,
