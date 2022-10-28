@@ -1,4 +1,4 @@
-import { watch } from 'vue'
+import { nextTick, watch } from 'vue'
 import { useVModel } from '@vueuse/core'
 import { debugWarn, throwError } from '@element-plus/utils'
 import { genFileId } from './upload'
@@ -101,7 +101,8 @@ export const useHandlers = (
       }
     }
     uploadFiles.value = [...uploadFiles.value, uploadFile]
-    props.onChange(uploadFile, uploadFiles.value)
+
+    nextTick(() => props.onChange(uploadFile, uploadFiles.value))
   }
 
   const handleRemove: UploadContentProps['onRemove'] = async (
