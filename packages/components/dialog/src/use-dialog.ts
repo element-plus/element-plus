@@ -138,6 +138,12 @@ export const useDialog = (
     emit('closeAutoFocus')
   }
 
+  function onFocusoutPrevented(event: CustomEvent) {
+    if (event.detail?.focusReason === 'pointer') {
+      event.preventDefault()
+    }
+  }
+
   if (props.lockScroll) {
     useLockscreen(visible)
   }
@@ -204,6 +210,7 @@ export const useDialog = (
     onOpenAutoFocus,
     onCloseAutoFocus,
     onCloseRequested,
+    onFocusoutPrevented,
     titleId,
     bodyId,
     closed,

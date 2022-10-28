@@ -26,7 +26,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import { flattenDeep, isEqual } from 'lodash-unified'
+import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
   castArray,
@@ -238,7 +238,7 @@ export default defineComponent({
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
         syncMenuState(nodes, forced)
-        checkedValue.value = modelValue!
+        checkedValue.value = cloneDeep(modelValue)
       }
     }
 
@@ -348,15 +348,21 @@ export default defineComponent({
       () => {
         manualChecked = false
         syncCheckedValue()
+      },
+      {
+        deep: true,
       }
     )
 
-    watch(checkedValue, (val) => {
-      if (!isEqual(val, props.modelValue)) {
-        emit(UPDATE_MODEL_EVENT, val)
-        emit(CHANGE_EVENT, val)
+    watch(
+      () => checkedValue.value,
+      (val) => {
+        if (!isEqual(val, props.modelValue)) {
+          emit(UPDATE_MODEL_EVENT, val)
+          emit(CHANGE_EVENT, val)
+        }
       }
-    })
+    )
 
     onBeforeUpdate(() => (menuList.value = []))
 

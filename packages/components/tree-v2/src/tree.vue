@@ -38,99 +38,84 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, getCurrentInstance, provide } from 'vue'
+<script lang="ts" setup>
+import { getCurrentInstance, provide, useSlots } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/tokens'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
 import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'
 import { ROOT_TREE_INJECTION_KEY, treeEmits, treeProps } from './virtual-tree'
-import type { TreeProps } from './types'
 
-export default defineComponent({
+defineOptions({
   name: 'ElTreeV2',
-  components: {
-    ElTreeNode,
-    FixedSizeList,
-  },
-  props: treeProps,
-  emits: treeEmits,
-  setup(props: TreeProps, ctx) {
-    provide(ROOT_TREE_INJECTION_KEY, {
-      ctx,
-      props,
-      instance: getCurrentInstance(),
-    })
-    provide(formItemContextKey, undefined)
-    const { t } = useLocale()
-    const ns = useNamespace('tree')
-    const {
-      flattenTree,
-      isNotEmpty,
-      toggleExpand,
-      isExpanded,
-      isIndeterminate,
-      isChecked,
-      isDisabled,
-      isCurrent,
-      isForceHiddenExpandIcon,
-      toggleCheckbox,
-      handleNodeClick,
-      handleNodeCheck,
-      // expose
-      getCurrentNode,
-      getCurrentKey,
-      setCurrentKey,
-      getCheckedKeys,
-      getCheckedNodes,
-      getHalfCheckedKeys,
-      getHalfCheckedNodes,
-      setChecked,
-      setCheckedKeys,
-      filter,
-      setData,
-      getNode,
-      expandNode,
-      collapseNode,
-      setExpandedKeys,
-    } = useTree(props, ctx.emit)
+})
 
-    ctx.expose({
-      getCurrentNode,
-      getCurrentKey,
-      setCurrentKey,
-      getCheckedKeys,
-      getCheckedNodes,
-      getHalfCheckedKeys,
-      getHalfCheckedNodes,
-      setChecked,
-      setCheckedKeys,
-      filter,
-      setData,
-      getNode,
-      expandNode,
-      collapseNode,
-      setExpandedKeys,
-    })
+const props = defineProps(treeProps)
+const emit = defineEmits(treeEmits)
 
-    return {
-      t,
-      ns,
-      flattenTree,
-      itemSize: 26,
-      isNotEmpty,
-      toggleExpand,
-      toggleCheckbox,
-      isExpanded,
-      isIndeterminate,
-      isChecked,
-      isDisabled,
-      isCurrent,
-      isForceHiddenExpandIcon,
-      handleNodeClick,
-      handleNodeCheck,
-    }
+const slots = useSlots()
+
+const itemSize = 26
+
+provide(ROOT_TREE_INJECTION_KEY, {
+  ctx: {
+    emit,
+    slots,
   },
+  props,
+  instance: getCurrentInstance()!,
+})
+provide(formItemContextKey, undefined)
+const { t } = useLocale()
+const ns = useNamespace('tree')
+const {
+  flattenTree,
+  isNotEmpty,
+  toggleExpand,
+  isExpanded,
+  isIndeterminate,
+  isChecked,
+  isDisabled,
+  isCurrent,
+  isForceHiddenExpandIcon,
+  handleNodeClick,
+  handleNodeCheck,
+  // expose
+  toggleCheckbox,
+  getCurrentNode,
+  getCurrentKey,
+  setCurrentKey,
+  getCheckedKeys,
+  getCheckedNodes,
+  getHalfCheckedKeys,
+  getHalfCheckedNodes,
+  setChecked,
+  setCheckedKeys,
+  filter,
+  setData,
+  getNode,
+  expandNode,
+  collapseNode,
+  setExpandedKeys,
+} = useTree(props, emit)
+
+defineExpose({
+  toggleCheckbox,
+  getCurrentNode,
+  getCurrentKey,
+  setCurrentKey,
+  getCheckedKeys,
+  getCheckedNodes,
+  getHalfCheckedKeys,
+  getHalfCheckedNodes,
+  setChecked,
+  setCheckedKeys,
+  filter,
+  setData,
+  getNode,
+  expandNode,
+  collapseNode,
+  setExpandedKeys,
 })
 </script>
