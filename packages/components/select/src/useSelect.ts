@@ -781,9 +781,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const toggleMenu = (e?: PointerEvent) => {
-    if ((e && !states.mouseEnter) || selectDisabled.value) {
-      return
-    }
+    if ((e && !states.mouseEnter) || selectDisabled.value) return
     if (states.menuVisibleOnFocus) {
       states.menuVisibleOnFocus = false
     } else if (!tooltipRef.value || !tooltipRef.value.isFocusInsideContent()) {
@@ -811,13 +809,10 @@ export const useSelect = (props, states: States, ctx) => {
       .filter((option) => option.visible)
       .every((option) => option.disabled)
   )
-
-  const navigateOptions = (direction) => {
-    if (!states.visible) {
-      states.visible = true
-      return
-    }
+  const navigateOptions = (direction: 'prev' | 'next') => {
+    states.visible = true
     if (
+      !states.visible ||
       states.options.size === 0 ||
       states.filteredOptionsCount === 0 ||
       states.isOnComposition ||
@@ -825,16 +820,13 @@ export const useSelect = (props, states: States, ctx) => {
     )
       return
 
-    if (direction === 'next') {
-      states.hoverIndex++
-      if (states.hoverIndex === states.options.size) {
-        states.hoverIndex = 0
-      }
-    } else if (direction === 'prev') {
-      states.hoverIndex--
-      if (states.hoverIndex < 0) {
-        states.hoverIndex = states.options.size - 1
-      }
+    states.hoverIndex =
+      direction === 'next' ? states.hoverIndex++ : states.hoverIndex--
+    const maxSize = states.options.size
+    if (states.hoverIndex === maxSize) {
+      states.hoverIndex = 0
+    } else if (states.hoverIndex < 0) {
+      states.hoverIndex = maxSize - 1
     }
     const option = optionsArray.value[states.hoverIndex]
     if (
