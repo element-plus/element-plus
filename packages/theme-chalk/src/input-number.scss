@@ -8,7 +8,7 @@
   position: relative;
   display: inline-block;
   width: map.get($input-number-width, 'default');
-  line-height: #{map.get($input-height, 'default') - 3};
+  line-height: #{map.get($input-height, 'default') - 2};
 
   .#{$namespace}-input {
     &__wrapper {
@@ -95,7 +95,7 @@
   @each $size in (large, small) {
     @include m($size) {
       width: map.get($input-number-width, $size);
-      line-height: #{map.get($input-height, $size) - 3};
+      line-height: #{map.get($input-height, $size) - 2};
 
       @include e((increase, decrease)) {
         width: map.get($input-height, $size);
