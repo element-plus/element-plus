@@ -11,6 +11,10 @@ export default defineComponent({
       type: Number,
       default: 1,
     },
+    rowspan: {
+      type: Number,
+      default: 1,
+    },
     width: {
       type: [String, Number],
       default: '',

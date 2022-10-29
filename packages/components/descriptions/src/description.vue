@@ -69,12 +69,28 @@ const getRows = () => {
   )
   const rows = []
   let temp = []
-  let count = props.column
+  let count: number = props.column
   let totalSpan = 0 // all spans number of item
+  const rowspanTemp = [] // 每行跨列的数量
 
   children.forEach((node, index) => {
     const span = node.props?.span || 1
+    const rowspan = node.props?.rowspan || 1
+    const rowNo = rows.length
+    rowspanTemp[rowNo] || (rowspanTemp[rowNo] = 0)
 
+    if (rowspan > 1) {
+      for (let i = 1; i < rowspan; i++) {
+        rowspanTemp[rowNo + i] || (rowspanTemp[rowNo + i] = 0)
+        rowspanTemp[rowNo + i]++
+        totalSpan++
+      }
+    }
+    if (rowspanTemp[rowNo] > 0) {
+      // 当前行有跨列，则减去对应列数，减完归零防止同行后续列重复减
+      count -= rowspanTemp[rowNo]
+      rowspanTemp[rowNo] = 0
+    }
     if (index < children.length - 1) {
       totalSpan += span > count ? count : span
     }
