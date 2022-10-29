@@ -11,7 +11,7 @@ import {
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
-import { isClient } from '@vueuse/core'
+import { isClient, useCssVar } from '@vueuse/core'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -19,7 +19,6 @@ import {
 } from '@element-plus/constants'
 import {
   debugWarn,
-  getComponentSize,
   isFunction,
   isKorean,
   isNumber,
@@ -370,7 +369,18 @@ export const useSelect = (props, states: States, ctx) => {
       ) as HTMLInputElement
       const _tags = tags.value
 
-      const sizeInMap = getComponentSize(selectSize.value || form?.size)
+      const sizeName = selectSize.value || form?.size || 'default'
+
+      const cssVarName =
+        sizeName === 'default'
+          ? ns.cssVarName('component-size')
+          : ns.cssVarName(`component-size-${sizeName}`)
+
+      // with suffix px will correct, other unit maybe cause some style problem
+      const sizeInMap = Number.parseFloat(
+        useCssVar(cssVarName, reference.value).value
+      )
+
       // it's an inner input so reduce it by 2px.
       input.style.height = `${
         (states.selected.length === 0

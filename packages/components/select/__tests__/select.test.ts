@@ -1994,12 +1994,19 @@ describe('Select', () => {
       size: 'large',
     })
     await nextTick(nextTick)
-    const inputEl = wrapper.find('input').element as HTMLDivElement
+    const inputEl = wrapper.find('input').element as HTMLInputElement
     const sizeMap: Record<string, number> = {
       small: 24,
       default: 32,
       large: 40,
     }
+
+    // set css variable
+    const selectWrapper = wrapper.find('.el-input').element as HTMLDivElement
+    selectWrapper.setAttribute(
+      'style',
+      '--el-component-size-small: 24px;--el-component-size: 32px;--el-component-size-large: 40px;'
+    )
 
     for (const size in sizeMap) {
       await wrapper.setProps({
