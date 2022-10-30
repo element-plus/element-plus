@@ -12,11 +12,13 @@ const Comp = defineComponent({
   components: {
     TabPane,
   },
-  template: `
-  <TabPane name="tab1" label="tab1">
-    Tab 1 content
-  </TabPane>
-    `,
+  setup() {
+    return () => (
+      <TabPane name="tab1" label="tab1">
+        Tab 1 content
+      </TabPane>
+    )
+  },
 })
 
 describe('Tabs.vue', () => {

@@ -160,7 +160,7 @@ export const flattedChildren = (
     } else {
       result.push(child)
       if (isVNode(child) && child.component?.subTree) {
-        result.push(...flattedChildren(child.component.subTree.children))
+        result.push(...flattedChildren(child.component.subTree))
       }
     }
   })
