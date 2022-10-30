@@ -212,7 +212,7 @@ function useWatcher<T>() {
 
     const addRow = () => {
       statusArr.push(row)
-      if (row.children) {
+      if (isArray(row.children)) {
         row.children.forEach((item) => {
           toggleRowSelection(item, newVal ?? !included)
         })
@@ -229,7 +229,7 @@ function useWatcher<T>() {
       changed = true
     }
 
-    if (typeof newVal === 'boolean') {
+    if (isBoolean(newVal)) {
       if (newVal && !included) {
         addRow()
       } else if (!newVal && included) {
