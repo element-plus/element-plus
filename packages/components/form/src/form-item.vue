@@ -278,8 +278,18 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
   const validator = new AsyncValidator({
     [modelName]: rules,
   })
+  const toValidateFieldValue =
+    typeof fieldValue.value === 'string' && props.validateTrim
+      ? fieldValue.value.trim()
+      : fieldValue.value
+
   return validator
-    .validate({ [modelName]: fieldValue.value }, { firstFields: true })
+    .validate(
+      {
+        [modelName]: toValidateFieldValue,
+      },
+      { firstFields: true }
+    )
     .then(() => {
       onValidationSucceeded()
       return true as const
