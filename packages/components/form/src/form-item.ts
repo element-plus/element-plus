@@ -40,6 +40,9 @@ export const formItemProps = buildProps({
     type: Boolean,
     default: false,
   },
+  validateMsgUseLabel: {
+    type: [Boolean, String],
+  },
   for: String,
   inlineMessage: {
     type: [String, Boolean],
