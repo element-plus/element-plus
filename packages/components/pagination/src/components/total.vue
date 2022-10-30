@@ -2,7 +2,7 @@
   <span :class="ns.e('total')" :disabled="disabled">
     {{
       t('el.pagination.total', {
-        total,
+        total: totalFormat ? totalFormat(total) : total,
       })
     }}
   </span>

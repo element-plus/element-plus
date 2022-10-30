@@ -354,5 +354,19 @@ describe('Pagination', () => {
         wrapper.find('.el-pager li:first-child').attributes('tabindex')
       ).toBe('0')
     })
+
+    test('test total format', async () => {
+      const handleFormat = (total: number) => {
+        if (total === 10000) {
+          return '10,000'
+        }
+      }
+      const wrapper = mount(() => (
+        <Pagination total={10000} totalFormat={handleFormat}></Pagination>
+      ))
+      const renderTotalHtml = wrapper.find('.el-pagination__total').element
+        .innerHTML
+      expect(renderTotalHtml).toBe('Total 10,000')
+    })
   })
 })

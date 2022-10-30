@@ -98,6 +98,9 @@ export const paginationProps = buildProps({
   background: Boolean,
   disabled: Boolean,
   hideOnSinglePage: Boolean,
+  totalFormat: {
+    type: Function,
+  },
 } as const)
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 
@@ -315,7 +318,10 @@ export default defineComponent({
           size: props.small ? 'small' : 'default',
         }),
         slot: slots?.default?.() ?? null,
-        total: h(Total, { total: isAbsent(props.total) ? 0 : props.total }),
+        total: h(Total, {
+          total: isAbsent(props.total) ? 0 : props.total,
+          totalFormat: props.totalFormat,
+        }),
       }
 
       const components = props.layout
