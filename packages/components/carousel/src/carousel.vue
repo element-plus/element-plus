@@ -77,6 +77,7 @@ defineOptions({
 const props = defineProps(carouselProps)
 const emit = defineEmits(carouselEmits)
 const {
+  root,
   activeIndex,
   arrowDisplay,
   hasLabel,
