@@ -221,21 +221,26 @@ const verifyValue = (
   }
   return newVal
 }
-const setCurrentValue = (value: number | string | null | undefined) => {
+const setCurrentValue = (
+  value: number | string | null | undefined,
+  emitChange = true
+) => {
   const oldVal = data.currentValue
   const newVal = verifyValue(value)
   if (oldVal === newVal) return
   data.userInput = null
   emit(UPDATE_MODEL_EVENT, newVal!)
-  emit(CHANGE_EVENT, newVal!, oldVal!)
-  if (props.validateEvent) {
+  emitChange && emit(CHANGE_EVENT, newVal!, oldVal!)
+  if (props.validateEvent && emitChange) {
     formItem?.validate?.('change').catch((err) => debugWarn(err))
   }
   data.currentValue = newVal
 }
 const handleInput = (value: string) => {
   data.userInput = value
-  emit(INPUT_EVENT, value === '' ? null : Number(value))
+  const newVal = value === '' ? null : Number(value)
+  emit(INPUT_EVENT, newVal)
+  setCurrentValue(newVal, false)
 }
 const handleInputChange = (value: string) => {
   const newVal = value !== '' ? Number(value) : ''
