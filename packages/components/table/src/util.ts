@@ -246,7 +246,7 @@ export function toggleRowStatus<T>(
   newVal: boolean
 ): boolean {
   let changed = false
-  const index = statusArr.indexOf(row)
+  const index = statusArr.findIndex((item) => item.id === row.id)
   const included = index !== -1
 
   const addRow = () => {

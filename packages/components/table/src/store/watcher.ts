@@ -203,7 +203,7 @@ function useWatcher<T>() {
     let selectionChanged = false
     let childrenCount = 0
     const rowKey = instance?.store?.states?.rowKey.value
-    data.value.forEach((row, index) => {
+    const checkedItem = (row, index) => {
       const rowIndex = index + childrenCount
       if (selectable.value) {
         if (
@@ -218,6 +218,12 @@ function useWatcher<T>() {
         }
       }
       childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
+    }
+    const treeChildren = instance.props.treeProps?.children
+    data.value.forEach((row, index) => {
+      checkedItem(row, index)
+      if (treeChildren && row[treeChildren])
+        row[treeChildren].forEach(checkedItem)
     })
 
     if (selectionChanged) {
