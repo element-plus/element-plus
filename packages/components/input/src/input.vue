@@ -363,6 +363,7 @@ const handleInput = async (event: Event) => {
     setNativeInputValue()
     return
   }
+
   emit(UPDATE_MODEL_EVENT, parsedValue ?? value)
   emit('input', value)
 
@@ -482,7 +483,6 @@ onMounted(() => {
       'If you set the parser, you also need to set the formatter.'
     )
   }
-
   setNativeInputValue()
   nextTick(resizeTextarea)
 })
