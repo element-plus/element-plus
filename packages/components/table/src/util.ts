@@ -2,7 +2,7 @@
 import { createPopper } from '@popperjs/core'
 import { flatMap, get } from 'lodash-unified'
 import escapeHtml from 'escape-html'
-import { hasOwn, throwError } from '@element-plus/utils'
+import { hasOwn, isArray, isBoolean, throwError } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
   IPopperOptions,
@@ -238,6 +238,50 @@ export function compose(...funcs) {
       (...args) =>
         a(b(...args))
   )
+}
+
+export const toggleRowStatus = <T>(
+  statusArr: T[],
+  row: T,
+  newVal: boolean
+): boolean => {
+  let changed = false
+  const index = statusArr.indexOf(row)
+  const included = index !== -1
+
+  const addRow = () => {
+    statusArr.push(row)
+    if (isArray(row.children)) {
+      row.children.forEach((item) => {
+        toggleRowStatus(statusArr, item, newVal ?? !included)
+      })
+    }
+    changed = true
+  }
+  const removeRow = () => {
+    statusArr.splice(index, 1)
+    if (isArray(row.children)) {
+      row.children.forEach((item) => {
+        toggleRowStatus(statusArr, item, newVal ?? !included)
+      })
+    }
+    changed = true
+  }
+
+  if (isBoolean(newVal)) {
+    if (newVal && !included) {
+      addRow()
+    } else if (!newVal && included) {
+      removeRow()
+    }
+  } else {
+    if (included) {
+      removeRow()
+    } else {
+      addRow()
+    }
+  }
+  return changed
 }
 
 export function walkTreeNode(

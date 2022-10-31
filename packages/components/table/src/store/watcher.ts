@@ -1,12 +1,13 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
-import { hasOwn, isArray, isBoolean } from '@element-plus/utils'
+import { hasOwn } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
   getKeysMap,
   getRowIdentity,
   orderBy,
+  toggleRowStatus,
 } from '../util'
 import useExpand from './expand'
 import useCurrent from './current'
@@ -201,50 +202,6 @@ function useWatcher<T>() {
       instance.emit('selection-change', newSelection)
     }
   }
-  const toggleRowStatus = <T>(
-    statusArr: T[],
-    row: T,
-    newVal: boolean
-  ): boolean => {
-    let changed = false
-    const index = statusArr.indexOf(row)
-    const included = index !== -1
-
-    const addRow = () => {
-      statusArr.push(row)
-      if (isArray(row.children)) {
-        row.children.forEach((item) => {
-          toggleRowSelection(item, newVal ?? !included)
-        })
-      }
-      changed = true
-    }
-    const removeRow = () => {
-      statusArr.splice(index, 1)
-      if (isArray(row.children)) {
-        row.children.forEach((item) => {
-          toggleRowSelection(item, newVal ?? !included)
-        })
-      }
-      changed = true
-    }
-
-    if (isBoolean(newVal)) {
-      if (newVal && !included) {
-        addRow()
-      } else if (!newVal && included) {
-        removeRow()
-      }
-    } else {
-      if (included) {
-        removeRow()
-      } else {
-        addRow()
-      }
-    }
-    return changed
-  }
-
   const _toggleAllSelection = () => {
     // when only some rows are selected (but not all), select or deselect all of them
     // depending on the value of selectOnIndeterminate
