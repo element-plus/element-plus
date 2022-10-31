@@ -221,7 +221,7 @@ function useWatcher<T>() {
     }
     const removeRow = () => {
       statusArr.splice(index, 1)
-      if (row.children) {
+      if (isArray(row.children)) {
         row.children.forEach((item) => {
           toggleRowSelection(item, newVal ?? !included)
         })
