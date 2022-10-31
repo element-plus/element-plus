@@ -132,7 +132,7 @@ tooltip/controlled
 
 ## Animations
 
-Tooltip can be customized animated, you can set the the desired animation function as you desired.
+Tooltip can be customized animated, you can set the desired animation function as you desired.
 
 :::demo
 
