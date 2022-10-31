@@ -337,17 +337,20 @@ const resizeTextarea = () => {
 const setNativeInputValue = () => {
   const input = _ref.value
   if (!input || input.value === nativeInputValue.value) return
+  if (props.formatter) {
+    input.value = props.formatter(nativeInputValue.value)
+    return
+  }
   input.value = nativeInputValue.value
 }
 
 const handleInput = async (event: Event) => {
   recordCursor()
 
-  let { value } = event.target as TargetElement
-
+  const { value } = event.target as TargetElement
+  let parsedValue
   if (props.formatter) {
-    value = props.parser ? props.parser(value) : value
-    value = props.formatter(value)
+    parsedValue = props.parser ? props.parser(value) : value
   }
 
   // should not emit input during composition
@@ -360,8 +363,7 @@ const handleInput = async (event: Event) => {
     setNativeInputValue()
     return
   }
-
-  emit(UPDATE_MODEL_EVENT, value)
+  emit(UPDATE_MODEL_EVENT, parsedValue ?? value)
   emit('input', value)
 
   // ensure native input value is controlled
@@ -480,6 +482,7 @@ onMounted(() => {
       'If you set the parser, you also need to set the formatter.'
     )
   }
+
   setNativeInputValue()
   nextTick(resizeTextarea)
 })

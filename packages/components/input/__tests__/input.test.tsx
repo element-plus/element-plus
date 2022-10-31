@@ -266,8 +266,8 @@ describe('Input.vue', () => {
     ))
 
     const vm = wrapper.vm
-    expect(vm.$el.querySelector('input').value).toEqual('10000')
-    expect(vm.$el.querySelector('input').value).not.toEqual('1000')
+    expect(vm.$el.querySelector('input').value).toEqual('10,000')
+    expect(vm.$el.querySelector('input').value).not.toEqual('10000')
   })
 
   describe('Input Methods', () => {
