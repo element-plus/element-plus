@@ -482,7 +482,6 @@ function useWatcher<T>() {
     cleanSelection,
     getSelectionRows,
     toggleRowSelection,
-    toggleRowStatus,
     _toggleAllSelection,
     toggleAllSelection: null,
     updateSelectionByRowKey,
