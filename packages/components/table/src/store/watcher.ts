@@ -202,6 +202,7 @@ function useWatcher<T>() {
       instance.emit('selection-change', newSelection)
     }
   }
+
   const _toggleAllSelection = () => {
     // when only some rows are selected (but not all), select or deselect all of them
     // depending on the value of selectOnIndeterminate

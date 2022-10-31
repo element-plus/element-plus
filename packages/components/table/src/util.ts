@@ -240,11 +240,11 @@ export function compose(...funcs) {
   )
 }
 
-export const toggleRowStatus = <T>(
+export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
   newVal: boolean
-): boolean => {
+): boolean {
   let changed = false
   const index = statusArr.indexOf(row)
   const included = index !== -1
