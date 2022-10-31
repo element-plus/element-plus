@@ -1266,12 +1266,17 @@ describe('table column', () => {
       const result = []
       const wrapper = createTable({
         selectable(row, index) {
-          result.push(row.index - 1 === index)
+          const has =
+            result.findIndex((item) => +Object.keys(item)[0] === row.id) > -1
+          if (!has)
+            result.push({
+              [row.id]: row.index - 1 === index,
+            })
           return !row.disabled
         },
       })
-      await doubleWait()
       wrapper.vm.$refs.table.toggleAllSelection()
+      await doubleWait()
       expect(result.every((item) => item)).toBeTruthy()
       wrapper.unmount()
     })
