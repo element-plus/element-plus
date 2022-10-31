@@ -26,12 +26,7 @@ export const useCollapse = (
 
   const handleItemClick = (name: CollapseActiveName) => {
     if (props.accordion) {
-      setActiveNames([
-        (activeNames.value[0] || activeNames.value[0] === 0) &&
-        activeNames.value[0] === name
-          ? ''
-          : name,
-      ])
+      setActiveNames([activeNames.value[0] === name ? '' : name])
     } else {
       const _activeNames = [...activeNames.value]
       const index = _activeNames.indexOf(name)
