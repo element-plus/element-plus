@@ -47,10 +47,11 @@ describe('InputNumber.vue', () => {
       'null'
     )
   })
+  // fix: #10328
   test('Make sure the input action can trigger the modelValue update', async () => {
-    const num = ref(0)
-    const handleUpdate = (data: number) => {
-      num.value = data
+    const num = ref<number>(0)
+    const handleUpdate = (data: number | undefined) => {
+      num.value = data!
     }
     const wrapper = mount(() => (
       <InputNumber modelValue={num.value} onUpdate:modelValue={handleUpdate} />
