@@ -22,12 +22,17 @@ const props = defineProps(alphaSliderProps)
 
 const { bar, thumb, handleDrag, handleClick } = useAlphaSlider(props)
 
-const { rootKls, barKls, barStyle, thumbKls, thumbStyle } = useAlphaSliderDOM(
-  props,
-  {
+const { rootKls, barKls, barStyle, thumbKls, thumbStyle, update } =
+  useAlphaSliderDOM(props, {
     bar,
     thumb,
     handleDrag,
-  }
-)
+  })
+
+defineExpose({
+  /**
+   * update alpha slider manually
+   */
+  update,
+})
 </script>

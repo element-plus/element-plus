@@ -162,5 +162,5 @@ export const useAlphaSliderDOM = (
     top: addUnit(thumbTop.value),
   }))
 
-  return { rootKls, barKls, barStyle, thumbKls, thumbStyle }
+  return { rootKls, barKls, barStyle, thumbKls, thumbStyle, update }
 }
