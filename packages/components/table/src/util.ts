@@ -249,36 +249,31 @@ export function toggleRowStatus<T>(
   const index = statusArr.indexOf(row)
   const included = index !== -1
 
-  const addRow = () => {
-    statusArr.push(row)
+  const toggleStatus = (type: 'add' | 'remove'): boolean => {
+    if (type === 'add') {
+      statusArr.push(row)
+    } else {
+      statusArr.splice(index, 1)
+    }
+    changed = true
     if (isArray(row.children)) {
       row.children.forEach((item) => {
         toggleRowStatus(statusArr, item, newVal ?? !included)
       })
     }
-    changed = true
-  }
-  const removeRow = () => {
-    statusArr.splice(index, 1)
-    if (isArray(row.children)) {
-      row.children.forEach((item) => {
-        toggleRowStatus(statusArr, item, newVal ?? !included)
-      })
-    }
-    changed = true
   }
 
   if (isBoolean(newVal)) {
     if (newVal && !included) {
-      addRow()
+      toggleStatus('add')
     } else if (!newVal && included) {
-      removeRow()
+      toggleStatus('remove')
     }
   } else {
     if (included) {
-      removeRow()
+      toggleStatus('remove')
     } else {
-      addRow()
+      toggleStatus('add')
     }
   }
   return changed
