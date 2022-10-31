@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
@@ -7,6 +7,19 @@ import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav'
 import type { TabPaneName } from '../src/tabs'
 import type { TabsPaneContext } from '@element-plus/tokens'
+
+const Comp = defineComponent({
+  components: {
+    TabPane,
+  },
+  setup() {
+    return () => (
+      <TabPane name="tab1" label="tab1">
+        Tab 1 content
+      </TabPane>
+    )
+  },
+})
 
 describe('Tabs.vue', () => {
   test('create', async () => {
@@ -753,5 +766,18 @@ describe('Tabs.vue', () => {
     expect(navItemsWrapper[1].classes('is-active')).toBe(false)
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
     expect(navItemsWrapper[3].classes('is-active')).toBe(false)
+  })
+
+  test('tab-pane nested', async () => {
+    const wrapper = mount(() => (
+      <Tabs>
+        <Comp />
+      </Tabs>
+    ))
+
+    const panesWrapper = wrapper.findAllComponents(TabPane)
+    await nextTick()
+
+    expect(panesWrapper.length).toBe(1)
   })
 })
