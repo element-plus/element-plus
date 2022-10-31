@@ -249,7 +249,7 @@ export function toggleRowStatus<T>(
   const index = statusArr.indexOf(row)
   const included = index !== -1
 
-  const toggleStatus = (type: 'add' | 'remove'): boolean => {
+  const toggleStatus = (type: 'add' | 'remove') => {
     if (type === 'add') {
       statusArr.push(row)
     } else {
