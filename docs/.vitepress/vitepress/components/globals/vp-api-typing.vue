@@ -9,9 +9,9 @@ defineProps({
 
 <template>
   <span class="flex items-center">
-    <span class="api-typing">
+    <code class="api-typing">
       {{ type }}
-    </span>
+    </code>
     <el-tooltip effect="light" trigger="click">
       <el-button text :icon="Warning" class="p-2 text-5" />
       <template #content>
