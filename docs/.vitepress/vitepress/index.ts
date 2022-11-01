@@ -15,6 +15,7 @@ import 'uno.css'
 
 import VPApp from './components/vp-app.vue'
 import VPDemo from './components/vp-demo.vue'
+import ApiTyping from './components/globals/vp-api-typing.vue'
 import IconList from './components/globals/icons.vue'
 
 import type { Component } from 'vue'
@@ -25,4 +26,5 @@ export default VPApp
 export const globals: [string, Component][] = [
   ['Demo', VPDemo],
   ['IconList', IconList],
+  ['ApiTyping', ApiTyping],
 ]
