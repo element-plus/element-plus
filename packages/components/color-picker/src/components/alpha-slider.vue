@@ -31,8 +31,19 @@ const { rootKls, barKls, barStyle, thumbKls, thumbStyle, update } =
 
 defineExpose({
   /**
-   * update alpha slider manually
+   * @description update alpha slider manually
+   * @type {Function}
    */
   update,
+  /**
+   * @description bar element ref
+   * @type {HTMLElement}
+   */
+  bar,
+  /**
+   * @description thumb element ref
+   * @type {HTMLElement}
+   */
+  thumb,
 })
 </script>
