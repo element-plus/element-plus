@@ -15,11 +15,13 @@ defineProps({
     <el-tooltip effect="light" trigger="click">
       <el-button text :icon="Warning" class="p-2 text-4" />
       <template #content>
-        <div class="m-1">
-          <code>
-            {{ details }}
-          </code>
-        </div>
+        <slot>
+          <div class="m-1">
+            <code>
+              {{ details }}
+            </code>
+          </div>
+        </slot>
       </template>
     </el-tooltip>
   </span>
