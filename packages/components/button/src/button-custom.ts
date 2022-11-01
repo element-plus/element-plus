@@ -9,7 +9,7 @@ export function darken(color: TinyColor, amount = 20) {
 
 export function useButtonCustomStyle(
   props: ButtonProps,
-  instance: Ref<Element>
+  instance: Ref<HTMLButtonElement | undefined>
 ) {
   const _disabled = useDisabled()
   const ns = useNamespace('button')
@@ -89,7 +89,7 @@ export function useButtonCustomStyle(
   function getButtonColor(
     style: Record<string, string>,
     color: string,
-    element: Element
+    element?: Element
   ) {
     const regInit = /var\(([\w-]+)?\s{0,},\s{0,}(\w{0,})\)/
     const reg = /var\(([\w-]+)\)/
