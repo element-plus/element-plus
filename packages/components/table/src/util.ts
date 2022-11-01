@@ -269,7 +269,9 @@ export function toggleRowStatus<T>(
     } else if (!newVal && included) {
       toggleStatus('remove')
     }
-  } else included ? toggleStatus('remove') : toggleStatus('add')
+  } else {
+    included ? toggleStatus('remove') : toggleStatus('add')
+  }
   return changed
 }
 
