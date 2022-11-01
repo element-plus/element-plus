@@ -187,7 +187,7 @@ describe('Virtual Tree', () => {
     await nextTick()
     expect(treeVm.flattenTree.length).toEqual(NODE_NUMBER)
     const iconWrapper = wrapper.find(TREE_NODE_EXPAND_ICON_CLASS_NAME)
-    expect(iconWrapper.element.innerHTML).contains('svg')
+    expect(iconWrapper.find('svg').exists()).toBeTruthy()
   })
 
   test('click node', async () => {
