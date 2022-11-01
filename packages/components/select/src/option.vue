@@ -63,16 +63,13 @@ export default defineComponent({
 
     const { visible, hover } = toRefs(states)
     const vm = getCurrentInstance().proxy
-    const key = (vm as unknown as SelectOptionProxy).value
-    const parent =
-      getCurrentInstance().parent.slots.default()[1].children[0].children
-    nextTick(() => {
-      select.onOptionCreate(
-        vm as unknown as SelectOptionProxy,
-        parent as VNode[]
-      )
-    })
 
+    const parent = getCurrentInstance().parent.slots.default?.()?.[1]
+      ?.children?.[0]?.children as VNode[] | undefined
+    nextTick(() => {
+      select.onOptionCreate(vm as unknown as SelectOptionProxy, parent)
+    })
+    select.onOptionCreate(vm as unknown as SelectOptionProxy)
     onBeforeUnmount(() => {
       const key = (vm as unknown as SelectOptionProxy).value
       const { selected } = select

@@ -1,4 +1,4 @@
-import type { InjectionKey, Ref } from 'vue'
+import type { InjectionKey, Ref, VNode } from 'vue'
 
 interface SelectGroupContext {
   disabled: boolean
@@ -29,7 +29,7 @@ export interface SelectContext {
   optionsArray: any[]
   selected: any | any[]
   setSelected(): void
-  onOptionCreate(vm: SelectOptionProxy): void
+  onOptionCreate(vm: SelectOptionProxy, parent?: VNode[]): void
   onOptionDestroy(key: number | string | Record<string, any>): void
   handleOptionSelect(vm: unknown, byClick: boolean): void
 }
