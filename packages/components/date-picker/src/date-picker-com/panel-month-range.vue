@@ -104,6 +104,7 @@ import dayjs from 'dayjs'
 import ElIcon from '@element-plus/components/icon'
 import { useLocale } from '@element-plus/hooks'
 import { DArrowLeft, DArrowRight } from '@element-plus/icons-vue'
+import { isArray } from '@element-plus/utils'
 import {
   panelMonthRangeEmits,
   panelMonthRangeProps,
@@ -191,8 +192,8 @@ const handleRangePick = (val: RangePickValue, close = true) => {
   handleRangeConfirm()
 }
 
-const formatToString = (days: Dayjs[]) => {
-  return days.map((day) => day.format(format))
+const formatToString = (days: Dayjs | Dayjs[]) => {
+  return isArray(days) ? days.map((_) => _.format(format)) : days.format(format)
 }
 
 function onParsedValueChanged(
@@ -209,5 +210,28 @@ function onParsedValueChanged(
   }
 }
 
+const parseUserInput = (value: Dayjs | Dayjs[]) => {
+  return isArray(value)
+    ? value.map((_) => dayjs(_, format).locale(lang.value))
+    : dayjs(value, format).locale(lang.value)
+}
+
+const isValidValue = (value: Dayjs | Dayjs[]) => {
+  return (
+    Array.isArray(value) &&
+    value &&
+    value[0] &&
+    value[1] &&
+    value[0].isValid() &&
+    value[1].isValid() &&
+    value[0].millisecond() <= value[1].millisecond() &&
+    (typeof disabledDate === 'function'
+      ? disabledDate(value[0]) && disabledDate(value[1])
+      : true)
+  )
+}
+
 emit('set-picker-option', ['formatToString', formatToString])
+emit('set-picker-option', ['parseUserInput', parseUserInput])
+emit('set-picker-option', ['isValidValue', isValidValue])
 </script>
