@@ -137,7 +137,8 @@ function useWatcher<T>() {
 
   // 选择
   const isSelected = (row) => {
-    return selection.value.some((item) => item.id === row.id)
+    const key = rowKey.value
+    return selection.value.some((item) => item[key] === row[key])
   }
 
   const clearSelection = () => {
@@ -181,7 +182,12 @@ function useWatcher<T>() {
     selected = undefined,
     emitChange = true
   ) => {
-    const changed = toggleRowStatus(selection.value, row, selected)
+    const changed = toggleRowStatus(
+      selection.value,
+      row,
+      selected,
+      rowKey.value
+    )
     if (changed) {
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
@@ -202,18 +208,17 @@ function useWatcher<T>() {
 
     let selectionChanged = false
     let childrenCount = 0
-    const rowKey = instance?.store?.states?.rowKey.value
     const checkedItem = (row, index) => {
       const rowIndex = index + childrenCount
       if (selectable.value) {
         if (
           selectable.value.call(null, row, rowIndex) &&
-          toggleRowStatus(selection.value, row, value)
+          toggleRowStatus(selection.value, row, value, rowKey.value)
         ) {
           selectionChanged = true
         }
       } else {
-        if (toggleRowStatus(selection.value, row, value)) {
+        if (toggleRowStatus(selection.value, row, value, rowKey.value)) {
           selectionChanged = true
         }
       }
@@ -267,22 +272,27 @@ function useWatcher<T>() {
     let isAllSelected_ = true
     let selectedCount = 0
     let childrenCount = 0
-    for (let i = 0, j = (data.value || []).length; i < j; i++) {
-      const keyProp = instance?.store?.states?.rowKey.value
-      const rowIndex = i + childrenCount
-      const item = data.value[i]
-      const isRowSelectable =
-        selectable.value && selectable.value.call(null, item, rowIndex)
-      if (!isSelected(item)) {
-        if (!selectable.value || isRowSelectable) {
-          isAllSelected_ = false
-          break
+    const treeChildren = instance.props.treeProps?.children
+
+    const checkFn = (data) => {
+      if (!isAllSelected_) return
+      for (let i = 0, j = (data || []).length; i < j; i++) {
+        const item = data[i]
+        if (treeChildren && item[treeChildren]) checkFn(item[treeChildren])
+        const isRowSelectable =
+          selectable.value &&
+          selectable.value.call(null, item, i + childrenCount)
+        if (!isSelected(item)) {
+          if (!selectable.value || isRowSelectable)
+            return (isAllSelected_ = false)
+        } else {
+          selectedCount++
         }
-      } else {
-        selectedCount++
+        childrenCount += getChildrenCount(getRowIdentity(item, rowKey.value))
       }
-      childrenCount += getChildrenCount(getRowIdentity(item, keyProp))
     }
+
+    checkFn(data.value)
 
     if (selectedCount === 0) isAllSelected_ = false
     isAllSelected.value = isAllSelected_

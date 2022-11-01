@@ -243,10 +243,11 @@ export function compose(...funcs) {
 export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
-  newVal: boolean
+  newVal: boolean,
+  key: string
 ): boolean {
   let changed = false
-  const index = statusArr.findIndex((item) => item.id === row.id)
+  const index = statusArr.findIndex((item) => item[key] === row[key])
   const included = index !== -1
 
   const addRow = () => {
