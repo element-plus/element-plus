@@ -57,9 +57,10 @@ affix/fixed
 
 ### Affix Exposes
 
-| Method   | Description                 | Type         |
-| -------- | --------------------------- | ------------ |
-| `update` | update affix state manually | `() => void` |
+| Method       | Description                 | Type         |
+| ------------ | --------------------------- | ------------ |
+| `update`     | update affix state manually | `() => void` |
+| `updateRoot` | update rootRect info        | `() => void` |
 
 ### Affix Slots
 
