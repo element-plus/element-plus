@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { type Ref, computed } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 import { useDisabled, useNamespace } from '@element-plus/hooks'
 import type { ButtonProps } from './button'
@@ -7,17 +7,22 @@ export function darken(color: TinyColor, amount = 20) {
   return color.mix('#141414', amount).toString()
 }
 
-export function useButtonCustomStyle(props: ButtonProps) {
+export function useButtonCustomStyle(
+  props: ButtonProps,
+  instance: Ref<Element>
+) {
   const _disabled = useDisabled()
   const ns = useNamespace('button')
-
   // calculate hover & active color by custom color
   // only work when custom color
   return computed(() => {
     let styles: Record<string, string> = {}
     if (!props.color) return props.style
-
-    const buttonColor = getButtonColor(props?.style || {}, props.color)
+    const buttonColor = getButtonColor(
+      props?.style || {},
+      props.color as string,
+      instance.value
+    )
     const color = new TinyColor(buttonColor)
     const activeBgColor = props.dark
       ? color.tint(20).toString()
@@ -81,13 +86,29 @@ export function useButtonCustomStyle(props: ButtonProps) {
     return Object.assign(styles, props.style)
   })
 
-  function getButtonColor(style: Record<string, string>, color: string) {
+  function getButtonColor(
+    style: Record<string, string>,
+    color: string,
+    element: Element
+  ) {
     const regInit = /var\(([\w-]+)?\s{0,},\s{0,}(\w{0,})\)/
     const reg = /var\(([\w-]+)\)/
+    let baseStyle: string
     if (regInit.test(color)) {
       const [varcss, init] = color.replace(regInit, '$1 $2').split(' ')
-      return style[varcss] || init || color
+      baseStyle = style[varcss] || init || color
+      return element
+        ? getComputedStyle(element).getPropertyValue(varcss) || baseStyle
+        : baseStyle
     }
-    return reg.test(color) ? style[color.replace(reg, '$1')] || color : color
+    const varcss = color.replace(reg, '$1')
+    baseStyle = reg.test(color)
+      ? style[color.replace(reg, '$1')] || color
+      : color
+    if (element) {
+      const computedStyle = getComputedStyle(element).getPropertyValue(varcss)
+      return computedStyle ? computedStyle : baseStyle
+    }
+    return baseStyle
   }
 }

@@ -100,7 +100,7 @@ const shouldAddSpace = computed(() => {
   return false
 })
 
-const buttonStyle = useButtonCustomStyle(props)
+const buttonStyle = useButtonCustomStyle(props, _ref)
 
 const handleClick = (evt: MouseEvent) => {
   if (props.nativeType === 'reset') {
