@@ -36,7 +36,6 @@ export const timelineItemProps = buildProps({
   },
   icon: {
     type: iconPropType,
-    default: '',
   },
   hollow: {
     type: Boolean,

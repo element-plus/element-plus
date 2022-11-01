@@ -31,14 +31,14 @@
       bottom: 0px;
       width: 100%;
       height: 1px;
-      z-index: 3;
     }
   }
 
   &.has-footer {
-    .#{$namespace}-table__inner-wrapper {
-      &::before {
-        bottom: 0;
+    &.#{$namespace}-table--scrollable-y,
+    &.#{$namespace}-table--fluid-height {
+      tr:last-child td.#{$namespace}-table__cell {
+        border-bottom-color: transparent;
       }
     }
   }
@@ -237,22 +237,12 @@
     }
   }
 
+  @include e((footer-wrapper)) {
+    border-top: getCssVar('table-border');
+  }
+
   // 拥有多级表头
   @include m((group, border)) {
-    @include e((inner-wrapper, footer-wrapper)) {
-      tr:first-child {
-        td,
-        th {
-          &:first-child {
-            border-left: getCssVar('table-border');
-          }
-        }
-      }
-    }
-    @include e((footer-wrapper)) {
-      border-top: getCssVar('table-border');
-    }
-
     @include share-rule(border-pseudo) {
       content: '';
       position: absolute;
@@ -270,7 +260,6 @@
         top: 0;
         width: 100%;
         height: 1px;
-        z-index: 3;
       }
     }
 
@@ -280,7 +269,6 @@
       left: 0;
       width: 1px;
       height: 100%;
-      z-index: 3;
     }
 
     &::after {
@@ -289,7 +277,6 @@
       right: 0;
       width: 1px;
       height: 100%;
-      z-index: 3;
     }
 
     @include e(inner-wrapper) {
@@ -301,15 +288,6 @@
       position: relative;
       flex-shrink: 0;
     }
-
-    @include e(footer-wrapper) {
-      margin-top: -2px;
-    }
-
-    // fix: #1013
-    // &.#{$namespace}-loading-parent--relative {
-    //   border-color: transparent;
-    // }
 
     .#{$namespace}-table__cell {
       border-right: getCssVar('table-border');
@@ -654,17 +632,6 @@
     > .#{$namespace}-table__inner-wrapper {
       &::after {
         content: none;
-      }
-    }
-
-    @include e((inner-wrapper, footer-wrapper)) {
-      tr:first-child {
-        td,
-        th {
-          &:first-child {
-            border-left: none;
-          }
-        }
       }
     }
   }

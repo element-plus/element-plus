@@ -57,7 +57,7 @@ carousel/vertical
 
 ## Carousel Attributes
 
-| Attribute          | Description                                           | Type    | Accepted Values     | Default    |
+| Name               | Description                                           | Type    | Accepted Values     | Default    |
 | ------------------ | ----------------------------------------------------- | ------- | ------------------- | ---------- |
 | height             | height of the carousel                                | string  | —                   | —          |
 | initial-index      | index of the initially active slide (starting from 0) | number  | —                   | 0          |
@@ -73,9 +73,9 @@ carousel/vertical
 
 ## Carousel Events
 
-| Event Name | Description                             | Parameters                                                   |
-| ---------- | --------------------------------------- | ------------------------------------------------------------ |
-| change     | triggers when the active slide switches | index of the new active slide, index of the old active slide |
+| Name   | Description                             | Parameters                                                   |
+| ------ | --------------------------------------- | ------------------------------------------------------------ |
+| change | triggers when the active slide switches | index of the new active slide, index of the old active slide |
 
 ## Carousel Methods
 
@@ -93,10 +93,10 @@ carousel/vertical
 
 ## Carousel-Item Attributes
 
-| Attribute | Description                                      | Type   | Accepted Values | Default |
-| --------- | ------------------------------------------------ | ------ | --------------- | ------- |
-| name      | name of the item, can be used in `setActiveItem` | string | —               | —       |
-| label     | text content for the corresponding indicator     | string | —               | —       |
+| Name  | Description                                      | Type   | Accepted Values | Default |
+| ----- | ------------------------------------------------ | ------ | --------------- | ------- |
+| name  | name of the item, can be used in `setActiveItem` | string | —               | —       |
+| label | text content for the corresponding indicator     | string | —               | —       |
 
 ## Carousel-Item Slots
 

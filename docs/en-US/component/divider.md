@@ -47,7 +47,7 @@ divider/vertical-divider
 
 ## Divider Attributes
 
-| Attribute        | Description                                                | Type   | Accepted Values                                                                   | Default    |
+| Name             | Description                                                | Type   | Accepted Values                                                                   | Default    |
 | ---------------- | ---------------------------------------------------------- | ------ | --------------------------------------------------------------------------------- | ---------- |
 | direction        | Set divider's direction                                    | string | horizontal / vertical                                                             | horizontal |
 | border-style     | Set the style of divider                                   | string | [CSS/border-style](https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style) | solid      |

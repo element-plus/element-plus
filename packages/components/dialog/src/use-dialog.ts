@@ -56,6 +56,13 @@ export const useDialog = (
     return style
   })
 
+  const overlayDialogStyle = computed<CSSProperties>(() => {
+    if (props.alignCenter) {
+      return { display: 'flex' }
+    }
+    return {}
+  })
+
   function afterEnter() {
     emit('opened')
   }
@@ -131,6 +138,12 @@ export const useDialog = (
     emit('closeAutoFocus')
   }
 
+  function onFocusoutPrevented(event: CustomEvent) {
+    if (event.detail?.focusReason === 'pointer') {
+      event.preventDefault()
+    }
+  }
+
   if (props.lockScroll) {
     useLockscreen(visible)
   }
@@ -148,10 +161,10 @@ export const useDialog = (
         closed.value = false
         open()
         rendered.value = true // enables lazy rendering
-        emit('open')
         zIndex.value = props.zIndex ? zIndex.value++ : nextZIndex()
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
+          emit('open')
           if (targetRef.value) {
             targetRef.value.scrollTop = 0
           }
@@ -197,10 +210,12 @@ export const useDialog = (
     onOpenAutoFocus,
     onCloseAutoFocus,
     onCloseRequested,
+    onFocusoutPrevented,
     titleId,
     bodyId,
     closed,
     style,
+    overlayDialogStyle,
     rendered,
     visible,
     zIndex,

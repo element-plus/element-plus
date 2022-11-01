@@ -54,7 +54,6 @@ export const inputProps = buildProps({
   },
   form: {
     type: String,
-    default: '',
   },
   readonly: {
     type: Boolean,
@@ -74,11 +73,9 @@ export const inputProps = buildProps({
   },
   suffixIcon: {
     type: iconPropType,
-    default: '',
   },
   prefixIcon: {
     type: iconPropType,
-    default: '',
   },
   containerRole: {
     type: String,

@@ -84,8 +84,19 @@ function useWatcher<T>() {
     if (!rowKey.value) throw new Error('[ElTable] prop row-key is required')
   }
 
+  // 更新 fixed
+  const updateChildFixed = (column: TableColumnCtx<T>) => {
+    column.children?.forEach((childColumn) => {
+      childColumn.fixed = column.fixed
+      updateChildFixed(childColumn)
+    })
+  }
+
   // 更新列
   const updateColumns = () => {
+    _columns.value.forEach((column) => {
+      updateChildFixed(column)
+    })
     fixedColumns.value = _columns.value.filter(
       (column) => column.fixed === true || column.fixed === 'left'
     )
@@ -453,7 +464,7 @@ function useWatcher<T>() {
   }
 
   // 展开行与 TreeTable 都要使用
-  const toggleRowExpansionAdapter = (row: T, expanded: boolean) => {
+  const toggleRowExpansionAdapter = (row: T, expanded?: boolean) => {
     const hasExpandColumn = columns.value.some(({ type }) => type === 'expand')
     if (hasExpandColumn) {
       toggleRowExpansion(row, expanded)

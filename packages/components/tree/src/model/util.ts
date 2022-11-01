@@ -1,5 +1,6 @@
+import type { SetupContext } from 'vue'
 import type Node from './node'
-import type { TreeKey, TreeNodeData } from '../tree.type'
+import type { RootTreeType, TreeKey, TreeNodeData } from '../tree.type'
 
 export const NODE_KEY = '$treeNodeId'
 
@@ -16,4 +17,17 @@ export const markNodeData = function (node: Node, data: TreeNodeData): void {
 export const getNodeKey = function (key: TreeKey, data: TreeNodeData): any {
   if (!key) return data[NODE_KEY]
   return data[key]
+}
+
+export const handleCurrentChange = (
+  store: RootTreeType['store'],
+  emit: SetupContext['emit'],
+  setCurrent: () => void
+) => {
+  const preCurrentNode = store.value.currentNode
+  setCurrent()
+  const currentNode = store.value.currentNode
+  if (preCurrentNode === currentNode) return
+
+  emit('current-change', currentNode ? currentNode.data : null, currentNode)
 }

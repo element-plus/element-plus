@@ -8,6 +8,7 @@
       :max="pageCount"
       :disabled="disabled"
       :model-value="innerValue"
+      :validate-event="false"
       type="number"
       @update:model-value="handleInput"
       @change="handleChange"

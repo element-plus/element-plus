@@ -73,11 +73,6 @@ You can also try Element Plus out with the components built-in playground.
           <img width="150px" src="https://user-images.githubusercontent.com/17680888/160634485-df0d00af-8633-4ab8-9a72-aac2b65d1d36.png">
         </a>
       </td>
-      <td align="center" valign="middle">
-        <a href="https://hooray.gitee.io/fantastic-admin/?from=element-plus" target="_blank">
-          <img width="150px" src="https://user-images.githubusercontent.com/82012629/167299102-e2e66150-2248-4f03-bbf2-84c622e7d165.png">
-        </a>
-      </td>
     </tr>
     </tbody>
 </table>
@@ -97,11 +92,6 @@ You can also try Element Plus out with the components built-in playground.
           <img width="130px" src="https://user-images.githubusercontent.com/10095631/41342907-e44e7196-6f2f-11e8-92f2-47702dc8f059.png">
         </a>
       </td>
-      <td align="center" valign="middle">
-        <a href="https://form.making.link/?from=element_plus" target="_blank">
-          <img width="130px" src="https://user-images.githubusercontent.com/17680888/159736613-13c7c2dc-744e-4eec-b801-f4ca57871787.png">
-        </a>
-      </td>
     </tr>
   </tbody>
 </table>
@@ -118,7 +108,7 @@ above and leave a message if you want to help translating Element Plus into your
 
 ### How to help translating
 
-See how to help translating in [Translating Element Plus](./HELP_TRANSLATING.md).
+See how to help translating in [Translating Element Plus](https://element-plus.org/en-US/guide/translation.html).
 
 ## Stay tuned :eyes:
 

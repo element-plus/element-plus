@@ -41,7 +41,7 @@ color-picker/sizes
 
 ## Attributes
 
-| Attribute             | Description                                  | Type    | Accepted Values        | Default                                                       |
+| Name                  | Description                                  | Type    | Accepted Values        | Default                                                       |
 | --------------------- | -------------------------------------------- | ------- | ---------------------- | ------------------------------------------------------------- |
 | model-value / v-model | binding value                                | string  | —                      | —                                                             |
 | disabled              | whether to disable the ColorPicker           | boolean | —                      | false                                                         |
@@ -54,7 +54,7 @@ color-picker/sizes
 
 ## Events
 
-| Event Name    | Description                                    | Parameters         |
+| Name          | Description                                    | Parameters         |
 | ------------- | ---------------------------------------------- | ------------------ |
 | change        | triggers when input value changes              | color value        |
 | active-change | triggers when the current active color changes | active color value |

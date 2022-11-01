@@ -51,7 +51,7 @@ skeleton/customized-template
 
 ## Loading state
 
-When `Loading` ends, we always need to show the real UI with data to our end users. with the attribtue `loading` we can control whether showing the DOM. You can also use slot `default` to structure the real DOM element.
+When `Loading` ends, we always need to show the real UI with data to our end users. with the attribute `loading` we can control whether showing the DOM. You can also use slot `default` to structure the real DOM element.
 
 :::demo
 
@@ -89,7 +89,7 @@ skeleton/avoiding-rendering-bouncing
 
 ### Skeleton Attributes
 
-| Attribute  | Description                                                      | Type      | Default |
+| Name       | Description                                                      | Type      | Default |
 | ---------- | ---------------------------------------------------------------- | --------- | ------- |
 | `animated` | whether showing the animation                                    | `boolean` | `false` |
 | `count`    | how many fake items to render to the DOM                         | `number`  | `1`     |
@@ -108,6 +108,6 @@ skeleton/avoiding-rendering-bouncing
 
 ### Skeleton Item Attributes
 
-| Attribute | Description                         | Type                                                                                                | Default  |
-| --------- | ----------------------------------- | --------------------------------------------------------------------------------------------------- | -------- |
-| `variant` | The current rendering skeleton type | `'p' \| 'text' \| 'h1' \| 'h3' \| 'text' \| 'caption' \| 'button' \| 'image' \| 'circle' \| 'rect'` | `'text'` |
+| Name      | Description                         | Type                                                                                      | Default  |
+| --------- | ----------------------------------- | ----------------------------------------------------------------------------------------- | -------- |
+| `variant` | The current rendering skeleton type | `'p' \| 'text' \| 'h1' \| 'h3' \| 'caption' \| 'button' \| 'image' \| 'circle' \| 'rect'` | `'text'` |

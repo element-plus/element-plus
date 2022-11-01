@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts" setup>
-// @ts-nocheck
 import { computed, inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { unrefElement } from '@vueuse/core'
@@ -20,7 +19,7 @@ import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
 import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
 import { isElement } from '@element-plus/utils'
-import { usePopperTriggerProps } from './trigger'
+import { popperTriggerProps } from './trigger'
 
 import type { WatchStopHandle } from 'vue'
 
@@ -29,7 +28,7 @@ defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps(usePopperTriggerProps)
+const props = defineProps(popperTriggerProps)
 
 const { role, triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
 
@@ -73,20 +72,22 @@ onMounted(() => {
   )
 
   watch(
-    () => triggerRef.value,
+    triggerRef,
     (el, prevEl) => {
       virtualTriggerAriaStopWatch?.()
       virtualTriggerAriaStopWatch = undefined
       if (isElement(el)) {
-        ;[
-          'onMouseenter',
-          'onMouseleave',
-          'onClick',
-          'onKeydown',
-          'onFocus',
-          'onBlur',
-          'onContextmenu',
-        ].forEach((eventName) => {
+        ;(
+          [
+            'onMouseenter',
+            'onMouseleave',
+            'onClick',
+            'onKeydown',
+            'onFocus',
+            'onBlur',
+            'onContextmenu',
+          ] as const
+        ).forEach((eventName) => {
           const handler = props[eventName]
           if (handler) {
             ;(el as HTMLElement).addEventListener(
@@ -110,7 +111,7 @@ onMounted(() => {
             ].forEach((key, idx) => {
               isNil(watches[idx])
                 ? el.removeAttribute(key)
-                : el.setAttribute(key, watches[idx])
+                : el.setAttribute(key, watches[idx]!)
             })
           },
           { immediate: true }

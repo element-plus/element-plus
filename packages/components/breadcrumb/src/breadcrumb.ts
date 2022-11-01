@@ -9,7 +9,6 @@ export const breadcrumbProps = buildProps({
   },
   separatorIcon: {
     type: iconPropType,
-    default: '',
   },
 } as const)
 export type BreadcrumbProps = ExtractPropTypes<typeof breadcrumbProps>

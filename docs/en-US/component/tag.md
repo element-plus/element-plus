@@ -75,7 +75,7 @@ tag/checkable
 
 ## Attributes
 
-| Attribute           | Description                          | Type    | Accepted Values             | Default |
+| Name                | Description                          | Type    | Accepted Values             | Default |
 | ------------------- | ------------------------------------ | ------- | --------------------------- | ------- |
 | type                | component type                       | string  | success/info/warning/danger | —       |
 | closable            | whether Tag can be removed           | boolean | —                           | false   |
@@ -88,10 +88,10 @@ tag/checkable
 
 ## Events
 
-| Event Name | Description                  | Parameters |
-| ---------- | ---------------------------- | ---------- |
-| click      | triggers when Tag is clicked | —          |
-| close      | triggers when Tag is removed | —          |
+| Name  | Description                  | Parameters |
+| ----- | ---------------------------- | ---------- |
+| click | triggers when Tag is clicked | —          |
+| close | triggers when Tag is removed | —          |
 
 ## Slots
 
@@ -101,15 +101,15 @@ tag/checkable
 
 ## CheckTag Attributes
 
-| Attribute | Description | Type    | Accepted Values | Default |
-| --------- | ----------- | ------- | --------------- | ------- |
-| checked   | is checked  | boolean | true/false      | —       |
+| Name    | Description | Type    | Accepted Values | Default |
+| ------- | ----------- | ------- | --------------- | ------- |
+| checked | is checked  | boolean | true/false      | —       |
 
 ## CheckTag Events
 
-| Event Name | Description                        | Parameters |
-| ---------- | ---------------------------------- | ---------- |
-| change     | triggers when Check Tag is clicked | checked    |
+| Name   | Description                        | Parameters |
+| ------ | ---------------------------------- | ---------- |
+| change | triggers when Check Tag is clicked | checked    |
 
 ## CheckTag Slots
 

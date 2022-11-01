@@ -74,6 +74,7 @@ export default defineComponent({
     })
 
     onBeforeUnmount(() => {
+      const key = (vm as unknown as SelectOptionProxy).value
       const { selected } = select
       const selectedOptions = select.props.multiple ? selected : [selected]
       const doesSelected = selectedOptions.some((item) => {

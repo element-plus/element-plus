@@ -105,7 +105,7 @@
                 <template #content>
                   <div :class="nsCascader.e('collapse-tags')">
                     <div
-                      v-for="(tag2, idx) in allPresentTags"
+                      v-for="(tag2, idx) in allPresentTags.slice(1)"
                       :key="idx"
                       :class="nsCascader.e('collapse-tag')"
                     >
@@ -196,7 +196,7 @@
 // @ts-nocheck
 import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
 import { isPromise } from '@vue/shared'
-import { debounce } from 'lodash-unified'
+import { cloneDeep, debounce } from 'lodash-unified'
 
 import { isClient, useResizeObserver } from '@vueuse/core'
 import ElCascaderPanel, {
@@ -245,14 +245,6 @@ type cascaderPanelType = InstanceType<typeof ElCascaderPanel>
 type tooltipType = InstanceType<typeof ElTooltip>
 type inputType = InstanceType<typeof ElInput>
 type suggestionPanelType = InstanceType<typeof ElScrollbar>
-
-const DEFAULT_INPUT_HEIGHT = 40
-
-const INPUT_HEIGHT_MAP = {
-  large: 36,
-  default: 32,
-  small: 28,
-}
 
 const popperOptions: Partial<Options> = {
   modifiers: [
@@ -416,7 +408,7 @@ export default defineComponent({
 
     const checkedValue = computed<CascaderValue>({
       get() {
-        return props.modelValue as CascaderValue
+        return cloneDeep(props.modelValue) as CascaderValue
       },
       set(val) {
         emit(UPDATE_MODEL_EVENT, val)
@@ -444,9 +436,7 @@ export default defineComponent({
           updatePopperPosition()
           nextTick(panel.value?.scrollToExpandingNode)
         } else if (props.filterable) {
-          const { value } = presentText
-          inputValue.value = value
-          searchInputValue.value = value
+          syncPresentTextValue()
         }
 
         emit('visible-change', visible)
@@ -630,7 +620,16 @@ export default defineComponent({
 
     const handleClear = () => {
       panel.value?.clearCheckedNodes()
+      if (!popperVisible.value && props.filterable) {
+        syncPresentTextValue()
+      }
       togglePopperVisible(false)
+    }
+
+    const syncPresentTextValue = () => {
+      const { value } = presentText
+      inputValue.value = value
+      searchInputValue.value = value
     }
 
     const handleSuggestionClick = (node: CascaderNode) => {
@@ -672,7 +671,12 @@ export default defineComponent({
       const lastTag = tags[tags.length - 1]
       pressDeleteCount = searchInputValue.value ? 0 : pressDeleteCount + 1
 
-      if (!lastTag || !pressDeleteCount) return
+      if (
+        !lastTag ||
+        !pressDeleteCount ||
+        (props.collapseTags && tags.length > 1)
+      )
+        return
 
       if (lastTag.hitState) {
         deleteTag(lastTag)
@@ -715,15 +719,12 @@ export default defineComponent({
       nextTick(() => updateStyle())
     })
 
-    watch(presentText, (val) => (inputValue.value = val), { immediate: true })
+    watch(presentText, syncPresentTextValue, { immediate: true })
 
     onMounted(() => {
-      const inputEl = input.value?.$el
-      inputInitialHeight =
-        inputEl?.offsetHeight ||
-        INPUT_HEIGHT_MAP[realSize.value] ||
-        DEFAULT_INPUT_HEIGHT
-      useResizeObserver(inputEl, updateStyle)
+      const inputInner = input.value!.input!
+      inputInitialHeight = inputInner.offsetHeight
+      useResizeObserver(inputInner, updateStyle)
     })
 
     return {

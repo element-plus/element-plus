@@ -92,9 +92,9 @@ const fetchCommits = async (
       }
     }
   }`
-  const respnose = (await octokit.graphql<ApiResponse>(query)).repository.object
+  const response = (await octokit.graphql<ApiResponse>(query)).repository.object
   return Object.fromEntries(
-    Object.entries(respnose).map(([key, result]) => {
+    Object.entries(response).map(([key, result]) => {
       const index = +key.replace('path', '')
       return [index, result]
     })

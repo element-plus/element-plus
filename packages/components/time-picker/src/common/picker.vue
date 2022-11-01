@@ -36,7 +36,7 @@
         :readonly="!editable || readonly || isDatesPicker || type === 'week'"
         :label="label"
         :tabindex="tabindex"
-        :validate-event="validateEvent"
+        :validate-event="false"
         @input="onUserInput"
         @focus="handleFocusInput"
         @blur="handleBlurInput"
@@ -243,7 +243,11 @@ watch(pickerVisible, (val) => {
       emitChange(props.modelValue)
     })
   } else {
-    valueOnOpen.value = props.modelValue
+    nextTick(() => {
+      if (val) {
+        valueOnOpen.value = props.modelValue
+      }
+    })
   }
 })
 const emitChange = (
@@ -304,7 +308,7 @@ const focusOnInputBox = () => {
 
 const onPick = (date: any = '', visible = false) => {
   if (!visible) {
-    focusOnInputBox()
+    ignoreFocusEvent = true
   }
   pickerVisible.value = visible
   let result
@@ -334,8 +338,17 @@ const onKeydownPopperContent = (event: KeyboardEvent) => {
 
 const onHide = () => {
   pickerActualVisible.value = false
+  pickerVisible.value = false
   ignoreFocusEvent = false
   emit('visible-change', false)
+}
+
+const handleOpen = () => {
+  pickerVisible.value = true
+}
+
+const handleClose = () => {
+  pickerVisible.value = false
 }
 
 const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
@@ -505,6 +518,7 @@ const onMouseLeave = () => {
   showClose.value = false
 }
 const onTouchStartInput = (event: TouchEvent) => {
+  if (props.readonly || pickerDisabled.value) return
   if (
     (event.touches[0].target as HTMLElement)?.tagName !== 'INPUT' ||
     refInput.value.includes(document.activeElement as HTMLInputElement)
@@ -732,6 +746,14 @@ defineExpose({
    * @description emit blur event
    */
   handleBlurInput,
+  /**
+   * @description opens picker
+   */
+  handleOpen,
+  /**
+   * @description closes picker
+   */
+  handleClose,
   /**
    * @description pick item manually
    */

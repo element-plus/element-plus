@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { computed, nextTick, ref, shallowRef, watch } from 'vue'
 import { isObject } from '@element-plus/utils'
 import {
@@ -10,6 +9,9 @@ import {
 } from '../virtual-tree'
 import { useCheck } from './useCheck'
 import { useFilter } from './useFilter'
+import type { SetupContext } from 'vue'
+import type { treeEmits } from '../virtual-tree'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type {
   Tree,
   TreeData,
@@ -19,7 +21,10 @@ import type {
   TreeProps,
 } from '../types'
 
-export function useTree(props: TreeProps, emit) {
+export function useTree(
+  props: TreeProps,
+  emit: SetupContext<typeof treeEmits>['emit']
+) {
   const expandedKeySet = ref<Set<TreeKey>>(new Set(props.defaultExpandedKeys))
   const currentKey = ref<TreeKey | undefined>()
   const tree = shallowRef<Tree | undefined>()
@@ -191,6 +196,10 @@ export function useTree(props: TreeProps, emit) {
     }
   }
 
+  function setExpandedKeys(keys: TreeKey[]) {
+    expandedKeySet.value = new Set(keys)
+  }
+
   function handleNodeClick(node: TreeNode, e: MouseEvent) {
     emit(NODE_CLICK, node.data, node, e)
     handleCurrentChange(node)
@@ -209,7 +218,7 @@ export function useTree(props: TreeProps, emit) {
     }
   }
 
-  function handleNodeCheck(node: TreeNode, checked: boolean) {
+  function handleNodeCheck(node: TreeNode, checked: CheckboxValueType) {
     toggleCheckbox(node, checked)
   }
 
@@ -219,8 +228,8 @@ export function useTree(props: TreeProps, emit) {
       // whether only one node among the same level can be expanded at one time
       const { treeNodeMap } = tree.value
       keySet.forEach((key) => {
-        const node = treeNodeMap.get(key)
-        if (node && node.level === node.level) {
+        const treeNode = treeNodeMap.get(key)
+        if (node && node.level === treeNode?.level) {
           keySet.delete(key)
         }
       })
@@ -300,5 +309,6 @@ export function useTree(props: TreeProps, emit) {
     getNode,
     expandNode,
     collapseNode,
+    setExpandedKeys,
   }
 }

@@ -136,6 +136,7 @@
   width: 100%;
   line-height: getCssVar('input-height');
   box-sizing: border-box;
+  vertical-align: middle;
   @include scroll-bar;
 
   & .#{$namespace}-input__clear,
@@ -317,6 +318,7 @@
 
     .#{$namespace}-input__inner {
       color: map.get($input-disabled, 'text-color');
+      -webkit-text-fill-color: map.get($input-disabled, 'text-color');
       cursor: not-allowed;
 
       &::placeholder {

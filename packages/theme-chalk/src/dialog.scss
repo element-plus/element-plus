@@ -21,6 +21,10 @@
     outline: none !important;
   }
 
+  @include when(align-center) {
+    margin: auto;
+  }
+
   @include when(fullscreen) {
     @include set-css-var-value('dialog-width', 100%);
     @include set-css-var-value('dialog-margin-top', 0);

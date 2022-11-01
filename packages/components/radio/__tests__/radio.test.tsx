@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
@@ -6,6 +5,8 @@ import { ElFormItem } from '@element-plus/components/form'
 import Radio from '../src/radio.vue'
 import RadioGroup from '../src/radio-group.vue'
 import RadioButton from '../src/radio-button.vue'
+
+import type { RadioProps } from '../src/radio'
 
 describe('Radio', () => {
   test('create', async () => {
@@ -36,8 +37,8 @@ describe('Radio', () => {
 
   test('change event', async () => {
     const radio = ref('')
-    const changeData = ref('')
-    function handleChange(val: string) {
+    const changeData = ref<RadioProps['modelValue']>('')
+    function handleChange(val: RadioProps['modelValue']) {
       changeData.value = val
     }
     const wrapper = mount(() => (
@@ -50,8 +51,8 @@ describe('Radio', () => {
 
   test('change event only triggers on user input', async () => {
     const radio = ref('')
-    const changeData = ref('')
-    function handleChange(val: string) {
+    const changeData = ref<RadioProps['modelValue']>('')
+    function handleChange(val: RadioProps['modelValue']) {
       changeData.value = val
     }
     mount(() => (
@@ -142,8 +143,8 @@ describe('Radio group', () => {
   })
   it('change event', async () => {
     const radio = ref(3)
-    const data = ref(0)
-    function onChange(val: number) {
+    const data = ref<RadioProps['modelValue']>(0)
+    function onChange(val: RadioProps['modelValue']) {
       data.value = val
     }
     const wrapper = mount(() => (
@@ -162,8 +163,8 @@ describe('Radio group', () => {
   })
   it('change event only triggers on user input', async () => {
     const radio = ref(3)
-    const data = ref(0)
-    function onChange(val: number) {
+    const data = ref<RadioProps['modelValue']>(0)
+    function onChange(val: RadioProps['modelValue']) {
       data.value = val
     }
     mount(() => (
@@ -243,8 +244,8 @@ describe('Radio Button', () => {
   })
   it('change event', async () => {
     const radio = ref(3)
-    const data = ref(0)
-    function onChange(val: number) {
+    const data = ref<RadioProps['modelValue']>(0)
+    function onChange(val: RadioProps['modelValue']) {
       data.value = val
     }
     const wrapper = mount(() => (
@@ -264,8 +265,8 @@ describe('Radio Button', () => {
   })
   it('change event only triggers on user input', async () => {
     const radio = ref(3)
-    const data = ref(0)
-    function onChange(val: number) {
+    const data = ref<RadioProps['modelValue']>(0)
+    function onChange(val: RadioProps['modelValue']) {
       data.value = val
     }
     mount(() => (

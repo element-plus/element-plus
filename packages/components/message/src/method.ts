@@ -102,7 +102,11 @@ const createMessage = (
     MessageConstructor,
     props,
     isFunction(props.message) || isVNode(props.message)
-      ? { default: props.message }
+      ? {
+          default: isFunction(props.message)
+            ? props.message
+            : () => props.message,
+        }
       : null
   )
   vnode.appContext = context || message._context
@@ -117,7 +121,7 @@ const createMessage = (
     // instead of calling the onClose function directly, setting this value so that we can have the full lifecycle
     // for out component, so that all closing steps will not be skipped.
     close: () => {
-      vm.exposeProxy!.visible = false
+      vm.exposed!.visible.value = false
     },
   }
 

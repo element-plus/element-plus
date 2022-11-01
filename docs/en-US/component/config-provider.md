@@ -41,7 +41,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ## Config Provider Attributes
 
-| Attribute             | Description                                                                                                                                                            | Type                                                                                                                               | Accepted Values                                                                         | Default                                                                                     |
+| Name                  | Description                                                                                                                                                            | Type                                                                                                                               | Accepted Values                                                                         | Default                                                                                     |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
 | locale                | Locale Object                                                                                                                                                          | [Language](https://github.com/element-plus/element-plus/blob/a98ff9b40c0c3d2b9959f99919bd8363e3e3c25a/packages/locale/index.ts#L5) | [languages](https://github.com/element-plus/element-plus/tree/dev/packages/locale/lang) | [English](https://github.com/element-plus/element-plus/blob/dev/packages/locale/lang/en.ts) |
 | size                  | global component size                                                                                                                                                  | string                                                                                                                             | large / default /small                                                                  | default                                                                                     |
@@ -63,7 +63,7 @@ In this section, you can learn how to use Config Provider to provide experimenta
 | --------- | --------------------------------------------------------------------- | ------ | --------------- | ------- |
 | max       | the maximum number of messages that can be displayed at the same time | number | -               | -       |
 
-## ConfigProvider Slots
+## Config Provider Slots
 
 | Name | Description               | Scope                                                   |
 | ---- | ------------------------- | ------------------------------------------------------- |

@@ -19,7 +19,7 @@ import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
 const COMPONENT_NAME = 'ElUploadDrag'
 
 defineOptions({
-  name: 'ElUploadDrag',
+  name: COMPONENT_NAME,
 })
 
 const props = defineProps(uploadDraggerProps)

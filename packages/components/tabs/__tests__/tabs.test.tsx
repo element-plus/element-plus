@@ -1,11 +1,25 @@
-// @ts-nocheck
-import { nextTick, ref } from 'vue'
+import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import Tabs from '../src/tabs'
 import TabPane from '../src/tab-pane.vue'
 import TabNav from '../src/tab-nav'
+import type { TabPaneName } from '../src/tabs'
+import type { TabsPaneContext } from '@element-plus/tokens'
+
+const Comp = defineComponent({
+  components: {
+    TabPane,
+  },
+  setup() {
+    return () => (
+      <TabPane name="tab1" label="tab1">
+        Tab 1 content
+      </TabPane>
+    )
+  },
+})
 
 describe('Tabs.vue', () => {
   test('create', async () => {
@@ -31,19 +45,19 @@ describe('Tabs.vue', () => {
     expect(panesWrapper[0].classes('el-tab-pane')).toBe(true)
     expect(panesWrapper[0].attributes('id')).toBe('pane-0')
     expect(panesWrapper[0].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('0')
+    expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('0')
 
     await navItemsWrapper[2].trigger('click')
     expect(navItemsWrapper[0].classes('is-active')).toBe(false)
     expect(panesWrapper[0].attributes('aria-hidden')).toEqual('true')
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
     expect(panesWrapper[2].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('2')
+    expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('2')
   })
 
   test('active-name', async () => {
-    const activeName = ref('b')
-    const handleClick = (tab) => {
+    const activeName = ref<TabPaneName | undefined>('b')
+    const handleClick = (tab: TabsPaneContext) => {
       activeName.value = tab.paneName
     }
     const wrapper = mount(() => (
@@ -73,14 +87,14 @@ describe('Tabs.vue', () => {
     expect(panesWrapper[1].classes('el-tab-pane')).toBe(true)
     expect(panesWrapper[1].attributes('id')).toBe('pane-b')
     expect(panesWrapper[1].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('b')
+    expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('b')
 
     await navItemsWrapper[2].trigger('click')
     expect(navItemsWrapper[1].classes('is-active')).toBe(false)
     expect(panesWrapper[1].attributes('aria-hidden')).toEqual('true')
     expect(navItemsWrapper[2].classes('is-active')).toBe(true)
     expect(panesWrapper[2].attributes('aria-hidden')).toEqual('false')
-    expect(tabsWrapper.vm.$.exposed.currentName.value).toEqual('c')
+    expect(tabsWrapper.vm.$.exposed!.currentName.value).toEqual('c')
   })
 
   test('card', async () => {
@@ -184,7 +198,10 @@ describe('Tabs.vue', () => {
       },
     ])
     const tabIndex = ref(3)
-    const handleTabsEdit = (targetName, action) => {
+    const handleTabsEdit = (
+      targetName: TabPaneName | undefined,
+      action: 'remove' | 'add'
+    ) => {
       if (action === 'add') {
         const newTabName = `${++tabIndex.value}`
         editableTabs.value.push({
@@ -280,7 +297,7 @@ describe('Tabs.vue', () => {
       })
       editableTabsValue.value = newTabName
     }
-    const removeTab = (targetName) => {
+    const removeTab = (targetName: TabPaneName) => {
       const tabs = editableTabs.value
       let activeName = editableTabsValue.value
       if (activeName === targetName) {
@@ -335,6 +352,45 @@ describe('Tabs.vue', () => {
 
     expect(navItemsWrapper.length).toEqual(2)
     expect(panesWrapper.length).toEqual(2)
+  })
+
+  test('tab order', async () => {
+    const editableTabs = ref([
+      {
+        title: 'Tab 1',
+        name: '1',
+        content: 'Tab 1 content',
+      },
+      {
+        title: 'Tab 2',
+        name: '2',
+        content: 'Tab 2 content',
+      },
+    ])
+
+    const wrapper = mount(() => (
+      <Tabs ref="tabs" type="card">
+        {editableTabs.value.map((item) => (
+          <TabPane
+            label={item.title}
+            key={item.name}
+            name={item.name}
+          ></TabPane>
+        ))}
+      </Tabs>
+    ))
+
+    editableTabs.value.splice(1, 0, {
+      title: 'Tab 3',
+      name: '3',
+      content: 'Tab 3 content',
+    })
+    await nextTick()
+
+    const items = wrapper.findAll('.el-tabs__item')
+    editableTabs.value.forEach((tab, index) => {
+      expect(items[index].element.textContent).toEqual(tab.title)
+    })
   })
 
   test('closable in tab-pane', async () => {
@@ -446,9 +502,9 @@ describe('Tabs.vue', () => {
 
     const tabsWrapper = wrapper.findComponent(Tabs)
     await nextTick()
-    const mockCRect = vi
-      .spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect')
-      .mockReturnValue({ left: 300 } as DOMRect)
+    const mockOffsetLeft = vi
+      .spyOn(wrapper.find('#tab-C').element as HTMLElement, 'offsetLeft', 'get')
+      .mockImplementation(() => 300)
     const mockComputedStyle = vi
       .spyOn(window, 'getComputedStyle')
       .mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
@@ -461,9 +517,9 @@ describe('Tabs.vue', () => {
 
     tabPosition.value = 'left'
     await nextTick()
-    const mockCYRect = vi
-      .spyOn(wrapper.find('#tab-C').element, 'getBoundingClientRect')
-      .mockReturnValue({ top: 200 } as DOMRect)
+    const mockOffsetTop = vi
+      .spyOn(wrapper.find('#tab-C').element as HTMLElement, 'offsetTop', 'get')
+      .mockImplementation(() => 200)
     await wrapper.find('#tab-A').trigger('click')
     await wrapper.find('#tab-C').trigger('click')
 
@@ -472,8 +528,8 @@ describe('Tabs.vue', () => {
       'translateY(200px)'
     )
 
-    mockCRect.mockRestore()
-    mockCYRect.mockRestore()
+    mockOffsetLeft.mockRestore()
+    mockOffsetTop.mockRestore()
     mockComputedStyle.mockRestore()
     wrapper.unmount()
   })
@@ -519,7 +575,7 @@ describe('Tabs.vue', () => {
   test('before leave', async () => {
     const activeName = ref('tab-B')
     const beforeLeave = () => {
-      return new window.Promise((resolve, reject) => {
+      return new window.Promise<void>((resolve, reject) => {
         reject()
       })
     }
@@ -617,9 +673,13 @@ describe('Tabs.vue', () => {
     const tabsWrapper = wrapper.findComponent(Tabs)
     await nextTick()
 
-    const mockRect = vi
-      .spyOn(wrapper.find('#tab-4999').element, 'getBoundingClientRect')
-      .mockReturnValue({ left: 5000 } as DOMRect)
+    const mockOffsetLeft = vi
+      .spyOn(
+        wrapper.find('#tab-4999').element as HTMLElement,
+        'offsetLeft',
+        'get'
+      )
+      .mockImplementation(() => 5000)
     const mockComputedStyle = vi
       .spyOn(window, 'getComputedStyle')
       .mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
@@ -631,14 +691,14 @@ describe('Tabs.vue', () => {
       'translateX(5000px)'
     )
 
-    mockRect.mockRestore()
+    mockOffsetLeft.mockRestore()
     mockComputedStyle.mockRestore()
     wrapper.unmount()
   })
 
   test('value type', async () => {
-    const activeName = ref(0)
-    const handleClick = (tab) => {
+    const activeName = ref<TabPaneName | undefined>(0)
+    const handleClick = (tab: TabsPaneContext) => {
       activeName.value = tab.paneName
     }
     const wrapper = mount(() => (
@@ -666,5 +726,58 @@ describe('Tabs.vue', () => {
       navItemsWrapper[val].trigger('click')
       expect(activeName.value).toEqual(val)
     })
+  })
+
+  test('both number and string for name', async () => {
+    const activeName = ref<TabPaneName | undefined>(0)
+    const handleClick = (tab: TabsPaneContext) => {
+      activeName.value = tab.paneName
+    }
+    const wrapper = mount(() => (
+      <Tabs v-model={activeName.value} onTabClick={handleClick}>
+        <TabPane name={0} label="n-0">
+          number-0
+        </TabPane>
+        <TabPane name={'0'} label="s-0">
+          string-0
+        </TabPane>
+        <TabPane name={1} label="n-1">
+          number-1
+        </TabPane>
+        <TabPane name={'1'} label="s-1">
+          string-1
+        </TabPane>
+      </Tabs>
+    ))
+
+    const navWrapper = wrapper.findComponent(TabNav)
+    await nextTick()
+
+    const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
+    expect(navItemsWrapper[0].classes('is-active')).toBe(true)
+    expect(navItemsWrapper[1].classes('is-active')).toBe(false)
+
+    await navItemsWrapper[1].trigger('click')
+    expect(navItemsWrapper[0].classes('is-active')).toBe(false)
+    expect(navItemsWrapper[1].classes('is-active')).toBe(true)
+
+    await navItemsWrapper[2].trigger('click')
+    expect(navItemsWrapper[0].classes('is-active')).toBe(false)
+    expect(navItemsWrapper[1].classes('is-active')).toBe(false)
+    expect(navItemsWrapper[2].classes('is-active')).toBe(true)
+    expect(navItemsWrapper[3].classes('is-active')).toBe(false)
+  })
+
+  test('tab-pane nested', async () => {
+    const wrapper = mount(() => (
+      <Tabs>
+        <Comp />
+      </Tabs>
+    ))
+
+    const panesWrapper = wrapper.findAllComponents(TabPane)
+    await nextTick()
+
+    expect(panesWrapper.length).toBe(1)
   })
 })

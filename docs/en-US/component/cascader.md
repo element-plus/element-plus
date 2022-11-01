@@ -138,10 +138,10 @@ cascader/panel
 
 ## Cascader Attributes
 
-| Attribute                         | Description                                                                                                                                                                      | Type                    | Accepted Values             | Default |
+| Name                              | Description                                                                                                                                                                      | Type                    | Accepted Values             | Default |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- | --------------------------- | ------- |
 | model-value / v-model             | binding value                                                                                                                                                                    | -                       | —                           | —       |
-| options                           | data of the options，the key of `value` and `label` can be customize by `Props`.                                                                                                 | array                   | —                           | —       |
+| options                           | data of the options, the key of `value` and `label` can be customize by `Props`.                                                                                                 | array                   | —                           | —       |
 | props                             | configuration options, see the following table.                                                                                                                                  | object                  | —                           | —       |
 | size                              | size of input                                                                                                                                                                    | string                  | large / default /small      | —       |
 | placeholder                       | placeholder of input                                                                                                                                                             | string                  | —                           | Select  |
@@ -163,12 +163,12 @@ cascader/panel
 
 ## Cascader Events
 
-| Event Name     | Description                                         | Parameters                                    |
+| Name           | Description                                         | Parameters                                    |
 | -------------- | --------------------------------------------------- | --------------------------------------------- |
 | change         | triggers when the binding value changes             | value                                         |
 | expand-change  | triggers when expand option changes                 | an array of the expanding node's parent nodes |
-| blur           | triggers when Cascader blurs                        | (event: Event)                                |
-| focus          | triggers when Cascader focuses                      | (event: Event)                                |
+| blur           | triggers when Cascader blurs                        | (event: FocusEvent)                           |
+| focus          | triggers when Cascader focuses                      | (event: FocusEvent)                           |
 | visible-change | triggers when the dropdown appears/disappears       | true when it appears, and false otherwise     |
 | remove-tag     | triggers when remove tag in multiple selection mode | the value of the tag which is removed         |
 
@@ -187,15 +187,15 @@ cascader/panel
 
 ## CascaderPanel Attributes
 
-| Attribute             | Description                                                                      | Type   | Accepted Values | Default |
+| Name                  | Description                                                                      | Type   | Accepted Values | Default |
 | --------------------- | -------------------------------------------------------------------------------- | ------ | --------------- | ------- |
 | model-value / v-model | binding value                                                                    | -      | —               | —       |
-| options               | data of the options，the key of `value` and `label` can be customize by `Props`. | array  | —               | —       |
+| options               | data of the options, the key of `value` and `label` can be customize by `Props`. | array  | —               | —       |
 | props                 | configuration options, see the following table.                                  | object | —               | —       |
 
 ## CascaderPanel Events
 
-| Event Name    | Description                             | Parameters                                    |
+| Name          | Description                             | Parameters                                    |
 | ------------- | --------------------------------------- | --------------------------------------------- |
 | change        | triggers when the binding value changes | value                                         |
 | expand-change | triggers when expand option changes     | an array of the expanding node's parent nodes |

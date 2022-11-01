@@ -24,7 +24,7 @@ import type { FormItemProp } from './form-item'
 
 const COMPONENT_NAME = 'ElForm'
 defineOptions({
-  name: 'ElForm',
+  name: COMPONENT_NAME,
 })
 const props = defineProps(formProps)
 const emit = defineEmits(formEmits)
@@ -129,6 +129,8 @@ const validateField: FormContext['validateField'] = async (
     }
     return result
   } catch (e) {
+    if (e instanceof Error) throw e
+
     const invalidFields = e as ValidateFieldsError
 
     if (props.scrollToError) {
