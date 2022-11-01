@@ -8,6 +8,7 @@
   @include set-component-css-var('cascader', $cascader);
 
   display: inline-block;
+  vertical-align: middle;
   position: relative;
   font-size: getCssVar('font-size', 'base');
   line-height: map.get($input-height, 'default');
@@ -21,6 +22,7 @@
   }
 
   .#{$namespace}-input {
+    display: flex;
     cursor: pointer;
 
     .#{$namespace}-input__inner {

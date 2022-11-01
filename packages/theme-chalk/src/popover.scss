@@ -40,9 +40,18 @@
 
     @include when(dark) {
       @include set-css-var-value(
-        'popover-title-text-color',
+        ('popover', 'bg-color'),
+        var(#{getCssVarName('text-color', 'primary')})
+      );
+      @include set-css-var-value(
+        ('popover', 'border-color'),
+        var(#{getCssVarName('text-color', 'primary')})
+      );
+      @include set-css-var-value(
+        ('popover', 'title-text-color'),
         var(#{getCssVarName('bg-color')})
       );
+      color: getCssVar('bg-color');
     }
 
     &:focus:active,
