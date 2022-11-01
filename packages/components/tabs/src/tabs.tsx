@@ -6,8 +6,6 @@ import {
   provide,
   ref,
   renderSlot,
-  shallowReactive,
-  shallowRef,
   watch,
 } from 'vue'
 import {
@@ -21,9 +19,12 @@ import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-plus/tokens'
-import { useDeprecated, useNamespace } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useNamespace,
+  useOrderedChildren,
+} from '@element-plus/hooks'
 import TabNav from './tab-nav'
-import { getOrderedPanes } from './utils/pane'
 
 import type { TabNavInstance } from './tab-nav'
 import type { TabsPaneContext } from '@element-plus/tokens'
@@ -85,13 +86,15 @@ export default defineComponent({
   emits: tabsEmits,
 
   setup(props, { emit, slots, expose }) {
-    const vm = getCurrentInstance()!
-
     const ns = useNamespace('tabs')
 
+    const {
+      children: panes,
+      addChild: registerPane,
+      removeChild: unregisterPane,
+    } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
+
     const nav$ = ref<TabNavInstance>()
-    const panes = shallowReactive<TabsPanes>({})
-    const orderedPanes = shallowRef<TabsPaneContext[]>([])
     const currentName = ref<TabPaneName>(
       props.modelValue ?? props.activeName ?? '0'
     )
@@ -171,24 +174,12 @@ export default defineComponent({
       nav$.value?.scrollToActiveTab()
     })
 
-    {
-      const registerPane = (pane: TabsPaneContext) => {
-        panes[pane.uid] = pane
-        orderedPanes.value = getOrderedPanes(vm, panes)
-      }
-
-      const unregisterPane = (uid: number) => {
-        delete panes[uid]
-        orderedPanes.value = getOrderedPanes(vm, panes)
-      }
-
-      provide(tabsRootContextKey, {
-        props,
-        currentName,
-        registerPane,
-        unregisterPane,
-      })
-    }
+    provide(tabsRootContextKey, {
+      props,
+      currentName,
+      registerPane,
+      unregisterPane,
+    })
 
     expose({
       currentName,
@@ -219,7 +210,7 @@ export default defineComponent({
             currentName={currentName.value}
             editable={props.editable}
             type={props.type}
-            panes={orderedPanes.value}
+            panes={panes.value}
             stretch={props.stretch}
             onTabClick={handleTabClick}
             onTabRemove={handleTabRemove}
