@@ -228,10 +228,14 @@ const setCurrentValue = (
   const oldVal = data.currentValue
   const newVal = verifyValue(value)
   if (oldVal === newVal) return
+  if (!emitChange) {
+    emit(UPDATE_MODEL_EVENT, newVal!)
+    return
+  }
   data.userInput = null
   emit(UPDATE_MODEL_EVENT, newVal!)
-  emitChange && emit(CHANGE_EVENT, newVal!, oldVal!)
-  if (props.validateEvent && emitChange) {
+  emit(CHANGE_EVENT, newVal!, oldVal!)
+  if (props.validateEvent) {
     formItem?.validate?.('change').catch((err) => debugWarn(err))
   }
   data.currentValue = newVal
@@ -272,8 +276,12 @@ const handleBlur = (event: MouseEvent | FocusEvent) => {
 watch(
   () => props.modelValue,
   (value) => {
-    data.currentValue = verifyValue(value, true)
-    data.userInput = null
+    const userInput = verifyValue(data.userInput)
+    const newValue = verifyValue(value, true)
+    if (!userInput || userInput !== newValue) {
+      data.currentValue = newValue
+      data.userInput = null
+    }
   },
   { immediate: true }
 )
