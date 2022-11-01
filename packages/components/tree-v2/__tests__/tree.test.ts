@@ -183,9 +183,11 @@ const createTree = (
 
 describe('Virtual Tree', () => {
   test('create', async () => {
-    const { treeVm } = createTree()
+    const { wrapper, treeVm } = createTree()
     await nextTick()
     expect(treeVm.flattenTree.length).toEqual(NODE_NUMBER)
+    const iconWrapper = wrapper.find(TREE_NODE_EXPAND_ICON_CLASS_NAME)
+    expect(iconWrapper.element.innerHTML).contains('svg')
   })
 
   test('click node', async () => {
