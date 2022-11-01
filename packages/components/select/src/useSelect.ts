@@ -515,7 +515,7 @@ export const useSelect = (props, states: States, ctx) => {
     }
     if (option) return option
     const label = isObjectValue
-      ? value.label
+      ? value[props.labelKey]
       : !isNull && !isUndefined
       ? value
       : ''

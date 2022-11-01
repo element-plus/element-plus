@@ -362,6 +362,10 @@ export default defineComponent({
       type: String,
       default: 'value',
     },
+    labelKey: {
+      type: String,
+      default: 'label',
+    },
     collapseTags: Boolean,
     collapseTagsTooltip: {
       type: Boolean,
