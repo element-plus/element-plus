@@ -8,7 +8,7 @@ export default defineComponent({
       default: '',
     },
     span: {
-      type: Number,
+      type: [Number, String],
       default: 1,
     },
     width: {
