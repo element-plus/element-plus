@@ -60,6 +60,7 @@ declare module '@vue/runtime-core' {
     TopNavigationExample: typeof import('./.vitepress/vitepress/components/nav/top-navigation-example.vue')['default']
     VersionTag: typeof import('./.vitepress/vitepress/components/dev/VersionTag.vue')['default']
     VpApiEnum: typeof import('./.vitepress/vitepress/components/globals/vp-api-enum.vue')['default']
+    VpApiExternal: typeof import('./.vitepress/vitepress/components/globals/vp-api-external.vue')['default']
     VpApiFunction: typeof import('./.vitepress/vitepress/components/globals/vp-api-function.vue')['default']
     VpApiTyping: typeof import('./.vitepress/vitepress/components/globals/vp-api-typing.vue')['default']
     VpApp: typeof import('./.vitepress/vitepress/components/vp-app.vue')['default']
