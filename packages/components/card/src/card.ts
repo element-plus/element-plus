@@ -7,6 +7,10 @@ export const cardProps = buildProps({
     type: String,
     default: '',
   },
+  footer: {
+    type: String,
+    default: '',
+  },
   bodyStyle: {
     type: definePropType<StyleValue>([String, Object, Array]),
     default: '',
