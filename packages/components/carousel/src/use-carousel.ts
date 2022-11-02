@@ -256,6 +256,7 @@ export const useCarousel = (
   })
 
   return {
+    root,
     activeIndex,
     arrowDisplay,
     hasLabel,
