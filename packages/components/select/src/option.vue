@@ -39,7 +39,7 @@ export default defineComponent({
   props: {
     value: {
       required: true,
-      type: [String, Number, Boolean, Object],
+      type: [String, Number, Boolean, Object, null],
     },
     label: [String, Number],
     created: Boolean,
