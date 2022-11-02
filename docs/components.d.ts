@@ -59,7 +59,6 @@ declare module '@vue/runtime-core' {
     ToggleSidebarBtn: typeof import('./.vitepress/vitepress/components/subnav/toggle-sidebar-btn.vue')['default']
     TopNavigationExample: typeof import('./.vitepress/vitepress/components/nav/top-navigation-example.vue')['default']
     VersionTag: typeof import('./.vitepress/vitepress/components/dev/VersionTag.vue')['default']
-    VpApiDeprecated: typeof import('./.vitepress/vitepress/components/globals/vp-api-deprecated.vue')['default']
     VpApiEnum: typeof import('./.vitepress/vitepress/components/globals/vp-api-enum.vue')['default']
     VpApiExternal: typeof import('./.vitepress/vitepress/components/globals/vp-api-external.vue')['default']
     VpApiFunction: typeof import('./.vitepress/vitepress/components/globals/vp-api-function.vue')['default']
