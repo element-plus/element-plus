@@ -187,7 +187,6 @@ import { formatter, parseDate, valueEquals } from '../utils'
 import { timePickerDefaultProps } from './props'
 
 import type { Dayjs } from 'dayjs'
-import type { ComponentPublicInstance } from 'vue'
 import type { Options } from '@popperjs/core'
 import type {
   DateModelType,
@@ -199,6 +198,7 @@ import type {
   UserInput,
 } from './props'
 import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { InputInstance } from '@element-plus/components/input'
 
 // Date object and string
 
@@ -228,7 +228,7 @@ const { form, formItem } = useFormItem()
 const elPopperOptions = inject('ElPopperOptions', {} as Options)
 
 const refPopper = ref<TooltipInstance>()
-const inputRef = ref<HTMLElement | ComponentPublicInstance>()
+const inputRef = ref<InputInstance>()
 const pickerVisible = ref(false)
 const pickerActualVisible = ref(false)
 const valueOnOpen = ref<TimePickerDefaultProps['modelValue'] | null>(null)
@@ -280,9 +280,7 @@ const emitKeydown = (e: KeyboardEvent) => {
 
 const refInput = computed<HTMLInputElement[]>(() => {
   if (inputRef.value) {
-    const _r = isRangeInput.value
-      ? inputRef.value
-      : (inputRef.value as any as ComponentPublicInstance).$el
+    const _r = isRangeInput.value ? inputRef.value : inputRef.value.$el
     return Array.from<HTMLInputElement>(_r.querySelectorAll('input'))
   }
   return []
@@ -505,7 +503,7 @@ const onMouseDownInput = async (event: MouseEvent) => {
     (event.target as HTMLElement)?.tagName !== 'INPUT' ||
     refInput.value.includes(document.activeElement as HTMLInputElement)
   ) {
-    pickerVisible.value = true
+    inputRef.value!.focus()
   }
 }
 const onMouseEnter = () => {
@@ -538,7 +536,7 @@ const actualInputRef = computed(() => {
     return unref(inputRef)
   }
 
-  return (unref(inputRef) as ComponentPublicInstance)?.$el
+  return unref(inputRef)?.$el
 })
 
 onClickOutside(actualInputRef, (e: PointerEvent) => {
