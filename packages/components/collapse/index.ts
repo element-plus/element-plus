@@ -11,3 +11,4 @@ export const ElCollapseItem = withNoopInstall(CollapseItem)
 
 export * from './src/collapse'
 export * from './src/collapse-item'
+export type { CollapseInstance, CollapseItemInstance } from './src/instance'
