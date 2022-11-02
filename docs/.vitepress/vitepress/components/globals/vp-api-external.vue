@@ -12,7 +12,7 @@ defineProps({
   },
   prefix: {
     type: String,
-    default: 'see',
+    default: '',
   },
 })
 </script>
