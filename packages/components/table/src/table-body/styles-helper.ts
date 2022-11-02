@@ -67,9 +67,11 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
         column,
       })
     }
-    const fixedStyle = column.isSubColumn
-      ? null
-      : getFixedColumnOffset(columnIndex, props?.fixed, props.store)
+    const fixedStyle = getFixedColumnOffset(
+      columnIndex,
+      props?.fixed,
+      props.store
+    )
     ensurePosition(fixedStyle, 'left')
     ensurePosition(fixedStyle, 'right')
     return Object.assign({}, cellStyles, fixedStyle)
@@ -82,16 +84,14 @@ function useStyles<T>(props: Partial<TableBodyProps<T>>) {
     column: TableColumnCtx<T>,
     offset: number
   ) => {
-    const fixedClasses = column.isSubColumn
-      ? []
-      : getFixedColumnsClass(
-          ns.b(),
-          columnIndex,
-          props?.fixed,
-          props.store,
-          undefined,
-          offset
-        )
+    const fixedClasses = getFixedColumnsClass(
+      ns.b(),
+      columnIndex,
+      props?.fixed,
+      props.store,
+      undefined,
+      offset
+    )
     const classes = [column.id, column.align, column.className, ...fixedClasses]
     const cellClassName = parent?.props.cellClassName
     if (typeof cellClassName === 'string') {
