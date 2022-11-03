@@ -15,9 +15,7 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
   })
 
   function doFilter(query: string) {
-    if (!filterable.value) {
-      return
-    }
+    if (!filterable.value) return
     const expandKeySet = new Set<TreeKey>()
     const hiddenExpandIconKeys = hiddenExpandIconKeySet.value
     const hiddenKeys = hiddenNodeKeySet.value
@@ -29,9 +27,7 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
       nodes.forEach((node) => {
         family.push(node)
         if (filter?.(query, node.data)) {
-          family.forEach((member) => {
-            expandKeySet.add(member.key)
-          })
+          family.forEach((member) => expandKeySet.add(member.key))
         } else if (node.isLeaf) {
           hiddenKeys.add(node.key)
         }
@@ -39,26 +35,19 @@ export function useFilter(props: TreeProps, tree: Ref<Tree | undefined>) {
         if (children) {
           traverse(children)
         }
-        if (!node.isLeaf) {
-          if (!expandKeySet.has(node.key)) {
-            hiddenKeys.add(node.key)
-          } else if (children) {
-            // If all child nodes are hidden, then the expand icon will be hidden
-            let allHidden = true
-            for (const childNode of children) {
-              if (!hiddenKeys.has(childNode.key)) {
-                allHidden = false
-                break
-              }
-            }
-            if (allHidden) {
-              hiddenExpandIconKeys.add(node.key)
-            } else {
-              hiddenExpandIconKeys.delete(node.key)
-            }
-          }
-        }
         family.pop()
+
+        if (node.isLeaf) return
+
+        if (!expandKeySet.has(node.key)) {
+          hiddenKeys.add(node.key)
+        }
+        if (!children) return
+        if (!children.some((childNode) => !hiddenKeys.has(childNode.key))) {
+          hiddenExpandIconKeys.add(node.key)
+        } else {
+          hiddenExpandIconKeys.delete(node.key)
+        }
       })
     }
     traverse(nodes)
