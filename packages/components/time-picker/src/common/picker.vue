@@ -358,9 +358,7 @@ const focus = (focusStartInput = true, isIgnoreFocusEvent = false) => {
   if (!focusStartInput && isRangeInput.value) {
     input = rightInput
   }
-  if (input) {
-    input.focus()
-  }
+  input?.focus()
 }
 
 const handleFocusInput = (e?: FocusEvent) => {
@@ -384,23 +382,20 @@ let currentHandleBlurDeferCallback:
 const handleBlurInput = (e?: FocusEvent) => {
   const handleBlurDefer = async () => {
     setTimeout(() => {
-      if (currentHandleBlurDeferCallback === handleBlurDefer) {
-        if (
-          !(
-            refPopper.value?.isFocusInsideContent() && !hasJustTabExitedInput
-          ) &&
-          refInput.value.filter((input) => {
-            return input.contains(document.activeElement)
-          }).length === 0
-        ) {
-          handleChange()
-          pickerVisible.value = false
-          emit('blur', e)
-          props.validateEvent &&
-            formItem?.validate('blur').catch((err) => debugWarn(err))
-        }
-        hasJustTabExitedInput = false
+      if (currentHandleBlurDeferCallback !== handleBlurDefer) return
+      if (
+        !(refPopper.value?.isFocusInsideContent() && !hasJustTabExitedInput) &&
+        !refInput.value.filter((input) => {
+          return input.contains(document.activeElement)
+        }).length
+      ) {
+        handleChange()
+        pickerVisible.value = false
+        emit('blur', e)
+        props.validateEvent &&
+          formItem?.validate('blur').catch((err) => debugWarn(err))
       }
+      hasJustTabExitedInput = false
     }, 0)
   }
   currentHandleBlurDeferCallback = handleBlurDefer
@@ -560,15 +555,13 @@ const userInput = ref<UserInput>(null)
 const handleChange = () => {
   if (userInput.value) {
     const value = parseUserInputToDayjs(displayValue.value)
-    if (value) {
-      if (isValidValue(value)) {
-        emitInput(
-          (isArray(value)
-            ? value.map((_) => _.toDate())
-            : value.toDate()) as DateOrDates
-        )
-        userInput.value = null
-      }
+    if (value && isValidValue(value)) {
+      emitInput(
+        (isArray(value)
+          ? value.map((_) => _.toDate())
+          : value.toDate()) as DateOrDates
+      )
+      userInput.value = null
     }
   }
   if (userInput.value === '') {
