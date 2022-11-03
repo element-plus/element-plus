@@ -125,13 +125,11 @@ export default class TreeStore {
 
   remove(data: TreeNodeData | Node): void {
     const node = this.getNode(data)
-
-    if (node && node.parent) {
-      if (node === this.currentNode) {
-        this.currentNode = null
-      }
-      node.parent.removeChild(node)
+    if (!node || !node.parent) return
+    if (node === this.currentNode) {
+      this.currentNode = null
     }
+    node.parent.removeChild(node)
   }
 
   append(data: TreeNodeData, parentData: TreeNodeData | TreeKey | Node): void {
@@ -178,7 +176,7 @@ export default class TreeStore {
       this.nodesMap[node.id] = node
     } else {
       const nodeKey = node.key
-      if (nodeKey !== undefined) this.nodesMap[node.key] = node
+      if (nodeKey !== undefined) this.nodesMap[nodeKey] = node
     }
   }
 
@@ -250,15 +248,13 @@ export default class TreeStore {
   }
 
   _getAllNodes(): Node[] {
-    const allNodes: Node[] = []
     const nodesMap = this.nodesMap
-    for (const nodeKey in nodesMap) {
+    return Object.keys(nodesMap).reduce((allNodes, nodeKey) => {
       if (hasOwn(nodesMap, nodeKey)) {
         allNodes.push(nodesMap[nodeKey])
       }
-    }
-
-    return allNodes
+      return allNodes
+    }, [] as Node[])
   }
 
   updateChildren(key: TreeKey, data: TreeData): void {
@@ -307,19 +303,18 @@ export default class TreeStore {
       }
       node.setChecked(true, true)
 
-      if (leafOnly) {
-        node.setChecked(false, false)
-        const traverse = function (node: Node): void {
-          const childNodes = node.childNodes
-          childNodes.forEach((child) => {
-            if (!child.isLeaf) {
-              child.setChecked(false, false)
-            }
-            traverse(child)
-          })
-        }
-        traverse(node)
+      if (!leafOnly) continue
+      node.setChecked(false, false)
+      const traverse = function (node: Node): void {
+        const childNodes = node.childNodes
+        childNodes.forEach((child) => {
+          if (!child.isLeaf) {
+            child.setChecked(false, false)
+          }
+          traverse(child)
+        })
       }
+      traverse(node)
     }
   }
 
@@ -394,11 +389,10 @@ export default class TreeStore {
       return
     }
     const node = this.getNode(key)
-    if (node) {
-      this.setCurrentNode(node)
-      if (shouldAutoExpandParent && this.currentNode.level > 1) {
-        this.currentNode.parent.expand(null, true)
-      }
+    if (!node) return
+    this.setCurrentNode(node)
+    if (shouldAutoExpandParent && this.currentNode.level > 1) {
+      this.currentNode.parent.expand(null, true)
     }
   }
 }

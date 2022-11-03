@@ -199,22 +199,12 @@ export default defineComponent({
 
     const getNodeClass = (node: Node) => {
       const nodeClassFunc = props.props.class
-      if (!nodeClassFunc) {
-        return {}
-      }
-      let className
-      if (isFunction(nodeClassFunc)) {
-        const { data } = node
-        className = nodeClassFunc(data, node)
-      } else {
-        className = nodeClassFunc
-      }
-
-      if (isString(className)) {
-        return { [className]: true }
-      } else {
-        return className
-      }
+      if (!nodeClassFunc) return {}
+      const className = isFunction(nodeClassFunc)
+        ? nodeClassFunc(node.data, node)
+        : nodeClassFunc
+      if (isString(className)) return { [className]: true }
+      return className
     }
 
     const handleSelectChange = (checked: boolean, indeterminate: boolean) => {

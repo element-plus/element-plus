@@ -203,9 +203,7 @@ class Node {
   }
 
   get key(): TreeKey {
-    const nodeKey = this.store.key
-    if (this.data) return this.data[nodeKey]
-    return null
+    return this.data ? this.data[this.store.key] : null
   }
 
   get disabled(): boolean {
@@ -214,24 +212,16 @@ class Node {
 
   get nextSibling(): Nullable<Node> {
     const parent = this.parent
-    if (parent) {
-      const index = parent.childNodes.indexOf(this)
-      if (index > -1) {
-        return parent.childNodes[index + 1]
-      }
-    }
-    return null
+    if (!parent) return null
+    const index = parent.childNodes.indexOf(this)
+    return index > -1 ? parent.childNodes[index + 1] : null
   }
 
   get previousSibling(): Nullable<Node> {
     const parent = this.parent
-    if (parent) {
-      const index = parent.childNodes.indexOf(this)
-      if (index > -1) {
-        return index > 0 ? parent.childNodes[index - 1] : null
-      }
-    }
-    return null
+    if (!parent) return null
+    const index = parent.childNodes.indexOf(this)
+    return index > 0 ? parent.childNodes[index - 1] : null
   }
 
   contains(target: Node, deep = true): boolean {
@@ -283,10 +273,7 @@ class Node {
   }
 
   insertBefore(child: FakeNode | Node, ref: Node): void {
-    let index
-    if (ref) {
-      index = this.childNodes.indexOf(ref)
-    }
+    const index = ref && this.childNodes.indexOf(ref)
     this.insertChild(child, index)
   }
 
@@ -318,15 +305,8 @@ class Node {
   }
 
   removeChildByData(data: TreeNodeData): void {
-    let targetNode: Node = null
-
-    for (let i = 0; i < this.childNodes.length; i++) {
-      if (this.childNodes[i].data === data) {
-        targetNode = this.childNodes[i]
-        break
-      }
-    }
-
+    const targetNode: Node =
+      this.childNodes.find((_childNode) => _childNode.data === data) || null
     if (targetNode) {
       this.removeChild(targetNode)
     }
@@ -343,21 +323,18 @@ class Node {
       }
       this.expanded = true
       if (callback) callback()
-      this.childNodes.forEach((item) => {
-        item.canFocus = true
-      })
+      this.childNodes.forEach((item) => (item.canFocus = true))
     }
 
     if (this.shouldLoadData()) {
       this.loadData((data) => {
-        if (Array.isArray(data)) {
-          if (this.checked) {
-            this.setChecked(true, true)
-          } else if (!this.store.checkStrictly) {
-            reInitChecked(this)
-          }
-          done()
+        if (!Array.isArray(data)) return
+        if (this.checked) {
+          this.setChecked(true, true)
+        } else if (!this.store.checkStrictly) {
+          reInitChecked(this)
         }
+        done()
       })
     } else {
       done()
@@ -379,9 +356,7 @@ class Node {
 
   collapse(): void {
     this.expanded = false
-    this.childNodes.forEach((item) => {
-      item.canFocus = false
-    })
+    this.childNodes.forEach((item) => (item.canFocus = false))
   }
 
   shouldLoadData(): boolean {
@@ -428,19 +403,18 @@ class Node {
       }
 
       const handleDescendants = (): void => {
-        if (deep) {
-          const childNodes = this.childNodes
-          for (let i = 0, j = childNodes.length; i < j; i++) {
-            const child = childNodes[i]
-            passValue = passValue || value !== false
-            const isCheck = child.disabled ? child.checked : passValue
-            child.setChecked(isCheck, deep, true, passValue)
-          }
-          const { half, all } = getChildState(childNodes)
-          if (!all) {
-            this.checked = all
-            this.indeterminate = half
-          }
+        if (!deep) return
+        const childNodes = this.childNodes
+        for (let i = 0, j = childNodes.length; i < j; i++) {
+          const child = childNodes[i]
+          passValue = passValue || value !== false
+          const isCheck = child.disabled ? child.checked : passValue
+          child.setChecked(isCheck, deep, true, passValue)
+        }
+        const { half, all } = getChildState(childNodes)
+        if (!all) {
+          this.checked = all
+          this.indeterminate = half
         }
       }
 
@@ -476,10 +450,7 @@ class Node {
     if (!data) return null
 
     const props = this.store.props
-    let children = 'children'
-    if (props) {
-      children = props.children || 'children'
-    }
+    const children = (props && props.children) || 'children'
 
     if (data[children] === undefined) {
       data[children] = null
@@ -549,10 +520,8 @@ class Node {
       }
 
       this.store.load(this, resolve)
-    } else {
-      if (callback) {
-        callback.call(this)
-      }
+    } else if (callback) {
+      callback.call(this)
     }
   }
 }
