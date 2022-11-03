@@ -5,6 +5,7 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    A11yTag: typeof import('./.vitepress/vitepress/components/dev/A11yTag.vue')['default']
     AxureComponentsSvg: typeof import('./.vitepress/vitepress/components/globals/resources/axure-components-svg.vue')['default']
     BackToTop: typeof import('./.vitepress/vitepress/components/icons/back-to-top.vue')['default']
     Codepen: typeof import('./.vitepress/vitepress/components/icons/codepen.vue')['default']
