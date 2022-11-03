@@ -82,7 +82,7 @@ alert/icon-description
 | Name          | Description                              | Type                                                           | Default   | Required |
 | ------------- | ---------------------------------------- | -------------------------------------------------------------- | --------- | -------- |
 | `title`       | alert title.                             | `string`                                                       | —         | No       |
-| `type`        | alert type.                              | <EnumType :values="['success', 'warning', 'info', 'error']" /> | No        |
+| `type`        | alert type.                              | <EnumType :values="['success', 'warning', 'info', 'error']" /> | `info`    | No       |
 | `description` | descriptive text.                        | `string`                                                       | —         | No       |
 | `closable`    | whether alert can be dismissed.          | `boolean`                                                      | `true`    | No       |
 | `center`      | whether content is placed in the center. | `boolean`                                                      | `false`   | No       |
