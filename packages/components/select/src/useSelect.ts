@@ -55,6 +55,7 @@ export function useSelectStates(props) {
     selectedLabel: '',
     hoverIndex: -1,
     query: '',
+    queryChanging: false,
     previousQuery: null,
     inputHovering: false,
     cachedPlaceHolder: '',
@@ -138,8 +139,25 @@ export const useSelect = (props, states: States, ctx) => {
 
   const debounce = computed(() => (props.remote ? 300 : 0))
 
+  watch(
+    () => states.query,
+    (val, oldVal) => {
+      if (props.multiple && !oldVal && val) {
+        states.queryChanging = true;
+      } else if (!val) {
+        states.queryChanging = false;
+      }
+    }
+  )
+
   const emptyText = computed(() => {
-    if (props.loading) {
+    if (props.loading || (
+      typeof props.loading === "boolean" &&
+      props.remote &&
+      states.queryChanging &&
+      states.options.size === 0 &&
+      states.query
+    )) {
       return props.loadingText || t('el.select.loading')
     } else {
       if (props.remote && states.query === '' && states.options.size === 0)
@@ -392,6 +410,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleQueryChange = async (val) => {
+    states.queryChanging = false;
     if (states.previousQuery === val || states.isOnComposition) return
     if (
       states.previousQuery === null &&
@@ -564,20 +583,22 @@ export const useSelect = (props, states: States, ctx) => {
     states.inputWidth = reference.value?.$el.getBoundingClientRect().width
   }
 
-  const onInputChange = () => {
-    if (props.filterable && states.query !== states.selectedLabel) {
-      states.query = states.selectedLabel
-      handleQueryChange(states.query)
-    }
-  }
-
-  const debouncedOnInputChange = lodashDebounce(() => {
+  const lodashDebouncedOnInputChange = lodashDebounce(() => {
     onInputChange()
   }, debounce.value)
+  const debouncedOnInputChange = () => {
+    states.queryChanging = true;
+    lodashDebouncedOnInputChange()
+  }
 
-  const debouncedQueryChange = lodashDebounce((e) => {
+  const lodashDebouncedQueryChange = lodashDebounce((e) => {
     handleQueryChange(e.target.value)
   }, debounce.value)
+
+  const debouncedQueryChange = (e) => {
+    states.queryChanging = true;
+    lodashDebouncedQueryChange(e);
+  }
 
   const emitChange = (val) => {
     if (!isEqual(props.modelValue, val)) {
