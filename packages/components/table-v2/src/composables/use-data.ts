@@ -30,7 +30,7 @@ export const useData = (
 
     let copy: any[] = data.slice()
     copy.forEach((x) => (depths[x[rowKey]] = 0))
-    while (copy.length > 0) {
+    while (copy.length) {
       const item = copy.shift()!
 
       array.push(item)

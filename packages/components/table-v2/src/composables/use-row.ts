@@ -72,8 +72,8 @@ export const useRow = (
     const currentKeyIndex = _expandedRowKeys.indexOf(rowKey)
     if (expanded) {
       if (currentKeyIndex === -1) _expandedRowKeys.push(rowKey)
-    } else {
-      if (currentKeyIndex > -1) _expandedRowKeys.splice(currentKeyIndex, 1)
+    } else if (currentKeyIndex > -1) {
+      _expandedRowKeys.splice(currentKeyIndex, 1)
     }
     expandedRowKeys.value = _expandedRowKeys
 
@@ -114,10 +114,8 @@ export const useRow = (
     const resetIdx = unref(resetIndex)
     if (resetIdx === null) {
       resetIndex.value = rowIdx
-    } else {
-      if (resetIdx > rowIdx) {
-        resetIndex.value = rowIdx
-      }
+    } else if (resetIdx > rowIdx) {
+      resetIndex.value = rowIdx
     }
 
     pendingRowHeights.value[rowKey] = height
@@ -129,12 +127,10 @@ export const useRow = (
   ) {
     if (!fixedDir) {
       mainTableHeights.value[rowKey] = height
+    } else if (fixedDir === FixedDir.RIGHT) {
+      rightTableHeights.value[rowKey] = height
     } else {
-      if (fixedDir === FixedDir.RIGHT) {
-        rightTableHeights.value[rowKey] = height
-      } else {
-        leftTableHeights.value[rowKey] = height
-      }
+      leftTableHeights.value[rowKey] = height
     }
 
     const maximumHeight = Math.max(

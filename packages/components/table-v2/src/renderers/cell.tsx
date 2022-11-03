@@ -93,32 +93,25 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
 
   const expandable = rowIndex >= 0 && column.key === expandColumnKey
   const expanded = rowIndex >= 0 && expandedRowKeys.includes(rowData[rowKey])
-
-  let IconOrPlaceholder: VNode | undefined
   const iconStyle = `margin-inline-start: ${depth * indentSize}px;`
-  if (expandable) {
-    if (isObject(expandIconProps)) {
-      IconOrPlaceholder = (
-        <ExpandIcon
-          {...expandIconProps}
-          class={[ns.e('expand-icon'), ns.is('expanded', expanded)]}
-          size={iconSize}
-          expanded={expanded}
-          style={iconStyle}
-          expandable
-        />
-      )
-    } else {
-      IconOrPlaceholder = (
-        <div
-          style={[
-            iconStyle,
-            `width: ${iconSize}px; height: ${iconSize}px;`,
-          ].join(' ')}
-        />
-      )
-    }
-  }
+
+  const IconOrPlaceholder: VNode | undefined =
+    expandable && isObject(expandIconProps) ? (
+      <ExpandIcon
+        {...expandIconProps}
+        class={[ns.e('expand-icon'), ns.is('expanded', expanded)]}
+        size={iconSize}
+        expanded={expanded}
+        style={iconStyle}
+        expandable
+      />
+    ) : (
+      <div
+        style={[iconStyle, `width: ${iconSize}px; height: ${iconSize}px;`].join(
+          ' '
+        )}
+      />
+    )
 
   return (
     <div class={kls} style={cellStyle} {...extraCellProps}>
