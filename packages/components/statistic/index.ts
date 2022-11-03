@@ -1,8 +1,5 @@
+import { withInstall } from '@element-plus/utils'
 import Statistic from './src/index.vue'
-import type { App } from 'vue'
-
-Statistic.install = (app: App): void => {
-  app.component(Statistic.name, Statistic)
-}
-
-export default Statistic
+export const ElStatistic = withInstall(Statistic)
+export default ElStatistic
+export * from './src/statistic'

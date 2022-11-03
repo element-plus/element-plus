@@ -1,8 +1,7 @@
-<!-- eslint-disable @typescript-eslint/no-this-alias -->
 <template>
   <div>
-    fsa
-    <div class="el-statistic">
+    <!-- :style="statisticStyle" -->
+    <div :class="[ns.b()]">
       <div class="head">
         <slot name="title">
           <span class="title">
@@ -29,180 +28,104 @@
     </div>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue'
-import _ from 'lodash'
-
-export default defineComponent({
+<script lang="ts" setup>
+// import { defineComponent } from 'vue'
+import { onMounted, ref, watch } from 'vue'
+import { ceil, fill } from 'lodash'
+import { useNamespace } from '@element-plus/hooks'
+import {
+  diffDate,
+  formatTimeStr,
+  magnification,
+  statisticProps,
+} from './statistic'
+const emit = defineEmits(['finish'])
+// import { useStatisticCustomStyle } from './statistic-custom'
+const props = defineProps(statisticProps)
+defineOptions({
   name: 'ElStatistic',
-  props: {
-    decimalSeparator: {
-      type: String,
-      default: '.',
-    },
-    groupSeparator: {
-      type: String,
-      default: '',
-    },
-    precision: {
-      type: Number,
-      default: 0,
-    },
-    value: {
-      type: [String, Number],
-      default: '',
-    },
-    prefix: {
-      type: String,
-      default: '',
-    },
-    suffix: {
-      type: String,
-      default: '',
-    },
-    title: {
-      type: [String, Number],
-      default: '',
-    },
-    timeIndices: {
-      type: Boolean,
-      default: false,
-    },
-    valueStyle: {
-      type: Object,
-      default() {
-        return {}
-      },
-    },
-    format: {
-      type: String,
-      default: 'HH:mm:ss:SSS',
-    },
-    rate: {
-      type: Number,
-      default: 1000,
-    },
-  },
-  data() {
-    return {
-      disposeValue: '',
-      timeTask: '',
-      REFRESH_INTERVAL: 1000 / 30,
+})
+const ns = useNamespace('statistic')
+const disposeValue: any = ref(null)
+const timeTask = ref<ReturnType<typeof setInterval> | null>(null)
+const REFRESH_INTERVAL = 1000 / 30
+
+onMounted(() => {
+  branch()
+})
+watch(
+  () => props.value,
+  () => {
+    branch()
+  }
+)
+function branch() {
+  if (props.timeIndices) {
+    countDown()
+  } else {
+    dispose()
+  }
+}
+
+const dispose = function (): number {
+  const {
+    value: Pvalue,
+    precision,
+    groupSeparator,
+    rate,
+    decimalSeparator,
+  } = props
+  let value: any = Pvalue
+  if (precision) value = ceil(value, precision)
+  // console.log('value', value)
+  let integer: any = String(value).split('.')[0]
+  const decimals =
+    String(value).split('.')[1] ||
+    (precision ? fill(Array.from({ length: precision }), 0).join('') : '')
+  let result: any = 0
+  // 1000 multiplying power
+  if (groupSeparator) {
+    integer = magnification(integer, rate, groupSeparator)
+  }
+
+  result = [integer, decimals].join(decimals ? decimalSeparator || '.' : '')
+  disposeValue.value = result
+  return result
+}
+const suspend = function (isStop: boolean): any {
+  if (isStop && timeTask.value) {
+    clearInterval(timeTask.value)
+  } else {
+    branch()
+  }
+  return disposeValue.value
+}
+
+const countDown = function () {
+  const { value, format } = props
+  let diffTiem = diffDate(Number(value), Date.now())
+  const disappearTime = function (time: any) {
+    let result = true // stop
+    if (value > Date.now()) {
+      result = false
+    } else {
+      result = true
+
+      emit('finish', true)
     }
-  },
-  watch: {
-    value() {
-      this.branch()
-    },
-  },
-  created() {
-    this.branch()
-  },
-  methods: {
-    branch() {
-      if (this.timeIndices) {
-        clearInterval(this.timeTask)
-        this.countDown()
-      } else {
-        this.dispose()
-      }
-    },
+    return result
+  }
 
-    magnification(num: number, mulriple = 1000, groupSeparator = ',') {
-      // magnification factor
-      if (_.isNumber(num)) return false
-      const result = String(_.divide(num, mulriple))
-        .split('.')
-        .join(groupSeparator || ',')
-      return result
-    },
-    dispose() {
-      let { value, precision, groupSeparator, rate } = this
-
-      if (!_.isNumber(value)) return false
-      if (precision) {
-        value = _.ceil(value, precision)
-      }
-
-      let integer: any = String(value).split('.')[0]
-      const decimals =
-        String(value).split('.')[1] ||
-        (precision ? _.fill(Array.from({ length: precision }), 0).join('') : '')
-      let result: any = 0
-      // 1000 multiplying power
-      if (groupSeparator) {
-        integer = this.magnification(integer, rate, groupSeparator)
-      }
-
-      result = [integer, decimals].join(
-        decimals ? this.decimalSeparator || '.' : ''
-      )
-      this.disposeValue = result
-      return result
-    },
-    diffDate(minuend: number, subtrahend: number) {
-      return _.subtract(minuend, subtrahend)
-    },
-    suspend(isStop: any) {
-      if (isStop) {
-        clearInterval(this.timeTask)
-      } else {
-        this.branch()
-      }
-      return this.disposeValue
-    },
-    countDown() {
-      const { format, value, REFRESH_INTERVAL, diffDate, suspend } = this
-      let diffTiem = diffDate(Number(value), Date.now())
-      const formatTimeStr = function (format: any, time: number) {
-        const timeUnits = [
-          ['Y', 1000 * 60 * 60 * 24 * 365], // years
-          ['M', 1000 * 60 * 60 * 24 * 30], // months
-          ['D', 1000 * 60 * 60 * 24], // days
-          ['H', 1000 * 60 * 60], // hours
-          ['m', 1000 * 60], // minutes
-          ['s', 1000], // seconds
-          ['S', 1], // million seconds
-        ]
-        return _.reduce(
-          timeUnits,
-          (con, item: any[]) => {
-            const name = item[0]
-            return con.replace(new RegExp(`${name}+`, 'g'), (match: any) => {
-              let sum: any = _.chain(time).divide(item[1]).floor().value()
-              time -= _.multiply(sum, item[1])
-              sum = _.padStart(String(sum), String(match).length, '0') // autoCompletion
-              if (!sum) suspend(false)
-              return sum
-            })
-          },
-          format
-        )
-      }
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const than: any = this
-      const disappearTime = function (time: any) {
-        let result = true // stop
-        if (value > Date.now()) {
-          than.$emit('change', time)
-
-          result = false
-        } else {
-          result = true
-
-          than.$emit('finish', true)
-        }
-        return result
-      }
-
-      than.timeTask = setInterval(() => {
-        // console.log(diffTiem);
-        if (disappearTime(diffTiem)) clearInterval(than.timeTask)
-        diffTiem = diffTiem < REFRESH_INTERVAL ? 0 : diffTiem - REFRESH_INTERVAL
-        than.disposeValue = formatTimeStr(format, diffTiem)
-      }, REFRESH_INTERVAL)
-    },
-  },
+  timeTask.value = setInterval(() => {
+    if (disappearTime(diffTiem) && timeTask.value) clearInterval(timeTask.value)
+    diffTiem = diffTiem < REFRESH_INTERVAL ? 0 : diffTiem - REFRESH_INTERVAL
+    disposeValue.value = formatTimeStr(format, diffTiem)
+  }, REFRESH_INTERVAL)
+}
+defineExpose({
+  disposeValue,
+  timeTask,
+  REFRESH_INTERVAL,
+  suspend,
 })
 </script>
-<style></style>
