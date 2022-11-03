@@ -102,6 +102,7 @@ import {
   onMounted,
   ref,
   useAttrs as useRawAttrs,
+  watch,
 } from 'vue'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
@@ -346,6 +347,13 @@ const highlight = (index: number) => {
 onClickOutside(listboxRef, () => {
   suggestionVisible.value && close()
 })
+
+watch(
+  () => suggestions.value,
+  () => {
+    popperRef.value?.updatePopper()
+  }
+)
 
 onMounted(() => {
   // TODO: use Volar generate dts to fix it.
