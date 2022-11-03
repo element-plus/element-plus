@@ -44,9 +44,7 @@ const getBarStyle = (): CSSProperties => {
     const $el = instance.parent?.refs?.[`tab-${tab.uid}`] as HTMLElement
     if (!$el) return false
 
-    if (!tab.active) {
-      return true
-    }
+    if (!tab.active) return true
 
     tabSize = $el[`client${capitalize(sizeName)}`]
     const position = sizeDir === 'x' ? 'left' : 'top'
