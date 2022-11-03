@@ -39,10 +39,10 @@ function useLayoutObserver<T>(root: Table<T>) {
     const cols = root.vnode.el?.querySelectorAll('colgroup > col') || []
     if (!cols.length) return
     const flattenColumns = layout.getFlattenColumns()
-    const columnsMap = {}
-    flattenColumns.forEach((column) => {
-      columnsMap[column.id] = column
-    })
+    const columnsMap = flattenColumns.reduce((result, column) => {
+      result[column.id] = column
+      return result
+    }, {})
     for (let i = 0, j = cols.length; i < j; i++) {
       const col = cols[i]
       const name = col.getAttribute('name')

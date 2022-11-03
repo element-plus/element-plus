@@ -8,7 +8,7 @@ import {
   unref,
   watchEffect,
 } from 'vue'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, isArray, isUndefined } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import {
   cellForced,
@@ -72,7 +72,7 @@ function useRender<T>(
       column.minWidth = 80
     }
     column.realWidth = Number(
-      column.width === undefined ? column.minWidth : column.width
+      isUndefined(column.width) ? column.minWidth : column.width
     )
     return column
   }
@@ -97,7 +97,7 @@ function useRender<T>(
   }
 
   const checkSubColumn = (children: TableColumn<T> | TableColumn<T>[]) => {
-    if (Array.isArray(children)) {
+    if (isArray(children)) {
       children.forEach((child) => check(child))
     } else {
       check(children)
@@ -177,12 +177,12 @@ function useRender<T>(
   }
   const getPropsData = (...propsKey: unknown[]) => {
     return propsKey.reduce((prev, cur) => {
-      if (Array.isArray(cur)) {
-        cur.forEach((key) => {
-          prev[key] = props[key]
-        })
-      }
-      return prev
+      return isArray(cur)
+        ? cur.reduce((result, key) => {
+            result[key] = props[key]
+            return result
+          }, prev)
+        : prev
     }, {})
   }
   const getColumnElIndex = (children, child) => {

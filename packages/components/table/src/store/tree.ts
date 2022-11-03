@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { computed, getCurrentInstance, ref, unref, watch } from 'vue'
+import { isArray, isUndefined } from '@element-plus/utils'
 import { getRowIdentity, walkTreeNode } from '../util'
 
 import type { WatcherPropsData } from '.'
@@ -22,22 +23,20 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
   const normalizedLazyNode = computed(() => {
     const rowKey = watcherData.rowKey.value
     const keys = Object.keys(lazyTreeNodeMap.value)
-    const res = {}
-    if (!keys.length) return res
-    keys.forEach((key) => {
-      if (lazyTreeNodeMap.value[key].length) {
-        const item = { children: [] }
-        lazyTreeNodeMap.value[key].forEach((row) => {
-          const currentRowKey = getRowIdentity(row, rowKey)
-          item.children.push(currentRowKey)
-          if (row[lazyColumnIdentifier.value] && !res[currentRowKey]) {
-            res[currentRowKey] = { children: [] }
-          }
-        })
-        res[key] = item
-      }
-    })
-    return res
+    if (!keys.length) return {}
+    return keys.reduce((res, key) => {
+      if (!lazyTreeNodeMap.value[key].length) return res
+      const item = { children: [] }
+      res[key] = item
+      return lazyTreeNodeMap.value[key].reduce((res, row) => {
+        const currentRowKey = getRowIdentity(row, rowKey)
+        item.children.push(currentRowKey)
+        if (row[lazyColumnIdentifier.value] && !res[currentRowKey]) {
+          res[currentRowKey] = { children: [] }
+        }
+        return res
+      }, res)
+    }, {})
   })
 
   const normalize = (data) => {
@@ -47,7 +46,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       data,
       (parent, children, level) => {
         const parentId = getRowIdentity(parent, rowKey)
-        if (Array.isArray(children)) {
+        if (isArray(children)) {
           res[parentId] = {
             children: children.map((row) => getRowIdentity(row, rowKey)),
             level,
@@ -168,7 +167,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     const data = id && treeData.value[id]
     if (id && data && 'expanded' in data) {
       const oldExpanded = data.expanded
-      expanded = typeof expanded === 'undefined' ? !data.expanded : expanded
+      expanded = isUndefined(expanded) ? !data.expanded : expanded
       treeData.value[id].expanded = expanded
       if (oldExpanded !== expanded) {
         instance.emit('expand-change', row, expanded)
@@ -194,7 +193,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     if (load && !treeData.value[key].loaded) {
       treeData.value[key].loading = true
       load(row, treeNode, (data) => {
-        if (!Array.isArray(data)) {
+        if (!isArray(data)) {
           throw new TypeError('[ElTable] data must be an array')
         }
         treeData.value[key].loading = false

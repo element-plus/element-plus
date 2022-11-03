@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
-import { hasOwn } from '@element-plus/utils'
+import { hasOwn, isArray, isString } from '@element-plus/utils'
 import {
   getColumnById,
   getColumnByKey,
@@ -12,7 +12,6 @@ import {
 import useExpand from './expand'
 import useCurrent from './current'
 import useTree from './tree'
-
 import type { Ref } from 'vue'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table, TableRefs } from '../table/defaults'
@@ -20,7 +19,7 @@ import type { StoreFilter } from '.'
 
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn
-  if (!sortingColumn || typeof sortingColumn.sortable === 'string') {
+  if (!sortingColumn || isString(sortingColumn.sortable)) {
     return data
   }
   return orderBy(
@@ -193,14 +192,13 @@ function useWatcher<T>() {
     emitChange = true
   ) => {
     const changed = toggleRowStatus(selection.value, row, selected)
-    if (changed) {
-      const newSelection = (selection.value || []).slice()
-      // 调用 API 修改选中值，不触发 select 事件
-      if (emitChange) {
-        instance.emit('select', newSelection, row)
-      }
-      instance.emit('selection-change', newSelection)
+    if (!changed) return
+    const newSelection = (selection.value || []).slice()
+    // 调用 API 修改选中值，不触发 select 事件
+    if (emitChange) {
+      instance.emit('select', newSelection, row)
     }
+    instance.emit('selection-change', newSelection)
   }
 
   const _toggleAllSelection = () => {
@@ -223,10 +221,8 @@ function useWatcher<T>() {
         ) {
           selectionChanged = true
         }
-      } else {
-        if (toggleRowStatus(selection.value, row, value)) {
-          selectionChanged = true
-        }
+      } else if (toggleRowStatus(selection.value, row, value)) {
+        selectionChanged = true
       }
       childrenCount += getChildrenCount(getRowIdentity(row, rowKey))
     })
@@ -299,26 +295,24 @@ function useWatcher<T>() {
     const { treeData } = instance.store.states
     let count = 0
     const children = treeData.value[rowKey]?.children
-    if (children) {
-      count += children.length
-      children.forEach((childKey) => {
-        count += getChildrenCount(childKey)
-      })
-    }
-    return count
+    if (!children) return count
+    count += children.length
+    return children.reduce(
+      (count, childKey) => (count += getChildrenCount(childKey)),
+      count
+    )
   }
 
   // 过滤与排序
   const updateFilters = (columns, values) => {
-    if (!Array.isArray(columns)) {
+    if (!isArray(columns)) {
       columns = [columns]
     }
-    const filters_ = {}
-    columns.forEach((col) => {
+    return columns.reduce((filters_, col) => {
       filters.value[col.id] = values
       filters_[col.columnKey || col.id] = values
-    })
-    return filters_
+      return filters_
+    }, {})
   }
 
   const updateSort = (column, prop, order) => {
@@ -377,11 +371,11 @@ function useWatcher<T>() {
     const keys = Object.keys(panels)
     if (!keys.length) return
 
-    if (typeof columnKeys === 'string') {
+    if (isString(columnKeys)) {
       columnKeys = [columnKeys]
     }
 
-    if (Array.isArray(columnKeys)) {
+    if (isArray(columnKeys)) {
       const columns_ = columnKeys.map((key) =>
         getColumnByKey(
           {
