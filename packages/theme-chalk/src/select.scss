@@ -75,6 +75,10 @@
 
   .#{$namespace}-input__inner {
     cursor: pointer;
+
+    &::selection {
+      outline: none;
+    }
   }
 
   .#{$namespace}-input {
