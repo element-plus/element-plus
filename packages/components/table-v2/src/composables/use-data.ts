@@ -1,5 +1,6 @@
 import { computed, ref, unref, watch } from 'vue'
 
+import { isArray } from '@element-plus/utils'
 import type { TableV2Props } from '../table'
 import type { KeyType } from '../types'
 import type { UseRowReturn } from './use-row'
@@ -36,7 +37,7 @@ export const useData = (
       array.push(item)
       if (
         keysSet.has(item[rowKey]) &&
-        Array.isArray(item.children) &&
+        isArray(item.children) &&
         item.children.length > 0
       ) {
         copy = [...item.children, ...copy]
