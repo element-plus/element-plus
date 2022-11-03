@@ -1,10 +1,17 @@
 // @ts-nocheck
 import { reactive } from 'vue'
-import { hasOwn } from '@element-plus/utils'
+import {
+  type Nullable,
+  hasOwn,
+  isArray,
+  isBoolean,
+  isFunction,
+  isString,
+  isUndefined,
+} from '@element-plus/utils'
 import { NODE_KEY, markNodeData } from './util'
 import type TreeStore from './tree-store'
 
-import type { Nullable } from '@element-plus/utils'
 import type {
   FakeNode,
   TreeKey,
@@ -62,13 +69,13 @@ const getPropertyFromData = function (node: Node, prop: string): any {
   const data = node.data || {}
   const config = props[prop]
 
-  if (typeof config === 'function') {
+  if (isFunction(config)) {
     return config(data, node)
-  } else if (typeof config === 'string') {
+  } else if (isString(config)) {
     return data[config]
-  } else if (typeof config === 'undefined') {
+  } else if (isUndefined(config)) {
     const dataProp = data[prop]
-    return dataProp === undefined ? '' : dataProp
+    return isUndefined(dataProp) ? '' : dataProp
   }
 }
 
@@ -131,9 +138,9 @@ class Node {
     store.registerNode(this)
 
     const props = store.props
-    if (props && typeof props.isLeaf !== 'undefined') {
+    if (props && !isUndefined(props.isLeaf)) {
       const isLeaf = getPropertyFromData(this, 'isLeaf')
-      if (typeof isLeaf === 'boolean') {
+      if (isBoolean(isLeaf)) {
         this.isLeafByUser = isLeaf
       }
     }
@@ -148,7 +155,7 @@ class Node {
     } else if (this.level > 0 && store.lazy && store.defaultExpandAll) {
       this.expand()
     }
-    if (!Array.isArray(this.data)) {
+    if (!isArray(this.data)) {
       markNodeData(this, this.data)
     }
     if (!this.data) return
@@ -179,7 +186,7 @@ class Node {
   }
 
   setData(data: TreeNodeData): void {
-    if (!Array.isArray(data)) {
+    if (!isArray(data)) {
       markNodeData(this, data)
     }
 
@@ -187,7 +194,7 @@ class Node {
     this.childNodes = []
 
     let children
-    if (this.level === 0 && Array.isArray(this.data)) {
+    if (this.level === 0 && isArray(this.data)) {
       children = this.data
     } else {
       children = getPropertyFromData(this, 'children') || []
@@ -254,7 +261,7 @@ class Node {
       if (!batch) {
         const children = this.getChildren(true)
         if (!children.includes(child.data)) {
-          if (typeof index === 'undefined' || index < 0) {
+          if (isUndefined(index) || index < 0) {
             children.push(child.data)
           } else {
             children.splice(index, 0, child.data)
@@ -273,7 +280,7 @@ class Node {
 
     ;(child as Node).level = this.level + 1
 
-    if (typeof index === 'undefined' || index < 0) {
+    if (isUndefined(index) || index < 0) {
       this.childNodes.push(child as Node)
     } else {
       this.childNodes.splice(index, 0, child as Node)
@@ -350,7 +357,7 @@ class Node {
 
     if (this.shouldLoadData()) {
       this.loadData((data) => {
-        if (Array.isArray(data)) {
+        if (isArray(data)) {
           if (this.checked) {
             this.setChecked(true, true)
           } else if (!this.store.checkStrictly) {
@@ -392,7 +399,7 @@ class Node {
     if (
       this.store.lazy === true &&
       this.loaded !== true &&
-      typeof this.isLeafByUser !== 'undefined'
+      !isUndefined(this.isLeafByUser)
     ) {
       this.isLeaf = this.isLeafByUser
       return
@@ -481,7 +488,7 @@ class Node {
       children = props.children || 'children'
     }
 
-    if (data[children] === undefined) {
+    if (isUndefined(data[children])) {
       data[children] = null
     }
 

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { hasOwn, isObject } from '@element-plus/utils'
+import { hasOwn, isObject, isUndefined } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'
 
@@ -388,7 +388,7 @@ export default class TreeStore {
   }
 
   setCurrentNodeKey(key?: TreeKey, shouldAutoExpandParent = true): void {
-    if (key === null || key === undefined) {
+    if (key === null || isUndefined(key)) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null
       return
