@@ -58,14 +58,12 @@ export const useTree = (
     data: TreeNodeData
   ) => {
     const propVal = propsMap.value[prop]
-    if (isFunction(propVal)) {
-      return propVal(
-        data,
-        tree.value?.getNode(getNodeValByProp('value', data)) as Node
-      )
-    } else {
-      return data[propVal as string]
-    }
+    return isFunction(propVal)
+      ? propVal(
+          data,
+          tree.value?.getNode(getNodeValByProp('value', data)) as Node
+        )
+      : data[propVal as string]
   }
 
   const defaultExpandedParentKeys = toValidArray(props.modelValue)
