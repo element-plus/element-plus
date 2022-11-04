@@ -67,6 +67,7 @@
   --code-bg-color: var(--el-fill-color-light);
   --code-text-color: var(--text-color);
   --code-font-family: var(--font-family-mono);
+  --code-tooltip-bg-color: var(--code-bg-color);
   --code-tooltip-color: #0C61C9;
 
   // tip block
@@ -81,4 +82,6 @@
   --bg-color-rgb: 0, 0, 0;
   --bg-color-soft: #242424;
   --bg-color-mute: #2c2c2c;
+  --code-tooltip-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
+  --code-tooltip-color: var(--brand-color);
 }
