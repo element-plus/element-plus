@@ -1,5 +1,6 @@
 // @ts-nocheck
-import { hasOwn, isObject } from '@element-plus/utils'
+import { isNil } from 'lodash'
+import { hasOwn, isObject, isUndefined } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'
 
@@ -176,7 +177,7 @@ export default class TreeStore {
       this.nodesMap[node.id] = node
     } else {
       const nodeKey = node.key
-      if (nodeKey !== undefined) this.nodesMap[nodeKey] = node
+      if (!isUndefined(nodeKey)) this.nodesMap[nodeKey] = node
     }
   }
 
@@ -383,7 +384,7 @@ export default class TreeStore {
   }
 
   setCurrentNodeKey(key?: TreeKey, shouldAutoExpandParent = true): void {
-    if (key === null || key === undefined) {
+    if (isNil(key)) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null
       return
