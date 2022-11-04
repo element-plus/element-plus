@@ -17,7 +17,7 @@ defineProps({
       <template #content>
         <slot>
           <div class="m-1">
-            <code>
+            <code style="color: var(--code-tooltip-color)">
               {{ details }}
             </code>
           </div>
