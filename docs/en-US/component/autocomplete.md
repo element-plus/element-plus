@@ -41,6 +41,8 @@ autocomplete/remote-search
 
 ### Attributes
 
+```api
+
 | Name                              | Description                                                                                                                | Type                                                                                           | Default      |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------ |
 | placeholder                       | the placeholder of Autocomplete                                                                                            | <StringType />                                                                                 | —            |
@@ -62,7 +64,11 @@ autocomplete/remote-search
 | highlight-first-item              | whether to highlight first item in remote search suggestions by default                                                    | <BooleanType />                                                                                | false        |
 | fit-input-width                   | whether the width of the dropdown is the same as the input                                                                 | <BooleanType />                                                                                | false        |
 
+```
+
 ### Slots
+
+```api
 
 | Name    | Description                                                           |
 | ------- | --------------------------------------------------------------------- |
@@ -72,14 +78,22 @@ autocomplete/remote-search
 | prepend | content to prepend before Input                                       |
 | append  | content to append after Input                                         |
 
+```
+
 ### Events
 
-| Name   | Description                                      | Type                                                                         |
-| ------ | ------------------------------------------------ | ---------------------------------------------------------------------------- |
-| select | triggers when a suggestion is clicked            | <FunctionType :params="[['item', '{ value: typeof modelValue } \| any']]" /> |
-| change | triggers when the icon inside Input value change | <FunctionType :params="[['value', 'string \| number']]" />                   |
+```api
+
+| Name   | Description                                      | Type                                                                           |
+| ------ | ------------------------------------------------ | ------------------------------------------------------------------------------ |
+| select | triggers when a suggestion is clicked            | <FunctionType :params="[['item', ['{ value: typeof modelValue }', 'any']]]" /> |
+| change | triggers when the icon inside Input value change | <FunctionType :params="[['value', ['string', 'number']]]" />                   |
+
+```
 
 ### Instance Exposes
+
+```api
 
 | Name             | Description                                 | Type                                                                 |
 | ---------------- | ------------------------------------------- | -------------------------------------------------------------------- |
@@ -95,3 +109,5 @@ autocomplete/remote-search
 | loading          | remote search loading indicator             | <RefType type="boolean" />                                           |
 | popperRef        | el-tooltip component instance               | <RefType type="ElTooltipInstance" />                                 |
 | suggestions      | fetch suggestions result                    | <RefType type="Record<string, any>" />                               |
+
+```
