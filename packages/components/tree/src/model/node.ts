@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { reactive } from 'vue'
 import {
-  type Nullable,
   hasOwn,
   isArray,
   isBoolean,
@@ -10,6 +9,7 @@ import {
   isUndefined,
 } from '@element-plus/utils'
 import { NODE_KEY, markNodeData } from './util'
+import type { Nullable } from '@element-plus/utils'
 import type TreeStore from './tree-store'
 
 import type {

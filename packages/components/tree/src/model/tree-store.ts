@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { isNil } from 'lodash'
 import { hasOwn, isObject, isUndefined } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'
@@ -388,7 +389,7 @@ export default class TreeStore {
   }
 
   setCurrentNodeKey(key?: TreeKey, shouldAutoExpandParent = true): void {
-    if (key === null || isUndefined(key)) {
+    if (isNil(key) || isUndefined(key)) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null
       return
