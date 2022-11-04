@@ -209,7 +209,7 @@
               <input
                 :id="id"
                 ref="inputRef"
-                v-model-text="states.displayInputValue"
+                :value="states.displayInputValue"
                 aria-autocomplete="list"
                 aria-haspopup="listbox"
                 :aria-labelledby="label"
@@ -234,7 +234,6 @@
                 @keydown.down.stop.prevent="onKeyboardNavigate('forward')"
                 @keydown.enter.stop.prevent="onKeyboardSelect"
                 @keydown.esc.stop.prevent="handleEsc"
-                @update:modelValue="onUpdateInputValue"
               />
             </div>
             <span

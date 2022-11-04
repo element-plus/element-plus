@@ -426,6 +426,7 @@ export const useSelect = (props, states: States, ctx) => {
       triggerRef(queryChange)
       triggerRef(groupQueryChange)
     }
+    states.query = val
     if (
       props.defaultFirstOption &&
       (props.filterable || props.remote) &&

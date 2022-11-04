@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-unified'
+import { get, isEqual, isNil } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
   useFormItem,
@@ -287,17 +287,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     }
   }
 
-  const onInputChange = () => {
-    if (props.filterable && states.inputValue !== states.selectedLabel) {
+  const onInputChange = (value) => {
+    if (props.filterable && value !== states.selectedLabel) {
       states.query = states.selectedLabel
     }
-    handleQueryChange(states.inputValue)
+    handleQueryChange(value)
     return nextTick(() => {
-      createNewOption(states.inputValue)
+      createNewOption(value)
     })
   }
-
-  const debouncedOnInputChange = lodashDebounce(onInputChange, debounce.value)
 
   const handleQueryChange = (val: string) => {
     if (states.previousQuery === val) {
@@ -608,20 +606,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const onInput = (event) => {
     const value = event.target.value
-    onUpdateInputValue(value)
-    if (states.displayInputValue.length > 0 && !expanded.value) {
+    if (value.length > 0 && !expanded.value) {
       expanded.value = true
     }
-
     states.calculatedWidth = calculatorRef.value.getBoundingClientRect().width
     if (props.multiple) {
       resetInputHeight()
     }
-    if (props.remote) {
-      debouncedOnInputChange()
-    } else {
-      return onInputChange()
-    }
+    onInputChange(value)
+    onUpdateInputValue(value)
   }
 
   const handleClickOutside = () => {
@@ -785,7 +778,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     validateIcon,
 
     // methods exports
-    debouncedOnInputChange,
     deleteTag,
     getLabel,
     getValueKey,

@@ -139,7 +139,7 @@
             <input
               v-if="filterable"
               ref="input"
-              v-model="query"
+              :query="query"
               type="text"
               :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
               :disabled="selectDisabled"
