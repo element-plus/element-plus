@@ -17,11 +17,10 @@ export function useInput(handleInput: (event: InputEvent) => void) {
   }
 
   const handleCompositionEnd = (event) => {
-    if (isComposing.value) {
-      isComposing.value = false
-      if (isFunction(handleInput)) {
-        handleInput(event)
-      }
+    if (!isComposing.value) return
+    isComposing.value = false
+    if (isFunction(handleInput)) {
+      handleInput(event)
     }
   }
 

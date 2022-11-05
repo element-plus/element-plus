@@ -31,29 +31,26 @@ export function useAllowCreate(props: ISelectProps, states) {
   }
 
   function createNewOption(query: string) {
-    if (enableAllowCreateMode.value) {
-      if (query && query.length > 0 && !hasExistingOption(query)) {
-        const newOption = {
-          value: query,
-          label: query,
-          created: true,
-          disabled: false,
-        }
-        if (states.createdOptions.length >= createOptionCount.value) {
-          states.createdOptions[createOptionCount.value] = newOption
-        } else {
-          states.createdOptions.push(newOption)
-        }
+    if (!enableAllowCreateMode.value) return
+    if (query?.length > 0 && !hasExistingOption(query)) {
+      const newOption = {
+        value: query,
+        label: query,
+        created: true,
+        disabled: false,
+      }
+      if (states.createdOptions.length >= createOptionCount.value) {
+        states.createdOptions[createOptionCount.value] = newOption
       } else {
-        if (props.multiple) {
-          states.createdOptions.length = createOptionCount.value
-        } else {
-          const selectedOption = cachedSelectedOption.value
-          states.createdOptions.length = 0
-          if (selectedOption && selectedOption.created) {
-            states.createdOptions.push(selectedOption)
-          }
-        }
+        states.createdOptions.push(newOption)
+      }
+    } else if (props.multiple) {
+      states.createdOptions.length = createOptionCount.value
+    } else {
+      const selectedOption = cachedSelectedOption.value
+      states.createdOptions.length = 0
+      if (selectedOption?.created) {
+        states.createdOptions.push(selectedOption)
       }
     }
   }

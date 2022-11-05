@@ -45,16 +45,14 @@ export default defineComponent({
       isUndefined(select.props.estimatedOptionHeight)
     )
     const listProps = computed(() => {
-      if (isSized.value) {
-        return {
-          itemSize: select.props.itemHeight,
-        }
-      }
-
-      return {
-        estimatedSize: select.props.estimatedOptionHeight,
-        itemSize: (idx: number) => cachedHeights.value[idx],
-      }
+      return isSized.value
+        ? {
+            itemSize: select.props.itemHeight,
+          }
+        : {
+            estimatedSize: select.props.estimatedOptionHeight,
+            itemSize: (idx: number) => cachedHeights.value[idx],
+          }
     })
 
     const contains = (arr: Array<any> = [], target: any) => {
@@ -62,32 +60,23 @@ export default defineComponent({
         props: { valueKey },
       } = select
 
-      if (!isObject(target)) {
-        return arr.includes(target)
-      }
-
-      return (
-        arr &&
-        arr.some((item) => {
-          return get(item, valueKey) === get(target, valueKey)
-        })
-      )
+      return !isObject(target)
+        ? arr.includes(target)
+        : arr?.some((item) => get(item, valueKey) === get(target, valueKey))
     }
     const isEqual = (selected: unknown, target: unknown) => {
-      if (!isObject(target)) {
-        return selected === target
-      } else {
-        const { valueKey } = select.props
-        return get(selected, valueKey) === get(target, valueKey)
-      }
+      if (!isObject(target)) return selected === target
+
+      const { valueKey } = select.props
+      return get(selected, valueKey) === get(target, valueKey)
     }
 
     const isItemSelected = (modelValue: any[] | any, target: Option) => {
       const { valueKey } = select.props
-      if (select.props.multiple) {
-        return contains(modelValue, get(target, valueKey))
-      }
-      return isEqual(modelValue, get(target, valueKey))
+
+      return select.props.multiple
+        ? contains(modelValue, get(target, valueKey))
+        : isEqual(modelValue, get(target, valueKey))
     }
 
     const isItemDisabled = (modelValue: any[] | any, selected: boolean) => {
@@ -105,16 +94,12 @@ export default defineComponent({
 
     const scrollToItem = (index: number) => {
       const list = listRef.value as any
-      if (list) {
-        list.scrollToItem(index)
-      }
+      list?.scrollToItem(index)
     }
 
     const resetScrollTop = () => {
       const list = listRef.value as any
-      if (list) {
-        list.resetScrollTop()
-      }
+      list?.resetScrollTop()
     }
 
     expose({
