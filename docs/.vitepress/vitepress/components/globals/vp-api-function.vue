@@ -22,10 +22,13 @@ const props = defineProps({
 
 const mappedParams = computed(() =>
   props.params
-    .reduce(
-      (params, [key, val]) => params.concat([`${key}: ${val}`]),
-      [] as string[]
-    )
+    .reduce((params, [key, val]) => {
+      let type = val
+      if (Array.isArray(val)) {
+        type = val.join(' | ')
+      }
+      return params.concat([`${key}: ${type}`])
+    }, [] as string[])
     .join(', ')
 )
 

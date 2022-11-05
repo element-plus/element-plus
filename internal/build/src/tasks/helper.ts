@@ -71,7 +71,7 @@ const reAttribute: ReAttribute = (value, key) => {
       .replaceAll(/\B([A-Z])/g, '-$1')
       .toLowerCase()
   } else if (key === 'Type') {
-    return str
+    return rewriteType(str)
       .replaceAll(/\bfunction(\(.*\))?(:\s*\w+)?\b/gi, 'Function')
       .replaceAll(/\bdate\b/g, 'Date')
       .replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
@@ -123,6 +123,54 @@ const findModule = (type: string): string | undefined => {
   }
 
   return result
+}
+
+const rewriteType = (str: string): string => {
+  if (!/<.*>/.test(str)) return str
+
+  const list = str.matchAll(/<(\w+)Type\s([^>]*)>/g)
+
+  return Array.from(list, (item) => {
+    const type = item ? item[1] : ''
+    const params = item ? item[2] : ''
+
+    switch (type) {
+      case 'External':
+        return ''
+      case 'Enum':
+        return transformEnum(params)
+      case 'Function':
+        return transformFunction(params)
+      default:
+        return type.toLowerCase()
+    }
+  })
+    .filter((item) => item)
+    .join('|')
+}
+
+const transformEnum = (str: string) => {
+  const result = str.match(/:values="\[([^\]]*)\]/)
+  return result ? result[1].replaceAll(/,\s*/g, ' | ') : 'string'
+}
+
+const transformFunction = (str: string) => {
+  const paramsStr = str.match(/:params="\[(.*)\]"/)
+  const returnsStr = str.match(/:returns="(.*)"/)
+  let params = ''
+  let returns = ''
+
+  if (paramsStr) {
+    const c = paramsStr[0].matchAll(/\['([^\]]*)'\]/g)
+
+    params = Array.from(c, (item) => {
+      return item[1].replaceAll(/',\s*'/g, ': ')
+    }).join(', ')
+  }
+
+  returns = returnsStr ? returnsStr[1] : 'void'
+
+  return `(${params}) => ${returns}`
 }
 
 export const buildHelper: TaskFunction = (done) => {
