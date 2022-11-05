@@ -179,13 +179,8 @@ provide(
   })
 )
 
-onMounted(() => {
-  if (!props.native)
-    nextTick(() => {
-      update()
-    })
-})
-onUpdated(() => update())
+onMounted(() => !props.native && nextTick(update))
+onUpdated(update)
 
 defineExpose({
   /** @description scrollbar wrap ref */
