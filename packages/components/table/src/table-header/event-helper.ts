@@ -115,23 +115,22 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
     if (!column || !column.resizable) return
 
-    if (!dragging.value && props.border) {
-      const rect = target.getBoundingClientRect()
+    if (dragging.value || !props.border) return
+    const rect = target.getBoundingClientRect()
 
-      const bodyStyle = document.body.style
-      if (rect.width > 12 && rect.right - event.pageX < 8) {
-        bodyStyle.cursor = 'col-resize'
-        if (hasClass(target, 'is-sortable')) {
-          target.style.cursor = 'col-resize'
-        }
-        draggingColumn.value = column
-      } else if (!dragging.value) {
-        bodyStyle.cursor = ''
-        if (hasClass(target, 'is-sortable')) {
-          target.style.cursor = 'pointer'
-        }
-        draggingColumn.value = null
+    const bodyStyle = document.body.style
+    if (rect.width > 12 && rect.right - event.pageX < 8) {
+      bodyStyle.cursor = 'col-resize'
+      if (hasClass(target, 'is-sortable')) {
+        target.style.cursor = 'col-resize'
       }
+      draggingColumn.value = column
+    } else if (!dragging.value) {
+      bodyStyle.cursor = ''
+      if (hasClass(target, 'is-sortable')) {
+        target.style.cursor = 'pointer'
+      }
+      draggingColumn.value = null
     }
   }
 
@@ -155,11 +154,9 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
     const target = (event.target as HTMLElement)?.closest('th')
 
-    if (target) {
-      if (hasClass(target, 'noclick')) {
-        removeClass(target, 'noclick')
-        return
-      }
+    if (target && hasClass(target, 'noclick')) {
+      removeClass(target, 'noclick')
+      return
     }
 
     if (!column.sortable) return

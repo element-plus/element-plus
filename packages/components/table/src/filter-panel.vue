@@ -50,7 +50,7 @@
             ns.e('list-item'),
             {
               [ns.is('active')]:
-                filterValue === undefined || filterValue === null,
+                isUndefined(filterValue) || filterValue === null,
             },
           ]"
           @click="handleSelect(null)"
@@ -96,8 +96,8 @@ import { ClickOutside } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
+import { isUndefined } from '@element-plus/utils'
 import type { Placement } from '@element-plus/components/popper'
-
 import type { PropType, WritableComputedRef } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
@@ -148,21 +148,17 @@ export default defineComponent({
     const filterValue = computed({
       get: () => (props.column?.filteredValue || [])[0],
       set: (value: string) => {
-        if (filteredValue.value) {
-          if (typeof value !== 'undefined' && value !== null) {
-            filteredValue.value.splice(0, 1, value)
-          } else {
-            filteredValue.value.splice(0, 1)
-          }
+        if (!filteredValue.value) return
+        if (!isUndefined(value) && value !== null) {
+          filteredValue.value.splice(0, 1, value)
+        } else {
+          filteredValue.value.splice(0, 1)
         }
       },
     })
     const filteredValue: WritableComputedRef<unknown[]> = computed({
       get() {
-        if (props.column) {
-          return props.column.filteredValue || []
-        }
-        return []
+        return (props.column && props.column.filteredValue) || []
       },
       set(value: unknown[]) {
         if (props.column) {
@@ -171,10 +167,7 @@ export default defineComponent({
       },
     })
     const multiple = computed(() => {
-      if (props.column) {
-        return props.column.filterMultiple
-      }
-      return true
+      return props.column ? props.column.filterMultiple : true
     })
     const isActive = (filter) => {
       return filter.value === filterValue.value
@@ -200,7 +193,7 @@ export default defineComponent({
     }
     const handleSelect = (_filterValue?: string) => {
       filterValue.value = _filterValue
-      if (typeof _filterValue !== 'undefined' && _filterValue !== null) {
+      if (!isUndefined(_filterValue) && _filterValue !== null) {
         confirmFilter(filteredValue.value)
       } else {
         confirmFilter([])

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { watch } from 'vue'
 import { debounce } from 'lodash-unified'
+import { isObject } from '@element-plus/utils'
 import useStore from '.'
 
 import type { Store } from '.'
@@ -53,7 +54,7 @@ function proxyTableProps<T>(store: Store<T>, props: TableProps<T>) {
 function handleValue<T>(value, propsKey: string, store: Store<T>) {
   let newVal = value
   let storeKey = InitialStateMap[propsKey]
-  if (typeof InitialStateMap[propsKey] === 'object') {
+  if (isObject(InitialStateMap[propsKey])) {
     storeKey = storeKey.key
     newVal = newVal || InitialStateMap[propsKey].default
   }
@@ -63,12 +64,7 @@ function handleValue<T>(value, propsKey: string, store: Store<T>) {
 function getArrKeysValue<T>(props: TableProps<T>, keys: string) {
   if (keys.includes('.')) {
     const keyList = keys.split('.')
-    let value = props
-    keyList.forEach((key) => {
-      value = value[key]
-    })
-    return value
-  } else {
-    return props[keys]
+    return keyList.reduce((result, key) => (result = result[key]), props)
   }
+  return props[keys]
 }

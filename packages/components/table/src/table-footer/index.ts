@@ -78,15 +78,15 @@ export default defineComponent({
           return
         }
         const values = data.map((item) => Number(item[column.property]))
-        const precisions = []
         let notNumber = true
-        values.forEach((value) => {
+        const precisions = values.reduce((result, value) => {
           if (!Number.isNaN(+value)) {
             notNumber = false
             const decimal = `${value}`.split('.')[1]
-            precisions.push(decimal ? decimal.length : 0)
+            result.push(decimal ? decimal.length : 0)
           }
-        })
+          return result
+        }, [])
         const precision = Math.max.apply(null, precisions)
         if (!notNumber) {
           sums[index] = values.reduce((prev, curr) => {

@@ -2,21 +2,27 @@
 import { createPopper } from '@popperjs/core'
 import { flatMap, get } from 'lodash-unified'
 import escapeHtml from 'escape-html'
-import { hasOwn, throwError } from '@element-plus/utils'
+import {
+  type Nullable,
+  hasOwn,
+  isArray,
+  isBoolean,
+  isFunction,
+  isNumber,
+  isObject,
+  isString,
+  isUndefined,
+  throwError,
+} from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
   IPopperOptions,
   PopperInstance,
 } from '@element-plus/components/popper'
-import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
 
 export const getCell = function (event: Event) {
   return (event.target as HTMLElement)?.closest('td')
-}
-
-const isObject = function (obj: unknown): boolean {
-  return obj !== null && typeof obj === 'object'
 }
 
 export const orderBy = function <T>(
@@ -29,11 +35,11 @@ export const orderBy = function <T>(
   if (
     !sortKey &&
     !sortMethod &&
-    (!sortBy || (Array.isArray(sortBy) && !sortBy.length))
+    (!sortBy || (isArray(sortBy) && !sortBy.length))
   ) {
     return array
   }
-  if (typeof reverse === 'string') {
+  if (isString(reverse)) {
     reverse = reverse === 'descending' ? -1 : 1
   } else {
     reverse = reverse && reverse < 0 ? -1 : 1
@@ -42,19 +48,15 @@ export const orderBy = function <T>(
     ? null
     : function (value, index) {
         if (sortBy) {
-          if (!Array.isArray(sortBy)) {
+          if (!isArray(sortBy)) {
             sortBy = [sortBy]
           }
-          return sortBy.map((by) => {
-            if (typeof by === 'string') {
-              return get(value, by)
-            } else {
-              return by(value, index, array)
-            }
-          })
+          return sortBy.map((by) =>
+            isString(by) ? get(value, by) : by(value, index, array)
+          )
         }
-        if (sortKey !== '$key') {
-          if (isObject(value) && '$value' in value) value = value.$value
+        if (sortKey !== '$key' && isObject(value) && '$value' in value) {
+          value = value.$value
         }
         return [isObject(value) ? get(value, sortKey) : value]
       }
@@ -112,14 +114,7 @@ export const getColumnByKey = function <T>(
   },
   columnKey: string
 ): TableColumnCtx<T> {
-  let column = null
-  for (let i = 0; i < table.columns.length; i++) {
-    const item = table.columns[i]
-    if (item.columnKey === columnKey) {
-      column = item
-      break
-    }
-  }
+  const column = table.columns.find((item) => item.columnKey === columnKey)
   if (!column)
     throwError('ElTable', `No column matching with column-key: ${columnKey}`)
   return column
@@ -146,17 +141,13 @@ export const getRowIdentity = <T>(
   rowKey: string | ((row: T) => any)
 ): string => {
   if (!row) throw new Error('Row is required when get row identity')
-  if (typeof rowKey === 'string') {
+  if (isString(rowKey)) {
     if (!rowKey.includes('.')) {
       return `${row[rowKey]}`
     }
     const key = rowKey.split('.')
-    let current = row
-    for (const element of key) {
-      current = current[element]
-    }
-    return `${current}`
-  } else if (typeof rowKey === 'function') {
+    return key.reduce((current, element) => current[element], row)
+  } else if (isFunction(rowKey)) {
     return rowKey.call(null, row)
   }
 }
@@ -181,7 +172,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
   for (key in config) {
     if (hasOwn(config as unknown as Record<string, any>, key)) {
       const value = config[key]
-      if (typeof value !== 'undefined') {
+      if (!isUndefined(value)) {
         options[key] = value
       }
     }
@@ -191,7 +182,7 @@ export function mergeOptions<T, K>(defaults: T, config: K): T & K {
 
 export function parseWidth(width: number | string): number | string {
   if (width === '') return width
-  if (width !== undefined) {
+  if (!isUndefined(width)) {
     width = Number.parseInt(width as string, 10)
     if (Number.isNaN(width)) {
       width = ''
@@ -202,7 +193,7 @@ export function parseWidth(width: number | string): number | string {
 
 export function parseMinWidth(minWidth: number | string): number | string {
   if (minWidth === '') return minWidth
-  if (minWidth !== undefined) {
+  if (!isUndefined(minWidth)) {
     minWidth = parseWidth(minWidth)
     if (Number.isNaN(minWidth)) {
       minWidth = 80
@@ -212,10 +203,10 @@ export function parseMinWidth(minWidth: number | string): number | string {
 }
 
 export function parseHeight(height: number | string) {
-  if (typeof height === 'number') {
+  if (isNumber(height)) {
     return height
   }
-  if (typeof height === 'string') {
+  if (isString(height)) {
     if (/^\d+(?:px)?$/.test(height)) {
       return Number.parseInt(height, 10)
     } else {
@@ -258,7 +249,7 @@ export function toggleRowStatus<T>(
     changed = true
   }
 
-  if (typeof newVal === 'boolean') {
+  if (isBoolean(newVal)) {
     if (newVal && !included) {
       addRow()
     } else if (!newVal && included) {
@@ -280,7 +271,7 @@ export function walkTreeNode(
   childrenKey = 'children',
   lazyKey = 'hasChildren'
 ) {
-  const isNil = (array) => !(Array.isArray(array) && array.length)
+  const isNil = (array) => !(isArray(array) && array.length)
 
   function _walker(parent, children, level) {
     cb(parent, children, level)

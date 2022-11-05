@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { computed, h, inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { isBoolean, isUndefined } from '@element-plus/utils'
 import { getRowIdentity } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import useEvents from './events-helper'
@@ -37,10 +38,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
   })
   const getKeyOfRow = (row: T, index: number) => {
     const rowKey = (parent.props as Partial<TableProps<T>>).rowKey
-    if (rowKey) {
-      return getRowIdentity(row, rowKey)
-    }
-    return index
+    return rowKey ? getRowIdentity(row, rowKey) : index
   }
   const rowRender = (
     row: T,
@@ -98,7 +96,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             indent: treeRowData.level * indent.value,
             level: treeRowData.level,
           }
-          if (typeof treeRowData.expanded === 'boolean') {
+          if (isBoolean(treeRowData.expanded)) {
             data.treeNode.expanded = treeRowData.expanded
             // 表明是懒加载
             if ('loading' in treeRowData) {
@@ -190,8 +188,8 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
           level: cur.level,
           display: true,
         }
-        if (typeof cur.lazy === 'boolean') {
-          if (typeof cur.loaded === 'boolean' && cur.loaded) {
+        if (isBoolean(cur.lazy)) {
+          if (isBoolean(cur.loaded) && cur.loaded) {
             treeRowData.noLazyChildren = !(cur.children && cur.children.length)
           }
           treeRowData.loading = cur.loading
@@ -214,7 +212,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
               loading: false,
             }
             const childKey = getRowIdentity(node, rowKey.value)
-            if (childKey === undefined || childKey === null) {
+            if (isUndefined(childKey) || childKey === null) {
               throw new Error('For nested data item, row-key is required.')
             }
             cur = { ...treeData.value[childKey] }
@@ -226,8 +224,8 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
               // 懒加载的某些节点，level 未知
               cur.level = cur.level || innerTreeRowData.level
               cur.display = !!(cur.expanded && innerTreeRowData.display)
-              if (typeof cur.lazy === 'boolean') {
-                if (typeof cur.loaded === 'boolean' && cur.loaded) {
+              if (isBoolean(cur.lazy)) {
+                if (isBoolean(cur.loaded) && cur.loaded) {
                   innerTreeRowData.noLazyChildren = !(
                     cur.children && cur.children.length
                   )

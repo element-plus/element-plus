@@ -57,12 +57,10 @@ function useStore<T>() {
       if (unref(states.reserveSelection)) {
         instance.store.assertRowKey()
         instance.store.updateSelectionByRowKey()
+      } else if (dataInstanceChanged) {
+        instance.store.clearSelection()
       } else {
-        if (dataInstanceChanged) {
-          instance.store.clearSelection()
-        } else {
-          instance.store.cleanSelection()
-        }
+        instance.store.cleanSelection()
       }
       instance.store.updateAllSelected()
       if (instance.$ready) {
@@ -110,7 +108,7 @@ function useStore<T>() {
           parent.children.findIndex((item) => item.id === column.id),
           1
         )
-        if (parent.children.length === 0) {
+        if (!parent.children.length) {
           delete parent.children
         }
         states._columns.value = replaceColumn(array, parent)

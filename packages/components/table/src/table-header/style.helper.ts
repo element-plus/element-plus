@@ -1,5 +1,6 @@
 import { inject } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { isFunction, isString } from '@element-plus/utils'
 import {
   ensurePosition,
   getFixedColumnOffset,
@@ -15,22 +16,19 @@ function useStyle<T>(props: TableHeaderProps<T>) {
 
   const getHeaderRowStyle = (rowIndex: number) => {
     const headerRowStyle = parent?.props.headerRowStyle
-    if (typeof headerRowStyle === 'function') {
-      return headerRowStyle.call(null, { rowIndex })
-    }
-    return headerRowStyle
+    return isFunction(headerRowStyle)
+      ? headerRowStyle.call(null, { rowIndex })
+      : headerRowStyle
   }
 
   const getHeaderRowClass = (rowIndex: number): string => {
-    const classes: string[] = []
     const headerRowClassName = parent?.props.headerRowClassName
-    if (typeof headerRowClassName === 'string') {
-      classes.push(headerRowClassName)
-    } else if (typeof headerRowClassName === 'function') {
-      classes.push(headerRowClassName.call(null, { rowIndex }))
+    if (isString(headerRowClassName)) {
+      return headerRowClassName
+    } else if (isFunction(headerRowClassName)) {
+      return headerRowClassName.call(null, { rowIndex })
     }
-
-    return classes.join(' ')
+    return ''
   }
 
   const getHeaderCellStyle = (
@@ -40,7 +38,7 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     column: TableColumnCtx<T>
   ) => {
     let headerCellStyles = parent?.props.headerCellStyle ?? {}
-    if (typeof headerCellStyles === 'function') {
+    if (isFunction(headerCellStyles)) {
       headerCellStyles = headerCellStyles.call(null, {
         rowIndex,
         columnIndex,
@@ -90,9 +88,9 @@ function useStyle<T>(props: TableHeaderProps<T>) {
     }
 
     const headerCellClassName = parent?.props.headerCellClassName
-    if (typeof headerCellClassName === 'string') {
+    if (isString(headerCellClassName)) {
       classes.push(headerCellClassName)
-    } else if (typeof headerCellClassName === 'function') {
+    } else if (isFunction(headerCellClassName)) {
       classes.push(
         headerCellClassName.call(null, {
           rowIndex,

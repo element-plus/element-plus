@@ -261,8 +261,7 @@ function useStyle<T>(
   })
 
   const tableLayout = computed(() => {
-    if (props.maxHeight) return 'fixed'
-    return props.tableLayout
+    return props.maxHeight ? 'fixed' : props.tableLayout
   })
 
   const emptyBlockStyle = computed(() => {
