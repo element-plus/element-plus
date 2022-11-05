@@ -188,11 +188,9 @@ const groupLabel = computed<string>(() => {
 })
 
 const firstButtonLabel = computed<string>(() => {
-  if (props.range) {
-    return props.rangeStartLabel || t('el.slider.defaultRangeStartLabel')
-  } else {
-    return groupLabel.value
-  }
+  return props.range
+    ? props.rangeStartLabel || t('el.slider.defaultRangeStartLabel')
+    : groupLabel.value
 })
 
 const firstValueText = computed<string>(() => {
@@ -224,8 +222,7 @@ useWatch(props, initData, minValue, maxValue, emit, elFormItem!)
 
 const precision = computed(() => {
   const precisions = [props.min, props.max, props.step].map((item) => {
-    const decimal = `${item}`.split('.')[1]
-    return decimal ? decimal.length : 0
+    return String(item).split('.')[1]?.length || 0
   })
   return Math.max.apply(null, precisions)
 })

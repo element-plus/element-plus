@@ -9,9 +9,7 @@ export interface Mark extends SliderMarkerProps {
 
 export const useMarks = (props: SliderProps) => {
   return computed(() => {
-    if (!props.marks) {
-      return []
-    }
+    if (!props.marks) return []
 
     const marksKeys = Object.keys(props.marks)
     return marksKeys

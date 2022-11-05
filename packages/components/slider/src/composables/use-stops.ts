@@ -27,21 +27,14 @@ export const useStops = (
       (_, index) => (index + 1) * stepWidth
     )
 
-    if (props.range) {
-      return result.filter((step) => {
-        return (
-          step <
-            (100 * (minValue.value - props.min)) / (props.max - props.min) ||
-          step > (100 * (maxValue.value - props.min)) / (props.max - props.min)
-        )
-      })
-    } else {
-      return result.filter(
-        (step) =>
-          step >
-          (100 * (initData.firstValue - props.min)) / (props.max - props.min)
-      )
+    const filter = (step: number) => {
+      const range = props.max - props.min
+      return props.range
+        ? step < (100 * (minValue.value - props.min)) / range ||
+            step > (100 * (maxValue.value - props.min)) / range
+        : step > (100 * (initData.firstValue - props.min)) / range
     }
+    return result.filter(filter)
   })
 
   const getStopStyle = (position: number): CSSProperties => {
