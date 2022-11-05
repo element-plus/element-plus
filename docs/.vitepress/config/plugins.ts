@@ -5,6 +5,7 @@ import mdContainer from 'markdown-it-container'
 import { docRoot } from '@element-plus/build-utils'
 import externalLinkIcon from '../plugins/external-link-icon'
 import tableWrapper from '../plugins/table-wrapper'
+import tooltip from '../plugins/tooltip'
 import { ApiTableContainer } from '../plugins/api-table'
 import { highlight } from '../utils/highlight'
 import type Token from 'markdown-it/lib/token'
@@ -27,6 +28,7 @@ interface ContainerOpts {
 export const mdPlugin = (md: MarkdownIt) => {
   md.use(externalLinkIcon)
   md.use(tableWrapper)
+  md.use(tooltip)
   md.use(mdContainer, 'demo', {
     validate(params) {
       return !!params.trim().match(/^demo\s*(.*)$/)
