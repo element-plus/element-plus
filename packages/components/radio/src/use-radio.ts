@@ -20,7 +20,7 @@ export const useRadio = (
       if (isGroup.value) {
         radioGroup!.changeEvent(val)
       } else {
-        emit && emit(UPDATE_MODEL_EVENT, val)
+        emit?.(UPDATE_MODEL_EVENT, val)
       }
       radioRef.value!.checked = props.modelValue === props.label
     },
@@ -29,11 +29,11 @@ export const useRadio = (
   const size = useSize(computed(() => radioGroup?.size))
   const disabled = useDisabled(computed(() => radioGroup?.disabled))
   const focus = ref(false)
-  const tabIndex = computed(() => {
-    return disabled.value || (isGroup.value && modelValue.value !== props.label)
+  const tabIndex = computed(() =>
+    disabled.value || (isGroup.value && modelValue.value !== props.label)
       ? -1
       : 0
-  })
+  )
 
   return {
     radioRef,

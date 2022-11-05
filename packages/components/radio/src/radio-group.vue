@@ -63,9 +63,7 @@ onMounted(() => {
   }
 })
 
-const name = computed(() => {
-  return props.name || radioId.value
-})
+const name = computed(() => props.name || radioId.value)
 
 provide(
   radioGroupKey,
@@ -78,10 +76,8 @@ provide(
 
 watch(
   () => props.modelValue,
-  () => {
-    if (props.validateEvent) {
-      formItem?.validate('change').catch((err) => debugWarn(err))
-    }
-  }
+  () =>
+    props.validateEvent &&
+    formItem?.validate('change').catch((err) => debugWarn(err))
 )
 </script>
