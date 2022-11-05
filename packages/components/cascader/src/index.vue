@@ -40,7 +40,9 @@
         <el-input
           ref="input"
           v-model="inputValue"
-          :placeholder="searchInputValue ? '' : inputPlaceholder"
+          :placeholder="
+            searchInputValue || presentTags.length > 0 ? '' : inputPlaceholder
+          "
           :readonly="readonly"
           :disabled="isDisabled"
           :validate-event="false"
@@ -401,7 +403,7 @@ export default defineComponent({
       const nodes = checkedNodes.value
       return nodes.length
         ? multiple.value
-          ? ' '
+          ? ''
           : nodes[0].calcText(showAllLevels, separator)
         : ''
     })
