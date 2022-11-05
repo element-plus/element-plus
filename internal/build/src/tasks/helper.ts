@@ -126,12 +126,10 @@ const findModule = (type: string): string | undefined => {
 }
 
 const rewriteType = (str: string): string => {
-  if (/\^\[([^\]]*)\](<.*>)?\^/.test(str)) {
+  if (/\^\[([^\]]*)\](`[^`]*`)?/.test(str)) {
     return str
-      .replaceAll(/\^\[([^\]]*)\](<.*>)?\^/g, (_, type, details) => {
-        return details
-          ? details.replace(/^<(.*)>$/, '$1').replace(/^`(.*)`$/, '$1')
-          : type
+      .replaceAll(/\^\[([^\]]*)\](`[^`]*`)?/g, (_, type, details) => {
+        return details ? details.replace(/^`(.*)`$/, '$1') : type
       })
       .replaceAll(/\[[^\]]*\]\([^)]*\)/g, '')
   } else if (/<.*>/.test(str)) {

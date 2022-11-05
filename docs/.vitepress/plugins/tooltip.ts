@@ -8,7 +8,7 @@ export default (md: MarkdownIt): void => {
   }
 
   md.inline.ruler.before('emphasis', 'tooltip', (state, silent) => {
-    const tooltipRegExp = /^\^\[([^\]]*)\](<.*>)?\^/
+    const tooltipRegExp = /^\^\[([^\]]*)\](`[^`]*`)?/
     const str = state.src.slice(state.pos, state.posMax)
 
     if (!tooltipRegExp.test(str)) return false
@@ -19,10 +19,8 @@ export default (md: MarkdownIt): void => {
     if (!result) return false
 
     const token = state.push('tooltip', 'tooltip', 0)
-    token.content = result[1]
-    token.info = (result[2] || '')
-      .replace(/^<(.*)>$/, '$1')
-      .replace(/^`(.*)`$/, '$1')
+    token.content = result[1].replace(/\\\|/g, '|')
+    token.info = (result[2] || '').replace(/^`(.*)`$/, '$1')
     token.level = state.level
     state.pos += result[0].length
 
