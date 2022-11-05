@@ -126,27 +126,39 @@ const findModule = (type: string): string | undefined => {
 }
 
 const rewriteType = (str: string): string => {
-  if (!/<.*>/.test(str)) return str
+  if (/\^\[/.test(str)) {
+    return str
+      .replaceAll(/\^\[([^\]]*)\](\[[^\]]*\])?/g, (_, type, details) => {
+        return (
+          (details || '')
+            .replace(/^\[([^\]]*)\]$/, '$1')
+            .replace(/^`([^`]*)`$/, '$1') || type
+        )
+      })
+      .replaceAll(/\[[^\]]*\]\([^)]*\)/g, '')
+  } else if (/<.*>/.test(str)) {
+    const list = str.matchAll(/<(\w+)Type\s([^>]*)>/g)
 
-  const list = str.matchAll(/<(\w+)Type\s([^>]*)>/g)
+    return Array.from(list, (item) => {
+      const type = item ? item[1] : ''
+      const params = item ? item[2] : ''
 
-  return Array.from(list, (item) => {
-    const type = item ? item[1] : ''
-    const params = item ? item[2] : ''
-
-    switch (type) {
-      case 'External':
-        return ''
-      case 'Enum':
-        return transformEnum(params)
-      case 'Function':
-        return transformFunction(params)
-      default:
-        return type.toLowerCase()
-    }
-  })
-    .filter((item) => item)
-    .join('|')
+      switch (type) {
+        case 'External':
+          return ''
+        case 'Enum':
+          return transformEnum(params)
+        case 'Function':
+          return transformFunction(params)
+        default:
+          return type.toLowerCase()
+      }
+    })
+      .filter((item) => item)
+      .join('|')
+  } else {
+    return str
+  }
 }
 
 const transformEnum = (str: string) => {
@@ -161,9 +173,9 @@ const transformFunction = (str: string) => {
   let returns = ''
 
   if (paramsStr) {
-    const c = paramsStr[0].matchAll(/\['([^\]]*)'\]/g)
+    const list = paramsStr[0].matchAll(/\['([^\]]*)'\]/g)
 
-    params = Array.from(c, (item) => {
+    params = Array.from(list, (item) => {
       return item[1].replaceAll(/',\s*'/g, ': ')
     }).join(', ')
   }
