@@ -79,22 +79,22 @@ alert/icon-description
 
 ### Alert Attributes
 
-| Name          | Description                       | Type                                          | Default   | Required |
-| ------------- | --------------------------------- | --------------------------------------------- | --------- | -------- |
-| `title`       | alert title.                      | `string`                                      | —         | No       |
-| `type`        | alert type.                       | `'success' \| 'warning' \| 'info' \| 'error'` | `'info'`  | No       |
-| `description` | descriptive text.                 | `string`                                      | —         | No       |
-| `closable`    | whether closable or not.          | `boolean`                                     | `true`    | No       |
-| `center`      | whether to center the text.       | `boolean`                                     | `false`   | No       |
-| `close-text`  | customized close button text.     | `string`                                      | —         | No       |
-| `show-icon`   | whether a type icon is displayed. | `boolean`                                     | `false`   | No       |
-| `effect`      | theme style.                      | `'light' \| 'dark'`                           | `'light'` | No       |
+| Name          | Description                              | Type                                                           | Default   | Required |
+| ------------- | ---------------------------------------- | -------------------------------------------------------------- | --------- | -------- |
+| `title`       | alert title.                             | `string`                                                       | —         | No       |
+| `type`        | alert type.                              | <EnumType :values="['success', 'warning', 'info', 'error']" /> | `info`    | No       |
+| `description` | descriptive text.                        | `string`                                                       | —         | No       |
+| `closable`    | whether alert can be dismissed.          | `boolean`                                                      | `true`    | No       |
+| `center`      | whether content is placed in the center. | `boolean`                                                      | `false`   | No       |
+| `close-text`  | customized close button text.            | `string`                                                       | —         | No       |
+| `show-icon`   | whether a type icon is displayed.        | `boolean`                                                      | `false`   | No       |
+| `effect`      | theme style.                             | <EnumType :values="['light', 'dark']" />                       | `'light'` | No       |
 
 ### Alert Events
 
-| Name    | Description                   | Type                        |
-| ------- | ----------------------------- | --------------------------- |
-| `close` | trigger when alert is closed. | `(evt: MouseEvent) => void` |
+| Name    | Description                   | Type                                               |
+| ------- | ----------------------------- | -------------------------------------------------- |
+| `close` | trigger when alert is closed. | <FunctionType :params="[['evt', 'MouseEvent']]" /> |
 
 ### Alert Slots
 
