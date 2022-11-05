@@ -1,0 +1,7 @@
+{
+  "name": "Name",
+  "description": "Description",
+  "type": "Type",
+  "default": "Default",
+  "method": "Method"
+}
