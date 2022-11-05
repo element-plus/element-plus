@@ -138,7 +138,9 @@ function useWatcher<T>() {
   // 选择
   const isSelected = (row) => {
     const key = rowKey.value
-    return selection.value.some((item) => item[key] === row[key])
+    return selection.value.some((item) =>
+      key ? item[key] === row[key] : item === row
+    )
   }
 
   const clearSelection = () => {
