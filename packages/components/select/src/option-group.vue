@@ -24,6 +24,7 @@ import {
   watch,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { isArray } from '@element-plus/utils'
 import { selectGroupKey, selectKey } from './token'
 
 export default defineComponent({
@@ -59,7 +60,7 @@ export default defineComponent({
     // get all instances of options
     const flattedChildren = (node) => {
       const children = []
-      if (Array.isArray(node.children)) {
+      if (isArray(node.children)) {
         node.children.forEach((child) => {
           if (
             child.type &&

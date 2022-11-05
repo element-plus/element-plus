@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { computed, getCurrentInstance, inject, toRaw, unref, watch } from 'vue'
 import { get } from 'lodash-unified'
-import { escapeStringRegexp } from '@element-plus/utils'
+import { escapeStringRegexp, isObject } from '@element-plus/utils'
 import { selectGroupKey, selectKey } from './token'
 
 import type { Ref } from 'vue'
@@ -11,14 +11,6 @@ export function useOption(props, states) {
   // inject
   const select = inject(selectKey)
   const selectGroup = inject(selectGroupKey, { disabled: false })
-
-  // computed
-  const isObject = computed(() => {
-    return (
-      Object.prototype.toString.call(props.value).toLowerCase() ===
-      '[object object]'
-    )
-  })
 
   const itemSelected = computed(() => {
     if (!select.props.multiple) {
@@ -42,7 +34,7 @@ export function useOption(props, states) {
   })
 
   const currentLabel = computed(() => {
-    return props.label || (isObject.value ? '' : props.value)
+    return props.label || (isObject(props.value) ? '' : props.value)
   })
 
   const currentValue = computed(() => {
@@ -56,7 +48,7 @@ export function useOption(props, states) {
   const instance = getCurrentInstance()
 
   const contains = (arr = [], target) => {
-    if (!isObject.value) {
+    if (!isObject(props.value)) {
       return arr && arr.includes(target)
     } else {
       const valueKey = select.props.valueKey
@@ -70,12 +62,9 @@ export function useOption(props, states) {
   }
 
   const isEqual = (a: unknown, b: unknown) => {
-    if (!isObject.value) {
-      return a === b
-    } else {
-      const { valueKey } = select.props
-      return get(a, valueKey) === get(b, valueKey)
-    }
+    if (!isObject(props.value)) return a === b
+    const { valueKey } = select.props
+    return get(a, valueKey) === get(b, valueKey)
   }
 
   const hoverItem = () => {
@@ -86,9 +75,7 @@ export function useOption(props, states) {
 
   watch(
     () => currentLabel.value,
-    () => {
-      if (!props.created && !select.props.remote) select.setSelected()
-    }
+    () => props.created && !select.props.remote && select.setSelected()
   )
 
   watch(
@@ -101,17 +88,17 @@ export function useOption(props, states) {
         select.onOptionCreate(instance.proxy)
       }
 
-      if (!props.created && !remote) {
-        if (
-          valueKey &&
-          typeof val === 'object' &&
-          typeof oldVal === 'object' &&
-          val[valueKey] === oldVal[valueKey]
-        ) {
-          return
-        }
-        select.setSelected()
-      }
+      if (
+        props.created ||
+        remote ||
+        (valueKey &&
+          isObject(val) &&
+          isObject(oldVal) &&
+          val[valueKey] === oldVal[valueKey])
+      )
+        return
+
+      select.setSelected()
     }
   )
 

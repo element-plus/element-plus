@@ -546,7 +546,7 @@ export default defineComponent({
         props.placeholder || t('el.select.placeholder')
       if (
         props.multiple &&
-        Array.isArray(props.modelValue) &&
+        isArray(props.modelValue) &&
         props.modelValue.length > 0
       ) {
         currentPlaceholder.value = ''
@@ -571,16 +571,16 @@ export default defineComponent({
       setSelected()
     })
 
-    if (props.multiple && !Array.isArray(props.modelValue)) {
+    if (props.multiple && !isArray(props.modelValue)) {
       ctx.emit(UPDATE_MODEL_EVENT, [])
     }
-    if (!props.multiple && Array.isArray(props.modelValue)) {
+    if (!props.multiple && isArray(props.modelValue)) {
       ctx.emit(UPDATE_MODEL_EVENT, '')
     }
 
-    const popperPaneRef = computed(() => {
-      return tooltipRef.value?.popperRef?.contentRef
-    })
+    const popperPaneRef = computed(
+      () => tooltipRef.value?.popperRef?.contentRef
+    )
 
     return {
       tagInMultiLine,

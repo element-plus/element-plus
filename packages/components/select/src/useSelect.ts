@@ -10,7 +10,7 @@ import {
   watch,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
-import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
+import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
   CHANGE_EVENT,
@@ -20,10 +20,11 @@ import {
 import {
   debugWarn,
   getComponentSize,
+  isArray,
+  isBoolean,
   isFunction,
   isKorean,
   isNumber,
-  isString,
   scrollIntoView,
 } from '@element-plus/utils'
 import {
@@ -112,17 +113,15 @@ export const useSelect = (props, states: States, ctx) => {
 
   const showClose = computed(() => {
     const hasValue = props.multiple
-      ? Array.isArray(props.modelValue) && props.modelValue.length > 0
-      : props.modelValue !== undefined &&
-        props.modelValue !== null &&
-        props.modelValue !== ''
+      ? isArray(props.modelValue) && props.modelValue.length
+      : !isNil(props.modelValue) && props.modelValue !== ''
 
-    const criteria =
+    return (
       props.clearable &&
       !selectDisabled.value &&
       states.inputHovering &&
       hasValue
-    return criteria
+    )
   })
   const iconComponent = computed(() =>
     props.remote && props.filterable && !props.remoteShowSuffix
@@ -139,23 +138,18 @@ export const useSelect = (props, states: States, ctx) => {
   const debounce = computed(() => (props.remote ? 300 : 0))
 
   const emptyText = computed(() => {
-    if (props.loading) {
-      return props.loadingText || t('el.select.loading')
-    } else {
-      if (props.remote && states.query === '' && states.options.size === 0)
-        return false
-      if (
-        props.filterable &&
-        states.query &&
-        states.options.size > 0 &&
-        states.filteredOptionsCount === 0
-      ) {
-        return props.noMatchText || t('el.select.noMatch')
-      }
-      if (states.options.size === 0) {
-        return props.noDataText || t('el.select.noData')
-      }
-    }
+    if (props.loading) return props.loadingText || t('el.select.loading')
+    if (props.remote && states.query === '' && states.options.size === 0)
+      return false
+    if (
+      props.filterable &&
+      states.query &&
+      states.options.size > 0 &&
+      states.filteredOptionsCount === 0
+    )
+      return props.noMatchText || t('el.select.noMatch')
+    if (states.options.size === 0)
+      return props.noDataText || t('el.select.noData')
     return null
   })
 
@@ -167,12 +161,8 @@ export const useSelect = (props, states: States, ctx) => {
 
   const showNewOption = computed(() => {
     const hasExistingOption = optionsArray.value
-      .filter((option) => {
-        return !option.created
-      })
-      .some((option) => {
-        return option.currentLabel === states.query
-      })
+      .filter((option) => !option.created)
+      .some((option) => option.currentLabel === states.query)
     return (
       props.filterable &&
       props.allowCreate &&
@@ -199,11 +189,7 @@ export const useSelect = (props, states: States, ctx) => {
   // watch
   watch(
     [() => selectDisabled.value, () => selectSize.value, () => form?.size],
-    () => {
-      nextTick(() => {
-        resetInputHeight()
-      })
-    }
+    () => nextTick(resetInputHeight)
   )
 
   watch(
@@ -218,7 +204,7 @@ export const useSelect = (props, states: States, ctx) => {
     (val, oldVal) => {
       if (props.multiple) {
         resetInputHeight()
-        if ((val && val.length > 0) || (input.value && states.query !== '')) {
+        if (val?.length || (input.value && states.query !== '')) {
           states.currentPlaceholder = ''
         } else {
           states.currentPlaceholder = states.cachedPlaceHolder
@@ -262,11 +248,7 @@ export const useSelect = (props, states: States, ctx) => {
         states.menuVisibleOnFocus = false
         resetHoverIndex()
         nextTick(() => {
-          if (
-            input.value &&
-            input.value.value === '' &&
-            states.selected.length === 0
-          ) {
+          if (input.value?.value === '' && states.selected.length === 0) {
             states.currentPlaceholder = states.cachedPlaceHolder
           }
         })
@@ -298,11 +280,9 @@ export const useSelect = (props, states: States, ctx) => {
           states.query = props.remote ? '' : states.selectedLabel
           if (props.multiple) {
             input.value?.focus()
-          } else {
-            if (states.selectedLabel) {
-              states.currentPlaceholder = `${states.selectedLabel}`
-              states.selectedLabel = ''
-            }
+          } else if (states.selectedLabel) {
+            states.currentPlaceholder = `${states.selectedLabel}`
+            states.selectedLabel = ''
           }
           handleQueryChange(states.query)
           if (!props.multiple && !props.remote) {
@@ -373,7 +353,7 @@ export const useSelect = (props, states: States, ctx) => {
       const sizeInMap = getComponentSize(selectSize.value || form?.size)
       // it's an inner input so reduce it by 2px.
       input.style.height = `${
-        (states.selected.length === 0
+        (!states.selected.length
           ? sizeInMap
           : Math.max(
               _tags
@@ -479,42 +459,33 @@ export const useSelect = (props, states: States, ctx) => {
       states.selected = option
       if (props.filterable) states.query = states.selectedLabel
       return
-    } else {
-      states.selectedLabel = ''
     }
-    const result: any[] = []
-    if (Array.isArray(props.modelValue)) {
-      props.modelValue.forEach((value) => {
-        result.push(getOption(value))
-      })
-    }
-    states.selected = result
-    nextTick(() => {
-      resetInputHeight()
-    })
+    states.selectedLabel = ''
+    states.selected = isArray(props.modelValue)
+      ? props.modelValue.map((value) => getOption(value))
+      : []
+    nextTick(resetInputHeight)
   }
 
   const getOption = (value) => {
-    let option
     const isObjectValue = toRawType(value).toLowerCase() === 'object'
     const isNull = toRawType(value).toLowerCase() === 'null'
     const isUndefined = toRawType(value).toLowerCase() === 'undefined'
 
-    for (let i = states.cachedOptions.size - 1; i >= 0; i--) {
-      const cachedOption = cachedOptionsArray.value[i]
-      const isEqualValue = isObjectValue
+    const cachedOption = cachedOptionsArray.value.find((cachedOption) =>
+      isObjectValue
         ? get(cachedOption.value, props.valueKey) === get(value, props.valueKey)
         : cachedOption.value === value
-      if (isEqualValue) {
-        option = {
-          value,
-          currentLabel: cachedOption.currentLabel,
-          isDisabled: cachedOption.isDisabled,
-        }
-        break
+    )
+    if (cachedOption) {
+      const { currentLabel, isDisabled } = cachedOption
+      return {
+        value,
+        currentLabel,
+        isDisabled,
       }
     }
-    if (option) return option
+
     const label = isObjectValue
       ? value.label
       : !isNull && !isUndefined
@@ -534,22 +505,20 @@ export const useSelect = (props, states: States, ctx) => {
     setTimeout(() => {
       const valueKey = props.valueKey
       if (!props.multiple) {
-        states.hoverIndex = optionsArray.value.findIndex((item) => {
-          return getValueKey(item) === getValueKey(states.selected)
-        })
-      } else {
-        if (states.selected.length > 0) {
-          states.hoverIndex = Math.min.apply(
-            null,
-            states.selected.map((selected) => {
-              return optionsArray.value.findIndex((item) => {
-                return get(item, valueKey) === get(selected, valueKey)
-              })
-            })
+        states.hoverIndex = optionsArray.value.findIndex(
+          (item) => getValueKey(item) === getValueKey(states.selected)
+        )
+      } else if (states.selected.length) {
+        states.hoverIndex = Math.min.apply(
+          null,
+          states.selected.map((selected) =>
+            optionsArray.value.findIndex(
+              (item) => get(item, valueKey) === get(selected, valueKey)
+            )
           )
-        } else {
-          states.hoverIndex = -1
-        }
+        )
+      } else {
+        states.hoverIndex = -1
       }
     }, 300)
   }
@@ -612,12 +581,14 @@ export const useSelect = (props, states: States, ctx) => {
 
   const deleteSelected = (event) => {
     event.stopPropagation()
-    const value: string | any[] = props.multiple ? [] : ''
-    if (!isString(value)) {
-      for (const item of states.selected) {
-        if (item.isDisabled) value.push(item.value)
-      }
-    }
+    const value: string | any[] = props.multiple
+      ? states.selected.reduce(
+          (result, item) =>
+            item.isDisabled ? [...result, item.value] : result,
+          []
+        )
+      : ''
+
     ctx.emit(UPDATE_MODEL_EVENT, value)
     emitChange(value)
     states.hoverIndex = -1
@@ -653,46 +624,31 @@ export const useSelect = (props, states: States, ctx) => {
     states.isSilentBlur = byClick
     setSoftFocus()
     if (states.visible) return
-    nextTick(() => {
-      scrollToOption(option)
-    })
+    nextTick(() => scrollToOption(option))
   }
 
   const getValueIndex = (arr: any[] = [], value) => {
     if (!isObject(value)) return arr.indexOf(value)
 
     const valueKey = props.valueKey
-    let index = -1
-    arr.some((item, i) => {
-      if (toRaw(get(item, valueKey)) === get(value, valueKey)) {
-        index = i
-        return true
-      }
-      return false
-    })
-    return index
+    return arr.findIndex(
+      (item) => toRaw(get(item, valueKey)) === get(value, valueKey)
+    )
   }
 
   const setSoftFocus = () => {
     states.softFocus = true
     const _input = input.value || reference.value
-    if (_input) {
-      _input?.focus()
-    }
+    _input?.focus()
   }
 
   const scrollToOption = (option) => {
-    const targetOption = Array.isArray(option) ? option[0] : option
-    let target = null
-
-    if (targetOption?.value) {
-      const options = optionsArray.value.filter(
-        (item) => item.value === targetOption.value
-      )
-      if (options.length > 0) {
-        target = options[0].$el
-      }
-    }
+    const targetOption = isArray(option) ? option[0] : option
+    const target = targetOption?.value
+      ? optionsArray.value.find(
+          (item) => item.value === targetOption.value
+        )?.[0]?.$el || null
+      : null
 
     if (tooltipRef.value && target) {
       const menu = tooltipRef.value?.popperRef?.contentRef?.querySelector?.(
@@ -727,17 +683,13 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const toggleLastOptionHitState = (hit?: boolean) => {
-    if (!Array.isArray(states.selected)) return
+    if (!isArray(states.selected)) return
     const option = states.selected[states.selected.length - 1]
     if (!option) return
 
-    if (hit === true || hit === false) {
-      option.hitState = hit
-      return hit
-    }
-
-    option.hitState = !option.hitState
-    return option.hitState
+    return isBoolean(hit)
+      ? (option.hitState = hit)
+      : (option.hitState = !option.hitState)
   }
 
   const handleComposition = (event) => {
@@ -751,9 +703,7 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
-  const handleMenuEnter = () => {
-    nextTick(() => scrollToOption(states.selected))
-  }
+  const handleMenuEnter = () => nextTick(() => scrollToOption(states.selected))
 
   const handleFocus = (event: FocusEvent) => {
     if (!states.softFocus) {
@@ -803,36 +753,27 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const toggleMenu = (e?: PointerEvent) => {
-    if (e && !states.mouseEnter) {
-      return
+    if ((e && !states.mouseEnter) || selectDisabled.value) return
+    if (states.menuVisibleOnFocus) {
+      states.menuVisibleOnFocus = false
+    } else if (!tooltipRef.value || !tooltipRef.value.isFocusInsideContent()) {
+      states.visible = !states.visible
     }
-    if (!selectDisabled.value) {
-      if (states.menuVisibleOnFocus) {
-        states.menuVisibleOnFocus = false
-      } else {
-        if (!tooltipRef.value || !tooltipRef.value.isFocusInsideContent()) {
-          states.visible = !states.visible
-        }
-      }
-      if (states.visible) {
-        ;(input.value || reference.value)?.focus()
-      }
+    if (states.visible) {
+      ;(input.value || reference.value)?.focus()
     }
   }
 
   const selectOption = () => {
     if (!states.visible) {
       toggleMenu()
-    } else {
-      if (optionsArray.value[states.hoverIndex]) {
-        handleOptionSelect(optionsArray.value[states.hoverIndex], undefined)
-      }
+    } else if (optionsArray.value[states.hoverIndex]) {
+      handleOptionSelect(optionsArray.value[states.hoverIndex], undefined)
     }
   }
 
-  const getValueKey = (item) => {
-    return isObject(item.value) ? get(item.value, props.valueKey) : item.value
-  }
+  const getValueKey = (item) =>
+    isObject(item.value) ? get(item.value, props.valueKey) : item.value
 
   const optionsAllDisabled = computed(() =>
     optionsArray.value
@@ -845,31 +786,33 @@ export const useSelect = (props, states: States, ctx) => {
       states.visible = true
       return
     }
-    if (states.options.size === 0 || states.filteredOptionsCount === 0) return
-    if (states.isOnComposition) return
+    if (
+      states.options.size === 0 ||
+      states.filteredOptionsCount === 0 ||
+      states.isOnComposition ||
+      optionsAllDisabled.value
+    )
+      return
 
-    if (!optionsAllDisabled.value) {
-      if (direction === 'next') {
-        states.hoverIndex++
-        if (states.hoverIndex === states.options.size) {
-          states.hoverIndex = 0
-        }
-      } else if (direction === 'prev') {
-        states.hoverIndex--
-        if (states.hoverIndex < 0) {
-          states.hoverIndex = states.options.size - 1
-        }
-      }
-      const option = optionsArray.value[states.hoverIndex]
-      if (
-        option.disabled === true ||
-        option.states.groupDisabled === true ||
-        !option.visible
-      ) {
-        navigateOptions(direction)
-      }
-      nextTick(() => scrollToOption(hoverOption.value))
+    if (direction === 'next') {
+      states.hoverIndex++
+    } else if (direction === 'prev') {
+      states.hoverIndex--
     }
+    if (states.hoverIndex === states.options.size) {
+      states.hoverIndex = 0
+    } else if (states.hoverIndex < 0) {
+      states.hoverIndex = states.options.size - 1
+    }
+    const option = optionsArray.value[states.hoverIndex]
+    if (
+      option.disabled === true ||
+      option.states.groupDisabled === true ||
+      !option.visible
+    ) {
+      navigateOptions(direction)
+    }
+    nextTick(() => scrollToOption(hoverOption.value))
   }
 
   const handleMouseEnter = () => {

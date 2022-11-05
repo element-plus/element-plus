@@ -72,9 +72,9 @@ export default defineComponent({
       const key = (vm as unknown as SelectOptionProxy).value
       const { selected } = select
       const selectedOptions = select.props.multiple ? selected : [selected]
-      const doesSelected = selectedOptions.some((item) => {
-        return item.value === (vm as unknown as SelectOptionProxy).value
-      })
+      const doesSelected = selectedOptions.some(
+        (item) => item.value === (vm as unknown as SelectOptionProxy).value
+      )
       // if option is not selected, remove it from cache
       nextTick(() => {
         if (select.cachedOptions.get(key) === vm && !doesSelected) {
