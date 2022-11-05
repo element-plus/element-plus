@@ -128,6 +128,30 @@ function useStore<T>() {
       }
     },
 
+    updateColumnsOrder(
+      states: StoreStates,
+      column: TableColumnCtx<T>,
+      parent: TableColumnCtx<T>,
+      index: number
+    ) {
+      const array = unref(states._columns)
+      const oldIndex = array.indexOf(column)
+
+      if (index === oldIndex) return
+      ;[array[index], array[oldIndex]] = [array[oldIndex], array[index]]
+
+      states._columns.value = array
+
+      if (column.type === 'selection') {
+        states.selectable.value = column.selectable
+        states.reserveSelection.value = column.reserveSelection
+      }
+      if (instance.$ready) {
+        instance.store.updateColumns() // hack for dynamics insert column
+        instance.store.scheduleLayout()
+      }
+    },
+
     sort(states: StoreStates, options: Sort) {
       const { prop, order, init } = options
       if (prop) {

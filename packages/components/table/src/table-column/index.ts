@@ -8,6 +8,7 @@ import {
   onBeforeMount,
   onBeforeUnmount,
   onMounted,
+  onUpdated,
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
@@ -150,6 +151,25 @@ export default defineComponent({
         columnConfig.value,
         isSubColumn.value ? parent.columnConfig.value : null
       )
+    })
+    onUpdated(() => {
+      // fix https://github.com/element-plus/element-plus/issues/8528
+      if (!instance?.vnode.key) return
+      const parent = columnOrTableParent.value
+      const children = isSubColumn.value
+        ? parent.vnode.el.children
+        : parent.refs.hiddenColumns?.children
+      const getColumnIndex = () =>
+        getColumnElIndex(children || [], instance.vnode.el)
+      columnConfig.value.getColumnIndex = getColumnIndex
+      const columnIndex = getColumnIndex()
+      columnIndex > -1 &&
+        owner.value.store.commit(
+          'updateColumnsOrder',
+          columnConfig.value,
+          isSubColumn.value ? parent.columnConfig.value : null,
+          columnIndex
+        )
     })
     instance.columnId = columnId.value
 
