@@ -12,7 +12,7 @@ defineProps({
     <code class="api-typing mr-1">
       {{ type }}
     </code>
-    <el-tooltip effect="light" trigger="click">
+    <el-tooltip v-if="details" effect="light" trigger="click">
       <el-button text :icon="Warning" class="p-2 text-4" />
       <template #content>
         <slot>
