@@ -2,7 +2,7 @@ import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import useMenuColor from './use-menu-color'
 
-import type { MenuProps } from './menu'
+import type { MenuProps } from '../menu'
 
 export const useMenuCssVar = (props: MenuProps, level: number) => {
   const ns = useNamespace('menu')
