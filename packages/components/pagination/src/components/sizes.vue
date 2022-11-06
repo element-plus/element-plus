@@ -23,6 +23,7 @@ import { computed, ref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { ElOption, ElSelect } from '@element-plus/components/select'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { isArray } from '@element-plus/utils'
 import { usePagination } from '../usePagination'
 import { paginationSizesProps } from './sizes'
 
@@ -41,11 +42,11 @@ watch(
   () => props.pageSizes,
   (newVal, oldVal) => {
     if (isEqual(newVal, oldVal)) return
-    if (Array.isArray(newVal)) {
-      const pageSize = newVal.includes(props.pageSize!)
-        ? props.pageSize
-        : props.pageSizes[0]
-      emit('page-size-change', pageSize)
+    if (isArray(newVal)) {
+      emit(
+        'page-size-change',
+        newVal.find((item) => item === props.pageSize) || newVal[0]
+      )
     }
   }
 )

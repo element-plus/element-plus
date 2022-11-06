@@ -107,24 +107,17 @@ const pagers = computed(() => {
     }
   }
   const array: number[] = []
+  let start = 2
+  let end: number = pageCount
   if (showPrevMore && !showNextMore) {
-    const startPage = pageCount - (pagerCount - 2)
-    for (let i = startPage; i < pageCount; i++) {
-      array.push(i)
-    }
-  } else if (!showPrevMore && showNextMore) {
-    for (let i = 2; i < pagerCount; i++) {
-      array.push(i)
-    }
+    start = pageCount - (pagerCount - 2)
   } else if (showPrevMore && showNextMore) {
     const offset = Math.floor(pagerCount / 2) - 1
-    for (let i = currentPage - offset; i <= currentPage + offset; i++) {
-      array.push(i)
-    }
-  } else {
-    for (let i = 2; i < pageCount; i++) {
-      array.push(i)
-    }
+    start = currentPage - offset
+    end = currentPage + offset
+  }
+  for (let i = start; i < end; i++) {
+    array.push(i)
   }
   return array
 })
@@ -133,13 +126,12 @@ watchEffect(() => {
   const halfPagerCount = (props.pagerCount - 1) / 2
   showPrevMore.value = false
   showNextMore.value = false
-  if (props.pageCount! > props.pagerCount) {
-    if (props.currentPage > props.pagerCount - halfPagerCount) {
-      showPrevMore.value = true
-    }
-    if (props.currentPage < props.pageCount! - halfPagerCount) {
-      showNextMore.value = true
-    }
+  if (props.pageCount! <= props.pagerCount) return
+  if (props.currentPage > props.pagerCount - halfPagerCount) {
+    showPrevMore.value = true
+  }
+  if (props.currentPage < props.pageCount! - halfPagerCount) {
+    showNextMore.value = true
   }
 })
 function onMouseEnter(forward = false) {
@@ -176,9 +168,7 @@ function onEnter(e: UIEvent) {
 }
 function onPagerClick(event: UIEvent) {
   const target = event.target as HTMLElement
-  if (target.tagName.toLowerCase() === 'ul' || props.disabled) {
-    return
-  }
+  if (target.tagName.toLowerCase() === 'ul' || props.disabled) return
   let newPage = Number(target.textContent)
   const pageCount = props.pageCount!
   const currentPage = props.currentPage

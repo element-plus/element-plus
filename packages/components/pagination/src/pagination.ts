@@ -13,6 +13,7 @@ import {
   debugWarn,
   definePropType,
   iconPropType,
+  isNumber,
   mutable,
 } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -32,7 +33,7 @@ import type { ExtractPropTypes, VNode } from 'vue'
  * (same as pageSize, defaultPageSize, currentPage, defaultCurrentPage, pageCount)
  * Otherwise we can reasonable infer that the corresponding field is absent
  */
-const isAbsent = (v: unknown): v is undefined => typeof v !== 'number'
+const isAbsent = (v: unknown): v is undefined => !isNumber(v)
 
 type LayoutKey =
   | 'prev'
@@ -53,15 +54,12 @@ export const paginationProps = buildProps({
   pageCount: Number,
   pagerCount: {
     type: Number,
-    validator: (value: unknown) => {
-      return (
-        typeof value === 'number' &&
-        Math.trunc(value) === value &&
-        value > 4 &&
-        value < 22 &&
-        value % 2 === 1
-      )
-    },
+    validator: (value: number) =>
+      isNumber(value) &&
+      Math.trunc(value) === value &&
+      value > 4 &&
+      value < 22 &&
+      value % 2 === 1,
     default: 7,
   },
   layout: {
@@ -102,12 +100,12 @@ export const paginationProps = buildProps({
 export type PaginationProps = ExtractPropTypes<typeof paginationProps>
 
 export const paginationEmits = {
-  'update:current-page': (val: number) => typeof val === 'number',
-  'update:page-size': (val: number) => typeof val === 'number',
-  'size-change': (val: number) => typeof val === 'number',
-  'current-change': (val: number) => typeof val === 'number',
-  'prev-click': (val: number) => typeof val === 'number',
-  'next-click': (val: number) => typeof val === 'number',
+  'update:current-page': (val: number) => isNumber(val),
+  'update:page-size': (val: number) => isNumber(val),
+  'size-change': (val: number) => isNumber(val),
+  'current-change': (val: number) => isNumber(val),
+  'prev-click': (val: number) => isNumber(val),
+  'next-click': (val: number) => isNumber(val),
 }
 export type PaginationEmits = typeof paginationEmits
 
@@ -133,37 +131,23 @@ export default defineComponent({
       'onSizeChange' in vnodeProps
     const assertValidUsage = computed(() => {
       // Users have to set either one, otherwise count of pages cannot be determined
-      if (isAbsent(props.total) && isAbsent(props.pageCount)) return false
       // <el-pagination ...otherProps :current-page="xxx" /> without corresponding listener is forbidden now
       // Users have to use two way binding of `currentPage`
       // If users just want to provide a default value, `defaultCurrentPage` is here for you
-      if (!isAbsent(props.currentPage) && !hasCurrentPageListener) return false
       // When you want to change sizes, things get more complex, detailed below
       // Basically the most important value we need is page count
       // either directly from props.pageCount
       // or calculated from props.total
       // we will take props.pageCount precedence over props.total
-      if (props.layout.includes('sizes')) {
-        if (!isAbsent(props.pageCount)) {
-          // if props.pageCount is assign by user, then user have to watch pageSize change
-          // and recalculate pageCount
-          if (!hasPageSizeListener) return false
-        } else if (!isAbsent(props.total)) {
-          // Otherwise, we will see if user have props.pageSize defined
-          // If so, meaning user want to have pageSize controlled himself/herself from component
-          // Thus page size listener is required
-          // users are account for page size change
-          if (!isAbsent(props.pageSize)) {
-            if (!hasPageSizeListener) {
-              return false
-            }
-          } else {
-            // (else block just for explaination)
-            // else page size is controlled by el-pagination internally
-          }
-        }
-      }
-      return true
+      return !(
+        (isAbsent(props.total) && isAbsent(props.pageCount)) ||
+        (!isAbsent(props.currentPage) && !hasCurrentPageListener) ||
+        (props.layout.includes('sizes') &&
+          ((!isAbsent(props.pageCount) && !hasPageSizeListener) ||
+            (!isAbsent(props.total) &&
+              !isAbsent(props.pageSize) &&
+              !hasPageSizeListener)))
+      )
     })
 
     const innerPageSize = ref(
@@ -250,12 +234,11 @@ export default defineComponent({
     }
 
     function addClass(element: any, cls: string) {
-      if (element) {
-        if (!element.props) {
-          element.props = {}
-        }
-        element.props.class = [element.props.class, cls].join(' ')
+      if (!element) return
+      if (!element.props) {
+        element.props = {}
       }
+      element.props.class = [element.props.class, cls].join(' ')
     }
 
     provide(elPaginationKey, {
@@ -271,8 +254,11 @@ export default defineComponent({
         debugWarn(componentName, t('el.pagination.deprecationWarning'))
         return null
       }
-      if (!props.layout) return null
-      if (props.hideOnSinglePage && pageCountBridge.value <= 1) return null
+      if (
+        !props.layout ||
+        (props.hideOnSinglePage && pageCountBridge.value <= 1)
+      )
+        return null
       const rootChildren: Array<VNode | VNode[] | null> = []
       const rightWrapperChildren: Array<VNode | VNode[] | null> = []
       const rightWrapperRoot = h(
@@ -339,7 +325,7 @@ export default defineComponent({
       addClass(rootChildren[0], ns.is('first'))
       addClass(rootChildren[rootChildren.length - 1], ns.is('last'))
 
-      if (haveRightWrapper && rightWrapperChildren.length > 0) {
+      if (haveRightWrapper && rightWrapperChildren.length) {
         addClass(rightWrapperChildren[0], ns.is('first'))
         addClass(
           rightWrapperChildren[rightWrapperChildren.length - 1],
