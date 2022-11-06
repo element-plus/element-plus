@@ -18,8 +18,10 @@ import {
   buildProps,
   definePropType,
   flattedChildren,
+  isArray,
   isObject,
   isString,
+  isUndefined,
   mutable,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -70,7 +72,7 @@ export const menuProps = buildProps({
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
 const checkIndexPath = (indexPath: unknown): indexPath is string[] =>
-  Array.isArray(indexPath) && indexPath.every((path) => isString(path))
+  isArray(indexPath) && indexPath.every((path) => isString(path))
 
 export const menuEmits = {
   close: (index: string, indexPath: string[]) =>
@@ -182,7 +184,7 @@ export default defineComponent({
       }
 
       const { index, indexPath } = menuItem
-      if (index === undefined || indexPath === undefined) return
+      if (isUndefined(index) || isUndefined(indexPath)) return
 
       if (props.router && router) {
         const route = menuItem.route || index
@@ -209,12 +211,7 @@ export default defineComponent({
         itemsInData[val] ||
         (activeIndex.value && itemsInData[activeIndex.value]) ||
         itemsInData[props.defaultActive]
-
-      if (item) {
-        activeIndex.value = item.index
-      } else {
-        activeIndex.value = val
-      }
+      activeIndex.value = item ? item.index : val
     }
 
     const calcSliceIndex = () => {
@@ -233,13 +230,13 @@ export default defineComponent({
       )
       const menuWidth = menu.value!.clientWidth - paddingLeft - paddingRight
       let calcWidth = 0
-      let sliceIndex = 0
-      items.forEach((item, index) => {
+      const sliceIndex = items.reduce((sliceIndex, item, index) => {
         calcWidth += item.offsetWidth || 0
         if (calcWidth <= menuWidth - moreItemWidth) {
           sliceIndex = index + 1
         }
-      })
+        return sliceIndex
+      }, 0)
       return sliceIndex === items.length ? -1 : sliceIndex
     }
 
@@ -295,21 +292,17 @@ export default defineComponent({
 
     // provide
     {
-      const addSubMenu: MenuProvider['addSubMenu'] = (item) => {
-        subMenus.value[item.index] = item
-      }
+      const addSubMenu: MenuProvider['addSubMenu'] = (item) =>
+        (subMenus.value[item.index] = item)
 
-      const removeSubMenu: MenuProvider['removeSubMenu'] = (item) => {
+      const removeSubMenu: MenuProvider['removeSubMenu'] = (item) =>
         delete subMenus.value[item.index]
-      }
 
-      const addMenuItem: MenuProvider['addMenuItem'] = (item) => {
-        items.value[item.index] = item
-      }
+      const addMenuItem: MenuProvider['addMenuItem'] = (item) =>
+        (items.value[item.index] = item)
 
-      const removeMenuItem: MenuProvider['removeMenuItem'] = (item) => {
+      const removeMenuItem: MenuProvider['removeMenuItem'] = (item) =>
         delete items.value[item.index]
-      }
       provide<MenuProvider>(
         'rootMenu',
         reactive({
@@ -414,11 +407,9 @@ export default defineComponent({
         [...slot, ...vShowMore]
       )
 
-      if (props.collapseTransition && props.mode === 'vertical') {
-        return h(ElMenuCollapseTransition, () => vMenu)
-      }
-
-      return vMenu
+      return props.collapseTransition && props.mode === 'vertical'
+        ? h(ElMenuCollapseTransition, () => vMenu)
+        : vMenu
     }
   },
 })

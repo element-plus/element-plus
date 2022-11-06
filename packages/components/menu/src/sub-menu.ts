@@ -21,6 +21,7 @@ import {
   buildProps,
   iconPropType,
   isString,
+  isUndefined,
   throwError,
 } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
@@ -120,14 +121,12 @@ export default defineComponent({
           : props.collapseCloseIcon
         : ArrowRight
     })
-    const isFirstLevel = computed(() => {
-      return subMenu.level === 0
-    })
-    const appendToBody = computed(() => {
-      return props.popperAppendToBody === undefined
+    const isFirstLevel = computed(() => subMenu.level === 0)
+    const appendToBody = computed(() =>
+      isUndefined(props.popperAppendToBody)
         ? isFirstLevel.value
         : Boolean(props.popperAppendToBody)
-    })
+    )
     const menuTransitionName = computed(() =>
       rootMenu.props.collapse
         ? `${nsMenu.namespace.value}-zoom-in-left`
@@ -153,23 +152,11 @@ export default defineComponent({
           ]
     )
     const opened = computed(() => rootMenu.openedMenus.includes(props.index))
-    const active = computed(() => {
-      let isActive = false
-
-      Object.values(items.value).forEach((item) => {
-        if (item.active) {
-          isActive = true
-        }
-      })
-
-      Object.values(subMenus.value).forEach((subItem) => {
-        if (subItem.active) {
-          isActive = true
-        }
-      })
-
-      return isActive
-    })
+    const active = computed(
+      () =>
+        Object.values(items.value).some((item) => item.active) ||
+        Object.values(subMenus.value).some((subItem) => subItem.active)
+    )
 
     const backgroundColor = computed(() => rootMenu.props.backgroundColor || '')
     const activeTextColor = computed(() => rootMenu.props.activeTextColor || '')
@@ -181,21 +168,20 @@ export default defineComponent({
       active,
     })
 
-    const titleStyle = computed<CSSProperties>(() => {
-      if (mode.value !== 'horizontal') {
-        return {
-          color: textColor.value,
-        }
-      }
-      return {
-        borderBottomColor: active.value
-          ? rootMenu.props.activeTextColor
-            ? activeTextColor.value
-            : ''
-          : 'transparent',
-        color: active.value ? activeTextColor.value : textColor.value,
-      }
-    })
+    const titleStyle = computed<CSSProperties>(() =>
+      mode.value !== 'horizontal'
+        ? {
+            color: textColor.value,
+          }
+        : {
+            borderBottomColor: active.value
+              ? rootMenu.props.activeTextColor
+                ? activeTextColor.value
+                : ''
+              : 'transparent',
+            color: active.value ? activeTextColor.value : textColor.value,
+          }
+    )
 
     // methods
     const doDestroy = () =>
@@ -227,23 +213,22 @@ export default defineComponent({
       event: MouseEvent | FocusEvent,
       showTimeout = props.showTimeout
     ) => {
-      if (event.type === 'focus') {
-        return
-      }
       if (
+        event.type === 'focus' ||
         (rootMenu.props.menuTrigger === 'click' &&
           rootMenu.props.mode === 'horizontal') ||
         (!rootMenu.props.collapse && rootMenu.props.mode === 'vertical') ||
         props.disabled
-      ) {
+      )
         return
-      }
+
       subMenu.mouseInChild.value = true
 
       timeout?.()
-      ;({ stop: timeout } = useTimeoutFn(() => {
-        rootMenu.openMenu(props.index, indexPath.value)
-      }, showTimeout))
+      ;({ stop: timeout } = useTimeoutFn(
+        () => rootMenu.openMenu(props.index, indexPath.value),
+        showTimeout
+      ))
 
       if (appendToBody.value) {
         parentMenu.value.vnode.el?.dispatchEvent(new MouseEvent('mouseenter'))
@@ -255,9 +240,9 @@ export default defineComponent({
         (rootMenu.props.menuTrigger === 'click' &&
           rootMenu.props.mode === 'horizontal') ||
         (!rootMenu.props.collapse && rootMenu.props.mode === 'vertical')
-      ) {
+      )
         return
-      }
+
       timeout?.()
       subMenu.mouseInChild.value = false
       ;({ stop: timeout } = useTimeoutFn(
@@ -267,10 +252,12 @@ export default defineComponent({
         props.hideTimeout
       ))
 
-      if (appendToBody.value && deepDispatch) {
-        if (instance.parent?.type.name === 'ElSubMenu') {
-          subMenu.handleMouseleave?.(true)
-        }
+      if (
+        appendToBody.value &&
+        deepDispatch &&
+        instance.parent?.type.name === 'ElSubMenu'
+      ) {
+        subMenu.handleMouseleave?.(true)
       }
     }
 
@@ -281,12 +268,10 @@ export default defineComponent({
 
     // provide
     {
-      const addSubMenu: SubMenuProvider['addSubMenu'] = (item) => {
-        subMenus.value[item.index] = item
-      }
-      const removeSubMenu: SubMenuProvider['removeSubMenu'] = (item) => {
+      const addSubMenu: SubMenuProvider['addSubMenu'] = (item) =>
+        (subMenus.value[item.index] = item)
+      const removeSubMenu: SubMenuProvider['removeSubMenu'] = (item) =>
         delete subMenus.value[item.index]
-      }
       provide<SubMenuProvider>(`subMenu:${instance.uid}`, {
         addSubMenu,
         removeSubMenu,
