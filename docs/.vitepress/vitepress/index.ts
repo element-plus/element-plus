@@ -20,6 +20,7 @@ import ApiFunctionType from './components/globals/vp-api-function.vue'
 import ApiBooleanType from './components/globals/vp-api-bool.vue'
 import ApiStringType from './components/globals/vp-api-string.vue'
 import ApiNumberType from './components/globals/vp-api-number.vue'
+import ApiRefType from './components/globals/vp-api-ref.vue'
 import ApiEnumType from './components/globals/vp-api-enum.vue'
 import ApiExternalType from './components/globals/vp-api-external.vue'
 import IconList from './components/globals/icons.vue'
@@ -38,5 +39,6 @@ export const globals: [string, Component][] = [
   ['BooleanType', ApiBooleanType],
   ['StringType', ApiStringType],
   ['NumberType', ApiNumberType],
+  ['RefType', ApiRefType],
   ['ExternalType', ApiExternalType],
 ]
