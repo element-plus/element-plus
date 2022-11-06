@@ -16,15 +16,11 @@ export const instances: MessageContext[] = shallowReactive([])
 export const getInstance = (id: string) => {
   const idx = instances.findIndex((instance) => instance.id === id)
   const current = instances[idx]
-  let prev: MessageContext | undefined
-  if (idx > 0) {
-    prev = instances[idx - 1]
-  }
+  const prev = idx > 0 && instances[idx - 1]
   return { current, prev }
 }
 
 export const getLastOffset = (id: string): number => {
   const { prev } = getInstance(id)
-  if (!prev) return 0
-  return prev.vm.exposed!.bottom.value
+  return !prev ? 0 : prev.vm.exposed!.bottom.value
 }

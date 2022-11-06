@@ -41,10 +41,11 @@ const normalizeOptions = (params?: MessageParams) => {
     ...options,
   }
 
-  if (!normalized.appendTo) {
+  const _appendTo = normalized.appendTo
+  if (!_appendTo) {
     normalized.appendTo = document.body
-  } else if (isString(normalized.appendTo)) {
-    let appendTo = document.querySelector<HTMLElement>(normalized.appendTo)
+  } else if (isString(_appendTo)) {
+    let appendTo = document.querySelector<HTMLElement>(_appendTo)
 
     // should fallback to default value with a warning
     if (!isElement(appendTo)) {
@@ -141,11 +142,11 @@ const message: MessageFn &
   options = {},
   context
 ) => {
-  if (!isClient) return { close: () => undefined }
-
-  if (isNumber(messageConfig.max) && instances.length >= messageConfig.max) {
+  if (
+    !isClient ||
+    (isNumber(messageConfig.max) && instances.length >= messageConfig.max)
+  )
     return { close: () => undefined }
-  }
 
   const normalized = normalizeOptions(options)
 
