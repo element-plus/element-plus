@@ -58,6 +58,7 @@ import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
+  isArray,
   isElement,
   isInContainer,
   isString,
@@ -96,29 +97,23 @@ const containerStyle = computed(() => rawAttrs.style as StyleValue)
 
 const imageStyle = computed<CSSProperties>(() => {
   const { fit } = props
-  if (isClient && fit) {
-    return { objectFit: fit }
-  }
-  return {}
+  return isClient && fit ? { objectFit: fit } : {}
 })
 
 const preview = computed(() => {
   const { previewSrcList } = props
-  return Array.isArray(previewSrcList) && previewSrcList.length > 0
+  return isArray(previewSrcList) && previewSrcList.length > 0
 })
 
 const imageIndex = computed(() => {
   const { previewSrcList, initialIndex } = props
-  let previewIndex = initialIndex
-  if (initialIndex > previewSrcList.length - 1) {
-    previewIndex = 0
-  }
-  return previewIndex
+  return initialIndex > previewSrcList.length - 1 ? 0 : initialIndex
 })
 
 const isManual = computed(() => {
-  if (props.loading === 'eager') return false
-  return (!supportLoading && props.loading === 'lazy') || props.lazy
+  return props.loading === 'eager'
+    ? false
+    : (!supportLoading && props.loading === 'lazy') || props.lazy
 })
 
 const loadImage = () => {
@@ -172,7 +167,7 @@ async function addLazyLoadListener() {
       'scroll',
       lazyLoadHandler
     )
-    setTimeout(() => handleLazyLoad(), 100)
+    setTimeout(handleLazyLoad, 100)
   }
 }
 
@@ -186,10 +181,7 @@ function removeLazyLoadListener() {
 function wheelHandler(e: WheelEvent) {
   if (!e.ctrlKey) return
 
-  if (e.deltaY < 0) {
-    e.preventDefault()
-    return false
-  } else if (e.deltaY > 0) {
+  if (e.deltaY < 0 || e.deltaY > 0) {
     e.preventDefault()
     return false
   }
@@ -236,11 +228,5 @@ watch(
   }
 )
 
-onMounted(() => {
-  if (isManual.value) {
-    addLazyLoadListener()
-  } else {
-    loadImage()
-  }
-})
+onMounted(() => (isManual.value ? addLazyLoadListener() : loadImage()))
 </script>
