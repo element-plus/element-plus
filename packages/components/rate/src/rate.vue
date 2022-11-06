@@ -100,13 +100,14 @@ const pointerAtLeftHalf = ref(true)
 
 const rateClasses = computed(() => [ns.b(), ns.m(rateSize.value)])
 const rateDisabled = computed(() => props.disabled || formContext?.disabled)
-const rateStyles = computed(() => {
-  return ns.cssVarBlock({
-    'void-color': props.voidColor,
-    'disabled-void-color': props.disabledVoidColor,
-    'fill-color': activeColor.value,
-  }) as CSSProperties
-})
+const rateStyles = computed(
+  () =>
+    ns.cssVarBlock({
+      'void-color': props.voidColor,
+      'disabled-void-color': props.disabledVoidColor,
+      'fill-color': activeColor.value,
+    }) as CSSProperties
+)
 
 const text = computed(() => {
   let result = ''
@@ -208,50 +209,35 @@ function emitValue(value: number) {
 }
 
 function selectValue(value: number) {
-  if (rateDisabled.value) {
-    return
-  }
-  if (props.allowHalf && pointerAtLeftHalf.value) {
-    emitValue(currentValue.value)
-  } else {
-    emitValue(value)
-  }
+  if (rateDisabled.value) return
+
+  emitValue(
+    props.allowHalf && pointerAtLeftHalf.value ? currentValue.value : value
+  )
 }
 
 function handleKey(e: KeyboardEvent) {
-  if (rateDisabled.value) {
-    return
-  }
+  if (rateDisabled.value) return
   let _currentValue = currentValue.value
   const code = e.code
   if (code === EVENT_CODE.up || code === EVENT_CODE.right) {
-    if (props.allowHalf) {
-      _currentValue += 0.5
-    } else {
-      _currentValue += 1
-    }
+    _currentValue += props.allowHalf ? 0.5 : 1
+    _currentValue = _currentValue > props.max ? props.max : _currentValue
     e.stopPropagation()
     e.preventDefault()
   } else if (code === EVENT_CODE.left || code === EVENT_CODE.down) {
-    if (props.allowHalf) {
-      _currentValue -= 0.5
-    } else {
-      _currentValue -= 1
-    }
+    _currentValue -= props.allowHalf ? 0.5 : 1
+    _currentValue = _currentValue < 0 ? 0 : _currentValue
     e.stopPropagation()
     e.preventDefault()
   }
-  _currentValue = _currentValue < 0 ? 0 : _currentValue
-  _currentValue = _currentValue > props.max ? props.max : _currentValue
   emit(UPDATE_MODEL_EVENT, _currentValue)
   emit('change', _currentValue)
   return _currentValue
 }
 
 function setCurrentValue(value: number, event: MouseEvent) {
-  if (rateDisabled.value) {
-    return
-  }
+  if (rateDisabled.value) return
   if (props.allowHalf) {
     // TODO: use cache via computed https://github.com/element-plus/element-plus/pull/5456#discussion_r786472092
     let target = event.target as HTMLElement
@@ -270,9 +256,7 @@ function setCurrentValue(value: number, event: MouseEvent) {
 }
 
 function resetCurrentValue() {
-  if (rateDisabled.value) {
-    return
-  }
+  if (rateDisabled.value) return
   if (props.allowHalf) {
     pointerAtLeftHalf.value = props.modelValue !== Math.floor(props.modelValue)
   }
