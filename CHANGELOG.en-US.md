@@ -1,5 +1,78 @@
 ## Changelog
 
+### 2.2.20
+
+_2022-11-06_
+
+#### Features
+
+- Components [dropdown] add props for teleported API (#10012 by @consultation-applio)
+- Docs vite-press new component (#10346 by @jw-foss)
+- Docs api typing shortcuts (#10353 by @jw-foss)
+- Docs [components] additions (#10374 by @jw-foss)
+
+#### Bug fixes
+
+- Components [select-v2] empty value should be undefined (#10189 by @holazz)
+- Components [popover] abnormal style when effect is dark (#10190 by @holazz)
+- Components [table] fixed column supported in grouped header (#10096 by @tinyfind)
+- Components [popper] enable the adaptive configuration (#10104 by @tolking)
+- Components [select] blur trigger remote event should pass string (#10218 by @btea)
+- Components [form] throw non-validation error (#10255 by @holazz)
+- Components [checkbox] circular reference (#10278 by @btea)
+- Components [input-number]  increase and decrease error  (#10067 by @gjfei)
+- Components [tooltip] remove deprecated api (#10264 by @chenxch)
+- Components [cascader] consistent component height (#10214 by @holazz)
+- Components [date-picker] monthRange mode switching month sync (#10292 by @chenxch)
+- Components [upload] add uid for file handleStart (#9876 by @init-qy)
+- Components [carousel] missing root ref (#10312 by @holazz)
+- Utils [vnode] flattedChildren support subTree (#10298 by @chenxch)
+- Components [tree-v2] add missing icon (#10340 by @init-qy)
+- Components [tree-v2] default icon render test (#10342 by @init-qy)
+- Docs [autocomplete] (#10426 by @jw-foss)
+- Components [cascader] remove extra space in the search text (#10439 by @holazz)
+- Docs [autocomplete] [affix] (#10443 by @jw-foss)
+- Component [table]  can't select row children (#10221 by @faga295)
+
+#### Refactors
+
+- Components [calendar] (#10163 by @jw-foss)
+- Components [carousel] (#10188 by @jw-foss)
+- Components [carousel-item] (#10219 by @jw-foss)
+- Components [tabs] simplify logic with hooks (#10224 by @holazz)
+- Components [select] use util function (#10286 by @btea)
+- Components [collapse] (#10289 by @jw-foss)
+- Components [input] export instance type (#10368 by @chenxch)
+- Docs tooltip plugin (#10440 by @tolking)
+
+### 2.2.19
+
+_2022-10-21_
+
+#### Features
+
+- Components [message-box] add append-to option (#10071 by @consultation-applio)
+
+#### Bug fixes
+
+- Components [input] missing native form attribute (#10093 by @HeftyKoo)
+- Components [date-picker] fix readonly picker can be triggered (#9931 by @ntnyq)
+- Components [table-v2] fix scroll to bottom (#9959 by @Tsong-LC)
+- Component [table] row-key due to current-change trigger (#10060 by @Simon-He95)
+- Components [autocomplete] optimize the select event type (#10105 by @tolking)
+- Components [table] fix merge cell cannot show side shadow (#10095 by @tinyfind)
+- Components [switch] clipped text (#10081 by @Simon-He95)
+- Components [cascader] modelValue update problem (#10119 by @chenxch)
+- Components [dialog] click allow focus out (#10160 by @Giwayume)
+
+#### Refactors
+
+- Components [backtop] (#10151 by @jw-foss)
+- Components [button] (#10152 by @jw-foss)
+- Components [calendar] (#10155 by @jw-foss)
+- Components [calendar] (#10158 by @jw-foss)
+- Components [tree-v2] switch to script-setup syntax (#10133 by @SnowingFox)
+
 ### 2.2.18
 
 _2022-10-13_
