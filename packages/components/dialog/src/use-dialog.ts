@@ -45,23 +45,19 @@ export const useDialog = (
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
     const varPrefix = `--${namespace.value}-dialog` as const
-    if (!props.fullscreen) {
-      if (props.top) {
-        style[`${varPrefix}-margin-top`] = props.top
-      }
-      if (props.width) {
-        style[`${varPrefix}-width`] = addUnit(props.width)
-      }
+    if (props.fullscreen) return {}
+    if (props.top) {
+      style[`${varPrefix}-margin-top`] = props.top
+    }
+    if (props.width) {
+      style[`${varPrefix}-width`] = addUnit(props.width)
     }
     return style
   })
 
-  const overlayDialogStyle = computed<CSSProperties>(() => {
-    if (props.alignCenter) {
-      return { display: 'flex' }
-    }
-    return {}
-  })
+  const overlayDialogStyle = computed<CSSProperties>(() =>
+    props.alignCenter ? { display: 'flex' } : {}
+  )
 
   function afterEnter() {
     emit('opened')
@@ -169,11 +165,9 @@ export const useDialog = (
             targetRef.value.scrollTop = 0
           }
         })
-      } else {
+      } else if (visible.value) {
         // this.$el.removeEventListener('scroll', this.updatePopper
-        if (visible.value) {
-          close()
-        }
+        close()
       }
     }
   )
