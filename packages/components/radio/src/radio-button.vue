@@ -48,12 +48,10 @@ const ns = useNamespace('radio')
 const { radioRef, focus, size, disabled, modelValue, radioGroup } =
   useRadio(props)
 
-const activeStyle = computed<CSSProperties>(() => {
-  return {
-    backgroundColor: radioGroup?.fill || '',
-    borderColor: radioGroup?.fill || '',
-    boxShadow: radioGroup?.fill ? `-1px 0 0 0 ${radioGroup.fill}` : '',
-    color: radioGroup?.textColor || '',
-  }
-})
+const activeStyle = computed<CSSProperties>(() => ({
+  backgroundColor: radioGroup?.fill || '',
+  borderColor: radioGroup?.fill || '',
+  boxShadow: radioGroup?.fill ? `-1px 0 0 0 ${radioGroup.fill}` : '',
+  color: radioGroup?.textColor || '',
+}))
 </script>

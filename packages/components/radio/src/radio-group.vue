@@ -5,7 +5,9 @@
     :class="ns.b('group')"
     role="radiogroup"
     :aria-label="!isLabeledByFormItem ? label || 'radio-group' : undefined"
-    :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
+    :aria-labelledby="
+      isLabeledByFormItem ? formItemContext?.labelId : undefined
+    "
   >
     <slot />
   </div>
@@ -44,9 +46,9 @@ const emit = defineEmits(radioGroupEmits)
 const ns = useNamespace('radio')
 const radioId = useId()
 const radioGroupRef = ref<HTMLDivElement>()
-const { formItem } = useFormItem()
+const { formItem: formItemContext } = useFormItem()
 const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
-  formItemContext: formItem,
+  formItemContext,
 })
 
 const changeEvent = (value: RadioGroupProps['modelValue']) => {
@@ -78,6 +80,6 @@ watch(
   () => props.modelValue,
   () =>
     props.validateEvent &&
-    formItem?.validate('change').catch((err) => debugWarn(err))
+    formItemContext?.validate('change').catch((err) => debugWarn(err))
 )
 </script>
