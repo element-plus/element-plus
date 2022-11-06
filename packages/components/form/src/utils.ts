@@ -24,10 +24,11 @@ export function useFormLabelWidth() {
   }
 
   function registerLabelWidth(val: number, oldVal: number) {
-    if (val && oldVal) {
+    if (!val) return
+    if (oldVal) {
       const index = getLabelWidthIndex(oldVal)
       potentialLabelWidthArr.value.splice(index, 1, val)
-    } else if (val) {
+    } else {
       potentialLabelWidthArr.value.push(val)
     }
   }
@@ -51,7 +52,7 @@ export const filterFields = (
   props: Arrayable<FormItemProp>
 ) => {
   const normalized = ensureArray(props)
-  return normalized.length > 0
+  return normalized.length
     ? fields.filter((field) => field.prop && normalized.includes(field.prop))
     : fields
 }
