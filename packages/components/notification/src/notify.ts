@@ -30,7 +30,7 @@ const GAP_SIZE = 16
 let seed = 1
 
 const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
-  function (options: any = {}, context: AppContext | null = null) {
+  function (options = {}, context: AppContext | null = null) {
     if (!isClient) return { close: () => undefined }
 
     if (isString(options) || isVNode(options)) {
@@ -107,7 +107,7 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
     }
   }
 notificationTypes.forEach((type) => {
-  notify[type] = (options: any = {}) => {
+  notify[type] = (options = {}) => {
     if (isString(options) || isVNode(options)) {
       options = {
         message: options,
