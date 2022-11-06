@@ -2,7 +2,7 @@
 import { createPopper } from '@popperjs/core'
 import { flatMap, get } from 'lodash-unified'
 import escapeHtml from 'escape-html'
-import { hasOwn, throwError } from '@element-plus/utils'
+import { hasOwn, isArray, isBoolean, throwError } from '@element-plus/utils'
 import { useZIndex } from '@element-plus/hooks'
 import type {
   IPopperOptions,
@@ -249,27 +249,28 @@ export function toggleRowStatus<T>(
   const index = statusArr.indexOf(row)
   const included = index !== -1
 
-  const addRow = () => {
-    statusArr.push(row)
+  const toggleStatus = (type: 'add' | 'remove') => {
+    if (type === 'add') {
+      statusArr.push(row)
+    } else {
+      statusArr.splice(index, 1)
+    }
     changed = true
-  }
-  const removeRow = () => {
-    statusArr.splice(index, 1)
-    changed = true
+    if (isArray(row.children)) {
+      row.children.forEach((item) => {
+        toggleRowStatus(statusArr, item, newVal ?? !included)
+      })
+    }
   }
 
-  if (typeof newVal === 'boolean') {
+  if (isBoolean(newVal)) {
     if (newVal && !included) {
-      addRow()
+      toggleStatus('add')
     } else if (!newVal && included) {
-      removeRow()
+      toggleStatus('remove')
     }
   } else {
-    if (included) {
-      removeRow()
-    } else {
-      addRow()
-    }
+    included ? toggleStatus('remove') : toggleStatus('add')
   }
   return changed
 }
