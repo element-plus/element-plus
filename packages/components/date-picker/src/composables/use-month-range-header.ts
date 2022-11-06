@@ -27,30 +27,25 @@ export const useMonthRangeHeader = ({
     rightDate.value = rightDate.value.add(1, 'year')
   }
 
-  const leftNextYear = () => {
-    leftDate.value = leftDate.value.add(1, 'year')
-  }
+  const leftNextYear = () => (leftDate.value = leftDate.value.add(1, 'year'))
 
-  const rightPrevYear = () => {
-    rightDate.value = rightDate.value.subtract(1, 'year')
-  }
-  const leftLabel = computed(() => {
-    return `${leftDate.value.year()} ${t('el.datepicker.year')}`
-  })
+  const rightPrevYear = () =>
+    (rightDate.value = rightDate.value.subtract(1, 'year'))
+  const leftLabel = computed(
+    () => `${leftDate.value.year()} ${t('el.datepicker.year')}`
+  )
 
-  const rightLabel = computed(() => {
-    return `${rightDate.value.year()} ${t('el.datepicker.year')}`
-  })
+  const rightLabel = computed(
+    () => `${rightDate.value.year()} ${t('el.datepicker.year')}`
+  )
 
-  const leftYear = computed(() => {
-    return leftDate.value.year()
-  })
+  const leftYear = computed(() => leftDate.value.year())
 
-  const rightYear = computed(() => {
-    return rightDate.value.year() === leftDate.value.year()
+  const rightYear = computed(() =>
+    rightDate.value.year() === leftDate.value.year()
       ? leftDate.value.year() + 1
       : rightDate.value.year()
-  })
+  )
 
   return {
     leftPrevYear,

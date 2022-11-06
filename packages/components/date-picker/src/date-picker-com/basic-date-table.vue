@@ -49,7 +49,7 @@ import { computed, nextTick, ref, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { flatten } from 'lodash-unified'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { castArray } from '@element-plus/utils'
+import { castArray, isArray } from '@element-plus/utils'
 import { basicDateTableProps } from '../props/basic-date-table'
 import { buildPickerTable } from '../utils'
 import ElDatePickerCell from './basic-cell-render'
@@ -81,28 +81,26 @@ const WEEKS_CONSTANT = props.date
   .weekdaysShort()
   .map((_) => _.toLowerCase())
 
-const offsetDay = computed(() => {
+const offsetDay = computed(() =>
   // Sunday 7(0), cal the left and right offset days, 3217654, such as Monday is -1, the is to adjust the position of the first two rows of dates
-  return firstDayOfWeek > 3 ? 7 - firstDayOfWeek : -firstDayOfWeek
-})
+  firstDayOfWeek > 3 ? 7 - firstDayOfWeek : -firstDayOfWeek
+)
 
 const startDate = computed(() => {
   const startDayOfMonth = props.date.startOf('month')
   return startDayOfMonth.subtract(startDayOfMonth.day() || 7, 'day')
 })
 
-const WEEKS = computed(() => {
-  return WEEKS_CONSTANT.concat(WEEKS_CONSTANT).slice(
+const WEEKS = computed(() =>
+  WEEKS_CONSTANT.concat(WEEKS_CONSTANT).slice(
     firstDayOfWeek,
     firstDayOfWeek + 7
   )
-})
+)
 
-const hasCurrent = computed<boolean>(() => {
-  return flatten(rows.value).some((row) => {
-    return row.isCurrent
-  })
-})
+const hasCurrent = computed<boolean>(() =>
+  flatten(rows.value).some((row) => row.isCurrent)
+)
 
 const days = computed(() => {
   const startOfMonth = props.date.startOf('month')
@@ -118,11 +116,11 @@ const days = computed(() => {
   }
 })
 
-const selectedDate = computed(() => {
-  return props.selectionMode === 'dates'
+const selectedDate = computed(() =>
+  props.selectionMode === 'dates'
     ? (castArray(props.parsedValue) as Dayjs[])
     : ([] as Dayjs[])
-})
+)
 
 // Return value indicates should the counter be incremented
 const setDateText = (
@@ -149,24 +147,22 @@ const setDateText = (
     if (columnIndex + rowIndex * 7 >= numberOfDaysFromPreviousMonth) {
       cell.text = count
       return true
-    } else {
-      cell.text =
-        dateCountOfLastMonth -
-        (numberOfDaysFromPreviousMonth - (columnIndex % 7)) +
-        1 +
-        rowIndex * 7
-      cell.type = 'prev-month'
     }
-  } else {
-    if (count <= dateCountOfMonth) {
-      cell.text = count
-    } else {
-      cell.text = count - dateCountOfMonth
-      cell.type = 'next-month'
-    }
-    return true
+    cell.text =
+      dateCountOfLastMonth -
+      (numberOfDaysFromPreviousMonth - (columnIndex % 7)) +
+      1 +
+      rowIndex * 7
+    cell.type = 'prev-month'
+    return false
   }
-  return false
+  if (count <= dateCountOfMonth) {
+    cell.text = count
+  } else {
+    cell.text = count - dateCountOfMonth
+    cell.type = 'next-month'
+  }
+  return true
 }
 
 const setCellMetadata = (
@@ -259,28 +255,21 @@ watch(
   }
 )
 
-const focus = async () => {
-  currentCellRef.value?.focus()
-}
+const focus = async () => currentCellRef.value?.focus()
 
-const isNormalDay = (type = '') => {
-  return ['normal', 'today'].includes(type)
-}
+const isNormalDay = (type = '') => ['normal', 'today'].includes(type)
 
-const isCurrent = (cell: DateCell): boolean => {
-  return (
-    props.selectionMode === 'date' &&
-    isNormalDay(cell.type) &&
-    cellMatchesDate(cell, props.parsedValue as Dayjs)
-  )
-}
+const isCurrent = (cell: DateCell): boolean =>
+  props.selectionMode === 'date' &&
+  isNormalDay(cell.type) &&
+  cellMatchesDate(cell, props.parsedValue as Dayjs)
 
-const cellMatchesDate = (cell: DateCell, date: Dayjs) => {
-  if (!date) return false
-  return dayjs(date)
-    .locale(lang.value)
-    .isSame(props.date.date(Number(cell.text)), 'day')
-}
+const cellMatchesDate = (cell: DateCell, date: Dayjs) =>
+  date
+    ? dayjs(date)
+        .locale(lang.value)
+        .isSame(props.date.date(Number(cell.text)), 'day')
+    : false
 
 const getCellClasses = (cell: DateCell) => {
   const classes: string[] = []
@@ -363,12 +352,9 @@ const handleMouseMove = (event: MouseEvent) => {
   }
 }
 
-const isSelectedCell = (cell: DateCell) => {
-  return (
-    (!hasCurrent.value && cell?.text === 1 && cell.type === 'normal') ||
-    cell.isCurrent
-  )
-}
+const isSelectedCell = (cell: DateCell) =>
+  (!hasCurrent.value && cell?.text === 1 && cell.type === 'normal') ||
+  cell.isCurrent
 
 const handleFocus = (event: FocusEvent) => {
   if (focusWithClick || hasCurrent.value || props.selectionMode !== 'date')
@@ -409,11 +395,13 @@ const handlePickDate = (
       emit('pick', { minDate: newDate, maxDate: null })
       emit('select', true)
     } else {
-      if (newDate >= props.minDate) {
-        emit('pick', { minDate: props.minDate, maxDate: newDate })
-      } else {
-        emit('pick', { minDate: newDate, maxDate: props.minDate })
-      }
+      emit(
+        'pick',
+        newDate >= props.minDate
+          ? { minDate: props.minDate, maxDate: newDate }
+          : { minDate: newDate, maxDate: props.minDate }
+      )
+
       emit('select', false)
     }
   } else if (props.selectionMode === 'date') {
@@ -451,7 +439,7 @@ const isWeekActive = (cell: DateCell) => {
 
   newDate = newDate.date(Number.parseInt(cell.text as any, 10))
 
-  if (props.parsedValue && !Array.isArray(props.parsedValue)) {
+  if (props.parsedValue && !isArray(props.parsedValue)) {
     const dayOffset = ((props.parsedValue.day() - firstDayOfWeek + 7) % 7) - 1
     const weekDate = props.parsedValue.subtract(dayOffset, 'day')
     return weekDate.isSame(newDate, 'day')

@@ -165,9 +165,9 @@ const {
   rightDate,
 })
 
-const enableYearArrow = computed(() => {
-  return props.unlinkPanels && rightYear.value > leftYear.value + 1
-})
+const enableYearArrow = computed(
+  () => props.unlinkPanels && rightYear.value > leftYear.value + 1
+)
 
 type RangePickValue = {
   minDate: Dayjs
@@ -181,9 +181,7 @@ const handleRangePick = (val: RangePickValue, close = true) => {
   // todo
   const minDate_ = val.minDate
   const maxDate_ = val.maxDate
-  if (maxDate.value === maxDate_ && minDate.value === minDate_) {
-    return
-  }
+  if (maxDate.value === maxDate_ && minDate.value === minDate_) return
   maxDate.value = maxDate_
   minDate.value = minDate_
 
@@ -191,9 +189,7 @@ const handleRangePick = (val: RangePickValue, close = true) => {
   handleRangeConfirm()
 }
 
-const formatToString = (days: Dayjs[]) => {
-  return days.map((day) => day.format(format))
-}
+const formatToString = (days: Dayjs[]) => days.map((day) => day.format(format))
 
 function onParsedValueChanged(
   minDate: Dayjs | undefined,

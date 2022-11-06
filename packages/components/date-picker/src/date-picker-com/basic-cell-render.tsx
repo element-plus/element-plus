@@ -12,11 +12,13 @@ export default defineComponent({
     return () => {
       const { cell } = props
       if (slots.default) {
-        const list = slots.default(cell).filter((item) => {
-          return (
-            item.patchFlag !== -2 && item.type.toString() !== 'Symbol(Comment)'
+        const list = slots
+          .default(cell)
+          .filter(
+            (item) =>
+              item.patchFlag !== -2 &&
+              item.type.toString() !== 'Symbol(Comment)'
           )
-        })
         if (list.length) {
           return list
         }
