@@ -63,7 +63,7 @@ let timer: (() => void) | undefined = undefined
 
 const typeClass = computed(() => {
   const type = props.type
-  return type && TypeComponentsMap[props.type] ? ns.m(type) : ''
+  return type && TypeComponentsMap[type] ? ns.m(type) : ''
 })
 
 const iconComponent = computed(() => {
@@ -87,10 +87,11 @@ const positionStyle = computed<CSSProperties>(() => {
 })
 
 function startTimer() {
-  if (props.duration > 0) {
+  const { duration } = props
+  if (duration > 0) {
     ;({ stop: timer } = useTimeoutFn(() => {
       if (visible.value) close()
-    }, props.duration))
+    }, duration))
   }
 }
 
