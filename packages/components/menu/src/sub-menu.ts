@@ -26,8 +26,8 @@ import {
 import { useNamespace } from '@element-plus/hooks'
 import { ArrowDown, ArrowRight } from '@element-plus/icons-vue'
 import { ElIcon } from '@element-plus/components/icon'
-import useMenu from './use-menu'
-import { useMenuCssVar } from './use-menu-css-var'
+import useMenu from './hooks/use-menu'
+import { useMenuCssVar } from './hooks/use-menu-css-var'
 
 import type { Placement } from '@element-plus/components/popper'
 import type { CSSProperties, ExtractPropTypes, VNodeArrayChildren } from 'vue'

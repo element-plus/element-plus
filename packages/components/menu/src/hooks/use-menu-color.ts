@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 
-import type { MenuProps } from './menu'
+import type { MenuProps } from '../menu'
 
 export default function useMenuColor(props: MenuProps) {
   const menuBarColor = computed(() => {
