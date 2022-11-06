@@ -21,11 +21,11 @@ const props = defineProps({
 })
 
 const ns = useNamespace('header')
-const style = computed(() => {
-  return props.height
+const style = computed(() =>
+  props.height
     ? (ns.cssVarBlock({
         height: props.height,
       }) as CSSProperties)
     : {}
-})
+)
 </script>
