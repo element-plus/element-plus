@@ -148,9 +148,7 @@ export default defineComponent({
     const dropdownTriggerKls = computed(() => [ns.m(dropdownSize.value)])
 
     const defaultTriggerId = useId().value
-    const triggerId = computed<string>(() => {
-      return props.id || defaultTriggerId
-    })
+    const triggerId = computed<string>(() => props.id || defaultTriggerId)
 
     function handleClick() {
       handleClose()
