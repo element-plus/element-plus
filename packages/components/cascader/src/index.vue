@@ -40,7 +40,7 @@
         <el-input
           ref="input"
           v-model="inputValue"
-          :placeholder="searchInputValue ? '' : inputPlaceholder"
+          :placeholder="currentPlaceholder"
           :readonly="readonly"
           :disabled="isDisabled"
           :validate-event="false"
@@ -373,6 +373,11 @@ export default defineComponent({
     const inputPlaceholder = computed(
       () => props.placeholder || t('el.cascader.placeholder')
     )
+    const currentPlaceholder = computed(() =>
+      searchInputValue.value || presentTags.value.length > 0
+        ? ''
+        : inputPlaceholder.value
+    )
     const realSize = useSize()
     const tagSize = computed(() =>
       ['small'].includes(realSize.value) ? 'small' : 'default'
@@ -401,7 +406,7 @@ export default defineComponent({
       const nodes = checkedNodes.value
       return nodes.length
         ? multiple.value
-          ? ' '
+          ? ''
           : nodes[0].calcText(showAllLevels, separator)
         : ''
     })
@@ -738,6 +743,7 @@ export default defineComponent({
       popperVisible,
       inputHover,
       inputPlaceholder,
+      currentPlaceholder,
       filtering,
       presentText,
       checkedValue,

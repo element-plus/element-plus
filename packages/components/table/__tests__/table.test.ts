@@ -1506,4 +1506,52 @@ describe('Table.vue', () => {
       'min-width: 0'
     )
   })
+  it('selectable tree', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+            <el-table :data="testData" @selection-change="change">
+              <el-table-column type="selection" />
+              <el-table-column prop="name" label="name" />
+              <el-table-column prop="release" label="release" />
+              <el-table-column prop="director" label="director" />
+              <el-table-column prop="runtime" label="runtime" />
+            </el-table>
+          `,
+      data() {
+        const testData = getTestData() as any
+        testData[1].children = [
+          {
+            name: "A Bug's Life copy 1",
+            release: '1998-11-25-1',
+            director: 'John Lasseter',
+            runtime: 95,
+          },
+          {
+            name: "A Bug's Life copy 2",
+            release: '1998-11-25-2',
+            director: 'John Lasseter',
+            runtime: 95,
+          },
+        ]
+        return {
+          testData,
+          selected: [],
+        }
+      },
+
+      methods: {
+        change(rows) {
+          this.selected = rows
+        },
+      },
+    })
+    await doubleWait()
+    wrapper.findAll('.el-checkbox')[2].trigger('click')
+    await doubleWait()
+    expect(wrapper.vm.selected.length).toEqual(3)
+  })
 })
