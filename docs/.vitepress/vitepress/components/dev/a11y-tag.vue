@@ -1,5 +1,5 @@
 <template>
-  <el-tag size="small" effect="plain" hit round class="ml-8px">a11y</el-tag>
+  <el-tag size="small" effect="plain" hit round class="ml-8">a11y</el-tag>
 </template>
 <style scoped>
 .el-tag {
