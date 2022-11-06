@@ -117,15 +117,14 @@ const relativeStrokeWidth = computed(() =>
   ((props.strokeWidth / props.width) * 100).toFixed(1)
 )
 
-const radius = computed(() => {
-  if (['circle', 'dashboard'].includes(props.type)) {
-    return Number.parseInt(
-      `${50 - Number.parseFloat(relativeStrokeWidth.value) / 2}`,
-      10
-    )
-  }
-  return 0
-})
+const radius = computed(() =>
+  ['circle', 'dashboard'].includes(props.type)
+    ? Number.parseInt(
+        `${50 - Number.parseFloat(relativeStrokeWidth.value) / 2}`,
+        10
+      )
+    : 0
+)
 
 const trackPath = computed(() => {
   const r = radius.value
@@ -142,10 +141,9 @@ const perimeter = computed(() => 2 * Math.PI * radius.value)
 
 const rate = computed(() => (props.type === 'dashboard' ? 0.75 : 1))
 
-const strokeDashoffset = computed(() => {
-  const offset = (-1 * perimeter.value * (1 - rate.value)) / 2
-  return `${offset}px`
-})
+const strokeDashoffset = computed(
+  () => `${(-1 * perimeter.value * (1 - rate.value)) / 2}px`
+)
 
 const trailPathStyle = computed<CSSProperties>(() => ({
   strokeDasharray: `${perimeter.value * rate.value}px, ${perimeter.value}px`,
@@ -168,12 +166,15 @@ const stroke = computed(() => {
 })
 
 const statusIcon = computed(() => {
-  if (props.status === 'warning') return WarningFilled
+  const { status } = props
+  if (status === 'warning') return WarningFilled
+  const isSuccess = status === 'success'
+
   return props.type === 'line'
-    ? props.status === 'success'
+    ? isSuccess
       ? CircleCheck
       : CircleClose
-    : props.status === 'success'
+    : isSuccess
     ? Check
     : Close
 })
@@ -205,9 +206,9 @@ const getCurrentColor = (percentage: number) => {
   if (isFunction(color)) return color(percentage)
   if (isString(color)) return color
   const colors = getColors(color)
-  for (const color of colors) {
-    if (color.percentage > percentage) return color.color
-  }
-  return colors[colors.length - 1]?.color
+  return (
+    colors.find((color) => color.percentage > percentage)?.color ||
+    colors[colors.length - 1]?.color
+  )
 }
 </script>
