@@ -28,6 +28,8 @@ export type AutocompleteFetchSuggestions =
     ) => Awaitable<AutocompleteData> | void)
   | AutocompleteData
 
+const { appendTo, teleported } = useTooltipContentProps
+
 export const autocompleteProps = buildProps({
   valueKey: {
     type: String,
@@ -76,7 +78,6 @@ export const autocompleteProps = buildProps({
   label: {
     type: String,
   },
-  teleported: useTooltipContentProps.teleported,
   highlightFirstItem: {
     type: Boolean,
     default: false,
@@ -85,6 +86,8 @@ export const autocompleteProps = buildProps({
     type: Boolean,
     default: false,
   },
+  appendTo,
+  teleported,
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 
