@@ -26,7 +26,7 @@ import { useNamespace } from '@element-plus/hooks'
 import Menubar from './utils/menu-bar'
 import ElMenuCollapseTransition from './menu-collapse-transition.vue'
 import ElSubMenu from './sub-menu'
-import { useMenuCssVar } from './hooks/use-menu-css-var'
+import { useMenuCssVar } from './use-menu-css-var'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
@@ -134,21 +134,10 @@ export default defineComponent({
 
       // 展开该菜单项的路径上所有子菜单
       // expand all subMenus of the menu item
-      const openAllActiveItem = () => {
-        indexPath.forEach((index) => {
-          const subMenu = subMenus.value[index]
-          subMenu && openMenu(index, subMenu.indexPath)
-        })
-      }
-
-      if (activeIndex.value === props.defaultActive) {
-        openAllActiveItem()
-      } else {
-        // fix: #10431
-        if (indexPath.every((index) => openedMenus.value.includes(index))) {
-          openAllActiveItem()
-        }
-      }
+      indexPath.forEach((index) => {
+        const subMenu = subMenus.value[index]
+        subMenu && openMenu(index, subMenu.indexPath)
+      })
     }
 
     const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {

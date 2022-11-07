@@ -50,7 +50,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import { Effect } from '@element-plus/components/popper'
 import { throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import useMenu from './hooks/use-menu'
+import useMenu from './use-menu'
 import { menuItemEmits, menuItemProps } from './menu-item'
 
 import type { MenuItemRegistered, MenuProvider, SubMenuProvider } from './types'
