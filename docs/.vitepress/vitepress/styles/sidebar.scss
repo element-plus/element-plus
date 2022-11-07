@@ -52,18 +52,12 @@
 
   @include respond-to('xxl') {
     // 6px stands for 3px sidebar scrollbar width + 3 content scrollbar width
-    padding: 48px 32px 96px calc((100vw - var(--vp-screen-max-width)) / 2);
-
-    width: calc(
-      (100vw - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small)
-    );
+    padding: 48px 32px 96px;
+    width: calc(var(--vp-sidebar-width-small) + 32px);
   }
 
   @include respond-to('max') {
-    padding: 48px 48px 96px calc((100vw - var(--vp-screen-max-width)) / 2);
-
-    width: calc(
-      (100vw - var(--vp-screen-max-width)) / 2 + var(--vp-sidebar-width-small)
-    );
+    padding: 48px 48px 96px;
+    width: calc(var(--vp-sidebar-width-small) + 48px);
   }
 }

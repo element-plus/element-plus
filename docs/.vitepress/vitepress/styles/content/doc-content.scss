@@ -12,7 +12,8 @@
     }
 
     @include respond-to('xxl') {
-      width: var(--vp-content-width);
+      min-width: var(--vp-content-width);
+      width: 100%;
     }
   }
 

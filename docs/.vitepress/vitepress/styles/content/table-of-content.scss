@@ -3,6 +3,13 @@
 .toc-wrapper {
   display: none;
   padding-left: 64px;
+  @include respond-to('xxl') {
+    padding-right: 32px;
+  }
+
+  @include respond-to('max') {
+    padding-right: 48px;
+  }
 
   .toc-content {
     position: sticky;
