@@ -221,7 +221,7 @@ cascader/panel
 | multiple      | whether multiple selection is enabled                                                                      | boolean                 | -               | false      |
 | checkStrictly | whether checked state of a node not affects its parent and child nodes                                     | boolean                 | -               | false      |
 | emitPath      | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node. | boolean                 | -               | true       |
-| lazy          | whether to dynamic load child nodes, use with `lazyload` attribute                                         | boolean                 | -               | false      |
+| lazy          | whether to dynamic load child nodes, use with `lazyLoad` attribute                                         | boolean                 | -               | false      |
 | lazyLoad      | method for loading child nodes data, only works when `lazy` is true                                        | function(node, resolve) | -               | -          |
 | value         | specify which key of node object is used as the node's value                                               | string                  | —               | 'value'    |
 | label         | specify which key of node object is used as the node's label                                               | string                  | —               | 'label'    |
