@@ -134,10 +134,21 @@ export default defineComponent({
 
       // 展开该菜单项的路径上所有子菜单
       // expand all subMenus of the menu item
-      indexPath.forEach((index) => {
-        const subMenu = subMenus.value[index]
-        subMenu && openMenu(index, subMenu.indexPath)
-      })
+      const openAllActiveItem = () => {
+        indexPath.forEach((index) => {
+          const subMenu = subMenus.value[index]
+          subMenu && openMenu(index, subMenu.indexPath)
+        })
+      }
+
+      if (activeIndex.value === props.defaultActive) {
+        openAllActiveItem()
+      } else {
+        // fix: #10431
+        if (indexPath.every((index) => openedMenus.value.includes(index))) {
+          openAllActiveItem()
+        }
+      }
     }
 
     const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {
