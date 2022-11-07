@@ -8,7 +8,7 @@ defineProps({
 </script>
 
 <template>
-  <span class="flex items-center">
+  <span class="inline-flex items-center">
     <code class="api-typing mr-1">
       {{ type }}
     </code>
