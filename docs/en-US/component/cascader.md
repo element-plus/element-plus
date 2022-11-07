@@ -88,7 +88,7 @@ cascader/multiple-selection
 
 ## Select any level of options
 
-In single selection, only the leaf nodes can be checked, and in multiple selection, check parent nodes will lead to leaf nodes be checked eventually. When enable this feature, it can make parent and child nodes unlinked and you can select any level of options.
+In single selection, only the leaf nodes can be checked, and in multiple selection, check parent nodes will lead to leaf nodes be checked eventually. When enable this feature, it can make parent and child nodes unlinked alazyloadnd you can select any level of options.
 
 :::demo Set `props.checkStrictly = true` to make checked state of a node not affects its parent nodes and child nodes, and then you can select any level of options.
 
@@ -100,7 +100,7 @@ cascader/any-level
 
 Dynamic load its child nodes when checked a node.
 
-:::demo Set `lazy = true` to use dynamic loading, and you have to specify how to load the data source by `lazyload`. There are two parameters of `lazyload`,the first parameter `node` is the node currently clicked, and the `resolve` is a callback that indicate loading is finished which must invoke. To display the status of node more accurately, you can add a `leaf` field (can be modified by `props.leaf`) to indicate whether it is a leaf node. Otherwise, it will be inferred by if has any child nodes.
+:::demo Set `lazy = true` to use dynamic loading, and you have to specify how to load the data source by `lazy-load`. There are two parameters of `lazy-load`,the first parameter `node` is the node currently clicked, and the `resolve` is a callback that indicate loading is finished which must invoke. To display the status of node more accurately, you can add a `leaf` field (can be modified by `props.leaf`) to indicate whether it is a leaf node. Otherwise, it will be inferred by if has any child nodes.
 
 cascader/dynamic-loading
 
@@ -221,8 +221,8 @@ cascader/panel
 | multiple      | whether multiple selection is enabled                                                                      | boolean                 | -               | false      |
 | checkStrictly | whether checked state of a node not affects its parent and child nodes                                     | boolean                 | -               | false      |
 | emitPath      | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node. | boolean                 | -               | true       |
-| lazy          | whether to dynamic load child nodes, use with `lazyLoad` attribute                                         | boolean                 | -               | false      |
-| lazyLoad      | method for loading child nodes data, only works when `lazy` is true                                        | function(node, resolve) | -               | -          |
+| lazy          | whether to dynamic load child nodes, use with `lazy-load` attribute                                         | boolean                 | -               | false      |
+| lazy-load      | method for loading child nodes data, only works when `lazy` is true                                        | function(node, resolve) | -               | -          |
 | value         | specify which key of node object is used as the node's value                                               | string                  | —               | 'value'    |
 | label         | specify which key of node object is used as the node's label                                               | string                  | —               | 'label'    |
 | children      | specify which key of node object is used as the node's children                                            | string                  | —               | 'children' |
