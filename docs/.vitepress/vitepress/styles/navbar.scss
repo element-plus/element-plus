@@ -23,6 +23,10 @@
     padding: 0 32px;
   }
 
+  @include respond-to('max') {
+    padding: 0 48px;
+  }
+
   .header-container {
     display: flex;
     justify-content: space-between;
