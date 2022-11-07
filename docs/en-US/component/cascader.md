@@ -11,7 +11,7 @@ If the options have a clear hierarchical structure, Cascader can be used to view
 
 There are two ways to expand child option items.
 
-:::demo Assigning the `options` attribute to an array of options renders a Cascader. The `props.expandTrigger` attribute defines how child options are expanded.
+:::demo Assigning the `options` attribute to an array of options renders a Cascader. The `props.expand-trigger` attribute defines how child options are expanded.
 
 cascader/basic
 
@@ -90,7 +90,7 @@ cascader/multiple-selection
 
 In single selection, only the leaf nodes can be checked, and in multiple selection, check parent nodes will lead to leaf nodes be checked eventually. When enable this feature, it can make parent and child nodes unlinked and you can select any level of options.
 
-:::demo Set `props.checkStrictly = true` to make checked state of a node not affects its parent nodes and child nodes, and then you can select any level of options.
+:::demo Set `props.check-strictly = true` to make checked state of a node not affects its parent nodes and child nodes, and then you can select any level of options.
 
 cascader/any-level
 
@@ -217,10 +217,10 @@ cascader/panel
 
 | Attribute     | Description                                                                                                | Type                    | Accepted Values | Default    |
 | ------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------- | --------------- | ---------- |
-| expandTrigger | trigger mode of expanding options                                                                          | string                  | click / hover   | 'click'    |
+| expand-trigger | trigger mode of expanding options                                                                          | string                  | click / hover   | 'click'    |
 | multiple      | whether multiple selection is enabled                                                                      | boolean                 | -               | false      |
-| checkStrictly | whether checked state of a node not affects its parent and child nodes                                     | boolean                 | -               | false      |
-| emitPath      | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node. | boolean                 | -               | true       |
+| check-strictly | whether checked state of a node not affects its parent and child nodes                                     | boolean                 | -               | false      |
+| emit-path      | when checked nodes change, whether to emit an array of node's path, if false, only emit the value of node. | boolean                 | -               | true       |
 | lazy          | whether to dynamic load child nodes, use with `lazy-load` attribute                                         | boolean                 | -               | false      |
 | lazy-load      | method for loading child nodes data, only works when `lazy` is true                                        | function(node, resolve) | -               | -          |
 | value         | specify which key of node object is used as the node's value                                               | string                  | —               | 'value'    |
