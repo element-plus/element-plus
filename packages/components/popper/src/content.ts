@@ -34,6 +34,9 @@ export const popperCoreConfigProps = buildProps({
     type: Number,
     default: 12,
   },
+  /**
+   * @description position when popup content shows up against the target element
+   * */
   placement: {
     type: String,
     values: placements,
