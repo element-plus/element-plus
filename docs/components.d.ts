@@ -5,7 +5,7 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    A11yTag: typeof import('./.vitepress/vitepress/components/dev/A11yTag.vue')['default']
+    A11yTag: typeof import('./.vitepress/vitepress/components/dev/a11y-tag.vue')['default']
     AxureComponentsSvg: typeof import('./.vitepress/vitepress/components/globals/resources/axure-components-svg.vue')['default']
     BackToTop: typeof import('./.vitepress/vitepress/components/icons/back-to-top.vue')['default']
     Codepen: typeof import('./.vitepress/vitepress/components/icons/codepen.vue')['default']
@@ -24,7 +24,6 @@ declare module '@vue/runtime-core' {
     FigmaTemplateSvg: typeof import('./.vitepress/vitepress/components/globals/resources/figma-template-svg.vue')['default']
     GuideSvg: typeof import('./.vitepress/vitepress/components/home/svg/guide-svg.vue')['default']
     HomeCards: typeof import('./.vitepress/vitepress/components/home/home-cards.vue')['default']
-    HomeFooter: typeof import('./.vitepress/vitepress/components/globals/vp-footer.vue')['default']
     HomeSponsors: typeof import('./.vitepress/vitepress/components/home/home-sponsors.vue')['default']
     Icons: typeof import('./.vitepress/vitepress/components/globals/icons.vue')['default']
     IRiCodeLine: typeof import('~icons/ri/code-line')['default']
@@ -68,7 +67,6 @@ declare module '@vue/runtime-core' {
     VpApiPrimitive: typeof import('./.vitepress/vitepress/components/globals/vp-api-primitive.vue')['default']
     VpApiRef: typeof import('./.vitepress/vitepress/components/globals/vp-api-ref.vue')['default']
     VpApiString: typeof import('./.vitepress/vitepress/components/globals/vp-api-string.vue')['default']
-    VpApiSynthetic: typeof import('./.vitepress/vitepress/components/globals/vp-api-synthetic.vue')['default']
     VpApiTyping: typeof import('./.vitepress/vitepress/components/globals/vp-api-typing.vue')['default']
     VpApp: typeof import('./.vitepress/vitepress/components/vp-app.vue')['default']
     VpChangelog: typeof import('./.vitepress/vitepress/components/globals/vp-changelog.vue')['default']
