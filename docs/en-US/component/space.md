@@ -124,7 +124,7 @@ space/fill-ratio
 | Name       | Description                     | Type                               | Available value                                                             | Default    |
 | ---------- | ------------------------------- | ---------------------------------- | --------------------------------------------------------------------------- | ---------- |
 | alignment  | Controls the alignment of items | string                             | [align-items](https://developer.mozilla.org/en-US/docs/Web/CSS/align-items) | 'center'   |
-| class      | ClassName                       | string / Array / Object            | -                                                                           | -          |
+| class      | className                       | string / Array / Object            | -                                                                           | -          |
 | direction  | Placement direction             | string                             | vertical/horizontal                                                         | horizontal |
 | prefixCls  | Prefix for space-items          | string                             | el-space                                                                    | -          |
 | style      | Extra style rules               | string / Array / Object            | -                                                                           | -          |
