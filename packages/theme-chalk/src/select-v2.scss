@@ -96,11 +96,13 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
     #{$selector}__input-wrapper input {
       @include set-css-var-value(
-          'input-inner-height',
-          calc(
-            var(#{getCssVarName('component-size')},
-              #{map.get($input-height, 'default')}) - 8px
-          )
+        'input-inner-height',
+        calc(
+          var(
+              #{getCssVarName('component-size')},
+              #{map.get($input-height, 'default')}
+            ) - 8px
+        )
       );
 
       height: getCssVar('input-inner-height');
@@ -133,9 +135,9 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
   @include e(popper) {
     @include picker-popper(
-        map.get($select-dropdown, 'bg-color'),
-        map.get($select-dropdown, 'border'),
-        map.get($select-dropdown, 'shadow')
+      map.get($select-dropdown, 'bg-color'),
+      map.get($select-dropdown, 'border'),
+      map.get($select-dropdown, 'shadow')
     );
   }
 
