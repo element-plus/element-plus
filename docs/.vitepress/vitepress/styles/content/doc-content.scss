@@ -14,6 +14,11 @@
     @include respond-to('xxl') {
       width: var(--vp-content-width);
     }
+
+    @include respond-to('max') {
+      --vp-content-width: 1136px;
+    }
+
   }
 
   @include respond-to('md') {

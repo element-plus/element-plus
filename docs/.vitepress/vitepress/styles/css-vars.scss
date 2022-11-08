@@ -42,7 +42,7 @@
   }
 
   @include respond-to('max') {
-    --vp-screen-max-width: 1482px;
+    --vp-screen-max-width: 1680px;
     --vp-sidebar-width-small: 290px;
   }
 
