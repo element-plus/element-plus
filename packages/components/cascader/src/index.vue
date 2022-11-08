@@ -345,7 +345,7 @@ export default defineComponent({
   ],
 
   setup(props, { emit }) {
-    let inputInitialHeight = 30
+    let inputInitialHeight = 0
     let pressDeleteCount = 0
 
     const nsCascader = useNamespace('cascader')
@@ -726,9 +726,15 @@ export default defineComponent({
 
     watch(presentText, syncPresentTextValue, { immediate: true })
 
+    const getInitialHeight = () => {
+      if (props.size === 'large') return 38
+      if (props.size === 'small') return 22
+      return 30
+    }
     onMounted(() => {
       const inputInner = input.value!.input!
-      inputInitialHeight = inputInner.offsetHeight
+      const initialHeight = getInitialHeight()
+      inputInitialHeight = inputInner.offsetHeight || initialHeight
       useResizeObserver(inputInner, updateStyle)
     })
 
