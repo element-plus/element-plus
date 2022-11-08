@@ -119,16 +119,16 @@ export default defineComponent({
           // @ts-expect-error
           nav$.value?.removeFocus?.()
         }
-      } catch {}
+      } catch { }
     }
 
-    const handleTabClick = (
+    const handleTabClick = async (
       tab: TabsPaneContext,
       tabName: TabPaneName,
       event: Event
     ) => {
       if (tab.props.disabled) return
-      setCurrentName(tabName)
+      await setCurrentName(tabName)
       emit('tabClick', tab, event)
     }
 

@@ -722,10 +722,11 @@ describe('Tabs.vue', () => {
     await nextTick()
 
     const navItemsWrapper = navWrapper.findAll('.el-tabs__item')
-    ;[1, 0, 2, 0, 3, 0, 1].forEach((val) => {
-      navItemsWrapper[val].trigger('click')
-      expect(activeName.value).toEqual(val)
-    })
+      ;[1, 0, 2, 0, 3, 0, 1].forEach(async (val) => {
+        navItemsWrapper[val].trigger('click')
+        await nextTick()
+        expect(activeName.value).toEqual(val)
+      })
   })
 
   test('both number and string for name', async () => {
