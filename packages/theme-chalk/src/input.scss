@@ -277,8 +277,13 @@
           }
         }
       } @else {
-        > :first-child {
+        > :first-child, :nth-child(2) {
           margin-left: 8px;
+        }
+        > :nth-child(2) {
+          .#{$namespace}-input__count-inner {
+            padding-left: 0;
+          }
         }
       }
     }
