@@ -345,7 +345,7 @@ export default defineComponent({
   ],
 
   setup(props, { emit }) {
-    let inputInitialHeight = 0
+    let inputInitialHeight = 30
     let pressDeleteCount = 0
 
     const nsCascader = useNamespace('cascader')
