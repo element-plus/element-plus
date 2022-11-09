@@ -88,6 +88,10 @@ export const tryFocus = (
       isSelectable(element) &&
       shouldSelect
     ) {
+      if (element.tagName === 'INPUT') {
+        element.setSelectionRange(element.value.length, element.value.length)
+        return
+      }
       element.select()
     }
   }
