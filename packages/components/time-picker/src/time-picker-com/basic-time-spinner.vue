@@ -109,6 +109,13 @@ const { getHoursList, getMinutesList, getSecondsList } = getTimeLists(
 // data
 let isScrolling = false
 
+// js set scrollTop trigger scroll event not execute emit("change")
+let scrollEventEmitChange = {
+  hours: true,
+  minutes: true,
+  seconds: true,
+}
+
 const currentScrollbar = ref<TimeUnit>()
 const listHoursRef = ref<ScrollbarInstance>()
 const listMinutesRef = ref<ScrollbarInstance>()
@@ -191,6 +198,13 @@ const adjustCurrentSpinner = (type: TimeUnit) => {
 }
 
 const adjustSpinners = () => {
+  // js set scrollTop trigger scroll event not execute emit("change")
+  !props.arrowControl &&
+    (scrollEventEmitChange = {
+      hours: false,
+      minutes: false,
+      seconds: false,
+    })
   adjustCurrentSpinner('hours')
   adjustCurrentSpinner('minutes')
   adjustCurrentSpinner('seconds')
@@ -270,6 +284,10 @@ const modifyDateField = (type: TimeUnit, value: number) => {
     case 'seconds':
       changeTo = props.spinnerDate.hour(hours).minute(minutes).second(value)
       break
+  }
+  if (!scrollEventEmitChange[type]) {
+    scrollEventEmitChange[type] = true
+    return
   }
   emit('change', changeTo)
 }
