@@ -95,7 +95,7 @@ skeleton/avoiding-rendering-bouncing
 | `count`    | how many fake items to render to the DOM                         | `number`  | `1`     |
 | `loading`  | whether showing the real DOM                                     | `boolean` | `false` |
 | `rows`     | numbers of the row, only useful when no template slot were given | `number`  | `3`     |
-| `throttle` | Rendering delay in millseconds                                   | `number`  | `0`     |
+| `throttle` | Rendering delay in milliseconds                                   | `number`  | `0`     |
 
 ### Skeleton Slots
 
