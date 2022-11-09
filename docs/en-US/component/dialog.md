@@ -167,4 +167,4 @@ PS: Since the dialog is rendered using `Teleport`, the style of the root node is
 
 Typical issue: [#10481](https://github.com/element-plus/element-plus/issues/10481)
 
-PS: It is recommended to place the scroll area inside the app and use `overflow: hidden` style for the body.
+PS: It is recommended to place the scroll area inside a vue mounted node, e.g. `<div id="app" />`, and use the `overflow: hidden` style for the body.
