@@ -77,6 +77,9 @@
       background-color: getCssVar('pagination-button-disabled-bg-color');
       cursor: not-allowed;
     }
+    & +.#{$namespace}-pagination__sizes{
+      margin-left:16px
+    }
   }
 
   .btn-prev,
@@ -165,11 +168,13 @@
   }
 
   @include e(sizes) {
-    margin: 0 16px;
+    margin: 0 16px 0 0;
     font-weight: normal;
     color: getCssVar('text-color', 'regular');
     @include remove-margin();
   }
+
+
 
   @include e(total) {
     margin-right: 16px;
