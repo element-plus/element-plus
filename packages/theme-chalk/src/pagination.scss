@@ -165,7 +165,7 @@
   }
 
   @include e(sizes) {
-    margin: 0 16px 0 0;
+    margin: 0 16px;
     font-weight: normal;
     color: getCssVar('text-color', 'regular');
     @include remove-margin();
