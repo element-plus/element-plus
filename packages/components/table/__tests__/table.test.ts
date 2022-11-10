@@ -1506,14 +1506,14 @@ describe('Table.vue', () => {
       'min-width: 0'
     )
   })
-  it('selectable tree', async () => {
+  it('selectable tree & tree-props', async () => {
     const wrapper = mount({
       components: {
         ElTable,
         ElTableColumn,
       },
       template: `
-            <el-table :data="testData" @selection-change="change">
+            <el-table :data="testData" @selection-change="change" :tree-props="{children: 'childrenTest', hasChildren: 'hasChildrenTest'}">
               <el-table-column type="selection" />
               <el-table-column prop="name" label="name" />
               <el-table-column prop="release" label="release" />
@@ -1523,7 +1523,7 @@ describe('Table.vue', () => {
           `,
       data() {
         const testData = getTestData() as any
-        testData[1].children = [
+        testData[1].childrenTest = [
           {
             name: "A Bug's Life copy 1",
             release: '1998-11-25-1',
