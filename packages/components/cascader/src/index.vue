@@ -198,7 +198,7 @@ import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
 import { isPromise } from '@vue/shared'
 import { cloneDeep, debounce } from 'lodash-unified'
 
-import { isClient, useResizeObserver } from '@vueuse/core'
+import { isClient, useCssVar, useResizeObserver } from '@vueuse/core'
 import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
@@ -728,7 +728,13 @@ export default defineComponent({
 
     onMounted(() => {
       const inputInner = input.value!.input!
-      inputInitialHeight = inputInner.offsetHeight
+
+      const inputInnerHeight =
+        Number.parseFloat(
+          useCssVar(nsInput.cssVarName('input-height'), inputInner).value
+        ) - 2
+
+      inputInitialHeight = inputInner.offsetHeight || inputInnerHeight
       useResizeObserver(inputInner, updateStyle)
     })
 
