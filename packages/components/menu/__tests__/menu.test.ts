@@ -275,6 +275,46 @@ describe('default active', () => {
     expect(submenu.classes()).toContain('is-opened')
     expect(submenu.classes()).toContain('is-active')
   })
+  test('default active and uniqueOpened', async () => {
+    const wrapper = _mount(
+      `<div>
+        <el-menu unique-opened default-active="2-2">
+          <el-menu-item index="1" ref="item1">处理中心</el-menu-item>
+          <el-sub-menu index="2" ref="submenu1">
+            <template slot="title">我的工作台</template>
+            <el-menu-item index="2-1">选项1</el-menu-item>
+            <el-menu-item index="2-2" ref="submenuItem1">选项2</el-menu-item>
+            <el-menu-item index="2-3">选项3</el-menu-item>
+          </el-sub-menu>
+          <el-sub-menu index="3" ref="submenu2">
+            <template slot="title">用户中心</template>
+            <el-menu-item index="3-1">选项1</el-menu-item>
+            <el-menu-item index="3-2" ref="submenuItem2">选项2</el-menu-item>
+            <el-menu-item index="3-3">选项3</el-menu-item>
+          </el-sub-menu>
+          <el-menu-item index="4">订单管理</el-menu-item>
+        </el-menu>
+      </div>`
+    )
+    const submenu1 = await wrapper.findComponent({ ref: 'submenu1' })
+    const submenuItem1 = await wrapper.findComponent({ ref: 'submenuItem1' })
+    expect(submenuItem1.classes()).toContain('is-active')
+    await nextTick()
+    expect(submenu1.classes()).toContain('is-opened')
+    expect(submenu1.classes()).toContain('is-active')
+
+    const submenu2 = await wrapper.findComponent({ ref: 'submenu2' })
+    const submenuItem2 = await wrapper.findComponent({ ref: 'submenuItem2' })
+    submenu2.vm.$el.querySelector('.el-sub-menu__title').click()
+    await nextTick()
+    expect(submenu2.classes()).toContain('is-opened')
+    expect(submenu1.classes()).not.toContain('is-opened')
+    await submenuItem2.trigger('click')
+    await nextTick()
+    expect(submenu2.classes()).toContain('is-opened')
+    expect(submenu2.classes()).toContain('is-active')
+    expect(submenuItem2.classes()).toContain('is-active')
+  })
 })
 
 describe('submenu', () => {

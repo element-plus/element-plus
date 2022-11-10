@@ -116,7 +116,7 @@ export default defineComponent({
     const activeIndex = ref<MenuProvider['activeIndex']>(props.defaultActive)
     const items = ref<MenuProvider['items']>({})
     const subMenus = ref<MenuProvider['subMenus']>({})
-
+    const activeItemFirstOpend = ref<boolean>(true)
     // computed
     const isMenuPopup = computed<MenuProvider['isMenuPopup']>(() => {
       return (
@@ -128,20 +128,30 @@ export default defineComponent({
     // methods
     const initMenu = () => {
       const activeItem = activeIndex.value && items.value[activeIndex.value]
-      if (!activeItem || props.mode === 'horizontal' || props.collapse) return
+      if (
+        !activeItem ||
+        props.mode === 'horizontal' ||
+        props.collapse ||
+        (props.uniqueOpened && !activeItemFirstOpend.value)
+      )
+        return
 
       const indexPath = activeItem.indexPath
 
       // 展开该菜单项的路径上所有子菜单
       // expand all subMenus of the menu item
       const openAllActiveItem = () => {
+        if (activeItemFirstOpend.value) activeItemFirstOpend.value = false
         indexPath.forEach((index) => {
           const subMenu = subMenus.value[index]
           subMenu && openMenu(index, subMenu.indexPath)
         })
       }
 
-      if (activeIndex.value === props.defaultActive) {
+      if (
+        activeIndex.value === props.defaultActive &&
+        activeItemFirstOpend.value
+      ) {
         openAllActiveItem()
       } else {
         // fix: #10431
