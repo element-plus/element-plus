@@ -236,10 +236,6 @@
       );
     }
 
-    &::selection {
-      outline: none;
-    }
-
     // override edge default style
     &[type='password']::-ms-reveal {
       display: none;
