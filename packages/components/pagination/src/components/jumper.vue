@@ -30,7 +30,7 @@ defineOptions({
   name: 'ElPaginationJumper',
 })
 
-const props = defineProps(paginationJumperProps)
+defineProps(paginationJumperProps)
 const { t } = useLocale()
 const ns = useNamespace('pagination')
 const { pageCount, disabled, currentPage, changeEvent } = usePagination()
