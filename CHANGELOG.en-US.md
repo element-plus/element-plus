@@ -1,5 +1,22 @@
 ## Changelog
 
+### 2.2.21
+
+_2022-11-11_
+
+#### Bug fixes
+
+- Docs [alert] (#10460 by @jw-foss)
+- Docs [vp-api-typing] (#10467 by @jw-foss)
+- Components [dropdown-item] prevent click if disabled (#10532 by @ryuhangyeong)
+- Components [focus-trap] input select text (#10535 by @chenxch)
+- Components [checkbox] wrong checked status when label is Object (#9863 by @init-qy)
+- Components [cascader] set height correctly (#10538 by @holazz)
+- Components [image-viewer] `hide-on-click-modal` not work (#10568 by @holazz)
+- Components [calendar] fix range cross year bug (#10574 by @sunyuu)
+- Style(components): [select] Fix tags style (#10502 by @kooriookami)
+- Style(components): [select-v2] Uniform style consistent with select (#10501 by @kooriookami)
+
 ### 2.2.20
 
 _2022-11-06_
