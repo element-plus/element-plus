@@ -4,10 +4,14 @@
 <style scoped>
 .el-tag {
   color: #6222c2;
+}
+.el-tag.is-hit {
   border-color: #9065db;
 }
 .dark .el-tag {
   color: #9065db;
+}
+.dark .el-tag.is-hit {
   border-color: #6222c2;
 }
 </style>
