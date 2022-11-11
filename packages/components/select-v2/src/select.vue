@@ -30,7 +30,7 @@
           ref="selectionRef"
           :class="[
             nsSelectV2.e('wrapper'),
-            nsSelectV2.is('focused', states.isComposing),
+            nsSelectV2.is('focused', states.isComposing || expanded),
             nsSelectV2.is('hovering', states.comboBoxHovering),
             nsSelectV2.is('filterable', filterable),
             nsSelectV2.is('disabled', selectDisabled),
@@ -254,8 +254,7 @@
               nsSelectV2.e('placeholder'),
               nsSelectV2.is(
                 'transparent',
-                states.isComposing ||
-                  (multiple ? modelValue.length === 0 : !hasModelValue)
+                multiple ? modelValue.length === 0 : !hasModelValue
               ),
             ]"
           >
