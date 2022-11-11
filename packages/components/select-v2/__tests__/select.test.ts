@@ -1547,4 +1547,39 @@ describe('Select', () => {
       ).toBe('')
     })
   })
+
+  it('filterable case-insensitive', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          filterable: true,
+          options: [
+            {
+              value: '1',
+              label: 'option 1',
+            },
+            {
+              value: '2',
+              label: 'option 2',
+            },
+            {
+              value: '3',
+              label: 'OPtion 3',
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    selectVm.expanded = true
+    await nextTick()
+    await rAF()
+    const input = wrapper.find('input')
+    input.element.value = 'op'
+    await input.trigger('input')
+    await nextTick()
+    expect(selectVm.filteredOptions.length).toBe(3)
+  })
 })
