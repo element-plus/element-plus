@@ -59,7 +59,7 @@ scrollbar/manual-scroll
 
 ### Events
 
-| Name   | Description                                           | Parameters                                                       |
+| Name   | Description                                           | Type                                                       |
 | ------ | ----------------------------------------------------- | ---------------------------------------------------------------- |
 | scroll | triggers when scrolling, return distance of scrolling | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void` |
 
@@ -71,7 +71,7 @@ scrollbar/manual-scroll
 
 ### Exposes
 
-| Method        | Description                                | Parameters                                                                 |
+| Method        | Description                                | Type                                                                 |
 | ------------- | ------------------------------------------ | -------------------------------------------------------------------------- |
 | handleScroll  | handle scroll event                        | ^[Function]`() => void`                                                    |
 | scrollTo      | scrolls to a particular set of coordinates | ^[Function]`(options: ScrollToOptions \| number, yCoord?: number) => void` |
