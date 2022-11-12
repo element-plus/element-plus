@@ -1,4 +1,4 @@
-import { isArray, isObject } from '@vue/shared'
+import { isArray, isObject, isString } from '@vue/shared'
 import { isNil } from 'lodash-unified'
 
 export {
@@ -27,4 +27,11 @@ export const isElement = (e: unknown): e is Element => {
 
 export const isPropAbsent = (prop: unknown): prop is null | undefined => {
   return isNil(prop)
+}
+
+export const isStringNumber = (val: string): boolean => {
+  if (!isString(val)) {
+    return false
+  }
+  return !Number.isNaN(Number(val))
 }

@@ -1,6 +1,7 @@
 import { computed, inject, ref, toRaw } from 'vue'
+import { isEqual } from 'lodash-unified'
 import { useSize } from '@element-plus/hooks'
-import { isArray, isBoolean } from '@element-plus/utils'
+import { isArray, isBoolean, isObject } from '@element-plus/utils'
 import { checkboxGroupContextKey } from '@element-plus/tokens'
 
 import type { ComponentInternalInstance } from 'vue'
@@ -19,7 +20,11 @@ export const useCheckboxStatus = (
     if (isBoolean(value)) {
       return value
     } else if (isArray(value)) {
-      return value.map(toRaw).includes(props.label)
+      if (isObject(props.label)) {
+        return value.map(toRaw).some((o) => isEqual(o, props.label))
+      } else {
+        return value.map(toRaw).includes(props.label)
+      }
     } else if (value !== null && value !== undefined) {
       return value === props.trueLabel
     } else {
