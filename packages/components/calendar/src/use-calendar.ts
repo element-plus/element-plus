@@ -133,7 +133,7 @@ export const useCalendar = (
       return [[firstDay, lastDay]]
     }
     // Two adjacent months
-    else if (firstMonth + 1 === lastMonth) {
+    else if ((firstMonth + 1) % 12 === lastMonth) {
       return adjacentMonth(firstDay, lastDay)
     }
     // Three consecutive months (compatible: 2021-01-30 to 2021-02-28)
