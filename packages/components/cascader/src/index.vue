@@ -40,7 +40,7 @@
         <el-input
           ref="input"
           v-model="inputValue"
-          :placeholder="searchInputValue ? '' : inputPlaceholder"
+          :placeholder="currentPlaceholder"
           :readonly="readonly"
           :disabled="isDisabled"
           :validate-event="false"
@@ -198,7 +198,7 @@ import { computed, defineComponent, nextTick, onMounted, ref, watch } from 'vue'
 import { isPromise } from '@vue/shared'
 import { cloneDeep, debounce } from 'lodash-unified'
 
-import { isClient, useResizeObserver } from '@vueuse/core'
+import { isClient, useCssVar, useResizeObserver } from '@vueuse/core'
 import ElCascaderPanel, {
   CommonProps,
 } from '@element-plus/components/cascader-panel'
@@ -373,6 +373,11 @@ export default defineComponent({
     const inputPlaceholder = computed(
       () => props.placeholder || t('el.cascader.placeholder')
     )
+    const currentPlaceholder = computed(() =>
+      searchInputValue.value || presentTags.value.length > 0
+        ? ''
+        : inputPlaceholder.value
+    )
     const realSize = useSize()
     const tagSize = computed(() =>
       ['small'].includes(realSize.value) ? 'small' : 'default'
@@ -401,7 +406,7 @@ export default defineComponent({
       const nodes = checkedNodes.value
       return nodes.length
         ? multiple.value
-          ? ' '
+          ? ''
           : nodes[0].calcText(showAllLevels, separator)
         : ''
     })
@@ -723,7 +728,13 @@ export default defineComponent({
 
     onMounted(() => {
       const inputInner = input.value!.input!
-      inputInitialHeight = inputInner.offsetHeight
+
+      const inputInnerHeight =
+        Number.parseFloat(
+          useCssVar(nsInput.cssVarName('input-height'), inputInner).value
+        ) - 2
+
+      inputInitialHeight = inputInner.offsetHeight || inputInnerHeight
       useResizeObserver(inputInner, updateStyle)
     })
 
@@ -738,6 +749,7 @@ export default defineComponent({
       popperVisible,
       inputHover,
       inputPlaceholder,
+      currentPlaceholder,
       filtering,
       presentText,
       checkedValue,

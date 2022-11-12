@@ -302,6 +302,52 @@ describe('Checkbox', () => {
     await checkbox.trigger('click')
     expect(checklist.value[0]).toEqual('')
   })
+
+  test('label is object', async () => {
+    const checklist = ref([])
+    const wrapper = mount(() => (
+      <CheckboxGroup v-model={checklist.value}>
+        <Checkbox label={{ a: 1 }}>all</Checkbox>
+        <Checkbox label={{ a: 2 }}>a</Checkbox>
+        <Checkbox label={{ b: 1 }}>b</Checkbox>
+      </CheckboxGroup>
+    ))
+
+    const checkbox = wrapper.find('.el-checkbox')
+    await checkbox.trigger('click')
+    expect(checklist.value[0]).toEqual({ a: 1 })
+    expect(checkbox.classes()).contains('is-checked')
+  })
+  test('label is object with initial values', async () => {
+    const checklist = ref([{ a: 1 }])
+    const wrapper = mount({
+      setup() {
+        return () => (
+          <CheckboxGroup v-model={checklist.value}>
+            <Checkbox label={{ a: 1 }} ref="a1">
+              a1
+            </Checkbox>
+            <Checkbox label={{ a: 2 }} ref="a2">
+              a2
+            </Checkbox>
+            <Checkbox label={{ b: 1 }} ref="b1">
+              b1
+            </Checkbox>
+          </CheckboxGroup>
+        )
+      },
+    })
+    expect(checklist.value.length).toBe(1)
+    const checkboxA1 = wrapper.findComponent({ ref: 'a1' })
+    const checkboxA2 = wrapper.findComponent({ ref: 'a2' })
+    await checkboxA2.trigger('click')
+    expect(checklist.value).toEqual([{ a: 1 }, { a: 2 }])
+    expect(checkboxA1.classes()).contains('is-checked')
+    expect(checkboxA2.classes()).contains('is-checked')
+    await checkboxA1.trigger('click')
+    expect(checklist.value).toEqual([{ a: 2 }])
+    expect(checkboxA1.classes()).not.contains('is-checked')
+  })
 })
 
 describe('check-button', () => {
