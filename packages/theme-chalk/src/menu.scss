@@ -61,7 +61,7 @@
 
   @include m(vertical) {
     &:not(.#{$namespace}-menu--collapse){
-	    width: 200px;
+	    width: getCssVar('menu-vertical-expanded-width');
 	    &:not(.#{$namespace}-menu--popup-container) {
 		    & .#{$namespace}-menu-item,
 		    & .#{$namespace}-sub-menu__title,
