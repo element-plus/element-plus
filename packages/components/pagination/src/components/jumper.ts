@@ -14,4 +14,4 @@ export type PaginationJumperProps = ExtractPropTypes<
   typeof paginationJumperProps
 >
 
-export type JumperInstance = InstanceType<typeof Jumper>
+export type PaginationJumperInstance = InstanceType<typeof Jumper>
