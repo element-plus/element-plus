@@ -176,6 +176,6 @@ button/custom
 
 ### Slots
 
-| Name | Description                    | Subtags |
-| ---- | ------------------------------ | ------- |
-| -    | customize button group content | Button  |
+| Name    | Description                    | Subtags |
+| ------- | ------------------------------ | ------- |
+| default | customize button group content | Button  |
