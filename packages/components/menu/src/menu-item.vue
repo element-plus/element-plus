@@ -28,7 +28,7 @@
       </div>
     </el-tooltip>
     <template v-else>
-      <slot />
+      <span><slot /></span>
       <slot name="title" />
     </template>
   </li>
