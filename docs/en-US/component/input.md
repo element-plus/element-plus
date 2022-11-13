@@ -153,7 +153,7 @@ input/length-limiting
 
 ### Events
 
-| Name   | Description                                                                                           | Parameters                                     |
+| Name   | Description                                                                                           | Type                                           |
 | ------ | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
 | blur   | triggers when Input blurs                                                                             | ^[Function]`(event: FocusEvent) => void`       |
 | focus  | triggers when Input focuses                                                                           | ^[Function]`(event: FocusEvent) => void`       |
