@@ -71,7 +71,7 @@ scrollbar/manual-scroll
 
 ### Exposes
 
-| Method        | Description                                | Type                                                                       |
+| Name          | Description                                | Type                                                                       |
 |---------------|--------------------------------------------|----------------------------------------------------------------------------|
 | handleScroll  | handle scroll event                        | ^[Function]`() => void`                                                    |
 | scrollTo      | scrolls to a particular set of coordinates | ^[Function]`(options: ScrollToOptions \| number, yCoord?: number) => void` |
