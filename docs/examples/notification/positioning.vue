@@ -1,8 +1,10 @@
 <template>
-  <el-button plain @click="open1"> Top Right </el-button>
-  <el-button plain @click="open2"> Bottom Right </el-button>
-  <el-button plain @click="open3"> Bottom Left </el-button>
-  <el-button plain @click="open4"> Top Left </el-button>
+  <el-space wrap>
+    <el-button plain @click="open1"> Top Right </el-button>
+    <el-button plain @click="open2"> Bottom Right </el-button>
+    <el-button plain @click="open3"> Bottom Left </el-button>
+    <el-button plain @click="open4"> Top Left </el-button>
+  </el-space>
 </template>
 
 <script lang="ts" setup>

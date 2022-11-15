@@ -1,6 +1,6 @@
 <template>
   <p>Basic link button</p>
-  <div class="flex justify-space-between mb-4 flex-wrap gap-4">
+  <el-space wrap>
     <el-button
       v-for="button in buttons"
       :key="button.text"
@@ -8,10 +8,10 @@
       link
       >{{ button.text }}</el-button
     >
-  </div>
+  </el-space>
 
   <p>Disabled link button</p>
-  <div class="flex justify-space-between flex-wrap gap-4">
+  <el-space wrap>
     <el-button
       v-for="button in buttons"
       :key="button.text"
@@ -20,7 +20,7 @@
       disabled
       >{{ button.text }}</el-button
     >
-  </div>
+  </el-space>
 </template>
 
 <script setup lang="ts">

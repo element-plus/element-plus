@@ -1,13 +1,10 @@
 <template>
-  <div>
+  <el-space wrap>
     <el-link :underline="false">Without Underline</el-link>
     <el-link>With Underline</el-link>
-  </div>
+  </el-space>
 </template>
 <style scoped>
-.el-link {
-  margin-right: 8px;
-}
 .el-link .el-icon--right.el-icon {
   vertical-align: text-bottom;
 }

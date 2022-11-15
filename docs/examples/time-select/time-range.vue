@@ -1,5 +1,5 @@
 <template>
-  <div class="demo-time-range">
+  <el-space wrap>
     <el-time-select
       v-model="startTime"
       :max-time="endTime"
@@ -17,7 +17,7 @@
       step="00:15"
       end="18:30"
     />
-  </div>
+  </el-space>
 </template>
 
 <script lang="ts" setup>

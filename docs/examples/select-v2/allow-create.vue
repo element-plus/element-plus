@@ -1,11 +1,11 @@
 <template>
   <div style="flex: auto">
-    <div>
+    <el-space wrap>
       <el-select-v2
         v-model="value1"
         :options="options"
         placeholder="Please select"
-        style="width: 240px; margin-right: 16px; vertical-align: middle"
+        style="width: 240px; vertical-align: middle"
         allow-create
         filterable
         multiple
@@ -20,7 +20,7 @@
         filterable
         clearable
       />
-    </div>
+    </el-space>
     <div>
       <p style="margin-top: 20px; margin-bottom: 8px">
         set reserve-keyword false
