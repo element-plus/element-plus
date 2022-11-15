@@ -27,7 +27,7 @@ jobs:
       - name: Get pnpm store directory
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v3
         name: Setup pnpm cache
@@ -42,7 +42,7 @@ jobs:
 
       - name: Lint commit
         id: lint_commit
-        run: pnpm lint:commit || echo "::set-output name=failed::true"
+        run: pnpm lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
 
       - name: Set success result
         if: ${{ steps.lint_commit.outputs.failed != 'true' }}

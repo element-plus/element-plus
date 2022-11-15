@@ -15,13 +15,13 @@ export const useMonthRangeHeader = ({
   const { t } = useLocale()
   const leftPrevYear = () => {
     leftDate.value = leftDate.value.subtract(1, 'year')
-    if (!unlinkPanels) {
+    if (!unlinkPanels.value) {
       rightDate.value = rightDate.value.subtract(1, 'year')
     }
   }
 
   const rightNextYear = () => {
-    if (!unlinkPanels) {
+    if (!unlinkPanels.value) {
       leftDate.value = leftDate.value.add(1, 'year')
     }
     rightDate.value = rightDate.value.add(1, 'year')
