@@ -95,7 +95,7 @@ export const autocompleteEmits = {
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   clear: () => true,
-  select: (item: { value: any }) => isObject(item),
+  select: (item: Record<string, any>) => isObject(item),
 }
 export type AutocompleteEmits = typeof autocompleteEmits
 

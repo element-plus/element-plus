@@ -6,8 +6,6 @@ import {
   provide,
   ref,
   renderSlot,
-  shallowReactive,
-  shallowRef,
   watch,
 } from 'vue'
 import {
@@ -21,16 +19,19 @@ import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
 import { tabsRootContextKey } from '@element-plus/tokens'
-import { useDeprecated, useNamespace } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useNamespace,
+  useOrderedChildren,
+} from '@element-plus/hooks'
 import TabNav from './tab-nav'
-import { getOrderedPanes } from './utils/pane'
 
 import type { TabNavInstance } from './tab-nav'
 import type { TabsPaneContext } from '@element-plus/tokens'
 import type { ExtractPropTypes } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 
-export type TabPanelName = string | number
+export type TabPaneName = string | number
 
 export const tabsProps = buildProps({
   type: {
@@ -54,10 +55,7 @@ export const tabsProps = buildProps({
   },
   beforeLeave: {
     type: definePropType<
-      (
-        newName: TabPanelName,
-        oldName: TabPanelName
-      ) => Awaitable<void | boolean>
+      (newName: TabPaneName, oldName: TabPaneName) => Awaitable<void | boolean>
     >(Function),
     default: () => true,
   },
@@ -65,16 +63,16 @@ export const tabsProps = buildProps({
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
 
-const isPanelName = (value: unknown): value is string | number =>
+const isPaneName = (value: unknown): value is string | number =>
   isString(value) || isNumber(value)
 
 export const tabsEmits = {
-  [UPDATE_MODEL_EVENT]: (name: TabPanelName) => isPanelName(name),
+  [UPDATE_MODEL_EVENT]: (name: TabPaneName) => isPaneName(name),
   tabClick: (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
-  tabChange: (name: TabPanelName) => isPanelName(name),
-  edit: (paneName: TabPanelName | undefined, action: 'remove' | 'add') =>
+  tabChange: (name: TabPaneName) => isPaneName(name),
+  edit: (paneName: TabPaneName | undefined, action: 'remove' | 'add') =>
     ['remove', 'add'].includes(action),
-  tabRemove: (name: TabPanelName) => isPanelName(name),
+  tabRemove: (name: TabPaneName) => isPaneName(name),
   tabAdd: () => true,
 }
 export type TabsEmits = typeof tabsEmits
@@ -88,24 +86,26 @@ export default defineComponent({
   emits: tabsEmits,
 
   setup(props, { emit, slots, expose }) {
-    const vm = getCurrentInstance()!
-
     const ns = useNamespace('tabs')
 
+    const {
+      children: panes,
+      addChild: registerPane,
+      removeChild: unregisterPane,
+    } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
+
     const nav$ = ref<TabNavInstance>()
-    const panes = shallowReactive<TabsPanes>({})
-    const orderedPanes = shallowRef<TabsPaneContext[]>([])
-    const currentName = ref<TabPanelName>(
+    const currentName = ref<TabPaneName>(
       props.modelValue ?? props.activeName ?? '0'
     )
 
-    const changeCurrentName = (value: TabPanelName) => {
+    const changeCurrentName = (value: TabPaneName) => {
       currentName.value = value
       emit(UPDATE_MODEL_EVENT, value)
       emit('tabChange', value)
     }
 
-    const setCurrentName = async (value?: TabPanelName) => {
+    const setCurrentName = async (value?: TabPaneName) => {
       // should do nothing.
       if (currentName.value === value || isUndefined(value)) return
 
@@ -124,7 +124,7 @@ export default defineComponent({
 
     const handleTabClick = (
       tab: TabsPaneContext,
-      tabName: TabPanelName,
+      tabName: TabPaneName,
       event: Event
     ) => {
       if (tab.props.disabled) return
@@ -174,24 +174,12 @@ export default defineComponent({
       nav$.value?.scrollToActiveTab()
     })
 
-    {
-      const registerPane = (pane: TabsPaneContext) => {
-        panes[pane.uid] = pane
-        orderedPanes.value = getOrderedPanes(vm, panes)
-      }
-
-      const unregisterPane = (uid: number) => {
-        delete panes[uid]
-        orderedPanes.value = getOrderedPanes(vm, panes)
-      }
-
-      provide(tabsRootContextKey, {
-        props,
-        currentName,
-        registerPane,
-        unregisterPane,
-      })
-    }
+    provide(tabsRootContextKey, {
+      props,
+      currentName,
+      registerPane,
+      unregisterPane,
+    })
 
     expose({
       currentName,
@@ -222,7 +210,7 @@ export default defineComponent({
             currentName={currentName.value}
             editable={props.editable}
             type={props.type}
-            panes={orderedPanes.value}
+            panes={panes.value}
             stretch={props.stretch}
             onTabClick={handleTabClick}
             onTabRemove={handleTabRemove}
