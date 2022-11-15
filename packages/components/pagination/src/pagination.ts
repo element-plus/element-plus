@@ -291,7 +291,9 @@ export default defineComponent({
           prevIcon: props.prevIcon,
           onClick: prev,
         }),
-        jumper: h(Jumper),
+        jumper: h(Jumper, {
+          size: props.small ? 'small' : 'default',
+        }),
         pager: h(Pager, {
           currentPage: currentPageBridge.value,
           pageCount: pageCountBridge.value,
