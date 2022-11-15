@@ -396,7 +396,7 @@ const handleMonthPick = async (month: number) => {
   } else {
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
-      if (!disabledDate(innerDate?.value?.toDate())) {
+      if (!disabledDate || !disabledDate(innerDate?.value?.toDate())) {
         emit(innerDate.value, true)
       }
       await nextTick()
