@@ -136,7 +136,6 @@
   width: 100%;
   line-height: getCssVar('input-height');
   box-sizing: border-box;
-  vertical-align: middle;
   @include scroll-bar;
 
   & .#{$namespace}-input__clear,
