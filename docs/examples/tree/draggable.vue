@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import type Node from 'element-plus/es/components/tree/src/model/node'
 import type { DragEvents } from 'element-plus/es/components/tree/src/model/useDragNode'
-import type { AllowDropType } from 'element-plus/es/components/tree/src/tree.type'
+import type { NodeDropType } from 'element-plus/es/components/tree/src/tree.type'
 
 const handleDragStart = (node: Node, ev: DragEvents) => {
   console.log('drag start', node)
@@ -43,7 +43,7 @@ const handleDragOver = (draggingNode: Node, dropNode: Node, ev: DragEvents) => {
 const handleDragEnd = (
   draggingNode: Node,
   dropNode: Node,
-  dropType: AllowDropType,
+  dropType: NodeDropType,
   ev: DragEvents
 ) => {
   console.log('tree drag end:', dropNode && dropNode.label, dropType)
@@ -51,12 +51,12 @@ const handleDragEnd = (
 const handleDrop = (
   draggingNode: Node,
   dropNode: Node,
-  dropType: AllowDropType,
+  dropType: NodeDropType,
   ev: DragEvents
 ) => {
   console.log('tree drop:', dropNode.label, dropType)
 }
-const allowDrop = (draggingNode: Node, dropNode: Node, type: AllowDropType) => {
+const allowDrop = (draggingNode: Node, dropNode: Node, type: NodeDropType) => {
   if (dropNode.data.label === 'Level two 3-1') {
     return type !== 'inner'
   } else {
