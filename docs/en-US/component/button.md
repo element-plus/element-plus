@@ -165,16 +165,16 @@ button/custom
 | disabled       | button disabled      | ^[Object]`ComputedRef<boolean>`                                                                                |
 | shouldAddSpace | whether adding space | ^[Object]`ComputedRef<boolean>`                                                                                |
 
-## Button-Group API
+## ButtonGroup API
 
-### Button-Group Attributes
+### ButtonGroup Attributes
 
 | Name | Description                                      | Type                                                             | Default |
 | ---- | ------------------------------------------------ | ---------------------------------------------------------------- | ------- |
 | size | control the size of buttons in this button-group | ^[string]`'large'\| 'default'\| 'small'`                         | —       |
 | type | control the type of buttons in this button-group | ^[string]`'primary'\| 'success'\| 'warning'\| 'danger'\| 'info'` | —       |
 
-### Button-Group Slots
+### ButtonGroup Slots
 
 | Name    | Description                    | Subtags |
 | ------- | ------------------------------ | ------- |
