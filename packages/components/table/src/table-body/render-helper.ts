@@ -78,7 +78,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         if (!rowspan || !colspan) {
           return null
         }
-        const columnData = { ...column }
+        const columnData = Object.assign({}, column)
         columnData.realWidth = getColspanRealWidth(
           columns.value,
           colspan,
