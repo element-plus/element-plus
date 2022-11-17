@@ -9,6 +9,7 @@
   display: inline-flex;
   width: map.get($input-number-width, 'default');
   line-height: #{map.get($input-height, 'default') - 2};
+  vertical-align: middle;
 
   .#{$namespace}-input {
     &__wrapper {
