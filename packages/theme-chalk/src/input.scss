@@ -244,11 +244,9 @@
 
   @each $slot in (prefix, suffix) {
     @include e($slot) {
-      display: inline-flex;
       white-space: nowrap;
       flex-shrink: 0;
       flex-wrap: nowrap;
-      height: 100%;
       text-align: center;
       color: var(
         #{getCssVarName('input-icon-color')},
@@ -263,7 +261,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-
+      vertical-align: middle;
       @if $slot == prefix {
         > :last-child {
           margin-right: 8px;
