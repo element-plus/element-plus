@@ -1,5 +1,13 @@
 ## Changelog
 
+### 2.2.22
+
+_2022-11-18_
+
+#### Bug fixes
+
+- Components [select-v2] case-insensitive when filterable (#10575 by @hellomrbigshot)
+
 ### 2.2.21
 
 _2022-11-11_
