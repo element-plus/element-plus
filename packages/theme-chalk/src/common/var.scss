@@ -9,7 +9,7 @@
 // skipAutoTranslation 1
 
 // types
-$types: primary, success, warning, danger, error, info;
+$types: primary, success, warning, danger, error, info !default;
 
 // Color
 $colors: () !default;
