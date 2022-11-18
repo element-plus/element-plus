@@ -71,7 +71,7 @@ export default El$NAME
 export * from './src/$INPUT_NAME'
 EOF
 
-cat > $DIRNAME/__tests__/$INPUT_NAME.spec.tsx <<EOF
+cat > $DIRNAME/__tests__/$INPUT_NAME.test.tsx <<EOF
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import $NAME from '../src/$INPUT_NAME.vue'
