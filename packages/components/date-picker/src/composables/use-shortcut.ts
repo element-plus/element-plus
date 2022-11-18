@@ -30,13 +30,11 @@ export const useShortcut = (lang: ReturnType<typeof useLocale>['lang']) => {
       ])
       return
     }
-    if (shortcut.onClick) {
-      shortcut.onClick({
-        attrs,
-        slots,
-        emit,
-      })
-    }
+    shortcut?.onClick?.({
+      attrs,
+      slots,
+      emit,
+    })
   }
 
   return handleShortcutClick

@@ -53,13 +53,9 @@ const ns = useNamespace('year-table')
 const { t, lang } = useLocale()
 const tbodyRef = ref<HTMLElement>()
 const currentCellRef = ref<HTMLElement>()
-const startYear = computed(() => {
-  return Math.floor(props.date.year() / 10) * 10
-})
+const startYear = computed(() => Math.floor(props.date.year() / 10) * 10)
 
-const focus = () => {
-  currentCellRef.value?.focus()
-}
+const focus = () => currentCellRef.value?.focus()
 
 const getCellKls = (year: number) => {
   const kls: Record<string, boolean> = {}
@@ -77,23 +73,18 @@ const getCellKls = (year: number) => {
   return kls
 }
 
-const isSelectedCell = (year: number) => {
-  return (
-    (year === startYear.value &&
-      props.date.year() < startYear.value &&
-      props.date.year() > startYear.value + 9) ||
-    castArray(props.date).findIndex((date) => date.year() === year) >= 0
-  )
-}
+const isSelectedCell = (year: number) =>
+  (year === startYear.value &&
+    props.date.year() < startYear.value &&
+    props.date.year() > startYear.value + 9) ||
+  castArray(props.date).findIndex((date) => date.year() === year) >= 0
 
 const handleYearTableClick = (event: MouseEvent | KeyboardEvent) => {
   const clickTarget = event.target as HTMLDivElement
   const target = clickTarget.closest('td')
-  if (target && target.textContent) {
-    if (hasClass(target, 'disabled')) return
-    const year = target.textContent || target.innerText
-    emit('pick', Number(year))
-  }
+  if (!target?.textContent || hasClass(target, 'disabled')) return
+  const year = target.textContent || target.innerText
+  emit('pick', Number(year))
 }
 
 watch(

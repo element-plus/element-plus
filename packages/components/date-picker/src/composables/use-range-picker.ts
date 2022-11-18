@@ -90,15 +90,15 @@ export const useRangePicker = (
   watch(
     () => props.parsedValue,
     (parsedValue) => {
-      if (isArray(parsedValue) && parsedValue.length === 2) {
-        const [start, end] = parsedValue
-        minDate.value = start
-        leftDate.value = start
-        maxDate.value = end
-        onParsedValueChanged(unref(minDate), unref(maxDate))
-      } else {
+      if (!isArray(parsedValue) || parsedValue.length !== 2) {
         restoreDefault()
+        return
       }
+      const [start, end] = parsedValue
+      minDate.value = start
+      leftDate.value = start
+      maxDate.value = end
+      onParsedValueChanged(unref(minDate), unref(maxDate))
     },
     { immediate: true }
   )

@@ -331,33 +331,27 @@ const timeUserInput = ref<UserInput>({
   max: null,
 })
 
-const leftLabel = computed(() => {
-  return `${leftDate.value.year()} ${t('el.datepicker.year')} ${t(
-    `el.datepicker.month${leftDate.value.month() + 1}`
-  )}`
-})
+const leftLabel = computed(
+  () =>
+    `${leftDate.value.year()} ${t('el.datepicker.year')} ${t(
+      `el.datepicker.month${leftDate.value.month() + 1}`
+    )}`
+)
 
-const rightLabel = computed(() => {
-  return `${rightDate.value.year()} ${t('el.datepicker.year')} ${t(
-    `el.datepicker.month${rightDate.value.month() + 1}`
-  )}`
-})
+const rightLabel = computed(
+  () =>
+    `${rightDate.value.year()} ${t('el.datepicker.year')} ${t(
+      `el.datepicker.month${rightDate.value.month() + 1}`
+    )}`
+)
 
-const leftYear = computed(() => {
-  return leftDate.value.year()
-})
+const leftYear = computed(() => leftDate.value.year())
 
-const leftMonth = computed(() => {
-  return leftDate.value.month()
-})
+const leftMonth = computed(() => leftDate.value.month())
 
-const rightYear = computed(() => {
-  return rightDate.value.year()
-})
+const rightYear = computed(() => rightDate.value.year())
 
-const rightMonth = computed(() => {
-  return rightDate.value.month()
-})
+const rightMonth = computed(() => rightDate.value.month())
 
 const hasShortcuts = computed(() => !!shortcuts.value.length)
 
@@ -387,13 +381,9 @@ const maxVisibleTime = computed(() => {
   return ''
 })
 
-const timeFormat = computed(() => {
-  return extractTimeFormat(format)
-})
+const timeFormat = computed(() => extractTimeFormat(format))
 
-const dateFormat = computed(() => {
-  return extractDateFormat(format)
-})
+const dateFormat = computed(() => extractDateFormat(format))
 
 const leftPrevYear = () => {
   leftDate.value = leftDate.value.subtract(1, 'year')
@@ -451,13 +441,12 @@ const rightPrevMonth = () => {
   handlePanelChange('month')
 }
 
-const handlePanelChange = (mode: 'month' | 'year') => {
+const handlePanelChange = (mode: 'month' | 'year') =>
   emit(
     'panel-change',
     [leftDate.value.toDate(), rightDate.value.toDate()],
     mode
   )
-}
 
 const enableMonthArrow = computed(() => {
   const nextMonth = (leftMonth.value + 1) % 12
@@ -469,24 +458,24 @@ const enableMonthArrow = computed(() => {
   )
 })
 
-const enableYearArrow = computed(() => {
-  return (
+const enableYearArrow = computed(
+  () =>
     props.unlinkPanels &&
     rightYear.value * 12 +
       rightMonth.value -
       (leftYear.value * 12 + leftMonth.value + 1) >=
       12
-  )
-})
+)
 
-const btnDisabled = computed(() => {
-  return !(
-    minDate.value &&
-    maxDate.value &&
-    !rangeState.value.selecting &&
-    isValidRange([minDate.value, maxDate.value])
-  )
-})
+const btnDisabled = computed(
+  () =>
+    !(
+      minDate.value &&
+      maxDate.value &&
+      !rangeState.value.selecting &&
+      isValidRange([minDate.value, maxDate.value])
+    )
+)
 
 const showTime = computed(
   () => props.type === 'datetime' || props.type === 'datetimerange'
@@ -494,16 +483,15 @@ const showTime = computed(
 
 const formatEmit = (emitDayjs: Dayjs | null, index?: number) => {
   if (!emitDayjs) return
-  if (defaultTime) {
-    const defaultTimeD = dayjs(
-      defaultTime[index as number] || defaultTime
-    ).locale(lang.value)
-    return defaultTimeD
-      .year(emitDayjs.year())
-      .month(emitDayjs.month())
-      .date(emitDayjs.date())
-  }
-  return emitDayjs
+  if (!defaultTime) return emitDayjs
+
+  const defaultTimeD = dayjs(
+    defaultTime[index as number] || defaultTime
+  ).locale(lang.value)
+  return defaultTimeD
+    .year(emitDayjs.year())
+    .month(emitDayjs.month())
+    .date(emitDayjs.date())
 }
 
 const handleRangePick = (
@@ -518,9 +506,7 @@ const handleRangePick = (
   const minDate_ = formatEmit(min_, 0)
   const maxDate_ = formatEmit(max_, 1)
 
-  if (maxDate.value === maxDate_ && minDate.value === minDate_) {
-    return
-  }
+  if (maxDate.value === maxDate_ && minDate.value === minDate_) return
   emit('calendar-change', [min_.toDate(), max_ && max_.toDate()])
   maxDate.value = maxDate_
   minDate.value = minDate_
@@ -545,9 +531,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
   const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
 
   if (parsedValueD.isValid()) {
-    if (disabledDate && disabledDate(parsedValueD.toDate())) {
-      return
-    }
+    if (disabledDate && disabledDate(parsedValueD.toDate())) return
     if (type === 'min') {
       leftDate.value = parsedValueD
       minDate.value = (minDate.value || leftDate.value)
@@ -668,17 +652,13 @@ const handleClear = () => {
   emit('pick', null)
 }
 
-const formatToString = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
-    ? value.map((_) => _.format(format))
-    : value.format(format)
-}
+const formatToString = (value: Dayjs | Dayjs[]) =>
+  isArray(value) ? value.map((_) => _.format(format)) : value.format(format)
 
-const parseUserInput = (value: Dayjs | Dayjs[]) => {
-  return isArray(value)
+const parseUserInput = (value: Dayjs | Dayjs[]) =>
+  isArray(value)
     ? value.map((_) => dayjs(_, format).locale(lang.value))
     : dayjs(value, format).locale(lang.value)
-}
 
 function onParsedValueChanged(
   minDate: Dayjs | undefined,
