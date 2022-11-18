@@ -7,6 +7,7 @@ _2022-11-18_
 #### Bug fixes
 
 - Components [select-v2] case-insensitive when filterable (#10575 by @hellomrbigshot)
+- Style(components): [pagination] Refactor pagination style (#10563 by @kooriookami)
 
 ### 2.2.21
 
