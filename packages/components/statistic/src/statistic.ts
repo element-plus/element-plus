@@ -1,4 +1,5 @@
 import { chain, multiply, padStart, reduce, subtract } from 'lodash'
+import { main } from '@popperjs/core'
 import { buildProps } from '@element-plus/utils'
 export const statisticProps = buildProps({
   decimalSeparator: {
@@ -11,7 +12,7 @@ export const statisticProps = buildProps({
   },
   precision: {
     type: Number,
-    default: 2,
+    default: 0,
   },
   value: {
     type: [String, Number],
@@ -62,7 +63,7 @@ export const magnification = function (
   return result
 }
 export const diffDate = function (minuend: number, subtrahend: number): number {
-  return subtract(minuend, subtrahend)
+  return Math.max(minuend - subtrahend, 0)
 }
 export const formatTimeStr = function (format: any, time: number) {
   const timeUnits = [

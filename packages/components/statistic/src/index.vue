@@ -30,7 +30,7 @@
 </template>
 <script lang="ts" setup>
 // import { defineComponent } from 'vue'
-import { onMounted, ref, watch } from 'vue'
+import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import { ceil, fill } from 'lodash'
 import { useNamespace } from '@element-plus/hooks'
 import {
@@ -39,7 +39,7 @@ import {
   magnification,
   statisticProps,
 } from './statistic'
-const emit = defineEmits(['finish'])
+const emit = defineEmits(['finish', 'change'])
 // import { useStatisticCustomStyle } from './statistic-custom'
 const props = defineProps(statisticProps)
 defineOptions({
@@ -66,7 +66,9 @@ function branch() {
     dispose()
   }
 }
-
+onBeforeMount(() => {
+  suspend(true)
+})
 const dispose = function (): number {
   const {
     value: Pvalue,
@@ -95,6 +97,7 @@ const dispose = function (): number {
 const suspend = function (isStop: boolean): any {
   if (isStop && timeTask.value) {
     clearInterval(timeTask.value)
+    timeTask.value = null
   } else {
     branch()
   }
@@ -102,24 +105,28 @@ const suspend = function (isStop: boolean): any {
 }
 
 const countDown = function () {
-  const { value, format } = props
-  let diffTiem = diffDate(Number(value), Date.now())
+  // const { format } = props
+  if (timeTask.value) return
   const disappearTime = function (time: any) {
     let result = true // stop
-    if (value > Date.now()) {
+    if (time > 0) {
       result = false
+      emit('change', true)
     } else {
       result = true
-
+      suspend(true)
       emit('finish', true)
     }
     return result
   }
 
+  // diffTiem = diffTiem < REFRESH_INTERVAL ? 0 : diffTiem - REFRESH_INTERVAL
+  // if (disappearTime(diffTiem) && timeTask.value) clearInterval(timeTask.value)
+
   timeTask.value = setInterval(() => {
-    if (disappearTime(diffTiem) && timeTask.value) clearInterval(timeTask.value)
-    diffTiem = diffTiem < REFRESH_INTERVAL ? 0 : diffTiem - REFRESH_INTERVAL
-    disposeValue.value = formatTimeStr(format, diffTiem)
+    const diffTiem = diffDate(Number(props.value), Date.now())
+    disposeValue.value = formatTimeStr(props.format, diffTiem)
+    disappearTime(diffTiem)
   }, REFRESH_INTERVAL)
 }
 defineExpose({

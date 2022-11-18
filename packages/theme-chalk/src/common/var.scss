@@ -624,13 +624,8 @@ $cascader: map.merge(
 );
 //statistic
 // css3 var in packages/theme-chalk/src/statistic.scss
-$statistic:()!default;
-$statistic: map.merge(
-  (
-    
-  ),
-  $statistic
-);
+$statistic: () !default;
+$statistic: map.merge((), $statistic);
 // Button
 // css3 var in packages/theme-chalk/src/button.scss
 $button: () !default;

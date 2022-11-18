@@ -10,6 +10,4 @@ export function useStatisticCustomStyle(props) {
     })
     return styles
   })
-  //   console.log('styles', styles)
-  //   return styles
 }
