@@ -36,6 +36,7 @@ cat > $DIRNAME/src/$INPUT_NAME.vue <<EOF
     <slot />
   </div>
 </template>
+
 <script lang="ts" setup>
 import { ${INPUT_NAME}Props } from './$INPUT_NAME'
 
