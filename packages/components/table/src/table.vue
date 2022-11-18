@@ -48,7 +48,11 @@
             :columns="store.states.columns.value"
             :table-layout="tableLayout"
           />
+          <template v-if="$slots.header">
+            <slot name="header" />
+          </template>
           <table-header
+            v-else
             ref="tableHeaderRef"
             :border="border"
             :default-sort="defaultSort"

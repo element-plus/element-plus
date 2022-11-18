@@ -308,8 +308,9 @@ table/table-layout
 ## Table Slots
 
 | Name   | Description                                                                                                                                                                                   | Subtags      |
-| ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------ |
 | -      | customize default content                                                                                                                                                                     | Table-column |
+| header | Contents that will replace the thead of the table.                                                                                                                                           | —            |
 | append | Contents to be inserted after the last row. You may need this slot if you want to implement infinite scroll for the table. This slot will be displayed above the summary row if there is one. | —            |
 | empty  | you can customize content when data is empty.                                                                                                                                                 | —            |
 
