@@ -139,7 +139,7 @@ export const inputProps = buildProps({
     default: undefined,
   },
   /**
-   * @description native input aira-label
+   * @description native input aria-label
    */
   label: {
     type: String,
