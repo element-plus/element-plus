@@ -1,8 +1,8 @@
 <template>
   <span :class="ns.e('jump')" :disabled="disabled">
-    {{ t('el.pagination.goto') }}
+    <span :class="[ns.e('goto')]">{{ t('el.pagination.goto') }}</span>
     <el-input
-      size="small"
+      :size="size"
       :class="[ns.e('editor'), ns.is('in-pagination')]"
       :min="1"
       :max="pageCount"
@@ -13,7 +13,9 @@
       @update:model-value="handleInput"
       @change="handleChange"
     />
-    {{ t('el.pagination.pageClassifier') }}
+    <span :class="[ns.e('classifier')]">{{
+      t('el.pagination.pageClassifier')
+    }}</span>
   </span>
 </template>
 
@@ -22,11 +24,13 @@ import { computed, ref } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { usePagination } from '../usePagination'
+import { paginationJumperProps } from './jumper'
 
 defineOptions({
   name: 'ElPaginationJumper',
 })
 
+defineProps(paginationJumperProps)
 const { t } = useLocale()
 const ns = useNamespace('pagination')
 const { pageCount, disabled, currentPage, changeEvent } = usePagination()

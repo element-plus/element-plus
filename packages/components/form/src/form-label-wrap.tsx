@@ -88,8 +88,9 @@ export default defineComponent({
       const { isAutoWidth } = props
       if (isAutoWidth) {
         const autoLabelWidth = formContext?.autoLabelWidth
+        const hasLabel = formItemContext?.hasLabel
         const style: CSSProperties = {}
-        if (autoLabelWidth && autoLabelWidth !== 'auto') {
+        if (hasLabel && autoLabelWidth && autoLabelWidth !== 'auto') {
           const marginWidth = Math.max(
             0,
             Number.parseInt(autoLabelWidth, 10) - computedWidth.value

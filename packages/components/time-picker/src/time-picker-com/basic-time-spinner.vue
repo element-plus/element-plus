@@ -4,7 +4,7 @@
       <el-scrollbar
         v-for="item in spinnerItems"
         :key="item"
-        :ref="(scollbar: unknown) => setRef(scollbar as any, item)"
+        :ref="(scrollbar: unknown) => setRef(scrollbar as any, item)"
         :class="ns.be('spinner', 'wrapper')"
         wrap-style="max-height: inherit;"
         :view-class="ns.be('spinner', 'list')"
@@ -80,7 +80,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, unref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
-import { RepeatClick as vRepeatClick } from '@element-plus/directives'
+import { vRepeatClick } from '@element-plus/directives'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'

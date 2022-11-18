@@ -1,30 +1,27 @@
 <template>
-  <div>
-    <!-- :style="statisticStyle" -->
-    <div :class="[ns.b()]">
-      <div class="head">
-        <slot name="title">
-          <span class="title">
-            {{ title }}
-          </span>
+  <div :class="[ns.b()]">
+    <div class="head">
+      <slot name="title">
+        <span class="title">
+          {{ title }}
+        </span>
+      </slot>
+    </div>
+    <div class="con">
+      <span class="prefix">
+        <slot name="prefix">
+          {{ prefix }}
         </slot>
-      </div>
-      <div class="con">
-        <span class="prefix">
-          <slot name="prefix">
-            {{ prefix }}
-          </slot>
-        </span>
+      </span>
 
-        <span class="number" :style="valueStyle">
-          <slot name="formatter"> {{ disposeValue }}</slot>
-        </span>
-        <span class="suffix">
-          <slot name="suffix">
-            {{ suffix }}
-          </slot>
-        </span>
-      </div>
+      <span class="number" :style="valueStyle">
+        <slot name="formatter"> {{ disposeValue }}</slot>
+      </span>
+      <span class="suffix">
+        <slot name="suffix">
+          {{ suffix }}
+        </slot>
+      </span>
     </div>
   </div>
 </template>
@@ -79,7 +76,6 @@ const dispose = function (): number {
   } = props
   let value: any = Pvalue
   if (precision) value = ceil(value, precision)
-  // console.log('value', value)
   let integer: any = String(value).split('.')[0]
   const decimals =
     String(value).split('.')[1] ||

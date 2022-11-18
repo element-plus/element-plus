@@ -30,7 +30,7 @@ import { useMenuCssVar } from './use-menu-css-var'
 
 import type { MenuItemClicked, MenuProvider, SubMenuProvider } from './types'
 import type { NavigationFailure, Router } from 'vue-router'
-import type { ExtractPropTypes, VNode } from 'vue'
+import type { ExtractPropTypes, VNode, VNodeArrayChildren } from 'vue'
 import type { UseResizeObserverReturn } from '@vueuse/core'
 
 export const menuProps = buildProps({
@@ -358,11 +358,11 @@ export default defineComponent({
     }
 
     return () => {
-      let slot = slots.default?.() ?? []
+      let slot: VNodeArrayChildren = slots.default?.() ?? []
       const vShowMore: VNode[] = []
 
       if (props.mode === 'horizontal' && menu.value) {
-        const originalSlot = flattedChildren(slot)
+        const originalSlot = flattedChildren(slot) as VNodeArrayChildren
         const slotDefault =
           sliceIndex.value === -1
             ? originalSlot
