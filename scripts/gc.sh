@@ -47,11 +47,11 @@ const props = defineProps(${INPUT_NAME}Props)
 
 // init here
 </script>
-<style></style>
 EOF
 
 cat > $DIRNAME/src/$INPUT_NAME.ts <<EOF
 import { buildProps } from '@element-plus/utils'
+
 import type { ExtractPropTypes } from 'vue'
 import type $NAME from './$INPUT_NAME.vue'
 
