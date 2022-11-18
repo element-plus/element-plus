@@ -315,6 +315,7 @@ const {
   t,
 } = useRangePicker(props, {
   defaultValue,
+  defaultTime,
   leftDate,
   rightDate,
   unit,
@@ -517,8 +518,6 @@ const handleRangePick = (
   const max_ = val.maxDate
   const minDate_ = formatEmit(min_, 0)
   const maxDate_ = formatEmit(max_, 1)
-  leftDate.value = minDate_ ? minDate_ : leftDate.value
-  rightDate.value = maxDate_ ? maxDate_ : rightDate.value
 
   if (maxDate.value === maxDate_ && minDate.value === minDate_) {
     return

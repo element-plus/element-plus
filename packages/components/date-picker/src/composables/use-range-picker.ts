@@ -16,6 +16,7 @@ type UseRangePickerProps = {
     maxDate: Dayjs | undefined
   ) => void
   defaultValue: Ref<DefaultValue>
+  defaultTime: [Date, Date] | Date | undefined
   leftDate: Ref<Dayjs>
   rightDate: Ref<Dayjs>
   unit: 'month' | 'year'
@@ -25,6 +26,7 @@ export const useRangePicker = (
   props: PanelRangeSharedProps,
   {
     defaultValue,
+    defaultTime,
     leftDate,
     rightDate,
     unit,
@@ -66,7 +68,7 @@ export const useRangePicker = (
   }
 
   const restoreDefault = () => {
-    const [start, end] = getDefaultValue(unref(defaultValue), {
+    const [start, end] = getDefaultValue(unref(defaultValue) || defaultTime, {
       lang: unref(lang),
       unit,
       unlinkPanels: props.unlinkPanels,
