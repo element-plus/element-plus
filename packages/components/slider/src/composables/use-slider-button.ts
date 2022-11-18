@@ -3,7 +3,6 @@ import { debounce } from 'lodash-unified'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { sliderContextKey } from '@element-plus/tokens'
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
-import type { TooltipInstance } from '@element-plus/components/tooltip'
 import type { SliderProps } from '../slider'
 import type {
   SliderButtonEmits,
@@ -18,7 +17,8 @@ const useTooltip = (
   formatTooltip: Ref<SliderProps['formatTooltip']>,
   showTooltip: Ref<SliderProps['showTooltip']>
 ) => {
-  const tooltip = ref<TooltipInstance>()
+  // TODO any is temporary, replace with `TooltipInstance` later
+  const tooltip = ref<any>()
 
   const tooltipVisible = ref(false)
 
@@ -262,7 +262,7 @@ export const useSliderButton = (
 
     await nextTick()
     initData.dragging && displayTooltip()
-    tooltip.value.updatePopper()
+    tooltip.value!.updatePopper()
   }
 
   watch(

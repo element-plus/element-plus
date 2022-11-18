@@ -3,6 +3,8 @@
     ref="selectWrapper"
     v-click-outside:[popperPaneRef]="handleClose"
     :class="wrapperKls"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
     @click.stop="toggleMenu"
   >
     <el-tooltip
@@ -465,6 +467,8 @@ export default defineComponent({
       scrollbar,
       queryChange,
       groupQueryChange,
+      handleMouseEnter,
+      handleMouseLeave,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -644,6 +648,8 @@ export default defineComponent({
       selectTagsStyle,
       nsSelect,
       tagTextStyle,
+      handleMouseEnter,
+      handleMouseLeave,
     }
   },
 })

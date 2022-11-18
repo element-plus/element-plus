@@ -11,7 +11,6 @@
     ]"
     :style="style"
     tabindex="-1"
-    @click.stop
   >
     <header ref="headerRef" :class="ns.e('header')">
       <slot name="header">

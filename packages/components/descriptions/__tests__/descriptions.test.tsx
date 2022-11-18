@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
@@ -106,7 +105,7 @@ describe('Descriptions.vue', () => {
   })
 
   test('should render direction props', async () => {
-    const direction = ref('horizontal')
+    const direction = ref<'horizontal' | 'vertical'>('horizontal')
 
     const wrapper = mount(() => (
       <ElDescriptions column={5} direction={direction.value} border>

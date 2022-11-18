@@ -77,7 +77,6 @@
 </template>
 
 <script lang="ts" setup>
-// @ts-nocheck
 import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
@@ -97,7 +96,7 @@ defineOptions({
   name: 'ElProgress',
 })
 
-const STATUS_COLOR_MAP = {
+const STATUS_COLOR_MAP: Record<string, string> = {
   success: '#13ce66',
   exception: '#ff4949',
   warning: '#e6a23c',

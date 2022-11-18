@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import {
   computed,
   defineComponent,
@@ -24,10 +23,10 @@ import {
 } from 'vue'
 import { getClientXY } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import draggable from '../draggable'
+import { draggable } from '../utils/draggable'
 
 import type { PropType } from 'vue'
-import type Color from '../color'
+import type Color from '../utils/color'
 
 export default defineComponent({
   name: 'ElColorHueSlider',
@@ -42,10 +41,10 @@ export default defineComponent({
   },
   setup(props) {
     const ns = useNamespace('color-hue-slider')
-    const instance = getCurrentInstance()
+    const instance = getCurrentInstance()!
     // ref
-    const thumb = ref<HTMLElement | null>(null)
-    const bar = ref<HTMLElement | null>(null)
+    const thumb = ref<HTMLElement>()
+    const bar = ref<HTMLElement>()
     // data
     const thumbLeft = ref(0)
     const thumbTop = ref(0)
@@ -62,7 +61,7 @@ export default defineComponent({
     )
 
     // methods
-    function handleClick(event: Event) {
+    function handleClick(event: MouseEvent | TouchEvent) {
       const target = event.target
 
       if (target !== thumb.value) {
@@ -70,7 +69,9 @@ export default defineComponent({
       }
     }
 
-    function handleDrag(event) {
+    function handleDrag(event: MouseEvent | TouchEvent) {
+      if (!bar.value || !thumb.value) return
+
       const el = instance.vnode.el as HTMLElement
       const rect = el.getBoundingClientRect()
       const { clientX, clientY } = getClientXY(event)
@@ -101,6 +102,8 @@ export default defineComponent({
     }
 
     function getThumbLeft() {
+      if (!thumb.value) return 0
+
       const el = instance.vnode.el
 
       if (props.vertical) return 0
@@ -113,6 +116,8 @@ export default defineComponent({
     }
 
     function getThumbTop() {
+      if (!thumb.value) return 0
+
       const el = instance.vnode.el as HTMLElement
       if (!props.vertical) return 0
       const hue = props.color.get('hue')
@@ -130,11 +135,13 @@ export default defineComponent({
 
     // mounded
     onMounted(() => {
+      if (!bar.value || !thumb.value) return
+
       const dragConfig = {
-        drag: (event) => {
+        drag: (event: MouseEvent | TouchEvent) => {
           handleDrag(event)
         },
-        end: (event) => {
+        end: (event: MouseEvent | TouchEvent) => {
           handleDrag(event)
         },
       }

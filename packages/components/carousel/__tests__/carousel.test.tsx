@@ -5,7 +5,7 @@ import Carousel from '../src/carousel.vue'
 import CarouselItem from '../src/carousel-item.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
-import type { CarouselInstance } from '../src/carousel'
+import type { CarouselInstance } from '../src/instance'
 
 const wait = (ms = 100) =>
   new Promise((resolve) => setTimeout(() => resolve(0), ms))
@@ -194,5 +194,31 @@ describe('Carousel', () => {
     await nextTick()
     await wait(60)
     expect(items[1].classList.contains('is-active')).toBeTruthy()
+  })
+  it('should guarantee order of indicators', async () => {
+    const data = reactive([1, 2, 3, 4])
+    wrapper = mount({
+      setup() {
+        return () => (
+          <div>
+            <Carousel>
+              {data.map((value) => (
+                <CarouselItem label={value} key={value}>
+                  {value}
+                </CarouselItem>
+              ))}
+            </Carousel>
+          </div>
+        )
+      },
+    })
+    await nextTick()
+
+    data.splice(1, 0, 5)
+    await nextTick()
+    const indicators = wrapper.findAll('.el-carousel__button')
+    data.forEach((value, index) => {
+      expect(indicators[index].element.textContent).toEqual(value.toString())
+    })
   })
 })
