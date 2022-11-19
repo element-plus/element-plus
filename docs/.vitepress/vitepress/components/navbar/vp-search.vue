@@ -6,6 +6,7 @@ import docsearch from '@docsearch/js'
 import { isClient } from '@vueuse/core'
 // import { useLang } from '../../composables/lang'
 // import type { DefaultTheme } from '../config'
+import { languages } from '../../../utils/lang'
 import type { DocSearchHit } from '@docsearch/react/dist/esm/types'
 
 const props = defineProps<{
@@ -116,6 +117,13 @@ function initialize(userOptions: any) {
           props: {
             href: hit.url,
             onClick: (event: MouseEvent) => {
+              // relativeHit startwith '/en-US'
+              // we neeed to get current language to load corresponding docs
+              const currentLang = `/${route.path.split('/')[1]}`
+              relativeHit.replace('/en-US', currentLang)
+
+              console.log(relativeHit)
+
               if (isSpecialClick(event)) {
                 return
               }
@@ -151,6 +159,7 @@ function initialize(userOptions: any) {
 
 <style lang="scss">
 @use '../../styles/mixins' as *;
+
 .algolia-search-box {
   // display: flex;
   // align-items: center;
@@ -210,6 +219,7 @@ function initialize(userOptions: any) {
     --docsearch-hit-background: var(--bg-color-mute);
     --docsearch-hit-color: var(--text-color-lighter);
     --docsearch-hit-shadow: none;
+
     // --docsearch-searchbox-focus-background: var(--bg-color-mute);
     .DocSearch-Button {
       .DocSearch-Button-Key {
