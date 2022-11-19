@@ -1,26 +1,36 @@
 <template>
   <span :class="avatarClass" :style="sizeStyle">
-    <img
-      v-if="(src || srcSet) && !hasLoadError"
-      :src="src"
-      :alt="alt"
-      :srcset="srcSet"
-      :style="fitStyle"
-      @error="handleError"
-    />
-    <el-icon v-else-if="icon">
-      <component :is="icon" />
-    </el-icon>
-    <slot v-else />
+    <template v-if="icon">
+      <el-icon>
+        <component :is="icon" />
+      </el-icon>
+    </template>
+    <template v-else>
+      <avatar-image
+        :src="src"
+        :src-set="srcSet"
+        :alt="alt"
+        :fit="fit"
+        v-bind="$attrs"
+        @state-change="onStateChange"
+      />
+      <avatar-fallback>
+        <slot />
+      </avatar-fallback>
+    </template>
   </span>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue'
+import { computed, provide, ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
+import { avatarKey } from '@element-plus/tokens'
 import { addUnit, isNumber, isString } from '@element-plus/utils'
+import AvatarFallback from './avatar-fallback.vue'
+import AvatarImage from './avatar-image.vue'
 import { avatarEmits, avatarProps } from './avatar'
+import type { ImageLoadingState } from '@element-plus/tokens'
 
 import type { CSSProperties } from 'vue'
 
@@ -33,7 +43,10 @@ const emit = defineEmits(avatarEmits)
 
 const ns = useNamespace('avatar')
 
-const hasLoadError = ref(false)
+const imageLoadingStatus = ref('idle')
+provide(avatarKey, {
+  imageLoadingStatus,
+})
 
 const avatarClass = computed(() => {
   const { size, icon, shape } = props
@@ -53,18 +66,9 @@ const sizeStyle = computed(() => {
     : undefined
 })
 
-const fitStyle = computed<CSSProperties>(() => ({
-  objectFit: props.fit,
-}))
-
-// need reset hasLoadError to false if src changed
-watch(
-  () => props.src,
-  () => (hasLoadError.value = false)
-)
-
-function handleError(e: Event) {
-  hasLoadError.value = true
-  emit('error', e)
+const onStateChange = (state: ImageLoadingState, evt?: Event) => {
+  if (state === 'error') {
+    emit('error', evt!)
+  }
 }
 </script>
