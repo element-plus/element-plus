@@ -116,6 +116,11 @@ function initialize(userOptions: any) {
           props: {
             href: hit.url,
             onClick: (event: MouseEvent) => {
+              // relativeHit startwith '/en-US'
+              // we neeed to get current language to load corresponding docs
+              const currentLang = `/${route.path.split('/')[1]}`
+              relativeHit.replace('/en-US', currentLang)
+
               if (isSpecialClick(event)) {
                 return
               }
