@@ -50,6 +50,10 @@ export const useTree = (
 
   const propsMap = computed(() => ({
     value: key.value,
+    label: 'label',
+    children: 'children',
+    disabled: 'disabled',
+    isLeaf: 'isLeaf',
     ...props.props,
   }))
 
