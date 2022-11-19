@@ -65,6 +65,7 @@ export function useSelectStates(props) {
     prefixWidth: 11,
     tagInMultiLine: false,
     mouseEnter: false,
+    mouseDown: false,
   })
 }
 
@@ -757,7 +758,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleFocus = (event: FocusEvent) => {
     if (!states.softFocus) {
-      if (props.automaticDropdown || props.filterable) {
+      if ((props.automaticDropdown && !states.mouseDown) || props.filterable) {
         if (props.filterable && !states.visible) {
           states.menuVisibleOnFocus = true
         }
@@ -880,6 +881,14 @@ export const useSelect = (props, states: States, ctx) => {
     states.mouseEnter = false
   }
 
+  const handleMouseDown = () => {
+    states.mouseDown = true
+  }
+
+  const handleMouseUp = () => {
+    states.mouseDown = false
+  }
+
   return {
     optionsArray,
     selectSize,
@@ -933,5 +942,7 @@ export const useSelect = (props, states: States, ctx) => {
     // Mouser Event
     handleMouseEnter,
     handleMouseLeave,
+    handleMouseDown,
+    handleMouseUp,
   }
 }
