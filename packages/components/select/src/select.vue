@@ -49,6 +49,7 @@
                 :type="tagType"
                 disable-transitions
                 @close="deleteTag($event, selected[0])"
+                @click="clickTag($event, selected[0])"
               >
                 <span :class="nsSelect.e('tags-text')" :style="tagTextStyle">
                   {{ selected[0].currentLabel }}
@@ -91,6 +92,7 @@
                           disable-transitions
                           :style="{ margin: '2px' }"
                           @close="deleteTag($event, item)"
+                          @click="clickTag($event, item)"
                         >
                           <span
                             :class="nsSelect.e('tags-text')"
@@ -126,6 +128,7 @@
                   :type="tagType"
                   disable-transitions
                   @close="deleteTag($event, item)"
+                  @click="clickTag($event, item)"
                 >
                   <span
                     :class="nsSelect.e('tags-text')"
@@ -408,6 +411,7 @@ export default defineComponent({
     UPDATE_MODEL_EVENT,
     CHANGE_EVENT,
     'remove-tag',
+    'click-tag',
     'clear',
     'visible-change',
     'focus',
@@ -429,6 +433,7 @@ export default defineComponent({
       debouncedQueryChange,
       deletePrevTag,
       deleteTag,
+      clickTag,
       deleteSelected,
       handleOptionSelect,
       scrollToOption,
@@ -593,6 +598,7 @@ export default defineComponent({
       debouncedQueryChange,
       deletePrevTag,
       deleteTag,
+      clickTag,
       deleteSelected,
       handleOptionSelect,
       scrollToOption,
