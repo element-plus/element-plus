@@ -115,7 +115,7 @@ import {
   Document,
   ZoomIn,
 } from '@element-plus/icons-vue'
-import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useDisabled, useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
 
 import { uploadListEmits, uploadListProps } from './upload-list'
@@ -132,6 +132,7 @@ const { t } = useLocale()
 const nsUpload = useNamespace('upload')
 const nsIcon = useNamespace('icon')
 const nsList = useNamespace('list')
+const disabled = useDisabled()
 
 const focusing = ref(false)
 
