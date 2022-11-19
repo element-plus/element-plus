@@ -117,9 +117,9 @@ describe('<dynamic-size-list />', () => {
         BASE_SIZE + 1 * 10
       )
 
-      expect(Number.parseInt(listRef.innerRef.style.height)).toBeLessThan(
-        BASE_SIZE + 5 * 12
-      )
+      expect(
+        Number.parseInt(listRef.innerRef.style.height)
+      ).toBeLessThanOrEqual(BASE_SIZE + 5 * 12)
 
       expect(wrapper.findAll(ITEM_SELECTOR).length).toBeGreaterThan(8)
       expect(wrapper.findAll(ITEM_SELECTOR).length).toBeLessThanOrEqual(11)
