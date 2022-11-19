@@ -232,7 +232,7 @@ describe('Cascader.vue', () => {
 
   test('collapse tags tooltip', async () => {
     const props = { multiple: true }
-    const wrapper = _mount(() => (
+    _mount(() => (
       <Cascader
         modelValue={[
           ['zhejiang', 'hangzhou'],
@@ -247,12 +247,12 @@ describe('Cascader.vue', () => {
     ))
 
     await nextTick()
-    expect(wrapper.findAll(TAG).length).toBe(4)
-    const tags = wrapper.findAll(TAG).filter((item) => {
-      return hasClass(item.element, 'in-tooltip')
-    })
-    expect(tags[0].text()).toBe('Zhejiang / Ningbo')
-    expect(tags[1].text()).toBe('Zhejiang / Wenzhou')
+    const tooltipTags = document.querySelectorAll(
+      `.el-cascader__collapse-tags ${TAG}`
+    )
+    expect(tooltipTags.length).toBe(2)
+    expect(tooltipTags[0].textContent).toBe('Zhejiang / Ningbo')
+    expect(tooltipTags[1].textContent).toBe('Zhejiang / Wenzhou')
   })
 
   test('tag type', async () => {
