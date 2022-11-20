@@ -104,7 +104,7 @@ function initialize(userOptions: any) {
         hit: DocSearchHit
         children: any
       }) => {
-        const relativeHit = hit.url.startsWith('http')
+        let relativeHit = hit.url.startsWith('http')
           ? getRelativePath(hit.url as string)
           : hit.url
 
@@ -119,7 +119,7 @@ function initialize(userOptions: any) {
               // relativeHit startwith '/en-US'
               // we neeed to get current language to load corresponding docs
               const currentLang = `/${route.path.split('/')[1]}`
-              relativeHit.replace('/en-US', currentLang)
+              relativeHit = relativeHit.replace('/en-US', currentLang)
 
               if (isSpecialClick(event)) {
                 return
@@ -156,6 +156,7 @@ function initialize(userOptions: any) {
 
 <style lang="scss">
 @use '../../styles/mixins' as *;
+
 .algolia-search-box {
   // display: flex;
   // align-items: center;
@@ -215,6 +216,7 @@ function initialize(userOptions: any) {
     --docsearch-hit-background: var(--bg-color-mute);
     --docsearch-hit-color: var(--text-color-lighter);
     --docsearch-hit-shadow: none;
+
     // --docsearch-searchbox-focus-background: var(--bg-color-mute);
     .DocSearch-Button {
       .DocSearch-Button-Key {
