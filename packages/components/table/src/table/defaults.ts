@@ -138,6 +138,7 @@ interface TableProps<T> {
   className?: string
   style?: CSSProperties
   tableLayout: Layout
+  scrollbarAlwaysOn: boolean
   flexible: boolean
 }
 
@@ -270,8 +271,11 @@ export type {
   TableRefs,
   ColumnCls,
   ColumnStyle,
+  CellCls,
+  CellStyle,
   TreeNode,
   RenderRowData,
   Sort,
   Filter,
+  TableColumnCtx,
 }

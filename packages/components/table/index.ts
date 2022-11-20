@@ -19,8 +19,11 @@ export type {
   TableRefs,
   ColumnCls,
   ColumnStyle,
+  CellCls,
+  CellStyle,
   TreeNode,
   RenderRowData,
   Sort,
   Filter,
+  TableColumnCtx,
 } from './src/table/defaults'
