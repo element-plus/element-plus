@@ -137,9 +137,9 @@ interface TableProps<T> {
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: CSSProperties
-  tableLayout: Layout
-  scrollbarAlwaysOn: boolean
-  flexible: boolean
+  tableLayout?: Layout
+  scrollbarAlwaysOn?: boolean
+  flexible?: boolean
 }
 
 interface Sort {
