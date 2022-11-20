@@ -27,9 +27,11 @@
     font-size: 12px;
     line-height: 20px;
     letter-spacing: -0.01px;
-
+    vertical-align:bottom;
     /* text-color-regular */
-
+  //   display: flex; 
+  //   align-items: flex-end;
+  //  justify-content: center;
     color: #606266;
 
     /* Inside auto layout */
@@ -45,7 +47,7 @@
     justify-content: center;
     align-items: flex-end;
     flex-direction: flex-end;
-
+  padding-top: 8px;
     .number {
       // font-family: 'PingFang SC';
       font-style: normal;

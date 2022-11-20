@@ -25,9 +25,8 @@ statistic/countdown
 
 ## Card usage
 
-Card usage display, can be freely combined
 
-:::demo Set `disabled` of `el-select` to make it disabled.
+:::demo Card usage display, can be freely combined
 
 statistic/card
 

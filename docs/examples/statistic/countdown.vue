@@ -13,7 +13,7 @@
             :value="value3"
           />
           <div class="f-center">
-            <el-button type="value4" @click="reset">重置</el-button>
+            <el-button type="primary" @click="reset">重置</el-button>
           </div>
         </el-col>
         <el-col :span="8">
