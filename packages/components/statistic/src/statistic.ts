@@ -1,5 +1,4 @@
-import { chain, multiply, padStart, reduce, subtract } from 'lodash'
-import { main } from '@popperjs/core'
+import { chain, multiply, padStart, reduce } from 'lodash-unified'
 import { buildProps } from '@element-plus/utils'
 export const statisticProps = buildProps({
   decimalSeparator: {

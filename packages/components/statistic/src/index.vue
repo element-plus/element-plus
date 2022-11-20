@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 // import { defineComponent } from 'vue'
 import { onBeforeMount, onMounted, ref, watch } from 'vue'
-import { ceil, fill } from 'lodash'
+import { ceil, fill } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import {
   diffDate,
@@ -66,30 +66,31 @@ function branch() {
 onBeforeMount(() => {
   suspend(true)
 })
-const dispose = function (): number {
+const dispose = function (option: any = {}): string {
   const {
     value: Pvalue,
     precision,
     groupSeparator,
     rate,
     decimalSeparator,
-  } = props
+  } = props || option
   let value: any = Pvalue
   if (precision) value = ceil(value, precision)
-  let integer: any = String(value).split('.')[0]
+  let integer: number | string = String(value).split('.')[0]
   const decimals =
     String(value).split('.')[1] ||
     (precision ? fill(Array.from({ length: precision }), 0).join('') : '')
-  let result: any = 0
+  let result: number | string = 0
   // 1000 multiplying power
   if (groupSeparator) {
-    integer = magnification(integer, rate, groupSeparator)
+    integer = magnification(Number(integer), rate, groupSeparator)
   }
 
   result = [integer, decimals].join(decimals ? decimalSeparator || '.' : '')
   disposeValue.value = result
   return result
 }
+
 const suspend = function (isStop: boolean): any {
   if (isStop && timeTask.value) {
     clearInterval(timeTask.value)
@@ -99,11 +100,10 @@ const suspend = function (isStop: boolean): any {
   }
   return disposeValue.value
 }
-
 const countDown = function () {
   // const { format } = props
   if (timeTask.value) return
-  const disappearTime = function (time: any) {
+  const disappearTime = function (time: number): boolean {
     let result = true // stop
     if (time > 0) {
       result = false
@@ -115,9 +115,6 @@ const countDown = function () {
     }
     return result
   }
-
-  // diffTiem = diffTiem < REFRESH_INTERVAL ? 0 : diffTiem - REFRESH_INTERVAL
-  // if (disappearTime(diffTiem) && timeTask.value) clearInterval(timeTask.value)
 
   timeTask.value = setInterval(() => {
     const diffTiem = diffDate(Number(props.value), Date.now())
