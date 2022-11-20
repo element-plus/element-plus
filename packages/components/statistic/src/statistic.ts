@@ -11,7 +11,7 @@ export const statisticProps = buildProps({
   },
   precision: {
     type: Number,
-    default: 0,
+    default: null,
   },
   value: {
     type: [String, Number],

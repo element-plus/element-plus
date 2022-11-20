@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 // import { defineComponent } from 'vue'
 import { onBeforeMount, onMounted, ref, watch } from 'vue'
-import { ceil, fill } from 'lodash-unified'
+import { ceil, fill, isNull } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import {
   diffDate,
@@ -75,7 +75,7 @@ const dispose = function (option: any = {}): string {
     decimalSeparator,
   } = props || option
   let value: any = Pvalue
-  if (precision) value = ceil(value, precision)
+  if (isNull(precision) && precision) value = ceil(value, precision)
   let integer: number | string = String(value).split('.')[0]
   const decimals =
     String(value).split('.')[1] ||

@@ -1,17 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Statistic from '../src/index.vue'
-// const _mount = (template: string, data: any = () => ({})) =>
-//   mount(
-//     {
-//       template,
-//       data,
-//       // ...otherObj,
-//     },
-//     {
-//       attachTo: 'body',
-//     }
-//   )
 describe('Statistic.vue', () => {
   it('render test', async () => {
     const wrapper = mount(Statistic, {
@@ -22,6 +11,16 @@ describe('Statistic.vue', () => {
     })
     await wrapper.vm.$nextTick()
     expect(wrapper.text()).toBe('test57,454,157.00')
+  })
+  it('basics test', async () => {
+    const wrapper = mount(Statistic, {
+      propsData: {
+        value: 268500.123456,
+        title: 'test',
+      },
+    })
+    await wrapper.vm.$nextTick()
+    expect(wrapper.text()).toBe('268,500.123456')
   })
   it('Front and rear', async () => {
     const wrapper = mount(Statistic, {
