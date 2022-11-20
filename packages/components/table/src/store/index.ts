@@ -99,6 +99,17 @@ function useStore<T>() {
       }
     },
 
+    updateColumnOrder(states: StoreStates, keyList: Array<string>) {
+      const array = unref(states._columns)
+      states._columns.value = array.sort((a, b) => {
+        return keyList.indexOf(a.key) - keyList.indexOf(b.key)
+      })
+
+      if (instance.$ready) {
+        instance.store.updateColumns()
+      }
+    },
+
     removeColumn(
       states: StoreStates,
       column: TableColumnCtx<T>,

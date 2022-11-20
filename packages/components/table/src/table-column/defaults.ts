@@ -23,6 +23,7 @@ interface TableColumnCtx<T> {
   labelClassName: string
   property: string
   prop: string
+  key: string | number
   width: string | number
   minWidth: string | number
   renderHeader: (data: CI<T>) => VNode
