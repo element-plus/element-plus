@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { useSizeProp } from '@element-plus/hooks'
 import type {
   CSSProperties,
   ComponentInternalInstance,
@@ -6,6 +7,7 @@ import type {
   Ref,
   VNode,
 } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -88,7 +90,7 @@ type CellStyle<T> =
 type Layout = 'fixed' | 'auto'
 interface TableProps<T> {
   data: T[]
-  size?: string
+  size?: ComponentSize
   width?: string | number
   height?: string | number
   maxHeight?: string | number
@@ -181,7 +183,7 @@ export default {
     type: Array as PropType<DefaultRow[]>,
     default: () => [],
   },
-  size: String,
+  size: useSizeProp,
   width: [String, Number],
   height: [String, Number],
   maxHeight: [String, Number],
