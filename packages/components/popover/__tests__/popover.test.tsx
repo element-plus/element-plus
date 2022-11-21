@@ -1,7 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { POPPER_CONTAINER_SELECTOR, useZIndex } from '@element-plus/hooks'
+import { usePopperContainerId, useZIndex } from '@element-plus/hooks'
 import { rAF } from '@element-plus/test-utils/tick'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import Popover from '../src/popover.vue'
@@ -199,9 +199,10 @@ describe('Popover.vue', () => {
       _mount()
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)?.innerHTML
-      ).not.toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value)?.innerHTML).not.toBe(
+        ''
+      )
     })
 
     it('should not mount on the popper container', async () => {
@@ -209,9 +210,8 @@ describe('Popover.vue', () => {
       _mount({ teleported: false })
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)?.innerHTML
-      ).toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value)?.innerHTML).toBe('')
     })
   })
 })
