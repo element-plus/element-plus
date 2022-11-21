@@ -57,8 +57,8 @@ link/with-icon
 
 ### Attributes
 
-| Name      | Description                         | Type Values                                                                       | Default |
-| --------- | ----------------------------------- | --------------------------------------------------------------------------------- | ------- |
+| Name      | Description                         | Type                                                                              | Default |
+|-----------|-------------------------------------|-----------------------------------------------------------------------------------|---------|
 | type      | type                                | ^[string]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info' \| 'default'` | default |
 | underline | whether the component has underline | ^[boolean]                                                                        | true    |
 | disabled  | whether the component is disabled   | ^[boolean]                                                                        | false   |
@@ -68,6 +68,6 @@ link/with-icon
 ### Slots
 
 | Name    | Description               |
-| ------- | ------------------------- |
+|---------|---------------------------|
 | default | customize default content |
 | icon    | customize icon component  |
