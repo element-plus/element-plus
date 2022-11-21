@@ -261,6 +261,16 @@ const emitChange = (
       formItem?.validate('change').catch((err) => debugWarn(err))
   }
 }
+const blurInput = () => {
+  const [leftInput, rightInput] = unref(refInput)
+  let input = leftInput
+  if (isRangeInput.value) {
+    input = rightInput
+  }
+  if (input) {
+    input.blur()
+  }
+}
 const emitInput = (input: SingleOrRange<DateModelType | Dayjs> | null) => {
   if (!valueEquals(props.modelValue, input)) {
     let formatted
@@ -320,6 +330,7 @@ const onPick = (date: any = '', visible = false) => {
   }
   userInput.value = null
   emitInput(result)
+  blurInput()
 }
 
 const onBeforeShow = () => {
@@ -327,6 +338,7 @@ const onBeforeShow = () => {
 }
 
 const onShow = () => {
+  focus()
   emit('visible-change', true)
 }
 
