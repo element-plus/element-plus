@@ -1,7 +1,13 @@
 // @ts-nocheck
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
-import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-unified'
+import {
+  get,
+  isEmpty,
+  isEqual,
+  isNil,
+  debounce as lodashDebounce,
+} from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import {
   useFormItem,
@@ -226,7 +232,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   const currentPlaceholder = computed(() => {
     const _placeholder = props.placeholder || t('el.select.placeholder')
-    return props.multiple || isNil(props.modelValue)
+    return props.multiple || isEmpty(props.modelValue)
       ? _placeholder
       : states.selectedLabel
   })
