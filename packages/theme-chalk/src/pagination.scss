@@ -63,6 +63,7 @@
 
   white-space: nowrap;
   color: getCssVar('pagination-text-color');
+  font-size: getCssVar('pagination-font-size');
   font-weight: normal;
   display: flex;
   align-items: center;
@@ -130,8 +131,11 @@
       color: getCssVar('text-color', 'placeholder');
     }
 
+    @include e(goto) {
+      margin-right: 8px;
+    }
+
     @include e(editor) {
-      margin-left: 8px;
       text-align: center;
       box-sizing: border-box;
 
@@ -144,6 +148,10 @@
         -webkit-appearance: none;
         margin: 0;
       }
+    }
+
+    @include e(classifier) {
+      margin-left: 8px;
     }
   }
 
