@@ -26,7 +26,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onBeforeMount, onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
 import { ceil, fill, isNull } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import {
@@ -54,6 +54,16 @@ watch(
     branch()
   }
 )
+watch(
+  () =>
+    props.precision +
+    props.groupSeparator +
+    props.rate +
+    props.decimalSeparator,
+  () => {
+    branch()
+  }
+)
 function branch() {
   if (props.timeIndices) {
     countDown()
@@ -61,7 +71,7 @@ function branch() {
     dispose()
   }
 }
-onBeforeMount(() => {
+onBeforeUnmount(() => {
   suspend(true)
 })
 const dispose = function (option: any = {}): string {
@@ -71,20 +81,25 @@ const dispose = function (option: any = {}): string {
     groupSeparator,
     rate,
     decimalSeparator,
-  } = props || option
-  let value: any = Pvalue
-  if (isNull(precision) && precision) value = ceil(value, precision)
+  } = toRefs(props) || option
+
+  let value: any = Pvalue.value
+  if (!isNull(props.precision)) value = ceil(value, props.precision)
   let integer: number | string = String(value).split('.')[0]
   const decimals =
     String(value).split('.')[1] ||
-    (precision ? fill(Array.from({ length: precision }), 0).join('') : '')
+    (precision.value
+      ? fill(Array.from({ length: precision.value }), 0).join('')
+      : '')
+
   let result: number | string = 0
   // 1000 multiplying power
-  if (groupSeparator) {
-    integer = magnification(Number(integer), rate, groupSeparator)
+  if (groupSeparator.value) {
+    integer = magnification(Number(integer), rate.value, groupSeparator.value)
   }
-
-  result = [integer, decimals].join(decimals ? decimalSeparator || '.' : '')
+  result = [integer, decimals].join(
+    decimals ? decimalSeparator.value || '.' : ''
+  )
   disposeValue.value = result
   return result
 }

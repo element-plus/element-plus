@@ -10,7 +10,7 @@ describe('Statistic.vue', () => {
       },
     })
     await wrapper.vm.$nextTick()
-    expect(wrapper.text()).toBe('test57,454,157.00')
+    expect(wrapper.text()).toBe('test57,454,157')
   })
   it('basics test', async () => {
     const wrapper = mount(Statistic, {
@@ -20,7 +20,7 @@ describe('Statistic.vue', () => {
       },
     })
     await wrapper.vm.$nextTick()
-    expect(wrapper.text()).toBe('268,500.123456')
+    expect(wrapper.text()).toBe('test268,500.123456')
   })
   it('Front and rear', async () => {
     const wrapper = mount(Statistic, {
@@ -28,6 +28,7 @@ describe('Statistic.vue', () => {
         value: 57454157,
         prefix: 'Front',
         suffix: 'rear',
+        precision: 2,
       },
     })
     await wrapper.vm.$nextTick()
