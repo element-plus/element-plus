@@ -35,9 +35,7 @@ export const statisticProps = buildProps({
   },
   valueStyle: {
     type: Object,
-    default() {
-      return {}
-    },
+    default: () => ({}),
   },
   format: {
     type: String,

@@ -41,7 +41,7 @@ statistic/card
 |-------------  |---------------- |---------------- |---------------------- |-------- |
 | value            | Numerical content                 | string \| number    | -          | -       |
 | decimal-separator | Setting the decimal point            | string                  | -      | .       |
-| formatter        | Custom numerical presentation| v-slot \|({value}) => VNode | -   | -      |
+| format        | Custom numerical presentation| string | -   | -      |
 | group-separator   | Sets the thousandth identifier              | string           | -             | ,       |
 | precision        | numerical precision      | number                | -        | 0      |
 | prefix           | Sets the prefix of a number          | string \| v-slot | -             | -       |
