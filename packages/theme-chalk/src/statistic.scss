@@ -11,54 +11,42 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  // color: $--color-black;
   font-size: 14px;
   font-variant: tabular-nums;
   line-height: 1.5715;
   list-style: none;
   font-feature-settings: 'tnum';
-  text-align: center;
 
   .head {
     padding: 0 5px;
-    font-family: 'PingFang SC';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
-    line-height: 20px;
     letter-spacing: -0.01px;
-    vertical-align:bottom;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content:center ;
     color: #606266;
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
   }
 
   .con {
-    // border: solid red 1px;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
-    flex-direction: flex-end;
+    align-items: center ;
   padding-top: 8px;
     .number {
-      // font-family: 'PingFang SC';
       font-style: normal;
-      font-weight: 400;
-      font-size: 20px;
       padding: 0 5px;
       font-family: sans-serif;
-      color: #303133;
     }
-
     span {
+      font-weight: 400;
+      color: #303133;
+      font-size: 20px;
       display: inline-block;
       margin: 0;
       line-height: 100%;
-      // border: solid red 1px;
     }
   }
 }

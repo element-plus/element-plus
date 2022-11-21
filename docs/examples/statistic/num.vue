@@ -8,17 +8,17 @@
         <el-col :span="6">
           <el-statistic :value="138">
             <template #title>
-              <div>
-                男女比
-                <el-icon><Male /></el-icon>
-              </div>
+              男女比
+              <el-icon style="margin-left: 4px" :size="12"><Male /></el-icon>
             </template>
             <template #suffix> /100 </template>
           </el-statistic>
         </el-col>
         <el-col :span="6">
           <el-statistic title="总成交" :value="172000">
-            <template #suffix> 单 </template>
+            <template #suffix>
+              <span style="font-size: 12px">单</span>
+            </template>
           </el-statistic>
         </el-col>
         <el-col :span="6">
@@ -36,25 +36,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ChatLineRound, Male } from '@element-plus/icons-vue'
-// import { ElStatistic } from '@element-plus/components'
 const value: any = ref(Date.now() + 1000 * 60 * 60 * 24 * 2)
-const value1: any = ref(Date.now() + 1000 * 60 * 60 * 7)
-
-const value4: any = ref(Date.now() + 1000 * 60 * 60 * 24 * 82)
 
 const value3: any = ref(Date.now() + 1000 * 60 * 60 * 24 * 2)
 
-const value2: any = ref(0)
 function add() {
   value.value = value.value + 1000 * 60 * 10
 }
-function reset() {
-  value3.value = Date.now() + 1000 * 60 * 60 * 24 * 2
-}
-// code here
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .play-container {
   height: 100%;
   width: 100%;

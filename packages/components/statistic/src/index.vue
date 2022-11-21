@@ -26,7 +26,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-// import { defineComponent } from 'vue'
 import { onBeforeMount, onMounted, ref, watch } from 'vue'
 import { ceil, fill, isNull } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
@@ -37,7 +36,6 @@ import {
   statisticProps,
 } from './statistic'
 const emit = defineEmits(['finish', 'change'])
-// import { useStatisticCustomStyle } from './statistic-custom'
 const props = defineProps(statisticProps)
 defineOptions({
   name: 'ElStatistic',
@@ -101,7 +99,6 @@ const suspend = function (isStop: boolean): any {
   return disposeValue.value
 }
 const countDown = function () {
-  // const { format } = props
   if (timeTask.value) return
   const disappearTime = function (time: number): boolean {
     let result = true // stop

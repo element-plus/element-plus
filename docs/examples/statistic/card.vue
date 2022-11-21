@@ -10,9 +10,19 @@
               :value-style="{ fontSize: '28px' }"
             >
               <template #title>
-                <div style="text-align: left">
-                  日活跃用户数
-                  <el-icon><Warning /></el-icon>
+                <div class="titleLeft">
+                  <span> 日活跃用户数 </span>
+                  <el-popover
+                    placement="top-start"
+                    title="Title"
+                    :width="200"
+                    trigger="hover"
+                    content="this is content, this is content, this is content"
+                  >
+                    <template #reference>
+                      <el-icon :size="12"><Warning /></el-icon>
+                    </template>
+                  </el-popover>
                 </div>
               </template>
             </ElStatistic>
@@ -40,7 +50,7 @@
               :value-style="{ fontSize: '28px' }"
             >
               <template #title>
-                <div style="text-align: left">
+                <div class="titleLeft">
                   月活跃用户数
                   <el-icon><Warning /></el-icon>
                 </div>
@@ -70,7 +80,7 @@
               :value="268500"
             >
               <template #title>
-                <div>
+                <div class="titleLeft">
                   今日新增成交
                   <el-icon><Warning /></el-icon>
                 </div>
@@ -83,7 +93,7 @@
                   16% <el-icon><CaretTop /></el-icon>
                 </span>
               </span>
-              <el-icon><ArrowRight /></el-icon>
+              <el-icon :size="14" @click="onClick"><ArrowRight /></el-icon>
             </div>
           </el-card>
         </el-col>
@@ -94,6 +104,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { ElMessage } from 'element-plus'
 import {
   ArrowRight,
   CaretBottom,
@@ -101,61 +112,62 @@ import {
   Warning,
 } from '@element-plus/icons-vue'
 
-const value: any = ref(Date.now() + 1000 * 60 * 60 * 24 * 2)
-const value1: any = ref(Date.now() + 1000 * 60 * 60 * 7)
-
-const value4: any = ref(Date.now() + 1000 * 60 * 60 * 24 * 82)
-
-const value3: any = ref(Date.now() + 1000 * 60 * 60 * 24 * 2)
-
-const value2: any = ref(0)
-function add() {
-  value.value = value.value + 1000 * 60 * 10
+function onClick() {
+  ElMessage({
+    message: 'Are you going far away?',
+    type: 'success',
+  })
 }
-function reset() {
-  value3.value = Date.now() + 1000 * 60 * 60 * 24 * 2
-}
+
 // code here
 </script>
 
 <style lang="scss" scoped>
-:root {
-  --bg-color: red;
+>>> .example-showcase {
+  border: solid red 1px;
 }
 
-#play {
+.play-container3 {
   height: 100%;
   width: 100%;
-  .play-container3 {
-    height: 100%;
-    width: 100%;
-    .f-center {
-      text-align: center;
-      margin-top: 10px;
-    }
-    .s-card {
-      width: 100%;
-      margin-top: 20px;
-    }
-    .s-bg {
-      box-sizing: border-box;
-      width: 100%;
-      padding: 20px;
-      background: #f0f2f5;
-      border: 1px solid #dcdfe6;
-    }
+  .f-center {
+    text-align: center;
+    margin-top: 10px;
   }
-  .itemCard {
+  .s-card {
     width: 100%;
-    height: 200px;
-    border: solid red 1px;
-    text-align: left;
+    margin-top: 20px;
+  }
+  .s-bg {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 20px;
+    background: #f0f2f5;
+    border: 1px solid #dcdfe6;
+  }
+}
+.itemCard {
+  width: 100%;
+  // height: 200px;
+}
+
+.titleLeft {
+  display: inline-flex;
+  align-items: center;
+  text-align: left;
+  text-align: left;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  margin-left: -5px;
+  i {
+    margin-left: 4px;
   }
 }
 
 .s-Bottom {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   margin-top: 16px;
   // padding-bottom: 20px;
