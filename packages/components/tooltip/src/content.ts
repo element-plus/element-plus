@@ -1,10 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { popperContentProps } from '@element-plus/components/popper'
-import {
-  POPPER_CONTAINER_SELECTOR,
-  useDelayedToggleProps,
-  useNamespace,
-} from '@element-plus/hooks'
+import { useDelayedToggleProps, useNamespace } from '@element-plus/hooks'
 import type { ExtractPropTypes } from 'vue'
 
 const ns = useNamespace('tooltip')
@@ -14,7 +10,6 @@ export const useTooltipContentProps = buildProps({
   ...popperContentProps,
   appendTo: {
     type: definePropType<string | HTMLElement>([String, Object]),
-    default: POPPER_CONTAINER_SELECTOR,
   },
   content: {
     type: String,
