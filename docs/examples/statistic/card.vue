@@ -123,10 +123,6 @@ function onClick() {
 </script>
 
 <style lang="scss" scoped>
->>> .example-showcase {
-  border: solid red 1px;
-}
-
 .play-container3 {
   height: 100%;
   width: 100%;
