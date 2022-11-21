@@ -64,6 +64,6 @@ export interface FormItemContext extends FormItemProps {
 }
 
 export const formContextKey: InjectionKey<FormContext> =
-  Symbol.for('formContextKey')
+  Symbol.for('elFormContextKey')
 export const formItemContextKey: InjectionKey<FormItemContext> =
-  Symbol.for('formItemContextKey')
+  Symbol.for('elFormItemContextKey')
