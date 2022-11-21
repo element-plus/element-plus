@@ -89,9 +89,9 @@ container/example
 
 ### Container Slots
 
-| Name    | Description               | Subtags                                                      |
-| ------- | ------------------------- | ------------------------------------------------------------ |
-| default | customize default content | ^[Component]`Container \| Header \| Aside \| Main \| Footer` |
+| Name    | Description               | Subtags                                    |
+| ------- | ------------------------- | ------------------------------------------ |
+| default | customize default content | Container / Header / Aside / Main / Footer |
 
 ## Header API
 
