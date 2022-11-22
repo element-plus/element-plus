@@ -36,7 +36,6 @@
         @blur="onBlur"
         @close="onClose"
       >
-        <!-- Workaround bug #6378 -->
         <template v-if="!destroyed">
           <slot />
         </template>
@@ -48,6 +47,7 @@
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
+import { usePopperContainerId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
 import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
@@ -59,6 +59,8 @@ defineOptions({
 })
 
 const props = defineProps(useTooltipContentProps)
+
+const { selector } = usePopperContainerId()
 // TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
 const contentRef = ref<any>(null)
 const destroyed = ref(false)
@@ -93,6 +95,10 @@ const shouldRender = computed(() => {
 
 const shouldShow = computed(() => {
   return props.disabled ? false : unref(open)
+})
+
+const appendTo = computed(() => {
+  return props.appendTo || selector.value
 })
 
 const contentStyle = computed(() => (props.style ?? {}) as any)
