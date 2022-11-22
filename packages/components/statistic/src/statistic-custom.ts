@@ -1,13 +1,11 @@
 import { computed } from 'vue'
-import { useDisabled, useNamespace } from '@element-plus/hooks'
-export function useStatisticCustomStyle(props) {
+import { useNamespace } from '@element-plus/hooks'
+export function useStatisticCustomStyle() {
   const ns = useNamespace('statistic')
 
   return computed(() => {
     let styles: Record<string, string> = {}
-    styles = ns.cssVarBlock({
-      color: 'red',
-    })
+    styles = ns.cssVarBlock({})
     return styles
   })
 }

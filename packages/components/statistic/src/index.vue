@@ -1,11 +1,11 @@
 <template>
   <div :class="[ns.b()]">
     <div :class="ns.e('head')">
-      <slot name="title">
-        <span :class="ns.e('title')">
+      <span :class="ns.e('title')">
+        <slot name="title">
           {{ title }}
-        </span>
-      </slot>
+        </slot>
+      </span>
     </div>
     <div :class="ns.e('content')">
       <span :class="ns.e('prefix')">
