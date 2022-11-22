@@ -1,23 +1,23 @@
 <template>
   <div :class="[ns.b()]">
-    <div class="head">
+    <div :class="ns.e('head')">
       <slot name="title">
-        <span class="title">
+        <span :class="ns.e('title')">
           {{ title }}
         </span>
       </slot>
     </div>
-    <div class="con">
-      <span class="prefix">
+    <div :class="ns.e('content')">
+      <span :class="ns.e('prefix')">
         <slot name="prefix">
           {{ prefix }}
         </slot>
       </span>
 
-      <span class="number" :style="valueStyle">
+      <span :class="ns.e('number')" :style="valueStyle">
         <slot name="formatter"> {{ disposeValue }}</slot>
       </span>
-      <span class="suffix">
+      <span :class="ns.e('suffix')">
         <slot name="suffix">
           {{ suffix }}
         </slot>

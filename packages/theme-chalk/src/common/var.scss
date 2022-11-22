@@ -625,7 +625,17 @@ $cascader: map.merge(
 //statistic
 // css3 var in packages/theme-chalk/src/statistic.scss
 $statistic: () !default;
-$statistic: map.merge((), $statistic);
+$statistic: map.merge(
+  (
+    'head-justify-content': center,
+    'content-justify-content': center,
+    'padding': 0 5px,
+    'content-margin-top': 8px,
+    'content-text-color': getCssVar('text-color', 'primary'),
+    'head-text-color': getCssVar('text-color', 'regular'),
+  ),
+  $statistic
+);
 // Button
 // css3 var in packages/theme-chalk/src/button.scss
 $button: () !default;

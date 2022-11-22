@@ -37,9 +37,6 @@
 import { ref } from 'vue'
 import { ChatLineRound, Male } from '@element-plus/icons-vue'
 const value: any = ref(Date.now() + 1000 * 60 * 60 * 24 * 2)
-
-const value3: any = ref(Date.now() + 1000 * 60 * 60 * 24 * 2)
-
 function add() {
   value.value = value.value + 1000 * 60 * 10
 }

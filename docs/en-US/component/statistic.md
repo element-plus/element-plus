@@ -17,7 +17,7 @@ statistic/num
 
 ## Countdown
 
-:::demo Set `timeIndices`Start the countdown.   Countdown component, support English and Chinese countdown, support to add other components control countdown.
+:::demo Set `timeIndices`Start the countdown. Countdown component, support English and Chinese countdown, support to add other components control countdown.
 
 statistic/countdown
 
@@ -25,55 +25,53 @@ statistic/countdown
 
 ## Card usage
 
-
 :::demo Card usage display, can be freely combined
 
 statistic/card
 
 :::
 
-
-
-
 ### Statistic Attributes
 
-| Attribute          | Description            | Type            | Accepted Values                 | Default   |
-|-------------  |---------------- |---------------- |---------------------- |-------- |
-| value            | Numerical content                 | string \| number    | -          | -       |
-| decimal-separator | Setting the decimal point            | string                  | -      | .       |
-| format        | Custom numerical presentation| string | -   | -      |
-| group-separator   | Sets the thousandth identifier              | string           | -             | ,       |
-| precision        | numerical precision      | number                | -        | 0      |
-| prefix           | Sets the prefix of a number          | string \| v-slot | -             | -       |
-| suffix           |Sets the suffix of a number          | string \| v-slot     | -         | -       |
-| title            | 	Numeric titles               | string \| v-slot   | -           | -       |
-| value-style       | Styles numeric values          | style             | -            | -       |
-| rate       | Set the ratio          | number             | -            | 1000       |
-
+| Attribute         | Description                    | Type             | Accepted Values | Default |
+| ----------------- | ------------------------------ | ---------------- | --------------- | ------- |
+| value             | Numerical content              | string \| number | -               | -       |
+| decimal-separator | Setting the decimal point      | string           | -               | .       |
+| format            | Custom numerical presentation  | string           | -               | -       |
+| group-separator   | Sets the thousandth identifier | string           | -               | ,       |
+| precision         | numerical precision            | number           | -               | 0       |
+| prefix            | Sets the prefix of a number    | string \| v-slot | -               | -       |
+| suffix            | Sets the suffix of a number    | string \| v-slot | -               | -       |
+| title             | Numeric titles                 | string \| v-slot | -               | -       |
+| value-style       | Styles numeric values          | style            | -               | -       |
+| rate              | Set the ratio                  | number           | -               | 1000    |
 
 ### Statistic Slots
-| Name | Description |
-|------|--------|
-| prefix | Numeric prefix |
-| suffix | Suffixes for numeric values |
-| formatter | Numerical content |
-| title | Numeric titles |
 
+| Name      | Description                 |
+| --------- | --------------------------- |
+| prefix    | Numeric prefix              |
+| suffix    | Suffixes for numeric values |
+| formatter | Numerical content           |
+| title     | Numeric titles              |
 
-### Statistic.Countdown  Attributes
+### Statistic.Countdown Attributes
 
-| Attribute          | Description            | Type            | Options                 | Default   |
-|-------------  |---------------- |---------------- |---------------------- |-------- |
-| time-indices       | Whether to enable the countdown function     | boolean     | true\|false                        | false      |
-| value         | Required value, enter the bound value   | string  | — | — |
-| format         | Formatting the countdown display   | string  | — | 'HH:mm:ss' |
+| Attribute    | Description                              | Type    | Options     | Default    |
+| ------------ | ---------------------------------------- | ------- | ----------- | ---------- |
+| time-indices | Whether to enable the countdown function | boolean | true\|false | false      |
+| value        | Required value, enter the bound value    | string  | —           | —          |
+| format       | Formatting the countdown display         | string  | —           | 'HH:mm:ss' |
+
 ### Statistic.Countdown Events
-| Method | Description | Parameters |
-|---------|--------|---------|
-| change | Enable in the 'countdown' function | (value:  Date) |
+
+| Method | Description                                | Parameters       |
+| ------ | ------------------------------------------ | ---------------- |
+| change | Enable in the 'countdown' function         | (value: Date)    |
 | finish | Launched after the 'countdown' is complete | (value: boolean) |
 
 ### Statistic Methods
-| Method | Description | Parameters |CallBack|
-| ---- | ---- | ---- |---- |
-| suspend | Pause the countdown|(value:boolean) |(value:  Date) |
+
+| Method  | Description         | Parameters      | CallBack      |
+| ------- | ------------------- | --------------- | ------------- |
+| suspend | Pause the countdown | (value:boolean) | (value: Date) |
