@@ -15,6 +15,10 @@ export default defineComponent({
   props: {
     ...ElSelect.props,
     ...ElTree.props,
+    cacheData: {
+      type: Array,
+      default: () => [],
+    },
   },
   setup(props, context) {
     const { slots, expose } = context

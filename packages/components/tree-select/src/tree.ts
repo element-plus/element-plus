@@ -88,12 +88,12 @@ export const useTree = (
     .filter((item) => isValidValue(item))
 
   const cacheOptions = computed(() => {
-    if (!props.renderAfterExpand) return []
+    if (!props.renderAfterExpand && !props.lazy) return []
 
     const options: CacheOption[] = []
 
     treeEach(
-      props.data || [],
+      props.data.concat(props.cacheData),
       (node) => {
         const value = getNodeValByProp('value', node)
         options.push({
