@@ -131,7 +131,7 @@ space/fill-ratio
 | prefixCls  | Prefix for space-items          | ^[string]                                                                                                                       | -          |
 | style      | Extra style rules               | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`                                                             | -          |
 | spacer     | Spacer                          | ^[string] / ^[number] / ^[VNode]                                                                                                | -          |
-| size       | Spacing size                    | ^[string] / ^[number] / ^[object]`[horizontalSize?: number, verticalSize?: number]`                                             | small      |
+| size       | Spacing size                    | ^[string]`'default' \| 'small' \| 'large'` / ^[number] / ^[array]`[number, number]`                                             | small      |
 | wrap       | Auto wrapping                   | ^[boolean]                                                                                                                      | false      |
 | fill       | Whether to fill the container   | ^[boolean]                                                                                                                      | false      |
 | fill-ratio | Ratio of fill                   | ^[number]                                                                                                                       | 100        |
