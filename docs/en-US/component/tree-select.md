@@ -18,14 +18,6 @@ tree-select/basic
 
 :::
 
-:::tip
-
-Since `render-after-expand` defaults to `true`,
-the selected label name may not be displayed when echoing,
-you can set it to `false` to display the correct name.
-
-:::
-
 ## Select any level
 
 When using the `check-strictly=true` attribute, any node can be checked,
