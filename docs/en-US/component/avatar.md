@@ -47,28 +47,28 @@ avatar/fit
 
 :::
 
-## Avatar API
+## API
 
-### Avatar Attributes
+### Attributes
 
-| Name      | Description                                               | Type                                                              | Default     | Required |
-| --------- | --------------------------------------------------------- | ----------------------------------------------------------------- | ----------- | -------- |
-| `icon`    | representation type to icon, more info on icon component. | ^[string] / ^[Component]                                          | —           | No       |
-| `size`    | avatar size.                                              | ^[number] / ^[Enum]`'large' \| 'default' \| 'small'`              | `'default'` | No       |
-| `shape`   | avatar shape.                                             | ^[Enum]`'circle' \| 'square'`                                     | `'circle'`  | No       |
-| `src`     | the source of the image for an image avatar.              | `string`                                                          | —           | No       |
-| `src-set` | native attribute `srcset` of image avatar.                | `string`                                                          | —           | No       |
-| `alt`     | native attribute `alt` of image avatar.                   | `string`                                                          | —           | No       |
-| `fit`     | set how the image fit its container for an image avatar.  | ^[Enum]`'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'`   | No       |
+| Name    | Description                                               | Type                                                              | Default     |
+| ------- | --------------------------------------------------------- | ----------------------------------------------------------------- | ----------- |
+| icon    | representation type to icon, more info on icon component. | ^[string] / ^[Component]                                          | —           |
+| size    | avatar size.                                              | ^[number] / ^[Enum]`'large' \| 'default' \| 'small'`              | `'default'` |
+| shape   | avatar shape.                                             | ^[Enum]`'circle' \| 'square'`                                     | `'circle'`  |
+| src     | the source of the image for an image avatar.              | `string`                                                          | —           |
+| src-set | native attribute `srcset` of image avatar.                | `string`                                                          | —           |
+| alt     | native attribute `alt` of image avatar.                   | `string`                                                          | —           |
+| fit     | set how the image fit its container for an image avatar.  | ^[Enum]`'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | `'cover'`   |
 
-### Avatar Events
+### Events
 
-| Name    | Description                    | Type                            |
-| ------- | ------------------------------ | ------------------------------- |
-| `error` | trigger when image load error. | ^[Function]`(e: Event) => void` |
+| Name  | Description                    | Type                            |
+| ----- | ------------------------------ | ------------------------------- |
+| error | trigger when image load error. | ^[Function]`(e: Event) => void` |
 
-### Avatar Slots
+### Slots
 
-| Name      | Description               |
-| --------- | ------------------------- |
-| `default` | customize avatar content. |
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize avatar content. |
