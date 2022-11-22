@@ -99,3 +99,9 @@ and please go to the original component to view the documentation.
 | --------------------------------------- | ----------------------------- | ----------------------------------- | ---------------------------------- |
 | [tree](./tree.md#attributes)            | [tree](./tree.md#method)      | [tree](./tree.md#events)            | [tree](./tree.md#slots)            |
 | [select](./select.md#select-attributes) | [select](./select.md#methods) | [select](./select.md#select-events) | [select](./select.md#select-slots) |
+
+### Own Attributes
+
+| Name      | Description                                                                                                         | Type  | Accepted Values | Default |
+| --------- | ------------------------------------------------------------------------------------------------------------------- | ----- | --------------- | ------- |
+| cacheData | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | array | —               | —       |
