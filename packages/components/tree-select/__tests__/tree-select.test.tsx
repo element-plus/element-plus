@@ -433,4 +433,21 @@ describe('TreeSelect.vue', () => {
       tree.findAll('.el-tree-node__children')[0].attributes('style')
     ).not.toContain('display: none;')
   })
+
+  test('show correct label when child options are not rendered', async () => {
+    const modelValue = ref<number>()
+    const { select } = createComponent({
+      props: {
+        modelValue,
+        renderAfterExpand: true,
+      },
+    })
+
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('')
+
+    modelValue.value = 111
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('三级 1-1')
+  })
 })
