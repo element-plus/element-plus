@@ -13,6 +13,9 @@ defineOptions({
   name: 'ElContainer',
 })
 const props = defineProps({
+  /**
+   * @description layout direction for child elements
+   */
   direction: {
     type: String,
   },
