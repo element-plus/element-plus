@@ -58,20 +58,20 @@
   padding-left: 0;
   background-color: getCssVar('menu-bg-color');
   box-sizing: border-box;
-
+	
+	&.el-menu--minWidthExpand {
+		min-width: getCssVar('menu-vertical-expanded-width');
+	}
   @include m(vertical) {
-    &:not(.#{$namespace}-menu--collapse){
-	    width: getCssVar('menu-vertical-expanded-width');
-	    &:not(.#{$namespace}-menu--popup-container) {
-		    & .#{$namespace}-menu-item,
-		    & .#{$namespace}-sub-menu__title,
-		    & .#{$namespace}-menu-item-group__title {
-			    white-space: nowrap;
-			    padding-left: calc(
-					    #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-level')} *
-					    #{getCssVar('menu-level-padding')}
-			    );
-		    }
+    &:not(.#{$namespace}-menu--popup-container) {
+	    & .#{$namespace}-menu-item,
+	    & .#{$namespace}-sub-menu__title,
+	    & .#{$namespace}-menu-item-group__title {
+		    white-space: nowrap;
+		    padding-left: calc(
+				    #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-level')} *
+				    #{getCssVar('menu-level-padding')}
+		    );
 	    }
     }
   }

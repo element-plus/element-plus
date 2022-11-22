@@ -33,11 +33,12 @@ export default defineComponent({
         }
 
         if (hasClass(el, ns.m('collapse'))) {
-          removeClass(el, ns.m('collapse'))
+          addClass(el, ns.m('minWidthExpand'))
           el.dataset.oldOverflow = el.style.overflow
           el.dataset.scrollWidth = el.clientWidth.toString()
-          addClass(el, ns.m('collapse'))
+          removeClass(el, ns.m('minWidthExpand'))
         } else {
+          removeClass(el, ns.m('minWidthExpand'))
           addClass(el, ns.m('collapse'))
           el.dataset.oldOverflow = el.style.overflow
           el.dataset.scrollWidth = el.clientWidth.toString()

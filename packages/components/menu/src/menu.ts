@@ -408,6 +408,7 @@ export default defineComponent({
           class: {
             [nsMenu.b()]: true,
             [nsMenu.m(props.mode)]: true,
+            [nsMenu.m('minWidthExpand')]: !props.collapse,
             [nsMenu.m('collapse')]: props.collapse,
           },
         },
