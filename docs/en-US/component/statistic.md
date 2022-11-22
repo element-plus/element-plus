@@ -1,9 +1,9 @@
 ---
-title: statistic
+title: Statistic
 lang: en-US
 ---
 
-# statistic
+# Statistic
 
 Display statistics.
 
