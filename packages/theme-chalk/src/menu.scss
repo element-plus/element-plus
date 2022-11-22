@@ -318,10 +318,7 @@
     }
   }
   .#{$namespace}-sub-menu__icon-arrow {
-    position: absolute;
-    top: 50%;
-    right: getCssVar('menu-base-level-padding');
-    margin-top: -7px;
+	  margin-left: 10px;
     transition: transform getCssVar('transition-duration');
     font-size: 12px;
     margin-right: 0;
