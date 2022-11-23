@@ -316,7 +316,7 @@ table/table-layout
 ## Table-column Attributes
 
 | Name                  | Description                                                                                                                                                                                                         | Type                                    | Accepted Values                                                                                                                  | Default                           |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
 | type                  | type of the column. If set to `selection`, the column will display checkbox. If set to `index`, the column will display index of the row (staring from 1). If set to `expand`, the column will display expand icon. | string                                  | selection / index / expand                                                                                                       | —                                 |
 | index                 | customize indices for each row, works on columns with `type=index`                                                                                                                                                  | number / function(index)                | —                                                                                                                                | —                                 |
 | label                 | column label                                                                                                                                                                                                        | string                                  | —                                                                                                                                | —                                 |
@@ -347,10 +347,11 @@ table/table-layout
 
 ## Table-column Slots
 
-| Name   | Description                                                                        |
-| ------ | ---------------------------------------------------------------------------------- |
-| —      | Custom content for table columns. The scope parameter is `{ row, column, $index }` |
-| header | Custom content for table header. The scope parameter is `{ column, $index }`       |
+| Name   | Description                                                                                                                                                                                      |
+|--------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| —      | Custom content for table columns. The scope parameter is `{ row, column, $index }`                                                                                                               |
+| header | Custom content for table header. The scope parameter is `{ column, $index }`                                                                                                                     |
+| filter | Custom content for table filter. The scope parameter multiple `{ multiple, filters, filteredValue, handleConfirm, handleReset }` else single `{ multiple, filterValue, isActive, handleSelect }` |
 
 ## FAQ
 
