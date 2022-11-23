@@ -7,7 +7,7 @@ import { EVENT_CODE } from '@element-plus/constants'
 import { makeMountFunc } from '@element-plus/test-utils/make-mount'
 import { rAF } from '@element-plus/test-utils/tick'
 import { CircleClose } from '@element-plus/icons-vue'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerId } from '@element-plus/hooks'
 import Select from '../src/select.vue'
 
 vi.mock('lodash-unified', async () => {
@@ -125,7 +125,7 @@ const createSelect = (
         }
         @change="onChange"
         @visible-change="onVisibleChange"
-        @remove-tah="onRemoveTag"
+        @remove-tag="onRemoveTag"
         @focus="onFocus"
         @blur="onBlur"
         v-model="value">
@@ -473,9 +473,9 @@ describe('Select', () => {
     vm.value = vm.options[1].value
     await nextTick()
     await clickClearButton(wrapper)
-    expect(vm.value).toBe('')
+    expect(vm.value).toBeUndefined()
     const placeholder = wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`)
-    expect(placeholder.text()).toBe('')
+    expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
   })
 
   describe('multiple', () => {
@@ -1502,9 +1502,10 @@ describe('Select', () => {
       })
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
-      ).not.toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value)!.innerHTML).not.toBe(
+        ''
+      )
     })
 
     it('should not mount on the popper container', async () => {
@@ -1542,9 +1543,43 @@ describe('Select', () => {
       })
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
-      ).toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value).innerHTML).toBe('')
     })
+  })
+
+  it('filterable case-insensitive', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          filterable: true,
+          options: [
+            {
+              value: '1',
+              label: 'option 1',
+            },
+            {
+              value: '2',
+              label: 'option 2',
+            },
+            {
+              value: '3',
+              label: 'OPtion 3',
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    selectVm.expanded = true
+    await nextTick()
+    await rAF()
+    const input = wrapper.find('input')
+    input.element.value = 'op'
+    await input.trigger('input')
+    await nextTick()
+    expect(selectVm.filteredOptions.length).toBe(3)
   })
 })

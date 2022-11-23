@@ -108,14 +108,14 @@ export default {
       hasCheckedFormat: '{checked}/{total} valitud',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'Ebaõnnestus',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Tagasi',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Jah',
+      cancelButtonText: 'Ei',
     },
   },
 }

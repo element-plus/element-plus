@@ -6,3 +6,4 @@ export const ElAlert = withInstall(Alert)
 export default ElAlert
 
 export * from './src/alert'
+export type { AlertInstance } from './src/instance'

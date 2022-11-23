@@ -26,7 +26,7 @@
       @focus="onFocus(true)"
       @blur="quickPrevFocus = false"
     >
-      <d-arrow-left v-if="quickPrevHover || quickPrevFocus" />
+      <d-arrow-left v-if="(quickPrevHover || quickPrevFocus) && !disabled" />
       <more-filled v-else />
     </li>
     <li
@@ -56,7 +56,7 @@
       @focus="onFocus()"
       @blur="quickNextFocus = false"
     >
-      <d-arrow-right v-if="quickNextHover || quickNextFocus" />
+      <d-arrow-right v-if="(quickNextHover || quickNextFocus) && !disabled" />
       <more-filled v-else />
     </li>
     <li

@@ -8,6 +8,10 @@ export const ElTable = withInstall(Table, {
 export default ElTable
 export const ElTableColumn = withNoopInstall(TableColumn)
 
+export type TableInstance = InstanceType<typeof Table>
+
+export type TableColumnInstance = InstanceType<typeof TableColumn>
+
 export type {
   SummaryMethod,
   Table,
@@ -15,8 +19,11 @@ export type {
   TableRefs,
   ColumnCls,
   ColumnStyle,
+  CellCls,
+  CellStyle,
   TreeNode,
   RenderRowData,
   Sort,
   Filter,
+  TableColumnCtx,
 } from './src/table/defaults'
