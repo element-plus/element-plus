@@ -9,7 +9,9 @@
           <el-statistic :value="138">
             <template #title>
               男女比
-              <el-icon style="margin-left: 4px" :size="12"><Male /></el-icon>
+              <el-icon style="margin-left: 4px" :size="12">
+                <Male />
+              </el-icon>
             </template>
             <template #suffix> /100 </template>
           </el-statistic>
@@ -24,7 +26,9 @@
         <el-col :span="6">
           <el-statistic title="反馈数" :value="562">
             <template #suffix>
-              <el-icon><ChatLineRound /></el-icon>
+              <el-icon>
+                <ChatLineRound />
+              </el-icon>
             </template>
           </el-statistic>
         </el-col>
@@ -61,8 +65,7 @@ function add() {
     box-sizing: border-box;
     width: 100%;
     padding: 20px;
-    background: #f0f2f5;
-    border: 1px solid #dcdfe6;
+    background: var(--el-fill-color);
   }
 
   .item {

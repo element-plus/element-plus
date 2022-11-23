@@ -33,18 +33,18 @@ statistic/card
 
 ### Statistic Attributes
 
-| Attribute         | Description                    | Type                     | Accepted Values | Default |
-| ----------------- | ------------------------------ | ------------------------ | --------------- | ------- |
-| value             | Numerical content              | ^[string] / ^[number]    | -               | -       |
-| decimal-separator | Setting the decimal point      | ^[string]                | -               | .       |
-| format            | Custom numerical presentation  | ^[string]                | -               | -       |
-| group-separator   | Sets the thousandth identifier | ^[string]                | -               | ,       |
-| precision         | numerical precision            | ^[number]                | -               | 0       |
-| prefix            | Sets the prefix of a number    | ^[string] / ^[Component] | -               | -       |
-| suffix            | Sets the suffix of a number    | ^[string] / ^[Component] | -               | -       |
-| title             | Numeric titles                 | ^[string] / ^[Component] | -               | -       |
-| value-style       | Styles numeric values          | ^[styleObject]           | -               | -       |
-| rate              | Set the ratio                  | ^[number]                | -               | 1000    |
+| Attribute         | Description                    | Type                                                   | Accepted Values | Default |
+| ----------------- | ------------------------------ | ------------------------------------------------------ | --------------- | ------- |
+| value             | Numerical content              | ^[string] / ^[number]                                  | -               | -       |
+| decimal-separator | Setting the decimal point      | ^[string]                                              | -               | .       |
+| format            | Custom numerical presentation  | ^[string]                                              | -               | -       |
+| group-separator   | Sets the thousandth identifier | ^[string]                                              | -               | ,       |
+| precision         | numerical precision            | ^[number]                                              | -               | 0       |
+| prefix            | Sets the prefix of a number    | ^[string]                                              | -               | -       |
+| suffix            | Sets the suffix of a number    | ^[string]                                              | -               | -       |
+| title             | Numeric titles                 | ^[string]                                              | -               | -       |
+| value-style       | Styles numeric values          | ^[object]`CSSProperties \| CSSProperties[]\| string[]` | -               |
+| rate              | Set the ratio                  | ^[number]                                              | -               | 1000    |
 
 ### Statistic Slots
 
@@ -65,7 +65,7 @@ statistic/card
 
 ### Statistic.Countdown Events
 
-| Method | Description                                | Parameters                               |
+| Method | Description                                | Type                                     |
 | ------ | ------------------------------------------ | ---------------------------------------- |
 | change | Enable in the 'countdown' function         | ^[Function]`() => Date`                  |
 | finish | Launched after the 'countdown' is complete | ^[Function]`(event: FocusEvent) => void` |

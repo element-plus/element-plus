@@ -1,6 +1,6 @@
 <template>
-  <div :class="[ns.b()]">
-    <div :class="ns.e('head')">
+  <div :class="ns.b()">
+    <div v-if="!!$slots.title || title" ref="title" :class="ns.e('head')">
       <span :class="ns.e('title')">
         <slot name="title">
           {{ title }}
@@ -8,16 +8,15 @@
       </span>
     </div>
     <div :class="ns.e('content')">
-      <span :class="ns.e('prefix')">
+      <span v-if="!!$slots.title || prefix" :class="ns.e('prefix')">
         <slot name="prefix">
           {{ prefix }}
         </slot>
       </span>
-
-      <span :class="ns.e('number')" :style="valueStyle">
+      <span v-if="value" :class="ns.e('number')" :style="valueStyle">
         <slot name="formatter"> {{ disposeValue }}</slot>
       </span>
-      <span :class="ns.e('suffix')">
+      <span v-if="!!$slots.title || suffix" :class="ns.e('suffix')">
         <slot name="suffix">
           {{ suffix }}
         </slot>
@@ -26,7 +25,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { ceil, fill, isNull } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import {
@@ -35,6 +34,7 @@ import {
   magnification,
   statisticProps,
 } from './statistic'
+
 const emit = defineEmits(['finish', 'change'])
 const props = defineProps(statisticProps)
 defineOptions({
@@ -44,7 +44,6 @@ const ns = useNamespace('statistic')
 const disposeValue: any = ref(null)
 const timeTask = ref<ReturnType<typeof setInterval> | null>(null)
 const REFRESH_INTERVAL = 1000 / 30
-
 onMounted(() => {
   branch()
 })
@@ -81,25 +80,21 @@ const dispose = function (option: any = {}): string {
     groupSeparator,
     rate,
     decimalSeparator,
-  } = toRefs(props) || option
+  } = props || option
 
-  let value: any = Pvalue.value
+  let value: any = Pvalue
   if (!isNull(props.precision)) value = ceil(value, props.precision)
   let integer: number | string = String(value).split('.')[0]
   const decimals =
     String(value).split('.')[1] ||
-    (precision.value
-      ? fill(Array.from({ length: precision.value }), 0).join('')
-      : '')
+    (precision ? fill(Array.from({ length: precision }), 0).join('') : '')
 
   let result: number | string = 0
   // 1000 multiplying power
-  if (groupSeparator.value) {
-    integer = magnification(Number(integer), rate.value, groupSeparator.value)
+  if (groupSeparator) {
+    integer = magnification(Number(integer), rate, groupSeparator)
   }
-  result = [integer, decimals].join(
-    decimals ? decimalSeparator.value || '.' : ''
-  )
+  result = [integer, decimals].join(decimals ? decimalSeparator || '.' : '')
   disposeValue.value = result
   return result
 }

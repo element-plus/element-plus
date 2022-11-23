@@ -1,4 +1,4 @@
-import { chain, multiply, padStart, reduce } from 'lodash-unified'
+import { divide, floor, multiply, padStart, reduce } from 'lodash-unified'
 import { buildProps } from '@element-plus/utils'
 export const statisticProps = buildProps({
   decimalSeparator: {
@@ -77,7 +77,7 @@ export const formatTimeStr = function (format: any, time: number) {
     (con: string, item: any[]) => {
       const name = item[0]
       return con.replace(new RegExp(`${name}+`, 'g'), (match: any) => {
-        let sum: any = chain(time).divide(item[1]).floor().value()
+        let sum: any = floor(divide(time, item[1]))
         time -= multiply(sum, item[1])
         sum = padStart(String(sum), String(match).length, '0') // autoCompletion
         return sum

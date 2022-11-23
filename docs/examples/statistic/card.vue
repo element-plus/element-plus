@@ -20,7 +20,9 @@
                     content="this is content, this is content, this is content"
                   >
                     <template #reference>
-                      <el-icon :size="12"><Warning /></el-icon>
+                      <el-icon :size="12">
+                        <Warning />
+                      </el-icon>
                     </template>
                   </el-popover>
                 </div>
@@ -30,13 +32,19 @@
               <span class="item"
                 >比昨日
                 <span class="green">
-                  24% <el-icon><CaretTop /></el-icon>
+                  24%
+                  <el-icon>
+                    <CaretTop />
+                  </el-icon>
                 </span>
               </span>
               <span class="item"
                 >比前日
                 <span class="red">
-                  17% <el-icon><CaretBottom /></el-icon>
+                  17%
+                  <el-icon>
+                    <CaretBottom />
+                  </el-icon>
                 </span>
               </span>
             </div>
@@ -52,7 +60,9 @@
               <template #title>
                 <div class="titleLeft">
                   月活跃用户数
-                  <el-icon><Warning /></el-icon>
+                  <el-icon>
+                    <Warning />
+                  </el-icon>
                 </div>
               </template>
             </ElStatistic>
@@ -60,13 +70,19 @@
               <span class="item"
                 >月同比
                 <span class="green">
-                  24% <el-icon><CaretTop /></el-icon>
+                  24%
+                  <el-icon>
+                    <CaretTop />
+                  </el-icon>
                 </span>
               </span>
               <span class="item"
                 >月环比
                 <span class="red">
-                  12% <el-icon><CaretBottom /></el-icon>
+                  12%
+                  <el-icon>
+                    <CaretBottom />
+                  </el-icon>
                 </span>
               </span>
             </div>
@@ -82,7 +98,9 @@
               <template #title>
                 <div class="titleLeft">
                   今日新增成交
-                  <el-icon><Warning /></el-icon>
+                  <el-icon>
+                    <Warning />
+                  </el-icon>
                 </div>
               </template>
             </ElStatistic>
@@ -90,10 +108,15 @@
               <span class="item"
                 >本月总成交单数比上月
                 <span class="green">
-                  16% <el-icon><CaretTop /></el-icon>
+                  16%
+                  <el-icon>
+                    <CaretTop />
+                  </el-icon>
                 </span>
               </span>
-              <el-icon :size="14" @click="onClick"><ArrowRight /></el-icon>
+              <el-icon :size="14" @click="onClick">
+                <ArrowRight />
+              </el-icon>
             </div>
           </el-card>
         </el-col>
@@ -126,36 +149,39 @@ function onClick() {
 .play-container3 {
   height: 100%;
   width: 100%;
+
   .f-center {
     text-align: center;
     margin-top: 10px;
   }
+
   .s-card {
     width: 100%;
     margin-top: 20px;
   }
+
   .s-bg {
+    padding: 1rem;
     box-sizing: border-box;
     width: 100%;
-    padding: 20px;
-    background: #f0f2f5;
-    border: 1px solid #dcdfe6;
+    // border: solid red 1px;
+    background: var(--el-fill-color);
   }
 }
+
 .itemCard {
   width: 100%;
-  // height: 200px;
 }
 
 .titleLeft {
   display: inline-flex;
   align-items: center;
   text-align: left;
-  text-align: left;
+  flex-wrap: nowrap;
   flex-direction: row;
   justify-content: flex-start;
-  width: 100%;
   margin-left: -5px;
+
   i {
     margin-left: 4px;
   }
@@ -170,14 +196,17 @@ function onClick() {
   font-size: 12px;
 
   color: #606266;
+
   .item {
     height: 20px;
     padding-left: 4px;
     display: inline-block;
   }
+
   .green {
     color: #67c23a;
   }
+
   .red {
     color: #f56c6c;
   }
