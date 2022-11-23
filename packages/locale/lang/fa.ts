@@ -114,8 +114,8 @@ export default {
       title: 'بازگشت',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'بله', 
+      cancelButtonText: 'خیر',
     },
   },
 }
