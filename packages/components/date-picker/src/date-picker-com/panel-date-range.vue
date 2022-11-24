@@ -315,6 +315,7 @@ const {
   t,
 } = useRangePicker(props, {
   defaultValue,
+  defaultTime,
   leftDate,
   rightDate,
   unit,
@@ -524,7 +525,6 @@ const handleRangePick = (
   emit('calendar-change', [min_.toDate(), max_ && max_.toDate()])
   maxDate.value = maxDate_
   minDate.value = minDate_
-
   if (!close || showTime.value) return
   handleRangeConfirm()
 }

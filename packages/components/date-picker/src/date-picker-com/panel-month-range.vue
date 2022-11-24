@@ -124,7 +124,7 @@ const unit = 'year'
 
 const { lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
-const { shortcuts, disabledDate, format } = pickerBase.props
+const { shortcuts, disabledDate, format, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const leftDate = ref(dayjs().locale(lang.value))
 const rightDate = ref(dayjs().locale(lang.value).add(1, unit))
@@ -142,6 +142,7 @@ const {
   onSelect,
 } = useRangePicker(props, {
   defaultValue,
+  defaultTime,
   leftDate,
   rightDate,
   unit,

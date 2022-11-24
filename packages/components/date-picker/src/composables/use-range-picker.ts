@@ -2,7 +2,7 @@ import { getCurrentInstance, inject, ref, unref, watch } from 'vue'
 import { isArray } from '@element-plus/utils'
 import { ROOT_PICKER_INJECTION_KEY } from '@element-plus/tokens'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { getDefaultValue, isValidRange } from '../utils'
+import { getDefaultValue, isValidRange, setDefaultTime } from '../utils'
 import { useShortcut } from './use-shortcut'
 
 import type { Ref } from 'vue'
@@ -16,6 +16,7 @@ type UseRangePickerProps = {
     maxDate: Dayjs | undefined
   ) => void
   defaultValue: Ref<DefaultValue>
+  defaultTime: DefaultValue
   leftDate: Ref<Dayjs>
   rightDate: Ref<Dayjs>
   unit: 'month' | 'year'
@@ -25,6 +26,7 @@ export const useRangePicker = (
   props: PanelRangeSharedProps,
   {
     defaultValue,
+    defaultTime,
     leftDate,
     rightDate,
     unit,
@@ -71,10 +73,11 @@ export const useRangePicker = (
       unit,
       unlinkPanels: props.unlinkPanels,
     })
+    const [_start, _end] = setDefaultTime([start, end], defaultTime)
     minDate.value = undefined
     maxDate.value = undefined
-    leftDate.value = start
-    rightDate.value = end
+    leftDate.value = _start
+    rightDate.value = _end
   }
 
   watch(

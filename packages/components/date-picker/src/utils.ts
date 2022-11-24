@@ -45,6 +45,29 @@ export const getDefaultValue = (
   return [start, start.add(1, unit)]
 }
 
+export const setDefaultTime = (
+  defaultValue: [Dayjs, Dayjs],
+  defaultTime: DefaultValue
+) => {
+  if (isArray(defaultTime)) {
+    return defaultValue.map((d, i) =>
+      d
+        .set('hour', dayjs(defaultTime[i]).hour())
+        .set('minute', dayjs(defaultTime[i]).minute())
+        .set('second', dayjs(defaultTime[i]).second())
+    )
+  } else if (defaultValue) {
+    return defaultValue.map((d) =>
+      d
+        .set('hour', dayjs(defaultTime).hour())
+        .set('minute', dayjs(defaultTime).minute())
+        .set('second', dayjs(defaultTime).second())
+    )
+  } else {
+    return defaultValue
+  }
+}
+
 type Dimension = {
   row: number
   column: number
