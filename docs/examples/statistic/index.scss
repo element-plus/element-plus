@@ -1,12 +1,5 @@
-.example:nth-last-of-type(4n + 1) {
-  .example-showcase {
-    background-color: var(--el-fill-color) !important;
-  }
-}
 .example:nth-last-of-type(7n + 1) {
-  width: 76%;
   .example-showcase {
     background-color: var(--el-fill-color) !important;
-    // border: solid red 1px;
   }
 }

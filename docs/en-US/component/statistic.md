@@ -29,10 +29,6 @@ statistic/countdown
 statistic/card
 
 :::
-:::demo
-
-statistic/miniCard
-:::
 
 ## Statistic API
 

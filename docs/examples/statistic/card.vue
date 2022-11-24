@@ -29,24 +29,28 @@
               </template>
             </ElStatistic>
             <div class="s-Bottom">
-              <span class="item"
-                >比昨日
-                <span class="green">
-                  24%
-                  <el-icon>
-                    <CaretTop />
-                  </el-icon>
-                </span>
-              </span>
-              <span class="item"
-                >比前日
-                <span class="red">
-                  17%
-                  <el-icon>
-                    <CaretBottom />
-                  </el-icon>
-                </span>
-              </span>
+              <el-row>
+                <el-col :span="12" :xs="24">
+                  <span class="item"
+                    >比昨日
+                    <span class="green">
+                      24%
+                      <el-icon>
+                        <CaretTop />
+                      </el-icon>
+                    </span> </span
+                ></el-col>
+                <el-col :span="12" :xs="24">
+                  <span class="item" style="text-align: right"
+                    >比前日
+                    <span class="red">
+                      17%
+                      <el-icon>
+                        <CaretBottom />
+                      </el-icon>
+                    </span> </span
+                ></el-col>
+              </el-row>
             </div>
           </el-card>
         </el-col>
@@ -67,24 +71,28 @@
               </template>
             </ElStatistic>
             <div class="s-Bottom">
-              <span class="item"
-                >月同比
-                <span class="green">
-                  24%
-                  <el-icon>
-                    <CaretTop />
-                  </el-icon>
-                </span>
-              </span>
-              <span class="item"
-                >月环比
-                <span class="red">
-                  12%
-                  <el-icon>
-                    <CaretBottom />
-                  </el-icon>
-                </span>
-              </span>
+              <el-row>
+                <el-col :span="12" :xs="24">
+                  <span class="item"
+                    >月同比
+                    <span class="green">
+                      24%
+                      <el-icon>
+                        <CaretTop />
+                      </el-icon>
+                    </span> </span
+                ></el-col>
+                <el-col :span="12" :xs="24">
+                  <span class="item" style="text-align: right"
+                    >月环比
+                    <span class="red">
+                      12%
+                      <el-icon>
+                        <CaretBottom />
+                      </el-icon>
+                    </span> </span
+                ></el-col>
+              </el-row>
             </div>
           </el-card>
         </el-col>
@@ -105,18 +113,23 @@
               </template>
             </ElStatistic>
             <div class="s-Bottom">
-              <span class="item"
-                >比昨日
-                <span class="green">
-                  16%
-                  <el-icon>
-                    <CaretTop />
+              <el-row>
+                <el-col :span="20">
+                  <span class="item"
+                    >比昨日
+                    <span class="red">
+                      16%
+                      <el-icon>
+                        <CaretBottom />
+                      </el-icon>
+                    </span> </span
+                ></el-col>
+                <el-col :span="4">
+                  <el-icon :size="14" @click="onClick">
+                    <ArrowRight />
                   </el-icon>
-                </span>
-              </span>
-              <el-icon :size="14" @click="onClick">
-                <ArrowRight />
-              </el-icon>
+                </el-col>
+              </el-row>
             </div>
           </el-card>
         </el-col>
@@ -179,6 +192,8 @@ function onClick() {
   display: inline-flex;
   align-items: center;
   text-align: left;
+  width: 100%;
+
   flex-wrap: nowrap;
   flex-direction: row;
   justify-content: flex-start;
@@ -189,26 +204,24 @@ function onClick() {
 }
 
 .s-Bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   margin-top: 16px;
   font-size: 12px;
 
-  color: #606266;
+  color: var(--el-text-color-regular);
 
   .item {
     height: 20px;
     padding-left: 4px;
+    padding-bottom: 4px;
     display: inline-block;
   }
 
   .green {
-    color: #67c23a;
+    color: var(--el-color-success);
   }
 
   .red {
-    color: #f56c6c;
+    color: var(--el-color-error);
   }
 }
 </style>
