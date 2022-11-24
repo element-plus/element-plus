@@ -226,12 +226,20 @@ const setCurrentValue = (
   emitChange = true
 ) => {
   const oldVal = data.currentValue
-  const newVal = verifyValue(value)
+  let newVal = verifyValue(value)
+
+  // fixed: https://github.com/element-plus/element-plus/issues/10569
+  // when newValue equal to null | undefined, reset to oldValue
+  if (typeof newVal !== 'number') {
+    newVal = oldVal
+  }
+
   if (oldVal === newVal) return
   if (!emitChange) {
     emit(UPDATE_MODEL_EVENT, newVal!)
     return
   }
+
   data.userInput = null
   emit(UPDATE_MODEL_EVENT, newVal!)
   emit(CHANGE_EVENT, newVal!, oldVal!)
