@@ -9,8 +9,19 @@ lang: en-US
 
 ### Name
 
-取消代码块,使用纯文本展示
-\`size\` => size
+- 取消代码块,使用纯文本展示
+
+`size` => size
+
+- tag 标签使用
+
+  目前内置内`版本`/ `遗弃` / `a11y`这三种 tag 组件，标签和文本中间不用加空格，组件自带边距
+
+| Name                               |
+| ---------------------------------- |
+| size<A11yTag />                    |
+| size<VersionTag version="2.2.1" /> |
+| size<DeprecatedTag />              |
 
 ### Description
 
@@ -41,21 +52,29 @@ export const inputProps = buildProps({
 ### Type
 
 - 基础类型
+
   \`string\` => \^[string]
+
   \`number\` => \^[number]
+
   \`boolean\` => \^[boolean]
 
 - 枚举(用于指定值选项的，例如 `size`)
+
   \^[enum]\`'large' \\| 'default' \\| 'small'\`
 
 - 引用类型(目前统一用 object 表示)
+
   \^[object]\`number[] \\| string[] \\| CSSProperties\`
 
 - 多类型
+
   \^[string] / \^[number]
+
   \^[boolean] / \^[enum]\`'large' \\| 'default' \\| 'small'\`
 
 - 方法
+
   \`(e: FocusEvent)\` => \^[Function]\`(e: FocusEvent)=>void`
 
 ### Accepted Values
@@ -93,26 +112,41 @@ e.g [container.md](./container.html#container-slots)
 
 改为 Exposes, 除了方法将 defineExpose 中的属性补齐到文档，同样需要和 props 补齐 description 注释
 
-## Api title
+## Api Title
 
 - 如果当前组件分类只有一个组件可以直接写,保持这个顺序(目前是根据使用频率定的顺序)
-  \## API
-  \### Attributes
-  \### Events
-  \### Slots
-  \### Exposes
-- 如果有多个组件，例如 button 分类(命名采用大驼峰)
-  \## Button API
-  \### Button Attributes
-  \### Button Events
-  \### Button Slots
-  \### Button Exposes
 
-  \## ButtonGroup API
-  \### ButtonGroup Attributes
-  \### ButtonGroup Events
-  \### ButtonGroup Slots
-  \### ButtonGroup Exposes
+  ## API
+
+  ### Attributes
+
+  ### Events
+
+  ### Slots
+
+  ### Exposes
+
+- 如果有多个组件，例如 button 分类(命名采用大驼峰)
+
+  ## Button API
+
+  ### Button Attributes
+
+  ### Button Events
+
+  ### Button Slots
+
+  ### Button Exposes
+
+  ## ButtonGroup API
+
+  ### ButtonGroup Attributes
+
+  ### ButtonGroup Events
+
+  ### ButtonGroup Slots
+
+  ### ButtonGroup Exposes
 
 ## Class optimization in code
 
@@ -188,10 +222,10 @@ e.g [container.md](./container.html#container-slots)
 </script>
 ```
 
-## Ref rename
+## Ref Rename
 
 统一使用 xxxRef 命名
 
-## Style props
+## Style Props
 
 统一使用 StyleValue 作为类型，文档参考 [input.md](./input.html#attributes) 中的 inputStyle
