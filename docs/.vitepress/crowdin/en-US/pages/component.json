@@ -1,4 +1,13 @@
 {
+  "docs": {
+    "text": "Document style upgrade",
+    "children": [
+      {
+        "link": "/docs",
+        "text": "Upgrade Content"
+      }
+    ]
+  },
   "basic": {
     "text": "Basic",
     "children": [
