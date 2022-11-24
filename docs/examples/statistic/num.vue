@@ -9,7 +9,7 @@
           <el-statistic :value="138">
             <template #title>
               男女比
-              <el-icon style="margin-left: 4px" :size="12">
+              <el-icon style="" :size="12">
                 <Male />
               </el-icon>
             </template>

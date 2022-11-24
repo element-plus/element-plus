@@ -20,7 +20,6 @@ statistic/num
 :::demo Set `timeIndices`Start the countdown. Countdown component, support English and Chinese countdown, support to add other components control countdown.
 
 statistic/countdown
-
 :::
 
 ## Card usage
@@ -30,21 +29,27 @@ statistic/countdown
 statistic/card
 
 :::
+:::demo
+
+statistic/miniCard
+:::
+
+## Statistic API
 
 ### Statistic Attributes
 
-| Attribute         | Description                    | Type                                                   | Accepted Values | Default |
-| ----------------- | ------------------------------ | ------------------------------------------------------ | --------------- | ------- |
-| value             | Numerical content              | ^[string] / ^[number]                                  | -               | -       |
-| decimal-separator | Setting the decimal point      | ^[string]                                              | -               | .       |
-| format            | Custom numerical presentation  | ^[string]                                              | -               | -       |
-| group-separator   | Sets the thousandth identifier | ^[string]                                              | -               | ,       |
-| precision         | numerical precision            | ^[number]                                              | -               | 0       |
-| prefix            | Sets the prefix of a number    | ^[string]                                              | -               | -       |
-| suffix            | Sets the suffix of a number    | ^[string]                                              | -               | -       |
-| title             | Numeric titles                 | ^[string]                                              | -               | -       |
-| value-style       | Styles numeric values          | ^[object]`CSSProperties \| CSSProperties[]\| string[]` | -               |
-| rate              | Set the ratio                  | ^[number]                                              | -               | 1000    |
+| Attribute         | Description                    | Type                                                                | Default |
+| ----------------- | ------------------------------ | ------------------------------------------------------------------- | ------- |
+| value             | Numerical content              | ^[string] / ^[number]                                               | —       |
+| decimal-separator | Setting the decimal point      | ^[string]                                                           | —       |
+| format            | Custom numerical presentation  | ^[string]                                                           | —       |
+| group-separator   | Sets the thousandth identifier | ^[string]                                                           | ,       |
+| precision         | numerical precision            | ^[number]                                                           | 0       |
+| prefix            | Sets the prefix of a number    | ^[string]                                                           | —       |
+| suffix            | Sets the suffix of a number    | ^[string]                                                           | —       |
+| title             | Numeric titles                 | ^[string]                                                           | —       |
+| value-style       | Styles numeric values          | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` |
+| rate              | Set the ratio                  | ^[number]                                                           | 1000    |
 
 ### Statistic Slots
 
@@ -54,6 +59,14 @@ statistic/card
 | suffix    | Suffixes for numeric values |
 | formatter | Numerical content           |
 | title     | Numeric titles              |
+
+### Statistic Exposes
+
+| Name | Description            | Type                                 |
+| ---- | ---------------------- | ------------------------------------ |
+| ref  | Statistic html element | ^[Object]`Ref<HTMLStatisticElement>` |
+
+## Statistic.Countdown API
 
 ### Statistic.Countdown Attributes
 
@@ -70,8 +83,12 @@ statistic/card
 | change | Enable in the 'countdown' function         | ^[Function]`() => Date`                  |
 | finish | Launched after the 'countdown' is complete | ^[Function]`(event: FocusEvent) => void` |
 
-### Statistic Methods
+### Statistic.Countdown Exposes
 
 | Method  | Description         | Parameters                            |
 | ------- | ------------------- | ------------------------------------- |
 | suspend | Pause the countdown | ^[Function]`(value: boolean) => Date` |
+
+<style lang="scss">
+@use '../../examples/statistic/index.scss';
+</style>

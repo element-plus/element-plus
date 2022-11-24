@@ -28,7 +28,7 @@
                 </div>
               </template>
             </ElStatistic>
-            <div class="s-Bottom">
+            <div class="s-Bottom f-top">
               <span class="item"
                 >比昨日
                 <span class="green">
@@ -38,6 +38,8 @@
                   </el-icon>
                 </span>
               </span>
+            </div>
+            <div class="s-Bottom">
               <span class="item"
                 >比前日
                 <span class="red">
@@ -66,7 +68,7 @@
                 </div>
               </template>
             </ElStatistic>
-            <div class="s-Bottom">
+            <div class="s-Bottom f-top">
               <span class="item"
                 >月同比
                 <span class="green">
@@ -76,6 +78,8 @@
                   </el-icon>
                 </span>
               </span>
+            </div>
+            <div class="s-Bottom">
               <span class="item"
                 >月环比
                 <span class="red">
@@ -104,7 +108,7 @@
                 </div>
               </template>
             </ElStatistic>
-            <div class="s-Bottom">
+            <div class="s-Bottom f-top">
               <span class="item"
                 >比昨日
                 <span class="green">
@@ -141,8 +145,6 @@ function onClick() {
     type: 'success',
   })
 }
-
-// code here
 </script>
 <style lang="scss" scoped>
 .el-statistic {
@@ -173,6 +175,7 @@ function onClick() {
 
 .itemCard {
   width: 100%;
+  height: 164px;
 }
 
 .titleLeft {
@@ -182,17 +185,17 @@ function onClick() {
   flex-wrap: nowrap;
   flex-direction: row;
   justify-content: flex-start;
-
   i {
     margin-left: 4px;
   }
 }
-
+.f-top {
+  margin-top: 16px;
+}
 .s-Bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 16px;
   font-size: 12px;
 
   color: #606266;
