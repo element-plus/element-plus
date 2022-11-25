@@ -342,10 +342,15 @@ const resizeTextarea = () => {
   }
 }
 
-const setNativeInputValue = () => {
+const setNativeInputValue = (force = false) => {
   const input = _ref.value
-  if (!input || input.value === nativeInputValue.value) return
-  input.value = nativeInputValue.value
+  if (!input) {
+    return
+  }
+
+  if (force || input.value !== nativeInputValue.value) {
+    input.value = nativeInputValue.value
+  }
 }
 
 const handleInput = async (event: Event) => {
@@ -422,6 +427,7 @@ const handleFocus = (event: FocusEvent) => {
 }
 
 const handleBlur = (event: FocusEvent) => {
+  setNativeInputValue(true)
   focused.value = false
   emit('blur', event)
   if (props.validateEvent) {
