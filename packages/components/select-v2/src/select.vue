@@ -309,7 +309,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, reactive, toRefs, vModelText } from 'vue'
+import {
+  computed,
+  defineComponent,
+  provide,
+  reactive,
+  toRefs,
+  vModelText,
+} from 'vue'
+import { isArray } from '@element-plus/utils'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
@@ -340,12 +348,29 @@ export default defineComponent({
   ],
 
   setup(props, { emit }) {
-    const API = useSelect(props, emit)
+    const modelValue = computed(() =>
+      props.multiple
+        ? isArray(props.modelValue)
+          ? props.modelValue
+          : []
+        : isArray(props.modelValue)
+        ? undefined
+        : props.modelValue
+    )
+
+    const API = useSelect(
+      reactive({
+        ...toRefs(props),
+        modelValue,
+      }),
+      emit
+    )
     // TODO, remove the any cast to align the actual API.
     provide(selectV2InjectionKey, {
       props: reactive({
         ...toRefs(props),
         height: API.popupHeight,
+        modelValue,
       }),
       popper: API.popper,
       onSelect: API.onSelect,
@@ -354,7 +379,10 @@ export default defineComponent({
       onKeyboardSelect: API.onKeyboardSelect,
     } as any)
 
-    return API
+    return {
+      ...API,
+      modelValue,
+    }
   },
 })
 </script>
