@@ -93,7 +93,6 @@
             </template>
             <template v-else>
               <el-tooltip
-                :teleported="false"
                 :disabled="popperVisible || !collapseTagsTooltip"
                 :fallback-placements="['bottom', 'top', 'right', 'left']"
                 placement="bottom"

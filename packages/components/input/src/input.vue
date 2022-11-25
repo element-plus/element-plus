@@ -2,22 +2,7 @@
   <div
     v-show="type !== 'hidden'"
     v-bind="containerAttrs"
-    :class="[
-      type === 'textarea' ? nsTextarea.b() : nsInput.b(),
-      nsInput.m(inputSize),
-      nsInput.is('disabled', inputDisabled),
-      nsInput.is('exceed', inputExceed),
-      {
-        [nsInput.b('group')]: $slots.prepend || $slots.append,
-        [nsInput.bm('group', 'append')]: $slots.append,
-        [nsInput.bm('group', 'prepend')]: $slots.prepend,
-        [nsInput.m('prefix')]: $slots.prefix || prefixIcon,
-        [nsInput.m('suffix')]:
-          $slots.suffix || suffixIcon || clearable || showPassword,
-        [nsInput.bm('suffix', 'password-clear')]: showClear && showPwdVisible,
-      },
-      $attrs.class,
-    ]"
+    :class="containerKls"
     :style="containerStyle"
     :role="containerRole"
     @mouseenter="handleMouseEnter"
@@ -30,10 +15,10 @@
         <slot name="prepend" />
       </div>
 
-      <div :class="[nsInput.e('wrapper'), nsInput.is('focus', focused)]">
+      <div :class="wrapperKls">
         <!-- prefix slot -->
         <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
-          <span :class="nsInput.e('prefix-inner')">
+          <span :class="nsInput.e('prefix-inner')" @click="focus">
             <slot name="prefix" />
             <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
               <component :is="prefixIcon" />
@@ -69,7 +54,7 @@
 
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
-          <span :class="nsInput.e('suffix-inner')">
+          <span :class="nsInput.e('suffix-inner')" @click="focus">
             <template
               v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
             >
@@ -215,6 +200,29 @@ const containerAttrs = computed(() => {
   }
   return comboBoxAttrs
 })
+
+const containerKls = computed(() => [
+  props.type === 'textarea' ? nsTextarea.b() : nsInput.b(),
+  nsInput.m(inputSize.value),
+  nsInput.is('disabled', inputDisabled.value),
+  nsInput.is('exceed', inputExceed.value),
+  {
+    [nsInput.b('group')]: slots.prepend || slots.append,
+    [nsInput.bm('group', 'append')]: slots.append,
+    [nsInput.bm('group', 'prepend')]: slots.prepend,
+    [nsInput.m('prefix')]: slots.prefix || props.prefixIcon,
+    [nsInput.m('suffix')]:
+      slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
+    [nsInput.bm('suffix', 'password-clear')]:
+      showClear.value && showPwdVisible.value,
+  },
+  rawAttrs.class,
+])
+
+const wrapperKls = computed(() => [
+  nsInput.e('wrapper'),
+  nsInput.is('focus', focused.value),
+])
 
 const attrs = useAttrs({
   excludeKeys: computed<string[]>(() => {
