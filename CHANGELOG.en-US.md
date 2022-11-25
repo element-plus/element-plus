@@ -1,5 +1,14 @@
 ## Changelog
 
+### 2.2.25
+
+_2022-11-25_
+
+#### Bug fixes
+
+- Components [popconfirm] import missing button style (#10774 by @plainheart)
+- Revert: "fix(components): [table] fix expand icon center (#9943 by @xiaoxian521)" (#10773)
+
 ### 2.2.24
 
 _2022-11-25_
