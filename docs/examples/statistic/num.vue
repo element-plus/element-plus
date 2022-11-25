@@ -1,5 +1,5 @@
 <template>
-  <div class="play-container">
+  <div class="play-container1">
     <div class="s-card">
       <el-row>
         <el-col :span="6">
@@ -47,7 +47,7 @@ function add() {
 </script>
 
 <style lang="scss" scoped>
-.play-container {
+.play-container1 {
   height: 100%;
   width: 100%;
 

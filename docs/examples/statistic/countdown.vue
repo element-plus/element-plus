@@ -1,5 +1,5 @@
 <template>
-  <div class="play-container">
+  <div class="play-container2">
     <div class="s-card">
       <el-row>
         <el-col :span="8">
@@ -53,7 +53,7 @@ function reset() {
 </script>
 
 <style lang="scss" scoped>
-.play-container {
+.play-container2 {
   height: 100%;
   width: 100%;
   .f-center {

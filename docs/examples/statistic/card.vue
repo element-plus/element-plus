@@ -12,7 +12,19 @@
               <template #title>
                 <div class="titleLeft">
                   <span> 日活跃用户数 </span>
-                  <el-popover
+
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="一日之内登录产品的用户数量"
+                    placement="top"
+                  >
+                    <el-icon :size="12">
+                      <Warning />
+                    </el-icon>
+                  </el-tooltip>
+
+                  <!-- <el-popover
                     placement="top-start"
                     title="Title"
                     :width="200"
@@ -24,7 +36,7 @@
                         <Warning />
                       </el-icon>
                     </template>
-                  </el-popover>
+                  </el-popover> -->
                 </div>
               </template>
             </ElStatistic>
@@ -64,9 +76,16 @@
               <template #title>
                 <div class="titleLeft">
                   月活跃用户数
-                  <el-icon>
-                    <Warning />
-                  </el-icon>
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="一日之内登录产品的用户数量"
+                    placement="top"
+                  >
+                    <el-icon :size="12">
+                      <Warning />
+                    </el-icon>
+                  </el-tooltip>
                 </div>
               </template>
             </ElStatistic>
@@ -77,9 +96,16 @@
                     >月同比
                     <span class="green">
                       24%
-                      <el-icon>
-                        <CaretTop />
-                      </el-icon>
+                      <el-tooltip
+                        class="box-item"
+                        effect="dark"
+                        content="Top Center prompts info"
+                        placement="top"
+                      >
+                        <el-icon :size="12">
+                          <Warning />
+                        </el-icon>
+                      </el-tooltip>
                     </span> </span
                 ></el-col>
                 <el-col :span="12" :xs="24">
@@ -106,15 +132,15 @@
               <template #title>
                 <div class="titleLeft">
                   今日新增成交
-                  <el-icon>
+                  <!-- <el-icon>
                     <Warning />
-                  </el-icon>
+                  </el-icon> -->
                 </div>
               </template>
             </ElStatistic>
             <div class="s-Bottom">
               <el-row>
-                <el-col :span="20">
+                <el-col :span="22">
                   <span class="item"
                     >比昨日
                     <span class="red">
@@ -124,7 +150,7 @@
                       </el-icon>
                     </span> </span
                 ></el-col>
-                <el-col :span="4">
+                <el-col :span="2">
                   <el-icon :size="14" @click="onClick">
                     <ArrowRight />
                   </el-icon>
@@ -193,7 +219,6 @@ function onClick() {
   align-items: center;
   text-align: left;
   width: 100%;
-
   flex-wrap: nowrap;
   flex-direction: row;
   justify-content: flex-start;

@@ -9,7 +9,7 @@
   margin: 0;
   padding: 0;
   font-variant: tabular-nums;
-  line-height: 1.5715;
+  // line-height: 1.5715;
   list-style: none;
   font-feature-settings: 'tnum';
   @include e(head) {
@@ -17,6 +17,7 @@
     font-style: normal;
     font-weight: 400;
     font-size: getCssVar('font-size', 'extra-small');
+
     width: 100%;
     display: inline-flex;
     align-items: center;
@@ -39,7 +40,7 @@
       font-size: getCssVar('font-size', 'extra-large');
       display: inline-block;
       margin: 0;
-      line-height: 100%;
+      line-height: 28px;
     }
   }
 }
