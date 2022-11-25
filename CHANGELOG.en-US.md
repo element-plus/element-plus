@@ -1,5 +1,12 @@
 ## Changelog
 
+### 2.2.24
+
+_2022-11-25_
+
+#### Fix 
+- Revert "fix(components): [menu] menus that are not in the expanded path do not open" (#10769 by @holazz)
+
 ### 2.2.23
 
 _2022-11-25_
