@@ -20,9 +20,9 @@
   "types": "es/index.d.ts",
   "exports": {
     ".": {
+      "types": "./es/index.d.ts",
       "require": "./lib/index.js",
-      "import": "./es/index.mjs",
-      "types": "./es/index.d.ts"
+      "import": "./es/index.mjs"
     },
     "./es": "./es/index.mjs",
     "./lib": "./lib/index.js",
