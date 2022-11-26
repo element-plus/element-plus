@@ -28,6 +28,13 @@
     active-text="Y"
     inactive-text="N"
   />
+  <el-switch
+    v-model="value5"
+    class="ml-2"
+    inline-prompt
+    active-text="可添加多个内容"
+    inactive-text="我是多个内容"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -37,4 +44,5 @@ const value1 = ref(true)
 const value2 = ref(true)
 const value3 = ref(true)
 const value4 = ref(true)
+const value5 = ref(true)
 </script>
