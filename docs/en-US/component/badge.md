@@ -47,9 +47,9 @@ badge/dot
 
 :::
 
-## Badge API
+## API
 
-### Badge Attributes
+### Attributes
 
 | Name   | Description                                                                   | Type                                                               | Default |
 | ------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------- |
@@ -59,7 +59,7 @@ badge/dot
 | hidden | hidden badge.                                                                 | ^[boolean]                                                         | false   |
 | type   | badge type.                                                                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
 
-### Badge Slots
+### Slots
 
 | Name    | Description               |
 | ------- | ------------------------- |
