@@ -1,4 +1,4 @@
-import { computed, inject, unref } from 'vue'
+import { computed, getCurrentInstance, inject, unref } from 'vue'
 import { isClient } from '@vueuse/core'
 import { debugWarn } from '@element-plus/utils'
 import { useGlobalConfig } from '../use-global-config'
@@ -20,9 +20,14 @@ const defaultIdInjection = {
 export const ID_INJECTION_KEY: InjectionKey<ElIdInjectionContext> =
   Symbol('elIdInjection')
 
-export const useId = (deterministicId?: MaybeRef<string>): Ref<string> => {
-  const idInjection = inject(ID_INJECTION_KEY, defaultIdInjection)
+export const useIdInjection = (): ElIdInjectionContext => {
+  return getCurrentInstance()
+    ? inject(ID_INJECTION_KEY, defaultIdInjection)
+    : defaultIdInjection
+}
 
+export const useId = (deterministicId?: MaybeRef<string>): Ref<string> => {
+  const idInjection = useIdInjection()
   if (!isClient && idInjection === defaultIdInjection) {
     debugWarn(
       'IdInjection',

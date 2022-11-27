@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import ElForm, { ElFormItem } from '@element-plus/components/form'
 import Cascader from '../src/index.vue'
@@ -232,7 +232,7 @@ describe('Cascader.vue', () => {
 
   test('collapse tags tooltip', async () => {
     const props = { multiple: true }
-    const wrapper = _mount(() => (
+    _mount(() => (
       <Cascader
         modelValue={[
           ['zhejiang', 'hangzhou'],
@@ -247,12 +247,12 @@ describe('Cascader.vue', () => {
     ))
 
     await nextTick()
-    expect(wrapper.findAll(TAG).length).toBe(4)
-    const tags = wrapper.findAll(TAG).filter((item) => {
-      return hasClass(item.element, 'in-tooltip')
-    })
-    expect(tags[0].text()).toBe('Zhejiang / Ningbo')
-    expect(tags[1].text()).toBe('Zhejiang / Wenzhou')
+    const tooltipTags = document.querySelectorAll(
+      `.el-cascader__collapse-tags ${TAG}`
+    )
+    expect(tooltipTags.length).toBe(2)
+    expect(tooltipTags[0].textContent).toBe('Zhejiang / Ningbo')
+    expect(tooltipTags[1].textContent).toBe('Zhejiang / Wenzhou')
   })
 
   test('tag type', async () => {
@@ -376,9 +376,10 @@ describe('Cascader.vue', () => {
       ))
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
-      ).not.toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value)!.innerHTML).not.toBe(
+        ''
+      )
     })
 
     it('should not mount on the popper container', async () => {
@@ -394,9 +395,8 @@ describe('Cascader.vue', () => {
       ))
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR)!.innerHTML
-      ).toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value)!.innerHTML).toBe('')
     })
   })
 

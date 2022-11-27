@@ -1,6 +1,6 @@
 <template>
-  <div style="display: inline-block">
-    <p style="margin-left: 10px">default</p>
+  <div class="m-4">
+    <p>default</p>
     <el-select
       v-model="value1"
       multiple
@@ -15,8 +15,8 @@
       />
     </el-select>
   </div>
-  <div style="display: inline-block; margin-left: 20px">
-    <p style="margin-left: 10px">use collapse-tags</p>
+  <div class="m-4">
+    <p>use collapse-tags</p>
     <el-select
       v-model="value2"
       multiple
@@ -32,8 +32,8 @@
       />
     </el-select>
   </div>
-  <div style="display: inline-block; margin-left: 20px">
-    <p style="margin-left: 10px">use collapse-tags-tooltip</p>
+  <div class="m-4">
+    <p>use collapse-tags-tooltip</p>
     <el-select
       v-model="value3"
       multiple
