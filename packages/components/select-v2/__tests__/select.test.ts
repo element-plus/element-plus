@@ -478,6 +478,55 @@ describe('Select', () => {
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
   })
 
+  describe('initial value', () => {
+    it.each([
+      [null, DEFAULT_PLACEHOLDER],
+      [undefined, DEFAULT_PLACEHOLDER],
+      ['', ''],
+      [[], DEFAULT_PLACEHOLDER],
+      [{}, '[object Object]'],
+    ])(
+      '[single select] initial value is %s, placeholder is "%s"',
+      async (value, placeholder) => {
+        const wrapper = createSelect({
+          data: () => {
+            return {
+              value,
+            }
+          },
+        })
+        await nextTick()
+        expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+          placeholder
+        )
+      }
+    )
+
+    it.each([
+      [null, DEFAULT_PLACEHOLDER],
+      [undefined, DEFAULT_PLACEHOLDER],
+      ['', DEFAULT_PLACEHOLDER],
+      [[], DEFAULT_PLACEHOLDER],
+      [{}, DEFAULT_PLACEHOLDER],
+    ])(
+      '[multiple select] initial value is %s, placeholder is "%s"',
+      async (value, placeholder) => {
+        const wrapper = createSelect({
+          data: () => {
+            return {
+              multiple: true,
+              value,
+            }
+          },
+        })
+        await nextTick()
+        expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+          placeholder
+        )
+      }
+    )
+  })
+
   describe('multiple', () => {
     it('multiple select', async () => {
       const wrapper = createSelect({

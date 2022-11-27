@@ -348,15 +348,16 @@ export default defineComponent({
   ],
 
   setup(props, { emit }) {
-    const modelValue = computed(() =>
-      props.multiple
-        ? isArray(props.modelValue)
-          ? props.modelValue
-          : []
-        : isArray(props.modelValue)
-        ? undefined
-        : props.modelValue
-    )
+    const modelValue = computed(() => {
+      const { modelValue: rawModelValue, multiple } = props
+      const fallback = multiple ? [] : undefined
+      // When it is array, we check if this is multi-select.
+      // Based on the result we get
+      if (isArray(rawModelValue)) {
+        return multiple ? rawModelValue : fallback
+      }
+      return multiple ? fallback : rawModelValue
+    })
 
     const API = useSelect(
       reactive({
