@@ -151,6 +151,7 @@ function onMouseEnter(forward = false) {
   }
 }
 function onFocus(forward = false) {
+  if (props.disabled) return
   if (forward) {
     quickPrevFocus.value = true
   } else {
