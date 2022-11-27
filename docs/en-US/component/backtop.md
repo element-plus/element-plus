@@ -38,13 +38,13 @@ backtop/custom
 | right             | right distance.                                                      | ^[number] | 40      |
 | bottom            | bottom distance.                                                     | ^[number] | 40      |
 
-## Events
+### Events
 
 | Name  | Description          | Parameters                             |
 | ----- | -------------------- | -------------------------------------- |
 | click | triggers when click. | ^[Function]`(evt: MouseEvent) => void` |
 
-## Slots
+### Slots
 
 | Name    | Description                |
 | ------- | -------------------------- |
