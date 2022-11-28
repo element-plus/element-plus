@@ -7,7 +7,7 @@
     content="this is content, this is content, this is content"
   >
     <template #reference>
-      <el-button>Hover to activate</el-button>
+      <el-button class="m-2">Hover to activate</el-button>
     </template>
   </el-popover>
 
@@ -19,7 +19,7 @@
     content="this is content, this is content, this is content"
   >
     <template #reference>
-      <el-button>Click to activate</el-button>
+      <el-button class="m-2">Click to activate</el-button>
     </template>
   </el-popover>
 
@@ -32,7 +32,7 @@
     content="this is content, this is content, this is content"
   >
     <template #reference>
-      <el-button>Focus to activate</el-button>
+      <el-button class="m-2">Focus to activate</el-button>
     </template>
   </el-popover>
 
@@ -44,7 +44,7 @@
     content="this is content, this is content, this is content"
   >
     <template #reference>
-      <el-button>contextmenu to activate</el-button>
+      <el-button class="m-2">contextmenu to activate</el-button>
     </template>
   </el-popover>
 
@@ -56,7 +56,9 @@
     content="this is content, this is content, this is content"
   >
     <template #reference>
-      <el-button @click="visible = !visible">Manual to activate</el-button>
+      <el-button class="m-2" @click="visible = !visible"
+        >Manual to activate</el-button
+      >
     </template>
   </el-popover>
 </template>
@@ -66,3 +68,9 @@ import { ref } from 'vue'
 
 const visible = ref(false)
 </script>
+
+<style scoped>
+.el-button + .el-button {
+  margin-left: 8px;
+}
+</style>
