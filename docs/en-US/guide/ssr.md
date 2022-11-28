@@ -7,9 +7,9 @@ lang: en-US
 
 You need to carry out special handling during SSR to avoid hydrate errors.
 
-## Provide a id
+## Provide an ID
 
-You need to inject the same id value into the server-side and client-side.
+You need to inject the same ID value into the server side and client side.
 
 ### Native SSR
 
@@ -42,11 +42,11 @@ provide(ID_INJECTION_KEY, {
 
 ## Teleports
 
-[Teleport](https://vuejs.org/guide/scaling-up/ssr.html#teleports) is used internally by multiple components in Element Plus (eg. ElDialog, ElDrawer, ElTooltip, ElDropdown, ElSelect, ElDatePicker ...), so special handling is require during SSR.
+[Teleport](https://vuejs.org/guide/scaling-up/ssr.html#teleports) is used internally by multiple components in Element Plus (eg. ElDialog, ElDrawer, ElTooltip, ElDropdown, ElSelect, ElDatePicker ...), so special handling is required during SSR.
 
-### Render the Teleport on mount
+### Render the Teleport on the mount
 
-An easier solution is to conditionally render the Teleport on mount. For example, use the ClientOnly component in Nuxt.
+An easier solution is to conditionally render the Teleport on the mount. For example, use the ClientOnly component in Nuxt.
 
 ```vue
 <client-only>
@@ -78,27 +78,26 @@ onMounted(() => {
 
 ### Inject the teleport markup
 
-Another way is inject the teleport markup into the correct location in your final page HTML.
+Another way is to inject the teleport markup into the correct location in your final page HTML.
 
 ::: warning Warning
 
-There may be some [SSR problems about teleport](https://github.com/vuejs/core/issues?q=is%3Aissue+is%3Aopen+ssr+teleport+), so you should pay attention to the following precautions.
+There may be some [SSR problems with teleport](https://github.com/vuejs/core/issues?q=is%3Aissue+is%3Aopen+ssr+teleport+), so you should pay attention to the following precautions.
 
-1. The `treported` attribute in all components based on ElTooltip should be consistent, it is recommended to use the default value.
+1. The `teleported` attribute in all components based on ElTooltip should be consistent, it is recommended to use the default value.
 2. The `append-to-body` attribute value of ElDialog and ElDrawer should be consistent, it is recommended to enable the `append-to-body`.
-3. When the ElSubMenu has multi layer popup, It is recommended to enable the `popper-append-to-body`
+3. When the ElSubMenu component has a multi-layer popup, It is recommended to enable the `popper-append-to-body`
 
 :::
 
 #### Native SSR
 
-You need to inject the teleport markup close to `<body>` tag.
+You need to inject the teleport markup close to the `<body>` tag.
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
     <title>Element Plus</title>
     <!--preload-links-->
   </head>
