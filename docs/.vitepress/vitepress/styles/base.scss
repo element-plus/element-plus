@@ -218,6 +218,10 @@ li > ol {
     thead tr:first-child th {
       border-top: none;
     }
+
+    tbody tr td:first-child {
+      font-family: var(--font-family-mono);
+    }
   }
 }
 

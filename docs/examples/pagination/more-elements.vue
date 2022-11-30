@@ -18,7 +18,7 @@
   <div class="demo-pagination-block">
     <div class="demonstration">Total item count</div>
     <el-pagination
-      v-model:currentPage="currentPage1"
+      v-model:current-page="currentPage1"
       :page-size="100"
       :small="small"
       :disabled="disabled"
@@ -32,7 +32,7 @@
   <div class="demo-pagination-block">
     <div class="demonstration">Change page size</div>
     <el-pagination
-      v-model:currentPage="currentPage2"
+      v-model:current-page="currentPage2"
       v-model:page-size="pageSize2"
       :page-sizes="[100, 200, 300, 400]"
       :small="small"
@@ -47,7 +47,7 @@
   <div class="demo-pagination-block">
     <div class="demonstration">Jump to</div>
     <el-pagination
-      v-model:currentPage="currentPage3"
+      v-model:current-page="currentPage3"
       v-model:page-size="pageSize3"
       :small="small"
       :disabled="disabled"
@@ -61,7 +61,7 @@
   <div class="demo-pagination-block">
     <div class="demonstration">All combined</div>
     <el-pagination
-      v-model:currentPage="currentPage4"
+      v-model:current-page="currentPage4"
       v-model:page-size="pageSize4"
       :page-sizes="[100, 200, 300, 400]"
       :small="small"

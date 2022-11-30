@@ -433,4 +433,45 @@ describe('TreeSelect.vue', () => {
       tree.findAll('.el-tree-node__children')[0].attributes('style')
     ).not.toContain('display: none;')
   })
+
+  test('show correct label when child options are not rendered', async () => {
+    const modelValue = ref<number>()
+    const { select } = createComponent({
+      props: {
+        modelValue,
+        renderAfterExpand: true,
+      },
+    })
+
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('')
+
+    modelValue.value = 111
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('三级 1-1')
+  })
+
+  test('show correct label when lazy load', async () => {
+    const modelValue = ref<number>(1)
+    const { select } = createComponent({
+      props: {
+        data: [],
+        modelValue,
+        lazy: true,
+        load: (node: object, resolve: (p: any) => any[]) => {
+          resolve([{ value: 2, label: '2-label', isLeaf: true }])
+        },
+        cacheData: [{ value: 3, label: '3-label' }],
+      },
+    })
+
+    // no load & no cache will be default value
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe(1)
+
+    // no load & has cache will be correct label
+    modelValue.value = 3
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('3-label')
+  })
 })

@@ -30,7 +30,7 @@
           ref="selectionRef"
           :class="[
             nsSelectV2.e('wrapper'),
-            nsSelectV2.is('focused', states.isComposing),
+            nsSelectV2.is('focused', states.isComposing || expanded),
             nsSelectV2.is('hovering', states.comboBoxHovering),
             nsSelectV2.is('filterable', filterable),
             nsSelectV2.is('disabled', selectDisabled),
@@ -254,8 +254,7 @@
               nsSelectV2.e('placeholder'),
               nsSelectV2.is(
                 'transparent',
-                states.isComposing ||
-                  (multiple ? modelValue.length === 0 : !hasModelValue)
+                multiple ? modelValue.length === 0 : !hasModelValue
               ),
             ]"
           >
@@ -310,7 +309,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, reactive, toRefs, vModelText } from 'vue'
+import {
+  computed,
+  defineComponent,
+  provide,
+  reactive,
+  toRefs,
+  vModelText,
+} from 'vue'
+import { isArray } from '@element-plus/utils'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
@@ -341,20 +348,42 @@ export default defineComponent({
   ],
 
   setup(props, { emit }) {
-    const API = useSelect(props, emit)
+    const modelValue = computed(() => {
+      const { modelValue: rawModelValue, multiple } = props
+      const fallback = multiple ? [] : undefined
+      // When it is array, we check if this is multi-select.
+      // Based on the result we get
+      if (isArray(rawModelValue)) {
+        return multiple ? rawModelValue : fallback
+      }
+      return multiple ? fallback : rawModelValue
+    })
+
+    const API = useSelect(
+      reactive({
+        ...toRefs(props),
+        modelValue,
+      }),
+      emit
+    )
     // TODO, remove the any cast to align the actual API.
     provide(selectV2InjectionKey, {
       props: reactive({
         ...toRefs(props),
         height: API.popupHeight,
+        modelValue,
       }),
+      popper: API.popper,
       onSelect: API.onSelect,
       onHover: API.onHover,
       onKeyboardNavigate: API.onKeyboardNavigate,
       onKeyboardSelect: API.onKeyboardSelect,
     } as any)
 
-    return API
+    return {
+      ...API,
+      modelValue,
+    }
   },
 })
 </script>

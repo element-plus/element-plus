@@ -4,7 +4,6 @@ import {
   getTypeSymbol,
   hyphenate,
   isCommonType,
-  isEnumType,
   isUnionType,
   main,
 } from 'components-helper'
@@ -25,7 +24,7 @@ import type {
 } from 'components-helper'
 
 const typeMap = {
-  vue: ['Component', 'VNode'],
+  vue: ['Component', 'VNode', 'CSSProperties', 'StyleValue'],
 }
 
 const reComponentName: ReComponentName = (title) =>
@@ -48,13 +47,14 @@ const reWebTypesSource: ReWebTypesSource = (title) => {
   return { symbol }
 }
 
-const reAttribute: ReAttribute = (value, key, _, title) => {
+const reAttribute: ReAttribute = (value, key) => {
   const str = value
-    .replace(/^\*\*(.*)\*\*$/, (_, item) => item)
-    .replace(/^`(.*)`$/, (_, item) => item)
+    .replace(/^\*\*(.*)\*\*$/, '$1')
+    .replace(/^`(.*)`$/, '$1')
+    .replace(/^~~(.*)~~$/, '')
     .replaceAll(/<del>.*<\/del>/g, '')
 
-  if (title === 'Events' && key === 'Name' && /^(-|—)$/.test(str)) {
+  if (key === 'Name' && /^(-|—)$/.test(str)) {
     return 'default'
   } else if (str === '' || /^(-|—)$/.test(str)) {
     return undefined
@@ -71,11 +71,16 @@ const reAttribute: ReAttribute = (value, key, _, title) => {
       .replaceAll(/\B([A-Z])/g, '-$1')
       .toLowerCase()
   } else if (key === 'Type') {
-    return str
+    return rewriteType(str)
       .replaceAll(/\bfunction(\(.*\))?(:\s*\w+)?\b/gi, 'Function')
       .replaceAll(/\bdate\b/g, 'Date')
-      .replaceAll(/\bstring \| Component\b/g, 'string / Component')
       .replaceAll(/\([^)]*\)(?!\s*=>)/g, '')
+      .replaceAll(/(<[^>]*>|\{[^}]*}|\([^)]*\))/g, (item) => {
+        return item.replaceAll(/(\/|\|)/g, '=_0!')
+      })
+      .replaceAll(/(\b\w+)\s*\|/g, '$1 /')
+      .replaceAll(/\|\s*(\b\w+)/g, '/ $1')
+      .replaceAll(/=_0!/g, '|')
   } else if (key === 'Accepted Values') {
     return /\[.+\]\(.+\)/.test(str) || /^\*$/.test(str)
       ? undefined
@@ -94,20 +99,12 @@ const reAttribute: ReAttribute = (value, key, _, title) => {
 }
 
 const reWebTypesType: ReWebTypesType = (type) => {
-  const isEnum = isEnumType(type)
-  const isTuple = /^\[.*\]$/.test(type)
-  const isArrowFunction = /^\(.*\)\s*=>\s*\w+/.test(type)
   const isPublicType = isCommonType(type)
   const symbol = getTypeSymbol(type)
   const isUnion = isUnionType(symbol)
-  const module = findModule(type)
+  const module = findModule(symbol)
 
-  return isEnum ||
-    isTuple ||
-    isArrowFunction ||
-    isPublicType ||
-    !symbol ||
-    isUnion
+  return isPublicType || !symbol || isUnion
     ? type
     : { name: type, source: { symbol, module } }
 }
@@ -126,6 +123,62 @@ const findModule = (type: string): string | undefined => {
   }
 
   return result
+}
+
+const rewriteType = (str: string): string => {
+  if (/\^\[([^\]]*)\](`[^`]*`)?/.test(str)) {
+    return str
+      .replaceAll(/\^\[([^\]]*)\](`[^`]*`)?/g, (_, type, details) => {
+        return details ? details.replace(/^`(.*)`$/, '$1') : type
+      })
+      .replaceAll(/\[[^\]]*\]\([^)]*\)/g, '')
+  } else if (/<.*>/.test(str)) {
+    const list = str.matchAll(/<(\w+)Type\s([^>]*)>/g)
+
+    return Array.from(list, (item) => {
+      const type = item ? item[1] : ''
+      const params = item ? item[2] : ''
+
+      switch (type) {
+        case 'External':
+          return ''
+        case 'Enum':
+          return transformEnum(params)
+        case 'Function':
+          return transformFunction(params)
+        default:
+          return type.toLowerCase()
+      }
+    })
+      .filter((item) => item)
+      .join('|')
+  } else {
+    return str
+  }
+}
+
+const transformEnum = (str: string) => {
+  const result = str.match(/:values="\[([^\]]*)\]/)
+  return result ? result[1].replaceAll(/,\s*/g, ' | ') : 'string'
+}
+
+const transformFunction = (str: string) => {
+  const paramsStr = str.match(/:params="\[(.*)\]"/)
+  const returnsStr = str.match(/:returns="(.*)"/)
+  let params = ''
+  let returns = ''
+
+  if (paramsStr) {
+    const list = paramsStr[0].matchAll(/\['([^\]]*)'\]/g)
+
+    params = Array.from(list, (item) => {
+      return item[1].replaceAll(/',\s*'/g, ': ')
+    }).join(', ')
+  }
+
+  returns = returnsStr ? returnsStr[1] : 'void'
+
+  return `(${params}) => ${returns}`
 }
 
 export const buildHelper: TaskFunction = (done) => {

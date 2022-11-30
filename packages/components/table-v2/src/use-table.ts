@@ -82,6 +82,7 @@ function useTable(props: TableV2Props) {
     footerHeight,
     emptyStyle,
     rootStyle,
+    headerHeight,
   } = useStyles(props, {
     columnsTotalWidth,
     data,
@@ -126,7 +127,7 @@ function useTable(props: TableV2Props) {
 
     if (
       unref(lastRenderedRowIndex) >= 0 &&
-      _totalHeight !== unref(rowsHeight)
+      _totalHeight === scrollTop + unref(mainTableHeight) - unref(headerHeight)
     ) {
       onEndReached(heightUntilEnd)
     }

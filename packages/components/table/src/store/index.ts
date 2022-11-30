@@ -110,9 +110,12 @@ function useStore<T>() {
           parent.children.findIndex((item) => item.id === column.id),
           1
         )
-        if (parent.children.length === 0) {
-          delete parent.children
-        }
+        // fix #10699, delete parent.children immediately will trigger again
+        nextTick(() => {
+          if (parent.children?.length === 0) {
+            delete parent.children
+          }
+        })
         states._columns.value = replaceColumn(array, parent)
       } else {
         const index = array.indexOf(column)
