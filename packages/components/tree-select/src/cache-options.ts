@@ -3,9 +3,11 @@ import { selectKey } from '@element-plus/components/select'
 import type { SelectContext } from '@element-plus/components/select'
 import type { PropType } from 'vue'
 
+// same as el-option instance,
+// these are required for `cachedOptions`
 export type CacheOption = {
-  value: any
-  currentLabel: any
+  value: string | number | boolean | object
+  currentLabel: string | number
   isDisabled: boolean
 }
 
