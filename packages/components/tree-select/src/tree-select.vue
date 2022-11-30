@@ -6,6 +6,7 @@ import ElSelect from '@element-plus/components/select'
 import ElTree from '@element-plus/components/tree'
 import { useSelect } from './select'
 import { useTree } from './tree'
+import CacheOptions from './cache-options'
 
 export default defineComponent({
   name: 'ElTreeSelect',
@@ -14,6 +15,10 @@ export default defineComponent({
   props: {
     ...ElSelect.props,
     ...ElTree.props,
+    cacheData: {
+      type: Array,
+      default: () => [],
+    },
   },
   setup(props, context) {
     const { slots, expose } = context
@@ -24,7 +29,11 @@ export default defineComponent({
     const key = computed(() => props.nodeKey || props.valueKey || 'value')
 
     const selectProps = useSelect(props, context, { select, tree, key })
-    const treeProps = useTree(props, context, { select, tree, key })
+    const { cacheOptions, ...treeProps } = useTree(props, context, {
+      select,
+      tree,
+      key,
+    })
 
     // expose ElTree/ElSelect methods
     const methods = reactive({})
@@ -71,7 +80,8 @@ export default defineComponent({
         }),
         {
           ...slots,
-          default: () =>
+          default: () => [
+            h(CacheOptions, { data: cacheOptions.value }),
             h(
               ElTree,
               reactive({
@@ -79,6 +89,7 @@ export default defineComponent({
                 ref: (ref) => (tree.value = ref),
               })
             ),
+          ],
         }
       )
   },
