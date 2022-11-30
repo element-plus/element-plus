@@ -1,7 +1,7 @@
 <template>
   <el-tree-select v-model="value" lazy :load="load" :props="props" />
   <el-divider />
-  <VersionTag version="2.2.3" /> show lazy load label:
+  <VersionTag version="2.2.26" /> show lazy load label:
   <el-tree-select
     v-model="value2"
     lazy
