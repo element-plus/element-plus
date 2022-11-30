@@ -65,9 +65,17 @@ export default defineComponent({
     function update() {
       const saturation = props.color.get('saturation')
       const value = props.color.get('value')
+      let isFirstUpdate = true
 
       const el = instance.vnode.el!
-      const { clientWidth: width, clientHeight: height } = el
+      let { clientWidth: width, clientHeight: height } = el
+
+      if (isFirstUpdate) {
+        width = Number.parseFloat(getComputedStyle(el as Element).width)
+        height = Number.parseFloat(getComputedStyle(el as Element).height)
+
+        isFirstUpdate = false
+      }
 
       cursorLeft.value = (saturation * width) / 100
       cursorTop.value = ((100 - value) * height) / 100

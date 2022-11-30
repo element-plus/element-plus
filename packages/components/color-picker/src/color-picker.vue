@@ -249,14 +249,14 @@ function confirmValue() {
     formItem?.validate('change').catch((err) => debugWarn(err))
   }
   debounceSetShowPicker(false)
+  const oldColor = new Color({
+    enableAlpha: props.showAlpha,
+    format: props.colorFormat || '',
+    value: props.modelValue,
+  })
   // check if modelValue change, if not change, then reset color.
   nextTick(() => {
-    const newColor = new Color({
-      enableAlpha: props.showAlpha,
-      format: props.colorFormat || '',
-      value: props.modelValue,
-    })
-    if (!color.compare(newColor)) {
+    if (!color.compare(oldColor)) {
       resetColor()
     }
   })
