@@ -70,6 +70,13 @@
             #{getCssVar('menu-level-padding')}
         );
       }
+      & .#{$namespace}-sub-menu__title {
+        padding-right: calc(
+          #{getCssVar('menu-base-level-padding')} + #{getCssVar(
+              'menu-icon-width'
+            )}
+        );
+      }
     }
   }
 
@@ -282,7 +289,6 @@
   & .#{$namespace}-menu-item {
     height: getCssVar('menu-sub-item-height');
     line-height: getCssVar('menu-sub-item-height');
-    min-width: 200px;
   }
   @include e(hide-arrow) {
     .#{$namespace}-sub-menu__icon-arrow {
