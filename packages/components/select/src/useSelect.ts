@@ -110,6 +110,7 @@ export const useSelect = (props, states: States, ctx) => {
       optionList.value = options
     }
   })
+  const originClientHeight = ref<number>(0)
 
   const { form, formItem } = useFormItem()
 
@@ -387,9 +388,17 @@ export const useSelect = (props, states: States, ctx) => {
       const input = reference.value.$el.querySelector(
         'input'
       ) as HTMLInputElement
+      originClientHeight.value =
+        originClientHeight.value ||
+        (input.clientHeight > 0 ? input.clientHeight + 2 : 0)
       const _tags = tags.value
+      const gotSize = getComponentSize(selectSize.value || form?.size)
 
-      const sizeInMap = getComponentSize(selectSize.value || form?.size)
+      const sizeInMap =
+        gotSize === originClientHeight.value || originClientHeight.value <= 0
+          ? gotSize
+          : originClientHeight.value
+
       // it's an inner input so reduce it by 2px.
       input.style.height = `${
         (states.selected.length === 0
