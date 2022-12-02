@@ -12,6 +12,7 @@
   cursor: default;
   background: getCssVar('fill-color', 'blank');
   color: getCssVar('tree-text-color');
+  font-size: getCssVar('font-size', 'base');
 
   @include e(empty-block) {
     position: relative;
@@ -105,10 +106,6 @@
     &.is-hidden {
       visibility: hidden;
     }
-  }
-
-  @include e(label) {
-    font-size: getCssVar('font-size', 'base');
   }
 
   @include e(loading-icon) {
