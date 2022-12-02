@@ -37,7 +37,7 @@ config-provider/message
 
 In this section, you can learn how to use Config Provider to provide experimental features. For now, we haven't added any experimental features, but in the feature roadmap, we will add some experimental features. You can use this config to manage the features you want or not.
 
-// TODO
+ <!-- TODO -->
 
 ## API
 
