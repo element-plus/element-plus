@@ -55,15 +55,15 @@ In this section, you can learn how to use Config Provider to provide experimenta
 
 ### Button Attribute
 
-| Attribute       | Description                                                 | Type    | Default |
-| --------------- | ----------------------------------------------------------- | ------- | ------- |
-| autoInsertSpace | automatically insert a space between two chinese characters | boolean | false   |
+| Attribute       | Description                                                 | Type       | Default |
+| --------------- | ----------------------------------------------------------- | ---------- | ------- |
+| autoInsertSpace | automatically insert a space between two chinese characters | ^[boolean] | false   |
 
 ### Message Attribute
 
-| Attribute | Description                                                           | Type   | Default |
-| --------- | --------------------------------------------------------------------- | ------ | ------- |
-| max       | the maximum number of messages that can be displayed at the same time | number | —       |
+| Attribute | Description                                                           | Type      | Default |
+| --------- | --------------------------------------------------------------------- | --------- | ------- |
+| max       | the maximum number of messages that can be displayed at the same time | ^[number] | —       |
 
 ### Config Provider Slots
 
