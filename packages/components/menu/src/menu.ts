@@ -68,6 +68,7 @@ export const menuProps = buildProps({
   },
   popperEffect: {
     type: String,
+    values: ['dark', 'light'],
     default: 'dark',
   },
 } as const)
