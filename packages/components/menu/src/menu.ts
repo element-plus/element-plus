@@ -66,6 +66,10 @@ export const menuProps = buildProps({
     type: Boolean,
     default: true,
   },
+  popperEffect: {
+    type: String,
+    default: 'dark',
+  },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
