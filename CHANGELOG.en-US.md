@@ -1,5 +1,60 @@
 ## Changelog
 
+### 2.2.26
+
+_2022-12-02_
+
+#### Features
+
+- Components [menu] add `popper-effect` menu attribute (#10867 by @xiaoxian521)
+
+#### Bug fixes
+
+- Components [table] fix error in dynamic change table-column (#10713 by @init-qy)
+- Components [date-picker] default-time affects now result(#10729 by @MrWeilian) (#10737)
+- Components [input-number] Fix decrease and increase disabled (#10787 by @kooriookami)
+- Components [select-v2] initial value compatibility (#10759 by @holazz)
+- Components [tree] revert inherits the label class (#10812 by @chenxch)
+- Components [TreeSelect] incorrect label when child not rendered (#10716 by @yujinpan)
+- Theme-chalk [menu] optimize the SubMenu title style (#10828 by @tolking)
+- Components [table]fix the problem that show-overflow-tooltip will also be displayed when the browser is zoomed (#10816 by @Cenavy1019)
+- Style(theme-chalk): fix carousel button style (#10869 by @xiaoxian521)
+
+### 2.2.25
+
+_2022-11-25_
+
+#### Bug fixes
+
+- Components [popconfirm] import missing button style (#10774 by @plainheart)
+- Revert: "fix(components): [table] fix expand icon center (#9943 by @xiaoxian521)" (#10773)
+
+### 2.2.24
+
+_2022-11-25_
+
+#### Fix 
+- Revert "fix(components): [menu] menus that are not in the expanded path do not open" (#10769 by @holazz)
+
+### 2.2.23
+
+_2022-11-25_
+
+#### Bug fixes
+
+- Components [upload] use useDisabled (#10663 by @btea)
+- Components [cascader] collapse tags tooltip style (#10669 by @holazz)
+- Components [menu] menus that are not in the expanded path do not open (#10480 by @iDestin)
+- Components [input] prefix and suffix add click focus event (#10674 by @chenxch)
+- Components [pagination] Nesting causes missing styles (#10666 by @chenxch)
+- Components [table] optimizate types export (#10677 by @xiaoxian521)
+- Components [tooltip] SSR hydration error caused by random ID (#10541 by @tolking)
+- Components [input-number] Input actions can update values (#10329 by @baiwusanyu-c)
+- Components [table] fix expand icon center (#9943 by @zhengbangbo)
+- Components [page-header] display if breadcrumb slot exists (#10719 by @ryuhangyeong)
+- Add drawer deprecated custom-class warning (#10745 by @0song)
+- Style(theme-chalk): [Pagination] Fix pagination style (#10692 by @kooriookami)
+
 ### 2.2.22
 
 _2022-11-18_

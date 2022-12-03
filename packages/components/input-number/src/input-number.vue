@@ -106,13 +106,10 @@ const data = reactive<Data>({
 const { formItem } = useFormItem()
 
 const minDisabled = computed(
-  () =>
-    isNumber(props.modelValue) &&
-    ensurePrecision(props.modelValue, -1)! < props.min
+  () => isNumber(props.modelValue) && props.modelValue <= props.min
 )
 const maxDisabled = computed(
-  () =>
-    isNumber(props.modelValue) && ensurePrecision(props.modelValue)! > props.max
+  () => isNumber(props.modelValue) && props.modelValue >= props.max
 )
 
 const numPrecision = computed(() => {
