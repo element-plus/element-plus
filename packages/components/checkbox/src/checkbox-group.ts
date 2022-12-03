@@ -6,6 +6,8 @@ import type { ExtractPropTypes } from 'vue'
 import type checkboxGroup from './checkbox-group.vue'
 import type { CheckboxValueType } from './checkbox'
 
+export type CheckboxGroupValueType = Exclude<CheckboxValueType, boolean>[]
+
 export const checkboxGroupProps = buildProps({
   /**
    * @description binding value
@@ -59,8 +61,7 @@ export const checkboxGroupProps = buildProps({
 } as const)
 
 export const checkboxGroupEmits = {
-  [UPDATE_MODEL_EVENT]: (val: Exclude<CheckboxValueType, boolean>[]) =>
-    isArray(val),
+  [UPDATE_MODEL_EVENT]: (val: CheckboxGroupValueType) => isArray(val),
   change: (val: CheckboxValueType[]) => isArray(val),
 }
 
