@@ -1,4 +1,4 @@
-import { defineComponent, inject } from 'vue'
+import { defineComponent, inject, watch } from 'vue'
 import { selectKey } from '@element-plus/components/select'
 import type { SelectContext } from '@element-plus/components/select'
 import type { PropType } from 'vue'
@@ -21,7 +21,14 @@ export default defineComponent({
   setup(props) {
     const select = inject(selectKey) as NonNullable<SelectContext>
 
-    props.data.forEach((item) => select.cachedOptions.set(item.value, item))
+    watch(
+      () => props.data,
+      () => {
+        props.data.forEach((item) => select.cachedOptions.set(item.value, item))
+        select.setSelected()
+      },
+      { immediate: true, deep: true }
+    )
 
     return () => undefined
   },
