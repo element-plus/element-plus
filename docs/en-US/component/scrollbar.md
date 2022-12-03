@@ -78,4 +78,4 @@ scrollbar/manual-scroll
 | setScrollTop  | Set distance to scroll top                 | ^[Function]`(scrollTop: number) => void`                                   |
 | setScrollLeft | Set distance to scroll left                | ^[Function]`(scrollLeft: number) => void`                                  |
 | update        | update scrollbar state manually            | ^[Function]`() => void`                                                    |
-| wrapRef       | scrollbar wrap ref                         | ^[Object]`Ref<HTMLDivElement>`                                             |
+| wrapRef       | scrollbar wrap ref                         | ^[object]`Ref<HTMLDivElement>`                                             |

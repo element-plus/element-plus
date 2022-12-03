@@ -127,7 +127,7 @@ input/length-limiting
 | minlength             | same as `minlength` in native input                                                                                                    | ^[number]                                                                                                                                           | —       |
 | show-word-limit       | whether show word count, only works when `type` is 'text' or 'textarea'                                                                | ^[boolean]                                                                                                                                          | false   |
 | placeholder           | placeholder of Input                                                                                                                   | ^[string]                                                                                                                                           | —       |
-| clearable             | whether to show clear button, only works when `type` is not 'textarea'                                                                                                           | ^[boolean]                                                                                                                                          | false   |
+| clearable             | whether to show clear button, only works when `type` is not 'textarea'                                                                 | ^[boolean]                                                                                                                                          | false   |
 | formatter             | specifies the format of the value presented input.(only works when `type` is 'text')                                                   | ^[Function]`(value: string \| number) => string`                                                                                                    | —       |
 | parser                | specifies the value extracted from formatter input.(only works when `type` is 'text')                                                  | ^[Function]`(value: string) => string`                                                                                                              | —       |
 | show-password         | whether to show toggleable password input                                                                                              | ^[boolean]                                                                                                                                          | false   |
@@ -177,9 +177,9 @@ input/length-limiting
 | blur           | blur the input element           | ^[Function]`() => void`                                 |
 | clear          | clear input value                | ^[Function]`() => void`                                 |
 | focus          | focus the input element          | ^[Function]`() => void`                                 |
-| input          | HTML input element               | ^[Object]`Ref<HTMLInputElement>`                        |
-| ref            | HTML element, input or textarea  | ^[Object]`Ref<HTMLInputElement \| HTMLTextAreaElement>` |
+| input          | HTML input element               | ^[object]`Ref<HTMLInputElement>`                        |
+| ref            | HTML element, input or textarea  | ^[object]`Ref<HTMLInputElement \| HTMLTextAreaElement>` |
 | resizeTextarea | resize textarea                  | ^[Function]`() => void`                                 |
 | select         | select the text in input element | ^[Function]`() => void`                                 |
-| textarea       | HTML textarea element            | ^[Object]`Ref<HTMLTextAreaElement>`                     |
-| textareaStyle  | style of textarea                | ^[Object]`Ref<StyleValue>`                              |
+| textarea       | HTML textarea element            | ^[object]`Ref<HTMLTextAreaElement>`                     |
+| textareaStyle  | style of textarea                | ^[object]`Ref<StyleValue>`                              |
