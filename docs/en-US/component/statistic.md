@@ -62,9 +62,9 @@ statistic/card
 | ---- | ---------------------- | ------------------------------------ |
 | ref  | Statistic html element | ^[Object]`Ref<HTMLStatisticElement>` |
 
-## Statistic.Countdown API
+## Countdown API
 
-### Statistic.Countdown Attributes
+### Countdown Attributes
 
 | Attribute    | Description                              | Type                          | Default |
 | ------------ | ---------------------------------------- | ----------------------------- | ------- |
@@ -72,14 +72,14 @@ statistic/card
 | value        | Required value, enter the bound value    | ^[string]`'' `                | —       |
 | format       | Formatting the countdown display         | ^[string]`'' `                | —       |
 
-### Statistic.Countdown Events
+### Countdown Events
 
 | Method | Description                                | Type                                     |
 | ------ | ------------------------------------------ | ---------------------------------------- |
 | change | Enable in the 'countdown' function         | ^[Function]`() => Date`                  |
 | finish | Launched after the 'countdown' is complete | ^[Function]`(event: FocusEvent) => void` |
 
-### Statistic.Countdown Exposes
+### Countdown Exposes
 
 | Method  | Description         | Parameters                            |
 | ------- | ------------------- | ------------------------------------- |

@@ -1,5 +1,6 @@
-import { divide, floor, multiply, padStart, reduce } from 'lodash-unified'
-import { buildProps } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
+import type { StyleValue } from 'vue'
+import type Statistic from './statistic.vue'
 export const statisticProps = buildProps({
   decimalSeparator: {
     type: String,
@@ -12,6 +13,9 @@ export const statisticProps = buildProps({
   precision: {
     type: Number,
     default: null,
+  },
+  formatter: {
+    type: definePropType<(val: string | number) => string | number>(Function),
   },
   value: {
     type: [String, Number],
@@ -34,7 +38,7 @@ export const statisticProps = buildProps({
     default: false,
   },
   valueStyle: {
-    type: Object,
+    type: definePropType<StyleValue>([String, Object]),
     default: () => ({}),
   },
   format: {
@@ -59,30 +63,4 @@ export const magnification = function (
     .join(_groupSeparator)
   return result
 }
-export const diffDate = function (minuend: number, subtrahend: number): number {
-  return Math.max(minuend - subtrahend, 0)
-}
-export const formatTimeStr = function (format: any, time: number) {
-  const timeUnits = [
-    ['Y', 1000 * 60 * 60 * 24 * 365], // years
-    ['M', 1000 * 60 * 60 * 24 * 30], // months
-    ['D', 1000 * 60 * 60 * 24], // days
-    ['H', 1000 * 60 * 60], // hours
-    ['m', 1000 * 60], // minutes
-    ['s', 1000], // seconds
-    ['S', 1], // million seconds
-  ]
-  return reduce(
-    timeUnits,
-    (con: string, item: any[]) => {
-      const name = item[0]
-      return con.replace(new RegExp(`${name}+`, 'g'), (match: any) => {
-        let sum: any = floor(divide(time, item[1]))
-        time -= multiply(sum, item[1])
-        sum = padStart(String(sum), String(match).length, '0') // autoCompletion
-        return sum
-      })
-    },
-    format
-  )
-}
+export type StatisticInstance = InstanceType<typeof Statistic>

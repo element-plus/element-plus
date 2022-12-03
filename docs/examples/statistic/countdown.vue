@@ -3,23 +3,18 @@
     <div class="s-card">
       <el-row>
         <el-col :span="8">
-          <ElStatistic title="开始抢购" time-indices :value="value1" />
+          <ElCountdown title="开始抢购" countdown :value="value1" />
         </el-col>
         <el-col :span="8">
-          <ElStatistic
-            title="剩余VIP时长"
-            format="HH:mm:ss"
-            time-indices
-            :value="value3"
-          />
+          <ElCountdown title="剩余VIP时长" format="HH:mm:ss" :value="value3" />
           <div class="f-center">
             <el-button type="primary" @click="reset">重置</el-button>
           </div>
         </el-col>
         <el-col :span="8">
-          <ElStatistic
+          <ElCountdown
             :value="value4"
-            time-indices
+            countdown
             format="DD 天 HH 时 mm 分 ss 秒"
           >
             <template #title>
@@ -28,7 +23,7 @@
               /></el-icon>
               <span> 距离放假还有 </span>
             </template>
-          </ElStatistic>
+          </ElCountdown>
           <div class="f-center">2022年12月30日</div>
         </el-col>
       </el-row>

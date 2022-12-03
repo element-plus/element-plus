@@ -26,90 +26,47 @@
 </template>
 <script lang="ts" setup>
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { ceil, fill, isNull } from 'lodash-unified'
+import { isNil } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
-import {
-  diffDate,
-  formatTimeStr,
-  magnification,
-  statisticProps,
-} from './statistic'
+import { countdownProps, diffDate, formatTimeStr } from './countdown'
 
 const emit = defineEmits(['finish', 'change'])
-const props = defineProps(statisticProps)
+const props = defineProps(countdownProps)
+
 defineOptions({
-  name: 'ElStatistic',
+  name: 'ElCountdown',
 })
+
 const ns = useNamespace('statistic')
 const disposeValue: any = ref(null)
 const timeTask = ref<ReturnType<typeof setInterval> | null>(null)
 const REFRESH_INTERVAL = 1000 / 30
 onMounted(() => {
-  branch()
+  countDown()
 })
 watch(
   () => props.value,
   () => {
-    branch()
-  }
-)
-watch(
-  () =>
-    props.precision +
-    props.groupSeparator +
-    props.rate +
-    props.decimalSeparator,
-  () => {
-    branch()
-  }
-)
-function branch() {
-  if (props.timeIndices) {
     countDown()
-  } else {
-    dispose()
   }
-}
+)
+
 onBeforeUnmount(() => {
   suspend(true)
 })
-const dispose = function (option: any = {}): string {
-  const {
-    value: Pvalue,
-    precision,
-    groupSeparator,
-    rate,
-    decimalSeparator,
-  } = props || option
-
-  let value: any = Pvalue
-  if (!isNull(props.precision)) value = ceil(value, props.precision)
-  let integer: number | string = String(value).split('.')[0]
-  const decimals =
-    String(value).split('.')[1] ||
-    (precision ? fill(Array.from({ length: precision }), 0).join('') : '')
-
-  let result: number | string = 0
-  // 1000 multiplying power
-  if (groupSeparator) {
-    integer = magnification(Number(integer), rate, groupSeparator)
-  }
-  result = [integer, decimals].join(decimals ? decimalSeparator || '.' : '')
-  disposeValue.value = result
-  return result
-}
 
 const suspend = function (isStop: boolean): any {
   if (isStop && timeTask.value) {
     clearInterval(timeTask.value)
     timeTask.value = null
   } else {
-    branch()
+    countDown()
   }
   return disposeValue.value
 }
 const countDown = function () {
-  if (timeTask.value) return
+  const { value } = props
+  if (timeTask.value || isNil(value)) return
   const disappearTime = function (time: number): boolean {
     let result = true // stop
     if (time > 0) {
@@ -125,7 +82,11 @@ const countDown = function () {
 
   timeTask.value = setInterval(() => {
     const diffTiem = diffDate(Number(props.value), Date.now())
-    disposeValue.value = formatTimeStr(props.format, diffTiem)
+    disposeValue.value = formatTimeStr(
+      props.format,
+      diffTiem,
+      Number(props.value)
+    )
     disappearTime(diffTiem)
   }, REFRESH_INTERVAL)
 }
