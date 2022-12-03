@@ -40,6 +40,7 @@
               :class="[
                 nsSelect.b('tags-wrapper'),
                 { 'has-prefix': prefixWidth && selected.length },
+                nsSelect.bm('tags-wrapper', 'collapse-tags'),
               ]"
             >
               <el-tag
