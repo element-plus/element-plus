@@ -141,14 +141,14 @@ checkbox/with-border
 
 ### CheckboxButton Attributes
 
-| Name        | Description                                               | Type                                           | Accepted Values | Default |
-| ----------- | --------------------------------------------------------- | ---------------------------------------------- | --------------- | ------- |
-| label       | value of the checkbox when used inside a `checkbox-group` | ^[string] / ^[number] / ^[boolean] / ^[object] | —               | —       |
-| true-label  | value of the checkbox if it's checked                     | ^[string] / ^[number]                          | —               | —       |
-| false-label | value of the checkbox if it's not checked                 | ^[string] / ^[number]                          | —               | —       |
-| disabled    | whether the checkbox is disabled                          | ^[boolean]                                     | —               | false   |
-| name        | native 'name' attribute                                   | ^[string]                                      | —               | —       |
-| checked     | if the checkbox is checked                                | ^[boolean]                                     | —               | false   |
+| Name        | Description                                               | Type                                           | Default |
+| ----------- | --------------------------------------------------------- | ---------------------------------------------- | ------- |
+| label       | value of the checkbox when used inside a `checkbox-group` | ^[string] / ^[number] / ^[boolean] / ^[object] | —       |
+| true-label  | value of the checkbox if it's checked                     | ^[string] / ^[number]                          | —       |
+| false-label | value of the checkbox if it's not checked                 | ^[string] / ^[number]                          | —       |
+| disabled    | whether the checkbox is disabled                          | ^[boolean]                                     | false   |
+| name        | native 'name' attribute                                   | ^[string]                                      | —       |
+| checked     | if the checkbox is checked                                | ^[boolean]                                     | false   |
 
 ### CheckboxButton Slots
 
