@@ -13,7 +13,7 @@ export const checkboxGroupProps = buildProps({
    * @description binding value
    */
   modelValue: {
-    type: definePropType<Array<string | number>>(Array),
+    type: definePropType<CheckboxGroupValueType>(Array),
     default: () => [],
   },
   /**
