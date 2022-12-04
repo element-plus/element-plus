@@ -62,13 +62,14 @@ const startTimer = () => {
   }
   const timestamp = getTime(isNumber(value) ? value : value.valueOf())
   timer = setInterval(() => {
-    const diff = timestamp - Date.now()
+    let diff = timestamp - Date.now()
     emit('change', diff)
-    if (diff < 0) {
+    if (diff <= 0) {
+      diff = 0
       stopTimer()
       emit('finish')
     }
-    disposeValue.value = formatTimeStr(format, diff, value)
+    disposeValue.value = formatTimeStr(format, diff)
   }, REFRESH_INTERVAL)
 }
 

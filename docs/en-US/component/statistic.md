@@ -42,7 +42,7 @@ statistic/card
 | Attribute         | Description                    | Type                                                                | Default |
 | ----------------- | ------------------------------ | ------------------------------------------------------------------- | ------- |
 | value             | Numerical content              | ^[string] / ^[number]                                               | —       |
-| decimal-separator | Setting the decimal point      | ^[string]                                                           | —       |
+| decimal-separator | Setting the decimal point      | ^[string]                                                           | .       |
 | formatter         | Custom numerical presentation  | ^[string]                                                           | —       |
 | group-separator   | Sets the thousandth identifier | ^[string]                                                           | ,       |
 | precision         | numerical precision            | ^[number]                                                           | 0       |

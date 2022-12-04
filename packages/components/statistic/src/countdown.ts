@@ -1,5 +1,4 @@
-import { divide, floor, multiply, padStart, reduce } from 'lodash-unified'
-import dayjs from 'dayjs'
+import { padStart } from 'lodash-unified'
 import { buildProps, definePropType } from '@element-plus/utils'
 import type { StyleValue } from 'vue'
 import type { Dayjs } from 'dayjs'
@@ -50,12 +49,8 @@ export const countdownEmits = {
   change: (value: number) => !!value,
 }
 
-export const formatTimeStr = function (
-  format: any,
-  time: number,
-  futureTime: any
-) {
-  const timeUnits: any = [
+export const formatTimeStr = function (format: string, time: number) {
+  const timeUnits: [string, number][] = [
     ['Y', 1000 * 60 * 60 * 24 * 365], // years
     ['M', 1000 * 60 * 60 * 24 * 30], // months
     ['D', 1000 * 60 * 60 * 24], // days
@@ -64,29 +59,33 @@ export const formatTimeStr = function (
     ['s', 1000], // seconds
     ['S', 1], // million seconds
   ]
-  return reduce(
-    timeUnits,
-    (con: string, item: any[]) => {
-      const name = item[0]
-      return con.replace(new RegExp(`${name}+`, 'g'), (match: any) => {
-        let sum: any = 0
-        if (name == 'M') {
-          //Revision of month
-          sum = Math.abs(dayjs().diff(dayjs(futureTime), name))
-          time -= Math.abs(
-            dayjs().diff(dayjs().add(sum, 'month').format(), 'day') *
-              timeUnits[2][1]
-          )
-        } else {
-          sum = floor(divide(time, item[1]))
-          time -= multiply(sum, item[1])
+  // The unformatted value of the previous tick
+  let pre = 0
+  // previous tick
+  let preTick = 0
+  // time left
+  let timeLeft = time
+  return timeUnits.reduce((con: string, item: [string, number]) => {
+    const name = item[0]
+    return con.replace(new RegExp(`${name}+`, 'g'), (match) => {
+      let sum = 0
+      if (!format.includes(name)) {
+        pre = Math.floor(timeLeft / item[1])
+        timeLeft = timeLeft - pre * item[1]
+        preTick = item[1]
+      } else {
+        pre = 0
+        preTick = 0
+        sum = Math.floor(timeLeft / item[1])
+        timeLeft = timeLeft - sum * item[1]
+        if (pre > 0) {
+          sum = sum + pre * (preTick / item[1])
+          pre = 0
         }
-        sum = padStart(String(sum), String(match).length, '0') // autoCompletion
-        return sum
-      })
-    },
-    format
-  )
+      }
+      return padStart(String(sum), match.length, '0') // autoCompletion
+    })
+  }, format)
 }
 
 export type CountdownInstance = InstanceType<typeof Countdown>
