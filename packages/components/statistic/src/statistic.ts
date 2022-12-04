@@ -2,47 +2,71 @@ import { buildProps, definePropType } from '@element-plus/utils'
 import type { StyleValue } from 'vue'
 import type Statistic from './statistic.vue'
 export const statisticProps = buildProps({
+  /**
+   * @description Setting the decimal point
+   */
   decimalSeparator: {
     type: String,
     default: '.',
   },
+  /**
+   * @description Sets the thousandth identifier
+   */
   groupSeparator: {
     type: String,
     default: ',',
   },
+  /**
+   * @description numerical precision
+   */
   precision: {
     type: Number,
-    default: null,
+    default: 0,
   },
+  /**
+   * @description Custom numerical presentation
+   */
   formatter: {
     type: definePropType<(val: string | number) => string | number>(Function),
   },
+  /**
+   * @description Numerical content
+   */
   value: {
     type: [String, Number],
     default: null,
   },
+  /**
+   * @description Sets the prefix of a number
+   */
   prefix: {
     type: String,
-    default: '',
   },
+  /**
+   * @description  Sets the suffix of a number
+   */
   suffix: {
     type: String,
-    default: null,
   },
+  /**
+   * @description Numeric titles
+   */
   title: {
-    type: [String, Number],
-    default: '',
+    type: String,
   },
+  /**
+   * @description Styles numeric values
+   */
   valueStyle: {
     type: definePropType<StyleValue>([String, Object]),
     default: () => ({}),
   },
-  rate: {
-    type: Number,
-    default: 3,
-  },
+  // rate: {
+  //   type: Number,
+  //   default: 3,
+  // },
 } as const)
-export const regroup = function (
+export const groupFormat = function (
   target: any,
   _mulriple = 3,
   _groupSeparator = ','

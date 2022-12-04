@@ -5,25 +5,40 @@ import type { StyleValue } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type Countdown from './countdown.vue'
 export const countdownProps = buildProps({
+  /**
+   * @description Formatting the countdown display
+   */
   format: {
     type: String,
     default: 'HH:mm:ss',
   },
+  /**
+   * @description Sets the prefix of a countdown
+   */
   prefix: {
     type: String,
-    default: '',
   },
+  /**
+   * @description Sets the suffix of a countdown
+   */
   suffix: {
     type: String,
-    default: null,
   },
+  /**
+   * @description countdown titles
+   */
   title: {
-    type: [String, Number],
-    default: '',
+    type: String,
   },
+  /**
+   * @description Styles countdown values
+   */
   value: {
     type: definePropType<number | Dayjs>([Number, Object]),
   },
+  /**
+   * @description numerical precision
+   */
   valueStyle: {
     type: definePropType<StyleValue>([String, Object]),
     default: () => ({}),

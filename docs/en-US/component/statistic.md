@@ -43,14 +43,13 @@ statistic/card
 | ----------------- | ------------------------------ | ------------------------------------------------------------------- | ------- |
 | value             | Numerical content              | ^[string] / ^[number]                                               | —       |
 | decimal-separator | Setting the decimal point      | ^[string]                                                           | —       |
-| format            | Custom numerical presentation  | ^[string]                                                           | —       |
+| formatter         | Custom numerical presentation  | ^[string]                                                           | —       |
 | group-separator   | Sets the thousandth identifier | ^[string]                                                           | ,       |
 | precision         | numerical precision            | ^[number]                                                           | 0       |
 | prefix            | Sets the prefix of a number    | ^[string]                                                           | —       |
 | suffix            | Sets the suffix of a number    | ^[string]                                                           | —       |
 | title             | Numeric titles                 | ^[string]                                                           | —       |
-| value-style       | Styles numeric values          | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` |
-| rate              | Set the ratio                  | ^[number]                                                           | 3       |
+| value-style       | Styles numeric values          | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —       |
 
 ### Statistic Slots
 
@@ -63,26 +62,29 @@ statistic/card
 
 ### Statistic Exposes
 
-| Name | Description            | Type                                 |
-| ---- | ---------------------- | ------------------------------------ |
-| ref  | Statistic html element | ^[Object]`Ref<HTMLStatisticElement>` |
+| Name         | Description          | Type                             |
+| ------------ | -------------------- | -------------------------------- |
+| disposeValue | Current display text | ^[Object]`Ref<string \| number>` |
 
 ## Countdown API
 
 ### Countdown Attributes
 
-| Attribute    | Description                              | Type                          | Default |
-| ------------ | ---------------------------------------- | ----------------------------- | ------- |
-| time-indices | Whether to enable the countdown function | ^[boolean]`'true' \| 'false'` | false   |
-| value        | Required value, enter the bound value    | ^[number] / ^[Date]           | —       |
-| format       | Formatting the countdown display         | ^[string]`'' `                | —       |
+| Attribute   | Description                           | Type                                                                | Default  |
+| ----------- | ------------------------------------- | ------------------------------------------------------------------- | -------- |
+| value       | Required value, enter the bound value | ^[number] / ^[Dayjs]                                                | —        |
+| format      | Formatting the countdown display      | ^[string]                                                           | HH:mm:ss |
+| prefix      | Sets the prefix of a countdown        | ^[string]                                                           | —        |
+| suffix      | Sets the suffix of a countdown        | ^[string]                                                           | —        |
+| title       | countdown titles                      | ^[string]                                                           | —        |
+| value-style | Styles countdown values               | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —        |
 
 ### Countdown Events
 
-| Method | Description                                | Type                                     |
-| ------ | ------------------------------------------ | ---------------------------------------- |
-| change | Enable in the 'countdown' function         | ^[Function]`() => Date`                  |
-| finish | Launched after the 'countdown' is complete | ^[Function]`(event: FocusEvent) => void` |
+| Method | Description                  | Type                                 |
+| ------ | ---------------------------- | ------------------------------------ |
+| change | Time difference change event | ^[Function]`(value: number) => Date` |
+| finish | countdown end event          | ^[Function]`() => void`              |
 
 <style lang="scss">
 @use '../../examples/statistic/index.scss';

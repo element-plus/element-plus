@@ -36,9 +36,7 @@ const REFRESH_INTERVAL = 1000 / 30
 defineOptions({
   name: 'ElCountdown',
 })
-onBeforeUnmount(() => {
-  stopTimer()
-})
+
 const props = defineProps(countdownProps)
 const emit = defineEmits(countdownEmits)
 const ns = useNamespace('statistic')
@@ -84,6 +82,10 @@ watch(
     immediate: true,
   }
 )
+
+onBeforeUnmount(() => {
+  stopTimer()
+})
 
 defineExpose({
   disposeValue,

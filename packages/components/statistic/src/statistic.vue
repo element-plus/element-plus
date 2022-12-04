@@ -27,7 +27,7 @@ import { computed } from 'vue'
 import { isNil } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import { isFunction } from '@element-plus/utils'
-import { regroup, statisticProps } from './statistic'
+import { groupFormat, statisticProps } from './statistic'
 
 defineOptions({
   name: 'ElStatistic',
@@ -53,12 +53,15 @@ const disposeValue = computed(() => {
         .slice(1)}`
       decimal = decimal.slice(0, props.precision)
     }
-    integer = regroup(integer, props.rate, props.groupSeparator)
+    integer = groupFormat(integer, 3, props.groupSeparator)
     return [integer, decimal].join(decimal ? props.decimalSeparator || '.' : '')
   }
 })
 
 defineExpose({
+  /**
+   * @description Current display text
+   */
   disposeValue,
 })
 </script>
