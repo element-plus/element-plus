@@ -159,11 +159,11 @@ button/custom
 
 | Name           | Description          | Type                                                                                                           |
 | -------------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
-| ref            | button html element  | ^[Object]`Ref<HTMLButtonElement>`                                                                              |
-| size           | button size          | ^[Object]`ComputedRef<'' \| 'small' \| 'default' \| 'large'>`                                                  |
-| type           | button type          | ^[Object]`ComputedRef<'' \| 'default' \| 'primary' \| 'success' \| 'warning' \| 'info' \| 'danger' \| 'text'>` |
-| disabled       | button disabled      | ^[Object]`ComputedRef<boolean>`                                                                                |
-| shouldAddSpace | whether adding space | ^[Object]`ComputedRef<boolean>`                                                                                |
+| ref            | button html element  | ^[object]`Ref<HTMLButtonElement>`                                                                              |
+| size           | button size          | ^[object]`ComputedRef<'' \| 'small' \| 'default' \| 'large'>`                                                  |
+| type           | button type          | ^[object]`ComputedRef<'' \| 'default' \| 'primary' \| 'success' \| 'warning' \| 'info' \| 'danger' \| 'text'>` |
+| disabled       | button disabled      | ^[object]`ComputedRef<boolean>`                                                                                |
+| shouldAddSpace | whether adding space | ^[object]`ComputedRef<boolean>`                                                                                |
 
 ## ButtonGroup API
 
