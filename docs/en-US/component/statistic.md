@@ -64,7 +64,7 @@ statistic/card
 
 | Name         | Description          | Type                             |
 | ------------ | -------------------- | -------------------------------- |
-| disposeValue | Current display text | ^[Object]`Ref<string \| number>` |
+| disposeValue | Current display text | ^[object]`Ref<string \| number>` |
 
 ## Countdown API
 
