@@ -66,6 +66,8 @@ export * from './tree-select'
 export * from './tree-v2'
 export * from './upload'
 export * from './virtual-list'
+export * from './statistic'
+
 // plugins
 export * from './infinite-scroll'
 export * from './loading'

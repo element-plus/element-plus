@@ -134,7 +134,6 @@
       }
     ]
   },
-
   "data": {
     "text": "Data",
     "children": [
@@ -223,6 +222,10 @@
       {
         "link": "/tree-v2",
         "text": "Virtualized Tree"
+      },
+      {
+        "link": "/statistic",
+        "text": "Statistic"
       }
     ]
   },
