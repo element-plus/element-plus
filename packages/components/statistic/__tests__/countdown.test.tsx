@@ -8,7 +8,6 @@ describe('Countdown.vue', () => {
     new Promise((done) => {
       const wrapper = mountContent({
         value: Date.now() + 200,
-        timeIndices: true,
         finish: () => {
           console.log('end')
         },

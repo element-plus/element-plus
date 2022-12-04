@@ -21,6 +21,11 @@ statistic/num
 
 statistic/countdown
 :::
+:::tip
+
+In formatting it is suggested to be in the range of days
+
+:::
 
 ## Card usage
 
@@ -45,7 +50,7 @@ statistic/card
 | suffix            | Sets the suffix of a number    | ^[string]                                                           | —       |
 | title             | Numeric titles                 | ^[string]                                                           | —       |
 | value-style       | Styles numeric values          | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` |
-| rate              | Set the ratio                  | ^[number]                                                           | 1000    |
+| rate              | Set the ratio                  | ^[number]                                                           | 3       |
 
 ### Statistic Slots
 
@@ -69,7 +74,7 @@ statistic/card
 | Attribute    | Description                              | Type                          | Default |
 | ------------ | ---------------------------------------- | ----------------------------- | ------- |
 | time-indices | Whether to enable the countdown function | ^[boolean]`'true' \| 'false'` | false   |
-| value        | Required value, enter the bound value    | ^[string]`'' `                | —       |
+| value        | Required value, enter the bound value    | ^[number] / ^[Date]           | —       |
 | format       | Formatting the countdown display         | ^[string]`'' `                | —       |
 
 ### Countdown Events
@@ -78,12 +83,6 @@ statistic/card
 | ------ | ------------------------------------------ | ---------------------------------------- |
 | change | Enable in the 'countdown' function         | ^[Function]`() => Date`                  |
 | finish | Launched after the 'countdown' is complete | ^[Function]`(event: FocusEvent) => void` |
-
-### Countdown Exposes
-
-| Method  | Description         | Parameters                            |
-| ------- | ------------------- | ------------------------------------- |
-| suspend | Pause the countdown | ^[Function]`(value: boolean) => Date` |
 
 <style lang="scss">
 @use '../../examples/statistic/index.scss';

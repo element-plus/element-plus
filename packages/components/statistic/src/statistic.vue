@@ -27,7 +27,7 @@ import { computed } from 'vue'
 import { isNil } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import { isFunction } from '@element-plus/utils'
-import { magnification, statisticProps } from './statistic'
+import { regroup, statisticProps } from './statistic'
 
 defineOptions({
   name: 'ElStatistic',
@@ -53,9 +53,8 @@ const disposeValue = computed(() => {
         .slice(1)}`
       decimal = decimal.slice(0, props.precision)
     }
-    integer = magnification(Number(integer), props.rate, props.groupSeparator)
+    integer = regroup(integer, props.rate, props.groupSeparator)
     return [integer, decimal].join(decimal ? props.decimalSeparator || '.' : '')
-    // return [integer, decimal].join('.')
   }
 })
 

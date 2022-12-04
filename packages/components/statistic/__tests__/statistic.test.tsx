@@ -42,26 +42,10 @@ describe('Statistic.vue', () => {
     const wrapper = mountContent({
       value: 123456789,
       groupSeparator: ' ',
-      rate: 10000,
+      rate: 4,
       precision: 2,
     })
     await wrapper.vm.$nextTick()
     expect(wrapper.text()).toBe('1 2345 6789.00')
   })
-
-  // it('should work', async () =>
-  //   new Promise((done) => {
-  //     const wrapper = mountContent({
-  //       value: Date.now() + 200,
-  //       timeIndices: true,
-  //       finish: () => {
-  //         console.log('end')
-  //       },
-  //     })
-
-  //     setTimeout(() => {
-  //       expect(wrapper.emitted().finish).toBeTruthy()
-  //       done()
-  //     }, 300)
-  //   }))
 })

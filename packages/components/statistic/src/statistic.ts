@@ -33,34 +33,21 @@ export const statisticProps = buildProps({
     type: [String, Number],
     default: '',
   },
-  timeIndices: {
-    type: Boolean,
-    default: false,
-  },
   valueStyle: {
     type: definePropType<StyleValue>([String, Object]),
     default: () => ({}),
   },
-  format: {
-    type: String,
-    default: 'HH:mm:ss:SSS',
-  },
   rate: {
     type: Number,
-    default: 1000,
+    default: 3,
   },
 } as const)
-export const magnification = function (
-  num: number,
-  _mulriple = 1000,
+export const regroup = function (
+  target: any,
+  _mulriple = 3,
   _groupSeparator = ','
 ): string {
-  const level = String(_mulriple).length - 1
-  const reg = new RegExp(`\\d{1,${level}}(?=(\\d{${level}})+$)`, 'g')
-  const result = String(num)
-    .replace(reg, '$&,')
-    .split(',')
-    .join(_groupSeparator)
-  return result
+  const reg = new RegExp(`\\B(?=(\\d{${_mulriple}})+(?!\\d))`, 'g')
+  return String(target).replace(reg, _groupSeparator)
 }
 export type StatisticInstance = InstanceType<typeof Statistic>

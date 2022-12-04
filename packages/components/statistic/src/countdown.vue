@@ -25,75 +25,67 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, ref, watch } from 'vue'
 import { isNil } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
-import { countdownProps, diffDate, formatTimeStr } from './countdown'
+import { isNumber } from '@element-plus/utils'
+import { countdownEmits, countdownProps, formatTimeStr } from './countdown'
 
-const emit = defineEmits(['finish', 'change'])
-const props = defineProps(countdownProps)
+const REFRESH_INTERVAL = 1000 / 30
 
 defineOptions({
   name: 'ElCountdown',
 })
-
-const ns = useNamespace('statistic')
-const disposeValue: any = ref(null)
-const timeTask = ref<ReturnType<typeof setInterval> | null>(null)
-const REFRESH_INTERVAL = 1000 / 30
-onMounted(() => {
-  countDown()
+onBeforeUnmount(() => {
+  stopTimer()
 })
+const props = defineProps(countdownProps)
+const emit = defineEmits(countdownEmits)
+const ns = useNamespace('statistic')
+const disposeValue = ref('')
+let timer: ReturnType<typeof setInterval> | undefined
+
+const getTime = (val: number) => {
+  return new Date(val).getTime()
+}
+
+const stopTimer = () => {
+  if (timer) {
+    clearInterval(timer)
+    timer = undefined
+  }
+}
+
+const startTimer = () => {
+  const { value, format } = props
+  if (isNil(value)) {
+    disposeValue.value = ''
+    return
+  }
+  const timestamp = getTime(isNumber(value) ? value : value.valueOf())
+  timer = setInterval(() => {
+    const diff = timestamp - Date.now()
+    emit('change', diff)
+    if (diff < 0) {
+      stopTimer()
+      emit('finish')
+    }
+    disposeValue.value = formatTimeStr(format, diff, value)
+  }, REFRESH_INTERVAL)
+}
+
 watch(
-  () => props.value,
+  () => [props.value, props.format],
   () => {
-    countDown()
+    stopTimer()
+    startTimer()
+  },
+  {
+    immediate: true,
   }
 )
 
-onBeforeUnmount(() => {
-  suspend(true)
-})
-
-const suspend = function (isStop: boolean): any {
-  if (isStop && timeTask.value) {
-    clearInterval(timeTask.value)
-    timeTask.value = null
-  } else {
-    countDown()
-  }
-  return disposeValue.value
-}
-const countDown = function () {
-  const { value } = props
-  if (timeTask.value || isNil(value)) return
-  const disappearTime = function (time: number): boolean {
-    let result = true // stop
-    if (time > 0) {
-      result = false
-      emit('change', true)
-    } else {
-      result = true
-      suspend(true)
-      emit('finish', true)
-    }
-    return result
-  }
-
-  timeTask.value = setInterval(() => {
-    const diffTiem = diffDate(Number(props.value), Date.now())
-    disposeValue.value = formatTimeStr(
-      props.format,
-      diffTiem,
-      Number(props.value)
-    )
-    disappearTime(diffTiem)
-  }, REFRESH_INTERVAL)
-}
 defineExpose({
   disposeValue,
-  timeTask,
-  REFRESH_INTERVAL,
-  suspend,
 })
 </script>

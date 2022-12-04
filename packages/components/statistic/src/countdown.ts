@@ -35,14 +35,10 @@ export const countdownEmits = {
   change: (value: number) => !!value,
 }
 
-export const diffDate = function (minuend: number, subtrahend: number): number {
-  return Math.max(minuend - subtrahend, 0)
-}
-
 export const formatTimeStr = function (
   format: any,
   time: number,
-  future: number
+  futureTime: any
 ) {
   const timeUnits: any = [
     ['Y', 1000 * 60 * 60 * 24 * 365], // years
@@ -61,7 +57,7 @@ export const formatTimeStr = function (
         let sum: any = 0
         if (name == 'M') {
           //Revision of month
-          sum = Math.abs(dayjs().diff(dayjs(future), name))
+          sum = Math.abs(dayjs().diff(dayjs(futureTime), name))
           time -= Math.abs(
             dayjs().diff(dayjs().add(sum, 'month').format(), 'day') *
               timeUnits[2][1]
