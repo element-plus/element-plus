@@ -23,20 +23,6 @@
                       <Warning />
                     </el-icon>
                   </el-tooltip>
-
-                  <!-- <el-popover
-                    placement="top-start"
-                    title="Title"
-                    :width="200"
-                    trigger="hover"
-                    content="this is content, this is content, this is content"
-                  >
-                    <template #reference>
-                      <el-icon :size="12">
-                        <Warning />
-                      </el-icon>
-                    </template>
-                  </el-popover> -->
                 </div>
               </template>
             </ElStatistic>
@@ -239,6 +225,7 @@ function onClick() {
     padding-left: 4px;
     padding-bottom: 4px;
     display: inline-block;
+    margin-bottom: 0px;
   }
 
   .green {
