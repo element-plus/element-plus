@@ -49,7 +49,7 @@ color-picker/sizes
 | disabled              | whether to disable the ColorPicker           | ^[boolean]                                                                                                      | false   |
 | size                  | size of ColorPicker                          | ^[enum]`'large' \| 'default' \| 'small'`                                                                        | —       |
 | show-alpha            | whether to display the alpha slider          | ^[boolean]                                                                                                      | false   |
-| color-format          | color format of v-model                      | ^[enum]`hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
+| color-format          | color format of v-model                      | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
 | popper-class          | custom class name for ColorPicker's dropdown | ^[string]                                                                                                       | —       |
 | predefine             | predefined color options                     | ^[object]`string[]`                                                                                             | —       |
 | validate-event        | whether to trigger form validation           | ^[boolean]                                                                                                      | true    |
