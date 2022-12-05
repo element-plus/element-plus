@@ -33,12 +33,14 @@ defineOptions({
   name: 'ElStatistic',
 })
 
+const THOUSANDTH = 3
+
 const props = defineProps(statisticProps)
 const ns = useNamespace('statistic')
 
 const disposeValue = computed(() => {
   if (isFunction(props.formatter)) {
-    return props.formatter(props.value)
+    return props.formatter(isNil(props.value) ? '' : props.value)
   } else if (
     isNil(props.value) ||
     !/^(-|\+)?\d+(\.\d+)?$/.test(`${props.value}`)
@@ -53,7 +55,7 @@ const disposeValue = computed(() => {
         .slice(1)}`
       decimal = decimal.slice(0, props.precision)
     }
-    integer = groupFormat(integer, 3, props.groupSeparator)
+    integer = groupFormat(integer, THOUSANDTH, props.groupSeparator)
     return [integer, decimal].join(decimal ? props.decimalSeparator || '.' : '')
   }
 })

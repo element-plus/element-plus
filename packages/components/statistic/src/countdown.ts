@@ -1,5 +1,6 @@
 import { padStart } from 'lodash-unified'
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType, isNumber } from '@element-plus/utils'
+import { CHANGE_EVENT } from '@element-plus/constants'
 import type { StyleValue } from 'vue'
 import type { Dayjs } from 'dayjs'
 import type Countdown from './countdown.vue'
@@ -14,42 +15,35 @@ export const countdownProps = buildProps({
   /**
    * @description Sets the prefix of a countdown
    */
-  prefix: {
-    type: String,
-  },
+  prefix: String,
   /**
    * @description Sets the suffix of a countdown
    */
-  suffix: {
-    type: String,
-  },
+  suffix: String,
   /**
    * @description countdown titles
    */
-  title: {
-    type: String,
-  },
+  title: String,
   /**
-   * @description Styles countdown values
+   * @description target time
    */
   value: {
     type: definePropType<number | Dayjs>([Number, Object]),
   },
   /**
-   * @description numerical precision
+   * @description Styles countdown values
    */
   valueStyle: {
-    type: definePropType<StyleValue>([String, Object]),
-    default: () => ({}),
+    type: definePropType<StyleValue>([String, Object, Array]),
   },
 } as const)
 
 export const countdownEmits = {
   finish: () => true,
-  change: (value: number) => !!value,
+  [CHANGE_EVENT]: (value: number) => isNumber(value),
 }
 
-export const formatTimeStr = function (format: string, time: number) {
+export const formatTimeStr = (format: string, time: number) => {
   const timeUnits: [string, number][] = [
     ['Y', 1000 * 60 * 60 * 24 * 365], // years
     ['M', 1000 * 60 * 60 * 24 * 30], // months

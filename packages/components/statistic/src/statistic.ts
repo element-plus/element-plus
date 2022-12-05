@@ -34,32 +34,25 @@ export const statisticProps = buildProps({
    */
   value: {
     type: [String, Number],
-    default: null,
   },
   /**
    * @description Sets the prefix of a number
    */
-  prefix: {
-    type: String,
-  },
+  prefix: String,
+
   /**
    * @description  Sets the suffix of a number
    */
-  suffix: {
-    type: String,
-  },
+  suffix: String,
   /**
    * @description Numeric titles
    */
-  title: {
-    type: String,
-  },
+  title: String,
   /**
    * @description Styles numeric values
    */
   valueStyle: {
-    type: definePropType<StyleValue>([String, Object]),
-    default: () => ({}),
+    type: definePropType<StyleValue>([String, Object, Array]),
   },
   // rate: {
   //   type: Number,
@@ -67,11 +60,11 @@ export const statisticProps = buildProps({
   // },
 } as const)
 export const groupFormat = function (
-  target: any,
-  _mulriple = 3,
-  _groupSeparator = ','
+  target: string,
+  step = 3,
+  groupSeparator = ','
 ): string {
-  const reg = new RegExp(`\\B(?=(\\d{${_mulriple}})+(?!\\d))`, 'g')
-  return String(target).replace(reg, _groupSeparator)
+  const reg = new RegExp(`\\B(?=(\\d{${step}})+(?!\\d))`, 'g')
+  return target.replace(reg, groupSeparator)
 }
 export type StatisticInstance = InstanceType<typeof Statistic>

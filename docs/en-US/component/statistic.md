@@ -40,10 +40,10 @@ statistic/card
 ### Statistic Attributes
 
 | Attribute         | Description                    | Type                                                                | Default |
-| ----------------- | ------------------------------ | ------------------------------------------------------------------- | ------- |
+|-------------------|--------------------------------|---------------------------------------------------------------------|---------|
 | value             | Numerical content              | ^[string] / ^[number]                                               | —       |
 | decimal-separator | Setting the decimal point      | ^[string]                                                           | .       |
-| formatter         | Custom numerical presentation  | ^[string]                                                           | —       |
+| formatter         | Custom numerical presentation  | ^[Function]`(value: string \| number) => string \| number`          | —       |
 | group-separator   | Sets the thousandth identifier | ^[string]                                                           | ,       |
 | precision         | numerical precision            | ^[number]                                                           | 0       |
 | prefix            | Sets the prefix of a number    | ^[string]                                                           | —       |
@@ -53,37 +53,36 @@ statistic/card
 
 ### Statistic Slots
 
-| Name      | Description                 |
-| --------- | --------------------------- |
-| prefix    | Numeric prefix              |
-| suffix    | Suffixes for numeric values |
-| formatter | Numerical content           |
-| title     | Numeric titles              |
+| Name   | Description                 |
+|--------|-----------------------------|
+| prefix | Numeric prefix              |
+| suffix | Suffixes for numeric values |
+| title  | Numeric titles              |
 
 ### Statistic Exposes
 
 | Name         | Description          | Type                             |
-| ------------ | -------------------- | -------------------------------- |
+|--------------|----------------------|----------------------------------|
 | disposeValue | Current display text | ^[object]`Ref<string \| number>` |
 
 ## Countdown API
 
 ### Countdown Attributes
 
-| Attribute   | Description                           | Type                                                                | Default  |
-| ----------- | ------------------------------------- | ------------------------------------------------------------------- | -------- |
-| value       | Required value, enter the bound value | ^[number] / ^[Dayjs]                                                | —        |
-| format      | Formatting the countdown display      | ^[string]                                                           | HH:mm:ss |
-| prefix      | Sets the prefix of a countdown        | ^[string]                                                           | —        |
-| suffix      | Sets the suffix of a countdown        | ^[string]                                                           | —        |
-| title       | countdown titles                      | ^[string]                                                           | —        |
-| value-style | Styles countdown values               | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —        |
+| Attribute   | Description                      | Type                                                                | Default  |
+|-------------|----------------------------------|---------------------------------------------------------------------|----------|
+| value       | target time                      | ^[number] / ^[Dayjs]                                                | —        |
+| format      | Formatting the countdown display | ^[string]                                                           | HH:mm:ss |
+| prefix      | Sets the prefix of a countdown   | ^[string]                                                           | —        |
+| suffix      | Sets the suffix of a countdown   | ^[string]                                                           | —        |
+| title       | countdown titles                 | ^[string]                                                           | —        |
+| value-style | Styles countdown values          | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]` | —        |
 
 ### Countdown Events
 
 | Method | Description                  | Type                                 |
-| ------ | ---------------------------- | ------------------------------------ |
-| change | Time difference change event | ^[Function]`(value: number) => Date` |
+|--------|------------------------------|--------------------------------------|
+| change | Time difference change event | ^[Function]`(value: number) => void` |
 | finish | countdown end event          | ^[Function]`() => void`              |
 
 <style lang="scss">
