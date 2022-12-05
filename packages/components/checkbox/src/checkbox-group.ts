@@ -17,7 +17,7 @@ export const checkboxGroupProps = buildProps({
     default: () => [],
   },
   /**
-   * @description binding value
+   * @description whether the nesting checkboxes are disabled
    */
   disabled: Boolean,
   /**
