@@ -14,7 +14,7 @@
         </slot>
       </span>
       <span v-if="value" :class="ns.e('number')" :style="valueStyle">
-        <slot name="formatter"> {{ disposeValue }}</slot>
+        {{ disposeValue }}
       </span>
       <span v-if="!!$slots.title || suffix" :class="ns.e('suffix')">
         <slot name="suffix">

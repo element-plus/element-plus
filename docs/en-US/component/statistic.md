@@ -85,6 +85,14 @@ statistic/card
 | change | Time difference change event | ^[Function]`(value: number) => void` |
 | finish | countdown end event          | ^[Function]`() => void`              |
 
+### Countdown Slots
+
+| Name   | Description            |
+| ------ | ---------------------- |
+| prefix | countdown value prefix |
+| suffix | countdown value suffix |
+| title  | countdown title        |
+
 <style lang="scss">
 @use '../../examples/statistic/index.scss';
 </style>
