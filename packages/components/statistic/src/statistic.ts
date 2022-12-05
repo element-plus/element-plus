@@ -34,6 +34,7 @@ export const statisticProps = buildProps({
    */
   value: {
     type: [String, Number],
+    default: 0,
   },
   /**
    * @description Sets the prefix of a number

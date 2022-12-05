@@ -40,7 +40,7 @@ const ns = useNamespace('statistic')
 
 const disposeValue = computed(() => {
   if (isFunction(props.formatter)) {
-    return props.formatter(isNil(props.value) ? '' : props.value)
+    return props.formatter(props.value)
   } else if (
     isNil(props.value) ||
     !/^(-|\+)?\d+(\.\d+)?$/.test(`${props.value}`)
