@@ -4,19 +4,15 @@
       <el-row :gutter="16">
         <el-col :span="8">
           <el-card class="itemCard">
-            <ElStatistic
-              :value="98500"
-              style="width: 110px"
-              :value-style="{ fontSize: '28px' }"
-            >
+            <ElStatistic :value="98500" :value-style="{ fontSize: '28px' }">
               <template #title>
                 <div class="titleLeft">
-                  <span> 日活跃用户数 </span>
+                  <span> Daily active users </span>
 
                   <el-tooltip
                     class="box-item"
                     effect="dark"
-                    content="一日之内登录产品的用户数量"
+                    content="Number of users who logged into the product in one day"
                     placement="top"
                   >
                     <el-icon :size="12">
@@ -30,7 +26,7 @@
               <el-row>
                 <el-col :span="12" :xs="24">
                   <span class="item"
-                    >比昨日
+                    >比昨天
                     <span class="green">
                       24%
                       <el-icon>
@@ -40,7 +36,7 @@
                 ></el-col>
                 <el-col :span="12" :xs="24">
                   <span class="item" style="text-align: right"
-                    >比前日
+                    >比前天
                     <span class="red">
                       17%
                       <el-icon>
@@ -54,18 +50,14 @@
         </el-col>
         <el-col :span="8">
           <el-card class="itemCard">
-            <ElStatistic
-              :value="693700"
-              style="width: 110px"
-              :value-style="{ fontSize: '28px' }"
-            >
+            <ElStatistic :value="693700" :value-style="{ fontSize: '28px' }">
               <template #title>
                 <div class="titleLeft">
-                  月活跃用户数
+                  Monthly Active Users
                   <el-tooltip
                     class="box-item"
                     effect="dark"
-                    content="一日之内登录产品的用户数量"
+                    content="Number of users who logged into the product in one day"
                     placement="top"
                   >
                     <el-icon :size="12">
@@ -110,14 +102,10 @@
         </el-col>
         <el-col :span="8">
           <el-card class="itemCard">
-            <ElStatistic
-              style="width: 110px"
-              :value-style="{ fontSize: '28px' }"
-              :value="72000"
-            >
+            <ElStatistic :value-style="{ fontSize: '28px' }" :value="72000">
               <template #title>
                 <div class="titleLeft">
-                  今日新增成交
+                  New transactions today
                   <!-- <el-icon>
                     <Warning />
                   </el-icon> -->
@@ -127,15 +115,16 @@
             <div class="s-Bottom">
               <el-row>
                 <el-col :span="22">
-                  <span class="item"
-                    >比昨日
+                  <span class="item">
+                    比昨天
                     <span class="red">
                       16%
                       <el-icon>
                         <CaretBottom />
                       </el-icon>
-                    </span> </span
-                ></el-col>
+                    </span>
+                  </span>
+                </el-col>
                 <el-col :span="2">
                   <el-icon :size="14" @click="onClick">
                     <ArrowRight />

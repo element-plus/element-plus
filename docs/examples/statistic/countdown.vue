@@ -3,24 +3,28 @@
     <div class="s-card">
       <el-row>
         <el-col :span="8">
-          <ElCountdown title="开始抢购" countdown :value="value" />
+          <ElCountdown title="Start to grab" countdown :value="value" />
         </el-col>
         <el-col :span="8">
-          <ElCountdown title="剩余VIP时长" format="HH:mm:ss" :value="value1" />
+          <ElCountdown
+            title="Remaining VIP time"
+            format="HH:mm:ss"
+            :value="value1"
+          />
           <div class="f-center">
-            <el-button type="primary" @click="reset">重置</el-button>
+            <el-button type="primary" @click="reset">Reset</el-button>
           </div>
         </el-col>
         <el-col :span="8">
-          <ElCountdown :value="value2" format="DD 天 HH 时 mm 分 ss 秒">
+          <ElCountdown :value="value2" format="DD HH : mm : ss ">
             <template #title>
               <el-icon style="margin-right: 4px" :size="12"
                 ><Calendar
               /></el-icon>
-              <span> 距离新年还有 </span>
+              <span> New Year's Day is still to come </span>
             </template>
           </ElCountdown>
-          <div class="f-center">2023年01月01日</div>
+          <div class="f-center">2023-01-01 00:00:00</div>
         </el-col>
       </el-row>
     </div>

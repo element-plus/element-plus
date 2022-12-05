@@ -3,12 +3,12 @@
     <div class="s-card">
       <el-row>
         <el-col :span="6">
-          <el-statistic title="日活跃用户数" :value="268500" />
+          <el-statistic title="Daily active users" :value="268500" />
         </el-col>
         <el-col :span="6">
           <el-statistic :value="138">
             <template #title>
-              男女比
+              Ratio of men to women
               <el-icon style="" :size="12">
                 <Male />
               </el-icon>
@@ -17,14 +17,14 @@
           </el-statistic>
         </el-col>
         <el-col :span="6">
-          <el-statistic title="总成交" :value="172000">
+          <el-statistic title="Total Transactions" :value="172000">
             <template #suffix>
-              <span style="font-size: 12px">单</span>
+              <span style="font-size: 12px" />
             </template>
           </el-statistic>
         </el-col>
         <el-col :span="6">
-          <el-statistic title="反馈数" :value="562">
+          <el-statistic title="Feedback number" :value="562">
             <template #suffix>
               <el-icon>
                 <ChatLineRound />
