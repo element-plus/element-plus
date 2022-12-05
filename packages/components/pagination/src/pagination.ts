@@ -77,7 +77,7 @@ export const paginationProps = buildProps({
     type: Number,
     validator: (value: unknown) => {
       return (
-        typeof value === 'number' &&
+        isNumber(value) &&
         Math.trunc(value) === value &&
         value > 4 &&
         value < 22 &&
