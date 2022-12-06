@@ -11,7 +11,7 @@ Get some recommended tips based on the current input.
 
 Autocomplete component provides input suggestions.
 
-:::demo The `fetch-suggestions` attribute is a method that returns suggested input. In this example, `querySearch(queryString, cb)` returns suggestions to Autocomplete via `cb(data)` when suggestions are ready.
+:::demo The `fetch-suggestions` attribute is a method that return suggested inputs. In this example, `querySearch(queryString, cb)` return suggestions to Autocomplete via `cb(data)` when suggestions are ready.
 
 autocomplete/autocomplete
 
