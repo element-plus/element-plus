@@ -254,7 +254,8 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
 
   &:focus-visible:not(.is-disabled) {
     .#{$namespace}-color-picker__trigger {
-      border: 1px solid getCssVar('color-primary');
+      outline: 2px solid getCssVar('color-primary');
+      outline-offset: 1px;
     }
   }
 
