@@ -40,7 +40,7 @@ statistic/card
 ### Statistic Attributes
 
 | Attribute         | Description                    | Type                                                                | Default |
-| ----------------- | ------------------------------ | ------------------------------------------------------------------- | ------- |
+|-------------------|--------------------------------|---------------------------------------------------------------------|---------|
 | value             | Numerical content              | ^[string] / ^[number]                                               | 0       |
 | decimal-separator | Setting the decimal point      | ^[string]                                                           | .       |
 | formatter         | Custom numerical presentation  | ^[Function]`(value: string \| number) => string \| number`          | —       |
@@ -54,7 +54,7 @@ statistic/card
 ### Statistic Slots
 
 | Name   | Description                 |
-| ------ | --------------------------- |
+|--------|-----------------------------|
 | prefix | Numeric prefix              |
 | suffix | Suffixes for numeric values |
 | title  | Numeric titles              |
@@ -62,7 +62,7 @@ statistic/card
 ### Statistic Exposes
 
 | Name         | Description          | Type                             |
-| ------------ | -------------------- | -------------------------------- |
+|--------------|----------------------|----------------------------------|
 | disposeValue | Current display text | ^[object]`Ref<string \| number>` |
 
 ## Countdown API
@@ -70,7 +70,7 @@ statistic/card
 ### Countdown Attributes
 
 | Attribute   | Description                      | Type                                                                | Default  |
-| ----------- | -------------------------------- | ------------------------------------------------------------------- | -------- |
+|-------------|----------------------------------|---------------------------------------------------------------------|----------|
 | value       | target time                      | ^[number] / ^[Dayjs]                                                | —        |
 | format      | Formatting the countdown display | ^[string]                                                           | HH:mm:ss |
 | prefix      | Sets the prefix of a countdown   | ^[string]                                                           | —        |
@@ -81,14 +81,14 @@ statistic/card
 ### Countdown Events
 
 | Method | Description                  | Type                                 |
-| ------ | ---------------------------- | ------------------------------------ |
+|--------|------------------------------|--------------------------------------|
 | change | Time difference change event | ^[Function]`(value: number) => void` |
 | finish | countdown end event          | ^[Function]`() => void`              |
 
 ### Countdown Slots
 
 | Name   | Description            |
-| ------ | ---------------------- |
+|--------|------------------------|
 | prefix | countdown value prefix |
 | suffix | countdown value suffix |
 | title  | countdown title        |

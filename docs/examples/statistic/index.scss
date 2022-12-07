@@ -1,5 +1,3 @@
-.example:nth-last-of-type(7n + 1) {
-  .example-showcase {
-    background-color: var(--el-fill-color) !important;
-  }
+h2#card-usage ~ .example .example-showcase {
+  background-color: var(--el-fill-color) !important;
 }
