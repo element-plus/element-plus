@@ -16,7 +16,7 @@
           </div>
         </el-col>
         <el-col :span="8">
-          <ElCountdown :value="value2" format="DD Days HH:mm:ss ">
+          <ElCountdown :value="value2" format="DD day HH:mm:ss">
             <template #title>
               <el-icon style="margin-right: 4px" :size="12"
                 ><Calendar
