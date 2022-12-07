@@ -73,7 +73,8 @@ function useStore<T>() {
     insertColumn(
       states: StoreStates,
       column: TableColumnCtx<T>,
-      parent: TableColumnCtx<T>
+      parent: TableColumnCtx<T>,
+      updateColumnOrder: () => void
     ) {
       const array = unref(states._columns)
       let newColumns = []
@@ -89,6 +90,7 @@ function useStore<T>() {
       }
       sortColumn(newColumns)
       states._columns.value = newColumns
+      states.updateOrderFns.value.push(updateColumnOrder)
       if (column.type === 'selection') {
         states.selectable.value = column.selectable
         states.reserveSelection.value = column.reserveSelection
@@ -99,11 +101,66 @@ function useStore<T>() {
       }
     },
 
-    updateColumnOrder(states: StoreStates, keyList: Array<string>) {
-      const array = unref(states._columns)
-      states._columns.value = array.sort((a, b) => {
-        return keyList.indexOf(a.key) - keyList.indexOf(b.key)
-      })
+    updateColumnOrder(
+      states: StoreStates,
+      targetTreePath: Array<number>,
+      column: TableColumnCtx<T>
+    ) {
+      const getColumnTreePath = (columns: TableColumnCtx<T>[]) => {
+        if (!columns || !columns.length) return
+
+        const stack = []
+        let pathRes = null
+
+        const dfs = (columns) => {
+          if (!columns?.length) return
+
+          const res = Array.prototype.indexOf.call(columns, column)
+          if (res > -1) {
+            stack.push(res)
+            pathRes = stack.slice()
+            return
+          }
+
+          for (const [i, column_] of columns.entries()) {
+            stack.push(i)
+            dfs(column_.children)
+            stack.pop()
+          }
+        }
+
+        dfs(columns)
+
+        return pathRes
+      }
+
+      const sourceTreePath = getColumnTreePath(states._columns.value)
+
+      if (
+        !targetTreePath ||
+        !sourceTreePath ||
+        targetTreePath.toString() === sourceTreePath.toString()
+      )
+        return
+
+      const maxLen = Math.max(targetTreePath.length, sourceTreePath.length)
+      let sourceStr = 'states._columns.value',
+        targetStr = 'states._columns.value'
+      for (let i = 0; i < maxLen; i++) {
+        if (i <= 0) {
+          sourceStr += `[${sourceTreePath[i]}]`
+          targetStr += `[${targetTreePath[i]}]`
+          continue
+        }
+        if (typeof sourceTreePath[i] !== 'undefined')
+          sourceStr += `.children[${sourceTreePath[i]}]`
+        if (typeof targetTreePath[i] !== 'undefined')
+          targetStr += `.children[${targetTreePath[i]}]`
+      }
+
+      try {
+        eval(`[${sourceStr},${targetStr}]=[${targetStr},${sourceStr}];`)
+      } catch {}
 
       if (instance.$ready) {
         instance.store.updateColumns()
@@ -113,7 +170,8 @@ function useStore<T>() {
     removeColumn(
       states: StoreStates,
       column: TableColumnCtx<T>,
-      parent: TableColumnCtx<T>
+      parent: TableColumnCtx<T>,
+      updateColumnOrder: () => void
     ) {
       const array = unref(states._columns) || []
       if (parent) {
@@ -135,6 +193,10 @@ function useStore<T>() {
           states._columns.value = array
         }
       }
+
+      const updateFnIndex =
+        states.updateOrderFns.value.indexOf(updateColumnOrder)
+      updateFnIndex > -1 && states.updateOrderFns.value.splice(updateFnIndex, 1)
 
       if (instance.$ready) {
         instance.store.updateColumns() // hack for dynamics remove column

@@ -145,16 +145,7 @@
 
 <script lang="ts">
 // @ts-nocheck
-import {
-  computed,
-  defineComponent,
-  getCurrentInstance,
-  onMounted,
-  onUnmounted,
-  provide,
-  ref,
-  useSlots,
-} from 'vue'
+import { computed, defineComponent, getCurrentInstance, provide } from 'vue'
 import { debounce } from 'lodash-unified'
 import { Mousewheel } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
@@ -166,6 +157,7 @@ import TableBody from './table-body'
 import TableFooter from './table-footer'
 import useUtils from './table/utils-helper'
 import useStyle from './table/style-helper'
+import useKeyRender from './table/key-render-helper'
 import defaultProps from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
@@ -215,8 +207,6 @@ export default defineComponent({
     provide(TABLE_INJECTION_KEY, table)
     const store = createStore<Row>(table, props)
     table.store = store
-    const slots = useSlots()
-    const observer = ref(null)
     const layout = new TableLayout<Row>({
       store: table.store,
       table,
@@ -283,43 +273,7 @@ export default defineComponent({
       return props.emptyText || t('el.table.emptyText')
     })
 
-    const initWatchDom = () => {
-      // fix https://github.com/element-plus/element-plus/issues/8528
-      // 仅处理 keyed fragment 情况
-      const keyedFragment = getKeyedFragment()
-      if (!keyedFragment?.length) return
-
-      const el = table.vnode.el
-      const columnsWrapper = el.querySelector('.hidden-columns')
-      const config = { childList: true }
-      observer.value = new MutationObserver(() => {
-        const keyedFragment = getKeyedFragment()
-        const keyList = keyedFragment
-          .reduce((acc, cur) => {
-            acc = [...acc, ...cur.children]
-            return acc
-          }, [])
-          .map((_) => _?.key)
-
-        table.store.commit('updateColumnOrder', keyList)
-      })
-
-      observer.value.observe(columnsWrapper, config)
-
-      function getKeyedFragment() {
-        if (!slots || !slots.default) return
-        const slotIns = slots.default()
-        return slotIns.filter((_) => _.patchFlag & 128 /* KEYED_FRAGMENT */)
-      }
-    }
-
-    onMounted(() => {
-      initWatchDom()
-    })
-
-    onUnmounted(() => {
-      observer.value?.disconnect()
-    })
+    useKeyRender(table)
 
     return {
       ns,

@@ -189,6 +189,53 @@ function useRender<T>(
     return Array.prototype.indexOf.call(children, child)
   }
 
+  const getTreePath = (wrapper: HTMLElement, column: HTMLElement) => {
+    if (!wrapper || !wrapper.childNodes) return
+
+    const stack = []
+    let pathRes = null
+
+    const dfs = (node) => {
+      // filter dom which from TableColumn
+      const columnNodes = Array.prototype.filter.call(
+        node.childNodes,
+        (_) => _.__vnode
+      )
+      if (!columnNodes.length) return
+
+      const res = Array.prototype.indexOf.call(columnNodes, column)
+      if (res > -1) {
+        stack.push(res)
+        pathRes = stack.slice()
+        return
+      }
+
+      for (const [i, columnNode] of columnNodes.entries()) {
+        stack.push(i)
+        dfs(columnNode)
+        stack.pop()
+      }
+    }
+
+    dfs(wrapper)
+
+    return pathRes
+  }
+
+  const updateColumnOrder = () => {
+    const tableEl = owner.value.vnode.el
+    const columnEl = instance.vnode.el
+    const columnsWrapper = (tableEl as HTMLElement).querySelector(
+      '.hidden-columns'
+    )
+    const targetTreePath = getTreePath(columnsWrapper, columnEl)
+    owner.value.store.commit(
+      'updateColumnOrder',
+      targetTreePath,
+      instance.columnConfig.value
+    )
+  }
+
   return {
     columnId,
     realAlign,
@@ -200,6 +247,7 @@ function useRender<T>(
     setColumnRenders,
     getPropsData,
     getColumnElIndex,
+    updateColumnOrder,
   }
 }
 

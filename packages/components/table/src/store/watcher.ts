@@ -14,7 +14,7 @@ import useCurrent from './current'
 import useTree from './tree'
 
 import type { Ref } from 'vue'
-import type { TableColumnCtx } from '../table-column/defaults'
+import type { TableColumn, TableColumnCtx } from '../table-column/defaults'
 import type { Table, TableRefs } from '../table/defaults'
 import type { StoreFilter } from '.'
 
@@ -60,6 +60,7 @@ function useWatcher<T>() {
   const leafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const fixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const rightFixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
+  const updateOrderFns: Ref<(() => void)[]> = ref([])
   const leafColumnsLength = ref(0)
   const fixedLeafColumnsLength = ref(0)
   const rightFixedLeafColumnsLength = ref(0)
@@ -517,6 +518,7 @@ function useWatcher<T>() {
       leafColumns,
       fixedLeafColumns,
       rightFixedLeafColumns,
+      updateOrderFns,
       leafColumnsLength,
       fixedLeafColumnsLength,
       rightFixedLeafColumnsLength,
