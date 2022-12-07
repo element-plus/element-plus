@@ -14,7 +14,7 @@
         </slot>
       </span>
       <span v-if="value" :class="ns.e('number')" :style="valueStyle">
-        {{ disposeValue }}
+        {{ displayValue }}
       </span>
       <span v-if="!!$slots.title || suffix" :class="ns.e('suffix')">
         <slot name="suffix">
@@ -40,7 +40,7 @@ defineOptions({
 const props = defineProps(countdownProps)
 const emit = defineEmits(countdownEmits)
 const ns = useNamespace('statistic')
-const disposeValue = ref('')
+const displayValue = ref('')
 let timer: ReturnType<typeof setInterval> | undefined
 
 const getTime = (val: number) => {
@@ -57,7 +57,7 @@ const stopTimer = () => {
 const startTimer = () => {
   const { value, format } = props
   if (isNil(value)) {
-    disposeValue.value = ''
+    displayValue.value = ''
     return
   }
   const timestamp = getTime(isNumber(value) ? value : value.valueOf())
@@ -69,7 +69,7 @@ const startTimer = () => {
       stopTimer()
       emit('finish')
     }
-    disposeValue.value = formatTimeStr(format, diff)
+    displayValue.value = formatTimeStr(format, diff)
   }, REFRESH_INTERVAL)
 }
 
@@ -89,6 +89,9 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  disposeValue,
+  /**
+   * @description Current display value
+   */
+  displayValue,
 })
 </script>

@@ -1,10 +1,8 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import dayjs from 'dayjs'
+import sleep from '@element-plus/test-utils/sleep'
 import Countdown from '../src/countdown.vue'
-
-const wait = (ms = 100) =>
-  new Promise((resolve) => setTimeout(() => resolve(0), ms))
 
 const mountContent = (props = {}) =>
   mount(<Countdown {...props}></Countdown>, {})
@@ -28,7 +26,7 @@ describe('Countdown.vue', () => {
       value: dayjs().add(1, 'year').add(1, 'month'),
       format: 'MM-DD HH:mm:ss',
     })
-    await wait()
+    await sleep(100)
     expect(wrapper.find('.el-statistic__number').text()).include('13-')
   })
 
@@ -38,7 +36,7 @@ describe('Countdown.vue', () => {
       value: dayjs().add(30, 'day').add(1, 'hour'),
       format: 'DD HH:mm:ss',
     })
-    await wait()
+    await sleep(100)
     expect(wrapper.find('.el-statistic__number').text()).include('30 ')
   })
 
@@ -47,7 +45,7 @@ describe('Countdown.vue', () => {
       value: dayjs().add(4, 'day').add(1, 'hour'),
       format: 'HH:mm:ss',
     })
-    await wait()
+    await sleep(100)
     expect(wrapper.find('.el-statistic__number').text()).include('96:')
   })
 
@@ -57,7 +55,7 @@ describe('Countdown.vue', () => {
       value: dayjs().add(30, 'day').add(1, 'hour'),
       format: 'HH:mm:ss',
     })
-    await wait()
+    await sleep(100)
     expect(wrapper.find('.el-statistic__number').text()).include(`${30 * 24}:`)
   })
 })

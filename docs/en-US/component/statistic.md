@@ -61,9 +61,9 @@ statistic/card
 
 ### Statistic Exposes
 
-| Name         | Description          | Type                             |
-|--------------|----------------------|----------------------------------|
-| disposeValue | Current display text | ^[object]`Ref<string \| number>` |
+| Name         | Description           | Type                             |
+|--------------|-----------------------|----------------------------------|
+| displayValue | Current display value | ^[object]`Ref<string \| number>` |
 
 ## Countdown API
 
@@ -92,6 +92,12 @@ statistic/card
 | prefix | countdown value prefix |
 | suffix | countdown value suffix |
 | title  | countdown title        |
+
+### Countdown Exposes
+
+| Name         | Description           | Type                   |
+|--------------|-----------------------|------------------------|
+| displayValue | Current display value | ^[object]`Ref<string>` |
 
 <style lang="scss">
 @use '../../examples/statistic/index.scss';

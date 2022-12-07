@@ -24,26 +24,29 @@
             </ElStatistic>
             <div class="s-Bottom">
               <el-row>
-                <el-col :span="12" :xs="24">
-                  <span class="item"
-                    >比昨天
-                    <span class="green">
-                      24%
-                      <el-icon>
-                        <CaretTop />
-                      </el-icon>
-                    </span> </span
-                ></el-col>
-                <el-col :span="12" :xs="24">
-                  <span class="item" style="text-align: right"
-                    >比前天
-                    <span class="red">
-                      17%
-                      <el-icon>
-                        <CaretBottom />
-                      </el-icon>
-                    </span> </span
-                ></el-col>
+                <el-col :span="12" :xs="24" class="item">
+                  <div>than yesterday</div>
+                  <div class="green">
+                    24%
+                    <el-icon>
+                      <CaretTop />
+                    </el-icon>
+                  </div>
+                </el-col>
+                <el-col
+                  :span="12"
+                  :xs="24"
+                  class="item"
+                  style="text-align: right"
+                >
+                  <div>two days ago</div>
+                  <div class="red">
+                    17%
+                    <el-icon>
+                      <CaretBottom />
+                    </el-icon>
+                  </div>
+                </el-col>
               </el-row>
             </div>
           </el-card>
@@ -69,33 +72,36 @@
             </ElStatistic>
             <div class="s-Bottom">
               <el-row>
-                <el-col :span="12" :xs="24">
-                  <span class="item"
-                    >月同比
-                    <span class="green">
-                      24%
-                      <el-tooltip
-                        class="box-item"
-                        effect="dark"
-                        content="Top Center prompts info"
-                        placement="top"
-                      >
-                        <el-icon :size="12">
-                          <Warning />
-                        </el-icon>
-                      </el-tooltip>
-                    </span> </span
-                ></el-col>
-                <el-col :span="12" :xs="24">
-                  <span class="item" style="text-align: right"
-                    >月环比
-                    <span class="red">
-                      12%
-                      <el-icon>
-                        <CaretBottom />
+                <el-col :span="12" :xs="24" class="item">
+                  <div>year on year</div>
+                  <div class="green">
+                    24%
+                    <el-tooltip
+                      class="box-item"
+                      effect="dark"
+                      content="Top Center prompts info"
+                      placement="top"
+                    >
+                      <el-icon :size="12">
+                        <Warning />
                       </el-icon>
-                    </span> </span
-                ></el-col>
+                    </el-tooltip>
+                  </div>
+                </el-col>
+                <el-col
+                  :span="12"
+                  :xs="24"
+                  class="item"
+                  style="text-align: right"
+                >
+                  <div>month on month</div>
+                  <div class="red">
+                    12%
+                    <el-icon>
+                      <CaretBottom />
+                    </el-icon>
+                  </div>
+                </el-col>
               </el-row>
             </div>
           </el-card>
@@ -116,7 +122,7 @@
               <el-row>
                 <el-col :span="22">
                   <span class="item">
-                    比昨天
+                    than yesterday
                     <span class="red">
                       16%
                       <el-icon>
@@ -140,7 +146,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import {
   ArrowRight,

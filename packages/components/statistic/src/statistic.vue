@@ -12,7 +12,7 @@
         </slot>
       </div>
       <span :class="ns.e('number')" :style="valueStyle">
-        {{ disposeValue }}
+        {{ displayValue }}
       </span>
       <div v-if="$slots.suffix || suffix" :class="ns.e('suffix')">
         <slot name="suffix">
@@ -38,7 +38,7 @@ const THOUSANDTH = 3
 const props = defineProps(statisticProps)
 const ns = useNamespace('statistic')
 
-const disposeValue = computed(() => {
+const displayValue = computed(() => {
   if (isFunction(props.formatter)) {
     return props.formatter(props.value)
   } else if (
@@ -62,8 +62,8 @@ const disposeValue = computed(() => {
 
 defineExpose({
   /**
-   * @description Current display text
+   * @description Current display value
    */
-  disposeValue,
+  displayValue,
 })
 </script>
