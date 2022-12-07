@@ -29,6 +29,7 @@ export const countdownProps = buildProps({
    */
   value: {
     type: definePropType<number | Dayjs>([Number, Object]),
+    default: 0,
   },
   /**
    * @description Styles countdown values

@@ -1,61 +1,63 @@
 import { mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import dayjs from 'dayjs'
-import sleep from '@element-plus/test-utils/sleep'
 import Countdown from '../src/countdown.vue'
 
-const mountContent = (props = {}) =>
-  mount(<Countdown {...props}></Countdown>, {})
+const TITLE_CLASS = '.el-statistic__head'
+const CONTENT_CLASS = '.el-statistic__content'
+
 describe('Countdown.vue', () => {
-  it('should work', async () =>
-    new Promise((done) => {
-      const wrapper = mountContent({
-        value: Date.now() + 200,
-        finish: () => {
-          console.log('end')
-        },
-      })
-      setTimeout(() => {
-        expect(wrapper.emitted().finish).toBeTruthy()
-        done()
-      }, 300)
-    }))
+  it('render test', async () => {
+    const wrapper = mount(() => (
+      <Countdown title="test" value={Date.now() + 1000 * 60} />
+    ))
 
-  it('superposition: Y to M', async () => {
-    const wrapper = mountContent({
-      value: dayjs().add(1, 'year').add(1, 'month'),
-      format: 'MM-DD HH:mm:ss',
-    })
-    await sleep(100)
-    expect(wrapper.find('.el-statistic__number').text()).include('13-')
+    expect(wrapper.find(TITLE_CLASS).text()).toBe('test')
+    expect(wrapper.find(CONTENT_CLASS).text()).toBe('00:00:59')
   })
 
-  it('superposition: M to D', async () => {
-    const wrapper = mountContent({
-      // use 30 day replace 1 month
-      value: dayjs().add(30, 'day').add(1, 'hour'),
-      format: 'DD HH:mm:ss',
+  describe('format', () => {
+    const value = dayjs()
+      .add(2, 'd')
+      .add(2, 'h')
+      .add(2, 'm')
+      .add(2, 's')
+      .add(2, 'ms')
+
+    it.each([
+      ['DD HH:mm:ss', '02 02:02:01'],
+      ['HH:mm:ss', '50:02:01'],
+      ['H:m:s', '50:2:1'],
+    ])('should work with %s', async (format, expected) => {
+      const wrapper = mount(() => <Countdown value={value} format={format} />)
+
+      expect(wrapper.find(CONTENT_CLASS).text()).toBe(expected)
     })
-    await sleep(100)
-    expect(wrapper.find('.el-statistic__number').text()).include('30 ')
   })
 
-  it('superposition: D to H', async () => {
-    const wrapper = mountContent({
-      value: dayjs().add(4, 'day').add(1, 'hour'),
-      format: 'HH:mm:ss',
-    })
-    await sleep(100)
-    expect(wrapper.find('.el-statistic__number').text()).include('96:')
+  it('change event', async () => {
+    vi.useFakeTimers()
+    const onChange = vi.fn()
+    mount(() => (
+      <Countdown onChange={onChange} value={Date.now() + 1000 * 60} />
+    ))
+
+    vi.advanceTimersByTime((1000 / 30) * 2)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    vi.useRealTimers()
   })
 
-  it('superposition: M to H', async () => {
-    const wrapper = mountContent({
-      // use 30 day replace 1 month
-      value: dayjs().add(30, 'day').add(1, 'hour'),
-      format: 'HH:mm:ss',
-    })
-    await sleep(100)
-    expect(wrapper.find('.el-statistic__number').text()).include(`${30 * 24}:`)
+  it('finish event', async () => {
+    vi.useFakeTimers()
+    const onFinish = vi.fn()
+    mount(() => (
+      <Countdown onFinish={onFinish} value={Date.now() + 1000 * 60} />
+    ))
+
+    vi.advanceTimersByTime(1000 * 30)
+    expect(onFinish).not.toHaveBeenCalled()
+    vi.runAllTimers()
+    expect(onFinish).toHaveBeenCalled()
+    vi.useRealTimers()
   })
 })

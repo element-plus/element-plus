@@ -13,7 +13,7 @@
           {{ prefix }}
         </slot>
       </span>
-      <span v-if="value" :class="ns.e('number')" :style="valueStyle">
+      <span :class="ns.e('number')" :style="valueStyle">
         {{ displayValue }}
       </span>
       <span v-if="!!$slots.title || suffix" :class="ns.e('suffix')">
@@ -26,7 +26,6 @@
 </template>
 <script lang="ts" setup>
 import { onBeforeUnmount, ref, watch } from 'vue'
-import { isNil } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import { isNumber } from '@element-plus/utils'
 import { countdownEmits, countdownProps, formatTimeStr } from './countdown'
@@ -56,11 +55,8 @@ const stopTimer = () => {
 
 const startTimer = () => {
   const { value, format } = props
-  if (isNil(value)) {
-    displayValue.value = ''
-    return
-  }
   const timestamp = getTime(isNumber(value) ? value : value.valueOf())
+  displayValue.value = formatTimeStr(format, timestamp - Date.now())
   timer = setInterval(() => {
     let diff = timestamp - Date.now()
     emit('change', diff)
