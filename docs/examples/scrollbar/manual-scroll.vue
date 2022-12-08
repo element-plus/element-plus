@@ -1,5 +1,5 @@
 <template>
-  <el-scrollbar ref="scrollbarRef" height="400px" always @scroll="scroll">
+  <el-scrollbar ref="scrollbarRef" height="400px" always>
     <div ref="innerRef">
       <p v-for="item in 20" :key="item" class="scrollbar-demo-item">
         {{ item }}
@@ -30,9 +30,6 @@ onMounted(() => {
 
 const inputSlider = (value: number) => {
   scrollbarRef.value!.setScrollTop(value)
-}
-const scroll = ({ scrollTop }) => {
-  value.value = scrollTop
 }
 const formatTooltip = (value: number) => {
   return `${value} px`
