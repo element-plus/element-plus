@@ -12,7 +12,7 @@
         </slot>
       </div>
       <span :class="ns.e('number')" :style="valueStyle">
-        {{ disposeValue }}
+        {{ displayValue }}
       </span>
       <div v-if="$slots.suffix || suffix" :class="ns.e('suffix')">
         <slot name="suffix">
@@ -27,16 +27,18 @@ import { computed } from 'vue'
 import { isNil } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import { isFunction } from '@element-plus/utils'
-import { regroup, statisticProps } from './statistic'
+import { groupFormat, statisticProps } from './statistic'
 
 defineOptions({
   name: 'ElStatistic',
 })
 
+const THOUSANDTH = 3
+
 const props = defineProps(statisticProps)
 const ns = useNamespace('statistic')
 
-const disposeValue = computed(() => {
+const displayValue = computed(() => {
   if (isFunction(props.formatter)) {
     return props.formatter(props.value)
   } else if (
@@ -53,12 +55,15 @@ const disposeValue = computed(() => {
         .slice(1)}`
       decimal = decimal.slice(0, props.precision)
     }
-    integer = regroup(integer, props.rate, props.groupSeparator)
+    integer = groupFormat(integer, THOUSANDTH, props.groupSeparator)
     return [integer, decimal].join(decimal ? props.decimalSeparator || '.' : '')
   }
 })
 
 defineExpose({
-  disposeValue,
+  /**
+   * @description Current display value
+   */
+  displayValue,
 })
 </script>

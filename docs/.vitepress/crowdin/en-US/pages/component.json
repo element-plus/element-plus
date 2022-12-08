@@ -225,7 +225,8 @@
       },
       {
         "link": "/statistic",
-        "text": "Statistic"
+        "text": "Statistic",
+        "promotion": "2.2.27"
       }
     ]
   },
