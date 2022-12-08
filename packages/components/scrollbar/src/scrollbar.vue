@@ -114,7 +114,10 @@ const setScrollTop = (value: number) => {
     debugWarn(COMPONENT_NAME, 'value must be a number')
     return
   }
-  wrapRef.value!.scrollTop = value
+  wrapRef.value?.scroll({
+    top: value,
+    behavior: 'smooth',
+  })
 }
 
 const setScrollLeft = (value: number) => {
@@ -122,7 +125,10 @@ const setScrollLeft = (value: number) => {
     debugWarn(COMPONENT_NAME, 'value must be a number')
     return
   }
-  wrapRef.value!.scrollLeft = value
+  wrapRef.value?.scroll({
+    left: value,
+    behavior: 'smooth',
+  })
 }
 
 const update = () => {
