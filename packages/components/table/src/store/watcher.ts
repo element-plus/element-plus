@@ -14,7 +14,7 @@ import useCurrent from './current'
 import useTree from './tree'
 
 import type { Ref } from 'vue'
-import type { TableColumn, TableColumnCtx } from '../table-column/defaults'
+import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table, TableRefs } from '../table/defaults'
 import type { StoreFilter } from '.'
 
