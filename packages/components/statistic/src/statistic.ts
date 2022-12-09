@@ -29,9 +29,7 @@ export const statisticProps = buildProps({
   /**
    * @description Custom numerical presentation
    */
-  formatter: {
-    type: definePropType<(val: number | Dayjs) => string | number>(Function),
-  },
+  formatter: Function,
   /**
    * @description Numerical content
    */
