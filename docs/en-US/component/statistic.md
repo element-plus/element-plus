@@ -17,7 +17,7 @@ statistic/num
 
 ## Countdown
 
-:::demo Set `timeIndices`Start the countdown. Countdown component, support English and Chinese countdown, support to add other components control countdown.
+:::demo Use `el-Countdown`Start the countdown. Countdown component, support English and Chinese countdown, support to add other components control countdown.
 
 statistic/countdown
 :::
