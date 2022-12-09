@@ -7,7 +7,7 @@ const TITLE_CLASS = '.el-statistic__head'
 const CONTENT_CLASS = '.el-statistic__content'
 
 describe('Countdown.vue', () => {
-  it('render test', async () => {
+  it('render test', () => {
     const wrapper = mount(() => (
       <Countdown title="test" value={Date.now() + 1000 * 60} />
     ))
@@ -26,6 +26,7 @@ describe('Countdown.vue', () => {
 
     it.each([
       ['DD HH:mm:ss', '02 02:02:01'],
+      ['DD [days] HH [hours] mm:ss', '02 days 02 hours 02:01'],
       ['HH:mm:ss', '50:02:01'],
       ['H:m:s', '50:2:1'],
     ])('should work with %s', async (format, expected) => {

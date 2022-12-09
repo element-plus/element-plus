@@ -627,12 +627,12 @@ $cascader: map.merge(
 $statistic: () !default;
 $statistic: map.merge(
   (
-    'head-justify-content': center,
-    'content-justify-content': center,
-    'padding': 0 5px,
-    'content-margin-top': 4px,
-    'content-text-color': getCssVar('text-color', 'primary'),
-    'head-text-color': getCssVar('text-color', 'regular'),
+    'title-font-weight': 400,
+    'title-font-size': getCssVar('font-size', 'extra-small'),
+    'title-color': getCssVar('text-color', 'regular'),
+    'content-font-weight': 400,
+    'content-font-size': getCssVar('font-size', 'extra-large'),
+    'content-color': getCssVar('text-color', 'primary'),
   ),
   $statistic
 );
