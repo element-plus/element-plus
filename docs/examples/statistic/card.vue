@@ -19,7 +19,7 @@
           </template>
         </el-statistic>
         <div class="statistic-footer">
-          <div class="item">
+          <div class="footer-item">
             <span>than yesterday</span>
             <span class="green">
               24%
@@ -28,7 +28,7 @@
               </el-icon>
             </span>
           </div>
-          <div class="item">
+          <div class="footer-item">
             <span>two days ago</span>
             <span class="red">
               17%
@@ -59,7 +59,7 @@
           </template>
         </el-statistic>
         <div class="statistic-footer">
-          <div class="item">
+          <div class="footer-item">
             <span>year on year</span>
             <span class="green">
               24%
@@ -68,7 +68,7 @@
               </el-icon>
             </span>
           </div>
-          <div class="item">
+          <div class="footer-item">
             <span>month on month</span>
             <span class="red">
               12%
@@ -90,7 +90,7 @@
           </template>
         </el-statistic>
         <div class="statistic-footer">
-          <div class="item">
+          <div class="footer-item">
             <span>than yesterday</span>
             <span class="green">
               16%
@@ -99,7 +99,7 @@
               </el-icon>
             </span>
           </div>
-          <div class="item">
+          <div class="footer-item">
             <el-icon :size="14">
               <ArrowRight />
             </el-icon>
@@ -145,13 +145,13 @@ import {
   margin-top: 16px;
 }
 
-.statistic-footer .item {
+.statistic-footer .footer-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.statistic-footer .item span:last-child {
+.statistic-footer .footer-item span:last-child {
   display: inline-flex;
   align-items: center;
   margin-left: 4px;
