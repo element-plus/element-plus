@@ -15,6 +15,7 @@
 <script lang="ts" setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { ElStatistic } from '@element-plus/components/statistic'
+import { cAF, rAF } from '@element-plus/utils'
 import { countdownEmits, countdownProps } from './countdown'
 import { formatTime, getTime } from './utils'
 
@@ -22,38 +23,37 @@ defineOptions({
   name: 'ElCountdown',
 })
 
-const REFRESH_INTERVAL = 1000 / 30
 const props = defineProps(countdownProps)
 const emit = defineEmits(countdownEmits)
 
-let timer: ReturnType<typeof setInterval> | undefined
-
+let timer: ReturnType<typeof rAF> | undefined
 const rawValue = ref(getTime(props.value) - Date.now())
-
 const displayValue = computed(() => formatTime(rawValue.value, props.format))
 
 const formatter = (val: number) => formatTime(val, props.format)
 
 const stopTimer = () => {
   if (timer) {
-    clearInterval(timer)
+    cAF(timer)
     timer = undefined
   }
 }
 
 const startTimer = () => {
   const timestamp = getTime(props.value)
-
-  timer = setInterval(() => {
+  const frameFunc = () => {
     let diff = timestamp - Date.now()
     emit('change', diff)
     if (diff <= 0) {
       diff = 0
       stopTimer()
       emit('finish')
+    } else {
+      timer = rAF(frameFunc)
     }
     rawValue.value = diff
-  }, REFRESH_INTERVAL)
+  }
+  timer = rAF(frameFunc)
 }
 
 watch(
