@@ -58,11 +58,7 @@
     <template #default>
       <div
         :id="buttonId"
-        :class="[
-          ns.b('picker'),
-          ns.is('disabled', colorDisabled),
-          ns.bm('picker', colorSize),
-        ]"
+        :class="btnKls"
         role="button"
         :aria-label="buttonAriaLabel"
         :aria-labelledby="buttonAriaLabelledby"
@@ -197,6 +193,14 @@ const buttonAriaLabelledby = computed<string | undefined>(() => {
   return isLabeledByFormItem.value ? formItem?.labelId : undefined
 })
 
+const btnKls = computed(() => {
+  return [
+    ns.b('picker'),
+    ns.is('disabled', colorDisabled.value),
+    ns.bm('picker', colorSize.value),
+  ]
+})
+
 function displayedRgb(color: Color, showAlpha: boolean) {
   if (!(color instanceof Color)) {
     throw new TypeError('color should be instance of _color Class')
@@ -324,6 +328,9 @@ provide(colorPickerContextKey, {
 })
 
 defineExpose({
+  /**
+   * @description current color object
+   */
   color,
 })
 </script>

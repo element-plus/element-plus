@@ -66,6 +66,11 @@ export const menuProps = buildProps({
     type: Boolean,
     default: true,
   },
+  popperEffect: {
+    type: String,
+    values: ['dark', 'light'],
+    default: 'dark',
+  },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
@@ -116,7 +121,7 @@ export default defineComponent({
     const activeIndex = ref<MenuProvider['activeIndex']>(props.defaultActive)
     const items = ref<MenuProvider['items']>({})
     const subMenus = ref<MenuProvider['subMenus']>({})
-    let activeItemFirstOpend = true
+
     // computed
     const isMenuPopup = computed<MenuProvider['isMenuPopup']>(() => {
       return (
@@ -128,34 +133,16 @@ export default defineComponent({
     // methods
     const initMenu = () => {
       const activeItem = activeIndex.value && items.value[activeIndex.value]
-      if (
-        !activeItem ||
-        props.mode === 'horizontal' ||
-        props.collapse ||
-        (props.uniqueOpened && !activeItemFirstOpend)
-      )
-        return
+      if (!activeItem || props.mode === 'horizontal' || props.collapse) return
 
       const indexPath = activeItem.indexPath
 
       // 展开该菜单项的路径上所有子菜单
       // expand all subMenus of the menu item
-      const openAllActiveItem = () => {
-        activeItemFirstOpend = false
-        indexPath.forEach((index) => {
-          const subMenu = subMenus.value[index]
-          subMenu && openMenu(index, subMenu.indexPath)
-        })
-      }
-
-      if (activeIndex.value === props.defaultActive && activeItemFirstOpend) {
-        openAllActiveItem()
-      } else {
-        // fix: #10431
-        if (indexPath.every((index) => openedMenus.value.includes(index))) {
-          openAllActiveItem()
-        }
-      }
+      indexPath.forEach((index) => {
+        const subMenu = subMenus.value[index]
+        subMenu && openMenu(index, subMenu.indexPath)
+      })
     }
 
     const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {

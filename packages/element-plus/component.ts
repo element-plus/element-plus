@@ -95,12 +95,15 @@ import { ElTooltip } from '@element-plus/components/tooltip'
 import { ElTooltipV2 } from '@element-plus/components/tooltip-v2'
 import { ElTransfer } from '@element-plus/components/transfer'
 import { ElTree } from '@element-plus/components/tree'
+import { ElCountdown, ElStatistic } from '@element-plus/components/statistic'
+
 import { ElTreeSelect } from '@element-plus/components/tree-select'
 import { ElTreeV2 } from '@element-plus/components/tree-v2'
 import { ElUpload } from '@element-plus/components/upload'
 import type { Plugin } from 'vue'
-
 export default [
+  ElCountdown,
+  ElStatistic,
   ElAffix,
   ElAlert,
   ElAutocomplete,
