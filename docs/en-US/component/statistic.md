@@ -17,7 +17,7 @@ statistic/basic
 
 ## Countdown
 
-:::demo Countdown component, support English and Chinese countdown, support to add other components control countdown.
+:::demo Countdown component, support to add other components control countdown.
 
 statistic/countdown
 :::
@@ -43,7 +43,7 @@ statistic/card
 | ----------------- | ------------------------------ | ------------------------------------------------------------------- | ------- |
 | value             | Numerical content              | ^[number]                                                           | 0       |
 | decimal-separator | Setting the decimal point      | ^[string]                                                           | .       |
-| formatter         | Custom numerical presentation  | ^[Function]`(value: number \| Dayjs) => string \| number`           | —       |
+| formatter         | Custom numerical presentation  | ^[Function]`(value: number) => string \| number`                    | —       |
 | group-separator   | Sets the thousandth identifier | ^[string]                                                           | ,       |
 | precision         | numerical precision            | ^[number]                                                           | 0       |
 | prefix            | Sets the prefix of a number    | ^[string]                                                           | —       |
