@@ -90,7 +90,7 @@ function useStore<T>() {
       }
       sortColumn(newColumns)
       states._columns.value = newColumns
-      states.updateOrderFns.value.push(updateColumnOrder)
+      states.updateOrderFns.push(updateColumnOrder)
       if (column.type === 'selection') {
         states.selectable.value = column.selectable
         states.reserveSelection.value = column.reserveSelection
@@ -139,9 +139,8 @@ function useStore<T>() {
         }
       }
 
-      const updateFnIndex =
-        states.updateOrderFns.value.indexOf(updateColumnOrder)
-      updateFnIndex > -1 && states.updateOrderFns.value.splice(updateFnIndex, 1)
+      const updateFnIndex = states.updateOrderFns.indexOf(updateColumnOrder)
+      updateFnIndex > -1 && states.updateOrderFns.splice(updateFnIndex, 1)
 
       if (instance.$ready) {
         instance.store.updateColumns() // hack for dynamics remove column

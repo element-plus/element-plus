@@ -60,7 +60,7 @@ function useWatcher<T>() {
   const leafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const fixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const rightFixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
-  const updateOrderFns: Ref<(() => void)[]> = ref([])
+  const updateOrderFns: () => void[] = []
   const leafColumnsLength = ref(0)
   const fixedLeafColumnsLength = ref(0)
   const rightFixedLeafColumnsLength = ref(0)

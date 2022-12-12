@@ -10,7 +10,7 @@ export default function useKeyRender(table: Table<[]>) {
     const el = table.vnode.el
     const columnsWrapper = (el as HTMLElement).querySelector('.hidden-columns')
     const config = { childList: true, subtree: true }
-    const updateOrderFns = unref(table.store.states.updateOrderFns)
+    const updateOrderFns = table.store.states.updateOrderFns
     observer.value = new MutationObserver(() => {
       updateOrderFns.forEach((fn: () => void) => fn())
     })
