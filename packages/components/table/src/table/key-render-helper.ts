@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { onMounted, onUnmounted, ref, unref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import type { Ref } from 'vue'
 import type { Table } from './defaults'
 
