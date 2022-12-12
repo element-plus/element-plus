@@ -70,13 +70,6 @@
             #{getCssVar('menu-level-padding')}
         );
       }
-      & .#{$namespace}-sub-menu__title {
-        padding-right: calc(
-          #{getCssVar('menu-base-level-padding')} + #{getCssVar(
-              'menu-icon-width'
-            )}
-        );
-      }
     }
   }
 
@@ -133,13 +126,6 @@
         &:hover {
           background-color: getCssVar('bg-color', 'overlay');
         }
-      }
-
-      & .#{$namespace}-sub-menu__icon-arrow {
-        position: static;
-        vertical-align: middle;
-        margin-left: 8px;
-        margin-top: -3px;
       }
     }
     & .#{$namespace}-menu {
@@ -278,6 +264,9 @@
 
   @include e(title) {
     @include menu-item;
+    padding-right: calc(
+      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
+    );
 
     &:hover {
       background-color: getCssVar('menu-hover-bg-color');
@@ -323,7 +312,7 @@
     position: absolute;
     top: 50%;
     right: getCssVar('menu-base-level-padding');
-    margin-top: -7px;
+    margin-top: -6px;
     transition: transform getCssVar('transition-duration');
     font-size: 12px;
     margin-right: 0;
