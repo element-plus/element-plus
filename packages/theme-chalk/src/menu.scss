@@ -208,25 +208,6 @@
     .#{$namespace}-menu .#{$namespace}-sub-menu {
       min-width: 200px;
     }
-
-    .#{$namespace}-sub-menu {
-      position: relative;
-
-      & .#{$namespace}-menu {
-        position: absolute;
-        margin-left: 5px;
-        top: 0;
-        left: 100%;
-        z-index: 10;
-        border: 1px solid getCssVar('border-color-light');
-        border-radius: getCssVar('border-radius-small');
-        box-shadow: getCssVar('box-shadow-light');
-      }
-
-      &.is-active .#{$namespace}-sub-menu__title {
-        color: getCssVar('menu-active-color');
-      }
-    }
   }
   @include m(popup) {
     z-index: 100;
