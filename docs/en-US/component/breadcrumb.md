@@ -23,27 +23,31 @@ breadcrumb/icon
 
 :::
 
-## Breadcrumb Attributes
+## Breadcrumb API
 
-| Name           | Description                      | Type                  | Accepted Values | Default |
-| -------------- | -------------------------------- | --------------------- | --------------- | ------- |
-| separator      | separator character              | string                | —               | /       |
-| separator-icon | icon component of icon separator | `string \| Component` | —               | -       |
+### Breadcrumb Attributes
 
-## Breadcrumb Slots
+| Name           | Description                      | Type                     | Accepted Values | Default |
+| -------------- | -------------------------------- | ------------------------ | --------------- | ------- |
+| separator      | separator character              | ^[string]                | —               | /       |
+| separator-icon | icon component of icon separator | ^[string] / ^[Component] | —               | -       |
+
+### Breadcrumb Slots
 
 | Name | Description               | Subtags         |
 | ---- | ------------------------- | --------------- |
 | -    | customize default content | Breadcrumb Item |
 
-## Breadcrumb Item Attributes
+## BreadcrumbItem API
 
-| Name    | Description                                               | Type          | Accepted Values | Default |
-| ------- | --------------------------------------------------------- | ------------- | --------------- | ------- |
-| to      | target route of the link, same as `to` of `vue-router`    | string/object | —               | —       |
-| replace | if `true`, the navigation will not leave a history record | boolean       | —               | false   |
+### BreadcrumbItem Attributes
 
-## Breadcrumb Item Slots
+| Name    | Description                                               | Type                                    | Accepted Values | Default |
+| ------- | --------------------------------------------------------- | --------------------------------------- | --------------- | ------- |
+| to      | target route of the link, same as `to` of `vue-router`    | ^[string] / ^[object]`RouteLocationRaw` | —               | ''      |
+| replace | if `true`, the navigation will not leave a history record | ^[boolean]                              | —               | false   |
+
+### BreadcrumbItem Slots
 
 | Name | Description               |
 | ---- | ------------------------- |
