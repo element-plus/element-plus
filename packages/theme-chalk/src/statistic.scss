@@ -4,43 +4,32 @@
 
 @include b(statistic) {
   @include set-component-css-var('statistic', $statistic);
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-variant: tabular-nums;
-  // line-height: 1.5715;
-  list-style: none;
-  font-feature-settings: 'tnum';
-  @include e(head) {
-    padding: getCssVar('statistic-padding');
-    font-style: normal;
-    font-weight: 400;
-    font-size: getCssVar('font-size', 'extra-small');
 
-    width: 100%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: getCssVar('statistic-head-justify-content');
-    color: getCssVar('statistic-head-text-color');
+  @include e(head) {
+    font-weight: getCssVar('statistic-title-font-weight');
+    font-size: getCssVar('statistic-title-font-size');
+    color: getCssVar('statistic-title-color');
+    line-height: 20px;
+    margin-bottom: 4px;
   }
+
   @include e(content) {
-    display: flex;
-    justify-content: getCssVar('statistic-content-justify-content');
-    align-items: center;
-    padding-top: getCssVar('statistic-content-margin-top');
-    @include e(number) {
-      font-style: normal;
-      padding: getCssVar('statistic-padding');
-      font-family: sans-serif;
-    }
-    span {
-      font-weight: 400;
-      color: getCssVar('statistic-content-text-color');
-      font-size: getCssVar('font-size', 'extra-large');
+    font-weight: getCssVar('statistic-content-font-weight');
+    font-size: getCssVar('statistic-content-font-size');
+    color: getCssVar('statistic-content-color');
+
+    @include e(value) {
       display: inline-block;
-      margin: 0;
-      line-height: 28px;
+    }
+
+    @include e(prefix) {
+      margin-right: 4px;
+      display: inline-block;
+    }
+
+    @include e(suffix) {
+      margin-left: 4px;
+      display: inline-block;
     }
   }
 }

@@ -42,6 +42,10 @@ export const imageViewerProps = buildProps({
     type: Boolean,
     default: true,
   },
+  zoomRate: {
+    type: Number,
+    default: 1.2,
+  },
 } as const)
 export type ImageViewerProps = ExtractPropTypes<typeof imageViewerProps>
 
