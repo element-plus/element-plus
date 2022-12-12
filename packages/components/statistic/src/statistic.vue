@@ -1,6 +1,6 @@
 <template>
   <div :class="ns.b()">
-    <div v-if="$slots.title || title" ref="title" :class="ns.e('head')">
+    <div v-if="$slots.title || title" :class="ns.e('head')">
       <slot name="title">
         {{ title }}
       </slot>
@@ -24,45 +24,36 @@
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { isNil } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
-import { isFunction } from '@element-plus/utils'
-import { groupFormat, statisticProps } from './statistic'
+import { isFunction, isNumber } from '@element-plus/utils'
+import { statisticProps } from './statistic'
 
 defineOptions({
   name: 'ElStatistic',
 })
 
-const THOUSANDTH = 3
-
 const props = defineProps(statisticProps)
 const ns = useNamespace('statistic')
 
 const displayValue = computed(() => {
-  if (isFunction(props.formatter)) {
-    return props.formatter(props.value)
-  } else if (
-    isNil(props.value) ||
-    !/^(-|\+)?\d+(\.\d+)?$/.test(`${props.value}`)
-  ) {
-    return props.value
-  } else {
-    let [integer, decimal] = `${props.value}`.split('.')
-    if (!isNil(props.precision)) {
-      decimal = `${decimal || ''}${(1)
-        .toFixed(props.precision)
-        .replace('.', '')
-        .slice(1)}`
-      decimal = decimal.slice(0, props.precision)
-    }
-    integer = groupFormat(integer, THOUSANDTH, props.groupSeparator)
-    return [integer, decimal].join(decimal ? props.decimalSeparator || '.' : '')
-  }
+  const { value, formatter, precision, decimalSeparator, groupSeparator } =
+    props
+
+  if (isFunction(formatter)) return formatter(value)
+
+  if (!isNumber(value)) return value
+
+  let [integer, decimal = ''] = String(value).split('.')
+  decimal = decimal
+    .padEnd(precision, '0')
+    .slice(0, precision > 0 ? precision : 0)
+  integer = integer.replace(/\B(?=(\d{3})+(?!\d))/g, groupSeparator)
+  return [integer, decimal].join(decimal ? decimalSeparator : '')
 })
 
 defineExpose({
   /**
-   * @description Current display value
+   * @description current display value
    */
   displayValue,
 })
