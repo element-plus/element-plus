@@ -80,6 +80,10 @@ export const dropdownProps = buildProps({
     type: Boolean,
     default: false,
   },
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
   role: {
     type: String,
     default: 'menu',

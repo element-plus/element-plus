@@ -96,6 +96,7 @@ dropdown/sizes
 | popper-class   | custom class name for Dropdown's dropdown                                                                             | string          | —                                                        | —                                                                          |
 | popper-options | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | Object          | refer to [popper.js](https://popper.js.org/docs/v2/) doc | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
 | teleported     | whether the dropdown popup is teleported to the body                                                                  | boolean         | —                                                        | true                                                                       |
+| persistent     | when dropdown is inactive and `persistent` is `false`, dropdown will be destroyed                                     | boolean         | —                                                        | true                                                                       |
 
 ## Dropdown Slots
 
