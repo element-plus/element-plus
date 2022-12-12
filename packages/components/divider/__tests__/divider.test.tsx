@@ -55,4 +55,19 @@ describe('Divider.vue', () => {
       )
     ).toBe('solid')
   })
+
+  test('line-double', () => {
+    const wrapper = mount(() => <Divider borderStyle="double" />)
+    expect(
+      getComputedStyle(wrapper.element, null).getPropertyValue(
+        '--el-border-style'
+      )
+    ).toBe('double')
+
+    expect(
+      getComputedStyle(wrapper.element, null).getPropertyValue(
+        '--el-border-width'
+      )
+    ).toBe('2px')
+  })
 })

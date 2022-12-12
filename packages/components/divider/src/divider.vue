@@ -25,8 +25,13 @@ defineOptions({
 const props = defineProps(dividerProps)
 const ns = useNamespace('divider')
 const dividerStyle = computed(() => {
-  return ns.cssVar({
+  const cssVarStyle = {
     'border-style': props.borderStyle,
-  }) as CSSProperties
+    'border-width': '1px',
+  }
+  if (props.borderStyle === 'double') {
+    cssVarStyle['border-width'] = '2px'
+  }
+  return ns.cssVar(cssVarStyle) as CSSProperties
 })
 </script>
