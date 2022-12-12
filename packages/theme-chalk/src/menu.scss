@@ -180,7 +180,7 @@
     );
 
     .#{$namespace}-menu-item,
-    .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title {
+    .#{$namespace}-sub-menu .#{$namespace}-sub-menu__title {
       [class^='#{$namespace}-icon'] {
         margin: 0;
         vertical-align: middle;
