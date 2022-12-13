@@ -82,6 +82,8 @@ import { ElSelectV2 } from '@element-plus/components/select-v2'
 import { ElSkeleton, ElSkeletonItem } from '@element-plus/components/skeleton'
 import { ElSlider } from '@element-plus/components/slider'
 import { ElSpace } from '@element-plus/components/space'
+import { ElStatistic } from '@element-plus/components/statistic'
+import { ElCountdown } from '@element-plus/components/countdown'
 import { ElStep, ElSteps } from '@element-plus/components/steps'
 import { ElSwitch } from '@element-plus/components/switch'
 import { ElTable, ElTableColumn } from '@element-plus/components/table'
@@ -98,6 +100,7 @@ import { ElTree } from '@element-plus/components/tree'
 import { ElTreeSelect } from '@element-plus/components/tree-select'
 import { ElTreeV2 } from '@element-plus/components/tree-v2'
 import { ElUpload } from '@element-plus/components/upload'
+
 import type { Plugin } from 'vue'
 
 export default [
@@ -175,6 +178,8 @@ export default [
   ElSkeletonItem,
   ElSlider,
   ElSpace,
+  ElStatistic,
+  ElCountdown,
   ElSteps,
   ElStep,
   ElSwitch,
