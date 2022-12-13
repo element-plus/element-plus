@@ -8,6 +8,9 @@ const ns = useNamespace('tooltip')
 export const useTooltipContentProps = buildProps({
   ...useDelayedToggleProps,
   ...popperContentProps,
+  /**
+   * @description where to insert the popup content to
+   * */
   appendTo: {
     type: definePropType<string | HTMLElement>([String, Object]),
   },
@@ -33,6 +36,9 @@ export const useTooltipContentProps = buildProps({
     type: String,
     default: `${ns.namespace.value}-fade-in-linear`,
   },
+  /**
+   * @description whether popup content is teleported as children of other element
+   * */
   teleported: {
     type: Boolean,
     default: true,

@@ -7,6 +7,7 @@
     :popper-class="[ns.e('popper'), popperClass]"
     :teleported="teleported"
     :gpu-acceleration="false"
+    :append-to="appendTo"
     pure
     manual-mode
     effect="light"
@@ -74,7 +75,9 @@
           role="listbox"
         >
           <li v-if="suggestionLoading">
-            <el-icon :class="ns.is('loading')"><Loading /></el-icon>
+            <el-icon :class="ns.is('loading')">
+              <Loading />
+            </el-icon>
           </li>
           <template v-else>
             <li

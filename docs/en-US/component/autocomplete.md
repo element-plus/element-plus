@@ -7,6 +7,16 @@ lang: en-US
 
 Get some recommended tips based on the current input.
 
+:::tip
+
+When it comes to SSR (server side rendering), because **ElAutocomplete** uses **ElTooltip** which uses
+[Teleport](https://vuejs.org/api/built-in-components.html#teleport) internally,
+per [scaling-up](https://vuejs.org/guide/scaling-up/ssr.html#teleports) you need to wrap **ElAutocomplete** under a
+[ClientOnly](https://github.com/vuejs/vitepress/blob/9d10b1d5a1ec8d30689ddad5f2d63d22342cf707/src/client/app/components/ClientOnly.ts)
+component to prevent hydration mismatch issue.
+
+:::
+
 ## Basic Usage
 
 Autocomplete component provides input suggestions.
@@ -41,33 +51,38 @@ autocomplete/remote-search
 
 ### Attributes
 
-| Name                              | Description                                                                                                                | Type                                                                                      | Default      |
-| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------ |
-| placeholder                       | the placeholder of Autocomplete                                                                                            | ^[string]                                                                                 | —            |
-| clearable                         | whether to show clear button                                                                                               | ^[boolean]                                                                                | false        |
-| disabled                          | whether Autocomplete is disabled                                                                                           | ^[boolean]                                                                                | false        |
-| value-key                         | key name of the input suggestion object for display                                                                        | ^[string]                                                                                 | value        |
-| model-value / v-model             | binding value                                                                                                              | ^[string]                                                                                 | —            |
-| debounce                          | debounce delay when typing, in milliseconds                                                                                | ^[number]                                                                                 | 300          |
-| placement                         | placement of the popup menu                                                                                                | ^[enum]`'top' \| 'top- start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | bottom-start |
-| fetch-suggestions                 | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete | ^[Function]`(queryString: string, callback: callbackfn) => void`                          | —            |
-| popper-class                      | custom class name for autocomplete's dropdown                                                                              | ^[string]                                                                                 | —            |
-| trigger-on-focus                  | whether show suggestions when input focus                                                                                  | ^[boolean]                                                                                | true         |
-| name                              | same as `name` in native input                                                                                             | ^[string]                                                                                 | —            |
-| select-when-unmatched             | whether to emit a `select` event on enter when there is no autocomplete match                                              | ^[boolean]                                                                                | false        |
-| label                             | label text                                                                                                                 | ^[string]                                                                                 | —            |
-| hide-loading                      | whether to hide the loading icon in remote search                                                                          | ^[boolean]                                                                                | false        |
-| popper-append-to-body(deprecated) | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false | ^[boolean]                                                                                | false        |
-| teleported                        | whether select dropdown is teleported to the body                                                                          | ^[boolean]                                                                                | true         |
-| highlight-first-item              | whether to highlight first item in remote search suggestions by default                                                    | ^[boolean]                                                                                | false        |
-| fit-input-width                   | whether the width of the dropdown is the same as the input                                                                 | ^[boolean]                                                                                | false        |
+| Name                              | Description                                                                                                                                            | Type                                                                                      | Default          |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- | ---------------- |
+| placeholder                       | the placeholder of Autocomplete                                                                                                                        | ^[string]                                                                                 | —                |
+| clearable                         | whether to show clear button                                                                                                                           | ^[boolean]                                                                                | false            |
+| disabled                          | whether Autocomplete is disabled                                                                                                                       | ^[boolean]                                                                                | false            |
+| value-key                         | key name of the input suggestion object for display                                                                                                    | ^[string]                                                                                 | value            |
+| model-value / v-model             | binding value                                                                                                                                          | ^[string]                                                                                 | —                |
+| debounce                          | debounce delay when typing, in milliseconds                                                                                                            | ^[number]                                                                                 | 300              |
+| placement                         | placement of the popup menu                                                                                                                            | ^[enum]`'top' \| 'top- start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end'` | bottom-start     |
+| fetch-suggestions                 | a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete, or an array of suggestions | ^[Function \| Array]`(queryString: string, callback: CallbackFn) => void \| Array<any>`   | —                |
+| popper-class                      | custom class name for autocomplete's dropdown                                                                                                          | ^[string]                                                                                 | —                |
+| trigger-on-focus                  | whether show suggestions when input focus                                                                                                              | ^[boolean]                                                                                | true             |
+| name                              | same as `name` in native input                                                                                                                         | ^[string]                                                                                 | —                |
+| select-when-unmatched             | whether to emit a `select` event on enter when there is no autocomplete match                                                                          | ^[boolean]                                                                                | false            |
+| label                             | label text                                                                                                                                             | ^[string]                                                                                 | —                |
+| hide-loading                      | whether to hide the loading icon in remote search                                                                                                      | ^[boolean]                                                                                | false            |
+| popper-append-to-body(deprecated) | whether to append the dropdown to body. If the positioning of the dropdown is wrong, you can try to set this prop to false                             | ^[boolean]                                                                                | false            |
+| append-to                         | where to insert suggestion list element into                                                                                                           | ^[string \| Object]`string \| HTMLElement`                                                | popper-container |
+| teleported                        | whether select dropdown is teleported to the body                                                                                                      | ^[boolean]                                                                                | true             |
+| highlight-first-item              | whether to highlight first item in remote search suggestions by default                                                                                | ^[boolean]                                                                                | false            |
+| fit-input-width                   | whether the width of the dropdown is the same as the input                                                                                             | ^[boolean]                                                                                | false            |
 
 ### Events
 
 | Name   | Description                                      | Type                                                  |
 | ------ | ------------------------------------------------ | ----------------------------------------------------- |
-| select | triggers when a suggestion is clicked            | ^[Function]`(item: typeof modelValue \| any) => void` |
+| blur   | triggers when input element lost focus           | ^[Function]`(event: FocusEvent) => void`              |
 | change | triggers when the icon inside Input value change | ^[Function]`(value: string \| number) => void`        |
+| clear  | triggers when clear occurred                     | ^[Function]`() => void`                               |
+| focus  | triggers when input element is focused           | ^[Function]`(event: FocusEvent) => void`              |
+| input  | triggers when input event occurred               | ^[Function]`(value: string) => void`                  |
+| select | triggers when a suggestion is clicked            | ^[Function]`(item: typeof modelValue \| any) => void` |
 
 ### Slots
 
