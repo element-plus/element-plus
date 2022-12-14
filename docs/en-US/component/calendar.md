@@ -45,16 +45,18 @@ The default locale of is English, if you need to use other languages, please che
 
 Note, date time locale (month name, first day of the week ...) are also configured in localization.
 
-## Attributes
+## API
 
-| Name                    | Description                                                                                                                                                    | Type                   | Default |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------- |
-| `model-value / v-model` | binding value                                                                                                                                                  | ^[Date]                | —       |
-| `range`                 | time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | ^[array]`[Date, Date]` | —       |
+### Attributes
 
-## Slots
+| Name                  | Description                                                                                                                                                    | Type                   | Default |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ------- |
+| model-value / v-model | binding value                                                                                                                                                  | ^[Date]                | —       |
+| range                 | time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | ^[array]`[Date, Date]` | —       |
 
-| Name        | Description                                                                                                                                                                                                                                               | Type                                                                                                               |
-| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `date-cell` | `type` indicates which month the date belongs, optional values are prev-month, current-month, next-month; `isSelected` indicates whether the date is selected; `day` is the formatted date in the format `YYYY-MM-DD`; `date` is date the cell represents | ^[object]`{ type: 'prev-month' \| 'current-month' \| 'next-month', isSelected: boolean, day: string, date: Date }` |
-| `header`    | content of the Calendar header                                                                                                                                                                                                                            | —                                                                                                                  |
+### Slots
+
+| Name      | Description                                                                                                                                                                                                                                               | Type                                                                                                               |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| date-cell | `type` indicates which month the date belongs, optional values are prev-month, current-month, next-month; `isSelected` indicates whether the date is selected; `day` is the formatted date in the format `YYYY-MM-DD`; `date` is date the cell represents | ^[object]`{ type: 'prev-month' \| 'current-month' \| 'next-month', isSelected: boolean, day: string, date: Date }` |
+| header    | content of the Calendar header                                                                                                                                                                                                                            | —                                                                                                                  |
