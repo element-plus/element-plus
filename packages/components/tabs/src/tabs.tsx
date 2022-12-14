@@ -92,6 +92,7 @@ export default defineComponent({
       children: panes,
       addChild: registerPane,
       removeChild: unregisterPane,
+      updateChild,
     } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
 
     const nav$ = ref<TabNavInstance>()
@@ -186,6 +187,7 @@ export default defineComponent({
     })
 
     return () => {
+      setTimeout(updateChild)
       const newButton =
         props.editable || props.addable ? (
           <span

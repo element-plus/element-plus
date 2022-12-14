@@ -36,9 +36,14 @@ export const useOrderedChildren = <T extends { uid: number }>(
     )
   }
 
+  const updateChild = () => {
+    orderedChildren.value = getOrderedChildren(vm, childComponentName, children)
+  }
+
   return {
     children: orderedChildren,
     addChild,
     removeChild,
+    updateChild,
   }
 }
