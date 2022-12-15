@@ -1,8 +1,10 @@
 import {
+  Fragment,
   computed,
   defineComponent,
   getCurrentInstance,
   h,
+  isVNode,
   nextTick,
   onMounted,
   provide,
@@ -367,7 +369,9 @@ export default defineComponent({
       const vShowMore: VNode[] = []
 
       if (props.mode === 'horizontal' && menu.value) {
-        const originalSlot = flattedChildren(slot) as VNodeArrayChildren
+        const originalSlot = flattedChildren(slot).map((child) =>
+          isVNode(child) ? h(Fragment, {}, [child]) : child
+        ) as VNodeArrayChildren
         const slotDefault =
           sliceIndex.value === -1
             ? originalSlot
