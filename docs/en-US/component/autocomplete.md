@@ -7,6 +7,12 @@ lang: en-US
 
 Get some recommended tips based on the current input.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic Usage
 
 Autocomplete component provides input suggestions.

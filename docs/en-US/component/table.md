@@ -7,6 +7,12 @@ lang: en-US
 
 Display multiple data with similar format. You can sort, filter, compare your data in a table.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic table
 
 Basic table is just for data display.

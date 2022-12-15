@@ -5,6 +5,12 @@ lang: en-US
 
 # Popover
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic usage
 
 Similar to Tooltip, Popover is also built with `ElPopper`. So for some duplicated attributes, please refer to the documentation of Tooltip.
@@ -79,7 +85,7 @@ popover/directive-usage
 | show-arrow                | whether a tooltip arrow is displayed or not. For more info, please refer to [ElPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper) | boolean         | —                                                                                                         | true                                                                       |
 | popper-options            | parameters for [popper.js](https://popper.js.org/docs/v2/)                                                                                                               | object          | please refer to [popper.js](https://popper.js.org/docs/v2/)                                               | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
 | popper-class              | custom class name for popover                                                                                                                                            | string          | —                                                                                                         | —                                                                          |
-| popper-style              | custom style for popover                                                                                                                                                | string / object | —                                                                                                        | —                                                                            |
+| popper-style              | custom style for popover                                                                                                                                                 | string / object | —                                                                                                         | —                                                                          |
 | show-after                | delay of appearance, in millisecond                                                                                                                                      | number          | —                                                                                                         | 0                                                                          |
 | hide-after                | delay of disappear, in millisecond                                                                                                                                       | number          | —                                                                                                         | 200                                                                        |
 | auto-close                | timeout in milliseconds to hide tooltip                                                                                                                                  | number          | —                                                                                                         | 0                                                                          |
