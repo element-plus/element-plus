@@ -347,7 +347,9 @@ export function createTablePopper(
   function renderContent(): HTMLDivElement {
     const isLight = tooltipOptions.effect === 'light'
     const content = document.createElement('div')
-    content.className = `${ns}-popper ${isLight ? 'is-light' : 'is-dark'}`
+    content.className = `${ns}-popper ${isLight ? 'is-light' : 'is-dark'} ${
+      tooltipOptions.popperClass || ''
+    }`
     popperContent = escapeHtml(popperContent)
     content.innerHTML = popperContent
     content.style.zIndex = String(nextZIndex())
@@ -375,9 +377,6 @@ export function createTablePopper(
     } catch {}
   }
   let popperInstance: Nullable<PopperInstance> = null
-  const content = renderContent()
-  const arrow = tooltipOptions.showArrow && renderArrow()
-  arrow && content.appendChild(arrow)
   let onOpen = showPopper
   let onClose = removePopper
   if (tooltipOptions.enterable) {
@@ -388,6 +387,7 @@ export function createTablePopper(
       close: removePopper,
     }))
   }
+  const content = renderContent()
   content.onmouseenter = onOpen
   content.onmouseleave = onClose
   const modifiers = []
@@ -399,7 +399,8 @@ export function createTablePopper(
       },
     })
   }
-  if (arrow) {
+  if (tooltipOptions.showArrow) {
+    const arrow = content.appendChild(renderArrow())
     modifiers.push({
       name: 'arrow',
       options: {
