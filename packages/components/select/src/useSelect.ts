@@ -798,8 +798,8 @@ export const useSelect = (props, states: States, ctx) => {
     if (states.visible) {
       event.preventDefault()
       event.stopPropagation()
-      blur()
     }
+    blur()
   }
 
   const toggleMenu = (e?: PointerEvent) => {
