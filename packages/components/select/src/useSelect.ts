@@ -798,7 +798,7 @@ export const useSelect = (props, states: States, ctx) => {
     if (states.visible) {
       event.preventDefault()
       event.stopPropagation()
-      states.visible = false
+      blur()
     }
   }
 
