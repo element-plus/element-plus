@@ -10,7 +10,11 @@ import {
   useSize,
 } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { ValidateComponentsMap, debugWarn } from '@element-plus/utils'
+import {
+  ValidateComponentsMap,
+  debugWarn,
+  escapeStringRegexp,
+} from '@element-plus/utils'
 
 import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
@@ -142,7 +146,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // fill the conditions here.
       const query = states.inputValue
       // when query was given, we should test on the label see whether the label contains the given query
-      const containsQueryString = query ? o.label?.includes(query) : true
+      const regexp = new RegExp(escapeStringRegexp(query), 'i')
+      const containsQueryString = query ? regexp.test(o.label || '') : true
       return containsQueryString
     }
     if (props.loading) {

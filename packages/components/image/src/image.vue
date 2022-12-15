@@ -29,6 +29,7 @@
         :z-index="zIndex"
         :initial-index="imageIndex"
         :infinite="infinite"
+        :zoom-rate="zoomRate"
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"

@@ -137,8 +137,9 @@ interface TableProps<T> {
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: CSSProperties
-  tableLayout: Layout
-  flexible: boolean
+  tableLayout?: Layout
+  scrollbarAlwaysOn?: boolean
+  flexible?: boolean
 }
 
 interface Sort {
@@ -270,8 +271,11 @@ export type {
   TableRefs,
   ColumnCls,
   ColumnStyle,
+  CellCls,
+  CellStyle,
   TreeNode,
   RenderRowData,
   Sort,
   Filter,
+  TableColumnCtx,
 }

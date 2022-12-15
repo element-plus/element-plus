@@ -18,14 +18,6 @@ tree-select/basic
 
 :::
 
-:::tip
-
-Since `render-after-expand` defaults to `true`,
-the selected label name may not be displayed when echoing,
-you can set it to `false` to display the correct name.
-
-:::
-
 ## Select any level
 
 When using the `check-strictly=true` attribute, any node can be checked,
@@ -107,3 +99,9 @@ and please go to the original component to view the documentation.
 | --------------------------------------- | ----------------------------- | ----------------------------------- | ---------------------------------- |
 | [tree](./tree.md#attributes)            | [tree](./tree.md#method)      | [tree](./tree.md#events)            | [tree](./tree.md#slots)            |
 | [select](./select.md#select-attributes) | [select](./select.md#methods) | [select](./select.md#select-events) | [select](./select.md#select-slots) |
+
+### Own Attributes
+
+| Name                                     | Description                                                                                                         | Type  | Accepted Values | Default |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----- | --------------- | ------- |
+| cacheData<VersionTag version="2.2.26" /> | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | array | —               | —       |
