@@ -408,11 +408,14 @@ export function createTablePopper(
       },
     })
   }
+  const popperOptions = tooltipOptions.popperOptions || {}
   popperInstance = createPopper(trigger, content, {
-    modifiers,
     placement: tooltipOptions.placement || 'top',
     strategy: 'fixed',
-    ...tooltipOptions.popperOptions,
+    ...popperOptions,
+    modifiers: popperOptions.modifiers
+      ? modifiers.concat(popperOptions.modifiers)
+      : modifiers,
   })
   trigger.addEventListener('mouseenter', onOpen)
   trigger.addEventListener('mouseleave', onClose)
