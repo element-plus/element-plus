@@ -225,7 +225,7 @@ export default defineComponent({
           .map((val) => store?.getNodeByValue(val))
           .filter((node) => !!node && !node.loaded && !node.loading) as Node[]
 
-        if (nodes.length) {
+        if (nodes.length && leafOnly) {
           nodes.forEach((node) => {
             lazyLoad(node, () => syncCheckedValue(false, forced))
           })
@@ -247,6 +247,7 @@ export default defineComponent({
       reserveExpandingState = true
     ) => {
       const { checkStrictly } = config.value
+      const leafOnly = !checkStrictly
       const oldNodes = checkedNodes.value
       const newNodes = newCheckedNodes.filter(
         (node) => !!node && (checkStrictly || node.isLeaf)
@@ -255,7 +256,7 @@ export default defineComponent({
       const newExpandingNode =
         (reserveExpandingState && oldExpandingNode) || newNodes[0]
 
-      if (newExpandingNode) {
+      if (newExpandingNode && leafOnly) {
         newExpandingNode.pathNodes.forEach((node) => expandNode(node, true))
       } else {
         expandingNode.value = null
