@@ -277,6 +277,14 @@ describe('InputNumber.vue', () => {
     expect(
       wrapper.getComponent(InputNumber).emitted('update:modelValue')
     ).toHaveLength(2)
+    await wrapper.find('input').setValue(0)
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(3)
+    expect(wrapper.getComponent(InputNumber).emitted().change[2]).toEqual([
+      0, 2,
+    ])
+    expect(
+      wrapper.getComponent(InputNumber).emitted('update:modelValue')
+    ).toHaveLength(4)
   })
 
   test('blur-event', async () => {
