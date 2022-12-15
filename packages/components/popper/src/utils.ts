@@ -96,7 +96,7 @@ function deriveExtraModifiers(
   return modifiers.map((modifier) => {
     return Object.assign(
       modifier,
-      modifiers.find((newModifier) => {
+      propsModifiers.find((newModifier) => {
         return modifier.name === newModifier.name
       })
     )
