@@ -1,22 +1,38 @@
 // @ts-nocheck
 import { createPopper } from '@popperjs/core'
-import { flatMap, get } from 'lodash-unified'
+import { flatMap, get, merge } from 'lodash-unified'
 import escapeHtml from 'escape-html'
-import { hasOwn, isArray, isBoolean, throwError } from '@element-plus/utils'
-import { useZIndex } from '@element-plus/hooks'
-import type {
-  IPopperOptions,
-  PopperInstance,
-} from '@element-plus/components/popper'
+import {
+  hasOwn,
+  isArray,
+  isBoolean,
+  isObject,
+  throwError,
+} from '@element-plus/utils'
+import { useDelayedToggle, useZIndex } from '@element-plus/hooks'
+import type { PopperInstance } from '@element-plus/components/popper'
 import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
+import type { ElTooltipProps } from '@element-plus/components/tooltip'
+
+export type TableOverflowTooltipOptions = Partial<
+  Pick<
+    ElTooltipProps,
+    | 'effect'
+    | 'enterable'
+    | 'hideAfter'
+    | 'offset'
+    | 'placement'
+    | 'popperClass'
+    | 'popperOptions'
+    | 'showAfter'
+    | 'showArrow'
+    // | 'transition'
+  >
+>
 
 export const getCell = function (event: Event) {
   return (event.target as HTMLElement)?.closest('td')
-}
-
-const isObject = function (obj: unknown): boolean {
-  return obj !== null && typeof obj === 'object'
 }
 
 export const orderBy = function <T>(
@@ -315,14 +331,21 @@ export function createTablePopper(
   parentNode: HTMLElement | undefined,
   trigger: HTMLElement,
   popperContent: string,
-  popperOptions: Partial<IPopperOptions>,
-  tooltipEffect: string
+  tooltipOptions?: TableOverflowTooltipOptions
 ) {
+  // TODO transition
+  tooltipOptions = merge(
+    {
+      enterable: true,
+      showArrow: true,
+    } as TableOverflowTooltipOptions,
+    tooltipOptions
+  )
   const { nextZIndex } = useZIndex()
   const ns = parentNode?.dataset.prefix
   const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
   function renderContent(): HTMLDivElement {
-    const isLight = tooltipEffect === 'light'
+    const isLight = tooltipOptions.effect === 'light'
     const content = document.createElement('div')
     content.className = `${ns}-popper ${isLight ? 'is-light' : 'is-dark'}`
     popperContent = escapeHtml(popperContent)
@@ -345,37 +368,54 @@ export function createTablePopper(
     try {
       popperInstance && popperInstance.destroy()
       content && parentNode?.removeChild(content)
-      trigger.removeEventListener('mouseenter', showPopper)
-      trigger.removeEventListener('mouseleave', removePopper)
+      trigger.removeEventListener('mouseenter', onOpen)
+      trigger.removeEventListener('mouseleave', onClose)
       scrollContainer?.removeEventListener('scroll', removePopper)
       removePopper = undefined
     } catch {}
   }
   let popperInstance: Nullable<PopperInstance> = null
   const content = renderContent()
-  const arrow = renderArrow()
-  content.appendChild(arrow)
+  const arrow = tooltipOptions.showArrow && renderArrow()
+  arrow && content.appendChild(arrow)
+  let onOpen = showPopper
+  let onClose = removePopper
+  if (tooltipOptions.enterable) {
+    ;({ onOpen, onClose } = useDelayedToggle({
+      showAfter: tooltipOptions.showAfter,
+      hideAfter: tooltipOptions.hideAfter,
+      open: showPopper,
+      close: removePopper,
+    }))
+  }
+  content.onmouseenter = onOpen
+  content.onmouseleave = onClose
+  const modifiers = []
+  if (tooltipOptions.offset) {
+    modifiers.push({
+      name: 'offset',
+      options: {
+        offset: [0, tooltipOptions.offset],
+      },
+    })
+  }
+  if (arrow) {
+    modifiers.push({
+      name: 'arrow',
+      options: {
+        element: arrow,
+        padding: 10,
+      },
+    })
+  }
   popperInstance = createPopper(trigger, content, {
-    strategy: 'absolute',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 8],
-        },
-      },
-      {
-        name: 'arrow',
-        options: {
-          element: arrow,
-          padding: 10,
-        },
-      },
-    ],
-    ...popperOptions,
+    modifiers,
+    placement: tooltipOptions.placement || 'top',
+    strategy: 'fixed',
+    ...tooltipOptions.popperOptions,
   })
-  trigger.addEventListener('mouseenter', showPopper)
-  trigger.addEventListener('mouseleave', removePopper)
+  trigger.addEventListener('mouseenter', onOpen)
+  trigger.addEventListener('mouseleave', onClose)
   scrollContainer?.addEventListener('scroll', removePopper)
   return popperInstance
 }
