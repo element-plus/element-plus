@@ -1,12 +1,4 @@
-import {
-  computed,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  shallowRef,
-  unref,
-  watch,
-} from 'vue'
+import { computed, onBeforeUnmount, ref, shallowRef, unref, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
 
 import type { Ref } from 'vue'
@@ -37,16 +29,16 @@ export const usePopper = (
 
       const styles = elements
         .map((element) => [element, state.elements[element] || {}] as const)
-        .reduce((acc, [element, style]) => {
-          acc[element] = style
-          return acc
+        .reduce((styles, [element, style]) => {
+          styles[element] = style
+          return styles
         }, {} as { [key: string]: any })
 
       const attributes = elements
         .map((element) => [element, state.attributes[element]] as const)
-        .reduce((acc, [element, style]) => {
-          acc[element] = style
-          return acc
+        .reduce((attrs, [element, attribute]) => {
+          attrs[element] = attribute
+          return attrs
         }, {} as { [key: string]: any })
 
       Object.assign(states.value, {
@@ -64,6 +56,7 @@ export const usePopper = (
       strategy = 'absolute',
       modifiers = [],
     } = unref(opts)
+
     return {
       onFirstUpdate,
       placement,
@@ -91,32 +84,42 @@ export const usePopper = (
     attributes: {},
   })
 
+  const destroy = () => {
+    if (!instanceRef.value) return
+
+    instanceRef.value.destroy()
+    instanceRef.value = undefined
+  }
+
   watch(
     options,
     (newOptions) => {
       const instance = unref(instanceRef)
-      instance?.setOptions(newOptions)
+      if (instance) {
+        instance.setOptions(newOptions)
+      }
     },
     {
       deep: true,
     }
   )
 
-  onMounted(() => {
-    const referenceElement = unref(referenceElementRef)
-    const popperElement = unref(popperElementRef)
-    if (!referenceElement || !popperElement) return
+  watch(
+    [referenceElementRef, popperElementRef],
+    ([referenceElement, popperElement]) => {
+      destroy()
+      if (!referenceElement || !popperElement) return
 
-    instanceRef.value = createPopper(
-      referenceElement,
-      popperElement,
-      unref(options)
-    )
-  })
+      instanceRef.value = createPopper(
+        referenceElement,
+        popperElement,
+        unref(options)
+      )
+    }
+  )
 
   onBeforeUnmount(() => {
-    instanceRef.value?.destroy()
-    instanceRef.value = undefined
+    destroy()
   })
 
   return {
@@ -125,5 +128,7 @@ export const usePopper = (
     attributes: computed(() => unref(states).attributes),
     update: () => unref(instanceRef)?.update(),
     forceUpdate: () => unref(instanceRef)?.forceUpdate(),
+    // Preventing end users from modifying the instance.
+    instanceRef: computed(() => unref(instanceRef)),
   }
 }
