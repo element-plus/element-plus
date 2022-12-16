@@ -171,9 +171,11 @@ const InfiniteScroll: ObjectDirective<
     if (!el[SCOPE]) {
       await nextTick()
     }
-    const { containerEl, cb, observer } = el[SCOPE]
-    if (containerEl.clientHeight && observer) {
-      checkFull(el, cb)
+    if (el[SCOPE]) {
+      const { containerEl, cb, observer } = el[SCOPE]
+      if (containerEl.clientHeight && observer) {
+        checkFull(el, cb)
+      }
     }
   },
 }
