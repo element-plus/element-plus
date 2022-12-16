@@ -1,1 +1,0 @@
-import{f as t,r as n,o,g as a,w as s,d as c}from"../app.f5b8b360.js";const _={},r=c("deprecated");function l(p,i){const e=n("el-tag");return o(),a(e,{size:"small",type:"warning",effect:"plain",hit:"",round:"",class:"ml-2"},{default:s(()=>[r]),_:1})}var f=t(_,[["render",l]]);export{f as _};
