@@ -347,9 +347,11 @@ export function createTablePopper(
   function renderContent(): HTMLDivElement {
     const isLight = tooltipOptions.effect === 'light'
     const content = document.createElement('div')
-    content.className = `${ns}-popper ${isLight ? 'is-light' : 'is-dark'} ${
-      tooltipOptions.popperClass || ''
-    }`
+    content.className = [
+      `${ns}-popper`,
+      isLight ? 'is-light' : 'is-dark',
+      tooltipOptions.popperClass || '',
+    ].join(' ')
     popperContent = escapeHtml(popperContent)
     content.innerHTML = popperContent
     content.style.zIndex = String(nextZIndex())
