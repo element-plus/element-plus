@@ -1,5 +1,6 @@
 import { computed, onBeforeUnmount, ref, shallowRef, unref, watch } from 'vue'
 import { createPopper } from '@popperjs/core'
+import { fromPairs } from 'lodash-unified'
 
 import type { Ref } from 'vue'
 import type {
@@ -23,28 +24,9 @@ export const usePopper = (
     enabled: true,
     phase: 'write',
     fn: ({ state }) => {
-      const elements = Object.keys(state.elements) as unknown as Array<
-        keyof State['elements']
-      >
+      const derivedState = deriveState(state)
 
-      const styles = elements
-        .map((element) => [element, state.elements[element] || {}] as const)
-        .reduce((styles, [element, style]) => {
-          styles[element] = style
-          return styles
-        }, {} as { [key: string]: any })
-
-      const attributes = elements
-        .map((element) => [element, state.attributes[element]] as const)
-        .reduce((attrs, [element, attribute]) => {
-          attrs[element] = attribute
-          return attrs
-        }, {} as { [key: string]: any })
-
-      Object.assign(states.value, {
-        attributes,
-        styles,
-      })
+      Object.assign(states.value, derivedState)
     },
     requires: ['computedStyles'],
   } as Modifier<'updateState', any>
@@ -130,5 +112,36 @@ export const usePopper = (
     forceUpdate: () => unref(instanceRef)?.forceUpdate(),
     // Preventing end users from modifying the instance.
     instanceRef: computed(() => unref(instanceRef)),
+  }
+}
+
+function deriveState(state: State) {
+  const elements = Object.keys(state.elements) as unknown as Array<
+    keyof State['elements']
+  >
+
+  const styles = fromPairs(
+    elements.map(
+      (element) =>
+        [element, state.elements[element] || {}] as [
+          string,
+          State['styles'][keyof State['styles']]
+        ]
+    )
+  )
+
+  const attributes = fromPairs(
+    elements.map(
+      (element) =>
+        [element, state.attributes[element]] as [
+          string,
+          State['attributes'][keyof State['attributes']]
+        ]
+    )
+  )
+
+  return {
+    styles,
+    attributes,
   }
 }
