@@ -57,6 +57,7 @@ badge/dot
 | max    | maximum value, shows `{max}+` when exceeded. Only works if value is a number. | ^[number]                                                          | 99      |
 | is-dot | if a little dot is displayed.                                                 | ^[boolean]                                                         | false   |
 | hidden | hidden badge.                                                                 | ^[boolean]                                                         | false   |
+| showZero | Whether to display the badge, when value is 0.                              | ^[boolean]                                                         | false   |
 | type   | badge type.                                                                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | danger  |
 
 ### Slots

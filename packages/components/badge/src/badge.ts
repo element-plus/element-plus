@@ -25,6 +25,10 @@ export const badgeProps = buildProps({
    */
   hidden: Boolean,
   /**
+   * @description Whether to display the badge, even if provided value equals 0..
+   */
+  showZero: Boolean,
+  /**
    * @description badge type.
    */
   type: {
