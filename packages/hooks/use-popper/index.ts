@@ -46,7 +46,7 @@ export const usePopper = (
         styles,
       })
     },
-    require: ['computedStyles'],
+    requires: ['computedStyles'],
   } as Modifier<'updateState', any>
 
   const options = computed<Options>(() => {
