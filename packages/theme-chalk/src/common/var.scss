@@ -622,7 +622,20 @@ $cascader: map.merge(
   ),
   $cascader
 );
-
+//statistic
+// css3 var in packages/theme-chalk/src/statistic.scss
+$statistic: () !default;
+$statistic: map.merge(
+  (
+    'title-font-weight': 400,
+    'title-font-size': getCssVar('font-size', 'extra-small'),
+    'title-color': getCssVar('text-color', 'regular'),
+    'content-font-weight': 400,
+    'content-font-size': getCssVar('font-size', 'extra-large'),
+    'content-color': getCssVar('text-color', 'primary'),
+  ),
+  $statistic
+);
 // Button
 // css3 var in packages/theme-chalk/src/button.scss
 $button: () !default;

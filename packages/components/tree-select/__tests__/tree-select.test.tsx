@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import TreeSelect from '../src/tree-select.vue'
@@ -453,6 +453,7 @@ describe('TreeSelect.vue', () => {
 
   test('show correct label when lazy load', async () => {
     const modelValue = ref<number>(1)
+    const cacheData = reactive([{ value: 3, label: '3-label' }])
     const { select } = createComponent({
       props: {
         data: [],
@@ -461,7 +462,7 @@ describe('TreeSelect.vue', () => {
         load: (node: object, resolve: (p: any) => any[]) => {
           resolve([{ value: 2, label: '2-label', isLeaf: true }])
         },
-        cacheData: [{ value: 3, label: '3-label' }],
+        cacheData,
       },
     })
 
@@ -473,5 +474,15 @@ describe('TreeSelect.vue', () => {
     modelValue.value = 3
     await nextTick()
     expect(select.vm.selectedLabel).toBe('3-label')
+
+    // no load & set cache lazy will be correct label
+    modelValue.value = 1
+    await nextTick()
+    cacheData.push({
+      value: 1,
+      label: '1-label',
+    })
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('1-label')
   })
 })
