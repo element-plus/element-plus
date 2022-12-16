@@ -1,5 +1,31 @@
 ## Changelog
 
+### 2.2.27
+
+_2022-12-16_
+
+#### Features
+
+- Components el-image support set zoom-rate (#10930 by @JiatLn)
+
+#### Bug fixes
+
+- Components [notification] option zIndex for notification can't effect (#10796 by @acfinity)
+- Components [tree-select] props `cacheData` not reactive (#10885 by @yujinpan)
+- Components [focus-trap] input selection (#10606 by @holazz)
+- Theme-chalk [menu] arrow position error in popup (#10960 by @tolking)
+- Theme-chalk [menu] the popup style error (#10958 by @tolking)
+- Components [tabs] correct active bar position (#10989 by @holazz)
+- Components input-number 0 can not triger change event (#10980 by @StephenKe)
+- Style(theme-chalk): [color-picker] Fix focus-visible outline (#10911 by @kooriookami)
+- Add Kurdish language (Sorani - ckb) (#10913 by @swarakaka)
+- Style(theme-chalk): [Menu] Fix menu style (#10813 by @jianjunyuu)
+
+#### Refactors
+
+- Components [statistic] (#10939 by @holazz)
+- Components [transfer] remove useless code (#10971 by @HeftyKoo)
+
 ### 2.2.26
 
 _2022-12-02_
