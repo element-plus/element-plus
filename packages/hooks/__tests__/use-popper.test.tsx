@@ -1,6 +1,6 @@
 import { defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, beforeEach, describe, expect, it, vitest } from 'vitest'
+import { afterEach, describe, expect, it, vitest } from 'vitest'
 import { usePopper } from '../use-popper'
 
 import type { Options } from '@popperjs/core'
