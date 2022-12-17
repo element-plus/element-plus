@@ -4,7 +4,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import { ElFormItem } from '@element-plus/components/form'
 import Select from '../src/select.vue'
@@ -1910,9 +1910,8 @@ describe('Select', () => {
       )
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
-      ).not.toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value).innerHTML).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
@@ -1940,9 +1939,8 @@ describe('Select', () => {
       )
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
-      ).toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value).innerHTML).toBe('')
     })
   })
 

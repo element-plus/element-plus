@@ -55,6 +55,10 @@ export const imageProps = buildProps({
     type: Boolean,
     default: true,
   },
+  zoomRate: {
+    type: Number,
+    default: 1.2,
+  },
 } as const)
 export type ImageProps = ExtractPropTypes<typeof imageProps>
 

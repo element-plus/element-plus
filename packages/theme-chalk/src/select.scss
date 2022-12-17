@@ -13,6 +13,35 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  cursor: pointer;
+
+  .#{$namespace}-tag {
+    box-sizing: border-box;
+    border-color: transparent;
+    margin: 2px 6px 2px 0;
+    &:last-child {
+      margin-right: 0;
+    }
+
+    .#{$namespace}-icon-close {
+      background-color: getCssVar('text-color', 'placeholder');
+      right: -7px;
+      top: 0;
+      color: $color-white;
+
+      &:hover {
+        background-color: getCssVar('text-color', 'secondary');
+      }
+
+      &::before {
+        display: block;
+        transform: translate(0, 0.5px);
+      }
+    }
+  }
+  .#{$namespace}-tag--info {
+    background-color: getCssVar('fill-color');
+  }
 }
 
 @include b(select) {
@@ -182,35 +211,5 @@
     line-height: inherit;
     height: inherit;
     display: flex;
-  }
-
-  .#{$namespace}-select__tags {
-    .#{$namespace}-tag {
-      box-sizing: border-box;
-      border-color: transparent;
-      margin: 2px 6px 2px 0;
-      &:last-child {
-        margin-right: 0;
-      }
-
-      .#{$namespace}-icon-close {
-        background-color: getCssVar('text-color', 'placeholder');
-        right: -7px;
-        top: 0;
-        color: $color-white;
-
-        &:hover {
-          background-color: getCssVar('text-color', 'secondary');
-        }
-
-        &::before {
-          display: block;
-          transform: translate(0, 0.5px);
-        }
-      }
-    }
-    .#{$namespace}-tag--info {
-      background-color: getCssVar('fill-color');
-    }
   }
 }

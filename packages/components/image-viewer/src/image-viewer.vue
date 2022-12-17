@@ -242,12 +242,12 @@ function registerEventListener() {
       const delta = e.wheelDelta ? e.wheelDelta : -e.detail
       if (delta > 0) {
         handleActions('zoomIn', {
-          zoomRate: 1.2,
+          zoomRate: props.zoomRate,
           enableTransition: false,
         })
       } else {
         handleActions('zoomOut', {
-          zoomRate: 1.2,
+          zoomRate: props.zoomRate,
           enableTransition: false,
         })
       }
@@ -336,7 +336,7 @@ function next() {
 function handleActions(action: ImageViewerAction, options = {}) {
   if (loading.value) return
   const { zoomRate, rotateDeg, enableTransition } = {
-    zoomRate: 1.4,
+    zoomRate: props.zoomRate,
     rotateDeg: 90,
     enableTransition: true,
     ...options,
