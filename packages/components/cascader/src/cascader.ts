@@ -74,7 +74,8 @@ export const cascaderEmits = {
   'remove-tag': (val: CascaderNode['valueByOption']) => !!val,
 }
 
-export type CascaderProps = ExtractPropTypes<typeof cascaderProps>
+// Type name is taken, needs discussion
+// export type CascaderProps = ExtractPropTypes<typeof cascaderProps>
 
 export type CascaderEmits = typeof cascaderEmits
 
