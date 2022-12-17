@@ -4,12 +4,11 @@ import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ComponentSize } from '@element-plus/constants'
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { PropType } from 'vue'
 import type {
   CascaderNode,
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
-import type Cascader from './cascader.vue'
 
 export const cascaderProps = {
   ...CommonProps,
@@ -74,9 +73,7 @@ export const cascaderEmits = {
   'remove-tag': (val: CascaderNode['valueByOption']) => !!val,
 }
 
-// Type name is taken, needs discussion
+// Type name is taken(cascader-panel/src/node), needs discussion
 // export type CascaderProps = ExtractPropTypes<typeof cascaderProps>
 
 export type CascaderEmits = typeof cascaderEmits
-
-export type CascaderInstance = InstanceType<typeof Cascader>

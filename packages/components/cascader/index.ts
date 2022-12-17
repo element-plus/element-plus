@@ -12,3 +12,4 @@ export default _Cascader
 export const ElCascader = _Cascader
 
 export * from './src/cascader'
+export * from './src/instances'
