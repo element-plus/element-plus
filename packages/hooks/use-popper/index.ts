@@ -13,11 +13,12 @@ import type {
 
 type ElementType = HTMLElement | undefined
 type ReferenceElement = ElementType | VirtualElement
+export type PartialOptions = Partial<Options>
 
 export const usePopper = (
   referenceElementRef: Ref<ReferenceElement>,
   popperElementRef: Ref<ElementType>,
-  opts: Ref<Options> | Options = {} as Options
+  opts: Ref<PartialOptions> | PartialOptions = {} as PartialOptions
 ) => {
   const stateUpdater = {
     name: 'updateState',
@@ -28,23 +29,18 @@ export const usePopper = (
 
       Object.assign(states.value, derivedState)
     },
-    requires: ['computedStyles'],
+    requires: ['computeStyles'],
   } as Modifier<'updateState', any>
 
   const options = computed<Options>(() => {
-    const {
-      onFirstUpdate,
-      placement = 'bottom',
-      strategy = 'absolute',
-      modifiers = [],
-    } = unref(opts)
+    const { onFirstUpdate, placement, strategy, modifiers } = unref(opts)
 
     return {
       onFirstUpdate,
-      placement,
-      strategy,
+      placement: placement || 'bottom',
+      strategy: strategy || 'absolute',
       modifiers: [
-        ...modifiers,
+        ...(modifiers || []),
         stateUpdater,
         { name: 'applyStyles', enabled: false },
       ],
