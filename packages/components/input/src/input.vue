@@ -344,11 +344,13 @@ const resizeTextarea = () => {
 
 const setNativeInputValue = () => {
   const input = _ref.value
-  if (!input || input.value === nativeInputValue.value) return
+  if (!input) return
+
   if (props.formatter) {
     input.value = props.formatter(nativeInputValue.value)
     return
   }
+  if (input.value === nativeInputValue.value) return
   input.value = nativeInputValue.value
 }
 
