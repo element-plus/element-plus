@@ -1,4 +1,4 @@
-import Cascader from './src/index.vue'
+import Cascader from './src/cascader.vue'
 import type { App } from 'vue'
 import type { SFCWithInstall } from '@element-plus/utils'
 
@@ -10,3 +10,5 @@ const _Cascader = Cascader as SFCWithInstall<typeof Cascader>
 
 export default _Cascader
 export const ElCascader = _Cascader
+
+export * from './src/cascader'
