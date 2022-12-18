@@ -1,5 +1,9 @@
 import { CommonProps } from '@element-plus/components/cascader-panel'
-import { isBoolean, isValidComponentSize } from '@element-plus/utils'
+import {
+  buildProps,
+  isBoolean,
+  isValidComponentSize,
+} from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -10,7 +14,7 @@ import type {
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
 
-export const cascaderProps = {
+export const cascaderProps = buildProps({
   ...CommonProps,
   size: {
     type: String as PropType<ComponentSize>,
@@ -61,7 +65,7 @@ export const cascaderProps = {
     type: Boolean,
     default: true,
   },
-}
+})
 
 export const cascaderEmits = {
   [UPDATE_MODEL_EVENT]: (val: CascaderValue) => !!val,

@@ -25,12 +25,7 @@
     <template #default>
       <div
         v-clickoutside:[cascaderPanelRef]="() => togglePopperVisible(false)"
-        :class="[
-          nsCascader.b(),
-          nsCascader.m(realSize),
-          nsCascader.is('disabled', isDisabled),
-          $attrs.class,
-        ]"
+        :class="cascaderKls"
         :style="cascaderStyle"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
         @keydown="handleKeyDown"
@@ -49,8 +44,8 @@
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
           @compositionend="handleComposition"
-          @focus="(e) => $emit('focus', e)"
-          @blur="(e) => $emit('blur', e)"
+          @focus="handleFocus"
+          @blur="handleBlur"
           @input="handleInput"
         >
           <template #suffix>
@@ -65,11 +60,7 @@
             <el-icon
               v-else
               key="arrow-down"
-              :class="[
-                nsInput.e('icon'),
-                'icon-arrow-down',
-                nsCascader.is('reverse', popperVisible),
-              ]"
+              :class="cascaderIconKls"
               @click.stop="togglePopperVisible()"
             >
               <arrow-down />
@@ -280,6 +271,7 @@ const isOnComposition = ref(false)
 const cascaderStyle = computed<StyleValue>(() => {
   return attrs.style as StyleValue
 })
+
 const isDisabled = computed(() => props.disabled || form?.disabled)
 const inputPlaceholder = computed(
   () => props.placeholder || t('el.cascader.placeholder')
@@ -337,6 +329,23 @@ const checkedValue = computed<CascaderValue>({
 
 const cascaderPanelRef = computed(() => {
   return tooltipRef.value?.popperRef?.contentRef
+})
+
+const cascaderKls = computed(() => {
+  return [
+    nsCascader.b(),
+    nsCascader.m(realSize.value),
+    nsCascader.is('disabled', isDisabled.value),
+    attrs.class,
+  ]
+})
+
+const cascaderIconKls = computed(() => {
+  return [
+    nsInput.e('icon'),
+    'icon-arrow-down',
+    nsCascader.is('reverse', popperVisible.value),
+  ]
 })
 
 const togglePopperVisible = (visible?: boolean) => {
@@ -595,6 +604,14 @@ const handleDelete = () => {
   } else {
     lastTag.hitState = true
   }
+}
+
+const handleFocus = (e: FocusEvent) => {
+  emit('focus', e)
+}
+
+const handleBlur = (e: FocusEvent) => {
+  emit('blur', e)
 }
 
 const handleFilter = debounce(() => {
