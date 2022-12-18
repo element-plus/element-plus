@@ -36,7 +36,10 @@ export const formItemProps = buildProps({
   /**
    * @description Whether the field is required or not, will be determined by validation rules if omitted.
    */
-  required: Boolean,
+  required: {
+    type: Boolean,
+    default: undefined,
+  },
   /**
    * @description Validation rules of form, see the [following table](#formitemrule), more advanced usage at [async-validator](https://github.com/yiminghe/async-validator).
    */
