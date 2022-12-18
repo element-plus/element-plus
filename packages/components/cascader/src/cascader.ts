@@ -1,31 +1,26 @@
+import { definePropType } from 'vue'
 import { CommonProps } from '@element-plus/components/cascader-panel'
-import { isBoolean, isValidComponentSize } from '@element-plus/utils'
+import { useSizeProp } from '@element-plus/hooks'
+import { buildProps, isBoolean } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import type { ComponentSize } from '@element-plus/constants'
-import type { PropType } from 'vue'
 import type {
   CascaderNode,
   CascaderValue,
 } from '@element-plus/components/cascader-panel'
 
-export const cascaderProps = {
+export const cascaderProps = buildProps({
   ...CommonProps,
-  size: {
-    type: String as PropType<ComponentSize>,
-    validator: isValidComponentSize,
-  },
-  placeholder: {
-    type: String,
-  },
+  size: useSizeProp,
+  placeholder: String,
   disabled: Boolean,
   clearable: Boolean,
   filterable: Boolean,
   filterMethod: {
-    type: Function as PropType<
-      (node: CascaderNode, keyword: string) => boolean
-    >,
+    type: definePropType<(node: CascaderNode, keyword: string) => boolean>(
+      Function
+    ),
     default: (node: CascaderNode, keyword: string) =>
       node.text.includes(keyword),
   },
@@ -47,7 +42,7 @@ export const cascaderProps = {
     default: 300,
   },
   beforeFilter: {
-    type: Function as PropType<(value: string) => boolean | Promise<any>>,
+    type: definePropType<(value: string) => boolean | Promise<any>>(Function),
     default: () => true,
   },
   popperClass: {
@@ -61,16 +56,16 @@ export const cascaderProps = {
     type: Boolean,
     default: true,
   },
-}
+})
 
 export const cascaderEmits = {
   [UPDATE_MODEL_EVENT]: (val: CascaderValue) => !!val,
   [CHANGE_EVENT]: (val: CascaderValue) => !!val,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
-  'visible-change': (val: boolean) => isBoolean(val),
-  'expand-change': (val: CascaderValue) => !!val,
-  'remove-tag': (val: CascaderNode['valueByOption']) => !!val,
+  visibleChange: (val: boolean) => isBoolean(val),
+  expandChange: (val: CascaderValue) => !!val,
+  removeTag: (val: CascaderNode['valueByOption']) => !!val,
 }
 
 // Type name is taken(cascader-panel/src/node), needs discussion
