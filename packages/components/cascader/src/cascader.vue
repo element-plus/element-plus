@@ -364,7 +364,7 @@ const togglePopperVisible = (visible?: boolean) => {
       syncPresentTextValue()
     }
 
-    emit('visible-change', visible)
+    emit('visibleChange', visible)
   }
 }
 
@@ -394,7 +394,7 @@ const deleteTag = (tag: Tag) => {
   const node = tag.node as CascaderNode
   node.doCheck(false)
   panel.value?.calculateCheckedValue()
-  emit('remove-tag', node.valueByOption)
+  emit('removeTag', node.valueByOption)
 }
 
 const calculatePresentTags = () => {
@@ -504,7 +504,7 @@ const getCheckedNodes = (leafOnly: boolean) => {
 
 const handleExpandChange = (value: CascaderValue) => {
   updatePopperPosition()
-  emit('expand-change', value)
+  emit('expandChange', value)
 }
 
 const handleComposition = (event: CompositionEvent) => {
