@@ -1,7 +1,6 @@
-import { definePropType } from 'vue'
 import { CommonProps } from '@element-plus/components/cascader-panel'
+import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
 import { useSizeProp } from '@element-plus/hooks'
-import { buildProps, isBoolean } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
