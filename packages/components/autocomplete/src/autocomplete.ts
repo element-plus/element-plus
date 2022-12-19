@@ -29,18 +29,30 @@ export type AutocompleteFetchSuggestions =
   | AutocompleteData
 
 export const autocompleteProps = buildProps({
+  /**
+   * @description 1
+   */
   valueKey: {
     type: String,
     default: 'value',
   },
+  /**
+   * @description 1
+   */
   modelValue: {
     type: [String, Number],
     default: '',
   },
+  /**
+   * @description 1
+   */
   debounce: {
     type: Number,
     default: 300,
   },
+  /**
+   * @description the placeholder of Autocomplete
+   */
   placement: {
     type: definePropType<Placement>(String),
     values: [
@@ -53,38 +65,80 @@ export const autocompleteProps = buildProps({
     ],
     default: 'bottom-start',
   },
+  /**
+   * @description 1
+   */
   fetchSuggestions: {
     type: definePropType<AutocompleteFetchSuggestions>([Function, Array]),
     default: NOOP,
   },
+  /**
+   * @description 1
+   */
   popperClass: {
     type: String,
     default: '',
   },
+  /**
+   * @description 1
+   */
   triggerOnFocus: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description 1
+   */
   selectWhenUnmatched: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description 1
+   */
   hideLoading: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description 1
+   */
   label: {
     type: String,
   },
   teleported: useTooltipContentProps.teleported,
+  /**
+   * @description 1
+   */
   highlightFirstItem: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description 1
+   */
   fitInputWidth: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description whether to show clear button
+   */
+  clearable: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @description whether to disable
+   */
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  /**
+   * @description same as `name` in native input
+   */
+  name: String,
 } as const)
 export type AutocompleteProps = ExtractPropTypes<typeof autocompleteProps>
 
