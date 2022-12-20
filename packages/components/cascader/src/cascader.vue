@@ -277,7 +277,9 @@ const inputPlaceholder = computed(
   () => props.placeholder || t('el.cascader.placeholder')
 )
 const currentPlaceholder = computed(() =>
-  searchInputValue.value || presentTags.value.length > 0
+  searchInputValue.value ||
+  presentTags.value.length > 0 ||
+  isOnComposition.value
     ? ''
     : inputPlaceholder.value
 )
