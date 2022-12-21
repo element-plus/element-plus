@@ -26,7 +26,7 @@ export type AutocompleteFetchSuggestions =
       queryString: string,
       cb: AutocompleteFetchSuggestionsCallback
     ) => Awaitable<AutocompleteData> | void)
-  | AutocompleteDatas
+  | AutocompleteData
 
 export const autocompleteProps = buildProps({
   /**
