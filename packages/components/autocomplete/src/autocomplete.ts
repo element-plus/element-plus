@@ -26,25 +26,25 @@ export type AutocompleteFetchSuggestions =
       queryString: string,
       cb: AutocompleteFetchSuggestionsCallback
     ) => Awaitable<AutocompleteData> | void)
-  | AutocompleteData
+  | AutocompleteDatas
 
 export const autocompleteProps = buildProps({
   /**
-   * @description 1
+   * @description key name of the input suggestion object for display
    */
   valueKey: {
     type: String,
     default: 'value',
   },
   /**
-   * @description 1
+   * @description binding value
    */
   modelValue: {
     type: [String, Number],
     default: '',
   },
   /**
-   * @description 1
+   * @description debounce delay when typing, in milliseconds
    */
   debounce: {
     type: Number,
@@ -66,56 +66,56 @@ export const autocompleteProps = buildProps({
     default: 'bottom-start',
   },
   /**
-   * @description 1
+   * @description a method to fetch input suggestions. When suggestions are ready, invoke `callback(data:[])` to return them to Autocomplete
    */
   fetchSuggestions: {
     type: definePropType<AutocompleteFetchSuggestions>([Function, Array]),
     default: NOOP,
   },
   /**
-   * @description 1
+   * @description custom class name for autocomplete's dropdown
    */
   popperClass: {
     type: String,
     default: '',
   },
   /**
-   * @description 1
+   * @description whether show suggestions when input focus
    */
   triggerOnFocus: {
     type: Boolean,
     default: true,
   },
   /**
-   * @description 1
+   * @description whether to emit a `select` event on enter when there is no autocomplete match
    */
   selectWhenUnmatched: {
     type: Boolean,
     default: false,
   },
   /**
-   * @description 1
+   * @description whether to hide the loading icon in remote search
    */
   hideLoading: {
     type: Boolean,
     default: false,
   },
   /**
-   * @description 1
+   * @description label text
    */
   label: {
     type: String,
   },
   teleported: useTooltipContentProps.teleported,
   /**
-   * @description 1
+   * @description whether to highlight first item in remote search suggestions by default
    */
   highlightFirstItem: {
     type: Boolean,
     default: false,
   },
   /**
-   * @description 1
+   * @description whether the width of the dropdown is the same as the input
    */
   fitInputWidth: {
     type: Boolean,
