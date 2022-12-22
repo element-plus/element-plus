@@ -7,6 +7,12 @@ lang: en-US
 
 Use Date Picker for date input.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Enter Date
 
 Basic date picker measured by 'day'.
@@ -164,7 +170,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | clear-icon            | custom clear icon component                                                                           | `string \| Component`                              | —                                                                        | CircleClose |
 | validate-event        | whether to trigger form validation                                                                    | boolean                                            | —                                                                        | true        |
 | disabled-date         | a function determining if a date is disabled with that date as its parameter. Should return a Boolean | function                                           | —                                                                        | —           |
-| shortcuts             | an object array to set shortcut options                                                               | Array\<{ text: string, value: Date \| Function }\> | —                                                                        | —           |
+| shortcuts             | an object array to set shortcut options                                                               | `Array<{ text: string, value: Date \| Function }>` | —                                                                        | —           |
 | cell-class-name       | set custom className                                                                                  | Function(Date)                                     | —                                                                        | —           |
 | teleported            | whether date-picker dropdown is teleported to the body                                                | boolean                                            | true / false                                                             | true        |
 

@@ -1,10 +1,10 @@
-// @ts-nocheck
 import { h, nextTick, onMounted, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
 import Slider from '../src/slider.vue'
+import type { SliderProps } from '../src/slider'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -97,7 +97,8 @@ describe('Slider', () => {
     await nextTick()
 
     expect(
-      document.querySelector(`.${TOOLTIP_CLASS}`).dataset.popperPlacement
+      (document.querySelector(`.${TOOLTIP_CLASS}`) as HTMLElement).dataset
+        .popperPlacement
     ).toBe(PLACEMENT)
   })
 
@@ -324,8 +325,8 @@ describe('Slider', () => {
   it('change event', async () => {
     vi.useRealTimers()
     const value = ref(0)
-    const data = ref(0)
-    const onChange = (val: number) => (data.value = val)
+    const data = ref<SliderProps['modelValue']>(0)
+    const onChange = (val: SliderProps['modelValue']) => (data.value = val)
     const wrapper = mount(() => (
       <div style="width: 200px">
         <Slider v-model={value.value} onChange={onChange} />
@@ -357,8 +358,8 @@ describe('Slider', () => {
   it('input event', async () => {
     vi.useRealTimers()
     const value = ref(0)
-    const data = ref(0)
-    const onInput = (val: number) => (data.value = val)
+    const data = ref<SliderProps['modelValue']>(0)
+    const onInput = (val: SliderProps['modelValue']) => (data.value = val)
     const wrapper = mount(() => (
       <div style="width: 200px">
         <Slider v-model={value.value} onInput={onInput} />

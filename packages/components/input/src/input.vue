@@ -2,22 +2,7 @@
   <div
     v-show="type !== 'hidden'"
     v-bind="containerAttrs"
-    :class="[
-      type === 'textarea' ? nsTextarea.b() : nsInput.b(),
-      nsInput.m(inputSize),
-      nsInput.is('disabled', inputDisabled),
-      nsInput.is('exceed', inputExceed),
-      {
-        [nsInput.b('group')]: $slots.prepend || $slots.append,
-        [nsInput.bm('group', 'append')]: $slots.append,
-        [nsInput.bm('group', 'prepend')]: $slots.prepend,
-        [nsInput.m('prefix')]: $slots.prefix || prefixIcon,
-        [nsInput.m('suffix')]:
-          $slots.suffix || suffixIcon || clearable || showPassword,
-        [nsInput.bm('suffix', 'password-clear')]: showClear && showPwdVisible,
-      },
-      $attrs.class,
-    ]"
+    :class="containerKls"
     :style="containerStyle"
     :role="containerRole"
     @mouseenter="handleMouseEnter"
@@ -30,10 +15,10 @@
         <slot name="prepend" />
       </div>
 
-      <div :class="[nsInput.e('wrapper'), nsInput.is('focus', focused)]">
+      <div :class="wrapperKls">
         <!-- prefix slot -->
         <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
-          <span :class="nsInput.e('prefix-inner')">
+          <span :class="nsInput.e('prefix-inner')" @click="focus">
             <slot name="prefix" />
             <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
               <component :is="prefixIcon" />
@@ -56,6 +41,7 @@
           :aria-label="label"
           :placeholder="placeholder"
           :style="inputStyle"
+          :form="props.form"
           @compositionstart="handleCompositionStart"
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
@@ -68,7 +54,7 @@
 
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
-          <span :class="nsInput.e('suffix-inner')">
+          <span :class="nsInput.e('suffix-inner')" @click="focus">
             <template
               v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
             >
@@ -131,6 +117,7 @@
         :style="textareaStyle"
         :aria-label="label"
         :placeholder="placeholder"
+        :form="props.form"
         @compositionstart="handleCompositionStart"
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
@@ -154,10 +141,8 @@
 <script lang="ts" setup>
 import {
   computed,
-  getCurrentInstance,
   nextTick,
   onMounted,
-  onUpdated,
   ref,
   shallowRef,
   toRef,
@@ -195,10 +180,6 @@ import { inputEmits, inputProps } from './input'
 import type { StyleValue } from 'vue'
 
 type TargetElement = HTMLInputElement | HTMLTextAreaElement
-const PENDANT_MAP = {
-  suffix: 'append',
-  prefix: 'prepend',
-} as const
 
 defineOptions({
   name: 'ElInput',
@@ -207,7 +188,6 @@ defineOptions({
 const props = defineProps(inputProps)
 const emit = defineEmits(inputEmits)
 
-const instance = getCurrentInstance()!
 const rawAttrs = useRawAttrs()
 const slots = useSlots()
 
@@ -220,6 +200,29 @@ const containerAttrs = computed(() => {
   }
   return comboBoxAttrs
 })
+
+const containerKls = computed(() => [
+  props.type === 'textarea' ? nsTextarea.b() : nsInput.b(),
+  nsInput.m(inputSize.value),
+  nsInput.is('disabled', inputDisabled.value),
+  nsInput.is('exceed', inputExceed.value),
+  {
+    [nsInput.b('group')]: slots.prepend || slots.append,
+    [nsInput.bm('group', 'append')]: slots.append,
+    [nsInput.bm('group', 'prepend')]: slots.prepend,
+    [nsInput.m('prefix')]: slots.prefix || props.prefixIcon,
+    [nsInput.m('suffix')]:
+      slots.suffix || props.suffixIcon || props.clearable || props.showPassword,
+    [nsInput.bm('suffix', 'password-clear')]:
+      showClear.value && showPwdVisible.value,
+  },
+  rawAttrs.class,
+])
+
+const wrapperKls = computed(() => [
+  nsInput.e('wrapper'),
+  nsInput.is('focus', focused.value),
+])
 
 const attrs = useAttrs({
   excludeKeys: computed<string[]>(() => {
@@ -343,31 +346,6 @@ const setNativeInputValue = () => {
   const input = _ref.value
   if (!input || input.value === nativeInputValue.value) return
   input.value = nativeInputValue.value
-}
-
-const calcIconOffset = (place: 'prefix' | 'suffix') => {
-  const { el } = instance.vnode
-  if (!el) return
-  const elList = Array.from(
-    (el as Element).querySelectorAll<HTMLSpanElement>(`.${nsInput.e(place)}`)
-  )
-  const target = elList.find((item) => item.parentNode === el)
-  if (!target) return
-
-  const pendant = PENDANT_MAP[place]
-
-  if (slots[pendant]) {
-    target.style.transform = `translateX(${place === 'suffix' ? '-' : ''}${
-      el.querySelector(`.${nsInput.be('group', pendant)}`).offsetWidth
-    }px)`
-  } else {
-    target.removeAttribute('style')
-  }
-}
-
-const updateIconOffset = () => {
-  calcIconOffset('prefix')
-  calcIconOffset('suffix')
 }
 
 const handleInput = async (event: Event) => {
@@ -500,11 +478,10 @@ watch(
     await nextTick()
     setNativeInputValue()
     resizeTextarea()
-    updateIconOffset()
   }
 )
 
-onMounted(async () => {
+onMounted(() => {
   if (!props.formatter && props.parser) {
     debugWarn(
       'ElInput',
@@ -512,14 +489,7 @@ onMounted(async () => {
     )
   }
   setNativeInputValue()
-  updateIconOffset()
-  await nextTick()
-  resizeTextarea()
-})
-
-onUpdated(async () => {
-  await nextTick()
-  updateIconOffset()
+  nextTick(resizeTextarea)
 })
 
 defineExpose({

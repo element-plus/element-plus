@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { TableColumnCtx } from 'element-plus/es/components/table/src/table-column/defaults'
+import type { TableColumnCtx } from 'element-plus'
 
 interface User {
   date: string

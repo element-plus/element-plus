@@ -7,7 +7,7 @@
     :class="[ns.b(), { 'is-week-mode': selectionMode === 'week' }]"
     @click="handlePickDate"
     @mousemove="handleMouseMove"
-    @mousedown="handleMouseDown"
+    @mousedown.prevent="handleMouseDown"
     @mouseup="handleMouseUp"
   >
     <tbody ref="tbodyRef">

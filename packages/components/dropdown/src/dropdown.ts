@@ -91,6 +91,7 @@ export const dropdownProps = buildProps({
     type: Boolean,
     default: true,
   },
+  teleported: useTooltipContentProps.teleported,
 } as const)
 
 export const dropdownItemProps = buildProps({

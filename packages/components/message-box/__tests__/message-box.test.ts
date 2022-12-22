@@ -1,7 +1,7 @@
 // @ts-nocheck
 import { markRaw } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it, test } from 'vitest'
+import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import { triggerNativeCompositeClick } from '@element-plus/test-utils/composite-click'
 import { QuestionFilled as QuestionFilledIcon } from '@element-plus/icons-vue'
@@ -10,6 +10,10 @@ import { ElMessageBox } from '..'
 
 const selector = '.el-overlay'
 const QuestionFilled = markRaw(QuestionFilledIcon)
+
+vi.mock('@element-plus/utils/error', () => ({
+  debugWarn: vi.fn(),
+}))
 
 const _mount = (invoker: () => void) => {
   return mount(
@@ -28,6 +32,7 @@ const _mount = (invoker: () => void) => {
 describe('MessageBox', () => {
   afterEach(async () => {
     MessageBox.close()
+    document.body.innerHTML = ''
     await rAF()
   })
 
@@ -272,6 +277,52 @@ describe('MessageBox', () => {
       expect(ElMessageBox._context).toBe(testContext._context)
       // clean up
       ElMessageBox._context = null
+    })
+  })
+
+  describe('append to', () => {
+    it('should append to body if parameter is not provided', () => {
+      MessageBox({
+        title: 'append to test',
+        message: 'append to test',
+      })
+      const msgbox: HTMLElement = document.querySelector(`body > ${selector}`)
+      expect(msgbox).toBeDefined()
+    })
+
+    it('should append to body if element does not exist', () => {
+      MessageBox({
+        title: 'append to test',
+        message: 'append to test',
+        appendTo: '.not-existing-selector',
+      })
+      const msgbox: HTMLElement = document.querySelector(`body > ${selector}`)
+      expect(msgbox).toBeDefined()
+    })
+
+    it('should append to HtmlElement provided', () => {
+      const htmlElement = document.createElement('div')
+      document.body.appendChild(htmlElement)
+      MessageBox({
+        title: 'append to test',
+        message: 'append to test',
+        appendTo: htmlElement,
+      })
+      const msgbox: HTMLElement = htmlElement.querySelector(selector)
+      expect(msgbox).toBeDefined()
+    })
+
+    it('should append to selector provided', () => {
+      const htmlElement = document.createElement('div')
+      htmlElement.className = 'custom-html-element'
+      document.body.appendChild(htmlElement)
+      MessageBox({
+        title: 'append to test',
+        message: 'append to test',
+        appendTo: '.custom-html-element',
+      })
+      const msgbox: HTMLElement = htmlElement.querySelector(selector)
+      expect(msgbox).toBeDefined()
     })
   })
 

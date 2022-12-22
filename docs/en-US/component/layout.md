@@ -101,41 +101,45 @@ The classes are:
 - `hidden-lg-and-up` - hide when on large viewports and up
 - `hidden-xl-only` - hide when on extra large viewports only
 
-## Row Attributes
+## Row API
 
-| Name    | Description                         | Type   | Accepted Values                                          | Default |
-| ------- | ----------------------------------- | ------ | -------------------------------------------------------- | ------- |
-| gutter  | grid spacing                        | number | —                                                        | 0       |
-| justify | horizontal alignment of flex layout | string | start/end/center/space-around/space-between/space-evenly | start   |
-| align   | vertical alignment of flex layout   | string | top/middle/bottom                                        | top     |
-| tag     | custom element tag                  | string | (\*)                                                     | div     |
+### Row Attributes
 
-## Row Slots
+| Name    | Description                         | Type                                                                                         | Default |
+| ------- | ----------------------------------- | -------------------------------------------------------------------------------------------- | ------- |
+| gutter  | grid spacing                        | ^[number]                                                                                    | 0       |
+| justify | horizontal alignment of flex layout | ^[enum]`'start' \| 'end' \| 'center' \| 'space-around' \| 'space-between' \| 'space-evenly'` | start   |
+| align   | vertical alignment of flex layout   | ^[enum]`'top' \| 'middle' \| 'bottom'`                                                       | top     |
+| tag     | custom element tag                  | ^[string]                                                                                    | div     |
 
-| Name | Description               | Subtags |
-| ---- | ------------------------- | ------- |
-| —    | customize default content | Col     |
+### Row Slots
 
-## Col Attributes
+| Name    | Description               | Subtags |
+| ------- | ------------------------- | ------- |
+| default | customize default content | Col     |
 
-| Name   | Description                                         | Type                                      | Accepted Values | Default |
-| ------ | --------------------------------------------------- | ----------------------------------------- | --------------- | ------- |
-| span   | number of column the grid spans                     | number                                    | —               | 24      |
-| offset | number of spacing on the left side of the grid      | number                                    | —               | 0       |
-| push   | number of columns that grid moves to the right      | number                                    | —               | 0       |
-| pull   | number of columns that grid moves to the left       | number                                    | —               | 0       |
-| xs     | `<768px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| sm     | `≥768px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| md     | `≥992px` Responsive columns or column props object  | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| lg     | `≥1200px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| xl     | `≥1920px` Responsive columns or column props object | number/object (e.g. {span: 4, offset: 4}) | —               | —       |
-| tag    | custom element tag                                  | string                                    | (\*)            | div     |
+## Col API
 
-## Col Slots
+### Col Attributes
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name   | Description                                         | Type                                                                                  | Default |
+| ------ | --------------------------------------------------- | ------------------------------------------------------------------------------------- | ------- |
+| span   | number of column the grid spans                     | ^[number]                                                                             | 24      |
+| offset | number of spacing on the left side of the grid      | ^[number]                                                                             | 0       |
+| push   | number of columns that grid moves to the right      | ^[number]                                                                             | 0       |
+| pull   | number of columns that grid moves to the left       | ^[number]                                                                             | 0       |
+| xs     | `<768px` Responsive columns or column props object  | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
+| sm     | `≥768px` Responsive columns or column props object  | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
+| md     | `≥992px` Responsive columns or column props object  | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
+| lg     | `≥1200px` Responsive columns or column props object | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
+| xl     | `≥1920px` Responsive columns or column props object | ^[number] / ^[object]`{span?: number, offset?: number, pull?: number, push?: number}` | —       |
+| tag    | custom element tag                                  | ^[string]                                                                             | div     |
+
+### Col Slots
+
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
 
 <style lang="scss">
 @use '../../examples/layout/index.scss';

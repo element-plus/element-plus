@@ -7,6 +7,12 @@ lang: en-US
 
 Drag the slider within a fixed range.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic usage
 
 The current value is displayed when the slider is being dragged.

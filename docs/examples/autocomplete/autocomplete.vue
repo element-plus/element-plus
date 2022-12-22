@@ -1,5 +1,5 @@
 <template>
-  <el-row class="demo-autocomplete text-center">
+  <el-row class="demo-autocomplete">
     <el-col :span="12">
       <div class="sub-title my-2 text-sm text-gray-600">
         list suggestions when activated

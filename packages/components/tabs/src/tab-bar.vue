@@ -39,6 +39,7 @@ const getBarStyle = (): CSSProperties => {
     ? 'width'
     : 'height'
   const sizeDir = sizeName === 'width' ? 'x' : 'y'
+  const position = sizeDir === 'x' ? 'left' : 'top'
 
   props.tabs.every((tab) => {
     const $el = instance.parent?.refs?.[`tab-${tab.uid}`] as HTMLElement
@@ -48,11 +49,9 @@ const getBarStyle = (): CSSProperties => {
       return true
     }
 
+    offset = $el[`offset${capitalize(position)}`]
     tabSize = $el[`client${capitalize(sizeName)}`]
-    const position = sizeDir === 'x' ? 'left' : 'top'
-    offset =
-      $el.getBoundingClientRect()[position] -
-      ($el.parentElement?.getBoundingClientRect()[position] ?? 0)
+
     const tabStyles = window.getComputedStyle($el)
 
     if (sizeName === 'width') {
