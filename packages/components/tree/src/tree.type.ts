@@ -1,5 +1,5 @@
+import type { IconType } from '@element-plus/utils'
 import type {
-  Component,
   ComponentInternalInstance,
   Ref,
   SetupContext,
@@ -122,7 +122,7 @@ export declare interface TreeComponentProps {
   filterNodeMethod: FilterNodeMethodFunction
   accordion: boolean
   indent: number
-  icon: string | Component
+  icon: IconType
 }
 
 export declare type NodeDropType = 'before' | 'after' | 'inner' | 'none'
