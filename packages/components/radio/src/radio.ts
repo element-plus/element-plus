@@ -6,15 +6,15 @@ import type Radio from './radio.vue'
 
 export const radioPropsBase = buildProps({
   /**
-   * @description size of the raido
+   * @description size of the Raido
    */
   size: useSizeProp,
   /**
-   * @description whether raido is disabled
+   * @description whether Raido is disabled
    */
   disabled: Boolean,
   /**
-   * @description the value of raido
+   * @description the value of Raido
    */
   label: {
     type: [String, Number, Boolean],
@@ -39,7 +39,7 @@ export const radioProps = buildProps({
     default: '',
   },
   /**
-   * @description whether to add a border around raido
+   * @description whether to add a border around Raido
    */
   border: Boolean,
 } as const)

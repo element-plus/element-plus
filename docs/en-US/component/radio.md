@@ -62,10 +62,10 @@ radio/with-borders
 | Name                  | Description                          | Type                                     | Default |
 | --------------------- | ------------------------------------ | ---------------------------------------- | ------- |
 | model-value / v-model | binding value                        | ^[string] / ^[number] / ^[boolean]       | —       |
-| label                 | the value of raido                   | ^[string] / ^[number] / ^[boolean]       | —       |
-| disabled              | whether raido is disabled            | ^[boolean]                               | false   |
-| border                | whether to add a border around raido | ^[boolean]                               | false   |
-| size                  | size of the raido                    | ^[enum]`'large' \| 'default' \| 'small'` | —       |
+| label                 | the value of Raido                   | ^[string] / ^[number] / ^[boolean]       | —       |
+| disabled              | whether Raido is disabled            | ^[boolean]                               | false   |
+| border                | whether to add a border around Raido | ^[boolean]                               | false   |
+| size                  | size of the Raido                    | ^[enum]`'large' \| 'default' \| 'small'` | —       |
 | name                  | native `name` attribute              | ^[string]                                | —       |
 
 ### Radio Events
@@ -87,12 +87,12 @@ radio/with-borders
 | Name                  | Description                                       | Type                               | Default |
 | --------------------- | ------------------------------------------------- | ---------------------------------- | ------- |
 | model-value / v-model | binding value                                     | ^[string] / ^[number] / ^[boolean] | —       |
-| size                  | the size of radio                                 | ^[string]                          | default |
-| disabled              | whether the nesting radios are disabled           | ^[boolean]                         | false   |
+| size                  | the size of Raido                                 | ^[string]                          | default |
+| disabled              | whether the nesting Raidos are disabled           | ^[boolean]                         | false   |
 | text-color            | font color when button is active                  | ^[string]                          | #ffffff |
 | fill                  | border and background color when button is active | ^[string]                          | #409EFF |
 | validate-event        | whether to trigger form validation                | ^[boolean]                         | true    |
-| label<A11yTag />      | same as `aria-label` in radio                     | ^[string] / ^[number] / ^[boolean] | —       |
+| label<A11yTag />      | same as `aria-label` in Raido                     | ^[string] / ^[number] / ^[boolean] | —       |
 | name                  | native `name` attribute                           | ^[string]                          | —       |
 | id                    | native `id` attribute                             | ^[string]                          | —       |
 
@@ -114,8 +114,8 @@ radio/with-borders
 
 | Name     | Description               | Type                               | Default |
 | -------- | ------------------------- | ---------------------------------- | ------- |
-| label    | the value of radio        | ^[string] / ^[number] / ^[boolean] | —       |
-| disabled | whether radio is disabled | ^[boolean]                         | false   |
+| label    | the value of Raido        | ^[string] / ^[number] / ^[boolean] | —       |
+| disabled | whether Raido is disabled | ^[boolean]                         | false   |
 | name     | native 'name' attribute   | ^[string]                          | —       |
 
 ### RadioButton Slots

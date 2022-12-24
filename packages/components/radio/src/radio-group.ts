@@ -13,11 +13,11 @@ export const radioGroupProps = buildProps({
     default: undefined,
   },
   /**
-   * @description the size of radio
+   * @description the size of Raido
    */
   size: useSizeProp,
   /**
-   * @description whether the nesting radios are disabled
+   * @description whether the nesting Raidos are disabled
    */
   disabled: Boolean,
   /**
@@ -35,7 +35,7 @@ export const radioGroupProps = buildProps({
     default: '',
   },
   /**
-   * @description same as `aria-label` in radio
+   * @description same as `aria-label` in Raido
    */
   label: {
     type: String,
