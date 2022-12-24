@@ -248,11 +248,13 @@ function handleKey(e: KeyboardEvent) {
   return _currentValue
 }
 
-function setCurrentValue(value: number, event: MouseEvent) {
+function setCurrentValue(value: number): void
+function setCurrentValue(value: number, event: MouseEvent): void
+function setCurrentValue(value: number, event?: MouseEvent) {
   if (rateDisabled.value) {
     return
   }
-  if (props.allowHalf) {
+  if (props.allowHalf && event) {
     // TODO: use cache via computed https://github.com/element-plus/element-plus/pull/5456#discussion_r786472092
     let target = event.target as HTMLElement
     if (hasClass(target, ns.e('item'))) {
