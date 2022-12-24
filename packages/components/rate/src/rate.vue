@@ -248,8 +248,6 @@ function handleKey(e: KeyboardEvent) {
   return _currentValue
 }
 
-function setCurrentValue(value: number): void
-function setCurrentValue(value: number, event: MouseEvent): void
 function setCurrentValue(value: number, event?: MouseEvent) {
   if (rateDisabled.value) {
     return
