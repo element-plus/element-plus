@@ -72,7 +72,7 @@ describe('InputNumber.vue', () => {
 
     const input = wrapper.find('input')
     input.element.value = ''
-    const data = wrapper.findComponent(InputNumber).vm.data
+    const data = (wrapper.findComponent(InputNumber).vm as any).data
 
     input.trigger('input')
     await nextTick()
