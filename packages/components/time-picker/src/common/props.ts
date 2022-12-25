@@ -1,9 +1,9 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { useSizeProp } from '@element-plus/hooks'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
-import type { Component, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 import type { Options } from '@popperjs/core'
 import type { Dayjs } from 'dayjs'
 
@@ -49,7 +49,7 @@ export const timePickerDefaultProps = buildProps({
     default: true,
   },
   clearIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: CircleClose,
   },
   editable: {
@@ -57,7 +57,7 @@ export const timePickerDefaultProps = buildProps({
     default: true,
   },
   prefixIcon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
     default: '',
   },
   size: useSizeProp,

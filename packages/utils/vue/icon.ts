@@ -10,12 +10,22 @@ import {
 } from '@element-plus/icons-vue'
 import { definePropType } from './props'
 
-import type { Component } from 'vue'
+import type { DefineComponent, VNode } from 'vue'
 
-export const iconPropType = definePropType<string | Component>([
-  String,
+export type IconComponent =
+  | string
+  | VNode
+  | DefineComponent<object, object, any>
+
+export type IconArrayComponent =
+  | Array<IconComponent>
+  | Record<number, IconComponent>
+
+export const iconPropType = definePropType<IconComponent>([String, Object])
+
+export const iconArrayPropType = definePropType<IconArrayComponent>([
   Object,
-  Function,
+  Array,
 ])
 
 export const CloseComponents = {
