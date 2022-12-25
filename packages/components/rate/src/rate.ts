@@ -140,7 +140,7 @@ export const rateProps = buildProps({
    */
   size: useSizeProp,
   /**
-   * @description 1
+   * @description same as `aria-label` in Rate
    */
   label: {
     type: String,
