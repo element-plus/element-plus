@@ -7,6 +7,12 @@ lang: en-US
 
 Menu that provides navigation for your website.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Top bar
 
 Top bar Menu can be used in a variety of scenarios.

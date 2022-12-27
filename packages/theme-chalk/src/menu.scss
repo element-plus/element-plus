@@ -70,13 +70,6 @@
             #{getCssVar('menu-level-padding')}
         );
       }
-      & .#{$namespace}-sub-menu__title {
-        padding-right: calc(
-          #{getCssVar('menu-base-level-padding')} + #{getCssVar(
-              'menu-icon-width'
-            )}
-        );
-      }
     }
   }
 
@@ -134,13 +127,6 @@
           background-color: getCssVar('bg-color', 'overlay');
         }
       }
-
-      & .#{$namespace}-sub-menu__icon-arrow {
-        position: static;
-        vertical-align: middle;
-        margin-left: 8px;
-        margin-top: -3px;
-      }
     }
     & .#{$namespace}-menu {
       & .#{$namespace}-menu-item,
@@ -180,7 +166,8 @@
     );
 
     > .#{$namespace}-menu-item,
-    > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title {
+    > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title,
+    > .#{$namespace}-menu-item-group > ul > .#{$namespace}-sub-menu > .#{$namespace}-sub-menu__title {
       [class^='#{$namespace}-icon'] {
         margin: 0;
         vertical-align: middle;
@@ -207,25 +194,6 @@
 
     .#{$namespace}-menu .#{$namespace}-sub-menu {
       min-width: 200px;
-    }
-
-    .#{$namespace}-sub-menu {
-      position: relative;
-
-      & .#{$namespace}-menu {
-        position: absolute;
-        margin-left: 5px;
-        top: 0;
-        left: 100%;
-        z-index: 10;
-        border: 1px solid getCssVar('border-color-light');
-        border-radius: getCssVar('border-radius-small');
-        box-shadow: getCssVar('box-shadow-light');
-      }
-
-      &.is-active .#{$namespace}-sub-menu__title {
-        color: getCssVar('menu-active-color');
-      }
     }
   }
   @include m(popup) {
@@ -278,6 +246,9 @@
 
   @include e(title) {
     @include menu-item;
+    padding-right: calc(
+      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
+    );
 
     &:hover {
       background-color: getCssVar('menu-hover-bg-color');
@@ -323,7 +294,7 @@
     position: absolute;
     top: 50%;
     right: getCssVar('menu-base-level-padding');
-    margin-top: -7px;
+    margin-top: -6px;
     transition: transform getCssVar('transition-duration');
     font-size: 12px;
     margin-right: 0;

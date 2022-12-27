@@ -62,7 +62,7 @@ export const inputNumberProps = buildProps({
 export type InputNumberProps = ExtractPropTypes<typeof inputNumberProps>
 
 export const inputNumberEmits = {
-  [CHANGE_EVENT]: (prev: number | undefined, cur: number | undefined) =>
+  [CHANGE_EVENT]: (cur: number | undefined, prev: number | undefined) =>
     prev !== cur,
   blur: (e: FocusEvent) => e instanceof FocusEvent,
   focus: (e: FocusEvent) => e instanceof FocusEvent,

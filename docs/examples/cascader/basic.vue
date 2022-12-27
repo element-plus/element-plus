@@ -20,7 +20,7 @@ import { ref } from 'vue'
 const value = ref([])
 
 const props = {
-  expandTrigger: 'hover',
+  expandTrigger: 'hover' as const,
 }
 
 const handleChange = (value) => {

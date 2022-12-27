@@ -7,6 +7,7 @@ import type {
   DefaultRow,
   Table,
 } from '../table/defaults'
+import type { TableOverflowTooltipOptions } from '../util'
 
 interface TableBodyProps<T> {
   store: Store<T>
@@ -16,7 +17,8 @@ interface TableBodyProps<T> {
   rowStyle: ColumnStyle<T>
   fixed: string
   highlight: boolean
-  tooltipEffect: string
+  tooltipEffect?: string
+  tooltipOptions?: TableOverflowTooltipOptions
 }
 
 const defaultProps = {
@@ -26,6 +28,9 @@ const defaultProps = {
   },
   stripe: Boolean,
   tooltipEffect: String,
+  tooltipOptions: {
+    type: Object as PropType<TableBodyProps<DefaultRow>['tooltipOptions']>,
+  },
   context: {
     default: () => ({}),
     type: Object as PropType<TableBodyProps<DefaultRow>['context']>,

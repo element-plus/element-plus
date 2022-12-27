@@ -1,5 +1,51 @@
 ## Changelog
 
+### 2.2.27
+
+_2022-12-16_
+
+#### Features
+
+- Components el-image support set zoom-rate (#10930 by @JiatLn)
+
+#### Bug fixes
+
+- Components [notification] option zIndex for notification can't effect (#10796 by @acfinity)
+- Components [tree-select] props `cacheData` not reactive (#10885 by @yujinpan)
+- Components [focus-trap] input selection (#10606 by @holazz)
+- Theme-chalk [menu] arrow position error in popup (#10960 by @tolking)
+- Theme-chalk [menu] the popup style error (#10958 by @tolking)
+- Components [tabs] correct active bar position (#10989 by @holazz)
+- Components input-number 0 can not triger change event (#10980 by @StephenKe)
+- Style(theme-chalk): [color-picker] Fix focus-visible outline (#10911 by @kooriookami)
+- Add Kurdish language (Sorani - ckb) (#10913 by @swarakaka)
+- Style(theme-chalk): [Menu] Fix menu style (#10813 by @jianjunyuu)
+
+#### Refactors
+
+- Components [statistic] (#10939 by @holazz)
+- Components [transfer] remove useless code (#10971 by @HeftyKoo)
+
+### 2.2.26
+
+_2022-12-02_
+
+#### Features
+
+- Components [menu] add `popper-effect` menu attribute (#10867 by @xiaoxian521)
+
+#### Bug fixes
+
+- Components [table] fix error in dynamic change table-column (#10713 by @init-qy)
+- Components [date-picker] default-time affects now result(#10729 by @MrWeilian) (#10737)
+- Components [input-number] Fix decrease and increase disabled (#10787 by @kooriookami)
+- Components [select-v2] initial value compatibility (#10759 by @holazz)
+- Components [tree] revert inherits the label class (#10812 by @chenxch)
+- Components [TreeSelect] incorrect label when child not rendered (#10716 by @yujinpan)
+- Theme-chalk [menu] optimize the SubMenu title style (#10828 by @tolking)
+- Components [table]fix the problem that show-overflow-tooltip will also be displayed when the browser is zoomed (#10816 by @Cenavy1019)
+- Style(theme-chalk): fix carousel button style (#10869 by @xiaoxian521)
+
 ### 2.2.25
 
 _2022-11-25_

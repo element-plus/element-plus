@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { computed, h, inject } from 'vue'
+import { merge } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import { getRowIdentity } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
@@ -48,7 +49,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
     treeRowData?: TreeNode,
     expanded = false
   ) => {
-    const { tooltipEffect, store } = props
+    const { tooltipEffect, tooltipOptions, store } = props
     const { indent, columns } = store.states
     const rowClasses = getRowClass(row, $index)
     let display = true
@@ -112,6 +113,15 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
         const baseKey = `${$index},${cellIndex}`
         const patchKey = columnData.columnKey || columnData.rawColumnKey || ''
         const tdChildren = cellChildren(cellIndex, column, data)
+        const mergedTooltipOptions =
+          column.showOverflowTooltip &&
+          merge(
+            {
+              effect: tooltipEffect,
+            },
+            tooltipOptions,
+            column.showOverflowTooltip
+          )
         return h(
           'td',
           {
@@ -121,7 +131,7 @@ function useRender<T>(props: Partial<TableBodyProps<T>>) {
             rowspan,
             colspan,
             onMouseenter: ($event) =>
-              handleCellMouseEnter($event, row, tooltipEffect),
+              handleCellMouseEnter($event, row, mergedTooltipOptions),
             onMouseleave: handleCellMouseLeave,
           },
           [tdChildren]
