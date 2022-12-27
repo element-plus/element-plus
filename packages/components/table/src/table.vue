@@ -92,6 +92,7 @@
               :highlight="highlightCurrentRow"
               :row-class-name="rowClassName"
               :tooltip-effect="tooltipEffect"
+              :tooltip-options="tooltipOptions"
               :row-style="rowStyle"
               :store="store"
               :stripe="stripe"
