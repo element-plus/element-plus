@@ -350,17 +350,17 @@ describe('Select', () => {
           options: [
             {
               id: 'id 1',
-              value: 'value 1',
+              value: { id: 'id 11' },
               label: 'option 1',
             },
             {
               id: 'id 2',
-              value: 'value 2',
+              value: { id: 'id 22' },
               label: 'option 2',
             },
             {
               id: 'id 3',
-              value: 'value 3',
+              value: { id: 'id 33' },
               label: 'option 3',
             },
           ],
@@ -375,12 +375,12 @@ describe('Select', () => {
     const options = getOptions()
     options[1].click()
     await nextTick()
-    expect(vm.value).toBe(vm.options[1].id)
+    expect(vm.value.id).toBe(vm.options[1].value.id)
     vm.valueKey = 'value'
     await nextTick()
     options[2].click()
     await nextTick()
-    expect(vm.value).toBe(vm.options[2].value)
+    expect(vm.value.id).toBe(vm.options[2].value.id)
   })
 
   it('disabled option', async () => {
@@ -614,17 +614,17 @@ describe('Select', () => {
             options: [
               {
                 id: 'id 1',
-                value: 'value 1',
+                value: { id: 'id 11', value: 'value 1' },
                 label: 'option 1',
               },
               {
                 id: 'id 2',
-                value: 'value 2',
+                value: { id: 'id 22', value: 'value 2' },
                 label: 'option 2',
               },
               {
                 id: 'id 3',
-                value: 'value 3',
+                value: { id: 'id 33', value: 'value 3' },
                 label: 'option 3',
               },
             ],
@@ -641,13 +641,13 @@ describe('Select', () => {
       options[1].click()
       await nextTick()
       expect(vm.value.length).toBe(1)
-      expect(vm.value[0]).toBe(vm.options[1].id)
+      expect(vm.value[0].id).toBe(vm.options[1].value.id)
       vm.valueKey = 'value'
       await nextTick()
       options[2].click()
       await nextTick()
       expect(vm.value.length).toBe(2)
-      expect(vm.value[1]).toBe(vm.options[2].value)
+      expect(vm.value[1].value).toBe(vm.options[2].value.value)
     })
   })
 
