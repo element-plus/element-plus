@@ -47,19 +47,20 @@ card/shadow
 
 :::
 
-## Attributes
+## API
+### Attributes
 
-| Name       | Description                                                   | Type   | Accepted Values        | Default               |
-| ---------- | ------------------------------------------------------------- | ------ | ---------------------- | --------------------- |
-| header     | title of the card. Also accepts a DOM passed by `slot#header` | string | —                      | —                     |
-| footer| footer of the card. Also accepts a DOM passed by `slot#footer`  | string | —                      | —                     |
-| body-style | CSS style of body                                             | object | —                      | `{ padding: '20px' }` |
-| shadow     | when to show card shadows                                     | string | always / hover / never | always                |
+| Name       | Description                                                   | Type                              | Default               |
+| ---------- | ------------------------------------------------------------- | --------------------------------- | --------------------- |
+| header     | title of the card. Also accepts a DOM passed by `slot#header` | ^[string]                         | —                     |
+| footer     | footer of the card. Also accepts a DOM passed by `slot#footer`| ^[string]                         | -                     |
+| body-style | CSS style of card body                                        | ^[object]`CSSProperties`          | { padding: '20px' }   |
+| shadow     | when to show card shadows                                     | ^[enum]`always \| never \| hover` | always                |
 
-## Slots
+### Slots
 
-| Name   | Description                |
-| ------ | -------------------------- |
-| —      | customize default content  |
-| header | content of the Card header |
-| footer | content of the Card footer |
+| Name    | Description                |
+| ------- | -------------------------- |
+| default | customize default content  |
+| header  | content of the Card header |
+| footer  | content of the Card footer |

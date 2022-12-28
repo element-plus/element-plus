@@ -10,6 +10,7 @@ import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
+import type { TableOverflowTooltipOptions } from '../util'
 
 export type DefaultRow = any
 
@@ -115,6 +116,7 @@ interface TableProps<T> {
   defaultExpandAll?: boolean
   defaultSort?: Sort
   tooltipEffect?: string
+  tooltipOptions?: TableOverflowTooltipOptions
   spanMethod?: (data: {
     row: T
     rowIndex: number
@@ -137,8 +139,9 @@ interface TableProps<T> {
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: CSSProperties
-  tableLayout: Layout
-  flexible: boolean
+  tableLayout?: Layout
+  scrollbarAlwaysOn?: boolean
+  flexible?: boolean
 }
 
 interface Sort {
@@ -225,6 +228,7 @@ export default {
   defaultExpandAll: Boolean,
   defaultSort: Object as PropType<TableProps<DefaultRow>['defaultSort']>,
   tooltipEffect: String,
+  tooltipOptions: Object as PropType<TableProps<DefaultRow>['tooltipOptions']>,
   spanMethod: Function as PropType<TableProps<DefaultRow>['spanMethod']>,
   selectOnIndeterminate: {
     type: Boolean,
@@ -270,8 +274,11 @@ export type {
   TableRefs,
   ColumnCls,
   ColumnStyle,
+  CellCls,
+  CellStyle,
   TreeNode,
   RenderRowData,
   Sort,
   Filter,
+  TableColumnCtx,
 }

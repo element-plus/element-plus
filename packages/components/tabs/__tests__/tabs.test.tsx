@@ -534,7 +534,7 @@ describe('Tabs.vue', () => {
     wrapper.unmount()
   })
 
-  test('horizonal-scrollable', async () => {
+  test('horizontal-scrollable', async () => {
     // TODO: jsdom not support `clientWidth`.
   })
 
@@ -657,14 +657,11 @@ describe('Tabs.vue', () => {
   })
 
   test('DOM update finished calculating navOffset', async () => {
-    const tabs = ref<string[]>([])
-    for (let i = 0; i < 5000; i++) {
-      tabs.value.push(i.toString())
-    }
+    const tabs = Array.from({ length: 100 }, (_, i) => i.toString())
     const activeName = ref('0')
     const wrapper = mount(() => (
       <Tabs v-model={activeName.value}>
-        {tabs.value.map((item) => (
+        {tabs.map((item) => (
           <TabPane key={item} label={item} name={item} />
         ))}
       </Tabs>
@@ -675,20 +672,20 @@ describe('Tabs.vue', () => {
 
     const mockOffsetLeft = vi
       .spyOn(
-        wrapper.find('#tab-4999').element as HTMLElement,
+        wrapper.find('#tab-99').element as HTMLElement,
         'offsetLeft',
         'get'
       )
-      .mockImplementation(() => 5000)
+      .mockImplementation(() => 100)
     const mockComputedStyle = vi
       .spyOn(window, 'getComputedStyle')
       .mockReturnValue({ paddingLeft: '0px' } as CSSStyleDeclaration)
 
-    await wrapper.find('#tab-4999').trigger('click')
+    await wrapper.find('#tab-99').trigger('click')
     await nextTick()
 
     expect(tabsWrapper.find('.el-tabs__active-bar').attributes().style).toMatch(
-      'translateX(5000px)'
+      'translateX(100px)'
     )
 
     mockOffsetLeft.mockRestore()

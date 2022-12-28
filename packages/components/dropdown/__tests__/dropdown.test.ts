@@ -6,7 +6,7 @@ import { rAF } from '@element-plus/test-utils/tick'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import Button from '@element-plus/components/button'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerId } from '@element-plus/hooks'
 import Dropdown from '../src/dropdown.vue'
 import DropdownItem from '../src/dropdown-item.vue'
 import DropdownMenu from '../src/dropdown-menu.vue'
@@ -785,9 +785,8 @@ describe('Dropdown', () => {
       )
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
-      ).not.toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value).innerHTML).not.toBe('')
     })
 
     test('should not mount on the popper container', async () => {
@@ -812,9 +811,8 @@ describe('Dropdown', () => {
       )
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
-      ).toBe('')
+      const { selector } = usePopperContainerId()
+      expect(document.body.querySelector(selector.value).innerHTML).toBe('')
     })
   })
 })

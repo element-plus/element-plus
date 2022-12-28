@@ -14,6 +14,9 @@ defineOptions({
 })
 
 const props = defineProps({
+  /**
+   * @description height of the header
+   */
   height: {
     type: String,
     default: null,

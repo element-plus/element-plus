@@ -7,6 +7,12 @@ lang: en-US
 
 Use Date Picker for date input.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Enter Date
 
 Basic date picker measured by 'day'.

@@ -7,6 +7,12 @@ lang: en-US
 
 Toggleable menu for displaying lists of links and actions.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic usage
 
 Hover on the dropdown menu to unfold it for more actions.
