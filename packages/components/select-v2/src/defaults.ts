@@ -2,6 +2,7 @@ import { placements } from '@popperjs/core'
 import { definePropType, isValidComponentSize } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
+import { useGlobalConfig } from '../../../hooks'
 import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { OptionType } from './select.types'
@@ -14,7 +15,12 @@ export const SelectProps = {
     default: 'none',
   },
   automaticDropdown: Boolean,
-  clearable: Boolean,
+  clearable: {
+    type: Boolean,
+    default: () => {
+      return useGlobalConfig('clearable').value
+    },
+  },
   clearIcon: {
     type: [String, Object] as PropType<string | Component>,
     default: CircleClose,

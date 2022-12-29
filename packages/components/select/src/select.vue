@@ -276,7 +276,12 @@ import {
 import { useResizeObserver } from '@vueuse/core'
 import { placements } from '@popperjs/core'
 import { ClickOutside } from '@element-plus/directives'
-import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useFocus,
+  useGlobalConfig,
+  useLocale,
+  useNamespace,
+} from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import ElTooltip, {
   useTooltipContentProps,
@@ -331,7 +336,12 @@ export default defineComponent({
       default: 'light',
     },
     disabled: Boolean,
-    clearable: Boolean,
+    clearable: {
+      type: Boolean,
+      default: () => {
+        return useGlobalConfig('clearable').value
+      },
+    },
     filterable: Boolean,
     allowCreate: Boolean,
     loading: Boolean,

@@ -6,7 +6,7 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useSizeProp } from '@element-plus/hooks'
+import { useGlobalConfig, useSizeProp } from '@element-plus/hooks'
 import type Input from './input.vue'
 import type { ExtractPropTypes, StyleValue } from 'vue'
 
@@ -99,11 +99,13 @@ export const inputProps = buildProps({
     default: false,
   },
   /**
-   * @description native input readonly
+   * @description native input clearable
    */
   clearable: {
     type: Boolean,
-    default: false,
+    default: () => {
+      return useGlobalConfig('clearable').value
+    },
   },
   /**
    * @description toggleable password input
