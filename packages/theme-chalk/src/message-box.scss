@@ -13,6 +13,8 @@
   display: inline-block;
   max-width: getCssVar('messagebox-width');
   width: 100%;
+  width: -moz-available;
+  width: -webkit-fill-available;
   padding-bottom: 10px;
   vertical-align: middle;
   background-color: getCssVar('bg-color');
@@ -78,10 +80,8 @@
     border: none;
     outline: none;
     background: transparent;
-    font-size: var(
-      #{getCssVarName('message-close-size')},
-      map.get($message, 'close-size')
-    );
+    font-size: var(#{getCssVarName('message-close-size')},
+      map.get($message, 'close-size'));
     cursor: pointer;
 
     .#{$namespace}-message-box__close {
@@ -110,7 +110,7 @@
   @include e(input) {
     padding-top: 15px;
 
-    & div.invalid > input {
+    & div.invalid>input {
       border-color: getCssVar('color-error');
 
       &:focus {
@@ -135,7 +135,7 @@
       position: absolute;
     }
 
-    + .#{$namespace}-message-box__message {
+    +.#{$namespace}-message-box__message {
       padding-left: 36px;
       padding-right: 12px;
       word-break: break-word;
@@ -207,9 +207,7 @@
     }
 
     @include e(content) {
-      $padding-horizontal: calc(
-        #{getCssVar('messagebox', 'padding-primary')} + 12px
-      );
+      $padding-horizontal: calc(#{getCssVar('messagebox', 'padding-primary')} + 12px);
 
       padding-left: $padding-horizontal;
       padding-right: $padding-horizontal;
@@ -236,6 +234,7 @@
     transform: translate3d(0, -20px, 0);
     opacity: 0;
   }
+
   100% {
     transform: translate3d(0, 0, 0);
     opacity: 1;
@@ -247,6 +246,7 @@
     transform: translate3d(0, 0, 0);
     opacity: 1;
   }
+
   100% {
     transform: translate3d(0, -20px, 0);
     opacity: 0;
