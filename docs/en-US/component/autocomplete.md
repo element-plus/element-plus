@@ -7,11 +7,17 @@ lang: en-US
 
 Get some recommended tips based on the current input.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic Usage
 
 Autocomplete component provides input suggestions.
 
-:::demo The `fetch-suggestions` attribute is a method that returns suggested input. In this example, `querySearch(queryString, cb)` returns suggestions to Autocomplete via `cb(data)` when suggestions are ready.
+:::demo The `fetch-suggestions` attribute is a method that return suggested inputs. In this example, `querySearch(queryString, cb)` return suggestions to Autocomplete via `cb(data)` when suggestions are ready.
 
 autocomplete/autocomplete
 

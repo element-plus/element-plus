@@ -22,8 +22,6 @@
         :prefix-icon="Search"
         clearable
         :validate-event="false"
-        @mouseenter="inputHover = true"
-        @mouseleave="inputHover = false"
       />
       <el-checkbox-group
         v-show="!hasNoMatch && !isEmpty(data)"
@@ -82,7 +80,6 @@ const panelState = reactive<TransferPanelState>({
   checked: [],
   allChecked: false,
   query: '',
-  inputHover: false,
   checkChangeByUser: true,
 })
 
@@ -101,7 +98,7 @@ const hasNoMatch = computed(
 
 const hasFooter = computed(() => !isEmpty(slots.default!()[0].children))
 
-const { checked, allChecked, query, inputHover } = toRefs(panelState)
+const { checked, allChecked, query } = toRefs(panelState)
 
 defineExpose({
   /** @description filter keyword */

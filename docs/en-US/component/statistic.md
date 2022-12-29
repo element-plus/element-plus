@@ -11,13 +11,13 @@ Display statistics.
 
 :::demo To highlight a number or a group of numbers, such as statistical value, amount, and ranking, you can add elements such as icon and unit before and after the number and title.
 
-statistic/num
+statistic/basic
 
 :::
 
 ## Countdown
 
-:::demo Use `el-Countdown`Start the countdown. Countdown component, support English and Chinese countdown, support to add other components control countdown.
+:::demo Countdown component, support to add other components control countdown.
 
 statistic/countdown
 :::
@@ -40,10 +40,10 @@ statistic/card
 ### Statistic Attributes
 
 | Attribute         | Description                    | Type                                                                | Default |
-|-------------------|--------------------------------|---------------------------------------------------------------------|---------|
-| value             | Numerical content              | ^[string] / ^[number]                                               | 0       |
+| ----------------- | ------------------------------ | ------------------------------------------------------------------- | ------- |
+| value             | Numerical content              | ^[number]                                                           | 0       |
 | decimal-separator | Setting the decimal point      | ^[string]                                                           | .       |
-| formatter         | Custom numerical presentation  | ^[Function]`(value: string \| number) => string \| number`          | —       |
+| formatter         | Custom numerical presentation  | ^[Function]`(value: number) => string \| number`                    | —       |
 | group-separator   | Sets the thousandth identifier | ^[string]                                                           | ,       |
 | precision         | numerical precision            | ^[number]                                                           | 0       |
 | prefix            | Sets the prefix of a number    | ^[string]                                                           | —       |
@@ -54,7 +54,7 @@ statistic/card
 ### Statistic Slots
 
 | Name   | Description                 |
-|--------|-----------------------------|
+| ------ | --------------------------- |
 | prefix | Numeric prefix              |
 | suffix | Suffixes for numeric values |
 | title  | Numeric titles              |
@@ -62,15 +62,15 @@ statistic/card
 ### Statistic Exposes
 
 | Name         | Description           | Type                             |
-|--------------|-----------------------|----------------------------------|
-| displayValue | Current display value | ^[object]`Ref<string \| number>` |
+| ------------ | --------------------- | -------------------------------- |
+| displayValue | current display value | ^[object]`Ref<string \| number>` |
 
 ## Countdown API
 
 ### Countdown Attributes
 
 | Attribute   | Description                      | Type                                                                | Default  |
-|-------------|----------------------------------|---------------------------------------------------------------------|----------|
+| ----------- | -------------------------------- | ------------------------------------------------------------------- | -------- |
 | value       | target time                      | ^[number] / ^[Dayjs]                                                | —        |
 | format      | Formatting the countdown display | ^[string]                                                           | HH:mm:ss |
 | prefix      | Sets the prefix of a countdown   | ^[string]                                                           | —        |
@@ -81,14 +81,14 @@ statistic/card
 ### Countdown Events
 
 | Method | Description                  | Type                                 |
-|--------|------------------------------|--------------------------------------|
+| ------ | ---------------------------- | ------------------------------------ |
 | change | Time difference change event | ^[Function]`(value: number) => void` |
 | finish | countdown end event          | ^[Function]`() => void`              |
 
 ### Countdown Slots
 
 | Name   | Description            |
-|--------|------------------------|
+| ------ | ---------------------- |
 | prefix | countdown value prefix |
 | suffix | countdown value suffix |
 | title  | countdown title        |
@@ -96,9 +96,5 @@ statistic/card
 ### Countdown Exposes
 
 | Name         | Description           | Type                   |
-|--------------|-----------------------|------------------------|
-| displayValue | Current display value | ^[object]`Ref<string>` |
-
-<style lang="scss">
-@use '../../examples/statistic/index.scss';
-</style>
+| ------------ | --------------------- | ---------------------- |
+| displayValue | current display value | ^[object]`Ref<string>` |

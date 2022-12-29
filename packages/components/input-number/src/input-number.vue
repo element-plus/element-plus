@@ -275,7 +275,7 @@ watch(
   (value) => {
     const userInput = verifyValue(data.userInput)
     const newValue = verifyValue(value, true)
-    if (!userInput || userInput !== newValue) {
+    if (!isNumber(userInput) && (!userInput || userInput !== newValue)) {
       data.currentValue = newValue
       data.userInput = null
     }

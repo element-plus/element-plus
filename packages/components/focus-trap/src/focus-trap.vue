@@ -289,7 +289,7 @@ export default defineComponent({
           !releasedEvent.defaultPrevented &&
           (focusReason.value == 'keyboard' || !isFocusCausedByUserEvent())
         ) {
-          tryFocus(lastFocusBeforeTrapped ?? document.body, true)
+          tryFocus(lastFocusBeforeTrapped ?? document.body)
         }
 
         trapContainer.removeEventListener(FOCUS_AFTER_RELEASED, trapOnFocus)

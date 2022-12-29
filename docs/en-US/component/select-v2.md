@@ -11,6 +11,12 @@ This component is still under testing, if you found any bug or issue please repo
 
 :::
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Background
 
 In some use-cases, a single selector may end up loading tens of thousands of rows of data.
