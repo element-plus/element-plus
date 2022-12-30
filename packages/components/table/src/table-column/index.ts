@@ -73,8 +73,7 @@ export default defineComponent({
         property: props.prop || props.property,
         align: realAlign,
         headerAlign: realHeaderAlign,
-        showOverflowTooltip:
-          props.showOverflowTooltip || props.showTooltipWhenOverflow,
+        showOverflowTooltip: props.showOverflowTooltip,
         // filter 相关属性
         filterable: props.filters || props.filterMethod,
         filteredValue: [],
