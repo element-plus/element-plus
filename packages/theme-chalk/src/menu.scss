@@ -222,6 +222,7 @@
   }
   @include when(active) {
     color: getCssVar('menu-active-color');
+    background-color: getCssVar('menu-active-bg-color');
     i {
       color: inherit;
     }
