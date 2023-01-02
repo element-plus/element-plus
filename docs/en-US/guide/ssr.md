@@ -80,7 +80,7 @@ onMounted(() => {
 
 Another way is to inject the teleport markup into the correct location in your final page HTML.
 
-::: warning Warning
+:::warning
 
 There may be some [SSR problems with teleport](https://github.com/vuejs/core/issues?q=is%3Aissue+is%3Aopen+ssr+teleport+), so you should pay attention to the following precautions.
 
@@ -109,7 +109,7 @@ You need to inject the teleport markup close to the `<body>` tag.
 </html>
 ```
 
-::: tip Tip
+:::tip
 
 If you modify the [Namespace](./namespace.md) or `append-to` attribute, you need to adjust the `#el-popper-container-` value.
 
@@ -148,14 +148,14 @@ const [appHtml, preloadLinks, teleports] = await render(url, manifest)
 const html = template
   .replace('<!--preload-links-->', preloadLinks)
   .replace('<!--app-html-->', appHtml)
-  .replace(/\n?<!--app-teleports-->/, teleports)
+  .replace(/\n\s*<!--app-teleports-->/, teleports)
 ```
 
 #### Nuxt
 
 For Nuxt users, you need to create a plugin.
 
-::: tip Tip
+:::tip
 
 If you modify the [Namespace](./namespace.md) or `append-to` attribute, you need to adjust the `#el-popper-container-` value.
 
