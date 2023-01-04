@@ -1,5 +1,5 @@
 <template>
-  <label :class="lableKls">
+  <label :class="labelKls">
     <input
       v-if="trueLabel || falseLabel"
       v-model="model"
@@ -76,7 +76,7 @@ const activeStyle = computed<CSSProperties>(() => {
   }
 })
 
-const lableKls = computed(() => {
+const labelKls = computed(() => {
   return [
     ns.b('button'),
     ns.bm('button', checkboxButtonSize.value),
