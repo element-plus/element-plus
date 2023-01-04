@@ -55,7 +55,6 @@
     padding: getCssVar('dialog', 'padding-primary');
     padding-bottom: 10px;
     margin-right: 16px;
-    word-break: break-all;
   }
 
   @include e(headerbtn) {
@@ -98,7 +97,6 @@
       getCssVar('dialog-padding-primary');
     color: getCssVar('text-color', 'regular');
     font-size: getCssVar('dialog-content-font-size');
-    word-break: break-all;
   }
 
   @include e(footer) {
