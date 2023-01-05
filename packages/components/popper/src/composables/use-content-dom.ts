@@ -26,7 +26,7 @@ export const usePopperContentDOM = (
     ns.is(props.effect),
     props.popperClass,
   ])
-  const contentStyle = computed<StyleValue>(() => {
+  const contentStyle = computed<StyleValue[]>(() => {
     return [
       props.popperStyle || {},
       { zIndex: unref(contentZIndex) } as CSSProperties,
