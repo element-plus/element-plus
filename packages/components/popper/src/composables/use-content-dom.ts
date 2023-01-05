@@ -28,8 +28,8 @@ export const usePopperContentDOM = (
   ])
   const contentStyle = computed<StyleValue[]>(() => {
     return [
-      props.popperStyle || {},
       { zIndex: unref(contentZIndex) } as CSSProperties,
+      props.popperStyle || {},
       unref(styles).popper as CSSProperties,
     ]
   })
