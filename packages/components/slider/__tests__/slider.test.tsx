@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElFormItem } from '@element-plus/components/form'
+import { ElPopperContent } from '@element-plus/components/popper'
 import Slider from '../src/slider.vue'
 import type { SliderProps } from '../src/slider'
 
@@ -92,14 +93,12 @@ describe('Slider', () => {
     const TOOLTIP_CLASS = 'custom_tooltip'
     const PLACEMENT = 'right'
 
-    mount(() => <Slider tooltip-class={TOOLTIP_CLASS} placement={PLACEMENT} />)
-
+    const wrapper = mount(() => (
+      <Slider tooltip-class={TOOLTIP_CLASS} placement={PLACEMENT} />
+    ))
     await nextTick()
 
-    expect(
-      (document.querySelector(`.${TOOLTIP_CLASS}`) as HTMLElement).dataset
-        .popperPlacement
-    ).toBe(PLACEMENT)
+    expect(wrapper.findComponent(ElPopperContent).vm.placement).toBe(PLACEMENT)
   })
 
   describe('drag', () => {
