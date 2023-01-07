@@ -95,7 +95,7 @@ import { isNumber, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import { isFirefox, keysOf } from '@element-plus/utils'
+import { keysOf } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import {
   ArrowLeft,
@@ -123,8 +123,6 @@ const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
     icon: markRaw(ScaleToOriginal),
   },
 }
-
-const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
 
 defineOptions({
   name: 'ElImageViewer',
@@ -237,26 +235,17 @@ function registerEventListener() {
         break
     }
   })
-  const mousewheelHandler = throttle(
-    (e: WheelEvent | any /* TODO: wheelDelta is deprecated */) => {
-      const delta = e.wheelDelta ? e.wheelDelta : -e.detail
-      if (delta > 0) {
-        handleActions('zoomIn', {
-          zoomRate: props.zoomRate,
-          enableTransition: false,
-        })
-      } else {
-        handleActions('zoomOut', {
-          zoomRate: props.zoomRate,
-          enableTransition: false,
-        })
-      }
-    }
-  )
+  const mousewheelHandler = throttle((e: WheelEvent) => {
+    const delta = e.deltaY || e.deltaX
+    handleActions(delta < 0 ? 'zoomIn' : 'zoomOut', {
+      zoomRate: props.zoomRate,
+      enableTransition: false,
+    })
+  })
 
   scopeEventListener.run(() => {
     useEventListener(document, 'keydown', keydownHandler)
-    useEventListener(document, mousewheelEventName, mousewheelHandler)
+    useEventListener(document, 'wheel', mousewheelHandler)
   })
 }
 

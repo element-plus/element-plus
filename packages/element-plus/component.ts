@@ -57,6 +57,7 @@ import {
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
+  ElSubMenu,
 } from '@element-plus/components/menu'
 import { ElPageHeader } from '@element-plus/components/page-header'
 import { ElPagination } from '@element-plus/components/pagination'
@@ -157,6 +158,7 @@ export default [
   ElMenu,
   ElMenuItem,
   ElMenuItemGroup,
+  ElSubMenu,
   ElPageHeader,
   ElPagination,
   ElPopconfirm,
