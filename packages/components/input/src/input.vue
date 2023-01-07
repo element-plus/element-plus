@@ -327,7 +327,7 @@ useResizeObserver(textarea, (entries) => {
 const resizeTextarea = () => {
   const { type, autosize } = props
 
-  if (!isClient || type !== 'textarea') return
+  if (!isClient || type !== 'textarea' || !textarea.value) return
 
   if (autosize) {
     const minRows = isObject(autosize) ? autosize.minRows : undefined
