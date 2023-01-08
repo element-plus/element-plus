@@ -4,6 +4,7 @@ import { computed, defineComponent, h, onMounted, reactive, ref } from 'vue'
 import { pick } from 'lodash-unified'
 import ElSelect from '@element-plus/components/select'
 import ElTree from '@element-plus/components/tree'
+import { isFunction } from '@element-plus/utils'
 import { useSelect } from './select'
 import { useTree } from './tree'
 import CacheOptions from './cache-options'
@@ -81,7 +82,11 @@ export default defineComponent({
         {
           ...slots,
           default: () => [
-            h(CacheOptions, { data: cacheOptions.value }),
+            h(CacheOptions, {
+              data: cacheOptions.value,
+              useFilterMethod:
+                props.filterable && isFunction(props.filterMethod),
+            }),
             h(
               ElTree,
               reactive({

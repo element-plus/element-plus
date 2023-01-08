@@ -17,6 +17,10 @@ export default defineComponent({
       type: Array as PropType<CacheOption[]>,
       default: () => [],
     },
+    useFilterMethod: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props) {
     const select = inject(selectKey) as NonNullable<SelectContext>
@@ -29,7 +33,7 @@ export default defineComponent({
             select.cachedOptions.set(item.value, item)
           }
         })
-        select.setSelected()
+        if (!props.useFilterMethod) select.setSelected()
       },
       { immediate: true, deep: true }
     )
