@@ -57,14 +57,14 @@ radio/with-borders
 
 ## Radio Attributes
 
-| Name                  | Description                          | Type                      | Accepted Values        | Default |
-| --------------------- | ------------------------------------ | ------------------------- | ---------------------- | ------- |
-| model-value / v-model | binding value                        | string / number / boolean | —                      | —       |
-| label                 | the value of Radio                   | string / number / boolean | —                      | —       |
-| disabled              | whether Radio is disabled            | boolean                   | —                      | false   |
-| border                | whether to add a border around Radio | boolean                   | —                      | false   |
-| size                  | size of the Radio                    | string                    | large / default /small | —       |
-| name                  | native 'name' attribute              | string                    | —                      | —       |
+| Name                  | Description                          | Type                      | Accepted Values         | Default |
+| --------------------- | ------------------------------------ | ------------------------- | ----------------------- | ------- |
+| model-value / v-model | binding value                        | string / number / boolean | —                       | —       |
+| label                 | the value of Radio                   | string / number / boolean | —                       | —       |
+| disabled              | whether Radio is disabled            | boolean                   | —                       | false   |
+| border                | whether to add a border around Radio | boolean                   | —                       | false   |
+| size                  | size of the Radio                    | string                    | large / default / small | —       |
+| name                  | native 'name' attribute              | string                    | —                       | —       |
 
 ## Radio Events
 
@@ -80,14 +80,14 @@ radio/with-borders
 
 ## Radio-group Attributes
 
-| Name                  | Description                                       | Type                      | Accepted Values         | Default |
-| --------------------- | ------------------------------------------------- | ------------------------- | ----------------------- | ------- |
-| model-value / v-model | binding value                                     | string / number / boolean | —                       | —       |
-| size                  | the size of radio                                 | string                    | large / default / small | default |
-| disabled              | whether the nesting radios are disabled           | boolean                   | —                       | false   |
-| text-color            | font color when button is active                  | string                    | —                       | #ffffff |
-| fill                  | border and background color when button is active | string                    | —                       | #409EFF |
-| validate-event        | whether to trigger form validation                | boolean                   | -                       | true    |
+| Name                  | Description                                                                                                                 | Type                      | Accepted Values         | Default |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ----------------------- | ------- |
+| model-value / v-model | binding value                                                                                                               | string / number / boolean | —                       | —       |
+| size                  | the size of radio                                                                                                           | string                    | large / default / small | default |
+| disabled              | whether the nesting radios are disabled                                                                                     | boolean                   | —                       | false   |
+| text-color            | font color when button is active ( deprecated, use `--el-radio-button-checked-text-color` instead )                         | string                    | —                       | —       |
+| fill                  | border and background color when button is active ( deprecated, use `--el-radio-button-checked-(bg,border)-color` instead ) | string                    | —                       | —       |
+| validate-event        | whether to trigger form validation                                                                                          | boolean                   | -                       | true    |
 
 ## Radio-group Events
 
@@ -103,11 +103,13 @@ radio/with-borders
 
 ## Radio-button Attributes
 
-| Name     | Description               | Type            | Accepted Values | Default |
-| -------- | ------------------------- | --------------- | --------------- | ------- |
-| label    | the value of radio        | string / number | —               | —       |
-| disabled | whether radio is disabled | boolean         | —               | false   |
-| name     | native 'name' attribute   | string          | —               | —       |
+| Name                      | Description               | Type                      | Accepted Values                   | Default |
+| ------------------------- | ------------------------- | ------------------------- | --------------------------------- | ------- |
+| `model-value` / `v-model` | binding value             | string / number / boolean | —                                 | —       |
+| label                     | the value of radio        | string / number           | —                                 | —       |
+| disabled                  | whether radio is disabled | boolean                   | —                                 | false   |
+| size                      | the size of radio         | string                    | `'large' \| 'default' \| 'small'` | —       |
+| name                      | native 'name' attribute   | string                    | —                                 | —       |
 
 ## Radio-button Slots
 

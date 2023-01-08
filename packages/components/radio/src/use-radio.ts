@@ -7,18 +7,18 @@ import type { RadioEmits, RadioProps } from './radio'
 
 export const useRadio = (
   props: { label: RadioProps['label']; modelValue?: RadioProps['modelValue'] },
-  emit?: SetupContext<RadioEmits>['emit']
+  emit: SetupContext<RadioEmits>['emit']
 ) => {
   const radioRef = ref<HTMLInputElement>()
   const radioGroup = inject(radioGroupKey, undefined)
-  const isGroup = computed(() => !!radioGroup)
+  const isGroup = !!radioGroup // radioGroup isn't reactive so using it inside `computed` is meaningless
   const modelValue = computed<RadioProps['modelValue']>({
     get() {
-      return isGroup.value ? radioGroup!.modelValue : props.modelValue!
+      return isGroup ? radioGroup.modelValue : props.modelValue!
     },
     set(val) {
-      if (isGroup.value) {
-        radioGroup!.changeEvent(val)
+      if (isGroup) {
+        radioGroup.changeEvent(val)
       } else {
         emit && emit(UPDATE_MODEL_EVENT, val)
       }
@@ -30,7 +30,7 @@ export const useRadio = (
   const disabled = useDisabled(computed(() => radioGroup?.disabled))
   const focus = ref(false)
   const tabIndex = computed(() => {
-    return disabled.value || (isGroup.value && modelValue.value !== props.label)
+    return disabled.value || (isGroup && modelValue.value !== props.label)
       ? -1
       : 0
   })

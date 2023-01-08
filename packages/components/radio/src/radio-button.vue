@@ -5,6 +5,7 @@
       ns.is('active', modelValue === label),
       ns.is('disabled', disabled),
       ns.is('focus', focus),
+      ns.is('no-group', !radioGroup),
       ns.bm('button', size),
     ]"
   >
@@ -18,6 +19,7 @@
       :disabled="disabled"
       @focus="focus = true"
       @blur="focus = false"
+      @change="handleChange"
     />
     <span
       :class="ns.be('button', 'inner')"
@@ -32,10 +34,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
+import { computed, nextTick } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useRadio } from './use-radio'
-import { radioButtonProps } from './radio-button'
+import { radioButtonEmits, radioButtonProps } from './radio-button'
 import type { CSSProperties } from 'vue'
 
 defineOptions({
@@ -43,17 +45,30 @@ defineOptions({
 })
 
 const props = defineProps(radioButtonProps)
+const emit = defineEmits(radioButtonEmits)
 
 const ns = useNamespace('radio')
-const { radioRef, focus, size, disabled, modelValue, radioGroup } =
-  useRadio(props)
+const { radioRef, focus, size, disabled, modelValue, radioGroup } = useRadio(
+  props,
+  emit
+)
 
 const activeStyle = computed<CSSProperties>(() => {
+  if (!radioGroup) return {}
+
   return {
-    backgroundColor: radioGroup?.fill || '',
-    borderColor: radioGroup?.fill || '',
-    boxShadow: radioGroup?.fill ? `-1px 0 0 0 ${radioGroup.fill}` : '',
-    color: radioGroup?.textColor || '',
-  }
+    ...(radioGroup.fill
+      ? {
+          backgroundColor: radioGroup.fill,
+          borderColor: radioGroup.fill,
+          boxShadow: `-1px 0 0 0 ${radioGroup.fill}`,
+        }
+      : null),
+    ...(radioGroup.textColor ? { color: radioGroup.textColor } : null),
+  } as CSSProperties
 })
+
+function handleChange() {
+  nextTick(() => emit('change', modelValue.value))
+}
 </script>
