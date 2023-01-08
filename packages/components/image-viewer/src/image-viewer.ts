@@ -5,7 +5,8 @@ import {
   mutable,
 } from '@element-plus/utils'
 
-import type { Component, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes } from 'vue'
+import type { IconComponent } from '@element-plus/utils'
 import type ImageViewer from './image-viewer.vue'
 
 export type ImageViewerAction =
@@ -57,7 +58,7 @@ export type ImageViewerEmits = typeof imageViewerEmits
 
 export interface ImageViewerMode {
   name: string
-  icon: Component
+  icon: IconComponent
 }
 
 export type ImageViewerInstance = InstanceType<typeof ImageViewer>

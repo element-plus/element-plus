@@ -3,13 +3,14 @@ import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   buildProps,
   definePropType,
+  iconArrayPropType,
   iconPropType,
   isNumber,
   isValidComponentSize,
   mutable,
 } from '@element-plus/utils'
 import type { ComponentSize } from '@element-plus/constants'
-import type { Component, ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 import type Rate from './rate.vue'
 
 export const rateProps = buildProps({
@@ -46,9 +47,7 @@ export const rateProps = buildProps({
     default: '',
   },
   icons: {
-    type: definePropType<
-      Array<string | Component> | Record<number, string | Component>
-    >([Array, Object]),
+    type: iconArrayPropType,
     default: () => [StarFilled, StarFilled, StarFilled],
   },
   voidIcon: {

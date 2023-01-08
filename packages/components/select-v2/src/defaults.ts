@@ -1,8 +1,12 @@
 import { placements } from '@popperjs/core'
-import { definePropType, isValidComponentSize } from '@element-plus/utils'
+import {
+  definePropType,
+  iconPropType,
+  isValidComponentSize,
+} from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
-import type { Component, PropType } from 'vue'
+import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { OptionType } from './select.types'
 import type { Options, Placement } from '@element-plus/components/popper'
@@ -16,7 +20,7 @@ export const SelectProps = {
   automaticDropdown: Boolean,
   clearable: Boolean,
   clearIcon: {
-    type: [String, Object] as PropType<string | Component>,
+    type: iconPropType,
     default: CircleClose,
   },
   effect: {

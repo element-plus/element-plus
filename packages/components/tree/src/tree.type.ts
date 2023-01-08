@@ -1,5 +1,4 @@
 import type {
-  Component,
   ComponentInternalInstance,
   Ref,
   SetupContext,
@@ -8,6 +7,7 @@ import type {
 } from 'vue'
 import type Node from './model/node'
 import type TreeStore from './model/tree-store'
+import type { IconComponent } from '@element-plus/utils'
 
 export interface RootTreeType {
   ctx: SetupContext<any>
@@ -122,7 +122,7 @@ export declare interface TreeComponentProps {
   filterNodeMethod: FilterNodeMethodFunction
   accordion: boolean
   indent: number
-  icon: string | Component
+  icon: IconComponent
 }
 
 export declare type NodeDropType = 'before' | 'after' | 'inner' | 'none'
