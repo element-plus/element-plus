@@ -1,10 +1,8 @@
-// @ts-nocheck
 import { onMounted, onUnmounted, ref } from 'vue'
-import type { Ref } from 'vue'
 import type { Table } from './defaults'
 
 export default function useKeyRender(table: Table<[]>) {
-  const observer: Ref = ref(null)
+  const observer = ref<MutationObserver>()
 
   const initWatchDom = () => {
     const el = table.vnode.el
@@ -15,7 +13,7 @@ export default function useKeyRender(table: Table<[]>) {
       updateOrderFns.forEach((fn: () => void) => fn())
     })
 
-    observer.value.observe(columnsWrapper, config)
+    observer.value.observe(columnsWrapper!, config)
   }
 
   onMounted(() => {
