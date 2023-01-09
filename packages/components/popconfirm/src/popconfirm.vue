@@ -36,6 +36,7 @@
             size="small"
             :type="confirmButtonType === 'text' ? '' : confirmButtonType"
             :text="confirmButtonType === 'text'"
+            :loading="confirmLoaidng"
             @click="confirm"
           >
             {{ finalConfirmButtonText }}
@@ -80,9 +81,15 @@ const style = computed(() => {
   }
 })
 
-const confirm = (e: Event) => {
-  props.onConfirm?.(e)
-  hidePopper()
+const confirmLoaidng = ref(false)
+const confirm = async (e: Event) => {
+  confirmLoaidng.value = true
+  try {
+    await props.onConfirm?.(e)
+  } finally {
+    confirmLoaidng.value = false
+    hidePopper()
+  }
 }
 const cancel = (e: Event) => {
   props.onCancel?.(e)

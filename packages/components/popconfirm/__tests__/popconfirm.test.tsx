@@ -80,4 +80,41 @@ describe('Popconfirm.vue', () => {
       expect(document.body.querySelector(selector.value)!.innerHTML).toBe('')
     })
   })
+
+  describe('confirm test', async () => {
+    it('resolve confirm', async () => {
+      const confirm = () => new Promise<void>((resolve) => resolve())
+      const wrapper = mount(() => (
+        <>
+          <Popconfirm
+            attachTo="body"
+            onConfirm={confirm}
+            v-slots={{
+              reference: () => <div class="reference">{AXIOM}</div>,
+            }}
+          />
+        </>
+      ))
+      await nextTick()
+      wrapper.find('.reference').trigger('click')
+      await nextTick()
+      document
+        .querySelector(selector)!
+        .querySelector<HTMLElement>('.el-button--primary')!
+        .click()
+      await nextTick()
+      expect(
+        document.querySelector(selector)!.querySelector('.is-loading')
+      ).not.toBeNull()
+      await nextTick()
+      await nextTick()
+      expect(
+        document.querySelector(selector)!.querySelector('.is-loading')
+      ).toBeNull()
+      expect(document.querySelector(selector)!.getAttribute('style')).toContain(
+        'display: none'
+      )
+      wrapper.unmount()
+    })
+  })
 })
