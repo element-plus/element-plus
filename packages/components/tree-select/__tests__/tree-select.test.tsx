@@ -16,8 +16,7 @@ const createComponent = ({
   props?: typeof TreeSelect['props']
 } = {}) => {
   const wrapperRef = ref<InstanceType<typeof TreeSelect>>()
-  const value = props.modelValue || ref('')
-  const data = ref([
+  const defaultData = ref([
     {
       value: 1,
       label: '一级 1',
@@ -36,15 +35,19 @@ const createComponent = ({
     },
   ])
 
+  const bindProps = reactive({
+    modelValue: ref(''),
+    data: defaultData,
+    renderAfterExpand: false,
+    ...props,
+  })
+
   const wrapper = mount({
     render() {
       return (
         <TreeSelect
-          data={data.value}
-          renderAfterExpand={false}
-          {...props}
-          modelValue={value.value}
-          onUpdate:modelValue={(val: string) => (value.value = val)}
+          {...bindProps}
+          onUpdate:modelValue={(val: string) => (bindProps.modelValue = val)}
           ref={(val: InstanceType<typeof TreeSelect>) =>
             (wrapperRef.value = val)
           }
