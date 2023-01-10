@@ -5,6 +5,7 @@
     :class="wrapperKls"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
+    @transitionend="handleTransitionEnd"
     @click.stop="toggleMenu"
   >
     <el-tooltip
@@ -469,6 +470,7 @@ export default defineComponent({
       groupQueryChange,
       handleMouseEnter,
       handleMouseLeave,
+      handleTransitionEnd,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -650,6 +652,7 @@ export default defineComponent({
       tagTextStyle,
       handleMouseEnter,
       handleMouseLeave,
+      handleTransitionEnd,
     }
   },
 })
