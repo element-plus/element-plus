@@ -22,7 +22,7 @@
     <span>Hi, there!</span>
   </el-drawer>
   <el-drawer v-model="drawer2" :direction="direction">
-    <template #title>
+    <template #header>
       <h4>set title by slot</h4>
     </template>
     <template #default>

@@ -5,7 +5,14 @@ import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { isFunction } from '@element-plus/utils'
 import ElTree from '@element-plus/components/tree'
 import TreeSelectOption from './tree-select-option'
-import { isValidArray, isValidValue, toValidArray, treeFind } from './utils'
+import {
+  isValidArray,
+  isValidValue,
+  toValidArray,
+  treeEach,
+  treeFind,
+} from './utils'
+import type { CacheOption } from './cache-options'
 import type { Ref } from 'vue'
 import type ElSelect from '@element-plus/components/select'
 import type Node from '@element-plus/components/tree/src/model/node'
@@ -83,6 +90,27 @@ export const useTree = (
       )
     })
     .filter((item) => isValidValue(item))
+
+  const cacheOptions = computed(() => {
+    if (!props.renderAfterExpand && !props.lazy) return []
+
+    const options: CacheOption[] = []
+
+    treeEach(
+      props.data.concat(props.cacheData),
+      (node) => {
+        const value = getNodeValByProp('value', node)
+        options.push({
+          value,
+          currentLabel: getNodeValByProp('label', node),
+          isDisabled: getNodeValByProp('disabled', node),
+        })
+      },
+      (data) => getNodeValByProp('children', data)
+    )
+
+    return options
+  })
 
   return {
     ...pick(toRefs(props), Object.keys(ElTree.props)),
@@ -194,5 +222,8 @@ export const useTree = (
         }
       }
     },
+
+    // else
+    cacheOptions,
   }
 }

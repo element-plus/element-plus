@@ -9,6 +9,12 @@ Use Time Select for time input.
 
 The available time range is 00:00 to 23:59
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Fixed time picker
 
 Provide a list of fixed time for users to choose.

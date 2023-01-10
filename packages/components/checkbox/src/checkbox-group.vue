@@ -23,8 +23,7 @@ import {
 } from '@element-plus/hooks'
 import { checkboxGroupContextKey } from '@element-plus/tokens'
 import { checkboxGroupEmits, checkboxGroupProps } from './checkbox-group'
-
-import type { CheckboxValueType } from './checkbox'
+import type { CheckboxGroupValueType } from './checkbox-group'
 
 defineOptions({
   name: 'ElCheckboxGroup',
@@ -39,7 +38,7 @@ const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
 
-const changeEvent = async (value: CheckboxValueType[]) => {
+const changeEvent = async (value: CheckboxGroupValueType) => {
   emit(UPDATE_MODEL_EVENT, value)
   await nextTick()
   emit('change', value)
@@ -49,7 +48,7 @@ const modelValue = computed({
   get() {
     return props.modelValue
   },
-  set(val: CheckboxValueType[]) {
+  set(val: CheckboxGroupValueType) {
     changeEvent(val)
   },
 })

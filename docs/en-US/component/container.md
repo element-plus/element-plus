@@ -79,56 +79,66 @@ container/example
 
 :::
 
-## Container Attributes
+## Container API
 
-| Name      | Description                         | Type   | Accepted Values       | Default                                                                    |
-| --------- | ----------------------------------- | ------ | --------------------- | -------------------------------------------------------------------------- |
-| direction | layout direction for child elements | string | horizontal / vertical | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
+### Container Attributes
 
-## Container Slots
+| Name      | Description                         | Type                                | Default                                                                    |
+| --------- | ----------------------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
+| direction | layout direction for child elements | ^[enum]`'horizontal' \| 'vertical'` | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
 
-| Name | Description               | Subtags                                    |
-| ---- | ------------------------- | ------------------------------------------ |
-| —    | customize default content | Container / Header / Aside / Main / Footer |
+### Container Slots
 
-## Header Attributes
+| Name    | Description               | Subtags                                    |
+| ------- | ------------------------- | ------------------------------------------ |
+| default | customize default content | Container / Header / Aside / Main / Footer |
 
-| Name   | Description          | Type   | Accepted Values | Default |
-| ------ | -------------------- | ------ | --------------- | ------- |
-| height | height of the header | string | —               | 60px    |
+## Header API
 
-## Header Slots
+### Header Attributes
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name   | Description          | Type      | Default |
+| ------ | -------------------- | --------- | ------- |
+| height | height of the header | ^[string] | 60px    |
 
-## Aside Attributes
+### Header Slots
 
-| Name  | Description               | Type   | Accepted Values | Default |
-| ----- | ------------------------- | ------ | --------------- | ------- |
-| width | width of the side section | string | —               | 300px   |
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
 
-## Aside Slots
+## Aside API
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+### Aside Attributes
 
-## Main Slots
+| Name  | Description               | Type      | Default |
+| ----- | ------------------------- | --------- | ------- |
+| width | width of the side section | ^[string] | 300px   |
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+### Aside Slots
 
-## Footer Attributes
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
 
-| Name   | Description          | Type   | Accepted Values | Default |
-| ------ | -------------------- | ------ | --------------- | ------- |
-| height | height of the footer | string | —               | 60px    |
+## Main API
 
-## Footer Slots
+### Main Slots
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
+
+## Footer API
+
+### Footer Attributes
+
+| Name   | Description          | Type      | Default |
+| ------ | -------------------- | --------- | ------- |
+| height | height of the footer | ^[string] | 60px    |
+
+### Footer Slots
+
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |

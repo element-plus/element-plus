@@ -7,6 +7,12 @@ lang: en-US
 
 Informs users while preserving the current page state.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic usage
 
 Dialog pops up a dialog box, and it's quite customizable.

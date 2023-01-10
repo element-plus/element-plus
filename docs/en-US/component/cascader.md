@@ -7,6 +7,12 @@ lang: en-US
 
 If the options have a clear hierarchical structure, Cascader can be used to view and select them.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic usage
 
 There are two ways to expand child option items.

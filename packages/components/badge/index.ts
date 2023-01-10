@@ -6,3 +6,4 @@ export const ElBadge = withInstall(Badge)
 export default ElBadge
 
 export * from './src/badge'
+export type { BadgeInstance } from './src/instance'

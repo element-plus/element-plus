@@ -170,10 +170,11 @@ const InfiniteScroll: ObjectDirective<
   async updated(el) {
     if (!el[SCOPE]) {
       await nextTick()
-    }
-    const { containerEl, cb, observer } = el[SCOPE]
-    if (containerEl.clientHeight && observer) {
-      checkFull(el, cb)
+    } else {
+      const { containerEl, cb, observer } = el[SCOPE]
+      if (containerEl.clientHeight && observer) {
+        checkFull(el, cb)
+      }
     }
   },
 }
