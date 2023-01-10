@@ -61,6 +61,7 @@ interface TreeProps {
   emptyText?: string
   height?: number
   props?: TreeOptionProps
+  estimatedOptionHeight?: number
   highlightCurrent?: boolean
   showCheckbox?: boolean
   defaultCheckedKeys?: TreeKey[]
@@ -115,6 +116,7 @@ const createTree = (
         :data="data"
         :empty-text="emptyText"
         :height="height"
+        :estimated-option-height="estimatedOptionHeight"
         :props="props"
         :highlight-current="highlightCurrent"
         :show-checkbox="showCheckbox"
@@ -140,6 +142,7 @@ const createTree = (
           data,
           emptyText: undefined,
           height: undefined,
+          estimatedOptionHeight: undefined,
           props: {
             children: 'children',
             label: 'label',
@@ -229,6 +232,25 @@ describe('Virtual Tree', () => {
     await nextTick()
     const el = wrapper.find('.el-tree-virtual-list').element as any
     expect(el.style.height).toBe('300px')
+  })
+
+  test('estimatedOptionHeight', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          estimatedOptionHeight: 28,
+          data: [
+            {
+              id: '1',
+              label: 'node-1',
+            },
+          ],
+        }
+      },
+    })
+    await nextTick()
+    let nodes = wrapper.findAll(TREE_NODE_CLASS_NAME)
+    expect(nodes[0].style.height).toBe('28px')
   })
 
   test('props', async () => {

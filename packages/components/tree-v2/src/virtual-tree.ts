@@ -114,6 +114,10 @@ export const treeProps = buildProps({
     type: Boolean,
     default: true,
   },
+  estimatedOptionHeight: {
+    type: Number,
+    default: undefined,
+  },
 } as const)
 
 export const treeNodeProps = buildProps({
