@@ -493,4 +493,44 @@ describe('TreeSelect.vue', () => {
     await nextTick()
     expect(select.vm.selectedLabel).toBe('1-label')
   })
+
+  test('filter-method', async () => {
+    const modelValue = ref(1)
+    const data = ref([
+      { value: 1, label: '1' },
+      { value: 2, label: '2' },
+      { value: 3, label: '3' },
+    ])
+    const filterMethod = vi.fn((val: string) => {
+      data.value = [...data.value].filter((item) => item.label.includes(val))
+    })
+    const { select, tree } = createComponent({
+      props: {
+        modelValue,
+        data,
+        filterable: true,
+        filterMethod,
+        // trigger cache data
+        renderAfterExpand: true,
+      },
+    })
+
+    await nextTick()
+    expect(tree.vm.data.length).toBe(3)
+    expect(select.vm.selectedLabel).toBe('1')
+
+    const input = select.find('input')
+    input.element.focus()
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('')
+    expect(filterMethod).toHaveBeenLastCalledWith('')
+
+    select.vm.selectedLabel = '2'
+    select.vm.debouncedOnInputChange()
+    // await debounce
+    await new Promise((resolve) => setTimeout(resolve))
+    expect(select.vm.selectedLabel).toBe('2')
+    expect(filterMethod).toHaveBeenLastCalledWith('2')
+    expect(tree.text()).toBe('2')
+  })
 })
