@@ -42,20 +42,25 @@ const createComponent = ({
     ...props,
   })
 
-  const wrapper = mount({
-    render() {
-      return (
-        <TreeSelect
-          {...bindProps}
-          onUpdate:modelValue={(val: string) => (bindProps.modelValue = val)}
-          ref={(val: InstanceType<typeof TreeSelect>) =>
-            (wrapperRef.value = val)
-          }
-          v-slots={slots}
-        />
-      )
+  const wrapper = mount(
+    {
+      render() {
+        return (
+          <TreeSelect
+            {...bindProps}
+            onUpdate:modelValue={(val: string) => (bindProps.modelValue = val)}
+            ref={(val: InstanceType<typeof TreeSelect>) =>
+              (wrapperRef.value = val)
+            }
+            v-slots={slots}
+          />
+        )
+      },
     },
-  })
+    {
+      attachTo: 'body',
+    }
+  )
 
   return {
     wrapper,
