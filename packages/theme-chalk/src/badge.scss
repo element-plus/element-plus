@@ -32,9 +32,12 @@
       position: absolute;
       top: 0;
       right: calc(1px + #{getCssVar('badge', 'size')} / 2);
-      inset-inline-end: 0;
-      transform: translate(50%, -50%);
-      transform-origin: 100% 0%;
+      transform: translateY(-50%) translateX(100%);
+      z-index: getCssVar('index', 'normal');
+
+      @include when(dot) {
+        right: 5px;
+      }
     }
 
     @include when(dot) {
