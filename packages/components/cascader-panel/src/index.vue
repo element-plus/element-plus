@@ -234,9 +234,7 @@ export default defineComponent({
         }
       } else {
         const values = multiple ? castArray(modelValue) : [modelValue]
-        const nodes = unique(
-          values.map((val) => store?.getNodeByValue(val, leafOnly))
-        ) as Node[]
+        const nodes = unique(store?.getMatchedNodes(values, leafOnly)) as Node[]
         syncMenuState(nodes, forced)
         checkedValue.value = cloneDeep(modelValue)
       }

@@ -1,6 +1,6 @@
-import { isEqual } from 'lodash-unified'
+import { isEqual, map } from 'lodash-unified'
+import { isArray, isUndefined } from '@element-plus/utils'
 import Node from './node'
-
 import type { Nullable } from '@element-plus/utils'
 import type {
   CascaderConfig,
@@ -8,6 +8,7 @@ import type {
   CascaderNodeValue,
   CascaderOption,
 } from './node'
+import type { CascaderValue } from './types'
 
 const flatNodes = (nodes: Node[], leafOnly: boolean) => {
   return nodes.reduce((res, node) => {
@@ -37,6 +38,52 @@ export default class Store {
 
   getNodes() {
     return this.nodes
+  }
+
+  getMatchedNodes(values: CascaderValue[], leafOnly = false) {
+    interface TreeNode {
+      originalNode?: Node
+      children?: Map<unknown, TreeNode>
+    }
+    const root: TreeNode = {
+      originalNode: undefined,
+      children: (function reorganize(nodes) {
+        return nodes.reduce((map, node) => {
+          map.set(node.value, {
+            originalNode: leafOnly && node.isLeaf ? node : undefined,
+            children: reorganize(node.children),
+          })
+          return map
+        }, new Map<unknown, TreeNode>())
+      })(this.nodes),
+    }
+    const leafNodes = this.getFlattedNodes(leafOnly)
+    const nodeMap = leafNodes.reduce((map, node) => {
+      map.set(node.value, node)
+      return map
+    }, new Map<unknown, Node>())
+
+    const matchedNodes: Node[] = []
+    values.forEach((value) => {
+      let matchedNode = nodeMap.get(value)
+      if (!matchedNode && Array.isArray(value)) {
+        let node = root
+        for (const v of value) {
+          node = node.children?.get(v)!
+          if (!node) break
+        }
+        if (node && node.originalNode) matchedNode = node.originalNode
+      }
+      // degrade to for loop, address with HashMap?
+      if (!matchedNode)
+        matchedNode = leafNodes.find(
+          (node) =>
+            isEqual(node.value, value) || isEqual(node.pathValues, value)
+        )
+
+      if (matchedNode) matchedNodes.push(matchedNode)
+    })
+    return matchedNodes
   }
 
   getFlattedNodes(leafOnly: boolean) {
