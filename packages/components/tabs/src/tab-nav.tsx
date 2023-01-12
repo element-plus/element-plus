@@ -186,7 +186,6 @@ const TabNav = defineComponent({
       const currentOffset = navOffset.value
 
       if (containerSize < navSize) {
-        const currentOffset = navOffset.value
         scrollable.value = scrollable.value || {}
         scrollable.value.prev = currentOffset
         scrollable.value.next = currentOffset + containerSize < navSize
