@@ -129,6 +129,8 @@
             @compositionstart="handleComposition"
             @compositionupdate="handleComposition"
             @compositionend="handleComposition"
+            @focus="handleFocus"
+            @blur="handleBlur"
           />
         </div>
       </div>
