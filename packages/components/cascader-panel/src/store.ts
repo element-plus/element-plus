@@ -1,5 +1,4 @@
-import { isEqual, map } from 'lodash-unified'
-import { isArray, isUndefined } from '@element-plus/utils'
+import { isEqual } from 'lodash-unified'
 import Node from './node'
 import type { Nullable } from '@element-plus/utils'
 import type {
