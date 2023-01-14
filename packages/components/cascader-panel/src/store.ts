@@ -45,7 +45,6 @@ export default class Store {
       children?: Map<unknown, TreeNode>
     }
     const root: TreeNode = {
-      originalNode: undefined,
       children: (function reorganize(nodes) {
         return nodes.reduce((map, node) => {
           map.set(node.value, {
