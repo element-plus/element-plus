@@ -49,7 +49,7 @@ export default class Store {
       children: (function reorganize(nodes) {
         return nodes.reduce((map, node) => {
           map.set(node.value, {
-            originalNode: leafOnly && node.isLeaf ? node : undefined,
+            originalNode: !leafOnly || node.isLeaf ? node : undefined,
             children: reorganize(node.children),
           })
           return map
