@@ -33,8 +33,9 @@ export const useCarouselItem = (
     )
   }
 
-  const CARD_SCALE = 0.83
+  const CARD_SCALE = carouselContext.cardScale
 
+  const carouselItemRef = ref<HTMLElement>()
   const hover = ref(false)
   const translate = ref(0)
   const scale = ref(1)
@@ -42,6 +43,7 @@ export const useCarouselItem = (
   const ready = ref(false)
   const inStage = ref(false)
   const animating = ref(false)
+  const zIndex = ref(0)
 
   // computed
   const { isCardType, isVertical } = carouselContext
@@ -111,20 +113,39 @@ export const useCarouselItem = (
     active.value = isActive
 
     if (_isCardType) {
-      if (_isVertical) {
-        debugWarn(
-          'Carousel',
-          'vertical direction is not supported for card mode'
-        )
-      }
       inStage.value = Math.round(Math.abs(index - activeIndex)) <= 1
       translate.value = calcCardTranslate(index, activeIndex)
       scale.value = unref(active) ? 1 : CARD_SCALE
+
+      if (index !== activeIndex) {
+        if (zIndex.value) {
+          zIndex.value -= 1
+        }
+        if (unref(translate) > 0) {
+          zIndex.value = zIndex.value || 2
+        }
+        if (unref(translate) < 0) {
+          zIndex.value = zIndex.value || 3
+        }
+      } else {
+        zIndex.value = 0
+      }
+      if (!unref(inStage)) {
+        zIndex.value = 0
+      }
     } else {
       translate.value = calcTranslate(index, activeIndex, _isVertical)
     }
 
     ready.value = true
+
+    if (isActive && carouselItemRef.value) {
+      if (_isVertical) {
+        carouselContext.setContainerHeight(carouselItemRef.value.offsetWidth)
+      } else {
+        carouselContext.setContainerHeight(carouselItemRef.value.offsetHeight)
+      }
+    }
   }
 
   function handleItemClick() {
@@ -159,6 +180,7 @@ export const useCarouselItem = (
   })
 
   return {
+    carouselItemRef,
     active,
     animating,
     hover,
@@ -168,6 +190,7 @@ export const useCarouselItem = (
     isCardType,
     scale,
     ready,
+    zIndex,
     handleItemClick,
   }
 }

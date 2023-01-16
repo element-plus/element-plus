@@ -25,7 +25,7 @@ export const carouselProps = buildProps({
   },
   indicatorPosition: {
     type: String,
-    values: ['', 'none', 'outside'],
+    values: ['', 'none', 'outside', 'inside'],
     default: '',
   },
   indicator: {
@@ -54,6 +54,15 @@ export const carouselProps = buildProps({
   pauseOnHover: {
     type: Boolean,
     default: true,
+  },
+  cardScale: {
+    type: Number,
+    default: 0.83,
+  },
+  verticalIndicatorDirection: {
+    type: String,
+    values: ['left', 'right'],
+    default: 'left',
   },
 } as const)
 
