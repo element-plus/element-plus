@@ -483,4 +483,33 @@ describe('InputNumber.vue', () => {
       expect(formItem.attributes().role).toBe('group')
     })
   })
+
+  test('v-model should work after a change event emitted', async () => {
+    const INIT = 324
+    const NEW = 3245
+    const num = ref(0)
+    const wrapper = mount(() => (
+      <InputNumber controls={false} v-model={num.value} />
+    ))
+    const input = wrapper.find('input')
+
+    // input an initial value
+    input.element.value = `${INIT}`
+    await input.trigger('input')
+    await input.trigger('change')
+    await nextTick()
+    expect(num.value).toEqual(INIT)
+
+    // input a new value
+    input.element.value = `${NEW}`
+    await input.trigger('input')
+    await nextTick()
+    expect(num.value).toEqual(NEW)
+
+    // input back to initial value
+    input.element.value = `${INIT}`
+    await input.trigger('input')
+    await nextTick()
+    expect(num.value).toEqual(INIT)
+  })
 })

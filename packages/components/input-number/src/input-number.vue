@@ -224,11 +224,11 @@ const setCurrentValue = (
 ) => {
   const oldVal = data.currentValue
   const newVal = verifyValue(value)
-  if (oldVal === newVal) return
   if (!emitChange) {
     emit(UPDATE_MODEL_EVENT, newVal!)
     return
   }
+  if (oldVal === newVal) return
   data.userInput = null
   emit(UPDATE_MODEL_EVENT, newVal!)
   emit(CHANGE_EVENT, newVal!, oldVal!)
