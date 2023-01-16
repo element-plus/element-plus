@@ -28,3 +28,8 @@ export const getLastOffset = (id: string): number => {
   if (!prev) return 0
   return prev.vm.exposed!.bottom.value
 }
+
+export const getOffsetOrSpace = (id: string, offset: number) => {
+  const idx = instances.findIndex((instance) => instance.id === id)
+  return idx > 0 ? 20 : offset
+}
