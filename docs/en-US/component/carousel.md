@@ -75,7 +75,7 @@ carousel/vertical
 | trigger            | how indicators are triggered                          | string  | hover/click         | hover      |
 | autoplay           | whether automatically loop the slides                 | boolean | —                   | true       |
 | interval           | interval of the auto loop, in milliseconds            | number  | —                   | 3000       |
-| indicator-position | position of the indicators                            | string  | outside/none        | —          |
+| indicator-position | position of the indicators                            | string  | outside/inside/none | —          |
 | arrow              | when arrows are shown                                 | string  | always/hover/never  | hover      |
 | type               | type of the Carousel                                  | string  | card                | —          |
 | loop               | display the items in loop                             | boolean | -                   | true       |
