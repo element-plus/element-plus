@@ -248,9 +248,12 @@ export const useSliderButton = (
     }
     const lengthPerStep = 100 / ((max.value - min.value) / step.value)
     const steps = Math.round(newPosition / lengthPerStep)
-    let value =
-      steps * lengthPerStep * (max.value - min.value) * 0.01 + min.value
-    value = Number.parseFloat(value.toFixed(precision.value))
+    const value = Number.parseFloat(
+      (
+        steps * lengthPerStep * (max.value - min.value) * 0.01 +
+        min.value
+      ).toFixed(precision.value)
+    )
 
     if (value !== props.modelValue) {
       emit(UPDATE_MODEL_EVENT, value)

@@ -83,9 +83,7 @@ export const useSlide = (
     percent: number
   ): Ref<SliderButtonInstance | undefined> => {
     const targetValue = props.min + (percent * (props.max - props.min)) / 100
-    if (!props.range) {
-      return firstButton
-    }
+    if (!props.range) return firstButton
     let buttonRefName: 'firstButton' | 'secondButton'
     if (
       Math.abs(minValue.value - targetValue) <

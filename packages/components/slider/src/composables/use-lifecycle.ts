@@ -1,5 +1,6 @@
 import { nextTick, onMounted, ref } from 'vue'
 import { useEventListener } from '@vueuse/core'
+import { isArray, isNumber } from '@element-plus/utils'
 import type { SliderInitData, SliderProps } from '../slider'
 
 export const useLifecycle = (
@@ -11,7 +12,7 @@ export const useLifecycle = (
 
   onMounted(async () => {
     if (props.range) {
-      if (Array.isArray(props.modelValue)) {
+      if (isArray(props.modelValue)) {
         initData.firstValue = Math.max(props.min, props.modelValue[0])
         initData.secondValue = Math.min(props.max, props.modelValue[1])
       } else {
@@ -20,10 +21,7 @@ export const useLifecycle = (
       }
       initData.oldValue = [initData.firstValue, initData.secondValue]
     } else {
-      if (
-        typeof props.modelValue !== 'number' ||
-        Number.isNaN(props.modelValue)
-      ) {
+      if (!isNumber(props.modelValue) || Number.isNaN(props.modelValue)) {
         initData.firstValue = props.min
       } else {
         initData.firstValue = Math.min(
