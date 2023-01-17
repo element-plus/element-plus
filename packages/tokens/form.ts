@@ -26,7 +26,7 @@ export type FormValidateCallback = (
   invalidFields?: ValidateFieldsError
 ) => void
 export interface FormValidateFailure {
-  errors: ValidateError[] | null
+  errors: Array<ValidateError & { stack?: string }> | null
   fields: ValidateFieldsError
 }
 

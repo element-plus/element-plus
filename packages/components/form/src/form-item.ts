@@ -36,6 +36,13 @@ export const formItemProps = buildProps({
     type: String,
     values: formItemValidateStates,
   },
+  validateTrim: {
+    type: Boolean,
+    default: false,
+  },
+  validateMsgUseLabel: {
+    type: [Boolean, String],
+  },
   for: String,
   inlineMessage: {
     type: [String, Boolean],

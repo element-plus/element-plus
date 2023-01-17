@@ -250,11 +250,40 @@ const currentLabel = computed(
   () => `${props.label || ''}${formContext?.labelSuffix || ''}`
 )
 
+const currentValidateMessageInfo = computed<{
+  needReplace: boolean
+  targetValue: string
+}>(() => {
+  if (
+    typeof props.validateMsgUseLabel === 'boolean' &&
+    props.validateMsgUseLabel &&
+    props.label
+  ) {
+    return {
+      needReplace: true,
+      targetValue: props.label,
+    }
+  }
+  if (
+    typeof props.validateMsgUseLabel === 'string' &&
+    props.validateMsgUseLabel
+  ) {
+    return {
+      needReplace: true,
+      targetValue: props.validateMsgUseLabel,
+    }
+  }
+  return {
+    needReplace: false,
+    targetValue: '',
+  }
+})
+
 const setValidationState = (state: FormItemValidateState) => {
   validateState.value = state
 }
 
-const onValidationFailed = (error: FormValidateFailure) => {
+const onValidationFailed = (error: FormValidateFailure, rules: RuleItem[]) => {
   const { errors, fields } = error
   if (!errors || !fields) {
     console.error(error)
@@ -264,6 +293,17 @@ const onValidationFailed = (error: FormValidateFailure) => {
   validateMessage.value = errors
     ? errors?.[0]?.message ?? `${props.prop} is required`
     : ''
+
+  const isCustomRuleMessage =
+    rules.find((_: RuleItem) => _.message === errors?.[0]?.message)?.message ||
+    errors?.[0]?.stack
+
+  if (!isCustomRuleMessage && currentValidateMessageInfo.value.needReplace) {
+    validateMessage.value = validateMessage.value.replace(
+      `${props.prop}`,
+      currentValidateMessageInfo.value?.targetValue
+    )
+  }
 
   formContext?.emit('validate', props.prop!, false, validateMessage.value)
 }
@@ -278,14 +318,24 @@ const doValidate = async (rules: RuleItem[]): Promise<true> => {
   const validator = new AsyncValidator({
     [modelName]: rules,
   })
+  const toValidateFieldValue =
+    typeof fieldValue.value === 'string' && props.validateTrim
+      ? fieldValue.value.trim()
+      : fieldValue.value
+
   return validator
-    .validate({ [modelName]: fieldValue.value }, { firstFields: true })
+    .validate(
+      {
+        [modelName]: toValidateFieldValue,
+      },
+      { firstFields: true }
+    )
     .then(() => {
       onValidationSucceeded()
       return true as const
     })
     .catch((err: FormValidateFailure) => {
-      onValidationFailed(err as FormValidateFailure)
+      onValidationFailed(err as FormValidateFailure, rules)
       return Promise.reject(err)
     })
 }
