@@ -155,21 +155,19 @@ const onFocusAfterReleased = (event: CustomEvent) => {
 }
 
 const onFocusInTrap = (event: FocusEvent) => {
-  if (props.visible && !trapped.value) {
-    if (event.target) {
-      focusStartRef.value = event.target as typeof focusStartRef.value
-    }
-    trapped.value = true
+  if (!props.visible || trapped.value) return
+  if (event.target) {
+    focusStartRef.value = event.target as typeof focusStartRef.value
   }
+  trapped.value = true
 }
 
 const onFocusoutPrevented = (event: CustomEvent) => {
-  if (!props.trapping) {
-    if (event.detail.focusReason === 'pointer') {
-      event.preventDefault()
-    }
-    trapped.value = false
+  if (props.trapping) return
+  if (event.detail.focusReason === 'pointer') {
+    event.preventDefault()
   }
+  trapped.value = false
 }
 
 const onReleaseRequested = () => {

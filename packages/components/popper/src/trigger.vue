@@ -34,38 +34,33 @@ const { role, triggerRef } = inject(POPPER_INJECTION_KEY, undefined)!
 
 useForwardRef(triggerRef)
 
-const ariaControls = computed<string | undefined>(() => {
-  return ariaHaspopup.value ? props.id : undefined
-})
+const ariaControls = computed<string | undefined>(() =>
+  ariaHaspopup.value ? props.id : undefined
+)
 
-const ariaDescribedby = computed<string | undefined>(() => {
-  if (role && role.value === 'tooltip') {
-    return props.open && props.id ? props.id : undefined
-  }
-  return undefined
-})
+const ariaDescribedby = computed<string | undefined>(() =>
+  role?.value === 'tooltip'
+    ? props.open && props.id
+      ? props.id
+      : undefined
+    : undefined
+)
 
-const ariaHaspopup = computed<string | undefined>(() => {
-  if (role && role.value !== 'tooltip') {
-    return role.value
-  }
-  return undefined
-})
+const ariaHaspopup = computed<string | undefined>(() =>
+  role?.value !== 'tooltip' ? role?.value : undefined
+)
 
-const ariaExpanded = computed<string | undefined>(() => {
-  return ariaHaspopup.value ? `${props.open}` : undefined
-})
+const ariaExpanded = computed<string | undefined>(() =>
+  ariaHaspopup.value ? `${props.open}` : undefined
+)
 
 let virtualTriggerAriaStopWatch: WatchStopHandle | undefined = undefined
 
 onMounted(() => {
   watch(
     () => props.virtualRef,
-    (virtualEl) => {
-      if (virtualEl) {
-        triggerRef.value = unrefElement(virtualEl as HTMLElement)
-      }
-    },
+    (virtualEl) =>
+      virtualEl && (triggerRef.value = unrefElement(virtualEl as HTMLElement)),
     {
       immediate: true,
     }
@@ -108,11 +103,11 @@ onMounted(() => {
               'aria-describedby',
               'aria-haspopup',
               'aria-expanded',
-            ].forEach((key, idx) => {
+            ].forEach((key, idx) =>
               isNil(watches[idx])
                 ? el.removeAttribute(key)
                 : el.setAttribute(key, watches[idx]!)
-            })
+            )
           },
           { immediate: true }
         )

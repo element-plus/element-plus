@@ -117,15 +117,14 @@ const relativeStrokeWidth = computed(() =>
   ((props.strokeWidth / props.width) * 100).toFixed(1)
 )
 
-const radius = computed(() => {
-  if (['circle', 'dashboard'].includes(props.type)) {
-    return Number.parseInt(
-      `${50 - Number.parseFloat(relativeStrokeWidth.value) / 2}`,
-      10
-    )
-  }
-  return 0
-})
+const radius = computed(() =>
+  ['circle', 'dashboard'].includes(props.type)
+    ? Number.parseInt(
+        `${50 - Number.parseFloat(relativeStrokeWidth.value) / 2}`,
+        10
+      )
+    : 0
+)
 
 const trackPath = computed(() => {
   const r = radius.value
@@ -142,10 +141,9 @@ const perimeter = computed(() => 2 * Math.PI * radius.value)
 
 const rate = computed(() => (props.type === 'dashboard' ? 0.75 : 1))
 
-const strokeDashoffset = computed(() => {
-  const offset = (-1 * perimeter.value * (1 - rate.value)) / 2
-  return `${offset}px`
-})
+const strokeDashoffset = computed(
+  () => `${(-1 * perimeter.value * (1 - rate.value)) / 2}px`
+)
 
 const trailPathStyle = computed<CSSProperties>(() => ({
   strokeDasharray: `${perimeter.value * rate.value}px, ${perimeter.value}px`,
@@ -162,60 +160,55 @@ const circlePathStyle = computed<CSSProperties>(() => ({
 }))
 
 const stroke = computed(() => {
-  let ret: string
-  if (props.color) {
-    ret = getCurrentColor(props.percentage)
-  } else {
-    ret = STATUS_COLOR_MAP[props.status] || STATUS_COLOR_MAP.default
-  }
-  return ret
+  return props.color
+    ? getCurrentColor(props.percentage)
+    : STATUS_COLOR_MAP[props.status] || STATUS_COLOR_MAP.default
 })
 
 const statusIcon = computed(() => {
-  if (props.status === 'warning') {
-    return WarningFilled
-  }
-  if (props.type === 'line') {
-    return props.status === 'success' ? CircleCheck : CircleClose
-  } else {
-    return props.status === 'success' ? Check : Close
-  }
+  const { status } = props
+  if (status === 'warning') return WarningFilled
+  const isSuccess = status === 'success'
+
+  return props.type === 'line'
+    ? isSuccess
+      ? CircleCheck
+      : CircleClose
+    : isSuccess
+    ? Check
+    : Close
 })
 
-const progressTextSize = computed(() => {
-  return props.type === 'line'
+const progressTextSize = computed(() =>
+  props.type === 'line'
     ? 12 + props.strokeWidth * 0.4
     : props.width * 0.111111 + 2
-})
+)
 
 const content = computed(() => props.format(props.percentage))
 
 function getColors(color: ProgressColor[]) {
   const span = 100 / color.length
-  const seriesColors = color.map((seriesColor, index) => {
-    if (isString(seriesColor)) {
-      return {
-        color: seriesColor,
-        percentage: (index + 1) * span,
-      }
-    }
-    return seriesColor
-  })
-  return seriesColors.sort((a, b) => a.percentage - b.percentage)
+  return color
+    .map((seriesColor, index) =>
+      isString(seriesColor)
+        ? {
+            color: seriesColor,
+            percentage: (index + 1) * span,
+          }
+        : seriesColor
+    )
+    .sort((a, b) => a.percentage - b.percentage)
 }
 
 const getCurrentColor = (percentage: number) => {
   const { color } = props
-  if (isFunction(color)) {
-    return color(percentage)
-  } else if (isString(color)) {
-    return color
-  } else {
-    const colors = getColors(color)
-    for (const color of colors) {
-      if (color.percentage > percentage) return color.color
-    }
-    return colors[colors.length - 1]?.color
-  }
+  if (isFunction(color)) return color(percentage)
+  if (isString(color)) return color
+  const colors = getColors(color)
+  return (
+    colors.find((color) => color.percentage > percentage)?.color ||
+    colors[colors.length - 1]?.color
+  )
 }
 </script>
