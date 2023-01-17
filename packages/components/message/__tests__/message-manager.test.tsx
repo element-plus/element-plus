@@ -104,6 +104,27 @@ describe('Message on command', () => {
     messages.forEach((m) => m.close())
   })
 
+  test('correct space when set offset', async () => {
+    const offset = 100
+    const space = 20
+    const messages = [Message({ offset }), Message({ offset })]
+
+    await rAF()
+    const elements = document.querySelectorAll(selector)
+    expect(elements.length).toBe(2)
+
+    const getTopValue = (elm: Element): number =>
+      Number.parseFloat(getStyle(elm as HTMLElement, 'top'))
+
+    const firstElementTop = getTopValue(elements[0])
+    const secondElementTop = getTopValue(elements[1])
+
+    expect(firstElementTop).toBe(offset)
+    expect(secondElementTop).toBe(offset + space)
+
+    messages.forEach((m) => m.close())
+  })
+
   test('it should have 4 other types of message', () => {
     expect(Message.success).toBeInstanceOf(Function)
     expect(Message.warning).toBeInstanceOf(Function)
