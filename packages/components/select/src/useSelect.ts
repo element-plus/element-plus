@@ -159,7 +159,17 @@ export const useSelect = (props, states: States, ctx) => {
     return null
   })
 
-  const optionsArray = computed(() => Array.from(states.options.values()))
+  const optionsArray = computed(() =>
+    Array.from(states.options.values()).sort((a, b) => {
+      if (a.currentLabel < b.currentLabel) {
+        return -1
+      }
+      if (a.currentLabel > b.currentLabel) {
+        return 1
+      }
+      return 0
+    })
+  )
 
   const cachedOptionsArray = computed(() =>
     Array.from(states.cachedOptions.values())
