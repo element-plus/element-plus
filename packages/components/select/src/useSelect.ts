@@ -1,7 +1,9 @@
 // @ts-nocheck
 import {
   computed,
+  getCurrentInstance,
   nextTick,
+  onUpdated,
   reactive,
   ref,
   shallowRef,
@@ -101,6 +103,18 @@ export const useSelect = (props, states: States, ctx) => {
   const hoverOption = ref(-1)
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
+  const instance = getCurrentInstance()
+  const optionList = ref<string[]>([])
+
+  onUpdated(() => {
+    const childrens = instance?.slots.default?.()[0].children
+    if (childrens && childrens.length) {
+      const options = childrens
+        .filter((item) => item.type.name === 'ElOption')
+        .map((item) => item.props.label)
+      optionList.value = options
+    }
+  })
 
   const { form, formItem } = useFormItem()
 
@@ -159,17 +173,17 @@ export const useSelect = (props, states: States, ctx) => {
     return null
   })
 
-  const optionsArray = computed(() =>
-    Array.from(states.options.values()).sort((a, b) => {
-      if (a.currentLabel < b.currentLabel) {
-        return -1
+  const optionsArray = computed(() => {
+    const list = Array.from(states.options.values())
+    const newList = []
+    optionList.value.forEach((item) => {
+      const index = list.findIndex((i) => i.currentLabel === item)
+      if (index > -1) {
+        newList.push(list[index])
       }
-      if (a.currentLabel > b.currentLabel) {
-        return 1
-      }
-      return 0
     })
-  )
+    return newList.length ? newList : list
+  })
 
   const cachedOptionsArray = computed(() =>
     Array.from(states.cachedOptions.values())
