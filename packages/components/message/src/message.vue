@@ -52,7 +52,7 @@ import ElBadge from '@element-plus/components/badge'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { messageEmits, messageProps } from './message'
-import { getLastOffset } from './instance'
+import { getLastOffset, getOffsetOrSpace } from './instance'
 import type { BadgeProps } from '@element-plus/components/badge'
 import type { CSSProperties } from 'vue'
 
@@ -85,7 +85,9 @@ const iconComponent = computed(
 )
 
 const lastOffset = computed(() => getLastOffset(props.id))
-const offset = computed(() => props.offset + lastOffset.value)
+const offset = computed(
+  () => getOffsetOrSpace(props.id, props.offset) + lastOffset.value
+)
 const bottom = computed((): number => height.value + offset.value)
 const customStyle = computed<CSSProperties>(() => ({
   top: `${offset.value}px`,
