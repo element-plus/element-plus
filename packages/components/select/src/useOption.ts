@@ -125,7 +125,7 @@ export function useOption(props, states) {
 
   const { queryChange } = toRaw(select)
   watch(
-    queryChange, 
+    queryChange,
     (changes: Ref<QueryChangeCtx>) => {
       const { query } = unref(changes)
 
@@ -134,9 +134,9 @@ export function useOption(props, states) {
       if (!states.visible) {
         select.filteredOptionsCount--
       }
-    }, 
+    },
     { immediate: true }
-   )
+  )
 
   return {
     select,
