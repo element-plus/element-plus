@@ -369,6 +369,14 @@ const handleInput = async (event: Event) => {
     return
   }
 
+  if (props.modelModifiers.upper) {
+    value = value.toUpperCase()
+  }
+
+  if (props.modelModifiers.lower) {
+    value = value.toLowerCase()
+  }
+
   emit(UPDATE_MODEL_EVENT, value)
   emit('input', value)
 

@@ -40,6 +40,13 @@ export const inputProps = buildProps({
     default: '',
   },
   /**
+   * @description support modifiers of model value, such as lower and upper
+   */
+  modelModifiers: {
+    type: definePropType<Record<string, boolean>>([Object]),
+    default: () => ({}),
+  },
+  /**
    * @description type of input
    */
   type: {
