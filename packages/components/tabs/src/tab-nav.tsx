@@ -29,7 +29,7 @@ import { useNamespace } from '@element-plus/hooks'
 import TabBar from './tab-bar.vue'
 import type { CSSProperties, ExtractPropTypes } from 'vue'
 import type { TabsPaneContext } from '@element-plus/tokens'
-import type { TabPanelName } from './tabs'
+import type { TabPaneName } from './tabs'
 
 interface Scrollable {
   next?: boolean
@@ -55,7 +55,7 @@ export const tabNavProps = buildProps({
 } as const)
 
 export const tabNavEmits = {
-  tabClick: (tab: TabsPaneContext, tabName: TabPanelName, ev: Event) =>
+  tabClick: (tab: TabsPaneContext, tabName: TabPaneName, ev: Event) =>
     ev instanceof Event,
   tabRemove: (tab: TabsPaneContext, ev: Event) => ev instanceof Event,
 }
@@ -186,7 +186,6 @@ const TabNav = defineComponent({
       const currentOffset = navOffset.value
 
       if (containerSize < navSize) {
-        const currentOffset = navOffset.value
         scrollable.value = scrollable.value || {}
         scrollable.value.prev = currentOffset
         scrollable.value.next = currentOffset + containerSize < navSize

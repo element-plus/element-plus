@@ -24,7 +24,7 @@
     title="I have a nested form inside!"
     :before-close="handleClose"
     direction="ltr"
-    custom-class="demo-drawer"
+    class="demo-drawer"
   >
     <div class="demo-drawer__content">
       <el-form :model="form">

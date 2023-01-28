@@ -106,13 +106,10 @@ const data = reactive<Data>({
 const { formItem } = useFormItem()
 
 const minDisabled = computed(
-  () =>
-    isNumber(props.modelValue) &&
-    ensurePrecision(props.modelValue, -1)! < props.min
+  () => isNumber(props.modelValue) && props.modelValue <= props.min
 )
 const maxDisabled = computed(
-  () =>
-    isNumber(props.modelValue) && ensurePrecision(props.modelValue)! > props.max
+  () => isNumber(props.modelValue) && props.modelValue >= props.max
 )
 
 const numPrecision = computed(() => {
@@ -182,14 +179,14 @@ const ensurePrecision = (val: number, coefficient: 1 | -1 = 1) => {
 }
 const increase = () => {
   if (props.readonly || inputNumberDisabled.value || maxDisabled.value) return
-  const value = props.modelValue || 0
+  const value = Number(displayValue.value) || 0
   const newVal = ensurePrecision(value)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
 }
 const decrease = () => {
   if (props.readonly || inputNumberDisabled.value || minDisabled.value) return
-  const value = props.modelValue || 0
+  const value = Number(displayValue.value) || 0
   const newVal = ensurePrecision(value, -1)
   setCurrentValue(newVal)
   emit(INPUT_EVENT, data.currentValue)
@@ -221,10 +218,17 @@ const verifyValue = (
   }
   return newVal
 }
-const setCurrentValue = (value: number | string | null | undefined) => {
+const setCurrentValue = (
+  value: number | string | null | undefined,
+  emitChange = true
+) => {
   const oldVal = data.currentValue
   const newVal = verifyValue(value)
   if (oldVal === newVal) return
+  if (!emitChange) {
+    emit(UPDATE_MODEL_EVENT, newVal!)
+    return
+  }
   data.userInput = null
   emit(UPDATE_MODEL_EVENT, newVal!)
   emit(CHANGE_EVENT, newVal!, oldVal!)
@@ -235,7 +239,9 @@ const setCurrentValue = (value: number | string | null | undefined) => {
 }
 const handleInput = (value: string) => {
   data.userInput = value
-  emit(INPUT_EVENT, value === '' ? null : Number(value))
+  const newVal = value === '' ? null : Number(value)
+  emit(INPUT_EVENT, newVal)
+  setCurrentValue(newVal, false)
 }
 const handleInputChange = (value: string) => {
   const newVal = value !== '' ? Number(value) : ''
@@ -267,8 +273,12 @@ const handleBlur = (event: MouseEvent | FocusEvent) => {
 watch(
   () => props.modelValue,
   (value) => {
-    data.currentValue = verifyValue(value, true)
-    data.userInput = null
+    const userInput = verifyValue(data.userInput)
+    const newValue = verifyValue(value, true)
+    if (!isNumber(userInput) && (!userInput || userInput !== newValue)) {
+      data.currentValue = newValue
+      data.userInput = null
+    }
   },
   { immediate: true }
 )

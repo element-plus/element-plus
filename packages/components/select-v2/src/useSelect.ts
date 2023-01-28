@@ -10,7 +10,11 @@ import {
   useSize,
 } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { ValidateComponentsMap, debugWarn } from '@element-plus/utils'
+import {
+  ValidateComponentsMap,
+  debugWarn,
+  escapeStringRegexp,
+} from '@element-plus/utils'
 
 import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
@@ -57,7 +61,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     selectWidth: 200,
     initialInputHeight: 0,
     previousQuery: null,
-    previousValue: '',
+    previousValue: undefined,
     query: '',
     selectedLabel: '',
     softFocus: false,
@@ -142,7 +146,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       // fill the conditions here.
       const query = states.inputValue
       // when query was given, we should test on the label see whether the label contains the given query
-      const containsQueryString = query ? o.label?.includes(query) : true
+      const regexp = new RegExp(escapeStringRegexp(query), 'i')
+      const containsQueryString = query ? regexp.test(o.label || '') : true
       return containsQueryString
     }
     if (props.loading) {
@@ -324,7 +329,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const update = (val: any) => {
     emit(UPDATE_MODEL_EVENT, val)
     emitChange(val)
-    states.previousValue = val.toString()
+    states.previousValue = val?.toString()
   }
 
   const getValueIndex = (arr = [], value: unknown) => {
@@ -512,7 +517,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     if (isArray(props.modelValue)) {
       emptyValue = []
     } else {
-      emptyValue = ''
+      emptyValue = undefined
     }
 
     states.softFocus = true
@@ -666,7 +671,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         })
       } else {
         states.cachedOptions = []
-        states.previousValue = ''
+        states.previousValue = undefined
       }
     } else {
       if (hasModelValue.value) {
@@ -683,7 +688,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         }
       } else {
         states.selectedLabel = ''
-        states.previousValue = ''
+        states.previousValue = undefined
       }
     }
     clearAllNewOption()

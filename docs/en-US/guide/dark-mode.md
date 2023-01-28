@@ -3,7 +3,7 @@ title: Dark Mode
 lang: en-US
 ---
 
-# Dark Mode <VersionTag version="2.2.0" />
+# Dark Mode<VersionTag version="2.2.0" />
 
 After a long time, Element Plus supports dark mode!
 

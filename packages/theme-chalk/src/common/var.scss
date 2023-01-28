@@ -622,7 +622,20 @@ $cascader: map.merge(
   ),
   $cascader
 );
-
+//statistic
+// css3 var in packages/theme-chalk/src/statistic.scss
+$statistic: () !default;
+$statistic: map.merge(
+  (
+    'title-font-weight': 400,
+    'title-font-size': getCssVar('font-size', 'extra-small'),
+    'title-color': getCssVar('text-color', 'regular'),
+    'content-font-weight': 400,
+    'content-font-size': getCssVar('font-size', 'extra-large'),
+    'content-color': getCssVar('text-color', 'primary'),
+  ),
+  $statistic
+);
 // Button
 // css3 var in packages/theme-chalk/src/button.scss
 $button: () !default;
@@ -804,7 +817,7 @@ $pagination: map.merge(
     'font-size': 14px,
     'bg-color': getCssVar('fill-color', 'blank'),
     'text-color': getCssVar('text-color-primary'),
-    'border-radius': 3px,
+    'border-radius': 2px,
     'button-color': getCssVar('text-color-primary'),
     'button-width': 32px,
     'button-height': 32px,
@@ -812,8 +825,10 @@ $pagination: map.merge(
     'button-disabled-bg-color': getCssVar('fill-color', 'blank'),
     'button-bg-color': getCssVar('fill-color'),
     'hover-color': getCssVar('color-primary'),
-    'height-extra-small': 24px,
-    'line-height-extra-small': getCssVar('pagination-height-extra-small'),
+    'font-size-small': 12px,
+    'button-width-small': 24px,
+    'button-height-small': 24px,
+    'item-gap': 16px,
   ),
   $pagination
 );
