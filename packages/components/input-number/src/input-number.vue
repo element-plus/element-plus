@@ -227,6 +227,7 @@ const setCurrentValue = (
   if (oldVal === newVal) return
   if (!emitChange) {
     emit(UPDATE_MODEL_EVENT, newVal!)
+    data.currentValue = newVal
     return
   }
   data.userInput = null
