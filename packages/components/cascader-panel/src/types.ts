@@ -16,6 +16,7 @@ export type CascaderValue =
   | CascaderNodeValue
   | CascaderNodePathValue
   | (CascaderNodeValue | CascaderNodePathValue)[]
+  | null
 export type CascaderConfig = Required<CascaderProps>
 export type isDisabled = (data: CascaderOption, node: CascaderNode) => boolean
 export type isLeaf = (data: CascaderOption, node: CascaderNode) => boolean
