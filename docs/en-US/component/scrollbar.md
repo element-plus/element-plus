@@ -44,7 +44,7 @@ scrollbar/manual-scroll
 ### Attributes
 
 | Name       | Description                                                                                                                     | Type                                                                | Default |
-|------------|---------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|---------|
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ------- |
 | height     | height of scrollbar                                                                                                             | ^[string] / ^[number]                                               | —       |
 | max-height | max height of scrollbar                                                                                                         | ^[string] / ^[number]                                               | —       |
 | native     | whether to use the native scrollbar style                                                                                       | ^[boolean]                                                          | false   |
@@ -60,21 +60,22 @@ scrollbar/manual-scroll
 ### Events
 
 | Name   | Description                                           | Type                                                             |
-|--------|-------------------------------------------------------|------------------------------------------------------------------|
+| ------ | ----------------------------------------------------- | ---------------------------------------------------------------- |
 | scroll | triggers when scrolling, return distance of scrolling | ^[Function]`({ scrollLeft: number, scrollTop: number }) => void` |
 
 ### Slots
 
 | Name    | Description               |
-|---------|---------------------------|
+| ------- | ------------------------- |
 | default | customize default content |
 
 ### Exposes
 
 | Name          | Description                                | Type                                                                       |
-|---------------|--------------------------------------------|----------------------------------------------------------------------------|
+| ------------- | ------------------------------------------ | -------------------------------------------------------------------------- |
 | handleScroll  | handle scroll event                        | ^[Function]`() => void`                                                    |
 | scrollTo      | scrolls to a particular set of coordinates | ^[Function]`(options: ScrollToOptions \| number, yCoord?: number) => void` |
 | setScrollTop  | Set distance to scroll top                 | ^[Function]`(scrollTop: number) => void`                                   |
 | setScrollLeft | Set distance to scroll left                | ^[Function]`(scrollLeft: number) => void`                                  |
 | update        | update scrollbar state manually            | ^[Function]`() => void`                                                    |
+| wrapRef       | scrollbar wrap ref                         | ^[object]`Ref<HTMLDivElement>`                                             |

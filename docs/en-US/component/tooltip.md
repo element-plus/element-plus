@@ -7,6 +7,12 @@ lang: en-US
 
 Display prompt information for mouse hover.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic usage
 
 Tooltip has 9 placements.

@@ -560,7 +560,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const resetInputWidth = () => {
-    states.inputWidth = reference.value?.$el.getBoundingClientRect().width
+    states.inputWidth = reference.value?.$el.offsetWidth
   }
 
   const onInputChange = () => {

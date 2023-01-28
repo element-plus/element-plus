@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { useSizeProp } from '@element-plus/hooks'
 import type {
   CSSProperties,
   ComponentInternalInstance,
@@ -6,10 +7,12 @@ import type {
   Ref,
   VNode,
 } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type TableLayout from '../table-layout'
+import type { TableOverflowTooltipOptions } from '../util'
 
 export type DefaultRow = any
 
@@ -87,7 +90,7 @@ type CellStyle<T> =
 type Layout = 'fixed' | 'auto'
 interface TableProps<T> {
   data: T[]
-  size?: string
+  size?: ComponentSize
   width?: string | number
   height?: string | number
   maxHeight?: string | number
@@ -115,6 +118,7 @@ interface TableProps<T> {
   defaultExpandAll?: boolean
   defaultSort?: Sort
   tooltipEffect?: string
+  tooltipOptions?: TableOverflowTooltipOptions
   spanMethod?: (data: {
     row: T
     rowIndex: number
@@ -137,8 +141,9 @@ interface TableProps<T> {
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
   style?: CSSProperties
-  tableLayout: Layout
-  flexible: boolean
+  tableLayout?: Layout
+  scrollbarAlwaysOn?: boolean
+  flexible?: boolean
 }
 
 interface Sort {
@@ -178,7 +183,7 @@ export default {
     type: Array as PropType<DefaultRow[]>,
     default: () => [],
   },
-  size: String,
+  size: useSizeProp,
   width: [String, Number],
   height: [String, Number],
   maxHeight: [String, Number],
@@ -225,6 +230,7 @@ export default {
   defaultExpandAll: Boolean,
   defaultSort: Object as PropType<TableProps<DefaultRow>['defaultSort']>,
   tooltipEffect: String,
+  tooltipOptions: Object as PropType<TableProps<DefaultRow>['tooltipOptions']>,
   spanMethod: Function as PropType<TableProps<DefaultRow>['spanMethod']>,
   selectOnIndeterminate: {
     type: Boolean,
@@ -270,8 +276,11 @@ export type {
   TableRefs,
   ColumnCls,
   ColumnStyle,
+  CellCls,
+  CellStyle,
   TreeNode,
   RenderRowData,
   Sort,
   Filter,
+  TableColumnCtx,
 }

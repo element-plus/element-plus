@@ -7,6 +7,12 @@ lang: en-US
 
 Menu that provides navigation for your website.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Top bar
 
 Top bar Menu can be used in a variety of scenarios.
@@ -61,6 +67,7 @@ menu/collapse
 | menu-trigger        | how sub-menus are triggered, only works when `mode` is 'horizontal'                                                                                                   | string  | hover / click         | hover    |
 | router              | whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load. | boolean | —                     | false    |
 | collapse-transition | whether to enable the collapse transition                                                                                                                             | boolean | —                     | true     |
+| popper-effect       | Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed                                                                                                | string  | dark / light          | dark     |
 
 ## Menu Methods
 

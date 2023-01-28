@@ -5,8 +5,17 @@ import type { ExtractPropTypes } from 'vue'
 import type Radio from './radio.vue'
 
 export const radioPropsBase = buildProps({
+  /**
+   * @description size of the Raido
+   */
   size: useSizeProp,
+  /**
+   * @description whether Raido is disabled
+   */
   disabled: Boolean,
+  /**
+   * @description the value of Raido
+   */
   label: {
     type: [String, Number, Boolean],
     default: '',
@@ -15,14 +24,23 @@ export const radioPropsBase = buildProps({
 
 export const radioProps = buildProps({
   ...radioPropsBase,
+  /**
+   * @description binding value
+   */
   modelValue: {
     type: [String, Number, Boolean],
     default: '',
   },
+  /**
+   * @description native `name` attribute
+   */
   name: {
     type: String,
     default: '',
   },
+  /**
+   * @description whether to add a border around Raido
+   */
   border: Boolean,
 } as const)
 

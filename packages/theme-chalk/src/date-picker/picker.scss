@@ -111,10 +111,6 @@
     &::placeholder {
       color: getCssVar('text-color', 'placeholder');
     }
-
-    &::selection {
-      outline: none;
-    }
   }
 
   .#{$namespace}-range-separator {

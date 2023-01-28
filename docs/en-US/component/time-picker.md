@@ -7,6 +7,12 @@ lang: en-US
 
 Use Time Picker for time input.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Arbitrary time picker
 
 Can pick an arbitrary time.

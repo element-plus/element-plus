@@ -1,5 +1,6 @@
 <template>
   <el-popconfirm
+    width="220"
     confirm-button-text="OK"
     cancel-button-text="No, Thanks"
     :icon="InfoFilled"
