@@ -1,5 +1,25 @@
 ## Changelog
 
+### 2.2.28
+
+_2022-12-30_
+
+#### Features
+
+- Hooks [use-popper] (#10983 by @jw-foss)
+- Components [table] overflow tooltip supports `enterable` and customization (#10984 by @plainheart)
+
+#### Bug fixes
+
+- Components [input-number] fix args order (#11020 by @sleepyShen1989)
+- Components [cascader] placeholder is not displayed correctly (#11031 by @btea)
+- Docs some wrong examples in the document (#11072 by @asdjgfr)
+- Element-plus exposing ElSubMenu component (#11100 by @tolking)
+
+#### Refactors
+
+- Components [cascader] use script-setup syntax (#11013 by @chenxch)
+
 ### 2.2.27
 
 _2022-12-16_
