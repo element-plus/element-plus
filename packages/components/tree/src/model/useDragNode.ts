@@ -2,6 +2,7 @@
 import { provide, ref } from 'vue'
 import { addClass, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+import { NODE_KEY } from './util'
 import type { InjectionKey } from 'vue'
 import type Node from './node'
 import type { NodeDropType } from '../tree.type'
@@ -79,7 +80,10 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     event.dataTransfer.dropEffect =
       dropInner || dropPrev || dropNext ? 'move' : 'none'
     if ((dropPrev || dropInner || dropNext) && oldDropNode !== dropNode) {
-      if (oldDropNode) {
+      if (
+        oldDropNode &&
+        oldDropNode.node.data[NODE_KEY] !== dropNode.node.data[NODE_KEY]
+      ) {
         ctx.emit('node-drag-leave', draggingNode.node, oldDropNode.node, event)
       }
       ctx.emit('node-drag-enter', draggingNode.node, dropNode.node, event)
