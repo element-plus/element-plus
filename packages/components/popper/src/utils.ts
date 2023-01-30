@@ -4,6 +4,7 @@ import type { ComponentPublicInstance } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
 import type { Measurable } from '@element-plus/tokens'
 import type { PopperCoreConfigProps } from './content'
+import type { Modifier } from '@popperjs/core'
 
 type ArrowProps = {
   arrowEl: HTMLElement | undefined
@@ -23,7 +24,10 @@ export const buildPopperOptions = (
   }
 
   attachArrow(options, arrowProps)
-  deriveExtraModifiers(options, popperOptions?.modifiers)
+  options.modifiers = deriveExtraModifiers(
+    options.modifiers,
+    popperOptions?.modifiers
+  )
   return options
 }
 
@@ -34,7 +38,9 @@ export const unwrapMeasurableEl = (
   return unrefElement($el as HTMLElement)
 }
 
-function genModifiers(options: PopperCoreConfigProps) {
+function genModifiers(
+  options: PopperCoreConfigProps
+): Partial<Modifier<any, any>>[] {
   const { offset, gpuAcceleration, fallbackPlacements } = options
   return [
     {
@@ -81,10 +87,18 @@ function attachArrow(options: any, { arrowEl, arrowOffset }: ArrowProps) {
 }
 
 function deriveExtraModifiers(
-  options: any,
-  modifiers: PopperCoreConfigProps['popperOptions']['modifiers']
-) {
-  if (modifiers) {
-    options.modifiers = [...options.modifiers, ...(modifiers ?? [])]
+  modifiers: Partial<Modifier<any, any>>[],
+  propsModifiers: PopperCoreConfigProps['popperOptions']['modifiers']
+): Partial<Modifier<any, any>>[] {
+  if (!propsModifiers) {
+    return modifiers
   }
+  return modifiers.map((modifier) => {
+    return Object.assign(
+      modifier,
+      propsModifiers.find((newModifier) => {
+        return modifier.name === newModifier.name
+      })
+    )
+  })
 }
