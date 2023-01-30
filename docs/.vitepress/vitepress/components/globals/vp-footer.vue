@@ -110,7 +110,7 @@ const homeLang = computed(() => homeLocale[lang.value])
     h4 {
       font-size: 18px;
       line-height: 1;
-      margin: 0 0 15px 0;
+      margin: 0 0 15px;
       font-weight: 400;
       color: var(--el-text-color-primary);
     }
@@ -136,7 +136,7 @@ const homeLang = computed(() => homeLocale[lang.value])
       color: var(--text-color-light);
       font-size: 18px;
       line-height: 1;
-      margin: 0 0 20px 0;
+      margin: 0 0 20px;
       padding: 0;
       font-weight: bold;
     }
