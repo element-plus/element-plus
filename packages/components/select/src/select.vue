@@ -273,7 +273,7 @@ import {
   toRefs,
   unref,
 } from 'vue'
-import { useMutationObserver, useResizeObserver } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import { placements } from '@popperjs/core'
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
@@ -552,24 +552,6 @@ export default defineComponent({
         currentPlaceholder.value = ''
       }
       useResizeObserver(selectWrapper, handleResize)
-      let displayProperty = selectWrapper.value?.style.display
-      useMutationObserver(
-        selectWrapper,
-        (mutations) => {
-          if (
-            displayProperty === 'none' &&
-            mutations[0].target.style.display !== 'none'
-          ) {
-            resetInputHeight()
-          }
-          displayProperty = mutations[0].target.style.display
-        },
-        {
-          attributes: true,
-          attributeFilter: ['class', 'style'],
-          attributeOldValue: true,
-        }
-      )
       if (props.remote && props.multiple) {
         resetInputHeight()
       }
