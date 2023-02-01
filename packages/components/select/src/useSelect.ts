@@ -362,7 +362,6 @@ export const useSelect = (props, states: States, ctx) => {
 
   // methods
   const resetInputHeight = () => {
-    if (props.collapseTags && !props.filterable) return
     nextTick(() => {
       if (!reference.value) return
       const input = reference.value.$el.querySelector(

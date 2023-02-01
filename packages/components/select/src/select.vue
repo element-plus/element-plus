@@ -35,81 +35,86 @@
             :class="nsSelect.e('tags')"
             :style="selectTagsStyle"
           >
-            <span
+            <transition
               v-if="collapseTags && selected.length"
-              :class="[
-                nsSelect.b('tags-wrapper'),
-                { 'has-prefix': prefixWidth && selected.length },
-              ]"
+              @after-leave="resetInputHeight"
             >
-              <el-tag
-                :closable="!selectDisabled && !selected[0].isDisabled"
-                :size="collapseTagSize"
-                :hit="selected[0].hitState"
-                :type="tagType"
-                disable-transitions
-                @close="deleteTag($event, selected[0])"
+              <span
+                :class="[
+                  nsSelect.b('tags-wrapper'),
+                  { 'has-prefix': prefixWidth && selected.length },
+                ]"
               >
-                <span :class="nsSelect.e('tags-text')" :style="tagTextStyle">
-                  {{ selected[0].currentLabel }}
-                </span>
-              </el-tag>
-              <el-tag
-                v-if="selected.length > 1"
-                :closable="false"
-                :size="collapseTagSize"
-                :type="tagType"
-                disable-transitions
-              >
-                <el-tooltip
-                  v-if="collapseTagsTooltip"
-                  :disabled="dropMenuVisible"
-                  :fallback-placements="['bottom', 'top', 'right', 'left']"
-                  :effect="effect"
-                  placement="bottom"
-                  :teleported="teleported"
+                <el-tag
+                  v-for="item in selected.slice(0, maxCollapseTags)"
+                  :key="getValueKey(item)"
+                  :closable="!selectDisabled && !item.isDisabled"
+                  :size="collapseTagSize"
+                  :hit="item.hitState"
+                  :type="tagType"
+                  disable-transitions
+                  @close="deleteTag($event, item)"
                 >
-                  <template #default>
-                    <span :class="nsSelect.e('tags-text')"
-                      >+ {{ selected.length - 1 }}</span
-                    >
-                  </template>
-                  <template #content>
-                    <div :class="nsSelect.e('collapse-tags')">
-                      <div
-                        v-for="(item, idx) in selected.slice(1)"
-                        :key="idx"
-                        :class="nsSelect.e('collapse-tag')"
+                  <span :class="nsSelect.e('tags-text')" :style="tagTextStyle">
+                    {{ item.currentLabel }}
+                  </span>
+                </el-tag>
+                <el-tag
+                  v-if="selected.length > maxCollapseTags"
+                  :closable="false"
+                  :size="collapseTagSize"
+                  :type="tagType"
+                  disable-transitions
+                >
+                  <el-tooltip
+                    v-if="collapseTagsTooltip"
+                    :disabled="dropMenuVisible"
+                    :fallback-placements="['bottom', 'top', 'right', 'left']"
+                    :effect="effect"
+                    placement="bottom"
+                    :teleported="teleported"
+                  >
+                    <template #default>
+                      <span :class="nsSelect.e('tags-text')"
+                        >+ {{ selected.length - maxCollapseTags }}</span
                       >
-                        <el-tag
-                          :key="getValueKey(item)"
-                          class="in-tooltip"
-                          :closable="!selectDisabled && !item.isDisabled"
-                          :size="collapseTagSize"
-                          :hit="item.hitState"
-                          :type="tagType"
-                          disable-transitions
-                          :style="{ margin: '2px' }"
-                          @close="deleteTag($event, item)"
+                    </template>
+                    <template #content>
+                      <div :class="nsSelect.e('collapse-tags')">
+                        <div
+                          v-for="(item, idx) in selected.slice(maxCollapseTags)"
+                          :key="idx"
+                          :class="nsSelect.e('collapse-tag')"
                         >
-                          <span
-                            :class="nsSelect.e('tags-text')"
-                            :style="{
-                              maxWidth: inputWidth - 75 + 'px',
-                            }"
-                            >{{ item.currentLabel }}</span
+                          <el-tag
+                            :key="getValueKey(item)"
+                            class="in-tooltip"
+                            :closable="!selectDisabled && !item.isDisabled"
+                            :size="collapseTagSize"
+                            :hit="item.hitState"
+                            :type="tagType"
+                            disable-transitions
+                            :style="{ margin: '2px' }"
+                            @close="deleteTag($event, item)"
                           >
-                        </el-tag>
+                            <span
+                              :class="nsSelect.e('tags-text')"
+                              :style="{
+                                maxWidth: inputWidth - 75 + 'px',
+                              }"
+                              >{{ item.currentLabel }}</span
+                            >
+                          </el-tag>
+                        </div>
                       </div>
-                    </div>
-                  </template>
-                </el-tooltip>
-                <span v-else :class="nsSelect.e('tags-text')"
-                  >+ {{ selected.length - 1 }}</span
-                >
-              </el-tag>
-            </span>
-            <!-- <div> -->
+                    </template>
+                  </el-tooltip>
+                  <span v-else :class="nsSelect.e('tags-text')"
+                    >+ {{ selected.length - maxCollapseTags }}</span
+                  >
+                </el-tag>
+              </span>
+            </transition>
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span
                 :class="[
@@ -135,7 +140,6 @@
                 </el-tag>
               </span>
             </transition>
-            <!-- </div> -->
             <input
               v-if="filterable"
               ref="input"
@@ -370,6 +374,10 @@ export default defineComponent({
     collapseTagsTooltip: {
       type: Boolean,
       default: false,
+    },
+    maxCollapseTags: {
+      type: Number,
+      default: 1,
     },
     teleported: useTooltipContentProps.teleported,
     persistent: {

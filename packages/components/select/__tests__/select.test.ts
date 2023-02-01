@@ -1077,6 +1077,55 @@ describe('Select', () => {
     expect(tags[3].textContent).toBe('蚵仔煎')
   })
 
+  test('multiple select with maxCollapseTags', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="selectedList" multiple collapseTags :max-collapse-tags="3" placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        selectedList: [],
+      })
+    )
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = getOptions()
+
+    options[0].click()
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    options[2].click()
+    await nextTick()
+    const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
+    expect(triggerWrappers[0]).toBeDefined()
+    const tags = document.querySelectorAll('.el-select__tags-text')
+    expect(tags.length).toBe(3)
+  })
+
   test('multiple remove-tag', async () => {
     wrapper = _mount(
       `
