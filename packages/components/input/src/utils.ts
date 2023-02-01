@@ -78,6 +78,9 @@ export function calcTextareaHeight(
   hiddenTextarea.setAttribute('style', `${contextStyle};${HIDDEN_STYLE}`)
   hiddenTextarea.value = targetElement.value || targetElement.placeholder || ''
 
+  //修复firefox高度获取错误
+  hiddenTextarea.scrollHeight
+
   let height = hiddenTextarea.scrollHeight
   const result = {} as TextAreaHeight
 
