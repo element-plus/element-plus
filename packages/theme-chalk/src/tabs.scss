@@ -299,13 +299,13 @@
       > .#{$namespace}-tabs__header {
         .#{$namespace}-tabs__item:nth-child(2) {
           padding-left: 20px;
-          &.is-closable:hover {
+          &:not(.is-active).is-closable:hover {
             padding-left: 13px;
           }
         }
         .#{$namespace}-tabs__item:last-child {
           padding-right: 20px;
-          &.is-closable:hover {
+          &:not(.is-active).is-closable:hover {
             padding-right: 13px;
           }
         }
