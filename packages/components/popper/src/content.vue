@@ -11,7 +11,7 @@
     <el-focus-trap
       :trapped="trapped"
       :trap-on-focus-in="true"
-      :focus-trap-el="popperContentRef"
+      :focus-trap-el="contentRef"
       :focus-start-el="focusStartRef"
       @focus-after-trapped="onFocusAfterTrapped"
       @focus-after-released="onFocusAfterReleased"
@@ -87,7 +87,6 @@ const {
 })
 
 const formItemContext = inject(formItemContextKey, undefined)
-const popperContentRef = ref<HTMLElement>()
 const arrowOffset = ref<number>()
 
 provide(POPPER_CONTENT_INJECTION_KEY, {
@@ -131,8 +130,8 @@ onMounted(() => {
       triggerTargetAriaStopWatch?.()
       triggerTargetAriaStopWatch = undefined
 
-      const el = unref(triggerTargetEl || popperContentRef.value)
-      const prevEl = unref(prevTriggerTargetEl || popperContentRef.value)
+      const el = unref(triggerTargetEl || contentRef.value)
+      const prevEl = unref(prevTriggerTargetEl || contentRef.value)
 
       if (isElement(el)) {
         triggerTargetAriaStopWatch = watch(
@@ -168,7 +167,7 @@ defineExpose({
   /**
    * @description popper content element
    */
-  popperContentRef,
+  popperContentRef: contentRef,
   /**
    * @description popperjs instance
    */
