@@ -1,4 +1,4 @@
-import { defineComponent, nextTick, ref } from 'vue'
+import { computed, defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
@@ -12,6 +12,7 @@ const popperInjection = {
   triggerRef: ref(),
   popperInstanceRef: ref(),
   contentRef: ref(),
+  role: computed(() => 'test-role'),
 }
 
 const TestComponent = defineComponent({

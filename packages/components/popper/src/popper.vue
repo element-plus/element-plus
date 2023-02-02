@@ -11,7 +11,7 @@ import type { Instance as PopperInstance } from '@popperjs/core'
 import type { ElPopperInjectionContext } from '@element-plus/tokens'
 
 defineOptions({
-  name: 'ElPopperRoot',
+  name: 'ElPopper',
   inheritAttrs: false,
 })
 const props = defineProps(popperProps)

@@ -51,11 +51,11 @@ card/shadow
 
 ### Attributes
 
-| Name       | Description                                                   | Type                              | Default               |
-| ---------- | ------------------------------------------------------------- | --------------------------------- | --------------------- |
-| header     | title of the card. Also accepts a DOM passed by `slot#header` | ^[string]                         | —                     |
-| body-style | CSS style of card body                                        | ^[object]`CSSProperties`          | —                     |
-| shadow     | when to show card shadows                                     | ^[enum]`always \| never \| hover` | always                |
+| Name       | Description                                                   | Type                              | Default |
+| ---------- | ------------------------------------------------------------- | --------------------------------- | ------- |
+| header     | title of the card. Also accepts a DOM passed by `slot#header` | ^[string]                         | —       |
+| body-style | CSS style of card body                                        | ^[object]`CSSProperties`          | —       |
+| shadow     | when to show card shadows                                     | ^[enum]`always \| never \| hover` | always  |
 
 ### Slots
 

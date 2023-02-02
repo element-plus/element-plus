@@ -104,7 +104,7 @@ image/image-preview
 | `infinite`            | whether preview is infinite.                                                                                                  | `boolean`          | `true`  |
 | `hide-on-click-modal` | whether user can emit close event when clicking backdrop.                                                                     | `boolean`          | `false` |
 | `teleported`          | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true`. | `boolean`          | `false` |
-| `zoom-rate`           | the zoom rate of the image viewer zoom event                                                               | `number`           | `1.2`   |
+| `zoom-rate`           | the zoom rate of the image viewer zoom event                                                                                  | `number`           | `1.2`   |
 
 ### Image Viewer Events
 
