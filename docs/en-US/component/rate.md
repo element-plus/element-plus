@@ -77,7 +77,7 @@ Use `css/scss` language to change the global or local color. We set some global 
 ### Default Variables
 
 | Variable                      | Default Color                 |
-|-------------------------------|-------------------------------|
+| ----------------------------- | ----------------------------- |
 | --el-rate-void-color          | var(--el-border-color-darker) |
 | --el-rate-fill-color          | #f7ba2a                       |
 | --el-rate-disabled-void-color | var(--el-fill-color)          |
@@ -88,7 +88,7 @@ Use `css/scss` language to change the global or local color. We set some global 
 ### Attributes
 
 | Name                  | Description                                                                                                                                                                                                                    | Type                                                                      | Default                                                            |
-|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|--------------------------------------------------------------------|
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | model-value / v-model | binding value                                                                                                                                                                                                                  | ^[number]                                                                 | 0                                                                  |
 | max                   | max rating score                                                                                                                                                                                                               | ^[number]                                                                 | 5                                                                  |
 | size                  | size of Rate                                                                                                                                                                                                                   | ^[enum]`'large' \| 'default' \| 'small'`                                  | —                                                                  |
@@ -114,12 +114,12 @@ Use `css/scss` language to change the global or local color. We set some global 
 ### Events
 
 | Name   | Description                         | Type                                 |
-|--------|-------------------------------------|--------------------------------------|
+| ------ | ----------------------------------- | ------------------------------------ |
 | change | Triggers when rate value is changed | ^[Function]`(value: number) => void` |
 
 ### Exposes
 
 | Name              | Description         | Type                                 |
-|-------------------|---------------------|--------------------------------------|
+| ----------------- | ------------------- | ------------------------------------ |
 | setCurrentValue   | set current value   | ^[Function]`(value: number) => void` |
 | resetCurrentValue | reset current value | ^[Function]`() => void`              |
