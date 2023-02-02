@@ -2,6 +2,7 @@
   <div
     ref="root"
     :class="carouselClasses"
+    :style="carouselStyle"
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
@@ -83,7 +84,9 @@ const {
   hasLabel,
   hover,
   isCardType,
+  isVertical,
   items,
+  carouselStyle,
   handleButtonEnter,
   handleButtonLeave,
   handleIndicatorClick,
@@ -110,7 +113,10 @@ const indicatorsClasses = computed(() => {
   if (unref(hasLabel)) {
     classes.push(ns.em('indicators', 'labels'))
   }
-  if (props.indicatorPosition === 'outside' || unref(isCardType)) {
+  if (
+    props.indicatorPosition === 'outside' ||
+    (unref(isCardType) && !unref(isVertical))
+  ) {
     classes.push(ns.em('indicators', 'outside'))
   }
   return classes

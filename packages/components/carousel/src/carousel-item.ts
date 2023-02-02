@@ -10,3 +10,8 @@ export const carouselItemProps = buildProps({
 } as const)
 
 export type CarouselItemProps = ExtractPropTypes<typeof carouselItemProps>
+
+export type ItemStyle = {
+  transform: string
+  zIndex?: number
+}

@@ -11,11 +11,11 @@
   position: relative;
 
   @include m(horizontal) {
-    overflow-x: hidden;
+    overflow: hidden;
   }
 
   @include m(vertical) {
-    overflow-y: hidden;
+    overflow: hidden;
   }
 
   @include e(container) {
@@ -66,7 +66,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    z-index: calc(#{getCssVar('index-normal')} + 1);
+    z-index: calc(#{getCssVar('index-normal')} + 15);
 
     @include m(horizontal) {
       bottom: 0;
