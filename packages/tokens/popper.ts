@@ -1,4 +1,4 @@
-import type { ComputedRef, InjectionKey, Ref } from 'vue'
+import type { CSSProperties, ComputedRef, InjectionKey, Ref } from 'vue'
 import type { Instance } from '@popperjs/core'
 
 export type Measurable = {
@@ -21,6 +21,7 @@ export type ElPopperInjectionContext = {
 export type ElPopperContentInjectionContext = {
   arrowRef: Ref<HTMLElement | undefined>
   arrowOffset: Ref<number | undefined>
+  arrowStyle: ComputedRef<CSSProperties>
 }
 
 export const POPPER_INJECTION_KEY: InjectionKey<ElPopperInjectionContext> =
