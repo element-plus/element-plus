@@ -128,7 +128,11 @@ export const useCarouselItem = (
     ready.value = true
 
     if (isActive && carouselItemRef.value) {
-      carouselContext.setContainerHeight(carouselItemRef.value.offsetHeight)
+      if (_isVertical) {
+        carouselContext.setContainerHeight(carouselItemRef.value.offsetWidth)
+      } else {
+        carouselContext.setContainerHeight(carouselItemRef.value.offsetHeight)
+      }
     }
   }
 

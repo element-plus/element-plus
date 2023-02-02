@@ -57,6 +57,7 @@ export const useCarousel = (
     if (props.height === 'auto') {
       return {
         height: `${containerHeight.value}px`,
+        overflow: 'hidden',
       }
     }
     return {

@@ -1,7 +1,7 @@
 <template>
   <div class="block text-center" style="height: 300px">
     <span class="demonstration">each carousel-item has a different height</span>
-    <el-carousel height="auto" autoplay style="overflow: hidden">
+    <el-carousel height="auto" autoplay>
       <el-carousel-item style="height: 100px">
         <h3 class="small justify-center" text="2xl">height 100px</h3>
       </el-carousel-item>
