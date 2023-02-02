@@ -40,6 +40,7 @@ export const useCarousel = (
   const timer = ref<ReturnType<typeof setInterval> | null>(null)
   const hover = ref(false)
   const root = ref<HTMLDivElement>()
+  const containerHeight = ref<number>(0)
 
   // computed
   const arrowDisplay = computed(
@@ -52,6 +53,16 @@ export const useCarousel = (
 
   const isCardType = computed(() => props.type === 'card')
   const isVertical = computed(() => props.direction === 'vertical')
+  const containerStyle = computed(() => {
+    if (props.height === 'auto') {
+      return {
+        height: `${containerHeight.value}px`,
+      }
+    }
+    return {
+      height: props.height,
+    }
+  })
 
   // methods
   const throttledArrowClick = throttle(
@@ -192,6 +203,12 @@ export const useCarousel = (
     startTimer()
   }
 
+  function setContainerHeight(height: number) {
+    if (props.height === 'auto') {
+      containerHeight.value = height
+    }
+  }
+
   // watch
   watch(
     () => activeIndex.value,
@@ -253,6 +270,7 @@ export const useCarousel = (
     addItem,
     removeItem,
     setActiveItem,
+    setContainerHeight,
   })
 
   return {
@@ -263,6 +281,7 @@ export const useCarousel = (
     hover,
     isCardType,
     items,
+    containerStyle,
     handleButtonEnter,
     handleButtonLeave,
     handleIndicatorClick,

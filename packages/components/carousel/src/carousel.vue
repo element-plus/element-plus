@@ -5,7 +5,7 @@
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
-    <div :class="ns.e('container')" :style="{ height: height }">
+    <div :class="ns.e('container')" :style="containerStyle">
       <transition v-if="arrowDisplay" name="carousel-arrow-left">
         <button
           v-show="
@@ -84,6 +84,7 @@ const {
   hover,
   isCardType,
   items,
+  containerStyle,
   handleButtonEnter,
   handleButtonLeave,
   handleIndicatorClick,

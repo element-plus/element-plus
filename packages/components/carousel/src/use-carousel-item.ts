@@ -35,6 +35,7 @@ export const useCarouselItem = (
 
   const CARD_SCALE = 0.83
 
+  const carouselItemRef = ref<HTMLElement>()
   const hover = ref(false)
   const translate = ref(0)
   const scale = ref(1)
@@ -125,6 +126,10 @@ export const useCarouselItem = (
     }
 
     ready.value = true
+
+    if (isActive && carouselItemRef.value) {
+      carouselContext.setContainerHeight(carouselItemRef.value.offsetHeight)
+    }
   }
 
   function handleItemClick() {
@@ -159,6 +164,7 @@ export const useCarouselItem = (
   })
 
   return {
+    carouselItemRef,
     active,
     animating,
     hover,

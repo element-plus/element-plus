@@ -1,6 +1,7 @@
 <template>
   <div
     v-show="ready"
+    ref="carouselItemRef"
     :class="[
       ns.e('item'),
       ns.is('active', active),
@@ -34,6 +35,7 @@ const ns = useNamespace('carousel')
 const COMPONENT_NAME = 'ElCarouselItem'
 // inject
 const {
+  carouselItemRef,
   active,
   animating,
   hover,
