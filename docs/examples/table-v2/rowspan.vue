@@ -20,7 +20,7 @@ const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
 
 const generateData = (
   columns: ReturnType<typeof generateColumns>,
-  length = 200,
+  length = 198,
   prefix = 'row-'
 ) =>
   Array.from({ length }).map((_, rowIndex) => {
@@ -37,21 +37,32 @@ const generateData = (
   })
 
 const columns = generateColumns(10)
-const data = generateData(columns, 200)
+const data = generateData(columns, 198)
 
 const rowSpanIndex = 0
 columns[rowSpanIndex].rowSpan = ({ rowIndex }) =>
-  rowIndex % 2 === 0 && rowIndex <= data.length - 2 ? 2 : 1
+  rowIndex % 5 === 0 ? Math.min(data.length - rowIndex, 5) : 1
 
 const Row = ({ rowData, rowIndex, cells, columns }) => {
   const rowSpan = columns[rowSpanIndex].rowSpan({ rowData, rowIndex })
+  const rowHeight = 50
   if (rowSpan > 1) {
     const cell = cells[rowSpanIndex]
     const style = {
       ...cell.props.style,
       backgroundColor: 'var(--el-color-primary-light-3)',
-      height: `${rowSpan * 50 - 1}px`,
+      height: `${rowSpan * rowHeight - 1}px`,
       alignSelf: 'flex-start',
+      zIndex: 9,
+    }
+    cells[rowSpanIndex] = cloneVNode(cell, { style })
+  } else {
+    const cell = cells[rowSpanIndex]
+    const style = {
+      ...cell.props.style,
+      backgroundColor: 'var(--el-color-primary-light-3)',
+      height: `${rowHeight}px`,
+      transform: 'translateY(-1px)',
       zIndex: 1,
     }
     cells[rowSpanIndex] = cloneVNode(cell, { style })
