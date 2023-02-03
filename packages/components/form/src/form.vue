@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, provide, reactive, toRefs, watch } from 'vue'
+import { computed, nextTick, provide, reactive, toRefs, watch } from 'vue'
 import { debugWarn, isFunction } from '@element-plus/utils'
 import { formContextKey } from '@element-plus/tokens'
 import { useNamespace, useSize } from '@element-plus/hooks'
@@ -141,9 +141,10 @@ const validateField: FormContext['validateField'] = async (
   }
 }
 
-const scrollToField = (prop: FormItemProp) => {
+const scrollToField = async (prop: FormItemProp) => {
   const field = filterFields(fields, prop)[0]
   if (field) {
+    await nextTick()
     field.$el?.scrollIntoView()
   }
 }
