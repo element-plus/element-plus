@@ -1,5 +1,36 @@
 ## Changelog
 
+### 2.2.29
+
+_2023-02-03_
+
+#### Features
+
+- Integrate use popper (#11045 by @jw-foss)
+
+#### Bug fixes
+
+- Components [dialog] remove "word-break: break-all;" (#11090 by @purepear)
+- Components [InfiniteScroll] keep-alive dom undefined (#11084 by @chenxch)
+- Component [badge] fix auto width  (#11003 by @AydenGen)
+- Components [select] display tags correctly (#11149 by @holazz)
+- Components [tree-select] disabled attribute does not take effect (#10670 by @iDestin)
+- Components [message] fix space when offset exists (#11268 by @linxianxi)
+- Components default table cell padding SCSS variable fix (#10708 by @bartoszrudzinski)
+- Components [table-column] column miss update due to key (#8528 by @MrWeilian) (#10679)
+- Components [link] fix the link jump to element-ui (#11357 by @NekoYyang)
+- Components [popper] (#11377 by @jw-foss)
+- Components [form-item] fix error message animation (#11352 by @niuxinyu)
+- Components [cascader] fix warning when clear (#11335 by @sleepyShen1989)
+- Style(components): [checkbox] fix checkbox-button class var spelling (#11044 by @iamdin)
+- Chore(components): [tabs] optimize code (#11261 by @RadiumAg)
+
+#### Refactors
+
+- Components [image] use standard wheel event (#11107 by @Naeemo)
+- Components [backtop] use scrollTo with smooth (#11103 by @Naeemo)
+- Components [popper] rename the component name to ElPopper (#11383 by @tolking)
+
 ### 2.2.28
 
 _2022-12-30_
