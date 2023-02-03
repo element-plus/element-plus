@@ -224,7 +224,7 @@ const setCurrentValue = (
 ) => {
   const oldVal = data.currentValue
   const newVal = verifyValue(value)
-  if (oldVal === newVal) return
+  if (props.modelValue === newVal) return
   if (!emitChange) {
     emit(UPDATE_MODEL_EVENT, newVal!)
     return
