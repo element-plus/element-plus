@@ -46,7 +46,7 @@
                 ]"
               >
                 <el-tag
-                  v-for="item in selected.slice(0, maxCollapseTags)"
+                  v-for="item in showTagList"
                   :key="getValueKey(item)"
                   :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
@@ -82,12 +82,11 @@
                     <template #content>
                       <div :class="nsSelect.e('collapse-tags')">
                         <div
-                          v-for="(item, idx) in selected.slice(maxCollapseTags)"
-                          :key="idx"
+                          v-for="item in collapseTagList"
+                          :key="getValueKey(item)"
                           :class="nsSelect.e('collapse-tag')"
                         >
                           <el-tag
-                            :key="getValueKey(item)"
                             class="in-tooltip"
                             :closable="!selectDisabled && !item.isDisabled"
                             :size="collapseTagSize"
@@ -481,6 +480,8 @@ export default defineComponent({
       groupQueryChange,
       handleMouseEnter,
       handleMouseLeave,
+      showTagList,
+      collapseTagList,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -662,6 +663,8 @@ export default defineComponent({
       tagTextStyle,
       handleMouseEnter,
       handleMouseLeave,
+      showTagList,
+      collapseTagList,
     }
   },
 })
