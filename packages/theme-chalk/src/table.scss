@@ -170,7 +170,6 @@
     white-space: normal;
     word-break: break-all;
     line-height: 23px;
-    padding: 0 12px;
 
     &.#{$namespace}-tooltip {
       white-space: nowrap;
@@ -178,7 +177,7 @@
     }
   }
 
-  @each $size in (large, small) {
+  @each $size in (large, default, small) {
     @include m($size) {
       font-size: map.get($table-font-size, $size);
       .#{$namespace}-table__cell {
