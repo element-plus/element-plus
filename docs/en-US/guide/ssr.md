@@ -5,13 +5,18 @@ lang: en-US
 
 # Server-Side Rendering (SSR)
 
-You need to carry out special handling during SSR to avoid hydrate errors.
+When using Element Plus for SSR development, you need to carry out special handling during SSR to avoid hydrate errors.
+
+:::tip
+
+For Nuxt users, we provide a [Nuxt module](https://github.com/element-plus/element-plus-nuxt) that contains these special processes. You only need to install it.
+
+:::
 
 ## Provide an ID
 
-You need to inject the same ID value into the server side and client side.
-
-### Native SSR
+The provided value is used to generate the unique ID in Element Plus.
+Because the different IDs are prone to hydrate errors in SSR, in order to ensure that the server side and client side generate the same ID, we need to inject the `ID_injection_key` into Vue.
 
 ```ts
 // src/main.js (irrelevant code omitted)
@@ -26,29 +31,17 @@ app.provide(ID_INJECTION_KEY, {
 })
 ```
 
-### Nuxt
-
-```vue
-// app.vue (irrelevant code omitted)
-<script setup>
-import { ID_INJECTION_KEY } from 'element-plus'
-
-provide(ID_INJECTION_KEY, {
-  prefix: 1024,
-  current: 0,
-})
-</script>
-```
-
 ## Teleports
 
 [Teleport](https://vuejs.org/guide/scaling-up/ssr.html#teleports) is used internally by multiple components in Element Plus (eg. ElDialog, ElDrawer, ElTooltip, ElDropdown, ElSelect, ElDatePicker ...), so special handling is required during SSR.
 
 ### Render the Teleport on the mount
 
-An easier solution is to conditionally render the Teleport on the mount. For example, use the ClientOnly component in Nuxt.
+An easier solution is to conditionally render the Teleport on the mount.
 
-```vue
+For example, use the `ClientOnly` component in Nuxt.
+
+```html
 <client-only>
   <el-tooltip content="the tooltip content">
     <el-button>tooltip</el-button>
@@ -89,8 +82,6 @@ There may be some [SSR problems with teleport](https://github.com/vuejs/core/iss
 3. When the ElSubMenu component has a multi-layer popup, It is recommended to enable the `popper-append-to-body`
 
 :::
-
-#### Native SSR
 
 You need to inject the teleport markup close to the `<body>` tag.
 
@@ -148,37 +139,5 @@ const [appHtml, preloadLinks, teleports] = await render(url, manifest)
 const html = template
   .replace('<!--preload-links-->', preloadLinks)
   .replace('<!--app-html-->', appHtml)
-  .replace(/\n\s*<!--app-teleports-->/, teleports)
-```
-
-#### Nuxt
-
-For Nuxt users, you need to create a plugin.
-
-:::tip
-
-If you modify the [Namespace](./namespace.md) or `append-to` attribute, you need to adjust the `#el-popper-container-` value.
-
-:::
-
-```js
-// plugins/element-plus.js
-export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.hook('app:rendered', (ctx) => {
-    if (ctx.ssrContext?.teleports) {
-      ctx.ssrContext.teleports = renderTeleports(ctx.ssrContext.teleports)
-    }
-  })
-})
-
-function renderTeleports(teleports) {
-  const body = Object.entries(teleports).reduce((all, [key, value]) => {
-    if (key.startsWith('#el-popper-container-')) {
-      return `${all}<div id="${key.slice(1)}">${value}</div>`
-    }
-    return all
-  }, teleports.body || '')
-
-  return { body }
-}
+  .replace(/(\n|\r\n)\s*<!--app-teleports-->/, teleports)
 ```
