@@ -439,7 +439,7 @@ describe('Form', () => {
     expect(addressField.validateMessage).toBe('')
   })
 
-  it('scroll to field', () => {
+  it('scroll to field', async () => {
     const wrapper = mount({
       setup() {
         return () => (
@@ -463,6 +463,7 @@ describe('Form', () => {
 
     const form = wrapper.findComponent({ ref: 'form' }).vm as FormInstance
     form.scrollToField('name')
+    await nextTick()
     expect(scrollIntoViewMock).toHaveBeenCalledWith(
       wrapper.findComponent({ ref: 'formItem' }).element
     )
