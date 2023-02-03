@@ -1,6 +1,7 @@
 import {
   getCurrentInstance,
   inject,
+  nextTick,
   onMounted,
   onUnmounted,
   reactive,
@@ -91,7 +92,7 @@ export const useCarouselItem = (
     return distance * (index - activeIndex)
   }
 
-  const translateItem = (
+  const translateItem = async (
     index: number,
     activeIndex: number,
     oldIndex?: number
@@ -128,6 +129,8 @@ export const useCarouselItem = (
     ready.value = true
 
     if (isActive && carouselItemRef.value) {
+      await nextTick()
+
       const height = _isVertical
         ? carouselItemRef.value.offsetWidth
         : carouselItemRef.value.offsetHeight
