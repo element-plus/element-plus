@@ -262,6 +262,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     },
   })
 
+  const showTagList = computed(() =>
+    states.cachedOptions.slice(0, props.maxCollapseTags)
+  )
+
+  const collapseTagList = computed(() =>
+    states.cachedOptions.slice(props.maxCollapseTags)
+  )
+
   // hooks
   const {
     createNewOption,
@@ -277,7 +285,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // methods
   const focusAndUpdatePopup = () => {
-    inputRef.value.focus?.()
+    inputRef.value?.focus?.()
     popper.value?.updatePopper()
   }
 
@@ -359,9 +367,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const resetInputHeight = () => {
-    if (props.collapseTags && !props.filterable) {
-      return
-    }
     return nextTick(() => {
       if (!inputRef.value) return
       const selection = selectionRef.value
@@ -788,6 +793,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     validateState,
     validateIcon,
+    showTagList,
+    collapseTagList,
 
     // methods exports
     debouncedOnInputChange,
