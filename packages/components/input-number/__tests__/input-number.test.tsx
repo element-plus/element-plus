@@ -482,5 +482,24 @@ describe('InputNumber.vue', () => {
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })
+    
+    
+    test('UPDATE_MODEL_EVENT can be emitted correctly when the input value changes from 1 to 10 and back to 1 in the continuous focus input state', async () => {
+      const num = ref(1)
+      const wrapper = mount(() => <InputNumber v-model={num.value} />)
+
+      const el = wrapper.find('input').element
+      const simulateEvent = (text: string, event: string) => {
+        el.value = text
+        el.dispatchEvent(new Event(event))
+      }
+      simulateEvent('10', 'input')
+      await nextTick()
+      expect(num.value).toEqual(10)
+
+      simulateEvent('1', 'input')
+      await nextTick()
+      expect(num.value).toEqual(1)
+    })
   })
 })
