@@ -301,6 +301,34 @@ describe('InputNumber.vue', () => {
     expect(wrapper.getComponent(InputNumber).emitted('focus')).toHaveLength(1)
   })
 
+  test('model-value matches input while focussed', async () => {
+    const handleChange = vi.fn()
+    const num = ref(13)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} onCchange={handleChange} />
+    ))
+    const inputWrapper = wrapper.find('input')
+    const el = inputWrapper.element
+    const simulateEvent = (text: string, event: string) => {
+      el.value = text
+      el.dispatchEvent(new Event(event))
+    }
+
+    await inputWrapper.trigger('focus')
+    expect(wrapper.getComponent(InputNumber).emitted('focus')).toHaveLength(1)
+    expect(handleChange).toBeCalledTimes(0)
+
+    simulateEvent('12', 'input')
+    await nextTick()
+    expect(num.value).toEqual(12)
+    expect(handleChange).toBeCalledTimes(0)
+
+    simulateEvent('13', 'input')
+    await nextTick()
+    expect(num.value).toEqual(13)
+    expect(handleChange).toBeCalledTimes(0)
+  })
+
   test('clear with :value-on-clear="null"', async () => {
     const num = ref(2)
     const wrapper = mount(() => (

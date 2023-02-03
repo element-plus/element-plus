@@ -278,6 +278,9 @@ watch(
     if (!isNumber(userInput) && (!userInput || userInput !== newValue)) {
       data.currentValue = newValue
       data.userInput = null
+    } else if (isNumber(userInput) && userInput !== data.currentValue) {
+      data.currentValue = userInput
+      data.userInput = null
     }
   },
   { immediate: true }
