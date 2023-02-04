@@ -1,5 +1,5 @@
 <template>
-  <el-row class="">
+  <el-row>
     <el-col :span="8">
       <el-countdown title="Start to grab" :value="value" />
     </el-col>
