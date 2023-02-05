@@ -321,13 +321,18 @@ describe('CascaderPanel.vue', () => {
     const props = {
       multiple: true,
     }
-    const wrapper = mount(() => (
-      <CascaderPanel
-        v-model={value.value}
-        options={NORMAL_OPTIONS}
-        props={props}
-      />
-    ))
+    const wrapper = mount(
+      () => (
+        <CascaderPanel
+          v-model={value.value}
+          options={NORMAL_OPTIONS}
+          props={props}
+        />
+      ),
+      {
+        attachTo: document.body,
+      }
+    )
 
     const zjNode = wrapper.findAll(NODE)[1]
     const zjCheckbox = zjNode.find(CHECKBOX)
@@ -382,13 +387,18 @@ describe('CascaderPanel.vue', () => {
     const props = {
       checkStrictly: true,
     }
-    const wrapper = mount(() => (
-      <CascaderPanel
-        v-model={value.value}
-        options={NORMAL_OPTIONS}
-        props={props}
-      />
-    ))
+    const wrapper = mount(
+      () => (
+        <CascaderPanel
+          v-model={value.value}
+          options={NORMAL_OPTIONS}
+          props={props}
+        />
+      ),
+      {
+        attachTo: document.body,
+      }
+    )
 
     const zjRadio = wrapper.findAll(RADIO)[1]
     expect(zjRadio.exists()).toBe(true)
@@ -425,13 +435,18 @@ describe('CascaderPanel.vue', () => {
       checkStrictly: true,
       multiple: true,
     }
-    const wrapper = mount(() => (
-      <CascaderPanel
-        v-model={value.value}
-        options={NORMAL_OPTIONS}
-        props={props}
-      />
-    ))
+    const wrapper = mount(
+      () => (
+        <CascaderPanel
+          v-model={value.value}
+          options={NORMAL_OPTIONS}
+          props={props}
+        />
+      ),
+      {
+        attachTo: document.body,
+      }
+    )
 
     const shNode = wrapper.findAll(NODE)[2]
     const [, zjCheckbox, shCheckbox] = wrapper.findAll(CHECKBOX)
@@ -574,7 +589,9 @@ describe('CascaderPanel.vue', () => {
         }, 1000)
       },
     }
-    const wrapper = mount(() => <CascaderPanel props={props} />)
+    const wrapper = mount(() => <CascaderPanel props={props} />, {
+      attachTo: document.body,
+    })
 
     vi.runAllTimers()
     await nextTick()
@@ -618,7 +635,9 @@ describe('CascaderPanel.vue', () => {
         }, 1000)
       },
     }
-    const wrapper = mount(() => <CascaderPanel props={props} />)
+    const wrapper = mount(() => <CascaderPanel props={props} />, {
+      attachTo: document.body,
+    })
 
     vi.runAllTimers()
     await nextTick()

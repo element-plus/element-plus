@@ -223,26 +223,20 @@ describe('<dynamic-size-list />', () => {
 
   describe('to throw', () => {
     it('should throw when item-size is not function', () => {
-      const errorHandler = vi.fn()
-      try {
+      expect(() =>
         mount({
           props: {
             itemSize: 1,
           },
           global: {
             config: {
-              errorHandler,
               warnHandler() {
                 // suppress warning
               },
             },
           },
         })
-      } catch (e) {
-        expect(errorHandler).toHaveBeenCalled()
-        expect(e).toBeInstanceOf(Error)
-        expect(e.message).toContain('itemSize is required as function')
-      }
+      ).toThrow()
     })
   })
 })

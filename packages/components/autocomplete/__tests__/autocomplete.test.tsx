@@ -1,14 +1,12 @@
 import { nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
 import { NOOP } from '@vue/shared'
-import { beforeEach, describe, expect, it, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
 import Autocomplete from '../src/autocomplete.vue'
 
 vi.unmock('lodash')
-
-vi.useFakeTimers()
 
 const _mount = (
   payload = {},
@@ -74,6 +72,9 @@ describe('Autocomplete.vue', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
   })
+  afterEach(() => {
+    vi.useRealTimers()
+  })
 
   test('placeholder', async () => {
     const wrapper = _mount()
@@ -92,7 +93,7 @@ describe('Autocomplete.vue', () => {
       debounce: 10,
       fetchSuggestions,
     })
-    await nextTick()
+    vi.useFakeTimers()
 
     await wrapper.setProps({ triggerOnFocus: false })
     await wrapper.find('input').trigger('focus')
@@ -138,7 +139,7 @@ describe('Autocomplete.vue', () => {
       debounce: 10,
       fetchSuggestions,
     })
-    await nextTick()
+    vi.useFakeTimers()
 
     await wrapper.find('input').trigger('focus')
     await wrapper.find('input').trigger('blur')
@@ -160,7 +161,7 @@ describe('Autocomplete.vue', () => {
 
   test('fetchSuggestions with fn-promise', async () => {
     const wrapper = _mount({ debounce: 10 }, 'fn-promise')
-    await nextTick()
+    vi.useFakeTimers()
     await wrapper.find('input').trigger('focus')
     vi.runAllTimers()
     await nextTick()
@@ -174,7 +175,7 @@ describe('Autocomplete.vue', () => {
 
   test('fetchSuggestions with fn-async', async () => {
     const wrapper = _mount({ debounce: 10 }, 'fn-async')
-    await nextTick()
+    vi.useFakeTimers()
     await wrapper.find('input').trigger('focus')
     vi.runAllTimers()
     await nextTick()
@@ -189,7 +190,7 @@ describe('Autocomplete.vue', () => {
 
   test('fetchSuggestions with fn-arr', async () => {
     const wrapper = _mount({ debounce: 10 }, 'fn-arr')
-    await nextTick()
+    vi.useFakeTimers()
     await wrapper.find('input').trigger('focus')
     vi.runAllTimers()
     await nextTick()
@@ -203,7 +204,7 @@ describe('Autocomplete.vue', () => {
 
   test('fetchSuggestions with arr', async () => {
     const wrapper = _mount({ debounce: 10 }, 'arr')
-    await nextTick()
+    vi.useFakeTimers()
     await wrapper.find('input').trigger('focus')
     vi.runAllTimers()
     await nextTick()
@@ -239,7 +240,7 @@ describe('Autocomplete.vue', () => {
       fetchSuggestions: NOOP,
       debounce: 10,
     })
-    await nextTick()
+    vi.useFakeTimers()
     await wrapper.find('input').trigger('focus')
     vi.runAllTimers()
     await nextTick()
@@ -254,7 +255,7 @@ describe('Autocomplete.vue', () => {
       selectWhenUnmatched: true,
       debounce: 10,
     })
-    await nextTick()
+    vi.useFakeTimers()
     const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
       typeof Autocomplete
     >
@@ -272,7 +273,7 @@ describe('Autocomplete.vue', () => {
       highlightFirstItem: false,
       debounce: 10,
     })
-    await nextTick()
+    vi.useFakeTimers()
 
     await wrapper.find('input').trigger('focus')
     vi.runAllTimers()
@@ -293,7 +294,7 @@ describe('Autocomplete.vue', () => {
     const wrapper = _mount({
       fitInputWidth: true,
     })
-    await nextTick()
+    vi.useFakeTimers()
 
     const inputDom = wrapper.find('.el-input').element
     const mockInputWidth = vi

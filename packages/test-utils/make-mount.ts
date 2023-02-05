@@ -19,10 +19,15 @@ export const makeMountFunc = <T extends Record<string, unknown>>(
   defaultOptions: T
 ) => {
   return (template: string, options: Options) => {
-    return mount({
-      ...merge({}, defaultOptions, options),
-      template,
-    })
+    return mount(
+      {
+        ...merge({}, defaultOptions, options),
+        template,
+      },
+      {
+        attachTo: document.body,
+      }
+    )
   }
 }
 

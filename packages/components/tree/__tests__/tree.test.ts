@@ -80,7 +80,10 @@ const getTreeVm = (props = '', options = {}) => {
         },
       },
       options
-    )
+    ),
+    {
+      attachTo: document.body,
+    }
   )
   return { wrapper, vm: wrapper.vm }
 }
