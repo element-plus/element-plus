@@ -62,10 +62,10 @@ radio/with-borders
 | Name                  | Description                          | Type                                     | Default |
 | --------------------- | ------------------------------------ | ---------------------------------------- | ------- |
 | model-value / v-model | binding value                        | ^[string] / ^[number] / ^[boolean]       | —       |
-| label                 | the value of Raido                   | ^[string] / ^[number] / ^[boolean]       | —       |
-| disabled              | whether Raido is disabled            | ^[boolean]                               | false   |
-| border                | whether to add a border around Raido | ^[boolean]                               | false   |
-| size                  | size of the Raido                    | ^[enum]`'large' \| 'default' \| 'small'` | —       |
+| label                 | the value of Radio                   | ^[string] / ^[number] / ^[boolean]       | —       |
+| disabled              | whether Radio is disabled            | ^[boolean]                               | false   |
+| border                | whether to add a border around Radio | ^[boolean]                               | false   |
+| size                  | size of the Radio                    | ^[enum]`'large' \| 'default' \| 'small'` | —       |
 | name                  | native `name` attribute              | ^[string]                                | —       |
 
 ### Radio Events
@@ -92,7 +92,7 @@ radio/with-borders
 | text-color            | font color when button is active                  | ^[string]                          | #ffffff |
 | fill                  | border and background color when button is active | ^[string]                          | #409EFF |
 | validate-event        | whether to trigger form validation                | ^[boolean]                         | true    |
-| label<A11yTag />      | same as `aria-label` in RaidoGroup                | ^[string]                          | —       |
+| label<A11yTag />      | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
 | name                  | native `name` attribute                           | ^[string]                          | —       |
 | id                    | native `id` attribute                             | ^[string]                          | —       |
 
@@ -114,8 +114,8 @@ radio/with-borders
 
 | Name     | Description               | Type                               | Default |
 | -------- | ------------------------- | ---------------------------------- | ------- |
-| label    | the value of Raido        | ^[string] / ^[number] / ^[boolean] | —       |
-| disabled | whether Raido is disabled | ^[boolean]                         | false   |
+| label    | the value of Radio        | ^[string] / ^[number] / ^[boolean] | —       |
+| disabled | whether Radio is disabled | ^[boolean]                         | false   |
 | name     | native 'name' attribute   | ^[string]                          | —       |
 
 ### RadioButton Slots

@@ -1554,4 +1554,53 @@ describe('Table.vue', () => {
     await doubleWait()
     expect(wrapper.vm.selected.length).toEqual(3)
   })
+  it('change columns order when use v-for & key to render table', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+            <button class="change-column" @click="changeColumnData"></button>
+            <el-table :data="testData">
+              <el-table-column
+                v-for="item in columnsData"
+                :prop="item.prop"
+                :label="item.label"
+                :key="item.prop" />
+            </el-table>
+          `,
+      data() {
+        const testData = getTestData() as any
+
+        return {
+          testData,
+          columnsData: [
+            { label: 'name', prop: 'name' },
+            { label: 'release', prop: 'release' },
+            { label: 'director', prop: 'director' },
+            { label: 'runtime', prop: 'runtime' },
+          ],
+        }
+      },
+
+      methods: {
+        changeColumnData() {
+          ;[this.columnsData[0], this.columnsData[1]] = [
+            this.columnsData[1],
+            this.columnsData[0],
+          ]
+        },
+      },
+    })
+    await doubleWait()
+    wrapper.find('.change-column').trigger('click')
+    await doubleWait()
+    expect(wrapper.find('.el-table__header').findAll('.cell')[0].text()).toBe(
+      'release'
+    )
+    expect(wrapper.find('.el-table__header').findAll('.cell')[1].text()).toBe(
+      'name'
+    )
+  })
 })

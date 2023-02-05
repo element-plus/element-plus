@@ -8,7 +8,7 @@ Estamos orgullosos de que usted esta interesado en contribuir al proyecto `Eleme
 
 ## Guía Para Reportar Problemas (“Issues”)
 
-- Preguntas de otro tipo corren el riesgo de ser cerradas inmediatamente. Sí tiene preguntas sobre el uso de `Element`, vea [Discord](https://discord.link/ElementPlus) para más ayuda.
+- Preguntas de otro tipo corren el riesgo de ser cerradas inmediatamente. Sí tiene preguntas sobre el uso de `Element`, vea [Discord](https://discord.com/invite/gXK9XNzW3X) para más ayuda.
 
 - Antes de someter un informe sobre algún problema, sírvase de revisar sí ya hubo un informe.
 
