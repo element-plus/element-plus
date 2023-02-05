@@ -557,7 +557,7 @@ export const useSelect = (props, states: States, ctx) => {
   const handleResize = () => {
     resetInputWidth()
     tooltipRef.value?.updatePopper?.()
-    if (props.multiple && !props.filterable) resetInputHeight()
+    if (props.multiple) resetInputHeight()
   }
 
   const resetInputWidth = () => {
