@@ -349,14 +349,14 @@ export default defineComponent({
 
     const insertBefore = (
       data: TreeNodeData,
-      refNode: TreeKey | TreeNodeData
+      refNode: TreeKey | TreeNodeData | Node
     ) => {
       store.value.insertBefore(data, refNode)
     }
 
     const insertAfter = (
       data: TreeNodeData,
-      refNode: TreeKey | TreeNodeData
+      refNode: TreeKey | TreeNodeData | Node
     ) => {
       store.value.insertAfter(data, refNode)
     }
