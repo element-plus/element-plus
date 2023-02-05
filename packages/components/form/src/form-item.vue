@@ -222,7 +222,6 @@ const getFilteredRule = (trigger: string) => {
   return (
     rules
       .filter((rule) => {
-        if (!rule.required) return false
         if (!rule.trigger || !trigger) return true
         if (Array.isArray(rule.trigger)) {
           return rule.trigger.includes(trigger)
@@ -304,7 +303,7 @@ const validate: FormItemContext['validate'] = async (trigger, callback) => {
   }
 
   const rules = getFilteredRule(trigger)
-  if (rules.length === 0) {
+  if (rules.length === 0 || rules.every((rule) => !rule.required)) {
     callback?.(true)
     return true
   }
