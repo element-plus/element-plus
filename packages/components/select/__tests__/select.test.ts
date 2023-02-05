@@ -948,16 +948,9 @@ describe('Select', () => {
     const selectWrapper = wrapper.findComponent(Select)
     const inputWrapper = selectWrapper.findComponent({ ref: 'reference' })
     const inputDom = inputWrapper.element
-    const inputRect = {
-      height: 40,
-      width: 221,
-      x: 44,
-      y: 8,
-      top: 8,
-    }
     const mockInputWidth = vi
-      .spyOn(inputDom, 'getBoundingClientRect')
-      .mockReturnValue(inputRect as DOMRect)
+      .spyOn(inputDom as HTMLElement, 'offsetWidth', 'get')
+      .mockReturnValue(200)
     selectWrapper.vm.handleResize()
     options[0].click()
     await nextTick()
@@ -968,9 +961,9 @@ describe('Select', () => {
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element
-      expect(
-        Number.parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 75
-      ).toBe(true)
+      expect(Number.parseInt(tagWrapperDom.style.maxWidth) === 200 - 75).toBe(
+        true
+      )
     }
     mockInputWidth.mockRestore()
   })
@@ -1016,16 +1009,9 @@ describe('Select', () => {
     const selectWrapper = wrapper.findComponent(Select)
     const inputWrapper = selectWrapper.findComponent({ ref: 'reference' })
     const inputDom = inputWrapper.element
-    const inputRect = {
-      height: 40,
-      width: 221,
-      x: 44,
-      y: 8,
-      top: 8,
-    }
     const mockInputWidth = vi
-      .spyOn(inputDom, 'getBoundingClientRect')
-      .mockReturnValue(inputRect as DOMRect)
+      .spyOn(inputDom as HTMLElement, 'offsetWidth', 'get')
+      .mockReturnValue(200)
     selectWrapper.vm.handleResize()
     options[0].click()
     await nextTick()
@@ -1035,9 +1021,9 @@ describe('Select', () => {
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
     const tagWrapperDom = tagWrappers[0].element
-    expect(
-      Number.parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 123
-    ).toBe(true)
+    expect(Number.parseInt(tagWrapperDom.style.maxWidth) === 200 - 123).toBe(
+      true
+    )
     mockInputWidth.mockRestore()
   })
 

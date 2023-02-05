@@ -327,17 +327,17 @@ useResizeObserver(textarea, (entries) => {
 const resizeTextarea = () => {
   const { type, autosize } = props
 
-  if (!isClient || type !== 'textarea') return
+  if (!isClient || type !== 'textarea' || !textarea.value) return
 
   if (autosize) {
     const minRows = isObject(autosize) ? autosize.minRows : undefined
     const maxRows = isObject(autosize) ? autosize.maxRows : undefined
     textareaCalcStyle.value = {
-      ...calcTextareaHeight(textarea.value!, minRows, maxRows),
+      ...calcTextareaHeight(textarea.value, minRows, maxRows),
     }
   } else {
     textareaCalcStyle.value = {
-      minHeight: calcTextareaHeight(textarea.value!).minHeight,
+      minHeight: calcTextareaHeight(textarea.value).minHeight,
     }
   }
 }
