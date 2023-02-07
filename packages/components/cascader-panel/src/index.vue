@@ -103,7 +103,7 @@ export default defineComponent({
       const cfg = config.value
 
       manualChecked = false
-      store = new Store(options, cfg)
+      store = reactive(new Store(options, cfg))
       menus.value = [store.getNodes()]
 
       if (cfg.lazy && isEmpty(props.options)) {
