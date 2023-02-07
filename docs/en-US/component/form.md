@@ -147,7 +147,7 @@ form/accessibility
 
 | Method          | Description                                                        | Type                                                                                                                             |
 | --------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| `validate`      | Validate the whole form. Receives a callback or returns `Promise`. | `(callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<void>`                                  |
+| `validate`      | Validate the whole form. Receives a callback or returns `Promise`. | `(callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<boolean>`                                  |
 | `validateField` | Validate specified fields.                                         | `(props?: Arrayable<FormItemProp>, callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<void>` |
 | `resetFields`   | Reset specified fields and remove validation result.               | `(props?: Arrayable<FormItemProp>) => void`                                                                                      |
 | `scrollToField` | Scroll to the specified fields.                                    | `(prop: FormItemProp) => void`                                                                                                   |

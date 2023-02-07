@@ -58,8 +58,8 @@ export const cascaderProps = buildProps({
 })
 
 export const cascaderEmits = {
-  [UPDATE_MODEL_EVENT]: (val: CascaderValue) => !!val,
-  [CHANGE_EVENT]: (val: CascaderValue) => !!val,
+  [UPDATE_MODEL_EVENT]: (val: CascaderValue) => !!val || val === null,
+  [CHANGE_EVENT]: (val: CascaderValue) => !!val || val === null,
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
   blur: (evt: FocusEvent) => evt instanceof FocusEvent,
   visibleChange: (val: boolean) => isBoolean(val),
