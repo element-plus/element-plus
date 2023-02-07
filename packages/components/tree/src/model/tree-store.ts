@@ -107,18 +107,24 @@ export default class TreeStore {
     }
   }
 
-  getNode(data: TreeKey | TreeNodeData): Node {
+  getNode(data: TreeKey | TreeNodeData | Node): Node {
     if (data instanceof Node) return data
     const key = isObject(data) ? getNodeKey(this.key, data) : data
     return this.nodesMap[key] || null
   }
 
-  insertBefore(data: TreeNodeData, refData: TreeKey | TreeNodeData): void {
+  insertBefore(
+    data: TreeNodeData,
+    refData: TreeKey | TreeNodeData | Node
+  ): void {
     const refNode = this.getNode(refData)
     refNode.parent.insertBefore({ data }, refNode)
   }
 
-  insertAfter(data: TreeNodeData, refData: TreeKey | TreeNodeData): void {
+  insertAfter(
+    data: TreeNodeData,
+    refData: TreeKey | TreeNodeData | Node
+  ): void {
     const refNode = this.getNode(refData)
     refNode.parent.insertAfter({ data }, refNode)
   }
