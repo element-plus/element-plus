@@ -152,6 +152,7 @@
                 flexGrow: 1,
                 width: `${inputLength / (inputWidth - 32)}%`,
                 maxWidth: `${inputWidth - 42}px`,
+                minWidth: '4px',
               }"
               @focus="handleFocus"
               @blur="handleBlur"
