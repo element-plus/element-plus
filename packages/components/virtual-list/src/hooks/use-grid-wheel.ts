@@ -21,9 +21,9 @@ export const useGridWheel = (
 
   const hasReachedEdge = (x: number, y: number) => {
     const xEdgeReached =
-      (x < 0 && atXStartEdge.value) || (x > 0 && atXEndEdge.value)
+      (x <= 0 && atXStartEdge.value) || (x >= 0 && atXEndEdge.value)
     const yEdgeReached =
-      (y < 0 && atYStartEdge.value) || (y > 0 && atYEndEdge.value)
+      (y <= 0 && atYStartEdge.value) || (y >= 0 && atYEndEdge.value)
     return xEdgeReached && yEdgeReached
   }
 
