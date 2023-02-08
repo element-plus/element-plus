@@ -1,4 +1,4 @@
-import { cAF, isFirefox, rAF } from '@element-plus/utils'
+import { cAF, rAF } from '@element-plus/utils'
 
 import type { ComputedRef } from 'vue'
 
@@ -54,9 +54,7 @@ export const useGridWheel = (
     xOffset += x
     yOffset += y
 
-    if (!isFirefox()) {
-      e.preventDefault()
-    }
+    e.preventDefault()
 
     frameHandle = rAF(() => {
       onWheelDelta(xOffset, yOffset)
