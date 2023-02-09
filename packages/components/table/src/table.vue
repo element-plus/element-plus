@@ -31,7 +31,7 @@
         <slot />
       </div>
       <div
-        v-if="showHeader && tableLayout === 'fixed'"
+        v-if="showHeader"
         ref="headerWrapper"
         v-mousewheel="handleHeaderFooterMousewheel"
         :class="ns.e('header-wrapper')"
@@ -79,14 +79,6 @@
               :columns="store.states.columns.value"
               :table-layout="tableLayout"
             />
-            <table-header
-              v-if="showHeader && tableLayout === 'auto'"
-              ref="tableHeaderRef"
-              :border="border"
-              :default-sort="defaultSort"
-              :store="store"
-              @set-drag-visible="setDragVisible"
-            />
             <table-body
               :context="context"
               :highlight="highlightCurrentRow"
@@ -96,6 +88,7 @@
               :row-style="rowStyle"
               :store="store"
               :stripe="stripe"
+              :table-layout="tableLayout"
             />
           </table>
           <div

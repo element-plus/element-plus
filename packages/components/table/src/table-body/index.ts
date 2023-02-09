@@ -15,6 +15,7 @@ import { removePopper } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import useRender from './render-helper'
 import defaultProps from './defaults'
+import useLayoutAuto from './layout-auto-helper'
 
 import type { VNode } from 'vue'
 
@@ -28,6 +29,8 @@ export default defineComponent({
     const { wrappedRowRender, tooltipContent, tooltipTrigger } =
       useRender(props)
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
+
+    const { unLayoutAutoObserve } = useLayoutAuto(props)
 
     watch(props.store.states.hoverRow, (newVal: any, oldVal: any) => {
       if (!props.store.states.isComplex.value || !isClient) return
@@ -54,6 +57,7 @@ export default defineComponent({
 
     onUnmounted(() => {
       removePopper?.()
+      unLayoutAutoObserve()
     })
 
     return {

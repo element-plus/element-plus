@@ -1,4 +1,5 @@
 // @ts-nocheck
+import type { TableLayoutProperty } from 'csstype'
 import type { PropType } from 'vue'
 import type { Store } from '../store'
 import type {
@@ -19,6 +20,7 @@ interface TableBodyProps<T> {
   highlight: boolean
   tooltipEffect?: string
   tooltipOptions?: TableOverflowTooltipOptions
+  tableLayout: TableLayoutProperty
 }
 
 const defaultProps = {
@@ -46,6 +48,7 @@ const defaultProps = {
     default: '',
   },
   highlight: Boolean,
+  tableLayout: String as TableLayoutProperty,
 }
 
 export { TableBodyProps }

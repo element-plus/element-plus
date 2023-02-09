@@ -48,7 +48,10 @@ function useLayoutObserver<T>(root: Table<T>) {
       const name = col.getAttribute('name')
       const column = columnsMap[name]
       if (column) {
-        col.setAttribute('width', column.realWidth || column.width)
+        col.setAttribute(
+          'width',
+          column.autoWidth || column.realWidth || column.width
+        )
       }
     }
   }

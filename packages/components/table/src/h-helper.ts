@@ -4,7 +4,9 @@ export function hColgroup(props) {
   const isAuto = props.tableLayout === 'auto'
   let columns = props.columns || []
   if (isAuto) {
-    if (columns.every((column) => column.width === undefined)) {
+    if (
+      columns.every((column) => column.width === undefined && !column.autoWidth)
+    ) {
       columns = []
     }
   }
@@ -18,9 +20,8 @@ export function hColgroup(props) {
       propsData.style = {
         width: `${column.width}px`,
       }
-    } else {
-      propsData.name = column.id
     }
+    propsData.name = column.id
     return propsData
   }
 

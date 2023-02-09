@@ -1475,7 +1475,7 @@ describe('Table.vue', () => {
       },
     })
     await doubleWait()
-    expect(wrapper.find('.el-table__body thead').exists()).toBeTruthy()
+    expect(wrapper.findAll('.el-table__body thead').length).toBe(0)
     expect(wrapper.find('.el-table__body colgroup col').exists()).toBeFalsy()
     expect(wrapper.find('.el-table__body tbody').exists()).toBeTruthy()
   })
