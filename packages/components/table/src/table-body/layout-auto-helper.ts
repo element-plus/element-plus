@@ -29,7 +29,6 @@ export default function useLayoutAuto<T>(props: Partial<TableBodyProps<T>>) {
     const tdList = firstTr.querySelectorAll('td')
     columns.forEach((column: TableColumnCtx<T>, index: number) => {
       column.autoWidth = Number.parseInt(`${tdList[index].offsetWidth}`)
-      console.log('width', tdList[index].offsetWidth)
     })
   }
 
