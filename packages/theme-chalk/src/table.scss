@@ -170,6 +170,7 @@
     white-space: normal;
     word-break: break-all;
     line-height: 23px;
+    padding: 0 12px;
 
     &.#{$namespace}-tooltip {
       white-space: nowrap;

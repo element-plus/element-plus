@@ -13,7 +13,8 @@ export interface SelectV2Context {
   onKeyboardSelect: () => void
 }
 
-export const selectV2InjectionKey =
-  'ElSelectV2Injection' as any as InjectionKey<SelectV2Context>
+export const selectV2InjectionKey: InjectionKey<SelectV2Context> = Symbol(
+  'ElSelectV2Injection'
+)
 export type IOptionProps = ExtractPropTypes<typeof OptionProps>
 export type ISelectProps = ExtractPropTypes<typeof SelectProps>
