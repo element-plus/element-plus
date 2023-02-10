@@ -8,7 +8,7 @@ Element Plus 的成长离不开大家的支持，如果你愿意为 Element Plus
 
 ## Issue 规范
 
-- issue 仅用于提交 Bug 或 Feature 以及设计相关的内容，其它内容可能会被直接关闭。如果你在使用时产生了疑问，请到 Slack 或 [Discord](https://discord.link/ElementPlus) 里咨询。
+- issue 仅用于提交 Bug 或 Feature 以及设计相关的内容，其它内容可能会被直接关闭。如果你在使用时产生了疑问，请到 Slack 或 [Discord](https://discord.com/invite/gXK9XNzW3X) 里咨询。
 
 - 在提交 issue 之前，请搜索相关内容是否已被提出。
 
