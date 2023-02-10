@@ -169,6 +169,11 @@
               @input="debouncedQueryChange"
             />
           </div>
+          <!--  fix: https://github.com/element-plus/element-plus/issues/11415  -->
+          <input
+            v-if="filterable && isIOS && !multiple"
+            :class="[nsSelect.e('input'), nsSelect.em('input', 'iOS')]"
+          />
           <el-input
             :id="id"
             ref="reference"
@@ -273,7 +278,7 @@ import {
   toRefs,
   unref,
 } from 'vue'
-import { useResizeObserver } from '@vueuse/core'
+import { isIOS, useResizeObserver } from '@vueuse/core'
 import { placements } from '@popperjs/core'
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
@@ -583,6 +588,7 @@ export default defineComponent({
     })
 
     return {
+      isIOS,
       tagInMultiLine,
       prefixWidth,
       selectSize,
