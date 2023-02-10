@@ -730,7 +730,9 @@ export const useSelect = (props, states: States, ctx) => {
     if (!Array.isArray(states.selected)) return
     const option = states.selected[states.selected.length - 1]
     if (!option) return
-
+    if (option.isDisabled) {
+      return option.isDisabled
+    }
     if (hit === true || hit === false) {
       option.hitState = hit
       return hit
