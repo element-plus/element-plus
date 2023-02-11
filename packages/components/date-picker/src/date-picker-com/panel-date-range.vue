@@ -58,6 +58,7 @@
                 datetime-role="start"
                 :time-arrow-control="arrowControl"
                 :parsed-value="leftDate"
+                :old-value="oldValueFormatRef[0]"
                 @pick="handleMinTimePick"
               />
             </span>
@@ -101,6 +102,7 @@
                 :format="timeFormat"
                 :time-arrow-control="arrowControl"
                 :parsed-value="rightDate"
+                :old-value="oldValueFormatRef[1]"
                 @pick="handleMaxTimePick"
               />
             </span>
@@ -265,6 +267,7 @@ import {
 } from '@element-plus/icons-vue'
 import { panelDateRangeProps } from '../props/panel-date-range'
 import { useRangePicker } from '../composables/use-range-picker'
+import { useOldTimeValue } from '../composables/use-old-time-value'
 import { getDefaultValue, isValidRange } from '../utils'
 import DateTable from './basic-date-table.vue'
 
@@ -298,6 +301,8 @@ const {
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
+const { getOldValue: getMinOldValue } = useOldTimeValue()
+const { getOldValue: getMaxOldValue } = useOldTimeValue()
 const leftDate = ref<Dayjs>(dayjs().locale(lang.value))
 const rightDate = ref<Dayjs>(dayjs().locale(lang.value).add(1, unit))
 
@@ -393,6 +398,12 @@ const timeFormat = computed(() => {
 
 const dateFormat = computed(() => {
   return extractDateFormat(format)
+})
+
+const oldValueFormatRef = computed<(Dayjs | undefined)[]>(() => {
+  return isArray(props.oldValue)
+    ? props.oldValue
+    : [props.oldValue, props.oldValue]
 })
 
 const leftPrevYear = () => {
@@ -615,14 +626,19 @@ const handleTimeChange = (value: string | null, type: ChangeType) => {
   }
 }
 
-const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
+const handleMinTimePick = (
+  value: undefined | Dayjs,
+  visible: boolean,
+  first: boolean
+) => {
   if (timeUserInput.value.min) return
-  if (value) {
-    leftDate.value = value
+  const minOldValue = getMinOldValue(value, visible)
+  if (minOldValue) {
+    leftDate.value = minOldValue
     minDate.value = (minDate.value || leftDate.value)
-      .hour(value.hour())
-      .minute(value.minute())
-      .second(value.second())
+      .hour(minOldValue.hour())
+      .minute(minOldValue.minute())
+      .second(minOldValue.second())
   }
 
   if (!first) {
@@ -631,22 +647,23 @@ const handleMinTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
 
   if (!maxDate.value || maxDate.value.isBefore(minDate.value)) {
     maxDate.value = minDate.value
-    rightDate.value = value
+    rightDate.value = minOldValue
   }
 }
 
 const handleMaxTimePick = (
-  value: Dayjs | null,
+  value: undefined | Dayjs,
   visible: boolean,
   first: boolean
 ) => {
   if (timeUserInput.value.max) return
-  if (value) {
-    rightDate.value = value
+  const maxOldValue = getMaxOldValue(value, visible)
+  if (maxOldValue) {
+    rightDate.value = maxOldValue
     maxDate.value = (maxDate.value || rightDate.value)
-      .hour(value.hour())
-      .minute(value.minute())
-      .second(value.second())
+      .hour(maxOldValue.hour())
+      .minute(maxOldValue.minute())
+      .second(maxOldValue.second())
   }
 
   if (!first) {

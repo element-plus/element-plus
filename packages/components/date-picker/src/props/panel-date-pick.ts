@@ -16,6 +16,9 @@ export const panelDatePickProps = buildProps({
     type: String,
     default: '',
   },
+  oldValue: {
+    type: definePropType<undefined | Dayjs | Dayjs[]>([Object, Array]),
+  },
 } as const)
 
 export type PanelDatePickProps = ExtractPropTypes<typeof panelDatePickProps>
