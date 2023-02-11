@@ -358,7 +358,7 @@ describe('Table.vue', () => {
       const filter = document.body.querySelector('.el-table-filter')
 
       triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
-      // confrim button
+      // confirm button
       await doubleWait()
       triggerEvent(
         filter.querySelector('.el-table-filter__bottom button'),
@@ -386,7 +386,7 @@ describe('Table.vue', () => {
       const filter = document.body.querySelector('.el-table-filter')
 
       triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
-      // confrim button
+      // confirm button
       await doubleWait()
       triggerEvent(
         filter.querySelector('.el-table-filter__bottom button'),
@@ -1173,7 +1173,7 @@ describe('Table.vue', () => {
   describe('tree', () => {
     let wrapper: VueWrapper<ComponentPublicInstance>
     afterEach(() => wrapper?.unmount())
-    it('render tree structual data', async () => {
+    it('render tree structural data', async () => {
       wrapper = mount({
         components: {
           ElTableColumn,
