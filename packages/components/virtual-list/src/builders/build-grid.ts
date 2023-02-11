@@ -326,11 +326,15 @@ const createGrid = ({
         {
           atXStartEdge: computed(() => states.value.scrollLeft <= 0),
           atXEndEdge: computed(
-            () => states.value.scrollLeft >= estimatedTotalWidth.value
+            () =>
+              states.value.scrollLeft >=
+              estimatedTotalWidth.value - unref(parsedWidth)
           ),
           atYStartEdge: computed(() => states.value.scrollTop <= 0),
           atYEndEdge: computed(
-            () => states.value.scrollTop >= estimatedTotalHeight.value
+            () =>
+              states.value.scrollTop >=
+              estimatedTotalHeight.value - unref(parsedHeight)
           ),
         },
         (x: number, y: number) => {
