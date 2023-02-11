@@ -246,6 +246,14 @@ export const useSelect = (props, states: States, ctx) => {
     () => states.visible,
     (val) => {
       if (!val) {
+        if (window.ontransitionend === null && props.filterable) {
+          if (isFunction(props.filterMethod)) {
+            props.filterMethod('')
+          }
+          if (isFunction(props.remoteMethod)) {
+            props.remoteMethod('')
+          }
+        }
         input.value && input.value.blur()
         states.query = ''
         states.previousQuery = null
