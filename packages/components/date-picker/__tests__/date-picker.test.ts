@@ -155,6 +155,45 @@ describe('DatePicker', () => {
     expect(vm.value).toBeDefined()
   })
 
+  it('should update date value after select year and month', async () => {
+    const currentDate = new Date()
+    const defaultDate = new Date()
+    defaultDate.setFullYear(currentDate.getFullYear() + 1)
+    defaultDate.setMonth(currentDate.getMonth() + 1)
+    const wrapper = _mount(
+      `<el-date-picker
+          v-model="value"
+      />`,
+      () => ({
+        value: defaultDate,
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const [yearLabelElm, monthLabelElm] = document.querySelectorAll(
+      '.el-date-picker__header-label'
+    )
+    yearLabelElm.click()
+    await nextTick()
+    ;(document.querySelector('.el-year-table td.today') as HTMLElement).click()
+    await nextTick()
+    expect(dayjs(wrapper.vm.value).toDate()).toEqual(defaultDate)
+    monthLabelElm.click()
+    await nextTick()
+    ;(document.querySelector('.el-month-table td.today') as HTMLElement).click()
+    await nextTick()
+    expect(dayjs(wrapper.vm.value).toDate()).toEqual(defaultDate)
+    ;(
+      document.querySelector(
+        '.el-date-table__row ~ .el-date-table__row td'
+      ) as HTMLElement
+    ).click()
+    await nextTick()
+    expect(dayjs(wrapper.vm.value).toDate()).not.toEqual(defaultDate)
+  })
+
   it('defaultTime and clear value', async () => {
     const wrapper = _mount(
       `<el-date-picker
@@ -748,6 +787,45 @@ describe('MonthPicker', () => {
     await nextTick()
     const vm = wrapper.vm as any
     expect(vm.value.getMonth()).toBe(0)
+  })
+
+  it('should update month value after select year', async () => {
+    const currentDate = new Date()
+    const defaultDate = new Date()
+    defaultDate.setFullYear(currentDate.getFullYear() + 1)
+    defaultDate.setMonth(currentDate.getMonth() + 1)
+    const wrapper = _mount(
+      `<el-date-picker
+          type="month"
+          v-model="value"
+      />`,
+      () => ({
+        value: defaultDate,
+      })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    ;(
+      document.querySelector('.el-date-picker__header-label') as HTMLElement
+    ).click()
+    await nextTick()
+    expect(document.querySelector('.el-month-table')).toBeNull()
+    expect(
+      (document.querySelector('.el-year-table') as HTMLElement).style.display
+    ).toBe('')
+    expect(dayjs(wrapper.vm.value).toDate()).toEqual(defaultDate)
+    ;(document.querySelector('.el-year-table td.today') as HTMLElement).click()
+    await nextTick()
+    expect(dayjs(wrapper.vm.value).toDate()).toEqual(defaultDate)
+    expect(
+      (document.querySelector('.el-month-table') as HTMLElement).style.display
+    ).toBe('')
+    expect(document.querySelector('.el-year-table')).toBeNull()
+    ;(document.querySelector('.el-month-table td.today') as HTMLElement).click()
+    await nextTick()
+    expect(dayjs(wrapper.vm.value).toDate()).not.toEqual(defaultDate)
   })
 
   it('value-format', async () => {
