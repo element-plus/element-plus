@@ -6,6 +6,7 @@ import { createTablePopper, getCell, getColumnByCell } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { TableBodyProps } from './defaults'
+import type { TableOverflowTooltipOptions } from '../util'
 
 function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY)
@@ -49,7 +50,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const handleCellMouseEnter = (
     event: MouseEvent,
     row: T,
-    tooltipEffect: string
+    tooltipOptions: TableOverflowTooltipOptions
   ) => {
     const table = parent
     const cell = getCell(event)
@@ -70,6 +71,10 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         hoverState.cell,
         event
       )
+    }
+
+    if (!tooltipOptions) {
+      return
     }
 
     // 判断是否text-overflow, 如果是就显示tooltip
@@ -107,11 +112,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         parent?.refs.tableWrapper,
         cell,
         cell.innerText || cell.textContent,
-        {
-          placement: 'top',
-          strategy: 'fixed',
-        },
-        tooltipEffect
+        tooltipOptions
       )
     }
   }

@@ -143,6 +143,16 @@ form/accessibility
 | disabled                  | Whether to disable all components in this form. If set to `true`, it will override the `disabled` prop of the inner component. | ^[boolean]                               | false   |
 | scroll-to-error           | When validation fails, scroll to the first error form entry.                                                                   | ^[boolean]                               | false   |
 
+### Form Methods
+
+| Method          | Description                                                        | Type                                                                                                                             |
+| --------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| `validate`      | Validate the whole form. Receives a callback or returns `Promise`. | `(callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<boolean>`                                  |
+| `validateField` | Validate specified fields.                                         | `(props?: Arrayable<FormItemProp>, callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<void>` |
+| `resetFields`   | Reset specified fields and remove validation result.               | `(props?: Arrayable<FormItemProp>) => void`                                                                                      |
+| `scrollToField` | Scroll to the specified fields.                                    | `(prop: FormItemProp) => void`                                                                                                   |
+| `clearValidate` | Clear validation message for specified fields.                     | `(props?: Arrayable<FormItemProp>) => void`                                                                                      |
+
 ### Form Events
 
 | Name     | Description                             | Type                                                                         |

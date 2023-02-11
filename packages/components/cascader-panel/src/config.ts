@@ -1,7 +1,6 @@
 import { computed } from 'vue'
 import { NOOP } from '@vue/shared'
-
-import type { PropType } from 'vue'
+import { buildProps, definePropType } from '@element-plus/utils'
 import type {
   CascaderConfig,
   CascaderOption,
@@ -9,17 +8,19 @@ import type {
   CascaderValue,
 } from './node'
 
-export const CommonProps = {
-  modelValue: [Number, String, Array] as PropType<CascaderValue>,
+export const CommonProps = buildProps({
+  modelValue: {
+    type: definePropType<CascaderValue>([Number, String, Array]),
+  },
   options: {
-    type: Array as PropType<CascaderOption[]>,
+    type: definePropType<CascaderOption[]>(Array),
     default: () => [] as CascaderOption[],
   },
   props: {
-    type: Object as PropType<CascaderProps>,
+    type: definePropType<CascaderProps>(Object),
     default: () => ({} as CascaderProps),
   },
-}
+} as const)
 
 export const DefaultProps: CascaderConfig = {
   expandTrigger: 'click',

@@ -112,7 +112,7 @@ See how to help translating in [Translating Element Plus](https://element-plus.o
 
 ## Stay tuned :eyes:
 
-Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody.
+Join our [Discord](https://discord.com/invite/gXK9XNzW3X) to start communicating with everybody.
 
 ## This thing is broken, I should help improve it!
 

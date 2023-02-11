@@ -7,7 +7,7 @@ import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import ElForm, { ElFormItem } from '@element-plus/components/form'
-import Cascader from '../src/index.vue'
+import Cascader from '../src/cascader.vue'
 
 import type { VNode } from 'vue'
 

@@ -40,8 +40,8 @@ export const useLockscreen = (trigger: Ref<boolean>) => {
 
   const cleanup = () => {
     setTimeout(() => {
-      removeClass(document.body, hiddenCls.value)
-      if (withoutHiddenClass) {
+      removeClass(document?.body, hiddenCls.value)
+      if (withoutHiddenClass && document) {
         document.body.style.width = bodyWidth
       }
     }, 200)
