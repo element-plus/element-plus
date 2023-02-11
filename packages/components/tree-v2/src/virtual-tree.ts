@@ -87,6 +87,10 @@ export const treeProps = buildProps({
     type: Number,
     default: 16,
   },
+  itemSize: {
+    type: Number,
+    default: 26,
+  },
   icon: {
     type: iconPropType,
   },
@@ -148,6 +152,10 @@ export const treeNodeProps = buildProps({
   hiddenExpandIcon: {
     type: Boolean,
     default: false,
+  },
+  itemSize: {
+    type: Number,
+    default: 26,
   },
 } as const)
 
