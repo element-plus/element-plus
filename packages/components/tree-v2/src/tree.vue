@@ -9,7 +9,7 @@
       :data="flattenTree"
       :total="flattenTree.length"
       :height="height"
-      :item-size="itemSize"
+      :item-size="treeNodeSize"
       :perf-mode="perfMode"
     >
       <template #default="{ data, index, style }">
@@ -21,7 +21,7 @@
           :show-checkbox="showCheckbox"
           :checked="isChecked(data[index])"
           :indeterminate="isIndeterminate(data[index])"
-          :item-size="itemSize"
+          :item-size="treeNodeSize"
           :disabled="isDisabled(data[index])"
           :current="isCurrent(data[index])"
           :hidden-expand-icon="isForceHiddenExpandIcon(data[index])"
@@ -57,7 +57,7 @@ const emit = defineEmits(treeEmits)
 
 const slots = useSlots()
 
-const itemSize = computed(() => props.itemSize)
+const treeNodeSize = computed(() => props.itemSize)
 
 provide(ROOT_TREE_INJECTION_KEY, {
   ctx: {
