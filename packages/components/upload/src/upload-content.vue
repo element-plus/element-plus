@@ -72,8 +72,11 @@ const uploadFiles = (files: File[]) => {
   for (const file of files) {
     const rawFile = file as UploadRawFile
     rawFile.uid = genFileId()
-    onStart(rawFile)
-    if (autoUpload) upload(rawFile)
+    if (autoUpload) {
+      upload(rawFile)
+    } else {
+      onStart(rawFile)
+    }
   }
 }
 
@@ -92,9 +95,10 @@ const upload = async (rawFile: UploadRawFile) => {
   }
 
   if (hookResult === false) {
-    props.onRemove(rawFile)
     return
   }
+
+  props.onStart(rawFile)
 
   let file: File = rawFile
   if (hookResult instanceof Blob) {
