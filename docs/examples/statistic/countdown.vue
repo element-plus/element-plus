@@ -14,17 +14,17 @@
       </el-button>
     </el-col>
     <el-col :span="8">
-      <el-countdown format="DD [days] HH [hours] mm:ss" :value="value2">
+      <el-countdown format="DD [days] HH:mm:ss" :value="value2">
         <template #title>
           <div style="display: inline-flex; align-items: center">
             <el-icon style="margin-right: 4px" :size="12">
               <Calendar />
             </el-icon>
-            New Year's Day is still to come
+            Still to go until next month
           </div>
         </template>
       </el-countdown>
-      <div class="countdown-footer">2023-01-01 00:00:00</div>
+      <div class="countdown-footer">{{ value2.format('YYYY-MM-DD') }}</div>
     </el-col>
   </el-row>
 </template>
@@ -36,7 +36,7 @@ import { Calendar } from '@element-plus/icons-vue'
 
 const value = ref(Date.now() + 1000 * 60 * 60 * 7)
 const value1 = ref(Date.now() + 1000 * 60 * 60 * 24 * 2)
-const value2 = ref(dayjs('2023-01-01 00:00:00'))
+const value2 = ref(dayjs().add(1, 'month').startOf('month'))
 
 function reset() {
   value1.value = Date.now() + 1000 * 60 * 60 * 24 * 2

@@ -189,6 +189,10 @@ function useRender<T>(
     return Array.prototype.indexOf.call(children, child)
   }
 
+  const updateColumnOrder = () => {
+    owner.value.store.commit('updateColumnOrder', instance.columnConfig.value)
+  }
+
   return {
     columnId,
     realAlign,
@@ -200,6 +204,7 @@ function useRender<T>(
     setColumnRenders,
     getPropsData,
     getColumnElIndex,
+    updateColumnOrder,
   }
 }
 
