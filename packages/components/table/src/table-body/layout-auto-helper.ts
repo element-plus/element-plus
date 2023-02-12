@@ -5,7 +5,7 @@ import {
   shallowRef,
   unref,
 } from 'vue'
-import type { TableColumnCtx } from '../table/defaults'
+import type { DefaultRow, Table, TableColumnCtx } from '../table/defaults'
 import type { TableBodyProps } from './defaults'
 
 function isHTMLElement(h: HTMLElement | null): h is HTMLElement {
@@ -14,7 +14,10 @@ function isHTMLElement(h: HTMLElement | null): h is HTMLElement {
 
 const LAYOUT_AUTO = 'auto'
 
-export default function useLayoutAuto<T>(props: Partial<TableBodyProps<T>>) {
+export default function useLayoutAuto<T>(
+  props: Partial<TableBodyProps<T>>,
+  table: Table<DefaultRow>
+) {
   const instance = getCurrentInstance()
   const columns = unref(props.store.states._columns)
   const observer = shallowRef<ResizeObserver>()
@@ -25,33 +28,57 @@ export default function useLayoutAuto<T>(props: Partial<TableBodyProps<T>>) {
     return el.querySelector('tr')
   }
 
+  const getTheadFirstTr = () => {
+    const el = table.vnode.el as HTMLElement
+    const thead = el.querySelector('thead')
+    return thead!.querySelector('tr')
+  }
+
+  const getColgroup = () => {
+    const el = table.vnode.el as HTMLElement
+    return el.querySelector('colgroup')
+  }
+
+  const addObserver = (target: HTMLElement) => {
+    observer.value?.observe(target)
+    observerElList.value.push(target)
+  }
+
   const resizeCallback = (firstTr: HTMLElement) => {
-    const tdList = firstTr.querySelectorAll('td')
-    columns.forEach((column: TableColumnCtx<T>, index: number) => {
-      column.autoWidth = Number.parseInt(`${tdList[index].offsetWidth}`)
-    })
+    return function callback() {
+      const tdList = firstTr.querySelectorAll('td')
+      columns.forEach((column: TableColumnCtx<T>, index: number) => {
+        column.autoWidth = Number.parseInt(`${tdList[index]?.offsetWidth}`)
+      })
+      resetColWidth()
+    }
   }
 
   const initLayoutAuto = () => {
     const firstTr = getFirstTrEl()
     if (!isHTMLElement(firstTr)) return
-    const callback = resizeCallback.bind(null, firstTr)
+    const callback = resizeCallback(firstTr)
     observer.value = new ResizeObserver(callback)
-    observer.value.observe(firstTr)
-    observerElList.value.push(firstTr)
+    addObserver(firstTr)
   }
 
   const updateLayoutAuto = () => {
     const firstTr = getFirstTrEl()
-    if (!isHTMLElement(firstTr)) return
+    const firstHeadTr = getTheadFirstTr()
+    if (!isHTMLElement(firstTr) || !isHTMLElement(firstHeadTr)) return
+    /*
+     * 1. 由于 table 是 auto，宽度随内容宽决定。当处于最小「内容宽度」时，再设置 col 的 width 将没任何作用（如用户拖拽）。
+     * 2. 头部因为要跟随 tbody 的宽度变化，所以不能设置成 auto（为 fixed），不然有可能出现 head 跟 body 宽度不相等的情况（因为最小内容宽后将无法从 col 中控制）。
+     * 3. 当 tbody 已处于最小内容宽，此时拖拽表头已经无法改变 tbody 的列宽，导致表头比表格小且无法监测到宽度变化，所以也需要监测表头变化。
+     * */
     const tdList = firstTr.querySelectorAll('td')
-    const callback = resizeCallback.bind(null, firstTr)
+    const thList = firstHeadTr.querySelectorAll('th')
+    const callback = resizeCallback(firstTr)
     observer.value = new ResizeObserver(callback)
 
-    for (const tdEl of tdList) {
-      if (observerElList.value.includes(tdEl)) continue
-      observer.value.observe(tdEl)
-      observerElList.value.push(tdEl)
+    for (const cell of [...tdList, ...thList]) {
+      if (observerElList.value.includes(cell)) continue
+      addObserver(cell)
     }
   }
 
@@ -62,6 +89,21 @@ export default function useLayoutAuto<T>(props: Partial<TableBodyProps<T>>) {
     observerElList.value.length = 0
     columns.forEach((item: TableColumnCtx<T>) => {
       item.autoWidth = null
+    })
+  }
+
+  // 处理「用户拖拽场景」表头列宽对齐表格列宽
+  const resetColWidth = () => {
+    const firstColgroup = getColgroup()
+    const colList = firstColgroup!.querySelectorAll('col')
+    columns.forEach((column: TableColumnCtx<T>, index: number) => {
+      // 仅处理用户拖拽过的列，其余保持初始
+      if (
+        colList[index].style.width &&
+        Number.parseInt(colList[index].style.width) !== column.autoWidth
+      ) {
+        column.width = column.autoWidth as number
+      }
     })
   }
 

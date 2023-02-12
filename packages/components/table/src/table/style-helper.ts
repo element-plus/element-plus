@@ -104,7 +104,6 @@ function useStyle<T>(
   const tableBodyStyles = computed(() => {
     return {
       width: layout.bodyWidth.value ? `${layout.bodyWidth.value}px` : '',
-      tableLayout: tableLayout.value,
     }
   })
 

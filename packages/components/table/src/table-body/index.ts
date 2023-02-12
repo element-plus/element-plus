@@ -30,7 +30,7 @@ export default defineComponent({
       useRender(props)
     const { onColumnsChange, onScrollableChange } = useLayoutObserver(parent!)
 
-    const { unLayoutAutoObserve } = useLayoutAuto(props)
+    const { unLayoutAutoObserve } = useLayoutAuto(props, parent)
 
     watch(props.store.states.hoverRow, (newVal: any, oldVal: any) => {
       if (!props.store.states.isComplex.value || !isClient) return
