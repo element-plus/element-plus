@@ -246,14 +246,6 @@ export const useSelect = (props, states: States, ctx) => {
     () => states.visible,
     (val) => {
       if (!val) {
-        if (props.filterable) {
-          if (isFunction(props.filterMethod)) {
-            props.filterMethod('')
-          }
-          if (isFunction(props.remoteMethod)) {
-            props.remoteMethod('')
-          }
-        }
         input.value && input.value.blur()
         states.query = ''
         states.previousQuery = null
@@ -755,6 +747,17 @@ export const useSelect = (props, states: States, ctx) => {
     nextTick(() => scrollToOption(states.selected))
   }
 
+  const handleMenuLeave = () => {
+    if (!states.visible && props.filterable) {
+      if (isFunction(props.filterMethod)) {
+        props.filterMethod('')
+      }
+      if (isFunction(props.remoteMethod)) {
+        props.remoteMethod('')
+      }
+    }
+  }
+
   const handleFocus = (event: FocusEvent) => {
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
@@ -908,6 +911,7 @@ export const useSelect = (props, states: States, ctx) => {
     onOptionCreate,
     onOptionDestroy,
     handleMenuEnter,
+    handleMenuLeave,
     handleFocus,
     blur,
     handleBlur,

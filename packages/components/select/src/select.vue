@@ -22,6 +22,7 @@
       :gpu-acceleration="false"
       :persistent="persistent"
       @show="handleMenuEnter"
+      @hide="handleMenuLeave"
     >
       <template #default>
         <div
@@ -447,6 +448,7 @@ export default defineComponent({
       onOptionCreate,
       onOptionDestroy,
       handleMenuEnter,
+      handleMenuLeave,
       handleFocus,
       blur,
       handleBlur,
@@ -623,6 +625,7 @@ export default defineComponent({
       resetInputState,
       handleComposition,
       handleMenuEnter,
+      handleMenuLeave,
       handleFocus,
       blur,
       handleBlur,
