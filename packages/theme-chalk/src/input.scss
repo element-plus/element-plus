@@ -121,11 +121,6 @@
       color: getCssVar('color-danger');
     }
   }
-  @include m(hidden-webkit-scrollbar) {
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
 }
 
 @include b(input) {

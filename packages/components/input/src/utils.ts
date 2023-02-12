@@ -1,12 +1,11 @@
-import { isNumber } from '@element-plus/utils'
-import { useNamespace } from '@element-plus/hooks'
+import { isFirefox, isNumber } from '@element-plus/utils'
 
-const ns = useNamespace('textarea')
 let hiddenTextarea: HTMLTextAreaElement | undefined = undefined
 
 const HIDDEN_STYLE = `
   height:0 !important;
   visibility:hidden !important;
+  ${isFirefox() ? '' : 'overflow:hidden !important;'}
   position:absolute !important;
   z-index:-1000 !important;
   top:0 !important;
@@ -77,7 +76,6 @@ export function calcTextareaHeight(
     calculateNodeStyling(targetElement)
 
   hiddenTextarea.setAttribute('style', `${contextStyle};${HIDDEN_STYLE}`)
-  hiddenTextarea.className = ns.m('hidden-webkit-scrollbar')
   hiddenTextarea.value = targetElement.value || targetElement.placeholder || ''
 
   let height = hiddenTextarea.scrollHeight
