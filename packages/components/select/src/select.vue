@@ -178,6 +178,7 @@
             :name="name"
             :autocomplete="autocomplete"
             :size="selectSize"
+            :rtl="supportRtl"
             :disabled="selectDisabled"
             :readonly="readonly"
             :validate-event="false"
@@ -326,6 +327,7 @@ export default defineComponent({
       type: String as PropType<ComponentSize>,
       validator: isValidComponentSize,
     },
+    rtl: Boolean,
     effect: {
       type: String as PropType<'light' | 'dark' | string>,
       default: 'light',
@@ -469,6 +471,7 @@ export default defineComponent({
       groupQueryChange,
       handleMouseEnter,
       handleMouseLeave,
+      supportRTL,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -503,6 +506,9 @@ export default defineComponent({
       }
       if (props.disabled) {
         classList.push(nsSelect.m('disabled'))
+      }
+      if (props.rtl) {
+        classList.push(nsSelect.m('rtl'))
       }
       return classList
     })
@@ -643,13 +649,13 @@ export default defineComponent({
       tags,
       selectWrapper,
       scrollbar,
-
       wrapperKls,
       selectTagsStyle,
       nsSelect,
       tagTextStyle,
       handleMouseEnter,
       handleMouseLeave,
+      supportRTL,
     }
   },
 })
