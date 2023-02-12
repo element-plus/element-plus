@@ -245,7 +245,7 @@ describe('Virtual Tree', () => {
     const node = wrapper.find('.el-tree-node').element
     const content = wrapper.find('.el-tree-node__content').element
     expect(node.style.height).toBe('40px')
-    expect(node.style.height).toBe('40px')
+    expect(content.style.height).toBe('40px')
   })
 
   test('props', async () => {
