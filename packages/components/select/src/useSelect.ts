@@ -780,6 +780,7 @@ export const useSelect = (props, states: States, ctx) => {
       if (states.isSilentBlur) {
         states.isSilentBlur = false
       } else {
+        states.visible && handleClose()
         ctx.emit('blur', event)
       }
     })
