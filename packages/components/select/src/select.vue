@@ -30,13 +30,13 @@
           @mouseleave="inputHovering = false"
         >
           <div
-            v-if="multiple || isIOS"
+            v-if="multiple"
             ref="tags"
             :class="nsSelect.e('tags')"
             :style="selectTagsStyle"
           >
             <span
-              v-if="collapseTags && selected.length && !isIOS"
+              v-if="collapseTags && selected.length"
               :class="[
                 nsSelect.b('tags-wrapper'),
                 { 'has-prefix': prefixWidth && selected.length },
@@ -110,10 +110,7 @@
               </el-tag>
             </span>
             <!-- <div> -->
-            <transition
-              v-if="!collapseTags && !isIOS"
-              @after-leave="resetInputHeight"
-            >
+            <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span
                 :class="[
                   nsSelect.b('tags-wrapper'),
@@ -172,6 +169,18 @@
               @input="debouncedQueryChange"
             />
           </div>
+          <!-- fix: https://github.com/element-plus/element-plus/issues/11415 -->
+          <input
+            v-if="isIOS && !multiple && filterable && readonly"
+            ref="iOSInput"
+            :class="[
+              nsSelect.e('input'),
+              nsSelect.is(selectSize),
+              nsSelect.em('input', 'iOS'),
+            ]"
+            :disabled="selectDisabled"
+            type="text"
+          />
           <el-input
             :id="id"
             ref="reference"
@@ -464,6 +473,7 @@ export default defineComponent({
 
       reference,
       input,
+      iOSInput,
       tooltipRef,
       tags,
       selectWrapper,
@@ -642,6 +652,7 @@ export default defineComponent({
 
       reference,
       input,
+      iOSInput,
       tooltipRef,
       popperPaneRef,
       tags,
