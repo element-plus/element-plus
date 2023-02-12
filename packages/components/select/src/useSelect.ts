@@ -246,7 +246,7 @@ export const useSelect = (props, states: States, ctx) => {
     () => states.visible,
     (val) => {
       if (!val) {
-        if (window.ontransitionend === null && props.filterable) {
+        if (!window.TransitionEvent && props.filterable) {
           if (isFunction(props.filterMethod)) {
             props.filterMethod('')
           }
