@@ -41,6 +41,8 @@ const onDrop = (e: DragEvent) => {
   if (disabled.value) return
   dragover.value = false
 
+  e.stopPropagation()
+
   const files = Array.from(e.dataTransfer!.files)
   const accept = uploaderContext.accept.value
   if (!accept) {
