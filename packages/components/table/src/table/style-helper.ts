@@ -308,27 +308,14 @@ function useStyle<T>(
       }
     }
     if (props.maxHeight) {
-      if (!Number.isNaN(Number(props.maxHeight))) {
-        const maxHeight = props.maxHeight
-        const reachMaxHeight = tableScrollHeight.value >= Number(maxHeight)
-        if (reachMaxHeight) {
-          return {
-            maxHeight: `${
-              tableScrollHeight.value -
-              headerScrollHeight.value -
-              footerScrollHeight.value
-            }px`,
-          }
-        }
-      } else {
-        return {
-          maxHeight: `calc(${props.maxHeight} - ${
-            headerScrollHeight.value + footerScrollHeight.value
-          }px)`,
-        }
+      return {
+        maxHeight: `calc(${
+          !Number.isNaN(Number(props.maxHeight))
+            ? `${props.maxHeight}px`
+            : props.maxHeight
+        } - ${headerScrollHeight.value + footerScrollHeight.value}px)`,
       }
     }
-
     return {}
   })
 
