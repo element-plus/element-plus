@@ -666,7 +666,7 @@ onMounted(() => {
 
 defineExpose({
   /**
-   * @description get an array of currently selected node
+   * @description get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false`
    */
   getCheckedNodes,
   /**
