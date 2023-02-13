@@ -380,7 +380,7 @@ const handleInput = async (event: Event) => {
   // ensure native input value is controlled
   // see: https://github.com/ElemeFE/element/issues/12850
   await nextTick()
-  setNativeInputValue()
+  if (!parsedValue) setNativeInputValue()
   setCursor()
 }
 
