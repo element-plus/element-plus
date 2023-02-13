@@ -303,7 +303,7 @@ describe('InputNumber.vue', () => {
 
   test('model-value matches input while focussed', async () => {
     const handleChange = vi.fn()
-    const num = ref(13)
+    const num = ref(13.5)
     const wrapper = mount(() => (
       <InputNumber v-model={num.value} onCchange={handleChange} />
     ))
@@ -318,14 +318,14 @@ describe('InputNumber.vue', () => {
     expect(wrapper.getComponent(InputNumber).emitted('focus')).toHaveLength(1)
     expect(handleChange).toBeCalledTimes(0)
 
-    simulateEvent('12', 'input')
+    simulateEvent('12.3', 'input')
     await nextTick()
-    expect(num.value).toEqual(12)
+    expect(num.value).toEqual(12.3)
     expect(handleChange).toBeCalledTimes(0)
 
-    simulateEvent('13', 'input')
+    simulateEvent('13.5', 'input')
     await nextTick()
-    expect(num.value).toEqual(13)
+    expect(num.value).toEqual(13.5)
     expect(handleChange).toBeCalledTimes(0)
   })
 
