@@ -52,6 +52,9 @@ export function useOption(props, states) {
   const isDisabled = computed(() => {
     return props.disabled || states.groupDisabled || limitReached.value
   })
+  const isRtl = computed(() => {
+    return props.value || props.rtl || ''
+  })
 
   const instance = getCurrentInstance()
 
@@ -141,5 +144,6 @@ export function useOption(props, states) {
     itemSelected,
     isDisabled,
     hoverItem,
+    isRtl,
   }
 }

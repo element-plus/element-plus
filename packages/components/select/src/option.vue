@@ -4,6 +4,7 @@
     :class="[
       ns.be('dropdown', 'item'),
       ns.is('disabled', isDisabled),
+      ns.is('rtl', isRtl),
       {
         selected: itemSelected,
         hover,
@@ -59,7 +60,7 @@ export default defineComponent({
       hover: false,
     })
 
-    const { currentLabel, itemSelected, isDisabled, select, hoverItem } =
+    const { currentLabel, itemSelected, isDisabled, isRtl, select, hoverItem } =
       useOption(props, states)
 
     const { visible, hover } = toRefs(states)
@@ -101,6 +102,7 @@ export default defineComponent({
       hover,
       selectOptionClick,
       states,
+      isRtl,
     }
   },
 })
