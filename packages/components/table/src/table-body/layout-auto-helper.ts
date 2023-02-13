@@ -5,6 +5,7 @@ import {
   shallowRef,
   unref,
 } from 'vue'
+import { debounce } from 'lodash-es'
 import type { DefaultRow, Table, TableColumnCtx } from '../table/defaults'
 import type { TableBodyProps } from './defaults'
 
@@ -22,6 +23,7 @@ export default function useLayoutAuto<T>(
   const columns = unref(props.store.states._columns)
   const observer = shallowRef<ResizeObserver>()
   const observerElList = shallowRef<HTMLElement[]>([])
+  let dragInfo: TableColumnCtx<T> | null = null
 
   const getFirstTrEl = () => {
     const el = instance?.vnode.el as HTMLElement
@@ -44,13 +46,14 @@ export default function useLayoutAuto<T>(
     observerElList.value.push(target)
   }
 
-  const resizeCallback = (firstTr: HTMLElement) => {
+  const resizeCallback = (firstTr: HTMLElement, resetColWidth?: () => void) => {
+    const debounceReset = resetColWidth && debounce(resetColWidth, 30)
     return function callback() {
       const tdList = firstTr.querySelectorAll('td')
       columns.forEach((column: TableColumnCtx<T>, index: number) => {
         column.autoWidth = Number.parseInt(`${tdList[index]?.offsetWidth}`)
       })
-      resetColWidth()
+      debounceReset?.()
     }
   }
 
@@ -73,7 +76,7 @@ export default function useLayoutAuto<T>(
      * */
     const tdList = firstTr.querySelectorAll('td')
     const thList = firstHeadTr.querySelectorAll('th')
-    const callback = resizeCallback(firstTr)
+    const callback = resizeCallback(firstTr, resetColWidth)
     observer.value = new ResizeObserver(callback)
 
     for (const cell of [...tdList, ...thList]) {
@@ -97,14 +100,22 @@ export default function useLayoutAuto<T>(
     const firstColgroup = getColgroup()
     const colList = firstColgroup!.querySelectorAll('col')
     columns.forEach((column: TableColumnCtx<T>, index: number) => {
+      const col = colList[index]
+      if (!col) return
+      const name = col.getAttribute('name')
       // 仅处理用户拖拽过的列，其余保持初始
       if (
-        colList[index].style.width &&
-        Number.parseInt(colList[index].style.width) !== column.autoWidth
+        name === dragInfo?.id &&
+        Number.parseInt(col.style.width) !== column.autoWidth
       ) {
         column.width = column.autoWidth as number
+        dragInfo = null
       }
     })
+  }
+
+  const getDragInfo = (info: TableColumnCtx<T>) => {
+    dragInfo = info
   }
 
   onMounted(() => {
@@ -122,5 +133,6 @@ export default function useLayoutAuto<T>(
 
   return {
     unLayoutAutoObserve,
+    getDragInfo,
   }
 }

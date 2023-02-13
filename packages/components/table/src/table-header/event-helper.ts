@@ -91,6 +91,7 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
           draggingColumn.value = null
           dragState.value = {}
           emit('set-drag-visible', false)
+          table.refs.tableBodyRef?.getDragInfo(column)
         }
 
         document.removeEventListener('mousemove', handleMouseMove)

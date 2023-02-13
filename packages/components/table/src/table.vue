@@ -80,6 +80,7 @@
               :table-layout="tableLayout"
             />
             <table-body
+              ref="tableBodyRef"
               :context="context"
               :highlight="highlightCurrentRow"
               :row-class-name="rowClassName"
