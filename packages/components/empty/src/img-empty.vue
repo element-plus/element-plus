@@ -126,19 +126,13 @@
   </svg>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+<script lang="ts" setup>
+import { useId, useNamespace } from '@element-plus/hooks'
 
-let id = 0
-export default defineComponent({
+defineOptions({
   name: 'ImgEmpty',
-  setup() {
-    const ns = useNamespace('empty')
-    return {
-      ns,
-      id: ++id,
-    }
-  },
 })
+
+const ns = useNamespace('empty')
+const id = useId()
 </script>
