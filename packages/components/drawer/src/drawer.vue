@@ -89,7 +89,12 @@ import ElFocusTrap from '@element-plus/components/focus-trap'
 import { useDialog } from '@element-plus/components/dialog'
 import { addUnit } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
-import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useLocale,
+  useNamespace,
+  useRestoreActive,
+} from '@element-plus/hooks'
 import { drawerEmits, drawerProps } from './drawer'
 
 export default defineComponent({
@@ -137,8 +142,11 @@ export default defineComponent({
     )
     const drawerSize = computed(() => addUnit(props.size))
 
+    const dialog = useDialog(props, drawerRef)
+    useRestoreActive(dialog.visible)
+
     return {
-      ...useDialog(props, drawerRef),
+      ...dialog,
       drawerRef,
       focusStartRef,
       isHorizontal,
