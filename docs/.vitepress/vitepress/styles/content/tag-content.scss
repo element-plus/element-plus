@@ -20,14 +20,7 @@
     --vp-tag-border-color: var(--el-color-warning);
   }
   &.a11y {
-    --vp-tag-color: #6222c2;
-    --vp-tag-border-color: #9065db;
-  }
-}
-
-.dark .vp-tag {
-  &.a11y {
-    --vp-tag-color: #9065db;
-    --vp-tag-border-color: #6222c2;
+    --vp-tag-color: var(--purple-color);
+    --vp-tag-border-color: var(--purple-color-light);
   }
 }
