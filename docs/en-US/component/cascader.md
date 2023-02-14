@@ -189,10 +189,11 @@ cascader/panel
 
 ### Cascader Exposes
 
-| Name             | Description                                                                                                       | Type                                                            |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| getCheckedNodes  | get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false` | ^[Function]`(leafOnly: boolean) => CascaderNode[] \| undefined` |
-| cascaderPanelRef | cascader panel ref                                                                                                | ^[object]`ComputedRef<any>`                                     |
+| Name                | Description                                                                                                       | Type                                                            |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| getCheckedNodes     | get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false` | ^[Function]`(leafOnly: boolean) => CascaderNode[] \| undefined` |
+| cascaderPanelRef    | cascader panel ref                                                                                                | ^[object]`ComputedRef<any>`                                     |
+| togglePopperVisible | toggle the visible type of popper                                                                                 | ^[Function]`(visible?: boolean) => void`                        |
 
 ## CascaderPanel API
 
@@ -224,7 +225,6 @@ cascader/panel
 | ----------------- | ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | getCheckedNodes   | get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false` | ^[Function]`(leafOnly: boolean) => CascaderNode[] \| undefined` |
 | clearCheckedNodes | clear checked nodes                                                                                               | ^[Function]`() => void`                                         |
-| togglePopperVisible | toggle the visible type of popper       | (visible?: boolean) control whether the popper is visible                          |
 
 ## CascaderProps
 
