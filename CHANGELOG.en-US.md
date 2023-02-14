@@ -1,5 +1,28 @@
 ## Changelog
 
+### 2.2.30
+
+_2023-02-10_
+
+#### Features
+
+- Components [statistic] (#11420 by @chenxch)
+
+#### Bug fixes
+
+- Components [select] recalculate input height when display change (#11374 by @makedopamine)
+- Components [input] use v-if throw exception (#11187 by @acyza)
+- Components [tree] update refNode type (#11421 by @btea)
+- Components [dropdown] (#11431 by @jw-foss)
+- Theme-chalk [table] the cell missing padding style (#11456 by @tolking)
+- Components fix virtual list scroll&wheel handler (#11472 by @Rapliangle)
+- Components [virtual-list] scroll issue (#11475 by @jw-foss)
+
+#### Refactors
+
+- Tokens use Symbol as injection key (#11251 by @Naeemo)
+- Locale change short months naming (#11326 by @ADISAKBOONMARK)
+
 ### 2.2.29
 
 _2023-02-03_

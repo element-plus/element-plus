@@ -29,6 +29,8 @@
   --success-color: var(--el-color-success);
   --warning-color: var(--el-color-warning);
   --danger-color: var(--el-color-danger);
+  --purple-color: #6222c2;
+  --purple-color-light: #9065db;
 
   // header vars
   --header-height: 55px;
@@ -84,4 +86,6 @@
   --bg-color-mute: #2c2c2c;
   --code-tooltip-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
   --code-tooltip-color: var(--brand-color);
+  --purple-color: #9065db;
+  --purple-color-light: #6222c2;
 }
