@@ -54,7 +54,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | model-value / v-model | binding value                                                                                                                                                  | ^[Date]                | —       |
 | range                 | time range, including start time and end time. Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months. | ^[array]`[Date, Date]` | —       |
 
-### Scoped Slots
+### Slots
 
 | Name      | Description                                                                                                                                                                                                                                               | Type                                                                                                                         |
 | --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
