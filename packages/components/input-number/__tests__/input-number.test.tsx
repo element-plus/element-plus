@@ -305,7 +305,7 @@ describe('InputNumber.vue', () => {
     const handleChange = vi.fn()
     const num = ref(13.5)
     const wrapper = mount(() => (
-      <InputNumber v-model={num.value} onCchange={handleChange} />
+      <InputNumber v-model={num.value} onChange={handleChange} />
     ))
     const inputWrapper = wrapper.find('input')
     const el = inputWrapper.element
