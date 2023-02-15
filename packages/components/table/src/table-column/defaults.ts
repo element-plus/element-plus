@@ -16,6 +16,7 @@ type ValueOf<T> = T[keyof T]
 
 interface TableColumnCtx<T> {
   autoWidth: number | null
+  userDefaultWidth?: number
   id: string
   realWidth: number
   type: string
