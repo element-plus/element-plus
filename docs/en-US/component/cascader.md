@@ -249,7 +249,30 @@ cascader/panel
   <summary>Show declarations</summary>
 
 ```ts
+type CascaderNodeValue = string | number
+type CascaderNodePathValue = CascaderNodeValue[]
+type CascaderValue =
+  | CascaderNodeValue
+  | CascaderNodePathValue
+  | (CascaderNodeValue | CascaderNodePathValue)[]
+
 type Resolve = (data: any) => void
+
+type ExpandTrigger = 'click' | 'hover'
+
+type LazyLoad = (node: Node, resolve: Resolve) => void
+
+type isDisabled = (data: CascaderOption, node: Node) => boolean
+
+type isLeaf = (data: CascaderOption, node: Node) => boolean
+
+interface CascaderOption extends Record<string, unknown> {
+  label?: string
+  value?: CascaderNodeValue
+  children?: CascaderOption[]
+  disabled?: boolean
+  leaf?: boolean
+}
 
 interface CascaderProps {
   expandTrigger?: ExpandTrigger
@@ -265,13 +288,6 @@ interface CascaderProps {
   leaf?: string | isLeaf
   hoverThreshold?: number
 }
-
-type CascaderNodeValue = string | number
-type CascaderNodePathValue = CascaderNodeValue[]
-type CascaderValue =
-  | CascaderNodeValue
-  | CascaderNodePathValue
-  | (CascaderNodeValue | CascaderNodePathValue)[]
 
 class Node {
   readonly uid: number
