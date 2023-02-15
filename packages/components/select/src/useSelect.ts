@@ -247,8 +247,6 @@ export const useSelect = (props, states: States, ctx) => {
     (val) => {
       if (!val) {
         input.value && input.value.blur()
-        states.query = ''
-        states.previousQuery = null
         states.selectedLabel = ''
         states.inputLength = 20
         states.menuVisibleOnFocus = false
@@ -749,7 +747,6 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleMenuLeave = () => {
     if (!states.visible && props.filterable && states.previousQuery) {
-      states.previousQuery = ''
       if (isFunction(props.filterMethod)) {
         props.filterMethod('')
       }
@@ -757,6 +754,8 @@ export const useSelect = (props, states: States, ctx) => {
         props.remoteMethod('')
       }
     }
+    states.query = ''
+    states.previousQuery = null
   }
 
   const handleFocus = (event: FocusEvent) => {
