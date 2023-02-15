@@ -46,4 +46,7 @@
   @include e(preview) {
     cursor: pointer;
   }
+	&[data-state='error'] {
+		min-width: 100px;
+	}
 }

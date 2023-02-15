@@ -1,5 +1,10 @@
 <template>
-  <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
+  <div
+    ref="container"
+    :class="[ns.b(), $attrs.class]"
+    :style="containerStyle"
+    :data-state="isLoading ? 'loading' : hasLoadError ? 'error' : 'success'"
+  >
     <img
       v-if="imageSrc !== undefined && !hasLoadError"
       v-bind="attrs"
