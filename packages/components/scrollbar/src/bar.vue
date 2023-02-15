@@ -19,8 +19,14 @@ const props = defineProps(barProps)
 const moveX = ref(0)
 const moveY = ref(0)
 
+let wrapScrollTop = 0
+let wrapScrollLeft = 0
+
 const handleScroll = (wrap: HTMLDivElement) => {
   if (wrap) {
+    wrapScrollTop = wrap.scrollTop
+    wrapScrollLeft = wrap.scrollLeft
+
     const offsetHeight = wrap.offsetHeight - GAP
     const offsetWidth = wrap.offsetWidth - GAP
 
@@ -29,7 +35,13 @@ const handleScroll = (wrap: HTMLDivElement) => {
   }
 }
 
+const restore = (wrap: HTMLDivElement) => {
+  wrap.scrollTop = wrapScrollTop
+  wrap.scrollLeft = wrapScrollLeft
+}
+
 defineExpose({
   handleScroll,
+  restore,
 })
 </script>
