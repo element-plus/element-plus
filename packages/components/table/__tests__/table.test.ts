@@ -1475,7 +1475,7 @@ describe('Table.vue', () => {
       },
     })
     await doubleWait()
-    expect(wrapper.findAll('.el-table__body thead').length).toBe(0)
+    expect(wrapper.find('.el-table__body thead').exists()).toBeFalsy()
     expect(wrapper.find('.el-table__body colgroup col').exists()).toBeFalsy()
     expect(wrapper.find('.el-table__body tbody').exists()).toBeTruthy()
   })
@@ -1601,6 +1601,38 @@ describe('Table.vue', () => {
     )
     expect(wrapper.find('.el-table__header').findAll('.cell')[1].text()).toBe(
       'name'
+    )
+  })
+
+  it('should be fixed thead when tableLayout is auto', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+        <el-table :data="testData" table-layout="auto" height="100">
+          <el-table-column prop="id" />
+          <el-table-column prop="name" label="片名" />
+          <el-table-column prop="release" label="发行日期" />
+          <el-table-column prop="director" label="导演" />
+          <el-table-column prop="runtime" label="时长（分）" />
+        </el-table>
+      `,
+      created() {
+        this.testData = getTestData()
+      },
+    })
+    await doubleWait()
+    const theadTable = wrapper.find('.el-table__header')
+    const tbodyTable = wrapper.find('.el-table__body')
+    expect(tbodyTable.attributes('style')).toContain('table-layout: auto')
+    expect(theadTable.find('thead').exists()).toBeTruthy()
+    expect(tbodyTable.find('thead').exists()).toBeFalsy()
+    const theadCol = theadTable.find('.cell')
+    const tbodyCell = tbodyTable.find('.cell')
+    expect(getComputedStyle(theadCol.element).width).toBe(
+      getComputedStyle(tbodyCell.element).width
     )
   })
 })

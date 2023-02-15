@@ -52,6 +52,10 @@ export default function useLayoutAuto<T>(
       const tdList = firstTr.querySelectorAll('td')
       columns.forEach((column: TableColumnCtx<T>, index: number) => {
         column.autoWidth = Number.parseInt(`${tdList[index]?.offsetWidth}`)
+        // 如果初始化存在 width（用户传入），layout布局时亦需要将其同步为浏览器最终计算的宽度值
+        if (column.width) {
+          column.width = column.autoWidth
+        }
       })
       debounceReset?.()
     }
