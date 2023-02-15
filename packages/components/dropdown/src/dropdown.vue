@@ -164,7 +164,7 @@ export default defineComponent({
     // that are triggered through pointer enter/leave events.
     watch(
       [triggeringElementRef, toRef(props, 'trigger')],
-      ([triggeringElement, trigger], [prevTriggeringElement, prevTrigger]) => {
+      ([triggeringElement, trigger], [prevTriggeringElement]) => {
         const triggerArray = isArray(trigger) ? trigger : [trigger]
         if (prevTriggeringElement?.$el?.removeEventListener) {
           prevTriggeringElement.$el.removeEventListener(
