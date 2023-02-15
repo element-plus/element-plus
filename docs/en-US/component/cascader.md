@@ -208,10 +208,11 @@ cascader/panel
 
 ## CascaderPanel Methods
 
-| Method Name       | Description                             | Parameters                                                                |
-| ----------------- | --------------------------------------- | ------------------------------------------------------------------------- |
-| getCheckedNodes   | get an array of currently selected node | (leafOnly) whether only return the leaf checked nodes, default is `false` |
-| clearCheckedNodes | clear checked nodes                     | -                                                                         |
+| Method Name         | Description                             | Parameters                                                                         |
+|---------------------|-----------------------------------------|------------------------------------------------------------------------------------|
+| getCheckedNodes     | get an array of currently selected node | (leafOnly: boolean) whether only return the leaf checked nodes, default is `false` |
+| clearCheckedNodes   | clear checked nodes                     | -                                                                                  |
+| togglePopperVisible | toggle the visible type of popper       | (visible?: boolean) control whether the popper is visible                          |
 
 ## CascaderPanel Slots
 

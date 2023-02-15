@@ -51,6 +51,10 @@ $checkbox-bordered-input-width: map.merge(
   margin-right: 30px;
   height: map.get($checkbox-height, 'default');
 
+  @include when(disabled) {
+    cursor: not-allowed;
+  }
+
   @include when(bordered) {
     padding: 0 map.get($checkbox-bordered-padding-right, 'default')-$border-width
       0 map.get($checkbox-bordered-padding-left, 'default')-$border-width;
@@ -64,7 +68,6 @@ $checkbox-bordered-input-width: map.merge(
 
     &.is-disabled {
       border-color: getCssVar('border-color-lighter');
-      cursor: not-allowed;
     }
 
     @each $size in (large, small) {
@@ -121,10 +124,6 @@ $checkbox-bordered-input-width: map.merge(
         &::after {
           cursor: not-allowed;
           border-color: getCssVar('checkbox-disabled-icon-color');
-        }
-
-        & + .#{$namespace}-checkbox__label {
-          cursor: not-allowed;
         }
       }
 
