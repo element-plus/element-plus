@@ -103,7 +103,7 @@ export default defineComponent({
       const cfg = config.value
 
       manualChecked = false
-      store = reactive(new Store(options, cfg))
+      store = new Store(options, cfg)
       menus.value = [store.getNodes()]
 
       if (cfg.lazy && isEmpty(props.options)) {
@@ -265,8 +265,11 @@ export default defineComponent({
       }
 
       oldNodes.forEach((node) => node.doCheck(false))
-      newNodes.forEach((node) => node.doCheck(true))
-
+      if (props.props.multiple) {
+        reactive(newNodes).forEach((node) => node.doCheck(true))
+      } else {
+        newNodes.forEach((node) => node.doCheck(true))
+      }
       checkedNodes.value = newNodes
       nextTick(scrollToExpandingNode)
     }
