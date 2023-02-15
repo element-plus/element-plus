@@ -749,6 +749,7 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleMenuLeave = () => {
     if (!states.visible && props.filterable && states.previousQuery) {
+      states.previousQuery = ''
       if (isFunction(props.filterMethod)) {
         props.filterMethod('')
       }
