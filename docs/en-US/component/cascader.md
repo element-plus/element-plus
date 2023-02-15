@@ -242,3 +242,86 @@ cascader/panel
 | disabled       | specify which key of node object is used as the node's disabled                                            | ^[string]                                           | disabled |
 | leaf           | specify which key of node object is used as the node's leaf field                                          | ^[string]                                           | leaf     |
 | hoverThreshold | hover threshold of expanding options                                                                       | ^[number]                                           | 500      |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type Resolve = (data: any) => void
+
+interface CascaderProps {
+  expandTrigger?: ExpandTrigger
+  multiple?: boolean
+  checkStrictly?: boolean
+  emitPath?: boolean
+  lazy?: boolean
+  lazyLoad?: LazyLoad
+  value?: string
+  label?: string
+  children?: string
+  disabled?: string | isDisabled
+  leaf?: string | isLeaf
+  hoverThreshold?: number
+}
+
+type CascaderNodeValue = string | number
+type CascaderNodePathValue = CascaderNodeValue[]
+type CascaderValue =
+  | CascaderNodeValue
+  | CascaderNodePathValue
+  | (CascaderNodeValue | CascaderNodePathValue)[]
+
+class Node {
+  readonly uid: number
+  readonly level: number
+  readonly value: CascaderNodeValue
+  readonly label: string
+  readonly pathNodes: Node[]
+  readonly pathValues: CascaderNodePathValue
+  readonly pathLabels: string[]
+
+  childrenData: ChildrenData
+  children: Node[]
+  text: string
+  loaded: boolean
+  /**
+   * Is it checked
+   *
+   * @default false
+   */
+  checked: boolean
+  /**
+   * Used to indicate the intermediate state of unchecked and fully checked child nodes
+   *
+   * @default false
+   */
+  indeterminate: boolean
+  /**
+   * Loading Status
+   *
+   * @default false
+   */
+  loading: boolean
+
+  // getter
+  isDisabled: boolean
+  isLeaf: boolean
+  valueByOption: CascaderNodeValue | CascaderNodePathValue
+
+  // method
+  appendChild(childData: CascaderOption): Node
+  calcText(allLevels: boolean, separator: string): string
+  broadcast(event: string, ...args: unknown[]): void
+  emit(event: string, ...args: unknown[]): void
+  onParentCheck(checked: boolean): void
+  onChildCheck(): void
+  setCheckState(checked: boolean): void
+  doCheck(checked: boolean): void
+}
+
+Node as CascaderNode
+```
+
+</details>
