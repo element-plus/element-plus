@@ -1,29 +1,29 @@
 <template>
   <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
-    <img
-      v-if="imageSrc !== undefined && !hasLoadError"
-      v-bind="attrs"
-      :src="imageSrc"
-      :loading="loading"
-      :style="imageStyle"
-      :class="[
-        ns.e('inner'),
-        preview && ns.e('preview'),
-        isLoading && ns.is('loading'),
-      ]"
-      @click="clickHandler"
-      @load="handleLoad"
-      @error="handleError"
-    />
     <div v-if="isLoading" :class="ns.e('wrapper')">
       <slot name="placeholder">
         <div :class="ns.e('placeholder')" />
       </slot>
     </div>
-    <template v-if="hasLoadError">
-      <slot name="error">
-        <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
-      </slot>
+    <slot v-if="hasLoadError" name="error">
+      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+    </slot>
+    <template v-else>
+      <img
+        v-if="imageSrc !== undefined"
+        v-bind="attrs"
+        :src="imageSrc"
+        :loading="loading"
+        :style="imageStyle"
+        :class="[
+          ns.e('inner'),
+          preview && ns.e('preview'),
+          isLoading && ns.is('loading'),
+        ]"
+        @click="clickHandler"
+        @load="handleLoad"
+        @error="handleError"
+      />
     </template>
     <template v-if="preview">
       <image-viewer
@@ -54,7 +54,6 @@ import {
   onMounted,
   ref,
   useAttrs as useRawAttrs,
-  useSlots as useRawSlots,
   watch,
 } from 'vue'
 import { isClient, useEventListener, useThrottleFn } from '@vueuse/core'

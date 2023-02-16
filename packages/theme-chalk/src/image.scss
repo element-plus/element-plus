@@ -19,7 +19,7 @@
       opacity: 0;
     }
   }
-	
+
 	@include e(wrapper) {
 		@extend %size !optional;
 		position: absolute;
