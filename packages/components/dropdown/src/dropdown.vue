@@ -96,6 +96,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  onUnmounted,
   provide,
   ref,
   toRef,
@@ -190,6 +191,15 @@ export default defineComponent({
       },
       { immediate: true }
     )
+
+    onUnmounted(() => {
+      if (triggeringElement?.$el?.removeEventListener) {
+        triggeringElement.$el.removeEventListener(
+          'pointerenter',
+          onAutofocusTriggerEnter
+        )
+      }
+    })
 
     function handleClick() {
       handleClose()
