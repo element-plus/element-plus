@@ -1,10 +1,5 @@
 <template>
-  <div
-    ref="container"
-    :class="[ns.b(), $attrs.class]"
-    :style="containerStyle"
-    :data-state="isLoading ? 'loading' : hasLoadError ? 'error' : 'success'"
-  >
+  <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
     <img
       v-if="imageSrc !== undefined && !hasLoadError"
       v-bind="attrs"
@@ -20,14 +15,12 @@
       @load="handleLoad"
       @error="handleError"
     />
-    <div v-if="isLoading || hasLoadError" :class="ns.e('wrapper')">
-      <slot v-if="isLoading" name="placeholder">
-        <div :class="ns.e('placeholder')" />
-      </slot>
-      <slot v-else-if="hasLoadError" name="error">
-        <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
-      </slot>
-    </div>
+    <slot v-if="isLoading" name="placeholder">
+      <div :class="ns.e('placeholder')" />
+    </slot>
+    <slot v-else-if="hasLoadError" name="error">
+      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+    </slot>
     <template v-if="preview">
       <image-viewer
         v-if="showViewer"
@@ -57,6 +50,7 @@ import {
   onMounted,
   ref,
   useAttrs as useRawAttrs,
+  useSlots as useRawSlots,
   watch,
 } from 'vue'
 import { isClient, useEventListener, useThrottleFn } from '@vueuse/core'

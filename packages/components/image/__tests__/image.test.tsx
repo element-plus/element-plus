@@ -55,6 +55,25 @@ describe('Image.vue', () => {
     expect((wrapper.element as HTMLElement).dataset.state).toBe('error')
   })
 
+  test('image load error and error slot exist state attribute', async () => {
+    const wrapper = mount({
+      setup() {
+        const props: ElImageProps = {
+          src: IMAGE_FAIL,
+        }
+        return () => (
+          <Image {...props}>
+            {{
+              error: () => 'error slot',
+            }}
+          </Image>
+        )
+      },
+    })
+    await doubleWait()
+    expect((wrapper.element as HTMLElement).dataset.state).toBe('customError')
+  })
+
   test('image load success test', async () => {
     const alt = 'this ia alt'
     const wrapper = mount({
