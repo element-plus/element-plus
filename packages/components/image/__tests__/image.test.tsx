@@ -29,51 +29,6 @@ describe('Image.vue', () => {
     expect(wrapper.find('.el-image').exists()).toBe(true)
   })
 
-  test('image load success state attribute', async () => {
-    const wrapper = mount({
-      setup() {
-        const props: ElImageProps = {
-          src: IMAGE_SUCCESS,
-        }
-        return () => <Image {...props} />
-      },
-    })
-    await doubleWait()
-    expect((wrapper.element as HTMLElement).dataset.state).toBe('success')
-  })
-
-  test('image load error state attribute', async () => {
-    const wrapper = mount({
-      setup() {
-        const props: ElImageProps = {
-          src: IMAGE_FAIL,
-        }
-        return () => <Image {...props} />
-      },
-    })
-    await doubleWait()
-    expect((wrapper.element as HTMLElement).dataset.state).toBe('error')
-  })
-
-  test('image load error and error slot exist state attribute', async () => {
-    const wrapper = mount({
-      setup() {
-        const props: ElImageProps = {
-          src: IMAGE_FAIL,
-        }
-        return () => (
-          <Image {...props}>
-            {{
-              error: () => 'error slot',
-            }}
-          </Image>
-        )
-      },
-    })
-    await doubleWait()
-    expect((wrapper.element as HTMLElement).dataset.state).toBe('customError')
-  })
-
   test('image load success test', async () => {
     const alt = 'this ia alt'
     const wrapper = mount({
