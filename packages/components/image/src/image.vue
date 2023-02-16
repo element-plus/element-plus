@@ -1,10 +1,5 @@
 <template>
   <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
-    <div v-if="isLoading" :class="ns.e('wrapper')">
-      <slot name="placeholder">
-        <div :class="ns.e('placeholder')" />
-      </slot>
-    </div>
     <slot v-if="hasLoadError" name="error">
       <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
     </slot>
@@ -24,6 +19,11 @@
         @load="handleLoad"
         @error="handleError"
       />
+      <div v-if="isLoading" :class="ns.e('wrapper')">
+        <slot name="placeholder">
+          <div :class="ns.e('placeholder')" />
+        </slot>
+      </div>
     </template>
     <template v-if="preview">
       <image-viewer
