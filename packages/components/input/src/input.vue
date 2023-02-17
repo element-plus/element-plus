@@ -357,10 +357,9 @@ const setNativeInputValue = () => {
 const handleInput = async (event: Event) => {
   recordCursor()
 
-  const { value } = event.target as TargetElement
-  let parsedValue
+  let { value } = event.target as TargetElement
   if (props.formatter) {
-    parsedValue = props.parser ? props.parser(value) : value
+    value = props.parser ? props.parser(value) : value
   }
 
   // should not emit input during composition
@@ -374,13 +373,13 @@ const handleInput = async (event: Event) => {
     return
   }
 
-  emit(UPDATE_MODEL_EVENT, parsedValue ?? value)
+  emit(UPDATE_MODEL_EVENT, value)
   emit('input', value)
 
   // ensure native input value is controlled
   // see: https://github.com/ElemeFE/element/issues/12850
   await nextTick()
-  if (!parsedValue) setNativeInputValue()
+  !props.formatter && !props.parser && setNativeInputValue()
   setCursor()
 }
 
