@@ -112,7 +112,7 @@ See how to help translating in [Translating Element Plus](https://element-plus.o
 
 ## Stay tuned :eyes:
 
-Join our [Discord](https://discord.link/ElementPlus) to start communicating with everybody.
+Join our [Discord](https://discord.com/invite/gXK9XNzW3X) to start communicating with everybody.
 
 ## This thing is broken, I should help improve it!
 
@@ -133,9 +133,6 @@ We are now lacking of experts of `Testing`, `GitHub Actions`, `PM`, if you do fe
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Become a sponsor](https://opencollective.com/element-plus#sponsor)
 
 <a href="https://opencollective.com/element-plus/sponsor/0/website" target="_blank"><img src="https://opencollective.com/element-plus/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/element-plus/sponsor/1/website" target="_blank"><img src="https://opencollective.com/element-plus/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/element-plus/sponsor/2/website" target="_blank"><img src="https://opencollective.com/element-plus/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/element-plus/sponsor/3/website" target="_blank"><img src="https://opencollective.com/element-plus/sponsor/3/avatar.svg"></a>
 
 ## Contributors
 

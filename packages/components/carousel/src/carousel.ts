@@ -1,6 +1,5 @@
 import { buildProps, isNumber } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
-import type Carousel from './carousel.vue'
 
 export const carouselProps = buildProps({
   initialIndex: {
@@ -28,10 +27,6 @@ export const carouselProps = buildProps({
     type: String,
     values: ['', 'none', 'outside'],
     default: '',
-  },
-  indicator: {
-    type: Boolean,
-    default: true,
   },
   arrow: {
     type: String,
@@ -64,5 +59,3 @@ export const carouselEmits = {
 
 export type CarouselProps = ExtractPropTypes<typeof carouselProps>
 export type CarouselEmits = typeof carouselEmits
-
-export type CarouselInstance = InstanceType<typeof Carousel>

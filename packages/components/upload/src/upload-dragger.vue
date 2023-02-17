@@ -10,7 +10,7 @@
 </template>
 <script lang="ts" setup>
 import { inject, ref } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useDisabled, useNamespace } from '@element-plus/hooks'
 
 import { uploadContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils/error'
@@ -22,7 +22,7 @@ defineOptions({
   name: COMPONENT_NAME,
 })
 
-const props = defineProps(uploadDraggerProps)
+defineProps(uploadDraggerProps)
 const emit = defineEmits(uploadDraggerEmits)
 
 const uploaderContext = inject(uploadContextKey)
@@ -35,10 +35,13 @@ if (!uploaderContext) {
 
 const ns = useNamespace('upload')
 const dragover = ref(false)
+const disabled = useDisabled()
 
 const onDrop = (e: DragEvent) => {
-  if (props.disabled) return
+  if (disabled.value) return
   dragover.value = false
+
+  e.stopPropagation()
 
   const files = Array.from(e.dataTransfer!.files)
   const accept = uploaderContext.accept.value
@@ -73,6 +76,6 @@ const onDrop = (e: DragEvent) => {
 }
 
 const onDragover = () => {
-  if (!props.disabled) dragover.value = true
+  if (!disabled.value) dragover.value = true
 }
 </script>

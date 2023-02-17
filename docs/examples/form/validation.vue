@@ -71,9 +71,9 @@
       <el-input v-model="ruleForm.desc" type="textarea" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm(ruleFormRef)"
-        >Create</el-button
-      >
+      <el-button type="primary" @click="submitForm(ruleFormRef)">
+        Create
+      </el-button>
       <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
     </el-form-item>
   </el-form>

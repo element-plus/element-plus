@@ -1,5 +1,5 @@
 import { isClient } from '@vueuse/core'
-import { isNumber, isObject, isString } from '../types'
+import { isNumber, isObject, isString, isStringNumber } from '../types'
 import { camelize } from '../strings'
 import { entriesOf, keysOf } from '../objects'
 import { debugWarn } from '../error'
@@ -76,10 +76,10 @@ export const removeStyle = (
 
 export function addUnit(value?: string | number, defaultUnit = 'px') {
   if (!value) return ''
-  if (isString(value)) {
-    return value
-  } else if (isNumber(value)) {
+  if (isNumber(value) || isStringNumber(value)) {
     return `${value}${defaultUnit}`
+  } else if (isString(value)) {
+    return value
   }
   debugWarn(SCOPE, 'binding value must be a string or number')
 }

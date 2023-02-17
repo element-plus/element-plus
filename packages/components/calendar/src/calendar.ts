@@ -6,7 +6,6 @@ import {
 } from '@element-plus/utils'
 import { INPUT_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
-import type Calendar from './calendar.vue'
 
 export type CalendarDateType =
   | 'prev-month'
@@ -19,9 +18,16 @@ const isValidRange = (range: unknown): range is [Date, Date] =>
   isArray(range) && range.length === 2 && range.every((item) => isDate(item))
 
 export const calendarProps = buildProps({
+  /**
+   * @description binding value
+   */
   modelValue: {
     type: Date,
   },
+  /**
+   * @description time range, including start time and end time.
+   *   Start time must be start day of week, end time must be end day of week, the time span cannot exceed two months.
+   */
   range: {
     type: definePropType<[Date, Date]>(Array),
     validator: isValidRange,
@@ -34,5 +40,3 @@ export const calendarEmits = {
   [INPUT_EVENT]: (value: Date) => isDate(value),
 }
 export type CalendarEmits = typeof calendarEmits
-
-export type CalendarInstance = InstanceType<typeof Calendar>

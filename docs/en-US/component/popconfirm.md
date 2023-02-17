@@ -7,11 +7,17 @@ lang: en-US
 
 A simple confirmation dialog of an element click action.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic usage
 
 Popconfirm is similar to Popover. So for some duplicated attributes, please refer to the documentation of Popover.
 
-:::demo Only `title` attribute is avaliable in Popconfirm, `content` will be ignored.
+:::demo Only `title` attribute is available in Popconfirm, `content` will be ignored.
 
 popconfirm/basic-usage
 
