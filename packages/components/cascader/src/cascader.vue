@@ -41,6 +41,7 @@
           :validate-event="false"
           :size="realSize"
           :class="nsCascader.is('focus', popperVisible)"
+          :tabindex="filterable ? '-1' : '0'"
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
           @compositionend="handleComposition"
