@@ -1,1 +1,0 @@
-import{_,r as t,o as a,c as o,w as s,b as n}from"../app.a46e6ab5.js";const c={},r=n("a11y");function l(p,d){const e=t("el-tag");return a(),o(e,{size:"small",effect:"plain",hit:"",round:"",class:"ml-2"},{default:s(()=>[r]),_:1})}var u=_(c,[["render",l],["__scopeId","data-v-ab284018"]]);export{u as _};
