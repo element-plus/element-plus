@@ -254,17 +254,9 @@
       &:hover,
       &:focus {
         .#{bem('upload-list', 'item-status-label')} {
-          display: none;
           opacity: 0;
         }
       }
-    }
-  }
-
-  @include when(disabled) {
-    .#{bem('upload-list', 'item')}:hover
-      .#{bem('upload-list', 'item-status-label')} {
-      display: block;
     }
   }
 
@@ -451,7 +443,7 @@
       &:hover {
         .#{bem('upload-list', 'item-status-label')} {
           opacity: 0;
-          display: block;
+          display: inline-flex;
         }
 
         .#{bem('progress', 'text')} {
