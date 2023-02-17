@@ -262,8 +262,8 @@
   }
 
   @include when(disabled) {
-    .#{bem('upload-list', 'item')}:hover,
-    .#{bem('upload-list', 'item-status-label')} {
+    .#{bem('upload-list', 'item')}:hover
+      .#{bem('upload-list', 'item-status-label')} {
       display: block;
     }
   }
