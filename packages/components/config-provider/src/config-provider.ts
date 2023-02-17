@@ -64,6 +64,13 @@ export const configProviderProps = buildProps({
     type: String,
     default: 'el',
   },
+  /**
+   * @description global attribute add clearable to [el-input, el-autocomplete, el-cascader, el-select, el-select-v2]
+   */
+  clearable: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 export type ConfigProviderProps = ExtractPropTypes<typeof configProviderProps>
 
