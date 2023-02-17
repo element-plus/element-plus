@@ -60,7 +60,8 @@ h6 {
     position: relative;
 
     // Special case for handling tagged header.
-    .el-tag {
+    .el-tag,
+    .vp-tag {
       margin-left: 8px;
     }
   }
