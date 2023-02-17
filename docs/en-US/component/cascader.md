@@ -248,8 +248,96 @@ cascader/panel
 <details>
   <summary>Show declarations</summary>
 
-<<< @/../packages/components/cascader-panel/src/node.ts
+```ts
+type CascaderNodeValue = string | number
+type CascaderNodePathValue = CascaderNodeValue[]
+type CascaderValue =
+  | CascaderNodeValue
+  | CascaderNodePathValue
+  | (CascaderNodeValue | CascaderNodePathValue)[]
 
-<<< @/../packages/components/cascader-panel/src/types.ts
+type Resolve = (data: any) => void
+
+type ExpandTrigger = 'click' | 'hover'
+
+type LazyLoad = (node: Node, resolve: Resolve) => void
+
+type isDisabled = (data: CascaderOption, node: Node) => boolean
+
+type isLeaf = (data: CascaderOption, node: Node) => boolean
+
+interface CascaderOption extends Record<string, unknown> {
+  label?: string
+  value?: CascaderNodeValue
+  children?: CascaderOption[]
+  disabled?: boolean
+  leaf?: boolean
+}
+
+interface CascaderProps {
+  expandTrigger?: ExpandTrigger
+  multiple?: boolean
+  checkStrictly?: boolean
+  emitPath?: boolean
+  lazy?: boolean
+  lazyLoad?: LazyLoad
+  value?: string
+  label?: string
+  children?: string
+  disabled?: string | isDisabled
+  leaf?: string | isLeaf
+  hoverThreshold?: number
+}
+
+class Node {
+  readonly uid: number
+  readonly level: number
+  readonly value: CascaderNodeValue
+  readonly label: string
+  readonly pathNodes: Node[]
+  readonly pathValues: CascaderNodePathValue
+  readonly pathLabels: string[]
+
+  childrenData: ChildrenData
+  children: Node[]
+  text: string
+  loaded: boolean
+  /**
+   * Is it checked
+   *
+   * @default false
+   */
+  checked: boolean
+  /**
+   * Used to indicate the intermediate state of unchecked and fully checked child nodes
+   *
+   * @default false
+   */
+  indeterminate: boolean
+  /**
+   * Loading Status
+   *
+   * @default false
+   */
+  loading: boolean
+
+  // getter
+  isDisabled: boolean
+  isLeaf: boolean
+  valueByOption: CascaderNodeValue | CascaderNodePathValue
+
+  // method
+  appendChild(childData: CascaderOption): Node
+  calcText(allLevels: boolean, separator: string): string
+  broadcast(event: string, ...args: unknown[]): void
+  emit(event: string, ...args: unknown[]): void
+  onParentCheck(checked: boolean): void
+  onChildCheck(): void
+  setCheckState(checked: boolean): void
+  doCheck(checked: boolean): void
+}
+
+Node as CascaderNode
+```
 
 </details>
