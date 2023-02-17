@@ -144,7 +144,7 @@ And refer to the [docs](https://github.com/element-plus/unplugin-element-plus#re
 ```ts
 // vite.config.ts
 import { defineConfig } from 'vite'
-import ElementPlus from 'unplugin-element-plus/vite'
+import ElementPlus from 'unplugin-element-plus/dist/vite'
 
 export default defineConfig({
   // ...
