@@ -178,7 +178,6 @@ const onSuggestionShow = async () => {
 }
 
 const onHide = () => {
-  ignoreFocusEvent = false
   highlightedIndex.value = -1
 }
 
@@ -240,23 +239,27 @@ const handleChange = (value: string) => {
 }
 
 const handleFocus = (evt: FocusEvent) => {
-  setTimeout(() => {
-    if (!ignoreFocusEvent) {
-      activated.value = true
-      emit('focus', evt)
+  if (!ignoreFocusEvent) {
+    activated.value = true
+    emit('focus', evt)
 
-      if (props.triggerOnFocus && !readonly) {
-        debouncedGetData(String(props.modelValue))
-      }
-    } else {
-      ignoreFocusEvent = false
+    if (props.triggerOnFocus && !readonly) {
+      debouncedGetData(String(props.modelValue))
     }
-  })
+  } else {
+    ignoreFocusEvent = false
+  }
 }
 
 const handleBlur = (evt: FocusEvent) => {
   setTimeout(() => {
-    if (ignoreFocusEvent || popperRef.value?.isFocusInsideContent()) return
+    // validate current focus event is inside el-tooltip-content
+    // if so, ignore the blur event and the next focus event
+    if (popperRef.value?.isFocusInsideContent()) {
+      ignoreFocusEvent = true
+      return
+    }
+    activated.value && close()
     emit('blur', evt)
   })
 }
@@ -305,7 +308,6 @@ const handleSelect = async (item: any) => {
   emit(INPUT_EVENT, item[props.valueKey])
   emit(UPDATE_MODEL_EVENT, item[props.valueKey])
   emit('select', item)
-  ignoreFocusEvent = true
   suggestions.value = []
   highlightedIndex.value = -1
 }
