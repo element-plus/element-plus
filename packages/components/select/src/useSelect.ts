@@ -247,6 +247,8 @@ export const useSelect = (props, states: States, ctx) => {
     (val) => {
       if (!val) {
         input.value && input.value.blur()
+        states.query = ''
+        states.previousQuery = null
         states.selectedLabel = ''
         states.inputLength = 20
         states.menuVisibleOnFocus = false
@@ -285,7 +287,7 @@ export const useSelect = (props, states: States, ctx) => {
 
         if (props.filterable) {
           states.filteredOptionsCount = states.optionsCount
-          states.query = props.remote ? '' : states.selectedLabel
+          states.query = ''
           if (props.multiple) {
             input.value?.focus()
           } else {
@@ -383,13 +385,6 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleQueryChange = async (val) => {
     if (states.previousQuery === val || states.isOnComposition) return
-    if (
-      states.previousQuery === null &&
-      (isFunction(props.filterMethod) || isFunction(props.remoteMethod))
-    ) {
-      states.previousQuery = val
-      return
-    }
     states.previousQuery = val
     nextTick(() => {
       if (states.visible) tooltipRef.value?.updatePopper?.()
@@ -745,19 +740,6 @@ export const useSelect = (props, states: States, ctx) => {
     nextTick(() => scrollToOption(states.selected))
   }
 
-  const handleMenuLeave = () => {
-    if (!states.visible && props.filterable && states.previousQuery) {
-      if (isFunction(props.filterMethod)) {
-        props.filterMethod('')
-      }
-      if (isFunction(props.remoteMethod)) {
-        props.remoteMethod('')
-      }
-    }
-    states.query = ''
-    states.previousQuery = null
-  }
-
   const handleFocus = (event: FocusEvent) => {
     if (!states.softFocus) {
       if (props.automaticDropdown || props.filterable) {
@@ -911,7 +893,6 @@ export const useSelect = (props, states: States, ctx) => {
     onOptionCreate,
     onOptionDestroy,
     handleMenuEnter,
-    handleMenuLeave,
     handleFocus,
     blur,
     handleBlur,

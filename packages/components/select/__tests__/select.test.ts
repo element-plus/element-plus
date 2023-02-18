@@ -1838,15 +1838,17 @@ describe('Select', () => {
       )
       const inputEl = input.element as HTMLInputElement
       await input.trigger('click')
+      expect(method).toBeCalled()
+      expect(method.mock.calls[0][0]).toBe('')
       inputEl.value = firstInputLetter
       await input.trigger('input')
-      expect(method).toBeCalled()
-      expect(method.mock.calls[0][0]).toBe(firstInputLetter)
+      expect(method).toBeCalledTimes(2)
+      expect(method.mock.calls[1][0]).toBe(firstInputLetter)
 
       inputEl.value = secondInputLetter
       await input.trigger('input')
-      expect(method).toBeCalledTimes(2)
-      expect(method.mock.calls[1][0]).toBe(secondInputLetter)
+      expect(method).toBeCalledTimes(3)
+      expect(method.mock.calls[2][0]).toBe(secondInputLetter)
     }
 
     test('should call filter method', async () => {
