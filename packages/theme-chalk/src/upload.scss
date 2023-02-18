@@ -254,6 +254,7 @@
       &:hover,
       &:focus {
         .#{bem('upload-list', 'item-status-label')} {
+          display: none;
           opacity: 0;
         }
       }
