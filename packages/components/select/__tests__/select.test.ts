@@ -841,6 +841,7 @@ describe('Select', () => {
     const selectVm = select.vm as any
     const input = wrapper.find('input')
     input.element.focus()
+    await nextTick()
     selectVm.selectedLabel = 'new'
     selectVm.debouncedOnInputChange()
     await nextTick()
