@@ -292,7 +292,7 @@ export default defineComponent({
       store.value.setCheckedNodes(nodes, leafOnly)
     }
 
-    const setCheckedKeys = (keys, leafOnly?: boolean) => {
+    const setCheckedKeys = (keys: TreeKey[], leafOnly?: boolean) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCheckedKeys')
       store.value.setCheckedKeys(keys, leafOnly)

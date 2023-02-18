@@ -58,7 +58,7 @@ export function useSelectStates(props) {
     previousQuery: null,
     inputHovering: false,
     cachedPlaceHolder: '',
-    currentPlaceholder: t('el.select.placeholder'),
+    currentPlaceholder: t('el.select.placeholder') as string | (() => string),
     menuVisibleOnFocus: false,
     isOnComposition: false,
     prefixWidth: 11,
