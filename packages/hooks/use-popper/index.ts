@@ -53,7 +53,6 @@ export const usePopper = (
       popper: {
         position: unref(options).strategy,
         left: '0',
-        right: '0',
       },
       arrow: {
         position: 'absolute',
