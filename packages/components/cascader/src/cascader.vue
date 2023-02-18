@@ -40,7 +40,7 @@
           :disabled="isDisabled"
           :validate-event="false"
           :size="realSize"
-          :class="nsCascader.is('focus', popperVisible)"
+          :class="inputClass"
           :tabindex="filterable ? '-1' : '0'"
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
@@ -264,6 +264,7 @@ const suggestionPanel: Ref<suggestionPanelType | null> = ref(null)
 const popperVisible = ref(false)
 const inputHover = ref(false)
 const filtering = ref(false)
+const filterFocus = ref(false)
 const inputValue = ref('')
 const searchInputValue = ref('')
 const presentTags: Ref<Tag[]> = ref([])
@@ -351,6 +352,10 @@ const cascaderIconKls = computed(() => {
     'icon-arrow-down',
     nsCascader.is('reverse', popperVisible.value),
   ]
+})
+
+const inputClass = computed(() => {
+  return nsCascader.is('focus', popperVisible.value || filterFocus.value)
 })
 
 const togglePopperVisible = (visible?: boolean) => {
@@ -612,10 +617,16 @@ const handleDelete = () => {
 }
 
 const handleFocus = (e: FocusEvent) => {
+  const el = e.target as HTMLInputElement
+  const name = nsCascader.e('search-input')
+  if (el.className === name) {
+    filterFocus.value = true
+  }
   emit('focus', e)
 }
 
 const handleBlur = (e: FocusEvent) => {
+  filterFocus.value = false
   emit('blur', e)
 }
 
