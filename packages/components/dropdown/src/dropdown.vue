@@ -193,8 +193,8 @@ export default defineComponent({
     )
 
     onUnmounted(() => {
-      if (triggeringElement?.$el?.removeEventListener) {
-        triggeringElement.$el.removeEventListener(
+      if (triggeringElementRef.value?.$el?.removeEventListener) {
+        triggeringElementRef.value.$el.removeEventListener(
           'pointerenter',
           onAutofocusTriggerEnter
         )
