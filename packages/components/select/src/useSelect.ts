@@ -51,7 +51,6 @@ export function useSelectStates(props) {
     optionsCount: 0,
     filteredOptionsCount: 0,
     visible: false,
-    softFocus: false,
     selectedLabel: '',
     hoverIndex: -1,
     query: '',
@@ -66,6 +65,7 @@ export function useSelectStates(props) {
     mouseEnter: false,
   })
 }
+let ignoreFocusEvent = false
 
 type States = ReturnType<typeof useSelectStates>
 
@@ -673,7 +673,6 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const setSoftFocus = () => {
-    states.softFocus = true
     const _input = input.value || reference.value
     if (_input) {
       _input?.focus()
@@ -755,7 +754,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleFocus = (event: FocusEvent) => {
-    if (!states.softFocus) {
+    if (!ignoreFocusEvent) {
       if (props.automaticDropdown || props.filterable) {
         if (props.filterable && !states.visible) {
           states.menuVisibleOnFocus = true
@@ -764,7 +763,7 @@ export const useSelect = (props, states: States, ctx) => {
       }
       ctx.emit('focus', event)
     } else {
-      states.softFocus = false
+      ignoreFocusEvent = false
     }
   }
 
@@ -775,14 +774,15 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleBlur = (event: FocusEvent) => {
     setTimeout(() => {
-      if (!tooltipRef.value!.isFocusInsideContent()) {
-        if (states.visible) {
-          states.visible = false
-        }
-        ctx.emit('blur', event)
+      // validate current focus event is inside el-tooltip-content
+      // if so, ignore the blur event and the next focus event
+      if (tooltipRef.value?.isFocusInsideContent()) {
+        ignoreFocusEvent = true
+        return
       }
+      states.visible && handleClose()
+      ctx.emit('blur', event)
     })
-    states.softFocus = false
   }
 
   const handleClearClick = (event: Event) => {
