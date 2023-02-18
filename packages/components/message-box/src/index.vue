@@ -167,7 +167,6 @@ import {
   useLocale,
   useLockscreen,
   useNamespace,
-  useRestoreActive,
   useSameTarget,
   useSize,
   useZIndex,
@@ -471,9 +470,6 @@ export default defineComponent({
     if (props.lockScroll) {
       useLockscreen(visible)
     }
-
-    // restore to prev active element.
-    useRestoreActive(visible)
 
     return {
       ...toRefs(state),
