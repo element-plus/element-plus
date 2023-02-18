@@ -25,13 +25,13 @@
 
     <div :class="ns.e('content')" :style="contentStyle">
       <slot />
-      <transition :name="`${ns.namespace.value}-zoom-in-top`">
+      <transition-group :name="`${ns.namespace.value}-zoom-in-top`">
         <slot v-if="shouldShowError" name="error" :error="validateMessage">
           <div :class="validateClasses">
             {{ validateMessage }}
           </div>
         </slot>
-      </transition>
+      </transition-group>
     </div>
   </div>
 </template>
@@ -399,17 +399,29 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  /** @description form item size */
+  /**
+   * @description Form item size.
+   */
   size: _size,
-  /** @description validation message */
+  /**
+   * @description Validation message.
+   */
   validateMessage,
-  /** @description validation state */
+  /**
+   * @description Validation state.
+   */
   validateState,
-  /** @description validate form item */
+  /**
+   * @description Validate form item.
+   */
   validate,
-  /** @description clear validation status */
+  /**
+   * @description Remove validation status of the field.
+   */
   clearValidate,
-  /** @description reset field value */
+  /**
+   * @description Reset current field and remove validation result.
+   */
   resetField,
 })
 </script>

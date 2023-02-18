@@ -666,12 +666,16 @@ onMounted(() => {
 
 defineExpose({
   /**
-   * @description get an array of currently selected node
+   * @description get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false`
    */
   getCheckedNodes,
   /**
    * @description cascader panel ref
    */
   cascaderPanelRef,
+  /**
+   * @description toggle the visible of popper
+   */
+  togglePopperVisible,
 })
 </script>

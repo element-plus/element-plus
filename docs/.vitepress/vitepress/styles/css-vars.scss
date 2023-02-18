@@ -29,6 +29,8 @@
   --success-color: var(--el-color-success);
   --warning-color: var(--el-color-warning);
   --danger-color: var(--el-color-danger);
+  --purple-color: #6222c2;
+  --purple-color-light: #9065db;
 
   // header vars
   --header-height: 55px;
@@ -68,7 +70,7 @@
   --code-text-color: var(--text-color);
   --code-font-family: var(--font-family-mono);
   --code-tooltip-bg-color: var(--code-bg-color);
-  --code-tooltip-color: #0C61C9;
+  --code-tooltip-color: #0c61c9;
 
   // tip block
   --block-tip-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
@@ -84,4 +86,6 @@
   --bg-color-mute: #2c2c2c;
   --code-tooltip-bg-color: rgba(var(--el-color-primary-rgb), 0.1);
   --code-tooltip-color: var(--brand-color);
+  --purple-color: #9065db;
+  --purple-color-light: #6222c2;
 }
