@@ -1,5 +1,34 @@
 ## Changelog
 
+### 2.2.31
+
+_2023-02-17_
+
+#### Features
+
+- Components [cascader] add togglePopperVisible for expose (#11559 by @MrWeilian)
+- Components [descriptions] render null when empty label (#11575 by @wangcch)
+
+#### Bug fixes
+
+- Components [carousel] delete the indicator props (#11483 by @ryuhangyeong)
+- Components [cascader-panel] clear active style (#11495 by @esttom)
+- Components [upload-dragger] Avoid firefox open file (#11092 by @acyza)
+- Hooks [use-lockscreen] prevent flaky unit tests (#11404 by @robert-wloch-iits)
+- Translate arabic language (#11510 by @itsalimanuel)
+- Components [input] box-shadow noise (#11518 by @chenxch)
+- Components [select] ensure select options respect filter query during initialization (#11205 by @jaa134)
+- Components [select] i18n issue of select placeholder (#11508 by @wonderl17)
+- Components [input] fix textarea autosize (#11376 by @acyza)
+- Components [tree] setCheckedKeys keys attribute add type (#11390 by @qq282126990)
+- Components [dropdown] fix focus after close (#11586 by @Giwayume)‘
+- Enhancement(theme-chalk): [checkbox] refactor checkbox disabled style (#11503 by @Geekhyt)
+
+#### Refactors
+
+- Components [empty] (#11494 by @ryuhangyeong)
+- Components [menu] add deprecated mark to popperAppendToBody (#11509 by @tolking)
+
 ### 2.2.30
 
 _2023-02-10_
