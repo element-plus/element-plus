@@ -1,5 +1,15 @@
 ## Changelog
 
+### 2.2.32
+
+_2023-02-19_
+
+#### Bug fixes
+
+- Components [table] fix an undefined reference in table-layout (#11204 by @jaa134)
+- Components [cascader] add focus and blur event when set filterable (#11273 by @btea)
+- Components [dropdown] unmounted error (#11649 by @chenxch)
+
 ### 2.2.31
 
 _2023-02-17_
