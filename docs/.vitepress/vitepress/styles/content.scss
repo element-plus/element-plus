@@ -2,6 +2,7 @@
 @use './vars' as *;
 @use './content/doc-content';
 @use './content/hero-content';
+@use './content/tag-content';
 
 .page-content {
   @include respond-to('lg') {
