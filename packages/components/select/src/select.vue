@@ -174,7 +174,11 @@
             ref="reference"
             v-model="selectedLabel"
             type="text"
-            :placeholder="currentPlaceholder"
+            :placeholder="
+              typeof currentPlaceholder === 'function'
+                ? currentPlaceholder()
+                : currentPlaceholder
+            "
             :name="name"
             :autocomplete="autocomplete"
             :size="selectSize"
@@ -543,7 +547,7 @@ export default defineComponent({
 
     onMounted(() => {
       states.cachedPlaceHolder = currentPlaceholder.value =
-        props.placeholder || t('el.select.placeholder')
+        props.placeholder || (() => t('el.select.placeholder'))
       if (
         props.multiple &&
         Array.isArray(props.modelValue) &&
