@@ -96,7 +96,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
-  onUnmounted,
+  onBeforeUnmount,
   provide,
   ref,
   toRef,
@@ -192,9 +192,9 @@ export default defineComponent({
       { immediate: true }
     )
 
-    onUnmounted(() => {
-      if (triggeringElement?.$el?.removeEventListener) {
-        triggeringElement.$el.removeEventListener(
+    onBeforeUnmount(() => {
+      if (triggeringElementRef.value?.$el?.removeEventListener) {
+        triggeringElementRef.value.$el.removeEventListener(
           'pointerenter',
           onAutofocusTriggerEnter
         )
