@@ -207,9 +207,18 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       })
     }
   }
+// 子节点删除后手动调用更新
+const reLoadData = (row: T, key: string, treeNode) => {
+  const { load } = instance.props as unknown as TableProps<T>
+  if (load && !treeData.value[key].loaded) {
+    lazyTreeNodeMap.value[key] = []
+    loadData(row, key, treeNode)
+  }
+}
 
-  return {
-    loadData,
+return {
+  loadData,
+  reLoadData,
     loadOrToggle,
     toggleTreeExpansion,
     updateTreeExpandKeys,

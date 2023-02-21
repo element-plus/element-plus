@@ -229,6 +229,7 @@ export default defineComponent({
       toggleAllSelection,
       toggleRowExpansion,
       clearSort,
+      reLoadData,
       sort,
     } = useUtils<Row>(store)
     const {
@@ -304,6 +305,7 @@ export default defineComponent({
       clearSort,
       doLayout,
       sort,
+      reLoadData,
       t,
       setDragVisible,
       context: table,
