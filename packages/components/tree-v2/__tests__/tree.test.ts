@@ -122,6 +122,7 @@ const createTree = (
         :check-strictly="checkStrictly"
         :default-expanded-keys="defaultExpandedKeys"
         :indent="indent"
+        :item-size="itemSize"
         :icon-class="iconClass"
         :expand-on-click-node="expandOnClickNode"
         :check-on-click-node="checkOnClickNode"
@@ -152,6 +153,7 @@ const createTree = (
           checkStrictly: false,
           defaultExpandedKeys: undefined,
           indent: 16,
+          itemSize: 26,
           iconClass: undefined,
           expandOnClickNode: true,
           checkOnClickNode: false,
@@ -229,6 +231,21 @@ describe('Virtual Tree', () => {
     await nextTick()
     const el = wrapper.find('.el-tree-virtual-list').element as any
     expect(el.style.height).toBe('300px')
+  })
+
+  test('item-size', async () => {
+    const { wrapper } = createTree({
+      data() {
+        return {
+          itemSize: 40,
+        }
+      },
+    })
+    await nextTick()
+    const node = wrapper.find('.el-tree-node').element
+    const content = wrapper.find('.el-tree-node__content').element
+    expect(node.style.height).toBe('40px')
+    expect(content.style.height).toBe('40px')
   })
 
   test('props', async () => {
