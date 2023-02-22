@@ -399,17 +399,29 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  /** @description form item size */
+  /**
+   * @description Form item size.
+   */
   size: _size,
-  /** @description validation message */
+  /**
+   * @description Validation message.
+   */
   validateMessage,
-  /** @description validation state */
+  /**
+   * @description Validation state.
+   */
   validateState,
-  /** @description validate form item */
+  /**
+   * @description Validate form item.
+   */
   validate,
-  /** @description clear validation status */
+  /**
+   * @description Remove validation status of the field.
+   */
   clearValidate,
-  /** @description reset field value */
+  /**
+   * @description Reset current field and remove validation result.
+   */
   resetField,
 })
 </script>
