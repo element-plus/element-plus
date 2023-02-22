@@ -175,15 +175,25 @@ provide(
 )
 
 defineExpose({
-  /** @description validate form */
+  /**
+   * @description Validate the whole form. Receives a callback or returns `Promise`.
+   */
   validate,
-  /** @description validate form field */
+  /**
+   * @description Validate specified fields.
+   */
   validateField,
-  /** @description reset fields */
+  /**
+   * @description Reset specified fields and remove validation result.
+   */
   resetFields,
-  /** @description clear validation status */
+  /**
+   * @description Clear validation message for specified fields.
+   */
   clearValidate,
-  /** @description scroll to field */
+  /**
+   * @description Scroll to the specified fields.
+   */
   scrollToField,
 })
 </script>

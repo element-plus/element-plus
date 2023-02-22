@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { defineComponent, h, inject } from 'vue'
+import { isNil } from 'lodash-unified'
 import { addUnit, getNormalizedProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { descriptionsKey } from './token'
@@ -94,13 +95,15 @@ export default defineComponent({
             colSpan: span,
           },
           [
-            h(
-              'span',
-              {
-                class: [ns.e('label'), labelClassName],
-              },
-              label
-            ),
+            !isNil(label)
+              ? h(
+                  'span',
+                  {
+                    class: [ns.e('label'), labelClassName],
+                  },
+                  label
+                )
+              : undefined,
             h(
               'span',
               {
