@@ -19,12 +19,6 @@ export const uploadContentProps = buildProps({
     type: definePropType<UploadHooks['beforeUpload']>(Function),
     default: NOOP,
   },
-  onRemove: {
-    type: definePropType<
-      (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void
-    >(Function),
-    default: NOOP,
-  },
   onStart: {
     type: definePropType<(rawFile: UploadRawFile) => void>(Function),
     default: NOOP,
