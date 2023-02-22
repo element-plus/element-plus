@@ -32,7 +32,6 @@ export const useWatch = (
   const setValues = () => {
     if (props.min > props.max) {
       throwError('Slider', 'min should not be greater than max.')
-      return
     }
     const val = props.modelValue
     if (props.range && Array.isArray(val)) {
