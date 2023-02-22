@@ -297,7 +297,7 @@ export const useSelect = (props, states: States, ctx) => {
         if (props.filterable) {
           states.filteredOptionsCount = states.optionsCount
           states.query = props.remote ? '' : states.selectedLabel
-          iOSInput.value?.focus()
+          iOSInput.value?.focus?.()
           if (props.multiple) {
             input.value?.focus()
           } else {
@@ -774,7 +774,7 @@ export const useSelect = (props, states: States, ctx) => {
   const blur = () => {
     states.visible = false
     reference.value?.blur()
-    iOSInput.value?.blur()
+    iOSInput.value?.blur?.()
   }
 
   const handleBlur = (event: FocusEvent) => {
