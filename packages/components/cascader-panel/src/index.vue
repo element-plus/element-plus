@@ -192,6 +192,9 @@ export default defineComponent({
     const clearCheckedNodes = () => {
       checkedNodes.value.forEach((node) => node.doCheck(false))
       calculateCheckedValue()
+      menus.value = menus.value.slice(0, 1)
+      expandingNode.value = null
+      emit('expand-change', [])
     }
 
     const calculateCheckedValue = () => {
@@ -376,7 +379,13 @@ export default defineComponent({
       handleKeyDown,
       handleCheckChange,
       getFlattedNodes,
+      /**
+       * @description get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false`
+       */
       getCheckedNodes,
+      /**
+       * @description clear checked nodes
+       */
       clearCheckedNodes,
       calculateCheckedValue,
       scrollToExpandingNode,

@@ -9,7 +9,7 @@
       :data="flattenTree"
       :total="flattenTree.length"
       :height="height"
-      :item-size="itemSize"
+      :item-size="treeNodeSize"
       :perf-mode="perfMode"
     >
       <template #default="{ data, index, style }">
@@ -21,6 +21,7 @@
           :show-checkbox="showCheckbox"
           :checked="isChecked(data[index])"
           :indeterminate="isIndeterminate(data[index])"
+          :item-size="treeNodeSize"
           :disabled="isDisabled(data[index])"
           :current="isCurrent(data[index])"
           :hidden-expand-icon="isForceHiddenExpandIcon(data[index])"
@@ -39,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, provide, useSlots } from 'vue'
+import { computed, getCurrentInstance, provide, useSlots } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { formItemContextKey } from '@element-plus/tokens'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
@@ -56,7 +57,7 @@ const emit = defineEmits(treeEmits)
 
 const slots = useSlots()
 
-const itemSize = 26
+const treeNodeSize = computed(() => props.itemSize)
 
 provide(ROOT_TREE_INJECTION_KEY, {
   ctx: {

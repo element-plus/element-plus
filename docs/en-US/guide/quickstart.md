@@ -228,4 +228,4 @@ We can also use [Nuxt.js](https://v3.nuxtjs.org/)：
 ## Let's Get Started
 
 You can bootstrap your project from now on. For each components usage, please
-refer to the individual component documentation.
+refer to [the individual component documentation](https://element-plus.org/en-US/component/button.html).

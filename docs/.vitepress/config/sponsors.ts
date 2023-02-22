@@ -21,6 +21,15 @@ export const rightLogoSmallSponsors = [
 
 export const leftCustomImgSponsors = [
   {
+    name: 'JSDesign',
+    name_cn: '即时设计',
+    img: '/images/js-design.png',
+    url: 'https://js.design?source=element-plus',
+    slogan: 'Professional online UI design tool',
+    slogan_cn: '专业在线UI设计工具',
+    banner_img: '/images/js-design-banner.jpg',
+  },
+  {
     name: 'VForm',
     img: '/images/vform.png',
     url: 'https://vform666.com/vform3.html?from=element_plus',
@@ -29,13 +38,21 @@ export const leftCustomImgSponsors = [
     banner_img: '/images/vform-banner.png',
   },
   {
-    name: 'JSDesign',
-    name_cn: '即时设计',
-    img: '/images/js-design.png',
-    url: 'https://js.design?source=element-plus',
-    slogan: 'Professional online UI design tool',
-    slogan_cn: '专业在线UI设计工具',
-    banner_img: '/images/js-design-banner.jpg',
+    name: 'JNPF',
+    img: '/images/jnpf_index.png',
+    url: 'https://www.jnpfsoft.com/index.html?from=elementUI',
+    slogan: 'JNPF low code development platform to develop simple!',
+    slogan_cn: 'JNPF 低代码开发平台，让开发变得简单！',
+    className: 'jnpf',
+    banner_img: '/images/jnpfsoft.jpg',
+  },
+  {
+    name: 'JeePlus',
+    img: '/images/sponsors/jeeplus.png',
+    url: 'http://www.jeeplus.org/#/demo?from=ele',
+    slogan: 'JeePlus development platform',
+    slogan_cn: 'JeePlus 快速开发平台',
+    banner_img: '/images/sponsors/jeeplus_banner.jpg',
   },
 ]
 
