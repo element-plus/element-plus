@@ -443,6 +443,7 @@ function useWatcher<T>() {
     toggleTreeExpansion,
     updateTreeData,
     loadOrToggle,
+    reLoadTreeNode,
     states: treeStates,
   } = useTree({
     data,
@@ -503,6 +504,7 @@ function useWatcher<T>() {
     updateExpandRows,
     updateCurrentRowData,
     loadOrToggle,
+    reLoadTreeNode,
     updateTreeData,
     states: {
       tableSize,

@@ -229,7 +229,7 @@ export default defineComponent({
       toggleAllSelection,
       toggleRowExpansion,
       clearSort,
-      reLoadData,
+      reLoadTreeNode,
       sort,
     } = useUtils<Row>(store)
     const {
@@ -305,7 +305,7 @@ export default defineComponent({
       clearSort,
       doLayout,
       sort,
-      reLoadData,
+      reLoadTreeNode,
       t,
       setDragVisible,
       context: table,
