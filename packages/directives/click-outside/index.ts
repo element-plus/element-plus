@@ -22,8 +22,8 @@ const nodeList: FlushList = new Map()
 let startClick: MouseEvent
 
 if (isClient) {
-  document.addEventListener('mousedown', (e: MouseEvent) => (startClick = e))
-  document.addEventListener('mouseup', (e: MouseEvent) => {
+  window.addEventListener('mousedown', (e: MouseEvent) => (startClick = e))
+  window.addEventListener('mouseup', (e: MouseEvent) => {
     for (const handlers of nodeList.values()) {
       for (const { documentHandler } of handlers) {
         documentHandler(e as MouseEvent, startClick)
