@@ -30,8 +30,8 @@ function useUtils<T>(store: Store<T>) {
   const sort = (prop: string, order: string) => {
     store.commit('sort', { prop, order })
   }
-  const reLoadTreeNode = (row: T, key: string, treeNode) => {
-    return store.reLoadTreeNode(row, key, treeNode)
+  const reLoadTreeNode = (key: string) => {
+    return store.reLoadTreeNode(key)
   }
   return {
     setCurrentRow,

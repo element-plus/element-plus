@@ -208,11 +208,9 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     }
   }
   // 子节点删除后手动调用更新
-  const reLoadTreeNode = (row: T, key: string, treeNode) => {
-    const { load } = instance.props as unknown as TableProps<T>
-    if (load && treeData.value[key].loaded) {
+  const reLoadTreeNode = (key: string) => {
+    if (treeData.value[key].loaded) {
       lazyTreeNodeMap.value[key] = []
-      loadData(row, key, treeNode)
     }
   }
 
