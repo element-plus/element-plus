@@ -208,7 +208,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     }
   }
   // 子节点删除后手动调用更新
-  const reLoadTreeNode = (key: string) => {
+  const clearTreeNode = (key: string) => {
     if (treeData.value[key].loaded) {
       lazyTreeNodeMap.value[key] = []
     }
@@ -216,7 +216,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
 
   return {
     loadData,
-    reLoadTreeNode,
+    clearTreeNode,
     loadOrToggle,
     toggleTreeExpansion,
     updateTreeExpandKeys,
