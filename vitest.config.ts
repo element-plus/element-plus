@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitest/config'
 import Vue from '@vitejs/plugin-vue'
 import VueJsx from '@vitejs/plugin-vue-jsx'
+//@ts-expect-error
 import VueMacros from 'unplugin-vue-macros/vite'
 
 export default defineConfig({
