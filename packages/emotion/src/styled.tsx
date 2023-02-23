@@ -150,8 +150,7 @@ const createStyled = <
 
           newProps.class = className
           newProps.ref = refSetter
-
-          return <FinalTag {...attrs}>{slots.default?.()}</FinalTag>
+          return <FinalTag {...newProps}>{slots.default?.()}</FinalTag>
         }
       },
     })
