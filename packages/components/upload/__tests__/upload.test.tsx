@@ -79,29 +79,26 @@ describe('<upload />', () => {
 
     test('beforeUpload works for rejecting upload', async () => {
       const beforeUpload = vi.fn(() => Promise.reject())
-      const onRemove = vi.fn()
-      const wrapper = mount(() => (
-        <UploadContent beforeUpload={beforeUpload} onRemove={onRemove} />
-      ))
+      const wrapper = mount(() => <UploadContent beforeUpload={beforeUpload} />)
       const fileList = [new File(['content'], 'test-file.txt')]
       mockGetFile(wrapper.find('input').element, fileList)
 
       await wrapper.find('input').trigger('change')
 
       expect(beforeUpload).toHaveBeenCalled()
-      await nextTick()
-      expect(onRemove).toHaveBeenCalled()
     })
 
     test('beforeUpload works for resolving upload', async () => {
       const beforeUpload = vi.fn(() => Promise.resolve())
       const httpRequest = ref(vi.fn(() => Promise.resolve()))
+      const onStart = vi.fn()
       const onSuccess = vi.fn()
       const onError = vi.fn()
 
       const wrapper = mount(() => (
         <UploadContent
           beforeUpload={beforeUpload}
+          onStart={onStart}
           httpRequest={httpRequest.value}
           onSuccess={onSuccess}
           onError={onError}
@@ -115,6 +112,7 @@ describe('<upload />', () => {
 
       expect(beforeUpload).toHaveBeenCalled()
       await flushPromises()
+      expect(onStart).toHaveBeenCalled()
       expect(onSuccess).toHaveBeenCalled()
       expect(onError).not.toHaveBeenCalled()
 

@@ -3,12 +3,7 @@ import { buildProps, definePropType } from '@element-plus/utils'
 import { uploadBaseProps } from './upload'
 
 import type { ExtractPropTypes } from 'vue'
-import type {
-  UploadFile,
-  UploadHooks,
-  UploadProgressEvent,
-  UploadRawFile,
-} from './upload'
+import type { UploadHooks, UploadProgressEvent, UploadRawFile } from './upload'
 import type UploadContent from './upload-content.vue'
 import type { UploadAjaxError } from './ajax'
 
@@ -17,12 +12,6 @@ export const uploadContentProps = buildProps({
 
   beforeUpload: {
     type: definePropType<UploadHooks['beforeUpload']>(Function),
-    default: NOOP,
-  },
-  onRemove: {
-    type: definePropType<
-      (file: UploadFile | UploadRawFile, rawFile?: UploadRawFile) => void
-    >(Function),
     default: NOOP,
   },
   onStart: {
