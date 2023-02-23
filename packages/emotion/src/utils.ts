@@ -1,5 +1,6 @@
 import isPropValid from '@emotion/is-prop-valid'
 
+import type { Component } from 'vue'
 import type {
   PrivateStyledComponent,
   StyledComponentType,
@@ -7,7 +8,7 @@ import type {
 } from './types'
 
 export const composeShouldForwardProps = (
-  tag: PrivateStyledComponent,
+  tag: Component,
   options: StyledOptions | undefined,
   isReal: boolean
 ) => {
@@ -15,15 +16,16 @@ export const composeShouldForwardProps = (
   if (options) {
     const optionsShouldForwardProp = options.shouldForwardProp
     shouldForwardProp =
-      tag.__emotion_forwardProp && optionsShouldForwardProp
+      (tag as PrivateStyledComponent).__emotion_forwardProp &&
+      optionsShouldForwardProp
         ? (propName: string) =>
-            tag.__emotion_forwardProp(propName) &&
+            (tag as PrivateStyledComponent).__emotion_forwardProp(propName) &&
             optionsShouldForwardProp(propName)
         : optionsShouldForwardProp
   }
 
   if (typeof shouldForwardProp !== 'function' && isReal) {
-    shouldForwardProp = tag.__emotion_forwardProp
+    shouldForwardProp = (tag as PrivateStyledComponent).__emotion_forwardProp
   }
 
   return shouldForwardProp

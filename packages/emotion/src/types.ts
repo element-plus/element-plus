@@ -22,12 +22,9 @@ export type StyledComponent<
   D = any,
   C extends ComputedOptions = ComputedOptions,
   M extends MethodOptions = MethodOptions
-> = {
+> = Component<Props, RawBindings, D, C, M> & {
   toString: () => string
-  withComponent: (
-    nextTag: StyledComponent<Props, RawBindings, D, C, M>,
-    nextOptions?: StyledOptions
-  ) => StyledComponent<Props, RawBindings, D, C, M>
+  withComponent: (nextTag: Component) => StyledComponentType
 }
 
 export type PrivateStyledComponent<

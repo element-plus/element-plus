@@ -5,10 +5,10 @@ import { serializeStyles } from '@emotion/serialize'
 import createCache from '@emotion/cache'
 import { composeShouldForwardProps, getDefaultShouldForwardProp } from './utils'
 
-import type { ComputedOptions, MethodOptions } from 'vue'
+import type { Component } from 'vue'
 import type {
   Interpolations,
-  StyledComponentType,
+  PrivateStyledComponent,
   StyledOptions,
 } from './types'
 
@@ -19,16 +19,7 @@ Because you write your CSS inside a JavaScript string you actually have to do do
 You can read more about this here:
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#ES2018_revision_of_illegal_escape_sequences`
 
-const createStyled = <
-  Props = any,
-  RawBindings = any,
-  D = any,
-  C extends ComputedOptions = ComputedOptions,
-  M extends MethodOptions = MethodOptions
->(
-  tag: any,
-  options: StyledOptions = {}
-) => {
+const createStyled = (tag: Component, options: StyledOptions = {}) => {
   if (process.env.NODE_ENV !== 'production') {
     if (tag === undefined) {
       throw new Error(
@@ -40,8 +31,9 @@ const createStyled = <
   const identifierName = options.label
   const targetClassName = options.target
 
-  const isReal = tag.__emotion_real === tag
-  const baseTag = (isReal && tag.__emotion_base) || tag
+  const isReal = (tag as PrivateStyledComponent).__emotion_real === tag
+  const baseTag =
+    (isReal && (tag as PrivateStyledComponent).__emotion_base) || tag
 
   const shouldForwardProp = composeShouldForwardProps(tag, options, isReal)
   const defaultShouldForwardProp =
@@ -50,8 +42,8 @@ const createStyled = <
 
   return function (...args: Interpolations) {
     const styles =
-      isReal && tag.__emotion_styles !== undefined
-        ? tag.__emotion_styles.slice(0)
+      isReal && (tag as PrivateStyledComponent).__emotion_styles !== undefined
+        ? (tag as PrivateStyledComponent).__emotion_styles.slice(0)
         : []
 
     if (identifierName !== undefined) {
@@ -159,29 +151,8 @@ const createStyled = <
     Styled.__emotion_base = baseTag
     Styled.__emotion_styles = styles
 
-    Object.defineProperty(Styled, 'toString', {
-      value() {
-        if (
-          targetClassName === undefined &&
-          process.env.NODE_ENV !== 'production'
-        ) {
-          return 'NO_COMPONENT_SELECTOR'
-        }
-
-        return `.${targetClassName}`
-      },
-    })
-
-    Styled.withComponent = (
-      nextTag: StyledComponentType<Props, RawBindings, D, C, M>,
-      nextOptions: StyledOptions
-    ) => {
-      return createStyled(
-        nextTag,
-        nextOptions === undefined
-          ? options
-          : { ...(options || {}), ...nextOptions }
-      )(...styles)
+    Styled.withComponent = (nextTag: Component) => {
+      return createStyled(nextTag)(...styles)
     }
 
     return Styled
