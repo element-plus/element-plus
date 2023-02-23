@@ -292,6 +292,13 @@ if (!props.modelValue) {
   emit(UPDATE_MODEL_EVENT, 0)
 }
 
+if (!props.disabled) {
+  currentValue.value = props.allowHalf
+    ? Math.floor(props.modelValue * 2) / 2
+    : Math.floor(props.modelValue)
+  emit(UPDATE_MODEL_EVENT, currentValue.value)
+}
+
 defineExpose({
   /** @description set current value */
   setCurrentValue,
