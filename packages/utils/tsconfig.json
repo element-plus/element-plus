@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.build-base.json",
+  "compilerOptions": {
+    "lib": ["ES2018", "DOM", "DOM.Iterable"],
+    "types": ["node"]
+  },
+  "include": ["src"]
+}
