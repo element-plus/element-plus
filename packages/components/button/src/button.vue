@@ -54,10 +54,10 @@ defineOptions({
 const props = defineProps(buttonProps)
 const emit = defineEmits(buttonEmits)
 
-const buttonStyle = useButtonCustomStyle(props)
 const ns = useNamespace('button')
 const { _ref, _size, _type, _disabled, shouldAddSpace, handleClick } =
   useButton(props, emit)
+const buttonStyle = useButtonCustomStyle(props, _ref)
 
 defineExpose({
   /** @description button html element */
