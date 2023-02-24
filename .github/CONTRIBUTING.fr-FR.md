@@ -12,7 +12,7 @@ Nous sommes ravis que vous souhaitiez contribuer à Element Plus. Avant de soume
 
 - Avant de soumettre une issue, veuillez vérifier si des problèmes similaires n'ont pas déjà été signalés.
 
-- Veuillez spécifier la version de `Element Plus` et `Vue` que vous utilisez, et fournir des informations sur le système d'exploitation et le navigateur. [JSFiddle](https://jsfiddle.net/) est recommandé afin de construire une démo pour que votre problème puisse être reproduit clairement.
+- Veuillez spécifier la version de `Element Plus` et `Vue` que vous utilisez, et fournir des informations sur le système d'exploitation et le navigateur. [Playground](https://element-plus.run/) est recommandé afin de construire une démo pour que votre problème puisse être reproduit clairement.
 
 ## Concernant les pull requests
 
