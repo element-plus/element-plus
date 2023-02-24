@@ -471,8 +471,35 @@ importers:
 
   packages/hooks:
     specifiers:
+      '@element-plus/constants': workspace:*
+      '@element-plus/locale': workspace:*
+      '@element-plus/tokens': workspace:*
+      '@element-plus/utils': workspace:*
+      '@floating-ui/dom': ^1.0.1
+      '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
+      '@types/lodash-es': ^4.17.6
+      '@types/node': '*'
+      '@vueuse/core': ^9.1.0
       clean-package: ^2.2.0
+      lodash: ^4.17.21
+      lodash-es: ^4.17.21
+      lodash-unified: ^1.0.2
+      vue: ^3.2.0
+    dependencies:
+      '@element-plus/constants': link:../constants
+      '@element-plus/locale': link:../locale
+      '@element-plus/tokens': link:../tokens
+      '@element-plus/utils': link:../utils
+      '@floating-ui/dom': 1.0.1
+      '@popperjs/core': /@sxzz/popperjs-es/2.11.7
+      '@vueuse/core': 9.1.0_vue@3.2.37
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      lodash-unified: 1.0.2_3ib2ivapxullxkx3xftsimdk7u
+      vue: 3.2.37
     devDependencies:
+      '@types/lodash-es': 4.17.6
+      '@types/node': 17.0.40
       clean-package: 2.2.0
 
   packages/locale:

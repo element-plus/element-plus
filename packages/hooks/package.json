@@ -1,6 +1,6 @@
 {
   "name": "@element-plus/hooks",
-  "version": "0.0.5",
+  "version": "3.0.0",
   "description": "Element Plus composables",
   "homepage": "https://github.com/element-plus/element-plus#readme",
   "bugs": {
@@ -11,8 +11,9 @@
   "files": [
     "dist"
   ],
-  "main": "index.ts",
-  "module": "index.ts",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "module": "src/index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
   "repository": {
@@ -20,8 +21,10 @@
     "url": "git+https://github.com/element-plus/element-plus.git",
     "directory": "packages/hooks"
   },
-  "types": "index.d.ts",
   "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsup src --dts",
+    "dev": "tsup src --watch",
     "prepack": "clean-package",
     "postpack": "clean-package restore"
   },
@@ -29,7 +32,30 @@
   "peerDependencies": {
     "vue": "^3.2.0"
   },
+  "dependencies": {
+    "@element-plus/constants": "workspace:*",
+    "@element-plus/locale": "workspace:*",
+    "@element-plus/tokens": "workspace:*",
+    "@element-plus/utils": "workspace:*",
+    "@floating-ui/dom": "^1.0.1",
+    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
+    "@vueuse/core": "^9.1.0",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "lodash-unified": "^1.0.2",
+    "vue": "^3.2.0"
+  },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "@types/node": "*",
     "clean-package": "^2.2.0"
+  },
+  "tsup": {
+    "clean": true,
+    "target": "es2018",
+    "format": [
+      "cjs",
+      "esm"
+    ]
   }
 }

@@ -4,7 +4,7 @@ import { debugWarn } from '@element-plus/utils'
 import { useGlobalConfig } from '../use-global-config'
 import { defaultNamespace } from '../use-namespace'
 
-import type { InjectionKey, Ref } from 'vue'
+import type { ComputedRef, InjectionKey } from 'vue'
 import type { MaybeRef } from '@vueuse/core'
 
 export type ElIdInjectionContext = {
@@ -26,7 +26,9 @@ export const useIdInjection = (): ElIdInjectionContext => {
     : defaultIdInjection
 }
 
-export const useId = (deterministicId?: MaybeRef<string>): Ref<string> => {
+export const useId = (
+  deterministicId?: MaybeRef<string>
+): ComputedRef<string> => {
   const idInjection = useIdInjection()
   if (!isClient && idInjection === defaultIdInjection) {
     debugWarn(
