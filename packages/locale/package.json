@@ -1,6 +1,6 @@
 {
   "name": "@element-plus/locale",
-  "version": "0.0.5",
+  "version": "3.0.0",
   "description": "Element Plus locale",
   "homepage": "https://github.com/element-plus/element-plus#readme",
   "bugs": {
@@ -11,8 +11,9 @@
   "files": [
     "dist"
   ],
-  "main": "index.ts",
-  "module": "index.ts",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "module": "src/index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
   "repository": {
@@ -20,13 +21,24 @@
     "url": "git+https://github.com/element-plus/element-plus.git",
     "directory": "packages/locale"
   },
-  "types": "index.d.ts",
   "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsup src --dts",
+    "dev": "tsup src --watch",
     "prepack": "clean-package",
-    "postpack": "clean-package restore"
+    "postpack": "clean-package restore",
+    "typecheck": "tsc --noEmit"
   },
   "clean-package": "../../clean-package.json",
   "devDependencies": {
     "clean-package": "^2.2.0"
+  },
+  "tsup": {
+    "clean": true,
+    "target": "es2018",
+    "format": [
+      "cjs",
+      "esm"
+    ]
   }
 }

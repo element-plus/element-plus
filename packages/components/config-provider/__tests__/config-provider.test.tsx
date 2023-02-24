@@ -10,7 +10,7 @@ import ConfigProvider from '../src/config-provider'
 
 import type { PropType } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
-import type { Language } from '@element-plus/locale'
+import type { Language } from '@element-plus/locale/src'
 import type { ConfigProviderProps } from '../src/config-provider'
 
 const TestComp = defineComponent({

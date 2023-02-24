@@ -5,7 +5,7 @@ import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import { buildTranslator, useLocale } from '../use-locale'
 import { provideGlobalConfig } from '..'
-import type { Language } from '@element-plus/locale'
+import type { Language } from '@element-plus/locale/src'
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 

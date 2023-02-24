@@ -16,7 +16,6 @@
   "module": "src/index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
-  "types": "index.d.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/element-plus/element-plus.git",
