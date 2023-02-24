@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.build-base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "lib": ["ES2018", "DOM", "DOM.Iterable"],
+    "composite": false,
+    "declaration": false,
+    "types": ["node"]
+  },
+  "include": ["src"]
+}

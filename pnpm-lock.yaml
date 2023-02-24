@@ -420,8 +420,21 @@ importers:
 
   packages/directives:
     specifiers:
+      '@element-plus/constants': workspace:*
+      '@element-plus/utils': workspace:*
+      '@types/node': '*'
+      '@vueuse/core': ^9.1.0
       clean-package: ^2.2.0
+      normalize-wheel-es: ^1.2.0
+      vue: ^3.2.0
+    dependencies:
+      '@element-plus/constants': link:../constants
+      '@element-plus/utils': link:../utils
+      '@vueuse/core': 9.1.0_vue@3.2.37
+      normalize-wheel-es: 1.2.0
+      vue: 3.2.37
     devDependencies:
+      '@types/node': 17.0.40
       clean-package: 2.2.0
 
   packages/element-plus:
