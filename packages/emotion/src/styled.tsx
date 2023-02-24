@@ -1,6 +1,15 @@
-import { composeShouldForwardProps, getDefaultShouldForwardProp } from './utils'
+import { isUndefined } from '@element-plus/utils'
+import {
+  composeShouldForwardProps,
+  getComponentName,
+  getDefaultShouldForwardProp,
+} from './utils'
 import { generateComponent } from './component'
-import { ILLEGAL_ESCAPE_SEQUENCE_ERROR, UNDEFINED_TAG_ERROR } from './constants'
+import {
+  ILLEGAL_ESCAPE_SEQUENCE_ERROR,
+  UNDEFINED_TAG_ERROR,
+  __DEV__,
+} from './constants'
 
 import type { Component } from 'vue'
 import type {
@@ -10,7 +19,7 @@ import type {
 } from './types'
 
 const createStyled = (tag: Component | string, options: StyledOptions = {}) => {
-  if (process.env.NODE_ENV !== 'production') {
+  if (__DEV__) {
     if (tag === undefined) {
       throw new Error(UNDEFINED_TAG_ERROR)
     }
@@ -38,21 +47,21 @@ const createStyled = (tag: Component | string, options: StyledOptions = {}) => {
         ? (tag as PrivateStyledComponent).__emotion_styles.slice(0)
         : []
 
-    if (identifierName !== undefined) {
+    if (!isUndefined(identifierName)) {
       styles.push(`label:${identifierName};`)
     }
 
-    if (args[0] === null || args[0].raw === undefined) {
+    if (args[0] === null || isUndefined(args[0].raw)) {
       styles.push(...args)
     } else {
-      if (process.env.NODE_ENV !== 'production' && args[0][0] === undefined) {
+      if (__DEV__ && isUndefined(args[0][0])) {
         console.error(ILLEGAL_ESCAPE_SEQUENCE_ERROR)
       }
 
       styles.push(args[0][0])
       const len = args.length
       for (let i = 1; i < len; i++) {
-        if (process.env.NODE_ENV !== 'production' && args[0][i] === undefined) {
+        if (__DEV__ && isUndefined(args[0][i])) {
           console.error(ILLEGAL_ESCAPE_SEQUENCE_ERROR)
         }
 
@@ -61,14 +70,9 @@ const createStyled = (tag: Component | string, options: StyledOptions = {}) => {
     }
 
     const Styled = generateComponent({
-      name:
-        identifierName === undefined
-          ? `Styled${
-              typeof baseTag === 'string'
-                ? baseTag
-                : baseTag.name || 'Component'
-            }`
-          : identifierName,
+      name: isUndefined(identifierName)
+        ? `Styled${getComponentName(baseTag)}`
+        : identifierName,
       shouldUseAs,
       getFinalShouldForwardProp: (tag) =>
         shouldUseAs && shouldForwardProp === undefined

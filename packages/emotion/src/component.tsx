@@ -3,6 +3,7 @@ import clsx from 'clsx'
 import { getRegisteredStyles, insertStyles } from '@emotion/utils'
 import { serializeStyles } from '@emotion/serialize'
 import createCache from '@emotion/cache'
+import { isString, isUndefined } from '@element-plus/utils'
 
 const localCache = createCache({ key: 'css' })
 
@@ -35,9 +36,14 @@ export const generateComponent = ({
     setup(props, { attrs, slots, expose }) {
       const theme = inject('element-plus-theme', undefined)
       const cache = inject('element-plus-emotion-cache', localCache)
+      // internal ref for the actual DOM element,
+      // can be accessed via `ref.unwrappedEl`
       const componentRef = ref()
 
-      const refSetter = props.forwardRef || componentRef
+      const refSetter = (el: any) => {
+        props.forwardRef?.(el)
+        componentRef.value = el
+      }
 
       expose({
         /**
@@ -62,7 +68,7 @@ export const generateComponent = ({
           className = getRegisteredStyles(
             cache.registered,
             classInterpolations,
-            clsx(attrs.class)
+            clsx(attrs.class as string)
           )
         }
 
@@ -72,11 +78,11 @@ export const generateComponent = ({
           mergedProps
         )
 
-        insertStyles(cache, serialized, typeof FinalTag === 'string')
+        insertStyles(cache, serialized, isString(FinalTag))
 
         className += `${cache.key}-${serialized.name}`
 
-        if (targetClassName !== undefined) {
+        if (!isUndefined(targetClassName)) {
           className += ` ${targetClassName}`
         }
 

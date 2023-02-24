@@ -1,4 +1,5 @@
 import isPropValid from '@emotion/is-prop-valid'
+import { isString } from '@element-plus/utils'
 
 import type { Component } from 'vue'
 import type {
@@ -42,3 +43,9 @@ export const getDefaultShouldForwardProp = (tag: StyledComponentType) =>
   tag.charCodeAt(0) > 96
     ? testOmitPropsOnStringTag
     : testOmitPropsOnComponent
+
+export const getComponentName = (primitive: string | Component | undefined) => {
+  return isString(primitive)
+    ? primitive
+    : (primitive as Component)?.name || 'Component'
+}

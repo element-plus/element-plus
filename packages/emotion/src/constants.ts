@@ -5,3 +5,5 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_liter
 
 export const UNDEFINED_TAG_ERROR = `You are trying to create a styled element with an undefined component.
 You may have forgotten to import it.`
+
+export const __DEV__ = process.env.NODE_ENV !== 'production'
