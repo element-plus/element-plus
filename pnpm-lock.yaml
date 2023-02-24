@@ -512,7 +512,18 @@ importers:
 
   packages/tokens:
     specifiers:
+      '@element-plus/components': workspace:*
+      '@element-plus/constants': workspace:*
+      '@element-plus/hooks': workspace:*
+      '@element-plus/utils': workspace:*
       clean-package: ^2.2.0
+      vue: ^3.2.0
+    dependencies:
+      '@element-plus/components': link:../components
+      '@element-plus/constants': link:../constants
+      '@element-plus/hooks': link:../hooks
+      '@element-plus/utils': link:../utils
+      vue: 3.2.37
     devDependencies:
       clean-package: 2.2.0
 

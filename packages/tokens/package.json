@@ -1,6 +1,7 @@
 {
   "name": "@element-plus/tokens",
-  "version": "0.0.5",
+  "version": "3.0.0",
+  "description": "Element Plus tokens",
   "homepage": "https://github.com/element-plus/element-plus#readme",
   "bugs": {
     "url": "https://github.com/element-plus/element-plus/issues"
@@ -10,8 +11,9 @@
   "files": [
     "dist"
   ],
-  "main": "index.ts",
-  "module": "index.ts",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "module": "src/index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
   "types": "index.d.js",
@@ -21,6 +23,9 @@
     "directory": "packages/tokens"
   },
   "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsup src --dts",
+    "dev": "tsup src --watch",
     "prepack": "clean-package",
     "postpack": "clean-package restore"
   },
@@ -28,7 +33,22 @@
   "peerDependencies": {
     "vue": "^3.2.0"
   },
+  "dependencies": {
+    "@element-plus/components": "workspace:*",
+    "@element-plus/constants": "workspace:*",
+    "@element-plus/hooks": "workspace:*",
+    "@element-plus/utils": "workspace:*",
+    "vue": "^3.2.0"
+  },
   "devDependencies": {
     "clean-package": "^2.2.0"
+  },
+  "tsup": {
+    "clean": true,
+    "target": "es2018",
+    "format": [
+      "cjs",
+      "esm"
+    ]
   }
 }

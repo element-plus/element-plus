@@ -12,3 +12,5 @@ export * from './src/tabs'
 export * from './src/tab-bar'
 export * from './src/tab-nav'
 export * from './src/tab-pane'
+
+export type { TabsProps, TabPaneName, TabsEmits, TabsPanes } from './src/tabs'
