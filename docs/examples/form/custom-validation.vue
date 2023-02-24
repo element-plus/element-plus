@@ -79,7 +79,7 @@ const ruleForm = reactive({
   age: '',
 })
 
-const rules: FormRules = reactive({
+const rules = reactive<FormRules>({
   pass: [{ validator: validatePass, trigger: 'blur' }],
   checkPass: [{ validator: validatePass2, trigger: 'blur' }],
   age: [{ validator: checkAge, trigger: 'blur' }],
