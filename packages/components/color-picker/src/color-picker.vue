@@ -306,7 +306,7 @@ watch(
 watch(
   () => color.value,
   () => {
-    if (!props.modelValue && !showPanelColor.value) {
+    if (color.value && !props.modelValue && !showPanelColor.value) {
       showPanelColor.value = true
     }
   }
