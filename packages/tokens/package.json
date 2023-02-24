@@ -1,14 +1,34 @@
 {
   "name": "@element-plus/tokens",
   "version": "0.0.5",
+  "homepage": "https://github.com/element-plus/element-plus#readme",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
   "license": "MIT",
+  "author": "Element Plus Team <hello@element-plus.org>",
+  "files": [
+    "dist"
+  ],
   "main": "index.ts",
   "module": "index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
+  "types": "index.d.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git",
+    "directory": "packages/tokens"
+  },
+  "scripts": {
+    "prepack": "clean-package",
+    "postpack": "clean-package restore"
+  },
+  "clean-package": "../../clean-package.json",
   "peerDependencies": {
     "vue": "^3.2.0"
   },
-  "types": "index.d.js",
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  "devDependencies": {
+    "clean-package": "^2.2.0"
+  }
 }

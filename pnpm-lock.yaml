@@ -364,13 +364,63 @@ importers:
       tsx: 3.6.0
 
   packages/components:
-    specifiers: {}
+    specifiers:
+      '@element-plus/icons-vue': ^2.0.6
+      '@element-plus/utils': workspace:*
+      '@floating-ui/dom': ^1.0.1
+      '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
+      '@types/lodash': ^4.14.182
+      '@types/lodash-es': ^4.17.6
+      '@types/node': '*'
+      '@vueuse/core': ^9.1.0
+      async-validator: ^4.2.5
+      clean-package: ^2.2.0
+      csstype: ^2.6.20
+      dayjs: ^1.11.3
+      escape-html: ^1.0.3
+      lodash: ^4.17.21
+      lodash-es: ^4.17.21
+      lodash-unified: ^1.0.2
+      memoize-one: ^6.0.0
+      normalize-wheel-es: ^1.2.0
+      resize-observer-polyfill: ^1.5.1
+      vue: ^3.2.37
+      vue-router: ^4.0.16
+    dependencies:
+      '@element-plus/icons-vue': 2.0.9_vue@3.2.37
+      '@element-plus/utils': link:../utils
+      '@floating-ui/dom': 1.0.1
+      '@popperjs/core': /@sxzz/popperjs-es/2.11.7
+      '@types/lodash': 4.14.184
+      '@types/lodash-es': 4.17.6
+      '@vueuse/core': 9.1.0_vue@3.2.37
+      async-validator: 4.2.5
+      dayjs: 1.11.5
+      escape-html: 1.0.3
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      lodash-unified: 1.0.2_3ib2ivapxullxkx3xftsimdk7u
+      memoize-one: 6.0.0
+      normalize-wheel-es: 1.2.0
+      resize-observer-polyfill: 1.5.1
+    devDependencies:
+      '@types/node': 17.0.40
+      clean-package: 2.2.0
+      csstype: 2.6.20
+      vue: 3.2.37
+      vue-router: 4.0.16_vue@3.2.37
 
   packages/constants:
-    specifiers: {}
+    specifiers:
+      clean-package: ^2.2.0
+    devDependencies:
+      clean-package: 2.2.0
 
   packages/directives:
-    specifiers: {}
+    specifiers:
+      clean-package: ^2.2.0
+    devDependencies:
+      clean-package: 2.2.0
 
   packages/element-plus:
     specifiers:
@@ -383,6 +433,7 @@ importers:
       '@types/node': '*'
       '@vueuse/core': ^9.1.0
       async-validator: ^4.2.5
+      clean-package: ^2.2.0
       csstype: ^2.6.20
       dayjs: ^1.11.3
       escape-html: ^1.0.3
@@ -411,15 +462,22 @@ importers:
       normalize-wheel-es: 1.2.0
     devDependencies:
       '@types/node': 17.0.40
+      clean-package: 2.2.0
       csstype: 2.6.20
       vue: 3.2.37
       vue-router: 4.0.16_vue@3.2.37
 
   packages/hooks:
-    specifiers: {}
+    specifiers:
+      clean-package: ^2.2.0
+    devDependencies:
+      clean-package: 2.2.0
 
   packages/locale:
-    specifiers: {}
+    specifiers:
+      clean-package: ^2.2.0
+    devDependencies:
+      clean-package: 2.2.0
 
   packages/test-utils:
     specifiers: {}
@@ -432,6 +490,7 @@ importers:
       '@types/gulp-clean-css': ^4.3.0
       '@types/gulp-rename': ^2.0.1
       '@types/gulp-sass': ^5.0.0
+      clean-package: ^2.2.0
       gulp-autoprefixer: ^8.0.0
       gulp-clean-css: ^4.3.0
       gulp-rename: ^2.0.0
@@ -443,16 +502,23 @@ importers:
       '@types/gulp-clean-css': 4.3.0
       '@types/gulp-rename': 2.0.1
       '@types/gulp-sass': 5.0.0
+      clean-package: 2.2.0
       gulp-autoprefixer: 8.0.0
       gulp-clean-css: 4.3.0
       gulp-rename: 2.0.0
       gulp-sass: 5.1.0
 
   packages/tokens:
-    specifiers: {}
+    specifiers:
+      clean-package: ^2.2.0
+    devDependencies:
+      clean-package: 2.2.0
 
   packages/utils:
-    specifiers: {}
+    specifiers:
+      clean-package: ^2.2.0
+    devDependencies:
+      clean-package: 2.2.0
 
   play:
     specifiers:
@@ -3104,14 +3170,14 @@ packages:
   /@types/lodash-es/4.17.6:
     resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
     dependencies:
-      '@types/lodash': 4.14.182
+      '@types/lodash': 4.14.184
 
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
+    dev: false
 
   /@types/lodash/4.14.184:
     resolution: {integrity: sha512-RoZphVtHbxPZizt4IcILciSWiC6dcn+eZ8oX9IWEYfDMcocdd42f7NPI6fQj+6zI8y4E0L7gu2pcZKLGTRaV9Q==}
-    dev: false
 
   /@types/lru-cache/5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
@@ -4866,6 +4932,13 @@ packages:
       source-map: 0.6.1
     dev: true
 
+  /clean-package/2.2.0:
+    resolution: {integrity: sha512-vLv8kRqvh4smPDpqAYFPLEijTppAd/cfCz4yBcUGoVl/JKu6ZWKhlo+G/cAmwlSa29RudfBeuyiNEzas8bTwEQ==}
+    hasBin: true
+    dependencies:
+      dot-prop: 6.0.1
+    dev: true
+
   /clean-regexp/1.0.0:
     resolution: {integrity: sha512-GfisEZEJvzKrmGWkvfhgzcz/BllN1USeqD2V6tg14OAOgaCD2Z/PUEuxnAZ/nPvmaHRG7a8y77p1T/IRQ4D1Hw==}
     engines: {node: '>=4'}
@@ -5484,6 +5557,13 @@ packages:
   /dot-prop/5.3.0:
     resolution: {integrity: sha512-QM8q3zDe58hqUqjraQOmzZ1LIH9SWQJTlEKCH4kJ2oQvLZk7RbQXvtDM2XEq3fwkV9CCvvH4LA0AV+ogFsBM2Q==}
     engines: {node: '>=8'}
+    dependencies:
+      is-obj: 2.0.0
+    dev: true
+
+  /dot-prop/6.0.1:
+    resolution: {integrity: sha512-tE7ztYzXHIeyvc7N+hR3oi7FIbf/NIjVP9hmAt3yMXzrQ072/fpjGLx2GxNxGxUl5V73MEqYzioOMoVhGMJ5cA==}
+    engines: {node: '>=10'}
     dependencies:
       is-obj: 2.0.0
     dev: true
@@ -9878,7 +9958,6 @@ packages:
 
   /resize-observer-polyfill/1.5.1:
     resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
-    dev: true
 
   /resolve-dir/1.0.1:
     resolution: {integrity: sha512-R7uiTjECzvOsWSfdM0QKFNBVFcK27aHOUwdvK53BcW8zqnGdYp0Fbj82cy54+2A4P2tFM22J5kRfe1R+lM/1yg==}
@@ -10320,6 +10399,7 @@ packages:
 
   /sourcemap-codec/1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
+    deprecated: Please use @jridgewell/sourcemap-codec instead
 
   /sparkles/1.0.1:
     resolution: {integrity: sha512-dSO0DDYUahUt/0/pD/Is3VIm5TGJjludZ0HVymmhYF6eNA53PVLhnUk0znSYbH8IYBuJdCE+1luR22jNLMaQdw==}

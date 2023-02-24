@@ -2,13 +2,33 @@
   "name": "@element-plus/directives",
   "version": "0.0.5",
   "description": "Element Plus directives",
+  "homepage": "https://github.com/element-plus/element-plus#readme",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
   "license": "MIT",
+  "author": "Element Plus Team <hello@element-plus.org>",
+  "files": [
+    "dist"
+  ],
   "main": "index.ts",
   "module": "index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git",
+    "directory": "packages/directives"
+  },
+  "scripts": {
+    "prepack": "clean-package",
+    "postpack": "clean-package restore"
+  },
   "peerDependencies": {
     "vue": "^3.2.0"
   },
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  "clean-package": "../../clean-package.json",
+  "devDependencies": {
+    "clean-package": "^2.2.0"
+  }
 }
