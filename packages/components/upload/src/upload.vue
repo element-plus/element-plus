@@ -97,6 +97,7 @@ const uploadContentProps = computed<UploadContentProps>(() => ({
   onProgress: handleProgress,
   onSuccess: handleSuccess,
   onError: handleError,
+  onRemove: handleRemove,
 }))
 
 onBeforeUnmount(() => {
