@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { computed, provide } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { rowContextKey } from '@element-plus/tokens'
+import { rowContextKey } from '@element-plus/components/tokens'
 import { rowProps } from './row'
 import type { CSSProperties } from 'vue'
 

@@ -17,7 +17,7 @@ import { isNil } from 'lodash-unified'
 import { unrefElement } from '@vueuse/core'
 import { ElOnlyChild } from '@element-plus/components/slot'
 import { useForwardRef } from '@element-plus/hooks'
-import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
+import { POPPER_INJECTION_KEY } from '@element-plus/components/tokens'
 import { isElement } from '@element-plus/utils'
 import { popperTriggerProps } from './trigger'
 

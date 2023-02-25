@@ -17,7 +17,6 @@ importers:
       '@element-plus/locale': workspace:*
       '@element-plus/test-utils': workspace:*
       '@element-plus/theme-chalk': workspace:*
-      '@element-plus/tokens': workspace:*
       '@element-plus/utils': workspace:*
       '@esbuild-kit/cjs-loader': ^2.2.1
       '@floating-ui/dom': ^1.0.1
@@ -86,7 +85,6 @@ importers:
       '@element-plus/locale': link:packages/locale
       '@element-plus/test-utils': link:packages/test-utils
       '@element-plus/theme-chalk': link:packages/theme-chalk
-      '@element-plus/tokens': link:packages/tokens
       '@element-plus/utils': link:packages/utils
       '@floating-ui/dom': 1.0.1
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
@@ -367,7 +365,16 @@ importers:
 
   packages/components:
     specifiers:
+      '@ctrl/tinycolor': ^3.4.1
+      '@element-plus/build': workspace:*
+      '@element-plus/build-utils': workspace:*
+      '@element-plus/constants': workspace:*
+      '@element-plus/directives': workspace:*
+      '@element-plus/hooks': workspace:*
       '@element-plus/icons-vue': ^2.0.6
+      '@element-plus/locale': workspace:*
+      '@element-plus/test-utils': workspace:*
+      '@element-plus/theme-chalk': workspace:*
       '@element-plus/utils': workspace:*
       '@floating-ui/dom': ^1.0.1
       '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
@@ -389,7 +396,13 @@ importers:
       vue: ^3.2.37
       vue-router: ^4.0.16
     dependencies:
+      '@ctrl/tinycolor': 3.4.1
+      '@element-plus/constants': link:../constants
+      '@element-plus/directives': link:../directives
+      '@element-plus/hooks': link:../hooks
       '@element-plus/icons-vue': 2.0.9_vue@3.2.37
+      '@element-plus/locale': link:../locale
+      '@element-plus/theme-chalk': link:../theme-chalk
       '@element-plus/utils': link:../utils
       '@floating-ui/dom': 1.0.1
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
@@ -404,6 +417,9 @@ importers:
       normalize-wheel-es: 1.2.0
       resize-observer-polyfill: 1.5.1
     devDependencies:
+      '@element-plus/build': link:../../internal/build
+      '@element-plus/build-utils': link:../../internal/build-utils
+      '@element-plus/test-utils': link:../test-utils
       '@types/lodash': 4.14.184
       '@types/lodash-es': 4.17.6
       '@types/node': 17.0.40
@@ -446,7 +462,6 @@ importers:
       '@element-plus/hooks': workspace:*
       '@element-plus/icons-vue': ^2.0.6
       '@element-plus/locale': workspace:*
-      '@element-plus/tokens': workspace:*
       '@types/node': '*'
       clean-package: ^2.2.0
       csstype: ^2.6.20
@@ -461,7 +476,6 @@ importers:
       '@element-plus/hooks': link:../hooks
       '@element-plus/icons-vue': 2.0.6_vue@3.2.37
       '@element-plus/locale': link:../locale
-      '@element-plus/tokens': link:../tokens
       dayjs: 1.11.5
     devDependencies:
       '@types/node': 17.0.40
@@ -472,9 +486,9 @@ importers:
 
   packages/hooks:
     specifiers:
+      '@element-plus/components': workspace:*
       '@element-plus/constants': workspace:*
       '@element-plus/locale': workspace:*
-      '@element-plus/tokens': workspace:*
       '@element-plus/utils': workspace:*
       '@floating-ui/dom': ^1.0.1
       '@popperjs/core': npm:@sxzz/popperjs-es@^2.11.7
@@ -487,9 +501,9 @@ importers:
       lodash-unified: ^1.0.2
       vue: ^3.2.0
     dependencies:
+      '@element-plus/components': link:../components
       '@element-plus/constants': link:../constants
       '@element-plus/locale': link:../locale
-      '@element-plus/tokens': link:../tokens
       '@element-plus/utils': link:../utils
       '@floating-ui/dom': 1.0.1
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
@@ -537,23 +551,6 @@ importers:
       gulp-clean-css: 4.3.0
       gulp-rename: 2.0.0
       gulp-sass: 5.1.0
-
-  packages/tokens:
-    specifiers:
-      '@element-plus/components': workspace:*
-      '@element-plus/constants': workspace:*
-      '@element-plus/hooks': workspace:*
-      '@element-plus/utils': workspace:*
-      clean-package: ^2.2.0
-      vue: ^3.2.0
-    dependencies:
-      '@element-plus/components': link:../components
-      '@element-plus/constants': link:../constants
-      '@element-plus/hooks': link:../hooks
-      '@element-plus/utils': link:../utils
-      vue: 3.2.37
-    devDependencies:
-      clean-package: 2.2.0
 
   packages/utils:
     specifiers:

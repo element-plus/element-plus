@@ -12,7 +12,10 @@ import {
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { throwError } from '@element-plus/utils'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import {
+  formContextKey,
+  formItemContextKey,
+} from '@element-plus/components/tokens'
 import { useNamespace } from '@element-plus/hooks'
 
 import type { CSSProperties } from 'vue'

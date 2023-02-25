@@ -35,7 +35,7 @@ import {
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
 import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
-import { scrollbarContextKey } from '@element-plus/tokens'
+import { scrollbarContextKey } from '@element-plus/components/tokens'
 import { useNamespace } from '@element-plus/hooks'
 import { GAP } from './util'
 import Bar from './bar.vue'

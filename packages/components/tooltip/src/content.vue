@@ -50,7 +50,7 @@ import { onClickOutside } from '@vueuse/core'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tokens'
 import { useTooltipContentProps } from './content'
 
 defineOptions({

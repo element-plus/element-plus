@@ -10,7 +10,7 @@
 import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, throwError } from '@element-plus/utils'
-import { tabsRootContextKey } from '@element-plus/tokens'
+import { tabsRootContextKey } from '@element-plus/components/tokens'
 import { useNamespace } from '@element-plus/hooks'
 import { tabBarProps } from './tab-bar'
 

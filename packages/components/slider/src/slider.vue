@@ -116,7 +116,7 @@ import {
   useNamespace,
   useSize,
 } from '@element-plus/hooks'
-import { sliderContextKey } from '@element-plus/tokens'
+import { sliderContextKey } from '@element-plus/components/tokens'
 import { sliderEmits, sliderProps } from './slider'
 import SliderButton from './button.vue'
 import SliderMarker from './marker'

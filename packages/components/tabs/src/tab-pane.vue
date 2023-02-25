@@ -25,7 +25,7 @@ import {
   watch,
 } from 'vue'
 import { eagerComputed } from '@vueuse/core'
-import { tabsRootContextKey } from '@element-plus/tokens'
+import { tabsRootContextKey } from '@element-plus/components/tokens'
 import { throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { tabPaneProps } from './tab-pane'

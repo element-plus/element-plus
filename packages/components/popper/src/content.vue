@@ -40,7 +40,7 @@ import ElFocusTrap from '@element-plus/components/focus-trap'
 import {
   POPPER_CONTENT_INJECTION_KEY,
   formItemContextKey,
-} from '@element-plus/tokens'
+} from '@element-plus/components/tokens'
 import { isElement } from '@element-plus/utils'
 import { popperContentEmits, popperContentProps } from './content'
 import {

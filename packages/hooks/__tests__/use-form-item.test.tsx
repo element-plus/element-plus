@@ -7,9 +7,12 @@ import {
   buttonGroupContextKey,
   formContextKey,
   formItemContextKey,
-} from '@element-plus/tokens'
+} from '@element-plus/components/tokens'
 
-import type { FormContext, FormItemContext } from '@element-plus/tokens'
+import type {
+  FormContext,
+  FormItemContext,
+} from '@element-plus/components/tokens'
 
 const AXIOM = 'Rem is the best girl'
 

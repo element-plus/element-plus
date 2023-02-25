@@ -10,7 +10,7 @@ import {
   it,
 } from 'vitest'
 import { usePopperContainer } from '@element-plus/hooks'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tokens'
 import { genTooltipProvides } from '../test-helper/provides'
 import ElTooltipContent from '../src/content.vue'
 

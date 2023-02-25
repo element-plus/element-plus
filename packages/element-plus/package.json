@@ -61,14 +61,12 @@
     "vue": "^3.2.0"
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^3.4.1",
     "@element-plus/components": "workspace:*",
     "@element-plus/constants": "workspace:*",
     "@element-plus/directives": "workspace:*",
     "@element-plus/hooks": "workspace:*",
     "@element-plus/icons-vue": "^2.0.6",
     "@element-plus/locale": "workspace:*",
-    "@element-plus/tokens": "workspace:*",
     "dayjs": "^1.11.3"
   },
   "devDependencies": {

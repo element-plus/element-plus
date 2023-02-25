@@ -8,7 +8,7 @@ import {
   unref,
 } from 'vue'
 import { debugWarn, isUndefined } from '@element-plus/utils'
-import { carouselContextKey } from '@element-plus/tokens'
+import { carouselContextKey } from '@element-plus/components/tokens'
 
 import type { CarouselItemProps } from './carousel-item'
 

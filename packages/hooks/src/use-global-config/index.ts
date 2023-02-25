@@ -1,10 +1,10 @@
 import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
-import { configProviderContextKey } from '@element-plus/tokens'
+import { configProviderContextKey } from '@element-plus/components/tokens'
 import { debugWarn, keysOf } from '@element-plus/utils'
 
 import type { MaybeRef } from '@vueuse/core'
 import type { App, Ref } from 'vue'
-import type { ConfigProviderContext } from '@element-plus/tokens'
+import type { ConfigProviderContext } from '@element-plus/components/tokens'
 
 // this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
 // into the component as default injection value.

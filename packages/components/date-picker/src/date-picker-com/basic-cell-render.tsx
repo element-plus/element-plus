@@ -1,5 +1,5 @@
 import { defineComponent, inject } from 'vue'
-import { ROOT_PICKER_INJECTION_KEY } from '@element-plus/tokens'
+import { ROOT_PICKER_INJECTION_KEY } from '@element-plus/components/tokens'
 import { useNamespace } from '@element-plus/hooks'
 import { basicCellProps } from '../props/basic-cell'
 

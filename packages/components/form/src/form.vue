@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs, watch } from 'vue'
 import { debugWarn, isFunction } from '@element-plus/utils'
-import { formContextKey } from '@element-plus/tokens'
+import { formContextKey } from '@element-plus/components/tokens'
 import { useNamespace, useSize } from '@element-plus/hooks'
 import { formEmits, formProps } from './form'
 import { filterFields, useFormLabelWidth } from './utils'
@@ -19,7 +19,7 @@ import type {
   FormItemContext,
   FormValidateCallback,
   FormValidationResult,
-} from '@element-plus/tokens'
+} from '@element-plus/components/tokens'
 import type { FormItemProp } from './form-item'
 
 const COMPONENT_NAME = 'ElForm'

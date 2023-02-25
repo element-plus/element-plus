@@ -21,7 +21,7 @@ import { inject, ref, toRef, unref } from 'vue'
 import { ElPopperTrigger } from '@element-plus/components/popper'
 import { composeEventHandlers } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tokens'
 import { useTooltipTriggerProps } from './trigger'
 import { whenTrigger } from './utils'
 

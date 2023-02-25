@@ -6,7 +6,7 @@ import {
   useGlobalConfig,
   useSize,
 } from '@element-plus/hooks'
-import { buttonGroupContextKey } from '@element-plus/tokens'
+import { buttonGroupContextKey } from '@element-plus/components/tokens'
 
 import type { SetupContext } from 'vue'
 import type { ButtonEmits, ButtonProps } from './button'

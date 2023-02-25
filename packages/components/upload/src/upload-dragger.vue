@@ -12,7 +12,7 @@
 import { inject, ref } from 'vue'
 import { useDisabled, useNamespace } from '@element-plus/hooks'
 
-import { uploadContextKey } from '@element-plus/tokens'
+import { uploadContextKey } from '@element-plus/components/tokens'
 import { throwError } from '@element-plus/utils/error'
 import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
 

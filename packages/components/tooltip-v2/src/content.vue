@@ -16,7 +16,10 @@
 <script setup lang="ts">
 import { computed, inject, onMounted, provide, ref, unref, watch } from 'vue'
 import { offset } from '@floating-ui/dom'
-import { tooltipV2ContentKey, tooltipV2RootKey } from '@element-plus/tokens'
+import {
+  tooltipV2ContentKey,
+  tooltipV2RootKey,
+} from '@element-plus/components/tokens'
 import {
   arrowMiddleware,
   useFloating,

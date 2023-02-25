@@ -23,7 +23,7 @@ import {
   watch,
 } from 'vue'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { radioGroupKey } from '@element-plus/tokens'
+import { radioGroupKey } from '@element-plus/components/tokens'
 import {
   useFormItem,
   useFormItemInputId,

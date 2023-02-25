@@ -1,5 +1,8 @@
 import { computed, inject, ref, unref } from 'vue'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import {
+  formContextKey,
+  formItemContextKey,
+} from '@element-plus/components/tokens'
 import { buildProp } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
 import { useProp } from '../use-prop'

@@ -66,7 +66,7 @@ import {
   useId,
   usePopperContainer,
 } from '@element-plus/hooks'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tokens'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'

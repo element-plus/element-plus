@@ -24,11 +24,11 @@ import {
 import { EVENT_CODE } from '@element-plus/constants'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowLeft, ArrowRight, Close } from '@element-plus/icons-vue'
-import { tabsRootContextKey } from '@element-plus/tokens'
+import { tabsRootContextKey } from '@element-plus/components/tokens'
 import { useNamespace } from '@element-plus/hooks'
 import TabBar from './tab-bar.vue'
 import type { CSSProperties, ExtractPropTypes } from 'vue'
-import type { TabsPaneContext } from '@element-plus/tokens'
+import type { TabsPaneContext } from '@element-plus/components/tokens'
 import type { TabPaneName } from './tabs'
 
 interface Scrollable {
