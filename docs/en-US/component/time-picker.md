@@ -64,7 +64,7 @@ time-picker/range
 | range-separator       | range separator                                          | ^[string]                                                                                       | '-'         |
 | format                | format of the displayed value in the input box           | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                         | —           |
 | default-value         | optional, default date of the calendar                   | ^[Date] / ^[array]`[Date, Date]`                                                                | —           |
-| id                    | same as `id` in native input                             | ^[string] / ^[array]`[string, string]`                                                          | -           |
+| id                    | same as `id` in native input                             | ^[string] / ^[array]`[string, string]`                                                          | —           |
 | name                  | same as `name` in native input                           | ^[string]                                                                                       | —           |
 | label ^(a11y)         | same as `aria-label` in native input                     | ^[string]                                                                                       | —           |
 | prefix-icon           | Custom prefix icon component                             | ^[string] / ^[Component]                                                                        | Clock       |
