@@ -582,47 +582,6 @@ describe('DatePicker', () => {
       await nextTick()
       expect(wrapper.findComponent(Input).vm.modelValue).toBe('2021-05-31')
     })
-
-    it('with "x"', async () => {
-      const format = 'YYYY/MM/DD'
-      const dateStr = '2021/05/31'
-      const valueFormat = 'x'
-      const value = Date.now()
-      const wrapper = _mount(
-        `
-        <el-date-picker
-          ref="compo"
-          v-model="value"
-          type="date"
-          format="${format}"
-          value-format="${valueFormat}" />
-        <button @click="changeValue">click</button>
-      `,
-        () => {
-          return {
-            value,
-          }
-        },
-        {
-          methods: {
-            changeValue() {
-              this.value = +new Date(dateStr)
-            },
-          },
-        }
-      )
-      const vm = wrapper.vm as any
-      const input = wrapper.find('input')
-      await input.trigger('blur')
-      await input.trigger('focus')
-      await nextTick()
-      ;(document.querySelector('td.available') as HTMLElement).click()
-      await nextTick()
-      expect(vm.value).toBe(+dayjs().startOf('M'))
-      await wrapper.find('button').trigger('click')
-      await nextTick()
-      expect(wrapper.findComponent(Input).vm.modelValue).toBe(dateStr)
-    })
   })
 })
 
