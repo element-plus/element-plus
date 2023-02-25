@@ -1,0 +1,11 @@
+- scope: 'component'
+  name: 'el-image'
+  type: 'props'
+  version: '2.2.3'
+  commit_hash: '9e01d4a'
+  description: |
+    PUsing value-format="x" will no longer return a number, but a string.
+  props:
+    - api: 'value-format'
+      before: 'string|number'
+      after: 'string'
