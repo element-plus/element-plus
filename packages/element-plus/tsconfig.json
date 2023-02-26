@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.build-base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "composite": false,
+    "declaration": false,
+    "types": ["node"]
+  },
+  "include": ["src"]
+}

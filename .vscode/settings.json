@@ -1,7 +1,7 @@
 {
   "cSpell.words": ["Element Plus", "element-plus"],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "npm.packageManager": "pnpm",
   "eslint.probe": [
     "javascript",

@@ -1,14 +1,53 @@
 {
   "name": "@element-plus/directives",
-  "version": "0.0.5",
+  "version": "3.0.0",
   "description": "Element Plus directives",
+  "homepage": "https://github.com/element-plus/element-plus#readme",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
   "license": "MIT",
-  "main": "index.ts",
-  "module": "index.ts",
+  "author": "Element Plus Team <hello@element-plus.org>",
+  "files": [
+    "dist"
+  ],
+  "main": "src/index.ts",
+  "module": "src/index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git",
+    "directory": "packages/directives"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsup src --dts --tsconfig ./tsconfig.build.json",
+    "dev": "tsup src --watch --tsconfig ./tsconfig.build.json",
+    "prepack": "clean-package",
+    "postpack": "clean-package restore"
+  },
   "peerDependencies": {
     "vue": "^3.2.0"
   },
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  "dependencies": {
+    "@element-plus/constants": "workspace:*",
+    "@element-plus/utils": "workspace:*",
+    "@vueuse/core": "^9.1.0",
+    "normalize-wheel-es": "^1.2.0",
+    "vue": "^3.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "clean-package": "^2.2.0"
+  },
+  "clean-package": "../../clean-package.json",
+  "tsup": {
+    "clean": true,
+    "target": "es2018",
+    "format": [
+      "cjs",
+      "esm"
+    ]
+  }
 }

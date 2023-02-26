@@ -1,9 +1,63 @@
 {
   "name": "@element-plus/utils",
-  "private": true,
+  "version": "3.0.0",
+  "description": "Element Plus shared utils",
+  "homepage": "https://github.com/element-plus/element-plus#readme",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
   "license": "MIT",
-  "main": "index.ts",
+  "author": "Element Plus Team <hello@element-plus.org>",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "unpkg": "index.js",
+  "jsdelivr": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git",
+    "directory": "packages/utils"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsup src --dts",
+    "dev": "tsup src --watch",
+    "prepack": "clean-package",
+    "postpack": "clean-package restore",
+    "typecheck": "tsc --noEmit"
+  },
+  "clean-package": "../../clean-package.json",
   "peerDependencies": {
     "vue": "^3.2.0"
+  },
+  "dependencies": {
+    "@element-plus/constants": "workspace:*",
+    "@element-plus/icons-vue": "^2.0.9",
+    "@vue/shared": "^3.2.0",
+    "@vueuse/core": "^9.1.0",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "lodash-unified": "^1.0.2",
+    "vue": "^3.2.0"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.6",
+    "@types/node": "*",
+    "clean-package": "^2.2.0",
+    "type-fest": "^3.6.0"
+  },
+  "tsup": {
+    "clean": true,
+    "target": "es2018",
+    "format": [
+      "cjs",
+      "esm"
+    ]
   }
 }

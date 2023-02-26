@@ -1,15 +1,66 @@
 {
   "name": "@element-plus/components",
-  "version": "0.0.5",
+  "version": "3.0.0",
   "description": "all components are settled here",
+  "homepage": "https://github.com/element-plus/element-plus#readme",
+  "bugs": {
+    "url": "https://github.com/element-plus/element-plus/issues"
+  },
+  "author": "Element Plus Team <hello@element-plus.org>",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
   "main": "index.ts",
   "module": "index.ts",
   "unpkg": "index.js",
   "jsdelivr": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/element-plus/element-plus.git",
+    "directory": "packages/components"
+  },
+  "scripts": {
+    "build": "tsx ./rollup.ts",
+    "dev": "",
+    "clean": "rimraf dist",
+    "typecheck": "vue-tsc --noEmit"
+  },
   "peerDependencies": {
     "vue": "^3.2.0"
   },
-  "types": "index.d.ts",
-  "sideEffects": false,
-  "gitHead": "c69724230befa8fede0e6b9c37fb0b7e39fd7cdd"
+  "dependencies": {
+    "@ctrl/tinycolor": "^3.4.1",
+    "@element-plus/constants": "workspace:*",
+    "@element-plus/directives": "workspace:*",
+    "@element-plus/hooks": "workspace:*",
+    "@element-plus/icons-vue": "^2.0.6",
+    "@element-plus/locale": "workspace:*",
+    "@element-plus/theme-chalk": "workspace:*",
+    "@element-plus/utils": "workspace:*",
+    "@floating-ui/dom": "^1.0.1",
+    "@popperjs/core": "npm:@sxzz/popperjs-es@^2.11.7",
+    "@vueuse/core": "^9.1.0",
+    "async-validator": "^4.2.5",
+    "dayjs": "^1.11.3",
+    "escape-html": "^1.0.3",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "lodash-unified": "^1.0.2",
+    "memoize-one": "^6.0.0",
+    "normalize-wheel-es": "^1.2.0",
+    "resize-observer-polyfill": "^1.5.1"
+  },
+  "devDependencies": {
+    "@element-plus/build": "workspace:*",
+    "@element-plus/build-utils": "workspace:*",
+    "@element-plus/test-utils": "workspace:*",
+    "@types/lodash": "^4.14.182",
+    "@types/lodash-es": "^4.17.6",
+    "@types/node": "*",
+    "clean-package": "^2.2.0",
+    "csstype": "^2.6.20",
+    "vue": "^3.2.37",
+    "vue-router": "^4.0.16"
+  }
 }
