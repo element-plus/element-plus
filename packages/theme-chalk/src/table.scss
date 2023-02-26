@@ -269,6 +269,7 @@
         top: 0;
         width: 100%;
         height: 1px;
+        z-index: 2;
       }
     }
 
@@ -552,6 +553,12 @@
     tr.current-row > td.#{$namespace}-table__cell {
       background-color: getCssVar('table-current-row-bg-color');
     }
+  }
+
+  @include e(body-header) {
+    position: sticky;
+    top: 0;
+    z-index: 2;
   }
 
   @include e(column-resize-proxy) {
