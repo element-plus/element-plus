@@ -7,7 +7,8 @@
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs, watch } from 'vue'
 import { debugWarn, isFunction } from '@element-plus/utils'
-import { useNamespace, useSize } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
+import { useFormSize } from './hooks'
 import { formContextKey } from './constants'
 import { formEmits, formProps } from './form'
 import { filterFields, useFormLabelWidth } from './utils'
@@ -31,7 +32,7 @@ const emit = defineEmits(formEmits)
 
 const fields: FormItemContext[] = []
 
-const formSize = useSize()
+const formSize = useFormSize()
 const ns = useNamespace('form')
 const formClasses = computed(() => {
   const { labelPosition, inline } = props

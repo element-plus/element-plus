@@ -77,7 +77,9 @@
           role="listbox"
         >
           <li v-if="suggestionLoading">
-            <el-icon :class="ns.is('loading')"><Loading /></el-icon>
+            <el-icon :class="ns.is('loading')">
+              <Loading />
+            </el-icon>
           </li>
           <template v-else>
             <li
@@ -109,7 +111,7 @@ import {
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
-import { useAttrs, useDisabled, useNamespace } from '@element-plus/hooks'
+import { useAttrs, useNamespace } from '@element-plus/hooks'
 import { generateId, isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -120,6 +122,7 @@ import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
+import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
 import type { AutocompleteData } from './autocomplete'
 
@@ -138,7 +141,7 @@ const emit = defineEmits(autocompleteEmits)
 
 const attrs = useAttrs()
 const rawAttrs = useRawAttrs()
-const disabled = useDisabled()
+const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')
 
 const inputRef = ref<InputInstance>()

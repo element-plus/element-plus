@@ -52,9 +52,14 @@
 import { computed, inject, markRaw, ref, watch } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { hasClass, isArray, isObject, isString } from '@element-plus/utils'
-import { formContextKey, formItemContextKey } from '@element-plus/components'
+import {
+  formContextKey,
+  formItemContextKey,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
 import { ElIcon } from '@element-plus/components/icon'
-import { useFormItemInputId, useNamespace, useSize } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
 import { rateEmits, rateProps } from './rate'
 import type { iconPropType } from '@element-plus/utils'
 import type { CSSProperties, Component } from 'vue'
@@ -88,7 +93,7 @@ const emit = defineEmits(rateEmits)
 
 const formContext = inject(formContextKey, undefined)
 const formItemContext = inject(formItemContextKey, undefined)
-const rateSize = useSize()
+const rateSize = useFormSize()
 const ns = useNamespace('rate')
 const { inputId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext,

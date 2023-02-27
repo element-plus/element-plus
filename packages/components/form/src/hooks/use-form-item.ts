@@ -7,11 +7,11 @@ import {
   toRef,
   watch,
 } from 'vue'
-import { formContextKey, formItemContextKey } from '@element-plus/components'
-import { useId } from '../use-id'
+import { useId } from '@element-plus/hooks'
+import { formContextKey, formItemContextKey } from '../constants'
 
-import type { FormItemContext } from '@element-plus/components'
 import type { ComputedRef, Ref, WatchStopHandle } from 'vue'
+import type { FormItemContext } from '../types'
 
 export const useFormItem = () => {
   const form = inject(formContextKey, undefined)

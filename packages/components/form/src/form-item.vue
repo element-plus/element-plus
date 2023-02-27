@@ -61,7 +61,8 @@ import {
   isFunction,
   isString,
 } from '@element-plus/utils'
-import { useId, useNamespace, useSize } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
+import { useFormSize } from './hooks'
 import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
 import { formContextKey, formItemContextKey } from './constants'
@@ -85,7 +86,7 @@ const slots = useSlots()
 const formContext = inject(formContextKey, undefined)
 const parentFormItemContext = inject(formItemContextKey, undefined)
 
-const _size = useSize(undefined, { formItem: false })
+const _size = useFormSize(undefined, { formItem: false })
 const ns = useNamespace('form-item')
 
 const labelId = useId().value

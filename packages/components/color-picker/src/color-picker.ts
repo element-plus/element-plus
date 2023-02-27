@@ -1,6 +1,6 @@
 import { isNil } from 'lodash-unified'
 import { buildProps, definePropType, isString } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useFormSizeProp } from '@element-plus/components/form'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
 import type { ComputedRef, ExtractPropTypes, InjectionKey } from 'vue'
@@ -30,7 +30,7 @@ export const colorPickerProps = buildProps({
   /**
    * @description size of ColorPicker
    */
-  size: useSizeProp,
+  size: useFormSizeProp,
   /**
    * @description custom class name for ColorPicker's dropdown
    */
