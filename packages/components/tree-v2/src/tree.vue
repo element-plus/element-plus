@@ -42,7 +42,7 @@
 <script lang="ts" setup>
 import { computed, getCurrentInstance, provide, useSlots } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { formItemContextKey } from '@element-plus/tokens'
+import { formItemContextKey } from '@element-plus/components'
 import { FixedSizeList } from '@element-plus/components/virtual-list'
 import { useTree } from './composables/useTree'
 import ElTreeNode from './tree-node.vue'

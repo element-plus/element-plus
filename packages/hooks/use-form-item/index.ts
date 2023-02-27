@@ -7,9 +7,10 @@ import {
   toRef,
   watch,
 } from 'vue'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import { formContextKey, formItemContextKey } from '@element-plus/components'
 import { useId } from '../use-id'
-import type { FormItemContext } from '@element-plus/tokens'
+
+import type { FormItemContext } from '@element-plus/components'
 import type { ComputedRef, Ref, WatchStopHandle } from 'vue'
 
 export const useFormItem = () => {

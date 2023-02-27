@@ -45,7 +45,7 @@ import {
 } from 'vue'
 import { iconPropType } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { formItemContextKey } from '@element-plus/tokens'
+import { formItemContextKey } from '@element-plus/components'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import ElTreeNode from './tree-node.vue'

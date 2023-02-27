@@ -52,7 +52,7 @@
 import { computed, inject, markRaw, ref, watch } from 'vue'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { hasClass, isArray, isObject, isString } from '@element-plus/utils'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
+import { formContextKey, formItemContextKey } from '@element-plus/components'
 import { ElIcon } from '@element-plus/components/icon'
 import { useFormItemInputId, useNamespace, useSize } from '@element-plus/hooks'
 import { rateEmits, rateProps } from './rate'
