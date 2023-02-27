@@ -108,9 +108,8 @@
                   :style="{
                     visibility: !!editorErrorMessage ? 'visible' : 'hidden',
                   }"
-                >
-                  {{ editorErrorMessage }}
-                </div>
+                  v-html="editorErrorMessage"
+                />
               </div>
             </div>
             <div :class="ns.e('btns')">
