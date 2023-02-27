@@ -61,19 +61,19 @@ import {
   isFunction,
   isString,
 } from '@element-plus/utils'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { useId, useNamespace, useSize } from '@element-plus/hooks'
 import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
+import { formContextKey, formItemContextKey } from './constants'
 
 import type { CSSProperties } from 'vue'
 import type { RuleItem } from 'async-validator'
+import type { Arrayable } from '@element-plus/utils'
 import type {
   FormItemContext,
   FormItemRule,
   FormValidateFailure,
-} from '@element-plus/tokens'
-import type { Arrayable } from '@element-plus/utils'
+} from './types'
 import type { FormItemValidateState } from './form-item'
 
 defineOptions({
