@@ -1,6 +1,7 @@
 import { defineComponent, renderSlot, watch } from 'vue'
 import { buildProps, definePropType } from '@element-plus/utils'
-import { provideGlobalConfig, useSizeProp } from '@element-plus/hooks'
+import { provideGlobalConfig } from '@element-plus/hooks'
+import { useFormSizeProp } from '@element-plus/components/form'
 
 import type { ExtractPropTypes } from 'vue'
 import type { ExperimentalFeatures } from '@element-plus/tokens'
@@ -27,7 +28,7 @@ export const configProviderProps = buildProps({
   /**
    * @description global component size
    */
-  size: useSizeProp,
+  size: useFormSizeProp,
   /**
    * @description button related configuration, [see the following table](#button-attributes)
    */

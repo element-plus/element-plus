@@ -1,5 +1,5 @@
 import { buildProps } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useFormSizeProp } from '@element-plus/components/form'
 import { radioEmits } from './radio'
 import type { ExtractPropTypes } from '@vue/runtime-core'
 import type RadioGroup from './radio-group.vue'
@@ -15,7 +15,7 @@ export const radioGroupProps = buildProps({
   /**
    * @description the size of radio buttons or bordered radios
    */
-  size: useSizeProp,
+  size: useFormSizeProp,
   /**
    * @description whether the nesting radios are disabled
    */

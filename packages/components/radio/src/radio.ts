@@ -1,6 +1,6 @@
 import { buildProps, isBoolean, isNumber, isString } from '@element-plus/utils'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useSizeProp } from '@element-plus/hooks'
+import { useFormSizeProp } from '@element-plus/components/form'
 import type { ExtractPropTypes } from 'vue'
 import type Radio from './radio.vue'
 
@@ -8,7 +8,7 @@ export const radioPropsBase = buildProps({
   /**
    * @description size of the Radio
    */
-  size: useSizeProp,
+  size: useFormSizeProp,
   /**
    * @description whether Radio is disabled
    */
