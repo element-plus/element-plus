@@ -29,6 +29,9 @@
       <el-input
         ref="inputRef"
         v-bind="attrs"
+        :clearable="clearable"
+        :disabled="disabled"
+        :name="name"
         :model-value="modelValue"
         @input="handleInput"
         @change="handleChange"

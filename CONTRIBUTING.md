@@ -82,7 +82,7 @@ pnpm build
 If you would like to compile the website code locally:
 
 ```shell
-DOC_ENV=production yarn docs:build
+pnpm docs:build
 ```
 
 ## Pulling request

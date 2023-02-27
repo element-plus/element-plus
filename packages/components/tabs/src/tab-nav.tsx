@@ -270,7 +270,7 @@ const TabNav = defineComponent({
     watch(
       () => props.panes,
       () => vm.update(),
-      { flush: 'post' }
+      { flush: 'post', deep: true }
     )
 
     return () => {
