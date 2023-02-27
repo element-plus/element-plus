@@ -1,5 +1,5 @@
 import { computed, inject } from 'vue'
-import { useDisabled } from '@element-plus/hooks'
+import { useFormDisabled } from '@element-plus/components/form'
 import { isUndefined } from '@element-plus/utils'
 import { checkboxGroupContextKey } from '@element-plus/tokens'
 
@@ -20,7 +20,7 @@ export const useCheckboxDisabled = ({
     )
   })
 
-  const isDisabled = useDisabled(
+  const isDisabled = useFormDisabled(
     computed(() => checkboxGroup?.disabled.value || isLimitDisabled.value)
   )
 

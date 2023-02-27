@@ -24,7 +24,9 @@
         ns.is('active', !checked),
       ]"
     >
-      <el-icon v-if="inactiveIcon"><component :is="inactiveIcon" /></el-icon>
+      <el-icon v-if="inactiveIcon">
+        <component :is="inactiveIcon" />
+      </el-icon>
       <span v-if="!inactiveIcon && inactiveText" :aria-hidden="checked">{{
         inactiveText
       }}</span>
@@ -43,7 +45,9 @@
         </template>
       </div>
       <div :class="ns.e('action')">
-        <el-icon v-if="loading" :class="ns.is('loading')"><loading /></el-icon>
+        <el-icon v-if="loading" :class="ns.is('loading')">
+          <loading />
+        </el-icon>
       </div>
     </span>
     <span
@@ -54,7 +58,9 @@
         ns.is('active', checked),
       ]"
     >
-      <el-icon v-if="activeIcon"><component :is="activeIcon" /></el-icon>
+      <el-icon v-if="activeIcon">
+        <component :is="activeIcon" />
+      </el-icon>
       <span v-if="!activeIcon && activeText" :aria-hidden="!checked">{{
         activeText
       }}</span>
@@ -74,20 +80,19 @@ import {
 import { isPromise } from '@vue/shared'
 import { addUnit, debugWarn, isBoolean, throwError } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
 import { Loading } from '@element-plus/icons-vue'
 import {
   CHANGE_EVENT,
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import {
-  useDeprecated,
-  useDisabled,
-  useFormItem,
-  useFormItemInputId,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
+import { useDeprecated, useNamespace } from '@element-plus/hooks'
 import { switchEmits, switchProps } from './switch'
 import type { CSSProperties } from 'vue'
 
@@ -101,7 +106,7 @@ const emit = defineEmits(switchEmits)
 
 const vm = getCurrentInstance()!
 const { formItem } = useFormItem()
-const switchSize = useSize()
+const switchSize = useFormSize()
 const ns = useNamespace('switch')
 
 useDeprecated(
@@ -120,7 +125,7 @@ const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
 
-const switchDisabled = useDisabled(computed(() => props.loading))
+const switchDisabled = useFormDisabled(computed(() => props.loading))
 const isControlled = ref(props.modelValue !== false)
 const input = ref<HTMLInputElement>()
 const core = ref<HTMLSpanElement>()

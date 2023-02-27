@@ -55,7 +55,7 @@ import {
   useSlots,
 } from 'vue'
 import { uploadContextKey } from '@element-plus/tokens'
-import { useDisabled } from '@element-plus/hooks'
+import { useFormDisabled } from '@element-plus/components/form'
 
 import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
@@ -73,7 +73,7 @@ defineOptions({
 const props = defineProps(uploadProps)
 
 const slots = useSlots()
-const disabled = useDisabled()
+const disabled = useFormDisabled()
 
 const uploadRef = shallowRef<UploadContentInstance>()
 const {

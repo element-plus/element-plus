@@ -10,7 +10,7 @@ import {
   INPUT_EVENT,
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
-import { useSizeProp } from '@element-plus/hooks'
+import { useFormSizeProp } from '@element-plus/components/form'
 import type { Arrayable } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { SliderMarkerProps } from './marker'
@@ -52,8 +52,8 @@ export const sliderProps = buildProps({
     type: Boolean,
     default: true,
   },
-  size: useSizeProp,
-  inputSize: useSizeProp,
+  size: useFormSizeProp,
+  inputSize: useFormSizeProp,
   showStops: Boolean,
   showTooltip: {
     type: Boolean,

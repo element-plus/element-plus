@@ -9,7 +9,7 @@ import {
   watchEffect,
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
-import { useSize } from '@element-plus/hooks'
+import { useFormSize } from '@element-plus/components/form'
 
 import type { Table, TableProps } from './defaults'
 import type { Store } from '../store'
@@ -257,7 +257,7 @@ function useStyle<T>(
       doLayout()
     }
   }
-  const tableSize = useSize()
+  const tableSize = useFormSize()
   const bodyWidth = computed(() => {
     const { bodyWidth: bodyWidth_, scrollY, gutterWidth } = layout
     return bodyWidth_.value
