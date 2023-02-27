@@ -1,5 +1,5 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useFormSizeProp } from '@element-plus/components/form'
 import { CircleClose } from '@element-plus/icons-vue'
 import { disabledTimeListsProps } from '../props/shared'
 
@@ -60,7 +60,7 @@ export const timePickerDefaultProps = buildProps({
     type: definePropType<string | Component>([String, Object]),
     default: '',
   },
-  size: useSizeProp,
+  size: useFormSizeProp,
   readonly: {
     type: Boolean,
     default: false,

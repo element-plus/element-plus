@@ -28,13 +28,8 @@ import {
   isString,
   scrollIntoView,
 } from '@element-plus/utils'
-import {
-  useDeprecated,
-  useFormItem,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
+import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
 
 import type { ComponentPublicInstance } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
@@ -205,7 +200,7 @@ export const useSelect = (props, states: States, ctx) => {
     )
   })
 
-  const selectSize = useSize()
+  const selectSize = useFormSize()
 
   const collapseTagSize = computed(() =>
     ['small'].includes(selectSize.value) ? 'small' : 'default'

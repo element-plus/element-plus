@@ -171,12 +171,8 @@
 import { computed, inject, nextTick, provide, ref, unref, watch } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
-import {
-  useFormItem,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
 import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
@@ -530,7 +526,7 @@ const isRangeInput = computed(() => {
   return props.type.includes('range')
 })
 
-const pickerSize = useSize()
+const pickerSize = useFormSize()
 
 const popperEl = computed(() => unref(refPopper)?.popperRef?.contentRef)
 const actualInputRef = computed(() => {

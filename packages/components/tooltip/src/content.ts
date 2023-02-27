@@ -1,9 +1,7 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { popperContentProps } from '@element-plus/components/popper'
-import { useDelayedToggleProps, useNamespace } from '@element-plus/hooks'
+import { useDelayedToggleProps } from '@element-plus/hooks'
 import type { ExtractPropTypes } from 'vue'
-
-const ns = useNamespace('tooltip')
 
 export const useTooltipContentProps = buildProps({
   ...useDelayedToggleProps,
@@ -31,7 +29,7 @@ export const useTooltipContentProps = buildProps({
   },
   transition: {
     type: String,
-    default: `${ns.namespace.value}-fade-in-linear`,
+    default: '',
   },
   teleported: {
     type: Boolean,

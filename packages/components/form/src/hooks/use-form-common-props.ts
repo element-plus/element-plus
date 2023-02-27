@@ -1,19 +1,19 @@
 import { computed, inject, ref, unref } from 'vue'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
 import { buildProp } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
-import { useProp } from '../use-prop'
-import { useGlobalConfig } from '../use-global-config'
+import { useGlobalConfig, useProp } from '@element-plus/hooks'
+import { formContextKey, formItemContextKey } from '../constants'
+
 import type { ComponentSize } from '@element-plus/constants'
 import type { MaybeRef } from '@vueuse/core'
 
-export const useSizeProp = buildProp({
+export const useFormSizeProp = buildProp({
   type: String,
   values: componentSizes,
   required: false,
 } as const)
 
-export const useSize = (
+export const useFormSize = (
   fallback?: MaybeRef<ComponentSize | undefined>,
   ignore: Partial<Record<'prop' | 'form' | 'formItem' | 'global', boolean>> = {}
 ) => {
@@ -39,10 +39,15 @@ export const useSize = (
   )
 }
 
-export const useDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
+export const useFormDisabled = (fallback?: MaybeRef<boolean | undefined>) => {
   const disabled = useProp<boolean>('disabled')
   const form = inject(formContextKey, undefined)
   return computed(
     () => disabled.value || unref(fallback) || form?.disabled || false
   )
 }
+
+// These exports are used for preventing breaking changes
+export const useSize = useFormSize
+export const useDisabled = useFormDisabled
+export const useSizeProp = useFormSizeProp

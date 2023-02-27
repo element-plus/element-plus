@@ -4,12 +4,15 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import { ElButton } from '@element-plus/components'
 import {
-  buttonGroupContextKey,
   formContextKey,
   formItemContextKey,
-} from '@element-plus/tokens'
+} from '@element-plus/components/form'
+import { buttonGroupContextKey } from '@element-plus/tokens'
 
-import type { FormContext, FormItemContext } from '@element-plus/tokens'
+import type {
+  FormContext,
+  FormItemContext,
+} from '@element-plus/components/form'
 
 const AXIOM = 'Rem is the best girl'
 
