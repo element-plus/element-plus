@@ -7,7 +7,7 @@ import {
   isNumber,
   mutable,
 } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useFormSizeProp } from '@element-plus/components/form'
 import type { Component, ExtractPropTypes } from 'vue'
 import type Rate from './rate.vue'
 
@@ -138,7 +138,7 @@ export const rateProps = buildProps({
   /**
    * @description size of Rate
    */
-  size: useSizeProp,
+  size: useFormSizeProp,
   /**
    * @description same as `aria-label` in Rate
    */
