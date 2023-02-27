@@ -31,6 +31,10 @@
         "text": "Link"
       },
       {
+        "link": "/text",
+        "text": "Text"
+      },
+      {
         "link": "/scrollbar",
         "text": "Scrollbar"
       },
