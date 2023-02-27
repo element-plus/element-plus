@@ -1,9 +1,9 @@
-import { computed, isRef, ref, unref } from 'vue'
+import { computed, inject, isRef, ref, unref } from 'vue'
 import { get } from 'lodash-unified'
 import English from '@element-plus/locale/lang/en'
-import { useGlobalConfig } from '../use-global-config'
+
 import type { MaybeRef } from '@vueuse/core'
-import type { Ref } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 import type { Language } from '@element-plus/locale'
 
 export type TranslatorOption = Record<string, string | number>
@@ -41,7 +41,10 @@ export const buildLocaleContext = (
   }
 }
 
+export const localeContextKey: InjectionKey<Ref<Language | undefined>> =
+  Symbol('localeContextKey')
+
 export const useLocale = () => {
-  const locale = useGlobalConfig('locale')
+  const locale = inject(localeContextKey, ref())!
   return buildLocaleContext(computed(() => locale.value || English))
 }

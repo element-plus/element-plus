@@ -1,7 +1,8 @@
 import { computed, inject, ref, unref } from 'vue'
 import { buildProp } from '@element-plus/utils'
 import { componentSizes } from '@element-plus/constants'
-import { useGlobalConfig, useProp } from '@element-plus/hooks'
+import { useProp } from '@element-plus/hooks'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { formContextKey, formItemContextKey } from '../constants'
 
 import type { ComponentSize } from '@element-plus/constants'

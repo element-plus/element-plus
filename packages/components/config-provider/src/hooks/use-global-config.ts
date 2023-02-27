@@ -1,5 +1,10 @@
 import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
 import { debugWarn, keysOf } from '@element-plus/utils'
+import {
+  localeContextKey,
+  namespaceContextKey,
+  zIndexContextKey,
+} from '@element-plus/hooks'
 import { configProviderContextKey } from '../constants'
 
 import type { MaybeRef } from '@vueuse/core'
@@ -56,6 +61,19 @@ export const provideGlobalConfig = (
     return mergeConfig(oldConfig.value, cfg)
   })
   provideFn(configProviderContextKey, context)
+  provideFn(
+    localeContextKey,
+    computed(() => context.value.locale)
+  )
+  provideFn(
+    namespaceContextKey,
+    computed(() => context.value.namespace)
+  )
+  provideFn(
+    zIndexContextKey,
+    computed(() => context.value.zIndex)
+  )
+
   if (global || !globalConfig.value) {
     globalConfig.value = context.value
   }

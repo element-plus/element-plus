@@ -1,5 +1,5 @@
 import { defineComponent, renderSlot, watch } from 'vue'
-import { provideGlobalConfig } from '@element-plus/hooks'
+import { provideGlobalConfig } from './hooks/use-global-config'
 import { configProviderProps } from './config-provider-props'
 
 import type { MessageConfigContext } from '@element-plus/components/message'

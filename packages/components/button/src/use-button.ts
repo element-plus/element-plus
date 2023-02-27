@@ -4,7 +4,8 @@ import {
   useFormItem,
   useFormSize,
 } from '@element-plus/components/form'
-import { useDeprecated, useGlobalConfig } from '@element-plus/hooks'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
+import { useDeprecated } from '@element-plus/hooks'
 import { buttonGroupContextKey } from '@element-plus/tokens'
 
 import type { SetupContext } from 'vue'
