@@ -199,6 +199,12 @@ form/accessibility
 | ------- | ------------------------------- | --------------------------- | ------- |
 | trigger | How the validator is triggered. | ^[enum]`'blur' \| 'change'` | —       |
 
+:::tip
+
+If you don't want to trigger the validator based on input events, set the `validate-event` [attribute](/en-US/component/input.html#attributes) as `false` on the `<el-input>` component.
+
+:::
+
 ### FormItem Slots
 
 | Name    | Description                                   | Type                         |
