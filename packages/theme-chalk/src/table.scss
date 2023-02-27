@@ -269,7 +269,7 @@
         top: 0;
         width: 100%;
         height: 1px;
-        z-index: 2;
+        z-index: calc(getCssVar('table-header-index') + 1);
       }
     }
 
@@ -558,7 +558,7 @@
   @include e(body-header) {
     position: sticky;
     top: 0;
-    z-index: calc(getCssVar('table-index') + 2);
+    z-index: calc(getCssVar('table-header-index') + 1);
   }
 
   @include e(column-resize-proxy) {
