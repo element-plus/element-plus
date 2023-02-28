@@ -269,7 +269,7 @@
         top: 0;
         width: 100%;
         height: 1px;
-        z-index: calc(getCssVar('table-index') + 1);
+        z-index: calc(getCssVar('table-index') + 2);
       }
     }
 
@@ -476,7 +476,7 @@
     position: relative;
     flex: 1;
     .#{$namespace}-scrollbar__bar {
-      z-index: calc(getCssVar('table-index') + 1);
+      z-index: calc(getCssVar('table-index') + 2);
     }
   }
 
@@ -521,7 +521,7 @@
   .hidden-columns {
     visibility: hidden;
     position: absolute;
-    z-index: calc(getCssVar('table-index') - 2);
+    z-index: -1;
   }
 
   @include m(striped) {
@@ -559,7 +559,7 @@
   @include e(body-header) {
     position: sticky;
     top: 0;
-    z-index: calc(getCssVar('table-index') + 1);
+    z-index: calc(getCssVar('table-index') + 2);
   }
 
   @include e(column-resize-proxy) {
