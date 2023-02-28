@@ -82,6 +82,8 @@ const TabNav = defineComponent({
     const nav$ = ref<HTMLDivElement>()
     const el$ = ref<HTMLDivElement>()
 
+    const tabBarRef = ref<InstanceType<typeof TabBar>>()
+
     const scrollable = ref<false | Scrollable>(false)
     const navOffset = ref(0)
     const isFocus = ref(false)
@@ -179,6 +181,8 @@ const TabNav = defineComponent({
 
     const update = () => {
       if (!nav$.value || !navScroll$.value) return
+
+      props.stretch && tabBarRef.value?.update()
 
       const navSize = nav$.value[`offset${capitalize(sizeName.value)}`]
       const containerSize =
@@ -388,7 +392,9 @@ const TabNav = defineComponent({
               onKeydown={changeTab}
             >
               {...[
-                !props.type ? <TabBar tabs={[...props.panes]} /> : null,
+                !props.type ? (
+                  <TabBar ref={tabBarRef} tabs={[...props.panes]} />
+                ) : null,
                 tabs,
               ]}
             </div>
