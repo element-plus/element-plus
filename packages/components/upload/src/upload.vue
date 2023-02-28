@@ -54,13 +54,13 @@ import {
   toRef,
   useSlots,
 } from 'vue'
-import { uploadContextKey } from '@element-plus/tokens'
 import { useFormDisabled } from '@element-plus/components/form'
-
+import { uploadContextKey } from './constants'
 import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
 import { useHandlers } from './use-handlers'
 import { uploadProps } from './upload'
+
 import type {
   UploadContentInstance,
   UploadContentProps,

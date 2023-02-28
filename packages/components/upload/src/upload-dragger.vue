@@ -12,8 +12,8 @@
 import { inject, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormDisabled } from '@element-plus/components/form'
-import { uploadContextKey } from '@element-plus/tokens'
 import { throwError } from '@element-plus/utils/error'
+import { uploadContextKey } from './constants'
 import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
 
 const COMPONENT_NAME = 'ElUploadDrag'
