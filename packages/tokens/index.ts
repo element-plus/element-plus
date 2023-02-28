@@ -1,4 +1,3 @@
-export * from './checkbox'
 export * from './collapse'
 export * from './dialog'
 export * from './pagination'
