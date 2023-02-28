@@ -6,7 +6,7 @@ import {
 } from '@element-plus/components/form'
 import { useGlobalConfig } from '@element-plus/components/config-provider'
 import { useDeprecated } from '@element-plus/hooks'
-import { buttonGroupContextKey } from '@element-plus/tokens'
+import { buttonGroupContextKey } from './constants'
 
 import type { SetupContext } from 'vue'
 import type { ButtonEmits, ButtonProps } from './button'
