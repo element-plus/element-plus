@@ -1,4 +1,3 @@
-export * from './tabs'
 export * from './upload'
 export * from './experimental-features'
 export * from './popper'
