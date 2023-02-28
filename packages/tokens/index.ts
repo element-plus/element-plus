@@ -1,4 +1,3 @@
-export * from './collapse'
 export * from './dialog'
 export * from './pagination'
 export * from './radio'
