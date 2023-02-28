@@ -12,11 +12,11 @@ import {
 import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import { debugWarn, isString } from '@element-plus/utils'
-import { carouselContextKey } from '@element-plus/tokens'
 import { useOrderedChildren } from '@element-plus/hooks'
+import { carouselContextKey } from './constants'
 
 import type { SetupContext } from 'vue'
-import type { CarouselItemContext } from '@element-plus/tokens'
+import type { CarouselItemContext } from './constants'
 import type { CarouselEmits, CarouselProps } from './carousel'
 
 const THROTTLE_TIME = 300
