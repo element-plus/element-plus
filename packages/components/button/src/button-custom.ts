@@ -1,6 +1,7 @@
 import { computed } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
-import { useDisabled, useNamespace } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
+import { useFormDisabled } from '@element-plus/components/form'
 import type { ButtonProps } from './button'
 
 export function darken(color: TinyColor, amount = 20) {
@@ -8,7 +9,7 @@ export function darken(color: TinyColor, amount = 20) {
 }
 
 export function useButtonCustomStyle(props: ButtonProps) {
-  const _disabled = useDisabled()
+  const _disabled = useFormDisabled()
   const ns = useNamespace('button')
 
   // calculate hover & active color by custom color

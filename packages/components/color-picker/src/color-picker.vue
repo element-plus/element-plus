@@ -111,16 +111,15 @@ import { debounce } from 'lodash-unified'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
-import {
-  useDisabled,
-  useFormItem,
-  useFormItemInputId,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import { ElInput } from '@element-plus/components/input'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
@@ -145,8 +144,8 @@ const emit = defineEmits(colorPickerEmits)
 const { t } = useLocale()
 const ns = useNamespace('color')
 const { formItem } = useFormItem()
-const colorSize = useSize()
-const colorDisabled = useDisabled()
+const colorSize = useFormSize()
+const colorDisabled = useFormDisabled()
 
 const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,

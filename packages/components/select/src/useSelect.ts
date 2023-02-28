@@ -28,13 +28,8 @@ import {
   isString,
   scrollIntoView,
 } from '@element-plus/utils'
-import {
-  useDeprecated,
-  useFormItem,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
+import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
 
 import type { ComponentPublicInstance } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
@@ -105,6 +100,7 @@ export const useSelect = (props, states: States, ctx) => {
   const groupQueryChange = shallowRef('')
   const instance = getCurrentInstance()
   const optionList = ref<string[]>([])
+  let originClientHeight = 0
 
   onUpdated(() => {
     const childrens = instance?.slots.default?.()[0].children
@@ -205,7 +201,7 @@ export const useSelect = (props, states: States, ctx) => {
     )
   })
 
-  const selectSize = useSize()
+  const selectSize = useFormSize()
 
   const collapseTagSize = computed(() =>
     ['small'].includes(selectSize.value) ? 'small' : 'default'
@@ -392,20 +388,32 @@ export const useSelect = (props, states: States, ctx) => {
       const input = reference.value.$el.querySelector(
         'input'
       ) as HTMLInputElement
+      originClientHeight =
+        originClientHeight ||
+        (input.clientHeight > 0 ? input.clientHeight + 2 : 0)
       const _tags = tags.value
+      const gotSize = getComponentSize(selectSize.value || form?.size)
 
-      const sizeInMap = getComponentSize(selectSize.value || form?.size)
+      const sizeInMap =
+        gotSize === originClientHeight || originClientHeight <= 0
+          ? gotSize
+          : originClientHeight
+
+      const isElHidden = input.offsetParent === null
+
       // it's an inner input so reduce it by 2px.
-      input.style.height = `${
-        (states.selected.length === 0
-          ? sizeInMap
-          : Math.max(
-              _tags
-                ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
-                : 0,
-              sizeInMap
-            )) - 2
-      }px`
+      !isElHidden &&
+        (input.style.height = `${
+          (states.selected.length === 0
+            ? sizeInMap
+            : Math.max(
+                _tags
+                  ? _tags.clientHeight +
+                      (_tags.clientHeight > sizeInMap ? 6 : 0)
+                  : 0,
+                sizeInMap
+              )) - 2
+        }px`)
 
       states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
 

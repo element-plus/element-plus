@@ -28,8 +28,9 @@
 
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
-import { useDisabled, useNamespace } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
 import { entriesOf } from '@element-plus/utils'
+import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
 import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
@@ -48,7 +49,7 @@ defineOptions({
 
 const props = defineProps(uploadContentProps)
 const ns = useNamespace('upload')
-const disabled = useDisabled()
+const disabled = useFormDisabled()
 
 const requests = shallowRef<Record<string, XMLHttpRequest | Promise<unknown>>>(
   {}

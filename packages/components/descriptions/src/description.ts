@@ -1,5 +1,5 @@
 import { buildProps } from '@element-plus/utils'
-import { useSizeProp } from '@element-plus/hooks'
+import { useFormSizeProp } from '@element-plus/components/form'
 
 import type Description from './description.vue'
 
@@ -17,7 +17,7 @@ export const descriptionProps = buildProps({
     values: ['horizontal', 'vertical'],
     default: 'horizontal',
   },
-  size: useSizeProp,
+  size: useFormSizeProp,
   title: {
     type: String,
     default: '',
