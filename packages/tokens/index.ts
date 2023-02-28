@@ -1,4 +1,3 @@
-export * from './pagination'
 export * from './radio'
 export * from './row'
 export * from './scrollbar'
