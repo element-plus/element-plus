@@ -23,6 +23,11 @@
       cursor: not-allowed;
     }
 
+    @include when(rtl) {
+      direction: rtl;
+      text-align: right;
+    }
+
     &.hover,
     &:hover {
       background-color: map.get($select-option, 'hover-background');

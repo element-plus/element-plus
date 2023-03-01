@@ -120,6 +120,8 @@ export const useSelect = (props, states: States, ctx) => {
 
   const selectDisabled = computed(() => props.disabled || form?.disabled)
 
+  const isRTL = computed(() => props.rtl)
+
   const showClose = computed(() => {
     const hasValue = props.multiple
       ? Array.isArray(props.modelValue) && props.modelValue.length > 0
@@ -965,5 +967,8 @@ export const useSelect = (props, states: States, ctx) => {
     // Mouser Event
     handleMouseEnter,
     handleMouseLeave,
+
+    // RTL support
+    isRTL,
   }
 }

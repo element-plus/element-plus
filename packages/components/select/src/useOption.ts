@@ -53,6 +53,9 @@ export function useOption(props, states) {
     return props.disabled || states.groupDisabled || limitReached.value
   })
 
+  const isRTL = computed(() => {
+    return props.rtl
+  })
   const instance = getCurrentInstance()
 
   const contains = (arr = [], target) => {
@@ -145,5 +148,6 @@ export function useOption(props, states) {
     itemSelected,
     isDisabled,
     hoverItem,
+    isRTL,
   }
 }

@@ -122,6 +122,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | model-value / v-model | binding value                                                                                                    | array / string / number / boolean / object | —                   | —                |
 | multiple              | whether multiple-select is activated                                                                             | boolean                                    | true / false        | false            |
 | disabled              | whether Select is disabled                                                                                       | boolean                                    | true / false        | false            |
+| rtl                   | whether option is RTL direction                                                                                  | boolean                                    | true / false        | false            |
 | value-key             | unique identity key name for value, required when value is an object                                             | string                                     | —                   | value            |
 | size                  | size of Input                                                                                                    | string                                     | large/default/small | default          |
 | clearable             | whether select can be cleared                                                                                    | boolean                                    | true / false        | false            |
@@ -204,6 +205,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | value    | value of option                             | string / number / boolean / object | —               | —       |
 | label    | label of option, same as `value` if omitted | string/number                      | —               | —       |
 | disabled | whether option is disabled                  | boolean                            | —               | false   |
+| rtl      | whether option is RTL direction             | boolean                            | —               | false   |
 
 ## Option Slots
 

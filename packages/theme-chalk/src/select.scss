@@ -19,6 +19,7 @@
     box-sizing: border-box;
     border-color: transparent;
     margin: 2px 6px 2px 0;
+
     &:last-child {
       margin-right: 0;
     }
@@ -39,6 +40,7 @@
       }
     }
   }
+
   .#{$namespace}-tag--info {
     background-color: getCssVar('fill-color');
   }
@@ -55,11 +57,9 @@
   line-height: map.get($input-height, 'default');
 
   @include e(popper) {
-    @include picker-popper(
-      map.get($select-dropdown, 'bg-color'),
+    @include picker-popper(map.get($select-dropdown, 'bg-color'),
       map.get($select-dropdown, 'border'),
-      map.get($select-dropdown, 'shadow')
-    );
+      map.get($select-dropdown, 'shadow'));
   }
 
   .#{$namespace}-select-tags-wrapper {
@@ -71,6 +71,7 @@
   @each $size in (large, small) {
     @include m($size) {
       line-height: map.get($input-height, $size);
+
       .#{$namespace}-select-tags-wrapper {
         &.has-prefix {
           margin-left: map.get($select-tags-prefix-padding, $size);
@@ -79,7 +80,13 @@
     }
   }
 
-  .#{$namespace}-select__tags > span {
+  @each $possition in (rtl, ltr) {
+    @include m($possition) {
+      direction: rtl;
+    }
+  }
+
+  .#{$namespace}-select__tags>span {
     display: inline-block;
   }
 
@@ -95,10 +102,8 @@
     cursor: pointer;
 
     @include when(focus) {
-      @include inset-input-border(
-        getCssVar('select-input-focus-border-color'),
-        true
-      );
+      @include inset-input-border(getCssVar('select-input-focus-border-color'),
+        true);
     }
   }
 
@@ -148,19 +153,19 @@
           @include inset-input-border(#{getCssVar('select-disabled-border')});
         }
       }
+
       & .#{$namespace}-input__inner {
         cursor: not-allowed;
       }
+
       & .#{$namespace}-select__caret {
         cursor: not-allowed;
       }
     }
 
     &.is-focus .#{$namespace}-input__wrapper {
-      @include inset-input-border(
-        getCssVar('select-input-focus-border-color'),
-        true
-      );
+      @include inset-input-border(getCssVar('select-input-focus-border-color'),
+        true);
     }
   }
 
