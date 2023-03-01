@@ -1,4 +1,4 @@
-import { useFormSizeProp } from '@element-plus/components/form'
+import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, iconPropType } from '@element-plus/utils'
 import { Loading } from '@element-plus/icons-vue'
 import type { ExtractPropTypes } from 'vue'
@@ -23,7 +23,7 @@ export const buttonProps = buildProps({
   /**
    * @description button size
    */
-  size: useFormSizeProp,
+  size: useSizeProp,
   /**
    * @description disable the button
    */
