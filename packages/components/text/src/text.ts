@@ -28,9 +28,9 @@ export const textProps = buildProps({
     type: Boolean,
   },
   /**
-   * @description override the element
+   * @description custom element tag
    */
-  as: {
+  tag: {
     type: String,
     default: 'span',
   },

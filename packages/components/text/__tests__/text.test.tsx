@@ -26,12 +26,6 @@ describe('Text.vue', () => {
     expect(vm.$el.classList.contains('el-text--success')).toEqual(true)
   })
 
-  test('as', () => {
-    const wrapper = mount(() => <Text as="del" />)
-    const vm = wrapper.vm
-    expect(vm.$el.tagName).toEqual('DEL')
-  })
-
   test('size', () => {
     const wrapper = mount(() => <Text size="large" />)
     const vm = wrapper.vm
@@ -44,5 +38,11 @@ describe('Text.vue', () => {
     const wrapper = mount(() => <Text truncated />)
     const vm = wrapper.vm
     expect(vm.$el.className.includes('is-truncated')).toEqual(true)
+  })
+
+  test('tag', () => {
+    const wrapper = mount(() => <Text tag="del" />)
+    const vm = wrapper.vm
+    expect(vm.$el.tagName).toEqual('DEL')
   })
 })

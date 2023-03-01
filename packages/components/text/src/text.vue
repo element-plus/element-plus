@@ -19,7 +19,7 @@ const ns = useNamespace('text')
 
 const render = () => {
   return h(
-    props.as,
+    props.tag,
     {
       class: [
         ns.b(),

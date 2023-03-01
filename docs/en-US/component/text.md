@@ -33,7 +33,7 @@ text/truncated
 
 ## Override
 
-:::demo Use attribute `as` to override element
+:::demo Use attribute `tag` to override element
 
 text/override
 
@@ -51,12 +51,12 @@ text/mixed
 
 ### Text Attributes
 
-| Name      | Description          | Type                                                               | Default |
-| --------- | -------------------- | ------------------------------------------------------------------ | ------- |
-| type      | text type            | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
-| size      | text size            | ^[enum]`'large' \| 'default' \| 'small'`                           | default |
-| truncated | render ellipsis      | ^[boolean]                                                         | false   |
-| as        | override the element | ^[string]                                                          | span    |
+| Name      | Description        | Type                                                               | Default |
+| --------- | ------------------ | ------------------------------------------------------------------ | ------- |
+| type      | text type          | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
+| size      | text size          | ^[enum]`'large' \| 'default' \| 'small'`                           | default |
+| truncated | render ellipsis    | ^[boolean]                                                         | false   |
+| tag       | custom element tag | ^[string]                                                          | span    |
 
 ### Text Slots
 
