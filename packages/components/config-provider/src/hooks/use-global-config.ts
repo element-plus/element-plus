@@ -1,6 +1,7 @@
 import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
 import { debugWarn, keysOf } from '@element-plus/utils'
 import {
+  SIZE_INJECTION_KEY,
   localeContextKey,
   namespaceContextKey,
   zIndexContextKey,
@@ -73,6 +74,10 @@ export const provideGlobalConfig = (
     zIndexContextKey,
     computed(() => context.value.zIndex)
   )
+
+  provideFn(SIZE_INJECTION_KEY, {
+    size: computed(() => context.value.size || ''),
+  })
 
   if (global || !globalConfig.value) {
     globalConfig.value = context.value

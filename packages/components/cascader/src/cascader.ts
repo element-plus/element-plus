@@ -1,6 +1,6 @@
 import { CommonProps } from '@element-plus/components/cascader-panel'
 import { buildProps, definePropType, isBoolean } from '@element-plus/utils'
-import { useFormSizeProp } from '@element-plus/components/form'
+import { useSizeProp } from '@element-plus/hooks'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { tagProps } from '@element-plus/components/tag'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
@@ -14,7 +14,7 @@ export const cascaderProps = buildProps({
   /**
    * @description size of input
    */
-  size: useFormSizeProp,
+  size: useSizeProp,
   /**
    * @description placeholder of input
    */

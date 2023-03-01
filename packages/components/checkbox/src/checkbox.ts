@@ -1,5 +1,5 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useFormSizeProp } from '@element-plus/components/form'
+import { useSizeProp } from '@element-plus/hooks'
 import { isBoolean, isNumber, isString } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
@@ -75,7 +75,7 @@ export const checkboxProps = {
   /**
    * @description size of the Checkbox
    */
-  size: useFormSizeProp,
+  size: useSizeProp,
   /**
    * @description input tabindex
    */
