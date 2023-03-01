@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 
-import type { Measurable } from '@element-plus/components/popper'
+import type { Measurable } from './constants'
 import type Trigger from './trigger.vue'
 
 export const popperTriggerProps = buildProps({
