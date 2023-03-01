@@ -24,11 +24,12 @@ import {
 } from 'vue'
 import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { radioGroupKey } from '@element-plus/tokens'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
 import { radioGroupEmits, radioGroupProps } from './radio-group'
-import type { RadioGroupProps } from '..'
+import { radioGroupKey } from './constants'
+
+import type { RadioGroupProps } from './radio-group'
 
 defineOptions({
   name: 'ElRadioGroup',

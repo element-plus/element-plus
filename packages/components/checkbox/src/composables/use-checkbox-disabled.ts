@@ -1,7 +1,7 @@
 import { computed, inject } from 'vue'
 import { useFormDisabled } from '@element-plus/components/form'
 import { isUndefined } from '@element-plus/utils'
-import { checkboxGroupContextKey } from '@element-plus/tokens'
+import { checkboxGroupContextKey } from '../constants'
 
 import type { CheckboxModel, CheckboxStatus } from '../composables'
 
