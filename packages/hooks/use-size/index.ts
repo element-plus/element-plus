@@ -25,6 +25,6 @@ export const useGlobalSize = () => {
   const injectedSize = inject(SIZE_INJECTION_KEY, {} as SizeContext)
 
   return computed<ComponentSize>(() => {
-    return unref(injectedSize.size) || 'default'
+    return unref(injectedSize.size) || ''
   })
 }
