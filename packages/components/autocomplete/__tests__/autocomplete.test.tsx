@@ -384,4 +384,50 @@ describe('Autocomplete.vue', () => {
       expect(formItem.attributes().role).toBe('group')
     })
   })
+
+  test('event:focus', async () => {
+    const onFocus = vi.fn()
+    const wrapper = _mount({ onFocus })
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+
+    await wrapper.find('input').trigger('focus')
+    vi.runAllTimers()
+    await nextTick()
+    expect(onFocus).toHaveBeenCalledTimes(1)
+
+    await target.handleSelect({ value: 'Go', tag: 'go' })
+    expect(target.modelValue).toBe('Go')
+    vi.runAllTimers()
+    await nextTick()
+    expect(onFocus).toHaveBeenCalledTimes(1)
+
+    await wrapper.find('input').trigger('blur')
+    vi.runAllTimers()
+    await nextTick()
+    expect(onFocus).toHaveBeenCalledTimes(1)
+  })
+
+  test('event:blur', async () => {
+    const onBlur = vi.fn()
+    const wrapper = _mount({ onBlur })
+    await nextTick()
+
+    const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
+      typeof Autocomplete
+    >
+
+    await wrapper.find('input').trigger('focus')
+    await target.handleSelect({ value: 'Go', tag: 'go' })
+    expect(target.modelValue).toBe('Go')
+    expect(onBlur).toHaveBeenCalledTimes(0)
+
+    await wrapper.find('input').trigger('blur')
+    vi.runAllTimers()
+    await nextTick()
+    expect(onBlur).toHaveBeenCalledTimes(1)
+  })
 })

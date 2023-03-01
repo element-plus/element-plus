@@ -14,7 +14,6 @@
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
     @before-show="onSuggestionShow"
-    @show="onShow"
     @hide="onHide"
   >
     <div
@@ -184,12 +183,7 @@ const onSuggestionShow = async () => {
   }
 }
 
-const onShow = () => {
-  ignoreFocusEvent = true
-}
-
 const onHide = () => {
-  ignoreFocusEvent = false
   highlightedIndex.value = -1
 }
 
@@ -251,19 +245,29 @@ const handleChange = (value: string) => {
 }
 
 const handleFocus = (evt: FocusEvent) => {
-  if (ignoreFocusEvent) return
+  if (!ignoreFocusEvent) {
+    activated.value = true
+    emit('focus', evt)
 
-  activated.value = true
-  emit('focus', evt)
-  // fix https://github.com/element-plus/element-plus/issues/8278
-  if (props.triggerOnFocus && !readonly) {
-    debouncedGetData(String(props.modelValue))
+    if (props.triggerOnFocus && !readonly) {
+      debouncedGetData(String(props.modelValue))
+    }
+  } else {
+    ignoreFocusEvent = false
   }
 }
 
 const handleBlur = (evt: FocusEvent) => {
-  if (ignoreFocusEvent) return
-  emit('blur', evt)
+  setTimeout(() => {
+    // validate current focus event is inside el-tooltip-content
+    // if so, ignore the blur event and the next focus event
+    if (popperRef.value?.isFocusInsideContent()) {
+      ignoreFocusEvent = true
+      return
+    }
+    activated.value && close()
+    emit('blur', evt)
+  })
 }
 
 const handleClear = () => {
