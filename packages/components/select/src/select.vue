@@ -482,7 +482,6 @@ export default defineComponent({
       groupQueryChange,
       handleMouseEnter,
       handleMouseLeave,
-      isRTL,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
