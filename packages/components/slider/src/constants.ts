@@ -1,5 +1,5 @@
-import type { SliderProps } from '@element-plus/components'
 import type { ComputedRef, InjectionKey, Ref, ToRefs } from 'vue'
+import type { SliderProps } from './slider'
 
 export interface SliderContext extends ToRefs<SliderProps> {
   precision: ComputedRef<number>

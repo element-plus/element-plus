@@ -12,7 +12,7 @@ Element Plus 的成长离不开大家的支持，如果你愿意为 Element Plus
 
 - 在提交 issue 之前，请搜索相关内容是否已被提出。
 
-- 请说明 Element Plus 和 Vue 的版本号，并提供操作系统和浏览器信息。推荐使用 [JSFiddle](https://jsfiddle.net/) 生成在线 demo，这能够更直观地重现问题。
+- 请说明 Element Plus 和 Vue 的版本号，并提供操作系统和浏览器信息。推荐使用 [Playground](https://element-plus.run/) 生成在线 demo，这能够更直观地重现问题。
 
 ## Pull Request 规范
 

@@ -74,9 +74,9 @@
 import { computed, provide, ref, useSlots } from 'vue'
 import { ElOverlay } from '@element-plus/components/overlay'
 import { useDeprecated, useNamespace, useSameTarget } from '@element-plus/hooks'
-import { dialogInjectionKey } from '@element-plus/tokens'
 import ElFocusTrap from '@element-plus/components/focus-trap'
 import ElDialogContent from './dialog-content.vue'
+import { dialogInjectionKey } from './constants'
 import { dialogEmits, dialogProps } from './dialog'
 import { useDialog } from './use-dialog'
 

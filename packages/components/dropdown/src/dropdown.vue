@@ -96,7 +96,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
-  onUnmounted,
+  onBeforeUnmount,
   provide,
   ref,
   toRef,
@@ -109,10 +109,11 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import ElRovingFocusGroup from '@element-plus/components/roving-focus-group'
 import { ElOnlyChild } from '@element-plus/components/slot'
+import { useFormSize } from '@element-plus/components/form'
 import { addUnit, isArray } from '@element-plus/utils'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { EVENT_CODE } from '@element-plus/constants'
-import { useId, useLocale, useNamespace, useSize } from '@element-plus/hooks'
+import { useId, useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCollection as ElDropdownCollection, dropdownProps } from './dropdown'
 import { DROPDOWN_INJECTION_KEY } from './tokens'
 
@@ -192,9 +193,9 @@ export default defineComponent({
       { immediate: true }
     )
 
-    onUnmounted(() => {
-      if (triggeringElement?.$el?.removeEventListener) {
-        triggeringElement.$el.removeEventListener(
+    onBeforeUnmount(() => {
+      if (triggeringElementRef.value?.$el?.removeEventListener) {
+        triggeringElementRef.value.$el.removeEventListener(
           'pointerenter',
           onAutofocusTriggerEnter
         )
@@ -213,7 +214,7 @@ export default defineComponent({
       popperRef.value?.onOpen()
     }
 
-    const dropdownSize = useSize()
+    const dropdownSize = useFormSize()
 
     function commandHandler(...args: any[]) {
       emit('command', ...args)
