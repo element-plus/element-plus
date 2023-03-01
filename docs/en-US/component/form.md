@@ -201,7 +201,7 @@ form/accessibility
 
 :::tip
 
-If you don't want to trigger the validator based on input events, set the `validate-event` [attribute](/en-US/component/input.html#attributes) as `false` on the `<el-input>` component.
+If you don't want to trigger the validator based on input events, set the `validate-event` attribute as `false` on the corresponding input type components (`<el-input>`, `<el-radio>`, `<el-select>`, ...).
 
 :::
 
