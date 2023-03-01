@@ -12,3 +12,4 @@ export default _CascaderPanel
 export const ElCascaderPanel = _CascaderPanel
 export * from './src/types'
 export * from './src/config'
+export * from './src/instances'
