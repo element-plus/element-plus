@@ -28,15 +28,17 @@
         v-model="checked"
         :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >
-        <el-checkbox
-          v-for="item in filteredData"
-          :key="item[propsAlias.key]"
-          :class="ns.be('panel', 'item')"
-          :label="item[propsAlias.key]"
-          :disabled="item[propsAlias.disabled]"
-        >
-          <option-content :option="optionRender?.(item)" />
-        </el-checkbox>
+        <el-scrollbar :id="ns.be('panel', 'scrollbar')" role="listbox">
+          <el-checkbox
+            v-for="item in filteredData"
+            :key="item[propsAlias.key]"
+            :class="ns.be('panel', 'item')"
+            :label="item[propsAlias.key]"
+            :disabled="item[propsAlias.disabled]"
+          >
+            <option-content :option="optionRender?.(item)!" />
+          </el-checkbox>
+        </el-scrollbar>
       </el-checkbox-group>
       <p v-show="hasNoMatch || isEmpty(data)" :class="ns.be('panel', 'empty')">
         {{ hasNoMatch ? t('el.transfer.noMatch') : t('el.transfer.noData') }}
@@ -55,6 +57,7 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { ElCheckbox, ElCheckboxGroup } from '@element-plus/components/checkbox'
 import { ElInput } from '@element-plus/components/input'
 import { Search } from '@element-plus/icons-vue'
+import ElScrollbar from '@element-plus/components/scrollbar'
 import { transferPanelEmits, transferPanelProps } from './transfer-panel'
 import { useCheck, usePropsAlias } from './composables'
 
