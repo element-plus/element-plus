@@ -47,9 +47,9 @@ text/mixed
 
 :::
 
-## Text API
+## API
 
-### Text Attributes
+### Attributes
 
 | Name      | Description        | Type                                                               | Default |
 | --------- | ------------------ | ------------------------------------------------------------------ | ------- |
@@ -58,8 +58,8 @@ text/mixed
 | truncated | render ellipsis    | ^[boolean]                                                         | false   |
 | tag       | custom element tag | ^[string]                                                          | span    |
 
-### Text Slots
+### Slots
 
-| Name | Description     |
-| ---- | --------------- |
-| —    | default content |
+| Name    | Description     |
+| ------- | --------------- |
+| default | default content |
