@@ -158,11 +158,15 @@ export default defineComponent({
       emit('open', index, indexPath)
     }
 
-    const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
+    const close = (index: string) => {
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
         openedMenus.value.splice(i, 1)
       }
+    }
+
+    const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
+      close(index)
       emit('close', index, indexPath)
     }
 
@@ -355,9 +359,10 @@ export default defineComponent({
         const { indexPath } = subMenus.value[index]
         indexPath.forEach((i) => openMenu(i, indexPath))
       }
+
       expose({
         open,
-        close: closeMenu,
+        close,
         handleResize,
       })
     }

@@ -40,7 +40,8 @@
           :disabled="isDisabled"
           :validate-event="false"
           :size="realSize"
-          :class="nsCascader.is('focus', popperVisible)"
+          :class="inputClass"
+          :tabindex="multiple && filterable && !isDisabled ? -1 : undefined"
           @compositionstart="handleComposition"
           @compositionupdate="handleComposition"
           @compositionend="handleComposition"
@@ -129,6 +130,8 @@
             @compositionstart="handleComposition"
             @compositionupdate="handleComposition"
             @compositionend="handleComposition"
+            @focus="handleFocus"
+            @blur="handleBlur"
           />
         </div>
       </div>
@@ -193,13 +196,9 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
-import {
-  useFormItem,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { debugWarn, focusNode, getSibling, isKorean } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -261,6 +260,7 @@ const suggestionPanel: Ref<suggestionPanelType | null> = ref(null)
 const popperVisible = ref(false)
 const inputHover = ref(false)
 const filtering = ref(false)
+const filterFocus = ref(false)
 const inputValue = ref('')
 const searchInputValue = ref('')
 const presentTags: Ref<Tag[]> = ref([])
@@ -283,7 +283,7 @@ const currentPlaceholder = computed(() =>
     ? ''
     : inputPlaceholder.value
 )
-const realSize = useSize()
+const realSize = useFormSize()
 const tagSize = computed(() =>
   ['small'].includes(realSize.value) ? 'small' : 'default'
 )
@@ -348,6 +348,10 @@ const cascaderIconKls = computed(() => {
     'icon-arrow-down',
     nsCascader.is('reverse', popperVisible.value),
   ]
+})
+
+const inputClass = computed(() => {
+  return nsCascader.is('focus', popperVisible.value || filterFocus.value)
 })
 
 const togglePopperVisible = (visible?: boolean) => {
@@ -609,10 +613,16 @@ const handleDelete = () => {
 }
 
 const handleFocus = (e: FocusEvent) => {
+  const el = e.target as HTMLInputElement
+  const name = nsCascader.e('search-input')
+  if (el.className === name) {
+    filterFocus.value = true
+  }
   emit('focus', e)
 }
 
 const handleBlur = (e: FocusEvent) => {
+  filterFocus.value = false
   emit('blur', e)
 }
 
@@ -666,7 +676,7 @@ onMounted(() => {
 
 defineExpose({
   /**
-   * @description get an array of currently selected node
+   * @description get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false`
    */
   getCheckedNodes,
   /**

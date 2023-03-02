@@ -3,18 +3,14 @@ import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import {
-  useFormItem,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   ValidateComponentsMap,
   debugWarn,
   escapeStringRegexp,
 } from '@element-plus/utils'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
 
 import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
@@ -180,7 +176,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     filteredOptions.value.every((option) => option.disabled)
   )
 
-  const selectSize = useSize()
+  const selectSize = useFormSize()
 
   const collapseTagSize = computed(() =>
     'small' === selectSize.value ? 'small' : 'default'

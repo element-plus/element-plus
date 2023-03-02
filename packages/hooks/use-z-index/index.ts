@@ -1,10 +1,22 @@
-import { computed, ref } from 'vue'
-import { useGlobalConfig } from '../use-global-config'
+import { computed, inject, ref, unref } from 'vue'
+import { isNumber } from '@element-plus/utils'
+
+import type { InjectionKey, Ref } from 'vue'
 
 const zIndex = ref(0)
+const defaultInitialZIndex = 2000
+
+export const zIndexContextKey: InjectionKey<Ref<number | undefined>> =
+  Symbol('zIndexContextKey')
 
 export const useZIndex = () => {
-  const initialZIndex = useGlobalConfig('zIndex', 2000) // TODO: move to @element-plus/constants
+  const zIndexInjection = inject(zIndexContextKey, undefined)
+  const initialZIndex = computed(() => {
+    const zIndexFromInjection = unref(zIndexInjection)
+    return isNumber(zIndexFromInjection)
+      ? zIndexFromInjection
+      : defaultInitialZIndex
+  })
   const currentZIndex = computed(() => initialZIndex.value + zIndex.value)
 
   const nextZIndex = () => {

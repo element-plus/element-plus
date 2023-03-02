@@ -1985,6 +1985,12 @@ describe('Select', () => {
       large: 40,
     }
 
+    Object.defineProperty(inputEl, 'offsetParent', {
+      get() {
+        return {}
+      },
+    })
+
     for (const size in sizeMap) {
       await wrapper.setProps({
         size,

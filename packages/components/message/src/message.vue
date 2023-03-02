@@ -50,7 +50,7 @@ import { TypeComponents, TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import ElBadge from '@element-plus/components/badge'
 import { ElIcon } from '@element-plus/components/icon'
-import { useNamespace } from '@element-plus/hooks'
+import { useNamespace, useZIndex } from '@element-plus/hooks'
 import { messageEmits, messageProps } from './message'
 import { getLastOffset, getOffsetOrSpace } from './instance'
 import type { BadgeProps } from '@element-plus/components/badge'
@@ -66,6 +66,7 @@ const props = defineProps(messageProps)
 defineEmits(messageEmits)
 
 const ns = useNamespace('message')
+const { currentZIndex, nextZIndex } = useZIndex()
 
 const messageRef = ref<HTMLDivElement>()
 const visible = ref(false)
@@ -91,7 +92,7 @@ const offset = computed(
 const bottom = computed((): number => height.value + offset.value)
 const customStyle = computed<CSSProperties>(() => ({
   top: `${offset.value}px`,
-  zIndex: props.zIndex,
+  zIndex: currentZIndex.value,
 }))
 
 function startTimer() {
@@ -118,6 +119,7 @@ function keydown({ code }: KeyboardEvent) {
 
 onMounted(() => {
   startTimer()
+  nextZIndex()
   visible.value = true
 })
 
