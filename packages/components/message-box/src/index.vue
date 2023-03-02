@@ -169,17 +169,15 @@ import {
   useNamespace,
   useRestoreActive,
   useSameTarget,
-  useSize,
   useZIndex,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
+import { useFormSize } from '@element-plus/components/form'
 import { ElOverlay } from '@element-plus/components/overlay'
 import {
   TypeComponents,
   TypeComponentsMap,
   isValidComponentSize,
-  off,
-  on,
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import ElFocusTrap from '@element-plus/components/focus-trap'
@@ -306,7 +304,7 @@ export default defineComponent({
     const contentId = useId()
     const inputId = useId()
 
-    const btnSize = useSize(
+    const btnSize = useFormSize(
       computed(() => props.buttonSize),
       { prop: true, form: true, formItem: true }
     )
@@ -371,13 +369,13 @@ export default defineComponent({
     onMounted(async () => {
       await nextTick()
       if (props.closeOnHashChange) {
-        on(window, 'hashchange', doClose)
+        window.addEventListener('hashchange', doClose)
       }
     })
 
     onBeforeUnmount(() => {
       if (props.closeOnHashChange) {
-        off(window, 'hashchange', doClose)
+        window.removeEventListener('hashchange', doClose)
       }
     })
 

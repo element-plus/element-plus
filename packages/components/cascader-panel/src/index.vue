@@ -26,7 +26,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import { flattenDeep, isEqual } from 'lodash-unified'
+import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
 import { isClient } from '@vueuse/core'
 import {
   castArray,
@@ -45,7 +45,7 @@ import { useNamespace } from '@element-plus/hooks'
 
 import ElCascaderMenu from './menu.vue'
 import Store from './store'
-import Node, { ExpandTrigger } from './node'
+import Node from './node'
 import { CommonProps, useCascaderConfig } from './config'
 import { checkNode, getMenuIndex, sortByOriginalOrder } from './utils'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
@@ -95,9 +95,7 @@ export default defineComponent({
     const expandingNode = ref<Nullable<CascaderNode>>(null)
     const checkedNodes = ref<CascaderNode[]>([])
 
-    const isHoverMenu = computed(
-      () => config.value.expandTrigger === ExpandTrigger.HOVER
-    )
+    const isHoverMenu = computed(() => config.value.expandTrigger === 'hover')
     const renderLabelFn = computed(() => props.renderLabel || slots.default)
 
     const initStore = () => {
@@ -194,6 +192,9 @@ export default defineComponent({
     const clearCheckedNodes = () => {
       checkedNodes.value.forEach((node) => node.doCheck(false))
       calculateCheckedValue()
+      menus.value = menus.value.slice(0, 1)
+      expandingNode.value = null
+      emit('expand-change', [])
     }
 
     const calculateCheckedValue = () => {
@@ -239,8 +240,8 @@ export default defineComponent({
         const nodes = unique(
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
-        syncMenuState(nodes, false)
-        checkedValue.value = modelValue!
+        syncMenuState(nodes, forced)
+        checkedValue.value = cloneDeep(modelValue)
       }
     }
 
@@ -350,15 +351,21 @@ export default defineComponent({
       () => {
         manualChecked = false
         syncCheckedValue()
+      },
+      {
+        deep: true,
       }
     )
 
-    watch(checkedValue, (val) => {
-      if (!isEqual(val, props.modelValue)) {
-        emit(UPDATE_MODEL_EVENT, val)
-        emit(CHANGE_EVENT, val)
+    watch(
+      () => checkedValue.value,
+      (val) => {
+        if (!isEqual(val, props.modelValue)) {
+          emit(UPDATE_MODEL_EVENT, val)
+          emit(CHANGE_EVENT, val)
+        }
       }
-    })
+    )
 
     onBeforeUpdate(() => (menuList.value = []))
 
@@ -372,7 +379,13 @@ export default defineComponent({
       handleKeyDown,
       handleCheckChange,
       getFlattedNodes,
+      /**
+       * @description get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false`
+       */
       getCheckedNodes,
+      /**
+       * @description clear checked nodes
+       */
       clearCheckedNodes,
       calculateCheckedValue,
       scrollToExpandingNode,

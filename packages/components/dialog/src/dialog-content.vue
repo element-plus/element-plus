@@ -5,12 +5,12 @@
       ns.b(),
       ns.is('fullscreen', fullscreen),
       ns.is('draggable', draggable),
+      ns.is('align-center', alignCenter),
       { [ns.m('center')]: center },
       customClass,
     ]"
     :style="style"
     tabindex="-1"
-    @click.stop
   >
     <header ref="headerRef" :class="ns.e('header')">
       <slot name="header">
@@ -45,7 +45,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import { useDraggable, useLocale } from '@element-plus/hooks'
 import { CloseComponents, composeRefs } from '@element-plus/utils'
-import { dialogInjectionKey } from '@element-plus/tokens'
+import { dialogInjectionKey } from './constants'
 import { dialogContentEmits, dialogContentProps } from './dialog-content'
 
 const { t } = useLocale()

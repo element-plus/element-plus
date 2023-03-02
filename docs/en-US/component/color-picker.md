@@ -7,6 +7,12 @@ lang: en-US
 
 ColorPicker is a color selector supporting multiple color formats.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic usage
 
 :::demo ColorPicker requires a string typed variable to be bound to v-model.
@@ -39,22 +45,33 @@ color-picker/sizes
 
 :::
 
-## Attributes
+## API
 
-| Attribute             | Description                                  | Type    | Accepted Values        | Default                                                       |
-| --------------------- | -------------------------------------------- | ------- | ---------------------- | ------------------------------------------------------------- |
-| model-value / v-model | binding value                                | string  | —                      | —                                                             |
-| disabled              | whether to disable the ColorPicker           | boolean | —                      | false                                                         |
-| size                  | size of ColorPicker                          | string  | large / default /small | —                                                             |
-| show-alpha            | whether to display the alpha slider          | boolean | —                      | false                                                         |
-| color-format          | color format of v-model                      | string  | hsl / hsv / hex / rgb  | hex (when show-alpha is false)/ rgb (when show-alpha is true) |
-| popper-class          | custom class name for ColorPicker's dropdown | string  | —                      | —                                                             |
-| predefine             | predefined color options                     | array   | —                      | —                                                             |
-| validate-event        | whether to trigger form validation           | boolean | -                      | true                                                          |
+### Attributes
 
-## Events
+| Name                  | Description                                  | Type                                                                                                             | Default |
+| --------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------- |
+| model-value / v-model | binding value                                | ^[string]                                                                                                        | —       |
+| disabled              | whether to disable the ColorPicker           | ^[boolean]                                                                                                       | false   |
+| size                  | size of ColorPicker                          | ^[enum]`'large' \| 'default' \| 'small'`                                                                         | —       |
+| show-alpha            | whether to display the alpha slider          | ^[boolean]                                                                                                       | false   |
+| color-format          | color format of v-model                      | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb' \| 'hex' (when show-alpha is false) \| 'rgb' (when show-alpha is true)` | —       |
+| popper-class          | custom class name for ColorPicker's dropdown | ^[string]                                                                                                        | —       |
+| predefine             | predefined color options                     | ^[object]`string[]`                                                                                              | —       |
+| validate-event        | whether to trigger form validation           | ^[boolean]                                                                                                       | true    |
+| tabindex              | ColorPicker tabindex                         | ^[string] / ^[number]                                                                                            | 0       |
+| label<A11yTag/>       | ColorPicker aria-label                       | ^[string]                                                                                                        | —       |
+| id                    | ColorPicker id                               | ^[string]                                                                                                        | —       |
 
-| Event Name    | Description                                    | Parameters         |
-| ------------- | ---------------------------------------------- | ------------------ |
-| change        | triggers when input value changes              | color value        |
-| active-change | triggers when the current active color changes | active color value |
+### Events
+
+| Name          | Description                                    | Type                                 |
+| ------------- | ---------------------------------------------- | ------------------------------------ |
+| change        | triggers when input value changes              | ^[Function]`(value: string) => void` |
+| active-change | triggers when the current active color changes | ^[Function]`(value: string) => void` |
+
+### Exposes
+
+| Name  | Description          | Type             |
+| ----- | -------------------- | ---------------- |
+| color | current color object | ^[object]`Color` |

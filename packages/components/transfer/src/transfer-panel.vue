@@ -4,6 +4,7 @@
       <el-checkbox
         v-model="allChecked"
         :indeterminate="isIndeterminate"
+        :validate-event="false"
         @change="handleAllCheckedChange"
       >
         {{ title }}
@@ -20,12 +21,12 @@
         :placeholder="placeholder"
         :prefix-icon="Search"
         clearable
-        @mouseenter="inputHover = true"
-        @mouseleave="inputHover = false"
+        :validate-event="false"
       />
       <el-checkbox-group
         v-show="!hasNoMatch && !isEmpty(data)"
         v-model="checked"
+        :validate-event="false"
         :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >
         <el-scrollbar :id="ns.be('panel', 'scrollbar')" role="listbox">
@@ -81,7 +82,6 @@ const panelState = reactive<TransferPanelState>({
   checked: [],
   allChecked: false,
   query: '',
-  inputHover: false,
   checkChangeByUser: true,
 })
 
@@ -100,7 +100,7 @@ const hasNoMatch = computed(
 
 const hasFooter = computed(() => !isEmpty(slots.default!()[0].children))
 
-const { checked, allChecked, query, inputHover } = toRefs(panelState)
+const { checked, allChecked, query } = toRefs(panelState)
 
 defineExpose({
   /** @description filter keyword */

@@ -1,0 +1,45 @@
+import { buildProps, definePropType } from '@element-plus/utils'
+import { popperContentProps } from '@element-plus/components/popper'
+import { useDelayedToggleProps } from '@element-plus/hooks'
+import type { ExtractPropTypes } from 'vue'
+
+export const useTooltipContentProps = buildProps({
+  ...useDelayedToggleProps,
+  ...popperContentProps,
+  appendTo: {
+    type: definePropType<string | HTMLElement>([String, Object]),
+  },
+  content: {
+    type: String,
+    default: '',
+  },
+  rawContent: {
+    type: Boolean,
+    default: false,
+  },
+  persistent: Boolean,
+  ariaLabel: String,
+  // because model toggle prop is generated dynamically
+  // so the typing cannot be evaluated by typescript as type:
+  // [name]: { type: Boolean, default: null }
+  // so we need to declare that again for type checking.
+  visible: {
+    type: definePropType<boolean | null>(Boolean),
+    default: null,
+  },
+  transition: {
+    type: String,
+    default: '',
+  },
+  teleported: {
+    type: Boolean,
+    default: true,
+  },
+  disabled: {
+    type: Boolean,
+  },
+} as const)
+
+export type ElTooltipContentProps = ExtractPropTypes<
+  typeof useTooltipContentProps
+>

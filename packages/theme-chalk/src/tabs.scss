@@ -83,6 +83,8 @@
     line-height: 44px;
     font-size: 12px;
     color: getCssVar('text-color', 'secondary');
+    width: 20px;
+    text-align: center;
   }
   @include e(nav-next) {
     right: 0;
@@ -297,9 +299,15 @@
       > .#{$namespace}-tabs__header {
         .#{$namespace}-tabs__item:nth-child(2) {
           padding-left: 20px;
+          &:not(.is-active).is-closable:hover {
+            padding-left: 13px;
+          }
         }
         .#{$namespace}-tabs__item:last-child {
           padding-right: 20px;
+          &:not(.is-active).is-closable:hover {
+            padding-right: 13px;
+          }
         }
       }
     }

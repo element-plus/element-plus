@@ -81,6 +81,7 @@
             />
             <table-header
               v-if="showHeader && tableLayout === 'auto'"
+              ref="tableHeaderRef"
               :border="border"
               :default-sort="defaultSort"
               :store="store"
@@ -91,6 +92,7 @@
               :highlight="highlightCurrentRow"
               :row-class-name="rowClassName"
               :tooltip-effect="tooltipEffect"
+              :tooltip-options="tooltipOptions"
               :row-style="rowStyle"
               :store="store"
               :stripe="stripe"
@@ -155,6 +157,7 @@ import TableBody from './table-body'
 import TableFooter from './table-footer'
 import useUtils from './table/utils-helper'
 import useStyle from './table/style-helper'
+import useKeyRender from './table/key-render-helper'
 import defaultProps from './table/defaults'
 import { TABLE_INJECTION_KEY } from './tokens'
 import { hColgroup } from './h-helper'
@@ -254,7 +257,7 @@ export default defineComponent({
 
     const debouncedUpdateLayout = debounce(doLayout, 50)
 
-    const tableId = `el-table_${tableIdSeed++}`
+    const tableId = `${ns.namespace.value}-table_${tableIdSeed++}`
     table.tableId = tableId
     table.state = {
       isGroup,
@@ -269,6 +272,8 @@ export default defineComponent({
     const computedEmptyText = computed(() => {
       return props.emptyText || t('el.table.emptyText')
     })
+
+    useKeyRender(table)
 
     return {
       ns,

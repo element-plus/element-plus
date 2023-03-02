@@ -1,9 +1,9 @@
 import {
   computed,
   defineComponent,
+  getCurrentInstance,
   nextTick,
   provide,
-  reactive,
   ref,
   renderSlot,
   watch,
@@ -18,16 +18,20 @@ import {
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
-import { tabsRootContextKey } from '@element-plus/tokens'
-import { useDeprecated, useNamespace } from '@element-plus/hooks'
+import {
+  useDeprecated,
+  useNamespace,
+  useOrderedChildren,
+} from '@element-plus/hooks'
+import { tabsRootContextKey } from './constants'
 import TabNav from './tab-nav'
-import type { TabNavInstance } from './tab-nav'
-import type { TabsPaneContext } from '@element-plus/tokens'
 
+import type { TabNavInstance } from './tab-nav'
+import type { TabsPaneContext } from './constants'
 import type { ExtractPropTypes } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 
-export type TabPanelName = string | number
+export type TabPaneName = string | number
 
 export const tabsProps = buildProps({
   type: {
@@ -51,10 +55,7 @@ export const tabsProps = buildProps({
   },
   beforeLeave: {
     type: definePropType<
-      (
-        newName: TabPanelName,
-        oldName: TabPanelName
-      ) => Awaitable<void | boolean>
+      (newName: TabPaneName, oldName: TabPaneName) => Awaitable<void | boolean>
     >(Function),
     default: () => true,
   },
@@ -62,19 +63,21 @@ export const tabsProps = buildProps({
 } as const)
 export type TabsProps = ExtractPropTypes<typeof tabsProps>
 
-const isPanelName = (value: unknown): value is string | number =>
+const isPaneName = (value: unknown): value is string | number =>
   isString(value) || isNumber(value)
 
 export const tabsEmits = {
-  [UPDATE_MODEL_EVENT]: (name: TabPanelName) => isPanelName(name),
-  'tab-click': (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
-  'tab-change': (name: TabPanelName) => isPanelName(name),
-  edit: (paneName: TabPanelName | undefined, action: 'remove' | 'add') =>
+  [UPDATE_MODEL_EVENT]: (name: TabPaneName) => isPaneName(name),
+  tabClick: (pane: TabsPaneContext, ev: Event) => ev instanceof Event,
+  tabChange: (name: TabPaneName) => isPaneName(name),
+  edit: (paneName: TabPaneName | undefined, action: 'remove' | 'add') =>
     ['remove', 'add'].includes(action),
-  'tab-remove': (name: TabPanelName) => isPanelName(name),
-  'tab-add': () => true,
+  tabRemove: (name: TabPaneName) => isPaneName(name),
+  tabAdd: () => true,
 }
 export type TabsEmits = typeof tabsEmits
+
+export type TabsPanes = Record<number, TabsPaneContext>
 
 export default defineComponent({
   name: 'ElTabs',
@@ -85,19 +88,24 @@ export default defineComponent({
   setup(props, { emit, slots, expose }) {
     const ns = useNamespace('tabs')
 
+    const {
+      children: panes,
+      addChild: registerPane,
+      removeChild: unregisterPane,
+    } = useOrderedChildren<TabsPaneContext>(getCurrentInstance()!, 'ElTabPane')
+
     const nav$ = ref<TabNavInstance>()
-    const panes = reactive<Record<number, TabsPaneContext>>({})
-    const currentName = ref<TabPanelName>(
+    const currentName = ref<TabPaneName>(
       props.modelValue ?? props.activeName ?? '0'
     )
 
-    const changeCurrentName = (value: TabPanelName) => {
+    const changeCurrentName = (value: TabPaneName) => {
       currentName.value = value
       emit(UPDATE_MODEL_EVENT, value)
-      emit('tab-change', value)
+      emit('tabChange', value)
     }
 
-    const setCurrentName = async (value?: TabPanelName) => {
+    const setCurrentName = async (value?: TabPaneName) => {
       // should do nothing.
       if (currentName.value === value || isUndefined(value)) return
 
@@ -116,24 +124,24 @@ export default defineComponent({
 
     const handleTabClick = (
       tab: TabsPaneContext,
-      tabName: TabPanelName,
+      tabName: TabPaneName,
       event: Event
     ) => {
       if (tab.props.disabled) return
       setCurrentName(tabName)
-      emit('tab-click', tab, event)
+      emit('tabClick', tab, event)
     }
 
     const handleTabRemove = (pane: TabsPaneContext, ev: Event) => {
       if (pane.props.disabled || isUndefined(pane.props.name)) return
       ev.stopPropagation()
       emit('edit', pane.props.name, 'remove')
-      emit('tab-remove', pane.props.name)
+      emit('tabRemove', pane.props.name)
     }
 
     const handleTabAdd = () => {
       emit('edit', undefined, 'add')
-      emit('tab-add')
+      emit('tabAdd')
     }
 
     useDeprecated(
@@ -166,17 +174,12 @@ export default defineComponent({
       nav$.value?.scrollToActiveTab()
     })
 
-    {
-      const registerPane = (pane: TabsPaneContext) => (panes[pane.uid] = pane)
-      const unregisterPane = (uid: number) => delete panes[uid]
-
-      provide(tabsRootContextKey, {
-        props,
-        currentName,
-        registerPane,
-        unregisterPane,
-      })
-    }
+    provide(tabsRootContextKey, {
+      props,
+      currentName,
+      registerPane,
+      unregisterPane,
+    })
 
     expose({
       currentName,
@@ -207,7 +210,7 @@ export default defineComponent({
             currentName={currentName.value}
             editable={props.editable}
             type={props.type}
-            panes={Object.values(panes)}
+            panes={panes.value}
             stretch={props.stretch}
             onTabClick={handleTabClick}
             onTabRemove={handleTabRemove}

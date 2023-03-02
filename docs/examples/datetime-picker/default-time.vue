@@ -1,6 +1,6 @@
 <template>
   <div class="block">
-    <span class="demonstration">Start date time 12:00:00</span>
+    <span class="demonstration">Start and end date time 12:00:00</span>
     <el-date-picker
       v-model="value1"
       type="datetimerange"
@@ -29,8 +29,8 @@ import { ref } from 'vue'
 const value1 = ref('')
 const value2 = ref('')
 
-const defaultTime1 = [new Date(2000, 1, 1, 12, 0, 0)] // '12:00:00'
-const defaultTime2 = [
+const defaultTime1 = new Date(2000, 1, 1, 12, 0, 0) // '12:00:00'
+const defaultTime2: [Date, Date] = [
   new Date(2000, 1, 1, 12, 0, 0),
   new Date(2000, 2, 1, 8, 0, 0),
 ] // '12:00:00', '08:00:00'

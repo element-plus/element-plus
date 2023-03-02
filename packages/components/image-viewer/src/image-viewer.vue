@@ -63,7 +63,7 @@
         <div :class="ns.e('canvas')">
           <img
             v-for="(url, i) in urlList"
-            v-show="i === index"
+            v-show="i === activeIndex"
             :ref="(el) => (imgRefs[i] = el as HTMLImageElement)"
             :key="url"
             :src="url"
@@ -95,7 +95,7 @@ import { isNumber, useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import { isFirefox, keysOf } from '@element-plus/utils'
+import { keysOf } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import {
   ArrowLeft,
@@ -124,8 +124,6 @@ const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
   },
 }
 
-const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
-
 defineOptions({
   name: 'ElImageViewer',
 })
@@ -142,7 +140,7 @@ const imgRefs = ref<HTMLImageElement[]>([])
 const scopeEventListener = effectScope()
 
 const loading = ref(true)
-const index = ref(props.initialIndex)
+const activeIndex = ref(props.initialIndex)
 const mode = shallowRef<ImageViewerMode>(modes.CONTAIN)
 const transform = ref({
   scale: 1,
@@ -158,15 +156,15 @@ const isSingle = computed(() => {
 })
 
 const isFirst = computed(() => {
-  return index.value === 0
+  return activeIndex.value === 0
 })
 
 const isLast = computed(() => {
-  return index.value === props.urlList.length - 1
+  return activeIndex.value === props.urlList.length - 1
 })
 
 const currentImg = computed(() => {
-  return props.urlList[index.value]
+  return props.urlList[activeIndex.value]
 })
 
 const imgStyle = computed(() => {
@@ -237,26 +235,17 @@ function registerEventListener() {
         break
     }
   })
-  const mousewheelHandler = throttle(
-    (e: WheelEvent | any /* TODO: wheelDelta is deprecated */) => {
-      const delta = e.wheelDelta ? e.wheelDelta : -e.detail
-      if (delta > 0) {
-        handleActions('zoomIn', {
-          zoomRate: 1.2,
-          enableTransition: false,
-        })
-      } else {
-        handleActions('zoomOut', {
-          zoomRate: 1.2,
-          enableTransition: false,
-        })
-      }
-    }
-  )
+  const mousewheelHandler = throttle((e: WheelEvent) => {
+    const delta = e.deltaY || e.deltaX
+    handleActions(delta < 0 ? 'zoomIn' : 'zoomOut', {
+      zoomRate: props.zoomRate,
+      enableTransition: false,
+    })
+  })
 
   scopeEventListener.run(() => {
     useEventListener(document, 'keydown', keydownHandler)
-    useEventListener(document, mousewheelEventName, mousewheelHandler)
+    useEventListener(document, 'wheel', mousewheelHandler)
   })
 }
 
@@ -318,22 +307,25 @@ function toggleMode() {
   reset()
 }
 
+function setActiveItem(index: number) {
+  const len = props.urlList.length
+  activeIndex.value = (index + len) % len
+}
+
 function prev() {
   if (isFirst.value && !props.infinite) return
-  const len = props.urlList.length
-  index.value = (index.value - 1 + len) % len
+  setActiveItem(activeIndex.value - 1)
 }
 
 function next() {
   if (isLast.value && !props.infinite) return
-  const len = props.urlList.length
-  index.value = (index.value + 1) % len
+  setActiveItem(activeIndex.value + 1)
 }
 
 function handleActions(action: ImageViewerAction, options = {}) {
   if (loading.value) return
   const { zoomRate, rotateDeg, enableTransition } = {
-    zoomRate: 1.4,
+    zoomRate: props.zoomRate,
     rotateDeg: 90,
     enableTransition: true,
     ...options,
@@ -372,7 +364,7 @@ watch(currentImg, () => {
   })
 })
 
-watch(index, (val) => {
+watch(activeIndex, (val) => {
   reset()
   emit('switch', val)
 })
@@ -382,5 +374,10 @@ onMounted(() => {
   // add tabindex then wrapper can be focusable via Javascript
   // focus wrapper so arrow key can't cause inner scroll behavior underneath
   wrapper.value?.focus?.()
+})
+
+defineExpose({
+  /** @description manually switch image */
+  setActiveItem,
 })
 </script>

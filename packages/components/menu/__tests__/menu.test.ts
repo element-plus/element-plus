@@ -191,7 +191,7 @@ describe('menu', () => {
   })
 
   test('menu-overflow', async () => {
-    // TODO: jsdom not support `offsetWidth`.
+    // TODO: jsdom not support `offsetWidth` and `ResizeObserver`.
   })
 })
 

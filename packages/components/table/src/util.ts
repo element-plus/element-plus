@@ -1,31 +1,38 @@
 // @ts-nocheck
 import { createPopper } from '@popperjs/core'
-import { get } from 'lodash-unified'
+import { flatMap, get, merge } from 'lodash-unified'
 import escapeHtml from 'escape-html'
-import { hasOwn } from '@element-plus/utils'
-import { useZIndex } from '@element-plus/hooks'
-import type {
-  IPopperOptions,
-  PopperInstance,
-} from '@element-plus/components/popper'
+import {
+  hasOwn,
+  isArray,
+  isBoolean,
+  isObject,
+  throwError,
+} from '@element-plus/utils'
+import { useDelayedToggle, useZIndex } from '@element-plus/hooks'
+import type { PopperInstance } from '@element-plus/components/popper'
 import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
+import type { ElTooltipProps } from '@element-plus/components/tooltip'
 
-export const getCell = function (event: Event): HTMLElement {
-  let cell = event.target as HTMLElement
+export type TableOverflowTooltipOptions = Partial<
+  Pick<
+    ElTooltipProps,
+    | 'effect'
+    | 'enterable'
+    | 'hideAfter'
+    | 'offset'
+    | 'placement'
+    | 'popperClass'
+    | 'popperOptions'
+    | 'showAfter'
+    | 'showArrow'
+    // | 'transition'
+  >
+>
 
-  while (cell && cell.tagName.toUpperCase() !== 'HTML') {
-    if (cell.tagName.toUpperCase() === 'TD') {
-      return cell
-    }
-    cell = cell.parentNode as HTMLElement
-  }
-
-  return null
-}
-
-const isObject = function (obj: unknown): boolean {
-  return obj !== null && typeof obj === 'object'
+export const getCell = function (event: Event) {
+  return (event.target as HTMLElement)?.closest('td')
 }
 
 export const orderBy = function <T>(
@@ -129,6 +136,8 @@ export const getColumnByKey = function <T>(
       break
     }
   }
+  if (!column)
+    throwError('ElTable', `No column matching with column-key: ${columnKey}`)
   return column
 }
 
@@ -256,27 +265,28 @@ export function toggleRowStatus<T>(
   const index = statusArr.indexOf(row)
   const included = index !== -1
 
-  const addRow = () => {
-    statusArr.push(row)
+  const toggleStatus = (type: 'add' | 'remove') => {
+    if (type === 'add') {
+      statusArr.push(row)
+    } else {
+      statusArr.splice(index, 1)
+    }
     changed = true
-  }
-  const removeRow = () => {
-    statusArr.splice(index, 1)
-    changed = true
+    if (isArray(row.children)) {
+      row.children.forEach((item) => {
+        toggleRowStatus(statusArr, item, newVal ?? !included)
+      })
+    }
   }
 
-  if (typeof newVal === 'boolean') {
+  if (isBoolean(newVal)) {
     if (newVal && !included) {
-      addRow()
+      toggleStatus('add')
     } else if (!newVal && included) {
-      removeRow()
+      toggleStatus('remove')
     }
   } else {
-    if (included) {
-      removeRow()
-    } else {
-      addRow()
-    }
+    included ? toggleStatus('remove') : toggleStatus('add')
   }
   return changed
 }
@@ -321,16 +331,27 @@ export function createTablePopper(
   parentNode: HTMLElement | undefined,
   trigger: HTMLElement,
   popperContent: string,
-  popperOptions: Partial<IPopperOptions>,
-  tooltipEffect: string
+  tooltipOptions?: TableOverflowTooltipOptions
 ) {
+  // TODO transition
+  tooltipOptions = merge(
+    {
+      enterable: true,
+      showArrow: true,
+    } as TableOverflowTooltipOptions,
+    tooltipOptions
+  )
   const { nextZIndex } = useZIndex()
   const ns = parentNode?.dataset.prefix
   const scrollContainer = parentNode?.querySelector(`.${ns}-scrollbar__wrap`)
   function renderContent(): HTMLDivElement {
-    const isLight = tooltipEffect === 'light'
+    const isLight = tooltipOptions.effect === 'light'
     const content = document.createElement('div')
-    content.className = `${ns}-popper ${isLight ? 'is-light' : 'is-dark'}`
+    content.className = [
+      `${ns}-popper`,
+      isLight ? 'is-light' : 'is-dark',
+      tooltipOptions.popperClass || '',
+    ].join(' ')
     popperContent = escapeHtml(popperContent)
     content.innerHTML = popperContent
     content.style.zIndex = String(nextZIndex())
@@ -346,43 +367,75 @@ export function createTablePopper(
   function showPopper() {
     popperInstance && popperInstance.update()
   }
+  removePopper?.()
   removePopper = () => {
     try {
       popperInstance && popperInstance.destroy()
       content && parentNode?.removeChild(content)
-      trigger.removeEventListener('mouseenter', showPopper)
-      trigger.removeEventListener('mouseleave', removePopper)
+      trigger.removeEventListener('mouseenter', onOpen)
+      trigger.removeEventListener('mouseleave', onClose)
       scrollContainer?.removeEventListener('scroll', removePopper)
       removePopper = undefined
     } catch {}
   }
   let popperInstance: Nullable<PopperInstance> = null
+  let onOpen = showPopper
+  let onClose = removePopper
+  if (tooltipOptions.enterable) {
+    ;({ onOpen, onClose } = useDelayedToggle({
+      showAfter: tooltipOptions.showAfter,
+      hideAfter: tooltipOptions.hideAfter,
+      open: showPopper,
+      close: removePopper,
+    }))
+  }
   const content = renderContent()
-  const arrow = renderArrow()
-  content.appendChild(arrow)
+  content.onmouseenter = onOpen
+  content.onmouseleave = onClose
+  const modifiers = []
+  if (tooltipOptions.offset) {
+    modifiers.push({
+      name: 'offset',
+      options: {
+        offset: [0, tooltipOptions.offset],
+      },
+    })
+  }
+  if (tooltipOptions.showArrow) {
+    const arrow = content.appendChild(renderArrow())
+    modifiers.push({
+      name: 'arrow',
+      options: {
+        element: arrow,
+        padding: 10,
+      },
+    })
+  }
+  const popperOptions = tooltipOptions.popperOptions || {}
   popperInstance = createPopper(trigger, content, {
-    strategy: 'absolute',
-    modifiers: [
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 8],
-        },
-      },
-      {
-        name: 'arrow',
-        options: {
-          element: arrow,
-          padding: 10,
-        },
-      },
-    ],
+    placement: tooltipOptions.placement || 'top',
+    strategy: 'fixed',
     ...popperOptions,
+    modifiers: popperOptions.modifiers
+      ? modifiers.concat(popperOptions.modifiers)
+      : modifiers,
   })
-  trigger.addEventListener('mouseenter', showPopper)
-  trigger.addEventListener('mouseleave', removePopper)
+  trigger.addEventListener('mouseenter', onOpen)
+  trigger.addEventListener('mouseleave', onClose)
   scrollContainer?.addEventListener('scroll', removePopper)
   return popperInstance
+}
+
+function getCurrentColumns<T>(column: TableColumnCtx<T>): TableColumnCtx<T>[] {
+  if (column.children) {
+    return flatMap(column.children, getCurrentColumns)
+  } else {
+    return [column]
+  }
+}
+
+function getColSpan<T>(colSpan: number, column: TableColumnCtx<T>) {
+  return colSpan + column.colSpan
 }
 
 export const isFixedColumn = <T>(
@@ -393,21 +446,18 @@ export const isFixedColumn = <T>(
 ) => {
   let start = 0
   let after = index
+  const columns = store.states.columns.value
   if (realColumns) {
-    if (realColumns[index].colSpan > 1) {
-      // fixed column not supported in grouped header
-      return {}
-    }
-    // handle group
-    for (let i = 0; i < index; i++) {
-      start += realColumns[i].colSpan
-    }
-    after = start + realColumns[index].colSpan - 1
+    // fixed column supported in grouped header
+    const curColumns = getCurrentColumns(realColumns[index])
+    const preColumns = columns.slice(0, columns.indexOf(curColumns[0]))
+
+    start = preColumns.reduce(getColSpan, 0)
+    after = start + curColumns.reduce(getColSpan, 0) - 1
   } else {
     start = index
   }
   let fixedLayout
-  const columns = store.states.columns
   switch (fixed) {
     case 'left':
       if (after < store.states.fixedLeafColumnsLength.value) {
@@ -417,7 +467,7 @@ export const isFixedColumn = <T>(
     case 'right':
       if (
         start >=
-        columns.value.length - store.states.rightFixedLeafColumnsLength.value
+        columns.length - store.states.rightFixedLeafColumnsLength.value
       ) {
         fixedLayout = 'right'
       }
@@ -427,7 +477,7 @@ export const isFixedColumn = <T>(
         fixedLayout = 'left'
       } else if (
         start >=
-        columns.value.length - store.states.rightFixedLeafColumnsLength.value
+        columns.length - store.states.rightFixedLeafColumnsLength.value
       ) {
         fixedLayout = 'right'
       }
@@ -446,18 +496,27 @@ export const getFixedColumnsClass = <T>(
   index: number,
   fixed: string | boolean,
   store: any,
-  realColumns?: TableColumnCtx<T>[]
+  realColumns?: TableColumnCtx<T>[],
+  offset = 0
 ) => {
   const classes: string[] = []
-  const { direction, start } = isFixedColumn(index, fixed, store, realColumns)
+  const { direction, start, after } = isFixedColumn(
+    index,
+    fixed,
+    store,
+    realColumns
+  )
   if (direction) {
     const isLeft = direction === 'left'
     classes.push(`${namespace}-fixed-column--${direction}`)
-    if (isLeft && start === store.states.fixedLeafColumnsLength.value - 1) {
+    if (
+      isLeft &&
+      after + offset === store.states.fixedLeafColumnsLength.value - 1
+    ) {
       classes.push('is-last-column')
     } else if (
       !isLeft &&
-      start ===
+      start - offset ===
         store.states.columns.value.length -
           store.states.rightFixedLeafColumnsLength.value
     ) {
@@ -482,12 +541,11 @@ export const getFixedColumnOffset = <T>(
   store: any,
   realColumns?: TableColumnCtx<T>[]
 ) => {
-  const { direction, start = 0 } = isFixedColumn(
-    index,
-    fixed,
-    store,
-    realColumns
-  )
+  const {
+    direction,
+    start = 0,
+    after = 0,
+  } = isFixedColumn(index, fixed, store, realColumns)
   if (!direction) {
     return
   }
@@ -495,10 +553,10 @@ export const getFixedColumnOffset = <T>(
   const isLeft = direction === 'left'
   const columns = store.states.columns.value
   if (isLeft) {
-    styles.left = columns.slice(0, index).reduce(getOffset, 0)
+    styles.left = columns.slice(0, start).reduce(getOffset, 0)
   } else {
     styles.right = columns
-      .slice(start + 1)
+      .slice(after + 1)
       .reverse()
       .reduce(getOffset, 0)
   }

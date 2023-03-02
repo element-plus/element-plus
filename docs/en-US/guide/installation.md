@@ -58,7 +58,7 @@ You can also use other CDN providers.
   <!-- Import style -->
   <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
   <!-- Import Vue 3 -->
-  <script src="//unpkg.com/vue@next"></script>
+  <script src="//unpkg.com/vue@3"></script>
   <!-- Import component library -->
   <script src="//unpkg.com/element-plus"></script>
 </head>
@@ -74,7 +74,7 @@ You can also use other CDN providers.
     href="//cdn.jsdelivr.net/npm/element-plus/dist/index.css"
   />
   <!-- Import Vue 3 -->
-  <script src="//cdn.jsdelivr.net/npm/vue@next"></script>
+  <script src="//cdn.jsdelivr.net/npm/vue@3"></script>
   <!-- Import component library -->
   <script src="//cdn.jsdelivr.net/npm/element-plus"></script>
 </head>

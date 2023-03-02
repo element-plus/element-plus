@@ -193,12 +193,23 @@ $form-item-label-top-margin-bottom: map.merge(
 
   @include when(required) {
     @include pseudo('not(.is-no-asterisk)') {
-      > .#{$namespace}-form-item__label:before,
-      > .#{$namespace}-form-item__label-wrap
-        > .#{$namespace}-form-item__label:before {
-        content: '*';
-        color: getCssVar('color-danger');
-        margin-right: 4px;
+      &.asterisk-left {
+        > .#{$namespace}-form-item__label:before,
+        > .#{$namespace}-form-item__label-wrap
+          > .#{$namespace}-form-item__label:before {
+          content: '*';
+          color: getCssVar('color-danger');
+          margin-right: 4px;
+        }
+      }
+      &.asterisk-right {
+        > .#{$namespace}-form-item__label:after,
+        > .#{$namespace}-form-item__label-wrap
+          > .#{$namespace}-form-item__label:after {
+          content: '*';
+          color: getCssVar('color-danger');
+          margin-left: 4px;
+        }
       }
     }
   }

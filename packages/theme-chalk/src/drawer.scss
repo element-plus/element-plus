@@ -55,6 +55,7 @@ $directions: rtl, ltr, ttb, btt;
   }
 
   &__close-btn {
+    display: inline-flex;
     border: none;
     cursor: pointer;
     font-size: getCssVar('font-size-extra-large');
@@ -66,10 +67,6 @@ $directions: rtl, ltr, ttb, btt;
       i {
         color: getCssVar('color-primary');
       }
-    }
-    .#{$namespace}-icon {
-      font-size: inherit;
-      vertical-align: text-bottom;
     }
   }
 

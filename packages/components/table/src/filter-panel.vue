@@ -1,7 +1,7 @@
 <template>
   <el-tooltip
     ref="tooltip"
-    v-model:visible="tooltipVisible"
+    :visible="tooltipVisible"
     :offset="0"
     :placement="placement"
     :show-arrow="false"

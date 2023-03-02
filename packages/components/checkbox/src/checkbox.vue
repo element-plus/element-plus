@@ -1,24 +1,12 @@
 <template>
   <component
     :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
-    :class="[
-      ns.b(),
-      ns.m(checkboxSize),
-      ns.is('disabled', isDisabled),
-      ns.is('bordered', border),
-      ns.is('checked', isChecked),
-    ]"
+    :class="compKls"
     :aria-controls="indeterminate ? controls : null"
     @click="onClickRoot"
   >
     <span
-      :class="[
-        ns.e('input'),
-        ns.is('disabled', isDisabled),
-        ns.is('checked', isChecked),
-        ns.is('indeterminate', indeterminate),
-        ns.is('focus', focus),
-      ]"
+      :class="spanKls"
       :tabindex="indeterminate ? 0 : undefined"
       :role="indeterminate ? 'checkbox' : undefined"
       :aria-checked="indeterminate ? 'mixed' : undefined"
@@ -36,8 +24,8 @@
         :true-value="trueLabel"
         :false-value="falseLabel"
         @change="handleChange"
-        @focus="focus = true"
-        @blur="focus = false"
+        @focus="isFocused = true"
+        @blur="isFocused = false"
       />
       <input
         v-else
@@ -51,8 +39,8 @@
         :name="name"
         :tabindex="tabindex"
         @change="handleChange"
-        @focus="focus = true"
-        @blur="focus = false"
+        @focus="isFocused = true"
+        @blur="isFocused = false"
       />
       <span :class="ns.e('inner')" />
     </span>
@@ -64,9 +52,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useSlots } from 'vue'
+import { computed, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { checkboxEmits, checkboxProps, useCheckbox } from './checkbox'
+import { checkboxEmits, checkboxProps } from './checkbox'
+import { useCheckbox } from './composables'
 
 defineOptions({
   name: 'ElCheckbox',
@@ -81,13 +70,33 @@ const {
   isLabeledByFormItem,
   isChecked,
   isDisabled,
+  isFocused,
   checkboxSize,
   hasOwnLabel,
   model,
   handleChange,
   onClickRoot,
-  focus,
 } = useCheckbox(props, slots)
 
 const ns = useNamespace('checkbox')
+
+const compKls = computed(() => {
+  return [
+    ns.b(),
+    ns.m(checkboxSize.value),
+    ns.is('disabled', isDisabled.value),
+    ns.is('bordered', props.border),
+    ns.is('checked', isChecked.value),
+  ]
+})
+
+const spanKls = computed(() => {
+  return [
+    ns.e('input'),
+    ns.is('disabled', isDisabled.value),
+    ns.is('checked', isChecked.value),
+    ns.is('indeterminate', props.indeterminate),
+    ns.is('focus', isFocused.value),
+  ]
+})
 </script>

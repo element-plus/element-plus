@@ -67,11 +67,11 @@ class TableLayout<T> {
      */
     if (height === null) return false
     const scrollBarRef = this.table.refs.scrollBarRef
-    if (this.table.vnode.el && scrollBarRef) {
+    if (this.table.vnode.el && scrollBarRef?.wrapRef) {
       let scrollY = true
       const prevScrollY = this.scrollY.value
       scrollY =
-        scrollBarRef.wrap$.scrollHeight > scrollBarRef.wrap$.clientHeight
+        scrollBarRef.wrapRef.scrollHeight > scrollBarRef.wrapRef.clientHeight
       this.scrollY.value = scrollY
       return prevScrollY !== scrollY
     }

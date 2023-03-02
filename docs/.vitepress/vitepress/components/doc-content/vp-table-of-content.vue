@@ -13,12 +13,7 @@ import SponsorRightLogoSmallList from '../sponsors/right-logo-small-list.vue'
 const headers = useToc()
 const marker = ref()
 const container = ref()
-const useActiveSidebarLinksResult = useActiveSidebarLinks(container, marker)
-
-const manualLink = (hash: string) => {
-  useActiveSidebarLinksResult && useActiveSidebarLinksResult.manualLink(hash)
-}
-
+useActiveSidebarLinks(container, marker)
 const lang = useLang()
 const sponsor = computed(() => sponsorLocale[lang.value])
 </script>
@@ -33,26 +28,16 @@ const sponsor = computed(() => sponsorLocale[lang.value])
           :key="link"
           class="toc-item"
         >
-          <a
-            class="toc-link"
-            :href="link"
-            :title="text"
-            @click="manualLink(link)"
-            >{{ text }}</a
-          >
+          <a class="toc-link" :href="link" :title="text">{{ text }}</a>
           <ul v-if="children">
             <li
               v-for="{ link: childLink, text: childText } in children"
               :key="childLink"
               class="toc-item"
             >
-              <a
-                class="toc-link subitem"
-                :href="childLink"
-                :title="text"
-                @click="manualLink(childLink)"
-                >{{ childText }}</a
-              >
+              <a class="toc-link subitem" :href="childLink" :title="text">{{
+                childText
+              }}</a>
             </li>
           </ul>
         </li>

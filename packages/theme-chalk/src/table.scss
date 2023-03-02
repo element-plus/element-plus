@@ -31,14 +31,14 @@
       bottom: 0px;
       width: 100%;
       height: 1px;
-      z-index: 3;
     }
   }
 
   &.has-footer {
-    .#{$namespace}-table__inner-wrapper {
-      &::before {
-        bottom: 0;
+    &.#{$namespace}-table--scrollable-y,
+    &.#{$namespace}-table--fluid-height {
+      tr:last-child td.#{$namespace}-table__cell {
+        border-bottom-color: transparent;
       }
     }
   }
@@ -178,7 +178,7 @@
     }
   }
 
-  @each $size in (large, small) {
+  @each $size in (large, default, small) {
     @include m($size) {
       font-size: map.get($table-font-size, $size);
       .#{$namespace}-table__cell {
@@ -211,16 +211,8 @@
     user-select: none;
     background-color: getCssVar('table-header-bg-color');
 
-    > .cell {
-      display: inline-block;
-      box-sizing: border-box;
-      position: relative;
-      vertical-align: middle;
-      width: 100%;
-
-      &.highlight {
-        color: getCssVar('color-primary');
-      }
+    > .cell.highlight {
+      color: getCssVar('color-primary');
     }
 
     &.required > div::before {
@@ -245,22 +237,12 @@
     }
   }
 
+  @include e((footer-wrapper)) {
+    border-top: getCssVar('table-border');
+  }
+
   // 拥有多级表头
   @include m((group, border)) {
-    @include e((inner-wrapper, footer-wrapper)) {
-      tr:first-child {
-        td,
-        th {
-          &:first-child {
-            border-left: getCssVar('table-border');
-          }
-        }
-      }
-    }
-    @include e((footer-wrapper)) {
-      border-top: getCssVar('table-border');
-    }
-
     @include share-rule(border-pseudo) {
       content: '';
       position: absolute;
@@ -278,7 +260,6 @@
         top: 0;
         width: 100%;
         height: 1px;
-        z-index: 3;
       }
     }
 
@@ -288,7 +269,6 @@
       left: 0;
       width: 1px;
       height: 100%;
-      z-index: 3;
     }
 
     &::after {
@@ -297,7 +277,6 @@
       right: 0;
       width: 1px;
       height: 100%;
-      z-index: 3;
     }
 
     @include e(inner-wrapper) {
@@ -309,15 +288,6 @@
       position: relative;
       flex-shrink: 0;
     }
-
-    @include e(footer-wrapper) {
-      margin-top: -2px;
-    }
-
-    // fix: #1013
-    // &.#{$namespace}-loading-parent--relative {
-    //   border-color: transparent;
-    // }
 
     .#{$namespace}-table__cell {
       border-right: getCssVar('table-border');
@@ -412,6 +382,11 @@
 
   @include e((header-wrapper, body-wrapper)) {
     .#{$namespace}-table-column--selection {
+      > .cell {
+        display: inline-flex;
+        align-items: center;
+        height: 23px;
+      }
       .#{$namespace}-checkbox {
         height: unset;
       }
@@ -657,17 +632,6 @@
     > .#{$namespace}-table__inner-wrapper {
       &::after {
         content: none;
-      }
-    }
-
-    @include e((inner-wrapper, footer-wrapper)) {
-      tr:first-child {
-        td,
-        th {
-          &:first-child {
-            border-left: none;
-          }
-        }
       }
     }
   }

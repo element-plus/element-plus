@@ -29,6 +29,7 @@
               :placeholder="t('el.datepicker.selectDate')"
               :model-value="visibleDate"
               size="small"
+              :validate-event="false"
               @input="(val) => (userInputDate = val)"
               @change="handleVisibleDateChange"
             />
@@ -41,6 +42,7 @@
               :placeholder="t('el.datepicker.selectTime')"
               :model-value="visibleTime"
               size="small"
+              :validate-event="false"
               @focus="onTimePickerInputFocus"
               @input="(val) => (userInputTime = val)"
               @change="handleVisibleTimeChange"
@@ -249,6 +251,8 @@ const currentViewRef = ref<{ focus: () => void }>()
 
 const innerDate = ref(dayjs().locale(lang.value))
 
+const isChangeToNow = ref(false)
+
 const defaultTimeD = computed(() => {
   return dayjs(defaultTime).locale(lang.value)
 })
@@ -271,7 +275,7 @@ const checkDateWithinRange = (date: ConfigType) => {
     : true
 }
 const formatEmit = (emitDayjs: Dayjs) => {
-  if (defaultTime && !visibleTime.value) {
+  if (defaultTime && !visibleTime.value && !isChangeToNow.value) {
     return defaultTimeD.value
       .year(emitDayjs.year())
       .month(emitDayjs.month())
@@ -291,6 +295,7 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   }
   userInputDate.value = null
   userInputTime.value = null
+  isChangeToNow.value = false
 }
 const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
   if (selectionMode.value === 'date') {
@@ -456,6 +461,7 @@ const changeToNow = () => {
   //       consider disable "now" button in the future
   const now = dayjs().locale(lang.value)
   const nowDate = now.toDate()
+  isChangeToNow.value = true
   if (
     (!disabledDate || !disabledDate(nowDate)) &&
     checkDateWithinRange(nowDate)

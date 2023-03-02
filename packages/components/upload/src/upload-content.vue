@@ -30,6 +30,7 @@
 import { shallowRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { entriesOf } from '@element-plus/utils'
+import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
 import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
@@ -48,6 +49,7 @@ defineOptions({
 
 const props = defineProps(uploadContentProps)
 const ns = useNamespace('upload')
+const disabled = useFormDisabled()
 
 const requests = shallowRef<Record<string, XMLHttpRequest | Promise<unknown>>>(
   {}
@@ -162,7 +164,7 @@ const handleChange = (e: Event) => {
 }
 
 const handleClick = () => {
-  if (!props.disabled) {
+  if (!disabled.value) {
     inputRef.value!.value = ''
     inputRef.value!.click()
   }

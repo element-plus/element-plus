@@ -33,17 +33,16 @@
           alt=""
         />
         <div
-          v-if="
-            listType !== 'picture' &&
-            (file.status === 'uploading' || listType !== 'picture-card')
-          "
+          v-if="file.status === 'uploading' || listType !== 'picture-card'"
           :class="nsUpload.be('list', 'item-info')"
         >
           <a
             :class="nsUpload.be('list', 'item-name')"
-            @click.prevent="handleClick(file)"
+            @click.prevent="handlePreview(file)"
           >
-            <el-icon :class="nsIcon.m('document')"><Document /></el-icon>
+            <el-icon :class="nsIcon.m('document')">
+              <Document />
+            </el-icon>
             <span :class="nsUpload.be('list', 'item-file-name')">
               {{ file.name }}
             </span>
@@ -99,7 +98,9 @@
             :class="nsUpload.be('list', 'item-delete')"
             @click="handleRemove(file)"
           >
-            <el-icon :class="nsIcon.m('delete')"><Delete /></el-icon>
+            <el-icon :class="nsIcon.m('delete')">
+              <Delete />
+            </el-icon>
           </span>
         </span>
       </slot>
@@ -120,6 +121,7 @@ import {
 } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
+import { useFormDisabled } from '@element-plus/components/form'
 
 import { uploadListEmits, uploadListProps } from './upload-list'
 import type { UploadFile } from './upload'
@@ -128,19 +130,16 @@ defineOptions({
   name: 'ElUploadList',
 })
 
-const props = defineProps(uploadListProps)
+defineProps(uploadListProps)
 const emit = defineEmits(uploadListEmits)
 
 const { t } = useLocale()
 const nsUpload = useNamespace('upload')
 const nsIcon = useNamespace('icon')
 const nsList = useNamespace('list')
+const disabled = useFormDisabled()
 
 const focusing = ref(false)
-
-const handleClick = (file: UploadFile) => {
-  props.handlePreview(file)
-}
 
 const handleRemove = (file: UploadFile) => {
   emit('remove', file)

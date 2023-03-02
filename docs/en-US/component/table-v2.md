@@ -3,7 +3,7 @@ title: Virtualized Table
 lang: en-US
 ---
 
-# Virtualized Table <VersionTag version="beta" />
+# Virtualized Table<VersionTag version="beta" />
 
 Along with the evolutionary web development, table component has always been the most popular component in our web apps especially for dashboards, data analysis. For [Table V1](./table.md), with even just 1000 records of data, it can be very annoying when using it, because the poor performance.
 
@@ -15,6 +15,12 @@ This component is **still under testing**, use at your own risk. if you found an
 fully developed yet, so that we are not mentioning them here.
 
 **Even though** Virtualized Table is efficient, but when the data load is too big, your **network**, **memory size** can be the bottle neck of your app. So keep in mind that Virtualized Table is never the ultimate solution for everything, consider paginate your data, add filters etc.
+
+:::
+
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
 
 :::
 
@@ -296,7 +302,7 @@ table-v2/manual-scroll
 
 ## TableV2 Attributes
 
-| Attribute                 | Description                                                                                                                | Type                                                 | Default   |
+| Name                      | Description                                                                                                                | Type                                                 | Default   |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | --------- |
 | cache                     | Number of rows rendered in advance for boosting the performance                                                            | Number                                               | 2         |
 | estimated-row-height      | The estimated row height for rendering dynamic height rows                                                                 | Number                                               | -         |
@@ -323,7 +329,7 @@ table-v2/manual-scroll
 | height \*                 | Height for the table, required                                                                                             | Number                                               | -         |
 | max-height                | Maximum height for the table                                                                                               | Number                                               | -         |
 | h-scrollbar-size          | Indicates the horizontal scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse | Number                                               | 6         |
-| v-scrollbar-size          | Indicates the horizontal scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse | Number                                               | 6         |
+| v-scrollbar-size          | Indicates the vertical scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse   | Number                                               | 6         |
 | scrollbar-always-on       | If true, the scrollbar will always be shown instead of when mouse is placed above the table                                | Boolean                                              | false     |
 | sort-by                   | Sort indicator                                                                                                             | Object\<[SortBy](#typings)\>                         | {}        |
 | sort-state                | Multiple sort indicator                                                                                                    | Object\<[SortState](#typings)\>                      | undefined |
@@ -340,18 +346,19 @@ table-v2/manual-scroll
 | empty       | -                               |
 | overlay     | -                               |
 
-## Table Events
+## TableV2 Events
 
-| Event Name           | Description                                   | Parameters                               |
-| -------------------- | --------------------------------------------- | ---------------------------------------- |
-| column-sort          | Invoked when column sorted                    | Object\<ColumnSortParam\>                |
-| expanded-rows-change | Invoked when expanded rows changed            | `Array<KeyType>`                         |
-| end-reached          | Invoked when the end of the table is reached  | -                                        |
-| scroll               | Invoked after scrolled                        | Object\<[ScrollParams](#typings)\>       |
-| rows-rendered        | Invoked when rows are rendered                | Object\<[RowsRenderedParams](#typings)\> |
-| row-event-handlers   | A collection of handlers attached to each row | Object\<[RowEventHandlers](#typings)\>   |
+| Name                 | Description                                                           | Parameters                               |
+| -------------------- | --------------------------------------------------------------------- | ---------------------------------------- |
+| column-sort          | Invoked when column sorted                                            | Object\<ColumnSortParam\>                |
+| expanded-rows-change | Invoked when expanded rows changed                                    | `Array<KeyType>`                         |
+| end-reached          | Invoked when the end of the table is reached                          | -                                        |
+| scroll               | Invoked after scrolled                                                | Object\<[ScrollParams](#typings)\>       |
+| rows-rendered        | Invoked when rows are rendered                                        | Object\<[RowsRenderedParams](#typings)\> |
+| row-expand           | Invoked when expand/collapse the tree node by clicking the arrow icon | Object\<[RowExpandParams](#typings)\>    |
+| row-event-handlers   | A collection of handlers attached to each row                         | Object\<[RowEventHandlers](#typings)\>   |
 
-## Table Methods
+## TableV2 Methods
 
 | Event Name   | Description                                          | Parameters                                                                 |
 | ------------ | ---------------------------------------------------- | -------------------------------------------------------------------------- |
@@ -368,23 +375,23 @@ Note that these are `JavaScript` Objects, so that you **CANNOT USE** kebab-case 
 
 ## Column Attribute
 
-| Attribute      | Description                                                               | Type                                                                                                                                                             | Default |
-| -------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| align          | Alignment of the table cell content                                       | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L6)         | left    |
-| class          | Class name for the column                                                 | String                                                                                                                                                           | -       |
-| fixed          | Fixed direction of the column                                             | Boolean/[FixedDir](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L11) | false   |
-| flexGrow       | CSSProperties flex grow, Only useful when not this is not a fixed table   | Number                                                                                                                                                           | 0       |
-| flexShrink     | CSSProperties flex shrink, Only useful when not this is not a fixed table | Number                                                                                                                                                           | 1       |
-| headerClass    | Used for customizing header column class                                  | String                                                                                                                                                           | -       |
-| hidden         | Whether the column is invisible                                           | Boolean                                                                                                                                                          | -       |
-| style          | Customized style for column cell, will be merged with grid cell           | CSSProperties                                                                                                                                                    | -       |
-| sortable       | Indicates whether the column is sortable                                  | Boolean                                                                                                                                                          | -       |
-| title          | The default text rendered in header cell                                  | String                                                                                                                                                           | -       |
-| maxWidth       | Maximum width for the column                                              | String                                                                                                                                                           | -       |
-| minWidth       | Minimum width for the column                                              | String                                                                                                                                                           | -       |
-| width \*       | Width for the column **Required**                                         | Number                                                                                                                                                           | -       |
-| cellRenderer   | Customized Cell renderer                                                  | VueComponent/(props: [CellRenderProps](#renderer-typings)) => VNode                                                                                              | -       |
-| headerRenderer | Customized Header renderer                                                | VueComponent/(props: [HeaderRenderProps](#renderer-typings)) => VNode                                                                                            | -       |
+| Name               | Description                                                               | Type                                                                                                                                                             | Default |
+| ------------------ | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| align              | Alignment of the table cell content                                       | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L6)         | left    |
+| class              | Class name for the column                                                 | String                                                                                                                                                           | -       |
+| fixed              | Fixed direction of the column                                             | Boolean/[FixedDir](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L11) | false   |
+| flexGrow           | CSSProperties flex grow, Only useful when not this is not a fixed table   | Number                                                                                                                                                           | 0       |
+| flexShrink         | CSSProperties flex shrink, Only useful when not this is not a fixed table | Number                                                                                                                                                           | 1       |
+| headerClass        | Used for customizing header column class                                  | String                                                                                                                                                           | -       |
+| hidden             | Whether the column is invisible                                           | Boolean                                                                                                                                                          | -       |
+| style              | Customized style for column cell, will be merged with grid cell           | CSSProperties                                                                                                                                                    | -       |
+| sortable           | Indicates whether the column is sortable                                  | Boolean                                                                                                                                                          | -       |
+| title              | The default text rendered in header cell                                  | String                                                                                                                                                           | -       |
+| maxWidth           | Maximum width for the column                                              | String                                                                                                                                                           | -       |
+| minWidth           | Minimum width for the column                                              | String                                                                                                                                                           | -       |
+| width \*           | Width for the column **Required**                                         | Number                                                                                                                                                           | -       |
+| cellRenderer       | Customized Cell renderer                                                  | VueComponent/(props: [CellRenderProps](#renderer-typings)) => VNode                                                                                              | -       |
+| headerCellRenderer | Customized Header renderer                                                | VueComponent/(props: [HeaderRenderProps](#renderer-typings)) => VNode                                                                                            | -       |
 
 ## Typings
 
@@ -534,4 +541,4 @@ state by yourselves.
 
 For virtualized table, we intend to provide less feature and let our users to implement their own features per demand.
 Integrating too many features makes the code hard to maintain and for most users the basic features are enough. Some key
-features were not developed yet. We would love to hear from you. Join [Discord](https://discord.link/ElementPlus) to stay tuned.
+features were not developed yet. We would love to hear from you. Join [Discord](https://discord.com/invite/gXK9XNzW3X) to stay tuned.

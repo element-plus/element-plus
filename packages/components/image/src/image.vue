@@ -29,6 +29,7 @@
         :z-index="zIndex"
         :initial-index="imageIndex"
         :infinite="infinite"
+        :zoom-rate="zoomRate"
         :url-list="previewSrcList"
         :hide-on-click-modal="hideOnClickModal"
         :teleported="previewTeleported"
@@ -207,6 +208,7 @@ function clickHandler() {
   prevOverflow = document.body.style.overflow
   document.body.style.overflow = 'hidden'
   showViewer.value = true
+  emit('show')
 }
 
 function closeViewer() {

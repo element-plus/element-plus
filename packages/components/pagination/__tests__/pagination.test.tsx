@@ -1,6 +1,7 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
+import { CaretLeft, CaretRight } from '@element-plus/icons-vue'
 import Pagination from '../src/pagination'
 import selectDropdownVue from '../../select/src/select-dropdown.vue'
 import type { VueWrapper } from '@vue/test-utils'
@@ -173,6 +174,25 @@ describe('Pagination', () => {
       hideOnSinglePage.value = true
       await nextTick()
       expect(wrapper.find('.el-pagination').exists()).toBe(false)
+    })
+
+    test('test custom icon', async () => {
+      const wrapper = mount(() => (
+        <Pagination
+          layout="prev, pager, next"
+          total={1000}
+          prev-icon={CaretLeft}
+          next-icon={CaretRight}
+        />
+      ))
+
+      const btnPrev = wrapper.findComponent(CaretLeft).element
+      const caretLeftIcon = mount(CaretLeft).find('svg').element
+      expect(btnPrev.innerHTML).toBe(caretLeftIcon.innerHTML)
+
+      const nextPrev = wrapper.findComponent(CaretRight).element
+      const caretRightIcon = mount(CaretRight).find('svg').element
+      expect(nextPrev.innerHTML).toBe(caretRightIcon.innerHTML)
     })
   })
 

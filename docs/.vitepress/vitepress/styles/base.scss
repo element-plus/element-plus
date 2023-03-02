@@ -32,7 +32,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color var(--el-transition-duration-fast);
-  overflow: hidden;
 }
 
 main {
@@ -61,7 +60,8 @@ h6 {
     position: relative;
 
     // Special case for handling tagged header.
-    .el-tag {
+    .el-tag,
+    .vp-tag {
       margin-left: 8px;
     }
   }
@@ -218,6 +218,10 @@ li > ol {
 
     thead tr:first-child th {
       border-top: none;
+    }
+
+    tbody tr td:first-child {
+      font-family: var(--font-family-mono);
     }
   }
 }

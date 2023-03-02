@@ -7,14 +7,15 @@
     @click="$emit('click', $event)"
   >
     <span v-if="nextText">{{ nextText }}</span>
-    <el-icon v-else><arrow-right /></el-icon>
+    <el-icon v-else>
+      <component :is="nextIcon" />
+    </el-icon>
   </button>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
-import { ArrowRight } from '@element-plus/icons-vue'
 import { paginationNextProps } from './next'
 
 defineOptions({

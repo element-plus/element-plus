@@ -4,16 +4,16 @@ import { EVENT_CODE } from '@element-plus/constants'
 
 let registeredEscapeHandlers: ((e: KeyboardEvent) => void)[] = []
 
-export const useEscapeKeydown = (handler: (e: KeyboardEvent) => void) => {
-  const cachedHandler = (e: Event) => {
-    const event = e as KeyboardEvent
-    if (event.key === EVENT_CODE.esc) {
-      registeredEscapeHandlers.forEach((registeredHandler) =>
-        registeredHandler(event)
-      )
-    }
+const cachedHandler = (e: Event) => {
+  const event = e as KeyboardEvent
+  if (event.key === EVENT_CODE.esc) {
+    registeredEscapeHandlers.forEach((registeredHandler) =>
+      registeredHandler(event)
+    )
   }
+}
 
+export const useEscapeKeydown = (handler: (e: KeyboardEvent) => void) => {
   onMounted(() => {
     if (registeredEscapeHandlers.length === 0) {
       document.addEventListener('keydown', cachedHandler)

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { hasOwn } from '@element-plus/utils'
+import { hasOwn, isObject } from '@element-plus/utils'
 import Node from './node'
 import { getNodeKey } from './util'
 
@@ -107,18 +107,24 @@ export default class TreeStore {
     }
   }
 
-  getNode(data: TreeKey | TreeNodeData): Node {
+  getNode(data: TreeKey | TreeNodeData | Node): Node {
     if (data instanceof Node) return data
-    const key = typeof data !== 'object' ? data : getNodeKey(this.key, data)
+    const key = isObject(data) ? getNodeKey(this.key, data) : data
     return this.nodesMap[key] || null
   }
 
-  insertBefore(data: TreeNodeData, refData: TreeKey | TreeNodeData): void {
+  insertBefore(
+    data: TreeNodeData,
+    refData: TreeKey | TreeNodeData | Node
+  ): void {
     const refNode = this.getNode(refData)
     refNode.parent.insertBefore({ data }, refNode)
   }
 
-  insertAfter(data: TreeNodeData, refData: TreeKey | TreeNodeData): void {
+  insertAfter(
+    data: TreeNodeData,
+    refData: TreeKey | TreeNodeData | Node
+  ): void {
     const refNode = this.getNode(refData)
     refNode.parent.insertAfter({ data }, refNode)
   }
@@ -387,7 +393,7 @@ export default class TreeStore {
     }
   }
 
-  setCurrentNodeKey(key: TreeKey, shouldAutoExpandParent = true): void {
+  setCurrentNodeKey(key?: TreeKey, shouldAutoExpandParent = true): void {
     if (key === null || key === undefined) {
       this.currentNode && (this.currentNode.isCurrent = false)
       this.currentNode = null

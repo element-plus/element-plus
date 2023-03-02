@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   computed,
   getCurrentInstance,
@@ -11,13 +10,13 @@ import { isClient, useTimeoutFn } from '@vueuse/core'
 
 import {
   defaultNamespace,
-  useGlobalConfig,
   useId,
   useLockscreen,
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { addUnit } from '@element-plus/utils'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'
@@ -45,7 +44,7 @@ export const useDialog = (
 
   const style = computed<CSSProperties>(() => {
     const style: CSSProperties = {}
-    const varPrefix = `--${namespace.value}-dialog`
+    const varPrefix = `--${namespace.value}-dialog` as const
     if (!props.fullscreen) {
       if (props.top) {
         style[`${varPrefix}-margin-top`] = props.top
@@ -55,6 +54,13 @@ export const useDialog = (
       }
     }
     return style
+  })
+
+  const overlayDialogStyle = computed<CSSProperties>(() => {
+    if (props.alignCenter) {
+      return { display: 'flex' }
+    }
+    return {}
   })
 
   function afterEnter() {
@@ -132,6 +138,12 @@ export const useDialog = (
     emit('closeAutoFocus')
   }
 
+  function onFocusoutPrevented(event: CustomEvent) {
+    if (event.detail?.focusReason === 'pointer') {
+      event.preventDefault()
+    }
+  }
+
   if (props.lockScroll) {
     useLockscreen(visible)
   }
@@ -149,10 +161,10 @@ export const useDialog = (
         closed.value = false
         open()
         rendered.value = true // enables lazy rendering
-        emit('open')
         zIndex.value = props.zIndex ? zIndex.value++ : nextZIndex()
         // this.$el.addEventListener('scroll', this.updatePopper)
         nextTick(() => {
+          emit('open')
           if (targetRef.value) {
             targetRef.value.scrollTop = 0
           }
@@ -198,10 +210,12 @@ export const useDialog = (
     onOpenAutoFocus,
     onCloseAutoFocus,
     onCloseRequested,
+    onFocusoutPrevented,
     titleId,
     bodyId,
     closed,
     style,
+    overlayDialogStyle,
     rendered,
     visible,
     zIndex,

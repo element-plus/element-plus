@@ -358,7 +358,7 @@ describe('Table.vue', () => {
       const filter = document.body.querySelector('.el-table-filter')
 
       triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
-      // confrim button
+      // confirm button
       await doubleWait()
       triggerEvent(
         filter.querySelector('.el-table-filter__bottom button'),
@@ -386,7 +386,7 @@ describe('Table.vue', () => {
       const filter = document.body.querySelector('.el-table-filter')
 
       triggerEvent(filter.querySelector('.el-checkbox'), 'click', true, false)
-      // confrim button
+      // confirm button
       await doubleWait()
       triggerEvent(
         filter.querySelector('.el-table-filter__bottom button'),
@@ -825,6 +825,54 @@ describe('Table.vue', () => {
       wrapper.unmount()
     })
 
+    // https://github.com/element-plus/element-plus/issues/4589
+    it('sort-change event', async () => {
+      const handleSortChange = vi.fn()
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+        template: `
+          <el-table :data="testData" @sort-change="handleSortChange">
+          <el-table-column prop="name" />
+          <el-table-column prop="release" />
+          <el-table-column prop="director" />
+          <el-table-column prop="runtime" sortable ref="runtime" />
+          </el-table>
+        `,
+        data() {
+          return { testData: getTestData() }
+        },
+        methods: {
+          handleSortChange,
+        },
+      })
+      await doubleWait()
+      const elm = wrapper.find('.caret-wrapper')
+
+      elm.trigger('click')
+      expect(handleSortChange).toHaveBeenLastCalledWith({
+        column: expect.any(Object),
+        prop: 'runtime',
+        order: 'ascending',
+      })
+
+      elm.trigger('click')
+      expect(handleSortChange).toHaveBeenLastCalledWith({
+        column: expect.any(Object),
+        prop: 'runtime',
+        order: 'descending',
+      })
+
+      elm.trigger('click')
+      expect(handleSortChange).toHaveBeenLastCalledWith({
+        column: expect.any(Object),
+        prop: 'runtime',
+        order: null,
+      })
+    })
+
     it('setCurrentRow', async () => {
       const wrapper = mount({
         components: {
@@ -1125,7 +1173,7 @@ describe('Table.vue', () => {
   describe('tree', () => {
     let wrapper: VueWrapper<ComponentPublicInstance>
     afterEach(() => wrapper?.unmount())
-    it('render tree structual data', async () => {
+    it('render tree structural data', async () => {
       wrapper = mount({
         components: {
           ElTableColumn,
@@ -1456,6 +1504,103 @@ describe('Table.vue', () => {
     await nextTick()
     expect(wrapper.find('.right').element.getAttribute('style')).toContain(
       'min-width: 0'
+    )
+  })
+  it('selectable tree', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+            <el-table :data="testData" @selection-change="change">
+              <el-table-column type="selection" />
+              <el-table-column prop="name" label="name" />
+              <el-table-column prop="release" label="release" />
+              <el-table-column prop="director" label="director" />
+              <el-table-column prop="runtime" label="runtime" />
+            </el-table>
+          `,
+      data() {
+        const testData = getTestData() as any
+        testData[1].children = [
+          {
+            name: "A Bug's Life copy 1",
+            release: '1998-11-25-1',
+            director: 'John Lasseter',
+            runtime: 95,
+          },
+          {
+            name: "A Bug's Life copy 2",
+            release: '1998-11-25-2',
+            director: 'John Lasseter',
+            runtime: 95,
+          },
+        ]
+        return {
+          testData,
+          selected: [],
+        }
+      },
+
+      methods: {
+        change(rows) {
+          this.selected = rows
+        },
+      },
+    })
+    await doubleWait()
+    wrapper.findAll('.el-checkbox')[2].trigger('click')
+    await doubleWait()
+    expect(wrapper.vm.selected.length).toEqual(3)
+  })
+  it('change columns order when use v-for & key to render table', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+      template: `
+            <button class="change-column" @click="changeColumnData"></button>
+            <el-table :data="testData">
+              <el-table-column
+                v-for="item in columnsData"
+                :prop="item.prop"
+                :label="item.label"
+                :key="item.prop" />
+            </el-table>
+          `,
+      data() {
+        const testData = getTestData() as any
+
+        return {
+          testData,
+          columnsData: [
+            { label: 'name', prop: 'name' },
+            { label: 'release', prop: 'release' },
+            { label: 'director', prop: 'director' },
+            { label: 'runtime', prop: 'runtime' },
+          ],
+        }
+      },
+
+      methods: {
+        changeColumnData() {
+          ;[this.columnsData[0], this.columnsData[1]] = [
+            this.columnsData[1],
+            this.columnsData[0],
+          ]
+        },
+      },
+    })
+    await doubleWait()
+    wrapper.find('.change-column').trigger('click')
+    await doubleWait()
+    expect(wrapper.find('.el-table__header').findAll('.cell')[0].text()).toBe(
+      'release'
+    )
+    expect(wrapper.find('.el-table__header').findAll('.cell')[1].text()).toBe(
+      'name'
     )
   })
 })

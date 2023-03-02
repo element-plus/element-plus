@@ -5,7 +5,6 @@ import {
   h,
   inject,
   onUnmounted,
-  onUpdated,
   watch,
 } from 'vue'
 import { isClient } from '@vueuse/core'
@@ -37,7 +36,11 @@ export default defineComponent({
         raf = (fn) => window.setTimeout(fn, 16)
       }
       raf(() => {
-        const rows = instance?.vnode.el?.querySelectorAll(`.${ns.e('row')}`)
+        // just get first level children; fix #9723
+        const el = instance?.vnode.el as HTMLElement
+        const rows = Array.from(el?.children || []).filter((e) =>
+          e?.classList.contains(`${ns.e('row')}`)
+        )
         const oldRow = rows[oldVal]
         const newRow = rows[newVal]
         if (oldRow) {
@@ -50,9 +53,6 @@ export default defineComponent({
     })
 
     onUnmounted(() => {
-      removePopper?.()
-    })
-    onUpdated(() => {
       removePopper?.()
     })
 

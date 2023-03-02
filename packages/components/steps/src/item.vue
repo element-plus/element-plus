@@ -17,21 +17,26 @@
       <div
         :class="[ns.e('icon'), ns.is(icon || $slots.icon ? 'icon' : 'text')]"
       >
-        <slot
-          v-if="currentStatus !== 'success' && currentStatus !== 'error'"
-          name="icon"
-        >
+        <slot name="icon">
           <el-icon v-if="icon" :class="ns.e('icon-inner')">
             <component :is="icon" />
           </el-icon>
-          <div v-if="!icon && !isSimple" :class="ns.e('icon-inner')">
+          <el-icon
+            v-else-if="currentStatus === 'success'"
+            :class="[ns.e('icon-inner'), ns.is('status')]"
+          >
+            <Check />
+          </el-icon>
+          <el-icon
+            v-else-if="currentStatus === 'error'"
+            :class="[ns.e('icon-inner'), ns.is('status')]"
+          >
+            <Close />
+          </el-icon>
+          <div v-else-if="!isSimple" :class="ns.e('icon-inner')">
             {{ index + 1 }}
           </div>
         </slot>
-        <el-icon v-else :class="[ns.e('icon-inner'), ns.is('status')]">
-          <Check v-if="currentStatus === 'success'" />
-          <Close v-else />
-        </el-icon>
       </div>
     </div>
     <!-- title & description -->
@@ -61,6 +66,7 @@ import {
 import { useNamespace } from '@element-plus/hooks'
 import { ElIcon } from '@element-plus/components/icon'
 import { Check, Close } from '@element-plus/icons-vue'
+import { isNumber } from '@element-plus/utils'
 import { stepProps } from './item'
 
 import type { CSSProperties, Ref } from 'vue'
@@ -154,12 +160,11 @@ const space = computed(() => {
 
 const style = computed(() => {
   const style: CSSProperties = {
-    flexBasis:
-      typeof space.value === 'number'
-        ? `${space.value}px`
-        : space.value
-        ? space.value
-        : `${100 / (stepsCount.value - (isCenter.value ? 0 : 1))}%`,
+    flexBasis: isNumber(space.value)
+      ? `${space.value}px`
+      : space.value
+      ? space.value
+      : `${100 / (stepsCount.value - (isCenter.value ? 0 : 1))}%`,
   }
   if (isVertical.value) return style
   if (isLast.value) {
@@ -173,15 +178,12 @@ const setIndex = (val: number) => {
 }
 
 const calcProgress = (status: string) => {
-  let step = 100
-  const style: CSSProperties = {}
-  style.transitionDelay = `${150 * index.value}ms`
-  if (status === parent.props.processStatus) {
-    step = 0
-  } else if (status === 'wait') {
-    step = 0
-    style.transitionDelay = `${-150 * index.value}ms`
+  const isWait = status === 'wait'
+  const style: CSSProperties = {
+    transitionDelay: `${isWait ? '-' : ''}${150 * index.value}ms`,
   }
+  const step = status === parent.props.processStatus || isWait ? 0 : 100
+
   style.borderWidth = step && !isSimple.value ? '1px' : 0
   style[parent.props.direction === 'vertical' ? 'height' : 'width'] = `${step}%`
   lineStyle.value = style
@@ -195,7 +197,7 @@ const updateStatus = (activeIndex: number) => {
   } else {
     internalStatus.value = 'wait'
   }
-  const prevChild = parent.steps.value[stepsCount.value - 1]
+  const prevChild = parent.steps.value[index.value - 1]
   if (prevChild) prevChild.calcProgress(internalStatus.value)
 }
 

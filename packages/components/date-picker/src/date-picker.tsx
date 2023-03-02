@@ -9,13 +9,13 @@ import dayOfYear from 'dayjs/plugin/dayOfYear.js'
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js'
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js'
 import { useNamespace } from '@element-plus/hooks'
-import { ROOT_PICKER_INJECTION_KEY } from '@element-plus/tokens'
 import {
   CommonPicker,
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
   timePickerDefaultProps,
 } from '@element-plus/components/time-picker'
+import { ROOT_PICKER_INJECTION_KEY } from './constants'
 
 import { datePickerProps } from './props/date-picker'
 import { getPanel } from './panel-utils'
@@ -51,6 +51,12 @@ export default defineComponent({
     const refProps = {
       focus: (focusStartInput = true) => {
         commonPicker.value?.focus(focusStartInput)
+      },
+      handleOpen: () => {
+        commonPicker.value?.handleOpen()
+      },
+      handleClose: () => {
+        commonPicker.value?.handleClose()
       },
     }
 

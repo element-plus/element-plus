@@ -55,6 +55,10 @@ export const imageProps = buildProps({
     type: Boolean,
     default: true,
   },
+  zoomRate: {
+    type: Number,
+    default: 1.2,
+  },
 } as const)
 export type ImageProps = ExtractPropTypes<typeof imageProps>
 
@@ -63,5 +67,6 @@ export const imageEmits = {
   error: (evt: Event) => evt instanceof Event,
   switch: (val: number) => isNumber(val),
   close: () => true,
+  show: () => true,
 }
 export type ImageEmits = typeof imageEmits
