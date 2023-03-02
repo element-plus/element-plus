@@ -13,11 +13,10 @@ describe('Text.vue', () => {
         }}
       />
     ))
-    expect(wrapper.text()).toEqual(AXIOM)
-
     const vm = wrapper.vm
 
     expect(vm.$el.classList.contains('el-text')).toEqual(true)
+    expect(wrapper.text()).toEqual(AXIOM)
   })
 
   test('type', () => {
