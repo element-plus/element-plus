@@ -12,7 +12,7 @@ We are excited that you are interested in contributing to Element Plus. Before s
 
 - Before submitting an issue, please check if similar problems have already been issued.
 
-- Please specify which version of `Element Plus` and `Vue` you are using, and provide OS and browser information. [JSFiddle](https://jsfiddle.net/) is recommended to build a live demo so that your issue can be reproduced clearly.
+- Please specify which version of `Element Plus` and `Vue` you are using, and provide OS and browser information. [Playground](https://element-plus.run/) is recommended to build a live demo so that your issue can be reproduced clearly.
 
 ## Pull Request Guidelines
 

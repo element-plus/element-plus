@@ -13,6 +13,7 @@
       :placement="placement"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
+      :popper-options="popperOptions"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       :effect="effect"
       pure
@@ -342,6 +343,10 @@ export default defineComponent({
     popperClass: {
       type: String,
       default: '',
+    },
+    popperOptions: {
+      type: Object as PropType<Partial<Options>>,
+      default: () => ({} as Partial<Options>),
     },
     remote: Boolean,
     loadingText: String,
