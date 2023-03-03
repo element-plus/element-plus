@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.web.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "baseUrl": ".",
+    "composite": false,
+    "outDir": "./dist",
+    "types": ["node", "unplugin-vue-macros/macros-global"]
+  },
+  "include": ["."],
+  "exclude": [
+    "node_modules",
+    "**/dist",
+    "**/__tests__/**/*",
+    "**/gulpfile.ts",
+    "**/test-helper",
+    "packages/test-utils",
+    "**/*.md",
+    "rollup.ts",
+    "package.json"
+  ]
+}

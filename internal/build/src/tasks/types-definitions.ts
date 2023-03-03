@@ -8,6 +8,7 @@ import chalk from 'chalk'
 import { Project } from 'ts-morph'
 import {
   buildOutput,
+  compRoot,
   epRoot,
   excludeFiles,
   pkgRoot,
@@ -26,10 +27,12 @@ export const generateTypesDefinitions = async () => {
   const compilerOptions: CompilerOptions = {
     emitDeclarationOnly: true,
     outDir,
-    baseUrl: projRoot,
+    baseUrl: compRoot,
     preserveSymlinks: true,
     skipLibCheck: true,
     noImplicitAny: false,
+    composite: false,
+    declaration: false,
   }
   const project = new Project({
     compilerOptions,
@@ -38,6 +41,20 @@ export const generateTypesDefinitions = async () => {
   })
 
   const sourceFiles = await addSourceFiles(project)
+  const s = project.getLanguageService()
+
+  const o = project.getSourceFiles().map((file) => {
+    return s
+      .getEmitOutput(file, true)
+      .getOutputFiles()
+      .map((out) => ({
+        path: out.compilerObject.name,
+        content: out.getText(),
+      }))
+  })
+
+  console.log(o)
+  return sourceFiles
   consola.success('Added source files')
 
   typeCheck(project)
@@ -88,25 +105,38 @@ export const generateTypesDefinitions = async () => {
 
 async function addSourceFiles(project: Project) {
   project.addSourceFileAtPath(path.resolve(projRoot, 'typings/env.d.ts'))
+  project.addSourceFileAtPath(path.resolve(projRoot, 'typings/components.d.ts'))
 
-  const globSourceFile = '**/*.{js?(x),ts?(x),vue}'
+  const globSourceFile = `**/*.{js?(x),ts?(x),vue}`
   const filePaths = excludeFiles(
-    await glob([globSourceFile, '!element-plus/**/*'], {
-      cwd: pkgRoot,
+    await glob(globSourceFile, {
+      cwd: compRoot,
       absolute: true,
       onlyFiles: true,
+      ignore: [
+        'node_modules',
+        'dist',
+        'package.json',
+        'tsconfig.json',
+        'rollup.ts',
+        '__tests__',
+      ],
     })
   )
-  const epPaths = excludeFiles(
-    await glob(globSourceFile, {
-      cwd: epRoot,
-      onlyFiles: true,
-    })
-  )
+  // console.log(filePaths)
+  // return
+  const epPaths = []
+  // excludeFiles(
+  //   await glob(globSourceFile, {
+  //     cwd: epRoot,
+  //     onlyFiles: true,
+  //   })
+  // )
 
   const sourceFiles: SourceFile[] = []
   await Promise.all([
-    ...filePaths.map(async (file) => {
+    ...filePaths.slice(0, 1).map(async (file) => {
+      console.log(file)
       if (file.endsWith('.vue')) {
         const content = await readFile(file, 'utf-8')
         const hasTsNoCheck = content.includes('@ts-nocheck')
@@ -143,7 +173,7 @@ async function addSourceFiles(project: Project) {
       )
     }),
   ])
-
+  console.log(sourceFiles)
   return sourceFiles
 }
 

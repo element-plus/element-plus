@@ -14,6 +14,10 @@
   },
   "license": "MIT",
   "author": "yi.shyang@ele.me",
+  "files": [
+    "dist",
+    "src"
+  ],
   "main": "index.css",
   "unpkg": "index.css",
   "jsdelivr": "index.css",
@@ -24,7 +28,7 @@
   "style": "index.css",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "gulp --require @esbuild-kit/cjs-loader",
+    "build": "gulp --require @esbuild-kit/cjs-loader -f ./gulpfile.ts",
     "prepack": "clean-package",
     "postpack": "clean-package restore"
   },

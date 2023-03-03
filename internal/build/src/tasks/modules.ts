@@ -1,3 +1,4 @@
+import path from 'node:path'
 import { rollup } from 'rollup'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
@@ -6,31 +7,35 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 import glob from 'fast-glob'
-import { epRoot, excludeFiles, pkgRoot } from '@element-plus/build-utils'
-import { generateExternal, writeBundles } from '../utils'
-import { ElementPlusAlias } from '../plugins/element-plus-alias'
-import { buildConfigEntries, target } from '../build-info'
+import { compRoot, excludeFiles } from '@element-plus/build-utils'
+import {
+  buildConfigEntries,
+  generateExternal,
+  target,
+  writeBundles,
+} from '@element-plus/build'
 
 import type { OutputOptions } from 'rollup'
 
 export const buildModules = async () => {
   const input = excludeFiles(
-    await glob('**/*.{js,ts,vue}', {
-      cwd: pkgRoot,
+    await glob('**/*.{ts,vue}', {
+      cwd: compRoot,
       absolute: true,
       onlyFiles: true,
+      ignore: ['node_modules/**', 'dist/**', 'package.json', 'rollup.ts'],
     })
   )
+
   const bundle = await rollup({
     input,
     plugins: [
-      ElementPlusAlias(),
       VueMacros({
         setupComponent: false,
         setupSFC: false,
         plugins: {
           vue: vue({
-            isProduction: false,
+            isProduction: true,
           }),
           vueJsx: vueJsx(),
         },
@@ -55,10 +60,9 @@ export const buildModules = async () => {
     buildConfigEntries.map(([module, config]): OutputOptions => {
       return {
         format: config.format,
-        dir: config.output.path,
+        dir: path.resolve(compRoot, './dist'),
         exports: module === 'cjs' ? 'named' : undefined,
         preserveModules: true,
-        preserveModulesRoot: epRoot,
         sourcemap: true,
         entryFileNames: `[name].${config.ext}`,
       }

@@ -19,7 +19,7 @@
     "update:version": "tsx scripts/update-version.ts",
     "clean": "pnpm run clean:dist && pnpm run -r --parallel clean",
     "clean:dist": "rimraf dist",
-    "build": "pnpm run -C internal/build start",
+    "build": "pnpm --filter=\"./packages/**\" -r build ",
     "build:theme": "pnpm run -C packages/theme-chalk build",
     "format": "prettier --write --cache .",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx,.md,.json --max-warnings 0 --cache",

@@ -1,6 +1,6 @@
 import { computed, inject, isRef, ref, unref } from 'vue'
 import { get } from 'lodash-unified'
-import English from '@element-plus/locale/lang/en'
+import { en as English } from '@element-plus/locale'
 
 import type { MaybeRef } from '@vueuse/core'
 import type { InjectionKey, Ref } from 'vue'

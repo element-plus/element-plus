@@ -21,9 +21,10 @@
     "directory": "packages/components"
   },
   "scripts": {
-    "build": "tsx ./rollup.ts",
+    "build": "gulp --require @esbuild-kit/cjs-loader -f ../../internal/build/gulpfile.ts buildModules",
     "dev": "",
     "clean": "rimraf dist",
+    "gen-dts": "vue-tsc vue-tsc --declaration --emitDeclarationOnly -p ./tsconfig.json",
     "typecheck": "vue-tsc --noEmit"
   },
   "peerDependencies": {
