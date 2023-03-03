@@ -29,7 +29,7 @@
         :validate-event="false"
         :class="[ns.is('filterable', filterable), ns.be('panel', 'list')]"
       >
-        <el-scrollbar :id="ns.be('panel', 'scrollbar')" role="listbox">
+        <el-scrollbar :class="ns.be('panel', 'scrollbar')" role="listbox">
           <el-checkbox
             v-for="item in filteredData"
             :key="item[propsAlias.key]"
