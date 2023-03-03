@@ -41,7 +41,7 @@
 <script lang="ts" setup>
 import { computed, inject, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { checkboxGroupContextKey } from '@element-plus/tokens'
+import { checkboxGroupContextKey } from './constants'
 import { useCheckbox } from './composables'
 import { checkboxEmits, checkboxProps } from './checkbox'
 

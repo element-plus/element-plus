@@ -6,7 +6,7 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useFormSizeProp } from '@element-plus/components/form'
+import { useSizeProp } from '@element-plus/hooks'
 import type Input from './input.vue'
 import type { ExtractPropTypes, StyleValue } from 'vue'
 
@@ -23,7 +23,7 @@ export const inputProps = buildProps({
   /**
    * @description input box size
    */
-  size: useFormSizeProp,
+  size: useSizeProp,
   /**
    * @description whether to disable
    */

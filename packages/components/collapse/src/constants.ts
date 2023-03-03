@@ -1,5 +1,5 @@
-import type { CollapseActiveName } from '@element-plus/components/collapse'
 import type { InjectionKey, Ref } from 'vue'
+import type { CollapseActiveName } from './collapse'
 
 export interface CollapseContext {
   activeNames: Ref<CollapseActiveName[]>

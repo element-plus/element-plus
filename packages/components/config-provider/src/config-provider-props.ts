@@ -1,11 +1,14 @@
 import { buildProps, definePropType } from '@element-plus/utils'
-import { useFormSizeProp } from '@element-plus/components/form'
+import { useSizeProp } from '@element-plus/hooks'
 
 import type { ExtractPropTypes } from 'vue'
-import type { ExperimentalFeatures } from '@element-plus/tokens'
 import type { Language } from '@element-plus/locale'
 import type { ButtonConfigContext } from '@element-plus/components/button'
 import type { MessageConfigContext } from '@element-plus/components/message'
+
+export type ExperimentalFeatures = {
+  // TO BE Defined
+}
 
 export const configProviderProps = buildProps({
   /**
@@ -24,7 +27,7 @@ export const configProviderProps = buildProps({
   /**
    * @description global component size
    */
-  size: useFormSizeProp,
+  size: useSizeProp,
   /**
    * @description button related configuration, [see the following table](#button-attributes)
    */
