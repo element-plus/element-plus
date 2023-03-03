@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import clipboardCopy from 'clipboard-copy'
 import { ElMessage } from 'element-plus'
 import * as Icons from '@element-plus/icons-vue'
@@ -44,7 +44,7 @@ const copySvgIcon = async (name, refs) => {
   }
 }
 
-const categories = ref<CategoriesItem[]>([])
+const categories = shallowRef<CategoriesItem[]>([])
 const iconMap = new Map(Object.entries(Icons))
 
 IconCategories.categories.forEach((o) => {
