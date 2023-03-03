@@ -244,7 +244,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref } from 'vue'
+import { computed, inject, ref, toRef, unref, useAttrs, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { isArray } from '@element-plus/utils'
@@ -312,6 +312,7 @@ const {
   handleRangeConfirm,
   handleShortcutClick,
   onSelect,
+  onReset,
   t,
 } = useRangePicker(props, {
   defaultValue,
@@ -320,6 +321,17 @@ const {
   unit,
   onParsedValueChanged,
 })
+
+const attrs = useAttrs()
+watch(
+  () => attrs.visible,
+  (visible) => {
+    if (visible) {
+      onReset(props.parsedValue)
+      onSelect(false)
+    }
+  }
+)
 
 const dateUserInput = ref<UserInput>({
   min: null,
