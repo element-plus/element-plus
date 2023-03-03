@@ -10,10 +10,10 @@
 </template>
 <script lang="ts" setup>
 import { inject, ref } from 'vue'
-import { useDisabled, useNamespace } from '@element-plus/hooks'
-
-import { uploadContextKey } from '@element-plus/tokens'
+import { useNamespace } from '@element-plus/hooks'
+import { useFormDisabled } from '@element-plus/components/form'
 import { throwError } from '@element-plus/utils/error'
+import { uploadContextKey } from './constants'
 import { uploadDraggerEmits, uploadDraggerProps } from './upload-dragger'
 
 const COMPONENT_NAME = 'ElUploadDrag'
@@ -35,7 +35,7 @@ if (!uploaderContext) {
 
 const ns = useNamespace('upload')
 const dragover = ref(false)
-const disabled = useDisabled()
+const disabled = useFormDisabled()
 
 const onDrop = (e: DragEvent) => {
   if (disabled.value) return

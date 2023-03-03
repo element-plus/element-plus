@@ -159,21 +159,19 @@ import {
   View as IconView,
 } from '@element-plus/icons-vue'
 import {
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
+import {
   NOOP,
   ValidateComponentsMap,
   debugWarn,
   isKorean,
   isObject,
 } from '@element-plus/utils'
-import {
-  useAttrs,
-  useCursor,
-  useDisabled,
-  useFormItem,
-  useFormItemInputId,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
+import { useAttrs, useCursor, useNamespace } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { calcTextareaHeight } from './utils'
 import { inputEmits, inputProps } from './input'
@@ -233,8 +231,8 @@ const { form, formItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
-const inputSize = useSize()
-const inputDisabled = useDisabled()
+const inputSize = useFormSize()
+const inputDisabled = useFormDisabled()
 const nsInput = useNamespace('input')
 const nsTextarea = useNamespace('textarea')
 

@@ -1,7 +1,9 @@
 // @ts-nocheck
 import {
   computed,
+  getCurrentInstance,
   nextTick,
+  onUpdated,
   reactive,
   ref,
   shallowRef,
@@ -26,13 +28,8 @@ import {
   isString,
   scrollIntoView,
 } from '@element-plus/utils'
-import {
-  useDeprecated,
-  useFormItem,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
+import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
 
 import type { ComponentPublicInstance } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
@@ -101,6 +98,19 @@ export const useSelect = (props, states: States, ctx) => {
   const hoverOption = ref(-1)
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
+  const instance = getCurrentInstance()
+  const optionList = ref<string[]>([])
+  let originClientHeight = 0
+
+  onUpdated(() => {
+    const childrens = instance?.slots.default?.()[0].children
+    if (childrens && childrens.length) {
+      const options = childrens
+        .filter((item) => item.type.name === 'ElOption')
+        .map((item) => item.props.label)
+      optionList.value = options
+    }
+  })
 
   const { form, formItem } = useFormItem()
 
@@ -159,7 +169,17 @@ export const useSelect = (props, states: States, ctx) => {
     return null
   })
 
-  const optionsArray = computed(() => Array.from(states.options.values()))
+  const optionsArray = computed(() => {
+    const list = Array.from(states.options.values())
+    const newList = []
+    optionList.value.forEach((item) => {
+      const index = list.findIndex((i) => i.currentLabel === item)
+      if (index > -1) {
+        newList.push(list[index])
+      }
+    })
+    return newList.length ? newList : list
+  })
 
   const cachedOptionsArray = computed(() =>
     Array.from(states.cachedOptions.values())
@@ -181,7 +201,7 @@ export const useSelect = (props, states: States, ctx) => {
     )
   })
 
-  const selectSize = useSize()
+  const selectSize = useFormSize()
 
   const collapseTagSize = computed(() =>
     ['small'].includes(selectSize.value) ? 'small' : 'default'
@@ -368,20 +388,32 @@ export const useSelect = (props, states: States, ctx) => {
       const input = reference.value.$el.querySelector(
         'input'
       ) as HTMLInputElement
+      originClientHeight =
+        originClientHeight ||
+        (input.clientHeight > 0 ? input.clientHeight + 2 : 0)
       const _tags = tags.value
+      const gotSize = getComponentSize(selectSize.value || form?.size)
 
-      const sizeInMap = getComponentSize(selectSize.value || form?.size)
+      const sizeInMap =
+        gotSize === originClientHeight || originClientHeight <= 0
+          ? gotSize
+          : originClientHeight
+
+      const isElHidden = input.offsetParent === null
+
       // it's an inner input so reduce it by 2px.
-      input.style.height = `${
-        (states.selected.length === 0
-          ? sizeInMap
-          : Math.max(
-              _tags
-                ? _tags.clientHeight + (_tags.clientHeight > sizeInMap ? 6 : 0)
-                : 0,
-              sizeInMap
-            )) - 2
-      }px`
+      !isElHidden &&
+        (input.style.height = `${
+          (states.selected.length === 0
+            ? sizeInMap
+            : Math.max(
+                _tags
+                  ? _tags.clientHeight +
+                      (_tags.clientHeight > sizeInMap ? 6 : 0)
+                  : 0,
+                sizeInMap
+              )) - 2
+        }px`)
 
       states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
 

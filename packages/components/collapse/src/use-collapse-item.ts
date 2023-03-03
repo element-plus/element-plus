@@ -1,7 +1,7 @@
 import { computed, inject, ref, unref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { generateId } from '@element-plus/utils'
-import { collapseContextKey } from '@element-plus/tokens'
+import { collapseContextKey } from './constants'
 
 import type { CollapseItemProps } from './collapse-item'
 

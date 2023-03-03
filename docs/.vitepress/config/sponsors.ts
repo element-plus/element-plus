@@ -46,6 +46,14 @@ export const leftCustomImgSponsors = [
     className: 'jnpf',
     banner_img: '/images/jnpfsoft.jpg',
   },
+  {
+    name: 'JeePlus',
+    img: '/images/sponsors/jeeplus.png',
+    url: 'http://www.jeeplus.org/#/demo?from=ele',
+    slogan: 'JeePlus development platform',
+    slogan_cn: 'JeePlus 快速开发平台',
+    banner_img: '/images/sponsors/jeeplus_banner.jpg',
+  },
 ]
 
 export const platinumSponsors = [

@@ -1,5 +1,42 @@
 ## Changelog
 
+### 2.2.33
+
+_2023-03-03_
+
+#### Features
+
+- Components [tree-v2] add item-size attribute (#11522 by @btea)
+
+#### Bug fixes
+
+- Theme-chalk [upload] wrong hover style when disabled (#11635 by @wonderl17)
+- Components [input-number] prevent input wheel events (#11677 by @Mario34)
+- Components [tooltip] display tooltip correctly (#11643 by @acyza)
+- Components [autocomplete] clearable and disabled props not working (#11714 by @richex-cn)
+- Docs [search] fix navigate error when enter pressed (#11718 by @wonderl17)
+- Components adjust menu close api (#11682 by @chenxch)
+- Components [select] fix the hoverIndex display error (#11297 by @btea)
+- Components [tabs] add deep attribute to watch (#11724 by @tolking)
+- Components [select] add popper-options prop (#11734 by @ryuhangyeong)
+- Components [select] support custom height (#10840 by @MrWeilian) (#10847)
+- Components [tabs] tab-bar need to adapt to tabs width change (#11731 by @godxiaoji)
+- Components [autocomplete] the blur event is not triggered (#10091 by @tolking)
+- Components circular referencing issue (#11777 by @jw-foss)
+- Theme-chalk [tab] correct padding of card item on hover (#11283 by @makedopamine)
+
+#### Refactors
+
+- Components [slider] remove useless code (#11681 by @Geekhyt)
+- Tokens - [form] (#11743 by @jw-foss)
+- Components [config-provider] (#11749 by @jw-foss)
+- Tooltip replace any to OnlyChildExpose (#11660 by @Lck6de1p)
+- Project removing packages/tokens (#11769 by @jw-foss)
+- Components [color-picker] alpha-slider (#10332 by @jw-foss)
+- Components [steps] (#10427 by @Simon-He95)
+- Chore(components): [table] fix table config typo (#11700 by @wonderl17)
+- Style(components): [breadcrumb] item use inline-flex (#11683 by @chenxch)
+
 ### 2.2.32
 
 _2023-02-19_
