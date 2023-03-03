@@ -145,7 +145,6 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | no-data-text          | displayed text when there is no options, you can also use slot `empty`                                           | string                                     | —                   | No data          |
 | popper-class          | custom class name for Select's dropdown                                                                          | string                                     | —                   | —                |
 | popper-options        | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                                 | object                                     | —                   | —                |
-
 | reserve-keyword | when `multiple` and `filter` is true, whether to reserve current keyword after selecting an option | boolean | true / false | true |
 | default-first-option | select first matching option on enter key. Use with `filterable` or `remote` | boolean | true / false | false |
 | popper-append-to-body(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean | true / false | true |
