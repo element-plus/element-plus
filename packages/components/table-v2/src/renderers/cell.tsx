@@ -87,6 +87,7 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
 
   const kls = [
     ns.e('row-cell'),
+    column.class,
     column.align === Alignment.CENTER && ns.is('align-center'),
     column.align === Alignment.RIGHT && ns.is('align-right'),
   ]
