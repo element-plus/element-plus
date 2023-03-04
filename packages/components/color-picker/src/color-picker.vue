@@ -84,7 +84,7 @@
                 <arrow-down />
               </el-icon>
               <el-icon
-                v-if="!modelValue && !showPanelColor"
+                v-show="!modelValue && !showPanelColor"
                 :class="[ns.be('picker', 'empty'), ns.is('icon-close')]"
               >
                 <close />
