@@ -273,11 +273,7 @@ const TableV2 = defineComponent({
                     {slots.cell(props)}
                   </Cell>
                 ) : (
-                  <Cell
-                    {...props}
-                    {...tableCellProps}
-                    style={_columnsStyles[props.column.key]}
-                  />
+                  <Cell {...{ ...props, ...tableCellProps }} />
                 ),
             }}
           </Row>
