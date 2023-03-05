@@ -1,7 +1,7 @@
 - scope: 'component'
-  name: 'el-image'
+  name: 'el-time-picker'
   type: 'props'
-  version: '2.2.3'
+  version: '2.3.0'
   commit_hash: '9e01d4a'
   description: |
     PUsing value-format="x" will no longer return a number, but a string.
