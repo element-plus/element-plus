@@ -48,9 +48,9 @@ export function MarkdownTransform(): Plugin {
 }
 
 const combineScriptSetup = (codes: string[]) =>
-  `<script setup>
+  `\n<script setup>
 ${codes.join('\n')}
-</script>\n
+</script>
 `
 
 const combineMarkdown = (
@@ -58,14 +58,9 @@ const combineMarkdown = (
   headers: string[],
   footers: string[]
 ) => {
-  const frontmatterEnds = code.indexOf('---\n\n')
-  const firstSubheader = code.search(/## \w/)
-  const sliceIndex =
-    firstSubheader < 0
-      ? frontmatterEnds < 0
-        ? 0
-        : frontmatterEnds + 5
-      : firstSubheader
+  const frontmatterEnds = code.indexOf('---\n\n') + 4
+  const firstSubheader = code.search(/\n## \w/)
+  const sliceIndex = firstSubheader < 0 ? frontmatterEnds : firstSubheader
 
   if (headers.length > 0)
     code =
