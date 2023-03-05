@@ -285,6 +285,7 @@ describe('Pagination', () => {
 
   describe('test a11y supports', () => {
     test('test a11y attributes', async () => {
+      // 1 2 3 4 5 6 ... 10
       const wrapper = mount(() => <Pagination total={100} />)
       const prev = wrapper.find('.el-pagination .btn-prev')
       const next = wrapper.find('.el-pagination .btn-next')
@@ -295,10 +296,12 @@ describe('Pagination', () => {
       expect(prev.attributes('aria-label')).toBe('Go to previous page')
       expect(next.attributes('aria-label')).toBe('Go to next page')
       expect(last.attributes('aria-label')).toBe('page 10')
-      // 1 2 3 4 5 6 ... 10
       pagers.slice(0, 6).forEach((item, index) => {
         expect(item.attributes('aria-label')).toBe(`page ${index + 1}`)
       })
+      expect(wrapper.find('.more').attributes('aria-label')).toBe(
+        'Next 5 pages'
+      )
 
       expect(prev.attributes('aria-disabled')).toBe('true')
       expect(next.attributes('aria-disabled')).toBe('false')
@@ -310,6 +313,9 @@ describe('Pagination', () => {
       expect(next.attributes('aria-disabled')).toBe('true')
       expect(first.attributes('aria-current')).toBe('false')
       expect(last.attributes('aria-current')).toBe('true')
+      expect(wrapper.find('.more').attributes('aria-label')).toBe(
+        'Previous 5 pages'
+      )
     })
 
     test('test tabindex interactive', async () => {
