@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, getCurrentInstance, toRef } from 'vue'
+import { computed, getCurrentInstance, ref, toRef } from 'vue'
 import { isClient, useClipboard, useToggle } from '@vueuse/core'
 import { CaretTop } from '@element-plus/icons-vue'
 import { useLang } from '../composables/lang'
@@ -30,6 +30,7 @@ const [sourceVisible, toggleSourceVisible] = useToggle()
 const lang = useLang()
 const demoSourceUrl = useSourceCode(toRef(props, 'path'))
 
+const sourceCodeRef = ref<HTMLButtonElement>()
 const formatPathDemos = computed(() => {
   const demos = {}
 
@@ -50,6 +51,14 @@ const onPlaygroundClick = () => {
   const { link } = usePlayground(props.rawSource)
   if (!isClient) return
   window.open(link)
+}
+
+const onSourceVisibleKeydown = (e: KeyboardEvent) => {
+  if (['Enter', 'Space'].includes(e.code)) {
+    e.preventDefault()
+    toggleSourceVisible(false)
+    sourceCodeRef.value?.focus()
+  }
 }
 
 const copyCode = async () => {
@@ -77,31 +86,79 @@ const copyCode = async () => {
       <ElDivider class="m-0" />
 
       <div class="op-btns">
-        <ElTooltip :content="locale['edit-in-editor']" :show-arrow="false">
-          <ElIcon :size="16" class="op-btn">
-            <i-ri-flask-line @click="onPlaygroundClick" />
+        <ElTooltip
+          :content="locale['edit-in-editor']"
+          :show-arrow="false"
+          :trigger-keys="[]"
+        >
+          <ElIcon
+            :size="16"
+            :aria-label="locale['edit-in-editor']"
+            tabindex="0"
+            role="button"
+            class="op-btn"
+            @click="onPlaygroundClick"
+            @keydown.prevent.enter="onPlaygroundClick"
+            @keydown.prevent.space="onPlaygroundClick"
+          >
+            <i-ri-flask-line />
           </ElIcon>
         </ElTooltip>
-        <ElTooltip :content="locale['edit-on-github']" :show-arrow="false">
+        <ElTooltip
+          :content="locale['edit-on-github']"
+          :show-arrow="false"
+          :trigger-keys="[]"
+        >
           <ElIcon
             :size="16"
             class="op-btn github"
             style="color: var(--text-color-light)"
           >
-            <a :href="demoSourceUrl" rel="noreferrer noopener" target="_blank">
+            <a
+              :href="demoSourceUrl"
+              :aria-label="locale['edit-on-github']"
+              rel="noreferrer noopener"
+              target="_blank"
+            >
               <i-ri-github-line />
             </a>
           </ElIcon>
         </ElTooltip>
-        <ElTooltip :content="locale['copy-code']" :show-arrow="false">
-          <ElIcon :size="16" class="op-btn" @click="copyCode">
+        <ElTooltip
+          :content="locale['copy-code']"
+          :show-arrow="false"
+          :trigger-keys="[]"
+        >
+          <ElIcon
+            :size="16"
+            :aria-label="locale['copy-code']"
+            class="op-btn"
+            tabindex="0"
+            role="button"
+            @click="copyCode"
+            @keydown.prevent.enter="copyCode"
+            @keydown.prevent.space="copyCode"
+          >
             <i-ri-file-copy-line />
           </ElIcon>
         </ElTooltip>
-        <ElTooltip :content="locale['view-source']" :show-arrow="false">
-          <ElIcon :size="16" class="op-btn" @click="toggleSourceVisible()">
-            <i-ri-code-line />
-          </ElIcon>
+        <ElTooltip
+          :content="locale['view-source']"
+          :show-arrow="false"
+          :trigger-keys="[]"
+        >
+          <button
+            ref="sourceCodeRef"
+            :aria-label="
+              sourceVisible ? locale['hide-source'] : locale['view-source']
+            "
+            class="reset-btn el-icon op-btn"
+            @click="toggleSourceVisible()"
+          >
+            <ElIcon :size="16">
+              <i-ri-code-line />
+            </ElIcon>
+          </button>
         </ElTooltip>
       </div>
 
@@ -113,7 +170,10 @@ const copyCode = async () => {
         <div
           v-show="sourceVisible"
           class="example-float-control"
+          tabindex="0"
+          role="button"
           @click="toggleSourceVisible(false)"
+          @keydown="onSourceVisibleKeydown"
         >
           <ElIcon :size="16">
             <CaretTop />
