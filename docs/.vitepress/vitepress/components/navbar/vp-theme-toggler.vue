@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import { toggleDark } from '../../composables/dark'
+import { isDark, toggleDark } from '../../composables/dark'
 import CommonThemeToggler from '../common/vp-theme-toggler.vue'
+
+defineProps<{
+  ariaLabel: string
+}>()
 </script>
 
 <template>
   <div class="theme-toggler-content">
-    <CommonThemeToggler @click="() => toggleDark()" />
+    <CommonThemeToggler
+      :aria-label="ariaLabel"
+      :aria-checked="isDark"
+      @click="() => toggleDark()"
+    />
   </div>
 </template>
 

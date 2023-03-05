@@ -3,7 +3,7 @@ import { onMounted } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import nprogress from 'nprogress'
 import dayjs from 'dayjs'
-import { isClient, useStorage, useToggle } from '@vueuse/core'
+import { isClient, useEventListener, useStorage, useToggle } from '@vueuse/core'
 import { useSidebar } from '../composables/sidebar'
 import { useToggleWidgets } from '../composables/toggle-widgets'
 import { useLang } from '../composables/lang'
@@ -30,6 +30,14 @@ useToggleWidgets(isSidebarOpen, () => {
   if (!isClient) return
   if (window.outerWidth >= breakpoints.lg) {
     toggleSidebar(false)
+  }
+})
+
+useEventListener('keydown', (e) => {
+  if (!isClient) return
+  if (e.key === 'Escape' && isSidebarOpen.value) {
+    toggleSidebar(false)
+    document.querySelector<HTMLButtonElement>('.sidebar-button')?.focus()
   }
 })
 
@@ -113,7 +121,11 @@ onMounted(async () => {
       @click="toggleSidebar(false)"
     />
     <VPNav />
-    <VPSubNav v-if="hasSidebar" @open-menu="toggleSidebar(true)" />
+    <VPSubNav
+      v-if="hasSidebar"
+      :is-sidebar-open="isSidebarOpen"
+      @open-menu="toggleSidebar(true)"
+    />
     <VPSidebar :open="isSidebarOpen" @close="toggleSidebar(false)">
       <template #top>
         <VPSponsors />

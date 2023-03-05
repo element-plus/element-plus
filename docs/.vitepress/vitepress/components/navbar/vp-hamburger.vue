@@ -5,9 +5,14 @@ defineProps<{
 </script>
 
 <template>
-  <div :class="{ 'menu-hamburger': true, active }" role="button">
+  <button
+    :class="{ active }"
+    :aria-expanded="active"
+    class="reset-btn menu-hamburger"
+    aria-controls="full-screen"
+  >
     <span class="hamburger-1" />
     <span class="hamburger-2" />
     <span class="hamburger-3" />
-  </div>
+  </button>
 </template>
