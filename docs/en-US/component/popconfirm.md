@@ -62,15 +62,15 @@ popconfirm/trigger-event
 | persistent          | when popconfirm inactive and `persistent` is `false` , popconfirm will be destroyed | ^[boolean]                                                                   | false          |
 | width               | popconfirm width, min width 150px                                                   | ^[string] / ^[number]                                                        | 150            |
 
-### Slots
-
-| Name      | Description                           |
-| --------- | ------------------------------------- |
-| reference | HTML element that triggers Popconfirm |
-
 ### Events
 
 | Name    | Description                        | Type                                 |
 | ------- | ---------------------------------- | ------------------------------------ |
 | confirm | triggers when click confirm button | ^[Function]`(e: MouseEvent) => void` |
 | cancel  | triggers when click cancel button  | ^[Function]`(e: MouseEvent) => void` |
+
+### Slots
+
+| Name      | Description                           |
+| --------- | ------------------------------------- |
+| reference | HTML element that triggers Popconfirm |
