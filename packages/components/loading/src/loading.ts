@@ -2,6 +2,7 @@ import {
   Transition,
   createApp,
   createVNode,
+  defineComponent,
   h,
   reactive,
   ref,
@@ -13,15 +14,13 @@ import {
 import { useNamespace, useZIndex } from '@element-plus/hooks'
 import { removeClass } from '@element-plus/utils'
 
-import type { UseNamespaceReturn, UseZIndexReturn } from '@element-plus/hooks'
+import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { LoadingOptionsResolved } from './types'
 
 export function createLoadingComponent(options: LoadingOptionsResolved) {
   let afterLeaveTimer: number
   // IMPORTANT NOTE: this is only a hacking way to expose the injections on an
   // instance, DO NOT FOLLOW this pattern in your own code.
-  let ns: UseNamespaceReturn = {} as UseNamespaceReturn
-  let zIndex = {} as UseZIndexReturn
   const afterLeaveFlag = ref(false)
   const data = reactive({
     ...options,
@@ -36,6 +35,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
 
   function destroySelf() {
     const target = data.parent
+    const ns = (vm as any).ns as UseNamespaceReturn
     if (!target.vLoadingAddClassList) {
       let loadingNumber: number | string | null =
         target.getAttribute('loading-number')
@@ -74,11 +74,17 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     destroySelf()
   }
 
-  const elLoadingComponent = {
+  const elLoadingComponent = defineComponent({
     name: 'ElLoading',
-    setup() {
-      ns = useNamespace('loading')
-      zIndex = useZIndex()
+    setup(_, { expose }) {
+      const ns = useNamespace('loading')
+      const zIndex = useZIndex()
+
+      expose({
+        ns,
+        zIndex,
+      })
+
       return () => {
         const svg = data.spinner || data.svg
         const spinner = h(
@@ -141,7 +147,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
         )
       }
     },
-  }
+  })
 
   const loadingInstance = createApp(elLoadingComponent)
   const vm = loadingInstance.mount(document.createElement('div'))
@@ -156,8 +162,6 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     get $el(): HTMLElement {
       return vm.$el
     },
-    ns,
-    zIndex,
   }
 }
 
