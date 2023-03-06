@@ -5,10 +5,16 @@ import { useTimeout } from '../use-timeout'
 import type { ExtractPropTypes, ToRefs } from 'vue'
 
 export const useDelayedToggleProps = buildProps({
+  /**
+   * @description delay of appearance, in millisecond
+   */
   showAfter: {
     type: Number,
     default: 0,
   },
+  /**
+   * @description delay of disappear, in millisecond
+   */
   hideAfter: {
     type: Number,
     default: 200,
