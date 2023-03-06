@@ -284,18 +284,20 @@ function useStyle<T>(
   })
 
   const tableInnerStyle = computed(() => {
+    let height = props.height || props.maxHeight
+    if (!Number.isNaN(Number(props.height))) {
+      height = `${height}px`
+    } else if (props.height.includes('%')) {
+      height = '100%'
+    }
     if (props.height) {
       return {
-        height: !Number.isNaN(Number(props.height))
-          ? `${props.height}px`
-          : props.height,
+        height,
       }
     }
     if (props.maxHeight) {
       return {
-        maxHeight: !Number.isNaN(Number(props.maxHeight))
-          ? `${props.maxHeight}px`
-          : props.maxHeight,
+        maxHeight: height,
       }
     }
     return {}
