@@ -182,3 +182,15 @@ tooltip/animations
 | ------- | -------------------------------------- |
 | default | Tooltip triggering & reference element |
 | content | customize content                      |
+
+### Exposes
+
+| Name                 | Description                                                       | Type                                              |
+| -------------------- | ----------------------------------------------------------------- | ------------------------------------------------- |
+| popperRef            | el-popper component instance                                      | ^[objcet]`Ref<PopperInstance \| null>`            |
+| contentRef           | el-tooltip-content component instance                             | ^[objcet]`Ref<TooltipContentInstance \| null>`    |
+| isFocusInsideContent | validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`           |
+| updatePopper         | update el-popper component instance                               | ^[Function]`() => void`                           |
+| onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void` |
+| onClose              | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void` |
+| hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void` |
