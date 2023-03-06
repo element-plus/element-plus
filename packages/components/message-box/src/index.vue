@@ -164,12 +164,9 @@ import { TrapFocus } from '@element-plus/directives'
 import {
   useDraggable,
   useId,
-  useLocale,
   useLockscreen,
-  useNamespace,
   useRestoreActive,
   useSameTarget,
-  useZIndex,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { useFormSize } from '@element-plus/components/form'
@@ -181,8 +178,9 @@ import {
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import ElFocusTrap from '@element-plus/components/focus-trap'
+import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
-import type { ComponentPublicInstance, PropType } from 'vue'
+import type { ComponentPublicInstance, DefineComponent, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type {
   Action,
@@ -251,10 +249,12 @@ export default defineComponent({
   emits: ['vanish', 'action'],
   setup(props, { emit }) {
     // const popup = usePopup(props, doClose)
-    const { t } = useLocale()
-    const ns = useNamespace('message-box')
+    const { locale, zIndex, ns } = useGlobalComponentSettings('message-box')
+
+    const { t } = locale
+    const { nextZIndex } = zIndex
+
     const visible = ref(false)
-    const { nextZIndex } = useZIndex()
     // s represents state
     const state = reactive<MessageBoxState>({
       // autofocus element when open message-box
@@ -501,5 +501,5 @@ export default defineComponent({
       t,
     }
   },
-})
+}) as DefineComponent
 </script>
