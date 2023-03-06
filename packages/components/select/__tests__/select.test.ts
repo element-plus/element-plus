@@ -50,10 +50,18 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
       },
       template,
       data,
+      setup() {
+        return usePopperContainerId()
+      },
       ...otherObj,
     },
     {
       attachTo: 'body',
+      global: {
+        provide: {
+          namespace: 'el',
+        },
+      },
     }
   )
 
@@ -1896,8 +1904,8 @@ describe('Select', () => {
       )
 
       await nextTick()
-      const { selector } = usePopperContainerId()
-      expect(document.body.querySelector(selector.value).innerHTML).not.toBe('')
+      const { selector } = wrapper.vm
+      expect(document.body.querySelector(selector).innerHTML).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
@@ -1925,8 +1933,8 @@ describe('Select', () => {
       )
 
       await nextTick()
-      const { selector } = usePopperContainerId()
-      expect(document.body.querySelector(selector.value).innerHTML).toBe('')
+      const { selector } = wrapper.vm
+      expect(document.body.querySelector(selector).innerHTML).toBe('')
     })
   })
 
