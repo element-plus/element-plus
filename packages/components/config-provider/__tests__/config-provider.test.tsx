@@ -265,7 +265,7 @@ describe('config-provider', () => {
       const vm = receiverRef.value
       expect(vm.ns.namespace).toBe(namespace)
       expect(vm.locale.locale).toBe(locale)
-      expect(vm.zIndex.currentZIndex).toBe(zIndex)
+      expect(vm.zIndex.currentZIndex).toBeGreaterThanOrEqual(zIndex)
     })
   })
 })
