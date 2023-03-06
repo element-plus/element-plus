@@ -1,5 +1,6 @@
 <template>
-  <button
+  <component
+    :is="tag"
     ref="_ref"
     :class="[
       ns.b(),
@@ -37,7 +38,7 @@
     >
       <slot />
     </span>
-  </button>
+  </component>
 </template>
 
 <script lang="ts" setup>
