@@ -30,3 +30,5 @@ export const useZIndex = () => {
     nextZIndex,
   }
 }
+
+export type UseZIndexReturn = ReturnType<typeof useZIndex>

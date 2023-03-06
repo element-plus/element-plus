@@ -10,15 +10,18 @@ import {
   withCtx,
   withDirectives,
 } from 'vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useNamespace, useZIndex } from '@element-plus/hooks'
 import { removeClass } from '@element-plus/utils'
 
+import type { UseNamespaceReturn, UseZIndexReturn } from '@element-plus/hooks'
 import type { LoadingOptionsResolved } from './types'
 
 export function createLoadingComponent(options: LoadingOptionsResolved) {
   let afterLeaveTimer: number
-
-  const ns = useNamespace('loading')
+  // IMPORTANT NOTE: this is only a hacking way to expose the injections on an
+  // instance, DO NOT FOLLOW this pattern in your own code.
+  let ns: UseNamespaceReturn = {} as UseNamespaceReturn
+  let zIndex = {} as UseZIndexReturn
   const afterLeaveFlag = ref(false)
   const data = reactive({
     ...options,
@@ -74,6 +77,8 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   const elLoadingComponent = {
     name: 'ElLoading',
     setup() {
+      ns = useNamespace('loading')
+      zIndex = useZIndex()
       return () => {
         const svg = data.spinner || data.svg
         const spinner = h(
@@ -151,6 +156,8 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
     get $el(): HTMLElement {
       return vm.$el
     },
+    ns,
+    zIndex,
   }
 }
 
