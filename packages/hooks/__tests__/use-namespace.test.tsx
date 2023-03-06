@@ -1,4 +1,4 @@
-import { defineComponent, nextTick } from 'vue'
+import { computed, defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { provideGlobalConfig } from '@element-plus/components/config-provider'
@@ -80,5 +80,32 @@ describe('use-locale', () => {
     expect(style).not.toMatch('--ep-border-width:')
     expect(style).toMatch('--ep-table-text-color: #409eff;')
     expect(style).not.toMatch('--ep-table-active-color:')
+  })
+
+  it('overrides namespace', () => {
+    const overrides = 'override'
+    const { vm } = mount(
+      defineComponent({
+        setup(_, { expose }) {
+          const { namespace } = useNamespace(
+            'ns',
+            computed(() => overrides)
+          )
+          expose({
+            namespace,
+          })
+        },
+        template: '<div></div>',
+      }),
+      {
+        global: {
+          provide: {
+            namespace: 'el',
+          },
+        },
+      }
+    )
+
+    expect(vm.namespace).toBe(overrides)
   })
 })

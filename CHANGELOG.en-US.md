@@ -1,5 +1,15 @@
 ## Changelog
 
+### 2.2.34
+
+_2023-03-06_
+
+#### Bug fixes
+
+- Components [table-v2] class of column is not valid (#11815 by @tolking)
+- Components [tree-select] cache data update incorrect (#11225 by @yujinpan)
+- Components [global-config] (#11847 by @jw-foss)
+
 ### 2.2.33
 
 _2023-03-03_
