@@ -67,4 +67,31 @@ describe('use-locale', () => {
     const t = buildTranslator(English)
     expect(t('el.popconfirm.someThing')).toBe('el.popconfirm.someThing')
   })
+
+  describe('overrides', () => {
+    it('should be override correctly', () => {
+      const override = computed(() => English)
+
+      const wrapper = mount(
+        defineComponent({
+          setup(_, { expose }) {
+            const { locale } = useLocale(override)
+            expose({
+              locale,
+            })
+          },
+          template: '<div></div>',
+        }),
+        {
+          global: {
+            provide: {
+              locale: Chinese,
+            },
+          },
+        }
+      )
+
+      expect(wrapper.vm.locale).toBe(override.value)
+    })
+  })
 })

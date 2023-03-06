@@ -6,7 +6,10 @@ import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import { ElButton, ElMessage } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
-import { useGlobalConfig } from '../src/hooks/use-global-config'
+import {
+  useGlobalComponentSettings,
+  useGlobalConfig,
+} from '../src/hooks/use-global-config'
 import ConfigProvider from '../src/config-provider'
 
 import type { PropType } from 'vue'
@@ -238,5 +241,31 @@ describe('config-provider', () => {
         expect(wrapper.findComponent(TestComponent).vm[feature]).toEqual(config)
       }
     )
+  })
+
+  describe('global component configs', () => {
+    it.only('should use global configured settings', () => {
+      const namespace = 'test'
+      const locale = Chinese
+      const zIndex = 1000
+      const block = 'button'
+      const receiverRef = ref()
+      const ReceiverComponent = defineComponent({
+        setup() {
+          receiverRef.value = useGlobalComponentSettings(block)
+        },
+        template: '<div></div>',
+      })
+      mount(() => (
+        <ConfigProvider zIndex={zIndex} locale={locale} namespace={namespace}>
+          <ReceiverComponent />
+        </ConfigProvider>
+      ))
+
+      const vm = receiverRef.value
+      expect(vm.ns.namespace).toBe(namespace)
+      expect(vm.locale.locale).toBe(locale)
+      expect(vm.zIndex.currentZIndex).toBe(zIndex)
+    })
   })
 })
