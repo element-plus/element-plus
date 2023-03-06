@@ -244,7 +244,7 @@ describe('config-provider', () => {
   })
 
   describe('global component configs', () => {
-    it.only('should use global configured settings', () => {
+    it('should use global configured settings', () => {
       const namespace = 'test'
       const locale = Chinese
       const zIndex = 1000
