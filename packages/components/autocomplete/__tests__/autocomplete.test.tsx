@@ -1,4 +1,4 @@
-import { nextTick, reactive } from 'vue'
+import { defineComponent, nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
 import { NOOP } from '@vue/shared'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
@@ -14,61 +14,73 @@ const _mount = (
   payload = {},
   type: 'fn-cb' | 'fn-promise' | 'fn-arr' | 'fn-async' | 'arr' = 'fn-cb'
 ) =>
-  mount({
-    setup() {
-      const state = reactive({
-        value: '',
-        list: [
-          { value: 'Java', tag: 'java' },
-          { value: 'Go', tag: 'go' },
-          { value: 'JavaScript', tag: 'javascript' },
-          { value: 'Python', tag: 'python' },
-        ],
-        payload,
-      })
+  mount(
+    defineComponent({
+      setup(_, { expose }) {
+        const state = reactive({
+          value: '',
+          list: [
+            { value: 'Java', tag: 'java' },
+            { value: 'Go', tag: 'go' },
+            { value: 'JavaScript', tag: 'javascript' },
+            { value: 'Python', tag: 'python' },
+          ],
+          payload,
+        })
 
-      function filterList(queryString: string) {
-        return queryString
-          ? state.list.filter(
-              (i) => i.value.indexOf(queryString.toLowerCase()) === 0
-            )
-          : state.list
-      }
-
-      const querySearch = (() => {
-        switch (type) {
-          case 'fn-cb':
-            return (
-              queryString: string,
-              cb: (arg: typeof state.list) => void
-            ) => {
-              cb(filterList(queryString))
-            }
-          case 'fn-promise':
-            return (queryString: string) =>
-              Promise.resolve(filterList(queryString))
-          case 'fn-async':
-            return async (queryString: string) => {
-              await Promise.resolve()
-              return filterList(queryString)
-            }
-          case 'fn-arr':
-            return (queryString: string) => filterList(queryString)
-          case 'arr':
-            return state.list
+        function filterList(queryString: string) {
+          return queryString
+            ? state.list.filter(
+                (i) => i.value.indexOf(queryString.toLowerCase()) === 0
+              )
+            : state.list
         }
-      })()
 
-      return () => (
-        <Autocomplete
-          ref="autocomplete"
-          v-model={state.value}
-          fetch-suggestions={querySearch}
-          {...state.payload}
-        />
-      )
-    },
-  })
+        const querySearch = (() => {
+          switch (type) {
+            case 'fn-cb':
+              return (
+                queryString: string,
+                cb: (arg: typeof state.list) => void
+              ) => {
+                cb(filterList(queryString))
+              }
+            case 'fn-promise':
+              return (queryString: string) =>
+                Promise.resolve(filterList(queryString))
+            case 'fn-async':
+              return async (queryString: string) => {
+                await Promise.resolve()
+                return filterList(queryString)
+              }
+            case 'fn-arr':
+              return (queryString: string) => filterList(queryString)
+            case 'arr':
+              return state.list
+          }
+        })()
+        const containerExposes = usePopperContainerId()
+
+        expose(containerExposes)
+
+        return () => (
+          <Autocomplete
+            ref="autocomplete"
+            v-model={state.value}
+            fetch-suggestions={querySearch}
+            {...state.payload}
+          />
+        )
+      },
+    }),
+    {
+      global: {
+        provide: {
+          namespace: 'el',
+        },
+      },
+    }
+  )
 
 describe('Autocomplete.vue', () => {
   beforeEach(() => {
@@ -318,24 +330,22 @@ describe('Autocomplete.vue', () => {
   describe('teleported API', () => {
     it('should mount on popper container', async () => {
       expect(document.body.innerHTML).toBe('')
-      _mount()
+      const { vm } = _mount()
 
       await nextTick()
-      const { selector } = usePopperContainerId()
-      expect(document.body.querySelector(selector.value)?.innerHTML).not.toBe(
-        ''
-      )
+      const { selector } = vm
+      expect(document.body.querySelector(selector)?.innerHTML).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
       expect(document.body.innerHTML).toBe('')
-      _mount({
+      const { vm } = _mount({
         teleported: false,
       })
 
       await nextTick()
-      const { selector } = usePopperContainerId()
-      expect(document.body.querySelector(selector.value)?.innerHTML).toBe('')
+      const { selector } = vm
+      expect(document.body.querySelector(selector)?.innerHTML).toBe('')
     })
   })
 
