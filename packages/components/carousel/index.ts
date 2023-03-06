@@ -12,5 +12,6 @@ export const ElCarouselItem = withNoopInstall(CarouselItem)
 
 export * from './src/carousel'
 export * from './src/carousel-item'
+export * from './src/constants'
 
 export type { CarouselInstance, CarouselItemInstance } from './src/instance'

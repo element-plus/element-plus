@@ -37,11 +37,9 @@ import {
 import { NOOP } from '@vue/shared'
 import { isNil } from 'lodash-unified'
 import ElFocusTrap from '@element-plus/components/focus-trap'
-import {
-  POPPER_CONTENT_INJECTION_KEY,
-  formItemContextKey,
-} from '@element-plus/tokens'
+import { formItemContextKey } from '@element-plus/components/form'
 import { isElement } from '@element-plus/utils'
+import { POPPER_CONTENT_INJECTION_KEY } from './constants'
 import { popperContentEmits, popperContentProps } from './content'
 import {
   usePopperContent,

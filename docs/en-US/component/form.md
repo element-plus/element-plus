@@ -147,7 +147,7 @@ form/accessibility
 
 | Method          | Description                                                        | Type                                                                                                                             |
 | --------------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
-| `validate`      | Validate the whole form. Receives a callback or returns `Promise`. | `(callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<boolean>`                                  |
+| `validate`      | Validate the whole form. Receives a callback or returns `Promise`. | `(callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<boolean>`                               |
 | `validateField` | Validate specified fields.                                         | `(props?: Arrayable<FormItemProp>, callback?: (isValid: boolean, invalidFields?: ValidateFieldsError) => void) => Promise<void>` |
 | `resetFields`   | Reset specified fields and remove validation result.               | `(props?: Arrayable<FormItemProp>) => void`                                                                                      |
 | `scrollToField` | Scroll to the specified fields.                                    | `(prop: FormItemProp) => void`                                                                                                   |
@@ -198,6 +198,12 @@ form/accessibility
 | Name    | Description                     | Type                        | Default |
 | ------- | ------------------------------- | --------------------------- | ------- |
 | trigger | How the validator is triggered. | ^[enum]`'blur' \| 'change'` | —       |
+
+:::tip
+
+If you don't want to trigger the validator based on input events, set the `validate-event` attribute as `false` on the corresponding input type components (`<el-input>`, `<el-radio>`, `<el-select>`, ...).
+
+:::
 
 ### FormItem Slots
 

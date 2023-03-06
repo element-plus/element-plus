@@ -1,13 +1,12 @@
 import { computed, onBeforeMount } from 'vue'
 import { isClient } from '@vueuse/core'
-import { useGlobalConfig } from '../use-global-config'
-import { defaultNamespace } from '../use-namespace'
+import { useGetDerivedNamespace } from '../use-namespace'
 import { useIdInjection } from '../use-id'
 
 let cachedContainer: HTMLElement
 
 export const usePopperContainerId = () => {
-  const namespace = useGlobalConfig('namespace', defaultNamespace)
+  const namespace = useGetDerivedNamespace()
   const idInjection = useIdInjection()
 
   const id = computed(() => {

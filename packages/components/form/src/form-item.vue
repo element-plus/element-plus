@@ -61,19 +61,20 @@ import {
   isFunction,
   isString,
 } from '@element-plus/utils'
-import { formContextKey, formItemContextKey } from '@element-plus/tokens'
-import { useId, useNamespace, useSize } from '@element-plus/hooks'
+import { useId, useNamespace } from '@element-plus/hooks'
+import { useFormSize } from './hooks'
 import { formItemProps } from './form-item'
 import FormLabelWrap from './form-label-wrap'
+import { formContextKey, formItemContextKey } from './constants'
 
 import type { CSSProperties } from 'vue'
 import type { RuleItem } from 'async-validator'
+import type { Arrayable } from '@element-plus/utils'
 import type {
   FormItemContext,
   FormItemRule,
   FormValidateFailure,
-} from '@element-plus/tokens'
-import type { Arrayable } from '@element-plus/utils'
+} from './types'
 import type { FormItemValidateState } from './form-item'
 
 defineOptions({
@@ -85,7 +86,7 @@ const slots = useSlots()
 const formContext = inject(formContextKey, undefined)
 const parentFormItemContext = inject(formItemContextKey, undefined)
 
-const _size = useSize(undefined, { formItem: false })
+const _size = useFormSize(undefined, { formItem: false })
 const ns = useNamespace('form-item')
 
 const labelId = useId().value
