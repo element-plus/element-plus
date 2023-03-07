@@ -247,7 +247,7 @@
             ]"
           >
             <el-option v-if="showNewOption" :value="query" :created="true" />
-            <el-options @update-options="optionList = $event">
+            <el-options @update-options="onOptionsRendered">
               <slot />
             </el-options>
           </el-scrollbar>
@@ -433,7 +433,6 @@ export default defineComponent({
     const { t } = useLocale()
     const states = useSelectStates(props)
     const {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       optionList,
       optionsArray,
       selectSize,
@@ -597,7 +596,12 @@ export default defineComponent({
       return tooltipRef.value?.popperRef?.contentRef
     })
 
+    const onOptionsRendered = (v) => {
+      optionList.value = v
+    }
+
     return {
+      onOptionsRendered,
       tagInMultiLine,
       prefixWidth,
       selectSize,
