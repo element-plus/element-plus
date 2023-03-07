@@ -1,5 +1,15 @@
 ## Changelog
 
+### 2.2.35
+
+_2023-03-07_
+
+#### Bug fixes
+
+- Components [select] console warning (#11868 by @jw-foss)
+- Components [global-config] (#11866 by @jw-foss)
+- Components [overlay] namespace issue (#11881 by @jw-foss)
+
 ### 2.2.34
 
 _2023-03-06_
