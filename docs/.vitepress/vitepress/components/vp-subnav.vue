@@ -20,15 +20,14 @@ const { shouldShow, scrollToTop } = useBackTop()
       @click="$emit('open-menu')"
     />
     <Transition name="shifting">
-      <ElLink
+      <ElButton
         :class="{ 'go-back-top': true, show: shouldShow }"
-        :underline="false"
+        link
         class="height-5"
-        size="small"
         @click.prevent.stop="scrollToTop"
       >
-        {{ 'Back to top' }}
-      </ElLink>
+        Back to top
+      </ElButton>
     </Transition>
   </div>
 </template>
