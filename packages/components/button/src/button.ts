@@ -105,7 +105,7 @@ export const buttonProps = buildProps({
     default: undefined,
   },
   /**
-   * @deprecated custom element tag
+   * @description custom element tag
    */
   tag: {
     type: definePropType<string | Component>([String, Object]),
