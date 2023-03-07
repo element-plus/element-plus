@@ -49,7 +49,10 @@ export const useTooltipContentProps = buildProps({
   /**
    * @description animation name
    */
-  transition: String,
+  transition: {
+    type: String,
+    default: '',
+  },
   /**
    * @description whether tooltip content is teleported, if `true` it will be teleported to where `append-to` sets
    */
