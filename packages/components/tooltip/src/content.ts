@@ -60,9 +60,7 @@ export const useTooltipContentProps = buildProps({
   /**
    * @description whether Tooltip is disabled
    */
-  disabled: {
-    type: Boolean,
-  },
+  disabled: Boolean,
 } as const)
 
 export type ElTooltipContentProps = ExtractPropTypes<
