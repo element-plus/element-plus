@@ -247,7 +247,9 @@
             ]"
           >
             <el-option v-if="showNewOption" :value="query" :created="true" />
-            <slot />
+            <el-options @update-options="optionList = $event">
+              <slot />
+            </el-options>
           </el-scrollbar>
           <template
             v-if="
@@ -296,6 +298,7 @@ import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
+import ElOptions from './options'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -309,6 +312,7 @@ export default defineComponent({
     ElInput,
     ElSelectMenu,
     ElOption,
+    ElOptions,
     ElTag,
     ElScrollbar,
     ElTooltip,
@@ -429,6 +433,7 @@ export default defineComponent({
     const { t } = useLocale()
     const states = useSelectStates(props)
     const {
+      optionList,
       optionsArray,
       selectSize,
       readonly,
