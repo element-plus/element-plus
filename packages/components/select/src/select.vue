@@ -433,6 +433,7 @@ export default defineComponent({
     const { t } = useLocale()
     const states = useSelectStates(props)
     const {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       optionList,
       optionsArray,
       selectSize,
