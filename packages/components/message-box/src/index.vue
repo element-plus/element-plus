@@ -169,7 +169,6 @@ import {
   useSameTarget,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { useFormSize } from '@element-plus/components/form'
 import { ElOverlay } from '@element-plus/components/overlay'
 import {
   TypeComponents,
