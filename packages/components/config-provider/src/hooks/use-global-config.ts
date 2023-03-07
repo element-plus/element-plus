@@ -45,7 +45,10 @@ export function useGlobalConfig(
 }
 
 // for components like `ElMessage` `ElNotification` `ElMessageBox`.
-export function useGlobalComponentSettings(block: string) {
+export function useGlobalComponentSettings(
+  block: string,
+  sizeFallback?: MaybeRef<ConfigProviderContext['size']>
+) {
   const config = useGlobalConfig()
 
   const ns = useNamespace(
@@ -57,11 +60,13 @@ export function useGlobalComponentSettings(block: string) {
   const zIndex = useZIndex(
     computed(() => config.value?.zIndex || defaultInitialZIndex)
   )
+  const size = computed(() => unref(sizeFallback) || config.value?.size || '')
 
   return {
     ns,
     locale,
     zIndex,
+    size,
   }
 }
 
