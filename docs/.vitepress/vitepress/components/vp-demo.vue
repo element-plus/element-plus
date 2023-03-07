@@ -95,7 +95,7 @@ const copyCode = async () => {
             :size="16"
             :aria-label="locale['edit-in-editor']"
             tabindex="0"
-            role="button"
+            role="link"
             class="op-btn"
             @click="onPlaygroundClick"
             @keydown.prevent.enter="onPlaygroundClick"

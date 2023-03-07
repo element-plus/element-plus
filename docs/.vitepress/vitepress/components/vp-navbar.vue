@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { inBrowser, useData } from 'vitepress'
-import { useLang } from '../composables/lang'
 
-import navbarLocale from '../../i18n/component/navbar.json'
 import VPNavbarSearch from './navbar/vp-search.vue'
 import VPNavbarMenu from './navbar/vp-menu.vue'
 import VPNavbarThemeToggler from './navbar/vp-theme-toggler.vue'
@@ -18,9 +16,7 @@ defineProps<{
 defineEmits(['toggle'])
 
 const { theme, page } = useData()
-const lang = useLang()
 
-const locale = computed<Record<string, string>>(() => navbarLocale[lang.value])
 const currentLink = computed(() => {
   if (!inBrowser) {
     return `/${page.value?.frontmatter?.lang || ''}/`
@@ -48,15 +44,11 @@ const currentLink = computed(() => {
       <div class="content">
         <VPNavbarSearch class="search" :options="theme.agolia" multilang />
         <VPNavbarMenu class="menu" />
-        <VPNavbarThemeToggler
-          :aria-label="locale['theme-toggler']"
-          class="theme-toggler"
-        />
+        <VPNavbarThemeToggler class="theme-toggler" />
         <VPNavbarTranslation class="translation" />
         <VPNavbarSocialLinks class="social-links" />
         <VPNavbarHamburger
           :active="fullScreen"
-          :aria-label="locale['mobile-nav']"
           class="hamburger"
           @click="$emit('toggle')"
         />
