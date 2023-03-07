@@ -2,6 +2,7 @@ import { buildProps, definePropType } from '@element-plus/utils'
 import { popperContentProps } from '@element-plus/components/popper'
 import { useDelayedToggleProps } from '@element-plus/hooks'
 import type { ExtractPropTypes } from 'vue'
+import type TooltipContent from './content.vue'
 
 export const useTooltipContentProps = buildProps({
   ...useDelayedToggleProps,
@@ -48,10 +49,7 @@ export const useTooltipContentProps = buildProps({
   /**
    * @description animation name
    */
-  transition: {
-    type: String,
-    default: '',
-  },
+  transition: String,
   /**
    * @description whether tooltip content is teleported, if `true` it will be teleported to where `append-to` sets
    */
@@ -68,3 +66,5 @@ export const useTooltipContentProps = buildProps({
 export type ElTooltipContentProps = ExtractPropTypes<
   typeof useTooltipContentProps
 >
+
+export type TooltipContentInstance = InstanceType<typeof TooltipContent>
