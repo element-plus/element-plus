@@ -6,6 +6,21 @@ export default defineComponent({
   name: 'ElOptions',
   emits: ['update-options'],
   setup(_, { slots, emit }) {
+    let oldOptions: any[] = []
+
+    function isSameOptions(a: any[], b: any[]) {
+      if (a.length === b.length) {
+        for (const [index] of a.entries()) {
+          if (a[index] != b[index]) {
+            return false
+          }
+        }
+      } else {
+        return false
+      }
+      return true
+    }
+
     return () => {
       const children = slots.default?.()!
 
@@ -19,7 +34,10 @@ export default defineComponent({
             )
             .map((item: VNode) => item.props?.label)
 
-          emit('update-options', filteredOptions)
+          if (!isSameOptions(filteredOptions, oldOptions)) {
+            oldOptions = filteredOptions
+            emit('update-options', filteredOptions)
+          }
         }
       }
 
