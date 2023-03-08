@@ -6,17 +6,14 @@ export default defineComponent({
   name: 'ElOptions',
   emits: ['update-options'],
   setup(_, { slots, emit }) {
-    let oldOptions: any[] = []
+    let cachedOptions: any[] = []
 
     function isSameOptions(a: any[], b: any[]) {
-      if (a.length === b.length) {
-        for (const [index] of a.entries()) {
-          if (a[index] != b[index]) {
-            return false
-          }
+      if (a.length !== b.length) return false
+      for (const [index] of a.entries()) {
+        if (a[index] != b[index]) {
+          return false
         }
-      } else {
-        return false
       }
       return true
     }
@@ -34,8 +31,8 @@ export default defineComponent({
             )
             .map((item: VNode) => item.props?.label)
 
-          if (!isSameOptions(filteredOptions, oldOptions)) {
-            oldOptions = filteredOptions
+          if (!isSameOptions(filteredOptions, cachedOptions)) {
+            cachedOptions = filteredOptions
             emit('update-options', filteredOptions)
           }
         }
