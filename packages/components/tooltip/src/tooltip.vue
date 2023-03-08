@@ -81,10 +81,8 @@ const emit = defineEmits(tooltipEmits)
 usePopperContainer()
 
 const id = useId()
-// TODO any is temporary, replace with `InstanceType<typeof ElPopper> | null` later
-const popperRef = ref<any>()
-// TODO any is temporary, replace with `InstanceType<typeof ElTooltipContent> | null` later
-const contentRef = ref<any>()
+const popperRef = ref<InstanceType<typeof ElPopper> | null>()
+const contentRef = ref<InstanceType<typeof ElTooltipContent> | null>()
 
 const updatePopper = () => {
   const popperComponent = unref(popperRef)
