@@ -277,6 +277,7 @@
           }
         }
       } @else {
+        gap: 8px;
         > :first-child {
           margin-left: 8px;
         }
@@ -291,7 +292,6 @@
     justify-content: center;
     align-items: center;
     transition: all getCssVar('transition-duration');
-    margin-left: 8px;
   }
 
   @include e(validateIcon) {
