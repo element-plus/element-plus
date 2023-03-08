@@ -22,7 +22,13 @@ export default defineComponent({
       const children = slots.default?.()!
 
       if (children.length) {
-        const options = (children![0]?.children as VNode[])?.[0]?.children || []
+        const firstChild = (children![0]?.children as VNode[]) || []
+        // only get `Option Group / Option` children
+        const firstFilteredChild = firstChild.find((child) => {
+          const name = ((child?.type || {}) as Component)?.name || ''
+          return ['ElOption', 'ElOptionGroup'].includes(name)
+        })
+        const options = firstFilteredChild?.children || []
         if (options && options.length) {
           const filteredOptions = (options as VNode[])
             .filter(
