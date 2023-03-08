@@ -71,7 +71,7 @@ import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
 import type { PopperInstance } from '@element-plus/components/popper'
-import type { TooltipContentInstance } from './content'
+// import type { TooltipContentInstance } from './content'
 
 defineOptions({
   name: 'ElTooltip',
@@ -83,8 +83,8 @@ const emit = defineEmits(tooltipEmits)
 usePopperContainer()
 
 const id = useId()
-const popperRef = ref<PopperInstance | null>()
-const contentRef = ref<TooltipContentInstance | null>()
+const popperRef = ref<PopperInstance>()
+const contentRef = ref<any>()
 
 const updatePopper = () => {
   const popperComponent = unref(popperRef)
