@@ -1,5 +1,5 @@
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { useFormSizeProp } from '@element-plus/components/form'
+import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, definePropType, isArray } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
@@ -31,7 +31,7 @@ export const checkboxGroupProps = buildProps({
   /**
    * @description size of checkbox
    */
-  size: useFormSizeProp,
+  size: useSizeProp,
   /**
    * @description label for screen reader
    */

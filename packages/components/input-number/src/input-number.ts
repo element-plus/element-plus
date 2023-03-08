@@ -1,5 +1,5 @@
 import { isNil } from 'lodash-unified'
-import { useFormSizeProp } from '@element-plus/components/form'
+import { useSizeProp } from '@element-plus/hooks'
 import { buildProps, isNumber } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -57,7 +57,7 @@ export const inputNumberProps = buildProps({
   /**
    * @description size of the component
    */
-  size: useFormSizeProp,
+  size: useSizeProp,
   /**
    * @description whether to enable the control buttons
    */

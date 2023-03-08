@@ -1,6 +1,6 @@
 import { buildProps, definePropType } from '@element-plus/utils'
 import { CircleClose, Clock } from '@element-plus/icons-vue'
-import { useFormSizeProp } from '@element-plus/components/form'
+import { useSizeProp } from '@element-plus/hooks'
 import type TimeSelect from './time-select.vue'
 import type { Component, ExtractPropTypes, PropType } from 'vue'
 
@@ -23,7 +23,7 @@ export const timeSelectProps = buildProps({
     type: Boolean,
     default: true,
   },
-  size: useFormSizeProp,
+  size: useSizeProp,
   placeholder: String,
   start: {
     type: String,

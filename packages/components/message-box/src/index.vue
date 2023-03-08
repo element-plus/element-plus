@@ -5,6 +5,7 @@
       :z-index="zIndex"
       :overlay-class="[ns.is('message-box'), modalClass]"
       :mask="modal"
+      is-global
     >
       <div
         role="dialog"
@@ -164,15 +165,11 @@ import { TrapFocus } from '@element-plus/directives'
 import {
   useDraggable,
   useId,
-  useLocale,
   useLockscreen,
-  useNamespace,
   useRestoreActive,
   useSameTarget,
-  useZIndex,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
-import { useFormSize } from '@element-plus/components/form'
 import { ElOverlay } from '@element-plus/components/overlay'
 import {
   TypeComponents,
@@ -181,8 +178,9 @@ import {
 } from '@element-plus/utils'
 import { ElIcon } from '@element-plus/components/icon'
 import ElFocusTrap from '@element-plus/components/focus-trap'
+import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
-import type { ComponentPublicInstance, PropType } from 'vue'
+import type { ComponentPublicInstance, DefineComponent, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type {
   Action,
@@ -251,10 +249,20 @@ export default defineComponent({
   emits: ['vanish', 'action'],
   setup(props, { emit }) {
     // const popup = usePopup(props, doClose)
-    const { t } = useLocale()
-    const ns = useNamespace('message-box')
+    const {
+      locale,
+      zIndex,
+      ns,
+      size: btnSize,
+    } = useGlobalComponentSettings(
+      'message-box',
+      computed(() => props.buttonSize)
+    )
+
+    const { t } = locale
+    const { nextZIndex } = zIndex
+
     const visible = ref(false)
-    const { nextZIndex } = useZIndex()
     // s represents state
     const state = reactive<MessageBoxState>({
       // autofocus element when open message-box
@@ -303,11 +311,6 @@ export default defineComponent({
 
     const contentId = useId()
     const inputId = useId()
-
-    const btnSize = useFormSize(
-      computed(() => props.buttonSize),
-      { prop: true, form: true, formItem: true }
-    )
 
     const iconComponent = computed(
       () => state.icon || TypeComponentsMap[state.type] || ''
@@ -469,7 +472,7 @@ export default defineComponent({
 
     // locks the screen to prevent scroll
     if (props.lockScroll) {
-      useLockscreen(visible)
+      useLockscreen(visible, { ns })
     }
 
     // restore to prev active element.
@@ -501,5 +504,5 @@ export default defineComponent({
       t,
     }
   },
-})
+}) as DefineComponent
 </script>

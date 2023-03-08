@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useFormSizeProp } from '@element-plus/components/form'
+import { useSizeProp } from '@element-plus/hooks'
 import type {
   CSSProperties,
   ComponentInternalInstance,
@@ -183,7 +183,7 @@ export default {
     type: Array as PropType<DefaultRow[]>,
     default: () => [],
   },
-  size: useFormSizeProp,
+  size: useSizeProp,
   width: [String, Number],
   height: [String, Number],
   maxHeight: [String, Number],
