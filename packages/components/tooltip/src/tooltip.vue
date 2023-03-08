@@ -71,7 +71,8 @@ import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
 import type { PopperInstance } from '@element-plus/components/popper'
-import type { TooltipContentInstance } from './content'
+
+type TooltipContentInstance = InstanceType<typeof ElTooltipContent>
 
 defineOptions({
   name: 'ElTooltip',
