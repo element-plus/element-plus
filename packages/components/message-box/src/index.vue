@@ -5,7 +5,6 @@
       :z-index="zIndex"
       :overlay-class="[ns.is('message-box'), modalClass]"
       :mask="modal"
-      is-global
     >
       <div
         role="dialog"
