@@ -25,9 +25,6 @@ export const overlayProps = buildProps({
   zIndex: {
     type: definePropType<ZIndexProperty>([String, Number]),
   },
-  isGlobal: {
-    type: Boolean,
-  },
 } as const)
 export type OverlayProps = ExtractPropTypes<typeof overlayProps>
 
@@ -47,9 +44,7 @@ export default defineComponent({
   setup(props, { slots, emit }) {
     // No reactivity on this prop because when its rendering with a global
     // component, this will be a constant flag.
-    const ns = props.isGlobal
-      ? useGlobalComponentSettings(BLOCK).ns
-      : useNamespace(BLOCK)
+    const ns = useNamespace(BLOCK)
 
     const onMaskClick = (e: MouseEvent) => {
       emit('click', e)
