@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { isString } from '@element-plus/utils'
+import { isFunction, isString } from '@element-plus/utils'
 import type { Component, VNode, VNodeNormalizedChildren } from 'vue'
 
 export default defineComponent({
@@ -31,8 +31,8 @@ export default defineComponent({
             filterOptions(
               !isString(item.children) &&
                 !Array.isArray(item.children) &&
-                typeof item.children?.default === 'function'
-                ? item.children.default()
+                isFunction(item.children?.default)
+                ? item.children?.default()
                 : item.children
             )
           } else if (name === 'ElOption') {
