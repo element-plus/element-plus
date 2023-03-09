@@ -89,6 +89,7 @@ const copyCode = async () => {
         <ElTooltip
           :content="locale['edit-in-editor']"
           :show-arrow="false"
+          :trigger="['hover', 'focus']"
           :trigger-keys="[]"
         >
           <ElIcon
@@ -107,6 +108,7 @@ const copyCode = async () => {
         <ElTooltip
           :content="locale['edit-on-github']"
           :show-arrow="false"
+          :trigger="['hover', 'focus']"
           :trigger-keys="[]"
         >
           <ElIcon
@@ -127,6 +129,7 @@ const copyCode = async () => {
         <ElTooltip
           :content="locale['copy-code']"
           :show-arrow="false"
+          :trigger="['hover', 'focus']"
           :trigger-keys="[]"
         >
           <ElIcon
@@ -145,6 +148,7 @@ const copyCode = async () => {
         <ElTooltip
           :content="locale['view-source']"
           :show-arrow="false"
+          :trigger="['hover', 'focus']"
           :trigger-keys="[]"
         >
           <button

@@ -9,6 +9,7 @@ import { useToggleWidgets } from '../composables/toggle-widgets'
 import { useLang } from '../composables/lang'
 import { breakpoints } from '../constant'
 import VPOverlay from './vp-overlay.vue'
+import VPSkipLink from './vp-skip-link.vue'
 import VPNav from './vp-nav.vue'
 import VPSubNav from './vp-subnav.vue'
 import VPSidebar from './vp-sidebar.vue'
@@ -115,6 +116,7 @@ onMounted(async () => {
 
 <template>
   <div class="App">
+    <VPSkipLink />
     <VPOverlay
       class="overlay"
       :show="isSidebarOpen"
