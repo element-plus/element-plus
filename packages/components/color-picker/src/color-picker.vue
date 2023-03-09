@@ -331,5 +331,9 @@ defineExpose({
    * @description current color object
    */
   color,
+  /**
+   * @description manually toggle ColorPicker
+   */
+  handleTrigger,
 })
 </script>
