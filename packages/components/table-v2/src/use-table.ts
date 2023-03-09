@@ -60,8 +60,6 @@ function useTable(props: TableV2Props) {
     mainTableRef,
     leftTableRef,
     rightTableRef,
-
-    onMaybeEndReached,
   })
 
   const { data, depthMap } = useData(props, {
