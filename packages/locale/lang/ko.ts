@@ -90,6 +90,12 @@ export default {
       pagesize: '건/페이지',
       total: '총 {total} 건',
       pageClassifier: '페이지로',
+      page: 'Page', // to be translated
+      prev: 'Go to previous page', // to be translated
+      next: 'Go to next page', // to be translated
+      currentPage: 'page {pager}', // to be translated
+      prevPages: 'Previous {pager} pages', // to be translated
+      nextPages: 'Next {pager} pages', // to be translated
       deprecationWarning:
         '더 이상 사용되지 않는 동작이 감지되었습니다. 자세한 내용은 el-pagination 문서를 참조하세요.',
     },
