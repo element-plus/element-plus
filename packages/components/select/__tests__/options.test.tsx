@@ -1,9 +1,10 @@
-import { Fragment, defineComponent, nextTick } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it, test, vi } from 'vitest'
+import { flatten } from 'lodash-unified'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import Options from '../src/options'
 
-import type { Component } from 'vue'
+import type { VueWrapper } from '@vue/test-utils'
 
 describe('options', () => {
   let wrapper: ReturnType<typeof mount>
@@ -17,17 +18,32 @@ describe('options', () => {
     template: '<div></div>',
   })
 
-  const getLabel = (i: number) => `label-${i}`
+  const getLabel = (i: number | string) => `label-${i}`
 
   const ElOptionGroupStub = defineComponent({
     name: 'ElOptionGroup',
     template: '<div><slot /></div>',
   })
 
-  const createWrapper = (Children: () => JSX.Element[]) => {
-    wrapper = mount(() => (
-      <Options onUpdate-options={onOptionsChange}>{Children()}</Options>
-    ))
+  const samples = Array.from({ length: 3 })
+
+  const createWrapper = (slots = {}) => {
+    wrapper = mount(
+      (_, { slots }) => (
+        <Options onUpdate-options={onOptionsChange}>
+          {slots?.default?.()}
+        </Options>
+      ),
+      {
+        global: {
+          components: {
+            ElOption: ElOptionStub,
+            ElOptionGroup: ElOptionGroupStub,
+          },
+        },
+        slots,
+      }
+    ) as VueWrapper<any>
   }
 
   afterEach(() => {
@@ -36,17 +52,40 @@ describe('options', () => {
   })
 
   it('renders emit correct options', async () => {
-    const samples = Array.from({ length: 3 })
-    createWrapper(() =>
-      Array.from({ length: 3 }).map((_, i) => (
-        <ElOptionStub label={getLabel(i)} key={i} />
-      ))
-    )
+    createWrapper({
+      default: () =>
+        samples.map((_, i) => <ElOptionStub label={getLabel(i)} />),
+    })
 
     await nextTick()
 
     expect(onOptionsChange).toHaveBeenCalledWith(
       ...[...[samples.map((_, i) => getLabel(i))]]
+    )
+  })
+
+  it('renders emit correct options with option group', async () => {
+    createWrapper({
+      default: () =>
+        samples.map((_, i) => (
+          <ElOptionGroupStub label={getLabel(i)}>
+            {{
+              default: () =>
+                samples.map((_, j) => (
+                  <ElOptionStub
+                    label={getLabel(`${i}-${j}`)}
+                    value={j}
+                  ></ElOptionStub>
+                )),
+            }}
+          </ElOptionGroupStub>
+        )),
+    })
+
+    expect(onOptionsChange).toHaveBeenCalledWith(
+      flatten(
+        samples.map((_, i) => samples.map((_, j) => getLabel(`${i}-${j}`)))
+      )
     )
   })
 })
