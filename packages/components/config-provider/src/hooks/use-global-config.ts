@@ -1,10 +1,21 @@
 import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
-import { configProviderContextKey } from '@element-plus/tokens'
 import { debugWarn, keysOf } from '@element-plus/utils'
+import {
+  SIZE_INJECTION_KEY,
+  defaultInitialZIndex,
+  defaultNamespace,
+  localeContextKey,
+  namespaceContextKey,
+  useLocale,
+  useNamespace,
+  useZIndex,
+  zIndexContextKey,
+} from '@element-plus/hooks'
+import { configProviderContextKey } from '../constants'
 
 import type { MaybeRef } from '@vueuse/core'
 import type { App, Ref } from 'vue'
-import type { ConfigProviderContext } from '@element-plus/tokens'
+import type { ConfigProviderContext } from '../constants'
 
 // this is meant to fix global methods like `ElMessage(opts)`, this way we can inject current locale
 // into the component as default injection value.
@@ -33,6 +44,33 @@ export function useGlobalConfig(
   }
 }
 
+// for components like `ElMessage` `ElNotification` `ElMessageBox`.
+export function useGlobalComponentSettings(
+  block: string,
+  sizeFallback?: MaybeRef<ConfigProviderContext['size']>
+) {
+  const config = useGlobalConfig()
+
+  const ns = useNamespace(
+    block,
+    computed(() => config.value?.namespace || defaultNamespace)
+  )
+
+  const locale = useLocale(computed(() => config.value?.locale))
+  const zIndex = useZIndex(
+    computed(() => config.value?.zIndex || defaultInitialZIndex)
+  )
+  const size = computed(() => unref(sizeFallback) || config.value?.size || '')
+  provideGlobalConfig(computed(() => unref(config) || {}))
+
+  return {
+    ns,
+    locale,
+    zIndex,
+    size,
+  }
+}
+
 export const provideGlobalConfig = (
   config: MaybeRef<ConfigProviderContext>,
   app?: App,
@@ -56,6 +94,23 @@ export const provideGlobalConfig = (
     return mergeConfig(oldConfig.value, cfg)
   })
   provideFn(configProviderContextKey, context)
+  provideFn(
+    localeContextKey,
+    computed(() => context.value.locale)
+  )
+  provideFn(
+    namespaceContextKey,
+    computed(() => context.value.namespace)
+  )
+  provideFn(
+    zIndexContextKey,
+    computed(() => context.value.zIndex)
+  )
+
+  provideFn(SIZE_INJECTION_KEY, {
+    size: computed(() => context.value.size || ''),
+  })
+
   if (global || !globalConfig.value) {
     globalConfig.value = context.value
   }

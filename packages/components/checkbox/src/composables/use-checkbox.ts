@@ -1,4 +1,4 @@
-import { useFormItem, useFormItemInputId } from '@element-plus/hooks'
+import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
 import { isArray } from '@element-plus/utils'
 import { useCheckboxDisabled } from './use-checkbox-disabled'
 import { useCheckboxEvent } from './use-checkbox-event'

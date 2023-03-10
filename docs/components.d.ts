@@ -94,6 +94,7 @@ declare module '@vue/runtime-core' {
     VpSearch: typeof import('./.vitepress/vitepress/components/navbar/vp-search.vue')['default']
     VpSidebar: typeof import('./.vitepress/vitepress/components/vp-sidebar.vue')['default']
     VpSidebarLink: typeof import('./.vitepress/vitepress/components/sidebar/vp-sidebar-link.vue')['default']
+    VpSkipLink: typeof import('./.vitepress/vitepress/components/vp-skip-link.vue')['default']
     VpSocialLink: typeof import('./.vitepress/vitepress/components/navbar/vp-social-link.vue')['default']
     VpSocialLinks: typeof import('./.vitepress/vitepress/components/navbar/vp-social-links.vue')['default']
     VpSourceCode: typeof import('./.vitepress/vitepress/components/demo/vp-source-code.vue')['default']
