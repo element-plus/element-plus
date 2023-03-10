@@ -8,36 +8,28 @@
     :always="always"
   />
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { GAP } from './util'
 import Thumb from './thumb.vue'
 import { barProps } from './bar'
 
-export default defineComponent({
-  components: {
-    Thumb,
-  },
-  props: barProps,
-  setup(props) {
-    const moveX = ref(0)
-    const moveY = ref(0)
-    const GAP = 4 // top 2 + bottom 2 of bar instance
+const props = defineProps(barProps)
 
-    const handleScroll = (wrap: HTMLDivElement) => {
-      if (wrap) {
-        const offsetHeight = wrap.offsetHeight - GAP
-        const offsetWidth = wrap.offsetWidth - GAP
+const moveX = ref(0)
+const moveY = ref(0)
 
-        moveY.value = ((wrap.scrollTop * 100) / offsetHeight) * props.ratioY
-        moveX.value = ((wrap.scrollLeft * 100) / offsetWidth) * props.ratioX
-      }
-    }
+const handleScroll = (wrap: HTMLDivElement) => {
+  if (wrap) {
+    const offsetHeight = wrap.offsetHeight - GAP
+    const offsetWidth = wrap.offsetWidth - GAP
 
-    return {
-      handleScroll,
-      moveX,
-      moveY,
-    }
-  },
+    moveY.value = ((wrap.scrollTop * 100) / offsetHeight) * props.ratioY
+    moveX.value = ((wrap.scrollLeft * 100) / offsetWidth) * props.ratioX
+  }
+}
+
+defineExpose({
+  handleScroll,
 })
 </script>

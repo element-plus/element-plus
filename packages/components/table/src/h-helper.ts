@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { h } from 'vue'
 export function hColgroup(props) {
   const isAuto = props.tableLayout === 'auto'

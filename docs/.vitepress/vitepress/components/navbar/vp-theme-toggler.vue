@@ -1,11 +1,18 @@
 <script setup lang="ts">
-import { toggleDark } from '../../composables/dark'
+import { isDark, toggleDark } from '../../composables/dark'
+import { useNavbarLocale } from '../../composables/navbar-locale'
 import CommonThemeToggler from '../common/vp-theme-toggler.vue'
+
+const locale = useNavbarLocale()
 </script>
 
 <template>
   <div class="theme-toggler-content">
-    <CommonThemeToggler @click="toggleDark()" />
+    <CommonThemeToggler
+      :aria-label="locale['theme-toggler']"
+      :aria-checked="isDark"
+      @click="() => toggleDark()"
+    />
   </div>
 </template>
 
@@ -13,13 +20,15 @@ import CommonThemeToggler from '../common/vp-theme-toggler.vue'
 @use '../../styles/mixins' as *;
 .theme-toggler-content {
   @include with-bg;
+  background-color: transparent;
   display: none;
   border-radius: 50%;
-  height: 20px;
-  padding: 0 8px;
+  height: 24px;
+  padding: 0 12px;
 
   @include respond-to('md') {
-    display: block;
+    display: flex;
+    align-items: center;
   }
 }
 </style>

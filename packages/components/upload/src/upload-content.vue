@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="[ns.b(), ns.m(listType)]"
+    :class="[ns.b(), ns.m(listType), ns.is('drag', drag)]"
     tabindex="0"
     @click="handleClick"
     @keydown.self.enter.space="handleKeydown"
@@ -21,6 +21,7 @@
       :accept="accept"
       type="file"
       @change="handleChange"
+      @click.stop
     />
   </div>
 </template>
@@ -29,23 +30,26 @@
 import { shallowRef } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { entriesOf } from '@element-plus/utils'
+import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
 import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
 
 import type {
-  UploadRequestOptions,
-  UploadRawFile,
   UploadFile,
   UploadHooks,
+  UploadRawFile,
+  UploadRequestOptions,
 } from './upload'
 
 defineOptions({
   name: 'ElUploadContent',
+  inheritAttrs: false,
 })
 
 const props = defineProps(uploadContentProps)
 const ns = useNamespace('upload')
+const disabled = useFormDisabled()
 
 const requests = shallowRef<Record<string, XMLHttpRequest | Promise<unknown>>>(
   {}
@@ -102,12 +106,13 @@ const upload = async (rawFile: UploadRawFile) => {
         type: rawFile.type,
       })
     }
-    for (const key of Object.keys(rawFile)) {
-      file[key] = rawFile[key]
-    }
   }
 
-  doUpload(rawFile)
+  doUpload(
+    Object.assign(file, {
+      uid: rawFile.uid,
+    })
+  )
 }
 
 const doUpload = (rawFile: UploadRawFile) => {
@@ -159,7 +164,7 @@ const handleChange = (e: Event) => {
 }
 
 const handleClick = () => {
-  if (!props.disabled) {
+  if (!disabled.value) {
     inputRef.value!.value = ''
     inputRef.value!.click()
   }

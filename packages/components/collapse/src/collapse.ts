@@ -1,13 +1,12 @@
 import {
   buildProps,
   definePropType,
-  mutable,
   isNumber,
   isString,
+  mutable,
 } from '@element-plus/utils'
-import { UPDATE_MODEL_EVENT, CHANGE_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import type { ExtractPropTypes } from 'vue'
-import type Collapse from './collapse.vue'
 import type { Arrayable } from '@element-plus/utils'
 
 export type CollapseActiveName = string | number
@@ -30,5 +29,3 @@ export const collapseEmits = {
   [CHANGE_EVENT]: emitChangeFn,
 }
 export type CollapseEmits = typeof collapseEmits
-
-export type CollapseInstance = InstanceType<typeof Collapse>

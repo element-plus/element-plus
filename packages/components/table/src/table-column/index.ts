@@ -1,18 +1,19 @@
+// @ts-nocheck
 import {
-  defineComponent,
-  ref,
-  onBeforeMount,
-  onMounted,
+  Fragment,
   computed,
+  defineComponent,
   getCurrentInstance,
   h,
+  onBeforeMount,
   onBeforeUnmount,
-  Fragment,
+  onMounted,
+  ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { isString } from '@element-plus/utils'
 import { cellStarts } from '../config'
-import { mergeOptions, compose } from '../util'
+import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
@@ -54,6 +55,7 @@ export default defineComponent({
       getPropsData,
       getColumnElIndex,
       realAlign,
+      updateColumnOrder,
     } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
 
     const parent = columnOrTableParent.value
@@ -72,8 +74,7 @@ export default defineComponent({
         property: props.prop || props.property,
         align: realAlign,
         headerAlign: realHeaderAlign,
-        showOverflowTooltip:
-          props.showOverflowTooltip || props.showTooltipWhenOverflow,
+        showOverflowTooltip: props.showOverflowTooltip,
         // filter 相关属性
         filterable: props.filters || props.filterMethod,
         filteredValue: [],
@@ -140,14 +141,16 @@ export default defineComponent({
         owner.value.store.commit(
           'insertColumn',
           columnConfig.value,
-          isSubColumn.value ? parent.columnConfig.value : null
+          isSubColumn.value ? parent.columnConfig.value : null,
+          updateColumnOrder
         )
     })
     onBeforeUnmount(() => {
       owner.value.store.commit(
         'removeColumn',
         columnConfig.value,
-        isSubColumn.value ? parent.columnConfig.value : null
+        isSubColumn.value ? parent.columnConfig.value : null,
+        updateColumnOrder
       )
     })
     instance.columnId = columnId.value

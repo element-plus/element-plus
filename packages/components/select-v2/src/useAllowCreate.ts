@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, ref } from 'vue'
 import type { ISelectProps } from './token'
 import type { Option } from './select.types'

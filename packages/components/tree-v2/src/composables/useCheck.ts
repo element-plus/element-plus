@@ -1,11 +1,12 @@
-import { nextTick, ref, watch, getCurrentInstance } from 'vue'
+import { getCurrentInstance, nextTick, ref, watch } from 'vue'
 import {
-  NODE_CHECK_CHANGE,
   NODE_CHECK,
+  NODE_CHECK_CHANGE,
   SetOperationEnum,
 } from '../virtual-tree'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type { Ref } from 'vue'
-import type { TreeProps, TreeKey, TreeNode, Tree, TreeNodeData } from '../types'
+import type { Tree, TreeKey, TreeNode, TreeNodeData, TreeProps } from '../types'
 
 export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   const checkedKeys = ref<Set<TreeKey>>(new Set())
@@ -13,7 +14,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
   const { emit } = getCurrentInstance()!
 
   watch(
-    () => tree.value,
+    [() => tree.value, () => props.defaultCheckedKeys],
     () => {
       return nextTick(() => {
         _setCheckedKeys(props.defaultCheckedKeys)
@@ -78,11 +79,11 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
 
   const toggleCheckbox = (
     node: TreeNode,
-    isChecked: boolean,
+    isChecked: CheckboxValueType,
     nodeClick = true
   ) => {
     const checkedKeySet = checkedKeys.value
-    const toggle = (node: TreeNode, checked: boolean) => {
+    const toggle = (node: TreeNode, checked: CheckboxValueType) => {
       checkedKeySet[checked ? SetOperationEnum.ADD : SetOperationEnum.DELETE](
         node.key
       )
@@ -102,7 +103,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
     }
   }
 
-  const afterNodeCheck = (node: TreeNode, checked: boolean) => {
+  const afterNodeCheck = (node: TreeNode, checked: CheckboxValueType) => {
     const { checkedNodes, checkedKeys } = getChecked()
     const { halfCheckedNodes, halfCheckedKeys } = getHalfChecked()
     emit(NODE_CHECK, node.data, {
@@ -177,6 +178,7 @@ export function useCheck(props: TreeProps, tree: Ref<Tree | undefined>) {
 
   function setCheckedKeys(keys: TreeKey[]) {
     checkedKeys.value.clear()
+    indeterminateKeys.value.clear()
     _setCheckedKeys(keys)
   }
 

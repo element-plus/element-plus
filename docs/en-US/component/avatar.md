@@ -7,9 +7,9 @@ lang: en-US
 
 Avatars can be used to represent people or objects. It supports images, Icons, or characters.
 
-## Basic
+## Basic Usage
 
-use `shape` and `size` prop to set avatar's shape and size
+Use `shape` and `size` prop to set avatar's shape and size.
 
 :::demo
 
@@ -19,7 +19,7 @@ avatar/basic
 
 ## Types
 
-It supports images, Icons, or characters
+It supports images, Icons, or characters.
 
 :::demo
 
@@ -27,9 +27,9 @@ avatar/types
 
 :::
 
-## Fallback when image load error
+## Fallback
 
-fallback when image load error
+fallback when image load error.
 
 :::demo
 
@@ -37,7 +37,7 @@ avatar/fallback
 
 :::
 
-## How the image fit its container
+## Fit Container
 
 Set how the image fit its container for an image avatar, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit).
 
@@ -47,26 +47,28 @@ avatar/fit
 
 :::
 
-## Attributes
+## API
 
-| Attribute | Description                                                                                                            | Type               | Accepted Values                            | Default |
-| --------- | ---------------------------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------ | ------- |
-| icon      | set representation type to Icon, more info on Icon Component                                                           | string / Component |                                            |         |
-| size      | set avatar size                                                                                                        | number / string    | number / large / default /small            | default |
-| shape     | set avatar shape                                                                                                       | string             | circle / square                            | circle  |
-| src       | the address of the image for an image avatar                                                                           | string             |                                            |         |
-| srcSet    | A list of one or more strings separated by commas indicating a set of possible image sources for the user agent to use | string             |                                            |         |
-| alt       | This attribute defines an alternative text description of the image                                                    | string             |                                            |         |
-| fit       | set how the image fit its container for an image avatar                                                                | string             | fill / contain / cover / none / scale-down | cover   |
+### Attributes
 
-## Events
+| Name    | Description                                               | Type                                                              | Default |
+| ------- | --------------------------------------------------------- | ----------------------------------------------------------------- | ------- |
+| icon    | representation type to icon, more info on icon component. | ^[string] / ^[Component]                                          | —       |
+| size    | avatar size.                                              | ^[number] / ^[enum]`'large' \| 'default' \| 'small'`              | default |
+| shape   | avatar shape.                                             | ^[enum]`'circle' \| 'square'`                                     | circle  |
+| src     | the source of the image for an image avatar.              | `string`                                                          | —       |
+| src-set | native attribute `srcset` of image avatar.                | `string`                                                          | —       |
+| alt     | native attribute `alt` of image avatar.                   | `string`                                                          | —       |
+| fit     | set how the image fit its container for an image avatar.  | ^[enum]`'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | cover   |
 
-| Event Name | Description                                                                    | Parameters |
-| ---------- | ------------------------------------------------------------------------------ | ---------- |
-| error      | handler when img load error, return false to prevent default fallback behavior | (e: Event) |
+### Events
 
-## Slots
+| Name  | Description                    | Type                            |
+| ----- | ------------------------------ | ------------------------------- |
+| error | trigger when image load error. | ^[Function]`(e: Event) => void` |
 
-| Name    | Description              |
-| ------- | ------------------------ |
-| default | customize avatar content |
+### Slots
+
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize avatar content. |

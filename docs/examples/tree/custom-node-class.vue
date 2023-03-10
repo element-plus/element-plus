@@ -85,7 +85,7 @@ const data: Tree[] = [
 
 <style>
 .is-penultimate > .el-tree-node__content {
-  color: red;
+  color: #626aef;
 }
 
 .el-tree-node.is-expanded.is-penultimate > .el-tree-node__children {

@@ -30,5 +30,6 @@
   "i18n-ally.enabledParsers": ["ts"],
   "i18n-ally.enabledFrameworks": ["vue", "vue-sfc"],
   "i18n-ally.keystyle": "nested",
-  "iconify.includes": ["ep"]
+  "iconify.includes": ["ep"],
+  "unocss.root": "./docs"
 }

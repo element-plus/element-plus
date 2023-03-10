@@ -19,6 +19,7 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { useOption } from './useOption'

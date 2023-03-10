@@ -18,34 +18,26 @@
     </div>
   </template>
   <template v-else>
-    <slot v-bind="$attrs"></slot>
+    <slot v-bind="$attrs" />
   </template>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
+<script lang="ts" setup>
+import { toRef } from 'vue'
 import { useNamespace, useThrottleRender } from '@element-plus/hooks'
-import SkeletonItem from './skeleton-item.vue'
 import { skeletonProps } from './skeleton'
+import ElSkeletonItem from './skeleton-item.vue'
 
-export default defineComponent({
+defineOptions({
   name: 'ElSkeleton',
-  components: {
-    [SkeletonItem.name]: SkeletonItem,
-  },
-  props: skeletonProps,
-  setup(props) {
-    const ns = useNamespace('skeleton')
-    const innerLoading = computed(() => {
-      return props.loading
-    })
+})
+const props = defineProps(skeletonProps)
 
-    const uiLoading = useThrottleRender(innerLoading, props.throttle)
+const ns = useNamespace('skeleton')
+const uiLoading = useThrottleRender(toRef(props, 'loading'), props.throttle)
 
-    return {
-      ns,
-      uiLoading,
-    }
-  },
+defineExpose({
+  /** @description loading state */
+  uiLoading,
 })
 </script>

@@ -3,19 +3,19 @@
     v-model="query"
     placeholder="Please enter keyword"
     @input="onQueryChanged"
-  ></el-input>
+  />
   <el-tree-v2
     ref="treeRef"
     :data="data"
     :props="props"
     :filter-method="filterMethod"
     :height="208"
-  ></el-tree-v2>
+  />
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { ElTreeV2 } from 'element-plus'
 import type { TreeNode } from 'element-plus/es/components/tree-v2/src/types'
-import type { ElTreeV2 } from 'element-plus'
 
 interface Tree {
   id: string

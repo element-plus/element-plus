@@ -14,43 +14,38 @@
         <p>{{ title }}</p>
       </slot>
     </div>
-    <div v-if="subTitle || $slots.subTitle" :class="ns.e('subtitle')">
-      <slot name="subTitle">
+    <div v-if="subTitle || $slots['sub-title']" :class="ns.e('subtitle')">
+      <slot name="sub-title">
         <p>{{ subTitle }}</p>
       </slot>
     </div>
     <div v-if="$slots.extra" :class="ns.e('extra')">
-      <slot name="extra"></slot>
+      <slot name="extra" />
     </div>
   </div>
 </template>
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { computed } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { resultProps, IconComponentMap, IconMap } from './result'
+import { IconComponentMap, IconMap, resultProps } from './result'
 
-export default defineComponent({
+defineOptions({
   name: 'ElResult',
-  props: resultProps,
-  setup(props) {
-    const ns = useNamespace('result')
+})
 
-    const resultIcon = computed(() => {
-      const icon = props.icon
-      const iconClass = icon && IconMap[icon] ? IconMap[icon] : 'icon-info'
-      const iconComponent =
-        IconComponentMap[iconClass] || IconComponentMap['icon-info']
+const props = defineProps(resultProps)
 
-      return {
-        class: iconClass,
-        component: iconComponent,
-      }
-    })
+const ns = useNamespace('result')
 
-    return {
-      ns,
-      resultIcon,
-    }
-  },
+const resultIcon = computed(() => {
+  const icon = props.icon
+  const iconClass = icon && IconMap[icon] ? IconMap[icon] : 'icon-info'
+  const iconComponent =
+    IconComponentMap[iconClass] || IconComponentMap['icon-info']
+
+  return {
+    class: iconClass,
+    component: iconComponent,
+  }
 })
 </script>

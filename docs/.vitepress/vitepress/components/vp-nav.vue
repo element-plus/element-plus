@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { isClient } from '@vueuse/core'
+
 import { useSidebar } from '../composables/sidebar'
 import { useFullScreen } from '../composables/fullscreen'
 import { useToggleWidgets } from '../composables/toggle-widgets'
@@ -11,6 +13,7 @@ const { toggleFullScreen, isFullScreen } = useFullScreen()
 const close = () => toggleFullScreen(false)
 
 useToggleWidgets(isFullScreen, () => {
+  if (!isClient) return
   if (window.outerWidth >= breakpoints.md) {
     close()
   }

@@ -1,14 +1,14 @@
 <template>
-  <div class="example-block">
-    <span class="example-demonstration">Filterable (Single selection)</span>
+  <div class="m-4">
+    <p>Filterable (Single selection)</p>
     <el-cascader
       placeholder="Try searchingL Guide"
       :options="options"
       filterable
     />
   </div>
-  <div class="example-block">
-    <span class="example-demonstration">Filterable (Multiple selection)</span>
+  <div class="m-4">
+    <p>Filterable (Multiple selection)</p>
     <el-cascader
       placeholder="Try searchingL Guide"
       :options="options"
@@ -292,12 +292,3 @@ const options = [
   },
 ]
 </script>
-
-<style scoped>
-.example-block {
-  margin: 1rem;
-}
-.example-demonstration {
-  margin: 1rem;
-}
-</style>

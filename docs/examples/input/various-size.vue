@@ -5,7 +5,7 @@
       class="w-50 m-2"
       size="large"
       placeholder="Please Input"
-    ></el-input>
+    />
     <el-input v-model="input2" class="w-50 m-2" placeholder="Please Input" />
     <el-input
       v-model="input3"
@@ -21,7 +21,7 @@
       size="large"
       placeholder="Please Input"
       :suffix-icon="Search"
-    ></el-input>
+    />
     <el-input
       v-model="input2"
       class="w-50 m-2"
@@ -43,7 +43,7 @@
       size="large"
       placeholder="Please Input"
       :prefix-icon="Search"
-    ></el-input>
+    />
     <el-input
       v-model="input2"
       class="w-50 m-2"

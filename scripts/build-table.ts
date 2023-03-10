@@ -1,8 +1,6 @@
 import fs from 'fs/promises'
 import path from 'path'
 
-main()
-
 async function main() {
   const threshold = process.env.THRESHOLD || 40
   let output: string
@@ -54,3 +52,5 @@ ${table}
 
   await fs.writeFile(path.resolve(__dirname, '..', 'tmp/diff.md'), output)
 }
+
+main()

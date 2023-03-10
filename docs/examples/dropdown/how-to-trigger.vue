@@ -63,8 +63,8 @@
 <script lang="ts" setup>
 import {
   ArrowDown,
-  CircleCheck,
   Check,
+  CircleCheck,
   CirclePlus,
   CirclePlusFilled,
   Plus,

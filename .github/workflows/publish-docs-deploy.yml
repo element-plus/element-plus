@@ -1,0 +1,91 @@
+name: Publish Docs Deploy
+
+on:
+  workflow_run:
+    workflows: ['Publish to NPM registry']
+    types: [completed]
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Init Crowdin token
+        run: pnpm run docs:crowdin-credentials
+        env:
+          CROWDIN_TOKEN: ${{secrets.CROWDIN_TOKEN}}
+
+      - name: Pull Crowdin translations
+        run: cd docs && pnpm exec crowdin download -l zh-CN && pnpm exec crowdin download -l es-ES
+
+      - name: Generate common locale
+        run: pnpm docs:gen-locale
+
+      - name: Install latest Element Plus
+        run: cd docs && pnpm i element-plus@latest
+
+      - name: Build Metadata
+        run: cd internal/metadata && pnpm build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build website
+        run: pnpm docs:build
+        env:
+          DOC_ENV: production
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.3.4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          folder: docs/.vitepress/dist
+          git-config-name: ElementPlusBot
+          git-config-email: hello@element-plus.org
+          commit-message: website deploy
+
+      - name: Deploy to vercel
+        uses: JamesIves/github-pages-deploy-action@v4.3.4
+        with:
+          token: ${{ secrets.EP_BOT_TOKEN }}
+          branch: main
+          folder: docs/.vitepress/dist
+          repository-name: element-plus/vercel-publish
+          git-config-name: ElementPlusBot
+          git-config-email: hello@element-plus.org
+
+      - name: Sync
+        env:
+          TRIGGERSYNCURL: ${{ secrets.TRIGGERSYNCURL }}
+        run: curl -k "$TRIGGERSYNCURL"

@@ -1,5 +1,6 @@
-import { ref, computed, watch, getCurrentInstance, unref } from 'vue'
-import { walkTreeNode, getRowIdentity } from '../util'
+// @ts-nocheck
+import { computed, getCurrentInstance, ref, unref, watch } from 'vue'
+import { getRowIdentity, walkTreeNode } from '../util'
 
 import type { WatcherPropsData } from '.'
 import type { Table, TableProps } from '../table/defaults'

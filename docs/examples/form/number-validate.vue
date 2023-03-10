@@ -17,7 +17,7 @@
         v-model.number="numberValidateForm.age"
         type="text"
         autocomplete="off"
-      ></el-input>
+      />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(formRef)">Submit</el-button>

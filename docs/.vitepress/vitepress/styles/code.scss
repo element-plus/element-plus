@@ -62,12 +62,23 @@ html.dark {
 
 code {
   margin: 0;
-  border-radius: 3px;
-  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
   font-family: var(--code-font-family);
   font-size: var(--code-font-size);
   color: var(--code-text-color);
+  line-height: var(--code-line-height);
   background-color: var(--code-bg-color);
+}
+
+pre {
+  code {
+    background-color: transparent;
+  }
+}
+
+a > code {
+  color: var(--code-link-color);
 }
 
 code .token.deleted {
@@ -97,7 +108,7 @@ li > div[class*='language-'] {
   }
 
   li > div[class*='language-'] {
-    margin: 1rem 0 1rem 0rem;
+    margin: 1rem 0 1rem 0;
     border-radius: 6px;
   }
 }
@@ -161,7 +172,7 @@ div[class*='language-'].line-numbers-mode {
   bottom: 0;
   left: 0;
   z-index: 3;
-  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  border-right: 1px solid var(--el-overlay-color-lighter);
   padding: 1.25rem 0;
   width: 3.5rem;
   text-align: center;

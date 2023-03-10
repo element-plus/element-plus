@@ -7,9 +7,8 @@
         v-model="value1"
         type="datetime"
         placeholder="Pick a Date"
-        format="YYYY/MM/DD hh:mm:ss"
-      >
-      </el-date-picker>
+        format="YYYY/MM/DD HH:mm:ss"
+      />
     </div>
     <div class="block">
       <span class="demonstration">Use value-format</span>
@@ -20,8 +19,7 @@
         placeholder="Pick a Date"
         format="YYYY/MM/DD hh:mm:ss"
         value-format="YYYY-MM-DD h:m:s a"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">Timestamp</span>
@@ -32,8 +30,7 @@
         placeholder="Pick a Date"
         format="YYYY/MM/DD hh:mm:ss"
         value-format="x"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>
@@ -55,7 +52,7 @@ const value3 = ref('')
 .demo-datetime-picker .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
+  border-right: solid 1px var(--el-border-color);
   flex: 1;
 }
 .demo-datetime-picker .block:last-child {

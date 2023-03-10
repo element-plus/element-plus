@@ -9,14 +9,10 @@
       @remove="handleRemove"
     >
       <template v-if="$slots.file" #default="{ file }">
-        <slot name="file" :file="file"></slot>
+        <slot name="file" :file="file" />
       </template>
       <template #append>
-        <upload-content
-          v-if="listType === 'picture-card'"
-          ref="uploadRef"
-          v-bind="uploadContentProps"
-        >
+        <upload-content ref="uploadRef" v-bind="uploadContentProps">
           <slot v-if="slots.trigger" name="trigger" />
           <slot v-if="!slots.trigger && slots.default" />
         </upload-content>
@@ -24,7 +20,7 @@
     </upload-list>
 
     <upload-content
-      v-if="listType !== 'picture-card'"
+      v-if="!isPictureCard || (isPictureCard && !showFileList)"
       ref="uploadRef"
       v-bind="uploadContentProps"
     >
@@ -52,19 +48,19 @@
 <script lang="ts" setup>
 import {
   computed,
-  provide,
   onBeforeUnmount,
-  toRef,
+  provide,
   shallowRef,
+  toRef,
   useSlots,
 } from 'vue'
-import { uploadContextKey } from '@element-plus/tokens'
-import { useDisabled } from '@element-plus/hooks'
-
+import { useFormDisabled } from '@element-plus/components/form'
+import { uploadContextKey } from './constants'
 import UploadList from './upload-list.vue'
 import UploadContent from './upload-content.vue'
 import { useHandlers } from './use-handlers'
-import { uploadProps, type UploadFiles } from './upload'
+import { uploadProps } from './upload'
+
 import type {
   UploadContentInstance,
   UploadContentProps,
@@ -75,7 +71,9 @@ defineOptions({
 })
 
 const props = defineProps(uploadProps)
-const disabled = useDisabled()
+
+const slots = useSlots()
+const disabled = useFormDisabled()
 
 const uploadRef = shallowRef<UploadContentInstance>()
 const {
@@ -91,6 +89,16 @@ const {
 } = useHandlers(props, uploadRef)
 
 const isPictureCard = computed(() => props.listType === 'picture-card')
+
+const uploadContentProps = computed<UploadContentProps>(() => ({
+  ...props,
+  fileList: uploadFiles.value,
+  onStart: handleStart,
+  onProgress: handleProgress,
+  onSuccess: handleSuccess,
+  onError: handleError,
+  onRemove: handleRemove,
+}))
 
 onBeforeUnmount(() => {
   uploadFiles.value.forEach(({ url }) => {
@@ -114,34 +122,4 @@ defineExpose({
   /** @description remove the file manually */
   handleRemove,
 })
-
-const slots = useSlots()
-
-// did not use `defineComponent` for performance
-const uploadContentProps = computed<UploadContentProps>(() => ({
-  type: props.type,
-  drag: props.drag,
-  action: props.action,
-  multiple: props.multiple,
-  withCredentials: props.withCredentials,
-  headers: props.headers,
-  method: props.method,
-  name: props.name,
-  data: props.data,
-  accept: props.accept,
-  autoUpload: props.autoUpload,
-  listType: props.listType,
-  disabled: props.disabled,
-  limit: props.limit,
-  fileList: props.fileList as UploadFiles,
-  showFileList: props.showFileList,
-  httpRequest: props.httpRequest,
-  beforeUpload: props.beforeUpload,
-  onExceed: props.onExceed,
-  onStart: handleStart,
-  onProgress: handleProgress,
-  onSuccess: handleSuccess,
-  onError: handleError,
-  onRemove: handleRemove,
-}))
 </script>

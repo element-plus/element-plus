@@ -1,5 +1,7 @@
-import type { PropType, ComponentInternalInstance, Ref, VNode } from 'vue'
+// @ts-nocheck
+import type { ComponentInternalInstance, PropType, Ref, VNode } from 'vue'
 import type { DefaultRow, Table } from '../table/defaults'
+import type { TableOverflowTooltipOptions } from '../util'
 
 type CI<T> = { column: TableColumnCtx<T>; $index: number }
 
@@ -32,8 +34,7 @@ interface TableColumnCtx<T> {
   rawColumnKey: string
   align: string
   headerAlign: string
-  showTooltipWhenOverflow: boolean
-  showOverflowTooltip: boolean
+  showOverflowTooltip?: boolean | TableOverflowTooltipOptions
   fixed: boolean | string
   formatter: (
     row: T,
@@ -112,8 +113,9 @@ export default {
   columnKey: String,
   align: String,
   headerAlign: String,
-  showTooltipWhenOverflow: Boolean,
-  showOverflowTooltip: Boolean,
+  showOverflowTooltip: [Boolean, Object] as PropType<
+    TableColumnCtx<DefaultRow>['showOverflowTooltip']
+  >,
   fixed: [Boolean, String],
   formatter: Function as PropType<TableColumnCtx<DefaultRow>['formatter']>,
   selectable: Function as PropType<TableColumnCtx<DefaultRow>['selectable']>,

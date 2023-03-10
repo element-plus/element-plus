@@ -25,7 +25,6 @@ const { url, text } = useEditLink()
 .link {
   display: inline-block;
   font-weight: 500;
-  color: var(--text-color-light);
 }
 
 .link:hover {

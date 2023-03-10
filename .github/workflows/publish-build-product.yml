@@ -1,0 +1,70 @@
+name: 👮‍♂️ Build Product
+
+on:
+  pull_request:
+    branches:
+      - 'master'
+
+jobs:
+  check:
+    name: Build Product Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Add dev branch
+        run: git branch dev origin/dev
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Local build
+        run: pnpm build
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Check build product
+        run: sh -c ./scripts/file-check.sh
+
+      - name: Diff gen
+        run: pnpm diff:table
+        env:
+          THRESHOLD: 50
+
+      - name: Read diff file
+        id: diff
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./tmp/diff.md
+
+      - name: Set comment
+        uses: actions-cool/maintain-one-comment@v3.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: ${{ steps.diff.outputs.content }}
+          body-include: '<sub>Generated with'

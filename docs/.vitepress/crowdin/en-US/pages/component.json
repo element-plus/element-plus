@@ -57,6 +57,10 @@
     "text": "Form",
     "children": [
       {
+        "link": "/autocomplete",
+        "text": "Autocomplete"
+      },
+      {
         "link": "/cascader",
         "text": "Cascader"
       },
@@ -130,7 +134,6 @@
       }
     ]
   },
-
   "data": {
     "text": "Data",
     "children": [
@@ -195,6 +198,11 @@
         "text": "Table"
       },
       {
+        "link": "/table-v2",
+        "text": "Virtualized Table",
+        "promotion": "2.2.0"
+      },
+      {
         "link": "/tag",
         "text": "Tag"
       },
@@ -207,8 +215,18 @@
         "text": "Tree"
       },
       {
+        "link": "/tree-select",
+        "text": "TreeSelect",
+        "promotion": "2.1.8"
+      },
+      {
         "link": "/tree-v2",
         "text": "Virtualized Tree"
+      },
+      {
+        "link": "/statistic",
+        "text": "Statistic",
+        "promotion": "2.2.30"
       }
     ]
   },
@@ -282,7 +300,7 @@
       },
       {
         "link": "/popconfirm",
-        "text": "Pop Confirm"
+        "text": "Popconfirm"
       },
       {
         "link": "/popover",

@@ -8,21 +8,17 @@
     class="demo-ruleForm"
   >
     <el-form-item label="Password" prop="pass">
-      <el-input
-        v-model="ruleForm.pass"
-        type="password"
-        autocomplete="off"
-      ></el-input>
+      <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
     </el-form-item>
     <el-form-item label="Confirm" prop="checkPass">
       <el-input
         v-model="ruleForm.checkPass"
         type="password"
         autocomplete="off"
-      ></el-input>
+      />
     </el-form-item>
     <el-form-item label="Age" prop="age">
-      <el-input v-model.number="ruleForm.age"></el-input>
+      <el-input v-model.number="ruleForm.age" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submitForm(ruleFormRef)"
@@ -34,8 +30,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from 'vue'
-import type { FormInstance } from 'element-plus'
+import { reactive, ref } from 'vue'
+import type { FormInstance, FormRules } from 'element-plus'
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -83,7 +79,7 @@ const ruleForm = reactive({
   age: '',
 })
 
-const rules = reactive({
+const rules = reactive<FormRules>({
   pass: [{ validator: validatePass, trigger: 'blur' }],
   checkPass: [{ validator: validatePass2, trigger: 'blur' }],
   age: [{ validator: checkAge, trigger: 'blur' }],

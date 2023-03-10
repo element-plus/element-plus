@@ -3,11 +3,11 @@
     <el-image
       style="width: 100px; height: 100px"
       :src="url"
+      :zoom-rate="1.2"
       :preview-src-list="srcList"
       :initial-index="4"
       fit="cover"
-    >
-    </el-image>
+    />
   </div>
 </template>
 

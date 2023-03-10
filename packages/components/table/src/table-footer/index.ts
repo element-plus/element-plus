@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { defineComponent, h } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { hColgroup } from '../h-helper'

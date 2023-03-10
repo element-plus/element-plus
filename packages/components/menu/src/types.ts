@@ -38,4 +38,5 @@ export interface SubMenuProvider {
   removeSubMenu: (item: MenuItemRegistered) => void
   handleMouseleave?: (deepDispatch: boolean) => void
   mouseInChild: Ref<boolean>
+  level: number
 }

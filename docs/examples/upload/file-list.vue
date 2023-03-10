@@ -1,9 +1,9 @@
 <template>
   <el-upload
+    v-model:file-list="fileList"
     class="upload-demo"
-    action="https://jsonplaceholder.typicode.com/posts/"
+    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
     :on-change="handleChange"
-    :file-list="fileList"
   >
     <el-button type="primary">Click to upload</el-button>
     <template #tip>
@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-import type { UploadFile, UploadUserFile } from 'element-plus'
+import type { UploadProps, UploadUserFile } from 'element-plus'
 
 const fileList = ref<UploadUserFile[]>([
   {
@@ -29,7 +29,7 @@ const fileList = ref<UploadUserFile[]>([
   },
 ])
 
-const handleChange = (file: UploadFile, list: UploadFile[]) => {
+const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
   fileList.value = fileList.value.slice(-3)
 }
 </script>

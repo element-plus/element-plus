@@ -1,11 +1,11 @@
-import { isValidComponentSize } from '@element-plus/utils'
+import { placements } from '@popperjs/core'
+import { definePropType, isValidComponentSize } from '@element-plus/utils'
 import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
-
-import type { PropType, Component } from 'vue'
+import type { Component, PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
 import type { OptionType } from './select.types'
-import type { Options } from '@element-plus/components/popper'
+import type { Options, Placement } from '@element-plus/components/popper'
 
 export const SelectProps = {
   allowCreate: Boolean,
@@ -27,6 +27,10 @@ export const SelectProps = {
   collapseTagsTooltip: {
     type: Boolean,
     default: false,
+  },
+  maxCollapseTags: {
+    type: Number,
+    default: 1,
   },
   defaultFirstOption: Boolean,
   disabled: Boolean,
@@ -71,10 +75,6 @@ export const SelectProps = {
   placeholder: {
     type: String,
   },
-  popperAppendToBody: {
-    type: Boolean,
-    default: undefined,
-  },
   teleported: useTooltipContentProps.teleported,
   persistent: {
     type: Boolean,
@@ -100,6 +100,15 @@ export const SelectProps = {
   scrollbarAlwaysOn: {
     type: Boolean,
     default: false,
+  },
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
+  placement: {
+    type: definePropType<Placement>(String),
+    values: placements,
+    default: 'bottom-start',
   },
 }
 

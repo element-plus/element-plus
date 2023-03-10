@@ -53,6 +53,16 @@ tag/theme
 
 :::
 
+## Rounded <el-tag>> 2.1.7</el-tag>
+
+Tag can also be rounded like button.
+
+:::demo
+
+tag/rounded
+
+:::
+
 ## Checkable tag
 
 Sometimes because of the business needs, we might need checkbox like tag, but **button like checkbox** cannot meet our needs, here comes `check-tag`
@@ -65,7 +75,7 @@ tag/checkable
 
 ## Attributes
 
-| Attribute           | Description                          | Type    | Accepted Values             | Default |
+| Name                | Description                          | Type    | Accepted Values             | Default |
 | ------------------- | ------------------------------------ | ------- | --------------------------- | ------- |
 | type                | component type                       | string  | success/info/warning/danger | —       |
 | closable            | whether Tag can be removed           | boolean | —                           | false   |
@@ -74,13 +84,14 @@ tag/checkable
 | color               | background color of the Tag          | string  | —                           | —       |
 | size                | tag size                             | string  | large / default /small      | default |
 | effect              | component theme                      | string  | dark / light / plain        | light   |
+| round               | whether Tag is rounded               | boolean | —                           | false   |
 
 ## Events
 
-| Event Name | Description                  | Parameters |
-| ---------- | ---------------------------- | ---------- |
-| click      | triggers when Tag is clicked | —          |
-| close      | triggers when Tag is removed | —          |
+| Name  | Description                  | Parameters |
+| ----- | ---------------------------- | ---------- |
+| click | triggers when Tag is clicked | —          |
+| close | triggers when Tag is removed | —          |
 
 ## Slots
 
@@ -90,15 +101,15 @@ tag/checkable
 
 ## CheckTag Attributes
 
-| Attribute | Description | Type    | Accepted Values | Default |
-| --------- | ----------- | ------- | --------------- | ------- |
-| checked   | is checked  | boolean | true/false      | —       |
+| Name    | Description | Type    | Accepted Values | Default |
+| ------- | ----------- | ------- | --------------- | ------- |
+| checked | is checked  | boolean | true/false      | —       |
 
 ## CheckTag Events
 
-| Event Name | Description                        | Parameters |
-| ---------- | ---------------------------------- | ---------- |
-| change     | triggers when Check Tag is clicked | checked    |
+| Name   | Description                        | Parameters |
+| ------ | ---------------------------------- | ---------- |
+| change | triggers when Check Tag is clicked | checked    |
 
 ## CheckTag Slots
 

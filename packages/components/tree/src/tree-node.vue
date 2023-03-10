@@ -40,7 +40,7 @@
         ]"
         @click.stop="handleExpandIconClick"
       >
-        <component :is="tree.props.icon || CaretRight"></component>
+        <component :is="tree.props.icon || CaretRight" />
       </el-icon>
       <el-checkbox
         v-if="showCheckbox"
@@ -82,16 +82,17 @@
   </div>
 </template>
 <script lang="ts">
+// @ts-nocheck
 import {
   defineComponent,
   getCurrentInstance,
+  inject,
+  nextTick,
+  provide,
   ref,
   watch,
-  nextTick,
-  inject,
-  provide,
 } from 'vue'
-import { isString, isFunction } from '@vue/shared'
+import { isFunction, isString } from '@vue/shared'
 import ElCollapseTransition from '@element-plus/components/collapse-transition'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
@@ -99,14 +100,14 @@ import { CaretRight, Loading } from '@element-plus/icons-vue'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import NodeContent from './tree-node-content.vue'
-import { getNodeKey as getNodeKeyUtil } from './model/util'
+import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { dragEventsKey } from './model/useDragNode'
 import Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
 import type { Nullable } from '@element-plus/utils'
-import type { TreeOptionProps, TreeNodeData, RootTreeType } from './tree.type'
+import type { RootTreeType, TreeNodeData, TreeOptionProps } from './tree.type'
 
 export default defineComponent({
   name: 'ElTreeNode',
@@ -228,12 +229,8 @@ export default defineComponent({
     }
 
     const handleClick = (e: MouseEvent) => {
-      const store = tree.store.value
-      store.setCurrentNode(props.node)
-      tree.ctx.emit(
-        'current-change',
-        store.currentNode ? store.currentNode.data : null,
-        store.currentNode
+      handleCurrentChange(tree.store, tree.ctx.emit, () =>
+        tree.store.value.setCurrentNode(props.node)
       )
       tree.currentNode.value = props.node
 

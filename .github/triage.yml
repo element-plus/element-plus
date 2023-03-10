@@ -1,0 +1,15 @@
+---
+autoAssignWhenPRCreated: true
+firstTimePRLabels:
+  - 1st contribution
+labelsWhenPROpened:
+  - Needs Review
+firstTimePRGreetings: |
+  👋 @{user}, seems like this is your first time contribution to {repo}.
+  - Please make sure that you have read our [guidelines](#{guideline_url}) and [code of conduct]({coc_url}) before making a contribution.
+  - You can comment with `/label Components:[component_name]` to add a label for which component you are working on.
+  - You may join our <img src="https://img.shields.io/discord/746646622431346728?label=Discord&logo=discord&style=flat" alt="Discord" style="vertical-align: middle;" /> for staying tuned.
+PRGreetings: |
+  👋 @{user}, thank you for contributing {repo}.
+  - You can comment with `/label Components:[component_name]` to add a label for which component you are working on.
+  - You may join our <img src="https://img.shields.io/discord/746646622431346728?label=Discord&logo=discord&style=flat" alt="Discord" style="vertical-align: middle;" /> for staying tuned.

@@ -41,6 +41,14 @@ rate/text
 
 :::
 
+## Clearable
+
+:::demo You can reset the value to `0` when you click at the same value again.
+
+rate/clearable
+
+:::
+
 ## More icons
 
 You can use different icons to distinguish different rate components.
@@ -64,42 +72,54 @@ rate/readonly
 ## Custom styles
 
 Now you can set custom style for rate component.
-Use `css/scss` language to change the global or local color. We set some global color variables: `--el-rate-void-color`, `--el-rate-star-color`, `--el-rate-disable-void-color`, `--el-rate-text-color`. You can use like: `:root { --el-rate-void-color: red; --el-rate-star-color: blue; }`.
+Use `css/scss` language to change the global or local color. We set some global color variables: `--el-rate-void-color`, `--el-rate-fill-color`, `--el-rate-disabled-void-color`, `--el-rate-text-color`. You can use like: `:root { --el-rate-void-color: red; --el-rate-fill-color: blue; }`.
 
 ### Default Variables
 
-| Variable                     | Color   |
-| ---------------------------- | ------- |
-| --el-rate-void-color         | #c6d1de |
-| --el-rate-star-color         | #f7ba2a |
-| --el-rate-disable-void-color | #eff2f7 |
-| --el-rate-text-color         | #1f2d3d |
+| Variable                      | Default Color                 |
+| ----------------------------- | ----------------------------- |
+| --el-rate-void-color          | var(--el-border-color-darker) |
+| --el-rate-fill-color          | #f7ba2a                       |
+| --el-rate-disabled-void-color | var(--el-fill-color)          |
+| --el-rate-text-color          | var(--el-text-color-primary)  |
 
-## Attributes
+## API
 
-| Attribute             | Description                                                                                                                                                                                                                    | Type             | Accepted Values         | Default                                                            |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- | ----------------------- | ------------------------------------------------------------------ |
-| model-value / v-model | binding value                                                                                                                                                                                                                  | number           | —                       | 0                                                                  |
-| max                   | max rating score                                                                                                                                                                                                               | number           | —                       | 5                                                                  |
-| size                  | size of Rate                                                                                                                                                                                                                   | string           | large / default / small | default                                                            |
-| disabled              | whether Rate is read-only                                                                                                                                                                                                      | boolean          | —                       | false                                                              |
-| allow-half            | whether picking half start is allowed                                                                                                                                                                                          | boolean          | —                       | false                                                              |
-| low-threshold         | threshold value between low and medium level. The value itself will be included in low level                                                                                                                                   | number           | —                       | 2                                                                  |
-| high-threshold        | threshold value between medium and high level. The value itself will be included in high level                                                                                                                                 | number           | —                       | 4                                                                  |
-| colors                | colors for icons. If array, it should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding color         | array/object     | —                       | ['#F7BA2A', '#F7BA2A', '#F7BA2A']                                  |
-| void-color            | color of unselected icons                                                                                                                                                                                                      | string           | —                       | #C6D1DE                                                            |
-| disabled-void-color   | color of unselected read-only icons                                                                                                                                                                                            | string           | —                       | #EFF2F7                                                            |
-| icons                 | icon components. If array, ot should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding icon component | array/object     | —                       | [StarFilled, StarFilled, StarFilled]                               |
-| void-icon             | component of unselected icons                                                                                                                                                                                                  | string/component | —                       | Star                                                               |
-| disabled-void-icon    | component of unselected read-only icons                                                                                                                                                                                        | string/component | —                       | StarFilled                                                         |
-| show-text             | whether to display texts                                                                                                                                                                                                       | boolean          | —                       | false                                                              |
-| show-score            | whether to display current score. show-score and show-text cannot be true at the same time                                                                                                                                     | boolean          | —                       | false                                                              |
-| text-color            | color of texts                                                                                                                                                                                                                 | string           | —                       | #1F2D3D                                                            |
-| texts                 | text array                                                                                                                                                                                                                     | array            | —                       | ['Extremely bad', 'Disappointed', 'Fair', 'Satisfied', 'Surprise'] |
-| score-template        | score template                                                                                                                                                                                                                 | string           | —                       | {value}                                                            |
+### Attributes
 
-## Events
+| Name                  | Description                                                                                                                                                                                                                    | Type                                                                      | Default                                                            |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| model-value / v-model | binding value                                                                                                                                                                                                                  | ^[number]                                                                 | 0                                                                  |
+| max                   | max rating score                                                                                                                                                                                                               | ^[number]                                                                 | 5                                                                  |
+| size                  | size of Rate                                                                                                                                                                                                                   | ^[enum]`'large' \| 'default' \| 'small'`                                  | —                                                                  |
+| disabled              | whether Rate is read-only                                                                                                                                                                                                      | ^[boolean]                                                                | false                                                              |
+| allow-half            | whether picking half start is allowed                                                                                                                                                                                          | ^[boolean]                                                                | false                                                              |
+| low-threshold         | threshold value between low and medium level. The value itself will be included in low level                                                                                                                                   | ^[number]                                                                 | 2                                                                  |
+| high-threshold        | threshold value between medium and high level. The value itself will be included in high level                                                                                                                                 | ^[number]                                                                 | 4                                                                  |
+| colors                | colors for icons. If array, it should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding color         | ^[object]`string[] \| Record<number, string>`                             | ['#F7BA2A', '#F7BA2A', '#F7BA2A']                                  |
+| void-color            | color of unselected icons                                                                                                                                                                                                      | ^[string]                                                                 | #C6D1DE                                                            |
+| disabled-void-color   | color of unselected read-only icons                                                                                                                                                                                            | ^[string]                                                                 | #EFF2F7                                                            |
+| icons                 | icon components. If array, it should have 3 elements, each of which corresponds with a score level, else if object, the key should be threshold value between two levels, and the value should be corresponding icon component | ^[object]`string[] \| Component[] \| Record<number, string \| Component>` | [StarFilled, StarFilled, StarFilled]                               |
+| void-icon             | component of unselected icons                                                                                                                                                                                                  | ^[string] / ^[Component]                                                  | Star                                                               |
+| disabled-void-icon    | component of unselected read-only icons                                                                                                                                                                                        | ^[string] / ^[Component]                                                  | StarFilled                                                         |
+| show-text             | whether to display texts                                                                                                                                                                                                       | ^[boolean]                                                                | false                                                              |
+| show-score            | whether to display current score. show-score and show-text cannot be true at the same time                                                                                                                                     | ^[boolean]                                                                | false                                                              |
+| text-color            | color of texts                                                                                                                                                                                                                 | ^[string]                                                                 | #1F2D3D                                                            |
+| texts                 | text array                                                                                                                                                                                                                     | ^[array]`string[]`                                                        | ['Extremely bad', 'Disappointed', 'Fair', 'Satisfied', 'Surprise'] |
+| score-template        | score template                                                                                                                                                                                                                 | ^[string]                                                                 | {value}                                                            |
+| clearable             | whether value can be reset to `0`                                                                                                                                                                                              | ^[boolean]                                                                | false                                                              |
+| id                    | native `id` attribute                                                                                                                                                                                                          | ^[string]                                                                 | —                                                                  |
+| label<A11yTag />      | same as `aria-label` in Rate                                                                                                                                                                                                   | ^[string]                                                                 | —                                                                  |
 
-| Event Name | Description                         | Parameters           |
-| ---------- | ----------------------------------- | -------------------- |
-| change     | Triggers when rate value is changed | value after changing |
+### Events
+
+| Name   | Description                         | Type                                 |
+| ------ | ----------------------------------- | ------------------------------------ |
+| change | Triggers when rate value is changed | ^[Function]`(value: number) => void` |
+
+### Exposes
+
+| Name              | Description         | Type                                 |
+| ----------------- | ------------------- | ------------------------------------ |
+| setCurrentValue   | set current value   | ^[Function]`(value: number) => void` |
+| resetCurrentValue | reset current value | ^[Function]`() => void`              |

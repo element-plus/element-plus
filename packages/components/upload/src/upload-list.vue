@@ -20,7 +20,7 @@
       @keydown.delete="!disabled && handleRemove(file)"
       @focus="focusing = true"
       @blur="focusing = false"
-      @click="onFileClicked"
+      @click="focusing = false"
     >
       <slot :file="file">
         <img
@@ -33,18 +33,19 @@
           alt=""
         />
         <div
-          v-if="
-            listType !== 'picture' &&
-            (file.status === 'uploading' || listType !== 'picture-card')
-          "
+          v-if="file.status === 'uploading' || listType !== 'picture-card'"
           :class="nsUpload.be('list', 'item-info')"
         >
           <a
             :class="nsUpload.be('list', 'item-name')"
-            @click="handleClick(file)"
+            @click.prevent="handlePreview(file)"
           >
-            <el-icon :class="nsIcon.m('document')"><Document /></el-icon>
-            {{ file.name }}
+            <el-icon :class="nsIcon.m('document')">
+              <Document />
+            </el-icon>
+            <span :class="nsUpload.be('list', 'item-file-name')">
+              {{ file.name }}
+            </span>
           </a>
           <el-progress
             v-if="file.status === 'uploading'"
@@ -97,27 +98,30 @@
             :class="nsUpload.be('list', 'item-delete')"
             @click="handleRemove(file)"
           >
-            <el-icon :class="nsIcon.m('delete')"><Delete /></el-icon>
+            <el-icon :class="nsIcon.m('delete')">
+              <Delete />
+            </el-icon>
           </span>
         </span>
       </slot>
     </li>
-    <slot name="append"></slot>
+    <slot name="append" />
   </transition-group>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import {
-  Document,
-  Delete,
-  Close,
-  ZoomIn,
   Check,
   CircleCheck,
+  Close,
+  Delete,
+  Document,
+  ZoomIn,
 } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElProgress from '@element-plus/components/progress'
+import { useFormDisabled } from '@element-plus/components/form'
 
 import { uploadListEmits, uploadListProps } from './upload-list'
 import type { UploadFile } from './upload'
@@ -126,23 +130,16 @@ defineOptions({
   name: 'ElUploadList',
 })
 
-const props = defineProps(uploadListProps)
+defineProps(uploadListProps)
 const emit = defineEmits(uploadListEmits)
 
 const { t } = useLocale()
 const nsUpload = useNamespace('upload')
 const nsIcon = useNamespace('icon')
 const nsList = useNamespace('list')
+const disabled = useFormDisabled()
 
 const focusing = ref(false)
-
-const handleClick = (file: UploadFile) => {
-  props.handlePreview(file)
-}
-
-const onFileClicked = (e: Event) => {
-  ;(e.target as HTMLElement).focus()
-}
 
 const handleRemove = (file: UploadFile) => {
   emit('remove', file)

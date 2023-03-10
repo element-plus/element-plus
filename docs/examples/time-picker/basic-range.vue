@@ -6,8 +6,7 @@
       :disabled-minutes="disabledMinutes"
       :disabled-seconds="disabledSeconds"
       placeholder="Arbitrary time"
-    >
-    </el-time-picker>
+    />
   </div>
 </template>
 

@@ -3,10 +3,10 @@ import Node from './node'
 
 import type { Nullable } from '@element-plus/utils'
 import type {
-  CascaderNodeValue,
-  CascaderNodePathValue,
-  CascaderOption,
   CascaderConfig,
+  CascaderNodePathValue,
+  CascaderNodeValue,
+  CascaderOption,
 } from './node'
 
 const flatNodes = (nodes: Node[], leafOnly: boolean) => {

@@ -1,4 +1,4 @@
-import { h, provide, defineComponent, renderSlot } from 'vue'
+import { defineComponent, h, provide, renderSlot } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 
 const Timeline = defineComponent({

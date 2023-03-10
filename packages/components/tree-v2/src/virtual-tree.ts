@@ -1,14 +1,20 @@
-import { buildProps, definePropType, mutable } from '@element-plus/utils'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+  mutable,
+} from '@element-plus/utils'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
 import type { InjectionKey } from 'vue'
-import type { TreeNodeData } from '../../tree/src/tree.type'
+import type { TreeNodeData } from '@element-plus/components/tree/src/tree.type'
 import type {
-  TreeNode,
-  TreeKey,
-  TreeData,
-  TreeOptionProps,
-  FilterMethod,
   CheckedInfo,
+  FilterMethod,
   TreeContext,
+  TreeData,
+  TreeKey,
+  TreeNode,
+  TreeOptionProps,
 } from './types'
 
 // constants
@@ -30,6 +36,11 @@ export enum TreeOptionsEnum {
 export const enum SetOperationEnum {
   ADD = 'add',
   DELETE = 'delete',
+}
+
+const itemSize = {
+  type: Number,
+  default: 26,
 }
 
 // props
@@ -81,8 +92,9 @@ export const treeProps = buildProps({
     type: Number,
     default: 16,
   },
+  itemSize,
   icon: {
-    type: String,
+    type: iconPropType,
   },
   expandOnClickNode: {
     type: Boolean,
@@ -143,6 +155,7 @@ export const treeNodeProps = buildProps({
     type: Boolean,
     default: false,
   },
+  itemSize,
 } as const)
 
 export const treeNodeContentProps = buildProps({
@@ -178,6 +191,6 @@ export const treeEmits = {
 export const treeNodeEmits = {
   click: (node: TreeNode, e: MouseEvent) => !!(node && e),
   toggle: (node: TreeNode) => !!node,
-  check: (node: TreeNode, checked: boolean) =>
+  check: (node: TreeNode, checked: CheckboxValueType) =>
     node && typeof checked === 'boolean',
 }

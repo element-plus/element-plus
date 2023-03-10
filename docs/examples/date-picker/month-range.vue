@@ -8,8 +8,7 @@
         range-separator="To"
         start-placeholder="Start month"
         end-placeholder="End month"
-      >
-      </el-date-picker>
+      />
     </div>
     <div class="block">
       <span class="demonstration">With quick options</span>
@@ -21,8 +20,7 @@
         start-placeholder="Start month"
         end-placeholder="End month"
         :shortcuts="shortcuts"
-      >
-      </el-date-picker>
+      />
     </div>
   </div>
 </template>
@@ -67,7 +65,7 @@ const shortcuts = [
 .demo-date-picker .block {
   padding: 30px 0;
   text-align: center;
-  border-right: solid 1px var(--el-border-color-base);
+  border-right: solid 1px var(--el-border-color);
   flex: 1;
 }
 .demo-date-picker .block:last-child {

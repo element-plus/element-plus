@@ -1,11 +1,17 @@
-import { definePropType, buildProps } from '@element-plus/utils'
+import { buildProps, definePropType } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type Icon from './icon.vue'
 
 export const iconProps = buildProps({
+  /**
+   * @description SVG icon size, size x size
+   */
   size: {
     type: definePropType<number | string>([Number, String]),
   },
+  /**
+   * @description SVG tag's fill attribute
+   */
   color: {
     type: String,
   },

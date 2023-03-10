@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-config-provider :message="config">
-      <el-button @click="open">open</el-button>
+      <el-button @click="open">OPEN</el-button>
     </el-config-provider>
   </div>
 </template>
@@ -13,6 +13,6 @@ const config = reactive({
   max: 3,
 })
 const open = () => {
-  ElMessage('this is a message.')
+  ElMessage('This is a message.')
 }
 </script>

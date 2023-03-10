@@ -1,12 +1,12 @@
 import { computed } from 'vue'
 import { useData } from 'vitepress'
 import {
-  isArray,
   ensureStartingSlash,
+  isArray,
   removeExtention as removeExtension,
 } from '../utils'
 import { useLang } from './lang'
-import { getSidebarConfig, getFlatSideBarLinks } from './sidebar'
+import { getFlatSideBarLinks, getSidebarConfig } from './sidebar'
 
 export function usePageNav() {
   const { page, theme } = useData()

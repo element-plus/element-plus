@@ -2,10 +2,10 @@ import { onUnmounted } from 'vue'
 import { isClient } from '@vueuse/core'
 import {
   addClass,
-  hasClass,
-  getStyle,
-  removeClass,
   getScrollBarWidth,
+  getStyle,
+  hasClass,
+  removeClass,
 } from '@element-plus/utils'
 
 export const useLockScreen = () => {

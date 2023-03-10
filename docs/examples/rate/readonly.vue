@@ -5,8 +5,7 @@
     show-score
     text-color="#ff9900"
     score-template="{value} points"
-  >
-  </el-rate>
+  />
 </template>
 
 <script lang="ts" setup>

@@ -1,12 +1,12 @@
 <template>
   <el-tooltip
     ref="tooltip"
-    v-model:visible="tooltipVisible"
+    :visible="tooltipVisible"
     :offset="0"
     :placement="placement"
     :show-arrow="false"
     :stop-popper-mouse-event="false"
-    append-to-body
+    teleported
     effect="light"
     pure
     :popper-class="ns.b()"
@@ -87,7 +87,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, getCurrentInstance, watch } from 'vue'
+// @ts-nocheck
+import { computed, defineComponent, getCurrentInstance, ref, watch } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
@@ -97,7 +98,7 @@ import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import type { Placement } from '@element-plus/components/popper'
 
-import type { WritableComputedRef, PropType } from 'vue'
+import type { PropType, WritableComputedRef } from 'vue'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { TableHeader } from './table-header'
 import type { Store } from './store'

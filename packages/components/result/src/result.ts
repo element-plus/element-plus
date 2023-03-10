@@ -1,9 +1,9 @@
 import { buildProps } from '@element-plus/utils'
 import {
-  WarningFilled,
   CircleCheckFilled,
   CircleCloseFilled,
   InfoFilled,
+  WarningFilled,
 } from '@element-plus/icons-vue'
 import type { Component, ExtractPropTypes } from 'vue'
 import type Result from './result.vue'
@@ -35,6 +35,7 @@ export const resultProps = buildProps({
     default: '',
   },
   icon: {
+    type: String,
     values: ['success', 'warning', 'info', 'error'],
     default: 'info',
   },

@@ -1,25 +1,28 @@
 @use 'common/var' as *;
+@use 'mixins/mixins' as *;
 
 body {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
     'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
   font-weight: 400;
-  font-size: var(--el-font-size-base);
-  color: $color-black;
+  font-size: getCssVar('font-size', 'base');
+  color: getCssVar('text-color', 'primary');
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
 }
 
 a {
-  color: var(--el-color-primary);
+  color: getCssVar('color', 'primary');
   text-decoration: none;
 
   &:hover,
   &:focus {
-    color: var(--el-color-primary-light-3);
+    color: getCssVar('color-primary', 'light-3');
   }
 
   &:active {
-    color: mix($color-black, $color-primary, $button-active-shade-percent);
+    color: getCssVar('color-primary', 'dark-2');
   }
 }
 
@@ -29,7 +32,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--el-text-color-regular);
+  color: getCssVar('text-color', 'regular');
   font-weight: inherit;
 
   &:first-child {
@@ -42,15 +45,15 @@ h6 {
 }
 
 h1 {
-  font-size: #{var(--el-font-size-base) + 6px};
+  font-size: calc(getCssVar('font-size', 'base') + 6px);
 }
 
 h2 {
-  font-size: #{var(--el-font-size-base) + 4px};
+  font-size: calc(getCssVar('font-size', 'base') + 4px);
 }
 
 h3 {
-  font-size: #{var(--el-font-size-base) + 2px};
+  font-size: calc(getCssVar('font-size', 'base') + 2px);
 }
 
 h4,
@@ -74,16 +77,16 @@ p {
 
 sup,
 sub {
-  font-size: #{var(--el-font-size-base) - 1px};
+  font-size: calc(getCssVar('font-size', 'base') - 1px);
 }
 
 small {
-  font-size: #{var(--el-font-size-base) - 2px};
+  font-size: calc(getCssVar('font-size', 'base') - 2px);
 }
 
 hr {
   margin-top: 20px;
   margin-bottom: 20px;
   border: 0;
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid getCssVar('border-color', 'lighter');
 }

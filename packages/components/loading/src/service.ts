@@ -1,9 +1,11 @@
+// @ts-nocheck
 import { nextTick } from 'vue'
 import { isString } from '@vue/shared'
 import { isClient } from '@vueuse/core'
 import { addClass, getStyle, removeClass } from '@element-plus/utils'
-import { useZIndex } from '@element-plus/hooks'
 import { createLoadingComponent } from './loading'
+
+import type { UseNamespaceReturn, UseZIndexReturn } from '@element-plus/hooks'
 import type { LoadingInstance } from './loading'
 import type { LoadingOptionsResolved } from '..'
 import type { LoadingOptions } from './types'
@@ -19,8 +21,7 @@ export const Loading = function (
   const resolved = resolveOptions(options)
 
   if (resolved.fullscreen && fullscreenInstance) {
-    fullscreenInstance.remvoeElLoadingChild()
-    fullscreenInstance.close()
+    return fullscreenInstance
   }
 
   const instance = createLoadingComponent({
@@ -93,7 +94,7 @@ const addStyle = async (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
-  const { nextZIndex } = useZIndex()
+  const { nextZIndex } = (instance.vm as any).zIndex as UseZIndexReturn
 
   const maskStyle: CSSProperties = {}
   if (options.fullscreen) {
@@ -135,17 +136,18 @@ const addClassList = (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
+  const ns = (instance.vm as any).ns as UseNamespaceReturn
+
   if (
-    instance.originalPosition.value !== 'absolute' &&
-    instance.originalPosition.value !== 'fixed'
+    !['absolute', 'fixed', 'sticky'].includes(instance.originalPosition.value)
   ) {
-    addClass(parent, 'el-loading-parent--relative')
+    addClass(parent, ns.bm('parent', 'relative'))
   } else {
-    removeClass(parent, 'el-loading-parent--relative')
+    removeClass(parent, ns.bm('parent', 'relative'))
   }
   if (options.fullscreen && options.lock) {
-    addClass(parent, 'el-loading-parent--hidden')
+    addClass(parent, ns.bm('parent', 'hidden'))
   } else {
-    removeClass(parent, 'el-loading-parent--hidden')
+    removeClass(parent, ns.bm('parent', 'hidden'))
   }
 }

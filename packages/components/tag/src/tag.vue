@@ -1,27 +1,27 @@
 <template>
   <span
-    v-if="!disableTransitions"
+    v-if="disableTransitions"
     :class="classes"
     :style="{ backgroundColor: color }"
     @click="handleClick"
   >
     <span :class="ns.e('content')">
-      <slot></slot>
+      <slot />
     </span>
-    <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
+    <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
       <Close />
     </el-icon>
   </span>
-  <transition v-else :name="`${ns.namespace.value}-zoom-in-center`">
+  <transition v-else :name="`${ns.namespace.value}-zoom-in-center`" appear>
     <span
       :class="classes"
       :style="{ backgroundColor: color }"
       @click="handleClick"
     >
       <span :class="ns.e('content')">
-        <slot></slot>
+        <slot />
       </span>
-      <el-icon v-if="closable" :class="ns.e('close')" @click="handleClose">
+      <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
         <Close />
       </el-icon>
     </span>
@@ -32,9 +32,10 @@
 import { computed } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { Close } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
+import { useFormSize } from '@element-plus/components/form'
 
-import { useSize, useNamespace } from '@element-plus/hooks'
-import { tagProps, tagEmits } from './tag'
+import { tagEmits, tagProps } from './tag'
 
 defineOptions({
   name: 'ElTag',
@@ -42,10 +43,10 @@ defineOptions({
 const props = defineProps(tagProps)
 const emit = defineEmits(tagEmits)
 
-const tagSize = useSize()
+const tagSize = useFormSize()
 const ns = useNamespace('tag')
 const classes = computed(() => {
-  const { type, hit, effect, closable } = props
+  const { type, hit, effect, closable, round } = props
   return [
     ns.b(),
     ns.is('closable', closable),
@@ -53,12 +54,12 @@ const classes = computed(() => {
     ns.m(tagSize.value),
     ns.m(effect),
     ns.is('hit', hit),
+    ns.is('round', round),
   ]
 })
 
 // methods
 const handleClose = (event: MouseEvent) => {
-  event.stopPropagation()
   emit('close', event)
 }
 

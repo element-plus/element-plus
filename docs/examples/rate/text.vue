@@ -3,8 +3,7 @@
     v-model="value"
     :texts="['oops', 'disappointed', 'normal', 'good', 'great']"
     show-text
-  >
-  </el-rate>
+  />
 </template>
 
 <script lang="ts" setup>

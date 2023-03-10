@@ -1,6 +1,6 @@
 import { provide } from 'vue'
 
-import type { InjectionKey, Ref } from 'vue'
+import type { InjectionKey, ObjectDirective, Ref } from 'vue'
 
 type ForwardRefSetter = <T>(el: T) => void
 
@@ -21,7 +21,9 @@ export const useForwardRef = <T>(forwardRef: Ref<T | null>) => {
   })
 }
 
-export const useForwardRefDirective = (setForwardRef: ForwardRefSetter) => {
+export const useForwardRefDirective = (
+  setForwardRef: ForwardRefSetter
+): ObjectDirective => {
   return {
     mounted(el) {
       setForwardRef(el)

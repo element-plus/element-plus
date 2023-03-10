@@ -1,7 +1,7 @@
 <template>
-  <el-slider v-model="value" show-input size="large"></el-slider>
-  <el-slider v-model="value" show-input></el-slider>
-  <el-slider v-model="value" show-input size="small"></el-slider>
+  <el-slider v-model="value" show-input size="large" />
+  <el-slider v-model="value" show-input />
+  <el-slider v-model="value" show-input size="small" />
 </template>
 
 <script lang="ts" setup>

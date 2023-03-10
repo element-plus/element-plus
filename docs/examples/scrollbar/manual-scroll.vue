@@ -12,12 +12,12 @@
     :max="max"
     :format-tooltip="formatTooltip"
     @input="inputSlider"
-  ></el-slider>
+  />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import type { ElScrollbar } from 'element-plus'
+import { ElScrollbar } from 'element-plus'
 
 const max = ref(0)
 const value = ref(0)

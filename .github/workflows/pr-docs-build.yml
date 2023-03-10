@@ -1,0 +1,98 @@
+name: PR Docs Build
+
+on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build ${{ matrix.os }} ${{ matrix.node-name }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        node-version: [16, 18]
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - node-version: 16
+            node-name: LTS
+          - node-version: 18
+            node-name: Current
+
+      fail-fast: false
+
+    env:
+      PULL_REQUEST_NUMBER: ${{ github.event.number }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $env:GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Generate common locale
+        run: pnpm docs:gen-locale
+
+      - name: Build Element Plus
+        run: pnpm build
+        env:
+          FORCE_COLOR: 2
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Build website
+        run: pnpm docs:build
+        env:
+          DOC_ENV: preview
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      - name: Move bundle to docs dist
+        if: matrix.os == 'ubuntu-latest'
+        run: mkdir docs/.vitepress/dist/bundle && mv dist/element-plus/dist/*.* docs/.vitepress/dist/bundle
+
+      # share website dist
+      - name: Upload artifact
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: docs/.vitepress/dist/
+          retention-days: 1
+
+      # write pr.txt for share
+      - name: Save pr number
+        if: matrix.os == 'ubuntu-latest'
+        run: echo ${PULL_REQUEST_NUMBER} > ./pr.txt
+
+      # share pr number
+      - name: Upload pr number
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: pr
+          path: ./pr.txt
+          retention-days: 1

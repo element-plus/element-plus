@@ -22,7 +22,7 @@
           <span>{{ node.label }}</span>
           <span>
             <a @click="append(data)"> Append </a>
-            <a @click="remove(node, data)"> Delete </a>
+            <a style="margin-left: 8px" @click="remove(node, data)"> Delete </a>
           </span>
         </span>
       </template>
@@ -89,6 +89,7 @@ const renderContent = (
       h(
         'a',
         {
+          style: 'margin-left: 8px',
           onClick: () => remove(node, data),
         },
         'Delete'

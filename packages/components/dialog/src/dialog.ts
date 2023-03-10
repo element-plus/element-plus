@@ -4,7 +4,7 @@ import { dialogContentProps } from './dialog-content'
 
 import type { ExtractPropTypes } from 'vue'
 
-type DoneFn = (cancel: boolean) => void
+type DoneFn = (cancel?: boolean) => void
 export type DialogBeforeCloseFn = (done: DoneFn) => void
 
 export const dialogProps = buildProps({
@@ -49,7 +49,7 @@ export const dialogProps = buildProps({
   },
   modelValue: {
     type: Boolean,
-    required: true,
+    default: false,
   },
   modalClass: String,
   width: {

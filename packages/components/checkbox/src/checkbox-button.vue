@@ -1,16 +1,5 @@
 <template>
-  <label
-    :class="[
-      ns.b('button'),
-      ns.bm('button', size),
-      ns.is('disabled', isDisabled),
-      ns.is('checked', isChecked),
-      ns.is('focus', focus),
-    ]"
-    role="checkbox"
-    :aria-checked="isChecked"
-    :aria-disabled="isDisabled"
-  >
+  <label :class="labelKls">
     <input
       v-if="trueLabel || falseLabel"
       v-model="model"
@@ -22,8 +11,8 @@
       :true-value="trueLabel"
       :false-value="falseLabel"
       @change="handleChange"
-      @focus="focus = true"
-      @blur="focus = false"
+      @focus="isFocused = true"
+      @blur="isFocused = false"
     />
     <input
       v-else
@@ -35,55 +24,65 @@
       :disabled="isDisabled"
       :value="label"
       @change="handleChange"
-      @focus="focus = true"
-      @blur="focus = false"
+      @focus="isFocused = true"
+      @blur="isFocused = false"
     />
 
     <span
       v-if="$slots.default || label"
       :class="ns.be('button', 'inner')"
-      :style="isChecked ? activeStyle : null"
+      :style="isChecked ? activeStyle : undefined"
     >
       <slot>{{ label }}</slot>
     </span>
   </label>
 </template>
-<script lang="ts">
-import { defineComponent, computed } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+
+<script lang="ts" setup>
+import { computed, inject, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { useCheckbox, useCheckboxGroup, useCheckboxProps } from './useCheckbox'
+import { checkboxGroupContextKey } from './constants'
+import { useCheckbox } from './composables'
+import { checkboxEmits, checkboxProps } from './checkbox'
 
-export default defineComponent({
+import type { CSSProperties } from 'vue'
+
+defineOptions({
   name: 'ElCheckboxButton',
-  props: useCheckboxProps,
-  emits: [UPDATE_MODEL_EVENT, 'change'],
-  setup(props) {
-    const { focus, isChecked, isDisabled, size, model, handleChange } =
-      useCheckbox(props)
-    const { checkboxGroup } = useCheckboxGroup()
-    const ns = useNamespace('checkbox')
+})
 
-    const activeStyle = computed(() => {
-      const fillValue = checkboxGroup?.fill?.value ?? ''
-      return {
-        backgroundColor: fillValue,
-        borderColor: fillValue,
-        color: checkboxGroup?.textColor?.value ?? '',
-        boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : null,
-      }
-    })
+const props = defineProps(checkboxProps)
+defineEmits(checkboxEmits)
+const slots = useSlots()
 
-    return {
-      focus,
-      isChecked,
-      isDisabled,
-      model,
-      handleChange,
-      activeStyle,
-      size,
-      ns,
-    }
-  },
+const {
+  isFocused,
+  isChecked,
+  isDisabled,
+  checkboxButtonSize,
+  model,
+  handleChange,
+} = useCheckbox(props, slots)
+const checkboxGroup = inject(checkboxGroupContextKey, undefined)
+const ns = useNamespace('checkbox')
+
+const activeStyle = computed<CSSProperties>(() => {
+  const fillValue = checkboxGroup?.fill?.value ?? ''
+  return {
+    backgroundColor: fillValue,
+    borderColor: fillValue,
+    color: checkboxGroup?.textColor?.value ?? '',
+    boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : undefined,
+  }
+})
+
+const labelKls = computed(() => {
+  return [
+    ns.b('button'),
+    ns.bm('button', checkboxButtonSize.value),
+    ns.is('disabled', isDisabled.value),
+    ns.is('checked', isChecked.value),
+    ns.is('focus', isFocused.value),
+  ]
 })
 </script>

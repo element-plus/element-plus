@@ -5,14 +5,13 @@
     type="textarea"
     placeholder="Please input"
   />
-  <div style="margin: 20px 0"></div>
+  <div style="margin: 20px 0" />
   <el-input
     v-model="textarea2"
     :autosize="{ minRows: 2, maxRows: 4 }"
     type="textarea"
     placeholder="Please input"
-  >
-  </el-input>
+  />
 </template>
 
 <script lang="ts" setup>

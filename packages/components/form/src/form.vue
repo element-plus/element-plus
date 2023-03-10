@@ -6,32 +6,41 @@
 
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs, watch } from 'vue'
-import { debugWarn } from '@element-plus/utils'
-import { formContextKey } from '@element-plus/tokens'
-import { useNamespace, useSize } from '@element-plus/hooks'
-import { formProps, formEmits } from './form'
-import { useFormLabelWidth, filterFields } from './utils'
+import { debugWarn, isFunction } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
+import { useFormSize } from './hooks'
+import { formContextKey } from './constants'
+import { formEmits, formProps } from './form'
+import { filterFields, useFormLabelWidth } from './utils'
+
 import type { ValidateFieldsError } from 'async-validator'
-import type { FormItemContext, FormContext } from '@element-plus/tokens'
-import type { FormValidateCallback } from './types'
+import type { Arrayable } from '@element-plus/utils'
+import type {
+  FormContext,
+  FormItemContext,
+  FormValidateCallback,
+  FormValidationResult,
+} from './types'
 import type { FormItemProp } from './form-item'
 
 const COMPONENT_NAME = 'ElForm'
 defineOptions({
-  name: 'ElForm',
+  name: COMPONENT_NAME,
 })
 const props = defineProps(formProps)
 const emit = defineEmits(formEmits)
 
 const fields: FormItemContext[] = []
 
-const formSize = useSize()
+const formSize = useFormSize()
 const ns = useNamespace('form')
 const formClasses = computed(() => {
   const { labelPosition, inline } = props
   return [
     ns.b(),
-    ns.m(formSize.value),
+    // todo: in v2.2.0, we can remove default
+    // in fact, remove it doesn't affect the final style
+    ns.m(formSize.value || 'default'),
     {
       [ns.m(`label-${labelPosition}`)]: labelPosition,
       [ns.m('inline')]: inline,
@@ -44,7 +53,7 @@ const addField: FormContext['addField'] = (field) => {
 }
 
 const removeField: FormContext['removeField'] = (field) => {
-  if (!field.prop) {
+  if (field.prop) {
     fields.splice(fields.indexOf(field), 1)
   }
 }
@@ -61,56 +70,75 @@ const clearValidate: FormContext['clearValidate'] = (props = []) => {
   filterFields(fields, props).forEach((field) => field.clearValidate())
 }
 
-const validate = async (callback?: FormValidateCallback): Promise<void> =>
-  validateField(undefined, callback)
-
-const validateField: FormContext['validateField'] = async (
-  properties = [],
-  callback
-) => {
-  if (callback) {
-    validate()
-      .then(() => callback(true))
-      .catch((fields: ValidateFieldsError) => callback(false, fields))
-    return
+const isValidatable = computed(() => {
+  const hasModel = !!props.model
+  if (!hasModel) {
+    debugWarn(COMPONENT_NAME, 'model is required for validate to work.')
   }
+  return hasModel
+})
 
-  const { model, scrollToError } = props
+const obtainValidateFields = (props: Arrayable<FormItemProp>) => {
+  if (fields.length === 0) return []
 
-  if (!model) {
-    debugWarn(COMPONENT_NAME, 'model is required for form validation!')
-    return
-  }
-  if (fields.length === 0) {
-    return
-  }
-
-  const filteredFields = filterFields(fields, properties)
+  const filteredFields = filterFields(fields, props)
   if (!filteredFields.length) {
     debugWarn(COMPONENT_NAME, 'please pass correct props!')
-    return
+    return []
   }
+  return filteredFields
+}
 
-  let valid = true
-  let invalidFields: ValidateFieldsError = {}
-  let firstInvalidFields: ValidateFieldsError | undefined
+const validate = async (
+  callback?: FormValidateCallback
+): FormValidationResult => validateField(undefined, callback)
 
-  for (const field of filteredFields) {
-    const fieldsError = await field
-      .validate('')
-      .catch((fields: ValidateFieldsError) => fields)
+const doValidateField = async (
+  props: Arrayable<FormItemProp> = []
+): Promise<boolean> => {
+  if (!isValidatable.value) return false
 
-    if (fieldsError) {
-      valid = false
-      if (!firstInvalidFields) firstInvalidFields = fieldsError
+  const fields = obtainValidateFields(props)
+  if (fields.length === 0) return true
+
+  let validationErrors: ValidateFieldsError = {}
+  for (const field of fields) {
+    try {
+      await field.validate('')
+    } catch (fields) {
+      validationErrors = {
+        ...validationErrors,
+        ...(fields as ValidateFieldsError),
+      }
     }
-
-    invalidFields = { ...invalidFields, ...fieldsError }
   }
 
-  if (!valid) {
-    if (scrollToError) scrollToField(Object.keys(firstInvalidFields!)[0])
-    return Promise.reject(invalidFields)
+  if (Object.keys(validationErrors).length === 0) return true
+  return Promise.reject(validationErrors)
+}
+
+const validateField: FormContext['validateField'] = async (
+  modelProps = [],
+  callback
+) => {
+  const shouldThrow = !isFunction(callback)
+  try {
+    const result = await doValidateField(modelProps)
+    // When result is false meaning that the fields are not validatable
+    if (result === true) {
+      callback?.(result)
+    }
+    return result
+  } catch (e) {
+    if (e instanceof Error) throw e
+
+    const invalidFields = e as ValidateFieldsError
+
+    if (props.scrollToError) {
+      scrollToField(Object.keys(invalidFields)[0])
+    }
+    callback?.(false, invalidFields)
+    return shouldThrow && Promise.reject(invalidFields)
   }
 }
 
@@ -124,7 +152,9 @@ const scrollToField = (prop: FormItemProp) => {
 watch(
   () => props.rules,
   () => {
-    if (props.validateOnRuleChange) validate()
+    if (props.validateOnRuleChange) {
+      validate().catch((err) => debugWarn(err))
+    }
   },
   { deep: true }
 )
@@ -146,15 +176,25 @@ provide(
 )
 
 defineExpose({
-  /** @description validate form */
+  /**
+   * @description Validate the whole form. Receives a callback or returns `Promise`.
+   */
   validate,
-  /** @description validate form field */
+  /**
+   * @description Validate specified fields.
+   */
   validateField,
-  /** @description reset fields */
+  /**
+   * @description Reset specified fields and remove validation result.
+   */
   resetFields,
-  /** @description clear validation status */
+  /**
+   * @description Clear validation message for specified fields.
+   */
   clearValidate,
-  /** @description scroll to field */
+  /**
+   * @description Scroll to the specified fields.
+   */
   scrollToField,
 })
 </script>

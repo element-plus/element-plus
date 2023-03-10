@@ -1,7 +1,7 @@
 <template>
-  <el-button type="text" @click="dialogVisible = true"
-    >click to open the Dialog</el-button
-  >
+  <el-button text @click="dialogVisible = true">
+    click to open the Dialog
+  </el-button>
 
   <div>
     <p>Close dialog and the input will be focused</p>
@@ -21,9 +21,9 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
-          >Confirm</el-button
-        >
+        <el-button type="primary" @click="dialogVisible = false">
+          Confirm
+        </el-button>
       </span>
     </template>
   </el-dialog>
@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { ElInput } from 'element-plus'
+import { ElInput } from 'element-plus'
 
 const dialogVisible = ref(false)
 const inputRef = ref<InstanceType<typeof ElInput>>()

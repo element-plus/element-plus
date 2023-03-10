@@ -8,13 +8,13 @@
   left: 0;
   width: 100%;
   display: flex;
+  padding: 0 32px;
   justify-content: space-between;
   z-index: var(--sub-nav-z-index);
   overflow: hidden;
 
-  .sidebar-button,
-  .go-back-top {
-    padding: 0 16px;
+  @media (max-width: 767px) {
+    padding: 0 24px;
   }
 
   .go-back-top {
@@ -28,6 +28,6 @@
   }
 
   @include respond-to('lg') {
-    display: none;
+    display: none !important;
   }
 }

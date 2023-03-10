@@ -27,12 +27,12 @@ $descriptions-item-vertical-label-padding-bottom: map.merge(
   @include e(label) {
     &.#{$namespace}-descriptions__cell.is-bordered-label {
       font-weight: bold;
-      color: var(--el-text-color-regular);
-      background: var(--el-descriptions-item-bordered-label-background);
+      color: getCssVar('text-color', 'regular');
+      background: getCssVar('descriptions-item-bordered-label-background');
     }
 
     &:not(.is-bordered-label) {
-      color: var(--el-text-color-primary);
+      color: getCssVar('text-color', 'primary');
       margin-right: map.get($descriptions-item-label-margin-right, 'default');
     }
 
@@ -46,11 +46,11 @@ $descriptions-item-vertical-label-padding-bottom: map.merge(
 
   @include e(content) {
     &.#{$namespace}-descriptions__cell.is-bordered-content {
-      color: var(--el-text-color-primary);
+      color: getCssVar('text-color', 'primary');
     }
 
     &:not(.is-bordered-label) {
-      color: var(--el-text-color-regular);
+      color: getCssVar('text-color', 'regular');
     }
   }
 

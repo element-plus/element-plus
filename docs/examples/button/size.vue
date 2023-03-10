@@ -16,9 +16,9 @@
     <el-button size="small" :icon="Search" round>Search</el-button>
   </el-row>
   <el-row>
-    <el-button :icon="Search" size="large" circle></el-button>
-    <el-button :icon="Search" circle></el-button>
-    <el-button :icon="Search" size="small" circle></el-button>
+    <el-button :icon="Search" size="large" circle />
+    <el-button :icon="Search" circle />
+    <el-button :icon="Search" size="small" circle />
   </el-row>
 </template>
 

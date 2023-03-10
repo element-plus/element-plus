@@ -5,15 +5,14 @@
     aria-label="Breadcrumb"
     role="navigation"
   >
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { provide, ref, onMounted } from 'vue'
-import { breadcrumbKey } from '@element-plus/tokens'
-
+import { onMounted, provide, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { breadcrumbKey } from './constants'
 import { breadcrumbProps } from './breadcrumb'
 
 defineOptions({

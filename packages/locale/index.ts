@@ -1,5 +1,6 @@
 export { default as af } from './lang/af'
 export { default as ar } from './lang/ar'
+export { default as az } from './lang/az'
 export { default as bg } from './lang/bg'
 export { default as bn } from './lang/bn'
 export { default as ca } from './lang/ca'

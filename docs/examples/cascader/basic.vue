@@ -1,22 +1,16 @@
 <template>
-  <div class="example-block">
-    <span class="example-demonstration"
-      >Child options expand when clicked (default)</span
-    >
-    <el-cascader
-      v-model="value"
-      :options="options"
-      @change="handleChange"
-    ></el-cascader>
+  <div class="m-4">
+    <p>Child options expand when clicked (default)</p>
+    <el-cascader v-model="value" :options="options" @change="handleChange" />
   </div>
-  <div class="example-block">
-    <span class="example-demonstration">Child options expand when hovered</span>
+  <div class="m-4">
+    <p>Child options expand when hovered</p>
     <el-cascader
       v-model="value"
       :options="options"
       :props="props"
       @change="handleChange"
-    ></el-cascader>
+    />
   </div>
 </template>
 
@@ -26,7 +20,7 @@ import { ref } from 'vue'
 const value = ref([])
 
 const props = {
-  expandTrigger: 'hover',
+  expandTrigger: 'hover' as const,
 }
 
 const handleChange = (value) => {
@@ -302,12 +296,3 @@ const options = [
   },
 ]
 </script>
-
-<style scoped>
-.example-block {
-  margin: 1rem;
-}
-.example-demonstration {
-  margin: 1rem;
-}
-</style>

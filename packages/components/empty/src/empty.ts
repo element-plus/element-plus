@@ -1,7 +1,7 @@
+import { buildProps } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
-import type Empty from './empty.vue'
 
-export const emptyProps = {
+export const emptyProps = buildProps({
   image: {
     type: String,
     default: '',
@@ -11,7 +11,6 @@ export const emptyProps = {
     type: String,
     default: '',
   },
-} as const
-export type EmptyProps = ExtractPropTypes<typeof emptyProps>
+} as const)
 
-export type EmptyInstance = InstanceType<typeof Empty>
+export type EmptyProps = ExtractPropTypes<typeof emptyProps>

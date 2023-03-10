@@ -1,41 +1,12 @@
 import { defineComponent, renderSlot, watch } from 'vue'
-import { buildProps, definePropType } from '@element-plus/utils'
-import { provideGlobalConfig } from '@element-plus/hooks'
-import type { Language } from '@element-plus/locale'
-import type { ButtonConfigContext } from '@element-plus/components/button'
+import { provideGlobalConfig } from './hooks/use-global-config'
+import { configProviderProps } from './config-provider-props'
+
 import type { MessageConfigContext } from '@element-plus/components/message'
 
 export const messageConfig: MessageConfigContext = {}
 
-export const configProviderProps = buildProps({
-  locale: {
-    type: definePropType<Language>(Object),
-  },
-
-  size: {
-    type: String,
-    values: ['large', 'default', 'small'],
-  },
-
-  button: {
-    type: definePropType<ButtonConfigContext>(Object),
-  },
-
-  message: {
-    type: definePropType<MessageConfigContext>(Object),
-  },
-
-  zIndex: {
-    type: Number,
-  },
-
-  namespace: {
-    type: String,
-    default: 'el',
-  },
-} as const)
-
-export default defineComponent({
+const ConfigProvider = defineComponent({
   name: 'ElConfigProvider',
   props: configProviderProps,
 
@@ -51,3 +22,6 @@ export default defineComponent({
     return () => renderSlot(slots, 'default', { config: config?.value })
   },
 })
+export type ConfigProviderInstance = InstanceType<typeof ConfigProvider>
+
+export default ConfigProvider

@@ -1,4 +1,4 @@
-import type { StyleValue, InjectionKey, Ref } from 'vue'
+import type { InjectionKey, Ref, StyleValue } from 'vue'
 import type { ElRovingFocusGroupProps } from './roving-focus-group'
 
 type EventHandler<T = Event> = (e: T) => void

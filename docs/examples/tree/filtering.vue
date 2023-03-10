@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
-import type { ElTree } from 'element-plus'
+import { ElTree } from 'element-plus'
 
 interface Tree {
   id: number

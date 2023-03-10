@@ -15,7 +15,7 @@
           </template>
           <el-menu-item-group title="Group One">
             <el-menu-item index="1-1">item one</el-menu-item>
-            <el-menu-item index="1-2">item one</el-menu-item>
+            <el-menu-item index="1-2">item two</el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group title="Group Two">
             <el-menu-item index="1-3">item three</el-menu-item>
@@ -57,7 +57,7 @@
           </template>
           <el-menu-item-group title="Group One">
             <el-menu-item index="1-1">item one</el-menu-item>
-            <el-menu-item index="1-2">item one</el-menu-item>
+            <el-menu-item index="1-2">item two</el-menu-item>
           </el-menu-item-group>
           <el-menu-item-group title="Group Two">
             <el-menu-item index="1-3">item three</el-menu-item>
@@ -86,9 +86,9 @@
 
 <script lang="ts" setup>
 import {
-  Location,
   Document,
   Menu as IconMenu,
+  Location,
   Setting,
 } from '@element-plus/icons-vue'
 const handleOpen = (key: string, keyPath: string[]) => {

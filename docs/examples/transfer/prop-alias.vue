@@ -6,8 +6,7 @@
       label: 'desc',
     }"
     :data="data"
-  >
-  </el-transfer>
+  />
 </template>
 
 <script lang="ts" setup>

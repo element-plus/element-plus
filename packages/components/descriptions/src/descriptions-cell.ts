@@ -1,7 +1,9 @@
+// @ts-nocheck
 import { defineComponent, h, inject } from 'vue'
+import { isNil } from 'lodash-unified'
 import { addUnit, getNormalizedProps } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { elDescriptionsKey } from './token'
+import { descriptionsKey } from './token'
 
 import type { VNode } from 'vue'
 import type {
@@ -23,7 +25,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const descriptions = inject(elDescriptionsKey, {} as IDescriptionsInject)
+    const descriptions = inject(descriptionsKey, {} as IDescriptionsInject)
 
     return {
       descriptions,
@@ -93,13 +95,15 @@ export default defineComponent({
             colSpan: span,
           },
           [
-            h(
-              'span',
-              {
-                class: [ns.e('label'), labelClassName],
-              },
-              label
-            ),
+            !isNil(label)
+              ? h(
+                  'span',
+                  {
+                    class: [ns.e('label'), labelClassName],
+                  },
+                  label
+                )
+              : undefined,
             h(
               'span',
               {

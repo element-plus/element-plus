@@ -5,21 +5,9 @@
         <el-button style="margin-right: 16px">Click to activate</el-button>
       </template>
       <el-table :data="gridData">
-        <el-table-column
-          width="150"
-          property="date"
-          label="date"
-        ></el-table-column>
-        <el-table-column
-          width="100"
-          property="name"
-          label="name"
-        ></el-table-column>
-        <el-table-column
-          width="300"
-          property="address"
-          label="address"
-        ></el-table-column>
+        <el-table-column width="150" property="date" label="date" />
+        <el-table-column width="100" property="name" label="name" />
+        <el-table-column width="300" property="address" label="address" />
       </el-table>
     </el-popover>
 

@@ -8,7 +8,7 @@
 
 @include b(popper) {
   position: absolute;
-  border-radius: var(--el-popper-border-radius);
+  border-radius: getCssVar('popper', 'border-radius');
   padding: 5px 11px;
   z-index: 2000;
   font-size: 12px;
@@ -20,24 +20,24 @@
   $arrow-selector: #{& + '__arrow'};
 
   @include when(dark) {
-    color: var(--el-color-white);
-    background: var(--el-text-color-primary);
-    border: 1px solid var(--el-text-color-primary);
+    color: getCssVar('bg-color');
+    background: getCssVar('text-color', 'primary');
+    border: 1px solid getCssVar('text-color', 'primary');
 
     #{$arrow-selector}::before {
-      border: 1px solid var(--el-text-color-primary);
-      background: var(--el-text-color-primary);
+      border: 1px solid getCssVar('text-color', 'primary');
+      background: getCssVar('text-color', 'primary');
       right: 0;
     }
   }
 
   @include when(light) {
-    background: var(--el-color-white);
-    border: 1px solid var(--el-border-color-light);
+    background: getCssVar('bg-color', 'overlay');
+    border: 1px solid getCssVar('border-color', 'light');
 
     #{$arrow-selector}::before {
-      border: 1px solid var(--el-border-color-light);
-      background: var(--el-color-white);
+      border: 1px solid getCssVar('border-color', 'light');
+      background: getCssVar('bg-color', 'overlay');
       right: 0;
     }
   }
@@ -59,7 +59,7 @@
       z-index: -1;
       content: ' ';
       transform: rotate(45deg);
-      background: var(--el-text-color-primary);
+      background: getCssVar('text-color', 'primary');
       box-sizing: border-box;
     }
   }

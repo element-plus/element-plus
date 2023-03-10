@@ -1,3 +1,4 @@
+// @ts-nocheck
 import defineGetter from '@element-plus/test-utils/define-getter'
 
 export default () => {

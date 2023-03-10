@@ -3,19 +3,18 @@ import ToggleButton from '../icons/toggle-button.vue'
 </script>
 
 <template>
-  <div class="sidebar-button">
-    <ElIcon :size="24">
+  <button class="reset-btn sidebar-button flex items-center">
+    <ElIcon :size="20" class="mr-2">
       <ToggleButton />
     </ElIcon>
-  </div>
+    <span class="leading-6">Menu</span>
+  </button>
 </template>
 
 <style>
 .sidebar-button {
   cursor: pointer;
   color: var(--text-color);
-  display: flex;
-  align-items: center;
 }
 
 .sidebar-button .icon {

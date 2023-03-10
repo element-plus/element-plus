@@ -31,7 +31,7 @@
             <span>{{ item.name }}</span>
             <div class="bottom card-header">
               <div class="time">{{ currentDate }}</div>
-              <el-button type="text" class="button">Operation button</el-button>
+              <el-button text class="button">Operation button</el-button>
             </div>
           </div>
         </el-card>

@@ -29,7 +29,7 @@
       v-else-if="panel?.isHoverMenu"
       ref="hoverZone"
       :class="ns.e('hover-zone')"
-    ></svg>
+    />
   </el-scrollbar>
 </template>
 

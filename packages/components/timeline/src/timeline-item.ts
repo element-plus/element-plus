@@ -17,10 +17,12 @@ export const timelineItemProps = buildProps({
   },
   placement: {
     type: String,
+    values: ['top', 'bottom'],
     default: 'bottom',
   },
   type: {
     type: String,
+    values: ['primary', 'success', 'warning', 'danger', 'info'],
     default: '',
   },
   color: {
@@ -29,11 +31,11 @@ export const timelineItemProps = buildProps({
   },
   size: {
     type: String,
+    values: ['normal', 'large'],
     default: 'normal',
   },
   icon: {
     type: iconPropType,
-    default: '',
   },
   hollow: {
     type: Boolean,

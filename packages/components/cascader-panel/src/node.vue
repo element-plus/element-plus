@@ -39,7 +39,7 @@
         Add an empty element to avoid render label,
         do not use empty fragment here for https://github.com/vuejs/vue-next/pull/2485
       -->
-      <span></span>
+      <span />
     </el-radio>
     <el-icon v-else-if="isLeaf && node.checked" :class="ns.e('prefix')">
       <check />
@@ -61,12 +61,13 @@
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { computed, defineComponent, inject } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import ElRadio from '@element-plus/components/radio'
 import ElIcon from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
-import { Check, Loading, ArrowRight } from '@element-plus/icons-vue'
+import { ArrowRight, Check, Loading } from '@element-plus/icons-vue'
 import NodeContent from './node-content'
 import { CASCADER_PANEL_INJECTION_KEY } from './types'
 import type { default as CascaderNode } from './node'

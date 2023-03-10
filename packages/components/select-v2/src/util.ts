@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isArray } from '@vue/shared'
 
 import type { Option, OptionGroup } from './select.types'

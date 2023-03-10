@@ -75,13 +75,13 @@ export interface UploadHooks {
     uploadFile: UploadFile,
     uploadFiles: UploadFiles
   ) => void
-  onExceed: (files: File[], uploadFiles: UploadFiles) => void
+  onExceed: (files: File[], uploadFiles: UploadUserFile[]) => void
 }
 
 export const uploadBaseProps = buildProps({
   action: {
     type: String,
-    required: true,
+    default: '#',
   },
   headers: {
     type: definePropType<Headers | Record<string, any>>(Object),
