@@ -219,7 +219,7 @@ const debounceSetShowPicker = debounce(setShowPicker, 100)
 
 function show() {
   if (colorDisabled.value) return
-  debounceSetShowPicker(true)
+  setShowPicker(true)
 }
 
 function hide() {
