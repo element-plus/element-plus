@@ -11,9 +11,9 @@ import {
   withCtx,
   withDirectives,
 } from 'vue'
-import { useNamespace, useZIndex } from '@element-plus/hooks'
+import { useZIndex } from '@element-plus/hooks'
 import { removeClass } from '@element-plus/utils'
-import { useGlobalConfig } from '@element-plus/components/config-provider'
+import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
 import type { UseNamespaceReturn } from '@element-plus/hooks'
 import type { LoadingOptionsResolved } from './types'
@@ -78,8 +78,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   const elLoadingComponent = defineComponent({
     name: 'ElLoading',
     setup(_, { expose }) {
-      const namespace = useGlobalConfig('namespace')
-      const ns = useNamespace('loading', namespace)
+      const { ns } = useGlobalComponentSettings('loading')
       const zIndex = useZIndex()
 
       expose({
