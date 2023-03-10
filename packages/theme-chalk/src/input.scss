@@ -263,6 +263,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
 
       @if $slot == prefix {
         > :last-child {
@@ -276,7 +277,6 @@
           }
         }
       } @else {
-        gap: 8px;
         > :first-child {
           margin-left: 8px;
         }
