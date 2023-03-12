@@ -270,7 +270,7 @@ export const useSelect = (props, states: States, ctx) => {
           if (isFunction(props.filterMethod)) {
             props.filterMethod('')
           }
-          if (isFunction(props.remoteMethod)) {
+          if (props.remote && isFunction(props.remoteMethod)) {
             props.remoteMethod('')
           }
         }
