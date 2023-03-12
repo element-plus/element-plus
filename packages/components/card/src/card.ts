@@ -17,7 +17,7 @@ export const cardProps = buildProps({
     default: '',
   },
   /**
-   * @description class of card body
+   * @description custom class name of card body
    */
   bodyClass: String,
   /**
