@@ -19,10 +19,7 @@ export const cardProps = buildProps({
   /**
    * @description class of card body
    */
-  bodyClass: {
-    type: String,
-    default: '',
-  },
+  bodyClass: String,
   /**
    * @description when to show card shadows
    */
