@@ -20,10 +20,7 @@
     line-height: 1;
     white-space: nowrap;
     vertical-align: middle;
-    background: var(
-      #{getCssVarName('button-bg-color')},
-      map.get($button, 'bg-color')
-    );
+    background: var(#{getCssVarName('fill-color-blank')});
     border: getCssVar('border');
     font-weight: var(
       #{getCssVarName('button-font-weight')},
