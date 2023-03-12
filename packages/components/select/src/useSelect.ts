@@ -40,6 +40,7 @@ export function useSelectStates(props) {
   return reactive({
     options: new Map(),
     cachedOptions: new Map(),
+    disabledOptions: new Map(),
     createdLabel: null,
     createdSelected: false,
     selected: props.multiple ? [] : ({} as any),
@@ -627,11 +628,24 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
+  const getLastNotDisabledIndex = (value) => {
+    let lastNotDisabledIndex = -1
+    for (let i = value.length - 1; i >= 0; i--) {
+      if (!states.disabledOptions.has(value[i])) {
+        lastNotDisabledIndex = i
+        break
+      }
+    }
+    return lastNotDisabledIndex
+  }
+
   const deletePrevTag = (e) => {
     if (e.code === EVENT_CODE.delete) return
     if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
       const value = props.modelValue.slice()
-      value.pop()
+      const lastNotDisabledIndex = getLastNotDisabledIndex(value)
+      if (lastNotDisabledIndex < 0) return
+      value.splice(lastNotDisabledIndex, 1)
       ctx.emit(UPDATE_MODEL_EVENT, value)
       emitChange(value)
     }
@@ -754,6 +768,7 @@ export const useSelect = (props, states: States, ctx) => {
     states.filteredOptionsCount++
     states.options.set(vm.value, vm)
     states.cachedOptions.set(vm.value, vm)
+    vm.disabled && states.disabledOptions.set(vm.value, vm)
   }
 
   const onOptionDestroy = (key, vm: SelectOptionProxy) => {
@@ -772,7 +787,10 @@ export const useSelect = (props, states: States, ctx) => {
 
   const toggleLastOptionHitState = (hit?: boolean) => {
     if (!Array.isArray(states.selected)) return
-    const option = states.selected[states.selected.length - 1]
+    const lastNotDisabledIndex = getLastNotDisabledIndex(
+      states.selected.map((it) => it.value)
+    )
+    const option = states.selected[lastNotDisabledIndex]
     if (!option) return
 
     if (hit === true || hit === false) {
