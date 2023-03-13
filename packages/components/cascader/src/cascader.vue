@@ -24,7 +24,9 @@
   >
     <template #default>
       <div
-        v-clickoutside:[cascaderPanelDom]="() => togglePopperVisible(false)"
+        v-clickoutside:[cascaderPanelRef?.$el]="
+          () => togglePopperVisible(false)
+        "
         :class="cascaderKls"
         :style="cascaderStyle"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
@@ -351,10 +353,6 @@ const cascaderIconKls = computed(() => {
 
 const inputClass = computed(() => {
   return nsCascader.is('focus', popperVisible.value || filterFocus.value)
-})
-
-const cascaderPanelDom = computed(() => {
-  return cascaderPanelRef.value?.$el
 })
 
 const togglePopperVisible = (visible?: boolean) => {
