@@ -147,7 +147,6 @@
         :options="options"
         :props="props.props"
         :border="false"
-        class="xc"
         :render-label="$slots.default"
         @expand-change="handleExpandChange"
         @close="$nextTick(() => togglePopperVisible(false))"
