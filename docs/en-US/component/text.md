@@ -25,7 +25,7 @@ text/sizes
 
 ## Ellipsis
 
-:::demo Pass the `truncated` prop to render an ellipsis when the text exceeds the width of the viewport or max-width set.
+:::demo Pass the `truncated` prop to render an ellipsis when the text exceeds the width of the viewport or max-width set. `line-clamp` prop to render multiline ellipsis.
 
 text/truncated
 
@@ -51,12 +51,13 @@ text/mixed
 
 ### Attributes
 
-| Name      | Description        | Type                                                               | Default |
-| --------- | ------------------ | ------------------------------------------------------------------ | ------- |
-| type      | text type          | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
-| size      | text size          | ^[enum]`'large' \| 'default' \| 'small'`                           | default |
-| truncated | render ellipsis    | ^[boolean]                                                         | false   |
-| tag       | custom element tag | ^[string]                                                          | span    |
+| Name       | Description        | Type                                                               | Default |
+| ---------- | ------------------ | ------------------------------------------------------------------ | ------- |
+| type       | text type          | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | —       |
+| size       | text size          | ^[enum]`'large' \| 'default' \| 'small'`                           | default |
+| truncated  | render ellipsis    | ^[boolean]                                                         | false   |
+| line-clamp | maximum lines      | ^[string] / ^[number]                                              | -       |
+| tag        | custom element tag | ^[string]                                                          | span    |
 
 ### Slots
 
