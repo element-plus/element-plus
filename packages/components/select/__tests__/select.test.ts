@@ -22,6 +22,22 @@ vi.mock('lodash-unified', async () => {
   }
 })
 
+Object.defineProperty(Array.prototype, 'findLastIndex', {
+  get() {
+    return (fn) => {
+      let lastNotDisabledIndex = -1
+
+      for (let i = this.length - 1; i >= 0; i--) {
+        if (fn(this[i])) {
+          lastNotDisabledIndex = i
+          break
+        }
+      }
+      return lastNotDisabledIndex
+    }
+  },
+})
+
 interface SelectProps {
   filterMethod?: any
   remoteMethod?: any
@@ -1914,10 +1930,10 @@ describe('Select', () => {
     await nextTick()
 
     expect(innerInputEl.placeholder).toBe('')
-
     selectInput.trigger('keydown', {
       key: EVENT_CODE.backspace,
     })
+
     await nextTick()
     expect(innerInputEl.placeholder).toBe(placeholder)
     vi.useRealTimers()
