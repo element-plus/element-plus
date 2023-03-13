@@ -218,17 +218,10 @@ const verifyValue = (
   }
   return newVal
 }
-const setCurrentValue = (
-  value: number | string | null | undefined,
-  emitChange = true
-) => {
+const setCurrentValue = (value: number | string | null | undefined) => {
   const oldVal = data.currentValue
   const newVal = verifyValue(value)
   if (oldVal === newVal) return
-  if (!emitChange) {
-    emit(UPDATE_MODEL_EVENT, newVal!)
-    return
-  }
   data.userInput = null
   emit(UPDATE_MODEL_EVENT, newVal!)
   emit(CHANGE_EVENT, newVal!, oldVal!)
@@ -241,7 +234,7 @@ const handleInput = (value: string) => {
   data.userInput = value
   const newVal = value === '' ? null : Number(value)
   emit(INPUT_EVENT, newVal)
-  setCurrentValue(newVal, false)
+  emit(UPDATE_MODEL_EVENT, newVal!)
 }
 const handleInputChange = (value: string) => {
   const newVal = value !== '' ? Number(value) : ''
@@ -273,9 +266,8 @@ const handleBlur = (event: MouseEvent | FocusEvent) => {
 watch(
   () => props.modelValue,
   (value) => {
-    const userInput = verifyValue(data.userInput)
     const newValue = verifyValue(value, true)
-    if (!isNumber(userInput) && (!userInput || userInput !== newValue)) {
+    if (!isString(data.userInput) || verifyValue(data.userInput) !== newValue) {
       data.currentValue = newValue
       data.userInput = null
     }

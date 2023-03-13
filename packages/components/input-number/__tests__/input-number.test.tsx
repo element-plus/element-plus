@@ -65,6 +65,20 @@ describe('InputNumber.vue', () => {
     await nextTick()
     expect(num.value).toEqual(3)
   })
+
+  test('keep currentValue when user input', async () => {
+    const num = ref<number>(0)
+    const wrapper = mount(() => <InputNumber v-model={num.value} />)
+
+    const input = wrapper.find('input')
+    input.element.value = ''
+    const data = (wrapper.findComponent(InputNumber).vm as any).data
+
+    input.trigger('input')
+    await nextTick()
+    expect(data.currentValue).equals(0)
+  })
+
   test('min', async () => {
     const num = ref(1)
     const wrapper = mount(() => <InputNumber min={3} v-model={num.value} />)
