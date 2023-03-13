@@ -1,41 +1,44 @@
-import {
-  computed,
-  nextTick,
-  onMounted,
-  ref,
-  shallowRef,
-  unref,
-  useSlots,
-  watch,
-} from 'vue'
-import { isClient, useResizeObserver } from '@vueuse/core'
+import { computed, nextTick, ref, shallowRef, unref, useSlots } from 'vue'
+import { isClient } from '@vueuse/core'
 import { isObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { useFormSize } from '@element-plus/components/form'
 import { calcTextareaHeight } from '../utils'
 
-import type { StyleValue } from 'vue'
-import type { useInputStates } from './use-input-state'
+import type { Ref, StyleValue } from 'vue'
+import type { UseInputStateReturn } from './use-input-state'
 import type { InputProps } from '../input'
 
 export const useInputDOM = (
   props: InputProps,
   rawAttrs: Record<string, unknown>,
   {
-    focused,
-    isWordLimitVisible,
+    focusing,
     inputDisabled,
     inputExceeded,
     showClear,
     showPwdVisible,
-  }: ReturnType<typeof useInputStates>
+    passwordVisible,
+    nativeInputValue,
+    inputElRef,
+  }: Pick<
+    UseInputStateReturn,
+    | 'focusing'
+    | 'inputDisabled'
+    | 'inputExceeded'
+    | 'showClear'
+    | 'showPwdVisible'
+    | 'passwordVisible'
+    | 'nativeInputValue'
+  > & {
+    inputElRef: Ref<HTMLInputElement | HTMLTextAreaElement | undefined>
+  }
 ) => {
   const slots = useSlots()
   const ns = useNamespace('input')
   const nsTextarea = useNamespace('textarea')
   const inputSize = useFormSize()
 
-  const inputElRef = ref<HTMLInputElement | HTMLTextAreaElement>()
   const textareaCalcStyle = shallowRef<StyleValue>(props.inputStyle)
   const wordLimitStyle = ref<StyleValue>() // alias wordLimitStyle=countStyle
 
@@ -62,7 +65,7 @@ export const useInputDOM = (
 
   const wrapperKls = computed(() => [
     ns.e('wrapper'),
-    ns.is('focus', focused.value),
+    ns.is('focus', focusing.value),
   ])
 
   const containerStyle = computed<StyleValue>(() => [
@@ -85,9 +88,23 @@ export const useInputDOM = (
     if (autosize) {
       const minRows = isObject(autosize) ? autosize.minRows : undefined
       const maxRows = isObject(autosize) ? autosize.maxRows : undefined
+
+      const textareaStyle = calcTextareaHeight(inputEl, minRows, maxRows)
+
+      // If the scrollbar is displayed, the height of the textarea needs more space than the calculated height.
+      // If set textarea height in this case, the scrollbar will not hide.
+      // So we need to hide scrollbar first, and reset it in next tick.
+      // see https://github.com/element-plus/element-plus/issues/8825
       textareaCalcStyle.value = {
-        ...calcTextareaHeight(inputEl, minRows, maxRows),
+        overflowY: 'hidden',
+        ...textareaStyle,
       }
+
+      nextTick(() => {
+        // NOTE: Force repaint to make sure the style set above is applied.
+        inputEl!.offsetHeight
+        textareaCalcStyle.value = textareaStyle
+      })
     } else {
       textareaCalcStyle.value = {
         minHeight: calcTextareaHeight(inputEl).minHeight,
@@ -105,34 +122,21 @@ export const useInputDOM = (
     unref(inputElRef)?.blur?.()
   }
 
-  onMounted(() => {
-    watch(
-      () => props.type,
-      (type) => {
-        if (type === 'textarea') {
-          useResizeObserver(inputElRef, (entries) => {
-            if (!unref(isWordLimitVisible) || props.resize !== 'both') return
-            const entry = entries[0]
-            const { width } = entry.contentRect
-            wordLimitStyle.value = {
-              /** right: 100% - width + padding(15) + right(6) */
-              right: `calc(100% - ${width + 15 + 6}px)`,
-            }
-          })
-        }
-      }
-    )
+  const onTogglePasswordVisible = () => {
+    passwordVisible.value = !unref(passwordVisible)
+    focus()
+  }
 
-    watch(
-      () => props.modelValue,
-      () => {
-        nextTick(() => resizeTextarea())
-      },
-      {
-        immediate: true,
-      }
-    )
-  })
+  const select = () => {
+    inputElRef.value?.select?.()
+  }
+
+  const setNativeInputValue = () => {
+    const inputEl = unref(inputElRef)
+    const value = unref(nativeInputValue)
+    if (!inputEl || inputEl.value === value) return
+    inputEl.value = value
+  }
 
   return {
     containerKls,
@@ -141,9 +145,17 @@ export const useInputDOM = (
     textareaStyle,
     inputElRef,
     wordLimitStyle,
+    ns,
+    nsTextarea,
 
+    resizeTextarea,
     refSetter,
     focus,
     blur,
+    select,
+    setNativeInputValue,
+    onTogglePasswordVisible,
   }
 }
+
+export type UseInputDOMReturn = ReturnType<typeof useInputDOM>

@@ -29,7 +29,7 @@ export const useInputStates = (
   })
   const slots = useSlots()
 
-  const focused = ref(false)
+  const focusing = ref(false)
   const hovering = ref(false)
   const isComposing = ref(false)
   const passwordVisible = ref(false)
@@ -54,7 +54,7 @@ export const useInputStates = (
       !unref(inputDisabled) &&
       !props.readonly &&
       !!unref(nativeInputValue) &&
-      (unref(focused) || unref(hovering))
+      (unref(focusing) || unref(hovering))
   )
   const showPwdVisible = computed(
     () =>
@@ -62,7 +62,7 @@ export const useInputStates = (
       !unref(inputDisabled) &&
       !props.readonly &&
       !!unref(nativeInputValue) &&
-      (!!unref(nativeInputValue) || unref(focused))
+      (!!unref(nativeInputValue) || unref(focusing))
   )
   const isWordLimitVisible = computed(
     () =>
@@ -97,12 +97,16 @@ export const useInputStates = (
     if (!props.showPassword) return props.type
     return unref(passwordVisible) ? 'text' : 'password'
   })
+  const isTextarea = computed(() => props.type === 'textarea')
+  const isText = computed(() => props.type === 'text')
 
   return {
+    form,
+    formItem,
     inputId,
     inputDisabled,
     containerAttrs,
-    focused,
+    focusing,
     hovering,
     isComposing,
     passwordVisible,
@@ -110,8 +114,16 @@ export const useInputStates = (
     showPwdVisible,
     isWordLimitVisible,
     isPlainText,
+    isTextarea,
+    isText,
     inputExceeded,
     inputType,
     suffixVisible,
+    nativeInputValue,
+    textLength,
+    validateState,
+    needStatusIcon,
   }
 }
+
+export type UseInputStateReturn = ReturnType<typeof useInputStates>

@@ -1,22 +1,24 @@
-import { nextTick, ref, unref } from 'vue'
+import { nextTick, unref } from 'vue'
 import { isEqual } from 'lodash-unified'
 import { isKorean } from '@element-plus/utils'
-import type { useCursor } from '@element-plus/hooks'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 
-import type { Ref, SetupContext } from 'vue'
-import type { InputEmits, InputProps } from './input'
+import type { SetupContext } from 'vue'
+import type { useCursor } from '@element-plus/hooks'
+import type { UseInputStateReturn } from './use-input-state'
+import type { UseInputDOMReturn } from './use-input-dom'
+import type { InputEmits, InputProps } from '../input'
 
 type UserCursorReturn = ReturnType<typeof useCursor>
 
-export interface UseInputEventsProps {
-  isComposing: Ref<boolean>
-  hovering: Ref<boolean>
-  focused: Ref<boolean>
-  nativeInput: Ref<string>
-  recordCursor: UserCursorReturn[0]
-  setCursor: UserCursorReturn[1]
-  setNativeInputValue: () => void
-}
+export type UseInputEventsProps = Pick<
+  UseInputStateReturn,
+  'isComposing' | 'hovering' | 'focusing' | 'nativeInputValue'
+> &
+  Pick<UseInputDOMReturn, 'setNativeInputValue'> & {
+    recordCursor: UserCursorReturn[0]
+    setCursor: UserCursorReturn[1]
+  }
 
 export interface ComposeHandlerOptions {
   useValue?: boolean
@@ -28,21 +30,22 @@ export type TargetElement = HTMLInputElement | HTMLTextAreaElement
  * @description event handlers that manipulate states
  */
 export const useInputEvents = (
+  props: InputProps,
+  emit: SetupContext<InputEmits>['emit'],
   {
     isComposing,
     hovering,
-    focused,
-    nativeInput,
+    focusing,
+    nativeInputValue,
     recordCursor,
     setCursor,
     setNativeInputValue,
-  }: UseInputEventsProps,
-  props: InputProps,
-  emit: SetupContext<InputEmits>['emit']
+  }: UseInputEventsProps
 ) => {
   const parseValue = (value: string) => {
-    if (props.formatter || props.parser) {
-      value = props.parser?.(value) || props.formatter?.(value)
+    if (props.formatter) {
+      value = props.parser ? props.parser(value) : value
+      return props.formatter(value)
     }
     return value
   }
@@ -64,15 +67,14 @@ export const useInputEvents = (
         emit(eventName as any, value)
         return
       }
-
       emit(eventName as any, e as any)
     }
   }
   const handleFocus = composeHandler('focus', () => {
-    focused.value = true
+    focusing.value = true
   })
   const handleBlur = composeHandler('blur', () => {
-    focused.value = false
+    focusing.value = false
   })
   const handleCompositionStart = composeHandler('compositionend', () => {
     isComposing.value = true
@@ -95,23 +97,30 @@ export const useInputEvents = (
     }
   )
 
-  const handleInput = composeHandler('input', (e: Event) => {
-    recordCursor()
-    if (unref(isComposing)) return false
-    // Determine if the formatted value is equal to the native input value
-    // If true, bail the handler since nothing has changed.
-    if (
-      isEqual(parseValue((e.target as TargetElement).value), unref(nativeInput))
-    ) {
-      setNativeInputValue()
-      return false
-    }
+  const handleInput = composeHandler(
+    'input',
+    (e: Event) => {
+      recordCursor()
+      if (unref(isComposing)) return false
+      // Determine if the formatted value is equal to the native input value
+      // If true, bail the handler since nothing has changed.
+      const parsedValue = parseValue((e.target as TargetElement).value)
+      if (isEqual(parsedValue, unref(nativeInputValue))) {
+        setNativeInputValue()
+        return false
+      }
 
-    nextTick(() => {
-      setNativeInputValue()
-      setCursor()
-    })
-  })
+      emit(UPDATE_MODEL_EVENT, parsedValue)
+
+      nextTick(() => {
+        setNativeInputValue()
+        setCursor()
+      })
+    },
+    {
+      useValue: true,
+    }
+  )
 
   const handleMouseEnter = composeHandler('mouseenter', () => {
     hovering.value = true
@@ -125,7 +134,20 @@ export const useInputEvents = (
     emit('keydown', e)
   }
 
+  const handleChange = (e: Event) => {
+    emit('change', (e.target as TargetElement).value)
+  }
+
+  const clear = () => {
+    emit(UPDATE_MODEL_EVENT, '')
+    emit('change', '')
+    emit('clear')
+    emit('input', '')
+  }
+
   return {
+    clear,
+    handleChange,
     handleFocus,
     handleBlur,
     handleCompositionStart,
@@ -137,3 +159,5 @@ export const useInputEvents = (
     handleKeydown,
   }
 }
+
+export type UseInputEventsReturn = ReturnType<typeof useInputEvents>
