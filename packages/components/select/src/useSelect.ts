@@ -369,7 +369,6 @@ export const useSelect = (props, states: States, ctx) => {
 
   // methods
   const resetInputHeight = () => {
-    if (props.collapseTags && !props.filterable) return
     nextTick(() => {
       if (!reference.value) return
       const input = reference.value.$el.querySelector(
@@ -859,6 +858,14 @@ export const useSelect = (props, states: States, ctx) => {
       .every((option) => option.disabled)
   )
 
+  const showTagList = computed(() =>
+    states.selected.slice(0, props.maxCollapseTags)
+  )
+
+  const collapseTagList = computed(() =>
+    states.selected.slice(props.maxCollapseTags)
+  )
+
   const navigateOptions = (direction) => {
     if (!states.visible) {
       states.visible = true
@@ -941,6 +948,8 @@ export const useSelect = (props, states: States, ctx) => {
     dropMenuVisible,
     queryChange,
     groupQueryChange,
+    showTagList,
+    collapseTagList,
 
     // DOM ref
     reference,
