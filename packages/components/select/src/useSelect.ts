@@ -628,16 +628,8 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
-  const getLastNotDisabledIndex = (value) => {
-    let lastNotDisabledIndex = -1
-    for (let i = value.length - 1; i >= 0; i--) {
-      if (!states.disabledOptions.has(value[i])) {
-        lastNotDisabledIndex = i
-        break
-      }
-    }
-    return lastNotDisabledIndex
-  }
+  const getLastNotDisabledIndex = (value) =>
+    value.findLastIndex((it) => !states.disabledOptions.has(it))
 
   const deletePrevTag = (e) => {
     if (e.code === EVENT_CODE.delete) return
