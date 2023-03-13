@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Warning } from '@element-plus/icons-vue'
+import { useLang } from '../../composables/lang'
+import apiTypingLocale from '../../../i18n/component/api-typing.json'
 
 defineProps({
   type: String,
   details: String,
 })
+
+const lang = useLang()
+const detail = computed(() => apiTypingLocale[lang.value].detail)
 </script>
 
 <template>
@@ -14,7 +20,12 @@ defineProps({
     </code>
     <ClientOnly>
       <ElTooltip v-if="details" effect="light" trigger="click">
-        <ElButton text :icon="Warning" class="p-2 text-4" />
+        <ElButton
+          text
+          :icon="Warning"
+          :aria-label="detail"
+          class="p-2 text-4"
+        />
         <template #content>
           <slot>
             <div class="m-1">

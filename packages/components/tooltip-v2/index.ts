@@ -7,5 +7,6 @@ export * from './src/content'
 export * from './src/root'
 export * from './src/tooltip'
 export * from './src/trigger'
+export * from './src/constants'
 
 export default ElTooltipV2
