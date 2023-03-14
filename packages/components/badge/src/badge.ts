@@ -32,5 +32,9 @@ export const badgeProps = buildProps({
     values: ['primary', 'success', 'warning', 'info', 'danger'],
     default: 'danger',
   },
+  rtl: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>

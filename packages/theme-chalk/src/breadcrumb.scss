@@ -15,9 +15,18 @@
     &.#{$namespace}-icon {
       margin: 0 6px;
       font-weight: normal;
+
       svg {
         vertical-align: middle;
       }
+    }
+  }
+
+  @include when(rtl) {
+    direction: rtl;
+
+    @include e(item) {
+      float: right;
     }
   }
 
@@ -25,6 +34,7 @@
     float: left;
     display: inline-flex;
     align-items: center;
+
 
     @include e(inner) {
       color: getCssVar('text-color', 'regular');
@@ -44,8 +54,10 @@
     }
 
     &:last-child {
+
       .#{$namespace}-breadcrumb__inner,
       .#{$namespace}-breadcrumb__inner a {
+
         &,
         &:hover {
           font-weight: normal;

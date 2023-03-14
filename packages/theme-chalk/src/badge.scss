@@ -38,6 +38,11 @@
       @include when(dot) {
         right: 5px;
       }
+
+      @include when(rtl) {
+        right: unset;
+        left: calc(calc(1px + #{getCssVar('badge', 'size')} / 2) * -4);
+      }
     }
 
     @include when(dot) {

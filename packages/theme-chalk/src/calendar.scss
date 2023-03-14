@@ -7,11 +7,16 @@
 
   background-color: getCssVar('fill-color', 'blank');
 
+
   @include e(header) {
     display: flex;
     justify-content: space-between;
     padding: 12px 20px;
     border-bottom: getCssVar('calendar', 'header-border-bottom');
+
+    @include when(rtl) {
+      direction: rtl;
+    }
   }
 
   @include e(title) {
@@ -35,6 +40,7 @@
   }
 
   &:not(.is-range) {
+
     td.prev,
     td.next {
       color: getCssVar('text-color', 'placeholder');
@@ -72,6 +78,7 @@
     box-sizing: border-box;
     padding: 8px;
     height: getCssVar('calendar', 'cell-width');
+
     &:hover {
       cursor: pointer;
       background-color: getCssVar('calendar', 'selected-bg-color');

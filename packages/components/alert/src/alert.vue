@@ -2,7 +2,13 @@
   <transition :name="ns.b('fade')">
     <div
       v-show="visible"
-      :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"
+      :class="[
+        ns.b(),
+        ns.m(type),
+        ns.is('center', center),
+        ns.is(effect),
+        ns.is('rtl', isRTL),
+      ]"
       role="alert"
     >
       <el-icon v-if="showIcon && iconComponent" :class="iconClass">
@@ -67,6 +73,13 @@ const iconClass = computed(() => [
 
 const isBoldTitle = computed(() => {
   return { [ns.is('bold')]: props.description || slots.default }
+})
+const isRTL = computed(() => {
+  if (props.rtl === true) {
+    return true
+  } else {
+    return false
+  }
 })
 
 const close = (evt: MouseEvent) => {

@@ -26,10 +26,20 @@
     }
   }
 
+  @include when(rtl) {
+    direction: rtl;
+
+    .#{$namespace}-alert__close-btn {
+      right: unset;
+      left: 15px;
+    }
+  }
+
   @include when(dark) {
     .#{$namespace}-alert__close-btn {
       color: getCssVar('color', 'white');
     }
+
     .#{$namespace}-alert__description {
       color: getCssVar('color', 'white');
     }
@@ -41,10 +51,8 @@
 
   @each $type in (success, info, warning, error) {
     @include m($type) {
-      @include css-var-from-global(
-        ('alert', 'bg-color'),
-        ('color', $type, 'light-9')
-      );
+      @include css-var-from-global(('alert', 'bg-color'),
+        ('color', $type, 'light-9'));
 
       &.is-light {
         background-color: getCssVar('alert', 'bg-color');
@@ -81,6 +89,7 @@
     font-size: getCssVar('alert', 'title-font-size');
     line-height: 18px;
     vertical-align: text-top;
+
     @include when(bold) {
       font-weight: bold;
     }

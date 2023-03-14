@@ -1,7 +1,7 @@
 <template>
   <div
     ref="breadcrumb"
-    :class="ns.b()"
+    :class="[ns.b(), ns.is('rtl', isRTL)]"
     aria-label="Breadcrumb"
     role="navigation"
   >
@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, provide, ref } from 'vue'
+import { computed, onMounted, provide, ref } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { breadcrumbKey } from './constants'
 import { breadcrumbProps } from './breadcrumb'
@@ -30,6 +30,13 @@ onMounted(() => {
   const items = breadcrumb.value!.querySelectorAll(`.${ns.e('item')}`)
   if (items.length) {
     items[items.length - 1].setAttribute('aria-current', 'page')
+  }
+})
+const isRTL = computed(() => {
+  if (props.rtl === true) {
+    return true
+  } else {
+    return false
   }
 })
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div :class="ns.b()">
-    <div :class="ns.e('header')">
+    <div :class="[ns.e('header'), ns.is('rtl', isRTL)]">
       <slot name="header" :date="i18nDate">
         <div :class="ns.e('title')">{{ i18nDate }}</div>
         <div v-if="validatedRange.length === 0" :class="ns.e('button-group')">
@@ -84,6 +84,14 @@ const { t } = useLocale()
 const i18nDate = computed(() => {
   const pickedMonth = `el.datepicker.month${date.value.format('M')}`
   return `${date.value.year()} ${t('el.datepicker.year')} ${t(pickedMonth)}`
+})
+
+const isRTL = computed(() => {
+  if (props.rtl === true) {
+    return true
+  } else {
+    return false
+  }
 })
 
 defineExpose({

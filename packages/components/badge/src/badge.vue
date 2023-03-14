@@ -9,6 +9,7 @@
           ns.em('content', type),
           ns.is('fixed', !!$slots.default),
           ns.is('dot', isDot),
+          ns.is('rtl', isRTL),
         ]"
         v-text="content"
       />
@@ -37,6 +38,14 @@ const content = computed<string>(() => {
     return props.max < props.value ? `${props.max}+` : `${props.value}`
   }
   return `${props.value}`
+})
+
+const isRTL = computed(() => {
+  if (props.rtl === true) {
+    return true
+  } else {
+    return false
+  }
 })
 
 defineExpose({
