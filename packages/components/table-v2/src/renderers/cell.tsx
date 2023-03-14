@@ -122,7 +122,7 @@ const CellRenderer: FunctionalComponent<CellRendererProps> = (
   }
 
   return (
-    <div class={kls} style={cellStyle} {...extraCellProps}>
+    <div class={kls} style={cellStyle} {...extraCellProps} role="cell">
       {IconOrPlaceholder}
       {Cell}
     </div>

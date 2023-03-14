@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 const visible = ref(false)
 const triggerRef = ref({
@@ -28,14 +28,19 @@ const position = ref({
   right: 0,
 })
 
-onMounted(() => {
-  document.addEventListener('mousemove', (e) => {
-    position.value = DOMRect.fromRect({
-      width: 0,
-      height: 0,
-      x: e.clientX,
-      y: e.clientY,
-    })
+const mousemoveHandler = (e) => {
+  position.value = DOMRect.fromRect({
+    width: 0,
+    height: 0,
+    x: e.clientX,
+    y: e.clientY,
   })
+}
+onMounted(() => {
+  document.addEventListener('mousemove', mousemoveHandler)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('mousemove', mousemoveHandler)
 })
 </script>

@@ -1,9 +1,7 @@
 // @ts-nocheck
 import {
   computed,
-  getCurrentInstance,
   nextTick,
-  onUpdated,
   reactive,
   ref,
   shallowRef,
@@ -89,6 +87,7 @@ export const useSelect = (props, states: States, ctx) => {
     input: HTMLInputElement
   }> | null>(null)
   const input = ref<HTMLInputElement | null>(null)
+  const iOSInput = ref<HTMLInputElement | null>(null)
   const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const tags = ref<HTMLElement | null>(null)
   const selectWrapper = ref<HTMLElement | null>(null)
@@ -98,19 +97,8 @@ export const useSelect = (props, states: States, ctx) => {
   const hoverOption = ref(-1)
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
-  const instance = getCurrentInstance()
   const optionList = ref<string[]>([])
   let originClientHeight = 0
-
-  onUpdated(() => {
-    const childrens = instance?.slots.default?.()[0].children
-    if (childrens && childrens.length) {
-      const options = childrens
-        .filter((item) => item.type.name === 'ElOption')
-        .map((item) => item.props.label)
-      optionList.value = options
-    }
-  })
 
   const { form, formItem } = useFormItem()
 
@@ -316,6 +304,7 @@ export const useSelect = (props, states: States, ctx) => {
         if (props.filterable) {
           states.filteredOptionsCount = states.optionsCount
           states.query = props.remote ? '' : states.selectedLabel
+          iOSInput.value?.focus?.()
           if (props.multiple) {
             input.value?.focus()
           } else {
@@ -382,7 +371,6 @@ export const useSelect = (props, states: States, ctx) => {
 
   // methods
   const resetInputHeight = () => {
-    if (props.collapseTags && !props.filterable) return
     nextTick(() => {
       if (!reference.value) return
       const input = reference.value.$el.querySelector(
@@ -804,6 +792,7 @@ export const useSelect = (props, states: States, ctx) => {
   const blur = () => {
     states.visible = false
     reference.value?.blur()
+    iOSInput.value?.blur?.()
   }
 
   const handleBlur = (event: FocusEvent) => {
@@ -872,6 +861,14 @@ export const useSelect = (props, states: States, ctx) => {
       .every((option) => option.disabled)
   )
 
+  const showTagList = computed(() =>
+    states.selected.slice(0, props.maxCollapseTags)
+  )
+
+  const collapseTagList = computed(() =>
+    states.selected.slice(props.maxCollapseTags)
+  )
+
   const navigateOptions = (direction) => {
     if (!states.visible) {
       states.visible = true
@@ -913,6 +910,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   return {
+    optionList,
     optionsArray,
     selectSize,
     handleResize,
@@ -953,10 +951,13 @@ export const useSelect = (props, states: States, ctx) => {
     dropMenuVisible,
     queryChange,
     groupQueryChange,
+    showTagList,
+    collapseTagList,
 
     // DOM ref
     reference,
     input,
+    iOSInput,
     tooltipRef,
     tags,
     selectWrapper,

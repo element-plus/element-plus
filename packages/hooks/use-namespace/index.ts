@@ -26,9 +26,11 @@ const _bem = (
 }
 
 export const namespaceContextKey: InjectionKey<Ref<string | undefined>> =
-  Symbol('localeContextKey')
+  Symbol('namespaceContextKey')
 
-export const useGetDerivedNamespace = (namespaceOverrides?: Ref<string>) => {
+export const useGetDerivedNamespace = (
+  namespaceOverrides?: Ref<string | undefined>
+) => {
   const derivedNamespace =
     namespaceOverrides || inject(namespaceContextKey, ref(defaultNamespace))
   const namespace = computed(() => {
@@ -39,7 +41,7 @@ export const useGetDerivedNamespace = (namespaceOverrides?: Ref<string>) => {
 
 export const useNamespace = (
   block: string,
-  namespaceOverrides?: Ref<string>
+  namespaceOverrides?: Ref<string | undefined>
 ) => {
   const namespace = useGetDerivedNamespace(namespaceOverrides)
   const b = (blockSuffix = '') =>

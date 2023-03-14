@@ -232,6 +232,10 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
     .#{$namespace}-input__icon {
       height: inherit;
+
+      &:not(:first-child) {
+        margin-left: 8px;
+      }
     }
   }
 
