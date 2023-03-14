@@ -19,7 +19,7 @@ const contributors = computed(() =>
           class="flex gap-2 items-center link"
           no-icon
         >
-          <img :src="c.avatar" class="w-8 h-8 rounded-full" />
+          <img :src="c.avatar" class="w-8 h-8 rounded-full" loading="lazy" />
           {{ c.name }}
         </vp-link>
       </div>
