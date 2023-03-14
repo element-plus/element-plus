@@ -33,7 +33,10 @@
           <div
             v-if="multiple"
             ref="tags"
-            :class="nsSelect.e('tags')"
+            :class="[
+              nsSelect.e('tags'),
+              nsSelect.is('disabled', selectDisabled),
+            ]"
             :style="selectTagsStyle"
           >
             <transition

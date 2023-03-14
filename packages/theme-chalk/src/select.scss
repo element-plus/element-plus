@@ -208,6 +208,9 @@
     top: 50%;
     transform: translateY(-50%);
     @include select-tag-normal;
+    @include when(disabled) {
+      z-index: 0;
+    }
   }
 
   @include e(collapse-tags) {
