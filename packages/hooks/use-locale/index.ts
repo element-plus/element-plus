@@ -44,7 +44,7 @@ export const buildLocaleContext = (
 export const localeContextKey: InjectionKey<Ref<Language | undefined>> =
   Symbol('localeContextKey')
 
-export const useLocale = () => {
-  const locale = inject(localeContextKey, ref())!
+export const useLocale = (localeOverrides?: Ref<Language | undefined>) => {
+  const locale = localeOverrides || inject(localeContextKey, ref())!
   return buildLocaleContext(computed(() => locale.value || English))
 }
