@@ -407,8 +407,6 @@ export default defineComponent({
       return h(
         'div',
         {
-          role: 'pagination',
-          'aria-label': 'pagination',
           class: [
             ns.b(),
             ns.is('background', props.background),

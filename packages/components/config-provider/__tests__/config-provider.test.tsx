@@ -6,12 +6,16 @@ import Chinese from '@element-plus/locale/lang/zh-cn'
 import English from '@element-plus/locale/lang/en'
 import { ElButton, ElMessage } from '@element-plus/components'
 import { rAF } from '@element-plus/test-utils/tick'
-import { useGlobalConfig } from '../src/hooks/use-global-config'
+import {
+  useGlobalComponentSettings,
+  useGlobalConfig,
+} from '../src/hooks/use-global-config'
 import ConfigProvider from '../src/config-provider'
 
 import type { PropType } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { Language } from '@element-plus/locale'
+import type { ComponentSize } from '@element-plus/constants'
 import type { ConfigProviderProps } from '../src/config-provider-props'
 
 const TestComp = defineComponent({
@@ -238,5 +242,44 @@ describe('config-provider', () => {
         expect(wrapper.findComponent(TestComponent).vm[feature]).toEqual(config)
       }
     )
+  })
+
+  describe('global component configs', () => {
+    it('should use global configured settings', async () => {
+      const namespace = 'test'
+      const locale = Chinese
+      const zIndex = 1000
+      const block = 'button'
+      const size = 'large'
+      const receiverRef = ref()
+      const fallback = ref('' as ComponentSize)
+      const ReceiverComponent = defineComponent({
+        setup() {
+          receiverRef.value = useGlobalComponentSettings(block, fallback)
+        },
+        template: '<div></div>',
+      })
+      mount(() => (
+        <ConfigProvider
+          zIndex={zIndex}
+          locale={locale}
+          namespace={namespace}
+          size={size}
+        >
+          <ReceiverComponent />
+        </ConfigProvider>
+      ))
+
+      const vm = receiverRef.value
+      expect(vm.ns.namespace).toBe(namespace)
+      expect(vm.locale.locale).toBe(locale)
+      expect(vm.zIndex.currentZIndex).toBeGreaterThanOrEqual(zIndex)
+      expect(vm.size).toBe(size)
+
+      fallback.value = 'small'
+      await nextTick()
+
+      expect(vm.size).toBe('small')
+    })
   })
 })
