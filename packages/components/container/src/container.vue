@@ -1,5 +1,7 @@
 <template>
-  <section :class="[ns.b(), ns.is('vertical', isVertical)]">
+  <section
+    :class="[ns.b(), ns.is('rtl', isRTL), ns.is('vertical', isVertical)]"
+  >
     <slot />
   </section>
 </template>
@@ -19,6 +21,9 @@ const props = defineProps({
   direction: {
     type: String,
   },
+  rtl: {
+    type: Boolean,
+  },
 })
 const slots = useSlots()
 
@@ -36,6 +41,14 @@ const isVertical = computed(() => {
       const tag = (vNode.type as Component).name
       return tag === 'ElHeader' || tag === 'ElFooter'
     })
+  } else {
+    return false
+  }
+})
+
+const isRTL = computed(() => {
+  if (props.rtl === true) {
+    return true
   } else {
     return false
   }

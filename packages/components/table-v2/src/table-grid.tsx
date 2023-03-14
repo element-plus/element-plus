@@ -228,6 +228,7 @@ const TableGrid = defineComponent({
             width={width}
             height={unref(gridHeight)}
             class={ns.e('body')}
+            role="rowgroup"
             scrollbarStartGap={scrollbarStartGap}
             scrollbarEndGap={scrollbarEndGap}
             scrollbarAlwaysOn={scrollbarAlwaysOn}

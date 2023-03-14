@@ -11,4 +11,8 @@
   @include when(vertical) {
     flex-direction: column;
   }
+
+  @include when(rtl) {
+    direction: rtl;
+  }
 }
