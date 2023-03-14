@@ -278,6 +278,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    width: 100%;
   }
 
   @include e(input-calculator) {
