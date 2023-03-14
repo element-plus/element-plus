@@ -148,7 +148,11 @@
               ref="input"
               v-model="query"
               type="text"
-              :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
+              :class="[
+                nsSelect.e('input'),
+                nsSelect.is(selectSize),
+                nsSelect.is('disabled', selectDisabled),
+              ]"
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
               :style="{

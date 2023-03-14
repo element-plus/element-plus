@@ -175,6 +175,10 @@
     height: 28px;
     background-color: transparent;
 
+    @include when(disabled) {
+      cursor: not-allowed;
+    }
+
     &--iOS {
       position: absolute;
       left: 0;
@@ -209,7 +213,7 @@
     transform: translateY(-50%);
     @include select-tag-normal;
     @include when(disabled) {
-      z-index: 0;
+      cursor: not-allowed;
     }
   }
 
