@@ -24,7 +24,7 @@
   >
     <template #default>
       <div
-        v-clickoutside:[cascaderPanelRef]="() => togglePopperVisible(false)"
+        v-clickoutside:[contentRef]="() => togglePopperVisible(false)"
         :class="cascaderKls"
         :style="cascaderStyle"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
@@ -350,6 +350,10 @@ const cascaderIconKls = computed(() => {
 
 const inputClass = computed(() => {
   return nsCascader.is('focus', popperVisible.value || filterFocus.value)
+})
+
+const contentRef = computed(() => {
+  return tooltipRef.value?.popperRef?.contentRef
 })
 
 const togglePopperVisible = (visible?: boolean) => {
@@ -685,5 +689,9 @@ defineExpose({
    * @description toggle the visible of popper
    */
   togglePopperVisible,
+  /**
+   * @description cascader content ref
+   */
+  contentRef,
 })
 </script>
