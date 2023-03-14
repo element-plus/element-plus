@@ -182,3 +182,5 @@ export const uploadProps = buildProps({
 export type UploadProps = ExtractPropTypes<typeof uploadProps>
 
 export type UploadInstance = InstanceType<typeof Upload>
+
+export type UploadCopyProps = Pick<UploadProps, 'name' | 'data'>

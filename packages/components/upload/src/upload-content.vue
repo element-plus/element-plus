@@ -28,6 +28,7 @@
 
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
+import { cloneDeep, isObject } from 'lodash'
 import { useNamespace } from '@element-plus/hooks'
 import { entriesOf } from '@element-plus/utils'
 import { useFormDisabled } from '@element-plus/components/form'
@@ -36,6 +37,7 @@ import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
 
 import type {
+  UploadCopyProps,
   UploadFile,
   UploadHooks,
   UploadRawFile,
@@ -81,13 +83,26 @@ const uploadFiles = (files: File[]) => {
 const upload = async (rawFile: UploadRawFile) => {
   inputRef.value!.value = ''
 
+  const getParams = (): UploadCopyProps => {
+    const filename = props.name
+    const data = isObject(props.data) ? cloneDeep(props.data) : props.data
+    const params: UploadCopyProps = {
+      name: filename,
+      data,
+    }
+    return params
+  }
+
   if (!props.beforeUpload) {
-    return doUpload(rawFile)
+    return doUpload(rawFile, getParams())
   }
 
   let hookResult: Exclude<ReturnType<UploadHooks['beforeUpload']>, Promise<any>>
+  const beforeUploadPromise = props.beforeUpload(rawFile)
+  const params = getParams()
+
   try {
-    hookResult = await props.beforeUpload(rawFile)
+    hookResult = await beforeUploadPromise
   } catch {
     hookResult = false
   }
@@ -111,17 +126,19 @@ const upload = async (rawFile: UploadRawFile) => {
   doUpload(
     Object.assign(file, {
       uid: rawFile.uid,
-    })
+    }),
+    params
   )
 }
 
-const doUpload = (rawFile: UploadRawFile) => {
+const doUpload = (rawFile: UploadRawFile, params: UploadCopyProps) => {
+  const { data, name: filename } = params || {}
   const {
     headers,
-    data,
+    // data,
     method,
     withCredentials,
-    name: filename,
+    // name: filename,
     action,
     onProgress,
     onSuccess,
