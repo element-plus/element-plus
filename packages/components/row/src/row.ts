@@ -44,6 +44,10 @@ export const rowProps = buildProps({
     values: RowAlign,
     default: 'top',
   },
+  rtl: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 
 export type RowProps = ExtractPropTypes<typeof rowProps>

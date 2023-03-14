@@ -32,5 +32,11 @@ export const badgeProps = buildProps({
     values: ['primary', 'success', 'warning', 'info', 'danger'],
     default: 'danger',
   },
+
+  /* A prop that is used to change the direction of the text. */
+  rtl: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 export type BadgeProps = ExtractPropTypes<typeof badgeProps>

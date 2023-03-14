@@ -86,6 +86,7 @@ container/example
 | Name      | Description                         | Type                                | Default                                                                    |
 | --------- | ----------------------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
 | direction | layout direction for child elements | ^[enum]`'horizontal' \| 'vertical'` | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
+| rtl       | RTL stands for "right-to-left,"     | [Boolean]                           | default [false]                                                            |
 
 ### Container Slots
 

@@ -1,5 +1,5 @@
 <template>
-  <component :is="tag" :class="rowKls" :style="style">
+  <component :is="tag" :class="[rowKls, ns.is('rtl', isRTL)]" :style="style">
     <slot />
   </component>
 </template>
@@ -32,6 +32,14 @@ const style = computed(() => {
 
   styles.marginRight = styles.marginLeft = `-${props.gutter / 2}px`
   return styles
+})
+
+const isRTL = computed(() => {
+  if (props.rtl === true) {
+    return true
+  } else {
+    return false
+  }
 })
 
 const rowKls = computed(() => [

@@ -2,14 +2,20 @@
   <transition :name="ns.b('fade')">
     <div
       v-show="visible"
-      :class="[ns.b(), ns.m(type), ns.is('center', center), ns.is(effect)]"
+      :class="[
+        ns.b(),
+        ns.is('rtl', isRTL),
+        ns.m(type),
+        ns.is('center', center),
+        ns.is(effect),
+      ]"
       role="alert"
     >
       <el-icon v-if="showIcon && iconComponent" :class="iconClass">
         <component :is="iconComponent" />
       </el-icon>
 
-      <div :class="ns.e('content')">
+      <div :class="[ns.e('content'), ns.is('rtl', isRTL)]">
         <span
           v-if="title || $slots.title"
           :class="[ns.e('title'), isBoldTitle]"
@@ -29,7 +35,11 @@
           >
             {{ closeText }}
           </div>
-          <el-icon v-else :class="ns.e('close-btn')" @click="close">
+          <el-icon
+            v-else
+            :class="[ns.e('close-btn'), ns.is('rtl', isRTL)]"
+            @click="close"
+          >
             <Close />
           </el-icon>
         </template>
@@ -67,6 +77,14 @@ const iconClass = computed(() => [
 
 const isBoldTitle = computed(() => {
   return { [ns.is('bold')]: props.description || slots.default }
+})
+
+const isRTL = computed(() => {
+  if (props.rtl === true) {
+    return true
+  } else {
+    return false
+  }
 })
 
 const close = (evt: MouseEvent) => {

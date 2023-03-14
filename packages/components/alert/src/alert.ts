@@ -50,6 +50,10 @@ export const alertProps = buildProps({
     values: alertEffects,
     default: 'light',
   },
+  rtl: {
+    type: Boolean,
+    default: false,
+  },
 } as const)
 export type AlertProps = ExtractPropTypes<typeof alertProps>
 
