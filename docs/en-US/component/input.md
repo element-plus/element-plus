@@ -115,6 +115,14 @@ input/length-limiting
 
 :::
 
+## Count graphemes
+
+:::demo Set `count-graphemes` to `true` to count graphemes of input value. If it's set, native `maxlength` and `minlength` won't be used.
+
+input/count-graphemes
+
+:::
+
 ## API
 
 ### Attributes
