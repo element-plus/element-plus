@@ -28,16 +28,17 @@
 
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
-import { cloneDeep, isObject } from 'lodash'
+import { isObject } from '@vue/shared'
+import { cloneDeep } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import { entriesOf } from '@element-plus/utils'
 import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
 import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
+import type { UploadContentProps } from './upload-content'
 
 import type {
-  UploadCopyProps,
   UploadFile,
   UploadHooks,
   UploadRawFile,
@@ -83,25 +84,16 @@ const uploadFiles = (files: File[]) => {
 const upload = async (rawFile: UploadRawFile) => {
   inputRef.value!.value = ''
 
-  const getParams = (): UploadCopyProps => {
-    const filename = props.name
-    const data = isObject(props.data) ? cloneDeep(props.data) : props.data
-    const params: UploadCopyProps = {
-      name: filename,
-      data,
-    }
-    return params
-  }
-
   if (!props.beforeUpload) {
-    return doUpload(rawFile, getParams())
+    return doUpload(rawFile)
   }
 
   let hookResult: Exclude<ReturnType<UploadHooks['beforeUpload']>, Promise<any>>
-  const beforeUploadPromise = props.beforeUpload(rawFile)
-  const params = getParams()
+  let beforeData: UploadContentProps['data'] = {}
 
   try {
+    const beforeUploadPromise = props.beforeUpload(rawFile)
+    beforeData = isObject(props.data) ? cloneDeep(props.data) : props.data
     hookResult = await beforeUploadPromise
   } catch {
     hookResult = false
@@ -127,18 +119,20 @@ const upload = async (rawFile: UploadRawFile) => {
     Object.assign(file, {
       uid: rawFile.uid,
     }),
-    params
+    beforeData
   )
 }
 
-const doUpload = (rawFile: UploadRawFile, params: UploadCopyProps) => {
-  const { data, name: filename } = params || {}
+const doUpload = (
+  rawFile: UploadRawFile,
+  beforeData?: UploadContentProps['data']
+) => {
   const {
     headers,
-    // data,
+    data,
     method,
     withCredentials,
-    // name: filename,
+    name: filename,
     action,
     onProgress,
     onSuccess,
@@ -151,7 +145,7 @@ const doUpload = (rawFile: UploadRawFile, params: UploadCopyProps) => {
     headers: headers || {},
     withCredentials,
     file: rawFile,
-    data,
+    data: beforeData ?? data,
     method,
     filename,
     action,
