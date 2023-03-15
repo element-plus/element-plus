@@ -70,6 +70,7 @@ import { TOOLTIP_INJECTION_KEY } from './constants'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
+import { getActiveElement } from './utils'
 import type { PopperInstance } from '@element-plus/components/popper'
 
 defineOptions({
@@ -157,7 +158,7 @@ watch(
 const isFocusInsideContent = () => {
   const popperContent: HTMLElement | undefined =
     contentRef.value?.contentRef?.popperContentRef
-  return popperContent && popperContent.contains(document.activeElement)
+  return popperContent && popperContent.contains(getActiveElement())
 }
 
 onDeactivated(() => open.value && hide())
