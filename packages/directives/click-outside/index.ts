@@ -7,7 +7,12 @@ import type {
   ObjectDirective,
 } from 'vue'
 
-type DocumentHandler = <T extends MouseEvent>(mouseup: T, mousedown: T) => void
+type DocumentHandler = <T extends MouseEvent>(
+  mouseup: T,
+  mousedown: T,
+  mouseUpComposedPath: EventTarget[],
+  mouseDownComposedPath: EventTarget[]
+) => void
 type FlushList = Map<
   HTMLElement,
   {
@@ -19,13 +24,23 @@ type FlushList = Map<
 const nodeList: FlushList = new Map()
 
 let startClick: MouseEvent
+let startClickComposedPath: EventTarget[]
 
 if (isClient) {
-  document.addEventListener('mousedown', (e: MouseEvent) => (startClick = e))
+  document.addEventListener('mousedown', (e: MouseEvent) => {
+    startClick = e
+    // The composedPath returns an empty array if we don't keep it in a variable right now.
+    startClickComposedPath = e.composedPath()
+  })
   document.addEventListener('mouseup', (e: MouseEvent) => {
     for (const handlers of nodeList.values()) {
       for (const { documentHandler } of handlers) {
-        documentHandler(e as MouseEvent, startClick)
+        documentHandler(
+          e as MouseEvent,
+          startClick,
+          e.composedPath(),
+          startClickComposedPath
+        )
       }
     }
   })
@@ -42,14 +57,19 @@ function createDocumentHandler(
     // due to current implementation on binding type is wrong the type casting is necessary here
     excludes.push(binding.arg as unknown as HTMLElement)
   }
-  return function (mouseup, mousedown) {
+  return function (
+    mouseup,
+    mousedown,
+    mouseUpComposedPath,
+    mouseDownComposedPath
+  ) {
     const popperRef = (
       binding.instance as ComponentPublicInstance<{
         popperRef: HTMLElement
       }>
     ).popperRef
-    const mouseUpTarget = mouseup.target as Node
-    const mouseDownTarget = mousedown?.target as Node
+    const mouseUpTarget = mouseUpComposedPath[0] as Node
+    const mouseDownTarget = mouseDownComposedPath?.[0] as Node
     const isBound = !binding || !binding.instance
     const isTargetExists = !mouseUpTarget || !mouseDownTarget
     const isContainedByEl =
