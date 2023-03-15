@@ -166,6 +166,12 @@ export const inputProps = buildProps({
     type: definePropType<StyleValue>([Object, Array, String]),
     default: () => mutable({} as const),
   },
+  /**
+   * @description Count graphemes of input value. If it's set, native maxlength and minlength won't be used.
+   */
+  countGraphemes: {
+    type: Function,
+  },
 } as const)
 export type InputProps = ExtractPropTypes<typeof inputProps>
 
