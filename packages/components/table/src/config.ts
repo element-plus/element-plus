@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { h } from 'vue'
+import { h, nextTick } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
 import { ElIcon } from '@element-plus/components/icon'
 import { ArrowRight, Loading } from '@element-plus/icons-vue'
@@ -130,6 +130,11 @@ export const cellForced = {
       const callback = function (e: Event) {
         e.stopPropagation()
         store.toggleRowExpansion(row)
+        // fix: https://github.com/element-plus/element-plus/issues/12045
+        store.isUserExpand = true
+        nextTick(() => {
+          store.isUserExpand = false
+        })
       }
       return h(
         'div',
