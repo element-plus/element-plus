@@ -11,7 +11,7 @@ import {
   watch,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
-import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
+import { findLastIndex, get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -629,7 +629,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const getLastNotDisabledIndex = (value) =>
-    value.findLastIndex((it) => !states.disabledOptions.has(it))
+    findLastIndex(value, (it) => !states.disabledOptions.has(it))
 
   const deletePrevTag = (e) => {
     if (e.code === EVENT_CODE.delete) return
