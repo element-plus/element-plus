@@ -19,6 +19,9 @@ export const useDelayedToggleProps = buildProps({
     type: Number,
     default: 200,
   },
+  /**
+   * @description disappear automatically, in millisecond
+   */
   autoClose: {
     type: Number,
     default: 0,
@@ -38,7 +41,10 @@ export const useDelayedToggle = ({
   close,
 }: UseDelayedToggleProps) => {
   const { registerTimeout } = useTimeout()
-  const { registerTimeout: registerTimeoutForAutoClose } = useTimeout()
+  const {
+    registerTimeout: registerTimeoutForAutoClose,
+    cancelTimeout: cancelTimeoutForAutoClose,
+  } = useTimeout()
 
   const onOpen = (event?: Event) => {
     registerTimeout(() => {
@@ -54,6 +60,8 @@ export const useDelayedToggle = ({
   }
 
   const onClose = (event?: Event) => {
+    cancelTimeoutForAutoClose()
+
     registerTimeout(() => {
       close(event)
     }, unref(hideAfter))
