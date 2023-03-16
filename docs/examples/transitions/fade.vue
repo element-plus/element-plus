@@ -1,16 +1,18 @@
 <template>
-  <div>
-    <el-button @click="show = !show">Click Me</el-button>
+  <el-button class="block mb-3" @click="show = !show">Click Me</el-button>
 
-    <div style="display: flex; margin-top: 20px; height: 100px">
-      <transition name="el-fade-in-linear">
-        <div v-show="show" class="transition-box">.el-fade-in-linear</div>
-      </transition>
-      <transition name="el-fade-in">
-        <div v-show="show" class="transition-box">.el-fade-in</div>
-      </transition>
-    </div>
-  </div>
+  <el-text tag="div" class="h-100px">
+    <transition name="el-fade-in-linear">
+      <el-text v-show="show" tag="div" class="transition-box">
+        .el-fade-in-linear
+      </el-text>
+    </transition>
+    <transition name="el-fade-in">
+      <el-text v-show="show" tag="div" class="transition-box">
+        .el-fade-in
+      </el-text>
+    </transition>
+  </el-text>
 </template>
 
 <script lang="ts" setup>
@@ -19,17 +21,17 @@ import { ref } from 'vue'
 const show = ref(true)
 </script>
 
-<style>
+<style scoped>
 .transition-box {
-  margin-bottom: 10px;
+  display: inline-block;
   width: 200px;
   height: 100px;
-  border-radius: 4px;
-  background-color: #409eff;
+  border-radius: var(--el-border-radius-base);
+  background-color: var(--el-color-primary);
   text-align: center;
-  color: #fff;
+  color: var(--el-color-white);
   padding: 40px 20px;
-  box-sizing: border-box;
+  margin-bottom: 10px;
   margin-right: 20px;
 }
 </style>

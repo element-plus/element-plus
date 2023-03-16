@@ -12,8 +12,10 @@
       </el-icon>
     </template>
     <template #default="{ item }">
-      <div class="value">{{ item.value }}</div>
-      <span class="link">{{ item.link }}</span>
+      <el-text>
+        {{ item.value }}<br />
+        {{ item.link }}
+      </el-text>
     </template>
   </el-autocomplete>
 </template>
@@ -68,7 +70,7 @@ onMounted(() => {
 })
 </script>
 
-<style>
+<style scoped>
 .my-autocomplete li {
   line-height: normal;
   padding: 7px;

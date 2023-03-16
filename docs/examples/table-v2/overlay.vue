@@ -7,14 +7,11 @@
     :height="400"
   >
     <template #overlay>
-      <div
-        class="el-loading-mask"
-        style="display: flex; align-items: center; justify-content: center"
-      >
+      <el-text class="el-loading-mask flex items-center justify-center">
         <el-icon class="is-loading" color="var(--el-color-primary)" :size="26">
           <loading-icon />
         </el-icon>
-      </div>
+      </el-text>
     </template>
   </el-table-v2>
 </template>
@@ -52,8 +49,3 @@ const generateData = (
 const columns = generateColumns(10)
 const data = generateData(columns, 200)
 </script>
-<style>
-.example-showcase .el-table-v2__overlay {
-  z-index: 9;
-}
-</style>

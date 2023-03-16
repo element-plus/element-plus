@@ -3,6 +3,6 @@
     <template #trigger>
       <el-button>hover me</el-button>
     </template>
-    <div>I am attached to document.body</div>
+    <el-text>I am attached to document.body</el-text>
   </el-tooltip-v2>
 </template>

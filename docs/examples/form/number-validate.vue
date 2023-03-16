@@ -1,10 +1,5 @@
 <template>
-  <el-form
-    ref="formRef"
-    :model="numberValidateForm"
-    label-width="100px"
-    class="demo-ruleForm"
-  >
+  <el-form ref="formRef" :model="numberValidateForm" label-width="100px">
     <el-form-item
       label="age"
       prop="age"

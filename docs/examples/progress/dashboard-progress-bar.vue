@@ -1,14 +1,11 @@
 <template>
-  <div class="demo-progress">
-    <el-progress type="dashboard" :percentage="percentage" :color="colors" />
-    <el-progress type="dashboard" :percentage="percentage2" :color="colors" />
-    <div>
-      <el-button-group>
-        <el-button :icon="Minus" @click="decrease" />
-        <el-button :icon="Plus" @click="increase" />
-      </el-button-group>
-    </div>
-  </div>
+  <el-progress type="dashboard" :percentage="percentage" :color="colors" />
+  <el-progress type="dashboard" :percentage="percentage2" :color="colors" />
+
+  <el-button-group class="block">
+    <el-button :icon="Minus" @click="decrease" />
+    <el-button :icon="Plus" @click="increase" />
+  </el-button-group>
 </template>
 
 <script lang="ts" setup>
@@ -44,12 +41,3 @@ onMounted(() => {
   }, 500)
 })
 </script>
-<style scoped>
-.demo-progress .el-progress--line {
-  margin-bottom: 15px;
-  width: 350px;
-}
-.demo-progress .el-progress--circle {
-  margin-right: 15px;
-}
-</style>

@@ -1,37 +1,44 @@
 <template>
-  <div class="custom-tree-container">
-    <p>Using render-content</p>
-    <el-tree
-      :data="dataSource"
-      show-checkbox
-      node-key="id"
-      default-expand-all
-      :expand-on-click-node="false"
-      :render-content="renderContent"
-    />
-    <p>Using scoped slot</p>
-    <el-tree
-      :data="dataSource"
-      show-checkbox
-      node-key="id"
-      default-expand-all
-      :expand-on-click-node="false"
-    >
-      <template #default="{ node, data }">
-        <span class="custom-tree-node">
-          <span>{{ node.label }}</span>
-          <span>
-            <a @click="append(data)"> Append </a>
-            <a style="margin-left: 8px" @click="remove(node, data)"> Delete </a>
-          </span>
-        </span>
-      </template>
-    </el-tree>
-  </div>
+  <el-text tag="p" size="large" class="my-3">Using render-content</el-text>
+  <el-tree
+    :data="dataSource"
+    show-checkbox
+    node-key="id"
+    default-expand-all
+    :expand-on-click-node="false"
+    :render-content="renderContent"
+  />
+  <el-text tag="p" size="large" class="my-3">Using scoped slot</el-text>
+  <el-tree
+    :data="dataSource"
+    show-checkbox
+    node-key="id"
+    default-expand-all
+    :expand-on-click-node="false"
+  >
+    <template #default="{ node, data }">
+      <el-text class="custom-tree-node">
+        <el-text>{{ node.label }}</el-text>
+        <el-text>
+          <el-link type="primary" :underline="false" @click="append(data)">
+            Append
+          </el-link>
+          <el-link
+            type="primary"
+            :underline="false"
+            style="margin-left: 8px"
+            @click="remove(node, data)"
+          >
+            Delete
+          </el-link>
+        </el-text>
+      </el-text>
+    </template>
+  </el-tree>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, resolveComponent } from 'vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
 interface Tree {
@@ -71,24 +78,28 @@ const renderContent = (
   }
 ) => {
   return h(
-    'span',
+    resolveComponent('el-text'),
     {
       class: 'custom-tree-node',
     },
-    h('span', null, node.label),
+    h(resolveComponent('el-text'), null, node.label),
     h(
-      'span',
+      resolveComponent('el-text'),
       null,
       h(
-        'a',
+        resolveComponent('el-link'),
         {
+          type: 'primary',
+          underline: false,
           onClick: () => append(data),
         },
         'Append '
       ),
       h(
-        'a',
+        resolveComponent('el-link'),
         {
+          type: 'primary',
+          underline: false,
           style: 'margin-left: 8px',
           onClick: () => remove(node, data),
         },
@@ -150,7 +161,7 @@ const dataSource = ref<Tree[]>([
 ])
 </script>
 
-<style>
+<style scoped>
 .custom-tree-node {
   flex: 1;
   display: flex;

@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 400px">
+  <el-main class="h-400px p-0">
     <el-auto-resizer>
       <template #default="{ height, width }">
         <el-table-v2
@@ -11,7 +11,7 @@
         />
       </template>
     </el-auto-resizer>
-  </div>
+  </el-main>
 </template>
 
 <script lang="tsx" setup>
@@ -96,9 +96,12 @@ columns[0] = {
         onKeydownEnter={onExitEditMode}
       />
     ) : (
-      <div class="table-v2-inline-editing-trigger" onClick={onEnterEditMode}>
+      <el-text
+        class="table-v2-inline-editing-trigger"
+        onClick={onEnterEditMode}
+      >
         {rowData[column.dataKey!]}
-      </div>
+      </el-text>
     )
   },
 }
@@ -106,7 +109,7 @@ columns[0] = {
 const data = ref(generateData(columns, 200))
 </script>
 
-<style>
+<style scoped>
 .table-v2-inline-editing-trigger {
   border: 1px transparent dotted;
   padding: 4px;

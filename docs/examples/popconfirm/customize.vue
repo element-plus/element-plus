@@ -13,6 +13,6 @@
   </el-popconfirm>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { InfoFilled } from '@element-plus/icons-vue'
 </script>

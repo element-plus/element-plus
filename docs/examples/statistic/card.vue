@@ -1,10 +1,10 @@
 <template>
   <el-row :gutter="16">
     <el-col :span="8">
-      <div class="statistic-card">
+      <el-text tag="div" class="statistic-card">
         <el-statistic :value="98500">
           <template #title>
-            <div style="display: inline-flex; align-items: center">
+            <el-text>
               Daily active users
               <el-tooltip
                 effect="dark"
@@ -15,27 +15,25 @@
                   <Warning />
                 </el-icon>
               </el-tooltip>
-            </div>
+            </el-text>
           </template>
         </el-statistic>
-        <div class="statistic-footer">
-          <div class="footer-item">
-            <span>than yesterday</span>
-            <span class="green">
-              24%
-              <el-icon>
-                <CaretTop />
-              </el-icon>
-            </span>
-          </div>
-        </div>
-      </div>
+        <el-text>
+          than yesterday
+          <el-text type="success">
+            24%
+            <el-icon>
+              <CaretTop />
+            </el-icon>
+          </el-text>
+        </el-text>
+      </el-text>
     </el-col>
     <el-col :span="8">
-      <div class="statistic-card">
+      <el-text tag="div" class="statistic-card">
         <el-statistic :value="693700">
           <template #title>
-            <div style="display: inline-flex; align-items: center">
+            <el-text>
               Monthly Active Users
               <el-tooltip
                 effect="dark"
@@ -46,48 +44,46 @@
                   <Warning />
                 </el-icon>
               </el-tooltip>
-            </div>
+            </el-text>
           </template>
         </el-statistic>
-        <div class="statistic-footer">
-          <div class="footer-item">
-            <span>month on month</span>
-            <span class="red">
-              12%
-              <el-icon>
-                <CaretBottom />
-              </el-icon>
-            </span>
-          </div>
-        </div>
-      </div>
+        <el-text>
+          month on month
+          <el-text type="error">
+            12%
+            <el-icon>
+              <CaretBottom />
+            </el-icon>
+          </el-text>
+        </el-text>
+      </el-text>
     </el-col>
     <el-col :span="8">
-      <div class="statistic-card">
+      <el-text tag="div" class="statistic-card">
         <el-statistic :value="72000" title="New transactions today">
           <template #title>
-            <div style="display: inline-flex; align-items: center">
-              New transactions today
-            </div>
+            <el-text> New transactions today </el-text>
           </template>
         </el-statistic>
-        <div class="statistic-footer">
-          <div class="footer-item">
-            <span>than yesterday</span>
-            <span class="green">
-              16%
-              <el-icon>
-                <CaretTop />
-              </el-icon>
-            </span>
-          </div>
-          <div class="footer-item">
+        <el-row>
+          <el-col :span="20">
+            <el-text>
+              than yesterday
+              <el-text type="success">
+                16%
+                <el-icon>
+                  <CaretTop />
+                </el-icon>
+              </el-text>
+            </el-text>
+          </el-col>
+          <el-col :span="4" class="text-right">
             <el-icon :size="14">
               <ArrowRight />
             </el-icon>
-          </div>
-        </div>
-      </div>
+          </el-col>
+        </el-row>
+      </el-text>
     </el-col>
   </el-row>
 </template>
@@ -102,47 +98,10 @@ import {
 </script>
 
 <style scoped>
-:global(h2#card-usage ~ .example .example-showcase) {
-  background-color: var(--el-fill-color) !important;
-}
-
-.el-statistic {
-  --el-statistic-content-font-size: 28px;
-}
-
 .statistic-card {
   height: 100%;
   padding: 20px;
-  border-radius: 4px;
-  background-color: var(--el-bg-color-overlay);
-}
-
-.statistic-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  font-size: 12px;
-  color: var(--el-text-color-regular);
-  margin-top: 16px;
-}
-
-.statistic-footer .footer-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.statistic-footer .footer-item span:last-child {
-  display: inline-flex;
-  align-items: center;
-  margin-left: 4px;
-}
-
-.green {
-  color: var(--el-color-success);
-}
-.red {
-  color: var(--el-color-error);
+  border-radius: var(--el-border-radius-base);
+  background-color: var(--el-fill-color-light);
 }
 </style>

@@ -31,7 +31,7 @@
   </el-row>
 </template>
 
-<style>
+<style scoped>
 .el-row {
   margin-bottom: 20px;
 }

@@ -1,7 +1,7 @@
 <template>
   <el-carousel height="200px" direction="vertical" :autoplay="false">
     <el-carousel-item v-for="item in 4" :key="item">
-      <h3 text="2xl" justify="center">{{ item }}</h3>
+      <el-text tag="h3" text="2xl" justify="center">{{ item }}</el-text>
     </el-carousel-item>
   </el-carousel>
 </template>

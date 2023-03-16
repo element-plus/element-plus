@@ -3,22 +3,9 @@
     <el-button @click="setLoading">Click me to reload</el-button>
     <el-skeleton style="width: 240px" :loading="loading" animated :count="3">
       <template #template>
-        <el-skeleton-item variant="image" style="width: 400px; height: 267px" />
-        <div style="padding: 14px">
-          <el-skeleton-item variant="h3" style="width: 50%" />
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              justify-items: space-between;
-              margin-top: 16px;
-              height: 16px;
-            "
-          >
-            <el-skeleton-item variant="text" style="margin-right: 16px" />
-            <el-skeleton-item variant="text" style="width: 30%" />
-          </div>
-        </div>
+        <el-skeleton-item variant="image" class="w-240px h-160px mb-14px" />
+        <el-skeleton-item variant="h3" class="w-50% px-14px" />
+        <el-skeleton-item variant="text" class="px-14px mb-3" />
       </template>
       <template #default>
         <el-card
@@ -26,14 +13,11 @@
           :key="item.name"
           :body-style="{ padding: '0px', marginBottom: '1px' }"
         >
-          <img :src="item.imgUrl" class="image multi-content" />
-          <div style="padding: 14px">
-            <span>{{ item.name }}</span>
-            <div class="bottom card-header">
-              <div class="time">{{ currentDate }}</div>
-              <el-button text class="button">Operation button</el-button>
-            </div>
-          </div>
+          <el-image :src="item.imgUrl" class="block w-240px mb-14px" />
+          <el-text tag="h3" class="block px-14px">{{ item.name }}</el-text>
+          <el-text tag="time" class="block px-14px mb-3">
+            {{ currentDate }}
+          </el-text>
         </el-card>
       </template>
     </el-skeleton>

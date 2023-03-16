@@ -1,5 +1,8 @@
 <template>
-  <div class="alignment-container">
+  <el-row
+    style="border: 1px solid var(--el-border-color)"
+    class="p-8px w-240px"
+  >
     <el-space>
       string
       <el-button> button </el-button>
@@ -8,8 +11,11 @@
         body
       </el-card>
     </el-space>
-  </div>
-  <div class="alignment-container">
+  </el-row>
+  <el-row
+    style="border: 1px solid var(--el-border-color)"
+    class="p-8px w-240px"
+  >
     <el-space alignment="flex-start">
       string
       <el-button> button </el-button>
@@ -18,8 +24,11 @@
         body
       </el-card>
     </el-space>
-  </div>
-  <div class="alignment-container">
+  </el-row>
+  <el-row
+    style="border: 1px solid var(--el-border-color)"
+    class="p-8px w-240px"
+  >
     <el-space alignment="flex-end">
       string
       <el-button> button </el-button>
@@ -28,14 +37,5 @@
         body
       </el-card>
     </el-space>
-  </div>
+  </el-row>
 </template>
-
-<style>
-.alignment-container {
-  width: 240px;
-  margin-bottom: 20px;
-  padding: 8px;
-  border: 1px solid var(--el-border-color);
-}
-</style>

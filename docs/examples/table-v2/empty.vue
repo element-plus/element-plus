@@ -8,9 +8,7 @@
     :footer-height="50"
   >
     <template #empty>
-      <div class="flex items-center justify-center h-100%">
-        <el-empty />
-      </div>
+      <el-empty class="flex items-center justify-center h-100%" />
     </template>
   </el-table-v2>
 </template>

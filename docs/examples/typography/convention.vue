@@ -1,28 +1,31 @@
 <template>
-  <table class="demo-typo-size">
-    <tbody>
-      <tr>
-        <td>Level</td>
-        <td>Font Size</td>
-        <td class="color-dark-light">Demo</td>
-      </tr>
-      <tr
-        v-for="(fontSize, i) in fontSizes"
-        :key="i"
-        :style="`font-size: var(--el-font-size-${fontSize.type})`"
-      >
-        <td>{{ fontSize.level }}</td>
-        <td>
+  <el-table :data="fontSizes">
+    <el-table-column label="Level">
+      <template #default="scope">
+        <el-text :style="`font-size: var(--el-font-size-${scope.row.type})`">
+          {{ scope.row.level }}
+        </el-text>
+      </template>
+    </el-table-column>
+    <el-table-column label="Font Size">
+      <template #default="scope">
+        <el-text :style="`font-size: var(--el-font-size-${scope.row.type})`">
           {{
-            useCssVar(`--el-font-size-${fontSize.type}`).value +
+            useCssVar(`--el-font-size-${scope.row.type}`).value +
             ' ' +
-            formatType(fontSize.type)
+            formatType(scope.row.type)
           }}
-        </td>
-        <td>Build with Element</td>
-      </tr>
-    </tbody>
-  </table>
+        </el-text>
+      </template>
+    </el-table-column>
+    <el-table-column label="Demo">
+      <template #default="scope">
+        <el-text :style="`font-size: var(--el-font-size-${scope.row.type})`">
+          Build with Element
+        </el-text>
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
 
 <script lang="ts" setup>

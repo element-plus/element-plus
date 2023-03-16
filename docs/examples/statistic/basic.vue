@@ -6,12 +6,12 @@
     <el-col :span="6">
       <el-statistic :value="138">
         <template #title>
-          <div style="display: inline-flex; align-items: center">
+          <el-text>
             Ratio of men to women
             <el-icon style="margin-left: 4px" :size="12">
               <Male />
             </el-icon>
-          </div>
+          </el-text>
         </template>
         <template #suffix>/100</template>
       </el-statistic>

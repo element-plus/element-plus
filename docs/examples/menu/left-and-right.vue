@@ -7,7 +7,7 @@
     @select="handleSelect"
   >
     <el-menu-item index="0">LOGO</el-menu-item>
-    <div class="flex-grow" />
+    <el-menu-item class="flex-grow invisible" />
     <el-menu-item index="1">Processing Center</el-menu-item>
     <el-sub-menu index="2">
       <template #title>Workspace</template>
@@ -32,9 +32,3 @@ const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
 </script>
-
-<style>
-.flex-grow {
-  flex-grow: 1;
-}
-</style>

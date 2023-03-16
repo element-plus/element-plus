@@ -4,8 +4,8 @@
     autosize
     type="textarea"
     placeholder="Please input"
+    class="mb-3"
   />
-  <div style="margin: 20px 0" />
   <el-input
     v-model="textarea2"
     :autosize="{ minRows: 2, maxRows: 4 }"

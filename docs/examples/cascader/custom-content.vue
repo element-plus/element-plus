@@ -1,8 +1,8 @@
 <template>
   <el-cascader :options="options">
     <template #default="{ node, data }">
-      <span>{{ data.label }}</span>
-      <span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+      <el-text>{{ data.label }}</el-text>
+      <el-text v-if="!node.isLeaf"> ({{ data.children.length }}) </el-text>
     </template>
   </el-cascader>
 </template>

@@ -1,20 +1,14 @@
+<template>
+  <el-image v-if="isDark" src="/images/typography/line-height-dark.png" />
+  <el-image v-else src="/images/typography/line-height.png" />
+  <el-row tag="ul" class="block">
+    <el-text tag="li">line-height: 1 No line height</el-text>
+    <el-text tag="li">line-height: 1.3 Compact</el-text>
+    <el-text tag="li">line-height: 1.5 Regular</el-text>
+    <el-text tag="li">line-height: 1.7 Loose</el-text>
+  </el-row>
+</template>
+
 <script lang="ts" setup>
 import { isDark } from '~/composables/dark'
 </script>
-
-<template>
-  <div>
-    <img
-      v-if="isDark"
-      class="lineH-left"
-      src="/images/typography/line-height-dark.png"
-    />
-    <img v-else class="lineH-left" src="/images/typography/line-height.png" />
-    <ul class="lineH-right">
-      <li>line-height:1 <span>No line height</span></li>
-      <li>line-height:1.3 <span>Compact</span></li>
-      <li>line-height:1.5 <span>Regular</span></li>
-      <li>line-height:1.7 <span>Loose</span></li>
-    </ul>
-  </div>
-</template>

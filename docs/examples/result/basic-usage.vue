@@ -36,7 +36,7 @@
     <el-col :sm="12" :lg="6">
       <el-result icon="info" title="Info Tip">
         <template #sub-title>
-          <p>Using slot as subtitle</p>
+          <el-text tag="p">Using slot as subtitle</el-text>
         </template>
         <template #extra>
           <el-button type="primary">Back</el-button>

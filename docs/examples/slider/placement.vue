@@ -1,16 +1,8 @@
 <template>
-  <div class="slider-demo-block">
-    <el-slider v-model="value1" />
-  </div>
-  <div class="slider-demo-block">
-    <el-slider v-model="value2" placement="bottom" />
-  </div>
-  <div class="slider-demo-block">
-    <el-slider v-model="value3" placement="right" />
-  </div>
-  <div class="slider-demo-block">
-    <el-slider v-model="value4" placement="left" />
-  </div>
+  <el-slider v-model="value1" />
+  <el-slider v-model="value2" placement="bottom" class="mt-3" />
+  <el-slider v-model="value3" placement="right" class="mt-3" />
+  <el-slider v-model="value4" placement="left" class="mt-3" />
 </template>
 
 <script lang="ts" setup>
@@ -21,13 +13,3 @@ const value2 = ref(0)
 const value3 = ref(0)
 const value4 = ref(0)
 </script>
-<style scoped>
-.slider-demo-block {
-  display: flex;
-  align-items: center;
-}
-.slider-demo-block .el-slider {
-  margin-top: 0;
-  margin-left: 12px;
-}
-</style>

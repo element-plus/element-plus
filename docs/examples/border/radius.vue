@@ -1,23 +1,24 @@
 <template>
-  <el-row :gutter="12" class="demo-radius">
+  <el-row :gutter="12">
     <el-col
       v-for="(radius, i) in radiusGroup"
       :key="i"
       :span="6"
       :xs="{ span: 12 }"
     >
-      <div class="title">{{ radius.name }}</div>
-      <div class="value">
-        <code>border-radius: {{ getValue(radius.type) || '0px' }}</code>
-      </div>
-      <div
-        class="radius"
+      <el-text size="large" class="block mb-2">{{ radius.name }}</el-text>
+      <el-text size="small" type="info" class="block mb-2">
+        border-radius: {{ getValue(radius.type) || '0px' }}
+      </el-text>
+      <el-button
         :style="{
           borderRadius: radius.type
             ? `var(--el-border-radius-${radius.type})`
-            : '',
+            : '0',
         }"
-      />
+      >
+        Button
+      </el-button>
     </el-col>
   </el-row>
 </template>
@@ -52,22 +53,3 @@ const getValue = (type: string) => {
   return getCssVarValue('border-radius', type)
 }
 </script>
-<style scoped>
-.demo-radius .title {
-  color: var(--el-text-color-regular);
-  font-size: 18px;
-  margin: 10px 0;
-}
-.demo-radius .value {
-  color: var(--el-text-color-primary);
-  font-size: 16px;
-  margin: 10px 0;
-}
-.demo-radius .radius {
-  height: 40px;
-  width: 70%;
-  border: 1px solid var(--el-border-color);
-  border-radius: 0;
-  margin-top: 20px;
-}
-</style>

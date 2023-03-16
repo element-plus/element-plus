@@ -13,6 +13,7 @@
     </template>
   </el-table-v2>
 </template>
+
 <script lang="tsx" setup>
 import { TableV2FixedDir, TableV2Placeholder } from 'element-plus'
 
@@ -81,8 +82,8 @@ const CustomizedHeader: FunctionalComponent<
         idx === (headerIndex === 0 ? 4 : 2)
       ) {
         groupCells.push(
-          <div
-            class="flex items-center justify-center custom-header-cell"
+          <el-text
+            class="flex items-center justify-center custom-header-cell color-inherit"
             role="columnheader"
             style={{
               ...cells[columnIndex].props!.style,
@@ -90,7 +91,7 @@ const CustomizedHeader: FunctionalComponent<
             }}
           >
             Group width {width}
-          </div>
+          </el-text>
         )
         width = 0
         idx = 0
@@ -108,7 +109,7 @@ const headerClass = ({
 }
 </script>
 
-<style>
+<style scoped>
 .el-el-table-v2__header-row .custom-header-cell {
   border-right: 1px solid var(--el-border-color);
 }

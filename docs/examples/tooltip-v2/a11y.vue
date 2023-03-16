@@ -9,7 +9,7 @@
   </el-tooltip-v2>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Delete } from '@element-plus/icons-vue'
 const content = 'Delete'
 const title = 'Delete item'

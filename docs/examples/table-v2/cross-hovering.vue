@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 400px">
+  <el-main class="h-400px p-0">
     <el-auto-resizer>
       <template #default="{ height, width }">
         <el-table-v2
@@ -12,7 +12,7 @@
         />
       </template>
     </el-auto-resizer>
-  </div>
+  </el-main>
 </template>
 
 <script lang="ts" setup>
@@ -71,7 +71,7 @@ const cellProps = ({ columnIndex }) => {
 const kls = ref<string>('')
 </script>
 
-<style>
+<style scoped>
 .hovering-col-0 [data-key='hovering-col-0'],
 .hovering-col-1 [data-key='hovering-col-1'],
 .hovering-col-2 [data-key='hovering-col-2'],

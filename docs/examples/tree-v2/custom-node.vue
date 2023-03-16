@@ -1,13 +1,14 @@
 <template>
   <el-tree-v2 :data="data" :props="props" :height="208">
     <template #default="{ node }">
-      <span class="prefix" :class="{ 'is-leaf': node.isLeaf }"
-        >[ElementPlus]</span
-      >
-      <span>{{ node.label }}</span>
+      <el-text class="prefix" :class="{ 'is-leaf': node.isLeaf }">
+        [ElementPlus]
+      </el-text>
+      <el-text>{{ node.label }}</el-text>
     </template>
   </el-tree-v2>
 </template>
+
 <script lang="ts" setup>
 interface Tree {
   id: string

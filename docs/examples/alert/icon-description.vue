@@ -24,6 +24,7 @@
     show-icon
   />
 </template>
+
 <style scoped>
 .el-alert {
   margin: 20px 0 0;

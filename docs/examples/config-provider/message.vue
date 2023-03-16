@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <el-config-provider :message="config">
-      <el-button @click="open">OPEN</el-button>
-    </el-config-provider>
-  </div>
+  <el-config-provider :message="config">
+    <el-button @click="open">OPEN</el-button>
+  </el-config-provider>
 </template>
 
 <script lang="ts" setup>

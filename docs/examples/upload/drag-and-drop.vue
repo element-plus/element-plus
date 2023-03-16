@@ -6,17 +6,17 @@
     multiple
   >
     <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-    <div class="el-upload__text">
-      Drop file here or <em>click to upload</em>
-    </div>
+    <el-text class="el-upload__text block">
+      Drop file here or <el-text tag="em">click to upload</el-text>
+    </el-text>
     <template #tip>
-      <div class="el-upload__tip">
+      <el-text class="el-upload__tip">
         jpg/png files with a size less than 500kb
-      </div>
+      </el-text>
     </template>
   </el-upload>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { UploadFilled } from '@element-plus/icons-vue'
 </script>

@@ -4,6 +4,7 @@
     :data="tableData"
     highlight-current-row
     style="width: 100%"
+    class="mb-20px"
     @current-change="handleCurrentChange"
   >
     <el-table-column type="index" width="50" />
@@ -11,10 +12,8 @@
     <el-table-column property="name" label="Name" width="120" />
     <el-table-column property="address" label="Address" />
   </el-table>
-  <div style="margin-top: 20px">
-    <el-button @click="setCurrent(tableData[1])">Select second row</el-button>
-    <el-button @click="setCurrent()">Clear selection</el-button>
-  </div>
+  <el-button @click="setCurrent(tableData[1])">Select second row</el-button>
+  <el-button @click="setCurrent()">Clear selection</el-button>
 </template>
 
 <script lang="ts" setup>

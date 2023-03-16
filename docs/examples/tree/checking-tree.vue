@@ -9,13 +9,13 @@
     :props="defaultProps"
   />
 
-  <div class="buttons">
+  <el-space class="mt-3">
     <el-button @click="getCheckedNodes">get by node</el-button>
     <el-button @click="getCheckedKeys">get by key</el-button>
     <el-button @click="setCheckedNodes">set by node</el-button>
     <el-button @click="setCheckedKeys">set by key</el-button>
     <el-button @click="resetChecked">reset</el-button>
-  </div>
+  </el-space>
 </template>
 
 <script lang="ts" setup>

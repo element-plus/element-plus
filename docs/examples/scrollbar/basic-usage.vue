@@ -1,6 +1,8 @@
 <template>
   <el-scrollbar height="400px">
-    <p v-for="item in 20" :key="item" class="scrollbar-demo-item">{{ item }}</p>
+    <el-text v-for="item in 20" :key="item" tag="p" class="scrollbar-demo-item">
+      {{ item }}
+    </el-text>
   </el-scrollbar>
 </template>
 

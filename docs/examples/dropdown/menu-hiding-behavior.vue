@@ -1,8 +1,8 @@
 <template>
   <el-dropdown :hide-on-click="false">
-    <span class="el-dropdown-link">
+    <el-link :underline="false">
       Dropdown List<el-icon class="el-icon--right"><arrow-down /></el-icon>
-    </span>
+    </el-link>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item>Action 1</el-dropdown-item>
@@ -19,14 +19,3 @@
 <script lang="ts" setup>
 import { ArrowDown } from '@element-plus/icons-vue'
 </script>
-<style scoped>
-.example-showcase .el-dropdown + .el-dropdown {
-  margin-left: 15px;
-}
-.example-showcase .el-dropdown-link {
-  cursor: pointer;
-  color: var(--el-color-primary);
-  display: flex;
-  align-items: center;
-}
-</style>

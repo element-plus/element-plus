@@ -1,11 +1,9 @@
 <template>
-  <div>
-    <span>What language is thine, O sea?</span>
-    <el-divider border-style="dashed" />
-    <span>The language of eternal question.</span>
-  </div>
+  <el-text>What language is thine, O sea?</el-text>
+  <el-divider border-style="dashed" />
+  <el-text>The language of eternal question.</el-text>
   <el-divider border-style="dotted" />
-  <span>What language is thy answer, O sky?</span>
+  <el-text>What language is thy answer, O sky?</el-text>
   <el-divider border-style="double" />
-  <span>The language of eternal silence.</span>
+  <el-text>The language of eternal silence.</el-text>
 </template>

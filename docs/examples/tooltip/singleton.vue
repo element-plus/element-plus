@@ -1,13 +1,12 @@
 <template>
-  <div>
-    <el-button
-      v-for="i in 3"
-      :key="i"
-      @mouseover="(e) => (buttonRef = e.currentTarget)"
-      @click="visible = !visible"
-      >Click to open tooltip</el-button
-    >
-  </div>
+  <el-button
+    v-for="i in 3"
+    :key="i"
+    @mouseover="(e) => (buttonRef = e.currentTarget)"
+    @click="visible = !visible"
+  >
+    Click to open tooltip
+  </el-button>
 
   <el-tooltip
     ref="tooltipRef"
@@ -28,22 +27,14 @@
     trigger="click"
     popper-class="singleton-tooltip"
   >
-    <template #content>
-      <span> Some content </span>
-    </template>
+    <template #content> Some content </template>
   </el-tooltip>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
+
 const buttonRef = ref()
 const tooltipRef = ref()
-
 const visible = ref(false)
 </script>
-
-<style>
-.singleton-tooltip {
-  transition: transform 0.3s var(--el-transition-function-fast-bezier);
-}
-</style>

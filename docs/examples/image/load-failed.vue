@@ -1,61 +1,28 @@
 <template>
-  <div class="demo-image__error">
-    <div class="block">
-      <span class="demonstration">Default</span>
-      <el-image />
-    </div>
-    <div class="block">
-      <span class="demonstration">Custom</span>
-      <el-image>
+  <el-row>
+    <el-col :span="12" class="text-center">
+      <el-text class="block mb-2">Default</el-text>
+      <el-image class="w-200px h-200px" />
+    </el-col>
+    <el-col :span="12" class="text-center">
+      <el-text class="block mb-2">Custom</el-text>
+      <el-image class="w-200px h-200px">
         <template #error>
-          <div class="image-slot">
-            <el-icon><icon-picture /></el-icon>
-          </div>
+          <el-icon
+            class="w-100% h-100% text-30px"
+            style="
+              color: var(--el-text-color-secondary);
+              background: var(--el-fill-color-light);
+            "
+          >
+            <icon-picture />
+          </el-icon>
         </template>
       </el-image>
-    </div>
-  </div>
+    </el-col>
+  </el-row>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Picture as IconPicture } from '@element-plus/icons-vue'
 </script>
-
-<style scoped>
-.demo-image__error .block {
-  padding: 30px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  display: inline-block;
-  width: 49%;
-  box-sizing: border-box;
-  vertical-align: top;
-}
-.demo-image__error .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-.demo-image__error .el-image {
-  padding: 0 5px;
-  max-width: 300px;
-  max-height: 200px;
-  width: 100%;
-  height: 200px;
-}
-
-.demo-image__error .image-slot {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  background: var(--el-fill-color-light);
-  color: var(--el-text-color-secondary);
-  font-size: 30px;
-}
-.demo-image__error .image-slot .el-icon {
-  font-size: 30px;
-}
-</style>

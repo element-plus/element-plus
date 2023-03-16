@@ -1,15 +1,22 @@
 <template>
-  <div class="infinite-list-wrapper" style="overflow: auto">
-    <ul
+  <el-row class="infinite-list-wrapper" style="overflow: auto">
+    <el-row
       v-infinite-scroll="load"
+      tag="ul"
       class="list"
       :infinite-scroll-disabled="disabled"
     >
-      <li v-for="i in count" :key="i" class="list-item">{{ i }}</li>
-    </ul>
-    <p v-if="loading">Loading...</p>
-    <p v-if="noMore">No more</p>
-  </div>
+      <el-text v-for="i in count" :key="i" tag="li" class="list-item">
+        {{ i }}
+      </el-text>
+    </el-row>
+    <el-text v-if="loading" tag="p" size="large" class="w-100% my-2">
+      Loading...
+    </el-text>
+    <el-text v-if="noMore" tag="p" size="large" class="w-100% my-2">
+      No more
+    </el-text>
+  </el-row>
 </template>
 
 <script lang="ts" setup>
@@ -28,12 +35,13 @@ const load = () => {
 }
 </script>
 
-<style>
+<style scoped>
 .infinite-list-wrapper {
   height: 300px;
   text-align: center;
 }
 .infinite-list-wrapper .list {
+  width: 100%;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -43,6 +51,7 @@ const load = () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   height: 50px;
   background: var(--el-color-danger-light-9);
   color: var(--el-color-danger);

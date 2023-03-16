@@ -6,15 +6,15 @@
         ><el-icon><Plus /></el-icon
       ></el-button>
     </template>
-    <div>content</div>
+    <el-text>content</el-text>
   </el-tooltip-v2>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Plus } from '@element-plus/icons-vue'
 </script>
 
-<style>
+<style scoped>
 @keyframes scale-in {
   0% {
     opacity: 0;

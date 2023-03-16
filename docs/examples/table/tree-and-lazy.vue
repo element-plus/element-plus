@@ -1,32 +1,31 @@
 <template>
-  <div>
-    <el-table
-      :data="tableData"
-      style="width: 100%; margin-bottom: 20px"
-      row-key="id"
-      border
-      default-expand-all
-    >
-      <el-table-column prop="date" label="Date" sortable />
-      <el-table-column prop="name" label="Name" sortable />
-      <el-table-column prop="address" label="Address" sortable />
-    </el-table>
+  <el-table
+    :data="tableData"
+    style="width: 100%; margin-bottom: 20px"
+    row-key="id"
+    border
+    default-expand-all
+  >
+    <el-table-column prop="date" label="Date" sortable />
+    <el-table-column prop="name" label="Name" sortable />
+    <el-table-column prop="address" label="Address" sortable />
+  </el-table>
 
-    <el-table
-      :data="tableData1"
-      style="width: 100%"
-      row-key="id"
-      border
-      lazy
-      :load="load"
-      :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-    >
-      <el-table-column prop="date" label="Date" />
-      <el-table-column prop="name" label="Name" />
-      <el-table-column prop="address" label="Address" />
-    </el-table>
-  </div>
+  <el-table
+    :data="tableData1"
+    style="width: 100%"
+    row-key="id"
+    border
+    lazy
+    :load="load"
+    :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+  >
+    <el-table-column prop="date" label="Date" />
+    <el-table-column prop="name" label="Name" />
+    <el-table-column prop="address" label="Address" />
+  </el-table>
 </template>
+
 <script lang="ts" setup>
 interface User {
   id: number

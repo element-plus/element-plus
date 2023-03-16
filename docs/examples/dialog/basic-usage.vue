@@ -9,14 +9,12 @@
     width="30%"
     :before-close="handleClose"
   >
-    <span>This is a message</span>
+    <el-text>This is a message</el-text>
     <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false">
-          Confirm
-        </el-button>
-      </span>
+      <el-button @click="dialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogVisible = false">
+        Confirm
+      </el-button>
     </template>
   </el-dialog>
 </template>
@@ -37,8 +35,3 @@ const handleClose = (done: () => void) => {
     })
 }
 </script>
-<style scoped>
-.dialog-footer button:first-child {
-  margin-right: 10px;
-}
-</style>

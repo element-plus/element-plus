@@ -1,6 +1,5 @@
 <template>
-  <el-skeleton />
-  <br />
+  <el-skeleton class="mb-3" />
   <el-skeleton style="--el-skeleton-circle-size: 100px">
     <template #template>
       <el-skeleton-item variant="circle" />

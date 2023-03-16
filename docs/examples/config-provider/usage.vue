@@ -1,13 +1,9 @@
 <template>
-  <div>
-    <el-button mb-2 @click="toggle">Switch Language</el-button>
-    <br />
-
-    <el-config-provider :locale="locale">
-      <el-table mb-1 :data="[]" />
-      <el-pagination :total="100" />
-    </el-config-provider>
-  </div>
+  <el-button mb-2 @click="toggle">Switch Language</el-button>
+  <el-config-provider :locale="locale">
+    <el-table mb-1 :data="[]" />
+    <el-pagination :total="100" />
+  </el-config-provider>
 </template>
 
 <script lang="ts" setup>

@@ -1,5 +1,5 @@
 <template>
-  <div class="demo-progress">
+  <el-space direction="vertical" class="w-60%" fill size="large">
     <el-progress :text-inside="true" :stroke-width="26" :percentage="70" />
     <el-progress
       :text-inside="true"
@@ -19,12 +19,5 @@
       :percentage="50"
       status="exception"
     />
-  </div>
+  </el-space>
 </template>
-
-<style scoped>
-.demo-progress .el-progress--line {
-  margin-bottom: 15px;
-  width: 350px;
-}
-</style>

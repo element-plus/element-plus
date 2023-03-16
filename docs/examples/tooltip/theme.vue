@@ -11,7 +11,7 @@
   </el-tooltip>
 </template>
 
-<style>
+<style scoped>
 .el-popper.is-customized {
   /* Set padding to ensure the height is 32px */
   padding: 6px 12px;

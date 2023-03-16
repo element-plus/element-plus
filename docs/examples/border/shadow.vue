@@ -1,29 +1,21 @@
 <template>
-  <div class="flex justify-between items-center flex-wrap">
-    <div
-      v-for="(shadow, i) in shadowGroup"
-      :key="i"
-      class="flex flex-col justify-center items-center"
-      m="auto"
-      w="46"
-    >
-      <div
-        class="inline-flex"
-        h="30"
-        w="30"
-        m="2"
+  <el-row>
+    <el-col v-for="(shadow, i) in shadowGroup" :key="i" :span="6">
+      <el-text size="large" class="block mb-2">
+        {{ shadow.name }}
+      </el-text>
+      <el-text size="small" type="info" class="mb-2 block">
+        {{ getCssVarName(shadow.type) }}
+      </el-text>
+      <el-button
         :style="{
           boxShadow: `var(${getCssVarName(shadow.type)})`,
         }"
-      />
-      <span p="y-4" class="demo-shadow-text" text="sm">
-        {{ shadow.name }}
-      </span>
-      <code text="xs">
-        {{ getCssVarName(shadow.type) }}
-      </code>
-    </div>
-  </div>
+      >
+        Button
+      </el-button>
+    </el-col>
+  </el-row>
 </template>
 
 <script lang="ts" setup>

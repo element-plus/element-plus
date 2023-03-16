@@ -8,8 +8,8 @@
     :footer-height="50"
     fixed
   >
-    <template #footer
-      ><div
+    <template #footer>
+      <el-text
         class="flex items-center"
         style="
           justify-content: center;
@@ -18,7 +18,7 @@
         "
       >
         Display a message in the footer
-      </div>
+      </el-text>
     </template>
   </el-table-v2>
 </template>

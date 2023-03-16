@@ -1,24 +1,36 @@
 <template>
-  <div class="slider-demo-block">
-    <span class="demonstration">Default value</span>
-    <el-slider v-model="value1" />
-  </div>
-  <div class="slider-demo-block">
-    <span class="demonstration">Customized initial value</span>
-    <el-slider v-model="value2" />
-  </div>
-  <div class="slider-demo-block">
-    <span class="demonstration">Hide Tooltip</span>
-    <el-slider v-model="value3" :show-tooltip="false" />
-  </div>
-  <div class="slider-demo-block">
-    <span class="demonstration">Format Tooltip</span>
-    <el-slider v-model="value4" :format-tooltip="formatTooltip" />
-  </div>
-  <div class="slider-demo-block">
-    <span class="demonstration">Disabled</span>
-    <el-slider v-model="value5" disabled />
-  </div>
+  <el-row class="mr-6">
+    <el-text class="w-180px text-right mr-6">Default value</el-text>
+    <el-slider v-model="value1" class="w-60% inline-flex" />
+  </el-row>
+
+  <el-row class="mr-6">
+    <el-text class="w-180px text-right mr-6">Customized initial value</el-text>
+    <el-slider v-model="value2" class="w-60% inline-flex" />
+  </el-row>
+
+  <el-row class="mr-6">
+    <el-text class="w-180px text-right mr-6">Hide Tooltip</el-text>
+    <el-slider
+      v-model="value3"
+      :show-tooltip="false"
+      class="w-60% inline-flex"
+    />
+  </el-row>
+
+  <el-row class="mr-6">
+    <el-text class="w-180px text-right mr-6">Format Tooltip</el-text>
+    <el-slider
+      v-model="value4"
+      :format-tooltip="formatTooltip"
+      class="w-60% inline-flex"
+    />
+  </el-row>
+
+  <el-row class="mr-6">
+    <el-text class="w-180px text-right mr-6">Disabled</el-text>
+    <el-slider v-model="value5" disabled class="w-60% inline-flex" />
+  </el-row>
 </template>
 
 <script lang="ts" setup>
@@ -34,26 +46,3 @@ const formatTooltip = (val: number) => {
   return val / 100
 }
 </script>
-<style scoped>
-.slider-demo-block {
-  display: flex;
-  align-items: center;
-}
-.slider-demo-block .el-slider {
-  margin-top: 0;
-  margin-left: 12px;
-}
-.slider-demo-block .demonstration {
-  font-size: 14px;
-  color: var(--el-text-color-secondary);
-  line-height: 44px;
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  margin-bottom: 0;
-}
-.slider-demo-block .demonstration + .el-slider {
-  flex: 0 0 70%;
-}
-</style>

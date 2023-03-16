@@ -1,47 +1,42 @@
 <template>
-  <div class="flex flex-wrap">
-    <div class="m-4">
-      <p>default</p>
-      <el-select
-        v-model="value"
-        multiple
-        filterable
-        remote
-        reserve-keyword
-        placeholder="Please enter a keyword"
-        :remote-method="remoteMethod"
-        :loading="loading"
-      >
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </div>
-    <div class="m-4">
-      <p>use remote-show-suffix</p>
-      <el-select
-        v-model="value"
-        multiple
-        filterable
-        remote
-        reserve-keyword
-        placeholder="Please enter a keyword"
-        remote-show-suffix
-        :remote-method="remoteMethod"
-        :loading="loading"
-      >
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </div>
-  </div>
+  <el-text tag="p" class="my-3">default</el-text>
+  <el-select
+    v-model="value"
+    multiple
+    filterable
+    remote
+    reserve-keyword
+    placeholder="Please enter a keyword"
+    :remote-method="remoteMethod"
+    :loading="loading"
+  >
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
+
+  <el-text tag="p" class="my-3">use remote-show-suffix</el-text>
+  <el-select
+    v-model="value"
+    multiple
+    filterable
+    remote
+    reserve-keyword
+    placeholder="Please enter a keyword"
+    remote-show-suffix
+    :remote-method="remoteMethod"
+    :loading="loading"
+  >
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
 </template>
 
 <script lang="ts" setup>

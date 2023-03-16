@@ -13,10 +13,10 @@
     <el-sub-menu index="1">
       <template #title>
         <el-icon><location /></el-icon>
-        <span>Navigator One</span>
+        <el-text>Navigator One</el-text>
       </template>
       <el-menu-item-group>
-        <template #title><span>Group One</span></template>
+        <template #title><el-text>Group One</el-text></template>
         <el-menu-item index="1-1">item one</el-menu-item>
         <el-menu-item index="1-2">item two</el-menu-item>
       </el-menu-item-group>
@@ -24,7 +24,7 @@
         <el-menu-item index="1-3">item three</el-menu-item>
       </el-menu-item-group>
       <el-sub-menu index="1-4">
-        <template #title><span>item four</span></template>
+        <template #title><el-text>item four</el-text></template>
         <el-menu-item index="1-4-1">item one</el-menu-item>
       </el-sub-menu>
     </el-sub-menu>
@@ -61,7 +61,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 }
 </script>
 
-<style>
+<style scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
   min-height: 400px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap gap-2 my-2">
+  <el-row class="mb-3">
     <el-tag
       v-for="item in items"
       :key="item.label"
@@ -10,8 +10,8 @@
     >
       {{ item.label }}
     </el-tag>
-  </div>
-  <div class="flex flex-wrap gap-2">
+  </el-row>
+  <el-row class="mb-3">
     <el-tag
       v-for="item in items"
       :key="item.label"
@@ -22,8 +22,8 @@
     >
       {{ item.label }}
     </el-tag>
-  </div>
-  <div class="flex flex-wrap gap-2 my-2">
+  </el-row>
+  <el-row class="mb-3">
     <el-tag
       v-for="item in items"
       :key="item.label"
@@ -34,7 +34,7 @@
     >
       {{ item.label }}
     </el-tag>
-  </div>
+  </el-row>
 </template>
 
 <script lang="ts" setup>

@@ -7,7 +7,7 @@
   </el-row>
 </template>
 
-<style>
+<style scoped>
 .el-row {
   margin-bottom: 20px;
 }
@@ -17,7 +17,6 @@
 .el-col {
   border-radius: 4px;
 }
-
 .grid-content {
   border-radius: 4px;
   min-height: 36px;

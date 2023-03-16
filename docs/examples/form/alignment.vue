@@ -1,10 +1,9 @@
 <template>
-  <el-radio-group v-model="labelPosition" label="label position">
+  <el-radio-group v-model="labelPosition" label="label position" class="mb-3">
     <el-radio-button label="left">Left</el-radio-button>
     <el-radio-button label="right">Right</el-radio-button>
     <el-radio-button label="top">Top</el-radio-button>
   </el-radio-group>
-  <div style="margin: 20px" />
   <el-form
     :label-position="labelPosition"
     label-width="100px"

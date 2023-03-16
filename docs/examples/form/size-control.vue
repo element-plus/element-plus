@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <el-radio-group v-model="size" label="size control">
+  <el-row class="mb-3">
+    <el-radio-group v-model="size" label="size control" class="mr-3">
       <el-radio-button label="large">large</el-radio-button>
       <el-radio-button label="default">default</el-radio-button>
       <el-radio-button label="small">small</el-radio-button>
@@ -10,8 +10,7 @@
       <el-radio-button label="right">Right</el-radio-button>
       <el-radio-button label="top">Top</el-radio-button>
     </el-radio-group>
-  </div>
-  <br />
+  </el-row>
   <el-form
     ref="form"
     :model="sizeForm"
@@ -91,9 +90,3 @@ function onSubmit() {
   console.log('submit!')
 }
 </script>
-
-<style>
-.el-radio-group {
-  margin-right: 12px;
-}
-</style>

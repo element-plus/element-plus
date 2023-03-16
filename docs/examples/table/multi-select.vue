@@ -3,6 +3,7 @@
     ref="multipleTableRef"
     :data="tableData"
     style="width: 100%"
+    class="mb-20px"
     @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection" width="55" />
@@ -12,12 +13,10 @@
     <el-table-column property="name" label="Name" width="120" />
     <el-table-column property="address" label="Address" show-overflow-tooltip />
   </el-table>
-  <div style="margin-top: 20px">
-    <el-button @click="toggleSelection([tableData[1], tableData[2]])"
-      >Toggle selection status of second and third rows</el-button
-    >
-    <el-button @click="toggleSelection()">Clear selection</el-button>
-  </div>
+  <el-button @click="toggleSelection([tableData[1], tableData[2]])">
+    Toggle selection status of second and third rows
+  </el-button>
+  <el-button @click="toggleSelection()">Clear selection</el-button>
 </template>
 
 <script lang="ts" setup>

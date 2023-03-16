@@ -4,7 +4,6 @@
     :model="ruleForm"
     :rules="rules"
     label-width="120px"
-    class="demo-ruleForm"
     :size="formSize"
     status-icon
   >
@@ -37,7 +36,7 @@
         </el-form-item>
       </el-col>
       <el-col class="text-center" :span="2">
-        <span class="text-gray-500">-</span>
+        <el-text>-</el-text>
       </el-col>
       <el-col :span="11">
         <el-form-item prop="date2">

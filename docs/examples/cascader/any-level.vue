@@ -1,12 +1,13 @@
 <template>
-  <div class="m-4">
-    <p>Select any level of options (Single selection)</p>
-    <el-cascader :options="options" :props="props1" clearable />
-  </div>
-  <div class="m-4">
-    <p>Select any level of options (Multiple selection)</p>
-    <el-cascader :options="options" :props="props2" clearable />
-  </div>
+  <el-text tag="p" class="my-2">
+    Select any level of options (Single selection)
+  </el-text>
+  <el-cascader :options="options" :props="props1" clearable />
+
+  <el-text tag="p" class="my-2">
+    Select any level of options (Multiple selection)
+  </el-text>
+  <el-cascader :options="options" :props="props2" clearable />
 </template>
 
 <script lang="ts" setup>

@@ -30,7 +30,7 @@ const tableData = [
 ]
 </script>
 
-<style>
+<style scoped>
 body {
   margin: 0;
 }

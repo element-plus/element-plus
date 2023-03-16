@@ -5,8 +5,8 @@
     placeholder="Please input"
     show-word-limit
     type="text"
+    class="mb-3"
   />
-  <div style="margin: 20px 0" />
   <el-input
     v-model="textarea"
     maxlength="30"

@@ -5,75 +5,68 @@
     <el-radio label="small">Small</el-radio>
   </el-radio-group>
 
-  <el-descriptions
-    class="margin-top"
-    title="With border"
-    :column="3"
-    :size="size"
-    border
-  >
+  <el-descriptions title="With border" :column="3" :size="size" border>
     <template #extra>
       <el-button type="primary">Operation</el-button>
     </template>
     <el-descriptions-item>
       <template #label>
-        <div class="cell-item">
+        <el-text tag="b" :size="size" truncated>
           <el-icon :style="iconStyle">
             <user />
           </el-icon>
           Username
-        </div>
+        </el-text>
       </template>
       kooriookami
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <div class="cell-item">
+        <el-text tag="b" :size="size" truncated>
           <el-icon :style="iconStyle">
             <iphone />
           </el-icon>
           Telephone
-        </div>
+        </el-text>
       </template>
       18100000000
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <div class="cell-item">
+        <el-text tag="b" :size="size" truncated>
           <el-icon :style="iconStyle">
             <location />
           </el-icon>
           Place
-        </div>
+        </el-text>
       </template>
       Suzhou
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <div class="cell-item">
+        <el-text tag="b" :size="size" truncated>
           <el-icon :style="iconStyle">
             <tickets />
           </el-icon>
           Remarks
-        </div>
+        </el-text>
       </template>
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
-        <div class="cell-item">
+        <el-text tag="b" :size="size" truncated>
           <el-icon :style="iconStyle">
             <office-building />
           </el-icon>
           Address
-        </div>
+        </el-text>
       </template>
       No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
     </el-descriptions-item>
   </el-descriptions>
 
   <el-descriptions
-    class="margin-top"
     title="Without border"
     :column="3"
     :size="size"
@@ -88,13 +81,13 @@
     <el-descriptions-item label="Remarks">
       <el-tag size="small">School</el-tag>
     </el-descriptions-item>
-    <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
+    <el-descriptions-item label="Address">
+      No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
     </el-descriptions-item>
   </el-descriptions>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, ref } from 'vue'
 import {
   Iphone,
@@ -126,16 +119,3 @@ const blockMargin = computed(() => {
   }
 })
 </script>
-
-<style scoped>
-.el-descriptions {
-  margin-top: 20px;
-}
-.cell-item {
-  display: flex;
-  align-items: center;
-}
-.margin-top {
-  margin-top: 20px;
-}
-</style>

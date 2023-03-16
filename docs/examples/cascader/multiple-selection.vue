@@ -1,22 +1,18 @@
 <template>
-  <div class="m-4">
-    <p>Display all tags (default)</p>
-    <el-cascader :options="options" :props="props" clearable />
-  </div>
-  <div class="m-4">
-    <p>Collapse tags</p>
-    <el-cascader :options="options" :props="props" collapse-tags clearable />
-  </div>
-  <div class="m-4">
-    <p>Collapse tags tooltip</p>
-    <el-cascader
-      :options="options"
-      :props="props"
-      collapse-tags
-      collapse-tags-tooltip
-      clearable
-    />
-  </div>
+  <el-text tag="p" class="my-2">Display all tags (default)</el-text>
+  <el-cascader :options="options" :props="props" clearable />
+
+  <el-text tag="p" class="my-2">Collapse tags</el-text>
+  <el-cascader :options="options" :props="props" collapse-tags clearable />
+
+  <el-text tag="p" class="my-2">Collapse tags tooltip</el-text>
+  <el-cascader
+    :options="options"
+    :props="props"
+    collapse-tags
+    collapse-tags-tooltip
+    clearable
+  />
 </template>
 
 <script lang="ts" setup>

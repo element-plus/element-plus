@@ -4,6 +4,7 @@
   <el-alert title="warning alert" type="warning" effect="dark" />
   <el-alert title="error alert" type="error" effect="dark" />
 </template>
+
 <style scoped>
 .el-alert {
   margin: 20px 0 0;

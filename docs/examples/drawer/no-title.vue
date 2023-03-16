@@ -4,7 +4,7 @@
   </el-button>
 
   <el-drawer v-model="drawer" title="I am the title" :with-header="false">
-    <span>Hi there!</span>
+    <el-text>Hi there!</el-text>
   </el-drawer>
 </template>
 

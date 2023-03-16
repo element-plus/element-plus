@@ -1,16 +1,22 @@
 <template>
   <el-scrollbar ref="scrollbarRef" height="400px" always @scroll="scroll">
-    <div ref="innerRef">
-      <p v-for="item in 20" :key="item" class="scrollbar-demo-item">
+    <el-text ref="innerRef" tag="div">
+      <el-text
+        v-for="item in 20"
+        :key="item"
+        tag="p"
+        class="scrollbar-demo-item"
+      >
         {{ item }}
-      </p>
-    </div>
+      </el-text>
+    </el-text>
   </el-scrollbar>
 
   <el-slider
     v-model="value"
     :max="max"
     :format-tooltip="formatTooltip"
+    class="mt-3"
     @input="inputSlider"
   />
 </template>
@@ -50,8 +56,5 @@ const formatTooltip = (value: number) => {
   border-radius: 4px;
   background: var(--el-color-primary-light-9);
   color: var(--el-color-primary);
-}
-.el-slider {
-  margin-top: 20px;
 }
 </style>

@@ -1,21 +1,18 @@
 <template>
-  <div class="m-4">
-    <p>Filterable (Single selection)</p>
-    <el-cascader
-      placeholder="Try searchingL Guide"
-      :options="options"
-      filterable
-    />
-  </div>
-  <div class="m-4">
-    <p>Filterable (Multiple selection)</p>
-    <el-cascader
-      placeholder="Try searchingL Guide"
-      :options="options"
-      :props="props"
-      filterable
-    />
-  </div>
+  <el-text tag="p" class="my-2">Filterable (Single selection)</el-text>
+  <el-cascader
+    placeholder="Try searchingL Guide"
+    :options="options"
+    filterable
+  />
+
+  <el-text tag="p" class="my-2">Filterable (Multiple selection)</el-text>
+  <el-cascader
+    placeholder="Try searchingL Guide"
+    :options="options"
+    :props="props"
+    filterable
+  />
 </template>
 
 <script lang="ts" setup>

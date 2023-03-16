@@ -1,7 +1,7 @@
 <template>
   Scroll down to see the bottom-right button.
   <el-backtop :bottom="100">
-    <div
+    <el-button
       style="
         height: 100%;
         width: 100%;
@@ -13,6 +13,6 @@
       "
     >
       UP
-    </div>
+    </el-button>
   </el-backtop>
 </template>

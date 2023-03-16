@@ -7,6 +7,7 @@
     :height="400"
   />
 </template>
+
 <script lang="tsx" setup>
 import { ref } from 'vue'
 import {
@@ -108,7 +109,7 @@ const fixedColumns = columns.map((column, columnIndex) => {
 })
 </script>
 
-<style>
+<style scoped>
 .el-table-v2__demo-filter {
   border-top: var(--el-border);
   margin: 12px -12px -12px;

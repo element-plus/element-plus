@@ -1,7 +1,13 @@
 <template>
-  <div class="demo-image__lazy">
-    <el-image v-for="url in urls" :key="url" :src="url" lazy />
-  </div>
+  <el-main class="p-0 h-400px overflow-y-auto">
+    <el-image
+      v-for="url in urls"
+      :key="url"
+      :src="url"
+      lazy
+      class="block min-h-200px mb-2"
+    />
+  </el-main>
 </template>
 
 <script lang="ts" setup>
@@ -15,18 +21,3 @@ const urls = [
   'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
 ]
 </script>
-
-<style scoped>
-.demo-image__lazy {
-  height: 400px;
-  overflow-y: auto;
-}
-.demo-image__lazy .el-image {
-  display: block;
-  min-height: 200px;
-  margin-bottom: 10px;
-}
-.demo-image__lazy .el-image:last-child {
-  margin-bottom: 0;
-}
-</style>

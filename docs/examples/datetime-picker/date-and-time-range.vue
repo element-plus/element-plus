@@ -1,6 +1,6 @@
 <template>
-  <div class="block">
-    <span class="demonstration">Default</span>
+  <el-space direction="vertical" class="w-100%">
+    <el-text class="block my-3">Default</el-text>
     <el-date-picker
       v-model="value1"
       type="datetimerange"
@@ -8,9 +8,8 @@
       start-placeholder="Start date"
       end-placeholder="End date"
     />
-  </div>
-  <div class="block">
-    <span class="demonstration">With shortcuts</span>
+
+    <el-text class="block my-3">With shortcuts</el-text>
     <el-date-picker
       v-model="value2"
       type="datetimerange"
@@ -19,7 +18,7 @@
       start-placeholder="Start date"
       end-placeholder="End date"
     />
-  </div>
+  </el-space>
 </template>
 
 <script lang="ts" setup>
@@ -61,20 +60,3 @@ const shortcuts = [
   },
 ]
 </script>
-<style scoped>
-.block {
-  padding: 30px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  flex: 1;
-}
-.block:last-child {
-  border-right: none;
-}
-.block .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-</style>

@@ -4,13 +4,19 @@
   </el-button>
   <el-dialog v-model="visible" :show-close="false">
     <template #header="{ close, titleId, titleClass }">
-      <div class="my-header">
-        <h4 :id="titleId" :class="titleClass">This is a custom header!</h4>
-        <el-button type="danger" @click="close">
-          <el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
-          Close
-        </el-button>
-      </div>
+      <el-row>
+        <el-col :span="16">
+          <el-text :id="titleId" tag="h4" :class="titleClass">
+            This is a custom header!
+          </el-text>
+        </el-col>
+        <el-col :span="8" class="text-right">
+          <el-button type="danger" @click="close">
+            <el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
+            Close
+          </el-button>
+        </el-col>
+      </el-row>
     </template>
     This is dialog content.
   </el-dialog>
@@ -23,11 +29,3 @@ import { CircleCloseFilled } from '@element-plus/icons-vue'
 
 const visible = ref(false)
 </script>
-
-<style scoped>
-.my-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-</style>

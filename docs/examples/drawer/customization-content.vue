@@ -1,10 +1,10 @@
 <template>
-  <el-button text @click="table = true"
-    >Open Drawer with nested table</el-button
-  >
-  <el-button text @click="dialog = true"
-    >Open Drawer with nested form</el-button
-  >
+  <el-button text @click="table = true">
+    Open Drawer with nested table
+  </el-button>
+  <el-button text @click="dialog = true">
+    Open Drawer with nested form
+  </el-button>
   <el-drawer
     v-model="table"
     title="I have a nested table inside!"
@@ -24,30 +24,25 @@
     title="I have a nested form inside!"
     :before-close="handleClose"
     direction="ltr"
-    class="demo-drawer"
   >
-    <div class="demo-drawer__content">
-      <el-form :model="form">
-        <el-form-item label="Name" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="Area" :label-width="formLabelWidth">
-          <el-select
-            v-model="form.region"
-            placeholder="Please select activity area"
-          >
-            <el-option label="Area1" value="shanghai" />
-            <el-option label="Area2" value="beijing" />
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div class="demo-drawer__footer">
-        <el-button @click="cancelForm">Cancel</el-button>
-        <el-button type="primary" :loading="loading" @click="onClick">{{
-          loading ? 'Submitting ...' : 'Submit'
-        }}</el-button>
-      </div>
-    </div>
+    <el-form :model="form">
+      <el-form-item label="Name" :label-width="formLabelWidth">
+        <el-input v-model="form.name" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="Area" :label-width="formLabelWidth">
+        <el-select
+          v-model="form.region"
+          placeholder="Please select activity area"
+        >
+          <el-option label="Area1" value="shanghai" />
+          <el-option label="Area2" value="beijing" />
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <el-button @click="cancelForm">Cancel</el-button>
+    <el-button type="primary" :loading="loading" @click="onClick">
+      {{ loading ? 'Submitting ...' : 'Submit' }}
+    </el-button>
   </el-drawer>
 </template>
 

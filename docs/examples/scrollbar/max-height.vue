@@ -2,9 +2,14 @@
   <el-button @click="add">Add Item</el-button>
   <el-button @click="onDelete">Delete Item</el-button>
   <el-scrollbar max-height="400px">
-    <p v-for="item in count" :key="item" class="scrollbar-demo-item">
+    <el-text
+      v-for="item in count"
+      :key="item"
+      tag="p"
+      class="scrollbar-demo-item"
+    >
       {{ item }}
-    </p>
+    </el-text>
   </el-scrollbar>
 </template>
 

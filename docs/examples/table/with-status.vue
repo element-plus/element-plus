@@ -56,7 +56,7 @@ const tableData: User[] = [
 ]
 </script>
 
-<style>
+<style scoped>
 .el-table .warning-row {
   --el-table-tr-bg-color: var(--el-color-warning-light-9);
 }

@@ -17,7 +17,7 @@ import { ref } from 'vue'
 const disabled = ref(false)
 </script>
 
-<style>
+<style scoped>
 .slide-fade-enter-active {
   transition: all 0.3s ease;
 }

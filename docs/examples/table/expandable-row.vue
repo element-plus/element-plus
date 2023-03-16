@@ -1,23 +1,32 @@
 <template>
-  switch parent border: <el-switch v-model="parentBorder" /> switch child
-  border: <el-switch v-model="childBorder" />
+  <el-text class="mr-3">switch parent border:</el-text>
+  <el-switch v-model="parentBorder" />
+  <el-text class="mx-3">switch child border:</el-text>
+  <el-switch v-model="childBorder" />
   <el-table :data="tableData" :border="parentBorder" style="width: 100%">
     <el-table-column type="expand">
       <template #default="props">
-        <div m="4">
-          <p m="t-0 b-2">State: {{ props.row.state }}</p>
-          <p m="t-0 b-2">City: {{ props.row.city }}</p>
-          <p m="t-0 b-2">Address: {{ props.row.address }}</p>
-          <p m="t-0 b-2">Zip: {{ props.row.zip }}</p>
-          <h3>Family</h3>
-          <el-table :data="props.row.family" :border="childBorder">
-            <el-table-column label="Name" prop="name" />
-            <el-table-column label="State" prop="state" />
-            <el-table-column label="City" prop="city" />
-            <el-table-column label="Address" prop="address" />
-            <el-table-column label="Zip" prop="zip" />
-          </el-table>
-        </div>
+        <el-space
+          direction="vertical"
+          alignment="start"
+          class="w-100% m-4 mb-0"
+        >
+          <el-text tag="p" m="t-0 b-2">State: {{ props.row.state }}</el-text>
+          <el-text tag="p" m="t-0 b-2">City: {{ props.row.city }}</el-text>
+          <el-text tag="p" m="t-0 b-2"
+            >Address: {{ props.row.address }}</el-text
+          >
+          <el-text tag="p" m="t-0 b-2">Zip: {{ props.row.zip }}</el-text>
+          <el-text tag="h3">Family</el-text>
+        </el-space>
+
+        <el-table :data="props.row.family" :border="childBorder" class="m-4">
+          <el-table-column label="Name" prop="name" />
+          <el-table-column label="State" prop="state" />
+          <el-table-column label="City" prop="city" />
+          <el-table-column label="Address" prop="address" />
+          <el-table-column label="Zip" prop="zip" />
+        </el-table>
       </template>
     </el-table-column>
     <el-table-column label="Date" prop="date" />

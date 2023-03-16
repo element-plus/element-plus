@@ -1,21 +1,23 @@
 <template>
-  <div>
-    <el-button @click="show = !show">Click Me</el-button>
+  <el-button class="block mb-3" @click="show = !show">Click Me</el-button>
 
-    <div style="display: flex; margin-top: 20px; height: 100px">
-      <transition name="el-zoom-in-center">
-        <div v-show="show" class="transition-box">.el-zoom-in-center</div>
-      </transition>
-
-      <transition name="el-zoom-in-top">
-        <div v-show="show" class="transition-box">.el-zoom-in-top</div>
-      </transition>
-
-      <transition name="el-zoom-in-bottom">
-        <div v-show="show" class="transition-box">.el-zoom-in-bottom</div>
-      </transition>
-    </div>
-  </div>
+  <el-text tag="div" class="h-100px">
+    <transition name="el-zoom-in-center">
+      <el-text v-show="show" tag="div" class="transition-box">
+        .el-zoom-in-center
+      </el-text>
+    </transition>
+    <transition name="el-zoom-in-top">
+      <el-text v-show="show" tag="div" class="transition-box">
+        .el-zoom-in-top
+      </el-text>
+    </transition>
+    <transition name="el-zoom-in-bottom">
+      <el-text v-show="show" tag="div" class="transition-box">
+        .el-zoom-in-bottom
+      </el-text>
+    </transition>
+  </el-text>
 </template>
 
 <script lang="ts" setup>
@@ -24,17 +26,17 @@ import { ref } from 'vue'
 const show = ref(true)
 </script>
 
-<style>
+<style scoped>
 .transition-box {
-  margin-bottom: 10px;
+  display: inline-block;
   width: 200px;
   height: 100px;
-  border-radius: 4px;
-  background-color: #409eff;
+  border-radius: var(--el-border-radius-base);
+  background-color: var(--el-color-primary);
   text-align: center;
-  color: #fff;
+  color: var(--el-color-white);
   padding: 40px 20px;
-  box-sizing: border-box;
+  margin-bottom: 10px;
   margin-right: 20px;
 }
 </style>

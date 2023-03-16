@@ -1,74 +1,64 @@
 <template>
-  <div class="m-4">
-    <p>default</p>
-    <el-select
-      v-model="value1"
-      multiple
-      placeholder="Select"
-      style="width: 240px"
-    >
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-  </div>
-  <div class="m-4">
-    <p>use collapse-tags</p>
-    <el-select
-      v-model="value2"
-      multiple
-      collapse-tags
-      placeholder="Select"
-      style="width: 240px"
-    >
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-  </div>
-  <div class="m-4">
-    <p>use collapse-tags-tooltip</p>
-    <el-select
-      v-model="value3"
-      multiple
-      collapse-tags
-      collapse-tags-tooltip
-      placeholder="Select"
-      style="width: 240px"
-    >
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-  </div>
-  <div class="m-4">
-    <p>use max-collapse-tags</p>
-    <el-select
-      v-model="value4"
-      multiple
-      collapse-tags
-      collapse-tags-tooltip
-      :max-collapse-tags="3"
-      placeholder="Select"
-      style="width: 240px"
-    >
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value"
-      />
-    </el-select>
-  </div>
+  <el-text tag="p" class="my-3">default</el-text>
+  <el-select v-model="value1" multiple placeholder="Select" class="w-240px">
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
+
+  <el-text tag="p" class="my-3">use collapse-tags</el-text>
+  <el-select
+    v-model="value2"
+    multiple
+    collapse-tags
+    placeholder="Select"
+    class="w-240px"
+  >
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
+
+  <el-text tag="p" class="my-3">use collapse-tags-tooltip</el-text>
+  <el-select
+    v-model="value3"
+    multiple
+    collapse-tags
+    collapse-tags-tooltip
+    placeholder="Select"
+    class="w-240px"
+  >
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
+
+  <el-text tag="p" class="my-3">use max-collapse-tags</el-text>
+  <el-select
+    v-model="value4"
+    multiple
+    collapse-tags
+    collapse-tags-tooltip
+    :max-collapse-tags="3"
+    placeholder="Select"
+    class="w-240px"
+  >
+    <el-option
+      v-for="item in options"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
 </template>
 
 <script lang="ts" setup>

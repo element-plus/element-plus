@@ -7,17 +7,21 @@
       :offset="index > 0 ? 2 : 0"
     >
       <el-card :body-style="{ padding: '0px' }">
-        <img
+        <el-image
           src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-          class="image"
+          class="block mb-3"
         />
-        <div style="padding: 14px">
-          <span>Yummy hamburger</span>
-          <div class="bottom">
-            <time class="time">{{ currentDate }}</time>
+        <el-text size="large" class="block px-3">Yummy hamburger</el-text>
+        <el-row class="p-3">
+          <el-col :span="16">
+            <el-text tag="time" size="small" type="info" class="mr-2">
+              {{ currentDate }}
+            </el-text>
+          </el-col>
+          <el-col :span="8">
             <el-button text class="button">Operating</el-button>
-          </div>
-        </div>
+          </el-col>
+        </el-row>
       </el-card>
     </el-col>
   </el-row>
@@ -28,28 +32,3 @@ import { ref } from 'vue'
 
 const currentDate = ref(new Date())
 </script>
-
-<style>
-.time {
-  font-size: 12px;
-  color: #999;
-}
-
-.bottom {
-  margin-top: 13px;
-  line-height: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.button {
-  padding: 0;
-  min-height: auto;
-}
-
-.image {
-  width: 100%;
-  display: block;
-}
-</style>

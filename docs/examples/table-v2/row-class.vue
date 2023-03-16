@@ -40,12 +40,12 @@ const columns: Column<any>[] = [
     cellRenderer: ({ cellData: date }) => (
       <ElTooltip content={dayjs(date).format('YYYY/MM/DD')}>
         {
-          <span class="flex items-center">
+          <el-text class="flex items-center">
             <ElIcon class="mr-3">
               <Timer />
             </ElIcon>
             {dayjs(date).format('YYYY/MM/DD')}
-          </span>
+          </el-text>
         }
       </ElTooltip>
     ),

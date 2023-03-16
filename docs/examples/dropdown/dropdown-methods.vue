@@ -1,12 +1,10 @@
 <template>
-  <div style="font-size: 14px">
-    <p>open(close) the Dropdown list2 will close(open) the Dropdown List1.</p>
-  </div>
-  <div style="margin: 15px">
-    <el-button @click="showClick">show</el-button>
-  </div>
+  <el-text tag="p">
+    open(close) the Dropdown list2 will close(open) the Dropdown List1.
+  </el-text>
+  <el-button class="block m-3" @click="showClick">show</el-button>
   <el-dropdown ref="dropdown1" trigger="contextmenu" style="margin-right: 30px">
-    <span class="el-dropdown-link"> Dropdown List1 </span>
+    <el-link :underline="false" type="primary">Dropdown List1</el-link>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item>Action 1</el-dropdown-item>
@@ -19,7 +17,7 @@
   </el-dropdown>
 
   <el-dropdown trigger="contextmenu" @visible-change="handleVisible2">
-    <span class="el-dropdown-link"> Dropdown List2 </span>
+    <el-link :underline="false" type="primary">Dropdown List2</el-link>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item>Action 1</el-dropdown-item>
@@ -32,7 +30,7 @@
   </el-dropdown>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
 const dropdown1 = ref()
 function handleVisible2(visible: any) {
@@ -46,11 +44,3 @@ function showClick() {
   dropdown1.value.handleOpen()
 }
 </script>
-<style scoped>
-.example-showcase .el-dropdown-link {
-  cursor: pointer;
-  color: var(--el-color-primary);
-  display: flex;
-  align-items: center;
-}
-</style>

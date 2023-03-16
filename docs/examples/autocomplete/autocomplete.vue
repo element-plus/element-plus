@@ -1,9 +1,7 @@
 <template>
-  <el-row class="demo-autocomplete">
+  <el-row>
     <el-col :span="12">
-      <div class="sub-title my-2 text-sm text-gray-600">
-        list suggestions when activated
-      </div>
+      <el-text class="block my-2"> list suggestions when activated </el-text>
       <el-autocomplete
         v-model="state1"
         :fetch-suggestions="querySearch"
@@ -14,9 +12,7 @@
       />
     </el-col>
     <el-col :span="12">
-      <div class="sub-title my-2 text-sm text-gray-600">
-        list suggestions on input
-      </div>
+      <el-text class="block my-2"> list suggestions on input </el-text>
       <el-autocomplete
         v-model="state2"
         :fetch-suggestions="querySearch"

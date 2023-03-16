@@ -13,10 +13,10 @@
   </el-badge>
 
   <el-dropdown trigger="click">
-    <span class="el-dropdown-link">
+    <el-link :underline="false">
       Click Me
       <el-icon class="el-icon--right"><caret-bottom /></el-icon>
-    </span>
+    </el-link>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item class="clearfix">

@@ -10,13 +10,14 @@
     title="With title"
     virtual-triggering
   >
-    <span> Some content </span>
+    <el-text> Some content </el-text>
   </el-popover>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref, unref } from 'vue'
 import { ClickOutside as vClickOutside } from 'element-plus'
+
 const buttonRef = ref()
 const popoverRef = ref()
 const onClickOutside = () => {

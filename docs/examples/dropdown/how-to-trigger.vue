@@ -1,11 +1,11 @@
 <template>
   <el-row class="block-col-2">
     <el-col :span="8">
-      <span class="demonstration">hover to trigger</span>
+      <el-text class="block mb-3">hover to trigger</el-text>
       <el-dropdown>
-        <span class="el-dropdown-link">
+        <el-link :underline="false">
           Dropdown List<el-icon class="el-icon--right"><arrow-down /></el-icon>
-        </span>
+        </el-link>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item :icon="Plus">Action 1</el-dropdown-item>
@@ -20,11 +20,11 @@
       </el-dropdown>
     </el-col>
     <el-col :span="8">
-      <span class="demonstration">click to trigger</span>
+      <el-text class="block mb-3">click to trigger</el-text>
       <el-dropdown trigger="click">
-        <span class="el-dropdown-link">
+        <el-link :underline="false">
           Dropdown List<el-icon class="el-icon--right"><arrow-down /></el-icon>
-        </span>
+        </el-link>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item :icon="Plus">Action 1</el-dropdown-item>
@@ -39,11 +39,11 @@
       </el-dropdown>
     </el-col>
     <el-col :span="8">
-      <span class="demonstration">right click to trigger</span>
+      <el-text class="block mb-3">right click to trigger</el-text>
       <el-dropdown trigger="contextmenu">
-        <span class="el-dropdown-link">
+        <el-link :underline="false">
           Dropdown List<el-icon class="el-icon--right"><arrow-down /></el-icon>
-        </span>
+        </el-link>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item :icon="Plus">Action 1</el-dropdown-item>
@@ -70,12 +70,3 @@ import {
   Plus,
 } from '@element-plus/icons-vue'
 </script>
-
-<style scoped>
-.block-col-2 .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-</style>

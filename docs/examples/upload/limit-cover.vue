@@ -14,14 +14,17 @@
       upload to server
     </el-button>
     <template #tip>
-      <div class="el-upload__tip text-red">
+      <el-text
+        class="block el-upload__tip"
+        style="color: var(--el-color-danger)"
+      >
         limit 1 file, new file will cover the old file
-      </div>
+      </el-text>
     </template>
   </el-upload>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
 import { genFileId } from 'element-plus'
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'

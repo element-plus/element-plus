@@ -4,7 +4,9 @@
   </el-button>
   <el-drawer v-model="visible" :show-close="false">
     <template #header="{ close, titleId, titleClass }">
-      <h4 :id="titleId" :class="titleClass">This is a custom header!</h4>
+      <el-text :id="titleId" tag="h4" :class="titleClass">
+        This is a custom header!
+      </el-text>
       <el-button type="danger" @click="close">
         <el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
         Close

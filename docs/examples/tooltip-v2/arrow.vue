@@ -9,6 +9,6 @@
   </el-tooltip-v2>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Plus } from '@element-plus/icons-vue'
 </script>

@@ -58,7 +58,8 @@ const tableData = [
   },
 ]
 </script>
-<style>
+
+<style scoped>
 .example-showcase .el-loading-mask {
   z-index: 9;
 }

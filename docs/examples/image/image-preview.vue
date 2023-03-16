@@ -1,14 +1,12 @@
 <template>
-  <div class="demo-image__preview">
-    <el-image
-      style="width: 100px; height: 100px"
-      :src="url"
-      :zoom-rate="1.2"
-      :preview-src-list="srcList"
-      :initial-index="4"
-      fit="cover"
-    />
-  </div>
+  <el-image
+    style="width: 100px; height: 100px"
+    :src="url"
+    :zoom-rate="1.2"
+    :preview-src-list="srcList"
+    :initial-index="4"
+    fit="cover"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -24,16 +22,3 @@ const srcList = [
   'https://fuss10.elemecdn.com/2/11/6535bcfb26e4c79b48ddde44f4b6fjpeg.jpeg',
 ]
 </script>
-
-<style scoped>
-.demo-image__error .image-slot {
-  font-size: 30px;
-}
-.demo-image__error .image-slot .el-icon {
-  font-size: 30px;
-}
-.demo-image__error .el-image {
-  width: 100%;
-  height: 200px;
-}
-</style>

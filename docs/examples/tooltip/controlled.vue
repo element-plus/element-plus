@@ -1,15 +1,13 @@
 <template>
   <el-tooltip :visible="visible">
-    <template #content>
-      <span>Content</span>
-    </template>
+    <template #content> Content </template>
     <el-button @mouseenter="visible = true" @mouseleave="visible = false">
       Hover me
     </el-button>
   </el-tooltip>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
 
 const visible = ref(false)

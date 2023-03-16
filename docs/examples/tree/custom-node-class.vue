@@ -1,14 +1,12 @@
 <template>
-  <div class="custom-tree-node-container">
-    <el-tree
-      :data="data"
-      show-checkbox
-      node-key="id"
-      default-expand-all
-      :expand-on-click-node="false"
-      :props="{ class: customNodeClass }"
-    />
-  </div>
+  <el-tree
+    :data="data"
+    show-checkbox
+    node-key="id"
+    default-expand-all
+    :expand-on-click-node="false"
+    :props="{ class: customNodeClass }"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -83,16 +81,8 @@ const data: Tree[] = [
 ]
 </script>
 
-<style>
+<style scoped>
 .is-penultimate > .el-tree-node__content {
   color: #626aef;
-}
-
-.el-tree-node.is-expanded.is-penultimate > .el-tree-node__children {
-  display: flex;
-  flex-direction: row;
-}
-.is-penultimate > .el-tree-node__children > div {
-  width: 25%;
 }
 </style>

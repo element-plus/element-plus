@@ -1,33 +1,28 @@
 <template>
-  <div>
-    <div style="margin-bottom: 15px">
-      direction:
-      <el-radio v-model="direction" label="horizontal">horizontal</el-radio>
-      <el-radio v-model="direction" label="vertical">vertical</el-radio>
-    </div>
-    <div style="margin-bottom: 15px">
-      fillRatio:<el-slider v-model="fillRatio" />
-    </div>
-    <el-space
-      fill
-      wrap
-      :fill-ratio="fillRatio"
-      :direction="direction"
-      style="width: 100%"
-    >
-      <el-card v-for="i in 5" :key="i" class="box-card">
-        <template #header>
-          <div class="card-header">
-            <span>Card name</span>
-            <el-button class="button" text>Operation button</el-button>
-          </div>
-        </template>
-        <div v-for="o in 4" :key="o" class="text item">
-          {{ 'List item ' + o }}
-        </div>
-      </el-card>
-    </el-space>
-  </div>
+  <el-row>
+    <el-text class="w-70px text-right mr-6">direction:</el-text>
+    <el-radio v-model="direction" label="horizontal">horizontal</el-radio>
+    <el-radio v-model="direction" label="vertical">vertical</el-radio>
+  </el-row>
+  <el-row class="mb-3">
+    <el-text class="w-70px text-right mr-6">fillRatio:</el-text>
+    <el-slider v-model="fillRatio" class="w-60% inline-flex" />
+  </el-row>
+
+  <el-space
+    fill
+    wrap
+    :fill-ratio="fillRatio"
+    :direction="direction"
+    class="w-100%"
+  >
+    <el-card v-for="i in 5" :key="i">
+      <template #header> Card name </template>
+      <el-text v-for="o in 4" :key="o" class="block">
+        {{ 'List item ' + o }}
+      </el-text>
+    </el-card>
+  </el-space>
 </template>
 
 <script lang="ts" setup>

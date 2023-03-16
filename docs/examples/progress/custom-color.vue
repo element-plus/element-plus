@@ -1,18 +1,15 @@
 <template>
-  <div class="demo-progress">
+  <el-space direction="vertical" class="w-60%" fill>
     <el-progress :percentage="percentage" :color="customColor" />
-
     <el-progress :percentage="percentage" :color="customColorMethod" />
+    <el-progress :percentage="percentage" :color="customColors" />
+    <el-progress :percentage="percentage" :color="customColors" />
 
-    <el-progress :percentage="percentage" :color="customColors" />
-    <el-progress :percentage="percentage" :color="customColors" />
-    <div>
-      <el-button-group>
-        <el-button :icon="Minus" @click="decrease" />
-        <el-button :icon="Plus" @click="increase" />
-      </el-button-group>
-    </div>
-  </div>
+    <el-button-group>
+      <el-button :icon="Minus" @click="decrease" />
+      <el-button :icon="Plus" @click="increase" />
+    </el-button-group>
+  </el-space>
 </template>
 
 <script lang="ts" setup>
@@ -52,9 +49,3 @@ const decrease = () => {
   }
 }
 </script>
-<style scoped>
-.demo-progress .el-progress--line {
-  margin-bottom: 15px;
-  width: 350px;
-}
-</style>

@@ -1,12 +1,12 @@
 <template>
   <el-button text @click="dialogVisible = true">
-    click to open the Dialog
+    Click to open the Dialog
   </el-button>
 
-  <div>
-    <p>Close dialog and the input will be focused</p>
-    <el-input ref="inputRef" placeholder="Please input" />
-  </div>
+  <el-text tag="p" class="block my-2">
+    Close dialog and the input will be focused
+  </el-text>
+  <el-input ref="inputRef" placeholder="Please input" />
 
   <el-dialog
     v-model="dialogVisible"
@@ -15,16 +15,14 @@
     width="30%"
     @close-auto-focus="handleCloseAutoFocus"
   >
-    <span>This is a message</span>
+    <el-text>This is a message</el-text>
     <el-divider />
     <el-input placeholder="Initially focused" />
     <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false">
-          Confirm
-        </el-button>
-      </span>
+      <el-button @click="dialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogVisible = false">
+        Confirm
+      </el-button>
     </template>
   </el-dialog>
 </template>
@@ -40,8 +38,3 @@ const handleCloseAutoFocus = () => {
   inputRef.value?.focus()
 }
 </script>
-<style scoped>
-.dialog-footer button:first-child {
-  margin-right: 10px;
-}
-</style>

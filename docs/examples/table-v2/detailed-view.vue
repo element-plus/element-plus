@@ -66,14 +66,19 @@ const data = ref(
 )
 
 const Row = ({ cells, rowData }) => {
-  if (rowData.detail) return <div class="p-6">{rowData.detail}</div>
+  if (rowData.detail)
+    return (
+      <el-text tag="p" class="p-6">
+        {rowData.detail}
+      </el-text>
+    )
   return cells
 }
 
 Row.inheritAttrs = false
 </script>
 
-<style>
+<style scoped>
 .el-table-v2__row-depth-0 {
   height: 50px;
 }

@@ -2,7 +2,9 @@
   <el-form label-position="left" label-width="150px" style="max-width: 460px">
     <el-space fill>
       <el-alert type="info" show-icon :closable="false">
-        <p>"Full Name" label is automatically attached to the input:</p>
+        <el-text tag="p">
+          "Full Name" label is automatically attached to the input:
+        </el-text>
       </el-alert>
       <el-form-item label="Full Name">
         <el-input v-model="formAccessibility.fullName" />
@@ -10,11 +12,11 @@
     </el-space>
     <el-space fill>
       <el-alert type="info" show-icon :closable="false">
-        <p>
+        <el-text tag="p">
           "Your Information" serves as a label for the group of inputs. <br />
           You must specify labels on the individal inputs. Placeholders are not
           replacements for using the "label" attribute.
-        </p>
+        </el-text>
       </el-alert>
       <el-form-item label="Your Information">
         <el-row :gutter="20">

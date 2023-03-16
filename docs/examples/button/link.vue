@@ -1,6 +1,6 @@
 <template>
-  <p>Basic link button</p>
-  <div class="flex justify-space-between mb-4 flex-wrap gap-4">
+  <el-text tag="p" class="mb-2">Basic link button</el-text>
+  <el-row>
     <el-button
       v-for="button in buttons"
       :key="button.text"
@@ -8,10 +8,10 @@
       link
       >{{ button.text }}</el-button
     >
-  </div>
+  </el-row>
 
-  <p>Disabled link button</p>
-  <div class="flex justify-space-between flex-wrap gap-4">
+  <el-text tag="p" class="mb-2 mt-4">Disabled link button</el-text>
+  <el-row>
     <el-button
       v-for="button in buttons"
       :key="button.text"
@@ -20,10 +20,10 @@
       disabled
       >{{ button.text }}</el-button
     >
-  </div>
+  </el-row>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 const buttons = [
   { type: '', text: 'plain' },
   { type: 'primary', text: 'primary' },

@@ -19,7 +19,7 @@
         />
       </el-col>
       <el-col :span="2" class="text-center">
-        <span class="text-gray-500">-</span>
+        <el-text>-</el-text>
       </el-col>
       <el-col :span="11">
         <el-time-picker

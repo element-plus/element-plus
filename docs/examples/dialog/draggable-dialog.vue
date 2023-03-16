@@ -4,14 +4,12 @@
   </el-button>
 
   <el-dialog v-model="dialogVisible" title="Tips" width="30%" draggable>
-    <span>It's a draggable Dialog</span>
+    <el-text>It's a draggable Dialog</el-text>
     <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogVisible = false">
-          Confirm
-        </el-button>
-      </span>
+      <el-button @click="dialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogVisible = false">
+        Confirm
+      </el-button>
     </template>
   </el-dialog>
 </template>

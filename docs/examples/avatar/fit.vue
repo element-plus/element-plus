@@ -1,11 +1,12 @@
 <template>
-  <div class="demo-fit">
-    <div v-for="fit in fits" :key="fit" class="block">
-      <span class="title">{{ fit }}</span>
+  <el-row>
+    <el-col v-for="fit in fits" :key="fit" :span="4" class="text-center">
+      <el-text class="block mb-2">{{ fit }}</el-text>
       <el-avatar shape="square" :size="100" :fit="fit" :src="url" />
-    </div>
-  </div>
+    </el-col>
+  </el-row>
 </template>
+
 <script lang="ts" setup>
 import { reactive, toRefs } from 'vue'
 
@@ -16,23 +17,3 @@ const state = reactive({
 
 const { fits, url } = toRefs(state)
 </script>
-
-<style scoped>
-.demo-fit {
-  display: flex;
-  text-align: center;
-  justify-content: space-between;
-}
-.demo-fit .block {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 0;
-}
-
-.demo-fit .title {
-  margin-bottom: 10px;
-  font-size: 14px;
-  color: var(--el-text-color-secondary);
-}
-</style>

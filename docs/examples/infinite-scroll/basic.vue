@@ -1,7 +1,14 @@
 <template>
-  <ul v-infinite-scroll="load" class="infinite-list" style="overflow: auto">
-    <li v-for="i in count" :key="i" class="infinite-list-item">{{ i }}</li>
-  </ul>
+  <el-row
+    v-infinite-scroll="load"
+    tag="ul"
+    class="infinite-list"
+    style="overflow: auto"
+  >
+    <el-text v-for="i in count" :key="i" tag="li" class="infinite-list-item">
+      {{ i }}
+    </el-text>
+  </el-row>
 </template>
 
 <script lang="ts" setup>
@@ -12,7 +19,7 @@ const load = () => {
 }
 </script>
 
-<style>
+<style scoped>
 .infinite-list {
   height: 300px;
   padding: 0;
@@ -23,6 +30,7 @@ const load = () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   height: 50px;
   background: var(--el-color-primary-light-9);
   margin: 10px;

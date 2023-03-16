@@ -1,7 +1,7 @@
 <template>
   <el-menu
     :default-active="activeIndex"
-    class="el-menu-demo"
+    class="mb-3"
     mode="horizontal"
     @select="handleSelect"
   >
@@ -21,7 +21,6 @@
     <el-menu-item index="3" disabled>Info</el-menu-item>
     <el-menu-item index="4">Orders</el-menu-item>
   </el-menu>
-  <div class="h-6" />
   <el-menu
     :default-active="activeIndex2"
     class="el-menu-demo"

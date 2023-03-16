@@ -1,29 +1,42 @@
 <template>
-  <el-row class="demo-avatar demo-basic">
-    <el-col :span="12">
-      <div class="sub-title">circle</div>
-      <div class="demo-basic--circle">
-        <div class="block">
+  <el-row>
+    <el-col :span="12" style="border-right: 1px solid var(--el-border-color)">
+      <el-text class="block m-3 text-center">circle</el-text>
+      <el-row class="items-center">
+        <el-col :span="6" class="text-center">
           <el-avatar :size="50" :src="circleUrl" />
-        </div>
-        <div v-for="size in sizeList" :key="size" class="block">
+        </el-col>
+        <el-col
+          v-for="size in sizeList"
+          :key="size"
+          :span="6"
+          class="text-center"
+          style="border-left: 1px solid var(--el-border-color)"
+        >
           <el-avatar :size="size" :src="circleUrl" />
-        </div>
-      </div>
+        </el-col>
+      </el-row>
     </el-col>
     <el-col :span="12">
-      <div class="sub-title">square</div>
-      <div class="demo-basic--circle">
-        <div class="block">
+      <el-text class="block m-3 text-center">square</el-text>
+      <el-row class="items-center">
+        <el-col :span="6" class="text-center">
           <el-avatar shape="square" :size="50" :src="squareUrl" />
-        </div>
-        <div v-for="size in sizeList" :key="size" class="block">
+        </el-col>
+        <el-col
+          v-for="size in sizeList"
+          :key="size"
+          :span="6"
+          class="text-center"
+          style="border-left: 1px solid var(--el-border-color)"
+        >
           <el-avatar shape="square" :size="size" :src="squareUrl" />
-        </div>
-      </div>
+        </el-col>
+      </el-row>
     </el-col>
   </el-row>
 </template>
+
 <script lang="ts" setup>
 import { reactive, toRefs } from 'vue'
 
@@ -37,29 +50,3 @@ const state = reactive({
 
 const { circleUrl, squareUrl, sizeList } = toRefs(state)
 </script>
-
-<style scoped>
-.demo-basic {
-  text-align: center;
-}
-.demo-basic .sub-title {
-  margin-bottom: 10px;
-  font-size: 14px;
-  color: var(--el-text-color-secondary);
-}
-.demo-basic .demo-basic--circle,
-.demo-basic .demo-basic--square {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.demo-basic .block:not(:last-child) {
-  border-right: 1px solid var(--el-border-color);
-}
-.demo-basic .block {
-  flex: 1;
-}
-.demo-basic .el-col:not(:last-child) {
-  border-right: 1px solid var(--el-border-color);
-}
-</style>

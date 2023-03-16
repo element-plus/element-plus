@@ -63,7 +63,7 @@ const columns: Column<any>[] = [
     dataKey: 'description',
     width: 150,
     cellRenderer: ({ cellData: description }) => (
-      <div style="padding: 10px 0;">{description}</div>
+      <el-text style="padding: 10px 0;">{description}</el-text>
     ),
   },
   {

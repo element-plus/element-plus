@@ -1,28 +1,22 @@
 <template>
-  <div>
+  <el-space direction="vertical" class="w-60%" fill size="large">
     <el-radio-group v-model="radio1">
       <el-radio label="1" size="large" border>Option A</el-radio>
       <el-radio label="2" size="large" border>Option B</el-radio>
     </el-radio-group>
-  </div>
-  <div style="margin-top: 20px">
     <el-radio-group v-model="radio2">
       <el-radio label="1" border>Option A</el-radio>
       <el-radio label="2" border>Option B</el-radio>
     </el-radio-group>
-  </div>
-  <div style="margin-top: 20px">
     <el-radio-group v-model="radio3" size="small">
       <el-radio label="1" border>Option A</el-radio>
       <el-radio label="2" border disabled>Option B</el-radio>
     </el-radio-group>
-  </div>
-  <div style="margin-top: 20px">
     <el-radio-group v-model="radio4" size="small" disabled>
       <el-radio label="1" border>Option A</el-radio>
       <el-radio label="2" border>Option B</el-radio>
     </el-radio-group>
-  </div>
+  </el-space>
 </template>
 
 <script lang="ts" setup>

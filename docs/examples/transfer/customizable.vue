@@ -1,62 +1,55 @@
 <template>
-  <p style="text-align: center; margin: 0 0 20px">
+  <el-text class="block my-6">
     Customize data items using render-content
-  </p>
-  <div style="text-align: center">
-    <el-transfer
-      v-model="leftValue"
-      style="text-align: left; display: inline-block"
-      filterable
-      :left-default-checked="[2, 3]"
-      :right-default-checked="[1]"
-      :render-content="renderFunc"
-      :titles="['Source', 'Target']"
-      :button-texts="['To left', 'To right']"
-      :format="{
-        noChecked: '${total}',
-        hasChecked: '${checked}/${total}',
-      }"
-      :data="data"
-      @change="handleChange"
-    >
-      <template #left-footer>
-        <el-button class="transfer-footer" size="small">Operation</el-button>
-      </template>
-      <template #right-footer>
-        <el-button class="transfer-footer" size="small">Operation</el-button>
-      </template>
-    </el-transfer>
-    <p style="text-align: center; margin: 50px 0 20px">
-      Customize data items using scoped slot
-    </p>
-    <div style="text-align: center">
-      <el-transfer
-        v-model="rightValue"
-        style="text-align: left; display: inline-block"
-        filterable
-        :left-default-checked="[2, 3]"
-        :right-default-checked="[1]"
-        :titles="['Source', 'Target']"
-        :button-texts="['To left', 'To right']"
-        :format="{
-          noChecked: '${total}',
-          hasChecked: '${checked}/${total}',
-        }"
-        :data="data"
-        @change="handleChange"
-      >
-        <template #default="{ option }">
-          <span>{{ option.key }} - {{ option.label }}</span>
-        </template>
-        <template #left-footer>
-          <el-button class="transfer-footer" size="small">Operation</el-button>
-        </template>
-        <template #right-footer>
-          <el-button class="transfer-footer" size="small">Operation</el-button>
-        </template>
-      </el-transfer>
-    </div>
-  </div>
+  </el-text>
+  <el-transfer
+    v-model="leftValue"
+    filterable
+    :left-default-checked="[2, 3]"
+    :right-default-checked="[1]"
+    :render-content="renderFunc"
+    :titles="['Source', 'Target']"
+    :button-texts="['To left', 'To right']"
+    :format="{
+      noChecked: '${total}',
+      hasChecked: '${checked}/${total}',
+    }"
+    :data="data"
+    @change="handleChange"
+  >
+    <template #left-footer>
+      <el-button class="ml-8px" size="small">Operation</el-button>
+    </template>
+    <template #right-footer>
+      <el-button class="ml-8px" size="small">Operation</el-button>
+    </template>
+  </el-transfer>
+
+  <el-text class="block my-6"> Customize data items using scoped slot </el-text>
+  <el-transfer
+    v-model="rightValue"
+    filterable
+    :left-default-checked="[2, 3]"
+    :right-default-checked="[1]"
+    :titles="['Source', 'Target']"
+    :button-texts="['To left', 'To right']"
+    :format="{
+      noChecked: '${total}',
+      hasChecked: '${checked}/${total}',
+    }"
+    :data="data"
+    @change="handleChange"
+  >
+    <template #default="{ option }">
+      <el-text>{{ option.key }} - {{ option.label }}</el-text>
+    </template>
+    <template #left-footer>
+      <el-button class="ml-8px" size="small">Operation</el-button>
+    </template>
+    <template #right-footer>
+      <el-button class="ml-8px" size="small">Operation</el-button>
+    </template>
+  </el-transfer>
 </template>
 
 <script lang="ts" setup>
@@ -99,10 +92,3 @@ const handleChange = (
   console.log(value, direction, movedKeys)
 }
 </script>
-
-<style>
-.transfer-footer {
-  margin-left: 15px;
-  padding: 6px 5px;
-}
-</style>

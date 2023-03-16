@@ -1,43 +1,36 @@
 <template>
-  <div style="flex: auto">
-    <div>
-      <el-select-v2
-        v-model="value1"
-        :options="options"
-        placeholder="Please select"
-        style="width: 240px; margin-right: 16px; vertical-align: middle"
-        allow-create
-        filterable
-        multiple
-        clearable
-      />
-      <el-select-v2
-        v-model="value2"
-        :options="options"
-        placeholder="Please select"
-        style="width: 240px; vertical-align: middle"
-        allow-create
-        filterable
-        clearable
-      />
-    </div>
-    <div>
-      <p style="margin-top: 20px; margin-bottom: 8px">
-        set reserve-keyword false
-      </p>
-      <el-select-v2
-        v-model="value3"
-        :options="options"
-        placeholder="Please select"
-        style="width: 240px; margin-right: 16px; vertical-align: middle"
-        allow-create
-        filterable
-        multiple
-        clearable
-        :reserve-keyword="false"
-      />
-    </div>
-  </div>
+  <el-select-v2
+    v-model="value1"
+    :options="options"
+    placeholder="Please select"
+    style="width: 240px; margin-right: 16px; vertical-align: middle"
+    allow-create
+    filterable
+    multiple
+    clearable
+  />
+  <el-select-v2
+    v-model="value2"
+    :options="options"
+    placeholder="Please select"
+    style="width: 240px; vertical-align: middle"
+    allow-create
+    filterable
+    clearable
+  />
+
+  <el-text tag="p" class="block my-3"> set reserve-keyword false </el-text>
+  <el-select-v2
+    v-model="value3"
+    :options="options"
+    placeholder="Please select"
+    style="width: 240px; margin-right: 16px; vertical-align: middle"
+    allow-create
+    filterable
+    multiple
+    clearable
+    :reserve-keyword="false"
+  />
 </template>
 
 <script lang="ts" setup>

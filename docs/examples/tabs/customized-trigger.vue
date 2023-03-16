@@ -1,13 +1,10 @@
 <template>
-  <div style="margin-bottom: 20px">
-    <el-button size="small" @click="addTab(editableTabsValue)">
-      add tab
-    </el-button>
-  </div>
+  <el-button size="small" class="mb-20px" @click="addTab(editableTabsValue)">
+    add tab
+  </el-button>
   <el-tabs
     v-model="editableTabsValue"
     type="card"
-    class="demo-tabs"
     closable
     @tab-remove="removeTab"
   >
@@ -21,6 +18,7 @@
     </el-tab-pane>
   </el-tabs>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -66,7 +64,8 @@ const removeTab = (targetName: string) => {
   editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
 }
 </script>
-<style>
+
+<style scoped>
 .demo-tabs > .el-tabs__content {
   padding: 32px;
   color: #6b778c;

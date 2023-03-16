@@ -1,8 +1,8 @@
 <template>
   <el-calendar ref="calendar">
     <template #header="{ date }">
-      <span>Custom header content</span>
-      <span>{{ date }}</span>
+      <el-text>Custom header content</el-text>
+      <el-text>{{ date }}</el-text>
       <el-button-group>
         <el-button size="small" @click="selectDate('prev-year')">
           Previous Year

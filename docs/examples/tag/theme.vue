@@ -1,6 +1,6 @@
 <template>
-  <div class="tag-group my-2 flex flex-wrap gap-1 items-center">
-    <span class="tag-group__title m-1 line-height-2">Dark</span>
+  <el-row class="my-2 items-center">
+    <el-text class="tag-group__title m-1 line-height-2">Dark</el-text>
     <el-tag
       v-for="item in items"
       :key="item.label"
@@ -20,9 +20,9 @@
     >
       {{ item.label }}
     </el-tag>
-  </div>
-  <div class="tag-group my-2 flex flex-wrap gap-1 items-center">
-    <span class="tag-group__title m-1">Light</span>
+  </el-row>
+  <el-row class="my-2 items-center">
+    <el-text class="tag-group__title m-1">Light</el-text>
     <el-tag
       v-for="item in items"
       :key="item.label"
@@ -42,9 +42,9 @@
     >
       {{ item.label }}
     </el-tag>
-  </div>
-  <div class="tag-group my-2 flex flex-wrap gap-1 items-center">
-    <span class="tag-group__title m-1">Plain</span>
+  </el-row>
+  <el-row class="my-2 items-center">
+    <el-text class="tag-group__title m-1">Plain</el-text>
     <el-tag
       v-for="item in items"
       :key="item.label"
@@ -64,12 +64,11 @@
     >
       {{ item.label }}
     </el-tag>
-  </div>
+  </el-row>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-
 import type { TagProps } from 'element-plus'
 
 type Item = { type: TagProps['type']; label: string }

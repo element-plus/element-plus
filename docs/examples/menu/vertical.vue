@@ -1,7 +1,7 @@
 <template>
   <el-row class="tac">
     <el-col :span="12">
-      <h5 class="mb-2">Default colors</h5>
+      <el-text tag="h5" class="mb-2">Default colors</el-text>
       <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
@@ -11,7 +11,7 @@
         <el-sub-menu index="1">
           <template #title>
             <el-icon><location /></el-icon>
-            <span>Navigator One</span>
+            <el-text>Navigator One</el-text>
           </template>
           <el-menu-item-group title="Group One">
             <el-menu-item index="1-1">item one</el-menu-item>
@@ -27,20 +27,20 @@
         </el-sub-menu>
         <el-menu-item index="2">
           <el-icon><icon-menu /></el-icon>
-          <span>Navigator Two</span>
+          <el-text>Navigator Two</el-text>
         </el-menu-item>
         <el-menu-item index="3" disabled>
           <el-icon><document /></el-icon>
-          <span>Navigator Three</span>
+          <el-text>Navigator Three</el-text>
         </el-menu-item>
         <el-menu-item index="4">
           <el-icon><setting /></el-icon>
-          <span>Navigator Four</span>
+          <el-text>Navigator Four</el-text>
         </el-menu-item>
       </el-menu>
     </el-col>
     <el-col :span="12">
-      <h5 class="mb-2">Custom colors</h5>
+      <el-text tag="h5" class="mb-2">Custom colors</el-text>
       <el-menu
         active-text-color="#ffd04b"
         background-color="#545c64"
@@ -53,7 +53,7 @@
         <el-sub-menu index="1">
           <template #title>
             <el-icon><location /></el-icon>
-            <span>Navigator One</span>
+            <el-text>Navigator One</el-text>
           </template>
           <el-menu-item-group title="Group One">
             <el-menu-item index="1-1">item one</el-menu-item>
@@ -69,15 +69,15 @@
         </el-sub-menu>
         <el-menu-item index="2">
           <el-icon><icon-menu /></el-icon>
-          <span>Navigator Two</span>
+          <el-text>Navigator Two</el-text>
         </el-menu-item>
         <el-menu-item index="3" disabled>
           <el-icon><document /></el-icon>
-          <span>Navigator Three</span>
+          <el-text>Navigator Three</el-text>
         </el-menu-item>
         <el-menu-item index="4">
           <el-icon><setting /></el-icon>
-          <span>Navigator Four</span>
+          <el-text>Navigator Four</el-text>
         </el-menu-item>
       </el-menu>
     </el-col>
@@ -91,6 +91,7 @@ import {
   Location,
   Setting,
 } from '@element-plus/icons-vue'
+
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }

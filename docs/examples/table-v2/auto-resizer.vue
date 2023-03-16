@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 400px">
+  <el-main class="h-400px p-0">
     <el-auto-resizer>
       <template #default="{ height, width }">
         <el-table-v2
@@ -11,7 +11,7 @@
         />
       </template>
     </el-auto-resizer>
-  </div>
+  </el-main>
 </template>
 
 <script lang="ts" setup>

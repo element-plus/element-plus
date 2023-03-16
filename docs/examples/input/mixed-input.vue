@@ -1,15 +1,11 @@
 <template>
-  <div>
+  <el-space direction="vertical" fill size="default" class="w-100%">
     <el-input v-model="input1" placeholder="Please input">
       <template #prepend>Http://</template>
     </el-input>
-  </div>
-  <div class="mt-4">
     <el-input v-model="input2" placeholder="Please input">
       <template #append>.com</template>
     </el-input>
-  </div>
-  <div class="mt-4">
     <el-input
       v-model="input3"
       placeholder="Please input"
@@ -26,8 +22,6 @@
         <el-button :icon="Search" />
       </template>
     </el-input>
-  </div>
-  <div class="mt-4">
     <el-input
       v-model="input3"
       placeholder="Please input"
@@ -44,10 +38,10 @@
         </el-select>
       </template>
     </el-input>
-  </div>
+  </el-space>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 const input1 = ref('')
@@ -55,9 +49,3 @@ const input2 = ref('')
 const input3 = ref('')
 const select = ref('')
 </script>
-
-<style>
-.input-with-select .el-input-group__prepend {
-  background-color: var(--el-fill-color-blank);
-}
-</style>

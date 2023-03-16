@@ -1,8 +1,8 @@
 <template>
   <el-dropdown @command="handleCommand">
-    <span class="el-dropdown-link">
+    <el-link :underline="false">
       Dropdown List<el-icon class="el-icon--right"><arrow-down /></el-icon>
-    </span>
+    </el-link>
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item command="a">Action 1</el-dropdown-item>
@@ -23,11 +23,3 @@ const handleCommand = (command: string | number | object) => {
   ElMessage(`click on item ${command}`)
 }
 </script>
-<style scoped>
-.example-showcase .el-dropdown-link {
-  cursor: pointer;
-  color: var(--el-color-primary);
-  display: flex;
-  align-items: center;
-}
-</style>

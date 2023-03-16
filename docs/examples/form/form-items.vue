@@ -1,10 +1,5 @@
 <template>
-  <el-form
-    ref="formRef"
-    :model="dynamicValidateForm"
-    label-width="120px"
-    class="demo-dynamic"
-  >
+  <el-form ref="formRef" :model="dynamicValidateForm" label-width="120px">
     <el-form-item
       prop="email"
       label="Email"

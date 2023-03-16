@@ -14,12 +14,13 @@
     </el-button>
 
     <template #tip>
-      <div class="el-upload__tip">
+      <el-text class="block el-upload__tip">
         jpg/png files with a size less than 500kb
-      </div>
+      </el-text>
     </template>
   </el-upload>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 import type { UploadInstance } from 'element-plus'

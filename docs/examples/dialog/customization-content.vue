@@ -29,12 +29,10 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">
-          Confirm
-        </el-button>
-      </span>
+      <el-button @click="dialogFormVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogFormVisible = false">
+        Confirm
+      </el-button>
     </template>
   </el-dialog>
 </template>
@@ -80,6 +78,7 @@ const gridData = [
   },
 ]
 </script>
+
 <style scoped>
 .el-button--text {
   margin-right: 15px;
@@ -89,8 +88,5 @@ const gridData = [
 }
 .el-input {
   width: 300px;
-}
-.dialog-footer button:first-child {
-  margin-right: 10px;
 }
 </style>

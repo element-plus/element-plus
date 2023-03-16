@@ -10,6 +10,7 @@ const hello = () => {
   alert('Hello World!')
 }
 </script>
+
 <style scoped>
 .el-alert {
   margin: 20px 0 0;

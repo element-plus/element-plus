@@ -1,15 +1,10 @@
 <template>
-  <div>
-    <div m="b-2">
-      <el-checkbox v-model="config.autoInsertSpace"
-        >autoInsertSpace</el-checkbox
-      >
-    </div>
-
-    <el-config-provider :button="config">
-      <el-button>中文</el-button>
-    </el-config-provider>
-  </div>
+  <el-checkbox v-model="config.autoInsertSpace" class="block">
+    autoInsertSpace
+  </el-checkbox>
+  <el-config-provider :button="config">
+    <el-button>中文</el-button>
+  </el-config-provider>
 </template>
 
 <script lang="ts" setup>

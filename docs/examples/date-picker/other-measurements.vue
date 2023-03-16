@@ -1,44 +1,47 @@
 <template>
-  <div class="demo-date-picker">
-    <div class="container">
-      <div class="block">
-        <span class="demonstration">Week</span>
-        <el-date-picker
-          v-model="value1"
-          type="week"
-          format="[Week] ww"
-          placeholder="Pick a week"
-        />
-      </div>
-      <div class="block">
-        <span class="demonstration">Month</span>
-        <el-date-picker
-          v-model="value2"
-          type="month"
-          placeholder="Pick a month"
-        />
-      </div>
-    </div>
-    <div class="container">
-      <div class="block">
-        <span class="demonstration">Year</span>
-        <el-date-picker
-          v-model="value3"
-          type="year"
-          placeholder="Pick a year"
-        />
-      </div>
-      <div class="block">
-        <span class="demonstration">Dates</span>
-        <el-date-picker
-          v-model="value4"
-          type="dates"
-          placeholder="Pick one or more dates"
-        />
-      </div>
-    </div>
-  </div>
+  <el-row style="border-bottom: 1px solid var(--el-border-color)">
+    <el-col
+      :span="12"
+      class="text-center pb-6"
+      style="border-right: 1px solid var(--el-border-color)"
+    >
+      <el-text class="display-block my-3">Week</el-text>
+      <el-date-picker
+        v-model="value1"
+        type="week"
+        format="[Week] ww"
+        placeholder="Pick a week"
+      />
+    </el-col>
+    <el-col :span="12" class="text-center">
+      <el-text class="display-block my-3">Month</el-text>
+      <el-date-picker
+        v-model="value2"
+        type="month"
+        placeholder="Pick a month"
+      />
+    </el-col>
+  </el-row>
+  <el-row>
+    <el-col
+      :span="12"
+      class="text-center pb-6"
+      style="border-right: 1px solid var(--el-border-color)"
+    >
+      <el-text class="display-block my-3">Year</el-text>
+      <el-date-picker v-model="value3" type="year" placeholder="Pick a year" />
+    </el-col>
+    <el-col :span="12" class="text-center">
+      <el-text class="display-block my-3">Dates</el-text>
+      <el-date-picker
+        v-model="value4"
+        type="dates"
+        placeholder="Pick one or more dates"
+      />
+    </el-col>
+  </el-row>
 </template>
+
 <script lang="ts" setup>
 import { ref } from 'vue'
 
@@ -47,42 +50,3 @@ const value2 = ref('')
 const value3 = ref('')
 const value4 = ref('')
 </script>
-<style scoped>
-.demo-date-picker {
-  display: flex;
-  width: 100%;
-  padding: 0;
-  flex-wrap: wrap;
-}
-
-.demo-date-picker .block {
-  padding: 30px 0;
-  text-align: center;
-  border-right: solid 1px var(--el-border-color);
-  flex: 1;
-}
-.demo-date-picker .block:last-child {
-  border-right: none;
-}
-
-.demo-date-picker .container {
-  flex: 1;
-  border-right: solid 1px var(--el-border-color);
-}
-.demo-date-picker .container .block {
-  border-right: none;
-}
-.demo-date-picker .container .block:last-child {
-  border-top: solid 1px var(--el-border-color);
-}
-.demo-date-picker .container:last-child {
-  border-right: none;
-}
-
-.demo-date-picker .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-</style>
