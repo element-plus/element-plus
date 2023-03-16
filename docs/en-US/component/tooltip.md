@@ -192,5 +192,5 @@ tooltip/animations
 | isFocusInsideContent | validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`           |
 | updatePopper         | update el-popper component instance                               | ^[Function]`() => void`                           |
 | onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void` |
-| onClose              | expose onClose function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void` |
+| onClose              | expose onClose function to mange el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void` |
 | hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void` |

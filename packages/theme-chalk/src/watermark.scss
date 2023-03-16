@@ -1,0 +1,8 @@
+@use 'mixins/mixins' as *;
+@use 'common/var' as *;
+
+@include b(watermark) {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}

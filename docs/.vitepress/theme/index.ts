@@ -1,5 +1,4 @@
 import ElementPlus from 'element-plus'
-
 import VPApp, { NotFound, globals } from '../vitepress'
 import { define } from '../utils/types'
 import 'uno.css'
