@@ -312,7 +312,10 @@ const suffixVisible = computed(
 
 const [recordCursor, setCursor] = useCursor(input)
 
+const isElHidden = textarea.value?.offsetParent === null
+
 useResizeObserver(textarea, (entries) => {
+  !isElHidden && resizeTextarea()
   if (!isWordLimitVisible.value || props.resize !== 'both') return
   const entry = entries[0]
   const { width } = entry.contentRect
