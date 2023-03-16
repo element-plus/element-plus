@@ -151,7 +151,7 @@ import {
   watch,
 } from 'vue'
 import { isClient, useResizeObserver } from '@vueuse/core'
-import { isNil } from 'lodash-unified'
+import { isNil, once } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   CircleClose,
@@ -312,10 +312,10 @@ const suffixVisible = computed(
 
 const [recordCursor, setCursor] = useCursor(input)
 
-const isElHidden = textarea.value?.offsetParent === null
+const isElHidden = () => textarea.value?.offsetParent === null
 
 useResizeObserver(textarea, (entries) => {
-  !isElHidden && resizeTextarea()
+  !isElHidden() && onceInitSizeTextarea()
   if (!isWordLimitVisible.value || props.resize !== 'both') return
   const entry = entries[0]
   const { width } = entry.contentRect
@@ -342,6 +342,8 @@ const resizeTextarea = () => {
     }
   }
 }
+
+const onceInitSizeTextarea = once(resizeTextarea)
 
 const setNativeInputValue = () => {
   const input = _ref.value
