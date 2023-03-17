@@ -337,7 +337,6 @@ const resizeTextarea = () => {
     // So we need to hide scrollbar first, and reset it in next tick.
     // see https://github.com/element-plus/element-plus/issues/8825
     textareaCalcStyle.value = {
-      ...calcTextareaHeight(textarea.value, minRows, maxRows),
       overflowY: 'hidden',
       ...textareaStyle,
     }
