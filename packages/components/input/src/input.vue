@@ -151,7 +151,7 @@ import {
   watch,
 } from 'vue'
 import { isClient, useResizeObserver } from '@vueuse/core'
-import { isNil, once } from 'lodash-unified'
+import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import {
   CircleClose,
@@ -312,10 +312,8 @@ const suffixVisible = computed(
 
 const [recordCursor, setCursor] = useCursor(input)
 
-const isElHidden = () => textarea.value?.offsetParent === null
-
 useResizeObserver(textarea, (entries) => {
-  !isElHidden() && onceInitSizeTextarea()
+  onceInitSizeTextarea()
   if (!isWordLimitVisible.value || props.resize !== 'both') return
   const entry = entries[0]
   const { width } = entry.contentRect
@@ -343,6 +341,18 @@ const resizeTextarea = () => {
   }
 }
 
+const once = (resizeTextarea) => {
+  let isInit = false
+  return () => {
+    if (isInit) return
+    const isElHidden = textarea.value?.offsetParent === null
+    if (!isElHidden) {
+      resizeTextarea()
+      isInit = true
+    }
+  }
+}
+// fix: https://github.com/element-plus/element-plus/issues/12074
 const onceInitSizeTextarea = once(resizeTextarea)
 
 const setNativeInputValue = () => {
