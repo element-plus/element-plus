@@ -341,7 +341,7 @@ const resizeTextarea = () => {
   }
 }
 
-const once = (resizeTextarea) => {
+const once = (resizeTextarea: () => void) => {
   let isInit = false
   return () => {
     if (isInit) return
