@@ -141,7 +141,7 @@
               </span>
             </transition>
             <input
-              v-if="filterable"
+              v-if="filterable && !selectDisabled"
               ref="input"
               v-model="query"
               type="text"
