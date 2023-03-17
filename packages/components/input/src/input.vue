@@ -341,10 +341,10 @@ const resizeTextarea = () => {
   }
 }
 
-const once = (resizeTextarea: () => void) => {
+const createOnceInitResize = (resizeTextarea: () => void) => {
   let isInit = false
   return () => {
-    if (isInit) return
+    if (isInit || !props.autosize) return
     const isElHidden = textarea.value?.offsetParent === null
     if (!isElHidden) {
       resizeTextarea()
@@ -353,7 +353,7 @@ const once = (resizeTextarea: () => void) => {
   }
 }
 // fix: https://github.com/element-plus/element-plus/issues/12074
-const onceInitSizeTextarea = once(resizeTextarea)
+const onceInitSizeTextarea = createOnceInitResize(resizeTextarea)
 
 const setNativeInputValue = () => {
   const input = _ref.value
