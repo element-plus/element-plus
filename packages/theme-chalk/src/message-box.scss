@@ -23,6 +23,8 @@
   text-align: left;
   overflow: hidden;
   backface-visibility: hidden;
+  // To avoid small screen overflowing, see #11919
+  box-sizing: border-box;
 
   &:focus {
     outline: none !important;
@@ -236,6 +238,7 @@
     transform: translate3d(0, -20px, 0);
     opacity: 0;
   }
+
   100% {
     transform: translate3d(0, 0, 0);
     opacity: 1;
@@ -247,6 +250,7 @@
     transform: translate3d(0, 0, 0);
     opacity: 1;
   }
+
   100% {
     transform: translate3d(0, -20px, 0);
     opacity: 0;
