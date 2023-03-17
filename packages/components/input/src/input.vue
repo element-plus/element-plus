@@ -1,6 +1,13 @@
 <template>
-  <div v-show="type !== 'hidden'" v-bind="containerAttrs" :class="containerKls" :style="containerStyle"
-    :role="containerRole" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave">
+  <div
+    v-show="type !== 'hidden'"
+    v-bind="containerAttrs"
+    :class="containerKls"
+    :style="containerStyle"
+    :role="containerRole"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+  >
     <!-- input -->
     <template v-if="type !== 'textarea'">
       <!-- prepend slot -->
@@ -19,29 +26,56 @@
           </span>
         </span>
 
-        <input :id="inputId" ref="input" :class="nsInput.e('inner')" v-bind="attrs"
-          :type="showPassword ? (passwordVisible ? 'text' : 'password') : type" :disabled="inputDisabled"
-          :formatter="formatter" :parser="parser" :readonly="readonly" :autocomplete="autocomplete" :tabindex="tabindex"
-          :aria-label="label" :placeholder="placeholder" :style="inputStyle" :form="props.form"
-          @compositionstart="handleCompositionStart" @compositionupdate="handleCompositionUpdate"
-          @compositionend="handleCompositionEnd" @input="handleInput" @focus="handleFocus" @blur="handleBlur"
-          @change="handleChange" @keydown="handleKeydown" />
+        <input
+          :id="inputId"
+          ref="input"
+          :class="nsInput.e('inner')"
+          v-bind="attrs"
+          :type="showPassword ? (passwordVisible ? 'text' : 'password') : type"
+          :disabled="inputDisabled"
+          :formatter="formatter"
+          :parser="parser"
+          :readonly="readonly"
+          :autocomplete="autocomplete"
+          :tabindex="tabindex"
+          :aria-label="label"
+          :placeholder="placeholder"
+          :style="inputStyle"
+          :form="props.form"
+          @compositionstart="handleCompositionStart"
+          @compositionupdate="handleCompositionUpdate"
+          @compositionend="handleCompositionEnd"
+          @input="handleInput"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @change="handleChange"
+          @keydown="handleKeydown"
+        />
 
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
           <span :class="nsInput.e('suffix-inner')" @click="focus">
-            <template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
+            <template
+              v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
+            >
               <slot name="suffix" />
               <el-icon v-if="suffixIcon" :class="nsInput.e('icon')">
                 <component :is="suffixIcon" />
               </el-icon>
             </template>
-            <el-icon v-if="showClear" :class="[nsInput.e('icon'), nsInput.e('clear')]" @mousedown.prevent="NOOP"
-              @click="clear">
+            <el-icon
+              v-if="showClear"
+              :class="[nsInput.e('icon'), nsInput.e('clear')]"
+              @mousedown.prevent="NOOP"
+              @click="clear"
+            >
               <circle-close />
             </el-icon>
-            <el-icon v-if="showPwdVisible" :class="[nsInput.e('icon'), nsInput.e('password')]"
-              @click="handlePasswordVisible">
+            <el-icon
+              v-if="showPwdVisible"
+              :class="[nsInput.e('icon'), nsInput.e('password')]"
+              @click="handlePasswordVisible"
+            >
               <component :is="passwordIcon" />
             </el-icon>
             <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
@@ -49,11 +83,14 @@
                 {{ textLength }} / {{ attrs.maxlength }}
               </span>
             </span>
-            <el-icon v-if="validateState && validateIcon && needStatusIcon" :class="[
-              nsInput.e('icon'),
-              nsInput.e('validateIcon'),
-              nsInput.is('loading', validateState === 'validating'),
-            ]">
+            <el-icon
+              v-if="validateState && validateIcon && needStatusIcon"
+              :class="[
+                nsInput.e('icon'),
+                nsInput.e('validateIcon'),
+                nsInput.is('loading', validateState === 'validating'),
+              ]"
+            >
               <component :is="validateIcon" />
             </el-icon>
           </span>
@@ -68,12 +105,33 @@
 
     <!-- textarea -->
     <template v-else>
-      <textarea :id="inputId" ref="textarea" :class="nsTextarea.e('inner')" v-bind="attrs" :tabindex="tabindex"
-        :disabled="inputDisabled" :readonly="readonly" :autocomplete="autocomplete" :style="textareaStyle"
-        :aria-label="label" :placeholder="placeholder" :form="props.form" @compositionstart="handleCompositionStart"
-        @compositionupdate="handleCompositionUpdate" @compositionend="handleCompositionEnd" @input="handleInput"
-        @focus="handleFocus" @blur="handleBlur" @change="handleChange" @keydown="handleKeydown" />
-      <span v-if="isWordLimitVisible" :style="countStyle" :class="nsInput.e('count')">
+      <textarea
+        :id="inputId"
+        ref="textarea"
+        :class="nsTextarea.e('inner')"
+        v-bind="attrs"
+        :tabindex="tabindex"
+        :disabled="inputDisabled"
+        :readonly="readonly"
+        :autocomplete="autocomplete"
+        :style="textareaStyle"
+        :aria-label="label"
+        :placeholder="placeholder"
+        :form="props.form"
+        @compositionstart="handleCompositionStart"
+        @compositionupdate="handleCompositionUpdate"
+        @compositionend="handleCompositionEnd"
+        @input="handleInput"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @change="handleChange"
+        @keydown="handleKeydown"
+      />
+      <span
+        v-if="isWordLimitVisible"
+        :style="countStyle"
+        :class="nsInput.e('count')"
+      >
         {{ textLength }} / {{ attrs.maxlength }}
       </span>
     </template>
@@ -272,7 +330,7 @@ const resizeTextarea = () => {
   if (autosize) {
     const minRows = isObject(autosize) ? autosize.minRows : undefined
     const maxRows = isObject(autosize) ? autosize.maxRows : undefined
-    const textareaStyle = calcTextareaHeight(textarea.value!, minRows, maxRows)
+    const textareaStyle = calcTextareaHeight(textarea.value, minRows, maxRows)
 
     // If the scrollbar is displayed, the height of the textarea needs more space than the calculated height.
     // If set textarea height in this case, the scrollbar will not hide.
