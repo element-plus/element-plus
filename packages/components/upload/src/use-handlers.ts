@@ -96,7 +96,11 @@ export const useHandlers = (
     }
     if (props.listType === 'picture-card' || props.listType === 'picture') {
       try {
-        uploadFile.url = URL.createObjectURL(file)
+        if (props.autoUpload && !!props.beforeUpload) {
+          uploadFile.url = ''
+        } else {
+          uploadFile.url = URL.createObjectURL(file)
+        }
       } catch (err: unknown) {
         debugWarn(SCOPE, (err as Error).message)
         props.onError(err as Error, uploadFile, uploadFiles.value)
@@ -125,6 +129,17 @@ export const useHandlers = (
       if (before !== false) doRemove(uploadFile)
     } else {
       doRemove(uploadFile)
+    }
+  }
+
+  const setFileUrl = (rawFile: UploadRawFile) => {
+    const file = getFile(rawFile)
+    if (!file) return
+    try {
+      file.url = URL.createObjectURL(rawFile)
+    } catch (err: unknown) {
+      debugWarn(SCOPE, (err as Error).message)
+      props.onError(err as Error, file, uploadFiles.value)
     }
   }
 
@@ -177,5 +192,6 @@ export const useHandlers = (
     handleSuccess,
     handleRemove,
     submit,
+    setFileUrl,
   }
 }
