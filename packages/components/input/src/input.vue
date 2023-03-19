@@ -379,7 +379,7 @@ const handleInput = async (event: Event) => {
 
   if (props.countGraphemes && isFunction(props.countGraphemes)) {
     const graphemes = props.countGraphemes(value)
-    if (graphemes > Number(maxlength.value)) {
+    if (graphemes > Number(maxlength.value) && saveValue.value) {
       value = saveValue.value
     }
   }
