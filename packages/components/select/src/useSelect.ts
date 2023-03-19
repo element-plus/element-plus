@@ -11,7 +11,7 @@ import {
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
-import { isClient, useDebounceFn } from '@vueuse/core'
+import { isClient } from '@vueuse/core'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -403,7 +403,8 @@ export const useSelect = (props, states: States, ctx) => {
               )) - 2
         }px`)
 
-      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
+      states.tagInMultiLine =
+        Number.parseFloat(input.style.height) + 2 >= sizeInMap
 
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
@@ -574,16 +575,14 @@ export const useSelect = (props, states: States, ctx) => {
     }, 300)
   }
 
-  const debounceResetInputHeight = useDebounceFn(resetInputHeight, 100)
-
   const handleResize = () => {
     resetInputWidth()
     tooltipRef.value?.updatePopper?.()
-    props.multiple && debounceResetInputHeight
+    props.multiple && nextTick(() => resetInputHeight())
   }
 
   const resetInputWidth = () => {
-    states.inputWidth = reference.value?.$el.offsetWidth - 5
+    states.inputWidth = reference.value?.$el.offsetWidth
   }
 
   const onInputChange = () => {
