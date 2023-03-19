@@ -403,12 +403,26 @@ export const useSelect = (props, states: States, ctx) => {
               )) - 2
         }px`)
 
-      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
+      states.tagInMultiLine = isTagInMultiLine()
 
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
       }
     })
+  }
+
+  const isTagInMultiLine = (): boolean => {
+    if (props.collapseTags && !props.filterable) return false
+    const selInputParentNode: HTMLElement = input.value?.parentNode
+    const maxWidth: number = Number.parseFloat(
+      selInputParentNode.style.maxWidth
+    )
+    const tagsWidth: number = Number.parseFloat(
+      selInputParentNode?.children[0].clientWidth
+    )
+    const selInputWidth: number =
+      Number.parseFloat(input.value?.style.width) * states.inputWidth + 15
+    return tagsWidth + selInputWidth >= maxWidth
   }
 
   const handleQueryChange = async (val) => {
