@@ -11,7 +11,7 @@ import {
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
-import { isClient } from '@vueuse/core'
+import { isClient, useDebounceFn } from '@vueuse/core'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -574,14 +574,16 @@ export const useSelect = (props, states: States, ctx) => {
     }, 300)
   }
 
+  const debounceResetInputHeight = useDebounceFn(resetInputHeight, 100)
+
   const handleResize = () => {
     resetInputWidth()
     tooltipRef.value?.updatePopper?.()
-    if (props.multiple) resetInputHeight()
+    props.multiple && debounceResetInputHeight
   }
 
   const resetInputWidth = () => {
-    states.inputWidth = reference.value?.$el.offsetWidth
+    states.inputWidth = reference.value?.$el.offsetWidth - 5
   }
 
   const onInputChange = () => {
