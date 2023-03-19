@@ -175,6 +175,13 @@
     height: 28px;
     background-color: transparent;
 
+    &--iOS {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 6;
+    }
+
     @include when(small) {
       height: 14px;
     }
