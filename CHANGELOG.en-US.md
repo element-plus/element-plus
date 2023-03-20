@@ -1,5 +1,56 @@
 ## Changelog
 
+### 2.3.1
+
+_2023-03-19_
+
+#### Bug fixes
+
+- Components [select] iOS keyboard not appear when focus (#11498 by @MrWeilian)
+- Components [cascader] clickoutside (#11997 by @chenxch)
+- Components [table-column] first default column set placeholder (#11705 by @MrWeilian)
+- Components [input-number] modelValue incorrect update (#12007 by @Mario34)
+- Hooks vm may be null (#12058 by @liulinboyi)
+- Hooks [use-delayed-toggle] clear timer when call onClose (#12056 by @wangcch)
+- Style [message-box] border box (#12086 by @jw-foss)
+- Style(theme-chalk): use variable instead of '-' (#11889 by @fishermanxzx)
+- Style(theme-chalk): [select-v2] text overflow (#11969 by @emojiiii)
+- Style(components): [input] update exceed style (#12094 by @btea)
+
+### 2.3.0
+
+_2023-03-12_
+
+#### Features
+
+- Components [select-v2] Add max-collapse-tags prop (#11405 by @kooriookami)
+- Components [select] Add max-collapse-tags prop (#11378 by @kooriookami)
+- Components [cascader] Adjust expose and typo (#11781 by @chenxch)
+- Components add el-text component (#11653 by @gimjin)
+
+#### Bug fixes
+
+- [message-box] lock scroll (#11921 by @jw-foss)
+- Components [popover | tooltip] keep autoClose prop (#11833 by @wangcch)
+- Components [table-v2] endReached triggered twice when first (#11928 by @MrWeilian)
+- Components [input] update input value length calculate (#11816 by @btea)
+- Components [loading] namespace config (#11956 by @btea)
+- Components [tooltip] remove mousemove listener when unmount (#11940 by @zt123123)
+- Style(components): [select-v2] input-icon margin-left (not first) (#11830 by @wangcch)
+- Chore(components): [pagination] accessibility improvement (#11817 by @tolking)
+- Style(theme-chalk): [rate] size (#11920 by @chenxch)
+
+### 2.2.36
+
+_2023-03-08_
+
+#### Bug fixes
+
+- Components [select] Filter duplicate emits of "update options" (#11884 by @godxiaoji)
+- Components [table] useZIndex is called outside setup (#11895 by @Mario34) (#11900)
+- Components [select] filter all ElOption item labels (#11909 by @godxiaoji)
+- Components [global-config] global injection (#11899 by @jw-foss)
+
 ### 2.2.35
 
 _2023-03-07_

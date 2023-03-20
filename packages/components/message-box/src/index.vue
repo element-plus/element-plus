@@ -5,7 +5,6 @@
       :z-index="zIndex"
       :overlay-class="[ns.is('message-box'), modalClass]"
       :mask="modal"
-      is-global
     >
       <div
         role="dialog"
@@ -472,7 +471,7 @@ export default defineComponent({
 
     // locks the screen to prevent scroll
     if (props.lockScroll) {
-      useLockscreen(visible, { ns })
+      useLockscreen(visible)
     }
 
     // restore to prev active element.
