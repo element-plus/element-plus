@@ -366,7 +366,15 @@ const handleShortcutClick = (shortcut: Shortcut) => {
     ? shortcut.value()
     : shortcut.value
   if (shortcutValue) {
-    emit(dayjs(shortcutValue).locale(lang.value))
+    const selectedValue = dayjs(shortcutValue).locale(lang.value)
+    selectionMode.value === 'dates'
+      ? emit(
+          Array.isArray(props.parsedValue)
+            ? [...props.parsedValue, selectedValue]
+            : [selectedValue],
+          true
+        )
+      : emit(selectedValue)
     return
   }
   if (shortcut.onClick) {
@@ -560,6 +568,7 @@ const isValidValue = (date: unknown) => {
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
   if (selectionMode.value === 'dates') {
+    value = Array.isArray(value) ? value : [value]
     return (value as Dayjs[]).map((_) => _.format(props.format))
   }
   return (value as Dayjs).format(props.format)
