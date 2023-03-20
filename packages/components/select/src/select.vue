@@ -121,6 +121,11 @@
                   nsSelect.b('tags-wrapper'),
                   { 'has-prefix': prefixWidth && selected.length },
                 ]"
+                :style="
+                  prefixWidth && selected.length
+                    ? { marginLeft: `${prefixWidth}px` }
+                    : ''
+                "
               >
                 <el-tag
                   v-for="item in selected"
@@ -149,10 +154,7 @@
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
               :style="{
-                marginLeft:
-                  (prefixWidth && !selected.length) || tagInMultiLine
-                    ? `${prefixWidth}px`
-                    : '',
+                marginLeft: `${prefixWidth}px`,
                 flexGrow: 1,
                 width: `${inputLength / (inputWidth - 32)}%`,
                 maxWidth: `${inputWidth - 42}px`,
@@ -599,7 +601,7 @@ export default defineComponent({
         if (ctx.slots.prefix) {
           const prefix = refEl.querySelector(`.${nsInput.e('prefix')}`)
           prefixWidth.value = Math.max(
-            prefix.getBoundingClientRect().width + 5,
+            prefix.getBoundingClientRect().width + 11,
             30
           )
         }

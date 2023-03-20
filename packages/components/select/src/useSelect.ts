@@ -403,8 +403,7 @@ export const useSelect = (props, states: States, ctx) => {
               )) - 2
         }px`)
 
-      states.tagInMultiLine =
-        Number.parseFloat(input.style.height) + 2 >= sizeInMap
+      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
 
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
@@ -578,7 +577,7 @@ export const useSelect = (props, states: States, ctx) => {
   const handleResize = () => {
     resetInputWidth()
     tooltipRef.value?.updatePopper?.()
-    props.multiple && nextTick(() => resetInputHeight())
+    props.multiple && resetInputHeight()
   }
 
   const resetInputWidth = () => {
