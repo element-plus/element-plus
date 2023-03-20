@@ -206,7 +206,7 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { isArray, isFunction } from '@element-plus/utils'
+import { castArray, isArray, isFunction } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   ArrowLeft,
@@ -361,19 +361,36 @@ type Shortcut = {
   onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
 }
 
+const arrangeDatesShortcuts = (selectedValue) => {
+  const isAlreadyArray = Array.isArray(props.parsedValue as Dayjs[])
+  if (!isAlreadyArray) {
+    return emit([selectedValue], true)
+  }
+  const valueOfParsedValue = props.parsedValue.map((it) =>
+    dayjs(it).format('YYYY-MM-DD')
+  )
+
+  const isSelectedIndex = valueOfParsedValue.indexOf(
+    dayjs(selectedValue).format('YYYY-MM-DD')
+  )
+
+  emit(
+    isSelectedIndex > -1
+      ? castArray(props.parsedValue).filter((d, i) => i !== isSelectedIndex)
+      : castArray(props.parsedValue).concat([selectedValue]),
+    true
+  )
+}
+
 const handleShortcutClick = (shortcut: Shortcut) => {
   const shortcutValue = isFunction(shortcut.value)
     ? shortcut.value()
     : shortcut.value
   if (shortcutValue) {
     const selectedValue = dayjs(shortcutValue).locale(lang.value)
+
     selectionMode.value === 'dates'
-      ? emit(
-          Array.isArray(props.parsedValue)
-            ? [...props.parsedValue, selectedValue]
-            : [selectedValue],
-          true
-        )
+      ? arrangeDatesShortcuts(selectedValue)
       : emit(selectedValue)
     return
   }
