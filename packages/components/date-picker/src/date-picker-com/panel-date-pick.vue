@@ -361,13 +361,13 @@ type Shortcut = {
   onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
 }
 
-const arrangeDatesShortcuts = (selectedValue) => {
-  const isAlreadyArray = Array.isArray(props.parsedValue as Dayjs[])
+const arrangeDatesShortcuts = (selectedValue: Dayjs) => {
+  const isAlreadyArray = Array.isArray(props.parsedValue)
   if (!isAlreadyArray) {
     return emit([selectedValue], true)
   }
-  const valueOfParsedValue = props.parsedValue.map((it) =>
-    dayjs(it).format('YYYY-MM-DD')
+  const valueOfParsedValue: string[] = (props.parsedValue as Dayjs[]).map(
+    (it) => dayjs(it).format('YYYY-MM-DD')
   )
 
   const isSelectedIndex = valueOfParsedValue.indexOf(
@@ -377,7 +377,7 @@ const arrangeDatesShortcuts = (selectedValue) => {
   emit(
     isSelectedIndex > -1
       ? castArray(props.parsedValue).filter((d, i) => i !== isSelectedIndex)
-      : castArray(props.parsedValue).concat([selectedValue]),
+      : (castArray(props.parsedValue) as Dayjs[]).concat([selectedValue]),
     true
   )
 }
