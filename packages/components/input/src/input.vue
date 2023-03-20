@@ -330,9 +330,22 @@ const resizeTextarea = () => {
   if (autosize) {
     const minRows = isObject(autosize) ? autosize.minRows : undefined
     const maxRows = isObject(autosize) ? autosize.maxRows : undefined
+    const textareaStyle = calcTextareaHeight(textarea.value, minRows, maxRows)
+
+    // If the scrollbar is displayed, the height of the textarea needs more space than the calculated height.
+    // If set textarea height in this case, the scrollbar will not hide.
+    // So we need to hide scrollbar first, and reset it in next tick.
+    // see https://github.com/element-plus/element-plus/issues/8825
     textareaCalcStyle.value = {
-      ...calcTextareaHeight(textarea.value, minRows, maxRows),
+      overflowY: 'hidden',
+      ...textareaStyle,
     }
+
+    nextTick(() => {
+      // NOTE: Force repaint to make sure the style set above is applied.
+      textarea.value!.offsetHeight
+      textareaCalcStyle.value = textareaStyle
+    })
   } else {
     textareaCalcStyle.value = {
       minHeight: calcTextareaHeight(textarea.value).minHeight,
