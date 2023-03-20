@@ -530,7 +530,6 @@ export default defineComponent({
       cachedOptions,
       optionsCount,
       prefixWidth,
-      tagInMultiLine,
     } = toRefs(states)
 
     const wrapperKls = computed(() => {
@@ -627,7 +626,6 @@ export default defineComponent({
     return {
       isIOS,
       onOptionsRendered,
-      tagInMultiLine,
       prefixWidth,
       selectSize,
       readonly,

@@ -58,7 +58,6 @@ export function useSelectStates(props) {
     isOnComposition: false,
     isSilentBlur: false,
     prefixWidth: 11,
-    tagInMultiLine: false,
     mouseEnter: false,
   })
 }
@@ -402,8 +401,6 @@ export const useSelect = (props, states: States, ctx) => {
                 sizeInMap
               )) - 2
         }px`)
-
-      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
 
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
