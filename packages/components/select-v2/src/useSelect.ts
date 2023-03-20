@@ -746,6 +746,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return nextTick(menuRef.value.resetScrollTop)
   })
 
+  watch(
+    () => dropdownMenuVisible.value,
+    (val) => {
+      if (!val) {
+        resetHoveringIndex()
+      }
+    }
+  )
+
   onMounted(() => {
     initStates()
   })
