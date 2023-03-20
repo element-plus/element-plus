@@ -131,8 +131,11 @@
     }
 
     & .is-icon-close {
+      position: relative;
       border-radius: 50%;
       text-align: center;
+      vertical-align: middle;
+      top: -1px;
       transition: all getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
       margin-left: 5px;
