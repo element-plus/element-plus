@@ -239,8 +239,10 @@ function useStyle<T>(
     if (props.showHeader && tableHeader?.offsetHeight !== oldHeaderHeight) {
       shouldUpdateLayout = true
     }
-
-    tableScrollHeight.value = table.refs.tableWrapper?.scrollHeight || 0
+    // fix(11298)：Fixing the issue where rounding scrollHeight height in different browser zoom levels triggers the method multiple times.
+    tableScrollHeight.value = Math.abs(
+      table.refs.tableWrapper?.getBoundingClientRect?.()?.height || 0
+    )
     headerScrollHeight.value = tableHeader?.scrollHeight || 0
     footerScrollHeight.value = table.refs.footerWrapper?.offsetHeight || 0
     bodyScrollHeight.value =
