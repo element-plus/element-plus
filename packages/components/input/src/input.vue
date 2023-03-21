@@ -379,7 +379,8 @@ const handleInput = async (event: Event) => {
 
   if (props.countGraphemes && isFunction(props.countGraphemes)) {
     const graphemes = props.countGraphemes(value)
-    if (graphemes > Number(maxlength.value) && saveValue.value) {
+    const saveGraphemes = props.countGraphemes(saveValue.value)
+    if (graphemes > Number(maxlength.value) && graphemes > saveGraphemes) {
       value = saveValue.value
     }
   }
@@ -488,6 +489,14 @@ watch(
       formItem?.validate?.('change').catch((err) => debugWarn(err))
     }
   }
+)
+
+watch(
+  () => nativeInputValue.value,
+  (val) => {
+    saveValue.value = val
+  },
+  { immediate: true }
 )
 
 // native input value is set explicitly
