@@ -25,11 +25,11 @@ describe('<word-limit />', () => {
   it('should compose word limit', () => {
     createWrapper()
 
-    expect(wrapper.text()).toBe(`${defaultTextLength}/${maxlength}`)
+    expect(wrapper.text()).toBe(`${defaultTextLength} / ${maxlength}`)
   })
 
   it('with a different delimiter', () => {
-    const delimiter = ' of '
+    const delimiter = 'of'
     createWrapper({
       delimiter,
     })
