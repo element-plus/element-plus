@@ -34,6 +34,8 @@ describe('<word-limit />', () => {
       delimiter,
     })
 
-    expect(wrapper.text()).toBe(`${defaultTextLength}${delimiter}${maxlength}`)
+    expect(wrapper.text()).toBe(
+      `${defaultTextLength} ${delimiter} ${maxlength}`
+    )
   })
 })
