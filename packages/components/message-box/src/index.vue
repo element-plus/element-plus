@@ -449,8 +449,8 @@ export default defineComponent({
     }
 
     const getInputElement = () => {
-      const inputRefs = inputRef.value.$refs
-      return (inputRefs.input || inputRefs.textarea) as HTMLElement
+      const inputRefs = inputRef.value
+      return inputRefs.ref as HTMLElement
     }
 
     const handleClose = () => {
