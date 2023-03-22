@@ -61,7 +61,7 @@ export const useInputEvents = (
       if (isValid === false) return
 
       if (opts.useValue) {
-        let { value } = (e as Event).target as TargetElement
+        let { value } = (e as unknown as Event).target as TargetElement
 
         value = parseValue(value)
         emit(eventName as any, value)
