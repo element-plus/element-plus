@@ -7,9 +7,13 @@
 <script setup lang="ts">
 import { ValidateComponentsMap } from '@element-plus/utils'
 
+import type { PropType } from 'vue'
 import type { FormItemContext } from '@element-plus/components/form'
 
-defineProps<{
-  validateState: Exclude<FormItemContext['validateState'], ''>
-}>()
+defineProps({
+  validateState: {
+    type: String as PropType<Exclude<FormItemContext['validateState'], ''>>,
+    required: true,
+  },
+})
 </script>
