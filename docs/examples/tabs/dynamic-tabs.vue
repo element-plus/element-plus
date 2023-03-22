@@ -34,7 +34,10 @@ const editableTabs = ref([
   },
 ])
 
-const handleTabsEdit = (targetName: string, action: 'remove' | 'add') => {
+const handleTabsEdit = (
+  targetName: string | number | undefined,
+  action: 'remove' | 'add'
+) => {
   if (action === 'add') {
     const newTabName = `${++tabIndex}`
     editableTabs.value.push({
