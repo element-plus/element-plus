@@ -165,6 +165,7 @@ const {
   setNativeInputValue,
   resizeTextarea,
   onTogglePasswordVisible,
+  blur,
   focus,
   select,
   refSetter,
