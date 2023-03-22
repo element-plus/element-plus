@@ -18,6 +18,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
+import type { TabPaneName } from '@element-plus/components/tabs'
 
 let tabIndex = 2
 const editableTabsValue = ref('2')
@@ -34,7 +35,10 @@ const editableTabs = ref([
   },
 ])
 
-const handleTabsEdit = (targetName: string, action: 'remove' | 'add') => {
+const handleTabsEdit = (
+  targetName: TabPaneName | undefined,
+  action: 'remove' | 'add'
+) => {
   if (action === 'add') {
     const newTabName = `${++tabIndex}`
     editableTabs.value.push({
