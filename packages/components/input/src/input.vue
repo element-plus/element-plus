@@ -59,7 +59,13 @@
               :class="ns.e('count')"
               :text-length="textLength"
               :maxlength="$attrs.maxlength"
-            />
+            >
+              <template #default="{ text }">
+                <span :class="ns.e('count-inner')">
+                  {{ text }}
+                </span>
+              </template>
+            </word-limit>
             <state-icon
               v-if="validateState && needStatusIcon"
               :validate-state="validateState"

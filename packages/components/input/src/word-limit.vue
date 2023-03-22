@@ -1,5 +1,9 @@
 <template>
-  <span>{{ wordCountText }}</span>
+  <span>
+    <slot :text="wordCountText">
+      {{ wordCountText }}
+    </slot>
+  </span>
 </template>
 
 <script setup lang="ts">
@@ -26,6 +30,6 @@ const props = defineProps({
 const attrs = useAttrs()
 
 const wordCountText = computed(
-  () => `${props.textLength}${props.delimiter}${attrs.maxlength}`
+  () => `${props.textLength} ${props.delimiter} ${attrs.maxlength}`
 )
 </script>
