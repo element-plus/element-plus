@@ -145,7 +145,7 @@ const validateField: FormContext['validateField'] = async (
 const scrollToField = (prop: FormItemProp) => {
   const field = filterFields(fields, prop)[0]
   if (field) {
-    field.$el?.scrollIntoView()
+    field.$el?.scrollIntoView(props.scrollIntoViewOptions)
   }
 }
 
