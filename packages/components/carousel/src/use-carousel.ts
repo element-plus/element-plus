@@ -1,4 +1,5 @@
 import {
+  Fragment,
   computed,
   getCurrentInstance,
   onBeforeUnmount,
@@ -7,6 +8,7 @@ import {
   ref,
   shallowRef,
   unref,
+  useSlots,
   watch,
 } from 'vue'
 import { throttle } from 'lodash-unified'
@@ -15,7 +17,7 @@ import { debugWarn, isString } from '@element-plus/utils'
 import { useOrderedChildren } from '@element-plus/hooks'
 import { carouselContextKey } from './constants'
 
-import type { SetupContext } from 'vue'
+import type { Component, SetupContext, VNode } from 'vue'
 import type { CarouselItemContext } from './constants'
 import type { CarouselEmits, CarouselProps } from './carousel'
 
@@ -35,11 +37,14 @@ export const useCarousel = (
     'ElCarouselItem'
   )
 
+  const slots = useSlots()
+
   // refs
   const activeIndex = ref(-1)
   const timer = ref<ReturnType<typeof setInterval> | null>(null)
   const hover = ref(false)
   const root = ref<HTMLDivElement>()
+  const isItemsTwoLength = ref(false)
   const containerHeight = ref<number>(0)
 
   // computed
@@ -78,6 +83,11 @@ export const useCarousel = (
   const throttledIndicatorHover = throttle((index: number) => {
     handleIndicatorHover(index)
   }, THROTTLE_TIME)
+
+  const isTwoLengthShow = (index: number) => {
+    if (!isItemsTwoLength.value) return true
+    return activeIndex.value <= 1 ? index <= 1 : index > 1
+  }
 
   function pauseTimer() {
     if (timer.value) {
@@ -210,6 +220,31 @@ export const useCarousel = (
     containerHeight.value = height
   }
 
+  function slotDefaultNode() {
+    const defaultSlots = slots.default?.()
+    const carouselItemsName = 'ElCarouselItem'
+    const normalizeSlots = defaultSlots?.reduce((acc: VNode[], cur) => {
+      if (cur.type === Fragment && Array.isArray(cur.children)) {
+        const carouselItems = (cur.children as VNode[])?.filter(
+          (it) => (it.type as Component).name === carouselItemsName
+        )
+        acc.push(...(carouselItems as VNode[]))
+        return acc
+      }
+      if ((cur.type as Component)?.name === carouselItemsName) {
+        acc.push(cur)
+        return acc
+      }
+      return acc
+    }, [])
+    if (normalizeSlots?.length === 2) {
+      isItemsTwoLength.value = true
+      return normalizeSlots.concat(normalizeSlots)
+    }
+    isItemsTwoLength.value = false
+    return defaultSlots
+  }
+
   // watch
   watch(
     () => activeIndex.value,
@@ -287,6 +322,7 @@ export const useCarousel = (
     items,
     isVertical,
     containerStyle,
+    isItemsTwoLength,
     handleButtonEnter,
     handleButtonLeave,
     handleIndicatorClick,
@@ -295,6 +331,8 @@ export const useCarousel = (
     setActiveItem,
     prev,
     next,
+    slotDefaultNode,
+    isTwoLengthShow,
     throttledArrowClick,
     throttledIndicatorHover,
   }
