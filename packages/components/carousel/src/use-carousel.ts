@@ -44,8 +44,8 @@ export const useCarousel = (
   const timer = ref<ReturnType<typeof setInterval> | null>(null)
   const hover = ref(false)
   const root = ref<HTMLDivElement>()
-  const isItemsTwoLength = ref(false)
   const containerHeight = ref<number>(0)
+  const isItemsTwoLength = ref(true)
 
   // computed
   const arrowDisplay = computed(
