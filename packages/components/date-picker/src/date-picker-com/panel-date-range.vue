@@ -543,7 +543,6 @@ const handleMaxTimeClose = () => {
 const handleDateInput = (value: string | null, type: ChangeType) => {
   dateUserInput.value[type] = value
   const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
-  debugger
   if (parsedValueD.isValid()) {
     if (disabledDate && disabledDate(parsedValueD.toDate())) {
       return
