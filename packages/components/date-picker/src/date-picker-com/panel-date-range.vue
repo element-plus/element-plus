@@ -554,7 +554,10 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (!props.unlinkPanels && maxDate.value?.isBefore(minDate.value)) {
+      if (
+        !props.unlinkPanels &&
+        (!maxDate.value || maxDate.value.isBefore(minDate.value))
+      ) {
         rightDate.value = parsedValueD.add(1, 'month')
         maxDate.value = minDate.value.add(1, 'month')
       }
@@ -564,7 +567,10 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (!props.unlinkPanels && minDate.value?.isAfter(maxDate.value)) {
+      if (
+        !props.unlinkPanels &&
+        (!minDate.value || minDate.value.isAfter(maxDate.value))
+      ) {
         leftDate.value = parsedValueD.subtract(1, 'month')
         minDate.value = maxDate.value.subtract(1, 'month')
       }
