@@ -543,7 +543,7 @@ const handleMaxTimeClose = () => {
 const handleDateInput = (value: string | null, type: ChangeType) => {
   dateUserInput.value[type] = value
   const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
-
+  debugger
   if (parsedValueD.isValid()) {
     if (disabledDate && disabledDate(parsedValueD.toDate())) {
       return
@@ -554,7 +554,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (!props.unlinkPanels) {
+      if (!props.unlinkPanels && maxDate.value?.isBefore(minDate.value)) {
         rightDate.value = parsedValueD.add(1, 'month')
         maxDate.value = minDate.value.add(1, 'month')
       }
@@ -564,7 +564,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
         .year(parsedValueD.year())
         .month(parsedValueD.month())
         .date(parsedValueD.date())
-      if (!props.unlinkPanels) {
+      if (!props.unlinkPanels && minDate.value?.isAfter(maxDate.value)) {
         leftDate.value = parsedValueD.subtract(1, 'month')
         minDate.value = maxDate.value.subtract(1, 'month')
       }
