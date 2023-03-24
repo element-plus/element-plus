@@ -8,6 +8,10 @@ const props = defineProps<{ id: string }>()
 const contributors = computed(() =>
   _contributors[props.id]?.filter((c) => c.login !== 'renovate[bot]')
 )
+
+const withSize = (rawURL: string) => {
+  return `${rawURL}${rawURL.includes('?') ? '&' : '?'}size=64`
+}
 </script>
 
 <template>
@@ -19,7 +23,11 @@ const contributors = computed(() =>
           class="flex gap-2 items-center link"
           no-icon
         >
-          <img :src="c.avatar" class="w-8 h-8 rounded-full" loading="lazy" />
+          <img
+            :src="withSize(c.avatar)"
+            class="w-8 h-8 rounded-full"
+            loading="lazy"
+          />
           {{ c.name }}
         </vp-link>
       </div>
