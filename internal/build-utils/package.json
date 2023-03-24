@@ -16,7 +16,7 @@
     "stub": "unbuild --stub"
   },
   "dependencies": {
-    "@pnpm/find-workspace-packages": "^4.0.16",
+    "@pnpm/find-workspace-packages": "^5.0.44",
     "@pnpm/logger": "^4.0.0",
     "consola": "^2.15.3"
   },

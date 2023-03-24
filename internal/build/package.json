@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@element-plus/build-constants": "^0.0.1",
-    "@pnpm/find-workspace-packages": "^4.0.16",
+    "@pnpm/find-workspace-packages": "^5.0.44",
     "@pnpm/logger": "^4.0.0",
     "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
