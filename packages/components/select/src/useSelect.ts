@@ -606,6 +606,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const deletePrevTag = (e) => {
+    if (e.code === EVENT_CODE.delete) return
     if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
       const value = props.modelValue.slice()
       value.pop()
