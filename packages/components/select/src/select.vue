@@ -618,7 +618,7 @@ export default defineComponent({
       ctx.emit(UPDATE_MODEL_EVENT, [])
     }
     if (!props.multiple && Array.isArray(props.modelValue)) {
-      ctx.emit(UPDATE_MODEL_EVENT, '')
+      ctx.emit(UPDATE_MODEL_EVENT, props.modelValue)
     }
 
     const popperPaneRef = computed(() => {
