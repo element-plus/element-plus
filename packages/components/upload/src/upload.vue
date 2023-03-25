@@ -12,7 +12,11 @@
         <slot name="file" :file="file" />
       </template>
       <template #append>
-        <upload-content ref="uploadRef" v-bind="uploadContentProps">
+        <upload-content
+          ref="uploadRef"
+          v-bind="uploadContentProps"
+          @set-file-url="setFileUrl"
+        >
           <slot v-if="slots.trigger" name="trigger" />
           <slot v-if="!slots.trigger && slots.default" />
         </upload-content>
@@ -23,6 +27,7 @@
       v-if="!isPictureCard || (isPictureCard && !showFileList)"
       ref="uploadRef"
       v-bind="uploadContentProps"
+      @set-file-url="setFileUrl"
     >
       <slot v-if="slots.trigger" name="trigger" />
       <slot v-if="!slots.trigger && slots.default" />
@@ -86,6 +91,7 @@ const {
   handleRemove,
   handleSuccess,
   handleProgress,
+  setFileUrl,
 } = useHandlers(props, uploadRef)
 
 const isPictureCard = computed(() => props.listType === 'picture-card')

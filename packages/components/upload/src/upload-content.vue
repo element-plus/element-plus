@@ -48,6 +48,7 @@ defineOptions({
 })
 
 const props = defineProps(uploadContentProps)
+const emit = defineEmits(['set-file-url'])
 const ns = useNamespace('upload')
 const disabled = useFormDisabled()
 
@@ -88,6 +89,7 @@ const upload = async (rawFile: UploadRawFile) => {
   let hookResult: Exclude<ReturnType<UploadHooks['beforeUpload']>, Promise<any>>
   try {
     hookResult = await props.beforeUpload(rawFile)
+    props.autoUpload && emit('set-file-url', rawFile)
   } catch {
     hookResult = false
   }
