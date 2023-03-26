@@ -10,6 +10,7 @@ import ElForm, { ElFormItem } from '@element-plus/components/form'
 import Cascader from '../src/cascader.vue'
 
 import type { VNode } from 'vue'
+import type ElCascader from '@element-plus/components/cascader'
 
 vi.mock('lodash-unified', async () => {
   return {
@@ -428,16 +429,18 @@ describe('Cascader.vue', () => {
   })
 
   test('should be able to trigger togglePopperVisible outside the component', async () => {
-    const cascaderRef = ref()
+    let cascader: InstanceType<typeof ElCascader>
     const clickFn = () => {
-      cascaderRef.value.togglePopperVisible()
+      cascader.togglePopperVisible()
     }
     const wrapper = _mount(() => (
       <div>
-        <Cascader ref="cascaderRef" options={OPTIONS} />
+        <Cascader options={OPTIONS} />
         <button onClick={clickFn} />
       </div>
     ))
+
+    cascader = wrapper.findComponent(Cascader).vm
     const dropdown = wrapper.findComponent(ArrowDown).element as HTMLDivElement
     expect(dropdown.style.display).not.toBe('none')
     const button = wrapper.find('button')
