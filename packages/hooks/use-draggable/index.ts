@@ -29,8 +29,10 @@ export const useDraggable = (
     const minLeft = -targetLeft + offsetX
     const minTop = -targetTop + offsetY
     const maxLeft = clientWidth - targetLeft - targetWidth + offsetX
-    const maxTop = clientHeight - targetTop - targetHeight + offsetY
-
+    const maxTop =
+      targetHeight >= clientHeight
+        ? offsetY
+        : clientHeight - targetTop - targetHeight + offsetY
     const onMousemove = (e: MouseEvent) => {
       const moveX = Math.min(
         Math.max(offsetX + e.clientX - downX, minLeft),
