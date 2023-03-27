@@ -176,10 +176,11 @@
       white-space: nowrap;
       min-width: 50px;
     }
-
+    &:focus-visible {
+      overflow: visible;
+    }
     .#{$namespace}-button:focus-visible {
-      outline-style: auto;
-      outline-offset: 0;
+      outline-offset: -2px;
     }
   }
 
