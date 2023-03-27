@@ -176,8 +176,7 @@ const refInput = computed<HTMLInputElement[]>(() => {
   return []
 })
 
-const onSuggestionShow = async () => {
-  await nextTick()
+const onSuggestionShow = () => {
   if (suggestionVisible.value) {
     dropdownWidth.value = `${inputRef.value!.$el.offsetWidth}px`
   }
