@@ -176,6 +176,11 @@
       white-space: nowrap;
       min-width: 50px;
     }
+
+    .#{$namespace}-button:focus-visible {
+      outline-style: auto;
+      outline-offset: 0;
+    }
   }
 
   @each $size in (large, default, small) {
