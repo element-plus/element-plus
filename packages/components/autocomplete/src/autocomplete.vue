@@ -100,13 +100,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  computed,
-  nextTick,
-  onMounted,
-  ref,
-  useAttrs as useRawAttrs,
-} from 'vue'
+import { computed, onMounted, ref, useAttrs as useRawAttrs } from 'vue'
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
