@@ -1,5 +1,5 @@
-import { nextTick, reactive, ref } from 'vue'
-import { mount } from '@vue/test-utils'
+import { nextTick, reactive, ref, unref } from 'vue'
+import { flushPromises, mount } from '@vue/test-utils'
 import {
   afterAll,
   afterEach,
@@ -12,6 +12,8 @@ import {
 } from 'vitest'
 import { rAF } from '@element-plus/test-utils/tick'
 import Input from '@element-plus/components/input'
+import Checkbox from '@element-plus/components/checkbox'
+import { isEmpty } from '@element-plus/utils'
 import Form from '../src/form.vue'
 import FormItem from '../src/form-item.vue'
 import DynamicFormItem from '../mocks/mock-data'
@@ -131,5 +133,69 @@ describe('ElFormItem', () => {
         ])
       })
     })
+  })
+
+  it('should change `for` prop', async () => {
+    const _props = reactive<{ for?: string; id?: string }>({
+      for: undefined,
+      id: undefined,
+    })
+    // eslint-disable-next-line prefer-const
+    let _value = ref()
+
+    expect(unref(_value)).toBeUndefined()
+    const checkBoxwrapper = mount(
+      <Form>
+        <FormItem
+          id="test_checkbox_form_item_for_prop"
+          label="demo"
+          for={_props.for}
+        >
+          <Checkbox v-model={_value} id={_props.id} />
+        </FormItem>
+      </Form>
+    )
+
+    expect(unref(_value)).toBeUndefined()
+
+    await flushPromises()
+    expect(unref(_value)).toBeUndefined()
+    expect(
+      isEmpty(
+        checkBoxwrapper.get('#test_checkbox_form_item_for_prop').find('label')
+      )
+    ).toBeFalsy()
+    checkBoxwrapper
+      .get('#test_checkbox_form_item_for_prop')
+      .get('label')
+      .trigger('click')
+    await flushPromises()
+    expect(unref(_value)).toBeTruthy()
+
+    checkBoxwrapper
+      .get('#test_checkbox_form_item_for_prop')
+      .get('label')
+      .trigger('click')
+    await flushPromises()
+    expect(unref(_value)).toBeFalsy()
+
+    _props.for = ''
+    await flushPromises()
+    expect(
+      isEmpty(
+        checkBoxwrapper.get('#test_checkbox_form_item_for_prop').find('label')
+      )
+    ).toBeTruthy()
+
+    _props.for = 'test_checkbox_form_item_for_prop_id'
+    _props.id = 'test_checkbox_form_item_for_prop_id'
+    await flushPromises()
+
+    expect(unref(_value)).toBeFalsy()
+    checkBoxwrapper
+      .get('[for="test_checkbox_form_item_for_prop_id"]')
+      .trigger('click')
+
+    expect(unref(_value)).toBeTruthy()
   })
 })
