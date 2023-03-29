@@ -382,7 +382,13 @@ export default defineComponent({
       handleKeyDown,
       handleCheckChange,
       getFlattedNodes,
+      /**
+       * @description get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false`
+       */
       getCheckedNodes,
+      /**
+       * @description clear checked nodes
+       */
       clearCheckedNodes,
       calculateCheckedValue,
       scrollToExpandingNode,

@@ -44,7 +44,7 @@ export const leftCustomImgSponsors = [
     slogan: 'JNPF low code development platform to develop simple!',
     slogan_cn: 'JNPF 低代码开发平台，让开发变得简单！',
     className: 'jnpf',
-    banner_img: '/images/jnpfsoft.jpg',
+    banner_img: '/images/sponsors/jnpfsoft.jpg',
   },
 ]
 

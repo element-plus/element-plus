@@ -1,5 +1,152 @@
 ## Changelog
 
+### 2.3.1
+
+_2023-03-19_
+
+#### Bug fixes
+
+- Components [select] iOS keyboard not appear when focus (#11498 by @MrWeilian)
+- Components [cascader] clickoutside (#11997 by @chenxch)
+- Components [table-column] first default column set placeholder (#11705 by @MrWeilian)
+- Components [input-number] modelValue incorrect update (#12007 by @Mario34)
+- Hooks vm may be null (#12058 by @liulinboyi)
+- Hooks [use-delayed-toggle] clear timer when call onClose (#12056 by @wangcch)
+- Style [message-box] border box (#12086 by @jw-foss)
+- Style(theme-chalk): use variable instead of '-' (#11889 by @fishermanxzx)
+- Style(theme-chalk): [select-v2] text overflow (#11969 by @emojiiii)
+- Style(components): [input] update exceed style (#12094 by @btea)
+
+### 2.3.0
+
+_2023-03-12_
+
+#### Features
+
+- Components [select-v2] Add max-collapse-tags prop (#11405 by @kooriookami)
+- Components [select] Add max-collapse-tags prop (#11378 by @kooriookami)
+- Components [cascader] Adjust expose and typo (#11781 by @chenxch)
+- Components add el-text component (#11653 by @gimjin)
+
+#### Bug fixes
+
+- [message-box] lock scroll (#11921 by @jw-foss)
+- Components [popover | tooltip] keep autoClose prop (#11833 by @wangcch)
+- Components [table-v2] endReached triggered twice when first (#11928 by @MrWeilian)
+- Components [input] update input value length calculate (#11816 by @btea)
+- Components [loading] namespace config (#11956 by @btea)
+- Components [tooltip] remove mousemove listener when unmount (#11940 by @zt123123)
+- Style(components): [select-v2] input-icon margin-left (not first) (#11830 by @wangcch)
+- Chore(components): [pagination] accessibility improvement (#11817 by @tolking)
+- Style(theme-chalk): [rate] size (#11920 by @chenxch)
+
+### 2.2.36
+
+_2023-03-08_
+
+#### Bug fixes
+
+- Components [select] Filter duplicate emits of "update options" (#11884 by @godxiaoji)
+- Components [table] useZIndex is called outside setup (#11895 by @Mario34) (#11900)
+- Components [select] filter all ElOption item labels (#11909 by @godxiaoji)
+- Components [global-config] global injection (#11899 by @jw-foss)
+
+### 2.2.35
+
+_2023-03-07_
+
+#### Bug fixes
+
+- Components [select] console warning (#11868 by @jw-foss)
+- Components [global-config] (#11866 by @jw-foss)
+- Components [overlay] namespace issue (#11881 by @jw-foss)
+
+### 2.2.34
+
+_2023-03-06_
+
+#### Bug fixes
+
+- Components [table-v2] class of column is not valid (#11815 by @tolking)
+- Components [tree-select] cache data update incorrect (#11225 by @yujinpan)
+- Components [global-config] (#11847 by @jw-foss)
+
+### 2.2.33
+
+_2023-03-03_
+
+#### Features
+
+- Components [tree-v2] add item-size attribute (#11522 by @btea)
+
+#### Bug fixes
+
+- Theme-chalk [upload] wrong hover style when disabled (#11635 by @wonderl17)
+- Components [input-number] prevent input wheel events (#11677 by @Mario34)
+- Components [tooltip] display tooltip correctly (#11643 by @acyza)
+- Components [autocomplete] clearable and disabled props not working (#11714 by @richex-cn)
+- Docs [search] fix navigate error when enter pressed (#11718 by @wonderl17)
+- Components adjust menu close api (#11682 by @chenxch)
+- Components [select] fix the hoverIndex display error (#11297 by @btea)
+- Components [tabs] add deep attribute to watch (#11724 by @tolking)
+- Components [select] add popper-options prop (#11734 by @ryuhangyeong)
+- Components [select] support custom height (#10840 by @MrWeilian) (#10847)
+- Components [tabs] tab-bar need to adapt to tabs width change (#11731 by @godxiaoji)
+- Components [autocomplete] the blur event is not triggered (#10091 by @tolking)
+- Components circular referencing issue (#11777 by @jw-foss)
+- Theme-chalk [tab] correct padding of card item on hover (#11283 by @makedopamine)
+
+#### Refactors
+
+- Components [slider] remove useless code (#11681 by @Geekhyt)
+- Tokens - [form] (#11743 by @jw-foss)
+- Components [config-provider] (#11749 by @jw-foss)
+- Tooltip replace any to OnlyChildExpose (#11660 by @Lck6de1p)
+- Project removing packages/tokens (#11769 by @jw-foss)
+- Components [color-picker] alpha-slider (#10332 by @jw-foss)
+- Components [steps] (#10427 by @Simon-He95)
+- Chore(components): [table] fix table config typo (#11700 by @wonderl17)
+- Style(components): [breadcrumb] item use inline-flex (#11683 by @chenxch)
+
+### 2.2.32
+
+_2023-02-19_
+
+#### Bug fixes
+
+- Components [table] fix an undefined reference in table-layout (#11204 by @jaa134)
+- Components [cascader] add focus and blur event when set filterable (#11273 by @btea)
+- Components [dropdown] unmounted error (#11649 by @chenxch)
+
+### 2.2.31
+
+_2023-02-17_
+
+#### Features
+
+- Components [cascader] add togglePopperVisible for expose (#11559 by @MrWeilian)
+- Components [descriptions] render null when empty label (#11575 by @wangcch)
+
+#### Bug fixes
+
+- Components [carousel] delete the indicator props (#11483 by @ryuhangyeong)
+- Components [cascader-panel] clear active style (#11495 by @esttom)
+- Components [upload-dragger] Avoid firefox open file (#11092 by @acyza)
+- Hooks [use-lockscreen] prevent flaky unit tests (#11404 by @robert-wloch-iits)
+- Translate arabic language (#11510 by @itsalimanuel)
+- Components [input] box-shadow noise (#11518 by @chenxch)
+- Components [select] ensure select options respect filter query during initialization (#11205 by @jaa134)
+- Components [select] i18n issue of select placeholder (#11508 by @wonderl17)
+- Components [input] fix textarea autosize (#11376 by @acyza)
+- Components [tree] setCheckedKeys keys attribute add type (#11390 by @qq282126990)
+- Components [dropdown] fix focus after close (#11586 by @Giwayume)‘
+- Enhancement(theme-chalk): [checkbox] refactor checkbox disabled style (#11503 by @Geekhyt)
+
+#### Refactors
+
+- Components [empty] (#11494 by @ryuhangyeong)
+- Components [menu] add deprecated mark to popperAppendToBody (#11509 by @tolking)
+
 ### 2.2.30
 
 _2023-02-10_
