@@ -33,7 +33,10 @@
           <div
             v-if="multiple"
             ref="tags"
-            :class="nsSelect.e('tags')"
+            :class="[
+              nsSelect.e('tags'),
+              nsSelect.is('disabled', selectDisabled),
+            ]"
             :style="selectTagsStyle"
           >
             <transition
@@ -145,7 +148,11 @@
               ref="input"
               v-model="query"
               type="text"
-              :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
+              :class="[
+                nsSelect.e('input'),
+                nsSelect.is(selectSize),
+                nsSelect.is('disabled', selectDisabled),
+              ]"
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
               :style="{

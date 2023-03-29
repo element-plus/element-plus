@@ -1,5 +1,22 @@
 ## Changelog
 
+### 2.3.1
+
+_2023-03-19_
+
+#### Bug fixes
+
+- Components [select] iOS keyboard not appear when focus (#11498 by @MrWeilian)
+- Components [cascader] clickoutside (#11997 by @chenxch)
+- Components [table-column] first default column set placeholder (#11705 by @MrWeilian)
+- Components [input-number] modelValue incorrect update (#12007 by @Mario34)
+- Hooks vm may be null (#12058 by @liulinboyi)
+- Hooks [use-delayed-toggle] clear timer when call onClose (#12056 by @wangcch)
+- Style [message-box] border box (#12086 by @jw-foss)
+- Style(theme-chalk): use variable instead of '-' (#11889 by @fishermanxzx)
+- Style(theme-chalk): [select-v2] text overflow (#11969 by @emojiiii)
+- Style(components): [input] update exceed style (#12094 by @btea)
+
 ### 2.3.0
 
 _2023-03-12_

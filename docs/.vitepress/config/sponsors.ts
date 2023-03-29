@@ -44,15 +44,7 @@ export const leftCustomImgSponsors = [
     slogan: 'JNPF low code development platform to develop simple!',
     slogan_cn: 'JNPF 低代码开发平台，让开发变得简单！',
     className: 'jnpf',
-    banner_img: '/images/jnpfsoft.jpg',
-  },
-  {
-    name: 'JeePlus',
-    img: '/images/sponsors/jeeplus.png',
-    url: 'http://www.jeeplus.org/#/demo?from=ele',
-    slogan: 'JeePlus development platform',
-    slogan_cn: 'JeePlus 快速开发平台',
-    banner_img: '/images/sponsors/jeeplus_banner.jpg',
+    banner_img: '/images/sponsors/jnpfsoft.jpg',
   },
 ]
 
