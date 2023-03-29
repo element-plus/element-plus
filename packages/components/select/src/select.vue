@@ -31,7 +31,7 @@
           @mouseleave="inputHovering = false"
         >
           <div
-            v-if="multiple"
+            v-if="multiple && Array.isArray(selected)"
             ref="tags"
             :class="[
               nsSelect.e('tags'),
