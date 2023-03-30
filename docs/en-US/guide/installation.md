@@ -35,10 +35,10 @@ so that you can utilize bundlers like [Vite](https://vitejs.dev) and
 $ npm install element-plus --save
 
 # Yarn
-$ yarn add element-plus
+$ yarn add element-plus -S
 
 # pnpm
-$ pnpm install element-plus
+$ pnpm install element-plus -S
 ```
 
 If your network environment is not good, it is recommended to use a mirror registry [cnpm](https://github.com/cnpm/cnpm) or [Alibaba](https://registry.npmmirror.com/).
