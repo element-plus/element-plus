@@ -160,6 +160,12 @@ export const inputProps = buildProps({
     default: true,
   },
   /**
+   * @description maxlength
+   */
+  maxlength: {
+    type: [String, Number],
+  },
+  /**
    * @description input or texearea element style
    */
   inputStyle: {
