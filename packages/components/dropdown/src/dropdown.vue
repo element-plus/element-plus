@@ -31,6 +31,7 @@
       <template #content>
         <el-scrollbar
           ref="scrollbar"
+          :noresize="true"
           :wrap-style="wrapStyle"
           tag="div"
           :view-class="ns.e('list')"
