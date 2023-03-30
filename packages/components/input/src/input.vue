@@ -297,8 +297,7 @@ const textLength = computed(() => nativeInputValue.value.length)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
-    !!isWordLimitVisible.value &&
-    textLength.value > Number(props.maxlength)
+    !!isWordLimitVisible.value && textLength.value > Number(props.maxlength)
 )
 const suffixVisible = computed(
   () =>
