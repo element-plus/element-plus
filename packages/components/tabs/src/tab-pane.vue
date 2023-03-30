@@ -19,7 +19,9 @@ import {
   inject,
   onMounted,
   onUnmounted,
+  provide,
   reactive,
+  readonly,
   ref,
   useSlots,
   watch,
@@ -27,7 +29,7 @@ import {
 import { eagerComputed } from '@vueuse/core'
 import { throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { tabsRootContextKey } from './constants'
+import { tabsPaneContextKey, tabsRootContextKey } from './constants'
 import { tabPaneProps } from './tab-pane'
 
 const COMPONENT_NAME = 'ElTabPane'
@@ -77,4 +79,15 @@ onMounted(() => {
 onUnmounted(() => {
   tabsRoot.unregisterPane(pane.uid)
 })
+
+provide(
+  tabsPaneContextKey,
+  readonly({
+    active,
+    isClosable,
+    loaded,
+    paneName,
+    props,
+  })
+)
 </script>

@@ -1,4 +1,11 @@
-import type { ComputedRef, InjectionKey, Ref, Slots, UnwrapRef } from 'vue'
+import type {
+  ComputedRef,
+  DeepReadonly,
+  InjectionKey,
+  Ref,
+  Slots,
+  UnwrapRef,
+} from 'vue'
 import type { TabsProps } from './tabs'
 import type { TabPaneProps } from './tab-pane'
 
@@ -21,3 +28,13 @@ export interface TabsRootContext {
 
 export const tabsRootContextKey: InjectionKey<TabsRootContext> =
   Symbol('tabsRootContextKey')
+
+export const tabsPaneContextKey: InjectionKey<
+  DeepReadonly<{
+    props: TabPaneProps
+    isClosable: boolean
+    active: boolean
+    loaded: boolean
+    paneName: string | number | undefined
+  }>
+> = Symbol('tabsPaneContextKey')
