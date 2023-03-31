@@ -1,5 +1,24 @@
 ## Changelog
 
+### 2.3.2
+
+_2023-03-31_
+
+#### Features
+
+- Components [form] scroll-into-view options (#12164 by @ryuhangyeong)
+
+#### Bug fixes
+
+- Components [select-v2] reset hoverindex when close dropdown list (#12090 by @btea)
+- Components [input] scrollbar not hide after autosize (#10137 by @HeftyKoo)
+- Docs [tabs] example type error (#12160 by @bigsnowballhehe)
+- Components [input] textarea height calc (#12087 by @MrWeilian)
+- Components [select] multiple disabled style (#12015 by @MrWeilian)
+- Components [pagination] delete input value display empty string (#12134 by @btea)
+- Upload data is not independent (#12029 by @jianjunyuu)
+- Style(components): [Tabs] Modify tabs to flex layout (#12048 by @kooriookami)
+
 ### 2.3.1
 
 _2023-03-19_
