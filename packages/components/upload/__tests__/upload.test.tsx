@@ -131,6 +131,41 @@ describe('<upload />', () => {
       expect(onError).toHaveBeenCalled()
     })
 
+    test('beforeUpload data independent', async () => {
+      const keyList: string[] = []
+      const beforeUpload = vi.fn((file) => (data.value.key = file.name))
+      const httpRequest = ref(
+        vi.fn((val) => {
+          keyList.push(val?.data?.key)
+          return Promise.resolve()
+        })
+      )
+
+      const data = ref({ key: '' })
+
+      const wrapper = mount(() => (
+        <UploadContent
+          data={data.value}
+          beforeUpload={beforeUpload}
+          httpRequest={httpRequest.value}
+        />
+      ))
+
+      const fileList = [
+        new File(['content'], 'test-file.txt'),
+        new File(['content2'], 'test-file2.txt'),
+      ]
+      mockGetFile(wrapper.find('input').element, fileList)
+
+      await wrapper.find('input').trigger('change')
+
+      expect(beforeUpload).toHaveBeenCalled()
+      await flushPromises()
+
+      console.log('upload test', keyList)
+      expect(keyList).toEqual(['test-file.txt', 'test-file2.txt'])
+    })
+
     test('onProgress should work', async () => {
       const onProgress = vi.fn()
       const httpRequest = vi.fn(({ onProgress }) => {
