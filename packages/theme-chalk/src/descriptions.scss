@@ -111,6 +111,7 @@ $descriptions-cell-font-size: map.merge(
       &:not(.is-bordered) {
         .#{$namespace}-descriptions__cell {
           padding-bottom: map.get($descriptions-cell-padding-bottom, 'default');
+          vertical-align: initial;
         }
       }
     }
