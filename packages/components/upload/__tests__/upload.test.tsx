@@ -146,6 +146,7 @@ describe('<upload />', () => {
       const wrapper = mount(() => (
         <UploadContent
           data={data.value}
+          multiple={true}
           beforeUpload={beforeUpload}
           httpRequest={httpRequest.value}
         />
