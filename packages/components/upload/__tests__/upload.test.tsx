@@ -131,7 +131,8 @@ describe('<upload />', () => {
       expect(onError).toHaveBeenCalled()
     })
 
-    test('beforeUpload data independent', async () => {
+    // Ensure that the modified data in before-upload can be correctly passed into the upload request. (#12029)
+    test('in beforeUpload change data correctly to request', async () => {
       const keyList: string[] = []
       const beforeUpload = vi.fn((file) => (data.value.key = file.name))
       const httpRequest = ref(
@@ -163,7 +164,6 @@ describe('<upload />', () => {
       expect(beforeUpload).toHaveBeenCalled()
       await flushPromises()
 
-      console.log('upload test', keyList)
       expect(keyList).toEqual(['test-file.txt', 'test-file2.txt'])
     })
 
