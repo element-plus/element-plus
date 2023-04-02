@@ -80,7 +80,7 @@
             </el-icon>
             <span v-if="isWordLimitVisible" :class="nsInput.e('count')">
               <span :class="nsInput.e('count-inner')">
-                {{ textLength }} / {{ props.maxlength }}
+                {{ textLength }} / {{ maxlength }}
               </span>
             </span>
             <el-icon
@@ -132,7 +132,7 @@
         :style="countStyle"
         :class="nsInput.e('count')"
       >
-        {{ textLength }} / {{ props.maxlength }}
+        {{ textLength }} / {{ maxlength }}
       </span>
     </template>
   </div>
