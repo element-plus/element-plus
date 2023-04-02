@@ -78,7 +78,7 @@ describe('<upload />', () => {
     })
 
     test('beforeUpload works for rejecting upload', async () => {
-      const beforeUpload = () => Promise.reject()
+      const beforeUpload = vi.fn(() => Promise.reject())
       const onRemove = vi.fn()
       const wrapper = mount(() => (
         <UploadContent beforeUpload={beforeUpload} onRemove={onRemove} />
@@ -94,15 +94,15 @@ describe('<upload />', () => {
     })
 
     test('beforeUpload works for resolving upload', async () => {
-      const beforeUpload = () => Promise.resolve()
-      const httpRequest = vi.fn(() => Promise.resolve())
+      const beforeUpload = vi.fn(() => Promise.resolve())
+      const httpRequest = ref(vi.fn(() => Promise.resolve()))
       const onSuccess = vi.fn()
       const onError = vi.fn()
 
       const wrapper = mount(() => (
         <UploadContent
           beforeUpload={beforeUpload}
-          httpRequest={httpRequest}
+          httpRequest={httpRequest.value}
           onSuccess={onSuccess}
           onError={onError}
         />
