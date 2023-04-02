@@ -671,6 +671,7 @@ watch(realSize, async () => {
   await nextTick()
   const inputInner = input.value!.input!
   inputInitialHeight = getInputInnerHeight(inputInner) || inputInitialHeight
+  updateStyle()
 })
 
 watch(presentText, syncPresentTextValue, { immediate: true })
