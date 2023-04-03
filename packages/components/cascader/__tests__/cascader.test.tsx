@@ -445,4 +445,24 @@ describe('Cascader.vue', () => {
     await nextTick()
     expect(dropdown?.style.display).not.toBe('none')
   })
+
+  test('height should be changed by size when multiple', async () => {
+    const cascaderSize = ref('small')
+    const props = { multiple: true }
+    const wrapper = _mount(() => (
+      <Cascader props={props} size={cascaderSize.value} />
+    ))
+    await nextTick()
+    const inputEl = wrapper.find('input').element as HTMLElement
+    const sizeMap: Record<string, number> = {
+      small: 24,
+      default: 32,
+      large: 40,
+    }
+    for (const size in sizeMap) {
+      cascaderSize.value = size
+      await nextTick()
+      expect(inputEl.style.height).toEqual(`${sizeMap[size] - 2}px`)
+    }
+  })
 })
