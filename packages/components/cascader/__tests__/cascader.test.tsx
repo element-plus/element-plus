@@ -447,7 +447,7 @@ describe('Cascader.vue', () => {
   })
 
   test('height should be changed by size when multiple', async () => {
-    const cascaderSize = ref('small')
+    const cascaderSize = ref<'small' | 'default' | 'large'>('small')
     const props = { multiple: true }
     const wrapper = _mount(() => (
       <Cascader props={props} size={cascaderSize.value} />
@@ -468,7 +468,7 @@ describe('Cascader.vue', () => {
     })
 
     for (const size in sizeMap) {
-      cascaderSize.value = size
+      cascaderSize.value = size as 'small' | 'default' | 'large'
       await nextTick()
       expect(inputEl.offsetHeight).toEqual(sizeMap[size])
     }
