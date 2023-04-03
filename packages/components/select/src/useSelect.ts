@@ -166,7 +166,9 @@ export const useSelect = (props, states: States, ctx) => {
         newList.push(list[index])
       }
     })
-    return newList.length ? newList : list
+    return newList.length
+      ? newList.concat(list.filter((item) => item.created))
+      : list
   })
 
   const cachedOptionsArray = computed(() =>
