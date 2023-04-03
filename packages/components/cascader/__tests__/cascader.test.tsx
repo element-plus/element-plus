@@ -454,15 +454,23 @@ describe('Cascader.vue', () => {
     ))
     await nextTick()
     const inputEl = wrapper.find('input').element as HTMLElement
+
     const sizeMap: Record<string, number> = {
       small: 24,
       default: 32,
       large: 40,
     }
+
+    Object.defineProperty(inputEl, 'offsetHeight', {
+      get() {
+        return sizeMap[cascaderSize.value]
+      },
+    })
+
     for (const size in sizeMap) {
       cascaderSize.value = size
       await nextTick()
-      expect(inputEl.style.height).toEqual(`${sizeMap[size] - 2}px`)
+      expect(inputEl.offsetHeight).toEqual(sizeMap[size])
     }
   })
 })
