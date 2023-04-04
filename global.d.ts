@@ -75,6 +75,7 @@ declare module '@vue/runtime-core' {
     ElTableColumn: typeof import('element-plus')['ElTableColumn']
     ElTabs: typeof import('element-plus')['ElTabs']
     ElTag: typeof import('element-plus')['ElTag']
+    ElText: typeof import('element-plus')['ElText']
     ElTimePicker: typeof import('element-plus')['ElTimePicker']
     ElTimeSelect: typeof import('element-plus')['ElTimeSelect']
     ElTimeline: typeof import('element-plus')['ElTimeline']
