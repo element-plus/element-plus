@@ -445,7 +445,6 @@ describe('Cascader.vue', () => {
     await nextTick()
     expect(dropdown?.style.display).not.toBe('none')
   })
-
   test('height should be changed by size when multiple', async () => {
     const cascaderSize = ref<'small' | 'default' | 'large'>('small')
     const props = { multiple: true }
@@ -454,23 +453,22 @@ describe('Cascader.vue', () => {
     ))
     await nextTick()
     const inputEl = wrapper.find('input').element as HTMLElement
-
     const sizeMap: Record<string, number> = {
       small: 24,
       default: 32,
       large: 40,
     }
 
-    Object.defineProperty(inputEl, 'offsetHeight', {
-      get() {
-        return sizeMap[cascaderSize.value]
-      },
-    })
+    vi.spyOn(inputEl.style, 'getPropertyValue').mockImplementation(
+      () => `${sizeMap[cascaderSize.value] - 2}px`
+    )
 
     for (const size in sizeMap) {
       cascaderSize.value = size as 'small' | 'default' | 'large'
       await nextTick()
-      expect(inputEl.offsetHeight).toEqual(sizeMap[size])
+      expect(inputEl.style.getPropertyValue('height')).toEqual(
+        `${sizeMap[size] - 2}px`
+      )
     }
   })
 })
