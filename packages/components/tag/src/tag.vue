@@ -32,8 +32,9 @@
 import { computed } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { Close } from '@element-plus/icons-vue'
+import { useNamespace } from '@element-plus/hooks'
+import { useFormSize } from '@element-plus/components/form'
 
-import { useNamespace, useSize } from '@element-plus/hooks'
 import { tagEmits, tagProps } from './tag'
 
 defineOptions({
@@ -42,7 +43,7 @@ defineOptions({
 const props = defineProps(tagProps)
 const emit = defineEmits(tagEmits)
 
-const tagSize = useSize()
+const tagSize = useFormSize()
 const ns = useNamespace('tag')
 const classes = computed(() => {
   const { type, hit, effect, closable, round } = props

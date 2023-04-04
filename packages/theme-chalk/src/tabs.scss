@@ -93,6 +93,7 @@
     left: 0;
   }
   @include e(nav) {
+    display: flex;
     white-space: nowrap;
     position: relative;
     transition: transform getCssVar('transition-duration');
@@ -112,8 +113,9 @@
     padding: 0 20px;
     height: getCssVar('tabs', 'header-height');
     box-sizing: border-box;
-    line-height: getCssVar('tabs', 'header-height');
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     list-style: none;
     font-size: getCssVar('font-size-base');
     font-weight: 500;
@@ -136,6 +138,7 @@
       transition: all getCssVar('transition-duration')
         getCssVar('transition-function-ease-in-out-bezier');
       margin-left: 5px;
+
       &:before {
         transform: scale(0.9);
         display: inline-block;
@@ -144,10 +147,6 @@
       &:hover {
         background-color: getCssVar('text-color', 'placeholder');
         color: $color-white;
-      }
-
-      svg {
-        margin-top: 1px;
       }
     }
 
@@ -191,10 +190,7 @@
       font-size: 12px;
       width: 0;
       height: 14px;
-      vertical-align: middle;
-      line-height: 15px;
       overflow: hidden;
-      top: -1px;
       right: -2px;
       transform-origin: 100% 50%;
     }
@@ -205,9 +201,11 @@
           getCssVar('transition-function-ease-in-out-bezier'),
         padding getCssVar('transition-duration')
           getCssVar('transition-function-ease-in-out-bezier');
+
       &:first-child {
         border-left: none;
       }
+
       &.is-closable {
         &:hover {
           padding-left: 13px;
@@ -218,6 +216,7 @@
           }
         }
       }
+
       &.is-active {
         border-bottom-color: getCssVar('bg-color');
 
@@ -268,9 +267,11 @@
         border-right-color: getCssVar('border-color');
         border-left-color: getCssVar('border-color');
       }
+
       &:not(.is-disabled):hover {
         color: getCssVar('color-primary');
       }
+
       &.is-disabled {
         color: getCssVar('disabled-text-color');
       }
@@ -299,9 +300,18 @@
       > .#{$namespace}-tabs__header {
         .#{$namespace}-tabs__item:nth-child(2) {
           padding-left: 20px;
+
+          &:not(.is-active).is-closable:hover {
+            padding-left: 13px;
+          }
         }
+
         .#{$namespace}-tabs__item:last-child {
           padding-right: 20px;
+
+          &:not(.is-active).is-closable:hover {
+            padding-right: 13px;
+          }
         }
       }
     }
@@ -316,13 +326,16 @@
         border-bottom: 0;
         border-top: 1px solid getCssVar('border-color');
       }
+
       .#{$namespace}-tabs__nav-wrap.is-bottom {
         margin-top: -1px;
         margin-bottom: 0;
       }
+
       .#{$namespace}-tabs__item.is-bottom:not(.is-active) {
         border: 1px solid transparent;
       }
+
       .#{$namespace}-tabs__item.is-bottom {
         margin: 0 -1px -1px;
       }
@@ -363,10 +376,12 @@
           transform: rotateZ(90deg);
         }
       }
+
       > .#{$namespace}-tabs__nav-prev {
         left: auto;
         top: 0;
       }
+
       > .#{$namespace}-tabs__nav-next {
         right: auto;
         bottom: 0;
@@ -386,11 +401,15 @@
 
     .#{$namespace}-tabs__nav.is-left,
     .#{$namespace}-tabs__nav.is-right {
-      float: none;
+      flex-direction: column;
     }
-    .#{$namespace}-tabs__item.is-left,
+
+    .#{$namespace}-tabs__item.is-left {
+      justify-content: flex-end;
+    }
+
     .#{$namespace}-tabs__item.is-right {
-      display: block;
+      justify-content: flex-start;
     }
   }
   @include m(left) {
@@ -401,6 +420,7 @@
     }
     .#{$namespace}-tabs__nav-wrap.is-left {
       margin-right: -1px;
+
       &::after {
         left: auto;
         right: 0;
@@ -418,6 +438,7 @@
       .#{$namespace}-tabs__active-bar.is-left {
         display: none;
       }
+
       .#{$namespace}-tabs__item.is-left {
         border-left: none;
         border-right: 1px solid getCssVar('border-color-light');
@@ -425,10 +446,12 @@
         border-top: 1px solid getCssVar('border-color-light');
         text-align: left;
       }
+
       .#{$namespace}-tabs__item.is-left:first-child {
         border-right: 1px solid getCssVar('border-color-light');
         border-top: none;
       }
+
       .#{$namespace}-tabs__item.is-left.is-active {
         border: 1px solid getCssVar('border-color-light');
         border-right-color: #fff;
@@ -438,6 +461,7 @@
         &:first-child {
           border-top: none;
         }
+
         &:last-child {
           border-bottom: none;
         }
@@ -458,6 +482,7 @@
       .#{$namespace}-tabs__header.is-left {
         border-right: 1px solid getCssVar('border-color');
       }
+
       .#{$namespace}-tabs__item.is-left {
         border: 1px solid transparent;
         margin: -1px 0 -1px -1px;
@@ -479,6 +504,7 @@
 
     .#{$namespace}-tabs__nav-wrap.is-right {
       margin-left: -1px;
+
       &::after {
         left: 0;
         right: auto;
@@ -493,14 +519,17 @@
       .#{$namespace}-tabs__active-bar.is-right {
         display: none;
       }
+
       .#{$namespace}-tabs__item.is-right {
         border-bottom: none;
         border-top: 1px solid getCssVar('border-color-light');
       }
+
       .#{$namespace}-tabs__item.is-right:first-child {
         border-left: 1px solid getCssVar('border-color-light');
         border-top: none;
       }
+
       .#{$namespace}-tabs__item.is-right.is-active {
         border: 1px solid getCssVar('border-color-light');
         border-left-color: #fff;
@@ -510,6 +539,7 @@
         &:first-child {
           border-top: none;
         }
+
         &:last-child {
           border-bottom: none;
         }
@@ -525,6 +555,7 @@
       .#{$namespace}-tabs__header.is-right {
         border-left: 1px solid getCssVar('border-color');
       }
+
       .#{$namespace}-tabs__item.is-right {
         border: 1px solid transparent;
         margin: -1px -1px -1px 0;
@@ -543,18 +574,22 @@
 .slideInLeft-transition {
   display: inline-block;
 }
+
 .slideInRight-enter {
   animation: slideInRight-enter getCssVar('transition-duration');
 }
+
 .slideInRight-leave {
   position: absolute;
   left: 0;
   right: 0;
   animation: slideInRight-leave getCssVar('transition-duration');
 }
+
 .slideInLeft-enter {
   animation: slideInLeft-enter getCssVar('transition-duration');
 }
+
 .slideInLeft-leave {
   position: absolute;
   left: 0;
@@ -575,6 +610,7 @@
     transform: translateX(0);
   }
 }
+
 @keyframes slideInRight-leave {
   0% {
     transform-origin: 0 0;
@@ -588,6 +624,7 @@
     opacity: 0;
   }
 }
+
 @keyframes slideInLeft-enter {
   0% {
     opacity: 0;
@@ -601,6 +638,7 @@
     transform: translateX(0);
   }
 }
+
 @keyframes slideInLeft-leave {
   0% {
     transform-origin: 0 0;

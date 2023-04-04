@@ -84,6 +84,7 @@ declare module '@vue/runtime-core' {
     ElTooltip: typeof import('../packages/element-plus')['ElTooltip']
     ElTransfer: typeof import('../packages/element-plus')['ElTransfer']
     ElTree: typeof import('../packages/element-plus')['ElTree']
+    ElTreeSelect: typeof import('../packages/element-plus')['ElTreeSelect']
     ElTreeV2: typeof import('../packages/element-plus')['ElTreeV2']
     ElUpload: typeof import('../packages/element-plus')['ElUpload']
     ElSpace: typeof import('../packages/element-plus')['ElSpace']

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-link href="https://element.eleme.io" target="_blank">default</el-link>
+    <el-link href="https://element-plus.org" target="_blank">default</el-link>
     <el-link type="primary">primary</el-link>
     <el-link type="success">success</el-link>
     <el-link type="warning">warning</el-link>

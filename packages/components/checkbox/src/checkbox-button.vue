@@ -1,5 +1,5 @@
 <template>
-  <label :class="lableKls">
+  <label :class="labelKls">
     <input
       v-if="trueLabel || falseLabel"
       v-model="model"
@@ -41,7 +41,7 @@
 <script lang="ts" setup>
 import { computed, inject, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { checkboxGroupContextKey } from '@element-plus/tokens'
+import { checkboxGroupContextKey } from './constants'
 import { useCheckbox } from './composables'
 import { checkboxEmits, checkboxProps } from './checkbox'
 
@@ -76,7 +76,7 @@ const activeStyle = computed<CSSProperties>(() => {
   }
 })
 
-const lableKls = computed(() => {
+const labelKls = computed(() => {
   return [
     ns.b('button'),
     ns.bm('button', checkboxButtonSize.value),

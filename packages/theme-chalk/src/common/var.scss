@@ -923,6 +923,27 @@ $tag-icon-size: map.merge(
   $tag-icon-size
 );
 
+// Text
+// css3 var in packages/theme-chalk/src/text.scss
+$text: () !default;
+$text: map.merge(
+  (
+    'font-size': getCssVar('font-size', 'base'),
+    'color': getCssVar('text-color', 'regular'),
+  ),
+  $text
+);
+
+$text-font-size: () !default;
+$text-font-size: map.merge(
+  (
+    'large': getCssVar('font-size', 'medium'),
+    'default': getCssVar('font-size', 'base'),
+    'small': getCssVar('font-size', 'extra-small'),
+  ),
+  $text-font-size
+);
+
 // Tree
 // css3 var in packages/theme-chalk/src/tree.scss
 $tree: () !default;

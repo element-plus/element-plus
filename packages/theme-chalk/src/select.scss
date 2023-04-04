@@ -175,6 +175,17 @@
     height: 28px;
     background-color: transparent;
 
+    @include when(disabled) {
+      cursor: not-allowed;
+    }
+
+    &--iOS {
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 6;
+    }
+
     @include when(small) {
       height: 14px;
     }
@@ -201,6 +212,9 @@
     top: 50%;
     transform: translateY(-50%);
     @include select-tag-normal;
+    @include when(disabled) {
+      cursor: not-allowed;
+    }
   }
 
   @include e(collapse-tags) {

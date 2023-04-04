@@ -21,14 +21,6 @@ export const rightLogoSmallSponsors = [
 
 export const leftCustomImgSponsors = [
   {
-    name: 'VForm',
-    img: '/images/vform.png',
-    url: 'https://vform666.com/vform3.html?from=element_plus',
-    slogan: 'Vue 2/3 Visual/Low-Code Forms',
-    slogan_cn: 'Vue 2/3 可视化低代码表单',
-    banner_img: '/images/vform-banner.png',
-  },
-  {
     name: 'JSDesign',
     name_cn: '即时设计',
     img: '/images/js-design.png',
@@ -36,6 +28,23 @@ export const leftCustomImgSponsors = [
     slogan: 'Professional online UI design tool',
     slogan_cn: '专业在线UI设计工具',
     banner_img: '/images/js-design-banner.jpg',
+  },
+  {
+    name: 'VForm',
+    img: '/images/vform.png',
+    url: 'https://www.vform666.com/',
+    slogan: 'Vue 2/3 Visual/Low-Code Forms',
+    slogan_cn: 'Vue 2/3 可视化低代码表单',
+    banner_img: '/images/vform-banner.png',
+  },
+  {
+    name: 'JNPF',
+    img: '/images/jnpf_index.png',
+    url: 'https://www.jnpfsoft.com/index.html?from=elementUI',
+    slogan: 'JNPF low code development platform to develop simple!',
+    slogan_cn: 'JNPF 低代码开发平台，让开发变得简单！',
+    className: 'jnpf',
+    banner_img: '/images/sponsors/jnpfsoft.jpg',
   },
 ]
 

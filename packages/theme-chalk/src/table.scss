@@ -178,7 +178,7 @@
     }
   }
 
-  @each $size in (large, small) {
+  @each $size in (large, default, small) {
     @include m($size) {
       font-size: map.get($table-font-size, $size);
       .#{$namespace}-table__cell {
