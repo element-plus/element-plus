@@ -32,8 +32,13 @@
         }
       }
       &.is-active {
-        z-index: calc(getCssVar('index', 'normal') + 1);
+        z-index: calc(getCssVar('index', 'normal') + 10);
       }
+    }
+
+    @include m(card-vertical) {
+      width: 100%;
+      height: 50%;
     }
   }
 
