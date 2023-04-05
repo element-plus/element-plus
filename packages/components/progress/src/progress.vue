@@ -23,6 +23,7 @@
           :class="[
             ns.be('bar', 'inner'),
             { [ns.bem('bar', 'inner', 'indeterminate')]: indeterminate },
+            { [ns.bem('bar', 'inner', 'striped')]: striped },
           ]"
           :style="barStyle"
         >

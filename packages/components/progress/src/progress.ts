@@ -57,6 +57,10 @@ export const progressProps = buildProps({
     ]),
     default: '',
   },
+  striped: {
+    type: Boolean,
+    default: false,
+  },
   format: {
     type: definePropType<ProgressFn>(Function),
     default: (percentage: number): string => `${percentage}%`,

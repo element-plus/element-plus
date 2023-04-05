@@ -70,6 +70,12 @@ describe('Progress.vue', () => {
     ).toContain('background-color: rgb(255, 255, 255);')
   })
 
+  test('striped', () => {
+    const wrapper = mount(() => <Progress striped />)
+
+    expect(wrapper.find('.el-progress-bar__inner--striped').exists()).toBe(true)
+  })
+
   test('color is function', async () => {
     const percentage = ref(0)
 
