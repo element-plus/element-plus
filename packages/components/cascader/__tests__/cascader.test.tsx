@@ -446,7 +446,7 @@ describe('Cascader.vue', () => {
     expect(dropdown?.style.display).not.toBe('none')
   })
   test('height should be changed by size when multiple', async () => {
-    const cascaderSize = ref<'small' | 'default' | 'large'>('small')
+    const cascaderSize = ref<'small' | 'default' | 'large'>('default')
     const props = { multiple: true }
     const wrapper = _mount(() => (
       <Cascader props={props} size={cascaderSize.value} />
@@ -459,16 +459,12 @@ describe('Cascader.vue', () => {
       large: 40,
     }
 
-    vi.spyOn(inputEl.style, 'getPropertyValue').mockImplementation(
-      () => `${sizeMap[cascaderSize.value] - 2}px`
-    )
-
     for (const size in sizeMap) {
       cascaderSize.value = size as 'small' | 'default' | 'large'
+      inputEl.style.setProperty('--el-input-height', `${sizeMap[size]}px`)
       await nextTick()
-      expect(inputEl.style.getPropertyValue('height')).toEqual(
-        `${sizeMap[size] - 2}px`
-      )
+      await nextTick()
+      expect(inputEl.style.height).toEqual(`${sizeMap[size] - 2}px`)
     }
   })
 })
