@@ -69,6 +69,14 @@ progress/indeterminate-progress
 
 :::
 
+## Striped progress
+
+:::demo Use `striped` attribute to set striped progress.
+
+progress/striped-progress
+
+:::
+
 ## Attributes
 
 | Name           | Description                                                                           | Type                  | Accepted Values           | Default |
@@ -85,6 +93,7 @@ progress/indeterminate-progress
 | show-text      | whether to show percentage                                                            | boolean               | —                         | true    |
 | stroke-linecap | circle/dashboard type shape at the end path                                           | string                | butt/round/square         | round   |
 | format         | custom text format                                                                    | function(percentage)  | —                         | —       |
+| striped        | stripe over the progress bar's color                                                  | boolean               | —                         | false   |
 
 ## Slots
 
