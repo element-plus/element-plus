@@ -159,7 +159,11 @@ const message: MessageFn &
   }
 
   const instance = createMessage(normalized, context)
-
+  const maxCount = instance.props.maxCount
+  if (instances.length >= maxCount) {
+    const firsetInstance = instances.shift()
+    firsetInstance && firsetInstance.handler.close()
+  }
   instances.push(instance)
   return instance.handler
 }

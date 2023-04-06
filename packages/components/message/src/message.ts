@@ -33,6 +33,7 @@ export const messageDefaults = mutable({
   grouping: false,
   repeatNum: 1,
   appendTo: isClient ? document.body : (undefined as never),
+  maxCount: 5,
 } as const)
 
 export const messageProps = buildProps({
@@ -96,6 +97,10 @@ export const messageProps = buildProps({
   repeatNum: {
     type: Number,
     default: messageDefaults.repeatNum,
+  },
+  maxCount: {
+    type: Number,
+    default: messageDefaults.maxCount,
   },
 } as const)
 export type MessageProps = ExtractPropTypes<typeof messageProps>
