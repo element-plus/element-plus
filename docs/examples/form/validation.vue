@@ -173,3 +173,13 @@ const options = Array.from({ length: 10000 }).map((_, idx) => ({
   label: `${idx + 1}`,
 }))
 </script>
+<style scoped>
+.text-center {
+  text-align: center;
+}
+
+.text-gray-500 {
+  --un-text-opacity: 1;
+  color: rgba(107, 114, 128, var(--un-text-opacity));
+}
+</style>

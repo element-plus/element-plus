@@ -45,3 +45,32 @@ const input2 = ref('')
 const input3 = ref('')
 const input4 = ref('')
 </script>
+<style scoped>
+.ml-3 {
+  margin-left: 0.75rem;
+}
+.w-35 {
+  width: 8.75rem;
+}
+
+.text-gray-600 {
+  --un-text-opacity: 1;
+  color: rgba(75, 85, 99, var(--un-text-opacity));
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.w-50 {
+  width: 12.5rem; /* 200px */
+}
+
+.m-2 {
+  margin: 0.5rem; /* 8px */
+}
+</style>

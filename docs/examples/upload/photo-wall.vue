@@ -67,3 +67,8 @@ const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile) => {
   dialogVisible.value = true
 }
 </script>
+<style scoped>
+[w-full=''] {
+  width: 100%;
+}
+</style>

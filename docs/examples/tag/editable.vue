@@ -18,7 +18,7 @@
     @keyup.enter="handleInputConfirm"
     @blur="handleInputConfirm"
   />
-  <el-button v-else class="button-new-tag ml-1" size="small" @click="showInput">
+  <el-button v-else class="ml-1" size="small" @click="showInput">
     + New Tag
   </el-button>
 </template>
@@ -51,3 +51,17 @@ const handleInputConfirm = () => {
   inputValue.value = ''
 }
 </script>
+<style scoped>
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
+}
+
+.w-20 {
+  width: 5rem;
+}
+</style>

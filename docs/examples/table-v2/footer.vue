@@ -54,3 +54,12 @@ const generateData = (
 const columns = generateColumns(10)
 const data = generateData(columns, 200)
 </script>
+<style scoped>
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+</style>

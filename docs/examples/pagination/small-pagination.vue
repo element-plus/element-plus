@@ -8,3 +8,8 @@
     class="mt-4"
   />
 </template>
+<style scoped>
+.mt-4 {
+  margin-top: 1rem;
+}
+</style>

@@ -52,3 +52,27 @@ const items = ref<Array<Item>>([
   { type: 'warning', label: 'Tag 5' },
 ])
 </script>
+<style scoped>
+.flex {
+  display: flex;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.gap-2 {
+  grid-gap: 0.5rem;
+  gap: 0.5rem;
+}
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+</style>

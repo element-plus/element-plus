@@ -30,3 +30,8 @@ const submitUpload = () => {
   uploadRef.value!.submit()
 }
 </script>
+<style scoped>
+.ml-3 {
+  margin-left: 0.75rem;
+}
+</style>

@@ -6,3 +6,8 @@
     </el-col>
   </el-row>
 </template>
+<style scoped>
+.w-100px {
+  width: 100px;
+}
+</style>

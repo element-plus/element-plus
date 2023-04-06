@@ -98,3 +98,8 @@ const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
 </script>
+<style scoped>
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+</style>

@@ -288,3 +288,8 @@ const options = [
   },
 ]
 </script>
+<style scoped>
+.m-4 {
+  margin: 1rem;
+}
+</style>

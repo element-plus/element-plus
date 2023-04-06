@@ -138,4 +138,9 @@ const blockMargin = computed(() => {
 .margin-top {
   margin-top: 20px;
 }
+
+.border {
+  border-width: 1px;
+  border-style: solid;
+}
 </style>

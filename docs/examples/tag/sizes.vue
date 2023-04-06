@@ -11,3 +11,13 @@
     <el-tag class="mx-1" size="small" closable>Small</el-tag>
   </el-row>
 </template>
+<style scoped>
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+</style>

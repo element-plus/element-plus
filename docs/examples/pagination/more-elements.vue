@@ -103,4 +103,18 @@ const handleCurrentChange = (val: number) => {
 .demo-pagination-block .demonstration {
   margin-bottom: 16px;
 }
+
+.mr-4 {
+  margin-right: 1rem;
+}
+.ml-2 {
+  margin-left: 0.5rem; /* 8px */
+}
+.ml-4 {
+  margin-left: 1rem;
+}
+.my-4 {
+  margin-top: 1rem; /* 16px */
+  margin-bottom: 1rem; /* 16px */
+}
 </style>

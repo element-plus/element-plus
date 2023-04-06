@@ -17,3 +17,8 @@
     <el-button type="danger" plain disabled>Danger</el-button>
   </el-row>
 </template>
+<style scoped>
+.mb-4 {
+  margin-bottom: 1rem;
+}
+</style>

@@ -19,3 +19,8 @@ const config = reactive({
   autoInsertSpace: true,
 })
 </script>
+<style scoped>
+[m='b-2'] {
+  margin-bottom: 0.5rem;
+}
+</style>

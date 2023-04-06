@@ -24,3 +24,8 @@
 <script lang="ts" setup>
 import { Bell, ElementPlus } from '@element-plus/icons-vue'
 </script>
+<style scoped>
+.ml-1 {
+  margin-left: 0.25rem;
+}
+</style>

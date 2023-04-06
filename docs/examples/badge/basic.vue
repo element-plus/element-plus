@@ -23,7 +23,7 @@
           comments
           <el-badge class="mark" :value="12" />
         </el-dropdown-item>
-        <el-dropdown-item class="clearfix">
+        <el-dropdown-item>
           replies
           <el-badge class="mark" :value="3" />
         </el-dropdown-item>

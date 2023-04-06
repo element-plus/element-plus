@@ -42,3 +42,8 @@ const beforeChange2 = () => {
   })
 }
 </script>
+<style scoped>
+.ml-2 {
+  margin-left: 0.5rem;
+}
+</style>

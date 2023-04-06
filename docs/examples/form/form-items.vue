@@ -101,3 +101,8 @@ const resetForm = (formEl: FormInstance | undefined) => {
   formEl.resetFields()
 }
 </script>
+<style scoped>
+.mt-2 {
+  margin-top: 0.5rem;
+}
+</style>

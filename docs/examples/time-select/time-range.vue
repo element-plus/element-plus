@@ -26,3 +26,8 @@ import { ref } from 'vue'
 const startTime = ref('')
 const endTime = ref('')
 </script>
+<style scoped>
+.mr-4 {
+  margin-right: 1rem;
+}
+</style>

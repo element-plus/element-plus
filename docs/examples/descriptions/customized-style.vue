@@ -31,4 +31,9 @@
 .my-content {
   background: var(--el-color-danger-light-9);
 }
+
+.border {
+  border-width: 1px;
+  border-style: solid;
+}
 </style>

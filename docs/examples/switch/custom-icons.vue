@@ -17,3 +17,8 @@ import { Check, Close } from '@element-plus/icons-vue'
 const value1 = ref(true)
 const value2 = ref(true)
 </script>
+<style scoped>
+.mt-2 {
+  margin-top: 0.5rem;
+}
+</style>

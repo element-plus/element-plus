@@ -47,4 +47,16 @@ const handleClick = () => {
   display: flex;
   align-items: center;
 }
+
+.flex {
+  display: flex;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.items-center {
+  align-items: center;
+}
 </style>
