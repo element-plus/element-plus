@@ -12,6 +12,7 @@ import {
   watchEffect,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
+import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
@@ -191,7 +192,7 @@ export default defineComponent({
       }
 
       const { index, indexPath } = menuItem
-      if (index === undefined || indexPath === undefined) return
+      if (isNil(index) || isNil(indexPath)) return
 
       if (props.router && router) {
         const route = menuItem.route || index
