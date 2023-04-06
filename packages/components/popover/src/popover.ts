@@ -8,6 +8,7 @@ import type { ExtractPropTypes, PropType } from 'vue'
 import type Popover from './popover.vue'
 
 export const popoverProps = buildProps({
+  trigger: useTooltipTriggerProps.trigger,
   placement: dropdownProps.placement,
   disabled: useTooltipTriggerProps.disabled,
   visible: useTooltipContentProps.visible,
@@ -17,10 +18,6 @@ export const popoverProps = buildProps({
   content: useTooltipContentProps.content,
   popperStyle: useTooltipContentProps.popperStyle,
   popperClass: useTooltipContentProps.popperClass,
-  trigger: {
-    ...useTooltipTriggerProps.trigger,
-    default: 'click',
-  },
   enterable: {
     ...useTooltipContentProps.enterable,
     default: true,
