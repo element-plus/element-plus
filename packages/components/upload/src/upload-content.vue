@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
 import { isObject } from '@vue/shared'
-import { cloneDeep } from 'lodash-unified'
+import { cloneDeep, isEqual } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import { entriesOf } from '@element-plus/utils'
 import { useFormDisabled } from '@element-plus/components/form'
@@ -90,11 +90,20 @@ const upload = async (rawFile: UploadRawFile) => {
 
   let hookResult: Exclude<ReturnType<UploadHooks['beforeUpload']>, Promise<any>>
   let beforeData: UploadContentProps['data'] = {}
+  function getData() {
+    return isObject(props.data) ? cloneDeep(props.data) : props.data
+  }
 
   try {
+    // origin data
+    const originData = getData()
     const beforeUploadPromise = props.beforeUpload(rawFile)
-    beforeData = isObject(props.data) ? cloneDeep(props.data) : props.data
+    // The data after the synchronization task is executed
+    beforeData = getData()
     hookResult = await beforeUploadPromise
+    // Compare the original data and the data after the execution of the synchronous task to determine whether there is any modification in this step,
+    // if not, use the data after the execution of the asynchronous task
+    beforeData = isEqual(originData, beforeData) ? getData() : beforeData
   } catch {
     hookResult = false
   }
