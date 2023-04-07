@@ -8,7 +8,7 @@ import type ElTree from '@element-plus/components/tree'
 
 export const useSelect = (
   props,
-  { attrs },
+  context,
   {
     tree,
     key,
@@ -22,7 +22,6 @@ export const useSelect = (
 
   const result = {
     ...pick(toRefs(props), Object.keys(ElSelect.props)),
-    ...attrs,
     valueKey: key,
     popperClass: computed(() => {
       const classes = [ns.e('popper')]
@@ -39,7 +38,7 @@ export const useSelect = (
     },
     // clear filter text when visible change
     onVisibleChange: (visible: boolean) => {
-      attrs.onVisibleChange?.(visible)
+      context.attrs.onVisibleChange?.(visible)
 
       if (props.filterable && visible) {
         result.filterMethod()

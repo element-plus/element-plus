@@ -73,9 +73,11 @@ export default defineComponent({
          * unwrap the `Refs` and keep reactive.
          * 2. The keyword `ref` requires `Ref`, but `reactive` broke it,
          * so use function.
+         * 3. The attrs is passed to support `v-model`
          */
         reactive({
           ...selectProps,
+          ...context.attrs,
           ref: (ref) => (select.value = ref),
         }),
         {
