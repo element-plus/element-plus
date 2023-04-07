@@ -75,11 +75,6 @@ let focusWithClick = false
 
 // todo better way to get Day.js locale object
 const firstDayOfWeek = (props.date as any).$locale().weekStart || 7
-const WEEKS_CONSTANT = props.date
-  .locale('en')
-  .localeData()
-  .weekdaysShort()
-  .map((_) => _.toLowerCase())
 
 const offsetDay = computed(() => {
   // Sunday 7(0), cal the left and right offset days, 3217654, such as Monday is -1, the is to adjust the position of the first two rows of dates
@@ -91,12 +86,7 @@ const startDate = computed(() => {
   return startDayOfMonth.subtract(startDayOfMonth.day() || 7, 'day')
 })
 
-const WEEKS = computed(() => {
-  return WEEKS_CONSTANT.concat(WEEKS_CONSTANT).slice(
-    firstDayOfWeek,
-    firstDayOfWeek + 7
-  )
-})
+const WEEKS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
 const hasCurrent = computed<boolean>(() => {
   return flatten(rows.value).some((row) => {
