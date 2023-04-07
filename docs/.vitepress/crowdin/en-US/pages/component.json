@@ -32,7 +32,8 @@
       },
       {
         "link": "/text",
-        "text": "Text"
+        "text": "Text",
+        "promotion": "2.3.0"
       },
       {
         "link": "/scrollbar",
