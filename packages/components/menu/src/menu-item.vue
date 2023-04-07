@@ -83,14 +83,14 @@ export default defineComponent({
       active,
     })
 
-    const handleClick = () => {
+    const handleClick = (e) => {
       if (!props.disabled) {
         rootMenu.handleMenuItemClick({
           index: props.index,
           indexPath: indexPath.value,
           route: props.route,
         })
-        emit('click', item)
+        emit('click', item, e)
       }
     }
 
