@@ -60,7 +60,11 @@
           />
         </table>
       </div>
-      <div ref="bodyWrapper" :class="ns.e('body-wrapper')">
+      <div
+        ref="bodyWrapper"
+        :class="ns.e('body-wrapper')"
+        @mouseenter="headerMouseLeave"
+      >
         <el-scrollbar
           ref="scrollBarRef"
           :view-style="scrollbarViewStyle"
