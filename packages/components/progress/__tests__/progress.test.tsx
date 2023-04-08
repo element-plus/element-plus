@@ -76,6 +76,15 @@ describe('Progress.vue', () => {
     expect(wrapper.find('.el-progress-bar__inner--striped').exists()).toBe(true)
   })
 
+  test('striped flow', () => {
+    const wrapper = mount(() => <Progress striped striped-flow />)
+
+    expect(wrapper.find('.el-progress-bar__inner--striped').exists()).toBe(true)
+    expect(wrapper.find('.el-progress-bar__inner--striped-flow').exists()).toBe(
+      true
+    )
+  })
+
   test('color is function', async () => {
     const percentage = ref(0)
 
