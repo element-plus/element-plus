@@ -291,7 +291,7 @@ export default defineComponent({
       type: '',
       title: undefined,
       showInput: false,
-      action: '' as Action,
+      action: 'cancel' as Action,
       confirmButtonLoading: false,
       cancelButtonLoading: false,
       confirmButtonDisabled: false,
