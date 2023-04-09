@@ -146,6 +146,14 @@ textarea {
   touch-action: manipulation;
 }
 
+button.reset-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
 a {
   font-weight: 500;
   text-decoration: inherit;
@@ -247,17 +255,8 @@ details {
     margin: 16px 0;
     font-size: 18px;
     font-weight: 600;
+    cursor: pointer;
   }
-}
-
-.el-popover.is-light.translation-popup {
-  background-color: var(--bg-color) !important;
-  border-color: var(--border-color);
-  border-radius: 8px;
-  padding: 12px 0;
-  min-width: 192px;
-  border: 1px solid transparent;
-  transition: background-color 0.5s;
 }
 
 #nprogress .bar {
@@ -287,4 +286,14 @@ details {
     border-left: 5px solid var(--el-color-danger);
     margin: 20px 0;
   }
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }

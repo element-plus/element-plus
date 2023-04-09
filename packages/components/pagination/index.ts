@@ -6,3 +6,4 @@ export const ElPagination = withInstall(Pagination)
 export default ElPagination
 
 export * from './src/pagination'
+export * from './src/constants'
