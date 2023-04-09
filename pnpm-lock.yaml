@@ -17,7 +17,6 @@ importers:
       '@element-plus/locale': workspace:*
       '@element-plus/test-utils': workspace:*
       '@element-plus/theme-chalk': workspace:*
-      '@element-plus/tokens': workspace:*
       '@element-plus/utils': workspace:*
       '@esbuild-kit/cjs-loader': ^2.2.1
       '@floating-ui/dom': ^1.0.1
@@ -85,7 +84,6 @@ importers:
       '@element-plus/locale': link:packages/locale
       '@element-plus/test-utils': link:packages/test-utils
       '@element-plus/theme-chalk': link:packages/theme-chalk
-      '@element-plus/tokens': link:packages/tokens
       '@element-plus/utils': link:packages/utils
       '@floating-ui/dom': 1.0.1
       '@popperjs/core': /@sxzz/popperjs-es/2.11.7
@@ -198,7 +196,7 @@ importers:
       '@vueuse/core': 9.1.0_vue@3.2.37
       axios: 0.27.2
       clipboard-copy: 4.0.1
-      element-plus: 2.2.17_vue@3.2.37
+      element-plus: 2.2.32_vue@3.2.37
       markdown-it: 13.0.1
       normalize.css: 8.0.1
       nprogress: 0.2.0
@@ -447,9 +445,6 @@ importers:
       gulp-clean-css: 4.3.0
       gulp-rename: 2.0.0
       gulp-sass: 5.1.0
-
-  packages/tokens:
-    specifiers: {}
 
   packages/utils:
     specifiers: {}
@@ -4420,7 +4415,7 @@ packages:
   /axios/0.21.4_debug@4.3.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.1_debug@4.3.4
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
     dev: true
@@ -5536,8 +5531,8 @@ packages:
   /electron-to-chromium/1.4.147:
     resolution: {integrity: sha512-czclPqxLMPqPMkahKcske4TaS5lcznsc26ByBlEFDU8grTBVK9C5W6K9I6oEEhm4Ai4jTihGnys90xY1yjXcRg==}
 
-  /element-plus/2.2.17_vue@3.2.37:
-    resolution: {integrity: sha512-MGwMIE/q+FFD3kgS23x8HIe5043tmD1cTRwjhIX9o6fim1avFnUkrsfYRvybbz4CkyqSb185EheZS5AUPpXh2g==}
+  /element-plus/2.2.32_vue@3.2.37:
+    resolution: {integrity: sha512-DTJMhYOy6MApbmh6z/95hPTK5WrBiNHGzV4IN+uEkup1WoimQ+Qyt8RxKdTe/X1LWEJ8YgWv/Cl8P4ocrt5z5g==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -6847,19 +6842,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
-
-  /follow-redirects/1.15.1_debug@4.3.4:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.4
-    dev: true
 
   /for-in/1.0.2:
     resolution: {integrity: sha512-7EwmXrOjyL+ChxMhmG5lnW9MPt1aIeZEwKhQzoBUdTV0N3zuwWDZYVJatDvZ2OyzPUvdIAZDsCetk3coyMfcnQ==}

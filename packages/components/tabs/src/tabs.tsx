@@ -18,16 +18,16 @@ import {
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import ElIcon from '@element-plus/components/icon'
 import { Plus } from '@element-plus/icons-vue'
-import { tabsRootContextKey } from '@element-plus/tokens'
 import {
   useDeprecated,
   useNamespace,
   useOrderedChildren,
 } from '@element-plus/hooks'
+import { tabsRootContextKey } from './constants'
 import TabNav from './tab-nav'
 
 import type { TabNavInstance } from './tab-nav'
-import type { TabsPaneContext } from '@element-plus/tokens'
+import type { TabsPaneContext } from './constants'
 import type { ExtractPropTypes } from 'vue'
 import type { Awaitable } from '@element-plus/utils'
 

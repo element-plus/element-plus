@@ -1,11 +1,4 @@
-import {
-  computed,
-  getCurrentInstance,
-  ref,
-  shallowRef,
-  unref,
-  watch,
-} from 'vue'
+import { computed, getCurrentInstance, ref, shallowRef, unref } from 'vue'
 import { debounce } from 'lodash-unified'
 import { isNumber } from '@element-plus/utils'
 import { FixedDir } from '../constants'
@@ -28,13 +21,11 @@ type UseRowProps = {
   mainTableRef: GridInstanceRef
   leftTableRef: GridInstanceRef
   rightTableRef: GridInstanceRef
-
-  onMaybeEndReached: () => void
 }
 
 export const useRow = (
   props: TableV2Props,
-  { mainTableRef, leftTableRef, rightTableRef, onMaybeEndReached }: UseRowProps
+  { mainTableRef, leftTableRef, rightTableRef }: UseRowProps
 ) => {
   const vm = getCurrentInstance()!
   const { emit } = vm
@@ -148,8 +139,6 @@ export const useRow = (
       flushingRowHeights()
     }
   }
-  // when rendered row changes, maybe reaching the bottom
-  watch(lastRenderedRowIndex, () => onMaybeEndReached())
 
   return {
     hoveringRowKey,

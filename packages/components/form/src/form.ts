@@ -9,9 +9,24 @@ import {
 
 import type { ExtractPropTypes } from 'vue'
 import type { FormItemProp } from './form-item'
-import type { FormRules } from '@element-plus/tokens'
+import type { FormRules } from './types'
+
+const formMetaProps = buildProps({
+  /**
+   * @description Control the size of components in this form.
+   */
+  size: {
+    type: String,
+    values: componentSizes,
+  },
+  /**
+   * @description Whether to disable all components in this form. If set to `true`, it will override the `disabled` prop of the inner component.
+   */
+  disabled: Boolean,
+} as const)
 
 export const formProps = buildProps({
+  ...formMetaProps,
   /**
    * @description Data of form component.
    */
@@ -72,17 +87,6 @@ export const formProps = buildProps({
     default: true,
   },
   /**
-   * @description Control the size of components in this form.
-   */
-  size: {
-    type: String,
-    values: componentSizes,
-  },
-  /**
-   * @description Whether to disable all components in this form. If set to `true`, it will override the `disabled` prop of the inner component.
-   */
-  disabled: Boolean,
-  /**
    * @description Whether to trigger validation when the `rules` prop is changed.
    */
   validateOnRuleChange: {
@@ -100,8 +104,15 @@ export const formProps = buildProps({
    * @description When validation fails, scroll to the first error form entry.
    */
   scrollToError: Boolean,
+  /**
+   * @description When validation fails, it scrolls to the first error item based on the scrollIntoView option.
+   */
+  scrollIntoViewOptions: {
+    type: [Object, Boolean],
+  },
 } as const)
 export type FormProps = ExtractPropTypes<typeof formProps>
+export type FormMetaProps = ExtractPropTypes<typeof formMetaProps>
 
 export const formEmits = {
   validate: (prop: FormItemProp, isValid: boolean, message: string) =>

@@ -85,6 +85,7 @@ tree-v2/filter
 | filter-method         | this function will be executed on each node when use filter method. if return `false`, tree node will be hidden.                             | Function(value, data) | —       |
 | indent                | horizontal indentation of nodes in adjacent levels in pixels                                                                                 | number                | 16      |
 | icon                  | custom tree node icon                                                                                                                        | `string \| Component` | -       |
+| item-size             | custom tree node height                                                                                                                      | number                | 26      |
 
 ## props
 

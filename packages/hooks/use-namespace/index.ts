@@ -1,4 +1,6 @@
-import { useGlobalConfig } from '../use-global-config'
+import { computed, inject, ref, unref } from 'vue'
+
+import type { InjectionKey, Ref } from 'vue'
 
 export const defaultNamespace = 'el'
 const statePrefix = 'is-'
@@ -23,8 +25,25 @@ const _bem = (
   return cls
 }
 
-export const useNamespace = (block: string) => {
-  const namespace = useGlobalConfig('namespace', defaultNamespace)
+export const namespaceContextKey: InjectionKey<Ref<string | undefined>> =
+  Symbol('namespaceContextKey')
+
+export const useGetDerivedNamespace = (
+  namespaceOverrides?: Ref<string | undefined>
+) => {
+  const derivedNamespace =
+    namespaceOverrides || inject(namespaceContextKey, ref(defaultNamespace))
+  const namespace = computed(() => {
+    return unref(derivedNamespace) || defaultNamespace
+  })
+  return namespace
+}
+
+export const useNamespace = (
+  block: string,
+  namespaceOverrides?: Ref<string | undefined>
+) => {
+  const namespace = useGetDerivedNamespace(namespaceOverrides)
   const b = (blockSuffix = '') =>
     _bem(namespace.value, block, blockSuffix, '', '')
   const e = (element?: string) =>
