@@ -112,6 +112,13 @@ export const useTree = (
     return options
   })
 
+  const cacheOptionsMap = computed(() => {
+    return cacheOptions.value.reduce(
+      (prev, next) => ({ ...prev, [next.value]: next }),
+      {}
+    )
+  })
+
   return {
     ...pick(toRefs(props), Object.keys(ElTree.props)),
     ...attrs,
@@ -170,9 +177,39 @@ export const useTree = (
       }
     },
     onCheck: (data, params) => {
+      const dataValue = getNodeValByProp('value', data)
+
+      // fix: checkedKeys has not cached keys
+      const uncachedCheckedKeys = params.checkedKeys
+      const cachedKeys = props.multiple
+        ? toValidArray(props.modelValue).filter(
+            (item) =>
+              item in cacheOptionsMap.value &&
+              !tree.value.getNode(item) &&
+              !uncachedCheckedKeys.includes(item)
+          )
+        : []
+      const checkedKeys = uncachedCheckedKeys.concat(cachedKeys)
+      const checkedNodes = checkedKeys.map(
+        (item) =>
+          tree.value.getNode(item) ||
+          (cacheOptionsMap[item] && {
+            id: item,
+            text: cacheOptionsMap[item].currentLabel,
+            checked: true,
+            data: cacheOptionsMap[item],
+            cached: true,
+          })
+      )
+
+      params = {
+        ...params,
+        checkedKeys,
+        checkedNodes,
+      }
+
       attrs.onCheck?.(data, params)
 
-      const dataValue = getNodeValByProp('value', data)
       if (props.checkStrictly) {
         emit(
           UPDATE_MODEL_EVENT,

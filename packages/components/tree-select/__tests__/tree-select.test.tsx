@@ -533,4 +533,71 @@ describe('TreeSelect.vue', () => {
     expect(filterMethod).toHaveBeenLastCalledWith('2')
     expect(tree.text()).toBe('2')
   })
+
+  test('checking node will not reset checked cache node', async () => {
+    const modelValue = ref<number[]>([2])
+    const cacheData = reactive([{ value: 2, label: '2-label' }])
+    let id = 1
+    const { tree } = createComponent({
+      props: {
+        modelValue,
+        multiple: true,
+        showCheckbox: true,
+        checkStrictly: true,
+        lazy: true,
+        load: (node: object, resolve: (p: any) => any[]) => {
+          resolve([{ value: id, label: `${id}-label`, isLeaf: false }])
+          id++
+        },
+        cacheData,
+      },
+    })
+
+    await nextTick()
+
+    const node1 = tree.find('.el-tree-node__content')
+    const node1Checkbox = node1.find('.el-checkbox__original')
+
+    expect(node1.text()).toBe('1-label')
+    await node1Checkbox.trigger('click')
+
+    expect(modelValue.value).toEqual([1, 2])
+  })
+
+  test('cached checked node can be canceled', async () => {
+    const modelValue = ref<number[]>([2])
+    const cacheData = reactive([{ value: 2, label: '2-label' }])
+    let id = 1
+    const { tree } = createComponent({
+      props: {
+        modelValue,
+        multiple: true,
+        showCheckbox: true,
+        checkStrictly: true,
+        lazy: true,
+        load: (node: object, resolve: (p: any) => any[]) => {
+          resolve([{ value: id, label: `${id}-label`, isLeaf: false }])
+          id++
+        },
+        cacheData,
+      },
+    })
+
+    await nextTick()
+
+    const node1 = tree.find('.el-tree-node__content')
+    await node1.trigger('click')
+    await nextTick()
+
+    const node2 = tree.findAll('.el-tree-node__content')[1]
+    expect(node2.text()).toBe('2-label')
+
+    const node2Checkbox = node2.find('.el-checkbox')
+    expect(node2Checkbox.element.classList.contains('is-checked')).toBe(true)
+
+    await node2Checkbox.trigger('click')
+    expect(node2Checkbox.element.classList.contains('is-checked')).toBe(false)
+
+    expect(modelValue.value).toEqual([])
+  })
 })
