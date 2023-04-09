@@ -1,7 +1,8 @@
 import { computed, inject, nextTick, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { sliderContextKey } from '@element-plus/tokens'
+import { sliderContextKey } from '../constants'
+
 import type { CSSProperties, ComputedRef, Ref, SetupContext } from 'vue'
 import type { SliderProps } from '../slider'
 import type {
