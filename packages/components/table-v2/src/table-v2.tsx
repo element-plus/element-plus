@@ -45,7 +45,6 @@ const TableV2 = defineComponent({
       depthMap,
       expandedRowKeys,
       hasFixedColumns,
-      hoveringRowKey,
       mainTableRef,
       leftTableRef,
       rightTableRef,
@@ -104,7 +103,6 @@ const TableV2 = defineComponent({
     provide(TableV2InjectionKey, {
       ns,
       isResetting,
-      hoveringRowKey,
       isScrolling,
     })
 
@@ -222,7 +220,6 @@ const TableV2 = defineComponent({
         expandedRowKeys: unref(expandedRowKeys),
         estimatedRowHeight,
         hasFixedColumns: unref(hasFixedColumns),
-        hoveringRowKey: unref(hoveringRowKey),
         rowProps,
         rowClass,
         rowKey,
