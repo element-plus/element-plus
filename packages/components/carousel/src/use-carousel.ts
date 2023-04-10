@@ -55,13 +55,14 @@ export const useCarousel = (
   const isVertical = computed(() => props.direction === 'vertical')
 
   const containerStyle = computed(() => {
-    if (props.height === 'auto') {
+    if (props.height !== 'auto') {
       return {
-        height: `${containerHeight.value}px`,
+        height: props.height,
       }
     }
     return {
-      height: props.height,
+      height: `${containerHeight.value}px`,
+      overflow: 'hidden',
     }
   })
 
@@ -214,9 +215,8 @@ export const useCarousel = (
   }
 
   function setContainerHeight(height: number) {
-    if (props.height === 'auto') {
-      containerHeight.value = height
-    }
+    if (props.height !== 'auto') return
+    containerHeight.value = height
   }
 
   // watch
