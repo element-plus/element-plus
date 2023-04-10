@@ -111,7 +111,7 @@ button/size
 
 :::
 
-## Tag ^(2.3.0)
+## Tag ^(2.3.4)
 
 You can custom element tag, For example button, div, a, router-link, nuxt-link.
 
