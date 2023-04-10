@@ -25,7 +25,6 @@
     }"
     :virtual-ref="buttonRef"
     virtual-triggering
-    trigger="click"
     popper-class="singleton-tooltip"
   >
     <template #content>
