@@ -1,5 +1,27 @@
 ## Changelog
 
+### 2.3.3
+
+_2023-04-07_
+
+#### Features
+
+- Components [color-picker] add `show` `hide` expose (#11942 by @xiterjia)
+- Components [date-picker] support numpadEnter (#12323 by @chenxch)
+
+#### Bug fixes
+
+- Components [tree-select] add to global components (#12255 by @btea)
+- Components [upload] add before-upload test (#12287 by @chenxch)
+- Components [text] add to global components (#12317 by @Altermoe)
+- Components [statistic] add to global components (#12324 by @btea)
+- Components [menu] Avoid call router when index is not provided (#12206 by @HeftyKoo)
+- Components [popover] default trigger (#12321 by @MrWeilian)
+- Revert "fix(components): [popover] default trigger" (#12341 by @chenxch)
+#### Refactors
+
+- Components [table] remove useless brackets (#12283 by @MrWeilian)
+
 ### 2.3.2
 
 _2023-03-31_
