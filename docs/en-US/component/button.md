@@ -29,9 +29,9 @@ button/disabled
 
 :::warning
 
-`type="text"` has been **deprecated**, and **will be** removed in<VersionTag version="3.0.0" />, consider switching to new API.
+`type="text"` has been **deprecated**, and **will be** removed in ^(3.0.0), consider switching to new API.
 
-New API `link` has been added in<VersionTag version="2.2.1" />, you can use `type` API to set the theme of your link button
+New API `link` has been added in ^(2.2.1), you can use `type` API to set the theme of your link button
 
 :::
 
@@ -121,7 +121,7 @@ button/tag
 
 :::
 
-## Custom Color<VersionTag version="beta" />
+## Custom Color ^(beta)
 
 You can custom button color.
 
@@ -137,26 +137,26 @@ button/custom
 
 ### Button Attributes
 
-| Name                               | Description                                                             | Type                                                                            | Default |
-| ---------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------- |
-| size                               | button size                                                             | ^[enum]`'large'\| 'default'\| 'small'`                                          | —       |
-| type                               | button type                                                             | ^[enum]`'primary'\| 'success'\| 'warning'\| 'danger'\| 'info'\| 'text'(delete)` | —       |
-| plain                              | determine whether it's a plain button                                   | ^[boolean]                                                                      | false   |
-| text<VersionTag version="2.2.0" /> | determine whether it's a text button                                    | ^[boolean]                                                                      | false   |
-| bg<VersionTag version="2.2.0" />   | determine whether the text button background color is always on         | ^[boolean]                                                                      | false   |
-| link<VersionTag version="2.2.1" /> | determine whether it's a link button                                    | ^[boolean]                                                                      | false   |
-| round                              | determine whether it's a round button                                   | ^[boolean]                                                                      | false   |
-| circle                             | determine whether it's a circle button                                  | ^[boolean]                                                                      | false   |
-| loading                            | determine whether it's loading                                          | ^[boolean]                                                                      | false   |
-| loading-icon                       | customize loading icon component                                        | ^[string] / ^[Component]                                                        | Loading |
-| disabled                           | disable the button                                                      | ^[boolean]                                                                      | false   |
-| icon                               | icon component                                                          | ^[string] / ^[Component]                                                        | —       |
-| autofocus                          | same as native button's `autofocus`                                     | ^[boolean]                                                                      | false   |
-| native-type                        | same as native button's `type`                                          | ^[enum]`'button'\| 'submit'\| 'reset'`                                          | button  |
-| auto-insert-space                  | automatically insert a space between two chinese characters             | ^[boolean]                                                                      | —       |
-| color                              | custom button color, automatically calculate `hover` and `active` color | ^[string]                                                                       | —       |
-| dark                               | dark mode, which automatically converts `color` to dark mode colors     | ^[boolean]                                                                      | false   |
-| tag ^(2.3.0)                       | custom element tag                                                      | ^[string] / ^[Component]                                                        | button  |
+| Name              | Description                                                             | Type                                                                            | Default |
+| ----------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------- |
+| size              | button size                                                             | ^[enum]`'large'\| 'default'\| 'small'`                                          | —       |
+| type              | button type                                                             | ^[enum]`'primary'\| 'success'\| 'warning'\| 'danger'\| 'info'\| 'text'(delete)` | —       |
+| plain             | determine whether it's a plain button                                   | ^[boolean]                                                                      | false   |
+| text ^(2.2.0)     | determine whether it's a text button                                    | ^[boolean]                                                                      | false   |
+| bg ^(2.2.0)       | determine whether the text button background color is always on         | ^[boolean]                                                                      | false   |
+| link ^(2.2.1)     | determine whether it's a link button                                    | ^[boolean]                                                                      | false   |
+| round             | determine whether it's a round button                                   | ^[boolean]                                                                      | false   |
+| circle            | determine whether it's a circle button                                  | ^[boolean]                                                                      | false   |
+| loading           | determine whether it's loading                                          | ^[boolean]                                                                      | false   |
+| loading-icon      | customize loading icon component                                        | ^[string] / ^[Component]                                                        | Loading |
+| disabled          | disable the button                                                      | ^[boolean]                                                                      | false   |
+| icon              | icon component                                                          | ^[string] / ^[Component]                                                        | —       |
+| autofocus         | same as native button's `autofocus`                                     | ^[boolean]                                                                      | false   |
+| native-type       | same as native button's `type`                                          | ^[enum]`'button'\| 'submit'\| 'reset'`                                          | button  |
+| auto-insert-space | automatically insert a space between two chinese characters             | ^[boolean]                                                                      | —       |
+| color             | custom button color, automatically calculate `hover` and `active` color | ^[string]                                                                       | —       |
+| dark              | dark mode, which automatically converts `color` to dark mode colors     | ^[boolean]                                                                      | false   |
+| tag ^(2.3.4)      | custom element tag                                                      | ^[string] / ^[Component]                                                        | button  |
 
 ### Button Slots
 

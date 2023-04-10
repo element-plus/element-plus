@@ -82,7 +82,7 @@ const HeaderCellRenderer: FunctionalComponent<HeaderCellRendererProps> = (
 
   // For now we don't deliver resizable column feature since it has some UX issue.
   return (
-    <div {...cellWrapperProps}>
+    <div {...cellWrapperProps} role="columnheader">
       {Cell}
 
       {sortable && (

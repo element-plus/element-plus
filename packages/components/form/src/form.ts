@@ -104,6 +104,12 @@ export const formProps = buildProps({
    * @description When validation fails, scroll to the first error form entry.
    */
   scrollToError: Boolean,
+  /**
+   * @description When validation fails, it scrolls to the first error item based on the scrollIntoView option.
+   */
+  scrollIntoViewOptions: {
+    type: [Object, Boolean],
+  },
 } as const)
 export type FormProps = ExtractPropTypes<typeof formProps>
 export type FormMetaProps = ExtractPropTypes<typeof formMetaProps>

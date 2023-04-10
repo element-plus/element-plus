@@ -2,6 +2,7 @@
 import { h, inject, ref } from 'vue'
 import { debounce } from 'lodash-unified'
 import { getStyle, hasClass } from '@element-plus/utils'
+import { useZIndex } from '@element-plus/hooks'
 import { createTablePopper, getCell, getColumnByCell } from '../util'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -12,6 +13,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
   const parent = inject(TABLE_INJECTION_KEY)
   const tooltipContent = ref('')
   const tooltipTrigger = ref(h('div'))
+  const { nextZIndex } = useZIndex()
   const handleEvent = (event: Event, row: T, name: string) => {
     const table = parent
     const cell = getCell(event)
@@ -112,6 +114,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
         parent?.refs.tableWrapper,
         cell,
         cell.innerText || cell.textContent,
+        nextZIndex,
         tooltipOptions
       )
     }

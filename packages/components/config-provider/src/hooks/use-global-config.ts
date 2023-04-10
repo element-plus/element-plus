@@ -2,8 +2,13 @@ import { computed, getCurrentInstance, inject, provide, ref, unref } from 'vue'
 import { debugWarn, keysOf } from '@element-plus/utils'
 import {
   SIZE_INJECTION_KEY,
+  defaultInitialZIndex,
+  defaultNamespace,
   localeContextKey,
   namespaceContextKey,
+  useLocale,
+  useNamespace,
+  useZIndex,
   zIndexContextKey,
 } from '@element-plus/hooks'
 import { configProviderContextKey } from '../constants'
@@ -36,6 +41,33 @@ export function useGlobalConfig(
     return computed(() => config.value?.[key] ?? defaultValue)
   } else {
     return config
+  }
+}
+
+// for components like `ElMessage` `ElNotification` `ElMessageBox`.
+export function useGlobalComponentSettings(
+  block: string,
+  sizeFallback?: MaybeRef<ConfigProviderContext['size']>
+) {
+  const config = useGlobalConfig()
+
+  const ns = useNamespace(
+    block,
+    computed(() => config.value?.namespace || defaultNamespace)
+  )
+
+  const locale = useLocale(computed(() => config.value?.locale))
+  const zIndex = useZIndex(
+    computed(() => config.value?.zIndex || defaultInitialZIndex)
+  )
+  const size = computed(() => unref(sizeFallback) || config.value?.size || '')
+  provideGlobalConfig(computed(() => unref(config) || {}))
+
+  return {
+    ns,
+    locale,
+    zIndex,
+    size,
   }
 }
 

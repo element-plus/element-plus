@@ -639,6 +639,7 @@ const createGrid = ({
           {
             key: 0,
             class: ns.e('wrapper'),
+            role: props.role,
           },
           [
             h(
