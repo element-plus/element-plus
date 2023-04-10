@@ -84,8 +84,8 @@ const {
   hasLabel,
   hover,
   isCardType,
-  items,
   isVertical,
+  items,
   carouselStyle,
   containerStyle,
   handleButtonEnter,
@@ -114,7 +114,10 @@ const indicatorsClasses = computed(() => {
   if (unref(hasLabel)) {
     classes.push(ns.em('indicators', 'labels'))
   }
-  if (props.indicatorPosition === 'outside') {
+  if (
+    props.indicatorPosition === 'outside' ||
+    (unref(isCardType) && !unref(isVertical))
+  ) {
     classes.push(ns.em('indicators', 'outside'))
   }
   if (props.indicatorPosition === 'inside') {
