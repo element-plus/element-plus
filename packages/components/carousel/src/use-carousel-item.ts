@@ -140,11 +140,10 @@ export const useCarouselItem = (
     ready.value = true
 
     if (isActive && carouselItemRef.value) {
-      if (_isVertical) {
-        carouselContext.setContainerHeight(carouselItemRef.value.offsetWidth)
-      } else {
-        carouselContext.setContainerHeight(carouselItemRef.value.offsetHeight)
-      }
+      const height = _isVertical
+        ? carouselItemRef.value.offsetWidth
+        : carouselItemRef.value.offsetHeight
+      carouselContext.setContainerHeight(height)
     }
   }
 
