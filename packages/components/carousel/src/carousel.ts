@@ -28,10 +28,6 @@ export const carouselProps = buildProps({
     values: ['', 'none', 'outside', 'inside'],
     default: '',
   },
-  indicator: {
-    type: Boolean,
-    default: true,
-  },
   arrow: {
     type: String,
     values: ['always', 'hover', 'never'],

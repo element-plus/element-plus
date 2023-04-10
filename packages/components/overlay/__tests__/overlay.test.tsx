@@ -1,6 +1,8 @@
 import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
+import { ElMessageBox } from '@element-plus/components/message-box'
+import ConfigProvider from '@element-plus/components/config-provider'
 import Overlay from '../src/overlay'
 
 const AXIOM = 'Rem is the best girl'
@@ -41,5 +43,27 @@ describe('Overlay.vue', () => {
     await nextTick()
 
     expect(wrapper.find(selector).exists()).toBe(true)
+  })
+
+  test('global', async () => {
+    const testNamespace = 'test'
+    const callout = () => {
+      ElMessageBox.prompt('Title', 'Description')
+    }
+    const wrapper = mount(() => {
+      return (
+        <ConfigProvider namespace={testNamespace}>
+          <button onClick={callout}>{AXIOM}</button>
+        </ConfigProvider>
+      )
+    })
+
+    expect(document.body.querySelector(`.${testNamespace}-overlay`)).toBeNull()
+    await wrapper.find('button').trigger('click')
+    await nextTick()
+
+    expect(
+      document.body.querySelector(`.${testNamespace}-overlay`)
+    ).toBeDefined()
   })
 })

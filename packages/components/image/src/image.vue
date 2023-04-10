@@ -1,28 +1,30 @@
 <template>
   <div ref="container" :class="[ns.b(), $attrs.class]" :style="containerStyle">
-    <img
-      v-if="imageSrc !== undefined && !hasLoadError"
-      v-bind="attrs"
-      :src="imageSrc"
-      :loading="loading"
-      :style="imageStyle"
-      :class="[
-        ns.e('inner'),
-        preview && ns.e('preview'),
-        isLoading && ns.is('loading'),
-      ]"
-      @click="clickHandler"
-      @load="handleLoad"
-      @error="handleError"
-    />
-    <div v-if="isLoading || hasLoadError" :class="ns.e('wrapper')">
-      <slot v-if="isLoading" name="placeholder">
-        <div :class="ns.e('placeholder')" />
-      </slot>
-      <slot v-else-if="hasLoadError" name="error">
-        <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
-      </slot>
-    </div>
+    <slot v-if="hasLoadError" name="error">
+      <div :class="ns.e('error')">{{ t('el.image.error') }}</div>
+    </slot>
+    <template v-else>
+      <img
+        v-if="imageSrc !== undefined"
+        v-bind="attrs"
+        :src="imageSrc"
+        :loading="loading"
+        :style="imageStyle"
+        :class="[
+          ns.e('inner'),
+          preview && ns.e('preview'),
+          isLoading && ns.is('loading'),
+        ]"
+        @click="clickHandler"
+        @load="handleLoad"
+        @error="handleError"
+      />
+      <div v-if="isLoading" :class="ns.e('wrapper')">
+        <slot name="placeholder">
+          <div :class="ns.e('placeholder')" />
+        </slot>
+      </div>
+    </template>
     <template v-if="preview">
       <image-viewer
         v-if="showViewer"

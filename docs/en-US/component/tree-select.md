@@ -108,6 +108,6 @@ and please go to the original component to view the documentation.
 
 ### Own Attributes
 
-| Name                                     | Description                                                                                                         | Type  | Accepted Values | Default |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----- | --------------- | ------- |
+| Name                      | Description                                                                                                         | Type  | Accepted Values | Default |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------- | ----- | --------------- | ------- |
 | cacheData **(\> 2.2.26)** | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | array | —               | —       |

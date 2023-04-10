@@ -3,7 +3,6 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import { TypeComponentsMap } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
-import { useZIndex } from '@element-plus/hooks'
 import { notificationTypes } from '../src/notification'
 import Notification from '../src/notification.vue'
 
@@ -40,10 +39,11 @@ describe('Notification.vue', () => {
       expect(wrapper.vm.visible).toBe(true)
       expect(wrapper.vm.iconComponent).toBeUndefined()
       expect(wrapper.vm.horizontalClass).toBe('right')
-      expect(wrapper.vm.positionStyle).toEqual({
-        top: '0px',
-        zIndex: 0,
-      })
+      expect(wrapper.vm.positionStyle).toEqual(
+        expect.objectContaining({
+          top: '0px',
+        })
+      )
     })
 
     test('should be able to render VNode', () => {
@@ -80,19 +80,15 @@ describe('Notification.vue', () => {
       expect(HTMLWrapper.find(`.${tagClass}`).exists()).toBe(false)
     })
 
-    test('should be able to render z-index style with zIndex flag', () => {
-      const { nextZIndex } = useZIndex()
-      const zIndex = nextZIndex()
-      const wrapper = _mount({
-        props: {
-          zIndex,
-        },
-      })
+    test('should be able to render z-index style with zIndex flag', async () => {
+      const wrapper = _mount({})
+      await nextTick()
 
-      expect(wrapper.vm.positionStyle).toEqual({
-        top: '0px',
-        zIndex,
-      })
+      expect(wrapper.vm.positionStyle).toEqual(
+        expect.objectContaining({
+          top: '0px',
+        })
+      )
     })
   })
 

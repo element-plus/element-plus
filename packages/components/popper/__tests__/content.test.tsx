@@ -1,7 +1,7 @@
 import { computed, defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
+import { POPPER_INJECTION_KEY } from '@element-plus/components/popper'
 import ElContent from '../src/content.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
