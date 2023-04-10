@@ -65,6 +65,15 @@ export const useCarousel = (
     }
   })
 
+  const carouselStyle = computed(() => {
+    if (unref(isCardType) && unref(isVertical)) {
+      return {
+        width: props.height,
+      }
+    }
+    return {}
+  })
+
   // methods
   const throttledArrowClick = throttle(
     (index: number) => {
@@ -267,6 +276,7 @@ export const useCarousel = (
     isVertical,
     items,
     loop: props.loop,
+    cardScale: props.cardScale,
     addItem,
     removeItem,
     setActiveItem,
@@ -281,6 +291,8 @@ export const useCarousel = (
     hover,
     isCardType,
     items,
+    isVertical,
+    carouselStyle,
     containerStyle,
     handleButtonEnter,
     handleButtonLeave,

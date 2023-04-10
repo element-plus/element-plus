@@ -8,7 +8,10 @@
       ns.is('in-stage', inStage),
       ns.is('hover', hover),
       ns.is('animating', animating),
-      { [ns.em('item', 'card')]: isCardType },
+      {
+        [ns.em('item', 'card')]: isCardType,
+        [ns.em('item', 'card-vertical')]: isCardType && isVertical,
+      },
     ]"
     :style="itemStyle"
     @click="handleItemClick"
@@ -25,6 +28,7 @@ import { carouselItemProps } from './carousel-item'
 import { useCarouselItem } from './use-carousel-item'
 
 import type { CSSProperties } from 'vue'
+import type { ItemStyle } from './carousel-item'
 
 defineOptions({
   name: 'ElCarouselItem',
@@ -45,6 +49,7 @@ const {
   isCardType,
   scale,
   ready,
+  zIndex,
   handleItemClick,
 } = useCarouselItem(props, COMPONENT_NAME)
 
@@ -53,9 +58,12 @@ const itemStyle = computed<CSSProperties>(() => {
   const _translate = `${translateType}(${unref(translate)}px)`
   const _scale = `scale(${unref(scale)})`
   const transform = [_translate, _scale].join(' ')
-
-  return {
+  const styles: ItemStyle = {
     transform,
   }
+  if (unref(isCardType) && unref(zIndex)) {
+    styles.zIndex = unref(zIndex)
+  }
+  return styles
 })
 </script>
