@@ -362,7 +362,6 @@ type Shortcut = {
 }
 
 const arrangeDatesShortcuts = (selectedValue: Dayjs) => {
-  const isAlreadyArray = Array.isArray(props.parsedValue)
   if (!isArray(props.parsedValue)) {
     return emit([selectedValue], true)
   }
