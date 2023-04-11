@@ -363,7 +363,7 @@ type Shortcut = {
 
 const arrangeDatesShortcuts = (selectedValue: Dayjs) => {
   const isAlreadyArray = Array.isArray(props.parsedValue)
-  if (!isAlreadyArray) {
+  if (!isArray(props.parsedValue)) {
     return emit([selectedValue], true)
   }
   const valueOfParsedValue: string[] = (props.parsedValue as Dayjs[]).map(
