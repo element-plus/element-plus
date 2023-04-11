@@ -111,6 +111,16 @@ button/size
 
 :::
 
+## Tag ^(2.3.4)
+
+You can custom element tag, For example button, div, a, router-link, nuxt-link.
+
+:::demo
+
+button/tag
+
+:::
+
 ## Custom Color ^(beta)
 
 You can custom button color.
@@ -146,6 +156,7 @@ button/custom
 | auto-insert-space | automatically insert a space between two chinese characters             | ^[boolean]                                                                      | —       |
 | color             | custom button color, automatically calculate `hover` and `active` color | ^[string]                                                                       | —       |
 | dark              | dark mode, which automatically converts `color` to dark mode colors     | ^[boolean]                                                                      | false   |
+| tag ^(2.3.4)      | custom element tag                                                      | ^[string] / ^[Component]                                                        | button  |
 
 ### Button Slots
 
