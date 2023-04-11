@@ -1,6 +1,5 @@
 import { createVNode, render } from 'vue'
 import { isClient } from '@vueuse/core'
-import { useZIndex } from '@element-plus/hooks'
 import { debugWarn, isElement, isString, isVNode } from '@element-plus/utils'
 import NotificationConstructor from './notification.vue'
 import { notificationTypes } from './notification'
@@ -45,13 +44,10 @@ const notify: NotifyFn & Partial<Notify> & { _context: AppContext | null } =
     })
     verticalOffset += GAP_SIZE
 
-    const { nextZIndex } = useZIndex()
-
     const id = `notification_${seed++}`
     const userOnClose = options.onClose
     const props: Partial<NotificationProps> = {
       ...options,
-      zIndex: nextZIndex(),
       offset: verticalOffset,
       id,
       onClose: () => {

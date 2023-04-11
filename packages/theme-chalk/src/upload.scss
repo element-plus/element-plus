@@ -261,13 +261,6 @@
     }
   }
 
-  @include when(disabled) {
-    .#{bem('upload-list', 'item')}:hover,
-    .#{bem('upload-list', 'item-status-label')} {
-      display: block;
-    }
-  }
-
   @include e(item-name) {
     color: getCssVar('text-color', 'regular');
     display: inline-flex;
@@ -451,7 +444,7 @@
       &:hover {
         .#{bem('upload-list', 'item-status-label')} {
           opacity: 0;
-          display: block;
+          display: inline-flex;
         }
 
         .#{bem('progress', 'text')} {

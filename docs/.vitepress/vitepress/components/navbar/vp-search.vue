@@ -72,19 +72,19 @@ function initialize(userOptions: any) {
       // }),
 
       navigator: {
-        navigate: ({ suggestionUrl }: { suggestionUrl: string }) => {
+        navigate: ({ itemUrl }: { itemUrl: string }) => {
           if (!isClient) return
 
           const { pathname: hitPathname } = new URL(
-            window.location.origin + suggestionUrl
+            window.location.origin + itemUrl
           )
 
           // Router doesn't handle same-page navigation so we use the native
           // browser location API for anchor navigation
           if (route.path === hitPathname) {
-            window.location.assign(window.location.origin + suggestionUrl)
+            window.location.assign(window.location.origin + itemUrl)
           } else {
-            router.go(suggestionUrl)
+            router.go(itemUrl)
           }
         },
       },
@@ -170,6 +170,7 @@ function initialize(userOptions: any) {
 
 .DocSearch {
   --docsearch-primary-color: var(--brand-color);
+  --docsearch-highlight-color: var(--brand-color);
   --docsearch-key-gradient: rgba(125, 125, 125, 0.1);
   // --docsearch-key-shadow: rgba(125, 125, 125, 0.3);
   --docsearch-footer-height: 44px;
@@ -178,6 +179,7 @@ function initialize(userOptions: any) {
     0 -3px 6px 0 rgba(69, 98, 155, 0.12);
   --docsearch-searchbox-background: rgba(var(--bg-color-rgb), 0.8);
   --docsearch-searchbox-focus-background: var(--bg-color-mute);
+  --docsearch-searchbox-shadow: inset 0 0 0 2px var(--brand-color);
   --docsearch-muted-color: var(--text-color-lighter);
   --docsearch-text-color: var(--text-color-light);
   --docsearch-modal-background: var(--bg-color-soft);
@@ -205,6 +207,9 @@ function initialize(userOptions: any) {
     --docsearch-key-shadow: none;
     --docsearch-modal-shadow: none;
     --docsearch-footer-shadow: none;
+    --docsearch-hit-background: var(--bg-color-mute);
+    --docsearch-hit-color: var(--text-color-lighter);
+    --docsearch-hit-shadow: none;
     // --docsearch-searchbox-focus-background: var(--bg-color-mute);
     .DocSearch-Button {
       .DocSearch-Button-Key {

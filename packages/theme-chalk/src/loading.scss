@@ -11,8 +11,6 @@
 @include b(loading-parent) {
   @include m(relative) {
     position: relative !important;
-    pointer-events: none;
-    user-select: none;
   }
 
   @include m(hidden) {

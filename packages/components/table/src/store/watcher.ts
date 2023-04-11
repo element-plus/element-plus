@@ -60,6 +60,7 @@ function useWatcher<T>() {
   const leafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const fixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const rightFixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
+  const updateOrderFns: (() => void)[] = []
   const leafColumnsLength = ref(0)
   const fixedLeafColumnsLength = ref(0)
   const rightFixedLeafColumnsLength = ref(0)
@@ -84,8 +85,19 @@ function useWatcher<T>() {
     if (!rowKey.value) throw new Error('[ElTable] prop row-key is required')
   }
 
+  // 更新 fixed
+  const updateChildFixed = (column: TableColumnCtx<T>) => {
+    column.children?.forEach((childColumn) => {
+      childColumn.fixed = column.fixed
+      updateChildFixed(childColumn)
+    })
+  }
+
   // 更新列
   const updateColumns = () => {
+    _columns.value.forEach((column) => {
+      updateChildFixed(column)
+    })
     fixedColumns.value = _columns.value.filter(
       (column) => column.fixed === true || column.fixed === 'left'
     )
@@ -506,6 +518,7 @@ function useWatcher<T>() {
       leafColumns,
       fixedLeafColumns,
       rightFixedLeafColumns,
+      updateOrderFns,
       leafColumnsLength,
       fixedLeafColumnsLength,
       rightFixedLeafColumnsLength,

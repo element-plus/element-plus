@@ -14,7 +14,6 @@
     :transition="`${ns.namespace.value}-zoom-in-top`"
     persistent
     @before-show="onSuggestionShow"
-    @show="onShow"
     @hide="onHide"
   >
     <div
@@ -29,6 +28,9 @@
       <el-input
         ref="inputRef"
         v-bind="attrs"
+        :clearable="clearable"
+        :disabled="disabled"
+        :name="name"
         :model-value="modelValue"
         @input="handleInput"
         @change="handleChange"
@@ -74,7 +76,9 @@
           role="listbox"
         >
           <li v-if="suggestionLoading">
-            <el-icon :class="ns.is('loading')"><Loading /></el-icon>
+            <el-icon :class="ns.is('loading')">
+              <Loading />
+            </el-icon>
           </li>
           <template v-else>
             <li
@@ -106,7 +110,7 @@ import {
 import { debounce } from 'lodash-unified'
 import { onClickOutside } from '@vueuse/core'
 import { Loading } from '@element-plus/icons-vue'
-import { useAttrs, useDisabled, useNamespace } from '@element-plus/hooks'
+import { useAttrs, useNamespace } from '@element-plus/hooks'
 import { generateId, isArray, throwError } from '@element-plus/utils'
 import {
   CHANGE_EVENT,
@@ -117,6 +121,7 @@ import ElInput from '@element-plus/components/input'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElIcon from '@element-plus/components/icon'
+import { useFormDisabled } from '@element-plus/components/form'
 import { autocompleteEmits, autocompleteProps } from './autocomplete'
 import type { AutocompleteData } from './autocomplete'
 
@@ -135,7 +140,7 @@ const emit = defineEmits(autocompleteEmits)
 
 const attrs = useAttrs()
 const rawAttrs = useRawAttrs()
-const disabled = useDisabled()
+const disabled = useFormDisabled()
 const ns = useNamespace('autocomplete')
 
 const inputRef = ref<InputInstance>()
@@ -178,12 +183,7 @@ const onSuggestionShow = async () => {
   }
 }
 
-const onShow = () => {
-  ignoreFocusEvent = true
-}
-
 const onHide = () => {
-  ignoreFocusEvent = false
   highlightedIndex.value = -1
 }
 
@@ -245,19 +245,29 @@ const handleChange = (value: string) => {
 }
 
 const handleFocus = (evt: FocusEvent) => {
-  if (ignoreFocusEvent) return
+  if (!ignoreFocusEvent) {
+    activated.value = true
+    emit('focus', evt)
 
-  activated.value = true
-  emit('focus', evt)
-  // fix https://github.com/element-plus/element-plus/issues/8278
-  if (props.triggerOnFocus && !readonly) {
-    debouncedGetData(String(props.modelValue))
+    if (props.triggerOnFocus && !readonly) {
+      debouncedGetData(String(props.modelValue))
+    }
+  } else {
+    ignoreFocusEvent = false
   }
 }
 
 const handleBlur = (evt: FocusEvent) => {
-  if (ignoreFocusEvent) return
-  emit('blur', evt)
+  setTimeout(() => {
+    // validate current focus event is inside el-tooltip-content
+    // if so, ignore the blur event and the next focus event
+    if (popperRef.value?.isFocusInsideContent()) {
+      ignoreFocusEvent = true
+      return
+    }
+    activated.value && close()
+    emit('blur', evt)
+  })
 }
 
 const handleClear = () => {

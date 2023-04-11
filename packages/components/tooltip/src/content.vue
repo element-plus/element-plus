@@ -1,7 +1,7 @@
 <template>
   <teleport :disabled="!teleported" :to="appendTo">
     <transition
-      :name="transition"
+      :name="transitionClass"
       @after-leave="onTransitionLeave"
       @before-enter="onBeforeEnter"
       @after-enter="onAfterShow"
@@ -36,7 +36,6 @@
         @blur="onBlur"
         @close="onClose"
       >
-        <!-- Workaround bug #6378 -->
         <template v-if="!destroyed">
           <slot />
         </template>
@@ -48,9 +47,10 @@
 <script lang="ts" setup>
 import { computed, inject, onBeforeUnmount, ref, unref, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
+import { useNamespace, usePopperContainerId } from '@element-plus/hooks'
 import { composeEventHandlers } from '@element-plus/utils'
 import { ElPopperContent } from '@element-plus/components/popper'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { TOOLTIP_INJECTION_KEY } from './constants'
 import { useTooltipContentProps } from './content'
 
 defineOptions({
@@ -59,6 +59,9 @@ defineOptions({
 })
 
 const props = defineProps(useTooltipContentProps)
+
+const { selector } = usePopperContainerId()
+const ns = useNamespace('tooltip')
 // TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
 const contentRef = ref<any>(null)
 const destroyed = ref(false)
@@ -74,6 +77,9 @@ const {
   onBeforeShow,
   onBeforeHide,
 } = inject(TOOLTIP_INJECTION_KEY, undefined)!
+const transitionClass = computed(() => {
+  return props.transition || `${ns.namespace.value}-fade-in-linear`
+})
 const persistentRef = computed(() => {
   // For testing, we would always want the content to be rendered
   // to the DOM, so we need to return true here.
@@ -93,6 +99,10 @@ const shouldRender = computed(() => {
 
 const shouldShow = computed(() => {
   return props.disabled ? false : unref(open)
+})
+
+const appendTo = computed(() => {
+  return props.appendTo || selector.value
 })
 
 const contentStyle = computed(() => (props.style ?? {}) as any)
@@ -161,6 +171,13 @@ watch(
   },
   {
     flush: 'post',
+  }
+)
+
+watch(
+  () => props.content,
+  () => {
+    contentRef.value?.updatePopper?.()
   }
 )
 

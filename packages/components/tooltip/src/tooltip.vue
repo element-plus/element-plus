@@ -30,7 +30,7 @@
       :raw-content="rawContent"
       :reference-el="referenceEl"
       :trigger-target-el="triggerTargetEl"
-      :show-after="compatShowAfter"
+      :show-after="showAfter"
       :strategy="strategy"
       :teleported="teleported"
       :transition="transition"
@@ -42,7 +42,7 @@
         <span v-if="rawContent" v-html="content" />
         <span v-else>{{ content }}</span>
       </slot>
-      <el-popper-arrow v-if="compatShowArrow" :arrow-offset="arrowOffset" />
+      <el-popper-arrow v-if="showArrow" :arrow-offset="arrowOffset" />
     </el-tooltip-content>
   </el-popper>
 </template>
@@ -60,16 +60,17 @@ import {
 } from 'vue'
 import { ElPopper, ElPopperArrow } from '@element-plus/components/popper'
 
-import { debugWarn, isBoolean, isUndefined } from '@element-plus/utils'
+import { isBoolean } from '@element-plus/utils'
 import {
   useDelayedToggle,
   useId,
   usePopperContainer,
 } from '@element-plus/hooks'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { TOOLTIP_INJECTION_KEY } from './constants'
 import { tooltipEmits, useTooltipModelToggle, useTooltipProps } from './tooltip'
 import ElTooltipTrigger from './trigger.vue'
 import ElTooltipContent from './content.vue'
+import type { PopperInstance } from '@element-plus/components/popper'
 
 defineOptions({
   name: 'ElTooltip',
@@ -79,29 +80,10 @@ const props = defineProps(useTooltipProps)
 const emit = defineEmits(tooltipEmits)
 
 usePopperContainer()
-const compatShowAfter = computed(() => {
-  if (!isUndefined(props.openDelay)) {
-    debugWarn(
-      'ElTooltip',
-      'open-delay is about to be deprecated in the next major version, please use `show-after` instead'
-    )
-  }
-  return props.openDelay || (props.showAfter as number)
-})
-const compatShowArrow = computed(() => {
-  if (!isUndefined(props.visibleArrow)) {
-    debugWarn(
-      'ElTooltip',
-      '`visible-arrow` is about to be deprecated in the next major version, please use `show-arrow` instead'
-    )
-  }
-  return isBoolean(props.visibleArrow) ? props.visibleArrow : props.showArrow
-})
 
 const id = useId()
-// TODO any is temporary, replace with `InstanceType<typeof ElPopper> | null` later
-const popperRef = ref<any>()
-// TODO any is temporary, replace with `InstanceType<typeof ElTooltipContent> | null` later
+const popperRef = ref<PopperInstance>()
+// TODO any is temporary, replace with `TooltipContentInstance` later
 const contentRef = ref<any>()
 
 const updatePopper = () => {
@@ -119,8 +101,9 @@ const { show, hide, hasUpdateHandler } = useTooltipModelToggle({
 })
 
 const { onOpen, onClose } = useDelayedToggle({
-  showAfter: compatShowAfter,
+  showAfter: toRef(props, 'showAfter'),
   hideAfter: toRef(props, 'hideAfter'),
+  autoClose: toRef(props, 'autoClose'),
   open: show,
   close: hide,
 })

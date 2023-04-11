@@ -1,13 +1,5 @@
 <template>
-  <label
-    :class="[
-      ns.b('button'),
-      ns.bm('button', checkboxButtonSize),
-      ns.is('disabled', isDisabled),
-      ns.is('checked', isChecked),
-      ns.is('focus', isFocused),
-    ]"
-  >
+  <label :class="labelKls">
     <input
       v-if="trueLabel || falseLabel"
       v-model="model"
@@ -49,7 +41,7 @@
 <script lang="ts" setup>
 import { computed, inject, useSlots } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { checkboxGroupContextKey } from '@element-plus/tokens'
+import { checkboxGroupContextKey } from './constants'
 import { useCheckbox } from './composables'
 import { checkboxEmits, checkboxProps } from './checkbox'
 
@@ -82,5 +74,15 @@ const activeStyle = computed<CSSProperties>(() => {
     color: checkboxGroup?.textColor?.value ?? '',
     boxShadow: fillValue ? `-1px 0 0 0 ${fillValue}` : undefined,
   }
+})
+
+const labelKls = computed(() => {
+  return [
+    ns.b('button'),
+    ns.bm('button', checkboxButtonSize.value),
+    ns.is('disabled', isDisabled.value),
+    ns.is('checked', isChecked.value),
+    ns.is('focus', isFocused.value),
+  ]
 })
 </script>

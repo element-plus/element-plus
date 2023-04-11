@@ -13,7 +13,7 @@ import {
   useEventListener,
   useWindowSize,
 } from '@vueuse/core'
-import { getScrollContainer, throwError } from '@element-plus/utils'
+import { addUnit, getScrollContainer, throwError } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { affixEmits, affixProps } from './affix'
 import type { CSSProperties } from 'vue'
@@ -55,7 +55,7 @@ const rootStyle = computed<CSSProperties>(() => {
 const affixStyle = computed<CSSProperties>(() => {
   if (!fixed.value) return {}
 
-  const offset = props.offset ? `${props.offset}px` : 0
+  const offset = props.offset ? addUnit(props.offset) : 0
   return {
     height: `${rootHeight.value}px`,
     width: `${rootWidth.value}px`,

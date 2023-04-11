@@ -6,3 +6,4 @@ export const ElSlider = withInstall(Slider)
 export default ElSlider
 
 export * from './src/slider'
+export * from './src/constants'

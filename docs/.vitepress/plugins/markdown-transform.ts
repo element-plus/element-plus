@@ -58,9 +58,14 @@ const combineMarkdown = (
   headers: string[],
   footers: string[]
 ) => {
-  const frontmatterEnds = code.indexOf('---\n\n') + 4
-  const firstSubheader = code.search(/\n## \w/)
-  const sliceIndex = firstSubheader < 0 ? frontmatterEnds : firstSubheader
+  const frontmatterEnds = code.indexOf('---\n\n')
+  const firstHeader = code.search(/\n#{1,6}\s.+/)
+  const sliceIndex =
+    firstHeader < 0
+      ? frontmatterEnds < 0
+        ? 0
+        : frontmatterEnds + 4
+      : firstHeader
 
   if (headers.length > 0)
     code =

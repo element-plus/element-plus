@@ -13,6 +13,9 @@ defineOptions({
   name: 'ElFooter',
 })
 const props = defineProps({
+  /**
+   * @description height of the footer
+   */
   height: {
     type: String,
     default: null,

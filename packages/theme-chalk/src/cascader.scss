@@ -4,10 +4,42 @@
 @use 'mixins/var' as *;
 @use 'common/var' as *;
 
+@mixin cascader-tag-normal($background-color) {
+  .#{$namespace}-tag {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    margin: 2px 0 2px 6px;
+    text-overflow: ellipsis;
+    background: $background-color;
+
+    &:not(.is-hit) {
+      border-color: transparent;
+    }
+
+    > span {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .#{$namespace}-icon-close {
+      flex: none;
+      background-color: getCssVar('text-color', 'placeholder');
+      color: getCssVar('color-white');
+
+      &:hover {
+        background-color: getCssVar('text-color', 'secondary');
+      }
+    }
+  }
+}
+
 @include b(cascader) {
   @include set-component-css-var('cascader', $cascader);
 
   display: inline-block;
+  vertical-align: middle;
   position: relative;
   font-size: getCssVar('font-size', 'base');
   line-height: map.get($input-height, 'default');
@@ -21,15 +53,12 @@
   }
 
   .#{$namespace}-input {
+    display: flex;
     cursor: pointer;
 
     .#{$namespace}-input__inner {
       text-overflow: ellipsis;
       cursor: pointer;
-
-      &::selection {
-        outline: none;
-      }
     }
 
     .#{$namespace}-input__suffix-inner {
@@ -114,49 +143,13 @@
     line-height: normal;
     text-align: left;
     box-sizing: border-box;
-
-    .#{$namespace}-tag {
-      display: inline-flex;
-      align-items: center;
-      max-width: 100%;
-      margin: 2px 0 2px 6px;
-      text-overflow: ellipsis;
-      background: getCssVar('cascader-tag-background');
-
-      &:not(.is-hit) {
-        border-color: transparent;
-      }
-
-      > span {
-        flex: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .#{$namespace}-icon-close {
-        flex: none;
-        background-color: getCssVar('text-color', 'placeholder');
-        color: getCssVar('color-white');
-
-        &:hover {
-          background-color: getCssVar('text-color', 'secondary');
-        }
-      }
-    }
+    @include cascader-tag-normal(getCssVar('cascader-tag-background'));
   }
 
   @include e(collapse-tags) {
     white-space: normal;
     z-index: getCssVar('index-normal');
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  @include e(collapse-tag) {
-    line-height: inherit;
-    height: inherit;
-    display: flex;
+    @include cascader-tag-normal(getCssVar('fill-color'));
   }
 
   @include e(suggestion-panel) {

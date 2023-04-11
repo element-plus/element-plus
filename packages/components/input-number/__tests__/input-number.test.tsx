@@ -48,6 +48,38 @@ describe('InputNumber.vue', () => {
     )
   })
 
+  // fix: #10328
+  test('Make sure the input action can trigger the modelValue update', async () => {
+    const num = ref<number>(0)
+    const handleUpdate = (data: number | undefined) => {
+      num.value = data!
+    }
+    const wrapper = mount(() => (
+      <InputNumber modelValue={num.value} onUpdate:modelValue={handleUpdate} />
+    ))
+    const el = wrapper.find('input').element
+    const simulateEvent = (text: string, event: string) => {
+      el.value = text
+      el.dispatchEvent(new Event(event))
+    }
+    simulateEvent('3', 'input')
+    await nextTick()
+    expect(num.value).toEqual(3)
+  })
+
+  // fix: #11963
+  test('Make sure modelValue correct update when no initial value', async () => {
+    const num = ref<number>()
+    const wrapper = mount(() => <InputNumber v-model={num.value} />)
+    const inputWrapper = wrapper.find('input')
+    const nativeInput = inputWrapper.element
+    nativeInput.value = '1'
+    await inputWrapper.trigger('input')
+    nativeInput.value = ''
+    await inputWrapper.trigger('input')
+    expect(num.value).toEqual(null)
+  })
+
   test('min', async () => {
     const num = ref(1)
     const wrapper = mount(() => <InputNumber min={3} v-model={num.value} />)
@@ -260,6 +292,14 @@ describe('InputNumber.vue', () => {
     expect(
       wrapper.getComponent(InputNumber).emitted('update:modelValue')
     ).toHaveLength(2)
+    await wrapper.find('input').setValue(0)
+    expect(wrapper.getComponent(InputNumber).emitted('change')).toHaveLength(3)
+    expect(wrapper.getComponent(InputNumber).emitted().change[2]).toEqual([
+      0, 2,
+    ])
+    expect(
+      wrapper.getComponent(InputNumber).emitted('update:modelValue')
+    ).toHaveLength(4)
   })
 
   test('blur-event', async () => {
