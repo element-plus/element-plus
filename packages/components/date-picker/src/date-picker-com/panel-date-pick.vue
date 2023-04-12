@@ -373,8 +373,8 @@ const arrangeDatesShortcuts = (selectedValue: Dayjs) => {
   )
   const dates =
     index > -1
-      ? castArray(props.parsedValue).filter((d, i) => i !== index)
-      : (castArray(props.parsedValue) as Dayjs[]).concat([selectedValue])
+      ? props.parsedValue.filter((d, i) => i !== index)
+      : props.parsedValue.concat([selectedValue])
 
   emit(dates, true)
 }
