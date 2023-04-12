@@ -1,6 +1,6 @@
 import { nextTick, reactive } from 'vue'
 import { mount } from '@vue/test-utils'
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import Carousel from '../src/carousel.vue'
 import CarouselItem from '../src/carousel-item.vue'
 
@@ -220,5 +220,42 @@ describe('Carousel', () => {
     data.forEach((value, index) => {
       expect(indicators[index].element.textContent).toEqual(value.toString())
     })
+  })
+  it('height is set to auto', async () => {
+    const data = [1, 2, 3]
+
+    wrapper = mount({
+      setup() {
+        return () => (
+          <div>
+            <Carousel height={'auto'} autoplay={false}>
+              {data.map((value) => (
+                <CarouselItem label={value} key={value} style="height: 100px">
+                  {value}
+                </CarouselItem>
+              ))}
+            </Carousel>
+          </div>
+        )
+      },
+    })
+
+    const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
+
+    const mockCarouselItemOffsetHeight = vi
+      .spyOn(items[0], 'offsetHeight', 'get')
+      .mockImplementation(() => 100)
+
+    await nextTick()
+
+    expect(items[0].classList.contains('is-active')).toBeTruthy()
+
+    const container = wrapper.find<HTMLElement>(
+      '.el-carousel__container'
+    ).element
+
+    expect(container.style.height).toBe('100px')
+
+    mockCarouselItemOffsetHeight.mockRestore()
   })
 })
