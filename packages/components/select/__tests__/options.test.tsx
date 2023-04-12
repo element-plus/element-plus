@@ -8,7 +8,7 @@ import type { VueWrapper } from '@vue/test-utils'
 
 describe('options', () => {
   let wrapper: ReturnType<typeof mount>
-  const onOptionsChange = vi.fn()
+  const onOptionsChange = vi.fn((v) => v.map((v: any) => v.props?.label))
 
   const ElOptionStub = defineComponent({
     name: 'ElOption',
@@ -59,8 +59,8 @@ describe('options', () => {
 
     await nextTick()
 
-    expect(onOptionsChange).toHaveBeenCalledWith(
-      ...[...[samples.map((_, i) => getLabel(i))]]
+    expect(onOptionsChange).toHaveReturnedWith(
+      samples.map((_, i) => getLabel(i))
     )
   })
 
@@ -82,7 +82,7 @@ describe('options', () => {
         )),
     })
 
-    expect(onOptionsChange).toHaveBeenCalledWith(
+    expect(onOptionsChange).toHaveReturnedWith(
       flatten(
         samples.map((_, i) => samples.map((_, j) => getLabel(`${i}-${j}`)))
       )

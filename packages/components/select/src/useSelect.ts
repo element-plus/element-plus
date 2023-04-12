@@ -29,7 +29,7 @@ import {
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
 import { useFormItem, useFormSize } from '@element-plus/components/form'
 
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, VNode } from 'vue'
 import type ElTooltip from '@element-plus/components/tooltip'
 import type { QueryChangeCtx, SelectOptionProxy } from './token'
 
@@ -97,7 +97,7 @@ export const useSelect = (props, states: States, ctx) => {
   const hoverOption = ref(-1)
   const queryChange = shallowRef<QueryChangeCtx>({ query: '' })
   const groupQueryChange = shallowRef('')
-  const optionList = ref<string[]>([])
+  const optionList = ref<VNode[]>([])
   let originClientHeight = 0
 
   const { form, formItem } = useFormItem()
@@ -161,7 +161,7 @@ export const useSelect = (props, states: States, ctx) => {
     const list = Array.from(states.options.values())
     const newList = []
     optionList.value.forEach((item) => {
-      const index = list.findIndex((i) => i.currentLabel === item)
+      const index = list.findIndex((i) => i.$el === item.el)
       if (index > -1) {
         newList.push(list[index])
       }
