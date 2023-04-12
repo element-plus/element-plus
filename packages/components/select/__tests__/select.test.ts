@@ -2050,7 +2050,7 @@ describe('Select', () => {
 
     Object.defineProperty(inputEl, 'clientHeight', {
       get() {
-        return Number.parsInt(getComputedStyle(inputEl).height)
+        return Number.parseInt(getComputedStyle(inputEl).height)
       },
     })
 
