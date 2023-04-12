@@ -51,15 +51,6 @@ export const carouselProps = buildProps({
     type: Boolean,
     default: true,
   },
-  cardScale: {
-    type: Number,
-    default: 0.83,
-  },
-  verticalIndicatorDirection: {
-    type: String,
-    values: ['left', 'right'],
-    default: 'left',
-  },
 } as const)
 
 export const carouselEmits = {

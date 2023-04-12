@@ -33,7 +33,7 @@ export const useCarouselItem = (
     )
   }
 
-  const CARD_SCALE = carouselContext.cardScale
+  const CARD_SCALE = 0.83
 
   const carouselItemRef = ref<HTMLElement>()
   const hover = ref(false)
@@ -143,6 +143,8 @@ export const useCarouselItem = (
       const height = _isVertical
         ? carouselItemRef.value.offsetWidth
         : carouselItemRef.value.offsetHeight
+
+      console.log('height', height)
       carouselContext.setContainerHeight(height)
     }
   }

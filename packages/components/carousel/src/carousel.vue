@@ -121,7 +121,7 @@ const indicatorsClasses = computed(() => {
     classes.push(ns.em('indicators', 'inside'))
   }
   if (unref(isVertical)) {
-    classes.push(ns.em('indicators', props.verticalIndicatorDirection))
+    classes.push(ns.em('indicators', 'right'))
   }
   return classes
 })
