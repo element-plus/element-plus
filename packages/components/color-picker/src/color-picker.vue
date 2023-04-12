@@ -217,6 +217,11 @@ function setShowPicker(value: boolean) {
 
 const debounceSetShowPicker = debounce(setShowPicker, 100)
 
+function show() {
+  if (colorDisabled.value) return
+  setShowPicker(true)
+}
+
 function hide() {
   debounceSetShowPicker(false)
   resetColor()
@@ -331,5 +336,13 @@ defineExpose({
    * @description current color object
    */
   color,
+  /**
+   * @description manually show ColorPicker
+   */
+  show,
+  /**
+   * @description manually hide ColorPicker
+   */
+  hide,
 })
 </script>
