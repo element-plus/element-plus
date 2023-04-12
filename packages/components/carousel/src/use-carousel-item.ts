@@ -144,7 +144,6 @@ export const useCarouselItem = (
         ? carouselItemRef.value.offsetWidth
         : carouselItemRef.value.offsetHeight
 
-      console.log('height', height)
       carouselContext.setContainerHeight(height)
     }
   }
