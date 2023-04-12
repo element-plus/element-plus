@@ -365,20 +365,18 @@ const arrangeDatesShortcuts = (selectedValue: Dayjs) => {
   if (!isArray(props.parsedValue)) {
     return emit([selectedValue], true)
   }
-  const valueOfParsedValue: string[] = (props.parsedValue as Dayjs[]).map(
-    (it) => dayjs(it).format('YYYY-MM-DD')
-  )
 
-  const isSelectedIndex = valueOfParsedValue.indexOf(
-    dayjs(selectedValue).format('YYYY-MM-DD')
+  const index = props.parsedValue.findIndex(
+    (date) =>
+      dayjs(date).format('YYYY-MM-DD') ===
+      dayjs(selectedValue).format('YYYY-MM-DD')
   )
+  const dates =
+    index > -1
+      ? castArray(props.parsedValue).filter((d, i) => i !== index)
+      : (castArray(props.parsedValue) as Dayjs[]).concat([selectedValue])
 
-  emit(
-    isSelectedIndex > -1
-      ? castArray(props.parsedValue).filter((d, i) => i !== isSelectedIndex)
-      : (castArray(props.parsedValue) as Dayjs[]).concat([selectedValue]),
-    true
-  )
+  emit(dates, true)
 }
 
 const handleShortcutClick = (shortcut: Shortcut) => {
