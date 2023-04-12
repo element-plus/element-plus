@@ -2048,6 +2048,12 @@ describe('Select', () => {
       },
     })
 
+    Object.defineProperty(inputEl, 'clientHeight', {
+      get() {
+        return Number.parsInt(getComputedStyle(inputEl).height)
+      },
+    })
+
     for (const size in sizeMap) {
       await wrapper.setProps({
         size,
