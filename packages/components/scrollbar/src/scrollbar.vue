@@ -33,7 +33,7 @@ import {
   ref,
   watch,
 } from 'vue'
-import { useEventListener, useResizeObserver } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import { GAP } from './util'
@@ -55,7 +55,6 @@ const emit = defineEmits(scrollbarEmits)
 const ns = useNamespace('scrollbar')
 
 let stopResizeObserver: (() => void) | undefined = undefined
-let stopResizeListener: (() => void) | undefined = undefined
 
 const scrollbarRef = ref<HTMLDivElement>()
 const wrapRef = ref<HTMLDivElement>()
@@ -153,10 +152,13 @@ watch(
   (noresize) => {
     if (noresize) {
       stopResizeObserver?.()
-      stopResizeListener?.()
     } else {
-      ;({ stop: stopResizeObserver } = useResizeObserver(resizeRef, update))
-      stopResizeListener = useEventListener('resize', update)
+      const { stop: resizeStop } = useResizeObserver(resizeRef, update)
+      const { stop: wrapResizeStop } = useResizeObserver(wrapRef, update)
+      stopResizeObserver = () => {
+        resizeStop()
+        wrapResizeStop()
+      }
     }
   },
   { immediate: true }
