@@ -3,12 +3,13 @@
     v-model="state"
     :fetch-suggestions="querySearchAsync"
     placeholder="Please input"
-    @select="handleSelect"
+    @select="handleSelect($event as LinkItem)"
   />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
+import type { AutocompleteFetchSuggestionsCallback } from 'element-plus'
 
 const state = ref('')
 
@@ -32,7 +33,10 @@ const loadAll = () => {
 }
 
 let timeout: NodeJS.Timeout
-const querySearchAsync = (queryString: string, cb: (arg: any) => void) => {
+const querySearchAsync = (
+  queryString: string,
+  cb: AutocompleteFetchSuggestionsCallback
+) => {
   const results = queryString
     ? links.value.filter(createFilter(queryString))
     : links.value
