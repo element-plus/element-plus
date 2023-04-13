@@ -94,6 +94,7 @@ const addStyle = async (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
+  // Compatible with the instance data format of vue@3.2.12 and earlier versions #12351
   const { nextZIndex } =
     ((instance.vm as any).zIndex as UseZIndexReturn) ||
     (instance.vm as any)._.exposed.zIndex
@@ -138,6 +139,7 @@ const addClassList = (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
+  // Compatible with the instance data format of vue@3.2.12 and earlier versions #12351
   const ns =
     ((instance.vm as any).ns as UseNamespaceReturn) ||
     (instance.vm as any)._.exposed.ns
