@@ -69,6 +69,14 @@ progress/indeterminate-progress
 
 :::
 
+## Striped progress
+
+:::demo Use `striped` attribute to set striped progress. You can use `striped-flow` to get the stripes to flow, with `duration` to control the animation duration.
+
+progress/striped-progress
+
+:::
+
 ## Attributes
 
 | Name           | Description                                                                           | Type                  | Accepted Values           | Default |
@@ -79,12 +87,14 @@ progress/indeterminate-progress
 | text-inside    | whether to place the percentage inside progress bar, only works when `type` is 'line' | boolean               | —                         | false   |
 | status         | the current status of progress bar                                                    | string                | success/exception/warning | —       |
 | indeterminate  | set indeterminate progress                                                            | boolean               | -                         | false   |
-| duration       | control the animation duration of indeterminate progress                              | number                | -                         | 3       |
+| duration       | control the animation duration of indeterminate progress or striped flow progress     | number                | -                         | 3       |
 | color          | background color of progress bar. Overrides `status` prop                             | string/function/array | —                         | ''      |
 | width          | the canvas width of circle progress bar                                               | number                | —                         | 126     |
 | show-text      | whether to show percentage                                                            | boolean               | —                         | true    |
 | stroke-linecap | circle/dashboard type shape at the end path                                           | string                | butt/round/square         | round   |
 | format         | custom text format                                                                    | function(percentage)  | —                         | —       |
+| striped        | stripe over the progress bar's color                                                  | boolean               | —                         | false   |
+| striped-flow   | get the stripes to flow                                                               | boolean               | —                         | false   |
 
 ## Slots
 
