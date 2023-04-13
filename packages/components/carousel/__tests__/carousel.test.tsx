@@ -242,9 +242,11 @@ describe('Carousel', () => {
 
     const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
 
-    const mockCarouselItemOffsetHeight = vi
-      .spyOn(items[0], 'offsetHeight', 'get')
-      .mockImplementation(() => 100)
+    Array.from<HTMLElement>(items).forEach((item) => {
+      vi.spyOn(item, 'offsetHeight', 'get').mockImplementation(() => {
+        return Number.parseFloat(window.getComputedStyle(item).height) || 0
+      })
+    })
 
     await nextTick()
 
@@ -255,7 +257,5 @@ describe('Carousel', () => {
     ).element
 
     expect(container.style.height).toBe('100px')
-
-    mockCarouselItemOffsetHeight.mockRestore()
   })
 })
