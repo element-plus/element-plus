@@ -21,6 +21,6 @@
     "consola": "^2.15.3"
   },
   "devDependencies": {
-    "unbuild": "^0.7.4"
+    "unbuild": "^1.2.1"
   }
 }
