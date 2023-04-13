@@ -116,7 +116,7 @@
     "vitest": "0.12.6",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16",
-    "vue-tsc": "^0.38.2"
+    "vue-tsc": "^1.2.0"
   },
   "engines": {
     "node": ">= 16"
@@ -134,8 +134,5 @@
         "react-dom"
       ]
     }
-  },
-  "lint-staged": {
-    "*.{vue,js,ts,jsx,tsx,md,json}": "eslint --fix"
   }
 }
