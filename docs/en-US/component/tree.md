@@ -197,6 +197,7 @@ tree/draggable
 
 ## Slots
 
-| Name | Description                                                            |
-| ---- | ---------------------------------------------------------------------- |
-| —    | Custom content for tree nodes. The scope parameter is `{ node, data }` |
+| Name  | Description                                                            |
+| ----- | ---------------------------------------------------------------------- |
+| —     | Custom content for tree nodes. The scope parameter is `{ node, data }` |
+| empty | empty you can customize content when data is empty.                    |
