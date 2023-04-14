@@ -130,9 +130,6 @@ export const useCarouselItem = (
       } else {
         zIndex.value = 0
       }
-      if (!unref(inStage)) {
-        zIndex.value = 0
-      }
     } else {
       translate.value = calcTranslate(index, activeIndex, _isVertical)
     }
