@@ -54,7 +54,7 @@ import {
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
-import { isClient, useEventListener, useThrottleFn } from '@vueuse/core'
+import { isClient, useDebounceFn, useEventListener } from '@vueuse/core'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
@@ -150,7 +150,7 @@ function handleLazyLoad() {
   }
 }
 
-const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
+const lazyLoadHandler = useDebounceFn(handleLazyLoad, 200)
 
 async function addLazyLoadListener() {
   if (!isClient) return
