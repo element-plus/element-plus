@@ -11,6 +11,9 @@ const useAutoResize = (props: AutoResizerProps) => {
   let resizerStopper: ReturnType<typeof useResizeObserver>['stop']
   onMounted(() => {
     resizerStopper = useResizeObserver(sizer, ([entry]) => {
+      // Prevent inactive elements under keep-alive from firing resize events
+      if (typeof document !== 'undefined' && !document.contains(sizer.value)) return;
+
       const { width, height } = entry.contentRect
       const { paddingLeft, paddingRight, paddingTop, paddingBottom } =
         getComputedStyle(entry.target)
