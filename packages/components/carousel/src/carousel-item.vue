@@ -49,7 +49,6 @@ const {
   isCardType,
   scale,
   ready,
-  zIndex,
   handleItemClick,
 } = useCarouselItem(props, COMPONENT_NAME)
 
@@ -60,9 +59,6 @@ const itemStyle = computed<CSSProperties>(() => {
   const transform = [_translate, _scale].join(' ')
   const styles: ItemStyle = {
     transform,
-  }
-  if (unref(isCardType) && unref(zIndex)) {
-    styles.zIndex = unref(zIndex)
   }
   return styles
 })

@@ -43,7 +43,6 @@ export const useCarouselItem = (
   const ready = ref(false)
   const inStage = ref(false)
   const animating = ref(false)
-  const zIndex = ref(0)
 
   // computed
   const { isCardType, isVertical } = carouselContext
@@ -116,20 +115,6 @@ export const useCarouselItem = (
       inStage.value = Math.round(Math.abs(index - activeIndex)) <= 1
       translate.value = calcCardTranslate(index, activeIndex)
       scale.value = unref(active) ? 1 : CARD_SCALE
-
-      if (index !== activeIndex) {
-        if (zIndex.value) {
-          zIndex.value -= 1
-        }
-        if (unref(translate) > 0) {
-          zIndex.value = zIndex.value || 2
-        }
-        if (unref(translate) < 0) {
-          zIndex.value = zIndex.value || 3
-        }
-      } else {
-        zIndex.value = 0
-      }
     } else {
       translate.value = calcTranslate(index, activeIndex, _isVertical)
     }
@@ -187,7 +172,6 @@ export const useCarouselItem = (
     isCardType,
     scale,
     ready,
-    zIndex,
     handleItemClick,
   }
 }
