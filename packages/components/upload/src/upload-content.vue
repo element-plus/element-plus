@@ -93,8 +93,8 @@ const upload = async (rawFile: UploadRawFile) => {
 
   try {
     const beforeUploadPromise = props.beforeUpload(rawFile)
-    beforeData = isObject(props.data) ? cloneDeep(props.data) : props.data
     hookResult = await beforeUploadPromise
+    beforeData = isObject(props.data) ? cloneDeep(props.data) : props.data
   } catch {
     hookResult = false
   }
