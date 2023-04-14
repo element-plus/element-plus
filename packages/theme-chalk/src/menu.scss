@@ -135,6 +135,7 @@
         display: flex;
         align-items: center;
         height: getCssVar('menu-horizontal-sub-item-height');
+        line-height: getCssVar('menu-horizontal-sub-item-height');
         padding: 0 10px;
         color: getCssVar('menu-text-color');
       }

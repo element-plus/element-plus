@@ -28,11 +28,15 @@
 
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
-import { useDisabled, useNamespace } from '@element-plus/hooks'
+import { isObject } from '@vue/shared'
+import { cloneDeep } from 'lodash-unified'
+import { useNamespace } from '@element-plus/hooks'
 import { entriesOf } from '@element-plus/utils'
+import { useFormDisabled } from '@element-plus/components/form'
 import UploadDragger from './upload-dragger.vue'
 import { uploadContentProps } from './upload-content'
 import { genFileId } from './upload'
+import type { UploadContentProps } from './upload-content'
 
 import type {
   UploadFile,
@@ -48,7 +52,7 @@ defineOptions({
 
 const props = defineProps(uploadContentProps)
 const ns = useNamespace('upload')
-const disabled = useDisabled()
+const disabled = useFormDisabled()
 
 const requests = shallowRef<Record<string, XMLHttpRequest | Promise<unknown>>>(
   {}
@@ -85,8 +89,12 @@ const upload = async (rawFile: UploadRawFile) => {
   }
 
   let hookResult: Exclude<ReturnType<UploadHooks['beforeUpload']>, Promise<any>>
+  let beforeData: UploadContentProps['data'] = {}
+
   try {
-    hookResult = await props.beforeUpload(rawFile)
+    const beforeUploadPromise = props.beforeUpload(rawFile)
+    beforeData = isObject(props.data) ? cloneDeep(props.data) : props.data
+    hookResult = await beforeUploadPromise
   } catch {
     hookResult = false
   }
@@ -110,11 +118,15 @@ const upload = async (rawFile: UploadRawFile) => {
   doUpload(
     Object.assign(file, {
       uid: rawFile.uid,
-    })
+    }),
+    beforeData
   )
 }
 
-const doUpload = (rawFile: UploadRawFile) => {
+const doUpload = (
+  rawFile: UploadRawFile,
+  beforeData?: UploadContentProps['data']
+) => {
   const {
     headers,
     data,
@@ -133,7 +145,7 @@ const doUpload = (rawFile: UploadRawFile) => {
     headers: headers || {},
     withCredentials,
     file: rawFile,
-    data,
+    data: beforeData ?? data,
     method,
     filename,
     action,

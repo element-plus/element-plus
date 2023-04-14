@@ -1,5 +1,154 @@
 ## Changelog
 
+### 2.3.3
+
+_2023-04-07_
+
+#### Features
+
+- Components [color-picker] add `show` `hide` expose (#11942 by @xiterjia)
+- Components [date-picker] support numpadEnter (#12323 by @chenxch)
+
+#### Bug fixes
+
+- Components [tree-select] add to global components (#12255 by @btea)
+- Components [upload] add before-upload test (#12287 by @chenxch)
+- Components [text] add to global components (#12317 by @Altermoe)
+- Components [statistic] add to global components (#12324 by @btea)
+- Components [menu] Avoid call router when index is not provided (#12206 by @HeftyKoo)
+- Components [popover] default trigger (#12321 by @MrWeilian)
+- Revert "fix(components): [popover] default trigger" (#12341 by @chenxch)
+#### Refactors
+
+- Components [table] remove useless brackets (#12283 by @MrWeilian)
+
+### 2.3.2
+
+_2023-03-31_
+
+#### Features
+
+- Components [form] scroll-into-view options (#12164 by @ryuhangyeong)
+
+#### Bug fixes
+
+- Components [select-v2] reset hoverindex when close dropdown list (#12090 by @btea)
+- Components [input] scrollbar not hide after autosize (#10137 by @HeftyKoo)
+- Docs [tabs] example type error (#12160 by @bigsnowballhehe)
+- Components [input] textarea height calc (#12087 by @MrWeilian)
+- Components [select] multiple disabled style (#12015 by @MrWeilian)
+- Components [pagination] delete input value display empty string (#12134 by @btea)
+- Upload data is not independent (#12029 by @jianjunyuu)
+- Style(components): [Tabs] Modify tabs to flex layout (#12048 by @kooriookami)
+
+### 2.3.1
+
+_2023-03-19_
+
+#### Bug fixes
+
+- Components [select] iOS keyboard not appear when focus (#11498 by @MrWeilian)
+- Components [cascader] clickoutside (#11997 by @chenxch)
+- Components [table-column] first default column set placeholder (#11705 by @MrWeilian)
+- Components [input-number] modelValue incorrect update (#12007 by @Mario34)
+- Hooks vm may be null (#12058 by @liulinboyi)
+- Hooks [use-delayed-toggle] clear timer when call onClose (#12056 by @wangcch)
+- Style [message-box] border box (#12086 by @jw-foss)
+- Style(theme-chalk): use variable instead of '-' (#11889 by @fishermanxzx)
+- Style(theme-chalk): [select-v2] text overflow (#11969 by @emojiiii)
+- Style(components): [input] update exceed style (#12094 by @btea)
+
+### 2.3.0
+
+_2023-03-12_
+
+#### Features
+
+- Components [select-v2] Add max-collapse-tags prop (#11405 by @kooriookami)
+- Components [select] Add max-collapse-tags prop (#11378 by @kooriookami)
+- Components [cascader] Adjust expose and typo (#11781 by @chenxch)
+- Components add el-text component (#11653 by @gimjin)
+
+#### Bug fixes
+
+- [message-box] lock scroll (#11921 by @jw-foss)
+- Components [popover | tooltip] keep autoClose prop (#11833 by @wangcch)
+- Components [table-v2] endReached triggered twice when first (#11928 by @MrWeilian)
+- Components [input] update input value length calculate (#11816 by @btea)
+- Components [loading] namespace config (#11956 by @btea)
+- Components [tooltip] remove mousemove listener when unmount (#11940 by @zt123123)
+- Style(components): [select-v2] input-icon margin-left (not first) (#11830 by @wangcch)
+- Chore(components): [pagination] accessibility improvement (#11817 by @tolking)
+- Style(theme-chalk): [rate] size (#11920 by @chenxch)
+
+### 2.2.36
+
+_2023-03-08_
+
+#### Bug fixes
+
+- Components [select] Filter duplicate emits of "update options" (#11884 by @godxiaoji)
+- Components [table] useZIndex is called outside setup (#11895 by @Mario34) (#11900)
+- Components [select] filter all ElOption item labels (#11909 by @godxiaoji)
+- Components [global-config] global injection (#11899 by @jw-foss)
+
+### 2.2.35
+
+_2023-03-07_
+
+#### Bug fixes
+
+- Components [select] console warning (#11868 by @jw-foss)
+- Components [global-config] (#11866 by @jw-foss)
+- Components [overlay] namespace issue (#11881 by @jw-foss)
+
+### 2.2.34
+
+_2023-03-06_
+
+#### Bug fixes
+
+- Components [table-v2] class of column is not valid (#11815 by @tolking)
+- Components [tree-select] cache data update incorrect (#11225 by @yujinpan)
+- Components [global-config] (#11847 by @jw-foss)
+
+### 2.2.33
+
+_2023-03-03_
+
+#### Features
+
+- Components [tree-v2] add item-size attribute (#11522 by @btea)
+
+#### Bug fixes
+
+- Theme-chalk [upload] wrong hover style when disabled (#11635 by @wonderl17)
+- Components [input-number] prevent input wheel events (#11677 by @Mario34)
+- Components [tooltip] display tooltip correctly (#11643 by @acyza)
+- Components [autocomplete] clearable and disabled props not working (#11714 by @richex-cn)
+- Docs [search] fix navigate error when enter pressed (#11718 by @wonderl17)
+- Components adjust menu close api (#11682 by @chenxch)
+- Components [select] fix the hoverIndex display error (#11297 by @btea)
+- Components [tabs] add deep attribute to watch (#11724 by @tolking)
+- Components [select] add popper-options prop (#11734 by @ryuhangyeong)
+- Components [select] support custom height (#10840 by @MrWeilian) (#10847)
+- Components [tabs] tab-bar need to adapt to tabs width change (#11731 by @godxiaoji)
+- Components [autocomplete] the blur event is not triggered (#10091 by @tolking)
+- Components circular referencing issue (#11777 by @jw-foss)
+- Theme-chalk [tab] correct padding of card item on hover (#11283 by @makedopamine)
+
+#### Refactors
+
+- Components [slider] remove useless code (#11681 by @Geekhyt)
+- Tokens - [form] (#11743 by @jw-foss)
+- Components [config-provider] (#11749 by @jw-foss)
+- Tooltip replace any to OnlyChildExpose (#11660 by @Lck6de1p)
+- Project removing packages/tokens (#11769 by @jw-foss)
+- Components [color-picker] alpha-slider (#10332 by @jw-foss)
+- Components [steps] (#10427 by @Simon-He95)
+- Chore(components): [table] fix table config typo (#11700 by @wonderl17)
+- Style(components): [breadcrumb] item use inline-flex (#11683 by @chenxch)
+
 ### 2.2.32
 
 _2023-02-19_

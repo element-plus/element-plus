@@ -159,21 +159,19 @@ import {
   View as IconView,
 } from '@element-plus/icons-vue'
 import {
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
+import {
   NOOP,
   ValidateComponentsMap,
   debugWarn,
   isKorean,
   isObject,
 } from '@element-plus/utils'
-import {
-  useAttrs,
-  useCursor,
-  useDisabled,
-  useFormItem,
-  useFormItemInputId,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
+import { useAttrs, useCursor, useNamespace } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { calcTextareaHeight } from './utils'
 import { inputEmits, inputProps } from './input'
@@ -233,8 +231,8 @@ const { form, formItem } = useFormItem()
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
 })
-const inputSize = useSize()
-const inputDisabled = useDisabled()
+const inputSize = useFormSize()
+const inputDisabled = useFormDisabled()
 const nsInput = useNamespace('input')
 const nsTextarea = useNamespace('textarea')
 
@@ -295,7 +293,7 @@ const isWordLimitVisible = computed(
     !props.readonly &&
     !props.showPassword
 )
-const textLength = computed(() => Array.from(nativeInputValue.value).length)
+const textLength = computed(() => nativeInputValue.value.length)
 const inputExceed = computed(
   () =>
     // show exceed style if length of initial value greater then maxlength
@@ -315,6 +313,7 @@ const suffixVisible = computed(
 const [recordCursor, setCursor] = useCursor(input)
 
 useResizeObserver(textarea, (entries) => {
+  onceInitSizeTextarea()
   if (!isWordLimitVisible.value || props.resize !== 'both') return
   const entry = entries[0]
   const { width } = entry.contentRect
@@ -332,15 +331,42 @@ const resizeTextarea = () => {
   if (autosize) {
     const minRows = isObject(autosize) ? autosize.minRows : undefined
     const maxRows = isObject(autosize) ? autosize.maxRows : undefined
+    const textareaStyle = calcTextareaHeight(textarea.value, minRows, maxRows)
+
+    // If the scrollbar is displayed, the height of the textarea needs more space than the calculated height.
+    // If set textarea height in this case, the scrollbar will not hide.
+    // So we need to hide scrollbar first, and reset it in next tick.
+    // see https://github.com/element-plus/element-plus/issues/8825
     textareaCalcStyle.value = {
-      ...calcTextareaHeight(textarea.value, minRows, maxRows),
+      overflowY: 'hidden',
+      ...textareaStyle,
     }
+
+    nextTick(() => {
+      // NOTE: Force repaint to make sure the style set above is applied.
+      textarea.value!.offsetHeight
+      textareaCalcStyle.value = textareaStyle
+    })
   } else {
     textareaCalcStyle.value = {
       minHeight: calcTextareaHeight(textarea.value).minHeight,
     }
   }
 }
+
+const createOnceInitResize = (resizeTextarea: () => void) => {
+  let isInit = false
+  return () => {
+    if (isInit || !props.autosize) return
+    const isElHidden = textarea.value?.offsetParent === null
+    if (!isElHidden) {
+      resizeTextarea()
+      isInit = true
+    }
+  }
+}
+// fix: https://github.com/element-plus/element-plus/issues/12074
+const onceInitSizeTextarea = createOnceInitResize(resizeTextarea)
 
 const setNativeInputValue = () => {
   const input = _ref.value
