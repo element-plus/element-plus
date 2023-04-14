@@ -11,14 +11,17 @@ export const buildPopperOptions = (
   modifiers: Modifier<any, any>[] = []
 ) => {
   const { placement, strategy, popperOptions } = props
+
+  console.log(popperOptions, '----poper')
   const options = {
     placement,
     strategy,
     ...popperOptions,
     modifiers: [...genModifiers(props), ...modifiers],
   }
-
+  console.log(popperOptions?.modifiers)
   deriveExtraModifiers(options, popperOptions?.modifiers)
+  console.log(options, '-----------------')
   return options
 }
 
@@ -70,6 +73,8 @@ function deriveExtraModifiers(
   modifiers: PopperCoreConfigProps['popperOptions']['modifiers']
 ) {
   if (modifiers) {
+    console.log(modifiers, '---utils')
+    console.log(options.modifiers, '---options')
     options.modifiers = [...options.modifiers, ...(modifiers ?? [])]
   }
 }

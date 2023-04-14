@@ -35,6 +35,7 @@ export const usePopper = (
   const options = computed<Options>(() => {
     const { onFirstUpdate, placement, strategy, modifiers } = unref(opts)
 
+    console.log(modifiers, '---modifier')
     return {
       onFirstUpdate,
       placement: placement || 'bottom',
@@ -46,6 +47,8 @@ export const usePopper = (
       ],
     }
   })
+
+  console.log(options.value, '---usePopper')
 
   const instanceRef = shallowRef<Instance | undefined>()
   const states = ref<Pick<State, 'styles' | 'attributes'>>({

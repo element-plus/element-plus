@@ -52,6 +52,23 @@ tooltip/rich-content
 
 :::
 
+## Custom Popper Location
+
+Tooltip has a popper-options.
+
+:::tip
+
+In order to use custom popper positions, you need to understand the outer link content of the popper options attribute below. It requires passing the modifiers attribute under an object, which is an object array divided into six types:
+
+Offset (custom location), flip (The flip modifier can change the placement of a popper when it's scheduled to overflow a given boundary.), preventOverflow (The toolkit is prevented from overflowing its clipping container, even though that won't center it any more.), etc
+:::
+
+:::demo Set the position to offset.
+
+tooltip/poper-locations
+
+:::
+
 ## Advanced usage
 
 In addition to basic usages, there are some attributes that allow you to customize your own:
@@ -192,5 +209,5 @@ tooltip/animations
 | isFocusInsideContent | validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`           |
 | updatePopper         | update el-popper component instance                               | ^[Function]`() => void`                           |
 | onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void` |
-| onClose              | expose onClose function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void` |
+| onClose              | expose onClose function to mange el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void` |
 | hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void` |
