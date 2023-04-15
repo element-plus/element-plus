@@ -28,7 +28,6 @@ import { carouselItemProps } from './carousel-item'
 import { useCarouselItem } from './use-carousel-item'
 
 import type { CSSProperties } from 'vue'
-import type { ItemStyle } from './carousel-item'
 
 defineOptions({
   name: 'ElCarouselItem',
@@ -57,9 +56,9 @@ const itemStyle = computed<CSSProperties>(() => {
   const _translate = `${translateType}(${unref(translate)}px)`
   const _scale = `scale(${unref(scale)})`
   const transform = [_translate, _scale].join(' ')
-  const styles: ItemStyle = {
+
+  return {
     transform,
   }
-  return styles
 })
 </script>
