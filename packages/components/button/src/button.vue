@@ -1,6 +1,8 @@
 <template>
-  <button
+  <component
+    :is="tag"
     ref="_ref"
+    v-bind="_props"
     :class="[
       ns.b(),
       ns.m(_type),
@@ -14,10 +16,6 @@
       ns.is('link', link),
       ns.is('has-bg', bg),
     ]"
-    :aria-disabled="_disabled || loading"
-    :disabled="_disabled || loading"
-    :autofocus="autofocus"
-    :type="nativeType"
     :style="buttonStyle"
     @click="handleClick"
   >
@@ -37,7 +35,7 @@
     >
       <slot />
     </span>
-  </button>
+  </component>
 </template>
 
 <script lang="ts" setup>
@@ -56,7 +54,7 @@ const emit = defineEmits(buttonEmits)
 
 const buttonStyle = useButtonCustomStyle(props)
 const ns = useNamespace('button')
-const { _ref, _size, _type, _disabled, shouldAddSpace, handleClick } =
+const { _ref, _size, _type, _disabled, _props, shouldAddSpace, handleClick } =
   useButton(props, emit)
 
 defineExpose({

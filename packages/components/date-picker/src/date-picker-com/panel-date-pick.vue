@@ -616,7 +616,9 @@ const handleKeydownTable = (event: KeyboardEvent) => {
     event.preventDefault()
   }
   if (
-    [EVENT_CODE.enter, EVENT_CODE.space].includes(code) &&
+    [EVENT_CODE.enter, EVENT_CODE.space, EVENT_CODE.numpadEnter].includes(
+      code
+    ) &&
     userInputDate.value === null &&
     userInputTime.value === null
   ) {
