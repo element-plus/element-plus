@@ -83,19 +83,22 @@ const handleScroll = (el: InfiniteScrollEl, cb: InfiniteScrollCallback) => {
 
   el[SCOPE].lastScrollTop = scrollTop
 
-  // trigger only if full check has done and not disabled and scroll down
-  if (observer || disabled || delta < 0) return
+  // trigger only if full check has done and not disabled
+  if (observer || disabled) return
 
   let shouldTrigger = false
 
   if (container === el) {
-    shouldTrigger = scrollHeight - (clientHeight + scrollTop) <= distance
+    shouldTrigger =
+      scrollHeight - (clientHeight + scrollTop) <= distance ||
+      scrollHeight - (clientHeight + scrollTop * -1) <= distance
   } else {
     // get the scrollHeight since el might be visible overflow
     const { clientTop, scrollHeight: height } = el
     const offsetTop = getOffsetTopDistance(el, containerEl)
     shouldTrigger =
-      scrollTop + clientHeight >= offsetTop + clientTop + height - distance
+      scrollTop + clientHeight >= offsetTop + clientTop + height - distance ||
+      scrollTop * -1 + clientHeight >= offsetTop + clientTop + height - distance
   }
 
   if (shouldTrigger) {

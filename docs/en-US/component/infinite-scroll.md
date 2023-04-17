@@ -17,6 +17,16 @@ infinite-scroll/basic
 
 :::
 
+## Infinite Scroll Up
+
+Implement infinite upward scrolling using the `flex-direction: column-reverse;` property in `flex`.
+
+:::demo
+
+infinite-scroll/infinite-scroll-up
+
+:::
+
 ## Disable Loading
 
 :::demo
