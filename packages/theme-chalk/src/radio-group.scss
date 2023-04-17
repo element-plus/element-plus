@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @use 'mixins/mixins' as *;
 @use 'common/var' as *;
 
@@ -6,4 +8,25 @@
   align-items: center;
   flex-wrap: wrap;
   font-size: 0;
+  & .is-active {
+    & .#{$namespace}-radio-button__inner {
+      color: getCssVarWithDefault(
+        ('radio-button', 'checked-text-color'),
+        map.get($radio-button, 'checked-text-color')
+      );
+      background-color: getCssVarWithDefault(
+        'radio-button-checked-bg-color',
+        map.get($radio-button, 'checked-bg-color')
+      );
+      border-color: getCssVarWithDefault(
+        'radio-button-checked-border-color',
+        map.get($radio-button, 'checked-border-color')
+      );
+      box-shadow: -1px 0 0 0
+        getCssVarWithDefault(
+          'radio-button-checked-border-color',
+          map.get($radio-button, 'checked-border-color')
+        );
+    }
+  }
 }
