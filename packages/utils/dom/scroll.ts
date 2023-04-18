@@ -1,4 +1,4 @@
-import { isClient } from '@vueuse/core'
+import { isClient } from '../types'
 import { getStyle } from './style'
 
 export const isScroll = (el: HTMLElement, isVertical?: boolean): boolean => {

@@ -1,4 +1,4 @@
-import { isClient } from '@vueuse/core'
+import { isClient } from '../types'
 
 export const isInContainer = (
   el?: Element,
