@@ -11,7 +11,6 @@ import {
   withCtx,
   withDirectives,
 } from 'vue'
-import { useZIndex } from '@element-plus/hooks'
 import { removeClass } from '@element-plus/utils'
 import { useGlobalComponentSettings } from '@element-plus/components/config-provider'
 
@@ -78,8 +77,7 @@ export function createLoadingComponent(options: LoadingOptionsResolved) {
   const elLoadingComponent = defineComponent({
     name: 'ElLoading',
     setup(_, { expose }) {
-      const { ns } = useGlobalComponentSettings('loading')
-      const zIndex = useZIndex()
+      const { ns, zIndex } = useGlobalComponentSettings('loading')
 
       expose({
         ns,
