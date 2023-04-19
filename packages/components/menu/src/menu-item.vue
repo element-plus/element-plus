@@ -83,7 +83,7 @@ export default defineComponent({
       active,
     })
 
-    const handleClick = (e) => {
+    const handleClick = (e: MouseEvent) => {
       if (!props.disabled) {
         rootMenu.handleMenuItemClick({
           index: props.index,
