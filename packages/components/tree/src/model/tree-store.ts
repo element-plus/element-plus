@@ -32,10 +32,16 @@ export default class TreeStore {
   defaultExpandAll: boolean
   checkDescendants: boolean
   props: TreeOptionProps
+  expandedKeys: Set
+  checkedKeys: Set
+  halfCheckedKeys: Set
 
   constructor(options: TreeStoreOptions) {
     this.currentNode = null
     this.currentNodeKey = null
+    this.expandedKeys = new Set(options.defaultExpandedKeys || [])
+    this.checkedKeys = new Set(options.defaultCheckedKeys || [])
+    this.halfCheckedKeys = new Set()
 
     for (const option in options) {
       if (hasOwn(options, option)) {
@@ -105,6 +111,53 @@ export default class TreeStore {
     } else {
       this.root.updateChildren()
     }
+    this.restoreLastActivedState()
+  }
+
+  restoreLastActivedState() {
+    // 恢复之前的展开节点
+    this.restoreExpanded()
+    // 恢复之前的选中状态
+    this.restoreChecked()
+    // 恢复之前的半选中状态
+    this.restoreHalfCheckedKeys()
+    // 恢复之前的选中节点
+    const lastActivedNode = this.currentNode
+    if (!lastActivedNode) {
+      return
+    }
+    const key = lastActivedNode.data[this.key]
+    const currNode = this.nodesMap[key]
+    this.restoreActived(currNode)
+  }
+
+  restoreExpanded() {
+    this.restoreSelectState(this.expandedKeys, '', (node: Node) => {
+      node.expand(null, true)
+    })
+  }
+
+  restoreActived(currNode: Node) {
+    this.setCurrentNode(currNode)
+  }
+
+  restoreChecked() {
+    this.restoreSelectState(this.checkedKeys, 'checked')
+  }
+
+  restoreHalfCheckedKeys() {
+    this.restoreSelectState(this.halfCheckedKeys, 'indeterminate')
+  }
+
+  restoreSelectState(keys: Set<string>, pro: string, callback?: () => void) {
+    for (const keyId of keys) {
+      const node = this.nodesMap[keyId]
+      if (!node) return
+      if (pro) {
+        node[pro] = true
+      }
+      callback && callback(node)
+    }
   }
 
   getNode(data: TreeKey | TreeNodeData | Node): Node {
@@ -172,6 +225,7 @@ export default class TreeStore {
   setDefaultCheckedKey(newVal: TreeKey[]): void {
     if (newVal !== this.defaultCheckedKeys) {
       this.defaultCheckedKeys = newVal
+      this.checkedKeys = new Set(newVal || [])
       this._initDefaultCheckedNodes()
     }
   }
@@ -353,6 +407,7 @@ export default class TreeStore {
   setDefaultExpandedKeys(keys: TreeKey[]) {
     keys = keys || []
     this.defaultExpandedKeys = keys
+    this.expandedKeys = new Set()
     keys.forEach((key) => {
       const node = this.getNode(key)
       if (node) node.expand(null, this.autoExpandParent)
