@@ -258,4 +258,120 @@ describe('Carousel', () => {
 
     expect(container.style.height).toBe('100px')
   })
+  it('set to automatic when item is of different height', async () => {
+    const data = [100, 200, 300]
+
+    wrapper = mount({
+      setup() {
+        return () => (
+          <div>
+            <Carousel height={'auto'} autoplay={false} ref={'carousel'}>
+              {data.map((value) => (
+                <CarouselItem
+                  label={value}
+                  key={value}
+                  style={`height: ${value}px`}
+                >
+                  {value}
+                </CarouselItem>
+              ))}
+            </Carousel>
+          </div>
+        )
+      },
+    })
+
+    const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
+
+    Array.from<HTMLElement>(items).forEach((item) => {
+      vi.spyOn(item, 'offsetHeight', 'get').mockImplementation(() => {
+        return Number.parseFloat(window.getComputedStyle(item).height) || 0
+      })
+    })
+
+    await nextTick()
+
+    const carousel = wrapper.findComponent({ ref: 'carousel' })
+      .vm as CarouselInstance
+
+    const container = wrapper.find<HTMLElement>(
+      '.el-carousel__container'
+    ).element
+
+    expect(items[0].classList.contains('is-active')).toBeTruthy()
+    expect(container.style.height).toBe('100px')
+
+    carousel.next()
+    await nextTick()
+
+    expect(items[1].classList.contains('is-active')).toBeTruthy()
+    expect(container.style.height).toBe('200px')
+
+    carousel.next()
+    await nextTick()
+
+    expect(items[2].classList.contains('is-active')).toBeTruthy()
+    expect(container.style.height).toBe('300px')
+
+    carousel.next()
+    await nextTick()
+
+    expect(items[0].classList.contains('is-active')).toBeTruthy()
+    expect(container.style.height).toBe('100px')
+  })
+  it('height is set to auto and orientation is vertical', async () => {
+    const data = [1, 2, 3]
+
+    wrapper = mount({
+      setup() {
+        return () => (
+          <div>
+            <Carousel
+              height={'auto'}
+              direction={'vertical'}
+              autoplay={false}
+              ref={'carousel'}
+            >
+              {data.map((value) => (
+                <CarouselItem
+                  label={value}
+                  key={value}
+                  style="height: 200px;width: 500px"
+                >
+                  {value}
+                </CarouselItem>
+              ))}
+            </Carousel>
+          </div>
+        )
+      },
+    })
+
+    const items = wrapper.vm.$el.querySelectorAll('.el-carousel__item')
+
+    Array.from<HTMLElement>(items).forEach((item) => {
+      vi.spyOn(item, 'offsetHeight', 'get').mockImplementation(() => {
+        return Number.parseFloat(window.getComputedStyle(item).height) || 0
+      })
+
+      vi.spyOn(item, 'offsetWidth', 'get').mockImplementation(() => {
+        return Number.parseFloat(window.getComputedStyle(item).width) || 0
+      })
+    })
+
+    await nextTick()
+
+    const carousel = wrapper.findComponent({ ref: 'carousel' })
+      .vm as CarouselInstance
+    const container = wrapper.find<HTMLElement>(
+      '.el-carousel__container'
+    ).element
+
+    expect(container.style.height).toBe('500px')
+
+    carousel.next()
+    await nextTick()
+
+    expect(container.style.height).toBe('500px')
+  })
 })
