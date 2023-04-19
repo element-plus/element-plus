@@ -9,7 +9,12 @@ export const usePlayground = (source: string) => {
   }
 
   const encoded = utoa(JSON.stringify(originCode))
-  const link = `https://element-plus.run/#${encoded}`
+  const isPreview = location.host.startsWith('preview')
+  let link = `https://element-plus.run/#${encoded}`
+  if (isPreview) {
+    const pr = location.host.split('-', 2)[1]
+    link = `https://element-plus.run/?pr=${pr}#${encoded}`
+  }
   return {
     encoded,
     link,

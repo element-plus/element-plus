@@ -39,6 +39,18 @@ export const useButton = (
     () => props.autoInsertSpace ?? globalConfig.value?.autoInsertSpace ?? false
   )
 
+  const _props = computed(() => {
+    if (props.tag === 'button') {
+      return {
+        ariaDisabled: _disabled.value || props.loading,
+        disabled: _disabled.value || props.loading,
+        autofocus: props.autofocus,
+        type: props.nativeType,
+      }
+    }
+    return {}
+  })
+
   // add space between two characters in Chinese
   const shouldAddSpace = computed(() => {
     const defaultSlot = slots.default?.()
@@ -64,6 +76,7 @@ export const useButton = (
     _size,
     _type,
     _ref,
+    _props,
     shouldAddSpace,
     handleClick,
   }
