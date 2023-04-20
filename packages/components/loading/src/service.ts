@@ -1,8 +1,12 @@
 // @ts-nocheck
 import { nextTick } from 'vue'
-import { isString } from '@vue/shared'
-import { isClient } from '@vueuse/core'
-import { addClass, getStyle, removeClass } from '@element-plus/utils'
+import {
+  addClass,
+  getStyle,
+  isClient,
+  isString,
+  removeClass,
+} from '@element-plus/utils'
 import { createLoadingComponent } from './loading'
 
 import type { UseNamespaceReturn, UseZIndexReturn } from '@element-plus/hooks'
