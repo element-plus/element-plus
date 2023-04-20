@@ -1,10 +1,5 @@
-import {
-  isClient,
-  isNumber,
-  isObject,
-  isString,
-  isStringNumber,
-} from '../types'
+import { isNumber, isObject, isString, isStringNumber } from '../types'
+import { isClient } from '../browser'
 import { camelize } from '../strings'
 import { entriesOf, keysOf } from '../objects'
 import { debugWarn } from '../error'
