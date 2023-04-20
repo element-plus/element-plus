@@ -11,7 +11,6 @@ import {
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
-import { isClient } from '@vueuse/core'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -20,6 +19,7 @@ import {
 import {
   debugWarn,
   getComponentSize,
+  isClient,
   isFunction,
   isKorean,
   isNumber,
