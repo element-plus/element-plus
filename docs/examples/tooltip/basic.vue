@@ -30,7 +30,8 @@
       <el-tooltip
         class="box-item"
         effect="dark"
-        content="Left Top prompts info"
+        content="Left Top <br/> prompts info"
+        raw-content
         placement="left-start"
       >
         <el-button>left-start</el-button>
@@ -38,7 +39,8 @@
       <el-tooltip
         class="box-item"
         effect="dark"
-        content="Right Top prompts info"
+        content="Right Top <br/> prompts info"
+        raw-content
         placement="right-start"
       >
         <el-button>right-start</el-button>
@@ -48,7 +50,8 @@
       <el-tooltip
         class="box-item"
         effect="dark"
-        content="Left Center prompts info"
+        content="Left Center <br/> prompts info"
+        raw-content
         placement="left"
       >
         <el-button class="mt-3 mb-3">left</el-button>
@@ -56,7 +59,8 @@
       <el-tooltip
         class="box-item"
         effect="dark"
-        content="Right Center prompts info"
+        content="Right Center <br/> prompts info"
+        raw-content
         placement="right"
       >
         <el-button>right</el-button>
@@ -66,7 +70,8 @@
       <el-tooltip
         class="box-item"
         effect="dark"
-        content="Left Bottom prompts info"
+        content="Left Bottom <br/> prompts info"
+        raw-content
         placement="left-end"
       >
         <el-button>left-end</el-button>
@@ -74,7 +79,8 @@
       <el-tooltip
         class="box-item"
         effect="dark"
-        content="Right Bottom prompts info"
+        content="Right Bottom <br/> prompts info"
+        raw-content
         placement="right-end"
       >
         <el-button>right-end</el-button>
