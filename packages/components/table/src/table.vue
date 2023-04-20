@@ -63,6 +63,7 @@
           :view-style="scrollbarViewStyle"
           :wrap-style="scrollbarStyle"
           :always="scrollbarAlwaysOn"
+          @scroll="$emit('scroll', $event)"
         >
           <table
             ref="tableBody"
@@ -198,6 +199,7 @@ export default defineComponent({
     'current-change',
     'header-dragend',
     'expand-change',
+    'scroll',
   ],
   setup(props) {
     type Row = typeof props.data[number]

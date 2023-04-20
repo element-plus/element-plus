@@ -293,6 +293,7 @@ table/table-layout
 | current-change     | triggers when current row changes                                                                                                            | currentRow, oldCurrentRow         |
 | header-dragend     | triggers after changing a column's width by dragging the column header's border                                                              | newWidth, oldWidth, column, event |
 | expand-change      | triggers when user expands or collapses a row (for expandable table, second param is expandedRows; for tree Table, second param is expanded) | row, (expandedRows \| expanded)   |
+| scroll             | Invoked after scrolled                                                                                                                       | Object                            |
 
 ## Table Methods
 
