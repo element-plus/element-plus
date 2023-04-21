@@ -1,8 +1,8 @@
-import { isClient } from '@vueuse/core'
 import {
   buildProps,
   definePropType,
   iconPropType,
+  isClient,
   mutable,
 } from '@element-plus/utils'
 import type { AppContext, ExtractPropTypes, VNode } from 'vue'
