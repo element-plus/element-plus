@@ -117,9 +117,6 @@ const indicatorsClasses = computed(() => {
   if (props.indicatorPosition === 'outside') {
     classes.push(ns.em('indicators', 'outside'))
   }
-  if (props.indicatorPosition === 'inside') {
-    classes.push(ns.em('indicators', 'inside'))
-  }
   if (unref(isVertical)) {
     classes.push(ns.em('indicators', 'right'))
   }
