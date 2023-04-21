@@ -23,13 +23,13 @@
     </el-table-column>
     <el-table-column label="Operations">
       <template #default="scope">
-        <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
+        <el-button size="small" @click="handleEdit(scope)"
           >Edit</el-button
         >
         <el-button
           size="small"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)"
+          @click="handleDelete(scope)"
           >Delete</el-button
         >
       </template>
@@ -46,11 +46,11 @@ interface User {
   address: string
 }
 
-const handleEdit = (index: number, row: User) => {
-  console.log(index, row)
+const handleEdit = (scope) => {
+  console.log(scope.$index, scope.row)
 }
-const handleDelete = (index: number, row: User) => {
-  console.log(index, row)
+const handleDelete = (scope) => {
+  console.log(scope.$index, scope.row)
 }
 
 const tableData: User[] = [

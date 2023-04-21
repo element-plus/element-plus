@@ -12,7 +12,7 @@
           link
           type="primary"
           size="small"
-          @click.prevent="deleteRow(scope.$index)"
+          @click.prevent="deleteRow(scope)"
         >
           Remove
         </el-button>
@@ -57,8 +57,8 @@ const tableData = ref([
   },
 ])
 
-const deleteRow = (index: number) => {
-  tableData.value.splice(index, 1)
+const deleteRow = (scope) => {
+  tableData.value.splice(scope.$index, 1)
 }
 
 const onAddItem = () => {
