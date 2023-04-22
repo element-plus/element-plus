@@ -6,6 +6,7 @@ import type {
 } from 'async-validator'
 import type { ComponentSize } from '@element-plus/constants'
 import type { Arrayable } from '@element-plus/utils'
+import type { MaybeRef } from '@vueuse/core'
 import type {
   FormItemProp,
   FormItemProps,
@@ -19,7 +20,14 @@ export type FormLabelWidthContext = ReturnType<typeof useFormLabelWidth>
 export interface FormItemRule extends RuleItem {
   trigger?: Arrayable<string>
 }
-export type FormRules = Partial<Record<string, Arrayable<FormItemRule>>>
+export type FormRules<
+  T extends MaybeRef<Record<string, any> | string> = string
+> = Partial<
+  Record<
+    UnwrapRef<T> extends string ? UnwrapRef<T> : keyof UnwrapRef<T>,
+    Arrayable<FormItemRule>
+  >
+>
 
 export type FormValidationResult = Promise<boolean>
 export type FormValidateCallback = (
