@@ -25,7 +25,7 @@ export const carouselProps = buildProps({
   },
   indicatorPosition: {
     type: String,
-    values: ['', 'none', 'outside', 'inside'],
+    values: ['', 'none', 'outside'],
     default: '',
   },
   arrow: {
