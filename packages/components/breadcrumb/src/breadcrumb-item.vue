@@ -36,10 +36,12 @@ const instance = getCurrentInstance()!
 const breadcrumbContext = inject(breadcrumbKey, undefined)!
 const ns = useNamespace('breadcrumb')
 
-const separator = computed(() => props.separator || breadcrumbContext.separator)
+const separator = computed(
+  () => props.separator || breadcrumbContext?.separator
+)
 
 const separatorIcon = computed(
-  () => props.separatorIcon || breadcrumbContext.separatorIcon
+  () => props.separatorIcon || breadcrumbContext?.separatorIcon
 )
 
 const router = instance.appContext.config.globalProperties.$router as Router
