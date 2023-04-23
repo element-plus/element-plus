@@ -1,7 +1,14 @@
 <template>
   <div
-    :class="[ns.b('dropdown'), ns.is('multiple', isMultiple), popperClass]"
-    :style="{ [isFitInputWidth ? 'width' : 'minWidth']: minWidth }"
+    :class="[
+      ns.b('dropdown'),
+      ns.is('multiple', isMultiple),
+      popperClass,
+      { [ns.is('horizontal')]: optionHorizontal },
+    ]"
+    :style="{
+      [isFitInputWidth || optionHorizontal ? 'width' : 'minWidth']: minWidth,
+    }"
   >
     <slot />
   </div>
@@ -26,6 +33,8 @@ export default defineComponent({
     const popperClass = computed(() => select.props.popperClass)
     const isMultiple = computed(() => select.props.multiple)
     const isFitInputWidth = computed(() => select.props.fitInputWidth)
+    const optionHorizontal = computed(() => select.props.optionHorizontal)
+
     const minWidth = ref('')
 
     function updateMinWidth() {
@@ -45,6 +54,7 @@ export default defineComponent({
       popperClass,
       isMultiple,
       isFitInputWidth,
+      optionHorizontal,
     }
   },
 })

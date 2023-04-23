@@ -442,6 +442,10 @@ export default defineComponent({
       values: placements,
       default: 'bottom-start',
     },
+    optionHorizontal: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     UPDATE_MODEL_EVENT,

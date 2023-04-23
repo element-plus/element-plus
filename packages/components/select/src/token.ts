@@ -17,6 +17,7 @@ export interface SelectContext {
     popperClass?: string
     remote?: boolean
     fitInputWidth?: boolean
+    optionHorizontal?: boolean
   }
   queryChange: Ref<QueryChangeCtx>
   groupQueryChange: Ref<string>
