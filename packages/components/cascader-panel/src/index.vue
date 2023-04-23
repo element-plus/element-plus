@@ -27,11 +27,11 @@ import {
   watch,
 } from 'vue'
 import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
-import { isClient } from '@vueuse/core'
 import {
   castArray,
   focusNode,
   getSibling,
+  isClient,
   isEmpty,
   scrollIntoView,
   unique,
