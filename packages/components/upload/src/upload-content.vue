@@ -29,7 +29,7 @@
 <script lang="ts" setup>
 import { shallowRef } from 'vue'
 import { isObject } from '@vue/shared'
-import { cloneDeep } from 'lodash-unified'
+import { cloneDeep, isEqual } from 'lodash-unified'
 import { useNamespace } from '@element-plus/hooks'
 import { entriesOf } from '@element-plus/utils'
 import { useFormDisabled } from '@element-plus/components/form'
@@ -92,9 +92,15 @@ const upload = async (rawFile: UploadRawFile) => {
   let beforeData: UploadContentProps['data'] = {}
 
   try {
+    // origin data: Handle data changes after synchronization tasks are executed
+    const originData = props.data
     const beforeUploadPromise = props.beforeUpload(rawFile)
     beforeData = isObject(props.data) ? cloneDeep(props.data) : props.data
     hookResult = await beforeUploadPromise
+    beforeData =
+      isObject(props.data) && isEqual(originData, beforeData)
+        ? cloneDeep(props.data)
+        : beforeData
   } catch {
     hookResult = false
   }
