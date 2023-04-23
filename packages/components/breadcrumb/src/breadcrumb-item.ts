@@ -1,4 +1,4 @@
-import { buildProps, definePropType } from '@element-plus/utils'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
@@ -16,6 +16,19 @@ export const breadcrumbItemProps = buildProps({
   replace: {
     type: Boolean,
     default: false,
+  },
+  /**
+   * @description separator character
+   */
+  separator: {
+    type: String,
+    default: '',
+  },
+  /**
+   * @description icon component of icon separator
+   */
+  separatorIcon: {
+    type: iconPropType,
   },
 } as const)
 export type BreadcrumbItemProps = ExtractPropTypes<typeof breadcrumbItemProps>

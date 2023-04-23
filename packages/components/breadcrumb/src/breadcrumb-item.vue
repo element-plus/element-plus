@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import { getCurrentInstance, inject, ref, toRefs } from 'vue'
+import { computed, getCurrentInstance, inject, ref } from 'vue'
 import ElIcon from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { breadcrumbKey } from './constants'
@@ -36,7 +36,12 @@ const instance = getCurrentInstance()!
 const breadcrumbContext = inject(breadcrumbKey, undefined)!
 const ns = useNamespace('breadcrumb')
 
-const { separator, separatorIcon } = toRefs(breadcrumbContext)
+const separator = computed(() => props.separator || breadcrumbContext.separator)
+
+const separatorIcon = computed(
+  () => props.separatorIcon || breadcrumbContext.separatorIcon
+)
+
 const router = instance.appContext.config.globalProperties.$router as Router
 
 const link = ref<HTMLSpanElement>()

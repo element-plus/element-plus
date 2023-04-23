@@ -23,6 +23,14 @@ breadcrumb/icon
 
 :::
 
+## Custom BreadcrumbItem separator
+
+:::demo Set `separator` or `separator-icon` to custom separator for `el-breadcrumb-item`，it will cover `separator` or `separator-icon` for `el-breadcrumb`.
+
+breadcrumb/custom-item-separator
+
+:::
+
 ## Breadcrumb API
 
 ### Breadcrumb Attributes
@@ -42,10 +50,12 @@ breadcrumb/icon
 
 ### BreadcrumbItem Attributes
 
-| Name    | Description                                               | Type                                    | Default |
-| ------- | --------------------------------------------------------- | --------------------------------------- | ------- |
-| to      | target route of the link, same as `to` of `vue-router`    | ^[string] / ^[object]`RouteLocationRaw` | ''      |
-| replace | if `true`, the navigation will not leave a history record | ^[boolean]                              | false   |
+| Name           | Description                                               | Type                                    | Default |
+| -------------- | --------------------------------------------------------- | --------------------------------------- | ------- |
+| to             | target route of the link, same as `to` of `vue-router`    | ^[string] / ^[object]`RouteLocationRaw` | ''      |
+| replace        | if `true`, the navigation will not leave a history record | ^[boolean]                              | false   |
+| separator      | separator character                                       | ^[string]                               | -       |
+| separator-icon | icon component of icon separator                          | ^[string] / ^[Component]                | -       |
 
 ### BreadcrumbItem Slots
 

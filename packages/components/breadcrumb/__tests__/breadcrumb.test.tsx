@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import { Check } from '@element-plus/icons-vue'
+import { Check, View } from '@element-plus/icons-vue'
 import Breadcrumb from '../src/breadcrumb.vue'
 import BreadcrumbItem from '../src/breadcrumb-item.vue'
 import type { VNode } from 'vue'
@@ -100,6 +100,25 @@ describe('Breadcrumb.vue', () => {
 
       await wrapper.find('.el-breadcrumb__inner').trigger('click')
       expect(replace).toHaveBeenCalled()
+    })
+
+    it('BreadcrumbItem separator', () => {
+      const wrapper = _mount(() => (
+        <Breadcrumb separator="?">
+          <BreadcrumbItem separator="!">A</BreadcrumbItem>
+        </Breadcrumb>
+      ))
+      expect(wrapper.find('.el-breadcrumb__separator').text()).toBe('!')
+    })
+
+    it('BreadcrumbItem separatorIcon', () => {
+      const wrapper = _mount(() => (
+        <Breadcrumb separatorIcon={Check}>
+          <BreadcrumbItem separatorIcon={View}>A</BreadcrumbItem>
+        </Breadcrumb>
+      ))
+      expect(wrapper.find('.el-breadcrumb__separator').text()).toBe('')
+      expect(wrapper.findComponent(View).exists()).toBe(true)
     })
   })
 })
