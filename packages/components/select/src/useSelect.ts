@@ -383,7 +383,9 @@ export const useSelect = (props, states: States, ctx) => {
       const gotSize = getComponentSize(selectSize.value || form?.size)
 
       const sizeInMap =
-        gotSize === originClientHeight || originClientHeight <= 0
+        selectSize.value ||
+        gotSize === originClientHeight ||
+        originClientHeight <= 0
           ? gotSize
           : originClientHeight
 
