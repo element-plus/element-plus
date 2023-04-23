@@ -161,6 +161,19 @@ describe('Button.vue', () => {
 
     expect(wrapper.find('.custom-loading').exists()).toBeTruthy()
   })
+
+  it('tag', () => {
+    const link = 'https://github.com/element-plus/element-plus'
+    const wrapper = mount(() => (
+      <Button tag="a" href={link}>
+        {AXIOM}
+      </Button>
+    ))
+
+    expect(wrapper.text()).toEqual(AXIOM)
+    expect(wrapper.element.nodeName).toBe('A')
+    expect(wrapper.attributes('href')).toBe(link)
+  })
 })
 describe('Button Group', () => {
   it('create', () => {

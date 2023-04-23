@@ -10,10 +10,10 @@ import {
   resolveDynamicComponent,
   unref,
 } from 'vue'
-import { isClient } from '@vueuse/core'
 import {
   getScrollBarWidth,
   hasOwn,
+  isClient,
   isNumber,
   isString,
 } from '@element-plus/utils'

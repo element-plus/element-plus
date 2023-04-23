@@ -13,7 +13,6 @@ import {
   CommonPicker,
   DEFAULT_FORMATS_DATE,
   DEFAULT_FORMATS_DATEPICKER,
-  timePickerDefaultProps,
 } from '@element-plus/components/time-picker'
 import { ROOT_PICKER_INJECTION_KEY } from './constants'
 
@@ -32,11 +31,7 @@ dayjs.extend(isSameOrBefore)
 export default defineComponent({
   name: 'ElDatePicker',
   install: null,
-  props: {
-    // FIXME: move this to date-picker.ts
-    ...timePickerDefaultProps,
-    ...datePickerProps,
-  },
+  props: datePickerProps,
   emits: ['update:modelValue'],
   setup(props, { expose, emit, slots }) {
     const ns = useNamespace('picker-panel')

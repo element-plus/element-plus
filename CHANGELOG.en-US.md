@@ -1,5 +1,63 @@
 ## Changelog
 
+### 2.3.3
+
+_2023-04-07_
+
+#### Features
+
+- Components [color-picker] add `show` `hide` expose (#11942 by @xiterjia)
+- Components [date-picker] support numpadEnter (#12323 by @chenxch)
+
+#### Bug fixes
+
+- Components [tree-select] add to global components (#12255 by @btea)
+- Components [upload] add before-upload test (#12287 by @chenxch)
+- Components [text] add to global components (#12317 by @Altermoe)
+- Components [statistic] add to global components (#12324 by @btea)
+- Components [menu] Avoid call router when index is not provided (#12206 by @HeftyKoo)
+- Components [popover] default trigger (#12321 by @MrWeilian)
+- Revert "fix(components): [popover] default trigger" (#12341 by @chenxch)
+#### Refactors
+
+- Components [table] remove useless brackets (#12283 by @MrWeilian)
+
+### 2.3.2
+
+_2023-03-31_
+
+#### Features
+
+- Components [form] scroll-into-view options (#12164 by @ryuhangyeong)
+
+#### Bug fixes
+
+- Components [select-v2] reset hoverindex when close dropdown list (#12090 by @btea)
+- Components [input] scrollbar not hide after autosize (#10137 by @HeftyKoo)
+- Docs [tabs] example type error (#12160 by @bigsnowballhehe)
+- Components [input] textarea height calc (#12087 by @MrWeilian)
+- Components [select] multiple disabled style (#12015 by @MrWeilian)
+- Components [pagination] delete input value display empty string (#12134 by @btea)
+- Upload data is not independent (#12029 by @jianjunyuu)
+- Style(components): [Tabs] Modify tabs to flex layout (#12048 by @kooriookami)
+
+### 2.3.1
+
+_2023-03-19_
+
+#### Bug fixes
+
+- Components [select] iOS keyboard not appear when focus (#11498 by @MrWeilian)
+- Components [cascader] clickoutside (#11997 by @chenxch)
+- Components [table-column] first default column set placeholder (#11705 by @MrWeilian)
+- Components [input-number] modelValue incorrect update (#12007 by @Mario34)
+- Hooks vm may be null (#12058 by @liulinboyi)
+- Hooks [use-delayed-toggle] clear timer when call onClose (#12056 by @wangcch)
+- Style [message-box] border box (#12086 by @jw-foss)
+- Style(theme-chalk): use variable instead of '-' (#11889 by @fishermanxzx)
+- Style(theme-chalk): [select-v2] text overflow (#11969 by @emojiiii)
+- Style(components): [input] update exceed style (#12094 by @btea)
+
 ### 2.3.0
 
 _2023-03-12_

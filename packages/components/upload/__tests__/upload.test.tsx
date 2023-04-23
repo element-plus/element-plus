@@ -131,6 +131,40 @@ describe('<upload />', () => {
       expect(onError).toHaveBeenCalled()
     })
 
+    // Ensure that the modified data in before-upload can be correctly passed into the upload request. (#12029)
+    test('in beforeUpload change data correctly to request', async () => {
+      const keyList: string[] = []
+      const beforeUpload = vi.fn((file) => (data.value.key = file.name))
+      const httpRequest = vi.fn((val) => {
+        keyList.push(val?.data?.key)
+        return Promise.resolve()
+      })
+
+      const data = ref({ key: '' })
+
+      const wrapper = mount(() => (
+        <UploadContent
+          data={data.value}
+          multiple={true}
+          beforeUpload={beforeUpload}
+          httpRequest={httpRequest}
+        />
+      ))
+
+      const fileList = [
+        new File(['content'], 'test-file.txt'),
+        new File(['content2'], 'test-file2.txt'),
+      ]
+      mockGetFile(wrapper.find('input').element, fileList)
+
+      await wrapper.find('input').trigger('change')
+
+      expect(beforeUpload).toHaveBeenCalled()
+      await flushPromises()
+
+      expect(keyList).toEqual(['test-file.txt', 'test-file2.txt'])
+    })
+
     test('onProgress should work', async () => {
       const onProgress = vi.fn()
       const httpRequest = vi.fn(({ onProgress }) => {
