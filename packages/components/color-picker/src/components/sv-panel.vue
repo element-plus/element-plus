@@ -24,6 +24,7 @@ import {
   computed,
   defineComponent,
   getCurrentInstance,
+  nextTick,
   onMounted,
   ref,
   watch,
@@ -63,16 +64,18 @@ export default defineComponent({
 
     // methods
     function update() {
-      const saturation = props.color.get('saturation')
-      const value = props.color.get('value')
+      nextTick(() => {
+        const saturation = props.color.get('saturation')
+        const value = props.color.get('value')
 
-      const el = instance.vnode.el!
-      const { clientWidth: width, clientHeight: height } = el
+        const el = instance.vnode.el!
+        const { clientWidth: width, clientHeight: height } = el
 
-      cursorLeft.value = (saturation * width) / 100
-      cursorTop.value = ((100 - value) * height) / 100
+        cursorLeft.value = (saturation * width) / 100
+        cursorTop.value = ((100 - value) * height) / 100
 
-      background.value = `hsl(${props.color.get('hue')}, 100%, 50%)`
+        background.value = `hsl(${props.color.get('hue')}, 100%, 50%)`
+      })
     }
 
     function handleDrag(event: MouseEvent | TouchEvent) {
