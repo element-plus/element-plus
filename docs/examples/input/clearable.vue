@@ -1,13 +1,8 @@
 <template>
   <el-input v-model="input" placeholder="Please input" clearable />
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-export default defineComponent({
-  setup() {
-    return {
-      input: ref(''),
-    }
-  },
-})
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+const input = ref('')
 </script>

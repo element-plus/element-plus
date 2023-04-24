@@ -21,10 +21,6 @@
     @include when(disabled) {
       color: map.get($select-option, 'disabled-color');
       cursor: not-allowed;
-
-      &:hover {
-        background-color: var(--el-color-white);
-      }
     }
 
     &.hover,

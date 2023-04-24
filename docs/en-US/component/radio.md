@@ -55,61 +55,71 @@ radio/with-borders
 
 :::
 
-## Radio Attributes
+## Radio API
 
-| Attribute             | Description                          | Type                      | Accepted Values       | Default |
-| --------------------- | ------------------------------------ | ------------------------- | --------------------- | ------- |
-| model-value / v-model | binding value                        | string / number / boolean | —                     | —       |
-| label                 | the value of Radio                   | string / number / boolean | —                     | —       |
-| disabled              | whether Radio is disabled            | boolean                   | —                     | false   |
-| border                | whether to add a border around Radio | boolean                   | —                     | false   |
-| size                  | size of the Radio                    | string                    | medium / small / mini | —       |
-| name                  | native 'name' attribute              | string                    | —                     | —       |
+### Radio Attributes
 
-## Radio Events
+| Name                  | Description                          | Type                                     | Default |
+| --------------------- | ------------------------------------ | ---------------------------------------- | ------- |
+| model-value / v-model | binding value                        | ^[string] / ^[number] / ^[boolean]       | —       |
+| label                 | the value of Radio                   | ^[string] / ^[number] / ^[boolean]       | —       |
+| disabled              | whether Radio is disabled            | ^[boolean]                               | false   |
+| border                | whether to add a border around Radio | ^[boolean]                               | false   |
+| size                  | size of the Radio                    | ^[enum]`'large' \| 'default' \| 'small'` | —       |
+| name                  | native `name` attribute              | ^[string]                                | —       |
 
-| Event Name | Description                           | Parameters                          |
-| ---------- | ------------------------------------- | ----------------------------------- |
-| change     | triggers when the bound value changes | the label value of the chosen radio |
+### Radio Events
 
-## Radio Slots
+| Name   | Description                           | Type                                                      |
+| ------ | ------------------------------------- | --------------------------------------------------------- |
+| change | triggers when the bound value changes | ^[Function]`(value: string \| number \| boolean) => void` |
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+### Radio Slots
 
-## Radio-group Attributes
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
 
-| Attribute             | Description                                       | Type                      | Accepted Values       | Default |
-| --------------------- | ------------------------------------------------- | ------------------------- | --------------------- | ------- |
-| model-value / v-model | binding value                                     | string / number / boolean | —                     | —       |
-| size                  | the size of radio                                 | string                    | medium / small / mini | —       |
-| disabled              | whether the nesting radios are disabled           | boolean                   | —                     | false   |
-| text-color            | font color when button is active                  | string                    | —                     | #ffffff |
-| fill                  | border and background color when button is active | string                    | —                     | #409EFF |
+## RadioGroup API
 
-## Radio-group Events
+### RadioGroup Attributes
 
-| Event Name | Description                           | Parameters                          |
-| ---------- | ------------------------------------- | ----------------------------------- |
-| change     | triggers when the bound value changes | the label value of the chosen radio |
+| Name                  | Description                                       | Type                               | Default |
+| --------------------- | ------------------------------------------------- | ---------------------------------- | ------- |
+| model-value / v-model | binding value                                     | ^[string] / ^[number] / ^[boolean] | —       |
+| size                  | the size of radio buttons or bordered radios      | ^[string]                          | default |
+| disabled              | whether the nesting radios are disabled           | ^[boolean]                         | false   |
+| text-color            | font color when button is active                  | ^[string]                          | #ffffff |
+| fill                  | border and background color when button is active | ^[string]                          | #409EFF |
+| validate-event        | whether to trigger form validation                | ^[boolean]                         | true    |
+| label ^(a11y)         | same as `aria-label` in RadioGroup                | ^[string]                          | —       |
+| name                  | native `name` attribute                           | ^[string]                          | —       |
+| id                    | native `id` attribute                             | ^[string]                          | —       |
 
-## Radio-group Slots
+### RadioGroup Events
 
-| Name | Description               | Subtags              |
-| ---- | ------------------------- | -------------------- |
-| —    | customize default content | Radio / Radio-button |
+| Name   | Description                           | Type                                                      |
+| ------ | ------------------------------------- | --------------------------------------------------------- |
+| change | triggers when the bound value changes | ^[Function]`(value: string \| number \| boolean) => void` |
 
-## Radio-button Attributes
+### RadioGroup Slots
 
-| Attribute | Description               | Type            | Accepted Values | Default |
-| --------- | ------------------------- | --------------- | --------------- | ------- |
-| label     | the value of radio        | string / number | —               | —       |
-| disabled  | whether radio is disabled | boolean         | —               | false   |
-| name      | native 'name' attribute   | string          | —               | —       |
+| Name    | Description               | Subtags             |
+| ------- | ------------------------- | ------------------- |
+| default | customize default content | Radio / RadioButton |
 
-## Radio-button Slots
+## RadioButton API
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+### RadioButton Attributes
+
+| Name     | Description               | Type                               | Default |
+| -------- | ------------------------- | ---------------------------------- | ------- |
+| label    | the value of Radio        | ^[string] / ^[number] / ^[boolean] | —       |
+| disabled | whether Radio is disabled | ^[boolean]                         | false   |
+| name     | native 'name' attribute   | ^[string]                          | —       |
+
+### RadioButton Slots
+
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |

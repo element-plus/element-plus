@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
+import { withInstall, withNoopInstall } from '@element-plus/utils'
 
 import Radio from './src/radio.vue'
 import RadioButton from './src/radio-button.vue'
@@ -15,3 +15,4 @@ export const ElRadioButton = withNoopInstall(RadioButton)
 export * from './src/radio'
 export * from './src/radio-group'
 export * from './src/radio-button'
+export * from './src/constants'

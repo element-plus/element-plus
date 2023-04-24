@@ -31,3 +31,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+@mixin utils-inline-flex-center {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,14 +1,23 @@
-import { buildProps } from '@element-plus/utils/props'
+import { buildProps } from '@element-plus/utils'
 import type { ExtractPropTypes } from 'vue'
+import type Bar from './bar.vue'
 
 export const barProps = buildProps({
-  vertical: Boolean,
-  size: String,
-  move: Number,
-  ratio: {
-    type: Number,
-    required: true,
+  always: {
+    type: Boolean,
+    default: true,
   },
-  always: Boolean,
+  width: String,
+  height: String,
+  ratioX: {
+    type: Number,
+    default: 1,
+  },
+  ratioY: {
+    type: Number,
+    default: 1,
+  },
 } as const)
 export type BarProps = ExtractPropTypes<typeof barProps>
+
+export type BarInstance = InstanceType<typeof Bar>

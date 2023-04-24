@@ -1,12 +1,20 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
 import {
-  UPDATE_MODEL_EVENT,
+  buildProps,
+  definePropType,
+  iconPropType,
+  isBoolean,
+  isNumber,
+  isString,
+  isValidComponentSize,
+} from '@element-plus/utils'
+import {
   CHANGE_EVENT,
   INPUT_EVENT,
-} from '@element-plus/utils/constants'
-import { isBool, isNumber, isString } from '@element-plus/utils/util'
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
+import type { ComponentSize } from '@element-plus/constants'
 import type Switch from './switch.vue'
-import type { Component, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, PropType } from 'vue'
 
 export const switchProps = buildProps({
   modelValue: {
@@ -22,20 +30,18 @@ export const switchProps = buildProps({
     default: false,
   },
   width: {
-    type: Number,
-    default: 40,
+    type: [String, Number],
+    default: '',
   },
   inlinePrompt: {
     type: Boolean,
     default: false,
   },
   activeIcon: {
-    type: definePropType<string | Component>([String, Object]),
-    default: '',
+    type: iconPropType,
   },
   inactiveIcon: {
-    type: definePropType<string | Component>([String, Object]),
-    default: '',
+    type: iconPropType,
   },
   activeText: {
     type: String,
@@ -81,17 +87,24 @@ export const switchProps = buildProps({
   beforeChange: {
     type: definePropType<() => Promise<boolean> | boolean>(Function),
   },
+  size: {
+    type: String as PropType<ComponentSize>,
+    validator: isValidComponentSize,
+  },
+  tabindex: {
+    type: [String, Number],
+  },
 } as const)
 
 export type SwitchProps = ExtractPropTypes<typeof switchProps>
 
 export const switchEmits = {
   [UPDATE_MODEL_EVENT]: (val: boolean | string | number) =>
-    isBool(val) || isString(val) || isNumber(val),
+    isBoolean(val) || isString(val) || isNumber(val),
   [CHANGE_EVENT]: (val: boolean | string | number) =>
-    isBool(val) || isString(val) || isNumber(val),
+    isBoolean(val) || isString(val) || isNumber(val),
   [INPUT_EVENT]: (val: boolean | string | number) =>
-    isBool(val) || isString(val) || isNumber(val),
+    isBoolean(val) || isString(val) || isNumber(val),
 }
 export type SwitchEmits = typeof switchEmits
 

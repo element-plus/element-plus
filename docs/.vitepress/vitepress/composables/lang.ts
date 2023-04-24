@@ -10,7 +10,7 @@ export const useLang = () => {
     let lang: string
 
     if (path?.includes('/')) {
-      lang = path.split('/').shift()
+      lang = path.split('/').shift()! || defaultLang
     } else {
       lang = defaultLang
     }

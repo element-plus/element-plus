@@ -2,25 +2,32 @@
 @use './table-of-content';
 
 .doc-content-wrapper {
-  --toc-width: 144px;
+  --vp-content-width: 800px;
+
   padding: 32px 24px 96px;
+
   .doc-content-container {
-    max-width: 60rem;
-    margin: 0 auto;
+    .doc-content {
+      width: 100%;
+    }
+
+    @include respond-to('xxl') {
+      width: var(--vp-content-width);
+    }
   }
 
   @include respond-to('md') {
-    padding: 48px 32px 96px;
+    padding: 48px 32px 42px;
   }
   @include respond-to('lg') {
-    padding: 64px 64px 96px;
+    padding: 64px 64px 42px;
   }
-  @include respond-to('xlg') {
-    padding: 64px 0 96px 64px;
+  @include respond-to('xxl') {
+    padding: 64px 0 42px 64px;
     display: flex;
-    .doc-content-container {
-      min-width: 38.75rem;
-      margin: 0;
-    }
+  }
+  @include respond-to('max') {
+    padding: 64px 0 42px 96px;
+    display: flex;
   }
 }

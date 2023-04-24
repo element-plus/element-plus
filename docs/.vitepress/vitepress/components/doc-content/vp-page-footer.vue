@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import VPEditLink from './vp-edit-link.vue'
-import VPLastUpdatedAt from './vp-last-updated-at.vue'
 </script>
 
 <template>
   <footer class="page-footer">
     <div class="edit">
       <VPEditLink />
-    </div>
-    <div class="updated">
-      <VPLastUpdatedAt />
     </div>
   </footer>
 </template>

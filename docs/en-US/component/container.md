@@ -25,9 +25,49 @@ These components use flex for layout, so please make sure your browser supports 
 
 ## Common layouts
 
+<style lang="scss">
+@use '../../examples/container/common-layout.scss';
+</style>
+
 :::demo
 
-container/basic
+container/layout-hm
+
+:::
+
+:::demo
+
+container/layout-hmf
+
+:::
+
+:::demo
+
+container/layout-am
+
+:::
+
+:::demo
+
+container/layout-ham
+
+:::
+
+:::demo
+
+container/layout-hamf
+
+:::
+
+:::demo
+
+container/layout-ahm
+
+:::
+
+:::demo
+
+container/layout-ahmf
 
 :::
 
@@ -39,106 +79,66 @@ container/example
 
 :::
 
-## Container Attributes
+## Container API
 
-| Attribute | Description                         | Type   | Accepted Values       | Default                                                                    |
-| --------- | ----------------------------------- | ------ | --------------------- | -------------------------------------------------------------------------- |
-| direction | layout direction for child elements | string | horizontal / vertical | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
+### Container Attributes
 
-## Container Slots
+| Name      | Description                         | Type                                | Default                                                                    |
+| --------- | ----------------------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
+| direction | layout direction for child elements | ^[enum]`'horizontal' \| 'vertical'` | vertical when nested with `el-header` or `el-footer`; horizontal otherwise |
 
-| Name | Description               | Subtags                                    |
-| ---- | ------------------------- | ------------------------------------------ |
-| —    | customize default content | Container / Header / Aside / Main / Footer |
+### Container Slots
 
-## Header Attributes
+| Name    | Description               | Subtags                                    |
+| ------- | ------------------------- | ------------------------------------------ |
+| default | customize default content | Container / Header / Aside / Main / Footer |
 
-| Attribute | Description          | Type   | Accepted Values | Default |
-| --------- | -------------------- | ------ | --------------- | ------- |
-| height    | height of the header | string | —               | 60px    |
+## Header API
 
-## Header Slots
+### Header Attributes
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name   | Description          | Type      | Default |
+| ------ | -------------------- | --------- | ------- |
+| height | height of the header | ^[string] | 60px    |
 
-## Aside Attributes
+### Header Slots
 
-| Attribute | Description               | Type   | Accepted Values | Default |
-| --------- | ------------------------- | ------ | --------------- | ------- |
-| width     | width of the side section | string | —               | 300px   |
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
 
-## Aside Slots
+## Aside API
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+### Aside Attributes
 
-## Main Slots
+| Name  | Description               | Type      | Default |
+| ----- | ------------------------- | --------- | ------- |
+| width | width of the side section | ^[string] | 300px   |
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+### Aside Slots
 
-## Footer Attributes
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
 
-| Attribute | Description          | Type   | Accepted Values | Default |
-| --------- | -------------------- | ------ | --------------- | ------- |
-| height    | height of the footer | string | —               | 60px    |
+## Main API
 
-## Footer Slots
+### Main Slots
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |
 
-<style lang="scss">
-.example-showcase {
-  .el-header,
-  .el-footer {
-    background-color: #b3c0d1;
-    color: var(--el-text-color-primary);
-    line-height: 60px;
-  }
+## Footer API
 
-  .el-aside {
-    color: var(--el-text-color-primary);
-  }
+### Footer Attributes
 
-  .common-layout {
-    .el-header,
-    .el-footer {
-      text-align: center;
-    }
+| Name   | Description          | Type      | Default |
+| ------ | -------------------- | --------- | ------- |
+| height | height of the footer | ^[string] | 60px    |
 
-    .el-aside {
-      background-color: #d3dce6;
-      text-align: center;
-      line-height: 200px;
-    }
+### Footer Slots
 
-    .el-main {
-      background-color: #e9eef3;
-      color: var(--el-text-color-primary);
-      text-align: center;
-      line-height: 160px;
-    }
-
-    .el-container {
-      margin-bottom: 40px;
-      &:last-child {
-        margin-bottom: 0;
-      }
-      &:nth-child(5) .el-aside,
-      &:nth-child(6) .el-aside {
-        line-height: 260px;
-      }
-
-      &:nth-child(7) .el-aside {
-        line-height: 320px;
-      }
-    }
-  }
-}
-</style>
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |

@@ -15,34 +15,21 @@
   </el-checkbox-group>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
+const checkAll = ref(false)
+const isIndeterminate = ref(true)
+const checkedCities = ref(['Shanghai', 'Beijing'])
+const cities = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen']
 
-export default defineComponent({
-  setup() {
-    const state = reactive({
-      checkAll: false,
-      checkedCities: ['Shanghai', 'Beijing'],
-      cities: cityOptions,
-      isIndeterminate: true,
-    })
-    const handleCheckAllChange = (val) => {
-      state.checkedCities = val ? cityOptions : []
-      state.isIndeterminate = false
-    }
-    const handleCheckedCitiesChange = (value) => {
-      const checkedCount = value.length
-      state.checkAll = checkedCount === state.cities.length
-      state.isIndeterminate =
-        checkedCount > 0 && checkedCount < state.cities.length
-    }
-    return {
-      ...toRefs(state),
-      handleCheckAllChange,
-      handleCheckedCitiesChange,
-    }
-  },
-})
+const handleCheckAllChange = (val: boolean) => {
+  checkedCities.value = val ? cities : []
+  isIndeterminate.value = false
+}
+const handleCheckedCitiesChange = (value: string[]) => {
+  const checkedCount = value.length
+  checkAll.value = checkedCount === cities.length
+  isIndeterminate.value = checkedCount > 0 && checkedCount < cities.length
+}
 </script>

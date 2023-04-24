@@ -1,10 +1,11 @@
-import { ref, getCurrentInstance, unref, watch, toRefs } from 'vue'
-import { hasOwn } from '@vue/shared'
+// @ts-nocheck
+import { getCurrentInstance, ref, toRefs, unref, watch } from 'vue'
+import { hasOwn } from '@element-plus/utils'
 import {
-  getKeysMap,
-  getRowIdentity,
   getColumnById,
   getColumnByKey,
+  getKeysMap,
+  getRowIdentity,
   orderBy,
   toggleRowStatus,
 } from '../util'
@@ -15,7 +16,7 @@ import useTree from './tree'
 import type { Ref } from 'vue'
 import type { TableColumnCtx } from '../table-column/defaults'
 import type { Table, TableRefs } from '../table/defaults'
-import type { StoreFilter } from './index'
+import type { StoreFilter } from '.'
 
 const sortData = (data, states) => {
   const sortingColumn = states.sortingColumn
@@ -59,6 +60,7 @@ function useWatcher<T>() {
   const leafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const fixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
   const rightFixedLeafColumns: Ref<TableColumnCtx<T>[]> = ref([])
+  const updateOrderFns: (() => void)[] = []
   const leafColumnsLength = ref(0)
   const fixedLeafColumnsLength = ref(0)
   const rightFixedLeafColumnsLength = ref(0)
@@ -83,8 +85,19 @@ function useWatcher<T>() {
     if (!rowKey.value) throw new Error('[ElTable] prop row-key is required')
   }
 
+  // 更新 fixed
+  const updateChildFixed = (column: TableColumnCtx<T>) => {
+    column.children?.forEach((childColumn) => {
+      childColumn.fixed = column.fixed
+      updateChildFixed(childColumn)
+    })
+  }
+
   // 更新列
   const updateColumns = () => {
+    _columns.value.forEach((column) => {
+      updateChildFixed(column)
+    })
     fixedColumns.value = _columns.value.filter(
       (column) => column.fixed === true || column.fixed === 'left'
     )
@@ -136,7 +149,7 @@ function useWatcher<T>() {
 
   // 选择
   const isSelected = (row) => {
-    return selection.value.indexOf(row) > -1
+    return selection.value.includes(row)
   }
 
   const clearSelection = () => {
@@ -160,22 +173,19 @@ function useWatcher<T>() {
         }
       }
     } else {
-      deleted = selection.value.filter(
-        (item) => data.value.indexOf(item) === -1
-      )
+      deleted = selection.value.filter((item) => !data.value.includes(item))
     }
     if (deleted.length) {
       const newSelection = selection.value.filter(
-        (item) => deleted.indexOf(item) === -1
+        (item) => !deleted.includes(item)
       )
       selection.value = newSelection
       instance.emit('selection-change', newSelection.slice())
-    } else {
-      if (selection.value.length) {
-        selection.value = []
-        instance.emit('selection-change', [])
-      }
     }
+  }
+
+  const getSelectionRows = () => {
+    return (selection.value || []).slice()
   }
 
   const toggleRowSelection = (
@@ -257,7 +267,7 @@ function useWatcher<T>() {
       if (selectedMap) {
         return !!selectedMap[getRowIdentity(row, rowKey.value)]
       } else {
-        return selection.value.indexOf(row) !== -1
+        return selection.value.includes(row)
       }
     }
     let isAllSelected_ = true
@@ -361,14 +371,9 @@ function useWatcher<T>() {
   }
 
   const clearFilter = (columnKeys) => {
-    const { tableHeader, fixedTableHeader, rightFixedTableHeader } =
-      instance.refs as TableRefs
-    let panels = {}
-    if (tableHeader) panels = Object.assign(panels, tableHeader.filterPanels)
-    if (fixedTableHeader)
-      panels = Object.assign(panels, fixedTableHeader.filterPanels)
-    if (rightFixedTableHeader)
-      panels = Object.assign(panels, rightFixedTableHeader.filterPanels)
+    const { tableHeaderRef } = instance.refs as TableRefs
+    if (!tableHeaderRef) return
+    const panels = Object.assign({}, tableHeaderRef.filterPanels)
 
     const keys = Object.keys(panels)
     if (!keys.length) return
@@ -460,7 +465,7 @@ function useWatcher<T>() {
   }
 
   // 展开行与 TreeTable 都要使用
-  const toggleRowExpansionAdapter = (row: T, expanded: boolean) => {
+  const toggleRowExpansionAdapter = (row: T, expanded?: boolean) => {
     const hasExpandColumn = columns.value.some(({ type }) => type === 'expand')
     if (hasExpandColumn) {
       toggleRowExpansion(row, expanded)
@@ -476,6 +481,7 @@ function useWatcher<T>() {
     isSelected,
     clearSelection,
     cleanSelection,
+    getSelectionRows,
     toggleRowSelection,
     _toggleAllSelection,
     toggleAllSelection: null,
@@ -512,6 +518,7 @@ function useWatcher<T>() {
       leafColumns,
       fixedLeafColumns,
       rightFixedLeafColumns,
+      updateOrderFns,
       leafColumnsLength,
       fixedLeafColumnsLength,
       rightFixedLeafColumnsLength,

@@ -1,76 +1,167 @@
 import { isString } from '@vue/shared'
-import { buildProps, definePropType, mutable } from '@element-plus/utils/props'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+  mutable,
+} from '@element-plus/utils'
+import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useSizeProp } from '@element-plus/hooks'
-import type { StyleValue } from '@element-plus/utils/types'
-import type { ExtractPropTypes, Component } from 'vue'
+import type Input from './input.vue'
+import type { ExtractPropTypes, StyleValue } from 'vue'
 
-type AutoSize = { minRows?: number; maxRows?: number } | boolean
+export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 
 export const inputProps = buildProps({
+  /**
+   * @description native input id
+   */
+  id: {
+    type: String,
+    default: undefined,
+  },
+  /**
+   * @description input box size
+   */
   size: useSizeProp,
+  /**
+   * @description whether to disable
+   */
   disabled: Boolean,
+  /**
+   * @description binding value
+   */
   modelValue: {
-    type: definePropType<string | number | null | undefined>(undefined),
+    type: definePropType<string | number | null | undefined>([
+      String,
+      Number,
+      Object,
+    ]),
     default: '',
   },
+  /**
+   * @description type of input
+   */
   type: {
     type: String,
     default: 'text',
   },
+  /**
+   * @description control the resizability
+   */
   resize: {
     type: String,
     values: ['none', 'both', 'horizontal', 'vertical'],
   },
+  /**
+   * @description whether textarea has an adaptive height
+   */
   autosize: {
-    type: definePropType<AutoSize>([Boolean, Object]),
+    type: definePropType<InputAutoSize>([Boolean, Object]),
     default: false,
   },
+  /**
+   * @description native input autocomplete
+   */
   autocomplete: {
     type: String,
     default: 'off',
   },
+  /**
+   * @description format content
+   */
+  formatter: {
+    type: Function,
+  },
+  /**
+   * @description parse content
+   */
+  parser: {
+    type: Function,
+  },
+  /**
+   * @description placeholder
+   */
   placeholder: {
     type: String,
   },
+  /**
+   * @description native input form
+   */
   form: {
     type: String,
-    default: '',
   },
+  /**
+   * @description native input readonly
+   */
   readonly: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description native input readonly
+   */
   clearable: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description toggleable password input
+   */
   showPassword: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description word count
+   */
   showWordLimit: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description suffix icon
+   */
   suffixIcon: {
-    type: definePropType<string | Component>([String, Object]),
-    default: '',
+    type: iconPropType,
   },
+  /**
+   * @description prefix icon
+   */
   prefixIcon: {
-    type: definePropType<string | Component>([String, Object]),
-    default: '',
+    type: iconPropType,
   },
+  /**
+   * @description container role, internal properties provided for use by the picker component
+   */
+  containerRole: {
+    type: String,
+    default: undefined,
+  },
+  /**
+   * @description native input aria-label
+   */
   label: {
     type: String,
+    default: undefined,
   },
+  /**
+   * @description input tabindex
+   */
   tabindex: {
-    type: [Number, String],
+    type: [String, Number],
+    default: 0,
   },
+  /**
+   * @description whether to trigger form validation
+   */
   validateEvent: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description input or texearea element style
+   */
   inputStyle: {
     type: definePropType<StyleValue>([Object, Array, String]),
     default: () => mutable({} as const),
@@ -87,9 +178,13 @@ export const inputEmits = {
   clear: () => true,
   mouseleave: (evt: MouseEvent) => evt instanceof MouseEvent,
   mouseenter: (evt: MouseEvent) => evt instanceof MouseEvent,
-  keydown: (evt: KeyboardEvent) => evt instanceof KeyboardEvent,
+  // NOTE: when autofill by browser, the keydown event is instanceof Event, not KeyboardEvent
+  // relative bug report https://github.com/element-plus/element-plus/issues/6665
+  keydown: (evt: KeyboardEvent | Event) => evt instanceof Event,
   compositionstart: (evt: CompositionEvent) => evt instanceof CompositionEvent,
   compositionupdate: (evt: CompositionEvent) => evt instanceof CompositionEvent,
   compositionend: (evt: CompositionEvent) => evt instanceof CompositionEvent,
 }
 export type InputEmits = typeof inputEmits
+
+export type InputInstance = InstanceType<typeof Input>

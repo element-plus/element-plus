@@ -7,7 +7,7 @@ const triggerEvent = (elm: Element, name: string, ...opts: any[]) => {
 
   if (/^mouse|click/.test(name)) {
     eventName = 'MouseEvents'
-  } else if (/^key/.test(name)) {
+  } else if (name.startsWith('key')) {
     eventName = 'KeyboardEvent'
   } else {
     eventName = 'HTMLEvents'

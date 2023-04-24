@@ -3,7 +3,7 @@
     confirm-button-text="Yes"
     cancel-button-text="No"
     :icon="InfoFilled"
-    icon-color="red"
+    icon-color="#626AEF"
     title="Are you sure to delete this?"
     @confirm="confirmEvent"
     @cancel="cancelEvent"

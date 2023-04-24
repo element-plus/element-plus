@@ -5,7 +5,7 @@
       <template #header>
         <div class="card-header">
           <span>Card name</span>
-          <el-button class="button" type="text">Operation button</el-button>
+          <el-button class="button" text>Operation button</el-button>
         </div>
       </template>
       <div v-for="o in 4" :key="o" class="text item">
@@ -15,12 +15,8 @@
   </el-space>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      size: 20,
-    }
-  },
-}
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const size = ref(20)
 </script>

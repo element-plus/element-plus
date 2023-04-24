@@ -7,7 +7,7 @@
   @include m(simple) {
     padding: 13px 8%;
     border-radius: 4px;
-    background: var(--el-bg-color);
+    background: getCssVar('fill-color', 'light');
   }
 
   @include m(horizontal) {

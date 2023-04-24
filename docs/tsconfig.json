@@ -9,7 +9,14 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": ["WebWorker"],
+    "paths": {
+      "element-plus": ["../packages/element-plus"],
+      "~/*": ["./.vitepress/vitepress/*"]
+    },
+    "types": ["../typings/components"],
+    "jsx": "preserve"
   },
   "include": ["**/*", ".vitepress/**/*"],
   "exclude": ["node_modules"]

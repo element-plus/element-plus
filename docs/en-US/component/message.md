@@ -63,7 +63,7 @@ Although `message` property supports HTML strings, dynamically rendering arbitra
 
 :::
 
-## grouping
+## Grouping
 
 merge messages with the same content.
 
@@ -85,26 +85,51 @@ import { ElMessage } from 'element-plus'
 
 In this case you should call `ElMessage(options)`. We have also registered methods for different types, e.g. `ElMessage.success(options)`. You can call `ElMessage.closeAll()` to manually close all the instances.
 
-## Options
+## App context inheritance <el-tag> >= 2.0.3</el-tag>
 
-| Attribute                | Description                                                                    | Type                 | Accepted Values            | Default       |
-| ------------------------ | ------------------------------------------------------------------------------ | -------------------- | -------------------------- | ------------- |
-| message                  | message text                                                                   | string / VNode       | —                          | —             |
-| type                     | message type                                                                   | string               | success/warning/info/error | info          |
-| icon-class               | custom icon's class, overrides `type`                                          | string               | —                          | —             |
-| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                    | boolean              | —                          | false         |
-| custom-class             | custom class name for Message                                                  | string               | —                          | —             |
-| duration                 | display duration, millisecond. If set to 0, it will not turn off automatically | number               | —                          | 3000          |
-| show-close               | whether to show a close button                                                 | boolean              | —                          | false         |
-| center                   | whether to center the text                                                     | boolean              | —                          | false         |
-| on-close                 | callback function when closed with the message instance as the parameter       | function             | —                          | —             |
-| offset                   | set the distance to the top of viewport                                        | number               | —                          | 20            |
-| appendTo                 | set the root element for the message                                           | string / HTMLElement | -                          | document.body |
-| grouping                 | merge messages with the same content, type of VNode message is not supported   | boolean              | —                          | false         |
+Now message accepts a `context` as second parameter of the message constructor which allows you to inject current app's context to message which allows you to inherit all the properties of the app.
 
-## Methods
+You can use it like this:
+
+:::tip
+
+If you globally registered ElMessage component, it will automatically inherit your app context.
+
+:::
+
+```ts
+import { getCurrentInstance } from 'vue'
+import { ElMessage } from 'element-plus'
+
+// in your setup method
+const { appContext } = getCurrentInstance()!
+ElMessage({}, appContext)
+```
+
+## API
+
+### Options
+
+| Name                     | Description                                                                                          | Type                                                 | Default |
+| ------------------------ | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------- |
+| message                  | message text                                                                                         | ^[string] / ^[VNode] / ^[Function]`() => VNode`      | ''      |
+| type                     | message type                                                                                         | ^[enum]`'success' \| 'warning' \| 'info' \| 'error'` | info    |
+| icon                     | custom icon component, overrides `type`                                                              | ^[string] / ^[Component]                             | —       |
+| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                          | ^[boolean]                                           | false   |
+| customClass              | custom class name for Message                                                                        | ^[string]                                            | ''      |
+| duration                 | display duration, millisecond. If set to 0, it will not turn off automatically                       | ^[number]                                            | 3000    |
+| showClose                | whether to show a close button                                                                       | ^[boolean]                                           | false   |
+| center                   | whether to center the text                                                                           | ^[boolean]                                           | false   |
+| onClose                  | callback function when closed with the message instance as the parameter                             | ^[Function]`() => void`                              | —       |
+| offset                   | set the distance to the top of viewport                                                              | ^[number]                                            | 16      |
+| appendTo                 | set the root element for the message, default to `document.body`                                     | ^[string] / ^[HTMLElement]                           | —       |
+| grouping                 | merge messages with the same content, type of VNode message is not supported                         | ^[boolean]                                           | false   |
+| repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping` | ^[number]                                            | 1       |
+
+### Methods
 
 `Message` and `this.$message` returns the current Message instance. To manually close the instance, you can call `close` on it.
-| Method | Description |
-| ---- | ---- |
-| close | close the Message |
+
+| Name  | Description       | Type                    |
+| ----- | ----------------- | ----------------------- |
+| close | close the Message | ^[Function]`() => void` |

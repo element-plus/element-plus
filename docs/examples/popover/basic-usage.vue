@@ -7,7 +7,7 @@
     content="this is content, this is content, this is content"
   >
     <template #reference>
-      <el-button>Hover to activate</el-button>
+      <el-button class="m-2">Hover to activate</el-button>
     </template>
   </el-popover>
 
@@ -19,7 +19,7 @@
     content="this is content, this is content, this is content"
   >
     <template #reference>
-      <el-button>Click to activate</el-button>
+      <el-button class="m-2">Click to activate</el-button>
     </template>
   </el-popover>
 
@@ -32,32 +32,45 @@
     content="this is content, this is content, this is content"
   >
     <template #reference>
-      <el-button>Focus to activate</el-button>
+      <el-button class="m-2">Focus to activate</el-button>
     </template>
   </el-popover>
 
   <el-popover
-    v-model:visible="visible"
-    placement="bottom"
+    ref="popover"
     title="Title"
     :width="200"
-    trigger="manual"
+    trigger="contextmenu"
     content="this is content, this is content, this is content"
   >
     <template #reference>
-      <el-button @click="visible = !visible">Manual to activate</el-button>
+      <el-button class="m-2">contextmenu to activate</el-button>
+    </template>
+  </el-popover>
+
+  <el-popover
+    :visible="visible"
+    placement="bottom"
+    title="Title"
+    :width="200"
+    content="this is content, this is content, this is content"
+  >
+    <template #reference>
+      <el-button class="m-2" @click="visible = !visible"
+        >Manual to activate</el-button
+      >
     </template>
   </el-popover>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      visible: ref(false),
-    }
-  },
-})
+const visible = ref(false)
 </script>
+
+<style scoped>
+.el-button + .el-button {
+  margin-left: 8px;
+}
+</style>

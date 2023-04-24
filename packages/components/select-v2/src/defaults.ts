@@ -1,10 +1,11 @@
-import { isValidComponentSize } from '@element-plus/utils/validators'
+import { placements } from '@popperjs/core'
+import { definePropType, isValidComponentSize } from '@element-plus/utils'
+import { useTooltipContentProps } from '@element-plus/components/tooltip'
 import { CircleClose } from '@element-plus/icons-vue'
-
-import type { PropType, Component } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+import type { Component, PropType } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 import type { OptionType } from './select.types'
-import type { Options } from '@element-plus/components/popper'
+import type { Options, Placement } from '@element-plus/components/popper'
 
 export const SelectProps = {
   allowCreate: Boolean,
@@ -18,7 +19,19 @@ export const SelectProps = {
     type: [String, Object] as PropType<string | Component>,
     default: CircleClose,
   },
+  effect: {
+    type: String as PropType<'light' | 'dark' | string>,
+    default: 'light',
+  },
   collapseTags: Boolean,
+  collapseTagsTooltip: {
+    type: Boolean,
+    default: false,
+  },
+  maxCollapseTags: {
+    type: Number,
+    default: 1,
+  },
   defaultFirstOption: Boolean,
   disabled: Boolean,
   estimatedOptionHeight: {
@@ -51,7 +64,10 @@ export const SelectProps = {
   noDataText: String,
   noMatchText: String,
   remoteMethod: Function,
-  reserveKeyword: Boolean,
+  reserveKeyword: {
+    type: Boolean,
+    default: true,
+  },
   options: {
     type: Array as PropType<OptionType[]>,
     required: true,
@@ -59,7 +75,8 @@ export const SelectProps = {
   placeholder: {
     type: String,
   },
-  popperAppendToBody: {
+  teleported: useTooltipContentProps.teleported,
+  persistent: {
     type: Boolean,
     default: true,
   },
@@ -83,6 +100,15 @@ export const SelectProps = {
   scrollbarAlwaysOn: {
     type: Boolean,
     default: false,
+  },
+  validateEvent: {
+    type: Boolean,
+    default: true,
+  },
+  placement: {
+    type: definePropType<Placement>(String),
+    values: placements,
+    default: 'bottom-start',
   },
 }
 

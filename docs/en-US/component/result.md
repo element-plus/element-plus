@@ -25,7 +25,7 @@ result/customized-content
 
 ## Result Attributes
 
-| Attribute | Description | Type   | Accepted Values                  | Default |
+| Name      | Description | Type   | Accepted Values                  | Default |
 | --------- | ----------- | ------ | -------------------------------- | ------- |
 | title     | title       | string | —                                | —       |
 | sub-title | sub title   | string | —                                | —       |
@@ -33,9 +33,9 @@ result/customized-content
 
 ## Result Slots
 
-| Name     | Description       |
-| -------- | ----------------- |
-| icon     | custom icon       |
-| title    | custom title      |
-| subTitle | custom sub title  |
-| extra    | custom extra area |
+| Name      | Description       |
+| --------- | ----------------- |
+| icon      | custom icon       |
+| title     | custom title      |
+| sub-title | custom sub title  |
+| extra     | custom extra area |

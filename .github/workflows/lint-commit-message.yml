@@ -1,0 +1,71 @@
+name: Lint Commit Message
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    outputs:
+      failed: ${{ steps.lint_commit.outputs.failed == 'true' }}
+    env:
+      PULL_REQUEST_NUMBER: ${{ github.event.number }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+
+      - name: Lint commit
+        id: lint_commit
+        run: pnpm lint:commit || echo "failed=true" >> $GITHUB_OUTPUT
+
+      - name: Set success result
+        if: ${{ steps.lint_commit.outputs.failed != 'true' }}
+        run: echo 'true' > ./lint-result.txt
+
+      - name: Set failed result
+        if: ${{ steps.lint_commit.outputs.failed == 'true' }}
+        run: echo 'false' > ./lint-result.txt
+
+      - name: Set PR number
+        run: echo $PULL_REQUEST_NUMBER > pr.txt
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: commit-lint-report
+          path: ./commit-lint.txt
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: commit-lint-result
+          path: ./lint-result.txt
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: pr-number
+          path: ./pr.txt

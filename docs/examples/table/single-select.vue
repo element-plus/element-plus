@@ -1,6 +1,6 @@
 <template>
   <el-table
-    ref="singleTable"
+    ref="singleTableRef"
     :data="tableData"
     highlight-current-row
     style="width: 100%"
@@ -17,43 +17,45 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      tableData: [
-        {
-          date: '2016-05-03',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-02',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-04',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-        {
-          date: '2016-05-01',
-          name: 'Tom',
-          address: 'No. 189, Grove St, Los Angeles',
-        },
-      ],
-      currentRow: null,
-    }
-  },
+<script lang="ts" setup>
+import { ref } from 'vue'
+import { ElTable } from 'element-plus'
 
-  methods: {
-    setCurrent(row) {
-      this.$refs.singleTable.setCurrentRow(row)
-    },
-    handleCurrentChange(val) {
-      this.currentRow = val
-    },
-  },
+interface User {
+  date: string
+  name: string
+  address: string
 }
+
+const currentRow = ref()
+const singleTableRef = ref<InstanceType<typeof ElTable>>()
+
+const setCurrent = (row?: User) => {
+  singleTableRef.value!.setCurrentRow(row)
+}
+const handleCurrentChange = (val: User | undefined) => {
+  currentRow.value = val
+}
+const tableData: User[] = [
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+]
 </script>

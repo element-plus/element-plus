@@ -7,45 +7,11 @@ lang: en-US
 
 Toggleable menu for displaying lists of links and actions.
 
-<style lang="scss" >
+:::tip
 
-.example-showcase {
-  .el-dropdown {
-    & + .el-dropdown {
-      margin-left: 15px;
-    }
-  }
-  .el-dropdown-link {
-    cursor: pointer;
-    color: var(--el-color-primary);
-  }
-.el-icon--right {
-  font-size: 12px;
-  vertical-align: middle;
-}
-}
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
 
-.block-col-2 {
-  margin: -24px;
-
-  .el-col {
-    padding: 30px 0;
-    text-align: center;
-    border-right: 1px solid var(--el-border-color-base);
-
-    &:last-child {
-      border-right: 0;
-    }
-  }
-}
-
-.example-showcase .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-</style>
+:::
 
 ## Basic usage
 
@@ -97,11 +63,21 @@ dropdown/command-event
 
 :::
 
+## Dropdown methods
+
+You can open or close the dropdown menu by manually use `handleOpen` or `handleClose`
+
+:::demo
+
+dropdown/dropdown-methods
+
+:::
+
 ## Sizes
 
 Besides default size, Dropdown component provides three additional sizes for you to choose among different scenarios.
 
-:::demo Use attribute `size` to set additional sizes with `medium`, `small` or `mini`.
+:::demo Use attribute `size` to set additional sizes with `large`, `default` or `small`.
 
 dropdown/sizes
 
@@ -109,19 +85,23 @@ dropdown/sizes
 
 ## Dropdown Attributes
 
-| Attribute     | Description                                                                                          | Type            | Accepted Values                                      | Default |
-| ------------- | ---------------------------------------------------------------------------------------------------- | --------------- | ---------------------------------------------------- | ------- |
-| type          | menu button type, refer to `Button` Component, only works when `split-button` is true                | string          | —                                                    | —       |
-| size          | menu size, also works on the split button                                                            | string          | medium / small / mini                                | —       |
-| max-height    | the max height of menu                                                                               | string / number | —                                                    | —       |
-| split-button  | whether a button group is displayed                                                                  | boolean         | —                                                    | false   |
-| disabled      | Whether to disable                                                                                   | boolean         | —                                                    | false   |
-| placement     | placement of pop menu                                                                                | string          | top/top-start/top-end/bottom/bottom-start/bottom-end | bottom  |
-| trigger       | how to trigger                                                                                       | string          | hover/click/contextmenu                              | hover   |
-| hide-on-click | whether to hide menu after clicking menu-item                                                        | boolean         | —                                                    | true    |
-| show-timeout  | Delay time before show a dropdown (only works when trigger is `hover`)                               | number          | —                                                    | 250     |
-| hide-timeout  | Delay time before hide a dropdown (only works when trigger is `hover`)                               | number          | —                                                    | 150     |
-| tabindex      | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Dropdown | number          | —                                                    | 0       |
+| Name           | Description                                                                                                           | Type            | Accepted Values                                          | Default                                                                    |
+| -------------- | --------------------------------------------------------------------------------------------------------------------- | --------------- | -------------------------------------------------------- | -------------------------------------------------------------------------- |
+| type           | menu button type, refer to `Button` Component, only works when `split-button` is true                                 | string          | —                                                        | —                                                                          |
+| size           | menu size, also works on the split button                                                                             | string          | large / default / small                                  | default                                                                    |
+| max-height     | the max height of menu                                                                                                | string / number | —                                                        | —                                                                          |
+| split-button   | whether a button group is displayed                                                                                   | boolean         | —                                                        | false                                                                      |
+| disabled       | Whether to disable                                                                                                    | boolean         | —                                                        | false                                                                      |
+| placement      | placement of pop menu                                                                                                 | string          | top/top-start/top-end/bottom/bottom-start/bottom-end     | bottom                                                                     |
+| trigger        | how to trigger                                                                                                        | string          | hover/click/contextmenu                                  | hover                                                                      |
+| hide-on-click  | whether to hide menu after clicking menu-item                                                                         | boolean         | —                                                        | true                                                                       |
+| show-timeout   | Delay time before show a dropdown (only works when trigger is `hover`)                                                | number          | —                                                        | 250                                                                        |
+| hide-timeout   | Delay time before hide a dropdown (only works when trigger is `hover`)                                                | number          | —                                                        | 150                                                                        |
+| role           | The ARIA role attribute for the dropdown menu. Depending on the use case, you may want to change this to 'navigation' | string          | —                                                        | 'menu'                                                                     |
+| tabindex       | [tabindex](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/tabindex) of Dropdown                  | number          | —                                                        | 0                                                                          |
+| popper-class   | custom class name for Dropdown's dropdown                                                                             | string          | —                                                        | —                                                                          |
+| popper-options | [popper.js](https://popper.js.org/docs/v2/) parameters                                                                | Object          | refer to [popper.js](https://popper.js.org/docs/v2/) doc | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
+| teleported     | whether the dropdown popup is teleported to the body                                                                  | boolean         | —                                                        | true                                                                       |
 
 ## Dropdown Slots
 
@@ -132,11 +112,18 @@ dropdown/sizes
 
 ## Dropdown Events
 
-| Event Name     | Description                                                       | Parameters                                    |
+| Name           | Description                                                       | Parameters                                    |
 | -------------- | ----------------------------------------------------------------- | --------------------------------------------- |
 | click          | if `split-button` is `true`, triggers when left button is clicked | —                                             |
 | command        | triggers when a dropdown item is clicked                          | the command dispatched from the dropdown item |
 | visible-change | triggers when the dropdown appears/disappears                     | true when it appears, and false otherwise     |
+
+## Dropdown Methods
+
+| Method      | Description             | Parameters |
+| ----------- | ----------------------- | ---------- |
+| handleOpen  | open the dropdown menu  | —          |
+| handleClose | close the dropdown menu | —          |
 
 ## Dropdown-Menu Slots
 
@@ -146,12 +133,12 @@ dropdown/sizes
 
 ## Dropdown-Item Attributes
 
-| Attribute | Description                                                 | Type                 | Accepted Values | Default |
-| --------- | ----------------------------------------------------------- | -------------------- | --------------- | ------- |
-| command   | a command to be dispatched to Dropdown's `command` callback | string/number/object | —               | —       |
-| disabled  | whether the item is disabled                                | boolean              | —               | false   |
-| divided   | whether a divider is displayed                              | boolean              | —               | false   |
-| icon      | icon class name                                             | string               | —               | —       |
+| Name     | Description                                                 | Type                  | Accepted Values | Default |
+| -------- | ----------------------------------------------------------- | --------------------- | --------------- | ------- |
+| command  | a command to be dispatched to Dropdown's `command` callback | string/number/object  | —               | —       |
+| disabled | whether the item is disabled                                | boolean               | —               | false   |
+| divided  | whether a divider is displayed                              | boolean               | —               | false   |
+| icon     | custom icon                                                 | `string \| Component` | —               | —       |
 
 ## Dropdown-Item Slots
 

@@ -17,34 +17,38 @@ breadcrumb/basic
 
 ## Icon separator
 
-:::demo Set `separator-class` to use `iconfont` as the separator，it will cover `separator`
+:::demo Set `separator-icon` to use `svg icon` as the separator，it will cover `separator`
 
 breadcrumb/icon
 
 :::
 
-## Breadcrumb Attributes
+## Breadcrumb API
 
-| Attribute       | Description                      | Type               | Accepted Values | Default |
-| --------------- | -------------------------------- | ------------------ | --------------- | ------- |
-| separator       | separator character              | string             | —               | /       |
-| separator-class | icon component of icon separator | string / Component | —               | -       |
+### Breadcrumb Attributes
 
-## Breadcrumb Slots
+| Name           | Description                      | Type                     | Default |
+| -------------- | -------------------------------- | ------------------------ | ------- |
+| separator      | separator character              | ^[string]                | /       |
+| separator-icon | icon component of icon separator | ^[string] / ^[Component] | -       |
 
-| Name | Description               | Subtags         |
-| ---- | ------------------------- | --------------- |
-| -    | customize default content | Breadcrumb Item |
+### Breadcrumb Slots
 
-## Breadcrumb Item Attributes
+| Name    | Description               | Subtags         |
+| ------- | ------------------------- | --------------- |
+| default | customize default content | Breadcrumb Item |
 
-| Attribute | Description                                               | Type          | Accepted Values | Default |
-| --------- | --------------------------------------------------------- | ------------- | --------------- | ------- |
-| to        | target route of the link, same as `to` of `vue-router`    | string/object | —               | —       |
-| replace   | if `true`, the navigation will not leave a history record | boolean       | —               | false   |
+## BreadcrumbItem API
 
-## Breadcrumb Item Slots
+### BreadcrumbItem Attributes
 
-| Name | Description               |
-| ---- | ------------------------- |
-| —    | customize default content |
+| Name    | Description                                               | Type                                    | Default |
+| ------- | --------------------------------------------------------- | --------------------------------------- | ------- |
+| to      | target route of the link, same as `to` of `vue-router`    | ^[string] / ^[object]`RouteLocationRaw` | ''      |
+| replace | if `true`, the navigation will not leave a history record | ^[boolean]                              | false   |
+
+### BreadcrumbItem Slots
+
+| Name    | Description               |
+| ------- | ------------------------- |
+| default | customize default content |

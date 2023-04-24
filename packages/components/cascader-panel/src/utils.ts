@@ -1,4 +1,4 @@
-import { isLeaf } from '@element-plus/utils/aria'
+import { isLeaf } from '@element-plus/utils'
 import type { default as CascaderNode } from './node'
 
 export const getMenuIndex = (el: HTMLElement) => {
@@ -7,7 +7,7 @@ export const getMenuIndex = (el: HTMLElement) => {
   return Number(pieces[pieces.length - 2])
 }
 
-export const checkNode = (el) => {
+export const checkNode = (el: HTMLElement) => {
   if (!el) return
 
   const input = el.querySelector('input')
