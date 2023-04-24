@@ -800,13 +800,13 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleBlur = (event: FocusEvent) => {
     // https://github.com/ElemeFE/element/pull/10822
-    nextTick(() => {
+    setTimeout(() => {
       if (states.isSilentBlur) {
         states.isSilentBlur = false
       } else {
         ctx.emit('blur', event)
       }
-    })
+    }, 200)
     states.softFocus = false
   }
 
@@ -956,6 +956,7 @@ export const useSelect = (props, states: States, ctx) => {
     groupQueryChange,
     showTagList,
     collapseTagList,
+    setSoftFocus,
 
     // DOM ref
     reference,
