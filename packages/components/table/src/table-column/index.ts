@@ -1,17 +1,19 @@
+// @ts-nocheck
 import {
-  defineComponent,
-  ref,
-  onBeforeMount,
-  onMounted,
+  Fragment,
   computed,
+  defineComponent,
   getCurrentInstance,
   h,
+  onBeforeMount,
   onBeforeUnmount,
-  Fragment,
+  onMounted,
+  ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { isString } from '@element-plus/utils'
 import { cellStarts } from '../config'
-import { mergeOptions, compose } from '../util'
+import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
 import useRender from './render-helper'
 import defaultProps from './defaults'
@@ -53,6 +55,7 @@ export default defineComponent({
       getPropsData,
       getColumnElIndex,
       realAlign,
+      updateColumnOrder,
     } = useRender(props as unknown as TableColumnCtx<unknown>, slots, owner)
 
     const parent = columnOrTableParent.value
@@ -71,13 +74,13 @@ export default defineComponent({
         property: props.prop || props.property,
         align: realAlign,
         headerAlign: realHeaderAlign,
-        showOverflowTooltip:
-          props.showOverflowTooltip || props.showTooltipWhenOverflow,
+        showOverflowTooltip: props.showOverflowTooltip,
         // filter 相关属性
         filterable: props.filters || props.filterMethod,
         filteredValue: [],
         filterPlacement: '',
         isColumnGroup: false,
+        isSubColumn: false,
         filterOpened: false,
         // sort 相关属性
         sortable,
@@ -138,31 +141,32 @@ export default defineComponent({
         owner.value.store.commit(
           'insertColumn',
           columnConfig.value,
-          isSubColumn.value ? parent.columnConfig.value : null
+          isSubColumn.value ? parent.columnConfig.value : null,
+          updateColumnOrder
         )
     })
     onBeforeUnmount(() => {
       owner.value.store.commit(
         'removeColumn',
         columnConfig.value,
-        isSubColumn.value ? parent.columnConfig.value : null
+        isSubColumn.value ? parent.columnConfig.value : null,
+        updateColumnOrder
       )
     })
     instance.columnId = columnId.value
 
-    // eslint-disable-next-line
     instance.columnConfig = columnConfig
     return
   },
   render() {
-    let children = []
     try {
       const renderDefault = this.$slots.default?.({
         row: {},
         column: {},
         $index: -1,
       })
-      if (renderDefault instanceof Array) {
+      const children = []
+      if (Array.isArray(renderDefault)) {
         for (const childNode of renderDefault) {
           if (
             childNode.type?.name === 'ElTableColumn' ||
@@ -171,15 +175,21 @@ export default defineComponent({
             children.push(childNode)
           } else if (
             childNode.type === Fragment &&
-            childNode.children instanceof Array
+            Array.isArray(childNode.children)
           ) {
-            children.push(...childNode.children)
+            childNode.children.forEach((vnode) => {
+              // No rendering when vnode is dynamic slot or text
+              if (vnode?.patchFlag !== 1024 && !isString(vnode?.children)) {
+                children.push(vnode)
+              }
+            })
           }
         }
       }
+      const vnode = h('div', children)
+      return vnode
     } catch {
-      children = []
+      return h('div', [])
     }
-    return h('div', children)
   },
 })

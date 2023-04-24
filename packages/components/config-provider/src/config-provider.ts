@@ -1,16 +1,27 @@
-import { useLocaleProps } from '@element-plus/hooks'
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import type { ButtonConfigContext } from '@element-plus/components/button'
+import { defineComponent, renderSlot, watch } from 'vue'
+import { provideGlobalConfig } from './hooks/use-global-config'
+import { configProviderProps } from './config-provider-props'
 
-export const configProviderProps = buildProps({
-  ...useLocaleProps,
+import type { MessageConfigContext } from '@element-plus/components/message'
 
-  size: {
-    type: String,
-    values: ['large', 'medium', 'small', 'mini'],
+export const messageConfig: MessageConfigContext = {}
+
+const ConfigProvider = defineComponent({
+  name: 'ElConfigProvider',
+  props: configProviderProps,
+
+  setup(props, { slots }) {
+    watch(
+      () => props.message,
+      (val) => {
+        Object.assign(messageConfig, val ?? {})
+      },
+      { immediate: true, deep: true }
+    )
+    const config = provideGlobalConfig(props)
+    return () => renderSlot(slots, 'default', { config: config?.value })
   },
+})
+export type ConfigProviderInstance = InstanceType<typeof ConfigProvider>
 
-  button: {
-    type: definePropType<ButtonConfigContext>(Object),
-  },
-} as const)
+export default ConfigProvider

@@ -1,9 +1,10 @@
 <template>
   <el-popconfirm
+    width="220"
     confirm-button-text="OK"
     cancel-button-text="No, Thanks"
     :icon="InfoFilled"
-    icon-color="red"
+    icon-color="#626AEF"
     title="Are you sure to delete this?"
   >
     <template #reference>

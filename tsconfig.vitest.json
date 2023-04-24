@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.web.json",
+  "compilerOptions": {
+    "composite": true,
+    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "types": ["node", "jsdom", "unplugin-vue-macros/macros-global"],
+    "skipLibCheck": true
+  },
+  "include": ["packages", "vitest.setup.ts", "typings/env.d.ts"],
+  "exclude": ["node_modules", "dist", "**/*.md"]
+}

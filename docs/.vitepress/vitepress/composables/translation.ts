@@ -1,5 +1,6 @@
 import { computed } from 'vue'
-import { useRouter, useRoute } from 'vitepress'
+import { useRoute, useRouter } from 'vitepress'
+import { isClient, useStorage } from '@vueuse/core'
 import { PREFERRED_LANG_KEY } from '../constant'
 
 import langs from '../../i18n/lang.json'
@@ -19,7 +20,7 @@ export const useTranslation = () => {
     'ja-JP': '日本語',
   }
 
-  const helpTranslate = computed(() => translationLocale[lang.value].help)
+  const locale = computed(() => translationLocale[lang.value])
   const langsRef = computed(() => {
     const currentLang = lang.value
 
@@ -37,18 +38,29 @@ export const useTranslation = () => {
     return currentLang === 'zh-CN' ? langsCopy : ['zh-CN'].concat(langsCopy)
   })
 
+  const language = useStorage(PREFERRED_LANG_KEY, 'en-US')
+
   const switchLang = (targetLang: string) => {
     if (lang.value === targetLang) return
-    localStorage.setItem(PREFERRED_LANG_KEY, targetLang)
+
+    language.value = targetLang
+
     const firstSlash = route.path.indexOf('/', 1)
 
     const goTo = `/${targetLang}/${route.path.slice(firstSlash + 1)}`
 
     router.go(goTo)
+
+    if (isClient) {
+      navigator?.serviceWorker.controller?.postMessage({
+        type: 'LANG',
+        lang: targetLang,
+      })
+    }
   }
 
   return {
-    helpTranslate,
+    locale,
     languageMap,
     langs: langsRef,
     lang,

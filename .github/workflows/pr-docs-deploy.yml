@@ -1,0 +1,102 @@
+# This workflow runs on target, so there is no need to worry about secrets
+name: PR Docs Deploy
+
+on:
+  workflow_run:
+    workflows: ['PR Docs Build']
+    types: [completed]
+
+jobs:
+  # Build successfully, start deployment
+  on-success:
+    name: Build successfully
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Download pr number
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          name: pr
+
+      - name: Output pr number
+        id: pr
+        run: echo "id=$(<pr.txt)" >> $GITHUB_OUTPUT
+
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          name: docs
+
+      - name: Deploy Site
+        run: |
+          export DEPLOY_DOMAIN=https://preview-${PULL_REQUEST_NUMBER}-element-plus.surge.sh
+          echo "Deploy to $DEPLOY_DOMAIN"
+          npx surge --project ./ --domain $DEPLOY_DOMAIN --token $SURGE_TOKEN
+        env:
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+          PULL_REQUEST_NUMBER: ${{ steps.pr.outputs.id }}
+
+      - name: Comment preview link
+        if: ${{ success() }}
+        uses: actions-cool/maintain-one-comment@v3.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            [<img width="400" src="https://user-images.githubusercontent.com/10731096/103995277-368b9a00-51d3-11eb-9f8f-67542f560613.png">](https://preview-${{ steps.pr.outputs.id }}-element-plus.surge.sh)
+            <!-- ELEMENT_PLUS_PREVIEW -->
+          body-include: '<!-- ELEMENT_PLUS_PREVIEW -->'
+          number: ${{ steps.pr.outputs.id }}
+
+      - name: Comment playground link
+        if: ${{ success() }}
+        uses: actions-cool/maintain-one-comment@v3.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            🧪 Playground Preview: https://element-plus.run/?pr=${{ steps.pr.outputs.id }}
+            Please comment the example via this playground if needed.
+            <!-- ELEMENT_PLUS_PLAYGROUND -->
+          body-include: '<!-- ELEMENT_PLUS_PLAYGROUND -->'
+          number: ${{ steps.pr.outputs.id }}
+
+      - name: Deploy has failed
+        if: ${{ failure() }}
+        uses: actions-cool/maintain-one-comment@v3.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            [<img width="400" src="https://user-images.githubusercontent.com/10731096/103995139-004e1a80-51d3-11eb-99ba-57e4b04826b4.png">](https://preview-${{ steps.pr.outputs.id }}-element-plus.surge.sh)
+            <!-- ELEMENT_PLUS_PREVIEW -->
+          body-include: '<!-- ELEMENT_PLUS_PREVIEW -->'
+          number: ${{ steps.pr.outputs.id }}
+
+  # Build failed, update comment
+  on-failure:
+    name: Build failed
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Download pr number
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: ${{ github.event.workflow.id }}
+          run_id: ${{ github.event.workflow_run.id }}
+          name: pr
+
+      - name: Output pr number
+        id: pr
+        run: echo "id=$(<pr.txt)" >> $GITHUB_OUTPUT
+
+      - name: Deploy has failed
+        uses: actions-cool/maintain-one-comment@v3.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            [<img width="400" src="https://user-images.githubusercontent.com/10731096/103995139-004e1a80-51d3-11eb-99ba-57e4b04826b4.png">](https://preview-${{ steps.pr.outputs.id }}-element-plus.surge.sh)
+            <!-- ELEMENT_PLUS_PREVIEW -->
+          body-include: '<!-- ELEMENT_PLUS_PREVIEW -->'
+          number: ${{ steps.pr.outputs.id }}

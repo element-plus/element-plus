@@ -1,3 +1,4 @@
+// @ts-nocheck
 import defineGetter from '@element-plus/test-utils/define-getter'
 
 export default () => {
@@ -5,7 +6,7 @@ export default () => {
     HTMLElement.prototype,
     'clientWidth',
     function () {
-      return parseInt(this.style.width, 10) || 0
+      return Number.parseInt(this.style.width, 10) || 0
     },
     0
   )
@@ -14,7 +15,7 @@ export default () => {
     HTMLElement.prototype,
     'clientHeight',
     function () {
-      return parseInt(this.style.height, 10) || 0
+      return Number.parseInt(this.style.height, 10) || 0
     },
     0
   )
@@ -22,7 +23,7 @@ export default () => {
   const scrollHeight = defineGetter(
     HTMLElement.prototype,
     'scrollHeight',
-    function () {
+    () => {
       return Number.MAX_SAFE_INTEGER
     },
     0
@@ -31,7 +32,7 @@ export default () => {
   const scrollWidth = defineGetter(
     HTMLElement.prototype,
     'scrollWidth',
-    function () {
+    () => {
       return Number.MAX_SAFE_INTEGER
     },
     0

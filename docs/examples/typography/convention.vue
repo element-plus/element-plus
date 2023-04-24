@@ -12,59 +12,53 @@
         :style="`font-size: var(--el-font-size-${fontSize.type})`"
       >
         <td>{{ fontSize.level }}</td>
-        <td>{{ fontSize.size + ' ' + formatType(fontSize.type) }}</td>
+        <td>
+          {{
+            useCssVar(`--el-font-size-${fontSize.type}`).value +
+            ' ' +
+            formatType(fontSize.type)
+          }}
+        </td>
         <td>Build with Element</td>
       </tr>
     </tbody>
   </table>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
+import { useCssVar } from '@vueuse/core'
+
 const fontSizes = [
   {
     level: 'Supplementary text',
     type: 'extra-small',
-    size: '12px',
   },
   {
     level: 'Body (small)',
     type: 'small',
-    size: '13px',
   },
   {
     level: 'Body',
     type: 'base',
-    size: '14px',
   },
   {
     level: 'Small Title',
     type: 'medium',
-    size: '16px',
   },
   {
     level: 'Title',
     type: 'large',
-    size: '18px',
   },
   {
     level: 'Main Title',
     type: 'extra-large',
-    size: '20px',
   },
 ]
-export default {
-  data() {
-    return {
-      fontSizes,
-    }
-  },
-  methods: {
-    formatType(type) {
-      return type
-        .split('-')
-        .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
-        .join(' ')
-    },
-  },
+
+function formatType(type: string) {
+  return type
+    .split('-')
+    .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
+    .join(' ')
 }
 </script>

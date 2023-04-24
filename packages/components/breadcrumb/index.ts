@@ -1,4 +1,4 @@
-import { withInstall, withNoopInstall } from '@element-plus/utils/with-install'
+import { withInstall, withNoopInstall } from '@element-plus/utils'
 
 import Breadcrumb from './src/breadcrumb.vue'
 import BreadcrumbItem from './src/breadcrumb-item.vue'
@@ -11,3 +11,8 @@ export default ElBreadcrumb
 
 export * from './src/breadcrumb'
 export * from './src/breadcrumb-item'
+export * from './src/constants'
+export type {
+  BreadcrumbInstance,
+  BreadcrumbItemInstance,
+} from './src/instances'

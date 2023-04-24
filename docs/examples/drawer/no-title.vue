@@ -8,14 +8,7 @@
   </el-drawer>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-
-export default defineComponent({
-  setup() {
-    return {
-      drawer: ref(false),
-    }
-  },
-})
+<script lang="ts" setup>
+import { ref } from 'vue'
+const drawer = ref(false)
 </script>

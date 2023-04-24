@@ -1,0 +1,34 @@
+{
+  "name": "@element-plus/metadata",
+  "version": "0.0.1",
+  "description": "Metadata for Element Plus",
+  "keywords": [
+    "element-plus"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "run-p \"build:*\"",
+    "build:contributor": "tsx src/contributor.ts",
+    "build:components": "tsx src/components.ts",
+    "dev": "DEV=1 pnpm run build"
+  },
+  "devDependencies": {
+    "@element-plus/build": "^0.0.1",
+    "@element-plus/build-constants": "^0.0.1",
+    "@element-plus/build-utils": "^0.0.1",
+    "@types/lodash-es": "^4.17.6",
+    "chalk": "^5.0.1",
+    "consola": "^2.15.3",
+    "fast-glob": "^3.2.11",
+    "lodash-es": "^4.17.21",
+    "npm-run-all": "^4.1.5",
+    "octokit": "^2.0.3",
+    "tsx": "^3.6.0"
+  }
+}

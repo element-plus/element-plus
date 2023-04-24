@@ -1,10 +1,24 @@
-import { getCurrentInstance, h, ref, computed, watchEffect } from 'vue'
-import { debugWarn } from '@element-plus/utils/error'
-import { cellForced, defaultRenderCell, treeCellPrefix } from '../config'
-import { parseWidth, parseMinWidth } from '../util'
-
+// @ts-nocheck
+import {
+  Comment,
+  computed,
+  getCurrentInstance,
+  h,
+  ref,
+  unref,
+  watchEffect,
+} from 'vue'
+import { debugWarn } from '@element-plus/utils'
+import { useNamespace } from '@element-plus/hooks'
+import {
+  cellForced,
+  defaultRenderCell,
+  getDefaultClassName,
+  treeCellPrefix,
+} from '../config'
+import { parseMinWidth, parseWidth } from '../util'
 import type { ComputedRef } from 'vue'
-import type { TableColumnCtx, TableColumn } from './defaults'
+import type { TableColumn, TableColumnCtx } from './defaults'
 
 function useRender<T>(
   props: TableColumnCtx<T>,
@@ -16,6 +30,7 @@ function useRender<T>(
   const isSubColumn = ref(false)
   const realAlign = ref<string>()
   const realHeaderAlign = ref<string>()
+  const ns = useNamespace('table')
   watchEffect(() => {
     realAlign.value = props.align ? `is-${props.align}` : null
     // nextline help render
@@ -35,6 +50,13 @@ function useRender<T>(
     }
     return parent
   })
+  const hasTreeColumn = computed<boolean>(() => {
+    const { store } = instance.parent
+    if (!store) return false
+    const { treeData } = store.states
+    const treeDataValue = treeData.value
+    return treeDataValue && Object.keys(treeDataValue).length > 0
+  })
 
   const realWidth = ref(parseWidth(props.width))
   const realMinWidth = ref(parseMinWidth(props.minWidth))
@@ -42,6 +64,9 @@ function useRender<T>(
     if (realWidth.value) column.width = realWidth.value
     if (realMinWidth.value) {
       column.minWidth = realMinWidth.value
+    }
+    if (!realWidth.value && realMinWidth.value) {
+      column.width = undefined
     }
     if (!column.minWidth) {
       column.minWidth = 80
@@ -57,15 +82,22 @@ function useRender<T>(
     const source = cellForced[type] || {}
     Object.keys(source).forEach((prop) => {
       const value = source[prop]
-      if (value !== undefined) {
-        column[prop] = prop === 'className' ? `${column[prop]} ${value}` : value
+      if (prop !== 'className' && value !== undefined) {
+        column[prop] = value
       }
     })
+    const className = getDefaultClassName(type)
+    if (className) {
+      const forceClass = `${unref(ns.namespace)}-${className}`
+      column.className = column.className
+        ? `${column.className} ${forceClass}`
+        : forceClass
+    }
     return column
   }
 
   const checkSubColumn = (children: TableColumn<T> | TableColumn<T>[]) => {
-    if (children instanceof Array) {
+    if (Array.isArray(children)) {
       children.forEach((child) => check(child))
     } else {
       check(children)
@@ -113,17 +145,27 @@ function useRender<T>(
       column.renderCell = (data) => {
         let children = null
         if (slots.default) {
-          children = slots.default(data)
+          const vnodes = slots.default(data)
+          children = vnodes.some((v) => v.type !== Comment)
+            ? vnodes
+            : originRenderCell(data)
         } else {
           children = originRenderCell(data)
         }
-        const prefix = treeCellPrefix(data)
+
+        const { columns } = owner.value.store.states
+        const firstUserColumnIndex = columns.value.findIndex(
+          (item) => item.type === 'default'
+        )
+        const shouldCreatePlaceholder =
+          hasTreeColumn.value && data.cellIndex === firstUserColumnIndex
+        const prefix = treeCellPrefix(data, shouldCreatePlaceholder)
         const props = {
           class: 'cell',
           style: {},
         }
         if (column.showOverflowTooltip) {
-          props.class += ' el-tooltip'
+          props.class = `${props.class} ${unref(ns.namespace)}-tooltip`
           props.style = {
             width: `${
               (data.column.realWidth || Number(data.column.width)) - 1
@@ -147,7 +189,11 @@ function useRender<T>(
     }, {})
   }
   const getColumnElIndex = (children, child) => {
-    return [].indexOf.call(children, child)
+    return Array.prototype.indexOf.call(children, child)
+  }
+
+  const updateColumnOrder = () => {
+    owner.value.store.commit('updateColumnOrder', instance.columnConfig.value)
   }
 
   return {
@@ -161,6 +207,7 @@ function useRender<T>(
     setColumnRenders,
     getPropsData,
     getColumnElIndex,
+    updateColumnOrder,
   }
 }
 

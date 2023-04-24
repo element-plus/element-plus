@@ -1,8 +1,9 @@
-import { ref, getCurrentInstance } from 'vue'
-import { toggleRowStatus, getKeysMap, getRowIdentity } from '../util'
+// @ts-nocheck
+import { getCurrentInstance, ref } from 'vue'
+import { getKeysMap, getRowIdentity, toggleRowStatus } from '../util'
 
 import type { Ref } from 'vue'
-import type { WatcherPropsData } from './index'
+import type { WatcherPropsData } from '.'
 import type { Table } from '../table/defaults'
 
 function useExpand<T>(watcherData: WatcherPropsData<T>) {
@@ -34,7 +35,6 @@ function useExpand<T>(watcherData: WatcherPropsData<T>) {
     const changed = toggleRowStatus(expandRows.value, row, expanded)
     if (changed) {
       instance.emit('expand-change', row, expandRows.value.slice())
-      instance.store.scheduleLayout()
     }
   }
 
@@ -59,7 +59,7 @@ function useExpand<T>(watcherData: WatcherPropsData<T>) {
       const expandMap = getKeysMap(expandRows.value, rowKey)
       return !!expandMap[getRowIdentity(row, rowKey)]
     }
-    return expandRows.value.indexOf(row) !== -1
+    return expandRows.value.includes(row)
   }
   return {
     updateExpandRows,

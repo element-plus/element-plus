@@ -32,8 +32,8 @@
           <div style="padding: 14px">
             <span>Delicious hamburger</span>
             <div class="bottom card-header">
-              <span class="time">{{ currentDate }}</span>
-              <el-button type="text" class="button">Operation button</el-button>
+              <div class="time">{{ currentDate }}</div>
+              <el-button text class="button">Operation button</el-button>
             </div>
           </div>
         </el-card>
@@ -42,16 +42,9 @@
   </el-space>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import dayjs from 'dayjs'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  data() {
-    return {
-      loading: true,
-      currentDate: dayjs().format('YYYY-MM-DD'),
-    }
-  },
-})
+const loading = ref(true)
+const currentDate = new Date().toDateString()
 </script>

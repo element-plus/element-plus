@@ -4,22 +4,31 @@
     :min="1"
     :max="10"
     controls-position="right"
+    size="large"
+    @change="handleChange"
+  />
+  <el-input-number
+    v-model="num"
+    class="mx-4"
+    :min="1"
+    :max="10"
+    controls-position="right"
+    @change="handleChange"
+  />
+  <el-input-number
+    v-model="num"
+    :min="1"
+    :max="10"
+    size="small"
+    controls-position="right"
     @change="handleChange"
   />
 </template>
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    const num = ref(1)
-    const handleChange = (value) => {
-      console.log(value)
-    }
-    return {
-      num,
-      handleChange,
-    }
-  },
-})
+const num = ref(1)
+const handleChange = (value: number) => {
+  console.log(value)
+}
 </script>

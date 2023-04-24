@@ -1,6 +1,7 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 
-import type { VNode, ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, VNode } from 'vue'
+import type Notification from './notification.vue'
 
 export const notificationTypes = [
   'success',
@@ -10,60 +11,101 @@ export const notificationTypes = [
 ] as const
 
 export const notificationProps = buildProps({
+  /**
+   * @description custom class name for Notification
+   */
   customClass: {
     type: String,
     default: '',
   },
+  /**
+   * @description whether `message` is treated as HTML string
+   */
   dangerouslyUseHTMLString: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description duration before close. It will not automatically close if set 0
+   */
   duration: {
     type: Number,
     default: 4500,
   },
+  /**
+   * @description custom icon component. It will be overridden by `type`
+   */
   icon: {
-    type: definePropType<string | Comment>([String, Object]),
-    default: '',
+    type: iconPropType,
   },
+  /**
+   * @description notification dom id
+   */
   id: {
     type: String,
     default: '',
   },
+  /**
+   * @description description text
+   */
   message: {
     type: definePropType<string | VNode>([String, Object]),
     default: '',
   },
+  /**
+   * @description offset from the top edge of the screen. Every Notification instance of the same moment should have the same offset
+   */
   offset: {
     type: Number,
     default: 0,
   },
+  /**
+   * @description callback function when notification clicked
+   */
   onClick: {
     type: definePropType<() => void>(Function),
     default: () => undefined,
   },
+  /**
+   * @description callback function when closed
+   */
   onClose: {
     type: definePropType<() => void>(Function),
     required: true,
   },
+  /**
+   * @description custom position
+   */
   position: {
     type: String,
     values: ['top-right', 'top-left', 'bottom-right', 'bottom-left'],
     default: 'top-right',
   },
+  /**
+   * @description whether to show a close button
+   */
   showClose: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description title
+   */
   title: {
     type: String,
     default: '',
   },
+  /**
+   * @description notification type
+   */
   type: {
     type: String,
     values: [...notificationTypes, ''],
     default: '',
   },
+  /**
+   * @description initial zIndex
+   */
   zIndex: {
     type: Number,
     default: 0,
@@ -76,7 +118,12 @@ export const notificationEmits = {
 }
 export type NotificationEmits = typeof notificationEmits
 
+export type NotificationInstance = InstanceType<typeof Notification>
+
 export type NotificationOptions = Omit<NotificationProps, 'id'> & {
+  /**
+   * @description set the root element for the notification, default to `document.body`
+   */
   appendTo?: HTMLElement | string
 }
 export type NotificationOptionsTyped = Omit<NotificationOptions, 'type'>

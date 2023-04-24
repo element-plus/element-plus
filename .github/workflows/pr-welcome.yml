@@ -1,0 +1,28 @@
+name: PR Welcome
+# Note that this `pull_request_target` is vulnerable, it grants write access to a fork repo
+# DO NOT ADD ANY CHECKOUT/CACHING in this workflow
+on:
+  pull_request_target:
+    types: [opened]
+
+jobs:
+  pr-open-greeting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions-cool/check-user-permission@v2
+        id: isTeamMember
+        with:
+          require: 'write'
+          username: ${{ github.event.pull_request.user.login }}
+
+      - uses: actions-awesome/pr-helper@1.1.1
+        if: steps.isTeamMember.outputs.require-result == 'false'
+        with:
+          actions: 'add-assignees, add-reviewers, greeting, add-labels'
+          assignees: 'element-plus/backers'
+          reviewers: 'element-plus/backers'
+          labels: 'Contribution::Community'
+          token: ${{ github.token }}
+          pr-number: ${{ github.event.pull_request.number }}
+          greeting-message: 'Hello %user%, thank you for contributing to %repo%, please see our [guideline](%guideline%) to see how to make contribution'
+          greeting-guideline-address: 'https://github.com/element-plus/element-plus/blob/dev/CONTRIBUTING.md'

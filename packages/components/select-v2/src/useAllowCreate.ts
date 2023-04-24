@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { computed, ref } from 'vue'
 import type { ISelectProps } from './token'
 import type { Option } from './select.types'
@@ -58,7 +59,14 @@ export function useAllowCreate(props: ISelectProps, states) {
   }
 
   function removeNewOption(option: Option) {
-    if (!enableAllowCreateMode.value || !option || !option.created) {
+    if (
+      !enableAllowCreateMode.value ||
+      !option ||
+      !option.created ||
+      (option.created &&
+        props.reserveKeyword &&
+        states.inputValue === option.label)
+    ) {
       return
     }
     const idx = states.createdOptions.findIndex(

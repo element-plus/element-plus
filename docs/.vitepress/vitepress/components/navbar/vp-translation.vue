@@ -1,39 +1,38 @@
 <script setup lang="ts">
-import VPLink from '../common/vp-link.vue'
+import { useRouter } from 'vitepress'
 import { useTranslation } from '../../composables/translation'
 
-import TranslationIcon from '../icons/translation-icon.vue'
+const router = useRouter()
+const { switchLang, languageMap, langs, lang, locale } = useTranslation()
 
-const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
+const toTranslation = () => {
+  router.go(`/${lang.value}/guide/translation`)
+}
 </script>
 
 <template>
   <div class="translation-container">
     <ClientOnly>
-      <ElPopover
-        :show-arrow="false"
-        trigger="hover"
-        popper-class="translation-popup"
-      >
-        <template #reference>
-          <ElIcon :size="20">
-            <TranslationIcon />
-          </ElIcon>
+      <ElDropdown popper-class="translation-popup" role="navigation">
+        <ElIcon :size="24" :aria-label="locale.language">
+          <i-ri-translate-2 />
+        </ElIcon>
+        <template #dropdown>
+          <ElDropdownMenu>
+            <ElDropdownItem
+              v-for="l in langs"
+              :key="l"
+              :class="{ language: true, selected: l === lang }"
+              @click="switchLang(l)"
+            >
+              {{ languageMap[l] }}
+            </ElDropdownItem>
+            <ElDropdownItem class="language selected" @click="toTranslation">
+              {{ locale.help }}
+            </ElDropdownItem>
+          </ElDropdownMenu>
         </template>
-        <div
-          v-for="l in langs"
-          :key="l"
-          :class="{ language: true, selected: l === lang }"
-          @click="switchLang(l)"
-        >
-          {{ languageMap[l] }}
-        </div>
-        <div class="language">
-          <VPLink href="https://crowdin.com/project/element-plus">
-            {{ helpTranslate }}
-          </VPLink>
-        </div>
-      </ElPopover>
+      </ElDropdown>
     </ClientOnly>
   </div>
 </template>
@@ -42,27 +41,34 @@ const { switchLang, languageMap, langs, lang, helpTranslate } = useTranslation()
 @use '../../styles/mixins' as *;
 .translation-container {
   display: none;
-  height: 20px;
-  padding: 0 8px;
+  height: 24px;
+  padding: 0 12px;
 
   @include respond-to('md') {
     display: block;
   }
+}
+</style>
 
-  @at-root .translation-popup.el-popper {
-    box-shadow: var(--el-box-shadow-base);
+<style lang="scss">
+.el-dropdown__popper.translation-popup {
+  --el-bg-color-overlay: var(--bg-color);
+  --el-popper-border-radius: 8px;
+  --el-border-color-light: transparent;
 
-    .language {
-      cursor: pointer;
-      padding: 0 16px;
-      line-height: 28px;
-      &.selected {
-        color: var(--brand-color);
-      }
+  padding: 7px 0;
+  min-width: 192px;
+  transition: background-color 0.5s;
 
-      .link-item {
-        font-weight: 500;
-      }
+  .el-popper__arrow {
+    display: none;
+  }
+
+  .language {
+    padding: 0 16px;
+    line-height: 28px;
+    &.selected {
+      --el-text-color-regular: var(--brand-color);
     }
   }
 }

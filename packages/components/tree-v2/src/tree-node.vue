@@ -1,13 +1,13 @@
 <template>
   <div
     ref="node$"
-    class="el-tree-node"
-    :class="{
-      'is-expanded': expanded,
-      'is-current': current,
-      'is-focusable': !disabled,
-      'is-checked': !disabled && checked,
-    }"
+    :class="[
+      ns.b('node'),
+      ns.is('expanded', expanded),
+      ns.is('current', current),
+      ns.is('focusable', !disabled),
+      ns.is('checked', !disabled && checked),
+    ]"
     role="treeitem"
     tabindex="-1"
     :aria-expanded="expanded"
@@ -18,18 +18,21 @@
     @contextmenu="handleContextMenu"
   >
     <div
-      class="el-tree-node__content"
-      :style="{ paddingLeft: `${(node.level - 1) * indent}px` }"
+      :class="ns.be('node', 'content')"
+      :style="{
+        paddingLeft: `${(node.level - 1) * indent}px`,
+        height: itemSize + 'px',
+      }"
     >
       <el-icon
         v-if="icon"
         :class="[
+          ns.is('leaf', !!node?.isLeaf),
+          ns.is('hidden', hiddenExpandIcon),
           {
-            'is-leaf': node?.isLeaf,
-            'is-hidden': hiddenExpandIcon,
             expanded: !node?.isLeaf && expanded,
           },
-          'el-tree-node__expand-icon',
+          ns.be('node', 'expand-icon'),
         ]"
         @click.stop="handleExpandIconClick"
       >
@@ -48,67 +51,53 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, inject } from 'vue'
-import { CaretRight } from '@element-plus/icons-vue'
+<script lang="ts" setup>
+import { computed, inject } from 'vue'
 import ElIcon from '@element-plus/components/icon'
+import { CaretRight } from '@element-plus/icons-vue'
 import ElCheckbox from '@element-plus/components/checkbox'
+import { useNamespace } from '@element-plus/hooks'
 import ElNodeContent from './tree-node-content'
 import {
-  ROOT_TREE_INJECTION_KEY,
   NODE_CONTEXTMENU,
+  ROOT_TREE_INJECTION_KEY,
   treeNodeEmits,
   treeNodeProps,
 } from './virtual-tree'
+import type { CheckboxValueType } from '@element-plus/components/checkbox'
 
-const DEFAULT_ICON = 'caret-right'
-
-export default defineComponent({
+defineOptions({
   name: 'ElTreeNode',
-  components: {
-    ElIcon,
-    CaretRight,
-    ElCheckbox,
-    ElNodeContent,
-  },
-  props: treeNodeProps,
-  emits: treeNodeEmits,
-  setup(props, { emit }) {
-    const tree = inject(ROOT_TREE_INJECTION_KEY)
-
-    const indent = computed(() => {
-      return tree?.props.indent ?? 16
-    })
-
-    const icon = computed(() => {
-      return tree?.props.icon ?? DEFAULT_ICON
-    })
-
-    const handleClick = () => {
-      emit('click', props.node)
-    }
-    const handleExpandIconClick = () => {
-      emit('toggle', props.node)
-    }
-    const handleCheckChange = (value: boolean) => {
-      emit('check', props.node, value)
-    }
-    const handleContextMenu = (event: Event) => {
-      if (tree?.instance?.vnode?.props?.['onNodeContextmenu']) {
-        event.stopPropagation()
-        event.preventDefault()
-      }
-      tree?.ctx.emit(NODE_CONTEXTMENU, event, props.node?.data, props.node)
-    }
-
-    return {
-      indent,
-      icon,
-      handleClick,
-      handleExpandIconClick,
-      handleCheckChange,
-      handleContextMenu,
-    }
-  },
 })
+
+const props = defineProps(treeNodeProps)
+const emit = defineEmits(treeNodeEmits)
+
+const tree = inject(ROOT_TREE_INJECTION_KEY)
+const ns = useNamespace('tree')
+
+const indent = computed(() => {
+  return tree?.props.indent ?? 16
+})
+
+const icon = computed(() => {
+  return tree?.props.icon ?? CaretRight
+})
+
+const handleClick = (e: MouseEvent) => {
+  emit('click', props.node, e)
+}
+const handleExpandIconClick = () => {
+  emit('toggle', props.node)
+}
+const handleCheckChange = (value: CheckboxValueType) => {
+  emit('check', props.node, value)
+}
+const handleContextMenu = (event: Event) => {
+  if (tree?.instance?.vnode?.props?.['onNodeContextmenu']) {
+    event.stopPropagation()
+    event.preventDefault()
+  }
+  tree?.ctx.emit(NODE_CONTEXTMENU, event, props.node?.data, props.node)
+}
 </script>

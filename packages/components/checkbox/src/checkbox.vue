@@ -1,32 +1,21 @@
 <template>
-  <label
-    :id="id"
-    class="el-checkbox"
-    :class="[
-      checkboxSize ? 'el-checkbox--' + checkboxSize : '',
-      { 'is-disabled': isDisabled },
-      { 'is-bordered': border },
-      { 'is-checked': isChecked },
-    ]"
+  <component
+    :is="!hasOwnLabel && isLabeledByFormItem ? 'span' : 'label'"
+    :class="compKls"
     :aria-controls="indeterminate ? controls : null"
+    @click="onClickRoot"
   >
     <span
-      class="el-checkbox__input"
-      :class="{
-        'is-disabled': isDisabled,
-        'is-checked': isChecked,
-        'is-indeterminate': indeterminate,
-        'is-focus': focus,
-      }"
+      :class="spanKls"
       :tabindex="indeterminate ? 0 : undefined"
       :role="indeterminate ? 'checkbox' : undefined"
-      :aria-checked="indeterminate ? 'mixed' : false"
+      :aria-checked="indeterminate ? 'mixed' : undefined"
     >
-      <span class="el-checkbox__inner"></span>
       <input
         v-if="trueLabel || falseLabel"
+        :id="inputId"
         v-model="model"
-        class="el-checkbox__original"
+        :class="ns.e('original')"
         type="checkbox"
         :aria-hidden="indeterminate ? 'true' : 'false'"
         :name="name"
@@ -35,13 +24,14 @@
         :true-value="trueLabel"
         :false-value="falseLabel"
         @change="handleChange"
-        @focus="focus = true"
-        @blur="focus = false"
+        @focus="isFocused = true"
+        @blur="isFocused = false"
       />
       <input
         v-else
+        :id="inputId"
         v-model="model"
-        class="el-checkbox__original"
+        :class="ns.e('original')"
         type="checkbox"
         :aria-hidden="indeterminate ? 'true' : 'false'"
         :disabled="isDisabled"
@@ -49,68 +39,64 @@
         :name="name"
         :tabindex="tabindex"
         @change="handleChange"
-        @focus="focus = true"
-        @blur="focus = false"
+        @focus="isFocused = true"
+        @blur="isFocused = false"
       />
+      <span :class="ns.e('inner')" />
     </span>
-    <span v-if="$slots.default || label" class="el-checkbox__label">
-      <slot></slot>
+    <span v-if="hasOwnLabel" :class="ns.e('label')">
+      <slot />
       <template v-if="!$slots.default">{{ label }}</template>
     </span>
-  </label>
+  </component>
 </template>
-<script lang="ts">
-import { defineComponent } from 'vue'
-import { UPDATE_MODEL_EVENT } from '@element-plus/utils/constants'
-import { isValidComponentSize } from '@element-plus/utils/validators'
-import { useCheckbox } from './useCheckbox'
 
-import type { PropType } from 'vue'
-import type { ComponentSize } from '@element-plus/utils/types'
+<script lang="ts" setup>
+import { computed, useSlots } from 'vue'
+import { useNamespace } from '@element-plus/hooks'
+import { checkboxEmits, checkboxProps } from './checkbox'
+import { useCheckbox } from './composables'
 
-export default defineComponent({
+defineOptions({
   name: 'ElCheckbox',
-  props: {
-    modelValue: {
-      type: [Boolean, Number, String],
-      default: () => undefined,
-    },
-    label: {
-      type: [String, Boolean, Number, Object],
-    },
-    indeterminate: Boolean,
-    disabled: Boolean,
-    checked: Boolean,
-    name: {
-      type: String,
-      default: undefined,
-    },
-    trueLabel: {
-      type: [String, Number],
-      default: undefined,
-    },
-    falseLabel: {
-      type: [String, Number],
-      default: undefined,
-    },
-    id: {
-      type: String,
-      default: undefined,
-    },
-    controls: {
-      type: String,
-      default: undefined,
-    },
-    border: Boolean,
-    size: {
-      type: String as PropType<ComponentSize>,
-      validator: isValidComponentSize,
-    },
-    tabindex: [String, Number],
-  },
-  emits: [UPDATE_MODEL_EVENT, 'change'],
-  setup(props) {
-    return useCheckbox(props)
-  },
+})
+
+const props = defineProps(checkboxProps)
+defineEmits(checkboxEmits)
+const slots = useSlots()
+
+const {
+  inputId,
+  isLabeledByFormItem,
+  isChecked,
+  isDisabled,
+  isFocused,
+  checkboxSize,
+  hasOwnLabel,
+  model,
+  handleChange,
+  onClickRoot,
+} = useCheckbox(props, slots)
+
+const ns = useNamespace('checkbox')
+
+const compKls = computed(() => {
+  return [
+    ns.b(),
+    ns.m(checkboxSize.value),
+    ns.is('disabled', isDisabled.value),
+    ns.is('bordered', props.border),
+    ns.is('checked', isChecked.value),
+  ]
+})
+
+const spanKls = computed(() => {
+  return [
+    ns.e('input'),
+    ns.is('disabled', isDisabled.value),
+    ns.is('checked', isChecked.value),
+    ns.is('indeterminate', props.indeterminate),
+    ns.is('focus', isFocused.value),
+  ]
 })
 </script>

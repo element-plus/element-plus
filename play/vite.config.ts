@@ -1,16 +1,41 @@
 import path from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Inspect from 'vite-plugin-inspect'
+import mkcert from 'vite-plugin-mkcert'
 import glob from 'fast-glob'
-import { epRoot, pkgRoot, projRoot } from '../build/utils/paths'
+import VueMacros from 'unplugin-vue-macros/vite'
+import esbuild from 'rollup-plugin-esbuild'
+import {
+  epPackage,
+  epRoot,
+  getPackageDependencies,
+  pkgRoot,
+  projRoot,
+} from '@element-plus/build-utils'
+import type { Plugin } from 'vite'
 import './vite.init'
 
-export default defineConfig(async () => {
+const esbuildPlugin = (): Plugin => ({
+  ...esbuild({
+    target: 'chrome64',
+    include: /\.vue$/,
+    loaders: {
+      '.vue': 'js',
+    },
+  }),
+  enforce: 'post',
+})
+
+export default defineConfig(async ({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '')
+  let { dependencies } = getPackageDependencies(epPackage)
+  dependencies = dependencies.filter((dep) => !dep.startsWith('@types/')) // exclude dts deps
   const optimizeDeps = (
-    await glob(['lodash/*.js', 'dayjs/(locale|plugin)/*.js'], {
+    await glob(['dayjs/(locale|plugin)/*.js'], {
       cwd: path.resolve(projRoot, 'node_modules'),
     })
   ).map((dep) => dep.replace(/\.js$/, ''))
@@ -30,28 +55,32 @@ export default defineConfig(async () => {
     },
     server: {
       host: true,
+      https: !!env.HTTPS,
     },
     plugins: [
-      vue(),
+      VueMacros({
+        setupComponent: false,
+        setupSFC: false,
+        plugins: {
+          vue: vue(),
+          vueJsx: vueJsx(),
+        },
+      }),
+      esbuildPlugin(),
       Components({
         include: `${__dirname}/**`,
         resolvers: ElementPlusResolver({ importStyle: 'sass' }),
+        dts: false,
       }),
+      mkcert(),
       Inspect(),
     ],
 
     optimizeDeps: {
-      include: [
-        '@vue/shared',
-        '@vueuse/core',
-        'async-validator',
-        'memoize-one',
-        'normalize-wheel-es',
-        '@popperjs/core',
-        'dayjs',
-        '@element-plus/icons-vue',
-        ...optimizeDeps,
-      ],
+      include: ['vue', '@vue/shared', ...dependencies, ...optimizeDeps],
+    },
+    esbuild: {
+      target: 'chrome64',
     },
   }
 })

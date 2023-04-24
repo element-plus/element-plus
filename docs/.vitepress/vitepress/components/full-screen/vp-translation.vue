@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { useToggle } from '@vueuse/core'
 import VPLink from '../common/vp-link.vue'
 import { useTranslation } from '../../composables/translation'
-import { useToggle } from '../../composables/toggle'
 import ExpandIcon from '../icons/expand.vue'
 
 const emit = defineEmits(['close'])
 
-const { languageMap, langs, lang, switchLang, helpTranslate } = useTranslation()
+const { languageMap, langs, lang, switchLang, locale } = useTranslation()
 
 const [show, toggle] = useToggle()
 
@@ -19,9 +19,12 @@ const onSwitchLang = (lang: string) => {
 <template>
   <div class="full-screen-translation">
     <ElButton
-      type="text"
+      :aria-label="locale.language"
+      :aria-expanded="show"
+      aria-controls="translation-items"
       style="width: 100%; color: var(--text-color)"
-      @click="toggle"
+      text
+      @click="toggle()"
     >
       <div class="translation-toggler">
         <span> Translations </span>
@@ -35,14 +38,18 @@ const onSwitchLang = (lang: string) => {
         v-for="l in langs"
         :key="l"
         :class="{ active: l === lang }"
+        tabindex="0"
+        role="link"
         class="translation-item"
         @click="onSwitchLang(l)"
+        @keydown.prevent.enter="onSwitchLang(l)"
+        @keydown.prevent.space="onSwitchLang(l)"
       >
         {{ languageMap[l] }}
       </p>
       <p class="translation-item">
-        <VPLink href="https://crowdin.com/project/element-plus">
-          {{ helpTranslate }}
+        <VPLink :href="`/${lang}/guide/translation`">
+          {{ locale.help }}
         </VPLink>
       </p>
     </div>

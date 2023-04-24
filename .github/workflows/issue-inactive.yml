@@ -2,21 +2,23 @@ name: Issue Inactive
 
 on:
   schedule:
-    - cron: '0 8 * * *'
+    # GMT+8 00:00
+    - cron: '0 16 * * *'
 
 jobs:
   close-issues:
     runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: need reproduction
-        uses: actions-cool/issues-helper@v2
+        uses: actions-cool/issues-helper@v3
         with:
           actions: 'close-issues'
           labels: 'need reproduction'
           inactive-day: 3
 
       - name: needs more info
-        uses: actions-cool/issues-helper@v2
+        uses: actions-cool/issues-helper@v3
         with:
           actions: 'close-issues'
           labels: 'needs more info'
@@ -27,9 +29,10 @@ jobs:
 
   lock-issues:
     runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: lock-issues
-        uses: actions-cool/issues-helper@v2
+        uses: actions-cool/issues-helper@v3
         with:
           actions: 'lock-issues'
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -42,9 +45,10 @@ jobs:
 
   check-inactive:
     runs-on: ubuntu-latest
+    if: ${{ github.repository_owner == 'element-plus' }}
     steps:
       - name: check-inactive
-        uses: actions-cool/issues-helper@v2
+        uses: actions-cool/issues-helper@v3
         with:
           actions: 'check-inactive'
           inactive-day: 30

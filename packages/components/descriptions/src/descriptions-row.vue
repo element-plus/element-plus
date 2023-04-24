@@ -22,29 +22,21 @@
   </tr>
 </template>
 
-<script lang="ts">
-import { defineComponent, inject } from 'vue'
-import DescriptionsCell from './descriptions-cell'
-import { elDescriptionsKey } from './token'
+<script lang="ts" setup>
+// @ts-nocheck
+import { inject } from 'vue'
+
+import ElDescriptionsCell from './descriptions-cell'
+import { descriptionsKey } from './token'
+import { descriptionsRowProps } from './descriptions-row'
 
 import type { IDescriptionsInject } from './descriptions.type'
 
-export default defineComponent({
+defineOptions({
   name: 'ElDescriptionsRow',
-  components: {
-    [DescriptionsCell.name]: DescriptionsCell,
-  },
-  props: {
-    row: {
-      type: Array,
-    },
-  },
-  setup() {
-    const descriptions = inject(elDescriptionsKey, {} as IDescriptionsInject)
-
-    return {
-      descriptions,
-    }
-  },
 })
+
+defineProps(descriptionsRowProps)
+
+const descriptions = inject(descriptionsKey, {} as IDescriptionsInject)
 </script>

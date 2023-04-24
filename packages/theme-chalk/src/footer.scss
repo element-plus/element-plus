@@ -5,8 +5,8 @@
 @include b(footer) {
   @include set-component-css-var('footer', $footer);
 
-  padding: var(--el-footer-padding);
+  padding: getCssVar('footer-padding');
   box-sizing: border-box;
   flex-shrink: 0;
-  height: var(--el-footer-height);
+  height: getCssVar('footer-height');
 }

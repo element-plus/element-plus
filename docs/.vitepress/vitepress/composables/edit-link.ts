@@ -3,7 +3,7 @@ import { useData } from 'vitepress'
 import { useLang } from '../composables/lang'
 import { useLocale } from '../composables/locale'
 import { defaultLang } from '../constant'
-import { createGitHubUrl, createCrowdinUrl } from '../utils'
+import { createCrowdinUrl, createGitHubUrl } from '../utils'
 import editLinkLocale from '../../i18n/component/edit-link.json'
 
 export function useEditLink() {

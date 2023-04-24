@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useData } from 'vitepress'
 import { useLang } from '../../composables/lang'
 import localeData from '../../../i18n/component/last-update-at.json'
@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <p class="last-updated">
+  <p class="last-updated text-sm">
     <span class="prefix">{{ prefix }}:</span>
     <span class="datetime">{{ datetime }}</span>
   </p>
@@ -31,7 +31,6 @@ onMounted(() => {
   display: inline-block;
   margin: 0;
   line-height: 1.4;
-  font-size: 0.9rem;
   color: var(--text-color-light);
 
   .prefix {
@@ -43,12 +42,6 @@ onMounted(() => {
     display: inline-block;
     margin-left: 6px;
     font-weight: 400;
-  }
-}
-
-@include respond-to('lg') {
-  .last-updated {
-    font-size: 1rem;
   }
 }
 </style>

@@ -1,10 +1,10 @@
 import type {
-  h,
+  Component,
   ComponentInternalInstance,
   Ref,
   SetupContext,
   VNode,
-  Component,
+  h,
 } from 'vue'
 import type Node from './model/node'
 import type TreeStore from './model/tree-store'
@@ -60,10 +60,10 @@ export declare interface TreeStoreOptions {
   filterNodeMethod: FilterNodeMethodFunction
 }
 export declare interface TreeOptionProps {
-  children: string
-  label: string
-  disabled: string
-  isLeaf?: boolean
+  children?: string
+  label?: string | ((data: TreeNodeData, node: Node) => string)
+  disabled?: string | ((data: TreeNodeData, node: Node) => string)
+  isLeaf?: string | ((data: TreeNodeData, node: Node) => boolean)
   class?: (
     data: TreeNodeData,
     node: Node
@@ -80,11 +80,11 @@ export declare interface RenderContentContext {
   store: TreeStore
 }
 export declare type AllowDragFunction = (node: Node) => boolean
-export declare type DropType = 'inner' | 'prev' | 'next'
+export declare type AllowDropType = 'inner' | 'prev' | 'next'
 export declare type AllowDropFunction = (
   draggingNode: Node,
   dropNode: Node,
-  type: DropType
+  type: AllowDropType
 ) => boolean
 export declare type LoadFunction = (
   rootNode: Node,
@@ -124,3 +124,5 @@ export declare interface TreeComponentProps {
   indent: number
   icon: string | Component
 }
+
+export declare type NodeDropType = 'before' | 'after' | 'inner' | 'none'

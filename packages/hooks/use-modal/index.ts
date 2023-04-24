@@ -1,6 +1,6 @@
 import { watch } from 'vue'
 import { isClient, useEventListener } from '@vueuse/core'
-import { EVENT_CODE } from '@element-plus/utils/aria'
+import { EVENT_CODE } from '@element-plus/constants'
 
 import type { Ref } from 'vue'
 
@@ -24,10 +24,7 @@ export const useModal = (instance: ModalInstance, visibleRef: Ref<boolean>) => {
     if (val) {
       modalStack.push(instance)
     } else {
-      modalStack.splice(
-        modalStack.findIndex((modal) => modal === instance),
-        1
-      )
+      modalStack.splice(modalStack.indexOf(instance), 1)
     }
   })
 }

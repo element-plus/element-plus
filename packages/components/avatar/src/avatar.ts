@@ -1,28 +1,55 @@
-import { buildProps, definePropType } from '@element-plus/utils/props'
-import type { ExtractPropTypes, Component } from 'vue'
+import {
+  buildProps,
+  definePropType,
+  iconPropType,
+  isNumber,
+} from '@element-plus/utils'
+import { componentSizes } from '@element-plus/constants'
+import type { ExtractPropTypes } from 'vue'
 import type { ObjectFitProperty } from 'csstype'
 
 export const avatarProps = buildProps({
+  /**
+   * @description avatar size.
+   */
   size: {
     type: [Number, String],
-    values: ['large', 'medium', 'small'],
-    default: 'large',
-    validator: (val: unknown): val is number => typeof val === 'number',
+    values: componentSizes,
+    default: '',
+    validator: (val: unknown): val is number => isNumber(val),
   },
+  /**
+   * @description avatar shape.
+   */
   shape: {
     type: String,
     values: ['circle', 'square'],
     default: 'circle',
   },
+  /**
+   * @description representation type to icon, more info on icon component.
+   */
   icon: {
-    type: definePropType<string | Component>([String, Object]),
+    type: iconPropType,
   },
+  /**
+   * @description the source of the image for an image avatar.
+   */
   src: {
     type: String,
     default: '',
   },
+  /**
+   * @description native attribute `alt` of image avatar.
+   */
   alt: String,
+  /**
+   * @description native attribute srcset of image avatar.
+   */
   srcSet: String,
+  /**
+   * @description set how the image fit its container for an image avatar.
+   */
   fit: {
     type: definePropType<ObjectFitProperty>(String),
     default: 'cover',

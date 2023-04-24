@@ -1,57 +1,50 @@
 <template>
-  <span class="el-pagination__jump">
-    {{ t('el.pagination.goto') }}
+  <span :class="ns.e('jump')" :disabled="disabled">
+    <span :class="[ns.e('goto')]">{{ t('el.pagination.goto') }}</span>
     <el-input
-      size="mini"
-      class="el-pagination__editor is-in-pagination"
+      :size="size"
+      :class="[ns.e('editor'), ns.is('in-pagination')]"
       :min="1"
       :max="pageCount"
       :disabled="disabled"
       :model-value="innerValue"
+      :validate-event="false"
+      :label="t('el.pagination.page')"
       type="number"
       @update:model-value="handleInput"
       @change="handleChange"
     />
-    {{ t('el.pagination.pageClassifier') }}
+    <span :class="[ns.e('classifier')]">{{
+      t('el.pagination.pageClassifier')
+    }}</span>
   </span>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
-import { useLocale } from '@element-plus/hooks'
+<script lang="ts" setup>
+import { computed, ref } from 'vue'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { usePagination } from '../usePagination'
+import { paginationJumperProps } from './jumper'
 
-export default defineComponent({
+defineOptions({
   name: 'ElPaginationJumper',
-  components: {
-    ElInput,
-  },
-
-  setup() {
-    const { t } = useLocale()
-    const { pageCount, disabled, currentPage, changeEvent } = usePagination()
-    const userInput = ref<number>()
-    const innerValue = computed(() => userInput.value ?? currentPage?.value)
-
-    function handleInput(val: number | string) {
-      userInput.value = +val
-    }
-
-    function handleChange(val: number | string) {
-      changeEvent?.(+val)
-      userInput.value = undefined
-    }
-
-    return {
-      pageCount,
-      disabled,
-      innerValue,
-
-      t,
-      handleInput,
-      handleChange,
-    }
-  },
 })
+
+defineProps(paginationJumperProps)
+const { t } = useLocale()
+const ns = useNamespace('pagination')
+const { pageCount, disabled, currentPage, changeEvent } = usePagination()
+const userInput = ref<number | string>()
+const innerValue = computed(() => userInput.value ?? currentPage?.value)
+
+function handleInput(val: number | string) {
+  userInput.value = val ? +val : ''
+}
+
+function handleChange(val: number | string) {
+  val = Math.trunc(+val)
+  changeEvent?.(val)
+  userInput.value = undefined
+}
 </script>

@@ -10,56 +10,49 @@
         :key="item.value"
         :label="item.label"
         :value="item.value"
-      >
-      </el-option>
+      />
     </el-option-group>
   </el-select>
 </template>
 
-<script lang="ts">
-import { ref, defineComponent } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-export default defineComponent({
-  setup() {
-    return {
-      options: ref([
-        {
-          label: 'Popular cities',
-          options: [
-            {
-              value: 'Shanghai',
-              label: 'Shanghai',
-            },
-            {
-              value: 'Beijing',
-              label: 'Beijing',
-            },
-          ],
-        },
-        {
-          label: 'City name',
-          options: [
-            {
-              value: 'Chengdu',
-              label: 'Chengdu',
-            },
-            {
-              value: 'Shenzhen',
-              label: 'Shenzhen',
-            },
-            {
-              value: 'Guangzhou',
-              label: 'Guangzhou',
-            },
-            {
-              value: 'Dalian',
-              label: 'Dalian',
-            },
-          ],
-        },
-      ]),
-      value: ref(''),
-    }
+const value = ref('')
+const options = [
+  {
+    label: 'Popular cities',
+    options: [
+      {
+        value: 'Shanghai',
+        label: 'Shanghai',
+      },
+      {
+        value: 'Beijing',
+        label: 'Beijing',
+      },
+    ],
   },
-})
+  {
+    label: 'City name',
+    options: [
+      {
+        value: 'Chengdu',
+        label: 'Chengdu',
+      },
+      {
+        value: 'Shenzhen',
+        label: 'Shenzhen',
+      },
+      {
+        value: 'Guangzhou',
+        label: 'Guangzhou',
+      },
+      {
+        value: 'Dalian',
+        label: 'Dalian',
+      },
+    ],
+  },
+]
 </script>
