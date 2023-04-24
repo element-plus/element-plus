@@ -69,8 +69,10 @@ export default defineComponent({
       const el = instance.vnode.el!
       const { clientWidth: width, clientHeight: height } = el
 
-      cursorLeft.value = (saturation * width) / 100
-      cursorTop.value = ((100 - value) * height) / 100
+      if (width && height) {
+        cursorLeft.value = (saturation * width) / 100
+        cursorTop.value = ((100 - value) * height) / 100
+      }
 
       background.value = `hsl(${props.color.get('hue')}, 100%, 50%)`
     }
