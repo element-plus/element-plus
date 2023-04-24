@@ -148,7 +148,7 @@ export default defineComponent({
         removeLazyLoadListener()
       }
     }
-    const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
+    const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200, true)
 
     async function addLazyLoadListener() {
       if (isServer) return
