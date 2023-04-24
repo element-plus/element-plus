@@ -1,5 +1,57 @@
 ## Changelog
 
+### 2.3.4
+
+_2023-04-23_
+
+#### Features
+
+- Components [button] add tag attribute (#11853 by @tolking)
+- Components [progress] support set striped progress bar (#12333 by @wzc520pyfm)
+- Docs document preview jumps to playground with pr number (#12365 by @btea)
+- Components [tree] support customize content when data is empty (#12459 by @heappynd)
+
+#### Bug fixes
+
+- Components [image] Display error content when picture loading fails (#11600 by @ljf1834)
+- Components [select] delete key should not choose tag (#12200 by @MrWeilian)
+- Components [date-picker] optimize props definition and export (#12199 by @Brain777777)
+- Components [menu] change declartion of ulStyle to setup function (#12319 by @CeceWall)
+- Components [input] Write Chinese in parenthesis, letters repeat (#12154 by @HeftyKoo)
+- Components [loading] fix zIndex (#12442 by @pan2-2)
+- Components [dropdown] improve types (#12514 by @ModyQyW)
+- Components [select] correct update selectSize (#11973 by @acyza)
+- Build(components): fix generateExternal use wrong reference (#12180 by @daolanfler)
+- Chore(build): optimize the type conversion of tag plugin (#11590 by @tolking)
+- Style(theme-chalk): [menu] horizontal mode submenu line-high (#11848 by @WindBearr)
+- Style(theme-chalk): [transfer] improve transfer filter style (#12454 by @wjw-gavin)
+
+#### Refactors
+
+- Extract isClient and isNumber isBoolean (#12504 by @btea)
+
+### 2.3.3
+
+_2023-04-07_
+
+#### Features
+
+- Components [color-picker] add `show` `hide` expose (#11942 by @xiterjia)
+- Components [date-picker] support numpadEnter (#12323 by @chenxch)
+
+#### Bug fixes
+
+- Components [tree-select] add to global components (#12255 by @btea)
+- Components [upload] add before-upload test (#12287 by @chenxch)
+- Components [text] add to global components (#12317 by @Altermoe)
+- Components [statistic] add to global components (#12324 by @btea)
+- Components [menu] Avoid call router when index is not provided (#12206 by @HeftyKoo)
+- Components [popover] default trigger (#12321 by @MrWeilian)
+- Revert "fix(components): [popover] default trigger" (#12341 by @chenxch)
+#### Refactors
+
+- Components [table] remove useless brackets (#12283 by @MrWeilian)
+
 ### 2.3.2
 
 _2023-03-31_
