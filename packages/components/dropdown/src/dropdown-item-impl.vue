@@ -9,7 +9,11 @@
     :ref="itemRef"
     v-bind="{ ...dataset, ...$attrs }"
     :aria-disabled="disabled"
-    :class="[ns.be('menu', 'item'), ns.is('disabled', disabled)]"
+    :class="[
+      ns.be('menu', 'item'),
+      ns.is('disabled', disabled),
+      ns.is('danger', danger),
+    ]"
     :tabindex="tabIndex"
     :role="role"
     @click="(e) => $emit('clickimpl', e)"

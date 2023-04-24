@@ -760,6 +760,27 @@ describe('Dropdown', () => {
       expect(menu.attributes()['role']).toBe('group')
       expect(menuItem.attributes()['role']).toBe('button')
     })
+
+    test('Menu items with "danger" api', async () => {
+      const wrapper = _mount(
+        `
+        <el-dropdown ref="b" placement="right">
+          <span class="el-dropdown-link" ref="a">
+            dropdown<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu ref="menu">
+              <el-dropdown-item ref="c" danger>Peach</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        `,
+        () => ({})
+      )
+      const menu = wrapper.findComponent({ ref: 'menu' })
+      const menuItem = menu.find('.el-dropdown-menu__item')
+      expect(menuItem.classes()).toContain('is-danger')
+    })
   })
 
   describe('teleported API', () => {

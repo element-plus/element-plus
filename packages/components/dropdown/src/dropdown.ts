@@ -101,6 +101,7 @@ export const dropdownItemProps = buildProps({
   icon: {
     type: iconPropType,
   },
+  danger: Boolean,
 } as const)
 
 export const dropdownMenuProps = buildProps({

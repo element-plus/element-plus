@@ -138,6 +138,7 @@ dropdown/sizes
 | command  | a command to be dispatched to Dropdown's `command` callback | string/number/object  | —               | —       |
 | disabled | whether the item is disabled                                | boolean               | —               | false   |
 | divided  | whether a divider is displayed                              | boolean               | —               | false   |
+| danger   | set the danger status for Dropdown Item                     | boolean               | —               | false   |
 | icon     | custom icon                                                 | `string \| Component` | —               | —       |
 
 ## Dropdown-Item Slots

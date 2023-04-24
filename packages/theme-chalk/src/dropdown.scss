@@ -172,6 +172,11 @@ $dropdown-menu-padding-vertical: map.merge(
     &:not(.is-disabled):focus {
       background-color: getCssVar('dropdown-menuItem-hover-fill');
       color: getCssVar('dropdown-menuItem-hover-color');
+
+      &.is-danger {
+        background-color: getCssVar('dropdown-menuItem-danger-hover-fill');
+        color: getCssVar('dropdown-menuItem-danger-hover-color');
+      }
     }
 
     i {
@@ -186,6 +191,10 @@ $dropdown-menu-padding-vertical: map.merge(
     @include when(disabled) {
       cursor: not-allowed;
       color: getCssVar('text-color-disabled');
+    }
+
+    @include when(danger) {
+      color: getCssVar('color-danger')
     }
   }
 
