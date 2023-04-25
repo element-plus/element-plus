@@ -77,26 +77,28 @@ progress/striped-progress
 
 :::
 
-## Attributes
+## API
 
-| Name           | Description                                                                           | Type                  | Accepted Values           | Default |
-| -------------- | ------------------------------------------------------------------------------------- | --------------------- | ------------------------- | ------- |
-| percentage     | percentage, **required**                                                              | number                | (0-100)                   | 0       |
-| type           | the type of progress bar                                                              | string                | line/circle/dashboard     | line    |
-| stroke-width   | the width of progress bar                                                             | number                | —                         | 6       |
-| text-inside    | whether to place the percentage inside progress bar, only works when `type` is 'line' | boolean               | —                         | false   |
-| status         | the current status of progress bar                                                    | string                | success/exception/warning | —       |
-| indeterminate  | set indeterminate progress                                                            | boolean               | -                         | false   |
-| duration       | control the animation duration of indeterminate progress or striped flow progress     | number                | -                         | 3       |
-| color          | background color of progress bar. Overrides `status` prop                             | string/function/array | —                         | ''      |
-| width          | the canvas width of circle progress bar                                               | number                | —                         | 126     |
-| show-text      | whether to show percentage                                                            | boolean               | —                         | true    |
-| stroke-linecap | circle/dashboard type shape at the end path                                           | string                | butt/round/square         | round   |
-| format         | custom text format                                                                    | function(percentage)  | —                         | —       |
-| striped        | stripe over the progress bar's color                                                  | boolean               | —                         | false   |
-| striped-flow   | get the stripes to flow                                                               | boolean               | —                         | false   |
+### Attributes
 
-## Slots
+| Name           | Description                                                                           | Type                                           | Default |
+| -------------- | ------------------------------------------------------------------------------------- | ---------------------------------------------- | ------- |
+| percentage     | percentage, **required**                                                              | ^[number]`(0-100)`                             | 0       |
+| type           | the type of progress bar                                                              | ^[enum]`'line' \| 'circle' \| 'dashboard'`     | line    |
+| stroke-width   | the width of progress bar                                                             | ^[number]                                      | 6       |
+| text-inside    | whether to place the percentage inside progress bar, only works when `type` is 'line' | ^[boolean]                                     | false   |
+| status         | the current status of progress bar                                                    | ^[enum]`'success' \| 'exception' \| 'warning'` | —       |
+| indeterminate  | set indeterminate progress                                                            | ^[boolean]                                     | false   |
+| duration       | control the animation duration of indeterminate progress or striped flow progress     | ^[number]                                      | 3       |
+| color          | background color of progress bar. Overrides `status` prop                             | ^[enum]`'string' \| 'function' \| 'array'`     | ''      |
+| width          | the canvas width of circle progress bar                                               | ^[number]                                      | 126     |
+| show-text      | whether to show percentage                                                            | ^[boolean]                                     | true    |
+| stroke-linecap | circle/dashboard type shape at the end path                                           | ^[enum]`'butt' \| 'round' \| 'square'`         | round   |
+| format         | custom text format                                                                    | ^[Function]`(percentage: number) => string`    | —       |
+| striped        | stripe over the progress bar's color                                                  | ^[boolean]                                     | false   |
+| striped-flow   | get the stripes to flow                                                               | ^[boolean]                                     | false   |
+
+### Slots
 
 | Name    | Description                                       |
 | ------- | ------------------------------------------------- |
