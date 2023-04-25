@@ -221,13 +221,13 @@ describe('<upload />', () => {
       const firstFile = new File(['content'], 'test-file.txt')
       mockGetFile(wrapper.find('input').element, [firstFile])
       await wrapper.find('input').trigger('change')
-      await vi.flushPromises()
+      await flushPromises()
 
       // upload the second file
       const secondFile = new File(['content2'], 'test-file2.txt')
       mockGetFile(wrapper.find('input').element, [firstFile, secondFile])
       await wrapper.find('input').trigger('change')
-      await vi.flushPromises()
+      await flushPromises()
 
       // check the keyList after uploading both files
       expect(keyList).toEqual(['test-file.txt', 'test-file.txt', 'test-file2.txt'])
