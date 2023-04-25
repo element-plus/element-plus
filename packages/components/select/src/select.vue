@@ -254,7 +254,7 @@
         </div>
       </template>
       <template #content>
-        <el-select-menu @click="avoidBlur">
+        <el-select-menu>
           <el-scrollbar
             v-show="options.size > 0 && !loading"
             ref="scrollbar"
@@ -498,7 +498,6 @@ export default defineComponent({
       getValueKey,
       navigateOptions,
       dropMenuVisible,
-      setSoftFocus,
 
       reference,
       input,
@@ -531,7 +530,6 @@ export default defineComponent({
       currentPlaceholder,
       menuVisibleOnFocus,
       isOnComposition,
-      isSilentBlur,
       options,
       cachedOptions,
       optionsCount,
@@ -630,11 +628,6 @@ export default defineComponent({
       optionList.value = v
     }
 
-    const avoidBlur = () => {
-      setSoftFocus()
-      isSilentBlur.value = true
-    }
-
     return {
       isIOS,
       onOptionsRendered,
@@ -664,7 +657,6 @@ export default defineComponent({
       currentPlaceholder,
       menuVisibleOnFocus,
       isOnComposition,
-      isSilentBlur,
       options,
       resetInputHeight,
       managePlaceholder,
@@ -690,7 +682,6 @@ export default defineComponent({
       navigateOptions,
       dropMenuVisible,
       focus,
-      avoidBlur,
 
       reference,
       input,

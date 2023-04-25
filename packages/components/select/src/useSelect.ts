@@ -56,7 +56,6 @@ export function useSelectStates(props) {
     currentPlaceholder: t('el.select.placeholder') as string | (() => string),
     menuVisibleOnFocus: false,
     isOnComposition: false,
-    isSilentBlur: false,
     prefixWidth: 11,
     tagInMultiLine: false,
     mouseEnter: false,
@@ -648,7 +647,7 @@ export const useSelect = (props, states: States, ctx) => {
     ctx.emit('clear')
   }
 
-  const handleOptionSelect = (option, byClick) => {
+  const handleOptionSelect = (option) => {
     if (props.multiple) {
       const value = (props.modelValue || []).slice()
       const optionIndex = getValueIndex(value, option.value)
@@ -673,7 +672,6 @@ export const useSelect = (props, states: States, ctx) => {
       emitChange(option.value)
       states.visible = false
     }
-    states.isSilentBlur = byClick
     setSoftFocus()
     if (states.visible) return
     nextTick(() => {
@@ -800,13 +798,12 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleBlur = (event: FocusEvent) => {
     // https://github.com/ElemeFE/element/pull/10822
-    setTimeout(() => {
-      if (states.isSilentBlur) {
-        states.isSilentBlur = false
-      } else {
-        ctx.emit('blur', event)
-      }
-    }, 200)
+    if (
+      event.relatedTarget !==
+      tooltipRef.value.contentRef.contentRef.popperContentRef
+    ) {
+      ctx.emit('blur', event)
+    }
     states.softFocus = false
   }
 
@@ -849,7 +846,7 @@ export const useSelect = (props, states: States, ctx) => {
       toggleMenu()
     } else {
       if (optionsArray.value[states.hoverIndex]) {
-        handleOptionSelect(optionsArray.value[states.hoverIndex], undefined)
+        handleOptionSelect(optionsArray.value[states.hoverIndex])
       }
     }
   }
