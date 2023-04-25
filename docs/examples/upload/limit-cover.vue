@@ -36,6 +36,17 @@ const handleExceed: UploadProps['onExceed'] = (files) => {
 }
 
 const submitUpload = () => {
+  const files = upload.value!.uploadFiles // 获取上传的文件列表
+  if (files.length === 0) {
+    alert('请先选择文件')
+    return
+  }
+  const file = files[0] as UploadRawFile
+  const isXlsx = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  if (!isXlsx) {
+    alert('只能上传 xlsx 文件')
+    return
+  }
   upload.value!.submit()
 }
 </script>
