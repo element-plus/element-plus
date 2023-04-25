@@ -96,11 +96,17 @@ export default defineComponent({
       })
     }
 
+    // 记录上一次ColorValue的值，以消除colorValue.value浮点计算产生的误差
+    let oldPropColorValue = ''
     // watch
     watch(
       () => colorValue.value,
       () => {
-        update()
+        const newPropColorValue = props.color.value
+        if (oldPropColorValue !== newPropColorValue) {
+          oldPropColorValue = newPropColorValue
+          update()
+        }
       }
     )
     // mounted
