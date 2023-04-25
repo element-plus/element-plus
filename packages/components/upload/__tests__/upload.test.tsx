@@ -205,14 +205,24 @@ describe('<upload />', () => {
 
     test('upload files and save keyList', async () => {
       const keyList: string[] = []
+      const beforeUpload = vi.fn((file: File) => {
+        return new Promise<File>((resolve) => {
+          data.value.key = file.name
+          resolve(file)
+        })
+      })
       const httpRequest = vi.fn((val) => {
         keyList.push(val?.data?.key)
         return Promise.resolve()
       })
 
+      const data = ref({ key: '' })
+
       const wrapper = mount(() => (
         <UploadContent
+          data={data.value}
           multiple={true}
+          beforeUpload={beforeUpload}
           httpRequest={httpRequest}
         />
       ))
@@ -230,7 +240,11 @@ describe('<upload />', () => {
       await flushPromises()
 
       // check the keyList after uploading both files
-      expect(keyList).toEqual(['test-file.txt', 'test-file.txt', 'test-file2.txt'])
+      expect(keyList).toEqual([
+        'test-file.txt',
+        'test-file.txt',
+        'test-file2.txt',
+      ])
     })
 
     test('onProgress should work', async () => {
