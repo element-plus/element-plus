@@ -90,10 +90,10 @@ progress/striped-progress
 | status         | the current status of progress bar                                                    | ^[enum]`'success' \| 'exception' \| 'warning'` | —       |
 | indeterminate  | set indeterminate progress                                                            | ^[boolean]                                     | false   |
 | duration       | control the animation duration of indeterminate progress or striped flow progress     | ^[number]                                      | 3       |
-| color          | background color of progress bar. Overrides `status` prop                             | ^[enum]`'string' \| 'function' \| 'array'`     | ''      |
+| color          | background color of progress bar. Overrides `status` prop                             | ^[string] / ^[function] / ^[array]             | ''      |
 | width          | the canvas width of circle progress bar                                               | ^[number]                                      | 126     |
 | show-text      | whether to show percentage                                                            | ^[boolean]                                     | true    |
-| stroke-linecap | circle/dashboard type shape at the end path                                           | ^[enum]`'butt' \| 'round' \| 'square'`         | round   |
+| stroke-linecap | butt/circle/dashboard type shape at the end path                                      | ^[enum]`'butt' \| 'round' \| 'square'`         | round   |
 | format         | custom text format                                                                    | ^[Function]`(percentage: number) => string`    | —       |
 | striped        | stripe over the progress bar's color                                                  | ^[boolean]                                     | false   |
 | striped-flow   | get the stripes to flow                                                               | ^[boolean]                                     | false   |
