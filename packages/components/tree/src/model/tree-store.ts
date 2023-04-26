@@ -171,6 +171,8 @@ export default class TreeStore {
 
   setDefaultCheckedKey(newVal: TreeKey[]): void {
     if (newVal !== this.defaultCheckedKeys) {
+      const allNodes = this._getAllNodes()
+      allNodes.forEach((node) => node.setChecked(false, false))
       this.defaultCheckedKeys = newVal
       this._initDefaultCheckedNodes()
     }
