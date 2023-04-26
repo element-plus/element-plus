@@ -145,3 +145,16 @@ dropdown/sizes
 | Name | Description                |
 | ---- | -------------------------- |
 | —    | customize of Dropdown Item |
+
+## Dropdown-Item-Group Attributes
+
+| Name     | Description                                                 | Type                  | Accepted Values | Default |
+| -------- | ----------------------------------------------------------- | --------------------- | --------------- | ------- |
+| title    | group title                                                 | string                | —               | —       |
+
+## Dropdown-Item-Group Slots
+
+| Name  | Description                |
+| ----- | -------------------------- |
+| —     | customize of Dropdown Item |
+| title | customize group title      |
