@@ -69,15 +69,35 @@
       />
     </el-select>
   </div>
+  <div class="m-4">
+    <p>hide already selected options</p>
+    <el-select
+      v-model="value5"
+      multiple
+      collapse-tags
+      collapse-tags-tooltip
+      :max-collapse-tags="3"
+      placeholder="Select"
+      style="width: 240px"
+    >
+      <el-option
+        v-for="item in filteredOptions"
+        :key="item.value"
+        :label="item.label"
+        :value="item.value"
+      />
+    </el-select>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 const value1 = ref([])
 const value2 = ref([])
 const value3 = ref([])
 const value4 = ref([])
+const value5 = ref<string[]>([])
 const options = [
   {
     value: 'Option1',
@@ -100,4 +120,8 @@ const options = [
     label: 'Option5',
   },
 ]
+
+const filteredOptions = computed(() =>
+  options.filter((option) => !value5.value.includes(option.value))
+)
 </script>
