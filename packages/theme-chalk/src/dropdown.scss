@@ -179,6 +179,7 @@ $dropdown-menu-padding-vertical: map.merge(
     }
 
     @include m(divided) {
+      height: 0;
       margin: map.get($dropdown-item-divided-margin, 'default');
       border-top: 1px solid getCssVar('border-color-lighter');
     }
@@ -186,6 +187,19 @@ $dropdown-menu-padding-vertical: map.merge(
     @include when(disabled) {
       cursor: not-allowed;
       color: getCssVar('text-color-disabled');
+    }
+  }
+
+  @include e(item-group) {
+    > ul {
+      padding: 0;
+    }
+
+    @include m(title) {
+      padding: map.get($dropdown-item-padding, 'default');
+      line-height: map.get($dropdown-item-line-height, 'default');
+      font-size: getCssVar('font-size', 'base');
+      color: getCssVar('text-color', 'secondary');
     }
   }
 
