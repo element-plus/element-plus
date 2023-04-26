@@ -371,10 +371,11 @@ const onceInitSizeTextarea = createOnceInitResize(resizeTextarea)
 
 const setNativeInputValue = () => {
   const input = _ref.value
-  if (!input || input.value === nativeInputValue.value) return
-  input.value = props.formatter
+  const formatterValue = props.formatter
     ? props.formatter(nativeInputValue.value)
     : nativeInputValue.value
+  if (!input || input.value === formatterValue) return
+  input.value = formatterValue
 }
 
 const handleInput = async (event: Event) => {
