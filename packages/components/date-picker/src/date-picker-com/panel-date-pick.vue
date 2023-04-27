@@ -367,7 +367,6 @@ const handleShortcutClick = (shortcut: Shortcut) => {
     : shortcut.value
   if (shortcutValue) {
     emit(dayjs(shortcutValue).locale(lang.value))
-    return
   }
   if (shortcut.onClick) {
     shortcut.onClick({
