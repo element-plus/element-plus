@@ -383,10 +383,8 @@ const handleInput = async (event: Event) => {
 
   let { value } = event.target as TargetElement
 
-  const parseValue = props.parser ? props.parser(value) : value
-
   if (props.formatter) {
-    value = props.formatter(parseValue)
+    value = props.parser ? props.parser(value) : value
   }
 
   // should not emit input during composition
@@ -400,7 +398,7 @@ const handleInput = async (event: Event) => {
     return
   }
 
-  emit(UPDATE_MODEL_EVENT, parseValue)
+  emit(UPDATE_MODEL_EVENT, value)
   emit('input', value)
 
   // ensure native input value is controlled
