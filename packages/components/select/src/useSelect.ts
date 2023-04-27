@@ -414,6 +414,18 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleQueryChange = async (val) => {
+    const options = val.split(props.tokenSeparator)
+    if (options.length > 1) {
+      const value = props.modelValue.slice()
+      options
+        .filter((item) => item !== '')
+        .forEach((option) => {
+          value.push(option)
+          ctx.emit(UPDATE_MODEL_EVENT, value)
+          emitChange(value)
+        })
+    }
+
     if (states.previousQuery === val || states.isOnComposition) return
     if (
       states.previousQuery === null &&

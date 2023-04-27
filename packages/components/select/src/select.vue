@@ -442,6 +442,7 @@ export default defineComponent({
       values: placements,
       default: 'bottom-start',
     },
+    tokenSeparator: String,
   },
   emits: [
     UPDATE_MODEL_EVENT,

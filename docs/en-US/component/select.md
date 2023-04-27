@@ -103,7 +103,7 @@ select/remote-search
 
 Create and select new items that are not included in select options
 
-:::demo By using the `allow-create` attribute, users can create new items by typing in the input box. Note that for `allow-create` to work, `filterable` must be `true`. This example also demonstrates `default-first-option`. When this attribute is set to `true`, you can select the first option in the current option list by hitting enter without having to navigate with mouse or arrow keys.
+:::demo By using the `allow-create` attribute, users can create new items by typing in the input box. Note that for `allow-create` to work, `filterable` must be `true`. This example also demonstrates `default-first-option`. When this attribute is set to `true`, you can select the first option in the current option list by hitting enter without having to navigate with mouse or arrow keys. Finally, Enable automatic tokenization through the `token-separator` attribute to help you quickly create new items.
 
 select/allow-create
 
@@ -157,6 +157,7 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | validate-event                      | whether to trigger form validation                                                                                          | boolean                                    | true / false                                                                                              | true             |
 | placement                           | position of dropdown                                                                                                        | string                                     | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom-start     |
 | max-collapse-tags ^(2.3.0)          | The max tags number to be shown. To use this, `collapse-tags` must be true                                                  | number                                     | —                                                                                                         | 1                |
+| token-separator                     | automatic tokenization. To use this, `multiple` `filterable` `allow-create` must be true, `reserve-keyword` must be false   | string                                     | string                                                                                                    | —                |
 
 :::warning
 
