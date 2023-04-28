@@ -79,7 +79,7 @@
   </ul>
 </template>
 <script lang="ts" setup>
-import { computed, ref, watchEffect } from 'vue'
+import { computed, defineExpose, ref, watchEffect } from 'vue'
 import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import { paginationPagerProps } from './pager'
@@ -209,4 +209,9 @@ function onPagerClick(event: UIEvent) {
     emit('change', newPage)
   }
 }
+
+defineExpose({
+  /** @description test use */
+  onPagerClick,
+})
 </script>

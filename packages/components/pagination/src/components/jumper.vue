@@ -37,7 +37,7 @@ const ns = useNamespace('pagination')
 const { pageCount, disabled, currentPage, changeEvent } = usePagination()
 const userInput = ref<number | string>()
 const innerValue = computed(() => userInput.value ?? currentPage?.value)
-let timer = 0
+let timer: ReturnType<typeof setTimeout> | undefined
 
 function handleInput(val: number | string) {
   userInput.value = val ? +val : ''
@@ -53,7 +53,7 @@ function handleChange(val: number | string) {
 
 function clearTimer() {
   timer && clearTimeout(timer)
-  timer = 0
+  timer = undefined
 }
 
 watch(currentPage!, () => {
@@ -66,6 +66,7 @@ onUnmounted(() => {
 })
 
 defineExpose({
+  /** @description test use */
   handleChange,
 })
 </script>
