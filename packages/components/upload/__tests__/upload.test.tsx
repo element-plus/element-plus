@@ -134,7 +134,15 @@ describe('<upload />', () => {
     // Ensure that the modified data in before-upload can be correctly passed into the upload request. (#12029)
     test('in beforeUpload change data correctly to request', async () => {
       const keyList: string[] = []
-      const beforeUpload = vi.fn((file) => (data.value.key = file.name))
+      const beforeUpload = vi.fn((file) => {
+        return new Promise((resolve) => {
+          // change props.data after Asynchronous task(#12340)
+          setTimeout(() => {
+            data.value.key = file.name
+            resolve(true)
+          }, 50)
+        })
+      })
       const httpRequest = vi.fn((val) => {
         keyList.push(val?.data?.key)
         return Promise.resolve()
@@ -161,6 +169,7 @@ describe('<upload />', () => {
 
       expect(beforeUpload).toHaveBeenCalled()
       await flushPromises()
+      expect(httpRequest).toHaveBeenCalled()
 
       expect(keyList).toEqual(['test-file.txt', 'test-file2.txt'])
     })
