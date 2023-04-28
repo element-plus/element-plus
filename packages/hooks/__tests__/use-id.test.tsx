@@ -13,6 +13,7 @@ describe('no injection value', () => {
         const idInjection = useIdInjection()
         return idInjection
       },
+      template: '<div></div>',
     })
 
     expect(wrapper.vm.prefix).toMatch(/^\d{0,4}$/)

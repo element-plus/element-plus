@@ -3,7 +3,7 @@ title: Virtualized Table
 lang: en-US
 ---
 
-# Virtualized Table<VersionTag version="beta" />
+# Virtualized Table ^(beta)
 
 Along with the evolutionary web development, table component has always been the most popular component in our web apps especially for dashboards, data analysis. For [Table V1](./table.md), with even just 1000 records of data, it can be very annoying when using it, because the poor performance.
 
@@ -15,6 +15,12 @@ This component is **still under testing**, use at your own risk. if you found an
 fully developed yet, so that we are not mentioning them here.
 
 **Even though** Virtualized Table is efficient, but when the data load is too big, your **network**, **memory size** can be the bottle neck of your app. So keep in mind that Virtualized Table is never the ultimate solution for everything, consider paginate your data, add filters etc.
+
+:::
+
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
 
 :::
 
@@ -535,4 +541,4 @@ state by yourselves.
 
 For virtualized table, we intend to provide less feature and let our users to implement their own features per demand.
 Integrating too many features makes the code hard to maintain and for most users the basic features are enough. Some key
-features were not developed yet. We would love to hear from you. Join [Discord](https://discord.link/ElementPlus) to stay tuned.
+features were not developed yet. We would love to hear from you. Join [Discord](https://discord.com/invite/gXK9XNzW3X) to stay tuned.

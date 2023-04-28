@@ -1,10 +1,15 @@
 // @ts-nocheck
 import { nextTick } from 'vue'
-import { isString } from '@vue/shared'
-import { isClient } from '@vueuse/core'
-import { addClass, getStyle, removeClass } from '@element-plus/utils'
-import { useNamespace, useZIndex } from '@element-plus/hooks'
+import {
+  addClass,
+  getStyle,
+  isClient,
+  isString,
+  removeClass,
+} from '@element-plus/utils'
 import { createLoadingComponent } from './loading'
+
+import type { UseNamespaceReturn, UseZIndexReturn } from '@element-plus/hooks'
 import type { LoadingInstance } from './loading'
 import type { LoadingOptionsResolved } from '..'
 import type { LoadingOptions } from './types'
@@ -93,7 +98,7 @@ const addStyle = async (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
-  const { nextZIndex } = useZIndex()
+  const { nextZIndex } = (instance.vm as any).zIndex as UseZIndexReturn
 
   const maskStyle: CSSProperties = {}
   if (options.fullscreen) {
@@ -135,7 +140,7 @@ const addClassList = (
   parent: HTMLElement,
   instance: LoadingInstance
 ) => {
-  const ns = useNamespace('loading')
+  const ns = (instance.vm as any).ns as UseNamespaceReturn
 
   if (
     !['absolute', 'fixed', 'sticky'].includes(instance.originalPosition.value)

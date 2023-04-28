@@ -54,6 +54,7 @@ interface SelectProps {
   multiple?: boolean
   collapseTags?: boolean
   collapseTagsTooltip?: boolean
+  maxCollapseTags?: number
   filterable?: boolean
   remote?: boolean
   multipleLimit?: number
@@ -105,6 +106,7 @@ const createSelect = (
         :multiple="multiple"
         :collapseTags="collapseTags"
         :collapseTagsTooltip="collapseTagsTooltip"
+        :max-collapse-tags="maxCollapseTags"
         :filterable="filterable"
         :multiple-limit="multipleLimit"
         :placeholder="placeholder"
@@ -146,6 +148,7 @@ const createSelect = (
           multiple: false,
           collapseTags: false,
           collapseTagsTooltip: false,
+          maxCollapseTags: 1,
           remote: false,
           filterable: false,
           reserveKeyword: false,
@@ -478,6 +481,55 @@ describe('Select', () => {
     expect(placeholder.text()).toBe(DEFAULT_PLACEHOLDER)
   })
 
+  describe('initial value', () => {
+    it.each([
+      [null, DEFAULT_PLACEHOLDER],
+      [undefined, DEFAULT_PLACEHOLDER],
+      ['', ''],
+      [[], DEFAULT_PLACEHOLDER],
+      [{}, '[object Object]'],
+    ])(
+      '[single select] initial value is %s, placeholder is "%s"',
+      async (value, placeholder) => {
+        const wrapper = createSelect({
+          data: () => {
+            return {
+              value,
+            }
+          },
+        })
+        await nextTick()
+        expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+          placeholder
+        )
+      }
+    )
+
+    it.each([
+      [null, DEFAULT_PLACEHOLDER],
+      [undefined, DEFAULT_PLACEHOLDER],
+      ['', DEFAULT_PLACEHOLDER],
+      [[], DEFAULT_PLACEHOLDER],
+      [{}, DEFAULT_PLACEHOLDER],
+    ])(
+      '[multiple select] initial value is %s, placeholder is "%s"',
+      async (value, placeholder) => {
+        const wrapper = createSelect({
+          data: () => {
+            return {
+              multiple: true,
+              value,
+            }
+          },
+        })
+        await nextTick()
+        expect(wrapper.find(`.${PLACEHOLDER_CLASS_NAME}`).text()).toBe(
+          placeholder
+        )
+      }
+    )
+  })
+
   describe('multiple', () => {
     it('multiple select', async () => {
       const wrapper = createSelect({
@@ -655,6 +707,36 @@ describe('Select', () => {
       await nextTick()
       expect(vm.value.length).toBe(3)
       expect(wrapper.findAll('.el-tag')[3].element.textContent).toBe('c2')
+    })
+
+    it('use maxCollapseTags', async () => {
+      const wrapper = createSelect({
+        data: () => {
+          return {
+            multiple: true,
+            collapseTags: true,
+            collapseTagsTooltip: true,
+            maxCollapseTags: 3,
+            value: [],
+          }
+        },
+      })
+      await nextTick()
+      const vm = wrapper.vm as any
+      const options = getOptions()
+      options[0].click()
+      await nextTick()
+      options[1].click()
+      await nextTick()
+      options[2].click()
+      await nextTick()
+      options[3].click()
+      await nextTick()
+      expect(vm.value.length).toBe(4)
+      const tags = wrapper.findAll('.el-tag').filter((item) => {
+        return !hasClass(item.element, 'in-tooltip')
+      })
+      expect(tags.length).toBe(4)
     })
   })
 

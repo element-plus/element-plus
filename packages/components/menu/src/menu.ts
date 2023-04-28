@@ -12,6 +12,7 @@ import {
   watchEffect,
 } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
+import { isNil } from 'lodash-unified'
 import ElIcon from '@element-plus/components/icon'
 import { More } from '@element-plus/icons-vue'
 import {
@@ -66,6 +67,11 @@ export const menuProps = buildProps({
     type: Boolean,
     default: true,
   },
+  popperEffect: {
+    type: String,
+    values: ['dark', 'light'],
+    default: 'dark',
+  },
 } as const)
 export type MenuProps = ExtractPropTypes<typeof menuProps>
 
@@ -116,7 +122,7 @@ export default defineComponent({
     const activeIndex = ref<MenuProvider['activeIndex']>(props.defaultActive)
     const items = ref<MenuProvider['items']>({})
     const subMenus = ref<MenuProvider['subMenus']>({})
-    let activeItemFirstOpend = true
+
     // computed
     const isMenuPopup = computed<MenuProvider['isMenuPopup']>(() => {
       return (
@@ -128,34 +134,16 @@ export default defineComponent({
     // methods
     const initMenu = () => {
       const activeItem = activeIndex.value && items.value[activeIndex.value]
-      if (
-        !activeItem ||
-        props.mode === 'horizontal' ||
-        props.collapse ||
-        (props.uniqueOpened && !activeItemFirstOpend)
-      )
-        return
+      if (!activeItem || props.mode === 'horizontal' || props.collapse) return
 
       const indexPath = activeItem.indexPath
 
       // 展开该菜单项的路径上所有子菜单
       // expand all subMenus of the menu item
-      const openAllActiveItem = () => {
-        activeItemFirstOpend = false
-        indexPath.forEach((index) => {
-          const subMenu = subMenus.value[index]
-          subMenu && openMenu(index, subMenu.indexPath)
-        })
-      }
-
-      if (activeIndex.value === props.defaultActive && activeItemFirstOpend) {
-        openAllActiveItem()
-      } else {
-        // fix: #10431
-        if (indexPath.every((index) => openedMenus.value.includes(index))) {
-          openAllActiveItem()
-        }
-      }
+      indexPath.forEach((index) => {
+        const subMenu = subMenus.value[index]
+        subMenu && openMenu(index, subMenu.indexPath)
+      })
     }
 
     const openMenu: MenuProvider['openMenu'] = (index, indexPath) => {
@@ -171,11 +159,15 @@ export default defineComponent({
       emit('open', index, indexPath)
     }
 
-    const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
+    const close = (index: string) => {
       const i = openedMenus.value.indexOf(index)
       if (i !== -1) {
         openedMenus.value.splice(i, 1)
       }
+    }
+
+    const closeMenu: MenuProvider['closeMenu'] = (index, indexPath) => {
+      close(index)
       emit('close', index, indexPath)
     }
 
@@ -200,7 +192,7 @@ export default defineComponent({
       }
 
       const { index, indexPath } = menuItem
-      if (index === undefined || indexPath === undefined) return
+      if (isNil(index) || isNil(indexPath)) return
 
       if (props.router && router) {
         const route = menuItem.route || index
@@ -368,9 +360,10 @@ export default defineComponent({
         const { indexPath } = subMenus.value[index]
         indexPath.forEach((i) => openMenu(i, indexPath))
       }
+
       expose({
         open,
-        close: closeMenu,
+        close,
         handleResize,
       })
     }

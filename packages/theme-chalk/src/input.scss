@@ -114,7 +114,7 @@
 
   @include when(exceed) {
     .#{$namespace}-textarea__inner {
-      border-color: getCssVar('color-danger');
+      @include mixed-input-border(#{getCssVar('color-danger')});
     }
 
     .#{$namespace}-input__count {
@@ -181,6 +181,7 @@
       map.get($input, 'border-radius')
     );
     transition: getCssVar('transition-box-shadow');
+    transform: translate3d(0, 0, 0);
     @include inset-input-border(
       var(
         #{getCssVarName('input-border-color')},
