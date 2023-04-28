@@ -440,7 +440,7 @@ describe('Autocomplete.vue', () => {
     await nextTick()
     expect(onBlur).toHaveBeenCalledTimes(1)
   })
-  
+
   describe('test a11y supports', () => {
     test('test a11y attributes', async () => {
       const wrapper = _mount()
