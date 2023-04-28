@@ -287,14 +287,11 @@ const emit = defineEmits([
 const unit = 'month'
 // FIXME: fix the type for ep picker
 const pickerBase = inject('EP_PICKER_BASE') as any
-const {
-  disabledDate,
-  cellClassName,
-  format,
-  defaultTime,
-  arrowControl,
-  clearable,
-} = pickerBase.props
+const { cellClassName, format, defaultTime, arrowControl, clearable } =
+  pickerBase.props
+
+const disabledDate = toRef(pickerBase.props, 'disabledDate')
+
 const shortcuts = toRef(pickerBase.props, 'shortcuts')
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 const { lang } = useLocale()
@@ -545,7 +542,7 @@ const handleDateInput = (value: string | null, type: ChangeType) => {
   const parsedValueD = dayjs(value, dateFormat.value).locale(lang.value)
 
   if (parsedValueD.isValid()) {
-    if (disabledDate && disabledDate(parsedValueD.toDate())) {
+    if (disabledDate.value && disabledDate.value(parsedValueD.toDate())) {
       return
     }
     if (type === 'min') {
