@@ -198,11 +198,12 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 
 ## Option Attributes
 
-| Name     | Description                                 | Type                               | Accepted Values | Default |
-| -------- | ------------------------------------------- | ---------------------------------- | --------------- | ------- |
-| value    | value of option                             | string / number / boolean / object | —               | —       |
-| label    | label of option, same as `value` if omitted | string/number                      | —               | —       |
-| disabled | whether option is disabled                  | boolean                            | —               | false   |
+| Name     | Description                                 | Type                                                                       | Accepted Values | Default |
+| -------- | ------------------------------------------- | -------------------------------------------------------------------------- | --------------- | ------- |
+| value    | value of option                             | string / number / boolean / object                                         | —               | —       |
+| label    | label of option, same as `value` if omitted | string/number                                                              | —               | —       |
+| disabled | whether option is disabled                  | boolean                                                                    | —               | false   |
+| tag-type | tag type                                    | ^[enum]`'success'\|'info'\|'warning'\|'danger'`                            | —               | —       |
 
 ## Option Slots
 

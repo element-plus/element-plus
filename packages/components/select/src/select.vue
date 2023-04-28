@@ -55,7 +55,7 @@
                   :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
                   :hit="item.hitState"
-                  :type="tagType"
+                  :type="item.tagType || tagType"
                   disable-transitions
                   @close="deleteTag($event, item)"
                 >
@@ -95,7 +95,7 @@
                             :closable="!selectDisabled && !item.isDisabled"
                             :size="collapseTagSize"
                             :hit="item.hitState"
-                            :type="tagType"
+                            :type="item.tagType || tagType"
                             disable-transitions
                             :style="{ margin: '2px' }"
                             @close="deleteTag($event, item)"
@@ -131,7 +131,7 @@
                   :closable="!selectDisabled && !item.isDisabled"
                   :size="collapseTagSize"
                   :hit="item.hitState"
-                  :type="tagType"
+                  :type="item.tagType || tagType"
                   disable-transitions
                   @close="deleteTag($event, item)"
                 >

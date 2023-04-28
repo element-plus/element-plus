@@ -29,6 +29,7 @@ import {
   toRefs,
 } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
+import { tagProps } from '@element-plus/components/tag'
 import { useOption } from './useOption'
 import type { SelectOptionProxy } from './token'
 
@@ -47,6 +48,8 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    // eslint-disable-next-line vue/require-prop-types
+    tagType: { ...tagProps.type, default: null },
   },
 
   setup(props) {

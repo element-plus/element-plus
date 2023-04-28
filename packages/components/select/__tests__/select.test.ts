@@ -2169,4 +2169,52 @@ describe('Select', () => {
       expect(findInnerInput().value).toBe('z')
     })
   })
+
+  test('set type for option', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="value" multiple>
+        <el-option
+          v-for="item in options"
+          :label="item.label"
+          :key="item.value"
+          :value="item.value"
+          :tag-type="item.type">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+            type: 'success',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+            type: 'info',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎',
+            type: 'warning',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+            type: 'danger',
+          },
+        ],
+        value: ['选项1', '选项2', '选项3', '选项4'],
+      })
+    )
+    await nextTick()
+
+    const tags = wrapper.findAll('.el-tag')
+    expect(tags[0].classes()).toContain('el-tag--success')
+    expect(tags[1].classes()).toContain('el-tag--info')
+    expect(tags[2].classes()).toContain('el-tag--warning')
+    expect(tags[3].classes()).toContain('el-tag--danger')
+  })
 })
