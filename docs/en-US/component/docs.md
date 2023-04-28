@@ -15,13 +15,13 @@ lang: en-US
 
 - tag 标签使用
 
-  目前内置内`版本`/ `遗弃` / `a11y`这三种 tag 组件，标签和文本中间不用加空格，组件自带边距
+  目前内置内`版本`/ `遗弃` / `a11y`这三种 tag 组件，标签和文本中间需要加空格
 
-| Name                               |
-| ---------------------------------- |
-| size<A11yTag />                    |
-| size<VersionTag version="2.2.1" /> |
-| size<DeprecatedTag />              |
+| Name               |
+| ------------------ |
+| size ^(a11y)       |
+| size ^(2.2.1)      |
+| size ^(deprecated) |
 
 ### Description
 
