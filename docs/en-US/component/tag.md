@@ -75,23 +75,23 @@ tag/checkable
 
 ## Attributes
 
-| Name                | Description                          | Type    | Accepted Values             | Default |
-| ------------------- | ------------------------------------ | ------- | --------------------------- | ------- |
-| type                | component type                       | string  | success/info/warning/danger | —       |
-| closable            | whether Tag can be removed           | boolean | —                           | false   |
-| disable-transitions | whether to disable animations        | boolean | —                           | false   |
-| hit                 | whether Tag has a highlighted border | boolean | —                           | false   |
-| color               | background color of the Tag          | string  | —                           | —       |
-| size                | tag size                             | string  | large / default /small      | default |
-| effect              | component theme                      | string  | dark / light / plain        | light   |
-| round               | whether Tag is rounded               | boolean | —                           | false   |
+| Name                | Description                          | Type                                                     | Default |
+| ------------------- | ------------------------------------ | -------------------------------------------------------- | ------- |
+| type                | component type                       | ^[string]`'success' \| 'info' \| 'warning' \| 'danger'`  | —       |
+| closable            | whether Tag can be removed           | ^[boolean]                                               | false   |
+| disable-transitions | whether to disable animations        | ^[boolean]                                               | false   |
+| hit                 | whether Tag has a highlighted border | ^[boolean]                                               | false   |
+| color               | background color of the Tag          | ^[string]                                                | —       |
+| size                | tag size                             | ^[string]`'large' \| 'default' \| 'small'`               | default |
+| effect              | component theme                      | ^[string]`'dark' \| 'light' \| 'plain'`                  | light   |
+| round               | whether Tag is rounded               | ^[boolean]                                               | false   |
 
 ## Events
 
-| Name  | Description                  | Parameters |
-| ----- | ---------------------------- | ---------- |
-| click | triggers when Tag is clicked | —          |
-| close | triggers when Tag is removed | —          |
+| Name  | Description                  | Type                                                 |
+| ----- | ---------------------------- | ---------------------------------------------------- |
+| click | triggers when Tag is clicked | ^[Function]`(event: MouseEvent) => boolean`          |
+| close | triggers when Tag is removed | ^[Function]`(event: MouseEvent) => boolean`          |
 
 ## Slots
 
@@ -101,15 +101,15 @@ tag/checkable
 
 ## CheckTag Attributes
 
-| Name    | Description | Type    | Accepted Values | Default |
-| ------- | ----------- | ------- | --------------- | ------- |
-| checked | is checked  | boolean | true/false      | —       |
+| Name    | Description | Type       | Default |
+| ------- | ----------- | ---------- | ------- |
+| checked | is checked  | ^[boolean] | —       |
 
 ## CheckTag Events
 
-| Name   | Description                        | Parameters |
-| ------ | ---------------------------------- | ---------- |
-| change | triggers when Check Tag is clicked | checked    |
+| Name   | Description                        | Type                                        |
+| ------ | ---------------------------------- | ------------------------------------------- |
+| change | triggers when Check Tag is clicked | ^[Function]`(value: boolean) => boolean`    |
 
 ## CheckTag Slots
 
