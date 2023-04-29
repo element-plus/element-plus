@@ -16,11 +16,8 @@ defineOptions({
 const props = defineProps(checkTagProps)
 const emit = defineEmits(checkTagEmits)
 
-const nsCheckTag = useNamespace('check-tag')
-const containerKls = computed(() => [
-  nsCheckTag.b(),
-  nsCheckTag.is('checked', props.checked),
-])
+const ns = useNamespace('check-tag')
+const containerKls = computed(() => [ns.b(), ns.is('checked', props.checked)])
 
 const handleChange = () => {
   const checked = !props.checked

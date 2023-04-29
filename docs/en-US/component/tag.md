@@ -77,16 +77,16 @@ tag/checkable
 
 ### Tag Attributes
 
-| Name                | Description                          | Type                                                  | Default |
-| ------------------- | ------------------------------------ | ----------------------------------------------------- | ------- |
-| type                | type of Tag                          | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'` | —       |
-| closable            | whether Tag can be removed           | ^[boolean]                                            | false   |
-| disable-transitions | whether to disable animations        | ^[boolean]                                            | false   |
-| hit                 | whether Tag has a highlighted border | ^[boolean]                                            | false   |
-| color               | background color of the Tag          | ^[string]                                             | —       |
-| size                | size of Tag                          | ^[enum]`'large' \| 'default' \| 'small'`              | default |
-| effect              | theme of Tag                         | ^[enum]`'dark' \| 'light' \| 'plain'`                 | light   |
-| round               | whether Tag is rounded               | ^[boolean]                                            | false   |
+| Name                | Description                          | Type                                                        | Default |
+| ------------------- | ------------------------------------ | ----------------------------------------------------------- | ------- |
+| type                | type of Tag                          | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger' \| ''` | ''      |
+| closable            | whether Tag can be removed           | ^[boolean]                                                  | false   |
+| disable-transitions | whether to disable animations        | ^[boolean]                                                  | false   |
+| hit                 | whether Tag has a highlighted border | ^[boolean]                                                  | false   |
+| color               | background color of the Tag          | ^[string]                                                   | ''      |
+| size                | size of Tag                          | ^[enum]`'large' \| 'default' \| 'small' \| ''`              | ''      |
+| effect              | theme of Tag                         | ^[enum]`'dark' \| 'light' \| 'plain'`                       | light   |
+| round               | whether Tag is rounded               | ^[boolean]                                                  | false   |
 
 ### Tag Events
 
