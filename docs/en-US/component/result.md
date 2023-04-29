@@ -27,11 +27,11 @@ result/customized-content
 
 ### Attributes
 
-| Name      | Description         | Type                                                 | Default |
-| --------- | ------------------- | ---------------------------------------------------- | ------- |
-| title     | title of result     | ^[string]                                            | —       |
-| sub-title | sub title of result | ^[string]                                            | —       |
-| icon      | icon type of result | ^[enum]`'success' \| 'warning' \| 'info' \| 'error'` | info    |
+| Name      | Description         | Type                                                 | Default  |
+| --------- | ------------------- | ---------------------------------------------------- | -------- |
+| title     | title of result     | ^[string]                                            | ''       |
+| sub-title | sub title of result | ^[string]                                            | ''       |
+| icon      | icon type of result | ^[enum]`'success' \| 'warning' \| 'info' \| 'error'` | info     |
 
 ### Slots
 
