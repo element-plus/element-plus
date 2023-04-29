@@ -1,6 +1,6 @@
 <template>
-  <div :class="nsResult.b()">
-    <div :class="nsResult.e('icon')">
+  <div :class="ns.b()">
+    <div :class="ns.e('icon')">
       <slot name="icon">
         <component
           :is="resultIcon.component"
@@ -9,17 +9,17 @@
         />
       </slot>
     </div>
-    <div v-if="title || $slots.title" :class="nsResult.e('title')">
+    <div v-if="title || $slots.title" :class="ns.e('title')">
       <slot name="title">
         <p>{{ title }}</p>
       </slot>
     </div>
-    <div v-if="subTitle || $slots['sub-title']" :class="nsResult.e('subtitle')">
+    <div v-if="subTitle || $slots['sub-title']" :class="ns.e('subtitle')">
       <slot name="sub-title">
         <p>{{ subTitle }}</p>
       </slot>
     </div>
-    <div v-if="$slots.extra" :class="nsResult.e('extra')">
+    <div v-if="$slots.extra" :class="ns.e('extra')">
       <slot name="extra" />
     </div>
   </div>
@@ -35,7 +35,7 @@ defineOptions({
 
 const props = defineProps(resultProps)
 
-const nsResult = useNamespace('result')
+const ns = useNamespace('result')
 
 const resultIcon = computed(() => {
   const icon = props.icon
