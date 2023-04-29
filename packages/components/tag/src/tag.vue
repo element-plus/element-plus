@@ -1,27 +1,27 @@
 <template>
   <span
     v-if="disableTransitions"
-    :class="classes"
+    :class="containerKls"
     :style="{ backgroundColor: color }"
     @click="handleClick"
   >
-    <span :class="ns.e('content')">
+    <span :class="contentKls">
       <slot />
     </span>
-    <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
+    <el-icon v-if="closable" :class="iconKls" @click.stop="handleClose">
       <Close />
     </el-icon>
   </span>
-  <transition v-else :name="`${ns.namespace.value}-zoom-in-center`" appear>
+  <transition v-else :name="`${nsTag.namespace.value}-zoom-in-center`" appear>
     <span
-      :class="classes"
+      :class="containerKls"
       :style="{ backgroundColor: color }"
       @click="handleClick"
     >
-      <span :class="ns.e('content')">
+      <span :class="contentKls">
         <slot />
       </span>
-      <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
+      <el-icon v-if="closable" :class="iconKls" @click.stop="handleClose">
         <Close />
       </el-icon>
     </span>
@@ -44,19 +44,21 @@ const props = defineProps(tagProps)
 const emit = defineEmits(tagEmits)
 
 const tagSize = useFormSize()
-const ns = useNamespace('tag')
-const classes = computed(() => {
+const nsTag = useNamespace('tag')
+const containerKls = computed(() => {
   const { type, hit, effect, closable, round } = props
   return [
-    ns.b(),
-    ns.is('closable', closable),
-    ns.m(type),
-    ns.m(tagSize.value),
-    ns.m(effect),
-    ns.is('hit', hit),
-    ns.is('round', round),
+    nsTag.b(),
+    nsTag.is('closable', closable),
+    nsTag.m(type),
+    nsTag.m(tagSize.value),
+    nsTag.m(effect),
+    nsTag.is('hit', hit),
+    nsTag.is('round', round),
   ]
 })
+const contentKls = computed(() => nsTag.e('content'))
+const iconKls = computed(() => nsTag.e('close'))
 
 // methods
 const handleClose = (event: MouseEvent) => {

@@ -73,45 +73,50 @@ tag/checkable
 
 :::
 
-## Attributes
+## Tag API
+
+### Tag Attributes
 
 | Name                | Description                          | Type                                                     | Default |
 | ------------------- | ------------------------------------ | -------------------------------------------------------- | ------- |
-| type                | component type                       | ^[string]`'success' \| 'info' \| 'warning' \| 'danger'`  | —       |
+| type                | type of Tag                          | ^[enum]`'success' \| 'info' \| 'warning' \| 'danger'`    | —       |
 | closable            | whether Tag can be removed           | ^[boolean]                                               | false   |
 | disable-transitions | whether to disable animations        | ^[boolean]                                               | false   |
 | hit                 | whether Tag has a highlighted border | ^[boolean]                                               | false   |
 | color               | background color of the Tag          | ^[string]                                                | —       |
-| size                | tag size                             | ^[string]`'large' \| 'default' \| 'small'`               | default |
-| effect              | component theme                      | ^[string]`'dark' \| 'light' \| 'plain'`                  | light   |
+| size                | size of Tag                          | ^[enum]`'large' \| 'default' \| 'small'`                 | default |
+| effect              | theme of Tag                         | ^[enum]`'dark' \| 'light' \| 'plain'`                    | light   |
 | round               | whether Tag is rounded               | ^[boolean]                                               | false   |
 
-## Events
+### Tag Events
 
-| Name  | Description                  | Type                                                 |
-| ----- | ---------------------------- | ---------------------------------------------------- |
-| click | triggers when Tag is clicked | ^[Function]`(event: MouseEvent) => boolean`          |
-| close | triggers when Tag is removed | ^[Function]`(event: MouseEvent) => boolean`          |
+| Name  | Description                  | Type                                                                |
+| ----- | ---------------------------- | ------------------------------------------------------------------- |
+| click | triggers when Tag is clicked | `(evt: MouseEvent)` => ^[Function]`(evt: MouseEvent) => boolean`          |
+| close | triggers when Tag is removed | `(evt: MouseEvent)` => ^[Function]`(evt: MouseEvent) => boolean`          |
 
-## Slots
+### Tag Slots
 
 | Name | Description               |
 | ---- | ------------------------- |
 | —    | customize default content |
 
-## CheckTag Attributes
+
+## CheckTag API
+
+### CheckTag Attributes
 
 | Name    | Description | Type       | Default |
 | ------- | ----------- | ---------- | ------- |
 | checked | is checked  | ^[boolean] | —       |
 
-## CheckTag Events
+### CheckTag Events
 
-| Name   | Description                        | Type                                        |
-| ------ | ---------------------------------- | ------------------------------------------- |
-| change | triggers when Check Tag is clicked | ^[Function]`(value: boolean) => boolean`    |
+| Name   | Description                        | Type                                                            |
+| ------ | ---------------------------------- | --------------------------------------------------------------- |
+| change | triggers when Check Tag is clicked | `(value: boolean)` => ^[Function]`(value: boolean) => boolean`    |
 
-## CheckTag Slots
+### CheckTag Slots
 
 | Name | Description               |
 | ---- | ------------------------- |
