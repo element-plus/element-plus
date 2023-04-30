@@ -102,11 +102,11 @@ The component is consisted of these parts
 
 ### Attributes
 
-| Name    | Description                   | Type                     | Default |
-| ------- | ----------------------------- | ------------------------ | ------- |
-| icon    | icon component of page header | ^[string] / ^[Component] | Back    |
-| title   | main title of page header     | ^[string]                | Back    |
-| content | content of page header        | ^[string]                | ''      |
+| Name    | Description                                                   | Type                     | Default |
+| ------- | ------------------------------------------------------------- | ------------------------ | ------- |
+| icon    | icon component of page header                                 | ^[string] / ^[Component] | Back    |
+| title   | main title of page header, default is Back that built-in a11y | ^[string]                | ''      |
+| content | content of page header                                        | ^[string]                | ''      |
 
 ### Events
 
