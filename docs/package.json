@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm gen-locale && vitepress dev .",
-    "build": "NODE_ENV=production && vitepress build . && tsx .vitepress/build/rebuild-pwa.ts",
+    "build": "NODE_ENV=production && pnpm gen-locale && vitepress build . && tsx .vitepress/build/rebuild-pwa.ts",
     "serve": "NODE_ENV=production vitepress serve . --port 5001",
     "gen-locale": "rimraf .vitepress/i18n && tsx .vitepress/build/crowdin-generate.ts",
     "crowdin-credentials": "tsx .vitepress/build/crowdin-credentials.ts"
