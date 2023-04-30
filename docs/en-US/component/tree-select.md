@@ -113,3 +113,18 @@ and please go to the original component to view the documentation.
 | Name                | Description                                                                                                         | Type                     | Default |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------ | ------- |
 | cacheData ^(2.2.26) | The cached data of the lazy node, the structure is the same as the data, used to get the label of the unloaded data | ^[object]`CacheOption[]` | []      |
+
+## Type Declarations
+
+<details>
+  <summary>Show declarations</summary>
+
+```ts
+type CacheOption = {
+  value: string | number | boolean | object
+  currentLabel: string | number
+  isDisabled: boolean
+}
+```
+
+</details>
