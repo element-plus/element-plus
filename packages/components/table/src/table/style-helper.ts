@@ -47,6 +47,7 @@ function useStyle<T>(
   const bodyScrollHeight = ref(0)
   const headerScrollHeight = ref(0)
   const footerScrollHeight = ref(0)
+  const appendScrollHeight = ref(0)
 
   watchEffect(() => {
     layout.setHeight(props.height)
@@ -243,10 +244,12 @@ function useStyle<T>(
     tableScrollHeight.value = table.refs.tableWrapper?.scrollHeight || 0
     headerScrollHeight.value = tableHeader?.scrollHeight || 0
     footerScrollHeight.value = table.refs.footerWrapper?.offsetHeight || 0
+    appendScrollHeight.value = table.refs.appendWrapper?.offsetHeight || 0
     bodyScrollHeight.value =
       tableScrollHeight.value -
       headerScrollHeight.value -
-      footerScrollHeight.value
+      footerScrollHeight.value -
+      appendScrollHeight.value
 
     if (shouldUpdateLayout) {
       resizeState.value = {
