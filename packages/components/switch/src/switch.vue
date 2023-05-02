@@ -18,11 +18,7 @@
     />
     <span
       v-if="!inlinePrompt && (inactiveIcon || inactiveText)"
-      :class="[
-        ns.e('label'),
-        ns.em('label', 'left'),
-        ns.is('active', !checked),
-      ]"
+      :class="labelLeftKls"
     >
       <el-icon v-if="inactiveIcon">
         <component :is="inactiveIcon" />
@@ -52,11 +48,7 @@
     </span>
     <span
       v-if="!inlinePrompt && (activeIcon || activeText)"
-      :class="[
-        ns.e('label'),
-        ns.em('label', 'right'),
-        ns.is('active', checked),
-      ]"
+      :class="labelRightKls"
     >
       <el-icon v-if="activeIcon">
         <component :is="activeIcon" />
@@ -120,6 +112,39 @@ useDeprecated(
   },
   computed(() => !!vm.vnode.props?.value)
 )
+useDeprecated(
+  {
+    from: '"active-color"',
+    replacement: 'CSS var `--el-switch-on-color`',
+    scope: COMPONENT_NAME,
+    version: '2.3.0',
+    ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
+    type: 'Attribute',
+  },
+  computed(() => !!vm.vnode.props?.activeColor)
+)
+useDeprecated(
+  {
+    from: '"inactive-color"',
+    replacement: 'CSS var `--el-switch-off-color`',
+    scope: COMPONENT_NAME,
+    version: '2.3.0',
+    ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
+    type: 'Attribute',
+  },
+  computed(() => !!vm.vnode.props?.inactiveColor)
+)
+useDeprecated(
+  {
+    from: '"border-color"',
+    replacement: 'CSS var `--el-switch-border-color`',
+    scope: COMPONENT_NAME,
+    version: '2.3.0',
+    ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
+    type: 'Attribute',
+  },
+  computed(() => !!vm.vnode.props?.borderColor)
+)
 
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -135,6 +160,18 @@ const switchKls = computed(() => [
   ns.m(switchSize.value),
   ns.is('disabled', switchDisabled.value),
   ns.is('checked', checked.value),
+])
+
+const labelLeftKls = computed(() => [
+  ns.e('label'),
+  ns.em('label', 'left'),
+  ns.is('active', !checked.value),
+])
+
+const labelRightKls = computed(() => [
+  ns.e('label'),
+  ns.em('label', 'right'),
+  ns.is('active', checked.value),
 ])
 
 const coreStyle = computed<CSSProperties>(() => ({
