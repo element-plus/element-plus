@@ -1,6 +1,5 @@
 import { computed, getCurrentInstance, inject, unref } from 'vue'
-import { isClient } from '@vueuse/core'
-import { debugWarn } from '@element-plus/utils'
+import { debugWarn, isClient } from '@element-plus/utils'
 import { useGetDerivedNamespace } from '../use-namespace'
 
 import type { InjectionKey, Ref } from 'vue'

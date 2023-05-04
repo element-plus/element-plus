@@ -1,13 +1,5 @@
 <template>
-  <div
-    :style="style"
-    :class="[
-      ns.b(),
-      ns.is(isSimple ? 'simple' : parent.props.direction),
-      ns.is('flex', isLast && !space && !isCenter),
-      ns.is('center', isCenter && !isVertical && !isSimple),
-    ]"
-  >
+  <div :style="style" :class="containerKls">
     <!-- icon & line -->
     <div :class="[ns.e('head'), ns.is(currentStatus)]">
       <div v-if="!isSimple" :class="ns.e('line')">
@@ -156,6 +148,15 @@ const isLast = computed(() => {
 
 const space = computed(() => {
   return isSimple.value ? '' : parent.props.space
+})
+
+const containerKls = computed(() => {
+  return [
+    ns.b(),
+    ns.is(isSimple.value ? 'simple' : parent.props.direction),
+    ns.is('flex', isLast.value && !space.value && !isCenter.value),
+    ns.is('center', isCenter.value && !isVertical.value && !isSimple.value),
+  ]
 })
 
 const style = computed(() => {

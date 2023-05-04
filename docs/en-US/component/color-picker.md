@@ -72,6 +72,8 @@ color-picker/sizes
 
 ### Exposes
 
-| Name  | Description          | Type             |
-| ----- | -------------------- | ---------------- |
-| color | current color object | ^[object]`Color` |
+| Name  | Description               | Type                    |
+| ----- | ------------------------- | ----------------------- |
+| color | current color object      | ^[object]`Color`        |
+| show  | manually show ColorPicker | ^[Function]`() => void` |
+| hide  | manually hide ColorPicker | ^[Function]`() => void` |

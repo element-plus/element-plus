@@ -47,29 +47,33 @@ timeline/center
 
 :::
 
-## Timeline Slots
+## Timeline API
 
-| Name | Description                 | Subtags       |
-| ---- | --------------------------- | ------------- |
-| —    | Custom content for timeline | Timeline-Item |
+### Timeline Slots
 
-## Timeline-Item Attributes
+| Name    | Description                            | Subtags       |
+| ------- | -------------------------------------- | ------------- |
+| default | customize default content for timeline | Timeline-Item |
 
-| Name           | Description                 | Type                  | Accepted Values                             | Default |
-| -------------- | --------------------------- | --------------------- | ------------------------------------------- | ------- |
-| timestamp      | timestamp content           | string                | —                                           | —       |
-| hide-timestamp | whether to show timestamp   | boolean               | —                                           | false   |
-| center         | Whether vertically centered | boolean               | —                                           | false   |
-| placement      | position of timestamp       | string                | top / bottom                                | bottom  |
-| type           | node type                   | string                | primary / success / warning / danger / info | —       |
-| color          | background color of node    | string                | hsl / hsv / hex / rgb                       | —       |
-| size           | node size                   | string                | normal / large                              | normal  |
-| icon           | icon component              | `string \| Component` | —                                           | —       |
-| hollow         | icon is hollow              | boolean               | —                                           | false   |
+## Timeline-Item API
 
-## Timeline-Item Slots
+### Timeline-Item Attributes
 
-| Name | Description                      |
-| ---- | -------------------------------- |
-| —    | Custom content for timeline item |
-| dot  | Custom defined node              |
+| Name           | Description                 | Type                                                               | Default |
+| -------------- | --------------------------- | ------------------------------------------------------------------ | ------- |
+| timestamp      | timestamp content           | ^[string]                                                          | ''      |
+| hide-timestamp | whether to show timestamp   | ^[boolean]                                                         | false   |
+| center         | whether vertically centered | ^[boolean]                                                         | false   |
+| placement      | position of timestamp       | ^[enum]`'top' \| 'bottom'`                                         | bottom  |
+| type           | node type                   | ^[enum]`'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | ''      |
+| color          | background color of node    | ^[enum]`'hsl' \| 'hsv' \| 'hex' \| 'rgb'`                          | ''      |
+| size           | node size                   | ^[enum]`'normal' \| 'large'`                                       | normal  |
+| icon           | icon component              | ^[string] / ^[Component]                                           | —       |
+| hollow         | icon is hollow              | ^[boolean]                                                         | false   |
+
+### Timeline-Item Slots
+
+| Name    | Description                                 |
+| ------- | ------------------------------------------- |
+| default | customize default content for timeline item |
+| dot     | customize defined node for timeline item    |

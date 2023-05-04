@@ -1,5 +1,5 @@
 import { computed, onBeforeMount } from 'vue'
-import { isClient } from '@vueuse/core'
+import { isClient } from '@element-plus/utils'
 import { useGetDerivedNamespace } from '../use-namespace'
 import { useIdInjection } from '../use-id'
 
