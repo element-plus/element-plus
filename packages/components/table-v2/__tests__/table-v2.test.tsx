@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { h, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test } from 'vitest'
 import TableV2 from '../src/table-v2'
@@ -131,5 +131,38 @@ describe('TableV2.vue', () => {
     expect(cell.find('span').text()).toBe(
       `${columns.value[0].title}${customText}`
     )
+  })
+
+  test('expandable mode wrongly enabled, by column not key', async () => {
+    const columns = ref([
+      {
+        width: 50,
+        title: 'd',
+        cellRenderer: ({ rowIndex }: { rowIndex: number }) => {
+          return h('span', null, rowIndex)
+        },
+      },
+      {
+        width: 50,
+        title: 'd',
+        key: 'expandColumnKey',
+        cellRenderer: ({ rowIndex }: { rowIndex: number }) => {
+          return h('span', null, rowIndex)
+        },
+      },
+    ])
+    const data = ref(generateData(columns.value, 20))
+    const wrapper = mount(() => (
+      <TableV2
+        columns={columns.value}
+        data={data.value}
+        width={700}
+        height={400}
+      />
+    ))
+    expect(wrapper.find('.el-table-v2').exists()).toBe(true)
+    const cell = wrapper.find('.el-table-v2__row-cell')
+    expect(cell.exists()).toBe(true)
+    expect(cell.find('div [style^=margin-inline-star]').exists()).toBe(false)
   })
 })
