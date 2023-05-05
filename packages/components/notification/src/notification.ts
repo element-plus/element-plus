@@ -107,8 +107,8 @@ export const notificationProps = buildProps({
    * @description initial zIndex
    */
   zIndex: {
-    type: Number,
-    default: 0,
+    type: definePropType<number | null>([Number, null]),
+    default: null,
   },
 } as const)
 export type NotificationProps = ExtractPropTypes<typeof notificationProps>
