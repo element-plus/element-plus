@@ -50,6 +50,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, inject, markRaw, ref, watch } from 'vue'
+import { isInteger } from 'lodash'
 import { EVENT_CODE, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { hasClass, isArray, isObject, isString } from '@element-plus/utils'
 import {
@@ -295,6 +296,13 @@ watch(
 
 if (!props.modelValue) {
   emit(UPDATE_MODEL_EVENT, 0)
+}
+
+if (!props.disabled && !isInteger(props.modelValue)) {
+  currentValue.value = props.allowHalf
+    ? Math.floor(props.modelValue * 2) / 2
+    : Math.floor(props.modelValue)
+  emit(UPDATE_MODEL_EVENT, currentValue.value)
 }
 
 defineExpose({
