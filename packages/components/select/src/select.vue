@@ -302,7 +302,7 @@ import {
   toRefs,
   unref,
 } from 'vue'
-import { isIOS, useResizeObserver } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import { placements } from '@popperjs/core'
 import { ClickOutside } from '@element-plus/directives'
 import { useFocus, useLocale, useNamespace } from '@element-plus/hooks'
@@ -314,7 +314,7 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { iconPropType, isValidComponentSize } from '@element-plus/utils'
+import { iconPropType, isIOS, isValidComponentSize } from '@element-plus/utils'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'

@@ -56,11 +56,12 @@ import {
   useAttrs as useRawAttrs,
   watch,
 } from 'vue'
-import { isClient, useEventListener, useThrottleFn } from '@vueuse/core'
+import { useEventListener, useThrottleFn } from '@vueuse/core'
 import { useAttrs, useLocale, useNamespace } from '@element-plus/hooks'
 import ImageViewer from '@element-plus/components/image-viewer'
 import {
   getScrollContainer,
+  isClient,
   isElement,
   isInContainer,
   isString,
@@ -152,7 +153,7 @@ function handleLazyLoad() {
   }
 }
 
-const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
+const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200, true)
 
 async function addLazyLoadListener() {
   if (!isClient) return

@@ -150,7 +150,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { isClient, useResizeObserver } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import {
@@ -168,6 +168,7 @@ import {
   NOOP,
   ValidateComponentsMap,
   debugWarn,
+  isClient,
   isKorean,
   isObject,
 } from '@element-plus/utils'
