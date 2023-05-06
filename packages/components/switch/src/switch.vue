@@ -101,50 +101,27 @@ const { formItem } = useFormItem()
 const switchSize = useFormSize()
 const ns = useNamespace('switch')
 
-useDeprecated(
-  {
-    from: '"value"',
-    replacement: '"model-value" or "v-model"',
-    scope: COMPONENT_NAME,
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!vm.vnode.props?.value)
-)
-useDeprecated(
-  {
-    from: '"active-color"',
-    replacement: 'CSS var `--el-switch-on-color`',
-    scope: COMPONENT_NAME,
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!vm.vnode.props?.activeColor)
-)
-useDeprecated(
-  {
-    from: '"inactive-color"',
-    replacement: 'CSS var `--el-switch-off-color`',
-    scope: COMPONENT_NAME,
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!vm.vnode.props?.inactiveColor)
-)
-useDeprecated(
-  {
-    from: '"border-color"',
-    replacement: 'CSS var `--el-switch-border-color`',
-    scope: COMPONENT_NAME,
-    version: '2.3.0',
-    ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
-    type: 'Attribute',
-  },
-  computed(() => !!vm.vnode.props?.borderColor)
-)
+const useBatchDeprecated = (list: string[][]) => {
+  list.forEach((param) => {
+    useDeprecated(
+      {
+        from: param[0],
+        replacement: param[1],
+        scope: COMPONENT_NAME,
+        version: '2.3.0',
+        ref: 'https://element-plus.org/en-US/component/switch.html#attributes',
+        type: 'Attribute',
+      },
+      computed(() => !!vm.vnode.props?.[param[2]])
+    )
+  })
+}
+useBatchDeprecated([
+  ['"value"', '"model-value" or "v-model"', 'value'],
+  ['"active-color"', 'CSS var `--el-switch-on-color`', 'activeColor'],
+  ['"inactive-color"', 'CSS var `--el-switch-off-color`', 'inactiveColor'],
+  ['"border-color"', 'CSS var `--el-switch-border-color`', 'borderColor'],
+])
 
 const { inputId } = useFormItemInputId(props, {
   formItemContext: formItem,
