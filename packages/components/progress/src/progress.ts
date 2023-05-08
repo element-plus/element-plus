@@ -69,7 +69,7 @@ export const progressProps = buildProps({
    * @description the canvas width of circle progress bar
    */
   width: {
-    type: Number,
+    type: Number | String,
     default: 126,
   },
   /**
