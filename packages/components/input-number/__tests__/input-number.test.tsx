@@ -142,6 +142,14 @@ describe('InputNumber.vue', () => {
     expect(wrapper.find('input').element.value).toEqual('0.3')
   })
 
+  test('maximum is less than the minimum', async () => {
+    const num = ref(6)
+    const wrapper = mount(() => (
+      <InputNumber v-model={num.value} min={10} max={8} />
+    ))
+    expect(wrapper.find('input').element.value).toEqual('')
+  })
+
   describe('precision accuracy 2', () => {
     const num = ref(0)
     const wrapper = mount(() => (

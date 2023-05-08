@@ -196,6 +196,10 @@ const verifyValue = (
   update?: boolean
 ): number | null | undefined => {
   const { max, min, step, precision, stepStrictly, valueOnClear } = props
+  if (max < min) {
+    console.error('The maximum is less than the minimum')
+    return null
+  }
   let newVal = Number(value)
   if (isNil(value) || Number.isNaN(newVal)) {
     return null
@@ -212,7 +216,7 @@ const verifyValue = (
   if (!isUndefined(precision)) {
     newVal = toPrecision(newVal, precision)
   }
-  if ((newVal > max || newVal < min) && max > min) {
+  if (newVal > max || newVal < min) {
     newVal = newVal > max ? max : min
     update && emit(UPDATE_MODEL_EVENT, newVal)
   }
