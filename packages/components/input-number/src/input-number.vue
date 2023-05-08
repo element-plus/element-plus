@@ -212,7 +212,7 @@ const verifyValue = (
   if (!isUndefined(precision)) {
     newVal = toPrecision(newVal, precision)
   }
-  if (newVal > max || newVal < min) {
+  if ((newVal > max || newVal < min) && max > min) {
     newVal = newVal > max ? max : min
     update && emit(UPDATE_MODEL_EVENT, newVal)
   }
