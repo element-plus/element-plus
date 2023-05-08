@@ -45,6 +45,7 @@ import { useNamespace } from '@element-plus/hooks'
 import { alertEmits, alertProps } from './alert'
 
 const { Close } = TypeComponents
+
 defineOptions({
   name: 'ElAlert',
 })
