@@ -32,13 +32,16 @@ export function useAllowCreate(props: ISelectProps, states) {
 
   function createNewOption(query: string) {
     if (enableAllowCreateMode.value) {
-      if (query && query.length > 0 && !hasExistingOption(query)) {
-        const newOption = {
-          value: query,
-          label: query,
-          created: true,
-          disabled: false,
-        }
+      const hasQuery = query && query.length > 0
+      const newOption = hasQuery
+        ? {
+            value: query,
+            label: query,
+            created: true,
+            disabled: false,
+          }
+        : null
+      if (hasQuery && !hasExistingOption(query)) {
         if (states.createdOptions.length >= createOptionCount.value) {
           states.createdOptions[createOptionCount.value] = newOption
         } else {
@@ -47,8 +50,9 @@ export function useAllowCreate(props: ISelectProps, states) {
       } else {
         if (props.multiple) {
           states.createdOptions.length = createOptionCount.value
+          if (hasQuery) states.createdOptions.push(newOption)
         } else {
-          const selectedOption = cachedSelectedOption.value
+          const selectedOption = cachedSelectedOption.value || newOption
           states.createdOptions.length = 0
           if (selectedOption && selectedOption.created) {
             states.createdOptions.push(selectedOption)
