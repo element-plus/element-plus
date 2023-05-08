@@ -59,7 +59,7 @@ carousel/card
 
 By default, `direction` is `horizontal`. Let carousel be displayed in the vertical direction by setting `direction` to `vertical`.
 
-When type is `card`, `height` will set `width` on the outermost layer, and the value of `width` is equal to the value of `height`
+When the type is `card`, the height will be set according to the actual width of the `carousel` itself, that is, set to a square
 :::demo
 
 carousel/vertical
@@ -75,7 +75,7 @@ carousel/vertical
 | trigger            | how indicators are triggered                          | string  | hover/click         | hover      |
 | autoplay           | whether automatically loop the slides                 | boolean | —                   | true       |
 | interval           | interval of the auto loop, in milliseconds            | number  | —                   | 3000       |
-| indicator-position | position of the indicators                            | string  | outside/none | —          |
+| indicator-position | position of the indicators                            | string  | outside/none        | —          |
 | arrow              | when arrows are shown                                 | string  | always/hover/never  | hover      |
 | type               | type of the Carousel                                  | string  | card                | —          |
 | loop               | display the items in loop                             | boolean | -                   | true       |
