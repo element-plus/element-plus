@@ -8,7 +8,6 @@
       @before-leave="onBeforeLeave"
     >
       <el-popper-content
-        v-if="shouldRender"
         v-show="shouldShow"
         :id="id"
         ref="contentRef"
@@ -63,7 +62,8 @@ const props = defineProps(useTooltipContentProps)
 const { selector } = usePopperContainerId()
 const ns = useNamespace('tooltip')
 // TODO any is temporary, replace with `InstanceType<typeof ElPopperContent> | null` later
-const contentRef = ref<any>(null)
+const contentRef = ref<InstanceType<typeof ElPopperContent> | null>(null)
+
 const destroyed = ref(false)
 const {
   controlled,
