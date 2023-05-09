@@ -150,7 +150,7 @@ describe('InputNumber.vue', () => {
     } catch (e: any) {
       expect(e).to.be.an('error')
       expect(e.message).to.equal(
-        'InputNumber The maximum value of a component is smaller than the minimum value'
+        'InputNumber The maximum value of a component is smaller than the minimum values'
       )
     }
   })

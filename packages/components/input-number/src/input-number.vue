@@ -198,7 +198,7 @@ const verifyValue = (
   const { max, min, step, precision, stepStrictly, valueOnClear } = props
   if (max < min) {
     throw new Error(
-      'InputNumber The maximum value of a component is smaller than the minimum value'
+      'InputNumber The maximum value of a component is smaller than the minimum values'
     )
   }
   let newVal = Number(value)
