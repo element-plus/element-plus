@@ -197,8 +197,9 @@ const verifyValue = (
 ): number | null | undefined => {
   const { max, min, step, precision, stepStrictly, valueOnClear } = props
   if (max < min) {
-    console.error('The maximum is less than the minimum')
-    return null
+    throw new Error(
+      'InputNumber The maximum value of a component is smaller than the minimum value'
+    )
   }
   let newVal = Number(value)
   if (isNil(value) || Number.isNaN(newVal)) {

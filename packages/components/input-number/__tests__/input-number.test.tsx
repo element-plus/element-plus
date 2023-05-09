@@ -142,12 +142,17 @@ describe('InputNumber.vue', () => {
     expect(wrapper.find('input').element.value).toEqual('0.3')
   })
 
+  //fix: #12690
   test('maximum is less than the minimum', async () => {
-    const num = ref(6)
-    const wrapper = mount(() => (
-      <InputNumber v-model={num.value} min={10} max={8} />
-    ))
-    expect(wrapper.find('input').element.value).toEqual('')
+    try {
+      const num = ref(6)
+      mount(() => <InputNumber v-model={num.value} min={10} max={8} />)
+    } catch (e: any) {
+      expect(e).to.be.an('error')
+      expect(e.message).to.equal(
+        'InputNumber The maximum value of a component is smaller than the minimum value'
+      )
+    }
   })
 
   describe('precision accuracy 2', () => {
