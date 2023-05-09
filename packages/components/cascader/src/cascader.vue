@@ -24,7 +24,7 @@
   >
     <template #default>
       <div
-        v-clickoutside:[cascaderPanelRef]="() => togglePopperVisible(false)"
+        v-clickoutside:[contentRef]="() => togglePopperVisible(false)"
         :class="cascaderKls"
         :style="cascaderStyle"
         @click="() => togglePopperVisible(readonly ? undefined : true)"
@@ -140,7 +140,7 @@
     <template #content>
       <el-cascader-panel
         v-show="!filtering"
-        ref="panel"
+        ref="cascaderPanelRef"
         v-model="checkedValue"
         :options="options"
         :props="props.props"
@@ -189,21 +189,23 @@
 import { computed, nextTick, onMounted, ref, useAttrs, watch } from 'vue'
 import { isPromise } from '@vue/shared'
 import { cloneDeep, debounce } from 'lodash-unified'
-import { isClient, useCssVar, useResizeObserver } from '@vueuse/core'
+import { useCssVar, useResizeObserver } from '@vueuse/core'
 import ElCascaderPanel from '@element-plus/components/cascader-panel'
 import ElInput from '@element-plus/components/input'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import {
-  useFormItem,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
-import { debugWarn, focusNode, getSibling, isKorean } from '@element-plus/utils'
+  debugWarn,
+  focusNode,
+  getSibling,
+  isClient,
+  isKorean,
+} from '@element-plus/utils'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -211,17 +213,19 @@ import {
 } from '@element-plus/constants'
 import { ArrowDown, Check, CircleClose } from '@element-plus/icons-vue'
 import { cascaderEmits, cascaderProps } from './cascader'
+
 import type { Options } from '@element-plus/components/popper'
 import type { ComputedRef, Ref, StyleValue } from 'vue'
+import type { TooltipInstance } from '@element-plus/components/tooltip'
+import type { InputInstance } from '@element-plus/components/input'
+import type { ScrollbarInstance } from '@element-plus/components/scrollbar'
 import type {
   CascaderNode,
+  CascaderPanelInstance,
   CascaderValue,
   Tag,
 } from '@element-plus/components/cascader-panel'
-type cascaderPanelType = InstanceType<typeof ElCascaderPanel>
-type tooltipType = InstanceType<typeof ElTooltip>
-type inputType = InstanceType<typeof ElInput>
-type suggestionPanelType = InstanceType<typeof ElScrollbar>
+
 const popperOptions: Partial<Options> = {
   modifiers: [
     {
@@ -256,11 +260,11 @@ const nsInput = useNamespace('input')
 const { t } = useLocale()
 const { form, formItem } = useFormItem()
 
-const tooltipRef: Ref<tooltipType | null> = ref(null)
-const input: Ref<inputType | null> = ref(null)
+const tooltipRef: Ref<TooltipInstance | null> = ref(null)
+const input: Ref<InputInstance | null> = ref(null)
 const tagWrapper = ref(null)
-const panel: Ref<cascaderPanelType | null> = ref(null)
-const suggestionPanel: Ref<suggestionPanelType | null> = ref(null)
+const cascaderPanelRef: Ref<CascaderPanelInstance | null> = ref(null)
+const suggestionPanel: Ref<ScrollbarInstance | null> = ref(null)
 const popperVisible = ref(false)
 const inputHover = ref(false)
 const filtering = ref(false)
@@ -287,7 +291,7 @@ const currentPlaceholder = computed(() =>
     ? ''
     : inputPlaceholder.value
 )
-const realSize = useSize()
+const realSize = useFormSize()
 const tagSize = computed(() =>
   ['small'].includes(realSize.value) ? 'small' : 'default'
 )
@@ -297,7 +301,7 @@ const searchKeyword = computed(() =>
   multiple.value ? searchInputValue.value : inputValue.value
 )
 const checkedNodes: ComputedRef<CascaderNode[]> = computed(
-  () => panel.value?.checkedNodes || []
+  () => cascaderPanelRef.value?.checkedNodes || []
 )
 const clearBtnVisible = computed(() => {
   if (
@@ -333,10 +337,6 @@ const checkedValue = computed<CascaderValue>({
   },
 })
 
-const cascaderPanelRef = computed(() => {
-  return tooltipRef.value?.popperRef?.contentRef
-})
-
 const cascaderKls = computed(() => {
   return [
     nsCascader.b(),
@@ -358,6 +358,10 @@ const inputClass = computed(() => {
   return nsCascader.is('focus', popperVisible.value || filterFocus.value)
 })
 
+const contentRef = computed(() => {
+  return tooltipRef.value?.popperRef?.contentRef
+})
+
 const togglePopperVisible = (visible?: boolean) => {
   if (isDisabled.value) return
 
@@ -369,7 +373,7 @@ const togglePopperVisible = (visible?: boolean) => {
 
     if (visible) {
       updatePopperPosition()
-      nextTick(panel.value?.scrollToExpandingNode)
+      nextTick(cascaderPanelRef.value?.scrollToExpandingNode)
     } else if (props.filterable) {
       syncPresentTextValue()
     }
@@ -403,7 +407,7 @@ const genTag = (node: CascaderNode): Tag => {
 const deleteTag = (tag: Tag) => {
   const node = tag.node as CascaderNode
   node.doCheck(false)
-  panel.value?.calculateCheckedValue()
+  cascaderPanelRef.value?.calculateCheckedValue()
   emit('removeTag', node.valueByOption)
 }
 
@@ -442,7 +446,7 @@ const calculatePresentTags = () => {
 
 const calculateSuggestions = () => {
   const { filterMethod, showAllLevels, separator } = props
-  const res = panel.value
+  const res = cascaderPanelRef.value
     ?.getFlattedNodes(!props.props.checkStrictly)
     ?.filter((node) => {
       if (node.isDisabled) return false
@@ -472,7 +476,7 @@ const focusFirstNode = () => {
       `.${nsCascader.e('suggestion-item')}`
     )
   } else {
-    firstNode = panel.value?.$el.querySelector(
+    firstNode = cascaderPanelRef.value?.$el.querySelector(
       `.${nsCascader.b('node')}[tabindex="-1"]`
     )
   }
@@ -509,7 +513,7 @@ const updateStyle = () => {
 }
 
 const getCheckedNodes = (leafOnly: boolean) => {
-  return panel.value?.getCheckedNodes(leafOnly)
+  return cascaderPanelRef.value?.getCheckedNodes(leafOnly)
 }
 
 const handleExpandChange = (value: CascaderValue) => {
@@ -554,7 +558,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
 }
 
 const handleClear = () => {
-  panel.value?.clearCheckedNodes()
+  cascaderPanelRef.value?.clearCheckedNodes()
   if (!popperVisible.value && props.filterable) {
     syncPresentTextValue()
   }
@@ -571,9 +575,9 @@ const handleSuggestionClick = (node: CascaderNode) => {
   const { checked } = node
 
   if (multiple.value) {
-    panel.value?.handleCheckChange(node, !checked, false)
+    cascaderPanelRef.value?.handleCheckChange(node, !checked, false)
   } else {
-    !checked && panel.value?.handleCheckChange(node, true, false)
+    !checked && cascaderPanelRef.value?.handleCheckChange(node, true, false)
     togglePopperVisible(false)
   }
 }
@@ -691,5 +695,9 @@ defineExpose({
    * @description toggle the visible of popper
    */
   togglePopperVisible,
+  /**
+   * @description cascader content ref
+   */
+  contentRef,
 })
 </script>

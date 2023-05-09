@@ -17,12 +17,21 @@ export type GetDisabledSeconds = (
 ) => number[]
 
 export const disabledTimeListsProps = buildProps({
+  /**
+   * @description To specify the array of hours that cannot be selected
+   */
   disabledHours: {
     type: definePropType<GetDisabledHours>(Function),
   },
+  /**
+   * @description To specify the array of minutes that cannot be selected
+   */
   disabledMinutes: {
     type: definePropType<GetDisabledMinutes>(Function),
   },
+  /**
+   * @description To specify the array of seconds that cannot be selected
+   */
   disabledSeconds: {
     type: definePropType<GetDisabledSeconds>(Function),
   },

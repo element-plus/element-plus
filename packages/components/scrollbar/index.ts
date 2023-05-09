@@ -8,3 +8,4 @@ export default ElScrollbar
 export * from './src/util'
 export * from './src/scrollbar'
 export * from './src/thumb'
+export * from './src/constants'

@@ -3,7 +3,7 @@ import { buildProps, definePropType } from '@element-plus/utils'
 
 import type { ExtractPropTypes } from 'vue'
 import type { Arrayable } from '@element-plus/utils'
-import type { FormItemRule } from '@element-plus/tokens'
+import type { FormItemRule } from './types'
 
 export const formItemValidateStates = [
   '',
