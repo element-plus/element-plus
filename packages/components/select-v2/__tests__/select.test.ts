@@ -1664,4 +1664,31 @@ describe('Select', () => {
     await nextTick()
     expect(selectVm.filteredOptions.length).toBe(3)
   })
+ 
+  it('create option chinese input method does not have options', async () => {
+    const wrapper = createSelect({
+      data: () => {
+        return {
+          options: [],
+          filterable: true,
+          allowCreate: true,
+        }
+      },
+    })
+    await nextTick()
+    const select = wrapper.findComponent(Select)
+    const selectVm = select.vm as any
+    selectVm.expanded = true
+    await nextTick()
+    await rAF()
+    const input = wrapper.find('input')
+    input.element.value = 'w'
+    await input.trigger('input')
+    input.element.value = 'wo'
+    await input.trigger('input')
+    input.element.value = 'wo'
+    await input.trigger('input')
+    await nextTick()
+    expect(getOptions().length).toBe(1)
+  })
 })
