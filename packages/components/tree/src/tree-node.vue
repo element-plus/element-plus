@@ -232,6 +232,7 @@ export default defineComponent({
       handleCurrentChange(tree.store, tree.ctx.emit, () =>
         tree.store.value.setCurrentNode(props.node)
       )
+
       tree.currentNode.value = props.node
 
       if (tree.props.expandOnClickNode) {
@@ -243,7 +244,9 @@ export default defineComponent({
           target: { checked: !props.node.checked },
         })
       }
-      tree.ctx.emit('node-click', props.node.data, props.node, instance, e)
+      nextTick(() => {
+        tree.ctx.emit('node-click', props.node.data, props.node, instance, e)
+      })
     }
 
     const handleContextMenu = (event: Event) => {
