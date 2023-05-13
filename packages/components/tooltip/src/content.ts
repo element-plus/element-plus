@@ -31,7 +31,10 @@ export const useTooltipContentProps = buildProps({
   /**
    * @description when tooltip inactive and `persistent` is `false` , popconfirm will be destroyed
    */
-  persistent: Boolean,
+  persistent: {
+    type: Boolean,
+    default: true,
+  },
   /**
    * @description same as `aria-label`
    */
