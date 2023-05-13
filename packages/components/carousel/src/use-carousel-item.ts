@@ -68,7 +68,12 @@ export const useCarouselItem = (
   }
 
   function calcCardTranslate(index: number, activeIndex: number) {
-    const parentWidth = carouselContext.root.value?.offsetWidth || 0
+    let parentWidth = carouselContext.root.value?.offsetWidth || 0
+
+    if (unref(isVertical)) {
+      parentWidth = carouselContext.root.value?.offsetHeight || 0
+    }
+
     if (inStage.value) {
       return (parentWidth * ((2 - CARD_SCALE) * (index - activeIndex) + 1)) / 4
     } else if (index < activeIndex) {
@@ -122,11 +127,7 @@ export const useCarouselItem = (
     ready.value = true
 
     if (isActive && carouselItemRef.value) {
-      const height = _isVertical
-        ? carouselItemRef.value.offsetWidth
-        : carouselItemRef.value.offsetHeight
-
-      carouselContext.setContainerHeight(height)
+      carouselContext.setContainerHeight(carouselItemRef.value.offsetHeight)
     }
   }
 

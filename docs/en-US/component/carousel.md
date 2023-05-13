@@ -59,7 +59,6 @@ carousel/card
 
 By default, `direction` is `horizontal`. Let carousel be displayed in the vertical direction by setting `direction` to `vertical`.
 
-When the type is `card`, the height will be set according to the actual width of the `carousel` itself, that is, set to a square
 :::demo
 
 carousel/vertical

@@ -56,14 +56,6 @@ export const useCarousel = (
 
   const containerStyle = computed(() => {
     if (props.height !== 'auto') {
-      if (unref(isCardType) && unref(isVertical)) {
-        const rootOffsetWidth = unref(root) && unref(root)!.offsetWidth
-
-        return {
-          height: rootOffsetWidth ? `${rootOffsetWidth}px` : props.height,
-        }
-      }
-
       return {
         height: props.height,
       }
