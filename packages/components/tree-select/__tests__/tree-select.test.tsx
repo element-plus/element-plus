@@ -533,4 +533,47 @@ describe('TreeSelect.vue', () => {
     expect(filterMethod).toHaveBeenLastCalledWith('2')
     expect(tree.text()).toBe('2')
   })
+
+  test('check/check-change events can accept correct params', async () => {
+    const onCheck = vi.fn()
+    const onCheckChange = vi.fn()
+    const { select, tree } = createComponent({
+      props: {
+        showCheckbox: true,
+        checkStrictly: true,
+        onCheck: (
+          node: any,
+          { checkedKeys, checkedNodes, halfCheckedKeys, halfCheckedNodes }: any
+        ) =>
+          onCheck(
+            node.value,
+            checkedKeys,
+            checkedNodes.map((item: any) => item.value),
+            halfCheckedKeys,
+            halfCheckedNodes.map((item: any) => item.value)
+          ),
+        onCheckChange: (node: any) => onCheckChange(node.value),
+      },
+    })
+
+    await nextTick()
+    await tree.find('.el-checkbox__original').trigger('click')
+    await nextTick()
+
+    expect(select.vm.modelValue).equal(1)
+    expect(onCheck).toHaveBeenLastCalledWith(1, [1], [1], [], [])
+    expect(onCheckChange).toHaveBeenLastCalledWith(1)
+
+    await nextTick()
+    await tree.findAll('.el-checkbox__original')[1].trigger('click')
+    await nextTick()
+
+    expect(select.vm.modelValue).equal(11)
+    expect(onCheck).toHaveBeenLastCalledWith(11, [11], [11], [], [])
+    expect(onCheckChange).toHaveBeenLastCalledWith(11)
+
+    // finally will cancel older checked node
+    await nextTick()
+    expect(onCheckChange).toHaveBeenLastCalledWith(1)
+  })
 })
