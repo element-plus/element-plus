@@ -2,7 +2,6 @@
   <div
     ref="root"
     :class="carouselClasses"
-    :style="carouselStyle"
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
@@ -86,7 +85,6 @@ const {
   isCardType,
   items,
   isVertical,
-  carouselStyle,
   containerStyle,
   handleButtonEnter,
   handleButtonLeave,
