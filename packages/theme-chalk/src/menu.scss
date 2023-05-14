@@ -124,7 +124,7 @@
         color: getCssVar('menu-text-color');
 
         &:hover {
-          background-color: getCssVar('bg-color', 'overlay');
+          background-color: getCssVar('menu-hover-bg-color');
         }
       }
     }
@@ -142,6 +142,9 @@
 
       & .#{$namespace}-sub-menu__title {
         padding-right: 40px;
+        &:hover {
+          background-color: getCssVar('menu-hover-bg-color');
+        }
       }
 
       & .#{$namespace}-menu-item.is-active,
@@ -253,6 +256,9 @@
     padding-right: calc(
       #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
     );
+    transition: border-color getCssVar('transition-duration'),
+      background-color getCssVar('transition-duration'),
+      color getCssVar('transition-duration');
 
     &:hover {
       background-color: getCssVar('menu-hover-bg-color');

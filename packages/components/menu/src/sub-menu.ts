@@ -410,10 +410,7 @@ export default defineComponent({
                   'div',
                   {
                     class: nsSubMenu.e('title'),
-                    style: [
-                      titleStyle.value,
-                      { backgroundColor: backgroundColor.value },
-                    ],
+                    style: [titleStyle.value],
                     onClick: handleClick,
                   },
                   titleTag
