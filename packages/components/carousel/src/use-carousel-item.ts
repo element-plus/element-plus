@@ -68,11 +68,9 @@ export const useCarouselItem = (
   }
 
   function calcCardTranslate(index: number, activeIndex: number) {
-    let parentWidth = carouselContext.root.value?.offsetWidth || 0
-
-    if (unref(isVertical)) {
-      parentWidth = carouselContext.root.value?.offsetHeight || 0
-    }
+    const parentWidth = unref(isVertical)
+      ? carouselContext.root.value?.offsetHeight || 0
+      : carouselContext.root.value?.offsetWidth || 0
 
     if (inStage.value) {
       return (parentWidth * ((2 - CARD_SCALE) * (index - activeIndex) + 1)) / 4
