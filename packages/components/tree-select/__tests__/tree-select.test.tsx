@@ -643,4 +643,37 @@ describe('TreeSelect.vue', () => {
 
     expect(modelValue.value).toEqual([])
   })
+
+  test('no checkbox and check on click node', async () => {
+    const { select, tree } = createComponent({
+      props: {
+        checkOnClickNode: true,
+        data: [
+          { value: 1, label: '1' },
+          { value: 2, label: '2' },
+        ],
+      },
+    })
+
+    const nodes = tree.findAll('.el-tree-node__content')
+
+    await nodes[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).equal(1)
+
+    // click again not to deselect
+    await nodes[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).equal(1)
+
+    // can correctly choose another
+    await nodes.slice(-1)[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).equal(2)
+
+    // again
+    await nodes.slice(-1)[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).equal(2)
+  })
 })
