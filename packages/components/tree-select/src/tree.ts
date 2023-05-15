@@ -258,6 +258,18 @@ export const useTree = (
           )
         }
       }
+
+      nextTick(() => {
+        const checkedKeys = toValidArray(props.modelValue)
+        tree.value.setCheckedKeys(checkedKeys)
+
+        attrs.onCheck?.(data, {
+          checkedKeys: tree.value.getCheckedKeys(),
+          checkedNodes: tree.value.getCheckedNodes(),
+          halfCheckedKeys: tree.value.getHalfCheckedKeys(),
+          halfCheckedNodes: tree.value.getHalfCheckedNodes(),
+        })
+      })
     },
 
     // else

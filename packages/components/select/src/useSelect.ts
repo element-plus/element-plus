@@ -11,7 +11,6 @@ import {
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
 import { get, isEqual, debounce as lodashDebounce } from 'lodash-unified'
-import { isClient } from '@vueuse/core'
 import {
   CHANGE_EVENT,
   EVENT_CODE,
@@ -20,6 +19,7 @@ import {
 import {
   debugWarn,
   getComponentSize,
+  isClient,
   isFunction,
   isKorean,
   isNumber,
@@ -218,6 +218,15 @@ export const useSelect = (props, states: States, ctx) => {
     () => props.placeholder,
     (val) => {
       states.cachedPlaceHolder = states.currentPlaceholder = val
+
+      const hasValue =
+        props.multiple &&
+        Array.isArray(props.modelValue) &&
+        props.modelValue.length > 0
+
+      if (hasValue) {
+        states.currentPlaceholder = ''
+      }
     }
   )
 
@@ -383,7 +392,9 @@ export const useSelect = (props, states: States, ctx) => {
       const gotSize = getComponentSize(selectSize.value || form?.size)
 
       const sizeInMap =
-        gotSize === originClientHeight || originClientHeight <= 0
+        selectSize.value ||
+        gotSize === originClientHeight ||
+        originClientHeight <= 0
           ? gotSize
           : originClientHeight
 
@@ -606,6 +617,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const deletePrevTag = (e) => {
+    if (e.code === EVENT_CODE.delete) return
     if (e.target.value.length <= 0 && !toggleLastOptionHitState()) {
       const value = props.modelValue.slice()
       value.pop()
