@@ -153,7 +153,7 @@ function handleLazyLoad() {
   }
 }
 
-const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
+const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200, true)
 
 async function addLazyLoadListener() {
   if (!isClient) return
