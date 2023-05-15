@@ -190,33 +190,14 @@ export const useTree = (
           )
         : []
       const checkedKeys = uncachedCheckedKeys.concat(cachedKeys)
-      const checkedNodes = checkedKeys.map(
-        (item) =>
-          tree.value.getNode(item) ||
-          (cacheOptionsMap[item] && {
-            id: item,
-            text: cacheOptionsMap[item].currentLabel,
-            checked: true,
-            data: cacheOptionsMap[item],
-            cached: true,
-          })
-      )
-
-      params = {
-        ...params,
-        checkedKeys,
-        checkedNodes,
-      }
-
-      attrs.onCheck?.(data, params)
 
       if (props.checkStrictly) {
         emit(
           UPDATE_MODEL_EVENT,
           // Checking for changes may come from `check-on-node-click`
           props.multiple
-            ? params.checkedKeys
-            : params.checkedKeys.includes(dataValue)
+            ? checkedKeys
+            : checkedKeys.includes(dataValue)
             ? dataValue
             : undefined
         )
