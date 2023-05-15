@@ -7,6 +7,8 @@ import { ensureDir, projRoot, writeJson } from '@element-plus/build-utils'
 const pathOutput = path.resolve(__dirname, '..', 'dist')
 
 async function main() {
+  const startTime = Date.now()
+
   await ensureDir(pathOutput)
 
   const components = await glob('*', {
@@ -15,7 +17,9 @@ async function main() {
   })
 
   await writeJson(path.resolve(pathOutput, 'components.json'), components)
-  consola.success(chalk.green('Component list generated'))
+  consola.success(
+    chalk.green(`Component list generated in ${Date.now() - startTime}ms`)
+  )
 }
 
 main()

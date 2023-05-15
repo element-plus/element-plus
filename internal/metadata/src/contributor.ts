@@ -1,9 +1,9 @@
 import path from 'path'
 import { existsSync } from 'fs'
 import glob from 'fast-glob'
-import { Octokit } from 'octokit'
 import consola from 'consola'
 import chalk from 'chalk'
+import fetch from 'node-fetch'
 import { chunk, mapValues, uniqBy } from 'lodash-es'
 import {
   ensureDir,
@@ -56,6 +56,23 @@ interface ContributorInfo {
   count: number
 }
 
+const GRAPHQL_URL = 'https://api.github.com/graphql'
+
+async function graphql(query: string): Promise<ApiResponse> {
+  const response = await fetch(GRAPHQL_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+    },
+    body: JSON.stringify({ query }),
+  })
+
+  const { data } = await (response.json() as Promise<any>)
+
+  return data
+}
+
 const fetchCommits = async (
   options: FetchOption[]
 ): Promise<Record<string, ApiResult>> => {
@@ -92,7 +109,7 @@ const fetchCommits = async (
       }
     }
   }`
-  const response = (await octokit.graphql<ApiResponse>(query)).repository.object
+  const response = (await graphql(query)).repository.object
   return Object.fromEntries(
     Object.entries(response).map(([key, result]) => {
       const index = +key.replace('path', '')
@@ -162,7 +179,7 @@ async function getContributors() {
   let contributors: Record<string, ContributorInfo[]> = {}
 
   consola.info('Fetching contributors...')
-  for (const chunkComponents of chunk(components, 10)) {
+  for (const chunkComponents of chunk(components, 48)) {
     contributors = {
       ...contributors,
       ...(await getContributorsByComponents(chunkComponents)),
@@ -177,11 +194,9 @@ async function getContributors() {
 const pathOutput = path.resolve(__dirname, '..', 'dist')
 const pathDest = path.resolve(pathOutput, 'contributors.json')
 
-const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN,
-})
-
 async function main() {
+  const startTime = Date.now()
+
   await ensureDir(pathOutput)
 
   let contributors: Record<string, ContributorInfo[]>
@@ -195,7 +210,9 @@ async function main() {
   }
 
   await writeJson(pathDest, contributors)
-  consola.success(chalk.green('Contributors generated'))
+  consola.success(
+    chalk.green(`Contributors generated in ${Date.now() - startTime}ms`)
+  )
 }
 
 main()
