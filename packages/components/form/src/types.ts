@@ -1,3 +1,4 @@
+import { ref } from 'vue'
 import type { SetupContext, UnwrapRef } from 'vue'
 import type {
   RuleItem,
@@ -21,51 +22,78 @@ export interface FormItemRule extends RuleItem {
   trigger?: Arrayable<string>
 }
 
-// Reference https://stackoverflow.com/questions/58434389/typescript-deep-keyof-of-a-nested-object/58436959
-// Concatenates two strings with a dot in the middle, unless the last string is empty
-// Join<"a","b"> => "a.b"
-// Join<"a",""> => "a"
-type Join<K, P> = K extends string | number
-  ? P extends string | number
-    ? `${K}${'' extends P ? '' : '.'}${P}`
-    : never
-  : never
-// Limit the recursion to avoid typescript error
-type Prev = [
-  never,
-  0,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  18,
-  19,
-  20,
-  ...0[]
-]
-type Leaves<T, D extends number = 10> = [D] extends [never]
-  ? never
-  : T extends object
-  ? { [K in keyof T]-?: Join<K, Leaves<T[K], Prev[D]>> }[keyof T]
-  : ''
+type Primitive = null | undefined | string | number | boolean | symbol | bigint
+/**
+ * Check whether it is tuple
+ *
+ * 检查是否为元组
+ *
+ * @example
+ * IsTuple<[1, 2, 3]> => true
+ * IsTuple<Array[number]> => false
+ */
+type IsTuple<T extends ReadonlyArray<any>> = number extends T['length']
+  ? false
+  : true
+/**
+ * Array method key
+ *
+ * 数组方法键
+ */
+type ArrayMethodKey = keyof any[]
+/**
+ * Tuple index key
+ *
+ * 元组下标键
+ *
+ * @example
+ * TupleKey<[1, 2, 3]> => '0' | '1' | '2'
+ */
+type TupleKey<T extends ReadonlyArray<any>> = Exclude<keyof T, ArrayMethodKey>
+/**
+ * Array index key
+ *
+ * 数组下标键
+ */
+type ArrayKey = number
+/**
+ * Helper type for recursively constructing paths through a type
+ *
+ * 用于通过一个类型递归构建路径的辅助类型
+ */
+type PathImpl<K extends string | number, V> = V extends Primitive
+  ? `${K}`
+  : `${K}` | `${K}.${Path<V>}`
+/**
+ * Type which collects all paths through a type
+ *
+ * 通过一个类型收集所有路径的类型
+ *
+ * @see {@link FieldPath}
+ */
+type Path<T> = T extends ReadonlyArray<infer V>
+  ? IsTuple<T> extends true
+    ? {
+        [K in TupleKey<T>]-?: PathImpl<K & string, T[K]>
+      }[TupleKey<T>] // tuple
+    : PathImpl<ArrayKey, V> // array
+  : {
+      [K in keyof T]-?: PathImpl<K & string, T[K]>
+    }[keyof T] // object
+/**
+ * Type which collects all paths through a type
+ *
+ * 通过一个类型收集所有路径的类型
+ *
+ * @example
+ * FieldPath<{ a: number; b: string; c: { d: number; e: string }; f: [{ value: string }]; g: { value: string }[] }> => 'a' | 'b' | 'c.d' | 'c.e' | 'f.0' | 'f.0.value' | 'g.number' | 'g.number.value'
+ */
+type FieldPath<T> = T extends object ? Path<T> : never
 export type FormRules<
   T extends MaybeRef<Record<string, any> | string> = string
 > = Partial<
   Record<
-    UnwrapRef<T> extends string ? UnwrapRef<T> : Leaves<UnwrapRef<T>>,
+    UnwrapRef<T> extends string ? UnwrapRef<T> : FieldPath<UnwrapRef<T>>,
     Arrayable<FormItemRule>
   >
 >
