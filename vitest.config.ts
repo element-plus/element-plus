@@ -18,7 +18,6 @@ export default defineConfig({
     disabled: true,
   },
   test: {
-    include: ['packages/components/tree-select/__tests__/tree-select.test.tsx'],
     clearMocks: true,
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
