@@ -29,7 +29,7 @@ infinite-scroll/disable-loading
 
 | Name                      | Description                                                                                                      | Type        | Default |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------- | ----------- | ------- |
-| v-infinite-scroll         | Load more data while reach bottom of the page                                                                    | ^[Function] | -       |
+| v-infinite-scroll         | Load more data while reach bottom of the page                                                                    | ^[Function] | —       |
 | infinite-scroll-disabled  | is disabled                                                                                                      | ^[boolean]  | false   |
 | infinite-scroll-delay     | throttle delay (ms)                                                                                              | ^[number]   | 200     |
 | infinite-scroll-distance  | trigger distance (px)                                                                                            | ^[number]   | 0       |
