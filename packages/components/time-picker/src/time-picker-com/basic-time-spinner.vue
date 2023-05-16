@@ -212,7 +212,14 @@ const adjustSpinner = (type: TimeUnit, value: number) => {
 
 const typeItemHeight = (type: TimeUnit): number => {
   const scrollbar = unref(listRefsMap[type])
-  return scrollbar?.$el.querySelector('li').offsetHeight || 0
+  const listItem = scrollbar?.$el.querySelector('li')
+  if (listItem) {
+    const computedStyle = window.getComputedStyle(listItem)
+    const height = Number.parseFloat(computedStyle.getPropertyValue('height'))
+    return height || 0
+  } else {
+    return 0
+  }
 }
 
 const onIncrement = () => {
