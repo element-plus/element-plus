@@ -57,10 +57,10 @@
             v-for="(time, key) in arrowControlTimeList[item]"
             :key="key"
             :class="[
-              ns.be('spinner', 'item'),
-              ns.is('active', time === timePartials[item]),
-              ns.is('disabled', timeList[item][time!]),
-            ]"
+            ns.be('spinner', 'item'),
+            ns.is('active', time === timePartials[item]),
+            ns.is('disabled', timeList[item][time!]),
+          ]"
           >
             <template v-if="typeof time === 'number'">
               <template v-if="item === 'hours'">
@@ -212,7 +212,10 @@ const adjustSpinner = (type: TimeUnit, value: number) => {
 
 const typeItemHeight = (type: TimeUnit): number => {
   const scrollbar = unref(listRefsMap[type])
-  return scrollbar?.$el.querySelector('li').offsetHeight || 0
+  const itemHeight = Number.parseFloat(
+    window.getComputedStyle(scrollbar?.$el.querySelector('li')).height
+  )
+  return itemHeight || 0
 }
 
 const onIncrement = () => {
