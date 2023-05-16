@@ -11,6 +11,7 @@
   position: relative;
   vertical-align: middle;
   display: inline-block;
+  width: fit-content;
 
   @include e(content) {
     background-color: getCssVar('badge', 'bg-color');
@@ -32,6 +33,7 @@
       top: 0;
       right: calc(1px + #{getCssVar('badge', 'size')} / 2);
       transform: translateY(-50%) translateX(100%);
+      z-index: getCssVar('index', 'normal');
 
       @include when(dot) {
         right: 5px;

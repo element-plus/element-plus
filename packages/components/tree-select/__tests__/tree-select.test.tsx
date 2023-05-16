@@ -1,4 +1,4 @@
-import { nextTick, ref } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, test, vi } from 'vitest'
 import TreeSelect from '../src/tree-select.vue'
@@ -16,8 +16,7 @@ const createComponent = ({
   props?: typeof TreeSelect['props']
 } = {}) => {
   const wrapperRef = ref<InstanceType<typeof TreeSelect>>()
-  const value = props.modelValue || ref('')
-  const data = ref([
+  const defaultData = ref([
     {
       value: 1,
       label: '一级 1',
@@ -36,23 +35,32 @@ const createComponent = ({
     },
   ])
 
-  const wrapper = mount({
-    render() {
-      return (
-        <TreeSelect
-          data={data.value}
-          renderAfterExpand={false}
-          {...props}
-          modelValue={value.value}
-          onUpdate:modelValue={(val: string) => (value.value = val)}
-          ref={(val: InstanceType<typeof TreeSelect>) =>
-            (wrapperRef.value = val)
-          }
-          v-slots={slots}
-        />
-      )
-    },
+  const bindProps = reactive({
+    modelValue: ref(''),
+    data: defaultData,
+    renderAfterExpand: false,
+    ...props,
   })
+
+  const wrapper = mount(
+    {
+      render() {
+        return (
+          <TreeSelect
+            {...bindProps}
+            onUpdate:modelValue={(val: string) => (bindProps.modelValue = val)}
+            ref={(val: InstanceType<typeof TreeSelect>) =>
+              (wrapperRef.value = val)
+            }
+            v-slots={slots}
+          />
+        )
+      },
+    },
+    {
+      attachTo: 'body',
+    }
+  )
 
   return {
     wrapper,
@@ -432,5 +440,240 @@ describe('TreeSelect.vue', () => {
     expect(
       tree.findAll('.el-tree-node__children')[0].attributes('style')
     ).not.toContain('display: none;')
+  })
+
+  test('show correct label when child options are not rendered', async () => {
+    const modelValue = ref<number>()
+    const { select } = createComponent({
+      props: {
+        modelValue,
+        renderAfterExpand: true,
+      },
+    })
+
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('')
+
+    modelValue.value = 111
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('三级 1-1')
+  })
+
+  test('show correct label when lazy load', async () => {
+    const modelValue = ref<number>(1)
+    const cacheData = reactive([{ value: 3, label: '3-label' }])
+    const { select } = createComponent({
+      props: {
+        data: [],
+        modelValue,
+        lazy: true,
+        load: (node: object, resolve: (p: any) => any[]) => {
+          resolve([{ value: 2, label: '2-label', isLeaf: true }])
+        },
+        cacheData,
+      },
+    })
+
+    // no load & no cache will be default value
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe(1)
+
+    // no load & has cache will be correct label
+    modelValue.value = 3
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('3-label')
+
+    // no load & set cache lazy will be correct label
+    modelValue.value = 1
+    await nextTick()
+    cacheData.push({
+      value: 1,
+      label: '1-label',
+    })
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('1-label')
+  })
+
+  test('filter-method', async () => {
+    const modelValue = ref(1)
+    const data = ref([
+      { value: 1, label: '1' },
+      { value: 2, label: '2' },
+      { value: 3, label: '3' },
+    ])
+    const filterMethod = vi.fn((val: string) => {
+      data.value = [...data.value].filter((item) => item.label.includes(val))
+    })
+    const { select, tree } = createComponent({
+      props: {
+        modelValue,
+        data,
+        filterable: true,
+        filterMethod,
+        // trigger cache data
+        renderAfterExpand: true,
+      },
+    })
+
+    await nextTick()
+    expect(tree.vm.data.length).toBe(3)
+    expect(select.vm.selectedLabel).toBe('1')
+
+    const input = select.find('input')
+    input.element.focus()
+    await nextTick()
+    expect(select.vm.selectedLabel).toBe('')
+    expect(filterMethod).toHaveBeenLastCalledWith('')
+
+    select.vm.selectedLabel = '2'
+    select.vm.debouncedOnInputChange()
+    // await debounce
+    await new Promise((resolve) => setTimeout(resolve))
+    expect(select.vm.selectedLabel).toBe('2')
+    expect(filterMethod).toHaveBeenLastCalledWith('2')
+    expect(tree.text()).toBe('2')
+  })
+
+  test('check/check-change events can accept correct params', async () => {
+    const onCheck = vi.fn()
+    const onCheckChange = vi.fn()
+    const { select, tree } = createComponent({
+      props: {
+        showCheckbox: true,
+        checkStrictly: true,
+        onCheck: (
+          node: any,
+          { checkedKeys, checkedNodes, halfCheckedKeys, halfCheckedNodes }: any
+        ) =>
+          onCheck(
+            node.value,
+            checkedKeys,
+            checkedNodes.map((item: any) => item.value),
+            halfCheckedKeys,
+            halfCheckedNodes.map((item: any) => item.value)
+          ),
+        onCheckChange: (node: any) => onCheckChange(node.value),
+      },
+    })
+
+    await nextTick()
+    await tree.find('.el-checkbox__original').trigger('click')
+    await nextTick()
+
+    expect(select.vm.modelValue).equal(1)
+    expect(onCheck).toHaveBeenLastCalledWith(1, [1], [1], [], [])
+    expect(onCheckChange).toHaveBeenLastCalledWith(1)
+
+    await nextTick()
+    await tree.findAll('.el-checkbox__original')[1].trigger('click')
+    await nextTick()
+
+    expect(select.vm.modelValue).equal(11)
+    expect(onCheck).toHaveBeenLastCalledWith(11, [11], [11], [], [])
+    expect(onCheckChange).toHaveBeenLastCalledWith(11)
+
+    // finally will cancel older checked node
+    await nextTick()
+    expect(onCheckChange).toHaveBeenLastCalledWith(1)
+  })
+
+  test('checking node will not reset checked cache node', async () => {
+    const modelValue = ref<number[]>([2])
+    const cacheData = reactive([{ value: 2, label: '2-label' }])
+    let id = 1
+    const { tree } = createComponent({
+      props: {
+        modelValue,
+        multiple: true,
+        showCheckbox: true,
+        checkStrictly: true,
+        lazy: true,
+        load: (node: object, resolve: (p: any) => any[]) => {
+          resolve([{ value: id, label: `${id}-label`, isLeaf: false }])
+          id++
+        },
+        cacheData,
+      },
+    })
+
+    await nextTick()
+
+    const node1 = tree.find('.el-tree-node__content')
+    const node1Checkbox = node1.find('.el-checkbox__original')
+
+    expect(node1.text()).toBe('1-label')
+    await node1Checkbox.trigger('click')
+
+    expect(modelValue.value).toEqual([1, 2])
+  })
+
+  test('cached checked node can be canceled', async () => {
+    const modelValue = ref<number[]>([2])
+    const cacheData = reactive([{ value: 2, label: '2-label' }])
+    let id = 1
+    const { tree } = createComponent({
+      props: {
+        modelValue,
+        multiple: true,
+        showCheckbox: true,
+        checkStrictly: true,
+        lazy: true,
+        load: (node: object, resolve: (p: any) => any[]) => {
+          resolve([{ value: id, label: `${id}-label`, isLeaf: false }])
+          id++
+        },
+        cacheData,
+      },
+    })
+
+    await nextTick()
+
+    const node1 = tree.find('.el-tree-node__content')
+    await node1.trigger('click')
+    await nextTick()
+
+    const node2 = tree.findAll('.el-tree-node__content')[1]
+    expect(node2.text()).toBe('2-label')
+
+    const node2Checkbox = node2.find('.el-checkbox')
+    expect(node2Checkbox.element.classList.contains('is-checked')).toBe(true)
+
+    await node2Checkbox.trigger('click')
+    expect(node2Checkbox.element.classList.contains('is-checked')).toBe(false)
+
+    expect(modelValue.value).toEqual([])
+  })
+
+  test('no checkbox and check on click node', async () => {
+    const { select, tree } = createComponent({
+      props: {
+        checkOnClickNode: true,
+        data: [
+          { value: 1, label: '1' },
+          { value: 2, label: '2' },
+        ],
+      },
+    })
+
+    const nodes = tree.findAll('.el-tree-node__content')
+
+    await nodes[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).equal(1)
+
+    // click again not to deselect
+    await nodes[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).equal(1)
+
+    // can correctly choose another
+    await nodes.slice(-1)[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).equal(2)
+
+    // again
+    await nodes.slice(-1)[0].trigger('click')
+    await nextTick()
+    expect(select.vm.modelValue).equal(2)
   })
 })

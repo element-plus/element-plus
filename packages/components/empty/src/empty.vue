@@ -19,6 +19,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
+import { addUnit } from '@element-plus/utils'
 import ImgEmpty from './img-empty.vue'
 import { emptyProps } from './empty'
 
@@ -36,6 +37,6 @@ const emptyDescription = computed(
   () => props.description || t('el.table.emptyText')
 )
 const imageStyle = computed<CSSProperties>(() => ({
-  width: props.imageSize ? `${props.imageSize}px` : '',
+  width: addUnit(props.imageSize),
 }))
 </script>

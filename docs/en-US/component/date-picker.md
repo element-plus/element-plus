@@ -7,6 +7,12 @@ lang: en-US
 
 Use Date Picker for date input.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Enter Date
 
 Basic date picker measured by 'day'.
@@ -153,6 +159,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | type                  | type of the picker                                                                                    | string                                             | year/month/date/dates/datetime/ week/datetimerange/daterange/ monthrange | date        |
 | format                | format of the displayed value in the input box                                                        | string                                             | see [date formats](/en-US/component/date-picker#date-formats)            | YYYY-MM-DD  |
 | popper-class          | custom class name for DatePicker's dropdown                                                           | string                                             | —                                                                        | —           |
+| popper-options        | Customized popper option see more at [popper.js](https://popper.js.org/docs/v2/)                      | object                                             | —                                                                        | —           |
 | range-separator       | range separator                                                                                       | string                                             | —                                                                        | '-'         |
 | default-value         | optional, default date of the calendar                                                                | Date / [Date, Date]                                | —                                                                        | —           |
 | default-time          | optional, the time value to use when selecting date range                                             | Date / [Date, Date]                                | —                                                                        | —           |

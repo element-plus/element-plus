@@ -8,6 +8,7 @@
       ]"
       class="number"
       :aria-current="currentPage === 1"
+      :aria-label="t('el.pagination.currentPage', { pager: 1 })"
       :tabindex="tabindex"
     >
       1
@@ -21,12 +22,13 @@
         nsPager.is('disabled', disabled),
       ]"
       :tabindex="tabindex"
+      :aria-label="t('el.pagination.prevPages', { pager: pagerCount - 2 })"
       @mouseenter="onMouseEnter(true)"
       @mouseleave="quickPrevHover = false"
       @focus="onFocus(true)"
       @blur="quickPrevFocus = false"
     >
-      <d-arrow-left v-if="quickPrevHover || quickPrevFocus" />
+      <d-arrow-left v-if="(quickPrevHover || quickPrevFocus) && !disabled" />
       <more-filled v-else />
     </li>
     <li
@@ -38,6 +40,7 @@
       ]"
       class="number"
       :aria-current="currentPage === pager"
+      :aria-label="t('el.pagination.currentPage', { pager })"
       :tabindex="tabindex"
     >
       {{ pager }}
@@ -51,12 +54,13 @@
         nsPager.is('disabled', disabled),
       ]"
       :tabindex="tabindex"
+      :aria-label="t('el.pagination.nextPages', { pager: pagerCount - 2 })"
       @mouseenter="onMouseEnter()"
       @mouseleave="quickNextHover = false"
       @focus="onFocus()"
       @blur="quickNextFocus = false"
     >
-      <d-arrow-right v-if="quickNextHover || quickNextFocus" />
+      <d-arrow-right v-if="(quickNextHover || quickNextFocus) && !disabled" />
       <more-filled v-else />
     </li>
     <li
@@ -67,6 +71,7 @@
       ]"
       class="number"
       :aria-current="currentPage === pageCount"
+      :aria-label="t('el.pagination.currentPage', { pager: pageCount })"
       :tabindex="tabindex"
     >
       {{ pageCount }}
@@ -76,7 +81,7 @@
 <script lang="ts" setup>
 import { computed, ref, watchEffect } from 'vue'
 import { DArrowLeft, DArrowRight, MoreFilled } from '@element-plus/icons-vue'
-import { useNamespace } from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { paginationPagerProps } from './pager'
 defineOptions({
   name: 'ElPaginationPager',
@@ -85,6 +90,8 @@ const props = defineProps(paginationPagerProps)
 const emit = defineEmits(['change'])
 const nsPager = useNamespace('pager')
 const nsIcon = useNamespace('icon')
+const { t } = useLocale()
+
 const showPrevMore = ref(false)
 const showNextMore = ref(false)
 const quickPrevHover = ref(false)

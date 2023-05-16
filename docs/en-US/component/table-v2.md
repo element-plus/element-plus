@@ -3,7 +3,7 @@ title: Virtualized Table
 lang: en-US
 ---
 
-# Virtualized Table <VersionTag version="beta" />
+# Virtualized Table ^(beta)
 
 Along with the evolutionary web development, table component has always been the most popular component in our web apps especially for dashboards, data analysis. For [Table V1](./table.md), with even just 1000 records of data, it can be very annoying when using it, because the poor performance.
 
@@ -15,6 +15,12 @@ This component is **still under testing**, use at your own risk. if you found an
 fully developed yet, so that we are not mentioning them here.
 
 **Even though** Virtualized Table is efficient, but when the data load is too big, your **network**, **memory size** can be the bottle neck of your app. So keep in mind that Virtualized Table is never the ultimate solution for everything, consider paginate your data, add filters etc.
+
+:::
+
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
 
 :::
 
@@ -48,7 +54,7 @@ table-v2/auto-resizer
 
 :::
 
-## Customize Cell Renderer
+## Customize Cell Renderer{#customize-cell-renderer}
 
 Of course, you can render the table cell per your needs, here is a simple example of how to customize your cell.
 
@@ -369,25 +375,25 @@ Note that these are `JavaScript` Objects, so that you **CANNOT USE** kebab-case 
 
 ## Column Attribute
 
-| Name           | Description                                                               | Type                                                                                                                                                             | Default |
-| -------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| align          | Alignment of the table cell content                                       | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L6)         | left    |
-| class          | Class name for the column                                                 | String                                                                                                                                                           | -       |
-| fixed          | Fixed direction of the column                                             | Boolean/[FixedDir](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L11) | false   |
-| flexGrow       | CSSProperties flex grow, Only useful when not this is not a fixed table   | Number                                                                                                                                                           | 0       |
-| flexShrink     | CSSProperties flex shrink, Only useful when not this is not a fixed table | Number                                                                                                                                                           | 1       |
-| headerClass    | Used for customizing header column class                                  | String                                                                                                                                                           | -       |
-| hidden         | Whether the column is invisible                                           | Boolean                                                                                                                                                          | -       |
-| style          | Customized style for column cell, will be merged with grid cell           | CSSProperties                                                                                                                                                    | -       |
-| sortable       | Indicates whether the column is sortable                                  | Boolean                                                                                                                                                          | -       |
-| title          | The default text rendered in header cell                                  | String                                                                                                                                                           | -       |
-| maxWidth       | Maximum width for the column                                              | String                                                                                                                                                           | -       |
-| minWidth       | Minimum width for the column                                              | String                                                                                                                                                           | -       |
-| width \*       | Width for the column **Required**                                         | Number                                                                                                                                                           | -       |
-| cellRenderer   | Customized Cell renderer                                                  | VueComponent/(props: [CellRenderProps](#renderer-typings)) => VNode                                                                                              | -       |
-| headerRenderer | Customized Header renderer                                                | VueComponent/(props: [HeaderRenderProps](#renderer-typings)) => VNode                                                                                            | -       |
+| Name               | Description                                                               | Type                                                                                                                                                             | Default |
+| ------------------ | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| align              | Alignment of the table cell content                                       | [Alignment](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L6)         | left    |
+| class              | Class name for the column                                                 | String                                                                                                                                                           | -       |
+| fixed              | Fixed direction of the column                                             | Boolean/[FixedDir](https://github.com/element-plus/element-plus/blob/b92b22932758f0ddea98810ae248f6ca62f77e25/packages/components/table-v2/src/constants.ts#L11) | false   |
+| flexGrow           | CSSProperties flex grow, Only useful when not this is not a fixed table   | Number                                                                                                                                                           | 0       |
+| flexShrink         | CSSProperties flex shrink, Only useful when not this is not a fixed table | Number                                                                                                                                                           | 1       |
+| headerClass        | Used for customizing header column class                                  | String                                                                                                                                                           | -       |
+| hidden             | Whether the column is invisible                                           | Boolean                                                                                                                                                          | -       |
+| style              | Customized style for column cell, will be merged with grid cell           | CSSProperties                                                                                                                                                    | -       |
+| sortable           | Indicates whether the column is sortable                                  | Boolean                                                                                                                                                          | -       |
+| title              | The default text rendered in header cell                                  | String                                                                                                                                                           | -       |
+| maxWidth           | Maximum width for the column                                              | String                                                                                                                                                           | -       |
+| minWidth           | Minimum width for the column                                              | String                                                                                                                                                           | -       |
+| width \*           | Width for the column **Required**                                         | Number                                                                                                                                                           | -       |
+| cellRenderer       | Customized Cell renderer                                                  | VueComponent/(props: [CellRenderProps](#typings)) => VNode                                                                                                       | -       |
+| headerCellRenderer | Customized Header renderer                                                | VueComponent/(props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | -       |
 
-## Typings
+## Typings{#typings}
 
 <details>
 <summary>Show Type Declarations</summary>
@@ -535,4 +541,4 @@ state by yourselves.
 
 For virtualized table, we intend to provide less feature and let our users to implement their own features per demand.
 Integrating too many features makes the code hard to maintain and for most users the basic features are enough. Some key
-features were not developed yet. We would love to hear from you. Join [Discord](https://discord.link/ElementPlus) to stay tuned.
+features were not developed yet. We would love to hear from you. Join [Discord](https://discord.com/invite/gXK9XNzW3X) to stay tuned.

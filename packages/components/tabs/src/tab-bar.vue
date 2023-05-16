@@ -10,8 +10,8 @@
 import { getCurrentInstance, inject, nextTick, ref, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import { capitalize, throwError } from '@element-plus/utils'
-import { tabsRootContextKey } from '@element-plus/tokens'
 import { useNamespace } from '@element-plus/hooks'
+import { tabsRootContextKey } from './constants'
 import { tabBarProps } from './tab-bar'
 
 import type { CSSProperties } from 'vue'
@@ -39,6 +39,7 @@ const getBarStyle = (): CSSProperties => {
     ? 'width'
     : 'height'
   const sizeDir = sizeName === 'width' ? 'x' : 'y'
+  const position = sizeDir === 'x' ? 'left' : 'top'
 
   props.tabs.every((tab) => {
     const $el = instance.parent?.refs?.[`tab-${tab.uid}`] as HTMLElement
@@ -48,20 +49,8 @@ const getBarStyle = (): CSSProperties => {
       return true
     }
 
+    offset = $el[`offset${capitalize(position)}`]
     tabSize = $el[`client${capitalize(sizeName)}`]
-    const position = sizeDir === 'x' ? 'left' : 'top'
-
-    offset =
-      $el[`offset${capitalize(position)}`] -
-      ($el.parentElement?.[`offset${capitalize(position)}`] ?? 0)
-
-    const scrollwrapEl = $el.closest('.is-scrollable')
-    if (scrollwrapEl) {
-      const scrollWrapStyle = window.getComputedStyle(scrollwrapEl)
-      offset += Number.parseFloat(
-        scrollWrapStyle[`padding${capitalize(position)}`]
-      )
-    }
 
     const tabStyles = window.getComputedStyle($el)
 

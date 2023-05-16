@@ -5,7 +5,7 @@
     @mouseenter.stop="handleMouseEnter"
     @mouseleave.stop="handleMouseLeave"
   >
-    <div :class="ns.e('container')" :style="{ height: height }">
+    <div :class="ns.e('container')" :style="containerStyle">
       <transition v-if="arrowDisplay" name="carousel-arrow-left">
         <button
           v-show="
@@ -77,12 +77,15 @@ defineOptions({
 const props = defineProps(carouselProps)
 const emit = defineEmits(carouselEmits)
 const {
+  root,
   activeIndex,
   arrowDisplay,
   hasLabel,
   hover,
   isCardType,
   items,
+  isVertical,
+  containerStyle,
   handleButtonEnter,
   handleButtonLeave,
   handleIndicatorClick,
@@ -109,8 +112,11 @@ const indicatorsClasses = computed(() => {
   if (unref(hasLabel)) {
     classes.push(ns.em('indicators', 'labels'))
   }
-  if (props.indicatorPosition === 'outside' || unref(isCardType)) {
+  if (props.indicatorPosition === 'outside') {
     classes.push(ns.em('indicators', 'outside'))
+  }
+  if (unref(isVertical)) {
+    classes.push(ns.em('indicators', 'right'))
   }
   return classes
 })

@@ -6,3 +6,4 @@ export const ElCard = withInstall(Card)
 export default ElCard
 
 export * from './src/card'
+export type { CardInstance } from './src/instance'

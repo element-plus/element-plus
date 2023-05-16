@@ -1,14 +1,14 @@
 <template>
-  <div class="example-block">
-    <span class="example-demonstration">Display all tags (default)</span>
+  <div class="m-4">
+    <p>Display all tags (default)</p>
     <el-cascader :options="options" :props="props" clearable />
   </div>
-  <div class="example-block">
-    <span class="example-demonstration">Collapse tags</span>
+  <div class="m-4">
+    <p>Collapse tags</p>
     <el-cascader :options="options" :props="props" collapse-tags clearable />
   </div>
-  <div class="example-block">
-    <span class="example-demonstration">Collapse tags tooltip</span>
+  <div class="m-4">
+    <p>Collapse tags tooltip</p>
     <el-cascader
       :options="options"
       :props="props"
@@ -106,12 +106,3 @@ const options = [
   },
 ]
 </script>
-
-<style scoped>
-.example-block {
-  margin: 1rem;
-}
-.example-demonstration {
-  margin: 1rem;
-}
-</style>

@@ -45,7 +45,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import { FOCUS_TRAP_INJECTION_KEY } from '@element-plus/components/focus-trap'
 import { useDraggable, useLocale } from '@element-plus/hooks'
 import { CloseComponents, composeRefs } from '@element-plus/utils'
-import { dialogInjectionKey } from '@element-plus/tokens'
+import { dialogInjectionKey } from './constants'
 import { dialogContentEmits, dialogContentProps } from './dialog-content'
 
 const { t } = useLocale()

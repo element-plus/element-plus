@@ -1,11 +1,16 @@
 <template>
-  <span ref="arrowRef" :class="ns.e('arrow')" data-popper-arrow="" />
+  <span
+    ref="arrowRef"
+    :class="ns.e('arrow')"
+    :style="arrowStyle"
+    data-popper-arrow
+  />
 </template>
 
 <script lang="ts" setup>
 import { inject, onBeforeUnmount, watch } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
-import { POPPER_CONTENT_INJECTION_KEY } from '@element-plus/tokens'
+import { POPPER_CONTENT_INJECTION_KEY } from './constants'
 import { popperArrowProps } from './arrow'
 
 defineOptions({
@@ -16,7 +21,7 @@ defineOptions({
 const props = defineProps(popperArrowProps)
 
 const ns = useNamespace('popper')
-const { arrowOffset, arrowRef } = inject(
+const { arrowOffset, arrowRef, arrowStyle } = inject(
   POPPER_CONTENT_INJECTION_KEY,
   undefined
 )!

@@ -7,6 +7,12 @@ lang: en-US
 
 When there are plenty of options, use a drop-down menu to display and select desired ones.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic usage
 
 :::demo `v-model` is the value of `el-option` that is currently selected.
@@ -103,9 +109,13 @@ select/allow-create
 
 :::
 
-:::tip
+## Use value-key attribute
 
 If the binding value of Select is an object, make sure to assign `value-key` as its unique identity key name.
+
+:::demo By using the `value-key` attribute, data with duplicate labels can be properly handled. The value of the `label` property is duplicated, but the option can be identified through the `id`.
+
+select/value-key
 
 :::
 
@@ -139,21 +149,22 @@ If the binding value of Select is an object, make sure to assign `value-key` as 
 | popper-class                        | custom class name for Select's dropdown                                                                                     | string                                     | —                                                                                                         | —                |
 | reserve-keyword                     | when `multiple` and `filter` is true, whether to reserve current keyword after selecting an option                          | boolean                                    | true / false                                                                                              | true             |
 | default-first-option                | select first matching option on enter key. Use with `filterable` or `remote`                                                | boolean                                    | true / false                                                                                              | false            |
-| popper-append-to-body(deprecated)   | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean                                    | true / false                                                                                              | true             |
+| popper-append-to-body ^(deprecated) | whether to append the popper menu to body. If the positioning of the popper is wrong, you can try to set this prop to false | boolean                                    | true / false                                                                                              | true             |
 | teleported                          | whether select dropdown is teleported to the body                                                                           | boolean                                    | true / false                                                                                              | true             |
 | persistent                          | when select dropdown is inactive and `persistent` is `false`, select dropdown will be destroyed                             | boolean                                    | true / false                                                                                              | true             |
 | automatic-dropdown                  | for non-filterable Select, this prop decides if the option menu pops up when the input is focused                           | boolean                                    | true / false                                                                                              | false            |
 | clear-icon                          | Custom clear icon component                                                                                                 | `string \| Component`                      | —                                                                                                         | CircleClose      |
 | fit-input-width                     | whether the width of the dropdown is the same as the input                                                                  | boolean                                    | true / false                                                                                              | false            |
 | suffix-icon                         | Custom suffix icon component                                                                                                | `string \| Component`                      | —                                                                                                         | ArrowDown        |
-| suffix-transition <DeprecatedTag /> | animation when dropdown appears/disappears icon                                                                             | boolean                                    | true / false                                                                                              | true             |
+| suffix-transition ^(deprecated)     | animation when dropdown appears/disappears icon                                                                             | boolean                                    | true / false                                                                                              | true             |
 | tag-type                            | tag type                                                                                                                    | string                                     | success/info/warning/danger                                                                               | info             |
 | validate-event                      | whether to trigger form validation                                                                                          | boolean                                    | true / false                                                                                              | true             |
 | placement                           | position of dropdown                                                                                                        | string                                     | top/top-start/top-end/bottom/bottom-start/bottom-end/left/left-start/left-end/right/right-start/right-end | bottom-start     |
+| max-collapse-tags ^(2.3.0)          | The max tags number to be shown. To use this, `collapse-tags` must be true                                                  | number                                     | —                                                                                                         | 1                |
 
 :::warning
 
-`suffix-transition` has been **deprecated**, and **will be** removed in <VersionTag version="2.3.0" />, please use override style scheme.
+`suffix-transition` has been **deprecated**, and **will be** removed in ^(2.3.0), please use override style scheme.
 
 :::
 

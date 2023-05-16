@@ -98,6 +98,12 @@ export default {
       pagesize: '項/頁',
       total: '共 {total} 項',
       pageClassifier: '頁',
+      page: '頁',
+      prev: '上一頁',
+      next: '下一頁',
+      currentPage: '第 {pager} 頁',
+      prevPages: '向前 {pager} 頁',
+      nextPages: '向后 {pager} 頁',
       deprecationWarning:
         '偵測到已過時的使用方式，請參閱 el-pagination 說明文件以了解更多資訊',
     },
