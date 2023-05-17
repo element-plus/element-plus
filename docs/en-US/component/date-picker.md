@@ -174,6 +174,7 @@ Note, date time locale (month name, first day of the week ...) are also configur
 | shortcuts             | an object array to set shortcut options                                                               | `Array<{ text: string, value: Date \| Function }>` | —                                                                        | —           |
 | cell-class-name       | set custom className                                                                                  | Function(Date)                                     | —                                                                        | —           |
 | teleported            | whether date-picker dropdown is teleported to the body                                                | boolean                                            | true / false                                                             | true        |
+| persistent            | when picker panel is inactive and `persistent` is `false`, picker panel will be destroyed             | boolean                                            | true / false 
 
 ## Events
 
