@@ -85,6 +85,7 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElIcon from '@element-plus/components/icon'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { useNamespace } from '@element-plus/hooks'
+import { getStyle } from '@element-plus/utils'
 import { timeUnits } from '../constants'
 import { buildTimeList } from '../utils'
 import { basicTimeSpinnerProps } from '../props/basic-time-spinner'
@@ -214,9 +215,7 @@ const typeItemHeight = (type: TimeUnit): number => {
   const scrollbar = unref(listRefsMap[type])
   const listItem = scrollbar?.$el.querySelector('li')
   if (listItem) {
-    const computedStyle = window.getComputedStyle(listItem)
-    const height = Number.parseFloat(computedStyle.getPropertyValue('height'))
-    return height || 0
+    return Number.parseFloat(getStyle(listItem, 'height')) || 0
   } else {
     return 0
   }
