@@ -61,12 +61,12 @@ time-picker/range
 | is-range              | whether to pick a time range                             | ^[boolean]                                                                                      | false       |
 | arrow-control         | whether to pick time using arrow buttons                 | ^[boolean]                                                                                      | false       |
 | popper-class          | custom class name for TimePicker's dropdown              | ^[string]                                                                                       | ''          |
-| range-separator       | range separator                                          | ^[string]                                                                                       | -           |
+| range-separator       | range separator                                          | ^[string]                                                                                       | '-'         |
 | format                | format of the displayed value in the input box           | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                         | —           |
 | default-value         | optional, default date of the calendar                   | ^[Date] / ^[object]`[Date, Date]`                                                               | —           |
 | id                    | same as `id` in native input                             | ^[string] / ^[object]`[string, string]`                                                         | —           |
 | name                  | same as `name` in native input                           | ^[string]                                                                                       | ''          |
-| label ^(a11y)         | same as `aria-label` in native input                     | ^[string]                                                                                       | undefined   |
+| label ^(a11y)         | same as `aria-label` in native input                     | ^[string]                                                                                       | —           |
 | prefix-icon           | Custom prefix icon component                             | ^[string] / ^[Component]                                                                        | Clock       |
 | clear-icon            | Custom clear icon component                              | ^[string] / ^[Component]                                                                        | CircleClose |
 | disabled-hours        | To specify the array of hours that cannot be selected    | ^[Function]`(role: string, comparingDate?: Dayjs) => number[]`                                  | —           |
