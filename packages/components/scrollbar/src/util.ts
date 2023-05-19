@@ -26,6 +26,17 @@ export const BAR_MAP = {
   },
 } as const
 
+export interface EaseInOutQuadOptions {
+  /** The specified time to start the animation */
+  timeElapsed: number
+  /** The specified starting position of the object on the x-axis */
+  startValue: number
+  /** The specified value of the object changes */
+  byValue: number
+  /** The specified duration of the entire process */
+  duration: number
+}
+
 export const renderThumbStyle = ({
   move,
   size,
@@ -36,3 +47,19 @@ export const renderThumbStyle = ({
   [bar.size]: size,
   transform: `translate${bar.axis}(${move}%)`,
 })
+
+/**
+ * @description Quadratic easing in and out
+ */
+export const easeInOutQuad = ({
+  timeElapsed,
+  startValue,
+  byValue,
+  duration,
+}: EaseInOutQuadOptions): number => {
+  timeElapsed /= duration / 2
+  if (timeElapsed < 1) {
+    return (byValue / 2) * timeElapsed ** 2 + startValue
+  }
+  return (-byValue / 2) * (--timeElapsed * (timeElapsed - 2) - 1) + startValue
+}

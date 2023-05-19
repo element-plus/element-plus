@@ -34,9 +34,15 @@ import {
   watch,
 } from 'vue'
 import { useEventListener, useResizeObserver } from '@vueuse/core'
-import { addUnit, debugWarn, isNumber, isObject } from '@element-plus/utils'
+import {
+  addUnit,
+  debugWarn,
+  isFunction,
+  isNumber,
+  isObject,
+} from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
-import { GAP } from './util'
+import { GAP, easeInOutQuad } from './util'
 import Bar from './bar.vue'
 import { scrollbarContextKey } from './constants'
 import { scrollbarEmits, scrollbarProps } from './scrollbar'
@@ -97,6 +103,38 @@ const handleScroll = () => {
   }
 }
 
+/** make scrolling easing in and out */
+const easeScrollTo = (
+  to: number,
+  directions: 'scrollTop' | 'scrollLeft',
+  duration?: number,
+  callback?: () => void
+) => {
+  if (!duration) return (wrapRef.value![directions] = to)
+  const startValue = wrapRef.value![directions]
+  const byValue = to - startValue
+  const increment = 20
+  let timeElapsed = 0
+
+  const startScroll = () => {
+    timeElapsed += increment
+    wrapRef.value![directions] = easeInOutQuad({
+      timeElapsed,
+      startValue,
+      byValue,
+      duration,
+    })
+    if (timeElapsed < duration) {
+      requestAnimationFrame(startScroll)
+    } else {
+      if (callback && isFunction(callback)) {
+        callback()
+      }
+    }
+  }
+  startScroll()
+}
+
 // TODO: refactor method overrides, due to script setup dts
 // @ts-nocheck
 function scrollTo(xCord: number, yCord?: number): void
@@ -109,20 +147,36 @@ function scrollTo(arg1: unknown, arg2?: number) {
   }
 }
 
-const setScrollTop = (value: number) => {
+const setScrollTop = (
+  value: number,
+  args?: { duration: number; callback?: () => void }
+) => {
   if (!isNumber(value)) {
     debugWarn(COMPONENT_NAME, 'value must be a number')
     return
   }
-  wrapRef.value!.scrollTop = value
+  easeScrollTo(
+    value,
+    'scrollTop',
+    args?.duration,
+    () => isFunction(args?.callback) && args?.callback()
+  )
 }
 
-const setScrollLeft = (value: number) => {
+const setScrollLeft = (
+  value: number,
+  args?: { duration: number; callback?: () => void }
+) => {
   if (!isNumber(value)) {
     debugWarn(COMPONENT_NAME, 'value must be a number')
     return
   }
-  wrapRef.value!.scrollLeft = value
+  easeScrollTo(
+    value,
+    'scrollLeft',
+    args?.duration,
+    () => isFunction(args?.callback) && args?.callback()
+  )
 }
 
 const update = () => {
