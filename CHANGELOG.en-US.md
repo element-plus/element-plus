@@ -1,5 +1,34 @@
 ## Changelog
 
+### 2.3.5
+
+_2023-05-19_
+
+#### Features
+
+- Docs right menu tag convert (#12606 by @btea)
+- Components [carousel] If the carousel height is auto apply item height (#12388 by @qq282126990)
+
+#### Bug fixes
+
+- Components [table] text node not have closest method (#12543 by @btea)
+- Components [loading] Compatible with vue3.2.0~12 (#12377 by @chenxch)
+- Components [tree] fix always trigger drag (#12612 by @init-qy)
+- Components [image] fixed lazyLoad scroll end not loading (#12596 by @cicada-ah)
+- Components [table-v2] Adjust the expandable (#12519 by @chenxch)
+- Components [upload] before-upload change data in promise (#12575 by @GenerQAQ)
+- Components [menu] calc slice index remove comment node (#12472 by @chenxch)
+- Components [input-number] add Judging if the max is greater than the min (#12741 by @zhengsixsix)
+- Components [tree] Fix TreeOptionProps (#12511 by @lyric-zemin)
+- Components [select] fix placeholder display (#11051 by @sleepyShen1989)
+- Components [TreeSelect] incorrect check event params (#12370 by @yujinpan)
+- Components [TreeSelect] checking node reset checked cache node (#12367 by @yujinpan)
+- Components [tree-select] incorrect selection when using `checkOnClickNode` without checkbox (#12826 by @yujinpan)
+
+#### Refactors
+
+- Components [steps] optomizate class in code (#12672 by @wzc520pyfm)
+
 ### 2.3.4
 
 _2023-04-23_
