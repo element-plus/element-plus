@@ -109,9 +109,13 @@ select/allow-create
 
 :::
 
-:::tip
+## Use value-key attribute
 
 If the binding value of Select is an object, make sure to assign `value-key` as its unique identity key name.
+
+:::demo By using the `value-key` attribute, data with duplicate labels can be properly handled. The value of the `label` property is duplicated, but the option can be identified through the `id`.
+
+select/value-key
 
 :::
 

@@ -39,7 +39,7 @@
     }
   }
 
-  &>.#{bem('icon')} {
+  & > .#{bem('icon')} {
     vertical-align: -2px;
   }
 }
