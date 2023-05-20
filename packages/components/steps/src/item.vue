@@ -82,7 +82,7 @@ export interface IStepsProps {
 }
 
 export interface StepItemState {
-  uid: number | undefined
+  uid: number
   currentStatus: string
   setIndex: (val: number) => void
   calcProgress: (status: string) => void
@@ -91,6 +91,8 @@ export interface StepItemState {
 export interface IStepsInject {
   props: IStepsProps
   steps: Ref<StepItemState[]>
+  addStep: (item: StepItemState) => void
+  removeStep: (uid: number) => void
 }
 
 defineOptions({
@@ -120,9 +122,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  parent.steps.value = parent.steps.value.filter(
-    (instance) => instance.uid !== currentInstance?.uid
-  )
+  parent.removeStep(stepItemState.uid)
 })
 
 const currentStatus = computed(() => {
@@ -202,11 +202,11 @@ const updateStatus = (activeIndex: number) => {
 }
 
 const stepItemState = reactive({
-  uid: computed(() => currentInstance?.uid),
+  uid: currentInstance!.uid,
   currentStatus,
   setIndex,
   calcProgress,
 })
 
-parent.steps.value = [...parent.steps.value, stepItemState]
+parent.addStep(stepItemState)
 </script>

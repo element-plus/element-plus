@@ -1,6 +1,6 @@
 import { buildProps, iconPropType } from '@element-plus/utils'
 import type Step from './item.vue'
-import type { ExtractPropTypes } from 'vue'
+import type { ComputedRef, ExtractPropTypes } from 'vue'
 
 export const stepProps = buildProps({
   title: {
