@@ -112,6 +112,13 @@ export const useTree = (
     return options
   })
 
+  const cacheOptionsMap = computed(() => {
+    return cacheOptions.value.reduce(
+      (prev, next) => ({ ...prev, [next.value]: next }),
+      {}
+    )
+  })
+
   return {
     ...pick(toRefs(props), Object.keys(ElTree.props)),
     ...attrs,
@@ -170,14 +177,30 @@ export const useTree = (
       }
     },
     onCheck: (data, params) => {
+      // ignore when no checkbox, like only `checkOnClickNode` is true
+      if (!props.showCheckbox) return
+
       const dataValue = getNodeValByProp('value', data)
+
+      // fix: checkedKeys has not cached keys
+      const uncachedCheckedKeys = params.checkedKeys
+      const cachedKeys = props.multiple
+        ? toValidArray(props.modelValue).filter(
+            (item) =>
+              item in cacheOptionsMap.value &&
+              !tree.value.getNode(item) &&
+              !uncachedCheckedKeys.includes(item)
+          )
+        : []
+      const checkedKeys = uncachedCheckedKeys.concat(cachedKeys)
+
       if (props.checkStrictly) {
         emit(
           UPDATE_MODEL_EVENT,
           // Checking for changes may come from `check-on-node-click`
           props.multiple
-            ? params.checkedKeys
-            : params.checkedKeys.includes(dataValue)
+            ? checkedKeys
+            : checkedKeys.includes(dataValue)
             ? dataValue
             : undefined
         )
