@@ -1,4 +1,3 @@
-import { ref } from 'vue'
 import type { SetupContext, UnwrapRef } from 'vue'
 import type {
   RuleItem,
