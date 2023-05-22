@@ -86,7 +86,7 @@ type Path<T> = T extends ReadonlyArray<infer V>
  * 通过一个类型收集所有路径的类型
  *
  * @example
- * FieldPath<{ a: number; b: string; c: { d: number; e: string }; f: [{ value: string }]; g: { value: string }[] }> => 'a' | 'b' | 'c.d' | 'c.e' | 'f.0' | 'f.0.value' | 'g.number' | 'g.number.value'
+ * FieldPath<{ 1: number; a: number; b: string; c: { d: number; e: string }; f: [{ value: string }]; g: { value: string }[] }> => '1' | 'a' | 'b' | 'c' | 'f' | 'g' | 'c.d' | 'c.e' | 'f.0' | 'f.0.value' | 'g.number' | 'g.number.value'
  */
 type FieldPath<T> = T extends object ? Path<T> : never
 export type FormRules<
