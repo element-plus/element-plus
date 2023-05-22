@@ -28,6 +28,10 @@ export const SelectProps = {
     type: Boolean,
     default: false,
   },
+  maxCollapseTags: {
+    type: Number,
+    default: 1,
+  },
   defaultFirstOption: Boolean,
   disabled: Boolean,
   estimatedOptionHeight: {

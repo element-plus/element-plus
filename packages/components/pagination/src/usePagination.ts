@@ -1,4 +1,4 @@
 import { inject } from 'vue'
-import { elPaginationKey } from '@element-plus/tokens'
+import { elPaginationKey } from './constants'
 
 export const usePagination = () => inject(elPaginationKey, {})
