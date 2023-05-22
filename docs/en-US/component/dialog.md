@@ -134,6 +134,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | center                     | whether to align the header and footer in center                                                  | boolean                                           | —               | false   |
 | align-center               | whether to align the dialog both horizontally and vertically                                      | boolean                                           | —               | false   |
 | destroy-on-close           | Destroy elements in Dialog when closed                                                            | boolean                                           | —               | false   |
+| force-render               | Force render Dialog                                                                               | boolean                                           | —               | false   |
 
 :::warning
 
