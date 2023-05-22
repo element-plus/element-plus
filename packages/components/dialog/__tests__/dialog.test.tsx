@@ -170,6 +170,22 @@ describe('Dialog.vue', () => {
   })
 
   describe('life cycles', () => {
+    test('should no render on mount', async () => {
+      const wrapper = mount(<Dialog modelValue={false}>{AXIOM}</Dialog>)
+      expect(wrapper.vm.visible).toBe(false)
+      expect(wrapper.find('.el-dialog__body').exists()).toBe(false)
+    })
+
+    test('should force render on mount', async () => {
+      const wrapper = mount(
+        <Dialog modelValue={false} forceRender={true}>
+          {AXIOM}
+        </Dialog>
+      )
+      expect(wrapper.vm.visible).toBe(false)
+      expect(wrapper.find('.el-dialog__body').exists()).toBe(true)
+    })
+
     test('should call before close', async () => {
       const beforeClose = vi.fn()
       const wrapper = mount(
