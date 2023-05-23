@@ -215,6 +215,12 @@ $form-item-label-top-margin-bottom: map.merge(
   }
 
   @include when(error) {
+    .#{$namespace}-select-v2__wrapper {
+      &.is-focused {
+        border-color: transparent;
+      }
+    }
+
     .#{$namespace}-select-v2__wrapper,
     .#{$namespace}-textarea__inner {
       &,
@@ -222,6 +228,7 @@ $form-item-label-top-margin-bottom: map.merge(
         box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
       }
     }
+
     .#{$namespace}-input__wrapper {
       box-shadow: 0 0 0 1px getCssVar('color-danger') inset;
     }
