@@ -177,6 +177,9 @@ export const useTree = (
       }
     },
     onCheck: (data, params) => {
+      // ignore when no checkbox, like only `checkOnClickNode` is true
+      if (!props.showCheckbox) return
+
       const dataValue = getNodeValByProp('value', data)
 
       // fix: checkedKeys has not cached keys
