@@ -24,9 +24,9 @@ export const leftCustomImgSponsors = [
     name: 'JSDesign',
     name_cn: '即时设计',
     img: '/images/js-design.png',
-    url: 'https://js.design/ai?source=element-plus&plan=ai',
+    url: 'https://js.design/?source=element-plus&plan=sy',
     slogan: 'Professional online UI design tool',
-    slogan_cn: '借助AI技术，快速生成创意十足的UI设计稿',
+    slogan_cn: '专业在线UI设计工具',
     banner_img: '/images/js-design-banner.jpg',
   },
   {
