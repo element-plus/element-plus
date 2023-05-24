@@ -5,6 +5,10 @@ import type { ObjectDirective } from 'vue'
 export const REPEAT_INTERVAL = 100
 export const REPEAT_DELAY = 600
 
+export interface BindEventHTMLElement extends HTMLElement {
+  __element_bind_event__: Record<string, (...args: any[]) => any>
+}
+
 export interface RepeatClickOptions {
   interval?: number
   delay?: number
@@ -12,7 +16,7 @@ export interface RepeatClickOptions {
 }
 
 export const vRepeatClick: ObjectDirective<
-  HTMLElement,
+  BindEventHTMLElement,
   RepeatClickOptions | RepeatClickOptions['handler']
 > = {
   beforeMount(el, binding) {
@@ -39,20 +43,31 @@ export const vRepeatClick: ObjectDirective<
       }
     }
 
-    el.addEventListener('mousedown', (evt: MouseEvent) => {
+    function onmousedown(evt: MouseEvent) {
       if (evt.button !== 0) return
       clear()
       handler()
-
-      document.addEventListener('mouseup', () => clear(), {
+      document.addEventListener('mouseup', onmouseup, {
         once: true,
       })
-
       delayId = setTimeout(() => {
         intervalId = setInterval(() => {
           handler()
         }, interval)
       }, delay)
-    })
+    }
+
+    function onmouseup() {
+      clear()
+    }
+
+    el.addEventListener('mousedown', onmousedown)
+
+    el.__element_bind_event__ = {
+      mousedown: onmousedown,
+    }
+  },
+  beforeUnmount(el) {
+    el.removeEventListener('mousedown', el.__element_bind_event__['mousedown'])
   },
 }
