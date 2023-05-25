@@ -210,7 +210,7 @@ export default defineComponent({
 
     const syncCheckedValue = (loaded = false, forced = false) => {
       const { modelValue } = props
-      const { lazy, multiple, checkStrictly } = config.value
+      const { lazy, multiple, checkStrictly, emitPath } = config.value
       const leafOnly = !checkStrictly
 
       if (
@@ -221,9 +221,20 @@ export default defineComponent({
         return
 
       if (lazy && !loaded) {
-        const values: CascaderNodeValue[] = unique(
-          flattenDeep(castArray(modelValue))
-        )
+        let values: (CascaderNodeValue | CascaderNodeValue[])[] = []
+        if (emitPath === false) {
+          values = unique(flattenDeep(castArray(modelValue)))
+        } else {
+          castArray(modelValue).forEach((value: CascaderNodeValue[]) => {
+            const arrayValue = castArray(value)
+            for (let i = 0; i < arrayValue.length; i++) {
+              const v: CascaderNodeValue[] = arrayValue.slice(0, i + 1)
+              if (!values.some((val) => isEqual(val, v))) {
+                values.push(v)
+              }
+            }
+          })
+        }
         const nodes = values
           .map((val) => store?.getNodeByValue(val))
           .filter((node) => !!node && !node.loaded && !node.loading) as Node[]
@@ -233,6 +244,7 @@ export default defineComponent({
             lazyLoad(node, () => syncCheckedValue(false, forced))
           })
         } else {
+          if (store?.allNodes.some((node) => node.loading)) return
           syncCheckedValue(true, forced)
         }
       } else {
