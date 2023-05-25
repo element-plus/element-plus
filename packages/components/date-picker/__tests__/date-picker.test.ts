@@ -1474,6 +1474,26 @@ describe('MonthRange', () => {
     ).toEqual(ElPopperOptions)
   })
 
+  it('user input', async () => {
+    const wrapper = _mount(
+      `<el-date-picker
+      type='monthrange'
+      v-model="value"
+      valueFormat="YYYY-MM"
+    />`,
+      () => ({ value: ['2022-01', '2022-02'] })
+    )
+
+    const [startInput, endInput] = wrapper.findAll('input')
+    await startInput.setValue('2015-01')
+    await endInput.setValue('2017-01')
+    await nextTick()
+
+    const vm = wrapper.vm
+    expect(vm.value[0]).toBe('2015-01')
+    expect(vm.value[1]).toBe('2017-01')
+  })
+
   describe('form item accessibility integration', () => {
     it('automatic id attachment', async () => {
       const wrapper = _mount(
