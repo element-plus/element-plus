@@ -102,7 +102,7 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
      *    - Expected: 188
      *    - Actual: 188.00000762939453
      */
-    const rangeWidth = Math.round(range.getBoundingClientRect().width)
+    const rangeWidth = Math.ceil(range.getBoundingClientRect().width)
     const padding =
       (Number.parseInt(getStyle(cellChild, 'paddingLeft'), 10) || 0) +
       (Number.parseInt(getStyle(cellChild, 'paddingRight'), 10) || 0)
