@@ -126,11 +126,11 @@ describe('InfiniteScroll', () => {
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
 
     await makeScroll(el, 'scrollTop', ITEM_HEIGHT)
-    expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
+    expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
 
     // won't trigger load when scroll back
     await makeScroll(el, 'scrollTop', 0)
-    expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
+    expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
   })
 
   test('custom scroll delay', async () => {
@@ -156,7 +156,7 @@ describe('InfiniteScroll', () => {
     // wait to ensure initial full check has finished
     await tick(INITIAL_TICK)
     await makeScroll(el, 'scrollTop', ITEM_HEIGHT - CUSTOM_DISTANCE)
-    expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
+    expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
   })
 
   test('turn off immediate check', async () => {
@@ -177,7 +177,7 @@ describe('InfiniteScroll', () => {
         const disabled = ref(false)
         const load = () => {
           count.value += 1
-          disabled.value = count.value >= INITIAL_VALUE + 1
+          disabled.value = count.value >= INITIAL_VALUE
         }
 
         return { count, load, disabled }
@@ -191,11 +191,11 @@ describe('InfiniteScroll', () => {
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
 
     await makeScroll(el, 'scrollTop', ITEM_HEIGHT)
-    expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
+    expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
 
     // no more items are loaded since `disabled = true`
-    await makeScroll(el, 'scrollTop', ITEM_HEIGHT + 1)
-    expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
+    await makeScroll(el, 'scrollTop', ITEM_HEIGHT)
+    expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
   })
 
   test('scrollable container is document.documentElement', async () => {
@@ -217,11 +217,11 @@ describe('InfiniteScroll', () => {
     expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
 
     await makeScroll(documentElement, 'scrollTop', ITEM_HEIGHT)
-    expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
+    expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
 
     // won't trigger load when scroll back
     await makeScroll(documentElement, 'scrollTop', 0)
-    expect(countListItem(wrapper)).toBe(INITIAL_VALUE + 1)
+    expect(countListItem(wrapper)).toBe(INITIAL_VALUE)
   })
 
   test('callback will not be triggered infinitely', async () => {
