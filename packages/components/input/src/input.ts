@@ -160,7 +160,7 @@ export const inputProps = buildProps({
     default: true,
   },
   /**
-   * @description maxlength
+   * @description the max length
    */
   maxlength: {
     type: [String, Number],
