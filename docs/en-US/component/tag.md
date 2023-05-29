@@ -101,7 +101,6 @@ tag/checkable
 | ---- | ------------------------- |
 | —    | customize default content |
 
-
 ## CheckTag API
 
 ### CheckTag Attributes
