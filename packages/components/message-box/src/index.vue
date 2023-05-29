@@ -165,7 +165,6 @@ import {
   useDraggable,
   useId,
   useLockscreen,
-  useRestoreActive,
   useSameTarget,
 } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
@@ -473,9 +472,6 @@ export default defineComponent({
     if (props.lockScroll) {
       useLockscreen(visible)
     }
-
-    // restore to prev active element.
-    useRestoreActive(visible)
 
     return {
       ...toRefs(state),
