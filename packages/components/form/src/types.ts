@@ -53,6 +53,7 @@ export interface FormItemContext extends FormItemProps {
   isGroup: boolean
   labelId: string
   inputIds: string[]
+  validateMessage: string
   hasLabel: boolean
   addInputId: (id: string) => void
   removeInputId: (id: string) => void

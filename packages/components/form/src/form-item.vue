@@ -379,6 +379,7 @@ const context: FormItemContext = reactive({
   inputIds,
   isGroup,
   hasLabel,
+  validateMessage,
   addInputId,
   removeInputId,
   resetField,
