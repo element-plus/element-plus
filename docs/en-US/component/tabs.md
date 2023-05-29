@@ -100,9 +100,10 @@ tabs/customized-trigger
 
 ## Tabs Slots
 
-| Name | Description               | Subtags  |
-| ---- | ------------------------- | -------- |
-| -    | customize default content | Tab-pane |
+| Name    | Description               | Subtags  |
+| ------- | ------------------------- | -------- |
+| -       | customize default content | Tab-pane |
+| addIcon | customize add button icon | -        |
 
 ## Tab-pane Attributes
 

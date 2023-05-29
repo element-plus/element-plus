@@ -186,6 +186,7 @@ export default defineComponent({
     })
 
     return () => {
+      const addSlot = slots.addIcon
       const newButton =
         props.editable || props.addable ? (
           <span
@@ -196,9 +197,13 @@ export default defineComponent({
               if (ev.code === EVENT_CODE.enter) handleTabAdd()
             }}
           >
-            <ElIcon class={ns.is('icon-plus')}>
-              <Plus />
-            </ElIcon>
+            {addSlot ? (
+              renderSlot(slots, 'addIcon')
+            ) : (
+              <ElIcon class={ns.is('icon-plus')}>
+                <Plus />
+              </ElIcon>
+            )}
           </span>
         ) : null
 
