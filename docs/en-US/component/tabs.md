@@ -67,6 +67,14 @@ tabs/dynamic-tabs
 
 :::
 
+## Customized add button icon
+
+:::demo
+
+tabs/customized-add-button-icon
+
+:::
+
 ## Customized trigger button of new tab
 
 :::demo
