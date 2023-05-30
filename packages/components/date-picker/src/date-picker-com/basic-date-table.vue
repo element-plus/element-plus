@@ -83,7 +83,8 @@ const WEEKS_CONSTANT = props.date
 
 const offsetDay = computed(() => {
   // Sunday 7(0), cal the left and right offset days, 3217654, such as Monday is -1, the is to adjust the position of the first two rows of dates
-  return firstDayOfWeek > 3 ? 7 - firstDayOfWeek : -firstDayOfWeek
+  const offset = firstDayOfWeek > 3 ? 7 - firstDayOfWeek : -firstDayOfWeek
+  return offset < 0 ? 7 + offset : offset
 })
 
 const startDate = computed(() => {
@@ -236,7 +237,7 @@ const rows = computed(() => {
     now: dayjs().locale(unref(lang)).startOf(dateUnit),
     unit: dateUnit,
     relativeDateGetter: (idx: number) =>
-      startDate.value.add(idx - offset, dateUnit),
+      startDate.value.add(idx - (offset < 0 ? 7 + offset : offset), dateUnit),
     setCellMetadata: (...args) => {
       if (setCellMetadata(...args, count)) {
         count += 1

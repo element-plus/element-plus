@@ -1034,6 +1034,38 @@ describe('DatePicker keyboard events', () => {
   })
 })
 
+describe('DatePicker date weekStart', () => {
+  vi.setSystemTime(new Date(2023, 5, 1))
+  it('create', async () => {
+    dayjs.en.weekStart = 2
+    const wrapper = _mount(
+      `<el-date-picker
+    v-model="value"
+  />`,
+      () => ({ value: new Date(2023, 5, 1) })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const td = document.querySelectorAll(
+      '.el-date-table__row .available'
+    ) as NodeListOf<HTMLElement>
+    const vm = wrapper.vm as any
+    // Check offset check calculation
+    td[2].click()
+    await nextTick()
+    expect(vm.value.getDate()).toBe(3)
+    // Check to see if today's flag is ok
+    const today = document.querySelector(
+      '.el-date-table__row .available.today'
+    ) as HTMLElement
+    today.click()
+    await nextTick()
+    expect(vm.value.getDate()).toBe(31)
+  })
+})
+
 describe('DateRangePicker', () => {
   it('create & custom class & style', async () => {
     let calendarChangeValue = null
