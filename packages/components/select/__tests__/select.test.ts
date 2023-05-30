@@ -7,6 +7,7 @@ import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import { ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -1223,6 +1224,7 @@ describe('Select', () => {
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalled()
     await input.trigger('blur')
+    await sleep(0)
     expect(handleBlur).toHaveBeenCalled()
   })
 
@@ -1249,6 +1251,7 @@ describe('Select', () => {
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalled()
     await input.trigger('blur')
+    await sleep(0)
     expect(handleBlur).toHaveBeenCalled()
   })
 
