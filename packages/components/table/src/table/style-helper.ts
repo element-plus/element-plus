@@ -309,16 +309,12 @@ function useStyle<T>(
     }
     if (props.maxHeight) {
       if (!Number.isNaN(Number(props.maxHeight))) {
-        const maxHeight = props.maxHeight
-        const reachMaxHeight = tableScrollHeight.value >= Number(maxHeight)
-        if (reachMaxHeight) {
-          return {
-            maxHeight: `${
-              tableScrollHeight.value -
-              headerScrollHeight.value -
-              footerScrollHeight.value
-            }px`,
-          }
+        return {
+          maxHeight: `${
+            props.maxHeight -
+            headerScrollHeight.value -
+            footerScrollHeight.value
+          }px`,
         }
       } else {
         return {
