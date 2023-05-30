@@ -1035,7 +1035,7 @@ describe('DatePicker keyboard events', () => {
 })
 
 describe('DatePicker date weekStart', () => {
-  vi.setSystemTime(new Date(2023, 5, 1))
+  vi.setSystemTime(new Date(2023, 5, 31))
   it('create', async () => {
     dayjs.en.weekStart = 2
     const wrapper = _mount(

@@ -237,7 +237,7 @@ const rows = computed(() => {
     now: dayjs().locale(unref(lang)).startOf(dateUnit),
     unit: dateUnit,
     relativeDateGetter: (idx: number) =>
-      startDate.value.add(idx - (offset < 0 ? 7 + offset : offset), dateUnit),
+      startDate.value.add(idx - offset, dateUnit),
     setCellMetadata: (...args) => {
       if (setCellMetadata(...args, count)) {
         count += 1
