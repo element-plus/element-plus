@@ -103,7 +103,6 @@ const afterEnter = () => {
 }
 
 const afterLeave = () => {
-  emit('update:visible', false)
   emit('after-leave')
 }
 
