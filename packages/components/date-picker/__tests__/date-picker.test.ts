@@ -1035,14 +1035,14 @@ describe('DatePicker keyboard events', () => {
 })
 
 describe('DatePicker date weekStart', () => {
-  vi.setSystemTime(new Date(2023, 5, 31))
+  vi.setSystemTime(new Date(2023, 4, 31))
   it('create', async () => {
     dayjs.en.weekStart = 2
     const wrapper = _mount(
       `<el-date-picker
     v-model="value"
   />`,
-      () => ({ value: new Date(2023, 5, 1) })
+      () => ({ value: new Date(2023, 4, 1) })
     )
     const input = wrapper.find('input')
     input.trigger('blur')
