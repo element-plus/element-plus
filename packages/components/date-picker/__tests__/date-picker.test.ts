@@ -1064,12 +1064,16 @@ describe('DatePicker date weekStart', () => {
     ) as HTMLElement
     today.click()
     await nextTick()
+    const curDate = new Date()
+    console.log('before', curDate, curDate.getDate())
     expect(vm.value.getDate()).toBe(31)
     vi.useRealTimers()
   })
 })
 
 describe('DateRangePicker', () => {
+  const curDate = new Date()
+  console.log('after', curDate, curDate.getDate())
   it('create & custom class & style', async () => {
     let calendarChangeValue = null
     const changeHandler = vi.fn()
