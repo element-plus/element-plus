@@ -1036,9 +1036,6 @@ describe('DatePicker keyboard events', () => {
 
 describe('DatePicker date weekStart', () => {
   it('create', async () => {
-    const date = new Date(2023, 4, 31)
-    vi.useFakeTimers()
-    vi.setSystemTime(date)
     dayjs.en.weekStart = 2
     const wrapper = _mount(
       `<el-date-picker
@@ -1065,15 +1062,11 @@ describe('DatePicker date weekStart', () => {
     today.click()
     await nextTick()
     const curDate = new Date()
-    console.log('before', curDate, curDate.getDate())
-    expect(vm.value.getDate()).toBe(31)
-    vi.useRealTimers()
+    expect(vm.value.getDate()).toBe(curDate.getDate())
   })
 })
 
 describe('DateRangePicker', () => {
-  const curDate = new Date()
-  console.log('after', curDate, curDate.getDate())
   it('create & custom class & style', async () => {
     let calendarChangeValue = null
     const changeHandler = vi.fn()
