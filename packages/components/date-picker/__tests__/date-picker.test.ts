@@ -1064,6 +1064,7 @@ describe('DatePicker date weekStart', () => {
     await nextTick()
     expect(vm.value.getDate()).toBe(31)
   })
+  vi.setSystemTime(new Date())
 })
 
 describe('DateRangePicker', () => {
