@@ -505,7 +505,7 @@ const updateStyle = () => {
     const { offsetHeight } = tagWrapperEl
     const height =
       presentTags.value.length > 0
-        ? `${Math.max(offsetHeight + 6, inputInitialHeight)}px`
+        ? `${Math.max(offsetHeight + 2, inputInitialHeight)}px`
         : `${inputInitialHeight}px`
     inputInner.style.height = height
     updatePopperPosition()
