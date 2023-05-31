@@ -377,7 +377,9 @@ onMounted(() => {
 })
 
 defineExpose({
-  /** @description manually switch image */
+  /**
+   * @description manually switch image
+   */
   setActiveItem,
 })
 </script>
