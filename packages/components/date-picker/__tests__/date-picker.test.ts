@@ -1034,39 +1034,6 @@ describe('DatePicker keyboard events', () => {
   })
 })
 
-describe('DatePicker date weekStart', () => {
-  vi.setSystemTime(new Date(2023, 4, 31))
-  it('create', async () => {
-    dayjs.en.weekStart = 2
-    const wrapper = _mount(
-      `<el-date-picker
-    v-model="value"
-  />`,
-      () => ({ value: new Date(2023, 4, 1) })
-    )
-    const input = wrapper.find('input')
-    input.trigger('blur')
-    input.trigger('focus')
-    await nextTick()
-    const td = document.querySelectorAll(
-      '.el-date-table__row .available'
-    ) as NodeListOf<HTMLElement>
-    const vm = wrapper.vm as any
-    // Check offset check calculation
-    td[2].click()
-    await nextTick()
-    expect(vm.value.getDate()).toBe(3)
-    // Check to see if today's flag is ok
-    const today = document.querySelector(
-      '.el-date-table__row .available.today'
-    ) as HTMLElement
-    today.click()
-    await nextTick()
-    expect(vm.value.getDate()).toBe(31)
-  })
-  vi.setSystemTime(new Date())
-})
-
 describe('DateRangePicker', () => {
   it('create & custom class & style', async () => {
     let calendarChangeValue = null
@@ -1592,5 +1559,37 @@ describe('MonthRange', () => {
     ;(document.querySelector('td.available') as HTMLElement).click()
     await nextTick()
     expect(pickHandler).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('DatePicker date weekStart', () => {
+  vi.setSystemTime(new Date(2023, 4, 31))
+  it('create', async () => {
+    dayjs.en.weekStart = 2
+    const wrapper = _mount(
+      `<el-date-picker
+    v-model="value"
+  />`,
+      () => ({ value: new Date(2023, 4, 1) })
+    )
+    const input = wrapper.find('input')
+    input.trigger('blur')
+    input.trigger('focus')
+    await nextTick()
+    const td = document.querySelectorAll(
+      '.el-date-table__row .available'
+    ) as NodeListOf<HTMLElement>
+    const vm = wrapper.vm as any
+    // Check offset check calculation
+    td[2].click()
+    await nextTick()
+    expect(vm.value.getDate()).toBe(3)
+    // Check to see if today's flag is ok
+    const today = document.querySelector(
+      '.el-date-table__row .available.today'
+    ) as HTMLElement
+    today.click()
+    await nextTick()
+    expect(vm.value.getDate()).toBe(31)
   })
 })
