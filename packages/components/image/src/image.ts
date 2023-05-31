@@ -11,10 +11,7 @@ export const imageProps = buildProps({
   /**
    * @description when enabling preview, use this flag to control whether clicking on backdrop can exit preview mode.
    */
-  hideOnClickModal: {
-    type: Boolean,
-    default: false,
-  },
+  hideOnClickModal: Boolean,
   /**
    * @description image source, same as native.
    */
@@ -40,10 +37,7 @@ export const imageProps = buildProps({
   /**
    * @description whether to use lazy load.
    */
-  lazy: {
-    type: Boolean,
-    default: false,
-  },
+  lazy: Boolean,
   /**
    * @description the container to add scroll listener when using lazy load.
    */
@@ -60,10 +54,7 @@ export const imageProps = buildProps({
   /**
    * @description whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`.
    */
-  previewTeleported: {
-    type: Boolean,
-    default: false,
-  },
+  previewTeleported: Boolean,
   /**
    * @description set image preview z-index.
    */

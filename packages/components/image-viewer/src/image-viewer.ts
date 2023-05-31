@@ -45,17 +45,11 @@ export const imageViewerProps = buildProps({
   /**
    * @description whether user can emit close event when clicking backdrop.
    */
-  hideOnClickModal: {
-    type: Boolean,
-    default: false,
-  },
+  hideOnClickModal: Boolean,
   /**
    * @description whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true`.
    */
-  teleported: {
-    type: Boolean,
-    default: false,
-  },
+  teleported: Boolean,
   /**
    * @description whether the image-viewer can be closed by pressing ESC.
    */
