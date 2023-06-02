@@ -11,7 +11,7 @@ export const useBackTop = (
 ) => {
   const el = shallowRef<HTMLElement>()
   const container = shallowRef<Document | HTMLElement>()
-  const visible = ref(false)
+  const visible = ref(props.visibilityHeight <= 0)
 
   const handleScroll = () => {
     if (el.value) visible.value = el.value.scrollTop >= props.visibilityHeight
