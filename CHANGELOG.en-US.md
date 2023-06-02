@@ -1,5 +1,22 @@
 ## Changelog
 
+### 2.3.6
+
+_2023-06-02_
+
+#### Bug fixes
+
+- Components [popper] prioritise user's popper-style (#12833 by @Lionad-Morotar)
+- Components [select-v2] Fix border color error (#12755 by @baiwusanyu-c)
+- Components [notification] fix props.zIndex lose efficacy bug (#12474 by @Ganlvin)
+- Components [select] optimize the triggering of blur event (#11524 by @tolking)
+- Components [table] maxHeight shark (#12349 by @chenxch)
+- Components [steps] preserve the order of subcomponents (#12896 by @makedopamine)
+
+#### Refactors
+
+- Components [message-box] remove useRestoreActive (#11646 by @tolking)
+
 ### 2.3.5
 
 _2023-05-19_
