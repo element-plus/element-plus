@@ -371,8 +371,11 @@ const onceInitSizeTextarea = createOnceInitResize(resizeTextarea)
 
 const setNativeInputValue = () => {
   const input = _ref.value
-  if (!input || input.value === nativeInputValue.value) return
-  input.value = nativeInputValue.value
+  const formatterValue = props.formatter
+    ? props.formatter(nativeInputValue.value)
+    : nativeInputValue.value
+  if (!input || input.value === formatterValue) return
+  input.value = formatterValue
 }
 
 const handleInput = async (event: Event) => {
@@ -382,7 +385,6 @@ const handleInput = async (event: Event) => {
 
   if (props.formatter) {
     value = props.parser ? props.parser(value) : value
-    value = props.formatter(value)
   }
 
   // should not emit input during composition
