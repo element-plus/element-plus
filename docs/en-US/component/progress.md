@@ -95,7 +95,7 @@ progress/striped-progress
 | show-text      | whether to show percentage                                                            | ^[boolean]                                                                                                  | true    |
 | stroke-linecap | circle/dashboard type shape at the end path                                           | ^[enum]`'butt' \| 'round' \| 'square'`                                                                      | round   |
 | format         | custom text format                                                                    | ^[Function]`(percentage: number) => string`                                                                 | —       |
-| striped        | stripe over the progress bar's color                                                  | ^[boolean]                                                                                                  | false   |
+| striped ^(2.3.4)       | stripe over the progress bar's color                                                  | ^[boolean]                                                                                                  | false   |
 | striped-flow   | get the stripes to flow                                                               | ^[boolean]                                                                                                  | false   |
 
 ### Slots
