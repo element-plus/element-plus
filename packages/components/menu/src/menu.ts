@@ -250,7 +250,7 @@ export default defineComponent({
       items.forEach((item, index) => {
         calcWidth += item.offsetWidth || 0
         if (calcWidth <= menuWidth - moreItemWidth) {
-          sliceIndex = index + 1
+          sliceIndex = index
         }
       })
       return sliceIndex === items.length ? -1 : sliceIndex
