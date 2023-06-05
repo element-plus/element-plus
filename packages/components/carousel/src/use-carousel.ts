@@ -247,9 +247,12 @@ export const useCarousel = (
       () => items.value,
       () => {
         if (items.value.length > 0) setActiveItem(props.initialIndex)
+      },
+      {
+        immediate: true,
       }
     )
-    setActiveItem(props.initialIndex)
+
     resizeObserver.value = useResizeObserver(root.value, () => {
       resetItemPosition()
     })
