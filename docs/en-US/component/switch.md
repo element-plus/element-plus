@@ -105,7 +105,6 @@ switch/prevent-switching
 | before-change                | before-change hook before the switch state changes. If `false` is returned or a `Promise` is returned and then is rejected, will stop switching | ^[boolean] / ^[Function]`() => Promise<boolean>` | —       |
 | id                           | id for input                                                                                                                                    | ^[string]                                        | —       |
 | tabindex                     | tabindex for input                                                                                                                              | ^[string] / ^[number]                            | —       |
-| value ^(deprecated)          | binding value ( deprecated, use `model-value / v-model` instead )                                                                               | ^[boolean] / ^[string] / ^[number]               | false   |
 
 ### Events
 
