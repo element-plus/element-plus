@@ -72,6 +72,7 @@
             border="0"
             :style="{
               width: bodyWidth,
+              overflow: hidden,
               tableLayout,
             }"
           >
