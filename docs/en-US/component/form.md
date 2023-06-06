@@ -37,7 +37,7 @@ To prevent this behavior, you can add `@submit.prevent` on `<el-form>`.
 
 When the vertical space is limited and the form is relatively simple, you can put it in one line.
 
-:::demo Set the `inline` attribute to `true` and the form will be inline.
+:::demo Set the `inline` attribute to `true` and the form will be inline. After ^(2.3.6), the ElInput component will get a fixed width to avoid the width change caused by the clearable icon.
 
 form/inline-form
 
