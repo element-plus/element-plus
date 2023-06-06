@@ -71,6 +71,7 @@
             cellpadding="0"
             border="0"
             :style="{
+              overflow: 'hidden',
               width: bodyWidth,
               tableLayout,
             }"
