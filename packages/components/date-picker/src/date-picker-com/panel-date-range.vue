@@ -244,7 +244,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, inject, ref, toRef, unref, useAttrs, watch } from 'vue'
+import { computed, inject, ref, toRef, unref, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ClickOutside as vClickoutside } from '@element-plus/directives'
 import { isArray } from '@element-plus/utils'
@@ -322,11 +322,10 @@ const {
   onParsedValueChanged,
 })
 
-const attrs = useAttrs()
 watch(
-  () => attrs.visible,
+  () => props.visible,
   (visible) => {
-    if (visible) {
+    if (!visible) {
       onReset(props.parsedValue)
       onSelect(false)
     }
