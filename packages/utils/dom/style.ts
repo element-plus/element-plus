@@ -1,5 +1,5 @@
-import { isClient } from '@vueuse/core'
 import { isNumber, isObject, isString, isStringNumber } from '../types'
+import { isClient } from '../browser'
 import { camelize } from '../strings'
 import { entriesOf, keysOf } from '../objects'
 import { debugWarn } from '../error'

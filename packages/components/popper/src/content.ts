@@ -30,15 +30,24 @@ export const popperCoreConfigProps = buildProps({
     type: Boolean,
     default: true,
   },
+  /**
+   * @description offset of the Tooltip
+   */
   offset: {
     type: Number,
     default: 12,
   },
+  /**
+   * @description position of Tooltip
+   */
   placement: {
     type: String,
     values: placements,
     default: 'bottom',
   },
+  /**
+   * @description [popper.js](https://popper.js.org/docs/v2/) parameters
+   */
   popperOptions: {
     type: definePropType<Partial<Options>>(Object),
     default: () => ({}),

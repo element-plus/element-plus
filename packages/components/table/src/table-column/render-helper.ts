@@ -152,10 +152,13 @@ function useRender<T>(
         } else {
           children = originRenderCell(data)
         }
+
+        const { columns } = owner.value.store.states
+        const firstUserColumnIndex = columns.value.findIndex(
+          (item) => item.type === 'default'
+        )
         const shouldCreatePlaceholder =
-          hasTreeColumn.value &&
-          data.cellIndex === 0 &&
-          data.column.type !== 'selection'
+          hasTreeColumn.value && data.cellIndex === firstUserColumnIndex
         const prefix = treeCellPrefix(data, shouldCreatePlaceholder)
         const props = {
           class: 'cell',
