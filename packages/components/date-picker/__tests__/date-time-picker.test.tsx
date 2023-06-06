@@ -5,6 +5,8 @@ import dayjs from 'dayjs'
 import triggerEvent from '@element-plus/test-utils/trigger-event'
 import { ElFormItem } from '@element-plus/components/form'
 import DatePicker from '../src/date-picker'
+import type DatePickerRange from '../src/date-picker-com/panel-date-range.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import type { VNode } from 'vue'
 
 const formatStr = 'YYYY-MM-DD HH:mm:ss'
@@ -542,8 +544,11 @@ describe('Datetimerange', () => {
     expect(btn.getAttribute('disabled')).not.toBeUndefined() // invalid input disables button
     btn.click()
     await nextTick()
-    const rangePanel = document.querySelector('.el-date-range-picker')!
-    expect(rangePanel.getAttribute('visible')).toBe('true') // popper still open
+    const rangePanelWrapper = wrapper.findComponent(
+      '.el-date-range-picker'
+    ) as VueWrapper<InstanceType<typeof DatePickerRange>>
+    expect(rangePanelWrapper.exists()).toBe(true)
+    expect(rangePanelWrapper.vm.visible).toBe(true) // popper still open
     expect(value.value).toBe('')
     leftDateInput.value = '2001-09-01'
     triggerEvent(leftDateInput, 'input', true)
@@ -552,7 +557,7 @@ describe('Datetimerange', () => {
     expect(btn.getAttribute('disabled')).not.toBeUndefined()
     btn.click()
     await nextTick()
-    expect(rangePanel.getAttribute('visible')).toBe('false') // popper dismiss
+    expect(rangePanelWrapper.vm.visible).toBe(false) // popper dismiss
     expect(value.value).not.toBe('')
   })
 
