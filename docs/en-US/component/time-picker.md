@@ -49,23 +49,23 @@ time-picker/range
 
 | Name                  | Description                                              | Type                                                                                            | Default     |
 | --------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------- |
-| model-value / v-model | binding value, if it is an array, the length should be 2 | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [number, number] \| [string, string]` | —           |
+| model-value / v-model | binding value, if it is an array, the length should be 2 | ^[number] / ^[string] / ^[object]`Date \| [Date, Date] \| [number, number] \| [string, string]` | ''          |
 | readonly              | whether TimePicker is read only                          | ^[boolean]                                                                                      | false       |
 | disabled              | whether TimePicker is disabled                           | ^[boolean]                                                                                      | false       |
 | editable              | whether the input is editable                            | ^[boolean]                                                                                      | true        |
 | clearable             | whether to show clear button                             | ^[boolean]                                                                                      | true        |
 | size                  | size of Input                                            | ^[enum]`'large' \| 'default' \| 'small'`                                                        | —           |
-| placeholder           | placeholder in non-range mode                            | ^[string]                                                                                       | —           |
+| placeholder           | placeholder in non-range mode                            | ^[string]                                                                                       | ''          |
 | start-placeholder     | placeholder for the start time in range mode             | ^[string]                                                                                       | —           |
 | end-placeholder       | placeholder for the end time in range mode               | ^[string]                                                                                       | —           |
 | is-range              | whether to pick a time range                             | ^[boolean]                                                                                      | false       |
 | arrow-control         | whether to pick time using arrow buttons                 | ^[boolean]                                                                                      | false       |
-| popper-class          | custom class name for TimePicker's dropdown              | ^[string]                                                                                       | —           |
+| popper-class          | custom class name for TimePicker's dropdown              | ^[string]                                                                                       | ''          |
 | range-separator       | range separator                                          | ^[string]                                                                                       | '-'         |
 | format                | format of the displayed value in the input box           | ^[string] see [date formats](/en-US/component/date-picker#date-formats)                         | —           |
-| default-value         | optional, default date of the calendar                   | ^[Date] / ^[array]`[Date, Date]`                                                                | —           |
-| id                    | same as `id` in native input                             | ^[string] / ^[array]`[string, string]`                                                          | —           |
-| name                  | same as `name` in native input                           | ^[string]                                                                                       | —           |
+| default-value         | optional, default date of the calendar                   | ^[Date] / ^[object]`[Date, Date]`                                                               | —           |
+| id                    | same as `id` in native input                             | ^[string] / ^[object]`[string, string]`                                                         | —           |
+| name                  | same as `name` in native input                           | ^[string]                                                                                       | ''          |
 | label ^(a11y)         | same as `aria-label` in native input                     | ^[string]                                                                                       | —           |
 | prefix-icon           | Custom prefix icon component                             | ^[string] / ^[Component]                                                                        | Clock       |
 | clear-icon            | Custom clear icon component                              | ^[string] / ^[Component]                                                                        | CircleClose |
