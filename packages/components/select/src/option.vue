@@ -86,7 +86,7 @@ export default defineComponent({
 
     function selectOptionClick() {
       if (props.disabled !== true && states.groupDisabled !== true) {
-        select.handleOptionSelect(vm, true)
+        select.handleOptionSelect(vm)
       }
     }
 
