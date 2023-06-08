@@ -122,6 +122,9 @@
         height: 100%;
         border-bottom: 2px solid transparent;
         color: getCssVar('menu-text-color');
+        padding-right: calc(
+          #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
+        );
 
         &:hover {
           background-color: getCssVar('bg-color', 'overlay');
@@ -250,9 +253,6 @@
 
   @include e(title) {
     @include menu-item;
-    padding-right: calc(
-      #{getCssVar('menu-base-level-padding')} + #{getCssVar('menu-icon-width')}
-    );
 
     &:hover {
       background-color: getCssVar('menu-hover-bg-color');
