@@ -813,7 +813,6 @@ export const useSelect = (props, states: States, ctx) => {
         ignoreFocusEvent = true
         return
       }
-      states.visible && handleClose()
       ctx.emit('blur', event)
     })
   }
