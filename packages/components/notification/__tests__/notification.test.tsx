@@ -81,12 +81,17 @@ describe('Notification.vue', () => {
     })
 
     test('should be able to render z-index style with zIndex flag', async () => {
-      const wrapper = _mount({})
+      const wrapper = _mount({
+        props: {
+          zIndex: 9999,
+        },
+      })
       await nextTick()
 
       expect(wrapper.vm.positionStyle).toEqual(
         expect.objectContaining({
           top: '0px',
+          zIndex: 9999,
         })
       )
     })
