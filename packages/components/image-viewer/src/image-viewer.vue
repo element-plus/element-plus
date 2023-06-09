@@ -170,20 +170,11 @@ const imgStyle = computed(() => {
   let translateX = offsetX / scale
   let translateY = offsetY / scale
 
-  switch (deg % 360) {
-    case 90:
-    case -270:
-      ;[translateX, translateY] = [translateY, -translateX]
-      break
-    case 180:
-    case -180:
-      ;[translateX, translateY] = [-translateX, -translateY]
-      break
-    case 270:
-    case -90:
-      ;[translateX, translateY] = [-translateY, translateX]
-      break
-  }
+  const radian = (deg * Math.PI) / 180
+  const cosRadian = Math.cos(radian)
+  const sinRadian = Math.sin(radian)
+  translateX = translateX * cosRadian + translateY * sinRadian
+  translateY = translateY * cosRadian - (offsetX / scale) * sinRadian
 
   const style: CSSProperties = {
     transform: `scale(${scale}) rotate(${deg}deg) translate(${translateX}px, ${translateY}px)`,
