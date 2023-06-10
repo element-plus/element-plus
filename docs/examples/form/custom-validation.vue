@@ -73,18 +73,13 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
   }
 }
 
-interface RuleForm {
-  pass: string
-  checkPass: string
-  age: string
-}
-const ruleForm = reactive<RuleForm>({
+const ruleForm = reactive({
   pass: '',
   checkPass: '',
   age: '',
 })
 
-const rules = reactive<FormRules<RuleForm>>({
+const rules = reactive<FormRules<typeof ruleForm>>({
   pass: [{ validator: validatePass, trigger: 'blur' }],
   checkPass: [{ validator: validatePass2, trigger: 'blur' }],
   age: [{ validator: checkAge, trigger: 'blur' }],
