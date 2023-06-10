@@ -364,8 +364,24 @@ export function createTablePopper(
     arrow.className = `${ns}-popper__arrow`
     return arrow
   }
+  function togglePopperShow(display: 'none' | 'block') {
+    return {
+      name: 'updateState',
+      enabled: true,
+      phase: 'beforeWrite',
+      fn: ({ state }) => {
+        state.styles.popper.display = display
+      },
+      requires: ['computeStyles'],
+    }
+  }
   function showPopper() {
-    popperInstance && popperInstance.update()
+    if (tooltipOptions.showAfter) {
+      popperInstance?.setOptions({
+        modifiers: [togglePopperShow('block')],
+      })
+    }
+    popperInstance?.update()
   }
   removePopper?.()
   removePopper = () => {
@@ -411,6 +427,9 @@ export function createTablePopper(
       },
     })
   }
+  if (tooltipOptions.showAfter) {
+    modifiers.push(togglePopperShow('none'))
+  }
   const popperOptions = tooltipOptions.popperOptions || {}
   popperInstance = createPopper(trigger, content, {
     placement: tooltipOptions.placement || 'top',
@@ -423,6 +442,7 @@ export function createTablePopper(
   trigger.addEventListener('mouseenter', onOpen)
   trigger.addEventListener('mouseleave', onClose)
   scrollContainer?.addEventListener('scroll', removePopper)
+  onOpen()
   return popperInstance
 }
 
