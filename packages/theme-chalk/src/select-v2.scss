@@ -10,6 +10,8 @@
 @use './select/common.scss' as *;
 
 $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
+$tag-w-gap: 6px;
+$prefix-content-gap: 6px;
 
 @include b(select-v2) {
   @include set-component-css-var('select', $select);
@@ -24,11 +26,11 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
   @include e(wrapper) {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     position: relative;
     box-sizing: border-box;
     cursor: pointer;
-    padding: 1px 30px 1px 0;
+    padding: 1px 30px 1px $input-inline-start;
     border: 1px solid getCssVar('border-color');
     border-radius: getCssVar('border-radius-base');
     background-color: getCssVar('fill-color', 'blank');
@@ -84,7 +86,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     #{$selector}__input-wrapper {
       box-sizing: border-box;
       position: relative;
-      margin-inline-start: $input-inline-start;
+      margin-inline-start: 0;
       max-width: 100%;
       overflow: hidden;
     }
@@ -218,6 +220,13 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     }
   }
 
+  @include e(prefix) {
+    & + .#{$namespace}-select-v2__selection,
+    & + .#{$namespace}-select-v2__selected-item {
+      margin-inline-start: $prefix-content-gap;
+    }
+  }
+
   @include e(suffix) {
     display: inline-flex;
     position: absolute;
@@ -303,7 +312,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    margin-inline-start: $input-inline-start;
+    margin-inline-start: 0;
     width: calc(100% - 52px);
     @include utils-ellipsis;
     color: var(
@@ -318,7 +327,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
   .#{$namespace}-select-v2__selection .#{$namespace}-tag {
     box-sizing: border-box;
     border-color: transparent;
-    margin: 2px 0 2px 6px;
+    margin: 2px $tag-w-gap 2px 0;
     background-color: getCssVar('fill-color');
 
     .#{$namespace}-icon-close {
@@ -339,7 +348,7 @@ $input-inline-start: map.get($input-padding-horizontal, 'default') !default;
 
   &.#{$namespace}-select-v2--small {
     .#{$namespace}-select-v2__selection .#{$namespace}-tag {
-      margin: 1px 0 1px 6px;
+      margin: 1px 0 1px $tag-w-gap;
       height: 18px;
     }
   }

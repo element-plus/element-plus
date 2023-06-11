@@ -36,10 +36,19 @@
             nsSelectV2.is('disabled', selectDisabled),
           ]"
         >
-          <div v-if="$slots.prefix">
+          <div v-if="$slots.prefix" :class="nsSelectV2.e('prefix')">
             <slot name="prefix" />
           </div>
           <div v-if="multiple" :class="nsSelectV2.e('selection')">
+            <span
+              v-if="shouldShowPlaceholder"
+              :class="[
+                nsSelectV2.e('placeholder'),
+                nsSelectV2.is('transparent', modelValue.length === 0),
+              ]"
+            >
+              {{ currentPlaceholder }}
+            </span>
             <template v-if="collapseTags && modelValue.length > 0">
               <div
                 v-for="item in showTagList"
@@ -206,6 +215,18 @@
                 nsSelectV2.e('input-wrapper'),
               ]"
             >
+              <span
+                v-if="shouldShowPlaceholder"
+                :class="[
+                  nsSelectV2.e('placeholder'),
+                  nsSelectV2.is(
+                    'transparent',
+                    multiple ? modelValue.length === 0 : !hasModelValue
+                  ),
+                ]"
+              >
+                {{ currentPlaceholder }}
+              </span>
               <input
                 :id="id"
                 ref="inputRef"
@@ -248,18 +269,6 @@
               v-text="states.displayInputValue"
             />
           </template>
-          <span
-            v-if="shouldShowPlaceholder"
-            :class="[
-              nsSelectV2.e('placeholder'),
-              nsSelectV2.is(
-                'transparent',
-                multiple ? modelValue.length === 0 : !hasModelValue
-              ),
-            ]"
-          >
-            {{ currentPlaceholder }}
-          </span>
           <span :class="nsSelectV2.e('suffix')">
             <el-icon
               v-if="iconComponent"

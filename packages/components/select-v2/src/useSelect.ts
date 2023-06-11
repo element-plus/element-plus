@@ -210,6 +210,12 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const inputWrapperStyle = computed(() => {
+    if (!props.filterable) {
+      return {
+        width: 0,
+        marginLeft: 0,
+      }
+    }
     return {
       width: `${
         states.calculatedWidth === 0
