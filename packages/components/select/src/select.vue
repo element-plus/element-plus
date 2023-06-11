@@ -43,12 +43,7 @@
               v-if="collapseTags && selected.length"
               @after-leave="resetInputHeight"
             >
-              <span
-                :class="[
-                  nsSelect.b('tags-wrapper'),
-                  { 'has-prefix': prefixWidth && selected.length },
-                ]"
-              >
+              <span :class="[nsSelect.b('tags-wrapper')]">
                 <el-tag
                   v-for="item in showTagList"
                   :key="getValueKey(item)"
@@ -119,12 +114,7 @@
               </span>
             </transition>
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
-              <span
-                :class="[
-                  nsSelect.b('tags-wrapper'),
-                  { 'has-prefix': prefixWidth && selected.length },
-                ]"
-              >
+              <span :class="[nsSelect.b('tags-wrapper')]">
                 <el-tag
                   v-for="item in selected"
                   :key="getValueKey(item)"
@@ -548,10 +538,20 @@ export default defineComponent({
       return classList
     })
 
-    const selectTagsStyle = computed(() => ({
-      maxWidth: `${unref(inputWidth) - 32}px`,
-      width: '100%',
-    }))
+    const selectTagsStyle = computed(() => {
+      const tagsGap = 6
+      const suffixWidth = 32
+      const inputWrapperPaddingLeft = 11
+      const marginLeft = ctx.slots.prefix
+        ? unref(prefixWidth) + tagsGap
+        : inputWrapperPaddingLeft
+
+      return {
+        marginLeft: `${marginLeft}px`,
+        width: '100%',
+        maxWidth: `${unref(inputWidth) - marginLeft + tagsGap - suffixWidth}px`,
+      } as CSSProperties
+    })
 
     const tagTextStyle = computed(() => {
       const maxWidth =
