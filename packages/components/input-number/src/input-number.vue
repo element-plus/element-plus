@@ -72,7 +72,13 @@ import {
 } from '@element-plus/components/form'
 import { vRepeatClick } from '@element-plus/directives'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { debugWarn, isNumber, isString, isUndefined } from '@element-plus/utils'
+import {
+  debugWarn,
+  isNumber,
+  isString,
+  isUndefined,
+  throwError,
+} from '@element-plus/utils'
 import { ArrowDown, ArrowUp, Minus, Plus } from '@element-plus/icons-vue'
 import {
   CHANGE_EVENT,
@@ -196,6 +202,9 @@ const verifyValue = (
   update?: boolean
 ): number | null | undefined => {
   const { max, min, step, precision, stepStrictly, valueOnClear } = props
+  if (max < min) {
+    throwError('InputNumber', 'min should not be greater than max.')
+  }
   let newVal = Number(value)
   if (isNil(value) || Number.isNaN(newVal)) {
     return null
