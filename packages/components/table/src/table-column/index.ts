@@ -68,7 +68,7 @@ export default defineComponent({
       const type = props.type || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
       const showOverflowTooltip =
-        parent.props.showOverflowTooltip || props.showOverflowTooltip
+        props.showOverflowTooltip || parent.props.showOverflowTooltip
       const defaults = {
         ...cellStarts[type],
         id: columnId.value,
