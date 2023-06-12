@@ -364,7 +364,7 @@ export function createTablePopper(
     arrow.className = `${ns}-popper__arrow`
     return arrow
   }
-  function togglePopperShow(display: 'none' | 'block') {
+  function togglePopperVisible(display: 'none' | 'block') {
     return {
       name: 'updateState',
       enabled: true,
@@ -378,7 +378,7 @@ export function createTablePopper(
   function showPopper() {
     if (tooltipOptions.showAfter) {
       popperInstance?.setOptions({
-        modifiers: [togglePopperShow('block')],
+        modifiers: [togglePopperVisible('block')],
       })
     }
     popperInstance?.update()
@@ -395,19 +395,17 @@ export function createTablePopper(
     } catch {}
   }
   let popperInstance: Nullable<PopperInstance> = null
-  let onOpen = showPopper
-  let onClose = removePopper
-  if (tooltipOptions.enterable) {
-    ;({ onOpen, onClose } = useDelayedToggle({
-      showAfter: tooltipOptions.showAfter,
-      hideAfter: tooltipOptions.hideAfter,
-      open: showPopper,
-      close: removePopper,
-    }))
-  }
+  const { onOpen, onClose } = useDelayedToggle({
+    showAfter: tooltipOptions.showAfter,
+    hideAfter: tooltipOptions.hideAfter,
+    open: showPopper,
+    close: removePopper,
+  })
   const content = renderContent()
-  content.onmouseenter = onOpen
-  content.onmouseleave = onClose
+  if (tooltipOptions.enterable) {
+    content.onmouseenter = onOpen
+    content.onmouseleave = onClose
+  }
   const modifiers = []
   if (tooltipOptions.offset) {
     modifiers.push({
@@ -428,7 +426,7 @@ export function createTablePopper(
     })
   }
   if (tooltipOptions.showAfter) {
-    modifiers.push(togglePopperShow('none'))
+    modifiers.push(togglePopperVisible('none'))
   }
   const popperOptions = tooltipOptions.popperOptions || {}
   popperInstance = createPopper(trigger, content, {
