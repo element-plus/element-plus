@@ -405,7 +405,7 @@ onMounted(() => {
     formContext?.addField(context)
     initialValue = clone(fieldValue.value)
   }
-  setTimeout(associatedElement)
+  nextTick(associatedElement)
 })
 
 onBeforeUnmount(() => {
