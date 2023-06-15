@@ -2,7 +2,7 @@
   <span
     v-if="disableTransitions"
     :class="containerKls"
-    :style="{ backgroundColor: color }"
+    :style="{ backgroundColor: color, verticalAlign: 'middle' }"
     @click="handleClick"
   >
     <span :class="ns.e('content')">
@@ -15,7 +15,7 @@
   <transition v-else :name="`${ns.namespace.value}-zoom-in-center`" appear>
     <span
       :class="containerKls"
-      :style="{ backgroundColor: color }"
+      :style="{ backgroundColor: color, verticalAlign: 'middle' }"
       @click="handleClick"
     >
       <span :class="ns.e('content')">
