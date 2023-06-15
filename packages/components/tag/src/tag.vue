@@ -5,9 +5,7 @@
     :style="{ backgroundColor: color }"
     @click="handleClick"
   >
-    <span :class="ns.e('content')">
-      <slot />
-    </span>
+    <slot />
     <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
       <Close />
     </el-icon>
@@ -18,9 +16,7 @@
       :style="{ backgroundColor: color }"
       @click="handleClick"
     >
-      <span :class="ns.e('content')">
-        <slot />
-      </span>
+      <slot />
       <el-icon v-if="closable" :class="ns.e('close')" @click.stop="handleClose">
         <Close />
       </el-icon>
