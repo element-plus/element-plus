@@ -3,10 +3,10 @@
 import { computed, defineComponent, h, onMounted, reactive, ref } from 'vue'
 import { pick } from 'lodash-unified'
 import ElSelect from '@element-plus/components/select'
-import ElTree from '@element-plus/components/tree'
 import { useSelect } from './select'
 import { useTree } from './tree'
 import CacheOptions from './cache-options'
+import type { TreeInstance } from '@element-plus/components/tree'
 
 export default defineComponent({
   name: 'ElTreeSelect',
@@ -27,7 +27,7 @@ export default defineComponent({
     const { slots, expose } = context
 
     const select = ref<InstanceType<typeof ElSelect>>()
-    const tree = ref<InstanceType<typeof ElTree>>()
+    const tree = ref<TreeInstance>()
 
     const key = computed(() => props.nodeKey || props.valueKey || 'value')
 

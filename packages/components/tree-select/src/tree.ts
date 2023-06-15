@@ -12,6 +12,7 @@ import {
   treeEach,
   treeFind,
 } from './utils'
+import type { TreeInstance } from '@element-plus/components/tree'
 import type { CacheOption } from './cache-options'
 import type { Ref } from 'vue'
 import type ElSelect from '@element-plus/components/select'
@@ -27,7 +28,7 @@ export const useTree = (
     key,
   }: {
     select: Ref<InstanceType<typeof ElSelect> | undefined>
-    tree: Ref<InstanceType<typeof ElTree> | undefined>
+    tree: Ref<TreeInstance | undefined>
     key: Ref<string>
   }
 ) => {
@@ -210,7 +211,7 @@ export const useTree = (
         if (props.multiple) {
           emit(
             UPDATE_MODEL_EVENT,
-            (tree.value as InstanceType<typeof ElTree>).getCheckedKeys(true)
+            (tree.value as TreeInstance).getCheckedKeys(true)
           )
         } else {
           // select first leaf node when check parent

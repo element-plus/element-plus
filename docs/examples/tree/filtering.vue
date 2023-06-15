@@ -13,14 +13,14 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
-import { ElTree } from 'element-plus'
+import { ElTree, type TreeInstance } from 'element-plus'
 
 interface Tree {
   [key: string]: any
 }
 
 const filterText = ref('')
-const treeRef = ref<InstanceType<typeof ElTree>>()
+const treeRef = ref<TreeInstance>()
 
 const defaultProps = {
   children: 'children',

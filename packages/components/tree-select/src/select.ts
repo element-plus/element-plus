@@ -4,7 +4,7 @@ import { pick } from 'lodash-unified'
 import ElSelect from '@element-plus/components/select'
 import { useNamespace } from '@element-plus/hooks'
 import type { Ref } from 'vue'
-import type ElTree from '@element-plus/components/tree'
+import type { TreeInstance } from '@element-plus/components/tree'
 
 export const useSelect = (
   props,
@@ -14,7 +14,7 @@ export const useSelect = (
     key,
   }: {
     select: Ref<InstanceType<typeof ElSelect> | undefined>
-    tree: Ref<InstanceType<typeof ElTree> | undefined>
+    tree: Ref<TreeInstance | undefined>
     key: Ref<string>
   }
 ) => {

@@ -6,7 +6,7 @@ import TreeSelect from '../src/tree-select.vue'
 import type { RenderFunction } from 'vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type ElSelect from '@element-plus/components/select'
-import type ElTree from '@element-plus/components/tree'
+import type { TreeInstance } from '@element-plus/components/tree'
 
 const createComponent = ({
   slots = {},
@@ -71,9 +71,7 @@ const createComponent = ({
     select: wrapper.findComponent({ name: 'ElSelect' }) as VueWrapper<
       InstanceType<typeof ElSelect>
     >,
-    tree: wrapper.findComponent({ name: 'ElTree' }) as VueWrapper<
-      InstanceType<typeof ElTree>
-    >,
+    tree: wrapper.findComponent({ name: 'ElTree' }) as VueWrapper<TreeInstance>,
   }
 }
 
