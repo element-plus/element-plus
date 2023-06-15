@@ -365,7 +365,19 @@ export function createTablePopper(
     return arrow
   }
   function showPopper() {
-    popperInstance && popperInstance.update()
+    if (popperInstance) {
+      popperInstance.update()
+      return
+    }
+    const popperOptions = tooltipOptions.popperOptions || {}
+    popperInstance = createPopper(trigger, content, {
+      placement: tooltipOptions.placement || 'top',
+      strategy: 'fixed',
+      ...popperOptions,
+      modifiers: popperOptions.modifiers
+        ? modifiers.concat(popperOptions.modifiers)
+        : modifiers,
+    })
   }
   removePopper?.()
   removePopper = () => {
@@ -411,16 +423,7 @@ export function createTablePopper(
       },
     })
   }
-  const popperOptions = tooltipOptions.popperOptions || {}
-  popperInstance = createPopper(trigger, content, {
-    placement: tooltipOptions.placement || 'top',
-    strategy: 'fixed',
-    ...popperOptions,
-    modifiers: popperOptions.modifiers
-      ? modifiers.concat(popperOptions.modifiers)
-      : modifiers,
-  })
-  trigger.addEventListener('mouseenter', onOpen)
+  trigger.addEventListener('mouseenter', onOpen, true)
   trigger.addEventListener('mouseleave', onClose)
   scrollContainer?.addEventListener('scroll', removePopper)
   return popperInstance
