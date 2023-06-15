@@ -138,7 +138,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 :::warning
 
-`custom-class` has been **deprecated**, and **will be** removed in ^(2.3.0), please use `class`.
+`custom-class` has been **deprecated**, and **will be** removed in ^(2.4.0), please use `class`.
 
 :::
 

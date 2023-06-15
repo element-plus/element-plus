@@ -23,6 +23,7 @@ interface TableRefs {
   fixedBodyWrapper: HTMLElement
   rightFixedBodyWrapper: HTMLElement
   bodyWrapper: HTMLElement
+  appendWrapper: HTMLElement
   [key: string]: any
 }
 

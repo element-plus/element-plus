@@ -552,6 +552,7 @@ $input: map.merge(
     'hover-border-color': getCssVar('border-color-hover'),
     'clear-hover-color': getCssVar('text-color-secondary'),
     'focus-border-color': getCssVar('color-primary'),
+    'width': 100%,
   ),
   $input
 );
@@ -1253,6 +1254,7 @@ $form: () !default;
 $form: map.merge(
   (
     'label-font-size': getCssVar('font-size-base'),
+    'inline-content-width': 220px,
   ),
   $form
 );
