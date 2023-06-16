@@ -124,6 +124,11 @@
                   nsSelect.b('tags-wrapper'),
                   { 'has-prefix': prefixWidth && selected.length },
                 ]"
+                :style="
+                  prefixWidth && selected.length
+                    ? { marginLeft: `${prefixWidth}px` }
+                    : ''
+                "
               >
                 <el-tag
                   v-for="item in selected"
@@ -144,7 +149,7 @@
               </span>
             </transition>
             <input
-              v-if="filterable"
+              v-if="filterable && !selectDisabled"
               ref="input"
               v-model="query"
               type="text"
@@ -156,10 +161,7 @@
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
               :style="{
-                marginLeft:
-                  (prefixWidth && !selected.length) || tagInMultiLine
-                    ? `${prefixWidth}px`
-                    : '',
+                marginLeft: `${prefixWidth}px`,
                 flexGrow: 1,
                 width: `${inputLength / (inputWidth - 32)}%`,
                 maxWidth: `${inputWidth - 42}px`,
@@ -533,7 +535,6 @@ export default defineComponent({
       cachedOptions,
       optionsCount,
       prefixWidth,
-      tagInMultiLine,
     } = toRefs(states)
 
     const wrapperKls = computed(() => {
@@ -604,7 +605,7 @@ export default defineComponent({
         if (ctx.slots.prefix) {
           const prefix = refEl.querySelector(`.${nsInput.e('prefix')}`)
           prefixWidth.value = Math.max(
-            prefix.getBoundingClientRect().width + 5,
+            prefix.getBoundingClientRect().width + 11,
             30
           )
         }
@@ -630,7 +631,6 @@ export default defineComponent({
     return {
       isIOS,
       onOptionsRendered,
-      tagInMultiLine,
       prefixWidth,
       selectSize,
       readonly,
