@@ -43,7 +43,10 @@
             <el-icon :class="nsIcon.m('document')">
               <Document />
             </el-icon>
-            <span :class="nsUpload.be('list', 'item-file-name')">
+            <span
+              :class="nsUpload.be('list', 'item-file-name')"
+              :title="file.name"
+            >
               {{ file.name }}
             </span>
           </a>
