@@ -67,6 +67,8 @@ export default defineComponent({
 
       const type = props.type || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
+      const showOverflowTooltip =
+        props.showOverflowTooltip || parent.props.showOverflowTooltip
       const defaults = {
         ...cellStarts[type],
         id: columnId.value,
@@ -74,7 +76,7 @@ export default defineComponent({
         property: props.prop || props.property,
         align: realAlign,
         headerAlign: realHeaderAlign,
-        showOverflowTooltip: props.showOverflowTooltip,
+        showOverflowTooltip,
         // filter 相关属性
         filterable: props.filters || props.filterMethod,
         filteredValue: [],
