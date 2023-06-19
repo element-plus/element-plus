@@ -11,7 +11,7 @@ import {
   ref,
 } from 'vue'
 import ElCheckbox from '@element-plus/components/checkbox'
-import { isString } from '@element-plus/utils'
+import { isString, isUndefined } from '@element-plus/utils'
 import { cellStarts } from '../config'
 import { compose, mergeOptions } from '../util'
 import useWatcher from './watcher-helper'
@@ -67,8 +67,9 @@ export default defineComponent({
 
       const type = props.type || 'default'
       const sortable = props.sortable === '' ? true : props.sortable
-      const showOverflowTooltip =
-        props.showOverflowTooltip || parent.props.showOverflowTooltip
+      const showOverflowTooltip = isUndefined(props.showOverflowTooltip)
+        ? parent.props.showOverflowTooltip
+        : props.showOverflowTooltip
       const defaults = {
         ...cellStarts[type],
         id: columnId.value,
