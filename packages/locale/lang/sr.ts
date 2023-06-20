@@ -6,7 +6,7 @@ export default {
       clear: 'Поништи',
     },
     datepicker: {
-      now: 'Сад',
+      now: 'Сада',
       today: 'Данас',
       cancel: 'Откажи',
       clear: 'Бриши',
@@ -76,10 +76,10 @@ export default {
       pagesize: '/страни',
       total: 'Укупно {total}',
       pageClassifier: '',
-      page: 'Page', // to be translated
-      prev: 'Go to previous page', // to be translated
-      next: 'Go to next page', // to be translated
-      currentPage: 'page {pager}', // to be translated
+      page: 'Страна',
+      prev: 'Иди на претходну страну',
+      next: 'Иди на следећу страну',
+      currentPage: 'страна {pager}',
       prevPages: 'Previous {pager} pages', // to be translated
       nextPages: 'Next {pager} pages', // to be translated
     },
@@ -109,19 +109,19 @@ export default {
       noMatch: 'Нема резултата',
       noData: 'Нема података',
       titles: ['Листа 1', 'Листа 2'], // to be translated
-      filterPlaceholder: 'Унеси кључну реч', // to be translated
-      noCheckedFormat: '{total} ставки', // to be translated
-      hasCheckedFormat: '{checked}/{total} обележених', // to be translated
+      filterPlaceholder: 'Унеси кључну реч',
+      noCheckedFormat: '{total} ставки',
+      hasCheckedFormat: '{checked}/{total} обележених',
     },
     image: {
-      error: 'FAILED', // to be translated
+      error: 'НЕУСПЕШНО',
     },
     pageHeader: {
-      title: 'Back', // to be translated
+      title: 'Назад',
     },
     popconfirm: {
-      confirmButtonText: 'Yes', // to be translated
-      cancelButtonText: 'No', // to be translated
+      confirmButtonText: 'Да',
+      cancelButtonText: 'Не',
     },
   },
 }
