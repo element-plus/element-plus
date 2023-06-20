@@ -37,16 +37,22 @@ export default defineComponent({
   componentName: 'ElOption',
 
   props: {
+    /**
+     * @description value of option
+     */
     value: {
       required: true,
       type: [String, Number, Boolean, Object],
     },
+    /**
+     * @description label of option, same as `value` if omitted
+     */
     label: [String, Number],
     created: Boolean,
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
+    /**
+     * @description whether option is disabled
+     */
+    disabled: Boolean,
   },
 
   setup(props) {
