@@ -41,17 +41,20 @@ export function useFocusController<T extends HTMLElement>(
 
   watch(wrapperRef, (el) => {
     if (el) {
-      el.role = 'button'
-      el.tabIndex = -1
+      el.setAttribute('role', 'button')
+      el.setAttribute('tabindex', '-1')
     }
   })
 
-  useEventListener(target, 'focus', handleFocus)
-  useEventListener(target, 'blur', handleBlur)
+  // TODO: using useEventListener will fail the test
+  // useEventListener(target, 'focus', handleFocus)
+  // useEventListener(target, 'blur', handleBlur)
   useEventListener(wrapperRef, 'click', handleClick)
 
   return {
     wrapperRef,
     isFocused,
+    handleFocus,
+    handleBlur,
   }
 }

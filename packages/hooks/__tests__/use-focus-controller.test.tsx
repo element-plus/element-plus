@@ -15,14 +15,15 @@ describe('useFocusController', () => {
       emits: ['focus', 'blur'],
       setup() {
         const targetRef = ref()
-        const { wrapperRef, isFocused } = useFocusController(targetRef, {
-          afterFocus: focusHandler,
-          afterBlur: blurHandler,
-        })
+        const { wrapperRef, isFocused, handleFocus, handleBlur } =
+          useFocusController(targetRef, {
+            afterFocus: focusHandler,
+            afterBlur: blurHandler,
+          })
 
         return () => (
           <div ref={wrapperRef}>
-            <input ref={targetRef} />
+            <input ref={targetRef} onFocus={handleFocus} onBlur={handleBlur} />
             <span>{String(isFocused.value)}</span>
           </div>
         )

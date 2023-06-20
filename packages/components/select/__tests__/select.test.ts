@@ -1224,7 +1224,7 @@ describe('Select', () => {
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalled()
     await input.trigger('blur')
-    await sleep(10)
+    await sleep(0)
     expect(handleBlur).toHaveBeenCalled()
   })
 
