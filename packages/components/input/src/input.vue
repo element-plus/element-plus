@@ -18,7 +18,7 @@
       <div ref="wrapperRef" :class="wrapperKls">
         <!-- prefix slot -->
         <span v-if="$slots.prefix || prefixIcon" :class="nsInput.e('prefix')">
-          <span v-bind="triggerAttrs" :class="nsInput.e('prefix-inner')">
+          <span :class="nsInput.e('prefix-inner')">
             <slot name="prefix" />
             <el-icon v-if="prefixIcon" :class="nsInput.e('icon')">
               <component :is="prefixIcon" />
@@ -46,15 +46,13 @@
           @compositionupdate="handleCompositionUpdate"
           @compositionend="handleCompositionEnd"
           @input="handleInput"
-          @focus="handleFocus"
-          @blur="handleBlur"
           @change="handleChange"
           @keydown="handleKeydown"
         />
 
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
-          <span v-bind="triggerAttrs" :class="nsInput.e('suffix-inner')">
+          <span :class="nsInput.e('suffix-inner')">
             <template
               v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
             >
@@ -122,8 +120,6 @@
         @compositionupdate="handleCompositionUpdate"
         @compositionend="handleCompositionEnd"
         @input="handleInput"
-        @focus="handleFocus"
-        @blur="handleBlur"
         @change="handleChange"
         @keydown="handleKeydown"
       />
@@ -225,7 +221,7 @@ const containerKls = computed(() => [
 
 const wrapperKls = computed(() => [
   nsInput.e('wrapper'),
-  nsInput.is('focus', focused.value),
+  nsInput.is('focus', isFocused.value),
 ])
 
 const attrs = useAttrs({
@@ -241,21 +237,8 @@ const inputSize = useFormSize()
 const inputDisabled = useFormDisabled()
 const nsInput = useNamespace('input')
 const nsTextarea = useNamespace('textarea')
-const {
-  wrapperRef,
-  targetRef: input,
-  isFocused: focused,
-  triggerAttrs,
-  handleFocus,
-  handleBlur,
-} = useFocusController<HTMLInputElement>({
-  afterBlur() {
-    if (props.validateEvent) {
-      formItem?.validate?.('blur').catch((err) => debugWarn(err))
-    }
-  },
-})
 
+const input = shallowRef<HTMLInputElement>()
 const textarea = shallowRef<HTMLTextAreaElement>()
 
 const hovering = ref(false)
@@ -265,6 +248,14 @@ const countStyle = ref<StyleValue>()
 const textareaCalcStyle = shallowRef(props.inputStyle)
 
 const _ref = computed(() => input.value || textarea.value)
+
+const { wrapperRef, isFocused } = useFocusController(_ref, {
+  afterBlur() {
+    if (props.validateEvent) {
+      formItem?.validate?.('blur').catch((err) => debugWarn(err))
+    }
+  },
+})
 
 const needStatusIcon = computed(() => form?.statusIcon ?? false)
 const validateState = computed(() => formItem?.validateState || '')
@@ -292,7 +283,7 @@ const showClear = computed(
     !inputDisabled.value &&
     !props.readonly &&
     !!nativeInputValue.value &&
-    (focused.value || hovering.value)
+    (isFocused.value || hovering.value)
 )
 const showPwdVisible = computed(
   () =>
@@ -300,7 +291,7 @@ const showPwdVisible = computed(
     !inputDisabled.value &&
     !props.readonly &&
     !!nativeInputValue.value &&
-    (!!nativeInputValue.value || focused.value)
+    (!!nativeInputValue.value || isFocused.value)
 )
 const isWordLimitVisible = computed(
   () =>
