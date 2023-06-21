@@ -12,6 +12,9 @@ export const dialogContentProps = buildProps({
   closeIcon: {
     type: iconPropType,
   },
+  /**
+   * @deprecated will be removed in version 2.4.0, please use class
+   */
   customClass: {
     type: String,
     default: '',
