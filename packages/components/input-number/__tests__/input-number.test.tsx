@@ -3,7 +3,6 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, test, vi } from 'vitest'
 import { ArrowDown, ArrowUp } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
-import sleep from '@element-plus/test-utils/sleep'
 import InputNumber from '../src/input-number.vue'
 
 const mouseup = new Event('mouseup')
@@ -319,7 +318,6 @@ describe('InputNumber.vue', () => {
     const num = ref(0)
     const wrapper = mount(() => <InputNumber v-model={num.value} />)
     await wrapper.find('input').trigger('blur')
-    await sleep()
     expect(wrapper.getComponent(InputNumber).emitted('blur')).toHaveLength(1)
   })
 

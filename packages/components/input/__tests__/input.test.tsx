@@ -3,7 +3,6 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, test, vi } from 'vitest'
 import defineGetter from '@element-plus/test-utils/define-getter'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
-import sleep from '@element-plus/test-utils/sleep'
 import Input from '../src/input.vue'
 import type { CSSProperties } from 'vue'
 import type { InputAutoSize, InputInstance, InputProps } from '../src/input'
@@ -347,7 +346,6 @@ describe('Input.vue', () => {
       expect(handleFocus).toBeCalled()
 
       await input.trigger('blur')
-      await sleep()
       expect(handleBlur).toBeCalled()
     })
 
