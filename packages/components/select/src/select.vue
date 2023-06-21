@@ -378,7 +378,7 @@ export default defineComponent({
       validator: isValidComponentSize,
     },
     /**
-     * @description Tooltip theme, built-in theme: `dark` / `light`
+     * @description tooltip theme, built-in theme: `dark` / `light`
      */
     effect: {
       type: String as PropType<'light' | 'dark' | string>,
@@ -486,7 +486,7 @@ export default defineComponent({
      */
     collapseTagsTooltip: Boolean,
     /**
-     * @description The max tags number to be shown. To use this, `collapse-tags` must be true
+     * @description the max tags number to be shown. To use this, `collapse-tags` must be true
      */
     maxCollapseTags: {
       type: Number,
@@ -504,7 +504,7 @@ export default defineComponent({
       default: true,
     },
     /**
-     * @description Custom clear icon component
+     * @description custom clear icon component
      */
     clearIcon: {
       type: iconPropType,
@@ -515,7 +515,7 @@ export default defineComponent({
      */
     fitInputWidth: Boolean,
     /**
-     * @description Custom suffix icon component
+     * @description custom suffix icon component
      */
     suffixIcon: {
       type: iconPropType,
