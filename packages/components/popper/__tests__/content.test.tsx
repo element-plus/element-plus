@@ -1,7 +1,7 @@
 import { computed, defineComponent, nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { POPPER_INJECTION_KEY } from '@element-plus/tokens'
+import { POPPER_INJECTION_KEY } from '@element-plus/components/popper'
 import ElContent from '../src/content.vue'
 
 import type { VueWrapper } from '@vue/test-utils'
@@ -75,14 +75,14 @@ describe('<ElPopperContent />', () => {
       expect(wrapper.classes()).toEqual(['el-popper', 'is-dark'])
       expect(wrapper.vm.contentStyle).toHaveLength(3)
       expect(wrapper.vm.contentStyle[0]).toHaveProperty('zIndex')
-      expect(wrapper.vm.contentStyle[1]).toEqual({})
-      expect(wrapper.vm.contentStyle[2]).toEqual(
+      expect(wrapper.vm.contentStyle[1]).toEqual(
         expect.objectContaining({
           position: 'absolute',
           top: '0',
           left: '0',
         })
       )
+      expect(wrapper.vm.contentStyle[2]).toEqual({})
     })
 
     it('should be able to be pure and themed', async () => {
@@ -108,7 +108,7 @@ describe('<ElPopperContent />', () => {
         popperStyle: style,
       })
 
-      expect(wrapper.vm.contentStyle[1]).toEqual(style)
+      expect(wrapper.vm.contentStyle[2]).toEqual(style)
     })
 
     it('should be able to emit events', async () => {

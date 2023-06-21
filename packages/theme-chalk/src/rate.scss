@@ -14,6 +14,14 @@ $rate-height: map.merge(
   $rate-height
 );
 
+$rate-size: () !default;
+$rate-size: map.merge(
+  (
+    'small': 14px,
+  ),
+  $rate-size
+);
+
 @include b(rate) {
   @include set-component-css-var('rate', $rate);
 }
@@ -78,6 +86,9 @@ $rate-height: map.merge(
   @each $size in (large, small) {
     @include m($size) {
       height: map.get($rate-height, $size);
+      & .#{bem('rate', 'icon')} {
+        font-size: map.get($rate-size, $size);
+      }
     }
   }
 

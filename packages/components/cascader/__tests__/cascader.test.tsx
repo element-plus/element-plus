@@ -426,4 +426,22 @@ describe('Cascader.vue', () => {
     await nextTick()
     expect(wrapper.find('input').element.placeholder).toBe(AXIOM)
   })
+
+  test('should be able to trigger togglePopperVisible outside the component', async () => {
+    const clickFn = () => {
+      wrapper.findComponent(Cascader).vm.togglePopperVisible()
+    }
+    const wrapper = _mount(() => (
+      <div>
+        <Cascader options={OPTIONS} />
+        <button onClick={clickFn} />
+      </div>
+    ))
+    const dropdown = wrapper.findComponent(ArrowDown).element as HTMLDivElement
+    expect(dropdown.style.display).not.toBe('none')
+    const button = wrapper.find('button')
+    await button.trigger('click')
+    await nextTick()
+    expect(dropdown?.style.display).not.toBe('none')
+  })
 })

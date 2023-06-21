@@ -22,9 +22,11 @@
       @node-expand="handleNodeExpand"
     />
     <div v-if="isEmpty" :class="ns.e('empty-block')">
-      <span :class="ns.e('empty-text')">{{
-        emptyText ?? t('el.tree.emptyText')
-      }}</span>
+      <slot name="empty">
+        <span :class="ns.e('empty-text')">
+          {{ emptyText ?? t('el.tree.emptyText') }}
+        </span>
+      </slot>
     </div>
     <div
       v-show="dragState.showDropIndicator"
@@ -45,7 +47,7 @@ import {
 } from 'vue'
 import { iconPropType } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { formItemContextKey } from '@element-plus/tokens'
+import { formItemContextKey } from '@element-plus/components/form'
 import TreeStore from './model/tree-store'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import ElTreeNode from './tree-node.vue'
@@ -292,7 +294,7 @@ export default defineComponent({
       store.value.setCheckedNodes(nodes, leafOnly)
     }
 
-    const setCheckedKeys = (keys, leafOnly?: boolean) => {
+    const setCheckedKeys = (keys: TreeKey[], leafOnly?: boolean) => {
       if (!props.nodeKey)
         throw new Error('[Tree] nodeKey is required in setCheckedKeys')
       store.value.setCheckedKeys(keys, leafOnly)

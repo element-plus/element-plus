@@ -35,8 +35,9 @@ import { computed, ref } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
 import ElSelect from '@element-plus/components/select'
+import { useFormDisabled } from '@element-plus/components/form'
 import ElIcon from '@element-plus/components/icon'
-import { useDisabled, useNamespace } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
 import { timeSelectProps } from './time-select'
 import { compareTime, formatTime, nextTime, parseTime } from './utils'
 
@@ -55,7 +56,7 @@ const props = defineProps(timeSelectProps)
 const nsInput = useNamespace('input')
 const select = ref<typeof ElSelect>()
 
-const _disabled = useDisabled()
+const _disabled = useFormDisabled()
 
 const value = computed(() => props.modelValue)
 const start = computed(() => {
@@ -111,7 +112,13 @@ const focus = () => {
 }
 
 defineExpose({
+  /**
+   * @description focus the Input component
+   */
   blur,
+  /**
+   * @description blur the Input component
+   */
   focus,
 })
 </script>

@@ -47,6 +47,7 @@ describe('InputNumber.vue', () => {
       'null'
     )
   })
+
   // fix: #10328
   test('Make sure the input action can trigger the modelValue update', async () => {
     const num = ref<number>(0)
@@ -65,6 +66,20 @@ describe('InputNumber.vue', () => {
     await nextTick()
     expect(num.value).toEqual(3)
   })
+
+  // fix: #11963
+  test('Make sure modelValue correct update when no initial value', async () => {
+    const num = ref<number>()
+    const wrapper = mount(() => <InputNumber v-model={num.value} />)
+    const inputWrapper = wrapper.find('input')
+    const nativeInput = inputWrapper.element
+    nativeInput.value = '1'
+    await inputWrapper.trigger('input')
+    nativeInput.value = ''
+    await inputWrapper.trigger('input')
+    expect(num.value).toEqual(null)
+  })
+
   test('min', async () => {
     const num = ref(1)
     const wrapper = mount(() => <InputNumber min={3} v-model={num.value} />)
@@ -125,6 +140,18 @@ describe('InputNumber.vue', () => {
     elInputNumber.decrease()
     await nextTick()
     expect(wrapper.find('input').element.value).toEqual('0.3')
+  })
+  //fix: #12690
+  test('maximum is less than the minimum', async () => {
+    try {
+      const num = ref(6)
+      mount(() => <InputNumber v-model={num.value} min={10} max={8} />)
+    } catch (e: any) {
+      expect(e).to.be.an('error')
+      expect(e.message).to.equal(
+        '[InputNumber] min should not be greater than max.'
+      )
+    }
   })
 
   describe('precision accuracy 2', () => {

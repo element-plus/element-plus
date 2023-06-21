@@ -214,7 +214,7 @@ import {
   DArrowLeft,
   DArrowRight,
 } from '@element-plus/icons-vue'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
@@ -609,7 +609,9 @@ const handleKeydownTable = (event: KeyboardEvent) => {
     event.preventDefault()
   }
   if (
-    [EVENT_CODE.enter, EVENT_CODE.space].includes(code) &&
+    [EVENT_CODE.enter, EVENT_CODE.space, EVENT_CODE.numpadEnter].includes(
+      code
+    ) &&
     userInputDate.value === null &&
     userInputTime.value === null
   ) {

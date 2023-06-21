@@ -35,6 +35,16 @@ carousel/arrows
 
 :::
 
+## Auto height
+
+When the `height` of `carousel` is set to `auto`, the `carousel` height will be automatically set according to the height of the `carousel item`
+
+:::demo
+
+carousel/auto-height
+
+:::
+
 ## Card mode
 
 When a page is wide enough but has limited height, you can activate card mode for carousels

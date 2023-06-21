@@ -17,7 +17,7 @@ import {
   mutable,
 } from '@element-plus/utils'
 import { useLocale, useNamespace } from '@element-plus/hooks'
-import { elPaginationKey } from '@element-plus/tokens'
+import { elPaginationKey } from './constants'
 
 import Prev from './components/prev.vue'
 import Next from './components/next.vue'
@@ -47,25 +47,17 @@ type LayoutKey =
 
 export const paginationProps = buildProps({
   /**
-   * @description total item count
-   */
-  total: Number,
-  /**
    * @description options of item count per page
    */
   pageSize: Number,
   /**
-   * @description default initial value of page size
+   * @description default initial value of page size, not setting is the same as setting 10
    */
   defaultPageSize: Number,
   /**
-   * @description current page number
+   * @description total item count
    */
-  currentPage: Number,
-  /**
-   * @description default initial value of current-page
-   */
-  defaultCurrentPage: Number,
+  total: Number,
   /**
    * @description total page count. Set either `total` or `page-count` and pages will be displayed; if you need `page-sizes`, `total` is required
    */
@@ -86,6 +78,14 @@ export const paginationProps = buildProps({
     },
     default: 7,
   },
+  /**
+   * @description current page number
+   */
+  currentPage: Number,
+  /**
+   * @description default initial value of current-page, not setting is the same as setting 1
+   */
+  defaultCurrentPage: Number,
   /**
    * @description layout of Pagination, elements separated with a comma
    */
@@ -407,8 +407,6 @@ export default defineComponent({
       return h(
         'div',
         {
-          role: 'pagination',
-          'aria-label': 'pagination',
           class: [
             ns.b(),
             ns.is('background', props.background),

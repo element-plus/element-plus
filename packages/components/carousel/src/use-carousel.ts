@@ -12,11 +12,11 @@ import {
 import { throttle } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
 import { debugWarn, isString } from '@element-plus/utils'
-import { carouselContextKey } from '@element-plus/tokens'
 import { useOrderedChildren } from '@element-plus/hooks'
+import { carouselContextKey } from './constants'
 
 import type { SetupContext } from 'vue'
-import type { CarouselItemContext } from '@element-plus/tokens'
+import type { CarouselItemContext } from './constants'
 import type { CarouselEmits, CarouselProps } from './carousel'
 
 const THROTTLE_TIME = 300
@@ -40,6 +40,7 @@ export const useCarousel = (
   const timer = ref<ReturnType<typeof setInterval> | null>(null)
   const hover = ref(false)
   const root = ref<HTMLDivElement>()
+  const containerHeight = ref<number>(0)
 
   // computed
   const arrowDisplay = computed(
@@ -52,6 +53,18 @@ export const useCarousel = (
 
   const isCardType = computed(() => props.type === 'card')
   const isVertical = computed(() => props.direction === 'vertical')
+
+  const containerStyle = computed(() => {
+    if (props.height !== 'auto') {
+      return {
+        height: props.height,
+      }
+    }
+    return {
+      height: `${containerHeight.value}px`,
+      overflow: 'hidden',
+    }
+  })
 
   // methods
   const throttledArrowClick = throttle(
@@ -192,6 +205,11 @@ export const useCarousel = (
     startTimer()
   }
 
+  function setContainerHeight(height: number) {
+    if (props.height !== 'auto') return
+    containerHeight.value = height
+  }
+
   // watch
   watch(
     () => activeIndex.value,
@@ -253,6 +271,7 @@ export const useCarousel = (
     addItem,
     removeItem,
     setActiveItem,
+    setContainerHeight,
   })
 
   return {
@@ -263,6 +282,8 @@ export const useCarousel = (
     hover,
     isCardType,
     items,
+    isVertical,
+    containerStyle,
     handleButtonEnter,
     handleButtonLeave,
     handleIndicatorClick,
