@@ -621,9 +621,32 @@ export const useSelect = (props, states: States, ctx) => {
       emitChange(value)
     }
 
+    const option = states.selected[states.selected.length - 1]
+    if (option && option.isDisabled) {
+      // if last option is disabled, find the prev not disabled option to delete.
+      deletePrevAvailableTag()
+    }
+
     if (e.target.value.length === 1 && props.modelValue.length === 0) {
       states.currentPlaceholder = states.cachedPlaceHolder
     }
+  }
+
+  // delete prev not disabled option
+  const deletePrevAvailableTag = () => {
+    const option = states.selected.findLast((item) => !item.isDisabled)
+
+    if (!option) return
+    option.hitState = !option.hitState
+
+    if (option.hitState) return
+
+    const value = props.modelValue.slice()
+    const index = value.indexOf(option.value)
+    value.splice(index, 1)
+
+    ctx.emit(UPDATE_MODEL_EVENT, value)
+    emitChange(value)
   }
 
   const deleteTag = (event, tag) => {
@@ -757,7 +780,9 @@ export const useSelect = (props, states: States, ctx) => {
     if (!Array.isArray(states.selected)) return
     const option = states.selected[states.selected.length - 1]
     if (!option) return
-
+    if (option.isDisabled) {
+      return option.isDisabled
+    }
     if (hit === true || hit === false) {
       option.hitState = hit
       return hit
