@@ -13,6 +13,7 @@
       :placement="placement"
       :teleported="teleported"
       :popper-class="[nsSelect.e('popper'), popperClass]"
+      :popper-options="popperOptions"
       :fallback-placements="['bottom-start', 'top-start', 'right', 'left']"
       :effect="effect"
       pure
@@ -32,90 +33,102 @@
           <div
             v-if="multiple"
             ref="tags"
-            :class="nsSelect.e('tags')"
+            :class="[
+              nsSelect.e('tags'),
+              nsSelect.is('disabled', selectDisabled),
+            ]"
             :style="selectTagsStyle"
           >
-            <span
+            <transition
               v-if="collapseTags && selected.length"
-              :class="[
-                nsSelect.b('tags-wrapper'),
-                { 'has-prefix': prefixWidth && selected.length },
-              ]"
+              @after-leave="resetInputHeight"
             >
-              <el-tag
-                :closable="!selectDisabled && !selected[0].isDisabled"
-                :size="collapseTagSize"
-                :hit="selected[0].hitState"
-                :type="tagType"
-                disable-transitions
-                @close="deleteTag($event, selected[0])"
+              <span
+                :class="[
+                  nsSelect.b('tags-wrapper'),
+                  { 'has-prefix': prefixWidth && selected.length },
+                ]"
               >
-                <span :class="nsSelect.e('tags-text')" :style="tagTextStyle">
-                  {{ selected[0].currentLabel }}
-                </span>
-              </el-tag>
-              <el-tag
-                v-if="selected.length > 1"
-                :closable="false"
-                :size="collapseTagSize"
-                :type="tagType"
-                disable-transitions
-              >
-                <el-tooltip
-                  v-if="collapseTagsTooltip"
-                  :disabled="dropMenuVisible"
-                  :fallback-placements="['bottom', 'top', 'right', 'left']"
-                  :effect="effect"
-                  placement="bottom"
-                  :teleported="teleported"
+                <el-tag
+                  v-for="item in showTagList"
+                  :key="getValueKey(item)"
+                  :closable="!selectDisabled && !item.isDisabled"
+                  :size="collapseTagSize"
+                  :hit="item.hitState"
+                  :type="tagType"
+                  disable-transitions
+                  @close="deleteTag($event, item)"
                 >
-                  <template #default>
-                    <span :class="nsSelect.e('tags-text')"
-                      >+ {{ selected.length - 1 }}</span
-                    >
-                  </template>
-                  <template #content>
-                    <div :class="nsSelect.e('collapse-tags')">
-                      <div
-                        v-for="(item, idx) in selected.slice(1)"
-                        :key="idx"
-                        :class="nsSelect.e('collapse-tag')"
+                  <span :class="nsSelect.e('tags-text')" :style="tagTextStyle">
+                    {{ item.currentLabel }}
+                  </span>
+                </el-tag>
+                <el-tag
+                  v-if="selected.length > maxCollapseTags"
+                  :closable="false"
+                  :size="collapseTagSize"
+                  :type="tagType"
+                  disable-transitions
+                >
+                  <el-tooltip
+                    v-if="collapseTagsTooltip"
+                    :disabled="dropMenuVisible"
+                    :fallback-placements="['bottom', 'top', 'right', 'left']"
+                    :effect="effect"
+                    placement="bottom"
+                    :teleported="teleported"
+                  >
+                    <template #default>
+                      <span :class="nsSelect.e('tags-text')"
+                        >+ {{ selected.length - maxCollapseTags }}</span
                       >
-                        <el-tag
+                    </template>
+                    <template #content>
+                      <div :class="nsSelect.e('collapse-tags')">
+                        <div
+                          v-for="item in collapseTagList"
                           :key="getValueKey(item)"
-                          class="in-tooltip"
-                          :closable="!selectDisabled && !item.isDisabled"
-                          :size="collapseTagSize"
-                          :hit="item.hitState"
-                          :type="tagType"
-                          disable-transitions
-                          :style="{ margin: '2px' }"
-                          @close="deleteTag($event, item)"
+                          :class="nsSelect.e('collapse-tag')"
                         >
-                          <span
-                            :class="nsSelect.e('tags-text')"
-                            :style="{
-                              maxWidth: inputWidth - 75 + 'px',
-                            }"
-                            >{{ item.currentLabel }}</span
+                          <el-tag
+                            class="in-tooltip"
+                            :closable="!selectDisabled && !item.isDisabled"
+                            :size="collapseTagSize"
+                            :hit="item.hitState"
+                            :type="tagType"
+                            disable-transitions
+                            :style="{ margin: '2px' }"
+                            @close="deleteTag($event, item)"
                           >
-                        </el-tag>
+                            <span
+                              :class="nsSelect.e('tags-text')"
+                              :style="{
+                                maxWidth: inputWidth - 75 + 'px',
+                              }"
+                              >{{ item.currentLabel }}</span
+                            >
+                          </el-tag>
+                        </div>
                       </div>
-                    </div>
-                  </template>
-                </el-tooltip>
-                <span v-else :class="nsSelect.e('tags-text')"
-                  >+ {{ selected.length - 1 }}</span
-                >
-              </el-tag>
-            </span>
-            <!-- <div> -->
+                    </template>
+                  </el-tooltip>
+                  <span v-else :class="nsSelect.e('tags-text')"
+                    >+ {{ selected.length - maxCollapseTags }}</span
+                  >
+                </el-tag>
+              </span>
+            </transition>
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span
                 :class="[
                   nsSelect.b('tags-wrapper'),
                   { 'has-prefix': prefixWidth && selected.length },
                 ]"
+                :style="
+                  prefixWidth && selected.length
+                    ? { marginLeft: `${prefixWidth}px` }
+                    : ''
+                "
               >
                 <el-tag
                   v-for="item in selected"
@@ -135,20 +148,20 @@
                 </el-tag>
               </span>
             </transition>
-            <!-- </div> -->
             <input
-              v-if="filterable"
+              v-if="filterable && !selectDisabled"
               ref="input"
               v-model="query"
               type="text"
-              :class="[nsSelect.e('input'), nsSelect.is(selectSize)]"
+              :class="[
+                nsSelect.e('input'),
+                nsSelect.is(selectSize),
+                nsSelect.is('disabled', selectDisabled),
+              ]"
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
               :style="{
-                marginLeft:
-                  (prefixWidth && !selected.length) || tagInMultiLine
-                    ? `${prefixWidth}px`
-                    : '',
+                marginLeft: `${prefixWidth}px`,
                 flexGrow: 1,
                 width: `${inputLength / (inputWidth - 32)}%`,
                 maxWidth: `${inputWidth - 42}px`,
@@ -169,12 +182,28 @@
               @input="debouncedQueryChange"
             />
           </div>
+          <!-- fix: https://github.com/element-plus/element-plus/issues/11415 -->
+          <input
+            v-if="isIOS && !multiple && filterable && readonly"
+            ref="iOSInput"
+            :class="[
+              nsSelect.e('input'),
+              nsSelect.is(selectSize),
+              nsSelect.em('input', 'iOS'),
+            ]"
+            :disabled="selectDisabled"
+            type="text"
+          />
           <el-input
             :id="id"
             ref="reference"
             v-model="selectedLabel"
             type="text"
-            :placeholder="currentPlaceholder"
+            :placeholder="
+              typeof currentPlaceholder === 'function'
+                ? currentPlaceholder()
+                : currentPlaceholder
+            "
             :name="name"
             :autocomplete="autocomplete"
             :size="selectSize"
@@ -242,7 +271,9 @@
             ]"
           >
             <el-option v-if="showNewOption" :value="query" :created="true" />
-            <slot />
+            <el-options @update-options="onOptionsRendered">
+              <slot />
+            </el-options>
           </el-scrollbar>
           <template
             v-if="
@@ -285,12 +316,13 @@ import ElScrollbar from '@element-plus/components/scrollbar'
 import ElTag, { tagProps } from '@element-plus/components/tag'
 import ElIcon from '@element-plus/components/icon'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { iconPropType, isValidComponentSize } from '@element-plus/utils'
+import { iconPropType, isIOS, isValidComponentSize } from '@element-plus/utils'
 import { ArrowDown, CircleClose } from '@element-plus/icons-vue'
 import ElOption from './option.vue'
 import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
+import ElOptions from './options'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -304,6 +336,7 @@ export default defineComponent({
     ElInput,
     ElSelectMenu,
     ElOption,
+    ElOptions,
     ElTag,
     ElScrollbar,
     ElTooltip,
@@ -339,6 +372,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    popperOptions: {
+      type: Object as PropType<Partial<Options>>,
+      default: () => ({} as Partial<Options>),
+    },
     remote: Boolean,
     loadingText: String,
     noMatchText: String,
@@ -366,6 +403,10 @@ export default defineComponent({
     collapseTagsTooltip: {
       type: Boolean,
       default: false,
+    },
+    maxCollapseTags: {
+      type: Number,
+      default: 1,
     },
     teleported: useTooltipContentProps.teleported,
     persistent: {
@@ -420,6 +461,7 @@ export default defineComponent({
     const { t } = useLocale()
     const states = useSelectStates(props)
     const {
+      optionList,
       optionsArray,
       selectSize,
       readonly,
@@ -461,6 +503,7 @@ export default defineComponent({
 
       reference,
       input,
+      iOSInput,
       tooltipRef,
       tags,
       selectWrapper,
@@ -469,6 +512,8 @@ export default defineComponent({
       groupQueryChange,
       handleMouseEnter,
       handleMouseLeave,
+      showTagList,
+      collapseTagList,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -479,7 +524,6 @@ export default defineComponent({
       inputLength,
       filteredOptionsCount,
       visible,
-      softFocus,
       selectedLabel,
       hoverIndex,
       query,
@@ -487,12 +531,10 @@ export default defineComponent({
       currentPlaceholder,
       menuVisibleOnFocus,
       isOnComposition,
-      isSilentBlur,
       options,
       cachedOptions,
       optionsCount,
       prefixWidth,
-      tagInMultiLine,
     } = toRefs(states)
 
     const wrapperKls = computed(() => {
@@ -543,7 +585,7 @@ export default defineComponent({
 
     onMounted(() => {
       states.cachedPlaceHolder = currentPlaceholder.value =
-        props.placeholder || t('el.select.placeholder')
+        props.placeholder || (() => t('el.select.placeholder'))
       if (
         props.multiple &&
         Array.isArray(props.modelValue) &&
@@ -563,7 +605,7 @@ export default defineComponent({
         if (ctx.slots.prefix) {
           const prefix = refEl.querySelector(`.${nsInput.e('prefix')}`)
           prefixWidth.value = Math.max(
-            prefix.getBoundingClientRect().width + 5,
+            prefix.getBoundingClientRect().width + 11,
             30
           )
         }
@@ -582,8 +624,13 @@ export default defineComponent({
       return tooltipRef.value?.popperRef?.contentRef
     })
 
+    const onOptionsRendered = (v) => {
+      optionList.value = v
+    }
+
     return {
-      tagInMultiLine,
+      isIOS,
+      onOptionsRendered,
       prefixWidth,
       selectSize,
       readonly,
@@ -601,7 +648,6 @@ export default defineComponent({
       inputLength,
       filteredOptionsCount,
       visible,
-      softFocus,
       selectedLabel,
       hoverIndex,
       query,
@@ -609,7 +655,6 @@ export default defineComponent({
       currentPlaceholder,
       menuVisibleOnFocus,
       isOnComposition,
-      isSilentBlur,
       options,
       resetInputHeight,
       managePlaceholder,
@@ -638,6 +683,7 @@ export default defineComponent({
 
       reference,
       input,
+      iOSInput,
       tooltipRef,
       popperPaneRef,
       tags,
@@ -650,6 +696,8 @@ export default defineComponent({
       tagTextStyle,
       handleMouseEnter,
       handleMouseLeave,
+      showTagList,
+      collapseTagList,
     }
   },
 })

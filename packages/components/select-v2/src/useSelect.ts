@@ -3,18 +3,14 @@ import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { isArray, isFunction, isObject } from '@vue/shared'
 import { get, isEqual, isNil, debounce as lodashDebounce } from 'lodash-unified'
 import { useResizeObserver } from '@vueuse/core'
-import {
-  useFormItem,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import {
   ValidateComponentsMap,
   debugWarn,
   escapeStringRegexp,
 } from '@element-plus/utils'
+import { useFormItem, useFormSize } from '@element-plus/components/form'
 
 import { ArrowUp } from '@element-plus/icons-vue'
 import { useAllowCreate } from './useAllowCreate'
@@ -176,11 +172,20 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     )
   })
 
+  const filteredOptionsValueMap = computed(() => {
+    const valueMap = new Map()
+
+    filteredOptions.value.forEach((option, index) => {
+      valueMap.set(getValueKey(option), { option, index })
+    })
+    return valueMap
+  })
+
   const optionsAllDisabled = computed(() =>
     filteredOptions.value.every((option) => option.disabled)
   )
 
-  const selectSize = useSize()
+  const selectSize = useFormSize()
 
   const collapseTagSize = computed(() =>
     'small' === selectSize.value ? 'small' : 'default'
@@ -238,16 +243,22 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   const indexRef = computed<number>(() => {
     if (props.multiple) {
       const len = (props.modelValue as []).length
-      if ((props.modelValue as Array<any>).length > 0) {
-        return filteredOptions.value.findIndex(
-          (o) => o.value === props.modelValue[len - 1]
+      if (
+        (props.modelValue as Array<any>).length > 0 &&
+        filteredOptionsValueMap.value.has(props.modelValue[len - 1])
+      ) {
+        const { index } = filteredOptionsValueMap.value.get(
+          props.modelValue[len - 1]
         )
+        return index
       }
     } else {
-      if (props.modelValue) {
-        return filteredOptions.value.findIndex(
-          (o) => o.value === props.modelValue
-        )
+      if (
+        props.modelValue &&
+        filteredOptionsValueMap.value.has(props.modelValue)
+      ) {
+        const { index } = filteredOptionsValueMap.value.get(props.modelValue)
+        return index
       }
     }
     return -1
@@ -261,6 +272,14 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
       expanded.value = val
     },
   })
+
+  const showTagList = computed(() =>
+    states.cachedOptions.slice(0, props.maxCollapseTags)
+  )
+
+  const collapseTagList = computed(() =>
+    states.cachedOptions.slice(props.maxCollapseTags)
+  )
 
   // hooks
   const {
@@ -277,7 +296,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
   // methods
   const focusAndUpdatePopup = () => {
-    inputRef.value.focus?.()
+    inputRef.value?.focus?.()
     popper.value?.updatePopper()
   }
 
@@ -359,9 +378,6 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
   }
 
   const resetInputHeight = () => {
-    if (props.collapseTags && !props.filterable) {
-      return
-    }
     return nextTick(() => {
       if (!inputRef.value) return
       const selection = selectionRef.value
@@ -655,20 +671,17 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
         let initHovering = false
         states.cachedOptions.length = 0
         states.previousValue = props.modelValue.toString()
-        ;(props.modelValue as Array<any>).forEach((selected) => {
-          const itemIndex = filteredOptions.value.findIndex(
-            (option) => getValueKey(option) === selected
-          )
-          if (~itemIndex) {
-            states.cachedOptions.push(
-              filteredOptions.value[itemIndex] as Option
-            )
+
+        for (const value of props.modelValue) {
+          if (filteredOptionsValueMap.value.has(value)) {
+            const { index, option } = filteredOptionsValueMap.value.get(value)
+            states.cachedOptions.push(option)
             if (!initHovering) {
-              updateHoveringIndex(itemIndex)
+              updateHoveringIndex(index)
             }
             initHovering = true
           }
-        })
+        }
       } else {
         states.cachedOptions = []
         states.previousValue = undefined
@@ -745,6 +758,15 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return nextTick(menuRef.value.resetScrollTop)
   })
 
+  watch(
+    () => dropdownMenuVisible.value,
+    (val) => {
+      if (!val) {
+        resetHoveringIndex()
+      }
+    }
+  )
+
   onMounted(() => {
     initStates()
   })
@@ -788,6 +810,8 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
 
     validateState,
     validateIcon,
+    showTagList,
+    collapseTagList,
 
     // methods exports
     debouncedOnInputChange,

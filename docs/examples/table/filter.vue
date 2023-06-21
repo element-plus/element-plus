@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { ElTable, type TableColumnCtx } from 'element-plus'
+import type { TableColumnCtx, TableInstance } from 'element-plus'
 
 interface User {
   date: string
@@ -52,7 +52,7 @@ interface User {
   tag: string
 }
 
-const tableRef = ref<InstanceType<typeof ElTable>>()
+const tableRef = ref<TableInstance>()
 
 const resetDateFilter = () => {
   tableRef.value!.clearFilter(['date'])

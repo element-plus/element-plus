@@ -20,7 +20,6 @@
   @include set-component-css-var('date-editor', $date-editor);
   @include set-component-css-var('input', $input);
   position: relative;
-  display: inline-block;
   text-align: left;
 
   &.#{$namespace}-input__wrapper {

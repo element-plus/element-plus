@@ -1,6 +1,3 @@
-@use 'sass:math';
-@use 'sass:map';
-
 @use 'mixins/mixins' as *;
 @use 'mixins/utils' as *;
 @use 'mixins/var' as *;
@@ -111,9 +108,8 @@
 
   @include e(filter) {
     text-align: center;
-    margin: 15px;
+    padding: 15px;
     box-sizing: border-box;
-    width: auto;
 
     .#{$namespace}-input__inner {
       height: getCssVar('transfer-filter-height');
