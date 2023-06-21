@@ -51,8 +51,8 @@ export default defineComponent({
       ns.be('dropdown', 'item'),
       ns.is('disabled', unref(isDisabled)),
       {
-        ['selected']: unref(itemSelected),
-        ['hover']: unref(hover),
+        selected: unref(itemSelected),
+        hover: unref(hover),
       },
     ])
 
