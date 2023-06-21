@@ -1632,4 +1632,31 @@ describe('Table.vue', () => {
     // 5 rows and 2 columns should be 10
     expect(findTooltipEl).toEqual(10)
   })
+
+  it('add show-overflow-tooltip to table and table-column', async () => {
+    const wrapper = mount({
+      components: {
+        ElTable,
+        ElTableColumn,
+      },
+
+      template: `
+      <el-table :data="testData" show-overflow-tooltip>
+        <el-table-column prop="name" label="name" :show-overflow-tooltip="false" />
+        <el-table-column prop="release" label="release" />
+      </el-table>
+    `,
+
+      data() {
+        const testData = getTestData() as any
+        return {
+          testData,
+        }
+      },
+    })
+
+    await doubleWait()
+    const findTooltipEl = wrapper.findAll('.el-tooltip').length
+    expect(findTooltipEl).toEqual(5)
+  })
 })
