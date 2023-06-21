@@ -56,7 +56,6 @@ export function useSelectStates(props) {
     menuVisibleOnFocus: false,
     isOnComposition: false,
     prefixWidth: 11,
-    tagInMultiLine: false,
     mouseEnter: false,
   })
 }
@@ -413,8 +412,6 @@ export const useSelect = (props, states: States, ctx) => {
               )) - 2
         }px`)
 
-      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
-
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
       }
@@ -587,7 +584,7 @@ export const useSelect = (props, states: States, ctx) => {
   const handleResize = () => {
     resetInputWidth()
     tooltipRef.value?.updatePopper?.()
-    if (props.multiple) resetInputHeight()
+    props.multiple && resetInputHeight()
   }
 
   const resetInputWidth = () => {
