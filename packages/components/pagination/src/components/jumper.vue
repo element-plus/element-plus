@@ -40,12 +40,7 @@ const { paginationRef, pageCount, disabled, currentPage, changeEvent } =
 const userInput = ref<number | ''>()
 const innerValue = computed(() => userInput.value ?? currentPage?.value)
 
-watch(
-  () => currentPage?.value,
-  () => {
-    handleClearInput()
-  }
-)
+watch(() => currentPage?.value, handleClearInput)
 
 function handleInput(val: number | string) {
   userInput.value = val ? +val : ''
@@ -54,7 +49,7 @@ function handleInput(val: number | string) {
 function handleChange(val: number | string) {
   const value = Math.trunc(+val)
 
-  if (value && value <= pageCount.value) {
+  if (value && pageCount && value <= pageCount.value) {
     changeEvent?.(value)
     userInput.value = undefined
   }
@@ -73,7 +68,7 @@ const handleBlur = (event: FocusEvent) => {
 function handleClearInput() {
   if (
     userInput.value === '' ||
-    (userInput.value && userInput.value > pageCount.value)
+    (userInput.value && pageCount && userInput.value > pageCount.value)
   ) {
     userInput.value = undefined
   }
