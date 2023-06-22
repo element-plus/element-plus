@@ -13,6 +13,7 @@
       type="number"
       @update:model-value="handleInput"
       @change="handleChange"
+      @blur="handleBlur"
     />
     <span :class="[ns.e('classifier')]">{{
       t('el.pagination.pageClassifier')
@@ -21,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useLocale, useNamespace } from '@element-plus/hooks'
 import ElInput from '@element-plus/components/input'
 import { usePagination } from '../usePagination'
@@ -34,17 +35,47 @@ defineOptions({
 defineProps(paginationJumperProps)
 const { t } = useLocale()
 const ns = useNamespace('pagination')
-const { pageCount, disabled, currentPage, changeEvent } = usePagination()
-const userInput = ref<number | string>()
+const { paginationRef, pageCount, disabled, currentPage, changeEvent } =
+  usePagination()
+const userInput = ref<number | ''>()
 const innerValue = computed(() => userInput.value ?? currentPage?.value)
+
+watch(
+  () => currentPage?.value,
+  () => {
+    handleClearInput()
+  }
+)
 
 function handleInput(val: number | string) {
   userInput.value = val ? +val : ''
 }
 
 function handleChange(val: number | string) {
-  val = Math.trunc(+val)
-  changeEvent?.(val)
-  userInput.value = undefined
+  const value = Math.trunc(+val)
+
+  if (value && value <= pageCount.value) {
+    changeEvent?.(value)
+    userInput.value = undefined
+  }
+}
+
+const handleBlur = (event: FocusEvent) => {
+  if (
+    event.relatedTarget &&
+    paginationRef?.value?.contains(event.relatedTarget as Node)
+  )
+    return
+
+  handleClearInput()
+}
+
+function handleClearInput() {
+  if (
+    userInput.value === '' ||
+    (userInput.value && userInput.value > pageCount.value)
+  ) {
+    userInput.value = undefined
+  }
 }
 </script>
