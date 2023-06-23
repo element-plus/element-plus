@@ -191,4 +191,80 @@ describe('Affix.vue', () => {
     mockAffixRect.mockRestore()
     mockDocumentRect.mockRestore()
   })
+
+  test('should emit the change event when fixed change', async () => {
+    const onChange = vi.fn()
+    const wrapper = _mount(() => <Affix onChange={onChange}>{AXIOM}</Affix>)
+
+    const mockAffixRect = vi
+      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 20,
+        width: 1000,
+        top: -100,
+        bottom: -80,
+      } as DOMRect)
+    const mockDocumentRect = vi
+      .spyOn(document.documentElement, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 200,
+        width: 1000,
+        top: 0,
+        bottom: 200,
+      } as DOMRect)
+
+    expect(wrapper.find('.el-affix--fixed').exists()).toBe(false)
+
+    await makeScroll(document.documentElement, 'scrollTop', 200)
+
+    expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
+    expect(onChange).toHaveBeenCalledOnce()
+    expect(onChange).toHaveBeenCalledWith(true)
+
+    mockAffixRect.mockRestore()
+    mockDocumentRect.mockRestore()
+  })
+
+  test('should emit the scroll event when scrollContainer scroll', async () => {
+    const onScroll = vi.fn()
+    const wrapper = _mount(() => <Affix onScroll={onScroll}>{AXIOM}</Affix>)
+
+    const mockAffixRect = vi
+      .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 20,
+        width: 1000,
+        top: -100,
+        bottom: -80,
+      } as DOMRect)
+    const mockDocumentRect = vi
+      .spyOn(document.documentElement, 'getBoundingClientRect')
+      .mockReturnValue({
+        height: 200,
+        width: 1000,
+        top: 0,
+        bottom: 200,
+      } as DOMRect)
+    const scrollTopRestore = defineGetter(
+      window.HTMLElement.prototype,
+      'scrollTop',
+      200,
+      0
+    )
+
+    expect(wrapper.find('.el-affix--fixed').exists()).toBe(false)
+
+    await makeScroll(document.documentElement, 'scrollTop', 200)
+
+    expect(wrapper.find('.el-affix--fixed').exists()).toBe(true)
+    expect(onScroll).toHaveBeenCalledOnce()
+    expect(onScroll).toHaveBeenCalledWith({
+      scrollTop: 200,
+      fixed: true,
+    })
+
+    mockAffixRect.mockRestore()
+    mockDocumentRect.mockRestore()
+    scrollTopRestore()
+  })
 })
