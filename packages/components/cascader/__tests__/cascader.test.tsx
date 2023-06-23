@@ -428,13 +428,12 @@ describe('Cascader.vue', () => {
   })
 
   test('should be able to trigger togglePopperVisible outside the component', async () => {
-    const cascaderRef = ref()
     const clickFn = () => {
-      cascaderRef.value.togglePopperVisible()
+      wrapper.findComponent(Cascader).vm.togglePopperVisible()
     }
     const wrapper = _mount(() => (
       <div>
-        <Cascader ref="cascaderRef" options={OPTIONS} />
+        <Cascader options={OPTIONS} />
         <button onClick={clickFn} />
       </div>
     ))

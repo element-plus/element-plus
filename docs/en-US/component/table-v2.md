@@ -54,7 +54,7 @@ table-v2/auto-resizer
 
 :::
 
-## Customize Cell Renderer
+## Customize Cell Renderer{#customize-cell-renderer}
 
 Of course, you can render the table cell per your needs, here is a simple example of how to customize your cell.
 
@@ -390,10 +390,10 @@ Note that these are `JavaScript` Objects, so that you **CANNOT USE** kebab-case 
 | maxWidth           | Maximum width for the column                                              | String                                                                                                                                                           | -       |
 | minWidth           | Minimum width for the column                                              | String                                                                                                                                                           | -       |
 | width \*           | Width for the column **Required**                                         | Number                                                                                                                                                           | -       |
-| cellRenderer       | Customized Cell renderer                                                  | VueComponent/(props: [CellRenderProps](#renderer-typings)) => VNode                                                                                              | -       |
-| headerCellRenderer | Customized Header renderer                                                | VueComponent/(props: [HeaderRenderProps](#renderer-typings)) => VNode                                                                                            | -       |
+| cellRenderer       | Customized Cell renderer                                                  | VueComponent/(props: [CellRenderProps](#typings)) => VNode                                                                                                       | -       |
+| headerCellRenderer | Customized Header renderer                                                | VueComponent/(props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | -       |
 
-## Typings
+## Typings{#typings}
 
 <details>
 <summary>Show Type Declarations</summary>

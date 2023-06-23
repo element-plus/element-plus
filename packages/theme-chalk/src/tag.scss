@@ -92,7 +92,7 @@ $tag-icon-span-gap: map.merge(
   display: inline-flex;
   justify-content: center;
   align-items: center;
-
+  vertical-align: middle;
   height: map.get($tag-height, 'default');
   padding: 0 map.get($tag-padding, 'default') - $border-width;
 

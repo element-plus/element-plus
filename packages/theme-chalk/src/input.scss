@@ -133,7 +133,7 @@
   position: relative;
   font-size: getCssVar('font-size', 'base');
   display: inline-flex;
-  width: 100%;
+  width: getCssVar('input-width');
   line-height: getCssVar('input-height');
   box-sizing: border-box;
   vertical-align: middle;
