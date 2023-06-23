@@ -199,7 +199,7 @@ describe('Affix.vue', () => {
     const mockAffixRect = vi
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
       .mockReturnValue({
-        height: 20,
+        height: 40,
         width: 1000,
         top: -100,
         bottom: -80,
@@ -232,7 +232,7 @@ describe('Affix.vue', () => {
     const mockAffixRect = vi
       .spyOn(wrapper.find('.el-affix').element, 'getBoundingClientRect')
       .mockReturnValue({
-        height: 20,
+        height: 40,
         width: 1000,
         top: -100,
         bottom: -80,
@@ -246,7 +246,7 @@ describe('Affix.vue', () => {
         bottom: 200,
       } as DOMRect)
     const scrollTopRestore = defineGetter(
-      window.HTMLElement.prototype,
+      document.documentElement,
       'scrollTop',
       200,
       0
