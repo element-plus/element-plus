@@ -377,36 +377,41 @@ const setNativeInputValue = () => {
   if (!input || input.value === formatterValue) return
   input.value = formatterValue
 }
+const handleInput = (() => {
+  let timeout = 0
+  return (event: Event) => {
+    window.clearTimeout(timeout)
+    timeout = window.setTimeout(async () => {
+      recordCursor()
 
-const handleInput = async (event: Event) => {
-  recordCursor()
+      let { value } = event.target as TargetElement
 
-  let { value } = event.target as TargetElement
+      if (props.formatter) {
+        value = props.parser ? props.parser(value) : value
+      }
 
-  if (props.formatter) {
-    value = props.parser ? props.parser(value) : value
+      // should not emit input during composition
+      // see: https://github.com/ElemeFE/element/issues/10516
+      if (isComposing.value) return
+
+      // hack for https://github.com/ElemeFE/element/issues/8548
+      // should remove the following line when we don't support IE
+      if (value === nativeInputValue.value) {
+        setNativeInputValue()
+        return
+      }
+
+      emit(UPDATE_MODEL_EVENT, value)
+      emit('input', value)
+
+      // ensure native input value is controlled
+      // see: https://github.com/ElemeFE/element/issues/12850
+      await nextTick()
+      setNativeInputValue()
+      setCursor()
+    }, 30)
   }
-
-  // should not emit input during composition
-  // see: https://github.com/ElemeFE/element/issues/10516
-  if (isComposing.value) return
-
-  // hack for https://github.com/ElemeFE/element/issues/8548
-  // should remove the following line when we don't support IE
-  if (value === nativeInputValue.value) {
-    setNativeInputValue()
-    return
-  }
-
-  emit(UPDATE_MODEL_EVENT, value)
-  emit('input', value)
-
-  // ensure native input value is controlled
-  // see: https://github.com/ElemeFE/element/issues/12850
-  await nextTick()
-  setNativeInputValue()
-  setCursor()
-}
+})()
 
 const handleChange = (event: Event) => {
   emit('change', (event.target as TargetElement).value)
