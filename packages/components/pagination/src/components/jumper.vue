@@ -67,7 +67,7 @@ const handleBlur = (event: FocusEvent) => {
 
 function handleClearInput() {
   if (
-    userInput.value === '' ||
+    userInput.value !== undefined ||
     (userInput.value && pageCount && userInput.value > pageCount.value)
   ) {
     userInput.value = undefined
