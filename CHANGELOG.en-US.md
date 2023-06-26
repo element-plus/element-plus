@@ -1,5 +1,34 @@
 ## Changelog
 
+### 2.3.7
+
+_2023-06-21_
+
+#### Features
+
+- Theme-chalk [form] add default width to Input in inline form (#12897 by @tolking)
+- Components [upload] item add title attribute (#13231 by @btea)
+- Components [Table] add show-overflow-tooltip props (#13169 by @yuyinws)
+
+#### Bug fixes
+
+- Components [backtop] change default visible (#13069 by @init-qy)
+- Components [table] add missing append height (#12676 by @init-qy)
+- Components [table] width of columns become 0 unexpectedly (#12920 by @makedopamine)
+- Components[time-picker] add parseFloat to resolve TimePicker offset (#12837 by @zhengsixsix)
+- Components [input] fix formatter and parse problem (#12622 by @wzc520pyfm)
+- Components [table] fix clearFilter type (#13149 by @mdoi2)
+- Locale : improve sr translation (#13125 by @N-M)
+- Components [form] improve types (#12549 by @ModyQyW)
+- Components [calendar] improve types (#13165 by @ModyQyW)
+- Components [select] filter shake (#12106 by @chenxch)
+- Components [tag] element vertically centered (#13235 by @yj-liuzepeng)
+- Components [table] adjust the showOverflowTooltip value logic (#13282 by @btea)
+- Perf(components): [select-v2] performance enhancement for initStates (#12390 by @CeceWall)
+- Style(theme-chalk): remove unreferenced modules (#12974 by @zwgwf)
+- Style(theme-chalk): change input-number hover style (#13120 by @yj-liuzepeng)
+- Style(theme-chalk): change border-left:0 to border-left-color:transparent (#13107 by @zhengsixsix)
+
 ### 2.3.6
 
 _2023-06-02_
