@@ -47,10 +47,9 @@ function handleInput(val: number | string) {
 }
 
 function handleChange(val: number | string) {
-  const value = Math.trunc(+val)
-
-  if (value && pageCount && value <= pageCount.value) {
-    changeEvent?.(value)
+  if (val !== '') {
+    val = Math.trunc(+val)
+    changeEvent?.(val)
     userInput.value = undefined
   }
 }
@@ -66,10 +65,7 @@ const handleBlur = (event: FocusEvent) => {
 }
 
 function handleClearInput() {
-  if (
-    userInput.value !== undefined ||
-    (userInput.value && pageCount && userInput.value > pageCount.value)
-  ) {
+  if (userInput.value !== undefined) {
     userInput.value = undefined
   }
 }
