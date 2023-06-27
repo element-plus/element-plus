@@ -10,11 +10,7 @@
         :src="imageSrc"
         :loading="loading"
         :style="imageStyle"
-        :class="[
-          ns.e('inner'),
-          preview && ns.e('preview'),
-          isLoading && ns.is('loading'),
-        ]"
+        :class="imageKls"
         @click="clickHandler"
         @load="handleLoad"
         @error="handleError"
@@ -96,6 +92,12 @@ const supportLoading = isClient && 'loading' in HTMLImageElement.prototype
 let stopScrollListener: (() => void) | undefined
 let stopWheelListener: (() => void) | undefined
 
+const imageKls = computed(() => [
+  ns.e('inner'),
+  preview.value && ns.e('preview'),
+  isLoading.value && ns.is('loading'),
+])
+
 const containerStyle = computed(() => rawAttrs.style as StyleValue)
 
 const imageStyle = computed<CSSProperties>(() => {
@@ -153,7 +155,7 @@ function handleLazyLoad() {
   }
 }
 
-const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200)
+const lazyLoadHandler = useThrottleFn(handleLazyLoad, 200, true)
 
 async function addLazyLoadListener() {
   if (!isClient) return
