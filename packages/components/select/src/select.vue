@@ -33,22 +33,14 @@
           <div
             v-if="multiple"
             ref="tags"
-            :class="[
-              nsSelect.e('tags'),
-              nsSelect.is('disabled', selectDisabled),
-            ]"
+            :class="tagsKls"
             :style="selectTagsStyle"
           >
             <transition
               v-if="collapseTags && selected.length"
               @after-leave="resetInputHeight"
             >
-              <span
-                :class="[
-                  nsSelect.b('tags-wrapper'),
-                  { 'has-prefix': prefixWidth && selected.length },
-                ]"
-              >
+              <span :class="tagWrapperKls">
                 <el-tag
                   v-for="item in showTagList"
                   :key="getValueKey(item)"
@@ -120,10 +112,7 @@
             </transition>
             <transition v-if="!collapseTags" @after-leave="resetInputHeight">
               <span
-                :class="[
-                  nsSelect.b('tags-wrapper'),
-                  { 'has-prefix': prefixWidth && selected.length },
-                ]"
+                :class="tagWrapperKls"
                 :style="
                   prefixWidth && selected.length
                     ? { marginLeft: `${prefixWidth}px` }
@@ -153,19 +142,10 @@
               ref="input"
               v-model="query"
               type="text"
-              :class="[
-                nsSelect.e('input'),
-                nsSelect.is(selectSize),
-                nsSelect.is('disabled', selectDisabled),
-              ]"
+              :class="inputKls"
               :disabled="selectDisabled"
               :autocomplete="autocomplete"
-              :style="{
-                marginLeft: `${prefixWidth}px`,
-                flexGrow: 1,
-                width: `${inputLength / (inputWidth - 32)}%`,
-                maxWidth: `${inputWidth - 42}px`,
-              }"
+              :style="inputStyle"
               @focus="handleFocus"
               @blur="handleBlur"
               @keyup="managePlaceholder"
@@ -186,11 +166,7 @@
           <input
             v-if="isIOS && !multiple && filterable && readonly"
             ref="iOSInput"
-            :class="[
-              nsSelect.e('input'),
-              nsSelect.is(selectSize),
-              nsSelect.em('input', 'iOS'),
-            ]"
+            :class="iOSInputKls"
             :disabled="selectDisabled"
             type="text"
           />
@@ -263,12 +239,7 @@
             tag="ul"
             :wrap-class="nsSelect.be('dropdown', 'wrap')"
             :view-class="nsSelect.be('dropdown', 'list')"
-            :class="[
-              nsSelect.is(
-                'empty',
-                !allowCreate && Boolean(query) && filteredOptionsCount === 0
-              ),
-            ]"
+            :class="scrollbarKls"
           >
             <el-option v-if="showNewOption" :value="query" :created="true" />
             <el-options @update-options="onOptionsRendered">
@@ -549,6 +520,37 @@ export default defineComponent({
       return classList
     })
 
+    const tagsKls = computed(() => [
+      nsSelect.e('tags'),
+      nsSelect.is('disabled', unref(selectDisabled)),
+    ])
+
+    const tagWrapperKls = computed(() => [
+      nsSelect.b('tags-wrapper'),
+      { 'has-prefix': unref(prefixWidth) && unref(selected).length },
+    ])
+
+    const inputKls = computed(() => [
+      nsSelect.e('input'),
+      nsSelect.is(unref(selectSize)),
+      nsSelect.is('disabled', unref(selectDisabled)),
+    ])
+
+    const iOSInputKls = computed(() => [
+      nsSelect.e('input'),
+      nsSelect.is(unref(selectSize)),
+      nsSelect.em('input', 'iOS'),
+    ])
+
+    const scrollbarKls = computed(() => [
+      nsSelect.is(
+        'empty',
+        !props.allowCreate &&
+          Boolean(unref(query)) &&
+          unref(filteredOptionsCount) === 0
+      ),
+    ])
+
     const selectTagsStyle = computed(() => ({
       maxWidth: `${unref(inputWidth) - 32}px`,
       width: '100%',
@@ -561,6 +563,13 @@ export default defineComponent({
           : unref(inputWidth) - 75
       return { maxWidth: `${maxWidth}px` }
     })
+
+    const inputStyle = computed(() => ({
+      marginLeft: `${unref(prefixWidth)}px`,
+      flexGrow: 1,
+      width: `${unref(inputLength) / (unref(inputWidth) - 32)}%`,
+      maxWidth: `${unref(inputWidth) - 42}px`,
+    }))
 
     provide(
       selectKey,
@@ -691,9 +700,15 @@ export default defineComponent({
       scrollbar,
 
       wrapperKls,
+      tagsKls,
+      tagWrapperKls,
+      inputKls,
+      iOSInputKls,
+      scrollbarKls,
       selectTagsStyle,
       nsSelect,
       tagTextStyle,
+      inputStyle,
       handleMouseEnter,
       handleMouseLeave,
       showTagList,
