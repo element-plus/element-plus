@@ -345,6 +345,7 @@ export const useSelect = (props, states: States, ctx) => {
       }
       const inputs = selectWrapper.value?.querySelectorAll('input') || []
       if (
+        !(props.remote || props.filterable) ||
         !Array.from(inputs).includes(document.activeElement as HTMLInputElement)
       ) {
         setSelected()
