@@ -75,7 +75,10 @@ export const formatter = function (
   format: string | undefined,
   lang: string
 ) {
-  if (isEmpty(format)) return date
+  if (isEmpty(format)) {
+    if (dayjs.isDayjs(date)) return date.toDate()
+    return date
+  }
   if (format === 'x') return +date
   return dayjs(date).locale(lang).format(format)
 }
