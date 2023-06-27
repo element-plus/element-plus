@@ -559,10 +559,9 @@ const isValidValue = (date: unknown) => {
 }
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
-  if (selectionMode.value === 'dates') {
-    return (value as Dayjs[]).map((_) => _.format(props.format))
-  }
-  return (value as Dayjs).format(props.format)
+  return Array.isArray(value)
+    ? (value as Dayjs[]).map((_) => _.format(props.format))
+    : (value as Dayjs).format(props.format)
 }
 
 const parseUserInput = (value: Dayjs) => {
