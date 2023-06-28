@@ -273,11 +273,6 @@ export function toggleRowStatus<T>(
       statusArr.splice(index, 1)
     }
     changed = true
-    if (isArray(row.children) && !selectIsolated) {
-      row.children.forEach((item) => {
-        toggleRowStatus(statusArr, item, newVal ?? !included)
-      })
-    }
   }
 
   if (isBoolean(newVal)) {
@@ -289,6 +284,13 @@ export function toggleRowStatus<T>(
   } else {
     included ? toggleStatus('remove') : toggleStatus('add')
   }
+
+  if (isArray(row.children) && !selectIsolated) {
+    row.children.forEach((item) => {
+      toggleRowStatus(statusArr, item, newVal ?? !included)
+    })
+  }
+
   return changed
 }
 
