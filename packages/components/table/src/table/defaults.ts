@@ -133,6 +133,7 @@ interface TableProps<T> {
       }
     | undefined
   selectOnIndeterminate?: boolean
+  selectIsolated?: boolean
   indent?: number
   treeProps?: {
     hasChildren?: string
@@ -238,6 +239,7 @@ export default {
     type: Boolean,
     default: true,
   },
+  selectIsolated: Boolean,
   indent: {
     type: Number,
     default: 16,

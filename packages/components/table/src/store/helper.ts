@@ -9,6 +9,7 @@ import type { Table, TableProps } from '../table/defaults'
 const InitialStateMap = {
   rowKey: 'rowKey',
   defaultExpandAll: 'defaultExpandAll',
+  selectIsolated: 'selectIsolated',
   selectOnIndeterminate: 'selectOnIndeterminate',
   indent: 'indent',
   lazy: 'lazy',

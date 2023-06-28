@@ -68,6 +68,7 @@ function useWatcher<T>() {
   const selection: Ref<T[]> = ref([])
   const reserveSelection = ref(false)
   const selectOnIndeterminate = ref(false)
+  const selectIsolated = ref(false)
   const selectable: Ref<(row: T, index: number) => boolean> = ref(null)
   const filters: Ref<StoreFilter> = ref({})
   const filteredData = ref(null)
@@ -193,7 +194,12 @@ function useWatcher<T>() {
     selected = undefined,
     emitChange = true
   ) => {
-    const changed = toggleRowStatus(selection.value, row, selected)
+    const changed = toggleRowStatus(
+      selection.value,
+      row,
+      selected,
+      selectIsolated.value
+    )
     if (changed) {
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
@@ -220,12 +226,14 @@ function useWatcher<T>() {
       if (selectable.value) {
         if (
           selectable.value.call(null, row, rowIndex) &&
-          toggleRowStatus(selection.value, row, value)
+          toggleRowStatus(selection.value, row, value, selectIsolated.value)
         ) {
           selectionChanged = true
         }
       } else {
-        if (toggleRowStatus(selection.value, row, value)) {
+        if (
+          toggleRowStatus(selection.value, row, value, selectIsolated.value)
+        ) {
           selectionChanged = true
         }
       }
@@ -526,6 +534,7 @@ function useWatcher<T>() {
       selection,
       reserveSelection,
       selectOnIndeterminate,
+      selectIsolated,
       selectable,
       filters,
       filteredData,
