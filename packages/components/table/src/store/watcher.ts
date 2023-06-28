@@ -226,14 +226,12 @@ function useWatcher<T>() {
       if (selectable.value) {
         if (
           selectable.value.call(null, row, rowIndex) &&
-          toggleRowStatus(selection.value, row, value, selectIsolated.value)
+          toggleRowStatus(selection.value, row, value)
         ) {
           selectionChanged = true
         }
       } else {
-        if (
-          toggleRowStatus(selection.value, row, value, selectIsolated.value)
-        ) {
+        if (toggleRowStatus(selection.value, row, value)) {
           selectionChanged = true
         }
       }
