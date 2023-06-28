@@ -395,6 +395,15 @@ const dateFormat = computed(() => {
   return extractDateFormat(format)
 })
 
+const isValidValue = (date: [Dayjs, Dayjs]) => {
+  return (
+    isValidRange(date) &&
+    (disabledDate
+      ? !disabledDate(date[0].toDate()) && !disabledDate(date[1].toDate())
+      : true)
+  )
+}
+
 const leftPrevYear = () => {
   leftDate.value = leftDate.value.subtract(1, 'year')
   if (!props.unlinkPanels) {
@@ -709,7 +718,7 @@ function onParsedValueChanged(
   }
 }
 
-emit('set-picker-option', ['isValidValue', isValidRange])
+emit('set-picker-option', ['isValidValue', isValidValue])
 emit('set-picker-option', ['parseUserInput', parseUserInput])
 emit('set-picker-option', ['formatToString', formatToString])
 emit('set-picker-option', ['handleClear', handleClear])
