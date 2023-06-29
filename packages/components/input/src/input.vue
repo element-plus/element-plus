@@ -305,7 +305,7 @@ const suffixVisible = computed(
 
 const clearStyle = computed<StyleValue>(() => [
   { visibility: showClear.value ? 'visible' : 'hidden' },
-{ cursor: showClear.value ? 'pointer' : 'text' },
+  { cursor: showClear.value ? 'pointer' : 'text' },
 ])
 
 const [recordCursor, setCursor] = useCursor(input)
