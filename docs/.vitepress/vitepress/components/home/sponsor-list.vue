@@ -25,6 +25,9 @@ const getSponsorName = (sponsor) => {
 }
 const getSponsorSlogan = (sponsor) => {
   if (lang.value === langZhCN) {
+    if (sponsor.slogan_index) {
+      return sponsor.slogan_index
+    }
     return sponsor.slogan_cn || sponsor.slogan
   }
   return sponsor.slogan

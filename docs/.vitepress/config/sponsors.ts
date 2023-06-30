@@ -1,4 +1,13 @@
-export const rightRichTextSponsors = []
+export const rightRichTextSponsors = [
+  {
+    name: 'MISBoot',
+    img: '/images/sponsors/MISBoot.png',
+    url: 'https://www.misboot.com/?from=element-plus',
+    slogan: 'Low-code platform for rapid development',
+    slogan_cn: '低代码开发平台，应用快速开发',
+    slogan_index: '低代码开发平台，应用快速开发',
+  },
+]
 
 export const rightLogoSmallSponsors = [
   {
