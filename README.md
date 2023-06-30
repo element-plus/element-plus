@@ -75,7 +75,7 @@ You can also try Element Plus out with the components built-in playground.
       </td>
       <td align="center" valign="middle">
         <a href="https://www.misboot.com/?from=element-plus" target="_blank">
-          <img width="150px" src="https://github.com/element-plus/element-plus/assets/82012629/b9834777-4369-46a4-be4b-93ecb9a9d161">
+          <img width="150px" src="https://github-production-user-asset-6210df.s3.amazonaws.com/82012629/250156754-946f593a-ea51-4756-8599-d077f60a5208.png">
         </a>
       </td>
     </tr>
