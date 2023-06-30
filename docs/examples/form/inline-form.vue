@@ -40,3 +40,9 @@ const onSubmit = () => {
   console.log('submit!')
 }
 </script>
+
+<style>
+.demo-form-inline .el-input {
+  --el-input-width: 220px;
+}
+</style>
