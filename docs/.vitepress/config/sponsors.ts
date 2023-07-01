@@ -1,4 +1,13 @@
-export const rightRichTextSponsors = []
+export const rightRichTextSponsors = [
+  {
+    name: 'MISBoot',
+    img: '/images/sponsors/MISBoot.png',
+    url: 'https://www.misboot.com/?from=element-plus',
+    slogan: 'Low-code platform for rapid development',
+    slogan_cn: '低代码开发平台，应用快速开发',
+    slogan_index: '低代码开发平台，应用快速开发',
+  },
+]
 
 export const rightLogoSmallSponsors = [
   {
@@ -32,7 +41,7 @@ export const leftCustomImgSponsors = [
   {
     name: 'VForm',
     img: '/images/vform.png',
-    url: 'https://www.vform666.com/',
+    url: 'https://vform666.com/',
     slogan: 'Vue 2/3 Visual/Low-Code Forms',
     slogan_cn: 'Vue 2/3 可视化低代码表单',
     banner_img: '/images/vform-banner.png',

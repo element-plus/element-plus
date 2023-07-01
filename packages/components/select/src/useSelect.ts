@@ -46,7 +46,6 @@ export function useSelectStates(props) {
     optionsCount: 0,
     filteredOptionsCount: 0,
     visible: false,
-    softFocus: false,
     selectedLabel: '',
     hoverIndex: -1,
     query: '',
@@ -56,12 +55,11 @@ export function useSelectStates(props) {
     currentPlaceholder: t('el.select.placeholder') as string | (() => string),
     menuVisibleOnFocus: false,
     isOnComposition: false,
-    isSilentBlur: false,
     prefixWidth: 11,
-    tagInMultiLine: false,
     mouseEnter: false,
   })
 }
+let ignoreFocusEvent = false
 
 type States = ReturnType<typeof useSelectStates>
 
@@ -414,8 +412,6 @@ export const useSelect = (props, states: States, ctx) => {
               )) - 2
         }px`)
 
-      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
-
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
       }
@@ -588,7 +584,7 @@ export const useSelect = (props, states: States, ctx) => {
   const handleResize = () => {
     resetInputWidth()
     tooltipRef.value?.updatePopper?.()
-    if (props.multiple) resetInputHeight()
+    props.multiple && resetInputHeight()
   }
 
   const resetInputWidth = () => {
@@ -657,7 +653,7 @@ export const useSelect = (props, states: States, ctx) => {
     ctx.emit('clear')
   }
 
-  const handleOptionSelect = (option, byClick) => {
+  const handleOptionSelect = (option) => {
     if (props.multiple) {
       const value = (props.modelValue || []).slice()
       const optionIndex = getValueIndex(value, option.value)
@@ -682,7 +678,7 @@ export const useSelect = (props, states: States, ctx) => {
       emitChange(option.value)
       states.visible = false
     }
-    states.isSilentBlur = byClick
+
     setSoftFocus()
     if (states.visible) return
     nextTick(() => {
@@ -706,7 +702,6 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const setSoftFocus = () => {
-    states.softFocus = true
     const _input = input.value || reference.value
     if (_input) {
       _input?.focus()
@@ -788,7 +783,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleFocus = (event: FocusEvent) => {
-    if (!states.softFocus) {
+    if (!ignoreFocusEvent) {
       if (props.automaticDropdown || props.filterable) {
         if (props.filterable && !states.visible) {
           states.menuVisibleOnFocus = true
@@ -797,7 +792,7 @@ export const useSelect = (props, states: States, ctx) => {
       }
       ctx.emit('focus', event)
     } else {
-      states.softFocus = false
+      ignoreFocusEvent = false
     }
   }
 
@@ -808,15 +803,16 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleBlur = (event: FocusEvent) => {
-    // https://github.com/ElemeFE/element/pull/10822
-    nextTick(() => {
-      if (states.isSilentBlur) {
-        states.isSilentBlur = false
-      } else {
-        ctx.emit('blur', event)
+    setTimeout(() => {
+      // validate current focus event is inside el-tooltip-content
+      // if so, ignore the blur event and the next focus event
+      if (tooltipRef.value?.isFocusInsideContent()) {
+        ignoreFocusEvent = true
+        return
       }
+      states.visible && handleClose()
+      ctx.emit('blur', event)
     })
-    states.softFocus = false
   }
 
   const handleClearClick = (event: Event) => {
@@ -858,7 +854,7 @@ export const useSelect = (props, states: States, ctx) => {
       toggleMenu()
     } else {
       if (optionsArray.value[states.hoverIndex]) {
-        handleOptionSelect(optionsArray.value[states.hoverIndex], undefined)
+        handleOptionSelect(optionsArray.value[states.hoverIndex])
       }
     }
   }
