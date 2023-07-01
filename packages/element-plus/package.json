@@ -27,7 +27,10 @@
     "./es": "./es/index.mjs",
     "./lib": "./lib/index.js",
     "./es/*.mjs": "./es/*.mjs",
-    "./es/*": "./es/*.mjs",
+    "./es/*": {
+      "types": "./es/*/index.d.ts",
+      "import": "./es/*.mjs"
+    },
     "./lib/*.js": "./lib/*.js",
     "./lib/*": "./lib/*.js",
     "./*": "./*"
