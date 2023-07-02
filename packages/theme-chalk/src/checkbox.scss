@@ -49,7 +49,10 @@ $checkbox-bordered-input-width: map.merge(
   white-space: nowrap;
   user-select: none;
   margin-right: 30px;
-  height: map.get($checkbox-height, 'default');
+  height: getCssVarWithDefault(
+    'checkbox-height',
+    map.get($checkbox-height, 'default')
+  );
 
   @include when(disabled) {
     cursor: not-allowed;
