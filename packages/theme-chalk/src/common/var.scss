@@ -950,6 +950,7 @@ $text-font-size: map.merge(
 $tree: () !default;
 $tree: map.merge(
   (
+    'node-content-height': 26px,
     'node-hover-bg-color': getCssVar('fill-color', 'light'),
     'text-color': getCssVar('text-color-regular'),
     'expand-icon-color': getCssVar('text-color-placeholder'),
