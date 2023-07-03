@@ -4,7 +4,7 @@ export const rightRichTextSponsors = [
     img: '/images/sponsors/MISBoot.png',
     url: 'https://www.misboot.com/?from=element-plus',
     slogan: 'Low-code platform for rapid development',
-    slogan_cn: '低代码开发平台，应用快速开发',
+    slogan_cn: '低代码开发平台，应用可视化快速开发',
     slogan_index: '低代码开发平台，应用快速开发',
   },
 ]
