@@ -64,6 +64,7 @@
                 >
                   <el-tooltip
                     v-if="collapseTagsTooltip"
+                    ref="tagTooltipRef"
                     :disabled="dropMenuVisible"
                     :fallback-placements="['bottom', 'top', 'right', 'left']"
                     :effect="effect"
@@ -90,7 +91,7 @@
                             :type="tagType"
                             disable-transitions
                             :style="{ margin: '2px' }"
-                            @close="deleteTag($event, item)"
+                            @close="handleDeleteTooltipTag($event, item)"
                           >
                             <span
                               :class="nsSelect.e('tags-text')"
@@ -470,12 +471,14 @@ export default defineComponent({
       selectOption,
       getValueKey,
       navigateOptions,
+      handleDeleteTooltipTag,
       dropMenuVisible,
 
       reference,
       input,
       iOSInput,
       tooltipRef,
+      tagTooltipRef,
       tags,
       selectWrapper,
       scrollbar,
@@ -649,6 +652,7 @@ export default defineComponent({
       debouncedQueryChange,
       deletePrevTag,
       deleteTag,
+      handleDeleteTooltipTag,
       deleteSelected,
       handleOptionSelect,
       scrollToOption,
@@ -713,6 +717,7 @@ export default defineComponent({
       handleMouseLeave,
       showTagList,
       collapseTagList,
+      tagTooltipRef,
     }
   },
 })
