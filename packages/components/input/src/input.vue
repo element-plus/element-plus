@@ -55,6 +55,15 @@
         <!-- suffix slot -->
         <span v-if="suffixVisible" :class="nsInput.e('suffix')">
           <span :class="nsInput.e('suffix-inner')" @click="focus">
+            <el-icon
+              v-if="renderClear"
+              :class="[nsInput.e('icon'), nsInput.e('clear')]"
+              :style="clearStyle"
+              @mousedown.prevent="NOOP"
+              @click="clear"
+            >
+              <circle-close />
+            </el-icon>
             <template
               v-if="!showClear || !showPwdVisible || !isWordLimitVisible"
             >
@@ -63,14 +72,6 @@
                 <component :is="suffixIcon" />
               </el-icon>
             </template>
-            <el-icon
-              v-if="showClear"
-              :class="[nsInput.e('icon'), nsInput.e('clear')]"
-              @mousedown.prevent="NOOP"
-              @click="clear"
-            >
-              <circle-close />
-            </el-icon>
             <el-icon
               v-if="showPwdVisible"
               :class="[nsInput.e('icon'), nsInput.e('password')]"
@@ -269,21 +270,12 @@ const textareaStyle = computed<StyleValue>(() => [
 const nativeInputValue = computed(() =>
   isNil(props.modelValue) ? '' : String(props.modelValue)
 )
-const showClear = computed(
-  () =>
-    props.clearable &&
-    !inputDisabled.value &&
-    !props.readonly &&
-    !!nativeInputValue.value &&
-    (focused.value || hovering.value)
+const showClear = computed(() => !!nativeInputValue.value)
+const renderClear = computed(
+  () => props.clearable && !props.readonly && !inputDisabled.value
 )
 const showPwdVisible = computed(
-  () =>
-    props.showPassword &&
-    !inputDisabled.value &&
-    !props.readonly &&
-    !!nativeInputValue.value &&
-    (!!nativeInputValue.value || focused.value)
+  () => props.showPassword && !inputDisabled.value && !props.readonly
 )
 const isWordLimitVisible = computed(
   () =>
@@ -305,11 +297,16 @@ const suffixVisible = computed(
   () =>
     !!slots.suffix ||
     !!props.suffixIcon ||
-    showClear.value ||
+    props.clearable ||
     props.showPassword ||
     isWordLimitVisible.value ||
     (!!validateState.value && needStatusIcon.value)
 )
+
+const clearStyle = computed<StyleValue>(() => [
+  { visibility: showClear.value ? 'visible' : 'hidden' },
+  { cursor: showClear.value ? 'pointer' : 'text' },
+])
 
 const [recordCursor, setCursor] = useCursor(input)
 
