@@ -87,6 +87,7 @@ export const useSelect = (props, states: States, ctx) => {
   const input = ref<HTMLInputElement | null>(null)
   const iOSInput = ref<HTMLInputElement | null>(null)
   const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
+  const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const tags = ref<HTMLElement | null>(null)
   const selectWrapper = ref<HTMLElement | null>(null)
   const scrollbar = ref<{
@@ -916,7 +917,10 @@ export const useSelect = (props, states: States, ctx) => {
   const handleMouseLeave = () => {
     states.mouseEnter = false
   }
-
+  const handleDeleteTooltipTag = (event, tag) => {
+    deleteTag(event, tag)
+    tagTooltipRef.value?.updatePopper?.()
+  }
   return {
     optionList,
     optionsArray,
@@ -956,6 +960,7 @@ export const useSelect = (props, states: States, ctx) => {
     selectOption,
     getValueKey,
     navigateOptions,
+    handleDeleteTooltipTag,
     dropMenuVisible,
     queryChange,
     groupQueryChange,
@@ -967,6 +972,7 @@ export const useSelect = (props, states: States, ctx) => {
     input,
     iOSInput,
     tooltipRef,
+    tagTooltipRef,
     tags,
     selectWrapper,
     scrollbar,
