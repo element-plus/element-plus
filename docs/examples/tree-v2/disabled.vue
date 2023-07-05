@@ -6,7 +6,7 @@ interface Tree {
   id: string
   label: string
   children?: Tree[]
-  disabled?: boolean
+  disabled: boolean
 }
 
 const getKey = (prefix: string, id: number) => {
