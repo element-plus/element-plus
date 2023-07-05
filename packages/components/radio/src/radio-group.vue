@@ -1,12 +1,5 @@
 <template>
-  <div
-    :id="groupId"
-    ref="radioGroupRef"
-    :class="ns.b('group')"
-    role="radiogroup"
-    :aria-label="!isLabeledByFormItem ? label || 'radio-group' : undefined"
-    :aria-labelledby="isLabeledByFormItem ? formItem!.labelId : undefined"
-  >
+  <div ref="radioGroupRef" :class="ns.b('group')" role="radiogroup">
     <slot />
   </div>
 </template>
@@ -22,7 +15,7 @@ import {
   toRefs,
   watch,
 } from 'vue'
-import { useFormItem, useFormItemInputId } from '@element-plus/components/form'
+import { useFormItem } from '@element-plus/components/form'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { useId, useNamespace } from '@element-plus/hooks'
 import { debugWarn } from '@element-plus/utils'
@@ -42,9 +35,6 @@ const ns = useNamespace('radio')
 const radioId = useId()
 const radioGroupRef = ref<HTMLDivElement>()
 const { formItem } = useFormItem()
-const { inputId: groupId, isLabeledByFormItem } = useFormItemInputId(props, {
-  formItemContext: formItem,
-})
 
 const changeEvent = (value: RadioGroupProps['modelValue']) => {
   emit(UPDATE_MODEL_EVENT, value)
