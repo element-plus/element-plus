@@ -70,7 +70,7 @@ export const ajaxUpload: UploadRequestHandler = (option) => {
   const formData = new FormData()
   if (option.data) {
     for (const [key, value] of Object.entries(option.data)) {
-      if (Array.isArray(value)) formData.append(key, ...value)
+      if (Array.isArray(value)) formData.append(key, ...(value.length === 0 ? [''] : value))
       else formData.append(key, value)
     }
   }
