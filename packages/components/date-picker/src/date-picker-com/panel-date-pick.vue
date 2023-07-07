@@ -274,8 +274,13 @@ const checkDateWithinRange = (date: ConfigType) => {
     ? timeWithinRange(date, selectableRange.value, props.format || 'HH:mm:ss')
     : true
 }
-const formatEmit = (emitDayjs: Dayjs) => {
-  if (defaultTime && !visibleTime.value && !isChangeToNow.value) {
+const formatEmit = (emitDayjs: Dayjs, isShortcut = false) => {
+  if (
+    defaultTime &&
+    !visibleTime.value &&
+    !isChangeToNow.value &&
+    !isShortcut
+  ) {
     return defaultTimeD.value
       .year(emitDayjs.year())
       .month(emitDayjs.month())
@@ -284,14 +289,14 @@ const formatEmit = (emitDayjs: Dayjs) => {
   if (showTime.value) return emitDayjs.millisecond(0)
   return emitDayjs.startOf('day')
 }
-const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
+const emit = (value: Dayjs | Dayjs[], isShortcut = false, ...args: any[]) => {
   if (!value) {
     contextEmit('pick', value, ...args)
   } else if (isArray(value)) {
-    const dates = value.map(formatEmit)
+    const dates = value.map((date) => formatEmit(date))
     contextEmit('pick', dates, ...args)
   } else {
-    contextEmit('pick', formatEmit(value), ...args)
+    contextEmit('pick', formatEmit(value, isShortcut), ...args)
   }
   userInputDate.value = null
   userInputTime.value = null
@@ -366,7 +371,7 @@ const handleShortcutClick = (shortcut: Shortcut) => {
     ? shortcut.value()
     : shortcut.value
   if (shortcutValue) {
-    emit(dayjs(shortcutValue).locale(lang.value))
+    emit(dayjs(shortcutValue).locale(lang.value), true)
     return
   }
   if (shortcut.onClick) {
