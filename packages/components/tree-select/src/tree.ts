@@ -170,7 +170,7 @@ export const useTree = (
           const option = select.value?.options.get(
             getNodeValByProp('value', data)
           )
-          select.value?.handleOptionSelect(option, true)
+          select.value?.handleOptionSelect(option)
         }
       } else if (props.expandOnClickNode) {
         e.proxy.handleExpandIconClick()

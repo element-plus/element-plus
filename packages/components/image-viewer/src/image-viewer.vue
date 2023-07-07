@@ -16,24 +16,10 @@
 
         <!-- ARROW -->
         <template v-if="!isSingle">
-          <span
-            :class="[
-              ns.e('btn'),
-              ns.e('prev'),
-              ns.is('disabled', !infinite && isFirst),
-            ]"
-            @click="prev"
-          >
+          <span :class="arrowPrevKls" @click="prev">
             <el-icon><ArrowLeft /></el-icon>
           </span>
-          <span
-            :class="[
-              ns.e('btn'),
-              ns.e('next'),
-              ns.is('disabled', !infinite && isLast),
-            ]"
-            @click="next"
-          >
+          <span :class="arrowNextKls" @click="next">
             <el-icon><ArrowRight /></el-icon>
           </span>
         </template>
@@ -166,6 +152,18 @@ const isLast = computed(() => {
 const currentImg = computed(() => {
   return props.urlList[activeIndex.value]
 })
+
+const arrowPrevKls = computed(() => [
+  ns.e('btn'),
+  ns.e('prev'),
+  ns.is('disabled', !props.infinite && isFirst.value),
+])
+
+const arrowNextKls = computed(() => [
+  ns.e('btn'),
+  ns.e('next'),
+  ns.is('disabled', !props.infinite && isLast.value),
+])
 
 const imgStyle = computed(() => {
   const { scale, deg, offsetX, offsetY, enableTransition } = transform.value
@@ -377,7 +375,9 @@ onMounted(() => {
 })
 
 defineExpose({
-  /** @description manually switch image */
+  /**
+   * @description manually switch image
+   */
   setActiveItem,
 })
 </script>
