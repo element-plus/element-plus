@@ -319,11 +319,11 @@ const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
         .date(value.date())
     }
     innerDate.value = newDate
-    emit(newDate, showTime.value || keepOpen)
+    emit(newDate, false, showTime.value || keepOpen)
   } else if (selectionMode.value === 'week') {
     emit((value as WeekPickerEmits).date)
   } else if (selectionMode.value === 'dates') {
-    emit(value as DatesPickerEmits, true) // set true to keep panel open
+    emit(value as DatesPickerEmits, false, true) // set true to keep panel open
   }
 }
 
@@ -400,11 +400,11 @@ const hasShortcuts = computed(() => !!shortcuts.length)
 const handleMonthPick = async (month: number) => {
   innerDate.value = innerDate.value.startOf('month').month(month)
   if (selectionMode.value === 'month') {
-    emit(innerDate.value, false)
+    emit(innerDate.value, false, false)
   } else {
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
-      emit(innerDate.value, true)
+      emit(innerDate.value, false, true)
       await nextTick()
       handleFocusPicker()
     }
@@ -415,12 +415,12 @@ const handleMonthPick = async (month: number) => {
 const handleYearPick = async (year: number) => {
   if (selectionMode.value === 'year') {
     innerDate.value = innerDate.value.startOf('year').year(year)
-    emit(innerDate.value, false)
+    emit(innerDate.value, false, false)
   } else {
     innerDate.value = innerDate.value.year(year)
     currentView.value = 'month'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
-      emit(innerDate.value, true)
+      emit(innerDate.value, false, true)
       await nextTick()
       handleFocusPicker()
     }
@@ -525,7 +525,7 @@ const handleTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
     ? (props.parsedValue as Dayjs).hour(hour).minute(minute).second(second)
     : value
   innerDate.value = newDate
-  emit(innerDate.value, true)
+  emit(innerDate.value, false, true)
   if (!first) {
     timePickerVisible.value = visible
   }
@@ -538,7 +538,7 @@ const handleVisibleTimeChange = (value: string) => {
     innerDate.value = newDate.year(year).month(month).date(date)
     userInputTime.value = null
     timePickerVisible.value = false
-    emit(innerDate.value, true)
+    emit(innerDate.value, false, true)
   }
 }
 
@@ -551,7 +551,7 @@ const handleVisibleDateChange = (value: string) => {
     const { hour, minute, second } = getUnits(innerDate.value)
     innerDate.value = newDate.hour(hour).minute(minute).second(second)
     userInputDate.value = null
-    emit(innerDate.value, true)
+    emit(innerDate.value, false, true)
   }
 }
 
@@ -621,7 +621,7 @@ const handleKeydownTable = (event: KeyboardEvent) => {
     userInputTime.value === null
   ) {
     event.preventDefault()
-    emit(innerDate.value, false)
+    emit(innerDate.value, false, false)
   }
 }
 
