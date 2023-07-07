@@ -115,8 +115,17 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
      *    - Expected: 188
      *    - Actual: 188.00000762939453
      */
-    const rangeWidth = Math.round(range.getBoundingClientRect().width)
-    const rangeHeight = Math.round(range.getBoundingClientRect().height)
+    let rangeWidth = range.getBoundingClientRect().width
+    let rangeHeight = range.getBoundingClientRect().height
+    const offsetWidth = rangeWidth - Math.floor(rangeWidth)
+    if (offsetWidth > 0 && offsetWidth < 0.001) {
+      rangeWidth = Math.floor(rangeWidth)
+    }
+    const offsetHeight = rangeHeight - Math.floor(rangeHeight)
+    if (offsetHeight > 0 && offsetHeight < 0.001) {
+      rangeHeight = Math.floor(rangeHeight)
+    }
+
     const { top, left, right, bottom } = getPadding(cellChild)
     const horizontalPadding = left + right
     const verticalPadding = top + bottom
