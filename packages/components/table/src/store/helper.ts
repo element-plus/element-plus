@@ -21,6 +21,10 @@ const InitialStateMap = {
     key: 'childrenColumnName',
     default: 'children',
   },
+  ['treeProps.checkStrictly']: {
+    key: 'checkStrictly',
+    default: false,
+  },
 }
 
 export function createStore<T>(table: Table<T>, props: TableProps<T>) {

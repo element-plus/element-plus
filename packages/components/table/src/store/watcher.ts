@@ -193,7 +193,11 @@ function useWatcher<T>() {
     selected = undefined,
     emitChange = true
   ) => {
-    const changed = toggleRowStatus(selection.value, row, selected)
+    const treeProps = {
+      children: instance?.store?.states?.childrenColumnName.value,
+      checkStrictly: instance?.store?.states?.checkStrictly.value,
+    }
+    const changed = toggleRowStatus(selection.value, row, selected, treeProps)
     if (changed) {
       const newSelection = (selection.value || []).slice()
       // 调用 API 修改选中值，不触发 select 事件
@@ -215,17 +219,22 @@ function useWatcher<T>() {
     let selectionChanged = false
     let childrenCount = 0
     const rowKey = instance?.store?.states?.rowKey.value
+
+    const treeProps = {
+      children: instance?.store?.states?.childrenColumnName.value,
+      checkStrictly: instance?.store?.states?.checkStrictly.value,
+    }
     data.value.forEach((row, index) => {
       const rowIndex = index + childrenCount
       if (selectable.value) {
         if (
           selectable.value.call(null, row, rowIndex) &&
-          toggleRowStatus(selection.value, row, value)
+          toggleRowStatus(selection.value, row, value, treeProps)
         ) {
           selectionChanged = true
         }
       } else {
-        if (toggleRowStatus(selection.value, row, value)) {
+        if (toggleRowStatus(selection.value, row, value, treeProps)) {
           selectionChanged = true
         }
       }

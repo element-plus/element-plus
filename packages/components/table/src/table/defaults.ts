@@ -37,6 +37,12 @@ interface TableState {
   debouncedUpdateLayout: () => void
 }
 
+interface TreeProps {
+  hasChildren?: string
+  children?: string
+  checkStrictly?: boolean
+}
+
 type HoverState<T> = Nullable<{
   cell: HTMLElement
   column: TableColumnCtx<T>
@@ -134,10 +140,7 @@ interface TableProps<T> {
     | undefined
   selectOnIndeterminate?: boolean
   indent?: number
-  treeProps?: {
-    hasChildren?: string
-    children?: string
-  }
+  treeProps?: TreeProps
   lazy?: boolean
   load?: (row: T, treeNode: TreeNode, resolve: (data: T[]) => void) => void
   className?: string
@@ -248,6 +251,7 @@ export default {
       return {
         hasChildren: 'hasChildren',
         children: 'children',
+        checkStrictly: false,
       }
     },
   },
@@ -288,4 +292,5 @@ export type {
   Sort,
   Filter,
   TableColumnCtx,
+  TreeProps,
 }

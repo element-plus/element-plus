@@ -14,6 +14,7 @@ import type { PopperInstance } from '@element-plus/components/popper'
 import type { Nullable } from '@element-plus/utils'
 import type { TableColumnCtx } from './table-column/defaults'
 import type { ElTooltipProps } from '@element-plus/components/tooltip'
+import type { TreeProps } from './table/defaults/TableProps'
 
 export type TableOverflowTooltipOptions = Partial<
   Pick<
@@ -259,7 +260,8 @@ export function compose(...funcs) {
 export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
-  newVal: boolean
+  newVal: boolean,
+  tableTreeProps: TreeProps
 ): boolean {
   let changed = false
   const index = statusArr.indexOf(row)
@@ -272,9 +274,14 @@ export function toggleRowStatus<T>(
       statusArr.splice(index, 1)
     }
     changed = true
-    if (isArray(row.children)) {
-      row.children.forEach((item) => {
-        toggleRowStatus(statusArr, item, newVal ?? !included)
+    // Adding the checkStrictly attribute can solve bugs: #13352
+    if (
+      !tableTreeProps?.checkStrictly &&
+      isArray(row[tableTreeProps?.children])
+    ) {
+      console.log('284')
+      row[tableTreeProps.children].forEach((item) => {
+        toggleRowStatus(statusArr, item, newVal ?? !included, tableTreeProps)
       })
     }
   }
