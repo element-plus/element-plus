@@ -279,7 +279,6 @@ export function toggleRowStatus<T>(
       !tableTreeProps?.checkStrictly &&
       isArray(row[tableTreeProps?.children])
     ) {
-      console.log('284')
       row[tableTreeProps.children].forEach((item) => {
         toggleRowStatus(statusArr, item, newVal ?? !included, tableTreeProps)
       })
