@@ -1,6 +1,13 @@
 <template>
   <el-table :data="filterTableData" style="width: 100%">
-    <el-table-column label="Date" prop="date" />
+    <el-table-column diagonal label="Date" prop="date">
+      <template #header>
+        <div style="display: flex; justify-content: space-between">
+          <div>Date</div>
+          <div>Prop</div>
+        </div>
+      </template>
+    </el-table-column>
     <el-table-column label="Name" prop="name" />
     <el-table-column align="right">
       <template #header>

@@ -64,6 +64,7 @@ interface TableColumnCtx<T> {
   getColumnIndex: () => number
   no: number
   filterOpened?: boolean
+  diagonal?: boolean
 }
 
 interface TableColumn<T> extends ComponentInternalInstance {
@@ -144,5 +145,9 @@ export default {
         ['ascending', 'descending', null].includes(order)
       )
     },
+  },
+  diagonal: {
+    type: Boolean,
+    default: false,
   },
 }

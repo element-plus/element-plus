@@ -206,6 +206,16 @@
   th.#{$namespace}-table__cell.is-sortable {
     cursor: pointer;
   }
+  th.#{$namespace}-table__cell.is-diagonal {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom left,
+      transparent 49%,
+      getCssVar('table-border-color') 50%,
+      transparent 51%
+    );
+  }
 
   th.#{$namespace}-table__cell {
     user-select: none;

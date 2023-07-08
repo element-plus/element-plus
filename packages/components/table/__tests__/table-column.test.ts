@@ -580,6 +580,16 @@ describe('table column', () => {
       await doubleWait()
       expect(wrapper.findAll('.el-table__header-wrapper th').length).toEqual(3)
     })
+
+    it('diagonal', async () => {
+      const wrapper = createTable('diagonal')
+      await doubleWait()
+      const HeaderDiagonalColumns = wrapper.findAll(
+        '.el-table__header thead tr th'
+      )
+      expect(HeaderDiagonalColumns.at(0).classes()).toContain('is-diagonal')
+      wrapper.unmount()
+    })
   })
 
   describe('multi level column', () => {

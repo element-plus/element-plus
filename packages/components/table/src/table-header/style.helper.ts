@@ -81,6 +81,10 @@ function useStyle<T>(props: TableHeaderProps<T>) {
       ...fixedClasses,
     ]
 
+    if (rowIndex === 0 && columnIndex === 0 && column.diagonal) {
+      classes.push('is-diagonal')
+    }
+
     if (!column.children) {
       classes.push('is-leaf')
     }

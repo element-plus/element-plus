@@ -103,6 +103,7 @@ export default defineComponent({
         'formatter',
         'fixed',
         'resizable',
+        'diagonal',
       ]
       const sortProps = ['sortMethod', 'sortBy', 'sortOrders']
       const selectProps = ['selectable', 'reserveSelection']
