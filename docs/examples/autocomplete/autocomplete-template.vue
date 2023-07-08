@@ -4,7 +4,7 @@
     :fetch-suggestions="querySearch"
     popper-class="my-autocomplete"
     placeholder="Please input"
-    @select="handleSelect"
+    @select="handleSelect($event as LinkItem)"
   >
     <template #suffix>
       <el-icon class="el-input__icon" @click="handleIconClick">
@@ -21,6 +21,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
 import { Edit } from '@element-plus/icons-vue'
+import type { AutocompleteFetchSuggestionsCallback } from 'element-plus'
 
 interface LinkItem {
   value: string
@@ -30,15 +31,18 @@ interface LinkItem {
 const state = ref('')
 const links = ref<LinkItem[]>([])
 
-const querySearch = (queryString: string, cb) => {
+const querySearch = (
+  queryString: string,
+  cb: AutocompleteFetchSuggestionsCallback
+) => {
   const results = queryString
     ? links.value.filter(createFilter(queryString))
     : links.value
   // call callback function to return suggestion objects
   cb(results)
 }
-const createFilter = (queryString) => {
-  return (restaurant) => {
+const createFilter = (queryString: string) => {
+  return (restaurant: LinkItem) => {
     return (
       restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0
     )

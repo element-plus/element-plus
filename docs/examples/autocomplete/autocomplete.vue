@@ -10,7 +10,7 @@
         clearable
         class="inline-input w-50"
         placeholder="Please Input"
-        @select="handleSelect"
+        @select="handleSelect($event as RestaurantItem)"
       />
     </el-col>
     <el-col :span="12">
@@ -24,7 +24,7 @@
         clearable
         class="inline-input w-50"
         placeholder="Please Input"
-        @select="handleSelect"
+        @select="handleSelect($event as RestaurantItem)"
       />
     </el-col>
   </el-row>
@@ -32,6 +32,7 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
+import type { AutocompleteFetchSuggestionsCallback } from 'element-plus'
 
 interface RestaurantItem {
   value: string
@@ -42,7 +43,10 @@ const state1 = ref('')
 const state2 = ref('')
 
 const restaurants = ref<RestaurantItem[]>([])
-const querySearch = (queryString: string, cb: any) => {
+const querySearch = (
+  queryString: string,
+  cb: AutocompleteFetchSuggestionsCallback
+) => {
   const results = queryString
     ? restaurants.value.filter(createFilter(queryString))
     : restaurants.value
