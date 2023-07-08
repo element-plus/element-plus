@@ -17,7 +17,7 @@
       <div v-click-outside="hide">
         <div :class="ns.be('dropdown', 'main-wrapper')">
           <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
-          <sv-panel ref="svPanel" :color="color" />
+          <sv-panel ref="sv" :color="color" />
         </div>
         <alpha-slider v-if="showAlpha" ref="alpha" :color="color" />
         <predefine
