@@ -91,9 +91,6 @@ export const dialogProps = buildProps({
   zIndex: {
     type: Number,
   },
-  /**
-   * @deprecated will be removed in version 2.4.0
-   */
   trapFocus: {
     type: Boolean,
     default: false,
