@@ -1,5 +1,5 @@
 import { TinyColor } from '@ctrl/tinycolor'
-import { COLOR_DARK_LEVEL, COLOR_LEVEL, COLOR_LIGHT_LEVEL } from '../theme'
+import { COLOR_DARK_LEVEL, COLOR_LIGHT_LEVEL } from '../theme'
 import type { HSV, Numberify } from '@ctrl/tinycolor'
 
 export const hsvOptions = {

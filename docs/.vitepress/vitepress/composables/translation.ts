@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n'
 import { PREFERRED_LANG_KEY } from '../constant'
 
 import langs from '../../i18n/lang.json'
-import translationLocale from '../../i18n/component/translation.json'
 import { useLang } from './lang'
 
 export const useTranslation = () => {
@@ -23,7 +22,6 @@ export const useTranslation = () => {
     'ja-JP': '日本語',
   }
 
-  const locale = computed(() => translationLocale[lang.value])
   const langsRef = computed(() => {
     const currentLang = lang.value
 
