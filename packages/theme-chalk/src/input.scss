@@ -161,7 +161,6 @@
       background: getCssVar('fill-color', 'blank');
       line-height: initial;
       display: inline-block;
-      padding-left: 8px;
     }
   }
 
@@ -264,6 +263,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
 
       @if $slot == prefix {
         > :last-child {
@@ -291,7 +291,6 @@
     justify-content: center;
     align-items: center;
     transition: all getCssVar('transition-duration');
-    margin-left: 8px;
   }
 
   @include e(validateIcon) {
