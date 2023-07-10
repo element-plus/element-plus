@@ -118,11 +118,11 @@ function useEvents<T>(props: Partial<TableBodyProps<T>>) {
     let rangeWidth = range.getBoundingClientRect().width
     let rangeHeight = range.getBoundingClientRect().height
     const offsetWidth = rangeWidth - Math.floor(rangeWidth)
-    if (offsetWidth > 0 && offsetWidth < 0.001) {
+    if (offsetWidth < 0.001) {
       rangeWidth = Math.floor(rangeWidth)
     }
     const offsetHeight = rangeHeight - Math.floor(rangeHeight)
-    if (offsetHeight > 0 && offsetHeight < 0.001) {
+    if (offsetHeight < 0.001) {
       rangeHeight = Math.floor(rangeHeight)
     }
 
