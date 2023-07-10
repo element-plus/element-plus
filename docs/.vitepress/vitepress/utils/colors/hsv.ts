@@ -1,5 +1,18 @@
 import { TinyColor } from '@ctrl/tinycolor'
+import { COLOR_DARK_LEVEL, COLOR_LEVEL, COLOR_LIGHT_LEVEL } from '../theme'
 import type { HSV, Numberify } from '@ctrl/tinycolor'
+
+export const hsvOptions = {
+  saturation: {
+    max: 1,
+    min: 0.06,
+  },
+  value: {
+    max: 1,
+    min: 0.5,
+  },
+  hStep: 1,
+}
 
 /**
  * round for property pf hsv
@@ -83,5 +96,27 @@ export function generateHsvColors(
   }
 
   // round
-  return hsvColors.map((c) => roundHsv(c))
+  return hsvColors.map((c) => new TinyColor(c).toHexString())
+}
+
+/**
+ * generate colors from base
+ * light 3 5 7 8 9 and dark 2
+ * @param hex
+ * @returns
+ */
+export function generateColorsFromBase(hex: string) {
+  const colors = {
+    base: hex,
+  }
+
+  const baseColor = new TinyColor(colors.base)
+  COLOR_LIGHT_LEVEL.forEach((level) => {
+    colors[`light-${level}`] = baseColor.mix('#fff', level * 10).toHexString()
+  })
+  COLOR_DARK_LEVEL.forEach((level) => {
+    colors[`dark-${level}`] = baseColor.mix('#000', level * 10).toHexString()
+  })
+
+  return colors
 }

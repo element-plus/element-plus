@@ -1,22 +1,11 @@
 <script lang="ts" setup>
-import { computed, reactive } from 'vue'
-import { generateHsvColors } from '~/utils'
+import { computed } from 'vue'
+import { generateHsvColors, hsvOptions } from '~/utils'
 
 const props = defineProps<{
+  name?: string
   mainColor: string
 }>()
-
-const hsvOptions = reactive({
-  saturation: {
-    max: 1,
-    min: 0.06,
-  },
-  value: {
-    max: 1,
-    min: 0.5,
-  },
-  hStep: 1,
-})
 
 const hsvColors = computed(() =>
   generateHsvColors(props.mainColor, {

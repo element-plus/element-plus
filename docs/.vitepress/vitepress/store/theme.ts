@@ -3,7 +3,7 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
 import type { EpTheme } from '~/utils/theme'
 import { parseFromCss, themes } from '~/utils/theme'
-import { setCssVarValue } from '~/utils'
+import { generateColorsFromBase, setCssVarValue } from '~/utils'
 import { isColor } from '~/utils/colors/helper'
 
 export const useThemeStore = defineStore('theme', () => {
@@ -44,6 +44,12 @@ export const useThemeStore = defineStore('theme', () => {
     theme.value.colors[name] = value
     if (!isColor(value)) return
     setCssVarValue(`--el-color-${name}`, value)
+
+    const colors = generateColorsFromBase(value)
+    Object.keys(colors).forEach((key) => {
+      if (key === 'base') return
+      setCssVarValue(`--el-color-${name}-${key}`, colors[key])
+    })
   }
 
   /**

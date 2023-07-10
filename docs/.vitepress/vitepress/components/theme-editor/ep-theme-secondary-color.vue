@@ -35,6 +35,6 @@ const sColor = computed({
         <el-input v-model="sColor" :placeholder="themes.default.colors[name]" />
       </div>
     </div>
-    <ep-theme-color-bar :main-color="sColor" />
+    <ep-theme-color-bar :name="name" :main-color="sColor" />
   </div>
 </template>

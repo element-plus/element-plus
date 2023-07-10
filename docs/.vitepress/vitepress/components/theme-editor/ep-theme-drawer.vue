@@ -4,7 +4,8 @@ import { Brush } from '@element-plus/icons-vue'
 import { useThemeStore } from '~/store/theme'
 import { downloadTheme } from '~/utils/theme'
 
-const drawer = ref(import.meta.env.DEV)
+// const drawer = ref(import.meta.env.DEV)
+const drawerOpen = ref(false)
 const direction = ref('rtl')
 
 const tStore = useThemeStore()
@@ -12,7 +13,7 @@ const tStore = useThemeStore()
 
 <template>
   <div>
-    <el-drawer v-model="drawer" :lock-scroll="false" :direction="direction">
+    <el-drawer v-model="drawerOpen" :lock-scroll="false" :direction="direction">
       <template #header>
         <span class="flex-1" text="sm">Theme Editor</span>
       </template>
@@ -41,11 +42,11 @@ const tStore = useThemeStore()
     </el-drawer>
 
     <el-button
-      v-if="!drawer"
+      v-if="!drawerOpen"
       class="fixed right-10 bottom-10"
       :icon="Brush"
       circle
-      @click="drawer = true"
+      @click="drawerOpen = true"
     />
   </div>
 </template>
