@@ -26,12 +26,12 @@ import {
   ref,
   watch,
 } from 'vue'
-import { flattenDeep, isEqual } from 'lodash-unified'
-import { isClient } from '@vueuse/core'
+import { cloneDeep, flattenDeep, isEqual } from 'lodash-unified'
 import {
   castArray,
   focusNode,
   getSibling,
+  isClient,
   isEmpty,
   scrollIntoView,
   unique,
@@ -192,6 +192,9 @@ export default defineComponent({
     const clearCheckedNodes = () => {
       checkedNodes.value.forEach((node) => node.doCheck(false))
       calculateCheckedValue()
+      menus.value = menus.value.slice(0, 1)
+      expandingNode.value = null
+      emit('expand-change', [])
     }
 
     const calculateCheckedValue = () => {
@@ -238,7 +241,7 @@ export default defineComponent({
           values.map((val) => store?.getNodeByValue(val, leafOnly))
         ) as Node[]
         syncMenuState(nodes, forced)
-        checkedValue.value = modelValue!
+        checkedValue.value = cloneDeep(modelValue)
       }
     }
 
@@ -348,15 +351,21 @@ export default defineComponent({
       () => {
         manualChecked = false
         syncCheckedValue()
+      },
+      {
+        deep: true,
       }
     )
 
-    watch(checkedValue, (val) => {
-      if (!isEqual(val, props.modelValue)) {
-        emit(UPDATE_MODEL_EVENT, val)
-        emit(CHANGE_EVENT, val)
+    watch(
+      () => checkedValue.value,
+      (val) => {
+        if (!isEqual(val, props.modelValue)) {
+          emit(UPDATE_MODEL_EVENT, val)
+          emit(CHANGE_EVENT, val)
+        }
       }
-    })
+    )
 
     onBeforeUpdate(() => (menuList.value = []))
 
@@ -370,7 +379,13 @@ export default defineComponent({
       handleKeyDown,
       handleCheckChange,
       getFlattedNodes,
+      /**
+       * @description get an array of currently selected node,(leafOnly) whether only return the leaf checked nodes, default is `false`
+       */
       getCheckedNodes,
+      /**
+       * @description clear checked nodes
+       */
       clearCheckedNodes,
       calculateCheckedValue,
       scrollToExpandingNode,

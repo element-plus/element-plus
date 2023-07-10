@@ -6,17 +6,17 @@ import {
   ref,
   watch,
 } from 'vue'
-import { isClient, useTimeoutFn } from '@vueuse/core'
+import { useTimeoutFn } from '@vueuse/core'
 
 import {
   defaultNamespace,
-  useGlobalConfig,
   useId,
   useLockscreen,
   useZIndex,
 } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
-import { addUnit } from '@element-plus/utils'
+import { addUnit, isClient } from '@element-plus/utils'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 
 import type { CSSProperties, Ref, SetupContext } from 'vue'
 import type { DialogEmits, DialogProps } from './dialog'
@@ -138,6 +138,12 @@ export const useDialog = (
     emit('closeAutoFocus')
   }
 
+  function onFocusoutPrevented(event: CustomEvent) {
+    if (event.detail?.focusReason === 'pointer') {
+      event.preventDefault()
+    }
+  }
+
   if (props.lockScroll) {
     useLockscreen(visible)
   }
@@ -204,6 +210,7 @@ export const useDialog = (
     onOpenAutoFocus,
     onCloseAutoFocus,
     onCloseRequested,
+    onFocusoutPrevented,
     titleId,
     bodyId,
     closed,

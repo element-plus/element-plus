@@ -17,7 +17,7 @@
       <div v-click-outside="hide">
         <div :class="ns.be('dropdown', 'main-wrapper')">
           <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
-          <sv-panel ref="svPanel" :color="color" />
+          <sv-panel ref="sv" :color="color" />
         </div>
         <alpha-slider v-if="showAlpha" ref="alpha" :color="color" />
         <predefine
@@ -58,11 +58,7 @@
     <template #default>
       <div
         :id="buttonId"
-        :class="[
-          ns.b('picker'),
-          ns.is('disabled', colorDisabled),
-          ns.bm('picker', colorSize),
-        ]"
+        :class="btnKls"
         role="button"
         :aria-label="buttonAriaLabel"
         :aria-labelledby="buttonAriaLabelledby"
@@ -115,16 +111,15 @@ import { debounce } from 'lodash-unified'
 import { ElButton } from '@element-plus/components/button'
 import { ElIcon } from '@element-plus/components/icon'
 import { ClickOutside as vClickOutside } from '@element-plus/directives'
-import {
-  useDisabled,
-  useFormItem,
-  useFormItemInputId,
-  useLocale,
-  useNamespace,
-  useSize,
-} from '@element-plus/hooks'
 import { ElTooltip } from '@element-plus/components/tooltip'
 import { ElInput } from '@element-plus/components/input'
+import {
+  useFormDisabled,
+  useFormItem,
+  useFormItemInputId,
+  useFormSize,
+} from '@element-plus/components/form'
+import { useLocale, useNamespace } from '@element-plus/hooks'
 import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
 import { debugWarn } from '@element-plus/utils'
 import { ArrowDown, Close } from '@element-plus/icons-vue'
@@ -149,8 +144,8 @@ const emit = defineEmits(colorPickerEmits)
 const { t } = useLocale()
 const ns = useNamespace('color')
 const { formItem } = useFormItem()
-const colorSize = useSize()
-const colorDisabled = useDisabled()
+const colorSize = useFormSize()
+const colorDisabled = useFormDisabled()
 
 const { inputId: buttonId, isLabeledByFormItem } = useFormItemInputId(props, {
   formItemContext: formItem,
@@ -197,6 +192,14 @@ const buttonAriaLabelledby = computed<string | undefined>(() => {
   return isLabeledByFormItem.value ? formItem?.labelId : undefined
 })
 
+const btnKls = computed(() => {
+  return [
+    ns.b('picker'),
+    ns.is('disabled', colorDisabled.value),
+    ns.bm('picker', colorSize.value),
+  ]
+})
+
 function displayedRgb(color: Color, showAlpha: boolean) {
   if (!(color instanceof Color)) {
     throw new TypeError('color should be instance of _color Class')
@@ -213,6 +216,11 @@ function setShowPicker(value: boolean) {
 }
 
 const debounceSetShowPicker = debounce(setShowPicker, 100)
+
+function show() {
+  if (colorDisabled.value) return
+  setShowPicker(true)
+}
 
 function hide() {
   debounceSetShowPicker(false)
@@ -324,6 +332,17 @@ provide(colorPickerContextKey, {
 })
 
 defineExpose({
+  /**
+   * @description current color object
+   */
   color,
+  /**
+   * @description manually show ColorPicker
+   */
+  show,
+  /**
+   * @description manually hide ColorPicker
+   */
+  hide,
 })
 </script>

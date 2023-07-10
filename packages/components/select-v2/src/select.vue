@@ -30,7 +30,7 @@
           ref="selectionRef"
           :class="[
             nsSelectV2.e('wrapper'),
-            nsSelectV2.is('focused', states.isComposing),
+            nsSelectV2.is('focused', states.isComposing || expanded),
             nsSelectV2.is('hovering', states.comboBoxHovering),
             nsSelectV2.is('filterable', filterable),
             nsSelectV2.is('disabled', selectDisabled),
@@ -41,26 +41,30 @@
           </div>
           <div v-if="multiple" :class="nsSelectV2.e('selection')">
             <template v-if="collapseTags && modelValue.length > 0">
-              <div :class="nsSelectV2.e('selected-item')">
+              <div
+                v-for="item in showTagList"
+                :key="getValueKey(item)"
+                :class="nsSelectV2.e('selected-item')"
+              >
                 <el-tag
-                  :closable="
-                    !selectDisabled && !states.cachedOptions[0]?.disable
-                  "
+                  :closable="!selectDisabled && !item?.disable"
                   :size="collapseTagSize"
                   type="info"
                   disable-transitions
-                  @close="deleteTag($event, states.cachedOptions[0])"
+                  @close="deleteTag($event, item)"
                 >
                   <span
                     :class="nsSelectV2.e('tags-text')"
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                    >{{ states.cachedOptions[0]?.label }}</span
+                    >{{ item?.label }}</span
                   >
                 </el-tag>
+              </div>
+              <div :class="nsSelectV2.e('selected-item')">
                 <el-tag
-                  v-if="modelValue.length > 1"
+                  v-if="modelValue.length > maxCollapseTags"
                   :closable="false"
                   :size="collapseTagSize"
                   type="info"
@@ -80,20 +84,17 @@
                         :style="{
                           maxWidth: `${tagMaxWidth}px`,
                         }"
-                        >+ {{ modelValue.length - 1 }}</span
+                        >+ {{ modelValue.length - maxCollapseTags }}</span
                       >
                     </template>
                     <template #content>
                       <div :class="nsSelectV2.e('selection')">
                         <div
-                          v-for="(selected, idx) in states.cachedOptions.slice(
-                            1
-                          )"
-                          :key="idx"
+                          v-for="selected in collapseTagList"
+                          :key="getValueKey(selected)"
                           :class="nsSelectV2.e('selected-item')"
                         >
                           <el-tag
-                            :key="getValueKey(selected)"
                             :closable="!selectDisabled && !selected.disabled"
                             :size="collapseTagSize"
                             class="in-tooltip"
@@ -119,7 +120,7 @@
                     :style="{
                       maxWidth: `${tagMaxWidth}px`,
                     }"
-                    >+ {{ modelValue.length - 1 }}</span
+                    >+ {{ modelValue.length - maxCollapseTags }}</span
                   >
                 </el-tag>
               </div>
@@ -127,12 +128,11 @@
 
             <template v-else>
               <div
-                v-for="(selected, idx) in states.cachedOptions"
-                :key="idx"
+                v-for="selected in states.cachedOptions"
+                :key="getValueKey(selected)"
                 :class="nsSelectV2.e('selected-item')"
               >
                 <el-tag
-                  :key="getValueKey(selected)"
                   :closable="!selectDisabled && !selected.disabled"
                   :size="collapseTagSize"
                   type="info"
@@ -254,8 +254,7 @@
               nsSelectV2.e('placeholder'),
               nsSelectV2.is(
                 'transparent',
-                states.isComposing ||
-                  (multiple ? modelValue.length === 0 : !hasModelValue)
+                multiple ? modelValue.length === 0 : !hasModelValue
               ),
             ]"
           >
@@ -310,7 +309,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, provide, reactive, toRefs, vModelText } from 'vue'
+import {
+  computed,
+  defineComponent,
+  provide,
+  reactive,
+  toRefs,
+  vModelText,
+} from 'vue'
+import { isArray } from '@element-plus/utils'
 import { ClickOutside } from '@element-plus/directives'
 import ElTooltip from '@element-plus/components/tooltip'
 import ElTag from '@element-plus/components/tag'
@@ -341,12 +348,30 @@ export default defineComponent({
   ],
 
   setup(props, { emit }) {
-    const API = useSelect(props, emit)
+    const modelValue = computed(() => {
+      const { modelValue: rawModelValue, multiple } = props
+      const fallback = multiple ? [] : undefined
+      // When it is array, we check if this is multi-select.
+      // Based on the result we get
+      if (isArray(rawModelValue)) {
+        return multiple ? rawModelValue : fallback
+      }
+      return multiple ? fallback : rawModelValue
+    })
+
+    const API = useSelect(
+      reactive({
+        ...toRefs(props),
+        modelValue,
+      }),
+      emit
+    )
     // TODO, remove the any cast to align the actual API.
     provide(selectV2InjectionKey, {
       props: reactive({
         ...toRefs(props),
         height: API.popupHeight,
+        modelValue,
       }),
       popper: API.popper,
       onSelect: API.onSelect,
@@ -355,7 +380,10 @@ export default defineComponent({
       onKeyboardSelect: API.onKeyboardSelect,
     } as any)
 
-    return API
+    return {
+      ...API,
+      modelValue,
+    }
   },
 })
 </script>

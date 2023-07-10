@@ -1,7 +1,12 @@
 // @ts-nocheck
 import { getCurrentInstance, inject, ref } from 'vue'
-import { isClient } from '@vueuse/core'
-import { addClass, hasClass, removeClass } from '@element-plus/utils'
+import {
+  addClass,
+  hasClass,
+  isClient,
+  isElement,
+  removeClass,
+} from '@element-plus/utils'
 import { TABLE_INJECTION_KEY } from '../tokens'
 import type { TableHeaderProps } from '.'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -110,8 +115,11 @@ function useEvent<T>(props: TableHeaderProps<T>, emit) {
 
   const handleMouseMove = (event: MouseEvent, column: TableColumnCtx<T>) => {
     if (column.children && column.children.length > 0) return
-
-    const target = (event.target as HTMLElement)?.closest('th')
+    const el = event.target as HTMLElement
+    if (!isElement(el)) {
+      return
+    }
+    const target = el?.closest('th')
 
     if (!column || !column.resizable) return
 

@@ -47,17 +47,19 @@ card/shadow
 
 :::
 
-## Attributes
+## API
 
-| Name       | Description                                                   | Type   | Accepted Values        | Default               |
-| ---------- | ------------------------------------------------------------- | ------ | ---------------------- | --------------------- |
-| header     | title of the card. Also accepts a DOM passed by `slot#header` | string | —                      | —                     |
-| body-style | CSS style of body                                             | object | —                      | `{ padding: '20px' }` |
-| shadow     | when to show card shadows                                     | string | always / hover / never | always                |
+### Attributes
 
-## Slots
+| Name       | Description                                                   | Type                              | Default |
+| ---------- | ------------------------------------------------------------- | --------------------------------- | ------- |
+| header     | title of the card. Also accepts a DOM passed by `slot#header` | ^[string]                         | —       |
+| body-style | CSS style of card body                                        | ^[object]`CSSProperties`          | —       |
+| shadow     | when to show card shadows                                     | ^[enum]`always \| never \| hover` | always  |
 
-| Name   | Description                |
-| ------ | -------------------------- |
-| —      | customize default content  |
-| header | content of the Card header |
+### Slots
+
+| Name    | Description                |
+| ------- | -------------------------- |
+| default | customize default content  |
+| header  | content of the Card header |

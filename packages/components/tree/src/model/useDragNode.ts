@@ -57,7 +57,7 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
   const treeNodeDragOver = ({ event, treeNode }: DragOptions) => {
     const dropNode = treeNode
     const oldDropNode = dragState.value.dropNode
-    if (oldDropNode && oldDropNode !== dropNode) {
+    if (oldDropNode && oldDropNode.node.id !== dropNode.node.id) {
       removeClass(oldDropNode.$el, ns.is('drop-inner'))
     }
     const draggingNode = dragState.value.draggingNode
@@ -78,7 +78,10 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
     }
     event.dataTransfer.dropEffect =
       dropInner || dropPrev || dropNext ? 'move' : 'none'
-    if ((dropPrev || dropInner || dropNext) && oldDropNode !== dropNode) {
+    if (
+      (dropPrev || dropInner || dropNext) &&
+      oldDropNode?.node.id !== dropNode.node.id
+    ) {
       if (oldDropNode) {
         ctx.emit('node-drag-leave', draggingNode.node, oldDropNode.node, event)
       }
@@ -107,7 +110,10 @@ export function useDragNodeHandler({ props, ctx, el$, dropIndicator$, store }) {
       dropNext = false
     }
 
-    const targetPosition = dropNode.$el.getBoundingClientRect()
+    // find target node without children, just calc content node height
+    const targetPosition = dropNode.$el
+      .querySelector(`.${ns.be('node', 'content')}`)
+      .getBoundingClientRect()
     const treePosition = el$.value.getBoundingClientRect()
 
     let dropType: NodeDropType

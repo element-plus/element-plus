@@ -7,8 +7,9 @@
 <script lang="ts" setup>
 import { computed, provide, reactive, toRefs, watch } from 'vue'
 import { debugWarn, isFunction } from '@element-plus/utils'
-import { formContextKey } from '@element-plus/tokens'
-import { useNamespace, useSize } from '@element-plus/hooks'
+import { useNamespace } from '@element-plus/hooks'
+import { useFormSize } from './hooks'
+import { formContextKey } from './constants'
 import { formEmits, formProps } from './form'
 import { filterFields, useFormLabelWidth } from './utils'
 
@@ -19,7 +20,7 @@ import type {
   FormItemContext,
   FormValidateCallback,
   FormValidationResult,
-} from '@element-plus/tokens'
+} from './types'
 import type { FormItemProp } from './form-item'
 
 const COMPONENT_NAME = 'ElForm'
@@ -31,7 +32,7 @@ const emit = defineEmits(formEmits)
 
 const fields: FormItemContext[] = []
 
-const formSize = useSize()
+const formSize = useFormSize()
 const ns = useNamespace('form')
 const formClasses = computed(() => {
   const { labelPosition, inline } = props
@@ -129,6 +130,8 @@ const validateField: FormContext['validateField'] = async (
     }
     return result
   } catch (e) {
+    if (e instanceof Error) throw e
+
     const invalidFields = e as ValidateFieldsError
 
     if (props.scrollToError) {
@@ -142,7 +145,7 @@ const validateField: FormContext['validateField'] = async (
 const scrollToField = (prop: FormItemProp) => {
   const field = filterFields(fields, prop)[0]
   if (field) {
-    field.$el?.scrollIntoView()
+    field.$el?.scrollIntoView(props.scrollIntoViewOptions)
   }
 }
 
@@ -173,15 +176,25 @@ provide(
 )
 
 defineExpose({
-  /** @description validate form */
+  /**
+   * @description Validate the whole form. Receives a callback or returns `Promise`.
+   */
   validate,
-  /** @description validate form field */
+  /**
+   * @description Validate specified fields.
+   */
   validateField,
-  /** @description reset fields */
+  /**
+   * @description Reset specified fields and remove validation result.
+   */
   resetFields,
-  /** @description clear validation status */
+  /**
+   * @description Clear validation message for specified fields.
+   */
   clearValidate,
-  /** @description scroll to field */
+  /**
+   * @description Scroll to the specified fields.
+   */
   scrollToField,
 })
 </script>

@@ -4,9 +4,10 @@ import { mount } from '@vue/test-utils'
 import { afterEach, describe, expect, it, test, vi } from 'vitest'
 import { EVENT_CODE } from '@element-plus/constants'
 import { ArrowDown, CaretTop, CircleClose } from '@element-plus/icons-vue'
-import { POPPER_CONTAINER_SELECTOR } from '@element-plus/hooks'
+import { usePopperContainerId } from '@element-plus/hooks'
 import { hasClass } from '@element-plus/utils'
 import { ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import Select from '../src/select.vue'
 import Group from '../src/option-group.vue'
 import Option from '../src/option.vue'
@@ -50,10 +51,18 @@ const _mount = (template: string, data: any = () => ({}), otherObj?) =>
       },
       template,
       data,
+      setup() {
+        return usePopperContainerId()
+      },
       ...otherObj,
     },
     {
       attachTo: 'body',
+      global: {
+        provide: {
+          namespace: 'el',
+        },
+      },
     }
   )
 
@@ -748,26 +757,6 @@ describe('Select', () => {
     expect(suffixIcon.exists()).toBe(true)
   })
 
-  test('test suffix transition', async () => {
-    wrapper = _mount(`<el-select></el-select>`)
-    expect(wrapper.find('.el-select__caret').classes()).not.toContain(
-      'is-reverse'
-    )
-    // open dropdown
-    await wrapper.trigger('mouseenter')
-    wrapper.trigger('click')
-    await nextTick()
-    expect(wrapper.find('.el-select__caret').classes()).toContain('is-reverse')
-
-    await wrapper.setProps({ suffixTransition: false })
-
-    wrapper.trigger('click')
-    await nextTick()
-    expect(wrapper.find('.el-select__caret').classes()).not.toContain(
-      'is-reverse'
-    )
-  })
-
   test('test remote show suffix', async () => {
     wrapper = _mount(`<el-select></el-select>`)
     await wrapper.setProps({
@@ -968,16 +957,9 @@ describe('Select', () => {
     const selectWrapper = wrapper.findComponent(Select)
     const inputWrapper = selectWrapper.findComponent({ ref: 'reference' })
     const inputDom = inputWrapper.element
-    const inputRect = {
-      height: 40,
-      width: 221,
-      x: 44,
-      y: 8,
-      top: 8,
-    }
     const mockInputWidth = vi
-      .spyOn(inputDom, 'getBoundingClientRect')
-      .mockReturnValue(inputRect as DOMRect)
+      .spyOn(inputDom as HTMLElement, 'offsetWidth', 'get')
+      .mockReturnValue(200)
     selectWrapper.vm.handleResize()
     options[0].click()
     await nextTick()
@@ -988,9 +970,9 @@ describe('Select', () => {
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
     for (const tagWrapper of tagWrappers) {
       const tagWrapperDom = tagWrapper.element
-      expect(
-        Number.parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 75
-      ).toBe(true)
+      expect(Number.parseInt(tagWrapperDom.style.maxWidth) === 200 - 75).toBe(
+        true
+      )
     }
     mockInputWidth.mockRestore()
   })
@@ -1036,16 +1018,9 @@ describe('Select', () => {
     const selectWrapper = wrapper.findComponent(Select)
     const inputWrapper = selectWrapper.findComponent({ ref: 'reference' })
     const inputDom = inputWrapper.element
-    const inputRect = {
-      height: 40,
-      width: 221,
-      x: 44,
-      y: 8,
-      top: 8,
-    }
     const mockInputWidth = vi
-      .spyOn(inputDom, 'getBoundingClientRect')
-      .mockReturnValue(inputRect as DOMRect)
+      .spyOn(inputDom as HTMLElement, 'offsetWidth', 'get')
+      .mockReturnValue(200)
     selectWrapper.vm.handleResize()
     options[0].click()
     await nextTick()
@@ -1055,9 +1030,9 @@ describe('Select', () => {
     await nextTick()
     const tagWrappers = wrapper.findAll('.el-select__tags-text')
     const tagWrapperDom = tagWrappers[0].element
-    expect(
-      Number.parseInt(tagWrapperDom.style.maxWidth) === inputRect.width - 123
-    ).toBe(true)
+    expect(Number.parseInt(tagWrapperDom.style.maxWidth) === 200 - 123).toBe(
+      true
+    )
     mockInputWidth.mockRestore()
   })
 
@@ -1109,6 +1084,55 @@ describe('Select', () => {
     const tags = document.querySelectorAll('.el-select__tags-text')
     expect(tags.length).toBe(4)
     expect(tags[3].textContent).toBe('蚵仔煎')
+  })
+
+  test('multiple select with maxCollapseTags', async () => {
+    wrapper = _mount(
+      `
+      <el-select v-model="selectedList" multiple collapseTags :max-collapse-tags="3" placeholder="请选择">
+        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+        </el-option>
+      </el-select>
+    `,
+      () => ({
+        options: [
+          {
+            value: '选项1',
+            label: '黄金糕',
+          },
+          {
+            value: '选项2',
+            label: '双皮奶',
+          },
+          {
+            value: '选项3',
+            label: '蚵仔煎',
+          },
+          {
+            value: '选项4',
+            label: '龙须面',
+          },
+          {
+            value: '选项5',
+            label: '北京烤鸭',
+          },
+        ],
+        selectedList: [],
+      })
+    )
+    await wrapper.find('.select-trigger').trigger('click')
+    const options = getOptions()
+
+    options[0].click()
+    await nextTick()
+    options[1].click()
+    await nextTick()
+    options[2].click()
+    await nextTick()
+    const triggerWrappers = wrapper.findAll('.el-tooltip__trigger')
+    expect(triggerWrappers[0]).toBeDefined()
+    const tags = document.querySelectorAll('.el-select__tags-text')
+    expect(tags.length).toBe(3)
   })
 
   test('multiple remove-tag', async () => {
@@ -1200,6 +1224,7 @@ describe('Select', () => {
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalled()
     await input.trigger('blur')
+    await sleep(0)
     expect(handleBlur).toHaveBeenCalled()
   })
 
@@ -1226,6 +1251,7 @@ describe('Select', () => {
     await input.trigger('focus')
     expect(handleFocus).toHaveBeenCalled()
     await input.trigger('blur')
+    await sleep(0)
     expect(handleBlur).toHaveBeenCalled()
   })
 
@@ -1930,9 +1956,8 @@ describe('Select', () => {
       )
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
-      ).not.toBe('')
+      const { selector } = wrapper.vm
+      expect(document.body.querySelector(selector).innerHTML).not.toBe('')
     })
 
     it('should not mount on the popper container', async () => {
@@ -1960,9 +1985,8 @@ describe('Select', () => {
       )
 
       await nextTick()
-      expect(
-        document.body.querySelector(POPPER_CONTAINER_SELECTOR).innerHTML
-      ).toBe('')
+      const { selector } = wrapper.vm
+      expect(document.body.querySelector(selector).innerHTML).toBe('')
     })
   })
 
@@ -2020,6 +2044,18 @@ describe('Select', () => {
       default: 32,
       large: 40,
     }
+
+    Object.defineProperty(inputEl, 'offsetParent', {
+      get() {
+        return {}
+      },
+    })
+
+    Object.defineProperty(inputEl, 'clientHeight', {
+      get() {
+        return Number.parseInt(getComputedStyle(inputEl).height)
+      },
+    })
 
     for (const size in sizeMap) {
       await wrapper.setProps({

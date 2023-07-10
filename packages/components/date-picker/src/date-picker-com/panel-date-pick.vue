@@ -214,7 +214,7 @@ import {
   DArrowLeft,
   DArrowRight,
 } from '@element-plus/icons-vue'
-import { TOOLTIP_INJECTION_KEY } from '@element-plus/tokens'
+import { TOOLTIP_INJECTION_KEY } from '@element-plus/components/tooltip'
 import { panelDatePickProps } from '../props/panel-date-pick'
 import DateTable from './basic-date-table.vue'
 import MonthTable from './basic-month-table.vue'
@@ -251,6 +251,8 @@ const currentViewRef = ref<{ focus: () => void }>()
 
 const innerDate = ref(dayjs().locale(lang.value))
 
+const isChangeToNow = ref(false)
+
 const defaultTimeD = computed(() => {
   return dayjs(defaultTime).locale(lang.value)
 })
@@ -273,7 +275,7 @@ const checkDateWithinRange = (date: ConfigType) => {
     : true
 }
 const formatEmit = (emitDayjs: Dayjs) => {
-  if (defaultTime && !visibleTime.value) {
+  if (defaultTime && !visibleTime.value && !isChangeToNow.value) {
     return defaultTimeD.value
       .year(emitDayjs.year())
       .month(emitDayjs.month())
@@ -293,6 +295,7 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   }
   userInputDate.value = null
   userInputTime.value = null
+  isChangeToNow.value = false
 }
 const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
   if (selectionMode.value === 'date') {
@@ -458,6 +461,7 @@ const changeToNow = () => {
   //       consider disable "now" button in the future
   const now = dayjs().locale(lang.value)
   const nowDate = now.toDate()
+  isChangeToNow.value = true
   if (
     (!disabledDate || !disabledDate(nowDate)) &&
     checkDateWithinRange(nowDate)
@@ -605,7 +609,9 @@ const handleKeydownTable = (event: KeyboardEvent) => {
     event.preventDefault()
   }
   if (
-    [EVENT_CODE.enter, EVENT_CODE.space].includes(code) &&
+    [EVENT_CODE.enter, EVENT_CODE.space, EVENT_CODE.numpadEnter].includes(
+      code
+    ) &&
     userInputDate.value === null &&
     userInputTime.value === null
   ) {

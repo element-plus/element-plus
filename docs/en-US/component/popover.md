@@ -5,11 +5,17 @@ lang: en-US
 
 # Popover
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Basic usage
 
 Similar to Tooltip, Popover is also built with `ElPopper`. So for some duplicated attributes, please refer to the documentation of Tooltip.
 
-:::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus` or `contextmenu` . If you want to manually controll it, you can set `:visible`.
+:::demo The `trigger` attribute is used to define how popover is triggered: `hover`, `click`, `focus` or `contextmenu` . If you want to manually control it, you can set `:visible`.
 
 popover/basic-usage
 
@@ -66,7 +72,7 @@ popover/directive-usage
 
 | Name                      | Description                                                                                                                                                              | Type            | Accepted Values                                                                                           | Default                                                                    |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| trigger                   | how the popover is triggered                                                                                                                                             | string          | click/focus/hover/contextmenu                                                                             | click                                                                      |
+| trigger                   | how the popover is triggered                                                                                                                                             | string          | click/focus/hover/contextmenu                                                                             | hover                                                                      |
 | title                     | popover title                                                                                                                                                            | string          | —                                                                                                         | —                                                                          |
 | effect                    | Tooltip theme, built-in theme: `dark` / `light`                                                                                                                          | string          | string                                                                                                    | light                                                                      |
 | content                   | popover content, can be replaced with a default `slot`                                                                                                                   | string          | —                                                                                                         | —                                                                          |
@@ -79,6 +85,7 @@ popover/directive-usage
 | show-arrow                | whether a tooltip arrow is displayed or not. For more info, please refer to [ElPopper](https://github.com/element-plus/element-plus/tree/dev/packages/components/popper) | boolean         | —                                                                                                         | true                                                                       |
 | popper-options            | parameters for [popper.js](https://popper.js.org/docs/v2/)                                                                                                               | object          | please refer to [popper.js](https://popper.js.org/docs/v2/)                                               | `{modifiers: [{name: 'computeStyles',options: {gpuAcceleration: false}}]}` |
 | popper-class              | custom class name for popover                                                                                                                                            | string          | —                                                                                                         | —                                                                          |
+| popper-style              | custom style for popover                                                                                                                                                 | string / object | —                                                                                                         | —                                                                          |
 | show-after                | delay of appearance, in millisecond                                                                                                                                      | number          | —                                                                                                         | 0                                                                          |
 | hide-after                | delay of disappear, in millisecond                                                                                                                                       | number          | —                                                                                                         | 200                                                                        |
 | auto-close                | timeout in milliseconds to hide tooltip                                                                                                                                  | number          | —                                                                                                         | 0                                                                          |
@@ -95,11 +102,11 @@ popover/directive-usage
 
 ## Events
 
-| Name         | Description                                   | Parameters |
-| ------------ | --------------------------------------------- | ---------- |
-| show         | triggers when popover shows                   | —          |
-| before-enter | triggers when the entering transition befores | —          |
-| after-enter  | triggers when the entering transition ends    | —          |
-| hide         | triggers when popover hides                   | —          |
-| before-leave | triggers when the leaving transition befores  | —          |
-| after-leave  | triggers when the leaving transition ends     | —          |
+| Name         | Description                                  | Parameters |
+| ------------ | -------------------------------------------- | ---------- |
+| show         | triggers when popover shows                  | —          |
+| before-enter | triggers when the entering transition before | —          |
+| after-enter  | triggers when the entering transition ends   | —          |
+| hide         | triggers when popover hides                  | —          |
+| before-leave | triggers when the leaving transition before  | —          |
+| after-leave  | triggers when the leaving transition ends    | —          |

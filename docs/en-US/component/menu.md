@@ -7,6 +7,12 @@ lang: en-US
 
 Menu that provides navigation for your website.
 
+:::tip
+
+This component requires the `<client-only></client-only>` wrap when used in SSR (eg: [Nuxt](https://nuxt.com/v3)) and SSG (eg: [VitePress](https://vitepress.vuejs.org/)).
+
+:::
+
 ## Top bar
 
 Top bar Menu can be used in a variety of scenarios.
@@ -61,6 +67,7 @@ menu/collapse
 | menu-trigger        | how sub-menus are triggered, only works when `mode` is 'horizontal'                                                                                                   | string  | hover / click         | hover    |
 | router              | whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action. Use with `default-active` to set the active item on load. | boolean | —                     | false    |
 | collapse-transition | whether to enable the collapse transition                                                                                                                             | boolean | —                     | true     |
+| popper-effect       | Tooltip theme, built-in theme: `dark` / `light` when menu is collapsed                                                                                                | string  | dark / light          | dark     |
 
 ## Menu Methods
 
@@ -93,6 +100,7 @@ menu/collapse
 | hide-timeout                      | timeout before hiding a sub-menu                                                                                                              | number                | —               | 300                                             |
 | disabled                          | whether the sub-menu is disabled                                                                                                              | boolean               | —               | false                                           |
 | popper-append-to-body(deprecated) | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop                              | boolean               | —               | level one SubMenu: true / other SubMenus: false |
+| teleported                        | whether popup menu is teleported to the body                                                                                                  | boolean               | —               | level one SubMenu: true / other SubMenus: false |
 | popper-offset                     | offset of the popper                                                                                                                          | number                | —               | 6                                               |
 | expand-close-icon                 | Icon when menu are expanded and submenu are closed, `expand-close-icon` and `expand-open-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |
 | expand-open-icon                  | Icon when menu are expanded and submenu are opened, `expand-open-icon` and `expand-close-icon` need to be passed together to take effect      | `string \| Component` | —               | —                                               |

@@ -63,7 +63,7 @@ Although `message` property supports HTML strings, dynamically rendering arbitra
 
 :::
 
-## grouping
+## Grouping
 
 merge messages with the same content.
 
@@ -106,29 +106,30 @@ const { appContext } = getCurrentInstance()!
 ElMessage({}, appContext)
 ```
 
-## Message API
+## API
 
 ### Options
 
-| Attribute                  | Description                                                                    | Type                                          | Default         |
-| -------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------- | --------------- |
-| `message`                  | message text                                                                   | `string \| VNode \| (() => VNode)`            | —               |
-| `type`                     | message type                                                                   | `'success' \| 'warning' \| 'info' \| 'error'` | `'info'`        |
-| `icon`                     | custom icon component, overrides `type`                                        | `string \| Component`                         | —               |
-| `dangerouslyUseHTMLString` | whether `message` is treated as HTML string                                    | `boolean`                                     | `false`         |
-| `custom-class`             | custom class name for Message                                                  | `string`                                      | —               |
-| `duration`                 | display duration, millisecond. If set to 0, it will not turn off automatically | `number`                                      | `3000`          |
-| `show-close`               | whether to show a close button                                                 | `boolean`                                     | `false`         |
-| `center`                   | whether to center the text                                                     | `boolean`                                     | `false`         |
-| `on-close`                 | callback function when closed with the message instance as the parameter       | `function`                                    | —               |
-| `offset`                   | set the distance to the top of viewport                                        | `number`                                      | `20`            |
-| `appendTo`                 | set the root element for the message                                           | `string \| HTMLElement`                       | `document.body` |
-| `grouping`                 | merge messages with the same content, type of VNode message is not supported   | `boolean`                                     | `false`         |
+| Name                     | Description                                                                                          | Type                                                 | Default |
+| ------------------------ | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------- |
+| message                  | message text                                                                                         | ^[string] / ^[VNode] / ^[Function]`() => VNode`      | ''      |
+| type                     | message type                                                                                         | ^[enum]`'success' \| 'warning' \| 'info' \| 'error'` | info    |
+| icon                     | custom icon component, overrides `type`                                                              | ^[string] / ^[Component]                             | —       |
+| dangerouslyUseHTMLString | whether `message` is treated as HTML string                                                          | ^[boolean]                                           | false   |
+| customClass              | custom class name for Message                                                                        | ^[string]                                            | ''      |
+| duration                 | display duration, millisecond. If set to 0, it will not turn off automatically                       | ^[number]                                            | 3000    |
+| showClose                | whether to show a close button                                                                       | ^[boolean]                                           | false   |
+| center                   | whether to center the text                                                                           | ^[boolean]                                           | false   |
+| onClose                  | callback function when closed with the message instance as the parameter                             | ^[Function]`() => void`                              | —       |
+| offset                   | set the distance to the top of viewport                                                              | ^[number]                                            | 16      |
+| appendTo                 | set the root element for the message, default to `document.body`                                     | ^[string] / ^[HTMLElement]                           | —       |
+| grouping                 | merge messages with the same content, type of VNode message is not supported                         | ^[boolean]                                           | false   |
+| repeatNum                | The number of repetitions, similar to badge, is used as the initial number when used with `grouping` | ^[number]                                            | 1       |
 
 ### Methods
 
 `Message` and `this.$message` returns the current Message instance. To manually close the instance, you can call `close` on it.
 
-| Method  | Description       |
-| ------- | ----------------- |
-| `close` | close the Message |
+| Name  | Description       | Type                    |
+| ----- | ----------------- | ----------------------- |
+| close | close the Message | ^[Function]`() => void` |

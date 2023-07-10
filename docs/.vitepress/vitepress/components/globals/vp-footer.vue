@@ -45,7 +45,7 @@ const { t } = useI18n()
     <div class="footer-main">
       <h4>{{ t('home.community') }}</h4>
       <a
-        href="https://discord.link/ElementPlus"
+        href="https://discord.com/invite/gXK9XNzW3X"
         class="footer-main-link"
         target="_blank"
       >
@@ -107,7 +107,7 @@ const { t } = useI18n()
     h4 {
       font-size: 18px;
       line-height: 1;
-      margin: 0 0 15px 0;
+      margin: 0 0 15px;
       font-weight: 400;
       color: var(--el-text-color-primary);
     }
@@ -133,7 +133,7 @@ const { t } = useI18n()
       color: var(--text-color-light);
       font-size: 18px;
       line-height: 1;
-      margin: 0 0 20px 0;
+      margin: 0 0 20px;
       padding: 0;
       font-weight: bold;
     }

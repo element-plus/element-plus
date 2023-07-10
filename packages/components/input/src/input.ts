@@ -13,12 +13,24 @@ import type { ExtractPropTypes, StyleValue } from 'vue'
 export type InputAutoSize = { minRows?: number; maxRows?: number } | boolean
 
 export const inputProps = buildProps({
+  /**
+   * @description native input id
+   */
   id: {
     type: String,
     default: undefined,
   },
+  /**
+   * @description input box size
+   */
   size: useSizeProp,
+  /**
+   * @description whether to disable
+   */
   disabled: Boolean,
+  /**
+   * @description binding value
+   */
   modelValue: {
     type: definePropType<string | number | null | undefined>([
       String,
@@ -27,73 +39,129 @@ export const inputProps = buildProps({
     ]),
     default: '',
   },
+  /**
+   * @description type of input
+   */
   type: {
     type: String,
     default: 'text',
   },
+  /**
+   * @description control the resizability
+   */
   resize: {
     type: String,
     values: ['none', 'both', 'horizontal', 'vertical'],
   },
+  /**
+   * @description whether textarea has an adaptive height
+   */
   autosize: {
     type: definePropType<InputAutoSize>([Boolean, Object]),
     default: false,
   },
+  /**
+   * @description native input autocomplete
+   */
   autocomplete: {
     type: String,
     default: 'off',
   },
+  /**
+   * @description format content
+   */
   formatter: {
     type: Function,
   },
+  /**
+   * @description parse content
+   */
   parser: {
     type: Function,
   },
+  /**
+   * @description placeholder
+   */
   placeholder: {
     type: String,
   },
+  /**
+   * @description native input form
+   */
   form: {
     type: String,
-    default: '',
   },
+  /**
+   * @description native input readonly
+   */
   readonly: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description native input readonly
+   */
   clearable: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description toggleable password input
+   */
   showPassword: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description word count
+   */
   showWordLimit: {
     type: Boolean,
     default: false,
   },
+  /**
+   * @description suffix icon
+   */
   suffixIcon: {
     type: iconPropType,
   },
+  /**
+   * @description prefix icon
+   */
   prefixIcon: {
     type: iconPropType,
   },
+  /**
+   * @description container role, internal properties provided for use by the picker component
+   */
   containerRole: {
     type: String,
     default: undefined,
   },
+  /**
+   * @description native input aria-label
+   */
   label: {
     type: String,
     default: undefined,
   },
+  /**
+   * @description input tabindex
+   */
   tabindex: {
     type: [String, Number],
     default: 0,
   },
+  /**
+   * @description whether to trigger form validation
+   */
   validateEvent: {
     type: Boolean,
     default: true,
   },
+  /**
+   * @description input or texearea element style
+   */
   inputStyle: {
     type: definePropType<StyleValue>([Object, Array, String]),
     default: () => mutable({} as const),

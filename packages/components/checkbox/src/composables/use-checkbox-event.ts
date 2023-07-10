@@ -1,9 +1,9 @@
 import { computed, getCurrentInstance, inject, nextTick, watch } from 'vue'
-import { useFormItem } from '@element-plus/hooks'
-import { checkboxGroupContextKey } from '@element-plus/tokens'
+import { useFormItem } from '@element-plus/components/form'
 import { debugWarn } from '@element-plus/utils'
+import { checkboxGroupContextKey } from '../constants'
 
-import type { useFormItemInputId } from '@element-plus/hooks'
+import type { useFormItemInputId } from '@element-plus/components/form'
 import type { CheckboxProps } from '../checkbox'
 import type {
   CheckboxDisabled,
@@ -52,11 +52,18 @@ export const useCheckboxEvent = (
     if (isLimitExceeded.value) return
 
     if (!hasOwnLabel.value && !isDisabled.value && isLabeledByFormItem.value) {
-      model.value = getLabeledValue(
-        [false, props.falseLabel].includes(model.value)
+      // fix: https://github.com/element-plus/element-plus/issues/9981
+      const eventTargets: EventTarget[] = e.composedPath()
+      const hasLabel = eventTargets.some(
+        (item) => (item as HTMLElement).tagName === 'LABEL'
       )
-      await nextTick()
-      emitChangeEvent(model.value, e)
+      if (!hasLabel) {
+        model.value = getLabeledValue(
+          [false, props.falseLabel].includes(model.value)
+        )
+        await nextTick()
+        emitChangeEvent(model.value, e)
+      }
     }
   }
 

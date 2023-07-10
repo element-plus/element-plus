@@ -1,11 +1,6 @@
 <template>
   <a
-    :class="[
-      ns.b(),
-      ns.m(type),
-      ns.is('disabled', disabled),
-      ns.is('underline', underline && !disabled),
-    ]"
+    :class="linkKls"
     :href="disabled || !href ? undefined : href"
     @click="handleClick"
   >
@@ -19,6 +14,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { linkEmits, linkProps } from './link'
@@ -30,6 +26,13 @@ const props = defineProps(linkProps)
 const emit = defineEmits(linkEmits)
 
 const ns = useNamespace('link')
+
+const linkKls = computed(() => [
+  ns.b(),
+  ns.m(props.type),
+  ns.is('disabled', props.disabled),
+  ns.is('underline', props.underline && !props.disabled),
+])
 
 function handleClick(event: MouseEvent) {
   if (!props.disabled) emit('click', event)

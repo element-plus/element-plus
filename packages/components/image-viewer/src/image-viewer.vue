@@ -16,24 +16,10 @@
 
         <!-- ARROW -->
         <template v-if="!isSingle">
-          <span
-            :class="[
-              ns.e('btn'),
-              ns.e('prev'),
-              ns.is('disabled', !infinite && isFirst),
-            ]"
-            @click="prev"
-          >
+          <span :class="arrowPrevKls" @click="prev">
             <el-icon><ArrowLeft /></el-icon>
           </span>
-          <span
-            :class="[
-              ns.e('btn'),
-              ns.e('next'),
-              ns.is('disabled', !infinite && isLast),
-            ]"
-            @click="next"
-          >
+          <span :class="arrowNextKls" @click="next">
             <el-icon><ArrowRight /></el-icon>
           </span>
         </template>
@@ -91,11 +77,11 @@ import {
   shallowRef,
   watch,
 } from 'vue'
-import { isNumber, useEventListener } from '@vueuse/core'
+import { useEventListener } from '@vueuse/core'
 import { throttle } from 'lodash-unified'
 import { useLocale, useNamespace, useZIndex } from '@element-plus/hooks'
 import { EVENT_CODE } from '@element-plus/constants'
-import { isFirefox, keysOf } from '@element-plus/utils'
+import { isNumber, keysOf } from '@element-plus/utils'
 import ElIcon from '@element-plus/components/icon'
 import {
   ArrowLeft,
@@ -123,8 +109,6 @@ const modes: Record<'CONTAIN' | 'ORIGINAL', ImageViewerMode> = {
     icon: markRaw(ScaleToOriginal),
   },
 }
-
-const mousewheelEventName = isFirefox() ? 'DOMMouseScroll' : 'mousewheel'
 
 defineOptions({
   name: 'ElImageViewer',
@@ -168,6 +152,18 @@ const isLast = computed(() => {
 const currentImg = computed(() => {
   return props.urlList[activeIndex.value]
 })
+
+const arrowPrevKls = computed(() => [
+  ns.e('btn'),
+  ns.e('prev'),
+  ns.is('disabled', !props.infinite && isFirst.value),
+])
+
+const arrowNextKls = computed(() => [
+  ns.e('btn'),
+  ns.e('next'),
+  ns.is('disabled', !props.infinite && isLast.value),
+])
 
 const imgStyle = computed(() => {
   const { scale, deg, offsetX, offsetY, enableTransition } = transform.value
@@ -237,26 +233,17 @@ function registerEventListener() {
         break
     }
   })
-  const mousewheelHandler = throttle(
-    (e: WheelEvent | any /* TODO: wheelDelta is deprecated */) => {
-      const delta = e.wheelDelta ? e.wheelDelta : -e.detail
-      if (delta > 0) {
-        handleActions('zoomIn', {
-          zoomRate: 1.2,
-          enableTransition: false,
-        })
-      } else {
-        handleActions('zoomOut', {
-          zoomRate: 1.2,
-          enableTransition: false,
-        })
-      }
-    }
-  )
+  const mousewheelHandler = throttle((e: WheelEvent) => {
+    const delta = e.deltaY || e.deltaX
+    handleActions(delta < 0 ? 'zoomIn' : 'zoomOut', {
+      zoomRate: props.zoomRate,
+      enableTransition: false,
+    })
+  })
 
   scopeEventListener.run(() => {
     useEventListener(document, 'keydown', keydownHandler)
-    useEventListener(document, mousewheelEventName, mousewheelHandler)
+    useEventListener(document, 'wheel', mousewheelHandler)
   })
 }
 
@@ -336,7 +323,7 @@ function next() {
 function handleActions(action: ImageViewerAction, options = {}) {
   if (loading.value) return
   const { zoomRate, rotateDeg, enableTransition } = {
-    zoomRate: 1.4,
+    zoomRate: props.zoomRate,
     rotateDeg: 90,
     enableTransition: true,
     ...options,
@@ -388,7 +375,9 @@ onMounted(() => {
 })
 
 defineExpose({
-  /** @description manually switch image */
+  /**
+   * @description manually switch image
+   */
   setActiveItem,
 })
 </script>
