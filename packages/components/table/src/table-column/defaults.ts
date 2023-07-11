@@ -146,8 +146,5 @@ export default {
       )
     },
   },
-  diagonal: {
-    type: Boolean,
-    default: false,
-  },
+  diagonal: Boolean,
 }
