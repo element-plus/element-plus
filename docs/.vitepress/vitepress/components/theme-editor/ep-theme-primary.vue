@@ -52,5 +52,5 @@ const apca = computedAsync(async () => {
     <el-input v-model="primaryColor" />
   </div>
 
-  <ep-theme-color-bar m="y-2" name="primary" :main-color="primaryColor" />
+  <ep-theme-color-bar m="y-2" name="primary" />
 </template>

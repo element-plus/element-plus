@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Brush } from '@element-plus/icons-vue'
 import { useThemeStore } from '~/store/theme'
 import { downloadTheme } from '~/utils/theme'
@@ -9,11 +10,17 @@ const drawerOpen = ref(false)
 const direction = ref('rtl')
 
 const tStore = useThemeStore()
+const { t } = useI18n()
 </script>
 
 <template>
   <div>
-    <el-drawer v-model="drawerOpen" :lock-scroll="false" :direction="direction">
+    <el-drawer
+      v-model="drawerOpen"
+      :size="'350px'"
+      :lock-scroll="false"
+      :direction="direction"
+    >
       <template #header>
         <span class="flex-1" text="sm">Theme Editor</span>
       </template>
@@ -41,12 +48,13 @@ const tStore = useThemeStore()
       </div>
     </el-drawer>
 
-    <el-button
-      v-if="!drawerOpen"
-      class="fixed right-10 bottom-10"
-      :icon="Brush"
-      circle
-      @click="drawerOpen = true"
-    />
+    <el-tooltip v-if="!drawerOpen" :content="t('editor.desc')">
+      <el-button
+        class="fixed right-10 bottom-10"
+        :icon="Brush"
+        circle
+        @click="drawerOpen = true"
+      />
+    </el-tooltip>
   </div>
 </template>

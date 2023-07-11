@@ -1,39 +1,39 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
-import { TinyColor } from '@ctrl/tinycolor'
 import { useClipboard } from '@vueuse/core'
 import { ElMessage } from 'element-plus'
 import type { CSSProperties } from 'vue'
+import { getColorValue } from '~/utils'
 
-import type { HSV } from '@ctrl/tinycolor'
+// import type { HSV } from '@ctrl/tinycolor'
 
 const props = defineProps<{
+  name: string
+  // color: string
   // hsb
-  hsv?: HSV
+  // hsv?: HSV
 }>()
 
-const hex = computed(() => {
-  return new TinyColor(props.hsv).toHexString()
-})
+const cssVarName = computed(() => `--el-color-${props.name}`)
 
 const styles = computed(() => {
   return {
-    '--ep-c-bg': hex.value,
+    '--ep-c-bg': `var(${cssVarName.value})`,
   } as CSSProperties
 })
 
 const { copy } = useClipboard()
 
 const copyHex = () => {
-  const text = hex.value?.toUpperCase() || ''
-  copy(text)
+  const color = getColorValue(props.name)
+  copy(color)
 
   ElMessage.success({
     dangerouslyUseHTMLString: true,
-    message: `<div class="flex justify-center items-center">Copy ${text}
+    message: `<div class="flex justify-center items-center">Copy ${color}
       <span
       m="l-2"
-      class="shadow-md inline-flex w-4 h-4 rounded-full" style="background-color: ${hex.value}" />
+      class="shadow-md inline-flex w-4 h-4 rounded-full" style="background-color: ${color}" />
 </div>`,
     grouping: true,
     type: 'success',
@@ -45,7 +45,7 @@ const copyHex = () => {
 <template>
   <div
     class="color-box cursor-pointer"
-    w="1/9"
+    w="1/7"
     h="8"
     :style="styles"
     text="xs white"

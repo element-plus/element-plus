@@ -19,5 +19,6 @@ home:
   resource_desc: 下载相关资源，用其快速搭建页面原型或高保真视觉稿，提升产品设计效率。
 not-found: 未找到页面
 editor:
+  desc: 主题编辑器
   primary-color: 主题色
   secondary-color: 辅助色

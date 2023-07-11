@@ -20,5 +20,6 @@ home:
   resource_desc: Download relevant design resources for shaping page prototype or visual draft, increasing design efficiency.
 not-found: Not found
 editor:
+  desc: Theme Editor
   primary-color: Primary Color
   secondary-color: Secondary Color

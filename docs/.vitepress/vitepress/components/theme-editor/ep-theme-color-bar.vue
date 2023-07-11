@@ -1,23 +1,41 @@
 <script lang="ts" setup>
-import { computed } from 'vue'
-import { generateHsvColors, hsvOptions } from '~/utils'
+import { COLOR_DARK_LEVEL, COLOR_LIGHT_LEVEL } from '~/utils/theme'
 
-const props = defineProps<{
+// import { computed } from 'vue'
+// import { generateHsvColors, hsvOptions } from '~/utils'
+
+defineProps<{
   name?: string
-  mainColor: string
 }>()
 
-const hsvColors = computed(() =>
-  generateHsvColors(props.mainColor, {
-    lightLevel: 4,
-    darkLevel: 4,
-    ...hsvOptions,
-  }).reverse()
-)
+// generate hsv colors is a working design, we still use mix colors now
+// const hsvColors = computed(() =>
+//   generateHsvColors(props.mainColor, {
+//     lightLevel: 4,
+//     darkLevel: 4,
+//     ...hsvOptions,
+//   }).reverse()
+// )
+
+const colorNames: string[] = []
+COLOR_DARK_LEVEL.forEach((l) => {
+  colorNames.push(`dark-${l}`)
+})
+colorNames.push('')
+COLOR_LIGHT_LEVEL.forEach((l) => {
+  colorNames.push(`light-${l}`)
+})
 </script>
 
 <template>
-  <div class="ep-primary-colors-container overflow-hidden rounded flex">
-    <ep-theme-color-box v-for="(color, i) in hsvColors" :key="i" :hsv="color" />
+  <div
+    class="ep-primary-colors-container overflow-hidden rounded"
+    flex="~ row-reverse"
+  >
+    <ep-theme-color-box
+      v-for="(colorName, i) in colorNames"
+      :key="i"
+      :name="name + (colorName ? `-${colorName}` : '')"
+    />
   </div>
 </template>

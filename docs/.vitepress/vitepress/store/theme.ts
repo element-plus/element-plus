@@ -29,7 +29,7 @@ export const useThemeStore = defineStore('theme', () => {
   function init() {
     if (typeof theme.value.colors === 'object') {
       Object.keys(theme.value.colors).forEach((name) => {
-        setCssVarValue(`--el-color-${name}`, theme.value.colors![name])
+        updateColor(name, theme.value.colors![name])
       })
     }
   }
