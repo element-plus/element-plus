@@ -26,13 +26,27 @@ const sColor = computed({
     class="border-t border-t-gray-200"
     m="y-4"
   >
-    <div class="flex" m="y-2">
-      <div m="r-3">
-        <span class="inline-flex bg-$ep-color rounded-lg" w="15" h="15" />
+    <div flex="~" m="y-2">
+      <div flex justify-center items-center m="r-3">
+        <el-color-picker
+          v-model="sColor"
+          class="inline-flex bg-$ep-color rounded-lg"
+          w="15"
+          h="15"
+          size="large"
+        />
       </div>
       <div class="inline-flex flex-col" font="bold">
-        <span class="mb-1"> color-{{ name }} </span>
-        <el-input v-model="sColor" :placeholder="themes.default.colors[name]" />
+        <span flex class="text-xs"> color-{{ name }} </span>
+        <div flex>
+          <el-input
+            v-model="sColor"
+            w="18"
+            size="small"
+            :placeholder="themes.default.colors[name]"
+          />
+          <span />
+        </div>
       </div>
     </div>
     <ep-theme-color-bar :name="name" :main-color="sColor" />
