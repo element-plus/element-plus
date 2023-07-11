@@ -13,3 +13,5 @@ PRGreetings: |
   👋 @{user}, thank you for contributing {repo}.
   - You can comment with `/label Components:[component_name]` to add a label for which component you are working on.
   - You may join our <img src="https://img.shields.io/discord/746646622431346728?label=Discord&logo=discord&style=flat" alt="Discord" style="vertical-align: middle;" /> for staying tuned.
+firstPRMergeComment: >
+  Thank you for your contribution!

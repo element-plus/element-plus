@@ -552,6 +552,7 @@ $input: map.merge(
     'hover-border-color': getCssVar('border-color-hover'),
     'clear-hover-color': getCssVar('text-color-secondary'),
     'focus-border-color': getCssVar('color-primary'),
+    'width': 100%,
   ),
   $input
 );
@@ -923,11 +924,33 @@ $tag-icon-size: map.merge(
   $tag-icon-size
 );
 
+// Text
+// css3 var in packages/theme-chalk/src/text.scss
+$text: () !default;
+$text: map.merge(
+  (
+    'font-size': getCssVar('font-size', 'base'),
+    'color': getCssVar('text-color', 'regular'),
+  ),
+  $text
+);
+
+$text-font-size: () !default;
+$text-font-size: map.merge(
+  (
+    'large': getCssVar('font-size', 'medium'),
+    'default': getCssVar('font-size', 'base'),
+    'small': getCssVar('font-size', 'extra-small'),
+  ),
+  $text-font-size
+);
+
 // Tree
 // css3 var in packages/theme-chalk/src/tree.scss
 $tree: () !default;
 $tree: map.merge(
   (
+    'node-content-height': 26px,
     'node-hover-bg-color': getCssVar('fill-color', 'light'),
     'text-color': getCssVar('text-color-regular'),
     'expand-icon-color': getCssVar('text-color-placeholder'),
@@ -1232,6 +1255,7 @@ $form: () !default;
 $form: map.merge(
   (
     'label-font-size': getCssVar('font-size-base'),
+    'inline-content-width': 220px,
   ),
   $form
 );

@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { useSizeProp } from '@element-plus/hooks'
 import type {
   CSSProperties,
   ComponentInternalInstance,
@@ -6,6 +7,7 @@ import type {
   Ref,
   VNode,
 } from 'vue'
+import type { ComponentSize } from '@element-plus/constants'
 import type { Nullable } from '@element-plus/utils'
 import type { Store } from '../store'
 import type { TableColumnCtx } from '../table-column/defaults'
@@ -21,6 +23,7 @@ interface TableRefs {
   fixedBodyWrapper: HTMLElement
   rightFixedBodyWrapper: HTMLElement
   bodyWrapper: HTMLElement
+  appendWrapper: HTMLElement
   [key: string]: any
 }
 
@@ -88,7 +91,7 @@ type CellStyle<T> =
 type Layout = 'fixed' | 'auto'
 interface TableProps<T> {
   data: T[]
-  size?: string
+  size?: ComponentSize
   width?: string | number
   height?: string | number
   maxHeight?: string | number
@@ -142,6 +145,7 @@ interface TableProps<T> {
   tableLayout?: Layout
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
+  showOverflowTooltip?: boolean | TableOverflowTooltipOptions
 }
 
 interface Sort {
@@ -181,7 +185,7 @@ export default {
     type: Array as PropType<DefaultRow[]>,
     default: () => [],
   },
-  size: String,
+  size: useSizeProp,
   width: [String, Number],
   height: [String, Number],
   maxHeight: [String, Number],
@@ -266,6 +270,9 @@ export default {
     default: false,
   },
   flexible: Boolean,
+  showOverflowTooltip: [Boolean, Object] as PropType<
+    TableProps<DefaultRow>['showOverflowTooltip']
+  >,
 }
 export type {
   SummaryMethod,

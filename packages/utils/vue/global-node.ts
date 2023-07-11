@@ -1,4 +1,4 @@
-import { isClient } from '@vueuse/core'
+import { isClient } from '../browser'
 
 const globalNodes: HTMLElement[] = []
 let target: HTMLElement = !isClient ? (undefined as any) : document.body

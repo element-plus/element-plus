@@ -260,7 +260,7 @@ describe('Color-picker', () => {
 
     await wrapper.find('.el-color-picker__trigger').trigger('click')
     const colorPickerWrapper = wrapper.findComponent(ColorPicker)
-    const svPanelWrapper = colorPickerWrapper.findComponent({ ref: 'svPanel' })
+    const svPanelWrapper = colorPickerWrapper.findComponent({ ref: 'sv' })
     ;(svPanelWrapper.vm as ColorPickerVM).handleDrag({
       type: 'mousemove',
       clientX: 0,
