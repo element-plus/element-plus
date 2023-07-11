@@ -23,7 +23,6 @@ import {
   isFunction,
   isKorean,
   isNumber,
-  isString,
   scrollIntoView,
 } from '@element-plus/utils'
 import { useDeprecated, useLocale, useNamespace } from '@element-plus/hooks'
@@ -642,7 +641,7 @@ export const useSelect = (props, states: States, ctx) => {
   const deleteSelected = (event) => {
     event.stopPropagation()
     const value: string | any[] = props.multiple ? [] : ''
-    if (!isString(value)) {
+    if (props.multiple) {
       for (const item of states.selected) {
         if (item.isDisabled) value.push(item.value)
       }
