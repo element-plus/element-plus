@@ -133,6 +133,12 @@ export const useSelect = (props, states: States, ctx) => {
     )
   )
 
+  const needStatusIcon = computed(() => form?.statusIcon ?? false)
+  const validateState = computed(() => formItem?.validateState || '')
+  const validateIcon = computed(
+    () => validateState.value && ValidateComponentsMap[validateState.value]
+  )
+
   const debounce = computed(() => (props.remote ? 300 : 0))
 
   const emptyText = computed(() => {
@@ -938,6 +944,9 @@ export const useSelect = (props, states: States, ctx) => {
     showClose,
     iconComponent,
     iconReverse,
+    needStatusIcon,
+    validateState,
+    validateIcon,
     showNewOption,
     collapseTagSize,
     setSelected,

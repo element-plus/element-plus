@@ -450,6 +450,9 @@ export default defineComponent({
       resetInputHeight,
       managePlaceholder,
       showClose,
+      needStatusIcon,
+      validateState,
+      validateIcon,
       selectDisabled,
       iconComponent,
       iconReverse,
@@ -555,7 +558,11 @@ export default defineComponent({
     ])
 
     const selectTagsStyle = computed(() => ({
-      maxWidth: `${unref(inputWidth) - 32}px`,
+      maxWidth: `${
+        unref(inputWidth) -
+        32 -
+        (needStatusIcon && validateState && validateIcon ? 22 : 0)
+      }px`,
       width: '100%',
     }))
 
