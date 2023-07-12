@@ -3,12 +3,7 @@
     <div :class="ns.e('tail')" />
     <div
       v-if="!$slots.dot"
-      :class="[
-        ns.e('node'),
-        ns.em('node', size || ''),
-        ns.em('node', type || ''),
-        ns.is('hollow', hollow),
-      ]"
+      :class="defaultNodeKls"
       :style="{
         backgroundColor: color,
       }"
@@ -44,6 +39,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
 import { ElIcon } from '@element-plus/components/icon'
 import { useNamespace } from '@element-plus/hooks'
 import { timelineItemProps } from './timeline-item'
@@ -52,7 +48,13 @@ defineOptions({
   name: 'ElTimelineItem',
 })
 
-defineProps(timelineItemProps)
+const props = defineProps(timelineItemProps)
 
 const ns = useNamespace('timeline-item')
+const defaultNodeKls = computed(() => [
+  ns.e('node'),
+  ns.em('node', props.size || ''),
+  ns.em('node', props.type || ''),
+  ns.is('hollow', props.hollow),
+])
 </script>

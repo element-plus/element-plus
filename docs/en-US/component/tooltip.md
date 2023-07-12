@@ -174,7 +174,7 @@ tooltip/animations
 | virtual-ref               | Indicates the reference element to which the tooltip is attached                                                                                        | ^[HTMLElement]                                                                                                                                                              | —                 |
 | trigger-keys              | When you click the mouse to focus on the trigger element, you can define a set of keyboard codes to control the display of tooltip through the keyboard | ^[Array]                                                                                                                                                                    | ['Enter','Space'] |
 | persistent                | when tooltip inactive and `persistent` is `false` , popconfirm will be destroyed                                                                        | ^[boolean]                                                                                                                                                                  | —                 |
-| aria-label^[a11y]         | same as `aria-label`                                                                                                                                    | ^[string]                                                                                                                                                                   | —                 |
+| aria-label ^(a11y)        | same as `aria-label`                                                                                                                                    | ^[string]                                                                                                                                                                   | —                 |
 
 ### Slots
 
@@ -187,10 +187,10 @@ tooltip/animations
 
 | Name                 | Description                                                       | Type                                              |
 | -------------------- | ----------------------------------------------------------------- | ------------------------------------------------- |
-| popperRef            | el-popper component instance                                      | ^[objcet]`Ref<PopperInstance \| null>`            |
-| contentRef           | el-tooltip-content component instance                             | ^[objcet]`Ref<TooltipContentInstance \| null>`    |
+| popperRef            | el-popper component instance                                      | ^[object]`Ref<PopperInstance \| null>`            |
+| contentRef           | el-tooltip-content component instance                             | ^[object]`Ref<TooltipContentInstance \| null>`    |
 | isFocusInsideContent | validate current focus event is trigger inside el-tooltip-content | ^[Function]`() => boolean \| undefined`           |
 | updatePopper         | update el-popper component instance                               | ^[Function]`() => void`                           |
 | onOpen               | expose onOpen function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void` |
-| onClose              | expose onClose function to mange el-tooltip open state             | ^[Function]`(event?: Event \| undefined) => void` |
+| onClose              | expose onClose function to mange el-tooltip open state            | ^[Function]`(event?: Event \| undefined) => void` |
 | hide                 | expose hide function                                              | ^[Function]`(event?: Event \| undefined) => void` |

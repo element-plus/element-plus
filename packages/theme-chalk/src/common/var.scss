@@ -552,6 +552,7 @@ $input: map.merge(
     'hover-border-color': getCssVar('border-color-hover'),
     'clear-hover-color': getCssVar('text-color-secondary'),
     'focus-border-color': getCssVar('color-primary'),
+    'width': 100%,
   ),
   $input
 );
@@ -949,6 +950,7 @@ $text-font-size: map.merge(
 $tree: () !default;
 $tree: map.merge(
   (
+    'node-content-height': 26px,
     'node-hover-bg-color': getCssVar('fill-color', 'light'),
     'text-color': getCssVar('text-color-regular'),
     'expand-icon-color': getCssVar('text-color-placeholder'),
@@ -1253,6 +1255,7 @@ $form: () !default;
 $form: map.merge(
   (
     'label-font-size': getCssVar('font-size-base'),
+    'inline-content-width': 220px,
   ),
   $form
 );

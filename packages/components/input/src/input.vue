@@ -150,7 +150,7 @@ import {
   useSlots,
   watch,
 } from 'vue'
-import { isClient, useResizeObserver } from '@vueuse/core'
+import { useResizeObserver } from '@vueuse/core'
 import { isNil } from 'lodash-unified'
 import { ElIcon } from '@element-plus/components/icon'
 import {
@@ -168,6 +168,7 @@ import {
   NOOP,
   ValidateComponentsMap,
   debugWarn,
+  isClient,
   isKorean,
   isObject,
 } from '@element-plus/utils'
@@ -313,6 +314,7 @@ const suffixVisible = computed(
 const [recordCursor, setCursor] = useCursor(input)
 
 useResizeObserver(textarea, (entries) => {
+  onceInitSizeTextarea()
   if (!isWordLimitVisible.value || props.resize !== 'both') return
   const entry = entries[0]
   const { width } = entry.contentRect
@@ -353,10 +355,27 @@ const resizeTextarea = () => {
   }
 }
 
+const createOnceInitResize = (resizeTextarea: () => void) => {
+  let isInit = false
+  return () => {
+    if (isInit || !props.autosize) return
+    const isElHidden = textarea.value?.offsetParent === null
+    if (!isElHidden) {
+      resizeTextarea()
+      isInit = true
+    }
+  }
+}
+// fix: https://github.com/element-plus/element-plus/issues/12074
+const onceInitSizeTextarea = createOnceInitResize(resizeTextarea)
+
 const setNativeInputValue = () => {
   const input = _ref.value
-  if (!input || input.value === nativeInputValue.value) return
-  input.value = nativeInputValue.value
+  const formatterValue = props.formatter
+    ? props.formatter(nativeInputValue.value)
+    : nativeInputValue.value
+  if (!input || input.value === formatterValue) return
+  input.value = formatterValue
 }
 
 const handleInput = async (event: Event) => {
@@ -366,7 +385,6 @@ const handleInput = async (event: Event) => {
 
   if (props.formatter) {
     value = props.parser ? props.parser(value) : value
-    value = props.formatter(value)
   }
 
   // should not emit input during composition

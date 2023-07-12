@@ -5,6 +5,9 @@ import type CheckTag from './check-tag.vue'
 import type { ExtractPropTypes } from 'vue'
 
 export const checkTagProps = buildProps({
+  /**
+   * @description is checked
+   */
   checked: {
     type: Boolean,
     default: false,

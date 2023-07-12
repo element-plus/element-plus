@@ -146,7 +146,7 @@ input/length-limiting
 | resize                | control the resizability                                                                                                               | ^[enum]`'none' \| 'both' \| 'horizontal' \| 'vertical'`                                                                                             | —       |
 | autofocus             | same as `autofocus` in native input                                                                                                    | ^[boolean]                                                                                                                                          | false   |
 | form                  | same as `form` in native input                                                                                                         | `string`                                                                                                                                            | —       |
-| label<A11yTag />      | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                           | —       |
+| label ^(a11y)         | same as `aria-label` in native input                                                                                                   | ^[string]                                                                                                                                           | —       |
 | tabindex              | input tabindex                                                                                                                         | ^[string] / ^[number]                                                                                                                               | —       |
 | validate-event        | whether to trigger form validation                                                                                                     | ^[boolean]                                                                                                                                          | true    |
 | input-style           | the style of the input element or textarea element                                                                                     | ^[string] / ^[object]`CSSProperties \| CSSProperties[] \| string[]`                                                                                 | {}      |
@@ -183,3 +183,15 @@ input/length-limiting
 | select         | select the text in input element | ^[Function]`() => void`                                 |
 | textarea       | HTML textarea element            | ^[object]`Ref<HTMLTextAreaElement>`                     |
 | textareaStyle  | style of textarea                | ^[object]`Ref<StyleValue>`                              |
+
+## FAQ
+
+#### Why is the width of the ElInput component expanded by clearable?
+
+Typical issue: [#7287](https://github.com/element-plus/element-plus/issues/7287)
+
+PS: Since the ElInput component does not have a default width, when the clearable icon is displayed, the width of the component will be expanded, which can be solved by setting width.
+
+```vue
+<el-input v-model="input" clearable style="width: 200px" />
+```

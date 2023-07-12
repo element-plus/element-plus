@@ -17,7 +17,7 @@
       <div v-click-outside="hide">
         <div :class="ns.be('dropdown', 'main-wrapper')">
           <hue-slider ref="hue" class="hue-slider" :color="color" vertical />
-          <sv-panel ref="svPanel" :color="color" />
+          <sv-panel ref="sv" :color="color" />
         </div>
         <alpha-slider v-if="showAlpha" ref="alpha" :color="color" />
         <predefine
@@ -217,6 +217,11 @@ function setShowPicker(value: boolean) {
 
 const debounceSetShowPicker = debounce(setShowPicker, 100)
 
+function show() {
+  if (colorDisabled.value) return
+  setShowPicker(true)
+}
+
 function hide() {
   debounceSetShowPicker(false)
   resetColor()
@@ -331,5 +336,13 @@ defineExpose({
    * @description current color object
    */
   color,
+  /**
+   * @description manually show ColorPicker
+   */
+  show,
+  /**
+   * @description manually hide ColorPicker
+   */
+  hide,
 })
 </script>
