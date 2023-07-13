@@ -499,12 +499,13 @@ type HeaderCellSlotProps = {
 }
 
 type RowSlotProps = {
-  columnIndex: number
-  rowIndex: number
-  data: any
-  key: number | string
-  isScrolling?: boolean | undefined
+  cells: VNode[]
   style: CSSProperties
+  columns: Column<any>[]
+  depth: number
+  rowData: any
+  rowIndex: number
+  isScrolling?: boolean | undefined
 }
 
 type Data = {
