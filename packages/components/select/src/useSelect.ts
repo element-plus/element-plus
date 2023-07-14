@@ -56,7 +56,6 @@ export function useSelectStates(props) {
     menuVisibleOnFocus: false,
     isOnComposition: false,
     prefixWidth: 11,
-    tagInMultiLine: false,
     mouseEnter: false,
   })
 }
@@ -88,6 +87,7 @@ export const useSelect = (props, states: States, ctx) => {
   const input = ref<HTMLInputElement | null>(null)
   const iOSInput = ref<HTMLInputElement | null>(null)
   const tooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
+  const tagTooltipRef = ref<InstanceType<typeof ElTooltip> | null>(null)
   const tags = ref<HTMLElement | null>(null)
   const selectWrapper = ref<HTMLElement | null>(null)
   const scrollbar = ref<{
@@ -413,8 +413,6 @@ export const useSelect = (props, states: States, ctx) => {
               )) - 2
         }px`)
 
-      states.tagInMultiLine = Number.parseFloat(input.style.height) >= sizeInMap
-
       if (states.visible && emptyText.value !== false) {
         tooltipRef.value?.updatePopper?.()
       }
@@ -587,7 +585,7 @@ export const useSelect = (props, states: States, ctx) => {
   const handleResize = () => {
     resetInputWidth()
     tooltipRef.value?.updatePopper?.()
-    if (props.multiple) resetInputHeight()
+    props.multiple && resetInputHeight()
   }
 
   const resetInputWidth = () => {
@@ -919,7 +917,10 @@ export const useSelect = (props, states: States, ctx) => {
   const handleMouseLeave = () => {
     states.mouseEnter = false
   }
-
+  const handleDeleteTooltipTag = (event, tag) => {
+    deleteTag(event, tag)
+    tagTooltipRef.value?.updatePopper?.()
+  }
   return {
     optionList,
     optionsArray,
@@ -959,6 +960,7 @@ export const useSelect = (props, states: States, ctx) => {
     selectOption,
     getValueKey,
     navigateOptions,
+    handleDeleteTooltipTag,
     dropMenuVisible,
     queryChange,
     groupQueryChange,
@@ -970,6 +972,7 @@ export const useSelect = (props, states: States, ctx) => {
     input,
     iOSInput,
     tooltipRef,
+    tagTooltipRef,
     tags,
     selectWrapper,
     scrollbar,
