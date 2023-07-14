@@ -20,6 +20,10 @@ export const dialogProps = buildProps({
     type: Boolean,
     default: false,
   },
+  forceRender: {
+    type: Boolean,
+    default: false,
+  },
   closeOnClickModal: {
     type: Boolean,
     default: true,

@@ -34,7 +34,7 @@ export const useDialog = (
   const bodyId = useId()
   const visible = ref(false)
   const closed = ref(false)
-  const rendered = ref(false) // when desctroyOnClose is true, we initialize it as false vise versa
+  const rendered = ref(props.forceRender)
   const zIndex = ref(props.zIndex || nextZIndex())
 
   let openTimer: (() => void) | undefined = undefined
