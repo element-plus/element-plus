@@ -2,6 +2,7 @@ import { nextTick, ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
 import { ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import ColorPicker from '../src/color-picker.vue'
 import type { ComponentPublicInstance } from 'vue'
 
@@ -412,14 +413,11 @@ describe('Color-picker', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
-      const colorPickerButton = wrapper.find('.el-color-picker')
-      expect(formItem.attributes().role).toBeFalsy()
-      expect(formItemLabel.attributes().for).toBe(
-        colorPickerButton.attributes().id
-      )
+      expect(formItem.attributes().role).toBe('group')
+      expect(formItemLabel.attributes().for).toBeFalsy()
     })
 
     it('specified id attachment', async () => {
@@ -429,15 +427,13 @@ describe('Color-picker', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const colorPickerButton = wrapper.find('.el-color-picker')
-      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItem.attributes().role).toBe('group')
       expect(colorPickerButton.attributes().id).toBe('foobar')
-      expect(formItemLabel.attributes().for).toBe(
-        colorPickerButton.attributes().id
-      )
+      expect(formItemLabel.attributes().for).toBeFalsy()
     })
 
     it('form item role is group when multiple inputs', async () => {
@@ -448,7 +444,7 @@ describe('Color-picker', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })

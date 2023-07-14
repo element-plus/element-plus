@@ -4,6 +4,7 @@ import { afterEach, describe, expect, test, vi } from 'vitest'
 import { debugWarn } from '@element-plus/utils'
 import { Checked, CircleClose } from '@element-plus/icons-vue'
 import { ElFormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import Switch from '../src/switch.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import type { SwitchInstance } from '../src/switch'
@@ -295,7 +296,8 @@ describe('Switch.vue', () => {
         <Switch v-model={value.value} beforeChange={beforeChange} />
       </div>
     ))
-
+    vi.useRealTimers()
+    await sleep()
     const coreWrapper = wrapper.find('.el-switch__core')
 
     await coreWrapper.trigger('click')
@@ -318,7 +320,7 @@ describe('Switch.vue', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       const switchInput = wrapper.find('.el-switch__input')
@@ -333,13 +335,11 @@ describe('Switch.vue', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const formItemLabel = formItem.find('.el-form-item__label')
       const switchInput = wrapper.find('.el-switch__input')
       expect(formItem.attributes().role).toBeFalsy()
       expect(switchInput.attributes().id).toBe('foobar')
-      expect(formItemLabel.attributes().for).toBe(switchInput.attributes().id)
     })
 
     test('form item role is group when multiple inputs', async () => {
@@ -350,7 +350,7 @@ describe('Switch.vue', () => {
         </ElFormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })

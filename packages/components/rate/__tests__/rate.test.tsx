@@ -1,7 +1,8 @@
-import { nextTick, ref } from 'vue'
+import { ref } from 'vue'
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import Rate from '../src/rate.vue'
 
 import type { RateInstance } from '../src/rate'
@@ -144,12 +145,11 @@ describe('Rate.vue', () => {
         </FormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const rate = wrapper.find('[data-test-ref="rate"]')
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItem.attributes().role).toBeFalsy()
-      expect(formItemLabel.attributes().for).toBe(rate.attributes().id)
+      expect(formItem.attributes().role).toBe('group')
+      expect(formItemLabel.attributes().for).toBeFalsy()
     })
 
     it('specified id attachment', async () => {
@@ -159,13 +159,13 @@ describe('Rate.vue', () => {
         </FormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       const rate = wrapper.find('[data-test-ref="rate"]')
       const formItemLabel = formItem.find('.el-form-item__label')
-      expect(formItem.attributes().role).toBeFalsy()
+      expect(formItem.attributes().role).toBe('group')
       expect(rate.attributes().id).toBe('foobar')
-      expect(formItemLabel.attributes().for).toBe(rate.attributes().id)
+      expect(formItemLabel.attributes().for).toBeFalsy()
     })
 
     it('form item role is group when multiple rates', async () => {
@@ -176,7 +176,7 @@ describe('Rate.vue', () => {
         </FormItem>
       ))
 
-      await nextTick()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
     })

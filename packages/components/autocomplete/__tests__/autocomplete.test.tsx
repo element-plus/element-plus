@@ -4,6 +4,7 @@ import { NOOP } from '@vue/shared'
 import { beforeEach, describe, expect, it, test, vi } from 'vitest'
 import { usePopperContainerId } from '@element-plus/hooks'
 import { ElFormItem as FormItem } from '@element-plus/components/form'
+import sleep from '@element-plus/test-utils/sleep'
 import Autocomplete from '../src/autocomplete.vue'
 
 vi.unmock('lodash')
@@ -357,12 +358,14 @@ describe('Autocomplete.vue', () => {
         </FormItem>
       ))
 
-      await nextTick()
+      vi.useRealTimers()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const input = await wrapper.find('[data-test-ref="input"]')
+      const input = wrapper.find('[data-test-ref="input"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       expect(formItem.attributes().role).toBeFalsy()
       expect(formItemLabel.attributes().for).toBe(input.attributes().id)
+      vi.useFakeTimers()
     })
 
     test('specified id attachment', async () => {
@@ -371,14 +374,15 @@ describe('Autocomplete.vue', () => {
           <Autocomplete id="foobar" data-test-ref="input" />
         </FormItem>
       ))
-
-      await nextTick()
+      vi.useRealTimers()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
-      const input = await wrapper.find('[data-test-ref="input"]')
+      const input = wrapper.find('[data-test-ref="input"]')
       const formItemLabel = formItem.find('.el-form-item__label')
       expect(formItem.attributes().role).toBeFalsy()
       expect(input.attributes().id).toBe('foobar')
       expect(formItemLabel.attributes().for).toBe(input.attributes().id)
+      vi.useFakeTimers()
     })
 
     test('form item role is group when multiple autocompletes', async () => {
@@ -388,35 +392,34 @@ describe('Autocomplete.vue', () => {
           <Autocomplete data-test-ref="input2" />
         </FormItem>
       ))
-
-      await nextTick()
+      vi.useRealTimers()
+      await sleep()
       const formItem = wrapper.find('[data-test-ref="item"]')
       expect(formItem.attributes().role).toBe('group')
+      vi.useFakeTimers()
     })
   })
 
   test('event:focus', async () => {
     const onFocus = vi.fn()
     const wrapper = _mount({ onFocus })
-    await nextTick()
+    vi.useRealTimers()
+    await sleep()
 
     const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
       typeof Autocomplete
     >
 
     await wrapper.find('input').trigger('focus')
-    vi.runAllTimers()
     await nextTick()
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     await target.handleSelect({ value: 'Go', tag: 'go' })
     expect(target.modelValue).toBe('Go')
-    vi.runAllTimers()
     await nextTick()
     expect(onFocus).toHaveBeenCalledTimes(1)
 
     await wrapper.find('input').trigger('blur')
-    vi.runAllTimers()
     await nextTick()
     expect(onFocus).toHaveBeenCalledTimes(1)
   })
@@ -424,7 +427,8 @@ describe('Autocomplete.vue', () => {
   test('event:blur', async () => {
     const onBlur = vi.fn()
     const wrapper = _mount({ onBlur })
-    await nextTick()
+    vi.useRealTimers()
+    await sleep()
 
     const target = wrapper.getComponent(Autocomplete).vm as InstanceType<
       typeof Autocomplete
@@ -436,8 +440,7 @@ describe('Autocomplete.vue', () => {
     expect(onBlur).toHaveBeenCalledTimes(0)
 
     await wrapper.find('input').trigger('blur')
-    vi.runAllTimers()
-    await nextTick()
+    await sleep()
     expect(onBlur).toHaveBeenCalledTimes(1)
   })
 })
