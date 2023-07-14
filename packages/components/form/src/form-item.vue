@@ -167,7 +167,7 @@ const labelFor = computed<string | undefined>(() => {
 
 const associatedElement = () => {
   const id = inputIds.value[0]
-  const el = document.querySelector(`#${id}`)
+  const el = formItemRef.value?.querySelector(`#${id}`)
   if (el) {
     const tag = el.tagName.toLowerCase()
     if (tag !== 'div') {
