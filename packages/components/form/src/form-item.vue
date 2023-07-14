@@ -52,7 +52,7 @@ import {
 } from 'vue'
 import AsyncValidator from 'async-validator'
 import { clone } from 'lodash-unified'
-import { refDebounced } from '@vueuse/core'
+import { refDebounced } from '@vueuse/shared'
 import {
   addUnit,
   ensureArray,
