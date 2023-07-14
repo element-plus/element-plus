@@ -121,6 +121,7 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 | fullscreen                 | whether the Dialog takes up full screen                                                           | boolean                                           | —               | false   |
 | top                        | value for `margin-top` of Dialog CSS                                                              | string                                            | —               | 15vh    |
 | modal                      | whether a mask is displayed                                                                       | boolean                                           | —               | true    |
+| modal-class                | custom class names for mask                                                                       | string                                            | —               | —       |
 | append-to-body             | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` | boolean                                           | —               | false   |
 | lock-scroll                | whether scroll of body is disabled while Dialog is displayed                                      | boolean                                           | —               | true    |
 | custom-class ^(deprecated) | custom class names for Dialog                                                                     | string                                            | —               | —       |
