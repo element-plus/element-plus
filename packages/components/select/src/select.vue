@@ -557,6 +557,7 @@ export default defineComponent({
       ),
     ])
 
+    // if in form and use statusIcon, the width of the icon needs to be subtracted, fix #13526
     const selectTagsStyle = computed(() => ({
       maxWidth: `${
         unref(inputWidth) -
