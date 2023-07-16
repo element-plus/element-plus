@@ -17,6 +17,7 @@ import {
   UPDATE_MODEL_EVENT,
 } from '@element-plus/constants'
 import {
+  ValidateComponentsMap,
   debugWarn,
   getComponentSize,
   isClient,
