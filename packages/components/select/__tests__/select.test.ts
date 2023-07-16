@@ -1772,7 +1772,7 @@ describe('Select', () => {
 
     const innerInput = wrapper.find('.el-input__inner')
     const innerInputEl = innerInput.element as HTMLInputElement
-    expect(innerInputEl.placeholder).toBe('')
+    expect(innerInputEl.placeholder).toBe('Select')
 
     const tagCloseIcon = wrapper.find('.el-tag__close')
     await tagCloseIcon.trigger('click')
@@ -1787,7 +1787,7 @@ describe('Select', () => {
     vi.runAllTimers()
     await nextTick()
 
-    expect(innerInputEl.placeholder).toBe('')
+    expect(innerInputEl.placeholder).toBe('Select')
 
     selectInput.trigger('keydown', {
       key: EVENT_CODE.backspace,
