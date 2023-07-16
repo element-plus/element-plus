@@ -561,7 +561,9 @@ export default defineComponent({
       maxWidth: `${
         unref(inputWidth) -
         32 -
-        (needStatusIcon && validateState && validateIcon ? 22 : 0)
+        (needStatusIcon.value && validateState.value && validateIcon.value
+          ? 22
+          : 0)
       }px`,
       width: '100%',
     }))
