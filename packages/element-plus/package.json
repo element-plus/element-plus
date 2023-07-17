@@ -54,6 +54,10 @@
       ],
       "require": "./lib/*.js"
     },
+    "./lib/locale/*": {
+      "import": "./lib/locale/*.js",
+      "require": "./lib/locale/*.js"
+    },
     "./*": "./*"
   },
   "unpkg": "dist/index.full.js",
