@@ -11,19 +11,15 @@
         <td
           v-for="(cell, key_) in row"
           :key="key_"
-          :ref="(el) => isSelectedCell(cell) && (currentCellRef = el as HTMLElement)"
+          :ref="(el) => cell.isCurrent && (currentCellRef = el as HTMLElement)"
           :class="getCellStyle(cell)"
-          :aria-selected="`${isSelectedCell(cell)}`"
-          :aria-label="t(`el.datepicker.month${+cell.text + 1}`)"
-          :tabindex="isSelectedCell(cell) ? 0 : -1"
+          :aria-selected="`${cell.isCurrent}`"
+          :aria-label="t(`el.datepicker.month${+cell.index + 1}`)"
+          :tabindex="cell.isCurrent ? 0 : -1"
           @keydown.space.prevent.stop="handleMonthTableClick"
           @keydown.enter.prevent.stop="handleMonthTableClick"
         >
-          <div>
-            <span class="cell">
-              {{ t('el.datepicker.months.' + months[cell.text]) }}
-            </span>
-          </div>
+          <el-month-picker-cell :cell="cell" />
         </td>
       </tr>
     </tbody>
@@ -37,17 +33,9 @@ import { useLocale, useNamespace } from '@element-plus/hooks'
 import { rangeArr } from '@element-plus/components/time-picker'
 import { castArray, hasClass } from '@element-plus/utils'
 import { basicMonthTableProps } from '../props/basic-month-table'
+import elMonthPickerCell from './basic-month-cell-render'
 
-type MonthCell = {
-  column: number
-  row: number
-  disabled: boolean
-  start: boolean
-  end: boolean
-  text: number
-  type: 'normal' | 'today'
-  inRange: boolean
-}
+import type { MonthCell } from '../date-picker.type'
 
 const datesInMonth = (year: number, month: number, lang: string) => {
   const firstDay = dayjs().locale(lang).startOf('month').month(month).year(year)
@@ -92,14 +80,24 @@ const rows = computed<MonthCell[][]>(() => {
         inRange: false,
         start: false,
         end: false,
-        text: -1,
+        text: 'Jan',
+        index: 0,
         disabled: false,
+        dayjs: dayjs(),
+        date: new Date(),
+        isCurrent: false,
+        timestamp: Date.now(),
       })
 
       cell.type = 'normal'
 
       const index = i * 4 + j
+      cell.index = index
+
       const calTime = props.date.startOf('year').month(index)
+      cell.dayjs = calTime
+      cell.date = calTime.toDate()
+      cell.timestamp = calTime.valueOf()
 
       const calEndDate =
         props.rangeState.endDate ||
@@ -134,7 +132,8 @@ const rows = computed<MonthCell[][]>(() => {
         cell.type = 'today'
       }
 
-      cell.text = index
+      cell.text = t(`el.datepicker.months.${months.value[index]}`)
+      cell.isCurrent = isSelectedCell(cell)
       cell.disabled = props.disabledDate?.(calTime.toDate()) || false
     }
   }

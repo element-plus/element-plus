@@ -29,3 +29,19 @@ export interface DateCell {
   dayjs?: Dayjs
   type?: DateCellType
 }
+
+export interface MonthCell {
+  column: number
+  row: number
+  disabled: boolean
+  start: boolean
+  end: boolean
+  text: string
+  index: number
+  type: 'normal' | 'today'
+  inRange: boolean
+  dayjs: Dayjs
+  date: Date
+  isCurrent: boolean
+  timestamp: number
+}
