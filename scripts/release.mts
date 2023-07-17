@@ -1,6 +1,6 @@
 import { release } from '@vitejs/release-scripts'
 import colors from 'picocolors'
-import { logRecentCommits, run } from './releaseUtils'
+import { logRecentCommits, run } from './releaseUtils.mts'
 
 release({
   // Name of the repo for CI link

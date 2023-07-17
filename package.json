@@ -37,8 +37,8 @@
     "docs:gen-locale": "pnpm run -C docs gen-locale",
     "docs:crowdin-credentials": "pnpm run -C docs crowdin-credentials",
     "stub": "pnpm run -r --parallel stub",
-    "release": "tsx scripts/release.ts",
-    "publish": "tsx scripts/publish.ts",
+    "release": "tsx scripts/release.mts",
+    "publish": "tsx scripts/publish.mts",
     "prepare": "husky install",
     "postinstall": "pnpm stub && concurrently \"pnpm gen:version\" \"pnpm run -C internal/metadata dev\""
   },

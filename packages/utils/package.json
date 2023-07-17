@@ -1,6 +1,6 @@
 {
   "name": "@element-plus/utils",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "license": "MIT",
   "main": "index.ts",
   "peerDependencies": {
