@@ -7,8 +7,6 @@ import 'uno.css'
 import './style.css'
 import type { Theme } from 'vitepress'
 
-import {} from '../'
-
 export default define<Theme>({
   NotFound,
   Layout: VPApp,
