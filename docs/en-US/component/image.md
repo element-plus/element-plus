@@ -93,7 +93,7 @@ image/image-preview
 | ----------- | -------------------------------------------------------- |
 | placeholder | custom placeholder content when image hasn't loaded yet. |
 | error       | custom image load failed content.                        |
-| viewer      | description of the image.                                |
+| viewer      | custom content when image preview.                       |
 
 ## Image Viewer API
 

@@ -339,7 +339,7 @@ const createGrid = ({
         },
         (x: number, y: number) => {
           hScrollbar.value?.onMouseUp?.()
-          hScrollbar.value?.onMouseUp?.()
+          vScrollbar.value?.onMouseUp?.()
           const width = unref(parsedWidth)
           const height = unref(parsedHeight)
           scrollTo({

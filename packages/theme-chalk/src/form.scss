@@ -91,13 +91,6 @@ $form-item-label-top-margin-bottom: map.merge(
         display: block;
       }
     }
-
-    .#{$namespace}-input {
-      @include set-css-var-value(
-        'input-width',
-        getCssVar('form-inline-content-width')
-      );
-    }
   }
 
   @each $size in (large, default, small) {
