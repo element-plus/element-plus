@@ -180,6 +180,7 @@
       'input-border-radius',
       map.get($input, 'border-radius')
     );
+    cursor: text;
     transition: getCssVar('transition-box-shadow');
     transform: translate3d(0, 0, 0);
     @include inset-input-border(
