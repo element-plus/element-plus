@@ -260,8 +260,11 @@ export default defineComponent({
       )
     }
 
-    const handleExpandIconClick = () => {
-      if (props.node.isLeaf) return
+    const handleExpandIconClick = (e: MouseEvent) => {
+      if (props.node.isLeaf) {
+        tree.ctx.emit('node-click', props.node.data, props.node, instance, e)
+        return
+      }
       if (expanded.value) {
         tree.ctx.emit('node-collapse', props.node.data, props.node, instance)
         props.node.collapse()
