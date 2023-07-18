@@ -18,7 +18,7 @@ import { ROOT_PICKER_INJECTION_KEY } from './constants'
 
 import { datePickerProps } from './props/date-picker'
 import { getPanel } from './panel-utils'
-import type { DatePickerExpose } from './date-picker.type'
+import type { DatePickerExpose } from './instance'
 
 dayjs.extend(localeData)
 dayjs.extend(advancedFormat)

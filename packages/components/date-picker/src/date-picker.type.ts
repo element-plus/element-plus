@@ -29,8 +29,3 @@ export interface DateCell {
   dayjs?: Dayjs
   type?: DateCellType
 }
-export type DatePickerExpose = {
-  focus: (focusStartInput: boolean) => void
-  handleOpen: () => void
-  handleClose: () => void
-}
