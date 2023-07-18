@@ -1,5 +1,30 @@
 ## Changelog
 
+### 2.3.8
+
+_2023-07-14_
+
+#### Bug fixes
+
+- Correct sass map has-key parameter (#13132 by @wonderl17)
+- Components [date-picker] One input affect the other input (#12181 by @HeftyKoo)
+- Components [virtual-list] Resetting the vertical scrollbar state (#13319 by @huangguangfa)
+- Components [tree] fix node can drop inner (#9770 by @init-qy)
+- Style [progress] linecap value of track is consistent with path (#13395 by @btea)
+- Theme-chalk [form] remove default width of Input in inline form (#13375 by @tolking)
+- Components [checkbox] default after border color is transparent (#13402 by @chenxch)
+- Components [table] multiple line ellipsis tooltip takes effect (#12805 by @btea)
+- Style [select] tooltip positioning is incorrect (#13424 by @wuzhidexiaoming)
+- Tree content checkbox height larger than item height, close #13396 (#13446 by @YunYouJun)
+- Types in exports (#13443 by @zhuying547)
+- Add more exports types (#13498 by @sxzz)
+- Components [color-picker] fix incorrect cursor position (#13516 by @kooriookami)
+- Components [input] lose focus when click suffix icon (#13264 by @tolking)
+- Style(theme-chalk): [table] fix th font weight (#13556 by @kaine0923)
+#### Refactors
+
+- Components [select] override the class using computed (#13302 by @wzc520pyfm)
+
 ### 2.3.7
 
 _2023-06-21_
