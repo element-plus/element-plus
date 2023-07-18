@@ -7,6 +7,7 @@ import {
   shallowRef,
   toRaw,
   triggerRef,
+  unref,
   watch,
 } from 'vue'
 import { isObject, toRawType } from '@vue/shared'
@@ -928,6 +929,19 @@ export const useSelect = (props, states: States, ctx) => {
     deleteTag(event, tag)
     tagTooltipRef.value?.updatePopper?.()
   }
+
+  // computed style
+  // if in form and use statusIcon, the width of the icon needs to be subtracted, fix #13526
+  const selectTagsStyle = computed(() => ({
+    maxWidth: `${
+      unref(states.inputWidth) -
+      32 -
+      (needStatusIcon.value && validateState.value && validateIcon.value
+        ? 22
+        : 0)
+    }px`,
+    width: '100%',
+  }))
   return {
     optionList,
     optionsArray,
@@ -976,6 +990,9 @@ export const useSelect = (props, states: States, ctx) => {
     groupQueryChange,
     showTagList,
     collapseTagList,
+
+    // computed style
+    selectTagsStyle,
 
     // DOM ref
     reference,

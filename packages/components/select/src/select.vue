@@ -450,9 +450,6 @@ export default defineComponent({
       resetInputHeight,
       managePlaceholder,
       showClose,
-      needStatusIcon,
-      validateState,
-      validateIcon,
       selectDisabled,
       iconComponent,
       iconReverse,
@@ -491,6 +488,8 @@ export default defineComponent({
       handleMouseLeave,
       showTagList,
       collapseTagList,
+      // computed style
+      selectTagsStyle,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -556,18 +555,6 @@ export default defineComponent({
           unref(filteredOptionsCount) === 0
       ),
     ])
-
-    // if in form and use statusIcon, the width of the icon needs to be subtracted, fix #13526
-    const selectTagsStyle = computed(() => ({
-      maxWidth: `${
-        unref(inputWidth) -
-        32 -
-        (needStatusIcon.value && validateState.value && validateIcon.value
-          ? 22
-          : 0)
-      }px`,
-      width: '100%',
-    }))
 
     const tagTextStyle = computed(() => {
       const maxWidth =
