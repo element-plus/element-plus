@@ -543,6 +543,23 @@ describe('Input.vue', () => {
     })
   })
 
+  test('type is number', async () => {
+    const count = ref(0)
+    const wrapper = mount(() => <Input type="number" v-model={count.value} />)
+    const inputElm = wrapper.find('input')
+    const nativeInput = inputElm.element
+    nativeInput.value = '1.0'
+    await inputElm.trigger('input')
+    await nextTick()
+    expect(count.value).toEqual(1)
+    expect(nativeInput.value).toEqual('1.0')
+    nativeInput.value = '1.01'
+    await inputElm.trigger('input')
+    await nextTick()
+    expect(count.value).toEqual(1.01)
+    expect(nativeInput.value).toEqual('1.01')
+  })
+
   // TODO: validateEvent & input containes select cases should be added after the rest components finished
   // ...
 })

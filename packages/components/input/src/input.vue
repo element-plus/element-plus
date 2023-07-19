@@ -195,6 +195,12 @@ const emit = defineEmits(inputEmits)
 const rawAttrs = useRawAttrs()
 const slots = useSlots()
 
+// TODO: import from @vue/shared
+const looseToNumber = (val: any): any => {
+  const n = Number.parseFloat(val)
+  return Number.isNaN(n) ? val : n
+}
+
 const containerAttrs = computed(() => {
   const comboBoxAttrs: Record<string, unknown> = {}
   if (props.containerRole === 'combobox') {
@@ -390,6 +396,12 @@ const setNativeInputValue = () => {
     ? props.formatter(nativeInputValue.value)
     : nativeInputValue.value
   if (!input || input.value === formatterValue) return
+  if (
+    props.type === 'number' &&
+    looseToNumber(input.value) === props.modelValue
+  ) {
+    return
+  }
   input.value = formatterValue
 }
 
@@ -413,8 +425,10 @@ const handleInput = async (event: Event) => {
     return
   }
 
-  emit(UPDATE_MODEL_EVENT, value)
-  emit('input', value)
+  const modelValue = props.type === 'number' ? looseToNumber(value) : value
+
+  emit(UPDATE_MODEL_EVENT, modelValue)
+  emit('input', modelValue as string)
 
   // ensure native input value is controlled
   // see: https://github.com/ElemeFE/element/issues/12850

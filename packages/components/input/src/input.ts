@@ -170,7 +170,7 @@ export const inputProps = buildProps({
 export type InputProps = ExtractPropTypes<typeof inputProps>
 
 export const inputEmits = {
-  [UPDATE_MODEL_EVENT]: (value: string) => isString(value),
+  [UPDATE_MODEL_EVENT]: (value: string | number) => isString(value),
   input: (value: string) => isString(value),
   change: (value: string) => isString(value),
   focus: (evt: FocusEvent) => evt instanceof FocusEvent,
