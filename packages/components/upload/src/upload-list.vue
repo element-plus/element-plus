@@ -60,25 +60,41 @@
         </div>
 
         <label :class="nsUpload.be('list', 'item-status-label')">
-          <el-icon
-            v-if="listType === 'text'"
-            :class="[nsIcon.m('upload-success'), nsIcon.m('circle-check')]"
-          >
-            <circle-check />
-          </el-icon>
-          <el-icon
-            v-else-if="['picture-card', 'picture'].includes(listType)"
-            :class="[nsIcon.m('upload-success'), nsIcon.m('check')]"
-          >
-            <Check />
-          </el-icon>
+          <template v-if="file.status === 'success'">
+            <el-icon
+              v-if="listType === 'text'"
+              :class="[nsIcon.m('upload-success'), nsIcon.m('circle-check')]"
+            >
+              <circle-check />
+            </el-icon>
+            <el-icon
+              v-else-if="['picture-card', 'picture'].includes(listType)"
+              :class="[nsIcon.m('upload-success'), nsIcon.m('check')]"
+            >
+              <Check />
+            </el-icon>
+          </template>
+          <template v-else-if="file.status === 'fail'">
+            <el-icon
+              v-if="listType === 'text'"
+              :class="[nsIcon.m('upload-fail'), nsIcon.m('circle-fail')]"
+            >
+              <circle-close />
+            </el-icon>
+            <el-icon
+              v-else-if="['picture-card', 'picture'].includes(listType)"
+              :class="[nsIcon.m('upload-fail'), nsIcon.m('fail')]"
+            >
+              <Close />
+            </el-icon>
+          </template>
         </label>
         <el-icon
           v-if="!disabled"
           :class="nsIcon.m('close')"
           @click="handleRemove(file)"
         >
-          <Close />
+          <Delete />
         </el-icon>
         <!-- Due to close btn only appears when li gets focused disappears after li gets blurred, thus keyboard navigation can never reach close btn-->
         <!-- This is a bug which needs to be fixed -->
@@ -117,6 +133,7 @@ import { ElIcon } from '@element-plus/components/icon'
 import {
   Check,
   CircleCheck,
+  CircleClose,
   Close,
   Delete,
   Document,

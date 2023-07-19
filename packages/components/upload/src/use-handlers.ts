@@ -57,7 +57,11 @@ export const useHandlers = (
 
     console.error(err)
     file.status = 'fail'
-    uploadFiles.value.splice(uploadFiles.value.indexOf(file), 1)
+
+    if (!props.showFailedFile) {
+      uploadFiles.value.splice(uploadFiles.value.indexOf(file), 1)
+    }
+
     props.onError(err, file, uploadFiles.value)
     props.onChange(file, uploadFiles.value)
   }

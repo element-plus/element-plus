@@ -111,6 +111,10 @@ export const uploadBaseProps = buildProps({
     type: Boolean,
     default: true,
   },
+  showFailedFile: {
+    type: Boolean,
+    default: false,
+  },
   accept: {
     type: String,
     default: '',

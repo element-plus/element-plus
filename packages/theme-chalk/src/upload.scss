@@ -2,12 +2,12 @@
 @use 'mixins/utils' as *;
 @use 'common/var' as *;
 
-@mixin upload-success($color: null) {
+@mixin upload-status($color: null, $bg: 'color-success') {
   right: -15px;
   top: -6px;
   width: 40px;
   height: 24px;
-  background: getCssVar('color-success');
+  background: getCssVar($bg);
   text-align: center;
   transform: rotate(45deg);
 
@@ -16,6 +16,42 @@
     margin-top: 11px;
     transform: rotate(-45deg);
     color: $color;
+  }
+}
+
+@mixin upload-text() {
+  .#{bem('upload-list', 'item-status-label')} {
+    display: inline-flex;
+  }
+
+  .#{bem('upload-list', 'item-name')}:hover,
+  .#{bem('upload-list', 'item-name')}:focus {
+    color: getCssVar('color-primary');
+    cursor: pointer;
+  }
+
+  &:focus:not(:hover) {
+    /* 键盘focus */
+    .#{bem('icon', '', 'close-tip')} {
+      display: inline-block;
+    }
+  }
+
+  &:not(.focusing):focus,
+  &:active {
+    /* click时 */
+    outline-width: 0;
+    .#{bem('icon', '', 'close-tip')} {
+      display: none;
+    }
+  }
+
+  &:hover,
+  &:focus {
+    .#{bem('upload-list', 'item-status-label')} {
+      display: none;
+      opacity: 0;
+    }
   }
 }
 
@@ -175,6 +211,10 @@
       color: getCssVar('color-success');
     }
 
+    & .#{bem('icon', '', 'upload-fail')} {
+      color: getCssVar('color-danger');
+    }
+
     .#{bem('icon', '', 'close')} {
       display: none;
       position: absolute;
@@ -225,39 +265,11 @@
     }
 
     @include when(success) {
-      .#{bem('upload-list', 'item-status-label')} {
-        display: inline-flex;
-      }
+      @include upload-text()
+    }
 
-      .#{bem('upload-list', 'item-name')}:hover,
-      .#{bem('upload-list', 'item-name')}:focus {
-        color: getCssVar('color-primary');
-        cursor: pointer;
-      }
-
-      &:focus:not(:hover) {
-        /* 键盘focus */
-        .#{bem('icon', '', 'close-tip')} {
-          display: inline-block;
-        }
-      }
-
-      &:not(.focusing):focus,
-      &:active {
-        /* click时 */
-        outline-width: 0;
-        .#{bem('icon', '', 'close-tip')} {
-          display: none;
-        }
-      }
-
-      &:hover,
-      &:focus {
-        .#{bem('upload-list', 'item-status-label')} {
-          display: none;
-          opacity: 0;
-        }
-      }
+    @include when(fail) {
+      @include upload-text()
     }
   }
 
@@ -333,7 +345,9 @@
       display: inline-flex;
 
       .#{bem('icon', '' ,'check')},
-      .#{bem('icon', '' ,'circle-check')} {
+      .#{bem('icon', '' ,'circle-check')},
+      .#{bem('icon', '' ,'fail')},
+      .#{bem('icon', '' ,'circle-fail')} {
         color: $color-white;
       }
 
@@ -365,8 +379,18 @@
       object-fit: contain;
     }
 
-    .#{bem('upload-list', 'item-status-label')} {
-      @include upload-success();
+    @include e(item) {
+      @include when(success) {
+        .#{bem('upload-list', 'item-status-label')} {
+          @include upload-status()
+        }
+      }
+
+      @include when(fail) {
+        .#{bem('upload-list', 'item-status-label')} {
+          @include upload-status(null, 'color-danger')
+        }
+      }
     }
 
     .#{bem('upload-list', 'item-actions')} {
@@ -437,7 +461,9 @@
       align-items: center;
 
       .#{bem('icon', '' ,'check')},
-      .#{bem('icon', '' ,'circle-check')} {
+      .#{bem('icon', '' ,'circle-check')},
+      .#{bem('icon', '' ,'fail')},
+      .#{bem('icon', '' ,'circle-fail')} {
         color: $color-white;
       }
 
@@ -457,6 +483,22 @@
           i {
             display: none;
           }
+        }
+
+        .#{bem('upload-list', 'item-status-label')} {
+          background: getCssVar('color-success');
+        }
+      }
+
+      &.is-fail {
+        .#{bem('upload-list', 'item-name')} {
+          i {
+            display: none;
+          }
+        }
+
+        .#{bem('upload-list', 'item-status-label')} {
+          background: getCssVar('color-danger');
         }
       }
 
@@ -488,7 +530,6 @@
       top: -7px;
       width: 46px;
       height: 26px;
-      background: getCssVar('color-success');
       text-align: center;
       transform: rotate(45deg);
 
@@ -524,7 +565,7 @@
   }
 
   @include e(label) {
-    @include upload-success(#fff);
+    @include upload-status(#fff);
   }
 
   @include e(progress) {
