@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { FormInstance } from 'element-plus'
+import type { FormInstance, FormRules } from 'element-plus'
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -79,7 +79,7 @@ const ruleForm = reactive({
   age: '',
 })
 
-const rules = reactive({
+const rules = reactive<FormRules<typeof ruleForm>>({
   pass: [{ validator: validatePass, trigger: 'blur' }],
   checkPass: [{ validator: validatePass2, trigger: 'blur' }],
   age: [{ validator: checkAge, trigger: 'blur' }],

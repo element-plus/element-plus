@@ -1,7 +1,7 @@
 import { useSizeProp } from '@element-plus/hooks'
-import { buildProps, iconPropType } from '@element-plus/utils'
+import { buildProps, definePropType, iconPropType } from '@element-plus/utils'
 import { Loading } from '@element-plus/icons-vue'
-import type { ExtractPropTypes } from 'vue'
+import type { Component, ExtractPropTypes } from 'vue'
 
 export const buttonTypes = [
   'default',
@@ -103,6 +103,13 @@ export const buttonProps = buildProps({
   autoInsertSpace: {
     type: Boolean,
     default: undefined,
+  },
+  /**
+   * @description custom element tag
+   */
+  tag: {
+    type: definePropType<string | Component>([String, Object]),
+    default: 'button',
   },
 } as const)
 export const buttonEmits = {

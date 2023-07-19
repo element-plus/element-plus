@@ -3,7 +3,7 @@ title: Virtualized Table
 lang: en-US
 ---
 
-# Virtualized Table<VersionTag version="beta" />
+# Virtualized Table ^(beta)
 
 Along with the evolutionary web development, table component has always been the most popular component in our web apps especially for dashboards, data analysis. For [Table V1](./table.md), with even just 1000 records of data, it can be very annoying when using it, because the poor performance.
 
@@ -54,7 +54,7 @@ table-v2/auto-resizer
 
 :::
 
-## Customize Cell Renderer
+## Customize Cell Renderer{#customize-cell-renderer}
 
 Of course, you can render the table cell per your needs, here is a simple example of how to customize your cell.
 
@@ -390,10 +390,10 @@ Note that these are `JavaScript` Objects, so that you **CANNOT USE** kebab-case 
 | maxWidth           | Maximum width for the column                                              | String                                                                                                                                                           | -       |
 | minWidth           | Minimum width for the column                                              | String                                                                                                                                                           | -       |
 | width \*           | Width for the column **Required**                                         | Number                                                                                                                                                           | -       |
-| cellRenderer       | Customized Cell renderer                                                  | VueComponent/(props: [CellRenderProps](#renderer-typings)) => VNode                                                                                              | -       |
-| headerCellRenderer | Customized Header renderer                                                | VueComponent/(props: [HeaderRenderProps](#renderer-typings)) => VNode                                                                                            | -       |
+| cellRenderer       | Customized Cell renderer                                                  | VueComponent/(props: [CellRenderProps](#typings)) => VNode                                                                                                       | -       |
+| headerCellRenderer | Customized Header renderer                                                | VueComponent/(props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | -       |
 
-## Typings
+## Typings{#typings}
 
 <details>
 <summary>Show Type Declarations</summary>
@@ -541,4 +541,4 @@ state by yourselves.
 
 For virtualized table, we intend to provide less feature and let our users to implement their own features per demand.
 Integrating too many features makes the code hard to maintain and for most users the basic features are enough. Some key
-features were not developed yet. We would love to hear from you. Join [Discord](https://discord.link/ElementPlus) to stay tuned.
+features were not developed yet. We would love to hear from you. Join [Discord](https://discord.com/invite/gXK9XNzW3X) to stay tuned.

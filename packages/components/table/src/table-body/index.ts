@@ -7,8 +7,7 @@ import {
   onUnmounted,
   watch,
 } from 'vue'
-import { isClient } from '@vueuse/core'
-import { addClass, removeClass } from '@element-plus/utils'
+import { addClass, isClient, removeClass } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
 import useLayoutObserver from '../layout-observer'
 import { removePopper } from '../util'
