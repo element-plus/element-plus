@@ -39,7 +39,6 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
   font-size: 12px;
   margin-top: 8px;
   width: 280px;
-
   @include e(colors) {
     display: flex;
     flex: 1;
@@ -325,7 +324,6 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     width: 100%;
     height: 100%;
     text-align: center;
-
     @include when(alpha) {
       @include alpha-bg;
       // background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==);
@@ -334,8 +332,6 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
 
   @include e(color-inner) {
     display: inline-flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     height: 100%;
   }
