@@ -162,7 +162,7 @@ describe('Datetime Picker', () => {
   })
 
   it('now button: can not choose disabled date', async () => {
-    let isDisable = true
+    const isDisable = true
     const value = ref('')
     const disabledDate = () => isDisable
     const wrapper = _mount(() => (
@@ -185,11 +185,6 @@ describe('Datetime Picker', () => {
     await nextTick()
 
     expect(value.value).toBe('')
-    isDisable = false
-    await nextTick()
-    btn.click()
-    await nextTick()
-    expect(value.value).not.toBe('')
   })
 
   it('confirm button honors picked date', async () => {

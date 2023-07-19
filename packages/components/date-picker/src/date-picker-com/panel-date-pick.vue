@@ -442,7 +442,10 @@ const footerVisible = computed(() => {
 const disabledConfirm = computed(() => {
   if (!disabledDate) return false
   if (!props.parsedValue) return true
-  return disabledDate(props.parsedValue)
+  if (isArray(props.parsedValue)) {
+    return disabledDate(props.parsedValue[0].toDate())
+  }
+  return disabledDate(props.parsedValue.toDate())
 })
 const onConfirm = () => {
   if (selectionMode.value === 'dates') {
