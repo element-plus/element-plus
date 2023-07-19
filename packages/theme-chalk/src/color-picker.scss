@@ -280,13 +280,6 @@ $color-picker-size: map.merge($common-component-size, $color-picker-size);
     }
   }
 
-  @include m(small) {
-    .#{$namespace}-color-picker__icon,
-    .#{$namespace}-color-picker__empty {
-      transform: scale(0.8);
-    }
-  }
-
   @include e(mask) {
     height: map.get($color-picker-size, 'default')-2px;
     width: map.get($color-picker-size, 'default')-2px;
