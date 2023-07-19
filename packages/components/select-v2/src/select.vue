@@ -23,7 +23,7 @@
       trigger="click"
       :persistent="persistent"
       @before-show="handleMenuEnter"
-      @hide="states.inputValue = states.displayInputValue"
+      @hide="handleMenuHide"
     >
       <template #default>
         <div

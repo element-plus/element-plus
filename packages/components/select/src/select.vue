@@ -3,8 +3,6 @@
     ref="selectWrapper"
     v-click-outside:[popperPaneRef]="handleClose"
     :class="wrapperKls"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
     @click.stop="toggleMenu"
   >
     <el-tooltip
@@ -22,7 +20,8 @@
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       :persistent="persistent"
-      @show="handleMenuEnter"
+      @before-show="handleTooltipBeforeShow"
+      @hide="handleTooltipHide"
     >
       <template #default>
         <div
@@ -460,7 +459,6 @@ export default defineComponent({
       handleComposition,
       onOptionCreate,
       onOptionDestroy,
-      handleMenuEnter,
       handleFocus,
       blur,
       handleBlur,
@@ -484,10 +482,11 @@ export default defineComponent({
       scrollbar,
       queryChange,
       groupQueryChange,
-      handleMouseEnter,
-      handleMouseLeave,
       showTagList,
       collapseTagList,
+
+      handleTooltipBeforeShow,
+      handleTooltipHide,
     } = useSelect(props, states, ctx)
 
     const { focus } = useFocus(reference)
@@ -680,7 +679,6 @@ export default defineComponent({
       toggleLastOptionHitState,
       resetInputState,
       handleComposition,
-      handleMenuEnter,
       handleFocus,
       blur,
       handleBlur,
@@ -713,11 +711,12 @@ export default defineComponent({
       nsSelect,
       tagTextStyle,
       inputStyle,
-      handleMouseEnter,
-      handleMouseLeave,
       showTagList,
       collapseTagList,
       tagTooltipRef,
+
+      handleTooltipBeforeShow,
+      handleTooltipHide,
     }
   },
 })

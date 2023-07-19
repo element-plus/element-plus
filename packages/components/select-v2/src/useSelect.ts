@@ -650,14 +650,21 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     return handleBlur()
   }
 
+  const preventDefault = (e: Event) => e.preventDefault()
   const handleMenuEnter = () => {
     states.inputValue = states.displayInputValue
+    elFormItem?.$el?.addEventListener('click', preventDefault)
     return nextTick(() => {
       if (~indexRef.value) {
         updateHoveringIndex(indexRef.value)
         scrollToItem(states.hoveringIndex)
       }
     })
+  }
+
+  const handleMenuHide = () => {
+    states.inputValue = states.displayInputValue
+    elFormItem?.$el?.removeEventListener('click', preventDefault)
   }
 
   const scrollToItem = (index: number) => {
@@ -825,6 +832,7 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
     handleEsc,
     handleFocus,
     handleMenuEnter,
+    handleMenuHide,
     handleResize,
     toggleMenu,
     scrollTo: scrollToItem,

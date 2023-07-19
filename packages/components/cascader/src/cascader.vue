@@ -20,6 +20,7 @@
     effect="light"
     pure
     persistent
+    @before-show="beforeShowSuggestionPanel"
     @hide="hideSuggestionPanel"
   >
     <template #default>
@@ -388,8 +389,15 @@ const updatePopperPosition = () => {
   })
 }
 
+const preventDefault = (e: Event) => e.preventDefault()
+
 const hideSuggestionPanel = () => {
   filtering.value = false
+  formItem?.$el?.removeEventListener('click', preventDefault)
+}
+
+const beforeShowSuggestionPanel = () => {
+  formItem?.$el?.addEventListener('click', preventDefault)
 }
 
 const genTag = (node: CascaderNode): Tag => {

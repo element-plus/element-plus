@@ -13,7 +13,7 @@
         :is="labelFor ? 'label' : 'div'"
         v-if="hasLabel"
         :id="labelId"
-        :for="labelFor"
+        :for="labelFocus ? labelFor : undefined"
         :class="ns.e('label')"
         :style="labelStyle"
       >
@@ -159,9 +159,9 @@ const hasLabel = computed<boolean>(() => {
 })
 
 const labelFor = computed<string | undefined>(() => {
-  return props.for || inputIds.value.length === 1
-    ? inputIds.value[0]
-    : undefined
+  return (
+    props.for || (inputIds.value.length === 1 ? inputIds.value[0] : undefined)
+  )
 })
 
 const isGroup = computed<boolean>(() => {

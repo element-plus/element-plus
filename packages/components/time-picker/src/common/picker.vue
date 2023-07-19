@@ -330,8 +330,10 @@ const onPick = (date: any = '', visible = false) => {
   emitInput(result)
 }
 
+const preventDefault = (e: Event) => e.preventDefault()
 const onBeforeShow = () => {
   pickerActualVisible.value = true
+  formItem?.$el?.addEventListener('click', preventDefault)
 }
 
 const onShow = () => {
@@ -349,6 +351,7 @@ const onHide = () => {
   pickerVisible.value = false
   ignoreFocusEvent = false
   emit('visible-change', false)
+  formItem?.$el?.removeEventListener('click', preventDefault)
 }
 
 const handleOpen = () => {

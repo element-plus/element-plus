@@ -56,7 +56,6 @@ export function useSelectStates(props) {
     menuVisibleOnFocus: false,
     isOnComposition: false,
     prefixWidth: 11,
-    mouseEnter: false,
   })
 }
 let ignoreFocusEvent = false
@@ -134,6 +133,8 @@ export const useSelect = (props, states: States, ctx) => {
   )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
+
+  const preventDefault = (e: Event) => e.preventDefault()
 
   const emptyText = computed(() => {
     if (props.loading) {
@@ -308,7 +309,6 @@ export const useSelect = (props, states: States, ctx) => {
         }
       } else {
         tooltipRef.value?.updatePopper?.()
-
         if (props.filterable) {
           states.filteredOptionsCount = states.optionsCount
           states.query = props.remote ? '' : states.selectedLabel
@@ -324,7 +324,6 @@ export const useSelect = (props, states: States, ctx) => {
           handleQueryChange(states.query)
           if (!props.multiple && !props.remote) {
             queryChange.value.query = ''
-
             triggerRef(queryChange)
             triggerRef(groupQueryChange)
           }
@@ -796,7 +795,7 @@ export const useSelect = (props, states: States, ctx) => {
       ignoreFocusEvent = false
     }
   }
-
+  ;(window as any).states = states
   const blur = () => {
     states.visible = false
     reference.value?.blur()
@@ -816,6 +815,15 @@ export const useSelect = (props, states: States, ctx) => {
     })
   }
 
+  const handleTooltipBeforeShow = () => {
+    // prevents the control from being focused multiple times when the label is clicked.
+    formItem?.$el?.addEventListener('click', preventDefault)
+    handleMenuEnter()
+  }
+  const handleTooltipHide = () => {
+    formItem?.$el?.removeEventListener('click', preventDefault)
+  }
+
   const handleClearClick = (event: Event) => {
     deleteSelected(event)
   }
@@ -832,10 +840,7 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
-  const toggleMenu = (e?: PointerEvent) => {
-    if (e && !states.mouseEnter) {
-      return
-    }
+  const toggleMenu = () => {
     if (!selectDisabled.value) {
       if (states.menuVisibleOnFocus) {
         states.menuVisibleOnFocus = false
@@ -910,13 +915,6 @@ export const useSelect = (props, states: States, ctx) => {
     }
   }
 
-  const handleMouseEnter = () => {
-    states.mouseEnter = true
-  }
-
-  const handleMouseLeave = () => {
-    states.mouseEnter = false
-  }
   const handleDeleteTooltipTag = (event, tag) => {
     deleteTag(event, tag)
     tagTooltipRef.value?.updatePopper?.()
@@ -949,7 +947,6 @@ export const useSelect = (props, states: States, ctx) => {
     handleComposition,
     onOptionCreate,
     onOptionDestroy,
-    handleMenuEnter,
     handleFocus,
     blur,
     handleBlur,
@@ -977,8 +974,8 @@ export const useSelect = (props, states: States, ctx) => {
     selectWrapper,
     scrollbar,
 
-    // Mouser Event
-    handleMouseEnter,
-    handleMouseLeave,
+    // tooltip
+    handleTooltipBeforeShow,
+    handleTooltipHide,
   }
 }
