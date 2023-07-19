@@ -50,7 +50,6 @@
             <time-pick-panel
               :visible="timePickerVisible"
               :format="timeFormat"
-              :time-arrow-control="arrowControl"
               :parsed-value="innerDate"
               @pick="handleTimePick"
             />
@@ -243,8 +242,7 @@ const slots = useSlots()
 const { t, lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
-const { shortcuts, disabledDate, cellClassName, defaultTime, arrowControl } =
-  pickerBase.props
+const { shortcuts, disabledDate, cellClassName, defaultTime } = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
 const currentViewRef = ref<{ focus: () => void }>()
