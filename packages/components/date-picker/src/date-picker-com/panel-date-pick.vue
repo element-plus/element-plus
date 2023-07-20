@@ -253,7 +253,7 @@ const innerDate = ref(dayjs().locale(lang.value))
 
 const isChangeToNow = ref(false)
 
-const isShortcut = ref(false)
+let isShortcut = false
 
 const defaultTimeD = computed(() => {
   return dayjs(defaultTime).locale(lang.value)
@@ -281,7 +281,7 @@ const formatEmit = (emitDayjs: Dayjs) => {
     defaultTime &&
     !visibleTime.value &&
     !isChangeToNow.value &&
-    !isShortcut.value
+    !isShortcut
   ) {
     return defaultTimeD.value
       .year(emitDayjs.year())
@@ -303,7 +303,7 @@ const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   userInputDate.value = null
   userInputTime.value = null
   isChangeToNow.value = false
-  isShortcut.value = false
+  isShortcut = false
 }
 const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
   if (selectionMode.value === 'date') {
@@ -374,7 +374,7 @@ const handleShortcutClick = (shortcut: Shortcut) => {
     ? shortcut.value()
     : shortcut.value
   if (shortcutValue) {
-    isShortcut.value = true
+    isShortcut = true
     emit(dayjs(shortcutValue).locale(lang.value))
     return
   }
