@@ -193,9 +193,12 @@ function useWatcher<T>() {
     selected = undefined,
     emitChange = true
   ) => {
-    const selectableFilter = (row: T) => {
-      return row.selectable
-    }
+    // 存在selectable属性则触发过滤
+    const selectableFilter = selectable.value
+      ? (row: T) => {
+          return row.selectable
+        }
+      : () => true
     const changed = toggleRowStatus(
       selection.value,
       row,

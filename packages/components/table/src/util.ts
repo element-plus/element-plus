@@ -260,7 +260,7 @@ export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
   newVal: boolean,
-  filter?: (row: T) => boolean
+  filter = (row: T) => true
 ): boolean {
   let changed = false
   const index = statusArr.indexOf(row)
@@ -274,15 +274,9 @@ export function toggleRowStatus<T>(
     }
     changed = true
     if (isArray(row.children)) {
-      if (filter) {
-        row.children.filter(filter).forEach((item) => {
-          toggleRowStatus(statusArr, item, newVal ?? !included)
-        })
-      } else {
-        row.children.forEach((item) => {
-          toggleRowStatus(statusArr, item, newVal ?? !included)
-        })
-      }
+      row.children.filter(filter).forEach((item) => {
+        toggleRowStatus(statusArr, item, newVal ?? !included)
+      })
     }
   }
 
