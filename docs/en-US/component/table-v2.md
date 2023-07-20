@@ -498,6 +498,32 @@ type HeaderCellSlotProps = {
   onColumnSorted: (e: MouseEvent) => void
 }
 
+type RowCommonParams = {
+  rowData: any
+  rowIndex: number
+}
+
+type RowEventHandlerParams = {
+  rowKey: KeyType
+  event: Event
+} & RowCommonParams
+
+type RowEventHandler = (params: RowEventHandlerParams) => void
+type RowEventHandlers = {
+  onClick?: RowEventHandler
+  onContextmenu?: RowEventHandler
+  onDblclick?: RowEventHandler
+  onMouseenter?: RowEventHandler
+  onMouseleave?: RowEventHandler
+}
+
+type RowsRenderedParams = {
+  rowCacheStart: number
+  rowCacheEnd: number
+  rowVisibleStart: number
+  rowVisibleEnd: number
+}
+
 type RowSlotProps = {
   columnIndex: number
   rowIndex: number
@@ -506,6 +532,11 @@ type RowSlotProps = {
   isScrolling?: boolean | undefined
   style: CSSProperties
 }
+
+type RowExpandParams = {
+  expanded: boolean
+  rowKey: KeyType
+} & RowCommonParams
 
 type Data = {
   [key: KeyType]: any
