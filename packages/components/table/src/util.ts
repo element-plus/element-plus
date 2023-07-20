@@ -260,7 +260,7 @@ export function toggleRowStatus<T>(
   statusArr: T[],
   row: T,
   newVal: boolean,
-  filter = (row: T) => true
+  filter: (row: T) => boolean = () => true
 ): boolean {
   let changed = false
   const index = statusArr.indexOf(row)
