@@ -253,6 +253,8 @@ const innerDate = ref(dayjs().locale(lang.value))
 
 const isChangeToNow = ref(false)
 
+const isShortcut = ref(false)
+
 const defaultTimeD = computed(() => {
   return dayjs(defaultTime).locale(lang.value)
 })
@@ -274,12 +276,12 @@ const checkDateWithinRange = (date: ConfigType) => {
     ? timeWithinRange(date, selectableRange.value, props.format || 'HH:mm:ss')
     : true
 }
-const formatEmit = (emitDayjs: Dayjs, isShortcut = false) => {
+const formatEmit = (emitDayjs: Dayjs) => {
   if (
     defaultTime &&
     !visibleTime.value &&
     !isChangeToNow.value &&
-    !isShortcut
+    !isShortcut.value
   ) {
     return defaultTimeD.value
       .year(emitDayjs.year())
@@ -289,18 +291,19 @@ const formatEmit = (emitDayjs: Dayjs, isShortcut = false) => {
   if (showTime.value) return emitDayjs.millisecond(0)
   return emitDayjs.startOf('day')
 }
-const emit = (value: Dayjs | Dayjs[], isShortcut = false, ...args: any[]) => {
+const emit = (value: Dayjs | Dayjs[], ...args: any[]) => {
   if (!value) {
     contextEmit('pick', value, ...args)
   } else if (isArray(value)) {
-    const dates = value.map((date) => formatEmit(date))
+    const dates = value.map(formatEmit)
     contextEmit('pick', dates, ...args)
   } else {
-    contextEmit('pick', formatEmit(value, isShortcut), ...args)
+    contextEmit('pick', formatEmit(value), ...args)
   }
   userInputDate.value = null
   userInputTime.value = null
   isChangeToNow.value = false
+  isShortcut.value = false
 }
 const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
   if (selectionMode.value === 'date') {
@@ -319,11 +322,11 @@ const handleDatePick = (value: DateTableEmits, keepOpen?: boolean) => {
         .date(value.date())
     }
     innerDate.value = newDate
-    emit(newDate, false, showTime.value || keepOpen)
+    emit(newDate, showTime.value || keepOpen)
   } else if (selectionMode.value === 'week') {
     emit((value as WeekPickerEmits).date)
   } else if (selectionMode.value === 'dates') {
-    emit(value as DatesPickerEmits, false, true) // set true to keep panel open
+    emit(value as DatesPickerEmits, true) // set true to keep panel open
   }
 }
 
@@ -371,7 +374,8 @@ const handleShortcutClick = (shortcut: Shortcut) => {
     ? shortcut.value()
     : shortcut.value
   if (shortcutValue) {
-    emit(dayjs(shortcutValue).locale(lang.value), true)
+    isShortcut.value = true
+    emit(dayjs(shortcutValue).locale(lang.value))
     return
   }
   if (shortcut.onClick) {
@@ -400,11 +404,11 @@ const hasShortcuts = computed(() => !!shortcuts.length)
 const handleMonthPick = async (month: number) => {
   innerDate.value = innerDate.value.startOf('month').month(month)
   if (selectionMode.value === 'month') {
-    emit(innerDate.value, false, false)
+    emit(innerDate.value, false)
   } else {
     currentView.value = 'date'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
-      emit(innerDate.value, false, true)
+      emit(innerDate.value, true)
       await nextTick()
       handleFocusPicker()
     }
@@ -415,12 +419,12 @@ const handleMonthPick = async (month: number) => {
 const handleYearPick = async (year: number) => {
   if (selectionMode.value === 'year') {
     innerDate.value = innerDate.value.startOf('year').year(year)
-    emit(innerDate.value, false, false)
+    emit(innerDate.value, false)
   } else {
     innerDate.value = innerDate.value.year(year)
     currentView.value = 'month'
     if (['month', 'year', 'date', 'week'].includes(selectionMode.value)) {
-      emit(innerDate.value, false, true)
+      emit(innerDate.value, true)
       await nextTick()
       handleFocusPicker()
     }
@@ -525,7 +529,7 @@ const handleTimePick = (value: Dayjs, visible: boolean, first: boolean) => {
     ? (props.parsedValue as Dayjs).hour(hour).minute(minute).second(second)
     : value
   innerDate.value = newDate
-  emit(innerDate.value, false, true)
+  emit(innerDate.value, true)
   if (!first) {
     timePickerVisible.value = visible
   }
@@ -538,7 +542,7 @@ const handleVisibleTimeChange = (value: string) => {
     innerDate.value = newDate.year(year).month(month).date(date)
     userInputTime.value = null
     timePickerVisible.value = false
-    emit(innerDate.value, false, true)
+    emit(innerDate.value, true)
   }
 }
 
@@ -551,7 +555,7 @@ const handleVisibleDateChange = (value: string) => {
     const { hour, minute, second } = getUnits(innerDate.value)
     innerDate.value = newDate.hour(hour).minute(minute).second(second)
     userInputDate.value = null
-    emit(innerDate.value, false, true)
+    emit(innerDate.value, true)
   }
 }
 
@@ -621,7 +625,7 @@ const handleKeydownTable = (event: KeyboardEvent) => {
     userInputTime.value === null
   ) {
     event.preventDefault()
-    emit(innerDate.value, false, false)
+    emit(innerDate.value, false)
   }
 }
 
