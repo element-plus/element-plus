@@ -424,7 +424,9 @@ const calculatePresentTags = () => {
   allPresentTags.value = allTags
 
   if (nodes.length) {
-    nodes.slice(0, props.maxCollapseTags).forEach(node => tags.push(genTag(node)))
+    nodes
+      .slice(0, props.maxCollapseTags)
+      .forEach((node) => tags.push(genTag(node)))
     const rest = nodes.slice(props.maxCollapseTags)
     const restCount = rest.length
 
