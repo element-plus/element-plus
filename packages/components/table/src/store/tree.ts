@@ -25,13 +25,14 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
     const res = {}
     if (!keys.length) return res
     keys.forEach((key) => {
-      if (lazyTreeNodeMap.value[key].length) {
-        const item = { children: [] }
-        lazyTreeNodeMap.value[key].forEach((row) => {
+      const { children, level } = lazyTreeNodeMap.value[key]
+      if (children.length) {
+        const item = { children: [], level }
+        children.forEach((row) => {
           const currentRowKey = getRowIdentity(row, rowKey)
           item.children.push(currentRowKey)
           if (row[lazyColumnIdentifier.value] && !res[currentRowKey]) {
-            res[currentRowKey] = { children: [] }
+            res[currentRowKey] = { children: [], level: level + 1 }
           }
         })
         res[key] = item
@@ -110,7 +111,8 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
       if (lazy.value && lazyKeys.length && rootLazyRowKeys.length) {
         lazyKeys.forEach((key) => {
           const oldValue = oldTreeData[key]
-          const lazyNodeChildren = normalizedLazyNode_[key].children
+          const { children: lazyNodeChildren, level = '' } =
+            normalizedLazyNode_[key]
           if (rootLazyRowKeys.includes(key)) {
             // 懒加载的 root 节点，更新一下原有的数据，原来的 children 一定是空数组
             if (newTreeData[key].children.length !== 0) {
@@ -125,7 +127,7 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
               loading: !!loading,
               expanded: getExpanded(oldValue, key),
               children: lazyNodeChildren,
-              level: '',
+              level,
             }
           }
         })
@@ -201,7 +203,10 @@ function useTree<T>(watcherData: WatcherPropsData<T>) {
         treeData.value[key].loaded = true
         treeData.value[key].expanded = true
         if (data.length) {
-          lazyTreeNodeMap.value[key] = data
+          lazyTreeNodeMap.value[key] = {
+            children: data,
+            level: treeData.value[key].level,
+          }
         }
         instance.emit('expand-change', row, true)
       })
