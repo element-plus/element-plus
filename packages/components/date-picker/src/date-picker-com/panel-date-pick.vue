@@ -243,8 +243,14 @@ const slots = useSlots()
 const { t, lang } = useLocale()
 const pickerBase = inject('EP_PICKER_BASE') as any
 const popper = inject(TOOLTIP_INJECTION_KEY)
-const { shortcuts, disabledDate, cellClassName, defaultTime, arrowControl } =
-  pickerBase.props
+const {
+  shortcuts,
+  disabledDate,
+  cellClassName,
+  defaultTime,
+  arrowControl,
+  nowValue,
+} = pickerBase.props
 const defaultValue = toRef(pickerBase.props, 'defaultValue')
 
 const currentViewRef = ref<{ focus: () => void }>()
@@ -459,14 +465,15 @@ const onConfirm = () => {
 const changeToNow = () => {
   // NOTE: not a permanent solution
   //       consider disable "now" button in the future
-  const now = dayjs().locale(lang.value)
+  const customNow = nowValue?.()
+  const now = dayjs(customNow).locale(lang.value)
   const nowDate = now.toDate()
   isChangeToNow.value = true
   if (
     (!disabledDate || !disabledDate(nowDate)) &&
     checkDateWithinRange(nowDate)
   ) {
-    innerDate.value = dayjs().locale(lang.value)
+    innerDate.value = dayjs(customNow).locale(lang.value)
     emit(innerDate.value)
   }
 }
