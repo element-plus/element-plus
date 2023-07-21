@@ -315,10 +315,12 @@
     tr {
       td,
       th {
+        &.#{$namespace}-table-fixed-column--left {
+          z-index: 2;
+        }
         &.#{$namespace}-table-fixed-column--left,
         &.#{$namespace}-table-fixed-column--right {
           position: sticky !important;
-          z-index: 2;
           background: getCssVar('bg-color');
           &.is-last-column,
           &.is-first-column {
