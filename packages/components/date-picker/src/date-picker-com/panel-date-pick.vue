@@ -465,15 +465,15 @@ const onConfirm = () => {
 const changeToNow = () => {
   // NOTE: not a permanent solution
   //       consider disable "now" button in the future
-  const customNow = nowValue?.()
-  const now = dayjs(customNow).locale(lang.value)
+  const nowRaw = isFunction(nowValue) ? nowValue() : new Date()
+  const now = dayjs(nowRaw).locale(lang.value)
   const nowDate = now.toDate()
   isChangeToNow.value = true
   if (
     (!disabledDate || !disabledDate(nowDate)) &&
     checkDateWithinRange(nowDate)
   ) {
-    innerDate.value = dayjs(customNow).locale(lang.value)
+    innerDate.value = dayjs(nowRaw).locale(lang.value)
     emit(innerDate.value)
   }
 }
