@@ -219,3 +219,14 @@ $empty: map.merge(
   ),
   $empty
 );
+
+// Table
+// css3 var in packages/theme-chalk/src/table.scss
+$table: () !default;
+$table: map.merge(
+  (
+    'fixed-left-column': inset 10px 0 10px -10px rgba(255, 255, 255, 0.15),
+    'fixed-right-column': inset -10px 0 10px -10px rgba(255, 255, 255, 0.15),
+  ),
+  $table
+);
