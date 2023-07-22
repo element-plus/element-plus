@@ -25,7 +25,7 @@
       "require": "./lib/index.js"
     },
     "./globals": {
-      "types": "./globals.d.ts"
+      "types": "./global.d.ts"
     },
     "./es": {
       "types": "./es/index.d.ts",
