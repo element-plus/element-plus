@@ -652,6 +652,7 @@ export const useSelect = (props, states: States, ctx) => {
     states.hoverIndex = -1
     states.visible = false
     ctx.emit('clear')
+    focus()
   }
 
   const handleOptionSelect = (option) => {
@@ -829,6 +830,7 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleClearClick = (event: Event) => {
+    console.log('handleClearClick')
     deleteSelected(event)
   }
 
