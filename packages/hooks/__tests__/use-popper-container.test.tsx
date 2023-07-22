@@ -59,6 +59,7 @@ describe('no injection value', () => {
         const data = usePopperContainerId()
         return data
       },
+      render: () => undefined,
     })
 
     expect(wrapper.vm.id).toMatch(/^el-popper-container-\d{0,4}$/)
@@ -88,6 +89,7 @@ describe('with injection value', () => {
         const data = usePopperContainerId()
         return data
       },
+      render: () => undefined,
     })
 
     expect(wrapper.vm.id).toBe('el-popper-container-1024')
