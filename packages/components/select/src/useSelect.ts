@@ -805,9 +805,12 @@ export const useSelect = (props, states: States, ctx) => {
 
   const handleBlur = (event: FocusEvent) => {
     setTimeout(() => {
-      // validate current focus event is inside el-tooltip-content
+      // validate current focus event is inside el-tooltip-content or el-select
       // if so, ignore the blur event and the next focus event
-      if (tooltipRef.value?.isFocusInsideContent()) {
+      if (
+        tooltipRef.value?.isFocusInsideContent() ||
+        selectWrapper.value?.contains(event.relatedTarget)
+      ) {
         ignoreFocusEvent = true
         return
       }
