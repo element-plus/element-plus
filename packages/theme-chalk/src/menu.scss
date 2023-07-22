@@ -58,7 +58,10 @@
   padding-left: 0;
   background-color: getCssVar('menu-bg-color');
   box-sizing: border-box;
-
+  & .#{$namespace}-menu-item:not(.is-disabled):hover {
+    outline: none;
+    background-color: getCssVar('menu-hover-bg-color');
+  }
   @include m(vertical) {
     &:not(.#{$namespace}-menu--collapse):not(.#{$namespace}-menu--popup-container) {
       & .#{$namespace}-menu-item,
@@ -94,10 +97,6 @@
         color: inherit;
       }
 
-      &:not(.is-disabled):hover,
-      &:not(.is-disabled):focus {
-        background-color: #fff;
-      }
     }
     & > .#{$namespace}-sub-menu {
       &:focus,
@@ -148,12 +147,6 @@
       & .#{$namespace}-sub-menu.is-active > .#{$namespace}-sub-menu__title {
         color: getCssVar('menu-active-color');
       }
-    }
-    & .#{$namespace}-menu-item:not(.is-disabled):hover,
-    & .#{$namespace}-menu-item:not(.is-disabled):focus {
-      outline: none;
-      color: getCssVar('menu-hover-text-color');
-      background-color: getCssVar('menu-hover-bg-color');
     }
     & > .#{$namespace}-menu-item.is-active {
       border-bottom: 2px solid getCssVar('menu-active-color');
