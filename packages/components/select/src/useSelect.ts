@@ -830,7 +830,6 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleClearClick = (event: Event) => {
-    console.log('handleClearClick')
     deleteSelected(event)
   }
 
