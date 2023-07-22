@@ -24,7 +24,7 @@
       "import": "./es/index.mjs",
       "require": "./lib/index.js"
     },
-    "./globals": {
+    "./global": {
       "types": "./global.d.ts"
     },
     "./es": {
