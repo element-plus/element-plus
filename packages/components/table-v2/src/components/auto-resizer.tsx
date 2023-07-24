@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, nextTick, onMounted } from 'vue'
 import { useNamespace } from '@element-plus/hooks'
 import { autoResizerProps } from '../auto-resizer'
 import { useAutoResize } from '../composables'
@@ -13,7 +13,11 @@ const AutoResizer = defineComponent({
       width: '100%',
       height: '100%',
     }
-
+    onMounted(() => {
+      nextTick(() => {
+        ;(sizer.value?.parentElement as HTMLElement).style.maxHeight = '100%'
+      })
+    })
     return () => {
       return (
         <div ref={sizer} class={ns.b()} style={style}>
