@@ -196,7 +196,7 @@ function useWatcher<T>() {
     // 存在selectable属性则触发过滤
     const selectableFilter = selectable.value
       ? (row: T) => {
-          return row.selectable
+          return !!row.selectable
         }
       : () => true
     const changed = toggleRowStatus(
@@ -230,7 +230,7 @@ function useWatcher<T>() {
       const rowIndex = index + childrenCount
       if (selectable.value) {
         const selectableFilter = (row: T) => {
-          return row.selectable
+          return !!row.selectable
         }
         if (
           selectable.value.call(null, row, rowIndex) &&
