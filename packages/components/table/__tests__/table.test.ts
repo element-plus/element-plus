@@ -1658,5 +1658,66 @@ describe('Table.vue', () => {
     await doubleWait()
     const findTooltipEl = wrapper.findAll('.el-tooltip').length
     expect(findTooltipEl).toEqual(5)
+
+    it('do not select the unselectable rows when selecting their parent', async () => {
+      const wrapper = mount({
+        components: {
+          ElTable,
+          ElTableColumn,
+        },
+
+        template: `
+      <div>
+        <el-table
+          :data="testData"
+          row-key="id"
+          border
+          default-expand-all
+          @selection-change="change"
+        >
+        <el-table-column type="selection" :selectable="(row, index)=>{return !row.unSelectable}"  />
+          <el-table-column prop="date" label="Date" sortable />
+          <el-table-column prop="name" label="Name" sortable />
+          <el-table-column prop="address" label="Address" sortable />
+        </el-table>
+      </div>
+      `,
+
+        data() {
+          const testData = getTestData() as any
+          testData[2].children = [
+            {
+              name: "A Bug's Life copy 1",
+              release: '1998-11-25-1',
+              director: 'John Lasseter',
+              runtime: 95,
+              unSelectable: true,
+            },
+            {
+              name: "A Bug's Life copy 2",
+              release: '1998-11-25-2',
+              director: 'John Lasseter',
+              runtime: 95,
+            },
+          ]
+
+          return { testData, selected: [] }
+        },
+        methods: {
+          change(rows) {
+            this.selected = rows
+          },
+        },
+      })
+
+      await doubleWait()
+      wrapper.findAll('.el-checkbox')[2].trigger('click')
+      await doubleWait()
+      expect(wrapper.vm.selected.length).toEqual(2)
+
+      vm.$refs.table.toggleAllSelection()
+      await doubleWait()
+      expect(vm.selection.length).toEqual(6)
+    })
   })
 })
