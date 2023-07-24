@@ -59,62 +59,66 @@ image/image-preview
 
 ### Image Attributes
 
-| Name                    | Description                                                                                                                                       | Type                                                       | Default                                                                 |
-| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `src`                   | image source, same as native.                                                                                                                     | `string`                                                   | —                                                                       |
-| `fit`                   | indicate how the image should be resized to fit its container, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit). | `'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | —                                                                       |
-| `hide-on-click-modal`   | when enabling preview, use this flag to control whether clicking on backdrop can exit preview mode.                                               | `boolean`                                                  | `false`                                                                 |
-| `loading` ^(2.2.3)      | Indicates how the browser should load the image, same as [native](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-loading)     | `'eager' \| 'lazy'`                                        | —                                                                       |
-| `lazy`                  | whether to use lazy load.                                                                                                                         | `boolean`                                                  | `false`                                                                 |
-| `scroll-container`      | the container to add scroll listener when using lazy load.                                                                                        | `string \| HTMLElement`                                    | the nearest parent container whose overflow property is auto or scroll. |
-| `alt`                   | native attribute `alt`.                                                                                                                           | `string`                                                   | —                                                                       |
-| `referrerpolicy`        | native attribute [referrerPolicy](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/referrerPolicy).                              | `string`                                                   | —                                                                       |
-| `preview-src-list`      | allow big image preview.                                                                                                                          | `string[]`                                                 | —                                                                       |
-| `z-index`               | set image preview z-index.                                                                                                                        | `number`                                                   | —                                                                       |
-| `initial-index`         | initial preview image index, less than the length of `url-list`.                                                                                  | `number`                                                   | `0`                                                                     |
-| `close-on-press-escape` | whether the image-viewer can be closed by pressing ESC                                                                                            | `boolean`                                                  | `true`                                                                  |
-| `preview-teleported`    | whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`.                     | `boolean`                                                  | `false`                                                                 |
+| Name                  | Description                                                                                                                                       | Type                                                                    | Default |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------- |
+| src                   | image source, same as native.                                                                                                                     | ^[string]                                                               | ''      |
+| fit                   | indicate how the image should be resized to fit its container, same as [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit). | ^[enum]`'' \| 'fill' \| 'contain' \| 'cover' \| 'none' \| 'scale-down'` | ''      |
+| hide-on-click-modal   | when enabling preview, use this flag to control whether clicking on backdrop can exit preview mode.                                               | ^[boolean]                                                              | false   |
+| loading ^(2.2.3)      | Indicates how the browser should load the image, same as [native](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img#attr-loading).    | ^[enum]`'eager' \| 'lazy'`                                              | —       |
+| lazy                  | whether to use lazy load.                                                                                                                         | ^[boolean]                                                              | false   |
+| scroll-container      | the container to add scroll listener when using lazy load. By default, the container to add scroll listener when using lazy load.                 | ^[string] / ^[object]`HTMLElement`                                      | —       |
+| alt                   | native attribute `alt`.                                                                                                                           | ^[string]                                                               | —       |
+| referrerpolicy        | native attribute [referrerPolicy](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/referrerPolicy).                              | ^[string]                                                               | —       |
+| preview-src-list      | allow big image preview.                                                                                                                          | ^[object]`string[]`                                                     | []      |
+| z-index               | set image preview z-index.                                                                                                                        | ^[number]                                                               | —       |
+| initial-index         | initial preview image index, less than the length of `url-list`.                                                                                  | ^[number]                                                               | 0       |
+| close-on-press-escape | whether the image-viewer can be closed by pressing ESC.                                                                                           | ^[boolean]                                                              | true    |
+| preview-teleported    | whether to append image-viewer to body. A nested parent element attribute transform should have this attribute set to `true`.                     | ^[boolean]                                                              | false   |
+| infinite              | whether the viewer preview is infinite.                                                                                                           | ^[boolean]                                                              | true    |
+| zoom-rate             | the zoom rate of the image viewer zoom event.                                                                                                     | ^[number]                                                               | 1.2     |
 
 ### Image Events
 
-| Name     | Description                                                                                       | Type                      |
-| -------- | ------------------------------------------------------------------------------------------------- | ------------------------- |
-| `load`   | same as native load.                                                                              | `(e: Event) => void`      |
-| `error`  | same as native error.                                                                             | `(e: Error) => void`      |
-| `switch` | trigger when switching images.                                                                    | `(index: number) => void` |
-| `close`  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | `() => void`              |
+| Name   | Description                                                                                       | Type                                 |
+| ------ | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| load   | same as native load.                                                                              | ^[Function]`(e: Event) => void`      |
+| error  | same as native error.                                                                             | ^[Function]`(e: Error) => void`      |
+| switch | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
+| close  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
+| show   | trigger when the viewer displays                                                                  | ^[Function]`() => void`              |
 
 ### Image Slots
 
-| Name          | Description                                              |
-| ------------- | -------------------------------------------------------- |
-| `placeholder` | custom placeholder content when image hasn't loaded yet. |
-| `error`       | custom image load failed content.                        |
-| `viewer`      | description of the image.                                |
+| Name        | Description                                              |
+| ----------- | -------------------------------------------------------- |
+| placeholder | custom placeholder content when image hasn't loaded yet. |
+| error       | custom image load failed content.                        |
+| viewer      | custom content when image preview.                       |
 
 ## Image Viewer API
 
 ### Image Viewer Attributes
 
-| Name                  | Description                                                                                                                   | Type               | Default |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------ | ------- |
-| `url-list`            | preview link list.                                                                                                            | `string[]`         | `[]`    |
-| `z-index`             | preview backdrop z-index.                                                                                                     | `number \| string` | —       |
-| `initial-index`       | the initial preview image index, less than or equal to the length of `url-list`.                                              | `number`           | `0`     |
-| `infinite`            | whether preview is infinite.                                                                                                  | `boolean`          | `true`  |
-| `hide-on-click-modal` | whether user can emit close event when clicking backdrop.                                                                     | `boolean`          | `false` |
-| `teleported`          | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true`. | `boolean`          | `false` |
-| `zoom-rate`           | the zoom rate of the image viewer zoom event                                                                                  | `number`           | `1.2`   |
+| Name                  | Description                                                                                                                   | Type                  | Default |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
+| url-list              | preview link list.                                                                                                            | ^[object]`string[]`   | []      |
+| z-index               | preview backdrop z-index.                                                                                                     | ^[number] / ^[string] | —       |
+| initial-index         | the initial preview image index, less than or equal to the length of `url-list`.                                              | ^[number]             | 0       |
+| infinite              | whether preview is infinite.                                                                                                  | ^[boolean]            | true    |
+| hide-on-click-modal   | whether user can emit close event when clicking backdrop.                                                                     | ^[boolean]            | false   |
+| teleported            | whether to append image itself to body. A nested parent element attribute transform should have this attribute set to `true`. | ^[boolean]            | false   |
+| zoom-rate             | the zoom rate of the image viewer zoom event.                                                                                 | ^[number]             | 1.2     |
+| close-on-press-escape | whether the image-viewer can be closed by pressing ESC.                                                                       | ^[boolean]            | true    |
 
 ### Image Viewer Events
 
-| Name     | Description                                                                                       | Type                      |
-| -------- | ------------------------------------------------------------------------------------------------- | ------------------------- |
-| `close`  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | `() => void`              |
-| `switch` | trigger when switching images.                                                                    | `(index: number) => void` |
+| Name   | Description                                                                                       | Type                                 |
+| ------ | ------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| close  | trigger when clicking on close button or when `hide-on-click-modal` enabled clicking on backdrop. | ^[Function]`() => void`              |
+| switch | trigger when switching images.                                                                    | ^[Function]`(index: number) => void` |
 
-## Image Viewer Methods
+### Image Viewer Exposes
 
-| Method        | Description           | Parameters                                            |
-| ------------- | --------------------- | ----------------------------------------------------- |
-| setActiveItem | manually switch image | index of the image to be switched to, starting from 0 |
+| Name          | Description           | Type                                 |
+| ------------- | --------------------- | ------------------------------------ |
+| setActiveItem | manually switch image | ^[Function]`(index: number) => void` |

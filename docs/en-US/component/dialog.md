@@ -111,55 +111,66 @@ When using `modal` = false, please make sure that `append-to-body` was set to **
 
 :::
 
-## Attributes
+## API
 
-| Name                       | Description                                                                                       | Type                                              | Accepted Values | Default |
-| -------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------- | --------------- | ------- |
-| model-value / v-model      | visibility of Dialog                                                                              | boolean                                           | —               | —       |
-| title                      | title of Dialog. Can also be passed with a named slot (see the following table)                   | string                                            | —               | —       |
-| width                      | width of Dialog                                                                                   | string / number                                   | —               | 50%     |
-| fullscreen                 | whether the Dialog takes up full screen                                                           | boolean                                           | —               | false   |
-| top                        | value for `margin-top` of Dialog CSS                                                              | string                                            | —               | 15vh    |
-| modal                      | whether a mask is displayed                                                                       | boolean                                           | —               | true    |
-| append-to-body             | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true` | boolean                                           | —               | false   |
-| lock-scroll                | whether scroll of body is disabled while Dialog is displayed                                      | boolean                                           | —               | true    |
-| custom-class ^(deprecated) | custom class names for Dialog                                                                     | string                                            | —               | —       |
-| open-delay                 | Time(milliseconds) before open                                                                    | number                                            | —               | 0       |
-| close-delay                | Time(milliseconds) before close                                                                   | number                                            | —               | 0       |
-| close-on-click-modal       | whether the Dialog can be closed by clicking the mask                                             | boolean                                           | —               | true    |
-| close-on-press-escape      | whether the Dialog can be closed by pressing ESC                                                  | boolean                                           | —               | true    |
-| show-close                 | whether to show a close button                                                                    | boolean                                           | —               | true    |
-| before-close               | callback before Dialog closes, and it will prevent Dialog from closing                            | Function(done) (done is used to close the Dialog) | —               | —       |
-| draggable                  | enable dragging feature for Dialog                                                                | boolean                                           | —               | false   |
-| center                     | whether to align the header and footer in center                                                  | boolean                                           | —               | false   |
-| align-center               | whether to align the dialog both horizontally and vertically                                      | boolean                                           | —               | false   |
-| destroy-on-close           | Destroy elements in Dialog when closed                                                            | boolean                                           | —               | false   |
+### Attributes
+
+| Name                       | Description                                                                                          | Type                                | Default |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------- | ------- |
+| model-value / v-model      | visibility of Dialog                                                                                 | ^[boolean]                          | —       |
+| title                      | title of Dialog. Can also be passed with a named slot (see the following table)                      | ^[string]                           | ''      |
+| width                      | width of Dialog, default is 50%                                                                      | ^[string] / ^[number]               | ''      |
+| fullscreen                 | whether the Dialog takes up full screen                                                              | ^[boolean]                          | false   |
+| top                        | value for `margin-top` of Dialog CSS, default is 15vh                                                | ^[string]                           | ''      |
+| modal                      | whether a mask is displayed                                                                          | ^[boolean]                          | true    |
+| modal-class                | custom class names for mask                                                                          | ^[string]                           | —       |
+| append-to-body             | whether to append Dialog itself to body. A nested Dialog should have this attribute set to `true`    | ^[boolean]                          | false   |
+| lock-scroll                | whether scroll of body is disabled while Dialog is displayed                                         | ^[boolean]                          | true    |
+| custom-class ^(deprecated) | custom class names for Dialog                                                                        | ^[string]                           | ''      |
+| open-delay                 | the Time(milliseconds) before open                                                                   | ^[number]                           | 0       |
+| close-delay                | the Time(milliseconds) before close                                                                  | ^[number]                           | 0       |
+| close-on-click-modal       | whether the Dialog can be closed by clicking the mask                                                | ^[boolean]                          | true    |
+| close-on-press-escape      | whether the Dialog can be closed by pressing ESC                                                     | ^[boolean]                          | true    |
+| show-close                 | whether to show a close button                                                                       | ^[boolean]                          | true    |
+| before-close               | callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog | ^[Function]`(done: DoneFn) => void` | —       |
+| draggable                  | enable dragging feature for Dialog                                                                   | ^[boolean]                          | false   |
+| center                     | whether to align the header and footer in center                                                     | ^[boolean]                          | false   |
+| align-center               | whether to align the dialog both horizontally and vertically                                         | ^[boolean]                          | false   |
+| destroy-on-close           | destroy elements in Dialog when closed                                                               | ^[boolean]                          | false   |
+| close-icon                 | custom close icon, default is Close                                                                  | ^[string] / ^[Component]            | —       |
+| z-index                    | same as z-index in native CSS, z-order of dialog                                                     | ^[number]                           | —       |
 
 :::warning
 
-`custom-class` has been **deprecated**, and **will be** removed in ^(2.3.0), please use `class`.
+`custom-class` has been **deprecated**, and **will be** removed in ^(2.4.0), please use `class`.
 
 :::
 
-## Slots
+### Slots
 
 | Name                | Description                                                                                           |
 | ------------------- | ----------------------------------------------------------------------------------------------------- |
 | —                   | content of Dialog                                                                                     |
 | header              | content of the Dialog header; Replacing this removes the title, but does not remove the close button. |
-| title ^(deprecated) | Works the same as the header slot. Use that instead.                                                  |
+| title ^(deprecated) | works the same as the header slot. Use that instead.                                                  |
 | footer              | content of the Dialog footer                                                                          |
 
-## Events
+:::warning
 
-| Name             | Description                                      | Parameters |
-| ---------------- | ------------------------------------------------ | ---------- |
-| open             | triggers when the Dialog opens                   | —          |
-| opened           | triggers when the Dialog opening animation ends  | —          |
-| close            | triggers when the Dialog closes                  | —          |
-| closed           | triggers when the Dialog closing animation ends  | —          |
-| open-auto-focus  | triggers after Dialog opens and content focused  | —          |
-| close-auto-focus | triggers after Dialog closed and content focused | —          |
+`title` has been **deprecated**, and **will be** removed in ^(2.4.0), please use `header`.
+
+:::
+
+### Events
+
+| Name             | Description                                      | Type                    |
+| ---------------- | ------------------------------------------------ | ----------------------- |
+| open             | triggers when the Dialog opens                   | ^[Function]`() => void` |
+| opened           | triggers when the Dialog opening animation ends  | ^[Function]`() => void` |
+| close            | triggers when the Dialog closes                  | ^[Function]`() => void` |
+| closed           | triggers when the Dialog closing animation ends  | ^[Function]`() => void` |
+| open-auto-focus  | triggers after Dialog opens and content focused  | ^[Function]`() => void` |
+| close-auto-focus | triggers after Dialog closed and content focused | ^[Function]`() => void` |
 
 ## FAQ
 
