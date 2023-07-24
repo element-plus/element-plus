@@ -13,6 +13,13 @@ defineOptions({
 
 const ns = useNamespace('collapse-transition')
 
+const reset = (el: RendererElement) => {
+  el.style.maxHeight = ''
+  el.style.overflow = el.dataset.oldOverflow
+  el.style.paddingTop = el.dataset.oldPaddingTop
+  el.style.paddingBottom = el.dataset.oldPaddingBottom
+}
+
 const on = {
   beforeEnter(el: RendererElement) {
     if (!el.dataset) el.dataset = {}
@@ -45,6 +52,10 @@ const on = {
     el.style.overflow = el.dataset.oldOverflow
   },
 
+  enterCancelled(el: RendererElement) {
+    reset(el)
+  },
+
   beforeLeave(el: RendererElement) {
     if (!el.dataset) el.dataset = {}
     el.dataset.oldPaddingTop = el.style.paddingTop
@@ -64,10 +75,11 @@ const on = {
   },
 
   afterLeave(el: RendererElement) {
-    el.style.maxHeight = ''
-    el.style.overflow = el.dataset.oldOverflow
-    el.style.paddingTop = el.dataset.oldPaddingTop
-    el.style.paddingBottom = el.dataset.oldPaddingBottom
+    reset(el)
+  },
+
+  leaveCancelled(el: RendererElement) {
+    reset(el)
   },
 }
 </script>

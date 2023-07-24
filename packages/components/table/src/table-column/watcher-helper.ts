@@ -51,6 +51,7 @@ function useWatcher<T>(
       'label',
       'filters',
       'filterMultiple',
+      'filteredValue',
       'sortable',
       'index',
       'formatter',
