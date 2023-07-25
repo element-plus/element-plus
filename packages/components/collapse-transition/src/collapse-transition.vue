@@ -36,14 +36,11 @@ const on = {
     el.dataset.oldOverflow = el.style.overflow
     if (el.scrollHeight !== 0) {
       el.style.maxHeight = `${el.scrollHeight}px`
-      el.style.paddingTop = el.dataset.oldPaddingTop
-      el.style.paddingBottom = el.dataset.oldPaddingBottom
     } else {
       el.style.maxHeight = 0
-      el.style.paddingTop = el.dataset.oldPaddingTop
-      el.style.paddingBottom = el.dataset.oldPaddingBottom
     }
-
+    el.style.paddingTop = el.dataset.oldPaddingTop
+    el.style.paddingBottom = el.dataset.oldPaddingBottom
     el.style.overflow = 'hidden'
   },
 
