@@ -26,10 +26,17 @@ export const useDraggable = (
     const clientWidth = document.documentElement.clientWidth
     const clientHeight = document.documentElement.clientHeight
 
+    const hasXOverflow = targetWidth > clientWidth
+    const hasYOverflow = targetHeight > clientHeight
+
     const minLeft = -targetLeft + offsetX
     const minTop = -targetTop + offsetY
-    const maxLeft = clientWidth - targetLeft - targetWidth + offsetX
-    const maxTop = clientHeight - targetTop - targetHeight + offsetY
+    const maxLeft = hasXOverflow
+      ? 0
+      : clientWidth - targetLeft - targetWidth + offsetX
+    const maxTop = hasYOverflow
+      ? clientHeight + targetTop
+      : clientHeight - targetTop - targetHeight + offsetY
 
     const onMousemove = (e: MouseEvent) => {
       const moveX = Math.min(
@@ -40,14 +47,13 @@ export const useDraggable = (
         Math.max(offsetY + e.clientY - downY, minTop),
         maxTop
       )
-
       transform = {
         offsetX: moveX,
         offsetY: moveY,
       }
-      targetRef.value!.style.transform = `translate(${addUnit(
-        moveX
-      )}, ${addUnit(moveY)})`
+      targetRef.value!.style.transform = `translate(${
+        moveX ? addUnit(moveX) : '0px'
+      }, ${addUnit(moveY)})`
     }
 
     const onMouseup = () => {
