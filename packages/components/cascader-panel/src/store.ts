@@ -1,3 +1,4 @@
+import { reactive } from 'vue'
 import { isEqual } from 'lodash-unified'
 import Node from './node'
 
@@ -27,8 +28,8 @@ export default class Store {
   readonly leafNodes: Node[]
 
   constructor(data: CascaderOption[], readonly config: CascaderConfig) {
-    const nodes = (data || []).map(
-      (nodeData) => new Node(nodeData, this.config)
+    const nodes = (data || []).map((nodeData) =>
+      reactive(new Node(nodeData, this.config))
     )
     this.nodes = nodes
     this.allNodes = flatNodes(nodes, false)
