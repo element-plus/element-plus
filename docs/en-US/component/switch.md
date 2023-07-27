@@ -79,6 +79,14 @@ switch/prevent-switching
 
 :::
 
+## custom action icon
+
+:::demo You can add `active-action-icon` and `inactive-active-icon` attribute to show icons.
+
+switch/custom-action-icon
+
+:::
+
 ## API
 
 ### Attributes
@@ -93,6 +101,8 @@ switch/prevent-switching
 | inline-prompt                | whether icon or text is displayed inside dot, only the first character will be rendered for text                                                | ^[boolean]                                       | false   |
 | active-icon                  | component of the icon displayed when in `on` state, overrides `active-text`                                                                     | ^[string] / ^[Component]                         | —       |
 | inactive-icon                | component of the icon displayed when in `off` state, overrides `inactive-text`                                                                  | ^[string] / ^[Component]                         | —       |
+| active-action-icon           | component of the icon displayed in action when in `on` state                                                                                    | ^[string] / ^[Component]                         | —       |
+| inactive-action-icon         | component of the icon displayed in action when in `off` state                                                                                   | ^[string] / ^[Component]                         | —       |
 | active-text                  | text displayed when in `on` state                                                                                                               | ^[string]                                        | ''      |
 | inactive-text                | text displayed when in `off` state                                                                                                              | ^[string]                                        | ''      |
 | active-value                 | switch value when in `on` state                                                                                                                 | ^[boolean] / ^[string] / ^[number]               | true    |
