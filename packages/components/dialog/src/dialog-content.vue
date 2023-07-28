@@ -1,17 +1,5 @@
 <template>
-  <div
-    :ref="composedDialogRef"
-    :class="[
-      ns.b(),
-      ns.is('fullscreen', fullscreen),
-      ns.is('draggable', draggable),
-      ns.is('align-center', alignCenter),
-      { [ns.m('center')]: center },
-      customClass,
-    ]"
-    :style="style"
-    tabindex="-1"
-  >
+  <div :ref="composedDialogRef" :class="dialogKls" :style="style" tabindex="-1">
     <header ref="headerRef" :class="ns.e('header')">
       <slot name="header">
         <span role="heading" :class="ns.e('title')">
@@ -57,6 +45,15 @@ defineEmits(dialogContentEmits)
 
 const { dialogRef, headerRef, bodyId, ns, style } = inject(dialogInjectionKey)!
 const { focusTrapRef } = inject(FOCUS_TRAP_INJECTION_KEY)!
+
+const dialogKls = computed(() => [
+  ns.b(),
+  ns.is('fullscreen', props.fullscreen),
+  ns.is('draggable', props.draggable),
+  ns.is('align-center', props.alignCenter),
+  { [ns.m('center')]: props.center },
+  props.customClass,
+])
 
 const composedDialogRef = composeRefs(focusTrapRef, dialogRef)
 
