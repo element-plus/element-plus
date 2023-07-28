@@ -33,7 +33,6 @@
           <div
             v-if="multiple"
             ref="tags"
-            role="button"
             tabindex="-1"
             :class="tagsKls"
             :style="selectTagsStyle"
