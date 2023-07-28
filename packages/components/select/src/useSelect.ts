@@ -812,21 +812,19 @@ export const useSelect = (props, states: States, ctx) => {
   }
 
   const handleBlur = (event: FocusEvent) => {
-    setTimeout(() => {
-      // validate current focus event is inside el-tooltip-content or el-select
-      // if so, ignore the blur event.
-      if (
-        tooltipRef.value?.isFocusInsideContent() ||
-        tagTooltipRef.value?.isFocusInsideContent() ||
-        selectWrapper.value?.contains(event.relatedTarget)
-      ) {
-        return
-      }
+    // validate current focus event is inside el-tooltip-content or el-select
+    // if so, ignore the blur event.
+    if (
+      tooltipRef.value?.isFocusInsideContent(event) ||
+      tagTooltipRef.value?.isFocusInsideContent(event) ||
+      selectWrapper.value?.contains(event.relatedTarget)
+    ) {
+      return
+    }
 
-      states.visible && handleClose()
-      states.focused = false
-      ctx.emit('blur', event)
-    })
+    states.visible && handleClose()
+    states.focused = false
+    ctx.emit('blur', event)
   }
 
   const handleClearClick = (event: Event) => {
