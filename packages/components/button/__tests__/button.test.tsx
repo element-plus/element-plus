@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { describe, expect, it, test } from 'vitest'
 import { Loading, Search } from '@element-plus/icons-vue'
 
+import Form from '@element-plus/components/form'
 import Button from '../src/button.vue'
 import ButtonGroup from '../src/button-group.vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -258,5 +259,36 @@ describe('Button Group', () => {
     expect(wrapper.find('.el-button span').classes()).toContain(
       'el-button__text--expand'
     )
+  })
+
+  it('shoule use props of form', async () => {
+    const wrapper = mount({
+      setup: () => () =>
+        (
+          <Form size="large" disabled>
+            <Button>{{ AXIOM }}</Button>
+          </Form>
+        ),
+    })
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).toContain('el-button--large')
+    expect(btn.classes()).toContain('is-disabled')
+    await btn.trigger('click')
+    expect(btn.emitted('click')).toBeUndefined()
+  })
+
+  it('shoule use size of form-item', async () => {
+    const wrapper = mount({
+      setup: () => () =>
+        (
+          <Form size="large" disabled>
+            <Form.FormItem size="small">
+              <Button>{{ AXIOM }}</Button>
+            </Form.FormItem>
+          </Form>
+        ),
+    })
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).toContain('el-button--small')
   })
 })
