@@ -330,7 +330,11 @@ const [recordCursor, setCursor] = useCursor(input)
 
 useResizeObserver(textarea, (entries) => {
   onceInitSizeTextarea()
-  if (!isWordLimitVisible.value || props.resize !== 'both') return
+  if (
+    !isWordLimitVisible.value ||
+    (props.resize !== 'both' && props.resize !== 'horizontal')
+  )
+    return
   const entry = entries[0]
   const { width } = entry.contentRect
   countStyle.value = {
