@@ -244,8 +244,8 @@
             :view-class="nsSelect.be('dropdown', 'list')"
             :class="scrollbarKls"
           >
+            <el-option v-if="showNewOption" :value="query" :created="true" />
             <el-options @update-options="onOptionsRendered">
-              <el-option v-if="showNewOption" :value="query" :created="true" />
               <slot />
             </el-options>
           </el-scrollbar>

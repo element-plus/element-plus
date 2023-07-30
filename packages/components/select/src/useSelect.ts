@@ -181,7 +181,7 @@ export const useSelect = (props, states: States, ctx) => {
         newList.push(list[index])
       }
     })
-    return newList.length ? newList : list
+    return newList.length >= list.length ? newList : list
   })
 
   const cachedOptionsArray = computed(() =>
