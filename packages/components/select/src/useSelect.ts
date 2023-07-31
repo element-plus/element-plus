@@ -135,11 +135,15 @@ export const useSelect = (props, states: States, ctx) => {
     )
   )
 
-  const needStatusIcon = computed(() => form?.statusIcon ?? false)
-  const validateState = computed(() => formItem?.validateState || '')
-  const validateIcon = computed(
-    () => validateState.value && ValidateComponentsMap[validateState.value]
-  )
+  // Consistent with the processing of Form in the input component
+  const showStatusIconAndState = computed(() => {
+    return (
+      form?.statusIcon &&
+      formItem?.validateState &&
+      validateState.value &&
+      ValidateComponentsMap[validateState.value]
+    )
+  })
 
   const debounce = computed(() => (props.remote ? 300 : 0))
 
@@ -934,11 +938,7 @@ export const useSelect = (props, states: States, ctx) => {
   // if in form and use statusIcon, the width of the icon needs to be subtracted, fix #13526
   const selectTagsStyle = computed(() => ({
     maxWidth: `${
-      unref(states.inputWidth) -
-      32 -
-      (needStatusIcon.value && validateState.value && validateIcon.value
-        ? 22
-        : 0)
+      unref(states.inputWidth) - 32 - (showStatusIconAndState.value ? 22 : 0)
     }px`,
     width: '100%',
   }))
