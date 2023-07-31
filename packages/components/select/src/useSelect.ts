@@ -136,14 +136,12 @@ export const useSelect = (props, states: States, ctx) => {
   )
 
   // Consistent with the processing of Form in the input component
-  const showStatusIconAndState = computed(() => {
-    return (
+  const showStatusIconAndState = computed(
+    () =>
       form?.statusIcon &&
       formItem?.validateState &&
-      validateState.value &&
-      ValidateComponentsMap[validateState.value]
-    )
-  })
+      ValidateComponentsMap[formItem?.validateState]
+  )
 
   const debounce = computed(() => (props.remote ? 300 : 0))
 
