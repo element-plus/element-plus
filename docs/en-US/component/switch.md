@@ -79,7 +79,7 @@ switch/prevent-switching
 
 :::
 
-## custom action icon
+## custom action icon ^(2.3.9)
 
 :::demo You can add `active-action-icon` and `inactive-active-icon` attribute to show icons.
 
