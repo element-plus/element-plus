@@ -168,6 +168,7 @@
         text
         size="small"
         :class="ppNs.e('link-btn')"
+        :disabled="disabledNow"
         @click="changeToNow"
       >
         {{ t('el.datepicker.now') }}
@@ -176,6 +177,7 @@
         plain
         size="small"
         :class="ppNs.e('link-btn')"
+        :disabled="disabledConfirm"
         @click="onConfirm"
       >
         {{ t('el.datepicker.confirm') }}
@@ -437,6 +439,14 @@ const footerVisible = computed(() => {
   return showTime.value || selectionMode.value === 'dates'
 })
 
+const disabledConfirm = computed(() => {
+  if (!disabledDate) return false
+  if (!props.parsedValue) return true
+  if (isArray(props.parsedValue)) {
+    return disabledDate(props.parsedValue[0].toDate())
+  }
+  return disabledDate(props.parsedValue.toDate())
+})
 const onConfirm = () => {
   if (selectionMode.value === 'dates') {
     emit(props.parsedValue as Dayjs[])
@@ -456,6 +466,10 @@ const onConfirm = () => {
   }
 }
 
+const disabledNow = computed(() => {
+  if (!disabledDate) return false
+  return disabledDate(dayjs().locale(lang.value).toDate())
+})
 const changeToNow = () => {
   // NOTE: not a permanent solution
   //       consider disable "now" button in the future
