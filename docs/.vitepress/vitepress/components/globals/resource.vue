@@ -37,7 +37,7 @@ const onClick = (item: string) => {
     <p>{{ resourceLang.lineOne }}</p>
     <p v-html="resourceLang.lineTwo" />
     <div class="flex flex-wrap justify-center mt-32px">
-      <div class="inline-flex w-full md:w-1/3" p="2" pl-0>
+      <div class="inline-flex w-full md:w-1/4" p="2" pl-0>
         <el-card class="card" shadow="hover">
           <axure-components-svg w="30" alt="axure" />
           <h3>{{ resourceLang.axure }}</h3>
@@ -53,7 +53,7 @@ const onClick = (item: string) => {
           </a>
         </el-card>
       </div>
-      <div class="inline-flex w-full md:w-1/3" p="2">
+      <div class="inline-flex w-full md:w-1/4" p="2">
         <el-card class="card" shadow="hover">
           <sketch-template-svg w="30" alt="Sketch" />
           <h3>{{ resourceLang.sketch }}</h3>
@@ -69,7 +69,7 @@ const onClick = (item: string) => {
           </a>
         </el-card>
       </div>
-      <div class="inline-flex w-full md:w-1/3" p="2">
+      <div class="inline-flex w-full md:w-1/4" p="2">
         <el-card class="card" shadow="hover">
           <figma-template-svg w="30" alt="Figma" />
           <h3>{{ resourceLang.figma }}</h3>
@@ -80,6 +80,22 @@ const onClick = (item: string) => {
             href="https://www.figma.com/community/file/1021254029764378306"
             target="_blank"
             @click="onClick('figma')"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+      <div class="inline-flex w-full md:w-1/4" p="2">
+        <el-card class="card" shadow="hover">
+          <figma-variable-svg w="30" alt="FigmaVariable" />
+          <h3>{{ resourceLang.figmaVariable }}</h3>
+          <p>
+            {{ resourceLang.figmaVariableIntro }}
+          </p>
+          <a
+            href="https://www.figma.com/file/XXkXisvZ4zlqPc9IYSPZMF/Element-Plus-Design-System(Components)?type=design&node-id=14661-230071&mode=design&t=PWOozdbCDAyLlMXz-4"
+            target="_blank"
+            @click="onClick('figmaVariable')"
           >
             <el-button type="primary">{{ resourceLang.download }}</el-button>
           </a>
@@ -98,10 +114,12 @@ const onClick = (item: string) => {
     color: var(--text-color);
     margin-bottom: 24px;
   }
+
   p {
     color: var(--text-color-light);
     line-height: 24px;
     margin: 0;
+
     &:last-of-type {
       margin-top: 8px;
     }
