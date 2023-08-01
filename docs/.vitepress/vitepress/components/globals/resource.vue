@@ -85,6 +85,24 @@ const onClick = (item: string) => {
           </a>
         </el-card>
       </div>
+      <div class="inline-flex w-full md:w-1/3" p="2">
+        <el-card class="card" shadow="hover">
+          <figma-variables-svg w="30" alt="Figma" />
+          <h3>{{ resourceLang.figmaVariables }}</h3>
+          <p>
+            {{ resourceLang.figmaVariablesIntro }}
+          </p>
+          <a
+            href="https://www.figma.com/file/XXkXisvZ4zlqPc9IYSPZMF"
+            target="_blank"
+            @click="onClick('figma')"
+          >
+            <el-button type="primary">{{ resourceLang.download }}</el-button>
+          </a>
+        </el-card>
+      </div>
+      <div class="inline-flex w-full md:w-1/3" p="2" />
+      <div class="inline-flex w-full md:w-1/3" p="2" />
     </div>
   </div>
 </template>
