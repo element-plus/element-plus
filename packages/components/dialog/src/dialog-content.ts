@@ -44,6 +44,13 @@ export const dialogContentProps = buildProps({
     type: String,
     default: '',
   },
+  /**
+   * @description header's aria-level attribute
+   */
+  ariaLevel: {
+    type: String,
+    default: '1',
+  },
 } as const)
 
 export const dialogContentEmits = {
