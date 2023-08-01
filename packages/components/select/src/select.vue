@@ -22,6 +22,7 @@
       :stop-popper-mouse-event="false"
       :gpu-acceleration="false"
       :persistent="persistent"
+      :append-to="appendTo"
       @show="handleMenuEnter"
     >
       <template #default>
@@ -416,6 +417,7 @@ export default defineComponent({
       values: placements,
       default: 'bottom-start',
     },
+    appendTo: String,
   },
   emits: [
     UPDATE_MODEL_EVENT,
