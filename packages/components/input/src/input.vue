@@ -338,8 +338,8 @@ useResizeObserver(textarea, (entries) => {
   const entry = entries[0]
   const { width } = entry.contentRect
   countStyle.value = {
-    /** right: 100% - width + padding(15) + right(6) */
-    right: `calc(100% - ${width + 15 + 6}px)`,
+    /** right: 100% - width + padding(22) - right(10) */
+    right: `calc(100% - ${width + 12}px)`,
   }
 })
 
