@@ -146,6 +146,7 @@ interface TableProps<T> {
   scrollbarAlwaysOn?: boolean
   flexible?: boolean
   showOverflowTooltip?: boolean | TableOverflowTooltipOptions
+  appendFilterPanelTo?: string
 }
 
 interface Sort {
@@ -273,6 +274,7 @@ export default {
   showOverflowTooltip: [Boolean, Object] as PropType<
     TableProps<DefaultRow>['showOverflowTooltip']
   >,
+  appendFilterPanelTo: String,
 }
 export type {
   SummaryMethod,
