@@ -208,7 +208,7 @@ import {
   extractTimeFormat,
 } from '@element-plus/components/time-picker'
 import { ElIcon } from '@element-plus/components/icon'
-import { isArray, isFunction } from '@element-plus/utils'
+import { castArray, isArray, isFunction } from '@element-plus/utils'
 import { EVENT_CODE } from '@element-plus/constants'
 import {
   ArrowLeft,
@@ -363,12 +363,34 @@ type Shortcut = {
   onClick?: (ctx: Omit<SetupContext, 'expose'>) => void
 }
 
+const arrangeDatesShortcuts = (selectedValue: Dayjs) => {
+  if (!isArray(props.parsedValue)) {
+    return emit([selectedValue], true)
+  }
+
+  const index = props.parsedValue.findIndex(
+    (date) =>
+      dayjs(date).format('YYYY-MM-DD') ===
+      dayjs(selectedValue).format('YYYY-MM-DD')
+  )
+  const dates =
+    index > -1
+      ? props.parsedValue.filter((d, i) => i !== index)
+      : props.parsedValue.concat([selectedValue])
+
+  emit(dates, true)
+}
+
 const handleShortcutClick = (shortcut: Shortcut) => {
   const shortcutValue = isFunction(shortcut.value)
     ? shortcut.value()
     : shortcut.value
   if (shortcutValue) {
-    emit(dayjs(shortcutValue).locale(lang.value))
+    const selectedValue = dayjs(shortcutValue).locale(lang.value)
+
+    selectionMode.value === 'dates'
+      ? arrangeDatesShortcuts(selectedValue)
+      : emit(selectedValue)
     return
   }
   if (shortcut.onClick) {
@@ -574,6 +596,7 @@ const isValidValue = (date: unknown) => {
 
 const formatToString = (value: Dayjs | Dayjs[]) => {
   if (selectionMode.value === 'dates') {
+    value = castArray(value)
     return (value as Dayjs[]).map((_) => _.format(props.format))
   }
   return (value as Dayjs).format(props.format)
