@@ -14,6 +14,13 @@ export const dialogProps = buildProps({
    */
   appendToBody: Boolean,
   /**
+   * @description which element the Dialog appends to
+   */
+  appendTo: {
+    type: definePropType<string>(String),
+    default: 'body',
+  },
+  /**
    * @description callback before Dialog closes, and it will prevent Dialog from closing, use done to close the dialog
    */
   beforeClose: {
