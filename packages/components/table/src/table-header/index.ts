@@ -43,10 +43,6 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    appendFilterPanelTo: {
-      type: String,
-      default: 'body',
-    },
     store: {
       required: true,
       type: Object as PropType<TableHeaderProps<DefaultRow>['store']>,
@@ -226,7 +222,6 @@ export default defineComponent({
                       h(FilterPanel, {
                         store,
                         placement: column.filterPlacement || 'bottom-start',
-                        appendTo: $parent.appendFilterPanelTo,
                         column,
                         upDataColumn: (key, value) => {
                           column[key] = value

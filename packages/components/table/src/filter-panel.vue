@@ -11,7 +11,6 @@
     pure
     :popper-class="ns.b()"
     persistent
-    :append-to="appendTo"
   >
     <template #content>
       <div v-if="multiple">
@@ -131,10 +130,6 @@ export default defineComponent({
     },
     upDataColumn: {
       type: Function,
-    },
-    appendTo: {
-      type: String,
-      default: 'body',
     },
   },
   setup(props) {
