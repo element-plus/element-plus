@@ -21,6 +21,10 @@ export const drawerProps = buildProps({
     type: Boolean,
     default: true,
   },
+  headerAriaLevel: {
+    type: String,
+    default: '1',
+  },
 } as const)
 
 export type DrawerProps = ExtractPropTypes<typeof drawerProps>
