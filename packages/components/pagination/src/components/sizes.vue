@@ -6,6 +6,7 @@
       :popper-class="popperClass"
       :size="size"
       :validate-event="false"
+      :append-to="appendDropdownTo"
       @change="handleChange"
     >
       <el-option

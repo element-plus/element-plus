@@ -20,6 +20,7 @@ export const paginationSizesProps = buildProps({
     type: String,
     values: componentSizes,
   },
+  appendDropdownTo: String,
 } as const)
 
 export type PaginationSizesProps = ExtractPropTypes<typeof paginationSizesProps>
