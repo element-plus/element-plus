@@ -1,33 +1,29 @@
 <template>
   <div :class="rootKls">
-    <div
-      role="tab"
+    <button
+      :id="scopedHeadId"
+      :class="headKls"
       :aria-expanded="isActive"
       :aria-controls="scopedContentId"
       :aria-describedby="scopedContentId"
+      :tabindex="disabled ? -1 : 0"
+      @click="handleHeaderClick"
+      @keypress.space.enter.stop.prevent="handleEnterClick"
+      @focus="handleFocus"
+      @blur="focusing = false"
     >
-      <div
-        :id="scopedHeadId"
-        :class="headKls"
-        role="button"
-        :tabindex="disabled ? -1 : 0"
-        @click="handleHeaderClick"
-        @keypress.space.enter.stop.prevent="handleEnterClick"
-        @focus="handleFocus"
-        @blur="focusing = false"
-      >
-        <slot name="title">{{ title }}</slot>
-        <el-icon :class="arrowKls">
-          <arrow-right />
-        </el-icon>
-      </div>
-    </div>
+      <slot name="title">{{ title }}</slot>
+      <el-icon :class="arrowKls">
+        <arrow-right />
+      </el-icon>
+    </button>
+
     <el-collapse-transition>
       <div
         v-show="isActive"
         :id="scopedContentId"
+        role="region"
         :class="itemWrapperKls"
-        role="tabpanel"
         :aria-hidden="!isActive"
         :aria-labelledby="scopedHeadId"
       >
