@@ -93,7 +93,7 @@ const onClick = (item: string) => {
             {{ resourceLang.figmaVariablesIntro }}
           </p>
           <a
-            href="https://www.figma.com/file/XXkXisvZ4zlqPc9IYSPZMF"
+            href="https://www.figma.com/community/file/1256091634199852065"
             target="_blank"
             @click="onClick('figma')"
           >
