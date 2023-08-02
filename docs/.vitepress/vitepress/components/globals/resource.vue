@@ -36,8 +36,8 @@ const onClick = (item: string) => {
     <h1>{{ resourceLang.title }}</h1>
     <p>{{ resourceLang.lineOne }}</p>
     <p v-html="resourceLang.lineTwo" />
-    <div class="flex flex-wrap justify-center mt-32px">
-      <div class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4" p="2" pl-0>
+    <div class="flex flex-wrap justify-center mt-32px" m="-2">
+      <div class="inline-flex w-full md:w-1/2 lg:w-1/3 3xl:w-1/4" p="2">
         <el-card class="card" shadow="hover">
           <axure-components-svg w="30" alt="axure" />
           <h3>{{ resourceLang.axure }}</h3>
