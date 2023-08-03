@@ -67,11 +67,9 @@ describe('useLockscreen', () => {
         onMounted(() => {
           trigger.value = true
         })
-        return () => () => undefined
+        return () => undefined
       },
     })
-
-    mount(wrapper)
 
     await nextTick()
     expect(hasClass(document.body, `${namespace}-lock-parent--hidden`)).toBe(
