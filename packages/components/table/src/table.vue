@@ -74,6 +74,7 @@
               width: bodyWidth,
               tableLayout,
             }"
+            tabindex="0"
           >
             <hColgroup
               :columns="store.states.columns.value"
