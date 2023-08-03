@@ -1,7 +1,8 @@
 import { computed, getCurrentInstance, inject, ref, unref } from 'vue'
-import { useGlobalConfig } from '@element-plus/components/config-provider'
+import { useGlobalConfig } from '@element-plus/components/config-provider/src/hooks/use-global-config'
 
-import type { InjectionKey, Ref } from 'vue'
+import { namespaceContextKey } from './constants'
+import type { Ref } from 'vue'
 
 export const defaultNamespace = 'el'
 const statePrefix = 'is-'
@@ -25,9 +26,6 @@ const _bem = (
   }
   return cls
 }
-
-export const namespaceContextKey: InjectionKey<Ref<string | undefined>> =
-  Symbol('namespaceContextKey')
 
 export const useGetDerivedNamespace = (
   namespaceOverrides?: Ref<string | undefined>
