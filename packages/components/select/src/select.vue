@@ -297,6 +297,7 @@ import ElSelectMenu from './select-dropdown.vue'
 import { useSelect, useSelectStates } from './useSelect'
 import { selectKey } from './token'
 import ElOptions from './options'
+import { selectEmits } from './select'
 
 import type { PropType } from 'vue'
 import type { ComponentSize } from '@element-plus/constants'
@@ -419,15 +420,7 @@ export default defineComponent({
       default: 'bottom-start',
     },
   },
-  emits: [
-    UPDATE_MODEL_EVENT,
-    CHANGE_EVENT,
-    'remove-tag',
-    'clear',
-    'visible-change',
-    'focus',
-    'blur',
-  ],
+  emits: selectEmits,
 
   setup(props, ctx) {
     const nsSelect = useNamespace('select')
