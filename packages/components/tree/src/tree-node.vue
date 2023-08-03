@@ -99,6 +99,14 @@ import { ElIcon } from '@element-plus/components/icon'
 import { CaretRight, Loading } from '@element-plus/icons-vue'
 import { debugWarn } from '@element-plus/utils'
 import { useNamespace } from '@element-plus/hooks'
+import {
+  NODE_CHECK,
+  NODE_CHECK_CHANGE,
+  NODE_CLICK,
+  NODE_COLLAPSE,
+  NODE_CONTEXTMENU,
+  NODE_EXPAND,
+} from './emits'
 import NodeContent from './tree-node-content.vue'
 import { getNodeKey as getNodeKeyUtil, handleCurrentChange } from './model/util'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
@@ -222,7 +230,12 @@ export default defineComponent({
         oldChecked.value !== checked ||
         oldIndeterminate.value !== indeterminate
       ) {
-        tree.ctx.emit('check-change', props.node.data, checked, indeterminate)
+        tree.ctx.emit(
+          NODE_CHECK_CHANGE,
+          props.node.data,
+          checked,
+          indeterminate
+        )
       }
       oldChecked.value = checked
       oldIndeterminate.value = indeterminate
@@ -243,7 +256,7 @@ export default defineComponent({
           target: { checked: !props.node.checked },
         })
       }
-      tree.ctx.emit('node-click', props.node.data, props.node, instance, e)
+      tree.ctx.emit(NODE_CLICK, props.node.data, props.node, instance, e)
     }
 
     const handleContextMenu = (event: Event) => {
@@ -252,7 +265,7 @@ export default defineComponent({
         event.preventDefault()
       }
       tree.ctx.emit(
-        'node-contextmenu',
+        NODE_CONTEXTMENU,
         event,
         props.node.data,
         props.node,
@@ -263,7 +276,7 @@ export default defineComponent({
     const handleExpandIconClick = () => {
       if (props.node.isLeaf) return
       if (expanded.value) {
-        tree.ctx.emit('node-collapse', props.node.data, props.node, instance)
+        tree.ctx.emit(NODE_COLLAPSE, props.node.data, props.node, instance)
         props.node.collapse()
       } else {
         props.node.expand()
@@ -275,7 +288,7 @@ export default defineComponent({
       props.node.setChecked(ev.target.checked, !tree.props.checkStrictly)
       nextTick(() => {
         const store = tree.store.value
-        tree.ctx.emit('check', props.node.data, {
+        tree.ctx.emit(NODE_CHECK, props.node.data, {
           checkedNodes: store.getCheckedNodes(),
           checkedKeys: store.getCheckedKeys(),
           halfCheckedNodes: store.getHalfCheckedNodes(),
@@ -290,7 +303,7 @@ export default defineComponent({
       instance: ComponentInternalInstance
     ) => {
       broadcastExpanded(node)
-      tree.ctx.emit('node-expand', nodeData, node, instance)
+      tree.ctx.emit(NODE_EXPAND, nodeData, node, instance)
     }
 
     const handleDragStart = (event: DragEvent) => {

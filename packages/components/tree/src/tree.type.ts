@@ -27,6 +27,16 @@ export declare interface FakeNode {
 export declare interface TreeNodeData {
   [key: string]: any
 }
+
+export declare type TreeNodeInstance = ComponentInternalInstance | null
+
+export declare interface CheckedInfo {
+  checkedKeys: TreeKey[]
+  checkedNodes: TreeData
+  halfCheckedKeys: TreeKey[]
+  halfCheckedNodes: TreeData
+}
+
 export declare interface TreeNodeLoadedDefaultProps {
   checked?: boolean
 }

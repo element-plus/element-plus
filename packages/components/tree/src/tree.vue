@@ -54,6 +54,8 @@ import ElTreeNode from './tree-node.vue'
 import { useNodeExpandEventBroadcast } from './model/useNodeExpandEventBroadcast'
 import { useDragNodeHandler } from './model/useDragNode'
 import { useKeydown } from './model/useKeydown'
+import { treeEmits } from './emits'
+
 import type Node from './model/node'
 
 import type { ComponentInternalInstance, PropType } from 'vue'
@@ -140,21 +142,7 @@ export default defineComponent({
       type: iconPropType,
     },
   },
-  emits: [
-    'check-change',
-    'current-change',
-    'node-click',
-    'node-contextmenu',
-    'node-collapse',
-    'node-expand',
-    'check',
-    'node-drag-start',
-    'node-drag-end',
-    'node-drop',
-    'node-drag-leave',
-    'node-drag-enter',
-    'node-drag-over',
-  ],
+  emits: treeEmits,
   setup(props, ctx) {
     const { t } = useLocale()
     const ns = useNamespace('tree')

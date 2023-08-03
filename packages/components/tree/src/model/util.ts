@@ -1,3 +1,4 @@
+import { CURRENT_CHANGE } from '../emits'
 import type { SetupContext } from 'vue'
 import type Node from './node'
 import type { RootTreeType, TreeKey, TreeNodeData } from '../tree.type'
@@ -29,5 +30,5 @@ export const handleCurrentChange = (
   const currentNode = store.value.currentNode
   if (preCurrentNode === currentNode) return
 
-  emit('current-change', currentNode ? currentNode.data : null, currentNode)
+  emit(CURRENT_CHANGE, currentNode ? currentNode.data : null, currentNode)
 }
