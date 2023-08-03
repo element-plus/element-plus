@@ -1,4 +1,4 @@
-import { computed, defineComponent, nextTick } from 'vue'
+import { computed, defineComponent, getCurrentInstance, nextTick } from 'vue'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { provideGlobalConfig } from '@element-plus/components/config-provider'
@@ -107,5 +107,30 @@ describe('use-locale', () => {
     )
 
     expect(vm.namespace).toBe(overrides)
+  })
+
+  it('injects the global namespace if the component cannot get provides', async () => {
+    const ParentComp = defineComponent({
+      setup() {
+        provideGlobalConfig({ namespace: 'ep' })
+        return () => <ChildComp />
+      },
+    })
+    const ChildComp = defineComponent({
+      setup() {
+        const instance = getCurrentInstance()
+        if (instance) {
+          // simulate the component can't get provides
+          instance.parent = null
+        }
+
+        const { namespace } = useNamespace('ns')
+        return () => `${namespace.value}`
+      },
+    })
+
+    const wrapper = mount(ParentComp)
+    await nextTick()
+    expect(wrapper.findComponent(ChildComp).text()).toBe('ep')
   })
 })

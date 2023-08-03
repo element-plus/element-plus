@@ -1,4 +1,5 @@
 import { computed, getCurrentInstance, inject, ref, unref } from 'vue'
+import { useGlobalConfig } from '@element-plus/components/config-provider'
 
 import type { InjectionKey, Ref } from 'vue'
 
@@ -34,7 +35,10 @@ export const useGetDerivedNamespace = (
   const derivedNamespace =
     namespaceOverrides ||
     (getCurrentInstance()
-      ? inject(namespaceContextKey, ref(defaultNamespace))
+      ? inject(
+          namespaceContextKey,
+          useGlobalConfig('namespace', defaultNamespace)
+        )
       : ref(defaultNamespace))
   const namespace = computed(() => {
     return unref(derivedNamespace) || defaultNamespace
