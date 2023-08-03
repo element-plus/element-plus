@@ -37,6 +37,7 @@ export const tooltipEmits = [
   'open',
   'close',
 ]
+export type TooltipEmits = typeof tooltipEmits
 
 export type ElTooltipProps = ExtractPropTypes<typeof useTooltipProps>
 

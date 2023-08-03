@@ -188,6 +188,8 @@ export const treeEmits = {
     event && data && node,
 }
 
+export type TreeV2Emits = typeof treeEmits
+
 export const treeNodeEmits = {
   click: (node: TreeNode, e: MouseEvent) => !!(node && e),
   toggle: (node: TreeNode) => !!node,
