@@ -100,10 +100,10 @@
           :readonly="!editable || readonly"
           :class="nsRange.b('input')"
           @mousedown="onMouseDownInput"
-          @input="handleStartInput"
-          @change="handleStartChange"
           @focus="handleFocusInput"
           @blur="handleBlurInput"
+          @input="handleStartInput"
+          @change="handleStartChange"
         />
         <slot name="range-separator">
           <span :class="nsRange.b('separator')">{{ rangeSeparator }}</span>
@@ -171,10 +171,15 @@ import ElInput from '@element-plus/components/input'
 import ElIcon from '@element-plus/components/icon'
 import ElTooltip from '@element-plus/components/tooltip'
 import { debugWarn, isArray } from '@element-plus/utils'
-import { EVENT_CODE } from '@element-plus/constants'
+import {
+  CHANGE_EVENT,
+  EVENT_CODE,
+  UPDATE_MODEL_EVENT,
+} from '@element-plus/constants'
 import { Calendar, Clock } from '@element-plus/icons-vue'
 import { formatter, parseDate, valueEquals } from '../utils'
 import { timePickerDefaultProps } from './props'
+import { pickerEmits } from './picker'
 
 import type { Dayjs } from 'dayjs'
 import type { ComponentPublicInstance } from 'vue'
@@ -197,16 +202,7 @@ defineOptions({
 })
 
 const props = defineProps(timePickerDefaultProps)
-const emit = defineEmits([
-  'update:modelValue',
-  'change',
-  'focus',
-  'blur',
-  'calendar-change',
-  'panel-change',
-  'visible-change',
-  'keydown',
-])
+const emit = defineEmits(pickerEmits)
 const attrs = useAttrs()
 
 const { lang } = useLocale()
@@ -264,7 +260,7 @@ const emitChange = (
 ) => {
   // determine user real change only
   if (isClear || !valueEquals(val, valueOnOpen.value)) {
-    emit('change', val)
+    emit(CHANGE_EVENT, val)
     props.validateEvent &&
       formItem?.validate('change').catch((err) => debugWarn(err))
   }
@@ -279,7 +275,9 @@ const emitInput = (input: SingleOrRange<DateModelType | Dayjs> | null) => {
     } else if (input) {
       formatted = formatter(input, props.valueFormat, lang.value)
     }
-    emit('update:modelValue', input ? formatted : input, lang.value)
+    // emit(UPDATE_MODEL_EVENT, input ? formatted : input, lang.value)
+    // It seems like neither the date-picker nor time-picker accepts the second value (lang.value)
+    emit(UPDATE_MODEL_EVENT, input ? formatted : input)
   }
 }
 const emitKeydown = (e: KeyboardEvent) => {
@@ -725,12 +723,12 @@ const onSetPickerOption = <T extends keyof PickerOptions>(
   pickerOptions.value.panelReady = true
 }
 
-const onCalendarChange = (e: [Date, false | Date]) => {
+const onCalendarChange = (e: [Date, null | Date]) => {
   emit('calendar-change', e)
 }
 
 const onPanelChange = (
-  value: [Dayjs, Dayjs],
+  value: [Date, Date],
   mode: 'month' | 'year',
   view: unknown
 ) => {

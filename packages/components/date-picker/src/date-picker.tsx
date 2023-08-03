@@ -16,7 +16,7 @@ import {
 } from '@element-plus/components/time-picker'
 import { ROOT_PICKER_INJECTION_KEY } from './constants'
 
-import { datePickerProps } from './props/date-picker'
+import { datePickerEmits, datePickerProps } from './props/date-picker'
 import { getPanel } from './panel-utils'
 import type { DatePickerExpose } from './instance'
 
@@ -33,7 +33,7 @@ export default defineComponent({
   name: 'ElDatePicker',
   install: null,
   props: datePickerProps,
-  emits: ['update:modelValue'],
+  emits: datePickerEmits,
   setup(props, { expose, emit, slots }) {
     const ns = useNamespace('picker-panel')
 

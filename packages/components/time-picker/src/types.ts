@@ -17,3 +17,5 @@ export type GetDisabledSecondsState = (
   role: string,
   comparingDate?: Dayjs
 ) => number[]
+
+export type ITimePickerType = 'time' | 'timerange'

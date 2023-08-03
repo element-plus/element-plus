@@ -18,3 +18,5 @@ _TimePicker.install = (app: App) => {
 export { CommonPicker, TimePickPanel }
 export default _TimePicker
 export const ElTimePicker = _TimePicker
+
+export * from './src/common/picker'
