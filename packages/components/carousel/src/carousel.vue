@@ -88,7 +88,6 @@ const {
   items,
   isVertical,
   containerStyle,
-  isItemsTwoLength,
   handleButtonEnter,
   handleButtonLeave,
   handleIndicatorClick,
