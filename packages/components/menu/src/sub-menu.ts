@@ -159,6 +159,8 @@ export default defineComponent({
           ]
         : [
             'right-start',
+            'right',
+            'right-end',
             'left-start',
             'bottom-start',
             'bottom-end',

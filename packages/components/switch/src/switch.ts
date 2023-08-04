@@ -60,6 +60,18 @@ export const switchProps = buildProps({
     default: false,
   },
   /**
+   * @description component of the icon displayed in action when in `off` state
+   */
+  inactiveActionIcon: {
+    type: iconPropType,
+  },
+  /**
+   * @description component of the icon displayed in action when in `on` state
+   */
+  activeActionIcon: {
+    type: iconPropType,
+  },
+  /**
    * @description component of the icon displayed when in `on` state, overrides `active-text`
    */
   activeIcon: {

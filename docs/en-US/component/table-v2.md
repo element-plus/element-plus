@@ -325,8 +325,8 @@ table-v2/manual-scroll
 | default-expanded-row-keys | An array of keys for default expanded rows, **NON REACTIVE**                                                               | Array\<[KeyType](#typings)\>                         | -         |
 | class                     | Class name for the the virtual table, will be applied to all three tables (left, right, main)                              | String/Array/Object                                  | -         |
 | fixed                     | Flag indicates the table column's width is a fixed or flexible.                                                            | Boolean                                              | false     |
-| width \*                  | Width for the table, required                                                                                              | Number                                               | -         |
-| height \*                 | Height for the table, required                                                                                             | Number                                               | -         |
+| width ^(required)         | Width for the table                                                                                                        | Number                                               | -         |
+| height ^(required)        | Height for the table                                                                                                       | Number                                               | -         |
 | max-height                | Maximum height for the table                                                                                               | Number                                               | -         |
 | h-scrollbar-size          | Indicates the horizontal scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse | Number                                               | 6         |
 | v-scrollbar-size          | Indicates the vertical scrollbar's size for the table, used to prevent the horizontal and vertical scrollbar to collapse   | Number                                               | 6         |
@@ -389,7 +389,7 @@ Note that these are `JavaScript` Objects, so that you **CANNOT USE** kebab-case 
 | title              | The default text rendered in header cell                                  | String                                                                                                                                                           | -       |
 | maxWidth           | Maximum width for the column                                              | String                                                                                                                                                           | -       |
 | minWidth           | Minimum width for the column                                              | String                                                                                                                                                           | -       |
-| width \*           | Width for the column **Required**                                         | Number                                                                                                                                                           | -       |
+| width ^(required)  | Width for the column                                                      | Number                                                                                                                                                           | -       |
 | cellRenderer       | Customized Cell renderer                                                  | VueComponent/(props: [CellRenderProps](#typings)) => VNode                                                                                                       | -       |
 | headerCellRenderer | Customized Header renderer                                                | VueComponent/(props: [HeaderRenderProps](#typings)) => VNode                                                                                                     | -       |
 
@@ -498,6 +498,32 @@ type HeaderCellSlotProps = {
   onColumnSorted: (e: MouseEvent) => void
 }
 
+type RowCommonParams = {
+  rowData: any
+  rowIndex: number
+}
+
+type RowEventHandlerParams = {
+  rowKey: KeyType
+  event: Event
+} & RowCommonParams
+
+type RowEventHandler = (params: RowEventHandlerParams) => void
+type RowEventHandlers = {
+  onClick?: RowEventHandler
+  onContextmenu?: RowEventHandler
+  onDblclick?: RowEventHandler
+  onMouseenter?: RowEventHandler
+  onMouseleave?: RowEventHandler
+}
+
+type RowsRenderedParams = {
+  rowCacheStart: number
+  rowCacheEnd: number
+  rowVisibleStart: number
+  rowVisibleEnd: number
+}
+
 type RowSlotProps = {
   columnIndex: number
   rowIndex: number
@@ -506,6 +532,11 @@ type RowSlotProps = {
   isScrolling?: boolean | undefined
   style: CSSProperties
 }
+
+type RowExpandParams = {
+  expanded: boolean
+  rowKey: KeyType
+} & RowCommonParams
 
 type Data = {
   [key: KeyType]: any
