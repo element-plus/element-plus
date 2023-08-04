@@ -27,7 +27,8 @@ export const treeEmits = {
     checked: boolean,
     indeterminate: boolean
   ) => data && isBoolean(checked) && isBoolean(indeterminate),
-  [CURRENT_CHANGE]: (data: TreeNodeData, node: Node) => data && node,
+  [CURRENT_CHANGE]: (data: TreeNodeData | null, node: Node) =>
+    (data && node) || data === null,
   [NODE_CLICK]: (
     data: TreeNodeData,
     node: Node,

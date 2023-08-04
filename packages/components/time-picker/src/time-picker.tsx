@@ -1,15 +1,38 @@
 import { defineComponent, provide, ref } from 'vue'
 import dayjs from 'dayjs'
 import customParseFormat from 'dayjs/plugin/customParseFormat.js'
-import { UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { CHANGE_EVENT, UPDATE_MODEL_EVENT } from '@element-plus/constants'
+import { isBoolean, isUndefined } from '@element-plus/utils'
 import { DEFAULT_FORMATS_TIME } from './constants'
 import Picker from './common/picker.vue'
 import TimePickPanel from './time-picker-com/panel-time-pick.vue'
 import TimeRangePanel from './time-picker-com/panel-time-range.vue'
 import { timePickerDefaultProps } from './common/props'
-import { timePickerEmits } from './emits'
+import type { DateModelType, SingleOrRange } from './common/props'
+import type { Dayjs } from 'dayjs'
 
 dayjs.extend(customParseFormat)
+
+const timePickerEmits = {
+  blur: (evt?: FocusEvent) => evt instanceof FocusEvent || evt === undefined,
+  focus: (evt?: FocusEvent) => evt instanceof FocusEvent || evt === undefined,
+  'visible-change': (visibility: boolean) => isBoolean(visibility),
+  keydown: (evt: KeyboardEvent) => evt instanceof KeyboardEvent,
+  [UPDATE_MODEL_EVENT]: (
+    val:
+      | string
+      | number
+      | Date
+      | Dayjs
+      | (string | number | Date | Dayjs)[]
+      | null
+      | undefined
+  ) => val || true,
+  [CHANGE_EVENT]: (val: SingleOrRange<DateModelType> | null) =>
+    !isUndefined(val),
+}
+
+export type TimePickerEmits = typeof timePickerEmits
 
 export default defineComponent({
   name: 'ElTimePicker',
@@ -31,7 +54,16 @@ export default defineComponent({
       ? ['timerange', TimeRangePanel]
       : ['time', TimePickPanel]
 
+    // event handlers
     const modelUpdater = (value: any) => ctx.emit(UPDATE_MODEL_EVENT, value)
+    const onFocus = (evt?: FocusEvent) => ctx.emit('focus', evt)
+    const onBlur = (evt?: FocusEvent) => ctx.emit('blur', evt)
+    const onChange = (val: SingleOrRange<DateModelType> | null) =>
+      ctx.emit('change', val)
+    const onKeydown = (key: KeyboardEvent) => ctx.emit('keydown', key)
+    const onVisibleChange = (visibility: boolean) =>
+      ctx.emit('visible-change', visibility)
+
     provide('ElPopperOptions', props.popperOptions)
     ctx.expose({
       /**
@@ -70,6 +102,11 @@ export default defineComponent({
           type={type}
           format={format}
           onUpdate:modelValue={modelUpdater}
+          onChange={onChange}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          onKeydown={onKeydown}
+          onVisible-change={onVisibleChange}
         >
           {{
             default: (props: any) => <Panel {...props} />,
