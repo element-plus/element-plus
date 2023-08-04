@@ -237,7 +237,7 @@ export const useCarousel = (
       }
       return acc
     }, [])
-    if (normalizeSlots?.length === 2 && props.loop) {
+    if (normalizeSlots?.length === 2 && props.loop && !isCardType.value) {
       isItemsTwoLength.value = true
       return normalizeSlots
     }
