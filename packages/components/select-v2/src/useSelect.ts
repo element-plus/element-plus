@@ -162,7 +162,11 @@ const useSelect = (props: ExtractPropTypes<typeof SelectProps>, emit) => {
               }
             }
           } else {
-            if (props.remote || isValidOption(v as Option)) {
+            if (
+              props.remote ||
+              isFunction(props.filterMethod) ||
+              isValidOption(v as Option)
+            ) {
               return v
             }
           }
